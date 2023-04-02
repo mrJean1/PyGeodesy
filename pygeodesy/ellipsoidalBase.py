@@ -35,7 +35,7 @@ from pygeodesy.units import Epoch, _1mm as _TOL_M, Radius_
 # from math import fabs  # from .karney
 
 __all__ = _ALL_LAZY.ellipsoidalBase
-__version__ = '23.03.19'
+__version__ = '23.04.02'
 
 
 class CartesianEllipsoidalBase(CartesianBase):
@@ -567,6 +567,28 @@ class LatLonEllipsoidalBase(LatLonBase):
         '''Get C{LatLon} base.
         '''
         return True
+
+    def isenclosedBy(self, points, wrap=False):
+        '''Check whether a polygon or composite encloses this point.
+
+           @arg points: The polygon points or clips (C{LatLon}[],
+                        L{BooleanFHP} or L{BooleanGH}).
+           @kwarg wrap: Wrap lat-, wrap and unroll longitudes (C{bool}).
+
+           @return: C{True} if this point is inside the polygon or composite,
+                    C{False} otherwise.
+
+           @raise PointsError: Insufficient number of B{C{points}}.
+
+           @raise TypeError: Some B{C{points}} are not C{LatLon}.
+
+           @raise ValueError: Invalid B{C{point}}, lat- or longitude.
+
+           @see: Functions L{pygeodesy.isconvex}, L{pygeodesy.isenclosedBy}
+                 and L{pygeodesy.ispolar} especially if the B{C{points}} may
+                 enclose a pole or wrap around the earth I{longitudinally}.
+        '''
+        return _MODS.points.isenclosedBy(self, points, wrap=wrap)
 
     @property_RO
     def iteration(self):

@@ -528,7 +528,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        23.03.31
+        23.04.02
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -8172,7 +8172,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fbb300b0cd0&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fb83831dbd0&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -12689,7 +12689,7 @@ ygeodesy'"><code class="variable-quote">'</code><code class="variable-string">/U
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'23.3.31'"><code class="variable-quote">'</code><code class="variable-string">23.3.31</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'23.4.2'"><code class="variable-quote">'</code><code class="variable-string">23.4.2</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -20412,7 +20412,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fbb300b0cd0&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fb83831dbd0&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -21766,8 +21766,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>wrap</code></strong> - Wrap lat-, wrap and unroll longitudes (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd><code>True</code> if <b><code>point</code></b> is inside the 
-          polygon, <code>False</code> otherwise.</dd>
+        <dd><code>True</code> if the <b><code>point</code></b> is inside the 
+          polygon or composite, <code>False</code> otherwise.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.PointsError-class.html">PointsError</a></strong></code> - Insufficient number of <b><code>points</code></b></li>
@@ -21777,13 +21777,11 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Functions <a href="pygeodesy.points-module.html#isconvex" 
-        class="link">pygeodesy.isconvex</a>, <a 
-        href="pygeodesy.points-module.html#isenclosedBy" 
-        class="link">pygeodesy.isenclosedBy</a> and <a 
+        class="link">pygeodesy.isconvex</a> and <a 
         href="pygeodesy.points-module.html#ispolar" 
         class="link">pygeodesy.ispolar</a> especially if the 
         <b><code>points</code></b> may enclose a pole or wrap around the 
-        earth longitudinally, methods <a 
+        earth <i>longitudinally</i>, methods <a 
         href="pygeodesy.sphericalNvector.LatLon-class.html#isenclosedBy" 
         class="link">sphericalNvector.LatLon.isenclosedBy</a>, <a 
         href="pygeodesy.sphericalTrigonometry.LatLon-class.html#isenclosedBy"
@@ -21791,7 +21789,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         href="https://GitHub.com/NASA/MultiDop" target="_top">MultiDop 
         GeogContainPt</a> (<a 
         href="https://Journals.AMetSoc.org/doi/abs/10.1175/2009JTECHA1256.1"
-        target="_top">Shapiro et al. 2009, JTECH</a> and <a 
+        target="_top">Shapiro et.al. 2009, JTECH</a> and <a 
         href="https://Journals.AMetSoc.org/doi/abs/10.1175/JTECH-D-11-00019.1"
         target="_top">Potvin et al. 2012, JTECH</a>).
       </p>
@@ -29865,7 +29863,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Mar 31 10:52:41 2023
+    Generated by Epydoc 3.0.1 on Sun Apr  2 08:41:10 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

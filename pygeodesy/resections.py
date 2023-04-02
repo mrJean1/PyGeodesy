@@ -28,7 +28,7 @@ from pygeodesy.vector3d import _otherV3d, Vector3d
 from math import cos, atan2, degrees, fabs, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.resections
-__version__ = '23.03.19'
+__version__ = '23.04.02'
 
 _concyclic_ = 'concyclic'
 _PA_        = 'PA'
@@ -540,7 +540,7 @@ def triAngle(a, b, c):
     try:
         return _triAngle(a, b, c)
     except (TypeError, ValueError) as x:
-        raise TriangleError(a=a, b=b, c=c, tx=str(x), cause=x)
+        raise TriangleError(a=a, b=b, c=c, cause=x)
 
 
 def _triAngle(a, b, c):

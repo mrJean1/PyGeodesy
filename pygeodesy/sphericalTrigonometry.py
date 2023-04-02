@@ -54,7 +54,7 @@ from pygeodesy.vector3d import sumOf, Vector3d
 from math import asin, atan2, cos, degrees, fabs, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '23.03.30'
+__version__ = '23.04.02'
 
 _parallel_ = 'parallel'
 _path_     = 'path'
@@ -470,11 +470,12 @@ class LatLon(LatLonSphericalBase):
             raise _xError(x, center=self, rad1=rad1, other=other, rad2=rad2)
 
     def isenclosedBy(self, points):
-        '''Check whether a (convex) polygon encloses this point.
+        '''Check whether a (convex) polygon or composite encloses this point.
 
-           @arg points: The polygon points (L{LatLon}[]).
+           @arg points: The polygon points or composite (L{LatLon}[],
+                        L{BooleanFHP} or L{BooleanGH}).
 
-           @return: C{True} if the polygon encloses this point,
+           @return: C{True} if this point is inside the polygon or composite,
                     C{False} otherwise.
 
            @raise PointsError: Insufficient number of B{C{points}}.
@@ -485,14 +486,11 @@ class LatLon(LatLonSphericalBase):
 
            @see: Functions L{pygeodesy.isconvex}, L{pygeodesy.isenclosedBy}
                  and L{pygeodesy.ispolar} especially if the B{C{points}} may
-                 enclose a pole or wrap around the earth longitudinally.
-
-           @example:
-
-            >>> b = LatLon(45,1), LatLon(45,2), LatLon(46,2), LatLon(46,1)
-            >>> p = LatLon(45,1, 1.1)
-            >>> inside = p.isEnclosedBy(b)  # True
+                 enclose a pole or wrap around the earth I{longitudinally}.
         '''
+        if _MODS.booleans.isBoolean(points):
+            return points._encloses(self.lat, self.lon)
+
         Ps = self.PointsIter(points, loop=2, dedup=True)
         n0 = self._N_vector
 

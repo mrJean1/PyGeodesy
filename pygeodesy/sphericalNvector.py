@@ -58,7 +58,7 @@ from pygeodesy.utily import atan2, degrees360, fabs, sincos2, sincos2_, sincos2d
 # from math import atan2, fabs  # from utily
 
 __all__ = _ALL_LAZY.sphericalNvector
-__version__ = '23.03.30'
+__version__ = '23.04.02'
 
 _paths_ = 'paths'
 
@@ -457,11 +457,12 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
                             height=height, LatLon=self.classof)
 
     def isenclosedBy(self, points):
-        '''Check whether this point is enclosed by a (convex) polygon.
+        '''Check whether a (convex) polygon or composite encloses this point.
 
-           @arg points: The polygon points (L{LatLon}[]).
+           @arg points: The polygon points or composite (L{LatLon}[],
+                        L{BooleanFHP} or L{BooleanGH}).
 
-           @return: C{True} if the polygon encloses this point,
+           @return: C{True} if this point is inside the polygon or composite,
                     C{False} otherwise.
 
            @raise PointsError: Insufficient number of B{C{points}}.
@@ -470,14 +471,11 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            @see: Functions L{pygeodesy.isconvex}, L{pygeodesy.isenclosedBy}
                  and L{pygeodesy.ispolar} especially if the B{C{points}} may
-                 enclose a pole or wrap around the earth longitudinally.
-
-           @example:
-
-            >>> b = LatLon(45,1), LatLon(45,2), LatLon(46,2), LatLon(46,1)
-            >>> p = LatLon(45.1, 1.1)
-            >>> inside = p.isenclosedBy(b)  # True
+                 enclose a pole or wrap around the earth I{longitudinally}.
         '''
+        if _MODS.booleans.isBoolean(points):
+            return points._encloses(self.lat, self.lon)
+
         # sum subtended angles of each edge (using n0, the
         # normal vector to this point for sign of α)
         def _subtangles(Ps, n0):

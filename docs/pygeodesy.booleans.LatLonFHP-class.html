@@ -184,10 +184,11 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.booleans.LatLonFHP-class.html#isinside" class="summary-sig-name">isinside</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">*composites</span>)</span><br />
-      Is this point inside <b>{composites}</b> based on <code>winding 
-      number</code>?</td>
+          <td><span class="summary-sig"><a href="pygeodesy.booleans.LatLonFHP-class.html#isenclosedBy" class="summary-sig-name">isenclosedBy</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">*composites_points</span>)</span><br />
+      Is this point inside one or more composites or polygons based the <a 
+      href="https://www.ScienceDirect.com/science/article/pii/S0925772101000128"
+      target="_top">winding number</a>?</td>
           <td align="right" valign="top">
             
             
@@ -245,28 +246,13 @@
   <td align="left" colspan="2" class="table-header">
     <span class="table-header">Properties</span></td>
 </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.booleans.LatLonFHP-class.html#isintersection" class="summary-name">isintersection</a><br />
-      Is this an intersection?  May be <code>ispoint</code> too!
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.booleans.LatLonFHP-class.html#ispoint" class="summary-name">ispoint</a><br />
-      Is this an <i>original</i> point?  May be <code>isintersection</code>
-      too!
-    </td>
-  </tr>
   <tr>
     <td colspan="2" class="summary">
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.booleans._LatLonBool-class.html">_LatLonBool</a></code></b>:
       <code><a href="pygeodesy.booleans._LatLonBool-class.html#clipid">clipid</a></code>,
       <code><a href="pygeodesy.booleans._LatLonBool-class.html#height">height</a></code>,
+      <code><a href="pygeodesy.booleans._LatLonBool-class.html#isintersection">isintersection</a></code>,
+      <code><a href="pygeodesy.booleans._LatLonBool-class.html#ispoint">ispoint</a></code>,
       <code><a href="pygeodesy.booleans._LatLonBool-class.html#lat">lat</a></code>,
       <code><a href="pygeodesy.booleans._LatLonBool-class.html#lon">lon</a></code>
       </p>
@@ -339,27 +325,28 @@
   </dl>
 </td></tr></table>
 </div>
-<a name="isinside"></a>
+<a name="isenclosedBy"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">isinside</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">*composites</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isenclosedBy</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">*composites_points</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Is this point inside <b>{composites}</b> based on <code>winding 
-  number</code>?</p>
+  <p>Is this point inside one or more composites or polygons based the <a 
+  href="https://www.ScienceDirect.com/science/article/pii/S0925772101000128"
+  target="_top">winding number</a>?</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>composites</code></strong> - One or more iterables or <i>composites</i> of clips or points (<a
+        <li><strong class="pname"><code>composites_points</code></strong> - Composites and/or iterables of points (<a 
           href="pygeodesy.clipy.ClipFHP4Tuple-class.html" 
           class="link">ClipFHP4Tuple</a>, <a 
           href="pygeodesy.clipy.ClipGH4Tuple-class.html" 
@@ -367,9 +354,11 @@
           href="pygeodesy.booleans.LatLonFHP-class.html" 
           class="link">LatLonFHP</a>, <a 
           href="pygeodesy.booleans.LatLonGH-class.html" 
-          class="link">LatLonGH</a>, <a 
-          href="pygeodesy.points.LatLon_-class.html" 
-          class="link">LatLon_</a> or any other <code>LatLon</code>).</li>
+          class="link">LatLonGH</a> or any <code>LatLon</code>).</li>
+    </ul></dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Some <b><code>points</code></b> invalid.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -378,65 +367,6 @@
         target="_top">Algorithm 6</a>.
       </p>
 </div></td></tr></table>
-</div>
-<br />
-<!-- ==================== PROPERTY DETAILS ==================== -->
-<a name="section-PropertyDetails"></a>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr bgcolor="#70b0f0" class="table-header">
-  <td align="left" colspan="2" class="table-header">
-    <span class="table-header">Property Details</span></td>
-</tr>
-</table>
-<a name="isintersection"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">isintersection</h3>
-  <p>Is this an intersection?  May be <code>ispoint</code> too!</p>
-  <dl class="fields">
-    <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">isintersection(<span class="summary-sig-arg">self</span>)</span>
-        - Is this an intersection?  May be <code>ispoint</code> too!
-    </dd>
-    <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">val</span>)</span>
-        - Throws an <code>AttributeError</code>, always.
-    </dd>
-    <dt>Delete Method:</dt>
-    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
-        - Zap the <i>cached/memoized</i> <code>property</code> value.
-    </dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="ispoint"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">ispoint</h3>
-  <p>Is this an <i>original</i> point?  May be <code>isintersection</code> 
-  too!</p>
-  <dl class="fields">
-    <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">ispoint(<span class="summary-sig-arg">self</span>)</span>
-        - Is this an <i>original</i> point?  May be <code>isintersection</code> too!
-    </dd>
-    <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">val</span>)</span>
-        - Throws an <code>AttributeError</code>, always.
-    </dd>
-    <dt>Delete Method:</dt>
-    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
-        - Zap the <i>cached/memoized</i> <code>property</code> value.
-    </dd>
-  </dl>
-</td></tr></table>
 </div>
 <br />
 <!-- ==================== NAVIGATION BAR ==================== -->
@@ -470,7 +400,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Mar 31 10:52:42 2023
+    Generated by Epydoc 3.0.1 on Sun Apr  2 08:41:11 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

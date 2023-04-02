@@ -1544,8 +1544,8 @@ def isenclosedBy(point, points, wrap=False):  # MCCABE 15
                     or L{BooleanGH}).
        @kwarg wrap: Wrap lat-, wrap and unroll longitudes (C{bool}).
 
-       @return: C{True} if B{C{point}} is inside the polygon, C{False}
-                otherwise.
+       @return: C{True} if the B{C{point}} is inside the polygon or
+                composite, C{False} otherwise.
 
        @raise PointsError: Insufficient number of B{C{points}}
 
@@ -1553,16 +1553,14 @@ def isenclosedBy(point, points, wrap=False):  # MCCABE 15
 
        @raise ValueError: Invalid B{C{point}}, lat- or longitude.
 
-       @see: Functions L{pygeodesy.isconvex}, L{pygeodesy.isenclosedBy} and
-             L{pygeodesy.ispolar} especially if the B{C{points}} may enclose
-             a pole or wrap around the earth longitudinally, methods
-             L{sphericalNvector.LatLon.isenclosedBy},
-             L{sphericalTrigonometry.LatLon.isenclosedBy} and
-             U{MultiDop GeogContainPt<https://GitHub.com/NASA/MultiDop>}
-             (U{Shapiro et al. 2009, JTECH
-             <https://Journals.AMetSoc.org/doi/abs/10.1175/2009JTECHA1256.1>}
-             and U{Potvin et al. 2012, JTECH
-             <https://Journals.AMetSoc.org/doi/abs/10.1175/JTECH-D-11-00019.1>}).
+       @see: Functions L{pygeodesy.isconvex} and L{pygeodesy.ispolar} especially
+             if the B{C{points}} may enclose a pole or wrap around the earth
+             I{longitudinally}, methods L{sphericalNvector.LatLon.isenclosedBy},
+             L{sphericalTrigonometry.LatLon.isenclosedBy} and U{MultiDop
+             GeogContainPt<https://GitHub.com/NASA/MultiDop>} (U{Shapiro et.al. 2009,
+             JTECH<https://Journals.AMetSoc.org/doi/abs/10.1175/2009JTECHA1256.1>}
+             and U{Potvin et al. 2012, JTECH <https://Journals.AMetSoc.org/doi/abs/
+             10.1175/JTECH-D-11-00019.1>}).
     '''
     try:
         y0, x0 = point.lat, point.lon

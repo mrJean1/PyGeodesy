@@ -633,6 +633,7 @@ pygeodesy.booleans._open_	pygeodesy.booleans-module.html#_open_
 pygeodesy.booleans._other	pygeodesy.booleans-module.html#_other
 pygeodesy.booleans._EPS_1	pygeodesy.booleans-module.html#_EPS_1
 pygeodesy.booleans._Enum	pygeodesy.booleans-module.html#_Enum
+pygeodesy.booleans.unstr	pygeodesy.streprs-module.html#unstr
 pygeodesy.booleans._RP2L	pygeodesy.booleans-module.html#_RP2L
 pygeodesy.booleans._IsnotError	pygeodesy.errors-module.html#_IsnotError
 pygeodesy.booleans._duplicate_	pygeodesy.booleans-module.html#_duplicate_
@@ -646,6 +647,7 @@ pygeodesy.booleans._alpha1	pygeodesy.booleans-module.html#_alpha1
 pygeodesy.booleans.isscalar	pygeodesy.basics-module.html#isscalar
 pygeodesy.booleans.isodd	pygeodesy.basics-module.html#isodd
 pygeodesy.booleans._10EPS	pygeodesy.booleans-module.html#_10EPS
+pygeodesy.booleans._Cps	pygeodesy.booleans-module.html#_Cps
 pygeodesy.booleans._xkwds_get	pygeodesy.errors-module.html#_xkwds_get
 pygeodesy.booleans._ALL_DOCS	pygeodesy.lazily-module.html#_ALL_OTHER
 pygeodesy.booleans.pairs	pygeodesy.streprs-module.html#pairs
@@ -5631,7 +5633,7 @@ pygeodesy.booleans._CompositeGH._clip	pygeodesy.booleans._CompositeGH-class.html
 pygeodesy.booleans.LatLonFHP	pygeodesy.booleans.LatLonFHP-class.html
 pygeodesy.named._Named.rename	pygeodesy.named._Named-class.html#rename
 pygeodesy.booleans.LatLonFHP._label	pygeodesy.booleans.LatLonFHP-class.html#_label
-pygeodesy.named._Named.named	pygeodesy.named._Named-class.html#named
+pygeodesy.booleans.LatLonFHP.isenclosedBy	pygeodesy.booleans.LatLonFHP-class.html#isenclosedBy
 pygeodesy.booleans._LatLonBool._equi	pygeodesy.booleans._LatLonBool-class.html#_equi
 pygeodesy.named._Named._unstr	pygeodesy.named._Named-class.html#_unstr
 pygeodesy.booleans._LatLonBool.__str__	pygeodesy.booleans._LatLonBool-class.html#__str__
@@ -5648,7 +5650,7 @@ pygeodesy.booleans.LatLonFHP.__rmul__	pygeodesy.booleans.LatLonFHP-class.html#__
 pygeodesy.named._Named._xnamed	pygeodesy.named._Named-class.html#_xnamed
 pygeodesy.booleans.LatLonFHP.__init__	pygeodesy.booleans.LatLonFHP-class.html#__init__
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
-pygeodesy.booleans.LatLonFHP.isintersection	pygeodesy.booleans.LatLonFHP-class.html#isintersection
+pygeodesy.booleans._LatLonBool.isintersection	pygeodesy.booleans._LatLonBool-class.html#isintersection
 pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named._instr	pygeodesy.named._Named-class.html#_instr
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -5668,8 +5670,7 @@ pygeodesy.named._Named._iteration	pygeodesy.named._Named-class.html#_iteration
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.booleans._LatLonBool._height	pygeodesy.booleans._LatLonBool-class.html#_height
 pygeodesy.booleans._LatLonBool.isequalTo	pygeodesy.booleans._LatLonBool-class.html#isequalTo
-pygeodesy.booleans.LatLonFHP.isinside	pygeodesy.booleans.LatLonFHP-class.html#isinside
-pygeodesy.booleans.LatLonFHP.ispoint	pygeodesy.booleans.LatLonFHP-class.html#ispoint
+pygeodesy.booleans._LatLonBool.ispoint	pygeodesy.booleans._LatLonBool-class.html#ispoint
 pygeodesy.booleans._LatLonBool._2A	pygeodesy.booleans._LatLonBool-class.html#_2A
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._Named._xrenamed	pygeodesy.named._Named-class.html#_xrenamed
@@ -5687,6 +5688,7 @@ pygeodesy.booleans.LatLonFHP._prev_next2	pygeodesy.booleans.LatLonFHP-class.html
 pygeodesy.booleans._LatLonBool._2Abs	pygeodesy.booleans._LatLonBool-class.html#_2Abs
 pygeodesy.booleans.LatLonFHP._e_x_str	pygeodesy.booleans.LatLonFHP-class.html#_e_x_str
 pygeodesy.booleans.LatLonFHP.__mod__	pygeodesy.booleans.LatLonFHP-class.html#__mod__
+pygeodesy.named._Named.named	pygeodesy.named._Named-class.html#named
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
 pygeodesy.booleans._LatLonBool._alpha	pygeodesy.booleans._LatLonBool-class.html#_alpha
 pygeodesy.named._Named.iteration	pygeodesy.named._Named-class.html#iteration
@@ -5701,7 +5703,7 @@ pygeodesy.named._Named.attrs	pygeodesy.named._Named-class.html#attrs
 pygeodesy.booleans.LatLonGH	pygeodesy.booleans.LatLonGH-class.html
 pygeodesy.named._Named.rename	pygeodesy.named._Named-class.html#rename
 pygeodesy.named._Named.toRepr	pygeodesy.named._Named-class.html#toRepr
-pygeodesy.named._Named.named	pygeodesy.named._Named-class.html#named
+pygeodesy.booleans.LatLonGH.isenclosedBy	pygeodesy.booleans.LatLonGH-class.html#isenclosedBy
 pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named._unstr	pygeodesy.named._Named-class.html#_unstr
 pygeodesy.booleans._LatLonBool.__str__	pygeodesy.booleans._LatLonBool-class.html#__str__
@@ -5714,7 +5716,6 @@ pygeodesy.booleans._LatLonBool._dupof	pygeodesy.booleans._LatLonBool-class.html#
 pygeodesy.named._Named.classof	pygeodesy.named._Named-class.html#classof
 pygeodesy.booleans._LatLonBool._next	pygeodesy.booleans._LatLonBool-class.html#_next
 pygeodesy.named._Named._xnamed	pygeodesy.named._Named-class.html#_xnamed
-pygeodesy.booleans.LatLonGH._extend	pygeodesy.booleans.LatLonGH-class.html#_extend
 pygeodesy.booleans.LatLonGH.__init__	pygeodesy.booleans.LatLonGH-class.html#__init__
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.booleans._LatLonBool.isintersection	pygeodesy.booleans._LatLonBool-class.html#isintersection
@@ -5734,7 +5735,6 @@ pygeodesy.booleans._LatLonBool._toClas	pygeodesy.booleans._LatLonBool-class.html
 pygeodesy.named._Named._iteration	pygeodesy.named._Named-class.html#_iteration
 pygeodesy.booleans._LatLonBool._height	pygeodesy.booleans._LatLonBool-class.html#_height
 pygeodesy.booleans._LatLonBool.isequalTo	pygeodesy.booleans._LatLonBool-class.html#isequalTo
-pygeodesy.booleans.LatLonGH.isinside	pygeodesy.booleans.LatLonGH-class.html#isinside
 pygeodesy.booleans._LatLonBool.ispoint	pygeodesy.booleans._LatLonBool-class.html#ispoint
 pygeodesy.booleans._LatLonBool._2A	pygeodesy.booleans._LatLonBool-class.html#_2A
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
@@ -5750,6 +5750,7 @@ pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.booleans._LatLonBool._2Abs	pygeodesy.booleans._LatLonBool-class.html#_2Abs
 pygeodesy.booleans.LatLonGH._e_x_str	pygeodesy.booleans.LatLonGH-class.html#_e_x_str
 pygeodesy.booleans._LatLonBool._alpha	pygeodesy.booleans._LatLonBool-class.html#_alpha
+pygeodesy.named._Named.named	pygeodesy.named._Named-class.html#named
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
 pygeodesy.named._Named.iteration	pygeodesy.named._Named-class.html#iteration
 pygeodesy.booleans._LatLonBool.clipid	pygeodesy.booleans._LatLonBool-class.html#clipid
@@ -8124,6 +8125,7 @@ pygeodesy.vector3dBase.Vector3dBase.dot	pygeodesy.vector3dBase.Vector3dBase-clas
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html
 pygeodesy.latlonBase.LatLonBase.toCartesian	pygeodesy.latlonBase.LatLonBase-class.html#toCartesian
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.toCss	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toCss
+pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.isenclosedBy	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#isenclosedBy
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.toEtm	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toEtm
 pygeodesy.latlonBase.LatLonBase.__str__	pygeodesy.latlonBase.LatLonBase-class.html#__str__
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.datum	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#datum
@@ -8301,6 +8303,7 @@ pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase._Radjust2	pygeodesy.ellipsoidalB
 pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI	pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI-class.html
 pygeodesy.latlonBase.LatLonBase.toCartesian	pygeodesy.latlonBase.LatLonBase-class.html#toCartesian
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.toCss	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toCss
+pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.isenclosedBy	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#isenclosedBy
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.toEtm	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toEtm
 pygeodesy.latlonBase.LatLonBase.__str__	pygeodesy.latlonBase.LatLonBase-class.html#__str__
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.datum	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#datum
@@ -8674,6 +8677,7 @@ pygeodesy.vector3dBase.Vector3dBase.dot	pygeodesy.vector3dBase.Vector3dBase-clas
 pygeodesy.ellipsoidalExact.LatLon	pygeodesy.ellipsoidalExact.LatLon-class.html
 pygeodesy.ellipsoidalExact.LatLon.toCartesian	pygeodesy.ellipsoidalExact.LatLon-class.html#toCartesian
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.toCss	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toCss
+pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.isenclosedBy	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#isenclosedBy
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.toEtm	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toEtm
 pygeodesy.latlonBase.LatLonBase.__str__	pygeodesy.latlonBase.LatLonBase-class.html#__str__
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.datum	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#datum
@@ -9048,6 +9052,7 @@ pygeodesy.vector3dBase.Vector3dBase.dot	pygeodesy.vector3dBase.Vector3dBase-clas
 pygeodesy.ellipsoidalGeodSolve.LatLon	pygeodesy.ellipsoidalGeodSolve.LatLon-class.html
 pygeodesy.ellipsoidalGeodSolve.LatLon.toCartesian	pygeodesy.ellipsoidalGeodSolve.LatLon-class.html#toCartesian
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.toCss	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toCss
+pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.isenclosedBy	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#isenclosedBy
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.toEtm	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toEtm
 pygeodesy.latlonBase.LatLonBase.__str__	pygeodesy.latlonBase.LatLonBase-class.html#__str__
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.datum	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#datum
@@ -9422,6 +9427,7 @@ pygeodesy.vector3dBase.Vector3dBase.dot	pygeodesy.vector3dBase.Vector3dBase-clas
 pygeodesy.ellipsoidalKarney.LatLon	pygeodesy.ellipsoidalKarney.LatLon-class.html
 pygeodesy.ellipsoidalKarney.LatLon.toCartesian	pygeodesy.ellipsoidalKarney.LatLon-class.html#toCartesian
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.toCss	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toCss
+pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.isenclosedBy	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#isenclosedBy
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.toEtm	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toEtm
 pygeodesy.latlonBase.LatLonBase.__str__	pygeodesy.latlonBase.LatLonBase-class.html#__str__
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.datum	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#datum
@@ -9796,6 +9802,7 @@ pygeodesy.vector3dBase.Vector3dBase.dot	pygeodesy.vector3dBase.Vector3dBase-clas
 pygeodesy.ellipsoidalNvector.LatLon	pygeodesy.ellipsoidalNvector.LatLon-class.html
 pygeodesy.ellipsoidalNvector.LatLon.toCartesian	pygeodesy.ellipsoidalNvector.LatLon-class.html#toCartesian
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.toCss	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toCss
+pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.isenclosedBy	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#isenclosedBy
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.toEtm	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toEtm
 pygeodesy.latlonBase.LatLonBase.__str__	pygeodesy.latlonBase.LatLonBase-class.html#__str__
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.datum	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#datum
@@ -10396,6 +10403,7 @@ pygeodesy.vector3dBase.Vector3dBase.dot	pygeodesy.vector3dBase.Vector3dBase-clas
 pygeodesy.ellipsoidalVincenty.LatLon	pygeodesy.ellipsoidalVincenty.LatLon-class.html
 pygeodesy.ellipsoidalVincenty.LatLon.toCartesian	pygeodesy.ellipsoidalVincenty.LatLon-class.html#toCartesian
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.toCss	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toCss
+pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.isenclosedBy	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#isenclosedBy
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.toEtm	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toEtm
 pygeodesy.latlonBase.LatLonBase.__str__	pygeodesy.latlonBase.LatLonBase-class.html#__str__
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.datum	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#datum

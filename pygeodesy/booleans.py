@@ -20,17 +20,17 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 from pygeodesy.basics import isodd, isscalar, issubclassof, map2
 from pygeodesy.constants import EPS, EPS2, INT0, _0_0, _0_5, _1_0
 from pygeodesy.errors import ClipError, _IsnotError, _TypeError, \
-                            _xkwds_get
+                            _ValueError, _xkwds_get
 from pygeodesy.fmath import fabs, favg, hypot, hypot2
 # from pygeodesy.fsums import fsum1  # from _MODS
 from pygeodesy.interns import NN, _BANG_, _clip_, _clipid_, _COMMASPACE_, \
                              _composite_, _DOT_, _e_, _ELLIPSIS_, _few_, \
-                             _height_, _lat_,_LatLon_, _lon_, _name_, \
-                             _not_, _scalar_,_SPACE_, _too_, _X_, _x_, \
+                             _height_, _lat_,_LatLon_, _lon_, _name_, _not_, \
+                             _points_, _scalar_,_SPACE_, _too_, _X_, _x_, \
                              _B_, _d_, _R_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 # from pygeodesy.latlonBase import LatLonBase  # from _MODS
-from pygeodesy.named import Fmt, _Named, _NotImplemented, pairs
+from pygeodesy.named import Fmt, _Named, _NotImplemented, pairs, unstr
 # from pygeodesy.points import boundsOf  # from _MODS
 from pygeodesy.props import Property_RO, property_RO
 # from pygeodesy.streprs import Fmt, pairs, unstr  # from .named
@@ -39,7 +39,7 @@ from pygeodesy.units import Height, HeightX
 # from math import fabs  # from .fmath
 
 __all__ = _ALL_LAZY.booleans
-__version__ = '23.03.31'
+__version__ = '23.04.02'
 
 _0_EPS =  EPS  # near-zero, positive
 _EPS_0 = -EPS  # near-zero, negative
@@ -105,65 +105,6 @@ _RP2L = {(_RP.LEFT,  _RP.RIGHT): _L.CROSSING,
          (_RP.RIGHT, _RP.IS_Pm): _L.ON_LEFT,
          (_RP.LEFT,  _RP.IS_Pm): _L.ON_RIGHT,
          (_RP.IS_Pm, _RP.LEFT):  _L.ON_RIGHT}
-
-
-def _alpha1(alpha):
-    # Return C{alpha} in C{[0..1]} range
-    if _EPS_0 < alpha < _1_EPS:
-        return max(_0_0, min(alpha, _1_0))
-    t = _not_(Fmt.SQUARE(_ELLIPSIS_(0, 1)))
-    raise ClipError(_alpha_, alpha, txt=t)
-
-
-def _alpha4(a):
-    # Return 4-tuple (alpha, abs(alpha) near 0, 0 < alpha < 1, not 0 < alpha < 1)
-    return (a, False, True,  False) if _0_EPS < a < _EPS_1 else (
-           (a, False, False, True)  if _0_EPS < fabs(a) else
-           (a, True,  False, False))
-
-
-def _eps0(eps):
-    # Adjust C{eps} or C{None}.
-    return eps if eps and eps > EPS else 0
-
-
-def _left_right_bottom_top_eps2(p1, p2):
-    '''(INTERNAL) Return 2-tuple C{(left, right), (bottom, top)}, oversized.
-    '''
-    return (_min_max_eps2(p1.x, p2.x),
-            _min_max_eps2(p1.y, p2.y))
-
-
-def _low_high_eps2(lo, hi, eps):
-    '''(INTERNAL) Return 2-tuple C{(lo, hi)}, oversized.
-    '''
-    lo *= (_1_0 + eps) if lo < 0 else (_1_0 - eps)
-    hi *= (_1_0 - eps) if hi < 0 else (_1_0 + eps)
-    return (lo or -eps), (hi or eps)
-
-
-def _min_max_eps2(*xs):
-    '''(INTERNAL) Return 2-tuple C{(min, max)}, oversized.
-    '''
-    lo, hi = min(xs), max(xs)
-    lo *= _1_EPS if lo < 0 else _EPS_1
-    hi *= _EPS_1 if hi < 0 else _1_EPS
-    return (lo or _EPS_0), (hi or _0_EPS)
-
-
-def _other(this, other):
-    '''(INTERNAL) Check for compatible C{type}s.
-    '''
-    C = this.__class__
-    if isinstance(other, C):
-        return other
-    raise _IsnotError(C.__name__, other=other)
-
-
-def _outside(x1, x2, lo, hi):
-    '''(INTERNAL) Is C{(x1, x2)} outside C{(lo, hi)}?
-    '''
-    return max(x1, x2) < lo or min(x1, x2) > hi
 
 
 class _LatLonBool(_Named):
@@ -304,13 +245,13 @@ class _LatLonBool(_Named):
 
     @property_RO
     def isintersection(self):
-        '''Is this an intersection?
+        '''Is this an intersection?  May be C{ispoint} too!
         '''
         return bool(self._linked)
 
     @property_RO
     def ispoint(self):
-        '''Is this an original (boolean) point?
+        '''Is this an I{original} point?  May be C{isintersection} too!
         '''
         return self._alpha is None
 
@@ -406,16 +347,42 @@ class LatLonFHP(_LatLonBool):
 #              break
 #       return d
 
+    def isenclosedBy(self, *composites_points):
+        '''Is this point inside one or more composites or polygons based
+           the U{winding number<https://www.ScienceDirect.com/science/
+           article/pii/S0925772101000128>}?
+
+           @arg composites_points: Composites and/or iterables of points
+                           (L{ClipFHP4Tuple}, L{ClipGH4Tuple}, L{LatLonFHP},
+                           L{LatLonGH} or any C{LatLon}).
+
+           @raise ValueError: Some B{C{points}} invalid.
+
+           @see: U{Algorithm 6<https://www.ScienceDirect.com/science/
+                 article/pii/S0925772101000128>}.
+        '''
+        class _Clips(object):
+            # Pseudo-_CompositeBase._clips tuple
+
+            @property_RO
+            def _clips(self):
+                for cp in _Cps(_CompositeFHP, composites_points,
+                                   LatLonFHP.isenclosedBy):  # PYCHOK yield
+                    for c in cp._clips:
+                        yield c
+
+        return self._isinside(_Clips())
+
     def _isinside(self, composite, *excludes):
-        # Is this point inside a composite,
-        # excluding certain C{_Clip}s.
+        # Is this point inside a composite I{winding number},
+        # excluding certain C{_Clip}s?
         x, y, i = self.x, self.y, False
         for c in composite._clips:
             if c not in excludes:
                 w = 0
                 for p1, p2 in c._edges2():
                     # edge [p1,p2] must straddle y
-                    if (p1.y < y) is not (p2.y < y):
+                    if (p1.y < y) is not (p2.y < y):  # or ^
                         r = p2.x > x
                         s = p2.y > p1.y
                         if p1.x < x:
@@ -427,31 +394,6 @@ class LatLonFHP(_LatLonBool):
                 if isodd(w):
                     i = not i
         return i
-
-    def isinside(self, *composites):
-        '''Is this point inside B{{composites}} based on C{winding number}?
-
-           @arg composites: One or more iterables or I{composites} of clips
-                            or points (L{ClipFHP4Tuple}, L{ClipGH4Tuple},
-                            L{LatLonFHP}, L{LatLonGH}, L{LatLon_} or any
-                            other C{LatLon}).
-
-           @see: U{Algorithm 6<https://www.ScienceDirect.com/science/
-                 article/pii/S0925772101000128>}.
-        '''
-        self._isinside(_CompositeEdges(self.__class__, composites))
-
-    @property_RO
-    def isintersection(self):
-        '''Is this an intersection?  May be C{ispoint} too!
-        '''
-        return bool(self._linked)
-
-    @property_RO
-    def ispoint(self):
-        '''Is this an I{original} point?  May be C{isintersection} too!
-        '''
-        return self._alpha is None
 
     @property_RO
     def _prev_next2(self):
@@ -500,8 +442,7 @@ class LatLonFHP(_LatLonBool):
 class LatLonGH(_LatLonBool):
     '''A point or intersection in a L{BooleanGH} clip or composite.
     '''
-    _entry  = None   # entry or exit iff intersection
-    _extend = False
+    _entry = None   # entry or exit iff intersection
 
     def __init__(self, lat_ll, *lon_h_clipid, **name):
         '''New C{LatLonGH} from separate C{lat}, C{lon}, C{h}eight
@@ -528,40 +469,52 @@ class LatLonGH(_LatLonBool):
         return t  if self._entry is None else NN(t,
              (_e_ if self._entry else _x_))
 
+    def isenclosedBy(self, *composites_points):
+        '''Is this point inside one or more composites or polygons based
+           on the U{even-odd-rule<https://www.ScienceDirect.com/science/
+           article/pii/S0925772101000128>}?
+
+           @arg composites_points: Composites and/or iterables of points
+                           (L{ClipFHP4Tuple}, L{ClipGH4Tuple}, L{LatLonFHP},
+                           L{LatLonGH} or any C{LatLon}).
+
+           @raise ValueError: Some B{C{points}} invalid.
+        '''
+        class _Edges(object):
+            # Pseudo-_CompositeBase._edges3 method
+
+            def _edges3(self, **kwds):
+                for cp in _Cps(_CompositeGH, composites_points,
+                                   LatLonGH.isenclosedBy):  # PYCHOK yield
+                    for e in cp._edges3(**kwds):
+                        yield e
+
+        return self._isinside(_Edges())
+
     def _isinside(self, composite, *bottom_top):
-        # Is this vertex inside the composite? I{Odd-even rule}.
+        # Is this vertex inside the composite I{even-odd rule}?
 
         def _x(y, p1, p2):
             # return C{x} at given C{y} on edge [p1,p2]
             return (y - p1.y) / (p2.y - p1.y) * (p2.x - p1.x)
 
-        # The I{odd-even} rule counts the number of edges
-        # intersecting a ray emitted East-bound from this
-        # point to infinity.  When I{odd} this point lies
+        # The I{even-odd} rule counts the number of edges
+        # intersecting a ray emitted from this point to
+        # east-bound infinity.  When I{odd} this point lies
         # inside, if I{even} outside.
-        i, y = False, self.y
+        o, y = False, self.y
         if not (bottom_top and _outside(y, y, *bottom_top)):
             x = self.x
             for p1, p2, _ in composite._edges3():
-                if (p1.y < y) is not (p2.y < y):
+                if (p1.y < y) is not (p2.y < y):  # or ^
                     r = p2.x > x
                     if p1.x < x:
-                        b = r and _x(y, p1, p2) > x
+                        b = r and (_x(y, p1, p2) > x)
                     else:
-                        b = r or  _x(y, p1, p2) > x
+                        b = r or  (_x(y, p1, p2) > x)
                     if b:
-                        i = not i
-        return i
-
-    def isinside(self, *composites):
-        '''Is this point inside B{C{composites}} based on C{odd-even rule}?
-
-           @arg composites: One or more iterables or I{composites} of clips
-                            or points (L{ClipFHP4Tuple}, L{ClipGH4Tuple},
-                            L{LatLonFHP}, L{LatLonGH}, L{LatLon_} or any
-                            other C{LatLon}).
-        '''
-        self._isinside(_CompositeEdges(self.__class__, composites))
+                        o = not o
+        return o
 
 
 class _Clip(_Named):
@@ -691,7 +644,7 @@ class _Clip(_Named):
         return map2(float, _MODS.points.boundsOf(self, wrap=False))
 
     def _bltr4eps(self, eps):
-        # Get the bounds ._bltr4 tuple, oversized.
+        # Get the ._bltr4 bounds tuple, oversized.
         if eps > 0:  # > EPS
             yb, xl, yt, xr = self._bltr4
             yb, yt = _low_high_eps2(yb, yt, eps)
@@ -895,34 +848,6 @@ class _Clip(_Named):
                 yield v
 
 
-class _ClipEdges(_Clip):  # PYCHOK no cover
-    # Wrapper yielding edges, eliminating
-    # null edges and adding closing edge.
-
-    def __init__(self, cps, LL):  # PYCHOK signature
-        self._cps = cps  # _CompositeEdges
-        self._LL  = LL
-
-    def _edges2(self, *unused):  # PYCHOK signature
-        # Yield each edge as a C{LatLon[FHP|GH]} point pair.
-        for cp in self._cps:
-            self._composite = cp
-            p2 = s = None
-            for ll in cp:
-                p1, p2 = p2, self._LL(ll)
-                if s is None:
-                    s = p1 = p2
-                elif p1._clipid != p2._clipid:
-                    if p1 != s:
-                        yield p1, s
-                    s = p1 = p2
-                elif p1 != p2:
-                    yield p1, p2
-                self._id = p2._clipid
-            if p1 != s:
-                yield p1, s
-
-
 class _CompositeBase(_Named):
     '''(INTERNAL) Base class for L{BooleanFHP} and L{BooleanGH}
        (C{_CompositeFHP} and C{_CompositeGH}).
@@ -1045,7 +970,7 @@ class _CompositeBase(_Named):
 
     def _encloses(self, lat, lon):
         # see function .points.isenclosedBy
-        return self._LL(lat, lon)._isinside(self)
+        return self._LL(lat, lon).isenclosedBy(self)
 
     @property
     def eps(self):
@@ -1231,20 +1156,6 @@ class _CompositeBase(_Named):
                 yield lf
 
 
-class _CompositeEdges(_CompositeBase):  # PYCHOK no cover
-    # Polygon wrapper yielding clips and edges,
-    # eliminating duplicates and closing open clips.
-
-    def __init__(self, LL, composites):  # PYCHOK signature
-        self._cps = composites
-        self._LL  = LL
-
-    @property_RO
-    def _clips(self):
-        # Use one C{_Clip}.
-        return (_ClipEdges(self._cps, self._LL),)
-
-
 class _CompositeFHP(_CompositeBase):
     '''(INTERNAL) A list of clips representing a I{composite}
        of L{LatLonFHP} points, duplicates and intersections
@@ -1284,7 +1195,8 @@ class _CompositeFHP(_CompositeBase):
         P = self
         Q = self._class(corners, closed_inull_raiser_eps,
                                  eps=P._eps, raiser=False)
-        P._Union = Q._Union = Union
+        if Union:
+            P._Union = Q._Union = True
 
         bt = Q._bottom_top_eps2
         lr = Q._left_right_eps2
@@ -1691,9 +1603,11 @@ class _EdgeGH(object):
         d = (y * dx - x * dy) / self._hypot0
         return a, fabs(d)
 
-    def _error(self, n, c1, c2):  # PYCHOK no cover
-        t = _SPACE_(self._intersect4.__name__, _EdgeGH(c1, c2))
-        raise ClipError(_case_, n, txt=t)
+    def _Error(self, n, *args, **kwds):  # PYCHOK no cover
+        t =  unstr(_EdgeGH.__name__, self._s1, self._s2)
+        t = _DOT_(t, _EdgeGH._intersect4.__name__)
+        t =  unstr(t, *args, **kwds)
+        return ClipError(_case_, n, txt=t)
 
     @Property_RO
     def _hypot0(self):
@@ -1739,13 +1653,13 @@ class _EdgeGH(object):
 
                     # unhandled, "degenerate" cases 1, 2 or 3
                     elif self._raiser and not (sa < _EPS_0 or sa > _1_EPS):  # PYCHOK no cover
-                        self._error(1, c1, c2)  # intersection at s1 or s2
+                        raise self._Error(1, c1, c2, sa=sa)  # intersection at s1 or s2
 
                 elif self._raiser and not (ca < _EPS_0 or ca > _1_EPS):  # PYCHOK no cover
                     # intersection at c1 or c2 or at c1 or c2 and s1 or s2
                     sa = (cx * dy - cy * dx) / d
                     e = 2 if sa < _EPS_0 or sa > _1_EPS else 3
-                    self._error(e, c1, c2)
+                    raise self._Error(e, c1, c2, ca=ca)
 
             elif parallel and (sx or sy) and (cx or cy):  # PYCHOK no cover
                 # non-null, parallel or colinear edges
@@ -1771,51 +1685,7 @@ class _EdgeGH(object):
                         else:  # c2 is between s1 and s2
                             yield (y + sa2 * sy), (x + sa2 * sx), sa2, ca2
                     elif self._raiser and not _outside(sa1, sa2, _0_0, _1_EPS):
-                        self._error(4, c1, c2)
-
-#   def _intersect4(self, c1, c2, **unused):
-#       # Intersect this and another edge.
-#
-#       # @return: 4-Tuple (x, y, s_alpha, c_alpha) with the
-#       #          intersection point x, y and both alphas.
-#
-#       # @raise ClipError: Intersection unhandled.
-#
-#       # @see: U{Intersection point of two line segments
-#       #       <http://PaulBourke.net/geometry/pointlineplane/>}.
-#
-#       if not (_outside(c1.x, c2.x, *self._lr) or
-#               _outside(c1.y, c2.y, *self._bt)):
-#           x, sx, \
-#           y, sy = self._x_sx_y_sy
-#
-#           cx = c2.x - c1.x
-#           cy = c2.y - c1.y
-#           d  = cy * sx - cx * sy
-#
-#           if fabs(d) > _0_EPS:  # non-parallel edges
-#               dx = x - c1.x
-#               dy = y - c1.y
-#               sa = (cx * dy - cy * dx) / d
-#               ca = (sx * dy - sy * dx) / d
-#               if _0_EPS < ca < _EPS_1:
-#                   if _0_EPS < sa < _EPS_1:
-#                       yield (x + sa * sx), (y + sa * sy), sa, ca
-#
-#                   # unhandled, "degenerate" cases 1, 2 or 3
-#                   elif self.raiser and not (sa < _EPS_0 or sa > _1_EPS):
-#                       self._error(1, c1, c2)  # insection at s1 or s2
-#
-#               elif self.raiser and not (ca < _EPS_0 or ca > _1_EPS):
-#                   # intersection at c1 or c2 or at c1 or c2 and s1 or s2
-#                   self._error(2 if sa < _EPS_0 or sa > _1_EPS else 3, c1, c2)
-#
-#           elif self.raiser and (sx or sy) and (cx or cy):
-#                   # null, parallel or colinear edges
-#                   h = hypot(sx, sy) * _0_EPS
-#                   if min(_perpendicular(c1.x - x, c1.y - y, sx, sy),
-#                          _perpendicular(c2.x - x, c2.y - y, sx, sy)) < h:
-#                       self._error(4, c1, c2)  # colinear, overlapping
+                        raise self._Error(4, c1, c2, d1=d1, d2=d2)
 
 
 class _BooleanBase(object):
@@ -2009,6 +1879,38 @@ class BooleanGH(_CompositeGH, _BooleanBase):
         return self._boolean(other, True, False, self.__sub__)
 
 
+def _alpha1(alpha):
+    # Return C{alpha} in C{[0..1]} range
+    if _EPS_0 < alpha < _1_EPS:
+        return max(_0_0, min(alpha, _1_0))
+    t = _not_(Fmt.SQUARE(_ELLIPSIS_(0, 1)))
+    raise ClipError(_alpha_, alpha, txt=t)
+
+
+def _alpha4(a):
+    # Return 4-tuple (alpha, -EPS < alpha < EPS,
+    #                           0 < alpha < 1,
+    #                       not 0 < alpha < 1)
+    return (a, False, True,  False) if _0_EPS < a < _EPS_1 else (
+           (a, False, False, True)  if _0_EPS < fabs(a) else
+           (a, True,  False, False))
+
+
+def _Cps(Cp, composites_points, where):
+    # Yield composites and points as a C{Cp} composite.
+    try:
+        kwds = dict(kind=_points_, name=where.__name__)
+        for cp in composites_points:
+            yield cp if isBoolean(cp) else Cp(cp, **kwds)
+    except (AttributeError, ClipError, TypeError, ValueError) as x:
+        raise _ValueError(points=cp, cause=x)
+
+
+def _eps0(eps):
+    # Adjust C{eps} or C{None}.
+    return eps if eps and eps > EPS else 0
+
+
 def isBoolean(obj):
     '''Check for C{Boolean} composites.
 
@@ -2019,6 +1921,45 @@ def isBoolean(obj):
                 C{False} otherwise.
     '''
     return isinstance(obj, _CompositeBase)
+
+
+def _left_right_bottom_top_eps2(p1, p2):
+    '''(INTERNAL) Return 2-tuple C{(left, right), (bottom, top)}, oversized.
+    '''
+    return (_min_max_eps2(p1.x, p2.x),
+            _min_max_eps2(p1.y, p2.y))
+
+
+def _low_high_eps2(lo, hi, eps):
+    '''(INTERNAL) Return 2-tuple C{(lo, hi)}, oversized.
+    '''
+    lo *= (_1_0 + eps) if lo < 0 else (_1_0 - eps)
+    hi *= (_1_0 - eps) if hi < 0 else (_1_0 + eps)
+    return (lo or -eps), (hi or eps)
+
+
+def _min_max_eps2(*xs):
+    '''(INTERNAL) Return 2-tuple C{(min, max)}, oversized.
+    '''
+    lo, hi = min(xs), max(xs)
+    lo *= _1_EPS if lo < 0 else _EPS_1
+    hi *= _EPS_1 if hi < 0 else _1_EPS
+    return (lo or _EPS_0), (hi or _0_EPS)
+
+
+def _other(this, other):
+    '''(INTERNAL) Check for compatible C{type}s.
+    '''
+    C = this.__class__
+    if isinstance(other, C):
+        return other
+    raise _IsnotError(C.__name__, other=other)
+
+
+def _outside(x1, x2, lo, hi):
+    '''(INTERNAL) Is C{(x1, x2)} outside C{(lo, hi)}?
+    '''
+    return max(x1, x2) < lo or min(x1, x2) > hi
 
 
 __all__ += _ALL_DOCS(_BooleanBase, _Clip,

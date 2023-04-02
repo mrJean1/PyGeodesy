@@ -27,7 +27,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '23.02.09'
+__version__ = '23.04.02'
 
 
 def _c2(*names):
@@ -62,7 +62,7 @@ _KeyWords = ('AER', 'Albers', 'altitude', 'Andoyer', 'annulus', 'antipode', 'are
              'earth', 'east-north-up', 'eccentricity', 'ECEF', 'elevation', 'ellipsoid',
              'ellipsoidal-latitude-beta', 'ellipsoidal-longitude-omega', 'elliptic',
              'ENU', 'EPSG', 'equal-area', 'equidistant', 'equirectangular', 'ETM', 'ETRF',
-             'Euclidean', 'ExactTM', 'excess',
+             'Euclidean', 'even-odd-rule', 'ExactTM', 'excess',
              'Farrell', 'Farrell-Barth', 'flattening', 'Field-Of-View', 'fmath',
              'footprint', 'Forster', 'Forster-Hormann-Popa', 'Forsythe', 'FOV',
              'fractional', 'Frechet', 'Fréchet', 'frustum', 'Fsum',
@@ -101,7 +101,7 @@ _KeyWords = ('AER', 'Albers', 'altitude', 'Andoyer', 'annulus', 'antipode', 'are
              'umbilic-point', 'unit', 'unroll', 'UPS', 'UTM', 'UTM/UPS',
              'variance', 'Veness', 'Vermeille', 'viewing-frustum', 'Vincenty', 'Visvalingam',
              'Visvalingam-Whyatt', 'volume', ' volumetric',
-             'Web-Mercator', 'Welford', 'WGRS', 'WGS', 'Whyatt', 'Wildberger', 'Witkam',
+             'Web-Mercator', 'Welford', 'WGRS', 'WGS', 'Whyatt', 'Wildberger', 'Witkam', 'winding-number',
              'XYZ', 'yaw', 'You')
 
 setup(name='PyGeodesy',

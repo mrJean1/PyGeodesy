@@ -54,7 +54,7 @@ from pygeodesy.vector3d import _ALL_LAZY, _MODS, _otherV3d, Vector3d
 from math import atan2, fabs, sqrt
 
 __all__ = _ALL_LAZY.triaxials
-__version__ = '23.03.20'
+__version__ = '23.04.02'
 
 _E            = _WGS84.ellipsoid
 _not_ordered_ = _not_('ordered')
@@ -1082,7 +1082,8 @@ def _getitems(items, *indices):
 
 
 def _hartzell3d2(pov, los, Tun):  # MCCABE 13 in .formy.hartzell
-    '''(INTERNAL) Hartzell's "Satellite Lin-of-Sight Intersection ...", I{un- or ordered}.
+    '''(INTERNAL) Hartzell's "Satellite Lin-of-Sight Intersection ...",
+       formula for I{un-/ordered} triaxials.
     '''
     a, b, c, T = Tun._ordered4
 
