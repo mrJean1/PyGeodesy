@@ -1359,6 +1359,15 @@
         href="pygeodesy.ellipsoidalGeodSolve.LatLon-class.html" 
         class="link">LatLon</a> points.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalNvector.Cartesian-class.html">pygeodesy.ellipsoidalNvector.Cartesian</a></strong>:
+      <em class="summary">Extended to convert geocentric, <a 
+        href="pygeodesy.ellipsoidalNvector.Cartesian-class.html" 
+        class="link">Cartesian</a> points to <a 
+        href="pygeodesy.ellipsoidalNvector.Nvector-class.html" 
+        class="link">Nvector</a> and n-vector-based, geodetic <a 
+        href="pygeodesy.ellipsoidalNvector.LatLon-class.html" 
+        class="link">LatLon</a>.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.Cartesian-class.html">pygeodesy.ellipsoidalKarney.Cartesian</a></strong>:
       <em class="summary">Extended to convert <code>Karney</code>-based <a 
         href="pygeodesy.ellipsoidalKarney.Cartesian-class.html" 
@@ -1371,15 +1380,6 @@
         href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html" 
         class="link">Cartesian</a> points to Vincenty-based, ellipsoidal, 
         geodetic <a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
-        class="link">LatLon</a>.</em>
-    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalNvector.Cartesian-class.html">pygeodesy.ellipsoidalNvector.Cartesian</a></strong>:
-      <em class="summary">Extended to convert geocentric, <a 
-        href="pygeodesy.ellipsoidalNvector.Cartesian-class.html" 
-        class="link">Cartesian</a> points to <a 
-        href="pygeodesy.ellipsoidalNvector.Nvector-class.html" 
-        class="link">Nvector</a> and n-vector-based, geodetic <a 
-        href="pygeodesy.ellipsoidalNvector.LatLon-class.html" 
         class="link">LatLon</a>.</em>
     </li>
     </ul>
@@ -2479,16 +2479,16 @@
       <em class="summary">7-Tuple <code>(A, a, B, b, C, c, area)</code> with interior angles 
         <code>A</code>, <code>B</code> and <code>C</code> in 
         <code>degrees</code>, spherical sides <code>a</code>, 
-        <code>b</code> and <code>c</code> in <code>meter</code> and the 
-        <code>area</code> of a spherical triangle in <i>square</i> 
-        <code>meter</code>.</em>
+        <code>b</code> and <code>c</code> in <code>meter</code> 
+        conventionally and the <code>area</code> of a (spherical) triangle 
+        in <i>square</i> <code>meter</code> conventionally.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.Triangle8Tuple-class.html">pygeodesy.namedTuples.Triangle8Tuple</a></strong>:
       <em class="summary">8-Tuple <code>(A, a, B, b, C, c, D, E)</code> with interior angles 
         <code>A</code>, <code>B</code> and <code>C</code>, spherical sides 
-        <code>a</code>, <code>b</code> and <code>c</code>, <i>spherical 
-        deficit</i> <code>D</code> and <i>spherical excess</i> 
-        <code>E</code> of a spherical triangle, all in 
+        <code>a</code>, <code>b</code> and <code>c</code>, the <i>spherical
+        deficit</i> <code>D</code> and the <i>spherical excess</i> 
+        <code>E</code> of a (spherical) triangle, all in 
         <code>radians</code>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.Trilaterate5Tuple-class.html">pygeodesy.namedTuples.Trilaterate5Tuple</a></strong>:
@@ -3779,16 +3779,16 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
       <em class="summary">7-Tuple <code>(A, a, B, b, C, c, area)</code> with interior angles 
         <code>A</code>, <code>B</code> and <code>C</code> in 
         <code>degrees</code>, spherical sides <code>a</code>, 
-        <code>b</code> and <code>c</code> in <code>meter</code> and the 
-        <code>area</code> of a spherical triangle in <i>square</i> 
-        <code>meter</code>.</em>
+        <code>b</code> and <code>c</code> in <code>meter</code> 
+        conventionally and the <code>area</code> of a (spherical) triangle 
+        in <i>square</i> <code>meter</code> conventionally.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.Triangle8Tuple-class.html">pygeodesy.namedTuples.Triangle8Tuple</a></strong>:
       <em class="summary">8-Tuple <code>(A, a, B, b, C, c, D, E)</code> with interior angles 
         <code>A</code>, <code>B</code> and <code>C</code>, spherical sides 
-        <code>a</code>, <code>b</code> and <code>c</code>, <i>spherical 
-        deficit</i> <code>D</code> and <i>spherical excess</i> 
-        <code>E</code> of a spherical triangle, all in 
+        <code>a</code>, <code>b</code> and <code>c</code>, the <i>spherical
+        deficit</i> <code>D</code> and the <i>spherical excess</i> 
+        <code>E</code> of a (spherical) triangle, all in 
         <code>radians</code>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.Trilaterate5Tuple-class.html">pygeodesy.namedTuples.Trilaterate5Tuple</a></strong>:
@@ -4008,7 +4008,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Apr  2 08:41:10 2023
+    Generated by Epydoc 3.0.1 on Tue Apr  4 11:04:44 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

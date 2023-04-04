@@ -1,8 +1,12 @@
 
 # -*- coding: utf-8 -*-
 
-u'''A Python version of I{Karney}'s C++ class U{GeodesicLineExact
+u'''A pure Python version of I{Karney}'s C++ class U{GeodesicLineExact
 <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1GeodesicLineExact.html>}.
+
+Class L{GeodesicLineExact} follows the naming, methods and return
+values from class C{GeodesicLine} from I{Karney}'s Python U{geographiclib
+<https://GeographicLib.SourceForge.io/1.52/python/index.html>}.
 
 Copyright (C) U{Charles Karney<mailto:Charles@Karney.com>} (2008-2022)
 and licensed under the MIT/X11 License.  For more information, see the
@@ -49,7 +53,7 @@ from pygeodesy.utily import atan2d as _atan2d_reverse, sincos2
 from math import atan2, cos, degrees, fabs, floor, radians, sin
 
 __all__ = ()
-__version__ = '23.03.25'
+__version__ = '23.04.04'
 
 _glXs = []  # instances of C{[_]GeodesicLineExact} to be updated
 # underflow guard, we require _TINY * EPS > 0, _TINY + EPS == EPS

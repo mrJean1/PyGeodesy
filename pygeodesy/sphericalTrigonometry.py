@@ -26,8 +26,8 @@ from pygeodesy.errors import _AssertionError, CrossError, crosserrors, \
                              _xkwds, _xkwds_get, _xkwds_pop
 from pygeodesy.fmath import favg, fdot, fmean, hypot
 from pygeodesy.fsums import Fsum, fsum, fsum_
-from pygeodesy.formy import antipode_, bearing_, _bearingTo2, excessAbc, \
-                            excessGirard, excessLHuilier, opposing_, _radical2, \
+from pygeodesy.formy import antipode_, bearing_, _bearingTo2, excessAbc_, \
+                            excessGirard_, excessLHuilier_, opposing_, _radical2, \
                             vincentys_
 from pygeodesy.interns import _1_, _2_, _coincident_, _composite_, _colinear_, \
                               _concentric_, _convex_, _end_, _infinite_, \
@@ -54,7 +54,7 @@ from pygeodesy.vector3d import sumOf, Vector3d
 from math import asin, atan2, cos, degrees, fabs, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '23.04.02'
+__version__ = '23.04.05'
 
 _parallel_ = 'parallel'
 _path_     = 'path'
@@ -1355,7 +1355,7 @@ def _r2m(r, radius):
 
 
 def triangle7(latA, lonA, latB, lonB, latC, lonC, radius=R_M,
-                                                  excess=excessAbc,
+                                                  excess=excessAbc_,
                                                     wrap=False):
     '''Compute the angles, sides, and area of a (spherical) triangle.
 
@@ -1368,17 +1368,17 @@ def triangle7(latA, lonA, latB, lonB, latC, lonC, radius=R_M,
        @kwarg radius: Mean earth radius, ellipsoid or datum (C{meter},
                       L{Ellipsoid}, L{Ellipsoid2}, L{Datum} or L{a_f2Tuple})
                       or C{None}.
-       @kwarg excess: I{Spherical excess} callable (L{excessAbc},
-                      L{excessGirard} or L{excessLHuilier}).
+       @kwarg excess: I{Spherical excess} callable (L{excessAbc_},
+                      L{excessGirard_} or L{excessLHuilier_}).
        @kwarg wrap: Wrap and L{pygeodesy.unroll180} longitudes (C{bool}).
 
        @return: A L{Triangle7Tuple}C{(A, a, B, b, C, c, area)} with
                 spherical angles C{A}, C{B} and C{C}, angular sides
                 C{a}, C{b} and C{c} all in C{degrees} and C{area}
-                in I{square} C{meter} or units of B{C{radius}}
-                I{squared} or if B{C{radius}} is C{None}, a
+                in I{square} C{meter} or same units as B{C{radius}}
+                I{squared} or if C{B{radius}=0} or C{None}, a
                 L{Triangle8Tuple}C{(A, a, B, b, C, c, D, E)} all in
-                C{radians} with I{spherical excess} C{E} as the
+                C{radians} with the I{spherical excess} C{E} as the
                 C{unit area} in C{radians}.
     '''
     t = triangle8_(Phi_(latA=latA), Lam_(lonA=lonA),
@@ -1388,7 +1388,7 @@ def triangle7(latA, lonA, latB, lonB, latC, lonC, radius=R_M,
     return _t7Tuple(t, radius)
 
 
-def triangle8_(phiA, lamA, phiB, lamB, phiC, lamC, excess=excessAbc,
+def triangle8_(phiA, lamA, phiB, lamB, phiC, lamC, excess=excessAbc_,
                                                      wrap=False):
     '''Compute the angles, sides, I{spherical deficit} and I{spherical
        excess} of a (spherical) triangle.
@@ -1399,8 +1399,8 @@ def triangle8_(phiA, lamA, phiB, lamB, phiC, lamC, excess=excessAbc,
        @arg lamB: Second corner longitude (C{radians}).
        @arg phiC: Third corner latitude (C{radians}).
        @arg lamC: Third corner longitude (C{radians}).
-       @kwarg excess: I{Spherical excess} callable (L{excessAbc},
-                      L{excessGirard} or L{excessLHuilier}).
+       @kwarg excess: I{Spherical excess} callable (L{excessAbc_},
+                      L{excessGirard_} or L{excessLHuilier_}).
        @kwarg wrap: Wrap and L{pygeodesy.unrollPI} longitudes (C{bool}).
 
        @return: A L{Triangle8Tuple}C{(A, a, B, b, C, c, D, E)} with
@@ -1428,9 +1428,9 @@ def triangle8_(phiA, lamA, phiB, lamB, phiC, lamC, excess=excessAbc,
     C, _ = _A_r(c, *r)
 
     D = fsum_(PI2, -a, -b, -c, floats=True)  # deficit aka defect
-    E = excessGirard(A, B, C)   if excess in (excessGirard, True) else (
-        excessLHuilier(a, b, c) if excess in (excessLHuilier, False) else
-        excessAbc(*max((A, b, c), (B, c, a), (C, a, b))))
+    E = excessGirard_(A, B, C)   if excess in (excessGirard_,   True)  else (
+        excessLHuilier_(a, b, c) if excess in (excessLHuilier_, False) else
+        excessAbc_(*max((A, b, c), (B, c, a), (C, a, b))))
 
     return Triangle8Tuple(A, a, B, b, C, c, D, E)
 

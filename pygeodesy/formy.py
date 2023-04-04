@@ -33,7 +33,7 @@ from pygeodesy.utily import acos1, atan2b, atan2d, degrees2m, m2degrees, tan_2, 
 from math import atan, atan2, cos, degrees, fabs, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '23.03.19'
+__version__ = '23.04.05'
 
 _ratio_ = 'ratio'
 _xline_ = 'xline'
@@ -83,11 +83,11 @@ def antipode_(phi, lam, name=NN):
     return PhiLam2Tuple(*_anti2(phi, lam, PI_2, PI, PI2), name=name)
 
 
-def _area_or_(func_, lat1, lat2, radius, d_lon, unused):
+def _area_or_(excess_, lat1, lat2, radius, d_lon, unused):
     '''(INTERNAL) Helper for area and spherical excess.
     '''
-    r = func_(Phi_(lat2=lat2),
-              Phi_(lat1=lat1), radians(d_lon))
+    r = excess_(Phi_(lat2=lat2),
+                Phi_(lat1=lat1), radians(d_lon))
     if radius:
         r *= _mean_radius(radius, lat1, lat2)**2
     return r
@@ -539,7 +539,7 @@ def euclidean_(phi2, phi1, lam21, adjust=True):
     return euclid(phi2 - phi1, lam21)
 
 
-def excessAbc(A, b, c):
+def excessAbc_(A, b, c):
     '''Compute the I{spherical excess} C{E} of a (spherical) triangle
        from two sides and the included angle.
 
@@ -551,7 +551,7 @@ def excessAbc(A, b, c):
 
        @raise UnitError: Invalid B{C{A}}, B{C{b}} or B{C{c}}.
 
-       @see: Function L{excessGirard}, L{excessLHuilier}, U{Spherical
+       @see: Functions L{excessGirard_}, L{excessLHuilier_} and U{Spherical
              trigonometry<https://WikiPedia.org/wiki/Spherical_trigonometry>}.
     '''
     sA, cA, sb, cb, sc, cc = sincos2_(Radians_(A=A), Radians_(b=b) * _0_5,
@@ -559,7 +559,7 @@ def excessAbc(A, b, c):
     return atan2(sA * sb * sc, cb * cc + cA * sb * sc) * _2_0
 
 
-def excessGirard(A, B, C):
+def excessGirard_(A, B, C):
     '''Compute the I{spherical excess} C{E} of a (spherical) triangle using
        U{Girard's<https://MathWorld.Wolfram.com/GirardsSphericalExcessFormula.html>}
        formula.
@@ -572,7 +572,7 @@ def excessGirard(A, B, C):
 
        @raise UnitError: Invalid B{C{A}}, B{C{B}} or B{C{C}}.
 
-       @see: Function L{excessLHuilier}, U{Spherical trigonometry
+       @see: Function L{excessLHuilier_} and U{Spherical trigonometry
              <https://WikiPedia.org/wiki/Spherical_trigonometry>}.
     '''
     return Radians(Girard=fsum_(Radians_(A=A),
@@ -580,7 +580,7 @@ def excessGirard(A, B, C):
                                 Radians_(C=C), -PI))
 
 
-def excessLHuilier(a, b, c):
+def excessLHuilier_(a, b, c):
     '''Compute the I{spherical excess} C{E} of a (spherical) triangle using
        U{L'Huilier's<https://MathWorld.Wolfram.com/LHuiliersTheorem.html>}
        Theorem.
@@ -593,7 +593,7 @@ def excessLHuilier(a, b, c):
 
        @raise UnitError: Invalid B{C{a}}, B{C{b}} or B{C{c}}.
 
-       @see: Function L{excessGirard}, U{Spherical trigonometry
+       @see: Function L{excessGirard_} and U{Spherical trigonometry
              <https://WikiPedia.org/wiki/Spherical_trigonometry>}.
     '''
     a = Radians_(a=a)
@@ -620,9 +620,9 @@ def excessKarney(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
                       L{Ellipsoid2}, L{Datum} or L{a_f2Tuple}) or C{None}.
        @kwarg wrap: Wrap and L{pygeodesy.unroll180} longitudes (C{bool}).
 
-       @return: Surface area, I{signed} (I{square} C{meter}, or units of B{C{radius}}
-                I{squared}) or I{spherical excess} (C{radians}) if B{C{radius}} is
-                C{None} or C{0}.
+       @return: Surface area, I{signed} (I{square} C{meter} or the same units as
+                B{C{radius}} I{squared}) or the I{spherical excess} (C{radians})
+                if C{B{radius}=0} or C{None}.
 
        @raise TypeError: Invalid B{C{radius}}.
 
@@ -630,7 +630,7 @@ def excessKarney(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
 
        @raise ValueError: Semi-circular longitudinal delta.
 
-       @see: Function L{excessKarney_} and L{excessQuad}.
+       @see: Functions L{excessKarney_} and L{excessQuad}.
     '''
     return _area_or_(excessKarney_, lat1, lat2, radius,
                                    *unroll180(lon1, lon2, wrap=wrap))
@@ -650,7 +650,7 @@ def excessKarney_(phi2, phi1, lam21):
 
        @raise ValueError: Semi-circular longitudinal delta B{C{lam21}}.
 
-       @see: Function L{excessKarney}, U{Area of a spherical polygon
+       @see: Function L{excessKarney} and U{Area of a spherical polygon
        <https://MathOverflow.net/questions/97711/the-area-of-spherical-polygons>}.
     '''
     # from: Veness <https://www.Movable-Type.co.UK/scripts/latlong.html>  Area
@@ -658,7 +658,7 @@ def excessKarney_(phi2, phi1, lam21):
     #
     #                 tan(Δλ / 2) · (tan(φ1 / 2) + tan(φ2 / 2))
     #    tan(E / 2) = -----------------------------------------
-    #                            1 + tan(φ1 / 2) · tan(φ2 / 2)
+    #                           1 +  tan(φ1 / 2) · tan(φ2 / 2)
     #
     # where E is the spherical excess of the trapezium obtained by extending
     # the edge to the equator-circle vector for each edge (see also ***).
@@ -678,7 +678,7 @@ def excessKarney_(phi2, phi1, lam21):
 #
 # However this is badly conditioned if the polygon is small.  In this case, use
 #
-#    A = sum S12{i, i+1} over the edges of the polygon
+#    A = sum(S12{i, i+1}) over the edges of the polygon
 #
 # where S12 is the area of the quadrilateral bounded by an edge of the polygon,
 # two meridians and the equator, i.e. with vertices (phi1, lambda1), (phi2,
@@ -687,12 +687,13 @@ def excessKarney_(phi2, phi1, lam21):
 #    tan(S12 / 2) = tan(lambda21 / 2) * (tan(phi1 / 2) + tan(phi2 / 2)) /
 #                                       (tan(phi1 / 2) * tan(phi2 / 2) + 1)
 #
-#                 = tan(lambda21 / 2) * tanh((lam(phi1) + lam(phi2)) / 2)
+#                 = tan(lambda21 / 2) * tanh((Lambertian(phi1) +
+#                                             Lambertian(phi2)) / 2)
 #
-# where lambda21 = lambda2 - lambda1 and lam(x) is the Lambertian (or inverse
-# Gudermannian) function
+# where lambda21 = lambda2 - lambda1 and lamb(x) is the Lambertian (or
+# inverse Gudermannian) function
 #
-#    lam(x) = asinh(tan(x)) = atanh(sin(x)) = 2 * atanh(tan(x / 2))
+#    Lambertian(x) = asinh(tan(x)) = atanh(sin(x)) = 2 * atanh(tan(x / 2))
 #
 # Notes: The formula for S12 is exact, except that...
 #      - it is indeterminate if an edge is a semi-circle
@@ -720,9 +721,9 @@ def excessQuad(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
                       L{Ellipsoid}, L{Ellipsoid2}, L{Datum} or L{a_f2Tuple}) or C{None}.
        @kwarg wrap: Wrap and L{pygeodesy.unroll180} longitudes (C{bool}).
 
-       @return: Surface area, I{signed} (I{square} C{meter}, or units of B{C{radius}}
-                I{squared}) or I{spherical excess} (C{radians}) if B{C{radius}} is
-                C{None} or C{0}.
+       @return: Surface area, I{signed} (I{square} C{meter} or the same units as
+                B{C{radius}} I{squared}) or the I{spherical excess} (C{radians})
+                if C{B{radius}=0} or C{None}.
 
        @raise TypeError: Invalid B{C{radius}}.
 

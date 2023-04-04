@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 
-u'''Slightly enhanced versions of I{Karney}'s Python classes
-U{PolygonArea<https://GeographicLib.SourceForge.io/1.52/python/
-code.html#module-geographiclib.polygonarea>} and C{Accumulator}.
+u'''Slightly enhanced versions of classes U{PolygonArea
+<https://GeographicLib.SourceForge.io/1.52/python/code.html#
+module-geographiclib.polygonarea>} and C{Accumulator} from
+I{Karney}'s Python U{geographiclib
+<https://GeographicLib.SourceForge.io/1.52/python/index.html>}.
 
 Class L{GeodesicAreaExact} is intended to work with instances
-of class L{GeodesicExact} or of I{wrapped} class C{Geodesic}
-I{Karney}'s Python U{geographiclib
-<https://GeographicLib.SourceForge.io/1.52/python/index.html>}
+of class L{GeodesicExact} and of I{wrapped} class C{Geodesic},
+see module L{pygeodesy.karney}.
 
 Copyright (C) U{Charles Karney<mailto:Charles@Karney.com>} (2008-2022)
 and licensed under the MIT/X11 License.  For more information, see the
@@ -29,7 +30,7 @@ from pygeodesy.props import Property, Property_RO, property_RO
 from math import fmod
 
 __all__ = ()
-__version__ = '22.09.12'
+__version__ = '23.04.04'
 
 
 class GeodesicAreaExact(_NamedBase):
@@ -57,12 +58,10 @@ class GeodesicAreaExact(_NamedBase):
     def __init__(self, geodesic, polyline=False, name=NN):
         '''New L{GeodesicAreaExact} instance.
 
-           @arg geodesic: A geodesic (L{GeodesicExact},
-                          I{wrapped} C{Geodesic} or
-                          L{GeodesicSolve}).
-           @kwarg polyline: If C{True} compute perimeter
-                            only, otherwise area and
-                            perimeter (C{bool}).
+           @arg geodesic: A geodesic (L{GeodesicExact}, I{wrapped}
+                          C{Geodesic} or L{GeodesicSolve}).
+           @kwarg polyline: If C{True}, compute the perimeter only,
+                            otherwise area and perimeter (C{bool}).
            @kwarg name: Optional name (C{str}).
 
            @raise GeodesicError: Invalid B{C{geodesic}}.
@@ -90,7 +89,8 @@ class GeodesicAreaExact(_NamedBase):
     def AddEdge(self, azi, s):
         '''Add another polygon edge.
 
-           @arg azi: Azimuth at the current point (compass C{degrees}).
+           @arg azi: Azimuth at the current point (compass
+                     C{degrees360}).
            @arg s: Length of the edge (C{meter}).
         '''
         if self.num < 1:
@@ -178,10 +178,9 @@ class GeodesicAreaExact(_NamedBase):
             a = NAN if self.polyline else _0_0
             r = None
         elif self._Area:
-            r =  self._Inverse(self.lat1, self.lon1, self.lat0, self.lon0)
-            p =  self._Peri.Sum(r.s12)
-            A = _Accumulator(self._Area.Sum(r.S12))
-            a =  self._reduce(A, reverse, sign, r.xing)
+            r = self._Inverse(self.lat1, self.lon1, self.lat0, self.lon0)
+            p = self._Peri.Sum(r.s12)
+            a = self._reduce(r.S12, reverse, sign, r.xing)
         else:
             p = self._Peri.Sum()
             a = NAN
@@ -232,8 +231,8 @@ class GeodesicAreaExact(_NamedBase):
             lon1 = _norm180(lon1)
             lon2 = _norm180(lon2)
             lon12, _ = _diff182(lon1, lon2)
-            r.set_(xing=int(lon1 <= 0 and lon2 > 0 and lon12 > 0) or
-                       -int(lon2 <= 0 and lon1 > 0 and lon12 < 0))
+            r.set_(xing=int(lon12 > 0 and lon1 <= 0 and lon2 > 0) or
+                       -int(lon12 < 0 and lon2 <= 0 and lon1 > 0))
         return r
 
     @property_RO
@@ -268,7 +267,7 @@ class GeodesicAreaExact(_NamedBase):
 
     @Property_RO
     def polyline(self):
-        '''Is this perimter only (C{boo}), area NAN?
+        '''Is this perimeter only (C{bool}), area NAN?
         '''
         return self._Area is None
 
@@ -281,24 +280,23 @@ class GeodesicAreaExact(_NamedBase):
         t = _COMMASPACE_.join(pairs(d, prec=10))
         printf('%s %s: %s (%s)', self.named2, n, t, callername(up=2))
 
-    def _reduce(self, Area, reverse, sign, xing):
-        '''(INTERNAL) Reduce accumulated area to allowed range.
+    def _reduce(self, S12, reverse, sign, xing):
+        '''(INTERNAL) Accumulate and reduce area to allowed range.
         '''
-        a0 = self.area0x
-        a  = Area.Remainder(a0)
+        a0 =  self.area0x
+        A  = _Accumulator(self._Area)
+        _  =  A.Add(S12)
+        a  =  A.Remainder(a0)  # clockwise
         if isodd(self._xings + xing):
-            a = Area.Add((a0 if a < 0 else -a0) * _0_5)
-        # area is with the clockwise sense.  If !reverse
-        # convert to counter-clockwise convention.
+            a = A.Add((a0 if a < 0 else -a0) * _0_5)
         if not reverse:
-            a = Area.Negate()
-        # If sign put area in (-area0x/2, area0x/2],
-        # otherwise put area in [0, area0x)
+            a = A.Negate()  # counter-clockwise
+        # (-area0x/2, area0x/2] if sign else [0, area0x)
         a0_ = a0 if sign else (a0 * _0_5)
         if a > a0_:
-            a = Area.Add(-a0)
+            a = A.Add(-a0)
         elif a <= -a0_:
-            a = Area.Add( a0)
+            a = A.Add( a0)
         return unsigned0(a)
 
     def Reset(self):
@@ -340,13 +338,10 @@ class GeodesicAreaExact(_NamedBase):
         elif n < 2:
             raise GeodesicError(num=self.num)
         else:
-            r  =  self._Direct(azi, s)
-            a  =  self._Area.Sum(r.S12)
-            x  =  r.xing
-            r  =  self._Inverse(r.lat2, r.lon2, self.lat0, self.lon0)
-            A  = _Accumulator(a + r.S12)
-            a  =  self._reduce(A, reverse, sign, x + r.xing)
-            p +=  r.s12
+            d  = self._Direct(azi, s)
+            r  = self._Inverse(d.lat2, d.lon2, self.lat0, self.lon0)
+            a  = self._reduce(d.S12 + r.S12, reverse, sign, d.xing + r.xing)
+            p += r.s12
         if self.verbose:  # PYCHOK no cover
             self._print(n, p, a, r, azi=azi, s=s)
         return Area3Tuple(n, p, a)
@@ -368,19 +363,15 @@ class GeodesicAreaExact(_NamedBase):
         '''
         n = self.num + 1
         if n < 2:
-            p = _0_0
-            a =  NAN if self.polyline else _0_0
-            r =  None
+            r, p = None, _0_0
+            a = NAN if self.polyline else p
         else:
-            r = self._Inverse(self.lat1, self.lon1, lat, lon)
-            p = self._Peri.Sum(r.s12)
+            i = self._Inverse(self.lat1, self.lon1, lat, lon)
+            p = self._Peri.Sum(i.s12)
             if self._Area:
-                a  =  self._Area.Sum(r.S12)
-                x  =  r.xing
-                r  =  self._Inverse(lat, lon, self.lat0, self.lon0)
-                p +=  r.s12
-                A  = _Accumulator(a + r.S12)
-                a  =  self._reduce(A, reverse, sign, x + r.xing)
+                r  = self._Inverse(lat, lon, self.lat0, self.lon0)
+                a  = self._reduce(i.S12 + r.S12, reverse, sign, i.xing + r.xing)
+                p += r.s12
             else:
                 a, r = NAN, None
         if self.verbose:  # PYCHOK no cover
@@ -482,7 +473,7 @@ class _Accumulator(_NamedBase):
 
            @return: Current C{sum} / B{C{y}}.
         '''
-        _remainder(self._s, y)
+        self._s = _remainder(self._s, y)
         self._n = -1
         return self.Add(_0_0)
 

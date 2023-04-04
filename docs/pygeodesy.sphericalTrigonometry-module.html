@@ -87,7 +87,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        23.04.02
+        23.04.05
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -376,7 +376,7 @@
         <span class="summary-sig-arg">latC</span>,
         <span class="summary-sig-arg">lonC</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>,
-        <span class="summary-sig-arg">excess</span>=<span class="summary-sig-default">&lt;function excessAbc at 0x7fb8284b2250&gt;</span>,
+        <span class="summary-sig-arg">excess</span>=<span class="summary-sig-default">&lt;function excessAbc_ at 0x7f9ff85c5250&gt;</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Compute the angles, sides, and area of a (spherical) triangle.</td>
           <td align="right" valign="top">
@@ -400,7 +400,7 @@
         <span class="summary-sig-arg">lamB</span>,
         <span class="summary-sig-arg">phiC</span>,
         <span class="summary-sig-arg">lamC</span>,
-        <span class="summary-sig-arg">excess</span>=<span class="summary-sig-default">&lt;function excessAbc at 0x7fb8284b2250&gt;</span>,
+        <span class="summary-sig-arg">excess</span>=<span class="summary-sig-default">&lt;function excessAbc_ at 0x7f9ff85c5250&gt;</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Compute the angles, sides, <i>spherical deficit</i> and <i>spherical 
       excess</i> of a (spherical) triangle.</td>
@@ -1088,7 +1088,7 @@
         <span class="sig-arg">latC</span>,
         <span class="sig-arg">lonC</span>,
         <span class="sig-arg">radius</span>=<span class="sig-default">6371008.771415</span>,
-        <span class="sig-arg">excess</span>=<span class="sig-default">&lt;function excessAbc at 0x7fb8284b2250&gt;</span>,
+        <span class="sig-arg">excess</span>=<span class="sig-default">&lt;function excessAbc_ at 0x7f9ff85c5250&gt;</span>,
         <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -1115,12 +1115,12 @@
           or <a href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
           class="link">a_f2Tuple</a>) or <code>None</code>.</li>
         <li><strong class="pname"><code>excess</code></strong> - <i>Spherical excess</i> callable (<a 
-          href="pygeodesy.formy-module.html#excessAbc" 
-          class="link">excessAbc</a>, <a 
-          href="pygeodesy.formy-module.html#excessGirard" 
-          class="link">excessGirard</a> or <a 
-          href="pygeodesy.formy-module.html#excessLHuilier" 
-          class="link">excessLHuilier</a>).</li>
+          href="pygeodesy.formy-module.html#excessAbc_" 
+          class="link">excessAbc_</a>, <a 
+          href="pygeodesy.formy-module.html#excessGirard_" 
+          class="link">excessGirard_</a> or <a 
+          href="pygeodesy.formy-module.html#excessLHuilier_" 
+          class="link">excessLHuilier_</a>).</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
           class="link">pygeodesy.unroll180</a> longitudes 
           (<code>bool</code>).</li>
@@ -1131,12 +1131,12 @@
           area)</code> with spherical angles <code>A</code>, <code>B</code>
           and <code>C</code>, angular sides <code>a</code>, <code>b</code> 
           and <code>c</code> all in <code>degrees</code> and 
-          <code>area</code> in <i>square</i> <code>meter</code> or units of
-          <b><code>radius</code></b> <i>squared</i> or if 
-          <b><code>radius</code></b> is <code>None</code>, a <a 
+          <code>area</code> in <i>square</i> <code>meter</code> or same 
+          units as <b><code>radius</code></b> <i>squared</i> or if 
+          <code><b>radius</b>=0</code> or <code>None</code>, a <a 
           href="pygeodesy.namedTuples.Triangle8Tuple-class.html" 
           class="link">Triangle8Tuple</a><code>(A, a, B, b, C, c, D, 
-          E)</code> all in <code>radians</code> with <i>spherical 
+          E)</code> all in <code>radians</code> with the <i>spherical 
           excess</i> <code>E</code> as the <code>unit area</code> in 
           <code>radians</code>.</dd>
   </dl>
@@ -1155,7 +1155,7 @@
         <span class="sig-arg">lamB</span>,
         <span class="sig-arg">phiC</span>,
         <span class="sig-arg">lamC</span>,
-        <span class="sig-arg">excess</span>=<span class="sig-default">&lt;function excessAbc at 0x7fb8284b2250&gt;</span>,
+        <span class="sig-arg">excess</span>=<span class="sig-default">&lt;function excessAbc_ at 0x7f9ff85c5250&gt;</span>,
         <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -1175,12 +1175,12 @@
         <li><strong class="pname"><code>phiC</code></strong> - Third corner latitude (<code>radians</code>).</li>
         <li><strong class="pname"><code>lamC</code></strong> - Third corner longitude (<code>radians</code>).</li>
         <li><strong class="pname"><code>excess</code></strong> - <i>Spherical excess</i> callable (<a 
-          href="pygeodesy.formy-module.html#excessAbc" 
-          class="link">excessAbc</a>, <a 
-          href="pygeodesy.formy-module.html#excessGirard" 
-          class="link">excessGirard</a> or <a 
-          href="pygeodesy.formy-module.html#excessLHuilier" 
-          class="link">excessLHuilier</a>).</li>
+          href="pygeodesy.formy-module.html#excessAbc_" 
+          class="link">excessAbc_</a>, <a 
+          href="pygeodesy.formy-module.html#excessGirard_" 
+          class="link">excessGirard_</a> or <a 
+          href="pygeodesy.formy-module.html#excessLHuilier_" 
+          class="link">excessLHuilier_</a>).</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unrollPI" 
           class="link">pygeodesy.unrollPI</a> longitudes 
           (<code>bool</code>).</li>
@@ -1228,7 +1228,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Apr  2 08:41:11 2023
+    Generated by Epydoc 3.0.1 on Tue Apr  4 11:04:46 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

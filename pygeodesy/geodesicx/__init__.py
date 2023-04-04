@@ -8,12 +8,13 @@ and U{GeodesicLineExact
 
 For more details, see the C++ U{GeographicLib<https://GeographicLib.SourceForge.io/C++/doc/index.html>}
 documentation, especially the U{Class List<https://GeographicLib.SourceForge.io/C++/doc/annotated.html>}
-and the background information on the page U{Geodesics on an ellipsoid of revolution
+and the background information at U{Geodesics on an ellipsoid of revolution
 <https://GeographicLib.SourceForge.io/C++/doc/geodesic.html#geodseries>}.
 
 Also, compare C{GeodesicExact} and C{GeodesicLineExact} to I{standard} classes C{Geodesic}
 respectively C{GeodesicLine} from I{Karney}'s Python implementation U{geographiclib
-<https://GeographicLib.SourceForge.io/C++/doc/other.html#python>}.
+<https://GeographicLib.SourceForge.io/C++/doc/other.html#python>}, see module
+L{pygeodesy.karney}.
 '''
 
 from pygeodesy.geodesicx.gx import GeodesicExact, GeodesicLineExact  # PYCHOK exported
@@ -22,7 +23,7 @@ from pygeodesy.karney import Caps, GeodesicError
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 
 __all__ = _ALL_LAZY.geodesicx + _ALL_DOCS(Caps, GeodesicError)
-__version__ = '22.09.15'
+__version__ = '23.04.04'
 
 # **) MIT License
 #

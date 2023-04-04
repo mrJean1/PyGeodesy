@@ -229,6 +229,7 @@ pygeodesy.parseMGRS	pygeodesy-module.html#parseMGRS
 pygeodesy._isfrozen	pygeodesy-module.html#_isfrozen
 pygeodesy.isclass	pygeodesy-module.html#isclass
 pygeodesy.hstr	pygeodesy-module.html#hstr
+pygeodesy.excessAbc_	pygeodesy-module.html#excessAbc_
 pygeodesy.f2e32	pygeodesy-module.html#f2e32
 pygeodesy._init__all__	pygeodesy-module.html#_init__all__
 pygeodesy.fasin1	pygeodesy-module.html#fasin1
@@ -382,6 +383,7 @@ pygeodesy.classnaming	pygeodesy-module.html#classnaming
 pygeodesy.isnormal	pygeodesy-module.html#isnormal
 pygeodesy.furlong2m	pygeodesy-module.html#furlong2m
 pygeodesy.atand	pygeodesy-module.html#atand
+pygeodesy.excessLHuilier_	pygeodesy-module.html#excessLHuilier_
 pygeodesy.cosineLaw_	pygeodesy-module.html#cosineLaw_
 pygeodesy.instr	pygeodesy-module.html#instr
 pygeodesy.equirectangular_	pygeodesy-module.html#equirectangular_
@@ -408,6 +410,7 @@ pygeodesy.sincos2d_	pygeodesy-module.html#sincos2d_
 pygeodesy.bearingDMS	pygeodesy-module.html#bearingDMS
 pygeodesy.isantipode_	pygeodesy-module.html#isantipode_
 pygeodesy.radiansPI_2	pygeodesy-module.html#radiansPI_2
+pygeodesy.excessGirard_	pygeodesy-module.html#excessGirard_
 pygeodesy.printf	pygeodesy-module.html#printf
 pygeodesy.utmupsZoneBand5	pygeodesy-module.html#utmupsZoneBand5
 pygeodesy.radians2m	pygeodesy-module.html#radians2m
@@ -913,6 +916,7 @@ pygeodesy.datums._OSGB36_	pygeodesy.datums-module.html#_OSGB36_
 pygeodesy.datums.fdot	pygeodesy.fmath-module.html#fdot
 pygeodesy.deprecated	pygeodesy.deprecated-module.html
 pygeodesy.deprecated.scalar	pygeodesy.deprecated-module.html#scalar
+pygeodesy.deprecated.excessLHuilier	pygeodesy.deprecated-module.html#excessLHuilier
 pygeodesy.deprecated.areaof	pygeodesy.deprecated-module.html#areaof
 pygeodesy.deprecated.tienstra	pygeodesy.deprecated-module.html#tienstra
 pygeodesy.deprecated.falsed2f	pygeodesy.deprecated-module.html#falsed2f
@@ -921,6 +925,7 @@ pygeodesy.deprecated.joined_	pygeodesy.deprecated-module.html#joined_
 pygeodesy.deprecated.isenclosedby	pygeodesy.deprecated-module.html#isenclosedby
 pygeodesy.deprecated.parseUTM	pygeodesy.deprecated-module.html#parseUTM
 pygeodesy.deprecated.OK	pygeodesy.deprecated-module.html#OK
+pygeodesy.deprecated.excessGirard	pygeodesy.deprecated-module.html#excessGirard
 pygeodesy.deprecated.joined	pygeodesy.deprecated-module.html#joined
 pygeodesy.deprecated._Pass	pygeodesy.named-module.html#_Pass
 pygeodesy.deprecated.toUtm	pygeodesy.deprecated-module.html#toUtm
@@ -962,6 +967,7 @@ pygeodesy.deprecated._UTM	pygeodesy.deprecated-module.html#_UTM
 pygeodesy.deprecated.__package__	pygeodesy.deprecated-module.html#__package__
 pygeodesy.deprecated.deprecated_method	pygeodesy.props-module.html#deprecated_method
 pygeodesy.deprecated.RefFrameError	pygeodesy.deprecated-module.html#RefFrameError
+pygeodesy.deprecated.excessAbc	pygeodesy.deprecated-module.html#excessAbc
 pygeodesy.deprecated.utmZoneBand2	pygeodesy.deprecated-module.html#utmZoneBand2
 pygeodesy.deprecated.simplify2	pygeodesy.deprecated-module.html#simplify2
 pygeodesy.deprecated.bases	pygeodesy.deprecated.bases-module.html
@@ -1625,9 +1631,9 @@ pygeodesy.formy._ratio_	pygeodesy.formy-module.html#_ratio_
 pygeodesy.formy.antipode	pygeodesy.formy-module.html#antipode
 pygeodesy.formy._ellipsoidal_datum	pygeodesy.datums-module.html#_ellipsoidal_datum
 pygeodesy.formy._normal2	pygeodesy.formy-module.html#_normal2
-pygeodesy.formy.excessGirard	pygeodesy.formy-module.html#excessGirard
 pygeodesy.formy.isantipode_	pygeodesy.formy-module.html#isantipode_
 pygeodesy.formy.equirectangular_	pygeodesy.formy-module.html#equirectangular_
+pygeodesy.formy.excessGirard_	pygeodesy.formy-module.html#excessGirard_
 pygeodesy.formy._area_or_	pygeodesy.formy-module.html#_area_or_
 pygeodesy.formy.sincos2d_	pygeodesy.utily-module.html#sincos2d_
 pygeodesy.formy.radical2	pygeodesy.formy-module.html#radical2
@@ -1652,10 +1658,9 @@ pygeodesy.formy._scale_deg	pygeodesy.formy-module.html#_scale_deg
 pygeodesy.formy._spherical_datum	pygeodesy.datums-module.html#_spherical_datum
 pygeodesy.formy.isnormal_	pygeodesy.formy-module.html#isnormal_
 pygeodesy.formy.cosineLaw_	pygeodesy.formy-module.html#cosineLaw_
-pygeodesy.formy.excessAbc	pygeodesy.formy-module.html#excessAbc
+pygeodesy.formy.horizon	pygeodesy.formy-module.html#horizon
 pygeodesy.formy.excessKarney	pygeodesy.formy-module.html#excessKarney
 pygeodesy.formy.unroll180	pygeodesy.utily-module.html#unroll180
-pygeodesy.formy.excessLHuilier	pygeodesy.formy-module.html#excessLHuilier
 pygeodesy.formy.unstr	pygeodesy.streprs-module.html#unstr
 pygeodesy.formy.equirectangular	pygeodesy.formy-module.html#equirectangular
 pygeodesy.formy.n_xyz2philam	pygeodesy.formy-module.html#n_xyz2philam
@@ -1663,6 +1668,7 @@ pygeodesy.formy.opposing_	pygeodesy.formy-module.html#opposing_
 pygeodesy.formy.haversine_	pygeodesy.formy-module.html#haversine_
 pygeodesy.formy.latlon2n_xyz	pygeodesy.formy-module.html#latlon2n_xyz
 pygeodesy.formy.intersections2	pygeodesy.formy-module.html#intersections2
+pygeodesy.formy.excessAbc_	pygeodesy.formy-module.html#excessAbc_
 pygeodesy.formy.sqrt0	pygeodesy.fmath-module.html#sqrt0
 pygeodesy.formy.cosineAndoyerLambert_	pygeodesy.formy-module.html#cosineAndoyerLambert_
 pygeodesy.formy.opposing	pygeodesy.formy-module.html#opposing
@@ -1686,9 +1692,9 @@ pygeodesy.formy.haversine	pygeodesy.formy-module.html#haversine
 pygeodesy.formy.sincos2_	pygeodesy.utily-module.html#sincos2_
 pygeodesy.formy.sincos2	pygeodesy.utily-module.html#sincos2
 pygeodesy.formy.__package__	pygeodesy.formy-module.html#__package__
+pygeodesy.formy.excessLHuilier_	pygeodesy.formy-module.html#excessLHuilier_
 pygeodesy.formy._ellipsoidal	pygeodesy.formy-module.html#_ellipsoidal
 pygeodesy.formy._mean_radius	pygeodesy.datums-module.html#_mean_radius
-pygeodesy.formy.horizon	pygeodesy.formy-module.html#horizon
 pygeodesy.formy.normal	pygeodesy.formy-module.html#normal
 pygeodesy.formy.m2degrees	pygeodesy.utily-module.html#m2degrees
 pygeodesy.formy.excessKarney_	pygeodesy.formy-module.html#excessKarney_
@@ -1875,6 +1881,7 @@ pygeodesy.geodesicx.gx._sincos12	pygeodesy.geodesicx.gxbases-module.html#_sincos
 pygeodesy.geodesicx.gx._cbrt	pygeodesy.karney-module.html#_cbrt
 pygeodesy.geodesicx.gx.isnan	pygeodesy.constants-module.html#isnan
 pygeodesy.geodesicx.gx._atan2d_reverse	pygeodesy.utily-module.html#atan2d
+pygeodesy.geodesicx.gx._unsigned2	pygeodesy.karney-module.html#_unsigned2
 pygeodesy.geodesicx.gx._xnC4	pygeodesy.geodesicx.gxbases-module.html#_xnC4
 pygeodesy.geodesicx.gx.fsum_	pygeodesy.fsums-module.html#fsum_
 pygeodesy.geodesicx.gx._THR1	pygeodesy.geodesicx.gx-module.html#_THR1
@@ -3296,9 +3303,9 @@ pygeodesy.sphericalTrigonometry.sincos2_	pygeodesy.utily-module.html#sincos2_
 pygeodesy.sphericalTrigonometry._ellipsoidal_datum	pygeodesy.datums-module.html#_ellipsoidal_datum
 pygeodesy.sphericalTrigonometry.intersection	pygeodesy.sphericalTrigonometry-module.html#intersection
 pygeodesy.sphericalTrigonometry._int3d2	pygeodesy.sphericalTrigonometry-module.html#_int3d2
-pygeodesy.sphericalTrigonometry.excessGirard	pygeodesy.formy-module.html#excessGirard
 pygeodesy.sphericalTrigonometry.signOf	pygeodesy.basics-module.html#signOf
 pygeodesy.sphericalTrigonometry._nearestOn5	pygeodesy.points-module.html#nearestOn5
+pygeodesy.sphericalTrigonometry.excessGirard_	pygeodesy.formy-module.html#excessGirard_
 pygeodesy.sphericalTrigonometry.opposing_	pygeodesy.formy-module.html#opposing_
 pygeodesy.sphericalTrigonometry.hypot	pygeodesy.fmath-module.html#hypot
 pygeodesy.sphericalTrigonometry._intersects2	pygeodesy.sphericalTrigonometry-module.html#_intersects2
@@ -3314,11 +3321,10 @@ pygeodesy.sphericalTrigonometry.favg	pygeodesy.fmath-module.html#favg
 pygeodesy.sphericalTrigonometry.areaOf	pygeodesy.sphericalTrigonometry-module.html#areaOf
 pygeodesy.sphericalTrigonometry.nearestOn2	pygeodesy.sphericalTrigonometry-module.html#nearestOn2
 pygeodesy.sphericalTrigonometry._intersect	pygeodesy.sphericalTrigonometry-module.html#_intersect
+pygeodesy.sphericalTrigonometry.excessAbc_	pygeodesy.formy-module.html#excessAbc_
 pygeodesy.sphericalTrigonometry.nearestOn3	pygeodesy.sphericalTrigonometry-module.html#nearestOn3
 pygeodesy.sphericalTrigonometry.wrap180	pygeodesy.utily-module.html#wrap180
-pygeodesy.sphericalTrigonometry.excessAbc	pygeodesy.formy-module.html#excessAbc
 pygeodesy.sphericalTrigonometry.isnear1	pygeodesy.constants-module.html#isnear1
-pygeodesy.sphericalTrigonometry.excessLHuilier	pygeodesy.formy-module.html#excessLHuilier
 pygeodesy.sphericalTrigonometry._intdot	pygeodesy.sphericalTrigonometry-module.html#_intdot
 pygeodesy.sphericalTrigonometry._xkwds_get	pygeodesy.errors-module.html#_xkwds_get
 pygeodesy.sphericalTrigonometry._intersecant2	pygeodesy.sphericalBase-module.html#_intersecant2
@@ -3338,6 +3344,7 @@ pygeodesy.sphericalTrigonometry.intersections2	pygeodesy.sphericalTrigonometry-m
 pygeodesy.sphericalTrigonometry._angular	pygeodesy.sphericalBase-module.html#_angular
 pygeodesy.sphericalTrigonometry.radiansPI2	pygeodesy.utily-module.html#radiansPI2
 pygeodesy.sphericalTrigonometry.__package__	pygeodesy.sphericalTrigonometry-module.html#__package__
+pygeodesy.sphericalTrigonometry.excessLHuilier_	pygeodesy.formy-module.html#excessLHuilier_
 pygeodesy.sphericalTrigonometry._xError	pygeodesy.errors-module.html#_xError
 pygeodesy.sphericalTrigonometry.deprecated_method	pygeodesy.props-module.html#deprecated_method
 pygeodesy.sphericalTrigonometry._mean_radius	pygeodesy.datums-module.html#_mean_radius

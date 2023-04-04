@@ -27,7 +27,7 @@ from pygeodesy.units import Band, Bearing, Degrees, Degrees2, Easting, \
                             Radians, Radius, Scalar, Str
 
 __all__ = _ALL_LAZY.namedTuples
-__version__ = '22.10.11'
+__version__ = '23.04.03'
 
 # __DUNDER gets mangled in class
 _closest_     = 'closest'
@@ -491,9 +491,9 @@ class Reverse4Tuple(_NamedTuple, _Convergence):
 
 class Triangle7Tuple(_NamedTuple):
     '''7-Tuple C{(A, a, B, b, C, c, area)} with interior angles C{A},
-       C{B} and C{C} in C{degrees}, spherical sides C{a}, C{b} and
-       C{c} in C{meter} and the C{area} of a spherical triangle in
-       I{square} C{meter}.
+       C{B} and C{C} in C{degrees}, spherical sides C{a}, C{b} and C{c}
+       in C{meter} conventionally and the C{area} of a (spherical)
+       triangle in I{square} C{meter} conventionally.
     '''
     _Names_ = (_A_,     _a_,   _B_,     _b_,   _C_,     _c_,   _area_)
     _Units_ = ( Degrees, Meter, Degrees, Meter, Degrees, Meter, Meter2)
@@ -501,8 +501,8 @@ class Triangle7Tuple(_NamedTuple):
 
 class Triangle8Tuple(_NamedTuple):
     '''8-Tuple C{(A, a, B, b, C, c, D, E)} with interior angles C{A},
-       C{B} and C{C}, spherical sides C{a}, C{b} and C{c}, I{spherical
-       deficit} C{D} and I{spherical excess} C{E} of a spherical
+       C{B} and C{C}, spherical sides C{a}, C{b} and C{c}, the I{spherical
+       deficit} C{D} and the I{spherical excess} C{E} of a (spherical)
        triangle, all in C{radians}.
     '''
     _Names_ = (_A_,     _a_,     _B_,     _b_,     _C_,     _c_,     _D_,     _E_)

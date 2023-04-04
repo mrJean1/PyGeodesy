@@ -4,14 +4,14 @@
 # Test L{formy} module.
 
 __all__ = ('Tests',)
-__version__ = '23.03.27'
+__version__ = '23.04.03'
 
 from bases import TestsBase
 
 from pygeodesy import PI, PI_2, R_M, antipode, bearing, cosineAndoyerLambert, \
                       cosineForsytheAndoyerLambert as _cosineForsythe_, \
                       cosineLaw, Datums, equirectangular, euclidean, \
-                      excessAbc, excessGirard, excessLHuilier, excessKarney, \
+                      excessAbc_, excessGirard_, excessLHuilier_, excessKarney, \
                       excessQuad, flatLocal, flatPolar, formy, hartzell, \
                       haversine, heightOf, horizon, hubeny, IntersectionError, \
                       intersections2, isantipode, isantipode_, isnormal, isnormal_, \
@@ -87,16 +87,18 @@ class Tests(TestsBase):
         # t = sphericalTrigonometry.triangle7(10, 10, 70, -20, 70, 40, radius=None) ... -8Tuple
         # (A=0.386453, a=0.34371, B=1.482026, b=1.098565, C=1.482026, c=1.098565, D=3.742345, E=0.208912)')
         # XXX with the full t.A, t.a, ... values, all 5 excess' produce the exact same results
-        self.test('excessAbc',      degrees(excessAbc(     0.386453, 1.098565, 1.098565)), '11.9698', prec=4)
-        self.test('excessAbc',      degrees(excessAbc(     1.482026, 0.34371,  1.098565)), '11.9698', prec=4)
-        self.test('excessGirard',   degrees(excessGirard(  0.386453, 1.482026, 1.482026)), '11.9698', prec=4)
-        self.test('excessLHuilier', degrees(excessLHuilier(0.34371,  1.098565, 1.098565)), '11.9698', prec=4)
-        self.test('excessKarney',   degrees(excessKarney(70, -20, 70, 40, radius=None)),   '56.9625', prec=4)
-        self.test('excessQuad',     degrees(excessQuad(  70, -20, 70, 40, radius=None)),   '56.9625', prec=4)
-        self.test('excessKarney',   degrees(excessKarney( 0, -20, 70, 40, radius=None)),   '44.0235', prec=4)
-        self.test('excessQuad',     degrees(excessQuad(   0, -20, 70, 40, radius=None)),   '44.0235', prec=4)
-        self.test('excessKarney',   degrees(excessKarney(70, 40,  0, -20, radius=None)),  '-44.0235', prec=4)
-        self.test('excessQuad',     degrees(excessQuad(  70, 40,  0, -20, radius=None)),  '-44.0235', prec=4)
+        for f, t in ((excessAbc_,      (0.386453, 1.098565, 1.098565)),
+                     (excessAbc_,      (1.482026, 0.34371,  1.098565)),
+                     (excessGirard_,   (0.386453, 1.482026, 1.482026)),
+                     (excessLHuilier_, (0.34371,  1.098565, 1.098565))):
+            self.test(f.__name__, degrees(f(*t)), '11.9698', prec=4)
+        for f, t, x in ((excessKarney, (70, -20, 70, 40),  '56.9625'),
+                        (excessQuad,   (70, -20, 70, 40),  '56.9625'),
+                        (excessKarney, ( 0, -20, 70, 40),  '44.0235'),
+                        (excessQuad,   ( 0, -20, 70, 40),  '44.0235'),
+                        (excessKarney, (70, 40,  0, -20), '-44.0235'),
+                        (excessQuad,   (70, 40,  0, -20), '-44.0235')):
+            self.test(f.__name__, degrees(f(*t, radius=None)), x, prec=4)
 
         self.test('isantipode1', isantipode( 89,  179, -89,  -1), True)
         self.test('isantipode2', isantipode(-89, -179,  89,   1), True)

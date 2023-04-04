@@ -1,6 +1,6 @@
 
 # python -m coverage html --rcfile=testcoverage.rc --title="..."
-# __version__ = '21.09.21'
+# __version__ = '23.04.04'
 
 [report]
 exclude_lines =
@@ -14,7 +14,11 @@ exclude_lines =
     if __name__ == .__main__.:
     if _FOR_DOCS:
 
-include = pygeodesy/*.py
+include =
+    pygeodesy/*.py
+    pygeodesy/deprecated/*.py
+    pygeodesy/geodesicx/*.py
+
 # omit = test/*.py
 
 [html]

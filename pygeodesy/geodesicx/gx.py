@@ -1,12 +1,12 @@
 
 # -*- coding: utf-8 -*-
 
-u'''A Python version of I{Karney}'s C++ class U{GeodesicExact
+u'''A pure Python version of I{Karney}'s C++ class U{GeodesicExact
 <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1GeodesicExact.html>}.
 
-Classes L{GeodesicExact} and L{GeodesicLineExact} follow the naming,
-methods and return values from I{Karney}s' Python classes C{Geodesic}
-and C{GeodesicLine}, respectively.
+Class L{GeodesicExact} follows the naming, methods and return values
+of class C{Geodesic} from I{Karney}'s Python U{geographiclib
+<https://GeographicLib.SourceForge.io/1.52/python/index.html>}.
 
 Copyright (C) U{Charles Karney<mailto:Charles@Karney.com>} (2008-2022)
 and licensed under the MIT/X11 License.  For more information, see the
@@ -50,7 +50,7 @@ from pygeodesy.interns import NN, _COMMASPACE_, _DOT_, _UNDER_
 from pygeodesy.karney import _around, _atan2d, Caps, _cbrt, _copysign, _diff182, \
                              _a_ellipsoid, _EWGS84, GDict, GeodesicError, _fix90, \
                              _hypot, _K_2_0, _norm2, _norm180, _polynomial, \
-                             _signBit, _sincos2, _sincos2d, _sincos2de
+                             _signBit, _sincos2, _sincos2d, _sincos2de, _unsigned2
 from pygeodesy.lazily import _ALL_DOCS, _ALL_MODS as _MODS
 from pygeodesy.namedTuples import Destination3Tuple, Distance3Tuple
 from pygeodesy.props import deprecated_Property, Property, Property_RO
@@ -60,7 +60,7 @@ from pygeodesy.utily import atan2d as _atan2d_reverse, unroll180, wrap360
 from math import atan2, copysign, cos, degrees, fabs, radians, sqrt
 
 __all__ = ()
-__version__ = '23.03.25'
+__version__ = '23.04.04'
 
 _MAXIT1 = 20
 _MAXIT2 = 10 + _MAXIT1 + MANT_DIG  # MANT_DIG == C++ digits
@@ -83,9 +83,7 @@ _TOL016 = _TOL0 * _16_0
 def _atan12(*sincos12, **sineg0):
     '''(INTERNAL) Return C{ang12} in C{radians}.
     '''
-    s, c = _sincos12(*sincos12, **sineg0) if sineg0 else \
-           _sincos12(*sincos12)
-    return atan2(s, c)
+    return atan2(*_sincos12(*sincos12, **sineg0))
 
 
 def _eTOL2(f):
@@ -508,9 +506,8 @@ class GeodesicExact(_GeodesicBase):
             r = GDict(lon1=_norm180(lon1), lon2=_norm180(lon2))
         if _K_2_0:  # GeographicLib 2.0
             # make longitude difference positive
-            lon_ = _signBit(lon12)
+            lon12, lon_ = _unsigned2(lon12)
             if lon_:
-                lon12  = -lon12
                 lon12s = -lon12s
             lam12 = radians(lon12)
             # calculate sincosd(_around(lon12 + correction))
@@ -543,9 +540,9 @@ class GeodesicExact(_GeodesicBase):
             lat1, lat2 = lat2, lat1
             lon_ = not lon_
         if _signBit(lat1):
-            lat_ = False  # note False!
+            lat_ = False  # note, False
         else:  # make lat1 <= -0
-            lat_ = True
+            lat_ = True  # note, True
             lat1, lat2 = -lat1, -lat2
         # Now 0 <= lon12 <= 180, -90 <= lat1 <= -0 and lat1 <= lat2 <= -lat1
         # and lat_, lon_, swap_ register the transformation to bring the
@@ -921,10 +918,10 @@ class GeodesicExact(_GeodesicBase):
 
             if y > _TOL1 and x > -_THR1:  # strip near cut
                 if f < 0:  # PYCHOK no cover
-                    calp1 =  max(_0_0, x) if x > _TOL1 else max(_N_1_0, x)
+                    calp1 = max( _0_0, x) if x > _TOL1 else max(_N_1_0, x)
                     salp1 = sqrt(_1_0 - calp1**2)
                 else:
-                    salp1 =   min(_1_0, -x)
+                    salp1 =  min( _1_0, -x)
                     calp1 = -sqrt(_1_0 - salp1**2)
             else:
                 # Estimate alp1, by solving the astroid problem.
@@ -983,7 +980,7 @@ class GeodesicExact(_GeodesicBase):
         eF = self._eF
         f1 = self.f1
 
-        if p.sbet1 == 0 and calp1 == 0:  # PYCHOK no cover
+        if p.sbet1 == calp1 == 0:  # PYCHOK no cover
             # Break degeneracy of equatorial line
             calp1 = -_TINY
 
@@ -1149,7 +1146,9 @@ class GeodesicExact(_GeodesicBase):
         # starting guess is taken to be (alp1a + alp1b) / 2.
         salp1a = salp1b = _TINY
         calp1a,  calp1b = _1_0, _N_1_0
-        tripb,   TOLv   =  False, _TOL0
+        MAXIT1,  TOL0   = _MAXIT1, _TOL0
+        HALF,    TOLb   = _0_5,    _TOLb
+        tripb,   TOLv   =  False,   TOL0
         for i in range(_MAXIT2):
             # 1/4 meridian = 10e6 meter and random input,
             # estimated max error in nm (nano meter, by
@@ -1173,19 +1172,19 @@ class GeodesicExact(_GeodesicBase):
             #     6      6008   6.30  3.45
             #     7     19024   6.19  3.30
             v, sig12, salp2, calp2, \
-               domg12, dv = self._Lambda6(salp1, calp1, i < _MAXIT1, p)
+               domg12, dv = self._Lambda6(salp1, calp1, i < MAXIT1, p)
 
             # 2 * _TOL0 is approximately 1 ulp [0, PI]
             # reversed test to allow escape with NaNs
             if tripb or fabs(v) < TOLv:
                 break
             # update bracketing values
-            if v > 0 and (i > _MAXIT1 or (calp1 / salp1) > (calp1b / salp1b)):
+            if v > 0 and (i > MAXIT1 or (calp1 / salp1) > (calp1b / salp1b)):
                 salp1b, calp1b = salp1, calp1
-            elif v < 0 and (i > _MAXIT1 or (calp1 / salp1) < (calp1a / salp1a)):
+            elif v < 0 and (i > MAXIT1 or (calp1 / salp1) < (calp1a / salp1a)):
                 salp1a, calp1a = salp1, calp1
 
-            if i < _MAXIT1 and dv > 0:
+            if i < MAXIT1 and dv > 0:
                 dalp1 = -v / dv
                 if fabs(dalp1) < PI:
                     s, c = _sincos2(dalp1)
@@ -1196,7 +1195,7 @@ class GeodesicExact(_GeodesicBase):
                         # in some regimes we don't get quadratic convergence
                         # because slope -> 0.  So use convergence conditions
                         # based on epsilon instead of sqrt(epsilon)
-                        TOLv = _TOL0 if fabs(v) > _TOL016 else _TOL08
+                        TOLv = TOL0 if fabs(v) > _TOL016 else _TOL08
                         continue
 
             # Either dv was not positive or updated value was outside
@@ -1205,13 +1204,13 @@ class GeodesicExact(_GeodesicBase):
             # ellipsoid, but it does catch problems with more eccentric
             # ellipsoids.  Its efficacy is such for the WGS84 test set
             # with the starting guess set to alp1 = 90 deg: the WGS84
-            # test set: mean = 5.21, sd = 3.93, max = 24 and WGS84 with
-            # random input: mean = 4.74, sd = 0.99
-            salp1, calp1 = _norm2((salp1a + salp1b) * _0_5,
-                                  (calp1a + calp1b) * _0_5)
-            tripb = fsum1_(calp1a, -calp1, fabs(salp1a - salp1)) < _TOLb or \
-                    fsum1_(calp1b, -calp1, fabs(salp1b - salp1)) < _TOLb
-            TOLv = _TOL0
+            # test set: mean = 5.21, stdev = 3.93, max = 24 and WGS84
+            # with random input: mean = 4.74, stdev = 0.99
+            salp1, calp1 = _norm2((salp1a + salp1b) * HALF,
+                                  (calp1a + calp1b) * HALF)
+            tripb = fsum1_(calp1a, -calp1, fabs(salp1a - salp1)) < TOLb or \
+                    fsum1_(calp1b, -calp1, fabs(salp1b - salp1)) < TOLb
+            TOLv  = TOL0
 
         else:
             raise GeodesicError(Fmt.no_convergence(v, TOLv), txt=repr(self))  # self.toRepr()

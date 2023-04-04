@@ -528,7 +528,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        23.04.02
+        23.04.05
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -643,15 +643,18 @@
         target="_top">GeodesicExactC4</a>.</em>    </li>
     <li class="private"> <strong class="uidlink"><a href="pygeodesy.geodesicx.__main__-module.html">pygeodesy.geodesicx.__main__</a></strong>: <em class="summary">Print <a href="pygeodesy.geodesicx-module.html" 
         class="link">geodesicx</a> version, etc.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.geodesicx.gx-module.html">pygeodesy.geodesicx.gx</a></strong>: <em class="summary">A Python version of <i>Karney</i>'s C++ class <a 
+    <li> <strong class="uidlink"><a href="pygeodesy.geodesicx.gx-module.html">pygeodesy.geodesicx.gx</a></strong>: <em class="summary">A pure Python version of <i>Karney</i>'s C++ class <a 
         href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1GeodesicExact.html"
         target="_top">GeodesicExact</a>.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.geodesicx.gxarea-module.html">pygeodesy.geodesicx.gxarea</a></strong>: <em class="summary">Slightly enhanced versions of <i>Karney</i>'s Python classes <a 
+    <li> <strong class="uidlink"><a href="pygeodesy.geodesicx.gxarea-module.html">pygeodesy.geodesicx.gxarea</a></strong>: <em class="summary">Slightly enhanced versions of classes <a 
         href="https://GeographicLib.SourceForge.io/1.52/python/code.html#module-geographiclib.polygonarea"
-        target="_top">PolygonArea</a> and <code>Accumulator</code>.</em>    </li>
+        target="_top">PolygonArea</a> and <code>Accumulator</code> from 
+        <i>Karney</i>'s Python <a 
+        href="https://GeographicLib.SourceForge.io/1.52/python/index.html" 
+        target="_top">geographiclib</a>.</em>    </li>
     <li class="private"> <strong class="uidlink"><a href="pygeodesy.geodesicx.gxbases-module.html" onclick="show_private();">pygeodesy.geodesicx.gxbases</a></strong>: <em class="summary">(INTERNAL) Private <a href="pygeodesy.geodesicx-module.html" 
         class="link">geodesicx</a> base class, functions and constants.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.geodesicx.gxline-module.html">pygeodesy.geodesicx.gxline</a></strong>: <em class="summary">A Python version of <i>Karney</i>'s C++ class <a 
+    <li> <strong class="uidlink"><a href="pygeodesy.geodesicx.gxline-module.html">pygeodesy.geodesicx.gxline</a></strong>: <em class="summary">A pure Python version of <i>Karney</i>'s C++ class <a 
         href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1GeodesicLineExact.html"
         target="_top">GeodesicLineExact</a>.</em>    </li>
     </ul>
@@ -4352,9 +4355,9 @@
       7-Tuple <code>(A, a, B, b, C, c, area)</code> with interior angles 
         <code>A</code>, <code>B</code> and <code>C</code> in 
         <code>degrees</code>, spherical sides <code>a</code>, 
-        <code>b</code> and <code>c</code> in <code>meter</code> and the 
-        <code>area</code> of a spherical triangle in <i>square</i> 
-        <code>meter</code>.
+        <code>b</code> and <code>c</code> in <code>meter</code> 
+        conventionally and the <code>area</code> of a (spherical) triangle 
+        in <i>square</i> <code>meter</code> conventionally.
     </td>
   </tr>
 <tr>
@@ -4364,9 +4367,9 @@
         <a href="pygeodesy.namedTuples.Triangle8Tuple-class.html" class="summary-name">Triangle8Tuple</a><br />
       8-Tuple <code>(A, a, B, b, C, c, D, E)</code> with interior angles 
         <code>A</code>, <code>B</code> and <code>C</code>, spherical sides 
-        <code>a</code>, <code>b</code> and <code>c</code>, <i>spherical 
-        deficit</i> <code>D</code> and <i>spherical excess</i> 
-        <code>E</code> of a spherical triangle, all in 
+        <code>a</code>, <code>b</code> and <code>c</code>, the <i>spherical
+        deficit</i> <code>D</code> and the <i>spherical excess</i> 
+        <code>E</code> of a (spherical) triangle, all in 
         <code>radians</code>.
     </td>
   </tr>
@@ -6932,6 +6935,27 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#excessAbc" class="summary-sig-name">excessAbc</a>(<span class="summary-sig-arg">A</span>,
         <span class="summary-sig-arg">b</span>,
         <span class="summary-sig-arg">c</span>)</span><br />
+      DEPRECATED, use function <a 
+      href="pygeodesy.formy-module.html#excessAbc_" 
+      class="link">excessAbc_</a>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#excessAbc_" class="summary-sig-name">excessAbc_</a>(<span class="summary-sig-arg">A</span>,
+        <span class="summary-sig-arg">b</span>,
+        <span class="summary-sig-arg">c</span>)</span><br />
       Compute the <i>spherical excess</i> <code>E</code> of a (spherical) 
       triangle from two sides and the included angle.</td>
           <td align="right" valign="top">
@@ -6950,6 +6974,27 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#excessGirard" class="summary-sig-name">excessGirard</a>(<span class="summary-sig-arg">A</span>,
+        <span class="summary-sig-arg">B</span>,
+        <span class="summary-sig-arg">C</span>)</span><br />
+      DEPRECATED, use function <a 
+      href="pygeodesy.formy-module.html#excessGirard_" 
+      class="link">excessGirard_</a>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#excessGirard_" class="summary-sig-name">excessGirard_</a>(<span class="summary-sig-arg">A</span>,
         <span class="summary-sig-arg">B</span>,
         <span class="summary-sig-arg">C</span>)</span><br />
       Compute the <i>spherical excess</i> <code>E</code> of a (spherical) 
@@ -7020,6 +7065,27 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#excessLHuilier" class="summary-sig-name">excessLHuilier</a>(<span class="summary-sig-arg">a</span>,
+        <span class="summary-sig-arg">b</span>,
+        <span class="summary-sig-arg">c</span>)</span><br />
+      DEPRECATED, use function <a 
+      href="pygeodesy.formy-module.html#excessLHuilier_" 
+      class="link">excessLHuilier_</a>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#excessLHuilier_" class="summary-sig-name">excessLHuilier_</a>(<span class="summary-sig-arg">a</span>,
         <span class="summary-sig-arg">b</span>,
         <span class="summary-sig-arg">c</span>)</span><br />
       Compute the <i>spherical excess</i> <code>E</code> of a (spherical) 
@@ -8172,7 +8238,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fb83831dbd0&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f9ff87fbd50&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -12689,7 +12755,7 @@ ygeodesy'"><code class="variable-quote">'</code><code class="variable-string">/U
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'23.4.2'"><code class="variable-quote">'</code><code class="variable-string">23.4.2</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'23.4.5'"><code class="variable-quote">'</code><code class="variable-string">23.4.5</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -17889,6 +17955,33 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </td>
   </tr></table>
   
+  <p>DEPRECATED, use function <a 
+  href="pygeodesy.formy-module.html#excessAbc_" 
+  class="link">excessAbc_</a>.</p>
+  <dl class="fields">
+    <dt>Decorators:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code>@deprecated_function</code></li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="excessAbc_"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">excessAbc_</span>&nbsp;(<span class="sig-arg">A</span>,
+        <span class="sig-arg">b</span>,
+        <span class="sig-arg">c</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
   <p>Compute the <i>spherical excess</i> <code>E</code> of a (spherical) 
   triangle from two sides and the included angle.</p>
   <dl class="fields">
@@ -17907,10 +18000,10 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Function <a href="pygeodesy.formy-module.html#excessGirard" 
-        class="link">excessGirard</a>, <a 
-        href="pygeodesy.formy-module.html#excessLHuilier" 
-        class="link">excessLHuilier</a>, <a 
+        Functions <a href="pygeodesy.formy-module.html#excessGirard_" 
+        class="link">excessGirard_</a>, <a 
+        href="pygeodesy.formy-module.html#excessLHuilier_" 
+        class="link">excessLHuilier_</a> and <a 
         href="https://WikiPedia.org/wiki/Spherical_trigonometry" 
         target="_top">Spherical trigonometry</a>.
       </p>
@@ -17924,6 +18017,33 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">excessGirard</span>&nbsp;(<span class="sig-arg">A</span>,
+        <span class="sig-arg">B</span>,
+        <span class="sig-arg">C</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>DEPRECATED, use function <a 
+  href="pygeodesy.formy-module.html#excessGirard_" 
+  class="link">excessGirard_</a>.</p>
+  <dl class="fields">
+    <dt>Decorators:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code>@deprecated_function</code></li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="excessGirard_"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">excessGirard_</span>&nbsp;(<span class="sig-arg">A</span>,
         <span class="sig-arg">B</span>,
         <span class="sig-arg">C</span>)</span>
   </h3>
@@ -17952,8 +18072,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Function <a href="pygeodesy.formy-module.html#excessLHuilier" 
-        class="link">excessLHuilier</a>, <a 
+        Function <a href="pygeodesy.formy-module.html#excessLHuilier_" 
+        class="link">excessLHuilier_</a> and <a 
         href="https://WikiPedia.org/wiki/Spherical_trigonometry" 
         target="_top">Spherical trigonometry</a>.
       </p>
@@ -18002,11 +18122,10 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Surface area, <i>signed</i> (<i>square</i> <code>meter</code>, or
-          units of <b><code>radius</code></b> <i>squared</i>) or 
-          <i>spherical excess</i> (<code>radians</code>) if 
-          <b><code>radius</code></b> is <code>None</code> or 
-          <code>0</code>.</dd>
+        <dd>Surface area, <i>signed</i> (<i>square</i> <code>meter</code> or 
+          the same units as <b><code>radius</code></b> <i>squared</i>) or 
+          the <i>spherical excess</i> (<code>radians</code>) if 
+          <code><b>radius</b>=0</code> or <code>None</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>radius</code></b>.</li>
@@ -18015,7 +18134,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Function <a href="pygeodesy.formy-module.html#excessKarney_" 
+        Functions <a href="pygeodesy.formy-module.html#excessKarney_" 
         class="link">excessKarney_</a> and <a 
         href="pygeodesy.formy-module.html#excessQuad" 
         class="link">excessQuad</a>.
@@ -18060,7 +18179,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.formy-module.html#excessKarney" 
-        class="link">excessKarney</a>, <a 
+        class="link">excessKarney</a> and <a 
         href="https://MathOverflow.net/questions/97711/the-area-of-spherical-polygons"
         target="_top">Area of a spherical polygon</a>.
       </p>
@@ -18074,6 +18193,33 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">excessLHuilier</span>&nbsp;(<span class="sig-arg">a</span>,
+        <span class="sig-arg">b</span>,
+        <span class="sig-arg">c</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>DEPRECATED, use function <a 
+  href="pygeodesy.formy-module.html#excessLHuilier_" 
+  class="link">excessLHuilier_</a>.</p>
+  <dl class="fields">
+    <dt>Decorators:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code>@deprecated_function</code></li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="excessLHuilier_"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">excessLHuilier_</span>&nbsp;(<span class="sig-arg">a</span>,
         <span class="sig-arg">b</span>,
         <span class="sig-arg">c</span>)</span>
   </h3>
@@ -18102,8 +18248,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Function <a href="pygeodesy.formy-module.html#excessGirard" 
-        class="link">excessGirard</a>, <a 
+        Function <a href="pygeodesy.formy-module.html#excessGirard_" 
+        class="link">excessGirard_</a> and <a 
         href="https://WikiPedia.org/wiki/Spherical_trigonometry" 
         target="_top">Spherical trigonometry</a>.
       </p>
@@ -18150,11 +18296,10 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Surface area, <i>signed</i> (<i>square</i> <code>meter</code>, or
-          units of <b><code>radius</code></b> <i>squared</i>) or 
-          <i>spherical excess</i> (<code>radians</code>) if 
-          <b><code>radius</code></b> is <code>None</code> or 
-          <code>0</code>.</dd>
+        <dd>Surface area, <i>signed</i> (<i>square</i> <code>meter</code> or 
+          the same units as <b><code>radius</code></b> <i>squared</i>) or 
+          the <i>spherical excess</i> (<code>radians</code>) if 
+          <code><b>radius</b>=0</code> or <code>None</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>radius</code></b>.</li>
@@ -20412,7 +20557,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fb83831dbd0&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f9ff87fbd50&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -29863,7 +30008,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Apr  2 08:41:10 2023
+    Generated by Epydoc 3.0.1 on Tue Apr  4 11:04:45 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

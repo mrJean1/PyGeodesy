@@ -337,6 +337,24 @@ def equirectangular3(lat1, lon1, lat2, lon2, **options):  # PYCHOK no cover
 
 
 @deprecated_function
+def excessAbc(A, b, c):
+    '''DEPRECATED, use function L{excessAbc_}.'''
+    return _MODS.formy.excessAbc_(A, b, c)
+
+
+@deprecated_function
+def excessGirard(A, B, C):
+    '''DEPRECATED, use function L{excessGirard_}.'''
+    return _MODS.formy.excessGirard_(A, B, C)
+
+
+@deprecated_function
+def excessLHuilier(a, b, c):
+    '''DEPRECATED, use function L{excessLHuilier_}.'''
+    return _MODS.formy.excessLHuilier_(a, b, c)
+
+
+@deprecated_function
 def false2f(value, name=_value_, false=True, Error=ValueError):  # PYCHOK no cover
     '''DEPRECATED, use function L{falsed2f}.'''
     return falsed2f(falsed=false, Error=Error, **{name: value})

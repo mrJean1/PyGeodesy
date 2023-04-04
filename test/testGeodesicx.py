@@ -5,7 +5,7 @@
 # and Python C{geographiclib} tests.
 
 __all__ = ('Tests',)
-__version__ = '23.03.27'
+__version__ = '23.04.04'
 
 from bases import _fLate, GeodSolve, geographiclib, isPython2, TestsBase
 
@@ -192,7 +192,7 @@ class Tests(TestsBase):
         self.subtitle(module, 'Polygon' + str(nC4))
 
         if nC4:
-            g.C4Order = nC4
+            g.C4order = nC4
         p = g.Polygon()  # GeodesicAreaExact(g)
 
         p.AddPoint( 0,    0)

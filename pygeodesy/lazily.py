@@ -154,6 +154,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'LatLonExact4Tuple', 'Ned3Tuple', 'RefFrameError', 'Rhumb7Tuple', 'Transform7Tuple', 'UtmUps4Tuple',
                                  'anStr', 'areaof', 'bounds', 'clipCS3', 'clipDMS', 'clipStr', 'collins',   # most of the DEPRECATED functions, ...
                                  'decodeEPSG2', 'encodeEPSG', 'equirectangular3', 'enStr2',   # ... except ellipsoidal, spherical flavors
+                                 'excessAbc', 'excessGirard', 'excessLHuilier',
                                  'false2f', 'falsed2f', 'fStr', 'fStrzs', 'hypot3', 'inStr', 'isDEPRECATED', 'isenclosedby', 'istuplist',
                                  'joined', 'joined_', 'nearestOn3', 'nearestOn4', 'parseUTM', 'perimeterof', 'polygon',
                                  'scalar', 'simplify2', 'tienstra', 'toUtm', 'unsign0', 'unStr', 'utmZoneBand2'),
@@ -201,7 +202,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'compassAngle', 'cosineForsytheAndoyerLambert', 'cosineForsytheAndoyerLambert_',
                                  'cosineAndoyerLambert', 'cosineAndoyerLambert_', 'cosineLaw', 'cosineLaw_',
                                  'equirectangular', 'equirectangular_', 'euclidean', 'euclidean_',
-                                 'excessAbc', 'excessGirard', 'excessLHuilier',
+                                 'excessAbc_', 'excessGirard_', 'excessLHuilier_',
                                  'excessKarney', 'excessKarney_', 'excessQuad', 'excessQuad_',
                                  'flatLocal', 'flatLocal_', 'flatPolar', 'flatPolar_',
                                  'hartzell', 'haversine', 'haversine_', 'heightOf', 'horizon', 'hubeny', 'hubeny_',
@@ -418,7 +419,7 @@ class _ALL_MODS(object):
 _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '23.03.30'
+__version__ = '23.04.05'
 
 
 def _ALL_OTHER(*objs):
