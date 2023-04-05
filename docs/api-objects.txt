@@ -14468,7 +14468,6 @@ pygeodesy.geodesicx.gxarea.GeodesicAreaExact.earth	pygeodesy.geodesicx.gxarea.Ge
 pygeodesy.geodesicx.gxarea.GeodesicAreaExact.area0	pygeodesy.geodesicx.gxarea.GeodesicAreaExact-class.html#area0
 pygeodesy.geodesicx.gxarea.GeodesicAreaExact.__init__	pygeodesy.geodesicx.gxarea.GeodesicAreaExact-class.html#__init__
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
-pygeodesy.geodesicx.gxarea.GeodesicAreaExact._reduce	pygeodesy.geodesicx.gxarea.GeodesicAreaExact-class.html#_reduce
 pygeodesy.named._Named._instr	pygeodesy.named._Named-class.html#_instr
 pygeodesy.geodesicx.gxarea.GeodesicAreaExact.ellipsoid	pygeodesy.geodesicx.gxarea.GeodesicAreaExact-class.html#ellipsoid
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
@@ -14483,7 +14482,7 @@ pygeodesy.geodesicx.gxarea.GeodesicAreaExact.AddEdge	pygeodesy.geodesicx.gxarea.
 pygeodesy.named._NamedBase.__repr__	pygeodesy.named._NamedBase-class.html#__repr__
 pygeodesy.geodesicx.gxarea.GeodesicAreaExact.Reset	pygeodesy.geodesicx.gxarea.GeodesicAreaExact-class.html#Reset
 pygeodesy.geodesicx.gxarea.GeodesicAreaExact._Inverse	pygeodesy.geodesicx.gxarea.GeodesicAreaExact-class.html#_Inverse
-pygeodesy.geodesicx.gxarea.GeodesicAreaExact.TestEdge	pygeodesy.geodesicx.gxarea.GeodesicAreaExact-class.html#TestEdge
+pygeodesy.geodesicx.gxarea.GeodesicAreaExact._reduced	pygeodesy.geodesicx.gxarea.GeodesicAreaExact-class.html#_reduced
 pygeodesy.geodesicx.gxarea.GeodesicAreaExact.Compute	pygeodesy.geodesicx.gxarea.GeodesicAreaExact-class.html#Compute
 pygeodesy.named._Named._iteration	pygeodesy.named._Named-class.html#_iteration
 pygeodesy.geodesicx.gxarea.GeodesicAreaExact.AddPoint	pygeodesy.geodesicx.gxarea.GeodesicAreaExact-class.html#AddPoint
@@ -14494,7 +14493,7 @@ pygeodesy.geodesicx.gxarea.GeodesicAreaExact._xings	pygeodesy.geodesicx.gxarea.G
 pygeodesy.geodesicx.gxarea.GeodesicAreaExact._mask	pygeodesy.geodesicx.gxarea.GeodesicAreaExact-class.html#_mask
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._Named._xrenamed	pygeodesy.named._Named-class.html#_xrenamed
-pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
+pygeodesy.geodesicx.gxarea.GeodesicAreaExact.TestEdge	pygeodesy.geodesicx.gxarea.GeodesicAreaExact-class.html#TestEdge
 pygeodesy.named._NamedBase.others	pygeodesy.named._NamedBase-class.html#others
 pygeodesy.named._Named._DOT_	pygeodesy.named._Named-class.html#_DOT_
 pygeodesy.named._Named.__rmatmul__	pygeodesy.named._Named-class.html#__rmatmul__
@@ -14512,6 +14511,7 @@ pygeodesy.named._Named.methodname	pygeodesy.named._Named-class.html#methodname
 pygeodesy.named._Named.rename	pygeodesy.named._Named-class.html#rename
 pygeodesy.geodesicx.gxarea.GeodesicAreaExact.num	pygeodesy.geodesicx.gxarea.GeodesicAreaExact-class.html#num
 pygeodesy.geodesicx.gxarea.GeodesicAreaExact.area0x	pygeodesy.geodesicx.gxarea.GeodesicAreaExact-class.html#area0x
+pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.geodesicx.gxarea.GeodesicAreaExact.lon1	pygeodesy.geodesicx.gxarea.GeodesicAreaExact-class.html#lon1
 pygeodesy.geodesicx.gxarea.GeodesicAreaExact.lon0	pygeodesy.geodesicx.gxarea.GeodesicAreaExact-class.html#lon0
 pygeodesy.named._Named.__matmul__	pygeodesy.named._Named-class.html#__matmul__
@@ -14536,7 +14536,6 @@ pygeodesy.geodesicx.gxarea.GeodesicAreaExact.earth	pygeodesy.geodesicx.gxarea.Ge
 pygeodesy.geodesicx.gxarea.GeodesicAreaExact.area0	pygeodesy.geodesicx.gxarea.GeodesicAreaExact-class.html#area0
 pygeodesy.geodesicx.gxarea.PolygonArea.__init__	pygeodesy.geodesicx.gxarea.PolygonArea-class.html#__init__
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
-pygeodesy.geodesicx.gxarea.GeodesicAreaExact._reduce	pygeodesy.geodesicx.gxarea.GeodesicAreaExact-class.html#_reduce
 pygeodesy.named._Named._instr	pygeodesy.named._Named-class.html#_instr
 pygeodesy.geodesicx.gxarea.GeodesicAreaExact.ellipsoid	pygeodesy.geodesicx.gxarea.GeodesicAreaExact-class.html#ellipsoid
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
@@ -14551,18 +14550,18 @@ pygeodesy.geodesicx.gxarea.GeodesicAreaExact.AddEdge	pygeodesy.geodesicx.gxarea.
 pygeodesy.named._NamedBase.__repr__	pygeodesy.named._NamedBase-class.html#__repr__
 pygeodesy.geodesicx.gxarea.GeodesicAreaExact.Reset	pygeodesy.geodesicx.gxarea.GeodesicAreaExact-class.html#Reset
 pygeodesy.geodesicx.gxarea.GeodesicAreaExact._Inverse	pygeodesy.geodesicx.gxarea.GeodesicAreaExact-class.html#_Inverse
-pygeodesy.geodesicx.gxarea.GeodesicAreaExact._Direct	pygeodesy.geodesicx.gxarea.GeodesicAreaExact-class.html#_Direct
+pygeodesy.geodesicx.gxarea.GeodesicAreaExact._reduced	pygeodesy.geodesicx.gxarea.GeodesicAreaExact-class.html#_reduced
 pygeodesy.geodesicx.gxarea.GeodesicAreaExact.Compute	pygeodesy.geodesicx.gxarea.GeodesicAreaExact-class.html#Compute
 pygeodesy.named._Named._iteration	pygeodesy.named._Named-class.html#_iteration
 pygeodesy.geodesicx.gxarea.GeodesicAreaExact._Area	pygeodesy.geodesicx.gxarea.GeodesicAreaExact-class.html#_Area
 pygeodesy.geodesicx.gxarea.GeodesicAreaExact.toStr	pygeodesy.geodesicx.gxarea.GeodesicAreaExact-class.html#toStr
 pygeodesy.geodesicx.gxarea.GeodesicAreaExact.Clear	pygeodesy.geodesicx.gxarea.GeodesicAreaExact-class.html#Clear
-pygeodesy.geodesicx.gxarea.GeodesicAreaExact.TestEdge	pygeodesy.geodesicx.gxarea.GeodesicAreaExact-class.html#TestEdge
+pygeodesy.geodesicx.gxarea.GeodesicAreaExact._Direct	pygeodesy.geodesicx.gxarea.GeodesicAreaExact-class.html#_Direct
 pygeodesy.geodesicx.gxarea.GeodesicAreaExact._xings	pygeodesy.geodesicx.gxarea.GeodesicAreaExact-class.html#_xings
 pygeodesy.geodesicx.gxarea.GeodesicAreaExact._mask	pygeodesy.geodesicx.gxarea.GeodesicAreaExact-class.html#_mask
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._Named._xrenamed	pygeodesy.named._Named-class.html#_xrenamed
-pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
+pygeodesy.geodesicx.gxarea.GeodesicAreaExact.TestEdge	pygeodesy.geodesicx.gxarea.GeodesicAreaExact-class.html#TestEdge
 pygeodesy.named._NamedBase.others	pygeodesy.named._NamedBase-class.html#others
 pygeodesy.named._Named._DOT_	pygeodesy.named._Named-class.html#_DOT_
 pygeodesy.named._Named.__rmatmul__	pygeodesy.named._Named-class.html#__rmatmul__
@@ -14580,6 +14579,7 @@ pygeodesy.named._Named.methodname	pygeodesy.named._Named-class.html#methodname
 pygeodesy.named._Named.rename	pygeodesy.named._Named-class.html#rename
 pygeodesy.geodesicx.gxarea.GeodesicAreaExact.num	pygeodesy.geodesicx.gxarea.GeodesicAreaExact-class.html#num
 pygeodesy.geodesicx.gxarea.GeodesicAreaExact.area0x	pygeodesy.geodesicx.gxarea.GeodesicAreaExact-class.html#area0x
+pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.geodesicx.gxarea.GeodesicAreaExact.lon1	pygeodesy.geodesicx.gxarea.GeodesicAreaExact-class.html#lon1
 pygeodesy.geodesicx.gxarea.GeodesicAreaExact.lon0	pygeodesy.geodesicx.gxarea.GeodesicAreaExact-class.html#lon0
 pygeodesy.named._Named.__matmul__	pygeodesy.named._Named-class.html#__matmul__

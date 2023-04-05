@@ -30,7 +30,7 @@ from pygeodesy.props import Property, Property_RO, property_RO
 from math import fmod
 
 __all__ = ()
-__version__ = '23.04.04'
+__version__ = '23.04.05'
 
 
 class GeodesicAreaExact(_NamedBase):
@@ -101,7 +101,7 @@ class GeodesicAreaExact(_NamedBase):
             a = self._Area.Add(r.S12)
             self._xings += r.xing
         else:
-            a = _0_0
+            a = NAN
         self._lat1 = r.lat2
         self._lon1 = r.lon2
         self._num += 1
@@ -124,7 +124,7 @@ class GeodesicAreaExact(_NamedBase):
                 a = self._Area.Add(r.S12)
                 self._xings += r.xing
             else:
-                a = _0_0
+                a = NAN
         else:
             self._lat0 = lat
             self._lon0 = lon
@@ -172,19 +172,17 @@ class GeodesicAreaExact(_NamedBase):
 
            @note: More points and edges can be added after this call.
         '''
-        n = self.num
+        r, n = None, self.num
         if n < 2:
             p = _0_0
-            a = NAN if self.polyline else _0_0
-            r = None
+            a = NAN if self.polyline else p
         elif self._Area:
             r = self._Inverse(self.lat1, self.lon1, self.lat0, self.lon0)
+            a = self._reduced(r.S12, reverse, sign, r.xing)
             p = self._Peri.Sum(r.s12)
-            a = self._reduce(r.S12, reverse, sign, r.xing)
         else:
             p = self._Peri.Sum()
             a = NAN
-            r = None
         if self.verbose:  # PYCHOK no cover
             self._print(n, p, a, r, lat0=self.lat0, lon0=self.lon0)
         return Area3Tuple(n, p, a)
@@ -280,7 +278,7 @@ class GeodesicAreaExact(_NamedBase):
         t = _COMMASPACE_.join(pairs(d, prec=10))
         printf('%s %s: %s (%s)', self.named2, n, t, callername(up=2))
 
-    def _reduce(self, S12, reverse, sign, xing):
+    def _reduced(self, S12, reverse, sign, xing):
         '''(INTERNAL) Accumulate and reduce area to allowed range.
         '''
         a0 =  self.area0x
@@ -340,7 +338,7 @@ class GeodesicAreaExact(_NamedBase):
         else:
             d  = self._Direct(azi, s)
             r  = self._Inverse(d.lat2, d.lon2, self.lat0, self.lon0)
-            a  = self._reduce(d.S12 + r.S12, reverse, sign, d.xing + r.xing)
+            a  = self._reduced(d.S12 + r.S12, reverse, sign, d.xing + r.xing)
             p += r.s12
         if self.verbose:  # PYCHOK no cover
             self._print(n, p, a, r, azi=azi, s=s)
@@ -361,19 +359,19 @@ class GeodesicAreaExact(_NamedBase):
 
            @return: L{Area3Tuple}C{(number, perimeter, area)}.
         '''
-        n = self.num + 1
+        r, n = None, self.num + 1
         if n < 2:
-            r, p = None, _0_0
+            p = _0_0
             a = NAN if self.polyline else p
         else:
             i = self._Inverse(self.lat1, self.lon1, lat, lon)
             p = self._Peri.Sum(i.s12)
             if self._Area:
                 r  = self._Inverse(lat, lon, self.lat0, self.lon0)
-                a  = self._reduce(i.S12 + r.S12, reverse, sign, i.xing + r.xing)
+                a  = self._reduced(i.S12 + r.S12, reverse, sign, i.xing + r.xing)
                 p += r.s12
             else:
-                a, r = NAN, None
+                a = NAN
         if self.verbose:  # PYCHOK no cover
             self._print(n, p, a, r, lat=lat, lon=lon)
         return Area3Tuple(n, p, a)
@@ -471,9 +469,10 @@ class _Accumulator(_NamedBase):
     def Remainder(self, y):
         '''Remainder on division by B{C{y}}.
 
-           @return: Current C{sum} / B{C{y}}.
+           @return: Remainder of C{sum} / B{C{y}}.
         '''
         self._s = _remainder(self._s, y)
+#       self._t = _remainder(self._t, y)
         self._n = -1
         return self.Add(_0_0)
 
