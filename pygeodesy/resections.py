@@ -9,6 +9,8 @@ L{triAngle4}, L{triSide}, L{triSide2} and L{triSide4}.
        <http://www.Telecom.ULg.ac.Be/triangulation/doc/total_8c.html>} and U{Pierlot
        <http://www.Telecom.ULg.ac.Be/publi/publications/pierlot/Pierlot2014ANewThree>}.
 '''
+# make sure int/int division yields float quotient
+from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import map1, _ALL_LAZY
 from pygeodesy.constants import EPS, EPS0, EPS02, INT0, PI, PI2, PI_2, PI_4, isnear0, \
@@ -28,7 +30,7 @@ from pygeodesy.vector3d import _otherV3d, Vector3d
 from math import cos, atan2, degrees, fabs, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.resections
-__version__ = '23.04.02'
+__version__ = '23.04.09'
 
 _concyclic_ = 'concyclic'
 _PA_        = 'PA'

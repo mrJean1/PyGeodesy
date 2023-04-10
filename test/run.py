@@ -12,7 +12,7 @@ from os import access, environ, F_OK, linesep as LS, pathsep as PS
 import sys
 
 __all__ = ('run2',)
-__version__ = '23.03.28'
+__version__ = '23.04.07'
 
 NL = '\n'  # pygeodesy.interns._NL_
 P  = None  # Popen instance
@@ -246,6 +246,7 @@ if __name__ == '__main__':  # MCCABE 19
 
     if _results:  # save all test results
         t = '-'.join(['testresults'] + v.split()) + '.txt'
+        t = clips(t, 200)  # isWindows MAX?
         t = join(PyGeodesy_dir, 'testresults', t)
         _results = open(t, 'wb')  # note, 'b' not 't'!
         _write('%s typical test results (%s)%s' % (argv0, v, NL))

@@ -32,7 +32,7 @@ from pygeodesy.vector3dBase import Vector3dBase
 # from math import fabs, sqrt  # from .fmath
 
 __all__ = _ALL_LAZY.vector3d
-__version__ = '22.10.23'
+__version__ = '23.04.10'
 
 
 class Vector3d(Vector3dBase):
@@ -400,7 +400,7 @@ class Vector3d(Vector3dBase):
                              center3=center3, radius3=radius3)
 
 
-def _intersect3d3(start1, end1, start2, end2, eps=EPS, useZ=False):  # MCCABE 16 in .rhumbx._RhumbLine
+def _intersect3d3(start1, end1, start2, end2, eps=EPS, useZ=False):  # MCCABE 16 in .formy.intersection2, .rhumbx._RhumbLine
     # (INTERNAL) Intersect two lines, see L{intersection3d3} below,
     # separated to allow callers to embellish any exceptions
 
@@ -545,11 +545,11 @@ def intersections2(center1, radius1, center2, radius2, sphere=True, **Vector_and
 
        @return: If B{C{sphere}} is C{True}, a 2-tuple of the C{center} and C{radius}
                 of the intersection of the I{spheres}.  The C{radius} is C{0.0} for
-                abutting spheres (and the C{center} is aka I{radical center}).
+                abutting spheres (and the C{center} is aka the I{radical center}).
 
                 If B{C{sphere}} is C{False}, a 2-tuple with the two intersection
                 points of the I{circles}.  For abutting circles, both points are
-                the same instance, aka I{radical center}.
+                the same instance, aka the I{radical center}.
 
        @raise IntersectionError: Concentric, invalid or non-intersecting spheres
                                  or circles.
@@ -571,7 +571,7 @@ def intersections2(center1, radius1, center2, radius2, sphere=True, **Vector_and
 
 
 def _intersects2(center1, r1, center2, r2, sphere=True, too_d=None,  # in CartesianEllipsoidalBase.intersections2,
-                                         **clas_Vector_and_kwds):  # .ellipsoidalBaseDI._intersections2
+                                         **clas_Vector_and_kwds):  # .ellipsoidalBaseDI._intersections2, .formy.intersections2
     # (INTERNAL) Intersect two spheres or circles, see L{intersections2}
     # above, separated to allow callers to embellish any exceptions
 

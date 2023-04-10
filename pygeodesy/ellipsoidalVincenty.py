@@ -70,7 +70,7 @@ from pygeodesy.utily import atan2b, atan2d, sincos2, sincos2d, unroll180, wrap18
 from math import atan2, cos, degrees, fabs, radians, tan
 
 __all__ = _ALL_LAZY.ellipsoidalVincenty
-__version__ = '23.03.20'
+__version__ = '23.04.09'
 
 _antipodal_to_ = _SPACE_(_antipodal_, _to_)
 _limit_        = 'limit'  # PYCHOK used!
@@ -403,7 +403,7 @@ def intersection3(start1, end1, start2, end2, height=None, wrap=True,
                   equidistant=None, tol=_TOL_M, LatLon=LatLon, **LatLon_kwds):
     '''Iteratively compute the intersection point of two paths, each defined
        by two (ellipsoidal) points or by an (ellipsoidal) start point and an
-       initial bearing from North.
+       (initial) bearing from North.
 
        @arg start1: Start point of the first path (L{LatLon}).
        @arg end1: End point of the first path (L{LatLon}) or the initial bearing

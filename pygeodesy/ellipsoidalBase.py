@@ -35,7 +35,7 @@ from pygeodesy.units import Epoch, _1mm as _TOL_M, Radius_
 # from math import fabs  # from .karney
 
 __all__ = _ALL_LAZY.ellipsoidalBase
-__version__ = '23.04.02'
+__version__ = '23.04.10'
 
 
 class CartesianEllipsoidalBase(CartesianBase):
@@ -77,11 +77,11 @@ class CartesianEllipsoidalBase(CartesianBase):
 
            @return: If B{C{sphere}} is C{True}, a 2-tuple of the C{center} and C{radius}
                     of the intersection of the I{spheres}.  The C{radius} is C{0.0} for
-                    abutting spheres (and the C{center} is aka I{radical center}).
+                    abutting spheres (and the C{center} is aka the I{radical center}).
 
                     If B{C{sphere}} is C{False}, a 2-tuple with the two intersection
                     points of the I{circles}.  For abutting circles, both points are
-                    the same instance, aka I{radical center}.
+                    the same instance, aka the I{radical center}.
 
            @raise IntersectionError: Concentric, invalid or non-intersecting spheres or circles.
 
@@ -94,10 +94,10 @@ class CartesianEllipsoidalBase(CartesianBase):
                  Intersection and function L{pygeodesy.radical2}.
         '''
         try:
-            return _MODS.vector3d._intersects2(self,    Radius_(radius=radius),
-                                               center2, Radius_(radius2=radius2),
-                                               sphere=sphere, clas=self.classof,
-                                               Vector=Vector, **Vector_kwds)
+            return _MODS.vector3d._intersects2(self, Radius_(radius=radius),
+                                            center2, Radius_(radius2=radius2),
+                                            sphere=sphere, clas=self.classof,
+                                            Vector=Vector, **Vector_kwds)
         except (TypeError, ValueError) as x:
             raise _xError(x, center=self, radius=radius, center2=center2, radius2=radius2)
 
@@ -529,7 +529,7 @@ class LatLonEllipsoidalBase(LatLonBase):
 
            @return: 2-Tuple of the intersection points, each a C{LatLon}
                     instance.  For abutting circles, both intersection
-                    points are the same instance, aka I{radical center}.
+                    points are the same instance, aka the I{radical center}.
 
            @raise ImportError: Package U{geographiclib
                                <https://PyPI.org/project/geographiclib>}

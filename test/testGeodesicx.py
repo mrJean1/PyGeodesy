@@ -5,7 +5,7 @@
 # and Python C{geographiclib} tests.
 
 __all__ = ('Tests',)
-__version__ = '23.04.04'
+__version__ = '23.04.08'
 
 from bases import _fLate, GeodSolve, geographiclib, isPython2, TestsBase
 
@@ -221,7 +221,7 @@ class Tests(TestsBase):
 
 if __name__ == '__main__':
 
-    from pygeodesy import Ellipsoids, geodesicx, geodsolve, karney
+    from pygeodesy import Ellipsoids, geodesicw, geodesicx, geodsolve
     from sys import argv
 
     _debug = '-d' in argv or '--debug' in argv
@@ -242,7 +242,7 @@ if __name__ == '__main__':
         t.testPolygon(geodsolve, E.geodsolve)
 
     if geographiclib:
-        t.testPolygon(karney, E.geodesic, K=True)  # XXX geographiclib 1.49 issue?
+        t.testPolygon(geodesicw, E.geodesic, K=True)  # XXX geographiclib 1.49 issue?
 
     t.results()
     t.exit()

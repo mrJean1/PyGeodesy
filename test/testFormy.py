@@ -4,7 +4,7 @@
 # Test L{formy} module.
 
 __all__ = ('Tests',)
-__version__ = '23.04.03'
+__version__ = '23.04.10'
 
 from bases import TestsBase
 
@@ -14,9 +14,10 @@ from pygeodesy import PI, PI_2, R_M, antipode, bearing, cosineAndoyerLambert, \
                       excessAbc_, excessGirard_, excessLHuilier_, excessKarney, \
                       excessQuad, flatLocal, flatPolar, formy, hartzell, \
                       haversine, heightOf, horizon, hubeny, IntersectionError, \
-                      intersections2, isantipode, isantipode_, isnormal, isnormal_, \
-                      LatLon_, latlonDMS, LimitError, limiterrors, map1, normal, \
-                      parseDMS, radical2, thomas, Vector3d as V3, vincentys
+                      intersection2, intersections2, isantipode, isantipode_, \
+                      isnormal, isnormal_, LatLon_, latlonDMS, LimitError, \
+                      limiterrors, map1, normal, parseDMS, radical2, thomas, \
+                      Vector3d as V3, vincentys
 
 from math import degrees, radians
 
@@ -172,7 +173,12 @@ class Tests(TestsBase):
                                  parseDMS('17  5 21.296'), parseDMS('85 31 54.631'),
                                  x=8044806.076, datum=Datums.NAD27)  # Clarke1866 ellipsoid
 
-        self.test(intersections2.__name__, intersections2.__module__, formy.__name__)
+        self.test(intersection2.__name__, intersection2.__module__, formy.__name__)
+        for datum in (None, R_M, Datums.WGS84):
+            t = str(intersection2(0, 0, 30, 0, 30, -30, datum))
+            self.test('%s(%s)' % (intersection2.__name__, datum), t, '(24.284126, 15.0)', known=t.endswith(' 15.0)'))
+
+        self.test(intersections2.__name__, intersections2.__module__, formy.__name__, nl=1)
         for datum in (None, R_M, Datums.WGS84):
             self.testIntersections2(datum)
 
@@ -202,7 +208,7 @@ class Tests(TestsBase):
         # longitudes are farther and farther out
         for d in (1, 2, 5, 10, 20, 30, 40):
             r = radians(2 * d) * R_M
-            n = 'intersection2 (%s) %d' % (getattr(datum, 'name', datum), d)
+            n = '%s(%s) %d' % (intersections2.__name__, getattr(datum, 'name', datum), d)
             try:
                 t = intersections2(d, -d, r, -d, d, r, datum=datum)
                 if t[0] is t[1]:

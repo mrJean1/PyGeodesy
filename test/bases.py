@@ -50,7 +50,7 @@ __all__ = ('coverage', 'GeodSolve', 'geographiclib',  # constants
            'RandomLatLon', 'TestsBase',  # classes
            'ios_ver', 'nix_ver', 'secs2str',  # functions
            'tilde', 'type2str', 'versions')
-__version__ = '22.09.02'
+__version__ = '23.04.07'
 
 try:
     geographiclib = basics._xgeographiclib(basics, 1, 50)
@@ -280,7 +280,7 @@ class TestsBase(object):
         self.skipped += n
         if text and self._verbose:
             t = 'test' if n < 2 else '%s tests' % (n,)
-            self.printf('%s %s (%d): %s', t, _skipped_, self.skipped, text)
+            self.printf('%s %s (%d): %s', t, _skipped_, self.skipped, text, nl=1)
 
     def subtitle(self, module, testing='ing', **kwds):
         '''Print the subtitle of a test suite.
@@ -538,8 +538,7 @@ def versions():
         if geographiclib:
             from pygeodesy.karney import _K_2_0, _wrapped
             if _wrapped.Math:
-                vs += 'geoMath',
-            vs += ('_K_2_0' if _K_2_0 else '_K_1_0'),
+                vs += 'Math', ('_K_2_0' if _K_2_0 else '_K_1_0')
 
         for t in (GeoConvert, GeodSolve, RhumbSolve):
             vs += _name_version(t)

@@ -245,7 +245,7 @@
     command line: <code>epydoc --html --no-private --no-source 
     --name=PyGeodesy --url=... -v pygeodesy</code>).</p>
   <h1 class="heading">Tests</h1>
-    <p>The tests ran with Python 3.11.2 (with <a 
+    <p>The tests ran with Python 3.11.3 (with <a 
     href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 2.0, <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.24.2 
@@ -283,20 +283,20 @@
     results of those tests are included in the distribution files.</p>
     <p>Test coverage has been measured with <a 
     href="https://PyPI.org/project/coverage" target="_top">coverage</a> 
-    7.2.2 using only Python 3.11.2 and 3.10.8.  The complete coverage 
+    7.2.2 using only Python 3.11.3 and 3.10.8.  The complete coverage 
     report in HTML and a PDF summary are included in the distribution 
     files.</p>
-    <p>Python 3.11.2, 3.10.8 and 3.9.6 ran on Apple M1 Silicon 
+    <p>Python 3.11.3, 3.10.8 and 3.9.6 ran on Apple M1 Silicon 
     (<code>arm64</code>), <i>natively</i>.  Python 3.8.10 and 2.7.18 ran on
     Intel (<code>x86_64</code>) or Intel <i>emulation</i> 
     (&quot;<code>arm64_x86_64</code>&quot;, see function <a 
     href="pygeodesy.interns-module.html#machine" 
     class="link">pygeodesy.machine</a>).</p>
-    <p>The tests also ran with Python 3.11.2 (and <a 
+    <p>The tests also ran with Python 3.11.3 (and <a 
     href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 2.0) on <a 
     href="https://Cirrus-CI.com/github/mrJean1/PyGeodesy/master" 
-    target="_top">Debian 11</a> in 64-bit only and with Python 3.11.2, 
+    target="_top">Debian 11</a> in 64-bit only and with Python 3.11.3, 
     3.10.10 and 2.7.18 (all with <a 
     href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 1.52) on <a 
@@ -307,11 +307,11 @@
     href="https://PyPI.org/project/pyinstaller" 
     target="_top">PyInstaller</a> 3.4 and 64-bit Python 3.7.3 on macOS 
     10.13.6 High Sierra.</p>
-    <p>Previously, the tests were run with Python 3.10.1-7, 3.9.1, 3.8.7, 
-    3.7.1, 2.7.15, <a href="https://PyPy.org" target="_top">PyPy</a> 7.3.1 
-    (Python 3.6.9) and <a href="https://PyPy.org" target="_top">PyPy</a> 
-    7.1.1 (Python 2.7.13) (and <a 
-    href="https://PyPI.org/project/geographiclib" 
+    <p>Previously, the tests were run with Python 3.11.2, 3.10.1-7, 3.9.1, 
+    3.8.7, 3.7.1, 2.7.15, <a href="https://PyPy.org" 
+    target="_top">PyPy</a>7.3.1 (Python 3.6.9) and <a 
+    href="https://PyPy.org" target="_top">PyPy</a> 7.1.1 (Python 2.7.13) 
+    (and <a href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 1.52, <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.16.3, 
     1.16.4, 1.16.6, 1.19.0, 1.19.4, 1.19.5 or 1.22.4 and <a 
@@ -350,7 +350,7 @@
     target="_top">PyCodeStyle</a> (formerly Pep8) and <a 
     href="https://PyPI.org/project/mccabe" target="_top">McCabe</a> using 
     Python 2.7.18 and with <a href="https://PyPI.org/project/flake8" 
-    target="_top">Flake8</a> using Python 3.11.2, both in 64-bit on macOS 
+    target="_top">Flake8</a> using Python 3.11.3, both in 64-bit on macOS 
     13.2.1 Ventura.</p>
     <p>For a summary of all <i>Karney</i>-based functionality in 
     <code>pygeodesy</code>, see module <a 
@@ -528,7 +528,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        23.04.06
+        23.04.11
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -626,6 +626,11 @@
         <i>running</i> summation, based on respectively similar to Python's
         <code>math.fsum</code>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.gars-module.html">pygeodesy.gars</a></strong>: <em class="summary"><i>Global Area Reference System</i> (GARS) en-/decoding.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.geodesicw-module.html">pygeodesy.geodesicw</a></strong>: <em class="summary">Wrapper around Python classes <code>geodesic.Geodesic</code> and 
+        <code>geodesicline.GeodesicLine</code> from <i>Karney</i>'s Python 
+        package <a href="https://PyPI.org/project/geographiclib" 
+        target="_top">geographiclib</a>, provided that package is 
+        installed.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.geodesicx-module.html">pygeodesy.geodesicx</a></strong>: <em class="summary">A pure Python version of <i>Karney</i>'s C++ classes <a 
         href="https://GeographicLib.SourceForge.io/C++/classGeographicLib_1_1GeodesicExact.html"
         target="_top">GeodesicExact</a> and <a 
@@ -672,9 +677,11 @@
         href="pygeodesy.interns-module.html#machine" 
         class="link">pygeodesy.machine</a>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.iters-module.html">pygeodesy.iters</a></strong>: <em class="summary">Iterators with options.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.karney-module.html">pygeodesy.karney</a></strong>: <em class="summary"><i>Charles F.F. Karney</i>'s <a 
+    <li> <strong class="uidlink"><a href="pygeodesy.karney-module.html">pygeodesy.karney</a></strong>: <em class="summary">Wrapper around several <code>geomath.Math</code> functions from 
+        <i>Karney</i>'s Python package <a 
         href="https://PyPI.org/project/geographiclib" 
-        target="_top">geographiclib</a> <code>geodesic</code>, wrapped.</em>    </li>
+        target="_top">geographiclib</a>, provided that package is 
+        installed.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ktm-module.html">pygeodesy.ktm</a></strong>: <em class="summary">A pure Python version of <i>Karney</i>'s C++ class <a 
         href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1TransverseMercator.html"
         target="_top">TransverseMercator</a> based on <i>Kr&#252;ger</i> series.</em>    </li>
@@ -4694,6 +4701,76 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#Geodesic" class="summary-sig-name">Geodesic</a>(<span class="summary-sig-arg">a_ellipsoid</span>,
+        <span class="summary-sig-arg">f</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+      Return a <i>wrapped</i> <code>geodesic.Geodesic</code> instance from 
+      <i>Karney</i>'s Python <a 
+      href="https://PyPI.org/project/geographiclib" 
+      target="_top">geographiclib</a>, provide the latter is installed, 
+      otherwise an <code>ImportError</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#GeodesicLine" class="summary-sig-name">GeodesicLine</a>(<span class="summary-sig-arg">geodesic</span>,
+        <span class="summary-sig-arg">lat1</span>,
+        <span class="summary-sig-arg">lon1</span>,
+        <span class="summary-sig-arg">azi1</span>,
+        <span class="summary-sig-arg">*caps</span>)</span><br />
+      Return a <i>wrapped</i> <code>geodesicline.GeodesicLine</code> 
+      instance from <i>Karney</i>'s Python <a 
+      href="https://PyPI.org/project/geographiclib" 
+      target="_top">geographiclib</a>, provided the latter is installed, 
+      otherwise an <code>ImportError</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="Geodesic_WGS84"></a><span class="summary-sig-name">Geodesic_WGS84</span>()</span><br />
+      Get the <i>wrapped</i> <a 
+      href="pygeodesy.geodesicw-module.html#Geodesic" 
+      class="link">Geodesic</a><code>(WGS84)</code> singleton, provided <a 
+      href="https://PyPI.org/project/geographiclib" 
+      target="_top">geographiclib</a> is installed, otherwise an 
+      <code>ImportError</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a name="HeightIDW"></a><span class="summary-sig-name">HeightIDW</span>(<span class="summary-sig-arg">knots</span>,
         <span class="summary-sig-arg">**kwds</span>)</span><br />
       DEPRECATED, use class <a 
@@ -8238,7 +8315,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fabc0361cd0&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fa178b67450&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -8552,6 +8629,32 @@
         <span class="summary-sig-arg">*args</span>,
         <span class="summary-sig-arg">**kwds</span>)</span><br />
       Return the string representation of an instantiation.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#intersection2" class="summary-sig-name">intersection2</a>(<span class="summary-sig-arg">lat1</span>,
+        <span class="summary-sig-arg">lon1</span>,
+        <span class="summary-sig-arg">bearing1</span>,
+        <span class="summary-sig-arg">lat2</span>,
+        <span class="summary-sig-arg">lon2</span>,
+        <span class="summary-sig-arg">bearing2</span>,
+        <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>)</span><br />
+      <i>Conveniently</i> compute the intersection of two lines each 
+      defined by a (geodetic) point and a bearing from North, using either 
+      ...</td>
           <td align="right" valign="top">
             
             
@@ -12755,7 +12858,7 @@ ygeodesy'"><code class="variable-quote">'</code><code class="variable-string">/U
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'23.4.6'"><code class="variable-quote">'</code><code class="variable-string">23.4.6</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'23.4.11'"><code class="variable-quote">'</code><code class="variable-string">23.4.11</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -13544,6 +13647,84 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     <span class="table-header">Function Details</span></td>
 </tr>
 </table>
+<a name="Geodesic"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">Geodesic</span>&nbsp;(<span class="sig-arg">a_ellipsoid</span>,
+        <span class="sig-arg">f</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return a <i>wrapped</i> <code>geodesic.Geodesic</code> instance from 
+  <i>Karney</i>'s Python <a href="https://PyPI.org/project/geographiclib" 
+  target="_top">geographiclib</a>, provide the latter is installed, 
+  otherwise an <code>ImportError</code>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>a_ellipsoid</code></strong> - An ellipsoid (<a href="pygeodesy.ellipsoids.Ellipsoid-class.html"
+          class="link">Ellipsoid</a>) or datum (<a 
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>) 
+          or the equatorial radius <i>a</i> of the ellipsoid 
+          (<code>meter</code>).</li>
+        <li><strong class="pname"><code>f</code></strong> - The flattening of the ellipsoid (<code>scalar</code>), ignored if
+          <b><code>a_ellipsoid</code></b>) is not specified as 
+          <code>meter</code>.</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional ellipsoid name (<code>str</code>), ignored like 
+          <b><code>f</code></b>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="GeodesicLine"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">GeodesicLine</span>&nbsp;(<span class="sig-arg">geodesic</span>,
+        <span class="sig-arg">lat1</span>,
+        <span class="sig-arg">lon1</span>,
+        <span class="sig-arg">azi1</span>,
+        <span class="sig-arg">*caps</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return a <i>wrapped</i> <code>geodesicline.GeodesicLine</code> 
+  instance from <i>Karney</i>'s Python <a 
+  href="https://PyPI.org/project/geographiclib" 
+  target="_top">geographiclib</a>, provided the latter is installed, 
+  otherwise an <code>ImportError</code>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>geodesic</code></strong> - A <i>wrapped</i> <a 
+          href="pygeodesy.geodesicw-module.html#Geodesic" 
+          class="link">Geodesic</a> instance.</li>
+        <li><strong class="pname"><code>lat1</code></strong> - Latitude of the first points (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lon1</code></strong> - Longitude of the first points (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>azi1</code></strong> - Azimuth at the first points (compass <code>degrees360</code>).</li>
+        <li><strong class="pname"><code>caps</code></strong> - Optional, bit-or'ed combination of Caps values specifying the 
+          capabilities the <code>GeodesicLine</code> instance should 
+          possess, i.e., which quantities can be returned by calls to 
+          <code>GeodesicLine.Position</code> and 
+          <code>GeodesicLine.ArcPosition</code>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="NM2m"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -20557,7 +20738,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fabc0361cd0&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fa178b67450&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -21248,6 +21429,90 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   </dl>
 </td></tr></table>
 </div>
+<a name="intersection2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">intersection2</span>&nbsp;(<span class="sig-arg">lat1</span>,
+        <span class="sig-arg">lon1</span>,
+        <span class="sig-arg">bearing1</span>,
+        <span class="sig-arg">lat2</span>,
+        <span class="sig-arg">lon2</span>,
+        <span class="sig-arg">bearing2</span>,
+        <span class="sig-arg">datum</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">True</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p><i>Conveniently</i> compute the intersection of two lines each defined
+  by a (geodetic) point and a bearing from North, using either ...</p>
+  <p>1) <a href="pygeodesy.vector3d-module.html#intersection3d3" 
+  class="link">vector3d.intersection3d3</a> for small distances (below 100 
+  KM or about 0.9 degrees) or if no <b><code>datum</code></b> is specified,
+  or ...</p>
+  <p>2) <a href="pygeodesy.sphericalTrigonometry-module.html#intersection" 
+  class="link">sphericalTrigonometry.intersection</a> for a spherical 
+  <b><code>datum</code></b> or if <b><code>datum</code></b> is a 
+  <code>scalar</code> representing the earth radius, conventionally in 
+  <code>meter</code> or ...</p>
+  <p>3) <a href="pygeodesy.ellipsoidalKarney-module.html#intersection3" 
+  class="link">ellipsoidalKarney.intersection3</a> for an ellipsoidal 
+  <b><code>datum</code></b> and if <i>Karney</i>'s <a 
+  href="https://PyPI.org/project/geographiclib" 
+  target="_top">geographiclib</a> is installed, otherwise ...</p>
+  <p>4) <a href="pygeodesy.ellipsoidalExact-module.html#intersection3" 
+  class="link">ellipsoidalExact.intersection3</a>, provided 
+  <b><code>datum</code></b> is ellipsoidal.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>lat1</code></strong> - Latitude of the first point (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lon1</code></strong> - Longitude of the first point (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>bearing1</code></strong> - Bearing at the first point (compass <code>degrees</code>).</li>
+        <li><strong class="pname"><code>lat2</code></strong> - Latitude of the second point (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lon2</code></strong> - Longitude of the second point (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>bearing2</code></strong> - Bearing at the second point (compass <code>degrees</code>).</li>
+        <li><strong class="pname"><code>datum</code></strong> - Optional ellipsoidal or spherical datum (<a 
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>, 
+          <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+          class="link">Ellipsoid</a>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
+          class="link">Ellipsoid2</a>, <a 
+          href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
+          class="link">a_f2Tuple</a> or <code>scalar</code> earth radius in
+          <code>meter</code>) or <code>None</code>.</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A <a href="pygeodesy.namedTuples.LatLon2Tuple-class.html" 
+          class="link">LatLon2Tuple</a><code>(lat, lon)</code> with the 
+          lat- and longitude of the intersection point.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - Ambiguous or infinite intersection or colinear, parallel or 
+        otherwise non-intersecting paths.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>datum</code></b>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.UnitError-class.html">UnitError</a></strong></code> - Invalid <b><code>lat1</code></b>, <b><code>lon1</code></b>, 
+        <b><code>bearing1</code></b>, <b><code>lat2</code></b>, 
+        <b><code>lon2</code></b> or <b><code>bearing2</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Method <a 
+        href="pygeodesy.rhumbx._RhumbLine-class.html#intersection2" 
+        class="link">RhumbLine.intersection2</a>.
+      </p>
+      <p><strong>Note:</strong>
+        The returned intersections may be antipodal or near-antipodal.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="intersection3d3"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -21377,10 +21642,10 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           the <code>center</code> and <code>radius</code> of the 
           intersection of the <i>spheres</i>.  The <code>radius</code> is 
           <code>0.0</code> for abutting spheres (and the 
-          <code>center</code> is aka <i>radical center</i>).
+          <code>center</code> is aka the <i>radical center</i>).
           <p>If <b><code>sphere</code></b> is <code>False</code>, a 2-tuple
           with the two intersection points of the <i>circles</i>.  For 
-          abutting circles, both points are the same instance, aka 
+          abutting circles, both points are the same instance, aka the 
           <i>radical center</i>.</p></dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
@@ -30008,7 +30273,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Apr  5 15:47:12 2023
+    Generated by Epydoc 3.0.1 on Mon Apr 10 13:17:48 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

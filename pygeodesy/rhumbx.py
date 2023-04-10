@@ -51,7 +51,7 @@ from pygeodesy.vector3d import _intersect3d3, Vector3d  # in .intersection2 belo
 from math import asinh, atan, cos, cosh, fabs, radians, sin, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.rhumbx
-__version__ = '23.03.25'
+__version__ = '23.04.10'
 
 _rls   = []  # instances of C{RbumbLine} to be updated
 _TRIPS = 65  # .intersection2, 18+
@@ -531,8 +531,8 @@ class _RhumbLine(_RhumbBase):
             self._salp, self._calp = sincos2d(z)  # no NEG0
 
     def distance2(self, lat, lon):
-        '''Return the distance and (initial) bearing of a point
-           to this rhumb line's start point.
+        '''Return the distance from and (initial) bearing at the given
+           point to this rhumb line's start point.
 
            @arg lat: Latitude of the point (C{degrees}).
            @arg lon: Longitude of the points (C{degrees}).

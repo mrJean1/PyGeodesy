@@ -141,10 +141,46 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#Arc" class="summary-sig-name">Arc</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Return the arc length to reference point 3 (<code>degrees</code> or 
+      <code>NAN</code>).</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#ArcPosition" class="summary-sig-name">ArcPosition</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">a12</span>,
         <span class="summary-sig-arg">outmask</span>=<span class="summary-sig-default">3968</span>)</span><br />
       Find the position on the line given <b><code>a12</code></b>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#Distance" class="summary-sig-name">Distance</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Return the distance to reference point 3 (<code>meter</code> or 
+      <code>NAN</code>).</td>
           <td align="right" valign="top">
             
             
@@ -181,7 +217,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#SetArc" class="summary-sig-name">SetArc</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">a13</span>)</span><br />
-      Set reference point 3 in terms of distance to the first point.</td>
+      Set reference point 3 in terms relative to the first point.</td>
           <td align="right" valign="top">
             
             
@@ -199,7 +235,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#SetDistance" class="summary-sig-name">SetDistance</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">s13</span>)</span><br />
-      Set reference point 3 in terms of distance to the first point.</td>
+      Set reference point 3 in terms relative to the first point.</td>
           <td align="right" valign="top">
             
             
@@ -326,8 +362,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#a13" class="summary-name">a13</a><br />
-      Get (spherical) arc length from the first to the reference point 
-      (<code>degrees</code>).
+      Get the arc length to reference point 3 (<code>degrees</code>).
     </td>
   </tr>
 <tr>
@@ -407,8 +442,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#s13" class="summary-name">s13</a><br />
-      Get the distance from the first to the reference point 
-      (<code>meter</code>).
+      Get the distance to reference point 3 (<code>meter</code> or 
+      <code>NAN</code>).
     </td>
   </tr>
   <tr>
@@ -473,6 +508,33 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="Arc"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">Arc</span>&nbsp;(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the arc length to reference point 3 (<code>degrees</code> or 
+  <code>NAN</code>).</p>
+  <dl class="fields">
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Method <a 
+        href="pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#SetArc"
+        class="link">SetArc</a> and property <a 
+        href="pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#a13"
+        class="link">a13</a>.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="ArcPosition"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -512,6 +574,33 @@
         <code>lat2</code>, <code>lon2</code>, <code>azi2</code>, 
         <code>s12</code> and <code>a12</code> entries are returned, except 
         when <code>a12=NAN</code>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="Distance"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">Distance</span>&nbsp;(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the distance to reference point 3 (<code>meter</code> or 
+  <code>NAN</code>).</p>
+  <dl class="fields">
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Method <a 
+        href="pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#SetDistance"
+        class="link">SetDistance</a> and property <a 
+        href="pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#s13"
+        class="link">s13</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -579,7 +668,7 @@
     </td>
   </tr></table>
   
-  <p>Set reference point 3 in terms of distance to the first point.</p>
+  <p>Set reference point 3 in terms relative to the first point.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -607,7 +696,7 @@
     </td>
   </tr></table>
   
-  <p>Set reference point 3 in terms of distance to the first point.</p>
+  <p>Set reference point 3 in terms relative to the first point.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -723,13 +812,11 @@ between the northward equatorial crossing and the first point.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">a13</h3>
-  <p>Get (spherical) arc length from the first to the reference point 
-  (<code>degrees</code>).</p>
+  <p>Get the arc length to reference point 3 (<code>degrees</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">a13(<span class="summary-sig-arg">self</span>)</span>
-        - Get (spherical) arc length from the first to the reference point 
-(<code>degrees</code>).
+        - Get the arc length to reference point 3 (<code>degrees</code>).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -742,7 +829,9 @@ between the northward equatorial crossing and the first point.
     </dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Method <a 
+        Methods <a 
+        href="pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#Arc"
+        class="link">Arc</a> and <a 
         href="pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#SetArc"
         class="link">SetArc</a>.
       </p>
@@ -960,13 +1049,13 @@ class="link">GeodesicExact</a>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">s13</h3>
-  <p>Get the distance from the first to the reference point 
-  (<code>meter</code>).</p>
+  <p>Get the distance to reference point 3 (<code>meter</code> or 
+  <code>NAN</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">s13(<span class="summary-sig-arg">self</span>)</span>
-        - Get the distance from the first to the reference point 
-(<code>meter</code>).
+        - Get the distance to reference point 3 (<code>meter</code> or 
+<code>NAN</code>).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -979,7 +1068,9 @@ class="link">GeodesicExact</a>).
     </dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Method <a 
+        Methods <a 
+        href="pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#Distance"
+        class="link">Distance</a> and <a 
         href="pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#SetDistance"
         class="link">SetDistance</a>.
       </p>
@@ -1017,7 +1108,7 @@ class="link">GeodesicExact</a>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Apr  5 15:47:14 2023
+    Generated by Epydoc 3.0.1 on Mon Apr 10 13:17:51 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

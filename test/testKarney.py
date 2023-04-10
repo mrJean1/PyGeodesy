@@ -4,7 +4,7 @@
 # Test L{karney} module and wrappers.
 
 __all__ = ('Tests',)
-__version__ = '23.03.27'
+__version__ = '23.04.08'
 
 from bases import GeodSolve, geographiclib, TestsBase
 
@@ -45,9 +45,9 @@ def _signOf(x):
 
 class Tests(TestsBase):
 
-    def testDelta(self, n, x, v, e=1e-10):
+    def testDelta(self, n, x, v, e=1e-10, prec=15):
         w = _360_0 if _signOf(v) != _signOf(x) else _0_0  # wrap
-        self.test(n, v, x, prec=15, known=abs((v - x + w) * 100.0 / x) < e)
+        self.test(n, v, x, prec=prec, known=abs((v - x + w) * 100.0 / x) < e)
 
     def testDirect(self, g, module):
         self.subtitle(module, 'Direct')
@@ -68,7 +68,6 @@ class Tests(TestsBase):
 
     def testInverse(self, g, module):
         self.subtitle(module, 'Inverse')
-
         # from <https://PyPI.org/project/geographiclib>
         m = g.ALL | g.LONG_UNROLL
         for (lat1, lon1, azi1, lat2, lon2, azi2,
@@ -84,6 +83,19 @@ class Tests(TestsBase):
             self.testDelta('Inverse.M12',  M12,  d.M12)
             self.testDelta('Inverse.M21',  M21,  d.M21)
             self.testDelta('Inverse.S12',  S12,  d.S12)
+
+    def testInverseLine(self, g, module):
+        self.subtitle(module, 'InverseLine')
+        # from <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1GeodesicLine.html>
+        li = g.InverseLine(40.640, -73.779, 1.359, 103.989)  # JFK-SIN
+        n  = int(li.Distance() * 1e-6)  # about 15,000 Km
+        da = li.Arc() / n
+        ds = li.Distance() / n
+        for i in range(n + 1):
+            a = li.ArcPosition(i * da)
+            s = li.Position(i * ds)
+            self.testDelta('InverseLine[%s].lat' % (i,), s.lat2, a.lat2, e=0.8, prec=3)
+            self.testDelta('InverseLine[%s].lon' % (i,), s.lon2, a.lon2, e=0.8, prec=3)
 
     def testGeodCalc(self, module, X=False):
         self.subtitle(module, 'GeodCalc')
@@ -177,24 +189,26 @@ class Tests(TestsBase):
 
 if __name__ == '__main__':
 
-    from pygeodesy import ellipsoidalExact, geodesicx
+    from pygeodesy import ellipsoidalExact, geodesicw, geodesicx
 
     t = Tests(__file__, __version__, karney)
 
     if geographiclib:
         from pygeodesy import ellipsoidalKarney
-        g = karney._wrapped.Geodesic_WGS84
-        t.test('Geodesic', isinstance(g, karney._wrapped.Geodesic), True)
-        t.testDirect(g, karney)
-        t.testInverse(g, karney)
+        g = geodesicw.Geodesic_WGS84()
+        t.test('Geodesic', isinstance(g, geodesicw._wrapped.Geodesic), True)
+        t.testDirect(g, geodesicw)
+        t.testInverse(g, geodesicw)
+        t.testInverseLine(g, geodesicw)
         t.testGeodCalc(ellipsoidalKarney)
-        t.testMask(karney._wrapped.Geodesic, karney)
+        t.testMask(geodesicw.Geodesic, geodesicw)
     else:
         t.skip('no geographiclib', n=103)
 
     g = geodesicx.GeodesicExact()  # _WGS84
     t.testDirect(g, geodesicx)
     t.testInverse(g, geodesicx)
+    t.testInverseLine(g, geodesicx)
     t.testGeodCalc(ellipsoidalExact, X=True)
     t.testMask(geodesicx.GeodesicExact, geodesicx)
 
@@ -203,6 +217,7 @@ if __name__ == '__main__':
         g = GeodesicSolve()  # _WGS84
         t.testDirect(g, geodsolve)
         t.testInverse(g, geodsolve)
+#       t.testInverseLine(g, geodsolve)
         t.testGeodCalc(ellipsoidalGeodSolve)
         t.testMask(GeodesicSolve, geodsolve)
     else:

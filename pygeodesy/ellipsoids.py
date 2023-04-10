@@ -992,14 +992,14 @@ class Ellipsoid(_NamedEnumItem):
 
     @Property_RO
     def geodesic(self):
-        '''Get this ellipsoid's I{wrapped Karney} U{Geodesic
+        '''Get this ellipsoid's L{Geodesic}, the I{wrapped} U{Geodesic
            <https://GeographicLib.SourceForge.io/C++/doc/python/code.html>},
            provided the U{geographiclib<https://PyPI.org/project/geographiclib>}
            package is installed.
         '''
         # if not self.isEllipsoidal:
         #     raise _IsnotError(_ellipsoidal_, ellipsoid=self)
-        return _MODS.karney._wrapped.Geodesic(self)
+        return _MODS.geodesicw.Geodesic(self)
 
     @Property_RO
     def geodesicx(self):

@@ -23,7 +23,7 @@ from pygeodesy.points import _areaError, ispolar  # PYCHOK exported
 # from math import fabs  # from .karney
 
 __all__ = _ALL_LAZY.ellipsoidalExact
-__version__ = '23.03.30'
+__version__ = '23.04.09'
 
 
 class Cartesian(CartesianEllipsoidalBase):

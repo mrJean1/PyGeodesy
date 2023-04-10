@@ -1,18 +1,15 @@
 
 # -*- coding: utf-8 -*-
 
-u'''I{Charles F.F. Karney}'s U{geographiclib<https://PyPI.org/project/geographiclib>} C{geodesic}, wrapped.
+u'''Wrapper around several C{geomath.Math} functions from I{Karney}'s Python package
+U{geographiclib<https://PyPI.org/project/geographiclib>}, provided that package is installed.
 
-Wrapper around Python classes C{Geodesic} and C{GeodesicLine} and several C{Math} functions from
-I{Karney}'s Python package U{geographiclib<https://PyPI.org/project/geographiclib>}, provided
-that package is installed.
+The I{wrapped} class methods return a L{GDict} instance offering access to the C{dict} items
+either by C{key} or by C{attribute} name.
 
-The I{wrapped} class methods return a L{GDict} instance offering access to the C{dict} items either
-by C{key} or by C{attribute} name.
-
-With env variable C{PYGEODESY_GEOGRAPHICLIB} left undefined or set to C{"2"}, this module and
-L{pygeodesy.geodesicx} will use U{GeographicLib 2.0<https://GeographicLib.SourceForge.io/C++/doc/>}
-transcoding, otherwise C{1.52} or older.
+With env variable C{PYGEODESY_GEOGRAPHICLIB} left undefined or set to C{"2"}, this module,
+L{pygeodesy.geodesicw} and L{pygeodesy.geodesicx} will use U{GeographicLib 2.0
+<https://GeographicLib.SourceForge.io/C++/doc/>} transcoding, otherwise C{1.52} or older.
 
 Karney-based functionality
 ==========================
@@ -21,14 +18,12 @@ Karney-based functionality
 
   - L{AlbersEqualArea}, L{AlbersEqualArea2}, L{AlbersEqualArea4},
     L{AlbersEqualAreaCylindrical}, L{AlbersEqualAreaNorth}, L{AlbersEqualAreaSouth} --
-    U{AlbersEqualArea<https://GeographicLib.SourceForge.io/C++/doc/
-    classGeographicLib_1_1AlbersEqualArea.html>}
+    U{AlbersEqualArea<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1AlbersEqualArea.html>}
 
   - L{CassiniSoldner} -- U{CassiniSoldner<https://GeographicLib.SourceForge.io/C++/doc/
     classGeographicLib_1_1CassiniSoldner.html>}
 
-  - L{EcefKarney} -- U{Geocentric<https://GeographicLib.SourceForge.io/C++/doc/
-    classGeographicLib_1_1Geocentric.html>}
+  - L{EcefKarney} -- U{Geocentric<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Geocentric.html>}
 
   - L{Elliptic} -- U{EllipticFunction<https://GeographicLib.SourceForge.io/C++/doc/
     classGeographicLib_1_1EllipticFunction.html>}
@@ -39,8 +34,11 @@ Karney-based functionality
   - L{Etm}, L{ExactTransverseMercator} -- U{TransverseMercatorExact
     <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1TransverseMercatorExact.html>}
 
-  - L{GeodesicAreaExact}, L{PolygonArea} -- U{PolygonArea<https://GeographicLib.SourceForge.io/
-    html/classGeographicLib_1_1PolygonAreaT.html>}
+  - L{Geodesic}, L{GeodesicLine} -- I{wrapped} U{geodesic.Geodesic<https://PyPI.org/project/geographiclib>},
+    I{wrapped} U{geodesicline.GeodesicLine<https://PyPI.org/project/geographiclib>}
+
+  - L{GeodesicAreaExact}, L{PolygonArea} -- U{PolygonArea<https://GeographicLib.SourceForge.io/html/
+    classGeographicLib_1_1PolygonAreaT.html>}
 
   - L{GeodesicExact}, L{GeodesicLineExact} -- U{GeodesicExact<https://GeographicLib.SourceForge.io/C++/doc/
     classGeographicLib_1_1GeodesicExact.html>}, U{GeodesicLineExact<https://GeographicLib.SourceForge.io/C++/doc/
@@ -48,8 +46,7 @@ Karney-based functionality
 
   - L{GeoidKarney} -- U{Geoid<https://GeographicLib.SourceForge.io/C++/doc/geoid.html>}
 
-  - L{Georef} -- U{Georef<https://GeographicLib.SourceForge.io/C++/doc/
-    classGeographicLib_1_1Georef.html>}
+  - L{Georef} -- U{Georef<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Georef.html>}
 
   - L{GnomonicExact}, L{GnomonicGeodSolve}, L{GnomonicKarney} -- U{Gnomonic
     <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Gnomonic.html>}
@@ -69,17 +66,14 @@ Karney-based functionality
     U{RhumbLine<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1RhumbLine.html>},
     U{TransverseMercator<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1TransverseMercator.html>}
 
-  - L{Ups} -- U{PolarStereographic<https://GeographicLib.SourceForge.io/C++/doc/
-    classGeographicLib_1_1PolarStereographic.html>}
+  - L{Ups} -- U{PolarStereographic<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1PolarStereographic.html>}
 
-  - L{Utm} -- U{TransverseMercator<https://GeographicLib.SourceForge.io/C++/doc/
-    classGeographicLib_1_1TransverseMercator.html>}
+  - L{Utm} -- U{TransverseMercator<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1TransverseMercator.html>}
 
-  - L{UtmUps}, L{Epsg} -- U{UTMUPS<https://GeographicLib.SourceForge.io/C++/doc/
-    classGeographicLib_1_1UTMUPS.html>}
+  - L{UtmUps}, L{Epsg} -- U{UTMUPS<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1UTMUPS.html>}
 
-  - L{pygeodesy.atand}, L{pygeodesy.atan2d}, L{pygeodesy.sincos2}, L{pygeodesy.sincos2d}, L{pygeodesy.tand} -- U{
-    Math<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Math.html>}
+  - L{pygeodesy.atand}, L{pygeodesy.atan2d}, L{pygeodesy.sincos2}, L{pygeodesy.sincos2d}, L{pygeodesy.tand} -- U{geomath.Math
+    <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Math.html>}
 
 are I{transcoded} from C++ classes in I{Karney}'s U{GeographicLib<https://GeographicLib.SourceForge.io/C++/doc/annotated.html>}.
 
@@ -120,33 +114,32 @@ on an ellipsoid of revolution<https://ArXiv.org/pdf/1102.1215.pdf>} (pp 20-21, s
 in C{pygeodesy} are based on I{Karney}'s post U{Area of a spherical polygon
 <https://MathOverflow.net/questions/97711/the-area-of-spherical-polygons>}, 3rd Answer.
 '''
+# make sure int/int division yields float quotient, see .basics
+from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import _copysign, neg, unsigned0, _xgeographiclib, \
                              _xImportError, _xversion_info, _xinstanceof, \
                              _zip,  isodd  # PYCHOK shared
 from pygeodesy.constants import NAN, _isfinite as _math_isfinite, _0_0, _1_16th, \
                                _180_0, _N_180_0, _360_0
-from pygeodesy.datums import _a_ellipsoid, _WGS84
+from pygeodesy.datums import _WGS84,  _a_ellipsoid  # PYCHOK shared
 from pygeodesy.errors import _ValueError, _xkwds, _xkwds_get
 from pygeodesy.fmath import cbrt, fremainder, norm2, hypot as _hypot, unstr  # PYCHOK shared
-from pygeodesy.interns import NN, _2_, _a12_, _area_, _azi2_, _composite_, _DOT_, \
-                             _lat2_, _lon2_, _m12_, _M12_, _M21_, _number_, _s12_, \
-                             _S12_, _UNDER
+from pygeodesy.interns import _2_, _a12_, _area_, _azi2_, _composite_, _lat2_, \
+                              _lon2_, _m12_, _M12_, _M21_, _number_, _s12_, _S12_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, _getenv
-from pygeodesy.named import callername, classname, _Dict, _NamedBase, \
-                           _NamedTuple, _Pass
-from pygeodesy.namedTuples import Destination3Tuple, Distance3Tuple
-from pygeodesy.props import deprecated_method, Property, Property_RO, property_RO
+from pygeodesy.named import _Dict, _NamedBase, _NamedTuple, _Pass
+from pygeodesy.props import deprecated_method, Property_RO, property_RO
 # from pygeodesy.streps import unstr  # from .fmath
 from pygeodesy.units import Bearing as _Azi, Degrees as _Deg, Lat, Lon, \
                             Meter as _M, Meter2 as _M2, Number_, \
                             Precision_, _1mm as _TOL_M  # PYCHOK shared
-from pygeodesy.utily import atan2d, fabs, sincos2d, tand, unroll180, wrap360
+from pygeodesy.utily import atan2d, fabs, sincos2d, tand,  unroll180, wrap360  # PYCHOK shared
 
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.karney
-__version__ = '23.03.30'
+__version__ = '23.04.07'
 
 _EWGS84     = _WGS84.ellipsoid  # PYCHOK in .geodesicx.gx, .ktm, .rhumbx, .solveBase
 _K_2_0      = _getenv('PYGEODESY_GEOGRAPHICLIB', _2_) == _2_
@@ -454,222 +447,10 @@ class Inverse10Tuple(_GTuple):
                                    **updates)  # PYCHOK indent
 
 
-class _Wrapped(object):
+class _kWrapped(object):
     ''''(INTERNAL) Wrapper for some of I{Karney}'s U{geographiclib
         <https://PyPI.org/project/geographiclib>} classes.
     '''
-
-    @Property_RO  # MCCABE 24
-    def Geodesic(self):
-        '''Get the I{wrapped} C{Geodesic} class, provided the U{geographiclib
-           <https://PyPI.org/project/geographiclib>} package is installed,
-           otherwise an C{ImportError}.
-        '''
-        _Geodesic =  self.geographiclib.Geodesic
-        _DIRECT3  = _Geodesic.AZIMUTH | _Geodesic.LATITUDE | _Geodesic.LONGITUDE
-        _INVERSE3 = _Geodesic.AZIMUTH | _Geodesic.DISTANCE
-
-        class Geodesic(_Geodesic):
-            '''I{Karney}'s U{Geodesic<https://GeographicLib.SourceForge.io/C++/doc/
-               python/code.html#geographiclib.geodesic.Geodesic>} wrapper.
-            '''
-            _debug   =  0  # like .geodesicx.bases._GeodesicBase
-            _E       = _EWGS84
-            LINE_OFF =  0  # in .azimuthal._GnomonicBase and .css.CassiniSoldner
-
-            def __init__(self, a_ellipsoid=_EWGS84, f=None, name=NN):  # PYCHOK signature
-                '''New C{Geodesic} instance.
-
-                   @arg a_ellipsoid: An ellipsoid (L{Ellipsoid}) or datum
-                                     (L{Datum}) or the equatorial radius
-                                     of the ellipsoid (C{meter}).
-                   @arg f: The flattening of the ellipsoid (C{scalar}) if
-                           B{C{a_ellipsoid}) is specified as C{meter}.
-                   @kwarg name: Optional name (C{str}).
-                '''
-                if a_ellipsoid not in (Geodesic._E, None):  # spherical OK
-                    self._E = _a_ellipsoid(a_ellipsoid, f, name=name)  # raiser=NN
-                try:
-                    _Geodesic.__init__(self, *self.ellipsoid.a_f)
-                except (TypeError, ValueError) as x:
-                    _raiseX(self, x, *self.ellipsoid.a_f)
-
-            Area = _Geodesic.Polygon  # like GeodesicExact.Area
-
-            @Property
-            def debug(self):
-                '''Get the C{debug} option (C{bool}).
-                '''
-                return bool(self._debug)
-
-            @debug.setter  # PYCHOK setter!
-            def debug(self, debug):
-                '''Set the C{debug} option (C{bool}) to include
-                   more details in L{GDict} results.
-                '''
-                self._debug = _MODS.geodesicx.Caps._DEBUG_ALL if debug else 0
-
-            def Direct(self, lat1, lon1, azi1, s12, *outmask):
-                '''Return the C{Direct} result.
-                '''
-                try:
-                    d = _Geodesic.Direct(self, lat1, lon1, azi1, s12, *outmask)
-                except (TypeError, ValueError) as x:
-                    _raiseX(self, x, lat1, lon1, azi1, s12, *outmask)
-                return GDict(d)
-
-            def Direct3(self, lat1, lon1, azi1, s12):  # PYCHOK outmask
-                '''Return the destination lat, lon and reverse azimuth
-                   (final bearing) in C{degrees}.
-
-                   @return: L{Destination3Tuple}C{(lat, lon, final)}.
-                '''
-                d = self.Direct(lat1, lon1, azi1, s12, _DIRECT3)
-                return Destination3Tuple(d.lat2, d.lon2, d.azi2)
-
-            @Property_RO
-            def ellipsoid(self):
-                '''Get this geodesic's ellipsoid (C{Ellipsoid[2]}).
-                '''
-                return self._E
-
-            @Property_RO
-            def f1(self):  # in .css.CassiniSoldner.reset
-                '''Get the geodesic's ellipsoid I{1 - flattening} (C{float}).
-                '''
-                return getattr(self, _UNDER(Geodesic.f1.name), self.ellipsoid.f1)
-
-            def _GDictDirect(self, lat, lon, azi, arcmode, s12_a12,
-                                                  outmask=_Geodesic.STANDARD):
-                '''(INTERNAL) Get C{._GenDirect} result as C{GDict}.
-                '''
-                try:
-                    t = _Geodesic._GenDirect(self, lat, lon, azi, arcmode, s12_a12, outmask)
-                except (TypeError, ValueError) as x:
-                    _raiseX(self, x, lat, lon, azi, arcmode, s12_a12, outmask)
-                return Direct9Tuple(t).toGDict()  # *t
-
-            def _GDictInverse(self, lat1, lon1, lat2, lon2, outmask=_Geodesic.STANDARD):
-                '''(INTERNAL) Get C{._GenInverse} result as C{GDict}.
-                '''
-                try:
-                    t = _Geodesic._GenInverse(self, lat1, lon1, lat2, lon2, outmask)
-                except (TypeError, ValueError) as x:
-                    _raiseX(self, x, lat1, lon1, lat2, lon2, outmask)
-                return Inverse10Tuple(t).toGDict(lon1=lon1, lon2=lon2)  # *t
-
-            def Inverse(self, lat1, lon1, lat2, lon2, *outmask):
-                '''Return the C{Inverse} result.
-                '''
-                try:
-                    d = _Geodesic.Inverse(self, lat1, lon1, lat2, lon2, *outmask)
-                except (TypeError, ValueError) as x:
-                    _raiseX(self, x, lat1, lon1, lat2, lon2, *outmask)
-                return GDict(d)
-
-            def Inverse1(self, lat1, lon1, lat2, lon2, wrap=False):
-                '''Return the non-negative, I{angular} distance in C{degrees}.
-                '''
-                # see .FrechetKarney.distance, .HausdorffKarney._distance
-                # and .HeightIDWkarney._distances
-                _, lon2 = unroll180(lon1, lon2, wrap=wrap)  # self.LONG_UNROLL
-                r = self.Inverse(lat1, lon1, lat2, lon2)
-                # XXX self.DISTANCE needed for 'a12'?
-                return fabs(r.a12)
-
-            def Inverse3(self, lat1, lon1, lat2, lon2):  # PYCHOK outmask
-                '''Return the distance in C{meter} and the forward and
-                   reverse azimuths (initial and final bearing) in C{degrees}.
-
-                   @return: L{Distance3Tuple}C{(distance, initial, final)}.
-                '''
-                r = self.Inverse(lat1, lon1, lat2, lon2, _INVERSE3)
-                return Distance3Tuple(r.s12, wrap360(r.azi1), wrap360(r.azi2))
-
-            def Line(self, lat1, lon1, azi1, *caps):
-                '''Set up a L{GeodesicLine} to compute several points on a
-                   single geodesic.
-                '''
-                return _wrapped.GeodesicLine(self, lat1, lon1, azi1, *caps)
-
-        # Geodesic.Direct.__doc__  = _Geodesic.Direct.__doc__
-        # Geodesic.Inverse.__doc__ = _Geodesic.Inverse.__doc__
-        # Geodesic.Line.__doc__    = _Geodesic.Line.__doc__
-        return Geodesic
-
-    @Property_RO  # MCCABE 16
-    def GeodesicLine(self):
-        '''Get the I{wrapped} C{GeodesicLine} class, provided the U{geographiclib
-           <https://PyPI.org/project/geographiclib>} package is installed,
-           otherwise an C{ImportError}.
-        '''
-        _GeodesicLine = self.geographiclib.GeodesicLine
-
-        class GeodesicLine(_GeodesicLine):
-            '''I{Karney}'s U{GeodesicLine <https://GeographicLib.SourceForge.io/C++/doc/
-               python/code.html#geographiclib.geodesicline.GeodesicLine>} wrapper.
-            '''
-            def __init__(self, lat1, lon1, azi1, *caps):
-                try:
-                    _GeodesicLine.__init__(self, lat1, lon1, azi1, *caps)
-                except (TypeError, ValueError) as x:
-                    _raiseX(self, x, lat1, lon1, azi1, *caps)
-
-            @Property_RO
-            def a1(self):
-                '''Get the I{equatorial arc} (C{degrees}), the arc length between
-                   the northward equatorial crossing and point C{(lat1, lon1)}.
-
-                   @see: U{EquatorialArc<https://GeographicLib.SourceForge.io/
-                         C++/doc/classGeographicLib_1_1GeodesicLine.html>}
-                '''
-                try:
-                    return _atan2d(self._ssig1, self._csig1)
-                except AttributeError:
-                    return NAN  # see .geodesicx.gxline._GeodesicLineExact
-
-            equatorarc = a1
-
-            def ArcPosition(self, a12, *outmask):
-                try:
-                    d = _GeodesicLine.ArcPosition(self, a12, *outmask)
-                except (TypeError, ValueError) as x:
-                    _raiseX(self, x, a12, *outmask)
-                return GDict(d)
-
-            @Property_RO
-            def azi0(self):  # see .css.CassiniSoldner.forward4
-                '''Get the I{equatorial azimuth} (C{degrees}), the azimuth of the
-                   geodesic line as it crosses the equator in a northward direction.
-
-                   @see: U{EquatorialAzimuth<https://GeographicLib.SourceForge.io/
-                         C++/doc/classGeographicLib_1_1GeodesicLine.html>}
-                '''
-                try:
-                    return _atan2d(self._salp0, self._calp0)
-                except AttributeError:
-                    return NAN  # see .geodesicx.gxline._GeodesicLineExact
-
-            equatorazimuth = azi0
-
-            def Position(self, s12, *outmask):
-                try:
-                    d = _GeodesicLine.Position(self, s12, *outmask)
-                except (TypeError, ValueError) as x:
-                    _raiseX(self, x, s12, *outmask)
-                return GDict(d)
-
-        # GeodesicLine.ArcPosition.__doc__ = _GeodesicLine.ArcPosition.__doc__
-        # GeodesicLine.Position.__doc__    = _GeodesicLine.Position.__doc__
-        return GeodesicLine
-
-    @Property_RO
-    def Geodesic_WGS84(self):
-        '''Get the I{wrapped} C{Geodesic.WGS84} I{instance} provided the
-           U{geographiclib<https://PyPI.org/project/geographiclib>} package
-           is installed, otherwise an C{ImportError}.
-        '''
-        return _EWGS84.geodesic
 
     @Property_RO
     def geographiclib(self):
@@ -688,9 +469,9 @@ class _Wrapped(object):
 
     @Property_RO  # MCCABE 13
     def Math(self):
-        '''Get the C{Math} class, provided the U{geographiclib
-           <https://PyPI.org/project/geographiclib>} package is
-           installed, otherwise C{None}.
+        '''Wrap the C{geomath.Math} class, provided the U{geographiclib
+           <https://PyPI.org/project/geographiclib>} package is installed,
+           otherwise C{None}.
         '''
         try:
             g = self.geographiclib
@@ -704,7 +485,7 @@ class _Wrapped(object):
             M = None
         return M
 
-_wrapped = _Wrapped()  # PYCHOK singleton, .datum, .test/base.py
+_wrapped = _kWrapped()  # PYCHOK singleton, .datum, .test/base.py
 
 
 def _around(x):  # in .utily.sincos2d
@@ -712,7 +493,7 @@ def _around(x):  # in .utily.sincos2d
 
        @return: Coarsened value (C{float}).
 
-       @see: I{Karney}'s U{Math.AngRound<https://SourceForge.net/p/
+       @see: I{Karney}'s U{geomath.Math.AngRound<https://SourceForge.net/p/
        geographiclib/code/ci/release/tree/python/geographiclib/geomath.py>}
     '''
     try:
@@ -776,19 +557,6 @@ def _diff182(deg0, deg):
     return d, t
 
 
-# def _Equidistant(equidistant, exact=False, geodsolve=False):
-#     # (INTERNAL) Get the C{EquidistantExact}, C{-GeodSolve} or
-#     # C{-Karney} class if B{C{equidistant}} in not callable.
-#     if equidistant is None or not callable(equidistant):
-#         if exact:
-#             equidistant = _MODS.azimuthal.EquidistantExact
-#         elif geodsolve:
-#             equidistant = _MODS.azimuthal.EquidistantGeodSolve
-#         else:
-#             equidistant = _MODS.azimuthal.EquidistantKarney
-#     return equidistant
-
-
 def _fix90(deg):  # mimick Math.LatFix
     '''Replace angle in C{degrees} outside [-90,90] by NAN.
 
@@ -800,7 +568,7 @@ def _fix90(deg):  # mimick Math.LatFix
         return NAN if fabs(deg) > 90 else deg
 
 
-def _isfinite(x):  # mimick Math.AngNormalize
+def _isfinite(x):  # mimick geomath.Math.AngNormalize
     '''Check finiteness of C{x}.
 
        @return: C{True} if finite.
@@ -811,7 +579,7 @@ def _isfinite(x):  # mimick Math.AngNormalize
         return _math_isfinite(x)  # and fabs(x) <= _MAX
 
 
-def _norm2(x, y):  # mimick Math.norm
+def _norm2(x, y):  # mimick geomath.Math.norm
     '''Normalize C{B{x}} and C{B{y}}.
 
        @return: 2-Tuple of C{(B{x}, B{y})}, normalized.
@@ -822,7 +590,7 @@ def _norm2(x, y):  # mimick Math.norm
         return norm2(x, y)
 
 
-def _norm180(deg):  # mimick Math.AngNormalize
+def _norm180(deg):  # mimick geomath.Math.AngNormalize
     '''Reduce angle in C{degrees} to (-180,180].
 
        @return: Reduced angle C{degrees}.
@@ -841,7 +609,7 @@ def _polygon(geodesic, points, closed, line, wrap):
     '''(INTERNAL) Compute the area or perimeter of a polygon,
         using a L{GeodesicExact}, L{GeodesicSolve} or (if the
         C{geographiclib} package is installed) a C{Geodesic}
-        or C{_wrapped.Geodesic} instance.
+        or C{geodesicw.Geodesic} instance.
     '''
     if not wrap:  # capability LONG_UNROLL can't be off
         raise _ValueError(wrap=wrap)
@@ -875,7 +643,7 @@ def _polygon(geodesic, points, closed, line, wrap):
 
 
 def _polynomial(x, cs, i, j):  # PYCHOK shared
-    '''(INTERNAL) Like C{GeographicLib.Math.hpp.polyval} but with a
+    '''(INTERNAL) Like C++ C{GeographicLib.Math.hpp.polyval} but with a
        different signature and cascaded summation as C{karney._sum2_}.
 
        @return: M{sum(cs[k] * x**(j - k - 1) for k in range(i, j)}
@@ -885,13 +653,6 @@ def _polynomial(x, cs, i, j):  # PYCHOK shared
     for c in cs[i+1:j]:
         s, t = _s2_(s * x, t * x, c)
     return s  # + t
-
-
-def _raiseX(inst, x, *args):  # PYCHOK no cover
-    '''(INTERNAL) Throw a C{GeodesicError} for C{geographiclib} issue B{C{x}} .
-    '''
-    n = _DOT_(classname(inst), callername(up=2, underOK=True))
-    raise GeodesicError(unstr(n, *args), cause=x)
 
 
 def _remainder(x, y):
@@ -943,8 +704,8 @@ def _sincos2de(deg, t):
         return sincos2d(deg, adeg=t)
 
 
-def _sum2(u, v):  # mimick Math::sum, actually sum2
-    '''Error-free summation like C{Math::sum}.
+def _sum2(u, v):  # mimick geomath.Math.sum, actually sum2
+    '''Error-free summation like C{geomath.Math.sum}.
 
        @return: 2-Tuple C{(B{u} + B{v}, residual)}.
 

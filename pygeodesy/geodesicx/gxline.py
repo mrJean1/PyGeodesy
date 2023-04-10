@@ -53,7 +53,7 @@ from pygeodesy.utily import atan2d as _atan2d_reverse, sincos2
 from math import atan2, cos, degrees, fabs, floor, radians, sin
 
 __all__ = ()
-__version__ = '23.04.04'
+__version__ = '23.04.08'
 
 _glXs = []  # instances of C{[_]GeodesicLineExact} to be updated
 # underflow guard, we require _TINY * EPS > 0, _TINY + EPS == EPS
@@ -167,11 +167,18 @@ class _GeodesicLineExact(_GeodesicBase):
 
     @Property_RO
     def a13(self):
-        '''Get (spherical) arc length from the first to the reference point (C{degrees}).
+        '''Get the arc length to reference point 3 (C{degrees}).
 
-           @see: Method L{SetArc}.
+           @see: Methods L{Arc} and L{SetArc}.
         '''
         return self._a13
+
+    def Arc(self):
+        '''Return the arc length to reference point 3 (C{degrees} or C{NAN}).
+
+           @see: Method L{SetArc} and property L{a13}.
+        '''
+        return self.a13
 
     def ArcPosition(self, a12, outmask=Caps.STANDARD):
         '''Find the position on the line given B{C{a12}}.
@@ -248,6 +255,13 @@ class _GeodesicLineExact(_GeodesicBase):
         '''(INTERNAL) Cached/memoized.
         '''
         return self._eF.deltaD(self._ssig1, self._csig1, self._dn1)
+
+    def Distance(self):
+        '''Return the distance to reference point 3 (C{meter} or C{NAN}).
+
+           @see: Method L{SetDistance} and property L{s13}.
+        '''
+        return self.s13
 
     @Property_RO
     def _E0b(self):
@@ -503,14 +517,14 @@ class _GeodesicLineExact(_GeodesicBase):
 
     @Property_RO
     def s13(self):
-        '''Get the distance from the first to the reference point (C{meter}).
+        '''Get the distance to reference point 3 (C{meter} or C{NAN}).
 
-           @see: Method L{SetDistance}.
+           @see: Methods L{Distance} and L{SetDistance}.
         '''
         return self._s13
 
     def SetArc(self, a13):
-        '''Set reference point 3 in terms of distance to the first point.
+        '''Set reference point 3 in terms relative to the first point.
 
            @arg a13: Spherical arc length from the first to the reference
                      point (C{degrees}).
@@ -520,10 +534,11 @@ class _GeodesicLineExact(_GeodesicBase):
         '''
         self._a13 = a13
         self._s13 = s13 = self._GDictPosition(True, a13, Caps.DISTANCE).s12
+        _update_all(self)
         return s13
 
     def SetDistance(self, s13):
-        '''Set reference point 3 in terms of distance to the first point.
+        '''Set reference point 3 in terms relative to the first point.
 
            @arg s13: Distance from the first to the reference point (C{meter}).
 
@@ -532,6 +547,7 @@ class _GeodesicLineExact(_GeodesicBase):
         '''
         self._s13 = s13
         self._a13 = a13 = self._GDictPosition(False, s13, 0).a12
+        _update_all(self)
         return a13  # NAN for GeodesicLineExact without Cap.DISTANCE_IN
 
     @Property_RO

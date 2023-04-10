@@ -13,8 +13,8 @@ from pygeodesy.constants import EPS, EPS0, EPS1, PI, PI2, PI3, PI_2, R_M, \
 from pygeodesy.datums import Datum, Ellipsoid, _ellipsoidal_datum, \
                             _mean_radius, _spherical_datum, _WGS84
 # from pygeodesy.ellipsoids import Ellipsoid  # from .datums
-from pygeodesy.errors import _AssertionError, IntersectionError, \
-                              LimitError, limiterrors, _ValueError
+from pygeodesy.errors import _AssertionError, IntersectionError, LimitError, \
+                              limiterrors, _ValueError, _xError
 from pygeodesy.fmath import Fdot, euclid, fdot, hypot, hypot2, sqrt0
 from pygeodesy.fsums import fsum_, unstr
 from pygeodesy.interns import NN, _distant_, _inside_, _near_, _null_, \
@@ -22,18 +22,19 @@ from pygeodesy.interns import NN, _distant_, _inside_, _near_, _null_, \
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _NamedTuple, _xnamed
 from pygeodesy.namedTuples import Bearing2Tuple, Distance4Tuple, \
-                                  LatLon2Tuple, PhiLam2Tuple, Vector3Tuple
+                                  Intersection3Tuple, LatLon2Tuple, \
+                                  PhiLam2Tuple, Vector3Tuple
 # from pygeodesy.streprs import unstr  # from .fsums
-from pygeodesy.units import Degrees_, Distance, Distance_, Height, Lam_, Lat, \
-                            Lon, Phi_, Radians, Radians_, Radius, Radius_, \
-                            Scalar, _100km
+from pygeodesy.units import Bearing, Degrees_, Distance, Distance_, Height, \
+                            Lam_, Lat, Lon, Phi_, Radians, Radians_, Radius, \
+                            Radius_, Scalar, _100km
 from pygeodesy.utily import acos1, atan2b, atan2d, degrees2m, m2degrees, tan_2, \
                             sincos2, sincos2_, sincos2d_, unroll180, unrollPI
 
 from math import atan, atan2, cos, degrees, fabs, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '23.04.05'
+__version__ = '23.04.10'
 
 _ratio_ = 'ratio'
 _xline_ = 'xline'
@@ -1081,9 +1082,103 @@ def horizon(height, radius=R_M, refraction=False):
     return sqrt0(d2)
 
 
+def _idlmn5(datum, lat1, lon1, lat2, lon2, wrap, s):
+    '''(INTERNAL) Helper for C{intersection2} and C{intersections2}.
+    '''
+    n = (intersections2 if s else intersection2).__name__
+    if datum is None or euclidean(lat1, lon1, lat2, lon2, radius=R_M,
+                                  adjust=True, wrap=wrap) < _100km:
+        d, m    = None, _MODS.vector3d
+        _i      = m._intersects2 if s else m._intersect3d3
+        _, lon2 = unroll180(lon1, lon2, wrap=wrap)
+    else:
+        d = _spherical_datum(datum, name=n)
+        if d.isSpherical:
+            m = _MODS.sphericalTrigonometry
+            _i = m._intersects2 if s else m._intersect
+        elif d.isEllipsoidal:
+            try:
+                if d.ellipsoid.geodesic:
+                    pass
+                m = _MODS.ellipsoidalKarney
+            except ImportError:
+                m = _MODS.ellipsoidalExact
+            _i = m._intersections2 if s else m._intersection3  # ellispoidalBaseDi
+        else:
+            raise _AssertionError(datum=datum)
+    return _i, d, lon2, m, n
+
+
+def intersection2(lat1, lon1, bearing1,
+                  lat2, lon2, bearing2, datum=None, wrap=True):
+    '''I{Conveniently} compute the intersection of two lines each defined
+       by a (geodetic) point and a bearing from North, using either ...
+
+       1) L{vector3d.intersection3d3} for small distances (below 100 KM or
+       about 0.9 degrees) or if no B{C{datum}} is specified, or ...
+
+       2) L{sphericalTrigonometry.intersection} for a spherical B{C{datum}}
+       or if B{C{datum}} is a C{scalar} representing the earth radius,
+       conventionally in C{meter} or ...
+
+       3) L{ellipsoidalKarney.intersection3} for an ellipsoidal B{C{datum}}
+       and if I{Karney}'s U{geographiclib<https://PyPI.org/project/geographiclib>}
+       is installed, otherwise ...
+
+       4) L{ellipsoidalExact.intersection3}, provided B{C{datum}} is ellipsoidal.
+
+       @arg lat1: Latitude of the first point (C{degrees}).
+       @arg lon1: Longitude of the first point (C{degrees}).
+       @arg bearing1: Bearing at the first point (compass C{degrees}).
+       @arg lat2: Latitude of the second point (C{degrees}).
+       @arg lon2: Longitude of the second point (C{degrees}).
+       @arg bearing2: Bearing at the second point (compass C{degrees}).
+       @kwarg datum: Optional ellipsoidal or spherical datum (L{Datum},
+                     L{Ellipsoid}, L{Ellipsoid2}, L{a_f2Tuple} or
+                     C{scalar} earth radius in C{meter}) or C{None}.
+       @kwarg wrap: Wrap and unroll longitudes (C{bool}).
+
+       @return: A L{LatLon2Tuple}C{(lat, lon)} with the lat- and
+                longitude of the intersection point.
+
+       @raise IntersectionError: Ambiguous or infinite intersection
+                                 or colinear, parallel or otherwise
+                                 non-intersecting paths.
+
+       @raise TypeError: Invalid B{C{datum}}.
+
+       @raise UnitError: Invalid B{C{lat1}}, B{C{lon1}}, B{C{bearing1}},
+                         B{C{lat2}}, B{C{lon2}} or B{C{bearing2}}.
+
+       @see: Method L{RhumbLine.intersection2}.
+
+       @note: The returned intersections may be antipodal or near-antipodal.
+    '''
+    b1, b2 = Bearing(bearing1=bearing1), Bearing(bearing2=bearing2)
+    try:
+        _i, d, l2, m, n = _idlmn5(datum, lat1, lon1, lat2, lon2, wrap, False)
+        if d is None:
+            t, _, _ = _i(m.Vector3d(lon1, lat1, 0), b1,
+                         m.Vector3d(l2,   lat2, 0), b2, useZ=False)
+            t = LatLon2Tuple(t.y, t.x, name=n)
+
+        else:
+            t = _i(m.LatLon(lat1, lon1, datum=d), b1,
+                   m.LatLon(lat2, lon2, datum=d), b2, height=0, wrap=wrap)
+            if isinstance(t, Intersection3Tuple):
+                t, _, _ = t
+            t = LatLon2Tuple(t.lat, t.lon, name=n)
+
+    except (TypeError, ValueError) as x:
+        raise _xError(x, lat1=lat1, lon1=lon1, bearing1=bearing1,
+                         lat2=lat2, lon2=lon2, bearing2=bearing2,
+                         datum=datum, wrap=wrap)
+    return t
+
+
 def intersections2(lat1, lon1, radius1,
                    lat2, lon2, radius2, datum=None, wrap=True):
-    '''Conveniently compute the intersections of two circles each defined
+    '''I{Conveniently} compute the intersections of two circles each defined
        by a (geodetic) center point and a radius, using either ...
 
        1) L{vector3d.intersections2} for small distances (below 100 KM or
@@ -1112,8 +1207,8 @@ def intersections2(lat1, lon1, radius1,
        @kwarg wrap: Wrap and unroll longitudes (C{bool}).
 
        @return: 2-Tuple of the intersection points, each a
-                L{LatLon2Tuple}C{(lat, lon)}.  For abutting circles,
-                the points are the same instance, aka I{radical center}.
+                L{LatLon2Tuple}C{(lat, lon)}.  For abutting circles, the
+                points are the same instance, aka the I{radical center}.
 
        @raise IntersectionError: Concentric, antipodal, invalid or
                                  non-intersecting circles or no
@@ -1124,39 +1219,32 @@ def intersections2(lat1, lon1, radius1,
        @raise UnitError: Invalid B{C{lat1}}, B{C{lon1}}, B{C{radius1}},
                          B{C{lat2}}, B{C{lon2}} or B{C{radius2}}.
     '''
-    if datum is None or euclidean(lat1, lon1, lat2, lon2, radius=R_M,
-                                  adjust=True, wrap=wrap) < _100km:
-        def _V2T(x, y, _, **unused):  # _ == z unused
-            return LatLon2Tuple(y, x, name=intersections2.__name__)
+    r1, r2 = Radius_(radius1=radius1), Radius_(radius2=radius2)
+    try:
+        _i, d, l2, m, n = _idlmn5(datum, lat1, lon1, lat2, lon2, wrap, True)
+        if d is None:
+            r1 = m2degrees(r1, radius=R_M, lat=lat1)
+            r2 = m2degrees(r2, radius=R_M, lat=lat2)
 
-        r1 = m2degrees(Radius_(radius1=radius1), radius=R_M, lat=lat1)
-        r2 = m2degrees(Radius_(radius2=radius2), radius=R_M, lat=lat2)
+            def _V2T(x, y, _, **unused):  # _ == z unused
+                return LatLon2Tuple(y, x, name=n)
 
-        _, lon2 = unroll180(lon1, lon2, wrap=wrap)
-        m = _MODS.vector3d
-        t = m.intersections2(m.Vector3d(lon1, lat1, 0), r1,
-                             m.Vector3d(lon2, lat2, 0), r2, sphere=False,
-                               Vector=_V2T)
-    else:
-        def _LL2T(lat, lon, **unused):
-            return LatLon2Tuple(lat, lon, name=intersections2.__name__)
-
-        d = _spherical_datum(datum, name=intersections2.__name__)
-        if d.isSpherical:
-            m = _MODS.sphericalTrigonometry
-        elif d.isEllipsoidal:
-            try:
-                if d.ellipsoid.geodesic:
-                    pass
-                m = _MODS.ellipsoidalKarney
-            except ImportError:
-                m = _MODS.ellipsoidalExact
+            t = _i(m.Vector3d(lon1, lat1, 0), r1,
+                   m.Vector3d(l2,   lat2, 0), r2, sphere=False,
+                     Vector=_V2T)
         else:
-            raise _AssertionError(datum=d)
 
-        t = m.intersections2(m.LatLon(lat1, lon1, datum=d), radius1,
-                             m.LatLon(lat2, lon2, datum=d), radius2,
-                               LatLon=_LL2T, height=0, wrap=wrap)
+            def _LL2T(lat, lon, **unused):
+                return LatLon2Tuple(lat, lon, name=n)
+
+            t = _i(m.LatLon(lat1, lon1, datum=d), r1,
+                   m.LatLon(lat2, lon2, datum=d), r2,
+                     LatLon=_LL2T, height=0, wrap=wrap)
+
+    except (TypeError, ValueError) as x:
+        raise _xError(x, lat1=lat1, lon1=lon1, radius1=radius1,
+                         lat2=lat2, lon2=lon2, radius2=radius2,
+                         datum=datum, wrap=wrap)
     return t
 
 

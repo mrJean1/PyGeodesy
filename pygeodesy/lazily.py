@@ -206,7 +206,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'excessKarney', 'excessKarney_', 'excessQuad', 'excessQuad_',
                                  'flatLocal', 'flatLocal_', 'flatPolar', 'flatPolar_',
                                  'hartzell', 'haversine', 'haversine_', 'heightOf', 'horizon', 'hubeny', 'hubeny_',
-                                 'intersections2', 'isantipode', 'isantipode_', 'isnormal', 'isnormal_',
+                                 'intersection2', 'intersections2', 'isantipode', 'isantipode_', 'isnormal', 'isnormal_',
                                  'latlon2n_xyz', 'normal', 'normal_', 'n_xyz2latlon', 'n_xyz2philam',
                                  'opposing', 'opposing_', 'philam2n_xyz',
                                  'radical2', 'thomas', 'thomas_', 'vincentys', 'vincentys_'),
@@ -221,6 +221,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                           fsums=('Fsum', 'Fsum2Tuple', 'ResidualError',
                                  'fsum', 'fsum_', 'fsum1', 'fsum1_',),
                            gars=('Garef', 'GARSError'),
+                      geodesicw=('Geodesic', 'GeodesicLine', 'Geodesic_WGS84'),
                       geodesicx=('gx', 'gxarea', 'gxline',  # modules
                                  'GeodesicAreaExact', 'GeodesicExact', 'GeodesicLineExact', 'PolygonArea'),
                       geodsolve=('GeodesicSolve', 'GeodesicLineSolve', 'GeodSolve12Tuple'),
@@ -419,7 +420,7 @@ class _ALL_MODS(object):
 _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '23.04.05'
+__version__ = '23.04.10'
 
 
 def _ALL_OTHER(*objs):

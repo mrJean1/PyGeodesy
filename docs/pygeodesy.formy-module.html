@@ -63,7 +63,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        23.04.05
+        23.04.10
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -858,6 +858,32 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.formy-module.html#intersection2" class="summary-sig-name">intersection2</a>(<span class="summary-sig-arg">lat1</span>,
+        <span class="summary-sig-arg">lon1</span>,
+        <span class="summary-sig-arg">bearing1</span>,
+        <span class="summary-sig-arg">lat2</span>,
+        <span class="summary-sig-arg">lon2</span>,
+        <span class="summary-sig-arg">bearing2</span>,
+        <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>)</span><br />
+      <i>Conveniently</i> compute the intersection of two lines each 
+      defined by a (geodetic) point and a bearing from North, using either 
+      ...</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.formy-module.html#intersections2" class="summary-sig-name">intersections2</a>(<span class="summary-sig-arg">lat1</span>,
         <span class="summary-sig-arg">lon1</span>,
         <span class="summary-sig-arg">radius1</span>,
@@ -866,8 +892,8 @@
         <span class="summary-sig-arg">radius2</span>,
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>)</span><br />
-      Conveniently compute the intersections of two circles each defined by
-      a (geodetic) center point and a radius, using either ...</td>
+      <i>Conveniently</i> compute the intersections of two circles each 
+      defined by a (geodetic) center point and a radius, using either ...</td>
           <td align="right" valign="top">
             
             
@@ -3293,6 +3319,90 @@
       </p>
 </div></td></tr></table>
 </div>
+<a name="intersection2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">intersection2</span>&nbsp;(<span class="sig-arg">lat1</span>,
+        <span class="sig-arg">lon1</span>,
+        <span class="sig-arg">bearing1</span>,
+        <span class="sig-arg">lat2</span>,
+        <span class="sig-arg">lon2</span>,
+        <span class="sig-arg">bearing2</span>,
+        <span class="sig-arg">datum</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">True</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p><i>Conveniently</i> compute the intersection of two lines each defined
+  by a (geodetic) point and a bearing from North, using either ...</p>
+  <p>1) <a href="pygeodesy.vector3d-module.html#intersection3d3" 
+  class="link">vector3d.intersection3d3</a> for small distances (below 100 
+  KM or about 0.9 degrees) or if no <b><code>datum</code></b> is specified,
+  or ...</p>
+  <p>2) <a href="pygeodesy.sphericalTrigonometry-module.html#intersection" 
+  class="link">sphericalTrigonometry.intersection</a> for a spherical 
+  <b><code>datum</code></b> or if <b><code>datum</code></b> is a 
+  <code>scalar</code> representing the earth radius, conventionally in 
+  <code>meter</code> or ...</p>
+  <p>3) <a href="pygeodesy.ellipsoidalKarney-module.html#intersection3" 
+  class="link">ellipsoidalKarney.intersection3</a> for an ellipsoidal 
+  <b><code>datum</code></b> and if <i>Karney</i>'s <a 
+  href="https://PyPI.org/project/geographiclib" 
+  target="_top">geographiclib</a> is installed, otherwise ...</p>
+  <p>4) <a href="pygeodesy.ellipsoidalExact-module.html#intersection3" 
+  class="link">ellipsoidalExact.intersection3</a>, provided 
+  <b><code>datum</code></b> is ellipsoidal.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>lat1</code></strong> - Latitude of the first point (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lon1</code></strong> - Longitude of the first point (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>bearing1</code></strong> - Bearing at the first point (compass <code>degrees</code>).</li>
+        <li><strong class="pname"><code>lat2</code></strong> - Latitude of the second point (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lon2</code></strong> - Longitude of the second point (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>bearing2</code></strong> - Bearing at the second point (compass <code>degrees</code>).</li>
+        <li><strong class="pname"><code>datum</code></strong> - Optional ellipsoidal or spherical datum (<a 
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>, 
+          <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+          class="link">Ellipsoid</a>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
+          class="link">Ellipsoid2</a>, <a 
+          href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
+          class="link">a_f2Tuple</a> or <code>scalar</code> earth radius in
+          <code>meter</code>) or <code>None</code>.</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A <a href="pygeodesy.namedTuples.LatLon2Tuple-class.html" 
+          class="link">LatLon2Tuple</a><code>(lat, lon)</code> with the 
+          lat- and longitude of the intersection point.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - Ambiguous or infinite intersection or colinear, parallel or 
+        otherwise non-intersecting paths.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>datum</code></b>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.UnitError-class.html">UnitError</a></strong></code> - Invalid <b><code>lat1</code></b>, <b><code>lon1</code></b>, 
+        <b><code>bearing1</code></b>, <b><code>lat2</code></b>, 
+        <b><code>lon2</code></b> or <b><code>bearing2</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Method <a 
+        href="pygeodesy.rhumbx._RhumbLine-class.html#intersection2" 
+        class="link">RhumbLine.intersection2</a>.
+      </p>
+      <p><strong>Note:</strong>
+        The returned intersections may be antipodal or near-antipodal.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="intersections2"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -3314,8 +3424,8 @@
     </td>
   </tr></table>
   
-  <p>Conveniently compute the intersections of two circles each defined by 
-  a (geodetic) center point and a radius, using either ...</p>
+  <p><i>Conveniently</i> compute the intersections of two circles each 
+  defined by a (geodetic) center point and a radius, using either ...</p>
   <p>1) <a href="pygeodesy.vector3d-module.html#intersections2" 
   class="link">vector3d.intersections2</a> for small distances (below 100 
   KM or about 0.9 degrees) or if no <b><code>datum</code></b> is specified,
@@ -3360,7 +3470,7 @@
         <dd>2-Tuple of the intersection points, each a <a 
           href="pygeodesy.namedTuples.LatLon2Tuple-class.html" 
           class="link">LatLon2Tuple</a><code>(lat, lon)</code>.  For 
-          abutting circles, the points are the same instance, aka 
+          abutting circles, the points are the same instance, aka the 
           <i>radical center</i>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
@@ -4224,7 +4334,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Apr  5 15:47:12 2023
+    Generated by Epydoc 3.0.1 on Mon Apr 10 13:17:49 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
