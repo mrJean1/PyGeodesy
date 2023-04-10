@@ -348,7 +348,7 @@ class _wargs(object):
         try:
             yield args
         except (AttributeError, TypeError, ValueError) as x:
-            n = _DOT_(classname(inst), callername(up=2, underOK=True))
+            n = _DOT_(classname(inst), callername(up=3, underOK=True))
             raise GeodesicError(unstr(n, *args, **kwds), cause=x)
 
 _wargs = _wargs()  # PYCHOK singleton
