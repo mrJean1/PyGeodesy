@@ -37,7 +37,7 @@ from pygeodesy.basics import isscalar, _xinstanceof
 from pygeodesy.constants import EPS, EPS0, PI, PI2, PI_2, R_M, \
                                _0_0, _0_5, _1_0
 # from pygeodesy.datums import Datums  # from .sphericalBase
-from pygeodesy.errors import _ValueError, _xError, _xkwds
+from pygeodesy.errors import _ValueError, _xError, _xkwds, _xkwds_pop
 from pygeodesy.fmath import fmean, fsum
 # from pygeodesy.fsums import fsum  # from .fmath
 from pygeodesy.interns import _composite_, _end_, _Nv00_, _other_, _point_, \
@@ -904,7 +904,7 @@ def intersecant2(center, circle, point, bearing, radius=R_M, exact=False,
 def intersection(start1, end1, start2, end2,
                  height=None, LatLon=LatLon, **LatLon_kwds):
     '''Locate the intersection of two lines each defined by two
-       points or by a start point and an initial bearing.
+       points or by a start point and an (initial) bearing.
 
        @arg start1: Start point of the first line (L{LatLon}).
        @arg end1: End point of the first line (L{LatLon}) or the
@@ -992,6 +992,7 @@ def intersection(start1, end1, start2, end2,
 
     h = fmean(hs) if height is None else height
     kwds = _xkwds(LatLon_kwds, height=h, LatLon=LatLon)
+    _ = _xkwds_pop(kwds, wrap=None)  # from .formy.intersection2
     return i.toLatLon(**kwds)  # Nvector(i.x, i.y, i.z).toLatLon(...)
 
 

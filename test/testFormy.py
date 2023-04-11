@@ -4,7 +4,7 @@
 # Test L{formy} module.
 
 __all__ = ('Tests',)
-__version__ = '23.04.10'
+__version__ = '23.04.11'
 
 from bases import TestsBase
 
@@ -174,7 +174,7 @@ class Tests(TestsBase):
                                  x=8044806.076, datum=Datums.NAD27)  # Clarke1866 ellipsoid
 
         self.test(intersection2.__name__, intersection2.__module__, formy.__name__)
-        for datum in (None, R_M, Datums.WGS84):
+        for datum in (None, R_M, -R_M, Datums.WGS84):
             t = str(intersection2(0, 0, 30, 0, 30, -30, datum))
             self.test('%s(%s)' % (intersection2.__name__, datum), t, '(24.284126, 15.0)', known=t.endswith(' 15.0)'))
 

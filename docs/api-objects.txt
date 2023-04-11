@@ -1619,6 +1619,7 @@ pygeodesy.formy._opposes	pygeodesy.formy-module.html#_opposes
 pygeodesy.formy.hubeny	pygeodesy.formy-module.html#hubeny
 pygeodesy.formy.flatLocal	pygeodesy.formy-module.html#flatLocal
 pygeodesy.formy.isnormal	pygeodesy.formy-module.html#isnormal
+pygeodesy.formy.isscalar	pygeodesy.basics-module.html#isscalar
 pygeodesy.formy.unrollPI	pygeodesy.utily-module.html#unrollPI
 pygeodesy.formy._sincosa6	pygeodesy.formy-module.html#_sincosa6
 pygeodesy.formy._xnamed	pygeodesy.named-module.html#_xnamed
@@ -3288,6 +3289,7 @@ pygeodesy.sphericalNvector.__package__	pygeodesy.sphericalNvector-module.html#__
 pygeodesy.sphericalNvector._xError	pygeodesy.errors-module.html#_xError
 pygeodesy.sphericalNvector.deprecated_method	pygeodesy.props-module.html#deprecated_method
 pygeodesy.sphericalNvector._triangulate	pygeodesy.nvectorBase-module.html#_triangulate
+pygeodesy.sphericalNvector._xkwds_pop	pygeodesy.errors-module.html#_xkwds_pop
 pygeodesy.sphericalNvector.fsum	pygeodesy.fsums-module.html#fsum
 pygeodesy.sphericalNvector._Nvll	pygeodesy.sphericalNvector-module.html#_Nvll
 pygeodesy.sphericalNvector._lines_	pygeodesy.sphericalNvector-module.html#_lines_

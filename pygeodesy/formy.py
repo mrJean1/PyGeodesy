@@ -6,6 +6,7 @@ u'''Formulary of basic geodesy functions and approximations.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
+# from pygeodesy.basics import isscalar  # from .fsums
 from pygeodesy.constants import EPS, EPS0, EPS1, PI, PI2, PI3, PI_2, R_M, \
                                _umod_PI2, float0, isnon0, remainder, _0_0, \
                                _0_125, _0_25, _0_5, _1_0, _2_0, _N_2_0, \
@@ -16,7 +17,7 @@ from pygeodesy.datums import Datum, Ellipsoid, _ellipsoidal_datum, \
 from pygeodesy.errors import _AssertionError, IntersectionError, LimitError, \
                               limiterrors, _ValueError, _xError
 from pygeodesy.fmath import Fdot, euclid, fdot, hypot, hypot2, sqrt0
-from pygeodesy.fsums import fsum_, unstr
+from pygeodesy.fsums import fsum_, isscalar, unstr
 from pygeodesy.interns import NN, _distant_, _inside_, _near_, _null_, \
                              _opposite_, _outside_, _too_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
@@ -1091,6 +1092,10 @@ def _idlmn5(datum, lat1, lon1, lat2, lon2, wrap, s):
         d, m    = None, _MODS.vector3d
         _i      = m._intersects2 if s else m._intersect3d3
         _, lon2 = unroll180(lon1, lon2, wrap=wrap)
+    elif isscalar(datum) and datum < 0 and not s:
+        d = _spherical_datum(-datum, name=n)
+        m = _MODS.sphericalNvector
+        _i = m.intersection
     else:
         d = _spherical_datum(datum, name=n)
         if d.isSpherical:
@@ -1118,14 +1123,17 @@ def intersection2(lat1, lon1, bearing1,
        about 0.9 degrees) or if no B{C{datum}} is specified, or ...
 
        2) L{sphericalTrigonometry.intersection} for a spherical B{C{datum}}
-       or if B{C{datum}} is a C{scalar} representing the earth radius,
-       conventionally in C{meter} or ...
+       or if B{C{datum}} is a C{scalar} representing the earth
+       radius, conventionally in C{meter} or ...
 
-       3) L{ellipsoidalKarney.intersection3} for an ellipsoidal B{C{datum}}
+       3) L{sphericalNvector.intersection} if B{C{datum}} is a I{negative}
+       C{scalar}, (negative) earth radius, conventionally in C{meter} or ...
+
+       4) L{ellipsoidalKarney.intersection3} for an ellipsoidal B{C{datum}}
        and if I{Karney}'s U{geographiclib<https://PyPI.org/project/geographiclib>}
        is installed, otherwise ...
 
-       4) L{ellipsoidalExact.intersection3}, provided B{C{datum}} is ellipsoidal.
+       5) L{ellipsoidalExact.intersection3}, provided B{C{datum}} is ellipsoidal.
 
        @arg lat1: Latitude of the first point (C{degrees}).
        @arg lon1: Longitude of the first point (C{degrees}).
