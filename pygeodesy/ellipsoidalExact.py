@@ -23,7 +23,7 @@ from pygeodesy.points import _areaError, ispolar  # PYCHOK exported
 # from math import fabs  # from .karney
 
 __all__ = _ALL_LAZY.ellipsoidalExact
-__version__ = '23.04.09'
+__version__ = '23.04.11'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -120,15 +120,15 @@ def areaOf(points, datum=_WGS84, wrap=True):
 
 def intersection3(start1, end1, start2, end2, height=None, wrap=True,
                   equidistant=None, tol=_TOL_M, LatLon=LatLon, **LatLon_kwds):
-    '''Iteratively compute the intersection point of two paths, each defined
+    '''Iteratively compute the intersection point of two lines, each defined
        by two (ellipsoidal) points or by an (ellipsoidal) start point and an
        initial bearing from North.
 
-       @arg start1: Start point of the first path (L{LatLon}).
-       @arg end1: End point of the first path (L{LatLon}) or the initial bearing
+       @arg start1: Start point of the first line (L{LatLon}).
+       @arg end1: End point of the first line (L{LatLon}) or the initial bearing
                   at the first point (compass C{degrees360}).
-       @arg start2: Start point of the second path (L{LatLon}).
-       @arg end2: End point of the second path (L{LatLon}) or the initial bearing
+       @arg start2: Start point of the second line (L{LatLon}).
+       @arg end2: End point of the second line (L{LatLon}) or the initial bearing
                   at the second point (compass C{degrees360}).
        @kwarg height: Optional height at the intersection (C{meter}, conventionally)
                       or C{None} for the mean height.
@@ -148,12 +148,12 @@ def intersection3(start1, end1, start2, end2, height=None, wrap=True,
                 lon, height, datum)}.
 
        @raise IntersectionError: Skew, colinear, parallel or otherwise non-intersecting
-                                 paths or no convergence for the given B{C{tol}}.
+                                 lines or no convergence for the given B{C{tol}}.
 
        @raise TypeError: Invalid or non-ellipsoidal B{C{start1}}, B{C{end1}},
                          B{C{start2}} or B{C{end2}} or invalid B{C{equidistant}}.
 
-       @note: For each path specified with an initial bearing, a pseudo-end point
+       @note: For each line specified with an initial bearing, a pseudo-end point
               is computed as the C{destination} along that bearing at about 1.5
               times the distance from the start point to an initial gu-/estimate
               of the intersection point (and between 1/8 and 3/8 of the authalic

@@ -71,7 +71,7 @@ from pygeodesy.utily import asin1, atan2b, atan2d, sincos2, \
 from math import acos, atan, atan2, degrees, fabs, sin, sqrt
 
 __all__ = _ALL_LAZY.azimuthal
-__version__ = '23.04.07'
+__version__ = '23.04.11'
 
 _EPS_K         = _EPStol * _0_1  # Karney's eps_ or _EPSmin * _0_1?
 _over_horizon_ = 'over horizon'
@@ -438,9 +438,10 @@ def equidistant(lat0, lon0, datum=_WGS84, exact=False, geodsolve=False, name=NN)
 
 
 class _AzimuthalGeodesic(_AzimuthalBase):
-    '''(INTERNAL) Base class for azimuthal projections using U{Karney Geodesic
-       <https://GeographicLib.SourceForge.io/C++/doc/python/code.html>} or
-       exact geodesic classes L{GeodesicExact} and L{GeodesicLineExact}.
+    '''(INTERNAL) Base class for azimuthal projections using the
+       I{wrapped} U{geodesic.Geodesic and geodesicline.GeodesicLine
+       <https://GeographicLib.SourceForge.io/Python/doc/code.html>} or the
+       I{exact} geodesic classes L{GeodesicExact} and L{GeodesicLineExact}.
     '''
     _mask = 0
 
@@ -626,10 +627,10 @@ class EquidistantKarney(_EquidistantBase):
 
     @Property_RO
     def geodesic(self):
-        '''Get this projection's I{wrapped} U{Karney Geodesic
-           <https://GeographicLib.SourceForge.io/C++/doc/python/code.html>},
-           provided package U{geographiclib
-           <https://PyPI.org/project/geographiclib>} is installed.
+        '''Get this projection's I{wrapped} U{geodesic.Geodesic
+           <https://GeographicLib.SourceForge.io/Python/doc/code.html>}, provided
+           I{Karney}'s U{geographiclib<https://PyPI.org/project/geographiclib>}
+           package is installed.
         '''
         return self.datum.ellipsoid.geodesic
 
@@ -931,9 +932,10 @@ class GnomonicKarney(_GnomonicBase):
 
     @Property_RO
     def geodesic(self):
-        '''Get this projection's I{wrapped} U{Karney Geodesic
-           <https://GeographicLib.SourceForge.io/C++/doc/python/code.html>}, provided package
-           U{geographiclib<https://PyPI.org/project/geographiclib>} is installed.
+        '''Get this projection's I{wrapped} U{geodesic.Geodesic
+           <https://GeographicLib.SourceForge.io/Python/doc/code.html>}, provided
+           I{Karney}'s U{geographiclib<https://PyPI.org/project/geographiclib>}
+           package is installed.
         '''
         return self.datum.ellipsoid.geodesic
 

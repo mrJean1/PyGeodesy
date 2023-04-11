@@ -26,9 +26,9 @@ from pygeodesy.interns import MISSING, NN, __all__ as _interns_a_l_l_, \
                              _areaOf_, _attribute_, _by_, _COLONSPACE_, \
                              _COMMASPACE_, _doesn_t_exist_, _DOT_, _enabled_, \
                              _EQUALSPACED_, _from_, _immutable_, _isclockwise_, \
-                             _ispolar_, _module_, _NL_, _no_, _not_, _or_, \
-                             _pygeodesy_abspath_, _Python_, _QUOTE1_, _QUOTE2_, \
-                             _SPACE_, _UNDER_, _version_, _dunder_nameof
+                             _ispolar_, _line_, _module_, _NL_, _no_, _not_, \
+                             _or_, _pygeodesy_abspath_, _Python_, _QUOTE1_, \
+                             _QUOTE2_, _SPACE_, _UNDER_, _version_, _dunder_nameof
 
 from os import getenv as _getenv  # in .errors, .geodsolve, .props, .units
 from os.path import basename as _basename
@@ -40,7 +40,6 @@ _from_DOT__             = _SPACE_(NN, _from_, _DOT_)
 _imports_               = 'imports'
 _lazily_                = 'lazily'
 _lazily_imported__      = _SPACE_('#', _lazily_, 'imported', NN)
-_line_                  = 'line'
 _p_a_c_k_a_g_e_         = '__package__'
 _pygeodesy_             = 'pygeodesy'
 _PYGEODESY_LAZY_IMPORT_ = 'PYGEODESY_LAZY_IMPORT'
@@ -420,7 +419,7 @@ class _ALL_MODS(object):
 _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '23.04.10'
+__version__ = '23.04.11'
 
 
 def _ALL_OTHER(*objs):

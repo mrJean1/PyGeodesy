@@ -15,7 +15,7 @@ published under the same MIT Licence**.  See U{Vector-based geodesy
 U{Module latlon-nvector-spherical
 <https://www.Movable-Type.co.UK/scripts/geodesy/docs/module-latlon-nvector-spherical.html>}.
 
-Tools for working with points and paths on (a spherical model of) the
+Tools for working with points and lines on (a spherical model of) the
 earth’s surface using using n-vectors rather than the more common
 spherical trigonometry.  N-vectors make many calculations much simpler,
 and easier to follow, compared with the trigonometric equivalents.
@@ -58,9 +58,9 @@ from pygeodesy.utily import atan2, degrees360, fabs, sincos2, sincos2_, sincos2d
 # from math import atan2, fabs  # from utily
 
 __all__ = _ALL_LAZY.sphericalNvector
-__version__ = '23.04.02'
+__version__ = '23.04.11'
 
-_paths_ = 'paths'
+_lines_ = 'lines'
 
 
 class Cartesian(CartesianSphericalBase):
@@ -109,7 +109,7 @@ class Cartesian(CartesianSphericalBase):
 class LatLon(LatLonNvectorBase, LatLonSphericalBase):
     '''New n-vector based point on a spherical earth model.
 
-       Tools for working with points and paths on (a spherical
+       Tools for working with points, lines and paths on (a spherical
        model of) the earth's surface using vector-based methods.
 
        @example:
@@ -128,22 +128,22 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
     def alongTrackDistanceTo(self, start, end, radius=R_M):
         '''Compute the (signed) distance from the start to the closest
-           point on the great circle path defined by a start and an
+           point on the great circle line defined by a start and an
            end point.
 
            That is, if a perpendicular is drawn from this point to the
-           great circle path, the along-track distance is the distance
+           great circle line, the along-track distance is the distance
            from the start point to the point where the perpendicular
-           crosses the path.
+           crosses the line.
 
-           @arg start: Start point of great circle path (L{LatLon}).
-           @arg end: End point of great circle path (L{LatLon}) or
+           @arg start: Start point of great circle line (L{LatLon}).
+           @arg end: End point of great circle line (L{LatLon}) or
                      initial bearing from start point (compass
                      C{degrees360}).
            @kwarg radius: Mean earth radius (C{meter}).
 
-           @return: Distance along the great circle path (positive if
-                    after the start toward the end point of the path
+           @return: Distance along the great circle line (positive if
+                    after the start toward the end point of the line
                     or negative if before the start point).
 
            @raise TypeError: If B{C{start}} or B{C{end}} point is not L{LatLon}.
@@ -175,14 +175,14 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         '''Compute the (signed) distance from this point to great circle
            defined by a start and end point.
 
-           @arg start: Start point of great circle path (L{LatLon}).
-           @arg end: End point of great circle path (L{LatLon}) or
+           @arg start: Start point of great circle line (L{LatLon}).
+           @arg end: End point of great circle line (L{LatLon}) or
                      initial bearing from start point (compass
                      C{degrees360}).
            @kwarg radius: Mean earth radius (C{meter}).
 
            @return: Distance to great circle (negative if to the
-                    left or positive if to the right of the path).
+                    left or positive if to the right of the line).
 
            @raise TypeError: If B{C{start}} or B{C{end}} point is not L{LatLon}.
 
@@ -426,13 +426,13 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         return i.toLatLon(height=h, LatLon=self.classof)  # Nvector(i.x, i.y, i.z).toLatLon(...)
 
     def intersection(self, end1, start2, end2, height=None):
-        '''Locate the intersection point of two paths each defined
+        '''Locate the intersection point of two lines each defined
            by two points or a start point and bearing from North.
 
-           @arg end1: End point of the first path (L{LatLon}) or the
+           @arg end1: End point of the first line (L{LatLon}) or the
                       initial bearing at this point (compass C{degrees360}).
-           @arg start2: Start point of the second path (L{LatLon}).
-           @arg end2: End point of the second path (L{LatLon}) or the
+           @arg start2: Start point of the second line (L{LatLon}).
+           @arg end2: End point of the second line (L{LatLon}) or the
                       initial bearing at the second point (compass
                       C{degrees}).
            @kwarg height: Optional height at the intersection point,
@@ -445,7 +445,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
                              is not L{LatLon}.
 
            @raise ValueError: Intersection is ambiguous or infinite or
-                              the paths are parallel, coincident or null.
+                              the lines are parallel, coincident or null.
 
            @example:
 
@@ -903,15 +903,15 @@ def intersecant2(center, circle, point, bearing, radius=R_M, exact=False,
 
 def intersection(start1, end1, start2, end2,
                  height=None, LatLon=LatLon, **LatLon_kwds):
-    '''Locate the intersection of two paths each defined by two
+    '''Locate the intersection of two lines each defined by two
        points or by a start point and an initial bearing.
 
-       @arg start1: Start point of the first path (L{LatLon}).
-       @arg end1: End point of the first path (L{LatLon}) or the
+       @arg start1: Start point of the first line (L{LatLon}).
+       @arg end1: End point of the first line (L{LatLon}) or the
                   initial bearing at the first start point
                   (compass C{degrees360}).
-       @arg start2: Start point of the second path (L{LatLon}).
-       @arg end2: End point of the second path (L{LatLon}) or the
+       @arg start2: Start point of the second line (L{LatLon}).
+       @arg end2: End point of the second line (L{LatLon}) or the
                   initial bearing at the second start point
                   (compass C{degrees360}).
        @kwarg height: Optional height at the intersection point,
@@ -929,7 +929,7 @@ def intersection(start1, end1, start2, end2,
        @raise TypeError: If B{C{start*}} or B{C{end*}} is not L{LatLon}.
 
        @raise ValueError: Intersection is ambiguous or infinite or
-                          the paths are parallel, coincident or null.
+                          the lines are parallel, coincident or null.
 
        @example:
 
@@ -945,19 +945,19 @@ def intersection(start1, end1, start2, end2,
     # intersections are simply gc1 × gc2 and gc2 × gc1.  Most of the
     # work is deciding the correct intersection point to select!  If
     # bearing is given, that determines the intersection, but if both
-    # paths are defined by start/end points, take closer intersection.
+    # lines are defined by start/end points, take closer intersection.
     gc1, s1, e1 = _Nvll._gc3(start1, end1, 'end1')
     gc2, s2, e2 = _Nvll._gc3(start2, end2, 'end2')
 
     hs = start1.height, start2.height
     # there are two (antipodal) candidate intersection
     # points ... we have to choose the one to return
-    i1 = gc1.cross(gc2, raiser=_paths_)
+    i1 = gc1.cross(gc2, raiser=_lines_)
     # postpone computing i2 until needed
-    # i2 = gc2.cross(gc1, raiser=_paths_)
+    # i2 = gc2.cross(gc1, raiser=_lines_)
 
     # selection of intersection point depends on how
-    # paths are defined (by bearings or endpoints)
+    # lines are defined (by bearings or endpoints)
     if e1 and e2:  # endpoint+endpoint
         d = sumOf((s1, s2, e1, e2)).dot(i1)
         hs += end1.height, end2.height
@@ -988,7 +988,7 @@ def intersection(start1, end1, start2, end2,
             # .ellipsoidalBaseDI._intersect3
             d = d1  # neg(s1.plus(s2).dot(i1))
 
-    i = i1 if d > 0 else gc2.cross(gc1, raiser=_paths_)
+    i = i1 if d > 0 else gc2.cross(gc1, raiser=_lines_)
 
     h = fmean(hs) if height is None else height
     kwds = _xkwds(LatLon_kwds, height=h, LatLon=LatLon)

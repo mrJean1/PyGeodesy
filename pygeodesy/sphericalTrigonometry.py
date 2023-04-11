@@ -30,9 +30,9 @@ from pygeodesy.formy import antipode_, bearing_, _bearingTo2, excessAbc_, \
                             excessGirard_, excessLHuilier_, opposing_, _radical2, \
                             vincentys_
 from pygeodesy.interns import _1_, _2_, _coincident_, _composite_, _colinear_, \
-                              _concentric_, _convex_, _end_, _infinite_, \
-                              _invalid_, _LatLon_, _near_, _not_, _null_, \
-                              _points_, _SPACE_, _too_
+                              _concentric_, _convex_, _end_, _infinite_, _invalid_, \
+                              _LatLon_, _line_, _near_, _not_, _null_, _points_, \
+                              _SPACE_, _too_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _ALL_OTHER
 # from pygeodesy.named import notImplemented  # from .points
 from pygeodesy.namedTuples import LatLon2Tuple, LatLon3Tuple, \
@@ -54,10 +54,9 @@ from pygeodesy.vector3d import sumOf, Vector3d
 from math import asin, atan2, cos, degrees, fabs, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '23.04.10'
+__version__ = '23.04.11'
 
 _parallel_ = 'parallel'
-_path_     = 'path'
 
 _PI_EPS4 = PI - EPS4
 if _PI_EPS4 >= PI:
@@ -96,23 +95,23 @@ class LatLon(LatLonSphericalBase):
 
     def alongTrackDistanceTo(self, start, end, radius=R_M, wrap=False):
         '''Compute the (angular) distance (signed) from the start to
-           the closest point on the great circle path defined by a
+           the closest point on the great circle line defined by a
            start and an end point.
 
            That is, if a perpendicular is drawn from this point to the
-           great circle path, the along-track distance is the distance
+           great circle line, the along-track distance is the distance
            from the start point to the point where the perpendicular
-           crosses the path.
+           crosses the line.
 
-           @arg start: Start point of great circle path (L{LatLon}).
-           @arg end: End point of great circle path (L{LatLon}).
+           @arg start: Start point of great circle line (L{LatLon}).
+           @arg end: End point of great circle line (L{LatLon}).
            @kwarg radius: Mean earth radius (C{meter}) or C{None}.
            @kwarg wrap: Wrap and unroll longitudes (C{bool}).
 
-           @return: Distance along the great circle path (C{meter},
+           @return: Distance along the great circle line (C{meter},
                     same units as B{C{radius}}) or C{radians} if
                     C{B{radius} is None}, positive if after the B{C{start}}
-                    toward the B{C{end}} point of the path or negative
+                    toward the B{C{end}} point of the line or negative
                     if before the B{C{start}} point.
 
            @raise TypeError: Invalid B{C{start}} or B{C{end}} point.
@@ -177,13 +176,13 @@ class LatLon(LatLonSphericalBase):
         '''Compute the (angular) distance (signed) from this point to
            the great circle defined by a start and an end point.
 
-           @arg start: Start point of great circle path (L{LatLon}).
-           @arg end: End point of great circle path (L{LatLon}).
+           @arg start: Start point of great circle line (L{LatLon}).
+           @arg end: End point of great circle line (L{LatLon}).
            @kwarg radius: Mean earth radius (C{meter}) or C{None}.
            @kwarg wrap: Wrap and unroll longitudes (C{bool}).
 
            @return: Distance to great circle (negative if to the left
-                    or positive if to the right of the path) (C{meter},
+                    or positive if to the right of the line) (C{meter},
                     same units as B{C{radius}} or C{radians} if
                     B{C{radius}} is C{None}).
 
@@ -390,14 +389,14 @@ class LatLon(LatLonSphericalBase):
         return r
 
     def intersection(self, end1, other, end2, height=None, wrap=False):
-        '''Compute the intersection point of two paths, each defined
+        '''Compute the intersection point of two lines, each defined
            by two points or a start point and bearing from North.
 
-           @arg end1: End point of this path (L{LatLon}) or the
+           @arg end1: End point of this line (L{LatLon}) or the
                       initial bearing at this point (compass
                       C{degrees360}).
-           @arg other: Start point of the other path (L{LatLon}).
-           @arg end2: End point of the other path (L{LatLon}) or
+           @arg other: Start point of the other line (L{LatLon}).
+           @arg end2: End point of the other line (L{LatLon}) or
                       the initial bearing at the other start point
                       (compass C{degrees360}).
            @kwarg height: Optional height for intersection point,
@@ -410,12 +409,12 @@ class LatLon(LatLonSphericalBase):
 
            @raise IntersectionError: Ambiguous or infinite intersection
                                      or colinear, parallel or otherwise
-                                     non-intersecting paths.
+                                     non-intersecting lines.
 
            @raise TypeError: If B{C{other}} is not L{LatLon} or B{C{end1}}
                              or B{C{end2}} not C{scalar} nor L{LatLon}.
 
-           @raise ValueError: Invalid B{C{height}} or C{null} path.
+           @raise ValueError: Invalid B{C{height}} or C{null} line.
 
            @example:
 
@@ -590,7 +589,7 @@ class LatLon(LatLonSphericalBase):
            @kwarg options: Optional keyword arguments for function
                            L{pygeodesy.equirectangular_}.
 
-           @return: Closest point on the great circle path (L{LatLon}).
+           @return: Closest point on the great circle line (L{LatLon}).
 
            @raise LimitError: Lat- and/or longitudinal delta exceeds B{C{limit}},
                               see function L{pygeodesy.equirectangular_}.
@@ -909,7 +908,7 @@ def _int3d2(start, end, wrap, _i_, Vector, hs):
 
     db, b2 = unrollPI(b1, b2, wrap=wrap)
     if max(fabs(db), fabs(a2 - a1)) < EPS:
-        raise _ValueError(_SPACE_(_path_ + _i_, _null_))
+        raise _ValueError(_SPACE_(_line_ + _i_, _null_))
     # note, in EdWilliams.org/avform.htm W is + and E is -
     sb21, cb21, sb12, cb12 = sincos2_(db * _0_5,
                                     -(b1 + b2) * _0_5)
@@ -969,7 +968,7 @@ def intersecant2(center, circle, point, bearing, radius=R_M, exact=False,
 
 def _intersect(start1, end1, start2, end2, height=None, wrap=False,  # in.ellipsoidalBaseDI._intersect3
                                            LatLon=None, **LatLon_kwds):
-    # (INTERNAL) Intersect two (spherical) path, see L{intersection}
+    # (INTERNAL) Intersect two (spherical) lines, see L{intersection}
     # above, separated to allow callers to embellish any exceptions
 
     hs = [start1.height, start2.height]
@@ -1021,7 +1020,7 @@ def _intersect(start1, end1, start2, end2, height=None, wrap=False,  # in.ellips
         x1, d1 = _int3d2(start1, end1, wrap, _1_, _N_vector_, hs)
         x2, d2 = _int3d2(start2, end2, wrap, _2_, _N_vector_, hs)
         x = x1.cross(x2)
-        if x.length < EPS:  # [nearly] colinear or parallel paths
+        if x.length < EPS:  # [nearly] colinear or parallel lines
             raise IntersectionError(_colinear_)
         a, b = x.philam
         # choose intersection similar to sphericalNvector
@@ -1036,15 +1035,15 @@ def _intersect(start1, end1, start2, end2, height=None, wrap=False,  # in.ellips
 
 def intersection(start1, end1, start2, end2, height=None, wrap=False,
                                              LatLon=LatLon, **LatLon_kwds):
-    '''Compute the intersection point of two paths, each defined
+    '''Compute the intersection point of two lines, each defined
        by two points or a start point and bearing from North.
 
-       @arg start1: Start point of the first path (L{LatLon}).
-       @arg end1: End point of the first path (L{LatLon}) or
+       @arg start1: Start point of the first line (L{LatLon}).
+       @arg end1: End point of the first line (L{LatLon}) or
                   the initial bearing at the first start point
                   (compass C{degrees360}).
-       @arg start2: Start point of the second path (L{LatLon}).
-       @arg end2: End point of the second path (L{LatLon}) or
+       @arg start2: Start point of the second line (L{LatLon}).
+       @arg end2: End point of the second line (L{LatLon}) or
                   the initial bearing at the second start point
                   (compass C{degrees360}).
        @kwarg height: Optional height for the intersection point,
@@ -1062,11 +1061,11 @@ def intersection(start1, end1, start2, end2, height=None, wrap=False,
 
        @raise IntersectionError: Ambiguous or infinite intersection
                                  or colinear, parallel or otherwise
-                                 non-intersecting paths.
+                                 non-intersecting lines.
 
        @raise TypeError: A B{C{start}} or B{C{end}} point not L{LatLon}.
 
-       @raise ValueError: Invalid B{C{height}} or C{null} path.
+       @raise ValueError: Invalid B{C{height}} or C{null} line.
 
        @example:
 

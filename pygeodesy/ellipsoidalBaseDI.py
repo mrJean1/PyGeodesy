@@ -31,7 +31,7 @@ from pygeodesy.utily import m2km, unroll180, _unrollon, wrap90, wrap180, wrap360
 from math import degrees, radians
 
 __all__ = _ALL_LAZY.ellipsoidalBaseDI
-__version__ = '23.03.22'
+__version__ = '23.04.11'
 
 _polar__  = 'polar?'
 _too_low_ = _too_('low')
@@ -481,7 +481,7 @@ def _Equidistant00(equidistant, p1):
 
 def _intersect3(s1, end1, s2, end2, height=None, wrap=True,  # MCCABE 16
                 equidistant=None, tol=_TOL_M, LatLon=None, **LatLon_kwds):
-    '''(INTERNAL) Intersect two (ellipsoidal) path, see ellipsoidal method
+    '''(INTERNAL) Intersect two (ellipsoidal) lines, see ellipsoidal method
        L{intersection3}, separated to allow callers to embellish any exceptions.
     '''
     _LLS = _MODS.sphericalTrigonometry.LatLon
@@ -581,7 +581,7 @@ def _intersect3(s1, end1, s2, end2, height=None, wrap=True,  # MCCABE 16
 
 def _intersection3(start1, end1, start2, end2, height=None, wrap=True,
                    equidistant=None, tol=_TOL_M, LatLon=None, **LatLon_kwds):
-    '''(INTERNAL) Iteratively compute the intersection point of two paths,
+    '''(INTERNAL) Iteratively compute the intersection point of two lines,
        each defined by two (ellipsoidal) points or an (ellipsoidal) start
        point and an initial bearing from North.
     '''

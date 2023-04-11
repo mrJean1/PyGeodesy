@@ -86,8 +86,8 @@
 
 <hr />
 <p>New n-vector based point on a spherical earth model.</p>
-  <p>Tools for working with points and paths on (a spherical model of) the 
-  earth's surface using vector-based methods.</p>
+  <p>Tools for working with points, lines and paths on (a spherical model 
+  of) the earth's surface using vector-based methods.</p>
 
 <hr />
 <div class="fields">      <p><strong>Example:</strong>
@@ -114,7 +114,7 @@
         <span class="summary-sig-arg">end</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>)</span><br />
       Compute the (signed) distance from the start to the closest point on 
-      the great circle path defined by a start and an end point.</td>
+      the great circle line defined by a start and an end point.</td>
           <td align="right" valign="top">
             
             
@@ -319,7 +319,7 @@
         <span class="summary-sig-arg">start2</span>,
         <span class="summary-sig-arg">end2</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Locate the intersection point of two paths each defined by two points
+      Locate the intersection point of two lines each defined by two points
       or a start point and bearing from North.</td>
           <td align="right" valign="top">
             
@@ -714,25 +714,25 @@
   </tr></table>
   
   <p>Compute the (signed) distance from the start to the closest point on 
-  the great circle path defined by a start and an end point.</p>
+  the great circle line defined by a start and an end point.</p>
   <p>That is, if a perpendicular is drawn from this point to the great 
-  circle path, the along-track distance is the distance from the start 
-  point to the point where the perpendicular crosses the path.</p>
+  circle line, the along-track distance is the distance from the start 
+  point to the point where the perpendicular crosses the line.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>start</code></strong> - Start point of great circle path (<a 
+        <li><strong class="pname"><code>start</code></strong> - Start point of great circle line (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</li>
-        <li><strong class="pname"><code>end</code></strong> - End point of great circle path (<a 
+        <li><strong class="pname"><code>end</code></strong> - End point of great circle line (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>) or initial bearing from start point 
           (compass <code>degrees360</code>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Distance along the great circle path (positive if after the start
-          toward the end point of the path or negative if before the start 
+        <dd>Distance along the great circle line (positive if after the start
+          toward the end point of the line or negative if before the start 
           point).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
@@ -801,10 +801,10 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>start</code></strong> - Start point of great circle path (<a 
+        <li><strong class="pname"><code>start</code></strong> - Start point of great circle line (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</li>
-        <li><strong class="pname"><code>end</code></strong> - End point of great circle path (<a 
+        <li><strong class="pname"><code>end</code></strong> - End point of great circle line (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>) or initial bearing from start point 
           (compass <code>degrees360</code>).</li>
@@ -812,7 +812,7 @@
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Distance to great circle (negative if to the left or positive if 
-          to the right of the path).</dd>
+          to the right of the line).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - If <b><code>start</code></b> or <b><code>end</code></b> point is 
@@ -1177,19 +1177,19 @@
     </td>
   </tr></table>
   
-  <p>Locate the intersection point of two paths each defined by two points 
+  <p>Locate the intersection point of two lines each defined by two points 
   or a start point and bearing from North.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>end1</code></strong> - End point of the first path (<a 
+        <li><strong class="pname"><code>end1</code></strong> - End point of the first line (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>) or the initial bearing at this point 
           (compass <code>degrees360</code>).</li>
-        <li><strong class="pname"><code>start2</code></strong> - Start point of the second path (<a 
+        <li><strong class="pname"><code>start2</code></strong> - Start point of the second line (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</li>
-        <li><strong class="pname"><code>end2</code></strong> - End point of the second path (<a 
+        <li><strong class="pname"><code>end2</code></strong> - End point of the second line (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>) or the initial bearing at the second 
           point (compass <code>degrees</code>).</li>
@@ -1207,7 +1207,7 @@
         <b><code>end2</code></b> point is not <a 
         href="pygeodesy.sphericalNvector.LatLon-class.html" 
         class="link">LatLon</a>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Intersection is ambiguous or infinite or the paths are parallel, 
+        <li><code><strong class='fraise'>ValueError</strong></code> - Intersection is ambiguous or infinite or the lines are parallel, 
         coincident or null.</li>
     </ul></dd>
   </dl>
@@ -1691,7 +1691,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Apr 10 14:50:59 2023
+    Generated by Epydoc 3.0.1 on Tue Apr 11 12:49:53 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

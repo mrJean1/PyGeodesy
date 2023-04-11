@@ -1530,7 +1530,7 @@
     </td><td class="summary">
         <a href="pygeodesy.errors.CrossError-class.html" class="summary-name">CrossError</a><br />
       Error raised for zero or near-zero vectorial cross products, 
-        occurring for coincident or colinear points, paths or bearings.
+        occurring for coincident or colinear points, lines or bearings.
     </td>
   </tr>
 <tr>
@@ -2344,8 +2344,8 @@
         <i>angular</i> distance in <code>degrees</code> from 
         <i>Karney</i>'s <a href="https://PyPI.org/project/geographiclib" 
         target="_top">geographiclib</a> <a 
-        href="https://GeographicLib.SourceForge.io/C++/doc/python/code.html"
-        target="_top">Geodesic</a> Inverse method.
+        href="https://GeographicLib.SourceForge.io/Python/doc/code.html" 
+        target="_top">geodesic.Geodesic</a> <code>Inverse</code> method.
     </td>
   </tr>
 <tr>
@@ -2490,8 +2490,8 @@
         href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1GeodesicExact.html"
         target="_top">GeodesicExact</a>, modeled after <i>Karney</i>'s 
         Python class <a 
-        href="https://GeographicLib.SourceForge.io/html/python/code.html#module-geographiclib.geodesic"
-        target="_top">Geodesic</a>.
+        href="https://GitHub.com/geographiclib/geographiclib-python" 
+        target="_top">geodesic.Geodesic</a>.
     </td>
   </tr>
 <tr>
@@ -2503,8 +2503,8 @@
         href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1GeodesicLineExact.html"
         target="_top">GeodesicLineExact</a>, modeled after <i>Karney</i>'s 
         Python class <a 
-        href="https://GeographicLib.SourceForge.io/html/python/code.html#module-geographiclib.geodesicline"
-        target="_top">GeodesicLine</a>.
+        href="https://GitHub.com/geographiclib/geographiclib-python" 
+        target="_top">geodesicline.GeodesicLine</a>.
     </td>
   </tr>
 <tr>
@@ -2860,7 +2860,7 @@
         <i>angular</i> distance in <code>degrees</code> from 
         <i>Karney</i>'s <a href="https://PyPI.org/project/geographiclib" 
         target="_top">geographiclib</a> <a 
-        href="https://GeographicLib.SourceForge.io/C++/doc/python/code.html"
+        href="https://GeographicLib.SourceForge.io/Python/doc/code.html" 
         target="_top">Geodesic</a> Inverse method.
     </td>
   </tr>
@@ -3068,7 +3068,7 @@
         <i>angular</i> distance in <code>degrees</code> from 
         <i>Karney</i>'s <a href="https://PyPI.org/project/geographiclib" 
         target="_top">geographiclib</a> <a 
-        href="https://GeographicLib.SourceForge.io/C++/doc/python/code.html"
+        href="https://GeographicLib.SourceForge.io/Python/doc/code.html" 
         target="_top">Geodesic</a> Inverse method.
     </td>
   </tr>
@@ -3196,7 +3196,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.errors.IntersectionError-class.html" class="summary-name">IntersectionError</a><br />
-      Error raised for path or circle intersection issues.
+      Error raised for line or circle intersection issues.
     </td>
   </tr>
 <tr>
@@ -8315,7 +8315,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7ff6e059f450&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f7ca057a450&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -20738,7 +20738,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7ff6e059f450&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f7ca057a450&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -21496,7 +21496,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - Ambiguous or infinite intersection or colinear, parallel or 
-        otherwise non-intersecting paths.</li>
+        otherwise non-intersecting lines.</li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>datum</code></b>.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.errors.UnitError-class.html">UnitError</a></strong></code> - Invalid <b><code>lat1</code></b>, <b><code>lon1</code></b>, 
         <b><code>bearing1</code></b>, <b><code>lat2</code></b>, 
@@ -30273,7 +30273,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Apr 10 14:50:55 2023
+    Generated by Epydoc 3.0.1 on Tue Apr 11 12:49:50 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

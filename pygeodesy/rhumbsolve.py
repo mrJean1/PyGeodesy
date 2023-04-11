@@ -20,7 +20,7 @@ from pygeodesy.solveBase import _LineSolveBase, _SolveBase
 # from pygeodesy.utily import wrap360  # from .karney
 
 __all__ = _ALL_LAZY.rhumbsolve
-__version__ = '22.10.11'
+__version__ = '23.04.11'
 
 _PYGEODESY_RHUMBSOLVE_ = 'PYGEODESY_RHUMBSOLVE'  # PYCHOK used!
 
@@ -179,7 +179,7 @@ class RhumbSolve(_RhumbSolveBase):
 
            @see: C++ U{RhumbExact.Line
                  <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1RhumbExact.html>}
-                 and Python U{Rhumb.Line<https://GeographicLib.SourceForge.io/C++/doc/python/code.html>}.
+                 and Python U{Rhumb.Line<https://GeographicLib.SourceForge.io/Python/doc/code.html>}.
         '''
         return RhumbLineSolve(self, lat1, lon1, azi1, caps=caps, name=self.name)
 

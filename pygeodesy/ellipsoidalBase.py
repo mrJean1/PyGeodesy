@@ -35,7 +35,7 @@ from pygeodesy.units import Epoch, _1mm as _TOL_M, Radius_
 # from math import fabs  # from .karney
 
 __all__ = _ALL_LAZY.ellipsoidalBase
-__version__ = '23.04.10'
+__version__ = '23.04.11'
 
 
 class CartesianEllipsoidalBase(CartesianBase):
@@ -453,13 +453,13 @@ class LatLonEllipsoidalBase(LatLonBase):
 
     def intersection3(self, end1, other, end2, height=None, wrap=True,
                                           equidistant=None, tol=_TOL_M):
-        '''Iteratively compute the intersection point of two paths, each
+        '''Iteratively compute the intersection point of two lines, each
            defined by two points or a start point and bearing from North.
 
-           @arg end1: End point of this path (C{LatLon}) or the initial
+           @arg end1: End point of this line (C{LatLon}) or the initial
                       bearing at this point (compass C{degrees360}).
-           @arg other: Start point of the other path (C{LatLon}).
-           @arg end2: End point of the other path (C{LatLon}) or the
+           @arg other: Start point of the other line (C{LatLon}).
+           @arg end2: End point of the other line (C{LatLon}) or the
                       initial bearing at the other point (compass
                       C{degrees360}).
            @kwarg height: Optional height at the intersection (C{meter},
@@ -480,13 +480,13 @@ class LatLonEllipsoidalBase(LatLonBase):
                                C{B{equidistant}=}L{EquidistantKarney}.
 
            @raise IntersectionError: Skew, colinear, parallel or otherwise
-                                     non-intersecting paths or no convergence
+                                     non-intersecting lines or no convergence
                                      for the given B{C{tol}}.
 
            @raise TypeError: If B{C{end1}}, B{C{other}} or B{C{end2}} point
                              is not C{LatLon}.
 
-           @note: For each path specified with an initial bearing, a pseudo-end
+           @note: For each line specified with an initial bearing, a pseudo-end
                   point is computed as the C{destination} along that bearing at
                   about 1.5 times the distance from the start point to an initial
                   gu-/estimate of the intersection point (and between 1/8 and 3/8

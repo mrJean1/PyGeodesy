@@ -2415,6 +2415,7 @@ pygeodesy.interns._infinite_	pygeodesy.interns-module.html#_infinite_
 pygeodesy.interns._R_	pygeodesy.interns-module.html#_R_
 pygeodesy.interns._LR_PAIRS	pygeodesy.interns-module.html#_LR_PAIRS
 pygeodesy.interns._version2	pygeodesy.interns-module.html#_version2
+pygeodesy.interns._overlap_	pygeodesy.interns-module.html#_overlap_
 pygeodesy.interns._Airy1830_	pygeodesy.interns-module.html#_Airy1830_
 pygeodesy.interns._2_	pygeodesy.interns-module.html#_2_
 pygeodesy.interns._pythonarchine	pygeodesy.interns-module.html#_pythonarchine
@@ -2426,7 +2427,7 @@ pygeodesy.interns._M21_	pygeodesy.interns-module.html#_M21_
 pygeodesy.interns._enabled_	pygeodesy.interns-module.html#_enabled_
 pygeodesy.interns._BANG_	pygeodesy.interns-module.html#_BANG_
 pygeodesy.interns._n_a_	pygeodesy.interns-module.html#_n_a_
-pygeodesy.interns._overlap_	pygeodesy.interns-module.html#_overlap_
+pygeodesy.interns._line_	pygeodesy.interns-module.html#_line_
 pygeodesy.interns._Bessel1841_	pygeodesy.interns-module.html#_Bessel1841_
 pygeodesy.interns._sx_	pygeodesy.interns-module.html#_sx_
 pygeodesy.interns._Python_	pygeodesy.interns-module.html#_Python_
@@ -3289,7 +3290,7 @@ pygeodesy.sphericalNvector.deprecated_method	pygeodesy.props-module.html#depreca
 pygeodesy.sphericalNvector._triangulate	pygeodesy.nvectorBase-module.html#_triangulate
 pygeodesy.sphericalNvector.fsum	pygeodesy.fsums-module.html#fsum
 pygeodesy.sphericalNvector._Nvll	pygeodesy.sphericalNvector-module.html#_Nvll
-pygeodesy.sphericalNvector._paths_	pygeodesy.sphericalNvector-module.html#_paths_
+pygeodesy.sphericalNvector._lines_	pygeodesy.sphericalNvector-module.html#_lines_
 pygeodesy.sphericalNvector.areaOf	pygeodesy.sphericalNvector-module.html#areaOf
 pygeodesy.sphericalNvector.nearestOn2	pygeodesy.sphericalNvector-module.html#nearestOn2
 pygeodesy.sphericalNvector.sincos2_	pygeodesy.utily-module.html#sincos2_
@@ -3313,7 +3314,6 @@ pygeodesy.sphericalTrigonometry.isscalar	pygeodesy.basics-module.html#isscalar
 pygeodesy.sphericalTrigonometry.unrollPI	pygeodesy.utily-module.html#unrollPI
 pygeodesy.sphericalTrigonometry._T00	pygeodesy.sphericalTrigonometry-module.html#_T00
 pygeodesy.sphericalTrigonometry.crosserrors	pygeodesy.errors-module.html#crosserrors
-pygeodesy.sphericalTrigonometry._path_	pygeodesy.sphericalTrigonometry-module.html#_path_
 pygeodesy.sphericalTrigonometry.degrees180	pygeodesy.utily-module.html#degrees180
 pygeodesy.sphericalTrigonometry._xkwds_pop	pygeodesy.errors-module.html#_xkwds_pop
 pygeodesy.sphericalTrigonometry.sumOf	pygeodesy.sphericalTrigonometry-module.html#sumOf

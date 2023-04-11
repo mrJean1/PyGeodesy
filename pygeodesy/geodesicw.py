@@ -31,7 +31,7 @@ from contextlib import contextmanager
 # from math import fabs  # from .karney
 
 __all__ = _ALL_LAZY.geodesicw
-__version__ = '23.04.08'
+__version__ = '23.04.11'
 
 
 class _gWrapped(_kWrapped):
@@ -41,8 +41,8 @@ class _gWrapped(_kWrapped):
 
     @Property_RO  # MCCABE 24
     def Geodesic(self):
-        '''Get the I{wrapped} C{geodesic.Geodesic} class from I{Karney}'s
-           Python U{geographiclib<https://PyPI.org/project/geographiclib>},
+        '''Get the I{wrapped} C{geodesic.Geodesic} class from I{Karney}'s Python
+           U{geographiclib<https://GitHub.com/geographiclib/geographiclib-python>},
            provided the latter is installed.
         '''
         _Geodesic =  self.geographiclib.Geodesic
@@ -203,7 +203,7 @@ class _gWrapped(_kWrapped):
     @Property_RO  # MCCABE 16
     def GeodesicLine(self):
         '''Get the I{wrapped} C{geodesicline.GeodesicLine} class from I{Karney}'s
-           Python U{geographiclib<https://PyPI.org/project/geographiclib>},
+           Python U{geographiclib<https://GitHub.com/geographiclib/geographiclib-python>},
            provided the latter is installed.
         '''
         _GeodesicLine = self.geographiclib.GeodesicLine

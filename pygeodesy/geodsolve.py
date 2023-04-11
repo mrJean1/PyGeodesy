@@ -25,7 +25,7 @@ from pygeodesy.solveBase import _LineSolveBase, _SolveBase
 # from pygeodesy.utily import wrap360  # from .karney
 
 __all__ = _ALL_LAZY.geodsolve
-__version__ = '22.10.11'
+__version__ = '23.04.11'
 
 _PYGEODESY_GEODSOLVE_ = 'PYGEODESY_GEODSOLVE'  # PYCHOK used!
 
@@ -177,7 +177,7 @@ class GeodesicSolve(_GeodesicSolveBase):
 
            @see: C++ U{GeodesicExact.Line
                  <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1GeodesicExact.html>}
-                 and Python U{Geodesic.Line<https://GeographicLib.SourceForge.io/C++/doc/python/code.html>}.
+                 and Python U{Geodesic.Line<https://GeographicLib.SourceForge.io/Python/doc/code.html>}.
         '''
         return GeodesicLineSolve(self, lat1, lon1, azi1, caps=caps, name=self.name)
 

@@ -91,7 +91,7 @@ from math import radians
 from random import Random
 
 __all__ = _ALL_LAZY.hausdorff
-__version__ = '22.09.24'
+__version__ = '23.04.11'
 
 
 class HausdorffError(PointsError):
@@ -786,7 +786,7 @@ class HausdorffKarney(HausdorffExact):
     '''Compute the C{Hausdorff} distance based on the I{angular}
        distance in C{degrees} from I{Karney}'s U{geographiclib
        <https://PyPI.org/project/geographiclib>} U{Geodesic
-       <https://GeographicLib.SourceForge.io/C++/doc/python/code.html>}
+       <https://GeographicLib.SourceForge.io/Python/doc/code.html>}
        Inverse method.
 
        @see: L{HausdorffCosineAndoyerLambert},

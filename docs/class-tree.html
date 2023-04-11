@@ -134,7 +134,7 @@
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.errors.CrossError-class.html">pygeodesy.errors.CrossError</a></strong>:
       <em class="summary">Error raised for zero or near-zero vectorial cross products, 
-        occurring for coincident or colinear points, paths or bearings.</em>
+        occurring for coincident or colinear points, lines or bearings.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.epsg.EPSGError-class.html">pygeodesy.epsg.EPSGError</a></strong>:
       <em class="summary">EPSG encode, decode or other <a 
@@ -167,7 +167,7 @@
         class="link">Geohash</a> issue.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.errors.IntersectionError-class.html">pygeodesy.errors.IntersectionError</a></strong>:
-      <em class="summary">Error raised for path or circle intersection issues.</em>
+      <em class="summary">Error raised for line or circle intersection issues.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ktm.KTMError-class.html">pygeodesy.ktm.KTMError</a></strong>:
       <em class="summary">Error raised for <a 
@@ -562,8 +562,8 @@
         <i>angular</i> distance in <code>degrees</code> from 
         <i>Karney</i>'s <a href="https://PyPI.org/project/geographiclib" 
         target="_top">geographiclib</a> <a 
-        href="https://GeographicLib.SourceForge.io/C++/doc/python/code.html"
-        target="_top">Geodesic</a> Inverse method.</em>
+        href="https://GeographicLib.SourceForge.io/Python/doc/code.html" 
+        target="_top">geodesic.Geodesic</a> <code>Inverse</code> method.</em>
     </li>
     </ul>
     </li>
@@ -710,7 +710,7 @@
         <i>angular</i> distance in <code>degrees</code> from 
         <i>Karney</i>'s <a href="https://PyPI.org/project/geographiclib" 
         target="_top">geographiclib</a> <a 
-        href="https://GeographicLib.SourceForge.io/C++/doc/python/code.html"
+        href="https://GeographicLib.SourceForge.io/Python/doc/code.html" 
         target="_top">Geodesic</a> Inverse method.</em>
     </li>
     </ul>
@@ -1074,7 +1074,7 @@
         <i>angular</i> distance in <code>degrees</code> from 
         <i>Karney</i>'s <a href="https://PyPI.org/project/geographiclib" 
         target="_top">geographiclib</a> <a 
-        href="https://GeographicLib.SourceForge.io/C++/doc/python/code.html"
+        href="https://GeographicLib.SourceForge.io/Python/doc/code.html" 
         target="_top">Geodesic</a> Inverse method.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.heights.HeightIDWthomas-class.html">pygeodesy.heights.HeightIDWthomas</a></strong>:
@@ -1526,9 +1526,11 @@
         target="_top">MathWorld-Wolfram</a>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.azimuthal._AzimuthalGeodesic-class.html">pygeodesy.azimuthal._AzimuthalGeodesic</a></strong>:
-      <em class="summary">(INTERNAL) Base class for azimuthal projections using <a 
-        href="https://GeographicLib.SourceForge.io/C++/doc/python/code.html"
-        target="_top">Karney Geodesic</a> or exact geodesic classes <a 
+      <em class="summary">(INTERNAL) Base class for azimuthal projections using the 
+        <i>wrapped</i> <a 
+        href="https://GeographicLib.SourceForge.io/Python/doc/code.html" 
+        target="_top">geodesic.Geodesic and geodesicline.GeodesicLine</a> 
+        or the <i>exact</i> geodesic classes <a 
         href="pygeodesy.geodesicx.gx.GeodesicExact-class.html" 
         class="link">GeodesicExact</a> and <a 
         href="pygeodesy.geodesicx.gx.GeodesicLineExact-class.html" 
@@ -1635,8 +1637,8 @@
         href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1GeodesicExact.html"
         target="_top">GeodesicExact</a>, modeled after <i>Karney</i>'s 
         Python class <a 
-        href="https://GeographicLib.SourceForge.io/html/python/code.html#module-geographiclib.geodesic"
-        target="_top">Geodesic</a>.</em>
+        href="https://GitHub.com/geographiclib/geographiclib-python" 
+        target="_top">geodesic.Geodesic</a>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html">pygeodesy.geodesicx.gxline._GeodesicLineExact</a></strong>:
       <em class="summary">(INTERNAL) Base class for <a 
@@ -1648,8 +1650,8 @@
         href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1GeodesicLineExact.html"
         target="_top">GeodesicLineExact</a>, modeled after <i>Karney</i>'s 
         Python class <a 
-        href="https://GeographicLib.SourceForge.io/html/python/code.html#module-geographiclib.geodesicline"
-        target="_top">GeodesicLine</a>.</em>
+        href="https://GitHub.com/geographiclib/geographiclib-python" 
+        target="_top">geodesicline.GeodesicLine</a>.</em>
     </li>
     </ul>
     </li>
@@ -4008,7 +4010,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Apr 10 14:50:54 2023
+    Generated by Epydoc 3.0.1 on Tue Apr 11 12:49:49 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

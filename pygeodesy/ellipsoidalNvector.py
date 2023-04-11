@@ -49,7 +49,7 @@ from pygeodesy.units import Bearing, Distance, Height, Scalar
 # from math import fabs  # from .nvectorBase
 
 __all__ = _ALL_LAZY.ellipsoidalNvector
-__version__ = '23.03.19'
+__version__ = '23.04.11'
 
 
 class Ned(_Ned):
@@ -149,14 +149,14 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #         '''Return the (signed) distance from this point to the great
 #            circle defined by a start point and an end point or bearing.
 #
-#            @arg start: Start point of great circle path (L{LatLon}).
-#            @arg end: End point of great circle path (L{LatLon}) or
+#            @arg start: Start point of great circle line (L{LatLon}).
+#            @arg end: End point of great circle line (L{LatLon}) or
 #                      initial bearing (compass C{degrees360}) at the
 #                      start point.
 #            @kwarg radius: Mean earth radius (C{meter}).
 #
 #            @return: Distance to great circle, negative if to left or
-#                     positive if to right of path (C{meter}, same units
+#                     positive if to right of line (C{meter}, same units
 #                     as B{C{radius}}).
 #
 #            @raise TypeError: If B{C{start}} or B{C{end}} point is not L{LatLon}.

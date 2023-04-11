@@ -32,7 +32,7 @@ from pygeodesy.units import Bearing, Degrees, Easting, Height, \
 # from math import fabs  # from .karney
 
 __all__ = _ALL_LAZY.css
-__version__ = '23.03.29'
+__version__ = '23.04.11'
 
 
 def _CS0(cs0):
@@ -221,11 +221,10 @@ class CassiniSoldner(_NamedBase):
 
     @Property
     def geodesic(self):
-        '''Get this projection's I{wrapped,Karney} U{Geodesic
-           <https://GeographicLib.SourceForge.io/C++/doc/python/code.html>},
-           provided package U{geographiclib
-           <https://PyPI.org/project/geographiclib>} is installed,
-           otherwise a L{GeodesicExact} instance.
+        '''Get this projection's I{wrapped} U{geodesic.Geodesic
+           <https://GeographicLib.SourceForge.io/Python/doc/code.html>}, provided
+           I{Karney}'s U{geographiclib<https://PyPI.org/project/geographiclib>}
+           package is installed, otherwise an I{exact} L{GeodesicExact} instance.
         '''
         g = self._geodesic
         if g is None:

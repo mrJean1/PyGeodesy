@@ -90,7 +90,7 @@ from pygeodesy.utily import atand, atan2b, atan2d, degrees90, m2radians, radians
 from math import asinh, atan, atanh, cos, degrees, exp, fabs, radians, sin, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '23.03.29'
+__version__ = '23.04.11'
 
 _f_0_0    = Float(f =_0_0)  # zero flattening
 _f__0_0   = Float(f_=_0_0)  # zero inverse flattening
@@ -992,9 +992,9 @@ class Ellipsoid(_NamedEnumItem):
 
     @Property_RO
     def geodesic(self):
-        '''Get this ellipsoid's L{Geodesic}, the I{wrapped} U{Geodesic
-           <https://GeographicLib.SourceForge.io/C++/doc/python/code.html>},
-           provided the U{geographiclib<https://PyPI.org/project/geographiclib>}
+        '''Get this ellipsoid's I{wrapped} U{geodesic.Geodesic
+           <https://GeographicLib.SourceForge.io/Python/doc/code.html>}, provided
+           I{Karney}'s U{geographiclib<https://PyPI.org/project/geographiclib>}
            package is installed.
         '''
         # if not self.isEllipsoidal:
@@ -1003,7 +1003,7 @@ class Ellipsoid(_NamedEnumItem):
 
     @Property_RO
     def geodesicx(self):
-        '''Get this ellipsoid's L{GeodesicExact}.
+        '''Get this ellipsoid's I{exact} L{GeodesicExact}.
         '''
         # if not self.isEllipsoidal:
         #     raise _IsnotError(_ellipsoidal_, ellipsoid=self)

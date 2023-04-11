@@ -34,7 +34,7 @@ from pygeodesy.utily import acos1, atan2b, atan2d, degrees2m, m2degrees, tan_2, 
 from math import atan, atan2, cos, degrees, fabs, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '23.04.10'
+__version__ = '23.04.11'
 
 _ratio_ = 'ratio'
 _xline_ = 'xline'
@@ -1143,7 +1143,7 @@ def intersection2(lat1, lon1, bearing1,
 
        @raise IntersectionError: Ambiguous or infinite intersection
                                  or colinear, parallel or otherwise
-                                 non-intersecting paths.
+                                 non-intersecting lines.
 
        @raise TypeError: Invalid B{C{datum}}.
 
@@ -1165,7 +1165,7 @@ def intersection2(lat1, lon1, bearing1,
         else:
             t = _i(m.LatLon(lat1, lon1, datum=d), b1,
                    m.LatLon(lat2, lon2, datum=d), b2, height=0, wrap=wrap)
-            if isinstance(t, Intersection3Tuple):
+            if isinstance(t, Intersection3Tuple):  # ellipsoidal
                 t, _, _ = t
             t = LatLon2Tuple(t.lat, t.lon, name=n)
 

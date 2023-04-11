@@ -6,7 +6,7 @@ u'''A pure Python version of I{Karney}'s C++ class U{GeodesicExact
 
 Class L{GeodesicExact} follows the naming, methods and return values
 of class C{Geodesic} from I{Karney}'s Python U{geographiclib
-<https://GeographicLib.SourceForge.io/1.52/python/index.html>}.
+<https://GitHub.com/geographiclib/geographiclib-python>}.
 
 Copyright (C) U{Charles Karney<mailto:Charles@Karney.com>} (2008-2022)
 and licensed under the MIT/X11 License.  For more information, see the
@@ -60,7 +60,7 @@ from pygeodesy.utily import atan2d as _atan2d_reverse, unroll180, wrap360
 from math import atan2, copysign, cos, degrees, fabs, radians, sqrt
 
 __all__ = ()
-__version__ = '23.04.04'
+__version__ = '23.04.11'
 
 _MAXIT1 = 20
 _MAXIT2 = 10 + _MAXIT1 + MANT_DIG  # MANT_DIG == C++ digits
@@ -126,8 +126,8 @@ class _PDict(GDict):
 class GeodesicExact(_GeodesicBase):
     '''A pure Python version of I{Karney}'s C++ class U{GeodesicExact
        <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1GeodesicExact.html>},
-       modeled after I{Karney}'s Python class U{Geodesic<https://GeographicLib.SourceForge.io/
-       html/python/code.html#module-geographiclib.geodesic>}.
+       modeled after I{Karney}'s Python class U{geodesic.Geodesic<https://GitHub.com/
+       geographiclib/geographiclib-python>}.
     '''
     _E   = _EWGS84
     _nC4 =  30  # default C4order
@@ -180,7 +180,7 @@ class GeodesicExact(_GeodesicBase):
 
            @see: C++ U{GeodesicExact.ArcDirect
                  <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1GeodesicExact.html>}
-                 and Python U{Geodesic.ArcDirect<https://GeographicLib.SourceForge.io/C++/doc/python/code.html>}.
+                 and Python U{Geodesic.ArcDirect<https://GeographicLib.SourceForge.io/Python/doc/code.html>}.
         '''
         return self._GDictDirect(lat1, lon1, azi1, True, a12, outmask)
 
@@ -206,7 +206,7 @@ class GeodesicExact(_GeodesicBase):
 
            @see: C++ U{GeodesicExact.ArcDirectLine
                  <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1GeodesicExact.html>} and
-                 Python U{Geodesic.ArcDirectLine<https://GeographicLib.SourceForge.io/C++/doc/python/code.html>}.
+                 Python U{Geodesic.ArcDirectLine<https://GeographicLib.SourceForge.io/Python/doc/code.html>}.
         '''
         return self._GenDirectLine(lat1, lon1, azi1, True, a12, caps)
 
@@ -351,7 +351,7 @@ class GeodesicExact(_GeodesicBase):
 
            @see: C++ U{GeodesicExact.Direct
                  <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1GeodesicExact.html>}
-                 and Python U{Geodesic.Direct<https://GeographicLib.SourceForge.io/C++/doc/python/code.html>}.
+                 and Python U{Geodesic.Direct<https://GeographicLib.SourceForge.io/Python/doc/code.html>}.
         '''
         return self._GDictDirect(lat1, lon1, azi1, False, s12, outmask)
 
@@ -385,7 +385,7 @@ class GeodesicExact(_GeodesicBase):
 
            @see: C++ U{GeodesicExact.DirectLine
                  <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1GeodesicExact.html>} and
-                 Python U{Geodesic.DirectLine<https://GeographicLib.SourceForge.io/C++/doc/python/code.html>}.
+                 Python U{Geodesic.DirectLine<https://GeographicLib.SourceForge.io/Python/doc/code.html>}.
         '''
         return self._GenDirectLine(lat1, lon1, azi1, False, s12, caps)
 
@@ -746,7 +746,7 @@ class GeodesicExact(_GeodesicBase):
 
            @see: C++ U{GeodesicExact.InverseLine
                  <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1GeodesicExact.html>} and
-                 Python U{Geodesic.InverseLine<https://GeographicLib.SourceForge.io/C++/doc/python/code.html>}.
+                 Python U{Geodesic.InverseLine<https://GeographicLib.SourceForge.io/Python/doc/code.html>}.
         '''
         return self._GDictInverse(lat1, lon1, lat2, lon2, outmask)
 
@@ -790,7 +790,7 @@ class GeodesicExact(_GeodesicBase):
 
            @see: C++ U{GeodesicExact.InverseLine
                  <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1GeodesicExact.html>} and
-                 Python U{Geodesic.InverseLine<https://GeographicLib.SourceForge.io/C++/doc/python/code.html>}.
+                 Python U{Geodesic.InverseLine<https://GeographicLib.SourceForge.io/Python/doc/code.html>}.
         '''
         Cs = Caps
         r  = self._GDictInverse(lat1, lon1, lat2, lon2, Cs._SALPs_CALPs)  # No need for AZIMUTH
@@ -1105,7 +1105,7 @@ class GeodesicExact(_GeodesicBase):
 
            @see: C++ U{GeodesicExact.Line
                  <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1GeodesicExact.html>}
-                 and Python U{Geodesic.Line<https://GeographicLib.SourceForge.io/C++/doc/python/code.html>}.
+                 and Python U{Geodesic.Line<https://GeographicLib.SourceForge.io/Python/doc/code.html>}.
         '''
         return _GeodesicLineExact(self, lat1, lon1, azi1, caps, self._debug)
 
@@ -1246,8 +1246,8 @@ class GeodesicExact(_GeodesicBase):
 class GeodesicLineExact(_GeodesicLineExact):
     '''A pure Python version of I{Karney}'s C++ class U{GeodesicLineExact
        <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1GeodesicLineExact.html>},
-       modeled after I{Karney}'s Python class U{GeodesicLine<https://GeographicLib.SourceForge.io/
-       html/python/code.html#module-geographiclib.geodesicline>}.
+       modeled after I{Karney}'s Python class U{geodesicline.GeodesicLine<https://GitHub.com/
+       geographiclib/geographiclib-python>}.
     '''
 
     def __init__(self, geodesic, lat1, lon1, azi1, caps=Caps.STANDARD, name=NN):

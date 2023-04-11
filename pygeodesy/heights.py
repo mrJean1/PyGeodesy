@@ -85,7 +85,7 @@ from pygeodesy.units import Float_, Int_
 from pygeodesy.utily import radiansPI, radiansPI2, unrollPI
 
 __all__ = _ALL_LAZY.heights
-__version__ = '22.10.06'
+__version__ = '23.04.11'
 
 _error_        = 'error'
 _insufficient_ = 'insufficient'
@@ -948,7 +948,7 @@ class HeightIDWkarney(_HeightIDW):
        <https://WikiPedia.org/wiki/Inverse_distance_weighting>} (IDW) and
        the I{angular} distance in C{degrees} from I{Karney}'s
        U{geographiclib<https://PyPI.org/project/geographiclib>} U{Geodesic
-       <https://GeographicLib.SourceForge.io/C++/doc/python/code.html>}
+       <https://GeographicLib.SourceForge.io/Python/doc/code.html>}
        Inverse method.
 
        @see: L{HeightIDWcosineAndoyerLambert},

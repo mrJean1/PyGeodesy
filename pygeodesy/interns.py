@@ -255,6 +255,7 @@ _latlon_              = 'latlon'             # PYCHOK OK
 _LatLon_              = 'LatLon'             # PYCHOK OK
 _LCURLY_              = '{'                  # PYCHOK LBRACE
 _len_                 = 'len'                # PYCHOK OK
+_line_                = 'line'               # PYCHOK OK
 _linear_              = 'linear'             # PYCHOK OK
 _LPAREN_              = '('                  # PYCHOK OK
 _lon_                 = 'lon'                # PYCHOK OK
@@ -588,7 +589,7 @@ def _version2(version, n=2):
 __all__ = (_NN_,  # not MISSING!
             Str_.__name__,  # classes
             machine.__name__)  # in .lazily
-__version__ = '23.03.30'
+__version__ = '23.04.11'
 
 if __name__ == '__main__':
 

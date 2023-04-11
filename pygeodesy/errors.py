@@ -21,7 +21,7 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _getenv, \
                              _pairs, _PYTHON_X_DEV
 
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')  _UNDER
-__version__ = '23.03.09'
+__version__ = '23.04.11'
 
 _box_        = 'box'
 _default_    = 'default'
@@ -176,13 +176,13 @@ class ClipError(_ValueError):
 
 class CrossError(_ValueError):
     '''Error raised for zero or near-zero vectorial cross products,
-       occurring for coincident or colinear points, paths or bearings.
+       occurring for coincident or colinear points, lines or bearings.
     '''
     pass
 
 
 class IntersectionError(_ValueError):  # in .ellipsoidalBaseDI, .formy, ...
-    '''Error raised for path or circle intersection issues.
+    '''Error raised for line or circle intersection issues.
     '''
     def __init__(self, *args, **kwds):
         '''New L{IntersectionError}.
