@@ -27,15 +27,15 @@ from pygeodesy.namedTuples import Bearing2Tuple, Distance4Tuple, \
                                   PhiLam2Tuple, Vector3Tuple
 # from pygeodesy.streprs import unstr  # from .fsums
 from pygeodesy.units import Bearing, Degrees_, Distance, Distance_, Height, \
-                            Lam_, Lat, Lon, Phi_, Radians, Radians_, Radius, \
-                            Radius_, Scalar, _100km
+                            Lam_, Lat, Lon, Meter_, Phi_, Radians, Radians_, \
+                            Radius, Radius_, Scalar, _100km
 from pygeodesy.utily import acos1, atan2b, atan2d, degrees2m, m2degrees, tan_2, \
                             sincos2, sincos2_, sincos2d_, unroll180, unrollPI
 
 from math import atan, atan2, cos, degrees, fabs, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '23.04.11'
+__version__ = '23.04.12'
 
 _ratio_ = 'ratio'
 _xline_ = 'xline'
@@ -1083,12 +1083,13 @@ def horizon(height, radius=R_M, refraction=False):
     return sqrt0(d2)
 
 
-def _idlmn5(datum, lat1, lon1, lat2, lon2, wrap, s):
+def _idlmn5(datum, lat1, lon1, lat2, lon2, small, wrap, s):
     '''(INTERNAL) Helper for C{intersection2} and C{intersections2}.
     '''
+    m = Meter_(small=small)
     n = (intersections2 if s else intersection2).__name__
     if datum is None or euclidean(lat1, lon1, lat2, lon2, radius=R_M,
-                                  adjust=True, wrap=wrap) < _100km:
+                                  adjust=True, wrap=wrap) < m:
         d, m    = None, _MODS.vector3d
         _i      = m._intersects2 if s else m._intersect3d3
         _, lon2 = unroll180(lon1, lon2, wrap=wrap)
@@ -1115,12 +1116,12 @@ def _idlmn5(datum, lat1, lon1, lat2, lon2, wrap, s):
 
 
 def intersection2(lat1, lon1, bearing1,
-                  lat2, lon2, bearing2, datum=None, wrap=True):
+                  lat2, lon2, bearing2, datum=None, wrap=True, small=_100km):
     '''I{Conveniently} compute the intersection of two lines each defined
        by a (geodetic) point and a bearing from North, using either ...
 
-       1) L{vector3d.intersection3d3} for small distances (below 100 KM or
-       about 0.9 degrees) or if no B{C{datum}} is specified, or ...
+       1) L{vector3d.intersection3d3} for B{C{small}} distances (below 100 Km
+       or about 0.88 degrees) or if no B{C{datum}} is specified, or ...
 
        2) L{sphericalTrigonometry.intersection} for a spherical B{C{datum}}
        or if B{C{datum}} is a C{scalar} representing the earth
@@ -1145,6 +1146,7 @@ def intersection2(lat1, lon1, bearing1,
                      L{Ellipsoid}, L{Ellipsoid2}, L{a_f2Tuple} or
                      C{scalar} earth radius in C{meter}) or C{None}.
        @kwarg wrap: Wrap and unroll longitudes (C{bool}).
+       @kwarg small: Upper limit for small distances (C{meter}).
 
        @return: A L{LatLon2Tuple}C{(lat, lon)} with the lat- and
                 longitude of the intersection point.
@@ -1160,11 +1162,12 @@ def intersection2(lat1, lon1, bearing1,
 
        @see: Method L{RhumbLine.intersection2}.
 
-       @note: The returned intersections may be antipodal or near-antipodal.
+       @note: The returned intersections may be near-antipodal.
     '''
     b1, b2 = Bearing(bearing1=bearing1), Bearing(bearing2=bearing2)
     try:
-        _i, d, l2, m, n = _idlmn5(datum, lat1, lon1, lat2, lon2, wrap, False)
+        _i, d, l2, m, n = _idlmn5(datum, lat1, lon1, lat2, lon2, small, wrap,
+                                  False)
         if d is None:
             t, _, _ = _i(m.Vector3d(lon1, lat1, 0), b1,
                          m.Vector3d(l2,   lat2, 0), b2, useZ=False)
@@ -1180,17 +1183,17 @@ def intersection2(lat1, lon1, bearing1,
     except (TypeError, ValueError) as x:
         raise _xError(x, lat1=lat1, lon1=lon1, bearing1=bearing1,
                          lat2=lat2, lon2=lon2, bearing2=bearing2,
-                         datum=datum, wrap=wrap)
+                         datum=datum, small=small, wrap=wrap)
     return t
 
 
 def intersections2(lat1, lon1, radius1,
-                   lat2, lon2, radius2, datum=None, wrap=True):
+                   lat2, lon2, radius2, datum=None, wrap=True, small=_100km):
     '''I{Conveniently} compute the intersections of two circles each defined
        by a (geodetic) center point and a radius, using either ...
 
-       1) L{vector3d.intersections2} for small distances (below 100 KM or
-       about 0.9 degrees) or if no B{C{datum}} is specified, or ...
+       1) L{vector3d.intersections2} for B{C{small}} distances (below 100 Km
+       or about 0.88 degrees) or if no B{C{datum}} is specified, or ...
 
        2) L{sphericalTrigonometry.intersections2} for a spherical B{C{datum}}
        or if B{C{datum}} is a C{scalar} representing the earth radius,
@@ -1213,6 +1216,7 @@ def intersections2(lat1, lon1, radius1,
                      C{scalar} earth radius in C{meter}, same units as
                      B{C{radius1}} and B{C{radius2}}) or C{None}.
        @kwarg wrap: Wrap and unroll longitudes (C{bool}).
+       @kwarg small: Upper limit for small distances (C{meter}).
 
        @return: 2-Tuple of the intersection points, each a
                 L{LatLon2Tuple}C{(lat, lon)}.  For abutting circles, the
@@ -1229,7 +1233,8 @@ def intersections2(lat1, lon1, radius1,
     '''
     r1, r2 = Radius_(radius1=radius1), Radius_(radius2=radius2)
     try:
-        _i, d, l2, m, n = _idlmn5(datum, lat1, lon1, lat2, lon2, wrap, True)
+        _i, d, l2, m, n = _idlmn5(datum, lat1, lon1, lat2, lon2, small, wrap,
+                                  True)
         if d is None:
             r1 = m2degrees(r1, radius=R_M, lat=lat1)
             r2 = m2degrees(r2, radius=R_M, lat=lat2)
@@ -1252,7 +1257,7 @@ def intersections2(lat1, lon1, radius1,
     except (TypeError, ValueError) as x:
         raise _xError(x, lat1=lat1, lon1=lon1, radius1=radius1,
                          lat2=lat2, lon2=lon2, radius2=radius2,
-                         datum=datum, wrap=wrap)
+                         datum=datum, small=small, wrap=wrap)
     return t
 
 

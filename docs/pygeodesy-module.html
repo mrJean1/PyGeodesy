@@ -528,7 +528,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        23.04.11
+        23.04.12
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -8315,7 +8315,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f99002674d0&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fb68870d4d0&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -8651,7 +8651,8 @@
         <span class="summary-sig-arg">lon2</span>,
         <span class="summary-sig-arg">bearing2</span>,
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>)</span><br />
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">small</span>=<span class="summary-sig-default">100000.0</span>)</span><br />
       <i>Conveniently</i> compute the intersection of two lines each 
       defined by a (geodetic) point and a bearing from North, using either 
       ...</td>
@@ -12858,7 +12859,7 @@ ygeodesy'"><code class="variable-quote">'</code><code class="variable-string">/U
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'23.4.11'"><code class="variable-quote">'</code><code class="variable-string">23.4.11</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'23.4.12'"><code class="variable-quote">'</code><code class="variable-string">23.4.12</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -20738,7 +20739,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f99002674d0&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fb68870d4d0&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -21443,7 +21444,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">lon2</span>,
         <span class="sig-arg">bearing2</span>,
         <span class="sig-arg">datum</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">wrap</span>=<span class="sig-default">True</span>)</span>
+        <span class="sig-arg">wrap</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">small</span>=<span class="sig-default">100000.0</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -21453,9 +21455,9 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <p><i>Conveniently</i> compute the intersection of two lines each defined
   by a (geodetic) point and a bearing from North, using either ...</p>
   <p>1) <a href="pygeodesy.vector3d-module.html#intersection3d3" 
-  class="link">vector3d.intersection3d3</a> for small distances (below 100 
-  KM or about 0.9 degrees) or if no <b><code>datum</code></b> is specified,
-  or ...</p>
+  class="link">vector3d.intersection3d3</a> for <b><code>small</code></b> 
+  distances (below 100 Km or about 0.88 degrees) or if no 
+  <b><code>datum</code></b> is specified, or ...</p>
   <p>2) <a href="pygeodesy.sphericalTrigonometry-module.html#intersection" 
   class="link">sphericalTrigonometry.intersection</a> for a spherical 
   <b><code>datum</code></b> or if <b><code>datum</code></b> is a 
@@ -21492,6 +21494,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           class="link">a_f2Tuple</a> or <code>scalar</code> earth radius in
           <code>meter</code>) or <code>None</code>.</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
+        <li><strong class="pname"><code>small</code></strong> - Upper limit for small distances (<code>meter</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.namedTuples.LatLon2Tuple-class.html" 
@@ -21513,7 +21516,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         class="link">RhumbLine.intersection2</a>.
       </p>
       <p><strong>Note:</strong>
-        The returned intersections may be antipodal or near-antipodal.
+        The returned intersections may be near-antipodal.
       </p>
 </div></td></tr></table>
 </div>
@@ -30277,7 +30280,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Apr 11 14:35:39 2023
+    Generated by Epydoc 3.0.1 on Wed Apr 12 11:27:38 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
