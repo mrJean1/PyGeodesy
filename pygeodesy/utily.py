@@ -22,7 +22,7 @@ from pygeodesy.units import Degrees, Feet, Float, Lam, Lam_, Meter, Meter2, Radi
 from math import acos, asin, atan2, cos, degrees, fabs, radians, sin, tan  # pow
 
 __all__ = _ALL_LAZY.utily
-__version__ = '22.10.23'
+__version__ = '23.04.14'
 
 # read constant name "_M_UNIT" as "meter per unit"
 _M_CHAIN     = _F(  20.1168)     # yard2m(1) * 22
@@ -719,6 +719,18 @@ def sincos2d(deg, **adeg):
     else:
         t =  NAN, NAN
     return t
+
+
+def SinCos2(x):
+    '''Get C{sin} and C{cos} of I{typed} angle.
+
+       @arg x: Angle (L{Degrees}, L{Radians} or C{radians}).
+
+       @return: 2-Tuple (C{sin(B{x})}, C{cos(B{x})}).
+    '''
+    return sincos2d(x) if isinstance(x, Degrees) else (
+           sincos2(x)  if isinstance(x, Radians) else
+           sincos2(float(x)))  # assume C{radians}
 
 
 def sincos2d_(*degs):

@@ -19,7 +19,7 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from math import fabs, log10 as _log10
 
 __all__ = _ALL_LAZY.streprs
-__version__ = '23.03.30'
+__version__ = '23.04.16'
 
 _EN_PREC    =  6           # max MGRS/OSGR precision, 1 micrometer
 _EN_WIDE    =  5           # number of MGRS/OSGR units, log10(_100km)
@@ -323,7 +323,7 @@ def _fstrENH2(inst, prec, m):  # in .css, .lcc, .utmupsBase
 
 
 def _fstrLL0(inst, prec, toRepr):  # in .azimuthal, .css
-    # (INTERNAL) For C{_AzimuthalBase.} and C{CassiniSoldner.} C{toStr} and C{toRepr}.
+    # (INTERNAL) For C{_AlbersBase.}, C{_AzimuthalBase.} and C{CassiniSoldner.}
     t = tuple(_streprs(prec, inst.latlon0, Fmt.F, False, True, None))
     if toRepr:
         n = inst.name

@@ -8,18 +8,17 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 
 # from pygeodesy.basics import isscalar  # from .fsums
 from pygeodesy.constants import EPS, EPS0, EPS1, PI, PI2, PI3, PI_2, R_M, \
-                               _umod_PI2, float0, isnon0, remainder, _0_0, \
-                               _0_125, _0_25, _0_5, _1_0, _2_0, _N_2_0, \
+                               _umod_PI2, float0_, isnon0, remainder, \
+                               _0_0, _0_125, _0_25, _0_5, _1_0, _2_0, \
                                _4_0, _32_0, _90_0, _180_0, _360_0
 from pygeodesy.datums import Datum, Ellipsoid, _ellipsoidal_datum, \
                             _mean_radius, _spherical_datum, _WGS84
 # from pygeodesy.ellipsoids import Ellipsoid  # from .datums
 from pygeodesy.errors import _AssertionError, IntersectionError, LimitError, \
                               limiterrors, _ValueError, _xError
-from pygeodesy.fmath import Fdot, euclid, fdot, hypot, hypot2, sqrt0
+from pygeodesy.fmath import euclid, hypot, hypot2, sqrt0
 from pygeodesy.fsums import fsum_, isscalar, unstr
-from pygeodesy.interns import NN, _distant_, _inside_, _near_, _null_, \
-                             _opposite_, _outside_, _too_
+from pygeodesy.interns import NN, _distant_, _too_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _NamedTuple, _xnamed
 from pygeodesy.namedTuples import Bearing2Tuple, Distance4Tuple, \
@@ -35,7 +34,7 @@ from pygeodesy.utily import acos1, atan2b, atan2d, degrees2m, m2degrees, tan_2, 
 from math import atan, atan2, cos, degrees, fabs, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '23.04.12'
+__version__ = '23.04.14'
 
 _ratio_ = 'ratio'
 _xline_ = 'xline'
@@ -50,7 +49,7 @@ def _anti2(a, b, n_2, n, n2):
         b += n
     if fabs(b) > n:
         b = remainder(b, n2)
-    return float0(r, b)
+    return float0_(r, b)
 
 
 def antipode(lat, lon, name=NN):
@@ -906,61 +905,62 @@ def hartzell(pov, los=None, earth=_WGS84, name=NN, **LatLon_and_kwds):
 
        @raise TypeError: Invalid B{C{pov}}, B{C{los}} or B{C{earth}}.
 
-       @see: Function L{pygeodesy.hartzell4}, L{pygeodesy.tyr3d} for B{C{los}} and
-             U{I{Satellite Line-of-Sight Intersection with Earth}<https://StephenHartzell.
-             Medium.com/satellite-line-of-sight-intersection-with-earth-d786b4a6a9b6>}.
+       @see: Function L{pygeodesy.hartzell4}, L{pygeodesy.tyr3d} for B{C{los}},
+             method L{Ellipsoid.hartzell4} and U{I{Satellite Line-of-Sight
+             Intersection with Earth}<https://StephenHartzell.Medium.com/
+             satellite-line-of-sight-intersection-with-earth-d786b4a6a9b6>}.
     '''
-    def _Error(txt):
-        return IntersectionError(pov=pov, los=los, earth=earth, txt=txt)
-
     D = earth if isinstance(earth, Datum) else \
            _spherical_datum(earth, name=hartzell.__name__)
-    E = D.ellipsoid
+    try:
+        r, _ = _MODS.triaxials._hartzell3d2(pov, los, D.ellipsoid._triaxial)
+    except Exception as x:
+        raise IntersectionError(pov=pov, los=los, earth=earth, cause=x)
 
-    if E.b > E.a:  # PYCHOK no cover
-        try:
-            t = _MODS.triaxials
-            r, _ = t._hartzell3d2(pov, los, t.Triaxial_(E.a, E.a, E.b))
-        except Exception as x:
-            raise _Error(str(x))
-    else:
-        a2 = b2 = E.a2  # earth' x, y, ...
-        c2 = E.b2  # ... z semi-axis squared
-        q2 = E.b2_a2  # == c2 / a2
-        bc = E.a * E.b  # == b * c
-
-        V3 = _MODS.vector3d._otherV3d
-        p3 =  V3(pov=pov)
-        u3 =  V3(los=los) if los else p3.negate()
-        u3 =  u3.unit()  # unit vector, opposing signs
-
-        x2, y2, z2 = p3.x2y2z2  # p3.times_(p3).xyz
-        ux, vy, wz = u3.times_(p3).xyz
-        u2, v2, w2 = u3.x2y2z2  # u3.times_(u3).xyz
-
-        t = c2, c2, b2
-        m = fdot(t, u2, v2, w2)  # a2 factored out
-        if m < EPS0:  # zero or near-null LOS vector
-            raise _Error(_near_(_null_))
-
-        # a2 and b2 factored out, b2 == a2 and b2 / a2 == 1
-        r = fsum_(b2 * w2,  c2 * v2,      -v2 * z2,      vy * wz * 2,
-                  c2 * u2, -u2 * z2,      -w2 * x2,      ux * wz * 2,
-                 -w2 * y2, -u2 * y2 * q2, -v2 * x2 * q2, ux * vy * 2 * q2, floats=True)
-        if r > 0:
-            r = sqrt(r) * bc  # == a * a * b * c / a2
-        elif r < 0:  # LOS pointing away from or missing the earth
-            raise _Error(_opposite_ if max(ux, vy, wz) > 0 else _outside_)
-
-        d = Fdot(t, ux, vy, wz).fadd_(r).fover(m)  # -r for antipode, a2 factored out
-        if d > 0:  # POV inside or LOS missing, outside the earth
-            s = fsum_(_1_0, x2 / a2, y2 / b2, z2 / c2, _N_2_0, floats=True)  # like _sideOf
-            raise _Error(_outside_ if s > 0 else _inside_)
-        elif fsum_(x2, y2, z2) < d**2:  # d past earth center
-            raise _Error(_too_(_distant_))
-
-        r = p3.minus(u3.times(d))
-#       h = p3.minus(r).length  # distance to ellipsoid
+#   else:
+#       E  = D.ellipsoid
+#       # Triaxial(a, b, c) == (E.a, E.a, E.b)
+#
+#       def _Error(txt):
+#           return IntersectionError(pov=pov, los=los, earth=earth, txt=txt)
+#
+#       a2 = b2 = E.a2  # earth' x, y, ...
+#       c2 = E.b2  # ... z semi-axis squared
+#       q2 = E.b2_a2  # == c2 / a2
+#       bc = E.a * E.b  # == b * c
+#
+#       V3 = _MODS.vector3d._otherV3d
+#       p3 =  V3(pov=pov)
+#       u3 =  V3(los=los) if los else p3.negate()
+#       u3 =  u3.unit()  # unit vector, opposing signs
+#
+#       x2, y2, z2 = p3.x2y2z2  # p3.times_(p3).xyz
+#       ux, vy, wz = u3.times_(p3).xyz
+#       u2, v2, w2 = u3.x2y2z2  # u3.times_(u3).xyz
+#
+#       t = c2, c2, b2
+#       m = fdot(t, u2, v2, w2)  # a2 factored out
+#       if m < EPS0:  # zero or near-null LOS vector
+#           raise _Error(_near_(_null_))
+#
+#       # a2 and b2 factored out, b2 == a2 and b2 / a2 == 1
+#       r = fsum_(b2 * w2,  c2 * v2,      -v2 * z2,      vy * wz * 2,
+#                 c2 * u2, -u2 * z2,      -w2 * x2,      ux * wz * 2,
+#                -w2 * y2, -u2 * y2 * q2, -v2 * x2 * q2, ux * vy * 2 * q2, floats=True)
+#       if r > 0:
+#           r = sqrt(r) * bc  # == a * a * b * c / a2
+#       elif r < 0:  # LOS pointing away from or missing the earth
+#           raise _Error(_opposite_ if max(ux, vy, wz) > 0 else _outside_)
+#
+#       d = Fdot(t, ux, vy, wz).fadd_(r).fover(m)  # -r for antipode, a2 factored out
+#       if d > 0:  # POV inside or LOS missing, outside the earth
+#           s = fsum_(_1_0, x2 / a2, y2 / b2, z2 / c2, _N_2_0, floats=True)  # like _sideOf
+#           raise _Error(_outside_ if s > 0 else _inside_)
+#       elif fsum_(x2, y2, z2) < d**2:  # d past earth center
+#           raise _Error(_too_(_distant_))
+#
+#       r = p3.minus(u3.times(d))
+# #     h = p3.minus(r).length  # distance to ellipsoid
 
     r = _xnamed(r, name or hartzell.__name__)
     if LatLon_and_kwds:
@@ -1086,10 +1086,9 @@ def horizon(height, radius=R_M, refraction=False):
 def _idlmn5(datum, lat1, lon1, lat2, lon2, small, wrap, s):
     '''(INTERNAL) Helper for C{intersection2} and C{intersections2}.
     '''
-    m = Meter_(small=small)
+    m = small if small is _100km else Meter_(small=small)
     n = (intersections2 if s else intersection2).__name__
-    if datum is None or euclidean(lat1, lon1, lat2, lon2, radius=R_M,
-                                  adjust=True, wrap=wrap) < m:
+    if datum is None or euclidean(lat1, lon1, lat2, lon2, wrap=wrap) < m:
         d, m    = None, _MODS.vector3d
         _i      = m._intersects2 if s else m._intersect3d3
         _, lon2 = unroll180(lon1, lon2, wrap=wrap)
@@ -1362,7 +1361,7 @@ def _normal2(a, b, n_2, n, n2):
     if r != a:
         r  = -r
         b -=  n if b > 0 else -n
-    return float0(r, b)
+    return float0_(r, b)
 
 
 def normal(lat, lon, name=NN):

@@ -103,7 +103,7 @@ scipy_ 1.9.1, GeoConvert_ 1.51, GeodSolve_ 1.51 and RhumbSolve_ 1.51),
 Python 3.9.6, Python 3.8.10 (with geographiclib_ 1.52, GeodSolve_ 1.51,
 numpy_ 1.19.2 and scipy_ 1.5.2) and Python 2.7.18 (with geographiclib_
 1.50, numpy_ 1.16.6, scipy_ 1.2.2, GeoConvert_ 1.51, GeodSolve_ 1.51 and
-RhumbSolve_ 1.51), all on macOS 13.2.1 Ventura and in 64-bit only.
+RhumbSolve_ 1.51), all on macOS 13.3.1 Ventura and in 64-bit only.
 
 All tests ran with and without ``lazy import`` for Python 3 and with command
 line option ``-W default`` and env variable ``PYGEODESY_WARNINGS=on`` for all
@@ -134,7 +134,7 @@ with Python 3.10.0-1, 3.9.0-5, 3.8.0-6, 3.7.2-6, 3.7.0, 3.6.2-5, 3.5.3,
 2.7.13-17, 2.7.10 and 2.6.9 (and numpy_ 1.19.0, 1.16.5, 1.16.2, 1.15.2,
 1.14.0, 1.13.1, 1.8.0rc1 or 1.6.2 and scipy_ 1.5.0), PyPy_ 7.3.0 (Python
 2.7.13 and 3.6.9), PyPy_ 6.0.0 (Python 2.7.13 and 3.5.3) and `Intel-Python`_
-3.5.3 (and numpy_ 1.11.3) on macOS 13.0.0-1 Ventura, 12.1-6 Monterey,
+3.5.3 (and numpy_ 1.11.3) on macOS 13.0-2.1 Ventura, 12.1-6 Monterey,
 11.0-5.2-6.1 Big Sur (aka 10.16), 10.15.3, 10.15.5-7 Catalina, 10.14 Mojave,
 10.13.6 High Sierra and 10.12 Sierra, MacOS X 10.11 El Capitan and/or MacOS
 X 10.10 Yosemite, with Pythonista_ 3.2 (with geographiclib 1.50 or 1.49 and
@@ -148,12 +148,12 @@ Notes
 
 All Python source code has been statically checked_ with PyChecker_, PyFlakes_,
 PyCodeStyle_ (formerly Pep8) and McCabe_ using Python 2.7.18 and with Flake8_
-using Python 3.11.3, both in 64-bit on macOS 13.2.1 Ventura.
+using Python 3.11.3, both in 64-bit on macOS 13.3.1 Ventura.
 
 For a summary of all *Karney*-based functionality in ``pygeodesy``, see
 module karney_.
 
-*Last updated: Apr 12, 2023.*
+*Last updated: Apr 21, 2023.*
 
 License
 =======

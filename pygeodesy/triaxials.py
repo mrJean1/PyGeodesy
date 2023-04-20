@@ -27,16 +27,16 @@ L{Jacobi2Tuple} and L{TriaxialError}.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-# from pygeodesy.basics import isscalar, _zip  # from .fsums, .namedTuples, .streprs
+from pygeodesy.basics import isscalar, map1, _ValueError, _zip
 from pygeodesy.constants import EPS, EPS0, EPS02, EPS4, _EPS2e4, INT0, PI2, PI_3, PI4, \
-                               _0_0, _0_5, _1_0, _N_2_0, isfinite, isnear1, \
+                               _0_0, _0_5, _1_0, _N_2_0, float0_, isfinite, isnear1, \
                                _4_0  # PYCHOK used!
-from pygeodesy.datums import Datum, Ellipsoid, _spherical_datum, _WGS84
+from pygeodesy.datums import Datum, Ellipsoid, Fmt, _spherical_datum, _WGS84
 # from pygeodesy.ellipsoids import Ellipsoid  # from .datums
 # from pygeodesy.elliptic import Elliptic  # ._MODS
-# from pygeodesy.errors import _ValueError  # from .streprs
+# from pygeodesy.errors import _ValueError  # from .basics
 from pygeodesy.fmath import Fdot, fdot, fmean_, hypot, hypot_, _hypot21_, norm2
-from pygeodesy.fsums import Fsum, fsum_, isscalar, Property_RO
+from pygeodesy.fsums import Fsum, fsum_, Property_RO
 from pygeodesy.interns import NN, _a_, _b_, _beta_, _c_, _distant_, _height_, \
                              _inside_, _near_, _not_, _NL_, _NLATvar_, _NOTEQUAL_, \
                              _null_, _opposite_, _outside_, _SPACE_, _spherical_, \
@@ -46,22 +46,20 @@ from pygeodesy.named import _NamedBase, _NamedEnum, _NamedEnumItem, \
                             _NamedTuple, _Pass, _lazyNamedEnumItem as _lazy
 from pygeodesy.namedTuples import LatLon3Tuple, Vector3Tuple, Vector4Tuple
 # from pygeodesy.props import Property_RO  # from .fsums
-from pygeodesy.streprs import Fmt, _ValueError, _zip
-from pygeodesy.units import Degrees, Float, Height_, Meter, Meter2, Meter3, Radians, Radius
-from pygeodesy.utily import asin1, atan2d, km2m, m2km, sincos2, sincos2d, sincos2d_
+# from pygeodesy.streprs import Fmt  # from .datums
+from pygeodesy.units import Degrees, Float, Height_, Meter, Meter2, Meter3, \
+                            Radians, Radius
+from pygeodesy.utily import asin1, atan2d, km2m, m2km, SinCos2, sincos2d_
 from pygeodesy.vector3d import _ALL_LAZY, _MODS, _otherV3d, Vector3d
 
 from math import atan2, fabs, sqrt
 
 __all__ = _ALL_LAZY.triaxials
-__version__ = '23.04.02'
+__version__ = '23.04.14'
 
-_E            = _WGS84.ellipsoid
 _not_ordered_ = _not_('ordered')
 _omega_       = 'omega'
 _TRIPS        =  537  # max 55, Eberly 1074?
-_WGS84_35abc  = _E.a + 35, _E.a - 35, _E.b
-del _E
 
 
 class _ToNamedBase(_NamedBase):
@@ -409,7 +407,7 @@ class Triaxial_(_NamedEnumItem):
 
     @Property_RO
     def isOrdered(self):
-        '''Is this triaxial I{ordered} and not I{spherical} (C{bool})?
+        '''Is this triaxial I{ordered} and I{not spherical} (C{bool})?
         '''
         a, b, c = self._abc3
         return bool(a >= b > c)  # b > c!
@@ -422,7 +420,7 @@ class Triaxial_(_NamedEnumItem):
         return a if a == b == c else INT0
 
     def normal3d(self, x_xyz, y=None, z=None, length=_1_0):
-        '''Get a 3-D vector at a cartesian on, perpendicular to this triaxial's surface.
+        '''Get a 3-D vector perpendicular to at a cartesian on this triaxial's surface.
 
            @arg x_xyz: X component (C{scalar}) or a cartesian (C{Cartesian},
                        L{Ecef9Tuple}, L{Vector3d}, L{Vector3Tuple} or L{Vector4Tuple}).
@@ -461,7 +459,7 @@ class Triaxial_(_NamedEnumItem):
             s, c = norm2(s, c)
         if a:
             s, c = norm2(s * self.b, c * a[0])
-        return (s or _0_0), (c or _0_0)
+        return float0_(s, c)
 
     def _order3(self, *abc, **reverse):  # reverse=False
         '''(INTERNAL) Un-/Order C{a}, C{b} and C{c}.
@@ -490,7 +488,7 @@ class Triaxial_(_NamedEnumItem):
                @return: 2-Tuple C{((a, b, c), ijk)} with C{a} >= C{b} >= C{c}
                         and C{ijk} a 3-tuple with the initial indices.
             '''
-            i, j, k = 0, 1, 2
+            i, j, k = 0, 1, 2  # range(3)
             if a < b:
                 a, b, i, j = b, a, j, i
             if a < c:
@@ -631,7 +629,7 @@ class Triaxial(Triaxial_):
 
     @Property_RO
     def _a2b2_a2c2(self):
-        ''' @see: Method C{forwardBetaOmega}.
+        '''@see: Methods C{.forwardBetaOmega} and C{._k2_kp2}.
         '''
         return self._a2b2 / self._a2c2
 
@@ -661,8 +659,8 @@ class Triaxial(Triaxial_):
         '''
         if u > 0:
             u2 = u**2
-            x  = self._sqrt(_1_0 + self._a2c2 / u2) * u
-            y  = self._sqrt(_1_0 + self._b2c2 / u2) * u
+            x  = u * self._sqrt(_1_0 + self._a2c2 / u2)
+            y  = u * self._sqrt(_1_0 + self._b2c2 / u2)
         else:
             x  = y = u = _0_0
         return x, y, u
@@ -688,8 +686,8 @@ class Triaxial(Triaxial_):
         else:
             x, y, z = self._abc3  # == self._exyz3(self.c)
         if z:  # and x and y:
-            sa, ca = _SinCos2(beta)
-            sb, cb = _SinCos2(omega)
+            sa, ca = SinCos2(beta)
+            sb, cb = SinCos2(omega)
 
             r  =      self._a2b2_a2c2
             x *= cb * self._sqrt(ca**2 + r * sa**2)
@@ -779,10 +777,10 @@ class Triaxial(Triaxial_):
         ca_x_sb = ca * sb
         # 1 - (1 - (c/a)**2) * sa**2 - (1 - (b/a)**2) * ca**2 * sb**2
         t = fsum_(_1_0, -self.e2ac * sa**2, -self.e2ab * ca_x_sb**2, floats=True)
-        N = self.a / self._sqrt(t)  # prime vertical
-        x = (h + N)               * ca * cb
-        y = (h + N * self._1e2ab) * ca_x_sb
-        z = (h + N * self._1e2ac) * sa
+        n = self.a / self._sqrt(t)  # prime vertical
+        x = (h + n)               * ca * cb
+        y = (h + n * self._1e2ab) * ca_x_sb
+        z = (h + n * self._1e2ac) * sa
         return Vector3Tuple(x, y, z, name=name)
 
     @Property_RO
@@ -795,7 +793,7 @@ class Triaxial(Triaxial_):
         # xE  = Elliptic(k2,  -a2b2 / b2, kp2, a2_b2)
         # yE  = Elliptic(kp2, +b2c2 / b2, k2,  c2_b2)
         # aE  = Elliptic(kp2,  0,         k2,  1)
-        return (self._a2b2 / self._a2c2 * self._c2_b2,
+        return (self._a2b2_a2c2         * self._c2_b2,
                 self._b2c2 / self._a2c2 * self._a2_b2)
 
     def _radialTo3(self, sbeta, cbeta, somega, comega):
@@ -956,7 +954,7 @@ class JacobiConformal(Triaxial):
 
            @return: The C{x} projection (C{Radians}).
         '''
-        return self.xR_(*_SinCos2(omega))
+        return self.xR_(*SinCos2(omega))
 
     def xR_(self, somega, comega):
         '''Compute a Jacobi Conformal C{x} projection.
@@ -986,7 +984,7 @@ class JacobiConformal(Triaxial):
 
            @return: A L{Jacobi2Tuple}C{(x, y)}.
         '''
-        return self.xyR2_(*(_SinCos2(beta) + _SinCos2(omega)),
+        return self.xyR2_(*(SinCos2(beta) + SinCos2(omega)),
                           name=name or self.xyR2.__name__)
 
     def xyR2_(self, sbeta, cbeta, somega, comega, name=NN):
@@ -1019,7 +1017,7 @@ class JacobiConformal(Triaxial):
 
            @return: The C{y} projection (C{Radians}).
         '''
-        return self.yR_(*_SinCos2(beta))
+        return self.yR_(*SinCos2(beta))
 
     def yR_(self, sbeta, cbeta):
         '''Compute a Jacobi Conformal C{y} projection.
@@ -1054,6 +1052,7 @@ Triaxials = Triaxials(Triaxial, Triaxial_)  # PYCHOK singleton
 # <https://ArxIV.org/pdf/1909.06452.pdf> Table 1 Semi-axes in km
 # <https://www.JPS.NASA.gov/education/images/pdf/ss-moons.pdf>
 # <https://link.Springer.com/article/10.1007/s00190-022-01650-9>
+_E = _WGS84.ellipsoid
 Triaxials._assert(                 # a (km)       b (km)     c (km)     planet
     Amalthea  = _lazy('Amalthea',  125.0,        73.0,      64),      # Jupiter
     Ariel     = _lazy('Ariel',     581.1,       577.9,     577.7),    # Uranus
@@ -1066,9 +1065,8 @@ Triaxials._assert(                 # a (km)       b (km)     c (km)     planet
     Miranda   = _lazy('Miranda',   240.4,       234.2,     232.9),    # Uranus
     Moon      = _lazy('Moon',     1735.55,     1735.324,  1734.898),  # Earth
     Tethys    = _lazy('Tethys',    535.6,       528.2,     525.8),    # Saturn
-    WGS84_35  = _lazy('WGS84_35', *map(m2km, _WGS84_35abc)))
-
-del _WGS84_35abc
+    WGS84_35  = _lazy('WGS84_35', *map1(m2km, _E.a + 35, _E.a - 35, _E.b)))
+del _E
 
 
 def _getitems(items, *indices):
@@ -1081,15 +1079,15 @@ def _getitems(items, *indices):
     return type(items)(map(items.__getitem__, indices))
 
 
-def _hartzell3d2(pov, los, Tun):  # MCCABE 13 in .formy.hartzell
-    '''(INTERNAL) Hartzell's "Satellite Lin-of-Sight Intersection ...",
+def _hartzell3d2(pov, los, Tun):  # MCCABE 13 in .ellipsoidal.hartzell4, .formy.hartzell
+    '''(INTERNAL) Hartzell's "Satellite Line-of-Sight Intersection ...",
        formula for I{un-/ordered} triaxials.
     '''
     a, b, c, T = Tun._ordered4
 
     a2     =  a**2  # largest, factored out
-    b2, p2 = (b**2, (b / a)**2) if b != a else (a2, _1_0)
-    c2, q2 =  c**2, (c / a)**2
+    b2, p2 = (b**2, T._1e2ab) if b != a else (a2, _1_0)
+    c2, q2 = (c**2, T._1e2ac) if c != a else (a2, _1_0)
 
     p3 = T._order3d(_otherV3d(pov=pov))
     u3 = T._order3d(_otherV3d(los=los)) if los else p3.negate()
@@ -1134,15 +1132,16 @@ def hartzell4(pov, los=None, tri_biax=_WGS84, name=NN):
                    C{None} to point to the tri-/biaxial's center.
        @kwarg tri_biax: A triaxial (L{Triaxial}, L{Triaxial_}, L{JacobiConformal})
                         or biaxial ellipsoid (L{Datum}, L{Ellipsoid}, L{Ellipsoid2},
-                        L{a_f2Tuple} or C{scalar} radius in C{meter}).
+                        L{a_f2Tuple} or C{scalar} radius, conventionally in C{meter}).
        @kwarg name: Optional name (C{str}).
 
        @return: L{Vector4Tuple}C{(x, y, z, h)} on the tri-/biaxial's surface, with C{h}
-                the distance from B{C{pov}} to C{(x, y, z)} along B{C{los}}.
+                the distance from B{C{pov}} to C{(x, y, z)} along B{C{los}}, all in
+                C{meter}, conventionally.
 
-       @raise TriaxialError: Null B{C{pov}} or B{C{los}} vector, B{C{pov}} is inside
-                             the tri-/biaxial or B{C{los}} points outside the
-                             tri-/biaxial or points in an opposite direction.
+       @raise TriaxialError: Null B{C{pov}} or B{C{los}}, or B{C{pov}} is inside the
+                             tri-/biaxial or B{C{los}} points outside the tri-/biaxial
+                             or points in an opposite direction.
 
        @raise TypeError: Invalid B{C{pov}} or B{C{los}}.
 
@@ -1155,8 +1154,7 @@ def hartzell4(pov, los=None, tri_biax=_WGS84, name=NN):
     else:
         D = tri_biax if isinstance(tri_biax, Datum) else \
                   _spherical_datum(tri_biax, name=hartzell4.__name__)
-        E = D.ellipsoid
-        T = Triaxial_(E.a, E.a, E.b, name=E.name)
+        T = D.ellipsoid._triaxial
 
     try:
         v, h = _hartzell3d2(pov, los, T)
@@ -1363,14 +1361,6 @@ def _sideOf(xyz, abc, eps=EPS):  # in .formy
     '''
     s = _hypot21_(*((x / a) for x, a in _zip(xyz, abc) if a))  # strict=True
     return s if fabs(s) > eps else INT0
-
-
-def _SinCos2(x):
-    '''Get C{sin} and C{cos} of C{x} in C{Degrees}, C{Radians} or {radians}.
-    '''
-    return sincos2d(x) if isinstance(x, Degrees) else (
-           sincos2(x)  if isinstance(x, Radians) else
-           sincos2(float(x)))  # assume C{radians}
 
 
 if __name__ == '__main__':

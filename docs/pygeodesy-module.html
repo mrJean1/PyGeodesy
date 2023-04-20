@@ -275,7 +275,7 @@
     href="https://GeographicLib.SourceForge.io/html/utilities.html" 
     target="_top">GeodSolve</a> 1.51 and <a 
     href="https://GeographicLib.SourceForge.io/html/utilities.html" 
-    target="_top">RhumbSolve</a> 1.51), all on macOS 13.2.1 Venture and in 
+    target="_top">RhumbSolve</a> 1.51), all on macOS 13.3.1 Ventura and in 
     64-bit only.</p>
     <p>All tests ran with and without <code>lazy import</code> for Python 3
     and with command line option <code>-W default</code> and env variable 
@@ -329,7 +329,7 @@
     href="https://software.Intel.com/en-us/distribution-for-python" 
     target="_top">Intel-Python</a> 3.5.3 (and <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.11.3) 
-    on macOS 13.0.0-1 Ventura, 12.1-6 Monterey, 11.0-5.2-6.1 Big Sur (aka 
+    on macOS 13.0-2.1 Ventura, 12.1-6 Monterey, 11.0-5.2-6.1 Big Sur (aka 
     10.16), 10.15.3, 10.15.5-7 Catalina, 10.14 Mojave, 10.13.6 High Sierra 
     and 10.12 Sierra, MacOS X 10.11 El Capitan and/or MacOS X 10.10 
     Yosemite, with <a href="https://OMZ-Software.com/pythonista" 
@@ -351,7 +351,7 @@
     href="https://PyPI.org/project/mccabe" target="_top">McCabe</a> using 
     Python 2.7.18 and with <a href="https://PyPI.org/project/flake8" 
     target="_top">Flake8</a> using Python 3.11.3, both in 64-bit on macOS 
-    13.2.1 Ventura.</p>
+    13.3.1 Ventura.</p>
     <p>For a summary of all <i>Karney</i>-based functionality in 
     <code>pygeodesy</code>, see module <a 
     href="https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.karney-module.html"
@@ -528,7 +528,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        23.04.12
+        23.04.21
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -4884,6 +4884,23 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#SinCos2" class="summary-sig-name">SinCos2</a>(<span class="summary-sig-arg">x</span>)</span><br />
+      Get <code>sin</code> and <code>cos</code> of <i>typed</i> angle.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#UtmUps" class="summary-sig-name">UtmUps</a>(<span class="summary-sig-arg">zone</span>,
         <span class="summary-sig-arg">hemipole</span>,
         <span class="summary-sig-arg">easting</span>,
@@ -7740,7 +7757,26 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="float0"></a><span class="summary-sig-name">float0</span>(<span class="summary-sig-arg">*xs</span>)</span><br />
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#float0" class="summary-sig-name">float0</a>(<span class="summary-sig-arg">*xs</span>)</span><br />
+      DEPRECATED, use function <a 
+      href="pygeodesy.constants-module.html#float0_" 
+      class="link">float0_</a>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="float0_"></a><span class="summary-sig-name">float0_</span>(<span class="summary-sig-arg">*xs</span>)</span><br />
       Yield <code><b>x</b>s</code> as a non-NEG0 <code>float</code>.</td>
           <td align="right" valign="top">
             
@@ -8315,7 +8351,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fb68870d4d0&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fbd788dd250&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -12859,7 +12895,7 @@ ygeodesy'"><code class="variable-quote">'</code><code class="variable-string">/U
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'23.4.12'"><code class="variable-quote">'</code><code class="variable-string">23.4.12</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'23.4.21'"><code class="variable-quote">'</code><code class="variable-string">23.4.21</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -13781,6 +13817,34 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>sm</code></b>.</li>
     </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="SinCos2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">SinCos2</span>&nbsp;(<span class="sig-arg">x</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Get <code>sin</code> and <code>cos</code> of <i>typed</i> angle.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>x</code></strong> - Angle (<a href="pygeodesy.units.Degrees-class.html" 
+          class="link">Degrees</a>, <a 
+          href="pygeodesy.units.Radians-class.html" 
+          class="link">Radians</a> or <code>radians</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>2-Tuple (<code>sin(<b>x</b>)</code>, <code>cos(<b>x</b>)</code>).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -19536,6 +19600,31 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
       </p>
 </div></td></tr></table>
 </div>
+<a name="float0"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">float0</span>&nbsp;(<span class="sig-arg">*xs</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>DEPRECATED, use function <a 
+  href="pygeodesy.constants-module.html#float0_" 
+  class="link">float0_</a>.</p>
+  <dl class="fields">
+    <dt>Decorators:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code>@deprecated_function</code></li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="float_"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -20643,8 +20732,10 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         Function <a href="pygeodesy.triaxials-module.html#hartzell4" 
         class="link">pygeodesy.hartzell4</a>, <a 
         href="pygeodesy.ltp-module.html#tyr3d" 
-        class="link">pygeodesy.tyr3d</a> for <b><code>los</code></b> and <a
-        
+        class="link">pygeodesy.tyr3d</a> for <b><code>los</code></b>, 
+        method <a 
+        href="pygeodesy.ellipsoids.Ellipsoid-class.html#hartzell4" 
+        class="link">Ellipsoid.hartzell4</a> and <a 
         href="https://StephenHartzell.Medium.com/satellite-line-of-sight-intersection-with-earth-d786b4a6a9b6"
         target="_top"><i>Satellite Line-of-Sight Intersection with 
         Earth</i></a>.
@@ -20694,8 +20785,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
           class="link">Ellipsoid2</a>, <a 
           href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
-          class="link">a_f2Tuple</a> or <code>scalar</code> radius in 
-          <code>meter</code>).</li>
+          class="link">a_f2Tuple</a> or <code>scalar</code> radius, 
+          conventionally in <code>meter</code>).</li>
         <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -20703,10 +20794,11 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           class="link">Vector4Tuple</a><code>(x, y, z, h)</code> on the 
           tri-/biaxial's surface, with <code>h</code> the distance from 
           <b><code>pov</code></b> to <code>(x, y, z)</code> along 
-          <b><code>los</code></b>.</dd>
+          <b><code>los</code></b>, all in <code>meter</code>, 
+          conventionally.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.triaxials.TriaxialError-class.html">TriaxialError</a></strong></code> - Null <b><code>pov</code></b> or <b><code>los</code></b> vector, 
+        <li><code><strong class='fraise'><a href="pygeodesy.triaxials.TriaxialError-class.html">TriaxialError</a></strong></code> - Null <b><code>pov</code></b> or <b><code>los</code></b>, or 
         <b><code>pov</code></b> is inside the tri-/biaxial or 
         <b><code>los</code></b> points outside the tri-/biaxial or points 
         in an opposite direction.</li>
@@ -20739,7 +20831,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fb68870d4d0&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fbd788dd250&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -30280,7 +30372,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Apr 12 11:27:38 2023
+    Generated by Epydoc 3.0.1 on Thu Apr 20 11:20:00 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

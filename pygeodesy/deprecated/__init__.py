@@ -11,7 +11,8 @@ Use either C{from pygeodesy import bases} or C{from pygeodesy.deprecated import
 bases}.  Likewise for C{datum} and C{nvector}.
 '''
 
-from pygeodesy.constants import EPS, EPS_2, MANT_DIG, NAN, R_M, _float, _1_0
+from pygeodesy.constants import EPS, EPS_2, MANT_DIG, NAN, R_M, \
+                                float0_, _float, _1_0
 from pygeodesy.interns import NN, _azi12_, _COMMASPACE_,  _convergence_, \
                              _DEPRECATED_, _down_, _east_, _easting_, _end_, \
                              _hemipole_, _lat_, _lat1_, _lat2_, _lon_, _lon1_, \
@@ -31,7 +32,7 @@ if isLazy:  # XXX force import of all deprecated modules
     # XXX instead, use module_property or enhance .lazily
 
 __all__ = _ALL_LAZY.deprecated
-__version__ = '23.03.29'
+__version__ = '23.04.14'
 
 _WGS84 = _UTM = object()
 
@@ -386,6 +387,12 @@ def falsed2f(falsed=True, Error=ValueError, **name_value):  # PYCHOK no cover
         except (TypeError, ValueError) as x:
             t = str(x)
     raise _MODS.errors._InvalidError(Error=Error, txt=t, **name_value)
+
+
+@deprecated_function
+def float0(*xs):
+    '''DEPRECATED, use function L{float0_}.'''
+    return float0_(*xs)
 
 
 @deprecated_function

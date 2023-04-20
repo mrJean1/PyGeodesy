@@ -24,7 +24,7 @@ except ImportError:  # Python 2-
     _inf, _nan = float(_INF_), float(_NAN_)
 
 __all__ = _ALL_LAZY.constants
-__version__ = '23.03.19'
+__version__ = '23.04.14'
 
 
 def _Float(**name_arg):
@@ -74,11 +74,11 @@ def _float(f):  # in .datums, .ellipsoids, ...
     return _floats.setdefault(f, f)  # PYCHOK del _floats
 
 
-def float0(*xs):
+def float0_(*xs):
     '''Yield C{B{x}s} as a non-NEG0 C{float}.
     '''
     for x in xs:
-        yield float(x) or _0_0
+        yield float(x) if x else _0_0
 
 
 def _float0(f):  # in .resections, .vector3dBase, ...

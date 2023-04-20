@@ -51,7 +51,7 @@ from pygeodesy.vector3d import _intersect3d3, Vector3d  # in .intersection2 belo
 from math import asinh, atan, cos, cosh, fabs, radians, sin, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.rhumbx
-__version__ = '23.04.10'
+__version__ = '23.04.20'
 
 _rls   = []  # instances of C{RbumbLine} to be updated
 _TRIPS = 65  # .intersection2, 18+
@@ -922,7 +922,7 @@ def _Dcosh(x, y):
     return _Dsincos(x, y, sinh, sinh)
 
 
-def _DeatanhE(x, y, E):
+def _DeatanhE(x, y, E):  # see .albers._Datanhee
     # Deatanhe(x, y) = eatanhe((x - y) / (1 - e^2 * x * y)) / (x - y)
     e = _1_0 - E.e2 * x * y
     # assert not isnear0(e)

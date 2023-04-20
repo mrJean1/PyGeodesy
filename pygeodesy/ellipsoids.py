@@ -68,7 +68,7 @@ from pygeodesy.constants import EPS, EPS0, EPS02, EPS1, INF, NINF, PI4, PI_2, PI
                                _EPSqrt, _EPStol as _TOL, _floatuple as _T, _isfinite, _SQRT2_2, \
                                _0_0s, _0_0, _0_5, _1_0, _1_EPS, _2_0, _4_0, _90_0, \
                                _0_25, _3_0  # PYCHOK used!
-from pygeodesy.errors import _AssertionError, _ValueError, _xkwds_not
+from pygeodesy.errors import _AssertionError, IntersectionError, _ValueError, _xkwds_not
 from pygeodesy.fmath import cbrt, cbrt2, fdot, Fhorner, fpowers, Fsum, hypot, hypot_, \
                             hypot1, hypot2, sqrt3
 # from pygeodesy.fsums import Fsum  # from .fmath
@@ -90,7 +90,7 @@ from pygeodesy.utily import atand, atan2b, atan2d, degrees90, m2radians, radians
 from math import asinh, atan, atanh, cos, degrees, exp, fabs, radians, sin, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '23.04.11'
+__version__ = '23.04.20'
 
 _f_0_0    = Float(f =_0_0)  # zero flattening
 _f__0_0   = Float(f_=_0_0)  # zero inverse flattening
@@ -884,7 +884,7 @@ class Ellipsoid(_NamedEnumItem):
         '''
         return self._es_atanh(Scalar(x=x)) if self.f else _0_0
 
-    def _es_atanh(self, x):
+    def _es_atanh(self, x):  # see .albers._atanhee
         '''(INTERNAL) Helper for .es_atanh, ._es_taupf2 and ._exp_es_atanh.
         '''
         es = self.es  # signOf(es) == signOf(f)
@@ -1020,20 +1020,50 @@ class Ellipsoid(_NamedEnumItem):
         #     raise _IsnotError(_ellipsoidal_, ellipsoid=self)
         return _MODS.geodsolve.GeodesicSolve(self, name=self.name)
 
+    def hartzell4(self, pov, los=None):
+        '''Compute the intersection of this ellipsoid's surface and a Line-Of-Sight
+           from a Point-Of-View in space.
+
+           @arg pov: Point-Of-View outside this ellipsoid (C{Cartesian}, L{Ecef9Tuple}
+                     or L{Vector3d}).
+           @kwarg los: Line-Of-Sight, I{direction} to this ellipsoid (L{Vector3d}) or
+                       C{None} to point to this ellipsoid's center.
+
+           @return: L{Vector4Tuple}C{(x, y, z, h)} with the cartesian coordinates C{x},
+                    C{y} and C{z} of the projection on or the intersection with and the
+                    I{distance} C{h} from B{C{pov}} to C{(x, y, z)} along B{C{los}},
+                    all in C{meter}, conventionally.
+
+           @raise IntersectionError: Null B{C{pov}} or B{C{los}} vector, or B{C{pov}}
+                                     is inside this ellipsoid or B{C{los}} points
+                                     outside this ellipsoid or points in an opposite
+                                     direction.
+
+           @raise TypeError: Invalid B{C{pov}} or B{C{los}}.
+
+           @see: U{I{Satellite Line-of-Sight Intersection with Earth}<https://StephenHartzell.
+                 Medium.com/satellite-line-of-sight-intersection-with-earth-d786b4a6a9b6>} and
+                 methods L{Ellipsoid.height4} and L{Triaxial.hartzell4}.
+        '''
+        try:
+            v, d = _MODS.triaxials._hartzell3d2(pov, los, self._triaxial)
+        except Exception as x:
+            raise IntersectionError(pov=pov, los=los, cause=x)
+        return Vector4Tuple(v.x, v.y, v.z, d, name=self.hartzell4.__name__)
+
     def height4(self, xyz, normal=True):
         '''Compute the projection on and the height of a cartesian above or below
            this ellipsoid's surface.
 
            @arg xyz: The cartesian (C{Cartesian}, L{Ecef9Tuple}, L{Vector3d},
                      L{Vector3Tuple} or L{Vector4Tuple}).
-           @kwarg normal: If C{True} the projection is perpendicular to (the nearest
+           @kwarg normal: If C{True}, the projection is perpendicular to (the nearest
                           point on) this ellipsoid's surface, otherwise the C{radial}
                           line to this ellipsoid's center (C{bool}).
 
-           @return: L{Vector4Tuple}C{(x, y, z, h)} with the cartesian coordinates
-                    C{x}, C{y} and C{z} of the projection on or the intersection
-                    with and with the height C{h} above the ellipsoid's surface
-                    in C{meter}, conventionally.
+           @return: L{Vector4Tuple}C{(x, y, z, h)} with the cartesian coordinates C{x},
+                    C{y} and C{z} of the projection on and with the height C{h} above
+                    the ellipsoid's surface, all in C{meter}, conventionally.
 
            @raise ValueError: Null B{C{xyz}}.
 
@@ -1041,7 +1071,7 @@ class Ellipsoid(_NamedEnumItem):
 
            @see: U{Distance to<https://StackOverflow.com/questions/22959698/distance-from-given-point-to-given-ellipse>}
                  and U{intersection with<https://MathWorld.wolfram.com/Ellipse-LineIntersection.html>} an ellipse and
-                 method L{Triaxial.height4}.
+                 methods L{Ellipsoid.hartzell4} and L{Triaxial.height4}.
         '''
         v = _MODS.vector3d._otherV3d(xyz=xyz)
         r =  v.length
@@ -1690,9 +1720,16 @@ class Ellipsoid(_NamedEnumItem):
 
            @see: Method L{Triaxial_.toEllipsoid}.
         '''
-        a, b, n = self.a, self.b, (name or self.name)
-        return _MODS.triaxials.Triaxial_(a, a, b, name=n) if a < b else \
-               _MODS.triaxials.Triaxial( a, a, b, name=n)
+        T = self._triaxial
+        return T.copy(name=name) if name else T
+
+    @Property_RO
+    def _triaxial(self):
+        '''(INTERNAL) Get this ellipsoid's un-/ordered C{Triaxial/_}.
+        '''
+        a, b, m = self.a, self.b, _MODS.triaxials
+        T = m.Triaxial if a > b else m.Triaxial_
+        return T(a, a, b, name=self.name)
 
     @Property_RO
     def volume(self):

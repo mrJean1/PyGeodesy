@@ -4,7 +4,7 @@
 # Test L{albers} Equal-Area projections.
 
 __all__ = ('Tests',)
-__version__ = '23.03.27'
+__version__ = '23.04.20'
 
 from bases import TestsBase  # RandomLatLon
 
@@ -110,9 +110,11 @@ class Tests(TestsBase):
                        (  0, AlbersEqualAreaCylindrical()),
                        ( 90, AlbersEqualAreaNorth()),
                        (-90, AlbersEqualAreaSouth())):
+            t = A.toRepr()
+            self.test(A.named + '.toRepr', t, t)
             self.test(A.named + '.lat0', A.lat0, lat, fmt='%.1f')
             self.test(A.named + '.lat1', A.lat1, lat, fmt='%.1f')
-            self.test(A.named + '.lat2', A.lat2, lat, fmt='%.1f')
+            self.test(A.named + '.lat2', A.lat2, lat, fmt='%.1f', nt=1)
 
         try:
             self.test('error', AlbersEqualArea4(s, -c, 0, c), AlbersError.__name__)

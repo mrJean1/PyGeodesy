@@ -143,7 +143,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'INF', 'INT0', 'MANT_DIG', 'MAX', 'MIN', 'NAN', 'NEG0', 'NINF',
                                  'PI', 'PI2', 'PI3', 'PI3_2', 'PI_3', 'PI4', 'PI_2', 'PI_4',
                                  'R_FM', 'R_GM', 'R_KM', 'R_M', 'R_MA', 'R_MB', 'R_NM', 'R_SM', 'R_QM', 'R_VM',
-                                 'float_', 'float0', 'isclose', 'isfinite', 'isinf', 'isint0',
+                                 'float_', 'float0_', 'isclose', 'isfinite', 'isinf', 'isint0',
                                  'isnan', 'isnear0', 'isnear1', 'isnear90', 'isneg0', 'isninf', 'isnon0',
                                  'remainder'),
                          datums=('Datum', 'Datums', 'Transform', 'Transforms'),
@@ -154,7 +154,8 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'anStr', 'areaof', 'bounds', 'clipCS3', 'clipDMS', 'clipStr', 'collins',   # most of the DEPRECATED functions, ...
                                  'decodeEPSG2', 'encodeEPSG', 'equirectangular3', 'enStr2',   # ... except ellipsoidal, spherical flavors
                                  'excessAbc', 'excessGirard', 'excessLHuilier',
-                                 'false2f', 'falsed2f', 'fStr', 'fStrzs', 'hypot3', 'inStr', 'isDEPRECATED', 'isenclosedby', 'istuplist',
+                                 'false2f', 'falsed2f', 'float0', 'fStr', 'fStrzs', 'hypot3',
+                                 'inStr', 'isDEPRECATED', 'isenclosedby', 'istuplist',
                                  'joined', 'joined_', 'nearestOn3', 'nearestOn4', 'parseUTM', 'perimeterof', 'polygon',
                                  'scalar', 'simplify2', 'tienstra', 'toUtm', 'unsign0', 'unStr', 'utmZoneBand2'),
                             dms=('F_D',   'F_DM',   'F_DMS',   'F_DEG',   'F_MIN',   'F_SEC',   'F_D60',   'F__E',   'F__F',   'F__G',   'F_RAD',
@@ -316,7 +317,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'km2m', 'm2chain', 'm2degrees', 'm2fathom', 'm2ft', 'm2furlong',
                                  'm2km', 'm2NM', 'm2radians', 'm2SM', 'm2toise', 'm2yard', 'NM2m',
                                  'radians', 'radiansPI', 'radiansPI2', 'radiansPI_2', 'radians2m',
-                                 'sincos2', 'sincos2_', 'sincos2d', 'sincos2d_', 'sincostan3', 'SM2m',
+                                 'sincos2', 'SinCos2', 'sincos2_', 'sincos2d', 'sincos2d_', 'sincostan3', 'SM2m',
                                  'tand', 'tand_', 'tan_2', 'tanPI_2_2', 'toise2m', 'truncate',
                                  'unroll180', 'unrollPI',
                                  'wrap90', 'wrap180', 'wrap360', 'wrapPI_2','wrapPI', 'wrapPI2',
@@ -419,7 +420,7 @@ class _ALL_MODS(object):
 _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '23.04.11'
+__version__ = '23.04.14'
 
 
 def _ALL_OTHER(*objs):

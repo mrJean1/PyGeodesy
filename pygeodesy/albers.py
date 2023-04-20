@@ -16,20 +16,21 @@ and the Albers Conical Equal-Area examples on pp 291-294.
 from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import neg, neg_
-from pygeodesy.constants import EPS0, EPS02, _EPSqrt as _TOL, _0_0, \
-                               _0_5, _1_0, _N_1_0, _2_0, _N_2_0, \
-                               _3_0, _90_0, _N_90_0
+from pygeodesy.constants import EPS0, EPS02, _EPSqrt as _TOL, isnear0, \
+                               _0_0, _0_5, _1_0, _N_1_0, _2_0, _N_2_0, \
+                               _4_0, _6_0, _90_0, _N_90_0
 from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.errors import _ValueError, _xkwds
 from pygeodesy.fmath import hypot, hypot1, sqrt3
-from pygeodesy.fsums import Fmt, Fsum, fsum1_
-from pygeodesy.interns import NN, _datum_, _gamma_, _lat_, _lat1_, \
-                             _lat2_, _lon_, _scale_, _x_, _y_
+from pygeodesy.fsums import Fsum, fsum1_
+from pygeodesy.interns import NN, _COMMASPACE_, _datum_, _gamma_, _k0_, \
+                             _lat_, _lat1_, _lat2_, _lon_, _name_, _not_, \
+                             _scale_, _SPACE_, _x_, _y_
 from pygeodesy.karney import _diff182, _norm180, _signBit
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import _NamedBase, _NamedTuple, _Pass
 from pygeodesy.props import deprecated_Property_RO, Property_RO, _update_all
-# from pygeodesy.streprs import Fmt  # from .fsums
+from pygeodesy.streprs import Fmt, strs, unstr
 from pygeodesy.units import Bearing, Float_, Lat, Lat_, Lon, Meter, Scalar_
 from pygeodesy.utily import atand, atan2d, degrees360, sincos2, \
                             sincos2d, sincos2d_
@@ -37,49 +38,13 @@ from pygeodesy.utily import atand, atan2d, degrees360, sincos2, \
 from math import atan, atan2, atanh, degrees, fabs, radians, sqrt
 
 __all__ = _ALL_LAZY.albers
-__version__ = '23.03.19'
+__version__ = '23.04.20'
 
-_NUMIT  =  8  # XXX 4?
-_NUMIT0 = 41  # XXX 21?
-_TERMS  = 21  # XXX 16?
-_TOL0   = sqrt3(_TOL)
-
-
-class AlbersError(_ValueError):
-    '''An L{AlbersEqualArea}, L{AlbersEqualArea2}, L{AlbersEqualArea4},
-       L{AlbersEqualAreaCylindrical}, L{AlbersEqualAreaNorth},
-       L{AlbersEqualAreaSouth} or L{Albers7Tuple} issue.
-    '''
-    pass
-
-
-def _1_x21(x):
-    '''(INTERNAL) Return M{1 / (x**2 + 1)}.
-    '''
-    return _1_0 / (x**2 + _1_0)
-
-
-def _Dsn(x, y, sx, sy):
-    '''(INTERNAL) Divided differences, defined as M{Df(x, y) = (f(x) - f(y)) / (x - y)}
-       with M{sn(x) = x / sqrt(1 + x^2)}: M{Dsn(x, y) = (x + y) / ((sn(x) + sn(y)) *
-       (1 + x^2) * (1 + y^2))}.
-
-       @see: U{W. M. Kahan and R. J. Fateman, "Sympbolic Computation of Divided
-             Differences"<https://People.EECS.Berkeley.EDU/~fateman/papers/divdiff.pdf>},
-             U{ACM SIGSAM Bulletin 33(2), 7-28 (1999)<https://DOI.org/10.1145/334714.334716>}
-             and U{AlbersEqualArea.hpp
-             <https://GeographicLib.SourceForge.io/C++/doc/AlbersEqualArea_8hpp_source.html>}.
-    '''
-    # sx = x / hypot1(x)
-    d, t = _1_0, (x * y)
-    if t > 0:
-        s = sx + sy
-        if s:
-            t = sx * sy / t
-            d = t**2 * (x + y) / s
-    elif x != y:
-        d = (sx - sy) / (x - y)
-    return d
+_k1_    = 'k1'
+_NUMIT  =   8  # XXX 4?
+_NUMIT0 =  41  # XXX 21?
+_TERMS  =  21  # XXX 16?
+_TOL0   =  sqrt3(_TOL)
 
 
 def _Ks(**name_k):
@@ -95,10 +60,21 @@ def _Lat(*lat, **Error_name_lat):
     return Lat_(*lat, **kwds)
 
 
-def _tol(tol, x):
-    '''(INTERNAL) Converge tolerance.
+def _qZx(aobj):
+    '''(INTERNAL) Set C{aobj._qZ} and C{aobj._qx}.
     '''
-    return tol * max(_1_0, fabs(x))
+    E = aobj._datum.ellipsoid
+    aobj._qZ = qZ =  _1_0 + E.e21 * _atanhee(_1_0, E)
+    aobj._qx = qZ / (_2_0 * E.e21)
+    return qZ
+
+
+class AlbersError(_ValueError):
+    '''An L{AlbersEqualArea}, L{AlbersEqualArea2}, L{AlbersEqualArea4},
+       L{AlbersEqualAreaCylindrical}, L{AlbersEqualAreaNorth},
+       L{AlbersEqualAreaSouth} or L{Albers7Tuple} issue.
+    '''
+    pass
 
 
 class _AlbersBase(_NamedBase):
@@ -107,48 +83,45 @@ class _AlbersBase(_NamedBase):
        @see: I{Karney}'s C++ class U{AlbersEqualArea<https://GeographicLib.SourceForge.io/
              html/classGeographicLib_1_1AlbersEqualArea.html>}, method C{Init}.
     '''
-    _datum = _WGS84
-    _k0    =  None  # scale
-    _k0n0  =  None  # (INTERNAL) k0 * no
-    _k02   =  None  # (INTERNAL) k0**2
-    _k02n0 =  None  # (INTERNAL) k02 * n0
-    _lat0  =  None  # lat origin
-    _lat1  =  None  # let 1st parallel
-    _lat2  =  None  # lat 2nd parallel
-    _m0    = _0_0   # if polar else sqrt(m02)
-    _m02   =  None  # (INTERNAL) cached
-    _n0    =  None  # (INTERNAL) cached
-    _nrho0 = _0_0   # if polar else m0 * E.a
-    _polar =  False
-    _qx    =  None  # (INTERNAL) cached
-    _qZ    =  None  # (INTERNAL) cached
-    _qZa2  =  None  # (INTERNAL) qZ * E.a**2
-    _scxi0 =  None  # (INTERNAL) sec(xi)
-    _sign  = +1
-    _sxi0  =  None  # (INTERNAL) sin(xi)
-    _txi0  =  None  # (INTERNAL) tan(xi)
+    _datum  = _WGS84
+    _k      =  NN    # or _k0_ or _k1_
+    _k0     = _Ks(k0=_1_0)
+    _k0n0   =  None  # (INTERNAL) k0 * no
+    _k02    = _1_0   # (INTERNAL) k0**2
+    _k02n0  =  None  # (INTERNAL) k02 * n0
+    _lat0   =  None  # lat origin
+    _lat1   =  None  # let 1st parallel
+    _lat2   =  None  # lat 2nd parallel
+    _m0     = _0_0   # if polar else sqrt(m02)
+    _m02    =  None  # (INTERNAL) cached
+    _n0     =  None  # (INTERNAL) cached
+    _nrho0  = _0_0   # if polar else m0 * E.a
+    _polar  =  False
+    _qx     =  None  # (INTERNAL) see _qZx
+    _qZ     =  None  # (INTERNAL) see _qZx
+    _scxi0_ =  None  # (INTERNAL) sec(xi) / (qZ...)
+    _sign   = +1
+    _sxi0   =  None  # (INTERNAL) sin(xi)
+    _txi0   =  None  # (INTERNAL) tan(xi)
 
     def __init__(self, sa1, ca1, sa2, ca2, k, datum, name):
         '''(INTERNAL) New C{AlbersEqualArea...} instance.
         '''
+        qZ = self._qZ
         if datum not in (None, self._datum):
             self._datum = _ellipsoidal_datum(datum, name=name)
+            qZ = _qZx(self)
+        elif qZ is None:
+            qZ = _qZx(_AlbersBase)
         if name:
             self.name = name
-
-        E   = self.datum.ellipsoid
-        b_a = E.b_a  # fm  = 1 - E.f
-        e2  = E.e2
-        e21 = E.e21  # e2m = 1 - E.e2
-
-        self._qZ   = qZ = _1_0 + e21 * self._atanhee(1)
-        self._qZa2 = qZ * E.a2
-        self._qx   = qZ / (_2_0 * e21)
 
         c = min(ca1, ca2)
         if _signBit(c):
             raise AlbersError(clat1=ca1, clat2=ca2)
         polar = c < EPS0  # == 0
+        E     = self.ellipsoid
+
         # determine hemisphere of tangent latitude
         if sa1 < 0:  # and sa2 < 0:
             self._sign = -1
@@ -161,114 +134,55 @@ class _AlbersBase(_NamedBase):
             raise AlbersError(slat1=sa1, slat2=sa2)
         # avoid singularities at poles
         ca1, ca2 = max(EPS0, ca1), max(EPS0, ca2)
-        ta1, ta2 = sa1 / ca1, sa2 / ca2
+        ta1, ta2 =    (sa1 / ca1),    (sa2 / ca2)
 
         par1 = fabs(ta1 - ta2) < EPS02  # ta1 == ta2
         if par1 or polar:
-            C, ta0 = _1_0, ta2
+            ta0, C = ta2, _1_0
         else:
             s1_qZ, C = self._s1_qZ_C2(ca1, sa1, ta1, ca2, sa2, ta2)
+            ta0      = self._ta0(s1_qZ, (ta2 + ta1) * _0_5)
 
-            ta0   = (ta2 + ta1) * _0_5
-            Ta02_ =  Fsum(ta0).fsum2_
-            tol   = _tol(_TOL0, ta0)
-            for self._iteration in range(1, _NUMIT0):  # 4 trips
-                ta02  = ta0**2
-                sca02 = ta02 + _1_0
-                sca0  = sqrt(sca02)
-                sa0   = ta0 / sca0
-                sa01  = sa0 + _1_0
-                sa02  = sa0**2
-                # sa0m = 1 - sa0 = 1 / (sec(a0) * (tan(a0) + sec(a0)))
-                sa0m  = _1_0 / (sca0 * (ta0 + sca0))  # scb0^2 * sa0
-                g  = (_1_0 + (b_a * ta0)**2) * sa0
-                dg = e21 * sca02 * (_1_0 + 2 * ta02) + e2
-                D  = sa0m * (_1_0 - e2 * (_1_0 + sa01 * 2 * sa0)) / (e21 * sa01)  # dD/dsa0
-                dD = _2_0 * (_1_0 - e2 * sa02 * (_3_0 + 2 * sa0)) / (e21 * sa01**2)
-                sa02_ = _1_0 - e2 * sa02
-                sa0m_ = sa0m / (_1_0 - e2 * sa0)
-                BA = sa0m_ * (self._atanhx1(e2 * sa0m_**2) * e21 - e2 * sa0m) \
-                   - sa0m**2 * e2 * (2 + (_1_0 + e2) * sa0) / (e21 * sa02_)  # == B + A
-                dAB = 2 * e2 * (2 - e2 * (_1_0 + sa02)) / (e21 * sa02_**2 * sca02)
-                u_du = fsum1_(s1_qZ *  g, -D,  g * BA) \
-                     / fsum1_(s1_qZ * dg, dD, dg * BA, g * dAB, floats=True)  # == u/du
-                ta0, d = Ta02_(-u_du * (sca0 * sca02))
-                if fabs(d) < tol:
-                    break
-            else:
-                raise AlbersError(Fmt.no_convergence(d, tol), txt=str(self))
-
-        self._txi0  = txi0 =  self._txif(ta0)
-        self._scxi0 =         hypot1(txi0)
-        self._sxi0  = sxi0 =  txi0 / self._scxi0
-        self._m02   = m02  = _1_x21(b_a * ta0)
-        self._n0    = n0   =  ta0 / hypot1(ta0)
+        self._lat0 = _Lat(lat0=self._sign * atand(ta0))
+        self._m02  =  m02 = _1_x21(E.b_a * ta0)
+        self._n0   =  n0  =  ta0 / hypot1(ta0)
         if polar:
             self._polar = True
-            self._nrho0 = self._m0 = _0_0
+#           self._nrho0 = self._m0 = _0_0
         else:
             self._m0    = sqrt(m02)  # == nrho0 / E.a
             self._nrho0 = E.a * self._m0  # == E.a * sqrt(m02)
-        self._k0s(_1_0 if par1 else (k * sqrt(C / (m02 + n0 * qZ * sxi0))))
-        self._lat0 = _Lat(lat0=self._sign * atand(ta0))
+        t = self._txi0  = self._txif(ta0)
+        h = hypot1(t)
+        s = self._sxi0  = t / h
+        if par1:
+            self._k0n0 = self._k02n0 = n0
+        else:
+            self._k0s(k * sqrt(C / (m02 + n0 * qZ * s)))
+        self._scxi0_ = h / (qZ * E.a2)
 
     def _a_b_sxi3(self, *ca_sa_ta_scb_4s):
         '''(INTERNAL) Sum of C{sm1} terms and C{sin(xi)}s for ._s1_qZ_C2.
         '''
-        a = b = s = _0_0
+        _1 = _1_0
+        a  =  b = s = _0_0
         for ca, sa, ta, scb in ca_sa_ta_scb_4s:
             cxi, sxi, _ = self._cstxif3(ta)
             if sa > 0:
-                sa += _1_0
-                a  += (cxi / ca)**2 * sa / (sxi + _1_0)
+                sa += _1
+                a  += (cxi / ca)**2 * sa / (sxi + _1)
                 b  +=  scb * ca**2 / sa
             else:
-                sa =  _1_0 - sa
-                a += (_1_0 - sxi) / sa
+                sa =  _1 - sa
+                a += (_1 - sxi) / sa
                 b +=  scb * sa
             s += sxi
         return a, b, s
 
-    def _atanhee(self, x):
-        '''(INTERNAL) Function M{atanhee(x)}, defined as ...
-           atanh(      E.e   * x) /       E.e   if f > 0  # oblate
-           atan (sqrt(-E.e2) * x) / sqrt(-E.e2) if f < 0  # prolate
-           x                                    if f = 0.
-        '''
-        E = self.datum.ellipsoid
-        if E.f > 0:  # .isOblate
-            x =  atanh( x * E.e) / E.e
-        elif E.f < 0:  # .isProlate
-            x = (atan2(-x * E.e, _N_1_0) if x < 0 else
-                 atan2( x * E.e,   _1_0)) / E.e
-#       else:
-#           pass  # x = x
-        return x
-
-    def _atanhx1(self, x):
-        '''(INTERNAL) Function M{atanh(sqrt(x)) / sqrt(x) - 1}.
-        '''
-        s = fabs(x)
-        if s < _0_5:  # for typical ...
-            # x < E.e^2 = 2 * E.f use ...
-            # x / 3 + x^2 / 5 + x^3 / 7 + ...
-            y, k = x, 3
-            S2_ = Fsum(y / k).fsum2_
-            for _ in range(_TERMS):  # 9 terms
-                y *= x  # x**n
-                k += 2  # 2*n + 1
-                s, d = S2_(y / k)
-                if not d:
-                    break
-        else:
-            s =  sqrt(s)
-            s = (atanh(s) if x > 0 else atan(s)) / s - _1_0
-        return s
-
     def _azik(self, t, ta):
-        '''(INTERNAL) Compute the azimuthal scale C{_Ks(k0=k0)}.
+        '''(INTERNAL) Compute the azimuthal scale C{_Ks(k=k)}.
         '''
-        E = self.datum.ellipsoid
+        E = self.ellipsoid
         return _Ks(k=self._k0 * t * hypot1(E.b_a * ta) / E.a)
 
     def _cstxif3(self, ta):
@@ -276,50 +190,8 @@ class _AlbersBase(_NamedBase):
         '''
         t =  self._txif(ta)
         c = _1_0 / hypot1(t)
-        s = c * t
+        s =  c * t
         return c, s, t
-
-    def _Datanhee(self, x, y):
-        '''(INTERNAL) Function M{Datanhee(x, y)}, defined as
-           M{atanhee((x - y) / (1 - E.e^2 * x * y)) / (x - y)}.
-        '''
-        e2 = self.datum.ellipsoid.e2
-        d  = _1_0 - e2 * x * y
-        if d:
-            d = _1_0 / d
-            t =  x - y
-            if t:
-                d = self._atanhee(t * d) / t
-        else:
-            raise AlbersError(x=x, y=y, txt=_AlbersBase._Datanhee.__name__)
-        return d
-
-    def _D2atanhee(self, x, y):
-        '''(INTERNAL) Function M{D2atanhee(x, y)}, defined as
-           M{(Datanhee(1, y) - Datanhee(1, x)) / (y - x)}.
-        '''
-        e2 = self.datum.ellipsoid.e2
-
-        if ((fabs(x) + fabs(y)) * e2) < _0_5:
-            e = z = _1_0
-            k = 1
-            T   = Fsum()  # Taylor expansion
-            _T  = T.fsum_
-            _C  = Fsum().fsum_
-            _S2 = Fsum().fsum2_
-            for _ in range(_TERMS):  # 15 terms
-                T *= y; p = _T(z); z *= x  # PYCHOK ;
-                T *= y; t = _T(z); z *= x  # PYCHOK ;
-                e *= e2
-                k += 2
-                s, d = _S2(e * _C(p, t) / k)
-                if not d:
-                    break
-        elif (_1_0 - x):
-            s = (self._Datanhee(_1_0, y) - self._Datanhee(x, y)) / (_1_0 - x)
-        else:
-            raise AlbersError(x=x, y=y, txt=_AlbersBase._D2atanhee.__name__)
-        return s
 
     @Property_RO
     def datum(self):
@@ -328,16 +200,22 @@ class _AlbersBase(_NamedBase):
         return self._datum
 
     @Property_RO
+    def ellipsoid(self):
+        '''Get the datum's ellipsoid (L{Ellipsoid}).
+        '''
+        return self.datum.ellipsoid
+
+    @Property_RO
     def equatoradius(self):
         '''Get the geodesic's equatorial radius, semi-axis (C{meter}).
         '''
-        return self.datum.ellipsoid.a
+        return self.ellipsoid.a
 
     @Property_RO
     def flattening(self):
         '''Get the geodesic's flattening (C{float}).
         '''
-        return self.datum.ellipsoid.f
+        return self.ellipsoid.f
 
     def forward(self, lat, lon, lon0=0, name=NN):
         '''Convert a geodetic location to east- and northing.
@@ -355,7 +233,7 @@ class _AlbersBase(_NamedBase):
                   values C{x} and C{y} will be large but finite for points
                   projecting to infinity, i.e. one or both of the poles.
         '''
-        E = self.datum.ellipsoid
+        a = self.ellipsoid.a
         s = self._sign
 
         k0    = self._k0
@@ -363,29 +241,29 @@ class _AlbersBase(_NamedBase):
         nrho0 = self._nrho0
         txi0  = self._txi0
 
-        sa, ca = sincos2d(_Lat(lat=lat) * s)
-        ca = max(EPS0, ca)
-        ta = sa / ca
+        sa, ca = sincos2d(s * _Lat(lat=lat))
+        ta = sa / max(EPS0, ca)
 
         _, sxi, txi = self._cstxif3(ta)
-        dq = self._qZ * _Dsn(txi, txi0, sxi, self._sxi0) * (txi - txi0)
-        drho = -E.a * dq / (sqrt(self._m02 - n0 * dq) + self._m0)
+        dq = _Dsn(txi,  txi0, sxi, self._sxi0) * \
+                 (txi - txi0) * self._qZ
+        drho = a * dq / (sqrt(self._m02 - n0 * dq) + self._m0)
 
         lon, _ = _diff182(lon0, lon)
-        b = radians(lon)
+        x = radians(lon)
 
-        th = self._k02n0 * b
+        th = self._k02n0 * x
         sth, cth = sincos2(th)  # XXX sin, cos
         if n0:
             x  = sth / n0
             y  = (_1_0 - cth) if cth < 0 else (sth**2 / (cth + _1_0))
             y *= nrho0 / n0
         else:
-            x =  self._k02 * b
+            x *= self._k02
             y = _0_0
-        t = nrho0 + n0 * drho
+        t = nrho0 - n0 * drho
         x = t * x / k0
-        y = s * (y - drho * cth) / k0
+        y = s * (y + drho * cth) / k0
 
         g = degrees360(s * th)
         if t:
@@ -401,13 +279,13 @@ class _AlbersBase(_NamedBase):
 
     isPolar = ispolar  # synonym
 
-    def _k0s(self, k):
+    def _k0s(self, k0):
         '''(INTERNAL) Set C{._k0}, C{._k02}, etc.
         '''
-        self._k0    = k  = _Ks(k0=k)
+        self._k0    = k  = _Ks(k0=k0)
         self._k02   = k2 =  k**2
-        self._k0n0  = k  * self._n0
-        self._k02n0 = k2 * self._n0
+        self._k0n0  = k  *  self._n0
+        self._k02n0 = k2 *  self._n0
 
     @Property_RO
     def lat0(self):
@@ -485,9 +363,10 @@ class _AlbersBase(_NamedBase):
         n0    = self._n0
         k0n0  = self._k0n0
         nrho0 = self._nrho0
+        s     = self._sign
         txi0  = self._txi0
 
-        y_ = self._sign * y
+        y_ = s    * y
         nx = k0n0 * x
         ny = k0n0 * y_
         y1 = nrho0 - ny
@@ -496,22 +375,22 @@ class _AlbersBase(_NamedBase):
         if den:
             drho = fsum1_(x * nx, y_ * nrho0 * _N_2_0, y_ * ny) * k0 / den
         # dsxia = scxi0 * dsxi
-        dsxia =  -self._scxi0 * (nrho0 * _2_0 + n0 * drho) * drho / self._qZa2
-        t     =  _1_0 - dsxia * (txi0  * _2_0 + dsxia)
-        txi   = (txi0 + dsxia) / (sqrt(t) if t > EPS02 else EPS0)
+        dsxia = (nrho0 * _2_0 + drho * n0) * drho * self._scxi0_  # / (qZ * E.a2)
+        t     = (txi0  * _2_0 - dsxia) * dsxia + _1_0
+        txi   = (txi0  - dsxia) / (sqrt(t) if t > EPS02 else EPS0)
 
         ta  = self._tanf(txi)
-        lat = atand(ta * self._sign)
+        lat = atand(s * ta)
 
         th  = atan2(nx, y1)
-        lon = degrees(th / self._k02n0) if n0 else degrees(x / (y1 * k0))
+        lon = degrees((th / self._k02n0) if n0 else (x / (y1 * k0)))
         if lon0:
             lon += _norm180(lon0)
         lon = _norm180(lon)
 
         n = name or self.name
         if LatLon is None:
-            g = degrees360(self._sign * th)
+            g = degrees360(s * th)
             if den:
                 k0 = self._azik(nrho0 + n0 * drho, ta)
             r = Albers7Tuple(x, y, lat, lon, g, k0, self.datum, name=n)
@@ -532,73 +411,146 @@ class _AlbersBase(_NamedBase):
     def _s1_qZ_C2(self, ca1, sa1, ta1, ca2, sa2, ta2):
         '''(INTERNAL) Compute C{sm1 / (s / qZ)} and C{C} for .__init__.
         '''
-        E = self.datum.ellipsoid
-        b_a = E.b_a
-        e2  = E.e2
+        _1, _2  = _1_0, _2_0
+        E       =  self.ellipsoid
+        b_a, e2 =  E.b_a, E.e2
 
-        tb1   =  b_a * ta1
-        tb2   =  b_a * ta2
-        dtb12 =  b_a * (tb1 + tb2)
-        scb12 = _1_0 + tb1**2
-        scb22 = _1_0 + tb2**2
+        tb1    =  b_a * ta1
+        tb2    =  b_a * ta2
+        dtb12  =  b_a * (tb1 + tb2)
+        scb12  = _1   + tb1**2
+        scb22  = _1   + tb2**2
 
-        esa1_2 = (_1_0 - e2 * sa1**2) \
-               * (_1_0 - e2 * sa2**2)
-        esa12  =  _1_0 + e2 * sa1 * sa2
+        esa1_2 = (_1 - e2 * sa1**2) \
+               * (_1 - e2 * sa2**2)
+        esa12  =  _1 + e2 * sa1 * sa2
 
         dsn = _Dsn(ta2, ta1, sa2, sa1)
         axi, bxi, sxi = self._a_b_sxi3((ca1, sa1, ta1, scb12),
                                        (ca2, sa2, ta2, scb22))
 
-        dsxi = (esa12 / esa1_2 + self._Datanhee(sa2, sa1)) * dsn / (self._qx * _2_0)
-        C = fsum1_(sxi * dtb12 / dsxi, scb22, scb12) / (scb22 * scb12 * _2_0)
+        dsxi = (esa12 / esa1_2 + _Datanhee(sa2, sa1, E)) * dsn / (self._qx * _2)
+        C = fsum1_(sxi * dtb12 / dsxi, scb22, scb12) / (scb22 * scb12 * _2)
 
-        sa12 =  fsum1_(sa1, sa2, sa1 * sa2)
-        axi *= (e2 * sa12 + _1_0) / (sa12 + _1_0)
-        bxi *=  e2 * fsum1_(sa1, sa2, esa12) / esa1_2 + E.e21 * self._D2atanhee(sa1, sa2)
-        s1_qZ = dsn * (axi * self._qZ - bxi) / (dtb12 * _2_0)
+        sa12  =  fsum1_(sa1, sa2, sa1 * sa2)
+        axi  *= (e2 * sa12 + _1) / (sa12 + _1)
+        bxi  *=  e2 * fsum1_(sa1, sa2, esa12) / esa1_2 + E.e21 * _D2atanhee(sa1, sa2, E)
+        s1_qZ = dsn * (axi * self._qZ - bxi) / (dtb12 * _2)
         return s1_qZ, C
 
-    def _tanf(self, txi):  # called by .Ellipsoid.auxAuthalic
+    def _ta0(self, s1_qZ, ta0):
+        '''(INTERNAL) Refine C{ta0}.
+        '''
+        e2     =  self.ellipsoid.e2
+        e21    =  self.ellipsoid.e21
+        tol    = _tol(_TOL0, ta0)
+        _Ta02  =  Fsum(ta0).fsum2_
+        _fabs  =  fabs
+        _fsum1 =  fsum1_
+        _sqrt  =  sqrt
+        _1, _2 = _1_0, _2_0
+        _4, _6 = _4_0, _6_0
+        for self._iteration in range(1, _NUMIT0):  # 4 trips
+            ta02  =  ta0**2
+            sca02 =  ta02 + _1
+            sca0  = _sqrt(sca02)
+            sa0   =  ta0 / sca0
+            sa01  =  sa0 + _1
+            sa02  =  sa0**2
+            # sa0m = 1 - sa0 = 1 / (sec(a0) * (tan(a0) + sec(a0)))
+            sa0m  = _1 / (sca0 * (ta0 + sca0))  # scb0^2 * sa0
+            sa0m1 =  sa0m / (_1 - e2 * sa0)
+            sa021 =          _1 - e2 * sa02
+
+            g  = (_1 + ta02 * e21) * sa0
+            dg = (_1 + ta02 *  _2) * sca02 * e21 + e2
+            D  = (_1 - (_1 + sa0 * _2 * sa01) * e2) * sa0m / (e21 * sa01)  # dD/dsa0
+            dD = (_2 - (_6 + sa0 * _4) * sa02 * e2)       /  (e21 * sa01**2)
+            BA = (_atanhs1(e2 * sa0m1**2) * e21 - e2 * sa0m) * sa0m1 \
+               - (_2 + (_1 + e2) * sa0) * sa0m**2 * e2 / (e21 * sa021)  # B + A
+            d  = (_4 - (_1 + sa02) * e2 * _2) * e2    /  (e21 * sa021**2 * sca02)  # dAB
+            u  = _fsum1(s1_qZ *  g, -D,  g * BA,        floats=True)
+            du = _fsum1(s1_qZ * dg, dD, dg * BA, g * d, floats=True)
+            ta0, d = _Ta02(-u / du * (sca0 * sca02))
+            if _fabs(d) < tol:
+                return ta0
+        raise AlbersError(Fmt.no_convergence(d, tol), txt=repr(self))
+
+    def _tanf(self, txi):  # in .Ellipsoid.auxAuthalic
         '''(INTERNAL) Function M{tan-phi from tan-xi}.
         '''
         tol = _tol(_TOL, txi)
+        e2  =  self.ellipsoid.e2
+        qx  =  self._qx
 
-        e2 = self.datum.ellipsoid.e2
-        qx = self._qx
-
-        ta    = txi
-        _Ta2  = Fsum(ta).fsum2_
-        _txif = self._txif
+        ta     =  txi
+        _Ta2   =  Fsum(ta).fsum2_
+        _fabs  =  fabs
+        _sqrt3 =  sqrt3
+        _txif  =  self._txif
+        _1     = _1_0
         for self._iteration in range(1, _NUMIT):  # max 2, mean 1.99
-            # dtxi/dta = (scxi / sca)^3 * 2 * (1 - e^2) / (qZ * (1 - e^2 * sa^2)^2)
-            ta2   =  ta**2
-            sca2  =  ta2 + _1_0
-            eta2  = (_1_0 - e2 * ta2 / sca2)**2
-            txia  = _txif(ta)
-            s3qx  =  sqrt3(sca2 * _1_x21(txia)) * qx
+            # dtxi / dta = (scxi / sca)^3 * 2 * (1 - e^2)
+            #            / (qZ * (1 - e^2 * sa^2)^2)
+            ta2  =  ta**2
+            sca2 = _1 + ta2
+            txia = _txif(ta)
+            s3qx = _sqrt3(sca2 / (txia**2 + _1)) * qx  # * _1_x21(txia)
+            eta2 = (_1 - e2 * ta2 / sca2)**2
             ta, d = _Ta2((txi - txia) * s3qx * eta2)
-            if fabs(d) < tol:
+            if _fabs(d) < tol:
                 return ta
-        raise AlbersError(Fmt.no_convergence(d, tol), txt=str(self))
+        raise AlbersError(Fmt.no_convergence(d, tol), txt=repr(self))
+
+    def toRepr(self, prec=6, **unused):  # PYCHOK expected
+        '''Return a string representation of this projection.
+
+           @kwarg prec: Number of (decimal) digits, unstripped (C{int}).
+
+           @return: This projection as C{"<classname>(lat1, lat2, ...)"}
+                    (C{str}).
+        '''
+        t = self.toStr(prec=prec, sep=_COMMASPACE_)
+        return Fmt.PAREN(self.classname, t)
+
+    def toStr(self, prec=6, sep=_SPACE_, **unused):  # PYCHOK expected
+        '''Return a string representation of this projection.
+
+           @kwarg prec: Number of (decimal) digits, unstripped (C{int}).
+           @kwarg sep: Separator to join (C{str}).
+
+           @return: This projection as C{"lat1 lat2"} (C{str}).
+        '''
+        k =  self._k
+        t = (self.lat1, self.lat2, self._k0) if k is _k1_ else (
+            (self.lat1,            self._k0) if k is _k0_ else
+            (self.lat1,))
+        t = strs(t, prec=prec)
+        if k:
+            t  =  t[:-1] + (Fmt.EQUAL(k, t[-1]),)
+        if self.datum != _WGS84:
+            t += (Fmt.EQUAL(_datum_, self.datum),)
+        if self.name:
+            t += (Fmt.EQUAL(_name_, repr(self.name)),)
+        return t if sep is None else sep.join(t)
 
     def _txif(self, ta):  # in .Ellipsoid.auxAuthalic
         '''(INTERNAL) Function M{tan-xi from tan-phi}.
         '''
-        E = self.datum.ellipsoid
+        E = self.ellipsoid
 
         ca2 = _1_x21(ta)
         sa  =  sqrt(ca2) * fabs(ta)  # enforce odd parity
+        sa1 = _1_0 + sa
 
-        es1    =  E.e2 * sa
-        es2m1  = _1_0 - sa * es1
-        sp1    = _1_0 + sa
-        es1p1  =  sp1 / (_1_0 + es1)
-        es1m1  =  sp1 * (_1_0 - es1)
+        es1    =  sa  * E.e2
+        es1m1  =  sa1 * (_1_0 - es1)
+        es1p1  =  sa1 / (_1_0 + es1)
+        es2m1  = _1_0 -    sa * es1
         es2m1a =  es2m1 * E.e21  # e2m
-        s = sqrt((ca2 / (es1p1 * es2m1a) + self._atanhee(ca2 / es1m1))
-                      * (es1m1 / es2m1a  + self._atanhee(es1p1)))
-        t = (sa / es2m1 + self._atanhee(sa)) / s
+        s =  sqrt((ca2 / (es1p1 * es2m1a) + _atanhee(ca2 / es1m1, E))
+                       * (es1m1 / es2m1a  + _atanhee(es1p1, E)))
+        t = (sa / es2m1 + _atanhee(sa, E)) / s
         return neg(t) if ta < 0 else t
 
 
@@ -607,6 +559,8 @@ class AlbersEqualArea(_AlbersBase):
 
        @see: L{AlbersEqualArea2} and L{AlbersEqualArea4}.
     '''
+    _k = _k0_
+
     def __init__(self, lat, k0=1, datum=_WGS84, name=NN):
         '''New L{AlbersEqualArea} projection.
 
@@ -628,6 +582,8 @@ class AlbersEqualArea2(_AlbersBase):
 
        @see: L{AlbersEqualArea} and L{AlbersEqualArea4}.
     '''
+    _k = _k1_
+
     def __init__(self, lat1, lat2, k1=1, datum=_WGS84, name=NN):
         '''New L{AlbersEqualArea2} projection.
 
@@ -652,6 +608,8 @@ class AlbersEqualArea4(_AlbersBase):
 
        @see: L{AlbersEqualArea} and L{AlbersEqualArea2}.
     '''
+    _k = _k1_
+
     def __init__(self, slat1, clat1, slat2, clat2, k1=1, datum=_WGS84, name=NN):
         '''New L{AlbersEqualArea4} projection.
 
@@ -669,9 +627,9 @@ class AlbersEqualArea4(_AlbersBase):
                                invalid B{C{k1}} or no convergence.
         '''
         def _Lat_s_c3(name, s, c):
-            L =  Lat_(atan2d(s, c), name=name, Error=AlbersError)
-            r = _1_0 / Float_(hypot(s, c), name=name, Error=AlbersError)
-            return L, s * r, c * r
+            r =  Float_(hypot(s, c), name=name, Error=AlbersError)
+            L = _Lat(atan2d(s, c), name=name)
+            return L, (s / r), (c / r)
 
         self._lat1, sa1, ca1 = _Lat_s_c3(_lat1_, slat1, clat1)
         self._lat2, sa2, ca2 = _Lat_s_c3(_lat2_, slat2, clat2)
@@ -684,14 +642,16 @@ class AlbersEqualAreaCylindrical(_AlbersBase):
     '''
     _lat1 = _lat2 = _Lat(lat1=_0_0)
 
-    def __init__(self, datum=_WGS84, name=NN):
+    def __init__(self, lat=_0_0, datum=_WGS84, name=NN):
         '''New L{AlbersEqualAreaCylindrical} projection.
 
+           @kwarg lat: Standard parallel (C{0 degrees} I{fixed}).
            @kwarg datum: Optional datum or ellipsoid (L{Datum}, L{Ellipsoid},
                          L{Ellipsoid2} or L{a_f2Tuple}).
            @kwarg name: Optional name for the projection (C{str}).
         '''
-        _AlbersBase.__init__(self, _0_0, _1_0, _0_0, _1_0, _1_0, datum, name)
+        _xlat(lat, _0_0, AlbersEqualAreaCylindrical)
+        _AlbersBase.__init__(self, _0_0, _1_0, _0_0, _1_0, 1, datum, name)
 
 
 class AlbersEqualAreaNorth(_AlbersBase):
@@ -700,14 +660,16 @@ class AlbersEqualAreaNorth(_AlbersBase):
     '''
     _lat1 = _lat2 = _Lat(lat1=_90_0)
 
-    def __init__(self, datum=_WGS84, name=NN):
+    def __init__(self, lat=_90_0, datum=_WGS84, name=NN):
         '''New L{AlbersEqualAreaNorth} projection.
 
+           @kwarg lat: Standard parallel (C{90 degrees} I{fixed}).
            @kwarg datum: Optional datum or ellipsoid (L{Datum}, L{Ellipsoid},
                          L{Ellipsoid2} or L{a_f2Tuple}).
            @kwarg name: Optional name for the projection (C{str}).
         '''
-        _AlbersBase.__init__(self, _1_0, _0_0, _1_0, _0_0, _1_0, datum, name)
+        _xlat(lat, _90_0, AlbersEqualAreaNorth)
+        _AlbersBase.__init__(self, _1_0, _0_0, _1_0, _0_0, 1, datum, name)
 
 
 class AlbersEqualAreaSouth(_AlbersBase):
@@ -716,14 +678,16 @@ class AlbersEqualAreaSouth(_AlbersBase):
     '''
     _lat1 = _lat2 = _Lat(lat1=_N_90_0)
 
-    def __init__(self, datum=_WGS84, name=NN):
+    def __init__(self, lat=_N_90_0, datum=_WGS84, name=NN):
         '''New L{AlbersEqualAreaSouth} projection.
 
+           @kwarg lat: Standard parallel (C{-90 degrees} I{fixed}).
            @kwarg datum: Optional datum or ellipsoid (L{Datum}, L{Ellipsoid},
                          L{Ellipsoid2} or L{a_f2Tuple}).
            @kwarg name: Optional name for the projection (C{str}).
         '''
-        _AlbersBase.__init__(self, _N_1_0, _0_0, _N_1_0, _0_0, _1_0, datum, name)
+        _xlat(lat, _N_90_0, AlbersEqualAreaSouth)
+        _AlbersBase.__init__(self, _N_1_0, _0_0, _N_1_0, _0_0, 1, datum, name)
 
 
 class Albers7Tuple(_NamedTuple):
@@ -737,6 +701,127 @@ class Albers7Tuple(_NamedTuple):
     '''
     _Names_ = (_x_,   _y_,   _lat_, _lon_, _gamma_,  _scale_, _datum_)
     _Units_ = ( Meter, Meter, Lat,   Lon,   Bearing, _Pass,   _Pass)
+
+
+def _atanhee(x, E):  # see Ellipsoid._es_atanh
+    '''(INTERNAL) Function M{atanhee(x)}, defined as ...
+       atanh(      E.e   * x) /       E.e   if f > 0  # oblate
+       atan (sqrt(-E.e2) * x) / sqrt(-E.e2) if f < 0  # prolate
+       x                                    if f = 0.
+    '''
+    if E.f > 0:  # .isOblate
+        x =  atanh( x * E.e) / E.e
+    elif E.f < 0:  # .isProlate
+        x = (atan2(-x * E.e, _N_1_0) if x < 0 else
+             atan2( x * E.e,   _1_0)) / E.e
+    return x
+
+
+def _atanhs1(x):
+    '''(INTERNAL) Function M{atanh(sqrt(x)) / sqrt(x) - 1}.
+    '''
+    s = fabs(x)
+    if s < _0_5:  # for typical ...
+        # x < E.e^2 == 2 * E.f use ...
+        # x / 3 + x^2 / 5 + x^3 / 7 + ...
+        y, k = x, 3
+        _S2  = Fsum(y / k).fsum2_
+        for _ in range(_TERMS):  # 9 terms
+            y *= x  # x**n
+            k += 2  # 2*n + 1
+            s, d = _S2(y / k)
+            if not d:
+                break
+    else:
+        s =  sqrt(s)
+        s = (atanh(s) if x > 0 else atan(s)) / s - _1_0
+    return s
+
+
+def _Datanhee(x, y, E):  # see .rhumbx._DeatanhE
+    '''(INTERNAL) Function M{Datanhee(x, y)}, defined as
+       M{atanhee((x - y) / (1 - E.e^2 * x * y)) / (x - y)}.
+    '''
+    d = _1_0 - E.e2 * x * y
+    if d:
+        d = _1_0 / d
+        t =  x - y
+        if t:
+            d = _atanhee(t * d, E) / t
+    else:
+        raise AlbersError(x=x, y=y, txt=_Datanhee.__name__)
+    return d
+
+
+def _D2atanhee(x, y, E):
+    '''(INTERNAL) Function M{D2atanhee(x, y)}, defined as
+       M{(Datanhee(1, y) - Datanhee(1, x)) / (y - x)}.
+    '''
+    e2 = E.e2
+    if ((fabs(x) + fabs(y)) * e2) < _0_5:
+        e = z = _1_0
+        k = 1
+        T   = Fsum()  # Taylor expansion
+        _T  = T.fsum_
+        _C  = Fsum().fsum_
+        _S2 = Fsum().fsum2_
+        for _ in range(_TERMS):  # 15 terms
+            T *= y; p = _T(z); z *= x  # PYCHOK ;
+            T *= y; t = _T(z); z *= x  # PYCHOK ;
+            e *= e2
+            k += 2
+            s, d = _S2(e * _C(p, t) / k)
+            if not d:
+                break
+    else:
+        d = _1_0 - x
+        if isnear0(d):
+            raise AlbersError(x=x, y=y, txt=_D2atanhee.__name__)
+        s = (_Datanhee(_1_0, y, E) - _Datanhee(x, y, E)) / d
+    return s
+
+
+def _Dsn(x, y, sx, sy):
+    '''(INTERNAL) Divided differences, defined as M{Df(x, y) = (f(x) - f(y)) / (x - y)}
+       with M{sn(x) = x / sqrt(1 + x^2)}: M{Dsn(x, y) = (x + y) / ((sn(x) + sn(y)) *
+       (1 + x^2) * (1 + y^2))}.
+
+       @see: U{W. M. Kahan and R. J. Fateman, "Sympbolic Computation of Divided
+             Differences"<https://People.EECS.Berkeley.EDU/~fateman/papers/divdiff.pdf>},
+             U{ACM SIGSAM Bulletin 33(2), 7-28 (1999)<https://DOI.org/10.1145/334714.334716>}
+             and U{AlbersEqualArea.hpp
+             <https://GeographicLib.SourceForge.io/C++/doc/AlbersEqualArea_8hpp_source.html>}.
+    '''
+    # sx = x / hypot1(x)
+    d, t = _1_0, (x * y)
+    if t > 0:
+        s = sx + sy
+        if s:
+            t = sx * sy / t
+            d = t**2 * (x + y) / s
+    elif x != y:
+        d = (sx - sy) / (x - y)
+    return d
+
+
+def _tol(tol, x):
+    '''(INTERNAL) Converge tolerance.
+    '''
+    return tol * max(_1_0, fabs(x))
+
+
+def _1_x21(x):
+    '''(INTERNAL) Return M{1 / (x**2 + 1)}.
+    '''
+    return _1_0 / (x**2 + _1_0)
+
+
+def _xlat(lat, f, where):
+    '''(INTERNAL) check fixed C{lat}.
+    '''
+    if lat is not f and _Lat(lat=lat) != f:
+        t = unstr(where.__name__, lat=lat)
+        raise AlbersError(t, txt=_not_(f))
 
 
 __all__ += _ALL_DOCS(_AlbersBase)
