@@ -38,7 +38,7 @@ from pygeodesy.utily import atand, atan2d, degrees360, sincos2, \
 from math import atan, atan2, atanh, degrees, fabs, radians, sqrt
 
 __all__ = _ALL_LAZY.albers
-__version__ = '23.04.20'
+__version__ = '23.04.21'
 
 _k1_    = 'k1'
 _NUMIT  =   8  # XXX 4?
@@ -182,8 +182,9 @@ class _AlbersBase(_NamedBase):
     def _azik(self, t, ta):
         '''(INTERNAL) Compute the azimuthal scale C{_Ks(k=k)}.
         '''
-        E = self.ellipsoid
-        return _Ks(k=self._k0 * t * hypot1(E.b_a * ta) / E.a)
+        E  = self.ellipsoid
+        t *= self._k0
+        return _Ks(k=t * hypot1(E.b_a * ta) / E.a)
 
     def _cstxif3(self, ta):
         '''(INTERNAL) Get 3-tuple C{(cos, sin, tan)} of M{xi(ta)}.
@@ -356,28 +357,28 @@ class _AlbersBase(_NamedBase):
                   B{C{x}} or B{C{y}} point is outside the valid projected
                   space the nearest pole is returned.
         '''
-        x = Meter(x=x)
-        y = Meter(y=y)
+        k0   = self._k0
+        n0   = self._n0
+        k0n0 = self._k0n0
+        s    = self._sign
+        txi  = self._txi0
 
-        k0    = self._k0
-        n0    = self._n0
-        k0n0  = self._k0n0
-        nrho0 = self._nrho0
-        s     = self._sign
-        txi0  = self._txi0
-
-        y_ = s    * y
+        x  = Meter(x=x)
         nx = k0n0 * x
+        y  = Meter(y=y)
+        y_ = s    * y
         ny = k0n0 * y_
+        t  = nrho0 = self._nrho0
         y1 = nrho0 - ny
 
-        drho = den = nrho0 + hypot(nx, y1)  # 0 implies origin with polar aspect
+        den = drho = hypot(nx, y1) + nrho0  # 0 implies origin with polar aspect
         if den:
             drho = fsum1_(x * nx, y_ * nrho0 * _N_2_0, y_ * ny) * k0 / den
-        # dsxia = scxi0 * dsxi
-        dsxia = (nrho0 * _2_0 + drho * n0) * drho * self._scxi0_  # / (qZ * E.a2)
-        t     = (txi0  * _2_0 - dsxia) * dsxia + _1_0
-        txi   = (txi0  - dsxia) / (sqrt(t) if t > EPS02 else EPS0)
+            # dsxia = scxi0 * dsxi
+            t  +=  drho  * n0
+            d_  = (nrho0 + t) * drho * self._scxi0_  # / (qZ * E.a2)
+            d_2 = (txi * _2_0 - d_) * d_ + _1_0
+            txi = (txi - d_) / (sqrt(d_2) if d_2 > EPS02 else EPS0)
 
         ta  = self._tanf(txi)
         lat = atand(s * ta)
@@ -392,7 +393,7 @@ class _AlbersBase(_NamedBase):
         if LatLon is None:
             g = degrees360(s * th)
             if den:
-                k0 = self._azik(nrho0 + n0 * drho, ta)
+                k0 = self._azik(t, ta)
             r = Albers7Tuple(x, y, lat, lon, g, k0, self.datum, name=n)
         else:  # PYCHOK no cover
             kwds = _xkwds(LatLon_kwds, datum=self.datum, name=n)
@@ -411,31 +412,34 @@ class _AlbersBase(_NamedBase):
     def _s1_qZ_C2(self, ca1, sa1, ta1, ca2, sa2, ta2):
         '''(INTERNAL) Compute C{sm1 / (s / qZ)} and C{C} for .__init__.
         '''
-        _1, _2  = _1_0, _2_0
-        E       =  self.ellipsoid
-        b_a, e2 =  E.b_a, E.e2
+        _1     = _1_0
+        _fsum1 =  fsum1_
+        E      =  self.ellipsoid
+        f1, e2 =  E.b_a, E.e2
 
-        tb1    =  b_a * ta1
-        tb2    =  b_a * ta2
-        dtb12  =  b_a * (tb1 + tb2)
-        scb12  = _1   + tb1**2
-        scb22  = _1   + tb2**2
+        tb1    = f1 * ta1
+        tb2    = f1 * ta2
+        dtb12  = f1 * (tb1 + tb2)
+        scb12  = _1 + tb1**2
+        scb22  = _1 + tb2**2
+
+        dsn_2  = _Dsn(ta2, ta1, sa2, sa1) * _0_5
+        sa12   =  sa1 * sa2
 
         esa1_2 = (_1 - e2 * sa1**2) \
                * (_1 - e2 * sa2**2)
-        esa12  =  _1 + e2 * sa1 * sa2
+        esa12  =  _1 + e2 * sa12
 
-        dsn = _Dsn(ta2, ta1, sa2, sa1)
         axi, bxi, sxi = self._a_b_sxi3((ca1, sa1, ta1, scb12),
                                        (ca2, sa2, ta2, scb22))
 
-        dsxi = (esa12 / esa1_2 + _Datanhee(sa2, sa1, E)) * dsn / (self._qx * _2)
-        C = fsum1_(sxi * dtb12 / dsxi, scb22, scb12) / (scb22 * scb12 * _2)
+        dsxi = (esa12 / esa1_2 + _Datanhee(sa2, sa1, E)) * dsn_2 / self._qx
+        C = _fsum1(sxi * dtb12 / dsxi, scb22, scb12) / (scb22 * scb12 * _2_0)
 
-        sa12  =  fsum1_(sa1, sa2, sa1 * sa2)
-        axi  *= (e2 * sa12 + _1) / (sa12 + _1)
-        bxi  *=  e2 * fsum1_(sa1, sa2, esa12) / esa1_2 + E.e21 * _D2atanhee(sa1, sa2, E)
-        s1_qZ = dsn * (axi * self._qZ - bxi) / (dtb12 * _2)
+        sa12  = _fsum1(sa1, sa2, sa12)
+        axi  *= (sa12 * e2 + _1) / (sa12 + _1)
+        bxi  *= _fsum1(sa1, sa2, esa12) * e2 / esa1_2 + E.e21 * _D2atanhee(sa1, sa2, E)
+        s1_qZ = (axi * self._qZ - bxi) * dsn_2 / dtb12
         return s1_qZ, C
 
     def _ta0(self, s1_qZ, ta0):
@@ -773,7 +777,7 @@ def _D2atanhee(x, y, E):
             s, d = _S2(e * _C(p, t) / k)
             if not d:
                 break
-    else:
+    else:  # PYCHOK no cover
         d = _1_0 - x
         if isnear0(d):
             raise AlbersError(x=x, y=y, txt=_D2atanhee.__name__)
