@@ -55,9 +55,8 @@ Alternatively, download ``PyGeodesy-yy.m.d.zip`` from PyPI_ or GitHub_,
 ``unzip`` the downloaded file, ``cd`` to directory ``PyGeodesy-yy.m.d``
 and type ``python[3] setup.py install``.
 
-To run all PyGeodesy tests, type ``python[3] setup.py test`` or type
-``python[3] test/run.py`` or type ``python[3] test/unitTestSuite.py``
-before or after installation.
+To run all PyGeodesy tests, type ``python[3] test/run.py`` or type
+``python[3] test/unitTestSuite.py`` before or after installation.
 
 Dependencies
 ============
@@ -153,7 +152,7 @@ using Python 3.11.3, both in 64-bit on macOS 13.3.1 Ventura.
 For a summary of all *Karney*-based functionality in ``pygeodesy``, see
 module karney_.
 
-*Last updated: Apr 21, 2023.*
+*Last updated: Apr 23, 2023.*
 
 License
 =======

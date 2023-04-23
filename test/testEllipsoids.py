@@ -4,7 +4,7 @@
 # Test L{ellipsoids} module.
 
 __all__ = ('Tests',)
-__version__ = '23.03.27'
+__version__ = '23.04.23'
 
 from bases import TestsBase
 
@@ -93,6 +93,7 @@ class Tests(TestsBase):
         self.test('WGS84.R2',   E.R2,   E.Rauthalic,     prec=6)  # obvious
         self.test('WGS84.c2',   E.c2,   E.R2**2,         fmt='%.0f')
         self.test('WGS84.es',   E.es,   E.e,             prec=6)
+        self.test('WGS84.e22',  E.e22,  E.e2 / E.e21,    prec=6)  # .albers
         self.test('WGS84.f2',   E.f2, (E.a - E.b) / E.b, prec=6)
         self.test('WGS84.m2degrees', int(E.m2degrees(E.a * PI_2)), 90)
         self.test('WGS84.degrees2m', int(E.degrees2m(90)), int(E.a * PI_2))
@@ -103,8 +104,8 @@ class Tests(TestsBase):
         self.test('WGS84.ecef', E.ecef().name, E.name)
 
         t = E.toStr(prec=10)
-        self.test('WGS84', t, "name='WGS84', a=6378137, b=6356752.3142451793, f_=298.257223563, f=0.0033528107, f2=0.0033640898, n=0.0016792204, e=0.0818191908, e2=0.00669438, e22=0.0067394967, e32=0.0033584313, A=6367449.1458234144, L=10001965.7293127216, R1=6371008.7714150595, R2=6371007.1809184738, R3=6371000.7900091587, Rbiaxial=6367453.6345163295, Rtriaxial=6372797.5559594007",
-                                                                                                                                                                                                                                                                                known=' R2=6371007.1809184728, ' in t)  # on Intel macOS
+        self.test('WGS84', t, "name='WGS84', a=6378137, b=6356752.3142451793, f_=298.257223563, f=0.0033528107, f2=0.0033640898, n=0.0016792204, e=0.0818191908, e2=0.00669438, e21=0.99330562, e22=0.0067394967, e32=0.0033584313, A=6367449.1458234144, L=10001965.7293127216, R1=6371008.7714150595, R2=6371007.1809184738, R3=6371000.7900091587, Rbiaxial=6367453.6345163295, Rtriaxial=6372797.5559594007",
+                                                                                                                                                                                                                                                                                                known=' R2=6371007.1809184728, ' in t)  # on Intel macOS
         e = (E.a - E.b) / (E.a + E.b) - E.n
         t = 'A=%.10f, e=%.10f, f_=%.10f, n=%.10f (%.10e)' % (E.A, E.e, E.f_, E.n, e)
         self.test('WGS84.', t, 'A=6367449.1458234144, e=0.0818191908, f_=298.2572235630, n=0.0016792204 (1.5612511284e-17)')

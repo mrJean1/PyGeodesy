@@ -173,9 +173,8 @@
     <code>unzip</code> the downloaded file, <code>cd</code> to directory 
     <code>Pygeodesy-yy.m.d</code> and type <code>python[3] setup.py 
     install</code>.</p>
-    <p>To run all PyGeodesy tests, type <code>python[3] setup.py 
-    test</code> or type <code>python[3] test/run.py</code> or type 
-    <code>python[3] test/unitTestSuite.py</code> before or after 
+    <p>To run all PyGeodesy tests, type <code>python[3] test/run.py</code> 
+    or type <code>python[3] test/unitTestSuite.py</code> before or after 
     installation.</p>
   <h1 class="heading">Dependencies</h1>
     <p>Installation of <i>Karney</i>'s Python package <a 
@@ -528,7 +527,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        23.04.21
+        23.04.23
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -8351,7 +8350,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fb8707e7250&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fae088bc250&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -12895,7 +12894,7 @@ ygeodesy'"><code class="variable-quote">'</code><code class="variable-string">/U
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'23.4.21'"><code class="variable-quote">'</code><code class="variable-string">23.4.21</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'23.4.23'"><code class="variable-quote">'</code><code class="variable-string">23.4.23</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -13019,13 +13018,13 @@ form=Transforms.WGS84)">Datums.OSGB36: Datum(name='OSGB36', ellipsoid=Ellipso<co
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy-module.html#Ellipsoids" class="summary-name">Ellipsoids</a> = <code title="Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
-8.771415, f_=0, f=0, f2=0, n=0, e=0, e2=0, e22=0, e32=0, A=6371008.771\
-415, L=10007557.17611675, R1=6371008.771415, R2=6371008.771415, R3=637\
-1008.771415, Rbiaxial=6371008.771415, Rtriaxial=6371008.771415),
+8.771415, f_=0, f=0, f2=0, n=0, e=0, e2=0, e21=1, e22=0, e32=0, A=6371\
+008.771415, L=10007557.17611675, R1=6371008.771415, R2=6371008.771415,\
+ R3=6371008.771415, Rbiaxial=6371008.771415, Rtriaxial=6371008.771415)\
+,
 Ellipsoids.WGS84: Ellipsoid(name='WGS84', a=6378137, b=6356752.3142451\
 8, f_=298.25722356, f=0.00335281, f2=0.00336409, n=0.00167922, e=0.081\
-81919, e2=0.00669438, e22=0.0067395, e32=0.00335843, A=6367449.1458234\
-1, L=10001965.72931272, R1=6371008.77141506, R2=6371007.18091847, R3=6\
+81919, e2=0.00669438, e21=0.99330562, e22=0.0067395, e32=0.00335843, A\
 ...">Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=637<code class="variable-ellipsis">...</code></code><br />
       Registered, predefined ellipsoids (<code>enum-like</code>).
     </td>
@@ -20831,7 +20830,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fb8707e7250&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fae088bc250&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -30305,13 +30304,13 @@ form=Transforms.WGS84)
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
 Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-8.771415, f_=0, f=0, f2=0, n=0, e=0, e2=0, e22=0, e32=0, A=6371008.771<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-415, L=10007557.17611675, R1=6371008.771415, R2=6371008.771415, R3=637<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-1008.771415, Rbiaxial=6371008.771415, Rtriaxial=6371008.771415),
+8.771415, f_=0, f=0, f2=0, n=0, e=0, e2=0, e21=1, e22=0, e32=0, A=6371<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+008.771415, L=10007557.17611675, R1=6371008.771415, R2=6371008.771415,<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+ R3=6371008.771415, Rbiaxial=6371008.771415, Rtriaxial=6371008.771415)<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+,
 Ellipsoids.WGS84: Ellipsoid(name='WGS84', a=6378137, b=6356752.3142451<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
 8, f_=298.25722356, f=0.00335281, f2=0.00336409, n=0.00167922, e=0.081<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-81919, e2=0.00669438, e22=0.0067395, e32=0.00335843, A=6367449.1458234<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-1, L=10001965.72931272, R1=6371008.77141506, R2=6371007.18091847, R3=6<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+81919, e2=0.00669438, e21=0.99330562, e22=0.0067395, e32=0.00335843, A<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
 <code class="variable-ellipsis">...</code>
 </pre></td></tr></table>
 </dd>
@@ -30372,7 +30371,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Apr 21 12:56:52 2023
+    Generated by Epydoc 3.0.1 on Sun Apr 23 13:00:24 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -56,8 +56,8 @@ opposed to I{geocentric} (ECEF) ones.
 from pygeodesy.basics import copysign0, isscalar, issubclassof, neg, map1, \
                             _xinstanceof, _xsubclassof
 from pygeodesy.constants import EPS, EPS0, EPS02, EPS1, EPS2, EPS_2, PI, PI_2, \
-                               _0_0, _0_0001, _0_01, _0_5, _1_0, _1_0_1T, _2_0, _3_0, _4_0, \
-                               _6_0, _60_0, _90_0, _100_0, isnon0, \
+                               _0_0, _0_0001, _0_01, _0_5, _1_0, _1_0_1T, _2_0, \
+                               _3_0, _4_0, _6_0, _60_0, _90_0, _100_0, isnon0, \
                                _N_2_0  # PYCHOK used!
 from pygeodesy.datums import a_f2Tuple, _ellipsoidal_datum
 # from pygeodesy.ellipsoids import a_f2Tuple  # from .datums
@@ -81,7 +81,7 @@ from pygeodesy.utily import atan2d, degrees90, degrees180, sincos2, sincos2_, \
 from math import asin, atan2, cos, degrees, fabs, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '23.03.19'
+__version__ = '23.04.23'
 
 _Ecef_    = 'Ecef'
 _prolate_ = 'prolate'
@@ -234,7 +234,7 @@ class _EcefBase(_NamedBase):
         else:
             sa, ca, sb, cb = sincos2d_(lat, lon)
 
-        n = E.roc1_(sa, ca) if self._isYou else E.roc1_(sa)
+        n =  E.roc1_(sa, ca) if self._isYou else E.roc1_(sa)
         z = (h + n * E.e21) * sa
         x = (h + n) * ca
 
@@ -365,13 +365,13 @@ class EcefFarrell21(_EcefBase):
         '''
         x, y, z, name = _xyzn4(xyz, y, z, self._Geocentrics, name=name)
 
-        E  = self.ellipsoid
-        a  = E.a
-        a2 = E.a2
-        b2 = E.b2
-        e_ = E.a_b * E.e  # 0.0820944... WGS84
-        e2 = E.e2
-        e4 = E.e4
+        E   = self.ellipsoid
+        a   = E.a
+        a2  = E.a2
+        b2  = E.b2
+        e2  = E.e2
+        e2_ = E.e2abs * E.a2_b2  # (E.e * E.a_b)**2 = 0.0820944... WGS84
+        e4  = E.e4
 
         try:  # names as page 29
             z2 = z**2
@@ -385,7 +385,7 @@ class EcefFarrell21(_EcefBase):
             s  = cbrt(_1_0 + c + sqrt(c**2 + c * 2))
             P  = F / (_3_0 * (fsum_(_1_0, s, _1_0 / s) * G)**2)
             Q  = sqrt(_1_0 + _2_0 * e4 * P)
-            Q1 = Q + _1_0
+            Q1 = Q +  _1_0
             r0 = P * e2 * p / Q1 - sqrt(fsum_(a2 * (Q1 / Q) * _0_5,
                                               -P * ez / (Q * Q1),
                                               -P * p2 * _0_5))
@@ -393,7 +393,7 @@ class EcefFarrell21(_EcefBase):
             v = b2 / (a * sqrt(r**2 + ez))
 
             h = hypot(r, z) * (_1_0 - v)
-            t = atan2(z + e_**2 * v * z, p)
+            t = atan2((e2_ * v + _1_0) * z, p)
             # note, phi and lam are swapped on page 29
 
         except (ValueError, ZeroDivisionError) as e:
@@ -445,7 +445,6 @@ class EcefFarrell22(_EcefBase):
 
             t = atan2(z + E.e22 * b * s**3,
                       p - E.e2  * a * c**3)
-
             s, c = sincos2(t)
             if c:  # E.roc1_(s) = E.a / sqrt(1 - E.e2 * s**2)
                 h = p / c - (E.roc1_(s) if s else a)
@@ -754,14 +753,15 @@ class EcefVeness(_EcefBase):
         p = hypot(x, y)  # distance from minor axis
         r = hypot(p, z)  # polar radius
         if min(p, r) > EPS0:
+            b =  E.b * E.e22
             # parametric latitude (Bowring eqn 17, replaced)
-            t = (E.b * z) / (E.a * p) * (_1_0 + E.e22 * E.b / r)
+            t = (E.b * z) / (E.a * p) * (_1_0 + b / r)
             c = _1_0 / hypot1(t)
-            s = t * c
+            s =  t * c
 
             # geodetic latitude (Bowring eqn 18)
-            a = atan2(z + E.e22 * E.b * s**3,
-                      p - E.e2  * E.a * c**3)
+            a = atan2(z +          b * s**3,
+                      p - E.e2 * E.a * c**3)
 
             # height above ellipsoid (Bowring eqn 7)
             sa, ca = sincos2(a)

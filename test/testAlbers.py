@@ -4,7 +4,7 @@
 # Test L{albers} Equal-Area projections.
 
 __all__ = ('Tests',)
-__version__ = '23.04.20'
+__version__ = '23.04.23'
 
 from bases import TestsBase  # RandomLatLon
 
@@ -123,7 +123,7 @@ class Tests(TestsBase):
         try:
             self.test('error', AlbersEqualArea4(-0.5, c, 0.5, c), AlbersError.__name__)
         except Exception as x:
-            self.test('error', str(x), 'slat1 (-0.5) or slat2 (0.5): invalid')
+            self.test('error', str(x), 'slat1 (-0.5) or slat2 (0.5): negative')
 
 
 if __name__ == '__main__':

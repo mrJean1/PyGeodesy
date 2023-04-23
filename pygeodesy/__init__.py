@@ -73,8 +73,8 @@ Alternatively, download C{PyGeodesy-yy.m.d.zip} from U{PyPI<https://PyPI.org/pro
 or U{GitHub<https://GitHub.com/mrJean1/PyGeodesy>}, C{unzip} the downloaded file, C{cd} to
 directory C{Pygeodesy-yy.m.d} and type C{python[3] setup.py install}.
 
-To run all PyGeodesy tests, type C{python[3] setup.py test} or type C{python[3]
-test/run.py} or type C{python[3] test/unitTestSuite.py} before or after installation.
+To run all PyGeodesy tests, type C{python[3] test/run.py} or type C{python[3] test/unitTestSuite.py}
+before or after installation.
 
 Dependencies
 ============
@@ -581,7 +581,7 @@ else:
     _init__all__ = False
 
 from pygeodesy.interns import _DOT_  # PYCHOK import
-__version__ = '23.04.21'
+__version__ = '23.04.23'
 # see setup.py for similar logic
 version     = _DOT_.join(map(str, map(int, __version__.split(_DOT_))))
 

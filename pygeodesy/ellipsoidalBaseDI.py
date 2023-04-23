@@ -31,7 +31,7 @@ from pygeodesy.utily import m2km, unroll180, _unrollon, wrap90, wrap180, wrap360
 from math import degrees, radians
 
 __all__ = _ALL_LAZY.ellipsoidalBaseDI
-__version__ = '23.04.11'
+__version__ = '23.04.23'
 
 _polar__  = 'polar?'
 _too_low_ = _too_('low')
@@ -323,7 +323,7 @@ class LatLonEllipsoidalBaseDI(LatLonEllipsoidalBase):
                     p2 = _unrollon(p1, p2)
                 # skip edge if no overlap with box around closest
                 if j < 4 or b.overlaps(p1.lat, p1.lon, p2.lat, p2.lon):
-                    p, t, _ = _nearestOn3_(self, p1, p2, A, **kwds)
+                    p, t, _ = _nearestOn3(self, p1, p2, A, **kwds)
                     d3 = D3(p, wrap=False)  # already unrolled
                     if d3.distance < c3.distance:
                         c3, c, s, e, f = d3, p, p1, p2, (i + t)
@@ -403,10 +403,8 @@ class _Tol(object):
            @arg lat: Latitude (C{degrees}).
            @arg lats: Additional latitudes (C{degrees}).
         '''
-        if lats:
-            lat = fmean_(lat, *lats)
-        self._lat = lat
-        self._r   = max(EPS, E.rocMean(lat))
+        self._lat = fmean_(lat, *lats) if lats else lat
+        self._r   = max(EPS, E.rocMean(self._lat))
         self._m   = max(EPS, tol_m)
         self._deg = max(EPS, degrees(self._m / self._r))  # avoid m2degrees!
 
@@ -711,7 +709,7 @@ def _nearestOn2(p, point1, point2, within=True, height=None, wrap=True,
     p2 = p.others(point2=point2)
 
     _ = p.ellipsoids(p1)
-#   E = p.ellipsoids(p2)  # done in __nearestOn2__
+#   E = p.ellipsoids(p2)  # done in _nearestOn3
 
     # get the azimuthal equidistant projection
     A = _Equidistant00(equidistant, p)
@@ -721,17 +719,17 @@ def _nearestOn2(p, point1, point2, within=True, height=None, wrap=True,
         p2 = _unrollon(p,  p2)  # XXX do not unroll?
         p2 = _unrollon(p1, p2)
 
-    r, f, e = _nearestOn3_(p, p1, p2, A, within=within, height=height,
-                                         tol=tol, **LatLon_and_kwds)
+    r, f, _ = _nearestOn3(p, p1, p2, A, within=within, height=height,
+                                        tol=tol, **LatLon_and_kwds)
     return NearestOn2Tuple(r, f)
 
 
-def _nearestOn3_(p, p1, p2, A, within=True, height=None, tol=_TOL_M,
-                               LatLon=None, **LatLon_kwds):
+def _nearestOn3(p, p1, p2, A, within=True, height=None, tol=_TOL_M,
+                              LatLon=None, **LatLon_kwds):
     # Only in function C{_nearestOn2} and method C{nearestOn8} above
-    _LLS   = _MODS.sphericalNvector.LatLon
-    _V3d   = _MODS.vector3d.Vector3d
-    _vnOn2 = _MODS.vector3d._nearestOn2
+    _LLS = _MODS.sphericalNvector.LatLon
+    _V3d = _MODS.vector3d.Vector3d
+    _vn2 = _MODS.vector3d._nearestOn2
 
     def _llS(ll):  # return an C{_LLS} instance
         return _LLS(ll.lat, ll.lon, height=ll.height)
@@ -759,9 +757,9 @@ def _nearestOn3_(p, p1, p2, A, within=True, height=None, tol=_TOL_M,
         A.reset(t.lat, t.lon)  # gu-/estimate as origin
         # convert points to projection space and compute
         # the nearest one (and its height) there
-        s, t =  A._forwards(p1, p2)
-        v, f = _vnOn2(vp, _V3d(s.x, s.y, h1),
-                          _V3d(t.x, t.y, h2), within=within)
+        s, t = A._forwards(p1, p2)
+        v, f = _vn2(vp, _V3d(s.x, s.y, h1),
+                        _V3d(t.x, t.y, h2), within=within)
         # convert nearest one back to geodetic
         t, d = A._reverse2(v)
         if e.done(d):  # below tol or unchanged?

@@ -25,7 +25,7 @@ from pygeodesy.fmath import hypot, hypot1, sqrt3
 from pygeodesy.fsums import Fsum, fsum1_
 from pygeodesy.interns import NN, _COMMASPACE_, _datum_, _gamma_, _k0_, \
                              _lat_, _lat1_, _lat2_, _lon_, _name_, _not_, \
-                             _scale_, _SPACE_, _x_, _y_
+                             _negative_, _scale_, _SPACE_, _x_, _y_
 from pygeodesy.karney import _diff182, _norm180, _signBit
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import _NamedBase, _NamedTuple, _Pass
@@ -38,7 +38,7 @@ from pygeodesy.utily import atand, atan2d, degrees360, sincos2, \
 from math import atan, atan2, atanh, degrees, fabs, radians, sqrt
 
 __all__ = _ALL_LAZY.albers
-__version__ = '23.04.21'
+__version__ = '23.04.23'
 
 _k1_    = 'k1'
 _NUMIT  =   8  # XXX 4?
@@ -60,12 +60,12 @@ def _Lat(*lat, **Error_name_lat):
     return Lat_(*lat, **kwds)
 
 
-def _qZx(aobj):
-    '''(INTERNAL) Set C{aobj._qZ} and C{aobj._qx}.
+def _qZx(alb):
+    '''(INTERNAL) Set C{alb._qZ} and C{alb._qx}.
     '''
-    E = aobj._datum.ellipsoid
-    aobj._qZ = qZ =  _1_0 + E.e21 * _atanhee(_1_0, E)
-    aobj._qx = qZ / (_2_0 * E.e21)
+    E = alb._datum.ellipsoid
+    alb._qZ = qZ =  _1_0 + E.e21 * _atanhee(_1_0, E)
+    alb._qx = qZ / (_2_0 * E.e21)
     return qZ
 
 
@@ -99,7 +99,7 @@ class _AlbersBase(_NamedBase):
     _polar  =  False
     _qx     =  None  # (INTERNAL) see _qZx
     _qZ     =  None  # (INTERNAL) see _qZx
-    _scxi0_ =  None  # (INTERNAL) sec(xi) / (qZ...)
+    _scxi0_ =  None  # (INTERNAL) sec(xi) / (qZ * E.a2)
     _sign   = +1
     _sxi0   =  None  # (INTERNAL) sin(xi)
     _txi0   =  None  # (INTERNAL) tan(xi)
@@ -116,11 +116,11 @@ class _AlbersBase(_NamedBase):
         if name:
             self.name = name
 
+        E = self.ellipsoid
         c = min(ca1, ca2)
         if _signBit(c):
-            raise AlbersError(clat1=ca1, clat2=ca2)
+            raise AlbersError(clat1=ca1, clat2=ca2, txt=_negative_)
         polar = c < EPS0  # == 0
-        E     = self.ellipsoid
 
         # determine hemisphere of tangent latitude
         if sa1 < 0:  # and sa2 < 0:
@@ -131,7 +131,7 @@ class _AlbersBase(_NamedBase):
             sa1, sa2 = sa2, sa1
             ca1, ca2 = ca2, ca1
         if sa1 < 0:  # or sa2 < 0:
-            raise AlbersError(slat1=sa1, slat2=sa2)
+            raise AlbersError(slat1=sa1, slat2=sa2, txt=_negative_)
         # avoid singularities at poles
         ca1, ca2 = max(EPS0, ca1), max(EPS0, ca2)
         ta1, ta2 =    (sa1 / ca1),    (sa2 / ca2)
@@ -140,23 +140,22 @@ class _AlbersBase(_NamedBase):
         if par1 or polar:
             ta0, C = ta2, _1_0
         else:
-            s1_qZ, C = self._s1_qZ_C2(ca1, sa1, ta1, ca2, sa2, ta2)
-            ta0      = self._ta0(s1_qZ, (ta2 + ta1) * _0_5)
+            ta0, C = self._ta0C2(ca1, sa1, ta1, ca2, sa2, ta2)
 
         self._lat0 = _Lat(lat0=self._sign * atand(ta0))
-        self._m02  =  m02 = _1_x21(E.b_a * ta0)
+        self._m02  =  m02 = _1_x21(E.f1 * ta0)
         self._n0   =  n0  =  ta0 / hypot1(ta0)
         if polar:
             self._polar = True
 #           self._nrho0 = self._m0 = _0_0
-        else:
-            self._m0    = sqrt(m02)  # == nrho0 / E.a
-            self._nrho0 = E.a * self._m0  # == E.a * sqrt(m02)
+        else:  # m0 = nrho0 / E.a
+            self._m0    = sqrt(m02)
+            self._nrho0 = self._m0 * E.a
         t = self._txi0  = self._txif(ta0)
         h = hypot1(t)
         s = self._sxi0  = t / h
         if par1:
-            self._k0n0 = self._k02n0 = n0
+            self._k0n0  = self._k02n0 = n0
         else:
             self._k0s(k * sqrt(C / (m02 + n0 * qZ * s)))
         self._scxi0_ = h / (qZ * E.a2)
@@ -409,13 +408,52 @@ class _AlbersBase(_NamedBase):
         '''
         return self._k0
 
-    def _s1_qZ_C2(self, ca1, sa1, ta1, ca2, sa2, ta2):
-        '''(INTERNAL) Compute C{sm1 / (s / qZ)} and C{C} for .__init__.
+    def _ta0(self, s1_qZ, ta0, E):
+        '''(INTERNAL) Refine C{ta0} for C{._ta0C2}.
+        '''
+        e2     =  E.e2
+        e21    =  E.e21
+        e22    =  E.e22  # == e2 / e21
+        tol    = _tol(_TOL0, ta0)
+        _Ta02  =  Fsum(ta0).fsum2_
+        _fabs  =  fabs
+        _fsum1 =  fsum1_
+        _sqrt  =  sqrt
+        _1, _2 = _1_0, _2_0
+        _4, _6 = _4_0, _6_0
+        for self._iteration in range(1, _NUMIT0):  # 4 trips
+            ta02  =  ta0**2
+            sca02 =  ta02 + _1
+            sca0  = _sqrt(sca02)
+            sa0   =  ta0 / sca0
+            sa01  =  sa0 + _1
+            sa02  =  sa0**2
+            # sa0m = 1 - sa0 = 1 / (sec(a0) * (tan(a0) + sec(a0)))
+            sa0m  = _1 / (sca0 * (ta0 + sca0))  # scb0^2 * sa0
+            sa0m1 =  sa0m / (_1 - e2 * sa0)
+            sa021 =          _1 - e2 * sa02
+
+            g  = (_1 + ta02 * e21) * sa0
+            dg = (_1 + ta02 * _2)  * sca02 * e21 + e2
+            D  = (_1 - (_1 + sa0 * _2  * sa01) * e2) * sa0m / (e21 * sa01)  # dD/dsa0
+            dD = (_2 - (_6 + sa0 * _4) * sa02  * e2)       /  (e21 * sa01**2)
+            BA = (_atanhs1(e2 * sa0m1**2) * e21 - e2 * sa0m) * sa0m1 \
+               - (_2 + (_1 + e2) * sa0) * sa0m**2 * e22 / sa021  # B + A
+            d  = (_4 - (_1 + sa02) * e2 * _2) * e22    / (sa021**2 * sca02)  # dAB
+            u  = _fsum1(s1_qZ *  g, -D,  g * BA,        floats=True)
+            du = _fsum1(s1_qZ * dg, dD, dg * BA, g * d, floats=True)
+            ta0, d = _Ta02(-u / du * (sca0 * sca02))
+            if _fabs(d) < tol:
+                return ta0
+        raise AlbersError(Fmt.no_convergence(d, tol), txt=repr(self))
+
+    def _ta0C2(self, ca1, sa1, ta1, ca2, sa2, ta2):
+        '''(INTERNAL) Compute C{ta0} and C{C} for C{.__init__}.
         '''
         _1     = _1_0
         _fsum1 =  fsum1_
         E      =  self.ellipsoid
-        f1, e2 =  E.b_a, E.e2
+        f1, e2 =  E.f1, E.e2
 
         tb1    = f1 * ta1
         tb2    = f1 * ta2
@@ -440,45 +478,8 @@ class _AlbersBase(_NamedBase):
         axi  *= (sa12 * e2 + _1) / (sa12 + _1)
         bxi  *= _fsum1(sa1, sa2, esa12) * e2 / esa1_2 + E.e21 * _D2atanhee(sa1, sa2, E)
         s1_qZ = (axi * self._qZ - bxi) * dsn_2 / dtb12
-        return s1_qZ, C
-
-    def _ta0(self, s1_qZ, ta0):
-        '''(INTERNAL) Refine C{ta0}.
-        '''
-        e2     =  self.ellipsoid.e2
-        e21    =  self.ellipsoid.e21
-        tol    = _tol(_TOL0, ta0)
-        _Ta02  =  Fsum(ta0).fsum2_
-        _fabs  =  fabs
-        _fsum1 =  fsum1_
-        _sqrt  =  sqrt
-        _1, _2 = _1_0, _2_0
-        _4, _6 = _4_0, _6_0
-        for self._iteration in range(1, _NUMIT0):  # 4 trips
-            ta02  =  ta0**2
-            sca02 =  ta02 + _1
-            sca0  = _sqrt(sca02)
-            sa0   =  ta0 / sca0
-            sa01  =  sa0 + _1
-            sa02  =  sa0**2
-            # sa0m = 1 - sa0 = 1 / (sec(a0) * (tan(a0) + sec(a0)))
-            sa0m  = _1 / (sca0 * (ta0 + sca0))  # scb0^2 * sa0
-            sa0m1 =  sa0m / (_1 - e2 * sa0)
-            sa021 =          _1 - e2 * sa02
-
-            g  = (_1 + ta02 * e21) * sa0
-            dg = (_1 + ta02 *  _2) * sca02 * e21 + e2
-            D  = (_1 - (_1 + sa0 * _2 * sa01) * e2) * sa0m / (e21 * sa01)  # dD/dsa0
-            dD = (_2 - (_6 + sa0 * _4) * sa02 * e2)       /  (e21 * sa01**2)
-            BA = (_atanhs1(e2 * sa0m1**2) * e21 - e2 * sa0m) * sa0m1 \
-               - (_2 + (_1 + e2) * sa0) * sa0m**2 * e2 / (e21 * sa021)  # B + A
-            d  = (_4 - (_1 + sa02) * e2 * _2) * e2    /  (e21 * sa021**2 * sca02)  # dAB
-            u  = _fsum1(s1_qZ *  g, -D,  g * BA,        floats=True)
-            du = _fsum1(s1_qZ * dg, dD, dg * BA, g * d, floats=True)
-            ta0, d = _Ta02(-u / du * (sca0 * sca02))
-            if _fabs(d) < tol:
-                return ta0
-        raise AlbersError(Fmt.no_convergence(d, tol), txt=repr(self))
+        ta0   =  self._ta0(s1_qZ, (ta1 + ta2) * _0_5, E)
+        return ta0, C
 
     def _tanf(self, txi):  # in .Ellipsoid.auxAuthalic
         '''(INTERNAL) Function M{tan-phi from tan-xi}.
