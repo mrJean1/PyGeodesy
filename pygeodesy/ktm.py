@@ -10,11 +10,11 @@ Following and further below is a copy of I{Karney}'s U{TransverseMercator.hpp
 <https://GeographicLib.SourceForge.io/C++/doc/TransverseMercator_8hpp_source.html>}
 file C{Header}.
 
-This implementation follows closely JHS 154, ETRS89 - I{järjestelmään
-liittyvät karttaprojektiot, tasokoordinaatistot ja karttalehtijako} (Map
-projections, plane coordinates, and map sheet index for ETRS89), published
-by JUHTA, Finnish Geodetic Institute, and the National Land Survey of Finland
-(2006).  The relevant section is available as the U{2008 PDF file
+This implementation follows closely JHS 154, ETRS89 - I{järjestelmään liittyvät
+karttaprojektiot, tasokoordinaatistot ja karttalehtijako} (Map projections, plane
+coordinates, and map sheet index for ETRS89), published by JUHTA, Finnish Geodetic
+Institute, and the National Land Survey of Finland (2006).  The relevant section
+is available as the U{2008 PDF file
 <http://Docs.JHS-suositukset.FI/jhs-suositukset/JHS154/JHS154_liite1.pdf>}.
 
 This is a straight transcription of the formulas in this paper with the
@@ -65,7 +65,7 @@ from cmath import phase
 from math import atan2, asinh, cos, cosh, degrees, fabs, sin, sinh, sqrt, tanh
 
 __all__ = _ALL_LAZY.ktm
-__version__ = '23.03.19'
+__version__ = '23.04.23'
 
 
 class KTMError(_ValueError):
@@ -75,7 +75,11 @@ class KTMError(_ValueError):
 
 
 class KTransverseMercator(_NamedBase):
-    '''Transverse Mercator projection based on Krüger's method which evaluates the
+    '''I{Karney}'s C++ class U{TransverseMercator<https://GeographicLib.SourceForge.io/
+       C++/doc/classGeographicLib_1_1TransverseMercator.html>} transcoded to pure
+       Python, following is a partial copy of I{Karney}'s documentation.
+
+       Transverse Mercator projection based on Krüger's method which evaluates the
        projection and its inverse in terms of a series.
 
        There's a singularity in the projection at I{phi = 0, lam - lam0 = +/- (1 - e)
@@ -90,7 +94,7 @@ class KTransverseMercator(_NamedBase):
        over the entire ellipsoid.
 
        The ellipsoid parameters and the central scale are set in the constructor.
-       The central meridian (which is a trivial shift of the longitude) is  specified
+       The central meridian (which is a trivial shift of the longitude) is specified
        as the C{lon0} keyword argument of the L{KTransverseMercator.forward} and
        L{KTransverseMercator.reverse} methods.  The latitude of origin is taken to
        be the equator.  There is no provision in this class for specifying a false
@@ -330,7 +334,7 @@ class KTransverseMercator(_NamedBase):
         k = (t / k) if k else (NINF if t < 0 else INF)
         h, c = sinh(etap), cos(xip)
         if c > 0:
-            r = hypot(h, c)
+            r =  hypot(h, c)
         else:  # PYCHOK no cover
             r =  fabs(h)
             c = _0_0
@@ -404,7 +408,8 @@ class KTransverseMercator(_NamedBase):
                 y0 = complex(Cn)  # +j0
                 z0 = complex(Cn * (n * 2))
                 n -= 1
-            a = c * 2  # cos(zeta * 2) * 2
+            a  =  c * 2  # cos(zeta * 2) * 2
+            _c = _C
             while n > 0:
                 Cn =  C[n]
                 y1 = _c(a, y0, y1, Cn)
@@ -427,7 +432,7 @@ class KTransverseMercator(_NamedBase):
         return x.real, x.imag, g, k
 
 
-def _c(a, b0, b1, Cn):
+def _C(a, b0, b1, Cn):
     '''(INTERNAL) Accurately compute complex M{a * b0 - b1 + Cn}
        with complex args C{a}, C{b0} and C{b1} and scalar C{Cn}.
 

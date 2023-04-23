@@ -106,7 +106,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        23.04.11
+        23.04.23
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -230,8 +230,32 @@
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.sphericalNvector.LatLon'&gt;</span>,
         <span class="summary-sig-arg">**LatLon_kwds</span>)</span><br />
-      Locate the intersection of two lines each defined by two points or by
-      a start point and an (initial) bearing.</td>
+      Locate the intersections of two (great circle) lines each defined by 
+      two points or by a start point and an (initial) bearing.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.sphericalNvector-module.html#intersection2" class="summary-sig-name">intersection2</a>(<span class="summary-sig-arg">start1</span>,
+        <span class="summary-sig-arg">end1</span>,
+        <span class="summary-sig-arg">start2</span>,
+        <span class="summary-sig-arg">end2</span>,
+        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.sphericalNvector.LatLon'&gt;</span>,
+        <span class="summary-sig-arg">**LatLon_kwds</span>)</span><br />
+      Locate the intersections of two (great circle) lines each defined by 
+      two points or by a start point and an (initial) bearing.</td>
           <td align="right" valign="top">
             
             
@@ -596,8 +620,8 @@
     </td>
   </tr></table>
   
-  <p>Locate the intersection of two lines each defined by two points or by 
-  a start point and an (initial) bearing.</p>
+  <p>Locate the intersections of two (great circle) lines each defined by 
+  two points or by a start point and an (initial) bearing.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -624,10 +648,12 @@
           arguments, ignored if <code><b>LatLon</b> is None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The intersection point (<b><code>LatLon</code></b>) or 3-tuple 
-          (<code>degrees90</code>, <code>degrees180</code>, height) if 
-          <b><code>LatLon</code></b> is <code>None</code> or 
-          <code>None</code> if no unique intersection exists.</dd>
+        <dd>The intersection point (<b><code>LatLon</code></b>) or if 
+          <code><b>LatLon</b> is None</code>, a cartesian <a 
+          href="pygeodesy.ecef.Ecef9Tuple-class.html" 
+          class="link">Ecef9Tuple</a><code>(x, y, z, lat, lon, height, C, 
+          M, datum)</code> with <code>C</code> and <code>M</code> if 
+          available.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - If <b><code>start*</code></b> or <b><code>end*</code></b> is not <a
@@ -637,11 +663,87 @@
         coincident or null.</li>
     </ul></dd>
   </dl>
-<div class="fields">      <p><strong>Example:</strong>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a 
+        href="pygeodesy.sphericalNvector-module.html#intersection2" 
+        class="link">sphericalNvector.intersection2</a>.
+      </p>
+      <p><strong>Example:</strong>
         <pre class="py-doctest">
 <span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(51.8853, 0.2545)
 <span class="py-prompt">&gt;&gt;&gt; </span>q = LatLon(49.0034, 2.5735)
 <span class="py-prompt">&gt;&gt;&gt; </span>i = intersection(p, 108.55, q, 32.44)  <span class="py-comment"># 50.9076&#176;N, 004.5086&#176;E</span></pre>
+      </p>
+</div></td></tr></table>
+</div>
+<a name="intersection2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">intersection2</span>&nbsp;(<span class="sig-arg">start1</span>,
+        <span class="sig-arg">end1</span>,
+        <span class="sig-arg">start2</span>,
+        <span class="sig-arg">end2</span>,
+        <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">LatLon</span>=<span class="sig-default">&lt;class 'pygeodesy.sphericalNvector.LatLon'&gt;</span>,
+        <span class="sig-arg">**LatLon_kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Locate the intersections of two (great circle) lines each defined by 
+  two points or by a start point and an (initial) bearing.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>start1</code></strong> - Start point of the first line (<a 
+          href="pygeodesy.sphericalNvector.LatLon-class.html" 
+          class="link">LatLon</a>).</li>
+        <li><strong class="pname"><code>end1</code></strong> - End point of the first line (<a 
+          href="pygeodesy.sphericalNvector.LatLon-class.html" 
+          class="link">LatLon</a>) or the initial bearing at the first 
+          start point (compass <code>degrees360</code>).</li>
+        <li><strong class="pname"><code>start2</code></strong> - Start point of the second line (<a 
+          href="pygeodesy.sphericalNvector.LatLon-class.html" 
+          class="link">LatLon</a>).</li>
+        <li><strong class="pname"><code>end2</code></strong> - End point of the second line (<a 
+          href="pygeodesy.sphericalNvector.LatLon-class.html" 
+          class="link">LatLon</a>) or the initial bearing at the second 
+          start point (compass <code>degrees360</code>).</li>
+        <li><strong class="pname"><code>height</code></strong> - Optional height at the intersection and antipodal point, 
+          overriding the mean height (<code>meter</code>).</li>
+        <li><strong class="pname"><code>LatLon</code></strong> - Optional class to return the intersection and antipodal point (<a
+          href="pygeodesy.sphericalNvector.LatLon-class.html" 
+          class="link">LatLon</a>).</li>
+        <li><strong class="pname"><code>LatLon_kwds</code></strong> - Optional, additional <b><code>LatLon</code></b> keyword 
+          arguments, ignored if <code><b>LatLon</b> is None</code>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>2-Tuple <code>(intersection, antipode)</code>, each a 
+          (<b><code>LatLon</code></b>) or if <code><b>LatLon</b> is 
+          None</code>, a cartesian <a 
+          href="pygeodesy.ecef.Ecef9Tuple-class.html" 
+          class="link">Ecef9Tuple</a><code>(x, y, z, lat, lon, height, C, 
+          M, datum)</code> with <code>C</code> and <code>M</code> if 
+          available.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - If <b><code>start*</code></b> or <b><code>end*</code></b> is not <a
+        href="pygeodesy.sphericalNvector.LatLon-class.html" 
+        class="link">LatLon</a>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Intersection is ambiguous or infinite or the lines are parallel, 
+        coincident or null.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a 
+        href="pygeodesy.sphericalNvector-module.html#intersection" 
+        class="link">sphericalNvector.intersection</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -1032,7 +1134,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Apr 23 13:00:25 2023
+    Generated by Epydoc 3.0.1 on Sun Apr 23 16:20:29 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

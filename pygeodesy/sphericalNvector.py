@@ -58,7 +58,7 @@ from pygeodesy.utily import atan2, degrees360, fabs, sincos2, sincos2_, sincos2d
 # from math import atan2, fabs  # from utily
 
 __all__ = _ALL_LAZY.sphericalNvector
-__version__ = '23.04.11'
+__version__ = '23.04.23'
 
 _lines_ = 'lines'
 
@@ -272,10 +272,9 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         s = start.toNvector()
         if isscalar(end):  # bearing
             gc = s.greatCircle(end)
-            e = None
+            e  = None
         else:
-            self.others(end, name=namend)
-            e = end.toNvector()
+            e  = self.others(end, name=namend).toNvector()
             gc = s.cross(e, raiser=raiser)  # XXX .unit()?
         return gc, s, e
 
@@ -901,10 +900,10 @@ def intersecant2(center, circle, point, bearing, radius=R_M, exact=False,
         raise _xError(x, center=center, circle=circle, point=point, bearing=bearing, exact=exact)
 
 
-def intersection(start1, end1, start2, end2,
-                 height=None, LatLon=LatLon, **LatLon_kwds):
-    '''Locate the intersection of two lines each defined by two
-       points or by a start point and an (initial) bearing.
+def intersection(start1, end1, start2, end2, height=None,
+                               LatLon=LatLon, **LatLon_kwds):
+    '''Locate the intersections of two (great circle) lines each defined
+       by two points or by a start point and an (initial) bearing.
 
        @arg start1: Start point of the first line (L{LatLon}).
        @arg end1: End point of the first line (L{LatLon}) or the
@@ -921,21 +920,69 @@ def intersection(start1, end1, start2, end2,
        @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
                            arguments, ignored if C{B{LatLon} is None}.
 
-       @return: The intersection point (B{C{LatLon}}) or 3-tuple
-                (C{degrees90}, C{degrees180}, height) if B{C{LatLon}}
-                is C{None} or C{None} if no unique intersection
-                exists.
+       @return: The intersection point (B{C{LatLon}}) or if C{B{LatLon}
+                is None}, a cartesian L{Ecef9Tuple}C{(x, y, z, lat, lon,
+                height, C, M, datum)} with C{C} and C{M} if available.
 
        @raise TypeError: If B{C{start*}} or B{C{end*}} is not L{LatLon}.
 
        @raise ValueError: Intersection is ambiguous or infinite or
                           the lines are parallel, coincident or null.
 
+       @see: Function L{sphericalNvector.intersection2}.
+
        @example:
 
         >>> p = LatLon(51.8853, 0.2545)
         >>> q = LatLon(49.0034, 2.5735)
         >>> i = intersection(p, 108.55, q, 32.44)  # 50.9076°N, 004.5086°E
+    '''
+    i, _, h = _intersect3(start1, end1, start2, end2, height)
+    kwds = _xkwds(LatLon_kwds, height=h, LatLon=LatLon)
+    _ = _xkwds_pop(kwds, wrap=None)  # from .formy.intersection2
+    return i.toLatLon(**kwds)
+
+
+def intersection2(start1, end1, start2, end2, height=None,
+                                LatLon=LatLon, **LatLon_kwds):
+    '''Locate the intersections of two (great circle) lines each defined
+       by two points or by a start point and an (initial) bearing.
+
+       @arg start1: Start point of the first line (L{LatLon}).
+       @arg end1: End point of the first line (L{LatLon}) or the
+                  initial bearing at the first start point
+                  (compass C{degrees360}).
+       @arg start2: Start point of the second line (L{LatLon}).
+       @arg end2: End point of the second line (L{LatLon}) or the
+                  initial bearing at the second start point
+                  (compass C{degrees360}).
+       @kwarg height: Optional height at the intersection and antipodal
+                      point, overriding the mean height (C{meter}).
+       @kwarg LatLon: Optional class to return the intersection and
+                      antipodal point (L{LatLon}).
+       @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
+                           arguments, ignored if C{B{LatLon} is None}.
+
+       @return: 2-Tuple C{(intersection, antipode)}, each a (B{C{LatLon}})
+                or if C{B{LatLon} is None}, a cartesian L{Ecef9Tuple}C{(x,
+                y, z, lat, lon, height, C, M, datum)} with C{C} and C{M}
+                if available.
+
+       @raise TypeError: If B{C{start*}} or B{C{end*}} is not L{LatLon}.
+
+       @raise ValueError: Intersection is ambiguous or infinite or
+                          the lines are parallel, coincident or null.
+
+       @see: Function L{sphericalNvector.intersection}.
+    '''
+    i, a, h = _intersect3(start1, end1, start2, end2, height)
+    kwds = _xkwds(LatLon_kwds, height=h, LatLon=LatLon)
+    return i.toLatLon(**kwds), a.toLatLon(**kwds)
+
+
+def _intersect3(start1, end1, start2, end2, height):
+    '''(INTERNAL) Return the intersection and antipodal points for
+       functions C{intersection} and C{intersection2}.
     '''
     _Nvll.others(start1=start1)
     _Nvll.others(start2=start2)
@@ -953,8 +1000,7 @@ def intersection(start1, end1, start2, end2,
     # there are two (antipodal) candidate intersection
     # points ... we have to choose the one to return
     i1 = gc1.cross(gc2, raiser=_lines_)
-    # postpone computing i2 until needed
-    # i2 = gc2.cross(gc1, raiser=_lines_)
+    i2 = gc2.cross(gc1, raiser=_lines_)
 
     # selection of intersection point depends on how
     # lines are defined (by bearings or endpoints)
@@ -988,12 +1034,8 @@ def intersection(start1, end1, start2, end2,
             # .ellipsoidalBaseDI._intersect3
             d = d1  # neg(s1.plus(s2).dot(i1))
 
-    i = i1 if d > 0 else gc2.cross(gc1, raiser=_lines_)
-
     h = fmean(hs) if height is None else height
-    kwds = _xkwds(LatLon_kwds, height=h, LatLon=LatLon)
-    _ = _xkwds_pop(kwds, wrap=None)  # from .formy.intersection2
-    return i.toLatLon(**kwds)  # Nvector(i.x, i.y, i.z).toLatLon(...)
+    return (i1, i2, h) if d > 0 else (i2, i1, h)
 
 
 def meanOf(points, height=None, LatLon=LatLon, **LatLon_kwds):
@@ -1192,7 +1234,7 @@ def trilaterate(point1, distance1, point2, distance2, point3, distance3,  # PYCH
 
 __all__ += _ALL_OTHER(Cartesian, LatLon, Nvector,  # classes
                       areaOf,  # functions
-                      intersecant2, intersection, ispolar,
+                      intersecant2, intersection, intersection2, ispolar,
                       meanOf,
                       nearestOn2, nearestOn3,
                       perimeterOf,

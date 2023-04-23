@@ -4,7 +4,7 @@
 # Test L{vector3d} and L{vector3d} modules.
 
 __all__ = ('Tests',)
-__version__ = '23.03.27'
+__version__ = '23.04.23'
 
 from bases import coverage, GeodSolve, numpy, TestsBase
 
@@ -233,7 +233,12 @@ class Tests(TestsBase):
             # <https://GitHub.com/ChrisVeness/geodesy/blob/master/test/latlon-vectors-tests.js>
             p = LatLon(1, 1)
             i = p.intersection(LatLon(2, 2), LatLon(1, 4), LatLon(2, 3))
-            self.test('intersection', i, '02.499372°N, 002.5°E', nl=1, n1=1)
+            self.test('intersection', i, '02.499372°N, 002.5°E', nl=1, nt=1)
+
+        if Sph and hasattr(module, 'intersection2'):  # sphericalNvector
+            i, a = module.intersection2(LatLon(1, 1), LatLon(2, 2), LatLon(1, 4), LatLon(2, 3))
+            self.test('intersection1', i, '02.499372°N, 002.5°E')
+            self.test('intersection2', a, '02.499372°S, 177.5°W', nt=1)
 
         if hasattr(LatLon, 'isenclosedBy'):
             p = LatLon(45.1, 1.1)

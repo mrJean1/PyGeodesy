@@ -2558,17 +2558,18 @@ pygeodesy.ktm._Xorder	pygeodesy.ktm-module.html#_Xorder
 pygeodesy.ktm._fix90	pygeodesy.karney-module.html#_fix90
 pygeodesy.ktm.__all__	pygeodesy.ktm-module.html#__all__
 pygeodesy.ktm.hypot	pygeodesy.fmath-module.html#hypot
-pygeodesy.ktm._atan2d	pygeodesy.karney-module.html#_atan2d
+pygeodesy.ktm._C	pygeodesy.ktm-module.html#_C
 pygeodesy.ktm.property_doc_	pygeodesy.props-module.html#property_doc_
 pygeodesy.ktm._B1Coeffs	pygeodesy.ktm-module.html#_B1Coeffs
 pygeodesy.ktm.atand	pygeodesy.utily-module.html#atand
 pygeodesy.ktm.sincos2	pygeodesy.utily-module.html#sincos2
-pygeodesy.ktm._pairs	pygeodesy.lazily-module.html#_pairs
+pygeodesy.ktm._atan2d	pygeodesy.karney-module.html#_atan2d
 pygeodesy.ktm._AlpCoeffs	pygeodesy.ktm-module.html#_AlpCoeffs
 pygeodesy.ktm.__package__	pygeodesy.ktm-module.html#__package__
 pygeodesy.ktm._BetCoeffs	pygeodesy.ktm-module.html#_BetCoeffs
 pygeodesy.ktm.hypot1	pygeodesy.fmath-module.html#hypot1
 pygeodesy.ktm._Xs	pygeodesy.ktm-module.html#_Xs
+pygeodesy.ktm._pairs	pygeodesy.lazily-module.html#_pairs
 pygeodesy.ktm.isint	pygeodesy.basics-module.html#isint
 pygeodesy.ktm._update_all	pygeodesy.props-module.html#_update_all
 pygeodesy.ktm.fsum1_	pygeodesy.fsums-module.html#fsum1_
@@ -2577,7 +2578,6 @@ pygeodesy.ktm._0_0s	pygeodesy.constants-module.html#_0_0s
 pygeodesy.ktm.neg_	pygeodesy.basics-module.html#neg_
 pygeodesy.ktm._norm180	pygeodesy.karney-module.html#_norm180
 pygeodesy.ktm._or	pygeodesy.errors-module.html#_or
-pygeodesy.ktm._c	pygeodesy.ktm-module.html#_c
 pygeodesy.ktm.isodd	pygeodesy.basics-module.html#isodd
 pygeodesy.ktm.copysign0	pygeodesy.basics-module.html#copysign0
 pygeodesy.ktm._unsigned2	pygeodesy.karney-module.html#_unsigned2
@@ -3283,6 +3283,7 @@ pygeodesy.sphericalBase.wrapPI	pygeodesy.utily-module.html#wrapPI
 pygeodesy.sphericalBase.map1	pygeodesy.basics-module.html#map1
 pygeodesy.sphericalBase.sqrt_a	pygeodesy.fmath-module.html#sqrt_a
 pygeodesy.sphericalNvector	pygeodesy.sphericalNvector-module.html
+pygeodesy.sphericalNvector._intersect3	pygeodesy.sphericalNvector-module.html#_intersect3
 pygeodesy.sphericalNvector._xkwds	pygeodesy.errors-module.html#_xkwds
 pygeodesy.sphericalNvector.triangulate	pygeodesy.sphericalNvector-module.html#triangulate
 pygeodesy.sphericalNvector.perimeterOf	pygeodesy.sphericalNvector-module.html#perimeterOf
@@ -3306,6 +3307,7 @@ pygeodesy.sphericalNvector._xkwds_pop	pygeodesy.errors-module.html#_xkwds_pop
 pygeodesy.sphericalNvector.fsum	pygeodesy.fsums-module.html#fsum
 pygeodesy.sphericalNvector._Nvll	pygeodesy.sphericalNvector-module.html#_Nvll
 pygeodesy.sphericalNvector._lines_	pygeodesy.sphericalNvector-module.html#_lines_
+pygeodesy.sphericalNvector.sumOf	pygeodesy.sphericalNvector-module.html#sumOf
 pygeodesy.sphericalNvector.areaOf	pygeodesy.sphericalNvector-module.html#areaOf
 pygeodesy.sphericalNvector.nearestOn2	pygeodesy.sphericalNvector-module.html#nearestOn2
 pygeodesy.sphericalNvector.sincos2_	pygeodesy.utily-module.html#sincos2_
@@ -3317,7 +3319,7 @@ pygeodesy.sphericalNvector.nearestOn3	pygeodesy.sphericalNvector-module.html#nea
 pygeodesy.sphericalNvector.fmean	pygeodesy.fmath-module.html#fmean
 pygeodesy.sphericalNvector.atan2	pygeodesy.geodesicx.gx-module.html#atan2
 pygeodesy.sphericalNvector._xinstanceof	pygeodesy.basics-module.html#_xinstanceof
-pygeodesy.sphericalNvector.sumOf	pygeodesy.sphericalNvector-module.html#sumOf
+pygeodesy.sphericalNvector.intersection2	pygeodesy.sphericalNvector-module.html#intersection2
 pygeodesy.sphericalNvector.ispolar	pygeodesy.sphericalNvector-module.html#ispolar
 pygeodesy.sphericalNvector.trilaterate	pygeodesy.sphericalNvector-module.html#trilaterate
 pygeodesy.sphericalTrigonometry	pygeodesy.sphericalTrigonometry-module.html
