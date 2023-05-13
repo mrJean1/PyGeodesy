@@ -10,14 +10,14 @@ of C{_NamedTuple} defined in C{pygeodesy.named}.
 
 from pygeodesy.basics import map1, _xinstanceof
 # from pygeodesy.constants import INT0  # from .units
-from pygeodesy.errors import _ALL_LAZY, _MODS, _xkwds_not  # _xkwds
+from pygeodesy.errors import _ALL_LAZY, _MODS, _xattr, _xkwds_not  # _xkwds
 from pygeodesy.interns import NN, _1_, _2_, _a_, _A_, _area_, _angle_, _b_, \
                              _B_, _band_, _c_, _C_, _datum_, _D_, _distance_, \
-                             _E_, _easting_, _end_, _epoch_, _fi_, _gamma_, \
-                             _height_, _j_, _h_, _hemipole_, _initial_, _lam_, \
-                             _lat_, _lon_, _n_, _northing_, _number_, _outside_, \
+                             _E_, _easting_, _end_, _fi_, _gamma_, _height_, \
+                             _j_, _h_, _hemipole_, _initial_, _lam_, _lat_, \
+                             _lon_, _n_, _northing_, _number_, _outside_, \
                              _phi_, _point_, _precision_, _radius_, _points_, \
-                             _reframe_, _scale_, _start_, _x_, _y_, _z_, _zone_
+                             _scale_, _start_, _x_, _y_, _z_, _zone_
 # from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS  # from .errors
 from pygeodesy.named import _NamedTuple, _Pass
 from pygeodesy.props import deprecated_property_RO, property_RO
@@ -27,7 +27,7 @@ from pygeodesy.units import Band, Bearing, Degrees, Degrees2, Easting, \
                             Radians, Radius, Scalar, Str
 
 __all__ = _ALL_LAZY.namedTuples
-__version__ = '23.04.03'
+__version__ = '23.04.06'
 
 # __DUNDER gets mangled in class
 _closest_     = 'closest'
@@ -261,9 +261,9 @@ def _LL4Tuple(lat, lon, height, datum, LatLon, LatLon_kwds, inst=None,
         r = LatLon4Tuple(lat, lon, height, datum, name=name)
     else:
         kwds = {} if inst is None else _xkwds_not(None,
-#                  datum=getattr(inst, _datum_,   None),
-                   epoch=getattr(inst, _epoch_,   None),
-                 reframe=getattr(inst, _reframe_, None))  # PYCHOK indent
+#                    datum=_xattr(inst, datum=None),
+                     epoch=_xattr(inst, epoch=None),
+                   reframe=_xattr(inst, reframe=None))  # PYCHOK indent
         kwds.update(datum=datum, height=height, name=name)
         if LatLon_kwds:
             kwds.update(LatLon_kwds)

@@ -161,7 +161,8 @@
         <span class="summary-sig-arg">bearing1</span>,
         <span class="summary-sig-arg">other</span>,
         <span class="summary-sig-arg">bearing2</span>,
-        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>)</span><br />
+        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Locate a point given this and an other point and a bearing at this 
       and the other point.</td>
           <td align="right" valign="top">
@@ -187,7 +188,8 @@
         <span class="summary-sig-arg">distance3</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">useZ</span>=<span class="summary-sig-default">False</span>)</span><br />
+        <span class="summary-sig-arg">useZ</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Locate a point at given distances from this and two other points.</td>
           <td align="right" valign="top">
             
@@ -214,9 +216,8 @@
         <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">0.9999999999999998</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
-      <b>Not implemented</b> for <code><b>area</b>=True</code> or 
-      <code><b>wrap</b>=True</code> and falls back to method 
-      <code>trilaterate</code> otherwise.</td>
+      <b>Not implemented</b> for <code><b>area</b>=True</code> and falls 
+      back to method <code>trilaterate</code> otherwise.</td>
           <td align="right" valign="top">
             
             
@@ -284,6 +285,7 @@
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#toEcef">toEcef</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#toLocal">toLocal</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#toLtp">toLtp</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#toNormal">toNormal</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#toStr">toStr</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#toVector">toVector</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#toVector3d">toVector3d</a></code>,
@@ -462,7 +464,8 @@
         <span class="sig-arg">bearing1</span>,
         <span class="sig-arg">other</span>,
         <span class="sig-arg">bearing2</span>,
-        <span class="sig-arg">height</span>=<span class="sig-default">None</span>)</span>
+        <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -479,6 +482,8 @@
         <li><strong class="pname"><code>bearing2</code></strong> - Bearing at the other point (compass <code>degrees360</code>).</li>
         <li><strong class="pname"><code>height</code></strong> - Optional height at the triangulated point, overriding the mean 
           height (<code>meter</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, use this and the <b><code>other</code></b> 
+          point <i>normalized</i> (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Triangulated point (<code>LatLon</code>).</dd>
@@ -511,7 +516,8 @@
         <span class="sig-arg">distance3</span>,
         <span class="sig-arg">radius</span>=<span class="sig-default">6371008.771415</span>,
         <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">useZ</span>=<span class="sig-default">False</span>)</span>
+        <span class="sig-arg">useZ</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -534,6 +540,8 @@
         <li><strong class="pname"><code>height</code></strong> - Optional height at trilaterated point, overriding the mean height
           (<code>meter</code>, same units as <b><code>radius</code></b>).</li>
         <li><strong class="pname"><code>useZ</code></strong> - Include Z component iff non-NaN, non-zero (<code>bool</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, use this, <b><code>point2</code></b> and 
+          <b><code>point3</code></b> <i>normalized</i> (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Trilaterated point (<code>LatLon</code>).</dd>
@@ -579,9 +587,8 @@
     </td>
   </tr></table>
   
-  <p><b>Not implemented</b> for <code><b>area</b>=True</code> or 
-  <code><b>wrap</b>=True</code> and falls back to method 
-  <code>trilaterate</code> otherwise.</p>
+  <p><b>Not implemented</b> for <code><b>area</b>=True</code> and falls 
+  back to method <code>trilaterate</code> otherwise.</p>
   <dl class="fields">
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.namedTuples.Trilaterate5Tuple-class.html" 
@@ -592,16 +599,15 @@
           1</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - No intersection, trilateration failed.</li>
-        <li><code><strong class='fraise'>NotImplementedError</strong></code> - Keyword argument <code><b>area</b>=True</code> or 
-        <code><b>wrap</b>=True</code> not (yet) supported.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>point2</code></b> or <b><code>point3</code></b>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Coincident <b><code>points</code></b> or invalid 
-        <b><code>distance1</code></b>, <b><code>distance2</code></b>, 
-        <b><code>distance3</code></b> or <b><code>radius</code></b>.</li>
+        <li><code><strong class='fraise'>NotImplementedError</strong></code> - Keyword argument <code><b>area</b>=True</code> not (yet) supported.</li>
     </ul></dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>See Also:</strong>
+        Method <a 
+        href="pygeodesy.nvectorBase.LatLonNvectorBase-class.html#trilaterate"
+        class="link">trilaterate</a> for other and more details.
+      </p>
+</div></td></tr></table>
 </div>
 <br />
 <!-- ==================== NAVIGATION BAR ==================== -->
@@ -635,7 +641,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Apr 23 16:20:32 2023
+    Generated by Epydoc 3.0.1 on Sat May 13 11:43:56 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

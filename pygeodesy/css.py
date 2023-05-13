@@ -12,10 +12,11 @@ from pygeodesy.basics import islistuple, neg, _xinstanceof, _xsubclassof
 from pygeodesy.constants import _umod_360, _0_0, _0_5, _90_0
 from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
-from pygeodesy.errors import _ValueError, _xdatum, _xellipsoidal, _xkwds
-from pygeodesy.interns import NN, _azimuth_, _COMMASPACE_, _datum_, \
-                             _easting_, _lat_, _lon_, _m_, _name_, \
-                             _northing_, _reciprocal_, _SPACE_
+from pygeodesy.errors import _ValueError, _xdatum, _xellipsoidal, \
+                             _xattr, _xkwds
+from pygeodesy.interns import NN, _azimuth_, _COMMASPACE_, _easting_, \
+                             _lat_, _lon_, _m_, _name_, _northing_, \
+                             _reciprocal_, _SPACE_
 from pygeodesy.interns import _C_  # PYCHOK used!
 from pygeodesy.karney import _atan2d, _copysign, _diff182, _norm2, \
                              _norm180, _signBit, _sincos2d, fabs
@@ -32,7 +33,7 @@ from pygeodesy.units import Bearing, Degrees, Easting, Height, \
 # from math import fabs  # from .karney
 
 __all__ = _ALL_LAZY.css
-__version__ = '23.04.11'
+__version__ = '23.05.06'
 
 
 def _CS0(cs0):
@@ -113,7 +114,7 @@ class CassiniSoldner(_NamedBase):
 
            @raise CSSError: Ellipsoid mismatch of B{C{latlon}} and this projection.
         '''
-        d = getattr(latlon, _datum_, None)
+        d = _xattr(latlon, datum=None)
         if d:
             _xdatum(self.datum, d, Error=CSSError)
 

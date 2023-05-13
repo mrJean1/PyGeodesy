@@ -69,7 +69,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        23.04.14
+        23.05.11
       </p>
 </div><!-- ==================== FUNCTIONS ==================== -->
 <a name="section-Functions"></a>
@@ -681,7 +681,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#m2km" class="summary-sig-name">m2km</a>(<span class="summary-sig-arg">meter</span>)</span><br />
-      Convert meter to kilo meter (km).</td>
+      Convert meter to kilo meter (Km).</td>
           <td align="right" valign="top">
             
             
@@ -1232,6 +1232,26 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#wrapPI_2" class="summary-sig-name">wrapPI_2</a>(<span class="summary-sig-arg">rad</span>)</span><br />
       Wrap radians to <i class="math">[-3PI/2..+PI/2]</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#wrap_normal" class="summary-sig-name">wrap_normal</a>(<span class="summary-sig-arg">*normal</span>)</span><br />
+      Define the operation for the keyword argument 
+      <code><b>wrap</b>=True</code>, across <a href="pygeodesy-module.html"
+      class="link">pygeodesy</a>: <i>wrap</i>, <i>normalize</i> or 
+      <i>no-op</i>.</td>
           <td align="right" valign="top">
             
             
@@ -1840,10 +1860,10 @@
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>feet</code></strong> - Value in feet (<code>scalar</code>).</li>
-        <li><strong class="pname"><code>usurvey</code></strong> - Convert <i>US Survey</i> foot if <code>True</code> else ...</li>
-        <li><strong class="pname"><code>pied</code></strong> - Convert French <i>pied-du-Roi</i> if <code>True</code> else ...</li>
-        <li><strong class="pname"><code>fuss</code></strong> - Convert German <i>Fuss</i> if <code>True</code>, otherwise 
-          <i>International</i> feet to <code>meter</code>.</li>
+        <li><strong class="pname"><code>usurvey</code></strong> - If <code>True</code>, convert <i>US Survey</i> foot else ...</li>
+        <li><strong class="pname"><code>pied</code></strong> - If <code>True</code>, convert French <i>pied-du-Roi</i> else ...</li>
+        <li><strong class="pname"><code>fuss</code></strong> - If <code>True</code>, convert German <i>Fuss</i>, otherwise 
+          <i>International</i> foot to <code>meter</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Value in <code>meter</code> (<code>float</code>).</dd>
@@ -2158,10 +2178,10 @@
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>meter</code></strong> - Value in meter (<code>scalar</code>).</li>
-        <li><strong class="pname"><code>usurvey</code></strong> - Convert to <i>US Survey</i> foot if <code>True</code> else ...</li>
-        <li><strong class="pname"><code>pied</code></strong> - Convert to French <i>pied-du-Roi</i> if <code>True</code> else 
+        <li><strong class="pname"><code>usurvey</code></strong> - If <code>True</code>, convert to <i>US Survey</i> foot else ...</li>
+        <li><strong class="pname"><code>pied</code></strong> - If <code>True</code>, convert to French <i>pied-du-Roi</i> else 
           ...</li>
-        <li><strong class="pname"><code>fuss</code></strong> - Convert to German <i>Fuss</i> if <code>True</code>, otherwise to 
+        <li><strong class="pname"><code>fuss</code></strong> - If <code>True</code>, convert to German <i>Fuss</i>, otherwise to
           <i>International</i> foot.</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -2216,14 +2236,14 @@
     </td>
   </tr></table>
   
-  <p>Convert meter to kilo meter (km).</p>
+  <p>Convert meter to kilo meter (Km).</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>meter</code></strong> - Value in meter (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Value in km (<code>float</code>).</dd>
+        <dd>Value in Km (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>meter</code></b>.</li>
@@ -3000,8 +3020,8 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>lon1</code></strong> - Start longitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lon2</code></strong> - End longitude (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll to the <i class="math">(-180..+180]</i> range 
-          (<code>bool</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap and unroll to the <i 
+          class="math">(-180..+180]</i> range (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>2-Tuple <code>(<b>lon2</b>-<b>lon1</b>, <b>lon2</b>)</code> 
@@ -3036,8 +3056,8 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>rad1</code></strong> - Start longitude (<code>radians</code>).</li>
         <li><strong class="pname"><code>rad2</code></strong> - End longitude (<code>radians</code>).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll to the <i class="math">(-PI..+PI]</i> range 
-          (<code>bool</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap and unroll to the <i 
+          class="math">(-PI..+PI]</i> range (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>2-Tuple <code>(<b>rad2</b>-<b>rad1</b>, <b>rad2</b>)</code> 
@@ -3200,6 +3220,51 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="wrap_normal"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">wrap_normal</span>&nbsp;(<span class="sig-arg">*normal</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Define the operation for the keyword argument 
+  <code><b>wrap</b>=True</code>, across <a href="pygeodesy-module.html" 
+  class="link">pygeodesy</a>: <i>wrap</i>, <i>normalize</i> or 
+  <i>no-op</i>.  For backward compatibility, the default is 
+  <i>wrap</i>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>normal</code></strong> - If <code>True</code>, <i>normalize</i> lat- and longitude using 
+          <a href="pygeodesy.formy-module.html#normal" 
+          class="link">normal</a> or <a 
+          href="pygeodesy.formy-module.html#normal_" 
+          class="link">normal_</a>, if <code>False</code>, <i>wrap</i> the 
+          lat- and longitude individually by <a 
+          href="pygeodesy.utily-module.html#wrap90" class="link">wrap90</a>
+          or <a href="pygeodesy.utily-module.html#wrapPI_2" 
+          class="link">wrapPI_2</a> respectively <a 
+          href="pygeodesy.utily-module.html#wrap180" 
+          class="link">wrap180</a>, <a 
+          href="pygeodesy.utily-module.html#wrapPI" class="link">wrapPI</a>
+          or if <code>None</code>, leave lat- and longitude 
+          <i>unchanged</i>. Do not supply any value to get the current 
+          setting.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The previous <a href="pygeodesy.utily-module.html#wrap_normal" 
+          class="link">wrap_normal</a> setting (<code>bool</code> or 
+          <code>None</code>).</dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="yard2m"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -3261,7 +3326,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Apr 23 16:20:29 2023
+    Generated by Epydoc 3.0.1 on Sat May 13 11:43:54 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

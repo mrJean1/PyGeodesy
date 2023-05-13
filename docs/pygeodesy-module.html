@@ -527,7 +527,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        23.04.23
+        23.05.12
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -595,7 +595,7 @@
     <li> <strong class="uidlink"><a href="pygeodesy.dms-module.html">pygeodesy.dms</a></strong>: <em class="summary">Parsers and formatters of angles in degrees, minutes and seconds or
         radians.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ecef-module.html">pygeodesy.ecef</a></strong>: <em class="summary"><i>Geocentric</i> Earth-Centered, Earth-Fixed (ECEF) coordinates.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.elevations-module.html">pygeodesy.elevations</a></strong>: <em class="summary">Web-services-based elevations and geoid heights.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.elevations-module.html">pygeodesy.elevations</a></strong>: <em class="summary">Web-services-based elevations and <code>CONUS</code> geoid heights.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalBase-module.html">pygeodesy.ellipsoidalBase</a></strong>: <em class="summary">(INTERNAL) Private ellipsoidal base classes 
         <code>CartesianEllipsoidalBase</code> and 
         <code>LatLonEllipsoidalBase</code>.</em>    </li>
@@ -2197,8 +2197,8 @@
         <a href="pygeodesy.frechet.FrechetCosineAndoyerLambert-class.html" class="summary-name">FrechetCosineAndoyerLambert</a><br />
       Compute the <code>Frechet</code> distance based on the 
         <i>angular</i> distance in <code>radians</code> from function <a 
-        href="pygeodesy.formy-module.html#cosineAndoyerLambert_" 
-        class="link">pygeodesy.cosineAndoyerLambert_</a>.
+        href="pygeodesy.formy-module.html#cosineAndoyerLambert" 
+        class="link">pygeodesy.cosineAndoyerLambert</a>.
     </td>
   </tr>
 <tr>
@@ -2208,8 +2208,8 @@
         <a href="pygeodesy.frechet.FrechetCosineForsytheAndoyerLambert-class.html" class="summary-name">FrechetCosineForsytheAndoyerLambert</a><br />
       Compute the <code>Frechet</code> distance based on the 
         <i>angular</i> distance in <code>radians</code> from function <a 
-        href="pygeodesy.formy-module.html#cosineForsytheAndoyerLambert_" 
-        class="link">pygeodesy.cosineForsytheAndoyerLambert_</a>.
+        href="pygeodesy.formy-module.html#cosineForsytheAndoyerLambert" 
+        class="link">pygeodesy.cosineForsytheAndoyerLambert</a>.
     </td>
   </tr>
 <tr>
@@ -2219,8 +2219,8 @@
         <a href="pygeodesy.frechet.FrechetCosineLaw-class.html" class="summary-name">FrechetCosineLaw</a><br />
       Compute the <code>Frechet</code> distance based on the 
         <i>angular</i> distance in <code>radians</code> from function <a 
-        href="pygeodesy.formy-module.html#cosineLaw_" 
-        class="link">pygeodesy.cosineLaw_</a>.
+        href="pygeodesy.formy-module.html#cosineLaw" 
+        class="link">pygeodesy.cosineLaw</a>.
     </td>
   </tr>
 <tr>
@@ -2228,10 +2228,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.frechet.FrechetDegrees-class.html" class="summary-name">FrechetDegrees</a><br />
-      <a href="pygeodesy.frechet.Frechet-class.html" 
-        class="link">Frechet</a> base class for distances in 
-        <code>degrees</code> from <code>LatLon</code> points in 
-        <code>degrees</code>.
+      DEPRECATED, use an other <code>Frechet*</code> class.
     </td>
   </tr>
 <tr>
@@ -2240,7 +2237,7 @@
     </td><td class="summary">
         <a href="pygeodesy.frechet.FrechetDistanceTo-class.html" class="summary-name">FrechetDistanceTo</a><br />
       Compute the <code>Frechet</code> distance based on the distance 
-        from the points' <code>LatLon.distanceTo</code> method, 
+        from the point1s' <code>LatLon.distanceTo</code> method, 
         conventionally in <code>meter</code>.
     </td>
   </tr>
@@ -2251,9 +2248,8 @@
         <a href="pygeodesy.frechet.FrechetEquirectangular-class.html" class="summary-name">FrechetEquirectangular</a><br />
       Compute the <code>Frechet</code> distance based on the 
         <i>equirectangular</i> distance in <code>radians squared</code> 
-        like function <a 
-        href="pygeodesy.formy-module.html#equirectangular_" 
-        class="link">pygeodesy.equirectangular_</a>.
+        like function <a href="pygeodesy.formy-module.html#equirectangular"
+        class="link">pygeodesy.equirectangular</a>.
     </td>
   </tr>
 <tr>
@@ -2271,8 +2267,8 @@
         <a href="pygeodesy.frechet.FrechetEuclidean-class.html" class="summary-name">FrechetEuclidean</a><br />
       Compute the <code>Frechet</code> distance based on the 
         <i>Euclidean</i> distance in <code>radians</code> from function <a 
-        href="pygeodesy.formy-module.html#euclidean_" 
-        class="link">pygeodesy.euclidean_</a>.
+        href="pygeodesy.formy-module.html#euclidean" 
+        class="link">pygeodesy.euclidean</a>.
     </td>
   </tr>
 <tr>
@@ -2295,8 +2291,8 @@
         <i>angular</i> distance in <code>radians squared</code> like 
         function <a href="pygeodesy.formy-module.html#flatLocal_" 
         class="link">pygeodesy.flatLocal_</a>/<a 
-        href="pygeodesy.formy-module.html#flatLocal_" 
-        class="link">pygeodesy.hubeny_</a>.
+        href="pygeodesy.formy-module.html#flatLocal" 
+        class="link">pygeodesy.hubeny</a>.
     </td>
   </tr>
 <tr>
@@ -2330,8 +2326,8 @@
         <i>angular</i> distance in <code>radians squared</code> like 
         function <a href="pygeodesy.formy-module.html#flatLocal_" 
         class="link">pygeodesy.flatLocal_</a>/<a 
-        href="pygeodesy.formy-module.html#flatLocal_" 
-        class="link">pygeodesy.hubeny_</a>.
+        href="pygeodesy.formy-module.html#flatLocal" 
+        class="link">pygeodesy.hubeny</a>.
     </td>
   </tr>
 <tr>
@@ -2352,11 +2348,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.frechet.FrechetRadians-class.html" class="summary-name">FrechetRadians</a><br />
-      <a href="pygeodesy.frechet.Frechet-class.html" 
-        class="link">Frechet</a> base class for distances in 
-        <code>radians</code> or <code>radians squared</code> from 
-        <code>LatLon</code> points converted from <code>degrees</code> to 
-        <code>radians</code>.
+      DEPRECATED, use an other <code>Frechet*</code> class.
     </td>
   </tr>
 <tr>
@@ -2714,8 +2706,8 @@
         <a href="pygeodesy.hausdorff.HausdorffCosineAndoyerLambert-class.html" class="summary-name">HausdorffCosineAndoyerLambert</a><br />
       Compute the <code>Hausdorff</code> distance based on the 
         <i>angular</i> distance in <code>radians</code> from function <a 
-        href="pygeodesy.formy-module.html#cosineAndoyerLambert_" 
-        class="link">pygeodesy.cosineAndoyerLambert_</a>.
+        href="pygeodesy.formy-module.html#cosineAndoyerLambert" 
+        class="link">pygeodesy.cosineAndoyerLambert</a>.
     </td>
   </tr>
 <tr>
@@ -2725,8 +2717,8 @@
         <a href="pygeodesy.hausdorff.HausdorffCosineForsytheAndoyerLambert-class.html" class="summary-name">HausdorffCosineForsytheAndoyerLambert</a><br />
       Compute the <code>Hausdorff</code> distance based on the 
         <i>angular</i> distance in <code>radians</code> from function <a 
-        href="pygeodesy.formy-module.html#cosineForsytheAndoyerLambert_" 
-        class="link">pygeodesy.cosineForsytheAndoyerLambert_</a>.
+        href="pygeodesy.formy-module.html#cosineForsytheAndoyerLambert" 
+        class="link">pygeodesy.cosineForsytheAndoyerLambert</a>.
     </td>
   </tr>
 <tr>
@@ -2998,6 +2990,19 @@
         <i>angular</i> distance in <code>radians</code> from function <a 
         href="pygeodesy.formy-module.html#euclidean_" 
         class="link">pygeodesy.euclidean_</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.heights.HeightIDWexact-class.html" class="summary-name">HeightIDWexact</a><br />
+      Height interpolator using <a 
+        href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
+        target="_top">Inverse Distance Weighting</a> (IDW) and the 
+        <i>angular</i> distance in <code>degrees</code> from method <a 
+        href="pygeodesy.geodesicx.gx.GeodesicExact-class.html" 
+        class="link">GeodesicExact</a><code>.Inverse</code>.
     </td>
   </tr>
 <tr>
@@ -3478,14 +3483,14 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.errors.LimitError-class.html" class="summary-name">LimitError</a><br />
-      Error raised for lat- or longitudinal deltas exceeding the 
-        <b><code>limit</code></b> in functions <a 
+      Error raised for lat- or longitudinal values or deltas exceeding 
+        the given <b><code>limit</code></b> in functions <a 
         href="pygeodesy.formy-module.html#equirectangular" 
-        class="link">pygeodesy.equirectangular</a> and <a 
+        class="link">pygeodesy.equirectangular</a>, <a 
         href="pygeodesy.formy-module.html#equirectangular_" 
-        class="link">pygeodesy.equirectangular_</a> and several 
-        <code>nearestOn*</code> and <code>simplify*</code> functions or 
-        methods.
+        class="link">pygeodesy.equirectangular_</a>, 
+        <code>nearestOn*</code> and <code>simplify*</code> or methods with 
+        <code>limit</code> or <code>options</code> keyword arguments.
     </td>
   </tr>
 <tr>
@@ -4030,19 +4035,20 @@
         <a href="pygeodesy.errors.RangeError-class.html" class="summary-name">RangeError</a><br />
       Error raised for lat- or longitude values outside the 
         <b><code>clip</code></b>, <b><code>clipLat</code></b>, 
-        <b><code>clipLon</code></b> or <b><code>limit</code></b> range in 
-        function <a href="pygeodesy.dms-module.html#clipDegrees" 
-        class="link">pygeodesy.clipDegrees</a>, <a 
-        href="pygeodesy.dms-module.html#clipRadians" 
-        class="link">pygeodesy.clipRadians</a>, <a 
+        <b><code>clipLon</code></b> in functions <a 
         href="pygeodesy.dms-module.html#parse3llh" 
         class="link">pygeodesy.parse3llh</a>, <a 
         href="pygeodesy.dms-module.html#parseDMS" 
         class="link">pygeodesy.parseDMS</a>, <a 
         href="pygeodesy.dms-module.html#parseDMS2" 
-        class="link">pygeodesy.parseDMS2</a> or <a 
+        class="link">pygeodesy.parseDMS2</a> and <a 
         href="pygeodesy.dms-module.html#parseRad" 
-        class="link">pygeodesy.parseRad</a>.
+        class="link">pygeodesy.parseRad</a> or the given 
+        <b><code>limit</code></b> in functions <a 
+        href="pygeodesy.dms-module.html#clipDegrees" 
+        class="link">pygeodesy.clipDegrees</a> and <a 
+        href="pygeodesy.dms-module.html#clipRadians" 
+        class="link">pygeodesy.clipRadians</a>.
     </td>
   </tr>
 <tr>
@@ -4468,7 +4474,8 @@
     </td><td class="summary">
         <a href="pygeodesy.errors.UnitError-class.html" class="summary-name">UnitError</a><br />
       Default exception for <a href="pygeodesy.units-module.html" 
-        class="link">units</a> issues.
+        class="link">units</a> issues for a value exceeding the 
+        <code>low</code> or <code>high</code> limit.
     </td>
   </tr>
 <tr>
@@ -5426,7 +5433,7 @@
         <span class="summary-sig-arg">lon1</span>,
         <span class="summary-sig-arg">lat2</span>,
         <span class="summary-sig-arg">lon2</span>,
-        <span class="summary-sig-arg">**options</span>)</span><br />
+        <span class="summary-sig-arg">**final_wrap</span>)</span><br />
       Compute the initial or final bearing (forward or reverse azimuth) 
       between a (spherical) start and end point.</td>
           <td align="right" valign="top">
@@ -5510,7 +5517,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#boundsOf" class="summary-sig-name">boundsOf</a>(<span class="summary-sig-arg">points</span>,
-        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">None</span>)</span><br />
       Determine the bottom-left SW and top-right NE corners of a path or 
       polygon.</td>
@@ -5610,7 +5617,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#centroidOf" class="summary-sig-name">centroidOf</a>(<span class="summary-sig-arg">points</span>,
-        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">None</span>)</span><br />
       Determine the centroid of a polygon.</td>
           <td align="right" valign="top">
@@ -6179,10 +6186,10 @@
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Compute the distance between two (ellipsoidal) points using the <a 
-      href="https://navlib.net/wp-content/uploads/2013/10/admiralty-manual-of-navigation-vol-1-1964-english501c.pdf"
+      href="https://NavLib.net/wp-content/uploads/2013/10/admiralty-manual-of-navigation-vol-1-1964-english501c.pdf"
       target="_top">Andoyer-Lambert correction</a> of the <a 
       href="https://www.Movable-Type.co.UK/scripts/latlong.html#cosine-law"
-      target="_top">Law of Cosines</a> fromula.</td>
+      target="_top">Law of Cosines</a> formula.</td>
           <td align="right" valign="top">
             
             
@@ -6204,10 +6211,10 @@
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>)</span><br />
       Compute the <i>angular</i> distance between two (ellipsoidal) points 
       using the <a 
-      href="https://navlib.net/wp-content/uploads/2013/10/admiralty-manual-of-navigation-vol-1-1964-english501c.pdf"
+      href="https://NavLib.net/wp-content/uploads/2013/10/admiralty-manual-of-navigation-vol-1-1964-english501c.pdf"
       target="_top">Andoyer-Lambert correction</a> of the <a 
       href="https://www.Movable-Type.co.UK/scripts/latlong.html#cosine-law"
-      target="_top">Law of Cosines</a> fromula.</td>
+      target="_top">Law of Cosines</a> formula.</td>
           <td align="right" valign="top">
             
             
@@ -6861,7 +6868,7 @@
         <span class="summary-sig-arg">lat2</span>,
         <span class="summary-sig-arg">lon2</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>,
-        <span class="summary-sig-arg">**options</span>)</span><br />
+        <span class="summary-sig-arg">**adjust_limit_wrap</span>)</span><br />
       Compute the distance between two points using the <a 
       href="https://www.Movable-Type.co.UK/scripts/latlong.html#equirectangular"
       target="_top">Equirectangular Approximation / Projection</a>.</td>
@@ -7666,6 +7673,7 @@
         <span class="summary-sig-arg">lat2</span>,
         <span class="summary-sig-arg">lon2</span>,
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
+        <span class="summary-sig-arg">scaled</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Compute the distance between two (ellipsoidal) points using the <a 
       href="https://WikiPedia.org/wiki/Geographical_distance#Ellipsoidal_Earth_projected_to_a_plane"
@@ -7690,7 +7698,8 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#flatLocal_" class="summary-sig-name">flatLocal_</a>(<span class="summary-sig-arg">phi2</span>,
         <span class="summary-sig-arg">phi1</span>,
         <span class="summary-sig-arg">lam21</span>,
-        <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>)</span><br />
+        <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
+        <span class="summary-sig-arg">scaled</span>=<span class="summary-sig-default">True</span>)</span><br />
       Compute the <i>angular</i> distance between two (ellipsoidal) points 
       using the <a 
       href="https://WikiPedia.org/wiki/Geographical_distance#Ellipsoidal_Earth_projected_to_a_plane"
@@ -7949,14 +7958,14 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#frechet_" class="summary-sig-name">frechet_</a>(<span class="summary-sig-arg">points1</span>,
-        <span class="summary-sig-arg">points2</span>,
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#frechet_" class="summary-sig-name">frechet_</a>(<span class="summary-sig-arg">point1s</span>,
+        <span class="summary-sig-arg">point2s</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>)</span><br />
       Compute the <i>discrete</i> <a 
       href="https://WikiPedia.org/wiki/Frechet_distance" 
-      target="_top">Fr&#233;chet</a> distance between two paths given as sets of
-      points.</td>
+      target="_top">Fr&#233;chet</a> distance between two paths, each given as a
+      set of points.</td>
           <td align="right" valign="top">
             
             
@@ -8352,7 +8361,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fbe403f1250&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fae9814fc50&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -8487,6 +8496,7 @@
         <span class="summary-sig-arg">lat2</span>,
         <span class="summary-sig-arg">lon2</span>,
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
+        <span class="summary-sig-arg">scaled</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Compute the distance between two (ellipsoidal) points using the <a 
       href="https://WikiPedia.org/wiki/Geographical_distance#Ellipsoidal_Earth_projected_to_a_plane"
@@ -8511,7 +8521,8 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#hubeny_" class="summary-sig-name">hubeny_</a>(<span class="summary-sig-arg">phi2</span>,
         <span class="summary-sig-arg">phi1</span>,
         <span class="summary-sig-arg">lam21</span>,
-        <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>)</span><br />
+        <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
+        <span class="summary-sig-arg">scaled</span>=<span class="summary-sig-default">True</span>)</span><br />
       Compute the <i>angular</i> distance between two (ellipsoidal) points 
       using the <a 
       href="https://WikiPedia.org/wiki/Geographical_distance#Ellipsoidal_Earth_projected_to_a_plane"
@@ -8688,7 +8699,7 @@
         <span class="summary-sig-arg">lon2</span>,
         <span class="summary-sig-arg">bearing2</span>,
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">small</span>=<span class="summary-sig-default">100000.0</span>)</span><br />
       <i>Conveniently</i> compute the intersection of two lines each 
       defined by a (geodetic) point and a bearing from North, using either 
@@ -8864,8 +8875,8 @@
         <span class="summary-sig-arg">lat2</span>,
         <span class="summary-sig-arg">lon2</span>,
         <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">2.220446049250313e-16</span>)</span><br />
-      Check whether two points are antipodal, on diametrically opposite 
-      sides of the earth.</td>
+      Check whether two points are <i>antipodal</i>, on diametrically 
+      opposite sides of the earth.</td>
           <td align="right" valign="top">
             
             
@@ -8886,8 +8897,8 @@
         <span class="summary-sig-arg">phi2</span>,
         <span class="summary-sig-arg">lam2</span>,
         <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">2.220446049250313e-16</span>)</span><br />
-      Check whether two points are antipodal, on diametrically opposite 
-      sides of the earth.</td>
+      Check whether two points are <i>antipodal</i>, on diametrically 
+      opposite sides of the earth.</td>
           <td align="right" valign="top">
             
             
@@ -9018,7 +9029,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#isconvex" class="summary-sig-name">isconvex</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>)</span><br />
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Determine whether a polygon is convex.</td>
           <td align="right" valign="top">
             
@@ -9037,7 +9048,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#isconvex_" class="summary-sig-name">isconvex_</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>)</span><br />
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Determine whether a polygon is convex <i>and clockwise</i>.</td>
           <td align="right" valign="top">
             
@@ -9385,8 +9396,8 @@
         <span class="summary-sig-arg">lon</span>,
         <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">0</span>)</span><br />
       Check whether <b><code>lat</code></b> <i>and</i> 
-      <b><code>lon</code></b> are within the <i>normal</i> range in 
-      <code>degrees</code>.</td>
+      <b><code>lon</code></b> are within their respective <i>normal</i> 
+      range in <code>degrees</code>.</td>
           <td align="right" valign="top">
             
             
@@ -9406,8 +9417,8 @@
         <span class="summary-sig-arg">lam</span>,
         <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">0</span>)</span><br />
       Check whether <b><code>phi</code></b> <i>and</i> 
-      <b><code>lam</code></b> are within the <i>normal</i> range in 
-      <code>radians</code>.</td>
+      <b><code>lam</code></b> are within their respective <i>normal</i> 
+      range in <code>radians</code>.</td>
           <td align="right" valign="top">
             
             
@@ -9963,7 +9974,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#m2km" class="summary-sig-name">m2km</a>(<span class="summary-sig-arg">meter</span>)</span><br />
-      Convert meter to kilo meter (km).</td>
+      Convert meter to kilo meter (Km).</td>
           <td align="right" valign="top">
             
             
@@ -10318,8 +10329,9 @@
         <span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">**options</span>)</span><br />
+        <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">limit</span>=<span class="summary-sig-default">9</span>,
+        <span class="summary-sig-arg">**LatLon_and_kwds</span>)</span><br />
       Locate the point on a path or polygon closest to a reference point.</td>
           <td align="right" valign="top">
             
@@ -10413,11 +10425,11 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#normDMS" class="summary-sig-name">normDMS</a>(<span class="summary-sig-arg">strDMS</span>,
         <span class="summary-sig-arg">norm</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">**s_D_M_S</span>)</span><br />
-      Normalize all degrees, minutes and seconds (DMS) symbols in a string 
-      to the default symbols <a href="pygeodesy.dms-module.html#S_DEG" 
-      class="link">S_DEG</a>, <a href="pygeodesy.dms-module.html#S_MIN" 
-      class="link">S_MIN</a>, <a href="pygeodesy.dms-module.html#S_SEC" 
-      class="link">S_SEC</a>.</td>
+      Normalize all degrees, minutes and seconds (DMS) <i>symbols</i> in a 
+      string to the default symbols <a 
+      href="pygeodesy.dms-module.html#S_DEG" class="link">S_DEG</a>, <a 
+      href="pygeodesy.dms-module.html#S_MIN" class="link">S_MIN</a>, <a 
+      href="pygeodesy.dms-module.html#S_SEC" class="link">S_SEC</a>.</td>
           <td align="right" valign="top">
             
             
@@ -10491,8 +10503,8 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#notImplemented" class="summary-sig-name">notImplemented</a>(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">*args</span>,
         <span class="summary-sig-arg">**kwds</span>)</span><br />
-      Raise a <code>NotImplementedError</code> for a missing method or 
-      property.</td>
+      Raise a <code>NotImplementedError</code> for a missing instance 
+      method or property or for a missing caller feature.</td>
           <td align="right" valign="top">
             
             
@@ -10614,6 +10626,7 @@
         <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default">','</span>,
         <span class="summary-sig-arg">clipLat</span>=<span class="summary-sig-default">90</span>,
         <span class="summary-sig-arg">clipLon</span>=<span class="summary-sig-default">180</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">**s_D_M_S</span>)</span><br />
       Parse a string <code>&quot;lat, lon [, h]&quot;</code> representing 
       lat-, longitude in <code>degrees</code> and optional height in 
@@ -10680,6 +10693,7 @@
         <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">clipLat</span>=<span class="summary-sig-default">90</span>,
         <span class="summary-sig-arg">clipLon</span>=<span class="summary-sig-default">180</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">**s_D_M_S</span>)</span><br />
       Parse a lat- and a longitude representions <code>&quot;lat, 
       lon&quot;</code> in <code>degrees</code>.</td>
@@ -10898,7 +10912,7 @@
         <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>)</span><br />
-      Approximate the perimeter of a path, polygon.</td>
+      <i>Approximate</i> the perimeter of a path, polygon.</td>
           <td align="right" valign="top">
             
             
@@ -12862,6 +12876,26 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#wrap_normal" class="summary-sig-name">wrap_normal</a>(<span class="summary-sig-arg">*normal</span>)</span><br />
+      Define the operation for the keyword argument 
+      <code><b>wrap</b>=True</code>, across <a href="pygeodesy-module.html"
+      class="link">pygeodesy</a>: <i>wrap</i>, <i>normalize</i> or 
+      <i>no-op</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#yard2m" class="summary-sig-name">yard2m</a>(<span class="summary-sig-arg">yards</span>)</span><br />
       Convert <i>UK</i> yards to meter.</td>
           <td align="right" valign="top">
@@ -12896,7 +12930,7 @@ ygeodesy'"><code class="variable-quote">'</code><code class="variable-string">/U
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'23.4.23'"><code class="variable-quote">'</code><code class="variable-string">23.4.23</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'23.5.12'"><code class="variable-quote">'</code><code class="variable-string">23.5.12</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -13524,7 +13558,7 @@ Ellipsoids.WGS84: Ellipsoid(name='WGS84', a=6378137, b=6356752.3142451\
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="R_KM"></a><span class="summary-name">R_KM</span> = <code title="6371.0087714149995">6371.0087714149995</code><br />
-      Mean (spherical) earth radius (<code>km</code>, kilometer).
+      Mean (spherical) earth radius (<code>Km</code>, kilometer).
     </td>
   </tr>
 <tr>
@@ -14466,7 +14500,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>adjust</code></strong> - Adjust the wrapped, unrolled longitudinal delta by the cosine of 
           the mean latitude (<code>bool</code>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>) or <code>None</code>.</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap lat-, wrap and unroll longitudes (<code>bool</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
+          <b><code>points</code></b> (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Approximate area (<i>square</i> <code>meter</code>, same units as
@@ -14705,7 +14740,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">lon1</span>,
         <span class="sig-arg">lat2</span>,
         <span class="sig-arg">lon2</span>,
-        <span class="sig-arg">**options</span>)</span>
+        <span class="sig-arg">**final_wrap</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -14721,7 +14756,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>lon1</code></strong> - Start longitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lat2</code></strong> - End latitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lon2</code></strong> - End longitude (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>options</code></strong> - Optional keyword arguments for function <a 
+        <li><strong class="pname"><code>final_wrap</code></strong> - Optional keyword arguments for function <a 
           href="pygeodesy.formy-module.html#bearing_" 
           class="link">pygeodesy.bearing_</a>.</li>
     </ul></dd>
@@ -14852,8 +14887,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>lam2</code></strong> - End longitude (<code>radians</code>).</li>
         <li><strong class="pname"><code>final</code></strong> - Return final bearing if <code>True</code>, initial otherwise 
           (<code>bool</code>).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unrollPI" 
-          class="link">pygeodesy.unrollPI</a> longitudes 
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll 
+          <b><code>phi2</code></b> and <b><code>lam2</code></b> 
           (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -14909,7 +14944,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">boundsOf</span>&nbsp;(<span class="sig-arg">points</span>,
-        <span class="sig-arg">wrap</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">LatLon</span>=<span class="sig-default">None</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -14923,7 +14958,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>points</code></strong> - The path or polygon points (<code>LatLon</code>[]).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap lat- and longitudes (<code>bool</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
+          <b><code>points</code></b> (<code>bool</code>).</li>
         <li><strong class="pname"><code>LatLon</code></strong> - Optional class to return the <code>bounds</code> corners 
           (<code>LatLon</code>) or <code>None</code>.</li>
     </ul></dd>
@@ -15135,7 +15171,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">centroidOf</span>&nbsp;(<span class="sig-arg">points</span>,
-        <span class="sig-arg">wrap</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">LatLon</span>=<span class="sig-default">None</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -15148,7 +15184,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>points</code></strong> - The polygon points (<code>LatLon</code>[]).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap lat-, wrap and unroll longitudes (<code>bool</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
+          <b><code>points</code></b> (<code>bool</code>).</li>
         <li><strong class="pname"><code>LatLon</code></strong> - Optional class to return the centroid (<code>LatLon</code>) or 
           <code>None</code>.</li>
     </ul></dd>
@@ -16171,8 +16208,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>lon2</code></strong> - To longitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>adjust</code></strong> - Adjust the longitudinal delta by the cosine of the mean latitude 
           (<code>bool</code>).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
-          class="link">pygeodesy.unroll180</a> longitudes 
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll 
+          <b><code>lat2</code></b> and <b><code>lon2</code></b> 
           (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -16399,10 +16436,10 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   </tr></table>
   
   <p>Compute the distance between two (ellipsoidal) points using the <a 
-  href="https://navlib.net/wp-content/uploads/2013/10/admiralty-manual-of-navigation-vol-1-1964-english501c.pdf"
+  href="https://NavLib.net/wp-content/uploads/2013/10/admiralty-manual-of-navigation-vol-1-1964-english501c.pdf"
   target="_top">Andoyer-Lambert correction</a> of the <a 
   href="https://www.Movable-Type.co.UK/scripts/latlong.html#cosine-law" 
-  target="_top">Law of Cosines</a> fromula.</p>
+  target="_top">Law of Cosines</a> formula.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -16410,16 +16447,16 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>lon1</code></strong> - Start longitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lat2</code></strong> - End latitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lon2</code></strong> - End longitude (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>datum</code></strong> - Datum or ellipsoid to use (<a 
-          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>, 
-          <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+        <li><strong class="pname"><code>datum</code></strong> - Datum (<a href="pygeodesy.datums.Datum-class.html" 
+          class="link">Datum</a>) or ellipsoid (<a 
+          href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
           class="link">Ellipsoid</a>, <a 
           href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
           class="link">Ellipsoid2</a> or <a 
           href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
-          class="link">a_f2Tuple</a>).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
-          class="link">pygeodesy.unroll180</a> longitudes 
+          class="link">a_f2Tuple</a>) to use.</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll 
+          <b><code>lat2</code></b> and <b><code>lon2</code></b> 
           (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -16479,10 +16516,10 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   
   <p>Compute the <i>angular</i> distance between two (ellipsoidal) points 
   using the <a 
-  href="https://navlib.net/wp-content/uploads/2013/10/admiralty-manual-of-navigation-vol-1-1964-english501c.pdf"
+  href="https://NavLib.net/wp-content/uploads/2013/10/admiralty-manual-of-navigation-vol-1-1964-english501c.pdf"
   target="_top">Andoyer-Lambert correction</a> of the <a 
   href="https://www.Movable-Type.co.UK/scripts/latlong.html#cosine-law" 
-  target="_top">Law of Cosines</a> fromula.</p>
+  target="_top">Law of Cosines</a> formula.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -16490,14 +16527,14 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>phi1</code></strong> - Start latitude (<code>radians</code>).</li>
         <li><strong class="pname"><code>lam21</code></strong> - Longitudinal delta, <i class="math">end-start</i> 
           (<code>radians</code>).</li>
-        <li><strong class="pname"><code>datum</code></strong> - Datum or ellipsoid to use (<a 
-          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>, 
-          <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+        <li><strong class="pname"><code>datum</code></strong> - Datum (<a href="pygeodesy.datums.Datum-class.html" 
+          class="link">Datum</a>) or ellipsoid (<a 
+          href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
           class="link">Ellipsoid</a>, <a 
           href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
           class="link">Ellipsoid2</a> or <a 
           href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
-          class="link">a_f2Tuple</a>).</li>
+          class="link">a_f2Tuple</a>) to use.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Angular distance (<code>radians</code>).</dd>
@@ -16565,16 +16602,16 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>lon1</code></strong> - Start longitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lat2</code></strong> - End latitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lon2</code></strong> - End longitude (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>datum</code></strong> - Datum or ellipsoid to use (<a 
-          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>, 
-          <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+        <li><strong class="pname"><code>datum</code></strong> - Datum (<a href="pygeodesy.datums.Datum-class.html" 
+          class="link">Datum</a>) or ellipsoid (<a 
+          href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
           class="link">Ellipsoid</a>, <a 
           href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
           class="link">Ellipsoid2</a> or <a 
           href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
-          class="link">a_f2Tuple</a>).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
-          class="link">pygeodesy.unroll180</a> longitudes 
+          class="link">a_f2Tuple</a>) to use.</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll 
+          <b><code>lat2</code></b> and <b><code>lon2</code></b> 
           (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -16644,9 +16681,9 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>phi1</code></strong> - Start latitude (<code>radians</code>).</li>
         <li><strong class="pname"><code>lam21</code></strong> - Longitudinal delta, <i class="math">end-start</i> 
           (<code>radians</code>).</li>
-        <li><strong class="pname"><code>datum</code></strong> - Datum or ellipsoid to use (<a 
-          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>, 
-          <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+        <li><strong class="pname"><code>datum</code></strong> - Datum (<a href="pygeodesy.datums.Datum-class.html" 
+          class="link">Datum</a>) or ellipsoid to use (<a 
+          href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
           class="link">Ellipsoid</a>, <a 
           href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
           class="link">Ellipsoid2</a> or <a 
@@ -16717,16 +16754,16 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>lon1</code></strong> - Start longitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lat2</code></strong> - End latitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lon2</code></strong> - End longitude (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius, ellipsoid or datum (<code>meter</code>, <a 
-          href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>), datum (<a 
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>) 
+          or ellipsoid (<a href="pygeodesy.ellipsoids.Ellipsoid-class.html"
           class="link">Ellipsoid</a>, <a 
           href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
-          class="link">Ellipsoid2</a>, <a 
-          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a> 
-          or <a href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
-          class="link">a_f2Tuple</a>).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
-          class="link">pygeodesy.unroll180</a> longitudes 
+          class="link">Ellipsoid2</a> or <a 
+          href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
+          class="link">a_f2Tuple</a>) to use.</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and 
+          <b><code>lat2</code></b> and <b><code>lon2</code></b> 
           (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -17542,8 +17579,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         or other <code>-Error</code> as a string (<code>str</code>).
       </p>
       <p><strong>See Also:</strong>
-        <a href="https://NationalMap.gov/epqs" target="_top">USGS Elevation
-        Point Query Service</a>, the <a 
+        <a href="https://apps.NationalMap.gov/epqs/" target="_top">USGS 
+        Elevation Point Query Service</a>, the <a 
         href="https://www.USGS.gov/faqs/what-are-projection-horizontal-and-vertical-datum-units-and-resolution-3dep-standard-dems"
         target="_top">FAQ</a>, <a href="https://Gist.GitHub.com/pyRobShrk" 
         target="_top">geoid.py</a>, module <a 
@@ -17784,7 +17821,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">lat2</span>,
         <span class="sig-arg">lon2</span>,
         <span class="sig-arg">radius</span>=<span class="sig-default">6371008.771415</span>,
-        <span class="sig-arg">**options</span>)</span>
+        <span class="sig-arg">**adjust_limit_wrap</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -17801,15 +17838,15 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>lon1</code></strong> - Start longitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lat2</code></strong> - End latitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lon2</code></strong> - End longitude (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius, ellipsoid or datum (<code>meter</code>, <a 
-          href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>), datum (<a 
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>) 
+          or ellipsoid (<a href="pygeodesy.ellipsoids.Ellipsoid-class.html"
           class="link">Ellipsoid</a>, <a 
           href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
-          class="link">Ellipsoid2</a>, <a 
-          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a> 
-          or <a href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
+          class="link">Ellipsoid2</a> or <a 
+          href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
           class="link">a_f2Tuple</a>).</li>
-        <li><strong class="pname"><code>options</code></strong> - Optional keyword arguments for function <a 
+        <li><strong class="pname"><code>adjust_limit_wrap</code></strong> - Optional keyword arguments for function <a 
           href="pygeodesy.formy-module.html#equirectangular_" 
           class="link">equirectangular_</a>.</li>
     </ul></dd>
@@ -17882,7 +17919,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   href="https://www.Movable-Type.co.UK/scripts/latlong.html#equirectangular"
   target="_top">Equirectangular Approximation / Projection</a>.</p>
   <p>This approximation is valid for short distance of several hundred Km 
-  or Miles, see the <b><code>limit</code></b> keyword argument and the <a 
+  or Miles, see the <b><code>limit</code></b> keyword argument and <a 
   href="pygeodesy.errors.LimitError-class.html" 
   class="link">LimitError</a>.</p>
   <dl class="fields">
@@ -17897,18 +17934,18 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>limit</code></strong> - Optional limit for lat- and longitudinal deltas 
           (<code>degrees</code>) or <code>None</code> or <code>0</code> for
           unlimited.</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
-          class="link">pygeodesy.unroll180</a> longitudes 
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll 
+          <b><code>lat2</code></b> and <b><code>lon2</code></b> 
           (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.namedTuples.Distance4Tuple-class.html" 
           class="link">Distance4Tuple</a><code>(distance2, delta_lat, 
-          delta_lon, unroll_lon2)</code>.</dd>
+          delta_lon, unroll_lon2)</code> in <code>degrees squared</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.LimitError-class.html">LimitError</a></strong></code> - If the lat- and/or longitudinal delta exceeds the 
-        <b><code>-limit..+limit</code></b> range and <a 
+        <b><code>-limit..limit</code></b> range and <a 
         href="pygeodesy.errors-module.html#limiterrors" 
         class="link">pygeodesy.limiterrors</a> set to <code>True</code>.</li>
     </ul></dd>
@@ -18037,18 +18074,18 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>lon1</code></strong> - Start longitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lat2</code></strong> - End latitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lon2</code></strong> - End longitude (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius, ellipsoid or datum (<code>meter</code>, <a 
-          href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>), datum (<a 
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>) 
+          or ellipsoid (<a href="pygeodesy.ellipsoids.Ellipsoid-class.html"
           class="link">Ellipsoid</a>, <a 
           href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
-          class="link">Ellipsoid2</a>, <a 
-          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a> 
-          or <a href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
-          class="link">a_f2Tuple</a>).</li>
+          class="link">Ellipsoid2</a> or <a 
+          href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
+          class="link">a_f2Tuple</a>) to use.</li>
         <li><strong class="pname"><code>adjust</code></strong> - Adjust the longitudinal delta by the cosine of the mean latitude 
           (<code>bool</code>).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
-          class="link">pygeodesy.unroll180</a> longitudes 
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll 
+          <b><code>lat2</code></b> and <b><code>lon2</code></b> 
           (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -18356,16 +18393,16 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>lon1</code></strong> - Start longitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lat2</code></strong> - End latitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lon2</code></strong> - End longitude (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius, ellipsoid or datum (<code>meter</code>, <a 
-          href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>), datum (<a 
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>) 
+          or ellipsoid (<a href="pygeodesy.ellipsoids.Ellipsoid-class.html"
           class="link">Ellipsoid</a>, <a 
           href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
-          class="link">Ellipsoid2</a>, <a 
-          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a> 
-          or <a href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
+          class="link">Ellipsoid2</a> or <a 
+          href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
           class="link">a_f2Tuple</a>) or <code>None</code>.</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
-          class="link">pygeodesy.unroll180</a> longitudes 
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll 
+          <b><code>lat2</code></b> and <b><code>lon2</code></b> 
           (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -18530,16 +18567,16 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>lon1</code></strong> - Start longitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lat2</code></strong> - End latitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lon2</code></strong> - End longitude (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius, ellipsoid or datum (<code>meter</code>, <a 
-          href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>), datum (<a 
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>) 
+          or ellipsoid (<a href="pygeodesy.ellipsoids.Ellipsoid-class.html"
           class="link">Ellipsoid</a>, <a 
           href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
-          class="link">Ellipsoid2</a>, <a 
-          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a> 
-          or <a href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
+          class="link">Ellipsoid2</a> or <a 
+          href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
           class="link">a_f2Tuple</a>) or <code>None</code>.</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
-          class="link">pygeodesy.unroll180</a> longitudes 
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll 
+          <b><code>lat2</code></b> and <b><code>lon2</code></b> 
           (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -19322,6 +19359,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">lat2</span>,
         <span class="sig-arg">lon2</span>,
         <span class="sig-arg">datum</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
+        <span class="sig-arg">scaled</span>=<span class="sig-default">True</span>,
         <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -19341,16 +19379,20 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>lon1</code></strong> - Start longitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lat2</code></strong> - End latitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lon2</code></strong> - End longitude (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>datum</code></strong> - Datum or ellipsoid to use (<a 
-          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>, 
-          <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+        <li><strong class="pname"><code>datum</code></strong> - Datum (<a href="pygeodesy.datums.Datum-class.html" 
+          class="link">Datum</a>) or ellipsoid (<a 
+          href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
           class="link">Ellipsoid</a>, <a 
           href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
           class="link">Ellipsoid2</a> or <a 
           href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
-          class="link">a_f2Tuple</a>).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
-          class="link">pygeodesy.unroll180</a> longitudes 
+          class="link">a_f2Tuple</a>) to use.</li>
+        <li><strong class="pname"><code>scaled</code></strong> - Scale prime_vertical by <code>cos(<b>phi</b>)</code> 
+          (<code>bool</code>), see method <a 
+          href="pygeodesy.ellipsoids.Ellipsoid-class.html#roc2_" 
+          class="link">pygeodesy.Ellipsoid.roc2_</a>.</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll 
+          <b><code>lat2</code></b> and <b><code>lon2</code></b> 
           (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -19404,7 +19446,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <h3 class="epydoc"><span class="sig"><span class="sig-name">flatLocal_</span>&nbsp;(<span class="sig-arg">phi2</span>,
         <span class="sig-arg">phi1</span>,
         <span class="sig-arg">lam21</span>,
-        <span class="sig-arg">datum</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>)</span>
+        <span class="sig-arg">datum</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
+        <span class="sig-arg">scaled</span>=<span class="sig-default">True</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -19424,14 +19467,18 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>phi1</code></strong> - Start latitude (<code>radians</code>).</li>
         <li><strong class="pname"><code>lam21</code></strong> - Longitudinal delta, <i class="math">end-start</i> 
           (<code>radians</code>).</li>
-        <li><strong class="pname"><code>datum</code></strong> - Datum or ellipsoid to use (<a 
-          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>, 
-          <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+        <li><strong class="pname"><code>datum</code></strong> - Datum (<a href="pygeodesy.datums.Datum-class.html" 
+          class="link">Datum</a>) or ellipsoid (<a 
+          href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
           class="link">Ellipsoid</a>, <a 
           href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
           class="link">Ellipsoid2</a> or <a 
           href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
-          class="link">a_f2Tuple</a>).</li>
+          class="link">a_f2Tuple</a>) to use.</li>
+        <li><strong class="pname"><code>scaled</code></strong> - Scale prime_vertical by <code>cos(<b>phi</b>)</code> 
+          (<code>bool</code>), see method <a 
+          href="pygeodesy.ellipsoids.Ellipsoid-class.html#roc2_" 
+          class="link">pygeodesy.Ellipsoid.roc2_</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Angular distance (<code>radians</code>).</dd>
@@ -19500,16 +19547,16 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>lon1</code></strong> - Start longitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lat2</code></strong> - End latitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lon2</code></strong> - End longitude (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius, ellipsoid or datum (<code>meter</code>, <a 
-          href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>), datum (<a 
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>) 
+          or ellipsoid (<a href="pygeodesy.ellipsoids.Ellipsoid-class.html"
           class="link">Ellipsoid</a>, <a 
           href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
-          class="link">Ellipsoid2</a>, <a 
-          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a> 
-          or <a href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
-          class="link">a_f2Tuple</a>).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
-          class="link">pygeodesy.unroll180</a> longitudes 
+          class="link">Ellipsoid2</a> or <a 
+          href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
+          class="link">a_f2Tuple</a>) to use.</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and 
+          <b><code>lat2</code></b> and <b><code>lon2</code></b> 
           (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -19877,13 +19924,14 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>fi</code></strong> - The fractional index (<a href="pygeodesy.units.FIx-class.html" 
           class="link">FIx</a>, <code>float</code> or <code>int</code>).</li>
         <li><strong class="pname"><code>j</code></strong> - Optionally, index of the other point (<code>int</code>).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>) or 
-          <code>None</code> for backward compatible <a 
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
+          <b>{points}</b> (<code>bool</code>) or <code>None</code> for a 
+          backward compatible <a 
           href="pygeodesy.namedTuples.LatLon2Tuple-class.html" 
           class="link">LatLon2Tuple</a> or <a href=pygeodesy-LatLon-attributes-table.html><b><code>LatLon</code></b></a> with 
           averaged lat- and longitudes.  Use <code>True</code> or 
-          <code>False</code> to get the <i>fractional</i> point computed 
-          method <code>points[fi].intermediateTo</code>.</li>
+          <code>False</code> to get the <i>fractional</i> point computed by
+          method <code><b>points</b>[fi].intermediateTo</code>.</li>
         <li><strong class="pname"><code>LatLon</code></strong> - Optional class to return the <i>intermediate</i>, 
           <i>fractional</i> point (<code>LatLon</code>) or 
           <code>None</code>.</li>
@@ -19986,8 +20034,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">frechet_</span>&nbsp;(<span class="sig-arg">points1</span>,
-        <span class="sig-arg">points2</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">frechet_</span>&nbsp;(<span class="sig-arg">point1s</span>,
+        <span class="sig-arg">point2s</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>)</span>
   </h3>
@@ -19998,23 +20046,23 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   
   <p>Compute the <i>discrete</i> <a 
   href="https://WikiPedia.org/wiki/Frechet_distance" 
-  target="_top">Fr&#233;chet</a> distance between two paths given as sets of 
-  points.</p>
+  target="_top">Fr&#233;chet</a> distance between two paths, each given as a set
+  of points.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points1</code></strong> - First set of points (<code>LatLon</code>[], <a 
+        <li><strong class="pname"><code>point1s</code></strong> - First set of points (<code>LatLon</code>[], <a 
           href="pygeodesy.points.Numpy2LatLon-class.html" 
           class="link">Numpy2LatLon</a>[], <a 
           href="pygeodesy.points.Tuple2LatLon-class.html" 
           class="link">Tuple2LatLon</a>[] or <code>other</code>[]).</li>
-        <li><strong class="pname"><code>points2</code></strong> - Second set of points (<code>LatLon</code>[], <a 
+        <li><strong class="pname"><code>point2s</code></strong> - Second set of points (<code>LatLon</code>[], <a 
           href="pygeodesy.points.Numpy2LatLon-class.html" 
           class="link">Numpy2LatLon</a>[], <a 
           href="pygeodesy.points.Tuple2LatLon-class.html" 
           class="link">Tuple2LatLon</a>[] or <code>other</code>[]).</li>
         <li><strong class="pname"><code>distance</code></strong> - Callable returning the distance between a 
-          <b><code>points1</code></b> and a <b><code>points2</code></b> 
+          <b><code>point1s</code></b> and a <b><code>point2s</code></b> 
           point (signature <code>(point1, point2)</code>).</li>
         <li><strong class="pname"><code>units</code></strong> - Optional, the distance units (<code>Unit</code> or 
           <code>str</code>).</li>
@@ -20023,12 +20071,12 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <dd>A <a href="pygeodesy.frechet.Frechet6Tuple-class.html" 
           class="link">Frechet6Tuple</a><code>(fd, fi1, fi2, r, n, 
           units)</code> where <code>fi1</code> and <code>fi2</code> are 
-          type <code>int</code> indices into <b><code>points1</code></b> 
-          respectively <b><code>points2</code></b>.</dd>
+          type <code>int</code> indices into <b><code>point1s</code></b> 
+          respectively <b><code>point2s</code></b>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.frechet.FrechetError-class.html">FrechetError</a></strong></code> - Insufficient number of <b><code>points1</code></b> or 
-        <b><code>points2</code></b>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.frechet.FrechetError-class.html">FrechetError</a></strong></code> - Insufficient number of <b><code>point1s</code></b> or 
+        <b><code>point2s</code></b>.</li>
         <li><code><strong class='fraise'>RecursionError</strong></code> - Recursion depth exceeded, see <a 
         href="https://docs.Python.org/3/library/sys.html#sys.getrecursionlimit"
         target="_top">sys.getrecursionlimit()</a>.</li>
@@ -20037,9 +20085,9 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
         Function <a href="pygeodesy.frechet-module.html#frechet_" 
-        class="link">frechet_</a> does not support <i>fractional</i> 
-        indices for intermediate <b><code>points1</code></b> and 
-        <b><code>points2</code></b>.
+        class="link">frechet_</a> does <i>not</i> support <i>fractional</i>
+        indices for intermediate <b><code>point1s</code></b> and 
+        <b><code>point2s</code></b>.
       </p>
 </div></td></tr></table>
 </div>
@@ -20356,10 +20404,10 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>feet</code></strong> - Value in feet (<code>scalar</code>).</li>
-        <li><strong class="pname"><code>usurvey</code></strong> - Convert <i>US Survey</i> foot if <code>True</code> else ...</li>
-        <li><strong class="pname"><code>pied</code></strong> - Convert French <i>pied-du-Roi</i> if <code>True</code> else ...</li>
-        <li><strong class="pname"><code>fuss</code></strong> - Convert German <i>Fuss</i> if <code>True</code>, otherwise 
-          <i>International</i> feet to <code>meter</code>.</li>
+        <li><strong class="pname"><code>usurvey</code></strong> - If <code>True</code>, convert <i>US Survey</i> foot else ...</li>
+        <li><strong class="pname"><code>pied</code></strong> - If <code>True</code>, convert French <i>pied-du-Roi</i> else ...</li>
+        <li><strong class="pname"><code>fuss</code></strong> - If <code>True</code>, convert German <i>Fuss</i>, otherwise 
+          <i>International</i> foot to <code>meter</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Value in <code>meter</code> (<code>float</code>).</dd>
@@ -20832,7 +20880,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fbe403f1250&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fae9814fc50&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -20917,16 +20965,16 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>lon1</code></strong> - Start longitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lat2</code></strong> - End latitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lon2</code></strong> - End longitude (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius, ellipsoid or datum (<code>meter</code>, <a 
-          href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>), datum (<a 
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>) 
+          or ellipsoid (<a href="pygeodesy.ellipsoids.Ellipsoid-class.html"
           class="link">Ellipsoid</a>, <a 
           href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
-          class="link">Ellipsoid2</a>, <a 
-          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a> 
-          or <a href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
-          class="link">a_f2Tuple</a>).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
-          class="link">pygeodesy.unroll180</a> longitudes 
+          class="link">Ellipsoid2</a> or <a 
+          href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
+          class="link">a_f2Tuple</a>) to use.</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll 
+          <b><code>lat2</code></b> and <b><code>lon2</code></b> 
           (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -21163,6 +21211,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">lat2</span>,
         <span class="sig-arg">lon2</span>,
         <span class="sig-arg">datum</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
+        <span class="sig-arg">scaled</span>=<span class="sig-default">True</span>,
         <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -21182,16 +21231,20 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>lon1</code></strong> - Start longitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lat2</code></strong> - End latitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lon2</code></strong> - End longitude (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>datum</code></strong> - Datum or ellipsoid to use (<a 
-          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>, 
-          <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+        <li><strong class="pname"><code>datum</code></strong> - Datum (<a href="pygeodesy.datums.Datum-class.html" 
+          class="link">Datum</a>) or ellipsoid (<a 
+          href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
           class="link">Ellipsoid</a>, <a 
           href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
           class="link">Ellipsoid2</a> or <a 
           href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
-          class="link">a_f2Tuple</a>).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
-          class="link">pygeodesy.unroll180</a> longitudes 
+          class="link">a_f2Tuple</a>) to use.</li>
+        <li><strong class="pname"><code>scaled</code></strong> - Scale prime_vertical by <code>cos(<b>phi</b>)</code> 
+          (<code>bool</code>), see method <a 
+          href="pygeodesy.ellipsoids.Ellipsoid-class.html#roc2_" 
+          class="link">pygeodesy.Ellipsoid.roc2_</a>.</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll 
+          <b><code>lat2</code></b> and <b><code>lon2</code></b> 
           (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -21245,7 +21298,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <h3 class="epydoc"><span class="sig"><span class="sig-name">hubeny_</span>&nbsp;(<span class="sig-arg">phi2</span>,
         <span class="sig-arg">phi1</span>,
         <span class="sig-arg">lam21</span>,
-        <span class="sig-arg">datum</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>)</span>
+        <span class="sig-arg">datum</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
+        <span class="sig-arg">scaled</span>=<span class="sig-default">True</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -21265,14 +21319,18 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>phi1</code></strong> - Start latitude (<code>radians</code>).</li>
         <li><strong class="pname"><code>lam21</code></strong> - Longitudinal delta, <i class="math">end-start</i> 
           (<code>radians</code>).</li>
-        <li><strong class="pname"><code>datum</code></strong> - Datum or ellipsoid to use (<a 
-          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>, 
-          <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+        <li><strong class="pname"><code>datum</code></strong> - Datum (<a href="pygeodesy.datums.Datum-class.html" 
+          class="link">Datum</a>) or ellipsoid (<a 
+          href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
           class="link">Ellipsoid</a>, <a 
           href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
           class="link">Ellipsoid2</a> or <a 
           href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
-          class="link">a_f2Tuple</a>).</li>
+          class="link">a_f2Tuple</a>) to use.</li>
+        <li><strong class="pname"><code>scaled</code></strong> - Scale prime_vertical by <code>cos(<b>phi</b>)</code> 
+          (<code>bool</code>), see method <a 
+          href="pygeodesy.ellipsoids.Ellipsoid-class.html#roc2_" 
+          class="link">pygeodesy.Ellipsoid.roc2_</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Angular distance (<code>radians</code>).</dd>
@@ -21537,7 +21595,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">lon2</span>,
         <span class="sig-arg">bearing2</span>,
         <span class="sig-arg">datum</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">wrap</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">small</span>=<span class="sig-default">100000.0</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -21549,13 +21607,13 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   by a (geodetic) point and a bearing from North, using either ...</p>
   <p>1) <a href="pygeodesy.vector3d-module.html#intersection3d3" 
   class="link">vector3d.intersection3d3</a> for <b><code>small</code></b> 
-  distances (below 100 Km or about 0.88 degrees) or if no 
+  distances (below 100 Km or about 0.88 degrees) or if <i>no</i> 
   <b><code>datum</code></b> is specified, or ...</p>
   <p>2) <a href="pygeodesy.sphericalTrigonometry-module.html#intersection" 
   class="link">sphericalTrigonometry.intersection</a> for a spherical 
-  <b><code>datum</code></b> or if <b><code>datum</code></b> is a 
-  <code>scalar</code> representing the earth radius, conventionally in 
-  <code>meter</code> or ...</p>
+  <b><code>datum</code></b> or a <code>scalar <b>datum</b></code> 
+  representing the earth radius, conventionally in <code>meter</code> or 
+  ...</p>
   <p>3) <a href="pygeodesy.sphericalNvector-module.html#intersection" 
   class="link">sphericalNvector.intersection</a> if 
   <b><code>datum</code></b> is a <i>negative</i> <code>scalar</code>, 
@@ -21577,16 +21635,19 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>lat2</code></strong> - Latitude of the second point (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lon2</code></strong> - Longitude of the second point (<code>degrees</code>).</li>
         <li><strong class="pname"><code>bearing2</code></strong> - Bearing at the second point (compass <code>degrees</code>).</li>
-        <li><strong class="pname"><code>datum</code></strong> - Optional ellipsoidal or spherical datum (<a 
-          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>, 
-          <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+        <li><strong class="pname"><code>datum</code></strong> - Optional datum (<a href="pygeodesy.datums.Datum-class.html" 
+          class="link">Datum</a>) or ellipsoid (<a 
+          href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
           class="link">Ellipsoid</a>, <a 
           href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
-          class="link">Ellipsoid2</a>, <a 
+          class="link">Ellipsoid2</a> or <a 
           href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
-          class="link">a_f2Tuple</a> or <code>scalar</code> earth radius in
-          <code>meter</code>) or <code>None</code>.</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
+          class="link">a_f2Tuple</a>) or <code>scalar</code> earth radius 
+          (<code>meter</code>, same units as <b><code>radius1</code></b> 
+          and <b><code>radius2</code></b>) or <code>None</code>.</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll 
+          <b><code>lat2</code></b> and <b><code>lon2</code></b> 
+          (<code>bool</code>).</li>
         <li><strong class="pname"><code>small</code></strong> - Upper limit for small distances (<code>meter</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -21920,8 +21981,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </td>
   </tr></table>
   
-  <p>Check whether two points are antipodal, on diametrically opposite 
-  sides of the earth.</p>
+  <p>Check whether two points are <i>antipodal</i>, on diametrically 
+  opposite sides of the earth.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -21961,8 +22022,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </td>
   </tr></table>
   
-  <p>Check whether two points are antipodal, on diametrically opposite 
-  sides of the earth.</p>
+  <p>Check whether two points are <i>antipodal</i>, on diametrically 
+  opposite sides of the earth.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -22056,7 +22117,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>points</code></strong> - The path or polygon points (<code>LatLon</code>[]).</li>
         <li><strong class="pname"><code>adjust</code></strong> - Adjust the wrapped, unrolled longitudinal delta by the cosine of 
           the mean latitude (<code>bool</code>).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap lat-, wrap and unroll longitudes (<code>bool</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
+          <b><code>points</code></b> (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><code>True</code> if <b><code>points</code></b> are clockwise, 
@@ -22164,7 +22226,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">isconvex</span>&nbsp;(<span class="sig-arg">points</span>,
         <span class="sig-arg">adjust</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">wrap</span>=<span class="sig-default">True</span>)</span>
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -22178,7 +22240,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>points</code></strong> - The polygon points (<code>LatLon</code>[]).</li>
         <li><strong class="pname"><code>adjust</code></strong> - Adjust the wrapped, unrolled longitudinal delta by the cosine of 
           the mean latitude (<code>bool</code>).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap lat-, wrap and unroll longitudes (<code>bool</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
+          <b><code>points</code></b> (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><code>True</code> if <b><code>points</code></b> are convex, 
@@ -22209,7 +22272,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">isconvex_</span>&nbsp;(<span class="sig-arg">points</span>,
         <span class="sig-arg">adjust</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">wrap</span>=<span class="sig-default">True</span>)</span>
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -22223,7 +22286,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>points</code></strong> - The polygon points (<code>LatLon</code>[]).</li>
         <li><strong class="pname"><code>adjust</code></strong> - Adjust the wrapped, unrolled longitudinal delta by the cosine of 
           the mean latitude (<code>bool</code>).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap lat-, wrap and unroll longitudes (<code>bool</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
+          <b><code>points</code></b> (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><code>+1</code> if <b><code>points</code></b> are convex 
@@ -22273,7 +22337,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           class="link">BooleanFHP</a> or <a 
           href="pygeodesy.booleans.BooleanGH-class.html" 
           class="link">BooleanGH</a>).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap lat-, wrap and unroll longitudes (<code>bool</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
+          <b><code>points</code></b> (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><code>True</code> if the <b><code>point</code></b> is inside the 
@@ -22713,15 +22778,14 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   </tr></table>
   
   <p>Check whether <b><code>lat</code></b> <i>and</i> 
-  <b><code>lon</code></b> are within the <i>normal</i> range in 
-  <code>degrees</code>.</p>
+  <b><code>lon</code></b> are within their respective <i>normal</i> range 
+  in <code>degrees</code>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>lat</code></strong> - Latitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lon</code></strong> - Longitude (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>eps</code></strong> - Optional tolerance below <code>90</code> and <code>180 
-          degrees</code>.</li>
+        <li><strong class="pname"><code>eps</code></strong> - Optional tolerance <code>degrees</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><code>True</code> if <code>(abs(<b>lat</b>) + <b>eps</b>) &lt;= 
@@ -22752,15 +22816,14 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   </tr></table>
   
   <p>Check whether <b><code>phi</code></b> <i>and</i> 
-  <b><code>lam</code></b> are within the <i>normal</i> range in 
-  <code>radians</code>.</p>
+  <b><code>lam</code></b> are within their respective <i>normal</i> range 
+  in <code>radians</code>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>phi</code></strong> - Latitude (<code>radians</code>).</li>
         <li><strong class="pname"><code>lam</code></strong> - Longitude (<code>radians</code>).</li>
-        <li><strong class="pname"><code>eps</code></strong> - Optional tolerance below <code>PI/2</code> and <code>PI 
-          radians</code>.</li>
+        <li><strong class="pname"><code>eps</code></strong> - Optional tolerance <code>radians</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><code>True</code> if <code>(abs(<b>phi</b>) + <b>eps</b>) &lt;= 
@@ -22821,7 +22884,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>points</code></strong> - The polygon points (<code>LatLon</code>[]).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
+          <b><code>points</code></b> (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><code>True</code> if the polygon encloses a pole, 
@@ -23803,10 +23867,10 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>meter</code></strong> - Value in meter (<code>scalar</code>).</li>
-        <li><strong class="pname"><code>usurvey</code></strong> - Convert to <i>US Survey</i> foot if <code>True</code> else ...</li>
-        <li><strong class="pname"><code>pied</code></strong> - Convert to French <i>pied-du-Roi</i> if <code>True</code> else 
+        <li><strong class="pname"><code>usurvey</code></strong> - If <code>True</code>, convert to <i>US Survey</i> foot else ...</li>
+        <li><strong class="pname"><code>pied</code></strong> - If <code>True</code>, convert to French <i>pied-du-Roi</i> else 
           ...</li>
-        <li><strong class="pname"><code>fuss</code></strong> - Convert to German <i>Fuss</i> if <code>True</code>, otherwise to 
+        <li><strong class="pname"><code>fuss</code></strong> - If <code>True</code>, convert to German <i>Fuss</i>, otherwise to
           <i>International</i> foot.</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -23861,14 +23925,14 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </td>
   </tr></table>
   
-  <p>Convert meter to kilo meter (km).</p>
+  <p>Convert meter to kilo meter (Km).</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>meter</code></strong> - Value in meter (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Value in km (<code>float</code>).</dd>
+        <dd>Value in Km (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>meter</code></b>.</li>
@@ -24531,8 +24595,9 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">points</span>,
         <span class="sig-arg">closed</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">LatLon</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">**options</span>)</span>
+        <span class="sig-arg">adjust</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">limit</span>=<span class="sig-default">9</span>,
+        <span class="sig-arg">**LatLon_and_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -24541,24 +24606,29 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   
   <p>Locate the point on a path or polygon closest to a reference 
   point.</p>
-  <p>The closest point is either on and within the extent of a polygon edge
-  or the nearest of that edge's end points.</p>
+  <p>The closest point on each polygon edge is either the nearest of that 
+  edge's end points or a point in between.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>point</code></strong> - Reference point (<code>LatLon</code>).</li>
+        <li><strong class="pname"><code>point</code></strong> - The reference point (<code>LatLon</code>).</li>
         <li><strong class="pname"><code>points</code></strong> - The path or polygon points (<code>LatLon</code>[]).</li>
         <li><strong class="pname"><code>closed</code></strong> - Optionally, close the path or polygon (<code>bool</code>).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
-          class="link">pygeodesy.unroll180</a> longitudes and longitudinal 
-          delta (<code>bool</code>) in function <a 
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
+          <b><code>points</code></b> (<code>bool</code>).</li>
+        <li><strong class="pname"><code>adjust</code></strong> - See function <a 
           href="pygeodesy.formy-module.html#equirectangular_" 
-          class="link">pygeodesy.equirectangular_</a>.</li>
-        <li><strong class="pname"><code>LatLon</code></strong> - Optional class to return the closest point (<code>LatLon</code>) 
-          or <code>None</code>.</li>
-        <li><strong class="pname"><code>options</code></strong> - Other keyword arguments for function <a 
+          class="link">pygeodesy.equirectangular_</a> (<code>bool</code>).</li>
+        <li><strong class="pname"><code>limit</code></strong> - See function <a 
           href="pygeodesy.formy-module.html#equirectangular_" 
-          class="link">pygeodesy.equirectangular_</a>.</li>
+          class="link">pygeodesy.equirectangular_</a> 
+          (<code>degrees</code>), default <code>9 degrees</code> is about 
+          <code>1,000 Kmeter</code> (for mean spherical earth radius <a 
+          href="pygeodesy-module.html#R_KM" class="link">R_KM</a>).</li>
+        <li><strong class="pname"><code>LatLon_and_kwds</code></strong> - Optional, <code><b>LatLon</b>=None</code> class to use for the 
+          closest point and additional <a href=pygeodesy-LatLon-attributes-table.html><b><code>LatLon</code></b></a> keyword 
+          arguments, ignored if <code><b>LatLon</b>=None</code> or not 
+          given.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.namedTuples.NearestOn3Tuple-class.html" 
@@ -24572,9 +24642,9 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           href="pygeodesy.formy-module.html#equirectangular" 
           class="link">pygeodesy.equirectangular</a> distance between the 
           <code>closest</code> and reference <b><code>point</code></b> in 
-          <code>degrees</code>. The <code>angle</code> from the reference 
+          <code>degrees</code>. The <code>angle</code> from the 
           <b><code>point</code></b> to the <code>closest</code> is in 
-          compass <code>degrees360</code>, like function <a 
+          compass <code>degrees</code>, like function <a 
           href="pygeodesy.formy-module.html#compassAngle" 
           class="link">pygeodesy.compassAngle</a>.</dd>
     <dt>Raises:</dt>
@@ -24588,18 +24658,14 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
-        Distances are <i>approximated</i> using function <a 
+        Distances are <i>approximated</i> by function <a 
         href="pygeodesy.formy-module.html#equirectangular_" 
-        class="link">pygeodesy.equirectangular_</a>, subject to the 
-        supplied <b><code>options</code></b>.  Method 
-        <code>LatLon.nearestOn6</code> measures distances more accurately.
+        class="link">pygeodesy.equirectangular_</a>. For more accuracy use 
+        one of the <code>LatLon.nearestOn6</code> methods.
       </p>
       <p><strong>See Also:</strong>
-        Function <a href="pygeodesy.vector3d-module.html#nearestOn6" 
-        class="link">pygeodesy.nearestOn6</a> for cartesian points.  Use 
-        function <a href="pygeodesy.utily-module.html#degrees2m" 
-        class="link">pygeodesy.degrees2m</a> to convert 
-        <code>degrees</code> to <code>meter</code>.
+        Function <a href="pygeodesy.utily-module.html#degrees2m" 
+        class="link">pygeodesy.degrees2m</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -24623,8 +24689,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   
   <p>Locate the point on a path or polygon closest to a reference 
   point.</p>
-  <p>The closest point is either on and within the extent of a polygon edge
-  or the nearest of that edge's end points.</p>
+  <p>The closest point on each polygon edge is either the nearest of that 
+  edge's end points or a point in between.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -24662,12 +24728,10 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
 <div class="fields">      <p><strong>Note:</strong>
         Distances measured with method <a 
         href="pygeodesy.vector3dBase.Vector3dBase-class.html#equirectangular"
-        class="link">Vector3d.equirectangular</a>.
-      </p>
-      <p><strong>See Also:</strong>
-        Method <code>LatLon.nearestOn6</code> or function <a 
-        href="pygeodesy.points-module.html#nearestOn5" 
-        class="link">nearestOn5</a> for geodetic points.
+        class="link">Vector3d.equirectangular</a>.  For geodetic distances 
+        use function <a href="pygeodesy.points-module.html#nearestOn5" 
+        class="link">nearestOn5</a> or one of the 
+        <code>LatLon.nearestOn6</code> methods.
       </p>
 </div></td></tr></table>
 </div>
@@ -24764,8 +24828,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </td>
   </tr></table>
   
-  <p>Normalize all degrees, minutes and seconds (DMS) symbols in a string 
-  to the default symbols <a href="pygeodesy.dms-module.html#S_DEG" 
+  <p>Normalize all degrees, minutes and seconds (DMS) <i>symbols</i> in a 
+  string to the default symbols <a href="pygeodesy.dms-module.html#S_DEG" 
   class="link">S_DEG</a>, <a href="pygeodesy.dms-module.html#S_MIN" 
   class="link">S_MIN</a>, <a href="pygeodesy.dms-module.html#S_SEC" 
   class="link">S_SEC</a>.</p>
@@ -24909,12 +24973,12 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </td>
   </tr></table>
   
-  <p>Raise a <code>NotImplementedError</code> for a missing method or 
-  property.</p>
+  <p>Raise a <code>NotImplementedError</code> for a missing instance method
+  or property or for a missing caller feature.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>inst</code></strong> - Instance (<code>any</code>).</li>
+        <li><strong class="pname"><code>inst</code></strong> - Instance (<code>any</code>) or <code>None</code> for caller.</li>
         <li><strong class="pname"><code>args</code></strong> - Method or property positional arguments (any <code>type</code>s).</li>
         <li><strong class="pname"><code>kwds</code></strong> - Method or property keyword arguments (any <code>type</code>s).</li>
     </ul></dd>
@@ -25115,6 +25179,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">sep</span>=<span class="sig-default">','</span>,
         <span class="sig-arg">clipLat</span>=<span class="sig-default">90</span>,
         <span class="sig-arg">clipLon</span>=<span class="sig-default">180</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">**s_D_M_S</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -25142,8 +25207,11 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           (<code>degrees</code>).</li>
         <li><strong class="pname"><code>clipLon</code></strong> - Limit longitude to range <code>-/+<b>clipLon</b></code> 
           (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> the lat- and 
+          longitude, overriding <b><code>clipLat</code></b> and 
+          <b><code>clipLon</code></b> (<code>bool</code>).</li>
         <li><strong class="pname"><code>s_D_M_S</code></strong> - Optional, alternate symbol for degrees 
-          <code><b>s_D</b>=str</code>, minutes, <code><b>s_M</b>=str</code>
+          <code><b>s_D</b>=str</code>, minutes <code><b>s_M</b>=str</code> 
           and/or seconds <code><b>s_S</b>=str</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -25315,7 +25383,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>clip</code></strong> - Optionally, limit value to range <code>-/+<b>clip</b></code> 
           (<code>degrees</code>).</li>
         <li><strong class="pname"><code>s_D_M_S</code></strong> - Optional, alternate symbol for degrees 
-          <code><b>s_D</b>=str</code>, minutes, <code><b>s_M</b>=str</code>
+          <code><b>s_D</b>=str</code>, minutes <code><b>s_M</b>=str</code> 
           and/or seconds <code><b>s_S</b>=str</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -25362,6 +25430,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">sep</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">clipLat</span>=<span class="sig-default">90</span>,
         <span class="sig-arg">clipLon</span>=<span class="sig-default">180</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">**s_D_M_S</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -25384,8 +25453,11 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           (<code>degrees</code>).</li>
         <li><strong class="pname"><code>clipLon</code></strong> - Limit longitude to range <code>-/+<b>clipLon</b></code> 
           (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> the lat- and 
+          longitude, overriding <b><code>clipLat</code></b> and 
+          <b><code>clipLon</code></b> (<code>bool</code>).</li>
         <li><strong class="pname"><code>s_D_M_S</code></strong> - Optional, alternate symbol for degrees 
-          <code><b>s_D</b>=str</code>, minutes, <code><b>s_M</b>=str</code>
+          <code><b>s_D</b>=str</code>, minutes <code><b>s_M</b>=str</code> 
           and/or seconds <code><b>s_S</b>=str</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -25894,7 +25966,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </td>
   </tr></table>
   
-  <p>Approximate the perimeter of a path, polygon. or composite</p>
+  <p><i>Approximate</i> the perimeter of a path, polygon. or composite.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -25907,7 +25979,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>adjust</code></strong> - Adjust the wrapped, unrolled longitudinal delta by the cosine of 
           the mean latitude (<code>bool</code>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap lat-, wrap and unroll longitudes (<code>bool</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
+          <b><code>points</code></b> (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Approximate perimeter (<code>meter</code>, same units as 
@@ -26345,10 +26418,10 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>latS</code></strong> - Southernmost latitude (<code>degrees90</code>).</li>
-        <li><strong class="pname"><code>lonW</code></strong> - Westernmost longitude (<code>degrees180</code>).</li>
-        <li><strong class="pname"><code>latN</code></strong> - Northernmost latitude (<code>degrees90</code>).</li>
-        <li><strong class="pname"><code>lonE</code></strong> - Easternmost longitude (<code>degrees180</code>).</li>
+        <li><strong class="pname"><code>latS</code></strong> - Souther-nmost latitude (<code>degrees90</code>).</li>
+        <li><strong class="pname"><code>lonW</code></strong> - Western-most longitude (<code>degrees180</code>).</li>
+        <li><strong class="pname"><code>latN</code></strong> - Norther-nmost latitude (<code>degrees90</code>).</li>
+        <li><strong class="pname"><code>lonE</code></strong> - Eastern-most longitude (<code>degrees180</code>).</li>
         <li><strong class="pname"><code>closed</code></strong> - Optionally, close the path (<code>bool</code>).</li>
         <li><strong class="pname"><code>LatLon</code></strong> - Class to use (<a href="pygeodesy.points.LatLon_-class.html" 
           class="link">LatLon_</a>).</li>
@@ -27804,16 +27877,16 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>lon1</code></strong> - Start longitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lat2</code></strong> - End latitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lon2</code></strong> - End longitude (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>datum</code></strong> - Datum or ellipsoid to use (<a 
-          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>, 
-          <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+        <li><strong class="pname"><code>datum</code></strong> - Datum (<a href="pygeodesy.datums.Datum-class.html" 
+          class="link">Datum</a>) or ellipsoid (<a 
+          href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
           class="link">Ellipsoid</a>, <a 
           href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
           class="link">Ellipsoid2</a> or <a 
           href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
-          class="link">a_f2Tuple</a>).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
-          class="link">pygeodesy.unroll180</a> longitudes 
+          class="link">a_f2Tuple</a>) to use.</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll 
+          <b><code>lat2</code></b> and <b><code>lon2</code></b> 
           (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -28674,7 +28747,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
         Implements Karney&#8217;s method, using 8-th order Kr&#252;ger series, giving 
-        results accurate to 5 nm (or better) for distances up to 3900 km 
+        results accurate to 5 nm (or better) for distances up to 3,900 Km 
         from the central meridian.
       </p>
       <p><strong>Example:</strong>
@@ -29427,8 +29500,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>lon1</code></strong> - Start longitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lon2</code></strong> - End longitude (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll to the <i class="math">(-180..+180]</i> range 
-          (<code>bool</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap and unroll to the <i 
+          class="math">(-180..+180]</i> range (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>2-Tuple <code>(<b>lon2</b>-<b>lon1</b>, <b>lon2</b>)</code> 
@@ -29463,8 +29536,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>rad1</code></strong> - Start longitude (<code>radians</code>).</li>
         <li><strong class="pname"><code>rad2</code></strong> - End longitude (<code>radians</code>).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll to the <i class="math">(-PI..+PI]</i> range 
-          (<code>bool</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap and unroll to the <i 
+          class="math">(-PI..+PI]</i> range (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>2-Tuple <code>(<b>rad2</b>-<b>rad1</b>, <b>rad2</b>)</code> 
@@ -29842,16 +29915,16 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>lon1</code></strong> - Start longitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lat2</code></strong> - End latitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lon2</code></strong> - End longitude (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius, ellipsoid or datum (<code>meter</code>, <a 
-          href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>), datum (<a 
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>) 
+          or ellipsoid (<a href="pygeodesy.ellipsoids.Ellipsoid-class.html"
           class="link">Ellipsoid</a>, <a 
           href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
-          class="link">Ellipsoid2</a>, <a 
-          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a> 
-          or <a href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
-          class="link">a_f2Tuple</a>).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
-          class="link">pygeodesy.unroll180</a> longitudes 
+          class="link">Ellipsoid2</a> or <a 
+          href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
+          class="link">a_f2Tuple</a>) to use.</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll 
+          <b><code>lat2</code></b> and <b><code>lon2</code></b> 
           (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -30192,6 +30265,51 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   </dl>
 </td></tr></table>
 </div>
+<a name="wrap_normal"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">wrap_normal</span>&nbsp;(<span class="sig-arg">*normal</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Define the operation for the keyword argument 
+  <code><b>wrap</b>=True</code>, across <a href="pygeodesy-module.html" 
+  class="link">pygeodesy</a>: <i>wrap</i>, <i>normalize</i> or 
+  <i>no-op</i>.  For backward compatibility, the default is 
+  <i>wrap</i>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>normal</code></strong> - If <code>True</code>, <i>normalize</i> lat- and longitude using 
+          <a href="pygeodesy.formy-module.html#normal" 
+          class="link">normal</a> or <a 
+          href="pygeodesy.formy-module.html#normal_" 
+          class="link">normal_</a>, if <code>False</code>, <i>wrap</i> the 
+          lat- and longitude individually by <a 
+          href="pygeodesy.utily-module.html#wrap90" class="link">wrap90</a>
+          or <a href="pygeodesy.utily-module.html#wrapPI_2" 
+          class="link">wrapPI_2</a> respectively <a 
+          href="pygeodesy.utily-module.html#wrap180" 
+          class="link">wrap180</a>, <a 
+          href="pygeodesy.utily-module.html#wrapPI" class="link">wrapPI</a>
+          or if <code>None</code>, leave lat- and longitude 
+          <i>unchanged</i>. Do not supply any value to get the current 
+          setting.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The previous <a href="pygeodesy.utily-module.html#wrap_normal" 
+          class="link">wrap_normal</a> setting (<code>bool</code> or 
+          <code>None</code>).</dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="yard2m"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -30373,7 +30491,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Apr 23 16:20:29 2023
+    Generated by Epydoc 3.0.1 on Sat May 13 11:43:53 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

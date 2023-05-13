@@ -20,26 +20,29 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 from pygeodesy.basics import isodd, isscalar, issubclassof, map2
 from pygeodesy.constants import EPS, EPS2, INT0, _0_0, _0_5, _1_0
 from pygeodesy.errors import ClipError, _IsnotError, _TypeError, \
-                            _ValueError, _xkwds_get
-from pygeodesy.fmath import fabs, favg, hypot, hypot2
-# from pygeodesy.fsums import fsum1  # from _MODS
+                            _ValueError, _xattr, _xkwds_get
+from pygeodesy.fmath import favg, hypot, hypot2
+# from pygeodesy.fsums import fsum1  # _MODS
 from pygeodesy.interns import NN, _BANG_, _clip_, _clipid_, _COMMASPACE_, \
                              _composite_, _DOT_, _e_, _ELLIPSIS_, _few_, \
-                             _height_, _lat_,_LatLon_, _lon_, _name_, _not_, \
+                             _height_, _lat_,_LatLon_, _lon_, _not_, \
                              _points_, _scalar_,_SPACE_, _too_, _X_, _x_, \
                              _B_, _d_, _R_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
-# from pygeodesy.latlonBase import LatLonBase  # from _MODS
+from pygeodesy.latlonBase import LatLonBase, \
+                                 LatLon2Tuple, Property_RO, property_RO
 from pygeodesy.named import Fmt, _Named, _NotImplemented, pairs, unstr
-# from pygeodesy.points import boundsOf  # from _MODS
-from pygeodesy.props import Property_RO, property_RO
+# from pygeodesy.namedTuples import LatLon2Tupe  # from .latlonBase
+# from pygeodesy.points import boundsOf  # _MODS
+# from pygeodesy.props import Property_RO, property_RO  # from .latlonBase
 # from pygeodesy.streprs import Fmt, pairs, unstr  # from .named
 from pygeodesy.units import Height, HeightX
+from pygeodesy.utily import fabs, _unrollon, _Wrap
 
-# from math import fabs  # from .fmath
+# from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.booleans
-__version__ = '23.04.02'
+__version__ = '23.05.06'
 
 _0_EPS =  EPS  # near-zero, positive
 _EPS_0 = -EPS  # near-zero, negative
@@ -120,7 +123,8 @@ class _LatLonBool(_Named):
     _next    = None       # link to the next vertex
     _prev    = None       # link to the previous vertex
 
-    def __init__(self, lat_ll, lon=None, height=0, clipid=INT0, name=NN):
+    def __init__(self, lat_ll, lon=None, height=0, clipid=INT0,
+                                           wrap=False, name=NN):
         '''New C{LatLon[FHP|GH]} from separate C{lat}, C{lon}, C{height}
            and C{clipid} scalars or from a previous C{LatLon[FHP|GH]},
            a C{Clip[FHP|GH]4Tuple} or some other C{LatLon} instance.
@@ -132,15 +136,18 @@ class _LatLonBool(_Named):
                        scalar, ignored otherwise.
            @kwarg height: Height (C{scalar}), conventionally C{meter}.
            @kwarg clipid: Clip identifier (C{int}).
+           @kwarg wrap: If C{True}, wrap or I{normalize} B{C{lat}}
+                        and B{C{lon}} (C{bool}).
            @kwarg name: Optional name (C{str}).
         '''
         if lon is None:
-            self.y, self.x = lat_ll.lat, lat_ll.lon
-            h = getattr(lat_ll, _height_, height)
-            c = getattr(lat_ll, _clipid_, clipid)
+            y, x = lat_ll.lat, lat_ll.lon
+            h = _xattr(lat_ll, height=height)
+            c = _xattr(lat_ll, clipid=clipid)
         else:
-            self.y, self.x = lat_ll, lon
+            y, x = lat_ll, lon
             h, c = height, clipid
+        self.y, self.x = _Wrap.latlon(y, x) if wrap else (y, x)
         # don't duplicate defaults
         if self._height != h:
             self._height = h
@@ -261,6 +268,12 @@ class _LatLonBool(_Named):
         '''
         return self.y
 
+    @property_RO
+    def latlon(self):
+        '''Get the lat- and longitude (L{LatLon2Tuple}).
+        '''
+        return LatLon2Tuple(self.y, self.x)
+
     def _link(self, other):
         # Make this and an other point are neighbors.
         # assert _other(self, other)
@@ -287,7 +300,7 @@ class LatLonFHP(_LatLonBool):
     _2split = None  # or C{._Clip}
     _2xing  = False
 
-    def __init__(self, lat_ll, *lon_h_clipid, **name):
+    def __init__(self, lat_ll, *lon_h_clipid, **wrap_name):
         '''New C{LatLonFHP} from separate C{lat}, C{lon}, C{h}eight
            and C{clipid} scalars, or from a previous L{LatLonFHP},
            a L{ClipFHP4Tuple} or some other C{LatLon} instance.
@@ -297,9 +310,12 @@ class LatLonFHP(_LatLonBool):
            @arg lon_h_clipid: Longitude (C{scalar}), C{h}eight and
                               C{clipid} iff B{C{lat_ll}} is scalar,
                               ignored otherwise.
-           @kwarg name: Optional name (C{str}).
+           @kwarg wrap_name: Keyword arguments C{B{wrap}=False} and
+                       C{B{name}=NN}.  If C{B{wrap} is True}, wrap
+                       or I{normalize} the lat- and longitude
+                       (C{bool}).  Optional B{C{name}} (C{str}).
         '''
-        _LatLonBool.__init__(self, lat_ll, *lon_h_clipid, **name)
+        _LatLonBool.__init__(self, lat_ll, *lon_h_clipid, **wrap_name)
 
     def __add__(self, other):
         _other(self, other)
@@ -347,7 +363,7 @@ class LatLonFHP(_LatLonBool):
 #              break
 #       return d
 
-    def isenclosedBy(self, *composites_points):
+    def isenclosedBy(self, *composites_points, **wrap):
         '''Is this point inside one or more composites or polygons based
            the U{winding number<https://www.ScienceDirect.com/science/
            article/pii/S0925772101000128>}?
@@ -355,13 +371,15 @@ class LatLonFHP(_LatLonBool):
            @arg composites_points: Composites and/or iterables of points
                            (L{ClipFHP4Tuple}, L{ClipGH4Tuple}, L{LatLonFHP},
                            L{LatLonGH} or any C{LatLon}).
+           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the
+                        C{points} (C{bool}).
 
-           @raise ValueError: Some B{C{points}} invalid.
+           @raise ValueError: Some C{points} invalid.
 
            @see: U{Algorithm 6<https://www.ScienceDirect.com/science/
                  article/pii/S0925772101000128>}.
         '''
-        class _Clips(object):
+        class _Pseudo(object):
             # Pseudo-_CompositeBase._clips tuple
 
             @property_RO
@@ -371,16 +389,16 @@ class LatLonFHP(_LatLonBool):
                     for c in cp._clips:
                         yield c
 
-        return self._isinside(_Clips())
+        return self._isinside(_Pseudo(), **wrap)
 
-    def _isinside(self, composite, *excludes):
+    def _isinside(self, composite, *excludes, **wrap):
         # Is this point inside a composite I{winding number},
         # excluding certain C{_Clip}s?
         x, y, i = self.x, self.y, False
         for c in composite._clips:
             if c not in excludes:
                 w = 0
-                for p1, p2 in c._edges2():
+                for p1, p2 in c._edges2(**wrap):
                     # edge [p1,p2] must straddle y
                     if (p1.y < y) is not (p2.y < y):  # or ^
                         r = p2.x > x
@@ -444,7 +462,7 @@ class LatLonGH(_LatLonBool):
     '''
     _entry = None   # entry or exit iff intersection
 
-    def __init__(self, lat_ll, *lon_h_clipid, **name):
+    def __init__(self, lat_ll, *lon_h_clipid, **wrap_name):
         '''New C{LatLonGH} from separate C{lat}, C{lon}, C{h}eight
            and C{clipid} scalars, or from a previous L{LatLonGH},
            L{ClipGH4Tuple} or some other C{LatLon} instance.
@@ -454,9 +472,12 @@ class LatLonGH(_LatLonBool):
            @arg lon_h_clipid: Longitude (C{scalar}), C{h}eight and
                               C{clipid} iff B{C{lat_ll}} is scalar,
                               ignored otherwise.
-           @kwarg name: Optional name (C{str}).
+           @kwarg wrap_name: Keyword arguments C{B{wrap}=False} and
+                       C{B{name}=NN}.  If C{B{wrap} is True}, wrap
+                       or I{normalize} the lat- and longitude
+                       (C{bool}).  Optional B{C{name}} (C{str}).
         '''
-        _LatLonBool.__init__(self, lat_ll, *lon_h_clipid, **name)
+        _LatLonBool.__init__(self, lat_ll, *lon_h_clipid, **wrap_name)
 
     def _check(self):
         # Check-mark this vertex and its link.
@@ -469,7 +490,7 @@ class LatLonGH(_LatLonBool):
         return t  if self._entry is None else NN(t,
              (_e_ if self._entry else _x_))
 
-    def isenclosedBy(self, *composites_points):
+    def isenclosedBy(self, *composites_points, **wrap):
         '''Is this point inside one or more composites or polygons based
            on the U{even-odd-rule<https://www.ScienceDirect.com/science/
            article/pii/S0925772101000128>}?
@@ -477,10 +498,12 @@ class LatLonGH(_LatLonBool):
            @arg composites_points: Composites and/or iterables of points
                            (L{ClipFHP4Tuple}, L{ClipGH4Tuple}, L{LatLonFHP},
                            L{LatLonGH} or any C{LatLon}).
+           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the
+                        C{points} (C{bool}).
 
            @raise ValueError: Some B{C{points}} invalid.
         '''
-        class _Edges(object):
+        class _Pseudo(object):
             # Pseudo-_CompositeBase._edges3 method
 
             def _edges3(self, **kwds):
@@ -489,9 +512,9 @@ class LatLonGH(_LatLonBool):
                     for e in cp._edges3(**kwds):
                         yield e
 
-        return self._isinside(_Edges())
+        return self._isinside(_Pseudo(), **wrap)
 
-    def _isinside(self, composite, *bottom_top):
+    def _isinside(self, composite, *bottom_top, **wrap):
         # Is this vertex inside the composite I{even-odd rule}?
 
         def _x(y, p1, p2):
@@ -505,7 +528,7 @@ class LatLonGH(_LatLonBool):
         o, y = False, self.y
         if not (bottom_top and _outside(y, y, *bottom_top)):
             x = self.x
-            for p1, p2, _ in composite._edges3():
+            for p1, p2, _ in composite._edges3(**wrap):
                 if (p1.y < y) is not (p2.y < y):  # or ^
                     r = p2.x > x
                     if p1.x < x:
@@ -677,16 +700,18 @@ class _Clip(_Named):
         # assert q._next is v
         return v
 
-    def _edges2(self, **unused):
+    def _edges2(self, wrap=False, **unused):
         # Yield each I{original} edge as a 2-tuple
         # (p1, p2), a pair of C{LatLon[FHP|GH])}s.
-        p1 = p2 = f = self._first
-        while p2:
-            p2 = p2._next
-            if p2.ispoint:
+        p1 = p = f = self._first
+        while p:
+            p2 = p = p._next
+            if p.ispoint:
+                if wrap and p is not f:
+                    p2 = _unrollon(p1, p)
                 yield p1, p2
                 p1 = p2
-            if p2 is f:
+            if p is f:
                 break
 
     def _equi(self, clip, eps):
@@ -862,7 +887,7 @@ class _CompositeBase(_Named):
     def __init__(self, lls, name=NN, kind=NN, eps=EPS):
         '''(INTERNAL) See L{BooleanFHP} and L{BooleanGH}.
         '''
-        n = name or getattr(lls, _name_, NN)
+        n = name or _xattr(lls, name=NN)
         if n:
             self.name = n
         if kind:
@@ -961,16 +986,16 @@ class _CompositeBase(_Named):
 #       # Number common C{clipid}s between this and an C{other} composite
 #       return len(set(self._clipids).intersection(set(other._clipids)))
 
-    def _edges3(self, **raiser):
+    def _edges3(self, **raiser_wrap):
         # Yield each I{original} edge as a 3-tuple
         # C{(LatLon[FHP|GH], LatLon[FHP|GH], _Clip)}.
         for c in self._clips:
-            for p1, p2 in c._edges2(**raiser):
+            for p1, p2 in c._edges2(**raiser_wrap):
                 yield p1, p2, c
 
-    def _encloses(self, lat, lon):
+    def _encloses(self, lat, lon, **wrap):
         # see function .points.isenclosedBy
-        return self._LL(lat, lon).isenclosedBy(self)
+        return self._LL(lat, lon).isenclosedBy(self, **wrap)
 
     @property
     def eps(self):
@@ -1112,8 +1137,9 @@ class _CompositeBase(_Named):
         # Sum the area or perimeter of all clips
 
         def _lls(clip):  # convert clip to LLs
+            _LL = LL
             for v in clip:
-                yield LL(v.lat, v.lon)  # datum=Sphere
+                yield _LL(v.lat, v.lon)  # datum=Sphere
 
         return _MODS.fsums.fsum1((_a_p(_lls(c), *args, **kwds) for c in self._clips),
                                   floats=True)
@@ -1136,8 +1162,7 @@ class _CompositeBase(_Named):
         '''
         if LatLon is None:
             LL, kwds = self._LL, {}
-        elif issubclassof(LatLon, _LatLonBool,
-                  _MODS.latlonBase.LatLonBase):
+        elif issubclassof(LatLon, _LatLonBool, LatLonBase):
             LL, kwds = LatLon, LatLon_kwds
         else:
             raise _TypeError(LatLon=LatLon)

@@ -173,12 +173,14 @@ class Tests(TestsBase):
                                  parseDMS('17  5 21.296'), parseDMS('85 31 54.631'),
                                  x=8044806.076, datum=Datums.NAD27)  # Clarke1866 ellipsoid
 
-        self.test(intersection2.__name__, intersection2.__module__, formy.__name__)
+        f = intersection2
+        self.test(f.__name__, f.__module__, formy.__name__)
         for datum in (None, R_M, -R_M, Datums.WGS84):
             t = str(intersection2(0, 0, 30, 0, 30, -30, datum))
-            self.test('%s(%s)' % (intersection2.__name__, datum), t, '(24.284126, 15.0)', known=t.endswith(' 15.0)'))
+            self.test('%s(%s)' % (f.__name__, datum), t, '(24.284126, 15.0)', known=t.endswith(' 15.0)'))
 
-        self.test(intersections2.__name__, intersections2.__module__, formy.__name__, nl=1)
+        f = intersections2
+        self.test(f.__name__, f.__module__, formy.__name__, nl=1)
         for datum in (None, R_M, Datums.WGS84):
             self.testIntersections2(datum)
 

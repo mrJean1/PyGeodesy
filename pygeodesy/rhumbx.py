@@ -45,13 +45,13 @@ from pygeodesy.props import deprecated_method, Property, Property_RO, property_R
 from pygeodesy.streprs import Fmt, pairs, unstr
 from pygeodesy.units import Bearing as _Azi, Degrees as _Deg, Int, Lat, Lon, \
                             Meter as _M, Meter2 as _M2
-from pygeodesy.utily import sincos2_, sincos2d
+from pygeodesy.utily import sincos2_, sincos2d, _unrollon, _Wrap
 from pygeodesy.vector3d import _intersect3d3, Vector3d  # in .intersection2 below
 
 from math import asinh, atan, cos, cosh, fabs, radians, sin, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.rhumbx
-__version__ = '23.04.20'
+__version__ = '23.05.06'
 
 _rls   = []  # instances of C{RbumbLine} to be updated
 _TRIPS = 65  # .intersection2, 18+
@@ -138,6 +138,11 @@ class Rhumb(_RhumbBase):
     def _DConformal2Rectifying(self, x, y):  # radians
         return _1_0 + (_sincosSeries(True, x, y, *self._A2) if self.f else _0_0)
 
+    def _Direct(self, ll1, azi12, s12, **outmask):
+        '''(INTERNAL) Short-cut version, see .latlonBase.
+        '''
+        return self.Direct(ll1.lat, ll1.lon, azi12, s12, **outmask)
+
     def Direct(self, lat1, lon1, azi12, s12, outmask=Caps.LATITUDE_LONGITUDE):
         '''Solve the I{direct rhumb} problem, optionally with the area.
 
@@ -178,6 +183,11 @@ class Rhumb(_RhumbBase):
         '''Like method L{Rhumb.Direct} but returning a L{Rhumb8Tuple} with area C{S12}.
         '''
         return self.Direct(lat1, lon1, azi12, s12, outmask=outmask).toRhumb8Tuple()
+
+    def _DirectLine(self, ll1, azi12, **name_caps):
+        '''(INTERNAL) Short-cut version, see .latlonBase.
+        '''
+        return self.DirectLine(ll1.lat, ll1.lon, azi12, **name_caps)
 
     def DirectLine(self, lat1, lon1, azi12, name=NN, **caps):  # caps=Caps.STANDARD
         '''Define a L{RhumbLine} in terms of the I{direct} rhumb problem.
@@ -294,6 +304,13 @@ class Rhumb(_RhumbBase):
 
     f = flattening
 
+    def _Inverse(self, ll1, ll2, wrap, **outmask):
+        '''(INTERNAL) Short-cut version, see .latlonBase.
+        '''
+        if wrap:
+            ll2 = _unrollon(ll1, _Wrap.point(ll2))
+        return self.Inverse(ll1.lat, ll1.lon, ll2.lat, ll2.lon, **outmask)
+
     def Inverse(self, lat1, lon1, lat2, lon2, outmask=Caps.AZIMUTH_DISTANCE):
         '''Solve the I{inverse rhumb} problem.
 
@@ -362,6 +379,13 @@ class Rhumb(_RhumbBase):
         '''Like method L{Rhumb.Inverse} but returning a L{Rhumb8Tuple} with area C{S12}.
         '''
         return self.Inverse(lat1, lon1, azi12, s12, outmask=outmask).toRhumb8Tuple()
+
+    def _InverseLine(self, ll1, ll2, wrap, **name_caps):
+        '''(INTERNAL) Short-cut version, see .latlonBase.
+        '''
+        if wrap:
+            ll2 = _unrollon(ll1, _Wrap.point(ll2))
+        return self.InverseLine(ll1.lat, ll1.lon, ll2.lat, ll2.lon, **name_caps)
 
     def InverseLine(self, lat1, lon1, lat2, lon2, name=NN, **caps):  # caps=Caps.STANDARD
         '''Define a L{RhumbLine} in terms of the I{inverse} rhumb problem.
@@ -559,7 +583,7 @@ class _RhumbLine(_RhumbBase):
         return self.rhumb.exact
 
     def intersection2(self, other, tol=_TOL, **eps):
-        '''Iteratively find the intersection of this and an other rhumb line.
+        '''I{Iteratively} find the intersection of this and an other rhumb line.
 
            @arg other: The other rhumb line (L{RhumbLine}).
            @kwarg tol: Tolerance for longitudinal convergence (C{degrees}).
@@ -633,7 +657,7 @@ class _RhumbLine(_RhumbBase):
         return self.ellipsoid.auxRectifying(self.lat1)
 
     def nearestOn4(self, lat, lon, tol=_TOL, **eps):
-        '''Iteratively locate the point on this rhumb line nearest to
+        '''I{Iteratively} locate the point on this rhumb line nearest to
            the given point.
 
            @arg lat: Latitude of the point (C{degrees}).

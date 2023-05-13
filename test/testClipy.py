@@ -29,7 +29,7 @@ def _llsTrue3(lls):
 
 def _4Ts(*cs):
     for i, c in enumerate(cs):
-        for xy in c.split(','):
+        for xy in c.split(','):  # _COMMA_
             x, y = map(int, xy.strip().split())
             yield ClipFHP4Tuple(y, x, 0, i)
 

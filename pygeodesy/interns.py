@@ -183,7 +183,6 @@ _degrees2_            = 'degrees2'           # PYCHOK SQUARED
 _DEPRECATED_          = 'DEPRECATED'         # PYCHOK OK
 _DEQUALSPACED_   = Str_(' == ')              # PYCHOK OK
 _distance_            = 'distance'           # PYCHOK OK
-_distanceTo_          = 'distanceTo'         # PYCHOK OK
 _distant_     = _Prefix('distant')           # PYCHOK OK
 _doesn_t_exist_       = "doesn't exist"      # PYCHOK OK
 _DOT_            = Str_('.')                 # PYCHOK OK
@@ -234,6 +233,7 @@ _INF_                 = 'INF'                # PYCHOK OK
 _infinite_            = 'infinite'           # PYCHOK _not_finite_
 _initial_             = 'initial'            # PYCHOK OK
 _inside_              = 'inside'             # PYCHOK OK
+_insufficient_        = 'insufficient'       # PYCHOK OK
 _intersection_        = 'intersection'       # PYCHOK OK
 _Intl1924_            = 'Intl1924'           # PYCHOK OK
 _invalid_             = 'invalid'            # PYCHOK OK
@@ -255,6 +255,7 @@ _latlon_              = 'latlon'             # PYCHOK OK
 _LatLon_              = 'LatLon'             # PYCHOK OK
 _LCURLY_              = '{'                  # PYCHOK LBRACE
 _len_                 = 'len'                # PYCHOK OK
+_limit_               = 'limit'              # PYCHOK OK
 _line_                = 'line'               # PYCHOK OK
 _linear_              = 'linear'             # PYCHOK OK
 _LPAREN_              = '('                  # PYCHOK OK
@@ -262,6 +263,7 @@ _lon_                 = 'lon'                # PYCHOK OK
 _lon0_                = 'lon0'               # PYCHOK OK
 _lon1_                = 'lon1'               # PYCHOK OK
 _lon2_                = 'lon2'               # PYCHOK OK
+_low_                 = 'low'                # PYCHOK OK
 _LSQUARE_             = '['                  # PYCHOK LBRACK
 _ltp_                 = 'ltp'                # PYCHOK OK
 _m_                   = 'm'                  # PYCHOK OK
@@ -358,7 +360,6 @@ _scale0_              = 'scale0'             # PYCHOK OK
 _scipy_               = 'scipy'              # PYCHOK OK
 _semi_circular_       = 'semi-circular'      # PYCHOK OK
 _sep_                 = 'sep'                # PYCHOK OK
-_sets_                = 'sets'               # PYCHOK OK
 _singular_            = 'singular'           # PYCHOK OK
 _SLASH_          = Str_('/')                 # PYCHOK OK
 _small_               = 'small'              # PYCHOK OK
@@ -589,7 +590,7 @@ def _version2(version, n=2):
 __all__ = (_NN_,  # not MISSING!
             Str_.__name__,  # classes
             machine.__name__)  # in .lazily
-__version__ = '23.04.11'
+__version__ = '23.05.12'
 
 if __name__ == '__main__':
 

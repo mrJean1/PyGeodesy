@@ -11,8 +11,8 @@ L{pygeodesy.isnon0} and L{pygeodesy.remainder}.
 from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import _0_0, _copysign, isbool, iscomplex, isint
-from pygeodesy.errors import _ALL_LAZY, _xError, _xError2
-from pygeodesy.interns import _INF_, _NAN_, _sets_, _UNDER_
+from pygeodesy.errors import _ALL_LAZY, _xError, _xError2, _xkwds_get
+from pygeodesy.interns import _INF_, _NAN_, _UNDER_
 # from pygeodesy.lazily import _ALL_LAZY  # from .errors
 # from pygeodesy.streprs import Fmt  # from .unitsBase
 from pygeodesy.unitsBase import Float, Fmt, Int, Radius
@@ -24,7 +24,7 @@ except ImportError:  # Python 2-
     _inf, _nan = float(_INF_), float(_NAN_)
 
 __all__ = _ALL_LAZY.constants
-__version__ = '23.04.14'
+__version__ = '23.05.06'
 
 
 def _Float(**name_arg):
@@ -53,9 +53,9 @@ def float_(*fs, **sets):
 
        @raise TypeError: Some B{C{fs}} not C{scalar}.
     '''
-    _f = _floats.setdefault if sets.get(_sets_, False) else \
-         _floats.get
     fl = []
+    _f = _floats.setdefault if _xkwds_get(sets, sets=False) else \
+         _floats.get
     try:
         for i, f in enumerate(fs):
             f = float(f)
@@ -226,7 +226,7 @@ PI_4  = _Float(PI_4 =_pi / _4_0)  # PYCHOK Quarter PI, M{PI / 4}
 R_MA  = _Radius(R_MA=6378137.0)       # PYCHOK equatorial earth radius (C{meter}), WGS84, EPSG:3785
 R_MB  = _Radius(R_MB=6356752.3)       # PYCHOK polar earth radius (C{meter}), WGS84, EPSG:3785
 R_M   = _Radius(R_M =6371008.771415)  # PYCHOK mean, spherical earth radius (C{meter})
-R_KM  = _Radius(R_KM=R_M / _M_KM)     # PYCHOK mean, spherical earth radius (C{KM}, kilo meter)
+R_KM  = _Radius(R_KM=R_M / _M_KM)     # PYCHOK mean, spherical earth radius (C{KM}, Kilo meter)
 R_NM  = _Radius(R_NM=R_M / _M_NM)     # PYCHOK mean, spherical earth radius (C{NM}, nautical miles)
 R_SM  = _Radius(R_SM=R_M / _M_SM)     # PYCHOK mean, spherical earth radius (C{SM}, statute miles)
 # See <https://www.EdWilliams.org/avform.htm>, <https://www.DTIC.mil/dtic/tr/fulltext/u2/a216843.pdf>

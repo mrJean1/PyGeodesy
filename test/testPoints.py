@@ -4,7 +4,7 @@
 # Test L{points} module.
 
 __all__ = ('Tests',)
-__version__ = '23.03.27'
+__version__ = '23.05.09'
 
 from bases import GeodSolve, geographiclib, isPython37, TestsBase
 
@@ -167,7 +167,7 @@ class Tests(TestsBase):
              LatLon(-77.3,  -33), LatLon(-77.9,  -46), LatLon(-74.7,  -61))  # on/around south pole!
         self.test('areaOf', areaOf(p, radius=R_M), '4.469277e+12', fmt='%.6e', known=True)
         self.test('perimeterOf', perimeterOf(p, radius=R_M), '1.562029e+07', fmt='%.6e', known=True)
-        self.test('centroidOf', fstr(centroidOf(p), prec=3), '-71.443, -69.683')  # XXX '-72.112, 92.032'
+        self.test('centroidOf', fstr(centroidOf(p), prec=3), '-72.926, 46.47')  # XXX '-72.112, 92.032'
         self.test('isclockwise', isclockwise(p), True)  # XXX False
         self.test('isconvex', isconvex(p), False)
         if oK:

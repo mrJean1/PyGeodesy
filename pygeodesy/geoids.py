@@ -83,11 +83,12 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import len2, map1, map2, isodd, ub2str as _ub2str
 from pygeodesy.constants import EPS, _float as _F, _0_0, _1_0, _180_0, _360_0
-from pygeodesy.datums import _ellipsoidal_datum, _WGS84
+# from pygeodesy.datums import _ellipsoidal_datum  # from .heights
 from pygeodesy.dms import parseDMS2
 from pygeodesy.errors import _incompatible, LenError, RangeError, _SciPyIssue
 from pygeodesy.fmath import favg, Fdot, fdot, Fhorner, frange
-from pygeodesy.heights import _allis2, _ascalar, _HeightBase, HeightError
+from pygeodesy.heights import _as_llis2, _ascalar, _height_called, HeightError, \
+                              _HeightsBase,  _ellipsoidal_datum, _Wrap
 from pygeodesy.interns import NN, _4_, _COLONSPACE_, _COMMASPACE_, _cubic_, \
                              _DOT_, _E_, _height_, _in_, _kind_, _knots_, \
                              _lat_, _linear_, _lon_, _mean_, _N_, _n_a_, _not_, \
@@ -99,6 +100,7 @@ from pygeodesy.named import _Named, _NamedTuple, notOverloaded
 from pygeodesy.props import Property_RO, property_RO
 from pygeodesy.streprs import attrs, Fmt, fstr, pairs
 from pygeodesy.units import Height, Int_, Lat, Lon
+# from pygeodesy.utils import _Wrap  # from .heights
 
 from math import floor
 import os.path as _os_path
@@ -113,7 +115,7 @@ except ImportError:  # Python 3+
     from io import BytesIO as _BytesIO  # PYCHOK expected
 
 __all__ = _ALL_LAZY.geoids
-__version__ = '22.10.23'
+__version__ = '23.05.12'
 
 _assert_ = 'assert'
 _bHASH_  =  b'#'
@@ -130,26 +132,27 @@ _non_increasing_  = 'non-increasing'
 _rb_              = 'rb'
 
 
-class _GeoidBase(_HeightBase):
+class _GeoidBase(_HeightsBase):
     '''(INTERNAL) Base class for C{Geoid...}s.
     '''
     _cropped  =  None
-    _datum    = _WGS84
-    _egm      =  None  # open C{egm*.pgm} geoid file
+#   _datum    = _WGS84  # from _HeightsBase
+    _egm      =  None   # open C{egm*.pgm} geoid file
     _endian   = _tbd_
     _geoid    = _n_a_
-    _hs_y_x   =  None  # numpy 2darray, row-major order
-    _interp2d =  None  # interp2d interpolation
-    _kind     =  3     # order for interp2d, RectBivariateSpline
-    _knots    =  0     # nlat * nlon
-    _mean     =  None  # fixed in GeoidKarney
-#   _name     =  NN    # _Named
-    _nBytes   =  0     # numpy size in bytes, float64
-    _pgm      =  None  # PGM attributes, C{_PGM} or C{None}
-    _sizeB    =  0     # geoid file size in bytes
-    _smooth   =  0     # used only for RectBivariateSpline
-    _stdev    =  None  # fixed in GeoidKarney
-    _u2B      =  0     # np.itemsize or undefined
+    _hs_y_x   =  None   # numpy 2darray, row-major order
+    _interp2d =  None   # interp2d interpolation
+    _kind     =  3      # order for interp2d, RectBivariateSpline
+#   _kmin     =  2      # min number of knots
+    _knots    =  0      # nlat * nlon
+    _mean     =  None   # fixed in GeoidKarney
+#   _name     =  NN     # _Named
+    _nBytes   =  0      # numpy size in bytes, float64
+    _pgm      =  None   # PGM attributes, C{_PGM} or C{None}
+    _sizeB    =  0      # geoid file size in bytes
+    _smooth   =  0      # used only for RectBivariateSpline
+    _stdev    =  None   # fixed in GeoidKarney
+    _u2B      =  0      # np.itemsize or undefined
 
     _lat_d  = _0_0  # increment, +tive
     _lat_lo = _0_0  # lower lat, south
@@ -220,11 +223,13 @@ class _GeoidBase(_HeightBase):
         self._lon_lo = float(bb[2] - p.glon)
         self._lon_hi = float(bb[3] - p.glon)
 
-    def __call__(self, *llis):
+    def __call__(self, *llis, **wrap):
         '''Interpolate the geoid height for one or several locations.
 
            @arg llis: The location or locations (C{LatLon}, ... or
                       C{LatLon}s).
+           @kwarg wrap: If C{True}, wrap or I{normalize} all B{C{llis}}
+                        locations (C{bool}).
 
            @return: A single interpolated geoid height (C{float}) or
                     a list or tuple of interpolated geoid heights
@@ -244,7 +249,7 @@ class _GeoidBase(_HeightBase):
                                 C{-.RectBivariateSpline} warning as
                                 exception.
         '''
-        return self._called(llis, True)
+        return self._called(llis, True, **wrap)
 
     def __enter__(self):
         '''Open context.
@@ -263,20 +268,20 @@ class _GeoidBase(_HeightBase):
     def __str__(self):
         return Fmt.PAREN(self.classname, repr(self.name))
 
-    def _called(self, llis, scipy):
+    def _called(self, llis, scipy, wrap=False):
         # handle __call__
-        _as, llis = _allis2(llis, Error=GeoidError)
+        _as, llis = _as_llis2(llis, Error=GeoidError)
         try:
-            hs = []
+            hs, _w = [], _Wrap._latlonop(wrap)
             for i, lli in enumerate(llis):
-                hs.append(self._hGeoid(lli.lat, lli.lon))
+                hs.append(self._hGeoid(*_w(lli.lat, lli.lon)))
             return _as(hs)
 
         except (GeoidError, RangeError) as x:
             # XXX avoid str(LatLon()) degree symbols
             t = _lli_ if _as is _ascalar else Fmt.SQUARE(llis=i)
             lli = fstr((lli.lat, lli.lon), strepr=repr)
-            raise type(x)(t, lli, cause=x)
+            raise type(x)(t, lli, wrap=wrap, cause=x)
         except Exception as x:
             if scipy and self.scipy:
                 raise _SciPyIssue(x)
@@ -364,11 +369,13 @@ class _GeoidBase(_HeightBase):
         return ((self._lat_lo                + self._lat_d * y),
                 (self._lon_lo + self._lon_of + self._lon_d * x))
 
-    def height(self, lats, lons):
+    def height(self, lats, lons, **wrap):
         '''Interpolate the geoid height for one or several lat-/longitudes.
 
            @arg lats: Latitude or latitudes (C{degrees} or C{degrees}s).
            @arg lons: Longitude or longitudes (C{degrees} or C{degrees}s).
+           @kwarg wrap: If C{True}, wrap or I{normalize} all B{C{lats}}
+                        and B{C{lons}} locations (C{bool}).
 
            @return: A single interpolated geoid height (C{float}) or a
                     list of interpolated geoid heights (C{float}s).
@@ -386,7 +393,7 @@ class _GeoidBase(_HeightBase):
                                 C{-.RectBivariateSpline} warning as
                                 exception.
         '''
-        return _HeightBase._height(self, lats, lons, Error=GeoidError)
+        return _height_called(self, lats, lons, Error=GeoidError, **wrap)
 
     def _hGeoid(self, lat, lon):
         out = self.outside(lat, lon)
@@ -534,7 +541,7 @@ class _GeoidBase(_HeightBase):
     def name(self):
         '''Get the name of this geoid (C{str}).
         '''
-        return _HeightBase.name.fget(self) or self._geoid  # recursion
+        return _HeightsBase.name.fget(self) or self._geoid  # recursion
 
     @Property_RO
     def nBytes(self):
@@ -555,7 +562,7 @@ class _GeoidBase(_HeightBase):
             self._datum = _ellipsoidal_datum(datum, name=name)
         self._kind = int(kind)
         if name:
-            _HeightBase.name.fset(self, name)  # rename
+            _HeightsBase.name.fset(self, name)  # rename
         if smooth:
             self._smooth = Int_(smooth=smooth, Error=GeoidError, low=0)
 
@@ -962,11 +969,13 @@ class GeoidKarney(_GeoidBase):
         self._lon_hi = self._swne(crop if crop else p.crop4)
         self._cropped = True if crop else False
 
-    def __call__(self, *llis):
+    def __call__(self, *llis, **wrap):
         '''Interpolate the geoid height for one or several locations.
 
            @arg llis: The location or locations (C{LatLon}, ... or
                       C{LatLon}s).
+           @kwarg wrap: If C{True}, wrap or I{normalize} all B{C{llis}}
+                        locations (C{bool}).
 
            @return: A single interpolated geoid height (C{float}) or
                     a list or tuple of interpolated geoid heights
@@ -979,7 +988,7 @@ class GeoidKarney(_GeoidBase):
            @raise RangeError: An B{C{lli}} is outside this geoid's lat-
                               or longitude range.
         '''
-        return self._called(llis, False)
+        return self._called(llis, False, **wrap)
 
     def _c0c3v(self, y, x):
         # get the common denominator, the 10x12 cubic matrix and
@@ -1082,11 +1091,13 @@ class GeoidKarney(_GeoidBase):
         p = self._pgm
         return (p.slat + p.dlat * y), (p.wlon + p.dlon * x)
 
-    def height(self, lats, lons):
+    def height(self, lats, lons, **wrap):
         '''Interpolate the geoid height for one or several lat-/longitudes.
 
            @arg lats: Latitude or latitudes (C{degrees} or C{degrees}s).
            @arg lons: Longitude or longitudes (C{degrees} or C{degrees}s).
+           @kwarg wrap: If C{True}, wrap or I{normalize} all B{C{lats}}
+                        and B{C{lons}} locations (C{bool}).
 
            @return: A single interpolated geoid height (C{float}) or a
                     list of interpolated geoid heights (C{float}s).
@@ -1098,7 +1109,7 @@ class GeoidKarney(_GeoidBase):
            @raise RangeError: A B{C{lat}} or B{C{lon}} is outside this
                               geoid's lat- or longitude range.
         '''
-        return _HeightBase._height(self, lats, lons, Error=GeoidError)
+        return _height_called(self, lats, lons, Error=GeoidError, **wrap)
 
     @Property_RO
     def _highest_ltd(self):

@@ -16,13 +16,13 @@ from pygeodesy.interns import NN, _a12_, _azi1_, _azi2_, \
 from pygeodesy.interns import _not_  # PYCHOK used!
 from pygeodesy.karney import _Azi, Caps, _Deg, GeodesicError, _GTuple, \
                              _Pass, _Lat, _Lon, _M, _M2, _sincos2d, \
-                             _xinstanceof, wrap360
+                             _xinstanceof
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, \
                              _getenv, printf
 from pygeodesy.namedTuples import Destination3Tuple, Distance3Tuple
 from pygeodesy.props import Property, Property_RO
-from pygeodesy.solveBase import _LineSolveBase, _SolveBase
-# from pygeodesy.utily import wrap360  # from .karney
+from pygeodesy.solveBase import _LineSolveBase, _SolveBase,  wrap360
+# from pygeodesy.utily import wrap360  # from .solveBase
 
 __all__ = _ALL_LAZY.geodsolve
 __version__ = '23.04.11'

@@ -71,7 +71,7 @@
 <dl><dt>Known Subclasses:</dt>
 <dd>
       <ul class="subclass-list">
-<li><a href="pygeodesy.geoids._GeoidBase-class.html">geoids._GeoidBase</a></li><li>, <a href="pygeodesy.heights.HeightCubic-class.html">HeightCubic</a></li><li class="private">, _HeightIDW</li><li>, <a href="pygeodesy.heights.HeightLSQBiSpline-class.html">HeightLSQBiSpline</a></li><li>, <a href="pygeodesy.heights.HeightSmoothBiSpline-class.html">HeightSmoothBiSpline</a></li>  </ul>
+<li><a href="pygeodesy.heights._HeightsBase-class.html">_HeightsBase</a></li><li>, <a href="pygeodesy.heights._HeightIDW-class.html">_HeightIDW</a></li>  </ul>
 </dd></dl>
 
 <hr />
@@ -85,25 +85,6 @@
   <td align="left" colspan="2" class="table-header">
     <span class="table-header">Instance Methods</span></td>
 </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a name="__call__"></a><span class="summary-sig-name">__call__</span>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">*args</span>)</span><br />
-      (INTERNAL) <i>Must be overloaded</i>, see function 
-      <code>notOverloaded</code>.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
   <tr>
     <td colspan="2" class="summary">
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
@@ -150,18 +131,9 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.heights._HeightBase-class.html#adjust" class="summary-name">adjust</a><br />
-      Get the adjust setting (<code>bool</code> or <code>None</code> if not
-      applicable).
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
         <a href="pygeodesy.heights._HeightBase-class.html#datum" class="summary-name">datum</a><br />
-      Get the datum (<a href="pygeodesy.datums.Datum-class.html" 
-      class="link">Datum</a> or <code>None</code> if not applicable).
+      Get the <code>datum</code> setting or the default (<a 
+      href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>).
     </td>
   </tr>
 <tr>
@@ -176,33 +148,9 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.heights._HeightBase-class.html#numpy" class="summary-name">numpy</a><br />
-      Get the <code>numpy</code> module or <code>None</code>.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.heights._HeightBase-class.html#scipy" class="summary-name">scipy</a><br />
-      Get the <code>scipy</code> module or <code>None</code>.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.heights._HeightBase-class.html#scipy_interpolate" class="summary-name">scipy_interpolate</a><br />
-      Get the <code>scipy.interpolate</code> module or <code>None</code>.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
         <a href="pygeodesy.heights._HeightBase-class.html#wrap" class="summary-name">wrap</a><br />
-      Get the wrap setting (<code>bool</code> or <code>None</code> if not 
-      applicable).
+      Get the <code>wrap</code> setting (<code>bool</code>) or 
+      <code>None</code>.
     </td>
   </tr>
   <tr>
@@ -232,45 +180,19 @@
     <span class="table-header">Property Details</span></td>
 </tr>
 </table>
-<a name="adjust"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">adjust</h3>
-  <p>Get the adjust setting (<code>bool</code> or <code>None</code> if not 
-  applicable).</p>
-  <dl class="fields">
-    <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">adjust(<span class="summary-sig-arg">self</span>)</span>
-        - Get the adjust setting (<code>bool</code> or <code>None</code> if not 
-applicable).
-    </dd>
-    <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">val</span>)</span>
-        - Throws an <code>AttributeError</code>, always.
-    </dd>
-    <dt>Delete Method:</dt>
-    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
-        - Zap the <i>cached/memoized</i> <code>property</code> value.
-    </dd>
-  </dl>
-</td></tr></table>
-</div>
 <a name="datum"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">datum</h3>
-  <p>Get the datum (<a href="pygeodesy.datums.Datum-class.html" 
-  class="link">Datum</a> or <code>None</code> if not applicable).</p>
+  <p>Get the <code>datum</code> setting or the default (<a 
+  href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">datum(<span class="summary-sig-arg">self</span>)</span>
-        - Get the datum (<a href="pygeodesy.datums.Datum-class.html" 
-class="link">Datum</a> or <code>None</code> if not applicable).
+        - Get the <code>datum</code> setting or the default (<a 
+href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -308,92 +230,18 @@ class="link">Datum</a> or <code>None</code> if not applicable).
   </dl>
 </td></tr></table>
 </div>
-<a name="numpy"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">numpy</h3>
-  <p>Get the <code>numpy</code> module or <code>None</code>.</p>
-  <dl class="fields">
-    <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">numpy(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <code>numpy</code> module or <code>None</code>.
-    </dd>
-    <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">val</span>)</span>
-        - Throws an <code>AttributeError</code>, always.
-    </dd>
-    <dt>Delete Method:</dt>
-    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
-        - Zap the <i>cached/memoized</i> <code>property</code> value.
-    </dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="scipy"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">scipy</h3>
-  <p>Get the <code>scipy</code> module or <code>None</code>.</p>
-  <dl class="fields">
-    <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">scipy(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <code>scipy</code> module or <code>None</code>.
-    </dd>
-    <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">val</span>)</span>
-        - Throws an <code>AttributeError</code>, always.
-    </dd>
-    <dt>Delete Method:</dt>
-    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
-        - Zap the <i>cached/memoized</i> <code>property</code> value.
-    </dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="scipy_interpolate"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">scipy_interpolate</h3>
-  <p>Get the <code>scipy.interpolate</code> module or 
-  <code>None</code>.</p>
-  <dl class="fields">
-    <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">scipy_interpolate(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <code>scipy.interpolate</code> module or <code>None</code>.
-    </dd>
-    <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">val</span>)</span>
-        - Throws an <code>AttributeError</code>, always.
-    </dd>
-    <dt>Delete Method:</dt>
-    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
-        - Zap the <i>cached/memoized</i> <code>property</code> value.
-    </dd>
-  </dl>
-</td></tr></table>
-</div>
 <a name="wrap"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">wrap</h3>
-  <p>Get the wrap setting (<code>bool</code> or <code>None</code> if not 
-  applicable).</p>
+  <p>Get the <code>wrap</code> setting (<code>bool</code>) or 
+  <code>None</code>.</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">wrap(<span class="summary-sig-arg">self</span>)</span>
-        - Get the wrap setting (<code>bool</code> or <code>None</code> if not 
-applicable).
+        - Get the <code>wrap</code> setting (<code>bool</code>) or <code>None</code>.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -439,7 +287,7 @@ applicable).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Apr 23 16:20:31 2023
+    Generated by Epydoc 3.0.1 on Sat May 13 11:43:55 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

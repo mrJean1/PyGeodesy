@@ -5,7 +5,7 @@ u'''(INTERNAL) Private class C{UtmUpsBase}, functions and constants
 for L{epsg}, L{etm}, L{mgrs}, L{ups} and L{utm}.
 '''
 
-from pygeodesy.basics import isint, isscalar, isstr, map1, neg_, \
+from pygeodesy.basics import isint, isscalar, isstr, neg_, \
                             _xinstanceof, _xsubclassof
 from pygeodesy.constants import _float, _0_0, _0_5, _N_90_0, _180_0
 from pygeodesy.datums import _ellipsoidal_datum, _WGS84
@@ -23,10 +23,10 @@ from pygeodesy.props import deprecated_method, property_doc_, _update_all, \
                             deprecated_property_RO, Property_RO, property_RO
 from pygeodesy.streprs import Fmt, fstr, _fstrENH2, _xattrs, _xzipairs
 from pygeodesy.units import Band, Easting, Northing, Scalar, Zone
-from pygeodesy.utily import wrap360
+from pygeodesy.utily import _Wrap, wrap360
 
 __all__ = ()
-__version__ = '22.10.05'
+__version__ = '23.05.03'
 
 _UPS_BANDS = _A_, _B_, _Y_, _Z_  # UPS polar bands SE, SW, NE, NW
 # _UTM_BANDS = _MODS.utm._Bands
@@ -69,17 +69,20 @@ def _hemi(lat, N=0):  # imported by .ups, .utm
     return _NS_[int(lat < N)]
 
 
-def _to4lldn(latlon, lon, datum, name):
+def _to4lldn(latlon, lon, datum, name, wrap=False):
     '''(INTERNAL) Return 4-tuple (C{lat, lon, datum, name}).
     '''
     try:
         # if lon is not None:
         #     raise AttributeError
-        lat, lon = map1(float, latlon.lat, latlon.lon)
+        lat, lon = float(latlon.lat), float(latlon.lon)
         _xinstanceof(_LLEB, LatLonDatum5Tuple, latlon=latlon)
+        if wrap:
+            _Wrap.latlon(lat, lon)
         d = datum or latlon.datum
     except AttributeError:
-        lat, lon = parseDMS2(latlon, lon)
+        lat, lon = _Wrap.latlonDMS2(latlon, lon) if wrap else \
+                          parseDMS2(latlon, lon)  # clipped
         d = datum or _WGS84
     return lat, lon, d, (name or nameof(latlon))
 

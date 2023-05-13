@@ -18,23 +18,23 @@ from pygeodesy.fmath import favg, fmean_
 from pygeodesy.fsums import Fmt, fsum_
 from pygeodesy.formy import opposing, _radical2
 from pygeodesy.interns import _antipodal_, _concentric_, _exceed_PI_radians_, \
-                              _near_, _SPACE_, _too_
+                              _low_, _near_, _SPACE_, _too_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.namedTuples import Bearing2Tuple, Destination2Tuple, \
                                   Intersection3Tuple, NearestOn2Tuple, \
                                   NearestOn8Tuple, _LL4Tuple
 # from pygeodesy.props import Property_RO, property_RO  # from .ellipsoidalBase
 # from pygeodesy.streprs import Fmt  # from .fsums
-from pygeodesy.units import _fi_j2, Height, Radius_, Scalar
-from pygeodesy.utily import m2km, unroll180, _unrollon, wrap90, wrap180, wrap360
+from pygeodesy.units import _fi_j2, Radius_, Scalar
+from pygeodesy.utily import m2km, unroll180, _unrollon, _unrollon3, \
+                           _Wrap, wrap360
 
 from math import degrees, radians
 
 __all__ = _ALL_LAZY.ellipsoidalBaseDI
-__version__ = '23.04.23'
+__version__ = '23.05.05'
 
 _polar__  = 'polar?'
-_too_low_ = _too_('low')
 _B2END    = _1_5  # _intersect3 bearing to pseudo-end point factor
 _TRIPS    =  33   # _intersect3, _intersects2, _nearestOn interations, 6..9 sufficient?
 
@@ -51,7 +51,8 @@ class LatLonEllipsoidalBaseDI(LatLonEllipsoidalBase):
            for more details.
 
            @arg other: The other point (C{LatLon}).
-           @kwarg wrap: Wrap and unroll longitudes (C{bool}).
+           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the
+                        B{C{other}} point (C{bool}).
 
            @return: A L{Bearing2Tuple}C{(initial, final)}.
 
@@ -121,17 +122,19 @@ class LatLonEllipsoidalBaseDI(LatLonEllipsoidalBase):
         '''(INTERNAL) Helper for C{._Direct} result L{Destination2Tuple}.
         '''
         h = self.height if height is None else height
-        d = LL(wrap90(r.lat), wrap180(r.lon), height=h, datum=self.datum, name=self.name,
-                 **_xkwds_not(None, epoch=self.epoch, reframe=self.reframe))
+        d = LL(*_Wrap.latlon(r.lat, r.lon), height=h, **_xkwds_not(None,
+                                            datum=self.datum, name=self.name,
+                                            epoch=self.epoch, reframe=self.reframe))
         return Destination2Tuple(d, wrap360(r.final))
 
     def distanceTo(self, other, wrap=False, **unused):  # ignore radius=R_M
-        '''Compute the distance between this and an other point
-           along a geodesic, using this C{Inverse} method. See method
+        '''Compute the distance between this and an other point along
+           a geodesic, using this C{Inverse} method. See method
            L{distanceTo3} for more details.
 
            @arg other: The other point (C{LatLon}).
-           @kwarg wrap: Wrap and unroll longitudes (C{bool}).
+           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the
+                        B{C{other}} point (C{bool}).
 
            @return: Distance (C{meter}).
 
@@ -155,7 +158,8 @@ class LatLonEllipsoidalBaseDI(LatLonEllipsoidalBase):
            are in compass C{degrees360} from North.
 
            @arg other: Destination point (C{LatLon}).
-           @kwarg wrap: Wrap and unroll longitudes (C{bool}).
+           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the
+                        B{C{other}} point (C{bool}).
 
            @return: A L{Distance3Tuple}C{(distance, initial, final)}.
 
@@ -186,7 +190,8 @@ class LatLonEllipsoidalBaseDI(LatLonEllipsoidalBase):
            L{distanceTo3} for more details.
 
            @arg other: The other point (C{LatLon}).
-           @kwarg wrap: Wrap and unroll longitudes (C{bool}).
+           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll
+                        the B{C{other}} point (C{bool}).
 
            @return: Final bearing (compass C{degrees360}).
 
@@ -210,7 +215,8 @@ class LatLonEllipsoidalBaseDI(LatLonEllipsoidalBase):
            for more details.
 
            @arg other: The other point (C{LatLon}).
-           @kwarg wrap: Wrap and unroll longitudes (C{bool}).
+           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll
+                        the B{C{other}} point (C{bool}).
 
            @return: Initial bearing (compass C{degrees360}).
 
@@ -227,11 +233,12 @@ class LatLonEllipsoidalBaseDI(LatLonEllipsoidalBase):
            methods.
 
            @arg other: The other point (C{LatLon}).
-           @arg fraction: Fraction between both points (C{scalar},
-                          0.0 at this and 1.0 at the other point.
+           @arg fraction: Fraction between both points (C{scalar}, 0.0
+                          at this and 1.0 at the other point.
            @kwarg height: Optional height, overriding the fractional
                           height (C{meter}).
-           @kwarg wrap: Wrap and unroll longitudes (C{bool}).
+           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the
+                        B{C{other}} point (C{bool}).
 
            @return: Intermediate point (C{LatLon}).
 
@@ -252,7 +259,7 @@ class LatLonEllipsoidalBaseDI(LatLonEllipsoidalBase):
             r = self.others(other)
         else:  # negative fraction OK
             t = self.distanceTo3(other, wrap=wrap)
-            h = self._havg(other, f=f) if height is None else Height(height)
+            h = self._havg(other, f=f, h=height)
             r = self.destination(t.distance * f, t.initial, height=h)
         return r
 
@@ -260,11 +267,6 @@ class LatLonEllipsoidalBaseDI(LatLonEllipsoidalBase):
         '''(INTERNAL) I{Karney}'s C{Inverse} method.
 
            @return: A L{Distance3Tuple}C{(distance, initial, final)}.
-
-           @raise TypeError: The B{C{other}} point is not L{LatLon}.
-
-           @raise ValueError: If this and the B{C{other}} point's
-                              L{Datum} ellipsoids are not compatible.
         '''
         _ = self.ellipsoids(other)
         g = self.geodesic
@@ -273,7 +275,7 @@ class LatLonEllipsoidalBaseDI(LatLonEllipsoidalBase):
 
     def nearestOn8(self, points, closed=False, height=None, wrap=False,
                                                equidistant=None, tol=_TOL_M):
-        '''Iteratively locate the point on a path or polygon closest
+        '''I{Iteratively} locate the point on a path or polygon closest
            to this point.
 
            @arg points: The path or polygon points (C{LatLon}[]).
@@ -282,6 +284,8 @@ class LatLonEllipsoidalBaseDI(LatLonEllipsoidalBase):
                           all other points (C{meter}, conventionally).  If
                           B{C{height}} is C{None}, the height of each point
                           is taken into account for distances.
+           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the
+                        B{C{points}} (C{bool}).
 
            @return: A L{NearestOn8Tuple}C{(closest, distance, fi, j, start,
                     end, initial, final)} with C{distance} in C{meter},
@@ -297,13 +301,13 @@ class LatLonEllipsoidalBaseDI(LatLonEllipsoidalBase):
 
            @see: Function L{pygeodesy.nearestOn6} and method C{nearestOn6}.
         '''
-        D3 = self.distanceTo3  # Distance3Tuple
-
+        _d3 =  self.distanceTo3  # Distance3Tuple
+        _n3 = _nearestOn3
         try:
-            Ps = self.PointsIter(points, loop=1)
-            p1 = c = s = e = Ps[0]
-            _  = self.ellipsoids(p1)
-            c3 = D3(c, wrap=wrap)  # XXX wrap=False?
+            Ps =  self.PointsIter(points, loop=1, wrap=wrap)
+            p1 =  c = s = e = Ps[0]
+            _  =  self.ellipsoids(p1)
+            c3 = _d3(c, wrap=wrap)  # XXX wrap=False?
 
         except (TypeError, ValueError) as x:
             raise _xError(x, Fmt.SQUARE(points=0), p1, this=self, tol=tol,
@@ -319,12 +323,12 @@ class LatLonEllipsoidalBaseDI(LatLonEllipsoidalBase):
                     datum=self.datum, epoch=self.epoch, reframe=self.reframe)
         try:
             for j, p2 in Ps.enumerate(closed=closed):
-                if wrap and j != 0:
+                if wrap and j != 0:  # not Ps.looped
                     p2 = _unrollon(p1, p2)
                 # skip edge if no overlap with box around closest
                 if j < 4 or b.overlaps(p1.lat, p1.lon, p2.lat, p2.lon):
-                    p, t, _ = _nearestOn3(self, p1, p2, A, **kwds)
-                    d3 = D3(p, wrap=False)  # already unrolled
+                    p, t, _ = _n3(self, p1, p2, A, **kwds)
+                    d3 = _d3(p, wrap=False)  # already unrolled
                     if d3.distance < c3.distance:
                         c3, c, s, e, f = d3, p, p1, p2, (i + t)
                         b = _Box(c, c3.distance)
@@ -378,11 +382,15 @@ class _Box(object):
            @return: C{False} if there is certainly no overlap,
                     C{True} otherwise (C{bool}).
         '''
-        non_ = ((lat1 > self._N or lat2 < self._S) if lat1 < lat2 else
-                (lat2 > self._N or lat1 < self._S)) or \
-               ((lon1 > self._E or lon2 < self._W) if lon1 < lon2 else
-                (lon2 > self._E or lon1 < self._W))
-        return not non_
+        if lat1 > lat2:
+            lat1, lat2 = lat2, lat1
+        if lat1 > self._N or lat2 < self._S:
+            return False
+        if lon1 > lon2:
+            lon1, lon2 = lon2, lon1
+        if lon1 > self._E or lon2 < self._W:
+            return False
+        return True
 
 
 class _Tol(object):
@@ -442,7 +450,7 @@ class _Tol(object):
     def mError(self, m, Error=_ValueError):
         '''Compose an error with B{C{m}}eter minimum.
         '''
-        t = _SPACE_(Fmt.tolerance(self.meter), _too_low_)
+        t = _SPACE_(Fmt.tolerance(self.meter), _too_(_low_))
         if m2km(m) > self.meter:
             t = _or(t, _antipodal_, _near_(_polar__))
         return Error(Fmt.no_convergence(m), txt=t)
@@ -477,7 +485,7 @@ def _Equidistant00(equidistant, p1):
     return equidistant(0, 0, p1.datum)
 
 
-def _intersect3(s1, end1, s2, end2, height=None, wrap=True,  # MCCABE 16
+def _intersect3(s1, end1, s2, end2, height=None, wrap=False,  # MCCABE 16  was=True
                 equidistant=None, tol=_TOL_M, LatLon=None, **LatLon_kwds):
     '''(INTERNAL) Intersect two (ellipsoidal) lines, see ellipsoidal method
        L{intersection3}, separated to allow callers to embellish any exceptions.
@@ -577,7 +585,7 @@ def _intersect3(s1, end1, s2, end2, height=None, wrap=True,  # MCCABE 16
                                  (o2 if ll2 else _o(o2, b2, 2, s2, t, e)))
 
 
-def _intersection3(start1, end1, start2, end2, height=None, wrap=True,
+def _intersection3(start1, end1, start2, end2, height=None, wrap=False,  # was=True
                    equidistant=None, tol=_TOL_M, LatLon=None, **LatLon_kwds):
     '''(INTERNAL) Iteratively compute the intersection point of two lines,
        each defined by two (ellipsoidal) points or an (ellipsoidal) start
@@ -593,7 +601,7 @@ def _intersection3(start1, end1, start2, end2, height=None, wrap=True,
         raise _xError(x, start1=start1, end1=end1, start2=start2, end2=end2)
 
 
-def _intersections2(center1, radius1, center2, radius2, height=None, wrap=True,
+def _intersections2(center1, radius1, center2, radius2, height=None, wrap=False,  # was=True
                     equidistant=None, tol=_TOL_M, LatLon=None, **LatLon_kwds):
     '''(INTERNAL) Iteratively compute the intersection points of two circles,
        each defined by an (ellipsoidal) center point and a radius.
@@ -609,7 +617,7 @@ def _intersections2(center1, radius1, center2, radius2, height=None, wrap=True,
                          center2=center2, radius2=radius2)
 
 
-def _intersects2(c1, radius1, c2, radius2, height=None, wrap=True,  # MCCABE 16
+def _intersects2(c1, radius1, c2, radius2, height=None, wrap=False,  # MCCABE 16 was=True
                  equidistant=None, tol=_TOL_M, LatLon=None, **LatLon_kwds):
     '''(INTERNAL) Intersect two (ellipsoidal) circles, see L{_intersections2}
        above, separated to allow callers to embellish any exceptions.
@@ -700,7 +708,7 @@ def _intersects2(c1, radius1, c2, radius2, height=None, wrap=True,  # MCCABE 16
     return r, r
 
 
-def _nearestOn2(p, point1, point2, within=True, height=None, wrap=True,
+def _nearestOn2(p, point1, point2, within=True, height=None, wrap=False,  # was=True
                    equidistant=None, tol=_TOL_M, **LatLon_and_kwds):
     '''(INTERNAL) Closest point and fraction, like L{_intersects2} above,
        separated to allow callers to embellish any exceptions.
@@ -714,13 +722,9 @@ def _nearestOn2(p, point1, point2, within=True, height=None, wrap=True,
     # get the azimuthal equidistant projection
     A = _Equidistant00(equidistant, p)
 
-    if wrap:
-        p1 = _unrollon(p,  p1)  # XXX do not unroll?
-        p2 = _unrollon(p,  p2)  # XXX do not unroll?
-        p2 = _unrollon(p1, p2)
-
-    r, f, _ = _nearestOn3(p, p1, p2, A, within=within, height=height,
-                                        tol=tol, **LatLon_and_kwds)
+    p1, p2, _ = _unrollon3(p, p1, p2, wrap)  # XXX don't unroll?
+    r,  f,  _ = _nearestOn3(p, p1, p2, A, within=within, height=height,
+                                          tol=tol, **LatLon_and_kwds)
     return NearestOn2Tuple(r, f)
 
 

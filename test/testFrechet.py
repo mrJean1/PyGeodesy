@@ -36,12 +36,14 @@ class Tests(TestsBase):
 
         try:
             t = _tstr(f.discrete(_ps))
+            n = '%s (%s)' % (f.named, f.units)
             self.test(n, t, x, known=k)  # + (t.units,)
         except FrechetError as e:
             self.test(n, str(e), x, known=k)  # + (t.units,)
 
         try:
             t = _tstr(f.discrete(_ps, fraction=0.5))
+            n = '%s (%s)' % (f.named, f.units)
             self.test(n, t, y, known=k)  # + (t.units,)
         except FrechetError as e:
             self.test(n, str(e), y, known=k)  # + (t.units,)

@@ -30,7 +30,7 @@ from pygeodesy.unitsBase import _Error, Float, Fmt, fstr, Int, _NamedUnit, \
 from math import degrees, radians
 
 __all__ = _ALL_LAZY.units
-__version__ = '23.03.18'
+__version__ = '23.05.12'
 
 _negative_falsed_ = 'negative, falsed'
 
@@ -547,9 +547,10 @@ class FIx(Float_):
 
            @arg points: The points (C{LatLon}[], L{Numpy2LatLon}[],
                         L{Tuple2LatLon}[] or C{other}[]).
-           @kwarg wrap: Wrap and unroll longitudes (C{bool}) or C{None} for
-                        backward compatible L{LatLon2Tuple} or B{C{LatLon}}
-                        with averaged lat- and longitudes.
+           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the
+                        B{C{points}} (C{bool})  C{None} for backward
+                        compatible L{LatLon2Tuple} or B{C{LatLon}} with
+                        I{averaged} lat- and longitudes.
            @kwarg LatLon: Optional class to return the I{intermediate},
                           I{fractional} point (C{LatLon}) or C{None}.
            @kwarg Vector: Optional class to return the I{intermediate},

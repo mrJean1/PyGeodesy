@@ -27,8 +27,9 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 from pygeodesy.basics import issubclassof, map2, _xinstanceof
 from pygeodesy.datums import _ellipsoidal_datum, _spherical_datum, _WGS84
 # from pygeodesy.dms import toDMS  # _MODS
-from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, _TOL_M, \
-                                      LatLonEllipsoidalBase, _nearestOn
+from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, \
+                                     _TOL_M, LatLonEllipsoidalBase, \
+                                     _nearestOn,  _Wrap
 from pygeodesy.errors import _IsnotError, _xkwds
 # from pygeodesy.fmath import fdot  # from .nvectorBase
 from pygeodesy.interns import NN, _Nv00_, _COMMASPACE_
@@ -44,12 +45,12 @@ from pygeodesy.props import deprecated_class, deprecated_function, \
                             deprecated_method, Property_RO
 from pygeodesy.streprs import Fmt, fstr, _xzipairs
 from pygeodesy.units import Bearing, Distance, Height, Scalar
-# from pygeodesy.utily import sincos2d_  # from .ltpTuples
+# from pygeodesy.utily import sincos2d_, _Wrap  # from .ltpTuples, .ellipsoidalBase
 
 # from math import fabs  # from .nvectorBase
 
 __all__ = _ALL_LAZY.ellipsoidalNvector
-__version__ = '23.04.11'
+__version__ = '23.05.04'
 
 
 class Ned(_Ned):
@@ -185,7 +186,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #         a = (-PI_2 - a) if a < 0 else (PI_2 - a)
 #         return a * float(radius)
 
-    def deltaTo(self, other, Ned=Ned):
+    def deltaTo(self, other, Ned=Ned, wrap=False):
         '''Calculate the local delta from this to an other point.
 
            @note: This is a linear delta, I{unrelated} to a geodesic
@@ -195,6 +196,8 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
            @kwarg Ned: Class to use (L{pygeodesy.Ned} or
                        L{pygeodesy.Ned4Tuple}), overriding the
                        default DEPRECATED L{Ned}.
+           @kwarg wrap: If C{True}, wrap or I{normalize} the
+                        B{C{other}} point (C{bool}).
 
            @return: Delta from this to the other point (B{C{Ned}}).
 
@@ -215,8 +218,11 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
         '''
         self.ellipsoids(other)  # throws TypeError and ValueError
 
+        p = self.others(other)
+        if wrap:
+            p = _Wrap.point(p)
         # get delta in cartesian frame
-        dc = other.toCartesian().minus(self.toCartesian())
+        dc = p.toCartesian().minus(self.toCartesian())
         # rotate dc to get delta in n-vector reference
         # frame using the rotation matrix row vectors
         ned_ = map2(dc.dot, self._rotation3)
@@ -294,11 +300,12 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
         '''I{Approximate} the distance from this to an other point.
 
            @arg other: The other point (L{LatLon}).
-           @kwarg radius: Mean earth radius, ellipsoid or datum
-                          (C{meter}, L{Ellipsoid}, L{Ellipsoid2},
-                          L{Datum} or L{a_f2Tuple}), overriding the
-                          mean radius C{R1} of this point's datum..
-           @kwarg wrap: Wrap/unroll the angular distance (C{bool}).
+           @kwarg radius: Mean earth radius, ellipsoid or datum (C{meter},
+                          L{Ellipsoid}, L{Ellipsoid2}, L{Datum} or
+                          L{a_f2Tuple}), overriding the mean radius C{R1}
+                          of this point's datum..
+           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the
+                        B{C{other}} and angular distance (C{bool}).
 
            @return: Distance (C{meter}, same units as B{C{radius}}).
 
@@ -312,9 +319,10 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
             >>> q = LatLon(48.857, 2.351);
             >>> d = p.distanceTo(q)  # 404300
         '''
-        self.others(other)
-
-        a = self._N_vector.angleTo(other._N_vector, wrap=wrap)
+        p = self.others(other)
+        if wrap:
+            p = _Wrap.point(p)
+        a = self._N_vector.angleTo(p._N_vector, wrap=wrap)
         d = self.datum if radius is None else _spherical_datum(radius)
         return fabs(a) * d.ellipsoid.R1  # see .utily.radians2m
 
@@ -351,8 +359,8 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
             >>> q = LatLon(52.205, 0.119)
             >>> e = p.isequalTo(q)  # True
         '''
-        return LatLonEllipsoidalBase.isequalTo(self, other, eps=eps) \
-               if self.datum == other.datum else False
+        return self.datum == self.others(other).datum and \
+              _MODS.formy._isequalTo(self, other, eps=eps)
 
 #     def greatCircle(self, bearing):
 #         '''Return the great circle heading on the given bearing
@@ -379,11 +387,13 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #                                    -cb * ct - sa * sb * st,
 #                                     ca * st)
 
-#     def initialBearingTo(self, other):
-#         '''Return the initial bearing (forward azimuth) from this
-#            to an other point.
+#     def initialBearingTo(self, other, wrap=False):
+#         '''Return the initial bearing (forward azimuth) from
+#            this to an other point.
 #
 #            @arg other: The other point (L{LatLon}).
+#            @kwarg wrap: If C{True}, wrap or I{normalize}
+#                         and unroll the B{C{other}} (C{bool}).
 #
 #            @return: Initial bearing (compass C{degrees360}).
 #
@@ -395,18 +405,18 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #             >>> p2 = LatLon(48.857, 2.351)
 #             >>> b = p1.bearingTo(p2)  # 156.2
 #         '''
-#         self.others(other)
-#
+#         p = self.others(other)
+#         if wrap:
+#             p = _Wrap.point(p)
 #         v1 = self.toNvector()
-#         v2 = other.toNvector()
 #
-#         gc1 = v1.cross(v2)  # gc through v1 & v2
+#         gc1 = v1.cross(p.toNvector())  # gc through v1 & v2
 #         gc2 = v1.cross(_NP3)  # gc through v1 & North pole
 #
 #         # bearing is (signed) angle between gc1 & gc2
 #         return degrees360(gc1.angleTo(gc2, vSign=v1))
 
-    def intermediateTo(self, other, fraction, height=None, **unused):  # PYCHOK wrap=False
+    def intermediateTo(self, other, fraction, height=None, wrap=False):
         '''Return the point at given fraction between this and
            an other point.
 
@@ -415,6 +425,8 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
                           0.0 at this to 1.0 at the other point.
            @kwarg height: Optional height, overriding the fractional
                           height (C{meter}).
+           @kwarg wrap: If C{True}, wrap or I{normalize} the
+                        B{C{other}} point (C{bool}).
 
            @return: Intermediate point (L{LatLon}).
 
@@ -426,12 +438,12 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
             >>> q = LatLon(48.857, 2.351)
             >>> p = p.intermediateTo(q, 0.25)  # 51.3721°N, 000.7073°E
         '''
-        self.others(other)
-
+        p = self.others(other)
+        if wrap:
+            p = _Wrap.point(p)
         f = Scalar(fraction=fraction)
-        i = self.toNvector().intermediateTo(other.toNvector(), f)
-
-        h = self._havg(other, f=f) if height is None else Height(height)
+        h = self._havg(other, f=f, h=height)
+        i = self.toNvector().intermediateTo(p.toNvector(), f)
         return i.toLatLon(height=h, LatLon=self.classof)  # Nvector(i.x, i.y, i.z).toLatLon(...)
 
     @Property_RO
@@ -451,7 +463,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
            @kwarg Cartesian_and_kwds: Optional L{Cartesian}, B{C{datum}} and other
                                       keyword arguments.  Use C{B{Cartesian}=...}
                                       to override this L{Cartesian} class or specify
-                                      C{B{Cartesian} is None}.
+                                      C{B{Cartesian}=None}.
 
            @return: The geodetic point (L{Cartesian}) or if B{C{Cartesian}} is set
                     to C{None}, an L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M,
@@ -468,7 +480,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
            @kwarg Nvector_and_kwds: Optional L{Nvector}, B{C{datum}} and other
                                     keyword arguments.  Use C{B{Nvector}=...}
                                     to override this L{Nvector} class or specify
-                                    C{B{Nvector} is None}.
+                                    C{B{Nvector}=None}.
 
            @return: The C{n-vector} components (L{Nvector}) or if B{C{Nvector}}
                     is set to C{None}, a L{Vector4Tuple}C{(x, y, z, h)}.
@@ -595,19 +607,21 @@ class Nvector(NvectorBase):
         return u
 
 
-def meanOf(points, datum=_WGS84, height=None, LatLon=LatLon,
-                                            **LatLon_kwds):
+def meanOf(points, datum=_WGS84, height=None, wrap=False,
+                                            **LatLon_and_kwds):
     '''Compute the geographic mean of several points.
 
        @arg points: Points to be averaged (L{LatLon}[]).
        @kwarg datum: Optional datum to use (L{Datum}).
        @kwarg height: Optional height at mean point, overriding
                       the mean height (C{meter}).
-       @kwarg LatLon: Optional class to return the mean point
-                      (L{LatLon}) or C{None}.
-       @kwarg LatLon_kwds: Optional, additional B{C{LatLon}}
-                           keyword arguments, ignored if
-                           C{B{LatLon} is None}.
+       @kwarg wrap: If C{True}, wrap or I{normalize} B{C{points}}
+                    (C{bool}).
+       @kwarg LatLon_and_kwds: Optional B{C{LatLon}} class to return
+                     the mean points and overriding this L{LatLon}
+                     (or C{None}) and additional B{C{LatLon}}
+                     keyword arguments, ignored if C{B{LatLon}
+                     is None}.
 
        @return: Geographic mean point and mean height (B{C{LatLon}})
                 or if B{C{LatLon}} is C{None}, an L{Ecef9Tuple}C{(x,
@@ -616,17 +630,17 @@ def meanOf(points, datum=_WGS84, height=None, LatLon=LatLon,
 
        @raise ValueError: Insufficient number of B{C{points}}.
     '''
-    Ps = _Nvll.PointsIter(points)
+    Ps = _Nvll.PointsIter(points, wrap=wrap)
     # geographic mean
     m = sumOf(p._N_vector for p in Ps.iterate(closed=False))
-    kwds = _xkwds(LatLon_kwds, height=height, datum=datum,
-                               LatLon=LatLon, name=meanOf.__name__)
+    kwds = _xkwds(LatLon_and_kwds, height=height, datum=datum,
+                                   LatLon=LatLon, name=meanOf.__name__)
     return m.toLatLon(**kwds)
 
 
 def nearestOn(point, point1, point2, within=True, height=None, wrap=False,
               equidistant=None, tol=_TOL_M, LatLon=LatLon, **LatLon_kwds):
-    '''Iteratively locate the closest point on the geodesic between
+    '''I{Iteratively} locate the closest point on the geodesic between
        two other (ellipsoidal) points.
 
        @arg point: Reference point (C{LatLon}).
@@ -639,7 +653,8 @@ def nearestOn(point, point1, point2, within=True, height=None, wrap=False,
                       conventionally) or C{None} or C{False} for the
                       interpolated height.  If C{False}, the closest
                       takes the heights of the points into account.
-       @kwarg wrap: Wrap and unroll longitudes (C{bool}).
+       @kwarg wrap: If C{True}, wrap or I{normalize} and unroll I{only}
+                    B{C{point1}} and B{C{point2}} (C{bool}).
        @kwarg equidistant: An azimuthal equidistant projection (I{class}
                            or function L{pygeodesy.equidistant}) or C{None}
                            for the preferred C{B{point}.Equidistant}.

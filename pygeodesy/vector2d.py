@@ -30,7 +30,7 @@ from contextlib import contextmanager
 # from math import fabs, sqrt  # from .fmath
 
 __all__ = _ALL_LAZY.vector2d
-__version__ = '22.10.12'
+__version__ = '23.05.09'
 
 _cA_        = 'cA'
 _cB_        = 'cB'
@@ -372,7 +372,7 @@ def _meeus4(A, point2, point3, circum=False, useZ=True, clas=None, **clas_kwds):
     return r, t, p2, p3
 
 
-class _numpy(object):
+class _numpy(object):  # see also .geodesicw._wargs
     '''(INTERNAL) Partial C{NumPy} wrapper.
     '''
     @contextmanager  # <https://www.python.org/dev/peps/pep-0343/> Examples

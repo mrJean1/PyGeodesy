@@ -56,7 +56,8 @@ from pygeodesy.ellipsoidalBaseDI import _intersection3, _intersections2, \
                                          LatLonEllipsoidalBaseDI, _TOL_M
 from pygeodesy.errors import _and, _ValueError, _xkwds
 from pygeodesy.fmath import Fpolynomial, hypot, hypot1
-from pygeodesy.interns import _ambiguous_, _antipodal_, _COLONSPACE_, _to_, _SPACE_
+from pygeodesy.interns import _ambiguous_, _antipodal_, _COLONSPACE_, \
+                              _to_, _SPACE_,  _limit_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, _ALL_OTHER
 from pygeodesy.namedTuples import Destination2Tuple, Destination3Tuple, \
                                   Distance3Tuple
@@ -70,10 +71,9 @@ from pygeodesy.utily import atan2b, atan2d, sincos2, sincos2d, unroll180, wrap18
 from math import atan2, cos, degrees, fabs, radians, tan
 
 __all__ = _ALL_LAZY.ellipsoidalVincenty
-__version__ = '23.04.11'
+__version__ = '23.05.12'
 
 _antipodal_to_ = _SPACE_(_antipodal_, _to_)
-_limit_        = 'limit'  # PYCHOK used!
 
 
 class VincentyError(_ValueError):
@@ -243,6 +243,7 @@ class LatLon(LatLonEllipsoidalBaseDI):
             r = self._Direct2Tuple(self.classof, height, t)
         else:
             r = Destination2Tuple(None, d, name=self.name)
+        r._iteration = i
         return r
 
     def _Inverse(self, other, wrap, azis=True):  # PYCHOK signature
@@ -269,7 +270,7 @@ class LatLon(LatLonEllipsoidalBaseDI):
 
         eps  = self.epsilon
         d, _ = unroll180(self.lon, other.lon, wrap=wrap)
-        dl = ll = radians(d)
+        dl   = ll = radians(d)
         for i in range(1, self._iterations):  # 1-origin
             sll, cll = sincos2(ll)
 
@@ -280,7 +281,7 @@ class LatLon(LatLonEllipsoidalBaseDI):
                     raise VincentyError(_ambiguous_, txt=t)
                 self._iteration = i
                 # return zeros like Karney, unlike Veness
-                return Distance3Tuple(_0_0, 0, 0)
+                return Distance3Tuple(_0_0, 0, 0, iteration=i)
 
             cs   = s1s2 + c1c2 * cll
             s, e = atan2(ss, cs), ll
@@ -319,7 +320,7 @@ class LatLon(LatLonEllipsoidalBaseDI):
             r = atan2b(c1 * s, -s1c2 + c1s2 * c)
         else:
             f = r = _0_0
-        return Distance3Tuple(d, f, r, name=self.name)
+        return Distance3Tuple(d, f, r, name=self.name, iteration=i)
 
     def _is_to(self, other, anti):
         '''(INTERNAL) Return I{'<self> [antipodal] to <other>'} text (C{str}).
@@ -399,9 +400,9 @@ def areaOf(points, **datum_wrap):
         return _MODS.ellipsoidalExact.areaOf(points, **datum_wrap)
 
 
-def intersection3(start1, end1, start2, end2, height=None, wrap=True,
+def intersection3(start1, end1, start2, end2, height=None, wrap=False,  # was=True
                   equidistant=None, tol=_TOL_M, LatLon=LatLon, **LatLon_kwds):
-    '''Iteratively compute the intersection point of two lines, each defined
+    '''I{Iteratively} compute the intersection point of two lines, each defined
        by two (ellipsoidal) points or by an (ellipsoidal) start point and an
        (initial) bearing from North.
 
@@ -413,7 +414,8 @@ def intersection3(start1, end1, start2, end2, height=None, wrap=True,
                   at the second point (compass C{degrees360}).
        @kwarg height: Optional height at the intersection (C{meter}, conventionally)
                       or C{None} for the mean height.
-       @kwarg wrap: Wrap and unroll longitudes (C{bool}).
+       @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the B{C{start2}}
+                    and B{C{end*}} points (C{bool}).
        @kwarg equidistant: An azimuthal equidistant projection (I{class} or function
                            L{pygeodesy.equidistant}) or C{None} for the preferred
                            C{B{start1}.Equidistant}.
@@ -450,9 +452,9 @@ def intersection3(start1, end1, start2, end2, height=None, wrap=True,
                           equidistant=equidistant, tol=tol, LatLon=LatLon, **LatLon_kwds)
 
 
-def intersections2(center1, radius1, center2, radius2, height=None, wrap=True,
+def intersections2(center1, radius1, center2, radius2, height=None, wrap=False,  # was=True
                    equidistant=None, tol=_TOL_M, LatLon=LatLon, **LatLon_kwds):
-    '''Iteratively compute the intersection points of two circles, each defined
+    '''I{Iteratively} compute the intersection points of two circles, each defined
        by an (ellipsoidal) center point and a radius.
 
        @arg center1: Center of the first circle (L{LatLon}).
@@ -463,7 +465,8 @@ def intersections2(center1, radius1, center2, radius2, height=None, wrap=True,
        @kwarg height: Optional height for the intersection points (C{meter},
                       conventionally) or C{None} for the I{"radical height"}
                       at the I{radical line} between both centers.
-       @kwarg wrap: Wrap and unroll longitudes (C{bool}).
+       @kwarg wrap: If C{True}, wrap or I{normalize} and unroll B{C{center2}}
+                    (C{bool}).
        @kwarg equidistant: An azimuthal equidistant projection (I{class} or
                            function L{pygeodesy.equidistant}) or C{None} for
                            the preferred C{B{center1}.Equidistant}.
@@ -500,7 +503,7 @@ def intersections2(center1, radius1, center2, radius2, height=None, wrap=True,
 
 def nearestOn(point, point1, point2, within=True, height=None, wrap=False,
               equidistant=None, tol=_TOL_M, LatLon=LatLon, **LatLon_kwds):
-    '''Iteratively locate the closest point on the geodesic between
+    '''I{Iteratively} locate the closest point on the geodesic between
        two other (ellipsoidal) points.
 
        @arg point: Reference point (C{LatLon}).
@@ -513,7 +516,8 @@ def nearestOn(point, point1, point2, within=True, height=None, wrap=False,
                       conventionally) or C{None} or C{False} for the
                       interpolated height.  If C{False}, the closest
                       takes the heights of the points into account.
-       @kwarg wrap: Wrap and unroll longitudes (C{bool}).
+       @kwarg wrap: If C{True}, wrap or I{normalize} and unroll both
+                    B{C{point1}} and B{C{point2}} (C{bool}).
        @kwarg equidistant: An azimuthal equidistant projection (I{class}
                            or function L{pygeodesy.equidistant}) or C{None}
                            for the preferred C{B{point}.Equidistant}.

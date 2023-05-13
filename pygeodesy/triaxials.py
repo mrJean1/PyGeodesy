@@ -1049,11 +1049,11 @@ class Triaxials(_NamedEnum):
 
 Triaxials = Triaxials(Triaxial, Triaxial_)  # PYCHOK singleton
 '''Some pre-defined L{Triaxial}s, all I{lazily} instantiated.'''
-# <https://ArxIV.org/pdf/1909.06452.pdf> Table 1 Semi-axes in km
+# <https://ArxIV.org/pdf/1909.06452.pdf> Table 1 Semi-axes in Km
 # <https://www.JPS.NASA.gov/education/images/pdf/ss-moons.pdf>
 # <https://link.Springer.com/article/10.1007/s00190-022-01650-9>
 _E = _WGS84.ellipsoid
-Triaxials._assert(                 # a (km)       b (km)     c (km)     planet
+Triaxials._assert(                 # a (Km)       b (Km)     c (Km)     planet
     Amalthea  = _lazy('Amalthea',  125.0,        73.0,      64),      # Jupiter
     Ariel     = _lazy('Ariel',     581.1,       577.9,     577.7),    # Uranus
     Earth     = _lazy('Earth',    6378.173435, 6378.1039, 6356.7544),

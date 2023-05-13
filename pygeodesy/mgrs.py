@@ -13,7 +13,7 @@ I{ellipsoidal} earth, transcoded from I{Chris Veness}' JavaScript originals U{MG
 I{Charles Karney}'s C++ class U{MGRS<https://GeographicLib.SourceForge.io/C++/doc/
 classGeographicLib_1_1MGRS.html>}.
 
-MGRS references comprise a grid zone designation (GZD), a 100 km grid (square)
+MGRS references comprise a grid zone designation (GZD), a 100 Km grid (square)
 tile identification and an easting and northing (in C{meter}).  The GZD consists
 of a longitudinal zone (or column) I{number} and latitudinal band (row) I{letter}
 in the UTM region between 80°S and 84°N.  Each zone (column) is 6° wide and each
@@ -64,11 +64,11 @@ _AtoPx_ = _AtoZnoIO_.tillP
 _FeUPS  = {_A_: 8, _B_: 20, _Y_:  8, _Z_: 20}  # falsed offsets (C{_100kms})
 _FnUPS  = {_A_: 8, _B_:  8, _Y_: 13, _Z_: 13}  # falsed offsets (C{_100kms})
 _JtoZx_ = 'JKLPQRSTUXYZZ'  # _AtoZnoDEIMNOVW.fromJ, duplicate Z
-# 100 km grid tile UTM column (E) letters, repeating every third zone
+# 100 Km grid tile UTM column (E) letters, repeating every third zone
 _LeUTM  = _AtoZnoIO_.tillH, _AtoZnoIO_.fromJ.tillR, _AtoZnoIO_.fromS  # grid E colums
-# 100 km grid tile UPS column (E) letters for each polar zone
+# 100 Km grid tile UPS column (E) letters for each polar zone
 _LeUPS  = {_A_: _JtoZx_, _B_: 'ABCFGHJKLPQR', _Y_: _JtoZx_, _Z_: 'ABCFGHJ'}
-# 100 km grid tile UTM and UPS row (N) letters, repeating every other zone
+# 100 Km grid tile UTM and UPS row (N) letters, repeating every other zone
 _LnUTM  = _AtoZnoIO_.tillV, _AtoZnoIO_.fromF.tillV + _AtoZnoIO_.tillE  # grid N rows
 _LnUPS  = {_A_: _AtoZnoIO_, _B_: _AtoZnoIO_, _Y_: _AtoPx_, _Z_: _AtoPx_}
 _polar_ = _SPACE_('polar', _zone_)
@@ -81,9 +81,9 @@ class Mgrs(_NamedBase):
     _band       =  NN     # latitudinal (C..X) or polar (ABYZ) band
     _bandLat    =  None   # band latitude (C{degrees90} or C{None})
     _datum      = _WGS84  # Datum (L{Datum})
-    _easting    =  0      # Easting (C{meter}), within 100 km grid tile
-    _EN         =  NN     # EN digraph (C{str}), 100 km grid tile
-    _northing   =  0      # Northing (C{meter}), within 100 km grid tile
+    _easting    =  0      # Easting (C{meter}), within 100 Km grid tile
+    _EN         =  NN     # EN digraph (C{str}), 100 Km grid tile
+    _northing   =  0      # Northing (C{meter}), within 100 Km grid tile
     _resolution =  0      # from L{parseMGRS}, centering (C{meter})
     _zone       =  0      # longitudinal or polar zone (C{int}), 0..60
 
@@ -97,8 +97,8 @@ class Mgrs(_NamedBase):
            @arg EN: Two-letter EN digraph (C{str}), grid tile I{using only}
                     the I{AA} aka I{MGRS-New} (row) U{lettering scheme
                     <http://Wikipedia.org/wiki/Military_Grid_Reference_System>}.
-           @kwarg easting: Easting (C{meter}), within 100 km grid tile.
-           @kwarg northing: Northing (C{meter}), within 100 km grid tile.
+           @kwarg easting: Easting (C{meter}), within 100 Km grid tile.
+           @kwarg northing: Northing (C{meter}), within 100 Km grid tile.
            @kwarg band: Optional, I{latitudinal} band or I{polar} region letter
                         (C{str}), 'C'|..|'X' covering 80°S..84°N (no 'I'|'O'),
                         'A'|'B' at the south or 'Y'|'Z' at the north pole.
@@ -191,7 +191,7 @@ class Mgrs(_NamedBase):
         if self.isUTM:
             i = self.zone - 1
             # get easting from the E column (note, +1 because
-            # easting starts at 166e3 due to 500 km falsing)
+            # easting starts at 166e3 due to 500 Km falsing)
             e = _LeUTM[i % 3].index(EN[0]) + 1
             # similarly, get northing from the N row
             n = _LnUTM[i % 2].index(EN[1])
@@ -420,8 +420,8 @@ class Mgrs(_NamedBase):
         e += self.easting
         n += self.northing
         if self.isUTM:
-            # 100 km row letters repeat every 2,000 km north;
-            # add 2,000 km blocks to get into required band
+            # 100 Km row letters repeat every 2,000 Km north;
+            # add 2,000 Km blocks to get into required band
             b = (self.northingBottom - n) / _2000km
             if b > 0:
                 b  = int(b) + 1

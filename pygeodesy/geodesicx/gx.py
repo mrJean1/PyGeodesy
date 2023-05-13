@@ -55,12 +55,12 @@ from pygeodesy.lazily import _ALL_DOCS, _ALL_MODS as _MODS
 from pygeodesy.namedTuples import Destination3Tuple, Distance3Tuple
 from pygeodesy.props import deprecated_Property, Property, Property_RO
 from pygeodesy.streprs import Fmt, pairs
-from pygeodesy.utily import atan2d as _atan2d_reverse, unroll180, wrap360
+from pygeodesy.utily import atan2d as _atan2d_reverse, _Wrap, wrap360
 
 from math import atan2, copysign, cos, degrees, fabs, radians, sqrt
 
 __all__ = ()
-__version__ = '23.04.11'
+__version__ = '23.05.09'
 
 _MAXIT1 = 20
 _MAXIT2 = 10 + _MAXIT1 + MANT_DIG  # MANT_DIG == C++ digits
@@ -752,10 +752,14 @@ class GeodesicExact(_GeodesicBase):
 
     def Inverse1(self, lat1, lon1, lat2, lon2, wrap=False):
         '''Return the non-negative, I{angular} distance in C{degrees}.
+
+           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll
+                        B{C{lat2}} and B{C{lon2}} (C{bool}).
         '''
         # see .FrechetKarney.distance, .HausdorffKarney._distance
         # and .HeightIDWkarney._distances
-        _, lon2 = unroll180(lon1, lon2, wrap=wrap)  # self.LONG_UNROLL
+        if wrap:
+            _, lat2, lon2 = _Wrap.latlon3(lat1, lat2, lon2, True)  # _Geodesic.LONG_UNROLL
         return fabs(self._GDictInverse(lat1, lon1, lat2, lon2, Caps._ANGLE_ONLY).a12)
 
     def Inverse3(self, lat1, lon1, lat2, lon2):  # PYCHOK outmask

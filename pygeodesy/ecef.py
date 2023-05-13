@@ -42,7 +42,7 @@ in U{I{An analytical method to transform geocentric into geodetic coordinates}
 <https://DOI.org/10.1007/s00190-010-0419-x>}, J. Geodesy (2011) 85, page 105-117.  See U{Geocentric
 coordinates<https://GeographicLib.SourceForge.io/C++/doc/geocentric.html>} for more information.
 
-The errors in these routines are close to round-off.  Specifically, for points within 5,000 km of
+The errors in these routines are close to round-off.  Specifically, for points within 5,000 Km of
 the surface of the ellipsoid (either inside or outside the ellipsoid), the error is bounded by 7
 nm (7 nanometers) for the WGS84 ellipsoid.  See U{Geocentric coordinates
 <https://GeographicLib.SourceForge.io/C++/doc/geocentric.html>} for further information on the errors.
@@ -62,12 +62,12 @@ from pygeodesy.constants import EPS, EPS0, EPS02, EPS1, EPS2, EPS_2, PI, PI_2, \
 from pygeodesy.datums import a_f2Tuple, _ellipsoidal_datum
 # from pygeodesy.ellipsoids import a_f2Tuple  # from .datums
 from pygeodesy.errors import _IndexError, LenError, _ValueError, _TypesError, \
-                             _xdatum, _xkwds
+                             _xattr, _xdatum, _xkwds
 from pygeodesy.fmath import cbrt, fdot, hypot, hypot1, hypot2_
 from pygeodesy.fsums import Fsum, fsum_
-from pygeodesy.interns import NN, _a_, _C_, _datum_, _ellipsoid_, _f_, _h_, \
-                             _height_, _lat_, _lon_, _M_, _name_, _singular_, \
-                             _SPACE_, _x_, _xyz_, _y_, _z_
+from pygeodesy.interns import NN, _a_, _C_, _datum_, _ellipsoid_, _f_, _height_, \
+                             _lat_, _lon_, _M_, _name_, _singular_, _SPACE_, \
+                             _x_, _xyz_, _y_, _z_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _NamedBase, _NamedTuple, notOverloaded, _Pass, _xnamed
 from pygeodesy.namedTuples import LatLon2Tuple, LatLon3Tuple, \
@@ -81,7 +81,7 @@ from pygeodesy.utily import atan2d, degrees90, degrees180, sincos2, sincos2_, \
 from math import asin, atan2, cos, degrees, fabs, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '23.04.23'
+__version__ = '23.05.06'
 
 _Ecef_    = 'Ecef'
 _prolate_ = 'prolate'
@@ -100,9 +100,8 @@ def _llhn4(latlonh, lon, height, suffix=NN, Error=EcefError, name=NN):  # in .lt
     '''
     try:
         lat, lon = latlonh.lat, latlonh.lon
-        h = getattr(latlonh, _height_,
-            getattr(latlonh, _h_, height))
-        n = getattr(latlonh, _name_, NN)
+        h = _xattr(latlonh, height=_xattr(latlonh, h=height))
+        n = _xattr(latlonh, name=NN)
     except AttributeError:
         lat, h, n = latlonh, height, NN
 
@@ -123,7 +122,7 @@ def _xyzn4(xyz, y, z, Types, Error=EcefError, name=NN,  # in .ltp
     '''
     try:
         try:
-            t = xyz.x, xyz.y, xyz.z, getattr(xyz, _name_, name)
+            t = xyz.x, xyz.y, xyz.z, _xattr(xyz, name=name)
             if not isinstance(xyz, Types):
                 raise _TypesError(_xyz_y_z_names[0], xyz, *Types)
         except AttributeError:
@@ -1217,7 +1216,7 @@ class Ecef9Tuple(_NamedTuple):
             if d is None:  # remove None datum
                 _ = kwds.pop[_datum_]
             r = LatLon(self.lat, self.lon, **kwds)  # PYCHOK Ecef9Tuple
-        _xdatum(getattr(r, _datum_, self.datum), self.datum)  # PYCHOK Ecef9Tuple
+        _xdatum(_xattr(r, datum=self.datum), self.datum)  # PYCHOK Ecef9Tuple
         return r
 
     def toLocal(self, ltp, Xyz=None, **Xyz_kwds):

@@ -14,24 +14,24 @@ A pure Python implementation, partially transcoded from C++ class U{UTMUPS
 <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1UTMUPS.html>}
 by I{Charles Karney}.
 '''
-# from pygeodesy.basics import map1  # from .utmupsBase
+# from pygeodesy.basics import map1  # from .namedTuples
 # from pygeodesy.datums import _WGS84  # from .utmupsBase
 from pygeodesy.errors import _IsnotError, RangeError, _ValueError, _xkwds_get
 from pygeodesy.interns import NN, _easting_, _MGRS_, _northing_, _NS_, \
                              _outside_, _range_, _SPACE_, _UPS_, _UTM_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import modulename
-from pygeodesy.namedTuples import UtmUps5Tuple, UtmUps8Tuple
+from pygeodesy.namedTuples import UtmUps5Tuple, UtmUps8Tuple,  map1
 # from pygeodesy.streprs import Fmt  # from .utmupsBase
 from pygeodesy.units import Northing, _100km
 from pygeodesy.ups import parseUPS5, toUps8, Ups, UPSError, upsZoneBand5
 from pygeodesy.utm import parseUTM5, toUtm8, Utm, UTMError, utmZoneBand5
-from pygeodesy.utmupsBase import Fmt, map1, _to4lldn, _to3zBhp, \
-                                _UPS_ZONE, _UPS_ZONE_STR, _UTMUPS_ZONE_MIN, \
+from pygeodesy.utmupsBase import Fmt, _to4lldn, _to3zBhp, _UPS_ZONE, \
+                                _UPS_ZONE_STR, _UTMUPS_ZONE_MIN, \
                                 _UTMUPS_ZONE_MAX, _WGS84
 
 __all__ = _ALL_LAZY.utmups
-__version__ = '22.10.04'
+__version__ = '23.05.03'
 
 _MGRS_TILE = _100km  # in .mgrs.Mgrs.tile
 

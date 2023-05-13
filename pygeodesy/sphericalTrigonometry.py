@@ -30,11 +30,12 @@ from pygeodesy.formy import antipode_, bearing_, _bearingTo2, excessAbc_, \
                             excessGirard_, excessLHuilier_, opposing_, _radical2, \
                             vincentys_
 from pygeodesy.interns import _1_, _2_, _coincident_, _composite_, _colinear_, \
-                              _concentric_, _convex_, _end_, _infinite_, _invalid_, \
-                              _LatLon_, _line_, _near_, _not_, _null_, _points_, \
-                              _SPACE_, _too_
+                              _concentric_, _convex_, _end_, _infinite_, \
+                              _invalid_, _line_, _near_, _not_, _null_, \
+                              _point_, _SPACE_, _too_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _ALL_OTHER
 # from pygeodesy.named import notImplemented  # from .points
+# from pygeodesy.nvectorBase import NvectorBase, sumOf  # _MODE
 from pygeodesy.namedTuples import LatLon2Tuple, LatLon3Tuple, \
                                   NearestOn3Tuple, Triangle7Tuple, \
                                   Triangle8Tuple
@@ -47,14 +48,14 @@ from pygeodesy.sphericalBase import _angular, CartesianSphericalBase, _interseca
 from pygeodesy.units import Bearing_, Height, Lam_, Phi_, Radius, \
                             Radius_, Scalar
 from pygeodesy.utily import acos1, asin1, degrees90, degrees180, degrees2m, \
-                            m2radians, radiansPI2, sincos2_, tan_2, unrollPI, \
-                            wrap180, wrapPI
+                            m2radians, radiansPI2, sincos2_, tan_2, _unrollon, \
+                            unrollPI, _unrollon3, _Wrap, wrap180, wrapPI
 from pygeodesy.vector3d import sumOf, Vector3d
 
 from math import asin, atan2, cos, degrees, fabs, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '23.04.11'
+__version__ = '23.05.05'
 
 _parallel_ = 'parallel'
 
@@ -93,6 +94,18 @@ class LatLon(LatLonSphericalBase):
         >>> p = LatLon(52.205, 0.119)  # height=0
     '''
 
+    def _ab1_ab2_db5(self, other, wrap):
+        '''(INTERNAL) Helper for several methods.
+        '''
+        a1, b1 = self.philam
+        a2, b2 = self.others(other, up=2).philam
+        if wrap:
+            a2, b2 = _Wrap.philam(a2, b2)
+            db, b2 =  unrollPI(b1, b2, wrap=wrap)
+        else:  # unrollPI shortcut
+            db = b2 - b1
+        return a1, b1, a2, b2, db
+
     def alongTrackDistanceTo(self, start, end, radius=R_M, wrap=False):
         '''Compute the (angular) distance (signed) from the start to
            the closest point on the great circle line defined by a
@@ -103,16 +116,18 @@ class LatLon(LatLonSphericalBase):
            from the start point to the point where the perpendicular
            crosses the line.
 
-           @arg start: Start point of great circle line (L{LatLon}).
-           @arg end: End point of great circle line (L{LatLon}).
+           @arg start: Start point of the great circle line (L{LatLon}).
+           @arg end: End point of the great circle line (L{LatLon}).
            @kwarg radius: Mean earth radius (C{meter}) or C{None}.
-           @kwarg wrap: Wrap and unroll longitudes (C{bool}).
+           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll
+                        the B{C{start}} and B{C{end}} point (C{bool}).
 
            @return: Distance along the great circle line (C{meter},
                     same units as B{C{radius}}) or C{radians} if
-                    C{B{radius} is None}, positive if after the B{C{start}}
-                    toward the B{C{end}} point of the line or negative
-                    if before the B{C{start}} point.
+                    C{B{radius} is None}, positive if I{after} the
+                    B{C{start}} toward the B{C{end}} point of the
+                    line, I{negative} if before or C{0} if at the
+                    B{C{start}} point.
 
            @raise TypeError: Invalid B{C{start}} or B{C{end}} point.
 
@@ -126,10 +141,25 @@ class LatLon(LatLonSphericalBase):
             >>> e = LatLon(53.1887, 0.1334)
             >>> d = p.alongTrackDistanceTo(s, e)  # 62331.58
         '''
-        r, x, b = self._trackDistanceTo3(start, end, radius, wrap)
+        r, x, b = self._a_x_b3(start, end, radius, wrap)
         cx = cos(x)
         return _0_0 if isnear0(cx) else \
                _r2m(copysign0(acos1(cos(r) / cx), cos(b)), radius)
+
+    def _a_x_b3(self, start, end, radius, wrap):
+        '''(INTERNAL) Helper for .along-/crossTrackDistanceTo.
+        '''
+        s = self.others(start=start)
+        e = self.others(end=end)
+        s, e, w = _unrollon3(self, s, e, wrap)
+
+        r = Radius_(radius)
+        r = s.distanceTo(self, r, wrap=w) / r
+
+        b = radians(s.initialBearingTo(self, wrap=w)
+                  - s.initialBearingTo(e,    wrap=w))
+        x = asin(sin(r) * sin(b))
+        return r, x, -b
 
     @deprecated_method
     def bearingTo(self, other, wrap=False, raiser=False):  # PYCHOK no cover
@@ -143,21 +173,15 @@ class LatLon(LatLonSphericalBase):
 
            @arg other: The other point defining great circle (L{LatLon}).
            @arg lat: Latitude at the crossing (C{degrees}).
-           @kwarg wrap: Wrap and unroll longitudes (C{bool}).
+           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the
+                        B{C{other}} point (C{bool}).
 
            @return: 2-Tuple C{(lon1, lon2)}, both in C{degrees180} or
                     C{None} if the great circle doesn't reach B{C{lat}}.
         '''
-        self.others(other)
-
-        a1, b1 = self.philam
-        a2, b2 = other.philam
-
-        a = radians(lat)
-        db, b2 = unrollPI(b1, b2, wrap=wrap)
-
+        a1, b1, a2, b2, db = self._ab1_ab2_db5(other, wrap)
         sa,  ca,  sa1, ca1, \
-        sa2, ca2, sdb, cdb = sincos2_(a, a1, a2, db)
+        sa2, ca2, sdb, cdb = sincos2_(radians(lat), a1, a2, db)
         sa1 *= ca2 * ca
 
         x = sa1 * sdb
@@ -173,20 +197,21 @@ class LatLon(LatLonSphericalBase):
         return degrees180(m - d), degrees180(m + d)
 
     def crossTrackDistanceTo(self, start, end, radius=R_M, wrap=False):
-        '''Compute the (angular) distance (signed) from this point to
+        '''Compute the (signed, angular) distance from this point to
            the great circle defined by a start and an end point.
 
-           @arg start: Start point of great circle line (L{LatLon}).
-           @arg end: End point of great circle line (L{LatLon}).
+           @arg start: Start point of the great circle line (L{LatLon}).
+           @arg end: End point of the great circle line (L{LatLon}).
            @kwarg radius: Mean earth radius (C{meter}) or C{None}.
-           @kwarg wrap: Wrap and unroll longitudes (C{bool}).
+           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll
+                        the B{C{start}} and B{C{end}} point (C{bool}).
 
-           @return: Distance to great circle (negative if to the left
-                    or positive if to the right of the line) (C{meter},
-                    same units as B{C{radius}} or C{radians} if
-                    B{C{radius}} is C{None}).
+           @return: Distance to the great circle (I{negative} if to
+                    the left or I{positive} if to the right of the
+                    line) (C{meter}, same units as B{C{radius}} or
+                    C{radians} if B{C{radius}} is C{None}).
 
-           @raise TypeError: The B{C{start}} or B{C{end}} point is not L{LatLon}.
+           @raise TypeError: If B{C{start}} or B{C{end}} is not L{LatLon}.
 
            @raise ValueError: Invalid B{C{radius}}.
 
@@ -198,7 +223,7 @@ class LatLon(LatLonSphericalBase):
             >>> e = LatLon(53.1887, 0.1334)
             >>> d = p.crossTrackDistanceTo(s, e)  # -307.5
         '''
-        _, x, _ = self._trackDistanceTo3(start, end, radius, wrap)
+        _, x, _ = self._a_x_b3(start, end, radius, wrap)
         return _r2m(x, radius)
 
     def destination(self, distance, bearing, radius=R_M, height=None):
@@ -227,7 +252,7 @@ class LatLon(LatLonSphericalBase):
         r, t = _angular(distance, radius), Bearing_(bearing)
 
         a, b = _destination2(a, b, r, t)
-        h = self.height if height is None else Height(height)
+        h = self._heigHt(height)
         return self.classof(degrees90(a), degrees180(b), height=h)
 
     def distanceTo(self, other, radius=R_M, wrap=False):
@@ -235,7 +260,8 @@ class LatLon(LatLonSphericalBase):
 
            @arg other: The other point (L{LatLon}).
            @kwarg radius: Mean earth radius (C{meter}) or C{None}.
-           @kwarg wrap: Wrap and unroll longitudes (C{bool}).
+           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll
+                        the B{C{other}} point (C{bool}).
 
            @return: Distance between this and the B{C{other}} point
                     (C{meter}, same units as B{C{radius}} or
@@ -251,12 +277,7 @@ class LatLon(LatLonSphericalBase):
             >>> p2 = LatLon(48.857, 2.351);
             >>> d = p1.distanceTo(p2)  # 404300
         '''
-        self.others(other)
-
-        a1, b1 = self.philam
-        a2, b2 = other.philam
-
-        db, _ = unrollPI(b1, b2, wrap=wrap)
+        a1, _, a2, _, db = self._ab1_ab2_db5(other, wrap)
         return _r2m(vincentys_(a2, a1, db), radius)
 
 #   @Property_RO
@@ -265,7 +286,7 @@ class LatLon(LatLonSphericalBase):
 #       '''
 #       return _MODS.ecef.EcefKarney
 
-    def greatCircle(self, bearing):
+    def greatCircle(self, bearing, Vector=Vector3d, **Vector_kwds):
         '''Compute the vector normal to great circle obtained by heading
            on the given initial bearing from this point.
 
@@ -273,8 +294,12 @@ class LatLon(LatLonSphericalBase):
            b = c × n, where n is an n-vector representing this point.
 
            @arg bearing: Bearing from this point (compass C{degrees360}).
+           @kwarg Vector: Vector class to return the great circle,
+                          overriding the default L{Vector3d}.
+           @kwarg Vector_kwds: Optional, additional keyword argunents
+                               for B{C{Vector}}.
 
-           @return: Vector representing great circle (L{Vector3d}).
+           @return: Vector representing great circle (C{Vector}).
 
            @raise ValueError: Invalid B{C{bearing}}.
 
@@ -285,20 +310,19 @@ class LatLon(LatLonSphericalBase):
             >>> g.toStr()  # (-0.794, 0.129, 0.594)
         '''
         a, b = self.philam
+        sa, ca, sb, cb, st, ct = sincos2_(a, b, Bearing_(bearing))
 
-        t = Bearing_(bearing)
-        sa, ca, sb, cb, st, ct = sincos2_(a, b, t)
-
-        return Vector3d(sb * ct - cb * sa * st,
-                       -cb * ct - sb * sa * st,
-                        ca * st)  # XXX .unit()?
+        return Vector(sb * ct - cb * sa * st,
+                     -cb * ct - sb * sa * st,
+                      ca * st, **Vector_kwds)  # XXX .unit()?
 
     def initialBearingTo(self, other, wrap=False, raiser=False):
         '''Compute the initial bearing (forward azimuth) from this
            to an other point.
 
            @arg other: The other point (spherical L{LatLon}).
-           @kwarg wrap: Wrap and unroll longitudes (C{bool}).
+           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll
+                        the B{C{other}} point (C{bool}).
            @kwarg raiser: Optionally, raise L{CrossError} (C{bool}),
                           use C{B{raiser}=True} for behavior like
                           C{sphericalNvector.LatLon.initialBearingTo}.
@@ -317,16 +341,12 @@ class LatLon(LatLonSphericalBase):
             >>> p2 = LatLon(48.857, 2.351)
             >>> b = p1.initialBearingTo(p2)  # 156.2
         '''
-        self.others(other)
-
-        a1, b1 = self.philam
-        a2, b2 = other.philam
-
+        a1, b1, a2, b2, db = self._ab1_ab2_db5(other, wrap)
         # XXX behavior like sphericalNvector.LatLon.initialBearingTo
-        if raiser and crosserrors() and max(fabs(a2 - a1), fabs(b2 - b1)) < EPS:
-            raise CrossError(_points_, self, txt=_coincident_)
+        if raiser and crosserrors() and max(fabs(a2 - a1), fabs(db)) < EPS:
+            raise CrossError(_point_, self, other=other, wrap=wrap, txt=_coincident_)
 
-        return degrees(bearing_(a1, b1, a2, b2, final=False, wrap=wrap))
+        return degrees(bearing_(a1, b1, a2, b2, final=False))
 
     def intermediateTo(self, other, fraction, height=None, wrap=False):
         '''Locate the point at given fraction between (or along) this
@@ -337,7 +357,8 @@ class LatLon(LatLonSphericalBase):
                           0.0 at this and 1.0 at the other point).
            @kwarg height: Optional height, overriding the intermediate
                           height (C{meter}).
-           @kwarg wrap: Wrap and unroll longitudes (C{bool}).
+           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the
+                        B{C{other}} point (C{bool}).
 
            @return: Intermediate point (L{LatLon}).
 
@@ -353,55 +374,55 @@ class LatLon(LatLonSphericalBase):
             >>> p2 = LatLon(48.857, 2.351)
             >>> p = p1.intermediateTo(p2, 0.25)  # 51.3721°N, 000.7073°E
         '''
-        f = Scalar(fraction=fraction)  # not high=_1_0
-        if isnear0(f):  # PYCHOK no cover
-            r = self
-        elif isnear1(f) and not wrap:  # PYCHOK no cover
-            r = self.others(other)
-        else:
-            a1, b1 = self.philam
-            a2, b2 = self.others(other).philam
+        p = self
+        f = Scalar(fraction=fraction)
+        if not isnear0(f):
+            p = p.others(other)
+            if wrap:
+                p = _Wrap.point(p)
+            if not isnear1(f):  # and not near0
+                a1, b1 = self.philam
+                a2, b2 = p.philam
+                db, b2 = unrollPI(b1, b2, wrap=wrap)
+                r  = vincentys_(a2, a1, db)
+                sr = sin(r)
+                if isnon0(sr):
+                    sa1, ca1, sa2, ca2, \
+                    sb1, cb1, sb2, cb2 = sincos2_(a1, a2, b1, b2)
 
-            db, b2 = unrollPI(b1, b2, wrap=wrap)
-            r  = vincentys_(a2, a1, db)
-            sr = sin(r)
-            if isnon0(sr):
-                sa1, ca1, sa2, ca2, \
-                sb1, cb1, sb2, cb2 = sincos2_(a1, a2, b1, b2)
+                    t = f * r
+                    a = sin(r - t)  # / sr  superflous
+                    b = sin(    t)  # / sr  superflous
 
-                t = f * r
-                a = sin(r - t)  # / sr  superflous
-                b = sin(    t)  # / sr  superflous
+                    x = a * ca1 * cb1 + b * ca2 * cb2
+                    y = a * ca1 * sb1 + b * ca2 * sb2
+                    z = a * sa1       + b * sa2
 
-                x = a * ca1 * cb1 + b * ca2 * cb2
-                y = a * ca1 * sb1 + b * ca2 * sb2
-                z = a * sa1       + b * sa2
+                    a = atan2(z, hypot(x, y))
+                    b = atan2(y, x)
 
-                a = atan2(z, hypot(x, y))
-                b = atan2(y, x)
+                else:  # PYCHOK no cover
+                    a = favg(a1, a2, f=f)  # coincident
+                    b = favg(b1, b2, f=f)
 
-            else:  # PYCHOK no cover
-                a = favg(a1, a2, f=f)  # coincident
-                b = favg(b1, b2, f=f)
-
-            h = self._havg(other, f=f) if height is None else Height(height)
-            r = self.classof(degrees90(a), degrees180(b), height=h)
-        return r
+                h = self._havg(other, f=f, h=height)
+                p = self.classof(degrees90(a), degrees180(b), height=h)
+        return p
 
     def intersection(self, end1, other, end2, height=None, wrap=False):
-        '''Compute the intersection point of two lines, each defined
-           by two points or a start point and bearing from North.
+        '''Compute the intersection point of two lines, each defined by
+           two points or a start point and bearing from North.
 
-           @arg end1: End point of this line (L{LatLon}) or the
-                      initial bearing at this point (compass
-                      C{degrees360}).
+           @arg end1: End point of this line (L{LatLon}) or the initial
+                      bearing at this point (compass C{degrees360}).
            @arg other: Start point of the other line (L{LatLon}).
-           @arg end2: End point of the other line (L{LatLon}) or
-                      the initial bearing at the other start point
-                      (compass C{degrees360}).
+           @arg end2: End point of the other line (L{LatLon}) or the
+                      initial bearing at the B{C{other}} point (compass
+                      C{degrees360}).
            @kwarg height: Optional height for intersection point,
                           overriding the mean height (C{meter}).
-           @kwarg wrap: Wrap and unroll longitudes (C{bool}).
+           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll
+                        B{C{start2}} and both B{C{end*}} points (C{bool}).
 
            @return: The intersection point (L{LatLon}).  An alternate
                     intersection point might be the L{antipode} to
@@ -427,7 +448,8 @@ class LatLon(LatLonSphericalBase):
             return _intersect(self, end1, s2, end2, height=height, wrap=wrap,
                                                     LatLon=self.classof)
         except (TypeError, ValueError) as x:
-            raise _xError(x, start1=self, end1=end1, other=other, end2=end2)
+            raise _xError(x, start1=self, end1=end1,
+                             other=other, end2=end2, wrap=wrap)
 
     def intersections2(self, rad1, other, rad2, radius=R_M, eps=_0_0,
                                                 height=None, wrap=True):
@@ -446,7 +468,8 @@ class LatLon(LatLonSphericalBase):
            @kwarg height: Optional height for the intersection points (C{meter},
                           conventionally) or C{None} for the I{"radical height"}
                           at the I{radical line} between both centers.
-           @kwarg wrap: Wrap and unroll longitudes (C{bool}).
+           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the
+                        B{C{other}} point (C{bool}).
 
            @return: 2-Tuple of the intersection points, each a L{LatLon}
                     instance.  For abutting circles, both intersection
@@ -466,16 +489,24 @@ class LatLon(LatLonSphericalBase):
                                                       height=height, wrap=wrap,
                                                       LatLon=self.classof)
         except (TypeError, ValueError) as x:
-            raise _xError(x, center=self, rad1=rad1, other=other, rad2=rad2)
+            raise _xError(x, center=self,  rad1=rad1,
+                              other=other, rad2=rad2, wrap=wrap)
 
-    def isenclosedBy(self, points):
+    @deprecated_method
+    def isEnclosedBy(self, points):  # PYCHOK no cover
+        '''DEPRECATED, use method C{isenclosedBy}.'''
+        return self.isenclosedBy(points)
+
+    def isenclosedBy(self, points, wrap=False):
         '''Check whether a (convex) polygon or composite encloses this point.
 
            @arg points: The polygon points or composite (L{LatLon}[],
                         L{BooleanFHP} or L{BooleanGH}).
+           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the
+                        B{C{points}} (C{bool}).
 
-           @return: C{True} if this point is inside the polygon or composite,
-                    C{False} otherwise.
+           @return: C{True} if this point is inside the polygon or
+                    composite, C{False} otherwise.
 
            @raise PointsError: Insufficient number of B{C{points}}.
 
@@ -488,22 +519,26 @@ class LatLon(LatLonSphericalBase):
                  enclose a pole or wrap around the earth I{longitudinally}.
         '''
         if _MODS.booleans.isBoolean(points):
-            return points._encloses(self.lat, self.lon)
+            return points._encloses(self.lat, self.lon, wrap=wrap)
 
-        Ps = self.PointsIter(points, loop=2, dedup=True)
+        Ps = self.PointsIter(points, loop=2, dedup=True, wrap=wrap)
         n0 = self._N_vector
 
         v2 = Ps[0]._N_vector
-        v1 = Ps[1]._N_vector
-        gc1 = v2.cross(v1)
+        p1 = Ps[1]
+        v1 = p1._N_vector
         # check whether this point on same side of all
         # polygon edges (to the left or right depending
-        # on anti-/clockwise polygon direction)
-        t0 = gc1.angleTo(n0) > PI_2
-        s0 = None
+        # on the anti-/clockwise polygon direction)
+        gc1 = v2.cross(v1)
+        t0  = gc1.angleTo(n0) > PI_2
+        s0  = None
         # get great-circle vector for each edge
-        for i, p in Ps.enumerate(closed=True):
-            v2 = p._N_vector
+        for i, p2 in Ps.enumerate(closed=True):
+            if wrap and not Ps.looped:
+                p2 = _unrollon(p1, p2)
+            p1 = p2
+            v2 = p2._N_vector
             gc = v1.cross(v2)
             v1 = v2
 
@@ -520,15 +555,10 @@ class LatLon(LatLonSphericalBase):
                     s0 = s
                 else:
                     t = _Fmt.SQUARE(points=i)
-                    raise _ValueError(t, p, txt=_not_(_convex_))
+                    raise _ValueError(t, p2, wrap=wrap, txt=_not_(_convex_))
             gc1 = gc
 
         return True  # inside
-
-    @deprecated_method
-    def isEnclosedBy(self, points):  # PYCHOK no cover
-        '''DEPRECATED, use method C{isenclosedBy}.'''
-        return self.isenclosedBy(points)
 
     def midpointTo(self, other, height=None, fraction=_0_5, wrap=False):
         '''Find the midpoint between this and an other point.
@@ -538,7 +568,8 @@ class LatLon(LatLonSphericalBase):
                           the mean height (C{meter}).
            @kwarg fraction: Midpoint location from this point (C{scalar}),
                             may be negative or greater than 1.0.
-           @kwarg wrap: Wrap and unroll longitudes (C{bool}).
+           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the
+                        B{C{other}} point (C{bool}).
 
            @return: Midpoint (L{LatLon}).
 
@@ -555,29 +586,23 @@ class LatLon(LatLonSphericalBase):
             >>> m = p1.midpointTo(p2)  # '50.5363°N, 001.2746°E'
         '''
         if fraction is _0_5:
-            self.others(other)
-
             # see <https://MathForum.org/library/drmath/view/51822.html>
-            a1, b1 = self.philam
-            a2, b2 = other.philam
-
-            db, b2 = unrollPI(b1, b2, wrap=wrap)
-
+            a1, b, a2, _, db = self._ab1_ab2_db5(other, wrap)
             sa1, ca1, sa2, ca2, sdb, cdb = sincos2_(a1, a2, db)
 
             x = ca2 * cdb + ca1
             y = ca2 * sdb
 
-            a = atan2(sa1 + sa2, hypot(x, y))
-            b = atan2(y, x) + b1
+            a  = atan2(sa1 + sa2, hypot(x, y))
+            b += atan2(y, x)
 
-            h = self._havg(other) if height is None else Height(height)
+            h = self._havg(other, h=height)
             r = self.classof(degrees90(a), degrees180(b), height=h)
         else:
             r = self.intermediateTo(other, fraction, height=height, wrap=wrap)
         return r
 
-    def nearestOn(self, point1, point2, radius=R_M, **options):
+    def nearestOn(self, point1, point2, radius=R_M, **wrap_adjust_limit):
         '''Locate the point between two points closest to this point.
 
            Distances are approximated by function L{pygeodesy.equirectangular_},
@@ -586,8 +611,9 @@ class LatLon(LatLonSphericalBase):
            @arg point1: Start point (L{LatLon}).
            @arg point2: End point (L{LatLon}).
            @kwarg radius: Mean earth radius (C{meter}).
-           @kwarg options: Optional keyword arguments for function
-                           L{pygeodesy.equirectangular_}.
+           @kwarg wrap_adjust_limit: Optional keyword arguments for functions
+                              L{sphericalTrigonometry.nearestOn3} and
+                              L{pygeodesy.equirectangular_},
 
            @return: Closest point on the great circle line (L{LatLon}).
 
@@ -605,9 +631,9 @@ class LatLon(LatLonSphericalBase):
                  and method L{sphericalTrigonometry.LatLon.nearestOn3}.
         '''
         # remove kwarg B{C{within}} if present
-        within = _xkwds_pop(options, within=True)
-        if not within:
-            notImplemented(self, within=within)
+        w = _xkwds_pop(wrap_adjust_limit, within=True)
+        if not w:
+            notImplemented(self, within=w)
 
 #       # UNTESTED - handle C{B{within}=False} and C{B{within}=True}
 #       wrap = _xkwds_get(options, wrap=False)
@@ -629,7 +655,7 @@ class LatLon(LatLonSphericalBase):
 
         # without kwarg B{C{within}}, use backward compatible .nearestOn3
         return self.nearestOn3([point1, point2], closed=False, radius=radius,
-                                               **options)[0]
+                                               **wrap_adjust_limit)[0]
 
     @deprecated_method
     def nearestOn2(self, points, closed=False, radius=R_M, **options):  # PYCHOK no cover
@@ -643,7 +669,7 @@ class LatLon(LatLonSphericalBase):
         r = self.nearestOn3(points, closed=closed, radius=radius, **options)
         return r.closest, r.distance
 
-    def nearestOn3(self, points, closed=False, radius=R_M, **options):
+    def nearestOn3(self, points, closed=False, radius=R_M, **wrap_adjust_limit):
         '''Locate the point on a polygon closest to this point.
 
            Distances are approximated by function L{pygeodesy.equirectangular_},
@@ -652,8 +678,9 @@ class LatLon(LatLonSphericalBase):
            @arg points: The polygon points (L{LatLon}[]).
            @kwarg closed: Optionally, close the polygon (C{bool}).
            @kwarg radius: Mean earth radius (C{meter}).
-           @kwarg options: Optional keyword arguments for function
-                           L{pygeodesy.equirectangular_}.
+           @kwarg wrap_adjust_limit: Optional keyword arguments for function
+                              L{sphericalTrigonometry.nearestOn3} and
+                              L{pygeodesy.equirectangular_},
 
            @return: A L{NearestOn3Tuple}C{(closest, distance, angle)} of the
                     C{closest} point (L{LatLon}), the L{pygeodesy.equirectangular_}
@@ -674,12 +701,8 @@ class LatLon(LatLonSphericalBase):
            @see: Functions L{pygeodesy.compassAngle}, L{pygeodesy.equirectangular_}
                  and L{pygeodesy.nearestOn5}.
         '''
-        if _LatLon_ in options:
-            raise _ValueError(**options)
-
-        lat, lon, d, c, h = _nearestOn5(self, points, closed=closed, **options)
-        return NearestOn3Tuple(self.classof(lat, lon, height=h),
-                               degrees2m(d, radius=radius), c)
+        return nearestOn3(self, points, closed=closed, radius=radius,
+                                LatLon=self.classof, **wrap_adjust_limit)
 
     def toCartesian(self, **Cartesian_datum_kwds):  # PYCHOK Cartesian=Cartesian, datum=None
         '''Convert this point to C{Karney}-based cartesian (ECEF)
@@ -701,20 +724,6 @@ class LatLon(LatLonSphericalBase):
         kwds = _xkwds(Cartesian_datum_kwds, Cartesian=Cartesian, datum=self.datum)
         return LatLonSphericalBase.toCartesian(self, **kwds)
 
-    def _trackDistanceTo3(self, start, end, radius, wrap):
-        '''(INTERNAL) Helper for .along-/crossTrackDistanceTo.
-        '''
-        self.others(start=start)
-        self.others(end=end)
-
-        r = Radius_(radius)
-        r = start.distanceTo(self, r, wrap=wrap) / r
-
-        b = radians(start.initialBearingTo(self, wrap=wrap))
-        e = radians(start.initialBearingTo(end,  wrap=wrap))
-        x = asin(sin(r) * sin(b - e))
-        return r, x, (e - b)
-
     def triangle7(self, otherB, otherC, radius=R_M, wrap=False):
         '''Compute the angles, sides and area of a spherical triangle.
 
@@ -723,7 +732,8 @@ class LatLon(LatLonSphericalBase):
            @kwarg radius: Mean earth radius, ellipsoid or datum
                           (C{meter}, L{Ellipsoid}, L{Ellipsoid2},
                           L{Datum} or L{a_f2Tuple}) or C{None}.
-           @kwarg wrap: Wrap/unroll angular distances (C{bool}).
+           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the
+                        B{C{otherB}} and B{C{otherC}} points (C{bool}).
 
            @return: L{Triangle7Tuple}C{(A, a, B, b, C, c, area)} or if
                     B{C{radius}} is C{None}, a L{Triangle8Tuple}C{(A,
@@ -732,10 +742,11 @@ class LatLon(LatLonSphericalBase):
            @see: Function L{triangle7} and U{Spherical trigonometry
                  <https://WikiPedia.org/wiki/Spherical_trigonometry>}.
         '''
-        self.others(otherB=otherB)
-        self.others(otherC=otherC)
+        B = self.others(otherB=otherB)
+        C = self.others(otherC=otherC)
+        B, C, _ = _unrollon3(self, B, C, wrap)
 
-        r = self.philam + otherB.philam + otherC.philam
+        r = self.philam + B.philam + C.philam
         t = triangle8_(*r, wrap=wrap)
         return self._xnamed(_t7Tuple(t, radius))
 
@@ -758,7 +769,8 @@ class LatLon(LatLonSphericalBase):
                        or the I{intersection margin} for C{B{area}=False}
                        (C{meter}, same units as B{C{radius}}).
            @kwarg radius: Mean earth radius (C{meter}, conventionally).
-           @kwarg wrap: Wrap/unroll angular distances (C{bool}).
+           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll
+                        B{C{point2}} and B{C{point3}} (C{bool}).
 
            @return: A L{Trilaterate5Tuple}C{(min, minPoint, max, maxPoint, n)}
                     with C{min} and C{max} in C{meter}, same units as B{C{eps}},
@@ -787,8 +799,9 @@ class LatLon(LatLonSphericalBase):
 
            @raise TypeError: Invalid B{C{point2}} or B{C{point3}}.
 
-           @raise ValueError: Coincident B{C{points}} or invalid B{C{distance1}},
-                              B{C{distance2}}, B{C{distance3}} or B{C{radius}}.
+           @raise ValueError: Coincident B{C{point2}} or B{C{point3}} or invalid
+                              B{C{distance1}}, B{C{distance2}}, B{C{distance3}}
+                              or B{C{radius}}.
         '''
         return _trilaterate5(self, distance1,
                              self.others(point2=point2), distance2,
@@ -799,7 +812,7 @@ class LatLon(LatLonSphericalBase):
 _T00 = LatLon(0, 0, name='T00')  # reference instance (L{LatLon})
 
 
-def areaOf(points, radius=R_M, wrap=True):
+def areaOf(points, radius=R_M, wrap=False):  # was=True
     '''Calculate the area of a (spherical) polygon or composite
        (with the pointsjoined by great circle arcs).
 
@@ -808,7 +821,8 @@ def areaOf(points, radius=R_M, wrap=True):
        @kwarg radius: Mean earth radius, ellipsoid or datum (C{meter},
                       L{Ellipsoid}, L{Ellipsoid2}, L{Datum} or L{a_f2Tuple})
                       or C{None}.
-       @kwarg wrap: Wrap and unroll longitudes (C{bool}).
+       @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the B{C{points}}
+                    (C{bool}).
 
        @return: Polygon area (C{meter} I{quared}, same units as B{C{radius}}
                 or C{radians} if B{C{radius}} is C{None}).
@@ -838,7 +852,7 @@ def areaOf(points, radius=R_M, wrap=True):
     if _MODS.booleans.isBoolean(points):
         return points._sum2(LatLon, areaOf, radius=radius, wrap=wrap)
 
-    Ps = _T00.PointsIter(points, loop=1)
+    Ps = _T00.PointsIter(points, loop=1, wrap=wrap)
     p1 = p2 = Ps[0]
     a1,  b1 = p1.philam
     ta1, z1 = tan_2(a1), None
@@ -851,7 +865,7 @@ def areaOf(points, radius=R_M, wrap=True):
     D = Fsum()
     for i, p2 in Ps.enumerate(closed=True):
         a2, b2 = p2.philam
-        db, b2 = unrollPI(b1, b2, wrap=wrap if i else False)
+        db, b2 = unrollPI(b1, b2, wrap=wrap and not Ps.looped)
         ta2 = tan_2(a2)
         A += a2
         E += atan2(tan_2(db, points=i) * (ta1 + ta2),
@@ -894,17 +908,19 @@ def _destination2(a, b, r, t):
     return a, (b + d)  # (mod(b + d + PI, PI2) - PI)
 
 
-def _int3d2(start, end, wrap, _i_, Vector, hs):
+def _int3d2(s, end, wrap, _i_, Vector, hs):
     # see <https://www.EdWilliams.org/intersect.htm> (5) ff
     # and similar logic in .ellipsoidalBaseDI._intersect3
-    a1, b1 = start.philam
+    a1, b1 = s.philam
 
     if isscalar(end):  # bearing, get pseudo-end point
         a2, b2 = _destination2(a1, b1, PI_4, radians(end))
     else:  # must be a point
-        start.others(end, name=_end_ + _i_)
+        s.others(end, name=_end_ + _i_)
         hs.append(end.height)
         a2, b2 = end.philam
+        if wrap:
+            a2, b2 = _Wrap.philam(a2, b2)
 
     db, b2 = unrollPI(b1, b2, wrap=wrap)
     if max(fabs(db), fabs(a2 - a1)) < EPS:
@@ -927,7 +943,7 @@ def _intdot(ds, a1, b1, a, b, wrap):
 
 
 def intersecant2(center, circle, point, bearing, radius=R_M, exact=False,
-                                                 height=None, wrap=True):
+                                                 height=None, wrap=False):  # was=True
     '''Compute the intersections of a circle and a line.
 
        @arg center: Center of the circle (L{LatLon}).
@@ -943,7 +959,8 @@ def intersecant2(center, circle, point, bearing, radius=R_M, exact=False,
                      circle} methods.
        @kwarg height: Optional height for the intersection points (C{meter},
                       conventionally) or C{None}.
-       @kwarg wrap: Wrap and unroll longitudes (C{bool}).
+       @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the B{C{point}}
+                    and the B{C{circle}} and B{C{bearing}} points (C{bool}).
 
        @return: 2-Tuple of the intersection points (representing a chord),
                 each an instance of this class.  For a tangent line, each
@@ -971,11 +988,13 @@ def _intersect(start1, end1, start2, end2, height=None, wrap=False,  # in.ellips
     # (INTERNAL) Intersect two (spherical) lines, see L{intersection}
     # above, separated to allow callers to embellish any exceptions
 
-    hs = [start1.height, start2.height]
+    s1, s2 = start1, start2
+    if wrap:
+        s2 = _Wrap.point(s2)
+    hs = [s1.height, s2.height]
 
-    a1, b1 = start1.philam
-    a2, b2 = start2.philam
-
+    a1, b1 = s1.philam
+    a2, b2 = s2.philam
     db, b2 = unrollPI(b1, b2, wrap=wrap)
     r12 = vincentys_(a2, a1, db)
     if fabs(r12) < EPS:  # [nearly] coincident points
@@ -1006,7 +1025,7 @@ def _intersect(start1, end1, start2, end2, height=None, wrap=False,  # in.ellips
 # XXX   if sx3 < 0:
 # XXX       raise ValueError(_ambiguous_)
         x3  = acos1(cr12 * sx3 - cx2 * cx1)
-        r13 = atan2(sr12 * sx3, cx2 + cx1 * cos(x3))
+        r13 = atan2(sr12 * sx3,  cx2 + cx1 * cos(x3))
 
         a, b = _destination2(a1, b1, r13, t13)
         # like .ellipsoidalBaseDI,_intersect3, if this intersection
@@ -1017,8 +1036,8 @@ def _intersect(start1, end1, start2, end2, height=None, wrap=False,  # in.ellips
     else:  # end point(s) or bearing(s)
         _N_vector_ = _MODS.nvectorBase._N_vector_
 
-        x1, d1 = _int3d2(start1, end1, wrap, _1_, _N_vector_, hs)
-        x2, d2 = _int3d2(start2, end2, wrap, _2_, _N_vector_, hs)
+        x1, d1 = _int3d2(s1, end1, wrap, _1_, _N_vector_, hs)
+        x2, d2 = _int3d2(s2, end2, wrap, _2_, _N_vector_, hs)
         x = x1.cross(x2)
         if x.length < EPS:  # [nearly] colinear or parallel lines
             raise IntersectionError(_colinear_)
@@ -1048,7 +1067,8 @@ def intersection(start1, end1, start2, end2, height=None, wrap=False,
                   (compass C{degrees360}).
        @kwarg height: Optional height for the intersection point,
                       overriding the mean height (C{meter}).
-       @kwarg wrap: Wrap and unroll longitudes (C{bool}).
+       @kwarg wrap: If C{True}, wrap or I{normalize} and unroll
+                    B{C{start2}} and both B{C{end*}} points (C{bool}).
        @kwarg LatLon: Optional class to return the intersection
                       point (L{LatLon}) or C{None}.
        @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
@@ -1063,7 +1083,8 @@ def intersection(start1, end1, start2, end2, height=None, wrap=False,
                                  or colinear, parallel or otherwise
                                  non-intersecting lines.
 
-       @raise TypeError: A B{C{start}} or B{C{end}} point not L{LatLon}.
+       @raise TypeError: A B{C{start1}}, B{C{end1}}, B{C{start2}}
+                         or B{C{end2}} point not L{LatLon}.
 
        @raise ValueError: Invalid B{C{height}} or C{null} line.
 
@@ -1083,7 +1104,7 @@ def intersection(start1, end1, start2, end2, height=None, wrap=False,
 
 
 def intersections2(center1, rad1, center2, rad2, radius=R_M, eps=_0_0,
-                                                 height=None, wrap=True,
+                                                 height=None, wrap=False,  # was=True
                                                  LatLon=LatLon, **LatLon_kwds):
     '''Compute the intersection points of two circles each defined
        by a center point and a radius.
@@ -1101,7 +1122,8 @@ def intersections2(center1, rad1, center2, rad2, radius=R_M, eps=_0_0,
        @kwarg height: Optional height for the intersection points (C{meter},
                       conventionally) or C{None} for the I{"radical height"}
                       at the I{radical line} between both centers.
-       @kwarg wrap: Wrap and unroll longitudes (C{bool}).
+       @kwarg wrap: If C{True}, wrap or I{normalize} and unroll B{C{center2}}
+                    (C{bool}).
        @kwarg LatLon: Optional class to return the intersection
                       points (L{LatLon}) or C{None}.
        @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
@@ -1132,11 +1154,12 @@ def intersections2(center1, rad1, center2, rad2, radius=R_M, eps=_0_0,
                                                 height=height, wrap=wrap,
                                                 LatLon=LatLon, **LatLon_kwds)
     except (TypeError, ValueError) as x:
-        raise _xError(x, center1=center1, rad1=rad1, center2=center2, rad2=rad2)
+        raise _xError(x, center1=center1, rad1=rad1,
+                         center2=center2, rad2=rad2, wrap=wrap)
 
 
 def _intersects2(c1, rad1, c2, rad2, radius=R_M, eps=_0_0,  # in .ellipsoidalBaseDI._intersects2
-                                     height=None, too_d=None, wrap=True,
+                                     height=None, too_d=None, wrap=False,  # was=True
                                      LatLon=LatLon, **LatLon_kwds):
     # (INTERNAL) Intersect two spherical circles, see L{intersections2}
     # above, separated to allow callers to embellish any exceptions
@@ -1146,12 +1169,15 @@ def _intersects2(c1, rad1, c2, rad2, radius=R_M, eps=_0_0,  # in .ellipsoidalBas
         return _LL3Tuple(degrees90(a), degrees180(b), h,
                          intersections2, LatLon, LatLon_kwds)
 
-    r1, r2, f = _rads3(rad1, rad2, radius)
-    if f:  # swapped
-        c1, c2 = c2, c1  # PYCHOK swap
-
     a1, b1 = c1.philam
     a2, b2 = c2.philam
+    if wrap:
+        a2, b2 = _Wrap.philam(a2, b2)
+
+    r1, r2, f = _rads3(rad1, rad2, radius)
+    if f:  # swapped radii, swap centers
+        a1, a2 = a2, a1  # PYCHOK swap!
+        b1, b2 = b2, b1  # PYCHOK swap!
 
     db, b2 = unrollPI(b1, b2, wrap=wrap)
     d = vincentys_(a2, a1, db)  # radians
@@ -1210,12 +1236,14 @@ def _LL3Tuple(lat, lon, height, func, LatLon, LatLon_kwds):
     return r
 
 
-def meanOf(points, height=None, LatLon=LatLon, **LatLon_kwds):
-    '''Compute the geographic mean of several points.
+def meanOf(points, height=None, wrap=False, LatLon=LatLon, **LatLon_kwds):
+    '''Compute the I{geographic} mean of several points.
 
        @arg points: Points to be averaged (L{LatLon}[]).
        @kwarg height: Optional height at mean point, overriding the mean
                       height (C{meter}).
+       @kwarg wrap: If C{True}, wrap or I{normalize} the B{C{points}}
+                    (C{bool}).
        @kwarg LatLon: Optional class to return the mean point (L{LatLon})
                       or C{None}.
        @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
@@ -1229,14 +1257,15 @@ def meanOf(points, height=None, LatLon=LatLon, **LatLon_kwds):
 
        @raise ValueError: No B{C{points}} or invalid B{C{height}}.
     '''
-    # geographic mean
-    m = sumOf(p._N_vector for p in _T00.PointsIter(points).iterate(closed=False))
-    lat, lon = m._N_vector.latlon
+    def _N_vs(ps, w):
+        Ps = _T00.PointsIter(ps, wrap=w)
+        for p in Ps.iterate(closed=False):
+            yield p._N_vector
 
-    if height is None:
-        h = fmean(p.height for p in _T00.PointsIter(points).iterate(closed=False))
-    else:  # PYCHOK no cover
-        h = Height(height)
+    m = _MODS.nvectorBase
+    # geographic, vectorial mean
+    n =  m.sumOf(_N_vs(points, wrap), h=height, Vector=m.NvectorBase)
+    lat, lon, h = n.latlonheight
     return _LL3Tuple(lat, lon, h, meanOf, LatLon, LatLon_kwds)
 
 
@@ -1256,8 +1285,8 @@ def nearestOn2(point, points, **closed_radius_LatLon_options):  # PYCHOK no cove
     return ll, d
 
 
-def nearestOn3(point, points, closed=False, radius=R_M,
-                              LatLon=LatLon, **options):
+def nearestOn3(point, points, closed=False, radius=R_M, wrap=False, adjust=True,
+                                                        limit=9, **LatLon_and_kwds):
     '''Locate the point on a path or polygon closest to a reference point.
 
        Distances are I{approximated} using function L{pygeodesy.equirectangular_},
@@ -1267,6 +1296,12 @@ def nearestOn3(point, points, closed=False, radius=R_M,
        @arg points: The path or polygon points (L{LatLon}[]).
        @kwarg closed: Optionally, close the polygon (C{bool}).
        @kwarg radius: Mean earth radius (C{meter}).
+       @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the
+                    B{C{points}} (C{bool}).
+       @kwarg adjust: See function L{pygeodesy.equirectangular_} (C{bool}).
+       @kwarg limit: See function L{pygeodesy.equirectangular_} (C{degrees}),
+                     default C{9 degrees} is about C{1,000 Kmeter} (for mean
+                     spherical earth radius L{R_KM}).
        @kwarg LatLon: Optional class to return the closest point (L{LatLon})
                       or C{None}.
        @kwarg options: Optional keyword arguments for function
@@ -1293,13 +1328,17 @@ def nearestOn3(point, points, closed=False, radius=R_M,
 
        @see: Functions L{pygeodesy.equirectangular_} and L{pygeodesy.nearestOn5}.
     '''
-    lat, lon, d, c, h = _nearestOn5(point, points, closed=closed,
-                                                   LatLon=None, **options)
-    d = degrees2m(d, radius=radius)
+    t = _nearestOn5(point, points, closed=closed, wrap=wrap,
+                                   adjust=adjust, limit=limit)
+    d = degrees2m(t.distance, radius=radius)
+    h = t.height
     n = nearestOn3.__name__
-    r = LatLon3Tuple(lat, lon, h, name=n) if LatLon is None else \
-              LatLon(lat, lon, height=h, name=n)
-    return NearestOn3Tuple(r, d, c, name=n)
+
+    kwds = _xkwds(LatLon_and_kwds, height=h, name=n)
+    LL   = _xkwds_pop(kwds, LatLon=LatLon)
+    r    =  LatLon3Tuple(t.lat, t.lon, h, name=n) if LL is None else \
+                      LL(t.lat, t.lon, **kwds)
+    return NearestOn3Tuple(r, d, t.angle, name=n)
 
 
 def perimeterOf(points, closed=False, radius=R_M, wrap=True):
@@ -1310,7 +1349,8 @@ def perimeterOf(points, closed=False, radius=R_M, wrap=True):
                     or L{BooleanGH}).
        @kwarg closed: Optionally, close the polygon (C{bool}).
        @kwarg radius: Mean earth radius (C{meter}) or C{None}.
-       @kwarg wrap: Wrap and unroll longitudes (C{bool}).
+       @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the
+                    B{C{points}} (C{bool}).
 
        @return: Polygon perimeter (C{meter}, same units as B{C{radius}}
                 or C{radians} if B{C{radius}} is C{None}).
@@ -1327,12 +1367,12 @@ def perimeterOf(points, closed=False, radius=R_M, wrap=True):
        @see: Functions L{pygeodesy.perimeterOf}, L{sphericalNvector.perimeterOf}
              and L{ellipsoidalKarney.perimeterOf}.
     '''
-    def _rads(points, closed, wrap):  # angular edge lengths in radians
-        Ps = _T00.PointsIter(points, loop=1)
+    def _rads(ps, c, w):  # angular edge lengths in radians
+        Ps = _T00.PointsIter(ps, loop=1, wrap=w)
         a1, b1 = Ps[0].philam
-        for i, p in Ps.enumerate(closed=closed):
+        for p in Ps.iterate(closed=c):
             a2, b2 = p.philam
-            db, b2 = unrollPI(b1, b2, wrap=wrap if i else False)
+            db, b2 = unrollPI(b1, b2, wrap=w and not (c and Ps.looped))
             yield vincentys_(a2, a1, db)
             a1, b1 = a2, b2
 
@@ -1369,7 +1409,8 @@ def triangle7(latA, lonA, latB, lonB, latC, lonC, radius=R_M,
                       or C{None}.
        @kwarg excess: I{Spherical excess} callable (L{excessAbc_},
                       L{excessGirard_} or L{excessLHuilier_}).
-       @kwarg wrap: Wrap and L{pygeodesy.unroll180} longitudes (C{bool}).
+       @kwarg wrap: If C{True}, wrap and L{pygeodesy.unroll180}
+                    longitudes (C{bool}).
 
        @return: A L{Triangle7Tuple}C{(A, a, B, b, C, c, area)} with
                 spherical angles C{A}, C{B} and C{C}, angular sides
@@ -1400,7 +1441,8 @@ def triangle8_(phiA, lamA, phiB, lamB, phiC, lamC, excess=excessAbc_,
        @arg lamC: Third corner longitude (C{radians}).
        @kwarg excess: I{Spherical excess} callable (L{excessAbc_},
                       L{excessGirard_} or L{excessLHuilier_}).
-       @kwarg wrap: Wrap and L{pygeodesy.unrollPI} longitudes (C{bool}).
+       @kwarg wrap: If C{True}, L{pygeodesy.unrollPI} the
+                    longitudinal deltas (C{bool}).
 
        @return: A L{Triangle8Tuple}C{(A, a, B, b, C, c, D, E)} with
                 spherical angles C{A}, C{B} and C{C}, angular sides
@@ -1454,7 +1496,7 @@ __all__ += _ALL_OTHER(Cartesian, LatLon,  # classes
                       meanOf,
                       nearestOn2, nearestOn3,
                       perimeterOf,
-                      sumOf,  # == vector3d.sumOf
+                      sumOf,  # XXX == vector3d.sumOf
                       triangle7, triangle8_)
 
 # **) MIT License

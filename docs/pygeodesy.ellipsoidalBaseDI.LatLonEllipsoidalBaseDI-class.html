@@ -299,8 +299,8 @@
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">equidistant</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">tol</span>=<span class="summary-sig-default">0.001</span>)</span><br />
-      Iteratively locate the point on a path or polygon closest to this 
-      point.</td>
+      <i>Iteratively</i> locate the point on a path or polygon closest to 
+      this point.</td>
           <td align="right" valign="top">
             
             
@@ -395,6 +395,7 @@
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#toEcef">toEcef</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#toLocal">toLocal</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#toLtp">toLtp</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#toNormal">toNormal</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#toNvector">toNvector</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#toStr">toStr</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#toVector">toVector</a></code>,
@@ -531,7 +532,8 @@
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>other</code></strong> - The other point (<code>LatLon</code>).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
+          <b><code>other</code></b> point (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.namedTuples.Bearing2Tuple-class.html" 
@@ -649,7 +651,8 @@
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>other</code></strong> - The other point (<code>LatLon</code>).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
+          <b><code>other</code></b> point (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Distance (<code>meter</code>).</dd>
@@ -691,7 +694,8 @@
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>other</code></strong> - Destination point (<code>LatLon</code>).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
+          <b><code>other</code></b> point (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.namedTuples.Distance3Tuple-class.html" 
@@ -764,7 +768,8 @@
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>other</code></strong> - The other point (<code>LatLon</code>).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
+          <b><code>other</code></b> point (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Final bearing (compass <code>degrees360</code>).</dd>
@@ -803,7 +808,8 @@
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>other</code></strong> - The other point (<code>LatLon</code>).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
+          <b><code>other</code></b> point (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Initial bearing (compass <code>degrees360</code>).</dd>
@@ -846,7 +852,8 @@
           and 1.0 at the other point.</li>
         <li><strong class="pname"><code>height</code></strong> - Optional height, overriding the fractional height 
           (<code>meter</code>).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
+          <b><code>other</code></b> point (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Intermediate point (<code>LatLon</code>).</dd>
@@ -892,8 +899,8 @@
     </td>
   </tr></table>
   
-  <p>Iteratively locate the point on a path or polygon closest to this 
-  point.</p>
+  <p><i>Iteratively</i> locate the point on a path or polygon closest to 
+  this point.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -903,6 +910,8 @@
           points (<code>meter</code>, conventionally).  If 
           <b><code>height</code></b> is <code>None</code>, the height of 
           each point is taken into account for distances.</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
+          <b><code>points</code></b> (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.namedTuples.NearestOn8Tuple-class.html" 
@@ -993,7 +1002,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Apr 23 16:20:30 2023
+    Generated by Epydoc 3.0.1 on Sat May 13 11:43:54 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

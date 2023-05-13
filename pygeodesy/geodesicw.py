@@ -19,19 +19,19 @@ L{pygeodesy.geodesicx} and L{pygeodesy.karney} will use U{GeographicLib 2.0
 from pygeodesy.interns import NN, _DOT_, _UNDER
 from pygeodesy.karney import _a_ellipsoid, _atan2d, Caps, Direct9Tuple, \
                              _EWGS84, fabs, GDict, GeodesicError, Inverse10Tuple, \
-                             _kWrapped, NAN, unroll180, wrap360, _xinstanceof  # PYCHOK used!
+                             _kWrapped, NAN,  _xinstanceof  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY
-from pygeodesy.named import callername, classname, unstr
+from pygeodesy.named import callername, classname,  unstr
 from pygeodesy.namedTuples import Destination3Tuple, Distance3Tuple
 from pygeodesy.props import Property, Property_RO
 # from pygeodesy.streps import unstr  # from .named
-# from pygeodesy.utily import unroll180, wrap360  # from .karney
+from pygeodesy.utily import _Wrap, wrap360  # PYCHOK used!
 
 from contextlib import contextmanager
 # from math import fabs  # from .karney
 
 __all__ = _ALL_LAZY.geodesicw
-__version__ = '23.04.11'
+__version__ = '23.05.12'
 
 
 class _gWrapped(_kWrapped):
@@ -155,10 +155,14 @@ class _gWrapped(_kWrapped):
 
             def Inverse1(self, lat1, lon1, lat2, lon2, wrap=False):
                 '''Return the non-negative, I{angular} distance in C{degrees}.
+
+                   @kwarg wrap: If C{True}, wrap or I{normalize} and unroll
+                                B{C{lat2}} and BC{lon2}} (C{bool}).
                 '''
                 # see .FrechetKarney.distance, .HausdorffKarney._distance
                 # and .HeightIDWkarney._distances
-                _, lon2 = unroll180(lon1, lon2, wrap=wrap)  # _Geodesic.LONG_UNROLL
+                if wrap:
+                    _, lat2, lon2 = _Wrap.latlon3(lat1, lat2, lon2, True)  # _Geodesic.LONG_UNROLL
                 r = self.Inverse(lat1, lon1, lat2, lon2)
                 # XXX _Geodesic.DISTANCE needed for 'a12'?
                 return fabs(r.a12)
@@ -338,12 +342,12 @@ def Geodesic_WGS84():
     return _wrapped.Geodesic_WGS84
 
 
-class _wargs(object):
-    '''(INTERNAL) C{geographiclib} caller.
+class _wargs(object):  # see also .vector2d._numpy
+    '''(INTERNAL) C{geographiclib} caller, catching exceptions.
     '''
     @contextmanager  # <https://www.python.org/dev/peps/pep-0343/> Examples
     def __call__(self, inst, *args, **kwds):
-        '''(INTERNAL) Yield self with any errors raised as L{NumPyError}.
+        '''(INTERNAL) Yield C{tuple(B{args})} with any errors raised as L{NumPyError}.
         '''
         try:
             yield args

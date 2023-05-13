@@ -112,7 +112,8 @@
           <td><span class="summary-sig"><a href="pygeodesy.sphericalNvector.LatLon-class.html#alongTrackDistanceTo" class="summary-sig-name">alongTrackDistanceTo</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">start</span>,
         <span class="summary-sig-arg">end</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>)</span><br />
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Compute the (signed) distance from the start to the closest point on 
       the great circle line defined by a start and an end point.</td>
           <td align="right" valign="top">
@@ -154,7 +155,8 @@
           <td><span class="summary-sig"><a href="pygeodesy.sphericalNvector.LatLon-class.html#crossTrackDistanceTo" class="summary-sig-name">crossTrackDistanceTo</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">start</span>,
         <span class="summary-sig-arg">end</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>)</span><br />
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Compute the (signed) distance from this point to great circle defined
       by a start and end point.</td>
           <td align="right" valign="top">
@@ -234,7 +236,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.sphericalNvector.LatLon-class.html#greatCircleTo" class="summary-sig-name">greatCircleTo</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">other</span>)</span><br />
+        <span class="summary-sig-arg">other</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Compute the vector normal to great circle obtained by heading from 
       this to an other point or on a given bearing.</td>
           <td align="right" valign="top">
@@ -254,6 +257,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.sphericalNvector.LatLon-class.html#initialBearingTo" class="summary-sig-name">initialBearingTo</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">**unused</span>)</span><br />
       Compute the initial bearing (forward azimuth) from this to an other 
       point.</td>
@@ -275,7 +279,8 @@
           <td><span class="summary-sig"><a href="pygeodesy.sphericalNvector.LatLon-class.html#intermediateChordTo" class="summary-sig-name">intermediateChordTo</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>,
         <span class="summary-sig-arg">fraction</span>,
-        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>)</span><br />
+        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Locate the point projected from the point at given fraction on a 
       straight line (chord) between this and an other point.</td>
           <td align="right" valign="top">
@@ -297,7 +302,7 @@
         <span class="summary-sig-arg">other</span>,
         <span class="summary-sig-arg">fraction</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">**unused</span>)</span><br />
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Locate the point at a given fraction between this and an other point.</td>
           <td align="right" valign="top">
             
@@ -318,7 +323,8 @@
         <span class="summary-sig-arg">end1</span>,
         <span class="summary-sig-arg">start2</span>,
         <span class="summary-sig-arg">end2</span>,
-        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>)</span><br />
+        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Locate the intersection point of two lines each defined by two points
       or a start point and bearing from North.</td>
           <td align="right" valign="top">
@@ -336,8 +342,32 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.sphericalNvector.LatLon-class.html#intersection2" class="summary-sig-name">intersection2</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">end1</span>,
+        <span class="summary-sig-arg">start2</span>,
+        <span class="summary-sig-arg">end2</span>,
+        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Locate the intersections of two (great circle) lines each defined by 
+      two points or by a start point and an (initial) bearing.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.sphericalNvector.LatLon-class.html#isenclosedBy" class="summary-sig-name">isenclosedBy</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">points</span>)</span><br />
+        <span class="summary-sig-arg">points</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Check whether a (convex) polygon or composite encloses this point.</td>
           <td align="right" valign="top">
             
@@ -374,7 +404,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.sphericalNvector.LatLon-class.html#iswithin" class="summary-sig-name">iswithin</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">point1</span>,
-        <span class="summary-sig-arg">point2</span>)</span><br />
+        <span class="summary-sig-arg">point2</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Check whether this point is between two other points.</td>
           <td align="right" valign="top">
             
@@ -413,7 +444,8 @@
           <td><span class="summary-sig"><a href="pygeodesy.sphericalNvector.LatLon-class.html#midpointTo" class="summary-sig-name">midpointTo</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">fraction</span>=<span class="summary-sig-default">0.5</span>)</span><br />
+        <span class="summary-sig-arg">fraction</span>=<span class="summary-sig-default">0.5</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Find the midpoint between this and an other point.</td>
           <td align="right" valign="top">
             
@@ -478,7 +510,8 @@
         <span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>,
-        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>)</span><br />
+        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Locate the point on a path or polygon (with great circle arcs joining
       consecutive points) closest to this point.</td>
           <td align="right" valign="top">
@@ -603,6 +636,7 @@
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#toEcef">toEcef</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#toLocal">toLocal</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#toLtp">toLtp</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#toNormal">toNormal</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#toStr">toStr</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#toVector">toVector</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#toVector3d">toVector3d</a></code>,
@@ -706,7 +740,8 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">alongTrackDistanceTo</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">start</span>,
         <span class="sig-arg">end</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.771415</span>)</span>
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.771415</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -729,6 +764,9 @@
           class="link">LatLon</a>) or initial bearing from start point 
           (compass <code>degrees360</code>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
+          <b><code>start</code></b> and <b><code>end</code></b> points 
+          (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Distance along the great circle line (positive if after the start
@@ -789,7 +827,8 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">crossTrackDistanceTo</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">start</span>,
         <span class="sig-arg">end</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.771415</span>)</span>
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.771415</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -809,6 +848,9 @@
           class="link">LatLon</a>) or initial bearing from start point 
           (compass <code>degrees360</code>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
+          <b><code>start</code></b> and <b><code>end</code></b> points 
+          (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Distance to great circle (negative if to the left or positive if 
@@ -907,7 +949,8 @@
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>) or <code>None</code>.</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap/unroll the angular distance (<code>bool</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
+          <b><code>other</code></b> point (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Distance between this and the <b><code>other</code></b> point 
@@ -923,7 +966,7 @@
         <pre class="py-doctest">
 <span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(52.205, 0.119)
 <span class="py-prompt">&gt;&gt;&gt; </span>q = LatLon(48.857, 2.351);
-<span class="py-prompt">&gt;&gt;&gt; </span>d = p.distanceTo(q)  <span class="py-comment"># 404.3 km</span></pre>
+<span class="py-prompt">&gt;&gt;&gt; </span>d = p.distanceTo(q)  <span class="py-comment"># 404.3 Km</span></pre>
       </p>
 </div></td></tr></table>
 </div>
@@ -966,7 +1009,8 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">greatCircleTo</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">other</span>)</span>
+        <span class="sig-arg">other</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -984,6 +1028,8 @@
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>) or the bearing from this point (compass 
           <code>degrees360</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
+          <b><code>other</code></b> point (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>N-vector representing the great circle (<a 
@@ -1018,6 +1064,7 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">initialBearingTo</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">other</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">**unused</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -1033,7 +1080,8 @@
         <li><strong class="pname"><code>other</code></strong> - The other point (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</li>
-        <li><strong class="pname"><code>unused</code></strong> - Optional keyword argument <b><code>wrap</code></b> ignored.</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
+          <b><code>other</code></b> point (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Initial bearing (compass <code>degrees360</code>).</dd>
@@ -1066,7 +1114,8 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">intermediateChordTo</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">other</span>,
         <span class="sig-arg">fraction</span>,
-        <span class="sig-arg">height</span>=<span class="sig-default">None</span>)</span>
+        <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -1085,6 +1134,8 @@
           for the other point).</li>
         <li><strong class="pname"><code>height</code></strong> - Optional height at the intermediate point, overriding the 
           fractional height (<code>meter</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
+          <b><code>other</code></b> point (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Intermediate point (<a 
@@ -1116,7 +1167,7 @@
         <span class="sig-arg">other</span>,
         <span class="sig-arg">fraction</span>,
         <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">**unused</span>)</span>
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -1135,6 +1186,8 @@
           this and 1.0 for the other point).</li>
         <li><strong class="pname"><code>height</code></strong> - Optional height at the intermediate point, overriding the 
           fractional height (<code>meter</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
+          <b><code>other</code></b> point (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Intermediate point (<a 
@@ -1170,7 +1223,8 @@
         <span class="sig-arg">end1</span>,
         <span class="sig-arg">start2</span>,
         <span class="sig-arg">end2</span>,
-        <span class="sig-arg">height</span>=<span class="sig-default">None</span>)</span>
+        <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -1195,12 +1249,13 @@
           point (compass <code>degrees</code>).</li>
         <li><strong class="pname"><code>height</code></strong> - Optional height at the intersection point, overriding the mean 
           height (<code>meter</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll all 
+          start and end points (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The intersection point (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
-          class="link">LatLon</a>) or <code>None</code> if no unique 
-          intersection exists.</dd>
+          class="link">LatLon</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - If <b><code>start2</code></b>, <b><code>end1</code></b> or 
@@ -1211,11 +1266,81 @@
         coincident or null.</li>
     </ul></dd>
   </dl>
-<div class="fields">      <p><strong>Example:</strong>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a 
+        href="pygeodesy.sphericalNvector-module.html#intersection" 
+        class="link">sphericalNvector.intersection</a> and method <a 
+        href="pygeodesy.sphericalNvector.LatLon-class.html#intersection2" 
+        class="link">intersection2</a>.
+      </p>
+      <p><strong>Example:</strong>
         <pre class="py-doctest">
 <span class="py-prompt">&gt;&gt;&gt; </span>s = LatLon(51.8853, 0.2545)
 <span class="py-prompt">&gt;&gt;&gt; </span>e = LatLon(49.0034, 2.5735)
 <span class="py-prompt">&gt;&gt;&gt; </span>i = s.intersection(108.55, e, 32.44)  <span class="py-comment"># 50.9076&#176;N, 004.5086&#176;E</span></pre>
+      </p>
+</div></td></tr></table>
+</div>
+<a name="intersection2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">intersection2</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">end1</span>,
+        <span class="sig-arg">start2</span>,
+        <span class="sig-arg">end2</span>,
+        <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Locate the intersections of two (great circle) lines each defined by 
+  two points or by a start point and an (initial) bearing.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>end1</code></strong> - End point of the first line (<a 
+          href="pygeodesy.sphericalNvector.LatLon-class.html" 
+          class="link">LatLon</a>) or the initial bearing at this point 
+          (compass <code>degrees360</code>).</li>
+        <li><strong class="pname"><code>start2</code></strong> - Start point of the second line (<a 
+          href="pygeodesy.sphericalNvector.LatLon-class.html" 
+          class="link">LatLon</a>).</li>
+        <li><strong class="pname"><code>end2</code></strong> - End point of the second line (<a 
+          href="pygeodesy.sphericalNvector.LatLon-class.html" 
+          class="link">LatLon</a>) or the initial bearing at the second 
+          start point (compass <code>degrees360</code>).</li>
+        <li><strong class="pname"><code>height</code></strong> - Optional height at the intersection and antipodal point, 
+          overriding the mean height (<code>meter</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll 
+          <b><code>start2</code></b> and both <b><code>end*</code></b> 
+          points (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>2-Tuple <code>(intersection, antipode)</code>, each a 
+          <b><code>LatLon</code></b>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - If <b><code>start2</code></b>, <b><code>end1</code></b> or 
+        <b><code>end2</code></b> point is not <a 
+        href="pygeodesy.sphericalNvector.LatLon-class.html" 
+        class="link">LatLon</a>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Intersection is ambiguous or infinite or the lines are parallel, 
+        coincident or null.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a 
+        href="pygeodesy.sphericalNvector-module.html#intersection2" 
+        class="link">sphericalNvector.intersection2</a> and method <a 
+        href="pygeodesy.sphericalNvector.LatLon-class.html#intersection" 
+        class="link">intersection</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -1227,7 +1352,8 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">isenclosedBy</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">points</span>)</span>
+        <span class="sig-arg">points</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -1245,6 +1371,8 @@
           class="link">BooleanFHP</a> or <a 
           href="pygeodesy.booleans.BooleanGH-class.html" 
           class="link">BooleanGH</a>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
+          <b><code>points</code></b> (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><code>True</code> if this point is inside the polygon or 
@@ -1302,7 +1430,8 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">iswithin</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">point1</span>,
-        <span class="sig-arg">point2</span>)</span>
+        <span class="sig-arg">point2</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -1322,9 +1451,12 @@
         <li><strong class="pname"><code>point2</code></strong> - End point of the arc (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll 
+          <b><code>point1</code></b> and <b><code>point2</code></b> 
+          (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd><code>True</code> if this point is within the arc, 
+        <dd><code>True</code> if this point is within the (great circle) arc,
           <code>False</code> otherwise.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
@@ -1370,7 +1502,8 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">midpointTo</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">other</span>,
         <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">fraction</span>=<span class="sig-default">0.5</span>)</span>
+        <span class="sig-arg">fraction</span>=<span class="sig-default">0.5</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -1388,6 +1521,8 @@
           (<code>meter</code>).</li>
         <li><strong class="pname"><code>fraction</code></strong> - Midpoint location from this point (<code>scalar</code>), may be 
           negative or greater than 1.0.</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
+          <b><code>other</code></b> point (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Midpoint (<a href="pygeodesy.sphericalNvector.LatLon-class.html" 
@@ -1444,10 +1579,12 @@
         <li><strong class="pname"><code>height</code></strong> - Optional height, overriding the mean height for the point within 
           the arc (<code>meter</code>), or <code>None</code> to interpolate
           the height.</li>
-        <li><strong class="pname"><code>within</code></strong> - If <code>True</code> return the closest point between both given 
-          points, otherwise the closest point elsewhere on the arc 
+        <li><strong class="pname"><code>within</code></strong> - If <code>True</code>, return the closest point between both given
+          points, otherwise the closest point elsewhere on the great circle
+          arc (<code>bool</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll 
+          <b><code>point1</code></b> and <b><code>point2</code></b> 
           (<code>bool</code>).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Closest point on the arc (<a 
@@ -1514,7 +1651,8 @@
         <span class="sig-arg">points</span>,
         <span class="sig-arg">closed</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">radius</span>=<span class="sig-default">6371008.771415</span>,
-        <span class="sig-arg">height</span>=<span class="sig-default">None</span>)</span>
+        <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -1535,6 +1673,8 @@
         <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>) or <code>None</code>.</li>
         <li><strong class="pname"><code>height</code></strong> - Optional height, overriding the mean height for a point within 
           the arc (<code>meter</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
+          <b><code>points</code></b> (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.namedTuples.NearestOn3Tuple-class.html" 
@@ -1629,10 +1769,10 @@
         <li><strong class="pname"><code>Nvector_and_kwds</code></strong> - Optional <a href="pygeodesy.sphericalNvector.Nvector-class.html" 
           class="link">Nvector</a> and <a 
           href="pygeodesy.sphericalNvector.Nvector-class.html" 
-          class="link">Nvector</a> keyword arguments.  Use 
+          class="link">Nvector</a> keyword arguments.  Specify 
           <code><b>Nvector</b>=...</code> to override this <a 
           href="pygeodesy.sphericalNvector.Nvector-class.html" 
-          class="link">Nvector</a> class or specify 
+          class="link">Nvector</a> class or use 
           <code><b>Nvector</b>=None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -1641,8 +1781,7 @@
           class="link">Nvector</a>) or if <b><code>Nvector</code></b> is 
           set to <code>None</code>, a <a 
           href="pygeodesy.namedTuples.Vector4Tuple-class.html" 
-          class="link">Vector4Tuple</a><code>(x, y, z, h)</code> if 
-          <b><code>Nvector</code></b>.</dd>
+          class="link">Vector4Tuple</a><code>(x, y, z, h)</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>Nvector_and_kwds</code></b> argument.</li>
@@ -1691,7 +1830,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Apr 23 16:20:32 2023
+    Generated by Epydoc 3.0.1 on Sat May 13 11:43:56 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

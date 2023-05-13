@@ -39,7 +39,7 @@ from pygeodesy.units import Degrees_, Int, Lat, Lon, Precision_, Str, \
 from math import fabs, ldexp, log10, radians
 
 __all__ = _ALL_LAZY.geohash
-__version__ = '23.03.19'
+__version__ = '23.04.29'
 
 
 class _GH(object):
@@ -292,7 +292,7 @@ class Geohash(Str):
 
     distance3 = distance3To
 
-    def equirectangularTo(self, other, radius=R_M, adjust=False, wrap=False):
+    def equirectangularTo(self, other, radius=R_M, **adjust_limit_wrap):
         '''Approximate the distance between this and an other geohash
            using function L{pygeodesy.equirectangular}.
 
@@ -300,10 +300,10 @@ class Geohash(Str):
            @kwarg radius: Mean earth radius, ellipsoid or datum
                           (C{meter}, L{Ellipsoid}, L{Ellipsoid2},
                           L{Datum} or L{a_f2Tuple}) or C{None}.
-           @kwarg adjust: Adjust the wrapped, unrolled longitudinal
-                          delta by the cosine of the mean latitude
-                          C{bool}).
-           @kwarg wrap: Wrap and unroll longitudes (C{bool}).
+           @kwarg adjust_limit_wrap: Optional keyword arguments for
+                               function L{pygeodesy.equirectangular_},
+                               overriding defaults C{B{adjust}=False,
+                               B{limit}=None} and C{B{wrap}=False}.
 
            @return: Distance (C{meter}, same units as B{C{radius}} or the
                     ellipsoid or datum axes or C{radians I{squared}} if
@@ -315,12 +315,12 @@ class Geohash(Str):
            @see: U{Local, flat earth approximation
                  <https://www.EdWilliams.org/avform.htm#flat>}, functions
         '''
-        lls  = self.latlon + _2Geohash(other).latlon
-        kwds = dict(adjust=adjust, limit=None, wrap=wrap)
+        lls  =  self.latlon + _2Geohash(other).latlon
+        kwds = _xkwds(adjust_limit_wrap, adjust=False, limit=None, wrap=False)
         return equirectangular( *lls, radius=radius, **kwds) if radius else \
               _equirectangular_(*lls, **kwds).distance2
 
-    def euclideanTo(self, other, radius=R_M, adjust=False, wrap=False):
+    def euclideanTo(self, other, radius=R_M, **adjust_wrap):
         '''Approximate the distance between this and an other geohash
            using function L{pygeodesy.euclidean}.
 
@@ -328,10 +328,8 @@ class Geohash(Str):
            @kwarg radius: Mean earth radius, ellipsoid or datum
                           (C{meter}, L{Ellipsoid}, L{Ellipsoid2},
                           L{Datum} or L{a_f2Tuple}).
-           @kwarg adjust: Adjust the wrapped, unrolled longitudinal
-                          delta by the cosine of the mean latitude
-                          C{bool}).
-           @kwarg wrap: Wrap and unroll longitudes (C{bool}).
+           @kwarg adjust_wrap: Optional keyword arguments for function
+                               L{pygeodesy.euclidean}.
 
            @return: Distance (C{meter}, same units as B{C{radius}} or the
                     ellipsoid or datum axes).
@@ -340,17 +338,15 @@ class Geohash(Str):
                              or C{str} or invalid B{C{radius}}.
         '''
         return self._distanceTo(euclidean, other, radius=radius,
-                                           adjust=adjust, wrap=wrap)
+                                                **adjust_wrap)
 
-    def haversineTo(self, other, radius=R_M, wrap=False):
+    def haversineTo(self, other, **radius_wrap):
         '''Compute the distance between this and an other geohash using
            the L{pygeodesy.haversine} formula.
 
            @arg other: The other geohash (L{Geohash}, C{LatLon} or C{str}).
-           @kwarg radius: Mean earth radius, ellipsoid or datum
-                          (C{meter}, L{Ellipsoid}, L{Ellipsoid2},
-                          L{Datum} or L{a_f2Tuple}).
-           @kwarg wrap: Wrap and unroll longitudes (C{bool}).
+           @kwarg radius_wrap: Optional keyword arguments for function
+                               L{pygeodesy.haversine}.
 
            @return: Distance (C{meter}, same units as B{C{radius}} or the
                     ellipsoid or datum axes).
@@ -358,7 +354,7 @@ class Geohash(Str):
            @raise TypeError: The B{C{other}} is not a L{Geohash}, C{LatLon}
                              or C{str} or invalid B{C{radius}}.
         '''
-        return self._distanceTo(haversine, other, radius=radius, wrap=wrap)
+        return self._distanceTo(haversine, other, **radius_wrap)
 
     @Property_RO
     def latlon(self):
@@ -424,15 +420,13 @@ class Geohash(Str):
         return self.latlon if LatLon is None else _xnamed(LatLon(
               *self.latlon, **LatLon_kwds), self.name)
 
-    def vincentysTo(self, other, radius=R_M, wrap=False):
+    def vincentysTo(self, other, **radius_wrap):
         '''Compute the distance between this and an other geohash using
            the L{pygeodesy.vincentys} formula.
 
            @arg other: The other geohash (L{Geohash}, C{LatLon} or C{str}).
-           @kwarg radius: Mean earth radius, ellipsoid or datum
-                          (C{meter}, L{Ellipsoid}, L{Ellipsoid2},
-                          L{Datum} or L{a_f2Tuple}).
-           @kwarg wrap: Wrap and unroll longitudes (C{bool}).
+           @kwarg radius_wrap: Optional keyword arguments for function
+                               L{pygeodesy.vincentys}.
 
            @return: Distance (C{meter}, same units as B{C{radius}} or the
                     ellipsoid or datum axes).
@@ -440,7 +434,7 @@ class Geohash(Str):
            @raise TypeError: The B{C{other}} is not a L{Geohash}, C{LatLon}
                              or C{str} or invalid B{C{radius}}.
         '''
-        return self._distanceTo(vincentys, other, radius=radius, wrap=wrap)
+        return self._distanceTo(vincentys, other, **radius_wrap)
 
     @Property_RO
     def N(self):

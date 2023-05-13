@@ -40,7 +40,7 @@ from pygeodesy.vector3d import _ALL_LAZY, Vector3d
 # from math import fabs, floor as _floor  # from .fmath, .fsums
 
 __all__ = _ALL_LAZY.ltp
-__version__ = '23.03.19'
+__version__ = '23.05.03'
 
 _height0_ = _height_ + _0_
 _narrow_  = 'narrow'
@@ -416,8 +416,8 @@ class LocalCartesian(_NamedBase):
         '''New L{LocalCartesian} converter.
 
            @kwarg latlonh0: The (geodetic) origin (C{LatLon}, L{LatLon4Tuple},
-                            L{Ltp} or L{Ecef9Tuple}) or latitude of the
-                            (goedetic) origin (C{degrees}).
+                            L{Ltp} or L{Ecef9Tuple}) or the C{scalar} latitude
+                            of the (goedetic) origin (C{degrees}).
            @kwarg lon0: Optional longitude of the (goedetic) origin for
                         C{scalar} B{C{latlonh0}} and B{C{height0}} (C{degrees}).
            @kwarg height0: Optional origin height (C{meter}), vertically
@@ -646,8 +646,8 @@ class Ltp(LocalCartesian):
         '''New C{Ltp}.
 
            @kwarg latlonh0: The (geodetic) origin (C{LatLon}, L{LatLon4Tuple},
-                            L{Ltp} or L{Ecef9Tuple}) or latitude of the
-                            (goedetic) origin (C{degrees}).
+                            L{Ltp} or L{Ecef9Tuple}) or the C{scalar} latitude
+                            of the (goedetic) origin (C{degrees}).
            @kwarg lon0: Optional longitude of the (goedetic) origin for
                         C{scalar} B{C{latlonh0}} and B{C{height0}} (C{degrees}).
            @kwarg height0: Optional origin height (C{meter}), vertically
@@ -1008,13 +1008,13 @@ class ChLVe(_ChLV, LocalCartesian):
         B1 = F(a, 211428.533991, -10939.608605, -2.658213, -8.539078, -0.00345, -0.007992)
         B3 = F(a,    -44.232717,      4.291740, -0.309883,  0.013924)
         B5 = F(a,      0.019784,     -0.004277)
-        Y  = F(b, 0, B1, 0, B3, 0, B5).fover(ChLV._ab_M)  # 1000 km!
+        Y  = F(b, 0, B1, 0, B3, 0, B5).fover(ChLV._ab_M)  # 1000 Km!
 
         B0 = F(a,    0,      308770.746371, 75.028131, 120.435227, 0.009488, 0.070332, -0.00001)
         B2 = F(a, 3745.408911, -193.792705,  4.340858,  -0.376174, 0.004053)
         B4 = F(a,   -0.734684,    0.144466, -0.011842)
         B6 =         0.000488
-        X  = F(b, B0, 0, B2, 0, B4, 0, B6).fover(ChLV._ab_M)  # 1000 km!
+        X  = F(b, B0, 0, B2, 0, B4, 0, B6).fover(ChLV._ab_M)  # 1000 Km!
 
         t = self._ChLV9Tuple(True, M, name, Y, X, h_, lat, lon, h)
         if gamma:

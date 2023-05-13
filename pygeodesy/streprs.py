@@ -12,20 +12,22 @@ from pygeodesy.interns import NN, _0_, _0to9_, MISSING, _BAR_, _COMMASPACE_, \
                              _DOT_, _E_, _ELLIPSIS_, _EQUAL_, _H_, _LR_PAIRS, \
                              _N_, _name_, _not_, _not_scalar_, _PERCENT_, \
                              _SPACE_, _STAR_, _UNDER_, _dunder_nameof
-from pygeodesy.interns import _convergence_, _distant_, _e_, _EQUALSPACED_, _no_, \
-                              _exceeds_, _f_, _F_, _g_,  _tolerance_  # PYCHOK used!
+from pygeodesy.interns import _convergence_, _distant_, _e_, _EQUALSPACED_, \
+                              _no_, _exceeds_, _f_, _F_, _g_,  _limit_, \
+                              _tolerance_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 
 from math import fabs, log10 as _log10
 
 __all__ = _ALL_LAZY.streprs
-__version__ = '23.04.16'
+__version__ = '23.05.06'
 
 _EN_PREC    =  6           # max MGRS/OSGR precision, 1 micrometer
 _EN_WIDE    =  5           # number of MGRS/OSGR units, log10(_100km)
 _eps_       = 'eps'        # PYCHOK used!
 _OKd_       = '._-'        # acceptable name characters
-_threshold_ = 'threshold'  # PYCHOK used !
+_PAREN_g    = '(%g)'       # PYCHOK used!
+_threshold_ = 'threshold'  # PYCHOK used!
 
 
 class _Fmt(str):  # in .streprs
@@ -110,37 +112,39 @@ class _Sub(str):
 class Fmt(object):
     '''Formatting options.
     '''
-    ANGLE       = _Fmt('<%s>')
-    COLON       = _Fmt(':%s')
-#   COLONSPACE  = _Fmt(': %s')  # == _COLONSPACE_(n, v)
-#   COMMASPACE  = _Fmt(', %s')  # == _COMMASPACE_(n, v)
-    convergence = _Fmt(_convergence_('(%g)'))
-    CURLY       = _Fmt('{%s}')  # BRACES
-    distant     = _Fmt(_distant_('(%.3g)'))
-    DOT         = _Fmt('.%s')   # == NN(_DOT_, n)
-    e           =  Fstr(_e_)
-    E           =  Fstr(_E_)
-    EQUAL       = _Fmt(_EQUAL_(NN, '%s'))
-    EQUALSPACED = _Fmt(_EQUALSPACED_(NN, '%s'))
-    exceeds_eps = _Fmt(_exceeds_(_eps_, '(%g)'))
-    f           =  Fstr(_f_)
-    F           =  Fstr(_F_)
-    g           =  Fstr(_g_)
-    G           =  Fstr('G')
-    h           =  Fstr('%+.*f')  # height, .streprs.hstr
-    limit       = _Fmt(' %s limit')  # .units
-    LOPEN       = _Fmt('(%s]')  # left-open range (L, R]
-    PAREN       = _Fmt('(%s)')
-    PARENSPACED = _Fmt(' (%s)')
-    QUOTE2      = _Fmt('"%s"')
-    ROPEN       = _Fmt('[%s)')  # right-open range [L, R)
-#   SPACE       = _Fmt(' %s')   # == _SPACE_(n, v)
-    SQUARE      = _Fmt('[%s]')  # BRACKETS
-    sub_class   = _Sub('%s (sub-)class')
-    TAG         =  ANGLE
-    TAGEND      = _Fmt('</%s>')
-    tolerance   = _Fmt(_tolerance_('(%g)'))
-    zone        = _Fmt('%02d')  # .epsg, .mgrs, .utmupsBase
+    ANGLE         = _Fmt('<%s>')
+    COLON         = _Fmt(':%s')
+#   COLONSPACE    = _Fmt(': %s')  # == _COLONSPACE_(n, v)
+#   COMMASPACE    = _Fmt(', %s')  # == _COMMASPACE_(n, v)
+    convergence   = _Fmt(_convergence_(_PAREN_g))
+    CURLY         = _Fmt('{%s}')  # BRACES
+    distant       = _Fmt(_distant_('(%.3g)'))
+    DOT           = _Fmt('.%s')   # == NN(_DOT_, n)
+    e             =  Fstr(_e_)
+    E             =  Fstr(_E_)
+    EQUAL         = _Fmt(_EQUAL_(NN, '%s'))
+    EQUALSPACED   = _Fmt(_EQUALSPACED_(NN, '%s'))
+    exceeds_eps   = _Fmt(_exceeds_(_eps_, _PAREN_g))
+    exceeds_limit = _Fmt(_exceeds_(_limit_, _PAREN_g))
+    f             =  Fstr(_f_)
+    F             =  Fstr(_F_)
+    g             =  Fstr(_g_)
+    G             =  Fstr('G')
+    h             =  Fstr('%+.*f')  # height, .streprs.hstr
+    limit         = _Fmt(' %s limit')  # .units
+    LOPEN         = _Fmt('(%s]')  # left-open range (L, R]
+    PAREN         = _Fmt('(%s)')
+    PAREN_g       = _Fmt(_PAREN_g)
+    PARENSPACED   = _Fmt(' (%s)')
+    QUOTE2        = _Fmt('"%s"')
+    ROPEN         = _Fmt('[%s)')  # right-open range [L, R)
+#   SPACE         = _Fmt(' %s')   # == _SPACE_(n, v)
+    SQUARE        = _Fmt('[%s]')  # BRACKETS
+    sub_class     = _Sub('%s (sub-)class')
+    TAG           =  ANGLE
+    TAGEND        = _Fmt('</%s>')
+    tolerance     = _Fmt(_tolerance_(_PAREN_g))
+    zone          = _Fmt('%02d')  # .epsg, .mgrs, .utmupsBase
 
     def __init__(self):
         for n, a in self.__class__.__dict__.items():
@@ -217,18 +221,6 @@ def attrs(inst, *names, **Nones_True__pairs_kwds):  # prec=6, fmt=Fmt.F, ints=Fa
     return pairs(_items(inst, names, Nones), **kwds)
 
 
-def _boolkwds(inst, **name_value_pairs):  # in .frechet, .hausdorff, .heights
-    '''(INTERNAL) Set applicable C{bool} properties/attributes.
-    '''
-    for n, v in name_value_pairs.items():
-        b = getattr(inst, n, None)
-        if b is None:  # invalid bool attr
-            t = _SPACE_(_EQUAL_(n, repr(v)), 'for', inst.__class__.__name__)  # XXX .classname
-            raise _AttributeError(t, txt=_not_('applicable'))
-        if v in (False, True) and v != b:
-            setattr(inst, NN(_UNDER_, n), v)
-
-
 def enstr2(easting, northing, prec, *extras, **wide_dot):
     '''Return an MGRS/OSGR easting, northing string representations.
 
@@ -281,7 +273,7 @@ def _enstr2m3(estr, nstr, wide=_EN_WIDE):  # in .mgrs, .osgr
     e, m = _s2m2(estr, 0)
     n, m = _s2m2(nstr, m)
     if not m:
-        p = max(len(estr), len(nstr))  # 2 = km, 5 = m, 7 = cm
+        p = max(len(estr), len(nstr))  # 2 = Km, 5 = m, 7 = cm
         m = 10**max(-_EN_PREC, wide - p)  # resolution, meter
     return e, n, m
 

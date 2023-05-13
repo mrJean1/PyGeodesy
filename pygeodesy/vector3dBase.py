@@ -27,7 +27,7 @@ from pygeodesy.utily import atan2, fabs, sincos2
 # from math import atan2, fabs  # from .utily
 
 __all__ = _ALL_LAZY.vector3dBase
-__version__ = '23.03.29'
+__version__ = '23.05.04'
 
 
 class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
@@ -433,7 +433,7 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
                          positive if this->other is clockwise looking
                          along vSign or negative in opposite direction,
                          otherwise angle is unsigned.
-           @kwarg wrap: Wrap/unroll the angle to +/-PI (C{bool}).
+           @kwarg wrap: If C{True}, wrap/unroll the angle to +/-PI (C{bool}).
 
            @return: Angle (C{radians}).
 
@@ -505,9 +505,10 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
         if raiser and self.crosserrors and eps0 > 0 \
                   and max(map1(fabs, x, y, z)) < eps0:
             t =  self.isequalTo(other, eps=eps0)
-            t = _coincident_ if t else _colinear_
+            s =   self._fromll or self
             r =  other._fromll or other
-            raise CrossError(raiser, r, txt=t)
+            t = _coincident_ if t else _colinear_
+            raise CrossError(raiser, s, other=r, txt=t)
 
         return self.classof(x, y, z)
 

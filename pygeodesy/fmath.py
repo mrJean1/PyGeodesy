@@ -14,18 +14,18 @@ from pygeodesy.constants import EPS0, EPS02, EPS1, NAN, PI, PI_2, PI_4, \
 from pygeodesy.errors import _IsnotError, LenError, _TypeError, _ValueError, \
                              _xError, _xkwds_get, _xkwds_pop
 from pygeodesy.fsums import _2float, _Powers, Fsum, _fsum, fsum, fsum1_, \
-                            _pow_op_, Fmt, unstr
+                            _pow_op_,  Fmt, unstr
 from pygeodesy.interns import MISSING, _few_, _h_, _negative_, _not_scalar_, \
                              _singular_, _too_
 from pygeodesy.lazily import _ALL_LAZY, _sys_version_info2
 # from pygeodesy.streprs import Fmt, unstr  # from .fsums
-from pygeodesy.units import Int_
+from pygeodesy.units import Int_,  Float_  # PYCHOK for .heights
 
 from math import fabs, sqrt  # pow
 from operator import mul as _mul  # in .triaxials
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '22.11.04'
+__version__ = '23.05.07'
 
 # sqrt(2) <https://WikiPedia.org/wiki/Square_root_of_2>
 _0_4142 = 0.414213562373095  # sqrt(_2_0) - _1_0

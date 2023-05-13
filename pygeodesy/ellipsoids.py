@@ -90,7 +90,7 @@ from pygeodesy.utily import atand, atan2b, atan2d, degrees90, m2radians, radians
 from math import asinh, atan, atanh, cos, degrees, exp, fabs, radians, sin, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '23.04.23'
+__version__ = '23.05.12'
 
 _f_0_0    = Float(f =_0_0)  # zero flattening
 _f__0_0   = Float(f_=_0_0)  # zero inverse flattening
@@ -1109,12 +1109,13 @@ class Ellipsoid(_NamedEnumItem):
         return Vector4Tuple(v.x, v.y, v.z, h, iteration=i,
                             name=self.height4.__name__)
 
-    def _hubeny_2(self, phi2, phi1, lam21):
-        '''(INTERNAL) like function C{pygeodesy.flatLocal_}/C{pygeodesy.hubeny_}
-           but returning the I{angular} distance in C{radians squared}.
+    def _hubeny_2(self, phi2, phi1, lam21, scaled=True, squared=True):
+        '''(INTERNAL) like function C{pygeodesy.flatLocal_}/C{pygeodesy.hubeny_},
+           returning the I{angular} distance in C{radians squared} or C{radians}
         '''
-        m, n = self.roc2_((phi2 + phi1) * _0_5, scaled=True)
-        return hypot2(m * (phi2 - phi1), n * lam21) * self.a2_
+        m, n = self.roc2_((phi2 + phi1) * _0_5, scaled=scaled)
+        h, r = (hypot2, self.a2_) if squared else (hypot, _1_0 / self.a)
+        return h(m * (phi2 - phi1), n * lam21) * r
 
     @Property_RO
     def isEllipsoidal(self):

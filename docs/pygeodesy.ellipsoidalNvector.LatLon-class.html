@@ -111,7 +111,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalNvector.LatLon-class.html#deltaTo" class="summary-sig-name">deltaTo</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>,
-        <span class="summary-sig-arg">Ned</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.ellipsoidalNvector.Ned'&gt;</span>)</span><br />
+        <span class="summary-sig-arg">Ned</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.ellipsoidalNvector.Ned'&gt;</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Calculate the local delta from this to an other point.</td>
           <td align="right" valign="top">
             
@@ -211,7 +212,7 @@
         <span class="summary-sig-arg">other</span>,
         <span class="summary-sig-arg">fraction</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">**unused</span>)</span><br />
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Return the point at given fraction between this and an other point.</td>
           <td align="right" valign="top">
             
@@ -347,6 +348,7 @@
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#toEcef">toEcef</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#toLocal">toLocal</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#toLtp">toLtp</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#toNormal">toNormal</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#toStr">toStr</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#toVector">toVector</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#toVector3d">toVector3d</a></code>,
@@ -464,7 +466,8 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">deltaTo</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">other</span>,
-        <span class="sig-arg">Ned</span>=<span class="sig-default">&lt;class 'pygeodesy.ellipsoidalNvector.Ned'&gt;</span>)</span>
+        <span class="sig-arg">Ned</span>=<span class="sig-default">&lt;class 'pygeodesy.ellipsoidalNvector.Ned'&gt;</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -484,6 +487,8 @@
           class="link">pygeodesy.Ned4Tuple</a>), overriding the default 
           DEPRECATED <a href="pygeodesy.ellipsoidalNvector.Ned-class.html" 
           class="link">Ned</a>.</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> the 
+          <b><code>other</code></b> point (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Delta from this to the other point (<b><code>Ned</code></b>).</dd>
@@ -595,7 +600,9 @@
           or <a href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
           class="link">a_f2Tuple</a>), overriding the mean radius 
           <code>R1</code> of this point's datum..</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap/unroll the angular distance (<code>bool</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
+          <b><code>other</code></b> and angular distance 
+          (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Distance (<code>meter</code>, same units as 
@@ -707,7 +714,7 @@
         <span class="sig-arg">other</span>,
         <span class="sig-arg">fraction</span>,
         <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">**unused</span>)</span>
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -726,6 +733,8 @@
           1.0 at the other point.</li>
         <li><strong class="pname"><code>height</code></strong> - Optional height, overriding the fractional height 
           (<code>meter</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> the 
+          <b><code>other</code></b> point (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Intermediate point (<a 
@@ -776,7 +785,7 @@
           override this <a 
           href="pygeodesy.ellipsoidalNvector.Cartesian-class.html" 
           class="link">Cartesian</a> class or specify 
-          <code><b>Cartesian</b> is None</code>.</li>
+          <code><b>Cartesian</b>=None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The geodetic point (<a 
@@ -825,8 +834,8 @@
           keyword arguments.  Use <code><b>Nvector</b>=...</code> to 
           override this <a 
           href="pygeodesy.ellipsoidalNvector.Nvector-class.html" 
-          class="link">Nvector</a> class or specify <code><b>Nvector</b> is
-          None</code>.</li>
+          class="link">Nvector</a> class or specify 
+          <code><b>Nvector</b>=None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The <code>n-vector</code> components (<a 
@@ -921,7 +930,7 @@ class="link">EcefVeness</a>), <i>lazily</i>.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Apr 23 16:20:30 2023
+    Generated by Epydoc 3.0.1 on Sat May 13 11:43:54 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -18,12 +18,13 @@ from pygeodesy.cartesianBase import CartesianBase, _ellipsoidal_  # PYCHOK used!
 from pygeodesy.datums import Datum, Datums, _ellipsoidal_datum, \
                             _spherical_datum, _WGS84, _xinstanceof
 from pygeodesy.errors import _incompatible, _IsnotError, RangeError, TRFError, \
-                             _ValueError, _xellipsoidal, _xError, _xkwds, \
-                             _xkwds_get, _xkwds_not
+                             _ValueError, _xattr, _xellipsoidal, _xError, \
+                             _xkwds, _xkwds_get, _xkwds_not
 # from pygeodesy.interns import _ellipsoidal_  # from .cartesianBase
-from pygeodesy.interns import MISSING, NN, _COMMA_, _conversion_, _datum_, \
-                             _DOT_, _no_, _reframe_, _SPACE_
-from pygeodesy.latlonBase import fabs, LatLonBase, _trilaterate5, Vector3Tuple
+from pygeodesy.interns import MISSING, NN, _COMMA_, _conversion_, _DOT_, \
+                             _no_, _reframe_, _SPACE_
+from pygeodesy.latlonBase import fabs, LatLonBase, _trilaterate5, \
+                                 Vector3Tuple,  _Wrap
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 # from pygeodesy.lcc import toLcc  # from ._MODS
 # from pygeodesy.named import notOverloaded  # from ._MODS
@@ -31,11 +32,12 @@ from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.props import deprecated_method, deprecated_property_RO, \
                             Property_RO, property_doc_, property_RO, _update_all
 from pygeodesy.units import Epoch, _1mm as _TOL_M, Radius_
+# from pygeodesy.utily import _Wrap  # from .latlonBase
 
 # from math import fabs  # from .karney
 
 __all__ = _ALL_LAZY.ellipsoidalBase
-__version__ = '23.04.11'
+__version__ = '23.05.06'
 
 
 class CartesianEllipsoidalBase(CartesianBase):
@@ -175,30 +177,34 @@ class LatLonEllipsoidalBase(LatLonBase):
     _scale          =  None   # UTM/UPS scale factor (C{float})
     _toLLEB_args    = ()      # Etm/Utm/Ups._toLLEB arguments
 
-    def __init__(self, lat, lon, height=0, datum=None, reframe=None,
-                                           epoch=None, name=NN):
+    def __init__(self, latlonh, lon=None, height=0, datum=None, reframe=None,
+                                          epoch=None, wrap=False, name=NN):
         '''Create an ellipsoidal C{LatLon} point frome the given
            lat-, longitude and height on the given datum and with
            the given reference frame and epoch.
 
-           @arg lat: Latitude (C{degrees} or DMS C{[N|S]}).
-           @arg lon: Longitude (C{degrees} or DMS C{str[E|W]}).
-           @kwarg height: Optional elevation (C{meter}, the same units
-                          as the datum's half-axes).
-           @kwarg datum: Optional, ellipsoidal datum to use (L{Datum},
-                         L{Ellipsoid}, L{Ellipsoid2} or L{a_f2Tuple}).
+           @arg latlonh: Latitude (C{degrees} or DMS C{str} with N or S suffix) or
+                         a previous C{LatLon} instance provided C{B{lon}=None}.
+           @kwarg lon: Longitude (C{degrees} or DMS C{str} with E or W suffix) or
+                       C(None), indicating B{C{latlonh}} is a C{LatLon}.
+           @kwarg height: Optional height above (or below) the earth surface
+                          (C{meter}, same units as the datum's ellipsoid axes).
+           @kwarg datum: Optional, ellipsoidal datum to use (L{Datum}, L{Ellipsoid},
+                         L{Ellipsoid2} or L{a_f2Tuple}).
            @kwarg reframe: Optional reference frame (L{RefFrame}).
-           @kwarg epoch: Optional epoch to observe for B{C{reframe}}
-                         (C{scalar}), a non-zero, fractional calendar
-                         year; silently ignored if C{B{reframe} is None}.
+           @kwarg epoch: Optional epoch to observe for B{C{reframe}} (C{scalar}),
+                         a non-zero, fractional calendar year; silently ignored
+                         if C{B{reframe}=None}.
+           @kwarg wrap: If C{True}, wrap or I{normalize} B{C{lat}} and B{C{lon}}
+                        (C{bool}).
            @kwarg name: Optional name (string).
 
-           @raise RangeError: Value of B{C{lat}} or B{C{lon}} outside the valid
-                              range and C{rangerrors} set to C{True}.
+           @raise RangeError: Value of C{lat} or B{C{lon}} outside the valid
+                              range and L{rangerrors} set to C{True}.
 
-           @raise TypeError: B{C{datum}} is not a L{Datum}, B{C{reframe}}
-                             is not a L{RefFrame} or B{C{epoch}} is not
-                             C{scalar} non-zero.
+           @raise TypeError: If B{C{latlonh}} is not a C{LatLon}, B{C{datum}} is
+                             not a L{Datum}, B{C{reframe}} is not a L{RefFrame}
+                             or B{C{epoch}} is not C{scalar} non-zero.
 
            @raise UnitError: Invalid B{C{lat}}, B{C{lon}} or B{C{height}}.
 
@@ -206,7 +212,7 @@ class LatLonEllipsoidalBase(LatLonBase):
 
             >>> p = LatLon(51.4778, -0.0016)  # height=0, datum=Datums.WGS84
         '''
-        LatLonBase.__init__(self, lat, lon, height=height, name=name)
+        LatLonBase.__init__(self, latlonh, lon=lon, height=height, wrap=wrap, name=name)
         if datum not in (None, self._datum):
             self.datum = _ellipsoidal_datum(datum, name=name)
         if reframe:
@@ -276,7 +282,7 @@ class LatLonEllipsoidalBase(LatLonBase):
             _update_all(self)
             self._datum = datum
 
-    def distanceTo2(self, other):
+    def distanceTo2(self, other, wrap=False):
         '''I{Approximate} the distance and (initial) bearing between this
            and an other (ellipsoidal) point based on the radii of curvature.
 
@@ -284,6 +290,8 @@ class LatLonEllipsoidalBase(LatLonBase):
            or Miles and only between points not near-polar}.
 
            @arg other: The other point (C{LatLon}).
+           @kwarg wrap: If C{True}, wrap or I{normalize} the B{C{other}}
+                        point (C{bool}).
 
            @return: An L{Distance2Tuple}C{(distance, initial)}.
 
@@ -296,8 +304,11 @@ class LatLonEllipsoidalBase(LatLonBase):
                  aka U{Hubeny<https://www.OVG.AT/de/vgi/files/pdf/3781/>}
                  formula.
         '''
-        return self.ellipsoids(other).distance2(self.lat,  self.lon,
-                                               other.lat, other.lon)
+        p = self.others(other)
+        if wrap:
+            p = _Wrap.point(p)
+        E = self.ellipsoids(other)
+        return E.distance2(*(self.latlon + p.latlon))
 
     @Property_RO
     def _elevation2(self):
@@ -343,7 +354,7 @@ class LatLonEllipsoidalBase(LatLonBase):
 
            @return: The ellipsoid (L{Ellipsoid} or L{Ellipsoid2}).
         '''
-        return getattr(self, _datum_, datum).ellipsoid
+        return _xattr(self, datum=datum).ellipsoid
 
     def ellipsoids(self, other):
         '''Check the type and ellipsoid of this and an other point's datum.
@@ -451,9 +462,9 @@ class LatLonEllipsoidalBase(LatLonBase):
         '''
         _MODS.named.notOverloaded(self, other, fraction, height=height, wrap=wrap)
 
-    def intersection3(self, end1, other, end2, height=None, wrap=True,
+    def intersection3(self, end1, other, end2, height=None, wrap=False,  # was=True
                                           equidistant=None, tol=_TOL_M):
-        '''Iteratively compute the intersection point of two lines, each
+        '''I{Iteratively} compute the intersection point of two lines, each
            defined by two points or a start point and bearing from North.
 
            @arg end1: End point of this line (C{LatLon}) or the initial
@@ -464,7 +475,8 @@ class LatLonEllipsoidalBase(LatLonBase):
                       C{degrees360}).
            @kwarg height: Optional height at the intersection (C{meter},
                           conventionally) or C{None} for the mean height.
-           @kwarg wrap: Wrap and unroll longitudes (C{bool}).
+           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the
+                        B{C{other}} and B{C{end*}} points (C{bool}).
            @kwarg equidistant: An azimuthal equidistant projection (I{class} or
                                function L{pygeodesy.equidistant}), or C{None}
                                for this point's preferred C{.Equidistant}.
@@ -508,9 +520,9 @@ class LatLonEllipsoidalBase(LatLonBase):
             raise _xError(x, start1=self, end1=end1, other=other, end2=end2,
                                           height=height, wrap=wrap, tol=tol)
 
-    def intersections2(self, radius1, other, radius2, height=None, wrap=True,
+    def intersections2(self, radius1, other, radius2, height=None, wrap=False,  # was=True
                                                  equidistant=None, tol=_TOL_M):
-        '''Iteratively compute the intersection points of two circles,
+        '''I{Iteratively} compute the intersection points of two circles,
            each defined by a center point and a radius.
 
            @arg radius1: Radius of this circle (C{meter}, conventionally).
@@ -520,7 +532,8 @@ class LatLonEllipsoidalBase(LatLonBase):
            @kwarg height: Optional height for the intersection points (C{meter},
                           conventionally) or C{None} for the I{"radical height"}
                           at the I{radical line} between both centers.
-           @kwarg wrap: Wrap and unroll longitudes (C{bool}).
+           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the B{C{other}}
+                        center (C{bool}).
            @kwarg equidistant: An azimuthal equidistant projection (I{class} or
                                function L{pygeodesy.equidistant}), or C{None}
                                for this point's preferred C{.Equidistant}.
@@ -573,7 +586,8 @@ class LatLonEllipsoidalBase(LatLonBase):
 
            @arg points: The polygon points or clips (C{LatLon}[],
                         L{BooleanFHP} or L{BooleanGH}).
-           @kwarg wrap: Wrap lat-, wrap and unroll longitudes (C{bool}).
+           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the
+                        B{C{points}} (C{bool}).
 
            @return: C{True} if this point is inside the polygon or composite,
                     C{False} otherwise.
@@ -612,7 +626,8 @@ class LatLonEllipsoidalBase(LatLonBase):
                           mean height (C{meter}).
            @kwarg fraction: Midpoint location from this point (C{scalar}),
                             may be negative or greater than 1.0.
-           @kwarg wrap: Wrap and unroll longitudes (C{bool}).
+           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the
+                        B{C{other}} point (C{bool}).
 
            @return: Midpoint (C{LatLon}).
 
@@ -624,9 +639,9 @@ class LatLonEllipsoidalBase(LatLonBase):
         '''
         return self.intermediateTo(other, fraction, height=height, wrap=wrap)
 
-    def nearestOn(self, point1, point2, within=True, height=None, wrap=True,
+    def nearestOn(self, point1, point2, within=True, height=None, wrap=False,  # was=True
                                         equidistant=None, tol=_TOL_M):
-        '''Iteratively locate the closest point on the geodesic between
+        '''I{Iteratively} locate the closest point on the geodesic between
            two other (ellipsoidal) points.
 
            @arg point1: Start point (C{LatLon}).
@@ -638,7 +653,8 @@ class LatLonEllipsoidalBase(LatLonBase):
                           conventionally) or C{None} or C{False} for the
                           interpolated height.  If C{False}, the closest
                           takes the heights of the points into account.
-           @kwarg wrap: Wrap and unroll longitudes (C{bool}).
+           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll both
+                        B{C{point1}} and B{C{point2}} (C{bool}).
            @kwarg equidistant: An azimuthal equidistant projection (I{class} or
                                function L{pygeodesy.equidistant}), or C{None}
                                for this point's preferred C{.Equidistant}.
@@ -687,9 +703,9 @@ class LatLonEllipsoidalBase(LatLonBase):
         return _MODS.osgr.toOsgr(self, kTM=True, name=self.name)  # datum=self.datum
 
     def parse(self, strllh, height=0, datum=None, epoch=None, reframe=None,
-                                                  sep=_COMMA_, name=NN):
-        '''Parse a string representing a similar, ellipsoidal C{LatLon}
-           point, consisting of C{"lat, lon[, height]"}.
+                                        sep=_COMMA_, wrap=False, name=NN):
+        '''Parse a string consisting of C{"lat, lon[, height]"},
+           representing a similar, ellipsoidal C{LatLon} point.
 
            @arg strllh: Lat, lon and optional height (C{str}),
                         see function L{pygeodesy.parse3llh}.
@@ -702,6 +718,8 @@ class LatLonEllipsoidalBase(LatLonBase):
            @kwarg reframe: Optional datum (L{RefFrame}), overriding
                            this reframe I{without conversion}.
            @kwarg sep: Optional separator (C{str}).
+           @kwarg wrap: If C{True}, wrap or I{normalize} the lat-
+                        and longitude (C{bool}).
            @kwarg name: Optional instance name (C{str}), overriding
                         this name.
 
@@ -709,7 +727,7 @@ class LatLonEllipsoidalBase(LatLonBase):
 
            @raise ParseError: Invalid B{C{strllh}}.
         '''
-        a, b, h = _MODS.dms.parse3llh(strllh, height=height, sep=sep)
+        a, b, h = _MODS.dms.parse3llh(strllh, height=height, sep=sep, wrap=wrap)
         r = self.classof(a, b, height=h, datum=self.datum)
         if datum not in (None, self.datum):
             r.datum = datum
@@ -1006,7 +1024,8 @@ class LatLonEllipsoidalBase(LatLonBase):
            @kwarg eps: The required I{minimal overlap} for C{B{area}=True}
                        or the I{intersection margin} for C{B{area}=False}
                        (C{meter}, conventionally).
-           @kwarg wrap: Wrap/unroll angular distances (C{bool}).
+           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll
+                        B{C{point2}} and B{C{point3}} (C{bool}).
 
            @return: A L{Trilaterate5Tuple}C{(min, minPoint, max, maxPoint, n)}
                     with C{min} and C{max} in C{meter}, same units as B{C{eps}},
@@ -1102,8 +1121,8 @@ def _lowerleft(utmups, center):
     return u
 
 
-def _nearestOn(point, point1, point2, within=True, height=None, wrap=True,
-               equidistant=None, tol=_TOL_M, LatLon=None, **LatLon_kwds):
+def _nearestOn(point, point1, point2, within=True, height=None, wrap=False,  # was=True
+                      equidistant=None, tol=_TOL_M, **LatLon_and_kwds):
     '''(INTERNAL) Get closest point, imported by .ellipsoidalExact,
        -GeodSolve, -Karney and -Vincenty to embellish exceptions.
     '''
@@ -1111,8 +1130,8 @@ def _nearestOn(point, point1, point2, within=True, height=None, wrap=True,
         p = _xellipsoidal(point=point)
         t = _MODS.ellipsoidalBaseDI._nearestOn2(p, point1, point2, within=within,
                                                    height=height, wrap=wrap,
-                                                   equidistant=equidistant, tol=tol,
-                                                   LatLon=LatLon, **LatLon_kwds)
+                                                   equidistant=equidistant,
+                                                   tol=tol, **LatLon_and_kwds)
     except (TypeError, ValueError) as x:
         raise _xError(x, point=point, point1=point1, point2=point2)
     return t.closest

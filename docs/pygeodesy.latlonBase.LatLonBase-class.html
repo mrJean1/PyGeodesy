@@ -97,7 +97,8 @@
           <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#PointsIter" class="summary-sig-name">PointsIter</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">loop</span>=<span class="summary-sig-default">0</span>,
-        <span class="summary-sig-arg">dedup</span>=<span class="summary-sig-default">False</span>)</span><br />
+        <span class="summary-sig-arg">dedup</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Return a <code>PointsIter</code> iterator.</td>
           <td align="right" valign="top">
             
@@ -132,9 +133,10 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">lat</span>,
-        <span class="summary-sig-arg">lon</span>,
+        <span class="summary-sig-arg">latlonh</span>,
+        <span class="summary-sig-arg">lon</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">0</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
       New <code>LatLon</code>.</td>
           <td align="right" valign="top">
@@ -248,7 +250,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#chordTo" class="summary-sig-name">chordTo</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>,
-        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>)</span><br />
+        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Compute the length of the chord through the earth between this and an
       other point.</td>
           <td align="right" valign="top">
@@ -269,7 +272,8 @@
           <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#circin6" class="summary-sig-name">circin6</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">point2</span>,
         <span class="summary-sig-arg">point3</span>,
-        <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">8.881784197001252e-16</span>)</span><br />
+        <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">8.881784197001252e-16</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Return the radius and center of the <i>inscribed</i> aka 
       <i>In-</i>circle of the (planar) triangle formed by this and two 
       other points.</td>
@@ -292,7 +296,8 @@
         <span class="summary-sig-arg">point2</span>,
         <span class="summary-sig-arg">point3</span>,
         <span class="summary-sig-arg">circum</span>=<span class="summary-sig-default">True</span>,
-        <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">8.881784197001252e-16</span>)</span><br />
+        <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">8.881784197001252e-16</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Return the radius and center of the smallest circle <i>through</i> or
       <i>containing</i> this and two other points.</td>
           <td align="right" valign="top">
@@ -311,7 +316,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#circum4_" class="summary-sig-name">circum4_</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">*points</span>)</span><br />
+        <span class="summary-sig-arg">*points</span>,
+        <span class="summary-sig-arg">**wrap</span>)</span><br />
       Best-fit a sphere through this and two or more other points.</td>
           <td align="right" valign="top">
             
@@ -330,8 +336,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#compassAngle" class="summary-sig-name">compassAngle</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>,
-        <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
-        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
+        <span class="summary-sig-arg">**adjust_wrap</span>)</span><br />
       DEPRECATED, use method <a 
       href="pygeodesy.latlonBase.LatLonBase-class.html#compassAngleTo" 
       class="link">compassAngleTo</a>.</td>
@@ -352,8 +357,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#compassAngleTo" class="summary-sig-name">compassAngleTo</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>,
-        <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
-        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
+        <span class="summary-sig-arg">**adjust_wrap</span>)</span><br />
       Return the angle from North for the direction vector between this and
       an other point.</td>
           <td align="right" valign="top">
@@ -503,8 +507,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#equirectangularTo" class="summary-sig-name">equirectangularTo</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">**options</span>)</span><br />
+        <span class="summary-sig-arg">**radius_adjust_limit_wrap</span>)</span><br />
       Compute the distance between this and an other point using the <a 
       href="https://www.Movable-Type.co.UK/scripts/latlong.html#equirectangular"
       target="_top">Equirectangular Approximation / Projection</a>.</td>
@@ -525,8 +528,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#euclideanTo" class="summary-sig-name">euclideanTo</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">**options</span>)</span><br />
+        <span class="summary-sig-arg">**radius_adjust_wrap</span>)</span><br />
       Approximate the <code>Euclidian</code> distance between this and an 
       other point.</td>
           <td align="right" valign="top">
@@ -570,8 +572,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#flatPolarTo" class="summary-sig-name">flatPolarTo</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
+        <span class="summary-sig-arg">**radius_wrap</span>)</span><br />
       Compute the distance between this and an other point using the <a 
       href="https://WikiPedia.org/wiki/Geographical_distance#Polar_coordinate_flat-Earth_formula"
       target="_top">polar coordinate flat-Earth</a>formula.</td>
@@ -612,8 +613,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#haversineTo" class="summary-sig-name">haversineTo</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
+        <span class="summary-sig-arg">**radius_wrap</span>)</span><br />
       Compute the distance between this and an other point using the <a 
       href="https://www.Movable-Type.co.UK/scripts/latlong.html" 
       target="_top">Haversine</a> formula.</td>
@@ -637,8 +637,8 @@
         <span class="summary-sig-arg">normal</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">**LatLon_kwds</span>)</span><br />
-      Compute the height above or below and the projection on this datum's 
-      ellipsoid surface.</td>
+      Compute the height above or below and the projection of this point on
+      this datum's or on an other earth's ellipsoid surface.</td>
           <td align="right" valign="top">
             
             
@@ -657,7 +657,8 @@
           <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#heightStr" class="summary-sig-name">heightStr</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">-2</span>,
         <span class="summary-sig-arg">m</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">m</code><code class="variable-quote">'</code></span>)</span><br />
-      Return this <b><code>height</code></b> as <code>str</code>ing.</td>
+      Return this point's <b><code>height</code></b> as 
+      <code>str</code>ing.</td>
           <td align="right" valign="top">
             
             
@@ -857,8 +858,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#normal" class="summary-sig-name">normal</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      Normalize this point to <code>abs(lat) &lt;= 90</code> and 
-      <code>abs(lon) &lt;= 180</code>.</td>
+      Normalize this point <i>in-place</i> to <code>abs(lat) &lt;= 
+      90</code> and <code>abs(lon) &lt;= 180</code>.</td>
           <td align="right" valign="top">
             
             
@@ -935,7 +936,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#radii11" class="summary-sig-name">radii11</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">point2</span>,
-        <span class="summary-sig-arg">point3</span>)</span><br />
+        <span class="summary-sig-arg">point3</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Return the radii of the <code>Circum-</code>, <code>In-</code>, 
       <i>Soddy</i> and <code>Tangent</code> circles of a (planar) triangle 
       formed by this and two other points.</td>
@@ -957,7 +959,8 @@
           <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#rhumbAzimuthTo" class="summary-sig-name">rhumbAzimuthTo</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>,
         <span class="summary-sig-arg">exact</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">None</span>)</span><br />
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Return the azimuth (bearing) of a rhumb line (loxodrome) between this
       and an other (ellipsoidal) point.</td>
           <td align="right" valign="top">
@@ -1001,7 +1004,8 @@
           <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#rhumbDistanceTo" class="summary-sig-name">rhumbDistanceTo</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>,
         <span class="summary-sig-arg">exact</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">None</span>)</span><br />
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Return the distance from this to an other point along a rhumb line 
       (loxodrome).</td>
           <td align="right" valign="top">
@@ -1023,8 +1027,8 @@
         <span class="summary-sig-arg">azimuth_other</span>,
         <span class="summary-sig-arg">exact</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>,
-        <span class="summary-sig-arg">**caps</span>)</span><br />
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">**name_caps</span>)</span><br />
       Get a rhumb line through this point at a given azimuth or through 
       this and an other point.</td>
           <td align="right" valign="top">
@@ -1047,7 +1051,8 @@
         <span class="summary-sig-arg">exact</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">fraction</span>=<span class="summary-sig-default">0.5</span>)</span><br />
+        <span class="summary-sig-arg">fraction</span>=<span class="summary-sig-default">0.5</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Return the (loxodromic) midpoint on the rhumb line between this and 
       an other point.</td>
           <td align="right" valign="top">
@@ -1234,6 +1239,26 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#toNormal" class="summary-sig-name">toNormal</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">deep</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+      Get this point <i>normalized</i> to <code>abs(lat) &lt;= 90</code> 
+      and <code>abs(lon) &lt;= 180</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#toNvector" class="summary-sig-name">toNvector</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">h</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">Nvector</span>=<span class="summary-sig-default">None</span>,
@@ -1317,8 +1342,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#vincentysTo" class="summary-sig-name">vincentysTo</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
+        <span class="summary-sig-arg">**radius_wrap</span>)</span><br />
       Compute the distance between this and an other point using <a 
       href="https://WikiPedia.org/wiki/Great-circle_distance" 
       target="_top">Vincenty's</a> spherical formula.</td>
@@ -1573,7 +1597,8 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">PointsIter</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">points</span>,
         <span class="sig-arg">loop</span>=<span class="sig-default">0</span>,
-        <span class="sig-arg">dedup</span>=<span class="sig-default">False</span>)</span>
+        <span class="sig-arg">dedup</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -1587,6 +1612,8 @@
         <li><strong class="pname"><code>points</code></strong> - The path or polygon points (<code>LatLon</code>[])</li>
         <li><strong class="pname"><code>loop</code></strong> - Number of loop-back points (non-negative <code>int</code>).</li>
         <li><strong class="pname"><code>dedup</code></strong> - Skip duplicate points (<code>bool</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> the enum-/iterated
+          <b><code>points</code></b> (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A new <code>PointsIter</code> iterator.</dd>
@@ -1605,9 +1632,10 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">lat</span>,
-        <span class="sig-arg">lon</span>,
+        <span class="sig-arg">latlonh</span>,
+        <span class="sig-arg">lon</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">height</span>=<span class="sig-default">0</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
     <br /><em class="fname">(Constructor)</em>
   </h3>
@@ -1620,21 +1648,27 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>lat</code></strong> - Latitude (<code>degrees</code> or DMS <code>str</code> with N or 
-          S suffix).</li>
+        <li><strong class="pname"><code>latlonh</code></strong> - Latitude (<code>degrees</code> or DMS <code>str</code> with N or 
+          S suffix) or a previous <code>LatLon</code> instance provided 
+          <code><b>lon</b>=None</code>.</li>
         <li><strong class="pname"><code>lon</code></strong> - Longitude (<code>degrees</code> or DMS <code>str</code> with E or
-          W suffix).</li>
-        <li><strong class="pname"><code>height</code></strong> - Optional height (<code>meter</code> above or below the earth 
-          surface).</li>
+          W suffix) or C(None), indicating <b><code>latlonh</code></b> is a
+          <code>LatLon</code>.</li>
+        <li><strong class="pname"><code>height</code></strong> - Optional height above (or below) the earth surface 
+          (<code>meter</code>, conventionally).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> 
+          <b><code>lat</code></b> and <b><code>lon</code></b> 
+          (<code>bool</code>).</li>
         <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>New instance (<code>LatLon</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - Value of <b><code>lat</code></b> or <b><code>lon</code></b> outside
-        the valid range and <code>rangerrors</code> set to 
-        <code>True</code>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - A <b><code>lon</code></b> or <code>lat</code> value outside the 
+        valid range and <a href="pygeodesy.errors-module.html#rangerrors" 
+        class="link">rangerrors</a> set to <code>True</code>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - If <b><code>latlonh</code></b> is not a <code>LatLon</code>.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.errors.UnitError-class.html">UnitError</a></strong></code> - Invalid <b><code>lat</code></b>, <b><code>lon</code></b> or 
         <b><code>height</code></b>.</li>
     </ul></dd>
@@ -1645,7 +1679,8 @@
 <div class="fields">      <p><strong>Example:</strong>
         <pre class="py-doctest">
 <span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(50.06632, -5.71475)
-<span class="py-prompt">&gt;&gt;&gt; </span>q = LatLon(<span class="py-string">'50&#176;03&#8242;59&#8243;N'</span>, <span class="py-string">&quot;&quot;&quot;005&#176;42'53&quot;W&quot;&quot;&quot;</span>)</pre>
+<span class="py-prompt">&gt;&gt;&gt; </span>q = LatLon(<span class="py-string">'50&#176;03&#8242;59&#8243;N'</span>, <span class="py-string">&quot;&quot;&quot;005&#176;42'53&quot;W&quot;&quot;&quot;</span>)
+<span class="py-prompt">&gt;&gt;&gt; </span>r = LatLon(p)</pre>
       </p>
 </div></td></tr></table>
 </div>
@@ -1756,7 +1791,9 @@
         <li><strong class="pname"><code>tall</code></strong> - Latitudinal box size (<code>meter</code>, same units as 
           <b><code>radius</code></b> or <code>degrees</code> if 
           <b><code>radius</code></b> is <code>None</code>).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>) or <code>None</code> if 
+          <i>both</i> <b><code>wide</code></b> and <b><code>tall</code></b>
+          are in <code>degrees</code>.</li>
         <li><strong class="pname"><code>height</code></strong> - Height for <code>latlonSW</code> and <code>latlonNE</code> 
           (<code>meter</code>), overriding the point's height.</li>
     </ul></dd>
@@ -1780,7 +1817,8 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">chordTo</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">other</span>,
-        <span class="sig-arg">height</span>=<span class="sig-default">None</span>)</span>
+        <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -1795,6 +1833,8 @@
         <li><strong class="pname"><code>other</code></strong> - The other point (<code>LatLon</code>).</li>
         <li><strong class="pname"><code>height</code></strong> - Overriding height for both points (<code>meter</code>) or 
           <code>None</code> for each point's height.</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> the 
+          <b><code>other</code></b> point (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The chord length (conventionally <code>meter</code>).</dd>
@@ -1815,7 +1855,8 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">circin6</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">point2</span>,
         <span class="sig-arg">point3</span>,
-        <span class="sig-arg">eps</span>=<span class="sig-default">8.881784197001252e-16</span>)</span>
+        <span class="sig-arg">eps</span>=<span class="sig-default">8.881784197001252e-16</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -1833,6 +1874,9 @@
         <li><strong class="pname"><code>eps</code></strong> - Tolerance for function <a 
           href="pygeodesy.vector3d-module.html#trilaterate3d2" 
           class="link">pygeodesy.trilaterate3d2</a>.</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> 
+          <b><code>point2</code></b> and <b><code>point3</code></b> 
+          (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><a href="pygeodesy.vector2d.Circin6Tuple-class.html" 
@@ -1888,7 +1932,8 @@
         <span class="sig-arg">point2</span>,
         <span class="sig-arg">point3</span>,
         <span class="sig-arg">circum</span>=<span class="sig-default">True</span>,
-        <span class="sig-arg">eps</span>=<span class="sig-default">8.881784197001252e-16</span>)</span>
+        <span class="sig-arg">eps</span>=<span class="sig-default">8.881784197001252e-16</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -1908,6 +1953,9 @@
         <li><strong class="pname"><code>eps</code></strong> - Tolerance for function <a 
           href="pygeodesy.vector3d-module.html#trilaterate3d2" 
           class="link">pygeodesy.trilaterate3d2</a>.</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> 
+          <b><code>point2</code></b> and <b><code>point3</code></b> 
+          (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.vector2d.Circum3Tuple-class.html" 
@@ -1965,7 +2013,8 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">circum4_</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">*points</span>)</span>
+        <span class="sig-arg">*points</span>,
+        <span class="sig-arg">**wrap</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -1977,6 +2026,9 @@
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>points</code></strong> - The other points (each a <code>LatLon</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> the 
+          <b><code>points</code></b> (<code>bool</code>), default 
+          <code>False</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><a href="pygeodesy.vector2d.Circum4Tuple-class.html" 
@@ -2009,8 +2061,7 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">compassAngle</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">other</span>,
-        <span class="sig-arg">adjust</span>=<span class="sig-default">True</span>,
-        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
+        <span class="sig-arg">**adjust_wrap</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -2037,8 +2088,7 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">compassAngleTo</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">other</span>,
-        <span class="sig-arg">adjust</span>=<span class="sig-default">True</span>,
-        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
+        <span class="sig-arg">**adjust_wrap</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -2054,11 +2104,9 @@
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>other</code></strong> - The other point (<code>LatLon</code>).</li>
-        <li><strong class="pname"><code>adjust</code></strong> - Adjust the longitudinal delta by the cosine of the mean latitude 
-          (<code>bool</code>).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
-          class="link">pygeodesy.unroll180</a> longitudes and longitudinal 
-          delta (<code>bool</code>).</li>
+        <li><strong class="pname"><code>adjust_wrap</code></strong> - Optional keyword arguments for function <a 
+          href="pygeodesy.formy-module.html#compassAngle" 
+          class="link">pygeodesy.compassAngle</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Compass angle from North (<code>degrees360</code>).</dd>
@@ -2101,9 +2149,8 @@
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>other</code></strong> - The other point (<code>LatLon</code>).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
-          class="link">pygeodesy.unroll180</a> longitudes 
-          (<code>bool</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
+          <b><code>other</code></b> point (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Distance (<code>meter</code>, same units as the axes of this 
@@ -2164,9 +2211,8 @@
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>other</code></strong> - The other point (<code>LatLon</code>).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
-          class="link">pygeodesy.unroll180</a> longitudes 
-          (<code>bool</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
+          <b><code>other</code></b> point (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Distance (<code>meter</code>, same units as the axes of this 
@@ -2230,9 +2276,8 @@
         <li><strong class="pname"><code>other</code></strong> - The other point (<code>LatLon</code>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>) or <code>None</code> for 
           the mean radius of this point's datum ellipsoid.</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
-          class="link">pygeodesy.unroll180</a> longitudes 
-          (<code>bool</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
+          <b><code>other</code></b> point (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Distance (<code>meter</code>, same units as 
@@ -2385,8 +2430,7 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">equirectangularTo</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">other</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">**options</span>)</span>
+        <span class="sig-arg">**radius_adjust_limit_wrap</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -2401,18 +2445,14 @@
   href="pygeodesy.latlonBase.LatLonBase-class.html#haversineTo" 
   class="link">haversineTo</a> or <code>distanceTo*</code> for more 
   accurate and/or larger distances.</p>
-  <p>See function <a href="pygeodesy.formy-module.html#equirectangular_" 
-  class="link">pygeodesy.equirectangular_</a> for more details, the 
-  available <b><code>options</code></b> and errors raised.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>other</code></strong> - The other point (<code>LatLon</code>).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>) or <code>None</code> for 
-          the mean radius of this point's datum ellipsoid.</li>
-        <li><strong class="pname"><code>options</code></strong> - Optional keyword arguments for function <a 
+        <li><strong class="pname"><code>radius_adjust_limit_wrap</code></strong> - Optional keyword arguments for function <a 
           href="pygeodesy.formy-module.html#equirectangular" 
-          class="link">pygeodesy.equirectangular</a>.</li>
+          class="link">pygeodesy.equirectangular</a>, overriding the 
+          default mean <code>radius</code> of this point's datum ellipsoid.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Distance (<code>meter</code>, same units as 
@@ -2456,8 +2496,7 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">euclideanTo</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">other</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">**options</span>)</span>
+        <span class="sig-arg">**radius_adjust_wrap</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -2473,11 +2512,10 @@
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>other</code></strong> - The other point (<code>LatLon</code>).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>) or <code>None</code> for 
-          the mean radius of this point's datum ellipsoid.</li>
-        <li><strong class="pname"><code>options</code></strong> - Optional keyword arguments for function <a 
+        <li><strong class="pname"><code>radius_adjust_wrap</code></strong> - Optional keyword arguments for function <a 
           href="pygeodesy.formy-module.html#euclidean" 
-          class="link">pygeodesy.euclidean</a>.</li>
+          class="link">pygeodesy.euclidean</a>, overriding the default mean
+          <code>radius</code> of this point's datum ellipsoid.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Distance (<code>meter</code>, same units as 
@@ -2540,10 +2578,9 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>other</code></strong> - The other point (<code>LatLon</code>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>) or <code>None</code> for 
-          the equatorial radius of this point's datum/ellipsoid.</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
-          class="link">pygeodesy.unroll180</a> longitudes 
-          (<code>bool</code>).</li>
+          the <i>equatorial radius</i> of this point's datum ellipsoid.</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
+          <b><code>other</code></b> point (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Distance (<code>meter</code>, same units as 
@@ -2591,8 +2628,7 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">flatPolarTo</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">other</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
+        <span class="sig-arg">**radius_wrap</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -2606,11 +2642,10 @@
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>other</code></strong> - The other point (<code>LatLon</code>).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>) or <code>None</code> for 
-          the mean radius of this point's datum ellipsoid.</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
-          class="link">pygeodesy.unroll180</a> longitudes 
-          (<code>bool</code>).</li>
+        <li><strong class="pname"><code>radius_wrap</code></strong> - Optional keyword arguments for function <a 
+          href="pygeodesy.formy-module.html#flatPolar" 
+          class="link">pygeodesy.flatPolar</a>, overriding the default mean
+          <code>radius</code> of this point's datum ellipsoid.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Distance (<code>meter</code>, same units as 
@@ -2707,8 +2742,7 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">haversineTo</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">other</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
+        <span class="sig-arg">**radius_wrap</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -2722,11 +2756,10 @@
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>other</code></strong> - The other point (<code>LatLon</code>).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>) or <code>None</code> for 
-          the mean radius of this point's datum ellipsoid.</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
-          class="link">pygeodesy.unroll180</a> longitudes 
-          (<code>bool</code>).</li>
+        <li><strong class="pname"><code>radius_wrap</code></strong> - Optional keyword arguments for function <a 
+          href="pygeodesy.formy-module.html#haversine" 
+          class="link">pygeodesy.haversine</a>, overriding the default mean
+          <code>radius</code> of this point's datum ellipsoid.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Distance (<code>meter</code>, same units as 
@@ -2780,8 +2813,8 @@
     </td>
   </tr></table>
   
-  <p>Compute the height above or below and the projection on this datum's 
-  ellipsoid surface.</p>
+  <p>Compute the height above or below and the projection of this point on 
+  this datum's or on an other earth's ellipsoid surface.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -2852,7 +2885,8 @@
     </td>
   </tr></table>
   
-  <p>Return this <b><code>height</code></b> as <code>str</code>ing.</p>
+  <p>Return this point's <b><code>height</code></b> as 
+  <code>str</code>ing.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -2893,10 +2927,9 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>other</code></strong> - The other point (<code>LatLon</code>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>) or <code>None</code> for 
-          the equatorial radius of this point's datum/ellipsoid.</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
-          class="link">pygeodesy.unroll180</a> longitudes 
-          (<code>bool</code>).</li>
+          the <i>equatorial radius</i> of this point's datum ellipsoid.</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
+          <b><code>other</code></b> point (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Distance (<code>meter</code>, same units as 
@@ -3187,9 +3220,8 @@
         <li><strong class="pname"><code>height</code></strong> - Optional height, overriding the height of this and all other 
           points (<code>meter</code>).  If <code>None</code>, take the 
           height of points into account for distances.</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
-          class="link">pygeodesy.unroll180</a> longitudes 
-          (<code>bool</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
+          <b><code>points</code></b> (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.namedTuples.NearestOn6Tuple-class.html" 
@@ -3226,8 +3258,8 @@
     </td>
   </tr></table>
   
-  <p>Normalize this point to <code>abs(lat) &lt;= 90</code> and 
-  <code>abs(lon) &lt;= 180</code>.</p>
+  <p>Normalize this point <i>in-place</i> to <code>abs(lat) &lt;= 90</code>
+  and <code>abs(lon) &lt;= 180</code>.</p>
   <dl class="fields">
     <dt>Returns:</dt>
         <dd><code>True</code> if this point was <i>normal</i>, 
@@ -3236,9 +3268,9 @@
 <div class="fields">      <p><strong>See Also:</strong>
         Property <a 
         href="pygeodesy.latlonBase.LatLonBase-class.html#isnormal" 
-        class="link">isnormal</a> and function <a 
-        href="pygeodesy.formy-module.html#normal" 
-        class="link">pygeodesy.normal</a>.
+        class="link">isnormal</a> and method <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#toNormal" 
+        class="link">toNormal</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -3347,7 +3379,8 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">radii11</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">point2</span>,
-        <span class="sig-arg">point3</span>)</span>
+        <span class="sig-arg">point3</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -3362,6 +3395,9 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>point2</code></strong> - Second point (<code>LatLon</code>).</li>
         <li><strong class="pname"><code>point3</code></strong> - Third point (<code>LatLon</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> 
+          <b><code>point2</code></b> and <b><code>point3</code></b> 
+          (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><a href="pygeodesy.vector2d.Radii11Tuple-class.html" 
@@ -3395,7 +3431,8 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">rhumbAzimuthTo</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">other</span>,
         <span class="sig-arg">exact</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">None</span>)</span>
+        <span class="sig-arg">radius</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -3419,6 +3456,8 @@
           class="link">Ellipsoid2</a> or <a 
           href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
           class="link">a_f2Tuple</a>), overriding this point's datum.</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
+          <b><code>other</code></b> point (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Rhumb azimuth (compass <code>degrees360</code>).</dd>
@@ -3493,7 +3532,8 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">rhumbDistanceTo</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">other</span>,
         <span class="sig-arg">exact</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">None</span>)</span>
+        <span class="sig-arg">radius</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -3517,6 +3557,8 @@
           class="link">Ellipsoid2</a> or <a 
           href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
           class="link">a_f2Tuple</a>), overriding this point's datum.</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
+          <b><code>other</code></b> point (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Distance (<code>meter</code>, the same units as this point's 
@@ -3541,8 +3583,8 @@
         <span class="sig-arg">azimuth_other</span>,
         <span class="sig-arg">exact</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">radius</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>,
-        <span class="sig-arg">**caps</span>)</span>
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">**name_caps</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -3554,7 +3596,7 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>azimuth_other</code></strong> - The azimuth of the rhumb line (compass) <code>degrees</code> or 
+        <li><strong class="pname"><code>azimuth_other</code></strong> - The azimuth of the rhumb line (compass <code>degrees</code>) or 
           the other point (<code>LatLon</code>).</li>
         <li><strong class="pname"><code>exact</code></strong> - If <code>True</code>, use the <i>exact</i> <a 
           href="pygeodesy.rhumbx.Rhumb-class.html" class="link">Rhumb</a> 
@@ -3567,9 +3609,10 @@
           class="link">Ellipsoid2</a> or <a 
           href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
           class="link">a_f2Tuple</a>), overriding this point's datum.</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
-        <li><strong class="pname"><code>caps</code></strong> - Optional <code>caps</code>, see <a 
-          href="pygeodesy.rhumbx.RhumbLine-class.html" 
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
+          <code>azimuth_<b>other</b></code> point (<code>bool</code>).</li>
+        <li><strong class="pname"><code>name_caps</code></strong> - Optional <code><b>name</b>=str</code> and <code>caps</code>, see 
+          <a href="pygeodesy.rhumbx.RhumbLine-class.html" 
           class="link">RhumbLine</a> <code><b>caps</b></code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -3607,7 +3650,8 @@
         <span class="sig-arg">exact</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">radius</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">fraction</span>=<span class="sig-default">0.5</span>)</span>
+        <span class="sig-arg">fraction</span>=<span class="sig-default">0.5</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -3634,6 +3678,8 @@
         <li><strong class="pname"><code>height</code></strong> - Optional height, overriding the mean height (<code>meter</code>).</li>
         <li><strong class="pname"><code>fraction</code></strong> - Midpoint location from this point (<code>scalar</code>), may be 
           negative or greater than 1.0.</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
+          <b><code>other</code></b> point (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The midpoint at the given <b><code>fraction</code></b> along the 
@@ -3670,9 +3716,8 @@
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>other</code></strong> - The other point (<code>LatLon</code>).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unrollPI" 
-          class="link">pygeodesy.unrollPI</a> longitudes 
-          (<code>bool</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
+          <b><code>other</code></b> point (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Distance (<code>meter</code>, same units as the axes of this 
@@ -3953,6 +3998,46 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="toNormal"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toNormal</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">deep</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Get this point <i>normalized</i> to <code>abs(lat) &lt;= 90</code> and
+  <code>abs(lon) &lt;= 180</code>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>deep</code></strong> - If <code>True</code> make a deep, otherwise a shallow copy 
+          (<code>bool</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional name of the copy (<code>str</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A copy of this point, <i>normalized</i> and optionally renamed 
+          (<code>LatLon</code>).</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Property <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#isnormal" 
+        class="link">isnormal</a>, method <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#normal" 
+        class="link">normal</a> and function <a 
+        href="pygeodesy.formy-module.html#normal" 
+        class="link">pygeodesy.normal</a>.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="toNvector"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -3979,7 +4064,7 @@
           (<code>meter</code>).</li>
         <li><strong class="pname"><code>Nvector</code></strong> - Optional class to return the <code>n-vector</code> components 
           (<code>Nvector</code>) or <code>None</code>.</li>
-        <li><strong class="pname"><code>Nvector_kwds</code></strong> - Optional, additional <b><code>Nvector</code></b> keyword 
+        <li><strong class="pname"><code>Nvector_kwds_wrap</code></strong> - Optional, additional <b><code>Nvector</code></b> keyword 
           arguments, ignored if <code><b>Nvector</b> is None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -4144,8 +4229,7 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">vincentysTo</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">other</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
+        <span class="sig-arg">**radius_wrap</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -4159,11 +4243,10 @@
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>other</code></strong> - The other point (<code>LatLon</code>).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>) or <code>None</code> for 
-          the mean radius of this point's datum ellipsoid.</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
-          class="link">pygeodesy.unroll180</a> longitudes 
-          (<code>bool</code>).</li>
+        <li><strong class="pname"><code>radius_wrap</code></strong> - Optional keyword arguments for function <a 
+          href="pygeodesy.formy-module.html#vincentys" 
+          class="link">pygeodesy.vincentys</a>, overriding the default mean
+          <code>radius</code> of this point's datum ellipsoid.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Distance (<code>meter</code>, same units as 
@@ -4408,7 +4491,11 @@ meaning <code>abs(lat) &lt;= 90</code> and <code>abs(lon) &lt;= 180</code>.
     </dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Functions <a href="pygeodesy.formy-module.html#isnormal" 
+        Methods <a href="pygeodesy.latlonBase.LatLonBase-class.html#normal"
+        class="link">normal</a>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#toNormal" 
+        class="link">toNormal</a> and functions <a 
+        href="pygeodesy.formy-module.html#isnormal" 
         class="link">pygeodesy.isnormal</a> and <a 
         href="pygeodesy.formy-module.html#normal" 
         class="link">pygeodesy.normal</a>.
@@ -4510,9 +4597,11 @@ href="pygeodesy.namedTuples.LatLon3Tuple-class.html"
 class="link">LatLon3Tuple</a><code>(lat, lon, height)</code>).
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">val</span>)</span>
-        - Throws an <code>AttributeError</code>, always.
+    <dd class="value"><span class="summary-sig">latlonheight(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">latlonh</span>)</span>
+        - Set the lat- and longitude and optionally the height (2- or 3-tuple or 
+comma- or space-separated <code>str</code> of <code>degrees90</code>, 
+<code>degrees180</code> and <code>meter</code>).
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
@@ -4721,7 +4810,7 @@ class="link">Vector4Tuple</a><code>(x, y, z, h)</code>)
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Apr 23 16:20:31 2023
+    Generated by Epydoc 3.0.1 on Sat May 13 11:43:55 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

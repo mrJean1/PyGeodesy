@@ -23,7 +23,7 @@ from pygeodesy.points import _areaError, ispolar  # PYCHOK exported
 # from math import fabs  # from .karney
 
 __all__ = _ALL_LAZY.ellipsoidalExact
-__version__ = '23.04.11'
+__version__ = '23.05.04'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -95,7 +95,8 @@ def areaOf(points, datum=_WGS84, wrap=True):
        @arg points: The polygon points (L{LatLon}[], L{BooleanFHP} or
                     L{BooleanGH}).
        @kwarg datum: Optional datum (L{Datum}).
-       @kwarg wrap: Wrap and unroll longitudes (C{bool}).
+       @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the
+                    B{C{points}} (C{bool}).
 
        @return: Area (C{meter} I{squared}, same units as the B{C{datum}}'s
                 ellipsoid axes).
@@ -118,9 +119,9 @@ def areaOf(points, datum=_WGS84, wrap=True):
     return fabs(_polygon(datum.ellipsoid.geodesicx, points, True, False, wrap))
 
 
-def intersection3(start1, end1, start2, end2, height=None, wrap=True,
+def intersection3(start1, end1, start2, end2, height=None, wrap=False,  # was=True
                   equidistant=None, tol=_TOL_M, LatLon=LatLon, **LatLon_kwds):
-    '''Iteratively compute the intersection point of two lines, each defined
+    '''I{Iteratively} compute the intersection point of two lines, each defined
        by two (ellipsoidal) points or by an (ellipsoidal) start point and an
        initial bearing from North.
 
@@ -132,7 +133,8 @@ def intersection3(start1, end1, start2, end2, height=None, wrap=True,
                   at the second point (compass C{degrees360}).
        @kwarg height: Optional height at the intersection (C{meter}, conventionally)
                       or C{None} for the mean height.
-       @kwarg wrap: Wrap and unroll longitudes (C{bool}).
+       @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the B{C{start2}}
+                    and B{C{end*}} points (C{bool}).
        @kwarg equidistant: An azimuthal equidistant projection (I{class} or function
                            L{pygeodesy.equidistant}) or C{None} for the preferred
                            C{B{start1}.Equidistant}.
@@ -168,9 +170,9 @@ def intersection3(start1, end1, start2, end2, height=None, wrap=True,
                           equidistant=equidistant, tol=tol, LatLon=LatLon, **LatLon_kwds)
 
 
-def intersections2(center1, radius1, center2, radius2, height=None, wrap=True,
+def intersections2(center1, radius1, center2, radius2, height=None, wrap=False,  # was=True
                    equidistant=None, tol=_TOL_M, LatLon=LatLon, **LatLon_kwds):
-    '''Iteratively compute the intersection points of two circles, each defined
+    '''I{Iteratively} compute the intersection points of two circles, each defined
        by an (ellipsoidal) center point and a radius.
 
        @arg center1: Center of the first circle (L{LatLon}).
@@ -181,7 +183,8 @@ def intersections2(center1, radius1, center2, radius2, height=None, wrap=True,
        @kwarg height: Optional height for the intersection points (C{meter},
                       conventionally) or C{None} for the I{"radical height"}
                       at the I{radical line} between both centers.
-       @kwarg wrap: Wrap and unroll longitudes (C{bool}).
+       @kwarg wrap: If C{True}, wrap or I{normalize} and unroll B{C{center2}}
+                    (C{bool}).
        @kwarg equidistant: An azimuthal equidistant projection (I{class} or
                            function L{pygeodesy.equidistant}) or C{None} for
                            the preferred C{B{center1}.Equidistant}.
@@ -221,7 +224,8 @@ def isclockwise(points, datum=_WGS84, wrap=True):
 
        @arg points: The path or polygon points (C{LatLon}[]).
        @kwarg datum: Optional datum (L{Datum}).
-       @kwarg wrap: Wrap and unroll longitudes (C{bool}).
+       @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the
+                    B{C{points}} (C{bool}).
 
        @return: C{True} if B{C{points}} are clockwise, C{False} otherwise.
 
@@ -243,7 +247,7 @@ def isclockwise(points, datum=_WGS84, wrap=True):
 
 def nearestOn(point, point1, point2, within=True, height=None, wrap=False,
               equidistant=None, tol=_TOL_M, LatLon=LatLon, **LatLon_kwds):
-    '''Iteratively locate the closest point on the geodesic between
+    '''I{Iteratively} locate the closest point on the geodesic between
        two other (ellispoidal) points.
 
        @arg point: Reference point (C{LatLon}).
@@ -256,7 +260,8 @@ def nearestOn(point, point1, point2, within=True, height=None, wrap=False,
                       conventionally) or C{None} or C{False} for the
                       interpolated height.  If C{False}, the closest
                       takes the heights of the points into account.
-       @kwarg wrap: Wrap and unroll longitudes (C{bool}).
+       @kwarg wrap: If C{True}, wrap or I{normalize} and unroll both
+                    B{C{point1}} and B{C{point2}} (C{bool}).
        @kwarg equidistant: An azimuthal equidistant projection (I{class}
                            or function L{pygeodesy.equidistant}) or C{None}
                            for the preferred C{B{point}.Equidistant}.
@@ -290,7 +295,8 @@ def perimeterOf(points, closed=False, datum=_WGS84, wrap=True):
                     L{BooleanGH}).
        @kwarg closed: Optionally, close the polygon (C{bool}).
        @kwarg datum: Optional datum (L{Datum}).
-       @kwarg wrap: Wrap and unroll longitudes (C{bool}).
+       @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the
+                    B{C{points}} (C{bool}).
 
        @return: Perimeter (C{meter}, same units as the B{C{datum}}'s
                 ellipsoid axes).

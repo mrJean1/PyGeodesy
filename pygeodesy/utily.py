@@ -10,11 +10,12 @@ U{Vector-based geodesy<https://www.Movable-Type.co.UK/scripts/latlong-vectors.ht
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import copysign0, isint
+from pygeodesy.basics import copysign0, isint, isstr
 from pygeodesy.constants import EPS, EPS0, INF, NAN, NEG0, NINF, PI, PI2, PI_2, R_M, \
                                _float as _F, _isfinite, isnan, isnear0, isneg0, _M_KM, \
                                _M_NM, _M_SM, _0_0, _1__90, _0_5, _1_0, _N_1_0, _2__PI, \
                                _10_0, _90_0, _N_90_0, _180_0, _N_180_0, _360_0, _400_0
+from pygeodesy.errors import _ValueError, _xkwds, _xkwds_get
 from pygeodesy.interns import _edge_, _radians_, _semi_circular_, _SPACE_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.units import Degrees, Feet, Float, Lam, Lam_, Meter, Meter2, Radians
@@ -22,15 +23,15 @@ from pygeodesy.units import Degrees, Feet, Float, Lam, Lam_, Meter, Meter2, Radi
 from math import acos, asin, atan2, cos, degrees, fabs, radians, sin, tan  # pow
 
 __all__ = _ALL_LAZY.utily
-__version__ = '23.04.14'
+__version__ = '23.05.11'
 
-# read constant name "_M_UNIT" as "meter per unit"
+# read constant name "_M_Unit" as "meter per Unit"
 _M_CHAIN     = _F(  20.1168)     # yard2m(1) * 22
 _M_FATHOM    = _F(   1.8288)     # yard2m(1) * 2 or _M_NM * 1e-3
+_M_FOOT      = _F(   0.3048)     # Int'l (1 / 3.2808398950131 = 10_000 / (254 * 12))
 _M_FOOT_GE   = _F(   0.31608)    # German Fuss (1 / 3.1637560111364)
 _M_FOOT_FR   = _F(   0.3248406)  # French Pied-du-Roi or pied (1 / 3.0784329298739)
-_M_FOOT_INTL = _F(   0.3048)     # Int'l (1 / 3.2808398950131 = 10_000 / (254 * 12))
-_M_FOOT_USRV = _F(   0.3048006096012192)  # US Survey (1200 / 3937)
+_M_FOOT_USVY = _F(   0.3048006096012192)  # US Survey (1200 / 3937)
 _M_FURLONG   = _F( 201.168)      # 220 * yard2m(1) == 10 * m2chain(1)
 # _M_KM      = _F(1000.0)        # kilo meter
 # _M_NM      = _F(1852.0)        # nautical mile
@@ -74,7 +75,7 @@ def acre2m2(acres):
 def asin1(x):
     '''Return C{math.asin(max(-1, min(1, B{x})))}.
     '''
-    return asin(x) if fabs(x) < _1_0 else (-PI_2 if x < 0 else PI_2)  # -PI_2, not PI3_2!
+    return asin(x) if fabs(x) < _1_0 else (PI_2 if x > 0 else -PI_2)  # not PI3_2!
 
 
 def atand(y_x):
@@ -308,18 +309,18 @@ def ft2m(feet, usurvey=False, pied=False, fuss=False):
        B{C{feet}} to C{meter}.
 
        @arg feet: Value in feet (C{scalar}).
-       @kwarg usurvey: Convert I{US Survey} foot if C{True} else ...
-       @kwarg pied: Convert French I{pied-du-Roi} if C{True} else ...
-       @kwarg fuss: Convert German I{Fuss} if C{True}, otherwise
-                    I{International} feet to C{meter}.
+       @kwarg usurvey: If C{True}, convert I{US Survey} foot else ...
+       @kwarg pied: If C{True}, convert French I{pied-du-Roi} else ...
+       @kwarg fuss: If C{True}, convert German I{Fuss}, otherwise
+                    I{International} foot to C{meter}.
 
        @return: Value in C{meter} (C{float}).
 
        @raise ValueError: Invalid B{C{feet}}.
     '''
-    return Meter(Feet(feet) * (_M_FOOT_USRV if usurvey else
+    return Meter(Feet(feet) * (_M_FOOT_USVY if usurvey else
                               (_M_FOOT_FR   if pied    else
-                              (_M_FOOT_GE   if fuss    else _M_FOOT_INTL))))
+                              (_M_FOOT_GE   if fuss    else _M_FOOT))))
 
 
 def furlong2m(furlongs):
@@ -443,9 +444,9 @@ def m2ft(meter, usurvey=False, pied=False, fuss=False):
        or I{German} feet (C{ft}).
 
        @arg meter: Value in meter (C{scalar}).
-       @kwarg usurvey: Convert to I{US Survey} foot if C{True} else ...
-       @kwarg pied: Convert to French I{pied-du-Roi} if C{True} else ...
-       @kwarg fuss: Convert to German I{Fuss} if C{True}, otherwise to
+       @kwarg usurvey: If C{True}, convert to I{US Survey} foot else ...
+       @kwarg pied: If C{True}, convert to French I{pied-du-Roi} else ...
+       @kwarg fuss: If C{True}, convert to German I{Fuss}, otherwise to
                     I{International} foot.
 
        @return: Value in C{feet} (C{float}).
@@ -454,9 +455,9 @@ def m2ft(meter, usurvey=False, pied=False, fuss=False):
     '''
     # * 3.2808333333333333, US Survey 3937 / 1200
     # * 3.2808398950131235, Int'l 10_000 / (254 * 12)
-    return Float(feet=Meter(meter) / (_M_FOOT_USRV if usurvey else
+    return Float(feet=Meter(meter) / (_M_FOOT_USVY if usurvey else
                                      (_M_FOOT_FR   if pied    else
-                                     (_M_FOOT_GE   if fuss    else _M_FOOT_INTL))))
+                                     (_M_FOOT_GE   if fuss    else _M_FOOT))))
 
 
 def m2furlong(meter):
@@ -472,11 +473,11 @@ def m2furlong(meter):
 
 
 def m2km(meter):
-    '''Convert meter to kilo meter (km).
+    '''Convert meter to kilo meter (Km).
 
        @arg meter: Value in meter (C{scalar}).
 
-       @return: Value in km (C{float}).
+       @return: Value in Km (C{float}).
 
        @raise ValueError: Invalid B{C{meter}}.
     '''
@@ -569,6 +570,12 @@ def NM2m(nm):
        @raise ValueError: Invalid B{C{nm}}.
     '''
     return Meter(Float(nm=nm) * _M_NM)
+
+
+def _passargs(*args):  # in .formy
+    '''(INTERNAL) Helper, no-op.
+    '''
+    return args
 
 
 def radians2m(rad, radius=R_M, lat=0):
@@ -713,7 +720,7 @@ def sincos2d(deg, **adeg):
             q -= 1
         d = deg - q * _90_0
         if adeg:
-            t = _MODS.errors._xkwds_get(adeg, adeg=_0_0)
+            t = _xkwds_get(adeg, adeg=_0_0)
             d = _MODS.karney._around(d + t)
         t = _sin0cos2(q & 3, radians(d), deg)
     else:
@@ -798,7 +805,7 @@ def tan_2(rad, **semi):  # edge=1
             break
         n = _SPACE_(n, _radians_) if not isint(v) else \
             _SPACE_(_MODS.streprs.Fmt.SQUARE(**semi), _edge_)
-        raise _MODS.errors._ValueError(n, rad, txt=_semi_circular_)
+        raise _ValueError(n, rad, txt=_semi_circular_)
 
     return tan(rad * _0_5)
 
@@ -879,7 +886,8 @@ def unroll180(lon1, lon2, wrap=True):
 
        @arg lon1: Start longitude (C{degrees}).
        @arg lon2: End longitude (C{degrees}).
-       @kwarg wrap: Wrap and unroll to the M{(-180..+180]} range (C{bool}).
+       @kwarg wrap: If C{True}, wrap and unroll to the M{(-180..+180]}
+                    range (C{bool}).
 
        @return: 2-Tuple C{(B{lon2}-B{lon1}, B{lon2})} unrolled (C{degrees},
                 C{degrees}).
@@ -891,17 +899,33 @@ def unroll180(lon1, lon2, wrap=True):
     if wrap and fabs(d) > _180_0:
         u = _wrap(d, _180_0, _360_0)
         if u != d:
-            return u, lon1 + u
+            return u, (lon1 + u)
     return d, lon2
 
 
-def _unrollon(p1, p2):  # unroll180 == .karney._unroll2
-    '''(INTERNAL) Wrap, unroll and replace longitude if different.
+def _unrollon(p1, p2, wrap=False):  # unroll180 == .karney._unroll2
+    '''(INTERNAL) Wrap/normalize, unroll and replace longitude.
     '''
-    _, lon = unroll180(p1.lon, p2.lon, wrap=True)
-    if fabs(lon - p2.lon) > EPS:
-        p2 = p2.dup(lon=wrap180(lon))
+    lat, lon = p2.lat, p2.lon
+    if wrap and _Wrap.normal:
+        lat, lon = _Wrap.latlon(lat, lon)
+    _, lon = unroll180(p1.lon, lon, wrap=True)
+    if lat != p2.lat or fabs(lon - p2.lon) > EPS:
+        p2 = p2.dup(lat=lat, lon=wrap180(lon))
+        # p2 = p2.copy(); p2.latlon = lat, wrap180(lon)
     return p2
+
+
+def _unrollon3(p1, p2, p3, wrap=False):
+    '''(INTERNAL) Wrap/normalize, unroll 2 points.
+    '''
+    w = wrap
+    if w:
+        w  = _Wrap.normal
+        p2 = _unrollon(p1, p2, wrap=w)
+        p3 = _unrollon(p1, p3, wrap=w)
+        p2 = _unrollon(p2, p3)
+    return p2, p3, w  # was wrapped?
 
 
 def unrollPI(rad1, rad2, wrap=True):
@@ -909,10 +933,11 @@ def unrollPI(rad1, rad2, wrap=True):
 
        @arg rad1: Start longitude (C{radians}).
        @arg rad2: End longitude (C{radians}).
-       @kwarg wrap: Wrap and unroll to the M{(-PI..+PI]} range (C{bool}).
+       @kwarg wrap: If C{True}, wrap and unroll to the M{(-PI..+PI]}
+                    range (C{bool}).
 
-       @return: 2-Tuple C{(B{rad2}-B{rad1}, B{rad2})} unrolled (C{radians},
-                C{radians}).
+       @return: 2-Tuple C{(B{rad2}-B{rad1}, B{rad2})} unrolled
+                (C{radians}, C{radians}).
 
        @see: Capability C{LONG_UNROLL} in U{GeographicLib
              <https://GeographicLib.SourceForge.io/C++/doc/python/interface.html#outmask>}.
@@ -921,7 +946,7 @@ def unrollPI(rad1, rad2, wrap=True):
     if wrap and fabs(r) > PI:
         u = _wrap(r, PI, PI2)
         if u != r:
-            return u, rad1 + u
+            return u, (rad1 + u)
     return r, rad2
 
 
@@ -929,7 +954,96 @@ def _valueError(where, x, **kwds):
     '''(INTERNAL) Return a C{_ValueError}.
     '''
     x = _MODS.streprs.Fmt.PAREN(where.__name__, x)
-    return _MODS.errors._ValueError(x, **kwds)
+    return _ValueError(x, **kwds)
+
+
+class _Wrap(object):
+
+    _normal = False  # default
+
+    @property
+    def normal(self):
+        '''Get the current L{normal} setting (C{True},
+           C{False} or C{None}).
+        '''
+        return self._normal
+
+    @normal.setter  # PYCHOK setter!
+    def normal(self, setting):
+        '''Set L{normal} to C{True}, C{False} or C{None}.
+        '''
+        t = {True: (_MODS.formy.normal, _MODS.formy.normal_),
+             False: (self.wraplatlon,    self.wraphilam),
+             None:  (_passargs, _passargs)}.get(setting, ())
+        if t:
+            self.latlon, self.philam = t
+            self._normal = setting
+
+    def latlonDMS2(self, lat, lon, **DMS2_kwds):
+        if isstr(lat) or isstr(lon):
+            kwds = _xkwds(DMS2_kwds, clipLon=0, clipLat=0)
+            lat, lon = _MODS.dms.parseDMS2(lat, lon, **kwds)
+        return self.latlon(lat, lon)
+
+#   def normalatlon(self, *latlon):
+#       return _MODS.formy.normal(*latlon)
+
+#   def normalamphi(self, *philam):
+#       return _MODS.formy.normal_(*philam)
+
+    def wraplatlon(self, lat, lon):
+        return wrap90(lat), wrap180(lon)
+
+    latlon = wraplatlon  # default
+
+    def latlon3(self, lon1, lat2, lon2, wrap):
+        if wrap:
+            lat2,  lon2 = self.latlon(lat2, lon2)
+            lon21, lon2 = unroll180(lon1, lon2)
+        else:
+            lon21 = lon2 - lon1
+        return lon21, lat2, lon2
+
+    def _latlonop(self, wrap):
+        if wrap and self._normal is not None:
+            return self.latlon
+        else:
+            return _passargs
+
+    def wraphilam(self, phi, lam):
+        return wrapPI_2(phi), wrapPI(lam)
+
+    philam = wraphilam  # default
+
+    def philam3(self, lam1, phi2, lam2, wrap):
+        if wrap:
+            phi2,  lam2 = self.philam(phi2, lam2)
+            lam21, lam2 = unrollPI(lam1, lam2)
+        else:
+            lam21 = lam2 - lam1
+        return lam21, phi2, lam2
+
+    def _philamop(self, wrap):
+        if wrap and self._normal is not None:
+            return self.philam
+        else:
+            return _passargs
+
+    def wraphilam(self, phi, lam):
+        return wrapPI_2(phi), wrapPI(lam)
+
+    def point(self, ll, wrap=True):  # in .points._fractional, -.PointsIter.iterate, ...
+        '''Return C{ll} or a copy, I{normalized} or I{wrap}'d.
+        '''
+        if wrap and self._normal is not None:
+            lat, lon = ll.latlon
+            if fabs(lon) > 180 or fabs(lat) > 90:
+                _n = self.latlon
+                ll = ll.copy(name=_n.__name__)
+                ll.latlon = _n(lat, lon)
+        return ll
+
+_Wrap = _Wrap()  # PYCHOK singleton
 
 
 def _wrap(angle, wrap, modulo):
@@ -1009,6 +1123,26 @@ def wrapPI_2(rad):
        @return: Radians, wrapped (C{radiansPI_2}).
     '''
     return _wrap(rad, PI_2, PI2)
+
+
+def wrap_normal(*normal):
+    '''Define the operation for the keyword argument C{B{wrap}=True},
+       across L{pygeodesy}: I{wrap}, I{normalize} or I{no-op}.  For
+       backward compatibility, the default is I{wrap}.
+
+       @arg normal: If C{True}, I{normalize} lat- and longitude using
+                    L{normal} or L{normal_}, if C{False}, I{wrap} the
+                    lat- and longitude individually by L{wrap90} or
+                    L{wrapPI_2} respectively L{wrap180}, L{wrapPI} or
+                    if C{None}, leave lat- and longitude I{unchanged}.
+                    Do not supply any value to get the current setting.
+
+       @return: The previous L{wrap_normal} setting (C{bool} or C{None}).
+    '''
+    t = _Wrap.normal
+    if normal:
+        _Wrap.normal = normal[0]
+    return t
 
 
 def yard2m(yards):

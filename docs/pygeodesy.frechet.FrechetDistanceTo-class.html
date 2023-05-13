@@ -72,27 +72,10 @@
 
 <hr />
 <p>Compute the <code>Frechet</code> distance based on the distance from 
-  the points' <code>LatLon.distanceTo</code> method, conventionally in 
+  the point1s' <code>LatLon.distanceTo</code> method, conventionally in 
   <code>meter</code>.</p>
 
-<hr />
-<div class="fields">      <p><strong>See Also:</strong>
-        <a href="pygeodesy.frechet.FrechetCosineAndoyerLambert-class.html" 
-        class="link">FrechetCosineAndoyerLambert</a>, <a 
-        href="pygeodesy.frechet.FrechetCosineForsytheAndoyerLambert-class.html"
-        class="link">FrechetCosineForsytheAndoyerLambert</a>, <a 
-        href="pygeodesy.frechet.FrechetExact-class.html" 
-        class="link">FrechetExact</a>, <a 
-        href="pygeodesy.frechet.FrechetFlatLocal-class.html" 
-        class="link">FrechetFlatLocal</a>, <a 
-        href="pygeodesy.frechet.FrechetHubeny-class.html" 
-        class="link">FrechetHubeny</a>, <a 
-        href="pygeodesy.frechet.FrechetThomas-class.html" 
-        class="link">FrechetThomas</a> and <a 
-        href="pygeodesy.frechet.FrechetKarney-class.html" 
-        class="link">FrechetKarney</a>.
-      </p>
-</div><!-- ==================== INSTANCE METHODS ==================== -->
+<!-- ==================== INSTANCE METHODS ==================== -->
 <a name="section-InstanceMethods"></a>
 <table class="summary" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
@@ -107,7 +90,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.frechet.FrechetDistanceTo-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">points</span>,
+        <span class="summary-sig-arg">point1s</span>,
         <span class="summary-sig-arg">fraction</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">**distanceTo_kwds</span>)</span><br />
@@ -129,7 +112,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.frechet.FrechetDistanceTo-class.html#discrete" class="summary-sig-name">discrete</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">points</span>,
+        <span class="summary-sig-arg">point2s</span>,
         <span class="summary-sig-arg">fraction</span>=<span class="summary-sig-default">None</span>)</span><br />
       Compute the <code>forward, discrete Fr&#233;chet</code> distance.</td>
           <td align="right" valign="top">
@@ -212,6 +195,7 @@
       <code><a href="pygeodesy.frechet.Frechet-class.html#adjust">adjust</a></code>,
       <code><a href="pygeodesy.frechet.Frechet-class.html#datum">datum</a></code>,
       <code><a href="pygeodesy.frechet.Frechet-class.html#fraction">fraction</a></code>,
+      <code><a href="pygeodesy.frechet.Frechet-class.html#kwds">kwds</a></code>,
       <code><a href="pygeodesy.frechet.Frechet-class.html#units">units</a></code>,
       <code><a href="pygeodesy.frechet.Frechet-class.html#wrap">wrap</a></code>
       </p>
@@ -248,7 +232,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">points</span>,
+        <span class="sig-arg">point1s</span>,
         <span class="sig-arg">fraction</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">name</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">**distanceTo_kwds</span>)</span>
@@ -264,34 +248,28 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - First set of points (<code>LatLon</code>[]).</li>
-        <li><strong class="pname"><code>fraction</code></strong> - Index fraction (<code>float</code> in EPS..EPS1) to interpolate 
-          intermediate <b><code>points</code></b> or use <code>0</code>, 
-          <code>1</code> or <code>None</code> to avoid intermediate 
-          <b><code>points</code></b> and <a 
-          href="pygeodesy.points-module.html#fractional" 
-          class="link">pygeodesy.fractional</a> indices.</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional calculator/interpolator name (<code>str</code>).</li>
-        <li><strong class="pname"><code>distanceTo_kwds</code></strong> - Optional keyword arguments for the <b><code>points</code></b>' 
+        <li><strong class="pname"><code>distanceTo_kwds</code></strong> - Optional keyword arguments for each <b><code>point1s</code></b>' 
           <code>LatLon.distanceTo</code> method.</li>
     </ul></dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.frechet.FrechetError-class.html">FrechetError</a></strong></code> - Insufficient number of <b><code>points</code></b> or an invalid 
-        <b><code>point</code></b> or <b><code>fraction</code></b>.</li>
-        <li><code><strong class='fraise'>ImportError</strong></code> - Package <a href="https://PyPI.org/project/geographiclib" 
-        target="_top">geographiclib</a> missing iff 
-        <b><code>points</code></b> are <a 
-        href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
-        class="link">ellipsoidalKarney.LatLon</a>s.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.frechet.FrechetError-class.html">FrechetError</a></strong></code> - Insufficient number of <b><code>point1s</code></b> or an invalid 
+        <b><code>point1</code></b>, <b><code>fraction</code></b> or 
+        <b><code>units</code></b>.</li>
     </ul></dd>
     <dt>Overrides:
         object.__init__
     </dt>
   </dl>
-<div class="fields">      <p><strong>Note:</strong>
-        All <b><code>points</code></b> <i>must</i> be instances of the same
-        ellipsoidal or spherical <code>LatLon</code> class.
+<div class="fields">      <p><strong>See Also:</strong>
+        <a href="pygeodesy.frechet.Frechet-class.html#__init__" 
+        class="link">Frechet.__init__</a> for details about 
+        <b><code>point1s</code></b>, <b><code>fraction</code></b>, 
+        <b><code>name</code></b> and raised exceptions.
+      </p>
+      <p><strong>Note:</strong>
+        All <b><code>point1s</code></b> <i>must</i> be instances of the 
+        same ellipsoidal or spherical <code>LatLon</code> class.
       </p>
 </div></td></tr></table>
 </div>
@@ -303,7 +281,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">discrete</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">points</span>,
+        <span class="sig-arg">point2s</span>,
         <span class="sig-arg">fraction</span>=<span class="sig-default">None</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -315,15 +293,16 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - Second set of points (<code>LatLon</code>[], <a 
+        <li><strong class="pname"><code>point2s</code></strong> - Second set of points (<code>LatLon</code>[], <a 
           href="pygeodesy.points.Numpy2LatLon-class.html" 
           class="link">Numpy2LatLon</a>[], <a 
           href="pygeodesy.points.Tuple2LatLon-class.html" 
           class="link">Tuple2LatLon</a>[] or <code>other</code>[]).</li>
         <li><strong class="pname"><code>fraction</code></strong> - Index fraction (<code>float</code> in EPS..EPS1) to interpolate 
-          intermediate <b><code>points</code></b> or use <code>None</code>,
-          <code>0</code> or <code>1</code> for no intermediate 
-          <b><code>points</code></b> and no <i>fractional</i> indices.</li>
+          intermediate <b><code>point2s</code></b> or use 
+          <code>None</code>, <code>0</code> or <code>1</code> for no 
+          intermediate <b><code>point2s</code></b> and no <i>fractional</i>
+          indices.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.frechet.Frechet6Tuple-class.html" 
@@ -331,8 +310,8 @@
           units)</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.frechet.FrechetError-class.html">FrechetError</a></strong></code> - Insufficient number of <b><code>points</code></b> or an invalid 
-        <b><code>point</code></b> or <b><code>fraction</code></b>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.frechet.FrechetError-class.html">FrechetError</a></strong></code> - Insufficient number of <b><code>point2s</code></b> or an invalid 
+        <b><code>point2</code></b> or <b><code>fraction</code></b>.</li>
         <li><code><strong class='fraise'>RecursionError</strong></code> - Recursion depth exceeded, see <a 
         href="https://docs.Python.org/3/library/sys.html#sys.getrecursionlimit"
         target="_top">sys.getrecursionlimit</a>.</li>
@@ -399,7 +378,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Apr 23 16:20:30 2023
+    Generated by Epydoc 3.0.1 on Sat May 13 11:43:55 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

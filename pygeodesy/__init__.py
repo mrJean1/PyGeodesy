@@ -314,7 +314,7 @@ OTHER DEALINGS IN THE SOFTWARE.}
 @var R_MA: Equatorial earth radius (C{meter}), WGS84, EPSG:3785.
 @var R_MB: Polar earth radius (C{meter}), WGS84, EPSG:3785.
 @var R_M:  Mean (spherical) earth radius (C{meter}).
-@var R_KM: Mean (spherical) earth radius (C{km}, kilometer).
+@var R_KM: Mean (spherical) earth radius (C{Km}, kilometer).
 @var R_NM: Mean (spherical) earth radius (C{NM}, nautical miles).
 @var R_SM: Mean (spherical) earth radius (C{SM}, statute miles).
 @var R_FM: Former FAI-Sphere earth radius (C{meter}).
@@ -581,7 +581,7 @@ else:
     _init__all__ = False
 
 from pygeodesy.interns import _DOT_  # PYCHOK import
-__version__ = '23.04.23'
+__version__ = '23.05.12'
 # see setup.py for similar logic
 version     = _DOT_.join(map(str, map(int, __version__.split(_DOT_))))
 

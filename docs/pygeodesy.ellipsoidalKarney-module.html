@@ -96,7 +96,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        23.04.11
+        23.05.12
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -192,14 +192,14 @@
         <span class="summary-sig-arg">start2</span>,
         <span class="summary-sig-arg">end2</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">equidistant</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">tol</span>=<span class="summary-sig-default">0.001</span>,
         <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.ellipsoidalKarney.LatLon'&gt;</span>,
         <span class="summary-sig-arg">**LatLon_kwds</span>)</span><br />
-      Iteratively compute the intersection point of two lines, each defined
-      by two (ellipsoidal) points or by an (ellipsoidal) start point and an
-      (initial) bearing from North.</td>
+      <i>Iteratively</i> compute the intersection point of two lines, each 
+      defined by two (ellipsoidal) points or by an (ellipsoidal) start 
+      point and an (initial) bearing from North.</td>
           <td align="right" valign="top">
             
             
@@ -220,13 +220,13 @@
         <span class="summary-sig-arg">center2</span>,
         <span class="summary-sig-arg">radius2</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">equidistant</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">tol</span>=<span class="summary-sig-default">0.001</span>,
         <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.ellipsoidalKarney.LatLon'&gt;</span>,
         <span class="summary-sig-arg">**LatLon_kwds</span>)</span><br />
-      Iteratively compute the intersection points of two circles, each 
-      defined by an (ellipsoidal) center point and a radius.</td>
+      <i>Iteratively</i> compute the intersection points of two circles, 
+      each defined by an (ellipsoidal) center point and a radius.</td>
           <td align="right" valign="top">
             
             
@@ -271,8 +271,8 @@
         <span class="summary-sig-arg">tol</span>=<span class="summary-sig-default">0.001</span>,
         <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.ellipsoidalKarney.LatLon'&gt;</span>,
         <span class="summary-sig-arg">**LatLon_kwds</span>)</span><br />
-      Iteratively locate the closest point on the geodesic between two 
-      other (ellipsoidal) points.</td>
+      <i>Iteratively</i> locate the closest point on the geodesic between 
+      two other (ellipsoidal) points.</td>
           <td align="right" valign="top">
             
             
@@ -348,7 +348,8 @@
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>points</code></strong> - The polygon points (<code>LatLon</code>[]).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
+          <b><code>points</code></b> (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><code>True</code> if the polygon encloses a pole, 
@@ -392,7 +393,8 @@
           class="link">BooleanGH</a>).</li>
         <li><strong class="pname"><code>datum</code></strong> - Optional datum (<a href="pygeodesy.datums.Datum-class.html" 
           class="link">Datum</a>).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
+          <b><code>points</code></b> (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Area (<code>meter</code>, same as units of the 
@@ -450,7 +452,7 @@
         <span class="sig-arg">start2</span>,
         <span class="sig-arg">end2</span>,
         <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">wrap</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">equidistant</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">tol</span>=<span class="sig-default">0.001</span>,
         <span class="sig-arg">LatLon</span>=<span class="sig-default">&lt;class 'pygeodesy.ellipsoidalKarney.LatLon'&gt;</span>,
@@ -461,9 +463,9 @@
     </td>
   </tr></table>
   
-  <p>Iteratively compute the intersection point of two lines, each defined 
-  by two (ellipsoidal) points or by an (ellipsoidal) start point and an 
-  (initial) bearing from North.</p>
+  <p><i>Iteratively</i> compute the intersection point of two lines, each 
+  defined by two (ellipsoidal) points or by an (ellipsoidal) start point 
+  and an (initial) bearing from North.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -483,7 +485,9 @@
           point (compass <code>degrees360</code>).</li>
         <li><strong class="pname"><code>height</code></strong> - Optional height at the intersection (<code>meter</code>, 
           conventionally) or <code>None</code> for the mean height.</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
+          <b><code>start2</code></b> and <b><code>end*</code></b> points 
+          (<code>bool</code>).</li>
         <li><strong class="pname"><code>equidistant</code></strong> - An azimuthal equidistant projection (<i>class</i> or function <a 
           href="pygeodesy.azimuthal-module.html#equidistant" 
           class="link">pygeodesy.equidistant</a>) or <code>None</code> for 
@@ -544,7 +548,7 @@
         <span class="sig-arg">center2</span>,
         <span class="sig-arg">radius2</span>,
         <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">wrap</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">equidistant</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">tol</span>=<span class="sig-default">0.001</span>,
         <span class="sig-arg">LatLon</span>=<span class="sig-default">&lt;class 'pygeodesy.ellipsoidalKarney.LatLon'&gt;</span>,
@@ -555,8 +559,8 @@
     </td>
   </tr></table>
   
-  <p>Iteratively compute the intersection points of two circles, each 
-  defined by an (ellipsoidal) center point and a radius.</p>
+  <p><i>Iteratively</i> compute the intersection points of two circles, 
+  each defined by an (ellipsoidal) center point and a radius.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -572,7 +576,8 @@
         <li><strong class="pname"><code>height</code></strong> - Optional height for the intersection points (<code>meter</code>, 
           conventionally) or <code>None</code> for the <i>&quot;radical 
           height&quot;</i> at the <i>radical line</i> between both centers.</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll 
+          <b><code>center2</code></b> (<code>bool</code>).</li>
         <li><strong class="pname"><code>equidistant</code></strong> - An azimuthal equidistant projection (<i>class</i> or function <a 
           href="pygeodesy.azimuthal-module.html#equidistant" 
           class="link">pygeodesy.equidistant</a>) or <code>None</code> for 
@@ -640,7 +645,8 @@
         <li><strong class="pname"><code>points</code></strong> - The path or polygon points (<code>LatLon</code>[]).</li>
         <li><strong class="pname"><code>datum</code></strong> - Optional datum (<a href="pygeodesy.datums.Datum-class.html" 
           class="link">Datum</a>).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
+          <b><code>points</code></b> (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><code>True</code> if <b><code>points</code></b> are clockwise, 
@@ -688,8 +694,8 @@
     </td>
   </tr></table>
   
-  <p>Iteratively locate the closest point on the geodesic between two other
-  (ellipsoidal) points.</p>
+  <p><i>Iteratively</i> locate the closest point on the geodesic between 
+  two other (ellipsoidal) points.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -704,7 +710,9 @@
           conventionally) or <code>None</code> or <code>False</code> for 
           the interpolated height.  If <code>False</code>, the closest 
           takes the heights of the points into account.</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll both 
+          <b><code>point1</code></b> and <b><code>point2</code></b> 
+          (<code>bool</code>).</li>
         <li><strong class="pname"><code>equidistant</code></strong> - An azimuthal equidistant projection (<i>class</i> or function <a 
           href="pygeodesy.azimuthal-module.html#equidistant" 
           class="link">pygeodesy.equidistant</a>) or <code>None</code> for 
@@ -773,7 +781,8 @@
         <li><strong class="pname"><code>closed</code></strong> - Optionally, close the polygon (<code>bool</code>).</li>
         <li><strong class="pname"><code>datum</code></strong> - Optional datum (<a href="pygeodesy.datums.Datum-class.html" 
           class="link">Datum</a>).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
+          <b><code>points</code></b> (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Perimeter (<code>meter</code>, same as units of the 
@@ -843,7 +852,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Apr 23 16:20:29 2023
+    Generated by Epydoc 3.0.1 on Sat May 13 11:43:53 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

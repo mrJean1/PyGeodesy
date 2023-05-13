@@ -47,13 +47,13 @@ from pygeodesy.karney import _around, _atan2d, Caps, _copysign, GDict, \
                              _fix90, _K_2_0, _norm2, _norm180, \
                              _sincos2, _sincos2d, _xinstanceof
 from pygeodesy.props import Property_RO, _update_all
-# from pygeodesy.streprs import pairs  # from _MODS
+# from pygeodesy.streprs import pairs  # _MODS
 from pygeodesy.utily import atan2d as _atan2d_reverse, sincos2
 
 from math import atan2, cos, degrees, fabs, floor, radians, sin
 
 __all__ = ()
-__version__ = '23.04.08'
+__version__ = '23.04.26'
 
 _glXs = []  # instances of C{[_]GeodesicLineExact} to be updated
 # underflow guard, we require _TINY * EPS > 0, _TINY + EPS == EPS

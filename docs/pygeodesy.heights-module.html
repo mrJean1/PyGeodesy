@@ -177,7 +177,7 @@
         target="_top">SciPy</a> Interpolation.
       </p>
       <p><strong>Version:</strong>
-        23.04.11
+        23.05.12
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -207,6 +207,14 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.heights._HeightsBase-class.html" class="summary-name">_HeightsBase</a><br />
+      (INTERNAL) Interpolator base class.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.heights.HeightCubic-class.html" class="summary-name">HeightCubic</a><br />
       Height interpolator based on <code>SciPy</code> <a 
         href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.interp2d.html"
@@ -221,6 +229,37 @@
       Height interpolator based on <code>SciPy</code> <a 
         href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.interp2d.html"
         target="_top">interp2d</a> <code>kind='linear'</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.heights.HeightLSQBiSpline-class.html" class="summary-name">HeightLSQBiSpline</a><br />
+      Height interpolator using <code>SciPy</code> <a 
+        href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.LSQSphereBivariateSpline.html"
+        target="_top">LSQSphereBivariateSpline</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.heights.HeightSmoothBiSpline-class.html" class="summary-name">HeightSmoothBiSpline</a><br />
+      Height interpolator using <code>SciPy</code> <a 
+        href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.SmoothSphereBivariateSpline.html"
+        target="_top">SmoothSphereBivariateSpline</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.heights._HeightIDW-class.html" class="summary-name">_HeightIDW</a><br />
+      (INTERNAL) Base class for <a 
+        href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
+        target="_top">Inverse Distance Weighting</a> (IDW) height 
+        interpolators.
     </td>
   </tr>
 <tr>
@@ -298,6 +337,19 @@
         <i>angular</i> distance in <code>radians</code> from function <a 
         href="pygeodesy.formy-module.html#euclidean_" 
         class="link">pygeodesy.euclidean_</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.heights.HeightIDWexact-class.html" class="summary-name">HeightIDWexact</a><br />
+      Height interpolator using <a 
+        href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
+        target="_top">Inverse Distance Weighting</a> (IDW) and the 
+        <i>angular</i> distance in <code>degrees</code> from method <a 
+        href="pygeodesy.geodesicx.gx.GeodesicExact-class.html" 
+        class="link">GeodesicExact</a><code>.Inverse</code>.
     </td>
   </tr>
 <tr>
@@ -397,26 +449,6 @@
         class="link">pygeodesy.vincentys_</a>.
     </td>
   </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.heights.HeightLSQBiSpline-class.html" class="summary-name">HeightLSQBiSpline</a><br />
-      Height interpolator using <code>SciPy</code> <a 
-        href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.LSQSphereBivariateSpline.html"
-        target="_top">LSQSphereBivariateSpline</a>.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.heights.HeightSmoothBiSpline-class.html" class="summary-name">HeightSmoothBiSpline</a><br />
-      Height interpolator using <code>SciPy</code> <a 
-        href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.SmoothSphereBivariateSpline.html"
-        target="_top">SmoothSphereBivariateSpline</a>.
-    </td>
-  </tr>
 </table>
 <!-- ==================== VARIABLES ==================== -->
 <a name="section-Variables"></a>
@@ -465,7 +497,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Apr 23 16:20:29 2023
+    Generated by Epydoc 3.0.1 on Sat May 13 11:43:53 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

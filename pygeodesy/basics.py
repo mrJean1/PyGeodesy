@@ -17,7 +17,7 @@ del division
 from pygeodesy.errors import _AssertionError, _AttributeError, _ImportError, \
                              _TypeError, _TypesError, _ValueError, _xkwds_get
 from pygeodesy.interns import MISSING, NN, _by_, _DOT_, _ELLIPSIS4_, _enquote, \
-                             _EQUAL_, _in_, _invalid_, _N_A_, _name_, _SPACE_, \
+                             _EQUAL_, _in_, _invalid_, _N_A_, _SPACE_, \
                              _splituple, _UNDER_, _version_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _FOR_DOCS, \
                              _getenv, _sys_version_info2
@@ -27,7 +27,7 @@ from math import copysign as _copysign
 import inspect as _inspect
 
 __all__ = _ALL_LAZY.basics
-__version__ = '23.03.29'
+__version__ = '23.05.06'
 
 _0_0                  = 0.0  # see .constants
 _below_               = 'below'
@@ -657,7 +657,7 @@ def _xwhere(where, **name):
     '''(INTERNAL) Get the fully qualified name.
     '''
     m = _MODS.named.modulename(where, prefixed=True)
-    n =  name.get(_name_, NN)
+    n = _xkwds_get(name, name=NN)
     if n:
         m = _DOT_(m, n)
     return m

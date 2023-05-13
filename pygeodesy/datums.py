@@ -65,16 +65,16 @@ OSGB36 datum, q.v. U{"A Guide to Coordinate Systems in Great Britain", Section 6
 from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import islistuple, isscalar, neg_, _xinstanceof
-from pygeodesy.constants import _float as _F, _0_0, _0_26, _1_0, _2_0, _8_0, _3600_0
+from pygeodesy.constants import R_M, _float as _F, _0_0, _0_26, _1_0, _2_0, _8_0, _3600_0
 from pygeodesy.ellipsoids import a_f2Tuple, Ellipsoid, Ellipsoid2, Ellipsoids, Vector3Tuple
-# from pygeodesy.errors import _IsnotError  # from .fmath
-from pygeodesy.fmath import fdot, fmean, Fmt, _IsnotError
+from pygeodesy.errors import _IsnotError, _xattr
+from pygeodesy.fmath import fdot, fmean,  Fmt
 from pygeodesy.interns import NN, _a_, _Airy1830_, _AiryModified_, _Bessel1841_, _cartesian_, \
                              _Clarke1866_, _Clarke1880IGN_, _COMMASPACE_, _DOT_, _ellipsoid_, \
                              _ellipsoidal_, _GRS80_, _Intl1924_, _Krassovski1940_, \
-                             _Krassowsky1940_, _NAD27_, _NAD83_, _name_, _s_, _Sphere_, \
-                             _spherical_, _sx_, _sy_, _sz_, _transform_, _tx_, _ty_, _tz_, \
-                             _UNDER_, _WGS72_, _WGS84_, _UNDER
+                             _Krassowsky1940_, _NAD27_, _NAD83_, _s_, _Sphere_, _spherical_, \
+                             _sx_, _sy_, _sz_, _transform_, _tx_, _ty_, _tz_, _UNDER_, \
+                             _WGS72_, _WGS84_, _UNDER
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _NamedEnum, _NamedEnumItem, \
                                     _lazyNamedEnumItem as _lazy, Property_RO
@@ -86,7 +86,7 @@ from pygeodesy.units import radians, Radius_
 # from math import radians  # from .units
 
 __all__ = _ALL_LAZY.datums
-__version__ = '23.03.29'
+__version__ = '23.05.12'
 
 _a_ellipsoid_ = _UNDER_(_a_, _ellipsoid_)
 _BD72_        = 'BD72'
@@ -439,7 +439,7 @@ def _En2(earth, name):
         E =  Ellipsoid(earth.a, earth.b, name=n)
     elif islistuple(earth, minum=2):
         a, f = earth[:2]
-        n = _UNDER(name or getattr(earth, _name_, NN))
+        n = _UNDER(name or _xattr(earth, name=NN))
         E =  Ellipsoid(a, f=f, name=n)
     else:
         E, n = None, NN
@@ -482,7 +482,9 @@ def _mean_radius(radius, *lats):
     '''(INTERNAL) Compute the mean radius of a L{Datum} from an L{Ellipsoid},
        L{Ellipsoid2} or scalar earth C{radius} over several latitudes.
     '''
-    if isscalar(radius):
+    if radius is R_M:
+        r = radius
+    elif isscalar(radius):
         r =  Radius_(radius, low=0, Error=TypeError)
     else:
         E = _ellipsoidal_datum(radius).ellipsoid

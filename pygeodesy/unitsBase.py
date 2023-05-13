@@ -5,16 +5,16 @@ u'''Basic C{Float}, C{Int} and C{Str}ing units classes.
 '''
 
 from pygeodesy.errors import UnitError, _XError, _xkwds_popitem
-from pygeodesy.interns import NN, _degrees_, _invalid_, _meter_, \
-                             _radians_, _radians2_, _radius_, \
-                             _UNDER_,  _std_  # PYCHOK used!
+from pygeodesy.interns import NN, _degrees_, _degrees2_, _invalid_, \
+                             _meter_, _radians_, _radians2_, \
+                             _radius_, _UNDER_,  _std_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import modulename, _Named, property_doc_
 # from pygeodesy.props import property_doc_  # from .named
 from pygeodesy.streprs import Fmt, fstr
 
 __all__ = _ALL_LAZY.unitsBase
-__version__ = '22.09.25'
+__version__ = '23.05.10'
 
 
 class _NamedUnit(_Named):
@@ -295,6 +295,7 @@ class Str(str, _NamedUnit):
 
 
 _Str_degrees  = Str(_degrees_)   # PYCHOK in .frechet, .hausdorff
+_Str_degrees2 = Str(_degrees2_)  # PYCHOK in .frechet, .hausdorff
 _Str_meter    = Str(_meter_)     # PYCHOK in .frechet, .hausdorff
 _Str_NN       = Str(NN)          # PYCHOK in .frechet, .hausdorff
 _Str_radians  = Str(_radians_)   # PYCHOK in .frechet, .hausdorff

@@ -16,7 +16,7 @@ also U{World Geographic Reference System
 from pygeodesy.constants import _float, _off90, _0_001, _0_5, \
                                 _1_0, _2_0, _60_0, _1000_0
 from pygeodesy.dms import parse3llh  # parseDMS2
-from pygeodesy.errors import _ValueError, _xkwds
+from pygeodesy.errors import _ValueError, _xattr, _xkwds
 from pygeodesy.interns import NN, _0to9_, _AtoZnoIO_, _COMMA_, \
                              _height_, _radius_, _SPACE_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
@@ -31,7 +31,7 @@ from pygeodesy.utily import ft2m, m2ft, m2NM
 from math import floor
 
 __all__ = _ALL_LAZY.wgrs
-__version__ = '22.09.24'
+__version__ = '23.05.06'
 
 _Base    =  10
 _BaseLen =  4
@@ -145,9 +145,9 @@ class Georef(Str):
                 lat, lon, h = _fllh3(cll.lat, cll.lon)
             except AttributeError:
                 raise _xStrError(Georef, cll=cll)  # Error=WGRSError
-            h  = getattr(cll, _height_, h)
-            g  = encode(lat, lon, precision=precision, height=h)  # PYCHOK false
-            ll = lat, lon  # original lat, lon
+            h  = _xattr(cll, height=h)
+            g  =  encode(lat, lon, precision=precision, height=h)  # PYCHOK false
+            ll =  lat, lon  # original lat, lon
 
         self = Str.__new__(cls, g, name=name or nameof(cll))
         self._latlon    = ll

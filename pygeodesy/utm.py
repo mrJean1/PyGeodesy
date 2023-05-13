@@ -679,7 +679,7 @@ def toUtm8(latlon, lon=None, datum=None, Utm=Utm, falsed=True,
 
        @note: Implements Karney’s method, using 8-th order Krüger series,
               giving results accurate to 5 nm (or better) for distances
-              up to 3900 km from the central meridian.
+              up to 3,900 Km from the central meridian.
 
        @example:
 

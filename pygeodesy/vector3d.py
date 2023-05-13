@@ -7,22 +7,23 @@ Function L{intersection3d3}, L{intersections2}, L{parse3d}, L{sumOf},
 L{trilaterate2d2} and L{trilaterate3d2}.
 '''
 
-from pygeodesy.basics import isscalar, len2
+# from pygeodesy.basics import isscalar  # from .fmath
 from pygeodesy.constants import EPS, EPS0, EPS1, EPS4, INT0, isnear0, \
                                _0_0, _1_0
 from pygeodesy.errors import IntersectionError, _ValueError, VectorError, \
-                            _xError, _xkwds, _xkwds_popitem
-from pygeodesy.fmath import euclid, fabs, fdot, fsum, fsum1_, hypot, sqrt
-# from pygeodesy.fsums import fsum, fsum1_  # from .fmath
+                            _xattr, _xError, _xkwds_get, _xkwds, _xkwds_popitem
+from pygeodesy.fmath import euclid, fabs, fdot, hypot, sqrt, \
+                            fsum1_, isscalar
+# from pygeodesy.fsums import fsum1_  # from .fmath
 # from pygeodesy.formy import _radical2  # in _intersects2 below
-from pygeodesy.interns import MISSING, NN, _COMMA_, _concentric_, _datum_, \
-                             _h_, _height_, _intersection_, _name_, _near_, \
-                             _negative_, _no_, _too_, _z_
+from pygeodesy.interns import NN, _COMMA_, _concentric_, _intersection_, \
+                             _near_, _negative_, _no_, _too_
 from pygeodesy.iters import Fmt, PointsIter
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _xnamed, _xotherError
 from pygeodesy.namedTuples import Intersection3Tuple, NearestOn2Tuple, \
                                   NearestOn6Tuple, Vector3Tuple  # Vector4Tuple
+# from pygeodesy.nvectorBase import _nsumOf  # _MODS
 # from pygeodesy.streprs import Fmt  # from .iters
 from pygeodesy.units import _fi_j2, Radius, Radius_
 from pygeodesy.utily import atan2b, sincos2d
@@ -32,7 +33,7 @@ from pygeodesy.vector3dBase import Vector3dBase
 # from math import fabs, sqrt  # from .fmath
 
 __all__ = _ALL_LAZY.vector3d
-__version__ = '23.04.10'
+__version__ = '23.05.06'
 
 
 class Vector3d(Vector3dBase):
@@ -680,15 +681,16 @@ def nearestOn(point, point1, point2, within=True, useZ=True, Vector=None, **Vect
     p1 = _otherV3d(useZ=useZ, point1=point1)
     p2 = _otherV3d(useZ=useZ, point2=point2)
 
+    n    =  nearestOn.__name__
     p, _ = _nearestOn2(p0, p1, p2, within=within)
     if Vector is not None:
-        p = Vector(p.x, p.y, **_xkwds(Vector_kwds, z=p.z, name=nearestOn.__name__))
+        p = Vector(p.x, p.y, **_xkwds(Vector_kwds, z=p.z, name=n))
     elif p is p1:
         p = point1
     elif p is p2:
         p = point2
     else:  # ignore Vector_kwds
-        p = point.classof(p.x, p.y, Vector_kwds.get(_z_, p.z), name=nearestOn.__name__)
+        p = point.classof(p.x, p.y, _xkwds_get(Vector_kwds, z=p.z), name=n)
     return p
 
 
@@ -716,8 +718,8 @@ def _nearestOn2(p0, p1, p2, within=True, eps=EPS):
 def nearestOn6(point, points, closed=False, useZ=True, **Vector_and_kwds):  # eps=EPS
     '''Locate the point on a path or polygon closest to a reference point.
 
-       The closest point is either on and within the extent of a polygon edge or
-       the nearest of that edge's end points.
+       The closest point on each polygon edge is either the nearest of that
+       edge's end points or a point in between.
 
        @arg point: Reference point (C{Cartesian}, L{Vector3d}, C{Vector3Tuple} or
                    C{Vector4Tuple}).
@@ -738,9 +740,9 @@ def nearestOn6(point, points, closed=False, useZ=True, **Vector_and_kwds):  # ep
 
        @raise TypeError: Non-cartesian B{C{point}} and B{C{points}}.
 
-       @note: Distances measured with method L{Vector3d.equirectangular}.
-
-       @see: Method C{LatLon.nearestOn6} or function L{nearestOn5} for geodetic points.
+       @note: Distances measured with method L{Vector3d.equirectangular}.  For
+              geodetic distances use function L{nearestOn5} or one of the
+              C{LatLon.nearestOn6} methods.
     '''
     r  = _otherV3d(useZ=useZ, point=point)
     D2 = r.equirectangular  # distance squared
@@ -817,7 +819,7 @@ def parse3d(str3d, sep=_COMMA_, Vector=Vector3d, **Vector_kwds):
 
 
 def sumOf(vectors, Vector=Vector3d, **Vector_kwds):
-    '''Compute the vectorial sum of several vectors.
+    '''Compute the I{vectorial} sum of two oe more vectors.
 
        @arg vectors: Vectors to be added (L{Vector3d}[]).
        @kwarg Vector: Optional class for the vectorial sum (L{Vector3d}).
@@ -829,15 +831,14 @@ def sumOf(vectors, Vector=Vector3d, **Vector_kwds):
 
        @raise VectorError: No B{C{vectors}}.
     '''
-    n, vectors = len2(vectors)
-    if n < 1:
-        raise VectorError(vectors=n, txt=MISSING)
-
-    v = Vector3Tuple(fsum(v.x for v in vectors),
-                     fsum(v.y for v in vectors),
-                     fsum(v.z for v in vectors))
-    return _xnamed((v if Vector is None else
-                         Vector(*v, **Vector_kwds)), sumOf.__name__)
+    try:
+        t = _MODS.nvectorBase._nsumOf(vectors, 0, None, {})  # no H
+    except (TypeError, ValueError) as x:
+        raise VectorError(vectors=vectors, Vector=Vector, cause=x)
+    x, y, z = t[:3]
+    n = sumOf.__name__
+    return Vector3Tuple(x, y, z, name=n) if Vector is None else \
+           Vector(x, y, z, **_xkwds(Vector_kwds, name=n))
 
 
 def trilaterate2d2(x1, y1, radius1, x2, y2, radius2, x3, y3, radius3,
@@ -939,14 +940,14 @@ def trilaterate3d2(center1, radius1, center2, radius2, center3, radius3,
 def _xyzhdn3(xyz, height, datum, ll):  # in .cartesianBase, .nvectorBase
     '''(INTERNAL) Get a C{(h, d, name)} 3-tuple.
     '''
-    h = height or getattr(xyz, _height_, None) \
-               or getattr(xyz, _h_, None) \
-               or getattr(ll,  _height_, None)
+    h = height or _xattr(xyz, height=None) \
+               or _xattr(xyz, h=None) \
+               or _xattr(ll,  height=None)
 
-    d = datum or getattr(xyz, _datum_, None) \
-              or getattr(ll,  _datum_, None)
+    d = datum or _xattr(xyz, datum=None) \
+              or _xattr(ll,  datum=None)
 
-    return h, d, getattr(xyz, _name_, NN)
+    return h, d, _xattr(xyz, name=NN)
 
 
 __all__ += _ALL_DOCS(intersections2, sumOf, Vector3dBase)

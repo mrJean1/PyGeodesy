@@ -14,12 +14,12 @@ L{ChLVYX2Tuple}, L{ChLVyx2Tuple} and L{Footprint5Tuple}.
 from pygeodesy.basics import issubclassof, _xinstanceof
 from pygeodesy.constants import _0_0, _90_0, _N_90_0
 from pygeodesy.dms import F_D, toDMS
-from pygeodesy.errors import _TypesError, _xkwds
+from pygeodesy.errors import _TypesError, _xattr, _xkwds
 from pygeodesy.fmath import hypot, hypot_
 from pygeodesy.interns import NN, _4_, _azimuth_, _center_, _COMMASPACE_, \
                              _down_, _east_, _ecef_, _elevation_, _height_, \
-                             _lat_, _lon_, _ltp_, _M_, _name_, _north_, \
-                             _up_, _X_, _x_, _xyz_, _Y_, _y_, _z_
+                             _lat_, _lon_, _ltp_, _M_, _north_, _up_, _X_, \
+                             _x_, _xyz_, _Y_, _y_, _z_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _NamedBase, _NamedTuple, notOverloaded, \
                             _Pass, _xnamed
@@ -35,7 +35,7 @@ from pygeodesy.vector3d import Vector3d
 from math import cos, radians
 
 __all__ = _ALL_LAZY.ltpTuples
-__version__ = '22.10.11'
+__version__ = '23.05.06'
 
 _aer_        = 'aer'
 _alt_        = 'alt'
@@ -208,8 +208,8 @@ class Aer(_NamedAerNed):
             self._azimuth, self._elevation, self._slantrange = \
               aer.azimuth,   aer.elevation,   aer.slantrange
             _xinstanceof(Aer, Aer4Tuple, aer=aer)
-            p = getattr(aer, _ltp_, ltp)
-            n = getattr(aer, _name_, name)
+            p = _xattr(aer, ltp=ltp)
+            n = _xattr(aer, name=name)
         except AttributeError:
             self._azimuth    = Bearing(azimuth=aer)
             self._elevation  = Degrees_(elevation=elevation, low=_N_90_0, high=_90_0)
@@ -411,8 +411,8 @@ class Ned(_NamedAerNed):
         try:  # PYCHOK no cover
             self._north, self._east, self._down = ned.north, ned.east, ned.down
             _xinstanceof(Ned, Ned4Tuple, ned=ned)
-            p = getattr(ned, _ltp_, ltp)
-            n = getattr(ned, _name_, name)
+            p = _xattr(ned, ltp=ltp)
+            n = _xattr(ned, name=name)
         except AttributeError:
             self._north = Meter(north=ned or _0_0)
             self._east  = Meter(east=east or _0_0)
@@ -610,8 +610,8 @@ class XyzLocal(Vector3d):
             self._x, self._y, self._z = x_xyz.x, x_xyz.y, x_xyz.z
             _xinstanceof(XyzLocal, Xyz4Tuple, Enu, Enu4Tuple, Local9Tuple, Ned,
                       **{self._toStr: x_xyz})
-            p = getattr(x_xyz, _ltp_, ltp)
-            n = name or getattr(x_xyz, _name_, NN)
+            p = _xattr(x_xyz, ltp=ltp)
+            n =  name or _xattr(x_xyz, name=NN)
         except AttributeError:
             self._x = Meter(x=x_xyz or _0_0)
             self._y = Meter(y=y or _0_0)

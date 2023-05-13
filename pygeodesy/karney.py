@@ -128,18 +128,18 @@ from pygeodesy.fmath import cbrt, fremainder, norm2, hypot as _hypot, unstr  # P
 from pygeodesy.interns import _2_, _a12_, _area_, _azi2_, _composite_, _lat2_, \
                               _lon2_, _m12_, _M12_, _M21_, _number_, _s12_, _S12_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, _getenv
-from pygeodesy.named import _Dict, _NamedBase, _NamedTuple, _Pass
+from pygeodesy.named import _Dict, _NamedBase, _NamedTuple, notImplemented, _Pass
 from pygeodesy.props import deprecated_method, Property_RO, property_RO
 # from pygeodesy.streps import unstr  # from .fmath
 from pygeodesy.units import Bearing as _Azi, Degrees as _Deg, Lat, Lon, \
                             Meter as _M, Meter2 as _M2, Number_, \
                             Precision_, _1mm as _TOL_M  # PYCHOK shared
-from pygeodesy.utily import atan2d, fabs, sincos2d, tand,  unroll180, wrap360  # PYCHOK shared
+from pygeodesy.utily import atan2d, sincos2d, tand, _unrollon,  fabs
 
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.karney
-__version__ = '23.04.07'
+__version__ = '23.05.07'
 
 _EWGS84     = _WGS84.ellipsoid  # PYCHOK in .geodesicx.gx, .ktm, .rhumbx, .solveBase
 _K_2_0      = _getenv('PYGEODESY_GEOGRAPHICLIB', _2_) == _2_
@@ -386,7 +386,7 @@ class GDict(_Dict):  # XXX _NamedDict
         return self._toTuple(Inverse10Tuple, dflt)
 
     @deprecated_method
-    def toRhumb7Tuple(self, dflt=NAN):
+    def toRhumb7Tuple(self, dflt=NAN):  # PYCHOK no cover
         '''DEPRECATED, used method C{toRhumb8Tuple}.
 
            @return: A I{DEPRECATED} L{Rhumb7Tuple}.
@@ -499,14 +499,13 @@ def _around(x):  # in .utily.sincos2d
     try:
         return _wrapped.Math.AngRound(x)
     except AttributeError:
-        pass
-    if x:
-        y = _1_16th - fabs(x)
-        if y > 0:  # fabs(x) < _1_16th
-            x = _copysign(_1_16th - y, x)
-    else:
-        x = _0_0  # -0 to 0
-    return x
+        if x:
+            y = _1_16th - fabs(x)
+            if y > 0:  # fabs(x) < _1_16th
+                x = _copysign(_1_16th - y, x)
+        else:
+            x = _0_0  # -0 to 0
+        return x
 
 
 def _atan2d(y, x):
@@ -541,20 +540,21 @@ def _diff182(deg0, deg):
     try:
         return _wrapped.Math.AngDiff(deg0, deg)
     except AttributeError:
-        pass
-    if _K_2_0:  # geographiclib 2.0
-        d, t = _sum2(fremainder(-deg0, _360_0),
-                     fremainder( deg,  _360_0))
-        d, t = _sum2(fremainder( d,    _360_0), t)
-        if d in (_0_0, _180_0, _N_180_0):
-            d = _copysign(d, -t if t else (deg - deg0))
-    else:
-        d, t = _sum2(_norm180(-deg0), _norm180(deg))
-        d = _norm180(d)
-        if t > 0 and d == _180_0:
-            d = _N_180_0
-        d, t = _sum2(d, t)
-    return d, t
+        if _K_2_0:  # geographiclib 2.0
+            _r, _360 = fremainder, _360_0
+            d, t = _sum2(_r(-deg0, _360),
+                         _r( deg,  _360))
+            d, t = _sum2(_r( d,    _360), t)
+            if d in (_0_0, _180_0, _N_180_0):
+                d = _copysign(d, -t if t else (deg - deg0))
+        else:
+            _n = _norm180
+            d, t = _sum2(_n(-deg0), _n(deg))
+            d = _n(d)
+            if t > 0 and d == _180_0:
+                d = _N_180_0
+            d, t = _sum2(d, t)
+        return d, t
 
 
 def _fix90(deg):  # mimick Math.LatFix
@@ -598,11 +598,10 @@ def _norm180(deg):  # mimick geomath.Math.AngNormalize
     try:
         return _wrapped.Math.AngNormalize(deg)
     except AttributeError:
-        pass
-    d = fremainder(deg, _360_0)
-    if d in (_180_0, -_180_0):
-        d = _copysign(_180_0, deg) if _K_2_0 else _180_0
-    return d
+        d = fremainder(deg, _360_0)
+        if d in (_180_0, -_180_0):
+            d = _copysign(_180_0, deg) if _K_2_0 else _180_0
+        return d
 
 
 def _polygon(geodesic, points, closed, line, wrap):
@@ -612,7 +611,7 @@ def _polygon(geodesic, points, closed, line, wrap):
         or C{geodesicw.Geodesic} instance.
     '''
     if not wrap:  # capability LONG_UNROLL can't be off
-        raise _ValueError(wrap=wrap)
+        notImplemented(None, wrap=wrap, up=3)
 
     if _MODS.booleans.isBoolean(points):
         # recursive call for each boolean clip
@@ -628,14 +627,17 @@ def _polygon(geodesic, points, closed, line, wrap):
     gP = geodesic.Polygon(line)
     _A = gP.AddPoint
 
-    Ps = _MODS.iters.PointsIter(points, loop=1)  # base=LatLonEllipsoidalBase(0, 0)
-    p0 =  Ps[0]
+    Ps = _MODS.iters.PointsIter(points, loop=1, wrap=wrap)  # base=LatLonEllipsoidalBase(0, 0)
+    p1 =  p0 = Ps[0]
 
     # note, lon deltas are unrolled, by default
-    _A(p0.lat, p0.lon)
-    for p in Ps.iterate(closed=closed):
-        _A(p.lat, p.lon)
-    if closed and line and p != p0:
+    _A(p1.lat, p1.lon)
+    for p2 in Ps.iterate(closed=closed):
+        if wrap and not Ps.looped:
+            p2 = _unrollon(p1, p2)
+        _A(p2.lat, p2.lon)
+        p1 = p2
+    if closed and line and p1 != p0:
         _A(p0.lat, p0.lon)
 
     # gP.Compute returns (number_of_points, perimeter, signed area)
@@ -716,20 +718,19 @@ def _sum2(u, v):  # mimick geomath.Math.sum, actually sum2
     try:
         return _wrapped.Math.sum(u, v)
     except AttributeError:
-        pass
-    s = u + v
-    r = s - v
-    t = s - r
-    # if Algorithm_3_1:
-    #   t = (u - t) + (v + r)
-    # elif C_CPP:  # Math::sum C/C++
-    #   r -= u
-    #   t -= v
-    #   t += r
-    #   t = -t
-    # else:
-    t = (u - r) + (v - t)
-    return s, t
+        s = u + v
+        r = s - v
+        t = s - r
+        # if Algorithm_3_1:
+        #   t = (u - t) + (v + r)
+        # elif C_CPP:  # Math::sum C/C++
+        #   r -= u
+        #   t -= v
+        #   t += r
+        #   t = -t
+        # else:
+        t = (u - r) + (v - t)
+        return s, t
 
 
 def _sum2_(s, t, *vs):

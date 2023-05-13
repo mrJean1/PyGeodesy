@@ -17,15 +17,15 @@ from pygeodesy.interns import MISSING, NN, _an_, _COMMASPACE_, \
                              _DEPRECATED_, _DOT_, _EQUALSPACED_, \
                              _immutable_, _invalid_, _N_A_, _not_, \
                              _SPACE_, _UNDER_,  _DNL_  # PYCHOK used!
-# from pygeodesy.named import callname  # from _MODS, avoid circular
+# from pygeodesy.named import callname  # _MODS, avoid circular
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, \
                              _FOR_DOCS, _WARNINGS_X_DEV
-# from pygeodesy.streprs import Fmt  # from _MODS
+# from pygeodesy.streprs import Fmt  # _MODS
 
 from functools import wraps as _wraps
 
 __all__ = _ALL_LAZY.props
-__version__ = '22.09.23'
+__version__ = '23.04.26'
 
 _class_       = 'class'
 _dont_use_    = _DEPRECATED_ + ", don't use."

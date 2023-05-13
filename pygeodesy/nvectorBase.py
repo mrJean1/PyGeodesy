@@ -10,17 +10,18 @@ and published under the same MIT Licence**, see U{Vector-based geodesy
 <https://www.Movable-Type.co.UK/scripts/latlong-vectors.html>}.
 '''
 
-from pygeodesy.basics import len2, map1
+# from pygeodesy.basics import map1  # from .fsums
 from pygeodesy.constants import EPS, EPS1, EPS_2, R_M, _2_0, _N_2_0
 # from pygeodesy.datums import _spherical_datum  # from .formy
 from pygeodesy.errors import IntersectionError, _ValueError, VectorError, \
                             _xkwds, _xkwds_pop
 from pygeodesy.fmath import fdot, fidw, hypot_  # PYCHOK fdot shared
-from pygeodesy.fsums import fsum, fsum_
-from pygeodesy.formy import n_xyz2latlon, n_xyz2philam, _spherical_datum
-from pygeodesy.interns import MISSING, NN, _1_, _2_, _3_, _bearing_, \
-                             _coincident_, _COMMASPACE_, _distance_, _h_, \
-                             _intersection_, _no_, _NorthPole_, _points_, \
+from pygeodesy.fsums import Fsum, fsum_,  map1
+from pygeodesy.formy import _isequalTo, n_xyz2latlon, n_xyz2philam, \
+                            _spherical_datum
+from pygeodesy.interns import NN, _1_, _2_, _3_, _bearing_, _coincident_, \
+                             _COMMASPACE_, _distance_, _h_, _insufficient_, \
+                             _intersection_, _no_, _NorthPole_, _point_, \
                              _pole_, _SPACE_, _SouthPole_, _UNDER
 from pygeodesy.latlonBase import LatLonBase, _ALL_DOCS, _MODS
 # from pygeodesy.lazily import _ALL_DOCS, _ALL_MODS as _MODS  # from .latlonBase
@@ -31,13 +32,13 @@ from pygeodesy.props import deprecated_method, property_doc_, \
                             Property_RO, _update_all
 from pygeodesy.streprs import Fmt, hstr, unstr, _xattrs
 from pygeodesy.units import Bearing, Height, Radius_, Scalar
-# from pygeodesy.utily import sincos2d  # from vector3d
-from pygeodesy.vector3d import Vector3d, sumOf as _sumOf, sincos2d, _xyzhdn3
+from pygeodesy.utily import sincos2d, _unrollon, _unrollon3
+from pygeodesy.vector3d import Vector3d, _xyzhdn3
 
 from math import fabs, sqrt  # atan2, cos, sin
 
 __all__ = (_NorthPole_, _SouthPole_)  # constants
-__version__ = '23.03.19'
+__version__ = '23.05.12'
 
 
 class NvectorBase(Vector3d):  # XXX kept private
@@ -264,7 +265,7 @@ class NvectorBase(Vector3d):  # XXX kept private
 
         x *= r
         y *= r
-        z *= n + h
+        z *= h + n
 
         if Cartesian is None:
             r = self.Ecef(d).reverse(x, y, z, M=True)
@@ -453,8 +454,7 @@ class LatLonNvectorBase(LatLonBase):
         return other
 
     def toNvector(self, Nvector=NvectorBase, **Nvector_kwds):  # PYCHOK signature
-        '''Convert this point to C{Nvector} components, I{including
-           height}.
+        '''Convert this point to C{Nvector} components, I{including height}.
 
            @kwarg Nvector_kwds: Optional, additional B{C{Nvector}} keyword
                                 arguments, ignored if C{B{Nvector} is None}.
@@ -467,7 +467,7 @@ class LatLonNvectorBase(LatLonBase):
         '''
         return LatLonBase.toNvector(self, Nvector=Nvector, **Nvector_kwds)
 
-    def triangulate(self, bearing1, other, bearing2, height=None):
+    def triangulate(self, bearing1, other, bearing2, height=None, wrap=False):
         '''Locate a point given this and an other point and a bearing
            at this and the other point.
 
@@ -476,6 +476,8 @@ class LatLonNvectorBase(LatLonBase):
            @arg bearing2: Bearing at the other point (compass C{degrees360}).
            @kwarg height: Optional height at the triangulated point,
                           overriding the mean height (C{meter}).
+           @kwarg wrap: If C{True}, use this and the B{C{other}} point
+                        I{normalized} (C{bool}).
 
            @return: Triangulated point (C{LatLon}).
 
@@ -490,10 +492,10 @@ class LatLonNvectorBase(LatLonBase):
             >>> t = p.triangulate(7, q, 295)  # 47.323667°N, 002.568501°W'
         '''
         return _triangulate(self, bearing1, self.others(other), bearing2,
-                                  height=height, LatLon=self.classof)
+                                  height=height, wrap=wrap, LatLon=self.classof)
 
     def trilaterate(self, distance1, point2, distance2, point3, distance3,
-                          radius=R_M, height=None, useZ=False):
+                          radius=R_M, height=None, useZ=False, wrap=False):
         '''Locate a point at given distances from this and two other points.
 
            @arg distance1: Distance to this point (C{meter}, same units
@@ -508,6 +510,8 @@ class LatLonNvectorBase(LatLonBase):
            @kwarg height: Optional height at trilaterated point, overriding
                           the mean height (C{meter}, same units as B{C{radius}}).
            @kwarg useZ: Include Z component iff non-NaN, non-zero (C{bool}).
+           @kwarg wrap: If C{True}, use this, B{C{point2}} and B{C{point3}}
+                        I{normalized} (C{bool}).
 
            @return: Trilaterated point (C{LatLon}).
 
@@ -523,38 +527,32 @@ class LatLonNvectorBase(LatLonBase):
                  scripts/latlong-vectors.html>} and method C{LatLon.trilaterate2}
                  of other, non-C{Nvector LatLon} classes.
         '''
-        return _trilaterate(self, distance1,
-                                  self.others(point2=point2), distance2,
-                                  self.others(point3=point3), distance3,
-                                  radius=radius, height=height, useZ=useZ,
-                                  LatLon=self.classof)
+        return _trilaterate(self, distance1, self.others(point2=point2), distance2,
+                                             self.others(point3=point3), distance3,
+                                             radius=radius, height=height, useZ=useZ,
+                                             wrap=wrap, LatLon=self.classof)
 
     def trilaterate5(self, distance1, point2, distance2, point3, distance3,  # PYCHOK signature
                            area=False, eps=EPS1, radius=R_M, wrap=False):
-        '''B{Not implemented} for C{B{area}=True} or C{B{wrap}=True}
-           and falls back to method C{trilaterate} otherwise.
+        '''B{Not implemented} for C{B{area}=True} and falls back to method
+           C{trilaterate} otherwise.
 
            @return: A L{Trilaterate5Tuple}C{(min, minPoint, max, maxPoint, n)}
                     with a single trilaterated intersection C{minPoint I{is}
                     maxPoint}, C{min I{is} max} the nearest intersection
                     margin and count C{n = 1}.
 
-           @raise IntersectionError: No intersection, trilateration failed.
+           @raise NotImplementedError: Keyword argument C{B{area}=True} not
+                                       (yet) supported.
 
-           @raise NotImplementedError: Keyword argument C{B{area}=True} or
-                                       C{B{wrap}=True} not (yet) supported.
-
-           @raise TypeError: Invalid B{C{point2}} or B{C{point3}}.
-
-           @raise ValueError: Coincident B{C{points}} or invalid B{C{distance1}},
-                              B{C{distance2}}, B{C{distance3}} or B{C{radius}}.
+           @see: Method L{trilaterate} for other and more details.
         '''
-        if area or wrap:
-            notImplemented(self, area=area, wrap=wrap)
+        if area:
+            notImplemented(self, area=area)
 
         t = _trilaterate(self, distance1, self.others(point2=point2), distance2,
                                           self.others(point3=point3), distance3,
-                                          radius=radius, height=None, useZ=True,
+                                          radius=radius, useZ=True, wrap=wrap,
                                           LatLon=self.classof)
         # ... and handle B{C{eps}} and C{IntersectionError}
         # like function C{.latlonBase._trilaterate5}
@@ -566,8 +564,27 @@ class LatLonNvectorBase(LatLonBase):
         raise IntersectionError(area=area, eps=eps, radius=radius, wrap=wrap, txt=t)
 
 
+def _nsumOf(nvs, h_None, Vector, Vector_kwds):  # .sphericalNvector, .vector3d
+    '''(INTERNAL) Separated to allow callers to embellish exceptions.
+    '''
+    X, Y, Z, n = Fsum(), Fsum(), Fsum(), 0
+    H = Fsum() if h_None is None else n
+    for n, v in enumerate(nvs or ()):  # one pass
+        X += v.x
+        Y += v.y
+        Z += v.z
+        H += v.h
+    if n < 1:
+        raise ValueError(_SPACE_(Fmt.PARENSPACED(len=n), _insufficient_))
+
+    x, y, z = map1(float, X, Y, Z)
+    h = H.fover(n) if h_None is None else h_None
+    return Vector3Tuple(x, y, z).to4Tuple(h) if Vector is None else \
+                 Vector(x, y, z, **_xkwds(Vector_kwds, h=h))
+
+
 def sumOf(nvectors, Vector=None, h=None, **Vector_kwds):
-    '''Return the vectorial sum of two or more n-vectors.
+    '''Return the I{vectorial} sum of two or more n-vectors.
 
        @arg nvectors: Vectors to be added (C{Nvector}[]).
        @kwarg Vector: Optional class for the vectorial sum (C{Nvector})
@@ -581,27 +598,19 @@ def sumOf(nvectors, Vector=None, h=None, **Vector_kwds):
 
        @raise VectorError: No B{C{nvectors}}.
     '''
-    n, nvectors = len2(nvectors)
-    if n < 1:
-        raise VectorError(nvectors=n, txt=MISSING)
-
-    if h is None:
-        h = fsum(v.h for v in nvectors) / float(n)
-
-    if Vector is None:
-        r = _sumOf(nvectors, Vector=Vector3Tuple).to4Tuple(h)
-    else:
-        r = _sumOf(nvectors, Vector=Vector, **_xkwds(Vector_kwds, h=h))
-    return r
+    try:
+        return _nsumOf(nvectors, h, Vector, Vector_kwds)
+    except (TypeError, ValueError) as x:
+        raise VectorError(nvectors=nvectors, Vector=Vector, cause=x)
 
 
 def _triangulate(point1, bearing1, point2, bearing2, height=None,
-                                 **LatLon_LatLon_kwds):
+                                   wrap=False, **LatLon_and_kwds):
     # (INTERNAL) Locate a point given two known points and initial
     # bearings from those points, see C{LatLon.triangulate} above
 
     def _gc(p, b, _i_):
-        n = p.toNvector()
+        n  = p.toNvector()
         de = NorthPole.cross(n, raiser=_pole_).unit()  # east vector @ n
         dn = n.cross(de)  # north vector @ n
         s, c = sincos2d(Bearing(b, name=_bearing_ + _i_))
@@ -610,36 +619,38 @@ def _triangulate(point1, bearing1, point2, bearing2, height=None,
         d = dnct.plus(dest)  # direction vector @ n
         return n.cross(d)  # great circle point + bearing
 
-    if point1.isequalTo(point2, EPS):
-        raise _ValueError(points=point2, txt=_coincident_)
+    if wrap:
+        point2 = _unrollon(point1, point2, wrap=wrap)
+    if _isequalTo(point1, point2, eps=EPS):
+        raise _ValueError(points=point2, wrap=wrap, txt=_coincident_)
 
     gc1 = _gc(point1, bearing1, _1_)  # great circle p1 + b1
     gc2 = _gc(point2, bearing2, _2_)  # great circle p2 + b2
 
-    n = gc1.cross(gc2, raiser=_points_)  # n-vector of intersection point
-
-    h = point1._havg(point2) if height is None else Height(height)
-    kwds = _xkwds(LatLon_LatLon_kwds, height=h)
+    n = gc1.cross(gc2, raiser=_point_)  # n-vector of intersection point
+    h = point1._havg(point2, h=height)
+    kwds = _xkwds(LatLon_and_kwds, height=h)
     return n.toLatLon(**kwds)  # Nvector(n.x, n.y, n.z).toLatLon(...)
 
 
 def _trilaterate(point1, distance1, point2, distance2, point3, distance3,
                                     radius=R_M, height=None, useZ=False,
-                                    **LatLon_LatLon_kwds):
+                                    wrap=False, **LatLon_and_kwds):
     # (INTERNAL) Locate a point at given distances from
     # three other points, see LatLon.triangulate above
 
-    def _nd2(p, d, r, _i_, *qs):  # .toNvector and angular distance squared
+    def _nr2(p, d, r, _i_, *qs):  # .toNvector and angular distance squared
         for q in qs:
-            if p.isequalTo(q, EPS):
+            if _isequalTo(p, q, eps=EPS):
                 raise _ValueError(points=p, txt=_coincident_)
         return p.toNvector(), (Scalar(d, name=_distance_ + _i_) / r)**2
 
-    r = Radius_(radius)
+    p1, r     =  point1, Radius_(radius)
+    p2, p3, _ = _unrollon3(p1, point2, point3, wrap)
 
-    n1, r12 = _nd2(point1, distance1, r, _1_)
-    n2, r22 = _nd2(point2, distance2, r, _2_, point1)
-    n3, r32 = _nd2(point3, distance3, r, _3_, point1, point2)
+    n1, r12 = _nr2(p1, distance1, r, _1_)
+    n2, r22 = _nr2(p2, distance2, r, _2_, p1)
+    n3, r32 = _nr2(p3, distance3, r, _3_, p1, p2)
 
     # the following uses x,y coordinate system with origin at n1, x axis n1->n2
     y = n3.minus(n1)
@@ -668,7 +679,7 @@ def _trilaterate(point1, distance1, point2, distance2, point3, distance3,
                              map1(fabs, distance1, distance2, distance3))
                 else:
                     h = Height(height)
-                kwds = _xkwds(LatLon_LatLon_kwds, height=h)
+                kwds = _xkwds(LatLon_and_kwds, height=h)
                 return n.toLatLon(**kwds)  # Nvector(n.x, n.y, n.z).toLatLon(...)
 
     # no intersection, d < EPS_2 or fabs(j) < EPS_2 or z < EPS
@@ -676,7 +687,7 @@ def _trilaterate(point1, distance1, point2, distance2, point3, distance3,
     raise IntersectionError(point1=point1, distance1=distance1,
                             point2=point2, distance2=distance2,
                             point3=point3, distance3=distance3,
-                            txt=unstr(t, z=z, useZ=useZ))
+                            txt=unstr(t, z=z, useZ=useZ, wrap=wrap))
 
 
 __all__ += _ALL_DOCS(LatLonNvectorBase, NvectorBase, sumOf)  # classes

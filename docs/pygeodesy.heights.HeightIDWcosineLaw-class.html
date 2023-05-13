@@ -67,7 +67,7 @@
                |        
      <a href="pygeodesy.heights._HeightBase-class.html">_HeightBase</a> --+    
                    |    
-          _HeightIDW --+
+          <a href="pygeodesy.heights._HeightIDW-class.html">_HeightIDW</a> --+
                        |
                       <strong class="uidshort">HeightIDWcosineLaw</strong>
 </pre>
@@ -81,23 +81,7 @@
   class="link">pygeodesy.cosineLaw_</a>.</p>
 
 <hr />
-<div class="fields">      <p><strong>See Also:</strong>
-        <a href="pygeodesy.heights.HeightIDWequirectangular-class.html" 
-        class="link">HeightIDWequirectangular</a>, <a 
-        href="pygeodesy.heights.HeightIDWeuclidean-class.html" 
-        class="link">HeightIDWeuclidean</a>, <a 
-        href="pygeodesy.heights.HeightIDWflatPolar-class.html" 
-        class="link">HeightIDWflatPolar</a>, <a 
-        href="pygeodesy.heights.HeightIDWhaversine-class.html" 
-        class="link">HeightIDWhaversine</a>, <a 
-        href="pygeodesy.heights.HeightIDWvincentys-class.html" 
-        class="link">HeightIDWvincentys</a>, <a 
-        href="https://www.Geo.FU-Berlin.DE/en/v/soga/Geodata-analysis/geostatistics/Inverse-Distance-Weighting/index.html"
-        target="_top">IDW</a> and <a 
-        href="https://People.SC.FSU.edu/~jburkardt/c_src/shepard_interp_2d/shepard_interp_2d.html"
-        target="_top">SHEPARD_INTERP_2D</a>.
-      </p>
-      <p><strong>Note:</strong>
+<div class="fields">      <p><strong>Note:</strong>
         See note at function <a 
         href="pygeodesy.formy-module.html#vincentys_" 
         class="link">pygeodesy.vincentys_</a>.
@@ -119,8 +103,8 @@
           <td><span class="summary-sig"><a href="pygeodesy.heights.HeightIDWcosineLaw-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">knots</span>,
         <span class="summary-sig-arg">beta</span>=<span class="summary-sig-default">2</span>,
-        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>,
+        <span class="summary-sig-arg">**radius_wrap</span>)</span><br />
       New <a href="pygeodesy.heights.HeightIDWcosineLaw-class.html" 
       class="link">HeightIDWcosineLaw</a> interpolator.</td>
           <td align="right" valign="top">
@@ -139,7 +123,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.heights.HeightIDWcosineLaw-class.html#__call__" class="summary-sig-name">__call__</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">*llis</span>)</span><br />
+        <span class="summary-sig-arg">*llis</span>,
+        <span class="summary-sig-arg">**wrap</span>)</span><br />
       Interpolate the height for one or several locations.</td>
           <td align="right" valign="top">
             
@@ -158,7 +143,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.heights.HeightIDWcosineLaw-class.html#height" class="summary-sig-name">height</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">lats</span>,
-        <span class="summary-sig-arg">lons</span>)</span><br />
+        <span class="summary-sig-arg">lons</span>,
+        <span class="summary-sig-arg">**wrap</span>)</span><br />
       Interpolate the height for one or several lat-/longitudes.</td>
           <td align="right" valign="top">
             
@@ -212,17 +198,20 @@
 </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code>_HeightIDW</code></b>:
-      <code>beta</code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.heights._HeightIDW-class.html">_HeightIDW</a></code></b>:
+      <code><a href="pygeodesy.heights._HeightIDW-class.html#adjust">adjust</a></code>,
+      <code><a href="pygeodesy.heights._HeightIDW-class.html#beta">beta</a></code>,
+      <code><a href="pygeodesy.heights._HeightIDW-class.html#datum">datum</a></code>,
+      <code><a href="pygeodesy.heights._HeightIDW-class.html#hypot">hypot</a></code>,
+      <code><a href="pygeodesy.heights._HeightIDW-class.html#knots">knots</a></code>,
+      <code><a href="pygeodesy.heights._HeightIDW-class.html#kwds">kwds</a></code>,
+      <code><a href="pygeodesy.heights._HeightIDW-class.html#limit">limit</a></code>,
+      <code><a href="pygeodesy.heights._HeightIDW-class.html#radius">radius</a></code>,
+      <code><a href="pygeodesy.heights._HeightIDW-class.html#scaled">scaled</a></code>,
+      <code><a href="pygeodesy.heights._HeightIDW-class.html#wrap">wrap</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.heights._HeightBase-class.html">_HeightBase</a></code></b>:
-      <code><a href="pygeodesy.heights._HeightBase-class.html#adjust">adjust</a></code>,
-      <code><a href="pygeodesy.heights._HeightBase-class.html#datum">datum</a></code>,
-      <code><a href="pygeodesy.heights._HeightBase-class.html#kmin">kmin</a></code>,
-      <code><a href="pygeodesy.heights._HeightBase-class.html#numpy">numpy</a></code>,
-      <code><a href="pygeodesy.heights._HeightBase-class.html#scipy">scipy</a></code>,
-      <code><a href="pygeodesy.heights._HeightBase-class.html#scipy_interpolate">scipy_interpolate</a></code>,
-      <code><a href="pygeodesy.heights._HeightBase-class.html#wrap">wrap</a></code>
+      <code><a href="pygeodesy.heights._HeightBase-class.html#kmin">kmin</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
       <code><a href="pygeodesy.named._Named-class.html#classname">classname</a></code>,
@@ -259,8 +248,8 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">knots</span>,
         <span class="sig-arg">beta</span>=<span class="sig-default">2</span>,
-        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>,
+        <span class="sig-arg">**radius_wrap</span>)</span>
     <br /><em class="fname">(Constructor)</em>
   </h3>
   </td><td align="right" valign="top"
@@ -273,12 +262,9 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>knots</code></strong> - The points with known height (<code>LatLon</code>s).</li>
-        <li><strong class="pname"><code>beta</code></strong> - Inverse distance power (<code>int</code> 1, 2, or 3).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unrollPI" 
-          class="link">pygeodesy.unrollPI</a> longitudes 
-          (<code>bool</code>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name for this height interpolator (<code>str</code>).</li>
+        <li><strong class="pname"><code>radius_wrap</code></strong> - Optional keyword arguments for function <a 
+          href="pygeodesy.formy-module.html#cosineLaw" 
+          class="link">pygeodesy.cosineLaw</a>.</li>
     </ul></dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
@@ -289,7 +275,13 @@
         object.__init__
     </dt>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a href="pygeodesy.heights._HeightIDW-class.html#__init__" 
+        class="link">_HeightIDW.__init__</a> for details about 
+        <b><code>knots</code></b>, <b><code>beta</code></b>, 
+        <b><code>name</code></b> and raised exceptions.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="__call__"></a>
 <div>
@@ -299,7 +291,8 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">__call__</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">*llis</span>)</span>
+        <span class="sig-arg">*llis</span>,
+        <span class="sig-arg">**wrap</span>)</span>
     <br /><em class="fname">(Call operator)</em>
   </h3>
   </td><td align="right" valign="top"
@@ -313,6 +306,8 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>llis</code></strong> - The location or locations (<code>LatLon</code>, ... or 
           <code>LatLon</code>s).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> all 
+          <b><code>llis</code></b> locations (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A single interpolated height (<code>float</code>) or a list or 
@@ -325,7 +320,7 @@
         class="link">pygeodesy.fidw</a> issue.</li>
     </ul></dd>
     <dt>Overrides:
-        <a href="pygeodesy.heights._HeightBase-class.html#__call__">_HeightBase.__call__</a>
+        <a href="pygeodesy.heights._HeightIDW-class.html#__call__">_HeightIDW.__call__</a>
     </dt>
   </dl>
 </td></tr></table>
@@ -339,7 +334,8 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">height</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">lats</span>,
-        <span class="sig-arg">lons</span>)</span>
+        <span class="sig-arg">lons</span>,
+        <span class="sig-arg">**wrap</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -354,6 +350,9 @@
           <code>degrees</code>s).</li>
         <li><strong class="pname"><code>lons</code></strong> - Longitude or longitudes (<code>degrees</code> or 
           <code>degrees</code>s).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> all 
+          <b><code>lats</code></b> and <b><code>lons</code></b> 
+          (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A single interpolated height (<code>float</code>) or a list of 
@@ -366,7 +365,7 @@
         class="link">pygeodesy.fidw</a> issue.</li>
     </ul></dd>
     <dt>Overrides:
-        _HeightIDW.height
+        <a href="pygeodesy.heights._HeightIDW-class.html#height">_HeightIDW.height</a>
     </dt>
   </dl>
 </td></tr></table>
@@ -403,7 +402,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Apr 23 16:20:31 2023
+    Generated by Epydoc 3.0.1 on Sat May 13 11:43:55 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

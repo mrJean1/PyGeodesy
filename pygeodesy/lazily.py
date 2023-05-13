@@ -185,9 +185,10 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                        elliptic=('Elliptic', 'EllipticError', 'Elliptic3Tuple'),
                            epsg=('Epsg', 'EPSGError'),
                          errors=('ClipError', 'CrossError', 'IntersectionError', 'NumPyError', 'LenError', 'LimitError',
-                                 'MGRSError', 'ParseError', 'PointsError', 'RangeError', 'SciPyError', 'SciPyWarning',
-                                 'TRFError', 'TriangleError', 'UnitError', 'VectorError',
-                                 'crosserrors', 'exception_chaining', 'isError', 'itemsorted', 'limiterrors', 'rangerrors'),
+                                 'MGRSError', 'ParseError', 'PointsError', 'RangeError',
+                                 'SciPyError', 'SciPyWarning', 'TRFError', 'TriangleError', 'UnitError', 'VectorError',
+                                 'crosserrors', 'exception_chaining', 'isError', 'itemsorted',
+                                 'limiterrors', 'rangerrors'),
                             etm=('Etm', 'ETMError', 'ExactTransverseMercator',
                                  'parseETM5', 'toEtm8'),
                           fmath=('Fdot', 'Fhorner', 'Fhypot', 'Fpolynomial', 'Fpowers', 'Fn_rt', 'Fcbrt', 'Fsqrt',
@@ -235,12 +236,12 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'HausdorffHaversine', 'HausdorffHubeny', 'HausdorffKarney', 'HausdorffThomas',
                                  'HausdorffVincentys', 'Hausdorff6Tuple',
                                  'hausdorff_', 'randomrangenerator'),
-                        heights=('HeightError',
+                        heights=('HeightCubic', 'HeightError',
                                  'HeightIDWcosineAndoyerLambert', 'HeightIDWcosineForsytheAndoyerLambert',
                                  'HeightIDWcosineLaw', 'HeightIDWdistanceTo', 'HeightIDWequirectangular',
-                                 'HeightIDWeuclidean', 'HeightIDWflatLocal', 'HeightIDWflatPolar', 'HeightIDWhaversine',
-                                 'HeightIDWhubeny', 'HeightIDWkarney', 'HeightIDWthomas', 'HeightIDWvincentys',
-                                 'HeightCubic', 'HeightLinear', 'HeightLSQBiSpline', 'HeightSmoothBiSpline'),
+                                 'HeightIDWeuclidean', 'HeightIDWexact', 'HeightIDWflatLocal', 'HeightIDWflatPolar',
+                                 'HeightIDWhaversine', 'HeightIDWhubeny', 'HeightIDWkarney', 'HeightIDWthomas',
+                                 'HeightIDWvincentys', 'HeightLinear', 'HeightLSQBiSpline', 'HeightSmoothBiSpline'),
                         interns=_interns_a_l_l_,
                           iters=('LatLon2PsxyIter', 'PointsIter', 'points2',
                                  'isNumpy2', 'isPoints2', 'isTuple2', 'iterNumpy2', 'iterNumpy2over'),
@@ -320,7 +321,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'sincos2', 'SinCos2', 'sincos2_', 'sincos2d', 'sincos2d_', 'sincostan3', 'SM2m',
                                  'tand', 'tand_', 'tan_2', 'tanPI_2_2', 'toise2m', 'truncate',
                                  'unroll180', 'unrollPI',
-                                 'wrap90', 'wrap180', 'wrap360', 'wrapPI_2','wrapPI', 'wrapPI2',
+                                 'wrap90', 'wrap180', 'wrap360', 'wrapPI_2', 'wrapPI', 'wrapPI2', 'wrap_normal',
                                  'yard2m'),
                             utm=('Utm', 'UTMError', 'parseUTM5', 'toUtm8', 'utmZoneBand5'),
                          utmups=('UtmUps', 'UTMUPSError', 'parseUTMUPS5', 'toUtmUps8',
@@ -420,7 +421,7 @@ class _ALL_MODS(object):
 _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '23.04.14'
+__version__ = '23.05.11'
 
 
 def _ALL_OTHER(*objs):

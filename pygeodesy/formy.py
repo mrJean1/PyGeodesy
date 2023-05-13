@@ -14,28 +14,33 @@ from pygeodesy.constants import EPS, EPS0, EPS1, PI, PI2, PI3, PI_2, R_M, \
 from pygeodesy.datums import Datum, Ellipsoid, _ellipsoidal_datum, \
                             _mean_radius, _spherical_datum, _WGS84
 # from pygeodesy.ellipsoids import Ellipsoid  # from .datums
-from pygeodesy.errors import _AssertionError, IntersectionError, LimitError, \
-                              limiterrors, _ValueError, _xError
+from pygeodesy.errors import IntersectionError, LimitError, limiterrors, \
+                            _TypeError, _ValueError, \
+                            _xError, _xkwds, _xkwds_pop
 from pygeodesy.fmath import euclid, hypot, hypot2, sqrt0
-from pygeodesy.fsums import fsum_, isscalar, unstr
-from pygeodesy.interns import NN, _distant_, _too_
+from pygeodesy.fsums import fsum_,  isscalar
+from pygeodesy.interns import NN, _distant_, _SPACE_, _too_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
-from pygeodesy.named import _NamedTuple, _xnamed
+from pygeodesy.named import _NamedTuple, _xnamed,  Fmt, unstr
 from pygeodesy.namedTuples import Bearing2Tuple, Distance4Tuple, \
                                   Intersection3Tuple, LatLon2Tuple, \
                                   PhiLam2Tuple, Vector3Tuple
-# from pygeodesy.streprs import unstr  # from .fsums
+# from pygeodesy.streprs import Fmt, unstr  # from .named
 from pygeodesy.units import Bearing, Degrees_, Distance, Distance_, Height, \
                             Lam_, Lat, Lon, Meter_, Phi_, Radians, Radians_, \
                             Radius, Radius_, Scalar, _100km
-from pygeodesy.utily import acos1, atan2b, atan2d, degrees2m, m2degrees, tan_2, \
-                            sincos2, sincos2_, sincos2d_, unroll180, unrollPI
+from pygeodesy.utily import acos1, atan2b, atan2d, degrees2m, m2degrees, \
+                            tan_2, sincos2, sincos2_, sincos2d_, _Wrap
 
+from contextlib import contextmanager
 from math import atan, atan2, cos, degrees, fabs, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '23.04.14'
+__version__ = '23.05.12'
 
+_delta_ = 'delta'
+_D2_R2  = (PI / _180_0)**2  # degrees- to radians-squared
+_EWGS84 = _WGS84.ellipsoid
 _ratio_ = 'ratio'
 _xline_ = 'xline'
 
@@ -84,17 +89,7 @@ def antipode_(phi, lam, name=NN):
     return PhiLam2Tuple(*_anti2(phi, lam, PI_2, PI, PI2), name=name)
 
 
-def _area_or_(excess_, lat1, lat2, radius, d_lon, unused):
-    '''(INTERNAL) Helper for area and spherical excess.
-    '''
-    r = excess_(Phi_(lat2=lat2),
-                Phi_(lat1=lat1), radians(d_lon))
-    if radius:
-        r *= _mean_radius(radius, lat1, lat2)**2
-    return r
-
-
-def bearing(lat1, lon1, lat2, lon2, **options):
+def bearing(lat1, lon1, lat2, lon2, **final_wrap):
     '''Compute the initial or final bearing (forward or reverse
        azimuth) between a (spherical) start and end point.
 
@@ -102,14 +97,14 @@ def bearing(lat1, lon1, lat2, lon2, **options):
        @arg lon1: Start longitude (C{degrees}).
        @arg lat2: End latitude (C{degrees}).
        @arg lon2: End longitude (C{degrees}).
-       @kwarg options: Optional keyword arguments for function
-                       L{pygeodesy.bearing_}.
+       @kwarg final_wrap: Optional keyword arguments for function
+                          L{pygeodesy.bearing_}.
 
        @return: Initial or final bearing (compass C{degrees360}) or
                 zero if start and end point coincide.
     '''
     r = bearing_(Phi_(lat1=lat1), Lam_(lon1=lon1),
-                 Phi_(lat2=lat2), Lam_(lon2=lon2), **options)
+                 Phi_(lat2=lat2), Lam_(lon2=lon2), **final_wrap)
     return degrees(r)
 
 
@@ -122,7 +117,8 @@ def bearing_(phi1, lam1, phi2, lam2, final=False, wrap=False):
        @arg phi2: End latitude (C{radians}).
        @arg lam2: End longitude (C{radians}).
        @kwarg final: Return final bearing if C{True}, initial otherwise (C{bool}).
-       @kwarg wrap: Wrap and L{pygeodesy.unrollPI} longitudes (C{bool}).
+       @kwarg wrap: If C{True}, wrap or I{normalize} and unroll B{C{phi2}} and
+                    B{C{lam2}} (C{bool}).
 
        @return: Initial or final bearing (compass C{radiansPI2}) or zero if start
                 and end point coincide.
@@ -132,13 +128,12 @@ def bearing_(phi1, lam1, phi2, lam2, final=False, wrap=False):
              U{Bearing Between Two Points<https://web.Archive.org/web/20020630205931/
              https://MathForum.org/library/drmath/view/55417.html>}.
     '''
+    db, phi2, lam2 = _Wrap.philam3(lam1, phi2, lam2, wrap)
     if final:  # swap plus PI
-        phi1, lam1, phi2, lam2 = phi2, lam2, phi1, lam1
+        phi1, lam1, phi2, lam2, db = phi2, lam2, phi1, lam1, -db
         r = PI3
     else:
         r = PI2
-
-    db, _ = unrollPI(lam1, lam2, wrap=wrap)
     sa1, ca1, sa2, ca2, sdb, cdb = sincos2_(phi1, phi2, db)
 
     x = ca1 * sa2 - sa1 * ca2 * cdb
@@ -162,8 +157,8 @@ def _bearingTo2(p1, p2, wrap=False):  # for points.ispolar, sphericalTrigonometr
 
 
 def compassAngle(lat1, lon1, lat2, lon2, adjust=True, wrap=False):
-    '''Return the angle from North for the direction vector
-       M{(lon2 - lon1, lat2 - lat1)} between two points.
+    '''Return the angle from North for the direction vector M{(lon2 - lon1,
+       lat2 - lat1)} between two points.
 
        Suitable only for short, not near-polar vectors up to a few hundred
        Km or Miles.  Use function L{pygeodesy.bearing} for longer vectors.
@@ -174,7 +169,8 @@ def compassAngle(lat1, lon1, lat2, lon2, adjust=True, wrap=False):
        @arg lon2: To longitude (C{degrees}).
        @kwarg adjust: Adjust the longitudinal delta by the cosine of the
                       mean latitude (C{bool}).
-       @kwarg wrap: Wrap and L{pygeodesy.unroll180} longitudes (C{bool}).
+       @kwarg wrap: If C{True}, wrap or I{normalize} and unroll B{C{lat2}}
+                    and B{C{lon2}} (C{bool}).
 
        @return: Compass angle from North (C{degrees360}).
 
@@ -183,7 +179,7 @@ def compassAngle(lat1, lon1, lat2, lon2, adjust=True, wrap=False):
        @see: U{Local, flat earth approximation
              <https://www.EdWilliams.org/avform.htm#flat>}.
     '''
-    d_lon, _ = unroll180(lon1, lon2, wrap=wrap)
+    d_lon, lat2, lon2 = _Wrap.latlon3(lon1, lat2, lon2, wrap)
     if adjust:  # scale delta lon
         d_lon *= _scale_deg(lat1, lat2)
     return atan2b(d_lon, lat2 - lat1)
@@ -191,18 +187,18 @@ def compassAngle(lat1, lon1, lat2, lon2, adjust=True, wrap=False):
 
 def cosineAndoyerLambert(lat1, lon1, lat2, lon2, datum=_WGS84, wrap=False):
     '''Compute the distance between two (ellipsoidal) points using the
-       U{Andoyer-Lambert correction<https://navlib.net/wp-content/uploads/
-       2013/10/admiralty-manual-of-navigation-vol-1-1964-english501c.pdf>} of the
-       U{Law of Cosines<https://www.Movable-Type.co.UK/scripts/latlong.html#cosine-law>}
-       fromula.
+       U{Andoyer-Lambert correction<https://NavLib.net/wp-content/uploads/2013/10/
+       admiralty-manual-of-navigation-vol-1-1964-english501c.pdf>} of the U{Law of
+       Cosines<https://www.Movable-Type.co.UK/scripts/latlong.html#cosine-law>} formula.
 
        @arg lat1: Start latitude (C{degrees}).
        @arg lon1: Start longitude (C{degrees}).
        @arg lat2: End latitude (C{degrees}).
        @arg lon2: End longitude (C{degrees}).
-       @kwarg datum: Datum or ellipsoid to use (L{Datum}, L{Ellipsoid},
-                     L{Ellipsoid2} or L{a_f2Tuple}).
-       @kwarg wrap: Wrap and L{pygeodesy.unroll180} longitudes (C{bool}).
+       @kwarg datum: Datum (L{Datum}) or ellipsoid (L{Ellipsoid},
+                     L{Ellipsoid2} or L{a_f2Tuple}) to use.
+       @kwarg wrap: If C{True}, wrap or I{normalize} and unroll
+                    B{C{lat2}} and B{C{lon2}} (C{bool}).
 
        @return: Distance (C{meter}, same units as the B{C{datum}}'s
                 ellipsoid axes or C{radians} if B{C{datum}} is C{None}).
@@ -214,22 +210,20 @@ def cosineAndoyerLambert(lat1, lon1, lat2, lon2, datum=_WGS84, wrap=False):
              L{flatPolar}, L{haversine}, L{thomas} and L{vincentys} and method
              L{Ellipsoid.distance2}.
     '''
-    return _distanceToE(cosineAndoyerLambert_, lat1, lat2, datum,
-                                              *unroll180(lon1, lon2, wrap=wrap))
+    return _dE(cosineAndoyerLambert_, datum, wrap, lat1, lon1, lat2, lon2)
 
 
 def cosineAndoyerLambert_(phi2, phi1, lam21, datum=_WGS84):
     '''Compute the I{angular} distance between two (ellipsoidal) points using the
-       U{Andoyer-Lambert correction<https://navlib.net/wp-content/uploads/2013/10/
-       admiralty-manual-of-navigation-vol-1-1964-english501c.pdf>} of the U{Law
-       of Cosines<https://www.Movable-Type.co.UK/scripts/latlong.html#cosine-law>}
-       fromula.
+       U{Andoyer-Lambert correction<https://NavLib.net/wp-content/uploads/2013/10/
+       admiralty-manual-of-navigation-vol-1-1964-english501c.pdf>} of the U{Law of
+       Cosines<https://www.Movable-Type.co.UK/scripts/latlong.html#cosine-law>} formula.
 
        @arg phi2: End latitude (C{radians}).
        @arg phi1: Start latitude (C{radians}).
        @arg lam21: Longitudinal delta, M{end-start} (C{radians}).
-       @kwarg datum: Datum or ellipsoid to use (L{Datum}, L{Ellipsoid},
-                     L{Ellipsoid2} or L{a_f2Tuple}).
+       @kwarg datum: Datum (L{Datum}) or ellipsoid (L{Ellipsoid},
+                     L{Ellipsoid2} or L{a_f2Tuple}) to use.
 
        @return: Angular distance (C{radians}).
 
@@ -238,8 +232,8 @@ def cosineAndoyerLambert_(phi2, phi1, lam21, datum=_WGS84):
        @see: Functions L{cosineAndoyerLambert}, L{cosineForsytheAndoyerLambert_},
              L{cosineLaw_}, L{equirectangular_}, L{euclidean_}, L{flatLocal_}/L{hubeny_},
              L{flatPolar_}, L{haversine_}, L{thomas_} and L{vincentys_} and U{Geodesy-PHP
-             <https://GitHub.com/jtejido/geodesy-php/blob/master/src/Geodesy/
-             Distance/AndoyerLambert.php>}.
+             <https://GitHub.com/jtejido/geodesy-php/blob/master/src/Geodesy/Distance/
+             AndoyerLambert.php>}.
     '''
     s2, c2, s1, c1, r, c21 = _sincosa6(phi2, phi1, lam21)
     if isnon0(c1) and isnon0(c2):
@@ -268,9 +262,10 @@ def cosineForsytheAndoyerLambert(lat1, lon1, lat2, lon2, datum=_WGS84, wrap=Fals
        @arg lon1: Start longitude (C{degrees}).
        @arg lat2: End latitude (C{degrees}).
        @arg lon2: End longitude (C{degrees}).
-       @kwarg datum: Datum or ellipsoid to use (L{Datum}, L{Ellipsoid},
-                     L{Ellipsoid2} or L{a_f2Tuple}).
-       @kwarg wrap: Wrap and L{pygeodesy.unroll180} longitudes (C{bool}).
+       @kwarg datum: Datum (L{Datum}) or ellipsoid (L{Ellipsoid},
+                     L{Ellipsoid2} or L{a_f2Tuple}) to use.
+       @kwarg wrap: If C{True}, wrap or I{normalize} and unroll
+                    B{C{lat2}} and B{C{lon2}} (C{bool}).
 
        @return: Distance (C{meter}, same units as the B{C{datum}}'s
                 ellipsoid axes or C{radians} if B{C{datum}} is C{None}).
@@ -282,8 +277,7 @@ def cosineForsytheAndoyerLambert(lat1, lon1, lat2, lon2, datum=_WGS84, wrap=Fals
              L{flatPolar}, L{haversine}, L{thomas} and L{vincentys} and method
              L{Ellipsoid.distance2}.
     '''
-    return _distanceToE(cosineForsytheAndoyerLambert_, lat1, lat2, datum,
-                                                      *unroll180(lon1, lon2, wrap=wrap))
+    return _dE(cosineForsytheAndoyerLambert_, datum, wrap, lat1, lon1, lat2, lon2)
 
 
 def cosineForsytheAndoyerLambert_(phi2, phi1, lam21, datum=_WGS84):
@@ -295,7 +289,7 @@ def cosineForsytheAndoyerLambert_(phi2, phi1, lam21, datum=_WGS84):
        @arg phi2: End latitude (C{radians}).
        @arg phi1: Start latitude (C{radians}).
        @arg lam21: Longitudinal delta, M{end-start} (C{radians}).
-       @kwarg datum: Datum or ellipsoid to use (L{Datum}, L{Ellipsoid},
+       @kwarg datum: Datum (L{Datum}) or ellipsoid to use (L{Ellipsoid},
                      L{Ellipsoid2} or L{a_f2Tuple}).
 
        @return: Angular distance (C{radians}).
@@ -312,7 +306,7 @@ def cosineForsytheAndoyerLambert_(phi2, phi1, lam21, datum=_WGS84):
     if r and isnon0(c1) and isnon0(c2):
         E = _ellipsoidal(datum, cosineForsytheAndoyerLambert_)
         if E.f:  # ellipsoidal
-            sr, cr, s2r, _ = sincos2_(r, r * _2_0)
+            sr, cr, s2r, _ = sincos2_(r, r * 2)
             if isnon0(sr) and fabs(cr) < EPS1:
                 s = (s1 + s2)**2 / (1 + cr)
                 t = (s1 - s2)**2 / (1 - cr)
@@ -320,7 +314,7 @@ def cosineForsytheAndoyerLambert_(phi2, phi1, lam21, datum=_WGS84):
                 y = s - t
 
                 s =  8 * r**2 / sr
-                a = 64 * r + _2_0 * s * cr  # 16 * r**2 / tan(r)
+                a = 64 * r +  s * cr * 2  # 16 * r**2 / tan(r)
                 d = 48 * sr + s  # 8 * r**2 / tan(r)
                 b = -2 * d
                 e = 30 * s2r
@@ -332,18 +326,19 @@ def cosineForsytheAndoyerLambert_(phi2, phi1, lam21, datum=_WGS84):
 
 
 def cosineLaw(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
-    '''Compute the distance between two points using the
-       U{spherical Law of Cosines
-       <https://www.Movable-Type.co.UK/scripts/latlong.html#cosine-law>}
+    '''Compute the distance between two points using the U{spherical Law of
+       Cosines<https://www.Movable-Type.co.UK/scripts/latlong.html#cosine-law>}
        formula.
 
        @arg lat1: Start latitude (C{degrees}).
        @arg lon1: Start longitude (C{degrees}).
        @arg lat2: End latitude (C{degrees}).
        @arg lon2: End longitude (C{degrees}).
-       @kwarg radius: Mean earth radius, ellipsoid or datum (C{meter},
-                      L{Ellipsoid}, L{Ellipsoid2}, L{Datum} or L{a_f2Tuple}).
-       @kwarg wrap: Wrap and L{pygeodesy.unroll180} longitudes (C{bool}).
+       @kwarg radius: Mean earth radius (C{meter}), datum (L{Datum})
+                      or ellipsoid (L{Ellipsoid}, L{Ellipsoid2} or
+                      L{a_f2Tuple}) to use.
+       @kwarg wrap: If C{True}, wrap or I{normalize} and B{C{lat2}}
+                    and B{C{lon2}} (C{bool}).
 
        @return: Distance (C{meter}, same units as B{C{radius}} or the
                 ellipsoid or datum axes).
@@ -357,14 +352,12 @@ def cosineLaw(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
 
        @note: See note at function L{vincentys_}.
     '''
-    return _distanceToS(cosineLaw_, lat1, lat2, radius,
-                                   *unroll180(lon1, lon2, wrap=wrap))
+    return _dS(cosineLaw_, radius, wrap, lat1, lon1, lat2, lon2)
 
 
 def cosineLaw_(phi2, phi1, lam21):
-    '''Compute the I{angular} distance between two points using the
-       U{spherical Law of Cosines
-       <https://www.Movable-Type.co.UK/scripts/latlong.html#cosine-law>}
+    '''Compute the I{angular} distance between two points using the U{spherical
+       Law of Cosines<https://www.Movable-Type.co.UK/scripts/latlong.html#cosine-law>}
        formula.
 
        @arg phi2: End latitude (C{radians}).
@@ -383,32 +376,54 @@ def cosineLaw_(phi2, phi1, lam21):
     return _sincosa6(phi2, phi1, lam21)[4]
 
 
-def _distanceToE(func_, lat1, lat2, earth, d_lon, unused):
+def _d3(wrap, lat1, lon1, lat2, lon2):
+    '''(INTERNAL) Helper for _dE, _dS and _eA.
+    '''
+    if wrap:
+        d_lon, lat2, _ = _Wrap.latlon3(lon1, lat2, lon2, wrap)
+        return radians(lat2), Phi_(lat1=lat1), radians(d_lon)
+    else:  # for backward compaibility
+        return Phi_(lat2=lat2), Phi_(lat1=lat1), Phi_(d_lon=lon2 - lon1)
+
+
+def _dE(func_, earth, *wrap_lls):
     '''(INTERNAL) Helper for ellipsoidal distances.
     '''
     E = _ellipsoidal(earth, func_)
-    r =  func_(Phi_(lat2=lat2),
-               Phi_(lat1=lat1), radians(d_lon), datum=E)
+    r =  func_(*_d3(*wrap_lls), datum=E)
     return r * E.a
 
 
-def _distanceToS(func_, lat1, lat2, earth, d_lon, unused, **adjust):
+def _dS(func_, radius, *wrap_lls, **adjust):
     '''(INTERNAL) Helper for spherical distances.
     '''
-    r = func_(Phi_(lat2=lat2),
-              Phi_(lat1=lat1), radians(d_lon), **adjust)
-    return r * _mean_radius(earth, lat1, lat2)
+    r = func_(*_d3(*wrap_lls), **adjust)
+    if radius is not R_M:
+        _, lat1, _, lat2, _ = wrap_lls
+        radius = _mean_radius(radius, lat1, lat2)
+    return r * radius
+
+
+def _eA(excess_, radius, *wrap_lls):
+    '''(INTERNAL) Helper for spherical excess or area.
+    '''
+    r = excess_(*_d3(*wrap_lls))
+    if radius:
+        _, lat1, _, lat2, _ = wrap_lls
+        r *= _mean_radius(radius, lat1, lat2)**2
+    return r
 
 
 def _ellipsoidal(earth, where):
     '''(INTERNAL) Helper for distances.
     '''
-    return earth if isinstance(earth, Ellipsoid) else (
-           earth if isinstance(earth, Datum) else
-          _ellipsoidal_datum(earth, name=where.__name__)).ellipsoid  # PYCHOK indent
+    return _EWGS84 if earth in (_WGS84, _EWGS84)   else (
+            earth  if isinstance(earth, Ellipsoid) else
+           (earth  if isinstance(earth, Datum)     else  # PYCHOK indent
+           _ellipsoidal_datum(earth, name=where.__name__)).ellipsoid)
 
 
-def equirectangular(lat1, lon1, lat2, lon2, radius=R_M, **options):
+def equirectangular(lat1, lon1, lat2, lon2, radius=R_M, **adjust_limit_wrap):
     '''Compute the distance between two points using
        the U{Equirectangular Approximation / Projection
        <https://www.Movable-Type.co.UK/scripts/latlong.html#equirectangular>}.
@@ -417,11 +432,11 @@ def equirectangular(lat1, lon1, lat2, lon2, radius=R_M, **options):
        @arg lon1: Start longitude (C{degrees}).
        @arg lat2: End latitude (C{degrees}).
        @arg lon2: End longitude (C{degrees}).
-       @kwarg radius: Mean earth radius, ellipsoid or datum
-                      (C{meter}, L{Ellipsoid}, L{Ellipsoid2},
-                      L{Datum} or L{a_f2Tuple}).
-       @kwarg options: Optional keyword arguments for function
-                       L{equirectangular_}.
+       @kwarg radius: Mean earth radius (C{meter}), datum (L{Datum})
+                      or ellipsoid (L{Ellipsoid}, L{Ellipsoid2} or
+                      L{a_f2Tuple}).
+       @kwarg adjust_limit_wrap: Optional keyword arguments for
+                     function L{equirectangular_}.
 
        @return: Distance (C{meter}, same units as B{C{radius}} or
                 the ellipsoid or datum axes).
@@ -434,19 +449,24 @@ def equirectangular(lat1, lon1, lat2, lon2, radius=R_M, **options):
     '''
     d = sqrt(equirectangular_(Lat(lat1=lat1), Lon(lon1=lon1),
                               Lat(lat2=lat2), Lon(lon2=lon2),
-                            **options).distance2)  # PYCHOK 4 vs 2-3
+                            **adjust_limit_wrap).distance2)  # PYCHOK 4 vs 2-3
     return degrees2m(d, radius=_mean_radius(radius, lat1, lat2))
 
 
-def equirectangular_(lat1, lon1, lat2, lon2,
-                     adjust=True, limit=45, wrap=False):
-    '''Compute the distance between two points using
-       the U{Equirectangular Approximation / Projection
+def _equirectangular(lat1, lon1, lat2, lon2, **adjust_limit_wrap):
+    '''(INTERNAL) Helper for the L{frechet._FrecherMeterRadians}
+       and L{hausdorff._HausdorffMeterRedians} classes.
+    '''
+    return equirectangular_(lat1, lon1, lat2, lon2, **adjust_limit_wrap).distance2 * _D2_R2
+
+
+def equirectangular_(lat1, lon1, lat2, lon2, adjust=True, limit=45, wrap=False):
+    '''Compute the distance between two points using the U{Equirectangular
+       Approximation / Projection
        <https://www.Movable-Type.co.UK/scripts/latlong.html#equirectangular>}.
 
-       This approximation is valid for short distance of several
-       hundred Km or Miles, see the B{C{limit}} keyword argument and
-       the L{LimitError}.
+       This approximation is valid for short distance of several hundred Km
+       or Miles, see the B{C{limit}} keyword argument and L{LimitError}.
 
        @arg lat1: Start latitude (C{degrees}).
        @arg lon1: Start longitude (C{degrees}).
@@ -456,13 +476,14 @@ def equirectangular_(lat1, lon1, lat2, lon2,
                       by the cosine of the mean latitude (C{bool}).
        @kwarg limit: Optional limit for lat- and longitudinal deltas
                      (C{degrees}) or C{None} or C{0} for unlimited.
-       @kwarg wrap: Wrap and L{pygeodesy.unroll180} longitudes (C{bool}).
+       @kwarg wrap: If C{True}, wrap or I{normalize} and unroll B{C{lat2}}
+                    and B{C{lon2}} (C{bool}).
 
        @return: A L{Distance4Tuple}C{(distance2, delta_lat, delta_lon,
-                unroll_lon2)}.
+                unroll_lon2)} in C{degrees squared}.
 
        @raise LimitError: If the lat- and/or longitudinal delta exceeds the
-                          B{C{-limit..+limit}} range and L{pygeodesy.limiterrors}
+                          B{C{-limit..limit}} range and L{pygeodesy.limiterrors}
                           set to C{True}.
 
        @see: U{Local, flat earth approximation
@@ -473,13 +494,16 @@ def equirectangular_(lat1, lon1, lat2, lon2,
              and L{vincentys} and methods L{Ellipsoid.distance2},
              C{LatLon.distanceTo*} and C{LatLon.equirectangularTo}.
     '''
+    d_lon,  lat2, ulon2 = _Wrap.latlon3(lon1, lat2, lon2, wrap)
     d_lat = lat2 - lat1
-    d_lon, ulon2 = unroll180(lon1, lon2, wrap=wrap)
 
-    if limit and limit > 0 and limiterrors() and (fabs(d_lat) > limit or
-                                                  fabs(d_lon) > limit):
-        t = unstr(equirectangular_, lat1, lon1, lat2, lon2, limit=limit)
-        raise LimitError('delta exceeds limit', txt=t)
+    if limit and limit > 0 and limiterrors():
+        d = max(fabs(d_lat), fabs(d_lon))
+        if d > limit:
+            t = _SPACE_(_delta_, Fmt.PAREN_g(d), Fmt.exceeds_limit(limit))
+            s =  unstr(equirectangular_, lat1, lon1, lat2, lon2,
+                                         limit=limit, wrap=wrap)
+            raise LimitError(s, txt=t)
 
     if adjust:  # scale delta lon
         d_lon *= _scale_deg(lat1, lat2)
@@ -495,11 +519,13 @@ def euclidean(lat1, lon1, lat2, lon2, radius=R_M, adjust=True, wrap=False):
        @arg lon1: Start longitude (C{degrees}).
        @arg lat2: End latitude (C{degrees}).
        @arg lon2: End longitude (C{degrees}).
-       @kwarg radius: Mean earth radius, ellipsoid or datum (C{meter},
-                      L{Ellipsoid}, L{Ellipsoid2}, L{Datum} or L{a_f2Tuple}).
-       @kwarg adjust: Adjust the longitudinal delta by the cosine of the
-                      mean latitude (C{bool}).
-       @kwarg wrap: Wrap and L{pygeodesy.unroll180} longitudes (C{bool}).
+       @kwarg radius: Mean earth radius (C{meter}), datum (L{Datum})
+                      or ellipsoid (L{Ellipsoid}, L{Ellipsoid2} or
+                      L{a_f2Tuple}) to use.
+       @kwarg adjust: Adjust the longitudinal delta by the cosine of
+                      the mean latitude (C{bool}).
+       @kwarg wrap: If C{True}, wrap or I{normalize} and unroll B{C{lat2}}
+                    and B{C{lon2}} (C{bool}).
 
        @return: Distance (C{meter}, same units as B{C{radius}} or the
                 ellipsoid or datum axes).
@@ -513,9 +539,7 @@ def euclidean(lat1, lon1, lat2, lon2, radius=R_M, adjust=True, wrap=False):
              L{haversine}, L{thomas} and L{vincentys} and methods L{Ellipsoid.distance2},
              C{LatLon.distanceTo*} and C{LatLon.equirectangularTo}.
     '''
-    return _distanceToS(euclidean_, lat1, lat2, radius,
-                                   *unroll180(lon1, lon2, wrap=wrap),
-                                    adjust=adjust)
+    return _dS(euclidean_, radius, wrap, lat1, lon1, lat2, lon2, adjust=adjust)
 
 
 def euclidean_(phi2, phi1, lam21, adjust=True):
@@ -617,9 +641,11 @@ def excessKarney(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
        @arg lon1: Start longitude (C{degrees}).
        @arg lat2: End latitude (C{degrees}).
        @arg lon2: End longitude (C{degrees}).
-       @kwarg radius: Mean earth radius, ellipsoid or datum (C{meter}, L{Ellipsoid},
-                      L{Ellipsoid2}, L{Datum} or L{a_f2Tuple}) or C{None}.
-       @kwarg wrap: Wrap and L{pygeodesy.unroll180} longitudes (C{bool}).
+       @kwarg radius: Mean earth radius (C{meter}), datum (L{Datum})
+                      or ellipsoid (L{Ellipsoid}, L{Ellipsoid2} or
+                      L{a_f2Tuple}) or C{None}.
+       @kwarg wrap: If C{True}, wrap or I{normalize} and unroll
+                    B{C{lat2}} and B{C{lon2}} (C{bool}).
 
        @return: Surface area, I{signed} (I{square} C{meter} or the same units as
                 B{C{radius}} I{squared}) or the I{spherical excess} (C{radians})
@@ -633,8 +659,7 @@ def excessKarney(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
 
        @see: Functions L{excessKarney_} and L{excessQuad}.
     '''
-    return _area_or_(excessKarney_, lat1, lat2, radius,
-                                   *unroll180(lon1, lon2, wrap=wrap))
+    return _eA(excessKarney_, radius, wrap, lat1, lon1, lat2, lon2)
 
 
 def excessKarney_(phi2, phi1, lam21):
@@ -718,9 +743,11 @@ def excessQuad(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
        @arg lon1: Start longitude (C{degrees}).
        @arg lat2: End latitude (C{degrees}).
        @arg lon2: End longitude (C{degrees}).
-       @kwarg radius: Mean earth radius, ellipsoid or datum (C{meter},
-                      L{Ellipsoid}, L{Ellipsoid2}, L{Datum} or L{a_f2Tuple}) or C{None}.
-       @kwarg wrap: Wrap and L{pygeodesy.unroll180} longitudes (C{bool}).
+       @kwarg radius: Mean earth radius (C{meter}), datum (L{Datum})
+                      or ellipsoid (L{Ellipsoid}, L{Ellipsoid2} or
+                      L{a_f2Tuple}) or C{None}.
+       @kwarg wrap: If C{True}, wrap or I{normalize} and unroll
+                    B{C{lat2}} and B{C{lon2}} (C{bool}).
 
        @return: Surface area, I{signed} (I{square} C{meter} or the same units as
                 B{C{radius}} I{squared}) or the I{spherical excess} (C{radians})
@@ -732,8 +759,7 @@ def excessQuad(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
 
        @see: Function L{excessQuad_} and L{excessKarney}.
     '''
-    return _area_or_(excessQuad_, lat1, lat2, radius,
-                                 *unroll180(lon1, lon2, wrap=wrap))
+    return _eA(excessQuad_, radius, wrap, lat1, lon1, lat2, lon2)
 
 
 def excessQuad_(phi2, phi1, lam21):
@@ -754,7 +780,7 @@ def excessQuad_(phi2, phi1, lam21):
     return Radians(Quad=atan2(tan_2(lam21) * s, c) * _2_0)
 
 
-def flatLocal(lat1, lon1, lat2, lon2, datum=_WGS84, wrap=False):
+def flatLocal(lat1, lon1, lat2, lon2, datum=_WGS84, scaled=True, wrap=False):
     '''Compute the distance between two (ellipsoidal) points using
        the U{ellipsoidal Earth to plane projection<https://WikiPedia.org/
        wiki/Geographical_distance#Ellipsoidal_Earth_projected_to_a_plane>}
@@ -764,9 +790,12 @@ def flatLocal(lat1, lon1, lat2, lon2, datum=_WGS84, wrap=False):
        @arg lon1: Start longitude (C{degrees}).
        @arg lat2: End latitude (C{degrees}).
        @arg lon2: End longitude (C{degrees}).
-       @kwarg datum: Datum or ellipsoid to use (L{Datum}, L{Ellipsoid},
-                     L{Ellipsoid2} or L{a_f2Tuple}).
-       @kwarg wrap: Wrap and L{pygeodesy.unroll180} longitudes (C{bool}).
+       @kwarg datum: Datum (L{Datum}) or ellipsoid (L{Ellipsoid},
+                     L{Ellipsoid2} or L{a_f2Tuple}) to use.
+       @kwarg scaled: Scale prime_vertical by C{cos(B{phi})} (C{bool}),
+                      see method L{pygeodesy.Ellipsoid.roc2_}.
+       @kwarg wrap: If C{True}, wrap or I{normalize} and unroll
+                    B{C{lat2}} and B{C{lon2}} (C{bool}).
 
        @return: Distance (C{meter}, same units as the B{C{datum}}'s
                 ellipsoid axes).
@@ -782,14 +811,14 @@ def flatLocal(lat1, lon1, lat2, lon2, datum=_WGS84, wrap=False):
              L{vincentys}, method L{Ellipsoid.distance2} and U{local, flat
              earth approximation<https://www.EdWilliams.org/avform.htm#flat>}.
     '''
-    d, _ = unroll180(lon1, lon2, wrap=wrap)
-    return flatLocal_(Phi_(lat2=lat2),
-                      Phi_(lat1=lat1), radians(d), datum=datum)
+    E = _ellipsoidal(datum, flatLocal)
+    return E._hubeny_2(*_d3(wrap, lat1, lon1, lat2, lon2),
+                       scaled=scaled, squared=False) * E.a
 
 hubeny = flatLocal  # PYCHOK for Karl Hubeny
 
 
-def flatLocal_(phi2, phi1, lam21, datum=_WGS84):
+def flatLocal_(phi2, phi1, lam21, datum=_WGS84, scaled=True):
     '''Compute the I{angular} distance between two (ellipsoidal) points using
        the U{ellipsoidal Earth to plane projection<https://WikiPedia.org/
        wiki/Geographical_distance#Ellipsoidal_Earth_projected_to_a_plane>}
@@ -798,8 +827,10 @@ def flatLocal_(phi2, phi1, lam21, datum=_WGS84):
        @arg phi2: End latitude (C{radians}).
        @arg phi1: Start latitude (C{radians}).
        @arg lam21: Longitudinal delta, M{end-start} (C{radians}).
-       @kwarg datum: Datum or ellipsoid to use (L{Datum}, L{Ellipsoid},
-                     L{Ellipsoid2} or L{a_f2Tuple}).
+       @kwarg datum: Datum (L{Datum}) or ellipsoid (L{Ellipsoid},
+                     L{Ellipsoid2} or L{a_f2Tuple}) to use.
+       @kwarg scaled: Scale prime_vertical by C{cos(B{phi})} (C{bool}),
+                      see method L{pygeodesy.Ellipsoid.roc2_}.
 
        @return: Angular distance (C{radians}).
 
@@ -815,8 +846,7 @@ def flatLocal_(phi2, phi1, lam21, datum=_WGS84):
              <https://www.EdWilliams.org/avform.htm#flat>}.
     '''
     E = _ellipsoidal(datum, flatLocal_)
-    m, n = E.roc2_((phi2 + phi1) * _0_5, scaled=True)
-    return hypot(m * (phi2 - phi1), n * lam21)
+    return E._hubeny_2(phi2, phi1, lam21, scaled=scaled, squared=False)
 
 hubeny_ = flatLocal_  # PYCHOK for Karl Hubeny
 
@@ -831,9 +861,11 @@ def flatPolar(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
        @arg lon1: Start longitude (C{degrees}).
        @arg lat2: End latitude (C{degrees}).
        @arg lon2: End longitude (C{degrees}).
-       @kwarg radius: Mean earth radius, ellipsoid or datum (C{meter},
-                      L{Ellipsoid}, L{Ellipsoid2}, L{Datum} or L{a_f2Tuple}).
-       @kwarg wrap: Wrap and L{pygeodesy.unroll180} longitudes (C{bool}).
+       @kwarg radius: Mean earth radius (C{meter}), datum (L{Datum})
+                      or ellipsoid (L{Ellipsoid}, L{Ellipsoid2} or
+                      L{a_f2Tuple}) to use.
+       @kwarg wrap: If C{True}, wrap or I{normalize} and B{C{lat2}}
+                    and B{C{lon2}} (C{bool}).
 
        @return: Distance (C{meter}, same units as B{C{radius}} or the
                 ellipsoid or datum axes).
@@ -846,8 +878,7 @@ def flatPolar(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
              L{euclidean}, L{haversine}, L{thomas} and
              L{vincentys}.
     '''
-    return _distanceToS(flatPolar_, lat1, lat2, radius,
-                                   *unroll180(lon1, lon2, wrap=wrap))
+    return _dS(flatPolar_, radius, wrap, lat1, lon1, lat2, lon2)
 
 
 def flatPolar_(phi2, phi1, lam21):
@@ -978,9 +1009,11 @@ def haversine(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
        @arg lon1: Start longitude (C{degrees}).
        @arg lat2: End latitude (C{degrees}).
        @arg lon2: End longitude (C{degrees}).
-       @kwarg radius: Mean earth radius, ellipsoid or datum (C{meter},
-                      L{Ellipsoid}, L{Ellipsoid2}, L{Datum} or L{a_f2Tuple}).
-       @kwarg wrap: Wrap and L{pygeodesy.unroll180} longitudes (C{bool}).
+       @kwarg radius: Mean earth radius (C{meter}), datum (L{Datum})
+                      or ellipsoid (L{Ellipsoid}, L{Ellipsoid2} or
+                      L{a_f2Tuple}) to use.
+       @kwarg wrap: If C{True}, wrap or I{normalize} and unroll
+                    B{C{lat2}} and B{C{lon2}} (C{bool}).
 
        @return: Distance (C{meter}, same units as B{C{radius}}).
 
@@ -995,8 +1028,7 @@ def haversine(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
 
        @note: See note at function L{vincentys_}.
     '''
-    return _distanceToS(haversine_, lat1, lat2, radius,
-                                   *unroll180(lon1, lon2, wrap=wrap))
+    return _dS(haversine_, radius, wrap, lat1, lon1, lat2, lon2)
 
 
 def haversine_(phi2, phi1, lam21):
@@ -1083,48 +1115,59 @@ def horizon(height, radius=R_M, refraction=False):
     return sqrt0(d2)
 
 
-def _idlmn5(datum, lat1, lon1, lat2, lon2, small, wrap, s):
+class _idllmn6(object):  # see also .geodesicw._wargs, .vector2d._numpy
     '''(INTERNAL) Helper for C{intersection2} and C{intersections2}.
     '''
-    m = small if small is _100km else Meter_(small=small)
-    n = (intersections2 if s else intersection2).__name__
-    if datum is None or euclidean(lat1, lon1, lat2, lon2, wrap=wrap) < m:
-        d, m    = None, _MODS.vector3d
-        _i      = m._intersects2 if s else m._intersect3d3
-        _, lon2 = unroll180(lon1, lon2, wrap=wrap)
-    elif isscalar(datum) and datum < 0 and not s:
-        d = _spherical_datum(-datum, name=n)
-        m = _MODS.sphericalNvector
-        _i = m.intersection
-    else:
-        d = _spherical_datum(datum, name=n)
-        if d.isSpherical:
-            m = _MODS.sphericalTrigonometry
-            _i = m._intersects2 if s else m._intersect
-        elif d.isEllipsoidal:
-            try:
-                if d.ellipsoid.geodesic:
-                    pass
-                m = _MODS.ellipsoidalKarney
-            except ImportError:
-                m = _MODS.ellipsoidalExact
-            _i = m._intersections2 if s else m._intersection3  # ellispoidalBaseDi
-        else:
-            raise _AssertionError(datum=datum)
-    return _i, d, lon2, m, n
+    @contextmanager  # <https://www.python.org/dev/peps/pep-0343/> Examples
+    def __call__(self, datum, lat1, lon1, lat2, lon2, small, wrap, s, **kwds):
+        try:
+            if wrap:
+                _, lat2, lon2 = _Wrap.latlon3(lon1, lat2, lon2, wrap)
+                kwds = _xkwds(kwds, wrap=wrap)  # for _xError
+            m = small if small is _100km else Meter_(small=small)
+            n = (intersections2 if s else intersection2).__name__
+            if datum is None or euclidean(lat1, lon1, lat2, lon2) < m:
+                d, m = None, _MODS.vector3d
+                _i   = m._intersects2 if s else m._intersect3d3
+            elif isscalar(datum) and datum < 0 and not s:
+                d = _spherical_datum(-datum, name=n)
+                m = _MODS.sphericalNvector
+                _i = m.intersection
+            else:
+                d = _spherical_datum(datum, name=n)
+                if d.isSpherical:
+                    m = _MODS.sphericalTrigonometry
+                    _i = m._intersects2 if s else m._intersect
+                elif d.isEllipsoidal:
+                    try:
+                        if d.ellipsoid.geodesic:
+                            pass
+                        m = _MODS.ellipsoidalKarney
+                    except ImportError:
+                        m = _MODS.ellipsoidalExact
+                    _i = m._intersections2 if s else m._intersection3  # ellispoidalBaseDI
+                else:
+                    raise _TypeError(datum=datum)
+            yield _i, d, lat2, lon2, m, n
+
+        except (TypeError, ValueError) as x:
+            raise _xError(x, lat1=lat1, lon1=lon1, datum=datum,
+                             lat2=lat2, lon2=lon2, small=small, **kwds)
+
+_idllmn6 = _idllmn6()  # PYCHOK singleton
 
 
 def intersection2(lat1, lon1, bearing1,
-                  lat2, lon2, bearing2, datum=None, wrap=True, small=_100km):
+                  lat2, lon2, bearing2, datum=None, wrap=False, small=_100km):  # was=True
     '''I{Conveniently} compute the intersection of two lines each defined
        by a (geodetic) point and a bearing from North, using either ...
 
        1) L{vector3d.intersection3d3} for B{C{small}} distances (below 100 Km
-       or about 0.88 degrees) or if no B{C{datum}} is specified, or ...
+       or about 0.88 degrees) or if I{no} B{C{datum}} is specified, or ...
 
        2) L{sphericalTrigonometry.intersection} for a spherical B{C{datum}}
-       or if B{C{datum}} is a C{scalar} representing the earth
-       radius, conventionally in C{meter} or ...
+       or a C{scalar B{datum}} representing the earth radius, conventionally
+       in C{meter} or ...
 
        3) L{sphericalNvector.intersection} if B{C{datum}} is a I{negative}
        C{scalar}, (negative) earth radius, conventionally in C{meter} or ...
@@ -1141,10 +1184,12 @@ def intersection2(lat1, lon1, bearing1,
        @arg lat2: Latitude of the second point (C{degrees}).
        @arg lon2: Longitude of the second point (C{degrees}).
        @arg bearing2: Bearing at the second point (compass C{degrees}).
-       @kwarg datum: Optional ellipsoidal or spherical datum (L{Datum},
-                     L{Ellipsoid}, L{Ellipsoid2}, L{a_f2Tuple} or
-                     C{scalar} earth radius in C{meter}) or C{None}.
-       @kwarg wrap: Wrap and unroll longitudes (C{bool}).
+       @kwarg datum: Optional datum (L{Datum}) or ellipsoid (L{Ellipsoid},
+                     L{Ellipsoid2} or L{a_f2Tuple}) or C{scalar} earth
+                     radius (C{meter}, same units as B{C{radius1}} and
+                     B{C{radius2}}) or C{None}.
+       @kwarg wrap: If C{True}, wrap or I{normalize} and unroll B{C{lat2}}
+                    and B{C{lon2}} (C{bool}).
        @kwarg small: Upper limit for small distances (C{meter}).
 
        @return: A L{LatLon2Tuple}C{(lat, lon)} with the lat- and
@@ -1163,40 +1208,36 @@ def intersection2(lat1, lon1, bearing1,
 
        @note: The returned intersections may be near-antipodal.
     '''
-    b1, b2 = Bearing(bearing1=bearing1), Bearing(bearing2=bearing2)
-    try:
-        _i, d, l2, m, n = _idlmn5(datum, lat1, lon1, lat2, lon2, small, wrap,
-                                  False)
+    b1 = Bearing(bearing1=bearing1)
+    b2 = Bearing(bearing2=bearing2)
+    with _idllmn6(datum, lat1, lon1, lat2, lon2,
+                  small, wrap, False, bearing1=b1, bearing2=b2) as t:
+        _i, d, lat2, lon2, m, n = t
         if d is None:
             t, _, _ = _i(m.Vector3d(lon1, lat1, 0), b1,
-                         m.Vector3d(l2,   lat2, 0), b2, useZ=False)
+                         m.Vector3d(lon2, lat2, 0), b2, useZ=False)
             t = LatLon2Tuple(t.y, t.x, name=n)
 
         else:
             t = _i(m.LatLon(lat1, lon1, datum=d), b1,
-                   m.LatLon(lat2, lon2, datum=d), b2, height=0, wrap=wrap)
+                   m.LatLon(lat2, lon2, datum=d), b2, height=0, wrap=False)
             if isinstance(t, Intersection3Tuple):  # ellipsoidal
                 t, _, _ = t
             t = LatLon2Tuple(t.lat, t.lon, name=n)
-
-    except (TypeError, ValueError) as x:
-        raise _xError(x, lat1=lat1, lon1=lon1, bearing1=bearing1,
-                         lat2=lat2, lon2=lon2, bearing2=bearing2,
-                         datum=datum, small=small, wrap=wrap)
     return t
 
 
 def intersections2(lat1, lon1, radius1,
-                   lat2, lon2, radius2, datum=None, wrap=True, small=_100km):
+                   lat2, lon2, radius2, datum=None, wrap=False, small=_100km):  # was=True
     '''I{Conveniently} compute the intersections of two circles each defined
        by a (geodetic) center point and a radius, using either ...
 
        1) L{vector3d.intersections2} for B{C{small}} distances (below 100 Km
-       or about 0.88 degrees) or if no B{C{datum}} is specified, or ...
+       or about 0.88 degrees) or if I{no} B{C{datum}} is specified, or ...
 
        2) L{sphericalTrigonometry.intersections2} for a spherical B{C{datum}}
-       or if B{C{datum}} is a C{scalar} representing the earth radius,
-       conventionally in C{meter} or ...
+       or a C{scalar B{datum}} representing the earth radius, conventionally
+       in C{meter} or ...
 
        3) L{ellipsoidalKarney.intersections2} for an ellipsoidal B{C{datum}}
        and if I{Karney}'s U{geographiclib<https://PyPI.org/project/geographiclib>}
@@ -1210,11 +1251,12 @@ def intersections2(lat1, lon1, radius1,
        @arg lat2: Latitude of the second circle center (C{degrees}).
        @arg lon2: Longitude of the second circle center (C{degrees}).
        @arg radius2: Radius of the second circle (C{meter}, same units as B{C{radius1}}).
-       @kwarg datum: Optional ellipsoidal or spherical datum (L{Datum},
-                     L{Ellipsoid}, L{Ellipsoid2}, L{a_f2Tuple} or
-                     C{scalar} earth radius in C{meter}, same units as
-                     B{C{radius1}} and B{C{radius2}}) or C{None}.
-       @kwarg wrap: Wrap and unroll longitudes (C{bool}).
+       @kwarg datum: Optional datum (L{Datum}) or ellipsoid (L{Ellipsoid},
+                     L{Ellipsoid2} or L{a_f2Tuple}) or C{scalar} earth
+                     radius (C{meter}, same units as B{C{radius1}} and
+                     B{C{radius2}}) or C{None}.
+       @kwarg wrap: If C{True}, wrap or I{normalize} and unroll B{C{lat2}}
+                    and B{C{lon2}} (C{bool}).
        @kwarg small: Upper limit for small distances (C{meter}).
 
        @return: 2-Tuple of the intersection points, each a
@@ -1230,10 +1272,11 @@ def intersections2(lat1, lon1, radius1,
        @raise UnitError: Invalid B{C{lat1}}, B{C{lon1}}, B{C{radius1}},
                          B{C{lat2}}, B{C{lon2}} or B{C{radius2}}.
     '''
-    r1, r2 = Radius_(radius1=radius1), Radius_(radius2=radius2)
-    try:
-        _i, d, l2, m, n = _idlmn5(datum, lat1, lon1, lat2, lon2, small, wrap,
-                                  True)
+    r1 = Radius_(radius1=radius1)
+    r2 = Radius_(radius2=radius2)
+    with _idllmn6(datum, lat1, lon1, lat2, lon2,
+                  small, wrap, True, radius1=r1, radius2=r2) as t:
+        _i, d, lat2, lon2, m, n = t
         if d is None:
             r1 = m2degrees(r1, radius=R_M, lat=lat1)
             r2 = m2degrees(r2, radius=R_M, lat=lat2)
@@ -1242,26 +1285,20 @@ def intersections2(lat1, lon1, radius1,
                 return LatLon2Tuple(y, x, name=n)
 
             t = _i(m.Vector3d(lon1, lat1, 0), r1,
-                   m.Vector3d(l2,   lat2, 0), r2, sphere=False,
+                   m.Vector3d(lon2, lat2, 0), r2, sphere=False,
                      Vector=_V2T)
         else:
-
             def _LL2T(lat, lon, **unused):
                 return LatLon2Tuple(lat, lon, name=n)
 
             t = _i(m.LatLon(lat1, lon1, datum=d), r1,
                    m.LatLon(lat2, lon2, datum=d), r2,
-                     LatLon=_LL2T, height=0, wrap=wrap)
-
-    except (TypeError, ValueError) as x:
-        raise _xError(x, lat1=lat1, lon1=lon1, radius1=radius1,
-                         lat2=lat2, lon2=lon2, radius2=radius2,
-                         datum=datum, small=small, wrap=wrap)
+                     LatLon=_LL2T, height=0, wrap=False)
     return t
 
 
 def isantipode(lat1, lon1, lat2, lon2, eps=EPS):
-    '''Check whether two points are antipodal, on diametrically
+    '''Check whether two points are I{antipodal}, on diametrically
        opposite sides of the earth.
 
        @arg lat1: Latitude of one point (C{degrees}).
@@ -1275,14 +1312,13 @@ def isantipode(lat1, lon1, lat2, lon2, eps=EPS):
 
        @see: Functions L{isantipode_} and L{antipode}.
     '''
-    return True if (fabs(lat1 + lat2) <= eps and
-                    fabs(lon1 + lon2) <= eps) else \
-          _MODS.latlonBase._isequalTo(antipode(lat1, lon1),
-                                        normal(lat2, lon2), eps=eps)
+    return (fabs(lat1 + lat2) <= eps and
+            fabs(lon1 + lon2) <= eps) or _isequalTo(
+            normal(lat1, lon1), antipode(lat2, lon2), eps)
 
 
 def isantipode_(phi1, lam1, phi2, lam2, eps=EPS):
-    '''Check whether two points are antipodal, on diametrically
+    '''Check whether two points are I{antipodal}, on diametrically
        opposite sides of the earth.
 
        @arg phi1: Latitude of one point (C{radians}).
@@ -1296,19 +1332,32 @@ def isantipode_(phi1, lam1, phi2, lam2, eps=EPS):
 
        @see: Functions L{isantipode} and L{antipode_}.
     '''
-    return True if (fabs(phi1 + phi2) <= eps and
-                    fabs(lam1 + lam2) <= eps) else \
-          _MODS.latlonBase._isequalTo_(antipode_(phi1, lam1),
-                                         normal_(phi2, lam2), eps=eps)
+    return (fabs(phi1 + phi2) <= eps and
+            fabs(lam1 + lam2) <= eps) or _isequalTo_(
+            normal_(phi1, lam1), antipode_(phi2, lam2), eps)
+
+
+def _isequalTo(p1, p2, eps=EPS):
+    '''Compare 2 point lat-/lons ignoring C{class}.
+    '''
+    return (fabs(p1.lat - p2.lat) <= eps and
+            fabs(p1.lon - p2.lon) <= eps) if eps else (p1.latlon == p2.latlon)
+
+
+def _isequalTo_(p1, p2, eps=EPS):
+    '''(INTERNAL) Compare 2 point phi-/lams ignoring C{class}.
+    '''
+    return (fabs(p1.phi - p2.phi) <= eps and
+            fabs(p1.lam - p2.lam) <= eps) if eps else (p1.philam == p2.philam)
 
 
 def isnormal(lat, lon, eps=0):
-    '''Check whether B{C{lat}} I{and} B{C{lon}} are within the I{normal}
-       range in C{degrees}.
+    '''Check whether B{C{lat}} I{and} B{C{lon}} are within their
+       respective I{normal} range in C{degrees}.
 
        @arg lat: Latitude (C{degrees}).
        @arg lon: Longitude (C{degrees}).
-       @kwarg eps: Optional tolerance below C{90} and C{180 degrees}.
+       @kwarg eps: Optional tolerance C{degrees}).
 
        @return: C{True} if C{(abs(B{lat}) + B{eps}) <= 90} and
                 C{(abs(B{lon}) + B{eps}) <= 180}, C{False} othwerwise.
@@ -1319,12 +1368,12 @@ def isnormal(lat, lon, eps=0):
 
 
 def isnormal_(phi, lam, eps=0):
-    '''Check whether B{C{phi}} I{and} B{C{lam}} are within the I{normal}
-       range in C{radians}.
+    '''Check whether B{C{phi}} I{and} B{C{lam}} are within their
+       respective I{normal} range in C{radians}.
 
        @arg phi: Latitude (C{radians}).
        @arg lam: Longitude (C{radians}).
-       @kwarg eps: Optional tolerance below C{PI/2} and C{PI radians}.
+       @kwarg eps: Optional tolerance C{radians}).
 
        @return: C{True} if C{(abs(B{phi}) + B{eps}) <= PI/2} and
                 C{(abs(B{lam}) + B{eps}) <= PI}, C{False} othwerwise.
@@ -1357,11 +1406,12 @@ def _normal2(a, b, n_2, n, n2):
     '''
     if fabs(b) > n:
         b = remainder(b, n2)
-    r = remainder(a, n) if fabs(a) > n_2 else a
-    if r != a:
-        r  = -r
-        b -=  n if b > 0 else -n
-    return float0_(r, b)
+    if fabs(a) > n_2:
+        r = remainder(a, n)
+        if r != a:
+            a  = -r
+            b -=  n if b > 0 else -n
+    return float0_(a, b)
 
 
 def normal(lat, lon, name=NN):
@@ -1376,7 +1426,8 @@ def normal(lat, lon, name=NN):
 
        @see: Functions L{normal_} and L{isnormal}.
     '''
-    return LatLon2Tuple(*_normal2(lat, lon, _90_0, _180_0, _360_0), name=name)
+    return LatLon2Tuple(*_normal2(lat, lon, _90_0, _180_0, _360_0),
+                          name=name or normal.__name__)
 
 
 def normal_(phi, lam, name=NN):
@@ -1391,7 +1442,8 @@ def normal_(phi, lam, name=NN):
 
        @see: Functions L{normal} and L{isnormal_}.
     '''
-    return PhiLam2Tuple(*_normal2(phi, lam, PI_2, PI, PI2), name=name)
+    return PhiLam2Tuple(*_normal2(phi, lam, PI_2, PI, PI2),
+                          name=name or normal_.__name__)
 
 
 def _2n_xyz(name, sa, ca, sb, cb):
@@ -1539,6 +1591,37 @@ class Radical2Tuple(_NamedTuple):
     _Units_ = ( Scalar,  Scalar)
 
 
+def _radistance(inst):
+    '''(INTERNAL) Helper for the L{frechet._FrecherMeterRadians}
+       and L{hausdorff._HausdorffMeterRedians} classes.
+    '''
+    kwds_ = _xkwds(inst._kwds, wrap=False)
+    wrap_ = _xkwds_pop(kwds_, wrap=False)
+    func_ =  inst._func_
+    try:  # calling lower-overhead C{func_}
+        func_(0, _0_25, _0_5, **kwds_)
+        wrap_ = _Wrap._philamop(wrap_)
+    except TypeError:
+        return inst.distance
+
+    _rad = radians
+
+    def _philam(p):
+        return _rad(p.lat), _rad(p.lon)
+
+    def _radistance(point1, point2):
+        try:
+            phi1, lam1 = wrap_(point1.phi, point1.lam)
+            phi2, lam2 = wrap_(point2.phi, point2.lam)
+        except AttributeError:  # no 'phi or .lam
+            phi1, lam1 = wrap_(*_philam(point1))
+            phi2, lam2 = wrap_(*_philam(point2))
+        return func_(phi2, phi1, lam2 - lam1, **kwds_)
+
+    inst._units = inst._units_
+    return _radistance
+
+
 def _scale_deg(lat1, lat2):  # degrees
     # scale factor cos(mean of lats) for delta lon
     m = fabs(lat1 + lat2) * _0_5
@@ -1551,7 +1634,7 @@ def _scale_rad(phi1,  phi2):  # radians, by .frechet, .hausdorff, .heights
     return cos(m) if m < PI_2 else _0_0
 
 
-def _sincosa6(phi2, phi1, lam21):
+def _sincosa6(phi2, phi1, lam21):  # [4] in cosineLaw
     '''(INTERNAL) C{sin}es, C{cos}ines and C{acos}ine.
     '''
     s2, c2, s1, c1, _, c21 = sincos2_(phi2, phi1, lam21)
@@ -1567,9 +1650,10 @@ def thomas(lat1, lon1, lat2, lon2, datum=_WGS84, wrap=False):
        @arg lon1: Start longitude (C{degrees}).
        @arg lat2: End latitude (C{degrees}).
        @arg lon2: End longitude (C{degrees}).
-       @kwarg datum: Datum or ellipsoid to use (L{Datum}, L{Ellipsoid},
-                     L{Ellipsoid2} or L{a_f2Tuple}).
-       @kwarg wrap: Wrap and L{pygeodesy.unroll180} longitudes (C{bool}).
+       @kwarg datum: Datum (L{Datum}) or ellipsoid (L{Ellipsoid},
+                     L{Ellipsoid2} or L{a_f2Tuple}) to use.
+       @kwarg wrap: If C{True}, wrap or I{normalize} and unroll
+                    B{C{lat2}} and B{C{lon2}} (C{bool}).
 
        @return: Distance (C{meter}, same units as the B{C{datum}}'s
                 ellipsoid axes).
@@ -1580,8 +1664,7 @@ def thomas(lat1, lon1, lat2, lon2, datum=_WGS84, wrap=False):
              L{cosineLaw}, L{equirectangular}, L{euclidean}, L{flatLocal}/L{hubeny},
              L{flatPolar}, L{haversine}, L{vincentys} and method L{Ellipsoid.distance2}.
     '''
-    return _distanceToE(thomas_, lat1, lat2, datum,
-                                *unroll180(lon1, lon2, wrap=wrap))
+    return _dE(thomas_, datum, wrap, lat1, lon1, lat2, lon2)
 
 
 def thomas_(phi2, phi1, lam21, datum=_WGS84):
@@ -1620,7 +1703,7 @@ def thomas_(phi2, phi1, lam21, datum=_WGS84):
             h =  fsum_(sk**2, (ck * h)**2, -(sj * h)**2)
             u = _1_0 - h
             if isnon0(u) and isnon0(h):
-                r = atan(sqrt0(h / u)) * _2_0  # == acos(1 - 2 * h)
+                r = atan(sqrt0(h / u)) * 2  # == acos(1 - 2 * h)
                 sr, cr = sincos2(r)
                 if isnon0(sr):
                     u = 2 * (sj * ck)**2 / u
@@ -1650,9 +1733,11 @@ def vincentys(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
        @arg lon1: Start longitude (C{degrees}).
        @arg lat2: End latitude (C{degrees}).
        @arg lon2: End longitude (C{degrees}).
-       @kwarg radius: Mean earth radius, ellipsoid or datum (C{meter},
-                      L{Ellipsoid}, L{Ellipsoid2}, L{Datum} or L{a_f2Tuple}).
-       @kwarg wrap: Wrap and L{pygeodesy.unroll180} longitudes (C{bool}).
+       @kwarg radius: Mean earth radius (C{meter}), datum (L{Datum})
+                      or ellipsoid (L{Ellipsoid}, L{Ellipsoid2} or
+                      L{a_f2Tuple}) to use.
+       @kwarg wrap: If C{True}, wrap or I{normalize} and unroll
+                    B{C{lat2}} and B{C{lon2}} (C{bool}).
 
        @return: Distance (C{meter}, same units as B{C{radius}}).
 
@@ -1666,8 +1751,7 @@ def vincentys(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
 
        @note: See note at function L{vincentys_}.
     '''
-    return _distanceToS(vincentys_, lat1, lat2, radius,
-                                   *unroll180(lon1, lon2, wrap=wrap))
+    return _dS(vincentys_, radius, wrap, lat1, lon1, lat2, lon2)
 
 
 def vincentys_(phi2, phi1, lam21):

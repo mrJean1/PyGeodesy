@@ -286,8 +286,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.geohash.Geohash-class.html#equirectangularTo" class="summary-sig-name">equirectangularTo</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>,
-        <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
+        <span class="summary-sig-arg">**adjust_limit_wrap</span>)</span><br />
       Approximate the distance between this and an other geohash using 
       function <a href="pygeodesy.formy-module.html#equirectangular" 
       class="link">pygeodesy.equirectangular</a>.</td>
@@ -309,8 +308,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.geohash.Geohash-class.html#euclideanTo" class="summary-sig-name">euclideanTo</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>,
-        <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
+        <span class="summary-sig-arg">**adjust_wrap</span>)</span><br />
       Approximate the distance between this and an other geohash using 
       function <a href="pygeodesy.formy-module.html#euclidean" 
       class="link">pygeodesy.euclidean</a>.</td>
@@ -331,8 +329,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.geohash.Geohash-class.html#haversineTo" class="summary-sig-name">haversineTo</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>,
-        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
+        <span class="summary-sig-arg">**radius_wrap</span>)</span><br />
       Compute the distance between this and an other geohash using the <a 
       href="pygeodesy.formy-module.html#haversine" 
       class="link">pygeodesy.haversine</a> formula.</td>
@@ -373,8 +370,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.geohash.Geohash-class.html#vincentysTo" class="summary-sig-name">vincentysTo</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>,
-        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
+        <span class="summary-sig-arg">**radius_wrap</span>)</span><br />
       Compute the distance between this and an other geohash using the <a 
       href="pygeodesy.formy-module.html#vincentys" 
       class="link">pygeodesy.vincentys</a> formula.</td>
@@ -1024,8 +1020,7 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">equirectangularTo</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">other</span>,
         <span class="sig-arg">radius</span>=<span class="sig-default">6371008.771415</span>,
-        <span class="sig-arg">adjust</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
+        <span class="sig-arg">**adjust_limit_wrap</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -1049,9 +1044,11 @@
           href="pygeodesy.datums.Datum-class.html" class="link">Datum</a> 
           or <a href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
           class="link">a_f2Tuple</a>) or <code>None</code>.</li>
-        <li><strong class="pname"><code>adjust</code></strong> - Adjust the wrapped, unrolled longitudinal delta by the cosine of 
-          the mean latitude <code>bool</code>).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
+        <li><strong class="pname"><code>adjust_limit_wrap</code></strong> - Optional keyword arguments for function <a 
+          href="pygeodesy.formy-module.html#equirectangular_" 
+          class="link">pygeodesy.equirectangular_</a>, overriding defaults 
+          <code><b>adjust</b>=False, <b>limit</b>=None</code> and 
+          <code><b>wrap</b>=False</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Distance (<code>meter</code>, same units as 
@@ -1082,8 +1079,7 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">euclideanTo</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">other</span>,
         <span class="sig-arg">radius</span>=<span class="sig-default">6371008.771415</span>,
-        <span class="sig-arg">adjust</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
+        <span class="sig-arg">**adjust_wrap</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -1107,9 +1103,9 @@
           href="pygeodesy.datums.Datum-class.html" class="link">Datum</a> 
           or <a href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
           class="link">a_f2Tuple</a>).</li>
-        <li><strong class="pname"><code>adjust</code></strong> - Adjust the wrapped, unrolled longitudinal delta by the cosine of 
-          the mean latitude <code>bool</code>).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
+        <li><strong class="pname"><code>adjust_wrap</code></strong> - Optional keyword arguments for function <a 
+          href="pygeodesy.formy-module.html#euclidean" 
+          class="link">pygeodesy.euclidean</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Distance (<code>meter</code>, same units as 
@@ -1133,8 +1129,7 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">haversineTo</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">other</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.771415</span>,
-        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
+        <span class="sig-arg">**radius_wrap</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -1150,15 +1145,9 @@
         <li><strong class="pname"><code>other</code></strong> - The other geohash (<a href="pygeodesy.geohash.Geohash-class.html"
           class="link">Geohash</a>, <code>LatLon</code> or 
           <code>str</code>).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius, ellipsoid or datum (<code>meter</code>, <a 
-          href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
-          class="link">Ellipsoid</a>, <a 
-          href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
-          class="link">Ellipsoid2</a>, <a 
-          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a> 
-          or <a href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
-          class="link">a_f2Tuple</a>).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
+        <li><strong class="pname"><code>radius_wrap</code></strong> - Optional keyword arguments for function <a 
+          href="pygeodesy.formy-module.html#haversine" 
+          class="link">pygeodesy.haversine</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Distance (<code>meter</code>, same units as 
@@ -1227,8 +1216,7 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">vincentysTo</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">other</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.771415</span>,
-        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
+        <span class="sig-arg">**radius_wrap</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -1244,15 +1232,9 @@
         <li><strong class="pname"><code>other</code></strong> - The other geohash (<a href="pygeodesy.geohash.Geohash-class.html"
           class="link">Geohash</a>, <code>LatLon</code> or 
           <code>str</code>).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius, ellipsoid or datum (<code>meter</code>, <a 
-          href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
-          class="link">Ellipsoid</a>, <a 
-          href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
-          class="link">Ellipsoid2</a>, <a 
-          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a> 
-          or <a href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
-          class="link">a_f2Tuple</a>).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
+        <li><strong class="pname"><code>radius_wrap</code></strong> - Optional keyword arguments for function <a 
+          href="pygeodesy.formy-module.html#vincentys" 
+          class="link">pygeodesy.vincentys</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Distance (<code>meter</code>, same units as 
@@ -1694,7 +1676,7 @@ href="pygeodesy.geohash.Geohash-class.html" class="link">Geohash</a>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Apr 23 16:20:31 2023
+    Generated by Epydoc 3.0.1 on Sat May 13 11:43:55 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

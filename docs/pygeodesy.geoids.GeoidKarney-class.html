@@ -61,15 +61,17 @@
 <!-- ==================== CLASS DESCRIPTION ==================== -->
 <h1 class="epydoc">Class GeoidKarney</h1><p class="nomargin-top"></p>
 <pre class="base-tree">
-     object --+            
-              |            
-   <a href="pygeodesy.named._Named-class.html">named._Named</a> --+        
-                  |        
-<a href="pygeodesy.heights._HeightBase-class.html">heights._HeightBase</a> --+    
-                      |    
-             <a href="pygeodesy.geoids._GeoidBase-class.html">_GeoidBase</a> --+
-                          |
-                         <strong class="uidshort">GeoidKarney</strong>
+     object --+                
+              |                
+   <a href="pygeodesy.named._Named-class.html">named._Named</a> --+            
+                  |            
+<a href="pygeodesy.heights._HeightBase-class.html">heights._HeightBase</a> --+        
+                      |        
+   <a href="pygeodesy.heights._HeightsBase-class.html">heights._HeightsBase</a> --+    
+                          |    
+                 <a href="pygeodesy.geoids._GeoidBase-class.html">_GeoidBase</a> --+
+                              |
+                             <strong class="uidshort">GeoidKarney</strong>
 </pre>
 
 <hr />
@@ -128,7 +130,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.geoids.GeoidKarney-class.html#__call__" class="summary-sig-name">__call__</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">*llis</span>)</span><br />
+        <span class="summary-sig-arg">*llis</span>,
+        <span class="summary-sig-arg">**wrap</span>)</span><br />
       Interpolate the geoid height for one or several locations.</td>
           <td align="right" valign="top">
             
@@ -147,7 +150,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.geoids.GeoidKarney-class.html#height" class="summary-sig-name">height</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">lats</span>,
-        <span class="summary-sig-arg">lons</span>)</span><br />
+        <span class="summary-sig-arg">lons</span>,
+        <span class="summary-sig-arg">**wrap</span>)</span><br />
       Interpolate the geoid height for one or several lat-/longitudes.</td>
           <td align="right" valign="top">
             
@@ -275,13 +279,14 @@
       <code><a href="pygeodesy.geoids._GeoidBase-class.html#stdev">stdev</a></code>,
       <code><a href="pygeodesy.geoids._GeoidBase-class.html#u2B">u2B</a></code>
       </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.heights._HeightsBase-class.html">heights._HeightsBase</a></code></b>:
+      <code><a href="pygeodesy.heights._HeightsBase-class.html#numpy">numpy</a></code>,
+      <code><a href="pygeodesy.heights._HeightsBase-class.html#scipy">scipy</a></code>,
+      <code><a href="pygeodesy.heights._HeightsBase-class.html#scipy_interpolate">scipy_interpolate</a></code>
+      </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.heights._HeightBase-class.html">heights._HeightBase</a></code></b>:
-      <code><a href="pygeodesy.heights._HeightBase-class.html#adjust">adjust</a></code>,
       <code><a href="pygeodesy.heights._HeightBase-class.html#datum">datum</a></code>,
       <code><a href="pygeodesy.heights._HeightBase-class.html#kmin">kmin</a></code>,
-      <code><a href="pygeodesy.heights._HeightBase-class.html#numpy">numpy</a></code>,
-      <code><a href="pygeodesy.heights._HeightBase-class.html#scipy">scipy</a></code>,
-      <code><a href="pygeodesy.heights._HeightBase-class.html#scipy_interpolate">scipy_interpolate</a></code>,
       <code><a href="pygeodesy.heights._HeightBase-class.html#wrap">wrap</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
@@ -388,7 +393,8 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">__call__</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">*llis</span>)</span>
+        <span class="sig-arg">*llis</span>,
+        <span class="sig-arg">**wrap</span>)</span>
     <br /><em class="fname">(Call operator)</em>
   </h3>
   </td><td align="right" valign="top"
@@ -402,6 +408,8 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>llis</code></strong> - The location or locations (<code>LatLon</code>, ... or 
           <code>LatLon</code>s).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> all 
+          <b><code>llis</code></b> locations (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A single interpolated geoid height (<code>float</code>) or a list
@@ -415,7 +423,7 @@
         longitude range.</li>
     </ul></dd>
     <dt>Overrides:
-        <a href="pygeodesy.heights._HeightBase-class.html#__call__">heights._HeightBase.__call__</a>
+        <a href="pygeodesy.heights._HeightsBase-class.html#__call__">heights._HeightsBase.__call__</a>
     </dt>
   </dl>
 </td></tr></table>
@@ -429,7 +437,8 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">height</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">lats</span>,
-        <span class="sig-arg">lons</span>)</span>
+        <span class="sig-arg">lons</span>,
+        <span class="sig-arg">**wrap</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -444,6 +453,9 @@
           <code>degrees</code>s).</li>
         <li><strong class="pname"><code>lons</code></strong> - Longitude or longitudes (<code>degrees</code> or 
           <code>degrees</code>s).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> all 
+          <b><code>lats</code></b> and <b><code>lons</code></b> locations 
+          (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A single interpolated geoid height (<code>float</code>) or a list
@@ -600,7 +612,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Apr 23 16:20:31 2023
+    Generated by Epydoc 3.0.1 on Sat May 13 11:43:55 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

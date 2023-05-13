@@ -21,7 +21,7 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _getenv, \
                              _pairs, _PYTHON_X_DEV
 
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')  _UNDER
-__version__ = '23.04.11'
+__version__ = '23.05.06'
 
 _box_        = 'box'
 _default_    = 'default'
@@ -217,10 +217,12 @@ class LenError(_ValueError):  # in .ecef, .fmath, .heights, .iters, .named
 
 
 class LimitError(_ValueError):
-    '''Error raised for lat- or longitudinal deltas exceeding
-       the B{C{limit}} in functions L{pygeodesy.equirectangular} and
-       L{pygeodesy.equirectangular_} and several C{nearestOn*} and
-       C{simplify*} functions or methods.
+    '''Error raised for lat- or longitudinal values or deltas exceeding
+       the given B{C{limit}} in functions L{pygeodesy.equirectangular},
+       L{pygeodesy.equirectangular_}, C{nearestOn*} and C{simplify*}
+       or methods with C{limit} or C{options} keyword arguments.
+
+       @see: Subclass L{UnitError}.
     '''
     pass
 
@@ -249,11 +251,12 @@ class PointsError(_ValueError):  # in .clipy, .frechet, ...
     pass
 
 
-class RangeError(_ValueError):  # in .dms, .ellipsoidalBase, .geoids, .units, .ups, .utm, .utmups
-    '''Error raised for lat- or longitude values outside the B{C{clip}}, B{C{clipLat}},
-       B{C{clipLon}} or B{C{limit}} range in function L{pygeodesy.clipDegrees},
-       L{pygeodesy.clipRadians}, L{pygeodesy.parse3llh}, L{pygeodesy.parseDMS},
-       L{pygeodesy.parseDMS2} or L{pygeodesy.parseRad}.
+class RangeError(_ValueError):
+    '''Error raised for lat- or longitude values outside the B{C{clip}},
+       B{C{clipLat}}, B{C{clipLon}} in functions L{pygeodesy.parse3llh},
+       L{pygeodesy.parseDMS}, L{pygeodesy.parseDMS2} and L{pygeodesy.parseRad}
+       or the given B{C{limit}} in functions L{pygeodesy.clipDegrees} and
+       L{pygeodesy.clipRadians}.
 
        @see: Function L{pygeodesy.rangerrors}.
     '''
@@ -293,8 +296,9 @@ class TRFError(_ValueError):  # in .ellipsoidalBase, .trf, .units
     pass
 
 
-class UnitError(_ValueError):  # in .named, .units
-    '''Default exception for L{units} issues.
+class UnitError(LimitError):  # in .named, .units
+    '''Default exception for L{units} issues for a value exceeding the
+       C{low} or C{high} limit.
     '''
     pass
 
@@ -562,6 +566,15 @@ def _SciPyIssue(x, *extras):  # PYCHOK no cover
     return Error(t, cause=x)
 
 
+def _xattr(obj, **name_default):
+    '''(INTERNAL) Get an C{obj}'s attribute by C{name}.
+    '''
+    if len(name_default) == 1:
+        for n, d in name_default.items():
+            return getattr(obj, n, d)
+    raise _xkwds_Error(_xattr, obj, name_default)
+
+
 def _xdatum(datum1, datum2, Error=None):
     '''(INTERNAL) Check for datum, ellipsoid or rhumb mis-match.
     '''
@@ -666,6 +679,18 @@ except AttributeError:
             d = _copy(d)
             d.update(kwds)
         return d
+
+
+def _xkwds_bool(inst, **kwds):  # in .frechet, .hausdorff, .heights
+    '''(INTERNAL) Set applicable C{bool} properties/attributes.
+    '''
+    for n, v in kwds.items():
+        b = getattr(inst, n, None)
+        if b is None:  # invalid bool attr
+            t = _SPACE_(_EQUAL_(n, repr(v)), 'for', inst.__class__.__name__)  # XXX .classname
+            raise _AttributeError(t, txt=_not_('applicable'))
+        if v in (False, True) and v != b:
+            setattr(inst, NN(_UNDER_, n), v)
 
 
 def _xkwds_Error(where, kwds, name_txt, txt=_default_):

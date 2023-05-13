@@ -1,7 +1,7 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Web-services-based elevations and geoid heights.
+u'''Web-services-based elevations and C{CONUS} geoid heights.
 
 Functions to obtain elevations and geoid heights thru web services,
 for (lat, lon) locations, currently limited to the U{Conterminous
@@ -9,13 +9,16 @@ US (CONUS)<https://WikiPedia.org/wiki/Contiguous_United_States>},
 see also modules L{pygeodesy.geoids} and L{pygeodesy.heights} and
 U{USGS10mElev.py<https://Gist.GitHub.com/pyRobShrk>}.
 
-B{macOS}: If an C{SSLCertVerificationError} occurs, especially
-this I{"[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify
-failed: self "signed certificate in certificate chain ..."},
-review U{this post<https://StackOverflow.com/questions/27835619/
-urllib-and-ssl-certificate-verify-failed-error>} for a remedy.
-From a C{Terminal} window run:
-C{"/Applications/Python\\ X.Y/Install\\ Certificates.command"}
+@see: Module L{pygeodesy.geoids} to get geoid heights from other
+      sources and for regions other than C{CONUS}.
+
+@note: If on B{macOS} an C{SSLCertVerificationError} occurs, like
+       I{"[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed:
+       self "signed certificate in certificate chain ..."}, review
+       U{this post<https://StackOverflow.com/questions/27835619/
+       urllib-and-ssl-certificate-verify-failed-error>} for a remedy.
+       From a C{Terminal} window run:
+       C{"/Applications/Python\\ X.Y/Install\\ Certificates.command"}
 '''
 
 from pygeodesy.basics import clips, ub2str
@@ -31,7 +34,7 @@ from pygeodesy.units import Lat, Lon, Meter, Scalar, Str
 # from math import fabs  # from .karney
 
 __all__ = _ALL_LAZY.elevations
-__version__ = '23.03.19'
+__version__ = '23.05.04'
 
 try:
     from urllib2 import urlopen  # quote, urlcleanup
@@ -154,13 +157,13 @@ def elevation2(lat, lon, timeout=2.0):
               failed or if the query timed out.  The C{"error"} is the C{HTTP-,
               IO-, SSL-} or other C{-Error} as a string (C{str}).
 
-       @see: U{USGS Elevation Point Query Service<https://NationalMap.gov/epqs>}, the
+       @see: U{USGS Elevation Point Query Service<https://apps.NationalMap.gov/epqs/>}, the
              U{FAQ<https://www.USGS.gov/faqs/what-are-projection-horizontal-and-vertical-
              datum-units-and-resolution-3dep-standard-dems>}, U{geoid.py<https://Gist.GitHub.com/
              pyRobShrk>}, module L{geoids}, classes L{GeoidG2012B}, L{GeoidKarney} and
              L{GeoidPGM}.
     '''
-    try:    # alt 'https://NED.USGS.gov/epqs/pqs.php'
+    try:    # alt 'https://NED.USGS.gov/epqs/pqs.php', 'https://epqs.NationalMap.gov/v1'
         x = _qURL('https://NationalMap.USGS.gov/epqs/pqs.php',
                          x=Lon(lon).toStr(prec=6),
                          y=Lat(lat).toStr(prec=6),
@@ -205,11 +208,11 @@ def geoidHeight2(lat, lon, model=0, timeout=2.0):
 
        @raise ValueError: Invalid B{C{timeout}}.
 
-       @note: The returned C{height} is C{None} if B{C{lat}} or B{C{lon}} is
-              invalid or outside the C{Conterminous US (CONUS)}, if the
+       @note: The returned C{height} is C{None} if B{C{lat}} or B{C{lon}}
+              is invalid or outside the C{Conterminous US (CONUS)}, if the
               B{C{model}} was invalid, if conversion failed or if the query
-              timed out.  The C{"error"} is the C{HTTP-, IO-, SSL-, URL-} or
-              other C{-Error} as a string (C{str}).
+              timed out.  The C{"error"} is the C{HTTP-, IO-, SSL-, URL-}
+              or other C{-Error} as a string (C{str}).
 
        @see: U{NOAA National Geodetic Survey
              <https://www.NGS.NOAA.gov/INFO/geodesy.shtml>},

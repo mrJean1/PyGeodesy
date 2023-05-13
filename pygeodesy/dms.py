@@ -69,6 +69,7 @@ from pygeodesy.interns import NN, _arg_, _COMMA_, _d_, _DASH_, _deg_, _degrees_,
                              _QUOTE1_, _QUOTE2_, _radians_, _S_, _SE_, _SPACE_, _SW_, _W_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.streprs import Fmt, fstr, fstrzs, _0wpF
+# from pygeodesy.utily import _Wrap  # _MODS
 
 from math import fabs, modf, radians
 try:
@@ -77,7 +78,7 @@ except ImportError:  # Python 3+
     from string import ascii_letters as _LETTERS
 
 __all__ = _ALL_LAZY.dms
-__version__ = '23.03.19'
+__version__ = '23.05.04'
 
 _beyond_      = 'beyond'
 _DDDMMSS_     = 'DDDMMSS'
@@ -554,8 +555,8 @@ def lonDMS(deg, form=F_DMS, prec=None, sep=S_SEP, **s_D_M_S):
 
 
 def normDMS(strDMS, norm=None, **s_D_M_S):
-    '''Normalize all degrees, minutes and seconds (DMS) symbols in a
-       string to the default symbols L{S_DEG}, L{S_MIN}, L{S_SEC}.
+    '''Normalize all degrees, minutes and seconds (DMS) I{symbols} in
+       a string to the default symbols L{S_DEG}, L{S_MIN}, L{S_SEC}.
 
        @arg strDMS: Original DMS string (C{str}).
        @kwarg norm: Optional replacement symbol (C{str}) or C{None} for
@@ -742,7 +743,7 @@ def parseDMS(strDMS, suffix=_NSEW_, sep=S_SEP, clip=0, **s_D_M_S):  # MCCABE 14
        @kwarg sep: Optional separator between deg°, min′, sec″, B{C{suffix}} (C{''}).
        @kwarg clip: Optionally, limit value to range C{-/+B{clip}} (C{degrees}).
        @kwarg s_D_M_S: Optional, alternate symbol for degrees C{B{s_D}=str},
-                       minutes, C{B{s_M}=str} and/or seconds C{B{s_S}=str}.
+                       minutes C{B{s_M}=str} and/or seconds C{B{s_S}=str}.
 
        @return: Degrees (C{float}).
 
@@ -763,7 +764,7 @@ def parseDMS(strDMS, suffix=_NSEW_, sep=S_SEP, clip=0, **s_D_M_S):  # MCCABE 14
     return _parseX(_DMS2deg, strDMS, suffix, sep, clip, s_D_M_S, strDMS=strDMS, suffix=suffix)
 
 
-def parseDMS2(strLat, strLon, sep=S_SEP, clipLat=90, clipLon=180, **s_D_M_S):
+def parseDMS2(strLat, strLon, sep=S_SEP, clipLat=90, clipLon=180, wrap=False, **s_D_M_S):
     '''Parse a lat- and a longitude representions C{"lat, lon"} in C{degrees}.
 
        @arg strLat: Latitude in any of several forms (C{str} or C{degrees}).
@@ -771,8 +772,10 @@ def parseDMS2(strLat, strLon, sep=S_SEP, clipLat=90, clipLon=180, **s_D_M_S):
        @kwarg sep: Optional separator between deg°, min′, sec″, suffix (C{''}).
        @kwarg clipLat: Limit latitude to range C{-/+B{clipLat}} (C{degrees}).
        @kwarg clipLon: Limit longitude to range C{-/+B{clipLon}} (C{degrees}).
+       @kwarg wrap: If C{True}, wrap or I{normalize} the lat- and longitude,
+                    overriding B{C{clipLat}} and B{C{clipLon}} (C{bool}).
        @kwarg s_D_M_S: Optional, alternate symbol for degrees C{B{s_D}=str},
-                       minutes, C{B{s_M}=str} and/or seconds C{B{s_S}=str}.
+                       minutes C{B{s_M}=str} and/or seconds C{B{s_S}=str}.
 
        @return: A L{LatLon2Tuple}C{(lat, lon)} in C{degrees}.
 
@@ -787,12 +790,25 @@ def parseDMS2(strLat, strLon, sep=S_SEP, clipLat=90, clipLon=180, **s_D_M_S):
        @see: Functions L{pygeodesy.parseDDDMMSS}, L{pygeodesy.parseDMS},
              L{pygeodesy.parse3llh} and L{pygeodesy.toDMS}.
     '''
-    return _MODS.namedTuples.LatLon2Tuple(
-            parseDMS(strLat, suffix=_NS_, sep=sep, clip=clipLat, **s_D_M_S),
-            parseDMS(strLon, suffix=_EW_, sep=sep, clip=clipLon, **s_D_M_S))
+    return _2Tuple(strLat, strLon, clipLat, clipLon, wrap, sep=sep, **s_D_M_S)
 
 
-def parse3llh(strllh, height=0, sep=_COMMA_, clipLat=90, clipLon=180, **s_D_M_S):
+def _2Tuple(strLat, strLon, clipLat, clipLon, wrap, **kwds):
+    '''(INTERNAL) Helper for C{parseDMS2} and C{parsellh3}.
+    '''
+    if wrap:
+        _W = _MODS.utily._Wrap
+        lat, lon = _W.latlon(parseDMS(strLat, suffix=_NS_, **kwds),
+                             parseDMS(strLon, suffix=_EW_, **kwds))
+    else:
+        # if wrap is None:
+        #     clipLat = clipLon = 0
+        lat = parseDMS(strLat, suffix=_NS_, clip=clipLat, **kwds)
+        lon = parseDMS(strLon, suffix=_EW_, clip=clipLon, **kwds)
+    return _MODS.namedTuples.LatLon2Tuple(lat, lon)
+
+
+def parse3llh(strllh, height=0, sep=_COMMA_, clipLat=90, clipLon=180, wrap=False, **s_D_M_S):
     '''Parse a string C{"lat, lon [, h]"} representing lat-, longitude in
        C{degrees} and optional height in C{meter}.
 
@@ -808,8 +824,10 @@ def parse3llh(strllh, height=0, sep=_COMMA_, clipLat=90, clipLon=180, **s_D_M_S)
        @kwarg sep: Optional separator between C{"lat lon [h] suffix"} (C{str}).
        @kwarg clipLat: Limit latitude to range C{-/+B{clipLat}} (C{degrees}).
        @kwarg clipLon: Limit longitude to range C{-/+B{clipLon}} (C{degrees}).
+       @kwarg wrap: If C{True}, wrap or I{normalize} the lat- and longitude,
+                    overriding B{C{clipLat}} and B{C{clipLon}} (C{bool}).
        @kwarg s_D_M_S: Optional, alternate symbol for degrees C{B{s_D}=str},
-                       minutes, C{B{s_M}=str} and/or seconds C{B{s_S}=str}.
+                      minutes C{B{s_M}=str} and/or seconds C{B{s_S}=str}.
 
        @return: A L{LatLon3Tuple}C{(lat, lon, height)} in C{degrees},
                 C{degrees} and C{float}.
@@ -831,10 +849,10 @@ def parse3llh(strllh, height=0, sep=_COMMA_, clipLat=90, clipLon=180, **s_D_M_S)
         (51.4778°N, 000.0015°W, 0)
     '''
 
-    def _3llh(strllh, height, sep):
+    def _3llh(strllh, height, sep, wrap):
         ll = strllh.strip().split(sep)
         if len(ll) > 2:  # XXX interpret height unit
-            h = float(ll.pop(2).rstrip(_LETTERS).strip())
+            h = float(ll.pop(2).rstrip(_LETTERS + _SPACE_))
         else:
             h = height  # None from wgrs.Georef.__new__
         if len(ll) != 2:
@@ -843,11 +861,9 @@ def parse3llh(strllh, height=0, sep=_COMMA_, clipLat=90, clipLon=180, **s_D_M_S)
         a, b = [_.strip() for _ in ll]  # PYCHOK false
         if a[-1:] in _EW_ or b[-1:] in _NS_:
             a, b = b, a
-        return _MODS.namedTuples.LatLon3Tuple(
-                parseDMS(a, suffix=_NS_, clip=clipLat, **s_D_M_S),
-                parseDMS(b, suffix=_EW_, clip=clipLon, **s_D_M_S), h)
+        return _2Tuple(a, b, clipLat, clipLon, wrap, **s_D_M_S).to3Tuple(h)
 
-    return _parseX(_3llh, strllh, height, sep, strllh=strllh)
+    return _parseX(_3llh, strllh, height, sep, wrap, strllh=strllh)
 
 
 def parseRad(strRad, suffix=_NSEW_, clip=0):

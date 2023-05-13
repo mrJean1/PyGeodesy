@@ -14,17 +14,17 @@ from pygeodesy.basics import islistuple, issubclassof, len2, map2
 from pygeodesy.errors import _IndexError, LenError, PointsError, \
                              _TypeError, _ValueError
 from pygeodesy.interns import NN, _0_, _composite_, _few_, \
-                             _points_, _too_
+                             _latlon_, _points_, _too_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import Fmt, _Named, property_RO
 from pygeodesy.namedTuples import Point3Tuple, Points2Tuple
 # from pygeodesy.props import property_RO  # from .named
 # from pygeodesy.streprs import Fmt  # from .named
 from pygeodesy.units import Int, Radius
-from pygeodesy.utily import degrees2m, wrap90, wrap180, _1_0
+from pygeodesy.utily import degrees2m, _Wrap, _1_0
 
 __all__ = _ALL_LAZY.iters
-__version__ = '23.03.30'
+__version__ = '23.05.04'
 
 _items_        = 'items'
 _iterNumpy2len =  1  # adjustable for testing purposes
@@ -43,8 +43,10 @@ class _BaseIter(_Named):
     _items  =  None
     _len    =  0
     _loop   = ()
+    _looped =  False
     _name   = _items_
     _prev   = _NOTHING
+    _wrap   =  False
 
     def __init__(self, items, loop=0, dedup=False, Error=None, name=NN):
         '''New iterator over an iterable of B{C{items}}.
@@ -144,25 +146,26 @@ class _BaseIter(_Named):
         if copies:
             if self._items:
                 self._copies = self._items
-                self._items  = copy_ = None
+                self._items  = _copy = None
             else:
                 self._copies = list(self._loop)
-                copy_ = self._copies.append
+                _copy = self._copies.append
         else:  # del B{C{items}} reference
-            self._items = copy_ = None
+            self._items = _copy = None
 
         self._closed = closed
+        self._looped = False
         if self._iter:
             try:
-                next_ = self.next_
-                if copy_:
+                _next_ = self.next_
+                if _copy:
                     while True:
-                        item = next_(dedup=dedup)
-                        copy_(item)
+                        item = _next_(dedup=dedup)
+                        _copy(item)
                         yield item
                 else:
                     while True:
-                        yield next_(dedup=dedup)
+                        yield _next_(dedup=dedup)
             except StopIteration:
                 self._iter = ()  # del self._iter, prevent re-iterate
 
@@ -176,6 +179,12 @@ class _BaseIter(_Named):
         '''Get the B{C{loop}} setting (C{int}), C{0} for non-loop-back.
         '''
         return len(self._loop)
+
+    @property_RO
+    def looped(self):
+        '''In this C{Iter}ator in loop-back? (C{bool}).
+        '''
+        return self._looped
 
     @property_RO
     def next(self):
@@ -205,10 +214,11 @@ class _BaseIter(_Named):
         except StopIteration:
             pass
         if self._closed and self._loop:  # loop back
-            self._dedup = bool(dedup or self._dedup)
-            self._indx  = 0
-            self._iter  = iter(self._loop)
-            self._loop  = ()
+            self._dedup  = bool(dedup or self._dedup)
+            self._indx   = 0
+            self._iter   = iter(self._loop)
+            self._loop   = ()
+            self._looped = True
         return next(self._iter)
 
     def _next_dedup(self):
@@ -228,15 +238,17 @@ class PointsIter(_BaseIter):
     _base  = None
     _Error = PointsError
 
-    def __init__(self, points, loop=0, base=None, dedup=False, name=NN):
+    def __init__(self, points, loop=0, base=None, dedup=False, wrap=False, name=NN):
         '''New L{PointsIter} iterator.
 
            @arg points: C{Iterable} or C{list}, C{sequence}, C{set}, C{tuple},
                         etc. (C{point}s).
-           @kwarg loop: Number of loop-back points, also initial C{enumerate}
-                        and C{iterate} index (non-negative C{int}).
+           @kwarg loop: Number of loop-back points, also initial C{enumerate} and
+                        C{iterate} index (non-negative C{int}).
            @kwarg base: Optional B{C{points}} instance for type checking (C{any}).
            @kwarg dedup: Skip duplicate points (C{bool}).
+           @kwarg wrap: If C{True}, wrap or I{normalize} the enum-/iterated
+                        B{C{points}} (C{bool}).
            @kwarg name: Optional name (C{str}).
 
            @raise PointsError: Insufficient number of B{C{points}}.
@@ -247,6 +259,8 @@ class PointsIter(_BaseIter):
 
         if base and not (isNumpy2(points) or isTuple2(points)):
             self._base = base
+        if wrap:
+            self._wrap = True
 
     def enumerate(self, closed=False, copies=False):  # PYCHOK signature
         '''Iterate and yield each point as a 2-tuple C{(index, point)}.
@@ -274,16 +288,17 @@ class PointsIter(_BaseIter):
            @raise TypeError: Some B{C{points}} are not B{C{base}}-compatible.
         '''
         if self._base:
-            base_ = self._base.others
-            fmt_  = Fmt.SQUARE(points=0).replace
+            _oth =  self._base.others
+            _fmt =  Fmt.SQUARE(points=0).replace
         else:
-            base_ = fmt_ = None
+            _oth = _fmt = None
 
+        w = self._wrap  # and _Wrap.normal is not None
         n = self.loop if self._iter else 0
         for p in _BaseIter.iterate(self, closed=closed, copies=copies, dedup=closed):
-            if base_:
-                base_(p, name=fmt_(_0_, str(self._indx)), up=2)
-            yield p
+            if _oth:
+                _oth(p, name=_fmt(_0_, str(self._indx)), up=2)
+            yield _Wrap.point(p) if w else p
             n += 1
         if n < (4 if closed else 2):
             raise self._Error(self.name, n, txt=_too_(_few_))
@@ -297,7 +312,7 @@ class LatLon2PsxyIter(PointsIter):
     _wrap   = True
 
     def __init__(self, points, loop=0, base=None, wrap=True, radius=None,
-                                                  dedup=False, name=NN):
+                                                  dedup=False, name=_latlon_):
         '''New L{LatLon2PsxyIter} iterator.
 
            @note: The C{LatLon} latitude is considered the I{pseudo-y} and
@@ -305,10 +320,11 @@ class LatLon2PsxyIter(PointsIter):
 
            @arg points: C{Iterable} or C{list}, C{sequence}, C{set}, C{tuple},
                         etc. (C{LatLon}[]).
-           @kwarg loop: Number of loop-back points, also initial C{enumerate}
-                        and C{iterate} index (non-negative C{int}).
+           @kwarg loop: Number of loop-back points, also initial C{enumerate} and
+                        C{iterate} index (non-negative C{int}).
            @kwarg base: Optional B{C{points}} instance for type checking (C{any}).
-           @kwarg wrap: Wrap lat- and longitudes (C{bool}).
+           @kwarg wrap: If C{True}, wrap or I{normalize} the enum-/iterated
+                        B{C{points}} (C{bool}).
            @kwarg radius: Mean earth radius (C{meter}) for conversion from
                           C{degrees} to C{meter} (or C{radians} if C{B{radius}=1}).
            @kwarg dedup: Skip duplicate points (C{bool}).
@@ -362,23 +378,18 @@ class LatLon2PsxyIter(PointsIter):
            @raise TypeError: Some B{C{points}} are not B{C{base}}-compatible.
         '''
         if self._deg2m not in (None, _1_0):
-            _point3Tuple = self._point3Tuple
-        elif self._wrap:
-            def _point3Tuple(ll):
-                return Point3Tuple(wrap180(ll.lon), wrap90(ll.lat), ll)
+            _p3 = self._point3Tuple
         else:
-            def _point3Tuple(ll):  # PYCHOK redef
+            def _p3(ll):  # PYCHOK redef
                 return Point3Tuple(ll.lon, ll.lat, ll)
 
         for ll in PointsIter.iterate(self, closed=closed, copies=copies):
-            yield _point3Tuple(ll)
+            yield _p3(ll)
 
     def _point3Tuple(self, ll):
         '''(INTERNAL) Create a L{Point3Tuple} for point B{C{ll}}.
         '''
         x, y = ll.lon, ll.lat  # note, x, y = lon, lat
-        if self._wrap:
-            x, y = wrap180(x), wrap90(y)
         d = self._deg2m
         if d:  # convert degrees
             x *= d

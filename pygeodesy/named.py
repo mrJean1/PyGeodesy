@@ -18,8 +18,8 @@ from pygeodesy.basics import isclass, isidentifier, iskeyword, isstr, \
 from pygeodesy.errors import _AssertionError, _AttributeError, _incompatible, \
                              _IndexError, _IsnotError, itemsorted, LenError, \
                              _NameError, _NotImplementedError, _TypeError, \
-                             _TypesError, _ValueError, UnitError, \
-                             _xkwds, _xkwds_popitem
+                             _TypesError, _ValueError, UnitError, _xattr, \
+                             _xkwds, _xkwds_get, _xkwds_pop, _xkwds_popitem
 from pygeodesy.interns import NN, _at_, _AT_, _COLON_, _COLONSPACE_, _COMMA_, \
                              _COMMASPACE_, _doesn_t_exist_, _DOT_, _DUNDER_, \
                              _EQUAL_, _EQUALSPACED_, _exists_, _immutable_, _name_, \
@@ -32,7 +32,7 @@ from pygeodesy.props import _allPropertiesOf_n, deprecated_method, Property_RO, 
 from pygeodesy.streprs import attrs, Fmt, lrstrip, pairs, reprs, unstr
 
 __all__ = _ALL_LAZY.named
-__version__ = '23.02.06'
+__version__ = '23.05.04'
 
 _COMMANL_           = _COMMA_ + _NL_
 _COMMASPACEDOT_     = _COMMASPACE_ + _DOT_
@@ -135,7 +135,7 @@ class _Dict(dict):
         '''Like C{repr(dict)} but with C{name} prefix and with
            C{floats} formatted by function L{pygeodesy.fstr}.
         '''
-        n = self.get(_name_, classname(self))
+        n = _xkwds_get(self, name=classname(self))
         return Fmt.PAREN(n, self._toT(_EQUAL_, **prec_fmt))
 
     def toStr(self, **prec_fmt):  # PYCHOK signature
@@ -216,7 +216,7 @@ class _Named(object):
 
     @classnaming.setter  # PYCHOK setter!
     def classnaming(self, prefixed):
-        '''Set the class naming for C{[module.].class} names (C{bool}),
+        '''Set the class naming for C{[module.].class} names (C{bool})
            to C{True} to include the module name.
         '''
         b = bool(prefixed)
@@ -602,7 +602,7 @@ class _NamedEnum(_NamedDict):
            @arg Classes: Additional, acceptable classes or C{type}s.
         '''
         self._item_Classes = (Class,) + Classes
-        n = name.get(_name_, NN) or NN(Class.__name__, _s_)
+        n = _xkwds_get(name, name=NN) or NN(Class.__name__, _s_)
         if n and _xvalid(n, _OK=True):
             _Named.name.fset(self, n)  # see _Named.name
 
@@ -1194,7 +1194,7 @@ def nameof(inst):
 
        @return: The instance' name (C{str}) or C{""}.
     '''
-    n = getattr(inst, _name_, NN)
+    n = _xattr(inst, name=NN)
     if not n:  # and isinstance(inst, property):
         try:
             n = inst.fget.__name__
@@ -1217,19 +1217,22 @@ def _NotImplemented(inst, *other, **kwds):
     '''
     if _std_NotImplemented:
         return NotImplemented
-    n = _DOT_(classname(inst), callername(up=2, underOK=True))  # source=True
+    u = _xkwds_pop(kwds, up=2)
+    n = _DOT_(classname(inst), callername(up=u, underOK=True))  # source=True
     raise _NotImplementedError(unstr(n, *other, **kwds), txt=repr(inst))
 
 
 def notImplemented(inst, *args, **kwds):  # PYCHOK no cover
-    '''Raise a C{NotImplementedError} for a missing method or property.
+    '''Raise a C{NotImplementedError} for a missing instance method or
+       property or for a missing caller feature.
 
-       @arg inst: Instance (C{any}).
+       @arg inst: Instance (C{any}) or C{None} for caller.
        @arg args: Method or property positional arguments (any C{type}s).
        @arg kwds: Method or property keyword arguments (any C{type}s).
     '''
-    n =  kwds.pop(callername.__name__, NN) or callername(up=2)
-    t = _notError(inst, n, args, kwds)
+    u = _xkwds_pop(kwds, up=2)
+    n = _xkwds_pop(kwds, callername=NN) or callername(up=u)
+    t = _notError(inst, n, args, kwds) if inst else unstr(n, *args, **kwds)
     raise _NotImplementedError(t, txt=notImplemented.__name__.replace('I', ' i'))
 
 
@@ -1240,7 +1243,8 @@ def notOverloaded(inst, *args, **kwds):  # PYCHOK no cover
        @arg args: Method or property positional arguments (any C{type}s).
        @arg kwds: Method or property keyword arguments (any C{type}s).
     '''
-    n =  kwds.pop(callername.__name__, NN) or callername(up=2)
+    u = _xkwds_pop(kwds, up=2)
+    n = _xkwds_pop(kwds, callername=NN) or callername(up=u)
     t = _notError(inst, n, args, kwds)
     raise _AssertionError(t, txt=notOverloaded.__name__.replace('O', ' o'))
 

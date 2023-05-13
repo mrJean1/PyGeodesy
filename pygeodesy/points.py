@@ -32,19 +32,19 @@ from pygeodesy.constants import EPS, EPS1, PI_2, R_M, isnear0, isnear1, \
                                _umod_360, _0_0, _0_5, _1_0, _2_0, _6_0, \
                                _90_0, _N_90_0, _180_0, _360_0
 # from pygeodesy.datums import _spherical_datum  # from .formy
-from pygeodesy.dms import F_D, latDMS, lonDMS, parseDMS2, S_DEG, S_DMS, \
+from pygeodesy.dms import F_D, latDMS, lonDMS, parseDMS, S_DEG, S_DMS, \
                           S_MIN, S_SEC, S_SEP
 from pygeodesy.errors import CrossError, crosserrors, _IndexError, \
                             _IsnotError, _TypeError, _ValueError, \
-                            _xkwds, _xkwds_pop
-from pygeodesy.fmath import favg, fdot, Fsum, fsum, hypot
+                            _xattr, _xkwds, _xkwds_pop
+from pygeodesy.fmath import favg, fdot, hypot,  Fsum, fsum
 # from pygeodesy.fsums import Fsum, fsum  # from .fmath
-from pygeodesy.formy import _bearingTo2, equirectangular_, latlon2n_xyz, \
-                            _spherical_datum
+from pygeodesy.formy import _bearingTo2, equirectangular_, _isequalTo, \
+                             isnormal, latlon2n_xyz, normal, _spherical_datum
 from pygeodesy.interns import NN, _colinear_, _COMMASPACE_, _composite_, \
-                             _DEQUALSPACED_, _ELLIPSIS_, _height_, \
-                             _immutable_, _lat_, _lon_, _near_, _not_, \
-                             _point_, _SPACE_, _UNDER_, _valid_
+                             _DEQUALSPACED_, _ELLIPSIS_, _EW_, _immutable_, \
+                             _lat_, _lon_, _LatLon_, _near_, _no_, _not_, \
+                             _NS_, _point_, _SPACE_, _UNDER_, _valid_
 from pygeodesy.iters import LatLon2PsxyIter, PointsIter, points2
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import classname, nameof, notImplemented, notOverloaded, \
@@ -54,19 +54,18 @@ from pygeodesy.namedTuples import Bounds2Tuple, Bounds4Tuple, \
                                   NearestOn5Tuple, PhiLam2Tuple, \
                                   Point3Tuple, Vector3Tuple, Vector4Tuple
 from pygeodesy.nvectorBase import NvectorBase, _N_vector_
-from pygeodesy.props import deprecated_method, Property_RO, property_doc_, \
-                            property_RO
+from pygeodesy.props import deprecated_method, Property, Property_RO, \
+                            property_doc_, property_RO, _update_all
 from pygeodesy.streprs import Fmt, hstr, instr, pairs
 from pygeodesy.units import Number_, Radius, Scalar, Scalar_
 from pygeodesy.utily import atan2b, degrees90, degrees180, degrees2m, \
-                            unroll180, unrollPI, wrap90, wrap180
+                            unroll180, _unrollon, unrollPI, _Wrap, wrap180
 
 from math import cos, fabs, fmod, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '23.03.30'
+__version__ = '23.05.10'
 
-_fin_   = 'fin'
 _ilat_  = 'ilat'
 _ilon_  = 'ilon'
 _ncols_ = 'ncols'
@@ -91,27 +90,40 @@ class LatLon_(object):  # XXX in heights._HeightBase.height
     # However, sys.getsizeof(LatLon_(1, 2)) is 72-88 with __slots__
     # but only 48-64 bytes without in Python 2.7.18+ and Python 3+.
 
-    def __init__(self, lat, lon, name=NN, height=0, datum=None):
-        '''Creat a new, mininal, low-overhead L{LatLon_} instance,
-           without height and datum.
+    def __init__(self, latlonh, lon=None, name=NN, height=0,
+                                          datum=None, wrap=False):
+        '''Creat a new, mininal, low-overhead L{LatLon_} instance.
 
-           @arg lat: Latitude (C{degrees}).
-           @arg lon: Longitude (C{degrees}).
+           @arg latlonh: Latitude (C{degrees} or DMS C{str} with N or S suffix) or
+                         a previous C{LatLon} instance provided C{B{lon}=None}.
+           @kwarg lon: Longitude (C{degrees} or DMS C{str} with E or W suffix) or
+                       C(None), indicating B{C{latlonh}} is a C{LatLon}.
            @kwarg name: Optional name (C{str}).
-           @kwarg height: Optional height (C{float} or C{int}).
-           @kwarg datum: Optional datum (L{Datum}, L{Ellipsoid},
-                         L{Ellipsoid2}, L{a_f2Tuple} or I{scalar}
-                         radius) or C{None}.
+           @kwarg height: Optional height (C{meter}, conventionally).
+           @kwarg datum: Optional datum (L{Datum}, L{Ellipsoid}, L{Ellipsoid2},
+                         L{a_f2Tuple} or I{scalar} radius) or C{None}.
+           @kwarg wrap: If C{True}, wrap or I{normalize} B{C{lat}} and B{C{lon}}
+                        (C{bool}).
 
-           @raise TypeError: Invalid B{C{datum}}.
+           @raise TypeError: Invalid B{C{datum}} or B{C{latlonh}} not a C{LatLon}.
 
            @note: The lat- and longitude are taken as-given,
                   un-clipped and un-validated .
         '''
-        try:  # most common use case
-            self.lat, self.lon = float(lat), float(lon)  # Lat(lat), Lon(lon)
-        except (TypeError, ValueError):
-            self.lat, self.lon = parseDMS2(lat, lon, clipLat=0, clipLon=0)  # PYCHOK LatLon2Tuple
+        if lon is None:
+            try:
+                ll = latlonh.lat, latlonh.lon
+                height = _xattr(latlonh, height=height)
+            except AttributeError:
+                raise _IsnotError(_LatLon_, latlonh=latlonh)
+            if wrap:
+                ll = _Wrap.latlon(*ll)
+        elif wrap:
+            ll = _Wrap.latlonDMS2(latlonh, lon)
+        else:  # must be latNS, lonEW
+            ll = parseDMS(latlonh, suffix=_NS_), parseDMS(lon, suffix=_EW_)
+
+        self.lat, self.lon = ll
         self.name   = str(name) if name else NN
         self.height = height
         self.datum  = datum if datum is None else \
@@ -160,7 +172,10 @@ class LatLon_(object):  # XXX in heights._HeightBase.height
 
            @raise AttributeError: Some B{C{items}} invalid.
         '''
-        return _xdup(self, **items)
+        d = _xdup(self, **items)
+        if items:
+            _update_all(d)
+        return d
 
     def heightStr(self, prec=-2):
         '''Return a string for the height B{C{height}}.
@@ -180,7 +195,8 @@ class LatLon_(object):  # XXX in heights._HeightBase.height
                           0.0 for this and 1.0 for the other point).
            @kwarg height: Optional height (C{meter}), overriding the
                           intermediate height.
-           @kwarg wrap: Wrap and unroll longitudes (C{bool}).
+           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll
+                        the B{C{other}} point (C{bool}).
 
            @return: Intermediate point (this C{LatLon}).
 
@@ -192,11 +208,11 @@ class LatLon_(object):  # XXX in heights._HeightBase.height
         elif isnear1(f) and not wrap:
             r = self.others(other)
         else:
-            r = self.others(other)
-            h = favg(self.height, r.height, f=f) if height is None else height
-            _, lon = unroll180(self.lon, r.lon, wrap=wrap)
-            r = self.classof(favg(self.lat, r.lat, f=f),
-                             favg(self.lon,   lon, f=f),
+            p = self.others(other)
+            h = favg(self.height, p.height, f=f) if height is None else height
+            _, lat, lon = _Wrap.latlon3(self.lon, p.lat, p.lon, wrap=wrap)
+            r = self.classof(favg(self.lat, lat, f=f),
+                             favg(self.lon, lon, f=f),
                              height=h, datum=self.datum,
                              name=self.intermediateTo.__name__)
         return r
@@ -224,14 +240,17 @@ class LatLon_(object):  # XXX in heights._HeightBase.height
 
            @raise UnitError: Invalid B{C{eps}}.
         '''
-        self.others(other)
+        return _isequalTo(self, self.others(other), eps=eps)
 
-        if eps:
-            return max(fabs(self.lat - other.lat),
-                       fabs(self.lon - other.lon)) < Scalar_(eps=eps)
-        else:
-            return self.lat == other.lat and \
-                   self.lon == other.lon
+    @Property_RO
+    def isnormal(self):
+        '''Return C{True} if this point is normal (C{bool}),
+           meaning C{abs(lat) <= 90} and C{abs(lon) <= 180}.
+
+           @see: Methods L{normal}, L{toNormal} and functions
+                 L{pygeodesy.isnormal} and L{pygeodesy.normal}.
+        '''
+        return isnormal(self.lat, self.lon, eps=0)
 
     @Property_RO
     def isSpherical(self):  # PYCHOK no cover
@@ -240,10 +259,26 @@ class LatLon_(object):  # XXX in heights._HeightBase.height
         return self.datum.isSpherical if self.datum else None
 
     @Property_RO
+    def lam(self):
+        '''Get the longitude (B{C{radians}}).
+        '''
+        return radians(self.lon)
+
+    @Property
     def latlon(self):
         '''Get the lat- and longitude in C{degrees} (L{LatLon2Tuple}C{(lat, lon)}).
         '''
         return LatLon2Tuple(self.lat, self.lon, name=self.name)
+
+    @latlon.setter  # PYCHOK setter!
+    def latlon(self, latlon):
+        '''Set the lat- and longitude.
+
+           @arg latlon: New lat- and longitude in C{degrees} (C{2-tuple} or {-list}).
+        '''
+        if self.latlon != latlon[:2]:
+            _update_all(self)
+            self.lat, self.lon = latlon[:2]
 
     @Property_RO
     def latlonheight(self):
@@ -275,11 +310,31 @@ class LatLon_(object):  # XXX in heights._HeightBase.height
             return other
         raise _xotherError(self, other, name=name, up=up + 1)
 
+    def normal(self):
+        '''Normalize this point I{in-place} to C{abs(lat) <= 90} and
+           C{abs(lon) <= 180}.
+
+           @return: C{True} if this point was I{normal}, C{False} if it
+                    wasn't (but is now).
+
+           @see: Property L{isnormal} and method L{toNormal}.
+        '''
+        n = self.isnormal
+        if not n:
+            self.latlon = normal(*self.latlon)
+        return n
+
+    @Property_RO
+    def phi(self):
+        '''Get the latitude (B{C{radians}}).
+        '''
+        return radians(self.lat)
+
     @Property_RO
     def philam(self):
-        '''Get the lat- and longitude in C{radians} (L{PhiLam2Tuple}C{(phi, lam)}).
+        '''Get the lat- and longitude (L{PhiLam2Tuple}C{(phi, lam)}).
         '''
-        return PhiLam2Tuple(radians(self.lat), radians(self.lon), name=self.name)
+        return PhiLam2Tuple(self.phi, self.lam, name=self.name)
 
     @Property_RO
     def philamheight(self):
@@ -322,12 +377,32 @@ class LatLon_(object):  # XXX in heights._HeightBase.height
 
            @raise PointsError: Insufficient number of B{C{points}}.
         '''
-        return PointsIter(points, loop=loop, base=self, dedup=dedup)
+        return PointsIter(points, base=self, loop=loop, dedup=dedup)
 
     @deprecated_method
     def to2ab(self):  # PYCHOK no cover
         '''DEPRECATED, use property L{philam}.'''
         return self.philam
+
+    def toNormal(self, deep=False, name=NN):
+        '''Get a copy of this point normalized to C{abs(lat) <= 90}
+           and C{abs(lon) <= 180}.
+
+           @kwarg deep: If C{True} make a deep, otherwise a
+                        shallow copy (C{bool}).
+           @kwarg name: Optional name of the copy (C{str}).
+
+           @return: A copy of this point, I{normalized} and
+                    optionally renamed (C{LatLon}).
+
+           @see: Property L{isnormal}, method L{normal} and
+                 function L{pygeodesy.normal}.
+        '''
+        ll = self.copy(deep=deep)
+        _  = ll.normal()
+        if name:
+            ll.name = str(name)
+        return ll
 
     def toNvector(self, h=None, Nvector=NvectorBase, **Nvector_kwds):
         '''Convert this point to C{n-vector} (normal to the earth's
@@ -529,9 +604,9 @@ class _Basequence(_Sequence):  # immutable, on purpose
     def _iter(self):
         '''(INTERNAL) Yield all points.
         '''
-        _array, point = self._array, self.point
+        _array, _point = self._array, self.point
         for i in range(len(self)):
-            yield point(_array[i])
+            yield _point(_array[i])
 
     def point(self, *attrs):  # PYCHOK no cover
         '''(INTERNAL) I{Must be overloaded}, see function C{notOverloaded in}.
@@ -844,7 +919,8 @@ class LatLon2psxy(_Basequence):
                          etc. (C{LatLon[]}).
            @kwarg closed: Optionally, close the polygon (C{bool}).
            @kwarg radius: Mean earth radius (C{meter}).
-           @kwarg wrap: Wrap lat- and longitudes (C{bool}).
+           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll
+                        the B{C{latlons}} points (C{bool}).
 
            @raise PointsError: Insufficient number of B{C{latlons}}.
 
@@ -855,7 +931,8 @@ class LatLon2psxy(_Basequence):
         if radius:
             self._radius = r = Radius(radius)
             self._deg2m  = degrees2m(_1_0, r)
-        self._wrap = wrap
+        if not wrap:
+            self._wrap = False
 
     def __contains__(self, xy):
         '''Check for a matching point.
@@ -987,7 +1064,7 @@ class LatLon2psxy(_Basequence):
         '''
         x, y = ll.lon, ll.lat  # note, x, y = lon, lat
         if self._wrap:
-            x, y = wrap180(x), wrap90(y)
+            y, x = _Wrap.latlon(y, x)
         d = self._deg2m
         if d:  # convert degrees to meter (or radians)
             x *= d
@@ -1149,16 +1226,16 @@ def _area2(points, adjust, wrap):
             return w * h
 
     # setting radius=1 converts degrees to radians
-    Ps = LatLon2PsxyIter(points, wrap=wrap, radius=_1_0, loop=1)
+    Ps = LatLon2PsxyIter(points, loop=1, radius=_1_0, wrap=wrap)
     x1, y1, ll = Ps[0]
-    pts = [ll]
+    pts = [ll]  # for _areaError
 
     A2 = Fsum()  # trapezoidal area in radians**2
-    for i, p in Ps.enumerate(closed=True):
+    for p in Ps.iterate(closed=True):
         x2, y2, ll = p
-        if 0 < i < 4:
+        if len(pts) < 4:
             pts.append(ll)
-        w, x2 = unrollPI(x1, x2, wrap=wrap if i else False)
+        w, x2 = unrollPI(x1, x2, wrap=wrap and not Ps.looped)
         A2 += _adjust(w, (y2 + y1) * _0_5)
         x1, y1 = x2, y2
 
@@ -1180,7 +1257,8 @@ def areaOf(points, adjust=True, radius=R_M, wrap=True):
        @kwarg adjust: Adjust the wrapped, unrolled longitudinal delta
                       by the cosine of the mean latitude (C{bool}).
        @kwarg radius: Mean earth radius (C{meter}) or C{None}.
-       @kwarg wrap: Wrap lat-, wrap and unroll longitudes (C{bool}).
+       @kwarg wrap: If C{True}, wrap or I{normalize} and unroll
+                    the B{C{points}} (C{bool}).
 
        @return: Approximate area (I{square} C{meter}, same units as
                 B{C{radius}} or C{radians} I{squared} if B{C{radius}}
@@ -1206,12 +1284,13 @@ def areaOf(points, adjust=True, radius=R_M, wrap=True):
     return fabs(a if radius is None else (Radius(radius)**2 * a))
 
 
-def boundsOf(points, wrap=True, LatLon=None):
+def boundsOf(points, wrap=False, LatLon=None):  # was=True
     '''Determine the bottom-left SW and top-right NE corners of a
        path or polygon.
 
        @arg points: The path or polygon points (C{LatLon}[]).
-       @kwarg wrap: Wrap lat- and longitudes (C{bool}).
+       @kwarg wrap: If C{True}, wrap or I{normalize} and unroll
+                    the B{C{points}} (C{bool}).
        @kwarg LatLon: Optional class to return the C{bounds}
                       corners (C{LatLon}) or C{None}.
 
@@ -1231,10 +1310,15 @@ def boundsOf(points, wrap=True, LatLon=None):
         >>> boundsOf(b)  # False
         >>> 45.0, 1.0, 46.0, 2.0
     '''
-    Ps = LatLon2PsxyIter(points, wrap=wrap, loop=1)
+    Ps = LatLon2PsxyIter(points, loop=1, wrap=wrap)
     w, s, _ = e, n, _ = Ps[0]
 
+    v = w
     for x, y, _ in Ps.iterate(closed=False):  # [1:]
+        if wrap:
+            _, x = unroll180(v, x, wrap=True)
+        v = x
+
         if w > x:
             w = x
         elif e < x:
@@ -1249,11 +1333,24 @@ def boundsOf(points, wrap=True, LatLon=None):
            Bounds2Tuple(LatLon(s, w), LatLon(n, e))  # PYCHOK inconsistent
 
 
-def centroidOf(points, wrap=True, LatLon=None):
+def _distanceTo(Error, **name_points):  # .frechet, .hausdorff, .heights
+    '''(INTERNAL) Chech callable C{distanceTo} methods.
+    '''
+    name, ps = name_points.popitem()
+    for i, p in enumerate(ps):
+        if not callable(_xattr(p, distanceTo=None)):
+            n = _distanceTo.__name__[1:]
+            t = _SPACE_(_no_, callable.__name__, n)
+            raise Error(Fmt.SQUARE(name, i), p, txt=t)
+    return ps
+
+
+def centroidOf(points, wrap=False, LatLon=None):  # was=True
     '''Determine the centroid of a polygon.
 
        @arg points: The polygon points (C{LatLon}[]).
-       @kwarg wrap: Wrap lat-, wrap and unroll longitudes (C{bool}).
+       @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the
+                    B{C{points}} (C{bool}).
        @kwarg LatLon: Optional class to return the centroid (C{LatLon})
                       or C{None}.
 
@@ -1275,15 +1372,15 @@ def centroidOf(points, wrap=True, LatLon=None):
     A, X, Y = Fsum(), Fsum(), Fsum()
 
     # setting radius=1 converts degrees to radians
-    Ps = LatLon2PsxyIter(points, wrap=wrap, radius=_1_0, loop=1)
+    Ps = LatLon2PsxyIter(points, loop=1, radius=_1_0, wrap=wrap)
     x1, y1, ll = Ps[0]
     pts = [ll]  # for _areaError
-    for i, p in Ps.enumerate(closed=True):
+    for p in Ps.iterate(closed=True):
         x2, y2, ll = p
-        if 0 < i < 4:
+        if len(pts) < 4:
             pts.append(ll)
-        if wrap and i != 0:
-            _, x2 = unrollPI(x1, x2, wrap=wrap)
+        if wrap and not Ps.looped:
+            _, x2 = unrollPI(x1, x2, wrap=True)
         t  = x1 * y2 - x2 * y1
         A += t
         X += t * (x1 + x2)
@@ -1310,11 +1407,12 @@ def fractional(points, fi, j=None, wrap=None, LatLon=None, Vector=None, **kwds):
                     L{Vector3Tuple}[]).
        @arg fi: The fractional index (L{FIx}, C{float} or C{int}).
        @kwarg j: Optionally, index of the other point (C{int}).
-       @kwarg wrap: Wrap and unroll longitudes (C{bool}) or C{None} for
-                    backward compatible L{LatLon2Tuple} or B{C{LatLon}}
-                    with averaged lat- and longitudes.  Use C{True} or
+       @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the
+                    B{{points}} (C{bool}) or C{None} for a backward
+                    compatible L{LatLon2Tuple} or B{C{LatLon}} with
+                    averaged lat- and longitudes.  Use C{True} or
                     C{False} to get the I{fractional} point computed
-                    method C{points[fi].intermediateTo}.
+                    by method C{B{points}[fi].intermediateTo}.
        @kwarg LatLon: Optional class to return the I{intermediate},
                       I{fractional} point (C{LatLon}) or C{None}.
        @kwarg Vector: Optional class to return the I{intermediate},
@@ -1367,18 +1465,18 @@ def fractional(points, fi, j=None, wrap=None, LatLon=None, Vector=None, **kwds):
     if LatLon and Vector:  # PYCHOK no cover
         kwds = _xkwds(kwds, fi=fi, LatLon=LatLon, Vector=Vector)
         raise _TypeError(txt=fractional.__name__, **kwds)
+    w = wrap if LatLon else False  # intermediateTo
     try:
         if not isscalar(fi) or fi < 0:
             raise IndexError
-        n =  getattr(fi, _fin_, 0)
-        w =  wrap if Vector is None else False  # intermediateTo
+        n = _xattr(fi, fin=0)
         p = _fractional(points, fi, j, fin=n, wrap=w)  # see .units.FIx
         if LatLon:
             p = LatLon(p.lat, p.lon, **kwds)
         elif Vector:
             p = Vector(p.x, p.y, p.z, **kwds)
     except (IndexError, TypeError):
-        raise _IndexError(fi=fi, points=points, wrap=wrap, txt=fractional.__name__)
+        raise _IndexError(fi=fi, points=points, wrap=w, txt=fractional.__name__)
     return p
 
 
@@ -1389,7 +1487,7 @@ def _fractional(points, fi, j, fin=None, wrap=None):  # in .frechet.py
     p = points[i]
     r = fi - float(i)
     if r > EPS:  # EPS0?
-        if j is None:
+        if j is None:  # in .frechet.py
             j = i + 1
             if fin:
                 j %= fin
@@ -1416,7 +1514,8 @@ def isclockwise(points, adjust=False, wrap=True):
        @arg points: The path or polygon points (C{LatLon}[]).
        @kwarg adjust: Adjust the wrapped, unrolled longitudinal delta
                       by the cosine of the mean latitude (C{bool}).
-       @kwarg wrap: Wrap lat-, wrap and unroll longitudes (C{bool}).
+       @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the
+                    B{C{points}} (C{bool}).
 
        @return: C{True} if B{C{points}} are clockwise, C{False} otherwise.
 
@@ -1441,13 +1540,14 @@ def isclockwise(points, adjust=False, wrap=True):
     raise _areaError(pts)
 
 
-def isconvex(points, adjust=False, wrap=True):
+def isconvex(points, adjust=False, wrap=False):  # was=True
     '''Determine whether a polygon is convex.
 
        @arg points: The polygon points (C{LatLon}[]).
        @kwarg adjust: Adjust the wrapped, unrolled longitudinal delta
                       by the cosine of the mean latitude (C{bool}).
-       @kwarg wrap: Wrap lat-, wrap and unroll longitudes (C{bool}).
+       @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the
+                    B{C{points}} (C{bool}).
 
        @return: C{True} if B{C{points}} are convex, C{False} otherwise.
 
@@ -1468,13 +1568,14 @@ def isconvex(points, adjust=False, wrap=True):
     return bool(isconvex_(points, adjust=adjust, wrap=wrap))
 
 
-def isconvex_(points, adjust=False, wrap=True):
+def isconvex_(points, adjust=False, wrap=False):  # was=True
     '''Determine whether a polygon is convex I{and clockwise}.
 
        @arg points: The polygon points (C{LatLon}[]).
        @kwarg adjust: Adjust the wrapped, unrolled longitudinal delta
                       by the cosine of the mean latitude (C{bool}).
-       @kwarg wrap: Wrap lat-, wrap and unroll longitudes (C{bool}).
+       @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the
+                    B{C{points}} (C{bool}).
 
        @return: C{+1} if B{C{points}} are convex clockwise, C{-1} for
                 convex counter-clockwise B{C{points}}, C{0} otherwise.
@@ -1493,23 +1594,26 @@ def isconvex_(points, adjust=False, wrap=True):
         >>> f = LatLon(45,1), LatLon(46,2), LatLon(45,2), LatLon(46,1)
         >>> isconvex_(f)  # 0
     '''
-    def _unroll2(x1, y1, x2, y2, a, w):
-        x21, x2 = unroll180(x1, x2, wrap=w)
-        if a:
+    if adjust:
+        def _unroll2(x1, x2, w, y1, y2):
+            x21, x2 = unroll180(x1, x2, wrap=w)
             y = radians(y1 + y2) * _0_5
             x21 *= cos(y) if fabs(y) < PI_2 else _0_0
-        return x21, x2
+            return x21, x2
+    else:
+        def _unroll2(x1, x2, w, *unused):  # PYCHOK expected
+            return unroll180(x1, x2, wrap=w)
 
     c, s = crosserrors(), 0
 
-    Ps = LatLon2PsxyIter(points, wrap=wrap, loop=2)
+    Ps = LatLon2PsxyIter(points, loop=2, wrap=wrap)
     x1, y1, _ = Ps[0]
     x2, y2, _ = Ps[1]
-    x21, x2 = _unroll2(x1, y1, x2, y2, adjust, False)
 
+    x21, x2 = _unroll2(x1, x2, False, y1, y2)
     for i, p in Ps.enumerate(closed=True):
         x3, y3, ll = p
-        x32, x3 = _unroll2(x2, y2, x3, y3, adjust, (wrap if i > 1 else False))
+        x32, x3 = _unroll2(x2, x3, bool(wrap and not Ps.looped), y2, y3)
 
         # get the sign of the distance from point
         # x3, y3 to the line from x1, y1 to x2, y2
@@ -1542,7 +1646,8 @@ def isenclosedBy(point, points, wrap=False):  # MCCABE 15
        @arg point: The point (C{LatLon} or 2-tuple C{(lat, lon)}).
        @arg points: The polygon points or clips (C{LatLon}[], L{BooleanFHP}
                     or L{BooleanGH}).
-       @kwarg wrap: Wrap lat-, wrap and unroll longitudes (C{bool}).
+       @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the
+                    B{C{points}} (C{bool}).
 
        @return: C{True} if the B{C{point}} is inside the polygon or
                 composite, C{False} otherwise.
@@ -1571,10 +1676,10 @@ def isenclosedBy(point, points, wrap=False):  # MCCABE 15
             raise _ValueError(point=point, cause=x)
 
     if wrap:
-        x0, y0 = wrap180(x0), wrap90(y0)
+        y0, x0 = _Wrap.latlon(y0, x0)
 
-        def _dxy3(x1, x2, y2, w):
-            dx, x2 = unroll180(x1, x2, wrap=w)
+        def _dxy3(x, x2, y2, Ps):
+            dx, x2 = unroll180(x, x2, wrap=not Ps.looped)
             return dx, x2, y2
 
     else:
@@ -1591,18 +1696,18 @@ def isenclosedBy(point, points, wrap=False):  # MCCABE 15
             return (x - x1), x, y
 
     if _MODS.booleans.isBoolean(points):
-        return points._encloses(y0, x0)
+        return points._encloses(y0, x0, wrap=wrap)
 
-    Ps = LatLon2PsxyIter(points, wrap=wrap, loop=1)
+    Ps = LatLon2PsxyIter(points, loop=1, wrap=wrap)
     p  = Ps[0]
     e  = m = False
     S  = Fsum()
 
     _, x1, y1 = _dxy3(x0, p.x, p.y, False)
-    for i, p in Ps.enumerate(closed=True):
-        dx, x2, y2 = _dxy3(x1, p.x, p.y, (wrap if i else False))
+    for p in Ps.iterate(closed=True):
+        dx, x2, y2 = _dxy3(x1, p.x, p.y, Ps)
         # ignore duplicate and near-duplicate pts
-        if max(fabs(dx), fabs(y2 - y1)) > EPS:
+        if fabs(dx) > EPS or fabs(y2 - y1) > EPS:
             # determine if polygon edge (x1, y1)..(x2, y2) straddles
             # point (lat, lon) or is on boundary, but do not count
             # edges on boundary as more than one crossing
@@ -1628,7 +1733,8 @@ def ispolar(points, wrap=False):
     '''Check whether a polygon encloses a pole.
 
        @arg points: The polygon points (C{LatLon}[]).
-       @kwarg wrap: Wrap and unroll longitudes (C{bool}).
+       @kwarg wrap: If C{True}, wrap or I{normalize} and unroll
+                    the B{C{points}} (C{bool}).
 
        @return: C{True} if the polygon encloses a pole, C{False}
                 otherwise.
@@ -1639,21 +1745,22 @@ def ispolar(points, wrap=False):
                          have C{bearingTo2}, C{initialBearingTo}
                          and C{finalBearingTo} methods.
     '''
-    def _cds(points, wrap):  # iterate over course deltas
-        Ps = PointsIter(points, loop=2)
-        p2, p1 = Ps[0:2]
-        b1, _ = _bearingTo2(p2, p1, wrap=wrap)
-
+    def _cds(ps, w):  # iterate over course deltas
+        Ps     =  PointsIter(ps, loop=2, wrap=w)
+        p2, p1 =  Ps[0:2]
+        b1, _  = _bearingTo2(p2, p1, wrap=False)
         for p2 in Ps.iterate(closed=True):
             if not p2.isequalTo(p1, EPS):
-                b, b2 = _bearingTo2(p1, p2, wrap=wrap)
+                if w and not Ps.looped:
+                    p2 = _unrollon(p1, p2)
+                b,  b2 = _bearingTo2(p1, p2, wrap=False)
                 yield wrap180(b - b1)  # (b - b1 + 540) % 360 - 180
                 yield wrap180(b2 - b)  # (b2 - b + 540) % 360 - 180
                 p1, b1 = p2, b2
 
     # summation of course deltas around pole is 0° rather than normally ±360°
     # <https://blog.Element84.com/determining-if-a-spherical-polygon-contains-a-pole.html>
-    s = fsum(_cds(points, wrap))
+    s = fsum(_cds(points, wrap), floats=True)
     # XXX fix (intermittant) edge crossing pole - eg (85,90), (85,0), (85,-90)
     return fabs(s) < 90  # "zero-ish"
 
@@ -1684,30 +1791,33 @@ def luneOf(lon1, lon2, closed=False, LatLon=LatLon_, **LatLon_kwds):
     return t
 
 
-def nearestOn5(point, points, closed=False, wrap=False, LatLon=None, **options):
+def nearestOn5(point, points, closed=False, wrap=False, adjust=True,
+                                            limit=9, **LatLon_and_kwds):
     '''Locate the point on a path or polygon closest to a reference point.
 
-       The closest point is either on and within the extent of a polygon edge or
-       the nearest of that edge's end points.
+       The closest point on each polygon edge is either the nearest of that
+       edge's end points or a point in between.
 
-       @arg point: Reference point (C{LatLon}).
+       @arg point: The reference point (C{LatLon}).
        @arg points: The path or polygon points (C{LatLon}[]).
        @kwarg closed: Optionally, close the path or polygon (C{bool}).
-       @kwarg wrap: Wrap and L{pygeodesy.unroll180} longitudes and longitudinal
-                    delta (C{bool}) in function L{pygeodesy.equirectangular_}.
-       @kwarg LatLon: Optional class to return the closest point (C{LatLon})
-                      or C{None}.
-       @kwarg options: Other keyword arguments for function
-                       L{pygeodesy.equirectangular_}.
+       @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the
+                    B{C{points}} (C{bool}).
+       @kwarg adjust: See function L{pygeodesy.equirectangular_} (C{bool}).
+       @kwarg limit: See function L{pygeodesy.equirectangular_} (C{degrees}),
+                     default C{9 degrees} is about C{1,000 Kmeter} (for mean
+                     spherical earth radius L{R_KM}).
+       @kwarg LatLon_and_kwds: Optional, C{B{LatLon}=None} class to use for
+                     the closest point and additional B{C{LatLon}} keyword
+                     arguments, ignored if C{B{LatLon}=None} or not given.
 
        @return: A L{NearestOn3Tuple}C{(closest, distance, angle)} with the
                 {closest} point (B{C{LatLon}}) or if C{B{LatLon} is None},
                 a L{NearestOn5Tuple}C{(lat, lon, distance, angle, height)}.
                 The C{distance} is the L{pygeodesy.equirectangular} distance
                 between the C{closest} and reference B{C{point}} in C{degrees}.
-                The C{angle} from the reference B{C{point}} to the C{closest}
-                is in compass C{degrees360}, like function
-                L{pygeodesy.compassAngle}.
+                The C{angle} from the B{C{point}} to the C{closest} is in
+                compass C{degrees}, like function L{pygeodesy.compassAngle}.
 
        @raise LimitError: Lat- and/or longitudinal delta exceeds the B{C{limit}},
                           see function L{pygeodesy.equirectangular_}.
@@ -1716,24 +1826,22 @@ def nearestOn5(point, points, closed=False, wrap=False, LatLon=None, **options):
 
        @raise TypeError: Some B{C{points}} are not C{LatLon}.
 
-       @note: Distances are I{approximated} using function L{pygeodesy.equirectangular_},
-              subject to the supplied B{C{options}}.  Method C{LatLon.nearestOn6}
-              measures distances more accurately.
+       @note: Distances are I{approximated} by function L{pygeodesy.equirectangular_}.
+              For more accuracy use one of the C{LatLon.nearestOn6} methods.
 
-       @see: Function L{pygeodesy.nearestOn6} for cartesian points.  Use function
-             L{pygeodesy.degrees2m} to convert C{degrees} to C{meter}.
+       @see: Function L{pygeodesy.degrees2m}.
     '''
-    def _d2yx(p2, p1, u, w):
-        # w = wrap if (not closed or w < (n - 1)) else False
+    def _d2yx4(p2, p1, u, alw):
+        # w = wrap if (i < (n - 1) or not closed) else False
         # equirectangular_ returns a Distance4Tuple(distance
         # in degrees squared, delta lat, delta lon, p2.lon
-        # unroll/wrap); the previous p2.lon unroll/wrap
+        # unroll/wrap'd); the previous p2.lon unroll/wrap'd
         # is also applied to the next edge's p1.lon
         return equirectangular_(p1.lat, p1.lon + u,
-                                p2.lat, p2.lon, wrap=w, **options)
+                                p2.lat, p2.lon, **alw)
 
     def _h(p):  # get height or default 0
-        return getattr(p, _height_, 0) or 0
+        return _xattr(p, height=0) or 0
 
     # 3-D version used in .vector3d._nearestOn2
     #
@@ -1759,18 +1867,20 @@ def nearestOn5(point, points, closed=False, wrap=False, LatLon=None, **options):
     #
     # i.e. no need for sqrt or hypot
 
-    Ps = PointsIter(points, loop=1)
+    Ps = PointsIter(points, loop=1, wrap=wrap)
     p1 = c = Ps[0]
     u1 = u = _0_0
-    d, dy, dx, _ = _d2yx(p1, point, u1, False)
-    for i, p2 in Ps.enumerate(closed=closed):
+    kw = dict(adjust=adjust, limit=limit, wrap=False)
+    d, dy, dx, _ = _d2yx4(p1, point, u1, kw)
+    for p2 in Ps.iterate(closed=closed):
         # iff wrapped, unroll lon1 (actually previous
         # lon2) like function unroll180/-PI would've
-        w = False if closed and i == 0 else wrap
-        d21, y21, x21, u2 = _d2yx(p2, p1, u1, w)
+        if wrap:
+            kw.update(wrap=not (closed and Ps.looped))
+        d21, y21, x21, u2 = _d2yx4(p2, p1, u1, kw)
         if d21 > EPS:
-            # distance point to p1, y01 and x01 inverted
-            d2, y01, x01, _ = _d2yx(point, p1, u1, closed)
+            # distance point to p1, y01 and x01 negated
+            d2, y01, x01, _ = _d2yx4(point, p1, u1, kw)
             if d2 > EPS:
                 w2 = y01 * y21 + x01 * x21
                 if w2 > 0:
@@ -1784,22 +1894,26 @@ def nearestOn5(point, points, closed=False, wrap=False, LatLon=None, **options):
                         u1 = _0_0
                     else:  # p2 is closest
                         p1, u1 = p2, u2
-                    d2, y01, x01, _ = _d2yx(point, p1, u1, closed)
+                    d2, y01, x01, _ = _d2yx4(point, p1, u1, kw)
             if d2 < d:  # p1 is closer, y01 and x01 negated
                 c, u, d, dy, dx = p1, u1, d2, -y01, -x01
         p1, u1 = p2, u2
 
-    d, a, h = hypot(dx, dy), atan2b(dx, dy), _h(c)
-    if LatLon is None:
-        r = NearestOn5Tuple(c.lat, c.lon + u, d, a, h)
-    else:
-        r = LatLon(c.lat, c.lon + u, height=h)
-        r = NearestOn3Tuple(r, d, a)
-    return _xnamed(r, nameof(point))
+    a =  atan2b(dx, dy)
+    d =  hypot(dx, dy)
+    h = _h(c)
+    n =  nameof(point) or nearestOn5.__name__
+    if LatLon_and_kwds:
+        kwds = _xkwds(LatLon_and_kwds, height=h, name=n)
+        LL   = _xkwds_pop(kwds, LatLon=None)
+        if LL is not None:
+            r = LL(c.lat, c.lon + u, **kwds)
+            return NearestOn3Tuple(r, d, a, name=n)
+    return NearestOn5Tuple(c.lat, c.lon + u, d, a, h, name=n)  # PYCHOK expected
 
 
 def perimeterOf(points, closed=False, adjust=True, radius=R_M, wrap=True):
-    '''Approximate the perimeter of a path, polygon. or composite
+    '''I{Approximate} the perimeter of a path, polygon. or composite.
 
        @arg points: The path or polygon points or clips (C{LatLon}[],
                     L{BooleanFHP} or L{BooleanGH}).
@@ -1807,7 +1921,8 @@ def perimeterOf(points, closed=False, adjust=True, radius=R_M, wrap=True):
        @kwarg adjust: Adjust the wrapped, unrolled longitudinal delta
                       by the cosine of the mean latitude (C{bool}).
        @kwarg radius: Mean earth radius (C{meter}).
-       @kwarg wrap: Wrap lat-, wrap and unroll longitudes (C{bool}).
+       @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the
+                    B{C{points}} (C{bool}).
 
        @return: Approximate perimeter (C{meter}, same units as
                 B{C{radius}}).
@@ -1826,36 +1941,37 @@ def perimeterOf(points, closed=False, adjust=True, radius=R_M, wrap=True):
        @see: Functions L{sphericalTrigonometry.perimeterOf} and
              L{ellipsoidalKarney.perimeterOf}.
     '''
-    def _degs(points, closed, wrap):  # angular edge lengths in degrees
-        Ps = LatLon2PsxyIter(points, wrap=wrap, loop=1)
+    def _degs(ps, c, a, w):  # angular edge lengths in degrees
+        Ps = LatLon2PsxyIter(ps, loop=1)  # wrap=w
         p1, u = Ps[0], _0_0  # previous x2's unroll/wrap
-        for i, p2 in Ps.enumerate(closed=closed):
-            w = False if closed and i == 0 else wrap
-            # apply previous x2's unroll/wrap to new x1
-            _, dy, dx, u = equirectangular_(p1.y, p1.x + u, p2.y, p2.x,
-                                            adjust=adjust,
-                                            limit=None,
-                                            wrap=w)  # PYCHOK non-sequence
+        for p2 in Ps.iterate(closed=c):
+            if w and c:
+                w = not Ps.looped
+            # apply previous x2's unroll/wrap'd to new x1
+            _, dy, dx, u = equirectangular_(p1.y, p1.x + u,
+                                            p2.y, p2.x,
+                                            adjust=a, limit=None,
+                                            wrap=w)  # PYCHOK non-seq
             yield hypot(dx, dy)
             p1 = p2
 
     if _MODS.booleans.isBoolean(points):
         if not closed:
-            raise _ValueError(closed=closed, points=_composite_)
+            notImplemented(None, closed=closed, points=_composite_)
         d = points._sum1(perimeterOf, closed=True, adjust=adjust,
                                       radius=radius, wrap=wrap)
     else:
-        d = fsum(_degs(points, closed, wrap))
+        d = fsum(_degs(points, closed, adjust, wrap), floats=True)
     return degrees2m(d, radius=radius)
 
 
 def quadOf(latS, lonW, latN, lonE, closed=False, LatLon=LatLon_, **LatLon_kwds):
     '''Generate a quadrilateral path or polygon from two points.
 
-       @arg latS: Southernmost latitude (C{degrees90}).
-       @arg lonW: Westernmost longitude (C{degrees180}).
-       @arg latN: Northernmost latitude (C{degrees90}).
-       @arg lonE: Easternmost longitude (C{degrees180}).
+       @arg latS: Souther-nmost latitude (C{degrees90}).
+       @arg lonW: Western-most longitude (C{degrees180}).
+       @arg latN: Norther-nmost latitude (C{degrees90}).
+       @arg lonE: Eastern-most longitude (C{degrees180}).
        @kwarg closed: Optionally, close the path (C{bool}).
        @kwarg LatLon: Class to use (L{LatLon_}).
        @kwarg LatLon_kwds: Optional, additional B{C{LatLon}}

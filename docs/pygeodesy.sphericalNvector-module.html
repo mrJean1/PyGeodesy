@@ -106,7 +106,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        23.04.23
+        23.05.05
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -181,7 +181,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.sphericalNvector-module.html#areaOf" class="summary-sig-name">areaOf</a>(<span class="summary-sig-arg">points</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>)</span><br />
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Calculate the area of a (spherical) polygon or composite (with great 
       circle arcs joining consecutive points).</td>
           <td align="right" valign="top">
@@ -206,7 +207,7 @@
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>,
         <span class="summary-sig-arg">exact</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>)</span><br />
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Compute the intersections of a circle and a line.</td>
           <td align="right" valign="top">
             
@@ -228,6 +229,7 @@
         <span class="summary-sig-arg">start2</span>,
         <span class="summary-sig-arg">end2</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.sphericalNvector.LatLon'&gt;</span>,
         <span class="summary-sig-arg">**LatLon_kwds</span>)</span><br />
       Locate the intersections of two (great circle) lines each defined by 
@@ -252,6 +254,7 @@
         <span class="summary-sig-arg">start2</span>,
         <span class="summary-sig-arg">end2</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.sphericalNvector.LatLon'&gt;</span>,
         <span class="summary-sig-arg">**LatLon_kwds</span>)</span><br />
       Locate the intersections of two (great circle) lines each defined by 
@@ -273,9 +276,10 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.sphericalNvector-module.html#meanOf" class="summary-sig-name">meanOf</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.sphericalNvector.LatLon'&gt;</span>,
         <span class="summary-sig-arg">**LatLon_kwds</span>)</span><br />
-      Compute the geographic mean of the supplied points.</td>
+      Compute the <i>geographic</i> mean of the supplied points.</td>
           <td align="right" valign="top">
             
             
@@ -316,7 +320,8 @@
         <span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>,
-        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>)</span><br />
+        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Locate the point on a polygon (with great circle arcs joining 
       consecutive points) closest to an other point.</td>
           <td align="right" valign="top">
@@ -336,7 +341,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.sphericalNvector-module.html#perimeterOf" class="summary-sig-name">perimeterOf</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>)</span><br />
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Compute the perimeter of a (spherical) polygon or composite (with 
       great circle arcs joining consecutive points).</td>
           <td align="right" valign="top">
@@ -358,7 +364,7 @@
         <span class="summary-sig-arg">Vector</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.sphericalNvector.Nvector'&gt;</span>,
         <span class="summary-sig-arg">h</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">**Vector_kwds</span>)</span><br />
-      Return the vectorial sum of two or more n-vectors.</td>
+      Return the <i>vectorial</i> sum of two or more n-vectors.</td>
           <td align="right" valign="top">
             
             
@@ -379,6 +385,7 @@
         <span class="summary-sig-arg">point2</span>,
         <span class="summary-sig-arg">bearing2</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.sphericalNvector.LatLon'&gt;</span>,
         <span class="summary-sig-arg">**LatLon_kwds</span>)</span><br />
       Locate a point given two known points and the initial bearings from 
@@ -407,6 +414,7 @@
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">useZ</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.sphericalNvector.LatLon'&gt;</span>,
         <span class="summary-sig-arg">**LatLon_kwds</span>)</span><br />
       Locate a point at given distances from three other points.</td>
@@ -465,7 +473,8 @@
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>points</code></strong> - The polygon points (<code>LatLon</code>[]).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
+          <b><code>points</code></b> (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><code>True</code> if the polygon encloses a pole, 
@@ -488,7 +497,8 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">areaOf</span>&nbsp;(<span class="sig-arg">points</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.771415</span>)</span>
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.771415</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -506,6 +516,8 @@
           href="pygeodesy.booleans.BooleanGH-class.html" 
           class="link">BooleanGH</a>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>) or <code>None</code>.</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
+          <b><code>points</code></b> (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Polygon area (<code>meter</code> <i>squared</i> , same units as 
@@ -548,7 +560,7 @@
         <span class="sig-arg">radius</span>=<span class="sig-default">6371008.771415</span>,
         <span class="sig-arg">exact</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">wrap</span>=<span class="sig-default">True</span>)</span>
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -580,7 +592,9 @@
           use the <i>great circle</i> methods.</li>
         <li><strong class="pname"><code>height</code></strong> - Optional height for the intersection points (<code>meter</code>, 
           conventionally) or <code>None</code>.</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
+          <b><code>point</code></b> and the <b><code>circle</code></b> and 
+          <b><code>bearing</code></b> points (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>2-Tuple of the intersection points (representing a chord), each 
@@ -612,6 +626,7 @@
         <span class="sig-arg">start2</span>,
         <span class="sig-arg">end2</span>,
         <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">LatLon</span>=<span class="sig-default">&lt;class 'pygeodesy.sphericalNvector.LatLon'&gt;</span>,
         <span class="sig-arg">**LatLon_kwds</span>)</span>
   </h3>
@@ -641,6 +656,9 @@
           start point (compass <code>degrees360</code>).</li>
         <li><strong class="pname"><code>height</code></strong> - Optional height at the intersection point, overriding the mean 
           height (<code>meter</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll 
+          <b><code>start2</code></b> and both <b><code>end*</code></b> 
+          points (<code>bool</code>).</li>
         <li><strong class="pname"><code>LatLon</code></strong> - Optional class to return the intersection point (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</li>
@@ -688,6 +706,7 @@
         <span class="sig-arg">start2</span>,
         <span class="sig-arg">end2</span>,
         <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">LatLon</span>=<span class="sig-default">&lt;class 'pygeodesy.sphericalNvector.LatLon'&gt;</span>,
         <span class="sig-arg">**LatLon_kwds</span>)</span>
   </h3>
@@ -717,8 +736,11 @@
           start point (compass <code>degrees360</code>).</li>
         <li><strong class="pname"><code>height</code></strong> - Optional height at the intersection and antipodal point, 
           overriding the mean height (<code>meter</code>).</li>
-        <li><strong class="pname"><code>LatLon</code></strong> - Optional class to return the intersection and antipodal point (<a
-          href="pygeodesy.sphericalNvector.LatLon-class.html" 
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll 
+          <b><code>start2</code></b> and both <b><code>end*</code></b> 
+          points (<code>bool</code>).</li>
+        <li><strong class="pname"><code>LatLon</code></strong> - Optional class to return the intersection and antipodal points 
+          (<a href="pygeodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</li>
         <li><strong class="pname"><code>LatLon_kwds</code></strong> - Optional, additional <b><code>LatLon</code></b> keyword 
           arguments, ignored if <code><b>LatLon</b> is None</code>.</li>
@@ -756,6 +778,7 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">meanOf</span>&nbsp;(<span class="sig-arg">points</span>,
         <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">LatLon</span>=<span class="sig-default">&lt;class 'pygeodesy.sphericalNvector.LatLon'&gt;</span>,
         <span class="sig-arg">**LatLon_kwds</span>)</span>
   </h3>
@@ -764,7 +787,7 @@
     </td>
   </tr></table>
   
-  <p>Compute the geographic mean of the supplied points.</p>
+  <p>Compute the <i>geographic</i> mean of the supplied points.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -772,6 +795,8 @@
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>[]).</li>
         <li><strong class="pname"><code>height</code></strong> - Optional height, overriding the mean height (<code>meter</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> 
+          <b><code>points</code></b> (<code>bool</code>).</li>
         <li><strong class="pname"><code>LatLon</code></strong> - Optional class to return the mean point (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</li>
@@ -783,8 +808,8 @@
           (<b><code>LatLon</code></b>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.PointsError-class.html">PointsError</a></strong></code> - Insufficient number of <b><code>points</code></b>.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - Some <b><code>points</code></b> are not <code>LatLon</code>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.PointsError-class.html">PointsError</a></strong></code> - Insufficient number of <b><code>points</code></b> or some 
+        <b><code>points</code></b> are not <code>LatLon</code>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -834,7 +859,8 @@
         <span class="sig-arg">points</span>,
         <span class="sig-arg">closed</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">radius</span>=<span class="sig-default">6371008.771415</span>,
-        <span class="sig-arg">height</span>=<span class="sig-default">None</span>)</span>
+        <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -843,9 +869,9 @@
   
   <p>Locate the point on a polygon (with great circle arcs joining 
   consecutive points) closest to an other point.</p>
-  <p>If the given point is within the extent of any great circle arc, the 
-  closest point is on that arc.  Otherwise, the closest is the nearest of 
-  the arc's end points.</p>
+  <p>If the given point is between the end points of a great circle arc, 
+  the closest point is on that arc.  Otherwise, the closest point is the 
+  nearest of the arc's end points.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -858,7 +884,9 @@
         <li><strong class="pname"><code>closed</code></strong> - Optionally, close the polygon (<code>bool</code>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>) or <code>None</code>.</li>
         <li><strong class="pname"><code>height</code></strong> - Optional height, overriding the mean height for a point within 
-          the arc (<code>meter</code>).</li>
+          the (great circle) arc (<code>meter</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
+          <b><code>points</code></b> (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.namedTuples.NearestOn3Tuple-class.html" 
@@ -890,7 +918,8 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">perimeterOf</span>&nbsp;(<span class="sig-arg">points</span>,
         <span class="sig-arg">closed</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.771415</span>)</span>
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.771415</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -907,6 +936,8 @@
           class="link">LatLon</a>[]).</li>
         <li><strong class="pname"><code>closed</code></strong> - Optionally, close the polygon (<code>bool</code>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>) or <code>None</code>.</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
+          <b><code>points</code></b> (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Polygon perimeter (<code>meter</code>, same units as 
@@ -926,10 +957,10 @@
 <div class="fields">      <p><strong>See Also:</strong>
         Functions <a href="pygeodesy.points-module.html#perimeterOf" 
         class="link">pygeodesy.perimeterOf</a>, <a 
-        href="pygeodesy.sphericalTrigonometry-module.html#perimeterOf" 
-        class="link">sphericalTrigonometry.perimeterOf</a> and <a 
         href="pygeodesy.ellipsoidalKarney-module.html#perimeterOf" 
-        class="link">ellipsoidalKarney.perimeterOf</a>.
+        class="link">ellipsoidalKarney.perimeterOf</a> and <a 
+        href="pygeodesy.sphericalTrigonometry-module.html#perimeterOf" 
+        class="link">sphericalTrigonometry.perimeterOf</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -950,7 +981,7 @@
     </td>
   </tr></table>
   
-  <p>Return the vectorial sum of two or more n-vectors.</p>
+  <p>Return the <i>vectorial</i> sum of two or more n-vectors.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -985,6 +1016,7 @@
         <span class="sig-arg">point2</span>,
         <span class="sig-arg">bearing2</span>,
         <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">LatLon</span>=<span class="sig-default">&lt;class 'pygeodesy.sphericalNvector.LatLon'&gt;</span>,
         <span class="sig-arg">**LatLon_kwds</span>)</span>
   </h3>
@@ -1008,6 +1040,8 @@
         <li><strong class="pname"><code>bearing2</code></strong> - Bearing at the second point (compass <code>degrees360</code>).</li>
         <li><strong class="pname"><code>height</code></strong> - Optional height at the triangulated point, overriding the mean 
           height (<code>meter</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll 
+          <b><code>point2</code></b> (<code>bool</code>).</li>
         <li><strong class="pname"><code>LatLon</code></strong> - Optional class to return the triangulated point (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</li>
@@ -1048,6 +1082,7 @@
         <span class="sig-arg">radius</span>=<span class="sig-default">6371008.771415</span>,
         <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">useZ</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">LatLon</span>=<span class="sig-default">&lt;class 'pygeodesy.sphericalNvector.LatLon'&gt;</span>,
         <span class="sig-arg">**LatLon_kwds</span>)</span>
   </h3>
@@ -1080,7 +1115,12 @@
           height (<code>meter</code>, same units as 
           <b><code>radius</code></b>).</li>
         <li><strong class="pname"><code>useZ</code></strong> - Include Z component iff non-NaN, non-zero (<code>bool</code>).</li>
-        <li><strong class="pname"><code>LatLon</code></strong> - Optional class to return the trilaterated</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll 
+          <b><code>point2</code></b> and <b><code>point3</code></b> 
+          (<code>bool</code>).</li>
+        <li><strong class="pname"><code>LatLon</code></strong> - Optional class to return the trilaterated point (<a 
+          href="pygeodesy.sphericalNvector.LatLon-class.html" 
+          class="link">LatLon</a>).</li>
         <li><strong class="pname"><code>LatLon_kwds</code></strong> - Optional, additional <b><code>LatLon</code></b> keyword 
           arguments, ignored if <code><b>LatLon</b> is None</code>.</li>
     </ul></dd>
@@ -1134,7 +1174,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Apr 23 16:20:29 2023
+    Generated by Epydoc 3.0.1 on Sat May 13 11:43:53 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

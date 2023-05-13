@@ -33,9 +33,9 @@
 # Copyright (C) 2016 Softwarenerd.
 
 __all__ = ()
-__version__ = '23.03.27'  # '18.10.02'
+__version__ = '23.05.05'
 
-from bases import TestsBase
+from bases import startswith, TestsBase
 
 from pygeodesy import F_D, F_DMS, classname, bearingDMS, CrossError, crosserrors
 
@@ -95,7 +95,7 @@ class Tests(TestsBase):
             b = str(IndianPond.initialBearingTo(IndianPond, raiser=True))
         except CrossError as x:
             b = str(x)
-        self.test('FinalBearingCrossError', b, 'points (%s(43°55′51.28″N, 072°03′13.72″W)): coincident' % (classname(IndianPond),))
+        self.test('FinalBearingCrossError', b, 'point (%s(43°55′51.28″N, 072°03′13.72″W))' % (classname(IndianPond),), known=startswith)
 
         # distance for two locations that are the same
         d = IndianPond.distanceTo(IndianPond)

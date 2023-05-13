@@ -84,7 +84,7 @@
         <code>unicode</code>.
       </p>
       <p><strong>Version:</strong>
-        23.03.19
+        23.05.04
       </p>
 </div><!-- ==================== FUNCTIONS ==================== -->
 <a name="section-Functions"></a>
@@ -300,11 +300,11 @@
           <td><span class="summary-sig"><a href="pygeodesy.dms-module.html#normDMS" class="summary-sig-name">normDMS</a>(<span class="summary-sig-arg">strDMS</span>,
         <span class="summary-sig-arg">norm</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">**s_D_M_S</span>)</span><br />
-      Normalize all degrees, minutes and seconds (DMS) symbols in a string 
-      to the default symbols <a href="pygeodesy.dms-module.html#S_DEG" 
-      class="link">S_DEG</a>, <a href="pygeodesy.dms-module.html#S_MIN" 
-      class="link">S_MIN</a>, <a href="pygeodesy.dms-module.html#S_SEC" 
-      class="link">S_SEC</a>.</td>
+      Normalize all degrees, minutes and seconds (DMS) <i>symbols</i> in a 
+      string to the default symbols <a 
+      href="pygeodesy.dms-module.html#S_DEG" class="link">S_DEG</a>, <a 
+      href="pygeodesy.dms-module.html#S_MIN" class="link">S_MIN</a>, <a 
+      href="pygeodesy.dms-module.html#S_SEC" class="link">S_SEC</a>.</td>
           <td align="right" valign="top">
             
             
@@ -367,6 +367,7 @@
         <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">clipLat</span>=<span class="summary-sig-default">90</span>,
         <span class="summary-sig-arg">clipLon</span>=<span class="summary-sig-default">180</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">**s_D_M_S</span>)</span><br />
       Parse a lat- and a longitude representions <code>&quot;lat, 
       lon&quot;</code> in <code>degrees</code>.</td>
@@ -390,6 +391,7 @@
         <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default">','</span>,
         <span class="summary-sig-arg">clipLat</span>=<span class="summary-sig-default">90</span>,
         <span class="summary-sig-arg">clipLon</span>=<span class="summary-sig-default">180</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">**s_D_M_S</span>)</span><br />
       Parse a string <code>&quot;lat, lon [, h]&quot;</code> representing 
       lat-, longitude in <code>degrees</code> and optional height in 
@@ -1500,8 +1502,8 @@
     </td>
   </tr></table>
   
-  <p>Normalize all degrees, minutes and seconds (DMS) symbols in a string 
-  to the default symbols <a href="pygeodesy.dms-module.html#S_DEG" 
+  <p>Normalize all degrees, minutes and seconds (DMS) <i>symbols</i> in a 
+  string to the default symbols <a href="pygeodesy.dms-module.html#S_DEG" 
   class="link">S_DEG</a>, <a href="pygeodesy.dms-module.html#S_MIN" 
   class="link">S_MIN</a>, <a href="pygeodesy.dms-module.html#S_SEC" 
   class="link">S_SEC</a>.</p>
@@ -1654,7 +1656,7 @@
         <li><strong class="pname"><code>clip</code></strong> - Optionally, limit value to range <code>-/+<b>clip</b></code> 
           (<code>degrees</code>).</li>
         <li><strong class="pname"><code>s_D_M_S</code></strong> - Optional, alternate symbol for degrees 
-          <code><b>s_D</b>=str</code>, minutes, <code><b>s_M</b>=str</code>
+          <code><b>s_D</b>=str</code>, minutes <code><b>s_M</b>=str</code> 
           and/or seconds <code><b>s_S</b>=str</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -1701,6 +1703,7 @@
         <span class="sig-arg">sep</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">clipLat</span>=<span class="sig-default">90</span>,
         <span class="sig-arg">clipLon</span>=<span class="sig-default">180</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">**s_D_M_S</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -1723,8 +1726,11 @@
           (<code>degrees</code>).</li>
         <li><strong class="pname"><code>clipLon</code></strong> - Limit longitude to range <code>-/+<b>clipLon</b></code> 
           (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> the lat- and 
+          longitude, overriding <b><code>clipLat</code></b> and 
+          <b><code>clipLon</code></b> (<code>bool</code>).</li>
         <li><strong class="pname"><code>s_D_M_S</code></strong> - Optional, alternate symbol for degrees 
-          <code><b>s_D</b>=str</code>, minutes, <code><b>s_M</b>=str</code>
+          <code><b>s_D</b>=str</code>, minutes <code><b>s_M</b>=str</code> 
           and/or seconds <code><b>s_S</b>=str</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -1770,6 +1776,7 @@
         <span class="sig-arg">sep</span>=<span class="sig-default">','</span>,
         <span class="sig-arg">clipLat</span>=<span class="sig-default">90</span>,
         <span class="sig-arg">clipLon</span>=<span class="sig-default">180</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">**s_D_M_S</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -1797,8 +1804,11 @@
           (<code>degrees</code>).</li>
         <li><strong class="pname"><code>clipLon</code></strong> - Limit longitude to range <code>-/+<b>clipLon</b></code> 
           (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> the lat- and 
+          longitude, overriding <b><code>clipLat</code></b> and 
+          <b><code>clipLon</code></b> (<code>bool</code>).</li>
         <li><strong class="pname"><code>s_D_M_S</code></strong> - Optional, alternate symbol for degrees 
-          <code><b>s_D</b>=str</code>, minutes, <code><b>s_M</b>=str</code>
+          <code><b>s_D</b>=str</code>, minutes <code><b>s_M</b>=str</code> 
           and/or seconds <code><b>s_S</b>=str</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -2083,7 +2093,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Apr 23 16:20:29 2023
+    Generated by Epydoc 3.0.1 on Sat May 13 11:43:53 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

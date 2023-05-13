@@ -96,12 +96,13 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">lat</span>,
-        <span class="summary-sig-arg">lon</span>,
+        <span class="summary-sig-arg">latlonh</span>,
+        <span class="summary-sig-arg">lon</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">0</span>,
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">reframe</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">epoch</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
       Create an ellipsoidal <code>LatLon</code> point frome the given lat-,
       longitude and height on the given datum and with the given reference 
@@ -180,7 +181,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#distanceTo2" class="summary-sig-name">distanceTo2</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">other</span>)</span><br />
+        <span class="summary-sig-arg">other</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       <i>Approximate</i> the distance and (initial) bearing between this 
       and an other (ellipsoidal) point based on the radii of curvature.</td>
           <td align="right" valign="top">
@@ -303,11 +305,11 @@
         <span class="summary-sig-arg">other</span>,
         <span class="summary-sig-arg">end2</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">equidistant</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">tol</span>=<span class="summary-sig-default">0.001</span>)</span><br />
-      Iteratively compute the intersection point of two lines, each defined
-      by two points or a start point and bearing from North.</td>
+      <i>Iteratively</i> compute the intersection point of two lines, each 
+      defined by two points or a start point and bearing from North.</td>
           <td align="right" valign="top">
             
             
@@ -328,11 +330,11 @@
         <span class="summary-sig-arg">other</span>,
         <span class="summary-sig-arg">radius2</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">equidistant</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">tol</span>=<span class="summary-sig-default">0.001</span>)</span><br />
-      Iteratively compute the intersection points of two circles, each 
-      defined by a center point and a radius.</td>
+      <i>Iteratively</i> compute the intersection points of two circles, 
+      each defined by a center point and a radius.</td>
           <td align="right" valign="top">
             
             
@@ -393,11 +395,11 @@
         <span class="summary-sig-arg">point2</span>,
         <span class="summary-sig-arg">within</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">equidistant</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">tol</span>=<span class="summary-sig-default">0.001</span>)</span><br />
-      Iteratively locate the closest point on the geodesic between two 
-      other (ellipsoidal) points.</td>
+      <i>Iteratively</i> locate the closest point on the geodesic between 
+      two other (ellipsoidal) points.</td>
           <td align="right" valign="top">
             
             
@@ -420,10 +422,11 @@
         <span class="summary-sig-arg">epoch</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">reframe</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default">','</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
-      Parse a string representing a similar, ellipsoidal 
-      <code>LatLon</code> point, consisting of <code>&quot;lat, lon[, 
-      height]&quot;</code>.</td>
+      Parse a string consisting of <code>&quot;lat, lon[, 
+      height]&quot;</code>, representing a similar, ellipsoidal 
+      <code>LatLon</code> point.</td>
           <td align="right" valign="top">
             
             
@@ -738,6 +741,7 @@
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#toEcef">toEcef</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#toLocal">toLocal</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#toLtp">toLtp</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#toNormal">toNormal</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#toNvector">toNvector</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#toStr">toStr</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#toVector">toVector</a></code>,
@@ -921,12 +925,13 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">lat</span>,
-        <span class="sig-arg">lon</span>,
+        <span class="sig-arg">latlonh</span>,
+        <span class="sig-arg">lon</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">height</span>=<span class="sig-default">0</span>,
         <span class="sig-arg">datum</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">reframe</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">epoch</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
     <br /><em class="fname">(Constructor)</em>
   </h3>
@@ -941,10 +946,14 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>lat</code></strong> - Latitude (<code>degrees</code> or DMS <code>[N|S]</code>).</li>
-        <li><strong class="pname"><code>lon</code></strong> - Longitude (<code>degrees</code> or DMS <code>str[E|W]</code>).</li>
-        <li><strong class="pname"><code>height</code></strong> - Optional elevation (<code>meter</code>, the same units as the 
-          datum's half-axes).</li>
+        <li><strong class="pname"><code>latlonh</code></strong> - Latitude (<code>degrees</code> or DMS <code>str</code> with N or 
+          S suffix) or a previous <code>LatLon</code> instance provided 
+          <code><b>lon</b>=None</code>.</li>
+        <li><strong class="pname"><code>lon</code></strong> - Longitude (<code>degrees</code> or DMS <code>str</code> with E or
+          W suffix) or C(None), indicating <b><code>latlonh</code></b> is a
+          <code>LatLon</code>.</li>
+        <li><strong class="pname"><code>height</code></strong> - Optional height above (or below) the earth surface 
+          (<code>meter</code>, same units as the datum's ellipsoid axes).</li>
         <li><strong class="pname"><code>datum</code></strong> - Optional, ellipsoidal datum to use (<a 
           href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>, 
           <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
@@ -958,17 +967,21 @@
           class="link">RefFrame</a>).</li>
         <li><strong class="pname"><code>epoch</code></strong> - Optional epoch to observe for <b><code>reframe</code></b> 
           (<code>scalar</code>), a non-zero, fractional calendar year; 
-          silently ignored if <code><b>reframe</b> is None</code>.</li>
+          silently ignored if <code><b>reframe</b>=None</code>.</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> 
+          <b><code>lat</code></b> and <b><code>lon</code></b> 
+          (<code>bool</code>).</li>
         <li><strong class="pname"><code>name</code></strong> - Optional name (string).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>New instance (<code>LatLon</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - Value of <b><code>lat</code></b> or <b><code>lon</code></b> outside
-        the valid range and <code>rangerrors</code> set to 
-        <code>True</code>.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - <b><code>datum</code></b> is not a <a 
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - Value of <code>lat</code> or <b><code>lon</code></b> outside the 
+        valid range and <a href="pygeodesy.errors-module.html#rangerrors" 
+        class="link">rangerrors</a> set to <code>True</code>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - If <b><code>latlonh</code></b> is not a <code>LatLon</code>, 
+        <b><code>datum</code></b> is not a <a 
         href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>, 
         <b><code>reframe</code></b> is not a <a 
         href="pygeodesy.trf.RefFrame-class.html" class="link">RefFrame</a> 
@@ -1077,7 +1090,8 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">distanceTo2</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">other</span>)</span>
+        <span class="sig-arg">other</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -1092,6 +1106,8 @@
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>other</code></strong> - The other point (<code>LatLon</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> the 
+          <b><code>other</code></b> point (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>An <a href="pygeodesy.namedTuples.Distance2Tuple-class.html" 
@@ -1316,7 +1332,7 @@
         <span class="sig-arg">other</span>,
         <span class="sig-arg">end2</span>,
         <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">wrap</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">equidistant</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">tol</span>=<span class="sig-default">0.001</span>)</span>
   </h3>
@@ -1325,8 +1341,8 @@
     </td>
   </tr></table>
   
-  <p>Iteratively compute the intersection point of two lines, each defined 
-  by two points or a start point and bearing from North.</p>
+  <p><i>Iteratively</i> compute the intersection point of two lines, each 
+  defined by two points or a start point and bearing from North.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -1337,7 +1353,9 @@
           bearing at the other point (compass <code>degrees360</code>).</li>
         <li><strong class="pname"><code>height</code></strong> - Optional height at the intersection (<code>meter</code>, 
           conventionally) or <code>None</code> for the mean height.</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
+          <b><code>other</code></b> and <b><code>end*</code></b> points 
+          (<code>bool</code>).</li>
         <li><strong class="pname"><code>equidistant</code></strong> - An azimuthal equidistant projection (<i>class</i> or function <a 
           href="pygeodesy.azimuthal-module.html#equidistant" 
           class="link">pygeodesy.equidistant</a>), or <code>None</code> for
@@ -1392,7 +1410,7 @@
         <span class="sig-arg">other</span>,
         <span class="sig-arg">radius2</span>,
         <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">wrap</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">equidistant</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">tol</span>=<span class="sig-default">0.001</span>)</span>
   </h3>
@@ -1401,8 +1419,8 @@
     </td>
   </tr></table>
   
-  <p>Iteratively compute the intersection points of two circles, each 
-  defined by a center point and a radius.</p>
+  <p><i>Iteratively</i> compute the intersection points of two circles, 
+  each defined by a center point and a radius.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -1413,7 +1431,8 @@
         <li><strong class="pname"><code>height</code></strong> - Optional height for the intersection points (<code>meter</code>, 
           conventionally) or <code>None</code> for the <i>&quot;radical 
           height&quot;</i> at the <i>radical line</i> between both centers.</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
+          <b><code>other</code></b> center (<code>bool</code>).</li>
         <li><strong class="pname"><code>equidistant</code></strong> - An azimuthal equidistant projection (<i>class</i> or function <a 
           href="pygeodesy.azimuthal-module.html#equidistant" 
           class="link">pygeodesy.equidistant</a>), or <code>None</code> for
@@ -1478,7 +1497,8 @@
           class="link">BooleanFHP</a> or <a 
           href="pygeodesy.booleans.BooleanGH-class.html" 
           class="link">BooleanGH</a>).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap lat-, wrap and unroll longitudes (<code>bool</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
+          <b><code>points</code></b> (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><code>True</code> if this point is inside the polygon or 
@@ -1529,7 +1549,8 @@
           (<code>meter</code>).</li>
         <li><strong class="pname"><code>fraction</code></strong> - Midpoint location from this point (<code>scalar</code>), may be 
           negative or greater than 1.0.</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
+          <b><code>other</code></b> point (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Midpoint (<code>LatLon</code>).</dd>
@@ -1557,7 +1578,7 @@
         <span class="sig-arg">point2</span>,
         <span class="sig-arg">within</span>=<span class="sig-default">True</span>,
         <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">wrap</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">equidistant</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">tol</span>=<span class="sig-default">0.001</span>)</span>
   </h3>
@@ -1566,8 +1587,8 @@
     </td>
   </tr></table>
   
-  <p>Iteratively locate the closest point on the geodesic between two other
-  (ellipsoidal) points.</p>
+  <p><i>Iteratively</i> locate the closest point on the geodesic between 
+  two other (ellipsoidal) points.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -1581,7 +1602,9 @@
           conventionally) or <code>None</code> or <code>False</code> for 
           the interpolated height.  If <code>False</code>, the closest 
           takes the heights of the points into account.</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll both 
+          <b><code>point1</code></b> and <b><code>point2</code></b> 
+          (<code>bool</code>).</li>
         <li><strong class="pname"><code>equidistant</code></strong> - An azimuthal equidistant projection (<i>class</i> or function <a 
           href="pygeodesy.azimuthal-module.html#equidistant" 
           class="link">pygeodesy.equidistant</a>), or <code>None</code> for
@@ -1628,6 +1651,7 @@
         <span class="sig-arg">epoch</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">reframe</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">sep</span>=<span class="sig-default">','</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -1635,8 +1659,9 @@
     </td>
   </tr></table>
   
-  <p>Parse a string representing a similar, ellipsoidal <code>LatLon</code>
-  point, consisting of <code>&quot;lat, lon[, height]&quot;</code>.</p>
+  <p>Parse a string consisting of <code>&quot;lat, lon[, 
+  height]&quot;</code>, representing a similar, ellipsoidal 
+  <code>LatLon</code> point.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -1655,6 +1680,8 @@
           class="link">RefFrame</a>), overriding this reframe <i>without 
           conversion</i>.</li>
         <li><strong class="pname"><code>sep</code></strong> - Optional separator (<code>str</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> the lat- and 
+          longitude (<code>bool</code>).</li>
         <li><strong class="pname"><code>name</code></strong> - Optional instance name (<code>str</code>), overriding this name.</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -2146,7 +2173,9 @@
           <code><b>area</b>=True</code> or the <i>intersection margin</i> 
           for <code><b>area</b>=False</code> (<code>meter</code>, 
           conventionally).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - Wrap/unroll angular distances (<code>bool</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll 
+          <b><code>point2</code></b> and <b><code>point3</code></b> 
+          (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.namedTuples.Trilaterate5Tuple-class.html" 
@@ -2474,7 +2503,7 @@ href="pygeodesy.ups.Ups-class.html" class="link">Ups</a>.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Apr 23 16:20:30 2023
+    Generated by Epydoc 3.0.1 on Sat May 13 11:43:54 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
