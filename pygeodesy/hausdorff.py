@@ -86,7 +86,7 @@ from pygeodesy.unitsBase import _Str_degrees, _Str_degrees2, _Str_meter, _Str_NN
 from random import Random
 
 __all__ = _ALL_LAZY.hausdorff
-__version__ = '23.05.12'
+__version__ = '23.05.14'
 
 
 class HausdorffError(PointsError):
@@ -347,7 +347,7 @@ class HausdorffCosineAndoyerLambert(_HausdorffMeterRadians):
         '''New L{HausdorffCosineAndoyerLambert} calculator.
 
           @see: L{Hausdorff.__init__} for details about B{C{point1s}},
-                 B{C{seed}}, B{C{name}} and raised exceptions.
+                 B{C{seed}}, B{C{name}} and other exceptions.
 
            @kwarg datum_wrap: Optional keyword arguments for function
                               L{pygeodesy.cosineAndoyerLambert}.
@@ -370,7 +370,7 @@ class HausdorffCosineForsytheAndoyerLambert(_HausdorffMeterRadians):
         '''New L{HausdorffCosineForsytheAndoyerLambert} calculator.
 
            @see: L{Hausdorff.__init__} for details about B{C{point1s}},
-                 B{C{seed}}, B{C{name}} and raised exceptions.
+                 B{C{seed}}, B{C{name}} and other exceptions.
 
            @kwarg datum_wrap: Optional keyword arguments for function
                               L{pygeodesy.cosineAndoyerLambert}.
@@ -398,7 +398,7 @@ class HausdorffCosineLaw(_HausdorffMeterRadians):
                                L{pygeodesy.cosineLaw}.
 
            @see: L{Hausdorff.__init__} for details about B{C{point1s}},
-                 B{C{seed}}, B{C{name}} and raised exceptions.
+                 B{C{seed}}, B{C{name}} and other exceptions.
         '''
         Hausdorff.__init__(self, point1s, seed=seed, name=name,
                                         **radius_wrap)
@@ -424,7 +424,7 @@ class HausdorffDistanceTo(Hausdorff):
                                    method.
 
            @see: L{Hausdorff.__init__} for details about B{C{point1s}},
-                 B{C{seed}}, B{C{name}} and raised exceptions.
+                 B{C{seed}}, B{C{name}} and other exceptions.
 
            @note: All C{model}, C{template} and C{target} B{C{points}}
                   I{must} be instances of the same ellipsoidal or
@@ -463,7 +463,7 @@ class HausdorffEquirectangular(Hausdorff):
                                C{B{limit}=0} for I{backward compatibility}.
 
            @see: L{Hausdorff.__init__} for details about B{C{point1s}},
-                 B{C{seed}}, B{C{name}} and raised exceptions.
+                 B{C{seed}}, B{C{name}} and other exceptions.
         '''
         adjust_limit_wrap = _xkwds(adjust_limit_wrap, limit=0)
         Hausdorff.__init__(self, point1s, seed=seed, name=name,
@@ -486,7 +486,7 @@ class HausdorffEuclidean(_HausdorffMeterRadians):
                                 function L{pygeodesy.euclidean}.
 
            @see: L{Hausdorff.__init__} for details about B{C{point1s}},
-                 B{C{seed}}, B{C{name}} and raised exceptions.
+                 B{C{seed}}, B{C{name}} and other exceptions.
         '''
         Hausdorff.__init__(self, point1s, seed=seed, name=name,
                                         **adjust_wrap)
@@ -514,7 +514,7 @@ class HausdorffExact(Hausdorff):
                         of class L{geodesicx.GeodesicExact}.
 
            @see: L{Hausdorff.__init__} for details about B{C{point1s}},
-                 B{C{seed}}, B{C{name}} and raised exceptions.
+                 B{C{seed}}, B{C{name}} and other exceptions.
 
            @raise TypeError: Invalid B{C{datum}}.
         '''
@@ -541,7 +541,7 @@ class HausdorffFlatLocal(_HausdorffMeterRadians):
                                      function L{pygeodesy.flatLocal}.
 
            @see: L{Hausdorff.__init__} for details about B{C{point1s}},
-                 B{C{seed}}, B{C{name}} and raised exceptions.
+                 B{C{seed}}, B{C{name}} and other exceptions.
 
            @note: The distance C{units} are C{radians squared}, not C{radians}.
         '''
@@ -568,7 +568,7 @@ class HausdorffFlatPolar(_HausdorffMeterRadians):
                                L{pygeodesy.flatPolar}.
 
            @see: L{Hausdorff.__init__} for details about B{C{point1s}},
-                 B{C{seed}}, B{C{name}} and raised exceptions.
+                 B{C{seed}}, B{C{name}} and other exceptions.
         '''
         Hausdorff.__init__(self, points, seed=seed, name=name,
                                        **radius_wrap)
@@ -595,7 +595,7 @@ class HausdorffHaversine(_HausdorffMeterRadians):
                                L{pygeodesy.haversine}.
 
            @see: L{Hausdorff.__init__} for details about B{C{point1s}},
-                 B{C{seed}}, B{C{name}} and raised exceptions.
+                 B{C{seed}}, B{C{name}} and other exceptions.
        '''
         Hausdorff.__init__(self, points, seed=seed, name=name,
                                        **radius_wrap)
@@ -640,7 +640,7 @@ class HausdorffKarney(Hausdorff):
            @raise TypeError: Invalid B{C{datum}}.
 
            @see: L{Hausdorff.__init__} for details about B{C{point1s}},
-                 B{C{seed}}, B{C{name}} and raised exceptions.
+                 B{C{seed}}, B{C{name}} and other exceptions.
         '''
         Hausdorff.__init__(self, point1s, seed=seed, name=name,
                                         **wrap)
@@ -659,7 +659,7 @@ class HausdorffThomas(_HausdorffMeterRadians):
                               L{pygeodesy.thomas}.
 
            @see: L{Hausdorff.__init__} for details about B{C{point1s}},
-                 B{C{seed}}, B{C{name}} and raised exceptions.
+                 B{C{seed}}, B{C{name}} and other exceptions.
         '''
         Hausdorff.__init__(self, point1s, seed=seed, name=name,
                                         **datum_wrap)
@@ -686,7 +686,7 @@ class HausdorffVincentys(_HausdorffMeterRadians):
                                L{pygeodesy.vincentys}.
 
            @see: L{Hausdorff.__init__} for details about B{C{point1s}},
-                 B{C{seed}}, B{C{name}} and raised exceptions.
+                 B{C{seed}}, B{C{name}} and other exceptions.
         '''
         Hausdorff.__init__(self, point1s, seed=seed, name=name,
                                         **radius_wrap)

@@ -17841,6 +17841,7 @@ pygeodesy.named._Named.named	pygeodesy.named._Named-class.html#named
 pygeodesy.named._Named.__str__	pygeodesy.named._Named-class.html#__str__
 pygeodesy.heights._HeightBase.datum	pygeodesy.heights._HeightBase-class.html#datum
 pygeodesy.named._Named.__imatmul__	pygeodesy.named._Named-class.html#__imatmul__
+pygeodesy.heights._HeightsBase.height	pygeodesy.heights._HeightsBase-class.html#height
 pygeodesy.named._Named.classname	pygeodesy.named._Named-class.html#classname
 pygeodesy.heights._HeightsBase._xyhs3	pygeodesy.heights._HeightsBase-class.html#_xyhs3
 pygeodesy.named._Named.classof	pygeodesy.named._Named-class.html#classof

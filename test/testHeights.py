@@ -4,7 +4,7 @@
 # Test L{heights} interpolators.
 
 __all__ = ('Tests',)
-__version__ = '23.05.10'
+__version__ = '23.05.14'
 
 import warnings  # PYCHOK expected
 # RuntimeWarning: numpy.ufunc size changed, may indicate binary
@@ -57,14 +57,14 @@ class Tests(TestsBase):
         self.test(H.__name__+'(list-float)', type(hs[0]), float)
         self.test(H.__name__+'(list-float)', type(hs[1]), float)
         hs2 = interpolator.height(lats, lons)
-        self.test(H.__name__+'(latlon)', hs2 == hs, True)
+        self.test(H.__name__+'(latlon)', hs2 == hs, True, nt=1)
 
     def testHeightError(self, interpolator, *attrs):
         try:  # force an error
             h = interpolator(9.0, 18.0)
         except HeightError as x:
             h = str(x)
-        self.test('HeightError', h, "llis[0] (9.0): 'float' object has no attribute ", known=startswith, nt=1)
+        self.test('HeightError', h, "llis[0] (9.0): 'float' object has no attribute ", known=startswith)
         if coverage:
             n = interpolator.__class__.__name__
             for a in ('datum', 'kmin', 'wrap') + attrs:  # XXX 'adjust'
@@ -140,7 +140,8 @@ class Tests(TestsBase):
         kts = LatLon(1.1, 1, 2), LatLon(2.1, 2, 2), \
               LatLon(1.2, 4, 3), LatLon(2.2, 3, 3)
         lli = kts[0].intersection(*kts[1:])
-        self.test('intersection', lli, '02.64932°N, 002.550079°E, +2.50m')  # mean height
+        self.test('intersection', lli, '02.64932°N, 002.550079°E, +2.50m', nt=1)  # mean height
+
 #       self.testIDW(HeightIDW,                kts, lli, '2.592748835', adjust=True)
         self.testIDW(HeightIDWcosineAndoyerLambert,         kts, lli, '2.592742781', wrap=False)  # XXX 2.592742938
         self.testIDW(HeightIDWcosineForsytheAndoyerLambert, kts, lli, '2.592742781', wrap=False)  # XXX 2.592742938

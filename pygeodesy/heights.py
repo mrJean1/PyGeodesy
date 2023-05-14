@@ -88,7 +88,7 @@ from pygeodesy.props import Property_RO, property_RO
 # from math import radians  # from .formy
 
 __all__ = _ALL_LAZY.heights
-__version__ = '23.05.12'
+__version__ = '23.05.14'
 
 _error_     = 'error'
 _llis_      = 'llis'
@@ -224,10 +224,26 @@ class _HeightsBase(_HeightBase):  # in .geoids
     '''
     _np_sp = None  # (numpy, scipy)
 
-    def __call__(self, *args, **wrap):  # PYCHOK no cover
-        '''(INTERNAL) I{Must be overloaded}, see function C{notOverloaded}.
+    def __call__(self, *llis, **wrap):  # PYCHOK no cover
+        '''Interpolate the height for one or several locations.
+
+           @arg llis: The location or locations (C{LatLon}, ... or
+                      C{LatLon}s).
+           @kwarg wrap: If C{True}, wrap or I{normalize} all B{C{llis}}
+                        locations (C{bool}), overriding the B{C{knots}}
+                        setting.
+
+           @return: A single interpolated height (C{float}) or a list
+                    or tuple of interpolated heights (C{float}s).
+
+           @raise HeightError: Insufficient number of B{C{llis}} or
+                               an invalid B{C{lli}}.
+
+           @raise SciPyError: A C{scipy} issue.
+
+           @raise SciPyWarning: A C{scipy} warning as exception.
         '''
-        notOverloaded(self, callername='__call__', *args, **wrap)
+        notOverloaded(self, callername='__call__', *llis, **wrap)
 
     def _as_xyllis4(self, llis, **wrap):
         # convert lli C{LatLon}s to tuples or C{NumPy} arrays of
@@ -249,6 +265,27 @@ class _HeightsBase(_HeightBase):  # in .geoids
             return _as(self._ev(yis, xis))
         except Exception as x:
             raise _SciPyIssue(x)
+
+    def height(self, lats, lons, **wrap):  # PYCHOK no cover
+        '''Interpolate the height for one or several lat-/longitudes.
+
+           @arg lats: Latitude or latitudes (C{degrees} or C{degrees}s).
+           @arg lons: Longitude or longitudes (C{degrees} or C{degrees}s).
+           @kwarg wrap: If C{True}, wrap or I{normalize} all B{C{lats}}
+                        and B{C{lons}} locationts (C{bool}), overriding
+                        the B{C{knots}}  setting.
+
+           @return: A single interpolated height (C{float}) or a list of
+                    interpolated heights (C{float}s).
+
+           @raise HeightError: Insufficient or non-matching number of
+                               B{C{lats}} and B{C{lons}}.
+
+           @raise SciPyError: A C{scipy} issue.
+
+           @raise SciPyWarning: A C{scipy} warning as exception.
+        '''
+        notOverloaded(self, lats, lons, **wrap)
 
     def _np_sp2(self, throwarnings=False):
         '''(INTERNAL) Import C{numpy} and C{scipy}, once.
@@ -342,22 +379,13 @@ class HeightCubic(_HeightsBase):
     def __call__(self, *llis, **wrap):
         '''Interpolate the height for one or several locations.
 
-           @arg llis: The location or locations (C{LatLon}, ... or
-                      C{LatLon}s).
-           @kwarg wrap: If C{True}, wrap or I{normalize} all B{C{llis}}
-                        locations (C{bool}), overriding the B{C{knots}}
-                        setting.
-
-           @return: A single interpolated height (C{float}) or a list
-                    or tuple of interpolated heights (C{float}s).
-
-           @raise HeightError: Insufficient number of B{C{llis}} or
-                               an invalid B{C{lli}}.
-
            @raise SciPyError: A C{scipy.interpolate.interp2d} issue.
 
            @raise SciPyWarning: A C{scipy.interpolate.interp2d} warning
                                 as exception.
+
+           @see: L{_HeightsBase.__call__} for details about B{C{llis}},
+                  B{C{wrap}}, return values and other exceptions.
         '''
         return _HeightsBase._eval(self, llis, **wrap)
 
@@ -369,22 +397,13 @@ class HeightCubic(_HeightsBase):
     def height(self, lats, lons, **wrap):
         '''Interpolate the height for one or several lat-/longitudes.
 
-           @arg lats: Latitude or latitudes (C{degrees} or C{degrees}s).
-           @arg lons: Longitude or longitudes (C{degrees} or C{degrees}s).
-           @kwarg wrap: If C{True}, wrap or I{normalize} all B{C{lats}}
-                        and B{C{lons}} locationts (C{bool}), overriding
-                        the B{C{knots}}  setting.
-
-           @return: A single interpolated height (C{float}) or a list of
-                    interpolated heights (C{float}s).
-
-           @raise HeightError: Insufficient or non-matching number of
-                               B{C{lats}} and B{C{lons}}.
-
            @raise SciPyError: A C{scipy.interpolate.interp2d} issue.
 
            @raise SciPyWarning: A C{scipy.interpolate.interp2d} warning
                                 as exception.
+
+           @see: L{_HeightsBase.height} for details about B{C{lats}},
+                 B{C{lons}}, B{C{wrap}}, return values and other exceptions.
         '''
         return _height_called(self, lats, lons, **wrap)
 
@@ -400,21 +419,8 @@ class HeightLinear(HeightCubic):
     def __init__(self, knots, name=NN, **wrap):
         '''New L{HeightLinear} interpolator.
 
-           @arg knots: The points with known height (C{LatLon}s).
-           @kwarg name: Optional name for this height interpolator (C{str}).
-           @kwarg wrap: If C{True}, wrap or I{normalize} all B{C{knots}}
-                        and B{C{llis}} locations (C{bool}).
-
-           @raise HeightError: Insufficient number of B{C{knots}} or
-                               an invalid B{C{knot}}.
-
-           @raise ImportError: Package C{numpy} or C{scipy} not found
-                               or not installed.
-
-           @raise SciPyError: A C{scipy.interpolate.interp2d} issue.
-
-           @raise SciPyWarning: A C{scipy.interpolate.interp2d} warning
-                                as exception.
+           @see: L{HeightCubic.__init__} for details about B{C{knots}},
+                  B{C{name}}, B{C{wrap}} and other exceptions.
         '''
         HeightCubic.__init__(self, knots, name=name, **wrap)
 
@@ -489,44 +495,26 @@ class HeightLSQBiSpline(_HeightsBase):
     def __call__(self, *llis, **wrap):
         '''Interpolate the height for one or several locations.
 
-           @arg llis: The location or locations (C{LatLon}, ... or
-                      C{LatLon}s).
-           @kwarg wrap: If C{True}, wrap or I{normalize} all B{C{llis}}
-                        locations (C{bool}), overriding the B{C{knots}}
-                        setting.
-
-           @return: A single interpolated height (C{float}) or a list
-                    or tuple of interpolated heights (C{float}s).
-
-           @raise HeightError: Insufficient number of B{C{llis}} or
-                               an invalid B{C{lli}}.
-
            @raise SciPyError: A C{scipy} C{LSQSphereBivariateSpline} issue.
 
            @raise SciPyWarning: A C{scipy} C{LSQSphereBivariateSpline}
                                 warning as exception.
+
+           @see: L{_HeightsBase.__call__} for details about B{C{llis}},
+                  B{C{wrap}}, return values and other exceptions.
         '''
         return _HeightsBase._eval(self, llis, **wrap)
 
     def height(self, lats, lons, **wrap):
         '''Interpolate the height for one or several lat-/longitudes.
 
-           @arg lats: Latitude or latitudes (C{degrees} or C{degrees}s).
-           @arg lons: Longitude or longitudes (C{degrees} or C{degrees}s).
-           @kwarg wrap: If C{True}, wrap or I{normalize} all B{C{lats}}
-                        and B{C{lons}} locationts (C{bool}), overriding
-                        the B{C{knots}}  setting.
-
-           @return: A single interpolated height (C{float}) or a list of
-                    interpolated heights (C{float}s).
-
-           @raise HeightError: Insufficient or non-matching number of
-                               B{C{lats}} and B{C{lons}}.
-
            @raise SciPyError: A C{scipy} C{LSQSphereBivariateSpline} issue.
 
            @raise SciPyWarning: A C{scipy} C{LSQSphereBivariateSpline}
                                 warning as exception.
+
+           @see: L{_HeightsBase.height} for details about B{C{lats}},
+                 B{C{lons}}, B{C{wrap}}, return values and other exceptions.
         '''
         return _height_called(self, lats, lons, **wrap)
 
@@ -576,44 +564,26 @@ class HeightSmoothBiSpline(_HeightsBase):
     def __call__(self, *llis, **wrap):
         '''Interpolate the height for one or several locations.
 
-           @arg llis: The location or locations (C{LatLon}, ... or
-                      C{LatLon}s).
-           @kwarg wrap: If C{True}, wrap or I{normalize} all B{C{llis}}
-                        locations (C{bool}), overriding the B{C{knots}}
-                        setting.
-
-           @return: A single interpolated height (C{float}) or a list
-                    or tuple of interpolated heights (C{float}s).
-
-           @raise HeightError: Insufficient number of B{C{llis}} or
-                               an invalid B{C{lli}}.
-
            @raise SciPyError: A C{scipy} C{SmoothSphereBivariateSpline} issue.
 
            @raise SciPyWarning: A C{scipy} C{SmoothSphereBivariateSpline}
                                 warning as exception.
+
+           @see: L{_HeightsBase.__call__} for details about B{C{llis}},
+                  B{C{wrap}}, return values and other exceptions.
         '''
         return _HeightsBase._eval(self, llis, **wrap)
 
     def height(self, lats, lons, **wrap):
         '''Interpolate the height for one or several lat-/longitudes.
 
-           @arg lats: Latitude or latitudes (C{degrees} or C{degrees}s).
-           @arg lons: Longitude or longitudes (C{degrees} or C{degrees}s).
-           @kwarg wrap: If C{True}, wrap or I{normalize} all B{C{lats}}
-                        and B{C{lons}} locationts (C{bool}), overriding
-                        the B{C{knots}}  setting.
-
-           @return: A single interpolated height (C{float}) or a list of
-                    interpolated heights (C{float}s).
-
-           @raise HeightError: Insufficient or non-matching number of
-                               B{C{lats}} and B{C{lons}}.
-
            @raise SciPyError: A C{scipy} C{SmoothSphereBivariateSpline} issue.
 
            @raise SciPyWarning: A C{scipy} C{SmoothSphereBivariateSpline}
                                 warning as exception.
+
+           @see: L{_HeightsBase.height} for details about B{C{lats}},
+                 B{C{lons}}, B{C{wrap}}, return values and other exceptions.
         '''
         return _height_called(self, lats, lons, **wrap)
 
@@ -807,7 +777,7 @@ class HeightIDWcosineAndoyerLambert(_HeightIDW):
                               L{pygeodesy.cosineAndoyerLambert}.
 
            @see: L{_HeightIDW.__init__} for details about B{C{knots}},
-                 B{C{beta}}, B{C{name}} and raised exceptions.
+                 B{C{beta}}, B{C{name}} and other exceptions.
         '''
         _HeightIDW.__init__(self, knots, beta=beta, name=name, **datum_wrap)
         self._func = cosineAndoyerLambert
@@ -830,7 +800,7 @@ class HeightIDWcosineForsytheAndoyerLambert(_HeightIDW):
                               L{pygeodesy.cosineAndoyerLambert}.
 
            @see: L{_HeightIDW.__init__} for details about B{C{knots}},
-                 B{C{beta}}, B{C{name}} and raised exceptions.
+                 B{C{beta}}, B{C{name}} and other exceptions.
         '''
         _HeightIDW.__init__(self, knots, beta=beta, name=name, **datum_wrap)
         self._func = cosineForsytheAndoyerLambert
@@ -854,7 +824,7 @@ class HeightIDWcosineLaw(_HeightIDW):
                               L{pygeodesy.cosineLaw}.
 
            @see: L{_HeightIDW.__init__} for details about B{C{knots}},
-                 B{C{beta}}, B{C{name}} and raised exceptions.
+                 B{C{beta}}, B{C{name}} and other exceptions.
         '''
         _HeightIDW.__init__(self, knots, beta=beta, name=name, **radius_wrap)
         self._func = cosineLaw
@@ -878,7 +848,7 @@ class HeightIDWdistanceTo(_HeightIDW):
                                    method.
 
            @see: L{_HeightIDW.__init__} for details about B{C{knots}},
-                 B{C{beta}}, B{C{name}} and raised exceptions.
+                 B{C{beta}}, B{C{name}} and other exceptions.
 
            @note: All B{C{points}} I{must} be instances of the same
                   ellipsoidal or spherical C{LatLon} class, I{not
@@ -918,7 +888,7 @@ class HeightIDWequirectangular(_HeightIDW):
                                function L{pygeodesy.equirectangular_}.
 
            @see: L{_HeightIDW.__init__} for details about B{C{knots}},
-                 B{C{beta}}, B{C{name}} and raised exceptions.
+                 B{C{beta}}, B{C{name}} and other exceptions.
         '''
         _HeightIDW.__init__(self, knots, beta=beta, name=name,
                                        **adjust_limit_wrap)
@@ -947,7 +917,7 @@ class HeightIDWeuclidean(_HeightIDW):
                                 function L{pygeodesy.euclidean_}.
 
            @see: L{_HeightIDW.__init__} for details about B{C{knots}},
-                 B{C{beta}}, B{C{name}} and raised exceptions.
+                 B{C{beta}}, B{C{name}} and other exceptions.
         '''
         _HeightIDW.__init__(self, knots, beta=beta, name=name,
                                        **adjust_radius_wrap)
@@ -976,7 +946,7 @@ class HeightIDWexact(_HeightIDW):
            @raise TypeError: Invalid B{C{datum}}.
 
            @see: L{_HeightIDW.__init__} for details about B{C{knots}},
-                 B{C{beta}}, B{C{name}} and raised exceptions.
+                 B{C{beta}}, B{C{name}} and other exceptions.
         '''
         _HeightIDW.__init__(self, knots, beta=beta, name=name, **wrap)
         self._datum_setter(datum)
@@ -1000,7 +970,7 @@ class HeightIDWflatLocal(_HeightIDW):
                               function L{pygeodesy.flatLocal_}.
 
            @see: L{_HeightIDW.__init__} for details about B{C{knots}},
-                 B{C{beta}}, B{C{name}} and raised exceptions.
+                 B{C{beta}}, B{C{name}} and other exceptions.
         '''
         _HeightIDW.__init__(self, knots, beta=beta, name=name,
                                        **datum_hypot_scaled_wrap)
@@ -1024,7 +994,7 @@ class HeightIDWflatPolar(_HeightIDW):
                                L{pygeodesy.flatPolar}.
 
            @see: L{_HeightIDW.__init__} for details about B{C{knots}},
-                 B{C{beta}}, B{C{name}} and raised exceptions.
+                 B{C{beta}}, B{C{name}} and other exceptions.
         '''
         _HeightIDW.__init__(self, knots, beta=beta, name=name, **radius_wrap)
         self._func = flatPolar
@@ -1048,7 +1018,7 @@ class HeightIDWhaversine(_HeightIDW):
                                L{pygeodesy.haversine}.
 
            @see: L{_HeightIDW.__init__} for details about B{C{knots}},
-                 B{C{beta}}, B{C{name}} and raised exceptions.
+                 B{C{beta}}, B{C{name}} and other exceptions.
         '''
         _HeightIDW.__init__(self, knots, beta=beta, name=name, **radius_wrap)
         self._func = haversine
@@ -1089,7 +1059,7 @@ class HeightIDWkarney(_HeightIDW):
            @raise TypeError: Invalid B{C{datum}}.
 
            @see: L{_HeightIDW.__init__} for details about B{C{knots}},
-                 B{C{beta}}, B{C{name}} and raised exceptions.
+                 B{C{beta}}, B{C{name}} and other exceptions.
         '''
         _HeightIDW.__init__(self, knots, beta=beta, name=name, **wrap)
         self._datum_setter(datum)
@@ -1112,7 +1082,7 @@ class HeightIDWthomas(_HeightIDW):
                               L{pygeodesy.thomas}.
 
            @see: L{_HeightIDW.__init__} for details about B{C{knots}},
-                 B{C{beta}}, B{C{name}} and raised exceptions.
+                 B{C{beta}}, B{C{name}} and other exceptions.
         '''
         _HeightIDW.__init__(self, knots, beta=beta, name=name, **datum_wrap)
         self._func = thomas
@@ -1136,7 +1106,7 @@ class HeightIDWvincentys(_HeightIDW):
                                L{pygeodesy.vincentys}.
 
            @see: L{_HeightIDW.__init__} for details about B{C{knots}},
-                 B{C{beta}}, B{C{name}} and raised exceptions.
+                 B{C{beta}}, B{C{name}} and other exceptions.
         '''
         _HeightIDW.__init__(self, knots, beta=beta, name=name, **radius_wrap)
         self._func = vincentys

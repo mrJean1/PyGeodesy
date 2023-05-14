@@ -103,7 +103,7 @@ from collections import defaultdict as _defaultdict
 # from math import radians  # from .points
 
 __all__ = _ALL_LAZY.frechet
-__version__ = '23.05.12'
+__version__ = '23.05.14'
 
 
 def _fraction(fraction, n):
@@ -390,7 +390,7 @@ class FrechetCosineAndoyerLambert(_FrechetMeterRadians):
                               L{pygeodesy.cosineAndoyerLambert}.
 
            @see: L{Frechet.__init__} for details about B{C{point1s}},
-                 B{C{fraction}}, B{C{name}} and raised exceptions.
+                 B{C{fraction}}, B{C{name}} and other exceptions.
         '''
         Frechet.__init__(self, point1s, fraction=fraction, name=name,
                                       **datum_wrap)
@@ -412,7 +412,7 @@ class FrechetCosineForsytheAndoyerLambert(_FrechetMeterRadians):
                               L{pygeodesy.cosineAndoyerLambert}.
 
            @see: L{Frechet.__init__} for details about B{C{point1s}},
-                 B{C{fraction}}, B{C{name}} and raised exceptions.
+                 B{C{fraction}}, B{C{name}} and other exceptions.
         '''
         Frechet.__init__(self, point1s, fraction=fraction, name=name,
                                       **datum_wrap)
@@ -436,7 +436,7 @@ class FrechetCosineLaw(_FrechetMeterRadians):
                                L{pygeodesy.cosineLaw}.
 
            @see: L{Frechet.__init__} for details about B{C{point1s}},
-                 B{C{fraction}}, B{C{name}} and raised exceptions.
+                 B{C{fraction}}, B{C{name}} and other exceptions.
         '''
         Frechet.__init__(self, point1s, fraction=fraction, name=name,
                                       **radius_wrap)
@@ -461,7 +461,7 @@ class FrechetDistanceTo(Frechet):  # FrechetMeter
                                    method.
 
            @see: L{Frechet.__init__} for details about B{C{point1s}},
-                 B{C{fraction}}, B{C{name}} and raised exceptions.
+                 B{C{fraction}}, B{C{name}} and other exceptions.
 
            @note: All B{C{point1s}} I{must} be instances of the same
                   ellipsoidal or spherical C{LatLon} class.
@@ -498,7 +498,7 @@ class FrechetEquirectangular(Frechet):
                                C{B{limit}=0} for I{backward compatibility}.
 
            @see: L{Frechet.__init__} for details about B{C{point1s}},
-                 B{C{fraction}}, B{C{name}} and raised exceptions.
+                 B{C{fraction}}, B{C{name}} and other exceptions.
         '''
         adjust_limit_wrap = _xkwds(adjust_limit_wrap, limit=0)
         Frechet.__init__(self, point1s, fraction=fraction, name=name,
@@ -520,7 +520,7 @@ class FrechetEuclidean(_FrechetMeterRadians):
                                 function L{pygeodesy.euclidean}.
 
            @see: L{Frechet.__init__} for details about B{C{point1s}},
-                 B{C{fraction}}, B{C{name}} and raised exceptions.
+                 B{C{fraction}}, B{C{name}} and other exceptions.
         '''
         Frechet.__init__(self, point1s, fraction=fraction, name=name,
                                       **adjust_radius_wrap)
@@ -549,7 +549,7 @@ class FrechetExact(Frechet):
            @raise TypeError: Invalid B{C{datum}}.
 
            @see: L{Frechet.__init__} for details about B{C{point1s}},
-                 B{C{fraction}}, B{C{name}} and raised exceptions.
+                 B{C{fraction}}, B{C{name}} and other exceptions.
         '''
         Frechet.__init__(self, point1s, fraction=fraction, name=name,
                                       **wrap)
@@ -573,7 +573,7 @@ class FrechetFlatLocal(_FrechetMeterRadians):
                                      function L{pygeodesy.flatLocal}.
 
            @see: L{Frechet.__init__} for details about B{C{point1s}},
-                 B{C{fraction}}, B{C{name}} and raised exceptions.
+                 B{C{fraction}}, B{C{name}} and other exceptions.
 
            @note: The distance C{units} are C{radians squared}, not C{radians}.
         '''
@@ -597,7 +597,7 @@ class FrechetFlatPolar(_FrechetMeterRadians):
                                L{pygeodesy.flatPolar}.
 
            @see: L{Frechet.__init__} for details about B{C{point1s}},
-                 B{C{fraction}}, B{C{name}} and raised exceptions.
+                 B{C{fraction}}, B{C{name}} and other exceptions.
        '''
         Frechet.__init__(self, point1s, fraction=fraction, name=name,
                                       **radius_wrap)
@@ -621,7 +621,7 @@ class FrechetHaversine(_FrechetMeterRadians):
                                L{pygeodesy.haversine}.
 
            @see: L{Frechet.__init__} for details about B{C{point1s}},
-                 B{C{fraction}}, B{C{name}} and raised exceptions.
+                 B{C{fraction}}, B{C{name}} and other exceptions.
         '''
         Frechet.__init__(self, point1s, fraction=fraction, name=name,
                                       **radius_wrap)
@@ -664,7 +664,7 @@ class FrechetKarney(Frechet):
            @raise TypeError: Invalid B{C{datum}}.
 
            @see: L{Frechet.__init__} for details about B{C{point1s}},
-                 B{C{fraction}}, B{C{name}} and raised exceptions.
+                 B{C{fraction}}, B{C{name}} and other exceptions.
         '''
         Frechet.__init__(self, point1s, fraction=fraction, name=name,
                                       **wrap)
@@ -686,7 +686,7 @@ class FrechetThomas(_FrechetMeterRadians):
                               L{pygeodesy.thomas}.
 
            @see: L{Frechet.__init__} for details about B{C{point1s}},
-                 B{C{fraction}}, B{C{name}} and raised exceptions.
+                 B{C{fraction}}, B{C{name}} and other exceptions.
         '''
         Frechet.__init__(self, point1s, fraction=fraction, name=name,
                                       **datum_wrap)
@@ -710,7 +710,7 @@ class FrechetVincentys(_FrechetMeterRadians):
                                L{pygeodesy.vincentys}.
 
            @see: L{Frechet.__init__} for details about B{C{point1s}},
-                 B{C{fraction}}, B{C{name}} and raised exceptions.
+                 B{C{fraction}}, B{C{name}} and other exceptions.
         '''
         Frechet.__init__(self, point1s, fraction=fraction, name=name,
                                       **radius_wrap)
