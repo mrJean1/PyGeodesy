@@ -64,7 +64,7 @@ from pygeodesy.datums import a_f2Tuple, _ellipsoidal_datum
 from pygeodesy.errors import _IndexError, LenError, _ValueError, _TypesError, \
                              _xattr, _xdatum, _xkwds
 from pygeodesy.fmath import cbrt, fdot, hypot, hypot1, hypot2_
-from pygeodesy.fsums import Fsum, fsum_
+from pygeodesy.fsums import Fsum, fsumf_
 from pygeodesy.interns import NN, _a_, _C_, _datum_, _ellipsoid_, _f_, _height_, \
                              _lat_, _lon_, _M_, _name_, _singular_, _SPACE_, \
                              _x_, _xyz_, _y_, _z_
@@ -81,7 +81,7 @@ from pygeodesy.utily import atan2d, degrees90, degrees180, sincos2, sincos2_, \
 from math import asin, atan2, cos, degrees, fabs, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '23.05.06'
+__version__ = '23.05.15'
 
 _Ecef_    = 'Ecef'
 _prolate_ = 'prolate'
@@ -382,12 +382,12 @@ class EcefFarrell21(_EcefBase):
             F  = b2 * z2 * 54
             c  = e4 * p2 * F / G**3
             s  = cbrt(_1_0 + c + sqrt(c**2 + c * 2))
-            P  = F / (_3_0 * (fsum_(_1_0, s, _1_0 / s) * G)**2)
+            P  = F / (_3_0 * (fsumf_(_1_0, s, _1_0 / s) * G)**2)
             Q  = sqrt(_1_0 + _2_0 * e4 * P)
             Q1 = Q +  _1_0
-            r0 = P * e2 * p / Q1 - sqrt(fsum_(a2 * (Q1 / Q) * _0_5,
-                                              -P * ez / (Q * Q1),
-                                              -P * p2 * _0_5))
+            r0 = P * e2 * p / Q1 - sqrt(fsumf_(a2 * (Q1 / Q) * _0_5,
+                                               -P * ez / (Q * Q1),
+                                               -P * p2 * _0_5))
             r = p + e2 * r0
             v = b2 / (a * sqrt(r**2 + ez))
 
@@ -560,7 +560,7 @@ class EcefKarney(_EcefBase):
                     t = cbrt(t3)  # t = r * t
                     # t can be zero; but then r2 / t -> 0.
                     if t:
-                        u = fsum_(u, t, r2 / t)
+                        u = fsumf_(u, t, r2 / t)
                 v = sqrt(e + u**2)  # guaranteed positive
                 # Avoid loss of accuracy when u < 0.  Underflow doesn't occur in
                 # E.e4 * q / (v - u) because u ~ e^4 when q is small and u < 0.
@@ -676,7 +676,7 @@ class EcefSudano(_EcefBase):
 
         if a is None:
             a = copysign0(asin(sa), z)
-        h = fsum_(h * ca, fabs(z * sa), -E.a * E.e2s(sa))  # use Veness',
+        h = fsumf_(h * ca, fabs(z * sa), -E.a * E.e2s(sa))  # use Veness',
         # since Sudano's Eq (7) doesn't provide the correct height
         # h = (fabs(z) + h - E.a * cos(a + E.e21) * sa / ca) / (ca + sa)
 
@@ -766,7 +766,7 @@ class EcefVeness(_EcefBase):
             sa, ca = sincos2(a)
 #           r = E.a / E.e2s(sa)  # length of normal terminated by minor axis
 #           h = p * ca + z * sa - (E.a * E.a / r)
-            h = fsum_(p * ca, z * sa, -E.a * E.e2s(sa))
+            h = fsumf_(p * ca, z * sa, -E.a * E.e2s(sa))
 
             C, lat, lon = 1, degrees90(a), atan2d(y, x)
 
@@ -828,7 +828,7 @@ class EcefYou(_EcefBase):
         e = sqrt(e2)  # XXX sqrt0(e2)?
 
         q = hypot(x, y)
-        u = fsum_(r2, -e2, hypot(r2 - e2, 2 * e * z)) * _0_5
+        u = fsumf_(r2, -e2, hypot(r2 - e2, 2 * e * z)) * _0_5
         if u > EPS02:
             u = sqrt(u)
             p = hypot(u, e)
@@ -838,7 +838,7 @@ class EcefYou(_EcefBase):
                 p *= E.a
                 d  = (p / cB - e2 * cB) / sB
                 if isnon0(d):
-                    B += fsum_(u * E.b, -p, e2) / d
+                    B += fsumf_(u * E.b, -p, e2) / d
                     sB, cB = sincos2(B)
         elif u < 0:
             raise EcefError(x=x, y=y, z=z, txt=_singular_)

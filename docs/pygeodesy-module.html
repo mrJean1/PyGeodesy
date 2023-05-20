@@ -68,7 +68,7 @@
   target="_top">JavaScript originals</a> by <i>Chris Veness (C) 
   2005-2022</i> and from several <a 
   href="https://GeographicLib.SourceForge.io/C++/doc/annotated.html" 
-  target="_top">C++ classes</a> by <i>Charles F.F. Karney (C) 2008-2022</i>
+  target="_top">C++ classes</a> by <i>Charles F.F. Karney (C) 2008-2023</i>
   and published under the same <a 
   href="https://OpenSource.org/licenses/MIT" target="_top">MIT 
   License</a>**.</p>
@@ -167,6 +167,13 @@
     <p>To install PyGeodesy, type <code>python[3] -m pip install 
     PyGeodesy</code> or <code>python[3] -m easy_install PyGeodesy</code> in
     a terminal or command window.</p>
+    <p>If the wheel <code>PyGeodesy-yy.m.d-py2.py3-none-any.whl</code> is 
+    missing in <a href="https://PyPI.org/project/PyGeodesy/#files" 
+    target="_top">PyPI Download files</a>, download the file from <a 
+    href="https://GitHub.com/mrJean1/PyGeodesy/tree/master/dist" 
+    target="_top">GitHub/dist</a>.  Install that with <code>python[3] -m 
+    pip install &lt;path-to-downloaded-wheel&gt;</code> and verify with 
+    <code>python[3] -m pygeodesy</code>.</p>
     <p>Alternatively, download <code>PyGeodesy-yy.m.d.zip</code> from <a 
     href="https://PyPI.org/project/PyGeodesy" target="_top">PyPI</a> or <a 
     href="https://GitHub.com/mrJean1/PyGeodesy" target="_top">GitHub</a>, 
@@ -527,7 +534,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        23.05.14
+        23.05.21
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -622,7 +629,7 @@
         summation.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.fsums-module.html">pygeodesy.fsums</a></strong>: <em class="summary">Class <a href="pygeodesy.fsums.Fsum-class.html" 
         class="link">Fsum</a> for precision floating point summation and 
-        <i>running</i> summation, based on respectively similar to Python's
+        <i>running</i> summation based on, respectively similar to Python's
         <code>math.fsum</code>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.gars-module.html">pygeodesy.gars</a></strong>: <em class="summary"><i>Global Area Reference System</i> (GARS) en-/decoding.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.geodesicw-module.html">pygeodesy.geodesicw</a></strong>: <em class="summary">Wrapper around Python classes <code>geodesic.Geodesic</code> and 
@@ -762,17 +769,19 @@
     <li> <strong class="uidlink"><a href="pygeodesy.sphericalTrigonometry-module.html">pygeodesy.sphericalTrigonometry</a></strong>: <em class="summary">Spherical, <code>trigonometry</code>-based geodesy.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.streprs-module.html">pygeodesy.streprs</a></strong>: <em class="summary">Floating point and other formatting utilities.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.trf-module.html">pygeodesy.trf</a></strong>: <em class="summary"><i>Veness</i>' Terrestrial Reference Frames (TRF).</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.triaxials-module.html">pygeodesy.triaxials</a></strong>: <em class="summary">Triaxal ellipsoid classes <a 
-        href="pygeodesy.triaxials.JacobiConformal-class.html" 
-        class="link">JacobiConformal</a>, Jacobi's conformal projection, 
-        trancoded from <i>Charles Karney</i>'s C++ class <a 
-        href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1JacobiConformal.html#details"
-        target="_top">JacobiConformal</a> to pure Python, <i>ordered</i> <a
+    <li> <strong class="uidlink"><a href="pygeodesy.triaxials-module.html">pygeodesy.triaxials</a></strong>: <em class="summary">Triaxal ellipsoid classes <i>ordered</i> <a 
         href="pygeodesy.triaxials.Triaxial-class.html" 
         class="link">Triaxial</a> and <i>unordered</i> <a 
         href="pygeodesy.triaxials.Triaxial_-class.html" 
-        class="link">Triaxial_</a> and miscellaneous classes <a 
-        href="pygeodesy.triaxials.BetaOmega2Tuple-class.html" 
+        class="link">Triaxial_</a> and Jacobi conformal projections <a 
+        href="pygeodesy.triaxials.JacobiConformal-class.html" 
+        class="link">JacobiConformal</a> and <a 
+        href="pygeodesy.triaxials.JacobiConformalSpherical-class.html" 
+        class="link">JacobiConformalSpherical</a>, transcoded from 
+        <i>Charles Karney</i>'s C++ class <a 
+        href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1JacobiConformal.html#details"
+        target="_top">JacobiConformal</a> to pure Python and miscellaneous 
+        classes <a href="pygeodesy.triaxials.BetaOmega2Tuple-class.html" 
         class="link">BetaOmega2Tuple</a>, <a 
         href="pygeodesy.triaxials.BetaOmega3Tuple-class.html" 
         class="link">BetaOmega3Tuple</a>, <a 
@@ -1193,8 +1202,10 @@
     </td><td class="summary">
         <a href="pygeodesy.triaxials.BetaOmega2Tuple-class.html" class="summary-name">BetaOmega2Tuple</a><br />
       2-Tuple <code>(beta, omega)</code> with <i>ellipsoidal</i> lat- and
-        longitude <code>beta</code> and <code>omega</code> both in 
-        <code>Radians</code> (or <code>Degrees</code>).
+        longitude <code>beta</code> and <code>omega</code> both in <a 
+        href="pygeodesy.units.Radians-class.html" class="link">Radians</a> 
+        (or <a href="pygeodesy.units.Degrees-class.html" 
+        class="link">Degrees</a>).
     </td>
   </tr>
 <tr>
@@ -1204,9 +1215,11 @@
         <a href="pygeodesy.triaxials.BetaOmega3Tuple-class.html" class="summary-name">BetaOmega3Tuple</a><br />
       3-Tuple <code>(beta, omega, height)</code> with <i>ellipsoidal</i> 
         lat- and longitude <code>beta</code> and <code>omega</code> both in
-        <code>Radians</code> (or <code>Degrees</code>) and the 
-        <a href=pygeodesy.heights-module.html><code>height</code></a>, rather the (signed) <i>distance</i> to the 
-        triaxial's surface (measured along the radial line to the 
+        <a href="pygeodesy.units.Radians-class.html" 
+        class="link">Radians</a> (or <a 
+        href="pygeodesy.units.Degrees-class.html" class="link">Degrees</a>)
+        and the <a href=pygeodesy.heights-module.html><code>height</code></a>, rather the (signed) <i>distance</i> to
+        the triaxial's surface (measured along the radial line to the 
         triaxial's center) in <code>meter</code>, conventionally.
     </td>
   </tr>
@@ -3224,8 +3237,10 @@
     </td><td class="summary">
         <a href="pygeodesy.triaxials.Jacobi2Tuple-class.html" class="summary-name">Jacobi2Tuple</a><br />
       2-Tuple <code>(x, y)</code> with a Jacobi Conformal <code>x</code> 
-        and <code>y</code> projection, both in <code>Radians</code> (or 
-        <code>Degrees</code>).
+        and <code>y</code> projection, both in <a 
+        href="pygeodesy.units.Radians-class.html" class="link">Radians</a> 
+        (or <a href="pygeodesy.units.Degrees-class.html" 
+        class="link">Degrees</a>).
     </td>
   </tr>
 <tr>
@@ -3236,6 +3251,16 @@
       This is a conformal projection of a triaxial ellipsoid to a plane 
         in which the <code>X</code> and <code>Y</code> grid lines are 
         straight.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.triaxials.JacobiConformalSpherical-class.html" class="summary-name">JacobiConformalSpherical</a><br />
+      An alternate, <i>spherical</i> <a 
+        href="pygeodesy.triaxials.JacobiConformal-class.html" 
+        class="link">JacobiConformal</a> projection.
     </td>
   </tr>
 <tr>
@@ -7650,7 +7675,7 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#fidw" class="summary-sig-name">fidw</a>(<span class="summary-sig-arg">xs</span>,
         <span class="summary-sig-arg">ds</span>,
         <span class="summary-sig-arg">beta</span>=<span class="summary-sig-default">2</span>)</span><br />
-      Interpolate using using <a 
+      Interpolate using <a 
       href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
       target="_top">Inverse Distance Weighting</a> (IDW).</td>
           <td align="right" valign="top">
@@ -8082,7 +8107,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#fsum1" class="summary-sig-name">fsum1</a>(<span class="summary-sig-arg">xs</span>,
         <span class="summary-sig-arg">floats</span>=<span class="summary-sig-default">False</span>)</span><br />
-      Precision floating point summation of a few values, 1-primed.</td>
+      Precision floating point summation of a few arguments, 1-primed.</td>
           <td align="right" valign="top">
             
             
@@ -8116,9 +8141,47 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a name="fsum1f_"></a><span class="summary-sig-name">fsum1f_</span>(<span class="summary-sig-arg">*xs</span>)</span><br />
+      Precision floating point summation <a 
+      href="pygeodesy.fsums-module.html#fsum1_" 
+      class="link">fsum1_</a><code>(*xs, floats=True)</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#fsum_" class="summary-sig-name">fsum_</a>(<span class="summary-sig-arg">*xs</span>,
         <span class="summary-sig-arg">**floats</span>)</span><br />
       Precision floating point summation of all positional arguments.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="fsumf_"></a><span class="summary-sig-name">fsumf_</span>(<span class="summary-sig-arg">*xs</span>)</span><br />
+      Precision floating point summation <a 
+      href="pygeodesy.fsums-module.html#fsum_" 
+      class="link">fsum_</a><code>(*xs, floats=True)</code>.</td>
           <td align="right" valign="top">
             
             
@@ -8361,7 +8424,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fc3d89b3dd0&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f8498762f50&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -11714,7 +11777,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#sqrt0" class="summary-sig-name">sqrt0</a>(<span class="summary-sig-arg">x</span>)</span><br />
-      Compute the square root iff <code><b>x</b> &gt;</code> EPS02.</td>
+      Return the square root iff <code><b>x</b> &gt;</code> EPS02.</td>
           <td align="right" valign="top">
             
             
@@ -12930,7 +12993,7 @@ ygeodesy'"><code class="variable-quote">'</code><code class="variable-string">/U
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'23.5.14'"><code class="variable-quote">'</code><code class="variable-string">23.5.14</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'23.5.21'"><code class="variable-quote">'</code><code class="variable-string">23.5.21</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -19320,7 +19383,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </td>
   </tr></table>
   
-  <p>Interpolate using using <a 
+  <p>Interpolate using <a 
   href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
   target="_top">Inverse Distance Weighting</a> (IDW).</p>
   <dl class="fields">
@@ -20256,7 +20319,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>xs</code></strong> - Iterable, list, tuple, etc. of values (<code>scalar</code> or <a 
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> 
           instances).</li>
-        <li><strong class="pname"><code>floats</code></strong> - Optionally, set <code><b>floats</b>=True</code> iff <i>all</i> 
+        <li><strong class="pname"><code>floats</code></strong> - Optionally, use <code><b>floats</b>=True</code> iff <i>all</i> 
           <b><code>xs</code></b> are known to be <code>float</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -20297,14 +20360,14 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </td>
   </tr></table>
   
-  <p>Precision floating point summation of a few values, 1-primed.</p>
+  <p>Precision floating point summation of a few arguments, 1-primed.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>xs</code></strong> - Iterable, list, tuple, etc. of values (<code>scalar</code> or <a 
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> 
           instances).</li>
-        <li><strong class="pname"><code>floats</code></strong> - Optionally, set <code><b>floats</b>=True</code> iff <i>all</i> 
+        <li><strong class="pname"><code>floats</code></strong> - Optionally, use <code><b>floats</b>=True</code> iff <i>all</i> 
           <b><code>xs</code></b> are known to be <code>float</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -20337,7 +20400,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>xs</code></strong> - Values to be added (<code>scalar</code> or <a 
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> 
           instances), all positional.</li>
-        <li><strong class="pname"><code>floats</code></strong> - Optionally, set <code><b>floats</b>=True</code> iff <i>all</i> 
+        <li><strong class="pname"><code>floats</code></strong> - Optionally, use <code><b>floats</b>=True</code> iff <i>all</i> 
           <b><code>xs</code></b> are known to be <code>float</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -20370,7 +20433,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>xs</code></strong> - Values to be added (<code>scalar</code> or <a 
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> 
           instances), all positional.</li>
-        <li><strong class="pname"><code>floats</code></strong> - Optionally, set <code><b>floats</b>=True</code> iff <i>all</i> 
+        <li><strong class="pname"><code>floats</code></strong> - Optionally, use <code><b>floats</b>=True</code> iff <i>all</i> 
           <b><code>xs</code></b> are known to be <code>float</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -20827,9 +20890,12 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           href="pygeodesy.triaxials.Triaxial_-class.html" 
           class="link">Triaxial_</a>, <a 
           href="pygeodesy.triaxials.JacobiConformal-class.html" 
-          class="link">JacobiConformal</a>) or biaxial ellipsoid (<a 
-          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>, 
-          <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+          class="link">JacobiConformal</a> or <a 
+          href="pygeodesy.triaxials.JacobiConformalSpherical-class.html" 
+          class="link">JacobiConformalSpherical</a>) or biaxial ellipsoid 
+          (<a href="pygeodesy.datums.Datum-class.html" 
+          class="link">Datum</a>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
           class="link">Ellipsoid</a>, <a 
           href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
           class="link">Ellipsoid2</a>, <a 
@@ -20842,7 +20908,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <dd><a href="pygeodesy.namedTuples.Vector4Tuple-class.html" 
           class="link">Vector4Tuple</a><code>(x, y, z, h)</code> on the 
           tri-/biaxial's surface, with <code>h</code> the distance from 
-          <b><code>pov</code></b> to <code>(x, y, z)</code> along 
+          <b><code>pov</code></b> to <code>(x, y, z)</code> along the 
           <b><code>los</code></b>, all in <code>meter</code>, 
           conventionally.</dd>
     <dt>Raises:</dt>
@@ -20880,7 +20946,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fc3d89b3dd0&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f8498762f50&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -27597,7 +27663,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </td>
   </tr></table>
   
-  <p>Compute the square root iff <code><b>x</b> &gt;</code> EPS02.</p>
+  <p>Return the square root iff <code><b>x</b> &gt;</code> EPS02.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -27607,7 +27673,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <dd>Square root (<code>float</code>) or <code>0.0</code>.</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
-        Any <code><b>x</b> &lt;</code> EPS02 <i>including</i> 
+        Any <code><b>x</b> &lt; </code>EPS02 <i>including</i> 
         <code><b>x</b> &lt; 0</code> returns <code>0.0</code>.
       </p>
 </div></td></tr></table>
@@ -30491,7 +30557,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun May 14 08:50:46 2023
+    Generated by Epydoc 3.0.1 on Sat May 20 11:36:09 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

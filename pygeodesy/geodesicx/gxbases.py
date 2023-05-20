@@ -3,7 +3,7 @@
 
 u'''(INTERNAL) Private L{geodesicx} base class, functions and constants.
 
-Copyright (C) U{Charles Karney<mailto:Charles@Karney.com>} (2008-2022)
+Copyright (C) U{Charles Karney<mailto:Charles@Karney.com>} (2008-2023)
 and licensed under the MIT/X11 License.  For more information, see the
 U{GeographicLib<https://GeographicLib.SourceForge.io>} documentation.
 '''
@@ -17,7 +17,7 @@ from pygeodesy.karney import _CapsBase, GeodesicError, isodd, _hypot, _sum2_
 from math import ldexp as _ldexp
 
 __all__ = ()
-__version__ = '23.03.25'
+__version__ = '23.05.15'
 
 # valid C{nC4}s and C{C4order}s, see _xnC4 below
 _nC4s = {24: 2900, 27: 4032, 30: 5425}

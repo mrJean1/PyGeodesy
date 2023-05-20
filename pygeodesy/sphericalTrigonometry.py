@@ -25,7 +25,7 @@ from pygeodesy.errors import _AssertionError, CrossError, crosserrors, \
                              _ValueError, IntersectionError, _xError, \
                              _xkwds, _xkwds_get, _xkwds_pop
 from pygeodesy.fmath import favg, fdot, fmean, hypot
-from pygeodesy.fsums import Fsum, fsum, fsum_
+from pygeodesy.fsums import Fsum, fsum, fsumf_
 from pygeodesy.formy import antipode_, bearing_, _bearingTo2, excessAbc_, \
                             excessGirard_, excessLHuilier_, opposing_, _radical2, \
                             vincentys_
@@ -55,7 +55,7 @@ from pygeodesy.vector3d import sumOf, Vector3d
 from math import asin, atan2, cos, degrees, fabs, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '23.05.05'
+__version__ = '23.05.15'
 
 _parallel_ = 'parallel'
 
@@ -1189,7 +1189,7 @@ def _intersects2(c1, rad1, c2, rad2, radius=R_M, eps=_0_0,  # in .ellipsoidalBas
     if r < _0_0:
         raise _ValueError(eps=r)
 
-    x = fsum_(r1, r2, -d)  # overlap
+    x = fsumf_(r1, r2, -d)  # overlap
     if x > max(r, EPS):
         sd, cd, sr1, cr1, _, cr2 = sincos2_(d, r1, r2)
         x = sd * sr1
@@ -1468,7 +1468,7 @@ def triangle8_(phiA, lamA, phiB, lamB, phiC, lamC, excess=excessAbc_,
     B, r = _A_r(b, *r)
     C, _ = _A_r(c, *r)
 
-    D = fsum_(PI2, -a, -b, -c, floats=True)  # deficit aka defect
+    D = fsumf_(PI2, -a, -b, -c)  # deficit aka defect
     E = excessGirard_(A, B, C)   if excess in (excessGirard_,   True)  else (
         excessLHuilier_(a, b, c) if excess in (excessLHuilier_, False) else
         excessAbc_(*max((A, b, c), (B, c, a), (C, a, b))))

@@ -61,32 +61,27 @@
 <!-- ==================== CLASS DESCRIPTION ==================== -->
 <h1 class="epydoc">Class BetaOmega3Tuple</h1><p class="nomargin-top"></p>
 <pre class="base-tree">
-      object --+        
-               |        
-           tuple --+    
-                   |    
-      object --+   |    
-               |   |    
-    <a href="pygeodesy.named._Named-class.html">named._Named</a> --+    
-                   |    
-   <a href="pygeodesy.named._NamedTuple-class.html">named._NamedTuple</a> --+
-                       |
-  object --+           |
-           |           |
-<a href="pygeodesy.named._Named-class.html">named._Named</a> --+       |
-               |       |
-<a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a> --+   |
-                   |   |
-        _ToNamedBase --+
-                       |
-                      <strong class="uidshort">BetaOmega3Tuple</strong>
+   object --+            
+            |            
+        tuple --+        
+                |        
+   object --+   |        
+            |   |        
+ <a href="pygeodesy.named._Named-class.html">named._Named</a> --+        
+                |        
+<a href="pygeodesy.named._NamedTuple-class.html">named._NamedTuple</a> --+    
+                    |    
+        _NamedTupleTo --+
+                        |
+                       <strong class="uidshort">BetaOmega3Tuple</strong>
 </pre>
 
 <hr />
 <p>3-Tuple <code>(beta, omega, height)</code> with <i>ellipsoidal</i> 
-  lat- and longitude <code>beta</code> and <code>omega</code> both in 
-  <code>Radians</code> (or <code>Degrees</code>) and the 
-  <code>height</code>, rather the (signed) <i>distance</i> to the 
+  lat- and longitude <code>beta</code> and <code>omega</code> both in <a 
+  href="pygeodesy.units.Radians-class.html" class="link">Radians</a> (or <a
+  href="pygeodesy.units.Degrees-class.html" class="link">Degrees</a>) and 
+  the <code>height</code>, rather the (signed) <i>distance</i> to the 
   triaxial's surface (measured along the radial line to the triaxial's 
   center) in <code>meter</code>, conventionally.</p>
 
@@ -107,7 +102,8 @@
           <td><span class="summary-sig"><a href="pygeodesy.triaxials.BetaOmega3Tuple-class.html#toDegrees" class="summary-sig-name">toDegrees</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">**toDMS_kwds</span>)</span><br />
       Convert this <a href="pygeodesy.triaxials.BetaOmega3Tuple-class.html"
-      class="link">BetaOmega3Tuple</a> to <code>Degrees</code> or 
+      class="link">BetaOmega3Tuple</a> to <a 
+      href="pygeodesy.units.Degrees-class.html" class="link">Degrees</a> or
       <code>toDMS</code>.</td>
           <td align="right" valign="top">
             
@@ -126,7 +122,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.triaxials.BetaOmega3Tuple-class.html#toRadians" class="summary-sig-name">toRadians</a>(<span class="summary-sig-arg">self</span>)</span><br />
       Convert this <a href="pygeodesy.triaxials.BetaOmega3Tuple-class.html"
-      class="link">BetaOmega3Tuple</a> to <code>Radians</code>.</td>
+      class="link">BetaOmega3Tuple</a> to <a 
+      href="pygeodesy.units.Radians-class.html" class="link">Radians</a>.</td>
           <td align="right" valign="top">
             
             
@@ -193,9 +190,6 @@
       <code>__rmul__</code>,
       <code>count</code>,
       <code>index</code>
-      </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a></code></b>:
-      <code><a href="pygeodesy.named._NamedBase-class.html#others">others</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
       <code><a href="pygeodesy.named._Named-class.html#__imatmul__">__imatmul__</a></code>,
@@ -286,16 +280,19 @@
   </tr></table>
   
   <p>Convert this <a href="pygeodesy.triaxials.BetaOmega3Tuple-class.html" 
-  class="link">BetaOmega3Tuple</a> to <code>Degrees</code> or 
+  class="link">BetaOmega3Tuple</a> to <a 
+  href="pygeodesy.units.Degrees-class.html" class="link">Degrees</a> or 
   <code>toDMS</code>.</p>
   <dl class="fields">
     <dt>Returns:</dt>
         <dd><a href="pygeodesy.triaxials.BetaOmega3Tuple-class.html" 
           class="link">BetaOmega3Tuple</a><code>(beta, omega, 
           height)</code> with <code>beta</code> and <code>omega</code> both
-          in <code>Degrees</code> or as an <a 
+          in <a href="pygeodesy.units.Degrees-class.html" 
+          class="link">Degrees</a> or as a <a 
           href="pygeodesy.dms-module.html#toDMS" class="link">toDMS</a> 
-          string provided some <b><code>toDMS_kwds</code></b> are supplied.</dd>
+          string provided some <b><code>toDMS_kwds</code></b> keyword 
+          arguments are specified.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -314,13 +311,15 @@
   </tr></table>
   
   <p>Convert this <a href="pygeodesy.triaxials.BetaOmega3Tuple-class.html" 
-  class="link">BetaOmega3Tuple</a> to <code>Radians</code>.</p>
+  class="link">BetaOmega3Tuple</a> to <a 
+  href="pygeodesy.units.Radians-class.html" class="link">Radians</a>.</p>
   <dl class="fields">
     <dt>Returns:</dt>
         <dd><a href="pygeodesy.triaxials.BetaOmega3Tuple-class.html" 
           class="link">BetaOmega3Tuple</a><code>(beta, omega, 
           height)</code> with <code>beta</code> and <code>omega</code> both
-          in <code>Radians</code>.</dd>
+          in <a href="pygeodesy.units.Radians-class.html" 
+          class="link">Radians</a>.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -356,7 +355,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun May 14 08:50:51 2023
+    Generated by Epydoc 3.0.1 on Sat May 20 11:36:12 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

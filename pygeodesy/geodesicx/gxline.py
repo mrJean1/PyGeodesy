@@ -8,7 +8,7 @@ Class L{GeodesicLineExact} follows the naming, methods and return
 values from class C{GeodesicLine} from I{Karney}'s Python U{geographiclib
 <https://GeographicLib.SourceForge.io/1.52/python/index.html>}.
 
-Copyright (C) U{Charles Karney<mailto:Charles@Karney.com>} (2008-2022)
+Copyright (C) U{Charles Karney<mailto:Charles@Karney.com>} (2008-2023)
 and licensed under the MIT/X11 License.  For more information, see the
 U{GeographicLib<https://GeographicLib.SourceForge.io>} documentation.
 '''
@@ -38,7 +38,7 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 
 # from pygeodesy.basics import _xinstanceof  # from .karney
 from pygeodesy.constants import NAN, _EPSmin, _0_0, _1_0, _180_0, _2__PI
-from pygeodesy.fsums import _COMMASPACE_, fsum_, fsum1_
+from pygeodesy.fsums import _COMMASPACE_, fsumf_, fsum1f_
 from pygeodesy.geodesicx.gxbases import _cosSeries, _GeodesicBase, \
                                         _sincos12, _sin1cos2
 # from pygeodesy.interns import _COMMASPACE_  # from .fsums
@@ -53,7 +53,7 @@ from pygeodesy.utily import atan2d as _atan2d_reverse, sincos2
 from math import atan2, cos, degrees, fabs, floor, radians, sin
 
 __all__ = ()
-__version__ = '23.04.26'
+__version__ = '23.05.15'
 
 _glXs = []  # instances of C{[_]GeodesicLineExact} to be updated
 # underflow guard, we require _TINY * EPS > 0, _TINY + EPS == EPS
@@ -319,7 +319,7 @@ class _GeodesicLineExact(_GeodesicBase):
             s, c = _sincos2(t)  # tau12
             # tau2 = tau1 + tau12
             E2 = -eF.deltaEinv(*_sincos12(-s, c, *self._stau1_ctau1))
-            sig12 = fsum1_(self._E1, -E2, t)  # == t - (E2 - E1)
+            sig12 = fsum1f_(self._E1, -E2, t)  # == t - (E2 - E1)
             ssig12, csig12 = _sincos2(sig12)
 
         salp0, calp0 = self._salp0, self._calp0
@@ -345,7 +345,7 @@ class _GeodesicLineExact(_GeodesicBase):
                 # s12 = _b * (_E0 * sig12 + AB1)
                 #     = _b * _E0 * (sig12 + (E2 - _E1))
                 #     = _b * _E0 * (E2 - _E1 + sig12)
-                s12 = self._E0b * fsum1_(E2, -self._E1, sig12)
+                s12 = self._E0b * fsum1f_(E2, -self._E1, sig12)
             else:
                 s12 = s12_a12
             r.set_(s12=s12)
@@ -359,14 +359,14 @@ class _GeodesicLineExact(_GeodesicBase):
             cchi1 = self._cchi1
             schi2 = ssig2 * salp0
             cchi2 = gX.f1 * dn2 * csig2  # schi2 = somg2 without normalization
-            lam12 = salp0 * self._H0e2_f1 * fsum1_(eF.deltaH(ssig2, csig2, dn2),
-                                                   -self._H1, sig12)
+            lam12 = salp0 * self._H0e2_f1 * fsum1f_(eF.deltaH(ssig2, csig2, dn2),
+                                                    -self._H1, sig12)
             if (outmask & Cs.LONG_UNROLL):
                 t = _copysign(_1_0, salp0)  # east-going?
                 tchi1 = t * schi1
                 tchi2 = t * schi2
-                chi12 = t * fsum1_(atan2(ssig1, csig1), -atan2(ssig2, csig2),
-                                   atan2(tchi2, cchi2), -atan2(tchi1, cchi1), sig12)
+                chi12 = t * fsum1f_(atan2(ssig1, csig1), -atan2(ssig2, csig2),
+                                    atan2(tchi2, cchi2), -atan2(tchi1, cchi1), sig12)
                 lon2 = self.lon1 + degrees(chi12 - lam12)
             else:
                 chi12 = atan2(*_sincos12(schi1, cchi1, schi2, cchi2))
@@ -384,16 +384,16 @@ class _GeodesicLineExact(_GeodesicBase):
 
         if (outmask & Cs._REDUCEDLENGTH_GEODESICSCALE):
             dn1 = self._dn1
-            J12 = self._D0k2 * fsum_(eF.deltaD(ssig2, csig2, dn2), -self._D1, sig12)
+            J12 = self._D0k2 * fsumf_(eF.deltaD(ssig2, csig2, dn2), -self._D1, sig12)
             if (outmask & Cs._DEBUG_DIRECT_LINE):  # PYCHOK no cover
                 r.set_(ssig1=ssig1, dn1=dn1, D0k2=self._D0k2,
                        csig1=csig1, J12=J12, D1=self._D1)
             if (outmask & Cs.REDUCEDLENGTH):
                 # Add parens around (csig1 * ssig2) and (ssig1 * csig2) to
                 # ensure accurate cancellation in the case of coincident points.
-                r.set_(m12=gX.b * fsum1_(dn2 * (csig1 * ssig2),
-                                        -dn1 * (ssig1 * csig2),
-                                        -J12 * (csig1 * csig2)))
+                r.set_(m12=gX.b * fsum1f_(dn2 * (csig1 * ssig2),
+                                         -dn1 * (ssig1 * csig2),
+                                         -J12 * (csig1 * csig2)))
             if (outmask & Cs.GEODESICSCALE):
                 t = self._k2 * (ssig2 - ssig1) * (ssig2 + ssig1) / (dn2 + dn1)
                 r.set_(M12=csig12 + ssig1 * (t * ssig2 - csig2 * J12) / dn1,

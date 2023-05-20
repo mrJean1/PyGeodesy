@@ -15,7 +15,7 @@ from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase, Property_RO, \
 from pygeodesy.errors import _AssertionError, IntersectionError, _IsnotError, \
                              _or, _ValueError, _xellipsoidal, _xError, _xkwds_not
 from pygeodesy.fmath import favg, fmean_
-from pygeodesy.fsums import Fmt, fsum_
+from pygeodesy.fsums import Fmt, fsumf_
 from pygeodesy.formy import opposing, _radical2
 from pygeodesy.interns import _antipodal_, _concentric_, _exceed_PI_radians_, \
                               _low_, _near_, _SPACE_, _too_
@@ -32,7 +32,7 @@ from pygeodesy.utily import m2km, unroll180, _unrollon, _unrollon3, \
 from math import degrees, radians
 
 __all__ = _ALL_LAZY.ellipsoidalBaseDI
-__version__ = '23.05.05'
+__version__ = '23.05.15'
 
 _polar__  = 'polar?'
 _B2END    = _1_5  # _intersect3 bearing to pseudo-end point factor
@@ -655,7 +655,7 @@ def _intersects2(c1, radius1, c2, radius2, height=None, wrap=False,  # MCCABE 16
     m = c1.distanceTo(c2, wrap=False)  # meter
     if m < max(r1 - r2, EPS):
         raise IntersectionError(_near_(_concentric_))  # XXX ConcentricError?
-    if fsum_(r1, r2, -m) < 0:
+    if fsumf_(r1, r2, -m) < 0:
         raise IntersectionError(_too_(Fmt.distant(m)))
 
     f = _radical2(m, r1, r2).ratio  # "radical fraction"

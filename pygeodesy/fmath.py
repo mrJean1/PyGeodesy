@@ -9,7 +9,7 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 from pygeodesy.basics import _copysign, copysign0, isint, isscalar, len2
 from pygeodesy.constants import EPS0, EPS02, EPS1, NAN, PI, PI_2, PI_4, \
                                _0_0, _0_5, _1_0, _N_1_0, _1_3rd, _1_5, \
-                               _2_0, _N_2_0, _2_3rd, _3_0, isnear0, isnear1, \
+                               _2_0, _2_3rd, _3_0, isnear0, isnear1, \
                                _isfinite, remainder as _remainder
 from pygeodesy.errors import _IsnotError, LenError, _TypeError, _ValueError, \
                              _xError, _xkwds_get, _xkwds_pop
@@ -25,7 +25,7 @@ from math import fabs, sqrt  # pow
 from operator import mul as _mul  # in .triaxials
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '23.05.07'
+__version__ = '23.05.18'
 
 # sqrt(2) <https://WikiPedia.org/wiki/Square_root_of_2>
 _0_4142 = 0.414213562373095  # sqrt(_2_0) - _1_0
@@ -102,7 +102,7 @@ class Fhypot(Fsum):
             p = _xkwds_pop(power_name_RESIDUAL, power=2)
             Fsum.__init__(self, **power_name_RESIDUAL)
             if xs:
-                self._facc(_Powers(p, xs), up=False)  # PYCHOK None
+                self._facc(_Powers(p, xs), up=False)  # PYCHOK yield
             self._fset(self._fpow(_1_0 / p, _pow_op_), asis=True)
         except Exception as X:
             raise self._ErrorX(X, xs, power=p)
@@ -151,7 +151,7 @@ class Fpowers(Fsum):
         try:
             Fsum.__init__(self, **name_RESIDUAL)
             if xs:
-                self._facc(_Powers(power, xs), up=False)  # PYCHOK None
+                self._facc(_Powers(power, xs), up=False)  # PYCHOK yield
         except Exception as X:
             raise self._ErrorX(X, xs, power=power)
 
@@ -443,7 +443,7 @@ def fhorner(x, *cs):
 
 
 def fidw(xs, ds, beta=2):
-    '''Interpolate using using U{Inverse Distance Weighting
+    '''Interpolate using U{Inverse Distance Weighting
        <https://WikiPedia.org/wiki/Inverse_distance_weighting>} (IDW).
 
        @arg xs: Known values (C{scalar}s).
@@ -797,14 +797,6 @@ def hypot2_(*xs):
     return (h**2 * x2) if x2 else _0_0
 
 
-def _hypot21_(*xs):  # PYCHOK in .triaxials
-    '''(INTERNAL) Compute M{sum(x**2 for x is xs) - 1}
-       with C{abs(x)} assumed to be near 1.
-    '''
-    # math.fsum, see C{_h_x2} above
-    return _fsum(_x2_h2(_1_0, xs, _0_0, _N_2_0))
-
-
 def _map_a_x_b(a, b, where):
     '''(INTERNAL) Yield B{C{a * b}}.
     '''
@@ -869,13 +861,13 @@ def norm_(*xs):
 
 
 def sqrt0(x):
-    '''Compute the square root iff C{B{x} >} L{EPS02}.
+    '''Return the square root iff C{B{x} >} L{EPS02}.
 
        @arg x: Value (C{scalar}).
 
        @return: Square root (C{float}) or C{0.0}.
 
-       @note: Any C{B{x} <} L{EPS02} I{including} C{B{x} < 0}
+       @note: Any C{B{x} < }L{EPS02} I{including} C{B{x} < 0}
               returns C{0.0}.
     '''
     return sqrt(x) if x > EPS02 else (_0_0 if x < EPS02 else EPS0)
@@ -918,21 +910,20 @@ def sqrt_a(h, b):
     try:
         if not (isscalar(h) and isscalar(b)):
             raise TypeError(_not_scalar_)
-        elif fabs(h) < fabs(b):
-            raise ValueError('abs(h) < abs(b)')
-
-        if isnear0(h):  # PYCHOK no cover
+        elif isnear0(h):  # PYCHOK no cover
             c, b = fabs(h), fabs(b)
             d = c - b
+            if d < 0:
+                raise ValueError('abs(h) < abs(b)')
             a = copysign0(sqrt((c + b) * d), h) if d > 0 else _0_0
         else:
             c =  float(h)
             s = _1_0 - (b / c)**2
+            if s < 0:
+                raise ValueError('abs(h) < abs(b)')
             a = (sqrt(s) * c) if 0 < s < 1 else (c if s else _0_0)
-
     except Exception as x:
         raise _xError(x, h=h, b=b)
-
     return a
 
 

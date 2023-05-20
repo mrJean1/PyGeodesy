@@ -1,11 +1,14 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Triaxal ellipsoid classes L{JacobiConformal}, Jacobi's conformal projection, trancoded
-from I{Charles Karney}'s C++ class U{JacobiConformal<https://GeographicLib.SourceForge.io/C++/
-doc/classGeographicLib_1_1JacobiConformal.html#details>} to pure Python, I{ordered} L{Triaxial}
-and I{unordered} L{Triaxial_} and miscellaneous classes L{BetaOmega2Tuple}, L{BetaOmega3Tuple},
-L{Jacobi2Tuple} and L{TriaxialError}.
+u'''Triaxal ellipsoid classes I{ordered} L{Triaxial} and I{unordered} L{Triaxial_} and Jacobi
+conformal projections L{JacobiConformal} and L{JacobiConformalSpherical}, transcoded from
+I{Charles Karney}'s C++ class U{JacobiConformal<https://GeographicLib.SourceForge.io/C++/doc/
+classGeographicLib_1_1JacobiConformal.html#details>} to pure Python and miscellaneous classes
+L{BetaOmega2Tuple}, L{BetaOmega3Tuple}, L{Jacobi2Tuple} and L{TriaxialError}.
+
+Copyright (C) U{Charles Karney<mailto:Charles@Karney.com>} (2008-2023).  For more information,
+see the U{GeographicLib<https://GeographicLib.SourceForge.io>} documentation.
 
 @see: U{Geodesics on a triaxial ellipsoid<https://WikiPedia.org/wiki/Geodesics_on_an_ellipsoid#
       Geodesics_on_a_triaxial_ellipsoid>} and U{Triaxial coordinate systems and their geometrical
@@ -27,43 +30,44 @@ L{Jacobi2Tuple} and L{TriaxialError}.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import isscalar, map1, _ValueError, _zip
+from pygeodesy.basics import isscalar, map1, _zip,  _ValueError
 from pygeodesy.constants import EPS, EPS0, EPS02, EPS4, _EPS2e4, INT0, PI2, PI_3, PI4, \
                                _0_0, _0_5, _1_0, _N_2_0, float0_, isfinite, isnear1, \
                                _4_0  # PYCHOK used!
-from pygeodesy.datums import Datum, Ellipsoid, Fmt, _spherical_datum, _WGS84
+from pygeodesy.datums import Datum, _spherical_datum, _WGS84,  Ellipsoid, Fmt
+# from pygeodesy.dms import toDMS  # _MODS
 # from pygeodesy.ellipsoids import Ellipsoid  # from .datums
-# from pygeodesy.elliptic import Elliptic  # ._MODS
+# from pygeodesy.elliptic import Elliptic  # _MODS
 # from pygeodesy.errors import _ValueError  # from .basics
-from pygeodesy.fmath import Fdot, fdot, fmean_, hypot, hypot_, _hypot21_, norm2
-from pygeodesy.fsums import Fsum, fsum_, Property_RO
-from pygeodesy.interns import NN, _a_, _b_, _beta_, _c_, _distant_, _height_, \
-                             _inside_, _near_, _not_, _NL_, _NLATvar_, _NOTEQUAL_, \
-                             _null_, _opposite_, _outside_, _SPACE_, _spherical_, \
-                             _too_,  _x_, _y_,  _COMMA_  # PYCHOK used!
+from pygeodesy.fmath import Fdot, fdot, fmean_, hypot, hypot_, norm2
+from pygeodesy.fsums import Fsum, fsumf_, fsum1f_,  Property_RO
+from pygeodesy.interns import NN, _a_, _b_, _beta_, _c_, _distant_, _finite_, \
+                             _height_, _inside_, _near_, _not_, _NOTEQUAL_, _null_, \
+                             _opposite_, _outside_, _SPACE_, _spherical_, _too_, \
+                             _x_, _y_
 # from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS  # from .vector3d
-from pygeodesy.named import _NamedBase, _NamedEnum, _NamedEnumItem, \
-                            _NamedTuple, _Pass, _lazyNamedEnumItem as _lazy
+from pygeodesy.named import _NamedEnum, _NamedEnumItem, _NamedTuple, _Pass, \
+                            _lazyNamedEnumItem as _lazy
 from pygeodesy.namedTuples import LatLon3Tuple, Vector3Tuple, Vector4Tuple
 # from pygeodesy.props import Property_RO  # from .fsums
 # from pygeodesy.streprs import Fmt  # from .datums
 from pygeodesy.units import Degrees, Float, Height_, Meter, Meter2, Meter3, \
-                            Radians, Radius
+                            Radians, Radius, Scalar_
 from pygeodesy.utily import asin1, atan2d, km2m, m2km, SinCos2, sincos2d_
-from pygeodesy.vector3d import _ALL_LAZY, _MODS, _otherV3d, Vector3d
+from pygeodesy.vector3d import _otherV3d, Vector3d,  _ALL_LAZY, _MODS
 
 from math import atan2, fabs, sqrt
 
 __all__ = _ALL_LAZY.triaxials
-__version__ = '23.04.14'
+__version__ = '23.05.18'
 
 _not_ordered_ = _not_('ordered')
 _omega_       = 'omega'
-_TRIPS        =  537  # max 55, Eberly 1074?
+_TRIPS        =  537  # 52..58, Eberly 1074?
 
 
-class _ToNamedBase(_NamedBase):
-    '''(INTERNAL) C{-.toDegrees}, C{-.toRadians} base.
+class _NamedTupleTo(_NamedTuple):  # in .testNamedTuples
+    '''(INTERNAL) Base for C{-.toDegrees}, C{-.toRadians}.
     '''
     def _toDegrees(self, a, b, *c, **toDMS_kwds):
         if toDMS_kwds:
@@ -84,36 +88,37 @@ class _ToNamedBase(_NamedBase):
                            *c, name=self.name)
 
 
-class BetaOmega2Tuple(_NamedTuple, _ToNamedBase):
+class BetaOmega2Tuple(_NamedTupleTo):
     '''2-Tuple C{(beta, omega)} with I{ellipsoidal} lat- and
-       longitude C{beta} and C{omega} both in C{Radians} (or
-       C{Degrees}).
+       longitude C{beta} and C{omega} both in L{Radians} (or
+       L{Degrees}).
     '''
     _Names_ = (_beta_, _omega_)
     _Units_ = (_Pass,  _Pass)
 
     def toDegrees(self, **toDMS_kwds):
-        '''Convert this L{BetaOmega2Tuple} to C{Degrees} or C{toDMS}.
+        '''Convert this L{BetaOmega2Tuple} to L{Degrees} or C{toDMS}.
 
            @return: L{BetaOmega2Tuple}C{(beta, omega)} with
-                    C{beta} and C{omega} both in C{Degrees}
-                    or as an L{toDMS} string provided some
-                    B{C{toDMS_kwds}} are supplied.
+                    C{beta} and C{omega} both in L{Degrees}
+                    or as a L{toDMS} string provided some
+                    B{C{toDMS_kwds}} keyword arguments are
+                    specified.
         '''
-        return _ToNamedBase._toDegrees(self, *self, **toDMS_kwds)
+        return _NamedTupleTo._toDegrees(self, *self, **toDMS_kwds)
 
     def toRadians(self):
-        '''Convert this L{BetaOmega2Tuple} to C{Radians}.
+        '''Convert this L{BetaOmega2Tuple} to L{Radians}.
 
            @return: L{BetaOmega2Tuple}C{(beta, omega)} with
-                    C{beta} and C{omega} both in C{Radians}.
+                    C{beta} and C{omega} both in L{Radians}.
         '''
-        return _ToNamedBase._toRadians(self, *self)
+        return _NamedTupleTo._toRadians(self, *self)
 
 
-class BetaOmega3Tuple(_NamedTuple, _ToNamedBase):
+class BetaOmega3Tuple(_NamedTupleTo):
     '''3-Tuple C{(beta, omega, height)} with I{ellipsoidal} lat- and
-       longitude C{beta} and C{omega} both in C{Radians} (or C{Degrees})
+       longitude C{beta} and C{omega} both in L{Radians} (or L{Degrees})
        and the C{height}, rather the (signed) I{distance} to the triaxial's
        surface (measured along the radial line to the triaxial's center)
        in C{meter}, conventionally.
@@ -122,22 +127,22 @@ class BetaOmega3Tuple(_NamedTuple, _ToNamedBase):
     _Units_ = BetaOmega2Tuple._Units_ + ( Meter,)
 
     def toDegrees(self, **toDMS_kwds):
-        '''Convert this L{BetaOmega3Tuple} to C{Degrees} or C{toDMS}.
+        '''Convert this L{BetaOmega3Tuple} to L{Degrees} or C{toDMS}.
 
            @return: L{BetaOmega3Tuple}C{(beta, omega, height)} with
-                    C{beta} and C{omega} both in C{Degrees} or as an
+                    C{beta} and C{omega} both in L{Degrees} or as a
                     L{toDMS} string provided some B{C{toDMS_kwds}}
-                    are supplied.
+                    keyword arguments are specified.
         '''
-        return _ToNamedBase._toDegrees(self, *self, **toDMS_kwds)
+        return _NamedTupleTo._toDegrees(self, *self, **toDMS_kwds)
 
     def toRadians(self):
-        '''Convert this L{BetaOmega3Tuple} to C{Radians}.
+        '''Convert this L{BetaOmega3Tuple} to L{Radians}.
 
            @return: L{BetaOmega3Tuple}C{(beta, omega, height)} with
-                    C{beta} and C{omega} both in C{Radians}.
+                    C{beta} and C{omega} both in L{Radians}.
         '''
-        return _ToNamedBase._toRadians(self, *self)
+        return _NamedTupleTo._toRadians(self, *self)
 
     def to2Tuple(self):
         '''Reduce this L{BetaOmega3Tuple} to a L{BetaOmega2Tuple}.
@@ -145,29 +150,30 @@ class BetaOmega3Tuple(_NamedTuple, _ToNamedBase):
         return BetaOmega2Tuple(*self[:2])
 
 
-class Jacobi2Tuple(_NamedTuple, _ToNamedBase):
+class Jacobi2Tuple(_NamedTupleTo):
     '''2-Tuple C{(x, y)} with a Jacobi Conformal C{x} and C{y}
-       projection, both in C{Radians} (or C{Degrees}).
+       projection, both in L{Radians} (or L{Degrees}).
     '''
     _Names_ = (_x_,   _y_)
     _Units_ = (_Pass, _Pass)
 
     def toDegrees(self, **toDMS_kwds):
-        '''Convert this L{Jacobi2Tuple} to C{Degrees} or C{toDMS}.
+        '''Convert this L{Jacobi2Tuple} to L{Degrees} or C{toDMS}.
 
            @return: L{Jacobi2Tuple}C{(x, y)} with C{x} and C{y}
-                    both in C{Degrees} or as an L{toDMS} string
-                    provided some B{C{toDMS_kwds}} are supplied.
+                    both in L{Degrees} or as a L{toDMS} string
+                    provided some B{C{toDMS_kwds}} keyword
+                    arguments are specified.
         '''
-        return _ToNamedBase._toDegrees(self, *self, **toDMS_kwds)
+        return _NamedTupleTo._toDegrees(self, *self, **toDMS_kwds)
 
     def toRadians(self):
-        '''Convert this L{Jacobi2Tuple} to C{Radians}.
+        '''Convert this L{Jacobi2Tuple} to L{Radians}.
 
            @return: L{Jacobi2Tuple}C{(x, y)} with C{x}
-                    and C{y} both in C{Radians}.
+                    and C{y} both in L{Radians}.
         '''
-        return _ToNamedBase._toRadians(self, *self)
+        return _NamedTupleTo._toRadians(self, *self)
 
 
 class Triaxial_(_NamedEnumItem):
@@ -183,8 +189,8 @@ class Triaxial_(_NamedEnumItem):
 
        @note: I{Geodetic} C{lat}- and C{lon}gitudes are in C{degrees}, I{geodetic}
               C{phi} and C{lam}bda are in C{radians}, but I{ellipsoidal} lat- and
-              longitude C{beta} and C{omega} are in C{Radians} by default (or in
-              C{Degrees} if converted).
+              longitude C{beta} and C{omega} are in L{Radians} by default (or in
+              L{Degrees} if converted).
     '''
     _ijk = _kji = None
     _unordered  = True
@@ -192,11 +198,11 @@ class Triaxial_(_NamedEnumItem):
     def __init__(self, a_triaxial, b=None, c=None, name=NN):
         '''New I{unordered} L{Triaxial_}.
 
-           @arg a_triaxial: C{X} semi-axis (C{scalar}, conventionally in C{meter})
-                            or an other L{Triaxial} or L{Triaxial_} instance.
-           @kwarg b: C{Y} semi-axis (C{meter}, same units as B{C{a}}), required
+           @arg a_triaxial: Large, C{X} semi-axis (C{scalar}, conventionally in
+                            C{meter}) or an other L{Triaxial} or L{Triaxial_} instance.
+           @kwarg b: Middle, C{Y} semi-axis (C{meter}, same units as B{C{a}}), required
                      if C{B{a_triaxial} is scalar}, ignored otherwise.
-           @kwarg c: C{Z} semi-axis (C{meter}, same units as B{C{a}}), required
+           @kwarg c: Small, C{Z} semi-axis (C{meter}, same units as B{C{a}}), required
                      if C{B{a_triaxial} is scalar}, ignored otherwise.
            @kwarg name: Optional name (C{str}).
 
@@ -322,14 +328,6 @@ class Triaxial_(_NamedEnumItem):
         return (b / a)**2 if a != b else _1_0
 
     @Property_RO
-    def e2bc(self):
-        '''Get the C{bc} ellipse' I{(1st) eccentricity squared} (C{scalar}), M{1 - (c/b)**2}.
-        '''
-        return Float(e2bc=(_1_0 - self._1e2bc) or _0_0)
-
-    _1e2bc = _c2_b2  # C{1 - e2bc} == C{(c/b)**2}
-
-    @Property_RO
     def e2ac(self):
         '''Get the C{ac} ellipse' I{(1st) eccentricity squared} (C{scalar}), M{1 - (c/a)**2}.
         '''
@@ -341,6 +339,14 @@ class Triaxial_(_NamedEnumItem):
         '''
         a, _, c = self._abc3
         return (c / a)**2 if a != c else _1_0
+
+    @Property_RO
+    def e2bc(self):
+        '''Get the C{bc} ellipse' I{(1st) eccentricity squared} (C{scalar}), M{1 - (c/b)**2}.
+        '''
+        return Float(e2bc=(_1_0 - self._1e2bc) or _0_0)
+
+    _1e2bc = _c2_b2  # C{1 - e2bc} == C{(c/b)**2}
 
     @Property_RO
     def _Elliptic(self):
@@ -454,8 +460,7 @@ class Triaxial_(_NamedEnumItem):
     def _norm2(self, s, c, *a):
         '''(INTERNAL) Normalize C{s} and C{c} iff not already.
         '''
-        if fabs(s) > _1_0 or fabs(c) > _1_0 or \
-           fabs(_hypot21_(s, c)) > EPS0:
+        if fabs(_hypot21(s, c)) > EPS02:
             s, c = norm2(s, c)
         if a:
             s, c = norm2(s * self.b, c * a[0])
@@ -552,14 +557,14 @@ class Triaxial_(_NamedEnumItem):
         return _sideOf(_otherV3d_(x_xyz, y, z).xyz, self._abc3, eps=eps)
 
     def _sqrt(self, x):
-        '''(INTERNAL) Helper.
+        '''(INTERNAL) Helper, see L{pygeodesy.sqrt0}.
         '''
         if x < 0:
             raise TriaxialError(Fmt.PAREN(sqrt=x))
         return _0_0 if x < EPS02 else sqrt(x)
 
     def toEllipsoid(self, name=NN):
-        '''Convert this triaxial to an L{Ellipsoid}, provided C{a == b} or C{b == c}.
+        '''Convert this triaxial to an L{Ellipsoid}, provided 2 axes match.
 
            @return: An L{Ellipsoid} with north along this C{Z} axis if C{a == b},
                     this C{Y} axis if C{a == c} or this C{X} axis if C{b == c}.
@@ -569,11 +574,11 @@ class Triaxial_(_NamedEnumItem):
            @see: Method L{Ellipsoid.toTriaxial}.
         '''
         a, b, c = self._abc3
-        if a == b:  # N = Z
-            b = c
-        elif b == c:  # N = X
+        if a == b:
+            b = c  # N = c-Z
+        elif b == c:  # N = a-X
             a, b = b, a
-        elif a != c:
+        elif a != c:  # N = b-Y
             t = _SPACE_(_a_, _NOTEQUAL_, _b_, _NOTEQUAL_, _c_)
             raise TriaxialError(a=a, b=b, c=c, txt=t)
         return Ellipsoid(a, b=b, name=name or self.name)
@@ -587,10 +592,14 @@ class Triaxial_(_NamedEnumItem):
 
            @return: This C{Triaxial}'s attributes (C{str}).
         '''
-        T = Triaxial_
-        t = T.a, T.b, T.c, T.e2ab, T.e2bc, T.e2ac
-        if isinstance(self, JacobiConformal):
-            t += JacobiConformal.xyQ2,
+        T  = Triaxial_
+        t  = T.a,
+        J  = JacobiConformalSpherical
+        t += (J.ab, J.bc) if isinstance(self, J) else (T.b, T.c)
+        t += T.e2ab, T.e2bc, T.e2ac
+        J  = JacobiConformal
+        if isinstance(self, J):
+            t += J.xyQ2,
         t += T.volume, T.area
         return self._instr(name, prec, props=t, area_p=self.area_p())
 
@@ -643,12 +652,11 @@ class Triaxial(Triaxial_):
         if a != b:
             kp2, k2 = self._k2_kp2  # swapped!
             aE = self._Elliptic(k2, _0_0, kp2, _1_0)
-            c2 = self._1e2ac  # cos(phi)**2 == (c/a)**2
-            s2 = self.  e2ac  # sin(phi)**2 == 1 - c2
-            s  = sqrt(s2)
-            r  = asin1(s)  # phi == atan2(sqrt(c2), s)
-            b *= fsum_(aE.fE(r) * s, c / a * c / b,
-                       aE.fF(r) * c2 / s, floats=True)
+            c2 = self._1e2ac      # cos(phi)**2 = (c/a)**2
+            s  = sqrt(self.e2ac)  # sin(phi)**2 =  1 - c2
+            r  = asin1(s)  # phi = atan2(sqrt(c2), s)
+            b *= fsum1f_(aE.fE(r) * s, c / a * c / b,
+                         aE.fF(r) * c2 / s)
             a  = Meter2(area=a * b * PI2)
         else:  # a == b > c
             a  = Ellipsoid(a, b=c).areax
@@ -776,7 +784,7 @@ class Triaxial(Triaxial_):
         '''
         ca_x_sb = ca * sb
         # 1 - (1 - (c/a)**2) * sa**2 - (1 - (b/a)**2) * ca**2 * sb**2
-        t = fsum_(_1_0, -self.e2ac * sa**2, -self.e2ab * ca_x_sb**2, floats=True)
+        t = fsumf_(_1_0, -self.e2ac * sa**2, -self.e2ab * ca_x_sb**2)
         n = self.a / self._sqrt(t)  # prime vertical
         x = (h + n)               * ca * cb
         y = (h + n * self._1e2ab) * ca_x_sb
@@ -808,12 +816,13 @@ class Triaxial(Triaxial_):
         c2_a2   = -self._1e2ac  # == -(c/a)**2
         a2c2_a2 =  self.  e2ac  # (a**2 - c**2) / a**2 == 1 - (c/a)**2
 
-        x = Fsum(_1_0, -b2_a2 * sa**2, c2_a2 * ca**2).fover(a2c2_a2)
-        z = Fsum(c2_a2,         sb**2, b2_a2 * cb**2).fover(a2c2_a2)
+        x2 = Fsum(_1_0, -b2_a2 * sa**2, c2_a2 * ca**2).fover(a2c2_a2)
+        z2 = Fsum(c2_a2,         sb**2, b2_a2 * cb**2).fover(a2c2_a2)
 
-        x = self.a * cb * self._sqrt(x)
-        y = self.b * ca * sb
-        z = self.c * sa * self._sqrt(z)
+        x, y, z = self._abc3
+        x *= cb * self._sqrt(x2)
+        y *= ca * sb
+        z *= sa * self._sqrt(z2)
         return x, y, z
 
     def reverseBetaOmega(self, x_xyz, y=None, z=None, name=NN):
@@ -827,7 +836,7 @@ class Triaxial(Triaxial_):
            @kwarg name: Optional name (C{str}).
 
            @return: A L{BetaOmega3Tuple}C{(beta, omega, height)} with C{beta} and
-                    C{omega} in C{Radians} and (radial) C{height} in C{meter}, same
+                    C{omega} in L{Radians} and (radial) C{height} in C{meter}, same
                     units as this triaxial's axes.
 
            @see: Methods L{Triaxial.forwardBetaOmega} and L{Triaxial.forwardBetaOmega_}
@@ -913,31 +922,20 @@ class JacobiConformal(Triaxial):
        Ellipsoidal coordinates I{beta} and I{omega} are converted to Jacobi Conformal
        I{y} respectively I{x} separately.  Jacobi's coordinates have been multiplied
        by C{sqrt(B{a}**2 - B{c}**2) / (2 * B{b})} so that the customary results are
-       returned in the case of an ellipsoid of revolution (or a sphere, I{currently
-       not supported}).
+       returned in the case of an ellipsoid of revolution.
 
-       Copyright (C) U{Charles Karney<mailto:Charles@Karney.com>} (2014-2020) and
+       Copyright (C) U{Charles Karney<mailto:Charles@Karney.com>} (2014-2023) and
        licensed under the MIT/X11 License.
 
-       @note: This constructor can not be used to specify a sphere.
+       @note: This constructor can I{not be used to specify a sphere}, see alternate
+              L{JacobiConformalSpherical}.
 
        @see: L{Triaxial}, C++ class U{JacobiConformal<https://GeographicLib.SourceForge.io/
              C++/doc/classGeographicLib_1_1JacobiConformal.html#details>}, U{Jacobi's conformal
              projection<https://GeographicLib.SourceForge.io/C++/doc/jacobi.html>} and Jacobi,
              C. G. J. I{U{Vorlesungen über Dynamik<https://Books.Google.com/books?
-             id=ryEOAAAAQAAJ&pg=PA212>}}, page 212ff,
+             id=ryEOAAAAQAAJ&pg=PA212>}}, page 212ff.
     '''
-#   @Property_RO
-#   def ab(self):
-#       '''Get relative magnitude C{ab} (C{None} or C{meter}, same units as B{C{a}}).
-#       '''
-#       return self._ab
-
-#   @Property_RO
-#   def bc(self):
-#       '''Get relative magnitude C{bc} (C{None} or C{meter}, same units as B{C{a}}).
-#       '''
-#       return self._bc
 
     @Property_RO
     def _xE(self):
@@ -952,7 +950,7 @@ class JacobiConformal(Triaxial):
 
            @arg omega: Ellipsoidal longitude (C{radians} or L{Degrees}).
 
-           @return: The C{x} projection (C{Radians}).
+           @return: The C{x} projection (L{Radians}).
         '''
         return self.xR_(*SinCos2(omega))
 
@@ -962,7 +960,7 @@ class JacobiConformal(Triaxial):
            @arg somega: Ellipsoidal longitude C{sin(omega)} (C{scalar}).
            @arg comega: Ellipsoidal longitude C{cos(omega)} (C{scalar}).
 
-           @return: The C{x} projection (C{Radians}).
+           @return: The C{x} projection (L{Radians}).
         '''
         s, c = self._norm2(somega, comega, self.a)
         return Radians(x=self._xE.fPi(s, c) * self._a2_b2)
@@ -1015,7 +1013,7 @@ class JacobiConformal(Triaxial):
 
            @arg beta: Ellipsoidal latitude (C{radians} or L{Degrees}).
 
-           @return: The C{y} projection (C{Radians}).
+           @return: The C{y} projection (L{Radians}).
         '''
         return self.yR_(*SinCos2(beta))
 
@@ -1025,10 +1023,98 @@ class JacobiConformal(Triaxial):
            @arg sbeta: Ellipsoidal latitude C{sin(beta)} (C{scalar}).
            @arg cbeta: Ellipsoidal latitude C{cos(beta)} (C{scalar}).
 
-           @return: The C{y} projection (C{Radians}).
+           @return: The C{y} projection (L{Radians}).
         '''
         s, c = self._norm2(sbeta, cbeta, self.c)
         return Radians(y=self._yE.fPi(s, c) * self._c2_b2)
+
+
+class JacobiConformalSpherical(JacobiConformal):
+    '''An alternate, I{spherical} L{JacobiConformal} projection.
+
+       @see: L{JacobiConformal} for other and more details.
+    '''
+    _ab = _bc = 0
+
+    def __init__(self, radius_triaxial, ab=0, bc=0, name=NN):
+        '''New L{JacobiConformalSpherical}.
+
+           @arg radius_triaxial: Radius (C{scalar}, conventionally in
+                       C{meter}) or an other L{JacobiConformalSpherical},
+                       L{JacobiConformal} or ordered L{Triaxial}.
+           @kwarg ab: Relative magnitude of C{B{a} - B{b}} (C{meter},
+                      same units as C{scalar B{radius}}.
+           @kwarg bc: Relative magnitude of C{B{b} - B{c}} (C{meter},
+                      same units as C{scalar B{radius}}.
+           @kwarg name: Optional name (C{str}).
+
+           @raise TriaxialError: Invalid B{C{radius_triaxial}}, negative
+                                 B{C{ab}}, negative B{C{bc}} or C{(B{ab}
+                                 + B{bc})} not positive.
+
+           @note: If B{C{radius_triaxial}} is a L{JacobiConformalSpherical}
+                  and if B{C{ab}} and B{C{bc}} are both zero or C{None},
+                  the B{C{radius_triaxial}}'s C{ab}, C{bc}, C{a}, C{b}
+                  and C{c} are copied.
+        '''
+        try:
+            r, j = radius_triaxial, False
+            if isinstance(r, Triaxial):  # ordered only
+                if (not (ab or bc)) and isinstance(r, JacobiConformalSpherical):
+                    j = True
+                t = r._abc3
+            else:
+                t = (Radius(radius=r),) * 3
+            self._ab = r.ab if j else Scalar_(ab=ab)  # low=0
+            self._bc = r.bc if j else Scalar_(bc=bc)  # low=0
+            if (self.ab + self.bc) <= 0:
+                raise ValueError('(ab + bc)')
+            a, _,  c = self._abc3 = t
+            if not (a >= c and isfinite(self._a2b2)
+                           and isfinite(self._a2c2)):
+                raise ValueError(_not_(_finite_))
+        except (TypeError, ValueError) as x:
+            raise TriaxialError(radius_triaxial=r, ab=ab, bc=bc, cause=x)
+        if name:
+            self.name = name
+
+    @Property_RO
+    def ab(self):
+        '''Get relative magnitude C{ab} (C{meter}, same units as B{C{a}}).
+        '''
+        return self._ab
+
+    @Property_RO
+    def _a2b2(self):
+        '''(INTERNAL) Get C{a**2 - b**2} == ab * (a + b).
+        '''
+        a, b, _ = self._abc3
+        return self.ab * (a + b)
+
+    @Property_RO
+    def _a2c2(self):
+        '''(INTERNAL) Get C{a**2 - c**2} == a2b2 + b2c2.
+        '''
+        return self._a2b2 + self._b2c2
+
+    @Property_RO
+    def bc(self):
+        '''Get relative magnitude C{bc} (C{meter}, same units as B{C{a}}).
+        '''
+        return self._bc
+
+    @Property_RO
+    def _b2c2(self):
+        '''(INTERNAL) Get C{b**2 - c**2} == bc * (b + c).
+        '''
+        _, b, c = self._abc3
+        return self.bc * (b + c)
+
+    @Property_RO
+    def radius(self):
+        '''Get radius (C{meter}, conventionally).
+        '''
+        return self.a
 
 
 class TriaxialError(_ValueError):
@@ -1102,9 +1188,9 @@ def _hartzell3d2(pov, los, Tun):  # MCCABE 13 in .ellipsoidal.hartzell4, .formy.
     if m < EPS0:  # zero or near-null LOS vector
         raise _ValueError(_near_(_null_))
 
-    r = fsum_(b2 * w2,       c2 * v2,      -v2 * z2,      vy * wz * 2,
-             -w2 * y2,       b2 * u2 * q2, -u2 * z2 * p2, ux * wz * 2 * p2,
-             -w2 * x2 * p2, -u2 * y2 * q2, -v2 * x2 * q2, ux * vy * 2 * q2, floats=True)
+    r = fsumf_(b2 * w2,       c2 * v2,      -v2 * z2,      vy * wz * 2,
+              -w2 * y2,       b2 * u2 * q2, -u2 * z2 * p2, ux * wz * 2 * p2,
+              -w2 * x2 * p2, -u2 * y2 * q2, -v2 * x2 * q2, ux * vy * 2 * q2)
     if r > 0:  # a2 factored out
         r = sqrt(r) * b * c  # == a * a * b * c / a2
     elif r < 0:  # LOS pointing away from or missing the triaxial
@@ -1112,9 +1198,9 @@ def _hartzell3d2(pov, los, Tun):  # MCCABE 13 in .ellipsoidal.hartzell4, .formy.
 
     d = Fdot(t, ux, vy, wz).fadd_(r).fover(m)  # -r for antipode, a2 factored out
     if d > 0:  # POV inside or LOS missing, outside the triaxial
-        s = fsum_(_1_0, x2 / a2, y2 / b2, z2 / c2, _N_2_0, floats=True)  # like _sideOf
+        s = fsumf_(_1_0, x2 / a2, y2 / b2, z2 / c2, _N_2_0)  # like _sideOf
         raise _ValueError(_outside_ if s > 0 else _inside_)
-    elif fsum_(x2, y2, z2, floats=True) < d**2:  # d past triaxial's center
+    elif fsum1f_(x2, y2, z2) < d**2:  # d past triaxial's center
         raise _ValueError(_too_(_distant_))
 
     v = p3.minus(u3.times(d))  # Vector3d
@@ -1130,14 +1216,15 @@ def hartzell4(pov, los=None, tri_biax=_WGS84, name=NN):
                  or L{Vector3d}).
        @kwarg los: Line-Of-Sight, I{direction} to the tri-/biaxial (L{Vector3d}) or
                    C{None} to point to the tri-/biaxial's center.
-       @kwarg tri_biax: A triaxial (L{Triaxial}, L{Triaxial_}, L{JacobiConformal})
-                        or biaxial ellipsoid (L{Datum}, L{Ellipsoid}, L{Ellipsoid2},
-                        L{a_f2Tuple} or C{scalar} radius, conventionally in C{meter}).
+       @kwarg tri_biax: A triaxial (L{Triaxial}, L{Triaxial_}, L{JacobiConformal} or
+                        L{JacobiConformalSpherical}) or biaxial ellipsoid (L{Datum},
+                        L{Ellipsoid}, L{Ellipsoid2}, L{a_f2Tuple} or C{scalar} radius,
+                        conventionally in C{meter}).
        @kwarg name: Optional name (C{str}).
 
-       @return: L{Vector4Tuple}C{(x, y, z, h)} on the tri-/biaxial's surface, with C{h}
-                the distance from B{C{pov}} to C{(x, y, z)} along B{C{los}}, all in
-                C{meter}, conventionally.
+       @return: L{Vector4Tuple}C{(x, y, z, h)} on the tri-/biaxial's surface, with
+                C{h} the distance from B{C{pov}} to C{(x, y, z)} along the B{C{los}},
+                all in C{meter}, conventionally.
 
        @raise TriaxialError: Null B{C{pov}} or B{C{los}}, or B{C{pov}} is inside the
                              tri-/biaxial or B{C{los}} points outside the tri-/biaxial
@@ -1163,42 +1250,26 @@ def hartzell4(pov, los=None, tri_biax=_WGS84, name=NN):
     return Vector4Tuple(v.x, v.y, v.z, h, name=name or hartzell4.__name__)
 
 
-def _normalTo4(x, y, a, b, eps=EPS):  # MCCABE 14
+def _hypot21(x, y, z=0):
+    '''(INTERNAL)  Compute M{x**2 + y**2 + z**2 - 1} with C{max(fabs(x),
+       fabs(y), fabs(z))} rarely greater than 1.0.
+    '''
+    return fsumf_(_1_0, x**2, y**2, z**2, _N_2_0) if z else \
+           fsumf_(_1_0, x**2, y**2,       _N_2_0)
+
+
+def _normalTo4(x, y, a, b, eps=EPS):
     '''(INTERNAL) Nearest point on and distance to a 2-D ellipse, I{unordered}.
 
        @see: Function C{pygeodesy.ellipsoids._normalTo3} and I{Eberly}'s U{Distance
              from a Point to ... an Ellipsoid ...<https://www.GeometricTools.com/
              Documentation/DistancePointEllipseEllipsoid.pdf>}.
     '''
-    def _root2d(r, u, v, g, eps):
-        # robust root finder
-        _1, __2 = _1_0, _0_5
-        _a, _h2 = fabs, _hypot21_
-        u *=  r
-        t0 =  v - _1
-        t1 = _0_0 if g < 0 else _h2(u, v)
-        for i in range(1, _TRIPS):
-            t = (t0 + t1) * __2
-            if t in (t0, t1) or _a(t0 - t1) < eps:
-                break
-            g = _h2(u / (t + r), v / (t + _1))
-            if g > 0:
-                t0 = t
-            elif g < 0:
-                t1 = t
-            else:
-                break
-        else:  # PYCHOK no cover
-            e = _a(t0 - t1)
-            t = _root2d.__name__
-            raise _ValueError(Fmt.no_convergence(e, eps), txt=t)
-        return t, i
-
     if a < b:
         b, a, d, i = _normalTo4(y, x, b, a, eps=eps)
         return a, b, d, i
 
-    if not (isfinite(a) and b > 0):
+    if not (b > 0 and isfinite(a)):
         raise _ValueError(a=a, b=b)
 
     i = None
@@ -1206,10 +1277,10 @@ def _normalTo4(x, y, a, b, eps=EPS):  # MCCABE 14
         if x:
             u =  fabs(x / a)
             v =  fabs(y / b)
-            g = _hypot21_(u, v)
+            g = _hypot21(u, v)
             if g:
                 r = (a / b)**2
-                t, i = _root2d(r, u, v, g, eps)
+                t, i = _rootXd(r, 0, u, 0, v, g, eps)
                 a = x / (t / r + _1_0)
                 b = y / (t     + _1_0)
                 d = hypot(x - a, y - b)
@@ -1235,37 +1306,12 @@ def _normalTo4(x, y, a, b, eps=EPS):  # MCCABE 14
     return a, b, d, i
 
 
-def _normalTo5(x, y, z, Tun, eps=EPS):  # MCCABE 24
-    '''(INTERNAL) Nearest point on and distance to an I{un- or ordered} triaxial.
+def _normalTo5(x, y, z, Tun, eps=EPS):  # MCCABE 19
+    '''(INTERNAL) Nearest point on and distance to an I{un-/ordered} triaxial.
 
        @see: I{Eberly}'s U{Distance from a Point to ... an Ellipsoid ...<https://
              www.GeometricTools.com/Documentation/DistancePointEllipseEllipsoid.pdf>}.
     '''
-    def _root3d(r, s, u, v, w, g, eps):
-        # robust root finder
-        _1, __2 = _1_0, _0_5
-        _a, _h2 = fabs, _hypot21_
-        u *=  r
-        v *=  s
-        t0 =  w - _1
-        t1 = _0_0 if g < 0 else _h2(u, v, w)
-        for i in range(1, _TRIPS):
-            t = (t0 + t1) * __2
-            if t in (t0, t1) or _a(t0 - t1) < eps:
-                break
-            g = _h2(u / (t + r), v / (t + s), w / (t + _1))
-            if g > 0:
-                t0 = t
-            elif g < 0:
-                t1 = t
-            else:
-                break
-        else:  # PYCHOK no cover
-            e = _a(t0 - t1)
-            t = _root3d.__name__
-            raise _ValueError(Fmt.no_convergence(e, eps), txt=t)
-        return t, i
-
     a, b, c, T = Tun._ordered4
     if Tun is not T:  # T is ordered, Tun isn't
         t = T._order3(x, y, z) + (T,)
@@ -1287,11 +1333,11 @@ def _normalTo5(x, y, z, Tun, eps=EPS):  # MCCABE 24
                 u =  fabs(x / a)
                 v =  fabs(y / b)
                 w =  fabs(z / c)
-                g = _hypot21_(u, v, w)
+                g = _hypot21(u, v, w)
                 if g:
                     r = T._1e2ac  # (c / a)**2
                     s = T._1e2bc  # (c / b)**2
-                    t, i = _root3d(_1_0 / r, _1_0 / s, u, v, w, g, eps)
+                    t, i = _rootXd(_1_0 / r, _1_0 / s, u, v, w, g, eps)
                     a = x / (t * r + _1_0)
                     b = y / (t * s + _1_0)
                     c = z / (t     + _1_0)
@@ -1319,7 +1365,7 @@ def _normalTo5(x, y, z, Tun, eps=EPS):  # MCCABE 24
             d = T._b2c2  # (b + c) * (b - c)
             if d > fabs(n):
                 v =  n / d
-                n = _hypot21_(u, v)
+                n = _hypot21(u, v)
                 if n < 0:
                     a *= u
                     b *= v
@@ -1354,18 +1400,51 @@ def _otherV3d_(x_xyz, y, z, name=NN):
           _otherV3d(x_xyz=x_xyz)
 
 
+def _rootXd(r, s, u, v, w, g, eps):
+    '''(INTERNAL) Robust 2d- or 3d-root finder:
+       2d- if C{s == v == 0} otherwise 3d-root.
+    '''
+    _1, __2 = _1_0, _0_5
+    _a, _h2 = fabs, _hypot21
+
+    u *=  r
+    v *=  s  # 0 for 2d-root
+    t0 =  w - _1
+    t1 = _0_0 if g < 0 else _h2(u, w, v)
+    for i in range(1, _TRIPS):
+        e = _a(t0 - t1)
+        if e < eps:
+            break
+        t = (t0 + t1) * __2
+        if t in (t0, t1):
+            break
+        g = _h2(u / (t + r), w / (t + _1),
+               (v / (t + s)) if v else 0)
+        if g > 0:
+            t0 = t
+        elif g < 0:
+            t1 = t
+        else:
+            break
+    else:  # PYCHOK no cover
+        t = Fmt.no_convergence(e, eps)
+        raise _ValueError(t, txt=_rootXd.__name__)
+    return t, i
+
+
 def _sideOf(xyz, abc, eps=EPS):  # in .formy
     '''(INTERNAL) Helper for C{_hartzell3d2}, M{.sideOf} and M{.reverseCartesian}.
 
        @return: M{sum((x / a)**2 for x, a in zip(xyz, abc)) - 1} or C{INT0},
     '''
-    s = _hypot21_(*((x / a) for x, a in _zip(xyz, abc) if a))  # strict=True
+    s = _hypot21(*((x / a) for x, a in _zip(xyz, abc) if a))  # strict=True
     return s if fabs(s) > eps else INT0
 
 
 if __name__ == '__main__':
 
     from pygeodesy import printf
+    from pygeodesy.interns import _COMMA_, _NL_, _NLATvar_
 
     # __doc__ of this file, force all into registery
     t = [NN] + Triaxials.toRepr(all=True, asorted=True).split(_NL_)

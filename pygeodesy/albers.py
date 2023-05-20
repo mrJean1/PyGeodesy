@@ -22,7 +22,7 @@ from pygeodesy.constants import EPS0, EPS02, _EPSqrt as _TOL, isnear0, \
 from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.errors import _ValueError, _xkwds
 from pygeodesy.fmath import hypot, hypot1, sqrt3
-from pygeodesy.fsums import Fsum, fsum1_
+from pygeodesy.fsums import Fsum, fsum1f_
 from pygeodesy.interns import NN, _COMMASPACE_, _datum_, _gamma_, _k0_, \
                              _lat_, _lat1_, _lat2_, _lon_, _name_, _not_, \
                              _negative_, _scale_, _SPACE_, _x_, _y_
@@ -38,7 +38,7 @@ from pygeodesy.utily import atand, atan2d, degrees360, sincos2, \
 from math import atan, atan2, atanh, degrees, fabs, radians, sqrt
 
 __all__ = _ALL_LAZY.albers
-__version__ = '23.04.23'
+__version__ = '23.05.15'
 
 _k1_    = 'k1'
 _NUMIT  =   8  # XXX 4?
@@ -372,7 +372,7 @@ class _AlbersBase(_NamedBase):
 
         den = drho = hypot(nx, y1) + nrho0  # 0 implies origin with polar aspect
         if den:
-            drho = fsum1_(x * nx, y_ * nrho0 * _N_2_0, y_ * ny) * k0 / den
+            drho = fsum1f_(x * nx, y_ * nrho0 * _N_2_0, y_ * ny) * k0 / den
             # dsxia = scxi0 * dsxi
             t  +=  drho  * n0
             d_  = (nrho0 + t) * drho * self._scxi0_  # / (qZ * E.a2)
@@ -411,16 +411,16 @@ class _AlbersBase(_NamedBase):
     def _ta0(self, s1_qZ, ta0, E):
         '''(INTERNAL) Refine C{ta0} for C{._ta0C2}.
         '''
-        e2     =  E.e2
-        e21    =  E.e21
-        e22    =  E.e22  # == e2 / e21
-        tol    = _tol(_TOL0, ta0)
-        _Ta02  =  Fsum(ta0).fsum2_
-        _fabs  =  fabs
-        _fsum1 =  fsum1_
-        _sqrt  =  sqrt
-        _1, _2 = _1_0, _2_0
-        _4, _6 = _4_0, _6_0
+        e2       =  E.e2
+        e21      =  E.e21
+        e22      =  E.e22  # == e2 / e21
+        tol      = _tol(_TOL0, ta0)
+        _Ta02    =  Fsum(ta0).fsum2_
+        _fabs    =  fabs
+        _fsum1f_ =  fsum1f_
+        _sqrt    =  sqrt
+        _1, _2   = _1_0, _2_0
+        _4, _6   = _4_0, _6_0
         for self._iteration in range(1, _NUMIT0):  # 4 trips
             ta02  =  ta0**2
             sca02 =  ta02 + _1
@@ -440,8 +440,8 @@ class _AlbersBase(_NamedBase):
             BA = (_atanhs1(e2 * sa0m1**2) * e21 - e2 * sa0m) * sa0m1 \
                - (_2 + (_1 + e2) * sa0) * sa0m**2 * e22 / sa021  # B + A
             d  = (_4 - (_1 + sa02) * e2 * _2) * e22    / (sa021**2 * sca02)  # dAB
-            u  = _fsum1(s1_qZ *  g, -D,  g * BA,        floats=True)
-            du = _fsum1(s1_qZ * dg, dD, dg * BA, g * d, floats=True)
+            u  = _fsum1f_(s1_qZ *  g, -D,  g * BA)
+            du = _fsum1f_(s1_qZ * dg, dD, dg * BA, g * d)
             ta0, d = _Ta02(-u / du * (sca0 * sca02))
             if _fabs(d) < tol:
                 return ta0
@@ -450,10 +450,10 @@ class _AlbersBase(_NamedBase):
     def _ta0C2(self, ca1, sa1, ta1, ca2, sa2, ta2):
         '''(INTERNAL) Compute C{ta0} and C{C} for C{.__init__}.
         '''
-        _1     = _1_0
-        _fsum1 =  fsum1_
-        E      =  self.ellipsoid
-        f1, e2 =  E.f1, E.e2
+        _1       = _1_0
+        _fsum1f_ =  fsum1f_
+        E        =  self.ellipsoid
+        f1, e2   =  E.f1, E.e2
 
         tb1    = f1 * ta1
         tb2    = f1 * ta2
@@ -472,11 +472,11 @@ class _AlbersBase(_NamedBase):
                                        (ca2, sa2, ta2, scb22))
 
         dsxi = (esa12 / esa1_2 + _Datanhee(sa2, sa1, E)) * dsn_2 / self._qx
-        C = _fsum1(sxi * dtb12 / dsxi, scb22, scb12) / (scb22 * scb12 * _2_0)
+        C = _fsum1f_(sxi * dtb12 / dsxi, scb22, scb12) / (scb22 * scb12 * _2_0)
 
-        sa12  = _fsum1(sa1, sa2, sa12)
+        sa12  = _fsum1f_(sa1, sa2, sa12)
         axi  *= (sa12 * e2 + _1) / (sa12 + _1)
-        bxi  *= _fsum1(sa1, sa2, esa12) * e2 / esa1_2 + E.e21 * _D2atanhee(sa1, sa2, E)
+        bxi  *= _fsum1f_(sa1, sa2, esa12) * e2 / esa1_2 + E.e21 * _D2atanhee(sa1, sa2, E)
         s1_qZ = (axi * self._qZ - bxi) * dsn_2 / dtb12
         ta0   =  self._ta0(s1_qZ, (ta1 + ta2) * _0_5, E)
         return ta0, C

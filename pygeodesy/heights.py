@@ -88,7 +88,7 @@ from pygeodesy.props import Property_RO, property_RO
 # from math import radians  # from .formy
 
 __all__ = _ALL_LAZY.heights
-__version__ = '23.05.14'
+__version__ = '23.05.18'
 
 _error_     = 'error'
 _llis_      = 'llis'
@@ -251,7 +251,7 @@ class _HeightsBase(_HeightBase):  # in .geoids
         atype = self.numpy.array
         wrap = _xkwds(wrap, wrap=self._wrap)
         _as, llis   = _as_llis2(llis)
-        xis, yis, _ =  zip(*_xyhs(llis, **wrap))  # PYCHOK unzip
+        xis, yis, _ =  zip(*_xyhs(llis, **wrap))  # PYCHOK yield
         return _as, atype(xis), atype(yis), llis
 
     def _ev(self, *args):  # PYCHOK no cover
@@ -330,7 +330,7 @@ class _HeightsBase(_HeightBase):  # in .geoids
 
     def _xyhs3(self, knots, **wrap):
         # convert knot C{LatLon}s to tuples or C{NumPy} arrays and C{SciPy} sphericals
-        xs, ys, hs = zip(*_xyhs(knots, name=_knots_, **wrap))  # PYCHOK unzip
+        xs, ys, hs = zip(*_xyhs(knots, name=_knots_, **wrap))  # PYCHOK yield
         n = len(hs)
         if n < self.kmin:
             raise _insufficientError(self.kmin, knots=n)

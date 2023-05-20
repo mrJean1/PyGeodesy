@@ -90,7 +90,7 @@ from pygeodesy.utily import atand, atan2b, atan2d, degrees90, m2radians, radians
 from math import asinh, atan, atanh, cos, degrees, exp, fabs, radians, sin, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '23.05.12'
+__version__ = '23.05.15'
 
 _f_0_0    = Float(f =_0_0)  # zero flattening
 _f__0_0   = Float(f_=_0_0)  # zero inverse flattening
@@ -1367,8 +1367,8 @@ class Ellipsoid(_NamedEnumItem):
            @see: C{Rtriaxial}
         '''
         a, b = self.a, self.b
-        q = (sqrt((_1_0 + self.b2_a2) * _0_5) * a) if a > b else (
-            (sqrt((_1_0 + self.a2_b2) * _0_5) * b) if a < b else a)
+        q = (sqrt(_0_5 + self.b2_a2 * _0_5) * a) if a > b else (
+            (sqrt(_0_5 + self.a2_b2 * _0_5) * b) if a < b else a)
         return Radius(Rbiaxial=q)
 
     Requatorial = a  # for consistent naming
@@ -1492,8 +1492,8 @@ class Ellipsoid(_NamedEnumItem):
         if not self.f:  # .isSpherical
             n = self.a
         elif ca is None:
-            r =  self.e2s2(sa)  # see .roc2_ and _EcefBase._forward
-            n = (self.a / sqrt(r)) if r > EPS02 else _0_0
+            r = self.e2s2(sa)  # see .roc2_ and _EcefBase._forward
+            n = sqrt(self.a2 / r) if r > EPS02 else _0_0
         elif ca:  # derived from EcefYou.forward
             h = hypot(ca, self.b_a * sa) if sa else fabs(ca)
             n = self.a / h

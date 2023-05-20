@@ -35,7 +35,7 @@ following exceptions:
  - Evaluating the convergence and scale using the expression for the
    projection or its inverse.
 
-Copyright (C) U{Charles Karney<mailto:Charles@Karney.com>} (2008-2022)
+Copyright (C) U{Charles Karney<mailto:Charles@Karney.com>} (2008-2023)
 and licensed under the MIT/X11 License.  For more information, see the
 U{GeographicLib<https://GeographicLib.SourceForge.io>} documentation.
 '''
@@ -65,7 +65,7 @@ from cmath import phase
 from math import atan2, asinh, cos, cosh, degrees, fabs, sin, sinh, sqrt, tanh
 
 __all__ = _ALL_LAZY.ktm
-__version__ = '23.04.23'
+__version__ = '23.05.15'
 
 
 class KTMError(_ValueError):

@@ -1130,8 +1130,7 @@ class _CompositeBase(_Named):
 
     def _sum1(self, _a_p, *args, **kwds):  # in .karney, .points
         # Sum the area or perimeter of all clips
-        return _MODS.fsums.fsum1((_a_p(c, *args, **kwds) for c in self._clips),
-                                  floats=True)
+        return _MODS.fsums.fsum1((_a_p(c, *args, **kwds) for c in self._clips))
 
     def _sum2(self, LL, _a_p, *args, **kwds):  # in .sphericalNvector, -Trigonometry
         # Sum the area or perimeter of all clips
@@ -1141,8 +1140,7 @@ class _CompositeBase(_Named):
             for v in clip:
                 yield _LL(v.lat, v.lon)  # datum=Sphere
 
-        return _MODS.fsums.fsum1((_a_p(_lls(c), *args, **kwds) for c in self._clips),
-                                  floats=True)
+        return _MODS.fsums.fsum1((_a_p(_lls(c), *args, **kwds) for c in self._clips))
 
     def toLatLon(self, LatLon=None, closed=False, **LatLon_kwds):
         '''Yield all (non-duplicate) points and intersections

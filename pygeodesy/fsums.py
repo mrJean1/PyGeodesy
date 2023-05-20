@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 u'''Class L{Fsum} for precision floating point summation and I{running}
-summation, based on respectively similar to Python's C{math.fsum}.
+summation based on, respectively similar to Python's C{math.fsum}.
 
 Generally, an L{Fsum} instance is considered a C{float} plus a small or zero
 C{residual} value, see property L{Fsum.residual}.  However, there are several
@@ -17,16 +17,16 @@ C{-1.0} and C{+1.0}, including C{INT0} if considered to be I{exact}.
 Set env variable C{PYGEODESY_FSUM_PARTIALS} to an empty string (or anything
 other than C{"fsum"}) for backward compatible summation of L{Fsum} partials.
 
-Set env variable C{PYGEODESY_FSUM_RESIDUAL} to a C{float} string for the
-threshold to throw a L{ResidualError} in division or exponention of an L{Fsum}
-instance with a I{relative} C{residual} exceeding the threshold, see methods
-L{Fsum.RESIDUAL}, L{Fsum.pow}, L{Fsum.__ipow__} and L{Fsum.__itruediv__}.
+Set env variable C{PYGEODESY_FSUM_RESIDUAL} to a C{float} string greater
+than C{"0.0"} as the threshold to throw a L{ResidualError} in division or
+exponention of an L{Fsum} instance with a I{relative} C{residual} exceeding
+the threshold, see methods L{Fsum.RESIDUAL}, L{Fsum.pow}, L{Fsum.__ipow__}
+and L{Fsum.__itruediv__}.
 '''
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import iscomplex, isint, isscalar, map1, neg, \
-                             signOf, _signOf
+from pygeodesy.basics import iscomplex, isint, isscalar, map1, signOf, _signOf
 from pygeodesy.constants import INT0, _isfinite, isinf, isnan, \
                                _0_0, _1_0, _N_1_0
 from pygeodesy.errors import itemsorted, _OverflowError, _TypeError, \
@@ -47,7 +47,7 @@ from pygeodesy.units import Float, Int
 from math import ceil as _ceil, fabs, floor as _floor  # PYCHOK used! .ltp
 
 __all__ = _ALL_LAZY.fsums
-__version__ = '23.03.19'
+__version__ = '23.05.18'
 
 _add_op_       = _PLUS_
 _eq_op_        = _EQUAL_ * 2  # _DEQUAL_
@@ -72,7 +72,7 @@ _divmod_op_    = _floordiv_op_ + _mod_op_
 _pos_self      = _1_0.__pos__() is _1_0  # in .vector3dBase
 
 
-def _2float(index=None, **name_value):
+def _2float(index=None, **name_value):  # in .fmath, .fstats
     '''(INTERNAL) Raise C{TypeError} or C{ValueError} if not scalar or infinite.
     '''
     n, v = name_value.popitem()  # _xkwds_popitem(name_value)
@@ -81,63 +81,73 @@ def _2float(index=None, **name_value):
         if _isfinite(v):
             return v
         E, t = _ValueError, _not_finite_
-    except Exception as X:
-        E, t = _xError2(X)
+    except Exception as e:
+        E, t = _xError2(e)
     if index is not None:
         n = Fmt.SQUARE(n, index)
     raise E(n, v, txt=t)
 
 
-def _2floats(xs, origin=0, primed=False, sub=False, floats=False):
-    '''(INTERNAL) Yield all B{C{xs}} as C{float}s.
+def _2floats(xs, origin=0, sub=False):
+    '''(INTERNAL) Yield each B{C{xs}} as a C{float}.
     '''
-    _2f = _2float
-    if primed:
-        yield _1_0
-    i = origin
-    for x in xs:
-        if floats:
-            yield x
-        elif isinstance(x, Fsum):
-            ps = x._ps
-            if ps:
-                if sub:
-                    ps = map(neg, ps)
-                for x in ps:
-                    yield x
-        else:
-            x = _2f(index=i, xs=x)
-            if x:
-                yield (-x) if sub else x
-        i += 1
-    if primed:
-        yield _N_1_0
+    try:
+        i, x  =  origin, None
+        _fin  = _isfinite
+        _Fsum =  Fsum
+        for x in xs:
+            if isinstance(x, _Fsum):
+                for p in x._ps:
+                    yield (-p) if sub else p
+            else:
+                f = float(x)
+                if not _fin(f):
+                    raise ValueError(_not_finite_)
+                if f:
+                    yield (-f) if sub else f
+            i += 1
+    except Exception as e:
+        E, t = _xError2(e)
+        n = Fmt.SQUARE(xs=i)
+        raise E(n, x, txt=t)
 
 
 def _Powers(power, xs, origin=1):  # in .fmath
     '''(INTERNAL) Yield each C{xs} as C{float(x**power)}.
     '''
-    i   =  None
-    s   =  2 == power
-    _2f = _2float
+    if not isscalar(power):
+        raise _TypeError(power=power)
     try:
-        for i, x in enumerate(xs):
-            if isinstance(x, Fsum):
-                T = x._mul_Fsum(x) if s else x.pow(power)
-                for t in T._ps:
-                    yield t
+        i, x  =  origin, None
+        _fin  = _isfinite
+        _Fsum =  Fsum
+        _pow  =  pow  # XXX math.pow
+        for x in xs:
+            if isinstance(x, _Fsum):
+                P = x.pow(power)
+                for p in P._ps:
+                    yield p
             else:
-                t = _2f(_=x)
-                if t:
-                    yield _2f(__=t**power)
-    except Exception as X:
-        E, t = _xError2(X)
-        if i is None:
-            i = Fmt.PARENSPACED(xs=xs)
-        else:
-            i = Fmt.SQUARE(xs=i + origin)
-            i = Fmt.PARENSPACED(i, x)
-        raise E(i, txt=t)
+                p = _pow(float(x), power)
+                if not _fin(p):
+                    raise ValueError(_not_finite_)
+                yield p
+            i += 1
+    except Exception as e:
+        E, t = _xError2(e)
+        n = Fmt.SQUARE(xs=i)
+        raise E(n, x, txt=t)
+
+
+def _1primed(xs):
+    '''(INTERNAL) 1-Prime the summation of C{xs}
+       arguments I{known} to be C{finite float}.
+    '''
+    yield _1_0
+    for x in xs:
+        if x:
+            yield x
+    yield _N_1_0
 
 
 def _psum(ps):  # PYCHOK used!
@@ -264,7 +274,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
 #       self._n  = 0
         self._ps = []  # [_0_0], see L{Fsum._fprs}
         if len(xs) > 1:
-            self._facc(_2floats(xs, origin=1), up=False)
+            self._facc(_2floats(xs, origin=1), up=False)  # PYCHOK yield
         elif xs:  # len(xs) == 1
             self._ps = [_2float(x=xs[0])]
             self._n  = 1
@@ -916,7 +926,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
         elif isscalar(xs):  # for backward compatibility
             self._facc_(_2float(x=xs))  # PYCHOK no cover
         elif xs:
-            self._facc(_2floats(xs))
+            self._facc(_2floats(xs))  # PYCHOK yield
         return self
 
     def fadd_(self, *xs):
@@ -935,7 +945,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
 
            @raise ValueError: Invalid or non-finite B{C{xs}} value.
         '''
-        return self._facc(_2floats(xs, origin=1))
+        return self._facc(_2floats(xs, origin=1))  # PYCHOK yield
 
     def _fadd(self, other, op):  # in .fmath.Fhorner
         '''(INTERNAL) Apply C{B{self} += B{other}}.
@@ -1191,7 +1201,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
 
            @see: Method L{Fsum.fadd}.
         '''
-        return self._facc(_2floats(xs, sub=True)) if xs else self
+        return self._facc(_2floats(xs, sub=True)) if xs else self  # PYCHOK yield
 
     def fsub_(self, *xs):
         '''Subtract all positional C{scalar} or L{Fsum} instances
@@ -1204,7 +1214,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
 
            @see: Method L{Fsum.fadd}.
         '''
-        return self._facc(_2floats(xs, origin=1, sub=True)) if xs else self
+        return self._facc(_2floats(xs, origin=1, sub=True)) if xs else self  # PYCHOK yield
 
     def _fsub(self, other, op):
         '''(INTERNAL) Apply C{B{self} -= B{other}}.
@@ -1242,7 +1252,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
 
            @note: Accumulation can continue after summation.
         '''
-        f = self._facc(_2floats(xs)) if xs else self
+        f = self._facc(_2floats(xs)) if xs else self  # PYCHOK yield
         return f._fprs
 
     def fsum_(self, *xs):
@@ -1255,7 +1265,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
 
            @see: Method L{Fsum.fsum}.
         '''
-        f = self._facc(_2floats(xs, origin=1)) if xs else self
+        f = self._facc(_2floats(xs, origin=1)) if xs else self  # PYCHOK yield
         return f._fprs
 
     def fsum2(self, xs=(), **name):
@@ -1274,7 +1284,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
 
            @see: Methods L{Fsum.fint2}, L{Fsum.fsum} and L{Fsum.fsum2_}
         '''
-        f = self._facc(_2floats(xs)) if xs else self
+        f = self._facc(_2floats(xs)) if xs else self  # PYCHOK yield
         t = f._fprs2
         if name:
             t = t.dup(name=_xkwds_get(name, name=NN))
@@ -1295,7 +1305,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
         '''
         p, r = self._fprs2
         if xs:
-            s, t = self._facc(_2floats(xs, origin=1))._fprs2
+            s, t = self._facc(_2floats(xs, origin=1))._fprs2  # PYCHOK yield
             return s, _fsum((s, -p, r, -t))  # ((s - p) + (r - t))
         else:  # PYCHOK no cover
             return p, _0_0
@@ -1785,7 +1795,7 @@ def fsum(xs, floats=False):
 
        @arg xs: Iterable, list, tuple, etc. of values (C{scalar} or
                 L{Fsum} instances).
-       @kwarg floats: Optionally, set C{B{floats}=True} iff I{all}
+       @kwarg floats: Optionally, use C{B{floats}=True} iff I{all}
                       B{C{xs}} are known to be C{float}.
 
        @return: Precision C{fsum} (C{float}).
@@ -1801,7 +1811,7 @@ def fsum(xs, floats=False):
 
        @see: Class L{Fsum} and methods L{Fsum.fsum} and L{Fsum.fadd}.
     '''
-    return _fsum(_2floats(xs, floats=floats)) if xs else _0_0
+    return _fsum(xs if floats else _2floats(xs)) if xs else _0_0  # PYCHOK yield
 
 
 def fsum_(*xs, **floats):
@@ -1809,33 +1819,36 @@ def fsum_(*xs, **floats):
 
        @arg xs: Values to be added (C{scalar} or L{Fsum} instances),
                 all positional.
-       @kwarg floats: Optionally, set C{B{floats}=True} iff I{all}
+       @kwarg floats: Optionally, use C{B{floats}=True} iff I{all}
                       B{C{xs}} are known to be C{float}.
 
        @return: Precision C{fsum} (C{float}).
 
        @see: Function C{fsum}.
     '''
-    if xs:
-        f = _xkwds_get(floats, floats=False)
-        return _fsum(_2floats(xs, origin=1, floats=f))
-    else:  # PYCHOK no cover
-        return _0_0
+    return _fsum(xs if _xkwds_get(floats, floats=False) else
+                _2floats(xs, origin=1)) if xs else _0_0  # PYCHOK yield
+
+
+def fsumf_(*xs):
+    '''Precision floating point summation L{fsum_}C{(*xs, floats=True)}.
+    '''
+    return _fsum(xs) if xs else _0_0
 
 
 def fsum1(xs, floats=False):
-    '''Precision floating point summation of a few values, 1-primed.
+    '''Precision floating point summation of a few arguments, 1-primed.
 
        @arg xs: Iterable, list, tuple, etc. of values (C{scalar} or
                 L{Fsum} instances).
-       @kwarg floats: Optionally, set C{B{floats}=True} iff I{all}
+       @kwarg floats: Optionally, use C{B{floats}=True} iff I{all}
                       B{C{xs}} are known to be C{float}.
 
        @return: Precision C{fsum} (C{float}).
 
        @see: Function C{fsum}.
     '''
-    return _fsum(_2floats(xs, primed=True, floats=floats)) if xs else _0_0
+    return _fsum(_1primed(xs if floats else _2floats(xs))) if xs else _0_0  # PYCHOK yield
 
 
 def fsum1_(*xs, **floats):
@@ -1843,18 +1856,22 @@ def fsum1_(*xs, **floats):
 
        @arg xs: Values to be added (C{scalar} or L{Fsum} instances),
                 all positional.
-       @kwarg floats: Optionally, set C{B{floats}=True} iff I{all}
+       @kwarg floats: Optionally, use C{B{floats}=True} iff I{all}
                       B{C{xs}} are known to be C{float}.
 
        @return: Precision C{fsum} (C{float}).
 
        @see: Function C{fsum}
     '''
-    if xs:
-        f = _xkwds_get(floats, floats=False)
-        return _fsum(_2floats(xs, origin=1, primed=True, floats=f))
-    else:  # PYCHOK no cover
-        return _0_0
+    return _fsum(_1primed(xs if _xkwds_get(floats, floats=False) else
+                         _2floats(xs, origin=1))) if xs else _0_0  # PYCHOK yield
+
+
+def fsum1f_(*xs):
+    '''Precision floating point summation L{fsum1_}C{(*xs, floats=True)}.
+    '''
+    return _fsum(_1primed(xs)) if xs else _0_0
+
 
 # **) MIT License
 #

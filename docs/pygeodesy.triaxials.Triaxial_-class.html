@@ -96,8 +96,10 @@
         in <code>degrees</code>, <i>geodetic</i> <code>phi</code> and 
         <code>lam</code>bda are in <code>radians</code>, but 
         <i>ellipsoidal</i> lat- and longitude <code>beta</code> and 
-        <code>omega</code> are in <code>Radians</code> by default (or in 
-        <code>Degrees</code> if converted).
+        <code>omega</code> are in <a 
+        href="pygeodesy.units.Radians-class.html" class="link">Radians</a> 
+        by default (or in <a href="pygeodesy.units.Degrees-class.html" 
+        class="link">Degrees</a> if converted).
       </p>
 </div><!-- ==================== INSTANCE METHODS ==================== -->
 <a name="section-InstanceMethods"></a>
@@ -263,8 +265,7 @@
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
       Convert this triaxial to an <a 
       href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
-      class="link">Ellipsoid</a>, provided <code>a == b</code> or <code>b 
-      == c</code>.</td>
+      class="link">Ellipsoid</a>, provided 2 axes match.</td>
           <td align="right" valign="top">
             
             
@@ -387,18 +388,18 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.triaxials.Triaxial_-class.html#e2bc" class="summary-name">e2bc</a><br />
-      Get the <code>bc</code> ellipse' <i>(1st) eccentricity squared</i> 
-      (<code>scalar</code>), <i class="math">1 - (c/b)**2</i>.
+        <a href="pygeodesy.triaxials.Triaxial_-class.html#e2ac" class="summary-name">e2ac</a><br />
+      Get the <code>ac</code> ellipse' <i>(1st) eccentricity squared</i> 
+      (<code>scalar</code>), <i class="math">1 - (c/a)**2</i>.
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.triaxials.Triaxial_-class.html#e2ac" class="summary-name">e2ac</a><br />
-      Get the <code>ac</code> ellipse' <i>(1st) eccentricity squared</i> 
-      (<code>scalar</code>), <i class="math">1 - (c/a)**2</i>.
+        <a href="pygeodesy.triaxials.Triaxial_-class.html#e2bc" class="summary-name">e2bc</a><br />
+      Get the <code>bc</code> ellipse' <i>(1st) eccentricity squared</i> 
+      (<code>scalar</code>), <i class="math">1 - (c/b)**2</i>.
     </td>
   </tr>
 <tr>
@@ -481,17 +482,17 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>a_triaxial</code></strong> - <code>X</code> semi-axis (<code>scalar</code>, conventionally in 
-          <code>meter</code>) or an other <a 
+        <li><strong class="pname"><code>a_triaxial</code></strong> - Large, <code>X</code> semi-axis (<code>scalar</code>, 
+          conventionally in <code>meter</code>) or an other <a 
           href="pygeodesy.triaxials.Triaxial-class.html" 
           class="link">Triaxial</a> or <a 
           href="pygeodesy.triaxials.Triaxial_-class.html" 
           class="link">Triaxial_</a> instance.</li>
-        <li><strong class="pname"><code>b</code></strong> - <code>Y</code> semi-axis (<code>meter</code>, same units as 
-          <b><code>a</code></b>), required if <code><b>a_triaxial</b> is 
+        <li><strong class="pname"><code>b</code></strong> - Middle, <code>Y</code> semi-axis (<code>meter</code>, same units 
+          as <b><code>a</code></b>), required if <code><b>a_triaxial</b> is
           scalar</code>, ignored otherwise.</li>
-        <li><strong class="pname"><code>c</code></strong> - <code>Z</code> semi-axis (<code>meter</code>, same units as 
-          <b><code>a</code></b>), required if <code><b>a_triaxial</b> is 
+        <li><strong class="pname"><code>c</code></strong> - Small, <code>Z</code> semi-axis (<code>meter</code>, same units 
+          as <b><code>a</code></b>), required if <code><b>a_triaxial</b> is
           scalar</code>, ignored otherwise.</li>
         <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
     </ul></dd>
@@ -774,8 +775,7 @@
   
   <p>Convert this triaxial to an <a 
   href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
-  class="link">Ellipsoid</a>, provided <code>a == b</code> or <code>b == 
-  c</code>.</p>
+  class="link">Ellipsoid</a>, provided 2 axes match.</p>
   <dl class="fields">
     <dt>Returns:</dt>
         <dd>An <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
@@ -966,32 +966,6 @@ as <b><code>a</code></b>).
   </dl>
 </td></tr></table>
 </div>
-<a name="e2bc"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">e2bc</h3>
-  <p>Get the <code>bc</code> ellipse' <i>(1st) eccentricity squared</i> 
-  (<code>scalar</code>), <i class="math">1 - (c/b)**2</i>.</p>
-  <dl class="fields">
-    <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">e2bc(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <code>bc</code> ellipse' <i>(1st) eccentricity squared</i> 
-(<code>scalar</code>), <i class="math">1 - (c/b)**2</i>.
-    </dd>
-    <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">val</span>)</span>
-        - Throws an <code>AttributeError</code>, always.
-    </dd>
-    <dt>Delete Method:</dt>
-    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
-        - Zap the <i>cached/memoized</i> <code>property</code> value.
-    </dd>
-  </dl>
-</td></tr></table>
-</div>
 <a name="e2ac"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1005,6 +979,32 @@ as <b><code>a</code></b>).
     <dd class="value"><span class="summary-sig">e2ac(<span class="summary-sig-arg">self</span>)</span>
         - Get the <code>ac</code> ellipse' <i>(1st) eccentricity squared</i> 
 (<code>scalar</code>), <i class="math">1 - (c/a)**2</i>.
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="e2bc"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">e2bc</h3>
+  <p>Get the <code>bc</code> ellipse' <i>(1st) eccentricity squared</i> 
+  (<code>scalar</code>), <i class="math">1 - (c/b)**2</i>.</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">e2bc(<span class="summary-sig-arg">self</span>)</span>
+        - Get the <code>bc</code> ellipse' <i>(1st) eccentricity squared</i> 
+(<code>scalar</code>), <i class="math">1 - (c/b)**2</i>.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -1126,7 +1126,7 @@ as <b><code>a</code></b>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun May 14 08:50:51 2023
+    Generated by Epydoc 3.0.1 on Sat May 20 11:36:12 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

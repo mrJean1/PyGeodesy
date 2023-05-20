@@ -27,9 +27,9 @@ from pygeodesy.constants import INT0, _EPSqrt as _TOL, NAN, PI_2, isnan, _0_0s, 
 # from pygeodesy.datums import _spherical_datum  # in Rhumb.ellipsoid.setter
 from pygeodesy.errors import IntersectionError, itemsorted, _ValueError, \
                             _xdatum, _xkwds
-# from pygeodesy.etm import ExactTransverseMercator  # in ._RhumbLine.xTM
-from pygeodesy.fmath import euclid, favg, fsum1_, hypot, hypot1
-# from pygeodesy.fsums import fsum1_  # from .fmath
+# from pygeodesy.etm import ExactTransverseMercator  # _MODS in ._RhumbLine.xTM
+from pygeodesy.fmath import euclid, favg, hypot, hypot1
+# from pygeodesy.fsums import fsum1f_  # _MODS
 from pygeodesy.interns import NN, _azi12_, _coincident_, _COMMASPACE_, \
                              _intersection_, _lat1_, _lat2_, _lon1_, _lon2_, \
                              _no_, _s12_, _S12_, _UNDER
@@ -51,7 +51,7 @@ from pygeodesy.vector3d import _intersect3d3, Vector3d  # in .intersection2 belo
 from math import asinh, atan, cos, cosh, fabs, radians, sin, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.rhumbx
-__version__ = '23.05.06'
+__version__ = '23.05.15'
 
 _rls   = []  # instances of C{RbumbLine} to be updated
 _TRIPS = 65  # .intersection2, 18+
@@ -1057,27 +1057,28 @@ def _sincosSeries(sinp, x, y, C, n):
     #   SC = sinp ? sin : cos
     #   CS = sinp ? cos : sin
     # ...
-    d = x - y
+    d, _neg = (x - y), neg
     sp, cp, sd, cd = sincos2_(x + y, d)
     sd = (sd / d) if d else _1_0
-    m =     cp * cd * _2_0
-    s = neg(sp * sd)  # negative
+    s  = _neg(sp * sd)  # negative
     # 2x2 matrices in row-major order
-    a0, a1  = m, (s * d**2)
-    a2, a3  = (s * _4_0), m
+    a1 = s * d**2
+    a2 = s * _4_0
+    a0 = a3 = _2_0 * cp * cd  # m
     b2 = b1 = _0_0s(4)
     if n > 0:
         b1 = C[n], _0_0, _0_0, C[n]
-    _fsum1_, _neg = fsum1_, neg
-    for j in range(n - 1, 0, -1):
-        b1, b2, Cj = b2, b1, C[j]  # C[0] unused
+
+    _fsum1f_ = _MODS.fsums.fsum1f_
+    for j in range(n - 1, 0, -1):  # C[0] unused
+        b1, b2, Cj = b2, b1, C[j]
         # b1 = a * b2 - b1 + C[j] * I
         m0, m1, m2, m3 = b2
         n0, n1, n2, n3 = map(_neg, b1)
-        b1 = (_fsum1_(a0 * m0, a1 * m2, n0, Cj, floats=True),
-              _fsum1_(a0 * m1, a1 * m3, n1,     floats=True),
-              _fsum1_(a2 * m0, a3 * m2, n2,     floats=True),
-              _fsum1_(a2 * m1, a3 * m3, n3, Cj, floats=True))
+        b1 = (_fsum1f_(a0 * m0, a1 * m2, n0, Cj),
+              _fsum1f_(a0 * m1, a1 * m3, n1),
+              _fsum1f_(a2 * m0, a3 * m2, n2),
+              _fsum1f_(a2 * m1, a3 * m3, n3, Cj))
     # Here are the full expressions for m and s
     # f01, f02, f11, f12 = (0, 0, cd * sp,  2 * sd * cp) if sinp else \
     #                      (1, 0, cd * cp, -2 * sd * sp)
@@ -1085,8 +1086,8 @@ def _sincosSeries(sinp, x, y, C, n):
     # s = -b2[2] * f01 + (C[0] - b2[3]) * f02 + b1[2] * f11 + b1[3] * f12
     cd *=  b1[2]
     sd *=  b1[3] * _2_0
-    s   = _fsum1_(cd * sp,      sd * cp, floats=True) if sinp else \
-          _fsum1_(cd * cp, _neg(sd * sp), _neg(b2[2]), floats=True)
+    s   = _fsum1f_(cd * sp,      sd * cp) if sinp else \
+          _fsum1f_(cd * cp, _neg(sd * sp), _neg(b2[2]))
     return s
 
 

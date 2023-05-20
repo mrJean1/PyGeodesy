@@ -4,7 +4,7 @@
 # Test L{namedTuples} module.
 
 __all__ = ('Tests',)
-__version__ = '23.03.27'
+__version__ = '23.05.18'
 
 from bases import TestsBase
 from pygeodesy import FIx, issubclassof
@@ -14,9 +14,9 @@ from pygeodesy.fsums import _Float_Int
 from pygeodesy.hausdorff import Hausdorff6Tuple
 from pygeodesy.interns import _DOT_
 from pygeodesy.karney import _GTuple  # Lat as kLat, Lon as kLon
-from pygeodesy.named import _Pass
-from pygeodesy.namedTuples import _NamedTuple
+from pygeodesy.named import _NamedTuple, _Pass
 # from pygeodesy.rhumbx import Lat as rLat, Lon as rLon
+from pygeodesy.triaxials import _NamedTupleTo
 from pygeodesy.units import _NamedUnit
 
 _Units_ = '_Units_'
@@ -63,7 +63,7 @@ class Tests(TestsBase):
 
     def testNamedTuples(self):
         for T in self.pygeodesy_classes(Base=_NamedTuple):
-            if T not in (_NamedTuple, _GTuple):
+            if T not in (_GTuple, _NamedTuple, _NamedTupleTo):
                 t = (0.5,) * len(T._Names_)  # some sample value
                 if T in (Frechet6Tuple, Hausdorff6Tuple):
                     t = t[1:] + ('test',)

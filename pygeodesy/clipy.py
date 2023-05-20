@@ -16,7 +16,7 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 from pygeodesy.constants import EPS, _0_0, _1_0
 from pygeodesy.errors import _AssertionError, ClipError, PointsError
 from pygeodesy.fmath import fabs, len2
-from pygeodesy.fsums import fsum_, Property_RO
+from pygeodesy.fsums import fsumf_, Property_RO
 from pygeodesy.interns import NN, _clipid_, _convex_, _DOT_, _end_, _few_, \
                              _fi_, _height_, _i_, _invalid_, _j_, _lat_, \
                              _lon_, _near_, _not_, _points_, _start_, _too_
@@ -30,7 +30,7 @@ from pygeodesy.units import Bool, FIx, HeightX, Lat, Lon, Number_
 # from math import fabs  # from .fmath
 
 __all__ = _ALL_LAZY.clipy
-__version__ = '23.03.25'
+__version__ = '23.05.15'
 
 _fj_       = 'fj'
 _original_ = 'original'
@@ -579,7 +579,7 @@ class _SH(_Named):
         d  = fy * dx - fx * dy
         if fabs(d) < EPS:  # PYCHOK no cover
             raise _AssertionError(self._DOT_(self.intersect.__name__))
-        d  = fsum_(self._xy, -y * dx, x * dy, floats=True) / d
+        d  = fsumf_(self._xy, -y * dx, x * dy) / d
         y += d * fy
         x += d * fx
         return _SHlli(y, x, p1.classof, edge)

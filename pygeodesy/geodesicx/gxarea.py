@@ -10,7 +10,7 @@ Class L{GeodesicAreaExact} is intended to work with instances
 of class L{GeodesicExact} and of I{wrapped} class C{Geodesic},
 see module L{pygeodesy.karney}.
 
-Copyright (C) U{Charles Karney<mailto:Charles@Karney.com>} (2008-2022)
+Copyright (C) U{Charles Karney<mailto:Charles@Karney.com>} (2008-2023)
 and licensed under the MIT/X11 License.  For more information, see the
 U{GeographicLib<https://GeographicLib.SourceForge.io>} documentation.
 '''
@@ -30,7 +30,7 @@ from pygeodesy.props import Property, Property_RO, property_RO
 from math import fmod
 
 __all__ = ()
-__version__ = '23.04.05'
+__version__ = '23.05.15'
 
 
 class GeodesicAreaExact(_NamedBase):

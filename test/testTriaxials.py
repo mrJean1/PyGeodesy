@@ -4,12 +4,14 @@
 # Test L{triaxials} module.
 
 __all__ = ('Tests',)
-__version__ = '23.03.27'
+__version__ = '23.05.15'
 
 from bases import random, startswith, TestsBase
 
-from pygeodesy import EPS4, PI_2, PI_4, Ellipsoids, F_DMS, fstr, JacobiConformal, map1, map2, \
-                      signBit, sincos2d_, Triaxial, Triaxial_, Triaxials, triaxials, Vector3d
+from pygeodesy import EPS4, PI_2, PI_4, Ellipsoids, F_DMS, fstr, \
+                      JacobiConformal, JacobiConformalSpherical, \
+                      map1, map2, signBit, sincos2d_, Triaxial, \
+                      Triaxial_, Triaxials, triaxials, Vector3d
 from math import radians
 
 
@@ -34,7 +36,7 @@ class Tests(TestsBase):
         n = JacobiConformal.__name__
         # <https://GeographicLib.sourceforge.io/1.52/jacobi.html>
         J = JacobiConformal(6378137+35, 6378137-35, 6356752, name='Test')
-        self.test(n, repr(J), "JacobiConformal(name='Test', a=6378172, b=6378102, c=6356752, e2ab=", known=startswith)
+        self.test(n, repr(J), "%s(name='Test', a=6378172, b=6378102, c=6356752, e2ab=" % (n,), known=startswith)
 
         n = J.xR.__name__
         x = J.xR(PI_2)
@@ -49,7 +51,7 @@ class Tests(TestsBase):
         t = p.toDegrees()
         self.test(n, t, '(90.074283, 243.31117)', known=map2(int, t) == (90, 243))
         t = p.toDegrees(form=F_DMS)
-        self.test(n, t, "('90°04′27.42″', '243°18′40.21″')", known=True)
+        self.test(n, t, "('90°04′27.42″N', '243°18′40.21″E')", known=True)
         n = J.area.name
         a = J.area
         self.test(n, int(a), '510065604942135', known=int(a * 1e-19) == 510)
@@ -64,7 +66,7 @@ class Tests(TestsBase):
 
         n = JacobiConformal.__name__
         J = JacobiConformal(267.5, 147, 104.5, name='Itokawa25134')
-        self.test(n, repr(J), "JacobiConformal(name='Itokawa25134', a=267.5, b=147, c=104.5, e2ab=", known=startswith, nl=1)
+        self.test(n, repr(J), "%s(name='Itokawa25134', a=267.5, b=147, c=104.5, e2ab=" % (n,), known=startswith, nl=1)
 
         n = J.xyR2.__name__
         p = J.xyR2(PI_4, 0)
@@ -74,7 +76,7 @@ class Tests(TestsBase):
         t = p.toDegrees()
         self.test(n, t, '(0.0, 35.259243)', known=True)
         t = p.toDegrees(form=F_DMS)
-        self.test(n, t, "('00°00′00.0″', '35°15′33.27″')", known=True)
+        self.test(n, t, "('00°00′00.0″N', '035°15′33.27″E')", known=True)
 
         n = JacobiConformal.xyQ2.name
         q = J.xyQ2
@@ -84,7 +86,65 @@ class Tests(TestsBase):
         t = q.toDegrees()
         self.test(n, t, '(179.4589659, 81.673412)', known=True)
         t = q.toDegrees(form=F_DMS)
-        self.test(n, t, "('179°27′32.28″', '81°40′24.28″')", known=True)
+        self.test(n, t, "('179°27′32.28″N', '081°40′24.28″E')", known=True)
+
+    def testJacobiConformalSpherical(self, module):
+        self.subtitle(module, JacobiConformalSpherical.__name__)
+
+        n = JacobiConformalSpherical.__name__
+        # <https://GeographicLib.sourceforge.io/1.52/jacobi.html>
+        J = JacobiConformalSpherical(6378137+35, ab=1, bc=2, name='Test')
+        self.test(n, repr(J), "%s(name='Test', a=6378172, ab=1, bc=2, e2ab=0, " % (n,), known=startswith)
+
+        n = J.xR.__name__
+        x = J.xR(PI_2)
+        self.test(n, x, '1.73391688526', known=round(x, 7) == 1.7339169)
+
+        n = J.yR.__name__
+        y = J.yR(PI_2)
+        self.test(n, y, '2.02895910275',  known=round(y, 7) == 2.0289591)
+
+        n = J.xyR2.__name__ + '.toDegrees'
+        p = J.xyR2(PI_2, PI_2)
+        t = p.toDegrees()
+        self.test(n, t, '(99.34612, 116.250793)', known=map2(int, t) == (99, 116))
+        t = p.toDegrees(form=F_DMS)
+        self.test(n, t, "('99°20′46.03″N', '116°15′02.86″E')", known=True)
+        n = J.area.name
+        a = J.area
+        self.test(n, int(a), '511213503913540', known=int(a * 1e-19) == 511)
+        n = J.area_p.__name__
+        p = J.area_p()
+        self.test(n, int(p), '511213503913540', known=int(p * 1e-19) == 511)
+        e = abs((a - p) / a)
+        self.test('error', e, '0.00e+00', fmt='%.2e')
+        n = J.volume.name
+        p = J.volume
+        self.test(n, p, '1.086869e+21', fmt='%.6e')
+
+        n = JacobiConformalSpherical.__name__
+        J = JacobiConformalSpherical(267.5, 147, 104.5, name='Itokawa25134')
+        self.test(n, repr(J), "%s(name='Itokawa25134', a=267.5, ab=147, bc=104.5, e2ab=0, " % (n,), known=startswith, nl=1)
+
+        n = J.xyR2.__name__
+        p = J.xyR2(PI_4, 0)
+        self.test(n, p, '(0.0, 0.818354)')
+
+        n = p.toDegrees.__name__
+        t = p.toDegrees()
+        self.test(n, t, '(0.0, 46.888217)', known=True)
+        t = p.toDegrees(form=F_DMS)
+        self.test(n, t, "('00°00′00.0″N', '046°53′17.58″E')", known=True)
+
+        n = JacobiConformal.xyQ2.name
+        q = J.xyQ2
+        self.test(n, q, '(1.933157, 1.788429)')
+
+        n = q.toDegrees.__name__
+        t = q.toDegrees()
+        self.test(n, t, '(179.4589659, 81.673412)', known=True)
+        t = q.toDegrees(form=F_DMS)
+        self.test(n, t, "('110°45′42.27″N', '102°28′10.04″E')", known=True)
 
     def testTriaxial(self, module):
         self.subtitle(module, Triaxial.__name__)
@@ -285,6 +345,7 @@ if __name__ == '__main__':
 
     t = Tests(__file__, __version__)
     t.testJacobiConformal(triaxials)
+    t.testJacobiConformalSpherical(triaxials)
     t.testTriaxial(triaxials)
     t.results()
     t.exit()

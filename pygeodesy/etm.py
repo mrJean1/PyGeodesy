@@ -17,7 +17,7 @@ Following is a copy of I{Karney}'s U{TransverseMercatorExact.hpp
 <https://GeographicLib.SourceForge.io/C++/doc/TransverseMercatorExact_8hpp_source.html>}
 file C{Header}.
 
-Copyright (C) U{Charles Karney<mailto:Charles@Karney.com>} (2008-2022) and licensed
+Copyright (C) U{Charles Karney<mailto:Charles@Karney.com>} (2008-2023) and licensed
 under the MIT/X11 License.  For more information, see the U{GeographicLib<https://
 GeographicLib.SourceForge.io>} documentation.
 
@@ -71,7 +71,7 @@ from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.elliptic import _ALL_LAZY, Elliptic
 # from pygeodesy.errors import _incompatible  # from .named
 from pygeodesy.fmath import cbrt, hypot, hypot1, hypot2
-from pygeodesy.fsums import Fsum, fsum1_
+from pygeodesy.fsums import Fsum, fsum1f_
 from pygeodesy.interns import NN, _COMMASPACE_, _DASH_, _near_, _SPACE_, \
                              _spherical_, _usage
 from pygeodesy.karney import _copyBit, _diff182, _fix90, _norm2, _norm180, \
@@ -91,7 +91,7 @@ from pygeodesy.utm import _cmlon, _LLEB, _parseUTM5, _toBand, _toXtm8, \
 from math import asinh, atan2, degrees, radians, sinh, sqrt
 
 __all__ = _ALL_LAZY.etm
-__version__ = '22.10.12'
+__version__ = '23.05.15'
 
 _OVERFLOW = _1_EPS**2  # about 2e+31
 _TAYTOL   =  pow(EPS, 0.6)
@@ -754,10 +754,10 @@ class ExactTransverseMercator(_NamedBase):
             # k = sqrt(mv + mu / sec2) * sqrt(sec2) * sqrt(q2)
             #   = sqrt(mv * sec2 + mu) * sqrt(q2)
             #   = sqrt(mv + mv * tau**2 + mu) * sqrt(q2)
-            k2 = fsum1_(mu, mv, mv * tau**2)
+            k2 = fsum1f_(mu, mv, mv * tau**2)
             q2 = (mv * snv**2 + cnudnv**2) / d2
-            k = (sqrt(k2) * sqrt(q2) * self.k0) if \
-                     (k2 > 0 and q2 > 0) else _0_0
+            k  = (sqrt(k2) * sqrt(q2) * self.k0) if \
+                      (k2 > 0 and q2 > 0) else _0_0
         else:
             k = _OVERFLOW
         return g, k

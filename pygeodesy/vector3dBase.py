@@ -13,7 +13,7 @@ from pygeodesy.constants import EPS, EPS0, INT0, PI, PI2, _float0, \
                                 isnear0, isnear1, _1_0
 from pygeodesy.errors import CrossError, _InvalidError, _IsnotError, VectorError
 from pygeodesy.fmath import euclid_, fdot, hypot_, hypot2_
-from pygeodesy.fsums import fsum1_, _pos_self
+from pygeodesy.fsums import fsum1f_, _pos_self
 from pygeodesy.interns import NN, _coincident_, _colinear_, _COMMASPACE_, _y_, _z_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _sys, _sys_version_info2
 from pygeodesy.named import _NamedBase, _NotImplemented, _xother3
@@ -27,7 +27,7 @@ from pygeodesy.utily import atan2, fabs, sincos2
 # from math import atan2, fabs  # from .utily
 
 __all__ = _ALL_LAZY.vector3dBase
-__version__ = '23.05.04'
+__version__ = '23.05.15'
 
 
 class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
@@ -498,9 +498,9 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
         '''
         other = self.others(other)
 
-        x = fsum1_(self.y * other.z, -self.z * other.y)
-        y = fsum1_(self.z * other.x, -self.x * other.z)
-        z = fsum1_(self.x * other.y, -self.y * other.x)
+        x = fsum1f_(self.y * other.z, -self.z * other.y)
+        y = fsum1f_(self.z * other.x, -self.x * other.z)
+        z = fsum1f_(self.x * other.y, -self.y * other.x)
 
         if raiser and self.crosserrors and eps0 > 0 \
                   and max(map1(fabs, x, y, z)) < eps0:

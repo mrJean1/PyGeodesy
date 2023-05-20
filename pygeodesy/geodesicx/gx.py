@@ -8,7 +8,7 @@ Class L{GeodesicExact} follows the naming, methods and return values
 of class C{Geodesic} from I{Karney}'s Python U{geographiclib
 <https://GitHub.com/geographiclib/geographiclib-python>}.
 
-Copyright (C) U{Charles Karney<mailto:Charles@Karney.com>} (2008-2022)
+Copyright (C) U{Charles Karney<mailto:Charles@Karney.com>} (2008-2023)
 and licensed under the MIT/X11 License.  For more information, see the
 U{GeographicLib<https://GeographicLib.SourceForge.io>} documentation.
 '''
@@ -42,7 +42,7 @@ from pygeodesy.constants import EPS, EPS0, EPS02, MANT_DIG, NAN, PI, _EPSqrt, \
                                _1_0, _N_1_0, _1_75, _2_0, _N_2_0, _2__PI, _3_0, \
                                _4_0, _6_0, _8_0, _16_0, _90_0, _180_0, _1000_0
 # from pygeodesy.datums import _a_ellipsoid  # from .karney
-from pygeodesy.fsums import fsum_, fsum1_
+from pygeodesy.fsums import fsumf_, fsum1f_
 from pygeodesy.geodesicx.gxbases import _cosSeries, _GeodesicBase, \
                                         _sincos12, _sin1cos2, _xnC4
 from pygeodesy.geodesicx.gxline import _GeodesicLineExact, _TINY, _update_glXs
@@ -60,7 +60,7 @@ from pygeodesy.utily import atan2d as _atan2d_reverse, _Wrap, wrap360
 from math import atan2, copysign, cos, degrees, fabs, radians, sqrt
 
 __all__ = ()
-__version__ = '23.05.09'
+__version__ = '23.05.15'
 
 _MAXIT1 = 20
 _MAXIT2 = 10 + _MAXIT1 + MANT_DIG  # MANT_DIG == C++ digits
@@ -270,7 +270,7 @@ class GeodesicExact(_GeodesicBase):
     def _C4f_k2(self, k2):  # in ._GDictInverse and gxline._GeodesicLineExact._C4a
         '''(INTERNAL) Compute C{eps} from B{C{k2}} and invoke C{C4f}.
         '''
-        return self.C4f(k2 / fsum_(_2_0, sqrt(k2 + _1_0) * _2_0, k2))
+        return self.C4f(k2 / fsumf_(_2_0, sqrt(k2 + _1_0) * _2_0, k2))
 
     @Property
     def C4order(self):
@@ -501,7 +501,7 @@ class GeodesicExact(_GeodesicBase):
         lon12, lon12s = _diff182(lon1, lon2)
         # see C{result} from geographiclib.geodesic.Inverse
         if (outmask & Cs.LONG_UNROLL):  # == (lon1 + lon12) + lon12s
-            r = GDict(lon1=lon1, lon2=fsum_(lon1, lon12, lon12s))
+            r = GDict(lon1=lon1, lon2=fsumf_(lon1, lon12, lon12s))
         else:
             r = GDict(lon1=_norm180(lon1), lon2=_norm180(lon2))
         if _K_2_0:  # GeographicLib 2.0
@@ -513,16 +513,16 @@ class GeodesicExact(_GeodesicBase):
             # calculate sincosd(_around(lon12 + correction))
             slam12, clam12 = _sincos2de(lon12, lon12s)
             # supplementary longitude difference
-            lon12s = fsum_(_180_0, -lon12, -lon12s)
+            lon12s = fsumf_(_180_0, -lon12, -lon12s)
         else:  # GeographicLib 1.52
             # make longitude difference positive and if very close
             # to being on the same half-meridian, then make it so.
             if lon12 < 0:  # _signBit(lon12)
                 lon_, lon12 = True, -_around(lon12)
-                lon12s = _around(fsum_(_180_0, -lon12,  lon12s))
+                lon12s = _around(fsumf_(_180_0, -lon12,  lon12s))
             else:
                 lon_, lon12 = False, _around(lon12)
-                lon12s = _around(fsum_(_180_0, -lon12, -lon12s))
+                lon12s = _around(fsumf_(_180_0, -lon12, -lon12s))
             lam12 = radians(lon12)
             if lon12 > _90_0:
                 slam12, clam12 = _sincos2d(lon12s)
@@ -1028,8 +1028,8 @@ class GeodesicExact(_GeodesicBase):
         sig12 = _atan12(ssig1, csig1, ssig2, csig2, sineg0=True)
 
         eta12  = self._eF_reset_cHe2_f1(calp0, salp0) * _2__PI  # then ...
-        eta12 *= fsum1_(eF.deltaH(*p.sncndn2),
-                       -eF.deltaH(*p.sncndn1), sig12)
+        eta12 *= fsum1f_(eF.deltaH(*p.sncndn2),
+                        -eF.deltaH(*p.sncndn1), sig12)
         # eta = chi12 - lam12
         lam12  = _atan12(p.slam12, p.clam12, schi12, cchi12) - eta12
         # domg12 = chi12 - omg12 - deta12
@@ -1063,21 +1063,21 @@ class GeodesicExact(_GeodesicBase):
         # outmask &= Cs._OUT_MASK
         if (outmask & Cs.DISTANCE):
             # Missing a factor of self.b
-            s12b = eF.cE * _2__PI * fsum1_(eF.deltaE(*p.sncndn2),
-                                          -eF.deltaE(*p.sncndn1), sig12)
+            s12b = eF.cE * _2__PI * fsum1f_(eF.deltaE(*p.sncndn2),
+                                           -eF.deltaE(*p.sncndn1), sig12)
 
         if (outmask & Cs._REDUCEDLENGTH_GEODESICSCALE):
             m0x = -eF.k2 * eF.cD * _2__PI
-            J12 = -m0x * fsum1_(eF.deltaD(*p.sncndn2),
-                               -eF.deltaD(*p.sncndn1), sig12)
+            J12 = -m0x * fsum1f_(eF.deltaD(*p.sncndn2),
+                                -eF.deltaD(*p.sncndn1), sig12)
             if (outmask & Cs.REDUCEDLENGTH):
                 m0 = m0x
                 # Missing a factor of self.b.  Add parens around
                 # (csig1 * ssig2) and (ssig1 * csig2) to ensure
                 # accurate cancellation for coincident points.
-                m12b = fsum1_(p.dn2 * (p.csig1 * p.ssig2),
-                             -p.dn1 * (p.ssig1 * p.csig2),
-                                J12 * (p.csig1 * p.csig2))
+                m12b = fsum1f_(p.dn2 * (p.csig1 * p.ssig2),
+                              -p.dn1 * (p.ssig1 * p.csig2),
+                                 J12 * (p.csig1 * p.csig2))
             if (outmask & Cs.GEODESICSCALE):
                 M12 = M21 = p.ssig1 * p.ssig2 + \
                             p.csig1 * p.csig2
@@ -1212,8 +1212,8 @@ class GeodesicExact(_GeodesicBase):
             # with random input: mean = 4.74, stdev = 0.99
             salp1, calp1 = _norm2((salp1a + salp1b) * HALF,
                                   (calp1a + calp1b) * HALF)
-            tripb = fsum1_(calp1a, -calp1, fabs(salp1a - salp1)) < TOLb or \
-                    fsum1_(calp1b, -calp1, fabs(salp1b - salp1)) < TOLb
+            tripb = fsum1f_(calp1a, -calp1, fabs(salp1a - salp1)) < TOLb or \
+                    fsum1f_(calp1b, -calp1, fabs(salp1b - salp1)) < TOLb
             TOLv  = TOL0
 
         else:
@@ -1284,7 +1284,7 @@ def _Astroid(x, y):
     '''
     p = x**2
     q = y**2
-    r = fsum_(_1_0, q, p, _N_2_0, floats=True)
+    r = fsumf_(_1_0, q, p, _N_2_0)
     if q or r > 0:
         r = r / _6_0  # /= chokes PyChecker
         # avoid possible division by zero when r = 0

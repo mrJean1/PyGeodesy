@@ -21,7 +21,7 @@ from pygeodesy.datums import _WGS84, _xinstanceof
 from pygeodesy.ecef import _EcefBase, EcefKarney, _llhn4, _xyzn4
 from pygeodesy.errors import _NotImplementedError, _TypesError, _ValueError, _xkwds
 from pygeodesy.fmath import fabs, fdot, Fhorner
-from pygeodesy.fsums import _floor, Fsum, fsum_, fsum1_
+from pygeodesy.fsums import _floor, Fsum, fsumf_, fsum1f_
 from pygeodesy.interns import NN, _0_, _COMMASPACE_, _DOT_, _ecef_, _height_, \
                              _invalid_, _lat0_, _lon0_, _ltp_, _M_, _name_, _too_
 # from pygeodesy.lazily import _ALL_LAZY  # from vector3d
@@ -40,7 +40,7 @@ from pygeodesy.vector3d import _ALL_LAZY, Vector3d
 # from math import fabs, floor as _floor  # from .fmath, .fsums
 
 __all__ = _ALL_LAZY.ltp
-__version__ = '23.05.03'
+__version__ = '23.05.15'
 
 _height0_ = _height_ + _0_
 _narrow_  = 'narrow'
@@ -126,7 +126,7 @@ class Attitude(_NamedBase):
                  <https://ntrs.NASA.gov/api/citations/19770019231/downloads/19770019231.pdf>}.
         '''
         def _5to3(x, y, _y, z, _z):
-            return x, fsum1_(y, _y), fsum1_(z, _z)
+            return x, fsum1f_(y, _y), fsum1f_(z, _z)
 
         r0, r1, r2 = self._rows3
         return _5to3(*r0), _5to3(*r1), r2
@@ -215,7 +215,7 @@ class Attitude(_NamedBase):
            @see: U{Yaw, pitch, and roll rotations<http://MSL.CS.UIUC.edu/planning/node102.html>}.
         '''
         def _r2d(r):
-            return fsum_(_N_1_0, *r)
+            return fsumf_(_N_1_0, *r)
 
         return Vector3d(*map1(_r2d, *self._rows3), name=tyr3d.__name__)
 
@@ -313,8 +313,8 @@ class Frustum(_NamedBase):
             # rotate (x, y)'s by bearing, clockwise
             s, c = sincos2d(b)
             for x, y in xy5:
-                yield Xyz4Tuple(fsum1_(x * c,  y * s),
-                                fsum1_(y * c, -x * s), z, ltp)
+                yield Xyz4Tuple(fsum1f_(x * c,  y * s),
+                                fsum1f_(y * c, -x * s), z, ltp)
 
         try:
             a, t, y, r = alt_attitude.atyr
@@ -790,7 +790,7 @@ class _ChLV(object):
 
         a  = _deg2ab(lat, ChLV._sLat)  # phi', lat_aux
         b  = _deg2ab(lon, ChLV._sLon)  # lam', lng_aux
-        h_ =  fsum_(h, -ChLV.Bern.height, 2.73 * b, 6.94 * a)
+        h_ =  fsumf_(h, -ChLV.Bern.height, 2.73 * b, 6.94 * a)
         return a, b, h_
 
     @staticmethod
@@ -801,7 +801,7 @@ class _ChLV(object):
             return YX * ChLV._ab_m
 
         a, b = map1(_YX2ab, Y, X)
-        h = fsum_(h_, ChLV.Bern.height, -12.6 * a, -22.64 * b)
+        h = fsumf_(h_, ChLV.Bern.height, -12.6 * a, -22.64 * b)
         return a, b, h
 
     def _YXh_n4(self, enh_, n, h_, name):
@@ -947,15 +947,15 @@ class ChLVa(_ChLV, LocalCartesian):
         a,  b, h_ = _ChLV._llh2abh_3(lat, lon, h)
         a2, b2    =  a**2, b**2
 
-        Y = fsum_( 72.37, 211455.93 * b,
-                          -10938.51 * b * a,
-                              -0.36 * b * a2,
-                             -44.54 * b * b2)  # + 600_000
-        X = fsum_(147.07, 308807.95 * a,
-                            3745.25 * b2,
-                              76.63 * a2,
-                            -194.56 * b2 * a,
-                             119.79 * a2 * a)  # + 200_000
+        Y = fsumf_( 72.37, 211455.93 * b,
+                           -10938.51 * b * a,
+                               -0.36 * b * a2,
+                              -44.54 * b * b2)  # + 600_000
+        X = fsumf_(147.07, 308807.95 * a,
+                             3745.25 * b2,
+                               76.63 * a2,
+                             -194.56 * b2 * a,
+                              119.79 * a2 * a)  # + 200_000
         return self._ChLV9Tuple(True, M, name, Y, X, h_, lat, lon, h)
 
     def reverse(self, enh_, n=None, h_=0, M=None, name=NN):

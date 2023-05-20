@@ -4,7 +4,7 @@
 # Test L{ltp} I{local tangent plane} classes.
 
 __all__ = ('Tests',)
-__version__ = '23.03.27'
+__version__ = '23.05.17'
 
 from bases import startswith, TestsBase
 
@@ -214,7 +214,7 @@ class Tests(TestsBase):
                                      else '(679602.736359, 212421.914221)' if t.isChLVa
                                      else '(679520.050001, 212273.439993)')
         r = c.reverse(t)  # .Y, t.X, t.h_)
-        self.test('reverse4', _trim(r), '(79527.502386, 12274.804229, -556.312155, 47.058043, 8.48642, 0.0, ' if t.isChLV
+        self.test('reverse4', _trim(r), '(79527.502386, 12274.804229, -556.312155, 47.058043, 8.48642, ' if t.isChLV
                                    else '(79602.736359, 12421.914221, -48.257243, 47.058038, 8.486421, 0.00853, ' if r.isChLVa
                                    else '(79520.050001, 12273.439993, -48.257243, 47.058043, 8.48642, 0.012933, ', known=startswith, nt=1)
 

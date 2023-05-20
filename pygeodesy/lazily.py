@@ -220,7 +220,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'frechet_'),
                          fstats=('Fcook', 'Flinear', 'Fwelford'),
                           fsums=('Fsum', 'Fsum2Tuple', 'ResidualError',
-                                 'fsum', 'fsum_', 'fsum1', 'fsum1_',),
+                                 'fsum', 'fsum_', 'fsumf_', 'fsum1', 'fsum1_', 'fsum1f_'),
                            gars=('Garef', 'GARSError'),
                       geodesicw=('Geodesic', 'GeodesicLine', 'Geodesic_WGS84'),
                       geodesicx=('gx', 'gxarea', 'gxline',  # modules
@@ -297,7 +297,8 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'lrstrip', 'pairs', 'reprs', 'strs', 'unstr'),
                             trf=('Helmert7Tuple', 'RefFrame', 'RefFrames',
                                  'date2epoch', 'epoch2date', 'trfXform'),
-                      triaxials=('BetaOmega2Tuple', 'BetaOmega3Tuple', 'Jacobi2Tuple', 'JacobiConformal',
+                      triaxials=('BetaOmega2Tuple', 'BetaOmega3Tuple', 'Jacobi2Tuple',
+                                 'JacobiConformal', 'JacobiConformalSpherical',
                                  'Triaxial', 'Triaxial_', 'TriaxialError', 'Triaxials', 'hartzell4'),
                           units=('Band', 'Bearing', 'Bearing_', 'Bool',
                                  'Degrees', 'Degrees_', 'Degrees2', 'Distance', 'Distance_', 'Easting', 'Epoch',
@@ -421,7 +422,7 @@ class _ALL_MODS(object):
 _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '23.05.11'
+__version__ = '23.05.15'
 
 
 def _ALL_OTHER(*objs):

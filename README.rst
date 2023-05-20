@@ -51,8 +51,13 @@ Installation
 To install PyGeodesy, type ``python[3] -m pip install PyGeodesy`` or
 ``python[3] -m easy_install PyGeodesy`` in a terminal or command window.
 
-Alternatively, download ``PyGeodesy-yy.m.d.zip`` from PyPI_ or GitHub_,
-``unzip`` the downloaded file, ``cd`` to directory ``PyGeodesy-yy.m.d``
+If the wheel ``PyGeodesy-23.5.21-py2.py3-none-any.whl`` is missing in `PyPI
+Download files`_, download the file from `GitHub/dist`_.  Install that with
+``python[3] -m pip install <path-to-downloaded-wheel>`` and verify with
+``python[3] -m pygeodesy``.
+
+Alternatively, download ``PyGeodesy-23.5.21.zip`` from PyPI_ or GitHub_,
+``unzip`` the downloaded file, ``cd`` to directory ``PyGeodesy-23.5.21``
 and type ``python[3] setup.py install``.
 
 To run all PyGeodesy tests, type ``python[3] test/run.py`` or type
@@ -151,7 +156,7 @@ using Python 3.11.3, both in 64-bit on macOS 13.3.1 Ventura.
 For a summary of all *Karney*-based functionality in ``pygeodesy``, see
 module karney_.
 
-*Last updated: May 14, 2023.*
+*Last updated: May 21, 2023.*
 
 License
 =======
@@ -221,6 +226,7 @@ OTHER DEALINGS IN THE SOFTWARE.``
 .. _Geoid: https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.geoids-module.html
 .. _Georefs (WGRS): https://WikiPedia.org/wiki/World_Geographic_Reference_System
 .. _GitHub: https://GitHub.com/mrJean1/PyGeodesy
+.. _GitHub/dist: https://GitHub.com/mrJean1/PyGeodesy/tree/master/dist
 .. _Greiner-Hormann: http://www.inf.USI.CH/hormann/papers/Greiner.1998.ECO.pdf
 .. _Hausdorff: https://WikiPedia.org/wiki/Hausdorff_distance
 .. _Height: https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.heights-module.html
@@ -246,6 +252,7 @@ OTHER DEALINGS IN THE SOFTWARE.``
 .. _pygeodesy.machine: https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.interns-module.html#machine
 .. _PyInstaller: https://PyPI.org/project/pyinstaller
 .. _PyPI: https://PyPI.org/project/PyGeodesy
+.. _PyPI Download files: https://PyPI.org/project/PyGeodesy/#files
 .. _PyPy: https://PyPy.org
 .. _Pythonista: https://OMZ-Software.com/pythonista
 .. _Ramer-Douglas-Peucker: https://WikiPedia.org/wiki/Ramer-Douglas-Peucker_algorithm

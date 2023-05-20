@@ -8,7 +8,7 @@ cartesian) coordinates.
 
 Transcoded from U{JavaScript originals<https://GitHub.com/ChrisVeness/geodesy>} by I{Chris Veness
 (C) 2005-2022} and from several U{C++ classes<https://GeographicLib.SourceForge.io/C++/doc/annotated.html>}
-by I{Charles F.F. Karney (C) 2008-2022} and published under the same U{MIT License
+by I{Charles F.F. Karney (C) 2008-2023} and published under the same U{MIT License
 <https://OpenSource.org/licenses/MIT>}**.
 
 There are four modules for ellipsoidal earth models, C{ellipsoidalExact}, C{-Karney},
@@ -68,6 +68,11 @@ Installation
 
 To install PyGeodesy, type C{python[3] -m pip install PyGeodesy} or C{python[3] -m easy_install
 PyGeodesy} in a terminal or command window.
+
+If the wheel C{PyGeodesy-yy.m.d-py2.py3-none-any.whl} is missing in U{PyPI Download files<https://
+PyPI.org/project/PyGeodesy/#files>}, download the file from U{GitHub/dist<https://GitHub.com/mrJean1/
+PyGeodesy/tree/master/dist>}.  Install that with C{python[3] -m pip install <path-to-downloaded-wheel>}
+and verify with C{python[3] -m pygeodesy}.
 
 Alternatively, download C{PyGeodesy-yy.m.d.zip} from U{PyPI<https://PyPI.org/project/PyGeodesy>}
 or U{GitHub<https://GitHub.com/mrJean1/PyGeodesy>}, C{unzip} the downloaded file, C{cd} to
@@ -581,7 +586,7 @@ else:
     _init__all__ = False
 
 from pygeodesy.interns import _DOT_  # PYCHOK import
-__version__ = '23.05.14'
+__version__ = '23.05.21'
 # see setup.py for similar logic
 version     = _DOT_.join(map(str, map(int, __version__.split(_DOT_))))
 

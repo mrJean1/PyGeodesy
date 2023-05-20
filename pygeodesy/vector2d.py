@@ -12,7 +12,7 @@ from pygeodesy.constants import EPS, EPS0, EPS02, EPS4, INF, INT0, \
 from pygeodesy.errors import _and, _AssertionError, IntersectionError, NumPyError, \
                               PointsError, TriangleError, _xError, _xkwds
 from pygeodesy.fmath import fabs, fdot, hypot, hypot2_, sqrt
-from pygeodesy.fsums import Fsum, fsum_, fsum1_
+from pygeodesy.fsums import Fsum, fsumf_, fsum1f_
 from pygeodesy.interns import NN, _a_, _and_, _b_, _c_, _center_, _coincident_, \
                              _colinear_, _concentric_, _COMMASPACE_, _few_, \
                              _intersection_, _invalid_, _near_, _no_, _radius_, \
@@ -30,7 +30,7 @@ from contextlib import contextmanager
 # from math import fabs, sqrt  # from .fmath
 
 __all__ = _ALL_LAZY.vector2d
-__version__ = '23.05.09'
+__version__ = '23.05.15'
 
 _cA_        = 'cA'
 _cB_        = 'cB'
@@ -285,7 +285,7 @@ def circum4_(*points, **useZ_Vector_and_kwds):
 
     n = circum4_.__name__
     c = Vector3d(*C[:3], name=n)
-    r = Radius(sqrt(fsum_(C[3], *c.x2y2z2)), name=n)
+    r = Radius(sqrt(fsumf_(C[3], *c.x2y2z2)), name=n)
 
     c = _nVc(c, **_xkwds(kwds, clas=ps[0].classof, name=n))
     return Circum4Tuple(r, c, rk, R)
@@ -514,13 +514,13 @@ def _radii11ABC(point1, point2, point3, useZ=True):
             # t = r1 * r2 * r3 * (r1 + r2 + r3)
             #   = r1**2 * r2 * r3 * (1 + r2 / r1 + r3 / r1)
             #   = (r1 * r2)**2 * (r3 / r2) * (1 + r2 / r1 + r3 / r1)
-            t = r3_r2 * fsum1_(_1_0, r2 / r1, r3_r1)  # * (r1 * r2)**2
+            t = r3_r2 * fsum1f_(_1_0, r2 / r1, r3_r1)  # * (r1 * r2)**2
             if t > EPS02:
                 t = sqrt(t) * _2_0  # * r1 * r2
                 # d = r1 * r2 + r2 * r3 + r3 * r1
                 #   = r1 * (r2 + r2 * r3 / r1 + r3)
                 #   = r1 * r2 * (1 + r3 / r1 + r3 / r2)
-                d = fsum1_(_1_0, r3_r1, r3_r2)  # * r1 * r2
+                d = fsum1f_(_1_0, r3_r1, r3_r2)  # * r1 * r2
                 # si/o = r1 * r2 * r3 / (r1 * r2 * (d +/- t))
                 #      = r3 / (d +/- t)
                 si =  r3 / (d + t)

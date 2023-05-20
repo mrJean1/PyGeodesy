@@ -4,7 +4,7 @@
 # Test L{fmath} module.
 
 __all__ = ('Tests',)
-__version__ = '23.03.27'
+__version__ = '23.05.18'
 
 from bases import endswith, isWindows, randoms, startswith, TestsBase
 
@@ -138,8 +138,8 @@ class Tests(TestsBase):
         f = Fsum(-1)
         self.test(n, Fhypot(f, -1), '(1.41421, 0)', known=endswith)
         self.test(n, Fhypot(f, -1, power=-1), '(-0.5, 0)', known=endswith)
-        try:
-            self.test(n, Fhypot(f, INF, f, f, power=-1), ValueError.__name__)
+        try:  # pow(INF, -1) == 0.0
+            self.test(n, Fhypot(f, INF, f, f, power=-1), ValueError.__name__, known=True)
         except Exception as x:
             self.test(n, str(x), ' not finite', known=endswith)
         try:

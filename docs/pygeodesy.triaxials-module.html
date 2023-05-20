@@ -59,16 +59,18 @@
 </table>
 <!-- ==================== MODULE DESCRIPTION ==================== -->
 <h1 class="epydoc">Module triaxials</h1><p class="nomargin-top"></p>
-<p>Triaxal ellipsoid classes <a 
-  href="pygeodesy.triaxials.JacobiConformal-class.html" 
-  class="link">JacobiConformal</a>, Jacobi's conformal projection, 
-  trancoded from <i>Charles Karney</i>'s C++ class <a 
-  href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1JacobiConformal.html#details"
-  target="_top">JacobiConformal</a> to pure Python, <i>ordered</i> <a 
+<p>Triaxal ellipsoid classes <i>ordered</i> <a 
   href="pygeodesy.triaxials.Triaxial-class.html" class="link">Triaxial</a> 
   and <i>unordered</i> <a href="pygeodesy.triaxials.Triaxial_-class.html" 
-  class="link">Triaxial_</a> and miscellaneous classes <a 
-  href="pygeodesy.triaxials.BetaOmega2Tuple-class.html" 
+  class="link">Triaxial_</a> and Jacobi conformal projections <a 
+  href="pygeodesy.triaxials.JacobiConformal-class.html" 
+  class="link">JacobiConformal</a> and <a 
+  href="pygeodesy.triaxials.JacobiConformalSpherical-class.html" 
+  class="link">JacobiConformalSpherical</a>, transcoded from <i>Charles 
+  Karney</i>'s C++ class <a 
+  href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1JacobiConformal.html#details"
+  target="_top">JacobiConformal</a> to pure Python and miscellaneous 
+  classes <a href="pygeodesy.triaxials.BetaOmega2Tuple-class.html" 
   class="link">BetaOmega2Tuple</a>, <a 
   href="pygeodesy.triaxials.BetaOmega3Tuple-class.html" 
   class="link">BetaOmega3Tuple</a>, <a 
@@ -76,6 +78,10 @@
   class="link">Jacobi2Tuple</a> and <a 
   href="pygeodesy.triaxials.TriaxialError-class.html" 
   class="link">TriaxialError</a>.</p>
+  <p>Copyright (C) <a href="mailto:Charles@Karney.com" 
+  target="_top">Charles Karney</a> (2008-2023).  For more information, see 
+  the <a href="https://GeographicLib.SourceForge.io" 
+  target="_top">GeographicLib</a> documentation.</p>
 
 <hr />
 <div class="fields">      <p><strong>See Also:</strong>
@@ -87,7 +93,7 @@
         interpretation</a>.
       </p>
       <p><strong>Version:</strong>
-        23.04.14
+        23.05.18
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -103,8 +109,10 @@
     </td><td class="summary">
         <a href="pygeodesy.triaxials.BetaOmega2Tuple-class.html" class="summary-name">BetaOmega2Tuple</a><br />
       2-Tuple <code>(beta, omega)</code> with <i>ellipsoidal</i> lat- and
-        longitude <code>beta</code> and <code>omega</code> both in 
-        <code>Radians</code> (or <code>Degrees</code>).
+        longitude <code>beta</code> and <code>omega</code> both in <a 
+        href="pygeodesy.units.Radians-class.html" class="link">Radians</a> 
+        (or <a href="pygeodesy.units.Degrees-class.html" 
+        class="link">Degrees</a>).
     </td>
   </tr>
 <tr>
@@ -114,9 +122,11 @@
         <a href="pygeodesy.triaxials.BetaOmega3Tuple-class.html" class="summary-name">BetaOmega3Tuple</a><br />
       3-Tuple <code>(beta, omega, height)</code> with <i>ellipsoidal</i> 
         lat- and longitude <code>beta</code> and <code>omega</code> both in
-        <code>Radians</code> (or <code>Degrees</code>) and the 
-        <code>height</code>, rather the (signed) <i>distance</i> to the 
-        triaxial's surface (measured along the radial line to the 
+        <a href="pygeodesy.units.Radians-class.html" 
+        class="link">Radians</a> (or <a 
+        href="pygeodesy.units.Degrees-class.html" class="link">Degrees</a>)
+        and the <code>height</code>, rather the (signed) <i>distance</i> to
+        the triaxial's surface (measured along the radial line to the 
         triaxial's center) in <code>meter</code>, conventionally.
     </td>
   </tr>
@@ -126,8 +136,10 @@
     </td><td class="summary">
         <a href="pygeodesy.triaxials.Jacobi2Tuple-class.html" class="summary-name">Jacobi2Tuple</a><br />
       2-Tuple <code>(x, y)</code> with a Jacobi Conformal <code>x</code> 
-        and <code>y</code> projection, both in <code>Radians</code> (or 
-        <code>Degrees</code>).
+        and <code>y</code> projection, both in <a 
+        href="pygeodesy.units.Radians-class.html" class="link">Radians</a> 
+        (or <a href="pygeodesy.units.Degrees-class.html" 
+        class="link">Degrees</a>).
     </td>
   </tr>
 <tr>
@@ -154,6 +166,16 @@
       This is a conformal projection of a triaxial ellipsoid to a plane 
         in which the <code>X</code> and <code>Y</code> grid lines are 
         straight.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.triaxials.JacobiConformalSpherical-class.html" class="summary-name">JacobiConformalSpherical</a><br />
+      An alternate, <i>spherical</i> <a 
+        href="pygeodesy.triaxials.JacobiConformal-class.html" 
+        class="link">JacobiConformal</a> projection.
     </td>
   </tr>
 <tr>
@@ -395,9 +417,12 @@
           href="pygeodesy.triaxials.Triaxial_-class.html" 
           class="link">Triaxial_</a>, <a 
           href="pygeodesy.triaxials.JacobiConformal-class.html" 
-          class="link">JacobiConformal</a>) or biaxial ellipsoid (<a 
-          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>, 
-          <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+          class="link">JacobiConformal</a> or <a 
+          href="pygeodesy.triaxials.JacobiConformalSpherical-class.html" 
+          class="link">JacobiConformalSpherical</a>) or biaxial ellipsoid 
+          (<a href="pygeodesy.datums.Datum-class.html" 
+          class="link">Datum</a>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
           class="link">Ellipsoid</a>, <a 
           href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
           class="link">Ellipsoid2</a>, <a 
@@ -410,7 +435,7 @@
         <dd><a href="pygeodesy.namedTuples.Vector4Tuple-class.html" 
           class="link">Vector4Tuple</a><code>(x, y, z, h)</code> on the 
           tri-/biaxial's surface, with <code>h</code> the distance from 
-          <b><code>pov</code></b> to <code>(x, y, z)</code> along 
+          <b><code>pov</code></b> to <code>(x, y, z)</code> along the 
           <b><code>los</code></b>, all in <code>meter</code>, 
           conventionally.</dd>
     <dt>Raises:</dt>
@@ -466,7 +491,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun May 14 08:50:47 2023
+    Generated by Epydoc 3.0.1 on Sat May 20 11:36:09 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

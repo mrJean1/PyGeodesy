@@ -24,7 +24,7 @@ Following is a copy of I{Karney}'s U{EllipticFunction.hpp
 <https://GeographicLib.SourceForge.io/C++/doc/EllipticFunction_8hpp_source.html>}
 file C{Header}.
 
-Copyright (C) U{Charles Karney<mailto:Charles@Karney.com>} (2008-2022)
+Copyright (C) U{Charles Karney<mailto:Charles@Karney.com>} (2008-2023)
 and licensed under the MIT/X11 License.  For more information, see the
 U{GeographicLib<https://GeographicLib.SourceForge.io>} documentation.
 
@@ -94,7 +94,7 @@ from pygeodesy.utily import sincos2, sincos2d
 from math import asinh, atan, atan2, ceil, cosh, fabs, floor, sin, sqrt, tanh
 
 __all__ = _ALL_LAZY.elliptic
-__version__ = '23.03.19'
+__version__ = '23.05.15'
 
 _delta_      = 'delta'
 _invokation_ = 'invokation'

@@ -16,7 +16,7 @@ from pygeodesy.constants import EPS, EPS1, EPS_2, R_M, _2_0, _N_2_0
 from pygeodesy.errors import IntersectionError, _ValueError, VectorError, \
                             _xkwds, _xkwds_pop
 from pygeodesy.fmath import fdot, fidw, hypot_  # PYCHOK fdot shared
-from pygeodesy.fsums import Fsum, fsum_,  map1
+from pygeodesy.fsums import Fsum, fsumf_,  map1
 from pygeodesy.formy import _isequalTo, n_xyz2latlon, n_xyz2philam, \
                             _spherical_datum
 from pygeodesy.interns import NN, _1_, _2_, _3_, _bearing_, _coincident_, \
@@ -38,7 +38,7 @@ from pygeodesy.vector3d import Vector3d, _xyzhdn3
 from math import fabs, sqrt  # atan2, cos, sin
 
 __all__ = (_NorthPole_, _SouthPole_)  # constants
-__version__ = '23.05.12'
+__version__ = '23.05.15'
 
 
 class NvectorBase(Vector3d):  # XXX kept private
@@ -665,10 +665,10 @@ def _trilaterate(point1, distance1, point2, distance2, point3, distance3,
         j = Y.dot(y)  # signed magnitude of y component of n1->n3
         if fabs(j) > EPS_2:
             # courtesy of U{Carlos Freitas<https://GitHub.com/mrJean1/PyGeodesy/issues/33>}
-            x = fsum_(r12, -r22, d**2) / (d * _2_0)  # n1->intersection x- and ...
-            y = fsum_(r12, -r32, i**2, j**2, x * i * _N_2_0) / (j * _2_0)  # ... y-component
+            x = fsumf_(r12, -r22, d**2) / (d * _2_0)  # n1->intersection x- and ...
+            y = fsumf_(r12, -r32, i**2, j**2, x * i * _N_2_0) / (j * _2_0)  # ... y-component
             # courtesy of U{AleixDev<https://GitHub.com/mrJean1/PyGeodesy/issues/43>}
-            z = fsum_(max(r12, r22, r32), -(x**2), -(y**2))  # XXX not just r12!
+            z = fsumf_(max(r12, r22, r32), -(x**2), -(y**2))  # XXX not just r12!
             if z > EPS:
                 n = n1.plus(X.times(x)).plus(Y.times(y))
                 if useZ:  # include Z component

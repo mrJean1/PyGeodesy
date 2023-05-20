@@ -15,7 +15,7 @@ from pygeodesy.constants import EPS0, isnear0, _1_0, _N_1_0, _2_0, _4_0, _6_0
 from pygeodesy.datums import Datum, _spherical_datum, _WGS84, _xinstanceof
 from pygeodesy.errors import _IsnotError, _ValueError, _xdatum, _xkwds
 from pygeodesy.fmath import cbrt, hypot_, hypot2, sqrt  # hypot
-from pygeodesy.fsums import Fmt, fsum_
+from pygeodesy.fsums import Fmt, fsumf_
 from pygeodesy.interns import NN, _COMMASPACE_, _height_, _not_
 from pygeodesy.interns import _ellipsoidal_, _spherical_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
@@ -31,7 +31,7 @@ from pygeodesy.vector3d import Vector3d, _xyzhdn3
 # from math import sqrt  # from .fmath
 
 __all__ = _ALL_LAZY.cartesianBase
-__version__ = '22.11.03'
+__version__ = '23.05.15'
 
 
 class CartesianBase(Vector3d):
@@ -353,20 +353,20 @@ class CartesianBase(Vector3d):
         # Kenneth Gade eqn 23
         p = hypot2(x, y) * E.a2_
         q = (z**2 * E.e21) * E.a2_
-        r = fsum_(p, q, -E.e4) / _6_0
+        r = fsumf_(p, q, -E.e4) / _6_0
         s = (p * q * E.e4) / (_4_0 * r**3)
-        t = cbrt(fsum_(_1_0, s, sqrt(s * (_2_0 + s))))
+        t = cbrt(fsumf_(_1_0, s, sqrt(s * (_2_0 + s))))
         if isnear0(t):
             raise _ErrorEPS0(t)
 
-        u = r * fsum_(_1_0, t, _1_0 / t)
+        u = r * fsumf_(_1_0, t, _1_0 / t)
         v = sqrt(u**2 + E.e4 * q)
         t = v * _2_0
         if t < EPS0:  # isnear0
             raise _ErrorEPS0(t)
-        w = E.e2 * fsum_(u, v, -q) / t
+        w = E.e2 * fsumf_(u, v, -q) / t
 
-        k = sqrt(fsum_(u, v, w**2)) - w
+        k = sqrt(fsumf_(u, v, w**2)) - w
         if isnear0(k):
             raise _ErrorEPS0(k)
         t = k + E.e2
@@ -379,7 +379,7 @@ class CartesianBase(Vector3d):
         t = hypot_(x * e, y * e, z)  # == 1 / tmp
         if t < EPS0:  # isnear0
             raise _ErrorEPS0(t)
-        h = fsum_(k, E.e2, _N_1_0) / k * t
+        h = fsumf_(k, E.e2, _N_1_0) / k * t
         s = e / t  # == e * tmp
         return Vector4Tuple(x * s, y * s, z / t, h, name=self.name)
 

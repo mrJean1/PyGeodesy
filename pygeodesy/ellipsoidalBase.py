@@ -26,8 +26,8 @@ from pygeodesy.interns import MISSING, NN, _COMMA_, _conversion_, _DOT_, \
 from pygeodesy.latlonBase import fabs, LatLonBase, _trilaterate5, \
                                  Vector3Tuple,  _Wrap
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
-# from pygeodesy.lcc import toLcc  # from ._MODS
-# from pygeodesy.named import notOverloaded  # from ._MODS
+# from pygeodesy.lcc import toLcc  # from _MODS
+# from pygeodesy.named import notOverloaded  # from _MODS
 # from pygeodesy.namedTuples import Vector3Tuple  # from .latlonBase
 from pygeodesy.props import deprecated_method, deprecated_property_RO, \
                             Property_RO, property_doc_, property_RO, _update_all
@@ -37,7 +37,7 @@ from pygeodesy.units import Epoch, _1mm as _TOL_M, Radius_
 # from math import fabs  # from .karney
 
 __all__ = _ALL_LAZY.ellipsoidalBase
-__version__ = '23.05.06'
+__version__ = '23.05.18'
 
 
 class CartesianEllipsoidalBase(CartesianBase):

@@ -17,7 +17,7 @@ from pygeodesy.constants import EPS, EPS0, EPS02, INT0, PI, PI2, PI_2, PI_4, isn
                                _0_0, _0_5, _1_0, _N_1_0, _2_0, _N_2_0, _4_0, _360_0
 from pygeodesy.errors import _and, _or, TriangleError, _ValueError, _xkwds
 from pygeodesy.fmath import favg, Fdot, fidw, fmean, hypot, hypot2_
-from pygeodesy.fsums import Fsum, fsum_, fsum1, fsum1_
+from pygeodesy.fsums import Fsum, fsumf_, fsum1, fsum1f_
 from pygeodesy.interns import _a_, _A_, _b_, _B_, _c_, _C_, _coincident_, _colinear_, \
                               _d_, _invalid_, _negative_, _not_, _rIn_, _SPACE_
 # from pygeodesy.lazily import _ALL_LAZY  # from .basics
@@ -30,7 +30,7 @@ from pygeodesy.vector3d import _otherV3d, Vector3d
 from math import cos, atan2, degrees, fabs, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.resections
-__version__ = '23.04.09'
+__version__ = '23.05.15'
 
 _concyclic_ = 'concyclic'
 _PA_        = 'PA'
@@ -156,7 +156,7 @@ def cassini(pointA, pointB, pointC, alpha, beta, useZ=False, Clas=None, **Clas_k
         sa, sb = map1(float, alpha, beta)
         if min(sa, sb) < 0:
             raise ValueError(_negative_)
-        if fsum_(_360_0, -sa, -sb) < EPS0:
+        if fsumf_(_360_0, -sa, -sb) < EPS0:
             raise ValueError()
 
         H1 = _H(A, C,  sa)
@@ -330,7 +330,7 @@ def pierlot(point1, point2, point3, alpha12, alpha23, useZ=False, Clas=None, **C
         cot12 = c12 / s12
         cot23 = c23 / s23
 #       cot31 = (1 - cot12 * cot23) / (cot12 + cot32)
-        d = fsum1_(c12 * s23, s12 * c23)
+        d = fsum1f_(c12 * s23, s12 * c23)
         if isnear0(d):
             raise ValueError(_or(_colinear_, _coincident_))
         cot31 = Fsum(_1_0, s12 * s23, -c12 * c23, _N_1_0).fover(d)
@@ -391,7 +391,7 @@ def snellius3(a, b, degC, alpha, beta):
         if min(ra, rb, rC, a, b) < 0:
             raise ValueError(_negative_)
 
-        r = fsum_(ra, rb, rC) * _0_5
+        r = fsumf_(ra, rb, rC) * _0_5
         k = PI - r
         if min(k, r) < 0:
             raise ValueError(_or(_coincident_, _colinear_))
@@ -411,8 +411,8 @@ def snellius3(a, b, degC, alpha, beta):
         else:
             raise ValueError(_or(_colinear_, _coincident_))
 
-        pa = _triSide(b, pc, fsum_(PI, -ra, -x))
-        pb = _triSide(a, pc, fsum_(PI, -rb, -y))
+        pa = _triSide(b, pc, fsumf_(PI, -ra, -x))
+        pb = _triSide(a, pc, fsumf_(PI, -rb, -y))
         return Survey3Tuple(pa, pb, pc, name=snellius3.__name__)
 
     except (TypeError, ValueError) as x:
@@ -463,7 +463,7 @@ def tienstra7(pointA, pointB, pointC, alpha, beta=None, gamma=None,
     '''
 
     def _deg_ks(r, s, ks, N):
-        if isnear0(fsum_(PI, r, -s)):  # r + (PI2 - s) == PI
+        if isnear0(fsumf_(PI, r, -s)):  # r + (PI2 - s) == PI
             raise ValueError(Fmt.PARENSPACED(concyclic=N))
         # k = 1 / (cot(r) - cot(s))
         #   = 1 / (cos(r) / sin(r) - cos(s) / sin(s))
@@ -485,11 +485,11 @@ def tienstra7(pointA, pointB, pointC, alpha, beta=None, gamma=None,
         if beta is None:
             if gamma is None:
                 raise ValueError(_and(Fmt.EQUAL(beta=beta), Fmt.EQUAL(gamma=gamma)))
-            sb = fsum_(PI2, -sa, -sc)
+            sb = fsumf_(PI2, -sa, -sc)
         elif gamma is None:
-            sc = fsum_(PI2, -sa, -sb)
+            sc = fsumf_(PI2, -sa, -sb)
         else:  # subtended angles must add to 360 degrees
-            r = fsum1_(sa, sb, sc)
+            r = fsum1f_(sa, sb, sc)
             if fabs(r - PI2) > EPS:
                 raise ValueError(Fmt.EQUAL(sum=degrees(r)))
         if min(sa, sb, sc) < 0:
@@ -557,7 +557,7 @@ def _triAngle(a, b, c):
     b_a = b / a
     if b_a < EPS0:
         raise ValueError(_coincident_)
-    return acos1(fsum_(_1_0, b_a**2, -(c / a)**2) / (b_a * _2_0))
+    return acos1(fsumf_(_1_0, b_a**2, -(c / a)**2) / (b_a * _2_0))
 
 
 def triAngle4(a, b, c):
@@ -599,7 +599,7 @@ def triAngle4(a, b, c):
             r  = sqrt(r)
             rA = atan2(r, sa) * _2_0
             rB = atan2(r, sb) * _2_0
-            rC = fsum_(PI, -rA, -rB)
+            rC = fsumf_(PI, -rA, -rB)
             if min(rA, rB, rC) < 0:
                 raise ValueError(_colinear_)
         elif c < 0:
@@ -653,7 +653,7 @@ def _triSide(a, b, radC):
         a, b = b, a
     if a > EPS0:
         ba = b / a
-        c2 = fsum_(_1_0, ba**2, _N_2_0 * ba * cos(r))
+        c2 = fsumf_(_1_0, ba**2, _N_2_0 * ba * cos(r))
         if c2 > EPS02:
             return a * sqrt(c2)
         elif c2 < 0:
@@ -703,7 +703,7 @@ def _triSide2(b, c, radB):
     elif isnear0(b):
         raise ValueError(_invalid_)
     else:
-        rA = fsum_(PI, -rB, -asin1(c * sB / b))
+        rA = fsumf_(PI, -rB, -asin1(c * sB / b))
         a = sin(rA) * b / sB
     return TriSide2Tuple(a, rA, name=triSide2.__name__)
 
@@ -731,11 +731,11 @@ def triSide4(radA, radB, c):
     '''
     try:
         rA, rB, c = map1(float, radA, radB, c)
-        rC = fsum_(PI, -rA, -rB)
+        rC = fsumf_(PI, -rA, -rB)
         if min(rC, rA, rB, c) < 0:
             raise ValueError(_negative_)
         sa, ca, sb, cb = sincos2_(rA, rB)
-        sc = fsum1_(sa * cb, sb * ca)
+        sc = fsum1f_(sa * cb, sb * ca)
         if sc < EPS0 or min(sa, sb) < 0:
             raise ValueError(_invalid_)
         sc = c / sc

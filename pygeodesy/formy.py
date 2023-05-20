@@ -18,7 +18,7 @@ from pygeodesy.errors import IntersectionError, LimitError, limiterrors, \
                             _TypeError, _ValueError, \
                             _xError, _xkwds, _xkwds_pop
 from pygeodesy.fmath import euclid, hypot, hypot2, sqrt0
-from pygeodesy.fsums import fsum_,  isscalar
+from pygeodesy.fsums import fsumf_,  isscalar
 from pygeodesy.interns import NN, _distant_, _SPACE_, _too_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _NamedTuple, _xnamed,  Fmt, unstr
@@ -36,7 +36,7 @@ from contextlib import contextmanager
 from math import atan, atan2, cos, degrees, fabs, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '23.05.12'
+__version__ = '23.05.15'
 
 _delta_ = 'delta'
 _D2_R2  = (PI / _180_0)**2  # degrees- to radians-squared
@@ -318,10 +318,10 @@ def cosineForsytheAndoyerLambert_(phi2, phi1, lam21, datum=_WGS84):
                 d = 48 * sr + s  # 8 * r**2 / tan(r)
                 b = -2 * d
                 e = 30 * s2r
-                c = fsum_(30 * r, e * _0_5, s * cr)  # 8 * r**2 / tan(r)
+                c = fsumf_(30 * r, e * _0_5, s * cr)  # 8 * r**2 / tan(r)
 
-                t  = fsum_( a * x, b * y, -c * x**2, d * x * y, e * y**2)
-                r += fsum_(-r * x, 3 * y * sr, t * E.f / _32_0) * E.f * _0_25
+                t  = fsumf_( a * x, b * y, -c * x**2, d * x * y, e * y**2)
+                r += fsumf_(-r * x, 3 * y * sr, t * E.f / _32_0) * E.f * _0_25
     return r
 
 
@@ -600,9 +600,9 @@ def excessGirard_(A, B, C):
        @see: Function L{excessLHuilier_} and U{Spherical trigonometry
              <https://WikiPedia.org/wiki/Spherical_trigonometry>}.
     '''
-    return Radians(Girard=fsum_(Radians_(A=A),
-                                Radians_(B=B),
-                                Radians_(C=C), -PI))
+    return Radians(Girard=fsumf_(Radians_(A=A),
+                                 Radians_(B=B),
+                                 Radians_(C=C), -PI))
 
 
 def excessLHuilier_(a, b, c):
@@ -625,7 +625,7 @@ def excessLHuilier_(a, b, c):
     b = Radians_(b=b)
     c = Radians_(c=c)
 
-    s = fsum_(a, b, c) * _0_5
+    s = fsumf_(a, b, c) * _0_5
     r = tan_2(s) * tan_2(s - a) * tan_2(s - b) * tan_2(s - c)
     r = atan(sqrt(r)) if r > 0 else _0_0
     return Radians(LHuilier=r * _4_0)
@@ -907,7 +907,7 @@ def flatPolar_(phi2, phi1, lam21):
     elif b > 0:
         b  = b / a  # /= chokes PyChecker
         c  = b * cos(lam21) * _2_0
-        c  = fsum_(_1_0, b**2, -fabs(c))
+        c  = fsumf_(_1_0, b**2, -fabs(c))
         a *= sqrt0(c)
     return a
 
@@ -975,9 +975,9 @@ def hartzell(pov, los=None, earth=_WGS84, name=NN, **LatLon_and_kwds):
 #           raise _Error(_near_(_null_))
 #
 #       # a2 and b2 factored out, b2 == a2 and b2 / a2 == 1
-#       r = fsum_(b2 * w2,  c2 * v2,      -v2 * z2,      vy * wz * 2,
-#                 c2 * u2, -u2 * z2,      -w2 * x2,      ux * wz * 2,
-#                -w2 * y2, -u2 * y2 * q2, -v2 * x2 * q2, ux * vy * 2 * q2, floats=True)
+#       r = fsumf_(b2 * w2,  c2 * v2,      -v2 * z2,      vy * wz * 2,
+#                  c2 * u2, -u2 * z2,      -w2 * x2,      ux * wz * 2,
+#                 -w2 * y2, -u2 * y2 * q2, -v2 * x2 * q2, ux * vy * 2 * q2)
 #       if r > 0:
 #           r = sqrt(r) * bc  # == a * a * b * c / a2
 #       elif r < 0:  # LOS pointing away from or missing the earth
@@ -985,9 +985,9 @@ def hartzell(pov, los=None, earth=_WGS84, name=NN, **LatLon_and_kwds):
 #
 #       d = Fdot(t, ux, vy, wz).fadd_(r).fover(m)  # -r for antipode, a2 factored out
 #       if d > 0:  # POV inside or LOS missing, outside the earth
-#           s = fsum_(_1_0, x2 / a2, y2 / b2, z2 / c2, _N_2_0, floats=True)  # like _sideOf
+#           s = fsumf_(_1_0, x2 / a2, y2 / b2, z2 / c2, _N_2_0)  # like _sideOf
 #           raise _Error(_outside_ if s > 0 else _inside_)
-#       elif fsum_(x2, y2, z2) < d**2:  # d past earth center
+#       elif fsumf_(x2, y2, z2) < d**2:  # d past earth center
 #           raise _Error(_too_(_distant_))
 #
 #       r = p3.minus(u3.times(d))
@@ -1083,7 +1083,7 @@ def heightOf(angle, distance, radius=R_M):
     if d > EPS0:  # and h > EPS0
         d = d / h  # /= h chokes PyChecker
         s = sin(Phi_(angle=angle, clip=_180_0))
-        s = fsum_(_1_0, _2_0 * s * d, d**2)
+        s = fsumf_(_1_0, _2_0 * s * d, d**2)
         if s > 0:
             return h * sqrt(s) - r
 
@@ -1111,7 +1111,7 @@ def horizon(height, radius=R_M, refraction=False):
     if refraction:
         d2 = 2.415750694528 * h * r  # 2.0 / 0.8279
     else:
-        d2 = h * fsum_(r, r, h)
+        d2 = h * fsumf_(r, r, h)
     return sqrt0(d2)
 
 
@@ -1545,7 +1545,7 @@ def philam2n_xyz(phi, lam, name=NN):
 def _radical2(d, r1, r2):  # in .ellipsoidalBaseDI, .sphericalTrigonometry, .vector3d
     # (INTERNAL) See C{radical2} below
     # assert d > EPS0
-    r = fsum_(_1_0, (r1 / d)**2, -(r2 / d)**2) * _0_5
+    r = fsumf_(_1_0, (r1 / d)**2, -(r2 / d)**2) * _0_5
     return Radical2Tuple(max(_0_0, min(_1_0, r)), r * d)
 
 
@@ -1700,7 +1700,7 @@ def thomas_(phi2, phi1, lam21, datum=_WGS84):
             k = (r2 - r1) * _0_5
             sj, cj, sk, ck, h, _ = sincos2_(j, k, lam21 * _0_5)
 
-            h =  fsum_(sk**2, (ck * h)**2, -(sj * h)**2)
+            h =  fsumf_(sk**2, (ck * h)**2, -(sj * h)**2)
             u = _1_0 - h
             if isnon0(u) and isnon0(h):
                 r = atan(sqrt0(h / u)) * 2  # == acos(1 - 2 * h)
@@ -1719,8 +1719,8 @@ def thomas_(phi2, phi1, lam21, datum=_WGS84):
                     c = s - (a - d) * _0_5
                     f = E.f * _0_25
 
-                    t  = fsum_(a * x, -b * y, c * x**2, -d * y**2, e * x * y)
-                    r -= fsum_(s * x, -y, -t * f * _0_25) * f * sr
+                    t  = fsumf_(a * x, -b * y, c * x**2, -d * y**2, e * x * y)
+                    r -= fsumf_(s * x, -y, -t * f * _0_25) * f * sr
     return r
 
 
