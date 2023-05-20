@@ -4,7 +4,7 @@
 # Test L{ltp} I{local tangent plane} classes.
 
 __all__ = ('Tests',)
-__version__ = '23.05.17'
+__version__ = '23.05.20'
 
 from bases import startswith, TestsBase
 
@@ -142,8 +142,10 @@ class Tests(TestsBase):
 
     def testChLV(self, ChLV_):
 
-        def _trim(t):
+        def _trim(t, neg0=False):
             t = str(t)
+            if neg0:
+                t = t.replace(' -0.0,', ' 0.0,')
             i = t.find('EcefMatrix')
             return t[:i] + '...'
 
@@ -175,9 +177,9 @@ class Tests(TestsBase):
                                    else '(100000.0, -100000.0, 600.0, 46.044127, 8.730499, 650.554, ' if r.isChLVa
                                    else '(100000.0, 0.0, 600.0, 46.944869, 8.753274, 648.29, ', known=startswith, nl=1)
         t = c.forward(r.lat, r.lon, r.height)
-        self.test('forward2', _trim(t), '(100000.0, -0.0, 600.0, 46.944873, 8.752874, 1431.948128, ' if t.isChLV
-                                   else '(99999.933937, -100000.44412, 600.003469, 46.044127, 8.730499, 650.554, ' if t.isChLVa
-                                   else '(100000.000001, 0.0, 600.012265, 46.944869, 8.753274, 648.29, ', known=startswith)
+        self.test('forward2', _trim(t, neg0=True), '(100000.0, 0.0, 600.0, 46.944873, 8.752874, 1431.948128, ' if t.isChLV
+                                              else '(99999.933937, -100000.44412, 600.003469, 46.044127, 8.730499, 650.554, ' if t.isChLVa
+                                              else '(100000.000001, 0.0, 600.012265, 46.944869, 8.753274, 648.29, ', known=startswith)
         self.test('Y, X, h_', (t.Y, t.X, t.h_), (t.x, t.y, t.z))
         self.test('EN2_LV95', t.EN2_LV95, '(2700000.0, 1200000.0)' if t.isChLV
                                      else '(2699999.933937, 1099999.55588)' if t.isChLVa
