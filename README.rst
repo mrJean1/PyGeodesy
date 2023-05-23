@@ -51,13 +51,13 @@ Installation
 To install PyGeodesy, type ``python[3] -m pip install PyGeodesy`` or
 ``python[3] -m easy_install PyGeodesy`` in a terminal or command window.
 
-If the wheel ``PyGeodesy-23.5.21-py2.py3-none-any.whl`` is missing in `PyPI
+If the wheel ``PyGeodesy-yy.m.d-py2.py3-none-any.whl`` is missing in `PyPI
 Download files`_, download the file from `GitHub/dist`_.  Install that with
 ``python[3] -m pip install <path-to-downloaded-wheel>`` and verify with
 ``python[3] -m pygeodesy``.
 
-Alternatively, download ``PyGeodesy-23.5.21.zip`` from PyPI_ or GitHub_,
-``unzip`` the downloaded file, ``cd`` to directory ``PyGeodesy-23.5.21``
+Alternatively, download ``PyGeodesy-yy.m.d.zip`` from PyPI_ or GitHub_,
+``unzip`` the downloaded file, ``cd`` to directory ``PyGeodesy-yy.m.d``
 and type ``python[3] setup.py install``.
 
 To run all PyGeodesy tests, type ``python[3] test/run.py`` or type
@@ -156,7 +156,7 @@ using Python 3.11.3, both in 64-bit on macOS 13.3.1 Ventura.
 For a summary of all *Karney*-based functionality in ``pygeodesy``, see
 module karney_.
 
-*Last updated: May 21, 2023.*
+*Last updated: May 23, 2023.*
 
 License
 =======

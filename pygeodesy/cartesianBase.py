@@ -31,7 +31,7 @@ from pygeodesy.vector3d import Vector3d, _xyzhdn3
 # from math import sqrt  # from .fmath
 
 __all__ = _ALL_LAZY.cartesianBase
-__version__ = '23.05.15'
+__version__ = '23.05.23'
 
 
 class CartesianBase(Vector3d):
@@ -352,7 +352,7 @@ class CartesianBase(Vector3d):
 
         # Kenneth Gade eqn 23
         p = hypot2(x, y) * E.a2_
-        q = (z**2 * E.e21) * E.a2_
+        q = E.e21 * (z / E.a)**2
         r = fsumf_(p, q, -E.e4) / _6_0
         s = (p * q * E.e4) / (_4_0 * r**3)
         t = cbrt(fsumf_(_1_0, s, sqrt(s * (_2_0 + s))))

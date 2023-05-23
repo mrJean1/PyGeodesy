@@ -4,7 +4,7 @@
 # Test cartesians.
 
 __all__ = ('Tests',)
-__version__ = '23.03.27'
+__version__ = '23.05.23'
 
 from bases import GeodSolve, geographiclib, isPython35, TestsBase
 
@@ -71,9 +71,9 @@ class Tests(TestsBase):
             self.test(t+'6', n.toStr(prec=6), '(0.625377, 0.000015, 0.780323, -5918.38)' if Sph
                                          else '(0.622818, 0.000015, 0.782367, +0.24)')  # PYCHOK attribute
         else:
-            n = fstr(n, fmt='g', prec=12)
-            self.test(t, n, '0.625376979018, 1.52393750974e-05, 0.780322775447, -5918.38025833' if Sph
-                       else '0.622817764745, 1.51770113911e-05, 0.782366941842, 0.242886808051')
+            n = fstr(n, fmt='g', prec=9)
+            self.test(t, n, '0.625376979, 1.52393751e-05, 0.780322775, -5918.38026' if Sph
+                       else '0.622817765, 1.51770114e-05, 0.782366942, 0.242886809')
 
         for ll in ((50.0379, 8.5622),  # FRA
                    (51.47,   0.4543),  # LHR

@@ -48,8 +48,8 @@ nm (7 nanometers) for the WGS84 ellipsoid.  See U{Geocentric coordinates
 <https://GeographicLib.SourceForge.io/C++/doc/geocentric.html>} for further information on the errors.
 
 @see: Module L{ltp} and class L{LocalCartesian}, a transcription of I{Charles Karney}'s C++ class
-U{LocalCartesian <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1LocalCartesian.html>},
-providing conversion to and from I{local} cartesian cordinates in a I{local tangent plane} as
+U{LocalCartesian<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1LocalCartesian.html>},
+for conversion between geodetic and I{local cartesian} cordinates in a I{local tangent plane} as
 opposed to I{geocentric} (ECEF) ones.
 '''
 
@@ -81,7 +81,7 @@ from pygeodesy.utily import atan2d, degrees90, degrees180, sincos2, sincos2_, \
 from math import asin, atan2, cos, degrees, fabs, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '23.05.15'
+__version__ = '23.05.23'
 
 _Ecef_    = 'Ecef'
 _prolate_ = 'prolate'
@@ -99,7 +99,8 @@ def _llhn4(latlonh, lon, height, suffix=NN, Error=EcefError, name=NN):  # in .lt
     '''(INTERNAL) Get C{lat, lon, h, name} as C{4-tuple}.
     '''
     try:
-        lat, lon = latlonh.lat, latlonh.lon
+        lat = latlonh.lat
+        lon = latlonh.lon
         h = _xattr(latlonh, height=_xattr(latlonh, h=height))
         n = _xattr(latlonh, name=NN)
     except AttributeError:
@@ -224,15 +225,14 @@ class _EcefBase(_NamedBase):
     def _forward(self, lat, lon, h, name, M=False, _philam=False):  # in .ltp.LocalCartesian.forward and -.reset
         '''(INTERNAL) Common for all C{Ecef*}.
         '''
-        E = self.ellipsoid
-
-        if _philam:
+        if _philam:  # lat, lon in radians
             sa, ca, sb, cb = sincos2_(lat, lon)
             lat = Lat(degrees90( lat))
             lon = Lon(degrees180(lon))
         else:
             sa, ca, sb, cb = sincos2d_(lat, lon)
 
+        E =  self.ellipsoid
         n =  E.roc1_(sa, ca) if self._isYou else E.roc1_(sa)
         z = (h + n * E.e21) * sa
         x = (h + n) * ca
@@ -267,7 +267,7 @@ class _EcefBase(_NamedBase):
                   and avoid double angle conversions.
         '''
         llhn = _llhn4(latlonh, lon, height, name=name)
-        return _EcefBase._forward(self, *llhn, M=M)
+        return self._forward(*llhn, M=M)
 
     def forward_(self, phi, lam, height=0, M=False, name=NN):
         '''Like method C{.forward} except with geodetic lat- and longitude given
@@ -466,7 +466,7 @@ class EcefKarney(_EcefBase):
 
        @note: On methods C{.forward} and C{.forwar_}, let C{v} be a unit vector located
               at C{(lat, lon, h)}.  We can express C{v} as column vectors in one of two
-              ways, C{v1} in east, north, up coordinates (where the components are
+              ways, C{v1} in East, North, Up (ENU) coordinates (where the components are
               relative to a local coordinate system at C{C(lat0, lon0, h0)}) or as C{v0}
               in geocentric C{x, y, z} coordinates.  Then, M{v0 = M ⋅ v1} where C{M} is
               the rotation matrix.
@@ -506,7 +506,7 @@ class EcefKarney(_EcefBase):
                   E.e2) / sqrt(1 − E.e2 * sin(lat)**2)}.  The returned C{lon} is in the
                   range [−180°, 180°].  Like C{forward} above, M{v1 = Transpose(M) ⋅ v0}.
         '''
-        def norm3(y, x):
+        def _norm3(y, x):
             h = hypot(y, x)  # EPS0, EPS_2
             return (y / h, x / h, h) if h > 0 else (_0_0, _1_0, h)
 
@@ -514,16 +514,16 @@ class EcefKarney(_EcefBase):
 
         E = self.ellipsoid
 
-        sb, cb, R = norm3(y, x)
+        sb, cb, R = _norm3(y, x)
         h = hypot(R, z)  # distance to earth center
         if h > self.hmax:  # PYCHOK no cover
             # We are really far away (> 12M light years).  Treat the earth
-            # as a point and h, above as an acceptable approximation to the
-            # height.  This avoids overflow, e.g., in the computation of disc
+            # as a point and h above as an acceptable approximation to the
+            # height.  This avoids overflow, e.g., in the computation of d
             # below.  It's possible that h has overflowed to INF, that's OK.
             # Treat finite x, y, but R overflows to +INF by scaling by 2.
-            sb, cb, R = norm3(y * _0_5, x * _0_5)
-            sa, ca, _ = norm3(z * _0_5, R)
+            sb, cb, R = _norm3(y * _0_5, x * _0_5)
+            sa, ca, _ = _norm3(z * _0_5, R)
             C = 1
 
         elif E.e4:  # E.isEllipsoidal
@@ -533,48 +533,47 @@ class EcefKarney(_EcefBase):
             q = E.e21 * (z / E.a)**2
             if E.isProlate:
                 p, q = q, p
-            r = p + q - E.e4
+            r = fsumf_(p, q, -E.e4)
             e = E.e4 * q
             if e or r > 0:
                 # Avoid possible division by zero when r = 0 by multiplying
                 # equations for s and t by r^3 and r, respectively.
-                s = e * p / _4_0  # s = r^3 * s
-                u = r = r / _6_0
+                s  = e * p / _4_0  # s = r^3 * s
+                u  = r = r / _6_0
                 r2 = r**2
                 r3 = r * r2
                 t3 = s + r3
-                disc = s * (r3 + t3)
-                if disc < 0:
+                d  = s * (r3 + t3)
+                if d < 0:
                     # t is complex, but the way u is defined, the result is real.
                     # There are three possible cube roots.  We choose the root
-                    # which avoids cancellation.  Note, disc < 0 implies r < 0.
-                    u += _2_0 * r * cos(atan2(sqrt(-disc), -t3) / _3_0)
+                    # which avoids cancellation.  Note, d < 0 implies r < 0.
+                    u += cos(atan2(sqrt(-d), -t3) / _3_0) * r * _2_0
                 else:
-                    # Pick the sign on the sqrt to maximize abs(T3).  This
+                    # Pick the sign on the sqrt to maximize abs(t3).  This
                     # minimizes loss of precision due to cancellation.  The
                     # result is unchanged because of the way the t is used
                     # in definition of u.
-                    if disc > 0:
-                        t3 += copysign0(sqrt(disc), t3)  # t3 = (r * t)^3
+                    if d > 0:
+                        t3 += copysign0(sqrt(d), t3)  # t3 = (r * t)^3
                     # N.B. cbrt always returns the real root, cbrt(-8) = -2.
                     t = cbrt(t3)  # t = r * t
-                    # t can be zero; but then r2 / t -> 0.
-                    if t:
+                    if t:  # t can be zero; but then r2 / t -> 0.
                         u = fsumf_(u, t, r2 / t)
                 v = sqrt(e + u**2)  # guaranteed positive
                 # Avoid loss of accuracy when u < 0.  Underflow doesn't occur in
                 # E.e4 * q / (v - u) because u ~ e^4 when q is small and u < 0.
-                uv = (e / (v - u)) if u < 0 else (u + v)  # u+v, guaranteed positive
-                # Need to guard against w going negative due to roundoff in uv - q.
-                w = max(_0_0, E.e2abs * (uv - q) / (_2_0 * v))
+                u = (e / (v - u)) if u < 0 else (u + v)  # u+v, guaranteed positive
+                # Need to guard against w going negative due to roundoff in u - q.
+                w = E.e2abs * (u - q) / (_2_0 * v)
                 # Rearrange expression for k to avoid loss of accuracy due to
-                # subtraction.  Division by 0 not possible because uv > 0, w >= 0.
-                k1 = k2 = uv / (sqrt(uv + w**2) + w)
+                # subtraction.  Division by 0 not possible because u > 0, w >= 0.
+                k1 = k2 = (u / (sqrt(u + w**2) + w)) if w > 0 else sqrt(u)
                 if E.isProlate:
                     k1 -= E.e2
                 else:
                     k2 += E.e2
-                sa, ca, h = norm3(z / k1, R / k2)
+                sa, ca, h = _norm3(z / k1, R / k2)
                 h *= k1 - E.e21
                 C  = 2
 
@@ -591,7 +590,7 @@ class EcefKarney(_EcefBase):
                     e = E.a
                 else:
                     e = E.b2_a
-                sa, ca, h = norm3(sqrt(q * E._1_e21), sqrt(p))
+                sa, ca, h = _norm3(sqrt(q * E._1_e21), sqrt(p))
                 if z < 0:
                     sa = neg(sa)  # for tiny negative z, not for prolate
                 h *= neg(e / E.e2abs)
@@ -600,7 +599,7 @@ class EcefKarney(_EcefBase):
         else:  # E.e4 == 0, spherical case
             # Dealing with underflow in the general case with E.e2 = 0 is
             # difficult.  Origin maps to North pole, same as with ellipsoid.
-            sa, ca, _ = norm3((z if h else _1_0), R)
+            sa, ca, _ = _norm3((z if h else _1_0), R)
             h -= E.a
             C  = 4
 
@@ -713,7 +712,7 @@ class EcefVeness(_EcefBase):
     '''
 
     def reverse(self, xyz, y=None, z=None, M=None, name=NN):  # PYCHOK unused M
-        '''Convert from geocentric C{(x, y, z)} to geodetic C{(lat, lon, height)}
+        '''Conversion from geocentric C{(x, y, z)} to geodetic C{(lat, lon, height)}
            transcoded from I{Chris Veness}' U{JavaScript<https://www.Movable-Type.co.UK/
            scripts/geodesy/docs/latlon-ellipsoidal.js.html>}.
 
@@ -748,7 +747,6 @@ class EcefVeness(_EcefBase):
         x, y, z, name = _xyzn4(xyz, y, z, self._Geocentrics, name=name)
 
         E = self.ellipsoid
-
         p = hypot(x, y)  # distance from minor axis
         r = hypot(p, z)  # polar radius
         if min(p, r) > EPS0:
@@ -856,7 +854,11 @@ class EcefYou(_EcefBase):
 
 
 class EcefMatrix(_NamedTuple):
-    '''A rotation matrix.
+    '''A rotation matrix known as I{East-North-Up (ENU) to ECEF}.
+
+       @see: U{From ENU to ECEF<https://WikiPedia.org/wiki/
+             Geographic_coordinate_conversion#From_ECEF_to_ENU>} and
+             U{Issue #74<https://Github.com/mrJean1/PyGeodesy/issues/74>}.
     '''
     _Names_ = ('_0_0_', '_0_1_', '_0_2_',  # row-order
                '_1_0_', '_1_1_', '_1_2_',
@@ -894,11 +896,11 @@ class EcefMatrix(_NamedTuple):
             # where
             #   qrot(t,v) = [cos(t/2), sin(t/2)*v[1], sin(t/2)*v[2], sin(t/2)*v[3]]
 
-            # Local X axis (east) in geocentric coords
+            # Local X axis (East) in geocentric coords
             #  M[0] = -slam;        M[3] =  clam;        M[6] = 0;
-            # Local Y axis (north) in geocentric coords
+            # Local Y axis (North) in geocentric coords
             #  M[1] = -clam * sphi; M[4] = -slam * sphi; M[7] = cphi;
-            # Local Z axis (up) in geocentric coords
+            # Local Z axis (Up) in geocentric coords
             #  M[2] =  clam * cphi; M[5] =  slam * cphi; M[8] = sphi;
             t = (-sb, -cb * sa, cb * ca,
                   cb, -sb * sa, sb * ca,
@@ -907,23 +909,11 @@ class EcefMatrix(_NamedTuple):
         return _NamedTuple.__new__(cls, *t)
 
     def column(self, column):
-        '''Get matrix B{C{column}} as 3-tuple.
+        '''Get this matrix' B{C{column}} 0, 1 or 2 as C{3-tuple}.
         '''
         if 0 <= column < 3:
             return self[column::3]
         raise _IndexError(column=column)
-
-    @Property_RO
-    def _column_0(self):
-        return self.column(0)
-
-    @Property_RO
-    def _column_1(self):
-        return self.column(1)
-
-    @Property_RO
-    def _column_2(self):
-        return self.column(2)
 
     def copy(self, **unused):  # PYCHOK signature
         '''Make a shallow or deep copy of this instance.
@@ -934,9 +924,21 @@ class EcefMatrix(_NamedTuple):
 
     __copy__ = __deepcopy__ = copy
 
+    @Property_RO
+    def matrix3(self):
+        '''Get this matrix' rows (C{3-tuple} of 3 C{3-tuple}s).
+        '''
+        return tuple(map(self.row, range(3)))
+
+    @Property_RO
+    def matrixTransposed3(self):
+        '''Get this matrix' I{Transposed} rows (C{3-tuple} of 3 C{3-tuple}s).
+        '''
+        return tuple(map(self.column, range(3)))
+
     def multiply(self, other):
-        '''Matrix multiply M{M0' ⋅ M} this matrix transposed with
-           an other matrix.
+        '''Matrix multiply M{M0' ⋅ M} this matrix I{Transposed}
+           with an other matrix.
 
            @arg other: The other matrix (L{EcefMatrix}).
 
@@ -945,11 +947,11 @@ class EcefMatrix(_NamedTuple):
            @raise TypeError: If B{C{other}} is not L{EcefMatrix}.
         '''
         _xinstanceof(EcefMatrix, other=other)
-
-        # like LocalCartesian.MatrixMultiply, transposed(self) X other
+        # like LocalCartesian.MatrixMultiply, C{self.matrixTransposed3 X other.matrix3}
         # <https://GeographicLib.SourceForge.io/C++/doc/LocalCartesian_8cpp_source.html>
-        M = (fdot(self[r::3], *other[c::3]) for r in range(3) for c in range(3))
-        return _xnamed(EcefMatrix(*M), EcefMatrix.multiply.__name__)
+        # X = (fdot(self.column(r), *other.column(c)) for r in (0,1,2) for c in (0,1,2))
+        X = (fdot(self[r::3], *other[c::3]) for r in range(3) for c in range(3))
+        return _xnamed(EcefMatrix(*X), EcefMatrix.multiply.__name__)
 
     def rotate(self, xyz, *xyz0):
         '''Forward rotation M{M0' ⋅ ([x, y, z] - [x0, y0, z0])'}.
@@ -964,35 +966,22 @@ class EcefMatrix(_NamedTuple):
         if xyz0:
             if len(xyz0) != len(xyz):
                 raise LenError(self.rotate, xyz0=len(xyz0), xyz=len(xyz))
-
             xyz = tuple(c - c0 for c, c0 in zip(xyz, xyz0))
 
         # x' = M[0] * x + M[3] * y + M[6] * z
         # y' = M[1] * x + M[4] * y + M[7] * z
         # z' = M[2] * x + M[5] * y + M[8] * z
-        return (fdot(xyz, *self._column_0),
-                fdot(xyz, *self._column_1),
-                fdot(xyz, *self._column_2))
+        return (fdot(xyz, *self[0::3]),  # .column(0)
+                fdot(xyz, *self[1::3]),  # .column(1)
+                fdot(xyz, *self[2::3]))  # .column(2)
 
     def row(self, row):
-        '''Get matrix B{C{row}} as 3-tuple.
+        '''Get this matrix' B{C{row}} 0, 1 or 2 as C{3-tuple}.
         '''
         if 0 <= row < 3:
             r = row * 3
             return self[r:r+3]
         raise _IndexError(row=row)
-
-    @Property_RO
-    def _row_0(self):
-        return self.row(0)
-
-    @Property_RO
-    def _row_1(self):
-        return self.row(1)
-
-    @Property_RO
-    def _row_2(self):
-        return self.row(2)
 
     def unrotate(self, xyz, *xyz0):
         '''Inverse rotation M{[x0, y0, z0] + M0 ⋅ [x,y,z]'}.
@@ -1007,21 +996,20 @@ class EcefMatrix(_NamedTuple):
         if xyz0:
             if len(xyz0) != len(xyz):
                 raise LenError(self.unrotate, xyz0=len(xyz0), xyz=len(xyz))
-
             _xyz = _1_0_1T + xyz
             # x' = x0 + M[0] * x + M[1] * y + M[2] * z
             # y' = y0 + M[3] * x + M[4] * y + M[5] * z
             # z' = z0 + M[6] * x + M[7] * y + M[8] * z
-            xyz_ = (fdot(_xyz, xyz0[0], *self._row_0),
-                    fdot(_xyz, xyz0[1], *self._row_1),
-                    fdot(_xyz, xyz0[2], *self._row_2))
+            xyz_ = (fdot(_xyz, xyz0[0], *self[0:3]),  # .row(0)
+                    fdot(_xyz, xyz0[1], *self[3:6]),  # .row(1)
+                    fdot(_xyz, xyz0[2], *self[6:9]))  # .row(2)
         else:
             # x' = M[0] * x + M[1] * y + M[2] * z
             # y' = M[3] * x + M[4] * y + M[5] * z
             # z' = M[6] * x + M[7] * y + M[8] * z
-            xyz_ = (fdot(xyz, *self._row_0),
-                    fdot(xyz, *self._row_1),
-                    fdot(xyz, *self._row_2))
+            xyz_ = (fdot(xyz, *self[0:3]),  # .row(0)
+                    fdot(xyz, *self[3:6]),  # .row(1)
+                    fdot(xyz, *self[6:9]))  # .row(2)
         return xyz_
 
 
@@ -1034,8 +1022,6 @@ class Ecef9Tuple(_NamedTuple):
     '''
     _Names_ = (_x_,   _y_,   _z_,   _lat_, _lon_, _height_, _C_,  _M_,   _datum_)
     _Units_ = ( Meter, Meter, Meter, Lat,   Lon,   Height,   Int, _Pass, _Pass)
-
-    _IndexM = _Names_.index(_M_)  # for ._M_x_M
 
     @property_RO
     def _CartesianBase(self):
@@ -1107,14 +1093,6 @@ class Ecef9Tuple(_NamedTuple):
            @see: Property C{lamVermeille}.
         '''
         return Lon(Vermeille=degrees(self.lamVermeille))
-
-    def _T_x_M(self, T):
-        '''(INTERNAL) Update M{self.M = T.multiply(self.M)}.
-        '''
-        t = list(self)
-        M = self._IndexM
-        t[M] = T.multiply(t[M])
-        return self.classof(*t)
 
     @Property_RO
     def phi(self):
@@ -1206,17 +1184,19 @@ class Ecef9Tuple(_NamedTuple):
 
            @raise TypeError: Invalid B{C{LatLon}} or B{C{LatLon_kwds}}.
         '''
-        kwds = _xkwds(LatLon_kwds, height=self.height, datum=self.datum, name=self.name)  # PYCHOK Ecef9Tuple
-        d = kwds[_datum_]
+        lat, lon, D = self.lat, self.lon, self.datum  # PYCHOK Ecef9Tuple
+        kwds = _xkwds(LatLon_kwds, height=self.height, datum=D, name=self.name)  # PYCHOK Ecef9Tuple
+        d = kwds.get(_datum_, LatLon)
         if LatLon is None:
-            r = LatLon3Tuple(self.lat, self.lon, kwds[_height_], name=kwds[_name_])  # PYCHOK Ecef9Tuple
-            if d:
+            r = LatLon3Tuple(lat, lon, kwds[_height_], name=kwds[_name_])
+            if d is not None:
+                # assert d is not LatLon
                 r = r.to4Tuple(d)  # checks type(d)
         else:
-            if d is None:  # remove None datum
-                _ = kwds.pop[_datum_]
-            r = LatLon(self.lat, self.lon, **kwds)  # PYCHOK Ecef9Tuple
-        _xdatum(_xattr(r, datum=self.datum), self.datum)  # PYCHOK Ecef9Tuple
+            if d is None:
+                _ = kwds.pop(_datum_)  # remove None datum
+            r = LatLon(lat, lon, **kwds)
+        _xdatum(_xattr(r, datum=D), D)
         return r
 
     def toLocal(self, ltp, Xyz=None, **Xyz_kwds):
@@ -1251,6 +1231,11 @@ class Ecef9Tuple(_NamedTuple):
         '''
         return self.xyz if Vector is None else self._xnamed(
                Vector(self.x, self.y, self.z, **Vector_kwds))  # PYCHOK Ecef9Tuple
+
+#   def _T_x_M(self, T):
+#       '''(INTERNAL) Update M{self.M = T.multiply(self.M)}.
+#       '''
+#       return self.dup(M=T.multiply(self.M))
 
     @Property_RO
     def xyz(self):

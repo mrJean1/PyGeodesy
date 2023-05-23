@@ -40,7 +40,7 @@ from pygeodesy.vector3d import _ALL_LAZY, Vector3d
 # from math import fabs, floor as _floor  # from .fmath, .fsums
 
 __all__ = _ALL_LAZY.ltp
-__version__ = '23.05.15'
+__version__ = '23.05.23'
 
 _height0_ = _height_ + _0_
 _narrow_  = 'narrow'
@@ -639,15 +639,15 @@ class LocalCartesian(_NamedBase):
 
 
 class Ltp(LocalCartesian):
-    '''A I{local tangent plan} LTP, a sub-class of C{LocalCartesian} with
-       configurable ECEF converter and without optional rotation matrix.
+    '''A I{local tangent plan} (LTP), a sub-class of C{LocalCartesian} with
+       (re-)configurable ECEF converter.
     '''
     def __init__(self, latlonh0=0, lon0=0, height0=0, ecef=None, name=NN):
         '''New C{Ltp}.
 
            @kwarg latlonh0: The (geodetic) origin (C{LatLon}, L{LatLon4Tuple},
                             L{Ltp} or L{Ecef9Tuple}) or the C{scalar} latitude
-                            of the (goedetic) origin (C{degrees}).
+                            of the origin (C{degrees}).
            @kwarg lon0: Optional longitude of the (goedetic) origin for
                         C{scalar} B{C{latlonh0}} and B{C{height0}} (C{degrees}).
            @kwarg height0: Optional origin height (C{meter}), vertically
@@ -1021,7 +1021,8 @@ class ChLVe(_ChLV, LocalCartesian):
             U1 = F(a, 2255515.207166, 2642.456961,  1.284180, 2.577486, 0.001165)
             U3 = F(a,    -412.991934,   64.106344, -2.679566, 0.123833)
             U5 = F(a,       0.204129,   -0.037725)
-            t  = t, F(b, 0, U1, 0, U3, 0, U5).fover(ChLV._ab_m)  # * ChLV._ab_d degrees?
+            g  = F(b, 0, U1, 0, U3, 0, U5).fover(ChLV._ab_m)  # * ChLV._ab_d degrees?
+            t =  t, g
         return t
 
     def reverse(self, enh_, n=None, h_=0, M=None, name=NN, gamma=False):  # PYCHOK gamma
@@ -1047,7 +1048,8 @@ class ChLVe(_ChLV, LocalCartesian):
             U1 = F(b, 106679.792202, 17876.57022, 4306.5241, 794.87772, 148.1545, 27.8725)
             U3 = F(b,  -1435.508,     -794.8777,  -296.309,  -92.908)
             U5 = F(b,     29.631,       27.873)
-            t  = t, F(a, 0, U1, 0, U3, 0, U5).fover(ChLV._s_ab)  # degrees
+            g  = F(a, 0, U1, 0, U3, 0, U5).fover(ChLV._s_ab)  # degrees
+            t  = t, g
         return t
 
 

@@ -59,7 +59,7 @@ from pygeodesy.vector3d import _otherV3d, Vector3d,  _ALL_LAZY, _MODS
 from math import atan2, fabs, sqrt
 
 __all__ = _ALL_LAZY.triaxials
-__version__ = '23.05.18'
+__version__ = '23.05.22'
 
 _not_ordered_ = _not_('ordered')
 _omega_       = 'omega'
@@ -1393,10 +1393,10 @@ def _normalTo5(x, y, z, Tun, eps=EPS):  # MCCABE 19
     return a, b, c, d, i
 
 
-def _otherV3d_(x_xyz, y, z, name=NN):
+def _otherV3d_(x_xyz, y, z, **name):
     '''(INTERNAL) Get a Vector3d from C{x_xyz}, C{y} and C{z}.
     '''
-    return Vector3d(x_xyz, y, z, name=name) if isscalar(x_xyz) else \
+    return Vector3d(x_xyz, y, z, **name) if isscalar(x_xyz) else \
           _otherV3d(x_xyz=x_xyz)
 
 

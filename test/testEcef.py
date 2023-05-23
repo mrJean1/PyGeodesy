@@ -4,7 +4,7 @@
 # Test L{ecef} module.
 
 __all__ = ('Tests',)
-__version__ = '23.03.27'
+__version__ = '23.05.23'
 
 from bases import GeodSolve, TestsBase
 
@@ -173,6 +173,9 @@ class Tests(TestsBase):
         self.test('matrix', fstr(M, prec=0), '0, 1, 2, 3, 4, 5, 6, 7, 8')
         t = M.multiply(M)
         self.test('multiply', fstr(t, prec=0), '45, 54, 63, 54, 66, 78, 63, 78, 93')
+
+        self.test('matrix3',  M.matrix3 == (M.row(0), M.row(1), M.row(2)), 'True')
+        self.test('matrixT3', M.matrixTransposed3 == (M.column(0), M.column(1), M.column(2)), 'True')
 
         self.testCopy(M)
 

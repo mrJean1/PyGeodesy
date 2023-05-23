@@ -1216,6 +1216,14 @@
         initial and final bearing (azimuths) between two given points or 
         the destination point given a start point and an (initial) bearing.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html">pygeodesy.ellipsoidalVincenty.LatLon</a></strong>:
+      <em class="summary">Using the formulae devised by <a 
+        href="https://WikiPedia.org/wiki/Vincenty's_formulae" 
+        target="_top"><i>Thaddeus Vincenty (1975)</i></a> for an (oblate) 
+        ellipsoidal model of the earth to compute the geodesic distance and
+        bearings between two given points or the destination point given an
+        start point and (initial) bearing.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.LatLon-class.html">pygeodesy.ellipsoidalKarney.LatLon</a></strong>:
       <em class="summary">An ellipsoidal <a 
         href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
@@ -1227,14 +1235,6 @@
         target="_top">geographiclib</a> to compute the geodesic distance, 
         initial and final bearing (azimuths) between two given points or 
         the destination point given a start point and an (initial) bearing.</em>
-    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html">pygeodesy.ellipsoidalVincenty.LatLon</a></strong>:
-      <em class="summary">Using the formulae devised by <a 
-        href="https://WikiPedia.org/wiki/Vincenty's_formulae" 
-        target="_top"><i>Thaddeus Vincenty (1975)</i></a> for an (oblate) 
-        ellipsoidal model of the earth to compute the geodesic distance and
-        bearings between two given points or the destination point given an
-        start point and (initial) bearing.</em>
     </li>
     </ul>
     </li>
@@ -1296,9 +1296,8 @@
         target="_top">GGGS</a>).</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ltp.Ltp-class.html">pygeodesy.ltp.Ltp</a></strong>:
-      <em class="summary">A <i>local tangent plan</i> LTP, a sub-class of 
-        <code>LocalCartesian</code> with configurable ECEF converter and 
-        without optional rotation matrix.</em>
+      <em class="summary">A <i>local tangent plan</i> (LTP), a sub-class of 
+        <code>LocalCartesian</code> with (re-)configurable ECEF converter.</em>
     <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.ltp.ChLV-class.html">pygeodesy.ltp.ChLV</a></strong>:
       <em class="summary">Conversion between <i>WGS84 geodetic</i> and <i>Swiss</i> 
@@ -1379,13 +1378,6 @@
         href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
         class="link">LatLon</a> points.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html">pygeodesy.ellipsoidalVincenty.Cartesian</a></strong>:
-      <em class="summary">Extended to convert geocentric, <a 
-        href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html" 
-        class="link">Cartesian</a> points to Vincenty-based, ellipsoidal, 
-        geodetic <a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
-        class="link">LatLon</a>.</em>
-    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalNvector.Cartesian-class.html">pygeodesy.ellipsoidalNvector.Cartesian</a></strong>:
       <em class="summary">Extended to convert geocentric, <a 
         href="pygeodesy.ellipsoidalNvector.Cartesian-class.html" 
@@ -1393,6 +1385,13 @@
         href="pygeodesy.ellipsoidalNvector.Nvector-class.html" 
         class="link">Nvector</a> and n-vector-based, geodetic <a 
         href="pygeodesy.ellipsoidalNvector.LatLon-class.html" 
+        class="link">LatLon</a>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html">pygeodesy.ellipsoidalVincenty.Cartesian</a></strong>:
+      <em class="summary">Extended to convert geocentric, <a 
+        href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html" 
+        class="link">Cartesian</a> points to Vincenty-based, ellipsoidal, 
+        geodetic <a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
         class="link">LatLon</a>.</em>
     </li>
     </ul>
@@ -2137,7 +2136,7 @@
         <code>height</code> in <code>meter</code>, conventionally.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ecef.EcefMatrix-class.html">pygeodesy.ecef.EcefMatrix</a></strong>:
-      <em class="summary">A rotation matrix.</em>
+      <em class="summary">A rotation matrix known as <i>East-North-Up (ENU) to ECEF</i>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.elevations.Elevation2Tuple-class.html">pygeodesy.elevations.Elevation2Tuple</a></strong>:
       <em class="summary">2-Tuple <code>(elevation, data_source)</code> in <code>meter</code>
@@ -3449,7 +3448,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
         <code>height</code> in <code>meter</code>, conventionally.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ecef.EcefMatrix-class.html">pygeodesy.ecef.EcefMatrix</a></strong>:
-      <em class="summary">A rotation matrix.</em>
+      <em class="summary">A rotation matrix known as <i>East-North-Up (ENU) to ECEF</i>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.elevations.Elevation2Tuple-class.html">pygeodesy.elevations.Elevation2Tuple</a></strong>:
       <em class="summary">2-Tuple <code>(elevation, data_source)</code> in <code>meter</code>
@@ -4031,7 +4030,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat May 20 11:36:08 2023
+    Generated by Epydoc 3.0.1 on Tue May 23 13:11:53 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
