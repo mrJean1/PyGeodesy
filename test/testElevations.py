@@ -4,9 +4,9 @@
 # Test L{elevations} module.
 
 __all__ = ('Tests',)
-__version__ = '23.03.27'
+__version__ = '23.05.23'
 
-from bases import isPython2, isPython3, TestsBase
+from bases import ismacOS, isPython2, isPython3, TestsBase
 
 from pygeodesy import elevation2, Datums, geoidHeight2
 
@@ -74,7 +74,7 @@ if __name__ == '__main__':
     else:
         timeout = float(os.getenv('PYGEODESY_COVERAGE', '0'))
 
-    if timeout > 4:
+    if ismacOS and timeout > 4:
         from pygeodesy import ellipsoidalVincenty
         LL = ellipsoidalVincenty.LatLon
 
