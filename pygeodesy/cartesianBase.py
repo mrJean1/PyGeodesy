@@ -352,20 +352,18 @@ class CartesianBase(Vector3d):
 
         # Kenneth Gade eqn 23
         p = hypot2(x, y) * E.a2_
-        q = E.e21 * (z / E.a)**2
+        q = z**2 * E.e21 * E.a2_
         r = fsumf_(p, q, -E.e4) / _6_0
         s = (p * q * E.e4) / (_4_0 * r**3)
         t = cbrt(fsumf_(_1_0, s, sqrt(s * (_2_0 + s))))
         if isnear0(t):
             raise _ErrorEPS0(t)
-
-        u = r * fsumf_(_1_0, t, _1_0 / t)
+        u = fsumf_(_1_0, t, _1_0 / t) * r
         v = sqrt(u**2 + E.e4 * q)
         t = v * _2_0
         if t < EPS0:  # isnear0
             raise _ErrorEPS0(t)
-        w = E.e2 * fsumf_(u, v, -q) / t
-
+        w = fsumf_(u, v, -q) * E.e2 / t
         k = sqrt(fsumf_(u, v, w**2)) - w
         if isnear0(k):
             raise _ErrorEPS0(k)
@@ -374,7 +372,6 @@ class CartesianBase(Vector3d):
             raise _ErrorEPS0(t)
         e = k / t
 #       d = e * hypot(x, y)
-
 #       tmp = 1 / hypot(d, z) == 1 / hypot(e * hypot(x, y), z)
         t = hypot_(x * e, y * e, z)  # == 1 / tmp
         if t < EPS0:  # isnear0
