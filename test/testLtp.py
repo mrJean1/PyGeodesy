@@ -4,7 +4,7 @@
 # Test L{ltp} I{local tangent plane} classes.
 
 __all__ = ('Tests',)
-__version__ = '23.05.20'
+__version__ = '23.05.23'
 
 from bases import startswith, TestsBase
 
@@ -27,7 +27,7 @@ class Tests(TestsBase):
 
         self.test(Ltp.__name__, kwds, kwds, nl=1)
 
-        # <https://GeographicLib.SourceForge.io/html/CartConvert.1.html>
+        # <https://GeographicLib.SourceForge.io/C++/doc/CartConvert.1.html>
         c = Ltp(33, 44, 20, name='Test', **kwds)
         self.test('name', c.name, 'Test')
         t = c.toRepr()

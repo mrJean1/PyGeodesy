@@ -4,7 +4,7 @@
 # Test C{LatLon}.
 
 __all__ = ('Tests',)
-__version__ = '23.03.27'
+__version__ = '23.05.23'
 
 from bases import GeodSolve, geographiclib, isPyPy, isPython2, TestsBase
 

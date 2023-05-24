@@ -893,7 +893,7 @@ def unroll180(lon1, lon2, wrap=True):
                 C{degrees}).
 
        @see: Capability C{LONG_UNROLL} in U{GeographicLib
-             <https://GeographicLib.SourceForge.io/C++/doc/python/interface.html#outmask>}.
+             <https://GeographicLib.SourceForge.io/html/python/interface.html#outmask>}.
     '''
     d = lon2 - lon1
     if wrap and fabs(d) > _180_0:
@@ -940,7 +940,7 @@ def unrollPI(rad1, rad2, wrap=True):
                 (C{radians}, C{radians}).
 
        @see: Capability C{LONG_UNROLL} in U{GeographicLib
-             <https://GeographicLib.SourceForge.io/C++/doc/python/interface.html#outmask>}.
+             <https://GeographicLib.SourceForge.io/html/python/interface.html#outmask>}.
     '''
     r = rad2 - rad1
     if wrap and fabs(r) > PI:

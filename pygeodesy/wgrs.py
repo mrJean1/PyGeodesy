@@ -31,7 +31,7 @@ from pygeodesy.utily import ft2m, m2ft, m2NM
 from math import floor
 
 __all__ = _ALL_LAZY.wgrs
-__version__ = '23.05.06'
+__version__ = '23.05.23'
 
 _Base    =  10
 _BaseLen =  4
@@ -337,7 +337,7 @@ def encode(lat, lon, precision=3, height=None, radius=None):  # MCCABE 14
        @raise WGRSError: Invalid B{C{precision}}, B{C{height}} or B{C{radius}}.
 
        @note: The B{C{precision}} value differs from U{Georef<https://
-              GeographicLib.SourceForge.io/html/classGeographicLib_1_1Georef.html>}.
+              GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Georef.html>}.
               The C{georef} length is M{2 * (precision + 1)} and the
               C{georef} resolution is I{15°} for B{C{precision}} 0, I{1°}
               for 1, I{1′} for 2, I{0.1′} for 3, I{0.01′} for 4, ...

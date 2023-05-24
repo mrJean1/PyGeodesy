@@ -30,13 +30,13 @@ from pygeodesy.props import Property, Property_RO, property_RO
 from math import fmod
 
 __all__ = ()
-__version__ = '23.05.15'
+__version__ = '23.05.23'
 
 
 class GeodesicAreaExact(_NamedBase):
     '''Area and perimeter of a geodesic polygon, an enhanced
        version of I{Karney}'s Python class U{PolygonArea
-       <https://GeographicLib.SourceForge.io/C++/doc/python/
+       <https://GeographicLib.SourceForge.io/html/python/
        code.html#module-geographiclib.polygonarea>} using
        the more accurate surface area.
 

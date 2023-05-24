@@ -37,7 +37,7 @@ Karney-based functionality
   - L{Geodesic}, L{GeodesicLine} -- I{wrapped} U{geodesic.Geodesic<https://PyPI.org/project/geographiclib>},
     I{wrapped} U{geodesicline.GeodesicLine<https://PyPI.org/project/geographiclib>}
 
-  - L{GeodesicAreaExact}, L{PolygonArea} -- U{PolygonArea<https://GeographicLib.SourceForge.io/html/
+  - L{GeodesicAreaExact}, L{PolygonArea} -- U{PolygonArea<https://GeographicLib.SourceForge.io/C++/doc/
     classGeographicLib_1_1PolygonAreaT.html>}
 
   - L{GeodesicExact}, L{GeodesicLineExact} -- U{GeodesicExact<https://GeographicLib.SourceForge.io/C++/doc/
@@ -139,7 +139,7 @@ from pygeodesy.utily import atan2d, sincos2d, tand, _unrollon,  fabs
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.karney
-__version__ = '23.05.07'
+__version__ = '23.05.23'
 
 _EWGS84     = _WGS84.ellipsoid  # PYCHOK in .geodesicx.gx, .ktm, .rhumbx, .solveBase
 _K_2_0      = _getenv('PYGEODESY_GEOGRAPHICLIB', _2_) == _2_

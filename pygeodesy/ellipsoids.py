@@ -90,7 +90,7 @@ from pygeodesy.utily import atand, atan2b, atan2d, degrees90, m2radians, radians
 from math import asinh, atan, atanh, cos, degrees, exp, fabs, radians, sin, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '23.05.15'
+__version__ = '23.05.23'
 
 _f_0_0    = Float(f =_0_0)  # zero flattening
 _f__0_0   = Float(f_=_0_0)  # zero inverse flattening
@@ -903,7 +903,7 @@ class Ellipsoid(_NamedEnumItem):
            <https://ArXiv.org/abs/1002.1417>}.
 
            @see: I{Karney}'s C++ method U{Math::tauf<https://GeographicLib.
-                 SourceForge.io/html/classGeographicLib_1_1Math.html>} and
+                 SourceForge.io/C++/doc/classGeographicLib_1_1Math.html>} and
                  and I{Veness}' JavaScript method U{toLatLon<https://www.
                  Movable-Type.co.UK/scripts/latlong-utm-mgrs.html>}.
         '''
@@ -939,7 +939,7 @@ class Ellipsoid(_NamedEnumItem):
            <https://ArXiv.org/abs/1002.1417>}.
 
            @see: I{Karney}'s C++ method U{Math::taupf<https://GeographicLib.
-                 SourceForge.io/html/classGeographicLib_1_1Math.html>}.
+                 SourceForge.io/C++/doc/classGeographicLib_1_1Math.html>}.
         '''
         t = Scalar(tau=tau)
         if self.f:  # .isEllipsoidal

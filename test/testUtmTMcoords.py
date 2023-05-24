@@ -7,7 +7,7 @@
 # also available U{here<https://Zenodo.org/record/32470>}, file C{TMcoords.dat}.
 
 __all__ = ('testUtmTMcoords',)
-__version__ = '23.03.27'
+__version__ = '23.05.23'
 
 from testTMcoords import testTMcoords
 

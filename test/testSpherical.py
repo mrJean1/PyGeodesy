@@ -4,7 +4,7 @@
 # Test spherical earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '23.05.04'
+__version__ = '23.05.23'
 
 from bases import isPython2, isWindows, RandomLatLon
 from testLatLon import Tests as _TestsLL

@@ -341,7 +341,7 @@ class Ups(UtmUpsBase):
     @Property_RO
     def zone(self):
         '''Get the polar pseudo zone (C{0}), like I{Karney}'s U{zone UPS<https://
-           GeographicLib.SourceForge.io/html/classGeographicLib_1_1UTMUPS.html>}.
+           GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1UTMUPS.html>}.
         '''
         return _UPS_ZONE
 

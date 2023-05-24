@@ -198,11 +198,11 @@ OTHER DEALINGS IN THE SOFTWARE.``
 .. image:: https://Img.Shields.io/pypi/l/PyGeodesy.svg
   :target: https://PyPI.org/project/PyGeodesy
 
-.. _Albers equal-area: https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1AlbersEqualArea.html
-.. _C++ classes: https://GeographicLib.SourceForge.io/html/annotated.html
-.. _C++ GeographicLib: https://GeographicLib.SourceForge.io/html/index.html
+.. _Albers equal-area: https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1AlbersEqualArea.html
+.. _C++ classes: https://GeographicLib.SourceForge.io/C++/doc/annotated.html
+.. _C++ GeographicLib: https://GeographicLib.SourceForge.io/C++/doc/index.html
 .. _Cartesian: https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy-Cartesian-attributes-table.html
-.. _Cassini-Soldner: https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1CassiniSoldner.html
+.. _Cassini-Soldner: https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1CassiniSoldner.html
 .. _checked: https://GitHub.com/ActiveState/code/tree/master/recipes/Python/546532_PyChecker_postprocessor
 .. _Cohen-Sutherland: https://WikiPedia.org/wiki/Cohen-Sutherland_algorithm
 .. _coverage: https://PyPI.org/project/coverage
@@ -213,14 +213,14 @@ OTHER DEALINGS IN THE SOFTWARE.``
 .. _ECEF: https://WikiPedia.org/wiki/ECEF
 .. _EPSG: https://EPSG.org
 .. _Epydoc: https://PyPI.org/project/epydoc
-.. _equidistant: https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1AzimuthalEquidistant.html
-.. _Exact: https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1TransverseMercatorExact.html
+.. _equidistant: https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1AzimuthalEquidistant.html
+.. _Exact: https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1GeodesicExact.html
 .. _Flake8: https://PyPI.org/project/flake8
 .. _Forster-Hormann-Popa: https://www.ScienceDirect.com/science/article/pii/S259014861930007X
 .. _Frechet: https://WikiPedia.org/wiki/Frechet_distance
 .. _Garefs (GARS): https://WikiPedia.org/wiki/Global_Area_Reference_System
-.. _GeoConvert: https://GeographicLib.SourceForge.io/html/utilities.html
-.. _GeodSolve: https://GeographicLib.SourceForge.io/html/utilities.html
+.. _GeoConvert: https://GeographicLib.SourceForge.io/C++/doc/utilities.html
+.. _GeodSolve: https://GeographicLib.SourceForge.io/C++/doc/utilities.html
 .. _geographiclib: https://PyPI.org/project/geographiclib
 .. _Geohashes: https://www.Movable-Type.co.UK/scripts/geohash.html
 .. _Geoid: https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.geoids-module.html
@@ -257,7 +257,7 @@ OTHER DEALINGS IN THE SOFTWARE.``
 .. _Pythonista: https://OMZ-Software.com/pythonista
 .. _Ramer-Douglas-Peucker: https://WikiPedia.org/wiki/Ramer-Douglas-Peucker_algorithm
 .. _Reumann-Witkam: https://psimpl.SourceForge.net/reumann-witkam.html
-.. _RhumbSolve: https://GeographicLib.SourceForge.io/html/utilities.html
+.. _RhumbSolve: /C++/doc/
 .. _scipy: https://PyPI.org/project/scipy
 .. _simplify: https://Bost.Ocks.org/mike/simplify
 .. _Sutherland-Hodgman: https://WikiPedia.org/wiki/Sutherland-Hodgman_algorithm

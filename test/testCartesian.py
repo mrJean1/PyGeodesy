@@ -80,7 +80,7 @@ class Tests(TestsBase):
                    # <https://www.EdWilliams.org/avform.htm#XTE>
                    (degrees(0.709186), -degrees(1.287762)),  # JFK
                    (33.+57./60, -(118.+24./60)),  # LAX
-                   # <https://GeographicLib.SourceForge.io/C++/doc/python/examples.html>
+                   # <https://GeographicLib.SourceForge.io/html/python/examples.html>
                    (-41.32, 174.81),  # WNZ, Wellington, NZ
                    (40.96,    5.50),  # SAL, Salamanca, Spain
                    (40.1,   116.6),   # BJS, Beijing Airport

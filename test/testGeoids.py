@@ -4,7 +4,7 @@
 # Test L{geoids} interpolators.
 
 __all__ = ('Tests',)
-__version__ = '23.03.27'
+__version__ = '23.05.23'
 
 import warnings  # PYCHOK expected
 # RuntimeWarning: numpy.ufunc size changed, may indicate binary
@@ -24,7 +24,7 @@ from os import SEEK_SET as _SEEK_SET
 
 _GeoidHeights_dat = b'''
 # the first and last 100 tests from GeoidHeights.dat.gz
-# <https://GeographicLib.SourceForge.io/html/geoid.html> or
+# <https://GeographicLib.SourceForge.io/C++/doc/geoid.html> or
 # <https://SourceForge.net/projects/geographiclib/files/testdata/>
 
 # Lat EasternLon egm84-15 egm96-5 egm2008-1-height
