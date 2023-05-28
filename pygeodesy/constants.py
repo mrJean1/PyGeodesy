@@ -24,7 +24,7 @@ except ImportError:  # Python 2-
     _inf, _nan = float(_INF_), float(_NAN_)
 
 __all__ = _ALL_LAZY.constants
-__version__ = '23.05.06'
+__version__ = '23.05.26'
 
 
 def _Float(**name_arg):
@@ -41,17 +41,17 @@ def _Radius(**name_arg):
     return Radius(_float(arg), name=n)
 
 
-def float_(*fs, **sets):
+def float_(*fs, **sets):  # sets=False
     '''Get scalars as C{float} or I{intern}'ed C{float}.
 
        @arg fs: One more values (C{scalar}), all positional.
-       @kwarg sets: Use keyword argument C{B{sets}=True} to
-                    C{intern} each B{C{fs}}, otherwise don't.
+       @kwarg sets: Use C{B{sets}=True} to C{intern} each
+                    B{C{fs}}, otherwise don't C{intern}.
 
-       @return: Single C{float} if only one B{C{fs}} is given,
-                otherwise a tuple of C{float}s.
+       @return: A single C{float} if only one B{C{fs}} is
+                given, otherwise a tuple of C{float}s.
 
-       @raise TypeError: Some B{C{fs}} not C{scalar}.
+       @raise TypeError: Some B{C{fs}} is not C{scalar}.
     '''
     fl = []
     _f = _floats.setdefault if _xkwds_get(sets, sets=False) else \
@@ -61,9 +61,9 @@ def float_(*fs, **sets):
             f = float(f)
             fl.append(_f(f, f))
     except Exception as x:
-        _E, t = _xError2(x)
-        _fs_i =  Fmt.SQUARE(fs=i)
-        raise _E(_fs_i, f, txt=t)
+        E, t = _xError2(x)
+        fs_i =  Fmt.SQUARE(fs=i)
+        raise E(fs_i, f, txt=t)
     return fl[0] if len(fl) == 1 else tuple(fl)
 
 
@@ -241,7 +241,8 @@ R_QM  = _Radius(R_QM=6372797.560856)   # PYCHOK earth' quadratic mean radius (C{
 R_VM  = _Radius(R_VM=6366707.0194937)  # PYCHOK aViation/naVigation earth radius (C{meter})
 # R_AU=  Meter( R_AU=149597870700.0)   # PYCHOK <https://WikiPedia.org/wiki/Astronomical_unit>
 
-_INF_NAN_NINF = INF, NAN, NINF
+_INF_NAN_NINF =  INF, NAN, NINF
+_pos_self     = _1_0.__pos__() is _1_0  # PYCHOK in .fsums, .vector3dBase
 
 
 def _0_0s(n):
@@ -313,10 +314,10 @@ def isint0(obj, both=False):
 
 
 def isnear0(x, eps0=EPS0):
-    '''Is B{C{x}} near zero within a tolerance?
+    '''Is B{C{x}} near I{zero} within a tolerance?
 
        @arg x: Value (C{scalar}).
-       @kwarg eps0: Near-zero tolerance (C{EPS0}).
+       @kwarg eps0: Near-I{zero} tolerance (C{EPS0}).
 
        @return: C{True} if C{abs(B{x}) < B{eps0}},
                 C{False} otherwise.
@@ -327,10 +328,10 @@ def isnear0(x, eps0=EPS0):
 
 
 def isnear1(x, eps1=EPS0):
-    '''Is B{C{x}} near one within a tolerance?
+    '''Is B{C{x}} near I{one} within a tolerance?
 
        @arg x: Value (C{scalar}).
-       @kwarg eps1: Near-one tolerance (C{EPS0}).
+       @kwarg eps1: Near-I{one} tolerance (C{EPS0}).
 
        @return: C{isnear0(B{x} - 1, eps0=B{eps1})}.
 
@@ -340,16 +341,16 @@ def isnear1(x, eps1=EPS0):
 
 
 def isnear90(x, eps90=EPS0):
-    '''Is B{C{x}} near one within a tolerance?
+    '''Is B{C{x}} near I{90} within a tolerance?
 
        @arg x: Value (C{scalar}).
-       @kwarg eps90: Near-90 tolerance (C{EPS0}).
+       @kwarg eps90: Near-I{90} tolerance (C{EPS0}).
 
        @return: C{isnear0(B{x} - 90)}.
 
        @see: Function L{isnear0}.
     '''
-    return isnear0(x - _90_0, eps0=eps90)
+    return bool(eps90 > (x - _90_0) > -eps90)
 
 
 def isneg0(x):

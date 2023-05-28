@@ -11,15 +11,15 @@ L{ChLVYX2Tuple}, L{ChLVyx2Tuple} and L{Footprint5Tuple}.
 @see: References in module L{ltp}.
 '''
 
-from pygeodesy.basics import issubclassof, _xinstanceof
+from pygeodesy.basics import isscalar, issubclassof
 from pygeodesy.constants import _0_0, _90_0, _N_90_0
 from pygeodesy.dms import F_D, toDMS
-from pygeodesy.errors import _TypesError, _xattr, _xkwds
+from pygeodesy.errors import _TypeError, _TypesError, _xattr, _xkwds
 from pygeodesy.fmath import hypot, hypot_
 from pygeodesy.interns import NN, _4_, _azimuth_, _center_, _COMMASPACE_, \
                              _down_, _east_, _ecef_, _elevation_, _height_, \
-                             _lat_, _lon_, _ltp_, _M_, _north_, _up_, _X_, \
-                             _x_, _xyz_, _Y_, _y_, _z_
+                             _lat_, _lon_, _ltp_, _M_, _north_, _not_, _up_, \
+                             _X_, _x_, _xyz_, _Y_, _y_, _z_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _NamedBase, _NamedTuple, notOverloaded, \
                             _Pass, _xnamed
@@ -35,13 +35,14 @@ from pygeodesy.vector3d import Vector3d
 from math import cos, radians
 
 __all__ = _ALL_LAZY.ltpTuples
-__version__ = '23.05.06'
+__version__ = '23.05.26'
 
 _aer_        = 'aer'
 _alt_        = 'alt'
 _enu_        = 'enu'
 _h__         = 'h_'
 _ned_        = 'ned'
+_local_      = 'local'
 _roll_       = 'roll'
 _slantrange_ = 'slantrange'
 _tilt_       = 'tilt'
@@ -95,6 +96,18 @@ def _xyz2aer4(inst):
     E = Degrees(elevation=atan2d(z, hypot(x, y)))
     R = Meter(slantrange=hypot_(x, y, z))
     return Aer4Tuple(A, E, R, inst.ltp, name=inst.name)
+
+
+def _xyzLocal(*Types, **name_inst):
+    '''(INTERNAL) Get C{inst} or C{inst.xyzLocal}.
+    '''
+    n, inst = name_inst.popitem()
+    if isinstance(inst, Types):
+        return None
+    try:
+        return inst.xyzLocal
+    except (AttributeError, TypeError):
+        raise _TypeError(n, inst, txt=_not_(_local_))
 
 
 class _NamedAerNed(_NamedBase):
@@ -187,34 +200,38 @@ class Aer(_NamedAerNed):
     _slantrange = _0_0   # distance (C{Meter})
     _toStr      = _aer_
 
-    def __init__(self, aer, elevation=_0_0, slantrange=_0_0, ltp=None, name=NN):
+    def __init__(self, azimuth_aer, elevation=0, slantrange=0, ltp=None, name=NN):
         '''New L{Aer}.
 
-           @arg aer: Scalar azimuth, bearing from North (C{degrees360}) or
-                     local (L{Aer}, L{Aer4Tuple}).
+           @arg azimuth_aer: Scalar azimuth, bearing from North (C{degrees360})
+                             or a previous I{local} instance (L{Aer}, L{Aer4Tuple},
+                             L{Enu}, L{Enu4Tuple}, L{Local9Tuple}, L{Ned},
+                             L{Ned4Tuple}, L{XyzLocal} or L{Xyz4Tuple}).
            @kwarg elevation: Scalar angle I{above} horizon, I{above} B{C{ltp}}
-                             (C{degrees90}) if scalar B{C{aer}}.
-           @kwarg slantrange: Scalar distance (C{meter}) if scalar B{C{aer}}.
+                             (C{degrees90}) only used with scalar B{C{azimuth_aer}}.
+           @kwarg slantrange: Scalar distance (C{meter}), only used with scalar
+                              B{C{azimuth_aer}}.
            @kwarg ltp: The I{local tangent plane}, (geodetic) origin (L{Ltp},
                        L{LocalCartesian}).
            @kwarg name: Optional name (C{str}).
 
-           @raise TypeError: Invalid B{C{ltp}}.
+           @raise TypeError: Invalid B{C{azimuth_aer}} or B{C{ltp}}.
 
-           @raise UnitError: Invalid B{C{azimuth}}, B{C{elevation}} or
+           @raise UnitError: Invalid B{C{azimuth_aer}}, B{C{elevation}} or
                              or B{C{slantrange}}.
         '''
-        try:  # PYCHOK no cover
-            self._azimuth, self._elevation, self._slantrange = \
-              aer.azimuth,   aer.elevation,   aer.slantrange
-            _xinstanceof(Aer, Aer4Tuple, aer=aer)
-            p = _xattr(aer, ltp=ltp)
-            n = _xattr(aer, name=name)
-        except AttributeError:
-            self._azimuth    = Bearing(azimuth=aer)
+        if isscalar(azimuth_aer):
+            self._azimuth    = Bearing(azimuth=azimuth_aer)
             self._elevation  = Degrees_(elevation=elevation, low=_N_90_0, high=_90_0)
             self._slantrange = Meter_(slantrange=slantrange)
             p, n = ltp, name
+        else:  # PYCHOK no cover
+            p = _xyzLocal(Aer, Aer4Tuple, Ned, azimuth_aer=azimuth_aer)
+            aer = p.toAer() if p else azimuth_aer
+            self._azimuth, self._elevation, self._slantrange = \
+              aer.azimuth,   aer.elevation,   aer.slantrange
+            p = _xattr(aer, ltp=ltp)
+            n =  name or _xattr(aer, name=name)
 
         if p:
             self._ltp = _MODS.ltp._xLtp(p)
@@ -225,7 +242,7 @@ class Aer(_NamedAerNed):
     def aer4(self):
         '''Get the C{(azimuth, elevation, slantrange, ltp)} components (L{Aer4Tuple}).
         '''
-        return Aer4Tuple(self._azimuth, self._elevation, self._slantrange, self.ltp, name=self.name)
+        return Aer4Tuple(self.azimuth, self.elevation, self.slantrange, self.ltp, name=self.name)
 
     @Property_RO
     def azimuth(self):
@@ -392,32 +409,37 @@ class Ned(_NamedAerNed):
     _north = _0_0   # north, XyzLocal.x (C{meter})
     _toStr = _ned_
 
-    def __init__(self, ned, east=_0_0, down=_0_0, ltp=None, name=NN):
+    def __init__(self, north_ned, east=0, down=0, ltp=None, name=NN):
         '''New L{Ned} vector.
 
-           @arg ned: Scalar north component (C{meter}) or local NED (L{Ned},
-                     L{Ned4Tuple}).
-           @kwarg east: Scalar east component (C{meter}) if scalar B{C{ned}}.
-           @kwarg down: Scalar down component, normal to I{inside} surface of
-                        the ellipsoid or sphere (C{meter}) if scalar B{C{ned}}.
+           @arg north_ned: Scalar North component (C{meter}) or a previous
+                           I{local} instance (L{Ned}, L{Ned4Tuple}, L{Aer},
+                           L{Aer4Tuple}, L{Enu}, L{Enu4Tuple}, L{Local9Tuple},
+                           L{XyzLocal} or L{Xyz4Tuple}).
+           @kwarg east: Scalar East component (C{meter}), only used with
+                        scalar B{C{north_ned}}.
+           @kwarg down: Scalar Down component, normal to I{inside} surface
+                        of the ellipsoid or sphere (C{meter}), only used with
+                        scalar B{C{north_ned}}.
            @kwarg ltp: The I{local tangent plane}, (geodetic) origin (L{Ltp},
                        L{LocalCartesian}).
            @kwarg name: Optional name (C{str}).
 
-           @raise TypeError: Invalid B{C{ltp}}.
+           @raise TypeError: Invalid B{C{north_ned}} or B{C{ltp}}.
 
-           @raise UnitError: Invalid B{C{north}}, B{C{east}} or B{C{down}}.
+           @raise UnitError: Invalid B{C{north_ned}}, B{C{east}} or B{C{down}}.
         '''
-        try:  # PYCHOK no cover
-            self._north, self._east, self._down = ned.north, ned.east, ned.down
-            _xinstanceof(Ned, Ned4Tuple, ned=ned)
-            p = _xattr(ned, ltp=ltp)
-            n = _xattr(ned, name=name)
-        except AttributeError:
-            self._north = Meter(north=ned or _0_0)
+        if isscalar(north_ned):
+            self._north = Meter(north=north_ned or _0_0)
             self._east  = Meter(east=east or _0_0)
             self._down  = Meter(down=down or _0_0)
             p, n = ltp, name
+        else:  # PYCHOK no cover
+            p = _xyzLocal(Ned, Ned4Tuple, Aer, north_ned=north_ned)
+            ned = p.toNed() if p else north_ned
+            self._north, self._east, self._down = ned.north, ned.east, ned.down
+            p = _xattr(ned, ltp=ltp)
+            n =  name or _xattr(ned, name=name)
 
         if p:
             self._ltp = _MODS.ltp._xLtp(p)
@@ -582,23 +604,24 @@ class Ned4Tuple(_NamedTuple):
 
 
 class XyzLocal(Vector3d):
-    '''Local C{(x, y, z)} in a I{local tangent plane} (LTP)
-       and base class for local L{Enu}, L{Ned} and L{Aer}.
+    '''Local C{(x, y, z)} in a I{local tangent plane} (LTP),
+       also base class for local L{Enu}.
     '''
     _ltp   =  None  # local tangent plane (C{Ltp}), origin
     _toStr = _xyz_
 
-    def __init__(self, x_xyz, y=_0_0, z=_0_0, ltp=None, name=NN):
+    def __init__(self, x_xyz, y=0, z=0, ltp=None, name=NN):
         '''New L{XyzLocal}.
 
-           @arg x_xyz: Scalar X component (C{meter}), C{positive east} or
-                       a local (L{XyzLocal}, L{Xyz4Tuple}, L{Enu},
-                       L{Enu4Tuple}, L{Local9Tuple}).
-           @kwarg y: Scalar Y component (C{meter}) for scalar B{C{x_xyz}},
-                     C{positive north}.
-           @kwarg z: Scalar Z component for scalar B{C{x_xyz}}, normal
-                     C{positive up} from the surface of the ellipsoid
-                     or sphere (C{meter}).
+           @arg x_xyz: Scalar X component (C{meter}), C{positive east} or a
+                       previous I{local} instance (L{XyzLocal}, L{Xyz4Tuple},
+                       L{Aer}, L{Aer4Tuple}, L{Enu}, L{Enu4Tuple},
+                       L{Local9Tuple}, L{Ned} or L{Ned4Tuple}).
+           @kwarg y: Scalar Y component (C{meter}), only used with scalar
+                     B{C{x_xyz}}, C{positive north}.
+           @kwarg z: Scalar Z component, normal C{positive up} from the
+                     surface of the ellipsoid or sphere (C{meter}), only
+                     used with scalar B{C{x_xyz}}.
            @kwarg ltp: The I{local tangent plane}, (geodetic) origin (L{Ltp},
                        L{LocalCartesian}).
 
@@ -606,17 +629,16 @@ class XyzLocal(Vector3d):
 
            @raise UnitError: Invalid scalar B{C{x_xyz}}, B{C{y}} or B{C{z}}.
         '''
-        try:
-            self._x, self._y, self._z = x_xyz.x, x_xyz.y, x_xyz.z
-            _xinstanceof(XyzLocal, Xyz4Tuple, Enu, Enu4Tuple, Local9Tuple, Ned,
-                      **{self._toStr: x_xyz})
-            p = _xattr(x_xyz, ltp=ltp)
-            n =  name or _xattr(x_xyz, name=NN)
-        except AttributeError:
+        if isscalar(x_xyz):
             self._x = Meter(x=x_xyz or _0_0)
             self._y = Meter(y=y or _0_0)
             self._z = Meter(z=z or _0_0)
             p, n = ltp, name
+        else:
+            xyz = _xyzLocal(XyzLocal, Xyz4Tuple, Local9Tuple, x_xyz=x_xyz) or x_xyz
+            self._x, self._y, self._z = xyz.x, xyz.y, xyz.z
+            p = _xattr(xyz, ltp=ltp)
+            n =  name or _xattr(xyz, name=NN)
 
         if p:
             self._ltp = _MODS.ltp._xLtp(p)
@@ -923,7 +945,7 @@ class Xyz4Tuple(_NamedTuple):
     def xyzLocal(self):
         '''Get this L{Xyz4Tuple} as an L{XyzLocal}.
         '''
-        return XyzLocal(self, ltp=self.ltp, name=self.name)  # PYCHOK .ltp
+        return XyzLocal(*self, name=self.name)
 
 
 class Enu(XyzLocal):
@@ -934,27 +956,32 @@ class Enu(XyzLocal):
     '''
     _toStr = _enu_
 
-    def __init__(self, enu, north=_0_0, up=_0_0, ltp=None, name=NN):
+    def __init__(self, east_enu, north=0, up=0, ltp=None, name=NN):
         '''New L{Enu}.
 
-           @arg enu: Scalar East component (C{meter}) or a local (L{Enu},
-                     (L{XyzLocal}, L{Local9Tuple}).
-           @kwarg north: Scalar North component (C{meter}) if scalar B{C{enu}}.
-           @kwarg up: Scalar Up component if scalar B{C{enu}}, normal from the
-                      surface of the ellipsoid or sphere (C{meter}).
+           @arg east_enu: Scalar East component (C{meter}) or a previous
+                          I{local} instance (L{Enu}, L{Enu4Tuple}, L{Aer},
+                          L{Aer4Tuple}, L{Local9Tuple}, L{Ned}, L{Ned4Tuple},
+                          L{XyzLocal} or L{Xyz4Tuple}).
+           @kwarg north: Scalar North component (C{meter}) only used with
+                         scalar B{C{east_enu}}.
+           @kwarg up: Scalar Up component only used with scalar B{C{east_enu}},
+                      normal from the surface of the ellipsoid or sphere (C{meter}).
            @kwarg ltp: The I{local tangent plane}, (geodetic) origin (L{Ltp},
                        L{LocalCartesian}).
            @kwarg name: Optional name (C{str}).
 
-           @raise TypeError: Invalid B{C{enu}} or B{C{ltp}}.
+           @raise TypeError: Invalid B{C{east_enu}} or B{C{ltp}}.
 
-           @raise UnitError: Invalid B{C{east}}, B{C{north}} or B{C{up}}.
+           @raise UnitError: Invalid B{C{east_enu}}, B{C{north}} or B{C{up}}.
         '''
-        XyzLocal.__init__(self, enu, north, up, ltp=ltp, name=name)
+        XyzLocal.__init__(self, east_enu, north, up, ltp=ltp, name=name)
 
-#   @Property_RO
-#   def xyzLocal(self):
-#        return XyzLocal(self, name=self.name)
+    @Property_RO
+    def xyzLocal(self):
+        '''Get this ENU as an L{XyzLocal}.
+        '''
+        return XyzLocal(*self.xyz4, name=self.name)
 
 
 class Enu4Tuple(_NamedTuple):
@@ -1164,7 +1191,7 @@ class Local9Tuple(_NamedTuple):
     def xyzLocal(self):
         '''Get this L{Local9Tuple} as an L{XyzLocal}.
         '''
-        return XyzLocal(self, name=self.name)
+        return XyzLocal(*self.xyz, ltp=self.ltp, name=self.name)  # PYCHOK .ltp
 
 
 _XyzLocals4 =  XyzLocal, Enu, Ned, Aer  # PYCHOK in .ltp

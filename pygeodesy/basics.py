@@ -20,14 +20,14 @@ from pygeodesy.interns import MISSING, NN, _by_, _DOT_, _ELLIPSIS4_, _enquote, \
                              _EQUAL_, _in_, _invalid_, _N_A_, _SPACE_, \
                              _splituple, _UNDER_, _version_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _FOR_DOCS, \
-                             _getenv, _sys_version_info2
+                             _getenv, _sys, _sys_version_info2
 
 from copy import copy as _copy, deepcopy as _deepcopy
 from math import copysign as _copysign
 import inspect as _inspect
 
 __all__ = _ALL_LAZY.basics
-__version__ = '23.05.06'
+__version__ = '23.05.26'
 
 _0_0                  = 0.0  # see .constants
 _below_               = 'below'
@@ -426,6 +426,38 @@ def signOf(x):
     except AttributeError:
         s = _signOf(x, 0)
     return s
+
+
+def _sizeof(inst):
+    '''(INTERNAL) Recursive size of an C{inst}ance.
+
+       @return: Size in bytes (C{int}), ignoring
+                class attributes and counting
+                duplicates only once.
+    '''
+    try:
+        r = inst.__dict__.values()
+    except AttributeError:  # None, int, etc.
+        r = inst,
+    lts = _list_tuple_types + (set,)
+
+    def _2ts(r):
+        _id, _is = id, isinstance
+        for o in r:
+            if _is(o, lts):
+                for o in _2ts(o):
+                    yield _id(o), o
+            elif _is(o, dict):
+                for o in _2ts(o.values()):
+                    yield _id(o), o
+#               for o in _2ts(o.keys()):
+#                   yield _id(o), o
+            else:
+                yield _id(o), o
+
+    d = dict(_2ts(r))  # ignore duplicates
+    _ = d.pop(id(inst), None)  # avoid recursion
+    return sum(map(_sys.getsizeof, d.values()))
 
 
 def splice(iterable, n=2, **fill):

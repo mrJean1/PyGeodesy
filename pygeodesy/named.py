@@ -14,7 +14,7 @@ standard Python C{namedtuple}s.
 '''
 
 from pygeodesy.basics import isclass, isidentifier, iskeyword, isstr, \
-                             issubclassof, len2, _xcopy, _xdup, _zip
+                             issubclassof, len2, _sizeof, _xcopy, _xdup, _zip
 from pygeodesy.errors import _AssertionError, _AttributeError, _incompatible, \
                              _IndexError, _IsnotError, itemsorted, LenError, \
                              _NameError, _NotImplementedError, _TypeError, \
@@ -32,7 +32,7 @@ from pygeodesy.props import _allPropertiesOf_n, deprecated_method, Property_RO, 
 from pygeodesy.streprs import attrs, Fmt, lrstrip, pairs, reprs, unstr
 
 __all__ = _ALL_LAZY.named
-__version__ = '23.05.04'
+__version__ = '23.05.26'
 
 _COMMANL_           = _COMMA_ + _NL_
 _COMMASPACEDOT_     = _COMMASPACE_ + _DOT_
@@ -176,6 +176,11 @@ class _Named(object):
     def __rmatmul__(self, other):  # PYCHOK no cover
         '''Not implemented.'''
         return _NotImplemented(self, other)  # PYCHOK Python 3.5+
+
+    def __sizeof__(self):  # PYCHOK not special in Python 2-
+        '''Return the current size of this instance C{bytes}.
+        '''
+        return _sizeof(self)
 
     def __str__(self):
         '''Default C{str(self)}.

@@ -27,13 +27,13 @@ from pygeodesy.namedTuples import EasNor2Tuple, EasNor3Tuple, \
 from pygeodesy.props import deprecated_Property_RO, Property, \
                                        Property_RO, _update_all
 from pygeodesy.streprs import Fmt, _fstrENH2, _fstrLL0, _xzipairs
-from pygeodesy.units import Bearing, Degrees, Easting, Height, \
+from pygeodesy.units import Bearing, Degrees, Easting, Height, _heigHt, \
                             Lat_, Lon_, Northing, Scalar
 
 # from math import fabs  # from .karney
 
 __all__ = _ALL_LAZY.css
-__version__ = '23.05.06'
+__version__ = '23.05.26'
 
 
 def _CS0(cs0):
@@ -538,7 +538,7 @@ class Css(_NamedBase):
             _xsubclassof(_LLEB, LatLon=LatLon)
 
         lat, lon = self.latlon
-        h = self.height if height is None else Height(height)
+        h = _heigHt(self, height)
         return _LL4Tuple(lat, lon, h, self.cs0.datum, LatLon, LatLon_kwds,
                                                       inst=self, name=self.name)
 
@@ -638,9 +638,9 @@ def toCss(latlon, cs0=None, height=None, Css=Css, name=NN):
     cs = _CS0(cs0)
     cs._datumatch(latlon)
 
-    c = cs.forward4(latlon.lat, latlon.lon)
-    h = latlon.height if height is None else Height(height)
-    n = name or nameof(latlon)
+    c =  cs.forward4(latlon.lat, latlon.lon)
+    h = _heigHt(latlon, height)
+    n =  name or nameof(latlon)
 
     if Css is None:
         r = EasNor3Tuple(c.easting, c.northing, h, name=n)

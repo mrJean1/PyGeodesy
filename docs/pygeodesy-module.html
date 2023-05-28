@@ -534,7 +534,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        23.05.23
+        23.05.28
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -4666,11 +4666,9 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ltpTuples.XyzLocal-class.html" class="summary-name">XyzLocal</a><br />
-      Local <code>(x, y, z)</code> in a <i>local tangent plane</i> (LTP) 
-        and base class for local <a 
-        href="pygeodesy.ltpTuples.Enu-class.html" class="link">Enu</a>, <a 
-        href="pygeodesy.ltpTuples.Ned-class.html" class="link">Ned</a> and 
-        <a href="pygeodesy.ltpTuples.Aer-class.html" class="link">Aer</a>.
+      Local <code>(x, y, z)</code> in a <i>local tangent plane</i> (LTP),
+        also base class for local <a 
+        href="pygeodesy.ltpTuples.Enu-class.html" class="link">Enu</a>.
     </td>
   </tr>
 <tr>
@@ -8423,7 +8421,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7ff308add7d0&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f8fc080bdd0&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -9348,7 +9346,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#isnear0" class="summary-sig-name">isnear0</a>(<span class="summary-sig-arg">x</span>,
         <span class="summary-sig-arg">eps0</span>=<span class="summary-sig-default">4.930380657631324e-32</span>)</span><br />
-      Is <b><code>x</code></b> near zero within a tolerance?</td>
+      Is <b><code>x</code></b> near <i>zero</i> within a tolerance?</td>
           <td align="right" valign="top">
             
             
@@ -9366,7 +9364,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#isnear1" class="summary-sig-name">isnear1</a>(<span class="summary-sig-arg">x</span>,
         <span class="summary-sig-arg">eps1</span>=<span class="summary-sig-default">4.930380657631324e-32</span>)</span><br />
-      Is <b><code>x</code></b> near one within a tolerance?</td>
+      Is <b><code>x</code></b> near <i>one</i> within a tolerance?</td>
           <td align="right" valign="top">
             
             
@@ -9384,7 +9382,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#isnear90" class="summary-sig-name">isnear90</a>(<span class="summary-sig-arg">x</span>,
         <span class="summary-sig-arg">eps90</span>=<span class="summary-sig-default">4.930380657631324e-32</span>)</span><br />
-      Is <b><code>x</code></b> near one within a tolerance?</td>
+      Is <b><code>x</code></b> near <i>90</i> within a tolerance?</td>
           <td align="right" valign="top">
             
             
@@ -12992,7 +12990,7 @@ ygeodesy'"><code class="variable-quote">'</code><code class="variable-string">/U
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'23.5.23'"><code class="variable-quote">'</code><code class="variable-string">23.5.23</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'23.5.28'"><code class="variable-quote">'</code><code class="variable-string">23.5.28</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -19756,15 +19754,15 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>fs</code></strong> - One more values (<code>scalar</code>), all positional.</li>
-        <li><strong class="pname"><code>sets</code></strong> - Use keyword argument <code><b>sets</b>=True</code> to 
-          <code>intern</code> each <b><code>fs</code></b>, otherwise don't.</li>
+        <li><strong class="pname"><code>sets</code></strong> - Use <code><b>sets</b>=True</code> to <code>intern</code> each 
+          <b><code>fs</code></b>, otherwise don't <code>intern</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Single <code>float</code> if only one <b><code>fs</code></b> is 
+        <dd>A single <code>float</code> if only one <b><code>fs</code></b> is
           given, otherwise a tuple of <code>float</code>s.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Some <b><code>fs</code></b> not <code>scalar</code>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some <b><code>fs</code></b> is not <code>scalar</code>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -20945,7 +20943,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7ff308add7d0&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f8fc080bdd0&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -22661,12 +22659,12 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </td>
   </tr></table>
   
-  <p>Is <b><code>x</code></b> near zero within a tolerance?</p>
+  <p>Is <b><code>x</code></b> near <i>zero</i> within a tolerance?</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>x</code></strong> - Value (<code>scalar</code>).</li>
-        <li><strong class="pname"><code>eps0</code></strong> - Near-zero tolerance (<code>EPS0</code>).</li>
+        <li><strong class="pname"><code>eps0</code></strong> - Near-<i>zero</i> tolerance (<code>EPS0</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><code>True</code> if <code>abs(<b>x</b>) &lt; <b>eps0</b></code>,
@@ -22693,12 +22691,12 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </td>
   </tr></table>
   
-  <p>Is <b><code>x</code></b> near one within a tolerance?</p>
+  <p>Is <b><code>x</code></b> near <i>one</i> within a tolerance?</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>x</code></strong> - Value (<code>scalar</code>).</li>
-        <li><strong class="pname"><code>eps1</code></strong> - Near-one tolerance (<code>EPS0</code>).</li>
+        <li><strong class="pname"><code>eps1</code></strong> - Near-<i>one</i> tolerance (<code>EPS0</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><code>isnear0(<b>x</b> - 1, eps0=<b>eps1</b>)</code>.</dd>
@@ -22724,12 +22722,12 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </td>
   </tr></table>
   
-  <p>Is <b><code>x</code></b> near one within a tolerance?</p>
+  <p>Is <b><code>x</code></b> near <i>90</i> within a tolerance?</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>x</code></strong> - Value (<code>scalar</code>).</li>
-        <li><strong class="pname"><code>eps90</code></strong> - Near-90 tolerance (<code>EPS0</code>).</li>
+        <li><strong class="pname"><code>eps90</code></strong> - Near-<i>90</i> tolerance (<code>EPS0</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><code>isnear0(<b>x</b> - 90)</code>.</dd>
@@ -30556,7 +30554,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed May 24 10:08:46 2023
+    Generated by Epydoc 3.0.1 on Sun May 28 08:45:11 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

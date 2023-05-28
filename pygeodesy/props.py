@@ -10,7 +10,7 @@ with command line option C{-X dev} or with one of the C{-W}
 choices, see callable L{DeprecationWarnings} below.
 '''
 
-from pygeodesy.basics import isclass
+# from pygeodesy.basics import isclass  # _MODS
 from pygeodesy.errors import _AssertionError, _AttributeError, \
                              _xkwds, _xkwds_get
 from pygeodesy.interns import MISSING, NN, _an_, _COMMASPACE_, \
@@ -25,7 +25,7 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, \
 from functools import wraps as _wraps
 
 __all__ = _ALL_LAZY.props
-__version__ = '23.04.26'
+__version__ = '23.05.26'
 
 _class_       = 'class'
 _dont_use_    = _DEPRECATED_ + ", don't use."
@@ -40,7 +40,7 @@ def _allPropertiesOf(Clas_or_inst, *Bases):
     '''(INTERNAL) Yield all C{R/property/_RO}s at C{Clas_or_inst}
        as specified in the C{Bases} arguments.
     '''
-    if isclass(Clas_or_inst):
+    if _isclass(Clas_or_inst):
         S = Clas_or_inst,  # just this Clas
     else:  # class and super-classes of inst
         try:
@@ -73,13 +73,22 @@ def _hasProperty(inst, name, *Classes):  # in .named._NamedBase._update
                   and p.name == name)
 
 
+def _isclass(obj):
+    '''(INTERNAL) Get and replace C{_isclass}.
+    '''
+    f = _MODS.basics.isclass
+    # assert __name__.endswith('.props')
+    _MODS.props._isclass = f
+    return f(obj)
+
+
 def _update_all(inst, *attrs, **Base):
     '''(INTERNAL) Zap all I{cached} L{property_RO}s, L{Property}s,
        L{Property_RO}s and the named C{attrs} of an instance.
 
        @return: The number of updates (C{int}), if any.
     '''
-    if isclass(inst):
+    if _isclass(inst):
         raise _AssertionError(inst, txt=_not_an_inst_)
     try:
         d = inst.__dict__
@@ -103,7 +112,7 @@ def _update_all(inst, *attrs, **Base):
 #
 #        @return: The number of updates (C{int}), if any.
 #     '''
-#     if isclass(inst):
+#     if _isclass(inst):
 #         raise _AssertionError(inst, txt=_not_an_inst_)
 #     try:
 #         d = inst.__dict__
@@ -117,7 +126,7 @@ def _update_all(inst, *attrs, **Base):
 #         for p in _allPropertiesOf(inst, B):
 #             p._update_from(inst, other)
 #         u -= len(d)
-#     return u  # updates
+#     return u  # number of updates
 
 
 def _update_attrs(inst, *attrs):
@@ -130,15 +139,18 @@ def _update_attrs(inst, *attrs):
     except AttributeError:
         return 0
     u = len(d)
-    if u:
-        _p = d.pop  # zap attrs from inst.__dict__
-        for a in attrs:  # PYCHOK no cover
-            if _p(a, MISSING) is MISSING and not hasattr(inst, a):
-                n = _MODS.named.classname(inst, prefixed=True)
-                a = _DOT_(n, _SPACE_(a, _invalid_))
-                raise _AssertionError(a, txt=repr(inst))
+    if u:  # zap attrs from inst.__dict__
+        _p = d.pop
+        for a in attrs:
+            _ = _p(a, MISSING)
+#           if _ is MISSING and not hasattr(inst, a):
+#               n = _MODS.named.classname(inst, prefixed=True)
+#               a = _DOT_(n, _SPACE_(a, _invalid_))
+#               raise _AssertionError(a, txt=repr(inst))
+#           _ = _p(a, None)  # redo: hasattr side effect
         u -= len(d)
-    return u  # updates
+        # assert u >= 0
+    return u  # number of named C{attrs} zapped
 
 
 class _PropertyBase(property):

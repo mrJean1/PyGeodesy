@@ -19,19 +19,19 @@ from pygeodesy.fsums import Fmt, fsumf_
 from pygeodesy.interns import NN, _COMMASPACE_, _height_, _not_
 from pygeodesy.interns import _ellipsoidal_, _spherical_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
-from pygeodesy.namedTuples import Bearing2Tuple, Height, LatLon4Tuple, Vector4Tuple, \
-                                  Vector3Tuple  # PYCHOK .ellipsoidal-, .sphericalBase
+from pygeodesy.namedTuples import LatLon4Tuple, Vector4Tuple, \
+                                  Bearing2Tuple  # PYCHOK .sphericalBase
 from pygeodesy.props import deprecated_method, Property, Property_RO, \
                             property_doc_, _update_all
 # from pygeodesy.resections impoty cassini, collins5, pierlot, tienstra7
 # from pygeodesy.streprs import Fmt  # from .fsums
-# from pygeodesy.units import Height  # from .namedTuples
+from pygeodesy.units import Height, _heigHt
 from pygeodesy.vector3d import Vector3d, _xyzhdn3
 
 # from math import sqrt  # from .fmath
 
 __all__ = _ALL_LAZY.cartesianBase
-__version__ = '23.05.23'
+__version__ = '23.05.26'
 
 
 class CartesianBase(Vector3d):
@@ -582,9 +582,9 @@ class CartesianBase(Vector3d):
             r = c.Ecef(d, name=self.name).reverse(c, M=LatLon is None)
 
         if LatLon:  # class or .classof
-            h = r.height if height is None else Height(height)
-            r = LatLon(r.lat, r.lon, datum=r.datum, height=h,
-                                  **_xkwds(LatLon_kwds, name=r.name))
+            h = _heigHt(r, height)
+            r =  LatLon(r.lat, r.lon, datum=r.datum, height=h,
+                                   **_xkwds(LatLon_kwds, name=r.name))
         _xdatum(r.datum, d)
         return r
 

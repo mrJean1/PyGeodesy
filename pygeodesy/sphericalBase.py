@@ -13,7 +13,7 @@ U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>}.
 from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import isbool, isinstanceof, map1
-from pygeodesy.cartesianBase import Bearing2Tuple, CartesianBase
+from pygeodesy.cartesianBase import CartesianBase,  Bearing2Tuple
 from pygeodesy.constants import EPS, PI, PI2, PI_2, R_M, R_MA, \
                                _umod_360, isnear0, isnon0, _0_0, \
                                _0_5, _1_0, _180_0
@@ -39,7 +39,7 @@ from pygeodesy.utily import acos1, atan2b, atan2d, degrees90, \
 from math import cos, fabs, log, sin, sqrt
 
 __all__ = _ALL_LAZY.sphericalBase
-__version__ = '23.05.06'
+__version__ = '23.05.26'
 
 
 def _angular(distance, radius, low=EPS):  # PYCHOK in .spherical*

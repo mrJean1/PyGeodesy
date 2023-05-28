@@ -46,7 +46,7 @@ from contextlib import contextmanager
 from math import asin, cos, degrees, fabs, radians
 
 __all__ = _ALL_LAZY.latlonBase
-__version__ = '23.05.12'
+__version__ = '23.05.26'
 
 
 class LatLonBase(_NamedBase):
@@ -657,11 +657,6 @@ class LatLonBase(_NamedBase):
         return Height(h) if h is not None else \
               _MODS.fmath.favg(self.height, other.height, f=f)
 
-    def _heigHt(self, height):
-        '''(INTERNAL) Overriding C{height}.
-        '''
-        return self.height if height is None else Height(height)
-
     @Property
     def height(self):
         '''Get the height (C{meter}).
@@ -680,6 +675,11 @@ class LatLonBase(_NamedBase):
         if self._height != h:
             _update_all(self)
             self._height = h
+
+    def _heigHt(self, height):
+        '''(INTERNAL) Overriding this C{height}.
+        '''
+        return self.height if height is None else Height(height)
 
     def height4(self, earth=None, normal=True, LatLon=None, **LatLon_kwds):
         '''Compute the height above or below and the projection of this point

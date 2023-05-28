@@ -32,7 +32,7 @@ from pygeodesy.interns import MISSING, NN, __all__ as _interns_a_l_l_, \
 
 from os import getenv as _getenv  # in .errors, .geodsolve, .props, .units
 from os.path import basename as _basename
-import sys as _sys  # in .fsums.Fsum.__sizeof__, .props
+import sys as _sys  # in .basics._sizeof
 
 _a_l_l_                 = '__all__'
 _FOR_DOCS               = _getenv('PYGEODESY_FOR_DOCS', NN)  # for epydoc ...
@@ -141,8 +141,8 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'EasNorAziRk4Tuple', 'EasNorAziRkEqu6Tuple', 'LatLonAziRk4Tuple'),
                       constants=('DIG', 'EPS', 'EPS0', 'EPS02', 'EPS1', 'EPS2', 'EPS4', 'EPS_2',
                                  'INF', 'INT0', 'MANT_DIG', 'MAX', 'MIN', 'NAN', 'NEG0', 'NINF',
-                                 'PI', 'PI2', 'PI3', 'PI3_2', 'PI_3', 'PI4', 'PI_2', 'PI_4',
-                                 'R_FM', 'R_GM', 'R_KM', 'R_M', 'R_MA', 'R_MB', 'R_NM', 'R_SM', 'R_QM', 'R_VM',
+                                 'PI', 'PI2', 'PI_2', 'PI3', 'PI_3', 'PI3_2', 'PI4', 'PI_4',
+                                 'R_FM', 'R_GM', 'R_KM', 'R_M', 'R_MA', 'R_MB', 'R_NM', 'R_QM', 'R_SM', 'R_VM',
                                  'float_', 'float0_', 'isclose', 'isfinite', 'isinf', 'isint0',
                                  'isnan', 'isnear0', 'isnear1', 'isnear90', 'isneg0', 'isninf', 'isnon0',
                                  'remainder'),
@@ -363,8 +363,8 @@ class _ALL_MODS(object):
            @arg name: Unqualified module or attribute name (C{str}).
         '''
         try:
-            n = _DOT_(_pygeodesy_, name)
-            return self.getmodule(n)
+            return self.getmodule(name if name == _pygeodesy_ else
+                                 _DOT_(_pygeodesy_, name))
         except ImportError as x:
             raise LazyImportError(str(x), txt=_doesn_t_exist_, cause=x)
 
@@ -422,7 +422,7 @@ class _ALL_MODS(object):
 _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '23.05.15'
+__version__ = '23.05.27'
 
 
 def _ALL_OTHER(*objs):
@@ -574,7 +574,7 @@ def _lazy_import2(package_name):  # MCCABE 14
                     t = _SPACE_(t, _by_, f, _line_, s)
                 except ValueError:
                     pass
-            print(t)  # XXX printf
+            printf(t)  # XXX print
 
         return imported  # __getattr__
 

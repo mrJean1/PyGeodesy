@@ -40,7 +40,7 @@ from pygeodesy.vector3d import _ALL_LAZY, Vector3d
 # from math import fabs, floor as _floor  # from .fmath, .fsums
 
 __all__ = _ALL_LAZY.ltp
-__version__ = '23.05.23'
+__version__ = '23.05.26'
 
 _height0_ = _height_ + _0_
 _narrow_  = 'narrow'
@@ -217,7 +217,7 @@ class Attitude(_NamedBase):
         def _r2d(r):
             return fsumf_(_N_1_0, *r)
 
-        return Vector3d(*map1(_r2d, *self._rows3), name=tyr3d.__name__)
+        return Vector3d(*map(_r2d, self._rows3), name=tyr3d.__name__)
 
     @property_doc_(' yaw/bearing/heading in compass C{degrees360}, clockwise from North.')
     def yaw(self):

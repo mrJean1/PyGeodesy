@@ -51,7 +51,7 @@ from pygeodesy.vector3d import _intersect3d3, Vector3d  # in .intersection2 belo
 from math import asinh, atan, cos, cosh, fabs, radians, sin, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.rhumbx
-__version__ = '23.05.15'
+__version__ = '23.05.26'
 
 _rls   = []  # instances of C{RbumbLine} to be updated
 _TRIPS = 65  # .intersection2, 18+
@@ -1138,16 +1138,18 @@ __all__ += _ALL_DOCS(Caps, _RhumbLine)
 
 if __name__ == '__main__':
 
+    from pygeodesy.lazily import printf
+
     def _re(fmt, r3, x3):
         e3 = []
         for r, x in _zip(r3, x3):  # strict=True
             e = fabs(r - x) / fabs(x)
             e3.append('%.g' % (e,))
-        print((fmt % r3) + ' rel errors: ' + ', '.join(e3))
+        printf((fmt % r3) + ' rel errors: ' + ', '.join(e3))
 
     # <https://GeographicLib.SourceForge.io/cgi-bin/RhumbSolve>
     rhumb = Rhumb(exact=True)  # WGS84 default
-    print('# %r\n' % rhumb)
+    printf('# %r\n', rhumb)
     r = rhumb.Direct8(40.6, -73.8, 51, 5.5e6)  # from JFK about NE
     _re('# JFK NE lat2=%.8f, lon2=%.8f, S12=%.1f', (r.lat2, r.lon2, r.S12), (71.68889988, 0.25551982, 44095641862956.148438))
     r = rhumb.Inverse8(40.6, -73.8, 51.6, -0.5)  # JFK to LHR

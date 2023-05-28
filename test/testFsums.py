@@ -4,7 +4,7 @@
 # Test L{fsums} module.
 
 __all__ = ('Tests',)
-__version__ = '23.03.27'
+__version__ = '23.05.26'
 
 from bases import endswith, isPython2, randoms, startswith, TestsBase
 
@@ -110,6 +110,9 @@ class Tests(TestsBase):
         self.test('FSum0', c.fsum(), 0.0)
         t = a + a.fcopy().fmul(-1)
         self.test('FSum0', t.fsum(), 0.0)
+        z = getsizeof(t)
+        self.test('sizeof', z, 196, known=100 < z < 300)
+
         a.fsub_(*a._ps)
         self.test('FSum0', a.fsum(), 0.0)
         self.test('Fsum#', len(a), 514, known=len(a) == 515)
@@ -124,8 +127,6 @@ class Tests(TestsBase):
         self.test('rmul', float(2 * b), '1024.0')
         self.test('rpow', float(2**a),     '1.0')
         self.test('rsub', float(2 - b), '-510.0')
-        z = getsizeof(t)
-        self.test('sizeof', z, 428, known=100 < z < 600)  # or 456 Python 2.
         try:
             self.test('_2sum', fsums._2sum(1e308, 1e803), OverflowError.__name__)
         except OverflowError as x:

@@ -115,7 +115,7 @@ except ImportError:  # Python 3+
     from io import BytesIO as _BytesIO  # PYCHOK expected
 
 __all__ = _ALL_LAZY.geoids
-__version__ = '23.05.12'
+__version__ = '23.05.26'
 
 _assert_ = 'assert'
 _bHASH_  =  b'#'
@@ -1728,7 +1728,7 @@ if __name__ == '__main__':
 
         elif geoid[-4:].lower() in ('.bin',):
             g = GeoidG2012B(geoid, kind=_kind)
-            print(g.toStr())
+            printf(g.toStr())
 
         else:
             raise GeoidError(grid=repr(geoid))

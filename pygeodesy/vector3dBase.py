@@ -10,24 +10,26 @@ A pure Python implementation of vector-based functions by I{(C) Chris Veness
 
 from pygeodesy.basics import copysign0, islistuple, isscalar, map1, _zip
 from pygeodesy.constants import EPS, EPS0, INT0, PI, PI2, _float0, \
-                                isnear0, isnear1, _1_0
-from pygeodesy.errors import CrossError, _InvalidError, _IsnotError, VectorError
+                                isnear0, isnear1, _pos_self, _1_0
+from pygeodesy.errors import CrossError, _InvalidError, _IsnotError, \
+                             VectorError
 from pygeodesy.fmath import euclid_, fdot, hypot_, hypot2_
-from pygeodesy.fsums import fsum1f_, _pos_self
-from pygeodesy.interns import NN, _coincident_, _colinear_, _COMMASPACE_, _y_, _z_
-from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _sys, _sys_version_info2
+from pygeodesy.interns import NN, _coincident_, _colinear_, \
+                             _COMMASPACE_, _y_, _z_
+from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, \
+                             _sys_version_info2
 from pygeodesy.named import _NamedBase, _NotImplemented, _xother3
-from pygeodesy.namedTuples import Vector3Tuple
+# from pygeodesy.namedTuples import Vector3Tuple  # _MODS
 from pygeodesy.props import deprecated_method, Property, Property_RO, \
                             property_doc_, _update_all
 from pygeodesy.streprs import Fmt, strs
 from pygeodesy.units import Float, Scalar
-from pygeodesy.utily import atan2, fabs, sincos2
+from pygeodesy.utily import sincos2,  atan2, fabs
 
 # from math import atan2, fabs  # from .utily
 
 __all__ = _ALL_LAZY.vector3dBase
-__version__ = '23.05.15'
+__version__ = '23.05.27'
 
 
 class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
@@ -380,13 +382,6 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
         '''Not implemented.'''
         return _NotImplemented(self, scalar)
 
-    def __sizeof__(self):  # PYCHOK not special in Python 2-
-        '''Return the current size of this vector in C{bytes}.
-        '''
-        # self._x, self._y, self._z, self._ll, ...
-        v = self.__dict__.values  # avoid recursion
-        return sum(map1(_sys.getsizeof, (o for o in v() if o is not self)))
-
 #   def __str__(self):
 #       '''Return the default C{str(self)}.
 #       '''
@@ -498,9 +493,9 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
         '''
         other = self.others(other)
 
-        x = fsum1f_(self.y * other.z, -self.z * other.y)
-        y = fsum1f_(self.z * other.x, -self.x * other.z)
-        z = fsum1f_(self.x * other.y, -self.y * other.x)
+        x = self.y * other.z - self.z * other.y
+        y = self.z * other.x - self.x * other.z
+        z = self.x * other.y - self.y * other.x
 
         if raiser and self.crosserrors and eps0 > 0 \
                   and max(map1(fabs, x, y, z)) < eps0:
@@ -926,7 +921,7 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
     def xyz(self):
         '''Get the X, Y and Z components (L{Vector3Tuple}C{(x, y, z)}).
         '''
-        return Vector3Tuple(self.x, self.y, self.z, name=self.name)
+        return _MODS.namedTuples.Vector3Tuple(self.x, self.y, self.z, name=self.name)
 
     @xyz.setter  # PYCHOK setter!
     def xyz(self, xyz):

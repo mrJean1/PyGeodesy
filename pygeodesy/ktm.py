@@ -65,7 +65,7 @@ from cmath import phase
 from math import atan2, asinh, cos, cosh, degrees, fabs, sin, sinh, sqrt, tanh
 
 __all__ = _ALL_LAZY.ktm
-__version__ = '23.05.15'
+__version__ = '23.05.25'
 
 
 class KTMError(_ValueError):
@@ -401,7 +401,8 @@ class KTransverseMercator(_NamedBase):
             s = complex(s * ch, c * sh)  # sin(zeta * 2)
             c = complex(c * ch, n * sh)  # cos(zeta * 2)
 
-            y0 = y1 = z0 = z1 = complex(0)  # 0+j0
+            y0 = y1 = \
+            z0 = z1 = complex(0)  # 0+j0
             n  = self.TMorder  # == len(C) - 1
             if isodd(n):
                 Cn = C[n]
@@ -414,11 +415,11 @@ class KTransverseMercator(_NamedBase):
                 Cn =  C[n]
                 y1 = _c(a, y0, y1, Cn)
                 z1 = _c(a, z0, z1, Cn * (n * 2))
-                n -= 1
+                n -=  1
                 Cn =  C[n]
                 y0 = _c(a, y1, y0, Cn)
                 z0 = _c(a, z1, z0, Cn * (n * 2))
-                n -= 1
+                n -=  1
             # assert n == 0
             x = _c(s, y0, -x, _0_0)
             c = _c(c, z0, z1, _1_0)

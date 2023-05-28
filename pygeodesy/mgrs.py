@@ -56,7 +56,7 @@ from pygeodesy.utm import toUtm8, _to3zBlat, Utm, _UTM_ZONE_MAX, _UTM_ZONE_MIN
 # from pygeodesy.utmupsBase import _UTM_ZONE_MAX, _UTM_ZONE_MIN  # from .utm
 
 __all__ = _ALL_LAZY.mgrs
-__version__ = '23.03.19'
+__version__ = '23.05.26'
 
 _AN_    = 'AN'  # default south pole grid tile and band B
 _AtoPx_ = _AtoZnoIO_.tillP
@@ -727,7 +727,7 @@ if __name__ == '__main__':
                     nl = NN
                 n += 1
             if nl:
-                print(' OK')
+                printf(' OK')
     except KeyboardInterrupt:
         printf(nl)
 

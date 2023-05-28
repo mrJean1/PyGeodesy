@@ -149,7 +149,7 @@ def toUtmUps8(latlon, lon=None, datum=None, falsed=True, Utm=Utm, Ups=Ups,
 
     f = falsed and _xkwds_get(cmoff, cmoff=True)
     if z == _UPS_ZONE:
-        u = toUps8(lat, lon, datum=d, falsed=f, Ups=Ups, pole=pole or p, name=name)
+        u = toUps8(lat, lon, datum=d, falsed=f, Ups=Ups, name=name, pole=pole or p)
     else:
         u = toUtm8(lat, lon, datum=d, falsed=f, Utm=Utm, name=name)
     return u

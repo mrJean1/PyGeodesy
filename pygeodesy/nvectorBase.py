@@ -10,13 +10,13 @@ and published under the same MIT Licence**, see U{Vector-based geodesy
 <https://www.Movable-Type.co.UK/scripts/latlong-vectors.html>}.
 '''
 
-# from pygeodesy.basics import map1  # from .fsums
+# from pygeodesy.basics import map1  # from .namedTuples
 from pygeodesy.constants import EPS, EPS1, EPS_2, R_M, _2_0, _N_2_0
 # from pygeodesy.datums import _spherical_datum  # from .formy
 from pygeodesy.errors import IntersectionError, _ValueError, VectorError, \
                             _xkwds, _xkwds_pop
 from pygeodesy.fmath import fdot, fidw, hypot_  # PYCHOK fdot shared
-from pygeodesy.fsums import Fsum, fsumf_,  map1
+from pygeodesy.fsums import Fsum, fsumf_
 from pygeodesy.formy import _isequalTo, n_xyz2latlon, n_xyz2philam, \
                             _spherical_datum
 from pygeodesy.interns import NN, _1_, _2_, _3_, _bearing_, _coincident_, \
@@ -27,7 +27,7 @@ from pygeodesy.latlonBase import LatLonBase, _ALL_DOCS, _MODS
 # from pygeodesy.lazily import _ALL_DOCS, _ALL_MODS as _MODS  # from .latlonBase
 from pygeodesy.named import notImplemented, _xother3
 from pygeodesy.namedTuples import Trilaterate5Tuple, Vector3Tuple, \
-                                  Vector4Tuple
+                                  Vector4Tuple,  map1
 from pygeodesy.props import deprecated_method, property_doc_, \
                             Property_RO, _update_all
 from pygeodesy.streprs import Fmt, hstr, unstr, _xattrs
@@ -35,10 +35,10 @@ from pygeodesy.units import Bearing, Height, Radius_, Scalar
 from pygeodesy.utily import sincos2d, _unrollon, _unrollon3
 from pygeodesy.vector3d import Vector3d, _xyzhdn3
 
-from math import fabs, sqrt  # atan2, cos, sin
+from math import fabs, sqrt
 
 __all__ = (_NorthPole_, _SouthPole_)  # constants
-__version__ = '23.05.15'
+__version__ = '23.05.26'
 
 
 class NvectorBase(Vector3d):  # XXX kept private
@@ -256,7 +256,7 @@ class NvectorBase(Vector3d):  # XXX kept private
         '''
         d = _spherical_datum(datum or self.datum, name=self.name)
         E =  d.ellipsoid
-        h =  self.h if h is None else Height(h=h)
+        h =  self.h if h is None else Height(h)
 
         x, y, z = self.x, self.y, self.z
         # Kenneth Gade eqn 22

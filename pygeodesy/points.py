@@ -26,8 +26,8 @@ C{ilon} longitude index in each 2+tuple.
 '''
 
 from pygeodesy.basics import isclass, isint, isscalar, issequence, \
-                             issubclassof, map1, _Sequence, _xcopy, \
-                             _xdup, _xinstanceof
+                             issubclassof, _Sequence, _xcopy, _xdup, \
+                             _xinstanceof
 from pygeodesy.constants import EPS, EPS1, PI_2, R_M, isnear0, isnear1, \
                                _umod_360, _0_0, _0_5, _1_0, _2_0, _6_0, \
                                _90_0, _N_90_0, _180_0, _360_0
@@ -64,7 +64,7 @@ from pygeodesy.utily import atan2b, degrees90, degrees180, degrees2m, \
 from math import cos, fabs, fmod, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '23.05.10'
+__version__ = '23.05.26'
 
 _ilat_  = 'ilat'
 _ilon_  = 'ilon'
@@ -1671,7 +1671,7 @@ def isenclosedBy(point, points, wrap=False):  # MCCABE 15
         y0, x0 = point.lat, point.lon
     except AttributeError:
         try:
-            y0, x0 = map1(float, *point[:2])
+            y0, x0 = map(float, point[:2])
         except (IndexError, TypeError, ValueError) as x:
             raise _ValueError(point=point, cause=x)
 

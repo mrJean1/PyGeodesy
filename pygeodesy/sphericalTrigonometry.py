@@ -55,7 +55,7 @@ from pygeodesy.vector3d import sumOf, Vector3d
 from math import asin, atan2, cos, degrees, fabs, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '23.05.15'
+__version__ = '23.05.25'
 
 _parallel_ = 'parallel'
 
@@ -540,9 +540,7 @@ class LatLon(LatLonSphericalBase):
             p1 = p2
             v2 = p2._N_vector
             gc = v1.cross(v2)
-            v1 = v2
-
-            t = gc.angleTo(n0) > PI_2
+            t  = gc.angleTo(n0) > PI_2
             if t != t0:  # different sides of edge i
                 return False  # outside
 
@@ -556,7 +554,7 @@ class LatLon(LatLonSphericalBase):
                 else:
                     t = _Fmt.SQUARE(points=i)
                     raise _ValueError(t, p2, wrap=wrap, txt=_not_(_convex_))
-            gc1 = gc
+            gc1, v1 = gc, v2
 
         return True  # inside
 
@@ -852,36 +850,40 @@ def areaOf(points, radius=R_M, wrap=False):  # was=True
     if _MODS.booleans.isBoolean(points):
         return points._sum2(LatLon, areaOf, radius=radius, wrap=wrap)
 
+    _at2, _t_2 = atan2, tan_2
+    _un, _w180 = unrollPI, wrap180
+
     Ps = _T00.PointsIter(points, loop=1, wrap=wrap)
-    p1 = p2 = Ps[0]
-    a1,  b1 = p1.philam
-    ta1, z1 = tan_2(a1), None
+    p1 = p2 =  Ps[0]
+    a1,  b1 =  p1.philam
+    ta1, z1 = _t_2(a1), None
 
     A = Fsum()  # mean phi
-    E = Fsum()  # see L{pygeodesy.excessKarney_}
+    R = Fsum()  # see L{pygeodesy.excessKarney_}
     # ispolar: Summation of course deltas around pole is 0° rather than normally ±360°
     # <https://blog.Element84.com/determining-if-a-spherical-polygon-contains-a-pole.html>
     # XXX duplicate of function C{points.ispolar} to avoid copying all iterated points
     D = Fsum()
     for i, p2 in Ps.enumerate(closed=True):
-        a2, b2 = p2.philam
-        db, b2 = unrollPI(b1, b2, wrap=wrap and not Ps.looped)
-        ta2 = tan_2(a2)
-        A += a2
-        E += atan2(tan_2(db, points=i) * (ta1 + ta2),
-                                   _1_0 + ta1 * ta2)
+        a2, b2 =  p2.philam
+        db, b2 = _un(b1, b2, wrap=wrap and not Ps.looped)
+        A  +=  a2
+        ta2 = _t_2(a2)
+        tdb = _t_2(db, points=i)
+        R  += _at2(tdb * (ta1 + ta2),
+                   _1_0 + ta1 * ta2)
         ta1, b1 = ta2, b2
 
         if not p2.isequalTo(p1, eps=EPS):
             z, z2 = _bearingTo2(p1, p2, wrap=wrap)
             if z1 is not None:
-                D += wrap180(z - z1)  # (z - z1 + 540) ...
-            D += wrap180(z2 - z)  # (z2 - z + 540) % 360 - 180
+                D += _w180(z - z1)  # (z - z1 + 540) ...
+            D += _w180(z2 - z)  # (z2 - z + 540) % 360 - 180
             p1, z1 = p2, z2
 
-    R = fabs(E * _2_0)
-    if fabs(D) < _90_0:  # ispolar(points)
-        R = fabs(R - PI2)
+    R = abs(R * _2_0)
+    if  abs(D) < _90_0:  # ispolar(points)
+        R = abs(R - PI2)
     if radius:
         a  =  degrees(A.fover(len(A)))  # mean lat
         R *= _mean_radius(radius, a)**2
@@ -1224,10 +1226,10 @@ def isPoleEnclosedBy(points, wrap=False):  # PYCHOK no cover
     return ispolar(points, wrap=wrap)
 
 
-def _LL3Tuple(lat, lon, height, func, LatLon, LatLon_kwds):
+def _LL3Tuple(lat, lon, height, where, LatLon, LatLon_kwds):
     '''(INTERNAL) Helper for L{intersection}, L{intersections2} and L{meanOf}.
     '''
-    n = func.__name__
+    n = where.__name__
     if LatLon is None:
         r = LatLon3Tuple(lat, lon, height, name=n)
     else:

@@ -42,13 +42,14 @@ from pygeodesy.namedTuples import EasNor3Tuple, LatLonDatum3Tuple, \
 from pygeodesy.props import deprecated_method, Property, Property_RO, \
                            _update_all
 from pygeodesy.streprs import Fmt, _fstrENH2, _xzipairs
-from pygeodesy.units import Easting, Height, Lam_, Northing, Phi_, Scalar_
+from pygeodesy.units import Easting, Height, _heigHt,  Lam_, Northing, \
+                            Phi_, Scalar_
 from pygeodesy.utily import degrees90, degrees180, sincos2, tanPI_2_2
 
 from math import atan, fabs, log, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.lcc
-__version__ = '23.03.19'
+__version__ = '23.05.26'
 
 _E0_   = 'E0'
 _N0_   = 'N0'
@@ -585,7 +586,7 @@ class Lcc(_NamedBase):
         lat = degrees90(x)
         lon = degrees180((atan(e / n) + c._opt3) * c._1_n + c._lam0)
 
-        h = self.height if height is None else Height(height)
+        h = _heigHt(self, height)
         return _LL4Tuple(lat, lon, h, c.datum, LatLon, LatLon_kwds,
                                                inst=self, name=self.name)
 
@@ -655,19 +656,20 @@ def toLcc(latlon, conic=Conics.WRF_Lb, height=None, Lcc=Lcc, name=NN,
     e = c._E0         + r * st
     n = c._N0 + c._r0 - r * ct
 
-    h = latlon.height if height is None else Height(height)
-    r = EasNor3Tuple(e, n, h) if Lcc is None else \
-                 Lcc(e, n, h=h, conic=c, **Lcc_kwds)
+    h = _heigHt(latlon, height)
+    r =  EasNor3Tuple(e, n, h) if Lcc is None else \
+                  Lcc(e, n, h=h, conic=c, **Lcc_kwds)
     return _xnamed(r, name or nameof(latlon))
 
 
 if __name__ == '__main__':
 
     from pygeodesy.interns import _NL_, _NLATvar_
+    from pygeodesy.lazily import printf
 
     # __doc__ of this file, force all into registery
     t = _NL_ + Conics.toRepr(all=True, asorted=True)
-    print(_NLATvar_.join(t.split(_NL_)))
+    printf(_NLATvar_.join(t.split(_NL_)))
 
 # **) MIT License
 #

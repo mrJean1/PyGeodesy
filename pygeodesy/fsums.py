@@ -26,8 +26,8 @@ and L{Fsum.__itruediv__}.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import iscomplex, isint, isscalar, map1, signOf, _signOf
-from pygeodesy.constants import INT0, _isfinite, isinf, isnan, \
+from pygeodesy.basics import iscomplex, isint, isscalar, signOf, _signOf
+from pygeodesy.constants import INT0, _isfinite, isinf, isnan, _pos_self, \
                                _0_0, _1_0, _N_1_0
 from pygeodesy.errors import itemsorted, _OverflowError, _TypeError, \
                             _ValueError, _xError2, _xkwds_get, _xkwds_get_, \
@@ -37,7 +37,7 @@ from pygeodesy.interns import NN, _arg_, _COMMASPACE_, _DASH_, _EQUAL_, \
                              _NOTEQUAL_, _not_finite_, _not_scalar_, \
                              _PERCENT_, _PLUS_, _R_, _RANGLE_, _SLASH_, \
                              _SPACE_, _STAR_, _UNDER_
-from pygeodesy.lazily import _ALL_LAZY, _getenv, _sys, _sys_version_info2
+from pygeodesy.lazily import _ALL_LAZY, _getenv, _sys_version_info2
 from pygeodesy.named import _Named, _NamedTuple, _NotImplemented, Fmt, unstr
 from pygeodesy.props import _allPropertiesOf_n, deprecated_property_RO, \
                              Property_RO, property_RO
@@ -47,7 +47,7 @@ from pygeodesy.units import Float, Int
 from math import ceil as _ceil, fabs, floor as _floor  # PYCHOK used! .ltp
 
 __all__ = _ALL_LAZY.fsums
-__version__ = '23.05.18'
+__version__ = '23.05.27'
 
 _add_op_       = _PLUS_
 _eq_op_        = _EQUAL_ * 2  # _DEQUAL_
@@ -68,8 +68,6 @@ _pow_op_       = _STAR_ * 2  # _DSTAR_, in .fmath
 _sub_op_       = _DASH_
 _truediv_op_   = _SLASH_
 _divmod_op_    = _floordiv_op_ + _mod_op_
-
-_pos_self      = _1_0.__pos__() is _1_0  # in .vector3dBase
 
 
 def _2float(index=None, **name_value):  # in .fmath, .fstats
@@ -680,18 +678,10 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
         f = self._copy_r2(other, self.__rtruediv__)
         return f._ftruediv(self, _truediv_op_)
 
-    def __sizeof__(self):  # PYCHOK not special in Python 2-
-        '''Return the current size of this instance in C{bytes}.
-        '''
-        return sum(map1(_sys.getsizeof, self._fint2,
-                                        self._fint2[0],
-                                        self._fint2[1],
-                                        self._fprs,
-                                        self._fprs2,
-                                        self._fprs2.fsum,
-                                        self._fprs2.residual,
-                                        self._n,
-                                        self._ps, *self._ps))
+#   def __sizeof__(self):  # PYCHOK not special in Python 2-
+#       '''Return the current size of this instance in C{bytes}.
+#       '''
+#       return _sizeof(self)
 
     def __str__(self):
         '''Return the default C{str(self)}.

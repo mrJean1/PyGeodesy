@@ -60,7 +60,7 @@ from pygeodesy.utily import atan2, degrees360, fabs, sincos2, sincos2_, \
 # from math import atan2, fabs  # from utily
 
 __all__ = _ALL_LAZY.sphericalNvector
-__version__ = '23.05.05'
+__version__ = '23.05.26'
 
 _lines_ = 'lines'
 
@@ -1159,7 +1159,6 @@ def meanOf(points, height=None, wrap=False, LatLon=LatLon, **LatLon_kwds):
     try:
         # geographic mean
         n = _nsumOf(_N_vs(points, wrap), height, Nvector, {})
-        print(n)
     except (TypeError, ValueError) as x:
         raise PointsError(points=points, wrap=wrap, LatLon=LatLon, cause=x)
     return n.toLatLon(**_xkwds(LatLon_kwds, LatLon=LatLon, height=n.h,

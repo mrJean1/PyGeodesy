@@ -90,7 +90,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        23.05.06
+        23.05.26
       </p>
 </div><!-- ==================== FUNCTIONS ==================== -->
 <a name="section-Functions"></a>
@@ -235,7 +235,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.constants-module.html#isnear0" class="summary-sig-name">isnear0</a>(<span class="summary-sig-arg">x</span>,
         <span class="summary-sig-arg">eps0</span>=<span class="summary-sig-default">4.930380657631324e-32</span>)</span><br />
-      Is <b><code>x</code></b> near zero within a tolerance?</td>
+      Is <b><code>x</code></b> near <i>zero</i> within a tolerance?</td>
           <td align="right" valign="top">
             
             
@@ -253,7 +253,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.constants-module.html#isnear1" class="summary-sig-name">isnear1</a>(<span class="summary-sig-arg">x</span>,
         <span class="summary-sig-arg">eps1</span>=<span class="summary-sig-default">4.930380657631324e-32</span>)</span><br />
-      Is <b><code>x</code></b> near one within a tolerance?</td>
+      Is <b><code>x</code></b> near <i>one</i> within a tolerance?</td>
           <td align="right" valign="top">
             
             
@@ -271,7 +271,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.constants-module.html#isnear90" class="summary-sig-name">isnear90</a>(<span class="summary-sig-arg">x</span>,
         <span class="summary-sig-arg">eps90</span>=<span class="summary-sig-default">4.930380657631324e-32</span>)</span><br />
-      Is <b><code>x</code></b> near one within a tolerance?</td>
+      Is <b><code>x</code></b> near <i>90</i> within a tolerance?</td>
           <td align="right" valign="top">
             
             
@@ -638,15 +638,15 @@
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>fs</code></strong> - One more values (<code>scalar</code>), all positional.</li>
-        <li><strong class="pname"><code>sets</code></strong> - Use keyword argument <code><b>sets</b>=True</code> to 
-          <code>intern</code> each <b><code>fs</code></b>, otherwise don't.</li>
+        <li><strong class="pname"><code>sets</code></strong> - Use <code><b>sets</b>=True</code> to <code>intern</code> each 
+          <b><code>fs</code></b>, otherwise don't <code>intern</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Single <code>float</code> if only one <b><code>fs</code></b> is 
+        <dd>A single <code>float</code> if only one <b><code>fs</code></b> is
           given, otherwise a tuple of <code>float</code>s.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Some <b><code>fs</code></b> not <code>scalar</code>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some <b><code>fs</code></b> is not <code>scalar</code>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -729,12 +729,12 @@
     </td>
   </tr></table>
   
-  <p>Is <b><code>x</code></b> near zero within a tolerance?</p>
+  <p>Is <b><code>x</code></b> near <i>zero</i> within a tolerance?</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>x</code></strong> - Value (<code>scalar</code>).</li>
-        <li><strong class="pname"><code>eps0</code></strong> - Near-zero tolerance (<code>EPS0</code>).</li>
+        <li><strong class="pname"><code>eps0</code></strong> - Near-<i>zero</i> tolerance (<code>EPS0</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><code>True</code> if <code>abs(<b>x</b>) &lt; <b>eps0</b></code>,
@@ -761,12 +761,12 @@
     </td>
   </tr></table>
   
-  <p>Is <b><code>x</code></b> near one within a tolerance?</p>
+  <p>Is <b><code>x</code></b> near <i>one</i> within a tolerance?</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>x</code></strong> - Value (<code>scalar</code>).</li>
-        <li><strong class="pname"><code>eps1</code></strong> - Near-one tolerance (<code>EPS0</code>).</li>
+        <li><strong class="pname"><code>eps1</code></strong> - Near-<i>one</i> tolerance (<code>EPS0</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><code>isnear0(<b>x</b> - 1, eps0=<b>eps1</b>)</code>.</dd>
@@ -792,12 +792,12 @@
     </td>
   </tr></table>
   
-  <p>Is <b><code>x</code></b> near one within a tolerance?</p>
+  <p>Is <b><code>x</code></b> near <i>90</i> within a tolerance?</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>x</code></strong> - Value (<code>scalar</code>).</li>
-        <li><strong class="pname"><code>eps90</code></strong> - Near-90 tolerance (<code>EPS0</code>).</li>
+        <li><strong class="pname"><code>eps90</code></strong> - Near-<i>90</i> tolerance (<code>EPS0</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><code>isnear0(<b>x</b> - 90)</code>.</dd>
@@ -926,7 +926,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed May 24 10:08:46 2023
+    Generated by Epydoc 3.0.1 on Sun May 28 08:45:11 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

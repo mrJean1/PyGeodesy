@@ -608,6 +608,12 @@ class HeightX(Height):
     pass
 
 
+def _heigHt(inst, height):
+    '''(INTERNAL) Override the C{inst}ance' height.
+    '''
+    return inst.height if height is None else Height(height)
+
+
 class Lam(Radians):
     '''Named C{float} representing a longitude in C{radians}.
     '''

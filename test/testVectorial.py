@@ -214,14 +214,14 @@ class Tests(TestsBase):
         self.test('sumOf', s.__class__.__name__, 'Nv')
         self.test('sumOf', s._name, 'sumOf')
         self.test('length', s.length, '52.7134151513', prec=10)
+        self.test('length', v.length, '52.2051356286', prec=10)
         z = getsizeof(v)  # coverage
-        self.test('sizeof', z, 72, fmt='%d', known=True)
+        self.test('sizeof', z, 168, fmt='%d', known=True)  # with length
 
         c = v.copy()
         self.test('copy', c.isequalTo(v), True)
-        self.test('length', v.length, '52.2051356286', prec=10)
         self.test('length', c.length, '52.2051356286', prec=10)
-        self.test('sizeof', getsizeof(c), z, fmt='%d')
+        self.test('sizeof', getsizeof(c), z, fmt='%d', known=True)
 
         if module is sphericalNvector:  # coverage
             c = p.toCartesian()

@@ -68,7 +68,7 @@ from pygeodesy.units import Epoch, Float
 from math import ceil
 
 __all__ = _ALL_LAZY.trf
-__version__ = '22.10.07'
+__version__ = '23.05.26'
 
 _0_02  =   0.02
 _0_06  =   0.06
@@ -537,6 +537,7 @@ _trfX(_ITRF90_,   _WGS84_,    epoch=_F(1984),
 if __name__ == '__main__':
 
     from pygeodesy.interns import _COMMA_, _NL_, _NLATvar_, _STAR_
+    from pygeodesy.lazily import printf
     from time import localtime
 
     D = date2epoch.__name__
@@ -551,11 +552,11 @@ if __name__ == '__main__':
             e = '%.3f' % (e,)
             e = '%s, %s(%s)' % (e, E, e)
             t = '%d,%3d,%3d' % t
-            print('# %s = %s = %s %s' % (f, e, t, x))
+            printf('# %s = %s = %s %s', f, e, t, x)
 
     # __doc__ of this file, force all into registery
     t = [NN] + RefFrames.toRepr(all=True).split(_NL_)
-    print(_NLATvar_.join(i.strip(_COMMA_) for i in t))
+    printf(_NLATvar_.join(i.strip(_COMMA_) for i in t))
 
 # **) MIT License
 #
