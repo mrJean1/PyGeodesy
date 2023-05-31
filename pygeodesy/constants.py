@@ -11,11 +11,11 @@ L{pygeodesy.isnon0} and L{pygeodesy.remainder}.
 from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import _0_0, _copysign, isbool, iscomplex, isint
-from pygeodesy.errors import _ALL_LAZY, _xError, _xError2, _xkwds_get
+from pygeodesy.errors import _xError, _xError2, _xkwds_get,  _ALL_LAZY
 from pygeodesy.interns import _INF_, _NAN_, _UNDER_
 # from pygeodesy.lazily import _ALL_LAZY  # from .errors
 # from pygeodesy.streprs import Fmt  # from .unitsBase
-from pygeodesy.unitsBase import Float, Fmt, Int, Radius
+from pygeodesy.unitsBase import Float, Int, Radius,  Fmt
 
 from math import fabs, isinf, isnan, pi as _pi, sqrt
 try:
@@ -24,7 +24,7 @@ except ImportError:  # Python 2-
     _inf, _nan = float(_INF_), float(_NAN_)
 
 __all__ = _ALL_LAZY.constants
-__version__ = '23.05.26'
+__version__ = '23.05.31'
 
 
 def _Float(**name_arg):

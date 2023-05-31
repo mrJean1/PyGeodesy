@@ -4,14 +4,13 @@
 # Test L{fsums} module.
 
 __all__ = ('Tests',)
-__version__ = '23.05.26'
+__version__ = '23.05.31'
 
 from bases import endswith, isPython2, randoms, startswith, TestsBase
 
 from pygeodesy import Fsum, fsum, fsum_, fsums, NN, ResidualError
 
 from math import ceil, floor
-from sys import getsizeof
 
 _dot0 = '.0' if isPython2 else NN
 
@@ -110,8 +109,8 @@ class Tests(TestsBase):
         self.test('FSum0', c.fsum(), 0.0)
         t = a + a.fcopy().fmul(-1)
         self.test('FSum0', t.fsum(), 0.0)
-        z = getsizeof(t)
-        self.test('sizeof', z, 196, known=100 < z < 300)
+        z = t.sizeof
+        self.test('sizeof', z, 236, known=100 < z < 300)
 
         a.fsub_(*a._ps)
         self.test('FSum0', a.fsum(), 0.0)

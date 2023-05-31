@@ -88,7 +88,7 @@ class LatLon_(object):  # XXX in heights._HeightBase.height
     # Property_RO = property_RO  # no __dict__ with __slots__!
     #
     # However, sys.getsizeof(LatLon_(1, 2)) is 72-88 with __slots__
-    # but only 48-64 bytes without in Python 2.7.18+ and Python 3+.
+    # but only 48-56 bytes without in Python 2.7.18+ and Python 3+.
 
     def __init__(self, latlonh, lon=None, name=NN, height=0,
                                           datum=None, wrap=False):

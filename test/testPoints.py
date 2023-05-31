@@ -4,7 +4,7 @@
 # Test L{points} module.
 
 __all__ = ('Tests',)
-__version__ = '23.05.09'
+__version__ = '23.05.31'
 
 from bases import GeodSolve, geographiclib, isPython37, TestsBase
 
@@ -241,7 +241,7 @@ class Tests(TestsBase):
 if __name__ == '__main__':  # PYCHOK internal error?
 
     from testRoutes import PtsFFI
-    import sys
+    from sys import getsizeof
 
     t = Tests(__file__, __version__, points)
 
@@ -255,7 +255,7 @@ if __name__ == '__main__':  # PYCHOK internal error?
     else:
         a = '__dict__'
     try:
-        q = sys.getsizeof(p)
+        q = getsizeof(p)
         t.test('sizeof(LatLon_.%s)' % (a,), q, q)
     except TypeError:  # PyPy warning/error
         pass

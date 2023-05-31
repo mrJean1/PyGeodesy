@@ -71,7 +71,7 @@ from pygeodesy.utily import atan2b, atan2d, sincos2, sincos2d, unroll180, wrap18
 from math import atan2, cos, degrees, fabs, radians, tan
 
 __all__ = _ALL_LAZY.ellipsoidalVincenty
-__version__ = '23.05.12'
+__version__ = '23.05.30'
 
 _antipodal_to_ = _SPACE_(_antipodal_, _to_)
 
@@ -130,7 +130,7 @@ class LatLon(LatLonEllipsoidalBaseDI):
     '''
     _epsilon    = 1e-12  # radians, about 6 um
 #   _iteration  = None   # iteration number from .named._NamedBase
-    _iterations = 201    # default max, 200 vs Veness' 1,000
+    _iterations = 201    # 5, default max, 200 vs Veness' 1,000
 
     @deprecated_method
     def bearingTo(self, other, wrap=False):  # PYCHOK no cover
@@ -212,7 +212,7 @@ class LatLon(LatLonEllipsoidalBaseDI):
         f = E.f
 
         sb, cb     =  sincos2d(bearing)
-        s1, c1, t1 = _sincostan3(self.phi, f)
+        s1, c1, t1 = _sincostan3r(self.phi, f)
 
         eps     =  self.epsilon
         s12     =  atan2(t1, cb) * _2_0
@@ -262,8 +262,8 @@ class LatLon(LatLonEllipsoidalBaseDI):
         E = self.ellipsoids(other)
         f = E.f
 
-        s1, c1, _ = _sincostan3( self.phi, f)
-        s2, c2, _ = _sincostan3(other.phi, f)
+        s1, c1, _ = _sincostan3r( self.phi, f)
+        s2, c2, _ = _sincostan3r(other.phi, f)
 
         c1c2, s1c2 = c1 * c2, s1 * c2
         c1s2, s1s2 = c1 * s2, s1 * s2
@@ -379,7 +379,7 @@ def _sincos22(sa):
     return sa, (_0_0 if ca2 < EPS0 else ca2)  # XXX EPS?
 
 
-def _sincostan3(a, f):
+def _sincostan3r(a, f):
     # I{Reduced} C{(sin(B{a}), cos(B{a}), tan(B{a}))}
     if a:  # see L{sincostan3}
         t = (_1_0 - f) * tan(a)

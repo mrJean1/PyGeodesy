@@ -18,7 +18,7 @@ from pygeodesy.errors import _AssertionError, _AttributeError, _ImportError, \
                              _TypeError, _TypesError, _ValueError, _xkwds_get
 from pygeodesy.interns import MISSING, NN, _by_, _DOT_, _ELLIPSIS4_, _enquote, \
                              _EQUAL_, _in_, _invalid_, _N_A_, _SPACE_, \
-                             _splituple, _UNDER_, _version_
+                             _splituple, _UNDER_, _version_  # _utf_8_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _FOR_DOCS, \
                              _getenv, _sys, _sys_version_info2
 
@@ -27,12 +27,13 @@ from math import copysign as _copysign
 import inspect as _inspect
 
 __all__ = _ALL_LAZY.basics
-__version__ = '23.05.26'
+__version__ = '23.05.31'
 
-_0_0                  = 0.0  # see .constants
+_0_0                  =  0.0  # in .constants
 _below_               = 'below'
 _cannot_              = 'cannot'
 _list_tuple_types     = (list, tuple)
+_list_tuple_set_types = (list, tuple, set)
 _odd_                 = 'odd'
 _required_            = 'required'
 _PYGEODESY_XPACKAGES_ = 'PYGEODESY_XPACKAGES'
@@ -151,9 +152,9 @@ def halfs2(str2):
 
        @arg str2: String to split (C{str}).
 
-       @return: 2-Tuple (_1st, _2nd) half (C{str}).
+       @return: 2-Tuple C{(_1st, _2nd)} half (C{str}).
 
-       @raise ValueError: Zero or odd C{len}(B{C{str2}}).
+       @raise ValueError: Zero or odd C{len(B{str2})}.
     '''
     h, r = divmod(len(str2), 2)
     if r or not h:
@@ -188,15 +189,18 @@ else:
 
 
 def iscomplex(obj):
-    '''Check whether an object is C{complex}.
+    '''Check whether an object is a C{complex} or complex C{str}.
 
        @arg obj: The object (any C{type}).
 
-       @return: C{True} if B{C{obj}} is C{complex},
-                C{False} otherwise.
+       @return: C{True} if B{C{obj}} is C{complex}, otherwise
+                C{False}.
     '''
-    # hasattr('conjugate'), hasattr('real') and hasattr('imag')
-    return isinstance(obj, complex)  # numbers.Complex?
+    try:  # hasattr('conjugate'), hasattr('real') and hasattr('imag')
+        return isinstance(obj,          complex) or (isstr(obj)
+           and isinstance(complex(obj), complex))  # numbers.Complex?
+    except (TypeError, ValueError):
+        return False
 
 
 def isfloat(obj):
@@ -204,8 +208,8 @@ def isfloat(obj):
 
        @arg obj: The object (any C{type}).
 
-       @return: C{True} if B{C{obj}} is a C{float},
-                C{False} otherwise.
+       @return: C{True} if B{C{obj}} is a C{float}, otherwise
+                C{False}.
     '''
     try:
         return isinstance(      obj,  float) or (isstr(obj)
@@ -219,9 +223,10 @@ try:
 except AttributeError:  # Python 2-
 
     def isidentifier(obj):
-        '''Return C{True} if B{C{obj}} is a valid Python identifier.
+        '''Return C{True} if B{C{obj}} is a Python identifier.
         '''
-        return bool(obj and obj.replace(_UNDER_, NN).isalnum()
+        return bool(obj and isstr(obj)
+                        and obj.replace(_UNDER_, NN).isalnum()
                         and not obj[:1].isdigit())
 
 
@@ -252,8 +257,8 @@ def isint(obj, both=False):
     '''
     if isinstance(obj, _Ints) and not isbool(obj):
         return True
-    elif both:  # and isinstance(obj, (float, Fsum)) ...
-        try:  # ... NOT , Scalars) to include Fsum!
+    elif both:  # and isinstance(obj, (float, Fsum))
+        try:  # NOT , _Scalars) to include Fsum!
             return obj.is_integer()
         except AttributeError:
             pass  # XXX float(int(obj)) == obj?
@@ -265,7 +270,7 @@ try:
 except ImportError:
 
     def iskeyword(unused):
-        '''Not Implemented.  Return C{False}, always.
+        '''Not Implemented, C{False} always.
         '''
         return False
 
@@ -359,7 +364,7 @@ def len2(items):
 
 
 def map1(fun1, *xs):  # XXX map_
-    '''Apply each argument to a single-argument function and
+    '''Apply each B{C{xs}} to a single-argument function and
        return a C{tuple} of results.
 
        @arg fun1: 1-Arg function to apply (C{callable}).
@@ -367,7 +372,7 @@ def map1(fun1, *xs):  # XXX map_
 
        @return: Function results (C{tuple}).
     '''
-    return tuple(map(fun1, xs))  # note xs, not *xs
+    return tuple(map(fun1, xs))
 
 
 def map2(func, *xs):
@@ -383,7 +388,7 @@ def map2(func, *xs):
 
        @return: Function results (C{tuple}).
     '''
-    return tuple(map(func, *xs))  # note *xs, not xs
+    return tuple(map(func, *xs))
 
 
 def neg(x):
@@ -391,15 +396,15 @@ def neg(x):
 
        @return: C{-B{x}} if B{C{x}} else C{0.0}.
     '''
-    return -x if x else _0_0
+    return (-x) if x else _0_0
 
 
 def neg_(*xs):
-    '''Negate all of C{xs} with L{neg}.
+    '''Negate all C{xs} with L{neg}.
 
-       @return: A C{tuple(neg(x) for x in B{xs})}.
+       @return: A C{map(neg, B{xs})}.
     '''
-    return tuple(map(neg, xs))  # like map1
+    return map(neg, xs)
 
 
 def signBit(x):
@@ -429,35 +434,35 @@ def signOf(x):
 
 
 def _sizeof(inst):
-    '''(INTERNAL) Recursive size of an C{inst}ance.
+    '''(INTERNAL) Recursively size an C{inst}ance.
 
-       @return: Size in bytes (C{int}), ignoring
-                class attributes and counting
-                duplicates only once.
+       @return: Instance' size in bytes (C{int}),
+                ignoring class attributes and
+                counting duplicates only once.
     '''
-    try:
-        r = inst.__dict__.values()
-    except AttributeError:  # None, int, etc.
-        r = inst,
-    lts = _list_tuple_types + (set,)
+    _zB = _sys.getsizeof
+    _zD = _zB(None)  # some default
 
-    def _2ts(r):
-        _id, _is = id, isinstance
-        for o in r:
-            if _is(o, lts):
-                for o in _2ts(o):
-                    yield _id(o), o
-            elif _is(o, dict):
-                for o in _2ts(o.values()):
-                    yield _id(o), o
-#               for o in _2ts(o.keys()):
-#                   yield _id(o), o
-            else:
-                yield _id(o), o
+    def _zR(s, iterable):
+        z, _s = 0, s.add
+        for o in iterable:
+            i = id(o)
+            if i not in s:
+                _s(i)
+                z += _zB(o, _zD)
+                if isinstance(o, dict):
+                    z += _zR(s, o.keys())
+                    z += _zR(s, o.values())
+                elif isinstance(o, _list_tuple_set_types):
+                    z += _zR(s, o)
+                else:
+                    try:  # size instance' attr values only
+                        z += _zR(s, o.__dict__.values())
+                    except AttributeError:  # None, int, etc.
+                        pass
+        return z
 
-    d = dict(_2ts(r))  # ignore duplicates
-    _ = d.pop(id(inst), None)  # avoid recursion
-    return sum(map(_sys.getsizeof, d.values()))
+    return _zR(set(), (inst,))
 
 
 def splice(iterable, n=2, **fill):
@@ -501,7 +506,7 @@ def splice(iterable, n=2, **fill):
         raise _TypeError(n=n)
 
     t = iterable
-    if not isinstance(t, (list, tuple)):
+    if not isinstance(t, _list_tuple_types):
         t = tuple(t)  # force tuple, also for PyPy3
 
     if n > 1:
@@ -510,7 +515,7 @@ def splice(iterable, n=2, **fill):
             if fill is not MISSING:
                 m = len(t) % n
                 if m > 0:  # same type fill
-                    t = t + type(t)((fill,)) * (n - m)
+                    t += type(t)((fill,) * (n - m))
         for i in range(n):
             # XXX t[i::n] chokes PyChecker
             yield t[slice(i, None, n)]
@@ -519,7 +524,7 @@ def splice(iterable, n=2, **fill):
 
 
 def unsigned0(x):
-    '''Return C{0.0} unsigned.
+    '''Unsign if C{0.0}.
 
        @return: C{B{x}} if B{C{x}} else C{0.0}.
     '''
@@ -570,7 +575,7 @@ def _xdup(inst, **items):
 
 
 def _xgeographiclib(where, *required):
-    '''(INTERNAL) Import C{geographiclib} and check required version
+    '''(INTERNAL) Import C{geographiclib} and check required version.
     '''
     try:
         _xpackage(_xgeographiclib)
@@ -604,7 +609,7 @@ def _xinstanceof(*Types, **name_value_pairs):
 
 
 def _xnumpy(where, *required):
-    '''(INTERNAL) Import C{numpy} and check required version
+    '''(INTERNAL) Import C{numpy} and check required version.
     '''
     try:
         _xpackage(_xnumpy)
@@ -633,7 +638,7 @@ def _xor(x, *xs):
 
 
 def _xscipy(where, *required):
-    '''(INTERNAL) Import C{scipy} and check required version
+    '''(INTERNAL) Import C{scipy} and check required version.
     '''
     try:
         _xpackage(_xscipy)
@@ -659,7 +664,7 @@ def _xsubclassof(*Classes, **name_value_pairs):
             raise _TypesError(n, v, *Classes)
 
 
-def _xversion(package, where, *required, **name):  # in .karney
+def _xversion(package, where, *required, **name):
     '''(INTERNAL) Check the C{package} version vs B{C{required}}.
     '''
     n = len(required)
@@ -689,9 +694,10 @@ def _xwhere(where, **name):
     '''(INTERNAL) Get the fully qualified name.
     '''
     m = _MODS.named.modulename(where, prefixed=True)
-    n = _xkwds_get(name, name=NN)
-    if n:
-        m = _DOT_(m, n)
+    if name:
+        n = _xkwds_get(name, name=NN)
+        if n:
+            m = _DOT_(m, n)
     return m
 
 

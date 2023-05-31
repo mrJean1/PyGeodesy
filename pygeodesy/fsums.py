@@ -47,7 +47,7 @@ from pygeodesy.units import Float, Int
 from math import ceil as _ceil, fabs, floor as _floor  # PYCHOK used! .ltp
 
 __all__ = _ALL_LAZY.fsums
-__version__ = '23.05.27'
+__version__ = '23.05.31'
 
 _add_op_       = _PLUS_
 _eq_op_        = _EQUAL_ * 2  # _DEQUAL_
@@ -114,7 +114,7 @@ def _Powers(power, xs, origin=1):  # in .fmath
     '''(INTERNAL) Yield each C{xs} as C{float(x**power)}.
     '''
     if not isscalar(power):
-        raise _TypeError(power=power)
+        raise _TypeError(power=power, txt=_not_scalar_)
     try:
         i, x  =  origin, None
         _fin  = _isfinite
@@ -311,7 +311,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
         return self.ceil
 
     def __cmp__(self, other):  # Python 2-
-        '''Compare this with an other instance or scalar.
+        '''Compare this with an other instance or C{scalar}.
 
            @return: -1, 0 or +1 (C{int}).
 
@@ -335,7 +335,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
         return f._fdivmod2(other, _divmod_op_)
 
     def __eq__(self, other):
-        '''Compare this with an other instance or scalar.
+        '''Compare this with an other instance or C{scalar}.
         '''
         return self._cmp_0(other, _eq_op_) == 0
 
@@ -372,12 +372,12 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
         return _NotImplemented(self, *other)
 
     def __ge__(self, other):
-        '''Compare this with an other instance or scalar.
+        '''Compare this with an other instance or C{scalar}.
         '''
         return self._cmp_0(other, _ge_op_) >= 0
 
     def __gt__(self, other):
-        '''Compare this with an other instance or scalar.
+        '''Compare this with an other instance or C{scalar}.
         '''
         return self._cmp_0(other, _gt_op_) > 0
 
@@ -543,17 +543,17 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
         return self._ftruediv(other, _truediv_op_ + _fset_op_)
 
     def __le__(self, other):
-        '''Compare this with an other instance or scalar.
+        '''Compare this with an other instance or C{scalar}.
         '''
         return self._cmp_0(other, _le_op_) <= 0
 
     def __len__(self):
-        '''Return the I{total} number accumulations (C{int}).
+        '''Return the number of values accumulated (C{int}).
         '''
         return self._n
 
     def __lt__(self, other):
-        '''Compare this with an other instance or scalar.
+        '''Compare this with an other instance or C{scalar}.
         '''
         return self._cmp_0(other, _lt_op_) < 0
 
@@ -578,7 +578,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
         return f._fmul(other, _mul_op_)
 
     def __ne__(self, other):
-        '''Compare this with an other instance or scalar.
+        '''Compare this with an other instance or C{scalar}.
         '''
         return self._cmp_0(other, _ne_op_) != 0
 
@@ -677,11 +677,6 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
         '''
         f = self._copy_r2(other, self.__rtruediv__)
         return f._ftruediv(self, _truediv_op_)
-
-#   def __sizeof__(self):  # PYCHOK not special in Python 2-
-#       '''Return the current size of this instance in C{bytes}.
-#       '''
-#       return _sizeof(self)
 
     def __str__(self):
         '''Return the default C{str(self)}.

@@ -534,7 +534,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        23.05.28
+        23.05.31
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -8421,7 +8421,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f8fc080bdd0&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f8c400efe50&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -9071,7 +9071,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#iscomplex" class="summary-sig-name">iscomplex</a>(<span class="summary-sig-arg">obj</span>)</span><br />
-      Check whether an object is <code>complex</code>.</td>
+      Check whether an object is a <code>complex</code> or complex 
+      <code>str</code>.</td>
           <td align="right" valign="top">
             
             
@@ -9201,7 +9202,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a name="isidentifier"></a><span class="summary-sig-name">isidentifier</span>(<span class="summary-sig-arg">obj</span>)</span><br />
-      Return <code>True</code> if <b><code>obj</code></b> is a valid Python
+      Return <code>True</code> if <b><code>obj</code></b> is a Python 
       identifier.</td>
           <td align="right" valign="top">
             
@@ -10126,8 +10127,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#map1" class="summary-sig-name">map1</a>(<span class="summary-sig-arg">fun1</span>,
         <span class="summary-sig-arg">*xs</span>)</span><br />
-      Apply each argument to a single-argument function and return a 
-      <code>tuple</code> of results.</td>
+      Apply each <b><code>xs</code></b> to a single-argument function and 
+      return a <code>tuple</code> of results.</td>
           <td align="right" valign="top">
             
             
@@ -10447,7 +10448,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#neg_" class="summary-sig-name">neg_</a>(<span class="summary-sig-arg">*xs</span>)</span><br />
-      Negate all of <code>xs</code> with <a 
+      Negate all <code>xs</code> with <a 
       href="pygeodesy.basics-module.html#neg" class="link">neg</a>.</td>
           <td align="right" valign="top">
             
@@ -12608,7 +12609,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#unsigned0" class="summary-sig-name">unsigned0</a>(<span class="summary-sig-arg">x</span>)</span><br />
-      Return <code>0.0</code> unsigned.</td>
+      Unsign if <code>0.0</code>.</td>
           <td align="right" valign="top">
             
             
@@ -12990,7 +12991,7 @@ ygeodesy'"><code class="variable-quote">'</code><code class="variable-string">/U
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'23.5.28'"><code class="variable-quote">'</code><code class="variable-string">23.5.28</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'23.5.31'"><code class="variable-quote">'</code><code class="variable-string">23.5.31</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -20767,10 +20768,10 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>str2</code></strong> - String to split (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>2-Tuple (_1st, _2nd) half (<code>str</code>).</dd>
+        <dd>2-Tuple <code>(_1st, _2nd)</code> half (<code>str</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Zero or odd <code>len</code>(<b><code>str2</code></b>).</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Zero or odd <code>len(<b>str2</b>)</code>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -20943,7 +20944,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f8fc080bdd0&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f8c400efe50&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -22268,7 +22269,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </td>
   </tr></table>
   
-  <p>Check whether an object is <code>complex</code>.</p>
+  <p>Check whether an object is a <code>complex</code> or complex 
+  <code>str</code>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -22276,7 +22278,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </ul></dd>
     <dt>Returns:</dt>
         <dd><code>True</code> if <b><code>obj</code></b> is 
-          <code>complex</code>, <code>False</code> otherwise.</dd>
+          <code>complex</code>, otherwise <code>False</code>.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -22514,7 +22516,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </ul></dd>
     <dt>Returns:</dt>
         <dd><code>True</code> if <b><code>obj</code></b> is a 
-          <code>float</code>, <code>False</code> otherwise.</dd>
+          <code>float</code>, otherwise <code>False</code>.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -24162,8 +24164,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </td>
   </tr></table>
   
-  <p>Apply each argument to a single-argument function and return a 
-  <code>tuple</code> of results.</p>
+  <p>Apply each <b><code>xs</code></b> to a single-argument function and 
+  return a <code>tuple</code> of results.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -24835,11 +24837,11 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </td>
   </tr></table>
   
-  <p>Negate all of <code>xs</code> with <a 
+  <p>Negate all <code>xs</code> with <a 
   href="pygeodesy.basics-module.html#neg" class="link">neg</a>.</p>
   <dl class="fields">
     <dt>Returns:</dt>
-        <dd>A <code>tuple(neg(x) for x in <b>xs</b>)</code>.</dd>
+        <dd>A <code>map(neg, <b>xs</b>)</code>.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -29652,7 +29654,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </td>
   </tr></table>
   
-  <p>Return <code>0.0</code> unsigned.</p>
+  <p>Unsign if <code>0.0</code>.</p>
   <dl class="fields">
     <dt>Returns:</dt>
         <dd><code><b>x</b></code> if <b><code>x</code></b> else 
@@ -30554,7 +30556,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun May 28 08:45:11 2023
+    Generated by Epydoc 3.0.1 on Wed May 31 12:17:31 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

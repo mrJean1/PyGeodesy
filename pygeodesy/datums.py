@@ -64,7 +64,7 @@ OSGB36 datum, q.v. U{"A Guide to Coordinate Systems in Great Britain", Section 6
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import islistuple, isscalar, neg_, _xinstanceof
+from pygeodesy.basics import islistuple, isscalar, map2, neg, _xinstanceof
 from pygeodesy.constants import R_M, _float as _F, _0_0, _0_26, _1_0, _2_0, _8_0, _3600_0
 from pygeodesy.ellipsoids import a_f2Tuple, Ellipsoid, Ellipsoid2, Ellipsoids, Vector3Tuple
 from pygeodesy.errors import _IsnotError, _xattr
@@ -86,7 +86,7 @@ from pygeodesy.units import radians, Radius_
 # from math import radians  # from .units
 
 __all__ = _ALL_LAZY.datums
-__version__ = '23.05.26'
+__version__ = '23.05.31'
 
 _a_ellipsoid_ = _UNDER_(_a_, _ellipsoid_)
 _BD72_        = 'BD72'
@@ -232,8 +232,8 @@ class Transform(_NamedEnumItem):
         xyz1 = x, y, z, _1_0
         s1   = self.s1
         if inverse:
-            xyz1 = neg_(*xyz1)
-            s1  -= _2_0  # == -(1 - s * 1e-6)) == -(1 - (s1 - 1))
+            xyz1 =  map2(neg, xyz1)
+            s1  -= _2_0  # = -(1 - s * 1e-6)) = -(1 - (s1 - 1)) = -(2 - s1)
         # x', y', z' = (x * .s1 - y * .rz + z * .ry + .tx,
         #               x * .rz + y * .s1 - z * .rx + .ty,
         #              -x * .ry + y * .rx + z * .s1 + .tz)
