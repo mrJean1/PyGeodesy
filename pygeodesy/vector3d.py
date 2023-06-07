@@ -18,7 +18,7 @@ from pygeodesy.fmath import euclid, fabs, fdot, hypot, sqrt, \
 # from pygeodesy.formy import _radical2  # in _intersects2 below
 from pygeodesy.interns import NN, _COMMA_, _concentric_, _intersection_, \
                              _near_, _negative_, _no_, _too_
-from pygeodesy.iters import Fmt, PointsIter
+from pygeodesy.iters import PointsIter,  Fmt
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _xnamed, _xotherError
 from pygeodesy.namedTuples import Intersection3Tuple, NearestOn2Tuple, \
@@ -33,7 +33,7 @@ from pygeodesy.vector3dBase import Vector3dBase
 # from math import fabs, sqrt  # from .fmath
 
 __all__ = _ALL_LAZY.vector3d
-__version__ = '23.05.06'
+__version__ = '23.06.05'
 
 
 class Vector3d(Vector3dBase):

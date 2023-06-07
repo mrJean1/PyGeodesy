@@ -261,10 +261,38 @@
         <span class="summary-sig-arg">point3</span>,
         <span class="summary-sig-arg">alpha12</span>,
         <span class="summary-sig-arg">alpha23</span>,
-        <span class="summary-sig-arg">useZ</span>=<span class="summary-sig-default">False</span>)</span><br />
+        <span class="summary-sig-arg">useZ</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">2.220446049250313e-16</span>)</span><br />
       3-Point resection between this and two other points using <a 
       href="http://www.Telecom.ULg.ac.Be/triangulation" 
-      target="_top">Pierlot</a>'s method <code>ToTal</code>.</td>
+      target="_top">Pierlot</a>'s method <code>ToTal</code> with 
+      <i>approximate</i> limits for the (pseudo-)singularities.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.cartesianBase.CartesianBase-class.html#pierlotx" class="summary-sig-name">pierlotx</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">point2</span>,
+        <span class="summary-sig-arg">point3</span>,
+        <span class="summary-sig-arg">alpha1</span>,
+        <span class="summary-sig-arg">alpha2</span>,
+        <span class="summary-sig-arg">alpha3</span>,
+        <span class="summary-sig-arg">useZ</span>=<span class="summary-sig-default">False</span>)</span><br />
+      3-Point resection between this and two other points using <a 
+      href="http://www.Telecom.ULg.ac.Be/publi/publications/pierlot/Pierlot2014ANewThree"
+      target="_top">Pierlot</a>'s method <code>ToTal</code> with 
+      <i>exact</i> limits for the (pseudo-)singularities.</td>
           <td align="right" valign="top">
             
             
@@ -979,11 +1007,8 @@
         <b><code>pointB</code></b>.
       </p>
       <p><strong>See Also:</strong>
-        <a 
-        href="https://Dokumen.tips/documents/three-point-resection-problem-introduction-kaestner-burkhardt-method.html"
-        target="_top">Three Point Resection Problem</a> and function <a 
-        href="pygeodesy.resections-module.html#cassini" 
-        class="link">pygeodesy.cassini</a>.
+        Function <a href="pygeodesy.resections-module.html#cassini" 
+        class="link">pygeodesy.cassini</a> for references and more details.
       </p>
 </div></td></tr></table>
 </div>
@@ -1079,10 +1104,9 @@
         <b><code>pointB</code></b>.
       </p>
       <p><strong>See Also:</strong>
-        <a href="https://NL.WikiPedia.org/wiki/Achterwaartse_insnijding" 
-        target="_top">Collins' methode</a> and function <a 
-        href="pygeodesy.resections-module.html#collins5" 
-        class="link">pygeodesy.collins5</a>.
+        Function <a href="pygeodesy.resections-module.html#collins5" 
+        class="link">pygeodesy.collins5</a> for references and more 
+        details.
       </p>
 </div></td></tr></table>
 </div>
@@ -1272,7 +1296,8 @@
         <span class="sig-arg">point3</span>,
         <span class="sig-arg">alpha12</span>,
         <span class="sig-arg">alpha23</span>,
-        <span class="sig-arg">useZ</span>=<span class="sig-default">False</span>)</span>
+        <span class="sig-arg">useZ</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">eps</span>=<span class="sig-default">2.220446049250313e-16</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -1281,7 +1306,8 @@
   
   <p>3-Point resection between this and two other points using <a 
   href="http://www.Telecom.ULg.ac.Be/triangulation" 
-  target="_top">Pierlot</a>'s method <code>ToTal</code>.</p>
+  target="_top">Pierlot</a>'s method <code>ToTal</code> with 
+  <i>approximate</i> limits for the (pseudo-)singularities.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -1295,12 +1321,15 @@
           class="link">Vector3d</a>, <code>Vector3Tuple</code>, 
           <code>Vector4Tuple</code> or <code>Vector2Tuple</code> if 
           <code><b>useZ</b>=False</code>).</li>
-        <li><strong class="pname"><code>alpha12</code></strong> - Angle subtended from this point to <b><code>point2</code></b> 
-          (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>alpha12</code></strong> - Angle subtended from this point to <b><code>point2</code></b> or 
+          <b><code>alpha2 - alpha</code></b> (<code>degrees</code>).</li>
         <li><strong class="pname"><code>alpha23</code></strong> - Angle subtended from <b><code>point2</code></b> to 
-          <b><code>point3</code></b> (<code>degrees</code>).</li>
+          <b><code>point3</code></b> or <b><code>alpha3 - alpha2</code></b>
+          (<code>degrees</code>).</li>
         <li><strong class="pname"><code>useZ</code></strong> - If <code>True</code>, interpolate the Z component, otherwise use 
           <code>z=INT0</code> (<code>bool</code>).</li>
+        <li><strong class="pname"><code>eps</code></strong> - Tolerance for <code>cot</code> (pseudo-)singularities 
+          (<code>float</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The survey (or robot) point, an instance of this (sub-)class.</dd>
@@ -1316,16 +1345,68 @@
         <b><code>point3</code></b> are ordered counter-clockwise.
       </p>
       <p><strong>See Also:</strong>
-        <a 
-        href="https://ORBi.ULiege.Be/bitstream/2268/157469/1/Pierlot2014ANewThree.pdf"
-        target="_top">V. Pierlot, M. Van Droogenbroeck, &quot;A New Three 
-        Object Triangulation Algorithm for Mobile Robot 
-        Positioning&quot;</a>, <a 
-        href="http://www.Telecom.ULg.ac.Be/triangulation" target="_top">18 
-        Triangulation Algorithms for 2D Positioning (also known as the 
-        Resection Problem)</a> and functions <a 
-        href="pygeodesy.resections-module.html#pierlot" 
-        class="link">pygeodesy.pierlot</a>.
+        Function <a href="pygeodesy.resections-module.html#pierlot" 
+        class="link">pygeodesy.pierlot</a> for references and more details.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="pierlotx"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">pierlotx</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">point2</span>,
+        <span class="sig-arg">point3</span>,
+        <span class="sig-arg">alpha1</span>,
+        <span class="sig-arg">alpha2</span>,
+        <span class="sig-arg">alpha3</span>,
+        <span class="sig-arg">useZ</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>3-Point resection between this and two other points using <a 
+  href="http://www.Telecom.ULg.ac.Be/publi/publications/pierlot/Pierlot2014ANewThree"
+  target="_top">Pierlot</a>'s method <code>ToTal</code> with <i>exact</i> 
+  limits for the (pseudo-)singularities.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>point2</code></strong> - Second point (<code>Cartesian</code>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code>, 
+          <code>Vector4Tuple</code> or <code>Vector2Tuple</code> if 
+          <code><b>useZ</b>=False</code>).</li>
+        <li><strong class="pname"><code>point3</code></strong> - Third point (<code>Cartesian</code>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code>, 
+          <code>Vector4Tuple</code> or <code>Vector2Tuple</code> if 
+          <code><b>useZ</b>=False</code>).</li>
+        <li><strong class="pname"><code>alpha1</code></strong> - Angle at <b><code>point1</code></b> (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>alpha2</code></strong> - Angle at <b><code>point2</code></b> (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>alpha3</code></strong> - Angle at <b><code>point3</code></b> (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>useZ</code></strong> - If <code>True</code>, interpolate the survey point's Z component,
+          otherwise use <code>z=INT0</code> (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The survey (or robot) point, an instance of this (sub-)class.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.resections.ResectionError-class.html">ResectionError</a></strong></code> - Near-coincident, -colinear or -concyclic points or invalid 
+        <b><code>alpha1</code></b>, <b><code>alpha2</code></b> or 
+        <b><code>alpha3</code></b>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>point2</code></b> or <b><code>point3</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.resections-module.html#pierlotx" 
+        class="link">pygeodesy.pierlotx</a> for references and more 
+        details.
       </p>
 </div></td></tr></table>
 </div>
@@ -1431,15 +1512,9 @@
         <b><code>pointC</code></b> are ordered clockwise.
       </p>
       <p><strong>See Also:</strong>
-        <a href="http://MesaMike.org/geocache/GC1B0Q9/tienstra/" 
-        target="_top">3-Point Resection Solver</a>, <a 
-        href="http://www.Telecom.ULg.ac.Be/publi/publications/pierlot/Pierlot2014ANewThree/"
-        target="_top">V. Pierlot, M. Van Droogenbroeck, &quot;A New Three 
-        Object Triangulation...&quot;</a>, <a 
-        href="http://www.Telecom.ULg.ac.Be/triangulation/" target="_top">18
-        Triangulation Algorithms...</a> and function <a 
-        href="pygeodesy.resections-module.html#tienstra7" 
-        class="link">pygeodesy.tienstra7</a>.
+        Function <a href="pygeodesy.resections-module.html#tienstra7" 
+        class="link">pygeodesy.tienstra7</a> for references and more 
+        details.
       </p>
 </div></td></tr></table>
 </div>
@@ -2267,7 +2342,7 @@ class="link">PhiLam4Tuple</a><code>(phi, lam, height, datum)</code>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed May 31 12:17:32 2023
+    Generated by Epydoc 3.0.1 on Wed Jun  7 08:20:49 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -61,9 +61,10 @@
 <p>A pure Python implementation of geodesy tools for various ellipsoidal 
   and spherical earth models using precision trigonometric, vector-based, 
   exact, elliptic, iterative and approximate methods for geodetic 
-  (lat-/longitude) and geocentric (<a 
-  href="https://WikiPedia.org/wiki/ECEF" target="_top">ECEF</a> cartesian) 
-  coordinates.</p>
+  (lat-/longitude), geocentric (<a href="https://WikiPedia.org/wiki/ECEF" 
+  target="_top">ECEF</a> cartesian) and certain <a 
+  href="https://GeographicLib.SourceForge.io/1.44/triaxial.html" 
+  target="_top">triaxial ellipsoidal</a> coordinates.</p>
   <p>Transcoded from <a href="https://GitHub.com/ChrisVeness/geodesy" 
   target="_top">JavaScript originals</a> by <i>Chris Veness (C) 
   2005-2022</i> and from several <a 
@@ -80,10 +81,12 @@
   <a href=pygeodesy-Cartesian-attributes-table.html><b><code>Cartesian</code></b></a> class with methods and functions to compute
   distance, surface area, perimeter, initial and final bearing, 
   intermediate and nearest points, circle intersections and secants, path 
-  intersections, 3-point resections, rhumb and rhumb lines, trilateration 
-  (by intersection, by overlap and in 3d), conversions and unrolling, among
-  other things.  For more information and further details see the <a 
-  href="https://mrJean1.GitHub.io/PyGeodesy" 
+  intersections, <a 
+  href="https://WikiPedia.org/wiki/Position_resection_and_intersection" 
+  target="_top">3-point resections</a>, rhumb and rhumb lines, 
+  trilateration (by intersection, by overlap and in 3d), conversions and 
+  unrolling, among other things.  For more information and further details 
+  see the <a href="https://mrJean1.GitHub.io/PyGeodesy" 
   target="_top">documentation</a>, the descriptions of <a 
   href="https://www.Movable-Type.co.UK/scripts/latlong.html" 
   target="_top">Latitude/Longitude</a>, <a 
@@ -158,7 +161,7 @@
   href="https://docs.SciPy.org/doc/scipy/reference/interpolate.html" 
   target="_top">interpolate</a> the <a href="pygeodesy.heights-module.html"
   class="link">height</a> of <code>LatLon</code> points and <a 
-  href="pygeodesy.geoids-module.html" class="link">Geoid</a> models or 
+  href="pygeodesy.geoids-module.html" class="link">Geoid</a> models, 
   compute various <a href="https://WikiPedia.org/wiki/Frechet_distance" 
   target="_top">Fr&#233;chet</a> or <a 
   href="https://WikiPedia.org/wiki/Hausdorff_distance" 
@@ -281,7 +284,7 @@
     href="https://GeographicLib.SourceForge.io/html/utilities.html" 
     target="_top">GeodSolve</a> 1.51 and <a 
     href="https://GeographicLib.SourceForge.io/html/utilities.html" 
-    target="_top">RhumbSolve</a> 1.51), all on macOS 13.3.1 Ventura and in 
+    target="_top">RhumbSolve</a> 1.51), all on macOS 13.4 Ventura and in 
     64-bit only.</p>
     <p>All tests ran with and without <code>lazy import</code> for Python 3
     and with command line option <code>-W default</code> and env variable 
@@ -357,7 +360,7 @@
     href="https://PyPI.org/project/mccabe" target="_top">McCabe</a> using 
     Python 2.7.18 and with <a href="https://PyPI.org/project/flake8" 
     target="_top">Flake8</a> using Python 3.11.3, both in 64-bit on macOS 
-    13.3.1 Ventura.</p>
+    13.4 Ventura.</p>
     <p>For a summary of all <i>Karney</i>-based functionality in 
     <code>pygeodesy</code>, see module <a 
     href="https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.karney-module.html"
@@ -534,7 +537,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        23.05.31
+        23.06.06
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -726,7 +729,9 @@
         href="pygeodesy.resections-module.html#collins5" 
         class="link">collins5</a>, <a 
         href="pygeodesy.resections-module.html#pierlot" 
-        class="link">pierlot</a> and <a 
+        class="link">pierlot</a>, <a 
+        href="pygeodesy.resections-module.html#pierlotx" 
+        class="link">pierlotx</a> and <a 
         href="pygeodesy.resections-module.html#tienstra7" 
         class="link">tienstra7</a>, survey functions <a 
         href="pygeodesy.resections-module.html#snellius3" 
@@ -8421,7 +8426,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f8c400efe50&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fc37059ff50&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -11038,11 +11043,41 @@
         <span class="summary-sig-arg">alpha12</span>,
         <span class="summary-sig-arg">alpha23</span>,
         <span class="summary-sig-arg">useZ</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">2.220446049250313e-16</span>,
         <span class="summary-sig-arg">Clas</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">**Clas_kwds</span>)</span><br />
       3-Point resection using <a 
-      href="http://www.Telecom.ULg.ac.Be/publi/publications/pierlot/Pierlot2014ANewThree"
-      target="_top">Pierlot</a>'s method <code>ToTal</code>.</td>
+      href="http://www.Telecom.ULg.ac.BE/publi/publications/pierlot/Pierlot2014ANewThree"
+      target="_top">Pierlot</a>'s method <code>ToTal</code> with 
+      <i>approximate</i> limits for the (pseudo-)singularities.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#pierlotx" class="summary-sig-name">pierlotx</a>(<span class="summary-sig-arg">point1</span>,
+        <span class="summary-sig-arg">point2</span>,
+        <span class="summary-sig-arg">point3</span>,
+        <span class="summary-sig-arg">alpha1</span>,
+        <span class="summary-sig-arg">alpha2</span>,
+        <span class="summary-sig-arg">alpha3</span>,
+        <span class="summary-sig-arg">useZ</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">Clas</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">**Clas_kwds</span>)</span><br />
+      3-Point resection using <a 
+      href="http://www.Telecom.ULg.ac.BE/publi/publications/pierlot/Pierlot2014ANewThree"
+      target="_top">Pierlot</a>'s method <code>ToTal</code> with 
+      <i>exact</i> limits for the (pseudo-)singularities.</td>
           <td align="right" valign="top">
             
             
@@ -12991,7 +13026,7 @@ ygeodesy'"><code class="variable-quote">'</code><code class="variable-string">/U
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'23.5.31'"><code class="variable-quote">'</code><code class="variable-string">23.5.31</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'23.6.6'"><code class="variable-quote">'</code><code class="variable-string">23.6.6</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -15132,13 +15167,13 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           otherwise force <code>z=INT0</code> (<code>bool</code>).</li>
         <li><strong class="pname"><code>Clas</code></strong> - Optional class to return the survey point or <code>None</code> 
           for <b><code>pointA</code></b>'s (sub-)class.</li>
-        <li><strong class="pname"><code>Clas_kwds</code></strong> - Optional additional keyword argument for the survey point 
+        <li><strong class="pname"><code>Clas_kwds</code></strong> - Optional, additional keyword argument for the survey point 
           instance.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The survey point, an instance of <b><code>Clas</code></b> or if 
-          <code><b>Clas</b> is None</code> of <b><code>pointA</code></b>'s 
-          (sub-)class.</dd>
+          <code><b>Clas</b> is None</code> an instance of 
+          <b><code>pointA</code></b>'s (sub-)class.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.resections.ResectionError-class.html">ResectionError</a></strong></code> - Near-coincident, -colinear or -concyclic points or negative or 
@@ -16200,15 +16235,15 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           otherwise force <code>z=INT0</code> (<code>bool</code>).</li>
         <li><strong class="pname"><code>Clas</code></strong> - Optional class to return the survey and auxiliary point or 
           <code>None</code> for <b><code>pointA</code></b>'s (sub-)class.</li>
-        <li><strong class="pname"><code>Clas_kwds</code></strong> - Optional additional keyword argument for the survey and auxiliary
-          point instance.</li>
+        <li><strong class="pname"><code>Clas_kwds</code></strong> - Optional, additional keyword argument for the survey and 
+          auxiliary point instance.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><a href="pygeodesy.resections.Collins5Tuple-class.html" 
           class="link">Collins5Tuple</a><code>(pointP, pointH, a, b, 
           c)</code> with survey <code>pointP</code>, auxiliary 
           <code>pointH</code>, each an instance of <b><code>Clas</code></b>
-          or if <code><b>Clas</b> is None</code> of 
+          or if <code><b>Clas</b> is None</code> an instance of 
           <b><code>pointA</code></b>'s (sub-)class and triangle sides 
           <code>a</code>, <code>b</code> and <code>c</code> in 
           <code>meter</code>, conventionally.</dd>
@@ -20944,7 +20979,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f8c400efe50&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fc37059ff50&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -26156,6 +26191,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">alpha12</span>,
         <span class="sig-arg">alpha23</span>,
         <span class="sig-arg">useZ</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">eps</span>=<span class="sig-default">2.220446049250313e-16</span>,
         <span class="sig-arg">Clas</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">**Clas_kwds</span>)</span>
   </h3>
@@ -26165,8 +26201,9 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   </tr></table>
   
   <p>3-Point resection using <a 
-  href="http://www.Telecom.ULg.ac.Be/publi/publications/pierlot/Pierlot2014ANewThree"
-  target="_top">Pierlot</a>'s method <code>ToTal</code>.</p>
+  href="http://www.Telecom.ULg.ac.BE/publi/publications/pierlot/Pierlot2014ANewThree"
+  target="_top">Pierlot</a>'s method <code>ToTal</code> with 
+  <i>approximate</i> limits for the (pseudo-)singularities.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -26186,49 +26223,137 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           <code>Vector4Tuple</code> or <code>Vector2Tuple</code> if 
           <code><b>useZ</b>=False</code>).</li>
         <li><strong class="pname"><code>alpha12</code></strong> - Angle subtended from <b><code>point1</code></b> to 
-          <b><code>point2</code></b> (<code>degrees</code>).</li>
+          <b><code>point2</code></b> or <b><code>alpha2 - alpha1</code></b>
+          (<code>degrees</code>).</li>
         <li><strong class="pname"><code>alpha23</code></strong> - Angle subtended from <b><code>point2</code></b> to 
-          <b><code>point3</code></b> (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>useZ</code></strong> - If <code>True</code>, interpolate the Z component, otherwise use 
-          <code>z=INT0</code> (<code>bool</code>).</li>
-        <li><strong class="pname"><code>Clas</code></strong> - Optional class to return the survey point or <code>None</code> 
-          for <b><code>point1</code></b>'s (sub-)class.</li>
-        <li><strong class="pname"><code>Clas_kwds</code></strong> - Optional additional keyword arguments for the survey point 
+          <b><code>point3</code></b> or <b><code>alpha3 - 
+          alpha2</code></b>(<code>degrees</code>).</li>
+        <li><strong class="pname"><code>useZ</code></strong> - If <code>True</code>, interpolate the survey point's Z component,
+          otherwise use <code>z=INT0</code> (<code>bool</code>).</li>
+        <li><strong class="pname"><code>eps</code></strong> - Tolerance for <code>cot</code> (pseudo-)singularities 
+          (<code>float</code>).</li>
+        <li><strong class="pname"><code>Clas</code></strong> - Optional class to return the survey point, if <code>None</code> 
+          use <b><code>point1</code></b>'s (sub-)class.</li>
+        <li><strong class="pname"><code>Clas_kwds</code></strong> - Optional, additional keyword arguments for the survey point 
           instance.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The survey (or robot) point, an instance of 
           <b><code>Clas</code></b> or if <code><b>Clas</b> is None</code> 
-          of <b><code>point1</code></b>'s (sub-)class.</dd>
+          an instance of <b><code>point1</code></b>'s (sub-)class.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.resections.ResectionError-class.html">ResectionError</a></strong></code> - Near-coincident, -colinear or -concyclic points or invalid 
-        <b><code>alpha12</code></b> or <b><code>alpha23</code></b>.</li>
+        <b><code>alpha12</code></b> or <b><code>alpha23</code></b> or 
+        non-positive <b><code>eps</code></b>.</li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>point1</code></b>, <b><code>point2</code></b> or 
         <b><code>point3</code></b>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
-        Points <b><code>point1</code></b>, <b><code>point2</code></b> and 
-        <b><code>point3</code></b> are ordered counter-clockwise, 
-        typically.
+        Typically, <b><code>point1</code></b>, <b><code>point2</code></b> 
+        and <b><code>point3</code></b> are ordered by angle, modulo 360, 
+        counter-clockwise.
       </p>
       <p><strong>See Also:</strong>
-        <a 
-        href="https://ORBi.ULiege.Be/bitstream/2268/157469/1/Pierlot2014ANewThree.pdf"
+        <i>Pierlot's</i> C function <a 
+        href="http://www.Telecom.ULg.ac.BE/triangulation/doc/total_8c_source.html"
+        target="_top">triangulationPierlot</a>, <a 
+        href="https://ORBi.ULiege.BE/bitstream/2268/157469/1/Pierlot2014ANewThree.pdf"
         target="_top">V. Pierlot, M. Van Droogenbroeck, &quot;A New Three 
         Object Triangulation Algorithm for Mobile Robot 
         Positioning&quot;</a>, <a 
-        href="http://www.Telecom.ULg.ac.Be/triangulation" 
+        href="http://www.Telecom.ULg.ac.BE/triangulation" 
         target="_top">Vincent Pierlot, Marc Van Droogenbroeck, &quot;18 
         Triangulation Algorithms for 2D Positioning (also known as the 
         Resection Problem)&quot;</a> and functions <a 
+        href="pygeodesy.resections-module.html#pierlotx" 
+        class="link">pygeodesy.pierlotx</a>, <a 
         href="pygeodesy.resections-module.html#cassini" 
         class="link">pygeodesy.cassini</a>, <a 
         href="pygeodesy.resections-module.html#collins5" 
         class="link">pygeodesy.collins5</a> and <a 
         href="pygeodesy.resections-module.html#tienstra7" 
         class="link">pygeodesy.tienstra7</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="pierlotx"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">pierlotx</span>&nbsp;(<span class="sig-arg">point1</span>,
+        <span class="sig-arg">point2</span>,
+        <span class="sig-arg">point3</span>,
+        <span class="sig-arg">alpha1</span>,
+        <span class="sig-arg">alpha2</span>,
+        <span class="sig-arg">alpha3</span>,
+        <span class="sig-arg">useZ</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">Clas</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">**Clas_kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>3-Point resection using <a 
+  href="http://www.Telecom.ULg.ac.BE/publi/publications/pierlot/Pierlot2014ANewThree"
+  target="_top">Pierlot</a>'s method <code>ToTal</code> with <i>exact</i> 
+  limits for the (pseudo-)singularities.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>point1</code></strong> - First point (<code>Cartesian</code>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code>, 
+          <code>Vector4Tuple</code> or <code>Vector2Tuple</code> if 
+          <code><b>useZ</b>=False</code>).</li>
+        <li><strong class="pname"><code>point2</code></strong> - Second point (<code>Cartesian</code>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code>, 
+          <code>Vector4Tuple</code> or <code>Vector2Tuple</code> if 
+          <code><b>useZ</b>=False</code>).</li>
+        <li><strong class="pname"><code>point3</code></strong> - Third point (<code>Cartesian</code>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code>, 
+          <code>Vector4Tuple</code> or <code>Vector2Tuple</code> if 
+          <code><b>useZ</b>=False</code>).</li>
+        <li><strong class="pname"><code>alpha1</code></strong> - Angle at <b><code>point1</code></b> (<code>degrees</code>, 
+          counter-clockwise).</li>
+        <li><strong class="pname"><code>alpha2</code></strong> - Angle at <b><code>point2</code></b> (<code>degrees</code>, 
+          counter-clockwise).</li>
+        <li><strong class="pname"><code>alpha3</code></strong> - Angle at <b><code>point3</code></b> (<code>degrees</code>, 
+          counter-clockwise).</li>
+        <li><strong class="pname"><code>useZ</code></strong> - If <code>True</code>, interpolate the survey point's Z component,
+          otherwise use <code>z=INT0</code> (<code>bool</code>).</li>
+        <li><strong class="pname"><code>Clas</code></strong> - Optional class to return the survey point, if <code>None</code> 
+          use <b><code>point1</code></b>'s (sub-)class.</li>
+        <li><strong class="pname"><code>Clas_kwds</code></strong> - Optional, additional keyword arguments for the survey point 
+          instance.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The survey (or robot) point, an instance of 
+          <b><code>Clas</code></b> or if <code><b>Clas</b> is None</code> 
+          an instance of <b><code>point1</code></b>'s (sub-)class.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.resections.ResectionError-class.html">ResectionError</a></strong></code> - Near-coincident, -colinear or -concyclic points or invalid 
+        <b><code>alpha1</code></b>, <b><code>alpha2</code></b> or 
+        <b><code>alpha3</code></b>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>point1</code></b>, <b><code>point2</code></b> or 
+        <b><code>point3</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <i>Pierlot's</i> C function <a 
+        href="http://www.Telecom.ULg.ac.BE/triangulation/doc/total_8c_source.html"
+        target="_top">triangulationPierlot2</a> and function <a 
+        href="pygeodesy.resections-module.html#pierlot" 
+        class="link">pygeodesy.pierlot</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -28148,7 +28273,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           otherwise force <code>z=INT0</code> (<code>bool</code>).</li>
         <li><strong class="pname"><code>Clas</code></strong> - Optional class to return the survey point or <code>None</code> 
           for <b><code>pointA</code></b>'s (sub-)class.</li>
-        <li><strong class="pname"><code>Clas_kwds</code></strong> - Optional additional keyword arguments for the survey point 
+        <li><strong class="pname"><code>Clas_kwds</code></strong> - Optional, additional keyword arguments for the survey point 
           instance.</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -28156,10 +28281,10 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           class="link">Tienstra7Tuple</a><code>(pointP, A, B, C, a, b, 
           c)</code> with survey <code>pointP</code>, an instance of 
           <b><code>Clas</code></b> or if <code><b>Clas</b> is None</code> 
-          of <b><code>pointA</code></b>'s (sub-)class, with triangle angles
-          <code>A</code> at <b><code>pointA</code></b>, <code>B</code> at 
-          <b><code>pointB</code></b> and <code>C</code> at 
-          <b><code>pointC</code></b> in <code>degrees</code> and with 
+          an instance of <b><code>pointA</code></b>'s (sub-)class, with 
+          triangle angles <code>A</code> at <b><code>pointA</code></b>, 
+          <code>B</code> at <b><code>pointB</code></b> and <code>C</code> 
+          at <b><code>pointC</code></b> in <code>degrees</code> and with 
           triangle sides <code>a</code>, <code>b</code> and <code>c</code> 
           in <code>meter</code>, conventionally.</dd>
     <dt>Raises:</dt>
@@ -28180,10 +28305,10 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
       <p><strong>See Also:</strong>
         <a href="http://MesaMike.org/geocache/GC1B0Q9/tienstra/" 
         target="_top">3-Point Resection Solver</a>, <a 
-        href="http://www.Telecom.ULg.ac.Be/publi/publications/pierlot/Pierlot2014ANewThree/"
+        href="http://www.Telecom.ULg.ac.BE/publi/publications/pierlot/Pierlot2014ANewThree/"
         target="_top">V. Pierlot, M. Van Droogenbroeck, &quot;A New Three 
         Object Triangulation...&quot;</a>, <a 
-        href="http://www.Telecom.ULg.ac.Be/triangulation/" target="_top">18
+        href="http://www.Telecom.ULg.ac.BE/triangulation/" target="_top">18
         Triangulation Algorithms...</a> and functions <a 
         href="pygeodesy.resections-module.html#cassini" 
         class="link">pygeodesy.cassini</a>, <a 
@@ -30151,7 +30276,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>beta</code></strong> - Angle subtended by triangle side <b><code>a</code></b> 
           (<code>degrees</code>, non-negative).</li>
         <li><strong class="pname"><code>R3</code></strong> - Callable to determine <code>R3</code> from <code>(R3 - C)**2 = 
-          D</code>, typically standard function <code>min</code> or 
+          D</code>, typically standard Python function <code>min</code> or 
           <code>max</code>, invoked with 2 arguments.</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -30171,9 +30296,9 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         <a 
-        href="https://math.sc.Chula.ac.TH/cjm/content/survey-article-greek-geometry-rational-trigonometry-and-snellius-&#8211;-pothenot-surveying"
+        href="https://Math.Sc.Chula.ac.TH/cjm/content/survey-article-greek-geometry-rational-trigonometry-and-snellius-&#8211;-pothenot-surveying"
         target="_top">Wildberger, Norman J.</a>, <a 
-        href="http://www.ms.LT/derlius/WildbergerDivineProportions.pdf" 
+        href="http://www.MS.LT/derlius/WildbergerDivineProportions.pdf" 
         target="_top">Devine Proportions, page 252</a> and function <a 
         href="pygeodesy.resections-module.html#snellius3" 
         class="link">pygeodesy.snellius3</a>.
@@ -30556,7 +30681,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed May 31 12:17:31 2023
+    Generated by Epydoc 3.0.1 on Wed Jun  7 08:20:49 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

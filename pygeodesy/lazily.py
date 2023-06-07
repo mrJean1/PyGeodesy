@@ -283,7 +283,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'deprecated_Property_RO', 'deprecated_property_RO', 'DeprecationWarnings'),
                      resections=('Collins5Tuple', 'ResectionError', 'Survey3Tuple', 'Tienstra7Tuple',
                                  'TriAngle4Tuple', 'TriSide2Tuple', 'TriSide4Tuple',
-                                 'cassini', 'collins5', 'pierlot', 'tienstra7',
+                                 'cassini', 'collins5', 'pierlot', 'pierlotx', 'tienstra7',
                                  'snellius3', 'wildberger3',
                                  'triAngle', 'triAngle4', 'triSide', 'triSide2', 'triSide4'),
                      rhumbsolve=('RhumbSolve', 'RhumbLineSolve', 'RhumbSolve7Tuple'),
@@ -422,7 +422,7 @@ class _ALL_MODS(object):
 _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '23.05.27'
+__version__ = '23.06.02'
 
 
 def _ALL_OTHER(*objs):

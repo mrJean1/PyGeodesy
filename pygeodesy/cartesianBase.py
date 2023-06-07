@@ -11,7 +11,8 @@ U{https://www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal.js.html
 '''
 
 # from pygeodesy.basics import _xinstanceof  # from .datums
-from pygeodesy.constants import EPS0, isnear0, _1_0, _N_1_0, _2_0, _4_0, _6_0
+from pygeodesy.constants import EPS, EPS0, isnear0, _1_0, _N_1_0, \
+                               _2_0, _4_0, _6_0
 from pygeodesy.datums import Datum, _spherical_datum, _WGS84, _xinstanceof
 from pygeodesy.errors import _IsnotError, _ValueError, _xdatum, _xkwds
 from pygeodesy.fmath import cbrt, hypot_, hypot2, sqrt  # hypot
@@ -31,7 +32,7 @@ from pygeodesy.vector3d import Vector3d, _xyzhdn3
 # from math import sqrt  # from .fmath
 
 __all__ = _ALL_LAZY.cartesianBase
-__version__ = '23.05.26'
+__version__ = '23.06.02'
 
 
 class CartesianBase(Vector3d):
@@ -95,9 +96,7 @@ class CartesianBase(Vector3d):
 
            @raise TypeError: Invalid B{C{pointA}}, B{C{pointB}} or B{C{pointM}}.
 
-           @see: U{Three Point Resection Problem<https://Dokumen.tips/documents/
-                 three-point-resection-problem-introduction-kaestner-burkhardt-method.html>}
-                 and function L{pygeodesy.cassini}.
+           @see: Function L{pygeodesy.cassini} for references and more details.
         '''
         return _MODS.resections.cassini(self, pointB, pointC, alpha, beta,
                                               useZ=useZ, datum=self.datum)
@@ -133,8 +132,7 @@ class CartesianBase(Vector3d):
 
            @raise TypeError: Invalid B{C{pointB}} or B{C{pointM}}.
 
-           @see: U{Collins' methode<https://NL.WikiPedia.org/wiki/Achterwaartse_insnijding>}
-                 and function L{pygeodesy.collins5}.
+           @see: Function L{pygeodesy.collins5} for references and more details.
         '''
         return _MODS.resections.collins5(self, pointB, pointC, alpha, beta,
                                                useZ=useZ, datum=self.datum)
@@ -398,18 +396,22 @@ class CartesianBase(Vector3d):
         '''
         return self.toEcef().philamheightdatum
 
-    def pierlot(self, point2, point3, alpha12, alpha23, useZ=False):
+    def pierlot(self, point2, point3, alpha12, alpha23, useZ=False, eps=EPS):
         '''3-Point resection between this and two other points using U{Pierlot
-           <http://www.Telecom.ULg.ac.Be/triangulation>}'s method C{ToTal}.
+           <http://www.Telecom.ULg.ac.Be/triangulation>}'s method C{ToTal} with
+           I{approximate} limits for the (pseudo-)singularities.
 
            @arg point2: Second point (C{Cartesian}, L{Vector3d}, C{Vector3Tuple},
                         C{Vector4Tuple} or C{Vector2Tuple} if C{B{useZ}=False}).
            @arg point3: Third point (C{Cartesian}, L{Vector3d}, C{Vector3Tuple},
                         C{Vector4Tuple} or C{Vector2Tuple} if C{B{useZ}=False}).
-           @arg alpha12: Angle subtended from this point to B{C{point2}} (C{degrees}).
-           @arg alpha23: Angle subtended from B{C{point2}} to B{C{point3}} (C{degrees}).
+           @arg alpha12: Angle subtended from this point to B{C{point2}} or
+                         B{C{alpha2 - alpha}} (C{degrees}).
+           @arg alpha23: Angle subtended from B{C{point2}} to B{C{point3}} or
+                         B{C{alpha3 - alpha2}} (C{degrees}).
            @kwarg useZ: If C{True}, interpolate the Z component, otherwise use C{z=INT0}
                         (C{bool}).
+           @kwarg eps: Tolerance for C{cot} (pseudo-)singularities (C{float}).
 
            @note: This point, B{C{point2}} and B{C{point3}} are ordered counter-clockwise.
 
@@ -420,15 +422,37 @@ class CartesianBase(Vector3d):
 
            @raise TypeError: Invalid B{C{point2}} or B{C{point3}}.
 
-           @see: U{V. Pierlot, M. Van Droogenbroeck, "A New Three Object Triangulation
-                 Algorithm for Mobile Robot Positioning"<https://ORBi.ULiege.Be/
-                 bitstream/2268/157469/1/Pierlot2014ANewThree.pdf>}, U{18 Triangulation
-                 Algorithms for 2D Positioning (also known as the Resection Problem)
-                 <http://www.Telecom.ULg.ac.Be/triangulation>} and functions
-                 L{pygeodesy.pierlot}.
+           @see: Function L{pygeodesy.pierlot} for references and more details.
         '''
         return _MODS.resections.pierlot(self, point2, point3, alpha12, alpha23,
-                                              useZ=useZ, datum=self.datum)
+                                              useZ=useZ, eps=eps, datum=self.datum)
+
+    def pierlotx(self, point2, point3, alpha1, alpha2, alpha3, useZ=False):
+        '''3-Point resection between this and two other points using U{Pierlot
+           <http://www.Telecom.ULg.ac.Be/publi/publications/pierlot/Pierlot2014ANewThree>}'s
+           method C{ToTal} with I{exact} limits for the (pseudo-)singularities.
+
+           @arg point2: Second point (C{Cartesian}, L{Vector3d}, C{Vector3Tuple},
+                        C{Vector4Tuple} or C{Vector2Tuple} if C{B{useZ}=False}).
+           @arg point3: Third point (C{Cartesian}, L{Vector3d}, C{Vector3Tuple},
+                        C{Vector4Tuple} or C{Vector2Tuple} if C{B{useZ}=False}).
+           @arg alpha1: Angle at B{C{point1}} (C{degrees}).
+           @arg alpha2: Angle at B{C{point2}} (C{degrees}).
+           @arg alpha3: Angle at B{C{point3}} (C{degrees}).
+           @kwarg useZ: If C{True}, interpolate the survey point's Z component,
+                        otherwise use C{z=INT0} (C{bool}).
+
+           @return: The survey (or robot) point, an instance of this (sub-)class.
+
+           @raise ResectionError: Near-coincident, -colinear or -concyclic points or
+                                  invalid B{C{alpha1}}, B{C{alpha2}} or B{C{alpha3}}.
+
+           @raise TypeError: Invalid B{C{point2}} or B{C{point3}}.
+
+           @see: Function L{pygeodesy.pierlotx} for references and more details.
+        '''
+        return _MODS.resections.pierlotx(self, point2, point3, alpha1, alpha2, alpha3,
+                                               useZ=useZ, datum=self.datum)
 
     @deprecated_method
     def tienstra(self, pointB, pointC, alpha, beta=None, gamma=None, useZ=False):
@@ -465,11 +489,7 @@ class CartesianBase(Vector3d):
 
            @raise TypeError: Invalid B{C{pointB}} or B{C{pointC}}.
 
-           @see: U{3-Point Resection Solver<http://MesaMike.org/geocache/GC1B0Q9/tienstra/>},
-                 U{V. Pierlot, M. Van Droogenbroeck, "A New Three Object Triangulation..."
-                 <http://www.Telecom.ULg.ac.Be/publi/publications/pierlot/Pierlot2014ANewThree/>},
-                 U{18 Triangulation Algorithms...<http://www.Telecom.ULg.ac.Be/triangulation/>}
-                 and function L{pygeodesy.tienstra7}.
+           @see: Function L{pygeodesy.tienstra7} for references and more details.
         '''
         return _MODS.resections.tienstra7(self, pointB, pointC, alpha, beta, gamma,
                                                 useZ=useZ, datum=self.datum)

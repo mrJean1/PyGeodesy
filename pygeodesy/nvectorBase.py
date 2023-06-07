@@ -38,7 +38,7 @@ from pygeodesy.vector3d import Vector3d, _xyzhdn3
 from math import fabs, sqrt
 
 __all__ = (_NorthPole_, _SouthPole_)  # constants
-__version__ = '23.05.26'
+__version__ = '23.06.05'
 
 
 class NvectorBase(Vector3d):  # XXX kept private
@@ -524,7 +524,7 @@ class LatLonNvectorBase(LatLonBase):
 
            @see: U{Trilateration<https://WikiPedia.org/wiki/Trilateration>},
                  Veness' JavaScript U{Trilateration<https://www.Movable-Type.co.UK/
-                 scripts/latlong-vectors.html>} and method C{LatLon.trilaterate2}
+                 scripts/latlong-vectors.html>} and method C{LatLon.trilaterate5}
                  of other, non-C{Nvector LatLon} classes.
         '''
         return _trilaterate(self, distance1, self.others(point2=point2), distance2,

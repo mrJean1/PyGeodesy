@@ -6,7 +6,8 @@ PyGeodesy
 A pure Python implementation of ``geodesy`` tools for various ellipsoidal
 and spherical earth models using precision trigonometric, vector-based,
 exact, elliptic, iterative and approximate methods for geodetic
-(lat-/longitude) and geocentric (ECEF_ cartesian) coordinates.
+(lat-/longitude), geocentric (ECEF_ cartesian) and certain `triaxial
+ellipsoidal`_ coordinates.
 
 Transcoded from `JavaScript originals`_ by *Chris Veness (C) 2005-2022*
 and from several `C++ classes`_ by *Charles F.F. Karney (C) 2008-2022*
@@ -18,7 +19,7 @@ There are four modules for ellipsoidal earth models, *ellipsoidalExact*,
 LatLon_ and a geocentric Cartesian_ class with methods and functions to
 compute distance, surface area, perimeter, initial and final bearing,
 intermediate and nearest points, circle intersections and secants, path
-intersections, 3-point resections, rhumb and rhumb lines, trilateration
+intersections, `3-point resections`_, rhumb and rhumb lines, trilateration
 (by intersection, by overlap and in 3d), conversions and unrolling, among
 other things.  For more information and further details see the documentation_,
 the descriptions of `Latitude/Longitude`_, Vincenty_ and `Vector-based`_
@@ -27,23 +28,23 @@ geographiclib_ and `C++ GeographicLib`_.
 
 Also included are modules for conversions to and from `Cassini-Soldner`_,
 ECEF_ (Earth-Centered, Earth-Fixed cartesian), UTM_ (Universal Transverse
-Mercator and Exact_), UPS_ (Universal Polar Stereographic) and `Web Mercator`_
-(Pseudo-Mercator) coordinates, MGRS_ (Military Grid Reference System, UTM
-*and* UPS) and OSGR_ (British Ordinance Survery Grid Reference) grid
-references, TRF_ (Terrestrial Reference Frames) and modules to encode and
-decode EPSG_, Geohashes_, `Georefs (WGRS)`_ and `Garefs (GARS)`_ .
+Mercator and Exact_), UPS_ (Universal Polar Stereographic) and `Web
+Mercator`_ (Pseudo-Mercator) coordinates, MGRS_ (Military Grid Reference
+System, UTM *and* UPS) and OSGR_ (British Ordinance Survery Grid Reference)
+grid references, TRF_ (Terrestrial Reference Frames) and modules to encode
+and decode EPSG_, Geohashes_, `Georefs (WGRS)`_ and `Garefs (GARS)`_.
 
 Other modules provide `Albers equal-area`_ projections, equidistant_ and
 other *azimuthal* projections, Lambert *conformal conic* projections and
 positions, functions to clip paths or polygons of *LatLon* points using
 the `Cohen-Sutherland`_, `Forster-Hormann-Popa`_, `Greiner-Hormann`_,
-`Liang-Barsky`_ and `Sutherland-Hodgman`_ methods, functions to simplify_
-or linearize a path of *LatLon* points (or a `numpy array`_), including
-implementations of the `Ramer-Douglas-Peucker`_, `Visvalingam-Whyatt`_ and
-`Reumann-Witkam`_ algorithms and modified versions of the former.  Other
-classes provide *boolean* operations between (composite) polygons or
-interpolate_ the Height_ of *LatLon* points and Geoid_ models or compute
-various Frechet_ or Hausdorff_ distances.
+`Liang-Barsky`_ and `Sutherland-Hodgman`_ methods or to perform *boolean*
+operations between (composite) polygons, functions to simplify_ or linearize
+a path of *LatLon* points (or a `numpy array`_), including implementations
+of the `Ramer-Douglas-Peucker`_, `Visvalingam-Whyatt`_ and `Reumann-Witkam`_
+algorithms and modified versions of the former.  Other classes interpolate_
+the Height_ of *LatLon* points and Geoid_ models or compute various Frechet_
+or Hausdorff_ distances.
 
 Installation
 ============
@@ -106,7 +107,7 @@ scipy_ 1.9.1, GeoConvert_ 1.51, GeodSolve_ 1.51 and RhumbSolve_ 1.51),
 Python 3.9.6, Python 3.8.10 (with geographiclib_ 1.52, GeodSolve_ 1.51,
 numpy_ 1.19.2 and scipy_ 1.5.2) and Python 2.7.18 (with geographiclib_
 1.50, numpy_ 1.16.6, scipy_ 1.2.2, GeoConvert_ 1.51, GeodSolve_ 1.51 and
-RhumbSolve_ 1.51), all on macOS 13.3.1 Ventura and in 64-bit only.
+RhumbSolve_ 1.51), all on macOS 13.4 Ventura and in 64-bit only.
 
 All tests ran with and without ``lazy import`` for Python 3 and with command
 line option ``-W default`` and env variable ``PYGEODESY_WARNINGS=on`` for all
@@ -151,12 +152,12 @@ Notes
 
 All Python source code has been statically checked_ with PyChecker_, PyFlakes_,
 PyCodeStyle_ (formerly Pep8) and McCabe_ using Python 2.7.18 and with Flake8_
-using Python 3.11.3, both in 64-bit on macOS 13.3.1 Ventura.
+using Python 3.11.3, both in 64-bit on macOS 13.4 Ventura.
 
 For a summary of all *Karney*-based functionality in ``pygeodesy``, see
 module karney_.
 
-*Last updated: May 31, 2023.*
+*Last updated: June 06, 2023.*
 
 License
 =======
@@ -245,6 +246,7 @@ OTHER DEALINGS IN THE SOFTWARE.``
 .. _numpy: https://PyPI.org/project/numpy
 .. _numpy array: https://docs.SciPy.org/doc/numpy/reference/generated/numpy.array.html
 .. _OSGR: https://www.Movable-Type.co.UK/scripts/latlong-os-gridref.html
+.. _3-point resections: https://WikiPedia.org/wiki/Position_resection_and_intersection
 .. _PyChecker: https://PyPI.org/project/pychecker
 .. _PyCodeStyle: https://PyPI.org/project/pycodestyle
 .. _PyFlakes: https://PyPI.org/project/pyflakes
@@ -262,6 +264,7 @@ OTHER DEALINGS IN THE SOFTWARE.``
 .. _simplify: https://Bost.Ocks.org/mike/simplify
 .. _Sutherland-Hodgman: https://WikiPedia.org/wiki/Sutherland-Hodgman_algorithm
 .. _TRF: http://ITRF.ENSG.IGN.FR
+.. _triaxial ellipsoidal: https://GeographicLib.SourceForge.io/1.44/triaxial.html
 .. _Ubuntu 16.04: https://Travis-CI.com/mrJean1/PyGeodesy
 .. _UPS: https://WikiPedia.org/wiki/Universal_polar_stereographic_coordinate_system
 .. _UTM: https://www.Movable-Type.co.UK/scripts/latlong-utm-mgrs.html

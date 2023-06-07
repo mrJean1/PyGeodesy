@@ -15,38 +15,43 @@ from pygeodesy.constants import EPS, EPS0, EPS1, EPS4, INT0, R_M, \
                                _0_0, _0_5, _1_0
 # from pygeodesy.datums import _spherical_datum  # from .formy
 from pygeodesy.dms import F_D, F_DMS, latDMS, lonDMS, parse3llh
+# from pygeodesy.ecef import EcefKarney  # _MODS
 from pygeodesy.errors import _incompatible, IntersectionError, _IsnotError, \
                              _TypeError, _ValueError, _xdatum, _xError, \
                              _xkwds, _xkwds_not
+# from pygeodesy.fmath import favg  # _MODS
 from pygeodesy.formy import antipode, compassAngle, cosineAndoyerLambert_, \
                             cosineForsytheAndoyerLambert_, cosineLaw, \
                             equirectangular, euclidean, flatLocal_, \
                             flatPolar, hartzell, haversine, isantipode, \
                             _isequalTo, isnormal, normal, philam2n_xyz, \
-                            _spherical_datum, thomas_, vincentys
+                            thomas_, vincentys,  _spherical_datum
 from pygeodesy.interns import NN, _COMMASPACE_, _concentric_, _height_, \
                              _intersection_, _m_, _LatLon_, _no_, \
                              _overlap_,  _point_  # PYCHOK used!
-from pygeodesy.iters import PointsIter, points2
+# from pygeodesy.iters import PointsIter, points2  # from .vector3d, _MODS
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
-from pygeodesy.named import _NamedBase, notOverloaded
+# from pygeodesy.ltp import Ltp, _xLtp  # _MODS
+from pygeodesy.named import _NamedBase, notOverloaded,  Fmt
 from pygeodesy.namedTuples import Bounds2Tuple, LatLon2Tuple, PhiLam2Tuple, \
                                   Trilaterate5Tuple, Vector3Tuple
+# from pygeodesy.nvectorBase import _N_vector_  # _MODS
 from pygeodesy.props import deprecated_method, Property, Property_RO, \
                             property_RO, _update_all
-from pygeodesy.streprs import Fmt, hstr
+# from pygeodesy.rhumbx import Caps, Rhumb  # _MODS
+# from pygeodesy.streprs import Fmt, hstr  # from .named, _MODS
 from pygeodesy.units import Distance_, Lat, Lon, Height, Radius, Radius_, \
                             Scalar, Scalar_
 from pygeodesy.utily import _unrollon, _unrollon3, _Wrap
 from pygeodesy.vector2d import _circin6,  Circin6Tuple, _circum3, circum4_, \
                                 Circum3Tuple, _radii11ABC
-from pygeodesy.vector3d import nearestOn6, Vector3d
+from pygeodesy.vector3d import nearestOn6, Vector3d,  PointsIter
 
 from contextlib import contextmanager
 from math import asin, cos, degrees, fabs, radians
 
 __all__ = _ALL_LAZY.latlonBase
-__version__ = '23.05.26'
+__version__ = '23.06.05'
 
 
 class LatLonBase(_NamedBase):
@@ -726,7 +731,7 @@ class LatLonBase(_NamedBase):
 
            @see: Function L{pygeodesy.hstr}.
         '''
-        return hstr(self.height, prec=prec, m=m)
+        return _MODS.streprs.hstr(self.height, prec=prec, m=m)
 
     @deprecated_method
     def isantipode(self, other, eps=EPS):  # PYCHOK no cover
@@ -1055,7 +1060,7 @@ class LatLonBase(_NamedBase):
 
            @raise TypeError: Some B{C{points}} are not C{LatLon}.
         '''
-        return points2(points, closed=closed, base=self)
+        return _MODS.iters.points2(points, closed=closed, base=self)
 
     def PointsIter(self, points, loop=0, dedup=False, wrap=False):
         '''Return a C{PointsIter} iterator.

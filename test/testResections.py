@@ -4,13 +4,13 @@
 # Test L{resections} module.
 
 __all__ = ('Tests',)
-__version__ = '23.03.27'
+__version__ = '23.06.06'
 
-from bases import isWindows, TestsBase
+from bases import endswith, isWindows, TestsBase
 
-from pygeodesy import EPS0, PI, PI_4, cassini, collins5, fstr, pierlot, snellius3, \
-                      tienstra7, triAngle, triAngle4, triSide, triSide2, triSide4, \
-                      Vector3d, wildberger3, collins, tienstra  # DEPRECATED
+from pygeodesy import EPS0, PI, PI_4, cassini, collins5, fstr, pierlot, pierlotx, \
+                      ResectionError, snellius3, tienstra7, triAngle, triAngle4, triSide, \
+                      triSide2, triSide4, Vector3d, wildberger3,  collins, tienstra  # DEPRECATED
 from math import degrees
 
 
@@ -38,12 +38,19 @@ class Tests(TestsBase):
         self.test(collins5.__name__, fstr(t[2:], prec=4), r)
         self.test(collins.__name__, C_(A).collins(C, B, 109.5125, 115.0889), t, nl=1)  # DEPRECATED
 
-        p = pierlot(C, B, A, 115.0889, 109.5125)  # note CCW order, alpha and beta definition
+        p = pierlot(C, B, A, 115.0889, 109.5125)  # note CCW order, alpha12 and alpha23 definition
         self.test(pierlot.__name__, p.toStr(prec=4), '(2128.3903, 5578.1443, 0)', nl=1)
         p = C_(C).pierlot(B, A, 115.0889, 109.5125)
         self.test(pierlot.__name__, p.toRepr(prec=4), 'Cartesian_(2128.3903, 5578.1443, 0)')
         p = C_(C).pierlot(B, A, 115.0889, 109.5125, useZ=True)  # _zidw coverage
         self.test(pierlot.__name__, p.toRepr(prec=4), 'Cartesian_(2128.3903, 5578.1443, 0.0)')
+
+        p = pierlotx(C, B, A, -115.0889, 0, 109.5125)  # note CCW order, alpha1, alpha2, alpha3 definition
+        self.test(pierlotx.__name__, p.toStr(prec=4), '(2128.3903, 5578.1443, 0)', nl=1)
+        p = C_(C).pierlotx(B, A, -115.0889, 0, 109.5125)
+        self.test(pierlotx.__name__, p.toRepr(prec=4), 'Cartesian_(2128.3903, 5578.1443, 0)')
+        p = C_(C).pierlotx(B, A, -115.0889, 0, 109.5125, useZ=True)  # _zidw coverage
+        self.test(pierlotx.__name__, p.toRepr(prec=4), 'Cartesian_(2128.3903, 5578.1443, 0.0)')
 
         t = tienstra7(A, B, C, 115.0889, None, 109.5125)  # note alpha, beta and gamma definition
         self.test(tienstra7.__name__, t.pointP.toStr(prec=4), '(2128.3903, 5578.1443, 0)', nl=1)
@@ -63,8 +70,22 @@ class Tests(TestsBase):
         self.test(collins5.__name__, fstr(t[2:], prec=4), '1581.1388, 1562.0499, 2121.3203')
         self.test(collins.__name__, collins(A, C, B, 109.3, 115.1), t, nl=1)  # DEPRECATED
 
-        p = pierlot(C, B, A, 115.1, 109.3)  # note CCW order, alpha and beta definition
+        p = pierlot(C, B, A, 115.1, 109.3)  # note CCW order, alpha12 and alpha23 definition
         self.test(pierlot.__name__, p.toStr(prec=4), '(2129.3018, 5575.8016, 0)', nl=1)
+        try:
+            p = pierlot(C, B, A, 115.1, 109.3, eps=0).toStr(prec=4)
+        except ResectionError as x:
+            p = str(x)
+        self.test(pierlot.__name__, p, 'eps not positive', known=endswith)
+
+        p = pierlotx(C, B, A, -115.1, 0, 109.3)  # note CCW order, alpha1, alpha2, alpha3 definition
+        self.test(pierlotx.__name__, p.toStr(prec=4), '(2129.3018, 5575.8016, 0)', nl=1)
+        p = pierlotx(A, B, C, -115.1, 0, 109.3)
+        self.test(pierlotx.__name__, p.toStr(prec=4), '(2128.2026, 4708.1218, 0)')
+        p = pierlotx(B, C, A, 0, 0, 109.3)
+        self.test(pierlotx.__name__, p.toStr(prec=4), '(1969.0673, 6633.5695, 0)')
+        p = pierlotx(C, A, B, 0, 0, 109.3)
+        self.test(pierlotx.__name__, p.toStr(prec=4), '(2438.0239, 5094.568, 0)')
 
         t = tienstra7(A, B, C, 115.1, 135.6, 109.3)  # note alpha, beta and gamma definition
         self.test(tienstra7.__name__, t.pointP.toStr(prec=4), '(2129.3018, 5575.8016, 0)',nl=1)

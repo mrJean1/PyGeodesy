@@ -415,10 +415,10 @@ def signBit(x):
     return x < 0 or _MODS.constants.isneg0(x)
 
 
-def _signOf(x, off):
-    '''(INTERNAL) Return the sign of B{C{x}} versus B{C{off}}.
+def _signOf(x, ref):  # in .fsums
+    '''(INTERNAL) Return the sign of B{C{x}} versus B{C{ref}}.
     '''
-    return +1 if x > off else (-1 if x < off else 0)
+    return +1 if x > ref else (-1 if x < ref else 0)
 
 
 def signOf(x):

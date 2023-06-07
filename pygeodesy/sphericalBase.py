@@ -39,7 +39,7 @@ from pygeodesy.utily import acos1, atan2b, atan2d, degrees90, \
 from math import cos, fabs, log, sin, sqrt
 
 __all__ = _ALL_LAZY.sphericalBase
-__version__ = '23.05.26'
+__version__ = '23.06.05'
 
 
 def _angular(distance, radius, low=EPS):  # PYCHOK in .spherical*
@@ -355,8 +355,8 @@ class LatLonSphericalBase(LatLonBase):
            @arg other: The other point (spherical C{LatLon}).
            @kwarg radius: Earth radius (C{meter}) or earth model (L{Datum},
                           L{Ellipsoid}, L{Ellipsoid2} or L{a_f2Tuple}).
-           @kwarg exact: If C{True}, use class L{Rhumb} (C{bool}), default
-                         C{False} for backward compatibility.
+           @kwarg exact: If C{True}, use the I{exact} L{Rhumb} (C{bool}),
+                         default C{False} for backward compatibility.
            @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the
                         B{C{other}} point (C{bool}).
 
@@ -396,8 +396,8 @@ class LatLonSphericalBase(LatLonBase):
                           C{B{exact}=True}.
            @kwarg height: Optional height, overriding the default height
                           (C{meter}, same unit as B{C{radius}}).
-           @kwarg exact: If C{True}, use class L{Rhumb} (C{bool}), default
-                         C{False} for backward compatibility.
+           @kwarg exact: If C{True}, use the I{exact} L{Rhumb} (C{bool}),
+                         default C{False} for backward compatibility.
 
            @return: The destination point (spherical C{LatLon}).
 
@@ -423,7 +423,7 @@ class LatLonSphericalBase(LatLonBase):
             a1, b1 = self.philam
             sb, cb = sincos2(Bearing_(bearing))
 
-            da = r * cb
+            da = r  * cb
             a2 = a1 + da
             # normalize latitude if past pole
             if a2 > PI_2:
@@ -448,8 +448,8 @@ class LatLonSphericalBase(LatLonBase):
            @kwarg radius: Earth radius (C{meter}) or earth model (L{Datum},
                           L{Ellipsoid}, L{Ellipsoid2} or L{a_f2Tuple}) if
                           C{B{exact}=True}.
-           @kwarg exact: If C{True}, use class L{Rhumb} (C{bool}), default
-                         C{False} for backward compatibility.
+           @kwarg exact: If C{True}, use the I{exact} L{Rhumb} (C{bool}),
+                         default C{False} for backward compatibility.
            @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the
                         B{C{other}} point (C{bool}).
 
@@ -486,14 +486,12 @@ class LatLonSphericalBase(LatLonBase):
            @arg other: The other point (spherical LatLon).
            @kwarg height: Optional height, overriding the mean height
                           (C{meter}).
-           @kwarg radius: Optional mean earth radius (C{meter}),
-                          overriding the default C{R_M}.
            @kwarg radius: Earth radius (C{meter}) or earth model (L{Datum},
                           L{Ellipsoid}, L{Ellipsoid2} or L{a_f2Tuple}).
-           @kwarg exact: If C{True}, use class L{Rhumb} (C{bool}), default
-                         C{False} for backward compatibility.
+           @kwarg exact: If C{True}, use the I{exact} L{Rhumb} (C{bool}),
+                         default C{False} for backward compatibility.
            @kwarg fraction: Midpoint location from this point (C{scalar}),
-                            may negative if C{B{exact}=True}.
+                            may be negative if C{B{exact}=True}.
            @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the
                         B{C{other}} point (C{bool}).
 

@@ -28,7 +28,7 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import iscomplex, isint, isscalar, signOf, _signOf
 from pygeodesy.constants import INT0, _isfinite, isinf, isnan, _pos_self, \
-                               _0_0, _1_0, _N_1_0
+                               _0_0, _1_0, _N_1_0,  Float, Int
 from pygeodesy.errors import itemsorted, _OverflowError, _TypeError, \
                             _ValueError, _xError2, _xkwds_get, _xkwds_get_, \
                             _ZeroDivisionError
@@ -42,12 +42,12 @@ from pygeodesy.named import _Named, _NamedTuple, _NotImplemented, Fmt, unstr
 from pygeodesy.props import _allPropertiesOf_n, deprecated_property_RO, \
                              Property_RO, property_RO
 # from pygeodesy.streprs import Fmt, unstr  # from .named
-from pygeodesy.units import Float, Int
+# from pygeodesy.units import Float, Int  # from .constants
 
 from math import ceil as _ceil, fabs, floor as _floor  # PYCHOK used! .ltp
 
 __all__ = _ALL_LAZY.fsums
-__version__ = '23.05.31'
+__version__ = '23.06.04'
 
 _add_op_       = _PLUS_
 _eq_op_        = _EQUAL_ * 2  # _DEQUAL_
@@ -297,9 +297,10 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
         return f._fadd(other, _add_op_)
 
     def __bool__(self):  # PYCHOK not special in Python 2-
-        '''Return C{True} if this instance is non-zero.
+        '''Return C{True} if this instance is I{exactly} non-zero.
         '''
-        return self != 0
+        s, r = self._fprs2
+        return bool(s or r) and s != -r  # == self != 0
 
     def __ceil__(self):  # PYCHOK not special in Python 2-
         '''Return this instance' C{math.ceil} as C{int} or C{float}.
@@ -318,7 +319,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
            @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
         s = self._cmp_0(other, self.cmp.__name__)
-        return -1 if s < 0 else (+1 if s > 0 else 0)
+        return _signOf(s, 0)
 
     cmp = __cmp__
 
@@ -754,7 +755,11 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
         '''(INTERNAL) Return C{scalar(self - B{other})} for 0-comparison.
         '''
         if isscalar(other):
-            s = _fsum(self._ps_1(other))
+            if other:
+                s = _fsum(self._ps_1(other))
+            else:
+                s, r = self._fprs2
+                s = _signOf(s, -r)
         elif isinstance(other, Fsum):
             s = _fsum(self._ps_1(*other._ps))
         else:
@@ -1648,7 +1653,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
            @return: The sign (C{int}, -1, 0 or +1).
         '''
         s, r = self._fprs2 if res else (self._fprs, 0)
-        return _signOf(r, -s)
+        return _signOf(s, -r)
 
     def toRepr(self, **prec_sep_fmt_lenc):  # PYCHOK signature
         '''Return this C{Fsum} instance as representation.

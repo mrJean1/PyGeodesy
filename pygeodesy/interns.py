@@ -203,6 +203,7 @@ _enabled_             = 'enabled'            # PYCHOK OK
 _encode_              = 'encode'             # PYCHOK OK
 _end_                 = 'end'                # PYCHOK OK
 _epoch_               = 'epoch'              # PYCHOK OK
+_eps_                 = 'eps'                # PYCHOK OK
 _EQUAL_          = Str_('=')                 # PYCHOK OK
 _EQUALSPACED_    = Str_(' = ')               # PYCHOK OK
 _Error_               = 'Error'              # PYCHOK OK
@@ -590,7 +591,7 @@ def _version2(version, n=2):
 __all__ = (_NN_,  # not MISSING!
             Str_.__name__,  # classes
             machine.__name__)  # in .lazily
-__version__ = '23.05.12'
+__version__ = '23.06.03'
 
 if __name__ == '__main__':
 

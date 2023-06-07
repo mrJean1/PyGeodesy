@@ -139,7 +139,7 @@ from pygeodesy.utily import atan2d, sincos2d, tand, _unrollon,  fabs
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.karney
-__version__ = '23.05.23'
+__version__ = '23.06.04'
 
 _EWGS84     = _WGS84.ellipsoid  # PYCHOK in .geodesicx.gx, .ktm, .rhumbx, .solveBase
 _K_2_0      = _getenv('PYGEODESY_GEOGRAPHICLIB', _2_) == _2_
@@ -599,7 +599,7 @@ def _norm180(deg):  # mimick geomath.Math.AngNormalize
         return _wrapped.Math.AngNormalize(deg)
     except AttributeError:
         d = fremainder(deg, _360_0)
-        if d in (_180_0, -_180_0):
+        if d in (_180_0, _N_180_0):
             d = _copysign(_180_0, deg) if _K_2_0 else _180_0
         return d
 

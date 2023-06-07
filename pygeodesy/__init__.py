@@ -3,8 +3,9 @@
 
 u'''A pure Python implementation of geodesy tools for various ellipsoidal and spherical earth
 models using precision trigonometric, vector-based, exact, elliptic, iterative and approximate
-methods for geodetic (lat-/longitude) and geocentric (U{ECEF<https://WikiPedia.org/wiki/ECEF>}
-cartesian) coordinates.
+methods for geodetic (lat-/longitude), geocentric (U{ECEF<https://WikiPedia.org/wiki/ECEF>}
+cartesian) and certain U{triaxial ellipsoidal<https://GeographicLib.SourceForge.io/1.44/triaxial.html>}
+coordinates.
 
 Transcoded from U{JavaScript originals<https://GitHub.com/ChrisVeness/geodesy>} by I{Chris Veness
 (C) 2005-2022} and from several U{C++ classes<https://GeographicLib.SourceForge.io/C++/doc/annotated.html>}
@@ -16,10 +17,11 @@ C{-Vincenty} and C{-Nvector} and two for spherical ones, C{sphericalTrigonometry
 and C{-Nvector}.  Each module provides a geodetic B{C{LatLon}} and a geocentric
 B{C{Cartesian}} class with methods and functions to compute distance, surface area,
 perimeter, initial and final bearing, intermediate and nearest points, circle intersections
-and secants, path intersections, 3-point resections, rhumb and rhumb lines, trilateration (by
-intersection, by overlap and in 3d), conversions and unrolling, among other things.  For more
-information and further details see the U{documentation<https://mrJean1.GitHub.io/PyGeodesy>},
-the descriptions of U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>},
+and secants, path intersections, U{3-point resections<https://WikiPedia.org/wiki/
+Position_resection_and_intersection>}, rhumb and rhumb lines, trilateration (by intersection,
+by overlap and in 3d), conversions and unrolling, among other things.  For more information
+and further details see the U{documentation<https://mrJean1.GitHub.io/PyGeodesy>}, the
+descriptions of U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>},
 U{Vincenty<https://www.Movable-Type.co.UK/scripts/latlong-vincenty.html>} and
 U{Vector-based<https://www.Movable-Type.co.UK/scripts/latlong-vectors.html>} geodesy,
 the original U{JavaScript source<https://GitHub.com/ChrisVeness/geodesy>} or
@@ -59,9 +61,9 @@ Ramer-Douglas-Peucker_algorithm>}, the U{Visvalingam-Whyatt<https://hydra.Hull.a
 resources/hull:8338>} and the U{Reumann-Witkam<https://psimpl.SourceForge.net/reumann-witkam.html>}
 algorithms and modified versions of the former.  Other classes provide I{boolean} operations between
 (composite) polygons or U{interpolate <https://docs.SciPy.org/doc/scipy/reference/interpolate.html>}
-the L{height<pygeodesy.heights>} of C{LatLon} points and L{Geoid<pygeodesy.geoids>} models or
-compute various U{Fréchet<https://WikiPedia.org/wiki/Frechet_distance>} or U{Hausdorff
-<https://WikiPedia.org/wiki/Hausdorff_distance>} distances.
+the L{height<pygeodesy.heights>} of C{LatLon} points and L{Geoid<pygeodesy.geoids>} models, compute
+various U{Fréchet<https://WikiPedia.org/wiki/Frechet_distance>} or U{Hausdorff<https://WikiPedia.org/
+wiki/Hausdorff_distance>} distances.
 
 Installation
 ============
@@ -132,7 +134,7 @@ and U{scipy<https://PyPI.org/project/scipy>} 1.5.2) and Python 2.7.18 (with U{ge
 <https://PyPI.org/project/geographiclib>} 1.50, U{numpy<https://PyPI.org/project/numpy>} 1.16.6, U{scipy
 <https://PyPI.org/project/scipy>} 1.2.2, U{GeoConvert<https://GeographicLib.SourceForge.io/html/utilities.html>}
 1.51, U{GeodSolve<https://GeographicLib.SourceForge.io/html/utilities.html>} 1.51 and U{RhumbSolve
-<https://GeographicLib.SourceForge.io/html/utilities.html>} 1.51), all on macOS 13.3.1 Ventura and in 64-bit only.
+<https://GeographicLib.SourceForge.io/html/utilities.html>} 1.51), all on macOS 13.4 Ventura and in 64-bit only.
 
 All tests ran with and without C{lazy import} for Python 3 and with command line option C{-W default} and
 env variable C{PYGEODESY_WARNINGS=on} for all Python versions.  The results of those tests are included in
@@ -176,7 +178,7 @@ All Python source code has been statically U{checked<https://GitHub.com/ActiveSt
 Python/546532_PyChecker_postprocessor>} with U{PyChecker<https://PyPI.org/project/pychecker>}, U{PyFlakes
 <https://PyPI.org/project/pyflakes>}, U{PyCodeStyle<https://PyPI.org/project/pycodestyle>} (formerly Pep8) and
 U{McCabe<https://PyPI.org/project/mccabe>} using Python 2.7.18 and with U{Flake8<https://PyPI.org/project/flake8>}
-using Python 3.11.3, both in 64-bit on macOS 13.3.1 Ventura.
+using Python 3.11.3, both in 64-bit on macOS 13.4 Ventura.
 
 For a summary of all I{Karney}-based functionality in C{pygeodesy}, see module U{karney
 <https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.karney-module.html>}.
@@ -586,7 +588,7 @@ else:
     _init__all__ = False
 
 from pygeodesy.interns import _DOT_  # PYCHOK import
-__version__ = '23.05.31'
+__version__ = '23.06.06'
 # see setup.py for similar logic
 version     = _DOT_.join(map(str, map(int, __version__.split(_DOT_))))
 
