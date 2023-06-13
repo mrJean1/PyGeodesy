@@ -1,13 +1,12 @@
 
 # -*- coding: utf-8 -*-
 
-u'''(INTERNAL) Private base class L{LatLonBase} for elliposiodal, spherical
-and N-vectorial C{LatLon}s.
+u'''(INTERNAL) Base class L{LatLonBase} for all elliposiodal, spherical and N-vectorial C{LatLon} classes.
 
-After I{(C) Chris Veness 2011-2015} published under the same MIT Licence**,
-see U{https://www.Movable-Type.co.UK/scripts/latlong.html},
-U{<https://www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal.js.html>}
-and U{https://www.Movable-Type.co.UK/scripts/latlong-vectors.html}.
+@see: I{(C) Chris Veness}' U{latlong<https://www.Movable-Type.co.UK/scripts/latlong.html>}, U{-ellipsoidal<https://www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal.js.html>} and U{-vectors
+<https://www.Movable-Type.co.UK/scripts/latlong-vectors.html>} and I{Charles Karney}'s
+U{Rhumb<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Rhumb.html>}
+and U{RhumbLine<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1RhumbLine.html>} classes.
 '''
 
 from pygeodesy.basics import isscalar, isstr, map1, _xinstanceof
@@ -51,7 +50,7 @@ from contextlib import contextmanager
 from math import asin, cos, degrees, fabs, radians
 
 __all__ = _ALL_LAZY.latlonBase
-__version__ = '23.06.05'
+__version__ = '23.06.12'
 
 
 class LatLonBase(_NamedBase):
@@ -573,7 +572,7 @@ class LatLonBase(_NamedBase):
     def flatPolarTo(self, other, **radius_wrap):
         '''Compute the distance between this and an other point using
            the U{polar coordinate flat-Earth<https://WikiPedia.org/wiki/
-           Geographical_distance#Polar_coordinate_flat-Earth_formula>}formula.
+           Geographical_distance#Polar_coordinate_flat-Earth_formula>} formula.
 
            @arg other: The other point (C{LatLon}).
            @kwarg radius_wrap: Optional keyword arguments for function
@@ -982,10 +981,10 @@ class LatLonBase(_NamedBase):
 
         kwds = _xkwds_not(None, LatLon=self.classof,  # this LatLon
                                 height=height)
-        r = self.Ecef(self.datum).reverse
-        p = r(c).toLatLon(**kwds)
-        s = r(s).toLatLon(**kwds) if s is not c else p
-        e = r(e).toLatLon(**kwds) if e is not c else p
+        _r =  self.Ecef(self.datum).reverse
+        p  = _r(c).toLatLon(**kwds)
+        s  = _r(s).toLatLon(**kwds) if s is not c else p
+        e  = _r(e).toLatLon(**kwds) if e is not c else p
         return t.dup(closest=p, start=s, end=e)
 
     def normal(self):
@@ -1101,7 +1100,7 @@ class LatLonBase(_NamedBase):
             return _radii11ABC(*cs, useZ=True)[0]
 
     def _rhumbx3(self, exact, radius):  # != .sphericalBase._rhumbs3
-        '''(INTERNAL) Get the C{rhumb} for this point's datum  or for
+        '''(INTERNAL) Get the C{rhumb} for this point's datum or for
            the earth model or earth B{C{radius}} if not C{None}.
         '''
         D =  self.datum if radius is None else _spherical_datum(radius)  # ellipsoidal OK
@@ -1476,6 +1475,18 @@ class LatLonBase(_NamedBase):
         '''
         return self._vector3d  # XXX .unit()
 
+    def toWm(self, **toWm_kwds):
+        '''Convert this point to a WM coordinate.
+
+           @kwarg toWm_kwds: Optional L{pygeodesy.toWm} keyword arguments.
+
+           @return: The WM coordinate (L{Wm}).
+
+           @see: Function L{pygeodesy.toWm}.
+        '''
+        return self._wm if not toWm_kwds else _MODS.webmercator.toWm(
+               self, **_xkwds(toWm_kwds, name=self.name))
+
     @deprecated_method
     def to3xyz(self):  # PYCHOK no cover
         '''DEPRECATED, use property L{xyz} or method L{toNvector}, L{toVector},
@@ -1517,6 +1528,12 @@ class LatLonBase(_NamedBase):
         return self._distanceTo(vincentys, other, **_xkwds(radius_wrap, radius=None))
 
     @Property_RO
+    def _wm(self):
+        '''(INTERNAL) Get this point as webmercator (L{Wm}).
+        '''
+        return _MODS.webmercator.toWm(self)
+
+    @Property_RO
     def xyz(self):
         '''Get the C{n-vector} X, Y and Z components (L{Vector3Tuple}C{(x, y, z)})
 
@@ -1536,7 +1553,7 @@ class LatLonBase(_NamedBase):
 
 
 class _toCartesian3(object):  # see also .geodesicw._wargs, .vector2d._numpy
-    '''(INTERNAL) Wrapper convert 2 other points.
+    '''(INTERNAL) Wrapper to convert 2 other points.
     '''
     @contextmanager  # <https://www.python.org/dev/peps/pep-0343/> Examples
     def __call__(self, p, p2, p3, wrap, **kwds):
@@ -1599,10 +1616,10 @@ def _trilaterate5(p1, d1, p2, d2, p3, d3, area=True, eps=EPS1,  # MCCABE 13
         p1, r1, p2, r2, p3, r3 = p2, r2, p3, r3, p1, r1  # rotate
 
     if t:  # get min, max, points and count ...
-        t =  tuple(sorted(t))
-        n = (len(t),)  # as 1-tuple
+        t = tuple(sorted(t))
+        n = len(t),  # as 1-tuple
         # ... or for a single trilaterated result,
-        # min *is* max, min- *is* maxPoint and n=1
+        # min *is* max, min- *is* maxPoint and n=1, 2 or 3
         return Trilaterate5Tuple(t[0] + t[-1] + n)  # *(t[0] + ...)
 
     elif area and pc == 3:  # all pairwise concentric ...
@@ -1613,7 +1630,7 @@ def _trilaterate5(p1, d1, p2, d2, p3, d3, area=True, eps=EPS1,  # MCCABE 13
         return Trilaterate5Tuple(float(r), p, float(m), p, 0)
 
     n, f = (_overlap_, max) if area else (_intersection_, min)
-    t = '%s (%s %.3f)' % (_no_(n), f.__name__, m)
+    t = _COMMASPACE_(_no_(n), '%s %.3g' % (f.__name__, m))
     raise IntersectionError(area=area, eps=eps, wrap=wrap, txt=t)
 
 

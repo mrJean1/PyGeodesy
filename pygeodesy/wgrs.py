@@ -13,14 +13,14 @@ also U{World Geographic Reference System
 <https://WikiPedia.org/wiki/World_Geographic_Reference_System>}.
 '''
 # from pygeodesy.basics import isstr  # from .named
-from pygeodesy.constants import _float, _off90, _0_001, _0_5, \
-                                _1_0, _2_0, _60_0, _1000_0
+from pygeodesy.constants import INT0, _float, _off90, _0_001, \
+                               _0_5, _1_0, _2_0, _60_0, _1000_0
 from pygeodesy.dms import parse3llh  # parseDMS2
 from pygeodesy.errors import _ValueError, _xattr, _xkwds
 from pygeodesy.interns import NN, _0to9_, _AtoZnoIO_, _COMMA_, \
                              _height_, _radius_, _SPACE_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
-from pygeodesy.named import isstr, nameof, Property_RO
+from pygeodesy.named import nameof,  isstr, Property_RO
 from pygeodesy.namedTuples import LatLon2Tuple, LatLonPrec3Tuple
 # from pygeodesy.props import Property_RO  # from .named
 from pygeodesy.streprs import Fmt, _0wd
@@ -31,19 +31,19 @@ from pygeodesy.utily import ft2m, m2ft, m2NM
 from math import floor
 
 __all__ = _ALL_LAZY.wgrs
-__version__ = '23.05.23'
+__version__ = '23.06.12'
 
 _Base    =  10
 _BaseLen =  4
 _DegChar = _AtoZnoIO_.tillQ
 _Digits  = _0to9_
 _Height_ =  Height.__name__
-_INV_    = 'INV'
+_INV_    = 'INV'  # INValid
 _LatOrig = -90
 _LatTile = _AtoZnoIO_.tillM
 _LonOrig = -180
 _LonTile = _AtoZnoIO_
-_60B     =  60000000000  # == 60_000_000_000 == 60 * pow(10, 9)
+_60B     =  60000000000  # == 60_000_000_000 == 60e9
 _MaxPrec =  11
 _Radius_ =  Radius.__name__
 _Tile    =  15  # tile size in degrees
@@ -190,9 +190,9 @@ class Georef(Str):
     @Property_RO
     def latlonheight(self):
         '''Get this georef's (center) lat-, longitude and height (L{LatLon3Tuple}),
-           with height set to C{0} if missing.
+           with height set to C{INT0} if missing.
         '''
-        return self.latlon.to3Tuple(self.height or 0)
+        return self.latlon.to3Tuple(self.height or INT0)
 
     @Property_RO
     def precision(self):
@@ -225,7 +225,7 @@ class Georef(Str):
             r = self.latlonheight if height is None else \
                 self.latlon.to3Tuple(height)
         else:
-            h = (self.height or 0) if height is None else height
+            h = (self.height or INT0) if height is None else height
             r =  LatLon(*self.latlon, height=h, **_xkwds(LatLon_kwds, name=self.name))
         return r
 

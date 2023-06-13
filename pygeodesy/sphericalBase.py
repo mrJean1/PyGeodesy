@@ -14,7 +14,7 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import isbool, isinstanceof, map1
 from pygeodesy.cartesianBase import CartesianBase,  Bearing2Tuple
-from pygeodesy.constants import EPS, PI, PI2, PI_2, R_M, R_MA, \
+from pygeodesy.constants import EPS, PI, PI2, PI_2, R_M, \
                                _umod_360, isnear0, isnon0, _0_0, \
                                _0_5, _1_0, _180_0
 from pygeodesy.datums import Datums, _spherical_datum
@@ -26,7 +26,7 @@ from pygeodesy.interns import NN, _COMMA_, _concentric_, _datum_, \
 from pygeodesy.latlonBase import LatLonBase, _trilaterate5  # PYCHOK passed
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 # from pygeodesy.namedTuples import Bearing2Tuple  # from .cartesianBase
-from pygeodesy.nvectorBase import NvectorBase, Fmt, _xattrs
+from pygeodesy.nvectorBase import NvectorBase,  Fmt, _xattrs
 from pygeodesy.props import deprecated_method, property_doc_, \
                             property_RO, _update_all
 # from pygeodesy.streprs import Fmt, _xattrs  # from .nvectorBase
@@ -39,16 +39,21 @@ from pygeodesy.utily import acos1, atan2b, atan2d, degrees90, \
 from math import cos, fabs, log, sin, sqrt
 
 __all__ = _ALL_LAZY.sphericalBase
-__version__ = '23.06.05'
+__version__ = '23.06.12'
 
 
 def _angular(distance, radius, low=EPS):  # PYCHOK in .spherical*
-    '''(INTERNAL) Return the angular distance in C{radians}.
+    '''(INTERNAL) Return an angular distance in C{radians}.
 
        @raise UnitError: Invalid B{C{distance}} or B{C{radius}}.
     '''
-    r = _1_0 if radius is None else Radius_(radius=radius)
-    return Radians_(distance / r, low=low)
+    r = float(distance)
+    if radius:
+        r = r / Radius_(radius=radius)  # /= chokes PyChecker
+    if low is not None:
+        # small near0 values from .rhumbDestination not exact OK
+        r = _0_0 if low < 0 and low < r < 0 else Radians_(r, low=low)
+    return r
 
 
 def _rads3(rad1, rad2, radius):  # in .sphericalTrigonometry
@@ -244,8 +249,9 @@ class LatLonSphericalBase(LatLonBase):
                         B{C{point}}, B{C{circle}} and/or B{C{bearing}} (C{bool}).
 
            @return: 2-Tuple of the intersection points (representing a chord),
-                    each an instance of this class.  For a tangent line, each
-                    point C{is} this very instance.
+                    each an instance of this class.  For a tangent line, both
+                    points are the same instance, the B{C{point}} or wrapped
+                    or I{normalized}.
 
            @raise IntersectionError: The circle and line do not intersect.
 
@@ -355,7 +361,7 @@ class LatLonSphericalBase(LatLonBase):
            @arg other: The other point (spherical C{LatLon}).
            @kwarg radius: Earth radius (C{meter}) or earth model (L{Datum},
                           L{Ellipsoid}, L{Ellipsoid2} or L{a_f2Tuple}).
-           @kwarg exact: If C{True}, use the I{exact} L{Rhumb} (C{bool}),
+           @kwarg exact: If C{True}, use the I{Krüger} L{Rhumb} (C{bool}),
                          default C{False} for backward compatibility.
            @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the
                         B{C{other}} point (C{bool}).
@@ -372,7 +378,7 @@ class LatLonSphericalBase(LatLonBase):
             >>> b = p.rhumbBearingTo(q)  # 116.7
         '''
         if exact:  # use series, always
-            z = LatLonBase.rhumbAzimuthTo(self, other, exact=False,
+            z = LatLonBase.rhumbAzimuthTo(self, other, exact=False,  # Krüger
                                                 radius=radius, wrap=wrap)
         else:
             _, db, dp = self._rhumbs3(other, wrap)
@@ -396,7 +402,7 @@ class LatLonSphericalBase(LatLonBase):
                           C{B{exact}=True}.
            @kwarg height: Optional height, overriding the default height
                           (C{meter}, same unit as B{C{radius}}).
-           @kwarg exact: If C{True}, use the I{exact} L{Rhumb} (C{bool}),
+           @kwarg exact: If C{True}, use the I{Krüger} L{Rhumb} (C{bool}),
                          default C{False} for backward compatibility.
 
            @return: The destination point (spherical C{LatLon}).
@@ -410,7 +416,7 @@ class LatLonSphericalBase(LatLonBase):
             >>> q = p.rhumbDestination(40300, 116.7)  # 50.9642°N, 001.8530°E
         '''
         if exact:  # use series, always
-            r = LatLonBase.rhumbDestination(self, distance, bearing, exact=False,
+            r = LatLonBase.rhumbDestination(self, distance, bearing, exact=False,  # Krüger
                                                   radius=radius, height=height)
         else:  # radius=None from .rhumbMidpointTo
             if radius in (None, self._radius):
@@ -418,7 +424,7 @@ class LatLonSphericalBase(LatLonBase):
             else:
                 d = _spherical_datum(radius, raiser=_radius_)  # spherical only
                 r =  d.ellipsoid.equatoradius
-            r = _angular(distance, r, low=_0_0)  # distance=0 from .rhumbMidpointTo
+            r = _angular(distance, r, low=-EPS)  # distance=0 from .rhumbMidpointTo
 
             a1, b1 = self.philam
             sb, cb = sincos2(Bearing_(bearing))
@@ -448,7 +454,7 @@ class LatLonSphericalBase(LatLonBase):
            @kwarg radius: Earth radius (C{meter}) or earth model (L{Datum},
                           L{Ellipsoid}, L{Ellipsoid2} or L{a_f2Tuple}) if
                           C{B{exact}=True}.
-           @kwarg exact: If C{True}, use the I{exact} L{Rhumb} (C{bool}),
+           @kwarg exact: If C{True}, use the I{Krüger} L{Rhumb} (C{bool}),
                          default C{False} for backward compatibility.
            @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the
                         B{C{other}} point (C{bool}).
@@ -467,7 +473,7 @@ class LatLonSphericalBase(LatLonBase):
             >>> d = p.rhumbDistanceTo(q)  # 403100
         '''
         if exact:  # use series, always
-            r = LatLonBase.rhumbDistanceTo(self, other, exact=False,
+            r = LatLonBase.rhumbDistanceTo(self, other, exact=False,  # Krüger
                                                  radius=radius, wrap=wrap)
             if radius is None:  # angular distance in radians
                 r = r / self._radius  # /= chokes PyChecker
@@ -488,7 +494,7 @@ class LatLonSphericalBase(LatLonBase):
                           (C{meter}).
            @kwarg radius: Earth radius (C{meter}) or earth model (L{Datum},
                           L{Ellipsoid}, L{Ellipsoid2} or L{a_f2Tuple}).
-           @kwarg exact: If C{True}, use the I{exact} L{Rhumb} (C{bool}),
+           @kwarg exact: If C{True}, use the I{Krüger} L{Rhumb} (C{bool}),
                          default C{False} for backward compatibility.
            @kwarg fraction: Midpoint location from this point (C{scalar}),
                             may be negative if C{B{exact}=True}.
@@ -510,7 +516,7 @@ class LatLonSphericalBase(LatLonBase):
             >>> m.toStr()  # '51.0455°N, 001.5957°E'
         '''
         if exact:  # use series, always
-            r = LatLonBase.rhumbMidpointTo(self, other, exact=False,
+            r = LatLonBase.rhumbMidpointTo(self, other, exact=False,  # Krüger
                                                  radius=radius, height=height,
                                                  fraction=fraction, wrap=wrap)
         elif fraction is not _0_5:
@@ -563,17 +569,6 @@ class LatLonSphericalBase(LatLonBase):
         '''
         return LatLonBase.toNvector(self, Nvector=Nvector, **Nvector_kwds)
 
-    def toWm(self, radius=R_MA):
-        '''Convert this point to a I{WM} coordinate.
-
-           @kwarg radius: Optional earth radius (C{meter}).
-
-           @return: The WM coordinate (L{Wm}).
-
-           @see: Function L{pygeodesy.toWm} in module L{webmercator} for details.
-        '''
-        return _MODS.webmercator.toWm(self, radius=radius)
-
 
 def _intersecant2(c, r, p, b, radius=R_M, exact=False,
                               height=None, wrap=False):
@@ -612,17 +607,13 @@ def _intersecant2(c, r, p, b, radius=R_M, exact=False,
         elif (r - s) < EPS:
             return p, p  # tangent
         c *= d
-    else:  # coincindent
+    else:  # p and c coincide
         s, c = r, 0
-
-    a = b + _180_0
-    if nonexact:
-        b = p.destination(s + c, b, radius=radius, height=height)
-        a = p.destination(s - c, a, radius=radius, height=height)
-    else:
-        b = p.rhumbDestination(s + c, b, radius=radius, height=height, exact=exact)
-        a = p.rhumbDestination(s - c, a, radius=radius, height=height, exact=exact)
-    return b, a  # in bearing direction first
+    t = ()
+    for d, b in ((s + c, b), (s - c, b + _180_0)):  # bearing direction first
+        t += (p.destination(d, b, radius=radius, height=height) if nonexact else
+              p.rhumbDestination(d, b, radius=radius, height=height, exact=exact)),
+    return t
 
 
 __all__ += _ALL_DOCS(CartesianSphericalBase, LatLonSphericalBase)

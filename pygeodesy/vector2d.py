@@ -15,8 +15,8 @@ from pygeodesy.fmath import fabs, fdot, hypot, hypot2_, sqrt
 from pygeodesy.fsums import Fsum, fsumf_, fsum1f_
 from pygeodesy.interns import NN, _a_, _and_, _b_, _c_, _center_, _coincident_, \
                              _colinear_, _concentric_, _COMMASPACE_, _few_, \
-                             _intersection_, _invalid_, _near_, _no_, _radius_, \
-                             _rIn_, _s_, _SPACE_, _too_, _with_
+                             _intersection_, _invalid_, _near_, _no_, _of_, \
+                             _radius_, _rIn_, _s_, _SPACE_, _too_, _with_
 # from pygeodesy.lazily import _ALL_LAZY  # from .named
 from pygeodesy.named import _ALL_LAZY, _NamedTuple, _Pass, Property_RO
 from pygeodesy.namedTuples import LatLon3Tuple, Vector2Tuple
@@ -30,13 +30,12 @@ from contextlib import contextmanager
 # from math import fabs, sqrt  # from .fmath
 
 __all__ = _ALL_LAZY.vector2d
-__version__ = '23.05.15'
+__version__ = '23.06.08'
 
 _cA_        = 'cA'
 _cB_        = 'cB'
 _cC_        = 'cC'
 _deltas_    = 'deltas'
-_of_        = 'of'
 _outer_     = 'outer'
 _raise_     = 'raise'  # PYCHOK used!
 _rank_      = 'rank'
@@ -618,7 +617,7 @@ def _trilaterate2d2(x1, y1, radius1, x2, y2, radius2, x3, y3, radius3,
         return a, b, c, t
 
     def _astr(**kwds):  # kwds as (name=value, ...) strings
-        return Fmt.PAREN(_COMMASPACE_(*(Fmt.EQUAL(*t) for t in kwds.items())))
+        return Fmt.PAREN(_COMMASPACE_(*(Fmt.EQUALg(*t) for t in kwds.items())))
 
     r1 = Radius_(radius1=radius1)
     r2 = Radius_(radius2=radius2)
@@ -664,9 +663,9 @@ def _trilaterate2d2(x1, y1, radius1, x2, y2, radius2, x3, y3, radius3,
 
 def _trilaterate3d2(c1, r1, c2, r2, c3, r3, eps=EPS, coin=False,
                                           **clas_Vector_and_kwds):
-    # (INTERNAL) Intersect three spheres or circles, see L{pygeodesy.trilaterate3d2},
-    # separated to allow callers to embellish any exceptions, like
-    # C{FloatingPointError}s from C{numpy}
+    # (INTERNAL) Intersect three spheres or circles, see function
+    # L{pygeodesy.trilaterate3d2}, separated to allow callers to
+    # embellish exceptions, like C{FloatingPointError}s from C{numpy}
 
     def _F3d2(F):
         # map numpy 4-vector to floats tuple and Vector3d
@@ -684,7 +683,7 @@ def _trilaterate3d2(c1, r1, c2, r2, c3, r3, eps=EPS, coin=False,
     rs = (r1, Radius_(radius2=r2, low=EPS),
               Radius_(radius3=r3, low=EPS))
 
-    # get matrix A[3 x 4], its null_space Z and pseudo-invert A
+    # get matrix A[3 x 4], its pseudo-inverse and null_space Z
     A = [(_1_0_1T + c.times(_N_2_0).xyz) for c in (c1, c2, c3)]
     with _numpy(trilaterate3d2, A=A, eps=eps) as _np:
         Z, _ = _np.null_space2(A, eps)

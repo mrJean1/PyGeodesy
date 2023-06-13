@@ -254,7 +254,7 @@
     command line: <code>epydoc --html --no-private --no-source 
     --name=PyGeodesy --url=... -v pygeodesy</code>).</p>
   <h1 class="heading">Tests</h1>
-    <p>The tests ran with Python 3.11.3 (with <a 
+    <p>The tests ran with Python 3.11.4 (with <a 
     href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 2.0, <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.24.2 
@@ -292,20 +292,20 @@
     results of those tests are included in the distribution files.</p>
     <p>Test coverage has been measured with <a 
     href="https://PyPI.org/project/coverage" target="_top">coverage</a> 
-    7.2.2 using only Python 3.11.3 and 3.10.8.  The complete coverage 
+    7.2.2 using only Python 3.11.4 and 3.10.8.  The complete coverage 
     report in HTML and a PDF summary are included in the distribution 
     files.</p>
-    <p>Python 3.11.3, 3.10.8 and 3.9.6 ran on Apple M1 Silicon 
+    <p>Python 3.11.4, 3.10.8 and 3.9.6 ran on Apple M1 Silicon 
     (<code>arm64</code>), <i>natively</i>.  Python 3.8.10 and 2.7.18 ran on
     Intel (<code>x86_64</code>) or Intel <i>emulation</i> 
     (&quot;<code>arm64_x86_64</code>&quot;, see function <a 
     href="pygeodesy.interns-module.html#machine" 
     class="link">pygeodesy.machine</a>).</p>
-    <p>The tests also ran with Python 3.11.3 (and <a 
+    <p>The tests also ran with Python 3.11.4 (and <a 
     href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 2.0) on <a 
     href="https://Cirrus-CI.com/github/mrJean1/PyGeodesy/master" 
-    target="_top">Debian 11</a> in 64-bit only and with Python 3.11.3, 
+    target="_top">Debian 11</a> in 64-bit only and with Python 3.11.4, 
     3.10.10 and 2.7.18 (all with <a 
     href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 1.52) on <a 
@@ -316,8 +316,8 @@
     href="https://PyPI.org/project/pyinstaller" 
     target="_top">PyInstaller</a> 3.4 and 64-bit Python 3.7.3 on macOS 
     10.13.6 High Sierra.</p>
-    <p>Previously, the tests were run with Python 3.11.2, 3.10.1-7, 3.9.1, 
-    3.8.7, 3.7.1, 2.7.15, <a href="https://PyPy.org" 
+    <p>Previously, the tests were run with Python 3.11.2-3, 3.10.1-7, 
+    3.9.1, 3.8.7, 3.7.1, 2.7.15, <a href="https://PyPy.org" 
     target="_top">PyPy</a>7.3.1 (Python 3.6.9) and <a 
     href="https://PyPy.org" target="_top">PyPy</a> 7.1.1 (Python 2.7.13) 
     (and <a href="https://PyPI.org/project/geographiclib" 
@@ -338,7 +338,7 @@
     href="https://software.Intel.com/en-us/distribution-for-python" 
     target="_top">Intel-Python</a> 3.5.3 (and <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.11.3) 
-    on macOS 13.0-2.1 Ventura, 12.1-6 Monterey, 11.0-5.2-6.1 Big Sur (aka 
+    on macOS 13.0-3 Ventura, 12.1-6 Monterey, 11.0-5.2-6.1 Big Sur (aka 
     10.16), 10.15.3, 10.15.5-7 Catalina, 10.14 Mojave, 10.13.6 High Sierra 
     and 10.12 Sierra, MacOS X 10.11 El Capitan and/or MacOS X 10.10 
     Yosemite, with <a href="https://OMZ-Software.com/pythonista" 
@@ -359,7 +359,7 @@
     target="_top">PyCodeStyle</a> (formerly Pep8) and <a 
     href="https://PyPI.org/project/mccabe" target="_top">McCabe</a> using 
     Python 2.7.18 and with <a href="https://PyPI.org/project/flake8" 
-    target="_top">Flake8</a> using Python 3.11.3, both in 64-bit on macOS 
+    target="_top">Flake8</a> using Python 3.11.4, both in 64-bit on macOS 
     13.4 Ventura.</p>
     <p>For a summary of all <i>Karney</i>-based functionality in 
     <code>pygeodesy</code>, see module <a 
@@ -537,7 +537,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        23.06.06
+        23.06.12
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -694,10 +694,10 @@
     <li> <strong class="uidlink"><a href="pygeodesy.ktm-module.html">pygeodesy.ktm</a></strong>: <em class="summary">A pure Python version of <i>Karney</i>'s C++ class <a 
         href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1TransverseMercator.html"
         target="_top">TransverseMercator</a> based on <i>Kr&#252;ger</i> series.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.latlonBase-module.html">pygeodesy.latlonBase</a></strong>: <em class="summary">(INTERNAL) Private base class <a 
+    <li> <strong class="uidlink"><a href="pygeodesy.latlonBase-module.html">pygeodesy.latlonBase</a></strong>: <em class="summary">(INTERNAL) Base class <a 
         href="pygeodesy.latlonBase.LatLonBase-class.html" 
-        class="link">LatLonBase</a> for elliposiodal, spherical and 
-        N-vectorial <code>LatLon</code>s.</em>    </li>
+        class="link">LatLonBase</a> for all elliposiodal, spherical and 
+        N-vectorial <code>LatLon</code> classes.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.lazily-module.html">pygeodesy.lazily</a></strong>: <em class="summary">Lazily import <code>pygeodesy</code> modules and attributes, based 
         on <a href="https://modutil.ReadTheDocs.io/en/latest/#lazy_import" 
         target="_top">lazy_import</a> from <i>Brett Cannon</i>'s <a 
@@ -8426,7 +8426,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fc37059ff50&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7ff5a0b7a0d0&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -12304,7 +12304,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#toWm" class="summary-sig-name">toWm</a>(<span class="summary-sig-arg">latlon</span>,
         <span class="summary-sig-arg">lon</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6378137.0</span>,
+        <span class="summary-sig-arg">earth</span>=<span class="summary-sig-default">6378137.0</span>,
         <span class="summary-sig-arg">Wm</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.webmercator.Wm'&gt;</span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">**Wm_kwds</span>)</span><br />
@@ -13026,7 +13026,7 @@ ygeodesy'"><code class="variable-quote">'</code><code class="variable-string">/U
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'23.6.6'"><code class="variable-quote">'</code><code class="variable-string">23.6.6</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'23.6.12'"><code class="variable-quote">'</code><code class="variable-string">23.6.12</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -13782,7 +13782,9 @@ Ellipsoids.WGS84: Ellipsoid(name='WGS84', a=6378137, b=6356752.3142451\
 z=-542.06, rx=-0, ry=-0, rz=-0, s=20.4894, s1=1.00002, sx=-0.1502, sy=\
 -0.247, sz=-0.8421),
 Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
-, rz=0, s=0, s1=1, sx=0, sy=0, sz=0)">Transforms.OSGB36: Transform(name='OSGB36', tx=-4<code class="variable-ellipsis">...</code></code><br />
+, rz=0, s=0, s1=1, sx=0, sy=0, sz=0),
+Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
+, ry=0, rz=0, s=0, s1=1, sx=0, sy=0, sz=0)">Transforms.OSGB36: Transform(name='OSGB36', tx=-4<code class="variable-ellipsis">...</code></code><br />
       Registered, predefined transforms (<code>enum-like</code>).
     </td>
   </tr>
@@ -20979,7 +20981,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fc37059ff50&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7ff5a0b7a0d0&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -26025,7 +26027,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>strWM</code></strong> - A WM coordinate (<code>str</code>).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Optional earth radius (<code>meter</code>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Optional earth radius (<code>meter</code>), needed in case 
+          <b><code>strWM</code></b> doesn't include <code>r</code>.</li>
         <li><strong class="pname"><code>Wm</code></strong> - Optional class to return the WM coordinate (<a 
           href="pygeodesy.webmercator.Wm-class.html" class="link">Wm</a>) 
           or <code>None</code>.</li>
@@ -26041,12 +26044,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><code><strong class='fraise'><a href="pygeodesy.webmercator.WebMercatorError-class.html">WebMercatorError</a></strong></code> - Invalid <b><code>strWM</code></b>.</li>
     </ul></dd>
   </dl>
-<div class="fields">      <p><strong>Example:</strong>
-        <pre class="py-doctest">
-<span class="py-prompt">&gt;&gt;&gt; </span>u = parseWM(<span class="py-string">'448251 5411932'</span>)
-<span class="py-prompt">&gt;&gt;&gt; </span>u.toRepr()  <span class="py-comment"># [E:448251, N:5411932]</span></pre>
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="perimeterOf"></a>
 <div>
@@ -29033,7 +29031,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toWm</span>&nbsp;(<span class="sig-arg">latlon</span>,
         <span class="sig-arg">lon</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">6378137.0</span>,
+        <span class="sig-arg">earth</span>=<span class="sig-default">6378137.0</span>,
         <span class="sig-arg">Wm</span>=<span class="sig-default">&lt;class 'pygeodesy.webmercator.Wm'&gt;</span>,
         <span class="sig-arg">name</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">**Wm_kwds</span>)</span>
@@ -29050,8 +29048,15 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>latlon</code></strong> - Latitude (<code>degrees</code>) or an (ellipsoidal or spherical) 
           geodetic <code>LatLon</code> point.</li>
         <li><strong class="pname"><code>lon</code></strong> - Optional longitude (<code>degrees</code> or <code>None</code>).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Optional earth radius (<code>meter</code>), overridden by the 
-          <b><code>latlon</code></b>'s equatorial radius.</li>
+        <li><strong class="pname"><code>earth</code></strong> - Earth radius (<code>meter</code>), datum or ellipsoid (<a 
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>, 
+          <a href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
+          class="link">a_f2Tuple</a>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+          class="link">Ellipsoid</a> or <a 
+          href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
+          class="link">Ellipsoid2</a>), overridden by 
+          <b><code>latlon</code></b>'s datum if present.</li>
         <li><strong class="pname"><code>Wm</code></strong> - Optional class to return the WM coordinate (<a 
           href="pygeodesy.webmercator.Wm-class.html" class="link">Wm</a>) 
           or <code>None</code>.</li>
@@ -29072,17 +29077,10 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <b><code>latlon</code></b> is beyond the valid WM range and <a 
         href="pygeodesy.errors-module.html#rangerrors" 
         class="link">pygeodesy.rangerrors</a> is set to <code>True</code> 
-        or if <b><code>radius</code></b> is invalid.</li>
+        or if <b><code>earth</code></b> is invalid.</li>
     </ul></dd>
   </dl>
-<div class="fields">      <p><strong>Example:</strong>
-        <pre class="py-doctest">
-<span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(48.8582, 2.2945)  <span class="py-comment"># 448251.8 5411932.7</span>
-<span class="py-prompt">&gt;&gt;&gt; </span>w = toWm(p)  <span class="py-comment"># 448252 5411933</span>
-<span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(13.4125, 103.8667)  <span class="py-comment"># 377302.4 1483034.8</span>
-<span class="py-prompt">&gt;&gt;&gt; </span>w = toWm(p)  <span class="py-comment"># 377302 1483035</span></pre>
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="toise2m"></a>
 <div>
@@ -30643,7 +30641,9 @@ Transforms.OSGB36: Transform(name='OSGB36', tx=-446.448, ty=125.157, t<span clas
 z=-542.06, rx=-0, ry=-0, rz=-0, s=20.4894, s1=1.00002, sx=-0.1502, sy=<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
 -0.247, sz=-0.8421),
 Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-, rz=0, s=0, s1=1, sx=0, sy=0, sz=0)
+, rz=0, s=0, s1=1, sx=0, sy=0, sz=0),
+Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+, ry=0, rz=0, s=0, s1=1, sx=0, sy=0, sz=0)
 </pre></td></tr></table>
 </dd>
   </dl>
@@ -30681,7 +30681,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Jun  7 08:20:49 2023
+    Generated by Epydoc 3.0.1 on Tue Jun 13 16:32:36 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

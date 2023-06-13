@@ -4,15 +4,15 @@
 # Test spherical earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '23.05.23'
+__version__ = '23.06.12'
 
 from bases import isPython2, isWindows, RandomLatLon
 from testLatLon import Tests as _TestsLL
 from testVectorial import Tests as _TestsV
 
 from pygeodesy import F_D, F_DEG_, F_DMS, PI_4, R_M, \
-                      classname, Ellipsoids, IntersectionError, \
-                      latlonDMS, lonDMS
+                      classname, degrees2m, Ellipsoids, \
+                      IntersectionError, latlonDMS, lonDMS
 from math import radians
 
 # <https://GeographicLib.SourceForge.io/html/python/examples.html>
@@ -143,13 +143,23 @@ class Tests(_TestsLL, _TestsV):
                      (False, '''(LatLon(04°15′12.05″N, 006°15′26.13″E), LatLon(01°15′02.91″S, 000°44′56.74″E))'''),
                      (True,  '''(LatLon(04°15′15.1″N, 006°15′29.19″E), LatLon(01°15′28.78″S, 000°44′30.85″E))''')):
             t = c.intersecant2(700000, p, 45, exact=e)
-            self.test('intersecant2', t, x)
+            self.test('intersecant2', t, x, nl=1)
             for i, s in enumerate(t):  # both secant points should be on the circle
                 d = c.distanceTo(s) if e is None else c.rhumbDistanceTo(s, exact=e)
                 self.test('intersecant2', int(d), '700000', known=True)
             s, t = t
             b = t.initialBearingTo(s) if e is None else t.rhumbAzimuthTo(s, exact=e)
             self.test('intersecant2', int(b), 45, known=True)
+
+        c, p = LatLon(0, 0), LatLon(-25, 0)
+        for e in (None, True, False):
+            nl = dict(nl=1)
+            for r in (degrees2m(25), LatLon(25, 0)):
+                for z in (45, LatLon(0, 25)):
+                    a, b = t = c.intersecant2(r, p, z, exact=e)
+                    self.test('intersecant4', t, 'LatLon(0, 25), LatLon(-25, 0)',
+                                                 known= 24 < a.lon < 26 and -26 < b.lat < -24, **nl)
+                    nl = {}
 
         if hasattr(LatLon, 'intersections2') and Sph:
 

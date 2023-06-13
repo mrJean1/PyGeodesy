@@ -4,12 +4,12 @@
 # Test L{webmercator} module.
 
 __all__ = ('Tests',)
-__version__ = '23.03.27'
+__version__ = '23.06.12'
 
 from math import log, radians, tan
-from bases import TestsBase
+from bases import startswith, TestsBase
 
-from pygeodesy import F_D, F_DMS, R_M, R_MA, Datums, LatLon_, \
+from pygeodesy import F_D, F_DMS, R_M, R_MA, Datums, \
                       fstr, toWm, webmercator, Wm
 
 
@@ -34,6 +34,9 @@ class Tests(TestsBase):
         ll = w.latlon2(None)  # 2-tuple
         self.test('Wm2.to2ll', fstr(ll, prec=8), '43.65321741, 4.02671439')
 
+        ll = w.toLatLon()  # LatLonDatum3Tuple
+        self.test('Wm2.toLatLon', ll, "(43.653217, 4.026714, Datum(name='_Wm', ", known=startswith)
+
         ll = w.toLatLon(LatLon)
         self.test('Wm2.toLatLon', ll, '43.653217°N, 004.026714°E')
         self.test('Wm2.toLatLon', ll.toStr(form=F_DMS), '43°39′11.58″N, 004°01′36.17″E')
@@ -54,9 +57,9 @@ class Tests(TestsBase):
         self.test('parse', t.toRepr(radius=True), w.toRepr(radius=True))
 
         ll = LatLon(13.4125, 103.8667)
-        w = toWm(ll)
-        self.test('toWm4', w.toStr(prec=0), '11562388 1506899')
-        self.test('toWm4', w.toStr(prec=6), '11562388.154378 1506899.04498')
+        w = toWm(ll)  # R_M
+        self.test('toWm4', w.toStr(prec=0), '11549466 1505215')
+        self.test('toWm4', w.toStr(prec=6), '11549465.988273 1505214.929251')
 
         ll = LatLonE(13.4125, 103.8667)
         w = toWm(ll)
@@ -64,15 +67,19 @@ class Tests(TestsBase):
         self.test('toWm4E', w.toStr(prec=6), '11562388.154378 1496993.698095')
 
         # <https://www.EPSG.org/Portals/0/373-07-02.pdf> page 45
-        ll = LatLon('''24°22'54.433"N''', '''100°20'0"W''')
-        w = ll.toWm()
-        self.test('toWm5', w.toStr(prec=0), '-11169056 2800000')
-        self.test('toWm5', w.toStr(prec=6), '-11169055.576258 2800000.003136')
+        w = toWm('''24°22'54.433"N''', '''100°20'0"W''', radius=R_MA)  # earth=R_MA
+        self.test('toWm', w.toStr(prec=0), '-11169056 2800000')
+        self.test('toWm', w.toStr(prec=6), '-11169055.576258 2800000.003136')
 
         ll = LatLonE('''24°22'54.433"N''', '''100°20'00.0"W''')
-        w = ll.toWm()
+        w = ll.toWm()  # R_MA
         self.test('toWm5E', w.toStr(prec=0), '-11169056 2782367')
         self.test('toWm5E', w.toStr(prec=6), '-11169055.576258 2782367.05923')
+
+        ll = LatLon('''24°22'54.433"N''', '''100°20'0"W''')
+        w = ll.toWm()  # R_M
+        self.test('toWm5', w.toStr(prec=0), '-11156573 2796871')
+        self.test('toWm5', w.toStr(prec=6), '-11156573.000041 2796870.713179')
 
         w = Wm(-11169055.58, 2810000)
         ll = w.toLatLon(LatLon)
@@ -106,11 +113,11 @@ class Tests(TestsBase):
         self.test('Wm8.toLatLon', ll.toStr(form=F_D, prec=12),  '51.408596053784°N, 000.304339270785°W')
         self.test('Wm8.toLatLon', ll.toStr(form=F_DMS, prec=6), '51°24′30.945794″N, 000°18′15.621375″W')
 
-        for LL, datum in ((LatLon , Datums.WGS84),
-                          (LatLon_, Datums.WGS84),
-                          (LatLonE, None),
-                          (None,    Datums.WGS84),
-                          (None,    None)):
+        for LL, datum in ((LatLon , Datums.WGS84),):
+            #             (None,    Datums.WGS84),
+            #             (None,    None),
+            #             (LatLonE, None),
+            #             (LatLon_, Datums.WGS84)):
             try:
                 ll = w.toLatLon(LL, datum=datum)
             except TypeError:
@@ -119,25 +126,26 @@ class Tests(TestsBase):
 
         # <https://Earth-Info.NGA.mil/GandG/wgs84/web_mercator/
         #         %28U%29%20NGA_SIG_0011_1.0.0_WEBMERC.pdf>
-        self._TableA1(LatLon, '', 0,
+        self._TableA1(R_MA, 0,
                       '1118889.97', '2273030.93', '3503549.84',
                       '4865942.28', '6446275.84', '8399737.89')
-        self._TableA1(LatLon, '', 1.0 / 3600,
+        self._TableA1(R_MA, 1.0 / 3600,
                       '1118921.37', '2273063.83', '3503585.55',
                       '4865982.65', '6446323.95', '8399799.73')
-        self._TableA1(LatLonE, 'E', 0,
+        self._TableA1(Datums.WGS84, 0,
                       '1111475.10', '2258423.65', '3482189.09',
                       '4838471.40', '6413524.59', '8362698.55')
-        self._TableA1(LatLonE, 'E', 1.0 / 3600,
+        self._TableA1(Datums.WGS84, 1.0 / 3600,
                       '1111506.30', '2258456.36', '3482224.61',
                       '4838511.61', '6413572.57', '8362760.29')
 
-    def _TableA1(self, LL, E, secs, *ns):
-        lat = secs
+    def _TableA1(self, R, secs, *ns):
+        lat, nl = secs, dict(nl=1)
         for n in ns:
             lat += 10
-            t = 'toWm(LatLon%s(%.4f, 0)).y' % (E, lat)
-            self.test(t, toWm(LL(lat, 0)).y, n, fmt='%.2f')
+            t = 'toWm(%.4f, 0, earth=%s).y' % (lat, R.name)
+            self.test(t, toWm(lat, 0, earth=R).y, n, fmt='%.2f', **nl)
+            nl = {}
 
 
 if __name__ == '__main__':

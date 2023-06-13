@@ -51,7 +51,7 @@ from pygeodesy.vector3d import _intersect3d3, Vector3d  # in .intersection2 belo
 from math import asinh, atan, cos, cosh, fabs, radians, sin, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.rhumbx
-__version__ = '23.05.26'
+__version__ = '23.06.12'
 
 _rls   = []  # instances of C{RbumbLine} to be updated
 _TRIPS = 65  # .intersection2, 18+
@@ -104,8 +104,8 @@ class Rhumb(_RhumbBase):
                            (equatorial) radius (C{scalar}).
            @kwarg f: The ellipsoid's flattening (C{scalar}), iff B{C{a_earth}} is
                      a C{scalar}, ignored otherwise.
-           @kwarg exact: If C{True}, use an addition theorem for elliptic integrals
-                         to compute I{Divided differences}, otherwise use the Krüger
+           @kwarg exact: If C{True}, use an addition theorem for elliptic integrals to
+                         compute I{Divided differences}, otherwise use the I{Krüger}
                          series expansion (C{bool}), see also property C{exact}.
            @kwarg name: Optional name (C{str}).
            @kwarg RA_TMorder: Optional keyword arguments B{C{RAorder}} and B{C{TMorder}}
@@ -286,8 +286,8 @@ class Rhumb(_RhumbBase):
     @exact.setter  # PYCHOK setter!
     def exact(self, exact):
         '''Set the I{exact} option (C{bool}).  If C{True}, use I{exact} rhumb
-           calculations, if C{False} results are less precise for more oblate
-           or more prolate ellipsoids with M{abs(flattening) > 0.01} (C{bool}).
+           calculations, if C{False} I{Krüger}'s results are less precise for
+           oblate or prolate ellipsoids with M{abs(flattening) > 0.01} (C{bool}).
 
            @see: Option U{B{-s}<https://GeographicLib.SourceForge.io/C++/doc/RhumbSolve.1.html>}
                  and U{ACCURACY<https://GeographicLib.SourceForge.io/C++/doc/RhumbSolve.1.html#ACCURACY>}.

@@ -180,6 +180,7 @@ _decode3_             = 'decode3'            # PYCHOK OK
 _deg_                 = 'deg'                # PYCHOK OK
 _degrees_             = 'degrees'            # PYCHOK OK
 _degrees2_            = 'degrees2'           # PYCHOK SQUARED
+_delta_               = 'delta'              # PYCHOK OK
 _DEPRECATED_          = 'DEPRECATED'         # PYCHOK OK
 _DEQUALSPACED_   = Str_(' == ')              # PYCHOK OK
 _distance_            = 'distance'           # PYCHOK OK
@@ -189,6 +190,7 @@ _DOT_            = Str_('.')                 # PYCHOK OK
 _down_                = 'down'               # PYCHOK OK
 _e_                   = 'e'                  # PYCHOK OK
 _E_                   = 'E'                  # PYCHOK OK
+_earth_               = 'earth'              # PYCHOK OK
 _east_                = 'east'               # PYCHOK OK
 _easting_             = 'easting'            # PYCHOK OK
 _ecef_                = 'ecef'               # PYCHOK OK
@@ -312,6 +314,7 @@ _null_                = 'null'               # PYCHOK OK
 _number_              = 'number'             # PYCHOK OK
 _numpy_               = 'numpy'              # PYCHOK OK
 _Nv00_                = 'Nv00'               # PYCHOK OK
+_of_                  = 'of'                 # PYCHOK OK
 _on_                  = 'on'                 # PYCHOK OK
 _opposite_            = 'opposite'           # PYCHOK OK
 _or_                  = 'or'                 # PYCHOK OK
@@ -591,7 +594,7 @@ def _version2(version, n=2):
 __all__ = (_NN_,  # not MISSING!
             Str_.__name__,  # classes
             machine.__name__)  # in .lazily
-__version__ = '23.06.03'
+__version__ = '23.06.12'
 
 if __name__ == '__main__':
 

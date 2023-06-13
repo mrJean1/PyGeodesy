@@ -55,7 +55,7 @@ from pygeodesy.vector3d import sumOf, Vector3d
 from math import asin, atan2, cos, degrees, fabs, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '23.05.25'
+__version__ = '23.06.12'
 
 _parallel_ = 'parallel'
 
@@ -249,7 +249,7 @@ class LatLon(LatLonSphericalBase):
             >>> p2.toStr()  # '51.5135°N, 000.0983°W'
         '''
         a, b =  self.philam
-        r, t = _angular(distance, radius), Bearing_(bearing)
+        r, t = _angular(distance, radius, low=None), Bearing_(bearing)
 
         a, b = _destination2(a, b, r, t)
         h = self._heigHt(height)
@@ -965,8 +965,9 @@ def intersecant2(center, circle, point, bearing, radius=R_M, exact=False,
                     and the B{C{circle}} and B{C{bearing}} points (C{bool}).
 
        @return: 2-Tuple of the intersection points (representing a chord),
-                each an instance of this class.  For a tangent line, each
-                point C{is} this very instance.
+                each an instance of this class.  For a tangent line, both
+                points are the same instance, the B{C{point}} or wrapped
+                or I{normalized}.
 
        @raise IntersectionError: The circle and line do not intersect.
 

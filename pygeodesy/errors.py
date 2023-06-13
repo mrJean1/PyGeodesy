@@ -21,7 +21,7 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _getenv, \
                              _pairs, _PYTHON_X_DEV
 
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')  _UNDER
-__version__ = '23.05.06'
+__version__ = '23.05.12'
 
 _box_        = 'box'
 _default_    = 'default'
@@ -566,7 +566,7 @@ def _SciPyIssue(x, *extras):  # PYCHOK no cover
     return Error(t, cause=x)
 
 
-def _xattr(obj, **name_default):
+def _xattr(obj, **name_default):  # see .strerprs._xattrs
     '''(INTERNAL) Get an C{obj}'s attribute by C{name}.
     '''
     if len(name_default) == 1:

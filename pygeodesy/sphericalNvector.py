@@ -60,7 +60,7 @@ from pygeodesy.utily import atan2, degrees360, fabs, sincos2, sincos2_, \
 # from math import atan2, fabs  # from utily
 
 __all__ = _ALL_LAZY.sphericalNvector
-__version__ = '23.05.26'
+__version__ = '23.06.12'
 
 _lines_ = 'lines'
 
@@ -233,7 +233,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
             >>> q.toStr()  # 51.513546°N, 000.098345°W
         '''
         b =  Bearing_(bearing)
-        a = _angular(distance, radius)
+        a = _angular(distance, radius, low=None)
         sa, ca, sb, cb = sincos2_(a, b)
 
         n = self.toNvector()
@@ -974,8 +974,8 @@ def intersecant2(center, circle, point, bearing, radius=R_M, exact=False,
                     and the B{C{circle}} and B{C{bearing}} points (C{bool}).
 
        @return: 2-Tuple of the intersection points (representing a chord), each
-                an instance of this class.  For a tangent line, each point C{is}
-                this very instance.
+                an instance of this class.  For a tangent line, both points are
+                the same instance, the B{C{point}} or wrapped or I{normalized}.
 
        @raise IntersectionError: The circle and line do not intersect.
 

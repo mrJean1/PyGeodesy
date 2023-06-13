@@ -14,30 +14,30 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 
 # from pygeodesy.basics import _xinstanceof  # from .datums
 from pygeodesy.constants import EPS, EPS0, EPS1, _0_0, _0_5
-from pygeodesy.cartesianBase import CartesianBase, _ellipsoidal_  # PYCHOK used!
+from pygeodesy.cartesianBase import CartesianBase,  _ellipsoidal_  # PYCHOK used!
 from pygeodesy.datums import Datum, Datums, _ellipsoidal_datum, \
-                            _spherical_datum, _WGS84, _xinstanceof
+                            _spherical_datum, _WGS84,  _xinstanceof
 from pygeodesy.errors import _incompatible, _IsnotError, RangeError, TRFError, \
                              _ValueError, _xattr, _xellipsoidal, _xError, \
                              _xkwds, _xkwds_get, _xkwds_not
 # from pygeodesy.interns import _ellipsoidal_  # from .cartesianBase
-from pygeodesy.interns import MISSING, NN, _COMMA_, _conversion_, _DOT_, \
-                             _no_, _reframe_, _SPACE_
-from pygeodesy.latlonBase import fabs, LatLonBase, _trilaterate5, \
-                                 Vector3Tuple,  _Wrap
+from pygeodesy.interns import MISSING, NN, _COMMA_, _conversion_, _DOT_, _no_, \
+                             _reframe_, _SPACE_
+from pygeodesy.latlonBase import LatLonBase, _trilaterate5, \
+                                 fabs, Vector3Tuple, _Wrap
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
-# from pygeodesy.lcc import toLcc  # from _MODS
-# from pygeodesy.named import notOverloaded  # from _MODS
+# from pygeodesy.lcc import toLcc  # _MODS
+# from pygeodesy.named import notOverloaded  # _MODS
 # from pygeodesy.namedTuples import Vector3Tuple  # from .latlonBase
 from pygeodesy.props import deprecated_method, deprecated_property_RO, \
                             Property_RO, property_doc_, property_RO, _update_all
 from pygeodesy.units import Epoch, _1mm as _TOL_M, Radius_
 # from pygeodesy.utily import _Wrap  # from .latlonBase
 
-# from math import fabs  # from .karney
+# from math import fabs  # from .latlonBase
 
 __all__ = _ALL_LAZY.ellipsoidalBase
-__version__ = '23.05.18'
+__version__ = '23.06.11'
 
 
 class CartesianEllipsoidalBase(CartesianBase):
@@ -983,18 +983,6 @@ class LatLonEllipsoidalBase(LatLonBase):
                 _xinstanceof(utmups.Utm, utmups.Ups, toUtmUps8=u)
         return _lowerleft(u, center)
 
-    def toWm(self, **toWm_kwds):
-        '''Convert this C{LatLon} point to a WM coordinate.
-
-           @kwarg toWm_kwds: Optional L{pygeodesy.toWm} keyword arguments.
-
-           @return: The WM coordinate (L{Wm}).
-
-           @see: Function L{pygeodesy.toWm}.
-        '''
-        return self._wm if not toWm_kwds else _MODS.webmercator.toWm(
-               self, **_xkwds(toWm_kwds, name=self.name))
-
     @deprecated_method
     def to3xyz(self):  # PYCHOK no cover
         '''DEPRECATED, use method C{toEcef}.
@@ -1101,12 +1089,6 @@ class LatLonEllipsoidalBase(LatLonBase):
         except RangeError:
             return False
         return True
-
-    @Property_RO
-    def _wm(self):
-        '''(INTERNAL) Get this C{LatLon} point as webmercator (L{Wm}).
-        '''
-        return _MODS.webmercator.toWm(self)
 
 
 def _lowerleft(utmups, center):

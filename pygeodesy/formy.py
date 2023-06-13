@@ -19,7 +19,7 @@ from pygeodesy.errors import IntersectionError, LimitError, limiterrors, \
                             _xError, _xkwds, _xkwds_pop
 from pygeodesy.fmath import euclid, hypot, hypot2, sqrt0
 from pygeodesy.fsums import fsumf_,  isscalar
-from pygeodesy.interns import NN, _distant_, _SPACE_, _too_
+from pygeodesy.interns import NN, _delta_, _distant_, _SPACE_, _too_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _NamedTuple, _xnamed,  Fmt, unstr
 from pygeodesy.namedTuples import Bearing2Tuple, Distance4Tuple, \
@@ -36,9 +36,8 @@ from contextlib import contextmanager
 from math import atan, atan2, cos, degrees, fabs, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '23.05.15'
+__version__ = '23.06.08'
 
-_delta_ = 'delta'
 _D2_R2  = (PI / _180_0)**2  # degrees- to radians-squared
 _EWGS84 = _WGS84.ellipsoid
 _ratio_ = 'ratio'
@@ -1604,22 +1603,19 @@ def _radistance(inst):
     except TypeError:
         return inst.distance
 
-    _rad = radians
-
     def _philam(p):
-        return _rad(p.lat), _rad(p.lon)
-
-    def _radistance(point1, point2):
         try:
-            phi1, lam1 = wrap_(point1.phi, point1.lam)
-            phi2, lam2 = wrap_(point2.phi, point2.lam)
-        except AttributeError:  # no 'phi or .lam
-            phi1, lam1 = wrap_(*_philam(point1))
-            phi2, lam2 = wrap_(*_philam(point2))
+            return p.phi, p.lam
+        except AttributeError:  # no .phi or .lam
+            return radians(p.lat), radians(p.lon)
+
+    def _func_wrap(point1, point2):
+        phi1, lam1 = wrap_(*_philam(point1))
+        phi2, lam2 = wrap_(*_philam(point2))
         return func_(phi2, phi1, lam2 - lam1, **kwds_)
 
     inst._units = inst._units_
-    return _radistance
+    return _func_wrap
 
 
 def _scale_deg(lat1, lat2):  # degrees

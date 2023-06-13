@@ -70,8 +70,8 @@ from pygeodesy.ellipsoids import a_f2Tuple, Ellipsoid, Ellipsoid2, Ellipsoids, V
 from pygeodesy.errors import _IsnotError, _xattr
 from pygeodesy.fmath import fdot, fmean,  Fmt
 from pygeodesy.interns import NN, _a_, _Airy1830_, _AiryModified_, _Bessel1841_, _cartesian_, \
-                             _Clarke1866_, _Clarke1880IGN_, _COMMASPACE_, _DOT_, _ellipsoid_, \
-                             _ellipsoidal_, _GRS80_, _Intl1924_, _Krassovski1940_, \
+                             _Clarke1866_, _Clarke1880IGN_, _COMMASPACE_, _DOT_, _earth_, \
+                             _ellipsoid_, _ellipsoidal_, _GRS80_, _Intl1924_, _Krassovski1940_, \
                              _Krassowsky1940_, _NAD27_, _NAD83_, _s_, _Sphere_, _spherical_, \
                              _sx_, _sy_, _sz_, _transform_, _tx_, _ty_, _tz_, _UNDER_, \
                              _WGS72_, _WGS84_, _UNDER
@@ -86,12 +86,11 @@ from pygeodesy.units import radians, Radius_
 # from math import radians  # from .units
 
 __all__ = _ALL_LAZY.datums
-__version__ = '23.05.31'
+__version__ = '23.06.12'
 
 _a_ellipsoid_ = _UNDER_(_a_, _ellipsoid_)
 _BD72_        = 'BD72'
 _DHDN_        = 'DHDN'
-_earth_       = 'earth'
 _ED50_        = 'ED50'
 _GDA2020_     = 'GDA2020'
 _Identity_    = 'Identity'
@@ -173,17 +172,17 @@ class Transform(_NamedEnumItem):
 
            @return: C{True} if equal, C{False} otherwise.
         '''
-        return self is other or (isinstance(other, Transform) and
-                                 self.tx == other.tx and
-                                 self.ty == other.ty and
-                                 self.tz == other.tz and
-                                 self.rx == other.rx and
-                                 self.ry == other.ry and
-                                 self.rz == other.rz and
-                                 self.s  == other.s)
+        return self is other or (isinstance(other, Transform)
+                                 and self.tx == other.tx
+                                 and self.ty == other.ty
+                                 and self.tz == other.tz
+                                 and self.rx == other.rx
+                                 and self.ry == other.ry
+                                 and self.rz == other.rz
+                                 and self.s  == other.s)
 
     def __matmul__(self, other):  # PYCHOK Python 3.5+
-        '''Helmert-transform cartesian B{C{other}}.
+        '''Helmert-transform a cartesian B{C{other}}.
 
            @raise TypeError: Invalid B{C{other}}.
         '''
@@ -483,7 +482,7 @@ def _mean_radius(radius, *lats):
        L{Ellipsoid2} or scalar earth C{radius} over several latitudes.
     '''
     if radius is R_M:
-        r = radius
+        r =  radius
     elif isscalar(radius):
         r =  Radius_(radius, low=0, Error=TypeError)
     else:

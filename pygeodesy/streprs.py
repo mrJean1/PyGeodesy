@@ -20,7 +20,7 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from math import fabs, log10 as _log10
 
 __all__ = _ALL_LAZY.streprs
-__version__ = '23.06.03'
+__version__ = '23.06.12'
 
 _EN_PREC    =  6           # max MGRS/OSGR precision, 1 micrometer
 _EN_WIDE    =  5           # number of MGRS/OSGR units, log10(_100km)
@@ -122,6 +122,7 @@ class Fmt(object):
     e             =  Fstr(_e_)
     E             =  Fstr(_E_)
     EQUAL         = _Fmt(_EQUAL_(NN, '%s'))
+    EQUALg        = _Fmt(_EQUAL_(NN, '%g'))
     EQUALSPACED   = _Fmt(_EQUALSPACED_(NN, '%s'))
     exceeds_eps   = _Fmt(_exceeds_(_eps_, _PAREN_g))
     exceeds_limit = _Fmt(_exceeds_(_limit_, _PAREN_g))
@@ -555,7 +556,7 @@ def _0wpF(*w_p_f):  # in .dms, .osgr
     return '%0*.*f' % w_p_f  # XXX was F
 
 
-def _xattrs(insto, other, *attrs):
+def _xattrs(insto, other, *attrs):  # see .errors._xattr
     '''(INTERNAL) Copy attribute values from B{C{other}} to B{C{insto}}.
 
        @arg insto: Object to copy attribute values to (any C{type}).
