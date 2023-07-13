@@ -7,8 +7,8 @@ from I{Brett Cannon}'s U{modutil<https://PyPI.org/project/modutil>}.
 
 C{Lazy import} is I{supported only for }U{Python 3.7+
 <https://Snarky.Ca/lazy-importing-in-python-3-7>} and is I{enabled by
-default in }U{PyGeodesy 18.11.10+<https://PyPI.org/project/PyGeodesy>}
-I{ and later}.
+default} in U{PyGeodesy 18.11.10<https://PyPI.org/project/PyGeodesy>}
+I{and newer}.
 
 To I{enable} C{lazy import}, set C{env} variable C{PYGEODESY_LAZY_IMPORT}
 to C{1}, C{2}, C{3} or higher prior to C{import pygeodesy}.  To I{disable}
@@ -21,6 +21,10 @@ and line number.
 @note: C{Lazy import} applies only to top-level modules of C{pygeodesy}.
 A C{lazy import} of a top-level module inherently loads all sub-modules
 imported by that top-level module.
+
+@note: C{Lazy import} raises a L{LazyAttributeError} or L{LazyImportError}
+depending on the cause of the error and such errors can occur late, after
+all initial imports.
 '''
 from pygeodesy.interns import MISSING, NN, __all__ as _interns_a_l_l_, \
                              _areaOf_, _attribute_, _by_, _COLONSPACE_, \
@@ -60,6 +64,13 @@ except ImportError:  # Python 2.6-
     def import_module(name, package=None):
         raise LazyImportError(name=name, package=package,
                               txt=_no_(import_module.__name__))
+
+
+class LazyAttributeError(AttributeError):
+    '''Raised if a C{lazily imported} attribute is missing or invalid.
+    '''
+    def __init__(self, *name_value, **txt):
+        _ALL_MODS.errors._error_init(AttributeError, self, name_value, **txt)
 
 
 class LazyImportError(ImportError):
@@ -102,11 +113,11 @@ class _NamedEnum_RO(dict):
             return self[attr]
         except KeyError:
             t = self._DOT_(attr)
-            raise AttributeError(_COLONSPACE_(t, _doesn_t_exist_))
+            raise LazyAttributeError(t, txt=_doesn_t_exist_)
 
     def __setattr__(self, attr, value):  # PYCHOK no cover
         t = _EQUALSPACED_(self._DOT_(attr), value)
-        raise TypeError(_COLONSPACE_(t, _immutable_))
+        raise LazyAttributeError(t, txt=_immutable_)
 
     def enums(self):
         for k, v in dict.items(self):
@@ -248,7 +259,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                          karney=('Area3Tuple', 'Caps', 'Direct9Tuple', 'GDict', 'GeodesicError', 'Inverse10Tuple'),
                             ktm=('KTMError', 'KTransverseMercator'),
                      latlonBase=(),  # module only
-                         lazily=('LazyImportError', 'isLazy', 'print_', 'printf'),
+                         lazily=('LazyAttributeError', 'LazyImportError', 'isLazy', 'print_', 'printf'),
                             lcc=('Conic', 'Conics', 'Lcc', 'LCCError', 'toLcc'),
                             ltp=('Attitude', 'AttitudeError', 'ChLV', 'ChLVa', 'ChLVe', 'Frustum',
                                  'LocalCartesian', 'LocalError', 'Ltp', 'tyr3d'),
@@ -370,7 +381,7 @@ class _ALL_MODS(object):
 
     def __setattr__(self, name, value):  # PYCHOK no cover
         t = _EQUALSPACED_(self._DOT_(name), repr(value))
-        raise AttributeError(_COLONSPACE_(t, _immutable_))
+        raise LazyAttributeError(t, txt=_immutable_)
 
     def getattr(self, module_name, name, *dflt):
         '''Get an attribute of a C{pygeodesy} module.
@@ -388,8 +399,11 @@ class _ALL_MODS(object):
         if n.split(_DOT_, 1)[0] != _pygeodesy_:
             n = _DOT_(_pygeodesy_, n)
         m = self.getmodule(n)
-        return m if name in (None, NN) else (
-               getattr(m, name, *dflt) if dflt else getattr(m, name))
+        try:
+            return m if name in (None, NN) else (
+                   getattr(m, name, *dflt) if dflt else getattr(m, name))
+        except (AttributeError, TypeError) as x:
+            raise LazyAttributeError(_DOT_(m, n), cause=x)
 
     def getmodule(self, name):
         '''Get a C{pygeodesy} module.
@@ -422,7 +436,7 @@ class _ALL_MODS(object):
 _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '23.06.02'
+__version__ = '23.07.12'
 
 
 def _ALL_OTHER(*objs):
@@ -508,10 +522,11 @@ def _lazy_import2(package_name):  # MCCABE 14
                 for easy reference within itself and the callable to
                 be set to `__getattr__`.
 
-       @raise LazyImportError: Lazy import not supported or not enabled,
-                               an import failed or the package name or
-                               module name or attribute name is invalid
-                               or does not exist.
+       @raise LazyAttributeError: The package, module or attribute
+                                  name is invalid or does not exist.
+
+       @raise LazyImportError: Lazy import not supported or not enabled
+                               or an import failed.
 
        @note: This is the original function U{modutil.lazy_import
               <https://GitHub.com/brettcannon/modutil/blob/master/modutil.py>}
@@ -541,7 +556,8 @@ def _lazy_import2(package_name):  # MCCABE 14
             # note in the _lazy_import2.__doc__ above).
             mod, _, attr = imports[name].partition(_DOT_)
             if mod not in imports:
-                raise LazyImportError(_no_(_module_), txt=_DOT_(parent, mod))
+                # <https://GitHub.com/mrJean1/PyGeodesy/issues/76>
+                raise LazyAttributeError(_no_(_module_), txt=_DOT_(parent, mod))
             imported = import_module(_DOT_(_pygeodesy_, mod), parent)
             pkg = getattr(imported, _p_a_c_k_a_g_e_, None)
             if pkg not in packages:  # invalid package
@@ -554,14 +570,16 @@ def _lazy_import2(package_name):  # MCCABE 14
                 imported = getattr(imported, name, MISSING)
             if imported is MISSING:  # PYCHOK no cover
                 t = _DOT_(mod, attr or name)
-                raise LazyImportError(_no_(_attribute_), txt=t)
+                # <https://GitHub.com/mrJean1/PyGeodesy/issues/76>
+                raise LazyAttributeError(_no_(_attribute_), txt=t)
 
         elif name in (_a_l_l_,):  # XXX '_d_i_r_', '_m_e_m_b_e_r_s_'?
             imported = _ALL_INIT + tuple(imports.keys())
             mod = NN
         else:  # PYCHOK no cover
             t = _no_(_module_, _or_, _attribute_)
-            raise LazyImportError(t, txt=_DOT_(parent, name))
+            # <https://GitHub.com/mrJean1/PyGeodesy/issues/76>
+            raise LazyAttributeError(t, txt=_DOT_(parent, name))
 
         setattr(package, name, imported)
         if isLazy > 1:

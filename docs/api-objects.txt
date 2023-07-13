@@ -138,7 +138,6 @@ pygeodesy.equirectangular	pygeodesy-module.html#equirectangular
 pygeodesy.degrees	pygeodesy-module.html#degrees
 pygeodesy.crosserrors	pygeodesy-module.html#crosserrors
 pygeodesy.deprecated_Property_RO	pygeodesy-module.html#deprecated_Property_RO
-pygeodesy.degrees180	pygeodesy-module.html#degrees180
 pygeodesy.isclose	pygeodesy-module.html#isclose
 pygeodesy.callername	pygeodesy-module.html#callername
 pygeodesy.hypot2	pygeodesy-module.html#hypot2
@@ -339,6 +338,7 @@ pygeodesy.e22f	pygeodesy-module.html#e22f
 pygeodesy.F__E__	pygeodesy-module.html#F__E__
 pygeodesy.remainder	pygeodesy-module.html#remainder
 pygeodesy.simplifyRDPm	pygeodesy-module.html#simplifyRDPm
+pygeodesy.degrees180	pygeodesy-module.html#degrees180
 pygeodesy.toEtm8	pygeodesy-module.html#toEtm8
 pygeodesy.cot	pygeodesy-module.html#cot
 pygeodesy.splice	pygeodesy-module.html#splice
@@ -18632,6 +18632,8 @@ pygeodesy.latlonBase.LatLonBase.points	pygeodesy.latlonBase.LatLonBase-class.htm
 pygeodesy.latlonBase.LatLonBase._toCartesianEcef	pygeodesy.latlonBase.LatLonBase-class.html#_toCartesianEcef
 pygeodesy.latlonBase.LatLonBase._distanceTo_	pygeodesy.latlonBase.LatLonBase-class.html#_distanceTo_
 pygeodesy.latlonBase.LatLonBase.compassAngle	pygeodesy.latlonBase.LatLonBase-class.html#compassAngle
+pygeodesy.lazily.LazyAttributeError	pygeodesy.lazily.LazyAttributeError-class.html
+pygeodesy.lazily.LazyAttributeError.__init__	pygeodesy.lazily.LazyAttributeError-class.html#__init__
 pygeodesy.lazily.LazyImportError	pygeodesy.lazily.LazyImportError-class.html
 pygeodesy.lazily.LazyImportError.__init__	pygeodesy.lazily.LazyImportError-class.html#__init__
 pygeodesy.lcc.Conic	pygeodesy.lcc.Conic-class.html

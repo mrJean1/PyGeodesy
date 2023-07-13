@@ -265,12 +265,12 @@
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.23.3, 
     <a href="https://PyPI.org/project/scipy" target="_top">scipy</a> 1.9.1,
     <a href="https://GeographicLib.SourceForge.io/html/utilities.html" 
-    target="_top">GeoConvert</a> 1.51, <a 
+    target="_top">GeoConvert</a> 2.2, <a 
     href="https://GeographicLib.SourceForge.io/html/utilities.html" 
-    target="_top">GeodSolve</a> 1.51 and <a 
+    target="_top">GeodSolve</a> 2.2 and <a 
     href="https://GeographicLib.SourceForge.io/html/utilities.html" 
-    target="_top">RhumbSolve</a> 1.51), Python 3.9.6, Python 3.8.10 (with 
-    <a href="https://PyPI.org/project/geographiclib" 
+    target="_top">RhumbSolve</a> 2.2), Python 3.9.6, Python 3.8.10 (with <a
+    href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 1.52, <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.19.2 
     and <a href="https://PyPI.org/project/scipy" target="_top">scipy</a> 
@@ -280,11 +280,11 @@
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.16.6, 
     <a href="https://PyPI.org/project/scipy" target="_top">scipy</a> 1.2.2,
     <a href="https://GeographicLib.SourceForge.io/html/utilities.html" 
-    target="_top">GeoConvert</a> 1.51, <a 
+    target="_top">GeoConvert</a> 2.2, <a 
     href="https://GeographicLib.SourceForge.io/html/utilities.html" 
-    target="_top">GeodSolve</a> 1.51 and <a 
+    target="_top">GeodSolve</a> 2.2 and <a 
     href="https://GeographicLib.SourceForge.io/html/utilities.html" 
-    target="_top">RhumbSolve</a> 1.51), all on macOS 13.4 Ventura and in 
+    target="_top">RhumbSolve</a> 2.2), all on macOS 13.4 Ventura and in 
     64-bit only.</p>
     <p>All tests ran with and without <code>lazy import</code> for Python 3
     and with command line option <code>-W default</code> and env variable 
@@ -537,7 +537,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        23.06.12
+        23.07.12
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -3490,6 +3490,15 @@
       Named <code>float</code> representing a latitude in 
         <code>degrees</code> within limits <code>low</code> and 
         <code>high</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.lazily.LazyAttributeError-class.html" class="summary-name">LazyAttributeError</a><br />
+      Raised if a <code>lazily imported</code> attribute is missing or 
+        invalid.
     </td>
   </tr>
 <tr>
@@ -8426,7 +8435,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7ff5a0b7a0d0&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f962028e250&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -13026,7 +13035,7 @@ ygeodesy'"><code class="variable-quote">'</code><code class="variable-string">/U
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'23.6.12'"><code class="variable-quote">'</code><code class="variable-string">23.6.12</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'23.7.12'"><code class="variable-quote">'</code><code class="variable-string">23.7.12</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -20981,7 +20990,7 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7ff5a0b7a0d0&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f962028e250&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -30681,7 +30690,7 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Jun 13 16:32:36 2023
+    Generated by Epydoc 3.0.1 on Wed Jul 12 13:24:17 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -5,7 +5,7 @@
 # and Python C{geographiclib} tests.
 
 __all__ = ('Tests',)
-__version__ = '23.04.08'
+__version__ = '23.07.12'
 
 from bases import _fLate, GeodSolve, geographiclib, isPython2, TestsBase
 
@@ -65,7 +65,7 @@ class Tests(TestsBase):
                     f *= 0.1
                     rX = gX.classof(E.a, f).Direct(40.6, -73.8, 51, 5.5e6, gX.ALL)
                     rS = gS.classof(E.a, f).Direct(40.6, -73.8, 51, 5.5e6, gS.ALL)
-                    self.testDiffs(_fLate(f), rX, rS, 1)
+                    self.testDiffs(_fLate(f), rX, rS, 1, e=1e-4)  # S12 in GeodSolve 2.2
                 except AssertionError:  # eps for f < -0.7
                     pass
 
@@ -158,7 +158,7 @@ class Tests(TestsBase):
                     f *= 0.1
                     rX = gX.classof(E.a, f).Inverse(40.6, -73.8, 51.6, -0.5, gX.ALL)
                     rS = gS.classof(E.a, f).Inverse(40.6, -73.8, 51.6, -0.5, gS.ALL)
-                    self.testDiffs(_fLate(f), rX, rS, 1)
+                    self.testDiffs(_fLate(f), rX, rS, 1, e=1e-4)  # S12 in GeodSolve 2.2
                 except AssertionError:  # eps for f < -0.7
                     pass
 

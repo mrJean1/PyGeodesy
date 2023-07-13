@@ -126,15 +126,15 @@ The tests ran with Python 3.11.4 (with U{geographiclib<https://PyPI.org/project/
 <https://PyPI.org/project/numpy>} 1.24.2 and U{scipy<https://PyPI.org/project/scipy>} 1.10.1), Python 3.10.8
 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0, U{numpy<https://PyPI.org/project/numpy>}
 1.23.3, U{scipy<https://PyPI.org/project/scipy>} 1.9.1, U{GeoConvert
-<https://GeographicLib.SourceForge.io/html/utilities.html>} 1.51, U{GeodSolve
-<https://GeographicLib.SourceForge.io/html/utilities.html>} 1.51 and U{RhumbSolve
-<https://GeographicLib.SourceForge.io/html/utilities.html>} 1.51), Python 3.9.6, Python 3.8.10 (with
+<https://GeographicLib.SourceForge.io/html/utilities.html>} 2.2, U{GeodSolve
+<https://GeographicLib.SourceForge.io/html/utilities.html>} 2.2 and U{RhumbSolve
+<https://GeographicLib.SourceForge.io/html/utilities.html>} 2.2), Python 3.9.6, Python 3.8.10 (with
 U{geographiclib<https://PyPI.org/project/geographiclib>} 1.52, U{numpy<https://PyPI.org/project/numpy>} 1.19.2
 and U{scipy<https://PyPI.org/project/scipy>} 1.5.2) and Python 2.7.18 (with U{geographiclib
 <https://PyPI.org/project/geographiclib>} 1.50, U{numpy<https://PyPI.org/project/numpy>} 1.16.6, U{scipy
 <https://PyPI.org/project/scipy>} 1.2.2, U{GeoConvert<https://GeographicLib.SourceForge.io/html/utilities.html>}
-1.51, U{GeodSolve<https://GeographicLib.SourceForge.io/html/utilities.html>} 1.51 and U{RhumbSolve
-<https://GeographicLib.SourceForge.io/html/utilities.html>} 1.51), all on macOS 13.4 Ventura and in 64-bit only.
+2.2, U{GeodSolve<https://GeographicLib.SourceForge.io/html/utilities.html>} 2.2 and U{RhumbSolve
+<https://GeographicLib.SourceForge.io/html/utilities.html>} 2.2), all on macOS 13.4 Ventura and in 64-bit only.
 
 All tests ran with and without C{lazy import} for Python 3 and with command line option C{-W default} and
 env variable C{PYGEODESY_WARNINGS=on} for all Python versions.  The results of those tests are included in
@@ -588,7 +588,7 @@ else:
     _init__all__ = False
 
 from pygeodesy.interns import _DOT_  # PYCHOK import
-__version__ = '23.06.12'
+__version__ = '23.07.12'
 # see setup.py for similar logic
 version     = _DOT_.join(map(str, map(int, __version__.split(_DOT_))))
 

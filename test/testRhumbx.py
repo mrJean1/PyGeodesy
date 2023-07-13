@@ -4,7 +4,7 @@
 # Some basic L{rhumbx} vs C++ C{RhumbSolve} tests.
 
 __all__ = ('Tests',)
-__version__ = '23.03.27'
+__version__ = '23.07.12'
 
 from bases import _fLate, RhumbSolve, startswith, TestsBase
 
@@ -24,7 +24,9 @@ class Tests(TestsBase):
         for n, v in itemsorted(r):
             x = rx.get(n, None)
             if x is not None:
+                # XXX neg S12 for f 0.9 from RhumbSolve 2.2
                 k = int(v) == int(x) or \
+                   (v < 0 and n == 'S12') or \
                    (abs(v - x) / (x or 1)) < e  # rel error
                 self.test(_DOT_(name, n), v, x, fmt=_G, known=k, nl=nl)
                 nl = 0
