@@ -4,13 +4,13 @@
 # Some basic L{rhumbx} vs C++ C{RhumbSolve} tests.
 
 __all__ = ('Tests',)
-__version__ = '23.07.12'
+__version__ = '23.08.04'
 
-from bases import _fLate, RhumbSolve, startswith, TestsBase
+from bases import coverage, splitext, _fLate, RhumbSolve, startswith, TestsBase
 
-from pygeodesy import NN, Caps, classname, DIG, Ellipsoid, GDict, \
+from pygeodesy import NN, Caps, classname, DIG, Ellipsoid, GDict, isfinite, \
                       itemsorted, latDMS, lonDMS, parseDMS, parseDMS2, \
-                      Rhumb, RhumbLine, RhumbLineSolve, R_M, \
+                      Rhumb, RhumbLine, RhumbLineSolve, rhumbx, R_M, \
                       Fwelford, fremainder, pairs
 from pygeodesy.interns import _COMMASPACE_, _DOT_
 
@@ -33,7 +33,7 @@ class Tests(TestsBase):
 
     def testDirect(self, E, debug=False):
         self.subtitle(rhumbx, 'DirectX vs ...')
-        R = E.rhumbx
+        R = getattr(E, splitext(rhumbx.__name__)[1][1:])
 
         R.exact = False
         r = R.Direct(40.6, -73.8, -92.38889, 12782581.068)
@@ -53,11 +53,11 @@ class Tests(TestsBase):
                    psi1=44.2483764794879, salp=0.777145961456971, calp=0.629320391049837,
                    s12=5500000, S12=44095641862956.1)
 
-        r = R.Direct(40.6, -73.8, 51, 5.5e6, R.ALL)  # from JFK about NE
+        r = R.Direct(40.6, -73.8, 51, 5.5e6, outmask=R.ALL)  # from JFK about NE
         self.testDiffs('GDict', r, rX, 1, e=1e-11)  # Windows lon2=0.2555..23445
 #       self.test('iteration', r.iteration, r.iteration)
 
-        Rl = R.Line(40.6, -73.8, 51, 5.5e6)  # coverage
+        Rl = R.Line(40.6, -73.8, 51)  # coverage
         n = classname(Rl)
         t = Rl.toStr()
         self.test(n, t, t, nl=1)
@@ -71,13 +71,13 @@ class Tests(TestsBase):
                                                    lon1=-73.8, lon2=140.3,
                                                    azi12=-92.38889, s12=12782581.068), 1, e=1e-5)
 
-        r = R.Direct7(40.6, -73.8, -92.38889, 12782581.068)  # coverage
+        r = R.Direct8(40.6, -73.8, -92.38889, 12782581.068)  # coverage
         t = str(r)
-        self.test(R.Direct7.__name__, t, t)
+        self.test(R.Direct8.__name__, t, t)
         t = str(r.toDirect9Tuple())  # coverage
         self.test(r.toDirect9Tuple.__name__, t, t)
 
-        t = R.Line(40.6, -73.8, 51, R.STANDARD)  # coverage
+        t = R.Line(40.6, -73.8, 51, caps=R.STANDARD)  # coverage
         t = str(r)
         self.test(R.Line.__name__, t, t)  # == DirectLine
 
@@ -95,25 +95,25 @@ class Tests(TestsBase):
             t = S.Direct3(40.6, -73.8, 51, 5.5e6).toStr()
             self.test('Direct3', t, '(71.6889, 0.25552, 51.0)')
 
-            s = S.Direct(40.6, -73.8, 51, 5.5e6, S.ALL)
+            s = S.Direct(40.6, -73.8, 51, 5.5e6, outmask=S.ALL)
             self.testDiffs('RhumbSolve', rX, s, 1, e=9)  # XXX FIX
             self.test('iteration', s.iteration, r.iteration)
             # extreme ob- and prolate
             for f in range(-7, 10):  # -9, -8 throw an Ellipsoid.e21 AssertionError
                 try:
                     f *= 0.1
-                    r = R.classof(E.a, f).Direct(40.6, -73.8, 51, 5.5e6, R.ALL)
-                    s = S.classof(E.a, f).Direct(40.6, -73.8, 51, 5.5e6, S.ALL)
+                    r = R.classof(E.a, f).Direct(40.6, -73.8, 51, 5.5e6, outmask=R.ALL)
+                    s = S.classof(E.a, f).Direct(40.6, -73.8, 51, 5.5e6, outmask=S.ALL)
                     self.testDiffs(_fLate(f), r, s, 1, e=9)  # XXX FIX
                 except AssertionError:  # eps for f < -0.7
                     pass
 
     def testInverse(self, E, debug=False):
         self.subtitle(rhumbx, 'InverseX vs ...')
-        R = E.rhumbx
+        R = getattr(E, splitext(rhumbx.__name__)[1][1:])
 
         R.exact = False
-        r = R.Inverse(40.6, -73.8, 35.8, 140.3, R.ALL)  # JFK to Tokyo Narita
+        r = R.Inverse(40.6, -73.8, 35.8, 140.3, outmask=R.ALL)  # JFK to Tokyo Narita
         self.testDiffs(R.Inverse.__name__, r, GDict(lat1=40.6, lat2=35.8,
                                                     lon1=-73.8, lon2=140.3,
                                                     azi12=-92.38889, s12=12782581.0676842,
@@ -131,7 +131,7 @@ class Tests(TestsBase):
 
         R.debug = debug
         R.exact = True
-        r = R.Inverse(40.6, -73.8, 51.6, -0.5, R.ALL)  # JFK to LHR
+        r = R.Inverse(40.6, -73.8, 51.6, -0.5, outmask=R.ALL)  # JFK to LHR
         self.testDiffs('GDict', r, rX, 1)
 
         # <https://GeographicLib.SourceForge.io/C++/doc/RhumbSolve.1.html>
@@ -168,9 +168,9 @@ class Tests(TestsBase):
         P = Ellipsoid(E.b, E.a, name='_Prolate').rhumbx  # '_...' for iOS
         t = str(P.Inverse(40.6, -73.8, 51.6, -0.5))  # coverage
         self.test(P.Inverse.__name__, t, t, nl=1)
-        r = P.Inverse7(40.6, -73.8, 51.6, -0.5)  # coverage
+        r = P.Inverse8(40.6, -73.8, 51.6, -0.5)  # coverage
         t = str(r)
-        self.test(P.Inverse7.__name__, t, t)
+        self.test(P.Inverse8.__name__, t, t)
         t = str(r.toInverse10Tuple())
         self.test(r.toInverse10Tuple.__name__, t, t)
         rl = R.InverseLine(51.6, -0.5, 40.6, -73.8)
@@ -184,7 +184,7 @@ class Tests(TestsBase):
             t = S.Inverse3(40.6, -73.8, 51.6, -0.5).toStr()
             self.test('Inverse3', t, '(5771083.383328, 77.76839, 77.76839)')
 
-            s = S.Inverse(40.6, -73.8, 51.6, -0.5, S.ALL)
+            s = S.Inverse(40.6, -73.8, 51.6, -0.5, outmask=S.ALL)
             self.testDiffs('RhumbSolve', rX, s, 1, e=9)  # XXX FIX
             self.test('iteration', s.iteration, s.iteration)
 
@@ -192,8 +192,8 @@ class Tests(TestsBase):
             for f in range(-7, 10):  # -9, -8 throw an Ellipsoid.e21 AssertionError
                 try:
                     f *= 0.1
-                    r = R.classof(E.a, f).Inverse(40.6, -73.8, 51.6, -0.5, R.ALL)
-                    s = S.classof(E.a, f).Inverse(40.6, -73.8, 51.6, -0.5, S.ALL)
+                    r = R.classof(E.a, f).Inverse(40.6, -73.8, 51.6, -0.5, outmask=R.ALL)
+                    s = S.classof(E.a, f).Inverse(40.6, -73.8, 51.6, -0.5, outmask=S.ALL)
                     self.testDiffs(_fLate(f), s, r, 1, e=9)  # XXX FIX
                 except AssertionError:  # eps for f < -0.7
                     pass
@@ -214,35 +214,48 @@ class Tests(TestsBase):
         t = R.orders(6, 6)
         self.test(R.orders.__name__, str(t), '(4, 8)', nt=1)
 
-        m = n = j = 0
-        s = Fwelford()
         R.TMorder = 7
-        r = R.Line(20, 0, 0, R.LINE_OFF)
-        for d in range(0, 361, 3):
-            r.azi12 = d
-            p = r.nearestOn4(0, 40)
-            i = p.iteration
-            t = p.toRepr()
-            self.test('at %d nearestOn4' % (d,), t, t)
-            t = r.distance2(p.lat, p.lon)
-            z = t.initial
-            t = t.toRepr()
-            self.test('at %d distance2' % (d,), t, t)
-            self.test('at %d iteration' % (d,), i, i)
-            j = max(i, j)
-            # azi difference with d
-            if z < 0:
-                z += 360
-            z = fremainder(z - d, 360)
-            if z > 90:
-                z -= 180
-            elif z < -90:
-                z += 180
-            m  = max(m, z)
-            n  = min(n, z)
-            s += z
-        t = _COMMASPACE_(*pairs(dict(min=n, mean=s.fmean(), stdev=s.fstdev(), max=m, iteration=j), prec=6))
-        self.test('azi..', t, t)
+        for exact in (False, True, None):
+            # <https://SourceForge.net/p/geographiclib/discussion/1026620/thread/2ddc295e/>
+            r = R.Line(30, 0, 45, caps=R.LINE_OFF)
+            for est in (None,) if exact is None else (1e6, None):
+                p = r.nearestOn4(60, 0, exact=exact, est=est)
+                t = p.toRepr()
+                self.test('nearestOn4(exact=%s, est=%s)' % (exact, est), t, t)
+                self.test('distance', p.distance, (1977981.142985 if exact is None else 3083112.636236), prec=6)
+                self.test('iteration', p.iteration, p.iteration)
+
+            # stats
+            m = n = j = 0
+            s = Fwelford()
+            r = R.Line(20, 0, 0, caps=R.LINE_OFF)
+            for d in range(0, 361, 60 if coverage else 6):
+                r.azi12 = d
+                p = r.nearestOn4(0, 40, exact=exact)
+                i = p.iteration
+#               t = p.toRepr()
+#               self.test('at %d nearestOn4' % (d,), t, t)
+                t = r.distance2(p.lat, p.lon)
+                z = t.initial
+#               t = t.toRepr()
+#               self.test('at %d distance2' % (d,), t, t)
+#               self.test('at %d iteration' % (d,), i, i)
+                j = max(i, j)
+                if isfinite(z):  # XXX
+                    # azi difference with d
+                    if z < 0:
+                        z += 360
+                    z = fremainder(z - d, 360)
+                    if z > 90:
+                        z -= 180
+                    elif z < -90:
+                        z += 180
+                    m  = max(m, z)
+                    n  = min(n, z)
+                    s += z
+            d =  dict(exact=exact, min=n, mean=s.fmean(), stdev=s.fstdev(), max=m, iteration=j)
+            t = _COMMASPACE_(*pairs(d, prec=6))
+            self.test('azi=%.3f' % (p.normal,), t, t, nt=1)
         t = r.xTM.toRepr()  # coverage
         self.test('xTM', t, t)
 
@@ -298,7 +311,7 @@ class Tests(TestsBase):
 
 if __name__ == '__main__':
 
-    from pygeodesy import Ellipsoids, rhumbx
+    from pygeodesy import Ellipsoids
     from sys import argv
 
     _debug = '-d' in argv or '--debug' in argv

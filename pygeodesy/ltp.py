@@ -19,7 +19,8 @@ from pygeodesy.constants import EPS, INT0, _umod_360, _0_0, _0_01, _0_5, _1_0, \
                                _N_1_0  # PYCHOK used!
 from pygeodesy.datums import _WGS84, _xinstanceof
 from pygeodesy.ecef import _EcefBase, EcefKarney, _llhn4, _xyzn4
-from pygeodesy.errors import _NotImplementedError, _TypesError, _ValueError, _xkwds
+from pygeodesy.errors import _NotImplementedError, _TypesError, _ValueError, \
+                             _xattr, _xkwds, _xkwds_get
 from pygeodesy.fmath import fabs, fdot, Fhorner
 from pygeodesy.fsums import _floor, Fsum, fsumf_, fsum1f_
 from pygeodesy.interns import NN, _0_, _COMMASPACE_, _DOT_, _ecef_, _height_, \
@@ -40,7 +41,7 @@ from pygeodesy.vector3d import _ALL_LAZY, Vector3d
 # from math import fabs, floor as _floor  # from .fmath, .fsums
 
 __all__ = _ALL_LAZY.ltp
-__version__ = '23.05.26'
+__version__ = '23.08.06'
 
 _height0_ = _height_ + _0_
 _narrow_  = 'narrow'
@@ -169,17 +170,22 @@ class Attitude(_NamedBase):
            @return: A B{C{Vector}} instance or a L{Vector3Tuple}C{(x, y, z)} if
                     C{B{Vector}=None}.
 
+           @raise AttitudeError: Invalid B{C{x_xyz}}, B{C{y}} or B{C{z}}.
+
            @see: U{Yaw, pitch, and roll rotations<http://MSL.CS.UIUC.edu/planning/node102.html>}.
         '''
         try:
-            x, y, z = map( float, x_xyz.xyz)
-        except AttributeError:
-            x, y, z = map1(float, x_xyz, y, z)
+            try:
+                x, y, z = map( float, x_xyz.xyz)
+            except AttributeError:
+                x, y, z = map1(float, x_xyz, y, z)
+        except (TypeError, ValueError) as x:
+            raise AttitudeError(x_xyz=x_xyz, y=y, z=z, cause=x)
 
-        r0, r1, r2 = self._rows3
-        X = fdot(r0, x, y, y, z, z)
-        Y = fdot(r1, x, y, y, z, z)
-        Z = fdot(r2, x, y, z)
+        X, Y, Z = self._rows3
+        X = fdot(X, x, y, y, z, z)
+        Y = fdot(Y, x, y, y, z, z)
+        Z = fdot(Z, x, y, z)
         return Vector3Tuple(X, Y, Z, name=self.name) if Vector is None else \
                      Vector(X, Y, Z, **_xkwds(Vector_kwds, name=self.name))
 
@@ -408,41 +414,39 @@ class LocalCartesian(_NamedBase):
 
        @see: Class L{Ltp}.
     '''
-    _ecef   = EcefKarney(_WGS84)
-    _t0     = None  # origin (..., lat0, lon0, height0, ...) L{Ecef9Tuple}
-    _9Tuple = Local9Tuple
+    _ecef      = EcefKarney(_WGS84)
+    _EcefClass = EcefKarney
+    _lon00     = INT0  # self.lon0
+    _t0        = None  # origin (..., lat0, lon0, height0, ...) L{Ecef9Tuple}
+    _9Tuple    = Local9Tuple
 
-    def __init__(self, latlonh0=INT0, lon0=INT0, height0=INT0, ecef=None, name=NN):
+    def __init__(self, latlonh0=INT0, lon0=INT0, height0=INT0, ecef=None, name=NN, **lon00):
         '''New L{LocalCartesian} converter.
 
-           @kwarg latlonh0: The (geodetic) origin (C{LatLon}, L{LatLon4Tuple},
-                            L{Ltp} or L{Ecef9Tuple}) or the C{scalar} latitude
-                            of the (goedetic) origin (C{degrees}).
-           @kwarg lon0: Optional longitude of the (goedetic) origin for
-                        C{scalar} B{C{latlonh0}} and B{C{height0}} (C{degrees}).
-           @kwarg height0: Optional origin height (C{meter}), vertically
-                           above (or below) the surface of the ellipsoid.
-           @kwarg ecef: An ECEF converter (L{EcefKarney} I{only}).
+           @kwarg latlonh0: The (geodetic) origin (C{LatLon}, L{LatLon4Tuple}, L{Ltp}
+                            L{LocalCartesian} or L{Ecef9Tuple}) or the C{scalar}
+                            latitude of the (goedetic) origin (C{degrees}).
+           @kwarg lon0: Longitude of the (goedetic) origin (C{degrees}) for C{scalar}
+                        B{C{latlonh0}}, ignored otherwise.
+           @kwarg height0: Optional height (C{meter}, conventionally) at the (goedetic)
+                           origin perpendicular to and above (or below) the ellipsoid's
+                           surface and for C{scalar} B{C{latlonh0}}, ignored otherwise.
+           @kwarg ecef: An ECEF converter (L{EcefKarney} I{only}) for C{scalar}
+                        B{C{latlonh0}}, ignored otherwise.
            @kwarg name: Optional name (C{str}).
+           @kwarg lon00: An arbitrary, I{polar} longitude (C{degrees}), overriding
+                         the default C{B{lon00}=B{lon0}}, see method C{reverse}.
 
-           @raise LocalError: If B{C{latlonh0}} not C{LatLon}, L{LatLon4Tuple},
-                              L{Ltp} or L{Ecef9Tuple} or B{C{latlonh0}}, B{C{lon0}}
-                              or B{C{height0}} invalid, non-C{scalar}.
+           @raise LocalError: If B{C{latlonh0}} not C{LatLon}, L{LatLon4Tuple}, L{Ltp},
+                              L{LocalCartesian} or L{Ecef9Tuple} or B{C{latlonh0}},
+                              B{C{lon0}}, B{C{height0}} or B{C{lon00}} invalid.
 
            @raise TypeError: Invalid B{C{ecef}} or not L{EcefKarney}.
 
-           @note: If BC{latlonh0} is an L{Ltp}, only the lat-, longitude and
-                  height are duplicated, I{not} the ECEF converter.
+           @note: If BC{latlonh0} is an L{Ltp} or L{LocalCartesian}, only C{lat0}, C{lon0},
+                  C{height0} and I{polar} C{lon00} are copied, I{not} the ECEF converter.
         '''
-        if isinstance(latlonh0, LocalCartesian):
-            self._ecef = latlonh0.ecef
-            self._t0   = latlonh0._t0
-            self.name  = name or latlonh0.name
-        else:
-            self.reset(latlonh0, lon0, height0, name=name)
-        if ecef:  # PYCHOK no cover
-            _xinstanceof(EcefKarney, ecef=ecef)
-            self._ecef = ecef
+        self.reset(latlonh0, lon0=lon0, height0=height0, ecef=ecef, name=name, **lon00)
 
     def __eq__(self, other):
         '''Compare this and an other instance.
@@ -452,8 +456,8 @@ class LocalCartesian(_NamedBase):
            @return: C{True} if equal, C{False} otherwise.
         '''
         return other is self or (isinstance(other, self.__class__) and
-                                     other.ecef == self.ecef and
-                                     other._t0  == self._t0)
+                                            other.ecef == self.ecef and
+                                            other._t0  == self._t0)
 
     @Property_RO
     def datum(self):
@@ -483,7 +487,7 @@ class LocalCartesian(_NamedBase):
         ltp = self
         if ecef.datum != ltp.datum:
             ecef = ecef.toDatum(ltp.datum)
-        x, y, z = self.M.rotate(ecef.xyz, *ltp._xyz0)
+        x, y, z = self.M.rotate(ecef.xyz, *ltp._t0_xyz)
         r = Local9Tuple(x, y, z, ecef.lat, ecef.lon, ecef.height,
                                  ltp, ecef, None, name=ecef.name)
         if Xyz:
@@ -492,16 +496,22 @@ class LocalCartesian(_NamedBase):
             r = r.toXyz(Xyz=Xyz, **Xyz_kwds)
         return r
 
+    @Property_RO
+    def ellipsoid(self):
+        '''Get the ECEF converter's ellipsoid (L{Ellipsoid}).
+        '''
+        return self.ecef.datum.ellipsoid
+
     def forward(self, latlonh, lon=None, height=0, M=False, name=NN):
         '''Convert I{geodetic} C{(lat, lon, height)} to I{local} cartesian
            C{(x, y, z)}.
 
-           @arg latlonh: Either a C{LatLon}, an L{Ltp}, an L{Ecef9Tuple} or
-                         C{scalar} (geodetic) latitude (C{degrees}).
+           @arg latlonh: Either a C{LatLon}, L{Ltp}, L{Ecef9Tuple} or C{scalar}
+                         (geodetic) latitude (C{degrees}).
            @kwarg lon: Optional C{scalar} (geodetic) longitude for C{scalar}
                        B{C{latlonh}} (C{degrees}).
-           @kwarg height: Optional height (C{meter}), vertically above (or below)
-                          the surface of the ellipsoid.
+           @kwarg height: Optional height (C{meter}, conventionally) perpendicular
+                          to and above (or below) the ellipsoid's surface.
            @kwarg M: Optionally, return the I{concatenated} rotation L{EcefMatrix},
                      iff available (C{bool}).
            @kwarg name: Optional name (C{str}).
@@ -520,19 +530,19 @@ class LocalCartesian(_NamedBase):
         '''
         lat, lon, h, n = _llhn4(latlonh, lon, height, Error=LocalError, name=name)
         t = self.ecef._forward(lat, lon, h, n, M=M)
-        x, y, z = self.M.rotate(t.xyz, *self._xyz0)
+        x, y, z = self.M.rotate(t.xyz, *self._t0_xyz)
         m = self.M.multiply(t.M) if M else None
         return self._9Tuple(x, y, z, lat, lon, h, self, t, m, name=n or self.name)
 
     @Property_RO
     def height0(self):
-        '''Get origin's height (C{meter}).
+        '''Get the origin's height (C{meter}).
         '''
         return self._t0.height
 
     @Property_RO
     def lat0(self):
-        '''Get origin's latitude (C{degrees}).
+        '''Get the origin's latitude (C{degrees}).
         '''
         return self._t0.lat
 
@@ -553,16 +563,29 @@ class LocalCartesian(_NamedBase):
                     an L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M, datum)},
                     optionally including rotation matrix C{M} or C{None}.
         '''
-        t = self.M.unrotate(local.xyz, *self._xyz0)
+        t = self.M.unrotate(local.xyz, *self._t0_xyz)
         if nine:
             t = self.ecef.reverse(*t, M=M)
         return t
 
     @Property_RO
     def lon0(self):
-        '''Get origin's longitude (C{degrees}).
+        '''Get the origin's longitude (C{degrees}).
         '''
         return self._t0.lon
+
+    @Property
+    def lon00(self):
+        '''Get the arbitrary, I{polar} longitude (C{degrees}).
+        '''
+        return self._lon00
+
+    @lon00.setter  # PYCHOK setter!
+    def lon00(self, lon00):
+        '''Set the arbitrary, I{polar} longitude (C{degrees}).
+        '''
+        # lon00 <https://GitHub.com/mrJean1/PyGeodesy/issues/77>
+        self._lon00 = Degrees(lon00=lon00)
 
     @Property_RO
     def M(self):
@@ -570,33 +593,31 @@ class LocalCartesian(_NamedBase):
         '''
         return self._t0.M
 
-    def reset(self, latlonh0=INT0, lon0=INT0, height0=INT0, name=NN):
-        '''Reset the (geodetic) origin.
-
-           @kwarg latlonh0: Either a C{LatLon}, an L{Ecef9Tuple} or C{scalar}
-                            latitude of the origin (C{degrees}).
-           @kwarg lon0: Optional C{scalar} longitude of the origin for
-                        C{scalar} B{C{latlonh0}} (C{degrees}).
-           @kwarg height0: Optional origin height (C{meter}), vertically
-                           above (or below) the surface of the ellipsoid.
-           @kwarg name: Optional, new name (C{str}).
-
-           @raise LocalError: If B{C{latlonh0}} not C{LatLon}, L{Ecef9Tuple},
-                              C{scalar} or invalid or if B{C{lon0}} not
-                              C{scalar} for C{scalar} B{C{latlonh0}} or
-                              invalid or if B{C{height0}} invalid.
+    def reset(self, latlonh0=INT0, lon0=INT0, height0=INT0, ecef=None, name=NN, **lon00):
+        '''Reset this converter, see L{LocalCartesian.__init__} and L{Ltp.__init__} for more details.
         '''
-        _update_all(self)  # force reset
-
-        lat0, lon0, height0, n = _llhn4(latlonh0, lon0, height0,
-                                        suffix=_0_, Error=LocalError, name=name)
+        if isinstance(latlonh0, LocalCartesian):
+            if self._t0:
+                _update_all(self)
+            self._ecef  = latlonh0.ecef
+            self._lon00 = latlonh0.lon00
+            self._t0    = latlonh0._t0
+            n           = name or latlonh0.name
+        else:
+            lat0, lon0, height0, n = _llhn4(latlonh0, lon0, height0, suffix=_0_,
+                                            Error=LocalError, name=name or self.name)
+            if ecef:  # PYCHOK no cover
+                _xinstanceof(self._EcefClass, ecef=ecef)
+                _update_all(self)
+                self._ecef = ecef
+            elif self._t0:
+                _update_all(self)
+            self._t0 = self.ecef._forward(lat0, lon0, height0, n, M=True)
+            self.lon00 = _xattr(latlonh0, lon00=_xkwds_get(lon00, lon00=lon0))
         if n:
             self.rename(n)
-        else:
-            n = self.name
-        self._t0 = self.ecef._forward(lat0, lon0, height0, n, M=True)
 
-    def reverse(self, xyz, y=None, z=None, M=False, name=NN):
+    def reverse(self, xyz, y=None, z=None, M=False, name=NN, **lon00):
         '''Convert I{local} C{(x, y, z)} to I{geodetic} C{(lat, lon, height)}.
 
            @arg xyz: A I{local} (L{XyzLocal}, L{Enu}, L{Ned}, L{Aer}, L{Local9Tuple}) or
@@ -606,6 +627,9 @@ class LocalCartesian(_NamedBase):
            @kwarg M: Optionally, return the I{concatenated} rotation L{EcefMatrix}, iff
                      available (C{bool}).
            @kwarg name: Optional name (C{str}).
+           @kwarg lon00: An arbitrary, I{polar} longitude (C{degrees}), returned for local
+                         C{B{x}=0} and C{B{y}=0} at I{polar} latitudes C{abs(B{lat0}) == 90},
+                         overriding property C{lon00} and default C{B{lon00}=B{lon0}}.
 
            @return: An L{Local9Tuple}C{(x, y, z, lat, lon, height, ltp, ecef, M)} with
                     I{local} C{x}, C{y}, C{z}, I{geodetic} C{lat}, C{lon}, C{height},
@@ -617,10 +641,16 @@ class LocalCartesian(_NamedBase):
                               not C{scalar} for C{scalar} B{C{xyz}}.
         '''
         x, y, z, n = _xyzn4(xyz, y, z, _XyzLocals5, Error=LocalError, name=name)
-        c = self.M.unrotate((x, y, z), *self._xyz0)
-        t = self.ecef.reverse(*c, M=M)
+        c = self.M.unrotate((x, y, z), *self._t0_xyz)
+        t = self.ecef.reverse(*c, M=M, lon00=_xkwds_get(lon00, lon00=self.lon00))
         m = self.M.multiply(t.M) if M else None
         return self._9Tuple(x, y, z, t.lat, t.lon, t.height, self, t, m, name=n or self.name)
+
+    @Property_RO
+    def _t0_xyz(self):
+        '''(INTERNAL) Get C{(x0, y0, z0)} as L{Vector3Tuple}.
+        '''
+        return self._t0.xyz
 
     def toStr(self, prec=9, **unused):  # PYCHOK signature
         '''Return this L{LocalCartesian} as a string.
@@ -631,47 +661,25 @@ class LocalCartesian(_NamedBase):
         '''
         return self.attrs(_lat0_, _lon0_, _height0_, _M_, _ecef_, _name_, prec=prec)
 
-    @Property_RO
-    def _xyz0(self):
-        '''(INTERNAL) Get C{(x0, y0, z0)} as L{Vector3Tuple}.
-        '''
-        return self._t0.xyz
-
 
 class Ltp(LocalCartesian):
     '''A I{local tangent plan} (LTP), a sub-class of C{LocalCartesian} with
        (re-)configurable ECEF converter.
     '''
-    def __init__(self, latlonh0=0, lon0=0, height0=0, ecef=None, name=NN):
-        '''New C{Ltp}.
+    _EcefClass = _EcefBase
 
-           @kwarg latlonh0: The (geodetic) origin (C{LatLon}, L{LatLon4Tuple},
-                            L{Ltp} or L{Ecef9Tuple}) or the C{scalar} latitude
-                            of the origin (C{degrees}).
-           @kwarg lon0: Optional longitude of the (goedetic) origin for
-                        C{scalar} B{C{latlonh0}} and B{C{height0}} (C{degrees}).
-           @kwarg height0: Optional origin height (C{meter}), vertically
-                           above (or below) the surface of the ellipsoid.
+    def __init__(self, latlonh0=INT0, lon0=INT0, height0=INT0, ecef=None, name=NN, **lon00):
+        '''New C{Ltp}, see L{LocalCartesian.__init__} for more details.
+
            @kwarg ecef: Optional ECEF converter (L{EcefKarney}, L{EcefFarrell21},
                         L{EcefFarrell22}, L{EcefSudano}, L{EcefVeness} or
                         L{EcefYou} I{instance}), overriding the default
-                        L{EcefKarney}C{(datum=Datums.WGS84)}.
-           @kwarg name: Optional name (C{str}).
-
-           @return: New instance (C{Ltp}).
-
-           @raise LocalError: If B{C{latlonh0}} not C{LatLon}, L{LatLon4Tuple},
-                              L{Ltp} or L{Ecef9Tuple} or B{C{latlonh0}}, B{C{lon0}}
-                              or B{C{height0}} invalid, non-C{scalar}.
+                        L{EcefKarney}C{(datum=Datums.WGS84)} for C{scalar}.
 
            @raise TypeError: Invalid B{C{ecef}}.
-
-           @note: If BC{latlonh0} is an L{Ltp}, only the lat-, longitude and
-                  height are duplicated, I{not} the ECEF converter.
         '''
-        LocalCartesian.__init__(self, latlonh0, lon0=lon0, height0=height0, name=name)
-        if ecef:
-            self.ecef = ecef
+        LocalCartesian.reset(self, latlonh0, lon0=lon0, height0=height0,
+                                             ecef=ecef, name=name, **lon00)
 
     @Property
     def ecef(self):
@@ -719,7 +727,7 @@ class _ChLV(object):
         # assert _xargs_names(ChLVe.reverse)[1:4] == t
         return t
 
-    def forward(self, latlonh, lon=None, height=0, M=None, name=NN):
+    def forward(self, latlonh, lon=None, height=0, M=None, name=NN):  # PYCHOK no cover
         '''Convert WGS84 geodetic to I{Swiss} projection coordinates.
 
            @arg latlonh: Either a C{LatLon}, L{Ltp} or C{scalar} (geodetic) latitude (C{degrees}).
@@ -740,7 +748,7 @@ class _ChLV(object):
         '''
         notOverloaded(self, latlonh, lon=lon, height=height, M=M, name=name)
 
-    def reverse(self, enh_, n=None, h_=0, M=None, name=NN):
+    def reverse(self, enh_, n=None, h_=0, M=None, **name):  # PYCHOK no cover
         '''Convert I{Swiss} projection to WGS84 geodetic coordinates.
 
            @arg enh_: A Swiss projection (L{ChLV9Tuple}) or the C{scalar}, falsed I{Swiss E_LV95}
@@ -760,7 +768,7 @@ class _ChLV(object):
 
            @raise LocalError: Invalid or non-C{scalar} B{C{enh_}}, B{C{n}} or B{C{h_}}.
         '''
-        notOverloaded(self, enh_, n=n, h_=h_, M=M, name=name)
+        notOverloaded(self, enh_, n=n, h_=h_, M=M, **name)
 
     @staticmethod
     def _falsing2(LV95):
@@ -790,7 +798,7 @@ class _ChLV(object):
 
         a  = _deg2ab(lat, ChLV._sLat)  # phi', lat_aux
         b  = _deg2ab(lon, ChLV._sLon)  # lam', lng_aux
-        h_ =  fsumf_(h, -ChLV.Bern.height, 2.73 * b, 6.94 * a)
+        h_ =  fsumf_(h,  -ChLV.Bern.height, 2.73 * b, 6.94 * a)
         return a, b, h_
 
     @staticmethod
@@ -801,14 +809,14 @@ class _ChLV(object):
             return YX * ChLV._ab_m
 
         a, b = map1(_YX2ab, Y, X)
-        h = fsumf_(h_, ChLV.Bern.height, -12.6 * a, -22.64 * b)
+        h    = fsumf_(h_, ChLV.Bern.height, -12.6 * a, -22.64 * b)
         return a, b, h
 
-    def _YXh_n4(self, enh_, n, h_, name):
+    def _YXh_n4(self, enh_, n, h_, **name):
         '''(INTERNAL) Helper for C{ChLV*.reverse}.
         '''
-        Y, X, h_, name = _xyzn4(enh_, n, h_, ChLV9Tuple, name=name,
-                                            _xyz_y_z_names=self._enh_n_h)
+        Y, X, h_, name = _xyzn4(enh_, n, h_, ChLV9Tuple,
+                         _xyz_y_z_names=self._enh_n_h, **name)
         if isinstance(enh_, ChLV9Tuple):
             Y, X = enh_.Y, enh_.X
         else:  # isscalar(enh_)
@@ -828,13 +836,13 @@ class ChLV(_ChLV, Ltp):
     '''
     _9Tuple = ChLV9Tuple
 
-    _ab_d =   0.36    # a, b units per degree, ...
-    _ab_m =   1.0e-6  # ... per meter and ...
-    _ab_M =  _1_0     # ... per 1000 kilometer
+    _ab_d =  0.36    # a, b units per degree, ...
+    _ab_m =  1.0e-6  # ... per meter and ...
+    _ab_M = _1_0     # ... per 1,000 kilometer
     _s_d  = _3600_0  # arc-seconds per degree ...
     _s_ab = _s_d / _ab_d  # ... and per a, b unit
-    _sLat = 169028.66  # Bern, Ch in ...
-    _sLon =  26782.5   # ... arc-seconds ...
+    _sLat =  169028.66  # Bern, Ch in ...
+    _sLon =   26782.5   # ... arc-seconds ...
     # lat, lon, height == 46°57'08.66", 7°26'22.50", 49.55m ("new" 46°57'07.89", 7°26'22.335")
     Bern  = LatLon4Tuple(_sLat / _s_d, _sLon / _s_d, 49.55, _WGS84, name='Bern')
 
@@ -852,9 +860,9 @@ class ChLV(_ChLV, Ltp):
         # overloaded for the _ChLV.forward.__doc__
         return Ltp.forward(self, latlonh, lon=lon, height=height, M=M, name=name)
 
-    def reverse(self, enh_, n=None, h_=0, M=None, name=NN):
+    def reverse(self, enh_, n=None, h_=0, M=None, **name):  # PYCHOK signature
         # overloaded for the _ChLV.reverse.__doc__
-        Y, X, h_, name = self._YXh_n4(enh_, n, h_, name=name)
+        Y, X, h_, name = self._YXh_n4(enh_, n, h_, **name)
         return Ltp.reverse(self, Y, X, h_, M=M, name=name)
 
     @staticmethod
@@ -887,7 +895,7 @@ class ChLV(_ChLV, Ltp):
         '''
         # @see: U{Map<https://www.SwissTopo.admin.CH/en/knowledge-facts/
         #       surveying-geodesy/reference-frames/local/lv95.html>}
-        return 400.e3 < e < 900.e3 and 40.e3 < n < 400.e3
+        return 400.0e3 < e < 900.0e3 and 40.0e3 < n < 400.0e3
 
     @staticmethod
     def isLV95(e, n, raiser=True):
@@ -903,7 +911,7 @@ class ChLV(_ChLV, Ltp):
         '''
         if ChLV.isLV03(e, n):
             return False
-        elif ChLV.isLV03(e - 2.e6, n - 1.e6):  # _92_falsing = _95_ - _03_
+        elif ChLV.isLV03(e - 2.0e6, n - 1.0e6):  # _92_falsing = _95_ - _03_
             return True
         elif raiser:  # PYCHOK no cover
             raise LocalError(unstr(ChLV.isLV95, e=e, n=n))
@@ -958,21 +966,21 @@ class ChLVa(_ChLV, LocalCartesian):
                               119.79 * a2 * a)  # + 200_000
         return self._ChLV9Tuple(True, M, name, Y, X, h_, lat, lon, h)
 
-    def reverse(self, enh_, n=None, h_=0, M=None, name=NN):
+    def reverse(self, enh_, n=None, h_=0, M=None, **name):  # PYCHOK signature
         # overloaded for the _ChLV.reverse.__doc__
-        Y, X, h_, name = self._YXh_n4(enh_, n, h_, name=name)
-        a, b, h = _ChLV._YXh_2abh3(Y, X, h_)
-        a2, b2 = a**2, b**2
+        Y, X, h_, name = self._YXh_n4(enh_, n, h_, **name)
+        a, b, h      =  _ChLV._YXh_2abh3(Y, X, h_)
+        ab_d, a2, b2 =   ChLV._ab_d, a**2, b**2
 
-        lon = Fsum( 2.6779094, 4.728982 * a,
-                               0.791484 * a * b,
-                               0.1306   * a * b2,
-                              -0.0436   * a * a2).fover(ChLV._ab_d)
         lat = Fsum(16.9023892, 3.238272 * b,
                               -0.270978 * a2,
                               -0.002528 * b2,
                               -0.0447   * a2 * b,
-                              -0.014    * b2 * b).fover(ChLV._ab_d)
+                              -0.014    * b2 * b).fover(ab_d)
+        lon = Fsum( 2.6779094, 4.728982 * a,
+                               0.791484 * a * b,
+                               0.1306   * a * b2,
+                              -0.0436   * a * a2).fover(ab_d)
         return self._ChLV9Tuple(False, M, name, Y, X, h_, lat, lon, h)
 
 
@@ -1002,54 +1010,54 @@ class ChLVe(_ChLV, LocalCartesian):
     def forward(self, latlonh, lon=None, height=0, M=None, name=NN, gamma=False):  # PYCHOK gamma
         # overloaded for the _ChLV.forward.__doc__
         lat, lon, h, name = _llhn4(latlonh, lon, height, name=name)
-        a, b, h_ = _ChLV._llh2abh_3(lat, lon, h)
-        F = Fhorner
+        a, b, h_    = _ChLV._llh2abh_3(lat, lon, h)
+        ab_M, z, _F =  ChLV._ab_M, 0, Fhorner
 
-        B1 = F(a, 211428.533991, -10939.608605, -2.658213, -8.539078, -0.00345, -0.007992)
-        B3 = F(a,    -44.232717,      4.291740, -0.309883,  0.013924)
-        B5 = F(a,      0.019784,     -0.004277)
-        Y  = F(b, 0, B1, 0, B3, 0, B5).fover(ChLV._ab_M)  # 1000 Km!
+        B1 = _F(a, 211428.533991, -10939.608605, -2.658213, -8.539078, -0.00345, -0.007992)
+        B3 = _F(a,    -44.232717,      4.291740, -0.309883,  0.013924)
+        B5 = _F(a,      0.019784,     -0.004277)
+        Y  = _F(b, z, B1, z, B3, z, B5).fover(ab_M)  # 1,000 Km!
 
-        B0 = F(a,    0,      308770.746371, 75.028131, 120.435227, 0.009488, 0.070332, -0.00001)
-        B2 = F(a, 3745.408911, -193.792705,  4.340858,  -0.376174, 0.004053)
-        B4 = F(a,   -0.734684,    0.144466, -0.011842)
-        B6 =         0.000488
-        X  = F(b, B0, 0, B2, 0, B4, 0, B6).fover(ChLV._ab_M)  # 1000 Km!
+        B0 = _F(a,    z,      308770.746371, 75.028131, 120.435227, 0.009488, 0.070332, -0.00001)
+        B2 = _F(a, 3745.408911, -193.792705,  4.340858,  -0.376174, 0.004053)
+        B4 = _F(a,   -0.734684,    0.144466, -0.011842)
+        B6 =          0.000488
+        X  = _F(b, B0, z, B2, z, B4, z, B6).fover(ab_M)  # 1,000 Km!
 
         t = self._ChLV9Tuple(True, M, name, Y, X, h_, lat, lon, h)
         if gamma:
-            U1 = F(a, 2255515.207166, 2642.456961,  1.284180, 2.577486, 0.001165)
-            U3 = F(a,    -412.991934,   64.106344, -2.679566, 0.123833)
-            U5 = F(a,       0.204129,   -0.037725)
-            g  = F(b, 0, U1, 0, U3, 0, U5).fover(ChLV._ab_m)  # * ChLV._ab_d degrees?
-            t =  t, g
+            U1 = _F(a, 2255515.207166, 2642.456961,  1.284180, 2.577486, 0.001165)
+            U3 = _F(a,    -412.991934,   64.106344, -2.679566, 0.123833)
+            U5 = _F(a,       0.204129,   -0.037725)
+            g  = _F(b, z, U1, z, U3, z, U5).fover(ChLV._ab_m)  # * ChLV._ab_d degrees?
+            t  =  t, g
         return t
 
     def reverse(self, enh_, n=None, h_=0, M=None, name=NN, gamma=False):  # PYCHOK gamma
         # overloaded for the _ChLV.reverse.__doc__
         Y, X, h_, name = self._YXh_n4(enh_, n, h_, name=name)
-        a, b, h = _ChLV._YXh_2abh3(Y, X, h_)
-        F = Fhorner
+        a, b, h    = _ChLV._YXh_2abh3(Y, X, h_)
+        s_d, _F, z =  ChLV._s_d, Fhorner, 0
 
-        A1  = F(b, 47297.3056722, 7925.714783, 1328.129667, 255.02202, 48.17474, 9.0243)
-        A3  = F(b,  -442.709889,  -255.02202,   -96.34947,  -30.0808)
-        A5  = F(b,     9.63495,      9.0243)
-        lon = F(a,  ChLV._sLon, A1, 0, A3, 0, A5).fover(ChLV._s_d)
-        #  == (ChLV._sLon + a * (A1 + a**2 * (A3 + a**2 * A5))) / ChLV._s_d
+        A0  = _F(b,  ChLV._sLat, 32386.4877666, -25.486822, -132.457771, 0.48747, 0.81305, -0.0069)
+        A2  = _F(b, -2713.537919, -450.442705,  -75.53194,   -14.63049, -2.7604)
+        A4  = _F(b,    24.42786,    13.20703,     4.7476)
+        A6  =          -0.4249
+        lat = _F(a, A0, z, A2, z, A4, z, A6).fover(s_d)
 
-        A0  = F(b,  ChLV._sLat, 32386.4877666, -25.486822, -132.457771, 0.48747, 0.81305, -0.0069)
-        A2  = F(b, -2713.537919, -450.442705,  -75.53194,   -14.63049, -2.7604)
-        A4  = F(b,    24.42786,    13.20703,     4.7476)
-        A6  =         -0.4249
-        lat = F(a, A0, 0, A2, 0, A4, 0, A6).fover(ChLV._s_d)
+        A1  = _F(b, 47297.3056722, 7925.714783, 1328.129667, 255.02202, 48.17474, 9.0243)
+        A3  = _F(b,  -442.709889,  -255.02202,   -96.34947,  -30.0808)
+        A5  = _F(b,     9.63495,      9.0243)
+        lon = _F(a,  ChLV._sLon, A1, z, A3, z, A5).fover(s_d)
+        #  == (ChLV._sLon + a * (A1 + a**2 * (A3 + a**2 * A5))) / s_d
 
         t = self._ChLV9Tuple(False, M, name, Y, X, h_, lat, lon, h)
         if gamma:
-            U1 = F(b, 106679.792202, 17876.57022, 4306.5241, 794.87772, 148.1545, 27.8725)
-            U3 = F(b,  -1435.508,     -794.8777,  -296.309,  -92.908)
-            U5 = F(b,     29.631,       27.873)
-            g  = F(a, 0, U1, 0, U3, 0, U5).fover(ChLV._s_ab)  # degrees
-            t  = t, g
+            U1 = _F(b, 106679.792202, 17876.57022, 4306.5241, 794.87772, 148.1545, 27.8725)
+            U3 = _F(b,  -1435.508,     -794.8777,  -296.309,  -92.908)
+            U5 = _F(b,     29.631,       27.873)
+            g  = _F(a, z, U1, z, U3, z, U5).fover(ChLV._s_ab)  # degrees
+            t  =  t, g
         return t
 
 

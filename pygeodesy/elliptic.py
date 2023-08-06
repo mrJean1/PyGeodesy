@@ -79,7 +79,7 @@ from pygeodesy.constants import EPS, _EPStol as _TolJAC, INF, PI, PI_2, PI_4, \
                                _0_0, _0_125, _0_25, _0_5, _1_0, _1_64th, _2_0, \
                                _N_2_0, _3_0, _4_0, _6_0, _8_0, _180_0, _360_0
 from pygeodesy.errors import _ValueError, _xkwds_pop
-from pygeodesy.fmath import fdot, Fsum, hypot1
+from pygeodesy.fmath import fdot, hypot1,  Fsum
 # from pygeodesy.fsums import Fsum  # from .fmath
 from pygeodesy.interns import NN, _delta_, _DOT_, _f_, _SPACE_
 from pygeodesy.karney import _ALL_LAZY, _signBit
@@ -94,7 +94,7 @@ from pygeodesy.utily import sincos2, sincos2d
 from math import asinh, atan, atan2, ceil, cosh, fabs, floor, sin, sqrt, tanh
 
 __all__ = _ALL_LAZY.elliptic
-__version__ = '23.06.08'
+__version__ = '23.07.07'
 
 _invokation_ = 'invokation'
 _TolRD       =  pow(EPS * 0.002, _0_125)  # 8th root: quadquadratic?, octic?, ocrt?
@@ -825,18 +825,19 @@ class Elliptic(_Named):
         return _RC(None, x, y)
 
     @staticmethod
-    def fRD(x, y, z):
+    def fRD(x, y, z, *over):
         '''Degenerate symmetric integral of the third kind C{RD(x, y, z)}.
 
-           @return: C{RD(x, y, z)}, equivalent to C{RJ(x, y, z, z)}.
+           @return: C{RD(x, y, z) / over}, equivalent to C{RJ(x, y, z, z)
+                    / over} with C{over} typically 3.
 
            @see: U{C{RD} definition<https://DLMF.NIST.gov/19.16.E5>} and
                  U{Carlson<https://ArXiv.org/pdf/math/9409227.pdf>}.
         '''
-        return _RD(None, x, y, z)
+        return _RD(None, x, y, z, *over)
 
     @staticmethod
-    def fRF(x, y, *z):
+    def fRF(x, y, z=0):
         '''Symmetric or complete symmetric integral of the first kind
            C{RF(x, y, z)} respectively C{RF(x, y)}.
 
@@ -845,10 +846,10 @@ class Elliptic(_Named):
            @see: U{C{RF} definition<https://DLMF.NIST.gov/19.16.E1>} and
                  U{Carlson<https://ArXiv.org/pdf/math/9409227.pdf>}.
         '''
-        return _RF3(None, x, y, *z) if z and z[0] else _RF2(None, x, y)
+        return _RF3(None, x, y, z) if z else _RF2(None, x, y)
 
     @staticmethod
-    def fRG(x, y, *z):
+    def fRG(x, y, z=0):
         '''Symmetric or complete symmetric integral of the second kind
            C{RG(x, y, z)} respectively C{RG(x, y)}.
 
@@ -857,8 +858,7 @@ class Elliptic(_Named):
            @see: U{C{RG} definition<https://DLMF.NIST.gov/19.16.E3>} and
                  U{Carlson<https://ArXiv.org/pdf/math/9409227.pdf>}.
         '''
-        return _RG3(None, x, y, *z) if z and z[0] else (
-               _RG2(None, x, y) * _0_5)
+        return _RG3(None, x, y, z) if z else (_RG2(None, x, y) * _0_5)
 
     @staticmethod
     def fRJ(x, y, z, p):
@@ -903,16 +903,23 @@ class _Lxyz(list):
         m = n - len(t)
         if m > 0:
             t += t[-1:] * m
-        self._a0 = self._a = Fsum(*t).fover(n)
-        return self._a0
+        try:
+            s = Fsum(*t).fover(n)
+        except ValueError:  # NAN
+            s = sum(t) / n
+        self._a0 = self._a = s
+        return s
 
     def asr3(self, a):
         '''Compute next C{a}, C{sqrt(xyz_)} and C{fdot(sqrt(xyz))}.
         '''
-        L    = self
+        L = self
         # assert a is L._a
-        s    = map2(sqrt, L)  # sqrt(x), srqt(y), sqrt(z) [, sqrt(p)]
-        r    = fdot(s[:3], s[1], s[2], s[0])  # sqrt(x) * sqrt(y) + ...
+        s = map2(sqrt, L)  # sqrt(x), srqt(y), sqrt(z) [, sqrt(p)]
+        try:
+            r = fdot(s[:3], s[1], s[2], s[0])  # sqrt(x) * sqrt(y) + ...
+        except ValueError:  # NAN
+            r = sum(s[i] * s[(i + 1) % 3] for i in range(3))
         L[:] = [(x + r) * _0_25 for x in L]
         # assert L is self
         L._a = a = (a + r) * _0_25

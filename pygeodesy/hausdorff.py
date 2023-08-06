@@ -86,7 +86,7 @@ from pygeodesy.unitsBase import _Str_degrees, _Str_degrees2, _Str_meter, _Str_NN
 from random import Random
 
 __all__ = _ALL_LAZY.hausdorff
-__version__ = '23.05.14'
+__version__ = '23.08.06'
 
 
 class HausdorffError(PointsError):
@@ -271,7 +271,7 @@ class HausdorffDegrees(Hausdorff):
         directed  = Hausdorff.directed
         symmetric = Hausdorff.symmetric
 
-    def distance(self, point1, point2):
+    def distance(self, point1, point2):  # PYCHOK no cover
         '''I{Must be overloaded} to return the distance between
            B{C{point1}} and B{C{point2}} in C{degrees}.
         '''
@@ -289,7 +289,7 @@ class HausdorffRadians(Hausdorff):
         directed  = Hausdorff.directed
         symmetric = Hausdorff.symmetric
 
-    def distance(self, point1, point2):
+    def distance(self, point1, point2):  # PYCHOK no cover
         '''I{Must be overloaded} to return the distance between
            B{C{point1}} and B{C{point2}} in C{radians}.
         '''
@@ -335,7 +335,7 @@ class _HausdorffMeterRadians(Hausdorff):
         '''
         return self._hausdorff_(point2s, True, early, _formy._radistance(self))
 
-    def _func_(self, *args, **kwds):
+    def _func_(self, *args, **kwds):  # PYCHOK no cover
         notOverloaded(self, *args, **kwds)
 
 

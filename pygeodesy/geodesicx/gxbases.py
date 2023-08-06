@@ -9,15 +9,16 @@ U{GeographicLib<https://GeographicLib.SourceForge.io>} documentation.
 '''
 
 # from pygeodesy.basics import isodd  # from .karney
-from pygeodesy.constants import _0_0, _2_0
+from pygeodesy.constants import _0_0, _2_0, _100_0
 from pygeodesy.errors import _not_, _or
 # from pygeodesy.interns import _not_  # from .errors
-from pygeodesy.karney import _CapsBase, GeodesicError, isodd, _hypot, _sum2_
+from pygeodesy.karney import _CapsBase, GeodesicError, isodd, \
+                             _hypot, _sum2_,  _MODS
 
 from math import ldexp as _ldexp
 
 __all__ = ()
-__version__ = '23.05.15'
+__version__ = '23.07.04'
 
 # valid C{nC4}s and C{C4order}s, see _xnC4 below
 _nC4s = {24: 2900, 27: 4032, 30: 5425}
@@ -38,6 +39,28 @@ class _GeodesicBase(_CapsBase):  # in .geodsolve
 #       '''
 #       return Fmt.PAREN(self.named, self.toStr(prec=prec, sep=sep))
     pass
+
+
+class _Gfloats(dict):
+    '''(INTERNAL) Uniquify floats.
+    '''
+    n   = 0  # total number of floats
+    nC4 = 0
+
+    def __init__(self, nC4):  # PYCHOK signature
+        self.nC4 = nC4
+
+    def __call__(self, fs):
+        '''Return a tuple of "uniquified" floats.
+        '''
+        self.n += len(fs)
+        _f = self.setdefault
+        return tuple(_f(f, f) for f in map(float, fs))  # PYCHOK as attr
+
+    def prints(self):
+        n, u = self.n, len(self.keys())
+        d = (n - u) * _100_0 / n
+        _MODS.lazily.printf('_CX_%d: n=%d, u=%d, d=%.1f%%', self.nC4, n, u, d)  # XXX
 
 
 def _cosSeries(c4s, sx, cx):  # PYCHOK shared .geodesicx.gx and -.gxline

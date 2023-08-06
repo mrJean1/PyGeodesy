@@ -17,7 +17,7 @@ Krüger-based method to convert between OSGR and geodetic coordinates (with keyw
 function L{toOsgr}, method L{Osgr.toLatLon} and method C{toOsgr} of any ellipsoidal C{LatLon} class).
 
 See U{Transverse Mercator: Redfearn series<https://WikiPedia.org/wiki/Transverse_Mercator:_Redfearn_series>},
-Karney's U{"Transverse Mercator with an accuracy of a few nanometers", 2011<https://Arxiv.org/pdf/1002.1417v3.pdf>}
+Karney's U{"Transverse Mercator with an accuracy of a few nanometers", 2011<https://ArXiv.org/pdf/1002.1417v3.pdf>}
 (building on U{"Konforme Abbildung des Erdellipsoids in der Ebene", 1912<https://bib.GFZ-Potsdam.DE/pub/digi/krueger2.pdf>},
 U{"Die Mathematik der Gauß-Krueger-Abbildung", 2006<https://DE.WikiPedia.org/wiki/Gauß-Krüger-Koordinatensystem>},
 U{A Guide<https://www.OrdnanceSurvey.co.UK/documents/resources/guide-coordinate-systems-great-britain.pdf>}
@@ -52,7 +52,7 @@ from pygeodesy.utily import degrees90, degrees180, sincostan3, truncate
 from math import cos, fabs, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.osgr
-__version__ = '23.03.19'
+__version__ = '23.07.15'
 
 _equivalent_ = 'equivalent'
 _OSGR_       = 'OSGR'

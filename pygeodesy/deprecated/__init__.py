@@ -32,7 +32,7 @@ if isLazy:  # XXX force import of all deprecated modules
     # XXX instead, use module_property or enhance .lazily
 
 __all__ = _ALL_LAZY.deprecated
-__version__ = '23.04.14'
+__version__ = '23.07.21'
 
 _WGS84 = _UTM = object()
 
@@ -75,49 +75,49 @@ class ClipCS3Tuple(_DeprecatedNamedTuple):  # PYCHOK no cover
 
 def EcefCartesian(*args, **kwds):
     '''DEPRECATED, use class L{LocalCartesian}.'''
-    LocalCartesian = _MODS.ltp.LocalCartesian
+    Ltp = _MODS.ltp.Ltp
 
-    class EcefCartesian(LocalCartesian):
-        '''DEPRECATED, use class L{LocalCartesian}.
+    class EcefCartesian_(Ltp):
+        '''DEPRECATED, use class L{LocalCartesian} or L{Ltp}.
 
            @note: This class is named I{incorrectly}, since it provides conversion to
                   and from I{local} cartesian coordinates in a I{local tangent plane}
-                  and I{not geocentric} (ECEF) ones, as the name suggests.
+                  and I{not geocentric} (ECEF) ones, as the name would suggest.
         '''
         def __init__(self, latlonh0=0, lon0=0, height0=0, ecef=None, name=NN):
             deprecated_class(self.__class__)
-            LocalCartesian.__init__(self, latlonh0=latlonh0, lon0=lon0, height0=height0, ecef=ecef, name=name)
+            Ltp.__init__(self, latlonh0=latlonh0, lon0=lon0, height0=height0, ecef=ecef, name=name)
 
         @deprecated_method
         def forward(self, latlonh, lon=None, height=0, M=False, name=NN):
-            '''DEPRECATED, use method L{LocalCartesian.forward}.
+            '''DEPRECATED, use method L{LocalCartesian.forward} or L{Ltp.forward}.
 
                @return: I{Incorrectly}, an L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C,
                         M, datum)} with I{local} C{(x, y, z)} coordinates for the given
                         I{geodetic} ones C{(lat, lon, height)}, case C{C=0} always,
                         optionally I{concatenated} L{EcefMatrix} C{M} and C{datum}.
             '''
-            t = LocalCartesian.forward(self, latlonh, lon=lon, height=height, M=M, name=name)
+            t = Ltp.forward(self, latlonh, lon=lon, height=height, M=M, name=name)
             return _MODS.ecef.Ecef9Tuple(t.x, t.y, t.z, t.lat, t.lon, t.height,
                                                         0, t.M, t.ecef.datum,
                                                         name=t.name or self.name)
 
         @deprecated_method
         def reverse(self, xyz, y=None, z=None, M=False, name=NN):
-            '''DEPRECATED, use method L{LocalCartesian.reverse}.
+            '''DEPRECATED, use method L{LocalCartesian.reverse} or L{Ltp.reverse}.
 
                @return: I{Incorrectly}, an L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C,
                         M, datum)} with I{geodetic} coordinates C{(lat, lon, height)} for
                         the given I{local} ones C{(x, y, z)}, case C{C}, optionally
                         I{concatenated} L{EcefMatrix} C{M} and C{datum}.
             '''
-            t = LocalCartesian.reverse(self, xyz, y=y, z=z, M=M, name=name)
+            t = Ltp.reverse(self, xyz, y=y, z=z, M=M, name=name)
             return _MODS.ecef.Ecef9Tuple(t.x, t.y, t.z, t.lat, t.lon, t.height,
                                                         t.ecef.C, t.M, t.ecef.datum,
                                                         name=t.name or self.name)
 
-    _MODS.deprecated.EcefCartesian = EcefCartesian
-    return EcefCartesian(*args, **kwds)
+    _MODS.deprecated.EcefCartesian = Ltp
+    return EcefCartesian_(*args, **kwds)
 
 
 class EasNorExact4Tuple(_DeprecatedNamedTuple):
@@ -215,7 +215,7 @@ class Rhumb7Tuple(_DeprecatedNamedTuple):
 
     @deprecated_method
     def toRhumb8Tuple(self, dflt=NAN):
-        return _MODS.rhumbx.Rhumb8Tuple(self + (dflt,), name=self.name)
+        return _MODS.karney.Rhumb8Tuple(self + (dflt,), name=self.name)
 
     def _to7Tuple(self, **unused):
         '''(INTERNAL) see L{Rhumb8Tuple._to7Tuple}.

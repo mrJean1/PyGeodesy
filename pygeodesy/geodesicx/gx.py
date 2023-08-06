@@ -42,15 +42,16 @@ from pygeodesy.constants import EPS, EPS0, EPS02, MANT_DIG, NAN, PI, _EPSqrt, \
                                _1_0, _N_1_0, _1_75, _2_0, _N_2_0, _2__PI, _3_0, \
                                _4_0, _6_0, _8_0, _16_0, _90_0, _180_0, _1000_0
 # from pygeodesy.datums import _a_ellipsoid  # from .karney
+# from pygeodesy.fmath import cbrt as _cbrt, hypot as hypot_  # from .karney
 from pygeodesy.fsums import fsumf_, fsum1f_
 from pygeodesy.geodesicx.gxbases import _cosSeries, _GeodesicBase, \
                                         _sincos12, _sin1cos2, _xnC4
 from pygeodesy.geodesicx.gxline import _GeodesicLineExact, _TINY, _update_glXs
 from pygeodesy.interns import NN, _COMMASPACE_, _DOT_, _UNDER_
 from pygeodesy.karney import _around, _atan2d, Caps, _cbrt, _copysign, _diff182, \
-                             _a_ellipsoid, _EWGS84, GDict, GeodesicError, _fix90, \
-                             _hypot, _K_2_0, _norm2, _norm180, _polynomial, \
-                             _signBit, _sincos2, _sincos2d, _sincos2de, _unsigned2
+                             _EWGS84, _fix90, GDict, GeodesicError, _hypot, _K_2_0, \
+                             _norm2, _norm180, _polynomial, _signBit, _sincos2, \
+                             _sincos2d, _sincos2de, _unsigned2,  _a_ellipsoid
 from pygeodesy.lazily import _ALL_DOCS, _ALL_MODS as _MODS
 from pygeodesy.namedTuples import Destination3Tuple, Distance3Tuple
 from pygeodesy.props import deprecated_Property, Property, Property_RO
@@ -60,7 +61,7 @@ from pygeodesy.utily import atan2d as _atan2d_reverse, _Wrap, wrap360
 from math import atan2, copysign, cos, degrees, fabs, radians, sqrt
 
 __all__ = ()
-__version__ = '23.05.15'
+__version__ = '23.07.20'
 
 _MAXIT1 = 20
 _MAXIT2 = 10 + _MAXIT1 + MANT_DIG  # MANT_DIG == C++ digits
@@ -184,7 +185,7 @@ class GeodesicExact(_GeodesicBase):
         '''
         return self._GDictDirect(lat1, lon1, azi1, True, a12, outmask)
 
-    def ArcDirectLine(self, lat1, lon1, azi1, a12, caps):
+    def ArcDirectLine(self, lat1, lon1, azi1, a12, caps=Caps.ALL, name=NN):
         '''Define a L{GeodesicLineExact} in terms of the I{direct} geodesic problem and as arc length.
 
            @arg lat1: Latitude of the first point (C{degrees}).
@@ -208,7 +209,7 @@ class GeodesicExact(_GeodesicBase):
                  <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1GeodesicExact.html>} and
                  Python U{Geodesic.ArcDirectLine<https://GeographicLib.SourceForge.io/Python/doc/code.html>}.
         '''
-        return self._GenDirectLine(lat1, lon1, azi1, True, a12, caps)
+        return self._GenDirectLine(lat1, lon1, azi1, True, a12, caps, name=name)
 
     def Area(self, polyline=False, name=NN):
         '''Set up a L{GeodesicAreaExact} to compute area and
@@ -303,19 +304,6 @@ class GeodesicExact(_GeodesicBase):
         _xnC4(C4Order=order)
         self.C4order = order
 
-    def _coeffs(self, nC4):
-        '''(INTERNAL) Get the C{C4_24}, C{_27} or C{_30} series coefficients.
-        '''
-        try:  # from pygeodesy.geodesicx._C4_xx import _coeffs_xx as _coeffs
-            _C4_xx = _DOT_(_MODS.geodesicx.__name__, _UNDER_('_C4', nC4))
-            _coeffs = _MODS.getattr(_C4_xx, _UNDER_('_coeffs', nC4))
-        except (AttributeError, ImportError, TypeError) as x:
-            raise GeodesicError(nC4=nC4, cause=x)
-        n = _xnC4(nC4=nC4)
-        if len(_coeffs) != n:  # double check
-            raise GeodesicError(_coeffs=len(_coeffs), _xnC4=n, nC4=nC4)
-        return _coeffs
-
     @Property_RO
     def _C4x(self):
         '''Get this ellipsoid's C{C4} coefficients, I{cached} tuple.
@@ -324,7 +312,7 @@ class GeodesicExact(_GeodesicBase):
         '''
         # see C4coeff() in GeographicLib.src.GeodesicExactC4.cpp
         def _C4(nC4):
-            i, n, cs = 0, self.n, self._coeffs(nC4)
+            i, n, cs = 0, self.n, _C4coeffs(nC4)
             _p = _polynomial
             for r in range(nC4 + 1, 1, -1):
                 for j in range(1, r):
@@ -364,7 +352,7 @@ class GeodesicExact(_GeodesicBase):
         r = self._GDictDirect(lat1, lon1, azi1, False, s12, Caps._AZIMUTH_LATITUDE_LONGITUDE)
         return Destination3Tuple(r.lat2, r.lon2, r.azi2)  # no iteration
 
-    def DirectLine(self, lat1, lon1, azi1, s12, caps=Caps.STANDARD):
+    def DirectLine(self, lat1, lon1, azi1, s12, caps=Caps.STANDARD, name=NN):
         '''Define a L{GeodesicLineExact} in terms of the I{direct} geodesic problem and as distance.
 
            @arg lat1: Latitude of the first point (C{degrees}).
@@ -387,7 +375,7 @@ class GeodesicExact(_GeodesicBase):
                  <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1GeodesicExact.html>} and
                  Python U{Geodesic.DirectLine<https://GeographicLib.SourceForge.io/Python/doc/code.html>}.
         '''
-        return self._GenDirectLine(lat1, lon1, azi1, False, s12, caps)
+        return self._GenDirectLine(lat1, lon1, azi1, False, s12, caps, name=name)
 
     def _dn(self, sbet, cbet):  # in gxline._GeodesicLineExact.__init__
         '''(INTERNAL) Helper.
@@ -695,7 +683,7 @@ class GeodesicExact(_GeodesicBase):
             r = p.toGDict()
         return self._iter2tion(r, p)
 
-    def _GenDirect(self, lat1, lon1, azi1, arcmode, s12_a12, outmask):
+    def _GenDirect(self, lat1, lon1, azi1, arcmode, s12_a12, outmask=Caps.STANDARD):
         '''(INTERNAL) The general I{Inverse} geodesic calculation.
 
            @return: L{Direct9Tuple}C{(a12, lat2, lon2, azi2,
@@ -704,7 +692,7 @@ class GeodesicExact(_GeodesicBase):
         r = self._GDictDirect(lat1, lon1, azi1, arcmode, s12_a12, outmask)
         return r.toDirect9Tuple()
 
-    def _GenDirectLine(self, lat1, lon1, azi1, arcmode, s12_a12, caps):
+    def _GenDirectLine(self, lat1, lon1, azi1, arcmode, s12_a12, caps, name=NN):
         '''(INTERNAL) Helper for C{ArcDirectLine} and C{DirectLine}.
 
            @return: A L{GeodesicLineExact} instance.
@@ -714,9 +702,9 @@ class GeodesicExact(_GeodesicBase):
         s, c = _sincos2d(_around(azi1))
         C    =  caps if arcmode else (caps | Caps.DISTANCE_IN)
         return _GeodesicLineExact(self, lat1, lon1, azi1, C,
-                                  self._debug, s, c)._GenSet(arcmode, s12_a12)
+                                  self._debug, s, c, name=name)._GenSet(arcmode, s12_a12)
 
-    def _GenInverse(self, lat1, lon1, lat2, lon2, outmask):
+    def _GenInverse(self, lat1, lon1, lat2, lon2, outmask=Caps.STANDARD):
         '''(INTERNAL) The general I{Inverse} geodesic calculation.
 
            @return: L{Inverse10Tuple}C{(a12, s12, salp1, calp1, salp2, calp2,
@@ -772,7 +760,7 @@ class GeodesicExact(_GeodesicBase):
         return Distance3Tuple(r.s12, wrap360(r.azi1), wrap360(r.azi2),
                               iteration=r.iteration)
 
-    def InverseLine(self, lat1, lon1, lat2, lon2, caps=Caps.STANDARD):
+    def InverseLine(self, lat1, lon1, lat2, lon2, caps=Caps.STANDARD, name=NN):
         '''Define a L{GeodesicLineExact} in terms of the I{Inverse} geodesic problem.
 
            @arg lat1: Latitude of the first point (C{degrees}).
@@ -801,7 +789,7 @@ class GeodesicExact(_GeodesicBase):
         C  = (caps | Cs.DISTANCE) if (caps & Cs._DISTANCE_IN_OUT) else caps
         azi1 = _atan2d(r.salp1, r.calp1)
         return _GeodesicLineExact(self, lat1, lon1, azi1, C,  # ensure a12 is distance
-                                  self._debug, r.salp1, r.calp1)._GenSet(True, r.a12)
+                                  self._debug, r.salp1, r.calp1, name=name)._GenSet(True, r.a12)
 
     def _InverseArea(self, _meridian, salp1, calp1,  # PYCHOK 9 args
                                       salp2, calp2,
@@ -1088,7 +1076,7 @@ class GeodesicExact(_GeodesicBase):
 
         return s12b, m12b, m0, M12, M21
 
-    def Line(self, lat1, lon1, azi1, caps=Caps.ALL):
+    def Line(self, lat1, lon1, azi1, caps=Caps.ALL, name=NN):
         '''Set up a L{GeodesicLineExact} to compute several points
            on a single geodesic.
 
@@ -1111,7 +1099,7 @@ class GeodesicExact(_GeodesicBase):
                  <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1GeodesicExact.html>}
                  and Python U{Geodesic.Line<https://GeographicLib.SourceForge.io/Python/doc/code.html>}.
         '''
-        return _GeodesicLineExact(self, lat1, lon1, azi1, caps, self._debug)
+        return _GeodesicLineExact(self, lat1, lon1, azi1, caps, self._debug, name=name)
 
     @Property_RO
     def n(self):
@@ -1279,38 +1267,43 @@ class GeodesicLineExact(_GeodesicLineExact):
 
 
 def _Astroid(x, y):
-    '''(INTERNAL) Solve M{k^4 + 2 * k^3 - (x^2 + y^2 - 1 ) * k^2 -
-       (2 * k + 1) * y^2 = 0} for positive root k.
+    '''(INTERNAL) Solve M{k^4 + 2 * k^3 - (x^2 + y^2 - 1)
+       * k^2 - (2 * k + 1) * y^2 = 0} for positive root k.
     '''
     p = x**2
     q = y**2
     r = fsumf_(_1_0, q, p, _N_2_0)
-    if q or r > 0:
-        r = r / _6_0  # /= chokes PyChecker
+    if r > 0 or q:
         # avoid possible division by zero when r = 0
         # by multiplying s and t by r^3 and r, resp.
         S = p * q / _4_0  # S = r^3 * s
-        r3 = r**3
-        T3 = r3 + S
-        # discriminant of the quadratic equation for T3 is
-        # zero on the evolute curve p^(1/3) + q^(1/3) = 1
-        d = S * (S + r3 * _2_0)
-        if d < 0:
-            # T is complex, but u is defined for a real result
-            a = atan2(sqrt(-d), -T3) / _3_0
-            # There are 3 possible cube roots, choose the one which
-            # avoids cancellation.  Note d < 0 implies that r < 0.
-            u = (cos(a) * _2_0 + _1_0) * r
+        if r:
+            r  = r / _6_0  # /= chokes PyChecker
+            r3 = r**3
+            T3 = r3 + S
+            # discriminant of the quadratic equation for T3 is
+            # zero on the evolute curve p^(1/3) + q^(1/3) = 1
+            d = (r3 + T3) * S
+            if d < 0:
+                # T is complex, but u is defined for a real result
+                a = atan2(sqrt(-d), -T3) / _3_0
+                # There are 3 possible cube roots, choose the one which
+                # avoids cancellation.  Note d < 0 implies that r < 0.
+                u = (cos(a) * _2_0 + _1_0) * r
+            else:
+                # pick the sign on the sqrt to maximize abs(T3) to
+                # minimize loss of precision due to cancellation.
+                if d:
+                    T3 += _copysign(sqrt(d), T3)  # T3 = (r * t)^3
+                # _cbrt always returns the real root, _cbrt(-8) = -2
+                u = _cbrt(T3)  # T = r * t
+                if u:  # T can be zero; but then r2 / T -> 0
+                    u += r**2 / u
+                u += r
+        elif S:  # d == T3**2 == S**2: sqrt(d) == abs(S) == abs(T3)
+            u = _cbrt(S * _2_0)  # == T3 + _copysign(abs(S), T3)
         else:
-            # pick the sign on the sqrt to maximize abs(T3) to
-            # minimize loss of precision due to cancellation.
-            if d:
-                T3 += _copysign(sqrt(d), T3)  # T3 = (r * t)^3
-            # _cbrt always returns the real root, _cbrt(-8) = -2
-            u = _cbrt(T3)  # T = r * t
-            if u:  # T can be zero; but then r2 / T -> 0
-                u += r**2 / u
-            u += r
+            u = _0_0
         v = _hypot(u, y)  # sqrt(u**2 + q)
         # avoid loss of accuracy when u < 0
         u = (q / (v - u)) if u < 0 else (v + u)
@@ -1325,6 +1318,20 @@ def _Astroid(x, y):
         k = _0_0
 
     return k
+
+
+def _C4coeffs(nC4):  # in .geodesicx.__main__
+    '''(INTERNAL) Get the C{C4_24}, C{_27} or C{_30} series coefficients.
+    '''
+    try:  # from pygeodesy.geodesicx._C4_xx import _coeffs_xx as _coeffs
+        _C4_xx  = _DOT_(_MODS.geodesicx.__name__, _UNDER_('_C4', nC4))
+        _coeffs = _MODS.getattr(_C4_xx, _UNDER_('_coeffs', nC4))
+    except (AttributeError, ImportError, TypeError) as x:
+        raise GeodesicError(nC4=nC4, cause=x)
+    n = _xnC4(nC4=nC4)
+    if len(_coeffs) != n:  # double check
+        raise GeodesicError(_coeffs=len(_coeffs), _xnC4=n, nC4=nC4)
+    return _coeffs
 
 
 __all__ += _ALL_DOCS(GeodesicExact, GeodesicLineExact)

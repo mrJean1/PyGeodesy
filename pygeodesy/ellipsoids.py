@@ -63,7 +63,7 @@ Following is the list of predefined L{Ellipsoid}s, all instantiated lazily.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import copysign0, isint
+from pygeodesy.basics import copysign0, isbool, isint, _xinstanceof
 from pygeodesy.constants import EPS, EPS0, EPS02, EPS1, INF, NINF, PI4, PI_2, PI_3, R_M, R_MA, R_FM, \
                                _EPSqrt, _EPStol as _TOL, _floatuple as _T, _isfinite, _SQRT2_2, \
                                _0_0s, _0_0, _0_5, _1_0, _1_EPS, _2_0, _4_0, _90_0, \
@@ -76,7 +76,8 @@ from pygeodesy.interns import NN, _a_, _Airy1830_, _AiryModified_, _b_, _Bessel1
                              _Clarke1866_, _Clarke1880IGN_, _DOT_, _f_, _GRS80_, _height_, \
                              _Intl1924_, _incompatible_, _invalid_, _Krassovski1940_, \
                              _Krassowsky1940_, _meridional_, _lat_, _negative_, _not_finite_, \
-                             _vs_, _prime_vertical_, _radius_, _Sphere_, _SPACE_, _WGS72_, _WGS84_
+                             _prime_vertical_, _radius_, _Sphere_, _SPACE_, _vs_, _WGS72_, \
+                             _WGS84_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _lazyNamedEnumItem as _lazy, _NamedEnum, \
                             _NamedEnumItem, _NamedTuple, _Pass
@@ -90,7 +91,7 @@ from pygeodesy.utily import atand, atan2b, atan2d, degrees90, m2radians, radians
 from math import asinh, atan, atanh, cos, degrees, exp, fabs, radians, sin, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '23.05.23'
+__version__ = '23.08.04'
 
 _f_0_0    = Float(f =_0_0)  # zero flattening
 _f__0_0   = Float(f_=_0_0)  # zero inverse flattening
@@ -208,7 +209,9 @@ class Ellipsoid(_NamedEnumItem):
     _f  = 0  # (1st) flattening: (a - b) / a
     _f_ = 0  # inverse flattening: 1 / f = a / (a - b)
 
-    _KsOrder = 8     # Krüger series order (4, 6 or 8)
+    _geodsolve  = NN  # means, use PYGEODESY_GEODSOLVE
+    _KsOrder    =  8  # Krüger series order (4, 6 or 8)
+    _rhumbsolve = NN  # means, use PYGEODESY_RHUMBSOLVE
 
     def __init__(self, a, b=None, f_=None, f=None, name=NN):
         '''New L{Ellipsoid} from the I{equatorial} radius and either the
@@ -291,6 +294,9 @@ class Ellipsoid(_NamedEnumItem):
         return self is other or (isinstance(other, Ellipsoid) and
                                   self.a == other.a and
                                  (self.f == other.f or self.b == other.b))
+
+    def __hash__(self):
+        return self._hash  # memoized
 
     @Property_RO
     def a(self):
@@ -884,7 +890,7 @@ class Ellipsoid(_NamedEnumItem):
         '''
         return self._es_atanh(Scalar(x=x)) if self.f else _0_0
 
-    def _es_atanh(self, x):  # see .albers._atanhee
+    def _es_atanh(self, x):  # see .albers._atanhee, .AuxLat._atanhee
         '''(INTERNAL) Helper for .es_atanh, ._es_taupf2 and ._exp_es_atanh.
         '''
         es = self.es  # signOf(es) == signOf(f)
@@ -990,9 +996,41 @@ class Ellipsoid(_NamedEnumItem):
         '''
         return self._assert(self.a_b - _1_0, f2=f2f2(self.f))
 
-    @Property_RO
+    @deprecated_Property_RO
     def geodesic(self):
-        '''Get this ellipsoid's I{wrapped} U{geodesic.Geodesic
+        '''DEPRECATED, use property C{geodesicw}.'''
+        return self.geodesicw
+
+    def geodesic_(self, exact=True):
+        '''Get the an I{exact} C{Geodesic...} instance for this ellipsoid.
+
+           @kwarg exact: If C{bool} return L{GeodesicExact}C{(exact=B{exact},
+                         ...)}, otherwise a C{geodesic} for this ellipsoid
+                         (C{.geodesicw}, C{.geodesicx}, C{.geodsolve}) or an
+                         other L{Geodesic}, L{GeodesicExact} or L{GeodesicSolve}
+                         instance for I{this} ellipsoid.
+
+           @return: The C{exact} geodesic (C{Geodesic...}).
+
+           @raise TypeError: Invalid B{C{exact}}.
+
+           @raise ValueError: Incompatible B{C{exact}} ellipsoid.
+        '''
+        if isbool(exact):  # for consistenccy with C{.rhumb_}
+            g = _MODS.geodesicx.GeodesicExact(self, C4order=30 if exact else 24,
+                                              name=self.name)
+        else:
+            g = exact
+            _xinstanceof(_MODS.geodesicw.Geodesic,
+                         _MODS.geodesicx.GeodesicExact,
+                         _MODS.geodsolve.GeodesicSolve, exact=g)
+            if g.ellipsoid != self:
+                raise _ValueError(exact=g, ellipsosid=g.ellipsoid)
+        return g
+
+    @Property_RO
+    def geodesicw(self):
+        '''Get this ellipsoid's I{wrapped} U{geodesicw.Geodesic
            <https://GeographicLib.SourceForge.io/Python/doc/code.html>}, provided
            I{Karney}'s U{geographiclib<https://PyPI.org/project/geographiclib>}
            package is installed.
@@ -1009,16 +1047,24 @@ class Ellipsoid(_NamedEnumItem):
         #     raise _IsnotError(_ellipsoidal_, ellipsoid=self)
         return _MODS.geodesicx.GeodesicExact(self, name=self.name)
 
-    @Property_RO
+    @property
     def geodsolve(self):
         '''Get this ellipsoid's L{GeodesicSolve}, the I{wrapper} around utility
            U{GeodSolve<https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html>},
            provided the path to the C{GeodSolve} executable is specified with env
-           variable C{PYGEODESY_GEODSOLVE}.
+           variable C{PYGEODESY_GEODSOLVE} or re-/set with this property..
         '''
         # if not self.isEllipsoidal:
         #     raise _IsnotError(_ellipsoidal_, ellipsoid=self)
-        return _MODS.geodsolve.GeodesicSolve(self, name=self.name)
+        return _MODS.geodsolve.GeodesicSolve(self, path=self._geodsolve, name=self.name)
+
+    @geodsolve.setter  # PYCHOK setter!
+    def geodsolve(self, path):
+        '''Re-/set the (fully qualified) path to the U{GeodSolve
+           <https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html>} executable,
+           overriding env variable C{PYGEODESY_GEODSOLVE} (C{str}).
+        '''
+        self._geodsolve = path
 
     def hartzell4(self, pov, los=None):
         '''Compute the intersection of this ellipsoid's surface and a Line-Of-Sight
@@ -1030,9 +1076,9 @@ class Ellipsoid(_NamedEnumItem):
                        C{None} to point to this ellipsoid's center.
 
            @return: L{Vector4Tuple}C{(x, y, z, h)} with the cartesian coordinates C{x},
-                    C{y} and C{z} of the projection on or the intersection with and the
-                    I{distance} C{h} from B{C{pov}} to C{(x, y, z)} along B{C{los}},
-                    all in C{meter}, conventionally.
+                    C{y} and C{z} of the projection on or the intersection with this
+                    ellipsoid and the I{distance} C{h} from B{C{pov}} to C{(x, y, z)}
+                    along B{C{los}}, all in C{meter}, conventionally.
 
            @raise IntersectionError: Null B{C{pov}} or B{C{los}} vector, or B{C{pov}}
                                      is inside this ellipsoid or B{C{los}} points
@@ -1050,6 +1096,10 @@ class Ellipsoid(_NamedEnumItem):
         except Exception as x:
             raise IntersectionError(pov=pov, los=los, cause=x)
         return Vector4Tuple(v.x, v.y, v.z, d, name=self.hartzell4.__name__)
+
+    @Property_RO
+    def _hash(self):
+        return hash((self.a, self.f))
 
     def height4(self, xyz, normal=True):
         '''Compute the projection on and the height of a cartesian above or below
@@ -1252,7 +1302,7 @@ class Ellipsoid(_NamedEnumItem):
 
     @deprecated_Property_RO
     def minoradius(self):  # PYCHOK no cover
-        '''DEPRECATED, use property C{b} or C{Rpolar}.'''
+        '''DEPRECATED, use property C{b}, C{polaradius} or C{Rpolar}.'''
         return self.b
 
     @Property_RO
@@ -1409,20 +1459,60 @@ class Ellipsoid(_NamedEnumItem):
         g = sqrt(self.a * self.b) if self.f else self.a
         return Radius(Rgeometric=g)
 
+    def rhumb_(self, exact=True):
+        '''Get the an I{exact} C{Rhumb...} instance for this ellipsoid.
+
+           @kwarg exact: If C{bool} or C{None} return L{Rhumb}C{(exact=B{exact},
+                         ...)}, otherwise a C{rhumb} for this ellipsoid (C{.rhumbaux},
+                         C{.rhumbsolve}, C{.rhumbx}) or an other L{Rhumb}, L{RhumbAux}
+                         or L{RhumbSolve} instance for I{this} ellipsoid.
+
+           @return: The C{exact} rhumb (C{Rhumb...}).
+
+           @raise TypeError: Invalid B{C{exact}}.
+
+           @raise ValueError: Incompatible B{C{exact}} ellipsoid.
+        '''
+        if isbool(exact):  # use Rhumb for backward compatibility
+            r = _MODS.rhumbx.Rhumb(self, exact=exact, name=self.name)
+        else:
+            _xinstanceof(_MODS.rhumbaux.RhumbAux,
+                         _MODS.rhumbsolve.RhumbSolve,
+                         _MODS.rhumbx.Rhumb, exact=r)
+            if r.ellipsoid != self:
+                raise _ValueError(exact=r, ellipsosid=r.ellipsoid)
+        return r
+
     @Property_RO
+    def rhumbaux(self):
+        '''Get this ellipsoid's I{Auxiliary} C{rhumbaux.RhumbAux}.
+        '''
+        # if not self.isEllipsoidal:
+        #     raise _IsnotError(_ellipsoidal_, ellipsoid=self)
+        return _MODS.rhumbaux.RhumbAux(self, name=self.name)
+
+    @property
     def rhumbsolve(self):
         '''Get this ellipsoid's L{RhumbSolve}, the I{wrapper} around utility
            U{RhumbSolve<https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html>},
            provided the path to the C{RhumbSolve} executable is specified with env
-           variable C{PYGEODESY_RHUMBSOLVE}.
+           variable C{PYGEODESY_RHUMBSOLVE} or re-/set with this property.
         '''
         # if not self.isEllipsoidal:
         #     raise _IsnotError(_ellipsoidal_, ellipsoid=self)
-        return _MODS.rhumbsolve.RhumbSolve(self, name=self.name)
+        return _MODS.rhumbsolve.RhumbSolve(self, path=self._rhumbsolve, name=self.name)
+
+    @rhumbsolve.setter  # PYCHOK setter!
+    def rhumbsolve(self, path):
+        '''Re-/set the (fully qualified) path to the U{RhumbSolve
+           <https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html>} executable,
+           overriding env variable C{PYGEODESY_RHUMBSOLVE} (C{str}).
+        '''
+        self._rhumbsolve = path
 
     @Property_RO
     def rhumbx(self):
-        '''Get this ellipsoid's L{Rhumb}.
+        '''Get this ellipsoid's I{Elliptic} C{rhumbx.Rhumb}.
         '''
         # if not self.isEllipsoidal:
         #     raise _IsnotError(_ellipsoidal_, ellipsoid=self)
@@ -1454,25 +1544,6 @@ class Ellipsoid(_NamedEnumItem):
         return r
 
     Rpolar = b  # for consistent naming
-
-    @deprecated_Property_RO
-    def Rquadratic(self):  # PYCHOK no cover
-        '''DEPRECATED, use property C{Rbiaxial} or C{Rtriaxial}.'''
-        return self.Rbiaxial
-
-    @deprecated_Property_RO
-    def Rr(self):  # PYCHOK no cover
-        '''DEPRECATED, use property C{Rrectifying}.'''
-        return self.Rrectifying
-
-    @Property_RO
-    def Rrectifying(self):
-        '''Get the I{rectifying} earth radius (C{meter}), M{((a**(3/2) + b**(3/2)) / 2)**(2/3)}.
-
-           @see: U{Earth radius<https://WikiPedia.org/wiki/Earth_radius>}.
-        '''
-        r = (cbrt2((_1_0 + sqrt3(self.b_a)) * _0_5) * self.a) if self.f else self.a
-        return Radius(Rrectifying=r)
 
     def roc1_(self, sa, ca=None):
         '''Compute the I{prime-vertical}, I{normal} radius of curvature
@@ -1675,6 +1746,25 @@ class Ellipsoid(_NamedEnumItem):
     rocTransverse = rocPrimeVertical  # synonymous
 
     @deprecated_Property_RO
+    def Rquadratic(self):  # PYCHOK no cover
+        '''DEPRECATED, use property C{Rbiaxial} or C{Rtriaxial}.'''
+        return self.Rbiaxial
+
+    @deprecated_Property_RO
+    def Rr(self):  # PYCHOK no cover
+        '''DEPRECATED, use property C{Rrectifying}.'''
+        return self.Rrectifying
+
+    @Property_RO
+    def Rrectifying(self):
+        '''Get the I{rectifying} earth radius (C{meter}), M{((a**(3/2) + b**(3/2)) / 2)**(2/3)}.
+
+           @see: U{Earth radius<https://WikiPedia.org/wiki/Earth_radius>}.
+        '''
+        r = (cbrt2((_1_0 + sqrt3(self.b_a)) * _0_5) * self.a) if self.f else self.a
+        return Radius(Rrectifying=r)
+
+    @deprecated_Property_RO
     def Rs(self):  # PYCHOK no cover
         '''DEPRECATED, use property C{Rgeometric}.'''
         return self.Rgeometric
@@ -1768,7 +1858,7 @@ class Ellipsoid2(Ellipsoid):
 def _spherical_a_b(a, b):
     '''(INTERNAL) C{True} for spherical or invalid C{a} or C{b}.
     '''
-    return a < EPS or b < EPS or fabs(a - b) < EPS
+    return a < EPS0 or b < EPS0 or fabs(a - b) < EPS0
 
 
 def _spherical_f(f):
@@ -1794,7 +1884,7 @@ def a_b2e(a, b):
 
        @note: The result is always I{non-negative} and C{0} for I{near-spherical} ellipsoids.
     '''
-    return Float(e=sqrt(fabs(a_b2e2(a, b))))
+    return Float(e=sqrt(fabs(a_b2e2(a, b))))  # == sqrt(fabs(a - b) * (a + b)) / a)
 
 
 def a_b2e2(a, b):
@@ -1809,7 +1899,7 @@ def a_b2e2(a, b):
        @note: The result is positive for I{oblate}, negative for I{prolate}
               or C{0} for I{near-spherical} ellipsoids.
     '''
-    return Float(e2=_0_0 if _spherical_a_b(a, b) else (_1_0 - (b / a)**2))
+    return Float(e2=_0_0 if _spherical_a_b(a, b) else ((a - b) * (a + b) / a**2))
 
 
 def a_b2e22(a, b):
@@ -1824,7 +1914,7 @@ def a_b2e22(a, b):
        @note: The result is positive for I{oblate}, negative for I{prolate}
               or C{0} for I{near-spherical} ellipsoids.
     '''
-    return Float(e22=_0_0 if _spherical_a_b(a, b) else ((a / b)**2 - _1_0))
+    return Float(e22=_0_0 if _spherical_a_b(a, b) else ((a - b) * (a + b) / b**2))
 
 
 def a_b2e32(a, b):
@@ -1885,7 +1975,7 @@ def a_b2f2(a, b):
               for I{near-spherical} ellipsoids.
     '''
     t = 0 if _spherical_a_b(a, b) else float(a - b)
-    return Float(f2=_0_0 if fabs(t) < EPS else (t / b))
+    return Float(f2=_0_0 if fabs(t) < EPS0 else (t / b))
 
 
 def a_b2n(a, b):
@@ -1900,7 +1990,7 @@ def a_b2n(a, b):
               or C{0} for I{near-spherical} ellipsoids.
     '''
     t = 0 if _spherical_a_b(a, b) else float(a - b)
-    return Float(n=_0_0 if fabs(t) < EPS else (t / (a + b)))
+    return Float(n=_0_0 if fabs(t) < EPS0 else (t / (a + b)))
 
 
 def a_f2b(a, f):
@@ -1936,7 +2026,7 @@ def b_f2a(b, f):
        @return: The equatorial radius (C{float}), M{b / (1 - f)}.
     '''
     t = _1_0 - f
-    a = b if fabs(t < EPS) else (b / t)
+    a = b if fabs(t) < EPS0 else (b / t)
     return Radius_(a=b if _spherical_a_b(a, b) else a)
 
 
@@ -1949,8 +2039,8 @@ def b_f_2a(b, f_):
        @return: The equatorial radius (C{float}), M{b * f_ / (f_ - 1)}.
     '''
     t = f_ - _1_0
-    a = b if _spherical_f_(f_) or fabs(t - f_) < EPS \
-                               or fabs(t) < EPS else (b * f_ / t)
+    a = b if _spherical_f_(f_) or fabs(t - f_) < EPS0 \
+                               or fabs(t) < EPS0 else (b * f_ / t)
     return Radius_(a=b if _spherical_a_b(a, b) else a)
 
 
@@ -2010,7 +2100,7 @@ def f2e22(f):
     '''
     # e2 / (1 - e2) == f * (2 - f) / (1 - f)**2
     t = (_1_0 - f)**2
-    return Float(e22=INF if t < EPS else (f2e2(f) / t))  # PYCHOK type
+    return Float(e22=INF if t < EPS0 else (f2e2(f) / t))  # PYCHOK type
 
 
 def f2e32(f):
@@ -2111,8 +2201,8 @@ def n2e2(n):
        @see: U{Flattening<https://WikiPedia.org/wiki/Flattening>}.
     '''
     t = (n + _1_0)**2
-    return Float(e2=_0_0 if fabs(n) < EPS else
-                   (NINF if      t  < EPS else (_4_0 * n / t)))
+    return Float(e2=_0_0 if fabs(n) < EPS0 else
+                   (NINF if      t  < EPS0 else (_4_0 * n / t)))
 
 
 def n2f(n):
@@ -2127,7 +2217,7 @@ def n2f(n):
              <https://WikiPedia.org/wiki/Flattening>}.
     '''
     t = n + _1_0
-    f = 0 if fabs(n) < EPS else (NINF if t < EPS else (_2_0 * n / t))
+    f = 0 if fabs(n) < EPS0 else (NINF if t < EPS0 else (_2_0 * n / t))
     return _f_0_0 if _spherical_f(f) else Float(f=f)
 
 
@@ -2155,7 +2245,7 @@ def _normalTo3(px, py, E):  # in .height4 above
     a2 = a - b * E.b_a
     b2 = b - a * E.a_b
     tx = ty = _SQRT2_2
-    for i in range(10):  # max 5
+    for i in range(16):  # max 5
         ex = a2 * tx**3
         ey = b2 * ty**3
 
@@ -2173,7 +2263,8 @@ def _normalTo3(px, py, E):  # in .height4 above
             break
         tx = tx / t  # /= chokes PyChecker
         ty = ty / t
-        if max(fabs(sx - tx), fabs(sy - ty)) < EPS:
+        if fabs(sx - tx) < EPS and \
+           fabs(sy - ty) < EPS:
             break
 
     tx *= a / px
@@ -2296,28 +2387,6 @@ if __name__ == '__main__':
     t = [NN] + Ellipsoids.toRepr(all=True, asorted=True).split(_NL_)
     printf(_NLATvar_.join(i.strip(_COMMA_) for i in t))
 
-# **) MIT License
-#
-# Copyright (C) 2016-2023 -- mrJean1 at Gmail -- All Rights Reserved.
-#
-# Permission is hereby granted, free of charge, to any person obtaining a
-# copy of this software and associated documentation files (the "Software"),
-# to deal in the Software without restriction, including without limitation
-# the rights to use, copy, modify, merge, publish, distribute, sublicense,
-# and/or sell copies of the Software, and to permit persons to whom the
-# Software is furnished to do so, subject to the following conditions:
-#
-# The above copyright notice and this permission notice shall be included
-# in all copies or substantial portions of the Software.
-#
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
-# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
-# OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-# ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-# OTHER DEALINGS IN THE SOFTWARE.
-
 # % python3 -m pygeodesy.ellipsoids
 
 # Ellipsoids.WGS84: name='WGS84', a=6378137, b=6356752.3142451793, f_=298.257223563, f=0.0033528107, f2=0.0033640898, n=0.0016792204, e=0.0818191908, e2=0.00669438, e21=0.99330562, e22=0.0067394967, e32=0.0033584313, A=6367449.1458234144, L=10001965.7293127216, R1=6371008.7714150595, R2=6371007.1809184738, R3=6371000.7900091587, Rbiaxial=6367453.6345163295, Rtriaxial=6372797.5559594007
@@ -2349,3 +2418,25 @@ if __name__ == '__main__':
 # AlphaKs -0.00084149152514366627, 0.00000076653480614871, -0.00000000120934503389, 0.0000000000024576225, -0.00000000000000578863, 0.00000000000000001502, -0.00000000000000000004, 0.0
 # BetaKs  -0.00084149187224351817, 0.00000005842735196773, -0.0000000001680487236, 0.00000000000021706261, -0.00000000000000038002, 0.00000000000000000073, -0.0, 0.0
 # KsOrder 8
+
+# **) MIT License
+#
+# Copyright (C) 2016-2023 -- mrJean1 at Gmail -- All Rights Reserved.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included
+# in all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+# OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+# ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+# OTHER DEALINGS IN THE SOFTWARE.

@@ -27,7 +27,7 @@ from math import copysign as _copysign
 import inspect as _inspect
 
 __all__ = _ALL_LAZY.basics
-__version__ = '23.05.31'
+__version__ = '23.06.23'
 
 _0_0                  =  0.0  # in .constants
 _below_               = 'below'
@@ -407,6 +407,12 @@ def neg_(*xs):
     return map(neg, xs)
 
 
+def _reverange(n):
+    '''(INTERNAL) Reversed range yielding (n-1, n-2, ..., 1, 0).
+    '''
+    return range(n - 1, -1, -1)
+
+
 def signBit(x):
     '''Return C{signbit(B{x})}, like C++.
 
@@ -603,9 +609,12 @@ def _xinstanceof(*Types, **name_value_pairs):
        @raise TypeError: One of the B{C{name_value_pairs}} is not
                          an instance of any of the B{C{Types}}.
     '''
-    for n, v in name_value_pairs.items():
-        if not isinstance(v, Types):
-            raise _TypesError(n, v, *Types)
+    if Types and name_value_pairs:
+        for n, v in name_value_pairs.items():
+            if not isinstance(v, Types):
+                raise _TypesError(n, v, *Types)
+    else:
+        raise _AssertionError(Types=Types, name_value_pairs=name_value_pairs)
 
 
 def _xnumpy(where, *required):

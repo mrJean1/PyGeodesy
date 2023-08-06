@@ -64,7 +64,7 @@ from pygeodesy.utily import atan2b, degrees90, degrees180, degrees2m, \
 from math import cos, fabs, fmod, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '23.05.26'
+__version__ = '23.08.04'
 
 _ilat_  = 'ilat'
 _ilon_  = 'ilon'
@@ -110,7 +110,7 @@ class LatLon_(object):  # XXX in heights._HeightBase.height
            @note: The lat- and longitude are taken as-given,
                   un-clipped and un-validated .
         '''
-        if lon is None:
+        if lon is None:  # PYCHOK no cover
             try:
                 ll = latlonh.lat, latlonh.lon
                 height = _xattr(latlonh, height=height)
@@ -118,7 +118,7 @@ class LatLon_(object):  # XXX in heights._HeightBase.height
                 raise _IsnotError(_LatLon_, latlonh=latlonh)
             if wrap:
                 ll = _Wrap.latlon(*ll)
-        elif wrap:
+        elif wrap:  # PYCHOK no cover
             ll = _Wrap.latlonDMS2(latlonh, lon)
         else:  # must be latNS, lonEW
             ll = parseDMS(latlonh, suffix=_NS_), parseDMS(lon, suffix=_EW_)

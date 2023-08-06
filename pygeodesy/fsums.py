@@ -33,10 +33,10 @@ from pygeodesy.errors import itemsorted, _OverflowError, _TypeError, \
                             _ValueError, _xError2, _xkwds_get, _xkwds_get_, \
                             _ZeroDivisionError
 from pygeodesy.interns import NN, _arg_, _COMMASPACE_, _DASH_, _EQUAL_, \
-                             _exceeds_, _from_, _iadd_, _LANGLE_, _negative_, \
-                             _NOTEQUAL_, _not_finite_, _not_scalar_, \
-                             _PERCENT_, _PLUS_, _R_, _RANGLE_, _SLASH_, \
-                             _SPACE_, _STAR_, _UNDER_
+                             _exceeds_, _from_, _iadd_op_, _LANGLE_, \
+                             _negative_, _NOTEQUAL_, _not_finite_, \
+                             _not_scalar_, _PERCENT_, _PLUS_, _R_, _RANGLE_, \
+                             _SLASH_, _SPACE_, _STAR_, _UNDER_
 from pygeodesy.lazily import _ALL_LAZY, _getenv, _sys_version_info2
 from pygeodesy.named import _Named, _NamedTuple, _NotImplemented, Fmt, unstr
 from pygeodesy.props import _allPropertiesOf_n, deprecated_property_RO, \
@@ -47,9 +47,9 @@ from pygeodesy.props import _allPropertiesOf_n, deprecated_property_RO, \
 from math import ceil as _ceil, fabs, floor as _floor  # PYCHOK used! .ltp
 
 __all__ = _ALL_LAZY.fsums
-__version__ = '23.06.04'
+__version__ = '23.08.05'
 
-_add_op_       = _PLUS_
+_add_op_       = _PLUS_  # in .auxilats.auxAngle
 _eq_op_        = _EQUAL_ * 2  # _DEQUAL_
 _COMMASPACE_R_ = _COMMASPACE_ + _R_
 _exceeds_R_    = _SPACE_ + _exceeds_(_R_)
@@ -65,9 +65,10 @@ _mul_op_       = _STAR_
 _ne_op_        = _NOTEQUAL_
 _non_zero_     = 'non-zero'
 _pow_op_       = _STAR_ * 2  # _DSTAR_, in .fmath
-_sub_op_       = _DASH_
+_sub_op_       = _DASH_      # in .auxilats.auxAngle, .fsums
 _truediv_op_   = _SLASH_
 _divmod_op_    = _floordiv_op_ + _mod_op_
+_isub_op_      = _sub_op_ + _fset_op_  # in .auxilats.auxAngle, .fsums
 
 
 def _2float(index=None, **name_value):  # in .fmath, .fstats
@@ -399,7 +400,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
 
            @see: Methods L{Fsum.fadd} and L{Fsum.fadd_}.
         '''
-        return self._fadd(other, _iadd_)
+        return self._fadd(other, _iadd_op_)
 
     def __ifloordiv__(self, other):
         '''Apply C{B{self} //= B{other}} to this instance.
@@ -514,7 +515,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
 
            @see: Method L{Fsum.fadd}.
         '''
-        return self._fsub(other, _sub_op_ + _fset_op_)
+        return self._fsub(other, _isub_op_)
 
     def __iter__(self):
         '''Return an C{iter}ator over a C{partials} duplicate.

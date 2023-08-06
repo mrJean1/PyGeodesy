@@ -81,9 +81,10 @@
 <hr />
 <p>Wrapper to invoke <i>Karney</i>'s <a 
   href="https://GeographicLib.SourceForge.io/C++/doc/RhumbSolve.1.html" 
-  target="_top">RhumbSolve</a>, the <code>Exact</code> version of class <a 
-  href="pygeodesy.rhumbx.Rhumb-class.html" 
-  class="link">pygeodesy.Rhumb</a>.</p>
+  target="_top">RhumbSolve</a> like a class, similar to <a 
+  href="pygeodesy.rhumbx.Rhumb-class.html" class="link">pygeodesy.Rhumb</a>
+  and <a href="pygeodesy.rhumbaux.RhumbAux-class.html" 
+  class="link">pygeodesy.RhumbAux</a>.</p>
 
 <hr />
 <div class="fields">      <strong>Notes:</strong>
@@ -135,6 +136,30 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.rhumbsolve.RhumbSolve-class.html#DirectLine" class="summary-sig-name">DirectLine</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">lat1</span>,
+        <span class="summary-sig-arg">lon1</span>,
+        <span class="summary-sig-arg">azi1</span>,
+        <span class="summary-sig-arg">caps</span>=<span class="summary-sig-default">3968</span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+      Set up a <a href="pygeodesy.rhumbsolve.RhumbLineSolve-class.html" 
+      class="link">RhumbLineSolve</a> in terms of the <i>direct</i> rhumb 
+      problem to compute several points on a single rhumb line.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.rhumbsolve.RhumbSolve-class.html#Inverse3" class="summary-sig-name">Inverse3</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">lat1</span>,
         <span class="summary-sig-arg">lon1</span>,
@@ -157,14 +182,40 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.rhumbsolve.RhumbSolve-class.html#InverseLine" class="summary-sig-name">InverseLine</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">lat1</span>,
+        <span class="summary-sig-arg">lon1</span>,
+        <span class="summary-sig-arg">lat2</span>,
+        <span class="summary-sig-arg">lon2</span>,
+        <span class="summary-sig-arg">caps</span>=<span class="summary-sig-default">3968</span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+      Define a <a href="pygeodesy.rhumbsolve.RhumbLineSolve-class.html" 
+      class="link">RhumbLineSolve</a> in terms of the <i>inverse</i> rhumb 
+      problem.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.rhumbsolve.RhumbSolve-class.html#Line" class="summary-sig-name">Line</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">lat1</span>,
         <span class="summary-sig-arg">lon1</span>,
         <span class="summary-sig-arg">azi1</span>,
-        <span class="summary-sig-arg">caps</span>=<span class="summary-sig-default">32640</span>)</span><br />
+        <span class="summary-sig-arg">caps</span>=<span class="summary-sig-default">3968</span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
       Set up a <a href="pygeodesy.rhumbsolve.RhumbLineSolve-class.html" 
-      class="link">RhumbLineSolve</a> to compute several points on a single
-      rhumb line.</td>
+      class="link">RhumbLineSolve</a> in terms of the <i>direct</i> rhumb 
+      problem to compute several points on a single rhumb line.</td>
           <td align="right" valign="top">
             
             
@@ -335,6 +386,57 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="DirectLine"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">DirectLine</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">lat1</span>,
+        <span class="sig-arg">lon1</span>,
+        <span class="sig-arg">azi1</span>,
+        <span class="sig-arg">caps</span>=<span class="sig-default">3968</span>,
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Set up a <a href="pygeodesy.rhumbsolve.RhumbLineSolve-class.html" 
+  class="link">RhumbLineSolve</a> in terms of the <i>direct</i> rhumb 
+  problem to compute several points on a single rhumb line.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>lat1</code></strong> - Latitude of the first point (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lon1</code></strong> - Longitude of the first point (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>azi1</code></strong> - Azimuth at the first point (compass <code>degrees</code>).</li>
+        <li><strong class="pname"><code>caps</code></strong> - Bit-or'ed combination of Caps values specifying the capabilities 
+          the <a href="pygeodesy.rhumbsolve.RhumbLineSolve-class.html" 
+          class="link">RhumbLineSolve</a> instance should possess, always 
+          <code>Caps.ALL</code>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A <a href="pygeodesy.rhumbsolve.RhumbLineSolve-class.html" 
+          class="link">RhumbLineSolve</a> instance.</dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        If the point is at a pole, the azimuth is defined by keeping 
+        <b><code>lon1</code></b> fixed, writing <code><b>lat1</b> = &#177;(90 &#8722; 
+        &#949;)</code>, and taking the limit <code>&#949; &#8594; 0+</code>.
+      </p>
+      <p><strong>See Also:</strong>
+        C++ <a 
+        href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1RhumbExact.html"
+        target="_top">RhumbExact.Line</a> and Python <a 
+        href="https://GeographicLib.SourceForge.io/Python/doc/code.html" 
+        target="_top">Rhumb.Line</a>.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="Inverse3"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -363,6 +465,51 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="InverseLine"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">InverseLine</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">lat1</span>,
+        <span class="sig-arg">lon1</span>,
+        <span class="sig-arg">lat2</span>,
+        <span class="sig-arg">lon2</span>,
+        <span class="sig-arg">caps</span>=<span class="sig-default">3968</span>,
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Define a <a href="pygeodesy.rhumbsolve.RhumbLineSolve-class.html" 
+  class="link">RhumbLineSolve</a> in terms of the <i>inverse</i> rhumb 
+  problem.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>lat1</code></strong> - Latitude of the first point (<code>degrees90</code>).</li>
+        <li><strong class="pname"><code>lon1</code></strong> - Longitude of the first point (<code>degrees180</code>).</li>
+        <li><strong class="pname"><code>lat2</code></strong> - Latitude of the second point (<code>degrees90</code>).</li>
+        <li><strong class="pname"><code>lon2</code></strong> - Longitude of the second point (<code>degrees180</code>).</li>
+        <li><strong class="pname"><code>caps</code></strong> - Optional <code>caps</code>, see <a 
+          href="pygeodesy.rhumbx.RhumbLine-class.html" 
+          class="link">RhumbLine</a> <code><b>caps</b></code>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A <a href="pygeodesy.rhumbsolve.RhumbLineSolve-class.html" 
+          class="link">RhumbLineSolve</a> instance and invoke its method <a
+          href="pygeodesy.rhumbx.RhumbLine-class.html#Position" 
+          class="link">RhumbLine.Position</a> to compute each point.</dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        Updates to this rhumb are reflected in the returned rhumb line.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="Line"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -374,7 +521,8 @@
         <span class="sig-arg">lat1</span>,
         <span class="sig-arg">lon1</span>,
         <span class="sig-arg">azi1</span>,
-        <span class="sig-arg">caps</span>=<span class="sig-default">32640</span>)</span>
+        <span class="sig-arg">caps</span>=<span class="sig-default">3968</span>,
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -382,8 +530,8 @@
   </tr></table>
   
   <p>Set up a <a href="pygeodesy.rhumbsolve.RhumbLineSolve-class.html" 
-  class="link">RhumbLineSolve</a> to compute several points on a single 
-  rhumb line.</p>
+  class="link">RhumbLineSolve</a> in terms of the <i>direct</i> rhumb 
+  problem to compute several points on a single rhumb line.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -445,7 +593,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Jul 12 13:24:20 2023
+    Generated by Epydoc 3.0.1 on Sun Aug  6 15:10:43 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -4,7 +4,7 @@
 # Test L{karney} module and wrappers.
 
 __all__ = ('Tests',)
-__version__ = '23.04.08'
+__version__ = '23.07.10'
 
 from bases import GeodSolve, geographiclib, TestsBase
 
@@ -56,7 +56,7 @@ class Tests(TestsBase):
         m = g.ALL | g.LONG_UNROLL
         for (lat1, lon1, azi1, lat2, lon2, azi2,
              s12, a12, m12, M12, M21, S12) in _testCases:
-            d = g.Direct(lat1, lon1, azi1, s12, m)
+            d = g.Direct(lat1, lon1, azi1, s12, outmask=m)
             self.testDelta('Direct.lat2', lat2, d.lat2)
             self.testDelta('Direct.lon2', lon2, d.lon2)
             self.testDelta('Direct.azi2', azi2, d.azi2)
@@ -72,7 +72,7 @@ class Tests(TestsBase):
         m = g.ALL | g.LONG_UNROLL
         for (lat1, lon1, azi1, lat2, lon2, azi2,
              s12, a12, m12, M12, M21, S12) in _testCases:
-            d = g.Inverse(lat1, lon1, lat2, lon2, m)
+            d = g.Inverse(lat1, lon1, lat2, lon2, outmask=m)
             self.testDelta('Inverse.lat2', lat2, d.lat2)
             self.testDelta('Inverse.lon2', lon2, d.lon2)
             self.testDelta('Inverse.azi1', azi1, d.azi1)

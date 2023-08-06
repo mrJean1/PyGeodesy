@@ -1,6 +1,6 @@
 
 # python -m coverage html --rcfile=testcoverage.rc --title="..."
-# __version__ = '23.04.04'
+# __version__ = '23.08.06'
 
 [report]
 exclude_lines =
@@ -9,13 +9,13 @@ exclude_lines =
     PYCHOK no cover
     except\s
     \sraise\s
-    \._notOverloaded\(
     if False:
     if __name__ == .__main__.:
     if _FOR_DOCS:
 
 include =
     pygeodesy/*.py
+    pygeodesy/auxilats/*.py
     pygeodesy/deprecated/*.py
     pygeodesy/geodesicx/*.py
 

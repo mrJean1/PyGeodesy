@@ -39,7 +39,7 @@ from pygeodesy.utily import acos1, atan2b, atan2d, degrees90, \
 from math import cos, fabs, log, sin, sqrt
 
 __all__ = _ALL_LAZY.sphericalBase
-__version__ = '23.06.12'
+__version__ = '23.07.01'
 
 
 def _angular(distance, radius, low=EPS):  # PYCHOK in .spherical*
@@ -361,7 +361,7 @@ class LatLonSphericalBase(LatLonBase):
            @arg other: The other point (spherical C{LatLon}).
            @kwarg radius: Earth radius (C{meter}) or earth model (L{Datum},
                           L{Ellipsoid}, L{Ellipsoid2} or L{a_f2Tuple}).
-           @kwarg exact: If C{True}, use the I{Krüger} L{Rhumb} (C{bool}),
+           @kwarg exact: If C{True}, use I{Krüger} L{rhumbx} (C{bool}),
                          default C{False} for backward compatibility.
            @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the
                         B{C{other}} point (C{bool}).
@@ -402,7 +402,7 @@ class LatLonSphericalBase(LatLonBase):
                           C{B{exact}=True}.
            @kwarg height: Optional height, overriding the default height
                           (C{meter}, same unit as B{C{radius}}).
-           @kwarg exact: If C{True}, use the I{Krüger} L{Rhumb} (C{bool}),
+           @kwarg exact: If C{True}, use I{Krüger} L{rhumbx} (C{bool}),
                          default C{False} for backward compatibility.
 
            @return: The destination point (spherical C{LatLon}).
@@ -454,7 +454,7 @@ class LatLonSphericalBase(LatLonBase):
            @kwarg radius: Earth radius (C{meter}) or earth model (L{Datum},
                           L{Ellipsoid}, L{Ellipsoid2} or L{a_f2Tuple}) if
                           C{B{exact}=True}.
-           @kwarg exact: If C{True}, use the I{Krüger} L{Rhumb} (C{bool}),
+           @kwarg exact: If C{True}, use I{Krüger} L{rhumbx} (C{bool}),
                          default C{False} for backward compatibility.
            @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the
                         B{C{other}} point (C{bool}).
@@ -494,7 +494,7 @@ class LatLonSphericalBase(LatLonBase):
                           (C{meter}).
            @kwarg radius: Earth radius (C{meter}) or earth model (L{Datum},
                           L{Ellipsoid}, L{Ellipsoid2} or L{a_f2Tuple}).
-           @kwarg exact: If C{True}, use the I{Krüger} L{Rhumb} (C{bool}),
+           @kwarg exact: If C{True}, use I{Krüger} L{rhumbx} (C{bool}),
                          default C{False} for backward compatibility.
            @kwarg fraction: Midpoint location from this point (C{scalar}),
                             may be negative if C{B{exact}=True}.
@@ -614,6 +614,14 @@ def _intersecant2(c, r, p, b, radius=R_M, exact=False,
         t += (p.destination(d, b, radius=radius, height=height) if nonexact else
               p.rhumbDestination(d, b, radius=radius, height=height, exact=exact)),
     return t
+
+
+def _r2m(r, radius):
+    '''(INTERNAL) Angular distance in C{radians} to C{meter}.
+    '''
+    if radius is not None:  # not in (None, _0_0)
+        r *= R_M if radius is R_M else Radius(radius)
+    return r
 
 
 __all__ += _ALL_DOCS(CartesianSphericalBase, LatLonSphericalBase)

@@ -65,7 +65,7 @@ class Tests(TestsBase):
                     f *= 0.1
                     rX = gX.classof(E.a, f).Direct(40.6, -73.8, 51, 5.5e6, gX.ALL)
                     rS = gS.classof(E.a, f).Direct(40.6, -73.8, 51, 5.5e6, gS.ALL)
-                    self.testDiffs(_fLate(f), rX, rS, 1, e=1e-4)  # S12 in GeodSolve 2.2
+                    self.testDiffs(_fLate(f), rX, rS, 1, e=1e-4)  # XXX S12 in GeodSolve 2.2
                 except AssertionError:  # eps for f < -0.7
                     pass
 
@@ -134,21 +134,21 @@ class Tests(TestsBase):
 
         gX = E.geodesicx
         gX.debug = debug
-        rX = gX.Inverse(40.6, -73.8, 51.6, -0.5, gX.ALL)
+        rX = gX.Inverse(40.6, -73.8, 51.6, -0.5, outmask=gX.ALL)
         self.testDiffs('C++X', rX, rCpp, 0)
         self.test('iteration', rX.iteration, rX.iteration)
         gs = gX,
 
         if geographiclib:
             gP = E.geodesic
-            rP = gP.Inverse(40.6, -73.8, 51.6, -0.5, gP.ALL)
+            rP = gP.Inverse(40.6, -73.8, 51.6, -0.5, outmask=gP.ALL)
             self.testDiffs('Python', rX, rP, 1)
             self.test('iteration', rP.iteration, rP.iteration)
             gs += gP,
 
         if GeodSolve:
             gS = E.geodsolve
-            rS = gS.Inverse(40.6, -73.8, 51.6, -0.5, gS.ALL)
+            rS = gS.Inverse(40.6, -73.8, 51.6, -0.5, outmask=gS.ALL)
             self.testDiffs('GeodSolve', rX, rS, 1)
             self.test('iteration', rS.iteration, rS.iteration)
             gs += gS,
@@ -156,9 +156,9 @@ class Tests(TestsBase):
             for f in range(-7, 10):  # -9, -8 throw an Ellipsoid.e21 AssertionError
                 try:
                     f *= 0.1
-                    rX = gX.classof(E.a, f).Inverse(40.6, -73.8, 51.6, -0.5, gX.ALL)
-                    rS = gS.classof(E.a, f).Inverse(40.6, -73.8, 51.6, -0.5, gS.ALL)
-                    self.testDiffs(_fLate(f), rX, rS, 1, e=1e-4)  # S12 in GeodSolve 2.2
+                    rX = gX.classof(E.a, f).Inverse(40.6, -73.8, 51.6, -0.5, outmask=gX.ALL)
+                    rS = gS.classof(E.a, f).Inverse(40.6, -73.8, 51.6, -0.5, outmask=gS.ALL)
+                    self.testDiffs(_fLate(f), rX, rS, 1, e=1e-4)  # XXX S12 in GeodSolve 2.2
                 except AssertionError:  # eps for f < -0.7
                     pass
 

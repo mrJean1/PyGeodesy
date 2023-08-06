@@ -49,7 +49,7 @@ _pygeodesy_             = 'pygeodesy'
 _PYGEODESY_LAZY_IMPORT_ = 'PYGEODESY_LAZY_IMPORT'
 _PYTHON_X_DEV           =  getattr(_sys, '_xoptions', {}).get('dev',  # Python 3.2+
                           _getenv('PYTHONDEVMODE', NN))  # PYCHOK exported
-_sub_packages           = 'deprecated', 'geodesicx'
+_sub_packages           = 'auxilats', 'deprecated', 'geodesicx'
 _sys_version_info2      = _sys.version_info[:2]  # in .basics, .fmath, ...
 _WARNINGS_X_DEV         = _getenv('PYGEODESY_WARNINGS', NN) and (
                           _PYTHON_X_DEV or bool(_sys.warnoptions))  # PYCHOK .props
@@ -132,6 +132,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                          albers=('AlbersEqualArea', 'AlbersEqualArea2', 'AlbersEqualArea4',
                                  'AlbersEqualAreaCylindrical', 'AlbersEqualAreaNorth', 'AlbersEqualAreaSouth',
                                  'AlbersError', 'Albers7Tuple'),
+                       auxilats=(),  # module only
                       azimuthal=('AzimuthalError', 'Azimuthal7Tuple',
                                  'Equidistant', 'EquidistantExact', 'EquidistantGeodSolve', 'EquidistantKarney',
                                  'Gnomonic', 'GnomonicExact', 'GnomonicGeodSolve', 'GnomonicKarney',
@@ -151,7 +152,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                             css=('CassiniSoldner', 'Css', 'CSSError', 'toCss',
                                  'EasNorAziRk4Tuple', 'EasNorAziRkEqu6Tuple', 'LatLonAziRk4Tuple'),
                       constants=('DIG', 'EPS', 'EPS0', 'EPS02', 'EPS1', 'EPS2', 'EPS4', 'EPS_2',
-                                 'INF', 'INT0', 'MANT_DIG', 'MAX', 'MIN', 'NAN', 'NEG0', 'NINF',
+                                 'INF', 'INT0', 'MANT_DIG', 'MAX', 'MAX_EXP', 'MIN', 'MIN_EXP', 'NAN', 'NEG0', 'NINF',
                                  'PI', 'PI2', 'PI_2', 'PI3', 'PI_3', 'PI3_2', 'PI4', 'PI_4',
                                  'R_FM', 'R_GM', 'R_KM', 'R_M', 'R_MA', 'R_MB', 'R_NM', 'R_QM', 'R_SM', 'R_VM',
                                  'float_', 'float0_', 'isclose', 'isfinite', 'isinf', 'isint0',
@@ -159,7 +160,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'remainder'),
                          datums=('Datum', 'Datums', 'Transform', 'Transforms'),
                      deprecated=('EPS1_2', 'MANTIS', 'OK',  # DEPRECATED constants
-                                 'bases', 'datum', 'nvector',  # DEPRECATED modules
+                                 'bases', 'datum', 'nvector',  # DEPRECATED modules, see _sub_packages
                                  'ClipCS3Tuple', 'EcefCartesian', 'EasNorExact4Tuple', 'HeightIDW', 'HeightIDW2', 'HeightIDW3',  # DEPRECATED classes
                                  'LatLonExact4Tuple', 'Ned3Tuple', 'RefFrameError', 'Rhumb7Tuple', 'Transform7Tuple', 'UtmUps4Tuple',
                                  'anStr', 'areaof', 'bounds', 'clipCS3', 'clipDMS', 'clipStr', 'collins',   # most of the DEPRECATED functions, ...
@@ -195,8 +196,9 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'f2e2', 'f2e22', 'f2e32', 'f_2f', 'f2f_', 'f2f2', 'f2n', 'n2e2', 'n2f', 'n2f_'),
                        elliptic=('Elliptic', 'EllipticError', 'Elliptic3Tuple'),
                            epsg=('Epsg', 'EPSGError'),
-                         errors=('ClipError', 'CrossError', 'IntersectionError', 'NumPyError', 'LenError', 'LimitError',
-                                 'MGRSError', 'ParseError', 'PointsError', 'RangeError',
+                         errors=('AuxError', 'ClipError', 'CrossError', 'GeodesicError', 'IntersectionError',
+                                 'NumPyError', 'LenError', 'LimitError', 'MGRSError',
+                                 'ParseError', 'PointsError', 'RangeError', 'RhumbError',
                                  'SciPyError', 'SciPyWarning', 'TRFError', 'TriangleError', 'UnitError', 'VectorError',
                                  'crosserrors', 'exception_chaining', 'isError', 'itemsorted',
                                  'limiterrors', 'rangerrors'),
@@ -234,7 +236,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'fsum', 'fsum_', 'fsumf_', 'fsum1', 'fsum1_', 'fsum1f_'),
                            gars=('Garef', 'GARSError'),
                       geodesicw=('Geodesic', 'GeodesicLine', 'Geodesic_WGS84'),
-                      geodesicx=('gx', 'gxarea', 'gxline',  # modules
+                      geodesicx=('gx', 'gxarea', 'gxline',  # modules, see _sub_packages
                                  'GeodesicAreaExact', 'GeodesicExact', 'GeodesicLineExact', 'PolygonArea'),
                       geodsolve=('GeodesicSolve', 'GeodesicLineSolve', 'GeodSolve12Tuple'),
                         geohash=('Geohash', 'GeohashError', 'Neighbors8Dict', 'Resolutions2Tuple'),
@@ -256,7 +258,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                         interns=_interns_a_l_l_,
                           iters=('LatLon2PsxyIter', 'PointsIter', 'points2',
                                  'isNumpy2', 'isPoints2', 'isTuple2', 'iterNumpy2', 'iterNumpy2over'),
-                         karney=('Area3Tuple', 'Caps', 'Direct9Tuple', 'GDict', 'GeodesicError', 'Inverse10Tuple'),
+                         karney=('Area3Tuple', 'Caps', 'Direct9Tuple', 'GDict', 'Inverse10Tuple', 'Rhumb8Tuple'),
                             ktm=('KTMError', 'KTransverseMercator'),
                      latlonBase=(),  # module only
                          lazily=('LazyAttributeError', 'LazyImportError', 'isLazy', 'print_', 'printf'),
@@ -297,8 +299,10 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'cassini', 'collins5', 'pierlot', 'pierlotx', 'tienstra7',
                                  'snellius3', 'wildberger3',
                                  'triAngle', 'triAngle4', 'triSide', 'triSide2', 'triSide4'),
+                       rhumbaux=('RhumbAux', 'RhumbLineAux'),
+                      rhumbBase=(),  # module only
                      rhumbsolve=('RhumbSolve', 'RhumbLineSolve', 'RhumbSolve7Tuple'),
-                         rhumbx=('Rhumb', 'RhumbError', 'RhumbLine', 'RhumbOrder2Tuple', 'Rhumb8Tuple'),
+                         rhumbx=('Rhumb', 'RhumbLine', 'RhumbOrder2Tuple',),
                   sphericalBase=(),  # module only
                sphericalNvector=(),  # module only
           sphericalTrigonometry=(),  # module only
@@ -436,7 +440,7 @@ class _ALL_MODS(object):
 _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '23.07.12'
+__version__ = '23.08.05'
 
 
 def _ALL_OTHER(*objs):

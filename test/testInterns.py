@@ -4,11 +4,11 @@
 # Test L{interns} module.
 
 __all__ = ('Tests',)
-__version__ = '23.03.27'
+__version__ = '23.08.06'
 
 from bases import TestsBase
 
-from pygeodesy import clips, interns, NN
+from pygeodesy import clips, interns, machine, NN
 
 from os import getcwd
 
@@ -20,7 +20,7 @@ _functions  = (interns._platform2,
 _exceptions = (_0to9_, _AtoZnoIO_,
                interns._doesn_t_exist_,
                interns._exceed_PI_radians_,
-               interns._iadd_,
+               interns._iadd_op_,
                interns._n_a_,
                interns._NLATvar_,
                interns._NLHASH_,
@@ -63,6 +63,9 @@ class Tests(TestsBase):
 
         self.test('.fromH.tillJ', _AtoZnoIO_.fromH.tillJ, 'HJ')
         self.test('.fromN.tillP', _AtoZnoIO_.fromN.tillP, 'NP')
+
+        m = machine()
+        self.test('machine', m, m, nl=1)
 
 
 if __name__ == '__main__':

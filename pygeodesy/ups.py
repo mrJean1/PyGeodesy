@@ -30,7 +30,7 @@ from pygeodesy.errors import RangeError, _ValueError
 from pygeodesy.fmath import hypot, hypot1, sqrt0
 from pygeodesy.interns import NN, _COMMASPACE_, _inside_, _N_, _pole_, \
                              _range_, _S_, _scale0_, _SPACE_, _std_, \
-                             _to_, _UTM_, _UNDER
+                             _to_, _UTM_, _under
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _getenv
 from pygeodesy.named import nameof, _xnamed
 from pygeodesy.namedTuples import EasNor2Tuple, UtmUps5Tuple, \
@@ -48,7 +48,7 @@ from pygeodesy.utmupsBase import Fmt, _LLEB, _hemi, _parseUTMUPS5, _to4lldn, \
 from math import atan, atan2, fabs, radians, tan
 
 __all__ = _ALL_LAZY.ups
-__version__ = '23.03.19'
+__version__ = '23.08.05'
 
 _BZ_UPS  = _getenv('PYGEODESY_UPS_POLES', _std_) == _std_
 _Falsing =  Meter(2000e3)  # false easting and northing (C{meter})
@@ -436,7 +436,7 @@ def toUps8(latlon, lon=None, datum=None, Ups=Ups, pole=NN,
     r = (hypot1(T) - T) if T < 0 else (_0_0 if P else _1_0 /
         (hypot1(T) + T))
 
-    k0 = getattr(Ups, _UNDER(_scale0_), _K0_UPS)  # Ups is class or None
+    k0 = getattr(Ups, _under(_scale0_), _K0_UPS)  # Ups is class or None
     r *= k0 * E.a * _2_0 / E.es_c
 
     k  = k0 if P else _scale(E, r, t)

@@ -3464,9 +3464,10 @@
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>other</code></strong> - The other point (<code>LatLon</code>).</li>
-        <li><strong class="pname"><code>exact</code></strong> - If <code>True</code>, use the <i>exact</i> <a 
-          href="pygeodesy.rhumbx.Rhumb-class.html" class="link">Rhumb</a> 
-          (<code>bool</code>), default <code>False</code>.</li>
+        <li><strong class="pname"><code>exact</code></strong> - Exact <code>Rhumb...</code> to use (<code>bool</code> or 
+          <code>Rhumb...</code>), see method <a 
+          href="pygeodesy.ellipsoids.Ellipsoid-class.html#rhumb_" 
+          class="link">Ellipsoid.rhumb_</a>.</li>
         <li><strong class="pname"><code>radius</code></strong> - Optional earth radius (<code>meter</code>) or earth model (<a 
           href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>, 
           <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
@@ -3516,9 +3517,10 @@
           point's datum (ellipsoid) axes or <b><code>radius</code></b>, may
           be negative.</li>
         <li><strong class="pname"><code>azimuth</code></strong> - Azimuth (bearing) at this point (compass <code>degrees</code>).</li>
-        <li><strong class="pname"><code>exact</code></strong> - If <code>True</code>, use the <i>exact</i> <a 
-          href="pygeodesy.rhumbx.Rhumb-class.html" class="link">Rhumb</a> 
-          (<code>bool</code>), default <code>False</code>.</li>
+        <li><strong class="pname"><code>exact</code></strong> - Exact <code>Rhumb...</code> to use (<code>bool</code> or 
+          <code>Rhumb...</code>), see method <a 
+          href="pygeodesy.ellipsoids.Ellipsoid-class.html#rhumb_" 
+          class="link">Ellipsoid.rhumb_</a>.</li>
         <li><strong class="pname"><code>radius</code></strong> - Optional earth radius (<code>meter</code>) or earth model (<a 
           href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>, 
           <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
@@ -3565,9 +3567,10 @@
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>other</code></strong> - The other point (<code>LatLon</code>).</li>
-        <li><strong class="pname"><code>exact</code></strong> - If <code>True</code>, use the <i>exact</i> <a 
-          href="pygeodesy.rhumbx.Rhumb-class.html" class="link">Rhumb</a> 
-          (<code>bool</code>), default <code>False</code>.</li>
+        <li><strong class="pname"><code>exact</code></strong> - Exact <code>Rhumb...</code> to use (<code>bool</code> or 
+          <code>Rhumb...</code>), see method <a 
+          href="pygeodesy.ellipsoids.Ellipsoid-class.html#rhumb_" 
+          class="link">Ellipsoid.rhumb_</a>.</li>
         <li><strong class="pname"><code>radius</code></strong> - Optional earth radius (<code>meter</code>) or earth model (<a 
           href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>, 
           <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
@@ -3617,9 +3620,10 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>azimuth_other</code></strong> - The azimuth of the rhumb line (compass <code>degrees</code>) or 
           the other point (<code>LatLon</code>).</li>
-        <li><strong class="pname"><code>exact</code></strong> - If <code>True</code>, use the <i>exact</i> <a 
-          href="pygeodesy.rhumbx.Rhumb-class.html" class="link">Rhumb</a> 
-          (<code>bool</code>), default <code>False</code>.</li>
+        <li><strong class="pname"><code>exact</code></strong> - Exact <code>Rhumb...</code> to use (<code>bool</code> or 
+          <code>Rhumb...</code>), see method <a 
+          href="pygeodesy.ellipsoids.Ellipsoid-class.html#rhumb_" 
+          class="link">Ellipsoid.rhumb_</a>.</li>
         <li><strong class="pname"><code>radius</code></strong> - Optional earth radius (<code>meter</code>) or earth model (<a 
           href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>, 
           <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
@@ -3635,8 +3639,7 @@
           class="link">RhumbLine</a> <code><b>caps</b></code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>A <a href="pygeodesy.rhumbx.RhumbLine-class.html" 
-          class="link">RhumbLine</a> instance.</dd>
+        <dd>A <code>RhumbLine</code> instance.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>radius</code></b> or 
@@ -3645,15 +3648,9 @@
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Classes <a href="pygeodesy.rhumbx.RhumbLine-class.html" 
-        class="link">RhumbLine</a> and <a 
-        href="pygeodesy.rhumbx.Rhumb-class.html" class="link">Rhumb</a>, 
-        property <a href="pygeodesy.rhumbx.Rhumb-class.html#exact" 
-        class="link">Rhumb.exact</a> and methods <a 
-        href="pygeodesy.rhumbx.Rhumb-class.html#DirectLine" 
-        class="link">Rhumb.DirectLine</a> and <a 
-        href="pygeodesy.rhumbx.Rhumb-class.html#InverseLine" 
-        class="link">Rhumb.InverseLine</a>.
+        Modules <a href="pygeodesy.rhumbaux-module.html" 
+        class="link">rhumbaux</a> and <a 
+        href="pygeodesy.rhumbx-module.html" class="link">rhumbx</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -3683,9 +3680,10 @@
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>other</code></strong> - The other point (<code>LatLon</code>).</li>
-        <li><strong class="pname"><code>exact</code></strong> - If <code>True</code>, use the <i>exact</i> <a 
-          href="pygeodesy.rhumbx.Rhumb-class.html" class="link">Rhumb</a> 
-          (<code>bool</code>), default <code>False</code>.</li>
+        <li><strong class="pname"><code>exact</code></strong> - Exact <code>Rhumb...</code> to use (<code>bool</code> or 
+          <code>Rhumb...</code>), see method <a 
+          href="pygeodesy.ellipsoids.Ellipsoid-class.html#rhumb_" 
+          class="link">Ellipsoid.rhumb_</a>.</li>
         <li><strong class="pname"><code>radius</code></strong> - Optional earth radius (<code>meter</code>) or earth model (<a 
           href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>, 
           <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
@@ -4861,7 +4859,7 @@ class="link">Vector4Tuple</a><code>(x, y, z, h)</code>)
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Jul 12 13:24:19 2023
+    Generated by Epydoc 3.0.1 on Sun Aug  6 15:10:42 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

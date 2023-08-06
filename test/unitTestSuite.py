@@ -11,7 +11,7 @@ from os.path import join
 import unittest
 
 __all__ = ('TestSuite',)
-__version__ = '23.03.27'
+__version__ = '23.08.05'
 
 
 class TestSuite(unittest.TestCase):
@@ -24,6 +24,9 @@ class TestSuite(unittest.TestCase):
         TestSuite._runs += 1  # pseudo global
         x, _ = run2(join(test_dir, test + '.py'), *argv)
         self.assertEqual(x, 0)
+
+    def test_Auxilats(self):
+        self._run('testAuxilats')
 
     def test_Azimuthal(self):
         self._run('testAzimuthal')
@@ -188,6 +191,9 @@ class TestSuite(unittest.TestCase):
 
     def test_Resections(self):
         self._run('testResections')
+
+    def test_Rhumbaux(self):
+        self._run('testRhumbaux')
 
     def test_Rhumbx(self):
         self._run('testRhumbx')

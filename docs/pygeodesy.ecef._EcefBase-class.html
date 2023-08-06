@@ -73,7 +73,7 @@
 <dl><dt>Known Subclasses:</dt>
 <dd>
       <ul class="subclass-list">
-<li><a href="pygeodesy.ecef.EcefFarrell21-class.html">EcefFarrell21</a></li><li>, <a href="pygeodesy.ecef.EcefFarrell22-class.html">EcefFarrell22</a></li><li>, <a href="pygeodesy.ecef.EcefKarney-class.html">EcefKarney</a></li><li>, <a href="pygeodesy.ecef.EcefSudano-class.html">EcefSudano</a></li><li>, <a href="pygeodesy.ecef.EcefVeness-class.html">EcefVeness</a></li><li>, <a href="pygeodesy.ecef.EcefYou-class.html">EcefYou</a></li>  </ul>
+<li><a href="pygeodesy.ecef.EcefKarney-class.html">EcefKarney</a></li><li>, <a href="pygeodesy.ecef.EcefFarrell21-class.html">EcefFarrell21</a></li><li>, <a href="pygeodesy.ecef.EcefFarrell22-class.html">EcefFarrell22</a></li><li>, <a href="pygeodesy.ecef.EcefSudano-class.html">EcefSudano</a></li><li>, <a href="pygeodesy.ecef.EcefVeness-class.html">EcefVeness</a></li><li>, <a href="pygeodesy.ecef.EcefYou-class.html">EcefYou</a></li>  </ul>
 </dd></dl>
 
 <hr />
@@ -104,9 +104,10 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ecef._EcefBase-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">a_ellipsoid</span>,
+        <span class="summary-sig-arg">a_ellipsoid</span>=<span class="summary-sig-default">Ellipsoid(name='WGS84', a=6378137, b=6356752.31424518, f_=298.<code class="variable-ellipsis">...</code></span>,
         <span class="summary-sig-arg">f</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>,
+        <span class="summary-sig-arg">lon00</span>=<span class="summary-sig-default">0</span>)</span><br />
       New <code>Ecef*</code> converter.</td>
           <td align="right" valign="top">
             
@@ -192,7 +193,7 @@
         <span class="summary-sig-arg">y</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">z</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">M</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">**name_lon00</span>)</span><br />
       (INTERNAL) <i>Must be overloaded</i>, see function 
       <code>notOverloaded</code>.</td>
           <td align="right" valign="top">
@@ -331,6 +332,15 @@
       or <code>0</code> for <i>near-spherical</i>.
     </td>
   </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ecef._EcefBase-class.html#lon00" class="summary-name">lon00</a><br />
+      Get the <i>&quot;polar&quot;</i> longitude (<code>degrees</code>), 
+      see method <code>reverse</code>.
+    </td>
+  </tr>
   <tr>
     <td colspan="2" class="summary">
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
@@ -367,9 +377,10 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">a_ellipsoid</span>,
+        <span class="sig-arg">a_ellipsoid</span>=<span class="sig-default">Ellipsoid(name='WGS84', a=6378137, b=6356752.31424518, f_=298.<code class="variable-ellipsis">...</code></span>,
         <span class="sig-arg">f</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>,
+        <span class="sig-arg">lon00</span>=<span class="sig-default">0</span>)</span>
     <br /><em class="fname">(Constructor)</em>
   </h3>
   </td><td align="right" valign="top"
@@ -396,6 +407,8 @@
           represents a sphere, negative <b><code>f</code></b> a prolate 
           ellipsoid.</li>
         <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
+        <li><strong class="pname"><code>lon00</code></strong> - An arbitrary, <i>&quot;polar&quot;</i> longitude 
+          (<code>degrees</code>), see the methods <code>reverse</code>.</li>
     </ul></dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
@@ -777,6 +790,29 @@ a</i>, positive for <i>oblate</i>, negative for <i>prolate</i> or
   </dl>
 </td></tr></table>
 </div>
+<a name="lon00"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">lon00</h3>
+  <p>Get the <i>&quot;polar&quot;</i> longitude (<code>degrees</code>), see
+  method <code>reverse</code>.</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">lon00(<span class="summary-sig-arg">self</span>)</span>
+        - Get the <i>&quot;polar&quot;</i> longitude (<code>degrees</code>), see 
+method <code>reverse</code>.
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">lon00(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">lon00</span>)</span>
+        - Set the <i>&quot;polar&quot;</i> longitude (<code>degrees</code>), see 
+method <code>reverse</code>.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
 <br />
 <!-- ==================== NAVIGATION BAR ==================== -->
 <table class="navbar" border="0" width="100%" cellpadding="0"
@@ -809,7 +845,7 @@ a</i>, positive for <i>oblate</i>, negative for <i>prolate</i> or
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Jul 12 13:24:18 2023
+    Generated by Epydoc 3.0.1 on Sun Aug  6 15:10:41 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

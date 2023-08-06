@@ -91,7 +91,7 @@ from pygeodesy.utm import _cmlon, _LLEB, _parseUTM5, _toBand, _toXtm8, \
 from math import asinh, atan2, degrees, radians, sinh, sqrt
 
 __all__ = _ALL_LAZY.etm
-__version__ = '23.05.15'
+__version__ = '23.08.05'
 
 _OVERFLOW = _1_EPS**2  # about 2e+31
 _TAYTOL   =  pow(EPS, 0.6)
@@ -663,7 +663,7 @@ class ExactTransverseMercator(_NamedBase):
 
         if self._datum or self._E:
             _i = ExactTransverseMercator.iteration._uname
-            _update_all(self, _i, '_sigmaC', '_zetaC')  # _UNDER
+            _update_all(self, _i, '_sigmaC', '_zetaC')  # _under
 
         self._E  = E
         self._mu = mu

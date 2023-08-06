@@ -5,16 +5,16 @@ u'''Print L{geodesicx} version, etc. using C{python -m pygeodesy.geodesicx}.
 '''
 
 __all__ = ()
-__version__ = '22.09.23'
+__version__ = '23.06.19'
 
 
 def _C4stats(nC4=None):  # PYCHOK no cover
     '''(INTERNAL) Get the C{C4} stats.
     '''
-    from pygeodesy import GeodesicExact
+    from pygeodesy import GeodesicExact, geodesicx
 
     gX = GeodesicExact(C4order=nC4)
-    cs = gX._coeffs(gX.C4order)
+    cs = geodesicx.gx._C4coeffs(gX.C4order)
     ss = set(cs)  # without duplicates
     pc = '%.1f%%' % (len(ss) * 100.0 / len(cs))
     cx = gX._C4x

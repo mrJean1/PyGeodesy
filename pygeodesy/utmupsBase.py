@@ -15,7 +15,7 @@ from pygeodesy.errors import _or, ParseError, _parseX, _ValueError, \
                              _xkwds, _xkwds_get, _xkwds_not
 from pygeodesy.interns import NN, _A_, _B_, _COMMA_, _Error_, \
                              _gamma_, _n_a_, _not_, _N_, _NS_, _PLUS_, \
-                             _scale_, _SPACE_, _Y_, _Z_, _UNDER
+                             _scale_, _SPACE_, _Y_, _Z_, _under
 from pygeodesy.lazily import _ALL_DOCS, _ALL_MODS as _MODS
 from pygeodesy.named import _NamedBase, nameof, notOverloaded, _xnamed
 from pygeodesy.namedTuples import EasNor2Tuple, LatLonDatum5Tuple
@@ -26,7 +26,7 @@ from pygeodesy.units import Band, Easting, Northing, Scalar, Zone
 from pygeodesy.utily import _Wrap, wrap360
 
 __all__ = ()
-__version__ = '23.05.03'
+__version__ = '23.08.06'
 
 _UPS_BANDS = _A_, _B_, _Y_, _Z_  # UPS polar bands SE, SW, NE, NW
 # _UTM_BANDS = _MODS.utm._Bands
@@ -169,8 +169,8 @@ class UtmUpsBase(_NamedBase):
         '''(INTERNAL) New L{UtmUpsBase}.
         '''
         E = self._Error
-        if not E:
-            notOverloaded(self, callername=_UNDER(_Error_))
+        if not E:  # PYCHOK no cover
+            notOverloaded(self, callername=_under(_Error_))
 
         self._easting  = Easting(easting,   Error=E)
         self._northing = Northing(northing, Error=E)
@@ -202,8 +202,8 @@ class UtmUpsBase(_NamedBase):
         '''
         if band:
             _xinstanceof(str, band=band)
-#           if not self._Bands:
-#               notOverloaded(self, callername=_UNDER('Bands'))
+#           if not self._Bands:  # PYCHOK no cover
+#               notOverloaded(self, callername=_under('Bands'))
             if band not in self._Bands:
                 t = _or(*sorted(set(map(repr, self._Bands))))
                 raise self._Error(band=band, txt=_not_(t))
@@ -305,7 +305,7 @@ class UtmUpsBase(_NamedBase):
             _xsubclassof(_LLEB, LatLon=LatLon)
             kwds = _xkwds(LatLon_kwds, datum=ll.datum)
             r = _xattrs(LatLon(ll.lat, ll.lon, **kwds),
-                               ll, _UNDER(_gamma_), _UNDER(_scale_))
+                               ll, _under(_gamma_), _under(_scale_))
         return _xnamed(r, ll.name)
 
     def _latlon5args(self, ll, _toBand, unfalse, *other):

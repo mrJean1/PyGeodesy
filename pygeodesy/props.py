@@ -15,8 +15,8 @@ from pygeodesy.errors import _AssertionError, _AttributeError, \
                              _xkwds, _xkwds_get
 from pygeodesy.interns import MISSING, NN, _an_, _COMMASPACE_, \
                              _DEPRECATED_, _DOT_, _EQUALSPACED_, \
-                             _immutable_, _invalid_, _N_A_, _not_, \
-                             _SPACE_, _UNDER_,  _DNL_  # PYCHOK used!
+                             _immutable_, _invalid_, _module_, _N_A_, \
+                             _not_, _SPACE_, _UNDER_,  _DNL_  # PYCHOK used!
 # from pygeodesy.named import callname  # _MODS, avoid circular
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, \
                              _FOR_DOCS, _WARNINGS_X_DEV
@@ -25,7 +25,7 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, \
 from functools import wraps as _wraps
 
 __all__ = _ALL_LAZY.props
-__version__ = '23.05.26'
+__version__ = '23.07.13'
 
 _class_       = 'class'
 _dont_use_    = _DEPRECATED_ + ", don't use."
@@ -441,7 +441,7 @@ def _deprecated_module(name):  # PYCHOK no cover
     '''(INTERNAL) Callable within a DEPRECATED module.
     '''
     if _WARNINGS_X_DEV:
-        _throwarning('module', name, _dont_use_)
+        _throwarning(_module_, name, _dont_use_)
 
 
 if _WARNINGS_X_DEV:

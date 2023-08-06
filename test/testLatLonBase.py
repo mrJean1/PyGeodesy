@@ -88,7 +88,7 @@ class Tests(TestsBase):
             t = clips(p.rhumbLine(q).toStr(), limit=150)
             self.test('rhumbLine', t, t)
 
-            # same rhumb test as testSpherical, invoking rhumbx.Rhumb[Line]
+            # same rhumb test as testSpherical, invoking rhumb*.Rhumb[Line]
             # with exact=False for all tests and the differences between
             # the ellipsoidal and spherical cases are due to the ellipsoid.
             p = LatLon(51.127, 1.338)
@@ -100,7 +100,7 @@ class Tests(TestsBase):
                                         else '50.964234°N, 001.851383°E')
             self.test('rhumbDestination', isinstance(d, LatLon), True)
 
-            d = p.rhumbDistanceTo(q, exact=Sph)  # force rhumbx.Rhumb[Line]
+            d = p.rhumbDistanceTo(q, exact=Sph)  # force rhumb*.Rhumb[Line]
             self.test('rhumbDistanceTo', d, 42186.1 if Sph else 40413.1, fmt='%.1f')
 
             m = p.rhumbMidpointTo(q, exact=Sph)  # ditto

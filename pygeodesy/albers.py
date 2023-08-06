@@ -38,7 +38,7 @@ from pygeodesy.utily import atand, atan2d, degrees360, sincos2, \
 from math import atan, atan2, atanh, degrees, fabs, radians, sqrt
 
 __all__ = _ALL_LAZY.albers
-__version__ = '23.05.15'
+__version__ = '23.07.01'
 
 _k1_    = 'k1'
 _NUMIT  =   8  # XXX 4?
@@ -708,17 +708,18 @@ class Albers7Tuple(_NamedTuple):
     _Units_ = ( Meter, Meter, Lat,   Lon,   Bearing, _Pass,   _Pass)
 
 
-def _atanhee(x, E):  # see Ellipsoid._es_atanh
+def _atanhee(x, E):  # see Ellipsoid._es_atanh, .AuxLat._atanhee
     '''(INTERNAL) Function M{atanhee(x)}, defined as ...
        atanh(      E.e   * x) /       E.e   if f > 0  # oblate
        atan (sqrt(-E.e2) * x) / sqrt(-E.e2) if f < 0  # prolate
        x                                    if f = 0.
     '''
+    e = E.e
     if E.f > 0:  # .isOblate
-        x =  atanh( x * E.e) / E.e
+        x =  atanh( x * e) / e
     elif E.f < 0:  # .isProlate
-        x = (atan2(-x * E.e, _N_1_0) if x < 0 else
-             atan2( x * E.e,   _1_0)) / E.e
+        x = (atan2(-x * e, _N_1_0) if x < 0 else
+             atan2( x * e,   _1_0)) / e
     return x
 
 

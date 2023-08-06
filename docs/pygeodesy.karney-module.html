@@ -74,7 +74,7 @@
   href="pygeodesy.geodesicx-module.html" 
   class="link">pygeodesy.geodesicx</a> will use <a 
   href="https://GeographicLib.SourceForge.io/C++/doc/" 
-  target="_top">GeographicLib 2.0</a> transcoding, otherwise 
+  target="_top">GeographicLib 2.0</a> and newer transcoding, otherwise 
   <code>1.52</code> or older.</p>
   <h1 class="heading">Karney-based functionality</h1>
     <ol start="1">
@@ -96,6 +96,24 @@
             class="link">AlbersEqualAreaSouth</a> -- <a 
             href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1AlbersEqualArea.html"
             target="_top">AlbersEqualArea</a>
+          </li>
+          <li>
+            <a href="pygeodesy.auxilats.auxAngle.AuxAngle-class.html" 
+            class="link">AuxAngle</a>, <a 
+            href="pygeodesy.auxilats.auxDST.AuxDST-class.html" 
+            class="link">AuxDST</a>, <a 
+            href="pygeodesy.auxilats.auxDLat.AuxDLat-class.html" 
+            class="link">AuxDLat</a>, <a 
+            href="pygeodesy.auxilats.auxLat.AuxLat-class.html" 
+            class="link">AuxLat</a> -- <a 
+            href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1AuxAngle.html"
+            target="_top">AuxAngle</a>, <a 
+            href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1DST.html"
+            target="_top">DST</a>, <a 
+            href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1DAuxLatitude.html"
+            target="_top">DAuxLatitude</a>, <a 
+            href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1AuxLatitude.html"
+            target="_top">AuxLatitude</a> in <i>GeographicLib 2.2+</i>
           </li>
           <li>
             <a href="pygeodesy.css.CassiniSoldner-class.html" 
@@ -206,19 +224,27 @@
             <a href="pygeodesy.osgr.Osgr-class.html" class="link">Osgr</a> 
             -- <a 
             href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1OSGB.html"
-            target="_top">OSGB</a>.
+            target="_top">OSGB</a>
           </li>
           <li>
-            <a href="pygeodesy.rhumbx.Rhumb-class.html" 
-            class="link">Rhumb</a>, <a 
-            href="pygeodesy.rhumbx.RhumbLine-class.html" 
-            class="link">RhumbLine</a> -- <a 
+            <a href="pygeodesy.rhumbaux-module.html" 
+            class="link">rhumbaux</a> <code>RhumbAux</code>, 
+            <code>RhumbLineAux</code> -- <a 
+            href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Rhumb.html"
+            target="_top">Rhumb</a> and <a 
+            href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1RhumbLine.html"
+            target="_top">RhumbLine</a> in <i>GeographicLib 2.2+</i>
+          </li>
+          <li>
+            <a href="pygeodesy.rhumbx-module.html" class="link">rhumbx</a> 
+            <code>Rhumb</code>, <code>RhumbLine</code> -- <a 
             href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Rhumb.html"
             target="_top">Rhumb</a>, <a 
             href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1RhumbLine.html"
             target="_top">RhumbLine</a>, <a 
             href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1TransverseMercator.html"
-            target="_top">TransverseMercator</a>
+            target="_top">TransverseMercator</a> in <i>GeographicLib 
+            2.0</i>
           </li>
           <li>
             <a href="pygeodesy.ups.Ups-class.html" class="link">Ups</a> -- 
@@ -353,10 +379,20 @@
             class="link">ellipsoidalVincenty.LatLon.trilaterate5</a>
           </li>
           <li>
-            <a href="pygeodesy.rhumbx._RhumbLine-class.html#intersection2" 
-            class="link">RhumbLine.intersection2</a>, <a 
-            href="pygeodesy.rhumbx._RhumbLine-class.html#nearestOn4" 
-            class="link">RhumbLine.nearestOn4</a>
+            <a 
+            href="pygeodesy.rhumbBase.RhumbLineBase-class.html#intersection2"
+            class="link">RhumbLineAux.intersection2</a> and <a 
+            href="pygeodesy.rhumbBase.RhumbLineBase-class.html#nearestOn4" 
+            class="link">RhumbLineAux.nearestOn4</a> 
+            <code>(exact=None)</code> in <a 
+            href="pygeodesy.rhumbaux-module.html" class="link">rhumbaux</a>
+            and <a 
+            href="pygeodesy.rhumbBase.RhumbLineBase-class.html#intersection2"
+            class="link">RhumbLine.intersection2</a> and <a 
+            href="pygeodesy.rhumbBase.RhumbLineBase-class.html#nearestOn4" 
+            class="link">RhumbLine.nearestOn4</a> <code>(exact=None)</code>
+            in <a href="pygeodesy.rhumbx-module.html" 
+            class="link">rhumbx</a>
           </li>
         </ul>
         <p>are iterative implementations of <i>Karney</i>'s solution posted
@@ -385,7 +421,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        23.06.04
+        23.08.05
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -440,19 +476,6 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.karney.GeodesicError-class.html" class="summary-name">GeodesicError</a><br />
-      Error raised for <a href="pygeodesy.geodesicx-module.html" 
-        class="link">pygeodesy.geodesicx</a> lack of convergence or other 
-        <a href="pygeodesy.geodesicx-module.html" 
-        class="link">pygeodesy.geodesicx</a> or <a 
-        href="pygeodesy.karney-module.html" 
-        class="link">pygeodesy.karney</a> issues.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
         <a href="pygeodesy.karney.Inverse10Tuple-class.html" class="summary-name">Inverse10Tuple</a><br />
       10-Tuple <code>(a12, s12, salp1, calp1, salp2, calp2, m12, M12, 
         M21, S12)</code> with arc length <code>a12</code> in 
@@ -462,6 +485,19 @@
         <code>salp2</code> and cosines <code>calp1</code>, 
         <code>calp2</code> of the initial <code>1</code> and final 
         <code>2</code> foward azimuths.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.karney.Rhumb8Tuple-class.html" class="summary-name">Rhumb8Tuple</a><br />
+      8-Tuple <code>(lat1, lon1, lat2, lon2, azi12, s12, S12, a12)</code>
+        with lat- <code>lat1</code>, <code>lat2</code> and longitudes 
+        <code>lon1</code>, <code>lon2</code> of both points, the azimuth of
+        the rhumb line <code>azi12</code>, the distance <code>s12</code>, 
+        the area <code>S12</code> under the rhumb line and the angular 
+        distance <code>a12</code> between both points.
     </td>
   </tr>
 </table>
@@ -573,7 +609,7 @@ Caps()
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Jul 12 13:24:17 2023
+    Generated by Epydoc 3.0.1 on Sun Aug  6 15:10:40 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

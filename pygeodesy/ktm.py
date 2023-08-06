@@ -42,14 +42,14 @@ U{GeographicLib<https://GeographicLib.SourceForge.io>} documentation.
 # make sure int/int division yields float quotient
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import copysign0, isint, isodd, neg, neg_
+from pygeodesy.basics import copysign0, isodd, neg, neg_, _reverange
 from pygeodesy.constants import INF, _K0_UTM, NINF, PI, PI_2, _0_0s, \
                                _0_0, _1_0, _90_0, _180_0
 # from pygeodesy.datums import _spherical_datum  # in KTransverseMercator.ellipsoid.setter
-from pygeodesy.errors import _or, _ValueError, _xkwds_get
+from pygeodesy.errors import _ValueError, _xkwds_get, _Xorder
 from pygeodesy.fmath import fsum1_, hypot, hypot1
 # from pygeodesy.fsums import fsum1_  # from .fmath
-from pygeodesy.interns import NN, _COMMASPACE_, _not_, _singular_
+from pygeodesy.interns import NN, _COMMASPACE_, _singular_
 from pygeodesy.karney import _atan2d, _diff182, _EWGS84, _fix90, \
                              _NamedBase, _norm180, _polynomial, _unsigned2
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _pairs
@@ -65,7 +65,7 @@ from cmath import phase
 from math import atan2, asinh, cos, cosh, degrees, fabs, sin, sinh, sqrt, tanh
 
 __all__ = _ALL_LAZY.ktm
-__version__ = '23.05.25'
+__version__ = '23.07.01'
 
 
 class KTMError(_ValueError):
@@ -450,16 +450,6 @@ def _C(a, b0, b1, Cn):
     return complex(r, j)
 
 
-def _Xorder(_Coeffs, Error, **Xorder):  # in .rhumbx
-    '''(INTERNAL) Validate C{RAorder} or C{TMorder}.
-    '''
-    X, m = Xorder.popitem()
-    if m in _Coeffs and isint(m):
-        return m
-    t = sorted(map(str, _Coeffs.keys()))
-    raise Error(X, m, txt=_not_(_or(*t)))
-
-
 def _Xs(_Coeffs, m, E, RA=False):  # in .rhumbx
     '''(INTERNAL) Compute the C{A}, C{B} or C{RA} terms of order
        B{C{m}} for I{Krüger} series and I{rhumbx._sincosSeries},
@@ -476,7 +466,7 @@ def _Xs(_Coeffs, m, E, RA=False):  # in .rhumbx
         # used in C{KTransverseMercator._yxgk4} above nor
         # in C{rhumbx._sincosSeries}.
         i = (m + 2) if RA else 0
-        for r in range(m - 1, -1, -1):  # [m-1 ... 0]
+        for r in _reverange(m):  # [m-1 ... 0]
             j = i + r + 1
             X.append(_polynomial(n, Cs, i, j) * n_ / Cs[j])
             i = j + 1

@@ -52,7 +52,7 @@ from pygeodesy.points import NearestOn3Tuple, ispolar  # PYCHOK exported
 from pygeodesy.props import deprecated_function, deprecated_method
 from pygeodesy.sphericalBase import _angular, CartesianSphericalBase, \
                                     _intersecant2, LatLonSphericalBase, \
-                                    Datums
+                                    Datums, _r2m
 from pygeodesy.units import Bearing, Bearing_, Radius, Scalar
 from pygeodesy.utily import atan2, degrees360, fabs, sincos2, sincos2_, \
                             sincos2d, _unrollon, _Wrap
@@ -60,7 +60,7 @@ from pygeodesy.utily import atan2, degrees360, fabs, sincos2, sincos2_, \
 # from math import atan2, fabs  # from utily
 
 __all__ = _ALL_LAZY.sphericalNvector
-__version__ = '23.06.12'
+__version__ = '23.06.30'
 
 _lines_ = 'lines'
 
@@ -142,13 +142,15 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            @arg end: End point of great circle line (L{LatLon}) or
                      initial bearing from start point (compass
                      C{degrees360}).
-           @kwarg radius: Mean earth radius (C{meter}).
+           @kwarg radius: Mean earth radius (C{meter}) or C{None}.
            @kwarg wrap: If C{True}, wrap or I{normalize} and unroll
                         the B{C{start}} and B{C{end}} points (C{bool}).
 
-           @return: Distance along the great circle line (positive if
-                    after the start toward the end point of the line
-                    or negative if before the start point).
+           @return: Distance along the great circle line (C{radians}
+                    if C{B{radius} is None} else C{meter}, same units
+                    as B{C{radius}}), positive if "after" the start
+                    toward the end point of the line or negative if
+                    "before" the start point.
 
            @raise TypeError: If B{C{start}} or B{C{end}} point is not L{LatLon}.
 
@@ -167,7 +169,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
         gc, _, _ = self._gc3(p, end, _end_, wrap=wrap)
         a = gc.cross(n).cross(gc)  # along-track point gc × p × gc
-        return start.toNvector().angleTo(a, vSign=gc) * radius
+        return _r2m(start.toNvector().angleTo(a, vSign=gc), radius)
 
     @deprecated_method
     def bearingTo(self, other, **unused):  # PYCHOK no cover
@@ -183,12 +185,14 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            @arg end: End point of great circle line (L{LatLon}) or
                      initial bearing from start point (compass
                      C{degrees360}).
-           @kwarg radius: Mean earth radius (C{meter}).
+           @kwarg radius: Mean earth radius (C{meter}) or C{None}.
            @kwarg wrap: If C{True}, wrap or I{normalize} and unroll
                         the B{C{start}} and B{C{end}} points (C{bool}).
 
-           @return: Distance to great circle (negative if to the
-                    left or positive if to the right of the line).
+           @return: Distance to great circle (C{radians} if C{B{radius}
+                    is None} else C{meter}, same units as B{C{radius}}),
+                    negative if to the left  or positive if to the right
+                    of the line .
 
            @raise TypeError: If B{C{start}} or B{C{end}} point is not L{LatLon}.
 
@@ -208,7 +212,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         n = self.toNvector()
 
         gc, _, _ = self._gc3(p, end, _end_, wrap=wrap)
-        return (gc.angleTo(n) - PI_2) * radius
+        return _r2m(gc.angleTo(n) - PI_2, radius)
 
     def destination(self, distance, bearing, radius=R_M, height=None):
         '''Locate the destination from this point after having

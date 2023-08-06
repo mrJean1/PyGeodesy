@@ -4,7 +4,7 @@
 # Test L{vector3d} and L{vector3d} modules.
 
 __all__ = ('Tests',)
-__version__ = '23.05.31'
+__version__ = '23.07.21'
 
 from bases import coverage, GeodSolve, numpy, TestsBase
 
@@ -388,8 +388,7 @@ class Tests(TestsBase):
             self.test(t[0].named3, fstr(t[0].xyz, prec=4), '119.8958, 130.6508, -5.1451', known=k)
             self.test(t[1].named3, fstr(t[1].xyz, prec=4), '119.9999, 129.9999, 30.0019', known=k)
 
-            # <https://www.ResearchGate.net/publication/
-            # 275027725_An_Algebraic_Solution_to_the_Multilateration_Problem>
+            # <https://www.ResearchGate.net/publication/275027725>
             c1, r1 = Vector(27.297, -4.953, 1.470), 3.851  # 3.857
             c2, r2 = Vector(25.475, -6.124, 2.360), 3.875  # 3.988
             c3, r3 = Vector(22.590,  0.524, 1.200), 3.514  # 3.497

@@ -88,7 +88,7 @@ from pygeodesy.props import Property_RO, property_RO
 # from math import radians  # from .formy
 
 __all__ = _ALL_LAZY.heights
-__version__ = '23.05.18'
+__version__ = '23.08.06'
 
 _error_     = 'error'
 _llis_      = 'llis'
@@ -688,7 +688,7 @@ class _HeightIDW(_HeightBase):
         '''(INTERNAL) Yield distances to C{(x, y)}.
         '''
         _f, kwds = self._func, self._kwds
-        if not callable(_f):
+        if not callable(_f):  # PYCHOK no cover
             notOverloaded(self, distance_function=_f)
         for _, k in enumerate(self._ks):
             yield _f(y, x, k.lat, k.lon, **kwds)

@@ -61,6 +61,9 @@
     <li> <strong class="uidlink">object</strong>:
       <em class="summary">The most base type</em>
     <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.auxilats.auxDST.AuxDST-class.html">pygeodesy.auxilats.auxDST.AuxDST</a></strong>:
+      <em class="summary">Discrete Sine Transforms (DST) for <i>Auxiliary Latitudes</i>.</em>
+    </li>
     <li> <strong class="uidlink">exceptions.BaseException</strong>:
       <em class="summary">Common base class for all exceptions</em>
     <ul>
@@ -118,6 +121,11 @@
         href="pygeodesy.ltpTuples.Attitude4Tuple-class.html" 
         class="link">Attitude4Tuple</a> issue.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.errors.AuxError-class.html">pygeodesy.errors.AuxError</a></strong>:
+      <em class="summary">Error raised for an <a href="pygeodesy.rhumbaux-module.html" 
+        class="link">rhumbaux</a> <code>Aux</code>, <code>AuxDLat</code> or
+        <code>AuxLat</code> issue.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.azimuthal.AzimuthalError-class.html">pygeodesy.azimuthal.AzimuthalError</a></strong>:
       <em class="summary">An azimuthal <a href="pygeodesy.azimuthal.Equidistant-class.html" 
         class="link">Equidistant</a>, <a 
@@ -162,7 +170,7 @@
         href="pygeodesy.gars.Garef-class.html" class="link">Garef</a> 
         issue.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.karney.GeodesicError-class.html">pygeodesy.karney.GeodesicError</a></strong>:
+    <li> <strong class="uidlink"><a href="pygeodesy.errors.GeodesicError-class.html">pygeodesy.errors.GeodesicError</a></strong>:
       <em class="summary">Error raised for <a href="pygeodesy.geodesicx-module.html" 
         class="link">pygeodesy.geodesicx</a> lack of convergence or other 
         <a href="pygeodesy.geodesicx-module.html" 
@@ -290,11 +298,13 @@
         class="link">pygeodesy.sums.Fsum</a> instance with a non-zero 
         <code>residual</code>, <i>integer</i> or otherwise.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.rhumbx.RhumbError-class.html">pygeodesy.rhumbx.RhumbError</a></strong>:
-      <em class="summary">Raised for a <a href="pygeodesy.rhumbx.Rhumb-class.html" 
-        class="link">Rhumb</a> or <a 
-        href="pygeodesy.rhumbx.RhumbLine-class.html" 
-        class="link">RhumbLine</a> issue.</em>
+    <li> <strong class="uidlink"><a href="pygeodesy.errors.RhumbError-class.html">pygeodesy.errors.RhumbError</a></strong>:
+      <em class="summary">Error raised for <a href="pygeodesy.rhumbaux-module.html" 
+        class="link">pygeodesy.rhumbaux</a>, <a 
+        href="pygeodesy.rhumbsolve-module.html" 
+        class="link">pygeodesy.rhumbsolve</a> or <a 
+        href="pygeodesy.rhumbx-module.html" 
+        class="link">pygeodesy.rhumbx</a> issues.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.errors.TRFError-class.html">pygeodesy.errors.TRFError</a></strong>:
       <em class="summary">Terrestrial Reference Frame (TRF), <a 
@@ -550,6 +560,46 @@
     <li> <strong class="uidlink"><a href="pygeodesy.named._Named-class.html">pygeodesy.named._Named</a></strong>:
       <em class="summary">(INTERNAL) Root class for named objects.</em>
     <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.auxilats.auxAngle.AuxAngle-class.html">pygeodesy.auxilats.auxAngle.AuxAngle</a></strong>:
+      <em class="summary"><a 
+        href="https://GeographicLib.DourceForge.io/C++/doc/classGeographicLib_1_1AuxAngle.html"
+        target="_top">An accurate representation of angles</a></em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.auxilats.auxAngle.AuxBeta-class.html">pygeodesy.auxilats.auxAngle.AuxBeta</a></strong>:
+      <em class="summary">An <i>Prametric</i> latitude.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.auxilats.auxAngle.AuxChi-class.html" onclick="show_private();">pygeodesy.auxilats.auxAngle.AuxChi</a></strong>:
+      <em class="summary">An <i>Conformal</i> latitude.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.auxilats.auxLat.AuxLat-class.html">pygeodesy.auxilats.auxLat.AuxLat</a></strong>:
+      <em class="summary">Accurate conversion between <i>Auxiliary</i> latitudes on an 
+        ellipsoid.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.auxilats.auxDLat.AuxDLat-class.html">pygeodesy.auxilats.auxDLat.AuxDLat</a></strong>:
+      <em class="summary">Class to compute <code>Divided Differences</code> of 
+        <i>Auxiliary</i> latitudes and other <code>Divided 
+        Differences</code> needed for <a 
+        href="pygeodesy.rhumbaux.RhumbAux-class.html" 
+        class="link">RhumbAux</a> and <a 
+        href="pygeodesy.rhumbaux.RhumbLineAux-class.html" 
+        class="link">RhumbLineAux</a> calculations.</em>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.auxilats.auxAngle.AuxMu-class.html">pygeodesy.auxilats.auxAngle.AuxMu</a></strong>:
+      <em class="summary">An <i>Rectifying, Auxiliary</i> latitude.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.auxilats.auxAngle.AuxPhi-class.html">pygeodesy.auxilats.auxAngle.AuxPhi</a></strong>:
+      <em class="summary">An <i>Geographic, Auxiliary</i> latitude.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.auxilats.auxAngle.AuxTheta-class.html" onclick="show_private();">pygeodesy.auxilats.auxAngle.AuxTheta</a></strong>:
+      <em class="summary">An <i>Geocentric</i> latitude.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.auxilats.auxAngle.AuxXi-class.html" onclick="show_private();">pygeodesy.auxilats.auxAngle.AuxXi</a></strong>:
+      <em class="summary">An <i>Authalic</i> latitude.</em>
+    </li>
+    </ul>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.elliptic.Elliptic-class.html">pygeodesy.elliptic.Elliptic</a></strong>:
       <em class="summary">Elliptic integrals and functions.</em>
     </li>
@@ -1225,6 +1275,14 @@
         initial and final bearing (azimuths) between two given points or 
         the destination point given a start point and an (initial) bearing.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html">pygeodesy.ellipsoidalVincenty.LatLon</a></strong>:
+      <em class="summary">Using the formulae devised by <a 
+        href="https://WikiPedia.org/wiki/Vincenty's_formulae" 
+        target="_top"><i>Thaddeus Vincenty (1975)</i></a> for an (oblate) 
+        ellipsoidal model of the earth to compute the geodesic distance and
+        bearings between two given points or the destination point given an
+        start point and (initial) bearing.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.LatLon-class.html">pygeodesy.ellipsoidalKarney.LatLon</a></strong>:
       <em class="summary">An ellipsoidal <a 
         href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
@@ -1236,14 +1294,6 @@
         target="_top">geographiclib</a> to compute the geodesic distance, 
         initial and final bearing (azimuths) between two given points or 
         the destination point given a start point and an (initial) bearing.</em>
-    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html">pygeodesy.ellipsoidalVincenty.LatLon</a></strong>:
-      <em class="summary">Using the formulae devised by <a 
-        href="https://WikiPedia.org/wiki/Vincenty's_formulae" 
-        target="_top"><i>Thaddeus Vincenty (1975)</i></a> for an (oblate) 
-        ellipsoidal model of the earth to compute the geodesic distance and
-        bearings between two given points or the destination point given an
-        start point and (initial) bearing.</em>
     </li>
     </ul>
     </li>
@@ -1380,12 +1430,12 @@
         href="pygeodesy.ellipsoidalGeodSolve.LatLon-class.html" 
         class="link">LatLon</a> points.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html">pygeodesy.ellipsoidalVincenty.Cartesian</a></strong>:
-      <em class="summary">Extended to convert geocentric, <a 
-        href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html" 
-        class="link">Cartesian</a> points to Vincenty-based, ellipsoidal, 
-        geodetic <a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
-        class="link">LatLon</a>.</em>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.Cartesian-class.html">pygeodesy.ellipsoidalKarney.Cartesian</a></strong>:
+      <em class="summary">Extended to convert <code>Karney</code>-based <a 
+        href="pygeodesy.ellipsoidalKarney.Cartesian-class.html" 
+        class="link">Cartesian</a> to <code>Karney</code>-based <a 
+        href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
+        class="link">LatLon</a> points.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalNvector.Cartesian-class.html">pygeodesy.ellipsoidalNvector.Cartesian</a></strong>:
       <em class="summary">Extended to convert geocentric, <a 
@@ -1396,12 +1446,12 @@
         href="pygeodesy.ellipsoidalNvector.LatLon-class.html" 
         class="link">LatLon</a>.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.Cartesian-class.html">pygeodesy.ellipsoidalKarney.Cartesian</a></strong>:
-      <em class="summary">Extended to convert <code>Karney</code>-based <a 
-        href="pygeodesy.ellipsoidalKarney.Cartesian-class.html" 
-        class="link">Cartesian</a> to <code>Karney</code>-based <a 
-        href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
-        class="link">LatLon</a> points.</em>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html">pygeodesy.ellipsoidalVincenty.Cartesian</a></strong>:
+      <em class="summary">Extended to convert geocentric, <a 
+        href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html" 
+        class="link">Cartesian</a> points to Vincenty-based, ellipsoidal, 
+        geodetic <a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
+        class="link">LatLon</a>.</em>
     </li>
     </ul>
     </li>
@@ -1644,9 +1694,31 @@
     <li> <strong class="uidlink"><a href="pygeodesy.karney._CapsBase-class.html">pygeodesy.karney._CapsBase</a></strong>:
       <em class="summary">(INTERNAL) Base class for <code>[_]Geodesic*Exact</code>.</em>
     <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.rhumbBase.RhumbBase-class.html">pygeodesy.rhumbBase.RhumbBase</a></strong>:
+      <em class="summary">(INTERNAL) Base class for <code>rhumbaux.RhumbAux</code> and 
+        <code>rhumbx.Rhumb</code>.</em>
+    <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.rhumbx.Rhumb-class.html">pygeodesy.rhumbx.Rhumb</a></strong>:
-      <em class="summary">Class to solve of the <i>direct</i> and <i>inverse rhumb</i> 
-        problems, accurately.</em>
+      <em class="summary">Class to solve the <i>direct</i> and <i>inverse rhumb</i> problems,
+        based on <i>elliptic functions</i> or <i>Kr&#252;ger</i> series 
+        expansion.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.rhumbaux.RhumbAux-class.html">pygeodesy.rhumbaux.RhumbAux</a></strong>:
+      <em class="summary">Class to solve the <i>direct</i> and <i>inverse rhumb</i> problems,
+        based on <i>Auxiliary Latitudes</i> for accuracy near the poles.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.rhumbBase.RhumbLineBase-class.html">pygeodesy.rhumbBase.RhumbLineBase</a></strong>:
+      <em class="summary">(INTERNAL) Class <code>RhumbLine</code></em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.rhumbx.RhumbLine-class.html">pygeodesy.rhumbx.RhumbLine</a></strong>:
+      <em class="summary">Compute one or several points on a single rhumb line.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.rhumbaux.RhumbLineAux-class.html">pygeodesy.rhumbaux.RhumbLineAux</a></strong>:
+      <em class="summary">Compute one or several points on a single rhumb line.</em>
+    </li>
+    </ul>
+    </li>
+    </ul>
     </li>
     <li> <strong class="uidlink">pygeodesy.geodesicx.gxbases._GeodesicBase</strong>:
       <em class="summary">(INTERNAL) Base class for <code>[_]Geodesic*Exact</code>.</em>
@@ -1676,40 +1748,10 @@
     </li>
     </ul>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.rhumbx._RhumbLine-class.html">pygeodesy.rhumbx._RhumbLine</a></strong>:
-      <em class="summary">(INTERNAL) Class <a href="pygeodesy.rhumbx.RhumbLine-class.html" 
-        class="link">RhumbLine</a></em>
-    <ul>
-    <li> <strong class="uidlink"><a href="pygeodesy.rhumbx.RhumbLine-class.html">pygeodesy.rhumbx.RhumbLine</a></strong>:
-      <em class="summary">Compute one or several points on a single rhumb line.</em>
-    </li>
-    </ul>
-    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.solveBase._SolveLineSolveBase-class.html">pygeodesy.solveBase._SolveLineSolveBase</a></strong>:
       <em class="summary">(NTERNAL) Base class for <code>_Solve</code> and 
         <code>_LineSolve</code>.</em>
     <ul>
-    <li> <strong class="uidlink"><a href="pygeodesy.solveBase._LineSolveBase-class.html">pygeodesy.solveBase._LineSolveBase</a></strong>:
-      <em class="summary">(NTERNAL) Base class for <code>GeodesicLineSolve</code> and 
-        <code>RhumbLineSolve</code>.</em>
-    <ul>
-    <li> <strong class="uidlink"><a href="pygeodesy.geodsolve.GeodesicLineSolve-class.html">pygeodesy.geodsolve.GeodesicLineSolve</a></strong>:
-      <em class="summary">Wrapper to invoke <i>Karney</i>'s <a 
-        href="https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html"
-        target="_top">GeodSolve</a> as an <code>Exact</code> version of 
-        <i>Karney</i>'s Python class <a 
-        href="https://GeographicLib.SourceForge.io/C++/doc/python/code.html#geographiclib.geodesicline.GeodesicLine"
-        target="_top">GeodesicLine</a>.</em>
-    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.rhumbsolve.RhumbLineSolve-class.html">pygeodesy.rhumbsolve.RhumbLineSolve</a></strong>:
-      <em class="summary">Wrapper to invoke <i>Karney</i>'s <a 
-        href="https://GeographicLib.SourceForge.io/C++/doc/RhumbSolve.1.html"
-        target="_top">RhumbSolve</a>, the <code>Exact</code> version of 
-        class <a href="pygeodesy.rhumbx.RhumbLine-class.html" 
-        class="link">pygeodesy.RhumbLine</a>.</em>
-    </li>
-    </ul>
-    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.solveBase._SolveBase-class.html">pygeodesy.solveBase._SolveBase</a></strong>:
       <em class="summary">(NTERNAL) Base class for <code>_GeodesicSolveBase</code> and 
         <code>_RhumbSolveBase</code>.</em>
@@ -1756,11 +1798,34 @@
     <li> <strong class="uidlink"><a href="pygeodesy.rhumbsolve.RhumbSolve-class.html">pygeodesy.rhumbsolve.RhumbSolve</a></strong>:
       <em class="summary">Wrapper to invoke <i>Karney</i>'s <a 
         href="https://GeographicLib.SourceForge.io/C++/doc/RhumbSolve.1.html"
-        target="_top">RhumbSolve</a>, the <code>Exact</code> version of 
-        class <a href="pygeodesy.rhumbx.Rhumb-class.html" 
-        class="link">pygeodesy.Rhumb</a>.</em>
+        target="_top">RhumbSolve</a> like a class, similar to <a 
+        href="pygeodesy.rhumbx.Rhumb-class.html" 
+        class="link">pygeodesy.Rhumb</a> and <a 
+        href="pygeodesy.rhumbaux.RhumbAux-class.html" 
+        class="link">pygeodesy.RhumbAux</a>.</em>
     </li>
     </ul>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.solveBase._SolveLineBase-class.html">pygeodesy.solveBase._SolveLineBase</a></strong>:
+      <em class="summary">(NTERNAL) Base class for <code>GeodesicLineSolve</code> and 
+        <code>RhumbLineSolve</code>.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.geodsolve.GeodesicLineSolve-class.html">pygeodesy.geodsolve.GeodesicLineSolve</a></strong>:
+      <em class="summary">Wrapper to invoke <i>Karney</i>'s <a 
+        href="https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html"
+        target="_top">GeodSolve</a> as an <code>Exact</code> version of 
+        <i>Karney</i>'s Python class <a 
+        href="https://GeographicLib.SourceForge.io/C++/doc/python/code.html#geographiclib.geodesicline.GeodesicLine"
+        target="_top">GeodesicLine</a>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.rhumbsolve.RhumbLineSolve-class.html">pygeodesy.rhumbsolve.RhumbLineSolve</a></strong>:
+      <em class="summary">Wrapper to invoke <i>Karney</i>'s <a 
+        href="https://GeographicLib.SourceForge.io/C++/doc/RhumbSolve.1.html"
+        target="_top">RhumbSolve</a>, the <code>Exact</code> version of 
+        class <a href="pygeodesy.rhumbx.RhumbLine-class.html" 
+        class="link">pygeodesy.RhumbLine</a>.</em>
     </li>
     </ul>
     </li>
@@ -1804,8 +1869,7 @@
     <li> <strong class="uidlink"><a href="pygeodesy.ecef.EcefSudano-class.html">pygeodesy.ecef.EcefSudano</a></strong>:
       <em class="summary">Conversion between geodetic and geocentric, <i>Earth-Centered, 
         Earth-Fixed</i> (ECEF) coordinates based on <i>John J. Sudano</i>'s
-        <a 
-        href="https://www.ResearchGate.net/publication/3709199_An_exact_conversion_from_an_Earth-centered_coordinate_system_to_latitude_longitude_and_altitude"
+        <a href="https://www.ResearchGate.net/publication/3709199" 
         target="_top">paper</a>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ecef.EcefVeness-class.html">pygeodesy.ecef.EcefVeness</a></strong>:
@@ -1819,7 +1883,7 @@
       <em class="summary">Conversion between geodetic and geocentric, <i>Earth-Centered, 
         Earth-Fixed</i> (ECEF) coordinates using <i>Rey-Jer You</i>'s <a 
         href="https://www.ResearchGate.net/publication/240359424" 
-        target="_top">transformation</a>.</em>
+        target="_top">transformation</a> for <i>non-prolate</i> ellipsoids.</em>
     </li>
     </ul>
     </li>
@@ -2567,7 +2631,7 @@
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.deprecated.Rhumb7Tuple-class.html">pygeodesy.deprecated.Rhumb7Tuple</a></strong>:
       <em class="summary">DEPRECATED, use class <a 
-        href="pygeodesy.rhumbx.Rhumb8Tuple-class.html" 
+        href="pygeodesy.karney.Rhumb8Tuple-class.html" 
         class="link">Rhumb8Tuple</a> ignoring item <code>a12</code>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.deprecated.Transform7Tuple-class.html">pygeodesy.deprecated.Transform7Tuple</a></strong>:
@@ -2619,7 +2683,7 @@
         <code>calp2</code> of the initial <code>1</code> and final 
         <code>2</code> foward azimuths.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.rhumbx.Rhumb8Tuple-class.html">pygeodesy.rhumbx.Rhumb8Tuple</a></strong>:
+    <li> <strong class="uidlink"><a href="pygeodesy.karney.Rhumb8Tuple-class.html">pygeodesy.karney.Rhumb8Tuple</a></strong>:
       <em class="summary">8-Tuple <code>(lat1, lon1, lat2, lon2, azi12, s12, S12, a12)</code>
         with lat- <code>lat1</code>, <code>lat2</code> and longitudes 
         <code>lon1</code>, <code>lon2</code> of both points, the azimuth of
@@ -2639,7 +2703,8 @@
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.rhumbx.RhumbOrder2Tuple-class.html">pygeodesy.rhumbx.RhumbOrder2Tuple</a></strong>:
       <em class="summary">2-Tuple <code>(RAorder, TMorder)</code> with a <i>Rhumb Area</i> 
-        and <i>Transverse Mercator</i> order, both <code>int</code>.</em>
+        and <i>Transverse Mercator</i> order, both <code>int</code>, 
+        DEPRECATED.</em>
     </li>
     </ul>
     </li>
@@ -3879,7 +3944,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.deprecated.Rhumb7Tuple-class.html">pygeodesy.deprecated.Rhumb7Tuple</a></strong>:
       <em class="summary">DEPRECATED, use class <a 
-        href="pygeodesy.rhumbx.Rhumb8Tuple-class.html" 
+        href="pygeodesy.karney.Rhumb8Tuple-class.html" 
         class="link">Rhumb8Tuple</a> ignoring item <code>a12</code>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.deprecated.Transform7Tuple-class.html">pygeodesy.deprecated.Transform7Tuple</a></strong>:
@@ -3931,7 +3996,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
         <code>calp2</code> of the initial <code>1</code> and final 
         <code>2</code> foward azimuths.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.rhumbx.Rhumb8Tuple-class.html">pygeodesy.rhumbx.Rhumb8Tuple</a></strong>:
+    <li> <strong class="uidlink"><a href="pygeodesy.karney.Rhumb8Tuple-class.html">pygeodesy.karney.Rhumb8Tuple</a></strong>:
       <em class="summary">8-Tuple <code>(lat1, lon1, lat2, lon2, azi12, s12, S12, a12)</code>
         with lat- <code>lat1</code>, <code>lat2</code> and longitudes 
         <code>lon1</code>, <code>lon2</code> of both points, the azimuth of
@@ -3951,7 +4016,8 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.rhumbx.RhumbOrder2Tuple-class.html">pygeodesy.rhumbx.RhumbOrder2Tuple</a></strong>:
       <em class="summary">2-Tuple <code>(RAorder, TMorder)</code> with a <i>Rhumb Area</i> 
-        and <i>Transverse Mercator</i> order, both <code>int</code>.</em>
+        and <i>Transverse Mercator</i> order, both <code>int</code>, 
+        DEPRECATED.</em>
     </li>
     </ul>
     </li>
@@ -4037,7 +4103,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Jul 12 13:24:17 2023
+    Generated by Epydoc 3.0.1 on Sun Aug  6 15:10:39 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

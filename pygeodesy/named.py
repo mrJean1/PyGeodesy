@@ -24,7 +24,7 @@ from pygeodesy.interns import NN, _at_, _AT_, _COLON_, _COLONSPACE_, _COMMA_, \
                              _COMMASPACE_, _doesn_t_exist_, _DOT_, _DUNDER_, \
                              _EQUAL_, _EQUALSPACED_, _exists_, _immutable_, _name_, \
                              _NL_, _NN_, _not_, _other_, _s_, _SPACE_, _std_, \
-                             _UNDER_, _valid_, _vs_,  _dunder_nameof, _UNDER
+                             _UNDER_, _valid_, _vs_,  _dunder_nameof, _under
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _caller3, _getenv
 from pygeodesy.props import _allPropertiesOf_n, deprecated_method, Property_RO, \
                             _hasProperty, property_doc_, property_RO, \
@@ -32,7 +32,7 @@ from pygeodesy.props import _allPropertiesOf_n, deprecated_method, Property_RO, 
 from pygeodesy.streprs import attrs, Fmt, lrstrip, pairs, reprs, unstr
 
 __all__ = _ALL_LAZY.named
-__version__ = '23.05.31'
+__version__ = '23.08.05'
 
 _COMMANL_           = _COMMA_ + _NL_
 _COMMASPACEDOT_     = _COMMASPACE_ + _DOT_
@@ -40,7 +40,7 @@ _del_               = 'del'
 _item_              = 'item'
 _MRO_               = 'MRO'
 # __DUNDER gets mangled in class
-_name               = _UNDER(_name_)
+_name               = _under(_name_)
 _Names_             = '_Names_'
 _registered_        = 'registered'  # PYCHOK used!
 _std_NotImplemented = _getenv('PYGEODESY_NOTIMPLEMENTED', NN).lower() == _std_

@@ -228,7 +228,7 @@ _H_                   = 'H'                  # PYCHOK OK
 _height_              = 'height'             # PYCHOK OK
 _hemipole_            = 'hemipole'           # PYCHOK OK
 _i_                   = 'i'                  # PYCHOK OK
-_iadd_                = '+='                 # PYCHOK OK
+_iadd_op_             = '+='                 # PYCHOK OK
 _immutable_           = 'immutable'          # PYCHOK OK
 _in_                  = 'in'                 # PYCHOK OK
 _incompatible_        = 'incompatible'       # PYCHOK OK
@@ -391,13 +391,8 @@ _tx_                  = 'tx'                 # PYCHOK OK
 _ty_                  = 'ty'                 # PYCHOK OK
 _tz_                  = 'tz'                 # PYCHOK OK
 _UNDER_          = Str_('_')                 # PYCHOK OK
-
-def _UNDER(name):  # PYCHOK in .datums, .rhumbx, .ups, .utm, .utmupsBase
-    '''(INTERNAL) Prefix C{name} with I{underscore}.
-    '''
-    return name if name.startswith(_UNDER_) else NN(_UNDER_, name)
-
 _units_               = 'units'              # PYCHOK OK
+_UNUSED_              = 'UNUSED'             # PYCHOK OK
 _up_                  = 'up'                 # PYCHOK OK
 _UPS_                 = 'UPS'                # PYCHOK OK
 _utf_8_               = 'utf-8'              # PYCHOK OK
@@ -564,6 +559,12 @@ def _sysctl_uint(name):
     return int(r if r else u.value)  # -1 ENOENT error, -2 no libc
 
 
+def _under(name):  # PYCHOK in .datums, .auxilats, .ups, .utm, .utmupsBase, ...
+    '''(INTERNAL) Prefix C{name} with I{underscore}.
+    '''
+    return name if name.startswith(_UNDER_) else NN(_UNDER_, name)
+
+
 def _usage(file_py, *args):  # in .etm
     '''(INTERNAL) Build "usage: python -m ..." cmd line for module B{C{file_py}}.
     '''
@@ -594,7 +595,7 @@ def _version2(version, n=2):
 __all__ = (_NN_,  # not MISSING!
             Str_.__name__,  # classes
             machine.__name__)  # in .lazily
-__version__ = '23.06.12'
+__version__ = '23.08.05'
 
 if __name__ == '__main__':
 

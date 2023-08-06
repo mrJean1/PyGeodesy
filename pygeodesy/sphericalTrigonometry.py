@@ -43,10 +43,9 @@ from pygeodesy.points import ispolar, nearestOn5 as _nearestOn5, \
                              notImplemented, Fmt as _Fmt  # XXX shadowed
 from pygeodesy.props import deprecated_function, deprecated_method
 from pygeodesy.sphericalBase import _angular, CartesianSphericalBase, _intersecant2, \
-                                     LatLonSphericalBase, _rads3, _trilaterate5
+                                     LatLonSphericalBase, _rads3, _r2m, _trilaterate5
 # from pygeodesy.streprs import Fmt as _Fmt  # from .points XXX shadowed
-from pygeodesy.units import Bearing_, Height, Lam_, Phi_, Radius, \
-                            Radius_, Scalar
+from pygeodesy.units import Bearing_, Height, Lam_, Phi_, Radius_, Scalar
 from pygeodesy.utily import acos1, asin1, degrees90, degrees180, degrees2m, \
                             m2radians, radiansPI2, sincos2_, tan_2, _unrollon, \
                             unrollPI, _unrollon3, _Wrap, wrap180, wrapPI
@@ -55,7 +54,7 @@ from pygeodesy.vector3d import sumOf, Vector3d
 from math import asin, atan2, cos, degrees, fabs, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '23.06.12'
+__version__ = '23.07.01'
 
 _parallel_ = 'parallel'
 
@@ -107,9 +106,9 @@ class LatLon(LatLonSphericalBase):
         return a1, b1, a2, b2, db
 
     def alongTrackDistanceTo(self, start, end, radius=R_M, wrap=False):
-        '''Compute the (angular) distance (signed) from the start to
-           the closest point on the great circle line defined by a
-           start and an end point.
+        '''Compute the (signed) distance from the start to the closest
+           point on the great circle line defined by a start and an
+           end point.
 
            That is, if a perpendicular is drawn from this point to the
            great circle line, the along-track distance is the distance
@@ -122,9 +121,9 @@ class LatLon(LatLonSphericalBase):
            @kwarg wrap: If C{True}, wrap or I{normalize} and unroll
                         the B{C{start}} and B{C{end}} point (C{bool}).
 
-           @return: Distance along the great circle line (C{meter},
-                    same units as B{C{radius}}) or C{radians} if
-                    C{B{radius} is None}, positive if I{after} the
+           @return: Distance along the great circle line (C{radians}
+                    if C{B{radius} is None} or C{meter}, same units
+                    as B{C{radius}}), positive if I{after} the
                     B{C{start}} toward the B{C{end}} point of the
                     line, I{negative} if before or C{0} if at the
                     B{C{start}} point.
@@ -197,7 +196,7 @@ class LatLon(LatLonSphericalBase):
         return degrees180(m - d), degrees180(m + d)
 
     def crossTrackDistanceTo(self, start, end, radius=R_M, wrap=False):
-        '''Compute the (signed, angular) distance from this point to
+        '''Compute the (signed) distance from this point to
            the great circle defined by a start and an end point.
 
            @arg start: Start point of the great circle line (L{LatLon}).
@@ -206,10 +205,10 @@ class LatLon(LatLonSphericalBase):
            @kwarg wrap: If C{True}, wrap or I{normalize} and unroll
                         the B{C{start}} and B{C{end}} point (C{bool}).
 
-           @return: Distance to the great circle (I{negative} if to
-                    the left or I{positive} if to the right of the
-                    line) (C{meter}, same units as B{C{radius}} or
-                    C{radians} if B{C{radius}} is C{None}).
+           @return: Distance to the great circle (C{radians} if
+                    B{C{radius}} or C{meter}, same units as
+                    B{C{radius}}), I{negative} if to the left or
+                    I{positive} if to the right of the line.
 
            @raise TypeError: If B{C{start}} or B{C{end}} is not L{LatLon}.
 
@@ -1386,14 +1385,6 @@ def perimeterOf(points, closed=False, radius=R_M, wrap=True):
     else:
         r = fsum(_rads(points, closed, wrap), floats=True)
     return _r2m(r, radius)
-
-
-def _r2m(r, radius):
-    '''(INTERNAL) Angular distance in C{radians} to C{meter}.
-    '''
-    if radius is not None:  # not in (None, _0_0)
-        r *= R_M if radius is R_M else Radius(radius)
-    return r
 
 
 def triangle7(latA, lonA, latB, lonB, latC, lonC, radius=R_M,

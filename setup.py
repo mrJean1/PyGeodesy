@@ -27,7 +27,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '23.04.28'
+__version__ = '23.08.05'
 
 
 def _c2(*names):
@@ -105,7 +105,7 @@ _KeyWords = ('AER', 'Albers', 'altitude', 'Andoyer', 'annulus', 'antipode', 'are
              'XYZ', 'yaw', 'You')
 
 setup(name='PyGeodesy',
-      packages=['pygeodesy', 'pygeodesy.deprecated', 'pygeodesy.geodesicx'],
+      packages=['pygeodesy', 'pygeodesy.auxilats', 'pygeodesy.deprecated', 'pygeodesy.geodesicx'],
       description='Pure Python geodesy tools',
       version=_version(),
 

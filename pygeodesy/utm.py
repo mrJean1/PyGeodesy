@@ -20,7 +20,7 @@ Within each zone, coordinates are represented as B{C{easting}}s and B{C{northing
 measured in metres.
 
 This module includes some of I{Charles Karney}'s U{'Transverse Mercator with an
-accuracy of a few nanometers'<https://Arxiv.org/pdf/1002.1417v3.pdf>}, 2011
+accuracy of a few nanometers'<https://ArXiv.org/pdf/1002.1417v3.pdf>}, 2011
 (building on Krüger's U{'Konforme Abbildung des Erdellipsoids in der Ebene'
 <https://bib.GFZ-Potsdam.DE/pub/digi/krueger2.pdf>}, 1912) and C++ class
 U{TransverseMercator<https://GeographicLib.SourceForge.io/C++/doc/
@@ -42,7 +42,7 @@ from pygeodesy.errors import MGRSError, RangeError, _ValueError, \
 from pygeodesy.fmath import fdot3, hypot, hypot1
 from pygeodesy.interns import MISSING, NN, _by_, _COMMASPACE_, _N_, \
                              _NS_, _outside_, _range_, _S_, _scale0_, \
-                             _SPACE_, _UTM_, _V_, _X_, _zone_, _UNDER
+                             _SPACE_, _UTM_, _V_, _X_, _zone_, _under
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 # from pygeodesy.named import _xnamed  # from .utmupsBase
 from pygeodesy.namedTuples import EasNor2Tuple, UtmUps5Tuple, \
@@ -63,7 +63,7 @@ from math import asinh, atan, atanh, atan2, cos, cosh, degrees, \
 from operator import mul as _mul
 
 __all__ = _ALL_LAZY.utm
-__version__ = '23.03.19'
+__version__ = '23.08.05'
 
 _Bands = 'CDEFGHJKLMNPQRSTUVWXX'  # UTM latitude bands C..X (no
 # I|O) 8° each, covering 80°S to 84°N and X repeated for 80-84°N
@@ -708,7 +708,7 @@ def toUtm8(latlon, lon=None, datum=None, Utm=Utm, falsed=True,
     y = atan2(T_, cb)  # ξ' ksi
     x = asinh(sb / H)  # η' eta
 
-    A0 = E.A * getattr(Utm, _UNDER(_scale0_), _K0_UTM)  # Utm is class or None
+    A0 = E.A * getattr(Utm, _under(_scale0_), _K0_UTM)  # Utm is class or None
 
     K = _Kseries(E.AlphaKs, x, y)  # Krüger series
     y = K.ys(y) * A0  # ξ

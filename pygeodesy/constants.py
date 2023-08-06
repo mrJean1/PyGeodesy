@@ -17,14 +17,39 @@ from pygeodesy.interns import _INF_, _NAN_, _UNDER_
 # from pygeodesy.streprs import Fmt  # from .unitsBase
 from pygeodesy.unitsBase import Float, Int, Radius,  Fmt
 
-from math import fabs, isinf, isnan, pi as _pi, sqrt
+from math import fabs, isinf, isnan, pi as _PI, sqrt
 try:
     from math import inf as _inf, nan as _nan  # PYCHOK Python 3+
 except ImportError:  # Python 2-
     _inf, _nan = float(_INF_), float(_NAN_)
+try:
+    from math import log2 as _log2
+except ImportError:  # Python 3.3-
+    from math import log as _log
+
+    def _log2(x):  # in .rhumbaux, .auxilats.auxLat
+        return _log(x, 2)
 
 __all__ = _ALL_LAZY.constants
-__version__ = '23.05.31'
+__version__ = '23.08.05'
+
+
+def _copysign_0_0(y):
+    '''(INTERNAL) copysign(0.0, y), only C{float}.
+    '''
+    return _N_0_0 if y < 0 else _0_0
+
+
+def _copysign_1_0(y):
+    '''(INTERNAL) copysign(1.0, y), only C{float}.
+    '''
+    return _N_1_0 if y < 0 else _1_0
+
+
+def _copysignINF(y):
+    '''(INTERNAL) copysign(INF, y), only C{float}.
+    '''
+    return NINF if y < 0 else INF
 
 
 def _Float(**name_arg):
@@ -54,12 +79,13 @@ def float_(*fs, **sets):  # sets=False
        @raise TypeError: Some B{C{fs}} is not C{scalar}.
     '''
     fl = []
+    _a = fl.append
     _f = _floats.setdefault if _xkwds_get(sets, sets=False) else \
          _floats.get
     try:
         for i, f in enumerate(fs):
             f = float(f)
-            fl.append(_f(f, f))
+            _a(_f(f, f))
     except Exception as x:
         E, t = _xError2(x)
         fs_i =  Fmt.SQUARE(fs=i)
@@ -98,10 +124,24 @@ def _floatuple(*fs):
     return tuple(map(_float, fs))
 
 
-def _1_over(x):
-    '''(INTERNAL) Return reciprocal C{1 / B{x}}.
+def _over(p, q):
+    '''(INTERNAL) Return C{B{p} / B{q}} avoiding ZeroDivisionError exceptions.
     '''
-    return _float(_1_0 / float(x))
+    r = (-p) if q < 0 else p
+    if q:
+        if isinf(q):
+            r = _copysign_0_0(r) if isfinite(r) else NAN
+        elif p:
+            r = p / q
+    else:
+        r = _copysignINF(r) if isfinite(r) else NAN
+    return r
+
+
+def _1_over(x):
+    '''(INTERNAL) Return reciprocal C{1 / B{x}} avoiding ZeroDivisionError exceptions.
+    '''
+    return _over(_1_0, float(x))
 
 
 _floats  = {}     # PYCHOK floats cache, in .__main__
@@ -162,20 +202,20 @@ try:
     EPS      = _Float(EPS     =_f_i.epsilon)   # PYCHOK system's EPSilon
     MANT_DIG =  Int(  MANT_DIG=_f_i.mant_dig)  # PYCHOK system's float mantissa bits
     MAX      = _Float(MAX     =_f_i.max)       # PYCHOK system's MAX float 1.7976931348623157e+308
-#   MAX_EXP  =  Int(  MAX_EXP =_f_i.max_exp)   # PYTHON system's max base 2 exponent
+    MAX_EXP  =  Int(  MAX_EXP =_f_i.max_exp)   # PYTHON system's max base 2 exponent
     MIN      = _Float(MIN     =_f_i.min)       # PYCHOK system's MIN float 2.2250738585072014e-308
-#   MIN_EXP  =  Int(  MIN_EXP =_f_i.min_exp)   # PYTHON system's min base 2 exponent
+    MIN_EXP  =  Int(  MIN_EXP =_f_i.min_exp)   # PYTHON system's min base 2 exponent
 #   RADIX    =  Int(  RADIX   =_f_i.radix)     # PYTHON system's float base
     del _f_i
 except ImportError:  # PYCHOK no cover
-    DIG      =  Int(  DIG     =15)    # PYCHOK system's 64-bit float decimal digits
+    DIG      =  Int(  DIG     =15)          # PYCHOK system's 64-bit float decimal digits
     EPS      = _Float(EPS     =2.220446049250313e-16)  # PYCHOK EPSilon 2**-52, M{EPS +/- 1 != 1}
-    MANT_DIG =  Int(  MANT_DIG=53)     # PYCHOK float mantissa bits ≈ 53 (C{int})
+    MANT_DIG =  Int(  MANT_DIG=53)          # PYCHOK float mantissa bits ≈ 53 (C{int})
     MAX      = _Float(MAX     =pow(_2_0,  1023) * (_2_0 - EPS))  # PYCHOK ≈ 10**308
-#   MAX_EXP  =  Int(  MAX_ESP =1024)   # 308 base 10
+    MAX_EXP  =  Int(  MAX_ESP =_log2(MAX))  # 308 base 10
     MIN      = _Float(MIN     =pow(_2_0, -1021))  # PYCHOK ≈ 10**-308
-#   MIN_EXP  =  Int(MIN_EXP   =-1021)  # -307 base 10
-#   RADIX    =  Int(Radix     =2)      # base
+    MIN_EXP  =  Int(MIN_EXP   =_log2(MIN))  # -307 base 10
+#   RADIX    =  Int(Radix     =2)           # base
 
 EPS0     = _Float( EPS0   = EPS**2)         # PYCHOK near-/non-zero comparison 4.930381e-32, or EPS or EPS_2
 EPS02    = _Float( EPS02  = EPS**4)         # PYCHOK near-zero-squared comparison 2.430865e-63
@@ -195,7 +235,7 @@ _EPStol  = _Float(_EPStol =_EPSqrt * _0_1)  # PYCHOK = 1.49011611938e5-09 == sqr
 _89_999_ = _Float(_89_999_= EPS1 * _90_0)   # just below 90.0
 # <https://Numbers.Computation.Free.FR/Constants/Miscellaneous/digits.html>
 _1__90   = _Float(_1__90  =_1_0 / _90_0)    # PYCHOK = 0.011_111_111_111_111_111_111_111_111_111_111_111_111_111_111_11111
-_2__PI   = _Float(_2__PI  =_2_0 / _pi)      # PYCHOK = 0.636_619_772_367_581_343_075_535_053_490_057_448_137_838_582_96182
+_2__PI   = _Float(_2__PI  =_2_0 / _PI)      # PYCHOK = 0.636_619_772_367_581_343_075_535_053_490_057_448_137_838_582_96182
 
 _1_16th  = _Float(_1_16th =_1_0 / _16_0)  # PYCHOK in .ellipsoids, .karney
 _1_64th  = _Float(_1_64th =_1_0 /  64)    # PYCHOK in .elliptic, pow(2.0, -6)
@@ -214,14 +254,14 @@ NAN   =  Float(NAN =_nan)    # PYCHOK Not-A-Number, see function L{isnan}, NOT _
 NEG0  =  Float(NEG0=_N_0_0)  # PYCHOK NEGative 0.0, see function L{isneg0}, NOT _Float!
 NINF  =  Float(NINF=-INF)    # PYCHOK Negative INFinity, NOT _Float!
 
-PI    = _Float(PI   =_pi)
-PI2   = _Float(PI2  =_pi * _2_0)  # PYCHOK Two PI, M{PI * 2} aka I{Tau}
-PI_2  = _Float(PI_2 =_pi / _2_0)  # PYCHOK Half PI, M{PI / 2}
-PI3   = _Float(PI3  =_pi * _3_0)  # PYCHOK Three PI, M{PI * 3}
-PI3_2 = _Float(PI3_2=_pi * _1_5)  # PYCHOK PI and a half, M{PI * 3 / 2}
-PI_3  = _Float(PI_3 =_pi / _3_0)  # PYCHOK One third PI, M{PI / 3}
-PI4   = _Float(PI4  =_pi * _4_0)  # PYCHOK Four PI, M{PI * 4}
-PI_4  = _Float(PI_4 =_pi / _4_0)  # PYCHOK Quarter PI, M{PI / 4}
+PI    = _Float(PI   =_PI)
+PI2   = _Float(PI2  =_PI * _2_0)  # PYCHOK Two PI, M{PI * 2} aka I{Tau}
+PI_2  = _Float(PI_2 =_PI / _2_0)  # PYCHOK Half PI, M{PI / 2}
+PI3   = _Float(PI3  =_PI * _3_0)  # PYCHOK Three PI, M{PI * 3}
+PI3_2 = _Float(PI3_2=_PI * _1_5)  # PYCHOK PI and a half, M{PI * 3 / 2}
+PI_3  = _Float(PI_3 =_PI / _3_0)  # PYCHOK One third PI, M{PI / 3}
+PI4   = _Float(PI4  =_PI * _4_0)  # PYCHOK Four PI, M{PI * 4}
+PI_4  = _Float(PI_4 =_PI / _4_0)  # PYCHOK Quarter PI, M{PI / 4}
 
 R_MA  = _Radius(R_MA=6378137.0)       # PYCHOK equatorial earth radius (C{meter}), WGS84, EPSG:3785
 R_MB  = _Radius(R_MB=6356752.3)       # PYCHOK polar earth radius (C{meter}), WGS84, EPSG:3785
@@ -361,8 +401,8 @@ def isneg0(x):
        @return: C{True} if B{C{x}} is C{NEG0} or C{-0.0},
                 C{False} otherwise.
     '''
-    return x in (_0_0, NEG0) and _copysign(1, x) < 0
-#                            and str(x).startswith(_MINUS_)
+    return (not x) and _copysign(1, x) < 0
+#                  and str(x).startswith(_MINUS_)
 
 
 def isninf(x):

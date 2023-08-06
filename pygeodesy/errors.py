@@ -20,8 +20,8 @@ from pygeodesy.interns import MISSING, NN, _a_, _an_, _and_, _clip_, \
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _getenv, \
                              _pairs, _PYTHON_X_DEV
 
-__all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')  _UNDER
-__version__ = '23.05.12'
+__all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')  _under
+__version__ = '23.08.05'
 
 _box_        = 'box'
 _default_    = 'default'
@@ -154,6 +154,12 @@ class _ZeroDivisionError(ZeroDivisionError):
         _error_init(ZeroDivisionError, self, args, **kwds)
 
 
+class AuxError(_ValueError):
+    '''Error raised for an L{rhumbaux} C{Aux}, C{AuxDLat} or C{AuxLat} issue.
+    '''
+    pass
+
+
 class ClipError(_ValueError):
     '''Clip box or clip region issue.
     '''
@@ -177,6 +183,13 @@ class ClipError(_ValueError):
 class CrossError(_ValueError):
     '''Error raised for zero or near-zero vectorial cross products,
        occurring for coincident or colinear points, lines or bearings.
+    '''
+    pass
+
+
+class GeodesicError(_ValueError):
+    '''Error raised for L{pygeodesy.geodesicx} lack of convergence
+       or other L{pygeodesy.geodesicx} or L{pygeodesy.karney} issues.
     '''
     pass
 
@@ -259,6 +272,13 @@ class RangeError(_ValueError):
        L{pygeodesy.clipRadians}.
 
        @see: Function L{pygeodesy.rangerrors}.
+    '''
+    pass
+
+
+class RhumbError(_ValueError):
+    '''Error raised for L{pygeodesy.rhumbaux}, L{pygeodesy.rhumbsolve}
+       or L{pygeodesy.rhumbx} issues.
     '''
     pass
 
@@ -748,6 +768,16 @@ def _xkwds_popitem(name_value):
     if len(name_value) == 1:  # XXX TypeError
         return name_value.popitem()  # XXX AttributeError
     raise _xkwds_Error(_xkwds_popitem, (), name_value, txt=_value_)
+
+
+def _Xorder(_Coeffs, Error, **Xorder):  # in .ktm, .rhumbBase
+    '''(INTERNAL) Validate C{RAorder} or C{TMorder}.
+    '''
+    X, m = Xorder.popitem()
+    if m in _Coeffs and _MODS.basics.isint(m):
+        return m
+    t = sorted(map(str, _Coeffs.keys()))
+    raise Error(X, m, txt=_not_(_or(*t)))
 
 
 def _xzip(*args, **strict):  # PYCHOK no cover

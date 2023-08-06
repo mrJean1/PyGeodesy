@@ -141,6 +141,23 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoids.Ellipsoid-class.html#__hash__" class="summary-sig-name">__hash__</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      hash(x)</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoids.Ellipsoid-class.html#auxAuthalic" class="summary-sig-name">auxAuthalic</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">lat</span>,
         <span class="summary-sig-arg">inverse</span>=<span class="summary-sig-default">False</span>)</span><br />
@@ -458,6 +475,25 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoids.Ellipsoid-class.html#geodesic_" class="summary-sig-name">geodesic_</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">exact</span>=<span class="summary-sig-default">True</span>)</span><br />
+      Get the an <i>exact</i> <code>Geodesic...</code> instance for this 
+      ellipsoid.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoids.Ellipsoid-class.html#hartzell4" class="summary-sig-name">hartzell4</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">pov</span>,
         <span class="summary-sig-arg">los</span>=<span class="summary-sig-default">None</span>)</span><br />
@@ -599,6 +635,25 @@
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoids.Ellipsoid-class.html#Rgeocentric" class="summary-sig-name">Rgeocentric</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">lat</span>)</span><br />
       Compute the <i>geocentric</i> earth radius of (geodetic) latitude.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoids.Ellipsoid-class.html#rhumb_" class="summary-sig-name">rhumb_</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">exact</span>=<span class="summary-sig-default">True</span>)</span><br />
+      Get the an <i>exact</i> <code>Rhumb...</code> instance for this 
+      ellipsoid.</td>
           <td align="right" valign="top">
             
             
@@ -889,7 +944,6 @@
       <code>__delattr__</code>,
       <code>__format__</code>,
       <code>__getattribute__</code>,
-      <code>__hash__</code>,
       <code>__new__</code>,
       <code>__reduce__</code>,
       <code>__reduce_ex__</code>,
@@ -1299,9 +1353,17 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#geodesic" class="summary-name">geodesic</a><br />
+      DEPRECATED, use property <code>geodesicw</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#geodesicw" class="summary-name">geodesicw</a><br />
       Get this ellipsoid's <i>wrapped</i> <a 
       href="https://GeographicLib.SourceForge.io/Python/doc/code.html" 
-      target="_top">geodesic.Geodesic</a>, provided <i>Karney</i>'s <a 
+      target="_top">geodesicw.Geodesic</a>, provided <i>Karney</i>'s <a 
       href="https://PyPI.org/project/geographiclib" 
       target="_top">geographiclib</a> package is installed.
     </td>
@@ -1327,7 +1389,7 @@
       href="https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html" 
       target="_top">GeodSolve</a>, provided the path to the 
       <code>GeodSolve</code> executable is specified with env variable 
-      <code>PYGEODESY_GEODSOLVE</code>.
+      <code>PYGEODESY_GEODSOLVE</code> or re-/set with this property..
     </td>
   </tr>
 <tr>
@@ -1396,7 +1458,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#minoradius" class="summary-name">minoradius</a><br />
-      DEPRECATED, use property <code>b</code> or <code>Rpolar</code>.
+      DEPRECATED, use property <code>b</code>, <code>polaradius</code> or 
+      <code>Rpolar</code>.
     </td>
   </tr>
 <tr>
@@ -1565,6 +1628,14 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#rhumbaux" class="summary-name">rhumbaux</a><br />
+      Get this ellipsoid's <i>Auxiliary</i> <code>rhumbaux.RhumbAux</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#rhumbsolve" class="summary-name">rhumbsolve</a><br />
       Get this ellipsoid's <a 
       href="pygeodesy.rhumbsolve.RhumbSolve-class.html" 
@@ -1572,7 +1643,7 @@
       href="https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html" 
       target="_top">RhumbSolve</a>, provided the path to the 
       <code>RhumbSolve</code> executable is specified with env variable 
-      <code>PYGEODESY_RHUMBSOLVE</code>.
+      <code>PYGEODESY_RHUMBSOLVE</code> or re-/set with this property.
     </td>
   </tr>
 <tr>
@@ -1580,8 +1651,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#rhumbx" class="summary-name">rhumbx</a><br />
-      Get this ellipsoid's <a href="pygeodesy.rhumbx.Rhumb-class.html" 
-      class="link">Rhumb</a>.
+      Get this ellipsoid's <i>Elliptic</i> <code>rhumbx.Rhumb</code>.
     </td>
   </tr>
 <tr>
@@ -1590,6 +1660,27 @@
     </td><td class="summary">
         <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#Rpolar" class="summary-name">Rpolar</a><br />
       Get the <i>polar</i> radius, semi-axis (<code>meter</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#rocEquatorial2" class="summary-name">rocEquatorial2</a><br />
+      Get the <i>meridional</i> and <i>prime-vertical</i>, <i>normal</i> 
+      radii of curvature at the equator as <a 
+      href="pygeodesy.ellipsoids.Curvature2Tuple-class.html" 
+      class="link">Curvature2Tuple</a><code>(meridional, 
+      prime_vertical)</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#rocPolar" class="summary-name">rocPolar</a><br />
+      Get the <i>polar</i> meridional (or polar) radius of curvature 
+      (<code>meter</code>), <i class="math">a**2 / b</i>.
     </td>
   </tr>
 <tr>
@@ -1616,27 +1707,6 @@
         <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#Rrectifying" class="summary-name">Rrectifying</a><br />
       Get the <i>rectifying</i> earth radius (<code>meter</code>), <i 
       class="math">((a**(3/2) + b**(3/2)) / 2)**(2/3)</i>.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#rocEquatorial2" class="summary-name">rocEquatorial2</a><br />
-      Get the <i>meridional</i> and <i>prime-vertical</i>, <i>normal</i> 
-      radii of curvature at the equator as <a 
-      href="pygeodesy.ellipsoids.Curvature2Tuple-class.html" 
-      class="link">Curvature2Tuple</a><code>(meridional, 
-      prime_vertical)</code>.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#rocPolar" class="summary-name">rocPolar</a><br />
-      Get the <i>polar</i> meridional (or polar) radius of curvature 
-      (<code>meter</code>), <i class="math">a**2 / b</i>.
     </td>
   </tr>
 <tr>
@@ -1777,6 +1847,30 @@
     </ul></dd>
     <dt>Returns:</dt>
         <dd><code>True</code> if equal, <code>False</code> otherwise.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="__hash__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__hash__</span>&nbsp;(<span class="sig-arg">self</span>)</span>
+    <br /><em class="fname">(Hashing function)</em>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>hash(x)</p>
+  <dl class="fields">
+    <dt>Overrides:
+        object.__hash__
+        <dd><em class="note">(inherited documentation)</em></dd>
+    </dt>
   </dl>
 </td></tr></table>
 </div>
@@ -2394,6 +2488,50 @@
       </p>
 </div></td></tr></table>
 </div>
+<a name="geodesic_"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">geodesic_</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">exact</span>=<span class="sig-default">True</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Get the an <i>exact</i> <code>Geodesic...</code> instance for this 
+  ellipsoid.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>exact</code></strong> - If <code>bool</code> return <a 
+          href="pygeodesy.geodesicx.gx.GeodesicExact-class.html" 
+          class="link">GeodesicExact</a><code>(exact=<b>exact</b>, 
+          ...)</code>, otherwise a <code>geodesic</code> for this ellipsoid
+          (<code>.geodesicw</code>, <code>.geodesicx</code>, 
+          <code>.geodsolve</code>) or an other <a 
+          href="pygeodesy.geodesicw-module.html#Geodesic" 
+          class="link">Geodesic</a>, <a 
+          href="pygeodesy.geodesicx.gx.GeodesicExact-class.html" 
+          class="link">GeodesicExact</a> or <a 
+          href="pygeodesy.geodsolve.GeodesicSolve-class.html" 
+          class="link">GeodesicSolve</a> instance for <i>this</i> 
+          ellipsoid.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The <code>exact</code> geodesic (<code>Geodesic...</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>exact</code></b>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Incompatible <b><code>exact</code></b> ellipsoid.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="hartzell4"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -2429,10 +2567,11 @@
         <dd><a href="pygeodesy.namedTuples.Vector4Tuple-class.html" 
           class="link">Vector4Tuple</a><code>(x, y, z, h)</code> with the 
           cartesian coordinates <code>x</code>, <code>y</code> and 
-          <code>z</code> of the projection on or the intersection with and 
-          the <i>distance</i> <code>h</code> from <b><code>pov</code></b> 
-          to <code>(x, y, z)</code> along <b><code>los</code></b>, all in 
-          <code>meter</code>, conventionally.</dd>
+          <code>z</code> of the projection on or the intersection with this
+          ellipsoid and the <i>distance</i> <code>h</code> from 
+          <b><code>pov</code></b> to <code>(x, y, z)</code> along 
+          <b><code>los</code></b>, all in <code>meter</code>, 
+          conventionally.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - Null <b><code>pov</code></b> or <b><code>los</code></b> vector, or 
@@ -2716,6 +2855,48 @@
         target="_top">Geocentric Radius</a>
       </p>
 </div></td></tr></table>
+</div>
+<a name="rhumb_"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">rhumb_</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">exact</span>=<span class="sig-default">True</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Get the an <i>exact</i> <code>Rhumb...</code> instance for this 
+  ellipsoid.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>exact</code></strong> - If <code>bool</code> or <code>None</code> return <a 
+          href="pygeodesy.rhumbx.Rhumb-class.html" 
+          class="link">Rhumb</a><code>(exact=<b>exact</b>, ...)</code>, 
+          otherwise a <code>rhumb</code> for this ellipsoid 
+          (<code>.rhumbaux</code>, <code>.rhumbsolve</code>, 
+          <code>.rhumbx</code>) or an other <a 
+          href="pygeodesy.rhumbx.Rhumb-class.html" class="link">Rhumb</a>, 
+          <a href="pygeodesy.rhumbaux.RhumbAux-class.html" 
+          class="link">RhumbAux</a> or <a 
+          href="pygeodesy.rhumbsolve.RhumbSolve-class.html" 
+          class="link">RhumbSolve</a> instance for <i>this</i> ellipsoid.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The <code>exact</code> rhumb (<code>Rhumb...</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>exact</code></b>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Incompatible <b><code>exact</code></b> ellipsoid.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
 </div>
 <a name="Rlat"></a>
 <div>
@@ -4448,17 +4629,41 @@ f</i> == <i class="math">a / (a - b)</i>, <code>0</code> for spherical, see
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">geodesic</h3>
+  <p>DEPRECATED, use property <code>geodesicw</code>.</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">geodesic(<span class="summary-sig-arg">self</span>)</span>
+        - DEPRECATED, use property <code>geodesicw</code>.
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="geodesicw"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">geodesicw</h3>
   <p>Get this ellipsoid's <i>wrapped</i> <a 
   href="https://GeographicLib.SourceForge.io/Python/doc/code.html" 
-  target="_top">geodesic.Geodesic</a>, provided <i>Karney</i>'s <a 
+  target="_top">geodesicw.Geodesic</a>, provided <i>Karney</i>'s <a 
   href="https://PyPI.org/project/geographiclib" 
   target="_top">geographiclib</a> package is installed.</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">geodesic(<span class="summary-sig-arg">self</span>)</span>
+    <dd class="value"><span class="summary-sig">geodesicw(<span class="summary-sig-arg">self</span>)</span>
         - Get this ellipsoid's <i>wrapped</i> <a 
 href="https://GeographicLib.SourceForge.io/Python/doc/code.html" 
-target="_top">geodesic.Geodesic</a>, provided <i>Karney</i>'s <a 
+target="_top">geodesicw.Geodesic</a>, provided <i>Karney</i>'s <a 
 href="https://PyPI.org/project/geographiclib" 
 target="_top">geographiclib</a> package is installed.
     </dd>
@@ -4514,7 +4719,7 @@ class="link">GeodesicExact</a>.
   href="https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html" 
   target="_top">GeodSolve</a>, provided the path to the 
   <code>GeodSolve</code> executable is specified with env variable 
-  <code>PYGEODESY_GEODSOLVE</code>.</p>
+  <code>PYGEODESY_GEODSOLVE</code> or re-/set with this property..</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">geodsolve(<span class="summary-sig-arg">self</span>)</span>
@@ -4523,16 +4728,15 @@ class="link">GeodesicSolve</a>, the <i>wrapper</i> around utility <a
 href="https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html" 
 target="_top">GeodSolve</a>, provided the path to the 
 <code>GeodSolve</code> executable is specified with env variable 
-<code>PYGEODESY_GEODSOLVE</code>.
+<code>PYGEODESY_GEODSOLVE</code> or re-/set with this property..
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">val</span>)</span>
-        - Throws an <code>AttributeError</code>, always.
-    </dd>
-    <dt>Delete Method:</dt>
-    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
-        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    <dd class="value"><span class="summary-sig">geodsolve(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">path</span>)</span>
+        - Re-/set the (fully qualified) path to the <a 
+href="https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html" 
+target="_top">GeodSolve</a> executable, overriding env variable 
+<code>PYGEODESY_GEODSOLVE</code> (<code>str</code>).
     </dd>
   </dl>
 </td></tr></table>
@@ -4718,11 +4922,13 @@ distance</code> along a meridian between the equator and a pole
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">minoradius</h3>
-  <p>DEPRECATED, use property <code>b</code> or <code>Rpolar</code>.</p>
+  <p>DEPRECATED, use property <code>b</code>, <code>polaradius</code> or 
+  <code>Rpolar</code>.</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">minoradius(<span class="summary-sig-arg">self</span>)</span>
-        - DEPRECATED, use property <code>b</code> or <code>Rpolar</code>.
+        - DEPRECATED, use property <code>b</code>, <code>polaradius</code> or 
+<code>Rpolar</code>.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -5239,28 +5445,18 @@ class="math">sqrt(a * b)</i>.
       </p>
 </div></td></tr></table>
 </div>
-<a name="rhumbsolve"></a>
+<a name="rhumbaux"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
-  <h3 class="epydoc">rhumbsolve</h3>
-  <p>Get this ellipsoid's <a 
-  href="pygeodesy.rhumbsolve.RhumbSolve-class.html" 
-  class="link">RhumbSolve</a>, the <i>wrapper</i> around utility <a 
-  href="https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html" 
-  target="_top">RhumbSolve</a>, provided the path to the 
-  <code>RhumbSolve</code> executable is specified with env variable 
-  <code>PYGEODESY_RHUMBSOLVE</code>.</p>
+  <h3 class="epydoc">rhumbaux</h3>
+  <p>Get this ellipsoid's <i>Auxiliary</i> 
+  <code>rhumbaux.RhumbAux</code>.</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">rhumbsolve(<span class="summary-sig-arg">self</span>)</span>
-        - Get this ellipsoid's <a href="pygeodesy.rhumbsolve.RhumbSolve-class.html" 
-class="link">RhumbSolve</a>, the <i>wrapper</i> around utility <a 
-href="https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html" 
-target="_top">RhumbSolve</a>, provided the path to the 
-<code>RhumbSolve</code> executable is specified with env variable 
-<code>PYGEODESY_RHUMBSOLVE</code>.
+    <dd class="value"><span class="summary-sig">rhumbaux(<span class="summary-sig-arg">self</span>)</span>
+        - Get this ellipsoid's <i>Auxiliary</i> <code>rhumbaux.RhumbAux</code>.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -5274,19 +5470,51 @@ target="_top">RhumbSolve</a>, provided the path to the
   </dl>
 </td></tr></table>
 </div>
+<a name="rhumbsolve"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">rhumbsolve</h3>
+  <p>Get this ellipsoid's <a 
+  href="pygeodesy.rhumbsolve.RhumbSolve-class.html" 
+  class="link">RhumbSolve</a>, the <i>wrapper</i> around utility <a 
+  href="https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html" 
+  target="_top">RhumbSolve</a>, provided the path to the 
+  <code>RhumbSolve</code> executable is specified with env variable 
+  <code>PYGEODESY_RHUMBSOLVE</code> or re-/set with this property.</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">rhumbsolve(<span class="summary-sig-arg">self</span>)</span>
+        - Get this ellipsoid's <a href="pygeodesy.rhumbsolve.RhumbSolve-class.html" 
+class="link">RhumbSolve</a>, the <i>wrapper</i> around utility <a 
+href="https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html" 
+target="_top">RhumbSolve</a>, provided the path to the 
+<code>RhumbSolve</code> executable is specified with env variable 
+<code>PYGEODESY_RHUMBSOLVE</code> or re-/set with this property.
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">rhumbsolve(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">path</span>)</span>
+        - Re-/set the (fully qualified) path to the <a 
+href="https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html" 
+target="_top">RhumbSolve</a> executable, overriding env variable 
+<code>PYGEODESY_RHUMBSOLVE</code> (<code>str</code>).
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="rhumbx"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">rhumbx</h3>
-  <p>Get this ellipsoid's <a href="pygeodesy.rhumbx.Rhumb-class.html" 
-  class="link">Rhumb</a>.</p>
+  <p>Get this ellipsoid's <i>Elliptic</i> <code>rhumbx.Rhumb</code>.</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">rhumbx(<span class="summary-sig-arg">self</span>)</span>
-        - Get this ellipsoid's <a href="pygeodesy.rhumbx.Rhumb-class.html" 
-class="link">Rhumb</a>.
+        - Get this ellipsoid's <i>Elliptic</i> <code>rhumbx.Rhumb</code>.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -5323,85 +5551,6 @@ class="link">Rhumb</a>.
     </dd>
   </dl>
 </td></tr></table>
-</div>
-<a name="Rquadratic"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">Rquadratic</h3>
-  <p>DEPRECATED, use property <code>Rbiaxial</code> or 
-  <code>Rtriaxial</code>.</p>
-  <dl class="fields">
-    <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">Rquadratic(<span class="summary-sig-arg">self</span>)</span>
-        - DEPRECATED, use property <code>Rbiaxial</code> or <code>Rtriaxial</code>.
-    </dd>
-    <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">val</span>)</span>
-        - Throws an <code>AttributeError</code>, always.
-    </dd>
-    <dt>Delete Method:</dt>
-    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
-        - Zap the <i>cached/memoized</i> <code>property</code> value.
-    </dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="Rr"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">Rr</h3>
-  <p>DEPRECATED, use property <code>Rrectifying</code>.</p>
-  <dl class="fields">
-    <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">Rr(<span class="summary-sig-arg">self</span>)</span>
-        - DEPRECATED, use property <code>Rrectifying</code>.
-    </dd>
-    <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">val</span>)</span>
-        - Throws an <code>AttributeError</code>, always.
-    </dd>
-    <dt>Delete Method:</dt>
-    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
-        - Zap the <i>cached/memoized</i> <code>property</code> value.
-    </dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="Rrectifying"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">Rrectifying</h3>
-  <p>Get the <i>rectifying</i> earth radius (<code>meter</code>), <i 
-  class="math">((a**(3/2) + b**(3/2)) / 2)**(2/3)</i>.</p>
-  <dl class="fields">
-    <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">Rrectifying(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>rectifying</i> earth radius (<code>meter</code>), <i 
-class="math">((a**(3/2) + b**(3/2)) / 2)**(2/3)</i>.
-    </dd>
-    <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">val</span>)</span>
-        - Throws an <code>AttributeError</code>, always.
-    </dd>
-    <dt>Delete Method:</dt>
-    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
-        - Zap the <i>cached/memoized</i> <code>property</code> value.
-    </dd>
-  </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        <a href="https://WikiPedia.org/wiki/Earth_radius" 
-        target="_top">Earth radius</a>.
-      </p>
-</div></td></tr></table>
 </div>
 <a name="rocEquatorial2"></a>
 <div>
@@ -5490,6 +5639,85 @@ class="link">Curvature2Tuple</a><code>(meridional, prime_vertical)</code>.
         class="link">R2</a> or <a 
         href="pygeodesy.ellipsoids.Ellipsoid-class.html#R2" 
         class="link">Rauthalic</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="Rquadratic"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">Rquadratic</h3>
+  <p>DEPRECATED, use property <code>Rbiaxial</code> or 
+  <code>Rtriaxial</code>.</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">Rquadratic(<span class="summary-sig-arg">self</span>)</span>
+        - DEPRECATED, use property <code>Rbiaxial</code> or <code>Rtriaxial</code>.
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="Rr"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">Rr</h3>
+  <p>DEPRECATED, use property <code>Rrectifying</code>.</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">Rr(<span class="summary-sig-arg">self</span>)</span>
+        - DEPRECATED, use property <code>Rrectifying</code>.
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="Rrectifying"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">Rrectifying</h3>
+  <p>Get the <i>rectifying</i> earth radius (<code>meter</code>), <i 
+  class="math">((a**(3/2) + b**(3/2)) / 2)**(2/3)</i>.</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">Rrectifying(<span class="summary-sig-arg">self</span>)</span>
+        - Get the <i>rectifying</i> earth radius (<code>meter</code>), <i 
+class="math">((a**(3/2) + b**(3/2)) / 2)**(2/3)</i>.
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a href="https://WikiPedia.org/wiki/Earth_radius" 
+        target="_top">Earth radius</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -5608,7 +5836,7 @@ class="math">4 / 3 * PI * R3**3</i>.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Jul 12 13:24:18 2023
+    Generated by Epydoc 3.0.1 on Sun Aug  6 15:10:41 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

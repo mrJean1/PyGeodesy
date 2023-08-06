@@ -71,7 +71,7 @@ from pygeodesy.utily import asin1, atan2b, atan2d, sincos2, \
 from math import acos, atan, atan2, degrees, fabs, sin, sqrt
 
 __all__ = _ALL_LAZY.azimuthal
-__version__ = '23.04.11'
+__version__ = '23.07.10'
 
 _EPS_K         = _EPStol * _0_1  # Karney's eps_ or _EPSmin * _0_1?
 _over_horizon_ = 'over horizon'
@@ -494,7 +494,7 @@ class _EquidistantBase(_AzimuthalGeodesic):
                   the original C{lat, lon} to within roundoff.
        '''
         r = self.geodesic.Inverse(self.lat0, self.lon0,
-                                  Lat_(lat), Lon_(lon), self._mask)
+                                  Lat_(lat), Lon_(lon), outmask=self._mask)
         x, y = sincos2d(r.azi1)
         return self._7Tuple(x * r.s12, y * r.s12, r, name=name)
 
@@ -519,7 +519,7 @@ class _EquidistantBase(_AzimuthalGeodesic):
         '''
         e, n, z, s = _enzh4(x, y)
 
-        r = self.geodesic.Direct(self.lat0, self.lon0, z, s, self._mask)
+        r = self.geodesic.Direct(self.lat0, self.lon0, z, s, outmask=self._mask)
         return self._7Tuple(e, n, r, name=name) if LatLon is None else \
                self._toLatLon(r.lat2, r.lon2, LatLon, LatLon_kwds, name)
 
@@ -764,7 +764,7 @@ class _GnomonicBase(_AzimuthalGeodesic):
         self._iteration = 0
 
         r = self.geodesic.Inverse(self.lat0, self.lon0,
-                                  Lat_(lat), Lon_(lon), self._mask)
+                                  Lat_(lat), Lon_(lon), outmask=self._mask)
         M = r.M21
         if M > EPS0:
             q = r.m12 / M  # .M12
@@ -821,7 +821,7 @@ class _GnomonicBase(_AzimuthalGeodesic):
         _P  = g.Line(self.lat0, self.lon0, z, m | g.LINE_OFF).Position
         _S2 = Fsum(s).fsum2_
         for i in range(1, _TRIPS):
-            r = _P(s, m)
+            r = _P(s, outmask=m)
             if fabs(d) < a:
                 break
             s, d = _S2(_d(r, q))

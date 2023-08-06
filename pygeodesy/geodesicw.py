@@ -16,10 +16,11 @@ L{pygeodesy.geodesicx} and L{pygeodesy.karney} will use U{GeographicLib 2.0
 # from pygeodesy.basics import _xinstanceof  # from .karney
 # from pygeodesy.constants import NAN  # from .karney
 # from pygeodesy.datums import _a_ellipsoid  # from .karney
-from pygeodesy.interns import NN, _DOT_, _UNDER
+# from pygeodesy.errors import _xkwds  # from .karney
+from pygeodesy.interns import NN, _DOT_, _under
 from pygeodesy.karney import _a_ellipsoid, _atan2d, Caps, Direct9Tuple, \
                              _EWGS84, fabs, GDict, GeodesicError, Inverse10Tuple, \
-                             _kWrapped, NAN,  _xinstanceof  # PYCHOK used!
+                             _kWrapped, NAN,  _xinstanceof, _xkwds  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import callername, classname,  unstr
 from pygeodesy.namedTuples import Destination3Tuple, Distance3Tuple
@@ -31,7 +32,7 @@ from contextlib import contextmanager
 # from math import fabs  # from .karney
 
 __all__ = _ALL_LAZY.geodesicw
-__version__ = '23.05.12'
+__version__ = '23.08.05'
 
 
 class _gWrapped(_kWrapped):
@@ -45,9 +46,8 @@ class _gWrapped(_kWrapped):
            U{geographiclib<https://GitHub.com/geographiclib/geographiclib-python>},
            provided the latter is installed.
         '''
-        _Geodesic =  self.geographiclib.Geodesic
-        _DIRECT3  = _Geodesic.AZIMUTH | _Geodesic.LATITUDE | _Geodesic.LONGITUDE
-        _INVERSE3 = _Geodesic.AZIMUTH | _Geodesic.DISTANCE
+        _Geodesic = self.geographiclib.Geodesic
+        # assert Caps._STD == _Geodesic.STANDARD
 
         class Geodesic(_Geodesic):
             '''I{Wrapper} for I{Karney}'s Python U{geodesic.Geodesic
@@ -71,14 +71,17 @@ class _gWrapped(_kWrapped):
                 with _wargs(self, *self.ellipsoid.a_f, name=name) as args:
                     _Geodesic.__init__(self, *args)
 
-            def ArcDirect(self, lat1, lon1, azi1, a12, *outmask):
+            def ArcDirect(self, lat1, lon1, azi1, a12, outmask=Caps._STD):
                 '''Return the C{_Geodesic.ArcDirect} result as L{GDict}.
                 '''
-                with _wargs(self, lat1, lon1, azi1, a12, *outmask) as args:
+                with _wargs(self, lat1, lon1, azi1, a12, outmask) as args:
                     d = _Geodesic.ArcDirect(self, *args)
                 return GDict(d)
 
-#           ArcDirectLine = _Geodesic.ArcDirectLine  # via ._GenDirectLine
+            def ArcDirectLine(self, lat1, lon1, azi1, a12, caps=Caps._STD_LINE):
+                '''Return the C{_Geodesic.ArcDirectLine} as I{wrapped} C{GeodesicLine}.
+                '''
+                return self._GenDirectLine(lat1, lon1, azi1, True, a12, caps)
 
             Area = _Geodesic.Polygon  # like GeodesicExact.Area
 
@@ -95,10 +98,10 @@ class _gWrapped(_kWrapped):
                 '''
                 self._debug = Caps._DEBUG_ALL if debug else 0
 
-            def Direct(self, lat1, lon1, azi1, s12, *outmask):
+            def Direct(self, lat1, lon1, azi1, s12, outmask=Caps._STD):
                 '''Return the C{_Geodesic.Direct} result as L{GDict}.
                 '''
-                with _wargs(self, lat1, lon1, azi1, s12, *outmask) as args:
+                with _wargs(self, lat1, lon1, azi1, s12, outmask) as args:
                     d = _Geodesic.Direct(self, *args)
                 return GDict(d)
 
@@ -106,10 +109,13 @@ class _gWrapped(_kWrapped):
                 '''Return the destination lat, lon and reverse azimuth
                    in C{degrees} as L{Destination3Tuple}.
                 '''
-                d = self.Direct(lat1, lon1, azi1, s12, _DIRECT3)
+                d = self.Direct(lat1, lon1, azi1, s12, outmask=Caps._DIRECT3)
                 return Destination3Tuple(d.lat2, d.lon2, d.azi2)
 
-#           DirectLine = _Geodesic.DirectLine  # via ._GenDirectLine
+            def DirectLine(self, lat1, lon1, azi1, s12, caps=Caps._STD_LINE):
+                '''Return the C{_Geodesic.DirectLine} as I{wrapped} C{GeodesicLine}.
+                '''
+                return self._GenDirectLine(lat1, lon1, azi1, False, s12, caps)
 
             @Property_RO
             def ellipsoid(self):
@@ -121,17 +127,16 @@ class _gWrapped(_kWrapped):
             def f1(self):  # in .css.CassiniSoldner.reset
                 '''Get the geodesic's ellipsoid's I{1 - flattening} (C{float}).
                 '''
-                return getattr(self, _UNDER(Geodesic.f1.name), self.ellipsoid.f1)
+                return getattr(self, _under(Geodesic.f1.name), self.ellipsoid.f1)
 
-            def _GDictDirect(self, lat, lon, azi, arcmode, s12_a12,
-                                                  outmask=_Geodesic.STANDARD):
+            def _GDictDirect(self, lat, lon, azi, arcmode, s12_a12, outmask=Caps._STD):
                 '''(INTERNAL) Get C{_Geodesic._GenDirect} result as C{GDict}.
                 '''
                 with _wargs(self, lat, lon, azi, arcmode, s12_a12, outmask) as args:
                     t = _Geodesic._GenDirect(self, *args)
                 return Direct9Tuple(t).toGDict()  # *t
 
-            def _GDictInverse(self, lat1, lon1, lat2, lon2, outmask=_Geodesic.STANDARD):
+            def _GDictInverse(self, lat1, lon1, lat2, lon2, outmask=Caps._STD):
                 '''(INTERNAL) Get C{_Geodesic._GenInverse} result as L{Inverse10Tuple}.
                 '''
                 with _wargs(self, lat1, lon1, lat2, lon2, outmask) as args:
@@ -146,10 +151,10 @@ class _gWrapped(_kWrapped):
                     t = _Geodesic._GenDirectLine(self, *args)
                 return self._Line13(t)
 
-            def Inverse(self, lat1, lon1, lat2, lon2, *outmask):
+            def Inverse(self, lat1, lon1, lat2, lon2, outmask=Caps._STD):
                 '''Return the C{_Geodesic.Inverse} result as L{GDict}.
                 '''
-                with _wargs(self, lat1, lon1, lat2, lon2, *outmask) as args:
+                with _wargs(self, lat1, lon1, lat2, lon2, outmask) as args:
                     d = _Geodesic.Inverse(self, *args)
                 return GDict(d)
 
@@ -171,29 +176,30 @@ class _gWrapped(_kWrapped):
                 '''Return the distance in C{meter} and the forward and reverse
                    azimuths in C{degrees} as L{Distance3Tuple}.
                 '''
-                r = self.Inverse(lat1, lon1, lat2, lon2, _INVERSE3)
+                r = self.Inverse(lat1, lon1, lat2, lon2, outmask=Caps._INVERSE3)
                 return Distance3Tuple(r.s12, wrap360(r.azi1), wrap360(r.azi2))
 
-            def InverseLine(self, lat1, lon1, lat2, lon2, *caps):
+            def InverseLine(self, lat1, lon1, lat2, lon2, caps=Caps._STD_LINE):
                 '''Return the C{_Geodesic.InverseLine} as I{wrapped} C{GeodesicLine}.
                 '''
-                with _wargs(self, lat1, lon1, lat2, lon2, *caps) as args:
+                with _wargs(self, lat1, lon1, lat2, lon2, caps) as args:
                     t = _Geodesic.InverseLine(self, *args)
                 return self._Line13(t)
 
-            def Line(self, lat1, lon1, azi1, *caps):  # == *caps_salp1_calp1
+            def Line(self, lat1, lon1, azi1, caps=Caps._STD_LINE):
                 '''Set up a I{wrapped} C{GeodesicLine} to compute several points
                    along a single, I{wrapped} (this) geodesic.
                 '''
-                return _wrapped.GeodesicLine(self, lat1, lon1, azi1, *caps)
+                return _wrapped.GeodesicLine(self, lat1, lon1, azi1, caps=caps)
 
             def _Line13(self, t):
                 '''(INTERNAL) Wrap C{_GeodesicLine}, add distance and arc length
                    to reference point 3.
                 '''
-                r = self.Line(t.lat1, t.lon1, t.azi1, t.caps, t.salp1, t.calp1)
-                r.a13, r.s13 = t.a13, t.s13
-                return r
+                rl = _wrapped.GeodesicLine(self, t.lat1, t.lon1, t.azi1, caps=t.caps,
+                                           salp1=t.salp1, calp1=t.calp1)
+                rl.a13, rl.s13 = t.a13, t.s13
+                return rl
 
 #           Polygon = _Geodesic.Polygon
 
@@ -216,22 +222,22 @@ class _gWrapped(_kWrapped):
             '''I{Wrapper} for I{Karney}'s Python U{geodesicline.GeodesicLine
                <https://PyPI.org/project/geographiclib>} class.
             '''
-            def __init__(self, geodesic, lat1, lon1, azi1, *caps):
+            def __init__(self, geodesic, lat1, lon1, azi1, **caps):  # caps, salp1=NAN, calp1=NAN
                 '''New I{wrapped} C{geodesicline.GeodesicLine} instance.
 
                    @arg geodesic: A I{wrapped} C{Geodesic} instance.
                    @arg lat1: Latitude of the first points (C{degrees}).
                    @arg lon1: Longitude of the first points (C{degrees}).
                    @arg azi1: Azimuth at the first points (compass C{degrees360}).
-                   @arg caps: Optional, bit-or'ed combination of L{Caps} values
-                              specifying the capabilities the C{GeodesicLine}
-                              instance should possess, i.e., which quantities can
-                              be returned by calls to C{GeodesicLine.Position}
-                              and C{GeodesicLine.ArcPosition}.
+                   @kwarg caps: Optional, bit-or'ed combination of L{Caps} values
+                                specifying the capabilities the C{GeodesicLine}
+                                instance should possess, i.e., which quantities can
+                                be returned by calls to C{GeodesicLine.Position}
+                                and C{GeodesicLine.ArcPosition}.
                 '''
-                _xinstanceof(geodesic, _wrapped.Geodesic)
-                with _wargs(self, geodesic, lat1, lon1, azi1, *caps) as args:
-                    _GeodesicLine.__init__(self, *args)
+                _xinstanceof(_wrapped.Geodesic, geodesic=geodesic)
+                with _wargs(self, geodesic, lat1, lon1, azi1, **caps) as args:
+                    _GeodesicLine.__init__(self, *args, **caps)
 
             @Property_RO
             def a1(self):
@@ -253,10 +259,10 @@ class _gWrapped(_kWrapped):
                 '''
                 return self.a13
 
-            def ArcPosition(self, a12, *outmask):
+            def ArcPosition(self, a12, outmask=Caps._STD):
                 '''Return the position at arc length C{B{a12} degrees} on this line.
                 '''
-                with _wargs(self, a12, *outmask) as args:
+                with _wargs(self, a12, outmask) as args:
                     d = _GeodesicLine.ArcPosition(self, *args)
                 return GDict(d)
 
@@ -280,10 +286,10 @@ class _gWrapped(_kWrapped):
                 '''
                 return self.s13
 
-            def Position(self, s12, *outmask):
+            def Position(self, s12, outmask=Caps._STD):
                 '''Return the position at distance C{B{s12} meter} on this line.
                 '''
-                with _wargs(self, s12, *outmask) as args:
+                with _wargs(self, s12, outmask) as args:
                     d = _GeodesicLine.Position(self, *args)
                 return GDict(d)
 
@@ -316,7 +322,7 @@ def Geodesic(a_ellipsoid, f=None, name=NN):
     return _wrapped.Geodesic(a_ellipsoid, f=f, name=name)
 
 
-def GeodesicLine(geodesic, lat1, lon1, azi1, *caps):
+def GeodesicLine(geodesic, lat1, lon1, azi1, caps=Caps._STD_LINE):
     '''Return a I{wrapped} C{geodesicline.GeodesicLine} instance from I{Karney}'s
        Python U{geographiclib<https://PyPI.org/project/geographiclib>}, provided
        the latter is installed, otherwise an C{ImportError}.
@@ -325,13 +331,13 @@ def GeodesicLine(geodesic, lat1, lon1, azi1, *caps):
        @arg lat1: Latitude of the first points (C{degrees}).
        @arg lon1: Longitude of the first points (C{degrees}).
        @arg azi1: Azimuth at the first points (compass C{degrees360}).
-       @arg caps: Optional, bit-or'ed combination of L{Caps} values
-                  specifying the capabilities the C{GeodesicLine}
-                  instance should possess, i.e., which quantities can
-                  be returned by calls to C{GeodesicLine.Position}
-                  and C{GeodesicLine.ArcPosition}.
+       @kwarg caps: Optional, bit-or'ed combination of L{Caps} values
+                    specifying the capabilities the C{GeodesicLine}
+                    instance should possess, i.e., which quantities can
+                    be returned by calls to C{GeodesicLine.Position}
+                    and C{GeodesicLine.ArcPosition}.
     '''
-    return _wrapped.GeodesicLine(geodesic, lat1, lon1, azi1, *caps)
+    return _wrapped.GeodesicLine(geodesic, lat1, lon1, azi1, caps=caps)
 
 
 def Geodesic_WGS84():

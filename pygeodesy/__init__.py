@@ -134,7 +134,7 @@ and U{scipy<https://PyPI.org/project/scipy>} 1.5.2) and Python 2.7.18 (with U{ge
 <https://PyPI.org/project/geographiclib>} 1.50, U{numpy<https://PyPI.org/project/numpy>} 1.16.6, U{scipy
 <https://PyPI.org/project/scipy>} 1.2.2, U{GeoConvert<https://GeographicLib.SourceForge.io/html/utilities.html>}
 2.2, U{GeodSolve<https://GeographicLib.SourceForge.io/html/utilities.html>} 2.2 and U{RhumbSolve
-<https://GeographicLib.SourceForge.io/html/utilities.html>} 2.2), all on macOS 13.4 Ventura and in 64-bit only.
+<https://GeographicLib.SourceForge.io/html/utilities.html>} 2.2), all on macOS 13.4.1 Ventura and in 64-bit only.
 
 All tests ran with and without C{lazy import} for Python 3 and with command line option C{-W default} and
 env variable C{PYGEODESY_WARNINGS=on} for all Python versions.  The results of those tests are included in
@@ -178,7 +178,7 @@ All Python source code has been statically U{checked<https://GitHub.com/ActiveSt
 Python/546532_PyChecker_postprocessor>} with U{PyChecker<https://PyPI.org/project/pychecker>}, U{PyFlakes
 <https://PyPI.org/project/pyflakes>}, U{PyCodeStyle<https://PyPI.org/project/pycodestyle>} (formerly Pep8) and
 U{McCabe<https://PyPI.org/project/mccabe>} using Python 2.7.18 and with U{Flake8<https://PyPI.org/project/flake8>}
-using Python 3.11.4, both in 64-bit on macOS 13.4 Ventura.
+using Python 3.11.4, both in 64-bit on macOS 13.4.1 Ventura.
 
 For a summary of all I{Karney}-based functionality in C{pygeodesy}, see module U{karney
 <https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.karney-module.html>}.
@@ -385,6 +385,7 @@ if _init__all__ and not _lazy_import2:  # import and set __all__
 
     # import all public modules and export as such
     import pygeodesy.albers                as albers                 # PYCHOK exported
+    import pygeodesy.auxilats              as auxilats               # PYCHOK exported
     import pygeodesy.azimuthal             as azimuthal              # PYCHOK exported
     import pygeodesy.deprecated.bases      as bases                  # PYCHOK DEPRECATED
     import pygeodesy.basics                as basics                 # PYCHOK exported
@@ -442,6 +443,8 @@ if _init__all__ and not _lazy_import2:  # import and set __all__
     import pygeodesy.points                as points                 # PYCHOK exported
     import pygeodesy.props                 as props                  # PYCHOK exported
     import pygeodesy.resections            as resections             # PYCHOK exported
+    import pygeodesy.rhumbaux              as rhumbaux               # PYCHOK exported
+    import pygeodesy.rhumbBase             as rhumbBase              # PYCHOK exported
     import pygeodesy.rhumbsolve            as rhumbsolve             # PYCHOK exported
     import pygeodesy.rhumbx                as rhumbx                 # PYCHOK exported
     import pygeodesy.simplify              as simplify               # PYCHOK exported
@@ -472,6 +475,7 @@ if _init__all__ and not _lazy_import2:  # import and set __all__
     # vector and wgrs ... in order keep those as modules ONLY
     from pygeodesy.albers                import *  # PYCHOK __all__
     from pygeodesy.azimuthal             import *  # PYCHOK __all__
+#   from pygeodesy.auxilats              import *  # PYCHOK __(_)__
     from pygeodesy.basics                import *  # PYCHOK __all__
     from pygeodesy.booleans              import *  # PYCHOK __all__
 #   from pygeodesy.cartesianBase         import *  # PYCHOK __(_)__
@@ -526,6 +530,8 @@ if _init__all__ and not _lazy_import2:  # import and set __all__
     from pygeodesy.points                import *  # PYCHOK __all__
     from pygeodesy.props                 import *  # PYCHOK __all__
     from pygeodesy.resections            import *  # PYCHOK __all__
+    from pygeodesy.rhumbaux              import *  # PYCHOK __all__
+#   from pygeodesy.rhumbBase             import *  # PYCHOK __(_)__
     from pygeodesy.rhumbsolve            import *  # PYCHOK __all__
     from pygeodesy.rhumbx                import *  # PYCHOK __all__
     from pygeodesy.simplify              import *  # PYCHOK __all__
@@ -588,7 +594,7 @@ else:
     _init__all__ = False
 
 from pygeodesy.interns import _DOT_  # PYCHOK import
-__version__ = '23.07.12'
+__version__ = '23.08.06'
 # see setup.py for similar logic
 version     = _DOT_.join(map(str, map(int, __version__.split(_DOT_))))
 

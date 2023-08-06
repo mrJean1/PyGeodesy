@@ -13,7 +13,7 @@ of the C{GeodSolve} executable.
 from pygeodesy.interns import NN, _a12_, _azi1_, _azi2_, \
                              _lat1_, _lat2_, _lon1_, _lon2_, _m12_, \
                              _M12_, _M21_, _s12_, _S12_, _UNDER_
-from pygeodesy.interns import _not_  # PYCHOK used!
+from pygeodesy.interns import _UNUSED_, _not_  # PYCHOK used!
 from pygeodesy.karney import _Azi, Caps, _Deg, GeodesicError, _GTuple, \
                              _Pass, _Lat, _Lon, _M, _M2, _sincos2d, \
                              _xinstanceof
@@ -21,11 +21,11 @@ from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, \
                              _getenv, printf
 from pygeodesy.namedTuples import Destination3Tuple, Distance3Tuple
 from pygeodesy.props import Property, Property_RO
-from pygeodesy.solveBase import _LineSolveBase, _SolveBase,  wrap360
+from pygeodesy.solveBase import _SolveBase, _SolveLineBase,  wrap360
 # from pygeodesy.utily import wrap360  # from .solveBase
 
 __all__ = _ALL_LAZY.geodsolve
-__version__ = '23.04.11'
+__version__ = '23.08.04'
 
 _PYGEODESY_GEODSOLVE_ = 'PYGEODESY_GEODSOLVE'  # PYCHOK used!
 
@@ -182,7 +182,7 @@ class GeodesicSolve(_GeodesicSolveBase):
         return GeodesicLineSolve(self, lat1, lon1, azi1, caps=caps, name=self.name)
 
 
-class GeodesicLineSolve(_GeodesicSolveBase, _LineSolveBase):
+class GeodesicLineSolve(_GeodesicSolveBase, _SolveLineBase):
     '''Wrapper to invoke I{Karney}'s U{GeodSolve<https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html>}
        as an C{Exact} version of I{Karney}'s Python class U{GeodesicLine<https://GeographicLib.SourceForge.io/C++/doc/
        python/code.html#geographiclib.geodesicline.GeodesicLine>}.
@@ -218,13 +218,13 @@ class GeodesicLineSolve(_GeodesicSolveBase, _LineSolveBase):
         _xinstanceof(GeodesicSolve, geodesic=geodesic)
         if (caps & Caps.LINE_OFF):  # copy to avoid updates
             geodesic = geodesic.copy(deep=False, name=NN(_UNDER_, geodesic.name))
-        _LineSolveBase.__init__(self, geodesic, lat1, lon1, caps, name, azi1=azi1)
+        _SolveLineBase.__init__(self, geodesic, lat1, lon1, caps, name, azi1=azi1)
         try:
             self.GeodSolve = geodesic.GeodSolve  # geodesic or copy of geodesic
         except GeodesicError:
             pass
 
-    def ArcPosition(self, a12, *unused):
+    def ArcPosition(self, a12, outmask=_UNUSED_):  # PYCHOK unused
         '''Find the position on the line given B{C{a12}}.
 
            @arg a12: Spherical arc length from the first point to the
@@ -257,7 +257,7 @@ class GeodesicLineSolve(_GeodesicSolveBase, _LineSolveBase):
         '''
         return self._cmdDistance + ('-a',)
 
-    def Position(self, s12, *unused):
+    def Position(self, s12, outmask=_UNUSED_):  # PYCHOK unused
         '''Find the position on the line given B{C{s12}}.
 
            @arg s12: Distance from the first point to the second (C{meter}).
@@ -278,7 +278,7 @@ class GeodesicLineSolve(_GeodesicSolveBase, _LineSolveBase):
 
            @return: GeodesicLineSolve items (C{str}).
         '''
-        return _LineSolveBase._toStr(self, azi1=self.azi1, geodesic=self._solve,
+        return _SolveLineBase._toStr(self, azi1=self.azi1, geodesic=self._solve,
                                            GeodSolve=self.GeodSolve, **prec_sep)
 
 

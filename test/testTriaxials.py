@@ -4,7 +4,7 @@
 # Test L{triaxials} module.
 
 __all__ = ('Tests',)
-__version__ = '23.05.15'
+__version__ = '23.07.21'
 
 from bases import random, startswith, TestsBase
 
@@ -23,9 +23,8 @@ def _r(s):
         r = -r
     return r * s
 
-# <https://www.researchgate.net/profile/Maxim-Nyrtsov/publication/
-# 299693481_Jacobi_Conformal_Projection_of_the_Triaxial_Ellipsoid_New_Projection_for_Mapping_of_Small_Celestial_Bodies/links/57ee6b2308ae8da3ce499cfc/
-#           Jacobi-Conformal-Projection-of-the-Triaxial-Ellipsoid-New-Projection-for-Mapping-of-Small-Celestial-Bodies.pdf>
+# <https://www.ResearchGate.net/profile/Maxim-Nyrtsov/publication/299693481/links/57ee6b2308ae8da3ce499cfc/
+#  Jacobi-Conformal-Projection-of-the-Triaxial-Ellipsoid-New-Projection-for-Mapping-of-Small-Celestial-Bodies.pdf>
 
 
 class Tests(TestsBase):

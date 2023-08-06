@@ -53,7 +53,7 @@ from pygeodesy.utily import atan2d as _atan2d_reverse, sincos2
 from math import atan2, cos, degrees, fabs, floor, radians, sin
 
 __all__ = ()
-__version__ = '23.05.15'
+__version__ = '23.06.23'
 
 _glXs = []  # instances of C{[_]GeodesicLineExact} to be updated
 # underflow guard, we require _TINY * EPS > 0, _TINY + EPS == EPS
@@ -66,7 +66,7 @@ def _update_glXs(gX):  # see GeodesicExact.C4order and -._ef_reset_k2
        any L{GeodesicLineExact} instances tied to the given
        L{GeodesicExact} instance B{C{gX}}.
     '''
-    _xinstanceof(gX, _MODS.geodesicx.GeodesicExact)
+    _xinstanceof(_MODS.geodesicx.GeodesicExact, gX=gX)
     for glX in _glXs:  # PYCHOK use weakref?
         if glX._gX is gX:
             _update_all(glX)
@@ -90,7 +90,7 @@ class _GeodesicLineExact(_GeodesicBase):
     def __init__(self, gX, lat1, lon1, azi1, caps, _debug, *salp1_calp1, **name):
         '''(INTERNAL) New C{[_]GeodesicLineExact} instance.
         '''
-        _xinstanceof(gX, _MODS.geodesicx.GeodesicExact)
+        _xinstanceof(_MODS.geodesicx.GeodesicExact, gX=gX)
         Cs = Caps
         if _debug:  # PYCHOK no cover
             self._debug |= _debug & Cs._DEBUG_ALL
@@ -282,7 +282,7 @@ class _GeodesicLineExact(_GeodesicBase):
         # see .gx.GeodesicExact._ef_reset_k2
         return _MODS.elliptic.Elliptic(k2=-self._k2, alpha2=-self.geodesic.ep2)
 
-    def _GDictPosition(self, arcmode, s12_a12, outmask):  # MCCABE 17
+    def _GDictPosition(self, arcmode, s12_a12, outmask=Caps.STANDARD):  # MCCABE 17
         '''(INTERNAL) Generate a new position along the geodesic.
 
            @return: A L{GDict} with up to 12 items C{lat1, lon1, azi1, lat2,

@@ -13,7 +13,7 @@ from pygeodesy.constants import _0_0, _1_5, _2_0, _3_0, _4_0, _6_0
 from pygeodesy.errors import _xError
 from pygeodesy.fmath import hypot2, sqrt
 from pygeodesy.fsums import _2float, Fmt, Fsum
-from pygeodesy.interns import NN, _iadd_, _invalid_, _other_, _SPACE_
+from pygeodesy.interns import NN, _iadd_op_, _invalid_, _other_, _SPACE_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import _Named, _NotImplemented, notOverloaded, \
                              property_RO
@@ -23,7 +23,7 @@ from pygeodesy.named import _Named, _NotImplemented, notOverloaded, \
 # from math import sqrt  # pow  from .fmath
 
 __all__ = _ALL_LAZY.fstats
-__version__ = '23.03.29'
+__version__ = '23.07.21'
 
 _Float  =  Fsum, float
 _Scalar = _Float + (int,)  # XXX basics._Ints is ABCMeta
@@ -191,7 +191,7 @@ class _FstatsBase(_FstatsNamed):
                     raise TypeError(_SPACE_(_invalid_, _other_))
                 self.fadd(other)
             except Exception as x:
-                raise _xError(x, _SPACE_(self, _iadd_, repr(other)))
+                raise _xError(x, _SPACE_(self, _iadd_op_, repr(other)))
 
     @property_RO
     def _M1(self):
@@ -372,8 +372,7 @@ class Fcook(_FstatsBase):
            @return: Current, running (sample) kurtosis or I{excess} kurtosis (C{float}).
 
            @see: U{Kurtosis Formula<https://www.Macroption.com/kurtosis-formula>}
-                 and U{Mantalos<https://www.researchgate.net/publication/
-                 227440210_Three_different_measures_of_sample_skewness_and_kurtosis_and_their_effects_on_the_JarqueBera_test_for_normality>}.
+                 and U{Mantalos<https://www.researchgate.net/publication/227440210>}.
 
            @see: Method L{Fcook.fadd}.
         '''
@@ -433,8 +432,7 @@ class Fcook(_FstatsBase):
            @return: Current, running (sample) skewness (C{float}).
 
            @see: U{Skewness Formula<https://www.Macroption.com/skewness-formula/>}
-                 and U{Mantalos<https://www.researchgate.net/publication/
-                 227440210_Three_different_measures_of_sample_skewness_and_kurtosis_and_their_effects_on_the_JarqueBera_test_for_normality>}.
+                 and U{Mantalos<https://www.researchgate.net/publication/227440210>}.
 
            @see: Method L{Fcook.fadd}.
         '''
@@ -631,7 +629,7 @@ class Flinear(_FstatsNamed):
                     raise ValueError(Fmt.PAREN(isodd=Fmt.PAREN(len=_other_)))
                 self.fadd_(*other)
             except Exception as x:
-                raise _xError(x, _SPACE_(self, _iadd_, repr(other)))
+                raise _xError(x, _SPACE_(self, _iadd_op_, repr(other)))
         return self
 
     def _copy(self, c, s):

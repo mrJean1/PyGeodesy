@@ -35,7 +35,7 @@ from pygeodesy.vector3d import Vector3d
 from math import cos, radians
 
 __all__ = _ALL_LAZY.ltpTuples
-__version__ = '23.05.26'
+__version__ = '23.08.06'
 
 _aer_        = 'aer'
 _alt_        = 'alt'
@@ -179,7 +179,7 @@ class _NamedAerNed(_NamedBase):
         return Vector3Tuple(self.x, self.y, self.z, name=self.name)  # like Ecef9Tuple.xyz, Local6tuple.xyz
 
     @property_RO
-    def xyz4(self):
+    def xyz4(self):  # PYCHOK no cover
         '''(INTERNAL) I{Must be overloaded}, see function C{notOverloaded}.
         '''
         notOverloaded(self)

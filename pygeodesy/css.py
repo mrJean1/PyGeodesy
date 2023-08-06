@@ -33,7 +33,7 @@ from pygeodesy.units import Bearing, Degrees, Easting, Height, _heigHt, \
 # from math import fabs  # from .karney
 
 __all__ = _ALL_LAZY.css
-__version__ = '23.05.26'
+__version__ = '23.07.10'
 
 
 def _CS0(cs0):
@@ -365,7 +365,7 @@ class CassiniSoldner(_NamedBase):
         '''
         g =  self.geodesic
         n =  self._meridian.Position(northing)
-        r =  g.Direct(n.lat2, n.lon2, n.azi2 + _90_0, easting, g.STANDARD | g.GEODESICSCALE)
+        r =  g.Direct(n.lat2, n.lon2, n.azi2 + _90_0, easting, outmask=g.STANDARD | g.GEODESICSCALE)
         z = _umod_360(r.azi2)  # -180 <= r.azi2 < 180 ... 0 <= z < 360
         # include z azimuth of easting direction and rk reciprocal
         # of azimuthal northing scale (see C++ member Direct() 5/6

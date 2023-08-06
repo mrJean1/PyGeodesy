@@ -1,5 +1,6 @@
 graft docs
 include docs.html
+graft pygeodesy/auxilats
 graft pygeodesy/deprecated
 graft pygeodesy/geodesicx
 graft test

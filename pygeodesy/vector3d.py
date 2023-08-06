@@ -33,7 +33,7 @@ from pygeodesy.vector3dBase import Vector3dBase
 # from math import fabs, sqrt  # from .fmath
 
 __all__ = _ALL_LAZY.vector3d
-__version__ = '23.06.05'
+__version__ = '23.08.05'
 
 
 class Vector3d(Vector3dBase):
@@ -384,10 +384,8 @@ class Vector3d(Vector3dBase):
                   version 1.10 or later.
 
            @see: Norrdine, A. U{I{An Algebraic Solution to the Multilateration
-                 Problem}<https://www.ResearchGate.net/publication/
-                 275027725_An_Algebraic_Solution_to_the_Multilateration_Problem>}
-                 and U{I{implementation}<https://www.ResearchGate.net/publication/
-                 288825016_Trilateration_Matlab_Code>}.
+                 Problem}<https://www.ResearchGate.net/publication/275027725>}
+                 and U{I{implementation}<https://www.ResearchGate.net/publication/288825016>}.
         '''
         try:
             c1 = _otherV3d(center=self, NN_OK=False)
@@ -401,7 +399,7 @@ class Vector3d(Vector3dBase):
                              center3=center3, radius3=radius3)
 
 
-def _intersect3d3(start1, end1, start2, end2, eps=EPS, useZ=False):  # MCCABE 16 in .formy.intersection2, .rhumbx._RhumbLine
+def _intersect3d3(start1, end1, start2, end2, eps=EPS, useZ=False):  # MCCABE 16 in .formy.intersection2, .rhumbBase
     # (INTERNAL) Intersect two lines, see L{intersection3d3} below,
     # separated to allow callers to embellish any exceptions
 
@@ -920,11 +918,9 @@ def trilaterate3d2(center1, radius1, center2, radius2, center3, radius3,
        @raise UnitError: Invalid B{C{radius1}}, B{C{radius2}} or B{C{radius3}}.
 
        @see: Norrdine, A. U{I{An Algebraic Solution to the Multilateration
-             Problem}<https://www.ResearchGate.net/publication/
-             275027725_An_Algebraic_Solution_to_the_Multilateration_Problem>},
+             Problem}<https://www.ResearchGate.net/publication/275027725>},
              the U{I{implementation}<https://www.ResearchGate.net/publication/
-             288825016_Trilateration_Matlab_Code>} and function
-             L{pygeodesy.trilaterate2d2}.
+             288825016>} and function L{pygeodesy.trilaterate2d2}.
     '''
     try:
         return _MODS.vector2d._trilaterate3d2(_otherV3d(center1=center1, NN_OK=False),

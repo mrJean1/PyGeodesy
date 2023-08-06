@@ -4,7 +4,7 @@
 # Test C{LatLon}.
 
 __all__ = ('Tests',)
-__version__ = '23.05.23'
+__version__ = '23.07.10'  # '23.05.23'
 
 from bases import GeodSolve, geographiclib, isPyPy, isPython2, TestsBase
 
@@ -219,7 +219,7 @@ class Tests(TestsBase):
             e = LatLon(53.1887, 0.1334)
             p = LatLon(53.2611, -0.7972)
             try:
-                d = p.alongTrackDistanceTo(s, 96, TypeError.__name__)
+                d = p.alongTrackDistanceTo(s, 96)  # XXX  TypeError.__name__
                 self.test('alongTrackDistanceTo', d, '62331.59', fmt='%.2f', known=True)  # 62331
             except TypeError as x:
                 self.test('alongTrackDistanceTo', str(x), 'incompatible ...', known=True)

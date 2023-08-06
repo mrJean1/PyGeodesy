@@ -74,7 +74,7 @@ from pygeodesy.interns import NN, _a_, _Airy1830_, _AiryModified_, _Bessel1841_,
                              _ellipsoid_, _ellipsoidal_, _GRS80_, _Intl1924_, _Krassovski1940_, \
                              _Krassowsky1940_, _NAD27_, _NAD83_, _s_, _Sphere_, _spherical_, \
                              _sx_, _sy_, _sz_, _transform_, _tx_, _ty_, _tz_, _UNDER_, \
-                             _WGS72_, _WGS84_, _UNDER
+                             _WGS72_, _WGS84_, _under
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _NamedEnum, _NamedEnumItem, \
                                     _lazyNamedEnumItem as _lazy, Property_RO
@@ -86,7 +86,7 @@ from pygeodesy.units import radians, Radius_
 # from math import radians  # from .units
 
 __all__ = _ALL_LAZY.datums
-__version__ = '23.06.12'
+__version__ = '23.08.05'
 
 _a_ellipsoid_ = _UNDER_(_a_, _ellipsoid_)
 _BD72_        = 'BD72'
@@ -181,6 +181,9 @@ class Transform(_NamedEnumItem):
                                  and self.rz == other.rz
                                  and self.s  == other.s)
 
+    def __hash__(self):
+        return self._hash  # memoized
+
     def __matmul__(self, other):  # PYCHOK Python 3.5+
         '''Helmert-transform a cartesian B{C{other}}.
 
@@ -191,6 +194,11 @@ class Transform(_NamedEnumItem):
         except AttributeError:
             pass
         raise _IsnotError(_cartesian_, other=other)
+
+    @Property_RO
+    def _hash(self):
+        return hash((self.rx, self.ry, self.rz, self.s,
+                     self.tx, self.ty, self.tz))
 
     def inverse(self, name=NN):
         '''Return the inverse of this transform.
@@ -337,9 +345,12 @@ class Datum(_NamedEnumItem):
 
            @return: C{True} if equal, C{False} otherwise.
         '''
-        return self is other or (isinstance(other, Datum) and
+        return self is other or (isinstance(other, Datum)   and
                           self.ellipsoid == other.ellipsoid and
                           self.transform == other.transform)
+
+    def __hash__(self):
+        return self._hash  # memoized
 
     def __matmul__(self, other):  # PYCHOK Python 3.5+
         '''Convert cartesian or ellipsoidal B{C{other}} to this datum.
@@ -378,28 +389,32 @@ class Datum(_NamedEnumItem):
         return _MODS.etm.ExactTransverseMercator(datum=self)
 
     @Property_RO
+    def _hash(self):
+        return hash(self.ellipsoid) + hash(self.transform)
+
+    @Property_RO
     def isEllipsoidal(self):
         '''Check whether this datum is ellipsoidal (C{bool}).
         '''
-        return self._ellipsoid.isEllipsoidal
+        return self.ellipsoid.isEllipsoidal
 
     @Property_RO
     def isOblate(self):
         '''Check whether this datum's ellipsoidal is I{oblate} (C{bool}).
         '''
-        return self._ellipsoid.isOblate
+        return self.ellipsoid.isOblate
 
     @Property_RO
     def isProlate(self):
         '''Check whether this datum's ellipsoidal is I{prolate} (C{bool}).
         '''
-        return self._ellipsoid.isProlate
+        return self.ellipsoid.isProlate
 
     @Property_RO
     def isSpherical(self):
         '''Check whether this datum is (near-)spherical (C{bool}).
         '''
-        return self._ellipsoid.isSpherical
+        return self.ellipsoid.isSpherical
 
     def toStr(self, sep=_COMMASPACE_, name=NN, **unused):  # PYCHOK expected
         '''Return this datum as a string.
@@ -429,16 +444,16 @@ def _En2(earth, name):
     '''
     if isinstance(earth, (Ellipsoid, Ellipsoid2)):
         E =  earth
-        n = _UNDER(name or E.name)
+        n = _under(name or E.name)
     elif isinstance(earth, Datum):
         E =  earth.ellipsoid
-        n = _UNDER(name or earth.name)
+        n = _under(name or earth.name)
     elif isinstance(earth, a_f2Tuple):
-        n = _UNDER(name or earth.name)
+        n = _under(name or earth.name)
         E =  Ellipsoid(earth.a, earth.b, name=n)
     elif islistuple(earth, minum=2):
         a, f = earth[:2]
-        n = _UNDER(name or _xattr(earth, name=NN))
+        n = _under(name or _xattr(earth, name=NN))
         E =  Ellipsoid(a, f=f, name=n)
     else:
         E, n = None, NN
@@ -503,7 +518,7 @@ def _spherical_datum(earth, Error=TypeError, name=NN, raiser=NN):
             d =  Datums.Sphere
         else:
             r =  Radius_(earth, Error=Error)  # invalid datum
-            n = _UNDER(name)
+            n = _under(name)
             E =  Ellipsoid(r, r, name=n)
             d =  Datum(E, transform=Transforms.Identity, name=n)
     else:

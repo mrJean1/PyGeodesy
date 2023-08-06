@@ -20,7 +20,7 @@ except ImportError:
 
 __all__ = ('Antarctica', 'Pts', 'PtsFFI', 'RdpFFI',
            'PtsJS', 'PtsJS5', 'VwPts')
-__version__ = '23.05.23'  # '18.10.12'
+__version__ = '23.07.10'
 
 # <https://GeographicLib.SourceForge.io/html/python/examples.html>
 Antarctica = [LatLon_(_lat, _lon) for _lat, _lon in (
@@ -17171,17 +17171,17 @@ class Tests(TestsBase):
             wgs = Geodesic.WGS84
             sph = Geodesic(R_M, 0)
 
-            w = wgs.Inverse(-41.32, 174.81, 40.96, -5.50, Geodesic.DISTANCE | Geodesic.LONG_UNROLL)
+            w = wgs.Inverse(-41.32, 174.81, 40.96, -5.50, outmask=Geodesic.DISTANCE | Geodesic.LONG_UNROLL)
             self.test(_w('WNZ-SAL'), w['s12'], 19959679.267, fmt='%.3f')
             self.test(_w('WNZ-SAL'), w['lon2'], 354.50, fmt='%.2f')
-            s = sph.Inverse(-41.32, 174.81, 40.96, -5.50, Geodesic.DISTANCE | Geodesic.LONG_UNROLL)
+            s = sph.Inverse(-41.32, 174.81, 40.96, -5.50, outmask=Geodesic.DISTANCE | Geodesic.LONG_UNROLL)
             self.test(_s('WNZ-SAL'), s['s12'], 19967403.498, fmt='%.3f')
             self.test(_s('WNZ-SAL'), s['lon2'], 354.50, fmt='%.2f')
 
-            w = wgs.Inverse(40.1, 116.6, 37.6, -122.4, Geodesic.DISTANCE | Geodesic.LONG_UNROLL)
+            w = wgs.Inverse(40.1, 116.6, 37.6, -122.4, outmask=Geodesic.DISTANCE | Geodesic.LONG_UNROLL)
             self.test(_w('BJS-SFO'), w['s12'], 9513998.0, fmt='%.1f')
             self.test(_w('BJS-SFO'), w['lon2'], 237.6, fmt='%.1f')
-            s = sph.Inverse(40.1, 116.6, 37.6, -122.4, Geodesic.DISTANCE | Geodesic.LONG_UNROLL)
+            s = sph.Inverse(40.1, 116.6, 37.6, -122.4, outmask=Geodesic.DISTANCE | Geodesic.LONG_UNROLL)
             self.test(_s('BJS-SFO'), s['s12'], 9491734.6, fmt='%.1f')
             self.test(_s('BJS-SFO'), s['lon2'], 237.6, fmt='%.1f')
 
@@ -17192,10 +17192,10 @@ class Tests(TestsBase):
             self.test(_s('SW-Perth'), s['lat2'],  31.96383509, fmt='%.8f')
             self.test(_s('SW-Perth'), s['lon2'], -64.14670854, fmt='%.8f')
 
-            w = wgs.Inverse(40.6, -73.8, 51.6, -0.5, Geodesic.DISTANCE | Geodesic.AREA | Geodesic.LONG_UNROLL)
+            w = wgs.Inverse(40.6, -73.8, 51.6, -0.5, outmask=Geodesic.DISTANCE | Geodesic.AREA | Geodesic.LONG_UNROLL)
             self.test(_w('JFK-LHR'), w['S12'], 40041368848742.5, fmt='%.1f')
             self.test(_w('JFK-LHR'), w['s12'], 5551759.4, fmt='%.1f')
-            s = sph.Inverse(40.6, -73.8, 51.6, -0.5, Geodesic.DISTANCE | Geodesic.AREA | Geodesic.LONG_UNROLL)
+            s = sph.Inverse(40.6, -73.8, 51.6, -0.5, outmask=Geodesic.DISTANCE | Geodesic.AREA | Geodesic.LONG_UNROLL)
             self.test(_s('JFK-LHR'), s['S12'], 40105639196534.8, fmt='%.1f')
             self.test(_s('JFK-LHR'), s['s12'], 5536892.0, fmt='%.1f')
 

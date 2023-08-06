@@ -8,7 +8,7 @@ from pygeodesy.basics import map2, ub2str, _zip
 from pygeodesy.constants import DIG
 from pygeodesy.errors import _AssertionError, _xkwds_get
 from pygeodesy.interns import NN, _0_, _BACKSLASH_, _COMMASPACE_, _enquote, \
-                             _EQUAL_, _Error_, _not_, _SPACE_
+                             _EQUAL_, _Error_, _not_, _SPACE_, _UNUSED_
 from pygeodesy.karney import Caps, _CapsBase, _a_ellipsoid, _EWGS84, GDict, \
                              Precision_
 from pygeodesy.lazily import _ALL_DOCS, printf, _sys_version_info2
@@ -21,7 +21,7 @@ from pygeodesy.utily import unroll180,  wrap360  # PYCHOK shared
 from subprocess import PIPE as _PIPE, Popen as _Popen, STDOUT as _STDOUT
 
 __all__ = ()  # nothing public
-__version__ = '23.05.07'
+__version__ = '23.08.04'
 
 _ERROR_    = 'ERROR'
 _text_True =  dict() if _sys_version_info2 < (3, 7) else dict(text=True)
@@ -328,12 +328,12 @@ class _SolveBase(_SolveLineSolveBase):
         '''
         return self._cmdBasic + ('-i',)
 
-    def Direct(self, lat1, lon1, azi1, s12, *unused):
+    def Direct(self, lat1, lon1, azi1, s12, outmask=_UNUSED_):  # PYCHOK unused
         '''Return the C{Direct} result.
         '''
         return self._GDictDirect(lat1, lon1, azi1, False, s12)
 
-    def _GDictDirect(self, lat, lon, azi, arcmode, s12_a12, *unused, **floats):  # for .geodesicx.gxarea
+    def _GDictDirect(self, lat, lon, azi, arcmode, s12_a12, outmask=_UNUSED_, **floats):  # PYCHOK for .geodesicx.gxarea
         '''(INTERNAL) Get C{_GenDirect}-like result as C{GDict}.
         '''
         if arcmode:
@@ -342,7 +342,7 @@ class _SolveBase(_SolveLineSolveBase):
         return self._GDictInvoke(self._cmdDirect, floats, self._Names_Direct,
                                                   lat, lon, azi, s12_a12)
 
-    def _GDictInverse(self, lat1, lon1, lat2, lon2, *unused, **floats):  # for .geodesicx.gxarea
+    def _GDictInverse(self, lat1, lon1, lat2, lon2, outmask=_UNUSED_, **floats):  # PYCHOK for .geodesicx.gxarea
         '''(INTERNAL) Get C{_GenInverse}-like result as C{GDict}, but
            I{without} C{_SALPs_CALPs_}.
         '''
@@ -350,7 +350,7 @@ class _SolveBase(_SolveLineSolveBase):
         return self._GDictInvoke(self._cmdInverse, floats, self._Names_Inverse,
                                                    lat1, lon1, lat2, lon2)
 
-    def Inverse(self, lat1, lon1, lat2, lon2, *unused):
+    def Inverse(self, lat1, lon1, lat2, lon2, outmask=_UNUSED_):  # PYCHOK unused
         '''Return the C{Inverse} result.
         '''
         return self._GDictInverse(lat1, lon1, lat2, lon2)
@@ -373,7 +373,7 @@ class _SolveBase(_SolveLineSolveBase):
         return sep.join(pairs(d, prec=prec))
 
 
-class _LineSolveBase(_SolveLineSolveBase):
+class _SolveLineBase(_SolveLineSolveBase):
     '''(NTERNAL) Base class for C{GeodesicLineSolve} and C{RhumbLineSolve}.
     '''
 #   _caps  =  0
@@ -428,7 +428,7 @@ class _LineSolveBase(_SolveLineSolveBase):
         return sep.join(pairs(d, prec=prec))
 
 
-__all__ += _ALL_DOCS(_SolveBase, _LineSolveBase, _SolveLineSolveBase)
+__all__ += _ALL_DOCS(_SolveBase, _SolveLineBase, _SolveLineSolveBase)
 
 # **) MIT License
 #

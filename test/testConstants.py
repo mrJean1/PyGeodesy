@@ -4,7 +4,7 @@
 # Test L{constants} module.
 
 __all__ = ('Tests',)
-__version__ = '23.03.27'
+__version__ = '23.07.10'
 
 from bases import TestsBase
 

@@ -103,7 +103,7 @@ from collections import defaultdict as _defaultdict
 # from math import radians  # from .points
 
 __all__ = _ALL_LAZY.frechet
-__version__ = '23.05.14'
+__version__ = '23.08.06'
 
 
 def _fraction(fraction, n):
@@ -247,7 +247,7 @@ class Frechet(_Named):
         '''
         self._f1 = _fraction(fraction, self._n1)
 
-    def _func(self, *args, **kwds):
+    def _func(self, *args, **kwds):  # PYCHOK no cover
         notOverloaded(self, *args, **kwds)
 
     @property_RO
@@ -323,7 +323,7 @@ class FrechetDegrees(Frechet):
         __init__ = Frechet.__init__
         discrete = Frechet.discrete
 
-    def distance(self, point1, point2, *args, **kwds):  # PYCHOK signature
+    def distance(self, point1, point2, *args, **kwds):  # PYCHOK no cover
         '''I{Must be overloaded} to return the distance between
            B{C{point1}} and B{C{point2}} in C{degrees}.
         '''
@@ -339,7 +339,7 @@ class FrechetRadians(Frechet):
         __init__ = Frechet.__init__
         discrete = Frechet.discrete
 
-    def distance(self, point1, point2, *args, **kwds):  # PYCHOK signature
+    def distance(self, point1, point2, *args, **kwds):  # PYCHOK no cover
         '''I{Must be overloaded} to return the distance between
            B{C{point1}} and B{C{point2}} in C{radians}.
         '''
@@ -375,7 +375,7 @@ class _FrechetMeterRadians(Frechet):
         '''
         return self._discrete(point2s, fraction, _formy._radistance(self))
 
-    def _func_(self, *args, **kwds):
+    def _func_(self, *args, **kwds):  # PYCHOK no cover
         notOverloaded(self, *args, **kwds)
 
 

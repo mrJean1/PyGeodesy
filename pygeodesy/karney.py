@@ -9,7 +9,8 @@ either by C{key} or by C{attribute} name.
 
 With env variable C{PYGEODESY_GEOGRAPHICLIB} left undefined or set to C{"2"}, this module,
 L{pygeodesy.geodesicw} and L{pygeodesy.geodesicx} will use U{GeographicLib 2.0
-<https://GeographicLib.SourceForge.io/C++/doc/>} transcoding, otherwise C{1.52} or older.
+<https://GeographicLib.SourceForge.io/C++/doc/>} and newer transcoding, otherwise C{1.52}
+or older.
 
 Karney-based functionality
 ==========================
@@ -19,6 +20,12 @@ Karney-based functionality
   - L{AlbersEqualArea}, L{AlbersEqualArea2}, L{AlbersEqualArea4},
     L{AlbersEqualAreaCylindrical}, L{AlbersEqualAreaNorth}, L{AlbersEqualAreaSouth} --
     U{AlbersEqualArea<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1AlbersEqualArea.html>}
+
+  - L{AuxAngle}, L{AuxDST}, L{AuxDLat}, L{AuxLat} -- U{AuxAngle
+    <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1AuxAngle.html>},
+    U{DST<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1DST.html>},
+    U{DAuxLatitude<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1DAuxLatitude.html>},
+    U{AuxLatitude<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1AuxLatitude.html>} in I{GeographicLib 2.2+}
 
   - L{CassiniSoldner} -- U{CassiniSoldner<https://GeographicLib.SourceForge.io/C++/doc/
     classGeographicLib_1_1CassiniSoldner.html>}
@@ -60,11 +67,17 @@ Karney-based functionality
   - L{LocalCartesian}, L{Ltp} -- U{LocalCartesian<https://GeographicLib.SourceForge.io/C++/doc/
     classGeographicLib_1_1LocalCartesian.html>}
 
-  - L{Osgr} -- U{OSGB<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1OSGB.html>}.
+  - L{Osgr} -- U{OSGB<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1OSGB.html>}
 
-  - L{Rhumb}, L{RhumbLine} -- U{Rhumb<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Rhumb.html>},
+  - L{rhumbaux} C{RhumbAux}, C{RhumbLineAux} -- U{Rhumb
+    <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Rhumb.html>} and U{RhumbLine
+    <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1RhumbLine.html>} in I{GeographicLib 2.2+}
+
+  - L{rhumbx} C{Rhumb}, C{RhumbLine} -- U{Rhumb
+    <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Rhumb.html>},
     U{RhumbLine<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1RhumbLine.html>},
     U{TransverseMercator<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1TransverseMercator.html>}
+    in I{GeographicLib 2.0}
 
   - L{Ups} -- U{PolarStereographic<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1PolarStereographic.html>}
 
@@ -101,7 +114,8 @@ C++ utility U{RhumbSolve<https://GeographicLib.SourceForge.io/C++/doc/RhumbSolve
     L{ellipsoidalVincenty.LatLon.intersection3}, L{ellipsoidalVincenty.LatLon.intersections2},
     L{ellipsoidalVincenty.LatLon.nearestOn}, L{ellipsoidalVincenty.LatLon.trilaterate5}
 
-  - L{RhumbLine.intersection2}, L{RhumbLine.nearestOn4}
+  - L{RhumbLineAux.intersection2} and L{RhumbLineAux.nearestOn4} C{(exact=None)} in L{rhumbaux} and
+    L{RhumbLine.intersection2} and L{RhumbLine.nearestOn4} C{(exact=None)} in L{rhumbx}
 
 are iterative implementations of I{Karney}'s solution posted here under U{The B{ellipsoidal} case
 <https://GIS.StackExchange.com/questions/48937/calculating-intersection-of-two-circles>} and in paper U{Geodesics
@@ -120,13 +134,14 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 from pygeodesy.basics import _copysign, neg, unsigned0, _xgeographiclib, \
                              _xImportError, _xversion_info, _xinstanceof, \
                              _zip,  isodd  # PYCHOK shared
-from pygeodesy.constants import NAN, _isfinite as _math_isfinite, _0_0, _1_16th, \
-                               _180_0, _N_180_0, _360_0
+from pygeodesy.constants import NAN, _isfinite as _math_isfinite, _0_0, _1_0, \
+                               _1_16th, _180_0, _N_180_0, _360_0
 from pygeodesy.datums import _WGS84,  _a_ellipsoid  # PYCHOK shared
-from pygeodesy.errors import _ValueError, _xkwds, _xkwds_get
+from pygeodesy.errors import GeodesicError, _ValueError, _xkwds, _xkwds_get
 from pygeodesy.fmath import cbrt, fremainder, norm2, hypot as _hypot, unstr  # PYCHOK shared
-from pygeodesy.interns import _2_, _a12_, _area_, _azi2_, _composite_, _lat2_, \
-                              _lon2_, _m12_, _M12_, _M21_, _number_, _s12_, _S12_
+from pygeodesy.interns import _2_, _a12_, _area_, _azi2_, _azi12_, _composite_, \
+                              _lat1_, _lat2_, _lon1_, _lon2_, _m12_, _M12_, _M21_, \
+                              _number_, _s12_, _S12_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, _getenv
 from pygeodesy.named import _Dict, _NamedBase, _NamedTuple, notImplemented, _Pass
 from pygeodesy.props import deprecated_method, Property_RO, property_RO
@@ -139,9 +154,9 @@ from pygeodesy.utily import atan2d, sincos2d, tand, _unrollon,  fabs
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.karney
-__version__ = '23.06.04'
+__version__ = '23.08.05'
 
-_EWGS84     = _WGS84.ellipsoid  # PYCHOK in .geodesicx.gx, .ktm, .rhumbx, .solveBase
+_EWGS84     = _WGS84.ellipsoid  # PYCHOK in .auxilats, .geodesicx.gx, .ktm, .solveBase
 _K_2_0      = _getenv('PYGEODESY_GEOGRAPHICLIB', _2_) == _2_
 _perimeter_ = 'perimeter'
 
@@ -191,17 +206,29 @@ class Caps(object):  # PYCHOK
     '''(INTERNAL) Overriden by C{Caps} below.
     '''
     EMPTY          =  0        # formerly aka NONE
+    _CAP_1         =  1 << 0   # for goedesicw only
+    _CAP_1p        =  1 << 1   # for goedesicw only
+#   _CAP_2         =  1 << 2
+    _CAP_3         =  1 << 3   # for goedesicw only
+#   _CAP_4         =  1 << 4
+#   _CAP_ALL       =  0x1F
+#   _CAP_MASK      = _CAP_ALL
     LATITUDE       =  1 << 7   # compute latitude C{lat2}
-    LONGITUDE      =  1 << 8   # compute longitude C{lon2}
+    LONGITUDE      =  1 << 8   # compute longitude C{lon2}  _CAP_3
     AZIMUTH        =  1 << 9   # azimuths C{azi1} and C{azi2}
-    DISTANCE       =  1 << 10  # compute distance C{s12}
-    DISTANCE_IN    =  1 << 11  # allow distance C{s12} in Direct
-    REDUCEDLENGTH  =  1 << 12  # compute reduced length C{m12}
-    GEODESICSCALE  =  1 << 13  # compute geodesic scales C{M12} and C{M21}
-    AREA           =  1 << 14  # compute area C{S12}
+    DISTANCE       =  1 << 10  # compute distance C{s12}  _CAP_1
+    DISTANCE_IN    =  1 << 11  # allow distance C{s12} in Direct  _CAP_1 | _CAP_1p
+    REDUCEDLENGTH  =  1 << 12  # compute reduced length C{m12}    _CAP_1 | _CAP_2
+    GEODESICSCALE  =  1 << 13  # compute geodesic scales C{M12} and C{M21}  _CAP_1 | _CAP_2
+    AREA           =  1 << 14  # compute area C{S12}  _CAP_4
 
     STANDARD       =  AZIMUTH | DISTANCE | DISTANCE_IN | LATITUDE | LONGITUDE
     ALL            =  0x7F80   # without LONG_UNROLL, LINE_OFF, REVERSE2 and _DEBUG_*
+
+    _DIRECT3       =  AZIMUTH  | LATITUDE | LONGITUDE | _CAP_3   # for goedesicw only
+    _INVERSE3      =  AZIMUTH  | DISTANCE | _CAP_1   # for goedesicw only
+    _STD           =  STANDARD | _CAP_3   | _CAP_1   # for goedesicw only
+    _STD_LINE      = _STD      | _CAP_1p   # for goedesicw only
 
     LINE_OFF       =  1 << 15  # Line without updates from parent geodesic or rhumb
     LONG_UNROLL    =  1 << 16  # unroll C{lon2} in .Direct and .Position
@@ -265,7 +292,7 @@ and C{ALL} - all of the above.
 C{STANDARD} = C{AZIMUTH | DISTANCE | DISTANCE_IN | LATITUDE | LONGITUDE}'''
 
 
-class _CapsBase(_NamedBase):  # in .geodesicx.gxbases, .rhumbx
+class _CapsBase(_NamedBase):  # in .auxilats, .geodesicx.gxbases
     '''(INTERNAL) Base class for C{[_]Geodesic*Exact}.
     '''
     ALL           = Caps.ALL
@@ -401,7 +428,7 @@ class GDict(_Dict):  # XXX _NamedDict
            @return: L{Rhumb8Tuple}C{(lat1, lon1, lat2, lon2,
                     azi12, s12, S12, a12)}.
         '''
-        return self._toTuple(_MODS.rhumbx.Rhumb8Tuple, dflt)
+        return self._toTuple(Rhumb8Tuple, dflt)
 
     def toRhumbSolve7Tuple(self, dflt=NAN):
         '''Convert this L{GDict} result to a 8-tuple.
@@ -419,13 +446,6 @@ class GDict(_Dict):  # XXX _NamedDict
         _g = getattr
         t  = tuple(_g(self, n, dflt) for n in nTuple._Names_)
         return nTuple(t, iteration=self._iteration)
-
-
-class GeodesicError(_ValueError):
-    '''Error raised for L{pygeodesy.geodesicx} lack of convergence
-       or other L{pygeodesy.geodesicx} or L{pygeodesy.karney} issues.
-    '''
-    pass
 
 
 class Inverse10Tuple(_GTuple):
@@ -488,6 +508,63 @@ class _kWrapped(object):
 _wrapped = _kWrapped()  # PYCHOK singleton, .datum, .test/base.py
 
 
+class Rhumb8Tuple(_GTuple):
+    '''8-Tuple C{(lat1, lon1, lat2, lon2, azi12, s12, S12, a12)} with lat- C{lat1},
+       C{lat2} and longitudes C{lon1}, C{lon2} of both points, the azimuth of the
+       rhumb line C{azi12}, the distance C{s12}, the area C{S12} under the rhumb
+       line and the angular distance C{a12} between both points.
+    '''
+    _Names_ = (_lat1_, _lon1_, _lat2_, _lon2_, _azi12_, _s12_, _S12_,  _a12_)
+    _Units_ = ( Lat,    Lon,    Lat,    Lon,   _Azi,    _M,    _M2,    _Deg)
+
+    def toDirect9Tuple(self, dflt=NAN, **a12_azi1_azi2_m12_M12_M21):
+        '''Convert this L{Rhumb8Tuple} result to a 9-tuple, like I{Karney}'s
+           method C{geographiclib.geodesic.Geodesic._GenDirect}.
+
+           @kwarg dflt: Default value for missing items (C{any}).
+           @kwarg a12_azi1_azi2_m12_M12_M21: Optional keyword arguments
+                     to specify or override L{Inverse10Tuple} items.
+
+           @return: L{Direct9Tuple}C{(a12, lat2, lon2, azi2, s12,
+                    m12, M12, M21, S12)}
+        '''
+        d = dict(azi1=self.azi12, M12=_1_0, m12=self.s12,  # PYCHOK attr
+                 azi2=self.azi12, M21=_1_0)  # PYCHOK attr
+        if a12_azi1_azi2_m12_M12_M21:
+            d.update(a12_azi1_azi2_m12_M12_M21)
+        return self._toTuple(Direct9Tuple, dflt, d)
+
+    def toInverse10Tuple(self, dflt=NAN, **a12_m12_M12_M21_salp1_calp1_salp2_calp2):
+        '''Convert this L{Rhumb8Tuple} to a 10-tuple, like I{Karney}'s
+           method C{geographiclib.geodesic.Geodesic._GenInverse}.
+
+           @kwarg dflt: Default value for missing items (C{any}).
+           @kwarg a12_m12_M12_M21_salp1_calp1_salp2_calp2: Optional keyword
+                     arguments to specify or override L{Inverse10Tuple} items.
+
+           @return: L{Inverse10Tuple}C{(a12, s12, salp1, calp1, salp2, calp2,
+                    m12, M12, M21, S12)}.
+        '''
+        s, c = sincos2d(self.azi12)  # PYCHOK attr
+        d = dict(salp1=s, calp1=c, M12=_1_0, m12=self.s12,  # PYCHOK attr
+                 salp2=s, calp2=c, M21=_1_0)
+        if a12_m12_M12_M21_salp1_calp1_salp2_calp2:
+            d.update(a12_m12_M12_M21_salp1_calp1_salp2_calp2)
+        return self._toTuple(Inverse10Tuple, dflt, d)
+
+    def _toTuple(self, nTuple, dflt, updates={}):
+        '''(INTERNAL) Convert this C{Rhumb8Tuple} to an B{C{nTuple}}.
+        '''
+        _g = self.toGDict(**updates).get
+        t  = tuple(_g(n, dflt) for n in nTuple._Names_)
+        return nTuple(t, name=self.name)
+
+    @deprecated_method
+    def _to7Tuple(self):
+        '''DEPRECATED, do not use!'''
+        return _MODS.deprecated.Rhumb7Tuple(self[:-1])
+
+
 def _around(x):  # in .utily.sincos2d
     '''I{Coarsen} a scalar by rounding small values to underflow to C{0.0}.
 
@@ -532,7 +609,7 @@ def _copyBit(x, y):
     return (-x) if _signBit(y) else x
 
 
-def _diff182(deg0, deg):
+def _diff182(deg0, deg, K_2_0=False):
     '''Compute C{deg - deg0}, reduced to C{[-180,180]} accurately.
 
        @return: 2-Tuple C{(delta_angle, residual)} in C{degrees}.
@@ -540,7 +617,7 @@ def _diff182(deg0, deg):
     try:
         return _wrapped.Math.AngDiff(deg0, deg)
     except AttributeError:
-        if _K_2_0:  # geographiclib 2.0
+        if K_2_0 or _K_2_0:  # geographiclib 2.0
             _r, _360 = fremainder, _360_0
             d, t = _sum2(_r(-deg0, _360),
                          _r( deg,  _360))
