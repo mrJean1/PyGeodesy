@@ -86,7 +86,7 @@ from pygeodesy.utily import atan2d, degrees90, degrees180, sincos2, sincos2_, \
 from math import atan2, cos, degrees, fabs, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '23.08.05'
+__version__ = '23.08.07'
 
 _Ecef_    = 'Ecef'
 _EWGS84   = _WGS84.ellipsoid
@@ -149,7 +149,7 @@ class _EcefBase(_NamedBase):
     '''
     _datum = _WGS84
     _E     = _EWGS84
-    _lon00 =  INT0  # arbitrary, polar lon
+    _lon00 =  INT0  # arbitrary, "polar" lon for LocalCartesian, Ltp
 
     def __init__(self, a_ellipsoid=_EWGS84, f=None, name=NN, lon00=INT0):
         '''New C{Ecef*} converter.
@@ -348,7 +348,7 @@ class _EcefBase(_NamedBase):
     def _polon(self, y, x, R, **name_lon00):
         '''(INTERNAL) Handle I{"polar"} longitude.
         '''
-        return atan2d(y, x) if R or x else _xkwds_get(name_lon00, lon00=self.lon00)
+        return atan2d(y, x) if R else _xkwds_get(name_lon00, lon00=self.lon00)
 
     def reverse(self, xyz, y=None, z=None, M=False, **name_lon00):  # PYCHOK no cover
         '''(INTERNAL) I{Must be overloaded}, see function C{notOverloaded}.

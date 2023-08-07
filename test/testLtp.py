@@ -4,7 +4,7 @@
 # Test L{ltp} I{local tangent plane} classes.
 
 __all__ = ('Tests',)
-__version__ = '23.05.23'
+__version__ = '23.08.07'
 
 from bases import startswith, TestsBase
 
@@ -97,6 +97,13 @@ class Tests(TestsBase):
         self.test('Enu', t.toStr(prec=3), '[-7134.8, -4556.3, 2852.4]', known=Sudano)
         t = t.toXyz(Ned)
         self.test('Ned', t.toStr(prec=3), '[-4556.3, -7134.8, -2852.4]', known=Sudano)
+
+        # courtesy ThomasGreenhill <https://github.com/mrJean1/PyGeodesy/issues/77>
+        c = LocalCartesian(90.0, 57.3)
+        t = c.reverse(0, 0, 0).toLatLon()
+        self.test('lon00', t, '(90.0, 57.3, 0.0, ', known=startswith, nl=1)
+        t = c.reverse(0, 0, 0, lon00=3.75).toLatLon()
+        self.test('lon00', t, '(90.0, 3.75, 0.0, ', known=startswith)
 
         f = Frustum(90, 90)  # ltp=None
         self.test(Frustum.__name__, f, '90.0, 90.0', nl=1)
