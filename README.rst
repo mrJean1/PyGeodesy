@@ -10,7 +10,7 @@ exact, elliptic, iterative and approximate methods for geodetic
 ellipsoidal`_ coordinates.
 
 Transcoded from `JavaScript originals`_ by *Chris Veness (C) 2005-2022*
-and from several `C++ classes`_ by *Charles F.F. Karney (C) 2008-2022*
+and from several `C++ classes`_ by *Charles F.F. Karney (C) 2008-2023*
 and published under the same `MIT License`_.
 
 There are four modules for ellipsoidal earth models, *ellipsoidalExact*,
