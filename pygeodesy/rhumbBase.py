@@ -33,7 +33,7 @@ from pygeodesy.errors import IntersectionError, itemsorted, RhumbError, \
 from pygeodesy.fmath import euclid, favg,  fabs
 # from pygeodesy.fsums import Fsum  # _MODS
 from pygeodesy.interns import NN, _coincident_, _COMMASPACE_, _intersection_, \
-                             _no_, _under
+                             _no_, _parallel_, _under
 from pygeodesy.karney import Caps, _CapsBase, _diff182, _EWGS84, _fix90, \
                             _norm180,  _xinstanceof
 from pygeodesy.ktm import KTransverseMercator, _AlpCoeffs  # PYCHOK used!
@@ -41,7 +41,6 @@ from pygeodesy.lazily import _ALL_DOCS, _ALL_MODS as _MODS
 # from pygeodesy.named import notOverloaded  # _MODS
 from pygeodesy.namedTuples import Distance2Tuple, LatLon2Tuple, NearestOn4Tuple
 from pygeodesy.props import Property, Property_RO, property_RO, _update_all
-from pygeodesy.auxilats.auxily import _over
 from pygeodesy.streprs import Fmt, pairs, unstr
 from pygeodesy.units import Float_, Lat, Lon, Meter
 from pygeodesy.utily import sincos2d, sincos2d_, _unrollon, _Wrap
@@ -50,7 +49,7 @@ from pygeodesy.vector3d import _intersect3d3, Vector3d  # in .intersection2 belo
 # from math import fabs  # from .fmath
 
 __all__ = ()
-__version__ = '23.08.05'
+__version__ = '23.08.09'
 
 _rls   = []  # instances of C{RbumbLine} to be updated
 _TRIPS = 65  # .intersection2, .nearestOn4, 18+
@@ -441,6 +440,9 @@ class RhumbLineBase(RhumbBase):
             _xTMr =  self.xTM.reverse  # ellipsoidal or spherical
             _s_3d, s_az =  self._xTM3d,  self.azi12
             _o_3d, o_az = other._xTM3d, other.azi12
+            t = fabs(s_az - o_az)
+            if t < EPS or fabs(t - _180_0) < EPS:
+                raise ValueError(_parallel_)
             # use halfway point as initial estimate
             p = _LL2T(favg(self.lat1, other.lat1),
                       favg(self.lon1, other.lon1))
@@ -492,9 +494,9 @@ class RhumbLineBase(RhumbBase):
 
            @arg lat: Latitude of the point (C{degrees}).
            @arg lon: Longitude of the point (C{degrees}).
-           @kwarg tol: Longitudinal convergence tolerance (C{degrees}) only if
-                       C{B{exact} is None}, otherwise the distance tolerance
-                       (C(meter)) and when C{B{exact} is not None}.
+           @kwarg tol: Longitudinal convergence tolerance (C{degrees}) or the
+                       distance tolerance (C(meter)) when C{B{exact} is None},
+                       respectively C{B{exact} is not None}.
            @kwarg exact: If C{None}, use a rhumb line perpendicular to this rhumb
                          line, otherwise use an I{exact} C{Geodesic...} from the
                          given point perpendicular to this rhumb line (C{bool} or
@@ -507,11 +509,12 @@ class RhumbLineBase(RhumbBase):
 
            @return: A L{NearestOn4Tuple}C{(lat, lon, distance, normal)} with
                     the C{lat}- and C{lon}gitude of the nearest point on and
-                    the C{distance} in C{meter} to this rhumb line and with the
-                    azimuth of the C{normal}, perpendicular to this rhumb line.
+                    the C{distance} in C{meter} to this rhumb line and the
+                    C{normal} azimuth at the intersection.
 
-           @raise ImportError: I{Karney}'s U{geographiclib<https://PyPI.org/project/geographiclib>}
-                                package not found or not installed iff C{B{exact} is False}.
+           @raise ImportError: I{Karney}'s U{geographiclib
+                               <https://PyPI.org/project/geographiclib>}
+                               package not found or not installed.
 
            @raise IntersectionError: No convergence for this B{C{eps}} or
                                      no intersection for an other reason.
@@ -532,28 +535,34 @@ class RhumbLineBase(RhumbBase):
             E   = self.ellipsoid
             gX  = E.geodesic_(exact=exact)
             Cs  = Caps
-            m   = Cs.STANDARD | Cs.REDUCEDLENGTH | Cs.GEODESICSCALE
+            gm  = Cs.AZIMUTH | Cs.LATITUDE_LONGITUDE | Cs.REDUCEDLENGTH | Cs.GEODESICSCALE
             if est is None:  # get an estimate from the perpendicular
                 r = gX.Inverse(self.lat1, self.lon1, lat, lon, outmask=Cs.AZIMUTH_DISTANCE)
                 d, _ = _diff182(r.azi2, azi, K_2_0=True)
                 _, c = sincos2d(d)
-                s12  = c * r.s12
+                s12  = c * r.s12  # signed
             else:
                 s12  = Meter(est=est)
-            _s12 = _MODS.fsums.Fsum(s12).fsum2_
-            # suffix 1 == C++2, 2 == C++3, 3 == C++2
-            for i in range(1, _TRIPS):
-                p = self.Position(s12)  # outmask=Cs.LATITUDE_LONGITUDE
-                r = gX.Inverse(lat, lon, p.lat2, p.lon2, outmask=m)
-                d, _ = _diff182(azi, r.azi2, K_2_0=True)
-                s, c, s2, c2 = sincos2d_(d, r.lat2)
-                c2 *=  E.rocPrimeVertical(r.lat2)  # aka rocTransverse
-                s  *= _over(s2 * szi, c2) - _over(s * r.M21, r.m12)
-                s12, t = _s12(_over(c, s))
-                if fabs(t) < tol:  # or fabs(c) < EPS
-                    break
-            r = NearestOn4Tuple(r.lat2, r.lon2, s12, r.azi2,
-                                                iteration=i)
+            try:
+                tol  = Float_(tol=tol, low=EPS, high=None)
+                # def _over(p, q):  # see @note at RhumbLine[Aux].Position
+                #     return (p / (q or _copysign(tol, q))) if isfinite(q) else NAN
+
+                _s12 = _MODS.fsums.Fsum(s12).fsum2_
+                for i in range(1, _TRIPS):  # suffix 1 == C++ 2, 2 == C++ 3
+                    p = self.Position(s12)  # outmask=Cs.LATITUDE_LONGITUDE
+                    r = gX.Inverse(lat, lon, p.lat2, p.lon2, outmask=gm)
+                    d, _ = _diff182(azi, r.azi2, K_2_0=True)
+                    s, c, s2, c2 = sincos2d_(d, r.lat2)
+                    c2 *= E.rocPrimeVertical(r.lat2)  # aka rocTransverse
+                    s  *= (s2 * szi / c2) - (s * r.M21 / r.m12)  # XXX _over?
+                    s12, t = _s12(c / s)  # XXX _over?
+                    if fabs(t) < tol:  # or fabs(c) < EPS
+                        break
+                r = NearestOn4Tuple(r.lat2, r.lon2, s12, r.azi2,
+                                                    iteration=i)
+            except Exception as x:  # Fsum Value-, ZeroDivisionError
+                raise IntersectionError(_no_(_intersection_), cause=x)
         return r
 
     def Position(self, s12, outmask=0):  # PYCHOK no cover
@@ -610,25 +619,12 @@ __all__ += _ALL_DOCS(RhumbBase, RhumbLineBase)
 
 
 if __name__ == '__main__':
-    import sys
 
     from pygeodesy import printf, RhumbAux as A, Rhumb as R
 
-    if 'aux' in sys.argv:
-        r = A(_EWGS84).Line(30, 0, 45)
-    elif 'x' in sys.argv:
-        r = R(_EWGS84).Line(30, 0, 45)
-    else:
-        sys.exit('aux or x')
-
-    for exact in (None, False, True):
-        for est in (None, 1e6):
-            p = r.nearestOn4(60, 0, exact=exact, est=est)
-            printf('%s, exact=%s, est=%s, iteration=%s',
-                   p.toRepr(), exact, est, p.iteration)
-
     A = A(_EWGS84).Line(30, 0, 45)
     R = R(_EWGS84).Line(30, 0, 45)
+
     n = 1
     for i in range(1, 10):
         s = .5e6 + 1e6 / i
@@ -638,34 +634,14 @@ if __name__ == '__main__':
         printf('Positions %s vs %s, diff %.2f%%', r, a, e, nl=n)
         n = 0
 
-# % python3 -m pygeodesy.rhumbBase x
+    for exact in (None, False, True, None):
+        for est in (None, 1e6):
+            a = A.nearestOn4(60, 0, exact=exact, est=est)
+            r = R.nearestOn4(60, 0, exact=exact, est=est)
+            printf('%s, iteration=%s, exact=%s, est=%s\n%s, iteration=%s',
+                   a.toRepr(), a.iteration, exact, est, r.toRepr(), r.iteration, nl=1)
 
-# NearestOn4Tuple(lat=45.0, lon=15.830286, distance=1977981.142985, normal=135.0), exact=None, est=None, iteration=9
-# NearestOn4Tuple(lat=45.0, lon=15.830286, distance=1977981.142985, normal=135.0), exact=None, est=1000000.0, iteration=9
-# NearestOn4Tuple(lat=49.634582, lon=25.767876, distance=3083112.636236, normal=135.0), exact=False, est=None, iteration=5
-# NearestOn4Tuple(lat=49.634582, lon=25.767876, distance=3083112.636236, normal=135.0), exact=False, est=1000000.0, iteration=7
-# NearestOn4Tuple(lat=49.634582, lon=25.767876, distance=3083112.636236, normal=135.0), exact=True, est=None, iteration=5
-# NearestOn4Tuple(lat=49.634582, lon=25.767876, distance=3083112.636236, normal=135.0), exact=True, est=1000000.0, iteration=7
-
-# Positions 11.614558469016366 vs 11.61455846901637, diff 0.00%
-# Positions 7.589823028268422 vs 7.589823028268423, diff 0.00%
-# Positions 6.285260674163688 vs 6.285260674163687, diff 0.00%
-# Positions 5.639389953251457 vs 5.6393899532514595, diff 0.00%
-# Positions 5.253855274357075 vs 5.253855274357073, diff 0.00%
-# Positions 4.9976460429038 vs 4.9976460429038045, diff 0.00%
-# Positions 4.815033637404729 vs 4.81503363740473, diff 0.00%
-# Positions 4.678288217488354 vs 4.678288217488353, diff 0.00%
-# Positions 4.572056679062825 vs 4.572056679062826, diff 0.00%
-
-
-# % python3 -m pygeodesy.rhumbBase aux
-
-# NearestOn4Tuple(lat=45.0, lon=15.830286, distance=1977981.142985, normal=135.0), exact=None, est=None, iteration=9
-# NearestOn4Tuple(lat=45.0, lon=15.830286, distance=1977981.142985, normal=135.0), exact=None, est=1000000.0, iteration=9
-# NearestOn4Tuple(lat=49.634582, lon=25.767876, distance=3083112.636236, normal=135.0), exact=False, est=None, iteration=5
-# NearestOn4Tuple(lat=49.634582, lon=25.767876, distance=3083112.636236, normal=135.0), exact=False, est=1000000.0, iteration=7
-# NearestOn4Tuple(lat=49.634582, lon=25.767876, distance=3083112.636236, normal=135.0), exact=True, est=None, iteration=5
-# NearestOn4Tuple(lat=49.634582, lon=25.767876, distance=3083112.636236, normal=135.0), exact=True, est=1000000.0, iteration=7
+# % python3 -m pygeodesy.rhumbBase
 
 # Positions 11.614558469016366 vs 11.61455846901637, diff 0.00%
 # Positions 7.589823028268422 vs 7.589823028268423, diff 0.00%
@@ -676,6 +652,24 @@ if __name__ == '__main__':
 # Positions 4.815033637404729 vs 4.81503363740473, diff 0.00%
 # Positions 4.678288217488354 vs 4.678288217488353, diff 0.00%
 # Positions 4.572056679062825 vs 4.572056679062826, diff 0.00%
+
+# NearestOn4Tuple(lat=45.0, lon=15.830286, distance=1977981.142985, normal=135.0), iteration=9, exact=None, est=None
+# NearestOn4Tuple(lat=45.0, lon=15.830286, distance=1977981.142985, normal=135.0), iteration=9
+
+# NearestOn4Tuple(lat=45.0, lon=15.830286, distance=1977981.142985, normal=135.0), iteration=9, exact=None, est=1000000.0
+# NearestOn4Tuple(lat=45.0, lon=15.830286, distance=1977981.142985, normal=135.0), iteration=9
+
+# NearestOn4Tuple(lat=49.634582, lon=25.767876, distance=3083112.636236, normal=135.0), iteration=5, exact=False, est=None
+# NearestOn4Tuple(lat=49.634582, lon=25.767876, distance=3083112.636236, normal=135.0), iteration=5
+
+# NearestOn4Tuple(lat=49.634582, lon=25.767876, distance=3083112.636236, normal=135.0), iteration=7, exact=False, est=1000000.0
+# NearestOn4Tuple(lat=49.634582, lon=25.767876, distance=3083112.636236, normal=135.0), iteration=7
+
+# NearestOn4Tuple(lat=49.634582, lon=25.767876, distance=3083112.636236, normal=135.0), iteration=5, exact=True, est=None
+# NearestOn4Tuple(lat=49.634582, lon=25.767876, distance=3083112.636236, normal=135.0), iteration=5
+
+# NearestOn4Tuple(lat=49.634582, lon=25.767876, distance=3083112.636236, normal=135.0), iteration=7, exact=True, est=1000000.0
+# NearestOn4Tuple(lat=49.634582, lon=25.767876, distance=3083112.636236, normal=135.0), iteration=7
 
 # **) MIT License
 #

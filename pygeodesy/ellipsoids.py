@@ -91,7 +91,7 @@ from pygeodesy.utily import atand, atan2b, atan2d, degrees90, m2radians, radians
 from math import asinh, atan, atanh, cos, degrees, exp, fabs, radians, sin, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '23.08.04'
+__version__ = '23.08.09'
 
 _f_0_0    = Float(f =_0_0)  # zero flattening
 _f__0_0   = Float(f_=_0_0)  # zero inverse flattening
@@ -1021,12 +1021,19 @@ class Ellipsoid(_NamedEnumItem):
                                               name=self.name)
         else:
             g = exact
-            _xinstanceof(_MODS.geodesicw.Geodesic,
-                         _MODS.geodesicx.GeodesicExact,
-                         _MODS.geodsolve.GeodesicSolve, exact=g)
+            _xinstanceof(*self._Geodesics, exact=g)
             if g.ellipsoid != self:
                 raise _ValueError(exact=g, ellipsosid=g.ellipsoid)
         return g
+
+    @property_RO
+    def _Geodesics(self):
+        '''(INTERNAL) Get all C{Geodesic...} classes, I{once}.
+        '''
+        Ellipsoid._Geodesics = t = (_MODS.geodesicw.Geodesic,  # overwrite property_RO
+                                    _MODS.geodesicx.GeodesicExact,
+                                    _MODS.geodsolve.GeodesicSolve)
+        return t
 
     @Property_RO
     def geodesicw(self):
@@ -1476,9 +1483,8 @@ class Ellipsoid(_NamedEnumItem):
         if isbool(exact):  # use Rhumb for backward compatibility
             r = _MODS.rhumbx.Rhumb(self, exact=exact, name=self.name)
         else:
-            _xinstanceof(_MODS.rhumbaux.RhumbAux,
-                         _MODS.rhumbsolve.RhumbSolve,
-                         _MODS.rhumbx.Rhumb, exact=r)
+            r = exact
+            _xinstanceof(*self._Rhumbs, exact=r)
             if r.ellipsoid != self:
                 raise _ValueError(exact=r, ellipsosid=r.ellipsoid)
         return r
@@ -1490,6 +1496,15 @@ class Ellipsoid(_NamedEnumItem):
         # if not self.isEllipsoidal:
         #     raise _IsnotError(_ellipsoidal_, ellipsoid=self)
         return _MODS.rhumbaux.RhumbAux(self, name=self.name)
+
+    @property_RO
+    def _Rhumbs(self):
+        '''(INTERNAL) Get all C{Rhumb...} classes, I{once}.
+        '''
+        Ellipsoid._Rhumbs = t = (_MODS.rhumbaux.RhumbAux,  # overwrite property_RO
+                                 _MODS.rhumbsolve.RhumbSolve,
+                                 _MODS.rhumbx.Rhumb)
+        return t
 
     @property
     def rhumbsolve(self):

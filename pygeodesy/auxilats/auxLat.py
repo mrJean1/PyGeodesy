@@ -19,9 +19,9 @@ from pygeodesy.auxilats.auxAngle import AuxAngle, AuxBeta, AuxChi, _AuxClass, \
                                         AuxMu, AuxPhi, AuxTheta, AuxXi
 from pygeodesy.auxilats.auxily import Aux, _2cos2x, _sc, _sn, _Ufloats
 from pygeodesy.basics import isscalar, _reverange, _xinstanceof
-from pygeodesy.constants import INF, MAX_EXP, MIN_EXP, NAN, NINF, PI_2, PI_4, \
-                               _EPSqrt, isfinite, isinf, isnan, _log2, _over, _0_0, \
-                               _0_0s, _0_1, _0_25, _0_5, _1_0, _2_0, _3_0, _360_0
+from pygeodesy.constants import INF, MAX_EXP, MIN_EXP, NAN, PI_2, PI_4, _EPSqrt, \
+                               _0_0, _0_0s, _0_1, _0_25, _0_5, _1_0, _2_0, _3_0, \
+                               _360_0, isfinite, isinf, isnan, _log2, _over
 from pygeodesy.datums import _ellipsoidal_datum, _WGS84,  Ellipsoid
 # from pygeodesy.ellipsoids import Ellipsoid  # from .datums
 from pygeodesy.elliptic import Elliptic as _Ef
@@ -42,9 +42,9 @@ except ImportError:  # Python 3.11-
         return pow(_2_0, x)
 
 __all__ = ()
-__version__ = '23.08.05'
+__version__ = '23.08.09'
 
-_TRIPS = 1024
+_TRIPS = 1024  # XXX 2 or 3?
 
 
 def _passarg(arg):  # PYCHOK to .utily
@@ -284,7 +284,7 @@ class AuxLat(AuxAngle):
                     t      = _asinh_2(em1 * (tphi * scphib)) / em1
                     try:
                         Dg =  Fsum(atphi, atphib, t, e * t)
-                    except ValueError:  # NAN
+                    except ValueError:  # Fsum(NAN) exception
                         Dg =  sum((atphi, atphib, t, e * t))
                     e  *= atphib
                     t   = atphi - e
@@ -447,7 +447,7 @@ class AuxLat(AuxAngle):
     def _fm1(self):  # 1 - flattening
         return self.ellipsoid.f1
 
-    def _fromAux(self, Zeta, **name):  # no diff
+    def _fromAux(self, Zeta, **name):
         '''Convert I{Auxiliary} to I{Geographic} latitude.
 
            @arg Zeta: Auxiliary latitude (L{AuxAngle}).
@@ -481,7 +481,7 @@ class AuxLat(AuxAngle):
                 Aux.PARAMETRIC: self._fm1,
                 Aux.RECTIFYING:       sqrt}
 
-    def Geocentric(self, Phi, **name):  # no diff
+    def Geocentric(self, Phi, **diff_name):
         '''Convert I{Geographic} to I{Geocentric} latitude.
 
            @arg Phi: Geographic latitude (L{AuxAngle}).
@@ -490,10 +490,13 @@ class AuxLat(AuxAngle):
         '''
         _xinstanceof(AuxAngle, Phi=Phi)
         # assert Phi._AUX == Aux.PHI
-        return AuxTheta(Phi.y * self._e2m1, Phi.x,
-                        name=_xkwds_get(name, name=Phi.name))
+        Theta = AuxTheta(Phi.y * self._e2m1, Phi.x,
+                         name=_xkwds_get(diff_name, name=Phi.name))
+        if _xkwds_get(diff_name, diff=False):
+            Theta._diff = self._e2m1
+        return Theta
 
-    def Geodetic(self, Phi, **name):  # no diff
+    def Geodetic(self, Phi, **diff_name):
         '''Convert I{Geographic} to I{Geodetic} latitude.
 
            @arg Phi: Geographic latitude (L{AuxAngle}).
@@ -502,7 +505,7 @@ class AuxLat(AuxAngle):
         '''
         _xinstanceof(AuxAngle, Phi=Phi)
         # assert Phi._AUX == Aux.PHI
-        return AuxPhi(Phi, name=_xkwds_get(name, name=Phi.name))
+        return AuxPhi(Phi, name=_xkwds_get(diff_name, name=Phi.name))
 
     @Property_RO
     def _n(self):  # 3rd flattening
@@ -512,7 +515,7 @@ class AuxLat(AuxAngle):
     def _n2(self):
         return self._n**2
 
-    def Parametric(self, Phi, **name):  # no diff
+    def Parametric(self, Phi, **diff_name):
         '''Convert I{Geographic} to I{Parametric} latitude.
 
            @arg Phi: Geographic latitude (L{AuxAngle}).
@@ -521,8 +524,11 @@ class AuxLat(AuxAngle):
         '''
         _xinstanceof(AuxAngle, Phi=Phi)
         # assert Phi._AUX == Aux.PHI
-        return AuxBeta(Phi.y * self._fm1, Phi.x,
-                       name=_xkwds_get(name, name=Phi.name))
+        Beta = AuxBeta(Phi.y * self._fm1, Phi.x,
+                       name=_xkwds_get(diff_name, name=Phi.name))
+        if _xkwds_get(diff_name, diff=False):
+            Beta._diff = self._fm1
+        return Beta
 
     Reduced = Parametric
 
@@ -659,9 +665,8 @@ class AuxLat(AuxAngle):
         m = _toAuxCase.get(auxout, None)
         if m:  # callable
             A = m(self, Phi, **_xkwds(diff_name, name=n))
-        elif auxout == Aux.GEOGRAPHIC:  # == .GEODETIC
+        elif auxout == Aux.GEODETIC:  # .GEOGRAPHIC
             A = AuxPhi(Phi, name=n)
-            A._diff = _1_0
         else:  # auxout?
             A = AuxPhi(NAN, name=n)
         # assert A._AUX == auxout
@@ -674,14 +679,11 @@ class AuxLat(AuxAngle):
         '''
         class _AuxPhy(AuxPhi):
             # lean C{AuxPhi} instance.
-            # _x = _1_0
+            # _diff = _1_0
+            # _x    = _1_0
 
-            def __init__(self, y):  # PYCHOK signature
-                self._y = y
-
-        class _AuxPhy1(_AuxPhy):
-            # lean C{AuxPhi} instance.
-            _diff = _1_0
+            def __init__(self, tphi):  # PYCHOK signature
+                self._y = tphi
 
         m = _toAuxCase.get(zetaux, None)
         if m:  # callable
@@ -689,8 +691,8 @@ class AuxLat(AuxAngle):
             def _toZeta(tphi):
                 return m(self, _AuxPhy(tphi), diff=True)
 
-        elif zetaux == Aux.GEOGRAPHIC:  # == .GEODETIC
-            _toZeta = _AuxPhy1
+        elif zetaux == Aux.GEODETIC:  # GEOGRAPHIC
+            _toZeta = _AuxPhy
 
         else:  # zetaux?
 
@@ -714,18 +716,21 @@ def _Clenshaw(sinp, Zeta, cs, K):
     #          sum(c[k] * cos((2*k+2) * Zeta))
     x = _2cos2x(cz, sz)  # 2 * cos(2*Zeta)
     if isfinite(x):
-        U0,  U1 =  Fsum(), Fsum()
-    else:  # avoid Fsum(NAN) exceptions
-        U0 = U1 = _0_0
-    # assert len(cs) == K
-    for r in _reverange(K):
-        U1 -= U0 * x + cs[r]
-        U1, U0 = U0, -U1
-    # u0*f0(Zeta) - u1*fm1(Zeta)
-    # f0  = sin(2*Zeta) if sinp else cos(2*Zeta)
-    # fm1 = 0 if sinp else 1
-    U0 *= (sz * cz * _2_0) if sinp else (x * _0_5)
-    return float(U0) if sinp else float(U0 - U1)
+        U0, U1 = Fsum(), Fsum()
+        # assert len(cs) == K
+        for r in _reverange(K):
+            U1 -= U0 * x + cs[r]
+            U1, U0 = U0, -U1
+        # u0*f0(Zeta) - u1*fm1(Zeta)
+        # f0  = sin(2*Zeta) if sinp else cos(2*Zeta)
+        # fm1 = 0 if sinp else 1
+        if sinp:
+            U0 *= sz * cz * _2_0
+        else:
+            U0 *= x * _0_5
+            U0 -= U1
+        x = float(U0)
+    return x
 
 
 def _CXcoeffs(aL):  # PYCHOK in .auxilats.__main__
@@ -742,52 +747,52 @@ def _CXcoeffs(aL):  # PYCHOK in .auxilats.__main__
 
 
 def _Newton(tphi, Zeta, _toZeta, **name):
-    # Newton's method
-    _l2 = _log2
-    tz  =  fabs(Zeta.tan)
-    ltz = _l2(tz) if tz else NINF
-    if isfinite(ltz):
-        tphi  = _over(tz, tphi)
-        ltphi = _l2(tphi)
+    # Newton's method fro AuxLat._fromAux
+    try:
+        _lg2  = _log2
+        _abs  =  fabs
+        tz    = _abs(Zeta.tan)
+        tphi  =  tz / tphi  # **)
+        ltz   = _lg2(tz)    # **)
+        ltphi = _lg2(tphi)  # **)
         ltmin =  min(ltphi, MIN_EXP)
         ltmax =  max(ltphi, MAX_EXP)
 #       auxin =  Zeta._AUX
         s, n, __2  =  0, 3, _0_5  # n = i + 2
-        _abs, _ov  =  fabs, _over
-        _p2,  _TOL = _exp2, _EPSqrt
-        for i in range(1, _TRIPS):  # 1Ki!
+        _TOL, _xp2 = _EPSqrt, _exp2
+        for i in range(1, _TRIPS):  # up to 1 Ki!
             # _toAux(auxin, AuxPhi(tphi), diff=True)
-            Z1 = _toZeta(tphi)
-            # assert Z1._AUX == auxin
-            tz1, s_ = Z1.tan, s
-            if tz1 > tz:
+            Z = _toZeta(tphi)
+            # assert Z._AUX == auxin
+            t, s_ = Z.tan, s
+            if t > tz:
                 ltmax, s = ltphi, +1
-            elif tz1 < tz:
+            elif t < tz:
                 ltmin, s = ltphi, -1
             else:
                 break
-            # derivative dtan(Zeta)/dtan(Pphi)
-            # to dlog(tan(Zeta))/dlog(tan(Phi))
-            # Zeta.diff *= tphi/tzeta1
-            d = _ov(tphi, tz1) * Z1.diff
-            d = _ov(ltz - _l2(tz1), d)
-            ltphi += d
-            tphi = _p2(ltphi)
+            # derivative dtan(Z)/dtan(Phi)
+            # to dlog(tan(Z))/dlog(tan(Phi))
+            d = (ltz - _lg2(t)) * t  # **)
+            if d:
+                d = d / (Z.diff * tphi)  # **)
+                ltphi += d
+                tphi = _xp2(ltphi)
             if _abs(d) < _TOL:
                 i += 1
                 # _toAux(auxin, AuxPhi(tphi), diff=True)
                 Z = _toZeta(tphi)
-                tphi -= _ov(Z.tan - tz, Z.diff)
+                tphi -= _over(Z.tan - tz, Z.diff)
                 break
             if (i > n and (s * s_) < 0) or not ltmin < ltphi < ltmax:
-                s, n  =  0, i + 2
+                s, n  =  0, (i + 2)
                 ltphi = (ltmin + ltmax) * __2
-                tphi  = _p2(ltphi)
+                tphi  = _xp2(ltphi)
         else:
             i = _TRIPS
         Phi = AuxPhi(tphi, **name).copyquadrant(Zeta)
         Phi._iter = i
-    else:
+    except (ValueError, ZeroDivisionError):  # **) zero t, tphi, tz or Z.diff
         Phi = AuxPhi(Zeta, **name)  # diff as-as
         Phi._iter = 0
     # assert Phi._AUX == Aux.PHI

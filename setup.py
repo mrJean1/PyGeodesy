@@ -27,7 +27,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '23.08.05'
+__version__ = '23.08.12'
 
 
 def _c2(*names):
@@ -53,7 +53,7 @@ def _version():
 _KeyWords = ('AER', 'Albers', 'altitude', 'Andoyer', 'annulus', 'antipode', 'area', 'attitude',
              'Authalic', 'auxiliary', 'azimuth', 'azimuthal', 'azimuth-elevation-range',
              'bearing', 'bank', 'Barsky', 'Barth', 'beta', 'boolean',
-             'cached', 'cartesian', 'Cassini', 'Cassini-Soldner', 'chord',
+             'cached', 'Cagnoli', 'cartesian', 'Cassini', 'Cassini-Soldner', 'chord',
              'circle-intersections', 'circumcenter', 'circumcirle', 'circumradius',
              'clip', 'Cohen', 'Cohen-Sutherland', 'Collins', 'composite',
              'conformal', 'conic', 'constants', 'contact-triangle',

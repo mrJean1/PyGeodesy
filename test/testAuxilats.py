@@ -4,7 +4,7 @@
 # Some basic L{auxilats} tests.
 
 __all__ = ('Tests',)
-__version__ = '23.08.05'
+__version__ = '23.08.09'
 
 from bases import numpy, TestsBase
 
@@ -66,12 +66,13 @@ class Tests(TestsBase):
 
         N = 5
         dst = AuxDST(N)
+        self.test('N', dst.N, N, prec=0, nl=1)
 
         tx = dst.transform(_f)
         if enums:
             for i, t in enumerate(tx):
-                printf('N/%s: %g %g', i, t, t * _j(i), nl=not i)
-        self.test('N/sum', fsum(tx), '2.748844788926', prec=12, nl=1)
+                printf('N /%s: %g %g', i, t, t * _j(i), nl=not i)
+        self.test('N /sum', fsum(tx), '2.748844788926', prec=12)
 
         tx = dst.refine(_f, tx)
         if enums:
@@ -110,6 +111,8 @@ if __name__ == '__main__':
     t.testAngles(False)
     if numpy:
         t.testDST(False)
+    else:
+        t.skip('no numpy', 6)
 
     t.results()
     t.exit()

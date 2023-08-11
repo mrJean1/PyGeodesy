@@ -16,14 +16,14 @@ under the MIT/X11 License.  For more information, see the U{GeographicLib
 from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.auxilats.auxily import _2cos2x
-from pygeodesy.basics import isodd, map2, neg, _xnumpy
-from pygeodesy.constants import PI_2, PI_4, _0_0, _0_5
-from pygeodesy.fsums import Fsum,  Property_RO, property_RO
+from pygeodesy.basics import isodd, map2, neg, _reverange, _xnumpy
+from pygeodesy.constants import NAN, PI_2, PI_4, isfinite, _0_0, _0_5, _1_0
+from pygeodesy.fsums import Fsum,  property_RO
 from pygeodesy.lazily import _ALL_DOCS
-# from pygeodesy.props import Property_RO, property_RO  # from .fsums
+# from pygeodesy.props import property_RO  # from .fsums
 
 __all__ = ()
-__version__ = '23.08.06'
+__version__ = '23.08.10'
 
 
 class AuxDST(object):
@@ -58,37 +58,43 @@ class AuxDST(object):
 
            @see: Methods C{AuxDST.integral} and C{AuxDST.integral2}.
         '''
-        n, Y1 = len(F), Fsum()
-        if N:
-            n = min(n, *N)
-        if isodd(n):
-            n -= 1
-            Y0 = Fsum(-F[n])
-        else:
-            Y0 = Fsum()
         a = -_2cos2x(cosx, sinx)
-        while n > 0:  # Y0, Y1 negated
-            n -= 1; Y1 -= Y0 * a + F[n]  # PYCHOK semicolon
-            n -= 1; Y0 -= Y1 * a + F[n]  # PYCHOK semicolon
-        return -float((Y0 + Y1) * sinx)
+        if isfinite(a):
+            Y0, Y1 = Fsum(), Fsum()
+            n = _len_N(F, *N)
+            if isodd(n):
+                n  -= 1
+                Y0 -= F[n]
+            while n > 0:  # Y0, Y1 negated
+                n -= 1; Y1 -= Y0 * a + F[n]  # PYCHOK semicolon
+                n -= 1; Y0 -= Y1 * a + F[n]  # PYCHOK semicolon
+            a = float(_Ys(Y0, -Y1, -sinx))
+        return a
 
-    @Property_RO
-    def _fft_real(self):
-        '''(INTERNAL) Get NumPy's I{kiss}-like C{transform_real},
-           taking C{float}[:N] and returning C{complex}[:N*2].
+    @property_RO
+    def _fft_numpy(self):
+        '''(INTERNAL) Get the C{numpy.fft} module, I{once}.
+        '''
+        AuxDST._fft_numpy = fft = _xnumpy(AuxDST, 1, 16).fft  # overwrite property_RO
+        return fft
+
+    def _fft_real(self, data):
+        '''(INTERNAL) NumPy's I{kissfft}-like C{transform_real} function,
+           taking C{float}[:N] B{C{data}} and returning C{complex}[:N*2].
         '''
         # <https://GitHub.com/mborgerding/kissfft/blob/master/test/testkiss.py>
-        return _xnumpy(AuxDST, 1, 16).fft.rfftn
+        return self._fft_numpy.rfftn(data)
 
     def _ffts(self, data, cIV):
         '''(INTERNAL) Compute the DST-III or DST-IV FFTransforms.
 
-           @arg data: Elements DST-III[1:N+1] or DST-IV[0:N] (C{float}[0:N]).
+           @arg data: Elements DST-III[0:N+1] or DST-IV[0:N] (C{float}[])
+                      with DST_III[0] = 0.
            @arg cIV: If C{True} DST-IV, otherwise DST-III.
 
            @return: FFTransforms (C{float}[0:N]).
         '''
-        N = self.N
+        t, N = (), self.N
         if N > 0:
             N2 = N * 2
             d  = list(data)
@@ -108,14 +114,12 @@ class AuxDST(object):
                 def _cF(c, unused):  # PYCHOK redef
                     return c
 
-            d += reversed(d[i:N])  # i == len(d) - N
-            d += map(neg, d[:N2])
+            d += list(reversed(d[i:N]))  # i == len(d) - N
+            d += list(map(neg, d[:N2]))
             c  = self._fft_real(d)  # complex[0:N*2]
             n2 = float(-N2)
-            d  = tuple(_cF(c[j], j).imag / n2 for j in range(1, N2, 2))
-        else:
-            d = ()
-        return d
+            t  = tuple(_cF(c[j], j).imag / n2 for j in range(1, N2, 2))
+        return t
 
     def _ffts2(self, data, F):
         '''(INTERNAL) Doubled FFTransforms.
@@ -131,15 +135,15 @@ class AuxDST(object):
         def _dpF(d, F):
             return (d + F) * _0_5
 
-        N = self._N
         # Copy DST-IV order N transform to d[0:N]
         d = self._ffts(data, True)
+        N = self._N
         # assert len(d) >= N and len(F) >= N
         # (DST-IV order N - DST-III order N) / 2
-        M = map2(_dmF, d[:N], F[:N])
+        m = map2(_dmF, d[:N], F[:N])
         # (DST-IV order N + DST-III order N) / 2
-        P = map2(_dpF, d[:N], F[:N])
-        return P + tuple(reversed(M))
+        p = map2(_dpF, d[:N], F[:N])
+        return p + tuple(reversed(m))
 
     @staticmethod
     def integral(sinx, cosx, F, *N):
@@ -157,42 +161,47 @@ class AuxDST(object):
            @see: Methods C{AuxDST.evaluate} and C{AuxDST.integral2}.
         '''
         a = _2cos2x(cosx - sinx, cosx + sinx)
-        Y0, Y1 = Fsum(), Fsum()
-        for r in _reveN(F, *N):
-            Y1 -= Y0 * a + r
-            Y0, Y1 = -Y1, Y0
-        return float((Y1 - Y0) * cosx)
+        if isfinite(a):
+            Y0, Y1 = Fsum(), Fsum()
+            for r in _reverscaled(F, *N):
+                Y1 -= Y0 * a + r
+                Y1, Y0 = Y0, -Y1
+            a = float(_Ys(Y1, Y0, cosx))
+        return a
 
-#   @staticmethod
-#   def integral2(sin1, cos1, sin2, cos2, F, *N):
-#       '''Compute the integral of Fourier sum given the sine and cosine
-#          of the angles at the end points using I{Clenshaw} summation
-#          C{integral(siny, cosy, F) - integral(sinx, cosx, F)}.
-#
-#          @arg sin1: The sin(I{sigma1}) (C{float}).
-#          @arg cos1: The cos(I{sigma1}) (C{float}).
-#          @arg sin2: The sin(I{sigma2}) (C{float}).
-#          @arg cos2: The cos(I{sigma2}) (C{float}).
-#          @arg F: The Fourier coefficients (C{float}[]).
-#          @arg N: Optional, (smaller) number of terms to evaluate (C{int}).
-#
-#          @return: Precison I{Clenshaw} intergral (C{float}).
-#
-#          @see: Methods C{AuxDST.evaluate} and C{AuxDST.integral}.
-#       '''
-#       #  2 * cos(y - x)*cos(y + x) -> 2 * cos(2 * x)
-#       a =  _2cos2x(cos2 * cos1, sin2 * sin1)
-#       # -2 * sin(y - x)*sin(y + x) -> 0
-#       b = -_2cos2x(sin2 * cos1, cos2 * sin1)
-#       Y0, Y1 = Fsum(), Fsum()
-#       Z0, Z1 = Fsum(), Fsum()
-#       for r in _reveN(F, *N):
-#           Y1 -= Y0 * a + Z0 * b + r
-#           Z1 -= Y0 * b + Z0 * a
-#           Y0, Y1 = -Y1, Y0
-#           Z0, Z1 = -Z1, Z0
-#       return float((Y1 - Y0) * (cos2 - cos1) +
-#                    (Z1 - Z0) * (cos2 + cos1))
+    @staticmethod
+    def integral2(sin1, cos1, sin2, cos2, F, *N):  # PYCHOK no cover
+        '''Compute the integral of Fourier sum given the sine and cosine
+           of the angles at the end points using I{Clenshaw} summation
+           C{integral(siny, cosy, F) - integral(sinx, cosx, F)}.
+
+           @arg sin1: The sin(I{sigma1}) (C{float}).
+           @arg cos1: The cos(I{sigma1}) (C{float}).
+           @arg sin2: The sin(I{sigma2}) (C{float}).
+           @arg cos2: The cos(I{sigma2}) (C{float}).
+           @arg F: The Fourier coefficients (C{float}[]).
+           @arg N: Optional, (smaller) number of terms to evaluate (C{int}).
+
+           @return: Precison I{Clenshaw} intergral (C{float}).
+
+           @see: Methods C{AuxDST.evaluate} and C{AuxDST.integral}.
+        '''
+        r = NAN
+        #  2 * cos(y - x)*cos(y + x) -> 2 * cos(2 * x)
+        a =  _2cos2x(cos2 * cos1, sin2 * sin1)
+        # -2 * sin(y - x)*sin(y + x) -> 0
+        b = -_2cos2x(sin2 * cos1, cos2 * sin1)
+        if isfinite(a) and isfinite(b):
+            Y0, Y1 = Fsum(), Fsum()
+            Z0, Z1 = Fsum(), Fsum()
+            for r in _reverscaled(F, *N):
+                Y1 -= Y0 * a + Z0 * b + r
+                Z1 -= Y0 * b + Z0 * a
+                Y1, Y0 = Y0, -Y1
+                Z1, Z0 = Z0, -Z1
+            r = float(_Ys(Y1, Y0, cos2 - cos1) +
+                      _Ys(Z1, Z0, cos2 + cos1))
+        return r
 
     @property_RO
     def N(self):
@@ -204,7 +213,7 @@ class AuxDST(object):
         '''Double the number of sampled points on a Fourier series.
 
            @arg f: Single-argument function (C{callable(sigma)} with
-                   C{sigma = j * PI_4 / N for j in range(1, N*2, 2)}.
+                   C{sigma = PI_4 * j / N for j in range(1, N*2, 2)}.
            @arg F: The initial Fourier series coefficients (C{float}[:N]).
 
            @return: Fourier series coefficients (C{float}[:N*2]).
@@ -229,12 +238,12 @@ class AuxDST(object):
         return N
 
     def transform(self, f):
-        '''Compute C{N} terms in the Fourier series.
+        '''Compute C{N + 1} terms in the Fourier series.
 
            @arg f: Single-argument function (C{callable(sigma)} with
-                   C{sigma = i * PI_2 / N for i in range(1, N + 1)}.
+                   C{sigma = PI_2 * i / N for i in range(1, N + 1)}.
 
-           @return: Fourier series coefficients (C{float}[:N]).
+           @return: Fourier series coefficients (C{float}[:N + 1]).
         '''
         def _data(_f, N):  # [:N + 1]
             yield _0_0  # data[0] = 0
@@ -246,16 +255,22 @@ class AuxDST(object):
         return self._ffts(_data(f, self.N), False)
 
 
-def _reveN(F, *N):
-    # Yield F reversed and scaled
-    n = len(F)
-    if N:
-        n = min(n, *N)
-    if n > 0:
-        n2 = n * 2 + 1
-        for r in reversed(F[:n]):
-            n2 -= 2
-            yield r / n2
+def _len_N(F, *N):
+    # Adjusted C{len(B{F})}.
+    return min(len(F), *N) if N else len(F)
+
+
+def _reverscaled(F, *N):
+    # Yield F[:N], reversed and scaled
+    for n in _reverange(_len_N(F, *N)):
+        yield F[n] / (n * 2 + _1_0)
+
+
+def _Ys(X, Y, s):
+    # Return M{(X - Y) * s}, overwriting X
+    X -= Y
+    X *= s
+    return X
 
 
 __all__ += _ALL_DOCS(AuxDST)

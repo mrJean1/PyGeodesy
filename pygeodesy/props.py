@@ -25,7 +25,7 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, \
 from functools import wraps as _wraps
 
 __all__ = _ALL_LAZY.props
-__version__ = '23.07.13'
+__version__ = '23.08.09'
 
 _class_       = 'class'
 _dont_use_    = _DEPRECATED_ + ", don't use."
@@ -74,7 +74,7 @@ def _hasProperty(inst, name, *Classes):  # in .named._NamedBase._update
 
 
 def _isclass(obj):
-    '''(INTERNAL) Get and replace C{_isclass}.
+    '''(INTERNAL) Get and overwrite C{_isclass}.
     '''
     f = _MODS.basics.isclass
     # assert __name__.endswith('.props')

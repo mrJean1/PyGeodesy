@@ -32,7 +32,7 @@ from pygeodesy.utily import atan2d, sincos2, sincos2d
 from math import asinh, atan2, copysign, degrees, fabs, radians, sinh
 
 __all__ = ()
-__version__ = '23.08.06'
+__version__ = '23.08.09'
 
 _MAX_2 = MAX * _0_5  # PYCHOK used!
 # del MAX
@@ -40,7 +40,7 @@ _MAX_2 = MAX * _0_5  # PYCHOK used!
 
 class AuxAngle(_Named):
     '''U{An accurate representation of angles
-       <https://GeographicLib.DourceForge.io/C++/doc/classGeographicLib_1_1AuxAngle.html>}
+       <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1AuxAngle.html>}
     '''
     _AUX  =  None  # overloaded/-ridden
     _diff =  NAN   # default
@@ -49,22 +49,21 @@ class AuxAngle(_Named):
     _x    = _1_0
 
     def __init__(self, y_angle=_0_0, x=_1_0, name=NN, **aux):
-        '''New L{AuxAngle} from C{degrees}, C{radians} or C{scalars}.
+        '''New L{AuxAngle}.
 
-           @kwarg y_angle: The Y component (C{scalar}, including C{INF},
-                           C{NAN} and C{NINF}) or a previous L{AuxAngle}
-                           instance.
-           @kwarg x: The X component, ignored if C{B{y_angle}} si non-scalar.
+           @kwarg y_angle: The Y component (C{scalar}, including C{INF}, C{NAN}
+                           and C{NINF}) or a previous L{AuxAngle} instance.
+           @kwarg x: The X component, ignored if C{B{y_angle}} is non-C{scalar}.
            @kwarg name: Optional name (C{str}).
-           @kwarg aux: Optional I{Auxiliary} kind (C{Aux.KIND}), ignored if
-                       B{C{y_angle}} is non-scalar.
+           @kwarg aux: I{Auxiliary} kind (C{Aux.KIND}), ignored if B{C{y_angle}}
+                       is non-C{scalar}.
 
-           @raise AuxError: Invalid B{C{y_angle}} or B{C{x}} or both.
+           @raise AuxError: Invalid B{C{y_angle}}, B{C{x}} or B{C{aux}}.
         '''
         try:
             yx = y_angle._yx
             if self._AUX is None:
-                self._AUX = y_angle._AUX
+                self._AUX  = y_angle._AUX
             if self._diff != y_angle._diff:
                 self._diff = y_angle._diff
         except AttributeError:
@@ -72,6 +71,8 @@ class AuxAngle(_Named):
             if aux:
                 aux = _xkwds_get(aux, aux=self._AUX)
                 if self._AUX is not aux:
+                    if aux not in _AUXClass:
+                        raise AuxError(aux=aux)
                     self._AUX = aux
         self._y, self._x = _yx2(yx)
         if name:
@@ -271,6 +272,13 @@ class AuxAngle(_Named):
         y, x = self._yx_normalized
         return self.classof(y, x, name=self.name, aux=self._AUX)
 
+    @property_RO
+    def _RhumbAux(self):
+        '''(INTERNAL) Import the L{RhumbAux} class, I{once}.
+        '''
+        AuxAngle._RhumbAux = R = _MODS.rhumbaux.RhumbAux  # overwrite property_RO
+        return R
+
     @Property_RO
     def tan(self):
         '''Get this angle's C{tan} (C{float}).
@@ -324,7 +332,9 @@ class AuxAngle(_Named):
         return Radians(atan2(*self._yx), name=self.name)
 
     def _toRhumbAux(self, rhumb, aux):
-        _xinstanceof(_MODS.rhumbaux.RhumbAux, rhumb=rhumb)
+        '''(INTERNAL) Create an C{aux}-KIND angle from this angle.
+        '''
+        _xinstanceof(self._RhumbAux, rhumb=rhumb)
         return rhumb._auxD.convert(aux, self, exact=rhumb.exact)
 
     @Property
@@ -412,7 +422,7 @@ class AuxAngle(_Named):
 
 
 class AuxBeta(AuxAngle):
-    '''An I{Prametric} latitude.
+    '''A I{Parametric, Auxiliary} latitude.
     '''
     _AUX = Aux.BETA
 
@@ -430,7 +440,7 @@ class AuxBeta(AuxAngle):
 
 
 class AuxChi(AuxAngle):
-    '''An I{Conformal} latitude.
+    '''A I{Conformal, Auxiliary} latitude.
     '''
     _AUX = Aux.CHI
 
@@ -442,7 +452,7 @@ class AuxChi(AuxAngle):
 
 
 class AuxMu(AuxAngle):
-    '''An I{Rectifying, Auxiliary} latitude.
+    '''A I{Rectifying, Auxiliary} latitude.
     '''
     _AUX = Aux.MU
 
@@ -454,9 +464,10 @@ class AuxMu(AuxAngle):
 
 
 class AuxPhi(AuxAngle):
-    '''An I{Geographic, Auxiliary} latitude.
+    '''A I{Geodetic or Geographic, Auxiliary} latitude.
     '''
-    _AUX = Aux.PHI
+    _AUX  =  Aux.PHI
+    _diff = _1_0  # see .auxLat._Newton
 
     @staticmethod
     def fromDegrees(deg, name=NN):
@@ -466,7 +477,7 @@ class AuxPhi(AuxAngle):
 
 
 class AuxTheta(AuxAngle):
-    '''An I{Geocentric} latitude.
+    '''A I{Geocentric, Auxiliary} latitude.
     '''
     _AUX = Aux.THETA
 
@@ -478,7 +489,7 @@ class AuxTheta(AuxAngle):
 
 
 class AuxXi(AuxAngle):
-    '''An I{Authalic} latitude.
+    '''An I{Authalic, Auxiliary} latitude.
     '''
     _AUX = Aux.XI
 

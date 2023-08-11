@@ -3,10 +3,11 @@
 
 u'''(INTERNAL) Base class L{LatLonBase} for all elliposiodal, spherical and N-vectorial C{LatLon} classes.
 
-@see: I{(C) Chris Veness}' U{latlong<https://www.Movable-Type.co.UK/scripts/latlong.html>}, U{-ellipsoidal<https://www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal.js.html>} and U{-vectors
-<https://www.Movable-Type.co.UK/scripts/latlong-vectors.html>} and I{Charles Karney}'s
-U{Rhumb<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Rhumb.html>}
-and U{RhumbLine<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1RhumbLine.html>} classes.
+@see: I{(C) Chris Veness}' U{latlong<https://www.Movable-Type.co.UK/scripts/latlong.html>},
+      U{-ellipsoidal<https://www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal.js.html>} and
+      U{-vectors<https://www.Movable-Type.co.UK/scripts/latlong-vectors.html>} and I{Charles Karney}'s
+      U{Rhumb<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Rhumb.html>} and
+      U{RhumbLine<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1RhumbLine.html>} classes.
 '''
 
 from pygeodesy.basics import isscalar, isstr, map1, _xinstanceof
@@ -29,6 +30,7 @@ from pygeodesy.interns import NN, _COMMASPACE_, _concentric_, _height_, \
                              _intersection_, _m_, _LatLon_, _no_, \
                              _overlap_,  _point_  # PYCHOK used!
 # from pygeodesy.iters import PointsIter, points2  # from .vector3d, _MODS
+# from pygeodesy.karney import Caps  # _MODS
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 # from pygeodesy.ltp import Ltp, _xLtp  # _MODS
 from pygeodesy.named import _NamedBase, notOverloaded,  Fmt
@@ -37,7 +39,6 @@ from pygeodesy.namedTuples import Bounds2Tuple, LatLon2Tuple, PhiLam2Tuple, \
 # from pygeodesy.nvectorBase import _N_vector_  # _MODS
 from pygeodesy.props import deprecated_method, Property, Property_RO, \
                             property_RO, _update_all
-# from pygeodesy.rhumbx import Caps, Rhumb  # _MODS
 # from pygeodesy.streprs import Fmt, hstr  # from .named, _MODS
 from pygeodesy.units import Distance_, Lat, Lon, Height, Radius, Radius_, \
                             Scalar, Scalar_
@@ -50,7 +51,7 @@ from contextlib import contextmanager
 from math import asin, cos, degrees, fabs, radians
 
 __all__ = _ALL_LAZY.latlonBase
-__version__ = '23.07.14'
+__version__ = '23.08.09'
 
 
 class LatLonBase(_NamedBase):

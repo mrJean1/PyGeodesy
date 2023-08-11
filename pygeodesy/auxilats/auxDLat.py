@@ -14,8 +14,8 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 from pygeodesy.auxilats.auxily import Aux, _Datan, _Dasinh, _sc, _sn,  AuxError
 from pygeodesy.auxilats.auxLat import AuxLat,  _ALL_DOCS
 from pygeodesy.basics import map1, _reverange
-from pygeodesy.constants import INF, NAN, isfinite, isinf, isnan, _over, \
-                               _0_0, _0_5, _1_0, _2_0, _N_2_0, _3_0
+from pygeodesy.constants import INF, NAN, isfinite, isinf, isnan, _0_0, \
+                               _0_5, _1_0, _2_0, _N_2_0, _3_0, _over, _1_over
 from pygeodesy.elliptic import Elliptic as _Ef,  Fsum
 # from pygeodesy.errors import AuxError  # from .auxilats.auxily
 # from pygeodesy.fsums import Fsum  # from .elliptic
@@ -24,7 +24,7 @@ from pygeodesy.elliptic import Elliptic as _Ef,  Fsum
 from math import atan, atan2, cos, sin, sqrt
 
 __all__ = ()
-__version__ = '23.08.05'
+__version__ = '23.08.09'
 
 
 class AuxDLat(AuxLat):
@@ -32,6 +32,16 @@ class AuxDLat(AuxLat):
        latitudes and other C{Divided Differences} needed for
        L{RhumbAux} and L{RhumbLineAux} calculations.
     '''
+
+    def CParametric(self, Zeta1, Zeta2):
+        '''Short for C{.Dconvert(Aux.BETA, B{Zeta1}, B{Zeta2})}.
+        '''
+        return self.Dconvert(Aux.BETA, Zeta1, Zeta2)
+
+    def CRectifying(self, Zeta1, Zeta2):
+        '''Short for C{.Dconvert(Aux.MU, B{Zeta1}, B{Zeta2})}.
+        '''
+        return self.Dconvert(Aux.MU, Zeta1, Zeta2)
 
     def _Datanhee(self, x, y):
         # atan(e*sn(tphi))/e:
@@ -107,9 +117,9 @@ class AuxDLat(AuxLat):
         '''
         tx, ty = Phi1.tan, Phi2.tan
         if isnan(ty) or isnan(tx):  # PYCHOK no cover
-            r = NAN
+            r =  NAN
         elif isinf(ty) or isinf(tx):  # PYCHOK no cover
-            r = INF
+            r =  INF
         else:  # psi = asinh(tan(Phi)) - e^2 * atanhee(tan(Phi))
             r =  self._Datanhee(tx, ty) * self._e2
             r = _over(_Dasinh(tx, ty) - r, _Datan(tx, ty))
@@ -121,24 +131,24 @@ class AuxDLat(AuxLat):
         fm1, e2m1 = self._fm1, self._e2m1
         tx,  ty   = Phi1.tan,  Phi2.tan
         # DbetaDphi = Datan(fm1*tx, fm1*ty) * fm1 / Datan(tx, ty)
-        # Datan(x, y) = 1/(1 + x^2),                       for x = y
-        #             = (atan(y) - atan(x)) / (y-x),       for x*y < 0
-        #             = atan( (y-x) / (1 + x*y) ) / (y-x), for x*y > 0
+        # Datan(x, y) = 1 / (1 + x^2),                   if x == y
+        #             = (atan(y) - atan(x)) / (y-x),     if x*y < 0
+        #             = atan((y-x) / (1 + x*y)) / (y-x), if x*y > 0
         txy = tx * ty
         if txy < 0 or (isinf(ty) and not tx):
             _a =  atan
             r  = _over(_a(fm1 * ty) - _a(fm1 * tx), _a(ty) - _a(tx))
         elif tx == ty:  # includes tx = ty = inf
             if txy > 1:  # == tx**2
-                txy = _1_0 / txy
+                txy = _1_over(txy)
                 r   =  txy + e2m1
             else:
                 r   =  txy * e2m1 + _1_0
             r = _over(fm1 * (txy + _1_0), r)
         else:
             if txy > 1:
-                tx  = _1_0 / tx
-                ty  = _1_0 / ty
+                tx  = _1_over(tx)
+                ty  = _1_over(ty)
                 txy =  tx * ty
                 t   =  txy + e2m1
             else:
@@ -146,11 +156,6 @@ class AuxDLat(AuxLat):
             r =  ty - tx
             r = _over(atan2(r * fm1, t), atan2(r, _1_0 + txy))
         return r
-
-    def DParametricZ(self, Zeta1, Zeta2):
-        '''Short for C{.Dconvert(Aux.BETA, Zeta1, Zeta2)}.
-        '''
-        return self.Dconvert(Aux.BETA, Zeta1, Zeta2)
 
     def DRectifying(self, Phi1, Phi2):
         '''I{Divided Difference} of the rectifying wrt the geographic latitude.
@@ -163,7 +168,7 @@ class AuxDLat(AuxLat):
             if isfinite(tphi1):
                 r *= _over(_sc(tphi1), _sc(Mu1.tan))**2
             else:  # PYCHOK no cover
-                r  = _over(_1_0, r)
+                r  = _1_over(r)
         elif (x * y) < 0:
             r = _over(self.Rectifying(Phi2).toRadians -
                       self.Rectifying(Phi1).toRadians, y - x)
@@ -172,11 +177,6 @@ class AuxDLat(AuxLat):
             r *= self.DE(*map1(self.Parametric, Phi1, Phi2))
             r *= self.DParametric(Phi1, Phi2)
         return r  # or INF or NAN
-
-    def DRectifyingZ(self, Zeta1, Zeta2):
-        '''Short for C{.Dconvert(Aux.MU, Zeta1, Zeta2)}.
-        '''
-        return self.Dconvert(Aux.MU, Zeta1, Zeta2)
 
 
 def _DClenshaw(sinp, Zeta1, Zeta2, cs, K):
@@ -214,30 +214,31 @@ def _DClenshaw(sinp, Zeta1, Zeta2, cs, K):
     xD = xb * Delta**2
 
     if isfinite(xD) and isfinite(xb) and isfinite(xa):
-        U0a,  U1a = Fsum(), Fsum()
-        U0b,  U1b = Fsum(), Fsum()
-    else:  # XXX avoid Fsum(NAN) exceptions
-        U0a = U1a = U0b = U1b = _0_0
-    for k in _reverange(K):  # assert len(cs) == K
-        # t = x . U0 - U1 + cs[k] * I
-        U1a -= U0a * xa + U0b * xD + cs[k]
-        U1b -= U0a * xb + U0b * xa
-        U1a, U0a = U0a, -U1a
-        U1b, U0b = U0b, -U1b
-    # F0a  = (sp if sinp else  cp) * cm
-    # F0b  = (cp if sinp else -sp) * smd
-    # Fm1a =   0 if sinp else   1  # Fm1b = 0
-    # return (U0b * F0a + U0a * F0b - U1b * Fm1a) * 2
-    if sinp:
-        U1b = _0_0
+        U0a, U1a = Fsum(), Fsum()
+        U0b, U1b = Fsum(), Fsum()
+        for k in _reverange(K):  # assert len(cs) == K
+            # t = x . U0 - U1 + cs[k] * I
+            U1a -= U0a * xa + U0b * xD + cs[k]
+            U1b -= U0a * xb + U0b * xa
+            U1a, U0a = U0a, -U1a
+            U1b, U0b = U0b, -U1b
+        # F0a  = (sp if sinp else  cp) * cm
+        # F0b  = (cp if sinp else -sp) * smd
+        # Fm1a =   0 if sinp else   1  # Fm1b = 0
+        # return (U0b * F0a + U0a * F0b - U1b * Fm1a) * 2
+        if sinp:
+            U1b = _0_0
+        else:
+            sp, cp = cp, -sp
+        U0b *=  sp * cm
+        U0a *=  cp * smd
+        U0a +=  U0b
+        U0a -=  U1b
+        U0a *= _2_0
+        r = float(U0a) if sinp else U0a  # Fsum
     else:
-        sp, cp = cp, -sp
-    U0b *=  sp * cm
-    U0a *=  cp * smd
-    U0a +=  U0b
-    U0a -=  U1b
-    U0a *= _2_0
-    return float(U0a) if sinp else U0a  # Fsum
+        r = NAN
+    return r
 
 
 def _Dsin(x, y):  # see also .rhumbx._Dsin
@@ -251,15 +252,15 @@ def _Dsin(x, y):  # see also .rhumbx._Dsin
 def _Dsn(x, y):
     # (sn(y) - sn(x)) / (y - x)
     if x != y:
-        snx, sny = map1(_sn, x, y)
+        snx, sny = _sn(x), _sn(y)
         if (x * y) > 0:
-            scx, scy = map1(_sc, x, y)
+            scx, scy = _sc(x), _sc(y)
             r = _over((snx / scy) + (sny / scx),
                       (snx + sny) *  scy * scx)
         else:
             r = (sny - snx) / (y - x)
     elif x:
-        r = _1_0 / (_sc(x) * (x**2 + _1_0))  # == 1 / sqrt3(x**2 + 1)
+        r = _1_over(_sc(x) * (x**2 + _1_0))  # == 1 / sqrt3(x**2 + 1)
     else:
         r = _1_0
     return r

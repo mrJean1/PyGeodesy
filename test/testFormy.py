@@ -4,20 +4,20 @@
 # Test L{formy} module.
 
 __all__ = ('Tests',)
-__version__ = '23.04.11'
+__version__ = '23.08.11'
 
 from bases import TestsBase
 
 from pygeodesy import PI, PI_2, R_M, antipode, bearing, cosineAndoyerLambert, \
                       cosineForsytheAndoyerLambert as _cosineForsythe_, \
                       cosineLaw, Datums, equirectangular, euclidean, \
-                      excessAbc_, excessGirard_, excessLHuilier_, excessKarney, \
-                      excessQuad, flatLocal, flatPolar, formy, hartzell, \
-                      haversine, heightOf, horizon, hubeny, IntersectionError, \
-                      intersection2, intersections2, isantipode, isantipode_, \
-                      isnormal, isnormal_, LatLon_, latlonDMS, LimitError, \
-                      limiterrors, map1, normal, parseDMS, radical2, thomas, \
-                      Vector3d as V3, vincentys
+                      excessAbc_, excessCagnoli_, excessGirard_, excessLHuilier_, \
+                      excessKarney, excessQuad, flatLocal, flatPolar, formy, \
+                      hartzell, haversine, heightOf, horizon, hubeny, \
+                      IntersectionError, intersection2, intersections2, \
+                      isantipode, isantipode_, isnormal, isnormal_, \
+                      LatLon_, latlonDMS, LimitError, limiterrors, map1, normal, \
+                      parseDMS, radical2, thomas, Vector3d as V3, vincentys
 
 from math import degrees, radians
 
@@ -90,6 +90,7 @@ class Tests(TestsBase):
         # XXX with the full t.A, t.a, ... values, all 5 excess' produce the exact same results
         for f, t in ((excessAbc_,      (0.386453, 1.098565, 1.098565)),
                      (excessAbc_,      (1.482026, 0.34371,  1.098565)),
+                     (excessCagnoli_,  (0.34371,  1.098565, 1.098565)),
                      (excessGirard_,   (0.386453, 1.482026, 1.482026)),
                      (excessLHuilier_, (0.34371,  1.098565, 1.098565))):
             self.test(f.__name__, degrees(f(*t)), '11.9698', prec=4)
@@ -101,7 +102,7 @@ class Tests(TestsBase):
                         (excessQuad,   (70, 40,  0, -20), '-44.0235')):
             self.test(f.__name__, degrees(f(*t, radius=None)), x, prec=4)
 
-        self.test('isantipode1', isantipode( 89,  179, -89,  -1), True)
+        self.test('isantipode1', isantipode( 89,  179, -89,  -1), True, nl=1)
         self.test('isantipode2', isantipode(-89, -179,  89,   1), True)
         self.test('isantipode3', isantipode(-89, -179, -89,  -1), False)
         self.test('isantipode4', isantipode(  0,  -45, -0., 135), True)
@@ -111,7 +112,7 @@ class Tests(TestsBase):
         self.test('isantipode7', isantipode_(*map1(radians, -89, -179, -89,  -1)), False)
         self.test('isantipode8', isantipode_(*map1(radians,   0,  -45, -0., 135)), True)
 
-        self.test('isnormal1', isnormal( 90, -180), True)
+        self.test('isnormal1', isnormal( 90, -180), True, nl=1)
         self.test('isnormal2', isnormal(-99,  180), False)
         self.test('isnormal3', isnormal(-0.,  180), True)
         self.test('isnormal4', isnormal(-89,  179, eps=1), True)
@@ -123,7 +124,7 @@ class Tests(TestsBase):
 
         pov = V3(10.1e6, 10.2e6, 10.3e6)  # 10+ km
         los = V3(-0.7274, -0.3637, -0.5819)
-        self.test('hartzell', hartzell(pov, los).toStr(prec=6), '(884080.396945, 5592040.198472, 2927517.711001)')
+        self.test('hartzell', hartzell(pov, los).toStr(prec=6), '(884080.396945, 5592040.198472, 2927517.711001)', nl=1)
         ll = hartzell(pov, los, LatLon=LatLon_)
         self.test('hartzell', ll.toStr(prec=6), "27.500482°N, 081.016111°E, +0.00, 'hartzell'", known=abs(ll.height) < 1e-6)
         self.test('hartzell', hartzell(pov).toStr(prec=6), '(3642031.283571, 3678090.99925, 3714150.714929)')

@@ -42,7 +42,7 @@ from pygeodesy.utily import fabs, _unrollon, _Wrap
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.booleans
-__version__ = '23.05.06'
+__version__ = '23.08.09'
 
 _0_EPS =  EPS  # near-zero, positive
 _EPS_0 = -EPS  # near-zero, negative
@@ -1130,7 +1130,7 @@ class _CompositeBase(_Named):
 
     def _sum1(self, _a_p, *args, **kwds):  # in .karney, .points
         # Sum the area or perimeter of all clips
-        return _MODS.fsums.fsum1((_a_p(c, *args, **kwds) for c in self._clips))
+        return _MODS.fsums.fsum1((_a_p(c, *args, **kwds) for c in self._clips), floats=True)
 
     def _sum2(self, LL, _a_p, *args, **kwds):  # in .sphericalNvector, -Trigonometry
         # Sum the area or perimeter of all clips
@@ -1140,7 +1140,7 @@ class _CompositeBase(_Named):
             for v in clip:
                 yield _LL(v.lat, v.lon)  # datum=Sphere
 
-        return _MODS.fsums.fsum1((_a_p(_lls(c), *args, **kwds) for c in self._clips))
+        return _MODS.fsums.fsum1((_a_p(_lls(c), *args, **kwds) for c in self._clips), floats=True)
 
     def toLatLon(self, LatLon=None, closed=False, **LatLon_kwds):
         '''Yield all (non-duplicate) points and intersections

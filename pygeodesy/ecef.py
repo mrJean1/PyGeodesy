@@ -86,7 +86,7 @@ from pygeodesy.utily import atan2d, degrees90, degrees180, sincos2, sincos2_, \
 from math import atan2, cos, degrees, fabs, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '23.08.07'
+__version__ = '23.08.09'
 
 _Ecef_    = 'Ecef'
 _EWGS84   = _WGS84.ellipsoid
@@ -309,10 +309,10 @@ class _EcefBase(_NamedBase):
 
     @property_RO
     def _Geocentrics(self):
-        '''(INTERNAL) Valid geocentric classes.
+        '''(INTERNAL) Get the valid geocentric classes. I{once}.
         '''
-        t = Ecef9Tuple, _MODS.cartesianBase.CartesianBase
-        _EcefBase._Geocentrics = t  # overwrite the property
+        _EcefBase._Geocentrics = t = (Ecef9Tuple,    # overwrite property_RO
+                                     _MODS.cartesianBase.CartesianBase)
         return t
 
     @Property_RO
@@ -1082,9 +1082,9 @@ class Ecef9Tuple(_NamedTuple):
 
     @property_RO
     def _CartesianBase(self):
-        '''(INTERNAL) Get/cache class C{CartesianBase}.
+        '''(INTERNAL) Get class C{CartesianBase}, I{once}.
         '''
-        Ecef9Tuple._CartesianBase = C = _MODS.cartesianBase.CartesianBase  # overwrite property
+        Ecef9Tuple._CartesianBase = C = _MODS.cartesianBase.CartesianBase  # overwrite property_RO
         return C
 
     @deprecated_method

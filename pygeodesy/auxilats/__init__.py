@@ -28,7 +28,7 @@ from pygeodesy.auxilats.auxLat import AuxLat  # PYCHOK exported
 
 __all__ = _ALL_OTHER(Aux, AuxAngle, AuxDLat, AuxDST, AuxLat,
                      AuxBeta, AuxChi, AuxMu, AuxPhi, AuxTheta, AuxXi)
-__version__ = '23.08.05'
+__version__ = '23.08.10'
 
 # **) MIT License
 #

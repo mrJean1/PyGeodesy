@@ -30,7 +30,7 @@ from pygeodesy.units import Int_, Lat, Lon, Precision_, Scalar_, \
 from math import floor
 
 __all__ = _ALL_LAZY.gars
-__version__ = '22.09.29'
+__version__ = '23.08.09'
 
 _Digits  = _0to9_
 _LatLen  =    2
@@ -164,7 +164,7 @@ class Garef(Str):
 
     @Property_RO
     def _decoded3(self):
-        '''(INTERNAL) Initial L{LatLonPrec5Tuple}.
+        '''(INTERNAL) Initial L{LatLonPrec3Tuple}.
         '''
         return decode3(self)
 
@@ -182,23 +182,19 @@ class Garef(Str):
         p = self._precision
         return self._decoded3.precision if p is None else p
 
-    def toLatLon(self, LatLon, **LatLon_kwds):
+    def toLatLon(self, LatLon=None, **LatLon_kwds):
         '''Return (the center of) this garef cell as an instance
            of the supplied C{LatLon} class.
 
-           @arg LatLon: Class to use (C{LatLon}).
+           @kwarg LatLon: Class to use (C{LatLon} or C{None}).
            @kwarg LatLon_kwds: Optional, additional B{C{LatLon}}
                                keyword arguments.
 
-           @return: This garef location (B{C{LatLon}}).
-
-           @raise GARSError: Invalid B{C{LatLon}}.
+           @return: This garef location as B{C{LatLon}} or if
+                    C{B{LatLon} is None} as L{LatLonPrec3Tuple}.
         '''
-        if LatLon is None:
-            kwds = _xkwds(LatLon_kwds, LatLon=None, name=self.name)
-            raise GARSError(**kwds)
-
-        return self._xnamed(LatLon(*self.latlon, **LatLon_kwds))
+        return self.decoded3 if LatLon is None else LatLon(
+              *self.latlon, **_xkwds(LatLon_kwds, name=self.name))
 
 
 def decode3(garef, center=True):

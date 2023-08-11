@@ -40,7 +40,7 @@ from pygeodesy.datums import Datum, _spherical_datum, _WGS84,  Ellipsoid, Fmt
 # from pygeodesy.elliptic import Elliptic  # _MODS
 # from pygeodesy.errors import _ValueError  # from .basics
 from pygeodesy.fmath import Fdot, fdot, fmean_, hypot, hypot_, norm2
-from pygeodesy.fsums import Fsum, fsumf_, fsum1f_,  Property_RO
+from pygeodesy.fsums import Fsum, fsumf_, fsum1f_
 from pygeodesy.interns import NN, _a_, _b_, _beta_, _c_, _distant_, _finite_, \
                              _height_, _inside_, _near_, _not_, _NOTEQUAL_, _null_, \
                              _opposite_, _outside_, _SPACE_, _spherical_, _too_, \
@@ -49,7 +49,7 @@ from pygeodesy.interns import NN, _a_, _b_, _beta_, _c_, _distant_, _finite_, \
 from pygeodesy.named import _NamedEnum, _NamedEnumItem, _NamedTuple, _Pass, \
                             _lazyNamedEnumItem as _lazy
 from pygeodesy.namedTuples import LatLon3Tuple, Vector3Tuple, Vector4Tuple
-# from pygeodesy.props import Property_RO  # from .fsums
+from pygeodesy.props import Property_RO, property_RO
 # from pygeodesy.streprs import Fmt  # from .datums
 from pygeodesy.units import Degrees, Float, Height_, Meter, Meter2, Meter3, \
                             Radians, Radius, Scalar_
@@ -59,7 +59,7 @@ from pygeodesy.vector3d import _otherV3d, Vector3d,  _ALL_LAZY, _MODS
 from math import atan2, fabs, sqrt
 
 __all__ = _ALL_LAZY.triaxials
-__version__ = '23.05.22'
+__version__ = '23.08.09'
 
 _not_ordered_ = _not_('ordered')
 _omega_       = 'omega'
@@ -348,11 +348,12 @@ class Triaxial_(_NamedEnumItem):
 
     _1e2bc = _c2_b2  # C{1 - e2bc} == C{(c/b)**2}
 
-    @Property_RO
+    @property_RO
     def _Elliptic(self):
-        '''(INTERNAL) Get class L{Elliptic} once.
+        '''(INTERNAL) Get class L{Elliptic}, I{once}.
         '''
-        return _MODS.elliptic.Elliptic
+        Triaxial_._Elliptic = E = _MODS.elliptic.Elliptic  # overwrite property_RO
+        return E
 
     def hartzell4(self, pov, los=None, name=NN):
         '''Compute the intersection of this triaxial's surface with a Line-Of-Sight

@@ -154,7 +154,7 @@ from pygeodesy.utily import atan2d, sincos2d, tand, _unrollon,  fabs
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.karney
-__version__ = '23.08.05'
+__version__ = '23.08.09'
 
 _EWGS84     = _WGS84.ellipsoid  # PYCHOK in .auxilats, .geodesicx.gx, .ktm, .solveBase
 _K_2_0      = _getenv('PYGEODESY_GEOGRAPHICLIB', _2_) == _2_
@@ -727,10 +727,14 @@ def _polynomial(x, cs, i, j):  # PYCHOK shared
 
        @return: M{sum(cs[k] * x**(j - k - 1) for k in range(i, j)}
     '''
+    # assert 0 <= i <= j <= len(cs)
+#   try:
+#       return _wrapped.Math.polyval(j - i - 1, cs, i, x)
+#   except AttributeError:
+#       pass
     s, t = cs[i], _0_0
-    _s2_ = _sum2_
     for c in cs[i+1:j]:
-        s, t = _s2_(s * x, t * x, c)
+        s, t = _sum2_(s * x, t * x, c)
     return s  # + t
 
 

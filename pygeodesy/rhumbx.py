@@ -43,7 +43,7 @@ from pygeodesy.utily import sincos2_
 from math import asinh, atan, cos, cosh, fabs, radians, sin, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.rhumbx
-__version__ = '23.08.05'
+__version__ = '23.08.09'
 
 
 class Rhumb(RhumbBase):
@@ -111,9 +111,9 @@ class Rhumb(RhumbBase):
                   and C{NAN} is returned for C{lon2} and area C{S12}.
 
            @note: If the given point is a pole, the cosine of its latitude is
-                  taken to be C{epsilon}**-2 (where C{epsilon} is 2.0**-52.
-                  This position is extremely close to the actual pole and
-                  allows the calculation to be carried out in finite terms.
+                  taken to be C{sqrt(L{EPS})}.  This position is extremely
+                  close to the actual pole and allows the calculation to be
+                  carried out in finite terms.
         '''
         rl = RhumbLine(self, lat1, lon1, azi12, caps=Caps.LINE_OFF,
                                                 name=self.name)
@@ -194,9 +194,9 @@ class Rhumb(RhumbBase):
                   and the East-going one is chosen.
 
            @note: If either point is a pole, the cosine of its latitude is
-                  taken to be C{epsilon}**-2 (where C{epsilon} is 2.0**-52).
-                  This position is extremely close to the actual pole and
-                  allows the calculation to be carried out in finite terms.
+                  taken to be C{sqrt(L{EPS})}.  This position is extremely
+                  close to the actual pole and allows the calculation to be
+                  carried out in finite terms.
         '''
         r, Cs = GDict(name=self.name), Caps
         if (outmask & Cs.AZIMUTH_DISTANCE_AREA):
@@ -389,9 +389,9 @@ class RhumbLine(RhumbLineBase):
                   C{NAN} is returned for C{lon2} and area C{S12}.
 
                   If the first point is a pole, the cosine of its latitude is
-                  taken to be C{epsilon}**-2 (where C{epsilon} is 2**-52).
-                  This position is extremely close to the actual pole and
-                  allows the calculation to be carried out in finite terms.
+                  taken to be C{sqrt(L{EPS})}.  This position is extremely
+                  close to the actual pole and allows the calculation to be
+                  carried out in finite terms.
         '''
         r, Cs = GDict(name=self.name), Caps
         if (outmask & Cs.LATITUDE_LONGITUDE_AREA):

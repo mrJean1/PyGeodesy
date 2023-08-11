@@ -33,10 +33,10 @@ from pygeodesy.utily import acos1, atan2b, atan2d, degrees2m, m2degrees, \
                             tan_2, sincos2, sincos2_, sincos2d_, _Wrap
 
 from contextlib import contextmanager
-from math import atan, atan2, cos, degrees, fabs, radians, sin, sqrt  # pow
+from math import asin, atan, atan2, cos, degrees, fabs, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '23.06.08'
+__version__ = '23.08.11'
 
 _D2_R2  = (PI / _180_0)**2  # degrees- to radians-squared
 _EWGS84 = _WGS84.ellipsoid
@@ -565,7 +565,7 @@ def euclidean_(phi2, phi1, lam21, adjust=True):
 
 def excessAbc_(A, b, c):
     '''Compute the I{spherical excess} C{E} of a (spherical) triangle
-       from two sides and the included angle.
+       from two sides and the included (small) angle.
 
        @arg A: An interior triangle angle (C{radians}).
        @arg b: Frist adjacent triangle side (C{radians}).
@@ -581,6 +581,32 @@ def excessAbc_(A, b, c):
     sA, cA, sb, cb, sc, cc = sincos2_(Radians_(A=A), Radians_(b=b) * _0_5,
                                                      Radians_(c=c) * _0_5)
     return atan2(sA * sb * sc, cb * cc + cA * sb * sc) * _2_0
+
+
+def excessCagnoli_(a, b, c):
+    '''Compute the I{spherical excess} C{E} of a (spherical) triangle using
+       U{Cagnoli's<https://Zenodo.org/record/35392>} (D.34) formula.
+
+       @arg a: First triangle side (C{radians}).
+       @arg b: Second triangle side (C{radians}).
+       @arg c: Third triangle side (C{radians}).
+
+       @return: Spherical excess (C{radians}).
+
+       @raise UnitError: Invalid B{C{a}}, B{C{b}} or B{C{c}}.
+
+       @see: Function L{excessLHuilier_} and U{Spherical trigonometry
+             <https://WikiPedia.org/wiki/Spherical_trigonometry>}.
+    '''
+    a = Radians_(a=a)
+    b = Radians_(b=b)
+    c = Radians_(c=c)
+
+    s = fsumf_(a, b, c) * _0_5
+    r = sin(s) * sin(s - a) * sin(s - b) * sin(s - c)
+    c = cos(a * _0_5) * cos(b * _0_5) * cos(c * _0_5)
+    r = asin(sqrt(r) * _0_5 / c) if c and r > 0 else _0_0
+    return Radians(Cagnoli=r * _2_0)
 
 
 def excessGirard_(A, B, C):
@@ -617,8 +643,8 @@ def excessLHuilier_(a, b, c):
 
        @raise UnitError: Invalid B{C{a}}, B{C{b}} or B{C{c}}.
 
-       @see: Function L{excessGirard_} and U{Spherical trigonometry
-             <https://WikiPedia.org/wiki/Spherical_trigonometry>}.
+       @see: Function L{excessCagnoli_}, L{excessGirard_} and U{Spherical
+             trigonometry<https://WikiPedia.org/wiki/Spherical_trigonometry>}.
     '''
     a = Radians_(a=a)
     b = Radians_(b=b)
@@ -1484,7 +1510,7 @@ def n_xyz2philam(x, y, z, name=NN):
 
 
 def _opposes(d, m, n, n2):
-    '''(INETNAL) Helper for C{opposing} and C{opposing_}.
+    '''(INTERNAL) Helper for C{opposing} and C{opposing_}.
     '''
     d = d % n2  # -20 % 360 == 340, -1 % PI2 == PI2 - 1
     return False if d < m or d > (n2 - m) else (
@@ -1504,7 +1530,7 @@ def opposing(bearing1, bearing2, margin=_90_0):
        @see: Function L{opposing_}.
     '''
     m = Degrees_(margin=margin, low=EPS0, high=_90_0)
-    return _opposes(bearing2 - bearing1, m,_180_0, _360_0)
+    return _opposes(bearing2 - bearing1, m, _180_0, _360_0)
 
 
 def opposing_(radians1, radians2, margin=PI_2):

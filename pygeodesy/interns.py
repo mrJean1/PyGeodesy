@@ -321,6 +321,7 @@ _or_                  = 'or'                 # PYCHOK OK
 _other_               = 'other'              # PYCHOK OK
 _outside_             = 'outside'            # PYCHOK OK
 _overlap_             = 'overlap'            # PYCHOK OK
+_parallel_            = 'parallel'           # PYCHOK OK
 _PERCENT_             = '%'                  # PYCHOK OK
 _PERCENTDOTSTAR_      = '%.*'                # PYCHOK _DOT_(_PERCENT_, _STAR_)
 _phi_                 = 'phi'                # PYCHOK OK
@@ -595,7 +596,7 @@ def _version2(version, n=2):
 __all__ = (_NN_,  # not MISSING!
             Str_.__name__,  # classes
             machine.__name__)  # in .lazily
-__version__ = '23.08.05'
+__version__ = '23.08.09'
 
 if __name__ == '__main__':
 

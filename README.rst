@@ -80,16 +80,17 @@ Functions and ``LatLon`` methods ``circin6``, ``circum3``, ``circum4_``,
 and ``rhumbaux`` require numpy_.
 
 Modules ``ellipsoidalGeodSolve`` and ``geodsolve`` and ``azimuthal``
-classes ``EquidistantGeodSolve`` and ``GnomonicGeodSolve`` depend
-on *Karney*\'s C++ utility GeodSolve_ to be executable and set with
-env variable ``PYGEODESY_GEODSOLVE``.
+classes ``EquidistantGeodSolve`` and ``GnomonicGeodSolve`` depend on
+*Karney*\'s C++ utility GeodSolve_ to be executable and set with env
+variable ``PYGEODESY_GEODSOLVE`` or with property ``Ellipsoid.geodsolve``.
 
 To compare ``MGRS`` results from modules ``mgrs`` and ``testMgrs`` with
 *Karney*\'s C++ utility GeoConvert_, the latter must be executable and
 set with env variable ``PYGEODESY_GEOCONVERT``.
 
 Module ``rhumbsolve`` needs *Karney*\'s C++ utility RhumbSolve_ to
-be executable and set with env variable ``PYGEODESY_RHUMBSOLVE``.
+be executable and set with env variable ``PYGEODESY_RHUMBSOLVE`` or
+with property ``Ellipsoid.rhumbsolve``.
 
 Documentation
 =============
@@ -158,7 +159,7 @@ using Python 3.11.4, both in 64-bit on macOS 13.4.1 Ventura.
 For a summary of all *Karney*-based functionality in ``pygeodesy``, see
 module karney_.
 
-*Last updated: Aug 08, 2023.*
+*Last updated: Aug 12, 2023.*
 
 License
 =======
@@ -260,7 +261,7 @@ OTHER DEALINGS IN THE SOFTWARE.``
 .. _Pythonista: https://OMZ-Software.com/pythonista
 .. _Ramer-Douglas-Peucker: https://WikiPedia.org/wiki/Ramer-Douglas-Peucker_algorithm
 .. _Reumann-Witkam: https://psimpl.SourceForge.net/reumann-witkam.html
-.. _RhumbSolve: /C++/doc/
+.. _RhumbSolve: https://GeographicLib.SourceForge.io/C++/doc/utilities.html
 .. _scipy: https://PyPI.org/project/scipy
 .. _simplify: https://Bost.Ocks.org/mike/simplify
 .. _Sutherland-Hodgman: https://WikiPedia.org/wiki/Sutherland-Hodgman_algorithm

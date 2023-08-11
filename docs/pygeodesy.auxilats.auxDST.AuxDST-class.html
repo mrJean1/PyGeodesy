@@ -148,7 +148,7 @@ object --+
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.auxilats.auxDST.AuxDST-class.html#transform" class="summary-sig-name">transform</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">f</span>)</span><br />
-      Compute <code>N</code> terms in the Fourier series.</td>
+      Compute <code>N + 1</code> terms in the Fourier series.</td>
           <td align="right" valign="top">
             
             
@@ -222,6 +222,30 @@ object --+
       angle using <i>Clenshaw</i> summation <code>-sum(<b>F</b>[i] / 
       (2*i+1) * cos((2*i+1) * x))</code> for <code>i in 
       range(min(len(<b>F</b>), *<b>N</b>))</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.auxilats.auxDST.AuxDST-class.html#integral2" class="summary-sig-name">integral2</a>(<span class="summary-sig-arg">sin1</span>,
+        <span class="summary-sig-arg">cos1</span>,
+        <span class="summary-sig-arg">sin2</span>,
+        <span class="summary-sig-arg">cos2</span>,
+        <span class="summary-sig-arg">F</span>,
+        <span class="summary-sig-arg">*N</span>)</span><br />
+      Compute the integral of Fourier sum given the sine and cosine of the 
+      angles at the end points using <i>Clenshaw</i> summation 
+      <code>integral(siny, cosy, F) - integral(sinx, cosx, F)</code>.</td>
           <td align="right" valign="top">
             
             
@@ -374,6 +398,49 @@ object --+
       </p>
 </div></td></tr></table>
 </div>
+<a name="integral2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">integral2</span>&nbsp;(<span class="sig-arg">sin1</span>,
+        <span class="sig-arg">cos1</span>,
+        <span class="sig-arg">sin2</span>,
+        <span class="sig-arg">cos2</span>,
+        <span class="sig-arg">F</span>,
+        <span class="sig-arg">*N</span>)</span>
+    <br /><em class="fname">Static Method</em>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the integral of Fourier sum given the sine and cosine of the 
+  angles at the end points using <i>Clenshaw</i> summation 
+  <code>integral(siny, cosy, F) - integral(sinx, cosx, F)</code>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>sin1</code></strong> - The sin(<i>sigma1</i>) (<code>float</code>).</li>
+        <li><strong class="pname"><code>cos1</code></strong> - The cos(<i>sigma1</i>) (<code>float</code>).</li>
+        <li><strong class="pname"><code>sin2</code></strong> - The sin(<i>sigma2</i>) (<code>float</code>).</li>
+        <li><strong class="pname"><code>cos2</code></strong> - The cos(<i>sigma2</i>) (<code>float</code>).</li>
+        <li><strong class="pname"><code>F</code></strong> - The Fourier coefficients (<code>float</code>[]).</li>
+        <li><strong class="pname"><code>N</code></strong> - Optional, (smaller) number of terms to evaluate 
+          (<code>int</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Precison <i>Clenshaw</i> intergral (<code>float</code>).</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Methods <code>AuxDST.evaluate</code> and 
+        <code>AuxDST.integral</code>.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="refine"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -395,7 +462,7 @@ object --+
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>f</code></strong> - Single-argument function (<code>callable(sigma)</code> with 
-          <code>sigma = j * PI_4 / N for j in range(1, N*2, 2)</code>.</li>
+          <code>sigma = PI_4 * j / N for j in range(1, N*2, 2)</code>.</li>
         <li><strong class="pname"><code>F</code></strong> - The initial Fourier series coefficients (<code>float</code>[:N]).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -444,15 +511,15 @@ object --+
     </td>
   </tr></table>
   
-  <p>Compute <code>N</code> terms in the Fourier series.</p>
+  <p>Compute <code>N + 1</code> terms in the Fourier series.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>f</code></strong> - Single-argument function (<code>callable(sigma)</code> with 
-          <code>sigma = i * PI_2 / N for i in range(1, N + 1)</code>.</li>
+          <code>sigma = PI_2 * i / N for i in range(1, N + 1)</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Fourier series coefficients (<code>float</code>[:N]).</dd>
+        <dd>Fourier series coefficients (<code>float</code>[:N + 1]).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -522,7 +589,7 @@ object --+
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Aug  7 07:11:14 2023
+    Generated by Epydoc 3.0.1 on Fri Aug 11 15:24:46 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

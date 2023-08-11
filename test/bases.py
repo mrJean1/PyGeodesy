@@ -50,7 +50,7 @@ __all__ = ('coverage', 'GeodSolve', 'geographiclib',  # constants
            'RandomLatLon', 'TestsBase',  # classes
            'ios_ver', 'nix_ver', 'secs2str',  # functions
            'tilde', 'type2str', 'versions')
-__version__ = '23.04.07'
+__version__ = '23.08.11'
 
 try:
     geographiclib = basics._xgeographiclib(basics, 1, 50)
@@ -160,7 +160,8 @@ class TestsBase(object):
     _prefix   = _SPACE_ * 4
     _raiser   =  False
     _testX    =  False  # slow Exact test
-    _time     =  0
+    _time     =  None  # -prefix
+    _time0    =  0
     _verbose  =  True  # print all tests, otherwise failures only
     _versions =  NN  # cached versions() string, set below
 
@@ -176,9 +177,14 @@ class TestsBase(object):
         self.title(self._name, version, module=module)
         self._verbose = verbose
         self._raiser  = raiser if raiser else '-raiser'.startswith(sys.argv[-1])
-        self._testX   = testX if testX else ('-testX' in sys.argv[1:] or
-                                             '-Exact' in sys.argv[1:])
-        self._time    = time()
+        self._testX   = testX  if testX else ('-testX' in sys.argv[1:] or
+                                              '-Exact' in sys.argv[1:])
+        self._time0   = time()
+        try:
+            sys.argv.remove('-prefix')
+            self._time = self._time0
+        except (IndexError, ValueError):
+            pass
 
     def errors(self):
         '''Return the number of tests failures,
@@ -205,6 +211,11 @@ class TestsBase(object):
     @property_RO
     def name(self):
         return self._name
+
+    def printf(self, fmt, *args, **kwds):  # nl=0, nt=0
+        '''Print a formatted line to sys.stdout.
+        '''
+        printf((fmt % args), prefix=self._prefix, **kwds)
 
     def pygeodesy_classes(self, Base=None, deprecated=False):
         '''Yield all PyGeodesy class definitions.
@@ -237,17 +248,12 @@ class TestsBase(object):
             if deprecated or not m.startswith('deprecated'):
                 yield n, m
 
-    def printf(self, fmt, *args, **kwds):  # nl=0, nt=0
-        '''Print a formatted line to sys.stdout.
-        '''
-        printf((fmt % args), prefix=self._prefix, **kwds)
-
     def results(self, passed='passed', nl=1):
         '''Summarize the test results.
         '''
         n = 'all'
         r = passed  # or _skipped_
-        s = time() - self._time
+        s = time() - self._time0
         t = self.total
         w = DeprecationWarnings()
         f = self.failed + (w or 0)
@@ -291,6 +297,9 @@ class TestsBase(object):
     def test(self, name, value, expect, **kwds):
         '''Compare a test value with the expected result.
         '''
+        if self._time:
+            self._prefix, self._time = prefix2(self._time)
+
         if self._iterisk:
             name += self._iterisk
 
@@ -315,6 +324,9 @@ class TestsBase(object):
             self.printf('test %d %s: %s%s', self.total, name, v, f, **kwds)
         if r and self._raiser:
             raise TestError('test %d %s', self.total, name)
+
+        if self._time:  # undo _prefix change
+            self.__dict__.pop('_prefix')
 
     def test__(self, fmt, *args, **kwds):
         '''Print subtotal test line.
@@ -441,6 +453,15 @@ def _name_version(path):
         except (IndexError, IOError, OSError):
             pass
     return ()
+
+
+def prefix2(prev):  # in .run
+    '''Get time prefix and time stamp.
+    '''
+    t = time()
+    p = '%7.3f ' % ((t - prev),)
+    p = p.replace('  0.', '   .')
+    return p, t
 
 
 # <https://GitHub.com/ActiveState/code/blob/master/recipes/Python/

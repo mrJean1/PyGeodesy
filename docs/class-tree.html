@@ -562,14 +562,14 @@
     <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.auxilats.auxAngle.AuxAngle-class.html">pygeodesy.auxilats.auxAngle.AuxAngle</a></strong>:
       <em class="summary"><a 
-        href="https://GeographicLib.DourceForge.io/C++/doc/classGeographicLib_1_1AuxAngle.html"
+        href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1AuxAngle.html"
         target="_top">An accurate representation of angles</a></em>
     <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.auxilats.auxAngle.AuxBeta-class.html">pygeodesy.auxilats.auxAngle.AuxBeta</a></strong>:
-      <em class="summary">An <i>Prametric</i> latitude.</em>
+      <em class="summary">A <i>Parametric, Auxiliary</i> latitude.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.auxilats.auxAngle.AuxChi-class.html" onclick="show_private();">pygeodesy.auxilats.auxAngle.AuxChi</a></strong>:
-      <em class="summary">An <i>Conformal</i> latitude.</em>
+      <em class="summary">A <i>Conformal, Auxiliary</i> latitude.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.auxilats.auxLat.AuxLat-class.html">pygeodesy.auxilats.auxLat.AuxLat</a></strong>:
       <em class="summary">Accurate conversion between <i>Auxiliary</i> latitudes on an 
@@ -587,16 +587,16 @@
     </ul>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.auxilats.auxAngle.AuxMu-class.html">pygeodesy.auxilats.auxAngle.AuxMu</a></strong>:
-      <em class="summary">An <i>Rectifying, Auxiliary</i> latitude.</em>
+      <em class="summary">A <i>Rectifying, Auxiliary</i> latitude.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.auxilats.auxAngle.AuxPhi-class.html">pygeodesy.auxilats.auxAngle.AuxPhi</a></strong>:
-      <em class="summary">An <i>Geographic, Auxiliary</i> latitude.</em>
+      <em class="summary">A <i>Geodetic or Geographic, Auxiliary</i> latitude.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.auxilats.auxAngle.AuxTheta-class.html" onclick="show_private();">pygeodesy.auxilats.auxAngle.AuxTheta</a></strong>:
-      <em class="summary">An <i>Geocentric</i> latitude.</em>
+      <em class="summary">A <i>Geocentric, Auxiliary</i> latitude.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.auxilats.auxAngle.AuxXi-class.html" onclick="show_private();">pygeodesy.auxilats.auxAngle.AuxXi</a></strong>:
-      <em class="summary">An <i>Authalic</i> latitude.</em>
+      <em class="summary">An <i>Authalic, Auxiliary</i> latitude.</em>
     </li>
     </ul>
     </li>
@@ -1275,14 +1275,6 @@
         initial and final bearing (azimuths) between two given points or 
         the destination point given a start point and an (initial) bearing.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html">pygeodesy.ellipsoidalVincenty.LatLon</a></strong>:
-      <em class="summary">Using the formulae devised by <a 
-        href="https://WikiPedia.org/wiki/Vincenty's_formulae" 
-        target="_top"><i>Thaddeus Vincenty (1975)</i></a> for an (oblate) 
-        ellipsoidal model of the earth to compute the geodesic distance and
-        bearings between two given points or the destination point given an
-        start point and (initial) bearing.</em>
-    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.LatLon-class.html">pygeodesy.ellipsoidalKarney.LatLon</a></strong>:
       <em class="summary">An ellipsoidal <a 
         href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
@@ -1294,6 +1286,14 @@
         target="_top">geographiclib</a> to compute the geodesic distance, 
         initial and final bearing (azimuths) between two given points or 
         the destination point given a start point and an (initial) bearing.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html">pygeodesy.ellipsoidalVincenty.LatLon</a></strong>:
+      <em class="summary">Using the formulae devised by <a 
+        href="https://WikiPedia.org/wiki/Vincenty's_formulae" 
+        target="_top"><i>Thaddeus Vincenty (1975)</i></a> for an (oblate) 
+        ellipsoidal model of the earth to compute the geodesic distance and
+        bearings between two given points or the destination point given an
+        start point and (initial) bearing.</em>
     </li>
     </ul>
     </li>
@@ -1430,12 +1430,12 @@
         href="pygeodesy.ellipsoidalGeodSolve.LatLon-class.html" 
         class="link">LatLon</a> points.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.Cartesian-class.html">pygeodesy.ellipsoidalKarney.Cartesian</a></strong>:
-      <em class="summary">Extended to convert <code>Karney</code>-based <a 
-        href="pygeodesy.ellipsoidalKarney.Cartesian-class.html" 
-        class="link">Cartesian</a> to <code>Karney</code>-based <a 
-        href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
-        class="link">LatLon</a> points.</em>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html">pygeodesy.ellipsoidalVincenty.Cartesian</a></strong>:
+      <em class="summary">Extended to convert geocentric, <a 
+        href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html" 
+        class="link">Cartesian</a> points to Vincenty-based, ellipsoidal, 
+        geodetic <a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
+        class="link">LatLon</a>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalNvector.Cartesian-class.html">pygeodesy.ellipsoidalNvector.Cartesian</a></strong>:
       <em class="summary">Extended to convert geocentric, <a 
@@ -1446,12 +1446,12 @@
         href="pygeodesy.ellipsoidalNvector.LatLon-class.html" 
         class="link">LatLon</a>.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html">pygeodesy.ellipsoidalVincenty.Cartesian</a></strong>:
-      <em class="summary">Extended to convert geocentric, <a 
-        href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html" 
-        class="link">Cartesian</a> points to Vincenty-based, ellipsoidal, 
-        geodetic <a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
-        class="link">LatLon</a>.</em>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.Cartesian-class.html">pygeodesy.ellipsoidalKarney.Cartesian</a></strong>:
+      <em class="summary">Extended to convert <code>Karney</code>-based <a 
+        href="pygeodesy.ellipsoidalKarney.Cartesian-class.html" 
+        class="link">Cartesian</a> to <code>Karney</code>-based <a 
+        href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
+        class="link">LatLon</a> points.</em>
     </li>
     </ul>
     </li>
@@ -4103,7 +4103,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Aug  7 07:11:12 2023
+    Generated by Epydoc 3.0.1 on Fri Aug 11 15:24:45 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

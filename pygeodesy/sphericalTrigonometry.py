@@ -32,7 +32,7 @@ from pygeodesy.formy import antipode_, bearing_, _bearingTo2, excessAbc_, \
 from pygeodesy.interns import _1_, _2_, _coincident_, _composite_, _colinear_, \
                               _concentric_, _convex_, _end_, _infinite_, \
                               _invalid_, _line_, _near_, _not_, _null_, \
-                              _point_, _SPACE_, _too_
+                              _parallel_, _point_, _SPACE_, _too_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _ALL_OTHER
 # from pygeodesy.named import notImplemented  # from .points
 # from pygeodesy.nvectorBase import NvectorBase, sumOf  # _MODE
@@ -54,9 +54,7 @@ from pygeodesy.vector3d import sumOf, Vector3d
 from math import asin, atan2, cos, degrees, fabs, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '23.07.01'
-
-_parallel_ = 'parallel'
+__version__ = '23.08.09'
 
 _PI_EPS4 = PI - EPS4
 if _PI_EPS4 >= PI:
@@ -1012,13 +1010,12 @@ def _intersect(start1, end1, start2, end2, height=None, wrap=False,  # in.ellips
         # handle domain error for equivalent longitudes,
         # see also functions asin_safe and acos_safe at
         # <https://www.EdWilliams.org/avform.htm#Math>
-        t1, t2 = acos1((sa2 - sa1 * cr12) / x1), \
-                 acos1((sa1 - sa2 * cr12) / x2)
+        t12, t13 = acos1((sa2 - sa1 * cr12) / x1), radiansPI2(end1)
+        t21, t23 = acos1((sa1 - sa2 * cr12) / x2), radiansPI2(end2)
         if sin(db) > 0:
-            t12, t21 = t1, PI2 - t2
+            t21 = PI2 - t21
         else:
-            t12, t21 = PI2 - t1, t2
-        t13, t23 = radiansPI2(end1), radiansPI2(end2)
+            t12 = PI2 - t12
         sx1, cx1, sx2, cx2 = sincos2_(wrapPI(t13 - t12),  # angle 2-1-3
                                       wrapPI(t21 - t23))  # angle 1-2-3)
         if isnear0(sx1) and isnear0(sx2):

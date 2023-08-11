@@ -3,7 +3,7 @@
 
 # Script to run some or all PyGeodesy tests with Python 2 or 3.
 
-from bases import clips, coverage, isiOS, NN, PyGeodesy_dir, \
+from bases import clips, coverage, isiOS, NN, prefix2, PyGeodesy_dir, \
                   PythonX, secs2str, test_dir, _skipped_, _TILDE_, \
                   tilde, versions, _W_opts  # PYCHOK expected
 from pygeodesy.basics import str2ub, ub2str
@@ -12,7 +12,7 @@ from os import access, environ, F_OK, linesep as LS, pathsep as PS
 import sys
 
 __all__ = ('run2',)
-__version__ = '23.04.11'
+__version__ = '23.08.10'
 
 NL = '\n'  # pygeodesy.interns._NL_
 P  = None  # Popen instance
@@ -133,16 +133,9 @@ def _exit(last, text, exit):
 
 
 def _prefix2(prev):
-    '''(INTERNAL) Get prefix and time stamp.
+    '''(INTERNAL) get the prefix and current time.
     '''
-    t = time()
-    if _prefix:
-        p = '%7.3f ' % ((t - prev),)
-        if p.startswith('  0.'):
-            p = '   .' + p[4:]
-    else:
-        p = NN
-    return p, t
+    return prefix2(prev) if _prefix else (NN, time())
 
 
 def _run(prefix, test, *opts):  # MCCABE 13

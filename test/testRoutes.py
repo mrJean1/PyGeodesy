@@ -20,7 +20,7 @@ except ImportError:
 
 __all__ = ('Antarctica', 'Pts', 'PtsFFI', 'RdpFFI',
            'PtsJS', 'PtsJS5', 'VwPts')
-__version__ = '23.07.10'
+__version__ = '23.08.10'
 
 # <https://GeographicLib.SourceForge.io/html/python/examples.html>
 Antarctica = [LatLon_(_lat, _lon) for _lat, _lon in (
@@ -17082,7 +17082,7 @@ def _2LL(pts, LL):
 
 class Tests(TestsBase):
 
-    def test7(self, f, xs, fmt='%.3f', LL=None, known=False, **kwds):
+    def test7(self, f, xs, fmt='%.3f', skip=False, LL=None, known=False, **kwds):
         n = f.__name__
         if n.endswith('Of'):
             n = '.'.join(f.__module__.split('.')[-1:] + [n])
@@ -17091,13 +17091,16 @@ class Tests(TestsBase):
         for x, p in zip(xs, ('Antarctica',
                              'PtsFFI', 'RdpFFI', 'Pts', 'VwPts',
                              '_JFK_LHR1', '_JFK_LHR2')):
+            t   = unstr(n, p, wrap=True, **kwds)
             pts = g[p]
-            if LL:
-                pts = _2LL(pts, LL)
-            t = unstr(n, p, wrap=True, **kwds)
-            # wrap since GeographicLib LONG_UNROLL is always set
-            r = f(pts, wrap=True, **kwds)
-            e = abs((r - x) / x) if x else 0
+            if skip and len(pts) > 1024:
+                r = e = 0
+            else:
+                if LL:
+                    pts = _2LL(pts, LL)
+                # wrap since GeographicLib LONG_UNROLL is always set
+                r = f(pts, wrap=True, **kwds)
+                e = abs((r - x) / x) if x else 0
             self.test(t, r, x, fmt=fmt, known=known or (e < 4e-4))
 
     def testAreas(self):
@@ -17119,11 +17122,11 @@ class Tests(TestsBase):
             self.test7(ellipsoidalVincenty.areaOf, (1.366270e+13,  # 13662703680020.1
                        1.343272e+06, 1.294375e+06, 1.271286e+11, 1.200540e+11,
                        4.00413688487425e13, 2*4.00413688487425e13),
-                       fmt='%.6e')
+                       fmt='%.6e', skip=Geodesic is None)
             self.test7(ellipsoidalVincenty.areaOf, (1.366270e+13,  # 13662703680020.1
                        1.343272e+06, 1.294375e+06, 1.271286e+11, 1.200540e+11,
                        4.00413688487425e13, 2*4.00413688487425e13),
-                       fmt='%.6e', LL=ellipsoidalVincenty.LatLon)
+                       fmt='%.6e', LL=ellipsoidalVincenty.LatLon, skip=Geodesic is None)
         except (DeprecationWarning, ImportError) as x:
             t = ' '.join(str(x).split())
             # XXX keep ellipsoidalVincenty for backward compatibility
@@ -17150,10 +17153,10 @@ class Tests(TestsBase):
             self.test7(ellipsoidalVincenty.perimeterOf, (15531770.613,
                        3229.337, 3190.602, 2769709.412, 2679915.858,
                        15763434.962, 25972353.155),  # assumed
-                       LL=ellipsoidalVincenty.LatLon, closed=False)
+                       LL=ellipsoidalVincenty.LatLon, closed=False, skip=Geodesic is None)
             self.test7(ellipsoidalVincenty.perimeterOf, (16830891.356,
                        5491.045, 5452.310, 5259077.242, 5171947.931,
-                       23921931.540, 31524112.555), closed=True)  # assumed
+                       23921931.540, 31524112.555), closed=True, skip=Geodesic is None)  # assumed
         except (DeprecationWarning, ImportError) as x:
             t = ' '.join(str(x).split())
             # XXX keep ellipsoidalVincenty for backward compatibility

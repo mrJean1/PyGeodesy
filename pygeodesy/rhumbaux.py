@@ -45,7 +45,7 @@ from pygeodesy.rhumbBase import RhumbBase, RhumbLineBase, itemsorted, \
 from math import ceil as _ceil, fabs, radians
 
 __all__ = _ALL_LAZY.rhumbaux
-__version__ = '23.08.06'
+__version__ = '23.08.09'
 
 # DIGITS = (sizeof(real) * 8) bits  # assert DIGITS > MANT_DIG
 # For |n| <= 0.99, actual max for doubles is 2163.  This scales
@@ -141,9 +141,9 @@ class RhumbAux(RhumbBase):
                   and C{NAN} is returned for C{lon2} and area C{S12}.
 
            @note: If the given point is a pole, the cosine of its latitude is
-                  taken to be C{sqrt(EPS)}.  This position is extremely close
-                  to the actual pole and allows the calculation to be carried
-                  out in finite terms.
+                  taken to be C{sqrt(L{EPS})}.  This position is extremely
+                  close to the actual pole and allows the calculation to be
+                  carried out in finite terms.
         '''
         rl = RhumbLineAux(self, lat1, lon1, azi12, caps=Caps.LINE_OFF,
                                                    name=self.name)
@@ -153,7 +153,7 @@ class RhumbAux(RhumbBase):
         xD = self._auxD
         return _over(xD.DRectifying(Phi1, Phi2),
                      xD.DIsometric( Phi1, Phi2)) if self.exact else \
-               _over(xD.DRectifyingZ(Chi1, Chi2),
+               _over(xD.CRectifying(Chi1, Chi2),
                      _Dlam(Chi1.tan, Chi2.tan))  # not Lambertian!
 
     def Inverse(self, lat1, lon1, lat2, lon2, outmask=Caps.AZIMUTH_DISTANCE):
@@ -176,9 +176,9 @@ class RhumbAux(RhumbBase):
                   and the East-going one is chosen.
 
            @note: If either point is a pole, the cosine of its latitude is
-                  taken to be C{epsilon}**-2 (where C{epsilon} is 2.0**-52).
-                  This position is extremely close to the actual pole and
-                  allows the calculation to be carried out in finite terms.
+                  taken to be C{sqrt(L{EPS})}.  This position is extremely
+                  close to the actual pole and allows the calculation to be
+                  carried out in finite terms.
         '''
         r, Cs = GDict(name=self.name), Caps
         if (outmask & Cs.AZIMUTH_DISTANCE_AREA):
@@ -214,7 +214,7 @@ class RhumbAux(RhumbBase):
                                 pP, min(len(pP), 8))  # Fsum
         dD *= _over(xD.DParametric(Phix, Phiy),
                     xD.DIsometric( Phix, Phiy)) if self.exact else \
-              _over(xD.DParametricZ(Chix, Chiy), _Dlam(tx, ty))  # not Lambertian!
+              _over(xD.CParametric(Chix, Chiy), _Dlam(tx, ty))  # not Lambertian!
         dD += _Dp0Dpsi(tx, ty)
         dD *=  self._c2
         return float(dD)
@@ -332,9 +332,9 @@ class RhumbLineAux(RhumbLineBase):
                   C{NAN} is returned for C{lon2} and area C{S12}.
 
                   If the first point is a pole, the cosine of its latitude is
-                  taken to be C{epsilon}**-2 (where C{epsilon} is 2**-52).
-                  This position is extremely close to the actual pole and
-                  allows the calculation to be carried out in finite terms.
+                  taken to be C{sqrt(L{EPS})}.  This position is extremely
+                  close to the actual pole and allows the calculation to be
+                  carried out in finite terms.
         '''
         r, Cs = GDict(name=self.name), Caps
         if (outmask & Cs.LATITUDE_LONGITUDE_AREA):
