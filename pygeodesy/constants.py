@@ -11,9 +11,10 @@ L{pygeodesy.isnon0} and L{pygeodesy.remainder}.
 from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import _0_0, _copysign, isbool, iscomplex, isint
-from pygeodesy.errors import _xError, _xError2, _xkwds_get,  _ALL_LAZY
+from pygeodesy.errors import _xError, _xError2, _xkwds_get
+# from pygeodesy.fmath import fprod  # from _MODS
 from pygeodesy.interns import _INF_, _NAN_, _UNDER_
-# from pygeodesy.lazily import _ALL_LAZY  # from .errors
+from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 # from pygeodesy.streprs import Fmt  # from .unitsBase
 from pygeodesy.unitsBase import Float, Int, Radius,  Fmt
 
@@ -31,7 +32,7 @@ except ImportError:  # Python 3.3-
         return _log(x, 2)
 
 __all__ = _ALL_LAZY.constants
-__version__ = '23.08.05'
+__version__ = '23.08.12'
 
 
 def _copysign_0_0(y):
@@ -124,18 +125,19 @@ def _floatuple(*fs):
     return tuple(map(_float, fs))
 
 
+def _inf_nan(*xs):
+    '''(INTERNAL) Return NAN or INF.
+    '''
+    return NAN if NAN in xs else (NINF if _MODS.fmath.fprod(xs) < 0 else INF)
+
+
 def _over(p, q):
     '''(INTERNAL) Return C{B{p} / B{q}} avoiding ZeroDivisionError exceptions.
     '''
-    r = (-p) if q < 0 else p
-    if q:
-        if isinf(q):
-            r = _copysign_0_0(r) if isfinite(r) else NAN
-        elif p:
-            r = p / q
-    else:
-        r = _copysignINF(r) if isfinite(r) else NAN
-    return r
+    try:
+        return  p / q
+    except ZeroDivisionError:
+        return _copysignINF(p) if p else NAN
 
 
 def _1_over(x):

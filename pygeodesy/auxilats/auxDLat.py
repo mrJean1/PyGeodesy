@@ -15,7 +15,8 @@ from pygeodesy.auxilats.auxily import Aux, _Datan, _Dasinh, _sc, _sn,  AuxError
 from pygeodesy.auxilats.auxLat import AuxLat,  _ALL_DOCS
 from pygeodesy.basics import map1, _reverange
 from pygeodesy.constants import INF, NAN, isfinite, isinf, isnan, _0_0, \
-                               _0_5, _1_0, _2_0, _N_2_0, _3_0, _over, _1_over
+                               _0_5, _1_0, _2_0, _N_2_0, _3_0, _inf_nan, \
+                               _over, _1_over
 from pygeodesy.elliptic import Elliptic as _Ef,  Fsum
 # from pygeodesy.errors import AuxError  # from .auxilats.auxily
 # from pygeodesy.fsums import Fsum  # from .elliptic
@@ -24,7 +25,7 @@ from pygeodesy.elliptic import Elliptic as _Ef,  Fsum
 from math import atan, atan2, cos, sin, sqrt
 
 __all__ = ()
-__version__ = '23.08.09'
+__version__ = '23.08.12'
 
 
 class AuxDLat(AuxLat):
@@ -98,18 +99,18 @@ class AuxDLat(AuxLat):
             d,  k2 = -d, self._e2
         # See DLMF: Eqs (19.11.2) and (19.11.4) letting
         if sx and sy:
-            t  = _sxk2y(sx, sy, k2) + _sxk2y(sy, sx, k2)
-            Dt = _over(_Dsin(x, y) * (sx + sy), t * (cx + cy))
-        t   =  d * Dt
-        t2  = _1_0 + t**2
-        Dt *= _2_0 / t2
-        sk2 = (d * Dt)**2 * k2
-        d2  = _1_0 - sk2
-        c2  = ((_1_0 - t) * (_1_0 + t) / t2)**2 if t else _1_0
-        # E(z)/sin(z)
-        E_s = (_Ef.fRF(c2, d2, _1_0) -
-               _Ef.fRD(c2, d2, _1_0, _3_0) * sk2)
-        Dt *= E_s - k2 * sx * sy
+            t   = _sxk2y(sx, sy, k2) + _sxk2y(sy, sx, k2)
+            Dt  = _over(_Dsin(x, y) * (sx + sy), t * (cx + cy))
+            t   =  d * Dt
+            t2  = _1_0 + t**2
+            Dt *= _2_0 / t2
+            sk2 = (d * Dt)**2 * k2
+            d2  = _1_0 - sk2
+            c2  = ((_1_0 - t) * (_1_0 + t) / t2)**2 if t else _1_0
+            # E(z)/sin(z)
+            E_s = (_Ef.fRF(c2, d2, _1_0) -
+                   _Ef.fRD(c2, d2, _1_0, _3_0) * sk2)
+            Dt *= E_s - k2 * sx * sy
         return Dt
 
     def DIsometric(self, Phi1, Phi2):
@@ -182,7 +183,7 @@ class AuxDLat(AuxLat):
 def _DClenshaw(sinp, Zeta1, Zeta2, cs, K):
     '''(INTERNAL) I{Divided Difference} of L{AuxLat._Clenshaw}.
 
-        @return: C{Fsum} if sinp otherwise a C{float}.
+        @return: C{Fsum} if B{C{sinp}} otherwise a C{float}.
     '''
     s1, c1, r1 = Zeta1._yxr_normalized(False)
     s2, c2, r2 = Zeta2._yxr_normalized(False)
@@ -235,9 +236,9 @@ def _DClenshaw(sinp, Zeta1, Zeta2, cs, K):
         U0a +=  U0b
         U0a -=  U1b
         U0a *= _2_0
-        r = float(U0a) if sinp else U0a  # Fsum
+        r =  float(U0a) if sinp else U0a  # Fsum
     else:
-        r = NAN
+        r = _inf_nan(xD, xb, xa)
     return r
 
 
@@ -268,11 +269,10 @@ def _Dsn(x, y):
 
 def _sxk2y(sx, sy, k2):
     # .DE helper
-    if sx:
-        try:
-            sx *= sqrt(_1_0 - sy**2 * k2)
-        except ValueError:  # domain error
-            sx  = NAN
+    try:
+        sx *= sqrt(_1_0 - sy**2 * k2)
+    except ValueError:  # domain error
+        sx  = NAN
     return sx
 
 

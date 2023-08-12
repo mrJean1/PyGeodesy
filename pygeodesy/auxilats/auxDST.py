@@ -17,13 +17,14 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.auxilats.auxily import _2cos2x
 from pygeodesy.basics import isodd, map2, neg, _reverange, _xnumpy
-from pygeodesy.constants import NAN, PI_2, PI_4, isfinite, _0_0, _0_5, _1_0
+from pygeodesy.constants import PI_2, PI_4, isfinite, \
+                               _0_0, _0_5, _1_0, _inf_nan
 from pygeodesy.fsums import Fsum,  property_RO
 from pygeodesy.lazily import _ALL_DOCS
 # from pygeodesy.props import property_RO  # from .fsums
 
 __all__ = ()
-__version__ = '23.08.10'
+__version__ = '23.08.12'
 
 
 class AuxDST(object):
@@ -68,8 +69,10 @@ class AuxDST(object):
             while n > 0:  # Y0, Y1 negated
                 n -= 1; Y1 -= Y0 * a + F[n]  # PYCHOK semicolon
                 n -= 1; Y0 -= Y1 * a + F[n]  # PYCHOK semicolon
-            a = float(_Ys(Y0, -Y1, -sinx))
-        return a
+            r =  float(_Ys(Y0, -Y1, -sinx))
+        else:
+            r = _inf_nan(a)
+        return r
 
     @property_RO
     def _fft_numpy(self):
@@ -129,10 +132,10 @@ class AuxDST(object):
 
            @return: Doubled FFTransforms (C{float}[N*2]).
         '''
-        def _dmF(d, F):
+        def _dmF_2(d, F):
             return (d - F) * _0_5
 
-        def _dpF(d, F):
+        def _dpF_2(d, F):
             return (d + F) * _0_5
 
         # Copy DST-IV order N transform to d[0:N]
@@ -140,9 +143,9 @@ class AuxDST(object):
         N = self._N
         # assert len(d) >= N and len(F) >= N
         # (DST-IV order N - DST-III order N) / 2
-        m = map2(_dmF, d[:N], F[:N])
+        m = map2(_dmF_2, d[:N], F[:N])
         # (DST-IV order N + DST-III order N) / 2
-        p = map2(_dpF, d[:N], F[:N])
+        p = map2(_dpF_2, d[:N], F[:N])
         return p + tuple(reversed(m))
 
     @staticmethod
@@ -166,8 +169,10 @@ class AuxDST(object):
             for r in _reverscaled(F, *N):
                 Y1 -= Y0 * a + r
                 Y1, Y0 = Y0, -Y1
-            a = float(_Ys(Y1, Y0, cosx))
-        return a
+            r =  float(_Ys(Y1, Y0, cosx))
+        else:
+            r = _inf_nan(a)
+        return r
 
     @staticmethod
     def integral2(sin1, cos1, sin2, cos2, F, *N):  # PYCHOK no cover
@@ -186,7 +191,6 @@ class AuxDST(object):
 
            @see: Methods C{AuxDST.evaluate} and C{AuxDST.integral}.
         '''
-        r = NAN
         #  2 * cos(y - x)*cos(y + x) -> 2 * cos(2 * x)
         a =  _2cos2x(cos2 * cos1, sin2 * sin1)
         # -2 * sin(y - x)*sin(y + x) -> 0
@@ -199,8 +203,10 @@ class AuxDST(object):
                 Z1 -= Y0 * b + Z0 * a
                 Y1, Y0 = Y0, -Y1
                 Z1, Z0 = Z0, -Z1
-            r = float(_Ys(Y1, Y0, cos2 - cos1) +
-                      _Ys(Z1, Z0, cos2 + cos1))
+            r =  float(_Ys(Y1, Y0, cos2 - cos1) +
+                       _Ys(Z1, Z0, cos2 + cos1))
+        else:
+            r = _inf_nan(a, b)
         return r
 
     @property_RO
