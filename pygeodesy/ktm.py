@@ -35,7 +35,7 @@ following exceptions:
  - Evaluating the convergence and scale using the expression for the
    projection or its inverse.
 
-Copyright (C) U{Charles Karney<mailto:Charles@Karney.com>} (2008-2023)
+Copyright (C) U{Charles Karney<mailto:Karney@Alum.MIT.edu>} (2008-2023)
 and licensed under the MIT/X11 License.  For more information, see the
 U{GeographicLib<https://GeographicLib.SourceForge.io>} documentation.
 '''
@@ -45,14 +45,15 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 from pygeodesy.basics import copysign0, isodd, neg, neg_, _reverange
 from pygeodesy.constants import INF, _K0_UTM, NINF, PI, PI_2, _0_0s, \
                                _0_0, _1_0, _90_0, _180_0
-# from pygeodesy.datums import _spherical_datum  # in KTransverseMercator.ellipsoid.setter
+# from pygeodesy.datums import _spherical_datum  # _MODS
+# from pygeodesy.ellipsoids import _EWGS84  # from .karney
 from pygeodesy.errors import _ValueError, _xkwds_get, _Xorder
 from pygeodesy.fmath import fsum1_, hypot, hypot1
 # from pygeodesy.fsums import fsum1_  # from .fmath
 from pygeodesy.interns import NN, _COMMASPACE_, _singular_
-from pygeodesy.karney import _atan2d, _diff182, _EWGS84, _fix90, \
-                             _NamedBase, _norm180, _polynomial, _unsigned2
-from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _pairs
+from pygeodesy.karney import _atan2d, _diff182, _fix90, _NamedBase, \
+                             _norm180, _polynomial, _unsigned2,  _EWGS84
+from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS,  _pairs
 # from pygeodesy.named import _NamedBase  # from .karney
 from pygeodesy.namedTuples import Forward4Tuple, Reverse4Tuple
 from pygeodesy.props import property_doc_, Property, Property_RO, \
@@ -65,7 +66,7 @@ from cmath import phase
 from math import atan2, asinh, cos, cosh, degrees, fabs, sin, sinh, sqrt, tanh
 
 __all__ = _ALL_LAZY.ktm
-__version__ = '23.07.01'
+__version__ = '23.08.20'
 
 
 class KTMError(_ValueError):

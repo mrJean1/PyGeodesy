@@ -10,13 +10,13 @@ from pygeodesy.basics import _copysign, copysign0, isint, isscalar, len2
 from pygeodesy.constants import EPS0, EPS02, EPS1, NAN, PI, PI_2, PI_4, \
                                _0_0, _0_5, _1_0, _N_1_0, _1_3rd, _1_5, \
                                _2_0, _2_3rd, _3_0, isnear0, isnear1, \
-                               _isfinite, remainder as _remainder
+                               _isfinite, _over, remainder as _remainder
 from pygeodesy.errors import _IsnotError, LenError, _TypeError, _ValueError, \
                              _xError, _xkwds_get, _xkwds_pop
 from pygeodesy.fsums import _2float, _Powers, Fsum, _fsum, fsum, fsum1_, \
                             _pow_op_,  Fmt, unstr
 from pygeodesy.interns import MISSING, _few_, _h_, _negative_, _not_scalar_, \
-                             _singular_, _too_
+                             _too_
 from pygeodesy.lazily import _ALL_LAZY, _sys_version_info2
 # from pygeodesy.streprs import Fmt, unstr  # from .fsums
 from pygeodesy.units import Int_,  Float_  # PYCHOK for .heights
@@ -25,7 +25,7 @@ from math import fabs, sqrt  # pow
 from operator import mul as _mul  # in .triaxials
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '23.05.18'
+__version__ = '23.08.17'
 
 # sqrt(2) <https://WikiPedia.org/wiki/Square_root_of_2>
 _0_4142 = 0.414213562373095  # sqrt(_2_0) - _1_0
@@ -49,7 +49,7 @@ class Fdot(Fsum):
            @see: Function L{fdot} and method L{Fsum.fadd}.
         '''
         Fsum.__init__(self, **name)
-        self.fadd(_map_a_x_b(a, b, Fdot))
+        self.fadd(_map_mul(a, b, Fdot))
 
 
 class Fhorner(Fsum):
@@ -131,7 +131,7 @@ class Fpolynomial(Fsum):
         Fsum.__init__(self, *cs[:1], **name)
         n = len(cs) - 1
         if n > 0:
-            self.fadd(_map_a_x_b(cs[1:], fpowers(x, n), Fpolynomial))
+            self.fadd(_map_mul(cs[1:], fpowers(x, n), Fpolynomial))
 
 
 class Fpowers(Fsum):
@@ -251,7 +251,7 @@ def euclid(x, y):
        @see: Function L{euclid_}.
     '''
     x, y = fabs(x), fabs(y)
-    if y > x:
+    if x < y:
         x, y = y, x
     return x + y * _0_4142  # XXX * _0_5 before 20.10.02
 
@@ -269,7 +269,7 @@ def euclid_(*xs):
     e = _0_0
     for x in sorted(map(fabs, xs)):  # XXX not reverse=True
         # e = euclid(x, e)
-        if x > e:
+        if e < x:
             e, x = x, e
         if x:
             e += x * _0_4142
@@ -388,7 +388,7 @@ def fdot(a, *b):
        @see: Class L{Fdot} and U{Algorithm 5.10 B{DotK}
              <https://www.TUHH.De/ti3/paper/rump/OgRuOi05.pdf>}.
     '''
-    return fsum(_map_a_x_b(a, b, fdot))
+    return fsum(_map_mul(a, b, fdot))
 
 
 def fdot3(a, b, c, start=0):
@@ -468,14 +468,11 @@ def fidw(xs, ds, beta=2):
     if d > EPS0 and n > 1:
         b = -Int_(beta=beta, low=0, high=3)
         if b < 0:
-            ds = tuple(d**b for d in ds)
-            d  = fsum(ds, floats=True)
-            if isnear0(d):  # PYCHOK no cover
-                n = Fmt.PAREN(fsum='ds')
-                raise _ValueError(n, d, txt=_singular_)
-            x = Fdot(xs, *ds).fover(d)
+            ws = tuple(float(d)**b for d in ds)
+            t =  fsum(_map_mul1(xs, ws))  # fdot(xs, *ws)
+            x = _over(t, fsum(ws, floats=True))
         else:  # b == 0
-            x = fsum(xs, floats=True) / n  # fmean(xs)
+            x = fsum(xs) / n  # fmean(xs)
     elif d < 0:  # PYCHOK no cover
         n = Fmt.SQUARE(ds=ds.index(d))
         raise _ValueError(n, d, txt=_negative_)
@@ -560,10 +557,10 @@ def fpowers(x, n, alts=0):
 
     p  = t = x if isint(x) else _2float(x=x)
     ps = [p]
-    a_ = ps.append
+    _a = ps.append
     for _ in range(1, n):
         p *= t
-        a_(p)
+        _a(p)
 
     if alts > 0:  # x**2, x**4, ...
         # ps[alts-1::2] chokes PyChecker
@@ -797,17 +794,17 @@ def hypot2_(*xs):
     return (h**2 * x2) if x2 else _0_0
 
 
-def _map_a_x_b(a, b, where):
-    '''(INTERNAL) Yield B{C{a * b}}.
+def _map_mul(a, b, where):
+    '''(INTERNAL) Yield each B{C{a * b}}.
     '''
     n = len(b)
     if len(a) != n:  # PYCHOK no cover
         raise LenError(where, a=len(a), b=n)
-    return map(_mul, a, b) if n > 3 else _map_a_x_b1(a, b)
+    return map(_mul, a, b) if n > 3 else _map_mul1(a, b)
 
 
-def _map_a_x_b1(a, b):
-    '''(INTERNAL) Yield B{C{a * b}}, 1-primed.
+def _map_mul1(a, b):
+    '''(INTERNAL) Yield each B{C{a * b}}, 1-primed.
     '''
     yield _1_0
     for ab in map(_mul, a, b):

@@ -88,7 +88,7 @@ from pygeodesy.props import Property_RO, property_RO
 # from math import radians  # from .formy
 
 __all__ = _ALL_LAZY.heights
-__version__ = '23.08.06'
+__version__ = '23.08.15'
 
 _error_     = 'error'
 _llis_      = 'llis'
@@ -227,8 +227,7 @@ class _HeightsBase(_HeightBase):  # in .geoids
     def __call__(self, *llis, **wrap):  # PYCHOK no cover
         '''Interpolate the height for one or several locations.
 
-           @arg llis: The location or locations (C{LatLon}, ... or
-                      C{LatLon}s).
+           @arg llis: One or more locations (C{LatLon}s), all positional.
            @kwarg wrap: If C{True}, wrap or I{normalize} all B{C{llis}}
                         locations (C{bool}), overriding the B{C{knots}}
                         setting.
@@ -627,8 +626,7 @@ class _HeightIDW(_HeightBase):
     def __call__(self, *llis, **wrap):
         '''Interpolate the height for one or several locations.
 
-           @arg llis: The location or locations (C{LatLon}, ... or
-                      C{LatLon}s).
+           @arg llis: One or more locations (C{LatLon}s), all positional.
            @kwarg wrap: If C{True}, wrap or I{normalize} all B{C{llis}}
                         locations (C{bool}).
 

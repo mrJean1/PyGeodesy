@@ -16,23 +16,25 @@ L{pygeodesy.geodesicx} and L{pygeodesy.karney} will use U{GeographicLib 2.0
 # from pygeodesy.basics import _xinstanceof  # from .karney
 # from pygeodesy.constants import NAN  # from .karney
 # from pygeodesy.datums import _a_ellipsoid  # from .karney
+# from pygeodesy.ellipsoids import _EWGS84  # from .karney
 # from pygeodesy.errors import _xkwds  # from .karney
 from pygeodesy.interns import NN, _DOT_, _under
-from pygeodesy.karney import _a_ellipsoid, _atan2d, Caps, Direct9Tuple, \
-                             _EWGS84, fabs, GDict, GeodesicError, Inverse10Tuple, \
-                             _kWrapped, NAN,  _xinstanceof, _xkwds  # PYCHOK used!
-from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.karney import _atan2d, Caps, Direct9Tuple, GDict, \
+                             _EWGS84, GeodesicError, Inverse10Tuple, \
+                             _kWrapped,  _a_ellipsoid, _ALL_LAZY, NAN, \
+                             _xinstanceof, _xkwds  # PYCHOK used!
+# from pygeodesy.lazily import _ALL_LAZY  # from .karney
 from pygeodesy.named import callername, classname,  unstr
 from pygeodesy.namedTuples import Destination3Tuple, Distance3Tuple
 from pygeodesy.props import Property, Property_RO
 # from pygeodesy.streps import unstr  # from .named
-from pygeodesy.utily import _Wrap, wrap360  # PYCHOK used!
+from pygeodesy.utily import _Wrap, wrap360,  fabs  # PYCHOK used!
 
 from contextlib import contextmanager
-# from math import fabs  # from .karney
+# from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.geodesicw
-__version__ = '23.08.05'
+__version__ = '23.08.20'
 
 
 class _gWrapped(_kWrapped):

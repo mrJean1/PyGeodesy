@@ -7,7 +7,7 @@ I{Charles Karney}'s C++ class U{JacobiConformal<https://GeographicLib.SourceForg
 classGeographicLib_1_1JacobiConformal.html#details>} to pure Python and miscellaneous classes
 L{BetaOmega2Tuple}, L{BetaOmega3Tuple}, L{Jacobi2Tuple} and L{TriaxialError}.
 
-Copyright (C) U{Charles Karney<mailto:Charles@Karney.com>} (2008-2023).  For more information,
+Copyright (C) U{Charles Karney<mailto:Karney@Alum.MIT.edu>} (2008-2023).  For more information,
 see the U{GeographicLib<https://GeographicLib.SourceForge.io>} documentation.
 
 @see: U{Geodesics on a triaxial ellipsoid<https://WikiPedia.org/wiki/Geodesics_on_an_ellipsoid#
@@ -59,7 +59,7 @@ from pygeodesy.vector3d import _otherV3d, Vector3d,  _ALL_LAZY, _MODS
 from math import atan2, fabs, sqrt
 
 __all__ = _ALL_LAZY.triaxials
-__version__ = '23.08.09'
+__version__ = '23.08.19'
 
 _not_ordered_ = _not_('ordered')
 _omega_       = 'omega'
@@ -925,7 +925,7 @@ class JacobiConformal(Triaxial):
        by C{sqrt(B{a}**2 - B{c}**2) / (2 * B{b})} so that the customary results are
        returned in the case of an ellipsoid of revolution.
 
-       Copyright (C) U{Charles Karney<mailto:Charles@Karney.com>} (2014-2023) and
+       Copyright (C) U{Charles Karney<mailto:Karney@Alum.MIT.edu>} (2014-2023) and
        licensed under the MIT/X11 License.
 
        @note: This constructor can I{not be used to specify a sphere}, see alternate
@@ -1255,8 +1255,7 @@ def _hypot21(x, y, z=0):
     '''(INTERNAL)  Compute M{x**2 + y**2 + z**2 - 1} with C{max(fabs(x),
        fabs(y), fabs(z))} rarely greater than 1.0.
     '''
-    return fsumf_(_1_0, x**2, y**2, z**2, _N_2_0) if z else \
-           fsumf_(_1_0, x**2, y**2,       _N_2_0)
+    return fsumf_(_1_0, x**2, y**2, (z**2 if z else _0_0), _N_2_0)
 
 
 def _normalTo4(x, y, a, b, eps=EPS):

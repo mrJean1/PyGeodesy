@@ -5,7 +5,7 @@ u'''Discrete Sine Transforms (AuxDST) in Python, transcoded from I{Karney}'s C++
 U{DST<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1DST.html>}
 in I{GeographicLib version 2.2+}.
 
-Copyright (C) U{Charles Karney<mailto:Charles@Karney.com>} (2022-2023) and licensed
+Copyright (C) U{Charles Karney<mailto:Karney@Alum.MIT.edu>} (2022-2023) and licensed
 under the MIT/X11 License.  For more information, see the U{GeographicLib
 <https://GeographicLib.SourceForge.io>} documentation.
 
@@ -15,16 +15,16 @@ under the MIT/X11 License.  For more information, see the U{GeographicLib
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.auxilats.auxily import _2cos2x
 from pygeodesy.basics import isodd, map2, neg, _reverange, _xnumpy
 from pygeodesy.constants import PI_2, PI_4, isfinite, \
-                               _0_0, _0_5, _1_0, _inf_nan
-from pygeodesy.fsums import Fsum,  property_RO
-from pygeodesy.lazily import _ALL_DOCS
-# from pygeodesy.props import property_RO  # from .fsums
+                               _0_0, _0_5, _1_0, _naninf
+# from pygeodesy.fsums import Fsum   # from .karney
+from pygeodesy.karney import _2cos2x,  _ALL_DOCS, Fsum, property_RO
+# from pygeodesy.lazily import _ALL_DOCS  # from .karney
+# from pygeodesy.props import property_RO  # from .karney
 
 __all__ = ()
-__version__ = '23.08.12'
+__version__ = '23.08.20'
 
 
 class AuxDST(object):
@@ -62,16 +62,17 @@ class AuxDST(object):
         a = -_2cos2x(cosx, sinx)
         if isfinite(a):
             Y0, Y1 = Fsum(), Fsum()
-            n = _len_N(F, *N)
+            n  = _len_N(F, *N)
+            Fn =  list(F[:n])
+            _F =  Fn.pop
             if isodd(n):
-                n  -= 1
-                Y0 -= F[n]
-            while n > 0:  # Y0, Y1 negated
-                n -= 1; Y1 -= Y0 * a + F[n]  # PYCHOK semicolon
-                n -= 1; Y0 -= Y1 * a + F[n]  # PYCHOK semicolon
-            r =  float(_Ys(Y0, -Y1, -sinx))
+                Y0 -= _F()
+            while Fn:  # Y0, Y1 negated
+                Y1 -= Y0 * a + _F()
+                Y0 -= Y1 * a + _F()
+            r = -float(_Ys(Y0, -Y1, sinx))
         else:
-            r = _inf_nan(a)
+            r = _naninf(-a)
         return r
 
     @property_RO
@@ -171,7 +172,7 @@ class AuxDST(object):
                 Y1, Y0 = Y0, -Y1
             r =  float(_Ys(Y1, Y0, cosx))
         else:
-            r = _inf_nan(a)
+            r = _naninf(a)
         return r
 
     @staticmethod
@@ -206,7 +207,7 @@ class AuxDST(object):
             r =  float(_Ys(Y1, Y0, cos2 - cos1) +
                        _Ys(Z1, Z0, cos2 + cos1))
         else:
-            r = _inf_nan(a, b)
+            r = _naninf(a, b)
         return r
 
     @property_RO

@@ -4,12 +4,12 @@
 # Some basic L{auxilats} tests.
 
 __all__ = ('Tests',)
-__version__ = '23.08.09'
+__version__ = '23.08.16'
 
 from bases import numpy, TestsBase
 
 from pygeodesy import NN, PI_2, PI_4, Fsum, fsum, printf, sincos2
-from pygeodesy.auxilats import Aux, AuxDST, AuxLat, \
+from pygeodesy.auxilats import Aux, AuxAngle, AuxDST, AuxLat, \
                                AuxBeta, AuxChi, AuxMu, AuxPhi, AuxTheta, AuxXi
 from math import fabs
 
@@ -44,6 +44,22 @@ class Tests(TestsBase):
         for d, e in sorted(de.items()):
             printf('%2d error %.3e ', d, e, nl=n)
             n = 0
+
+        A = AuxAngle(2)
+        self.test('abs', abs(A), 'AuxAngle(tan=2.0, x=1.0, y=2.0)', nl=1)
+        self.test('add', A + A,  'AuxAngle(tan=-1.33333, x=-3, y=4.0)')
+        self.test('eq ', A == A, True)
+        self.test('float', float(A), 2.0)
+        self.test('sub', A - A,  'AuxAngle(tan=0.0, x=1.0, y=0.0)')
+        self.test('neg', -A,     'AuxAngle(tan=-2, x=1.0, y=-2)')
+        self.test('ne ', A != A, False)
+        self.test('pos', +A, A)  # PYCHOK no effect
+        A += A
+        self.test('iadd', A,     'AuxAngle(tan=-1.33333, x=-3, y=4.0)')
+        A -= A
+        self.test('isub', A,     'AuxAngle(tan=0.0, x=1.0, y=0.0)')
+        self.test('radd', A.__radd__(A), 'AuxAngle(tan=0.0, x=1.0, y=0.0)')
+        self.test('rsub', A.__rsub__(A), 'AuxAngle(tan=0.0, x=1.0, y=0.0)')
 
     def testCoeffs(self):
         a = AuxLat()

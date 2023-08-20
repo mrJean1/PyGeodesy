@@ -63,8 +63,8 @@ from pygeodesy.constants import EPS, EPS0, EPS02, EPS1, EPS2, EPS_2, INT0, PI, P
                                _0_0, _0_0001, _0_01, _0_5, _1_0, _1_0_1T, _N_1_0, \
                                _2_0, _N_2_0, _3_0, _4_0, _6_0, _60_0, _90_0, _N_90_0, \
                                _100_0,  isnon0  # PYCHOK used!
-from pygeodesy.datums import a_f2Tuple, _ellipsoidal_datum, _WGS84
-# from pygeodesy.ellipsoids import a_f2Tuple  # from .datums
+from pygeodesy.datums import a_f2Tuple, _ellipsoidal_datum, _WGS84,  _EWGS84
+# from pygeodesy.ellipsoids import a_f2Tuple, _EWGS84  # from .datums
 from pygeodesy.errors import _IndexError, LenError, _ValueError, _TypesError, \
                              _xattr, _xdatum, _xkwds, _xkwds_get
 from pygeodesy.fmath import cbrt, fdot, hypot, hypot1, hypot2_
@@ -86,10 +86,9 @@ from pygeodesy.utily import atan2d, degrees90, degrees180, sincos2, sincos2_, \
 from math import atan2, cos, degrees, fabs, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '23.08.09'
+__version__ = '23.08.20'
 
 _Ecef_    = 'Ecef'
-_EWGS84   = _WGS84.ellipsoid
 _prolate_ = 'prolate'
 _TRIPS    =  17  # 8..9 sufficient, EcefSudano.reverse
 _xyz_y_z  = _xyz_, _y_, _z_  # _xargs_names(_xyzn4)[:3]

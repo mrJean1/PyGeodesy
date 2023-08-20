@@ -23,7 +23,7 @@ from pygeodesy.units import Degrees, Feet, Float, Lam, Lam_, Meter, Meter2, Radi
 from math import acos, asin, atan2, cos, degrees, fabs, radians, sin, tan  # pow
 
 __all__ = _ALL_LAZY.utily
-__version__ = '23.05.11'
+__version__ = '23.08.15'
 
 # read constant name "_M_Unit" as "meter per Unit"
 _M_CHAIN     = _F(  20.1168)     # yard2m(1) * 22
@@ -570,6 +570,12 @@ def NM2m(nm):
        @raise ValueError: Invalid B{C{nm}}.
     '''
     return Meter(Float(nm=nm) * _M_NM)
+
+
+def _passarg(arg):  # in .auxilats.auxLat, .formy
+    '''(INTERNAL) Helper, no-op.
+    '''
+    return arg
 
 
 def _passargs(*args):  # in .formy

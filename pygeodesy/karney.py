@@ -134,11 +134,13 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 from pygeodesy.basics import _copysign, neg, unsigned0, _xgeographiclib, \
                              _xImportError, _xversion_info, _xinstanceof, \
                              _zip,  isodd  # PYCHOK shared
-from pygeodesy.constants import NAN, _isfinite as _math_isfinite, _0_0, _1_0, \
-                               _1_16th, _180_0, _N_180_0, _360_0
-from pygeodesy.datums import _WGS84,  _a_ellipsoid  # PYCHOK shared
+from pygeodesy.constants import NAN, _isfinite as _math_isfinite, _0_0, _1_16th, \
+                               _1_0, _2_0, _180_0, _N_180_0, _360_0
+from pygeodesy.datums import _a_ellipsoid, _EWGS84, _WGS84  # PYCHOK shared
+# from pygeodesy.ellipsoids import _EWGS84  # from .datums
 from pygeodesy.errors import GeodesicError, _ValueError, _xkwds, _xkwds_get
-from pygeodesy.fmath import cbrt, fremainder, norm2, hypot as _hypot, unstr  # PYCHOK shared
+from pygeodesy.fmath import cbrt, fremainder, norm2, unstr, \
+                            Fsum, hypot as _hypot  # PYCHOK shared
 from pygeodesy.interns import _2_, _a12_, _area_, _azi2_, _azi12_, _composite_, \
                               _lat1_, _lat2_, _lon1_, _lon2_, _m12_, _M12_, _M21_, \
                               _number_, _s12_, _S12_
@@ -154,9 +156,8 @@ from pygeodesy.utily import atan2d, sincos2d, tand, _unrollon,  fabs
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.karney
-__version__ = '23.08.09'
+__version__ = '23.08.20'
 
-_EWGS84     = _WGS84.ellipsoid  # PYCHOK in .auxilats, .geodesicx.gx, .ktm, .solveBase
 _K_2_0      = _getenv('PYGEODESY_GEOGRAPHICLIB', _2_) == _2_
 _perimeter_ = 'perimeter'
 
@@ -275,9 +276,9 @@ C{EMPTY} - nothing, formerly aka C{NONE},
 
 C{GEODESICSCALE} - compute geodesic scales C{M12} and C{M21},
 
-C{LINE_OFF} - Line without updates from parent geodesic or rhumb.
-
 C{LATITUDE} - compute latitude C{lat2},
+
+C{LINE_OFF} - Line without updates from parent geodesic or rhumb.
 
 C{LONGITUDE} - compute longitude C{lon2},
 
@@ -467,7 +468,7 @@ class Inverse10Tuple(_GTuple):
                                    **updates)  # PYCHOK indent
 
 
-class _kWrapped(object):
+class _kWrapped(object):  # in .geodesicw
     ''''(INTERNAL) Wrapper for some of I{Karney}'s U{geographiclib
         <https://PyPI.org/project/geographiclib>} classes.
     '''
@@ -609,6 +610,15 @@ def _copyBit(x, y):
     return (-x) if _signBit(y) else x
 
 
+def _2cos2x(cx, sx):  # in .auxDST, .auxLat, .gxbases
+    '''Return M{2 * cos(2 * x)} from cos(x) and sin(x).
+    '''
+    r = cx - sx
+    if r:
+        r *= (cx + sx) * _2_0
+    return r
+
+
 def _diff182(deg0, deg, K_2_0=False):
     '''Compute C{deg - deg0}, reduced to C{[-180,180]} accurately.
 
@@ -645,7 +655,7 @@ def _fix90(deg):  # mimick Math.LatFix
         return NAN if fabs(deg) > 90 else deg
 
 
-def _isfinite(x):  # mimick geomath.Math.AngNormalize
+def _isfinite(x):  # mimick geomath.Math.isfinite
     '''Check finiteness of C{x}.
 
        @return: C{True} if finite.
@@ -750,17 +760,17 @@ def _remainder(x, y):
 
 
 if _K_2_0:
-    from pygeodesy.basics import signBit as _signBit
     from math import cos as _cos, sin as _sin
 
     def _sincos2(rad):
         return _sin(rad), _cos(rad)
 
+    _signBit = _MODS.basics.signBit
 else:
-    from pygeodesy.utily import sincos2 as _sincos2  # PYCHOK shared
+    _sincos2 = _MODS.utily.sincos2  # PYCHOK shared
 
     def _signBit(x):
-        '''(INTERNAL) GeographicLin 1.52-.
+        '''(INTERNAL) GeographicLib 1.52-.
         '''
         return x < 0
 

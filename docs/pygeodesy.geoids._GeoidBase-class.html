@@ -117,7 +117,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.geoids._GeoidBase-class.html#__call__" class="summary-sig-name">__call__</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">*llis</span>,
-        <span class="summary-sig-arg">**wrap</span>)</span><br />
+        <span class="summary-sig-arg">**wrap_H</span>)</span><br />
       Interpolate the geoid height for one or several locations.</td>
           <td align="right" valign="top">
             
@@ -673,7 +673,7 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">__call__</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">*llis</span>,
-        <span class="sig-arg">**wrap</span>)</span>
+        <span class="sig-arg">**wrap_H</span>)</span>
     <br /><em class="fname">(Call operator)</em>
   </h3>
   </td><td align="right" valign="top"
@@ -685,14 +685,18 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>llis</code></strong> - The location or locations (<code>LatLon</code>, ... or 
-          <code>LatLon</code>s).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> all 
-          <b><code>llis</code></b> locations (<code>bool</code>).</li>
+        <li><strong class="pname"><code>llis</code></strong> - One or more locations (<code>LatLon</code>s), all positional.</li>
+        <li><strong class="pname"><code>wrap_H</code></strong> - Keyword arguments <code><b>wrap</b>=False, <b>H</b>=False</code>.
+          If <code><b>wrap</b> is True</code>, wrap or <i>normalize</i> all
+          <b><code>llis</code></b> locations (<code>bool</code>).  If 
+          <code><b>H</b> is True</code>, return the <i>orthometric</i> 
+          height instead of the <i>geoid</i> height at each location 
+          (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>A single interpolated geoid height (<code>float</code>) or a list
-          or tuple of interpolated geoid heights (<code>float</code>s).</dd>
+        <dd>A single interpolated geoid (or orthometric) height 
+          (<code>float</code>) or a list or tuple of interpolated geoid (or
+          orthometric) heights (<code>float</code>s).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.geoids.GeoidError-class.html">GeoidError</a></strong></code> - Insufficient number of <b><code>llis</code></b>, an invalid 
@@ -709,7 +713,16 @@
         <a href="pygeodesy.heights._HeightsBase-class.html#__call__">heights._HeightsBase.__call__</a>
     </dt>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>Note:</strong>
+        To obtain <i>orthometric</i> heights, each <b><code>llis</code></b>
+        location must have an ellipsoid <code>height</code> or 
+        <code>h</code> attribute, otherwise <code>height=0</code> is used.
+      </p>
+      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.formy-module.html#heightOrthometric" 
+        class="link">pygeodesy.heightOrthometric</a>.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="__repr__"></a>
 <div>
@@ -786,7 +799,7 @@
           href="pygeodesy.namedTuples.LatLon3Tuple-class.html" 
           class="link">LatLon3Tuple</a><code>(lat, lon, height)</code> 
           otherwise a <b><code>LatLon</code></b> instance with the lat-, 
-          longitude and height of the grid center location.</dd>
+          longitude and geoid height of the center grid location.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -867,7 +880,7 @@
           href="pygeodesy.namedTuples.LatLon3Tuple-class.html" 
           class="link">LatLon3Tuple</a><code>(lat, lon, height)</code> 
           otherwise a <b><code>LatLon</code></b> instance with the lat-, 
-          longitude and height of the highest grid location.</dd>
+          longitude and geoid height of the highest grid location.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -898,7 +911,7 @@
           href="pygeodesy.namedTuples.LatLon3Tuple-class.html" 
           class="link">LatLon3Tuple</a><code>(lat, lon, height)</code> 
           otherwise a <b><code>LatLon</code></b> instance with the lat-, 
-          longitude and height of the lower-left, SW grid corner.</dd>
+          longitude and geoid height of the lower-left, SW grid corner.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -929,7 +942,7 @@
           href="pygeodesy.namedTuples.LatLon3Tuple-class.html" 
           class="link">LatLon3Tuple</a><code>(lat, lon, height)</code> 
           otherwise a <b><code>LatLon</code></b> instance with the lat-, 
-          longitude and height of the lower-right, SE grid corner.</dd>
+          longitude and geoid height of the lower-right, SE grid corner.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -960,7 +973,7 @@
           href="pygeodesy.namedTuples.LatLon3Tuple-class.html" 
           class="link">LatLon3Tuple</a><code>(lat, lon, height)</code> 
           otherwise a <b><code>LatLon</code></b> instance with the lat-, 
-          longitude and height of the lower-right, SE grid corner.</dd>
+          longitude and geoid height of the lower-right, SE grid corner.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -992,7 +1005,7 @@
           href="pygeodesy.namedTuples.LatLon3Tuple-class.html" 
           class="link">LatLon3Tuple</a><code>(lat, lon, height)</code> 
           otherwise a <b><code>LatLon</code></b> instance with the lat-, 
-          longitude and height of the lowest grid location.</dd>
+          longitude and geoid height of the lowest grid location.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1087,7 +1100,7 @@
           href="pygeodesy.namedTuples.LatLon3Tuple-class.html" 
           class="link">LatLon3Tuple</a><code>(lat, lon, height)</code> 
           otherwise a <b><code>LatLon</code></b> instance with the lat-, 
-          longitude and height of the upper-left, NW grid corner.</dd>
+          longitude and geoid height of the upper-left, NW grid corner.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1118,7 +1131,7 @@
           href="pygeodesy.namedTuples.LatLon3Tuple-class.html" 
           class="link">LatLon3Tuple</a><code>(lat, lon, height)</code> 
           otherwise a <b><code>LatLon</code></b> instance with the lat-, 
-          longitude and height of the upper-right, NE grid corner.</dd>
+          longitude and geoid height of the upper-right, NE grid corner.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1540,7 +1553,7 @@ available/applicable).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Aug 12 12:13:39 2023
+    Generated by Epydoc 3.0.1 on Sun Aug 20 14:42:10 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

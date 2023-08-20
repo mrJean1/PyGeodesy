@@ -16,7 +16,7 @@ the background information on U{Rhumb lines<https://GeographicLib.SourceForge.io
 the utily U{RhumbSolve<https://GeographicLib.SourceForge.io/C++/doc/RhumbSolve.1.html>} and U{Online
 rhumb line calculations<https://GeographicLib.SourceForge.io/cgi-bin/RhumbSolve>}.
 
-Copyright (C) U{Charles Karney<mailto:Charles@Karney.com>} (2014-2022) and licensed under the MIT/X11
+Copyright (C) U{Charles Karney<mailto:Karney@Alum.MIT.edu>} (2014-2022) and licensed under the MIT/X11
 License.  For more information, see the U{GeographicLib<https://GeographicLib.SourceForge.io>} documentation.
 '''
 # make sure int/int division yields float quotient
@@ -25,12 +25,13 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 from pygeodesy.basics import copysign0, neg, unsigned0, _zip
 from pygeodesy.constants import NAN, PI_2, _0_0s, _0_0, _0_5, \
                                _1_0, _2_0, _4_0, _720_0, _over
+# from pygeodesy.ellipsoids import _EWGS84  # from .karney
 from pygeodesy.errors import itemsorted, RhumbError, _Xorder
 from pygeodesy.fmath import hypot, hypot1
 # from pygeodesy.fsums import fsum1f_  # _MODS
 from pygeodesy.interns import NN, _COMMASPACE_
-from pygeodesy.karney import _atan2d, Caps, _diff182, _EWGS84, GDict, \
-                             _GTuple, _norm180
+from pygeodesy.karney import _atan2d, Caps, _diff182, GDict, _GTuple, \
+                             _norm180,  _EWGS84
 from pygeodesy.ktm import KTransverseMercator, _Xs, \
                          _AlpCoeffs, _BetCoeffs  # PYCHOK used!
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
@@ -43,7 +44,7 @@ from pygeodesy.utily import sincos2_
 from math import asinh, atan, cos, cosh, fabs, radians, sin, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.rhumbx
-__version__ = '23.08.09'
+__version__ = '23.08.20'
 
 
 class Rhumb(RhumbBase):

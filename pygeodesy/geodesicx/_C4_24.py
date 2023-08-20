@@ -4,7 +4,7 @@
 u'''A Python version of part of I{Karney}'s C++ module U{GeodesicExactC4
 <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1GeodesicExactC4.html>}.
 
-Copyright (C) U{Charles Karney<mailto:Charles@Karney.com>} (2008-2023)
+Copyright (C) U{Charles Karney<mailto:Karney@Alum.MIT.edu>} (2008-2023)
 and licensed under the MIT/X11 License.  For more information, see the
 U{GeographicLib<https://GeographicLib.SourceForge.io>} documentation.
 '''
@@ -13,7 +13,7 @@ U{GeographicLib<https://GeographicLib.SourceForge.io>} documentation.
 from pygeodesy.geodesicx.gxbases import _Gfloats, _f, _f2
 
 __all__ = ()
-__version__ = '23.07.04'
+__version__ = '23.08.19'
 
 _g = _Gfloats(24)
 _coeffs_24 = _g((  # GEOGRAPHICLIB_GEODESICEXACT_ORDER == 24

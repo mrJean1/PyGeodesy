@@ -4,7 +4,7 @@
 # Test L{formy} module.
 
 __all__ = ('Tests',)
-__version__ = '23.08.11'
+__version__ = '23.08.15'
 
 from bases import TestsBase
 
@@ -13,7 +13,7 @@ from pygeodesy import PI, PI_2, R_M, antipode, bearing, cosineAndoyerLambert, \
                       cosineLaw, Datums, equirectangular, euclidean, \
                       excessAbc_, excessCagnoli_, excessGirard_, excessLHuilier_, \
                       excessKarney, excessQuad, flatLocal, flatPolar, formy, \
-                      hartzell, haversine, heightOf, horizon, hubeny, \
+                      hartzell, haversine, heightOf, heightOrthometric, horizon, hubeny, \
                       IntersectionError, intersection2, intersections2, \
                       isantipode, isantipode_, isnormal, isnormal_, \
                       LatLon_, latlonDMS, LimitError, limiterrors, map1, normal, \
@@ -203,6 +203,10 @@ class Tests(TestsBase):
         except Exception as x:
             self.test(n, str(x), 'delta exceeds ...', known=True)
         limiterrors(t)
+
+        p = LatLon_(1, 2, height=3)
+        self.test(heightOrthometric.__name__, heightOrthometric(p, 4), -1.0, nl=1)
+        self.test(heightOrthometric.__name__, heightOrthometric(5, 4),  1.0)
 
     def testIntersections2(self, datum):
         # centers at 2 opposite corners of a "square" and

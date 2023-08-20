@@ -91,7 +91,7 @@ from pygeodesy.utily import atand, atan2b, atan2d, degrees90, m2radians, radians
 from math import asinh, atan, atanh, cos, degrees, exp, fabs, radians, sin, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '23.08.09'
+__version__ = '23.08.20'
 
 _f_0_0    = Float(f =_0_0)  # zero flattening
 _f__0_0   = Float(f_=_0_0)  # zero inverse flattening
@@ -2335,7 +2335,7 @@ Ellipsoids._assert(  # <https://WikiPedia.org/wiki/Earth_ellipsoid>
     GPES           = _lazy('GPES',           *_T(6378135.0,    6356750.0,        _0_0)),  # "Gen. Purpose Earth Spheroid"
     GRS67          = _lazy('GRS67',          *_T(6378160.0,   _0_0,               298.247167427)),  # Lucerne b=6356774.516
 #   GRS67Truncated = _lazy('GRS67Truncated', *_T(6378160.0,   _0_0,               298.25)),
-    GRS80          = _lazy(_GRS80_,          *_T(R_MA,         6356752.314140347, 298.257222101)),  # IUGG, ITRS, ETRS89
+    GRS80          = _lazy(_GRS80_,          *_T(R_MA,         6356752.314140347, 298.25722210088)),  # IUGG, ITRS, ETRS89
 #   Hayford1924    = _lazy('Hayford1924',    *_T(6378388.0,    6356911.94612795,  None)),  # aka Intl1924 f_=297
     Helmert1906    = _lazy('Helmert1906',    *_T(6378200.0,    6356818.16962789,  298.3)),
 #   Hough1960      = _lazy('Hough1960',      *_T(6378270.0,   _0_0,               297.0)),
@@ -2377,16 +2377,16 @@ Ellipsoids._assert(  # <https://WikiPedia.org/wiki/Earth_ellipsoid>
     SpherePopular  = _lazy('SpherePopular',  *_T(R_MA,         R_MA,             _0_0))   # EPSG:3857 Spheroid
 )
 
+_EWGS84 = Ellipsoids.WGS84  # (INTERNAL) shared
 
 if __name__ == '__main__':
 
     from pygeodesy.interns import _COMMA_, _NL_, _NLATvar_
-    from pygeodesy.lazily import printf
-    from pygeodesy.named import nameof
+    from pygeodesy import nameof, printf
 
-    for E in (Ellipsoids.WGS84, Ellipsoids.GRS80,  # NAD83,
-              Ellipsoids.Sphere, Ellipsoids.SpherePopular,
-              Ellipsoid(Ellipsoids.WGS84.b, Ellipsoids.WGS84.a, name='_Prolate')):
+    for E in (_EWGS84, Ellipsoids.GRS80,  # NAD83,
+               Ellipsoids.Sphere, Ellipsoids.SpherePopular,
+               Ellipsoid(_EWGS84.b, _EWGS84.a, name='_Prolate')):
         e = f2n(E.f) - E.n
         printf('# %s: %s', _DOT_('Ellipsoids', E.name), E.toStr(prec=10), nl=1)
         printf('# e=%s, f_=%s, f=%s, n=%s (%s)', fstr(E.e,  prec=13, fmt=Fmt.e),
@@ -2410,8 +2410,8 @@ if __name__ == '__main__':
 # BetaKs  0.00083773216405794875, 0.0000000590587015222, 0.00000000016734826653, 0.00000000000021647981, 0.00000000000000037879, 0.00000000000000000072, 0.0, 0.0
 # KsOrder 8
 
-# Ellipsoids.GRS80: name='GRS80', a=6378137, b=6356752.3141403468, f_=298.257222101, f=0.0033528107, f2=0.0033640898, n=0.0016792204, e=0.081819191, e2=0.00669438, e21=0.99330562, e22=0.0067394968, e32=0.0033584313, A=6367449.1457710434, L=10001965.7292304579, R1=6371008.7713801153, R2=6371007.1808835147, R3=6371000.7899741363, Rbiaxial=6367453.6344640013, Rtriaxial=6372797.5559332585
-# e=8.1819191042833e-02, f_=2.98257222101e+02, f=3.3528106811837e-03, n=1.6792203946295e-03 (0.0e+00)
+# Ellipsoids.GRS80: name='GRS80', a=6378137, b=6356752.3141403468, f_=298.2572221009, f=0.0033528107, f2=0.0033640898, n=0.0016792204, e=0.081819191, e2=0.00669438, e21=0.99330562, e22=0.0067394968, e32=0.0033584313, A=6367449.1457710434, L=10001965.7292304579, R1=6371008.7713801153, R2=6371007.1808835147, R3=6371000.7899741363, Rbiaxial=6367453.6344640013, Rtriaxial=6372797.5559332585
+# e=8.1819191042833e-02, f_=2.9825722210088e+02, f=3.3528106811837e-03, n=1.6792203946295e-03 (0.0e+00)
 # AlphaKs 0.00083773182472890429, 0.00000076085278481561, 0.00000000119764552086, 0.00000000000242917073, 0.00000000000000571182, 0.0000000000000000148, 0.00000000000000000004, 0.0
 # BetaKs  0.0008377321681623882, 0.00000005905870210374, 0.000000000167348269, 0.00000000000021647982, 0.00000000000000037879, 0.00000000000000000072, 0.0, 0.0
 # KsOrder 8

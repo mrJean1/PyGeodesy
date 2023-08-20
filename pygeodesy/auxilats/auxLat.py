@@ -5,7 +5,7 @@ u'''Class L{AuxLat} transcoded to Python from I{Karney}'s C++ class U{AuxLatitud
 <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1AuxLatitude.html>}
 in I{GeographicLib version 2.2+}.
 
-Copyright (C) U{Charles Karney<mailto:Charles@Karney.com>} (2022-2023) and licensed
+Copyright (C) U{Charles Karney<mailto:Karney@Alum.MIT.edu>} (2022-2023) and licensed
 under the MIT/X11 License.  For more information, see the U{GeographicLib
 <https://GeographicLib.SourceForge.io>} documentation.
 
@@ -17,7 +17,7 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.auxilats.auxAngle import AuxAngle, AuxBeta, AuxChi, _AuxClass, \
                                         AuxMu, AuxPhi, AuxTheta, AuxXi
-from pygeodesy.auxilats.auxily import Aux, _2cos2x, _sc, _sn, _Ufloats
+from pygeodesy.auxilats.auxily import Aux, _sc, _sn, _Ufloats
 from pygeodesy.basics import isscalar, _reverange, _xinstanceof
 from pygeodesy.constants import INF, MAX_EXP, MIN_EXP, NAN, PI_2, PI_4, _EPSqrt, \
                                _0_0, _0_0s, _0_1, _0_25, _0_5, _1_0, _2_0, _3_0, \
@@ -26,12 +26,14 @@ from pygeodesy.datums import _ellipsoidal_datum, _WGS84,  Ellipsoid
 # from pygeodesy.ellipsoids import Ellipsoid  # from .datums
 from pygeodesy.elliptic import Elliptic as _Ef
 from pygeodesy.errors import AuxError, _xkwds, _xkwds_get, _Xorder
-from pygeodesy.fmath import cbrt,  Fsum
-# from pygeodesy.fsums import Fsum  # from .fmath
+# from pygeodesy.fmath import cbrt  # from .karney
+# from pygeodesy.fsums import Fsum  # from .karney
+from pygeodesy.karney import _2cos2x,  _ALL_DOCS, cbrt, Fsum, _MODS
 from pygeodesy.interns import NN, _DOT_, _UNDER_  # _earth_
-from pygeodesy.lazily import _ALL_DOCS, _ALL_MODS as _MODS
+# from pygeodesy.lazily import _ALL_DOCS, _ALL_MODS as _MODS  # from .karney
 from pygeodesy.props import Property, Property_RO, _update_all
 from pygeodesy.units import Degrees, Meter
+# from pygeodesy.utily import _passarg  # _MODS
 
 from math import asinh, atan, atan2, copysign, cosh, fabs, sin, sinh, sqrt
 try:
@@ -42,13 +44,9 @@ except ImportError:  # Python 3.11-
         return pow(_2_0, x)
 
 __all__ = ()
-__version__ = '23.08.09'
+__version__ = '23.08.20'
 
 _TRIPS = 1024  # XXX 2 or 3?
-
-
-def _passarg(arg):  # PYCHOK to .utily
-    return arg
 
 
 class AuxLat(AuxAngle):
@@ -262,7 +260,7 @@ class AuxLat(AuxAngle):
                 #   (tphi - sig) * (1 + sigtphi) / (scsig + sigtphi * scphi)
                 sigtphi = sig / tphi
                 if sig < (tphi * _0_5):
-                    tphimsig = tphi - sig
+                    t = tphi - sig
                 else:
                     def _asinh_2(x):
                         return asinh(x) * _0_5
@@ -272,26 +270,27 @@ class AuxLat(AuxAngle):
                     #   g(x) = sinh(x * atanh(sphi * x))
                     # Note sinh(atanh(sphi)) = tphi
                     # Turn the crank on divided differences, substitute
-                    #   sphi = tphi/_sc(tphi)
-                    #   atanh(x) = asinh(x/sqrt(1-x^2))
+                    #   sphi = tphi / _sc(tphi)
+                    #   atanh(x) = asinh(x / sqrt(1 - x^2))
                     e   = self._e
                     em1 = self._e2m1 / (_1_0 + e)
                     # assert em1 != 0
-                    scb    = _sc(self._fm1 * tphi)  # sec(beta)
-                    scphib = _sc(tphi) / scb  # sec(phi) / sec(beta)
-                    atphib = _asinh_2(e * tphi / scb)  # atanh(e * sphi)
+                    scb = self._scbeta(tphi)
+                    scphib =  scphi / scb  # sec(phi) / sec(beta)
+                    atphib = _asinh_2(tphi * e / scb)  # atanh(e * sphi)
                     atphi  = _asinh_2(tphi)  # atanh(sphi)
                     t      = _asinh_2(em1 * (tphi * scphib)) / em1
                     try:
-                        Dg =  Fsum(atphi, atphib, t, e * t)
+                        Dg = Fsum(atphi, atphib, t, e * t)
                     except ValueError:  # Fsum(NAN) exception
-                        Dg =  sum((atphi, atphib, t, e * t))
-                    e  *= atphib
-                    t   = atphi - e
-                    Dg *= cosh(atphi + e) * _over(sinh(t), t)
-                    tphimsig = float(Dg) * em1  # tphi - sig
-                tchi = _over(tphimsig * (_1_0 + sigtphi),
-                                scsig + scphi * sigtphi)
+                        Dg = sum((atphi, atphib, t, e * t))
+                    e *= atphib
+                    t  = atphi - e
+                    if t:  # sinh(0) == 0
+                        Dg *= sinh(t) / t * cosh(atphi + e) * em1
+                        t   = float(Dg)  # tphi - sig
+                tchi = _over(t * (_1_0 + sigtphi),
+                         scsig + scphi * sigtphi)  # if t else _0_0
             else:
                 tchi =  tphi * scsig - sig * scphi
 
@@ -300,26 +299,29 @@ class AuxLat(AuxAngle):
 
         if _xkwds_get(diff_name, diff=False):
             if isinf(tphi):  # PYCHOK np cover
-                d =  self._conformal_diff
+                d = self._conformal_diff
             else:
-                x =  self.Parametric(Phi)._x_normalized
-                d = (self._e2m1 * _over(x, Chi._x_normalized)
-                                * _over(x, Phi._x_normalized)) if x else _0_0
+                d = self.Parametric(Phi)._x_normalized
+                if d:
+                    d = _over(d, Chi._x_normalized) * \
+                        _over(d, Phi._x_normalized) * self._e2m1
             Chi._diff = d
         # assrt Chi._AUX == Aux.CHI
         return Chi
 
     @Property_RO
-    def _conformal_diff(self):
+    def _conformal_diff(self):  # PYCHOK no cover
         '''(INTERNAL) Constant I{Conformal} diff.
         '''
         e = self._e
         if self.f > 0:
-            ss = sinh(e * asinh(self._e1))
+            ss = sinh(asinh(self._e1) * e)
             d = _over(_1_0, _sc(ss) + ss)
-        else:
+        elif e:
             ss = sinh(-atan(e) * e)
             d = _sc(ss) - ss
+        else:
+            d = _1_0
         return d
 
     def convert(self, auxout, Zeta_d, exact=False):
@@ -369,24 +371,24 @@ class AuxLat(AuxAngle):
             if d:
                 # General expression for _Dq(1, sphi) is
                 # atanh(e * d / (1 - e2 * sphi)) / (e * d) +
-                #   (1 + e2 * sphi) / ((1 - e2 * sphi * sphi) * e2m1);
-                # atanh( e * d / (1 - e2 * sphi))
-                # = atanh( e * d * scphi/(scphi - e2 * tphi))
-                e2m1, ed = self._e2m1, self._e * d
+                # (1 + e2 * sphi) / ((1 - e2 * sphi * sphi) * e2m1)
+                # with atanh(e * d / (1 - e2 * sphi)) =
+                #      atanh(e * d * scphi / (scphi - e2 * tphi))
+                e2m1, ed = self._e2m1, (self._e * d)
                 if e2m1 and ed:
                     e2 = self._e2
                     if e2 > 0:  # assert self.f > 0
-                        scb = _sc(self._fm1 * tphi)
-                        q   =  scphi / scb
+                        scb =  self._scbeta(tphi)
+                        q   =  scphib = scphi / scb
                         q  *= (scphi + tphi * e2) / (e2m1 * scb)
-                        q  +=  asinh(self._e1 * d * scphi / scb) / ed
+                        q  +=  asinh(self._e1 * d * scphib) / ed
                     else:
                         s2  =  sphi * e2
                         q   = (_1_0 + s2) / ((_1_0 - sphi * s2) * e2m1)
                         q  += (atan2(ed, _1_0 - s2) / ed) if e2 < 0 else _1_0
-                else:
+                else:  # PYCHOK no cover
                     q = INF
-            else:
+            else:  # PYCHOK no cover
                 q = self._2_e2m12
         else:  # not reached, open-coded in .Authalic
             q = _over(self._q - self._qf(tphi), _1_0 - sphi)
@@ -475,7 +477,7 @@ class AuxLat(AuxAngle):
         '''(INTERNAL) switch(auxin): ...
         '''
         return {Aux.AUTHALIC:         cbrt,
-                Aux.CONFORMAL:       _passarg,
+                Aux.CONFORMAL: _MODS.utily._passarg,
                 Aux.GEOCENTRIC: self._e2m1,
                 Aux.GEOGRAPHIC:      _1_0,
                 Aux.PARAMETRIC: self._fm1,
@@ -496,7 +498,7 @@ class AuxLat(AuxAngle):
             Theta._diff = self._e2m1
         return Theta
 
-    def Geodetic(self, Phi, **diff_name):
+    def Geodetic(self, Phi, **diff_name):  # PYCHOK no cover
         '''Convert I{Geographic} to I{Geodetic} latitude.
 
            @arg Phi: Geographic latitude (L{AuxAngle}).
@@ -544,7 +546,7 @@ class AuxLat(AuxAngle):
 
     def _qf(self, tphi):
         # function _q: atanh(e * sphi) / e + sphi / (1 - (e * sphi)^2)
-        scb = _sc(self._fm1 * tphi)
+        scb  = self._scbeta(tphi)
         return self._atanhee(tphi) + (tphi / scb) * (_sc(tphi) / scb)
 
     def _qIntegrand(self, beta):
@@ -651,6 +653,9 @@ class AuxLat(AuxAngle):
         d = _MODS.karney._polynomial(self._n2, _RRCoeffs[m], 0, m // 2)
         return d * (self.a + self.b) * _0_5
 
+    def _scbeta(self, tphi):
+        return _sc(self._fm1 * tphi)
+
     def _toAux(self, auxout, Phi, **diff_name):
         '''Convert I{Geographic} to I{Auxiliary} latitude.
 
@@ -665,7 +670,7 @@ class AuxLat(AuxAngle):
         m = _toAuxCase.get(auxout, None)
         if m:  # callable
             A = m(self, Phi, **_xkwds(diff_name, name=n))
-        elif auxout == Aux.GEODETIC:  # .GEOGRAPHIC
+        elif auxout == Aux.GEODETIC:  # == GEOGRAPHIC
             A = AuxPhi(Phi, name=n)
         else:  # auxout?
             A = AuxPhi(NAN, name=n)

@@ -8,7 +8,7 @@ Class L{GeodesicExact} follows the naming, methods and return values
 of class C{Geodesic} from I{Karney}'s Python U{geographiclib
 <https://GitHub.com/geographiclib/geographiclib-python>}.
 
-Copyright (C) U{Charles Karney<mailto:Charles@Karney.com>} (2008-2023)
+Copyright (C) U{Charles Karney<mailto:Karney@Alum.MIT.edu>} (2008-2023)
 and licensed under the MIT/X11 License.  For more information, see the
 U{GeographicLib<https://GeographicLib.SourceForge.io>} documentation.
 '''
@@ -42,6 +42,7 @@ from pygeodesy.constants import EPS, EPS0, EPS02, MANT_DIG, NAN, PI, _EPSqrt, \
                                _1_0, _N_1_0, _1_75, _2_0, _N_2_0, _2__PI, _3_0, \
                                _4_0, _6_0, _8_0, _16_0, _90_0, _180_0, _1000_0
 # from pygeodesy.datums import _a_ellipsoid  # from .karney
+# from pygeodesy.ellipsoids import _EWGS84  # from .karney
 # from pygeodesy.fmath import cbrt as _cbrt, hypot as hypot_  # from .karney
 from pygeodesy.fsums import fsumf_, fsum1f_
 from pygeodesy.geodesicx.gxbases import _cosSeries, _GeodesicBase, \
@@ -61,7 +62,7 @@ from pygeodesy.utily import atan2d as _atan2d_reverse, _Wrap, wrap360
 from math import atan2, copysign, cos, degrees, fabs, radians, sqrt
 
 __all__ = ()
-__version__ = '23.07.20'
+__version__ = '23.08.20'
 
 _MAXIT1 = 20
 _MAXIT2 = 10 + _MAXIT1 + MANT_DIG  # MANT_DIG == C++ digits

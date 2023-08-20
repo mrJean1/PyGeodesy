@@ -6,11 +6,12 @@ u'''(INTERNAL) Private base classes for L{pygeodesy.geodsolve} and L{pygeodesy.r
 
 from pygeodesy.basics import map2, ub2str, _zip
 from pygeodesy.constants import DIG
+# from pygeodesy.ellipsoids import _EWGS84  # from .karney
 from pygeodesy.errors import _AssertionError, _xkwds_get
 from pygeodesy.interns import NN, _0_, _BACKSLASH_, _COMMASPACE_, _enquote, \
                              _EQUAL_, _Error_, _not_, _SPACE_, _UNUSED_
-from pygeodesy.karney import Caps, _CapsBase, _a_ellipsoid, _EWGS84, GDict, \
-                             Precision_
+from pygeodesy.karney import Caps, _CapsBase, _a_ellipsoid, GDict, \
+                             Precision_,  _EWGS84
 from pygeodesy.lazily import _ALL_DOCS, printf, _sys_version_info2
 from pygeodesy.named import callername, notOverloaded
 from pygeodesy.props import Property, Property_RO, property_RO, _update_all
@@ -21,7 +22,7 @@ from pygeodesy.utily import unroll180,  wrap360  # PYCHOK shared
 from subprocess import PIPE as _PIPE, Popen as _Popen, STDOUT as _STDOUT
 
 __all__ = ()  # nothing public
-__version__ = '23.08.04'
+__version__ = '23.08.20'
 
 _ERROR_    = 'ERROR'
 _text_True =  dict() if _sys_version_info2 < (3, 7) else dict(text=True)

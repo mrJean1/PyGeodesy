@@ -7,7 +7,7 @@ Class L{AuxAngle} transcoded to Python from I{Karney}'s C++ class U{AuxAngle
 <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1AuxAngle.html>}
 in I{GeographicLib version 2.2+}.
 
-Copyright (C) U{Charles Karney<mailto:Charles@Karney.com>} (2022-2023) and licensed
+Copyright (C) U{Charles Karney<mailto:Karney@Alum.MIT.edu>} (2022-2023) and licensed
 under the MIT/X11 License.  For more information, see the U{GeographicLib
 <https://GeographicLib.SourceForge.io>} documentation.
 '''
@@ -16,7 +16,7 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.auxilats.auxily import Aux, AuxError, _Aux2Greek
 from pygeodesy.basics import _xinstanceof, _xkwds_get
-from pygeodesy.constants import EPS, MAX, NAN, _INF_NAN_NINF, _0_0, _0_5, _1_0, \
+from pygeodesy.constants import EPS, INF, MAX, NAN, NINF, _0_0, _0_5, _1_0, \
                                _copysign_1_0, _over, _pos_self, isfinite, isnan
 # from pygeodesy.errors import AuxError, _xkwds_get  # from .auxily, .basics
 from pygeodesy.fmath import hypot,  unstr
@@ -32,9 +32,10 @@ from pygeodesy.utily import atan2d, sincos2, sincos2d
 from math import asinh, atan2, copysign, degrees, fabs, radians, sinh
 
 __all__ = ()
-__version__ = '23.08.09'
+__version__ = '23.08.19'
 
-_MAX_2 = MAX * _0_5  # PYCHOK used!
+_0_INF_NAN_NINF = 0, _0_0, INF, NAN, NINF  # _INF_NAN_NINF
+_MAX_2          = MAX * _0_5  # PYCHOK used!
 # del MAX
 
 
@@ -138,8 +139,8 @@ class AuxAngle(_Named):
         '''Return C{B{self} != B{other}} as C{bool}.
         '''
         _xinstanceof(AuxAngle, other=other)
-        y, x, r = self._yxr_normalized
-        s, c, t = other._yxr_normalized
+        y, x, r =  self._yxr_normalized()
+        s, c, t = other._yxr_normalized()
         return fabs(y - s) > EPS or fabs(x - c) > EPS \
                                  or fabs(r - t) > EPS
 
@@ -398,7 +399,7 @@ class AuxAngle(_Named):
                        and fabs(x) < _MAX_2 \
                        and isfinite(self.tan):
             h = hypot(y, x)
-            if h > 0:
+            if h > 0 and y:
                 y = y / h  # /= chokes PyChecker
                 x = x / h
                 if isnan(y):  # PYCHOK no cover
@@ -514,7 +515,7 @@ def _AuxClass(aux=None, **unused):  # PYCHOK C{classof(aux)}
 def _yx2(yx):
     try:
         y, x = map(float, yx)
-        if y in _INF_NAN_NINF:  # PYCHOK no cover
+        if y in _0_INF_NAN_NINF:
             x = _copysign_1_0(x)
     except (TypeError, ValueError) as e:
         y, x = yx

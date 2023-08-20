@@ -4,7 +4,7 @@ u'''Class L{AuxDLat} transcoded to Python from I{Karney}'s C++ class U{DAuxLatit
 <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1DAuxLatitude.html>}
 in I{GeographicLib version 2.2+}.
 
-Copyright (C) U{Charles Karney<mailto:Charles@Karney.com>} (2022-2023) and licensed
+Copyright (C) U{Charles Karney<mailto:Karney@Alum.MIT.edu>} (2022-2023) and licensed
 under the MIT/X11 License.  For more information, see the U{GeographicLib
 <https://GeographicLib.SourceForge.io>} documentation.
 '''
@@ -15,7 +15,7 @@ from pygeodesy.auxilats.auxily import Aux, _Datan, _Dasinh, _sc, _sn,  AuxError
 from pygeodesy.auxilats.auxLat import AuxLat,  _ALL_DOCS
 from pygeodesy.basics import map1, _reverange
 from pygeodesy.constants import INF, NAN, isfinite, isinf, isnan, _0_0, \
-                               _0_5, _1_0, _2_0, _N_2_0, _3_0, _inf_nan, \
+                               _0_5, _1_0, _2_0, _N_2_0, _3_0, _naninf, \
                                _over, _1_over
 from pygeodesy.elliptic import Elliptic as _Ef,  Fsum
 # from pygeodesy.errors import AuxError  # from .auxilats.auxily
@@ -25,7 +25,7 @@ from pygeodesy.elliptic import Elliptic as _Ef,  Fsum
 from math import atan, atan2, cos, sin, sqrt
 
 __all__ = ()
-__version__ = '23.08.12'
+__version__ = '23.08.19'
 
 
 class AuxDLat(AuxLat):
@@ -68,7 +68,7 @@ class AuxDLat(AuxLat):
         auxin = Zeta1._AUX
         # assert Zeta2._AUX == auxin
         try:
-            if auxin != auxout:
+            if auxout != auxin:
                 cs =  self._coeffs(auxout, auxin)
                 # assert len(cs) == self.ALorder
                 r  = _DClenshaw(True, Zeta1, Zeta2, cs, self.ALorder)
@@ -91,16 +91,17 @@ class AuxDLat(AuxLat):
         # Make both y positive, so we can do the swap a <-> b trick
         sx, cx, x =  X._yxr_normalized(True)
         sy, cy, y =  Y._yxr_normalized(True)
-        Dt, k2, d = _0_0, -self._e12, (y - x)
+        k2,     d = -self._e12, (y - x)
         # Switch prolate to oblate, then use formulas for k2 < 0
         if self.f < 0:  # XXX and False?
             sx, cx = cx, sx
             sy, cy = cy, sy
             d,  k2 = -d, self._e2
         # See DLMF: Eqs (19.11.2) and (19.11.4) letting
-        if sx and sy:
+        Dt = _Dsin(x, y) * (sx + sy)
+        if Dt:
             t   = _sxk2y(sx, sy, k2) + _sxk2y(sy, sx, k2)
-            Dt  = _over(_Dsin(x, y) * (sx + sy), t * (cx + cy))
+            Dt  = _over(Dt, t * (cx + cy))
             t   =  d * Dt
             t2  = _1_0 + t**2
             Dt *= _2_0 / t2
@@ -238,7 +239,7 @@ def _DClenshaw(sinp, Zeta1, Zeta2, cs, K):
         U0a *= _2_0
         r =  float(U0a) if sinp else U0a  # Fsum
     else:
-        r = _inf_nan(xD, xb, xa)
+        r = _naninf(xD, xb, xa)
     return r
 
 
@@ -269,10 +270,12 @@ def _Dsn(x, y):
 
 def _sxk2y(sx, sy, k2):
     # .DE helper
-    try:
-        sx *= sqrt(_1_0 - sy**2 * k2)
-    except ValueError:  # domain error
-        sx  = NAN
+    sy *= sy * k2
+    if sy:
+        try:
+            sx *= sqrt(_1_0 - sy)
+        except ValueError:  # domain error
+            sx  = NAN
     return sx
 
 

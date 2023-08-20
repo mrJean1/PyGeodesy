@@ -5,7 +5,7 @@ u'''Coeficients for C{_AUXLATITUDE_ORDER} 4 from I{Karney}'s C++ class U{AuxLati
 <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1AuxLatitude.html>}
 trancoded to a double, uniquified Python C{dict[auxout][auxin]}.
 
-Copyright (C) Charles Karney (2022-2023) Charles@Karney.com> and licensed under the
+Copyright (C) Charles Karney (2022-2023) Karney@Alum.MIT.edu> and licensed under the
 MIT/X11 License.  For more information, see <https:#GeographicLib.SourceForge.io>.
 '''
 # make sure int/int division yields float quotient
@@ -16,7 +16,7 @@ from pygeodesy.constants import _0_0, _0_25, _0_5, _1_0, _N_1_0, \
                                 _1_5, _2_0, _N_2_0, _4_0
 
 __all__ = ()
-__version__ = '23.08.05'
+__version__ = '23.08.19'
 
 _f, _u = float, _Ufloats()
 _coeffs_4 = _u._Coeffs(4, {  # GEOGRAPHICLIB_AUXLATITUDE_ORDER == 4

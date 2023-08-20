@@ -47,7 +47,7 @@ from pygeodesy.props import _allPropertiesOf_n, deprecated_property_RO, \
 from math import ceil as _ceil, fabs, floor as _floor  # PYCHOK used! .ltp
 
 __all__ = _ALL_LAZY.fsums
-__version__ = '23.08.05'
+__version__ = '23.08.17'
 
 _add_op_       = _PLUS_  # in .auxilats.auxAngle
 _eq_op_        = _EQUAL_ * 2  # _DEQUAL_
@@ -220,9 +220,9 @@ def _2sum(a, b):  # by .testFmath
         u = unstr(_2sum.__name__, a, b)
         t = Fmt.PARENSPACED(_not_finite_, s)
         raise _OverflowError(u, txt=t)
-    r = (a - (s - b)) if fabs(a) <  fabs(b) else \
-        (b - (s - a))  # fabs(a) >= fabs(b)
-    return s, r
+    if fabs(a) < fabs(b):
+        a, b = b, a
+    return s, (b - (s - a))
 
 
 class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase

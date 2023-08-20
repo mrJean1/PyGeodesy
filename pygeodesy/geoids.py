@@ -84,9 +84,10 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 from pygeodesy.basics import len2, map1, map2, isodd, ub2str as _ub2str
 from pygeodesy.constants import EPS, _float as _F, _0_0, _1_0, _180_0, _360_0
 # from pygeodesy.datums import _ellipsoidal_datum  # from .heights
-from pygeodesy.dms import parseDMS2
+# from pygeodesy.dms import parseDMS2  # _MODS
 from pygeodesy.errors import _incompatible, LenError, RangeError, _SciPyIssue
 from pygeodesy.fmath import favg, Fdot, fdot, Fhorner, frange
+# from pygoedesy.formy import heightOrthometric  # _MODS
 from pygeodesy.heights import _as_llis2, _ascalar, _height_called, HeightError, \
                               _HeightsBase,  _ellipsoidal_datum, _Wrap
 from pygeodesy.interns import NN, _4_, _COLONSPACE_, _COMMASPACE_, _cubic_, \
@@ -100,7 +101,7 @@ from pygeodesy.named import _Named, _NamedTuple, notOverloaded
 from pygeodesy.props import Property_RO, property_RO
 from pygeodesy.streprs import attrs, Fmt, fstr, pairs
 from pygeodesy.units import Height, Int_, Lat, Lon
-# from pygeodesy.utils import _Wrap  # from .heights
+# from pygeodesy.utily import _Wrap  # from .heights
 
 from math import floor
 import os.path as _os_path
@@ -115,7 +116,7 @@ except ImportError:  # Python 3+
     from io import BytesIO as _BytesIO  # PYCHOK expected
 
 __all__ = _ALL_LAZY.geoids
-__version__ = '23.05.26'
+__version__ = '23.08.15'
 
 _assert_ = 'assert'
 _bHASH_  =  b'#'
@@ -223,17 +224,19 @@ class _GeoidBase(_HeightsBase):
         self._lon_lo = float(bb[2] - p.glon)
         self._lon_hi = float(bb[3] - p.glon)
 
-    def __call__(self, *llis, **wrap):
+    def __call__(self, *llis, **wrap_H):
         '''Interpolate the geoid height for one or several locations.
 
-           @arg llis: The location or locations (C{LatLon}, ... or
-                      C{LatLon}s).
-           @kwarg wrap: If C{True}, wrap or I{normalize} all B{C{llis}}
-                        locations (C{bool}).
+           @arg llis: One or more locations (C{LatLon}s), all positional.
+           @kwarg wrap_H: Keyword arguments C{B{wrap}=False, B{H}=False}.
+                       If C{B{wrap} is True}, wrap or I{normalize} all
+                       B{C{llis}} locations (C{bool}).  If C{B{H} is True},
+                       return the I{orthometric} height instead of the
+                       I{geoid} height at each location (C{bool}).
 
-           @return: A single interpolated geoid height (C{float}) or
-                    a list or tuple of interpolated geoid heights
-                    (C{float}s).
+           @return: A single interpolated geoid (or orthometric) height
+                    (C{float}) or a list or tuple of interpolated geoid
+                    (or orthometric) heights (C{float}s).
 
            @raise GeoidError: Insufficient number of B{C{llis}}, an
                               invalid B{C{lli}} or the C{egm*.pgm}
@@ -248,8 +251,14 @@ class _GeoidBase(_HeightsBase):
            @raise SciPyWarning: A C{scipy.interpolate.inter2d} or
                                 C{-.RectBivariateSpline} warning as
                                 exception.
+
+           @note: To obtain I{orthometric} heights, each B{C{llis}}
+                  location must have an ellipsoid C{height} or C{h}
+                  attribute, otherwise C{height=0} is used.
+
+           @see: Function L{pygeodesy.heightOrthometric}.
         '''
-        return self._called(llis, True, **wrap)
+        return self._called(llis, True, **wrap_H)
 
     def __enter__(self):
         '''Open context.
@@ -268,20 +277,24 @@ class _GeoidBase(_HeightsBase):
     def __str__(self):
         return Fmt.PAREN(self.classname, repr(self.name))
 
-    def _called(self, llis, scipy, wrap=False):
+    def _called(self, llis, scipy, wrap=False, H=False):
         # handle __call__
+        _H = _MODS.formy.heightOrthometric if H else None
         _as, llis = _as_llis2(llis, Error=GeoidError)
         try:
             hs, _w = [], _Wrap._latlonop(wrap)
             for i, lli in enumerate(llis):
-                hs.append(self._hGeoid(*_w(lli.lat, lli.lon)))
+                N = self._hGeoid(*_w(lli.lat, lli.lon))
+                if _H:  # convert to orthometric
+                    N = _H(lli, N)
+                hs.append(N)
             return _as(hs)
 
         except (GeoidError, RangeError) as x:
             # XXX avoid str(LatLon()) degree symbols
             t = _lli_ if _as is _ascalar else Fmt.SQUARE(llis=i)
             lli = fstr((lli.lat, lli.lon), strepr=repr)
-            raise type(x)(t, lli, wrap=wrap, cause=x)
+            raise type(x)(t, lli, wrap=wrap, H=H, cause=x)
         except Exception as x:
             if scipy and self.scipy:
                 raise _SciPyIssue(x)
@@ -303,8 +316,8 @@ class _GeoidBase(_HeightsBase):
 
            @return: If B{C{LatLon}} is C{None}, a L{LatLon3Tuple}C{(lat,
                     lon, height)} otherwise a B{C{LatLon}} instance
-                    with the lat-, longitude and height of the grid
-                    center location.
+                    with the lat-, longitude and geoid height of the
+                    center grid location.
         '''
         return self._llh3LL(self._center, LatLon)
 
@@ -416,8 +429,8 @@ class _GeoidBase(_HeightsBase):
 
            @return: If B{C{LatLon}} is C{None}, a L{LatLon3Tuple}C{(lat,
                     lon, height)} otherwise a B{C{LatLon}} instance
-                    with the lat-, longitude and height of the highest
-                    grid location.
+                    with the lat-, longitude and geoid height of the
+                    highest grid location.
         '''
         return self._llh3LL(self._highest, LatLon)
 
@@ -483,8 +496,8 @@ class _GeoidBase(_HeightsBase):
 
            @return: If B{C{LatLon}} is C{None}, a L{LatLon3Tuple}C{(lat,
                     lon, height)} otherwise a B{C{LatLon}} instance
-                    with the lat-, longitude and height of the lower-left,
-                    SW grid corner.
+                    with the lat-, longitude and geoid height of the
+                    lower-left, SW grid corner.
         '''
         return self._llh3LL(self._lowerleft, LatLon)
 
@@ -502,8 +515,8 @@ class _GeoidBase(_HeightsBase):
 
            @return: If B{C{LatLon}} is C{None}, a L{LatLon3Tuple}C{(lat,
                     lon, height)} otherwise a B{C{LatLon}} instance
-                    with the lat-, longitude and height of the lower-right,
-                    SE grid corner.
+                    with the lat-, longitude and geoid height of the
+                    lower-right, SE grid corner.
         '''
 
         return self._llh3LL(self._loweright, LatLon)
@@ -524,8 +537,8 @@ class _GeoidBase(_HeightsBase):
 
            @return: If B{C{LatLon}} is C{None}, a L{LatLon3Tuple}C{(lat,
                     lon, height)} otherwise a B{C{LatLon}} instance
-                    with the lat-, longitude and height of the lowest
-                    grid location.
+                    with the lat-, longitude and geoid height of the
+                    lowest grid location.
         '''
         return self._llh3LL(self._lowest, LatLon)
 
@@ -671,8 +684,8 @@ class _GeoidBase(_HeightsBase):
 
            @return: If B{C{LatLon}} is C{None}, a L{LatLon3Tuple}C{(lat,
                     lon, height)} otherwise a B{C{LatLon}} instance
-                    with the lat-, longitude and height of the upper-left,
-                    NW grid corner.
+                    with the lat-, longitude and geoid height of the
+                    upper-left, NW grid corner.
         '''
         return self._llh3LL(self._upperleft, LatLon)
 
@@ -690,8 +703,8 @@ class _GeoidBase(_HeightsBase):
 
            @return: If B{C{LatLon}} is C{None}, a L{LatLon3Tuple}C{(lat,
                     lon, height)} otherwise a B{C{LatLon}} instance
-                    with the lat-, longitude and height of the upper-right,
-                    NE grid corner.
+                    with the lat-, longitude and geoid height of the
+                    upper-right, NE grid corner.
         '''
         return self._llh3LL(self._upperright, LatLon)
 
@@ -953,33 +966,33 @@ class GeoidKarney(_GeoidBase):
         elif kind not in (3,):
             raise GeoidError(kind=kind)
 
-        self._egm = g = self._open(egm_pgm, datum, kind, name, smooth)
+        self._egm = g =  self._open(egm_pgm, datum, kind, name, smooth)
         self._pgm = p = _PGM(g, pgm=egm_pgm, itemsize=self.u2B, sizeB=self.sizeB)
 
-        self._Rendian = self._4endian.replace(_4_, str(p.nlon))
+        self._Rendian =  self._4endian.replace(_4_, str(p.nlon))
         self._Ru2B    = _calcsize(self._Rendian)
 
         self._knots  = p.knots  # grid knots
         self._lon_of = float(p.flon)  # forward offset
         self._lon_og = float(p.glon)  # reverse offset
         # set earth (lat, lon) limits (s, w, n, e)
-        self._lat_lo, \
-        self._lon_lo, \
-        self._lat_hi, \
-        self._lon_hi = self._swne(crop if crop else p.crop4)
+        self._lat_lo, self._lon_lo, \
+        self._lat_hi, self._lon_hi = self._swne(crop if crop else p.crop4)
         self._cropped = True if crop else False
 
-    def __call__(self, *llis, **wrap):
+    def __call__(self, *llis, **wrap_H):
         '''Interpolate the geoid height for one or several locations.
 
-           @arg llis: The location or locations (C{LatLon}, ... or
-                      C{LatLon}s).
-           @kwarg wrap: If C{True}, wrap or I{normalize} all B{C{llis}}
-                        locations (C{bool}).
+           @arg llis: One or more locations (C{LatLon}s), all positional.
+           @kwarg wrap_H: Keyword arguments C{B{wrap}=False, B{H}=False}.
+                       If C{B{wrap} is True}, wrap or I{normalize} all
+                       B{C{llis}} locations (C{bool}).  If C{B{H} is True},
+                       return the I{orthometric} height instead of the
+                       I{geoid} height at each location (C{bool}).
 
-           @return: A single interpolated geoid height (C{float}) or
-                    a list or tuple of interpolated geoid heights
-                    (C{float}s).
+           @return: A single interpolated geoid (or orthometric) height
+                    (C{float}) or a list or tuple of interpolated geoid
+                    (or orthometric) heights (C{float}s).
 
            @raise GeoidError: Insufficient number of B{C{llis}}, an
                               invalid B{C{lli}} or the C{egm*.pgm}
@@ -987,8 +1000,14 @@ class GeoidKarney(_GeoidBase):
 
            @raise RangeError: An B{C{lli}} is outside this geoid's lat-
                               or longitude range.
+
+           @note: To obtain I{orthometric} heights, each B{C{llis}}
+                  location must have an ellipsoid C{height} or C{h}
+                  attribute, otherwise C{height=0} is used.
+
+           @see: Function L{pygeodesy.heightOrthometric}.
         '''
-        return self._called(llis, False, **wrap)
+        return self._called(llis, False, **wrap_H)
 
     def _c0c3v(self, y, x):
         # get the common denominator, the 10x12 cubic matrix and
@@ -1126,8 +1145,8 @@ class GeoidKarney(_GeoidBase):
 
            @return: If B{C{LatLon}} is C{None}, a L{LatLon3Tuple}C{(lat,
                     lon, height)} otherwise a B{C{LatLon}} instance
-                    with the lat-, longitude and height of the highest
-                    grid location.
+                    with the lat-, longitude and geoid height at the
+                    highest grid location.
         '''
         llh = self._highest if full or self.cropped else self._highest_ltd
         return self._llh3LL(llh, LatLon)
@@ -1180,8 +1199,8 @@ class GeoidKarney(_GeoidBase):
 
            @return: If B{C{LatLon}} is C{None}, a L{LatLon3Tuple}C{(lat,
                     lon, height)} otherwise a B{C{LatLon}} instance
-                    with the lat-, longitude and height of the lowest
-                    grid location.
+                    with the lat-, longitude and geoid height of the
+                    lowest grid location.
         '''
         llh = self._lowest if full or self.cropped else self._lowest_ltd
         return self._llh3LL(llh, LatLon)
@@ -1423,7 +1442,7 @@ class _PGM(_Gpars):
     def _llstr2floats(latlon):
         # llstr to (lat, lon) floats
         lat, lon = latlon.split()
-        return parseDMS2(lat, lon)
+        return _MODS.dms.parseDMS2(lat, lon)
 
     # PGM file attributes, CamelCase but not .istitle()
     AREA_OR_POINT    =  str
@@ -1718,7 +1737,7 @@ if __name__ == '__main__':
             k = {'egm84-15.pgm':  '31.2979',
                  'egm96-5.pgm':   '28.7067',
                  'egm2008-1.pgm': '28.7880'}.get(g.name.lower(), '28.7880')
-            ll = parseDMS2('16:46:33N', '3:00:34W', sep=':')
+            ll = _MODS.dms.parseDMS2('16:46:33N', '3:00:34W', sep=':')
             for ll in (ll, (16.776, -3.009),):
                 try:
                     h, ll = g.height(*ll), fstr(ll, prec=6)

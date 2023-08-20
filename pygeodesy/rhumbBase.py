@@ -17,7 +17,7 @@ the background information on U{Rhumb lines<https://GeographicLib.SourceForge.io
 the utily U{RhumbSolve<https://GeographicLib.SourceForge.io/C++/doc/RhumbSolve.1.html>} and U{Online
 rhumb line calculations<https://GeographicLib.SourceForge.io/cgi-bin/RhumbSolve>}.
 
-Copyright (C) U{Charles Karney<mailto:Charles@Karney.com>} (2014-2023) and licensed under the MIT/X11
+Copyright (C) U{Charles Karney<mailto:Karney@Alum.MIT.edu>} (2014-2023) and licensed under the MIT/X11
 License.  For more information, see the U{GeographicLib<https://GeographicLib.SourceForge.io>} documentation.
 '''
 # make sure int/int division yields float quotient
@@ -27,6 +27,7 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 from pygeodesy.constants import EPS, EPS1, INT0, _EPSqrt as _TOL, \
                                _0_0, _0_01, _1_0, _90_0, _180_0
 # from pygeodesy.datums import _spherical_datum  # _MODS
+# from pygeodesy.ellipsoids import _EWGS84  # from .karney
 from pygeodesy.errors import IntersectionError, itemsorted, RhumbError, \
                             _xdatum, _xkwds, _Xorder
 # from pygeodesy.etm import ExactTransverseMercator  # _MODS
@@ -34,8 +35,8 @@ from pygeodesy.fmath import euclid, favg,  fabs
 # from pygeodesy.fsums import Fsum  # _MODS
 from pygeodesy.interns import NN, _coincident_, _COMMASPACE_, _intersection_, \
                              _no_, _parallel_, _under
-from pygeodesy.karney import Caps, _CapsBase, _diff182, _EWGS84, _fix90, \
-                            _norm180,  _xinstanceof
+from pygeodesy.karney import Caps, _CapsBase, _diff182, _fix90, _norm180, \
+                            _EWGS84, _xinstanceof
 from pygeodesy.ktm import KTransverseMercator, _AlpCoeffs  # PYCHOK used!
 from pygeodesy.lazily import _ALL_DOCS, _ALL_MODS as _MODS
 # from pygeodesy.named import notOverloaded  # _MODS
@@ -49,9 +50,9 @@ from pygeodesy.vector3d import _intersect3d3, Vector3d  # in .intersection2 belo
 # from math import fabs  # from .fmath
 
 __all__ = ()
-__version__ = '23.08.09'
+__version__ = '23.08.20'
 
-_rls   = []  # instances of C{RbumbLine} to be updated
+_rls   = []  # instances of C{RbumbLine...} to be updated
 _TRIPS = 65  # .intersection2, .nearestOn4, 18+
 
 
@@ -372,7 +373,7 @@ class RhumbLineBase(RhumbBase):
             self._azi12 = z
             self._salp, self._calp = sincos2d(z)  # no NEG0
 
-    @Property_RO
+    @property_RO
     def azi12_sincos2(self):  # PYCHOK no cover
         '''Get this rhumb line's I{azimuth} sine and cosine (2-tuple C{(sin, cos)}).
         '''
@@ -459,6 +460,16 @@ class RhumbLineBase(RhumbBase):
             raise IntersectionError(_no_(_intersection_), cause=x)
         t = unstr(self.intersection2, tol=tol, **eps)
         raise IntersectionError(Fmt.no_convergence(d), txt=t)
+
+    @Property_RO
+    def isLoxodrome(self):
+        '''Is this rhumb line a loxodrome (C{True} if non-meridional and
+           non-parallel, C{False} if parallel or C{None} if meridional)?
+
+           @see: I{Osborne's} U{2.5 Rumb lines and loxodromes
+                 <https://Zenodo.org/record/35392>}, page 37.
+        '''
+        return bool(self._salp) if self._calp else None
 
     @Property_RO
     def lat1(self):
@@ -561,7 +572,7 @@ class RhumbLineBase(RhumbBase):
                         break
                 r = NearestOn4Tuple(r.lat2, r.lon2, s12, r.azi2,
                                                     iteration=i)
-            except Exception as x:  # Fsum Value-, ZeroDivisionError
+            except Exception as x:  # Fsum(NAN) Value-, ZeroDivisionError
                 raise IntersectionError(_no_(_intersection_), cause=x)
         return r
 

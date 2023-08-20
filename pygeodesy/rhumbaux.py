@@ -15,7 +15,7 @@ the background information on U{Rhumb lines<https://GeographicLib.SourceForge.io
 utility U{RhumbSolve<https://GeographicLib.SourceForge.io/C++/doc/RhumbSolve.1.html>} and U{Online rhumb
 line calculations<https://GeographicLib.SourceForge.io/cgi-bin/RhumbSolve>}.
 
-Copyright (C) U{Charles Karney<mailto:Charles@Karney.com>} (2022-2023) and licensed under the MIT/X11
+Copyright (C) U{Charles Karney<mailto:Karney@Alum.MIT.edu>} (2022-2023) and licensed under the MIT/X11
 License.  For more information, see the U{GeographicLib<https://GeographicLib.SourceForge.io>} documentation.
 
 @note: Class L{AuxDST} requires package U{numpy<https://PyPI.org/project/numpy>} to be installed,
@@ -31,8 +31,9 @@ from pygeodesy.auxilats.auxily import _Dlam, _Dp0Dpsi, _Ufloats
 from pygeodesy.basics import _reverange, unsigned0, _zip,  _xkwds_get
 from pygeodesy.constants import EPS_2, MANT_DIG, NAN, PI4, isinf, \
                                _0_0, _4_0, _720_0, _log2, _over
+# from pygeodesy.ellipsoids import _EWGS84  # from .karney
 # from pygeodesy.errors import itemsorted, _xkwds_get  # from .basics, ...
-from pygeodesy.karney import Caps, _diff182, _EWGS84, GDict, _norm180
+from pygeodesy.karney import Caps, _diff182, GDict, _norm180,  _EWGS84
 # from pygeodesy.fmath import hypot  # from .auxilats.auxAngle
 from pygeodesy.interns import NN, _COMMASPACE_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_DOCS, _ALL_MODS as _MODS
@@ -45,9 +46,10 @@ from pygeodesy.rhumbBase import RhumbBase, RhumbLineBase, itemsorted, \
 from math import ceil as _ceil, fabs, radians
 
 __all__ = _ALL_LAZY.rhumbaux
-__version__ = '23.08.09'
+__version__ = '23.08.20'
 
-# DIGITS = (sizeof(real) * 8) bits  # assert DIGITS > MANT_DIG
+# DIGITS = (sizeof(real) * 8) bits
+#        = (ctypes.sizeof(ctypes.c_double(1.0)) * 8) bits
 # For |n| <= 0.99, actual max for doubles is 2163.  This scales
 # as DIGITS and for long doubles (GEOGRAPHICLIB_PRECISION = 3,
 # DIGITS = 64), this becomes 2163 * 64 / 53 = 2612.  Round this
@@ -55,7 +57,6 @@ __version__ = '23.08.09'
 #
 # 64 = DIGITS for long double, 6 = 12 - _log2(64)
 _Lbits = 1 << (int(_ceil(_log2(max(MANT_DIG, 64)))) + 6)
-_rls   = []  # instances of C{RbumbLineAux} to be updated
 
 
 class RhumbAux(RhumbBase):
@@ -82,7 +83,7 @@ class RhumbAux(RhumbBase):
                            C{TMorder}.
 
            @raise ImportError: Package C{numpy} not found or not installed, only
-                               required when C{B{exact} is True}.
+                               required for area C{S12} when C{B{exact} is True}.
 
            @raise RhumbError: Invalid B{C{a_earth}}, B{C{f}} or B{C{RA_TMorder}}.
         '''
@@ -136,6 +137,10 @@ class RhumbAux(RhumbBase):
                     the rhumb angle C{a12} in C{degrees} and area C{S12}
                     under the rhumb line in C{meter} I{squared}.
 
+           @raise ImportError: Package C{numpy} not found or not installed,
+                               only required for area C{S12} when C{B{exact}
+                               is True}.
+
            @note: If B{C{s12}} is large enough that the rhumb line crosses
                   a pole, the longitude of the second point is indeterminate
                   and C{NAN} is returned for C{lon2} and area C{S12}.
@@ -170,6 +175,10 @@ class RhumbAux(RhumbBase):
                     distance C{s12} and rhumb angle C{a12} between both points
                     in C{meter} respectively C{degrees} and the area C{S12}
                     under the rhumb line in C{meter} I{squared}.
+
+           @raise ImportError: Package C{numpy} not found or not installed,
+                               only required for area C{S12} when C{B{exact}
+                               is True}.
 
            @note: The shortest rhumb line is found.  If the end points are
                   on opposite meridians, there are two shortest rhumb lines
@@ -326,6 +335,10 @@ class RhumbLineAux(RhumbLineBase):
                     C{lon2} of the point in C{degrees}, the rhumb angle C{a12}
                     in C{degrees} from the start point of and the area C{S12}
                     under this rhumb line in C{meter} I{squared}.
+
+           @raise ImportError: Package C{numpy} not found or not installed,
+                               only required for area C{S12} when C{B{exact}
+                               is True}.
 
            @note: If B{C{s12}} is large enough that the rhumb line crosses a
                   pole, the longitude of the second point is indeterminate and

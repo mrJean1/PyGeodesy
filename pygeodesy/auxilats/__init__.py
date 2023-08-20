@@ -8,7 +8,7 @@ U{DST<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1DST.htm
 U{AuxLatitude<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1AuxLatitude.html>} all
 in I{GeographicLib version 2.2+}.
 
-Copyright (C) U{Charles Karney<mailto:Charles@Karney.com>} (2022-2023) and licensed under the MIT/X11
+Copyright (C) U{Charles Karney<mailto:Karney@Alum.MIT.edu>} (2022-2023) and licensed under the MIT/X11
 License.  For more information, see the U{GeographicLib<https://GeographicLib.SourceForge.io>} documentation.
 
 @note: Class L{AuxDST} requires package U{numpy<https://PyPI.org/project/numpy>} to be installed,
@@ -28,7 +28,7 @@ from pygeodesy.auxilats.auxLat import AuxLat  # PYCHOK exported
 
 __all__ = _ALL_OTHER(Aux, AuxAngle, AuxDLat, AuxDST, AuxLat,
                      AuxBeta, AuxChi, AuxMu, AuxPhi, AuxTheta, AuxXi)
-__version__ = '23.08.12'
+__version__ = '23.08.20'
 
 # **) MIT License
 #

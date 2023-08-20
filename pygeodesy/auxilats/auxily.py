@@ -7,15 +7,15 @@ Class L{AuxAngle} transcoded to Python from I{Karney}'s C++ class U{AuxAngle
 <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1AuxAngle.html>}
 in I{GeographicLib version 2.2+}.
 
-Copyright (C) U{Charles Karney<mailto:Charles@Karney.com>} (2022-2023) and licensed
+Copyright (C) U{Charles Karney<mailto:Karney@Alum.MIT.edu>} (2022-2023) and licensed
 under the MIT/X11 License.  For more information, see the U{GeographicLib
 <https://GeographicLib.SourceForge.io>} documentation.
 '''
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.constants import INF, NAN, _0_0, _0_5, _1_0, _2_0, \
-                               _copysign_1_0, isinf, isnan, _over, _1_over
+from pygeodesy.constants import INF, NAN, isinf, isnan, _0_0, _0_5, \
+                               _1_0, _copysign_1_0, _over, _1_over
 from pygeodesy.errors import AuxError,  NN
 from pygeodesy.fmath import hypot1 as _sc, hypot2_
 # from pygeodesy.interns import NN  # from .errors
@@ -26,7 +26,7 @@ from pygeodesy.karney import _ALL_DOCS, _Dict, _MODS  # PYCHOK used!
 from math import asinh, atan, copysign
 
 __all__ = ()
-__version__ = '23.08.06'
+__version__ = '23.08.20'
 
 
 class Aux(object):
@@ -122,14 +122,6 @@ class _Ufloats(dict):  # in .auxilats.auxily
                 n=self.n,   # total number of floats
                 u=len(self.keys()))  # unique floats
         return Cx
-
-
-def _2cos2x(cosx, sinx):
-    # M{2 * cos(2 * x)} from cos(x) and sin(x)
-    r = cosx - sinx
-    if r:
-        r *= (cosx + sinx) * _2_0
-    return r
 
 
 def _Dasinh(x, y):

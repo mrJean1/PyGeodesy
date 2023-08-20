@@ -12,11 +12,11 @@ from pygeodesy.constants import EPS, EPS0, EPS1, PI, PI2, PI3, PI_2, R_M, \
                                _0_0, _0_125, _0_25, _0_5, _1_0, _2_0, \
                                _4_0, _32_0, _90_0, _180_0, _360_0
 from pygeodesy.datums import Datum, Ellipsoid, _ellipsoidal_datum, \
-                            _mean_radius, _spherical_datum, _WGS84
-# from pygeodesy.ellipsoids import Ellipsoid  # from .datums
+                            _mean_radius, _spherical_datum, _WGS84,  _EWGS84
+# from pygeodesy.ellipsoids import Ellipsoid, _EWGS84  # from .datums
 from pygeodesy.errors import IntersectionError, LimitError, limiterrors, \
-                            _TypeError, _ValueError, \
-                            _xError, _xkwds, _xkwds_pop
+                            _TypeError, _ValueError, _xattr, _xError, \
+                            _xkwds, _xkwds_pop
 from pygeodesy.fmath import euclid, hypot, hypot2, sqrt0
 from pygeodesy.fsums import fsumf_,  isscalar
 from pygeodesy.interns import NN, _delta_, _distant_, _SPACE_, _too_
@@ -36,10 +36,9 @@ from contextlib import contextmanager
 from math import asin, atan, atan2, cos, degrees, fabs, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '23.08.11'
+__version__ = '23.08.20'
 
 _D2_R2  = (PI / _180_0)**2  # degrees- to radians-squared
-_EWGS84 = _WGS84.ellipsoid
 _ratio_ = 'ratio'
 _xline_ = 'xline'
 
@@ -313,13 +312,13 @@ def cosineForsytheAndoyerLambert_(phi2, phi1, lam21, datum=_WGS84):
                 y = s - t
 
                 s =  8 * r**2 / sr
-                a = 64 * r +  s * cr * 2  # 16 * r**2 / tan(r)
+                a = 64 * r  + s * cr * 2  # 16 * r**2 / tan(r)
                 d = 48 * sr + s  # 8 * r**2 / tan(r)
                 b = -2 * d
                 e = 30 * s2r
                 c = fsumf_(30 * r, e * _0_5, s * cr)  # 8 * r**2 / tan(r)
+                t = fsumf_( a * x, e * y**2, b * y, -c * x**2, d * x * y)
 
-                t  = fsumf_( a * x, b * y, -c * x**2, d * x * y, e * y**2)
                 r += fsumf_(-r * x, 3 * y * sr, t * E.f / _32_0) * E.f * _0_25
     return r
 
@@ -578,8 +577,11 @@ def excessAbc_(A, b, c):
        @see: Functions L{excessGirard_}, L{excessLHuilier_} and U{Spherical
              trigonometry<https://WikiPedia.org/wiki/Spherical_trigonometry>}.
     '''
-    sA, cA, sb, cb, sc, cc = sincos2_(Radians_(A=A), Radians_(b=b) * _0_5,
-                                                     Radians_(c=c) * _0_5)
+    A = Radians_(A=A)
+    b = Radians_(b=b) * _0_5
+    c = Radians_(c=c) * _0_5
+
+    sA, cA, sb, cb, sc, cc = sincos2_(A, b, c)
     return atan2(sA * sb * sc, cb * cc + cA * sb * sc) * _2_0
 
 
@@ -738,10 +740,9 @@ def excessKarney_(phi2, phi1, lam21):
 #    tan(S12 / 2) = tan(lambda21 / 2) * (tan(phi1 / 2) + tan(phi2 / 2)) /
 #                                       (tan(phi1 / 2) * tan(phi2 / 2) + 1)
 #
-#                 = tan(lambda21 / 2) * tanh((Lambertian(phi1) +
-#                                             Lambertian(phi2)) / 2)
+#                 = tan(lambda21 / 2) * tanh((Lamb(phi1) + Lamb(phi2)) / 2)
 #
-# where lambda21 = lambda2 - lambda1 and lamb(x) is the Lambertian (or
+# where lambda21 = lambda2 - lambda1 and Lamb(x) is the Lambertian (or the
 # inverse Gudermannian) function
 #
 #    Lambertian(x) = asinh(tan(x)) = atanh(sin(x)) = 2 * atanh(tan(x / 2))
@@ -797,7 +798,7 @@ def excessQuad_(phi2, phi1, lam21):
 
        @return: Spherical excess, I{signed} (C{radians}).
 
-       @see: Function L{excessQuad}, U{Spherical trigonometry
+       @see: Function L{excessQuad} and U{Spherical trigonometry
              <https://WikiPedia.org/wiki/Spherical_trigonometry>}.
     '''
     s = sin((phi2 + phi1) * _0_5)
@@ -1113,6 +1114,25 @@ def heightOf(angle, distance, radius=R_M):
             return h * sqrt(s) - r
 
     raise _ValueError(angle=angle, distance=distance, radius=radius)
+
+
+def heightOrthometric(h_ll, N):
+    '''Get the I{orthometric} height B{H}, the height above the geoid, earth surface.
+
+       @arg h_ll: The height above the ellipsoid (C{meter}) or an I{ellipsoidal}
+                  location (C{LatLon} with a C{height} or C{h} attribute).
+       @arg N: The I{geoid} height (C{meter}), the height of the geoid above the
+               ellipsoid at the same B{C{h_ll}} location.
+
+       @return: I{Orthometric} height C{B{H} = B{h} - B{N}} (C{meter}, same units
+                as B{C{h}} and B{C{N}}).
+
+       @see: U{Ellipsoid, Geoid, and Othometric Heights<https://www.NGS.NOAA.gov/
+             GEOID/PRESENTATIONS/2007_02_24_CCPS/Roman_A_PLSC2007notes.pdf>}, page
+             6 and module L{pygeodesy.geoids}.
+    '''
+    h = h_ll if isscalar(h_ll) else _xattr(h_ll, height=_xattr(h_ll, h=0))
+    return Height(H=Height(h=h) - Height(N=N))
 
 
 def horizon(height, radius=R_M, refraction=False):

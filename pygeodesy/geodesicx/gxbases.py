@@ -3,22 +3,22 @@
 
 u'''(INTERNAL) Private L{geodesicx} base class, functions and constants.
 
-Copyright (C) U{Charles Karney<mailto:Charles@Karney.com>} (2008-2023)
+Copyright (C) U{Charles Karney<mailto:Karney@Alum.MIT.edu>} (2008-2023)
 and licensed under the MIT/X11 License.  For more information, see the
 U{GeographicLib<https://GeographicLib.SourceForge.io>} documentation.
 '''
 
 # from pygeodesy.basics import isodd  # from .karney
-from pygeodesy.constants import _0_0, _2_0, _100_0
+from pygeodesy.constants import _0_0, _100_0
 from pygeodesy.errors import _not_, _or
 # from pygeodesy.interns import _not_  # from .errors
 from pygeodesy.karney import _CapsBase, GeodesicError, isodd, \
-                             _hypot, _sum2_,  _MODS
+                             _2cos2x, _hypot, _sum2_,  _MODS
 
 from math import ldexp as _ldexp
 
 __all__ = ()
-__version__ = '23.07.04'
+__version__ = '23.08.20'
 
 # valid C{nC4}s and C{C4order}s, see _xnC4 below
 _nC4s = {24: 2900, 27: 4032, 30: 5425}
@@ -67,20 +67,21 @@ def _cosSeries(c4s, sx, cx):  # PYCHOK shared .geodesicx.gx and -.gxline
     '''(INTERNAL) I{Karney}'s cosine series expansion using U{Clenshaw
        summation<https://WikiPedia.org/wiki/Clenshaw_algorithm>}.
     '''
-    ar = _2_0 * (cx - sx) * (cx + sx)  # 2 * cos(2 * x)
-    y0 = t0 = y1 = t1 = _0_0
-    n  = len(c4s)  # c4s = list(c4s)
-    if isodd(n):
-        n -= 1
-        y0 = c4s[n]  # c4s.pop()
-    _s2_ = _sum2_
-    for n in range(n - 1, 0, -2):  # reversed
-        # y1 = ar * y0 - y1 + c4s.pop()
-        # y0 = ar * y1 - y0 + c4s.pop()
-        y1, t1 = _s2_(ar * y0, ar * t0, -y1, -t1, c4s[n])
-        y0, t0 = _s2_(ar * y1, ar * t1, -y0, -t0, c4s[n - 1])
-    s, _ = _s2_(cx *  y0, cx * t0, -cx * y1, -cx * t1)
-    return s  # cx * (y0           -     y1)
+    ar  = _2cos2x(cx, sx)
+    y0  =  t0 = y1 = t1 = _0_0
+    c4  =  list(c4s)
+    _c4 =  c4.pop
+    _s2 = _sum2_
+    if isodd(len(c4)):
+        y0 = _c4()
+    while c4:
+        # y1 = ar * y0 - y1 + c4.pop()
+        # y0 = ar * y1 - y0 + c4.pop()
+        y1, t1 = _s2(ar * y0, ar * t0, -y1, -t1, _c4())
+        y0, t0 = _s2(ar * y1, ar * t1, -y0, -t0, _c4())
+    # s  = cx * (y0 - y1)
+    s, _ = _s2(cx * y0, _0_0, cx * t0, -cx * y1, -cx * t1)
+    return s
 
 
 _f = float  # in _f2 and .geodesicx._C4_24, _27 and _30

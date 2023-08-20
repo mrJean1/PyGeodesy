@@ -4,7 +4,7 @@
 # Some basic L{rhumbaux} vs C++ C{RhumbSolve} tests.
 
 __all__ = ('Tests',)
-__version__ = '23.08.06'
+__version__ = '23.08.14'
 
 from bases import coverage, splitext, _fLate, RhumbSolve, startswith, TestsBase
 
@@ -63,6 +63,7 @@ class Tests(TestsBase):
 #       r = Rl.Position(Rl.s13, Rl.ALL)  # coverage
 #       t = r.toRepr()
 #       self.test(n, t, t)
+        self.test(Rl.__class__.isLoxodrome.name, Rl.isLoxodrome, True)
 
         r = R.Direct(40.6, -73.8, -92.38889, 12782581.068)  # coverage
         self.testDiffs(R.Direct.__name__, r, GDict(lat1=40.6, lat2=35.8,

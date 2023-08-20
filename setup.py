@@ -27,7 +27,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '23.08.12'
+__version__ = '23.08.15'
 
 
 def _c2(*names):
@@ -54,7 +54,7 @@ _KeyWords = ('AER', 'Albers', 'altitude', 'Andoyer', 'annulus', 'antipode', 'are
              'Authalic', 'auxiliary', 'azimuth', 'azimuthal', 'azimuth-elevation-range',
              'bearing', 'bank', 'Barsky', 'Barth', 'beta', 'boolean',
              'cached', 'Cagnoli', 'cartesian', 'Cassini', 'Cassini-Soldner', 'chord',
-             'circle-intersections', 'circumcenter', 'circumcirle', 'circumradius',
+             'circle-intersections', 'circumcenter', 'circumcircle', 'circumradius',
              'clip', 'Cohen', 'Cohen-Sutherland', 'Collins', 'composite',
              'conformal', 'conic', 'constants', 'contact-triangle',
              'Cook', 'Correia', 'cosines-law', 'coverage', 'curvature', 'cylindrical',
@@ -77,11 +77,11 @@ _KeyWords = ('AER', 'Albers', 'altitude', 'Andoyer', 'annulus', 'antipode', 'are
              'Karney', 'Krueger', 'Krüger', 'kurtosis',
              'Lambert', 'latitude', 'law-of-cosines', 'least-squares', 'Lesh',
              'L_Huilier', 'LHuilier', 'Liang', 'Liang-Barsky', 'linearize', 'Line-Of-Sight',
-             'LocalCartesian', 'local-tangent-plane', 'local-x-y-z', 'longitude', 'LOS', 'lstsq',
-             'LTP', 'lune', 'LV03', 'LV95',
+             'LocalCartesian', 'local-tangent-plane', 'local-x-y-z', 'longitude', 'LOS', 'loxodrome',
+             'lstsq', 'LTP', 'lune', 'LV03', 'LV95',
              'mean', 'memoize', 'memoized', 'Mercator', 'Meeus', 'MGRS',
              'nearest', 'NED', 'normalize', 'Norrdine', 'north-east-down', 'numpy', 'n-vector', 'Nvector',
-             'oblate', 'omega', 'orthographic', 'OSGB', 'OSGR', 'overlap',
+             'oblate', 'omega', 'orthographic', 'orthometric-height', 'OSGB', 'OSGR', 'overlap',
              'parallel', 'parallel-of-latitude', 'Parametric', 'path-intersection',
              'perimeter', 'Peucker', 'Pierlot', 'pitch', 'Point-Of-View', 'polar', 'Popa', 'POV',
              'precision-cubic-root', 'precision-hypotenuse', 'precision-powers',

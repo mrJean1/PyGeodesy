@@ -66,7 +66,8 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import islistuple, isscalar, map2, neg, _xinstanceof
 from pygeodesy.constants import R_M, _float as _F, _0_0, _0_26, _1_0, _2_0, _8_0, _3600_0
-from pygeodesy.ellipsoids import a_f2Tuple, Ellipsoid, Ellipsoid2, Ellipsoids, Vector3Tuple
+from pygeodesy.ellipsoids import a_f2Tuple, Ellipsoid, Ellipsoid2, Ellipsoids, \
+                                _EWGS84,  Vector3Tuple
 from pygeodesy.errors import _IsnotError, _xattr
 from pygeodesy.fmath import fdot, fmean,  Fmt
 from pygeodesy.interns import NN, _a_, _Airy1830_, _AiryModified_, _Bessel1841_, _cartesian_, \
@@ -86,7 +87,7 @@ from pygeodesy.units import radians, Radius_
 # from math import radians  # from .units
 
 __all__ = _ALL_LAZY.datums
-__version__ = '23.08.05'
+__version__ = '23.08.20'
 
 _a_ellipsoid_ = _UNDER_(_a_, _ellipsoid_)
 _BD72_        = 'BD72'
@@ -605,7 +606,8 @@ Datums._assert(
     WGS84          = _lazy(_WGS84_, _WGS84_, _WGS84_),
 )
 
-_WGS84 = Datums.WGS84  # PYCHOK exported internally
+_WGS84 = Datums.WGS84
+assert _WGS84.ellipsoid is _EWGS84
 
 if __name__ == '__main__':
 

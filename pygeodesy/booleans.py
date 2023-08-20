@@ -42,7 +42,7 @@ from pygeodesy.utily import fabs, _unrollon, _Wrap
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.booleans
-__version__ = '23.08.09'
+__version__ = '23.08.16'
 
 _0_EPS =  EPS  # near-zero, positive
 _EPS_0 = -EPS  # near-zero, negative
@@ -392,8 +392,8 @@ class LatLonFHP(_LatLonBool):
         return self._isinside(_Pseudo(), **wrap)
 
     def _isinside(self, composite, *excludes, **wrap):
-        # Is this point inside a composite I{winding number},
-        # excluding certain C{_Clip}s?
+        # Is this point inside a composite, excluding
+        # certain C{_Clip}s?  I{winding number}?
         x, y, i = self.x, self.y, False
         for c in composite._clips:
             if c not in excludes:
@@ -515,7 +515,7 @@ class LatLonGH(_LatLonBool):
         return self._isinside(_Pseudo(), **wrap)
 
     def _isinside(self, composite, *bottom_top, **wrap):
-        # Is this vertex inside the composite I{even-odd rule}?
+        # Is this vertex inside the composite? I{even-odd rule}?
 
         def _x(y, p1, p2):
             # return C{x} at given C{y} on edge [p1,p2]
@@ -525,7 +525,7 @@ class LatLonGH(_LatLonBool):
         # intersecting a ray emitted from this point to
         # east-bound infinity.  When I{odd} this point lies
         # inside, if I{even} outside.
-        o, y = False, self.y
+        y, i = self.y, False
         if not (bottom_top and _outside(y, y, *bottom_top)):
             x = self.x
             for p1, p2, _ in composite._edges3(**wrap):
@@ -536,8 +536,8 @@ class LatLonGH(_LatLonBool):
                     else:
                         b = r or  (_x(y, p1, p2) > x)
                     if b:
-                        o = not o
-        return o
+                        i = not i
+        return i
 
 
 class _Clip(_Named):

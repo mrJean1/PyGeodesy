@@ -32,7 +32,7 @@ except ImportError:  # Python 3.3-
         return _log(x, 2)
 
 __all__ = _ALL_LAZY.constants
-__version__ = '23.08.12'
+__version__ = '23.08.14'
 
 
 def _copysign_0_0(y):
@@ -125,10 +125,10 @@ def _floatuple(*fs):
     return tuple(map(_float, fs))
 
 
-def _inf_nan(*xs):
-    '''(INTERNAL) Return NAN or INF.
+def _naninf(*xs):
+    '''(INTERNAL) Return C{NAN}, C{NINF} or C{INF}.
     '''
-    return NAN if NAN in xs else (NINF if _MODS.fmath.fprod(xs) < 0 else INF)
+    return NAN if NAN in xs else _copysignINF(_MODS.fmath.fprod(xs))
 
 
 def _over(p, q):
@@ -137,13 +137,16 @@ def _over(p, q):
     try:
         return  p / q
     except ZeroDivisionError:
-        return _copysignINF(p) if p else NAN
+        return _naninf(p)
 
 
 def _1_over(x):
     '''(INTERNAL) Return reciprocal C{1 / B{x}} avoiding ZeroDivisionError exceptions.
     '''
-    return _over(_1_0, float(x))
+    try:
+        return _1_0 / float(x)
+    except ZeroDivisionError:
+        return  INF
 
 
 _floats  = {}     # PYCHOK floats cache, in .__main__
