@@ -30,8 +30,8 @@ from pygeodesy.interns import MISSING, NN, __all__ as _interns_a_l_l_, \
                              _areaOf_, _attribute_, _by_, _COLONSPACE_, \
                              _COMMASPACE_, _doesn_t_exist_, _DOT_, _enabled_, \
                              _EQUALSPACED_, _from_, _immutable_, _isclockwise_, \
-                             _ispolar_, _line_, _module_, _NL_, _no_, _not_, \
-                             _or_, _pygeodesy_abspath_, _Python_, _QUOTE1_, \
+                             _ispolar_, _line_, _module_, _NL_, _no_, _not_, _or_, \
+                             _pygeodesy_, _pygeodesy_abspath_, _Python_, _QUOTE1_, \
                              _QUOTE2_, _SPACE_, _UNDER_, _version_, _dunder_nameof
 
 from os import getenv as _getenv  # in .errors, .geodsolve, .props, .units
@@ -45,11 +45,10 @@ _imports_               = 'imports'
 _lazily_                = 'lazily'
 _lazily_imported__      = _SPACE_('#', _lazily_, 'imported', NN)
 _p_a_c_k_a_g_e_         = '__package__'
-_pygeodesy_             = 'pygeodesy'
 _PYGEODESY_LAZY_IMPORT_ = 'PYGEODESY_LAZY_IMPORT'
 _PYTHON_X_DEV           =  getattr(_sys, '_xoptions', {}).get('dev',  # Python 3.2+
                           _getenv('PYTHONDEVMODE', NN))  # PYCHOK exported
-_sub_packages           = 'auxilats', 'deprecated', 'geodesicx'
+_sub_packages           = 'auxilats', 'deprecated', 'geodesicx'  # in make._dist
 _sys_version_info2      = _sys.version_info[:2]  # in .basics, .fmath, ...
 _WARNINGS_X_DEV         = _getenv('PYGEODESY_WARNINGS', NN) and (
                           _PYTHON_X_DEV or bool(_sys.warnoptions))  # PYCHOK .props
@@ -132,7 +131,9 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                          albers=('AlbersEqualArea', 'AlbersEqualArea2', 'AlbersEqualArea4',
                                  'AlbersEqualAreaCylindrical', 'AlbersEqualAreaNorth', 'AlbersEqualAreaSouth',
                                  'AlbersError', 'Albers7Tuple'),
-                       auxilats=(),  # module only
+                       auxilats=(),  # no modules: 'auxAngle', 'auxDLat', 'auxDST', 'auxily', 'auxLat'
+                                 # and no classes: 'Aux', 'AuxAngle', 'AuxBeta', 'AuxChi', 'AuxDLat', 'AuxDST',
+                                 #                 'AuxLat', 'AuxMu', 'AuxPhi', 'AuxTheta', 'AuxXi'
                       azimuthal=('AzimuthalError', 'Azimuthal7Tuple',
                                  'Equidistant', 'EquidistantExact', 'EquidistantGeodSolve', 'EquidistantKarney',
                                  'Gnomonic', 'GnomonicExact', 'GnomonicGeodSolve', 'GnomonicKarney',
@@ -236,7 +237,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'fsum', 'fsum_', 'fsumf_', 'fsum1', 'fsum1_', 'fsum1f_'),
                            gars=('Garef', 'GARSError'),
                       geodesicw=('Geodesic', 'GeodesicLine', 'Geodesic_WGS84'),
-                      geodesicx=('gx', 'gxarea', 'gxline',  # modules, see _sub_packages
+                      geodesicx=('gx', 'gxarea', 'gxbases', 'gxline',  # modules, see _sub_packages
                                  'GeodesicAreaExact', 'GeodesicExact', 'GeodesicLineExact', 'PolygonArea'),
                       geodsolve=('GeodesicSolve', 'GeodesicLineSolve', 'GeodSolve12Tuple'),
                         geohash=('Geohash', 'GeohashError', 'Neighbors8Dict', 'Resolutions2Tuple'),
@@ -440,7 +441,7 @@ class _ALL_MODS(object):
 _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '23.08.15'
+__version__ = '23.08.22'
 
 
 def _ALL_OTHER(*objs):

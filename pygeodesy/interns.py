@@ -3,9 +3,11 @@
 u'''Single C{str}ing constants, C{intern}'ed across C{pygeodesy}
 modules and function L{pygeodesy.machine}.
 '''
-_COMMASPACE_ = ', '   # overriden below
-_pl2List     =  None  # cached _platform2 lists
-_Py3List     =  None  # cached _pythonarchine lists
+import sys as _sys
+
+_COMMASPACE_ = ', '  # overriden below
+_pl2List     = []    # cached _platform2 lists
+_Py3List     = []    # cached _pythonarchine lists
 
 
 class _Dash(str):
@@ -40,6 +42,8 @@ class Str_(str):
 
     __call__ = join_
 
+NN = Str_('')  # PYCHOK Nomen Nescio <https://Wiktionary.org/wiki/N.N.>
+
 
 class _Prefix(Str_):
     '''(INTERNAL) Extended C{str} for prefix.
@@ -50,15 +54,28 @@ class _Prefix(Str_):
         return _SPACE_.join_(self, *args)  # re-callable
 
 
+class _PyPy__(str):  # overwritten by singleton below
+    '''(INTERNAL) Extended C{str} for C{"PyPy"} and version.
+    '''
+    def __call__(self, version=NN):
+        '''Return C{"PyPy <version>"} or C{NN}.
+        '''
+        v = version or _sys.version
+        if _PyPy__ in v:
+            v = v.split(_PyPy__)[1].split(None, 1)[0]
+            return NN(_PyPy__, v)
+        else:
+            return NN
+
+
 class _Python_(str):  # overwritten by singleton below
     '''(INTERNAL) Extended C{str} for C{"Python"} and version.
     '''
-    def __call__(self, version=None):
+    def __call__(self, version=NN):
         '''Return C{"Python <version>"}.
         '''
-        if not version:
-            from sys import version
-        return _SPACE_(self, version.split(None, 1)[0])
+        v = version or _sys.version
+        return _SPACE_(self, v.split(None, 1)[0])
 
 
 class _Range(str):
@@ -72,11 +89,9 @@ class _Range(str):
         from pygeodesy.streprs import Fmt
         r = NN(Fmt.f(lo, prec=prec), sep,
                Fmt.f(hi, prec=prec))
-        if lopen:
-            r = Fmt.PAREN(r) if ropen else Fmt.LOPEN(r)
-        else:
-            r = Fmt.ROPEN(r) if ropen else Fmt.SQUARE(r)
-        return r
+        f = (Fmt.PAREN if ropen else Fmt.LOPEN) if lopen else \
+            (Fmt.ROPEN if ropen else Fmt.SQUARE)
+        return f(r)
 
 
 class _Slicer(str):
@@ -91,7 +106,7 @@ class _Slicer(str):
             i = self.find(name[len(_from_):])
             if 0 < (i + 1) < len(self):
                 return _Slicer(self[i:])
-        else:
+        else:  # PYCHOK no cover
             return getattr(str, name)
         return self
 
@@ -102,14 +117,10 @@ class MISSING(object):
     def toRepr(self, **unused):
         return self.__class__.__name__
 
-    __repr__ = toRepr
-    __str__  = toRepr
-    toStr    = toRepr
+    __repr__ = __str__ = toStr = toRepr
 
 MISSING          = MISSING()  # PYCHOK singleton
 MISSING.__name__ = str(MISSING)
-
-NN = Str_('')  # Nomen Nescio <https://Wiktionary.org/wiki/N.N.>
 
 # __DUNDER__-style names would get mangled in classes
 _0_                   = '0'                  # PYCHOK 'zero'
@@ -225,6 +236,7 @@ _gamma_               = 'gamma'              # PYCHOK OK
 _GRS80_               = 'GRS80'              # PYCHOK OK
 _h_                   = 'h'                  # PYCHOK OK
 _H_                   = 'H'                  # PYCHOK OK
+_HASH_                = '#'                  # PYCHOK OK
 _height_              = 'height'             # PYCHOK OK
 _hemipole_            = 'hemipole'           # PYCHOK OK
 _i_                   = 'i'                  # PYCHOK OK
@@ -332,8 +344,9 @@ _points_              = 'points'             # PYCHOK OK
 _pole_                = 'pole'               # PYCHOK OK
 _precision_           = 'precision'          # PYCHOK OK
 _prime_vertical_      = 'prime_vertical'     # PYCHOK OK
+_pygeodesy_           = 'pygeodesy'          # PYCHOK OK
 _pygeodesy_abspath_   = 'pygeodesy_abspath'  # PYCHOK OK
-_PyPy__               = 'PyPy '              # PYCHOK + _SPACE_
+_PyPy__       = _PyPy__('PyPy ')             # PYCHOK + _SPACE_
 _Python_     = _Python_('Python')            # PYCHOK singleton
 _python_              = 'python'             # PYCHOK OK
 _QUOTE1_              = "'"                  # PYCHOK OK
@@ -449,12 +462,25 @@ def _dunder_nameof(inst, *dflt):
     return dflt[0] if dflt else inst.__class__.__name__
 
 
-def _enquote(strs, quote=_QUOTE2_):  # in .basics
+def _enquote(strs, quote=_QUOTE2_):  # in .basics, .solveBase
     '''(INTERNAL) Enquote a string containing whitespace.
     '''
     if len(strs.split()) > 1:
         strs = NN(quote, strs, quote)
     return strs
+
+
+def _is(a, b):  # PYCHOK no cover
+    '''(INTERNAL) Is C{a is b}? in C{PyPy}
+    '''
+    return (a == b) if _isPyPy() else (a is b)
+
+
+def _isPyPy():
+    '''(INTERNAL) Is this C{PyPy}?
+    '''
+    # platform.python_implementation() == 'PyPy'
+    return _pythonarchine()[0].startswith(_PyPy__)
 
 
 def _load_lib(name):
@@ -467,22 +493,23 @@ def _load_lib(name):
     # any library not previously dlopen'ed.
     from ctypes import CDLL
     from ctypes.util import find_library
-    from sys import platform
 
     ns = find_library(name), name
-    if platform[:6] == 'darwin':  # and os.name == 'posix'
-        from ctypes import _dlopen
+    if _sys.platform[:6] == 'darwin':  # and os.name == 'posix'
+        from ctypes import _dlopen, DEFAULT_MODE
         from os.path import join
         ns += (_DOT_(name, 'dylib'),
                _DOT_(name, 'framework'), join(
                _DOT_(name, 'framework'), name))
     else:  # non-macOS
-        def _dlopen(unused):
+        DEFAULT_MODE = 0
+
+        def _dlopen(*unused):
             return True
 
     for n in ns:
         try:
-            if n and _dlopen(n):  # handle
+            if n and _dlopen(n, DEFAULT_MODE):  # pre-load handle
                 lib = CDLL(n)  # == ctypes.cdll.LoadLibrary(n)
                 if lib._name:  # has a qualified name
                     return lib
@@ -506,8 +533,7 @@ def machine():
 def _platform2(sep=NN):
     '''(INTERNAL) Get platform architecture and machine as C{2-list} or C{str}.
     '''
-    global _pl2List
-    if _pl2List is None:
+    if not _pl2List:
         import platform
         m = platform.machine()  # ARM64, arm64, x86_64, iPhone13,2, etc.
         m = m.replace(_COMMA_, _UNDER_)
@@ -518,21 +544,20 @@ def _platform2(sep=NN):
                 if _sysctl_uint('sysctl.proc_translated') == 1:  # and \
 #                  _sysctl_uint('hw.optional.arm64') == 1:  # PYCHOK indent
                     m = _UNDER_('arm64', m)  # Apple Si emulating Intel x86-64
-        _pl2List = [platform.architecture()[0],  # bits
-                    m]  # arm64, arm64_x86_64, x86_64, etc.
+        _pl2List[:] = [platform.architecture()[0],  # bits
+                       m]  # arm64, arm64_x86_64, x86_64, etc.
     return sep.join(_pl2List) if sep else _pl2List  # 2-list()
 
 
-def _pythonarchine(sep=NN):  # in test/base.py versions
-    '''(INTERNAL) Get PyPy and Python versions and C{_platform2} as C{3-} or C{4-list} or C{str}.
+def _pythonarchine(sep=NN):  # in test/bases.py versions
+    '''(INTERNAL) Get PyPy and Python versions and C{_platform2} as C{3- or 4-list} or C{str}.
     '''
-    global _Py3List
-    if _Py3List is None:
-        from sys import version  # XXX shadows?
-        _Py3List = [_Python_(version)] + _platform2()
-        if _PyPy__ in version:  # see test/base.py
-            v = version.split(_PyPy__)[1].split(None, 1)[0]
-            _Py3List.insert(0, NN(_PyPy__, v))
+    if not _Py3List:
+        v = _sys.version
+        _Py3List[:] = [_Python_(v)] + _platform2()
+        pypy = _PyPy__(v)
+        if pypy:  # see _isPyPy, test/bases.py
+            _Py3List.insert(0, pypy)
     return sep.join(_Py3List) if sep else _Py3List  # 3- or 4-list
 
 
@@ -569,39 +594,39 @@ def _under(name):  # PYCHOK in .datums, .auxilats, .ups, .utm, .utmupsBase, ...
 def _usage(file_py, *args):  # in .etm
     '''(INTERNAL) Build "usage: python -m ..." cmd line for module B{C{file_py}}.
     '''
-    import os, sys  # PYCHOK imports
-    p = NN(_python_, sys.version_info[0])
+    import os
     m = os.path.dirname(file_py).replace(os.getcwd(), _ELLIPSIS_) \
                                 .replace(os.sep, _DOT_).strip()
     b, x = os.path.splitext(os.path.basename(file_py))
     if x == '.py' and b != '__main__':
-        m = _DOT_(m, b)
+        m = _DOT_(m or _pygeodesy_, b)
+    p = NN(_python_, _sys.version_info[0])
     return NN('usage', _SPACE_(_COLON_, p, '-m', _enquote(m), *args))
 
 
 def _version2(version, n=2):
-    '''(INTERNAL) Split C{B{version} str} into 1-, 2- or 3-tuple of C{int}s.
+    '''(INTERNAL) Split C{B{version} str} into a C{1-, 2- or 3-tuple} of C{int}s.
     '''
-    def _int(*vs):
-        for v in vs:
-            try:
-                yield int(v)
-            except (TypeError, ValueError):
-                pass
+    def _int(v):
+        try:
+            return int(v)
+        except (TypeError, ValueError):
+            pass
 
-    t = tuple(_int(*_splituple(version, _DOT_, 2))) + (0,) * n
+    t = tuple(map(_int, _splituple(version, _DOT_, 2)))
+    if len(t) < n:
+        t += (0,) * n
     return t[:n]
 
 
 __all__ = (_NN_,  # not MISSING!
             Str_.__name__,  # classes
             machine.__name__)  # in .lazily
-__version__ = '23.08.09'
+__version__ = '23.08.23'
 
 if __name__ == '__main__':
 
-    from pygeodesy.errors import itemsorted
-    from pygeodesy.lazily import printf
+    from pygeodesy import itemsorted, printf
 
     t = b = 0
     for n, v in itemsorted(locals(), asorted=False, reverse=True):

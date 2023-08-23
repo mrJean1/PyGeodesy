@@ -25,7 +25,7 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, \
 from functools import wraps as _wraps
 
 __all__ = _ALL_LAZY.props
-__version__ = '23.08.09'
+__version__ = '23.08.23'
 
 _class_       = 'class'
 _dont_use_    = _DEPRECATED_ + ", don't use."
@@ -253,8 +253,8 @@ class Property_RO(_PropertyBase):
                  <https://Docs.Python.org/3/library/functools.html#functools.cache>}
                  to I{cache} or I{memoize} the property value.
 
-           @see: Luciano Ramalho, "Fluent Python", page 636, O'Reilly, 2016,
-                 "Coding a Property Factory", especially Example 19-24 and U{class
+           @see: Luciano Ramalho, "Fluent Python", page 636, O'Reilly, Example
+                 19-24, 2016 p. 636 or Example 22-28, 2022 p. 869+ and U{class
                  Property<https://docs.Python.org/3/howto/descriptor.html>}.
         '''
         _fget = method if _FOR_DOCS else self._fget  # XXX force method.__doc__ to epydoc
@@ -368,9 +368,9 @@ def property_doc_(doc):
         >>> def name(self, value):
         >>>     ...
     '''
-    # See Luciano Ramalho, "Fluent Python", page 212ff, O'Reilly, 2016,
-    # "Parameterized Decorators", especially Example 7-23.  Also, see
-    # <https://Python-3-Patterns-Idioms-Test.ReadTheDocs.io/en/latest/PythonDecorators.html>
+    # See Luciano Ramalho, "Fluent Python", O'Reilly, Example 7-23,
+    # 2016 p. 212+, 2022 p. 331+, Example 9-22 and <https://
+    # Python-3-Patterns-Idioms-Test.ReadTheDocs.io/en/latest/PythonDecorators.html>
 
     def _documented_property(method):
         '''(INTERNAL) Return the documented C{property}.

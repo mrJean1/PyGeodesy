@@ -21,10 +21,10 @@ from pygeodesy.namedTuples import Point3Tuple, Points2Tuple
 # from pygeodesy.props import property_RO  # from .named
 # from pygeodesy.streprs import Fmt  # from .named
 from pygeodesy.units import Int, Radius
-from pygeodesy.utily import degrees2m, _Wrap, _1_0
+from pygeodesy.utily import degrees2m, _Wrap,  _1_0
 
 __all__ = _ALL_LAZY.iters
-__version__ = '23.05.04'
+__version__ = '23.08.22'
 
 _items_        = 'items'
 _iterNumpy2len =  1  # adjustable for testing purposes
@@ -34,7 +34,7 @@ _NOTHING       =  object()  # unique
 class _BaseIter(_Named):
     '''(INTERNAL) Iterator over items with loop-back and de-duplication.
 
-       @see: Luciano Ramalho, "Fluent Python", page 418+, O'Reilly, 2016.
+       @see: Luciano Ramalho, "Fluent Python", O'Reilly, 2016 p. 418+, 2022 p. 600+
     '''
     _closed =  True
     _copies = ()
@@ -103,7 +103,7 @@ class _BaseIter(_Named):
     def enumerate(self, closed=False, copies=False, dedup=False):
         '''Yield all items, each as a 2-tuple C{(index, item)}.
 
-           @kwarg closed: Look back to the first B{C{point(s)}}.
+           @kwarg closed: Loop back to the first B{C{point(s)}}.
            @kwarg copies: Make a copy of all B{C{items}} (C{bool}).
            @kwarg dedup: Set de-duplication in loop-back (C{bool}).
         '''
@@ -116,7 +116,7 @@ class _BaseIter(_Named):
            @raise IndexError: Invalid B{C{index}}, beyond B{C{loop}}.
         '''
         t = self._items or self._copies or self._loop
-        try:  # Luciano Ramalho, "Fluent Python", page 293+, O'Reilly, 2016.
+        try:  # Luciano Ramalho, "Fluent Python", O'Reilly, 2016 p. 293+, 2022 p. 408+
             if isinstance(index, slice):
                 return t[index.start:index.stop:index.step]
             else:
@@ -128,13 +128,13 @@ class _BaseIter(_Named):
     def __iter__(self):  # PYCHOK no cover
         '''Make this iterator C{iterable}.
         '''
-        # Luciano Ramalho, "Fluent Python", page 421, O'Reilly, 2016.
+        # Luciano Ramalho, "Fluent Python", O'Reilly, 2016 p. 421, 2022 p. 604+
         return self.iterate()  # XXX or self?
 
     def iterate(self, closed=False, copies=False, dedup=False):
         '''Yield all items, each as C{item}.
 
-           @kwarg closed: Look back to the first B{C{point(s)}}.
+           @kwarg closed: Loop back to the first B{C{point(s)}}.
            @kwarg copies: Make a copy of all B{C{items}} (C{bool}).
            @kwarg dedup: Set de-duplication in loop-back (C{bool}).
 
@@ -146,7 +146,7 @@ class _BaseIter(_Named):
         if copies:
             if self._items:
                 self._copies = self._items
-                self._items  = _copy = None
+                self._items = _copy = None
             else:
                 self._copies = list(self._loop)
                 _copy = self._copies.append
@@ -192,7 +192,8 @@ class _BaseIter(_Named):
         '''
         return self._next_dedup() if self._dedup else self._next(False)
 
-#   __next__  # NO __next__ AND __iter__ ... see Ramalho, page 426
+#   __next__  # NO __next__ AND __iter__ ... see Luciano Ramalho,
+#             # "Fluent Python", O'Reilly, 2016 p. 426, 2022 p. 610
 
     def next_(self, dedup=False):
         '''Return the next item.
@@ -265,7 +266,7 @@ class PointsIter(_BaseIter):
     def enumerate(self, closed=False, copies=False):  # PYCHOK signature
         '''Iterate and yield each point as a 2-tuple C{(index, point)}.
 
-           @kwarg closed: Look back to the first B{C{point(s)}}, de-dup'ed (C{bool}).
+           @kwarg closed: Loop back to the first B{C{point(s)}}, de-dup'ed (C{bool}).
            @kwarg copies: Save a copy of all B{C{points}} (C{bool}).
 
            @raise PointsError: Insufficient number of B{C{points}} or using
@@ -279,7 +280,7 @@ class PointsIter(_BaseIter):
     def iterate(self, closed=False, copies=False):  # PYCHOK signature
         '''Iterate through all B{C{points}} starting at index C{loop}.
 
-           @kwarg closed: Look back to the first B{C{point(s)}}, de-dup'ed (C{bool}).
+           @kwarg closed: Loop back to the first B{C{point(s)}}, de-dup'ed (C{bool}).
            @kwarg copies: Save a copy of all B{C{points}} (C{bool}).
 
            @raise PointsError: Insufficient number of B{C{points}} or using
@@ -355,7 +356,7 @@ class LatLon2PsxyIter(PointsIter):
     def enumerate(self, closed=False, copies=False):  # PYCHOK signature
         '''Iterate and yield each point as a 2-tuple C{(index, L{Point3Tuple})}.
 
-           @kwarg closed: Look back to the first B{C{point(s)}}, de-dup'ed (C{bool}).
+           @kwarg closed: Loop back to the first B{C{point(s)}}, de-dup'ed (C{bool}).
            @kwarg copies: Save a copy of all B{C{points}} (C{bool}).
 
            @raise PointsError: Insufficient number of B{C{points}} or using

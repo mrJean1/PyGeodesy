@@ -4,7 +4,7 @@
 # Test L{fsums} module.
 
 __all__ = ('Tests',)
-__version__ = '23.05.31'
+__version__ = '23.08.23'
 
 from bases import endswith, isPython2, randoms, startswith, TestsBase
 
@@ -110,7 +110,7 @@ class Tests(TestsBase):
         t = a + a.fcopy().fmul(-1)
         self.test('FSum0', t.fsum(), 0.0)
         z = t.sizeof
-        self.test('sizeof', z, 236, known=100 < z < 300)
+        self.test('sizeof', str(z), 236, known=z is None or 100 < z < 300)
 
         a.fsub_(*a._ps)
         self.test('FSum0', a.fsum(), 0.0)

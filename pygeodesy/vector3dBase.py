@@ -29,7 +29,7 @@ from pygeodesy.utily import sincos2,  atan2, fabs
 # from math import atan2, fabs  # from .utily
 
 __all__ = _ALL_LAZY.vector3dBase
-__version__ = '23.05.27'
+__version__ = '23.08.23'
 
 
 class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
@@ -199,7 +199,7 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
 
            @raise TypeError: Incompatible B{C{other}} C{type}.
 
-           @see: Luciano Ramalho, "Fluent Python", page 397-398, O'Reilly 2016.
+           @see: Luciano Ramalho, "Fluent Python", O'Reilly, 2016 p. 397+, 2022 p. 578+.
         '''
         return self._xyz(self.cross(other))
 

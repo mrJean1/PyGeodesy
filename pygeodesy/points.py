@@ -64,7 +64,7 @@ from pygeodesy.utily import atan2b, degrees90, degrees180, degrees2m, \
 from math import cos, fabs, fmod, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '23.08.04'
+__version__ = '23.08.23'
 
 _ilat_  = 'ilat'
 _ilon_  = 'ilon'
@@ -78,11 +78,12 @@ class LatLon_(object):  # XXX in heights._HeightBase.height
     # __slots__ efficiency is voided if the __slots__ class attribute
     # is used in a subclass of a class with the traditional __dict__,
     # see <https://docs.Python.org/2/reference/datamodel.html#slots>
-    # and __slots__ must be repeated in sub-classes, see "Problems
-    # with __slots__" in Luciano Ramalho, "Fluent Python", page
-    # 276+, O'Reilly, 2016, also at <https://Books.Google.ie/
-    #   books?id=bIZHCgAAQBAJ&lpg=PP1&dq=fluent%20python&pg=
-    #   PT364#v=onepage&q=“Problems%20with%20__slots__”&f=false>
+    # and __slots__ must be repeated in sub-classes, see Luciano
+    # Ramalho, "Fluent Python", O'Reilly, 2016 p. 276+ "Problems
+    # with __slots__" (also at <https://Books.Google.ie/books?
+    #   id=bIZHCgAAQBAJ&lpg=PP1&dq=fluent%20python&pg=PT364#
+    #   v=onepage&q=“Problems%20with%20__slots__”&f=false>),
+    #   2022 p. 390 "Summarizing the Issues with __slots__".
     #
     # __slots__ = (_lat_, _lon_, _height_, _datum_, _name_)
     # Property_RO = property_RO  # no __dict__ with __slots__!
@@ -569,7 +570,7 @@ class _Basequence(_Sequence):  # immutable, on purpose
     def _getitem(self, index):
         '''(INTERNAL) Return point [index] or return a slice.
         '''
-        # Luciano Ramalho, "Fluent Python", page 290+, O'Reilly, 2016
+        # Luciano Ramalho, "Fluent Python", O'Reilly, 2016 p. 290+, 2022 p. 405+
         if isinstance(index, slice):
             # XXX an numpy.[nd]array slice is a view, not a copy
             return self.__class__(self._array[index], **self._slicekwds())

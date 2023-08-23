@@ -32,7 +32,7 @@ from pygeodesy.utily import atan2d, sincos2, sincos2d
 from math import asinh, atan2, copysign, degrees, fabs, radians, sinh
 
 __all__ = ()
-__version__ = '23.08.19'
+__version__ = '23.08.22'
 
 _0_INF_NAN_NINF = 0, _0_0, INF, NAN, NINF  # _INF_NAN_NINF
 _MAX_2          = MAX * _0_5  # PYCHOK used!
@@ -523,7 +523,7 @@ def _yx2(yx):
     return y, x
 
 
-__all__ += _ALL_DOCS(AuxAngle, AuxBeta, AuxMu, AuxPhi)
+__all__ += _ALL_DOCS(AuxAngle, AuxBeta, AuxChi, AuxMu, AuxPhi, AuxTheta, AuxXi)
 
 # **) MIT License
 #

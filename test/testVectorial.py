@@ -4,7 +4,7 @@
 # Test L{vector3d} and L{vector3d} modules.
 
 __all__ = ('Tests',)
-__version__ = '23.07.21'
+__version__ = '23.08.23'
 
 from bases import coverage, GeodSolve, numpy, TestsBase
 
@@ -213,15 +213,15 @@ class Tests(TestsBase):
         self.test('sumOf', s._name, 'sumOf')
         self.test('length', s.length, '52.7134151513', prec=10)
         z = v.sizeof  # coverage
-        self.test('sizeof', z, 128, fmt='%d', known=60 < z < 200)  # without length
+        self.test('sizeof', str(z), 128, known=z is None or 60 < z < 200)  # without length
         self.test('length', v.length, '52.2051356286', prec=10)
         z = v.sizeof  # coverage
-        self.test('sizeof', z, 247, fmt='%d', known=100 < z < 300)  # with length
+        self.test('sizeof', str(z), 247, known=z is None or 100 < z < 300)  # with length
 
         c = v.copy()
         self.test('copy', c.isequalTo(v), True)
         self.test('length', c.length, '52.2051356286', prec=10)
-        self.test('sizeof', c.sizeof, z, fmt='%d', known=True)
+        self.test('sizeof', c.sizeof, str(z), known=True)
 
         if module is sphericalNvector:  # coverage
             c = p.toCartesian()

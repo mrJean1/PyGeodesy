@@ -266,7 +266,8 @@
     target="_top">geographiclib</a> 2.0, <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.24.2 
     and <a href="https://PyPI.org/project/scipy" target="_top">scipy</a> 
-    1.10.1), Python 3.10.8 (with <a 
+    1.10.1), <a href="https://formulae.brew.sh/formula/pypy3.10" 
+    target="_top">PyPy 7.3.12 (Python 3.10.12)</a>, Python 3.10.8 (with <a 
     href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 2.0, <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.23.3, 
@@ -302,9 +303,9 @@
     7.2.2 using only Python 3.11.4 and 3.10.8.  The complete coverage 
     report in HTML and a PDF summary are included in the distribution 
     files.</p>
-    <p>Python 3.11.4, 3.10.8 and 3.9.6 ran on Apple M1 Silicon 
-    (<code>arm64</code>), <i>natively</i>.  Python 3.8.10 and 2.7.18 ran on
-    Intel (<code>x86_64</code>) or Intel <i>emulation</i> 
+    <p>PyPy 7.3.12 (Python 3.10.12), Python 3.11.4, 3.10.8 and 3.9.6 ran on
+    Apple M1 Silicon (<code>arm64</code>), <i>natively</i>. Python 3.8.10 
+    and 2.7.18 ran on Intel (<code>x86_64</code>) or Intel <i>emulation</i>
     (&quot;<code>arm64_x86_64</code>&quot;, see function <a 
     href="pygeodesy.interns-module.html#machine" 
     class="link">pygeodesy.machine</a>).</p>
@@ -544,7 +545,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        23.08.21
+        23.08.23
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -730,7 +731,7 @@
         <i>Karney</i>'s Python <a 
         href="https://GeographicLib.SourceForge.io/1.52/python/index.html" 
         target="_top">geographiclib</a>.</em>    </li>
-    <li class="private"> <strong class="uidlink"><a href="pygeodesy.geodesicx.gxbases-module.html" onclick="show_private();">pygeodesy.geodesicx.gxbases</a></strong>: <em class="summary">(INTERNAL) Private <a href="pygeodesy.geodesicx-module.html" 
+    <li> <strong class="uidlink"><a href="pygeodesy.geodesicx.gxbases-module.html">pygeodesy.geodesicx.gxbases</a></strong>: <em class="summary">(INTERNAL) Private <a href="pygeodesy.geodesicx-module.html" 
         class="link">geodesicx</a> base class, functions and constants.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.geodesicx.gxline-module.html">pygeodesy.geodesicx.gxline</a></strong>: <em class="summary">A pure Python version of <i>Karney</i>'s C++ class <a 
         href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1GeodesicLineExact.html"
@@ -829,7 +830,7 @@
     <li> <strong class="uidlink"><a href="pygeodesy.rhumbsolve-module.html">pygeodesy.rhumbsolve</a></strong>: <em class="summary">Wrapper to invoke <i>Karney</i>'s <a 
         href="https://GeographicLib.SourceForge.io/C++/doc/RhumbSolve.1.html"
         target="_top">RhumbSolve</a> utility as an (exact) rhumb or rhumb 
-        line fom <i>either GeographicLib 2.0 or 2.2+</i>.</em>    </li>
+        line from <i>either GeographicLib 2.0 or 2.2+</i>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.rhumbx-module.html">pygeodesy.rhumbx</a></strong>: <em class="summary">A pure Python version of <i>Karney</i>'s C++ classes <a 
         href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Rhumb.html"
         target="_top">Rhumb</a> and <a 
@@ -8566,7 +8567,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f7d88a4ec50&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7faa788c4350&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -13185,7 +13186,7 @@ ygeodesy'"><code class="variable-quote">'</code><code class="variable-string">/U
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'23.8.21'"><code class="variable-quote">'</code><code class="variable-string">23.8.21</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'23.8.23'"><code class="variable-quote">'</code><code class="variable-string">23.8.23</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -21198,7 +21199,7 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f7d88a4ec50&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7faa788c4350&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -30939,7 +30940,7 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Aug 20 14:42:07 2023
+    Generated by Epydoc 3.0.1 on Wed Aug 23 11:55:52 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

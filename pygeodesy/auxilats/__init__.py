@@ -18,17 +18,17 @@ License.  For more information, see the U{GeographicLib<https://GeographicLib.So
       U{On auxiliary latitudes<https:#ArXiv.org/abs/2212.05818>}.
 '''
 
-from pygeodesy.lazily import _ALL_OTHER
 from pygeodesy.auxilats.auxAngle import AuxAngle, AuxBeta, AuxChi, AuxMu, \
                                         AuxPhi, AuxTheta, AuxXi  # PYCHOK exported
 from pygeodesy.auxilats.auxDLat import AuxDLat  # PYCHOK exported
 from pygeodesy.auxilats.auxDST import AuxDST  # PYCHOK exported
 from pygeodesy.auxilats.auxily import Aux  # PYCHOK exported
 from pygeodesy.auxilats.auxLat import AuxLat  # PYCHOK exported
+from pygeodesy.lazily import _ALL_OTHER
 
 __all__ = _ALL_OTHER(Aux, AuxAngle, AuxDLat, AuxDST, AuxLat,
                      AuxBeta, AuxChi, AuxMu, AuxPhi, AuxTheta, AuxXi)
-__version__ = '23.08.20'
+__version__ = '23.08.22'
 
 # **) MIT License
 #

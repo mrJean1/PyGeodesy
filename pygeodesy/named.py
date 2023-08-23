@@ -24,7 +24,7 @@ from pygeodesy.interns import NN, _at_, _AT_, _COLON_, _COLONSPACE_, _COMMA_, \
                              _COMMASPACE_, _doesn_t_exist_, _DOT_, _DUNDER_, \
                              _EQUAL_, _EQUALSPACED_, _exists_, _immutable_, _name_, \
                              _NL_, _NN_, _not_, _other_, _s_, _SPACE_, _std_, \
-                             _UNDER_, _valid_, _vs_,  _dunder_nameof, _under
+                             _UNDER_, _valid_, _vs_,  _dunder_nameof, _isPyPy, _under
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _caller3, _getenv
 from pygeodesy.props import _allPropertiesOf_n, deprecated_method, Property_RO, \
                             _hasProperty, property_doc_, property_RO, \
@@ -32,7 +32,7 @@ from pygeodesy.props import _allPropertiesOf_n, deprecated_method, Property_RO, 
 from pygeodesy.streprs import attrs, Fmt, lrstrip, pairs, reprs, unstr
 
 __all__ = _ALL_LAZY.named
-__version__ = '23.08.05'
+__version__ = '23.08.23'
 
 _COMMANL_           = _COMMA_ + _NL_
 _COMMASPACEDOT_     = _COMMASPACE_ + _DOT_
@@ -635,9 +635,10 @@ class _NamedEnum(_NamedDict):
     def _assert(self, **kwds):
         '''(INTERNAL) Check attribute name against given, registered name.
         '''
+        pypy = _isPyPy()
         for n, v in kwds.items():
             if isinstance(v, _LazyNamedEnumItem):  # property
-                assert n is v.name
+                assert (n == v.name) if pypy else (n is v.name)
                 # assert not hasattr(self.__class__, n)
                 setattr(self.__class__, n, v)
             elif isinstance(v, self._item_Classes):  # PYCHOK no cover
@@ -789,8 +790,8 @@ class _LazyNamedEnumItem(property_RO):  # XXX or descriptor?
 def _lazyNamedEnumItem(name, *args, **kwds):
     '''(INTERNAL) L{_LazyNamedEnumItem} property-like factory.
 
-       @see: Luciano Ramalho, "Fluent Python", page 636, O'Reilly, 2016,
-             "Coding a Property Factory", especially Example 19-24.
+       @see: Luciano Ramalho, "Fluent Python", O'Reilly, Example
+             19-24, 2016 p. 636 or Example 22-28, 2022 p. 869+
     '''
     def _fget(inst):
         # assert isinstance(inst, _NamedEnum)

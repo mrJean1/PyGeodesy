@@ -123,9 +123,10 @@ Tests
 =====
 
 The tests ran with Python 3.11.4 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0, U{numpy
-<https://PyPI.org/project/numpy>} 1.24.2 and U{scipy<https://PyPI.org/project/scipy>} 1.10.1), Python 3.10.8
-(with U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0, U{numpy<https://PyPI.org/project/numpy>}
-1.23.3, U{scipy<https://PyPI.org/project/scipy>} 1.9.1, U{GeoConvert
+<https://PyPI.org/project/numpy>} 1.24.2 and U{scipy<https://PyPI.org/project/scipy>} 1.10.1), U{PyPy 7.3.12
+(Python 3.10.12)<https://formulae.brew.sh/formula/pypy3.10>}, Python 3.10.8 (with U{geographiclib
+<https://PyPI.org/project/geographiclib>} 2.0, U{numpy<https://PyPI.org/project/numpy>} 1.23.3, U{scipy
+<https://PyPI.org/project/scipy>} 1.9.1, U{GeoConvert
 <https://GeographicLib.SourceForge.io/html/utilities.html>} 2.2, U{GeodSolve
 <https://GeographicLib.SourceForge.io/html/utilities.html>} 2.2 and U{RhumbSolve
 <https://GeographicLib.SourceForge.io/html/utilities.html>} 2.2), Python 3.9.6, Python 3.8.10 (with
@@ -143,8 +144,9 @@ the distribution files.
 Test coverage has been measured with U{coverage<https://PyPI.org/project/coverage>} 7.2.2 using only Python 3.11.4
 and 3.10.8.  The complete coverage report in HTML and a PDF summary are included in the distribution files.
 
-Python 3.11.4, 3.10.8 and 3.9.6 ran on Apple M1 Silicon (C{arm64}), I{natively}.  Python 3.8.10 and 2.7.18 ran
-on Intel (C{x86_64}) or Intel I{emulation} ("C{arm64_x86_64}", see function L{pygeodesy.machine}).
+PyPy 7.3.12 (Python 3.10.12), Python 3.11.4, 3.10.8 and 3.9.6 ran on Apple M1 Silicon (C{arm64}), I{natively}.
+Python 3.8.10 and 2.7.18 ran on Intel (C{x86_64}) or Intel I{emulation} ("C{arm64_x86_64}", see function
+L{pygeodesy.machine}).
 
 The tests also ran with Python 3.11.4 (and U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0) on
 U{Debian 11<https://Cirrus-CI.com/github/mrJean1/PyGeodesy/master>} in 64-bit only and with Python 3.11.4,
@@ -594,7 +596,7 @@ else:
     _init__all__ = False
 
 from pygeodesy.interns import _DOT_  # PYCHOK import
-__version__ = '23.08.21'
+__version__ = '23.08.23'
 # see setup.py for similar logic
 version     = _DOT_.join(map(str, map(int, __version__.split(_DOT_))))
 

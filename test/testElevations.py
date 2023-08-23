@@ -4,7 +4,7 @@
 # Test L{elevations} module.
 
 __all__ = ('Tests',)
-__version__ = '23.05.23'
+__version__ = '23.08.23'
 
 from bases import ismacOS, isPython2, isPython3, TestsBase
 
@@ -129,45 +129,6 @@ if __name__ == '__main__':
 #   test 32 geodHeight2: (None, "URLError(timeout('timed out'))")
 
 #   all testElevations.py tests passed (PyGeodesy 18.8.24 Python 2.7.15 64bit geographiclib 1.49 numpy 1.14.0 macOS 10.13.6) 5.757 sec
-
-
-# pypy test/testElevations.py 2
-#
-#   testing testElevations.py 18.08.25
-#   test 1 elevation2: 1173.79
-#   test 2 geoidHeight2: -31.703
-#   test 3 elevation2: 1173.790
-#   test 4 geodHeight2: -31.703
-#   test 5 elevation2: 2.030
-#   test 6 geodHeight2: -27.765
-#   test 7 elevation2: 199.180
-#   test 8 geodHeight2: -34.366
-#   test 9 elevation2: 8.520
-#   test 10 geodHeight2: -30.009
-#   test 11 elevation2: 32.790
-#   test 12 geodHeight2: -31.668
-#   test 13 elevation2: (None, "ValueError('non-CONUS')")
-#   test 14 geoidHeight2: (None, 'HTTPError()')
-#   test 15 elevation2: (None, "URLError(timeout('timed out'))")
-#   test 16 geodHeight2: (None, "URLError(timeout('timed out'))")
-#   test 17 elevation2: 1173.79
-#   test 18 geoidHeight2: -31.703
-#   test 19 elevation2: 1173.790
-#   test 20 geodHeight2: -31.703
-#   test 21 elevation2: 2.030
-#   test 22 geodHeight2: -27.765
-#   test 23 elevation2: 199.180
-#   test 24 geodHeight2: -34.366
-#   test 25 elevation2: 8.520
-#   test 26 geodHeight2: -30.009
-#   test 27 elevation2: 32.790
-#   test 28 geodHeight2: -31.668
-#   test 29 elevation2: (None, "ValueError('non-CONUS')")
-#   test 30 geoidHeight2: (None, 'HTTPError()')
-#   test 31 elevation2: (None, "URLError(timeout('timed out'))")
-#   test 32 geodHeight2: (None, "URLError(timeout('timed out'))")
-#
-#   all testElevations.py tests passed (PyGeodesy 18.8.26 PyPy-Python 2.7.13 64bit macOS 10.13.6) 7.180 sec
 
 
 # python3 test/testElevations.py 2

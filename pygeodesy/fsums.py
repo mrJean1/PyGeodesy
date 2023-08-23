@@ -47,7 +47,7 @@ from pygeodesy.props import _allPropertiesOf_n, deprecated_property_RO, \
 from math import ceil as _ceil, fabs, floor as _floor  # PYCHOK used! .ltp
 
 __all__ = _ALL_LAZY.fsums
-__version__ = '23.08.17'
+__version__ = '23.08.23'
 
 _add_op_       = _PLUS_  # in .auxilats.auxAngle
 _eq_op_        = _EQUAL_ * 2  # _DEQUAL_
@@ -464,7 +464,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
 
     def __invert__(self):  # PYCHOK no cover
         '''Not implemented.'''
-        # Luciano Ramalho, "Fluent Python", 2nd Ed, page 567, O'Reilly, 2022
+        # Luciano Ramalho, "Fluent Python", O'Reilly, 2nd Ed, 2022 p. 567
         return _NotImplemented(self)
 
     def __ipow__(self, other, *mod):  # PYCHOK 2 vs 3 args

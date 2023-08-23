@@ -4,9 +4,9 @@
 # Test L{constants} module.
 
 __all__ = ('Tests',)
-__version__ = '23.07.10'
+__version__ = '23.08.23'
 
-from bases import TestsBase
+from bases import isPyPy, TestsBase
 
 from pygeodesy import Float, Int, Radius, basics, constants, interns, \
                       float_, isinf, isint0, isnan, \
@@ -31,7 +31,8 @@ class Tests(TestsBase):
                 r = v.toRepr(std=False)
                 self.test(n, r, r, nl=1)
                 self.test(n, v.name, n)
-                self.test(n, v.name is n, True)
+                if not isPyPy:
+                    self.test(n, v.name is n, True)
                 if not n.startswith(_UNDER_):
                     self.test(n, n in _all, True)
             elif isinstance(v, float):

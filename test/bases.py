@@ -50,7 +50,7 @@ __all__ = ('coverage', 'GeodSolve', 'geographiclib',  # constants
            'RandomLatLon', 'TestsBase',  # classes
            'ios_ver', 'nix_ver', 'secs2str',  # functions
            'tilde', 'type2str', 'versions')
-__version__ = '23.08.11'
+__version__ = '23.08.23'
 
 try:
     geographiclib = basics._xgeographiclib(basics, 1, 50)
@@ -91,10 +91,10 @@ endswith   = str.endswith
 startswith = str.startswith
 
 # isiOS is used by some tests known to fail on iOS only
-isiOS      = sys.platform == 'ios'  # public
-ismacOS    = sys.platform == 'darwin'  # public
+isiOS      = sys.platform[:3] == 'ios'  # public
+ismacOS    = sys.platform[:6] == 'darwin'  # public
 isNix      = uname()[0] in ('Linux', 'linux')
-isPyPy     = '[PyPy ' in sys.version  # platform.python_implementation() == 'PyPy'
+isPyPy     = interns._isPyPy()
 isPython2  = sys.version_info[0] == 2
 isPython3  = sys.version_info[0] == 3
 isPython35 = sys.version_info[:2] >= (3, 5)  # in .testCartesian
@@ -442,7 +442,7 @@ else:  # non-iOS
         return (NN, (NN, NN, NN), NN)
 
 
-def _name_version(path):
+def _name_version2(path):
     '''(INTERNAL) Get the C{(name, version)} of an executable.
     '''
     if path:
@@ -562,7 +562,7 @@ def versions():
                 vs += 'Math', ('_K_2_0' if _K_2_0 else '_K_1_0')
 
         for t in (GeoConvert, GeodSolve, RhumbSolve):
-            vs += _name_version(t)
+            vs += _name_version2(t)
 
         # - mac_ver() returns ('10.12.5', ..., 'x86_64') on
         #   macOS and ('10.3.3', ..., 'iPad4,2') on iOS

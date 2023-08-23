@@ -27,7 +27,7 @@ from math import copysign as _copysign
 import inspect as _inspect
 
 __all__ = _ALL_LAZY.basics
-__version__ = '23.06.23'
+__version__ = '23.08.23'
 
 _0_0                  =  0.0  # in .constants
 _below_               = 'below'
@@ -39,7 +39,7 @@ _required_            = 'required'
 _PYGEODESY_XPACKAGES_ = 'PYGEODESY_XPACKAGES'
 _XPACKAGES            = _splituple(_getenv(_PYGEODESY_XPACKAGES_, NN))
 
-try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
+try:  # Luciano Ramalho, "Fluent Python", O'Reilly, 2016 p. 395, 2022 p. 577+
     from numbers import Integral as _Ints, Real as _Scalars
 except ImportError:
     try:
@@ -444,10 +444,16 @@ def _sizeof(inst):
 
        @return: Instance' size in bytes (C{int}),
                 ignoring class attributes and
-                counting duplicates only once.
+                counting duplicates only once or
+                C{None}.
+
+       @note: With C{PyPy}, the size is always C{None}.
     '''
-    _zB = _sys.getsizeof
-    _zD = _zB(None)  # some default
+    try:
+        _zB = _sys.getsizeof
+        _zD = _zB(None)  # get some default
+    except TypeError:  # PyPy3.10
+        return None
 
     def _zR(s, iterable):
         z, _s = 0, s.add

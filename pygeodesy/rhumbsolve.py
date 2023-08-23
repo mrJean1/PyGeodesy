@@ -3,16 +3,16 @@
 
 u'''Wrapper to invoke I{Karney}'s U{RhumbSolve
 <https://GeographicLib.SourceForge.io/C++/doc/RhumbSolve.1.html>} utility
-as an (exact) rhumb or rhumb line fom I{either GeographicLib 2.0 or 2.2+}.
+as an (exact) rhumb or rhumb line from I{either GeographicLib 2.0 or 2.2+}.
 
-Set env variable C{PYGEODESY_RHUMBSOLVE} to the (fully qualified) path
-of the C{RhumbSolve} executable.
+@note: Set env variable C{PYGEODESY_RHUMBSOLVE} to the (fully qualified)
+       path of the C{RhumbSolve} executable.
 '''
 # from pygeodesy.basics import _xinstanceof  # from .karney
 from pygeodesy.constants import _0_0, _180_0, _N_180_0,  _90_0  # PYCHOK used!
 from pygeodesy.errors import RhumbError   # PYCHOK used!
 from pygeodesy.interns import NN, _a12_, _azi12_, _lat2_, _lon2_, _s12_, _S12_, _UNDER_
-from pygeodesy.karney import Caps, GDict, _norm180, Rhumb8Tuple, _sincos2d, _xinstanceof
+from pygeodesy.karney import Caps, GDict, _norm180, Rhumb8Tuple, _sincos2d,  _xinstanceof
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, _getenv
 from pygeodesy.namedTuples import Destination3Tuple, Distance3Tuple
 from pygeodesy.props import deprecated_method, Property, Property_RO
@@ -20,7 +20,7 @@ from pygeodesy.solveBase import _SolveBase, _SolveLineBase
 from pygeodesy.utily import _unrollon, _Wrap, wrap360
 
 __all__ = _ALL_LAZY.rhumbsolve
-__version__ = '23.08.04'
+__version__ = '23.08.22'
 
 _PYGEODESY_RHUMBSOLVE_ = 'PYGEODESY_RHUMBSOLVE'  # PYCHOK used!
 
@@ -338,9 +338,9 @@ class RhumbLineSolve(_RhumbSolveBase, _SolveLineBase):
 
 class RhumbSolve7Tuple(Rhumb8Tuple):
     '''7-Tuple C{(lat1, lon1, lat2, lon2, azi12, s12, S12)} with lat- C{lat1},
-       C{lat2} and longitudes C{lon1}, C{lon2} of both points, the azimuth of the
-       rhumb line C{azi12}, the distance C{s12} and the area C{S12} under the
-       rhumb line between both points.
+       C{lat2} and longitudes C{lon1}, C{lon2} of both points, the azimuth of
+       the rhumb line C{azi12}, the distance C{s12} and the area C{S12} under
+       the rhumb line between both points.
     '''
     assert Rhumb8Tuple._Names_.index(_a12_) == 7
     _Names_ = Rhumb8Tuple._Names_[:7]  # drop a12

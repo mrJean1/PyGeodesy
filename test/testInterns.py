@@ -4,13 +4,14 @@
 # Test L{interns} module.
 
 __all__ = ('Tests',)
-__version__ = '23.08.06'
+__version__ = '23.08.22'
 
-from bases import TestsBase
+from bases import ismacOS, sys, TestsBase
 
 from pygeodesy import clips, interns, machine, NN
 
 from os import getcwd
+# import sys  # from .bases
 
 _0to9_      =  interns._0to9_
 _AtoZnoIO_  =  interns._AtoZnoIO_
@@ -35,6 +36,7 @@ class Tests(TestsBase):
 
     def testInterns(self):
 
+        _COLONSPACE_  = interns._COLONSPACE_
         _DUNDER_      = interns._DUNDER_
         _DOT_         = interns._DOT_
         _DUNDER_0to9_ = NN(_DUNDER_, _0to9_)
@@ -66,6 +68,13 @@ class Tests(TestsBase):
 
         m = machine()
         self.test('machine', m, m, nl=1)
+        if ismacOS:  # coverage
+            i = interns._sysctl_uint('sysctl.proc_translated')
+            self.test('sysctl', i, i)  # known=i in (0, 1)
+            u, t = interns._usage('interns.py').split(_COLONSPACE_)
+            self.test(u, t, t)
+            t = interns._version2(sys.version)
+            self.test('version', t, tuple(sys.version_info[:2]))
 
 
 if __name__ == '__main__':

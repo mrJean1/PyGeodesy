@@ -64,6 +64,7 @@ pygeodesy.istuplist	pygeodesy-module.html#istuplist
 pygeodesy.unroll180	pygeodesy-module.html#unroll180
 pygeodesy.F_DEG	pygeodesy-module.html#F_DEG
 pygeodesy.radiansPI	pygeodesy-module.html#radiansPI
+pygeodesy.iscolinearWith	pygeodesy-module.html#iscolinearWith
 pygeodesy.geoidHeight2	pygeodesy-module.html#geoidHeight2
 pygeodesy.cotd_	pygeodesy-module.html#cotd_
 pygeodesy.cassini	pygeodesy-module.html#cassini
@@ -285,7 +286,6 @@ pygeodesy.isfinite	pygeodesy-module.html#isfinite
 pygeodesy.facos1	pygeodesy-module.html#facos1
 pygeodesy.euclid_	pygeodesy-module.html#euclid_
 pygeodesy.islistuple	pygeodesy-module.html#islistuple
-pygeodesy.iscolinearWith	pygeodesy-module.html#iscolinearWith
 pygeodesy.toWm	pygeodesy-module.html#toWm
 pygeodesy.lonDMS	pygeodesy-module.html#lonDMS
 pygeodesy.R_KM	pygeodesy-module.html#R_KM
@@ -2378,6 +2378,7 @@ pygeodesy.interns._COMMA_	pygeodesy.interns-module.html#_COMMA_
 pygeodesy.interns._ispolar_	pygeodesy.interns-module.html#_ispolar_
 pygeodesy.interns._M_	pygeodesy.interns-module.html#_M_
 pygeodesy.interns._MINUS_	pygeodesy.interns-module.html#_MINUS_
+pygeodesy.interns._isPyPy	pygeodesy.interns-module.html#_isPyPy
 pygeodesy.interns._azi2_	pygeodesy.interns-module.html#_azi2_
 pygeodesy.interns._fi_	pygeodesy.interns-module.html#_fi_
 pygeodesy.interns._concentric_	pygeodesy.interns-module.html#_concentric_
@@ -2422,6 +2423,7 @@ pygeodesy.interns._utf_8_	pygeodesy.interns-module.html#_utf_8_
 pygeodesy.interns._RCURLY_	pygeodesy.interns-module.html#_RCURLY_
 pygeodesy.interns._MGRS_	pygeodesy.interns-module.html#_MGRS_
 pygeodesy.interns._GRS80_	pygeodesy.interns-module.html#_GRS80_
+pygeodesy.interns._std_	pygeodesy.interns-module.html#_std_
 pygeodesy.interns._till_	pygeodesy.interns-module.html#_till_
 pygeodesy.interns._to_	pygeodesy.interns-module.html#_to_
 pygeodesy.interns._W_	pygeodesy.interns-module.html#_W_
@@ -2468,7 +2470,7 @@ pygeodesy.interns._number_	pygeodesy.interns-module.html#_number_
 pygeodesy.interns._rIn_	pygeodesy.interns-module.html#_rIn_
 pygeodesy.interns._near_	pygeodesy.interns-module.html#_near_
 pygeodesy.interns._area_	pygeodesy.interns-module.html#_area_
-pygeodesy.interns._std_	pygeodesy.interns-module.html#_std_
+pygeodesy.interns._HASH_	pygeodesy.interns-module.html#_HASH_
 pygeodesy.interns._NorthPole_	pygeodesy.interns-module.html#_NorthPole_
 pygeodesy.interns._NL_	pygeodesy.interns-module.html#_NL_
 pygeodesy.interns._arg_	pygeodesy.interns-module.html#_arg_
@@ -2556,7 +2558,7 @@ pygeodesy.interns._convex_	pygeodesy.interns-module.html#_convex_
 pygeodesy.interns._C_	pygeodesy.interns-module.html#_C_
 pygeodesy.interns._Z_	pygeodesy.interns-module.html#_Z_
 pygeodesy.interns._ambiguous_	pygeodesy.interns-module.html#_ambiguous_
-pygeodesy.interns._kind_	pygeodesy.interns-module.html#_kind_
+pygeodesy.interns._is	pygeodesy.interns-module.html#_is
 pygeodesy.interns._ELLIPSIS4_	pygeodesy.interns-module.html#_ELLIPSIS4_
 pygeodesy.interns._parallel_	pygeodesy.interns-module.html#_parallel_
 pygeodesy.interns._scale_	pygeodesy.interns-module.html#_scale_
@@ -2564,6 +2566,7 @@ pygeodesy.interns._up_	pygeodesy.interns-module.html#_up_
 pygeodesy.interns._DASH_	pygeodesy.interns-module.html#_DASH_
 pygeodesy.interns._scalar_	pygeodesy.interns-module.html#_scalar_
 pygeodesy.interns._enquote	pygeodesy.interns-module.html#_enquote
+pygeodesy.interns._kind_	pygeodesy.interns-module.html#_kind_
 pygeodesy.interns._SLASH_	pygeodesy.interns-module.html#_SLASH_
 pygeodesy.interns._distance_	pygeodesy.interns-module.html#_distance_
 pygeodesy.interns._radius2_	pygeodesy.interns-module.html#_radius2_
@@ -2627,6 +2630,7 @@ pygeodesy.interns._sep_	pygeodesy.interns-module.html#_sep_
 pygeodesy.interns._S12_	pygeodesy.interns-module.html#_S12_
 pygeodesy.interns._S_	pygeodesy.interns-module.html#_S_
 pygeodesy.interns._few_	pygeodesy.interns-module.html#_few_
+pygeodesy.interns._pygeodesy_	pygeodesy.interns-module.html#_pygeodesy_
 pygeodesy.iters	pygeodesy.iters-module.html
 pygeodesy.iters._NOTHING	pygeodesy.iters-module.html#_NOTHING
 pygeodesy.iters._items_	pygeodesy.iters-module.html#_items_
@@ -2996,6 +3000,7 @@ pygeodesy.named.nameof	pygeodesy.named-module.html#nameof
 pygeodesy.named.callername	pygeodesy.named-module.html#callername
 pygeodesy.named._zip	pygeodesy.basics-module.html#_zip
 pygeodesy.named._sizeof	pygeodesy.basics-module.html#_sizeof
+pygeodesy.named._isPyPy	pygeodesy.interns-module.html#_isPyPy
 pygeodesy.named._under	pygeodesy.interns-module.html#_under
 pygeodesy.named._Units_	pygeodesy.named-module.html#_Units_
 pygeodesy.named._IsnotError	pygeodesy.errors-module.html#_IsnotError
