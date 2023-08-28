@@ -122,7 +122,7 @@ C{epydoc --html --no-private --no-source --name=PyGeodesy --url=... -v pygeodesy
 Tests
 =====
 
-The tests ran with Python 3.11.4 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0, U{numpy
+The tests ran with Python 3.11.5 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0, U{numpy
 <https://PyPI.org/project/numpy>} 1.24.2 and U{scipy<https://PyPI.org/project/scipy>} 1.10.1), U{PyPy 7.3.12
 (Python 3.10.12)<https://formulae.brew.sh/formula/pypy3.10>}, Python 3.10.8 (with U{geographiclib
 <https://PyPI.org/project/geographiclib>} 2.0, U{numpy<https://PyPI.org/project/numpy>} 1.23.3, U{scipy
@@ -141,22 +141,22 @@ All tests ran with and without C{lazy import} for Python 3 and with command line
 env variable C{PYGEODESY_WARNINGS=on} for all Python versions.  The results of those tests are included in
 the distribution files.
 
-Test coverage has been measured with U{coverage<https://PyPI.org/project/coverage>} 7.2.2 using only Python 3.11.4
+Test coverage has been measured with U{coverage<https://PyPI.org/project/coverage>} 7.2.2 using only Python 3.11.5
 and 3.10.8.  The complete coverage report in HTML and a PDF summary are included in the distribution files.
 
-PyPy 7.3.12 (Python 3.10.12), Python 3.11.4, 3.10.8 and 3.9.6 ran on Apple M1 Silicon (C{arm64}), I{natively}.
+PyPy 7.3.12 (Python 3.10.12), Python 3.11.5, 3.10.8 and 3.9.6 ran on Apple M1 Silicon (C{arm64}), I{natively}.
 Python 3.8.10 and 2.7.18 ran on Intel (C{x86_64}) or Intel I{emulation} ("C{arm64_x86_64}", see function
 L{pygeodesy.machine}).
 
-The tests also ran with Python 3.11.4 (and U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0) on
-U{Debian 11<https://Cirrus-CI.com/github/mrJean1/PyGeodesy/master>} in 64-bit only and with Python 3.11.4,
+The tests also ran with Python 3.11.5 (and U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0) on
+U{Debian 11<https://Cirrus-CI.com/github/mrJean1/PyGeodesy/master>} in 64-bit only and with Python 3.11.5,
 3.10.10 and 2.7.18 (all with U{geographiclib<https://PyPI.org/project/geographiclib>} 1.52) on U{Windows 10
 <https://CI.AppVeyor.com/project/mrJean1/pygeodesy>} in 64- and/or 32-bit.
 
 A single-File and single-Directory application with C{pygeodesy} has been bundled using U{PyInstaller
 <https://PyPI.org/project/pyinstaller>} 3.4 and 64-bit Python 3.7.3 on macOS 10.13.6 High Sierra.
 
-Previously, the tests were run with Python 3.11.2-3, 3.10.1-7, 3.9.1, 3.8.7, 3.7.1, 2.7.15, U{PyPy
+Previously, the tests were run with Python 3.11.2-4, 3.10.1-7, 3.9.1, 3.8.7, 3.7.1, 2.7.15, U{PyPy
 <https://PyPy.org>}7.3.1 (Python 3.6.9) and U{PyPy<https://PyPy.org>} 7.1.1 (Python 2.7.13) (and U{geographiclib
 <https://PyPI.org/project/geographiclib>} 1.52, U{numpy<https://PyPI.org/project/numpy>} 1.16.3, 1.16.4, 1.16.6,
 1.19.0, 1.19.4, 1.19.5 or 1.22.4 and U{scipy<https://PyPI.org/project/scipy>} 1.2.1, 1.4.1, 1.5.2 or 1.8.1) on
@@ -180,7 +180,7 @@ All Python source code has been statically U{checked<https://GitHub.com/ActiveSt
 Python/546532_PyChecker_postprocessor>} with U{PyChecker<https://PyPI.org/project/pychecker>}, U{PyFlakes
 <https://PyPI.org/project/pyflakes>}, U{PyCodeStyle<https://PyPI.org/project/pycodestyle>} (formerly Pep8) and
 U{McCabe<https://PyPI.org/project/mccabe>} using Python 2.7.18 and with U{Flake8<https://PyPI.org/project/flake8>}
-using Python 3.11.4, both in 64-bit on macOS 13.4.1 Ventura.
+using Python 3.11.5, both in 64-bit on macOS 13.4.1 Ventura.
 
 For a summary of all I{Karney}-based functionality in C{pygeodesy}, see module U{karney
 <https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.karney-module.html>}.
@@ -596,7 +596,7 @@ else:
     _init__all__ = False
 
 from pygeodesy.interns import _DOT_  # PYCHOK import
-__version__ = '23.08.23'
+__version__ = '23.08.28'
 # see setup.py for similar logic
 version     = _DOT_.join(map(str, map(int, __version__.split(_DOT_))))
 

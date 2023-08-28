@@ -27,8 +27,8 @@ from pygeodesy.datums import _ellipsoidal_datum, _WGS84,  Ellipsoid
 from pygeodesy.elliptic import Elliptic as _Ef
 from pygeodesy.errors import AuxError, _xkwds, _xkwds_get, _Xorder
 # from pygeodesy.fmath import cbrt  # from .karney
-# from pygeodesy.fsums import Fsum  # from .karney
-from pygeodesy.karney import _2cos2x,  _ALL_DOCS, cbrt, Fsum, _MODS
+from pygeodesy.fsums import Fsum, _sum
+from pygeodesy.karney import _2cos2x,  _ALL_DOCS, cbrt, _MODS
 from pygeodesy.interns import NN, _DOT_, _UNDER_  # _earth_
 # from pygeodesy.lazily import _ALL_DOCS, _ALL_MODS as _MODS  # from .karney
 from pygeodesy.props import Property, Property_RO, _update_all
@@ -44,7 +44,7 @@ except ImportError:  # Python 3.11-
         return pow(_2_0, x)
 
 __all__ = ()
-__version__ = '23.08.20'
+__version__ = '23.08.27'
 
 _TRIPS = 1024  # XXX 2 or 3?
 
@@ -283,7 +283,7 @@ class AuxLat(AuxAngle):
                     try:
                         Dg = Fsum(atphi, atphib, t, e * t)
                     except ValueError:  # Fsum(NAN) exception
-                        Dg = sum((atphi, atphib, t, e * t))
+                        Dg = _sum((atphi, atphib, t, e * t))
                     e *= atphib
                     t  = atphi - e
                     if t:  # sinh(0) == 0

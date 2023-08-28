@@ -35,15 +35,14 @@ and compare the MGRS results with those from I{Karney}'s utility U{GeoConvert
 <https://GeographicLib.sourceforge.io/C++/doc/GeoConvert.1.html>}.
 '''
 
-from pygeodesy.basics import halfs2, _xinstanceof
+from pygeodesy.basics import halfs2, _splituple, _xinstanceof
 # from pygeodesy.constants import _0_5  # from .units
 from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.errors import _AssertionError, MGRSError, _parseX, \
                              _ValueError, _xkwds,  _ALL_LAZY, _MODS
 from pygeodesy.interns import NN, _0_, _A_, _AtoZnoIO_, _band_, _B_, \
                              _COMMASPACE_, _datum_, _easting_, _invalid_, \
-                             _northing_, _not_, _SPACE_, _splituple, _W_, \
-                             _Y_, _Z_, _zone_
+                             _northing_, _not_, _SPACE_, _W_, _Y_, _Z_, _zone_
 # from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS  # from .errors
 from pygeodesy.named import _NamedBase, _NamedTuple, _Pass, _xnamed
 from pygeodesy.namedTuples import EasNor2Tuple, UtmUps5Tuple
@@ -56,7 +55,7 @@ from pygeodesy.utm import toUtm8, _to3zBlat, Utm, _UTM_ZONE_MAX, _UTM_ZONE_MIN
 # from pygeodesy.utmupsBase import _UTM_ZONE_MAX, _UTM_ZONE_MIN  # from .utm
 
 __all__ = _ALL_LAZY.mgrs
-__version__ = '23.05.26'
+__version__ = '23.08.24'
 
 _AN_    = 'AN'  # default south pole grid tile and band B
 _AtoPx_ = _AtoZnoIO_.tillP

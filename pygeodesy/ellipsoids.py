@@ -1244,7 +1244,7 @@ class Ellipsoid(_NamedEnumItem):
     def L(self):
         '''Get the I{quarter meridian} C{L}, aka the C{polar distance}
            along a meridian between the equator and a pole (C{meter}),
-           M{b * Elliptic(-e2 / (1 - e2)).E} or M{b * PI / 2}.
+           M{b * Elliptic(-e2 / (1 - e2)).cE} or M{b * PI / 2}.
         '''
         r = self._elliptic_e22.cE if self.f else PI_2
         return Distance(L=self.b * r)

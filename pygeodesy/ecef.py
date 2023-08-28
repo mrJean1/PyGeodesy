@@ -415,9 +415,10 @@ class EcefFarrell21(_EcefBase):
             G  = p2 + ez - e2 * (a2 - b2)  # p2 + ez - e4 * a2
             F  = b2 * z2 * 54
             c  = e4 * p2 * F / G**3
-            s  = cbrt(_1_0 + c + sqrt(c**2 + c * 2))
-            P  = F / (_3_0 * (fsumf_(_1_0, s, _1_0 / s) * G)**2)
-            Q  = sqrt(_1_0 + _2_0 * e4 * P)
+            s  = cbrt(_1_0 + sqrt(c**2 + c + c) + c)
+            G *= fsumf_(s, _1_0, _1_0 / s)
+            P  = F / (G**2 * _3_0)
+            Q  = sqrt(_2_0 * e4 * P + _1_0)
             Q1 = Q +  _1_0
             r0 = P * p * e2 / Q1 - sqrt(fsumf_(a2 * (Q1 / Q) * _0_5,
                                                -P * ez / (Q * Q1),

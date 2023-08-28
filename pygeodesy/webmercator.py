@@ -18,13 +18,13 @@ http://earth-info.nga.mil/GandG/wgs84/web_mercator/(U)%20NGA_SIG_0011_1.0.0_WEBM
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import isscalar, _xinstanceof
+from pygeodesy.basics import isscalar, _splituple, _xinstanceof
 from pygeodesy.constants import PI_2, R_MA, _2_0
 from pygeodesy.datums import Datum, _spherical_datum
 from pygeodesy.dms import clipDegrees, parseDMS2
 from pygeodesy.errors import _parseX, _ValueError, _xattr, _xkwds
 from pygeodesy.interns import NN, _COMMASPACE_, _datum_, _earth_, _easting_, \
-                             _northing_, _radius_, _SPACE_, _splituple, _x_, _y_
+                             _northing_, _radius_, _SPACE_, _x_, _y_
 # from pygeodesy.lazily import _ALL_LAZY  from .named
 from pygeodesy.named import _NamedBase, _NamedTuple,  _ALL_LAZY
 from pygeodesy.namedTuples import LatLon2Tuple, LatLonDatum3Tuple, PhiLam2Tuple
@@ -36,7 +36,7 @@ from pygeodesy.utily import degrees90, degrees180
 from math import atan, atanh, exp, radians, sin, tanh
 
 __all__ = _ALL_LAZY.webmercator
-__version__ = '23.06.12'
+__version__ = '23.08.24'
 
 # _FalseEasting  = 0   # false Easting (C{meter})
 # _FalseNorthing = 0   # false Northing (C{meter})

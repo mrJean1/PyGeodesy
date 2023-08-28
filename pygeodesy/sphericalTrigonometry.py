@@ -54,7 +54,7 @@ from pygeodesy.vector3d import sumOf, Vector3d
 from math import asin, atan2, cos, degrees, fabs, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '23.08.09'
+__version__ = '23.08.25'
 
 _PI_EPS4 = PI - EPS4
 if _PI_EPS4 >= PI:
@@ -1443,12 +1443,12 @@ def triangle8_(phiA, lamA, phiB, lamB, phiC, lamC, excess=excessAbc_,
     def _a_r(w, phiA, lamA, phiB, lamB, phiC, lamC):
         d, _ = unrollPI(lamB, lamC, wrap=w)
         a = vincentys_(phiC, phiB, d)
-        return a, (phiB, lamB, phiC, lamC, phiA, lamA)
+        return a, (phiB, lamB, phiC, lamC, phiA, lamA)  # rotate A, B, C
 
     def _A_r(a, sa, ca, sb, cb, sc, cc):
         s = sb * sc
         A = acos1((ca - cb * cc) / s) if isnon0(s) else a
-        return A, (sb, cb, sc, cc, sa, ca)  # rotate sincos2's
+        return A, (sb, cb, sc, cc, sa, ca)  # rotate sincos2_'s
 
     # notation: side C{a} is oposite to corner C{A}, etc.
     a, r = _a_r(wrap, phiA, lamA, phiB, lamB, phiC, lamC)

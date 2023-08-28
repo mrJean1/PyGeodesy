@@ -65,8 +65,9 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import map1, neg, neg_, _xinstanceof
 from pygeodesy.constants import EPS, EPS02, PI_2, PI_4, _K0_UTM, \
-                               _1_EPS, isnear0, _0_0, _0_1, _0_5, \
-                               _1_0, _2_0, _3_0, _4_0, _90_0, _180_0
+                               _1_EPS, isnear0, isnear90, _0_0, \
+                               _0_1, _0_5, _1_0, _2_0, _3_0, _4_0, \
+                               _90_0, _180_0
 from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.elliptic import _ALL_LAZY, Elliptic
 # from pygeodesy.errors import _incompatible  # from .named
@@ -91,7 +92,7 @@ from pygeodesy.utm import _cmlon, _LLEB, _parseUTM5, _toBand, _toXtm8, \
 from math import asinh, atan2, degrees, radians, sinh, sqrt
 
 __all__ = _ALL_LAZY.etm
-__version__ = '23.08.19'
+__version__ = '23.08.24'
 
 _OVERFLOW = _1_EPS**2  # about 2e+31
 _TAYTOL   =  pow(EPS, 0.6)
@@ -481,7 +482,7 @@ class ExactTransverseMercator(_NamedBase):
                     _lat = True
 
         # u, v = coordinates for the Thompson TM, Lee 54
-        if lat == 90:
+        if lat == 90:  # isnear90(lat)
             u = self._Eu_cK
             v = self._iteration = self._zetaC = 0
         elif lat == 0 and lon == self._1_e_90:  # PYCHOK no cover
@@ -493,8 +494,8 @@ class ExactTransverseMercator(_NamedBase):
 
         sncndn6 = self._sncndn6(u, v)
         y, x, _ = self._sigma3(v,  *sncndn6)
-        g, k    = self._zetaScaled(sncndn6, ll=False) \
-                  if lat != 90 else (lon, self.k0)
+        g, k    = (lon, self.k0) if isnear90(lat) else \
+                  self._zetaScaled(sncndn6, ll=False)
 
         if backside:
             y, g = self._Eu_2cE_(y), (_180_0 - g)

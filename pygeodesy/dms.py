@@ -78,7 +78,7 @@ except ImportError:  # Python 3+
     from string import ascii_letters as _LETTERS
 
 __all__ = _ALL_LAZY.dms
-__version__ = '23.06.08'
+__version__ = '23.08.24'
 
 _beyond_      = 'beyond'
 _DDDMMSS_     = 'DDDMMSS'
@@ -793,7 +793,7 @@ def parseDMS2(strLat, strLon, sep=S_SEP, clipLat=90, clipLon=180, wrap=False, **
 
 
 def _2Tuple(strLat, strLon, clipLat, clipLon, wrap, **kwds):
-    '''(INTERNAL) Helper for C{parseDMS2} and C{parsellh3}.
+    '''(INTERNAL) Helper for C{parseDMS2} and C{parse3llh}.
     '''
     if wrap:
         _W = _MODS.utily._Wrap

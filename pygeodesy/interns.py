@@ -6,8 +6,8 @@ modules and function L{pygeodesy.machine}.
 import sys as _sys
 
 _COMMASPACE_ = ', '  # overriden below
-_pl2List     = []    # cached _platform2 lists
-_Py3List     = []    # cached _pythonarchine lists
+_pf2List     = []    # cached _platform2 list
+_Py3List     = []    # cached _pythonarchine list
 
 
 class _Dash(str):
@@ -62,7 +62,7 @@ class _PyPy__(str):  # overwritten by singleton below
         '''
         v = version or _sys.version
         if _PyPy__ in v:
-            v = v.split(_PyPy__)[1].split(None, 1)[0]
+            v = v.split(_PyPy__)[1].split(None, 1)[0]  # == _DOT_.join(_sys.pypy_version_info[:3])
             return NN(_PyPy__, v)
         else:
             return NN
@@ -98,17 +98,16 @@ class _Slicer(str):
     '''(INTERNAL) String slicer C{.fromX} or C{.tillY}.
     '''
     def __getattr__(self, name):  # .fromX, .tillY
-        if name.startswith(_till_):
-            i = self.find(name[len(_till_):])
-            if 0 < i < len(self):
-                return _Slicer(self[:i + 1])
-        elif name.startswith(_from_):
-            i = self.find(name[len(_from_):])
-            if 0 < (i + 1) < len(self):
-                return _Slicer(self[i:])
-        else:  # PYCHOK no cover
-            return getattr(str, name)
-        return self
+        n = len(name) - 4
+        if n > 0:
+            # assert len('till') == len(_from_) == 4
+            if name.startswith('till'):
+                i = self.find(name[4:])
+                return self if i < 0 else _Slicer(self[:i + n])
+            elif name.startswith(_from_):
+                i = self.find(name[4:])
+                return self if i < 0 else _Slicer(self[i:])
+        return str.__getattr__(self, name)  # PYCHOK no cover
 
 
 class MISSING(object):
@@ -146,7 +145,7 @@ _areaOf_              = 'areaOf'             # PYCHOK OK
 _arg_                 = 'arg'                # PYCHOK OK
 _at_                  = 'at'                 # PYCHOK OK
 _AT_             = Str_('@')                 # PYCHOK OK
-_AtoZnoIO_    = _Slicer('ABCDEFGHJKLMNPQRSTUVWXYZ')  # PYCHOK in C{gars}, C{mgrs} and C{wgrs}
+_AtoZnoIO_    = _Slicer('ABCDEFGHJKLMNPQRSTUVWXYZ')  # PYCHOK in .gars, .mgrs and .wgrs
 _attribute_           = 'attribute'          # PYCHOK OK
 _azi1_                = 'azi1'               # PYCHOK OK
 _azi12_               = 'azi12'              # PYCHOK OK
@@ -166,7 +165,7 @@ _c_                   = 'c'                  # PYCHOK OK
 _C_                   = 'C'                  # PYCHOK OK
 _cartesian_           = 'cartesian'          # PYCHOK OK
 _center_              = 'center'             # PYCHOK OK
-# _CIRCUMFLEX_        = '^'                  # PYCHOK OK
+# _CIRCUMFLEX_   = Str_('^')                 # PYCHOK OK
 _Clarke1866_          = 'Clarke1866'         # PYCHOK OK
 _Clarke1880IGN_       = 'Clarke1880IGN'      # PYCHOK OK
 _clip_                = 'clip'               # PYCHOK OK
@@ -396,7 +395,6 @@ _sy_                  = 'sy'                 # PYCHOK OK
 _sz_                  = 'sz'                 # PYCHOK OK
 _tbd_                 = 'tbd'                # PYCHOK OK
 _TILDE_               = '~'                  # PYCHOK OK
-_till_                = 'till'               # PYCHOK OK
 _to_                  = 'to'                 # PYCHOK OK
 _tolerance_   = _Prefix('tolerance')         # PYCHOK OK
 _too_         = _Prefix('too')               # PYCHOK OK
@@ -471,7 +469,7 @@ def _enquote(strs, quote=_QUOTE2_):  # in .basics, .solveBase
 
 
 def _is(a, b):  # PYCHOK no cover
-    '''(INTERNAL) Is C{a is b}? in C{PyPy}
+    '''(INTERNAL) C{a is b}? in C{PyPy}
     '''
     return (a == b) if _isPyPy() else (a is b)
 
@@ -487,10 +485,9 @@ def _load_lib(name):
     '''(INTERNAL) Load a C{dylib}, B{C{name}} must startwith('lib').
     '''
     # macOS 11+ (aka 10.16) no longer provides direct loading of
-    # system libraries, instead it installs the library after a
-    # low-level dlopen(name) call where name is the library base
-    # name.  As a result, ctypes.util.find_library can not find
-    # any library not previously dlopen'ed.
+    # system libraries.  As a result, C{ctypes.util.find_library}
+    # will not find any library, unless previously installed by a
+    # low-level dlopen(name) call (with the library base C{name}).
     from ctypes import CDLL
     from ctypes.util import find_library
 
@@ -533,7 +530,8 @@ def machine():
 def _platform2(sep=NN):
     '''(INTERNAL) Get platform architecture and machine as C{2-list} or C{str}.
     '''
-    if not _pl2List:
+    L = _pf2List
+    if not L:
         import platform
         m = platform.machine()  # ARM64, arm64, x86_64, iPhone13,2, etc.
         m = m.replace(_COMMA_, _UNDER_)
@@ -544,30 +542,22 @@ def _platform2(sep=NN):
                 if _sysctl_uint('sysctl.proc_translated') == 1:  # and \
 #                  _sysctl_uint('hw.optional.arm64') == 1:  # PYCHOK indent
                     m = _UNDER_('arm64', m)  # Apple Si emulating Intel x86-64
-        _pl2List[:] = [platform.architecture()[0],  # bits
-                       m]  # arm64, arm64_x86_64, x86_64, etc.
-    return sep.join(_pl2List) if sep else _pl2List  # 2-list()
+        L[:] = [platform.architecture()[0],  # bits
+                m]  # arm64, arm64_x86_64, x86_64, etc.
+    return sep.join(L) if sep else L  # 2-list()
 
 
 def _pythonarchine(sep=NN):  # in test/bases.py versions
     '''(INTERNAL) Get PyPy and Python versions and C{_platform2} as C{3- or 4-list} or C{str}.
     '''
-    if not _Py3List:
-        v = _sys.version
-        _Py3List[:] = [_Python_(v)] + _platform2()
+    L = _Py3List
+    if not L:
+        v    = _sys.version
+        L[:] = [_Python_(v)] + _platform2()
         pypy = _PyPy__(v)
-        if pypy:  # see _isPyPy, test/bases.py
-            _Py3List.insert(0, pypy)
-    return sep.join(_Py3List) if sep else _Py3List  # 3- or 4-list
-
-
-def _splituple(strs, *sep_splits):  # in .basics, .mgrs
-    '''(INTERNAL) Split a C{comma}- or C{whitespace}-separated
-       string into a C{tuple} of stripped strings.
-    '''
-    t = (strs.split(*sep_splits) if sep_splits else
-         strs.replace(_COMMA_, _SPACE_).split()) if strs else ()
-    return tuple(s.strip() for s in t if s)
+        if pypy:
+            L.insert(0, pypy)
+    return sep.join(L) if sep else L  # 3- or 4-list
 
 
 def _sysctl_uint(name):
@@ -609,11 +599,11 @@ def _version2(version, n=2):
     '''
     def _int(v):
         try:
-            return int(v)
+            return int(v.strip())
         except (TypeError, ValueError):
             pass
 
-    t = tuple(map(_int, _splituple(version, _DOT_, 2)))
+    t = tuple(map(_int, version.split(_DOT_, 3)))
     if len(t) < n:
         t += (0,) * n
     return t[:n]
@@ -622,7 +612,7 @@ def _version2(version, n=2):
 __all__ = (_NN_,  # not MISSING!
             Str_.__name__,  # classes
             machine.__name__)  # in .lazily
-__version__ = '23.08.23'
+__version__ = '23.08.25'
 
 if __name__ == '__main__':
 

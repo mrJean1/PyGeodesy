@@ -47,7 +47,7 @@ from pygeodesy.props import _allPropertiesOf_n, deprecated_property_RO, \
 from math import ceil as _ceil, fabs, floor as _floor  # PYCHOK used! .ltp
 
 __all__ = _ALL_LAZY.fsums
-__version__ = '23.08.23'
+__version__ = '23.08.27'
 
 _add_op_       = _PLUS_  # in .auxilats.auxAngle
 _eq_op_        = _EQUAL_ * 2  # _DEQUAL_
@@ -1768,12 +1768,13 @@ try:
         del _fsum  # nope, remove _fsum ...
         raise ImportError  # ... use _fsum below
 
-    Fsum._math_fsum = _fsum
+    Fsum._math_fsum = _sum = _fsum  # PYCHOK exported
 
     if _getenv('PYGEODESY_FSUM_PARTIALS', _fsum.__name__) == _fsum.__name__:
         _psum = _fsum  # PYCHOK redef
 
 except ImportError:
+    _sum = sum  # Fsum(NAN) exception fall-back
 
     def _fsum(xs):
         '''(INTERNAL) Precision summation, Python 2.5-.

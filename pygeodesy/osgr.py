@@ -26,7 +26,8 @@ and U{Ordnance Survey National Grid<https://WikiPedia.org/wiki/Ordnance_Survey_N
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import halfs2, isbool, isfloat, map1, _xsubclassof
+from pygeodesy.basics import halfs2, isbool, isfloat, map1, \
+                            _splituple, _xsubclassof
 from pygeodesy.constants import _1_0, _10_0,  _N_2_0  # PYCHOK used!
 from pygeodesy.datums import Datums, _ellipsoidal_datum, _WGS84
 # from pygeodesy.dms import parseDMS2   # _MODS
@@ -37,7 +38,7 @@ from pygeodesy.fmath import Fdot, fpowers, Fsum
 # from pygeodesy.fsums import Fsum  # from .fmath
 from pygeodesy.interns import MISSING, NN, _A_, _COLON_, _COMMA_, \
                              _COMMASPACE_, _DOT_, _ellipsoidal_, \
-                             _latlon_, _not_, _SPACE_, _splituple
+                             _latlon_, _not_, _SPACE_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _NamedBase, nameof, _xnamed
 from pygeodesy.namedTuples import EasNor2Tuple, LatLon2Tuple, \
@@ -52,7 +53,7 @@ from pygeodesy.utily import degrees90, degrees180, sincostan3, truncate
 from math import cos, fabs, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.osgr
-__version__ = '23.07.15'
+__version__ = '23.08.24'
 
 _equivalent_ = 'equivalent'
 _OSGR_       = 'OSGR'

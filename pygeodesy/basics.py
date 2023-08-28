@@ -16,9 +16,9 @@ del division
 
 from pygeodesy.errors import _AssertionError, _AttributeError, _ImportError, \
                              _TypeError, _TypesError, _ValueError, _xkwds_get
-from pygeodesy.interns import MISSING, NN, _by_, _DOT_, _ELLIPSIS4_, _enquote, \
-                             _EQUAL_, _in_, _invalid_, _N_A_, _SPACE_, \
-                             _splituple, _UNDER_, _version_  # _utf_8_
+from pygeodesy.interns import MISSING, NN, _by_, _COMMA_, _DOT_, _ELLIPSIS4_, \
+                             _enquote, _EQUAL_, _in_, _invalid_, _N_A_, _SPACE_, \
+                             _UNDER_, _version_  # _utf_8_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _FOR_DOCS, \
                              _getenv, _sys, _sys_version_info2
 
@@ -27,7 +27,7 @@ from math import copysign as _copysign
 import inspect as _inspect
 
 __all__ = _ALL_LAZY.basics
-__version__ = '23.08.23'
+__version__ = '23.08.24'
 
 _0_0                  =  0.0  # in .constants
 _below_               = 'below'
@@ -37,7 +37,6 @@ _list_tuple_set_types = (list, tuple, set)
 _odd_                 = 'odd'
 _required_            = 'required'
 _PYGEODESY_XPACKAGES_ = 'PYGEODESY_XPACKAGES'
-_XPACKAGES            = _splituple(_getenv(_PYGEODESY_XPACKAGES_, NN))
 
 try:  # Luciano Ramalho, "Fluent Python", O'Reilly, 2016 p. 395, 2022 p. 577+
     from numbers import Integral as _Ints, Real as _Scalars
@@ -533,6 +532,18 @@ def splice(iterable, n=2, **fill):
             yield t[slice(i, None, n)]
     else:
         yield t
+
+
+def _splituple(strs, *sep_splits):  # in .mgrs, .osgr, .webmercator
+    '''(INTERNAL) Split a C{comma}- or C{whitespace}-separated
+       string into a C{tuple} of stripped strings.
+    '''
+    t = (strs.split(*sep_splits) if sep_splits else
+         strs.replace(_COMMA_, _SPACE_).split()) if strs else ()
+    return tuple(s.strip() for s in t if s)
+
+
+_XPACKAGES = _splituple(_getenv(_PYGEODESY_XPACKAGES_, NN))
 
 
 def unsigned0(x):

@@ -75,18 +75,19 @@ U{22<https://DLMF.NIST.gov/22>}.
 from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import copysign0, map2, neg
-from pygeodesy.constants import EPS, _EPStol as _TolJAC, INF, PI, PI_2, PI_4, \
-                               _0_0, _0_125, _0_25, _0_5, _1_0, _1_64th, _2_0, \
-                               _N_2_0, _3_0, _4_0, _6_0, _8_0, _180_0, _360_0
+from pygeodesy.constants import EPS, INF, PI, PI_2, PI_4, \
+                               _EPStol as _TolJAC, _over, \
+                               _0_0, _0_125, _0_25, _0_5, _1_64th, \
+                               _1_0, _2_0, _N_2_0, _3_0, _4_0, _6_0, \
+                               _8_0, _180_0, _360_0
 from pygeodesy.errors import _ValueError, _xkwds_pop
-from pygeodesy.fmath import fdot, hypot1,  Fsum
-# from pygeodesy.fsums import Fsum  # from .fmath
+from pygeodesy.fmath import fdot, hypot1
+from pygeodesy.fsums import Fsum, _sum
 from pygeodesy.interns import NN, _delta_, _DOT_, _f_, _SPACE_
 from pygeodesy.karney import _ALL_LAZY, _signBit
 # from pygeodesy.lazily import _ALL_LAZY  # from .karney
-from pygeodesy.named import _Named, _NamedTuple, _NotImplemented
-from pygeodesy.props import _allPropertiesOf_n, Property_RO, property_RO, \
-                            _update_all
+from pygeodesy.named import _Named, _NamedTuple
+from pygeodesy.props import _allPropertiesOf_n, Property_RO, _update_all
 from pygeodesy.streprs import Fmt, unstr
 from pygeodesy.units import Scalar, Scalar_
 from pygeodesy.utily import sincos2, sincos2d
@@ -94,74 +95,31 @@ from pygeodesy.utily import sincos2, sincos2d
 from math import asinh, atan, atan2, ceil, cosh, fabs, floor, sin, sqrt, tanh
 
 __all__ = _ALL_LAZY.elliptic
-__version__ = '23.08.19'
+__version__ = '23.08.28'
 
 _invokation_ = 'invokation'
-_TolRD       =  pow(EPS * 0.002, _0_125)  # 8th root: quadquadratic?, octic?, ocrt?
-_TolRF       =  pow(EPS * 0.030, _0_125)  # 4th root: biquadratic, quartic, qurt?
+_TolRD       =  pow(EPS * 0.002, _0_125)  # 8th root: quadquadratic?, qqrt, oqrt?
+_TolRF       =  pow(EPS * 0.030, _0_125)  # 4th root: biquadratic, bqrt?
 _TolRG0      = _TolJAC  * 2.7
-_TRIPS       =  31  # Max depth, 7 might be sufficient
+_TRIPS       =  21  # Max depth, 7 might be sufficient
 
 
-class _Complete(object):
-    '''(INTERAL) Hold complete integrals.
+class _CIs(object):
+    '''(INTERAL) Hold the complete integrals.
     '''
     def __init__(self, **kwds):
         self.__dict__ = kwds
 
 
-class _Deferred(list):
-    '''(INTERNAL) Collector for L{_Deferred_Fsum}.
+class _Dsum(list):
+    '''(INTERNAL) Deferred C{Fsum}.
     '''
-    def __init__(self, *xs):
-        if xs:
-            list.__init__(self, xs)
+    def __call__(self, s):
+        return Fsum(*self).fmul(s)
 
-    def __add__(self, other):  # PYCHOK no cover
-        return _NotImplemented(self, other)
-
-    def __iadd__(self, x):  # overide C{list} += C{list}
-        # assert isscalar(x)
-        self.append(float(x))
+    def __iadd__(self, x):
+        list.append(self, x)
         return self
-
-    def __imul__(self, other):  # PYCHOK no cover
-        return _NotImplemented(self, other)
-
-    def __isub__(self, x):  # PYCHOK no cover
-        # assert isscalar(x)
-        self.append(-float(x))
-        return self
-
-    def __mul__(self, other):  # PYCHOK no cover
-        return _NotImplemented(self, other)
-
-    def __radd__(self, other):  # PYCHOK no cover
-        return _NotImplemented(self, other)
-
-    def __rsub__(self, other):  # PYCHOK no cover
-        return _NotImplemented(self, other)
-
-    def __sub__(self, other):  # PYCHOK no cover
-        return _NotImplemented(self, other)
-
-    @property_RO
-    def Fsum(self):
-        # get a L{_Deferred_Fsum} instance, pre-named
-        return _Deferred_Fsum()._facc(self)  # known C{float}s
-
-
-class _Deferred_Fsum(Fsum):
-    '''(INTERNAL) Deferred L{Fsum}.
-    '''
-    name = NN  # pre-named, overridden below
-
-    def _update(self, **other):  # PYCHOK don't ...
-        # ... waste time zapping non-existing Property/_ROs
-        if other or len(self.__dict__) > 2:
-            Fsum._update(self, **other)
-
-_Deferred_Fsum.name = _Deferred_Fsum.__name__  # PYCHOK once
 
 
 class Elliptic(_Named):
@@ -170,11 +128,11 @@ class Elliptic(_Named):
        @see: I{Karney}'s U{Detailed Description<https://GeographicLib.SourceForge.io/
              html/classGeographicLib_1_1EllipticFunction.html#details>}.
     '''
-    _alpha2  = 0
-    _alphap2 = 0
-    _eps     = EPS
-    _k2      = 0
-    _kp2     = 0
+#   _alpha2  = 0
+#   _alphap2 = 0
+#   _eps     = EPS
+#   _k2      = 0
+#   _kp2     = 0
 
     def __init__(self, k2=0, alpha2=0, kp2=None, alphap2=None, name=NN):
         '''Constructor, specifying the C{modulus} and C{parameter}.
@@ -210,14 +168,14 @@ class Elliptic(_Named):
         '''Get Jahnke's complete integral C{D(k)} (C{float}),
            U{defined<https://DLMF.NIST.gov/19.2.E6>}.
         '''
-        return self._reset_cDcEcKcKE_eps.cD
+        return self._reset_cDcEcKcKEeps.cD
 
     @Property_RO
     def cE(self):
         '''Get the complete integral of the second kind C{E(k)}
            (C{float}), U{defined<https://DLMF.NIST.gov/19.2.E5>}.
         '''
-        return self._reset_cDcEcKcKE_eps.cE
+        return self._reset_cDcEcKcKEeps.cE
 
     @Property_RO
     def cG(self):
@@ -238,14 +196,14 @@ class Elliptic(_Named):
         '''Get the complete integral of the first kind C{K(k)}
            (C{float}), U{defined<https://DLMF.NIST.gov/19.2.E4>}.
         '''
-        return self._reset_cDcEcKcKE_eps.cK
+        return self._reset_cDcEcKcKEeps.cK
 
     @Property_RO
     def cKE(self):
         '''Get the difference between the complete integrals of the
            first and second kinds, C{K(k) − E(k)} (C{float}).
         '''
-        return self._reset_cDcEcKcKE_eps.cKE
+        return self._reset_cDcEcKcKEeps.cKE
 
     @Property_RO
     def cPi(self):
@@ -265,7 +223,7 @@ class Elliptic(_Named):
 
            @raise EllipticError: Invalid invokation or no convergence.
         '''
-        return self._deltaX(sn, cn, dn, self.cD, self.fD)
+        return _deltaX(sn, cn, dn, self.cD, self.fD)
 
     def deltaE(self, sn, cn, dn):
         '''The periodic incomplete integral of the second kind.
@@ -278,7 +236,7 @@ class Elliptic(_Named):
 
            @raise EllipticError: Invalid invokation or no convergence.
         '''
-        return self._deltaX(sn, cn, dn, self.cE, self.fE)
+        return _deltaX(sn, cn, dn, self.cE, self.fE)
 
     def deltaEinv(self, stau, ctau):
         '''The periodic inverse of the incomplete integral of the second kind.
@@ -305,7 +263,7 @@ class Elliptic(_Named):
 
            @raise EllipticError: Invalid invokation or no convergence.
         '''
-        return self._deltaX(sn, cn, dn, self.cK, self.fF)
+        return _deltaX(sn, cn, dn, self.cK, self.fF)
 
     def deltaG(self, sn, cn, dn):
         '''Legendre's periodic geodesic longitude integral.
@@ -318,7 +276,7 @@ class Elliptic(_Named):
 
            @raise EllipticError: Invalid invokation or no convergence.
         '''
-        return self._deltaX(sn, cn, dn, self.cG, self.fG)
+        return _deltaX(sn, cn, dn, self.cG, self.fG)
 
     def deltaH(self, sn, cn, dn):
         '''Cayley's periodic geodesic longitude difference integral.
@@ -331,7 +289,7 @@ class Elliptic(_Named):
 
            @raise EllipticError: Invalid invokation or no convergence.
         '''
-        return self._deltaX(sn, cn, dn, self.cH, self.fH)
+        return _deltaX(sn, cn, dn, self.cH, self.fH)
 
     def deltaPi(self, sn, cn, dn):
         '''The periodic incomplete integral of the third kind.
@@ -345,24 +303,13 @@ class Elliptic(_Named):
 
            @raise EllipticError: Invalid invokation or no convergence.
         '''
-        return self._deltaX(sn, cn, dn, self.cPi, self.fPi)
-
-    def _deltaX(self, sn, cn, dn, cX, fX):
-        '''(INTERNAL) Helper for C{.deltaD} thru C{.deltaPi}.
-        '''
-        if cn is None or dn is None:
-            n = NN(_delta_, fX.__name__[1:])
-            raise _invokationError(n, sn, cn, dn)
-
-        if _signBit(cn):
-            cn, sn = -cn, -sn
-        return fX(sn, cn, dn) * PI_2 / cX - atan2(sn, cn)
+        return _deltaX(sn, cn, dn, self.cPi, self.fPi)
 
     @Property_RO
     def eps(self):
         '''Get epsilon (C{float}).
         '''
-        return self._reset_cDcEcKcKE_eps.eps
+        return self._reset_cDcEcKcKEeps.eps
 
     def fD(self, phi_or_sn, cn=None, dn=None):
         '''Jahnke's incomplete elliptic integral in terms of
@@ -380,7 +327,7 @@ class Elliptic(_Named):
         def _fD(sn, cn, dn):
             r = fabs(sn)**3
             if r:
-                r = _RD(self, cn**2, dn**2, _1_0, _3_0 / r)
+                r = float(_RD(self, cn**2, dn**2, _1_0, _3_0 / r))
             return r
 
         return self._fXf(phi_or_sn, cn, dn, self.cD,
@@ -395,8 +342,8 @@ class Elliptic(_Named):
            @return: sqrt(1 − k2 * sin(2φ)) (C{float}).
         '''
         k2 = self.k2
-        s  = (_1_0 - k2 * sn**2) if k2 < 0 else (self.kp2
-                 + ((k2 * cn**2) if k2 > 0 else _0_0))
+        s  = (_1_0 - sn**2 * k2) if k2 < 0 else (self.kp2
+                 + ((cn**2 * k2) if k2 > 0 else _0_0))
         return sqrt(s) if s else _0_0
 
     def fE(self, phi_or_sn, cn=None, dn=None):
@@ -419,18 +366,19 @@ class Elliptic(_Named):
                 sn2, cn2, dn2 = sn**2, cn**2, dn**2
                 kp2, k2 = self.kp2, self.k2
                 if k2 <= 0:  # Carlson, eq. 4.6, <https://DLMF.NIST.gov/19.25.E9>
-                    ei = _RF3(self, cn2, dn2, _1_0)
+                    Ei = _RF3(self, cn2, dn2, _1_0)
                     if k2:
-                        ei -= _RD(self, cn2, dn2, _1_0, _3over(k2, sn2))
-                elif kp2 >= 0:  # <https://DLMF.NIST.gov/19.25.E10>
-                    ei = k2 * fabs(cn) / dn
+                        Ei -= _RD(self, cn2, dn2, _1_0, _3over(k2, sn2))
+                elif kp2 >= 0:  # k2 > 0, <https://DLMF.NIST.gov/19.25.E10>
+                    Ei = _over(k2 * fabs(cn), dn)  # float
                     if kp2:
-                        ei += (_RD( self, cn2, _1_0,  dn2, _3over(k2, sn2)) +
+                        Ei += (_RD( self, cn2, _1_0,  dn2, _3over(k2, sn2)) +
                                _RF3(self, cn2,  dn2, _1_0)) * kp2
-                else:  # <https://DLMF.NIST.gov/19.25.E11>
-                    ei  =  dn / fabs(cn)
-                    ei -= _RD(self, dn2, _1_0, cn2, _3over(kp2, sn2))
-                ei *= fabs(sn)
+                else:  # kp2 < 0, <https://DLMF.NIST.gov/19.25.E11>
+                    Ei  = _over(dn, fabs(cn))
+                    Ei -= _RD(self, dn2, _1_0, cn2, _3over(kp2, sn2))
+                Ei *= fabs(sn)
+                ei  = float(Ei)
             else:  # PYCHOK no cover
                 ei = _0_0
             return ei
@@ -469,27 +417,26 @@ class Elliptic(_Named):
         '''
         E2 = self.cE * _2_0
         n  = floor(x / E2 + _0_5)
-        y  = x - E2 * n  # y now in [-ec, ec)
+        r  = x - E2 * n  # r in [-cE, cE)
         # linear approximation
-        phi = PI * y / E2  # phi in [-pi/2, pi/2)
+        phi = PI * r / E2  # phi in [-PI_2, PI_2)
         Phi = Fsum(phi)
         # first order correction
         phi = Phi.fsum_(self.eps * sin(phi * _2_0) / _N_2_0)
-        # For kp2 close to zero use asin(x/.cE) or J. P. Boyd,
+        # For kp2 close to zero use asin(r / cE) or J. P. Boyd,
         # Applied Math. and Computation 218, 7005-7013 (2012)
         # <https://DOI.org/10.1016/j.amc.2011.12.021>
-        fE         = self.fE
-        _sncndnPhi = self._sncndnPhi
-        _Phi2      = Phi.fsum2_
-        self._iteration = 0  # aggregate
+        _Phi2, self._iteration = Phi.fsum2_, 0  # aggregate
         for i in range(1, _TRIPS):  # GEOGRAPHICLIB_PANIC
-            sn, cn, dn = _sncndnPhi(phi)
-            phi, e = _Phi2((y - fE(sn, cn, dn)) / dn)
+            sn, cn, dn = self._sncndnPhi(phi)
+            if sn:
+                sn = self.fE(sn, cn, dn)
+            phi, e = _Phi2((r - sn) / dn)
             if fabs(e) < _TolJAC:
-                self._iteration += i
+                _iterations(self, i)
                 break
         else:  # PYCHOK no cover
-            raise _no_convergenceError(e, _TolJAC, self.fEinv, x)
+            raise _convergenceError(e, _TolJAC, self.fEinv, x)
         return Phi.fsum_(n * PI) if n else phi
 
     def fF(self, phi_or_sn, cn=None, dn=None):
@@ -508,7 +455,7 @@ class Elliptic(_Named):
         def _fF(sn, cn, dn):
             r = fabs(sn)
             if r:
-                r *= _RF3(self, cn**2, dn**2, _1_0)
+                r = float(_RF3(self, cn**2, dn**2, _1_0).fmul(r))
             return r
 
         return self._fXf(phi_or_sn, cn, dn, self.cK,
@@ -580,43 +527,46 @@ class Elliptic(_Named):
         return self._fXa(phi_or_sn, cn, dn, self.alpha2,
                                             self.cPi, self.deltaPi)
 
-    def _fXa(self, phi_or_sn, cn, dn, aX, cX, deltaX):
+    def _fXa(self, phi_or_sn, cn, dn, aX, cX, _deltaX):
         '''(INTERNAL) Helper for C{.fG}, C{.fH} and C{.fPi}.
         '''
         def _fX(sn, cn, dn):
             if sn:
-                cn2, sn2, dn2 = cn**2, sn**2, dn**2
-                r = _RF3(self, cn2, dn2, _1_0)
+                cn2, dn2 = cn**2, dn**2
+                R = _RF3(self, cn2, dn2, _1_0)
                 if aX:
-                    z  =  cn2 + sn2 * self.alphap2
-                    r += _RJ(self, cn2, dn2, _1_0, z, _3over(aX, sn2))
-                r *= fabs(sn)
+                    sn2 = sn**2
+                    p   = sn2 * self.alphap2 + cn2
+                    R += _RJ(self, cn2, dn2, _1_0, p, _3over(aX, sn2))
+                r = float(R.fmul(fabs(sn)))
             else:  # PYCHOK no cover
                 r = _0_0
             return r
 
-        return self._fXf(phi_or_sn, cn, dn, cX, deltaX, _fX)
+        return self._fXf(phi_or_sn, cn, dn, cX, _deltaX, _fX)
 
-    def _fXf(self, phi_or_sn, cn, dn, cX, deltaX, fX):
+    def _fXf(self, phi_or_sn, cn, dn, cX, _deltaX, _fX):
         '''(INTERNAL) Helper for C{f.D}, C{.fE}, C{.fF} and C{._fXa}.
         '''
         self._iteration = 0  # aggregate
         phi = sn = phi_or_sn
         if cn is dn is None:  # fX(phi) call
             sn, cn, dn = self._sncndnPhi(phi)
-            if fabs(phi) >= PI:  # PYCHOK no cover
-                return (deltaX(sn, cn, dn) + phi) * cX / PI_2
+            if fabs(phi) >= PI:
+                if cX:
+                    cX *= (_deltaX(sn, cn, dn) + phi) / PI_2
+                return cX
             # fall through
         elif cn is None or dn is None:
-            n = NN(_f_, deltaX.__name__[5:])
+            n = NN(_f_, _deltaX.__name__[5:])
             raise _invokationError(n, sn, cn, dn)
 
         if _signBit(cn):  # enforce usual trig-like symmetries
-            xi = _2_0 * cX - fX(sn, cn, dn)
+            xi =  cX * _2_0 - _fX(sn, cn, dn)
         elif cn > 0:
-            xi = fX(sn, cn, dn)
+            xi = _fX(sn, cn, dn)
         else:
-            xi = cX
+            xi =  cX
         return copysign0(xi, sn)
 
     @Property_RO
@@ -647,7 +597,8 @@ class Elliptic(_Named):
                   that these conditions are met to enable accuracy to be
                   maintained, e.g., when C{k} is very close to unity.
         '''
-        _update_all(self, _Named.iteration._uname, Base=Property_RO)
+        if self.__dict__:
+            _update_all(self, _Named.iteration._uname, Base=Property_RO)
 
         self._k2  = Scalar_(k2=k2, Error=EllipticError, low=None, high=_1_0)
         self._kp2 = Scalar_(kp2=((_1_0 - k2) if kp2 is None else kp2), Error=EllipticError)
@@ -674,7 +625,7 @@ class Elliptic(_Named):
         # G( alpha2, 1) = H(alpha2, 1) = RC(1, alphap2)
 
     @Property_RO
-    def _reset_cDcEcKcKE_eps(self):
+    def _reset_cDcEcKcKEeps(self):
         '''(INTERNAL) Get the complete integrals D, E, K and KE plus C{eps}.
         '''
         k2 = self.k2
@@ -684,14 +635,15 @@ class Elliptic(_Named):
                 self._iteration = 0
                 # D(k) = (K(k) - E(k))/k2, Carlson eq.4.3
                 # <https://DLMF.NIST.gov/19.25.E1>
-                cD  = _RD(self, _0_0, kp2, _1_0, _3_0)
+                D   = _RD(self, _0_0, kp2, _1_0, _3_0)
+                cD  =  float(D)
                 # Complete elliptic integral E(k), Carlson eq. 4.2
                 # <https://DLMF.NIST.gov/19.25.E1>
-                cE  = _RG2(self, kp2, _1_0)
+                cE  =  float(_RG2(self, kp2, _1_0))
                 # Complete elliptic integral K(k), Carlson eq. 4.1
                 # <https://DLMF.NIST.gov/19.25.E1>
-                cK  = _RF2(self, kp2, _1_0)
-                cKE =  k2 * cD
+                cK  = _rF2(self, kp2, _1_0)
+                cKE =  float(D.fmul(k2))
                 eps =  k2 / (sqrt(kp2) + _1_0)**2
             else:  # PYCHOK no cover
                 cD  =  cK = cKE = INF
@@ -703,7 +655,7 @@ class Elliptic(_Named):
             cKE = _0_0  # k2 * cD
             eps =  EPS
 
-        return _Complete(cD=cD, cE=cE, cK=cK, cKE=cKE, eps=eps)
+        return _CIs(cD=cD, cE=cE, cK=cK, cKE=cKE, eps=eps)
 
     @Property_RO
     def _reset_cGcHcPi(self):
@@ -716,13 +668,13 @@ class Elliptic(_Named):
             if alphap2:
                 kp2 = self.kp2
                 if kp2:  # <https://DLMF.NIST.gov/19.25.E2>
-                    rj   = _RJ(self, _0_0, kp2, _1_0, alphap2, _3_0)
-                    cPi  =  cH = cG = self.cK
-                    cG  += (alpha2 - self.k2) * rj  # G(alpha2, k)
-                    cH  -=  alphap2 * rj  # H(alpha2, k)
-                    cPi +=  alpha2  * rj  # Pi(alpha2, k)
+                    cK =  self.cK
+                    Rj = _RJ(self, _0_0, kp2, _1_0, alphap2, _3_0)
+                    cG =  float(Rj * (alpha2 - self.k2) + cK)  # G(alpha2, k)
+                    cH = -float(Rj *  alphap2 - cK)  # H(alpha2, k)
+                    cPi = float(Rj *  alpha2  + cK)  # Pi(alpha2, k)
                 else:  # PYCHOK no cover
-                    cG  = cH = _RC(self, _1_0, alphap2)
+                    cG  = cH = _rC(self, _1_0, alphap2)
                     cPi = INF  # XXX or NAN?
             else:  # PYCHOK no cover
                 cG = cH = cPi = INF  # XXX or NAN?
@@ -740,9 +692,9 @@ class Elliptic(_Named):
             #   RF(x, 1) - RD(0, x, 1)/3 = x * RD(0, 1, x)/3 for x > 0
             # For k2 = 1 and alpha2 = 0, we have
             #   H = int(cos(phi),...) = 1
-            cH = _RD(self, _0_0, _1_0, kp2, _3_0 / kp2) if kp2 else _1_0
+            cH = float(_RD(self, _0_0, _1_0, kp2, _3_0 / kp2)) if kp2 else _1_0
 
-        return _Complete(cG=cG, cH=cH, cPi=cPi)
+        return _CIs(cG=cG, cH=cH, cPi=cPi)
 
     def sncndn(self, x):
         '''The Jacobi elliptic function.
@@ -792,18 +744,17 @@ class Elliptic(_Named):
 
         mn, a = [], _1_0
         for i in range(1, _TRIPS):  # GEOGRAPHICLIB_PANIC
-            # This converges quadratically, max 6 trips
             mc = sqrt(mc)
             mn.append((a, mc))
             c = (a + mc) * _0_5
             t = _TolJAC  *  a
-            if fabs(a - mc) <= t:
+            if fabs(a - mc) <= t:  # 6 trips, quadratic
                 self._iteration += i  # accumulate
                 break
             mc *= a
             a   = c
         else:  # PYCHOK no cover
-            raise _no_convergenceError(a - mc, t, None, kp=self.kp, kp2=self.kp2)
+            raise _convergenceError(a - mc, t, None, kp=self.kp, kp2=self.kp2)
         cd = (c * d) if d else c
         return c, d, cd, tuple(reversed(mn))  # mn reversed!
 
@@ -822,7 +773,7 @@ class Elliptic(_Named):
            @see: U{C{RC} definition<https://DLMF.NIST.gov/19.2.E17>} and
                  U{Carlson<https://ArXiv.org/pdf/math/9409227.pdf>}.
         '''
-        return _RC(None, x, y)
+        return _rC(None, x, y)
 
     @staticmethod
     def fRD(x, y, z, *over):
@@ -834,7 +785,7 @@ class Elliptic(_Named):
            @see: U{C{RD} definition<https://DLMF.NIST.gov/19.16.E5>} and
                  U{Carlson<https://ArXiv.org/pdf/math/9409227.pdf>}.
         '''
-        return _RD(None, x, y, z, *over)
+        return float(_RD(None, x, y, z, *over))
 
     @staticmethod
     def fRF(x, y, z=0):
@@ -846,7 +797,7 @@ class Elliptic(_Named):
            @see: U{C{RF} definition<https://DLMF.NIST.gov/19.16.E1>} and
                  U{Carlson<https://ArXiv.org/pdf/math/9409227.pdf>}.
         '''
-        return _RF3(None, x, y, z) if z else _RF2(None, x, y)
+        return float(_RF3(None, x, y, z)) if z else _rF2(None, x, y)
 
     @staticmethod
     def fRG(x, y, z=0):
@@ -858,7 +809,8 @@ class Elliptic(_Named):
            @see: U{C{RG} definition<https://DLMF.NIST.gov/19.16.E3>} and
                  U{Carlson<https://ArXiv.org/pdf/math/9409227.pdf>}.
         '''
-        return _RG3(None, x, y, z) if z else (_RG2(None, x, y) * _0_5)
+        G = _RG3(None, x, y, z) if z else (_RG2(None, x, y) * _0_5)
+        return float(G)
 
     @staticmethod
     def fRJ(x, y, z, p):
@@ -869,7 +821,7 @@ class Elliptic(_Named):
            @see: U{C{RJ} definition<https://DLMF.NIST.gov/19.16.E2>} and
                  U{Carlson<https://ArXiv.org/pdf/math/9409227.pdf>}.
         '''
-        return _RJ(None, x, y, z, p)
+        return float(_RJ(None, x, y, z, p))
 
 _allPropertiesOf_n(15, Elliptic)  #  # PYCHOK assert, see Elliptic.reset
 
@@ -890,11 +842,13 @@ class Elliptic3Tuple(_NamedTuple):
 class _Lxyz(list):
     '''(INTERNAL) Helper for C{_RD}, C{_RF3} and C{_RJ}.
     '''
-    _a  = None
-    _a0 = None
+    _a    = None
+    _a0   = None
+#   _xyzp = ()
 
-    def __init__(self, *xyz_):  # x, y, z [, p]
-        list.__init__(self, xyz_)
+    def __init__(self, *xyzp):  # x, y, z [, p]
+        list.__init__(self, xyzp)
+        self._xyzp = xyzp
 
     def a0(self, n):
         '''Compute the initial C{a}.
@@ -905,8 +859,8 @@ class _Lxyz(list):
             t += t[-1:] * m
         try:
             s = Fsum(*t).fover(n)
-        except ValueError:  # NAN
-            s = sum(t) / n
+        except ValueError:  # Fsum(NAN) exception
+            s = _sum(t) / n
         self._a0 = self._a = s
         return s
 
@@ -918,12 +872,32 @@ class _Lxyz(list):
         s = map2(sqrt, L)  # sqrt(x), srqt(y), sqrt(z) [, sqrt(p)]
         try:
             r = fdot(s[:3], s[1], s[2], s[0])  # sqrt(x) * sqrt(y) + ...
-        except ValueError:  # NAN
-            r = sum(s[i] * s[(i + 1) % 3] for i in range(3))
+        except ValueError:  # Fsum(NAN) exception
+            r = _sum(s[i] * s[(i + 1) % 3] for i in range(3))
         L[:] = [(x + r) * _0_25 for x in L]
         # assert L is self
         L._a = a = (a + r) * _0_25
         return a, s, r
+
+    def Casr4(self, inst, n, Tol, where):
+        '''Yield Carlson 4-tuples C{(m, a, s, r)} plus sentinel,
+           with C{s = sqrt(xyz_)} and C{r = fdot(sqrt(xyz))}.
+        '''
+        L = self
+        a = am = L.a0(n)
+        m = 1
+        q = max(fabs(a - x) for x in L) / Tol
+        for i in range(_TRIPS):
+            if fabs(am) > q:  # 5-6 trips
+                _iterations(inst, i)
+                break
+            a, s, r = L.asr3(a)
+            yield m, a, s, r
+            m *= 4
+            am = a * m
+        else:  # PYCHOK no cover
+            raise _convergenceError(am, q, where, *L._xyzp, thresh=True)
+        yield m, a, (), None  # sentinel: next m, same a, no s, no r
 
     def rescale(self, am, *xy_):
         '''Rescale C{x}, C{y}, ...
@@ -931,13 +905,53 @@ class _Lxyz(list):
         for x in xy_:
             yield (self._a0 - x) / am
 
-    def thresh(self, Tol):
-        '''Return the convergence threshold.
-        '''
-        return max(fabs(self._a0 - x) for x in self) / Tol
+
+def _Cab3(inst, x, y, where):
+    '''(INTERNAL) Yield C{(i, a, b)} Carlson 3-tuples.
+    '''
+    a, b = sqrt(x), sqrt(y)
+    if b > a:
+        a, b = b, a
+    yield a, b, 0
+    for i in range(1, _TRIPS):
+        t = _TolRG0 * a
+        if fabs(a - b) <= t:  # 3-4 trips
+            _iterations(inst, i - 1)
+            break
+        a, b = ((a + b) * _0_5), sqrt(a * b)
+        yield a, b, i
+    else:  # PYCHOK no cover
+        raise _convergenceError(a - b, t, where, x, y)
 
 
-def _horner(S, e1, E2, E3, E4, E5, *over):
+def _convergenceError(d, tol, where, *args, **kwds_thresh):  # PYCHOK no cover
+    '''(INTERNAL) Return an L{EllipticError}.
+    '''
+    n = Elliptic.__name__
+    if where:
+        n = _DOT_(n, where.__name__)
+    if kwds_thresh:
+        q = _xkwds_pop(kwds_thresh, thresh=False)
+        t =  unstr(n, *args, **kwds_thresh)
+    else:
+        q =  False
+        t =  unstr(n, *args)
+    return EllipticError(Fmt.no_convergence(d, tol, thresh=q), txt=t)
+
+
+def _deltaX(sn, cn, dn, cX, _fX):
+    '''(INTERNAL) Helper for C{Elliptic.deltaD} thru C{.deltaPi}.
+    '''
+    if cn is None or dn is None:
+        n = NN(_delta_, _fX.__name__[1:])
+        raise _invokationError(n, sn, cn, dn)
+
+    if _signBit(cn):
+        cn, sn = -cn, -sn
+    return _fX(sn, cn, dn) * PI_2 / cX - atan2(sn, cn)
+
+
+def _Horner(S, e1, E2, E3, E4, E5, *over):
     '''(INTERNAL) Horner form for C{_RD} and C{_RJ} below.
     '''
     E22 = E2**2
@@ -946,14 +960,15 @@ def _horner(S, e1, E2, E3, E4, E5, *over):
     #    + 3*E5/26 - E2**3/16 + 3*E3**2/40 + 3*E2*E4/20
     #    + 45*E2**2*E3/272 - 9*(E3*E4+E2*E5)/68)
     # converted to Horner-like form ...
+    F  = Fsum
     e  = e1 * 4084080
     S *= e
-    S += Fsum(                             E2 * -540540,  471240).fmul(E5)
-    S += Fsum(               E3 * -540540, E2 *  612612, -556920).fmul(E4)
-    S += Fsum(E22 *  675675, E3 *  306306, E2 * -706860,  680680).fmul(E3)
-    S += Fsum(E22 * -255255,               E2 *  417690, -875160).fmul(E2)
+    S += F(E2 * -540540,                               471240).fmul(E5)
+    S += F(E2 *  612612,                E3 * -540540, -556920).fmul(E4)
+    S += F(E2 * -706860, E22 *  675675, E3 *  306306,  680680).fmul(E3)
+    S += F(E2 *  417690, E22 * -255255,               -875160).fmul(E2)
     S += 4084080
-    return S.fover((e * over[0]) if over else e)
+    return S.fdiv((over[0] * e) if over else e)  # Fsum
 
 
 def _invokationError(name, *args):  # PYCHOK no cover
@@ -967,32 +982,17 @@ def _invokationError(name, *args):  # PYCHOK no cover
 def _iterations(inst, i):
     '''(INTERNAL) Aggregate iterations B{C{i}}.
     '''
-    if inst:
+    if inst and i > 0:
         inst._iteration += i
-
-
-def _no_convergenceError(d, tol, where, *args, **kwds_thresh):  # PYCHOK no cover
-    '''(INTERNAL) Return an L{EllipticError}.
-    '''
-    n = Elliptic.__name__
-    if where:
-        n = _DOT_(n, where.__name__)
-    if kwds_thresh:
-        q = _xkwds_pop(kwds_thresh, thresh=False)
-        t =  unstr(n, *args, **kwds_thresh)
-    else:
-        q = False
-        t = unstr(n, *args)
-    return EllipticError(Fmt.no_convergence(d, tol, thresh=q), txt=t)
 
 
 def _3over(a, b):
     '''(INTERNAL) Return C{3 / (a * b)}.
     '''
-    return _3_0 / (a * b)
+    return _over(_3_0, a * b)
 
 
-def _RC(unused, x, y):
+def _rC(unused, x, y):
     '''(INTERNAL) Defined only for y != 0 and x >= 0.
     '''
     d = x - y
@@ -1008,75 +1008,45 @@ def _RC(unused, x, y):
         r = asinh(sqrt(-x / y))  # atanh(sqrt(x / (x - y)))
     else:
         raise _invokationError(Elliptic.fRC.__name__, x, y)
-    return r / sqrt(d)
+    return r / sqrt(d)  # float
 
 
 def _RD(inst, x, y, z, *over):
     '''(INTERNAL) Carlson, eqs 2.28 - 2.34.
     '''
     L = _Lxyz(x, y, z)
-    a =  L.a0(5)
-    q =  L.thresh(_TolRF)
-    S = _Deferred()
-    am, m = a, 1
-    for i in range(_TRIPS):
-        if fabs(am) > q:  # max 7 trips
-            _iterations(inst, i)
-            break
-        t = L[2]  # z0...n
-        a, s, r = L.asr3(a)
-        S += _1_0 / ((t + r) * s[2] * m)
-        m *=  4
-        am =  a * m
-    else:  # PYCHOK no cover
-        raise _no_convergenceError(am, q, Elliptic.fRD, x, y, z, *over,
-                                          thresh=True)
-    x, y = L.rescale(-am, x, y)
+    S = _Dsum()
+    t =  z  # == L[2]
+    for m, a, s, r in L.Casr4(inst, 5, _TolRF, Elliptic.fRD):
+        if s:
+            S += _over(_3_0, (t + r) * s[2] * m)
+            t  =  L[2]  # z, s[2] = sqrt(z)
+    x, y = L.rescale(-a * m, x, y)
     xy =  x * y
     z  = (x + y) / _3_0
     z2 =  z**2
-    S  =  S.Fsum.fmul(_3_0)
-    return _horner(S, am * sqrt(a),
+    return _Horner(S(_1_0), sqrt(a) * a * m,
                    xy        - _6_0 * z2,
                   (xy * _3_0 - _8_0 * z2) * z,
                   (xy - z2)  * _3_0 * z2,
-                   xy * z2 * z, *over)
+                   xy * z2 * z, *over)  # Fsum
 
 
-def _RF2(inst, x, y):  # 2-arg version, z=0
+def _rF2(inst, x, y):  # 2-arg version, z=0
     '''(INTERNAL) Carlson, eqs 2.36 - 2.38.
     '''
-    a, b = sqrt(x), sqrt(y)
-    if a < b:
-        a, b = b, a
-    for i in range(_TRIPS):
-        t = _TolRG0 * a
-        if fabs(a - b) <= t:  # max 4 trips
-            _iterations(inst, i)
-            return (PI / (a + b))
-        a, b = ((a + b) * _0_5), sqrt(a * b)
-    else:  # PYCHOK no cover
-        raise _no_convergenceError(a - b, t, Elliptic.fRF, x, y)
+    for a, b, _ in _Cab3(inst, x, y, Elliptic.fRF):  # PYCHOK yield
+        pass
+    return _over(PI, a + b)  # float
 
 
 def _RF3(inst, x, y, z):  # 3-arg version
     '''(INTERNAL) Carlson, eqs 2.2 - 2.7.
     '''
     L = _Lxyz(x, y, z)
-    a =  L.a0(3)
-    q =  L.thresh(_TolRF)
-    am, m = a, 1
-    for i in range(_TRIPS):
-        if fabs(am) > q:  # max 6 trips
-            _iterations(inst, i)
-            break
-        a, _, _ = L.asr3(a)
-        m *= 4
-        am = a * m
-    else:  # PYCHOK no cover
-        raise _no_convergenceError(am, q, Elliptic.fRF, x, y, z,
-                                          thresh=True)
-    x, y = L.rescale(am, x, y)
+    for m, a, _, _ in L.Casr4(inst, 3, _TolRF, Elliptic.fRF):
+        pass
+    x, y = L.rescale(a * m, x, y)
     z  = neg(x + y)
     xy = x  * y
     e2 = xy - z**2
@@ -1088,30 +1058,22 @@ def _RF3(inst, x, y, z):  # 3-arg version
     # converted to Horner-like form ...
     S  = Fsum(e4 * 15015, e3 * 6930, e2 * -16380,  17160).fmul(e3)
     S += Fsum(e4 * -5775,            e2 *  10010, -24024).fmul(e2)
-    S += Fsum(240240)
-    return S.fover(sqrt(a) * 240240)
+    S += 240240
+    return S.fdiv(sqrt(a) * 240240)  # Fsum
 
 
 def _RG2(inst, x, y):  # 2-args and I{doubled}
     '''(INTERNAL) Carlson, eqs 2.36 - 2.39.
     '''
-    a, b = sqrt(x), sqrt(y)
-    if a < b:
-        a, b = b, a
-    ab =  a - b  # fabs(a - b)
-    S  = _Deferred(_0_5 * (a + b)**2)
-    m  = -1
-    for i in range(_TRIPS):  # max 4 trips
-        t = _TolRG0 * a
-        if ab <= t:
-            _iterations(inst, i)
-            return S.Fsum.fover((a + b) / PI_2)
-        a, b = ((a + b) * _0_5), sqrt(a * b)
-        ab = fabs(a - b)
-        S += ab**2 * m
-        m *= 2
-    else:  # PYCHOK no cover
-        raise _no_convergenceError(ab, t, Elliptic.fRG, x, y)
+    m = -1  # neg!
+    S = _Dsum()
+    for a, b, i in _Cab3(inst, x, y, Elliptic.fRG):
+        if i:
+            S += (a - b)**2 *  m
+            m *= 2
+        else:
+            S += (a + b)**2 * _0_5
+    return S(PI_2 / (a + b))  # Fsum
 
 
 def _RG3(inst, x, y, z):  # 3-arg version
@@ -1119,13 +1081,14 @@ def _RG3(inst, x, y, z):  # 3-arg version
     '''
 #   if not z:
 #       y, z = z, y
+    R  = _RF3(inst, x, y, z)
     rd = (x - z) * (z - y)  # - (y - z)
     if rd:  # Carlson, eq 1.7
-        rd = _RD(inst, x, y, z, _3_0 * z / rd)
-    xyz = x * y
-    if xyz:
-        xyz = sqrt(xyz / z**3)
-    return Fsum(_RF3(inst, x, y, z), rd, xyz).fover(_2_0 / z)
+        R += _RD(inst, x, y, z, _3_0 * z / rd)
+    r = x * y
+    if r:
+        R += sqrt(r / z**3)
+    return R.fmul(z * _0_5)  # Fsum
 
 
 def _RJ(inst, x, y, z, p, *over):
@@ -1135,40 +1098,28 @@ def _RJ(inst, x, y, z, p, *over):
         return (x + p) * (y + p) * (z + p)
 
     L = _Lxyz(x, y, z, p)
-    a =  L.a0(5)
-    q =  L.thresh(_TolRD)
-    S = _Deferred()
     n =  neg(_xyzp(x, y, z, -p))
-    am, m = a, 1
-    for i in range(_TRIPS):
-        if fabs(am) > q:  # max 7 trips
-            _iterations(inst, i)
-            break
-        a, s, _ = L.asr3(a)
-        d = _xyzp(*s)
-        if n:
-            rc = _RC(inst, _1_0, n / d**2 + _1_0)
-            n *= _1_64th  # /= chokes PyChecker
-        else:
-            rc = _1_0  # == _RC(None, _1_0, _1_0)
-        S += rc / (d * m)
-        m *= 4
-        am = a * m
-    else:  # PYCHOK no cover
-        raise _no_convergenceError(am, q, Elliptic.fRJ, x, y, z, p,
-                                          thresh=True)
-    x, y, z = L.rescale(am, x, y, z)
+    S = _Dsum()
+    for m, a, s, _ in L.Casr4(inst, 5, _TolRD, Elliptic.fRJ):
+        if s:
+            d = _xyzp(*s)
+            if n:
+                rc = _rC(inst, _1_0, n / d**2 + _1_0)
+                n *= _1_64th  # /= chokes PyChecker
+            else:
+                rc = _1_0  # == _rC(None, _1_0, _1_0)
+            S += rc / (d * m)
+    x, y, z = L.rescale(a * m, x, y, z)
     xyz = x * y * z
     p   = Fsum(x, y, z).fover(_N_2_0)
     p2  = p**2
-    p3  = p2*p
+    p3  = p2 * p
     E2  = Fsum(x * y, x * z, y * z, -p2 * _3_0)
     E2p = E2 * p
-    S   = S.Fsum.fmul(_6_0)
-    return _horner(S, am * sqrt(a), E2,
+    return _Horner(S(_6_0), sqrt(a) * a * m, E2,
                    Fsum(p3 * _4_0, xyz, E2p * _2_0),
                    Fsum(p3 * _3_0, E2p, xyz * _2_0).fmul(p),
-                   xyz * p2, *over)
+                   xyz * p2, *over)  # Fsum
 
 # **) MIT License
 #

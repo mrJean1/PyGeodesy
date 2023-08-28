@@ -50,7 +50,7 @@ from pygeodesy.vector3d import _intersect3d3, Vector3d  # in .intersection2 belo
 # from math import fabs  # from .fmath
 
 __all__ = ()
-__version__ = '23.08.20'
+__version__ = '23.08.25'
 
 _rls   = []  # instances of C{RbumbLine...} to be updated
 _TRIPS = 65  # .intersection2, .nearestOn4, 18+
@@ -636,14 +636,12 @@ if __name__ == '__main__':
     A = A(_EWGS84).Line(30, 0, 45)
     R = R(_EWGS84).Line(30, 0, 45)
 
-    n = 1
     for i in range(1, 10):
         s = .5e6 + 1e6 / i
         a = A.Position(s).lon2
         r = R.Position(s).lon2
-        e = (fabs(a - r) * 100.0 / a) if a else 0
-        printf('Positions %s vs %s, diff %.2f%%', r, a, e, nl=n)
-        n = 0
+        e = (fabs(a - r) / a) if a else 0
+        printf('Position %s vs %s, diff %g', r, a, e)
 
     for exact in (None, False, True, None):
         for est in (None, 1e6):
@@ -654,15 +652,15 @@ if __name__ == '__main__':
 
 # % python3 -m pygeodesy.rhumbBase
 
-# Positions 11.614558469016366 vs 11.61455846901637, diff 0.00%
-# Positions 7.589823028268422 vs 7.589823028268423, diff 0.00%
-# Positions 6.285260674163688 vs 6.285260674163687, diff 0.00%
-# Positions 5.639389953251457 vs 5.6393899532514595, diff 0.00%
-# Positions 5.253855274357075 vs 5.253855274357073, diff 0.00%
-# Positions 4.9976460429038 vs 4.9976460429038045, diff 0.00%
-# Positions 4.815033637404729 vs 4.81503363740473, diff 0.00%
-# Positions 4.678288217488354 vs 4.678288217488353, diff 0.00%
-# Positions 4.572056679062825 vs 4.572056679062826, diff 0.00%
+# Position 11.614558469016366 vs 11.61455846901637, diff 3.05885e-16
+# Position 7.589823028268422 vs 7.589823028268423, diff 1.17022e-16
+# Position 6.285260674163688 vs 6.285260674163687, diff 1.41311e-16
+# Position 5.639389953251457 vs 5.6393899532514595, diff 4.72486e-16
+# Position 5.253855274357075 vs 5.253855274357073, diff 3.38105e-16
+# Position 4.9976460429038 vs 4.9976460429038045, diff 8.88597e-16
+# Position 4.815033637404729 vs 4.81503363740473, diff 1.84459e-16
+# Position 4.678288217488354 vs 4.678288217488353, diff 1.89851e-16
+# Position 4.572056679062825 vs 4.572056679062826, diff 1.94262e-16
 
 # NearestOn4Tuple(lat=45.0, lon=15.830286, distance=1977981.142985, normal=135.0), iteration=9, exact=None, est=None
 # NearestOn4Tuple(lat=45.0, lon=15.830286, distance=1977981.142985, normal=135.0), iteration=9
