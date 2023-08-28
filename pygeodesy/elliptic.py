@@ -1016,11 +1016,10 @@ def _RD(inst, x, y, z, *over):
     '''
     L = _Lxyz(x, y, z)
     S = _Dsum()
-    t =  z  # == L[2]
     for m, a, s, r in L.Casr4(inst, 5, _TolRF, Elliptic.fRD):
         if s:
-            S += _over(_3_0, (t + r) * s[2] * m)
-            t  =  L[2]  # z, s[2] = sqrt(z)
+            S += _over(_3_0, (z + r) * s[2] * m)
+            z  =  L[2]  # s[2] = sqrt(z)
     x, y = L.rescale(-a * m, x, y)
     xy =  x * y
     z  = (x + y) / _3_0

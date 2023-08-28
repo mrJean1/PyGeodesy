@@ -597,22 +597,24 @@ def _usage(file_py, *args):  # in .etm
 def _version2(version, n=2):
     '''(INTERNAL) Split C{B{version} str} into a C{1-, 2- or 3-tuple} of C{int}s.
     '''
-    def _int(v):
-        try:
-            return int(v.strip())
-        except (TypeError, ValueError):
-            pass
+    def _ints(vs):
+        for v in vs:
+            if v:
+                try:
+                    yield int(v.strip())
+                except (TypeError, ValueError):
+                    pass
 
-    t = tuple(map(_int, version.split(_DOT_, 3)))
+    t = tuple(_ints(version.split(_DOT_, 2)))
     if len(t) < n:
         t += (0,) * n
-    return t[:n]
+    return tuple(t[:n])
 
 
 __all__ = (_NN_,  # not MISSING!
             Str_.__name__,  # classes
             machine.__name__)  # in .lazily
-__version__ = '23.08.25'
+__version__ = '23.08.28'
 
 if __name__ == '__main__':
 
