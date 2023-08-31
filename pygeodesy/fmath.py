@@ -8,15 +8,15 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import _copysign, copysign0, isint, isscalar, len2
 from pygeodesy.constants import EPS0, EPS02, EPS1, NAN, PI, PI_2, PI_4, \
-                               _0_0, _0_5, _1_0, _N_1_0, _1_3rd, _1_5, \
-                               _2_0, _2_3rd, _3_0, isnear0, isnear1, \
-                               _isfinite, _over, remainder as _remainder
+                               _0_0, _0_125, _0_25, _0_5, _1_0, _N_1_0, \
+                               _1_3rd, _1_5, _1_6th, _2_0, _2_3rd, _3_0, \
+                               _isfinite, isnear0, isnear1, _over, remainder
 from pygeodesy.errors import _IsnotError, LenError, _TypeError, _ValueError, \
                              _xError, _xkwds_get, _xkwds_pop
 from pygeodesy.fsums import _2float, _Powers, Fsum, _fsum, fsum, fsum1_, \
                             _pow_op_,  Fmt, unstr
-from pygeodesy.interns import MISSING, _few_, _h_, _negative_, _not_scalar_, \
-                             _too_
+from pygeodesy.interns import MISSING, _few_, _h_, _invokation_, _negative_, \
+                             _not_scalar_, _SPACE_, _too_
 from pygeodesy.lazily import _ALL_LAZY, _sys_version_info2
 # from pygeodesy.streprs import Fmt, unstr  # from .fsums
 from pygeodesy.units import Int_,  Float_  # PYCHOK for .heights
@@ -25,7 +25,7 @@ from math import fabs, sqrt  # pow
 from operator import mul as _mul  # in .triaxials
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '23.08.17'
+__version__ = '23.08.31'
 
 # sqrt(2) <https://WikiPedia.org/wiki/Square_root_of_2>
 _0_4142 = 0.414213562373095  # sqrt(_2_0) - _1_0
@@ -201,6 +201,20 @@ class Fsqrt(Fn_rt):
            @kwarg name_RESIDUAL: See L{Fsum.__init__}.
         '''
         Fn_rt.__init__(self, _2_0, *xs, **name_RESIDUAL)
+
+
+def bqrt(x):
+    '''Return the 4-th, I{bi-quadratic} or I{quartic} root, M{x**(1 / 4)}.
+
+       @arg x: Value (C{scalar}).
+
+       @return: I{Quartic} root (C{float}).
+
+       @raise ValueError: Negative B{C{x}}.
+
+       @see: Functions L{zcrt} and L{zqrt}.
+    '''
+    return _root(x, _0_25, bqrt)
 
 
 try:
@@ -665,7 +679,7 @@ def fremainder(x, y):
     # in the C++ library, Math.sincosd has a similar fix.
     if _isfinite(x):
         try:
-            r = _remainder(x, y) if x else x
+            r = remainder(x, y) if x else x
         except Exception as e:
             raise _xError(e, unstr(fremainder, x, y))
     else:  # handle x INF and NINF as NAN
@@ -857,6 +871,15 @@ def norm_(*xs):
             yield _0_0
 
 
+def _root(x, p, where):
+    '''(INTERNAL) Raise C{x} to power C{0 < p < 1}.
+    '''
+    if x < 0:
+        t = _SPACE_(_invokation_, where.__name__)
+        raise _ValueError(unstr(t, x), txt=_negative_)
+    return pow(x, p) if x else _0_0
+
+
 def sqrt0(x):
     '''Return the square root iff C{B{x} >} L{EPS02}.
 
@@ -871,7 +894,7 @@ def sqrt0(x):
 
 
 def sqrt3(x):
-    '''Compute the square root, I{cubed} M{sqrt(x)**3} or M{sqrt(x**3)}.
+    '''Return the square root, I{cubed} M{sqrt(x)**3} or M{sqrt(x**3)}.
 
        @arg x: Value (C{scalar}).
 
@@ -881,9 +904,7 @@ def sqrt3(x):
 
        @see: Functions L{cbrt} and L{cbrt2}.
     '''
-    if x < 0:
-        raise _ValueError(x=x, txt=_negative_)
-    return pow(x, _1_5) if x else _0_0
+    return _root(x, _1_5, sqrt3)
 
 
 def sqrt_a(h, b):
@@ -937,6 +958,34 @@ def _x2_h2(s, xs, h, e):
             if x:
                 yield (x / h)**2
     yield e
+
+
+def zcrt(x):
+    '''Return the 6-th, I{zenzi-cubic} root, M{x**(1 / 6)}.
+
+       @arg x: Value (C{scalar}).
+
+       @return: I{Zenzi-cubic} root (C{float}).
+
+       @see: Functions L{bqrt} and L{zqrt}.
+
+       @raise ValueError: Negative B{C{x}}.
+    '''
+    return _root(x, _1_6th, zcrt)
+
+
+def zqrt(x):
+    '''Return the 8-th, I{zenzi-quartic} or I{squared-quartic} root, M{x**(1 / 8)}.
+
+       @arg x: Value (C{scalar}).
+
+       @return: I{Zenzi-quartic} root (C{float}).
+
+       @see: Functions L{bqrt} and L{zcrt}.
+
+       @raise ValueError: Negative B{C{x}}.
+    '''
+    return _root(x, _0_125, zqrt)
 
 # **) MIT License
 #

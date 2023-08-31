@@ -4,14 +4,15 @@
 # Test L{fmath} module.
 
 __all__ = ('Tests',)
-__version__ = '23.05.18'
+__version__ = '23.08.30'
 
 from bases import endswith, isWindows, randoms, startswith, TestsBase
 
 from pygeodesy import EPS, Fcbrt, Fhypot, INF, Fn_rt, Fpowers, Fsqrt, Fsum, \
-                      cbrt, cbrt2, euclid_, Ellipsoids, facos1, fasin1, \
-                      fatan, fatan1, fatan2, fhorner, fmath, fpolynomial, fpowers, \
-                      fsum_, hypot, hypot_, hypot2_, norm_, signOf, sqrt3, sqrt_a
+                      bqrt, cbrt, cbrt2, euclid_, Ellipsoids, facos1, fasin1, \
+                      fatan, fatan1, fatan2, fhorner, fmath, fpolynomial, \
+                      fpowers, fsum_, hypot, hypot_, hypot2_, norm_, signOf, \
+                      sqrt3, sqrt_a, zcrt, zqrt
 
 from math import acos, asin, atan, atan2, sqrt
 from sys import version_info as _version_info
@@ -103,11 +104,14 @@ class Tests(TestsBase):
         e = euclid_(40000, 3000, 200, 10.0)
         self.test('euclid_', e, h * 1.03, prec=3, known=abs(e - h) < h * 0.03)
 
+        self.test('bqrt',  bqrt(16),   '2.00', prec=2)
         self.test('cbrt',  cbrt(27),   '3.00', prec=2)
         self.test('cbrt',  cbrt(-27), '-3.00', prec=2)
         self.test('cbrt2', cbrt2(27),  '9.00', prec=2)
         self.test('cbrt2', cbrt2(-27), '9.00', prec=2)
         self.test('sqrt3', sqrt3(9),  '27.00', prec=2)
+        self.test('zcrt',  zcrt(64),   '2.00', prec=2)
+        self.test('zqrt',  zqrt(256),  '2.00', prec=2)
 
         def _percent(a, x, f):
             return max(a, abs((f - x) * 100 / x) if x else 0)

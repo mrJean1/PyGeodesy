@@ -251,6 +251,7 @@ _insufficient_        = 'insufficient'       # PYCHOK OK
 _intersection_        = 'intersection'       # PYCHOK OK
 _Intl1924_            = 'Intl1924'           # PYCHOK OK
 _invalid_             = 'invalid'            # PYCHOK OK
+_invokation_          = 'invokation'         # PYCHOK OK
 _isclockwise_         = 'isclockwise'        # PYCHOK OK
 _ispolar_             = 'ispolar'            # PYCHOK OK
 _j_                   = 'j'                  # PYCHOK OK
@@ -614,7 +615,7 @@ def _version2(version, n=2):
 __all__ = (_NN_,  # not MISSING!
             Str_.__name__,  # classes
             machine.__name__)  # in .lazily
-__version__ = '23.08.28'
+__version__ = '23.08.30'
 
 if __name__ == '__main__':
 

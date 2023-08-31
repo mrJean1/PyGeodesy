@@ -32,7 +32,7 @@ except ImportError:  # Python 3.3-
         return _log(x, 2)
 
 __all__ = _ALL_LAZY.constants
-__version__ = '23.08.14'
+__version__ = '23.08.30'
 
 
 def _copysign_0_0(y):
@@ -245,6 +245,7 @@ _2__PI   = _Float(_2__PI  =_2_0 / _PI)      # PYCHOK = 0.636_619_772_367_581_343
 _1_16th  = _Float(_1_16th =_1_0 / _16_0)  # PYCHOK in .ellipsoids, .karney
 _1_64th  = _Float(_1_64th =_1_0 /  64)    # PYCHOK in .elliptic, pow(2.0, -6)
 _1_3rd   = _Float(_1_3rd  =_1_0 /  _3_0)  # PYCHOK in .fmath
+_1_6th   = _Float(_1_6th  =_1_0 /  _6_0)  # PYCHOK in .fmath
 _2_3rd   = _Float(_2_3rd  =_2_0 /  _3_0)  # PYCHOK in .fmath
 
 _K0_UTM  = _Float(_K0_UTM = 0.9996)  # PYCHOK in .etm, .ktm, .utm, UTM scale at central meridian

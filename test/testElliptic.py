@@ -4,11 +4,11 @@
 # Test L{elliptic} Python implementation.
 
 __all__ = ('Tests',)
-__version__ = '23.03.27'
+__version__ = '23.08.31'
 
-from bases import TestsBase
+from bases import endswith, TestsBase
 
-from pygeodesy import Elliptic, EllipticError, Elliptic3Tuple, \
+from pygeodesy import elliptic, Elliptic, EllipticError, Elliptic3Tuple, \
                       EPS, fstr, PI_2, PI_4, radians, Scalar, sincos2
 
 
@@ -141,6 +141,16 @@ class Tests(TestsBase):
             e = tuple(getattr(e, a) for a in s.split())
             t = tuple(Scalar(f, name=n) for n, f in zip(s.split(), t))
             self.test(s, e, t)
+
+        f = elliptic._convergenceError
+        x = f(1, 2)
+        self.test(f.__name__, str(x), "no convergence (1), tolerance (2)", nl=1)
+
+        f = elliptic._ellipticError
+        x = f(self.testElliptic, None, txt='test')
+        self.test(f.__name__, str(x), "invokation Elliptic.testElliptic(None): test", nl=1)
+        x = f(f.__name__, None, cause=x)
+        self.test(f.__name__, str(x), "invokation Elliptic.testElliptic(None): test", known=endswith)
 
 
 if __name__ == '__main__':

@@ -63,7 +63,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        23.08.17
+        23.08.31
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -146,6 +146,24 @@
   <td align="left" colspan="2" class="table-header">
     <span class="table-header">Functions</span></td>
 </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#bqrt" class="summary-sig-name">bqrt</a>(<span class="summary-sig-arg">x</span>)</span><br />
+      Return the 4-th, <i>bi-quadratic</i> or <i>quartic</i> root, <i 
+      class="math">x**(1 / 4)</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
@@ -706,7 +724,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#sqrt3" class="summary-sig-name">sqrt3</a>(<span class="summary-sig-arg">x</span>)</span><br />
-      Compute the square root, <i>cubed</i> <i class="math">sqrt(x)**3</i> 
+      Return the square root, <i>cubed</i> <i class="math">sqrt(x)**3</i> 
       or <i class="math">sqrt(x**3)</i>.</td>
           <td align="right" valign="top">
             
@@ -727,6 +745,42 @@
         <span class="summary-sig-arg">b</span>)</span><br />
       Compute <code><i>a</i></code> side of a right-angled triangle from 
       <code>sqrt(<b>h</b>**2 - <b>b</b>**2)</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#zcrt" class="summary-sig-name">zcrt</a>(<span class="summary-sig-arg">x</span>)</span><br />
+      Return the 6-th, <i>zenzi-cubic</i> root, <i class="math">x**(1 / 
+      6)</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#zqrt" class="summary-sig-name">zqrt</a>(<span class="summary-sig-arg">x</span>)</span><br />
+      Return the 8-th, <i>zenzi-quartic</i> or <i>squared-quartic</i> root,
+      <i class="math">x**(1 / 8)</i>.</td>
           <td align="right" valign="top">
             
             
@@ -762,6 +816,41 @@
     <span class="table-header">Function Details</span></td>
 </tr>
 </table>
+<a name="bqrt"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">bqrt</span>&nbsp;(<span class="sig-arg">x</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the 4-th, <i>bi-quadratic</i> or <i>quartic</i> root, <i 
+  class="math">x**(1 / 4)</i>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>x</code></strong> - Value (<code>scalar</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><i>Quartic</i> root (<code>float</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Negative <b><code>x</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Functions <a href="pygeodesy.fmath-module.html#zcrt" 
+        class="link">zcrt</a> and <a 
+        href="pygeodesy.fmath-module.html#zqrt" class="link">zqrt</a>.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="cbrt"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1692,8 +1781,8 @@
     </td>
   </tr></table>
   
-  <p>Compute the square root, <i>cubed</i> <i class="math">sqrt(x)**3</i> 
-  or <i class="math">sqrt(x**3)</i>.</p>
+  <p>Return the square root, <i>cubed</i> <i class="math">sqrt(x)**3</i> or
+  <i class="math">sqrt(x**3)</i>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -1754,6 +1843,76 @@
       </p>
 </div></td></tr></table>
 </div>
+<a name="zcrt"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">zcrt</span>&nbsp;(<span class="sig-arg">x</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the 6-th, <i>zenzi-cubic</i> root, <i class="math">x**(1 / 
+  6)</i>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>x</code></strong> - Value (<code>scalar</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><i>Zenzi-cubic</i> root (<code>float</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Negative <b><code>x</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Functions <a href="pygeodesy.fmath-module.html#bqrt" 
+        class="link">bqrt</a> and <a 
+        href="pygeodesy.fmath-module.html#zqrt" class="link">zqrt</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="zqrt"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">zqrt</span>&nbsp;(<span class="sig-arg">x</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the 8-th, <i>zenzi-quartic</i> or <i>squared-quartic</i> root, 
+  <i class="math">x**(1 / 8)</i>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>x</code></strong> - Value (<code>scalar</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><i>Zenzi-quartic</i> root (<code>float</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Negative <b><code>x</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Functions <a href="pygeodesy.fmath-module.html#bqrt" 
+        class="link">bqrt</a> and <a 
+        href="pygeodesy.fmath-module.html#zcrt" class="link">zcrt</a>.
+      </p>
+</div></td></tr></table>
+</div>
 <br />
 <!-- ==================== NAVIGATION BAR ==================== -->
 <table class="navbar" border="0" width="100%" cellpadding="0"
@@ -1786,7 +1945,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Aug 28 15:36:31 2023
+    Generated by Epydoc 3.0.1 on Thu Aug 31 17:59:12 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
