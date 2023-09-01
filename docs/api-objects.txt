@@ -12325,6 +12325,7 @@ pygeodesy.named._Named.toStr	pygeodesy.named._Named-class.html#toStr
 pygeodesy.elliptic.Elliptic.fPi	pygeodesy.elliptic.Elliptic-class.html#fPi
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._Named.dup	pygeodesy.named._Named-class.html#dup
+pygeodesy.elliptic.Elliptic._Einv	pygeodesy.elliptic.Elliptic-class.html#_Einv
 pygeodesy.elliptic.Elliptic._fXf	pygeodesy.elliptic.Elliptic-class.html#_fXf
 pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.elliptic.Elliptic._reset_cGHPi	pygeodesy.elliptic.Elliptic-class.html#_reset_cGHPi
