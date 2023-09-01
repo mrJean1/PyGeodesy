@@ -83,8 +83,8 @@ from pygeodesy.constants import EPS, INF, NAN, PI, PI_2, PI_4, \
 from pygeodesy.errors import _ValueError, _xattr, _xkwds_pop
 from pygeodesy.fmath import fdot, hypot1, zqrt
 from pygeodesy.fsums import Fsum, _sum
-from pygeodesy.interns import NN, _delta_, _DOT_, _f_, _invokation_, \
-                             _negative_, _SPACE_
+from pygeodesy.interns import NN, _delta_, _DOT_, _f_, _invalid_, \
+                             _invokation_, _negative_, _SPACE_
 from pygeodesy.karney import _K_2_0, _norm180, _signBit, _sincos2, \
                              _ALL_LAZY
 # from pygeodesy.lazily import _ALL_LAZY  # from .karney
@@ -173,49 +173,49 @@ class Elliptic(_Named):
         '''Get Jahnke's complete integral C{D(k)} (C{float}),
            U{defined<https://DLMF.NIST.gov/19.2.E6>}.
         '''
-        return self._reset_cDcEcKcKEeps.cD
+        return self._reset_cDEKEeps.cD
 
     @Property_RO
     def cE(self):
         '''Get the complete integral of the second kind C{E(k)}
            (C{float}), U{defined<https://DLMF.NIST.gov/19.2.E5>}.
         '''
-        return self._reset_cDcEcKcKEeps.cE
+        return self._reset_cDEKEeps.cE
 
     @Property_RO
     def cG(self):
         '''Get Legendre's complete geodesic longitude integral
            C{G(α^2, k)} (C{float}).
         '''
-        return self._reset_cGcHcPi.cG
+        return self._reset_cGHPi.cG
 
     @Property_RO
     def cH(self):
         '''Get Cayley's complete geodesic longitude difference integral
            C{H(α^2, k)} (C{float}).
         '''
-        return self._reset_cGcHcPi.cH
+        return self._reset_cGHPi.cH
 
     @Property_RO
     def cK(self):
         '''Get the complete integral of the first kind C{K(k)}
            (C{float}), U{defined<https://DLMF.NIST.gov/19.2.E4>}.
         '''
-        return self._reset_cDcEcKcKEeps.cK
+        return self._reset_cDEKEeps.cK
 
     @Property_RO
     def cKE(self):
         '''Get the difference between the complete integrals of the
            first and second kinds, C{K(k) − E(k)} (C{float}).
         '''
-        return self._reset_cDcEcKcKEeps.cKE
+        return self._reset_cDEKEeps.cKE
 
     @Property_RO
     def cPi(self):
         '''Get the complete integral of the third kind C{Pi(α^2, k)}
            (C{float}), U{defined<https://DLMF.NIST.gov/19.2.E7>}.
         '''
-        return self._reset_cGcHcPi.cPi
+        return self._reset_cGHPi.cPi
 
     def deltaD(self, sn, cn, dn):
         '''The periodic Jahnke's incomplete elliptic integral.
@@ -315,7 +315,7 @@ class Elliptic(_Named):
     def eps(self):
         '''Get epsilon (C{float}).
         '''
-        return self._reset_cDcEcKcKEeps.eps
+        return self._reset_cDEKEeps.eps
 
     def fD(self, phi_or_sn, cn=None, dn=None):
         '''Jahnke's incomplete elliptic integral in terms of
@@ -423,32 +423,35 @@ class Elliptic(_Named):
 
            @raise EllipticError: No convergence.
         '''
-        E2 = self.cE * _2_0
-        n  = floor(x / E2 + _0_5)
-        r  = x - E2 * n  # r in [-cE, cE)
-        # linear approximation
-        phi = PI * r / E2  # phi in [-PI_2, PI_2)
-        Phi = Fsum(phi)
-        # first order correction
-        phi = Phi.fsum_(self.eps * sin(phi * _2_0) / _N_2_0)
-        # For kp2 close to zero use asin(r / cE) or J. P. Boyd,
-        # Applied Math. and Computation 218, 7005-7013 (2012)
-        # <https://DOI.org/10.1016/j.amc.2011.12.021>
-        _Phi2, self._iteration = Phi.fsum2_, 0  # aggregate
-        for i in range(1, _TRIPS):  # GEOGRAPHICLIB_PANIC
-            sn, cn, dn = self._sncndn3(phi)
-            if dn:
-                sn = self.fE(sn, cn, dn)
-                phi, d = _Phi2((r - sn) / dn)
+        try:
+            E2 = self.cE * _2_0
+            n  = floor(x / E2 + _0_5)
+            r  = x - E2 * n  # r in [-cE, cE)
+            # linear approximation
+            phi = PI * r / E2  # phi in [-PI_2, PI_2)
+            Phi = Fsum(phi)
+            # first order correction
+            phi = Phi.fsum_(self.eps * sin(phi * _2_0) / _N_2_0)
+            # For kp2 close to zero use asin(r / cE) or J. P. Boyd,
+            # Applied Math. and Computation 218, 7005-7013 (2012)
+            # <https://DOI.org/10.1016/j.amc.2011.12.021>
+            _Phi2, self._iteration = Phi.fsum2_, 0  # aggregate
+            for i in range(1, _TRIPS):  # GEOGRAPHICLIB_PANIC
+                sn, cn, dn = self._sncndn3(phi)
+                if dn:
+                    sn = self.fE(sn, cn, dn)
+                    phi, d = _Phi2((r - sn) / dn)
+                else:  # PYCHOK no cover
+                    d = _0_0  # XXX continue?
+                if fabs(d) < _TolJAC:  # 3-4 trips
+                    _iterations(self, i)
+                    break
             else:  # PYCHOK no cover
-                d = _0_0
-            if fabs(d) < _TolJAC:  # 3-4 trips
-                _iterations(self, i)
-                break
-        else:  # PYCHOK no cover
-            t = _convergenceError(d, _TolJAC)
-            raise _ellipticError(self.fEinv, x, txt=str(t))
-        return Phi.fsum_(n * PI) if n else phi
+                raise _convergenceError(d, _TolJAC)
+            return Phi.fsum_(n * PI) if n else phi
+
+        except Exception as e:
+            raise _ellipticError(self.fEinv, x, cause=e)
 
     def fF(self, phi_or_sn, cn=None, dn=None):
         '''The incomplete integral of the first kind in terms of
@@ -636,7 +639,7 @@ class Elliptic(_Named):
         # G( alpha2, 1) = H(alpha2, 1) = RC(1, alphap2)
 
     @Property_RO
-    def _reset_cDcEcKcKEeps(self):
+    def _reset_cDEKEeps(self):
         '''(INTERNAL) Get the complete integrals D, E, K and KE plus C{eps}.
         '''
         k2, kp2 = self.k2, self.kp2
@@ -672,7 +675,7 @@ class Elliptic(_Named):
         return _CIs(cD=cD, cE=cE, cK=cK, cKE=cKE, eps=eps)
 
     @Property_RO
-    def _reset_cGcHcPi(self):
+    def _reset_cGHPi(self):
         '''(INTERNAL) Get the complete integrals G, H and Pi.
         '''
         alpha2, alphap2, kp2 = self.alpha2, self.alphap2, self.kp2
@@ -842,6 +845,7 @@ class Elliptic(_Named):
             return _rG2(None, x, y) if z == 0 else (
                    _rG2(None, z, x) if y == 0 else (
                    _rG2(None, y, z) if x == 0 else _rG3(None, x, y, z)))
+
         except Exception as e:
             t = _negative_ if min(x, y, z) < 0 else NN
             raise _ellipticError(Elliptic.fRG, x, y, z, cause=e, txt=t)
@@ -901,8 +905,8 @@ class _L(list):
         return a
 
     def amrs4(self, inst, n, Tol):
-        '''Yield Carlson 4-tuples C{(An, mul, lam, s)} plus sentinel,
-           with C{lam = fdot(sqrt(xyz))} and C{s = sqrt(xyzp)}.
+        '''Yield Carlson 4-tuples C{(An, mul, lam, s)} plus sentinel, with
+           C{lam = fdot(sqrt(x), ... (z))} and C{s = (sqrt(x), ... (p))}.
         '''
         L = self
         a = L.a0(n)
@@ -964,13 +968,18 @@ def _convergenceError(d, tol, **thresh):
 def _deltaX(sn, cn, dn, cX, _fX):
     '''(INTERNAL) Helper for C{Elliptic.deltaD} thru C{.deltaPi}.
     '''
-    if cn is None or dn is None:
-        n = NN(_delta_, _fX.__name__[1:])
-        raise _ellipticError(n, sn, cn, dn)
+    try:
+        if cn is None or dn is None:
+            raise ValueError(_invalid_)
 
-    if _signBit(cn):
-        cn, sn = -cn, -sn
-    return _fX(sn, cn, dn) * PI_2 / cX - atan2(sn, cn)
+        if _signBit(cn):
+            sn, cn = neg_(sn, cn)
+        r = _fX(sn, cn, dn) * PI_2 / cX
+        return r - atan2(sn, cn)
+
+    except Exception as e:
+        n = NN(_delta_, _fX.__name__[1:])
+        raise _ellipticError(n, sn, cn, dn, cause=e)
 
 
 def _ellipticError(where, *args, **kwds_cause_txt):
@@ -1099,20 +1108,18 @@ def _rG2(inst, x, y, PI_=PI_4):  # 2-args
             m *=  2
         else:  # initial
             S += (a + b)**2 * _0_5
-    return float(S(PI_ / (a + b)))
+    return S(PI_).fover(a + b)
 
 
 def _rG3(inst, x, y, z):  # 3-arg version
     '''(INTERNAL) C{x}, C{y} and C{z} all non-zero, see C{.fRG}.
     '''
-    R  = _RF3(inst, x, y, z)
+    R  = _RF3(inst, x, y, z) * z
+    R +=  sqrt(x * y / z)
     rd = (x - z) * (z - y)  # - (y - z)
     if rd:  # Carlson, eq 1.7
-        R += _RD(inst, x, y, z, _3_0 * z / rd)
-    r = x * y
-    if r:
-        R += sqrt(r / z**3)
-    return float(R.fmul(z * _0_5))
+        R += _RD(inst, x, y, z, _3_0 / rd)
+    return R.fover(_2_0)
 
 
 def _RJ(inst, x, y, z, p, *over):
