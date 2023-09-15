@@ -69,15 +69,15 @@ Karney-based functionality
 
   - L{Osgr} -- U{OSGB<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1OSGB.html>}
 
-  - L{rhumbaux} C{RhumbAux}, C{RhumbLineAux} -- U{Rhumb
+  - L{rhumbaux}, L{RhumbAux}, L{RhumbLineAux} -- U{Rhumb
     <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Rhumb.html>} and U{RhumbLine
-    <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1RhumbLine.html>} in I{GeographicLib 2.2+}
+    <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1RhumbLine.html>} from I{GeographicLib 2.2+}
 
-  - L{rhumbx} C{Rhumb}, C{RhumbLine} -- U{Rhumb
+  - L{rhumbx}, L{Rhumb}, L{RhumbLine} -- U{Rhumb
     <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Rhumb.html>},
     U{RhumbLine<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1RhumbLine.html>},
     U{TransverseMercator<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1TransverseMercator.html>}
-    in I{GeographicLib 2.0}
+    from I{GeographicLib 2.0}
 
   - L{Ups} -- U{PolarStereographic<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1PolarStereographic.html>}
 
@@ -117,7 +117,7 @@ C++ utility U{RhumbSolve<https://GeographicLib.SourceForge.io/C++/doc/RhumbSolve
   - L{RhumbLineAux.intersection2} and L{RhumbLineAux.nearestOn4} C{(exact=None)} in L{rhumbaux} and
     L{RhumbLine.intersection2} and L{RhumbLine.nearestOn4} C{(exact=None)} in L{rhumbx}
 
-are iterative implementations of I{Karney}'s solution posted here under U{The B{ellipsoidal} case
+are implementations of I{Karney}'s iterative solution posted under U{The B{ellipsoidal} case
 <https://GIS.StackExchange.com/questions/48937/calculating-intersection-of-two-circles>} and in paper U{Geodesics
 on an ellipsoid of revolution<https://ArXiv.org/pdf/1102.1215.pdf>} (pp 20-21, section B{14. MARITIME BOUNDARIES}).
 
@@ -157,7 +157,7 @@ from pygeodesy.utily import atan2d, sincos2d, tand, _unrollon,  fabs
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.karney
-__version__ = '23.09.12'
+__version__ = '23.09.15'
 
 _K_2_0      = _getenv('PYGEODESY_GEOGRAPHICLIB', _2_) == _2_
 _perimeter_ = 'perimeter'

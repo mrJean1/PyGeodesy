@@ -46,7 +46,7 @@ from pygeodesy.rhumbBase import RhumbBase, RhumbLineBase, itemsorted, \
 from math import ceil as _ceil, fabs, radians
 
 __all__ = _ALL_LAZY.rhumbaux
-__version__ = '23.08.20'
+__version__ = '23.09.15'
 
 # DIGITS = (sizeof(real) * 8) bits
 #        = (ctypes.sizeof(ctypes.c_double(1.0)) * 8) bits
@@ -323,7 +323,7 @@ class RhumbLineAux(RhumbLineBase):
         return AuxPhi.fromDegrees(self.lat1)
 
     def Position(self, s12, outmask=Caps.LATITUDE_LONGITUDE):
-        '''Compute a point at a distance on this rhumb line.
+        '''Compute a point at a given distance on this rhumb line.
 
            @arg s12: The distance along this rhumb line between its origin
                      and the point (C{meters}), can be negative.

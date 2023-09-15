@@ -27,7 +27,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '23.09.12'
+__version__ = '23.09.15'
 
 
 def _c2(*names):

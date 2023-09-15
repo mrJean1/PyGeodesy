@@ -45,7 +45,7 @@ from pygeodesy.rhumbBase import RhumbBase, RhumbLineBase,  Int, pairs, \
 from math import asinh, atan, cos, cosh, fabs, radians, sin, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.rhumbx
-__version__ = '23.09.05'
+__version__ = '23.09.15'
 
 
 class Rhumb(RhumbBase):
@@ -373,7 +373,7 @@ class RhumbLine(RhumbLineBase):
         return self.ellipsoid.auxRectifying(self.lat1)
 
     def Position(self, s12, outmask=Caps.LATITUDE_LONGITUDE):
-        '''Compute a point at a distance on this rhumb line.
+        '''Compute a point at a given distance on this rhumb line.
 
            @arg s12: The distance along this rhumb between its point and
                      the other point (C{meters}), can be negative.

@@ -52,7 +52,7 @@ from pygeodesy.vector3d import _intersect3d3, Vector3d  # in .intersection2 belo
 # from math import fabs  # from .fmath
 
 __all__ = ()
-__version__ = '23.09.06'
+__version__ = '23.09.15'
 
 _rls   = []  # instances of C{RbumbLine...} to be updated
 _TRIPS = 65  # .intersection2, .nearestOn4, 19+
@@ -377,7 +377,7 @@ class RhumbLineBase(RhumbBase):
 
     @property_RO
     def azi12_sincos2(self):  # PYCHOK no cover
-        '''Get this rhumb line's I{azimuth} sine and cosine (2-tuple C{(sin, cos)}).
+        '''Get the sine and cosine of this rhumb line's I{azimuth} (2-tuple C{(sin, cos)}).
         '''
         return self._scalp, self._calp
 
@@ -391,8 +391,8 @@ class RhumbLineBase(RhumbBase):
            @return: A L{Distance2Tuple}C{(distance, initial)} with the C{distance}
                     in C{meter} and C{initial} bearing in C{degrees}.
 
-           @see: Methods C{intersection2} and C{nearestOn4} of L{RhumbLine} and
-                 L{RhumbLineAux}.
+           @see: Methods C{intersection2} and C{nearestOn4} of L{RhumbLineAux} and
+                 L{RhumbLine}.
         '''
         r = self.rhumb.Inverse(self.lat1, self.lon1, lat, lon)
 #                              outmask=Caps.AZIMUTH_DISTANCE)
@@ -510,7 +510,7 @@ class RhumbLineBase(RhumbBase):
            @arg lon: Longitude of the point (C{degrees}).
            @kwarg tol: Longitudinal convergence tolerance (C{degrees}) or the
                        distance tolerance (C(meter)) when C{B{exact} is None},
-                       respectively C{B{exact} is not None}.
+                       respectively C{not None}.
            @kwarg exact: If C{None}, use a rhumb line perpendicular to this rhumb
                          line, otherwise use an I{exact} C{Geodesic...} from the
                          given point perpendicular to this rhumb line (C{bool} or
@@ -586,7 +586,7 @@ class RhumbLineBase(RhumbBase):
 
     @Property_RO
     def rhumb(self):
-        '''Get this rhumb line's rhumb (L{RhumbAux} or L{Rhumb}.
+        '''Get this rhumb line's rhumb (L{RhumbAux} or L{Rhumb}).
         '''
         return self._rhumb
 
