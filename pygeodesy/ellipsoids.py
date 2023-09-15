@@ -91,7 +91,7 @@ from pygeodesy.utily import atand, atan2b, atan2d, degrees90, m2radians, radians
 from math import asinh, atan, atanh, cos, degrees, exp, fabs, radians, sin, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '23.08.20'
+__version__ = '23.09.08'
 
 _f_0_0    = Float(f =_0_0)  # zero flattening
 _f__0_0   = Float(f_=_0_0)  # zero inverse flattening
@@ -165,7 +165,7 @@ class a_f2Tuple(_NamedTuple):
 
     @Property_RO
     def f_(self):
-        '''Get the I{inverse} flattening (C{float}), M{1 / f} == M{a / (a - b)}.
+        '''Get the I{inverse} flattening (C{scalar}), M{1 / f} == M{a / (a - b)}.
         '''
         return f2f_(self.f)  # PYCHOK .f
 
@@ -214,13 +214,13 @@ class Ellipsoid(_NamedEnumItem):
     _rhumbsolve = NN  # means, use PYGEODESY_RHUMBSOLVE
 
     def __init__(self, a, b=None, f_=None, f=None, name=NN):
-        '''New L{Ellipsoid} from the I{equatorial} radius and either the
-           I{polar} radius or I{inverse flattening} or I{flattening}.
+        '''New L{Ellipsoid} from the I{equatorial} radius I{and} either
+           the I{polar} radius or I{inverse flattening} or I{flattening}.
 
            @arg a: Equatorial radius, semi-axis (C{meter}).
            @arg b: Optional polar radius, semi-axis (C{meter}).
            @arg f_: Inverse flattening: M{a / (a - b)} (C{float} >>> 1.0).
-           @arg f: Flattening: M{(a - b) / a} (C{float}, near zero for
+           @arg f: Flattening: M{(a - b) / a} (C{scalar}, near zero for
                    spherical).
            @kwarg name: Optional, unique name (C{str}).
 
@@ -972,13 +972,13 @@ class Ellipsoid(_NamedEnumItem):
 
     @Property_RO
     def f(self):
-        '''Get the I{flattening} (C{float}), M{(a - b) / a}, C{0} for spherical, negative for prolate.
+        '''Get the I{flattening} (C{scalar}), M{(a - b) / a}, C{0} for spherical, negative for prolate.
         '''
         return self._f
 
     @Property_RO
     def f_(self):
-        '''Get the I{inverse flattening} (C{float}), M{1 / f} == M{a / (a - b)}, C{0} for spherical, see C{a_b2f_}.
+        '''Get the I{inverse flattening} (C{scalar}), M{1 / f} == M{a / (a - b)}, C{0} for spherical, see C{a_b2f_}.
         '''
         return self._f_
 
@@ -1235,7 +1235,7 @@ class Ellipsoid(_NamedEnumItem):
         '''
         if not (isint(order) and order in (4, 6, 8)):
             raise _ValueError(order=order)
-        if order != self._KsOrder:
+        if self._KsOrder != order:
             Ellipsoid.AlphaKs._update(self)
             Ellipsoid.BetaKs._update(self)
             self._KsOrder = order
@@ -1253,7 +1253,7 @@ class Ellipsoid(_NamedEnumItem):
     def _L_90(self):
         '''Get the I{quarter meridian} per degree (C{meter}), M{self.L / 90}.
         '''
-        return self.L / _90_0
+        return Distance(_L_90=self.L / _90_0)
 
     def Llat(self, lat):
         '''Return the I{meridional length}, the distance along a meridian
@@ -1954,7 +1954,7 @@ def a_b2f(a, b):
        @arg a: Equatorial radius (C{scalar} > 0).
        @arg b: Polar radius (C{scalar} > 0).
 
-       @return: The flattening (C{float} or C{0}), M{(a - b) / a}.
+       @return: The flattening (C{scalar} or C{0}), M{(a - b) / a}.
 
        @note: The result is positive for I{oblate}, negative for I{prolate} or C{0}
               for I{near-spherical} ellipsoids.
@@ -1969,7 +1969,7 @@ def a_b2f_(a, b):
        @arg a: Equatorial radius (C{scalar} > 0).
        @arg b: Polar radius (C{scalar} > 0).
 
-       @return: The inverse flattening (C{float} or C{0}), M{a / (a - b)}.
+       @return: The inverse flattening (C{scalar} or C{0}), M{a / (a - b)}.
 
        @note: The result is positive for I{oblate}, negative for I{prolate} or C{0}
               for I{near-spherical} ellipsoids.
@@ -1984,7 +1984,7 @@ def a_b2f2(a, b):
        @arg a: Equatorial radius (C{scalar} > 0).
        @arg b: Polar radius (C{scalar} > 0).
 
-       @return: The I{signed}, 2nd flattening (C{float} or C{0}), M{(a - b) / b}.
+       @return: The I{signed}, 2nd flattening (C{scalar} or C{0}), M{(a - b) / b}.
 
        @note: The result is positive for I{oblate}, negative for I{prolate} or C{0}
               for I{near-spherical} ellipsoids.
@@ -1999,7 +1999,7 @@ def a_b2n(a, b):
        @arg a: Equatorial radius (C{scalar} > 0).
        @arg b: Polar radius (C{scalar} > 0).
 
-       @return: The I{signed}, 3rd flattening (C{float} or C{0}), M{(a - b) / (a + b)}.
+       @return: The I{signed}, 3rd flattening (C{scalar} or C{0}), M{(a - b) / (a + b)}.
 
        @note: The result is positive for I{oblate}, negative for I{prolate}
               or C{0} for I{near-spherical} ellipsoids.
@@ -2064,7 +2064,7 @@ def e2f(e):
 
        @arg e: The (1st) eccentricity (0 <= C{float} < 1)
 
-       @return: The flattening (C{float} or C{0}).
+       @return: The flattening (C{scalar} or C{0}).
 
        @see: Function L{e22f}.
     '''
@@ -2142,7 +2142,7 @@ def f_2f(f_):
 
        @arg f_: Inverse flattening (C{scalar} >>> 1).
 
-       @return: The flattening (C{float} or C{0}), M{1 / f_}.
+       @return: The flattening (C{scalar} or C{0}), M{1 / f_}.
 
        @note: The result is positive for I{oblate}, negative for I{prolate}
               or C{0} for I{near-spherical} ellipsoids.
@@ -2156,7 +2156,7 @@ def f2f_(f):
 
        @arg f: Flattening (C{scalar} < 1, negative for I{prolate}).
 
-       @return: The inverse flattening (C{float} or C{0}), M{1 / f}.
+       @return: The inverse flattening (C{scalar} or C{0}), M{1 / f}.
 
        @note: The result is positive for I{oblate}, negative for I{prolate}
               or C{0} for I{near-spherical} ellipsoids.
@@ -2170,7 +2170,7 @@ def f2f2(f):
 
        @arg f: Flattening (C{scalar} < 1, negative for I{prolate}).
 
-       @return: The I{signed}, 2nd flattening (C{float} or C{INF}), M{f / (1 - f)}.
+       @return: The I{signed}, 2nd flattening (C{scalar} or C{INF}), M{f / (1 - f)}.
 
        @note: The result is positive for I{oblate}, negative for I{prolate}
               or C{0} for I{near-spherical} ellipsoids.
@@ -2225,7 +2225,7 @@ def n2f(n):
 
        @arg n: The 3rd flattening (-1 <= C{scalar} < 1).
 
-       @return: The flattening (C{float} or NINF), M{2 * n / (1 + n)}.
+       @return: The flattening (C{scalar} or NINF), M{2 * n / (1 + n)}.
 
        @see: U{Eccentricity conversions<https://GeographicLib.SourceForge.io/
              html/classGeographicLib_1_1Ellipsoid.html>} and U{Flattening
@@ -2241,7 +2241,7 @@ def n2f_(n):
 
        @arg n: The 3rd flattening (-1 <= C{scalar} < 1).
 
-       @return: The inverse flattening (C{float} or C{0}), M{1 / f}.
+       @return: The inverse flattening (C{scalar} or C{0}), M{1 / f}.
 
        @see: L{n2f} and L{f2f_}.
     '''

@@ -4,7 +4,7 @@
 # Test L{deprecated} classes, functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '23.03.27'
+__version__ = '23.09.13'
 
 from bases import TestsBase
 
@@ -91,7 +91,7 @@ class Tests(TestsBase):
         self.test('toUtm', len(t), 6)
 
         t = utmZoneBand2('50°52′10″N', '115°39′03″W')
-        self.test('utmZoneBand2', t, "(11, 'U')", nt=1)
+        self.test('utmZoneBand2', t, "(11, 'U')")
 
     def testDEPRECATED(self, *known):
 

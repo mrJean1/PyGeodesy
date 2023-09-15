@@ -59,7 +59,7 @@ from pygeodesy.vector3d import _otherV3d, Vector3d,  _ALL_LAZY, _MODS
 from math import atan2, fabs, sqrt
 
 __all__ = _ALL_LAZY.triaxials
-__version__ = '23.08.19'
+__version__ = '23.09.07'
 
 _not_ordered_ = _not_('ordered')
 _omega_       = 'omega'
@@ -1262,10 +1262,10 @@ def _normalTo4(x, y, a, b, eps=EPS):
     '''(INTERNAL) Nearest point on and distance to a 2-D ellipse, I{unordered}.
 
        @see: Function C{pygeodesy.ellipsoids._normalTo3} and I{Eberly}'s U{Distance
-             from a Point to ... an Ellipsoid ...<https://www.GeometricTools.com/
+             from a Point to ... an Ellipse ...<https://www.GeometricTools.com/
              Documentation/DistancePointEllipseEllipsoid.pdf>}.
     '''
-    if a < b:
+    if b > a:
         b, a, d, i = _normalTo4(y, x, b, a, eps=eps)
         return a, b, d, i
 
@@ -1401,8 +1401,10 @@ def _otherV3d_(x_xyz, y, z, **name):
 
 
 def _rootXd(r, s, u, v, w, g, eps):
-    '''(INTERNAL) Robust 2d- or 3d-root finder:
-       2d- if C{s == v == 0} otherwise 3d-root.
+    '''(INTERNAL) Robust 2d- or 3d-root finder: 2d- if C{s == v == 0} else 3d-root.
+
+       @see: I{Eberly}'s U{Robust Root Finders ...<https://www.GeometricTools.com/
+             Documentation/DistancePointEllipseEllipsoid.pdf>}.
     '''
     _1, __2 = _1_0, _0_5
     _a, _h2 = fabs, _hypot21
@@ -1411,7 +1413,8 @@ def _rootXd(r, s, u, v, w, g, eps):
     v *=  s  # 0 for 2d-root
     t0 =  w - _1
     t1 = _0_0 if g < 0 else _h2(u, w, v)
-    for i in range(1, _TRIPS):
+    # assert t0 <= t1
+    for i in range(1, _TRIPS):  # 52-58
         e = _a(t0 - t1)
         if e < eps:
             break

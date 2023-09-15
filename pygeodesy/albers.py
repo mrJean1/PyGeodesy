@@ -38,7 +38,7 @@ from pygeodesy.utily import atand, atan2d, degrees360, sincos2, \
 from math import atan, atan2, atanh, degrees, fabs, radians, sqrt
 
 __all__ = _ALL_LAZY.albers
-__version__ = '23.08.18'
+__version__ = '23.09.07'
 
 _k1_    = 'k1'
 _NUMIT  =   8  # XXX 4?
@@ -220,15 +220,19 @@ class _AlbersBase(_NamedBase):
 
     @Property_RO
     def equatoradius(self):
-        '''Get the geodesic's equatorial radius, semi-axis (C{meter}).
+        '''Get the C{ellipsoid}'s equatorial radius, semi-axis (C{meter}).
         '''
         return self.ellipsoid.a
 
+    a = equatoradius
+
     @Property_RO
     def flattening(self):
-        '''Get the geodesic's flattening (C{float}).
+        '''Get the C{ellipsoid}'s flattening (C{scalar}).
         '''
         return self.ellipsoid.f
+
+    f = flattening
 
     def forward(self, lat, lon, lon0=0, name=NN):
         '''Convert a geodetic location to east- and northing.

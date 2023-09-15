@@ -26,13 +26,13 @@ from pygeodesy.interns import NN, _at_, _AT_, _COLON_, _COLONSPACE_, _COMMA_, \
                              _NL_, _NN_, _not_, _other_, _s_, _SPACE_, _std_, \
                              _UNDER_, _valid_, _vs_,  _dunder_nameof, _isPyPy, _under
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _caller3, _getenv
-from pygeodesy.props import _allPropertiesOf_n, deprecated_method, Property_RO, \
-                            _hasProperty, property_doc_, property_RO, \
-                            _update_all, _update_attrs
+from pygeodesy.props import _allPropertiesOf_n, deprecated_method, _hasProperty, \
+                            _update_all, property_doc_, Property_RO, property_RO, \
+                            _update_attrs
 from pygeodesy.streprs import attrs, Fmt, lrstrip, pairs, reprs, unstr
 
 __all__ = _ALL_LAZY.named
-__version__ = '23.08.23'
+__version__ = '23.09.11'
 
 _COMMANL_           = _COMMA_ + _NL_
 _COMMASPACEDOT_     = _COMMASPACE_ + _DOT_

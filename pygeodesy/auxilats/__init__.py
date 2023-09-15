@@ -28,7 +28,7 @@ from pygeodesy.lazily import _ALL_OTHER
 
 __all__ = _ALL_OTHER(Aux, AuxAngle, AuxDLat, AuxDST, AuxLat,
                      AuxBeta, AuxChi, AuxMu, AuxPhi, AuxTheta, AuxXi)
-__version__ = '23.08.22'
+__version__ = '23.09.14'
 
 # **) MIT License
 #

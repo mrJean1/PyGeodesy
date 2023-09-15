@@ -14,15 +14,16 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import map1, _ALL_LAZY
 from pygeodesy.constants import EPS, EPS0, EPS02, INT0, NEG0, PI, PI2, PI_2, PI_4, \
-                                isnear0, _umod_360, _0_0, _0_5, _1_0, _N_1_0, _2_0, \
-                                _N_2_0, _4_0, _180_0, _360_0
+                               _0_0, _0_5, _1_0, _N_1_0, _2_0, _N_2_0, _4_0, _16_0, \
+                               _180_0, _360_0, isnear0, _over, _umod_360
 from pygeodesy.errors import _and, _or, TriangleError, _ValueError, _xkwds
 from pygeodesy.fmath import favg, Fdot, fidw, fmean, hypot, hypot2_
 from pygeodesy.fsums import Fsum, fsumf_, fsum1, fsum1f_
-from pygeodesy.interns import _a_, _A_, _b_, _B_, _c_, _C_, _coincident_, _colinear_, \
-                              _d_, _eps_, _invalid_, _negative_, _not_, _rIn_, _SPACE_
+from pygeodesy.interns import _a_, _A_, _area_, _b_, _B_, _c_, _C_, _coincident_, \
+                              _colinear_, _d_, _eps_, _invalid_, _negative_, \
+                              _not_, _rIn_, _SPACE_
 # from pygeodesy.lazily import _ALL_LAZY  # from .basics
-from pygeodesy.named import Fmt, _NamedTuple, _Pass
+from pygeodesy.named import _NamedTuple, _Pass,  Fmt
 # from pygeodesy.streprs import Fmt  # from .named
 from pygeodesy.units import Degrees, Distance, Radians
 from pygeodesy.utily import acos1, asin1, sincos2, sincos2_, sincos2d, sincos2d_
@@ -31,7 +32,7 @@ from pygeodesy.vector3d import _otherV3d, Vector3d
 from math import cos, atan2, degrees, fabs, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.resections
-__version__ = '23.06.07'
+__version__ = '23.09.12'
 
 _concyclic_ = 'concyclic'
 _PA_        = 'PA'
@@ -78,13 +79,14 @@ class Tienstra7Tuple(_NamedTuple):
     _Units_ = (_Pass,     Degrees, Degrees, Degrees, Distance, Distance, Distance)
 
 
-class TriAngle4Tuple(_NamedTuple):
-    '''4-Tuple C{(radA, radB, radC, rIn)} with the interior angles at triangle
-       corners C{A}, C{B} and C{C} in C{radians} and the C{InCircle} radius
-       C{rIn} aka C{inradius} in C{meter}, conventionally.
+class TriAngle5Tuple(_NamedTuple):
+    '''5-Tuple C{(radA, radB, radC, rIn, area)} with the interior angles at
+       triangle corners C{A}, C{B} and C{C} in C{radians}, the C{InCircle}
+       radius C{rIn} aka C{inradius} in C{meter} and the triangle C{area}
+       in C{meter} I{squared}, conventionally.
     '''
-    _Names_ = (_radA_,  _radB_,  _radC_,  _rIn_)
-    _Units_ = ( Radians, Radians, Radians, Distance)
+    _Names_ = (_radA_,  _radB_,  _radC_,  _rIn_,     _area_)
+    _Units_ = ( Radians, Radians, Radians, Distance, _Pass)
 
 
 class TriSide2Tuple(_NamedTuple):
@@ -712,7 +714,7 @@ def _triAngle(a, b, c):
     return acos1(t)
 
 
-def triAngle4(a, b, c):
+def triAngle5(a, b, c):
     '''Compute the angles of a triangle.
 
        @arg a: Length of the triangle side opposite of triangle corner C{A}
@@ -722,30 +724,30 @@ def triAngle4(a, b, c):
        @arg c: Length of the triangle side opposite of triangle corner C{C}
                (C{scalar}, non-negative C{meter}, conventionally).
 
-       @return: L{TriAngle4Tuple}C{(radA, radB, radC, rIn)} with angles C{radA},
-                C{radB} and C{radC} at triangle corners C{A}, C{B} and C{C}, all
-                in C{radians} and the C{InCircle} radius C{rIn} aka C{inradius},
-                same units as triangle sides B{C{a}}, B{C{b}} and B{C{c}}.
+       @return: L{TriAngle5Tuple}C{(radA, radB, radC, rIn, area)} with angles
+                C{radA}, C{radB} and C{radC} at triangle corners C{A}, C{B}
+                and C{C}, all in C{radians}, the C{InCircle} radius C{rIn}
+                aka C{inradius}, same units as triangle sides B{C{a}},
+                B{C{b}} and B{C{c}} and the triangle C{area} in those same
+                units I{squared}.
 
        @raise TriangleError: Invalid or negative B{C{a}}, B{C{b}} or B{C{c}}.
 
-       @see: Function L{pygeodesy.triAngle}.
+       @see: Functions L{pygeodesy.triAngle} and L{pygeodesy.triArea}.
     '''
     try:
-        a, b, c = map1(float, a, b, c)
-        ab = a < b
+        x, y, z = map1(float, a, b, c)
+        ab = x < y
         if ab:
-            a, b = b, a
-        bc = b < c
+            x, y = y, x
+        bc = y < z
         if bc:
-            b, c = c, b
+            y, z = z, y
 
-        if c > EPS0:  # c = min(a, b, c)
-            s = fsumf_(a, b, c) * _0_5
-            if s < EPS0:
-                raise ValueError(_negative_)
-            sa, sb, sc = (s - a), (s - b), (s - c)
-            r = sa * sb * sc / s
+        if z > EPS0:  # z = min(a, b, c)
+            s  = fsumf_(z, y, x) * _0_5
+            sa, sb, r = (s - x), (s - y), (s - z)
+            r *= _over(sa * sb, s)
             if r < EPS02:
                 raise ValueError(_coincident_)
             r  = sqrt(r)
@@ -754,17 +756,51 @@ def triAngle4(a, b, c):
             rC = fsumf_(PI, -rA, -rB)
             if min(rA, rB, rC) < 0:
                 raise ValueError(_colinear_)
-        elif c < 0:
+            s *= r  # Heron's area
+        elif z < 0:
             raise ValueError(_negative_)
         else:  # 0 <= c <= EPS0
             rA = rB = PI_2
-            rC = r = _0_0
+            rC = r = s = _0_0
 
         if bc:
             rB, rC = rC, rB
         if ab:
             rA, rB = rB, rA
-        return TriAngle4Tuple(rA, rB, rC, r, name=triAngle4.__name__)
+        return TriAngle5Tuple(rA, rB, rC, r, s, name=triAngle5.__name__)
+
+    except (TypeError, ValueError) as x:
+        raise TriangleError(a=a, b=b, c=c, cause=x)
+
+
+def triArea(a, b, c):
+    '''Compute the area of a triangle using U{Heron's<https://
+       WikiPedia.org/wiki/Heron%27s_formula>} C{stable} formula.
+
+       @arg a: Length of the triangle side opposite of triangle corner C{A}
+               (C{scalar}, non-negative C{meter}, conventionally).
+       @arg b: Length of the triangle side opposite of triangle corner C{B}
+               (C{scalar}, non-negative C{meter}, conventionally).
+       @arg c: Length of the triangle side opposite of triangle corner C{C}
+               (C{scalar}, non-negative C{meter}, conventionally).
+
+       @return: The triangle area (C{float}, conventionally C{meter} or
+                same units as B{C{a}}, B{C{b}} and B{C{c}} I{squared}).
+
+       @raise TriangleError: Invalid or negative B{C{a}}, B{C{b}} or B{C{c}}.
+    '''
+    try:
+        r, y, x = sorted(map1(float, a, b, c))
+        if r > 0:  # r = min(a, b, c)
+            ab = x - y
+            bc = y - r
+            y += r
+            r = (x + y) * (r - ab) * (r + ab) * (x + bc)
+            if r:
+                r = sqrt(r / _16_0)
+        elif r < 0:
+            raise ValueError(_negative_)
+        return r
 
     except (TypeError, ValueError) as x:
         raise TriangleError(a=a, b=b, c=c, cause=x)
@@ -814,7 +850,7 @@ def _triSide(a, b, radC):
 
 
 def triSide2(b, c, radB):
-    '''Compute one side and the opposite angle of a triangle.
+    '''Compute a side and its opposite angle of a triangle.
 
        @arg b: Adjacent triangle side length (C{scalar},
                non-negative C{meter}, conventionally).

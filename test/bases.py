@@ -10,7 +10,7 @@
 # from copy import copy as _xcopy
 from glob import glob
 from inspect import isclass, isfunction, ismethod, ismodule
-from os import X_OK, access, getenv  # environ
+from os import X_OK, access, getenv, sep as _SEP  # environ
 from os.path import abspath, basename, dirname, join as joined, splitext
 from platform import architecture, java_ver, mac_ver, win32_ver, uname
 from random import gauss, random, seed, shuffle
@@ -35,9 +35,10 @@ if PyGeodesy_dir not in sys.path:  # Python 3+ ModuleNotFoundError
 
 from pygeodesy import anstr, basics, clips, DeprecationWarnings, interns, isint, \
                       isLazy, issubclassof, iterNumpy2over, LazyImportError, \
-                      map2, NN, normDMS, pairs, printf, property_RO, \
+                      lazily, map2, NN, normDMS, pairs, printf, property_RO, \
                       version as PyGeodesy_version  # PYCHOK expected
 
+_DOT_     = interns._DOT_
 _SIsecs   = 'fs', 'ps', 'ns', 'us', 'ms', 'sec'  # reversed
 _skipped_ = 'skipped'  # in .run
 _SPACE_   = interns._SPACE_
@@ -50,7 +51,7 @@ __all__ = ('coverage', 'GeodSolve', 'geographiclib',  # constants
            'RandomLatLon', 'TestsBase',  # classes
            'ios_ver', 'nix_ver', 'secs2str',  # functions
            'tilde', 'type2str', 'versions')
-__version__ = '23.08.23'
+__version__ = '23.09.14'
 
 try:
     geographiclib = basics._xgeographiclib(basics, 1, 50)
@@ -234,8 +235,15 @@ class TestsBase(object):
         import pygeodesy as _p  # PYCHOK expected
         for _, n in self.pygeodesy_names2(deprecated=deprecated):
             try:
-                m = getattr(_p, splitext(n)[0])
-            except LazyImportError:
+                n = splitext(n)[0]
+                if _DOT_ in n:
+                    p, n = n.split(_DOT_)
+                    m = getattr(_p, p)
+                    if n != '__init__':
+                        m = getattr(m, n)
+                else:
+                    m = getattr(_p, n)
+            except (AttributeError, LazyImportError):
                 continue
             if ismodule(m):
                 yield m
@@ -243,10 +251,15 @@ class TestsBase(object):
     def pygeodesy_names2(self, deprecated=False):
         '''Yield all PyGeodesy module files and basenames.
         '''
-        for n in sorted(glob(joined(PyGeodesy_dir, 'pygeodesy', '[a-z]*.py'))):
-            m = basename(n)
-            if deprecated or not m.startswith('deprecated'):
-                yield n, m
+        def _join(p, j, n):
+            return (p + j + n) if p else n
+
+        for p in ('',) + interns._sub_packages:
+            m = _join(p, _SEP, '[_a-z]*.py')
+            for n in sorted(glob(joined(PyGeodesy_dir, 'pygeodesy', m))):
+                m = _join(p, _DOT_, basename(n))
+                if deprecated or not m.startswith('deprecated'):
+                    yield n, m
 
     def results(self, passed='passed', nl=1):
         '''Summarize the test results.
@@ -423,22 +436,11 @@ def _get_kwds(fmt='%s', prec=0, known=False, **kwds):
     return fmt, known, kwds
 
 
-if isiOS:
+try:  # Pythonista only
+    from platform import iOS_ver as ios_ver
+except (AttributeError, ImportError):
 
     def ios_ver(**unused):
-        '''Get the iOS version information.
-        '''
-        # on iOS ('10.3.3', ..., 'iPad4,2')
-        t = mac_ver()
-        # append 'machine' iPad, iPhone to 'release'
-        r = t[0] + _SPACE_ + t[2].split(',')[0]
-        return (r,) + t[1:]
-
-else:  # non-iOS
-
-    def ios_ver(**unused):  # PYCHOK expected
-        '''Get the iOS version information.
-        '''
         return (NN, (NN, NN, NN), NN)
 
 
@@ -596,9 +598,9 @@ def versions():
     return vs
 
 
-GeoConvert = _getenv_path('PYGEODESY_GEOCONVERT')
-GeodSolve  = _getenv_path('PYGEODESY_GEODSOLVE')
-RhumbSolve = _getenv_path('PYGEODESY_RHUMBSOLVE')
+GeoConvert = _getenv_path(lazily._PYGEODESY_GEOCONVERT_)
+GeodSolve  = _getenv_path(lazily._PYGEODESY_GEODSOLVE_)
+RhumbSolve = _getenv_path(lazily._PYGEODESY_RHUMBSOLVE_)
 # versions()  # get versions once
 
 if __name__ == '__main__':

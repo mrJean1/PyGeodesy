@@ -36,15 +36,16 @@ from pygeodesy.ktm import KTransverseMercator, _Xs, \
                          _AlpCoeffs, _BetCoeffs  # PYCHOK used!
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.props import deprecated_method, Property, Property_RO, property_RO
-from pygeodesy.rhumbBase import RhumbBase, RhumbLineBase,  pairs, _update_all_rls
+from pygeodesy.rhumbBase import RhumbBase, RhumbLineBase,  Int, pairs, \
+                                sincos2_, _update_all_rls
 # from pygeodesy.streprs import pairs  # from .rhumbBase
-from pygeodesy.units import Int
-from pygeodesy.utily import sincos2_
+# from pygeodesy.units import Int  # from .rhumbBase
+# from pygeodesy.utily import sincos2_  # from .rhumbBase
 
 from math import asinh, atan, cos, cosh, fabs, radians, sin, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.rhumbx
-__version__ = '23.08.20'
+__version__ = '23.09.05'
 
 
 class Rhumb(RhumbBase):

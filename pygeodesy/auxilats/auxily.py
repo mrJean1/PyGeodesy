@@ -26,7 +26,7 @@ from pygeodesy.karney import _ALL_DOCS, _Dict, _MODS  # PYCHOK used!
 from math import asinh, atan, copysign
 
 __all__ = ()
-__version__ = '23.08.20'
+__version__ = '23.09.14'
 
 
 class Aux(object):
@@ -200,6 +200,13 @@ def _Dlam(x, y):  # Chi1.tan, Chi2.tan
     else:
         r = _over(_Dasinh(x, y), _Datan(x, y))
     return r
+
+
+def _Dm(X, Y, s):  # in .auxDLat, .auxDST
+    # Return M{(X - Y) * s}, inplace X
+    X -= Y
+    X *= s
+    return X  # Fsum
 
 
 def _Dp0Dpsi(x, y):  # Chi1.tan, Chi2.tan

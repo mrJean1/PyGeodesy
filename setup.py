@@ -27,7 +27,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '23.08.15'
+__version__ = '23.09.12'
 
 
 def _c2(*names):
@@ -69,7 +69,8 @@ _KeyWords = ('AER', 'Albers', 'altitude', 'Andoyer', 'annulus', 'antipode', 'are
              'GARS', 'geocentric', 'GeoConvert', 'GeodesicExact', 'geodesy', 'geodetic', 'GeodSolve', 'GeodTest',
              'geographiclib', 'geohash', 'geoid', 'geoidHeight', 'GeoidHeights',
              'georef', 'Girard', 'gnomonic', 'gons', 'grades', 'gradians', 'Greiner', 'Greiner-Hormann',
-             'Hartzell', 'Hausdorff', 'Haversine', 'heading', 'height', 'Hodgman', 'horizon', 'Hormann', 'Hubeny',
+             'Hartzell', 'Hausdorff', 'Haversine', 'heading', 'height', 'Heron',
+             'Hodgman', 'horizon', 'Hormann', 'Hubeny',
              'IDW', 'incenter', 'incirle', 'infix_@_operator', 'inradius', 'intermediate', 'interpolate',
              'intersect', 'intersection', 'intersection3d', 'intersections',
              'Inverse-Distance-Weighting', 'Isometric', 'ITRF',

@@ -37,7 +37,7 @@ from pygeodesy.units import Epoch, _1mm as _TOL_M, Radius_
 # from math import fabs  # from .latlonBase
 
 __all__ = _ALL_LAZY.ellipsoidalBase
-__version__ = '23.06.11'
+__version__ = '23.09.09'
 
 
 class CartesianEllipsoidalBase(CartesianBase):
@@ -996,8 +996,8 @@ class LatLonEllipsoidalBase(LatLonBase):
 
     def trilaterate5(self, distance1, point2, distance2, point3, distance3,
                            area=True, eps=EPS1, wrap=False):
-        '''Trilaterate three points by area overlap or perimeter intersection
-           of three intersecting circles.
+        '''Trilaterate three points by I{area overlap} or I{perimeter
+           intersection} of three intersecting circles.
 
            @arg distance1: Distance to this point (C{meter}), same units
                            as B{C{eps}}).
@@ -1048,7 +1048,7 @@ class LatLonEllipsoidalBase(LatLonBase):
            @note: Ellipsoidal trilateration invokes methods C{LatLon.intersections2}
                   and C{LatLon.nearestOn} based on I{Karney}'s Python U{geographiclib
                   <https://PyPI.org/project/geographiclib>} if installed, otherwise
-                  uses the accurate (but slower) C{ellipsoidalExact.LatLon} methods.
+                  the accurate (but slower) C{ellipsoidalExact.LatLon} methods.
         '''
         return _trilaterate5(self, distance1,
                              self.others(point2=point2), distance2,

@@ -51,7 +51,7 @@ from contextlib import contextmanager
 from math import asin, cos, degrees, fabs, radians
 
 __all__ = _ALL_LAZY.latlonBase
-__version__ = '23.08.09'
+__version__ = '23.09.09'
 
 
 class LatLonBase(_NamedBase):
@@ -1105,19 +1105,19 @@ class LatLonBase(_NamedBase):
            the B{C{radius}}' earth model iff non-C{None}.
         '''
         try:
-            t = self._rhumb33[(exact, radius)]
+            d = self._rhumb3dict
+            t = d[(exact, radius)]
         except KeyError:
             D = self.datum if radius is None else _spherical_datum(radius)  # ellipsoidal OK
             r = D.ellipsoid.rhumb_(exact=exact)  # or D.isSpherical)
             t = r, D, _MODS.karney.Caps
-            d = self._rhumb33
             while d:
                 d.popitem()
             d[(exact, radius)] = t  # cache 3-tuple
         return t
 
     @Property_RO
-    def _rhumb33(self):
+    def _rhumb3dict(self):
         return {}  # single-item cache
 
     def rhumbAzimuthTo(self, other, exact=False, radius=None, wrap=False):
@@ -1240,8 +1240,10 @@ class LatLonBase(_NamedBase):
                           L{a_f2Tuple}), overriding this point's datum.
            @kwarg height: Optional height, overriding the mean height
                           (C{meter}).
-           @kwarg fraction: Midpoint location from this point (C{scalar}),
-                            may be negative or greater than 1.0.
+           @kwarg fraction: Midpoint location from this point (C{scalar}), 0
+                            for this, 1 for the B{C{other}}, 0.5 for halfway
+                            between this and the B{C{other}} point, may be
+                            negative or greater than 1.
            @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the
                         B{C{other}} point (C{bool}).
 
@@ -1582,8 +1584,8 @@ _toCartesian3 = _toCartesian3()  # PYCHOK singleton
 
 def _trilaterate5(p1, d1, p2, d2, p3, d3, area=True, eps=EPS1,  # MCCABE 13
                                           radius=R_M, wrap=False):
-    '''(INTERNAL) Trilaterate three points by area overlap or by
-       perimeter intersection of three circles.
+    '''(INTERNAL) Trilaterate three points by I{area overlap} or by
+       I{perimeter intersection} of three circles.
 
        @note: The B{C{radius}} is only needed for both the n-vectorial
               and C{sphericalTrigonometry.LatLon.distanceTo} methods and

@@ -11,12 +11,12 @@ under the MIT/X11 License.  For more information, see the U{GeographicLib
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.auxilats.auxily import Aux, _Datan, _Dasinh, _sc, _sn,  AuxError
+from pygeodesy.auxilats.auxily import Aux, _Datan, _Dasinh, _Dm, _sc, _sn, \
+                                      AuxError
 from pygeodesy.auxilats.auxLat import AuxLat,  _ALL_DOCS
 from pygeodesy.basics import map1, _reverange
-from pygeodesy.constants import INF, NAN, isfinite, isinf, isnan, _0_0, \
-                               _0_5, _1_0, _2_0, _N_2_0, _3_0, _naninf, \
-                               _over, _1_over
+from pygeodesy.constants import INF, NAN, isfinite, isinf, isnan, _0_0, _0_5, \
+                               _1_0, _2_0, _N_2_0, _naninf, _over, _1_over
 from pygeodesy.elliptic import Elliptic as _Ef,  Fsum
 # from pygeodesy.errors import AuxError  # from .auxilats.auxily
 # from pygeodesy.fsums import Fsum  # from .elliptic
@@ -25,7 +25,7 @@ from pygeodesy.elliptic import Elliptic as _Ef,  Fsum
 from math import atan, atan2, cos, sin, sqrt
 
 __all__ = ()
-__version__ = '23.08.19'
+__version__ = '23.09.14'
 
 
 class AuxDLat(AuxLat):
@@ -109,9 +109,7 @@ class AuxDLat(AuxLat):
             d2  = _1_0 - sk2
             c2  = ((_1_0 - t) * (_1_0 + t) / t2)**2 if t else _1_0
             # E(z)/sin(z)
-            E_s = (_Ef.fRF(c2, d2, _1_0) -
-                   _Ef.fRD(c2, d2, _1_0, _3_0) * sk2)
-            Dt *= E_s - k2 * sx * sy
+            Dt *= _Ef._RFRD(c2, d2, _1_0, sk2) - k2 * sx * sy
         return Dt
 
     def DIsometric(self, Phi1, Phi2):
@@ -235,9 +233,8 @@ def _DClenshaw(sinp, Zeta1, Zeta2, cs, K):
         U0b *=  sp * cm
         U0a *=  cp * smd
         U0a +=  U0b
-        U0a -=  U1b
-        U0a *= _2_0
-        r =  float(U0a) if sinp else U0a  # Fsum
+        U0a  = _Dm(U0a, U1b, _2_0)
+        r = float(U0a) if sinp else U0a  # Fsum
     else:
         r = _naninf(xD, xb, xa)
     return r

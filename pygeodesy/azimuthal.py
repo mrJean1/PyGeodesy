@@ -71,7 +71,7 @@ from pygeodesy.utily import asin1, atan2b, atan2d, sincos2, \
 from math import acos, atan, atan2, degrees, fabs, sin, sqrt
 
 __all__ = _ALL_LAZY.azimuthal
-__version__ = '23.07.10'
+__version__ = '23.09.07'
 
 _EPS_K         = _EPStol * _0_1  # Karney's eps_ or _EPSmin * _0_1?
 _over_horizon_ = 'over horizon'
@@ -133,11 +133,15 @@ class _AzimuthalBase(_NamedBase):
         '''
         return self.datum.ellipsoid.a
 
+    a = equatoradius
+
     @Property_RO
     def flattening(self):
-        '''Get the geodesic's flattening (C{float}).
+        '''Get the geodesic's flattening (C{scalar}).
         '''
         return self.datum.ellipsoid.f
+
+    f = flattening
 
     def forward(self, lat, lon, name=NN):  # PYCHOK no cover
         '''(INTERNAL) I{Must be overloaded}, see function C{notOverloaded}.

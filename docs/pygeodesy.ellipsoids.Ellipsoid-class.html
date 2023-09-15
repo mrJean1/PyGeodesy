@@ -105,9 +105,9 @@
         <span class="summary-sig-arg">f</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
       New <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
-      class="link">Ellipsoid</a> from the <i>equatorial</i> radius and 
-      either the <i>polar</i> radius or <i>inverse flattening</i> or 
-      <i>flattening</i>.</td>
+      class="link">Ellipsoid</a> from the <i>equatorial</i> radius 
+      <i>and</i> either the <i>polar</i> radius or <i>inverse 
+      flattening</i> or <i>flattening</i>.</td>
           <td align="right" valign="top">
             
             
@@ -1315,7 +1315,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#f" class="summary-name">f</a><br />
-      Get the <i>flattening</i> (<code>float</code>), <i class="math">(a - 
+      Get the <i>flattening</i> (<code>scalar</code>), <i class="math">(a -
       b) / a</i>, <code>0</code> for spherical, negative for prolate.
     </td>
   </tr>
@@ -1324,7 +1324,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#f_" class="summary-name">f_</a><br />
-      Get the <i>inverse flattening</i> (<code>float</code>), <i 
+      Get the <i>inverse flattening</i> (<code>scalar</code>), <i 
       class="math">1 / f</i> == <i class="math">a / (a - b)</i>, 
       <code>0</code> for spherical, see <code>a_b2f_</code>.
     </td>
@@ -1476,7 +1476,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#flattening" class="summary-name">flattening</a><br />
-      Get the <i>flattening</i> (<code>float</code>), <i class="math">(a - 
+      Get the <i>flattening</i> (<code>scalar</code>), <i class="math">(a -
       b) / a</i>, <code>0</code> for spherical, negative for prolate.
     </td>
   </tr>
@@ -1485,7 +1485,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#flattening1st" class="summary-name">flattening1st</a><br />
-      Get the <i>flattening</i> (<code>float</code>), <i class="math">(a - 
+      Get the <i>flattening</i> (<code>scalar</code>), <i class="math">(a -
       b) / a</i>, <code>0</code> for spherical, negative for prolate.
     </td>
   </tr>
@@ -1787,8 +1787,8 @@
   </tr></table>
   
   <p>New <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
-  class="link">Ellipsoid</a> from the <i>equatorial</i> radius and either 
-  the <i>polar</i> radius or <i>inverse flattening</i> or 
+  class="link">Ellipsoid</a> from the <i>equatorial</i> radius <i>and</i> 
+  either the <i>polar</i> radius or <i>inverse flattening</i> or 
   <i>flattening</i>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
@@ -1797,7 +1797,7 @@
         <li><strong class="pname"><code>b</code></strong> - Optional polar radius, semi-axis (<code>meter</code>).</li>
         <li><strong class="pname"><code>f_</code></strong> - Inverse flattening: <i class="math">a / (a - b)</i> 
           (<code>float</code> &gt;&gt;&gt; 1.0).</li>
-        <li><strong class="pname"><code>f</code></strong> - Flattening: <i class="math">(a - b) / a</i> (<code>float</code>, 
+        <li><strong class="pname"><code>f</code></strong> - Flattening: <i class="math">(a - b) / a</i> (<code>scalar</code>,
           near zero for spherical).</li>
         <li><strong class="pname"><code>name</code></strong> - Optional, unique name (<code>str</code>).</li>
     </ul></dd>
@@ -4517,12 +4517,12 @@ class="math">b_a * exp(es_atanh(1))</i>.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">f</h3>
-  <p>Get the <i>flattening</i> (<code>float</code>), <i class="math">(a - 
+  <p>Get the <i>flattening</i> (<code>scalar</code>), <i class="math">(a - 
   b) / a</i>, <code>0</code> for spherical, negative for prolate.</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">f(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>flattening</i> (<code>float</code>), <i class="math">(a - b) / 
+        - Get the <i>flattening</i> (<code>scalar</code>), <i class="math">(a - b) / 
 a</i>, <code>0</code> for spherical, negative for prolate.
     </dd>
     <dt>Set method:</dt>
@@ -4543,15 +4543,15 @@ a</i>, <code>0</code> for spherical, negative for prolate.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">f_</h3>
-  <p>Get the <i>inverse flattening</i> (<code>float</code>), <i 
+  <p>Get the <i>inverse flattening</i> (<code>scalar</code>), <i 
   class="math">1 / f</i> == <i class="math">a / (a - b)</i>, <code>0</code>
   for spherical, see <code>a_b2f_</code>.</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">f_(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>inverse flattening</i> (<code>float</code>), <i class="math">1 /
-f</i> == <i class="math">a / (a - b)</i>, <code>0</code> for spherical, see
-<code>a_b2f_</code>.
+        - Get the <i>inverse flattening</i> (<code>scalar</code>), <i class="math">1 
+/ f</i> == <i class="math">a / (a - b)</i>, <code>0</code> for spherical, 
+see <code>a_b2f_</code>.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -4974,12 +4974,12 @@ or <i class="math">b * PI / 2</i>.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">flattening</h3>
-  <p>Get the <i>flattening</i> (<code>float</code>), <i class="math">(a - 
+  <p>Get the <i>flattening</i> (<code>scalar</code>), <i class="math">(a - 
   b) / a</i>, <code>0</code> for spherical, negative for prolate.</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">f(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>flattening</i> (<code>float</code>), <i class="math">(a - b) / 
+        - Get the <i>flattening</i> (<code>scalar</code>), <i class="math">(a - b) / 
 a</i>, <code>0</code> for spherical, negative for prolate.
     </dd>
     <dt>Set method:</dt>
@@ -5000,12 +5000,12 @@ a</i>, <code>0</code> for spherical, negative for prolate.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">flattening1st</h3>
-  <p>Get the <i>flattening</i> (<code>float</code>), <i class="math">(a - 
+  <p>Get the <i>flattening</i> (<code>scalar</code>), <i class="math">(a - 
   b) / a</i>, <code>0</code> for spherical, negative for prolate.</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">f(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>flattening</i> (<code>float</code>), <i class="math">(a - b) / 
+        - Get the <i>flattening</i> (<code>scalar</code>), <i class="math">(a - b) / 
 a</i>, <code>0</code> for spherical, negative for prolate.
     </dd>
     <dt>Set method:</dt>
@@ -5836,7 +5836,7 @@ class="math">4 / 3 * PI * R3**3</i>.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Sep  1 13:25:18 2023
+    Generated by Epydoc 3.0.1 on Thu Sep 14 13:54:00 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

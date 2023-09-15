@@ -43,16 +43,16 @@ U{GeographicLib<https://GeographicLib.SourceForge.io>} documentation.
 from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import copysign0, isodd, neg, neg_, _reverange
-from pygeodesy.constants import INF, _K0_UTM, NINF, PI, PI_2, _0_0s, \
-                               _0_0, _1_0, _90_0, _180_0
+from pygeodesy.constants import INF, _K0_UTM, PI, PI_2, _0_0s, _0_0, \
+                               _1_0, _90_0, _copysignINF
 # from pygeodesy.datums import _spherical_datum  # _MODS
 # from pygeodesy.ellipsoids import _EWGS84  # from .karney
 from pygeodesy.errors import _ValueError, _xkwds_get, _Xorder
-from pygeodesy.fmath import fsum1_, hypot, hypot1
-# from pygeodesy.fsums import fsum1_  # from .fmath
+from pygeodesy.fmath import hypot, hypot1
+from pygeodesy.fsums import fsum1f_
 from pygeodesy.interns import NN, _COMMASPACE_, _singular_
-from pygeodesy.karney import _atan2d, _diff182, _fix90, _NamedBase, \
-                             _norm180, _polynomial, _unsigned2,  _EWGS84
+from pygeodesy.karney import _atan2d, _diff182, _fix90, _polynomial, \
+                             _norm180, _unsigned2,  _EWGS84, _NamedBase
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS,  _pairs
 # from pygeodesy.named import _NamedBase  # from .karney
 from pygeodesy.namedTuples import Forward4Tuple, Reverse4Tuple
@@ -60,13 +60,13 @@ from pygeodesy.props import property_doc_, Property, Property_RO, \
                            _update_all
 # from pygeodesy.streprs import pairs as _pairs  # from .lazily
 from pygeodesy.units import Degrees, Scalar_, _1mm as _TOL_10  # PYCHOK used!
-from pygeodesy.utily import atand, sincos2, sincos2d_
+from pygeodesy.utily import atand, _loneg, sincos2, sincos2d_
 
-from cmath import phase
+from cmath import polar
 from math import atan2, asinh, cos, cosh, degrees, fabs, sin, sinh, sqrt, tanh
 
 __all__ = _ALL_LAZY.ktm
-__version__ = '23.08.20'
+__version__ = '23.09.07'
 
 
 class KTMError(_ValueError):
@@ -163,7 +163,7 @@ class KTransverseMercator(_NamedBase):
     @Property_RO
     def _Bet(self):
         C = _Xs(_BetCoeffs, self.TMorder, self.ellipsoid)
-        return tuple(map(neg, C)) if self.f else C  # negated if isEllispoidal
+        return tuple(map(neg, C)) if self.f else C  # negated if isEllipsoidal
 
     @Property
     def ellipsoid(self):
@@ -191,7 +191,7 @@ class KTransverseMercator(_NamedBase):
 
     @Property_RO
     def flattening(self):
-        '''Get the C{ellipsoid}'s flattening (C{float}).
+        '''Get the C{ellipsoid}'s flattening (C{scalar}).
         '''
         return self.ellipsoid.f
 
@@ -219,7 +219,7 @@ class KTransverseMercator(_NamedBase):
         lon, _lon = _unsigned2(lon)
         backside  =  lon > 90
         if backside:  # PYCHOK no cover
-            lon = _180_0 - lon
+            lon = _loneg(lon)
             if lat == 0:
                 _lat = True
 
@@ -233,21 +233,21 @@ class KTransverseMercator(_NamedBase):
                 xip  = atan2(tp, clam)
                 etap = asinh(slam / h)  # atanh(sin(lam) / cosh(psi))
                 g = _atan2d(slam * tp, clam * hypot1(tp))  # Krueger p 22 (44)
-                k =  sqrt(E.e21 + E.e2 * cphi**2) * hypot1(t) / h
+                k =  sqrt(cphi**2 * E.e2 + E.e21) * hypot1(t) / h
             elif self.raiser:
                 raise KTMError(lat=lat, lon=lon, lon0=lon0, txt=_singular_)
             else:  # PYCHOK no cover
-                xip, etap = _0_0, (NINF if slam < 0 else INF)
+                xip, etap = _0_0, _copysignINF(slam)
                 g, k = copysign0(_90_0, slam), INF
         else:  # PYCHOK no cover
             xip, etap = PI_2, _0_0
             g, k = lon, E.es_c
-        y, x, t, z = self._yxgk4(xip, etap, self._Alp)
-        g -= t
-        k *= z * self._k0_b1
+        y, x, d, t = _Cyxgk4(E, xip, etap, self._Alp)
+        g -= d
+        k *= t * self._k0_b1
 
         if backside:  # PYCHOK no cover
-            y, g = (PI - y), (_180_0 - g)
+            y, g = (PI - y), _loneg(g)
         y *= self._k0_a1
         x *= self._k0_a1
         if _lat:
@@ -330,29 +330,29 @@ class KTransverseMercator(_NamedBase):
         if backside:  # PYCHOK no cover
             xi = PI - xi
 
-        xip, etap, g, k = self._yxgk4(xi, eta, self._Bet)
+        E = self.ellipsoid
+        xip, etap, g, k = _Cyxgk4(E, xi, eta, self._Bet)
         t = self._k0_b1
-        k = (t / k) if k else (NINF if t < 0 else INF)
+        k = (t / k) if k else _copysignINF(t)  # _over(t, k)
         h, c = sinh(etap), cos(xip)
         if c > 0:
             r =  hypot(h, c)
         else:  # PYCHOK no cover
             r =  fabs(h)
             c = _0_0
-        E = self.ellipsoid
         if r:
             lon = _atan2d(h, c)  # Krueger p 17 (25)
             s   =  sin(xip)  # Newton for tau
             t   =  E.es_tauf(s / r)
             lat =  atand(t)
             g  += _atan2d(s * tanh(etap), c)  # Krueger p 19 (31)
-            k  *=  sqrt(E.e21 + E.e2 / (t**2 + _1_0)) * hypot1(t) * r
+            k  *=  sqrt(E.e2 / (t**2 + _1_0) + E.e21) * hypot1(t) * r
         else:  # PYCHOK no cover
             lat, lon = _90_0, _0_0
             k *= E.es_c
 
         if backside:  # PYCHOK no cover
-            lon, g = (_180_0 - lon), (_180_0 - g)
+            lon, g = _loneg(lon), _loneg(g)
         if _lat:
             lat, g = neg_(lat, g)
         if _lon:
@@ -387,56 +387,10 @@ class KTransverseMercator(_NamedBase):
             d.update(name=self.name)
         return _COMMASPACE_.join(_pairs(d, **kwds))
 
-    def _yxgk4(self, xi_, eta_, C):
-        '''(INTERNAL) Complex Clenshaw summation with
-           C{B{C}=_Alp} or C{B{C}=-_Bet}, negated!
-        '''
-        def _sinhcosh2(x):
-            return sinh(x), cosh(x)
 
-        x = complex(xi_, eta_)
-        if self.f:  # isEllipsoidal
-            s,  c  =  sincos2(  xi_  * 2)
-            sh, ch = _sinhcosh2(eta_ * 2)
-            n = -s
-            s = complex(s * ch, c * sh)  # sin(zeta * 2)
-            c = complex(c * ch, n * sh)  # cos(zeta * 2)
-
-            y0 = y1 = \
-            z0 = z1 = complex(0)  # 0+j0
-            n  = self.TMorder  # == len(C) - 1
-            if isodd(n):
-                Cn = C[n]
-                y0 = complex(Cn)  # +j0
-                z0 = complex(Cn * (n * 2))
-                n -= 1
-            a  =  c * 2  # cos(zeta * 2) * 2
-            _c = _C
-            while n > 0:
-                Cn =  C[n]
-                y1 = _c(a, y0, y1, Cn)
-                z1 = _c(a, z0, z1, Cn * (n * 2))
-                n -=  1
-                Cn =  C[n]
-                y0 = _c(a, y1, y0, Cn)
-                z0 = _c(a, z1, z0, Cn * (n * 2))
-                n -=  1
-            # assert n == 0
-            x = _c(s, y0, -x, _0_0)
-            c = _c(c, z0, z1, _1_0)
-
-            # Gauss-Schreiber to Gauss-Krueger TM
-            # C{cmath.phase} handles INF, NAN, etc.
-            g, k =  degrees(phase(c)), abs(c)
-        else:  # isSpherical
-            g, k = _0_0, _1_0
-
-        return x.real, x.imag, g, k
-
-
-def _C(a, b0, b1, Cn):
-    '''(INTERNAL) Accurately compute complex M{a * b0 - b1 + Cn}
-       with complex args C{a}, C{b0} and C{b1} and scalar C{Cn}.
+def _cma(a, b0, b1, Cn):
+    '''(INTERNAL) Compute complex M{a * b0 - b1 + Cn} with complex
+       C{a}, C{b0} and C{b1} and scalar C{Cn}.
 
        @see: CPython function U{_Py_c_prod<https://GitHub.com/python/
              cpython/blob/main/Objects/complexobject.c>}.
@@ -446,9 +400,60 @@ def _C(a, b0, b1, Cn):
               CPython function U{math_fsum<https://GitHub.com/python/
               cpython/blob/main/Modules/mathmodule.c>}
     '''
-    r = fsum1_(a.real * b0.real, -a.imag * b0.imag, -b1.real, Cn, floats=True)
-    j = fsum1_(a.real * b0.imag,  a.imag * b0.real, -b1.imag,     floats=True)
+    r = fsum1f_(a.real * b0.real, -a.imag * b0.imag, -b1.real, Cn)
+    j = fsum1f_(a.real * b0.imag,  a.imag * b0.real, -b1.imag)
     return complex(r, j)
+
+
+def _Cyxgk4(E, xi_, eta_, C):
+    '''(INTERNAL) Complex Clenshaw summation with C{B{C}=._Alp}
+       or C{B{C}=-._Bet}.
+    '''
+    x = complex(xi_, eta_)
+    if E.f:  # isEllipsoidal
+        s,  c  =  sincos2(  xi_  * 2)
+        sh, ch = _sinhcosh2(eta_ * 2)
+        n = -s
+        s = complex(s * ch, c * sh)  # sin(zeta * 2)
+        c = complex(c * ch, n * sh)  # cos(zeta * 2)
+        a = c * 2  # cos(zeta * 2) * 2
+
+        y0 = y1 = \
+        z0 = z1 = complex(0)  # 0+0j
+        n  = len(C) - 1  # == .TMorder
+        if isodd(n):
+            Cn = C[n]
+            y0 = complex(Cn)  # +0j
+            z0 = complex(Cn * (n * 2))
+            n -= 1
+        _c = _cma
+        while n > 0:
+            Cn =  C[n]
+            y1 = _c(a, y0, y1, Cn)
+            z1 = _c(a, z0, z1, Cn * (n * 2))
+            n -=  1
+            Cn =  C[n]
+            y0 = _c(a, y1, y0, Cn)
+            z0 = _c(a, z1, z0, Cn * (n * 2))
+            n -=  1
+        # assert n == 0
+        x = _c(s, y0, -x, _0_0)
+        c = _c(c, z0, z1, _1_0)
+
+        # Gauss-Schreiber to Gauss-Krueger TM
+        # C{cmath.polar} handles INF, NAN, etc.
+        k, g = polar(c)
+        g = degrees(g)
+    else:  # E.isSpherical
+        g, k = _0_0, _1_0
+
+    return x.real, x.imag, g, k
+
+
+def _sinhcosh2(x):
+    '''(INTERNAL) Like C{sincos2}.
+    '''
+    return sinh(x), cosh(x)
 
 
 def _Xs(_Coeffs, m, E, RA=False):  # in .rhumbx
@@ -463,13 +468,13 @@ def _Xs(_Coeffs, m, E, RA=False):  # in .rhumbx
     if n:  # isEllipsoidal
         X = [0]  # X[0] never used, it's just an integration
         # constant, it cancels when evaluating a definite
-        # integral.  Don't bother computing it, it is not
-        # used in C{KTransverseMercator._yxgk4} above nor
-        # in C{rhumbx._sincosSeries}.
+        # integral.  Don't bother computing it, it is unused
+        # in C{_Cyxgk4} above and C{rhumbx._sincosSeries}.
+        _X, _p = X.append, _polynomial
         i = (m + 2) if RA else 0
         for r in _reverange(m):  # [m-1 ... 0]
             j = i + r + 1
-            X.append(_polynomial(n, Cs, i, j) * n_ / Cs[j])
+            _X(_p(n, Cs, i, j) * n_ / Cs[j])
             i = j + 1
             n_ *= n
         X =  tuple(X)
@@ -478,7 +483,7 @@ def _Xs(_Coeffs, m, E, RA=False):  # in .rhumbx
     return X
 
 
-# _Alp- and _BetCoeffs in .rhumbx
+# _Alp- and _BetCoeffs in .rhumbx, .rhumbBase
 _AlpCoeffs = {  # Generated by Maxima on 2015-05-14 22:55:13-04:00
  4: (  # GEOGRAPHICLIB_TRANSVERSEMERCATOR_ORDER == 4
      164, 225, -480, 360, 720,  # Alp[1]/n^1, polynomial(n), order 3

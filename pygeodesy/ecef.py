@@ -86,7 +86,7 @@ from pygeodesy.utily import atan2d, degrees90, degrees180, sincos2, sincos2_, \
 from math import atan2, cos, degrees, fabs, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '23.08.20'
+__version__ = '23.09.07'
 
 _Ecef_    = 'Ecef'
 _prolate_ = 'prolate'
@@ -208,14 +208,6 @@ class _EcefBase(_NamedBase):
                                 other.ellipsoid == self.ellipsoid)
 
     @Property_RO
-    def equatoradius(self):
-        '''Get the I{equatorial} radius, semi-axis (C{meter}).
-        '''
-        return self.ellipsoid.a
-
-    a = equatorialRadius = equatoradius  # Karney property
-
-    @Property_RO
     def datum(self):
         '''Get the datum (L{Datum}).
         '''
@@ -228,8 +220,16 @@ class _EcefBase(_NamedBase):
         return self._E
 
     @Property_RO
+    def equatoradius(self):
+        '''Get the C{ellipsoid}'s equatorial radius, semi-axis (C{meter}).
+        '''
+        return self.ellipsoid.a
+
+    a = equatorialRadius = equatoradius  # Karney property
+
+    @Property_RO
     def flattening(self):  # Karney property
-        '''Get the I{flattening} (C{float}), M{(a - b) / a}, positive for
+        '''Get the C{ellipsoid}'s flattening (C{scalar}), positive for
            I{oblate}, negative for I{prolate} or C{0} for I{near-spherical}.
         '''
         return self.ellipsoid.f

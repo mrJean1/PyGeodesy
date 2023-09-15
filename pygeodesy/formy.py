@@ -7,6 +7,7 @@ u'''Formulary of basic geodesy functions and approximations.
 from __future__ import division as _; del _  # PYCHOK semicolon
 
 # from pygeodesy.basics import isscalar  # from .fsums
+# from pygeodesy.cartesianBase import CartesianBase  # _MODS
 from pygeodesy.constants import EPS, EPS0, EPS1, PI, PI2, PI3, PI_2, R_M, \
                                _umod_PI2, float0_, isnon0, remainder, \
                                _0_0, _0_125, _0_25, _0_5, _1_0, _2_0, \
@@ -26,17 +27,21 @@ from pygeodesy.namedTuples import Bearing2Tuple, Distance4Tuple, \
                                   Intersection3Tuple, LatLon2Tuple, \
                                   PhiLam2Tuple, Vector3Tuple
 # from pygeodesy.streprs import Fmt, unstr  # from .named
+# from pygeodesy.triaxials import _hartzell3d2  # _MODS
 from pygeodesy.units import Bearing, Degrees_, Distance, Distance_, Height, \
                             Lam_, Lat, Lon, Meter_, Phi_, Radians, Radians_, \
                             Radius, Radius_, Scalar, _100km
-from pygeodesy.utily import acos1, atan2b, atan2d, degrees2m, m2degrees, \
+from pygeodesy.utily import acos1, atan2b, atan2d, degrees2m, _loneg, m2degrees, \
                             tan_2, sincos2, sincos2_, sincos2d_, _Wrap
+# from pygeodesy.vector3d import _otherV3d  # _MODS
+# from pygeodesy import ellipsoidalExact, ellipsoidalKarney, vector3d, \
+#                       sphericalNvector, sphericalTrigonometry  # _MODS
 
 from contextlib import contextmanager
 from math import asin, atan, atan2, cos, degrees, fabs, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '23.08.20'
+__version__ = '23.09.06'
 
 _D2_R2  = (PI / _180_0)**2  # degrees- to radians-squared
 _ratio_ = 'ratio'
@@ -953,7 +958,7 @@ def hartzell(pov, los=None, earth=_WGS84, name=NN, **LatLon_and_kwds):
                                point plus C{LatLon} keyword arguments, include
                                B{C{datum}} if different from B{C{earth}}.
 
-       @return: The earth intersection (L{Vector3d}, C{Cartesian type} of
+       @return: The intersection point (L{Vector3d}, C{Cartesian type} of
                 B{C{pov}} or B{C{LatLon}}).
 
        @raise IntersectionError: Null B{C{pov}} or B{C{los}} vector, B{C{pov}}
@@ -1409,7 +1414,7 @@ def isnormal(lat, lon, eps=0):
 
        @see: Functions L{isnormal_} and L{normal}.
     '''
-    return (_90_0 - fabs(lat)) >= eps and (_180_0 - fabs(lon)) >= eps
+    return (_90_0 - fabs(lat)) >= eps and _loneg(fabs(lon)) >= eps
 
 
 def isnormal_(phi, lam, eps=0):
@@ -1545,7 +1550,7 @@ def opposing(bearing1, bearing2, margin=_90_0):
        @kwarg margin: Optional, interior angle bracket (C{degrees}).
 
        @return: C{True} if both bearings point in opposite, C{False} if
-                in similar or C{None} if in perpendicular directions.
+                in similar or C{None} if in I{perpendicular} directions.
 
        @see: Function L{opposing_}.
     '''

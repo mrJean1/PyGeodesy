@@ -33,7 +33,7 @@ from pygeodesy.vector3dBase import Vector3dBase
 # from math import fabs, sqrt  # from .fmath
 
 __all__ = _ALL_LAZY.vector3d
-__version__ = '23.08.05'
+__version__ = '23.09.08'
 
 
 class Vector3d(Vector3dBase):
@@ -48,13 +48,12 @@ class Vector3d(Vector3dBase):
     '''
 
     def bearing(self, useZ=True):
-        '''Get the "bearing" of this vector.
+        '''Get this vector's "bearing", the angle off the +Z axis, clockwise.
 
-           @kwarg useZ: If C{True}, use the Z component, otherwise
-                        consider the Y as +Z axis.
+           @kwarg useZ: If C{True}, use the Z component, otherwise ignore the
+                        Z component and consider the +Y as the +Z axis.
 
-           @return: Bearing (compass C{degrees}), the counter-clockwise
-                    angle off the +Z axis.
+           @return: Bearing (compass C{degrees}).
         '''
         x, y = self.x, self.y
         if useZ:
@@ -452,7 +451,7 @@ def _intersect3d3(start1, end1, start2, end2, eps=EPS, useZ=False):  # MCCABE 16
     # co-planar, non-skew lines
     ab2 = ab.length2
     if ab2 < e:  # colinear, parallel or null line(s)
-        x = b.length2 < a.length2
+        x = a.length2 > b.length2
         if x:  # make C{a} the shortest
             a,  b  = b,  a
             s1, s2 = s2, s1

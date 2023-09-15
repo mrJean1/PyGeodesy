@@ -99,7 +99,7 @@ def atan2b(y, x):
 
 def atan2d(y, x, reverse=False):
     '''Return C{atan2(B{y}, B{x})} in degrees M{[-180..+180]},
-       optionally reversed (by 180 degrees for C{azi2}).
+       optionally I{reversed} (by 180 degrees for C{azi2}).
 
        @see: I{Karney}'s C++ function U{Math.atan2d
              <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Math.html>}.
@@ -385,6 +385,12 @@ def km2m(km):
        @raise ValueError: Invalid B{C{km}}.
     '''
     return Meter(Float(km=km) * _M_KM)
+
+
+def _loneg(lon):
+    '''(INTERNAL) "Complement" of C{lon}.
+    '''
+    return _180_0 - lon
 
 
 def m2chain(meter):

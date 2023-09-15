@@ -27,7 +27,7 @@ from math import copysign as _copysign
 import inspect as _inspect
 
 __all__ = _ALL_LAZY.basics
-__version__ = '23.08.24'
+__version__ = '23.09.08'
 
 _0_0                  =  0.0  # in .constants
 _below_               = 'below'
@@ -65,11 +65,11 @@ try:
     _Bytes = unicode, bytearray  # PYCHOK expected
     _Strs  = basestring, str  # XXX , bytes
 
-    def _NOP(x):
-        '''NOP, pass thru.'''
+    def _pass(x):  # == .utily._passarg
+        '''Pass thru, no-op'''
         return x
 
-    str2ub = ub2str = _NOP  # avoids UnicodeDecodeError
+    str2ub = ub2str = _pass  # avoids UnicodeDecodeError
 
     def _Xstr(exc):  # PYCHOK no cover
         '''I{Invoke only with caught ImportError} B{C{exc}}.

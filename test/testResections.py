@@ -4,13 +4,14 @@
 # Test L{resections} module.
 
 __all__ = ('Tests',)
-__version__ = '23.06.06'
+__version__ = '23.09.11'
 
 from bases import endswith, isWindows, TestsBase
 
 from pygeodesy import EPS0, PI, PI_4, cassini, collins5, fstr, pierlot, pierlotx, \
-                      ResectionError, snellius3, tienstra7, triAngle, triAngle4, triSide, \
-                      triSide2, triSide4, Vector3d, wildberger3,  collins, tienstra  # DEPRECATED
+                      ResectionError, snellius3, tienstra7, triAngle, triAngle5, \
+                      triArea, triSide, triSide2, triSide4, Vector3d, wildberger3, \
+                      collins, tienstra, triAngle4  # DEPRECATED
 from math import degrees
 
 
@@ -122,8 +123,14 @@ class Tests(TestsBase):
     def testTri(self):  # for coverage
         t = triAngle(1, 2, 3)
         self.test(triAngle.__name__, t, PI, prec=9, nl=1)
-        t = triAngle4(1, 2, EPS0 / 2)
+        t = triAngle4(1, 2, EPS0 / 2)  # DEPRECATED
         self.test(triAngle4.__name__, t, '(1.570796, 1.570796, 0.0, 0.0)', known=True)
+        t = triAngle5(1, 2, EPS0 / 2)
+        self.test(triAngle5.__name__, t, '(1.570796, 1.570796, 0.0, 0.0, 0.0)', known=True)
+        t = triAngle5(4, 13, 15)
+        self.test(triAngle5.__name__, t, '(0.24871, 0.927295, 1.965587, 1.5, 24.0)', known=True)
+        t = triArea(4, 13, 15)
+        self.test(triArea.__name__, t, '24.0')
         t = triSide2(0, 2, 0)
         self.test(triSide2.__name__, t, '(2.0, 0.0)')
         t = triSide2(0, 2, PI)

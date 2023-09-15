@@ -25,35 +25,37 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 
 # from pygeodesy.basics import _xinstanceof  # from .karney
 from pygeodesy.constants import EPS, EPS1, INT0, _EPSqrt as _TOL, \
-                               _0_0, _0_01, _1_0, _90_0, _180_0
-# from pygeodesy.datums import _spherical_datum  # _MODS
+                               _0_0, _0_01, _1_0, _90_0
+# from pygeodesy.datums import _spherical_datum  # from .formy
 # from pygeodesy.ellipsoids import _EWGS84  # from .karney
 from pygeodesy.errors import IntersectionError, itemsorted, RhumbError, \
                             _xdatum, _xkwds, _Xorder
 # from pygeodesy.etm import ExactTransverseMercator  # _MODS
-from pygeodesy.fmath import euclid, favg,  fabs
-# from pygeodesy.fsums import Fsum  # _MODS
+from pygeodesy.fmath import euclid, favg,  fabs, Fsum
+from pygeodesy.formy import opposing,  _spherical_datum
+# from pygeodesy.fsums import Fsum  # from .fmath
 from pygeodesy.interns import NN, _coincident_, _COMMASPACE_, _intersection_, \
                              _no_, _parallel_, _under
 from pygeodesy.karney import Caps, _CapsBase, _diff182, _fix90, _norm180, \
                             _EWGS84, _xinstanceof
-from pygeodesy.ktm import KTransverseMercator, _AlpCoeffs  # PYCHOK used!
+# from pygeodesy.ktm import KTransverseMercator, _AlpCoeffs  # _MODS
 from pygeodesy.lazily import _ALL_DOCS, _ALL_MODS as _MODS
 # from pygeodesy.named import notOverloaded  # _MODS
 from pygeodesy.namedTuples import Distance2Tuple, LatLon2Tuple, NearestOn4Tuple
 from pygeodesy.props import Property, Property_RO, property_RO, _update_all
 from pygeodesy.streprs import Fmt, pairs, unstr
-from pygeodesy.units import Float_, Lat, Lon, Meter
-from pygeodesy.utily import sincos2d, sincos2d_, _unrollon, _Wrap
+from pygeodesy.units import Float_, Lat, Lon, Meter,  Int  # PYCHOK shared
+from pygeodesy.utily import _loneg, sincos2d, sincos2d_, _unrollon, _Wrap, \
+                             sincos2_  # PYCHOK shared
 from pygeodesy.vector3d import _intersect3d3, Vector3d  # in .intersection2 below
 
 # from math import fabs  # from .fmath
 
 __all__ = ()
-__version__ = '23.08.25'
+__version__ = '23.09.06'
 
 _rls   = []  # instances of C{RbumbLine...} to be updated
-_TRIPS = 65  # .intersection2, .nearestOn4, 18+
+_TRIPS = 65  # .intersection2, .nearestOn4, 19+
 
 
 class _Lat(Lat):
@@ -177,7 +179,7 @@ class RhumbBase(_CapsBase):
 
            @raise RhumbError: If C{abs(B{f}} exceeds non-zero C{f_max} and C{exact=False}.
         '''
-        E = _MODS.datums._spherical_datum(a_earth_f, Error=RhumbError).ellipsoid
+        E = _spherical_datum(a_earth_f, Error=RhumbError).ellipsoid
         if self._E != E:
             self._exactest(self.exact, E, self.f_max)
             _update_all_rls(self)
@@ -412,7 +414,8 @@ class RhumbLineBase(RhumbBase):
         '''I{Iteratively} find the intersection of this and an other rhumb line.
 
            @arg other: The other rhumb line (C{RhumbLine}).
-           @kwarg tol: Tolerance for longitudinal convergence (C{degrees}).
+           @kwarg tol: Tolerance for longitudinal convergence and parallel
+                       error (C{degrees}).
            @kwarg eps: Tolerance for L{pygeodesy.intersection3d3} (C{EPS}).
 
            @return: A L{LatLon2Tuple}{(lat, lon)} with the C{lat}- and
@@ -434,16 +437,16 @@ class RhumbLineBase(RhumbBase):
         try:
             if other is self:
                 raise ValueError(_coincident_)
-            # make globals and invariants locals
+            # make invariants and globals locals
+            _s_3d, s_az =  self._xTM3d,  self.azi12
+            _o_3d, o_az = other._xTM3d, other.azi12
+            t = opposing(s_az, o_az, margin=tol)
+            if t is not None:  # == t in (True, False)
+                raise ValueError(_parallel_)
             _diff =  euclid  # approximate length
             _i3d3 = _intersect3d3  # NOT .vector3d.intersection3d3
             _LL2T =  LatLon2Tuple
             _xTMr =  self.xTM.reverse  # ellipsoidal or spherical
-            _s_3d, s_az =  self._xTM3d,  self.azi12
-            _o_3d, o_az = other._xTM3d, other.azi12
-            t = fabs(s_az - o_az)
-            if t < EPS or fabs(t - _180_0) < EPS:
-                raise ValueError(_parallel_)
             # use halfway point as initial estimate
             p = _LL2T(favg(self.lat1, other.lat1),
                       favg(self.lon1, other.lon1))
@@ -453,7 +456,7 @@ class RhumbLineBase(RhumbBase):
                 t = _xTMr(v.x, v.y, lon0=p.lon)  # PYCHOK Reverse4Tuple
                 d = _diff(t.lon - p.lon, t.lat)  # PYCHOK t.lat + p.lat - p.lat
                 p = _LL2T(t.lat + p.lat, t.lon)  # PYCHOK t.lon + p.lon = lon0
-                if d < tol:
+                if d < tol:  # 19 trips
                     return _LL2T(p.lat, p.lon, iteration=i,  # PYCHOK p...
                                  name=self.intersection2.__name__)
         except Exception as x:
@@ -495,7 +498,7 @@ class RhumbLineBase(RhumbBase):
         if x90:  # reduce to [-180, 180)
             mu2 = _norm180(mu2)
             if fabs(mu2) > 90:  # point on anti-meridian
-                mu2 = _norm180(_180_0 - mu2)
+                mu2 = _norm180(_loneg(mu2))
         return mu2, x90
 
     def nearestOn4(self, lat, lon, tol=_TOL, exact=None, eps=EPS, est=None):
@@ -559,7 +562,7 @@ class RhumbLineBase(RhumbBase):
                 # def _over(p, q):  # see @note at RhumbLine[Aux].Position
                 #     return (p / (q or _copysign(tol, q))) if isfinite(q) else NAN
 
-                _s12 = _MODS.fsums.Fsum(s12).fsum2_
+                _s12 = Fsum(s12).fsum2_
                 for i in range(1, _TRIPS):  # suffix 1 == C++ 2, 2 == C++ 3
                     p = self.Position(s12)  # outmask=Cs.LATITUDE_LONGITUDE
                     r = gX.Inverse(lat, lon, p.lat2, p.lon2, outmask=gm)
@@ -631,7 +634,7 @@ __all__ += _ALL_DOCS(RhumbBase, RhumbLineBase)
 
 if __name__ == '__main__':
 
-    from pygeodesy import printf, RhumbAux as A, Rhumb as R
+    from pygeodesy import printf, Rhumb as R, RhumbAux as A
 
     A = A(_EWGS84).Line(30, 0, 45)
     R = R(_EWGS84).Line(30, 0, 45)
@@ -641,26 +644,27 @@ if __name__ == '__main__':
         a = A.Position(s).lon2
         r = R.Position(s).lon2
         e = (fabs(a - r) / a) if a else 0
-        printf('Position %s vs %s, diff %g', r, a, e)
+        printf('Position.lon2 %.14f vs %.14f, diff %g', r, a, e)
 
     for exact in (None, False, True, None):
         for est in (None, 1e6):
             a = A.nearestOn4(60, 0, exact=exact, est=est)
             r = R.nearestOn4(60, 0, exact=exact, est=est)
             printf('%s, iteration=%s, exact=%s, est=%s\n%s, iteration=%s',
-                   a.toRepr(), a.iteration, exact, est, r.toRepr(), r.iteration, nl=1)
+                   a.toRepr(), a.iteration, exact, est,
+                   r.toRepr(), r.iteration, nl=1)
 
 # % python3 -m pygeodesy.rhumbBase
 
-# Position 11.614558469016366 vs 11.61455846901637, diff 3.05885e-16
-# Position 7.589823028268422 vs 7.589823028268423, diff 1.17022e-16
-# Position 6.285260674163688 vs 6.285260674163687, diff 1.41311e-16
-# Position 5.639389953251457 vs 5.6393899532514595, diff 4.72486e-16
-# Position 5.253855274357075 vs 5.253855274357073, diff 3.38105e-16
-# Position 4.9976460429038 vs 4.9976460429038045, diff 8.88597e-16
-# Position 4.815033637404729 vs 4.81503363740473, diff 1.84459e-16
-# Position 4.678288217488354 vs 4.678288217488353, diff 1.89851e-16
-# Position 4.572056679062825 vs 4.572056679062826, diff 1.94262e-16
+# Position.lon2 11.61455846901637 vs 11.61455846901637, diff 3.05885e-16
+# Position.lon2 7.58982302826842 vs 7.58982302826842, diff 2.34045e-16
+# Position.lon2 6.28526067416369 vs 6.28526067416369, diff 1.41311e-16
+# Position.lon2 5.63938995325146 vs 5.63938995325146, diff 1.57495e-16
+# Position.lon2 5.25385527435707 vs 5.25385527435707, diff 3.38105e-16
+# Position.lon2 4.99764604290380 vs 4.99764604290380, diff 8.88597e-16
+# Position.lon2 4.81503363740473 vs 4.81503363740473, diff 1.84459e-16
+# Position.lon2 4.67828821748836 vs 4.67828821748835, diff 5.69553e-16
+# Position.lon2 4.57205667906283 vs 4.57205667906283, diff 1.94262e-16
 
 # NearestOn4Tuple(lat=45.0, lon=15.830286, distance=1977981.142985, normal=135.0), iteration=9, exact=None, est=None
 # NearestOn4Tuple(lat=45.0, lon=15.830286, distance=1977981.142985, normal=135.0), iteration=9
@@ -679,6 +683,12 @@ if __name__ == '__main__':
 
 # NearestOn4Tuple(lat=49.634582, lon=25.767876, distance=3083112.636236, normal=135.0), iteration=7, exact=True, est=1000000.0
 # NearestOn4Tuple(lat=49.634582, lon=25.767876, distance=3083112.636236, normal=135.0), iteration=7
+
+# NearestOn4Tuple(lat=45.0, lon=15.830286, distance=1977981.142985, normal=135.0), iteration=9, exact=None, est=None
+# NearestOn4Tuple(lat=45.0, lon=15.830286, distance=1977981.142985, normal=135.0), iteration=9
+
+# NearestOn4Tuple(lat=45.0, lon=15.830286, distance=1977981.142985, normal=135.0), iteration=9, exact=None, est=1000000.0
+# NearestOn4Tuple(lat=45.0, lon=15.830286, distance=1977981.142985, normal=135.0), iteration=9
 
 # **) MIT License
 #

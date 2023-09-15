@@ -54,7 +54,7 @@ from pygeodesy.vector3d import sumOf, Vector3d
 from math import asin, atan2, cos, degrees, fabs, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '23.08.25'
+__version__ = '23.09.09'
 
 _PI_EPS4 = PI - EPS4
 if _PI_EPS4 >= PI:
@@ -747,8 +747,8 @@ class LatLon(LatLonSphericalBase):
 
     def trilaterate5(self, distance1, point2, distance2, point3, distance3,
                            area=True, eps=EPS1, radius=R_M, wrap=False):
-        '''Trilaterate three points by area overlap or perimeter intersection
-           of three corresponding circles.
+        '''Trilaterate three points by I{area overlap} or I{perimeter
+           intersection} of three corresponding circles.
 
            @arg distance1: Distance to this point (C{meter}, same units
                            as B{C{radius}}).

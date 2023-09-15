@@ -42,7 +42,7 @@ from pygeodesy.utily import fabs, _unrollon, _Wrap
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.booleans
-__version__ = '23.08.16'
+__version__ = '23.09.11'
 
 _0_EPS =  EPS  # near-zero, positive
 _EPS_0 = -EPS  # near-zero, negative
@@ -275,7 +275,7 @@ class _LatLonBool(_Named):
         return LatLon2Tuple(self.y, self.x)
 
     def _link(self, other):
-        # Make this and an other point are neighbors.
+        # Make this and an other point neighbors.
         # assert _other(self, other)
         self._linked = other
         other._linked = self
@@ -1553,7 +1553,7 @@ class _EdgeFHP(object):
         self._bt  = _left_right_bottom_top_eps2(p1, p2)
 
     def _intersect3(self, q1, q2):
-        # Return intersection Type or C{None}
+        # Yield intersection(s) Type or C{None}
         if not (_outside(q1.x, q2.x, *self._lr) or
                 _outside(q1.y, q2.y, *self._bt)):
             dq  = q2 - q1
@@ -1643,7 +1643,7 @@ class _EdgeGH(object):
         return hypot2(sx, sy)
 
     def _intersect4(self, c1, c2, parallel=True):  # MCCABE 14
-        # Yield the intersections of this and another edge.
+        # Yield the intersection(s) of this and another edge.
 
         # @return: None, 1 or 2 intersections, each a 4-Tuple
         #          (y, x, s_alpha, c_alpha) with intersection

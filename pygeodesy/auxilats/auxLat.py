@@ -44,7 +44,7 @@ except ImportError:  # Python 3.11-
         return pow(_2_0, x)
 
 __all__ = ()
-__version__ = '23.08.27'
+__version__ = '23.09.14'
 
 _TRIPS = 1024  # XXX 2 or 3?
 
@@ -100,7 +100,7 @@ class AuxLat(AuxAngle):
 
     @Property_RO
     def a(self):
-        '''Get the equatorial radius (C{Meter}, conventionally).
+        '''Get the C{ellipsoid}'s equatorial radius (C{meter}, conventionally).
         '''
         return self.ellipsoid.a
 
@@ -193,7 +193,7 @@ class AuxLat(AuxAngle):
 
     @Property_RO
     def b(self):
-        '''Get the polar radius (C{Meter}, conventionally).
+        '''Get the C{ellipsoid}'s polar radius (C{meter}, conventionally).
         '''
         return self.ellipsoid.b  # a * (_1_0 - f)
 
@@ -439,7 +439,7 @@ class AuxLat(AuxAngle):
 
     @Property_RO
     def f(self):
-        '''Get the flattening (C{float}).
+        '''Get the C{ellipsoid}'s flattening (C{scalar}).
         '''
         return self.ellipsoid.f
 
@@ -603,8 +603,7 @@ class AuxLat(AuxAngle):
         da2 =  ka1 + ka * sb2
         db2 = _1_0 - kb * sb2
         # DLMF Eq. 19.25.9
-        my = b * sb * (_Ef.fRF(cb2, db2, _1_0) -
-            kb * sb2 * _Ef.fRD(cb2, db2, _1_0, _3_0))
+        my = b * sb * _Ef._RFRD(cb2, db2, _1_0, kb * sb2)
         # DLMF Eq. 19.25.10 with complementary angles
         mx = a * cb * (_Ef.fRF(sb2,  da2, _1_0) * ka1 +
             ka * cb2 * _Ef.fRD(sb2, _1_0,  da2, _3_0) * ka1 +

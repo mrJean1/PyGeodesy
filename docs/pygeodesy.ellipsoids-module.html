@@ -81,7 +81,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        23.08.20
+        23.09.08
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -1418,7 +1418,7 @@ Ellipsoids.WGS84: Ellipsoid(name='WGS84', a=6378137, b=6356752.3142451\
         <li><strong class="pname"><code>b</code></strong> - Polar radius (<code>scalar</code> &gt; 0).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The flattening (<code>float</code> or <code>0</code>), <i 
+        <dd>The flattening (<code>scalar</code> or <code>0</code>), <i 
           class="math">(a - b) / a</i>.</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
@@ -1452,8 +1452,8 @@ Ellipsoids.WGS84: Ellipsoid(name='WGS84', a=6378137, b=6356752.3142451\
         <li><strong class="pname"><code>b</code></strong> - Polar radius (<code>scalar</code> &gt; 0).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The inverse flattening (<code>float</code> or <code>0</code>), <i
-          class="math">a / (a - b)</i>.</dd>
+        <dd>The inverse flattening (<code>scalar</code> or <code>0</code>), 
+          <i class="math">a / (a - b)</i>.</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
         The result is positive for <i>oblate</i>, negative for 
@@ -1486,7 +1486,7 @@ Ellipsoids.WGS84: Ellipsoid(name='WGS84', a=6378137, b=6356752.3142451\
         <li><strong class="pname"><code>b</code></strong> - Polar radius (<code>scalar</code> &gt; 0).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The <i>signed</i>, 2nd flattening (<code>float</code> or 
+        <dd>The <i>signed</i>, 2nd flattening (<code>scalar</code> or 
           <code>0</code>), <i class="math">(a - b) / b</i>.</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
@@ -1520,7 +1520,7 @@ Ellipsoids.WGS84: Ellipsoid(name='WGS84', a=6378137, b=6356752.3142451\
         <li><strong class="pname"><code>b</code></strong> - Polar radius (<code>scalar</code> &gt; 0).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The <i>signed</i>, 3rd flattening (<code>float</code> or 
+        <dd>The <i>signed</i>, 3rd flattening (<code>scalar</code> or 
           <code>0</code>), <i class="math">(a - b) / (a + b)</i>.</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
@@ -1670,7 +1670,7 @@ Ellipsoids.WGS84: Ellipsoid(name='WGS84', a=6378137, b=6356752.3142451\
         <li><strong class="pname"><code>e</code></strong> - The (1st) eccentricity (0 &lt;= <code>float</code> &lt; 1)</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The flattening (<code>float</code> or <code>0</code>).</dd>
+        <dd>The flattening (<code>scalar</code> or <code>0</code>).</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.ellipsoids-module.html#e22f" 
@@ -1845,7 +1845,7 @@ Ellipsoids.WGS84: Ellipsoid(name='WGS84', a=6378137, b=6356752.3142451\
         <li><strong class="pname"><code>f_</code></strong> - Inverse flattening (<code>scalar</code> &gt;&gt;&gt; 1).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The flattening (<code>float</code> or <code>0</code>), <i 
+        <dd>The flattening (<code>scalar</code> or <code>0</code>), <i 
           class="math">1 / f_</i>.</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
@@ -1878,8 +1878,8 @@ Ellipsoids.WGS84: Ellipsoid(name='WGS84', a=6378137, b=6356752.3142451\
           <i>prolate</i>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The inverse flattening (<code>float</code> or <code>0</code>), <i
-          class="math">1 / f</i>.</dd>
+        <dd>The inverse flattening (<code>scalar</code> or <code>0</code>), 
+          <i class="math">1 / f</i>.</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
         The result is positive for <i>oblate</i>, negative for 
@@ -1911,7 +1911,7 @@ Ellipsoids.WGS84: Ellipsoid(name='WGS84', a=6378137, b=6356752.3142451\
           <i>prolate</i>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The <i>signed</i>, 2nd flattening (<code>float</code> or 
+        <dd>The <i>signed</i>, 2nd flattening (<code>scalar</code> or 
           <code>INF</code>), <i class="math">f / (1 - f)</i>.</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
@@ -2027,7 +2027,7 @@ Ellipsoids.WGS84: Ellipsoid(name='WGS84', a=6378137, b=6356752.3142451\
         <li><strong class="pname"><code>n</code></strong> - The 3rd flattening (-1 &lt;= <code>scalar</code> &lt; 1).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The flattening (<code>float</code> or NINF), <i class="math">2 * 
+        <dd>The flattening (<code>scalar</code> or NINF), <i class="math">2 *
           n / (1 + n)</i>.</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -2061,8 +2061,8 @@ Ellipsoids.WGS84: Ellipsoid(name='WGS84', a=6378137, b=6356752.3142451\
         <li><strong class="pname"><code>n</code></strong> - The 3rd flattening (-1 &lt;= <code>scalar</code> &lt; 1).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The inverse flattening (<code>float</code> or <code>0</code>), <i
-          class="math">1 / f</i>.</dd>
+        <dd>The inverse flattening (<code>scalar</code> or <code>0</code>), 
+          <i class="math">1 / f</i>.</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         <a href="pygeodesy.ellipsoids-module.html#n2f" class="link">n2f</a>
@@ -2140,7 +2140,7 @@ Ellipsoids.WGS84: Ellipsoid(name='WGS84', a=6378137, b=6356752.3142451<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Sep  1 13:25:17 2023
+    Generated by Epydoc 3.0.1 on Thu Sep 14 13:53:59 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

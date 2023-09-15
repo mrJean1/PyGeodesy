@@ -447,16 +447,16 @@ class GeodesicExact(_GeodesicBase):
         return _eTOL2(self.f)
 
     @Property_RO
-    def f(self):
-        '''Get the ellipsoid's I{flattening} (C{float}), M{(a - b) / a}, C{0} for spherical, negative for prolate.
+    def flattening(self):
+        '''Get the C{ellipsoid}'s I{flattening} (C{scalar}), M{(a - b) / a}, C{0} for spherical, negative for prolate.
         '''
         return self.ellipsoid.f
 
-    flattening = f
+    f = flattening
 
     @Property_RO
     def f1(self):  # in .css.CassiniSoldner.reset
-        '''Get the ellipsoid's I{1 - flattening} (C{float}).
+        '''Get the C{ellipsoid}'s I{1 - flattening} (C{float}).
         '''
         return self.ellipsoid.f1
 
@@ -1104,7 +1104,7 @@ class GeodesicExact(_GeodesicBase):
 
     @Property_RO
     def n(self):
-        '''Get the ellipsoid's I{3rd flattening} (C{float}), M{f / (2 - f) == (a - b) / (a + b)}.
+        '''Get the C{ellipsoid}'s I{3rd flattening} (C{scalar}), M{f / (2 - f) == (a - b) / (a + b)}.
         '''
         return self.ellipsoid.n
 

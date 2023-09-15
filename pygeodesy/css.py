@@ -33,7 +33,7 @@ from pygeodesy.units import Bearing, Degrees, Easting, Height, _heigHt, \
 # from math import fabs  # from .karney
 
 __all__ = _ALL_LAZY.css
-__version__ = '23.07.10'
+__version__ = '23.09.07'
 
 
 def _CS0(cs0):
@@ -128,7 +128,7 @@ class CassiniSoldner(_NamedBase):
 
     @Property_RO
     def flattening(self):
-        '''Get the ellipsoid's flattening (C{float}).
+        '''Get the ellipsoid's flattening (C{scalar}).
         '''
         return self.geodesic.f
 
@@ -231,7 +231,7 @@ class CassiniSoldner(_NamedBase):
         if g is None:
             E = self.datum.ellipsoid
             try:
-                g = E.geodesic
+                g = E.geodesicw
             except ImportError:
                 g = E.geodesicx
             self._geodesic = g
@@ -248,7 +248,7 @@ class CassiniSoldner(_NamedBase):
         '''
         E = self.datum.ellipsoid
         self._geodesic = None if exact is None else (
-                         E.geodesicx if exact else E.geodesic)
+                         E.geodesicx if exact else E.geodesicw)
         self.reset(*self.latlon0)
 
     @Property_RO

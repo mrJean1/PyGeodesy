@@ -1275,14 +1275,6 @@
         initial and final bearing (azimuths) between two given points or 
         the destination point given a start point and an (initial) bearing.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html">pygeodesy.ellipsoidalVincenty.LatLon</a></strong>:
-      <em class="summary">Using the formulae devised by <a 
-        href="https://WikiPedia.org/wiki/Vincenty's_formulae" 
-        target="_top"><i>Thaddeus Vincenty (1975)</i></a> for an (oblate) 
-        ellipsoidal model of the earth to compute the geodesic distance and
-        bearings between two given points or the destination point given an
-        start point and (initial) bearing.</em>
-    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.LatLon-class.html">pygeodesy.ellipsoidalKarney.LatLon</a></strong>:
       <em class="summary">An ellipsoidal <a 
         href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
@@ -1294,6 +1286,14 @@
         target="_top">geographiclib</a> to compute the geodesic distance, 
         initial and final bearing (azimuths) between two given points or 
         the destination point given a start point and an (initial) bearing.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html">pygeodesy.ellipsoidalVincenty.LatLon</a></strong>:
+      <em class="summary">Using the formulae devised by <a 
+        href="https://WikiPedia.org/wiki/Vincenty's_formulae" 
+        target="_top"><i>Thaddeus Vincenty (1975)</i></a> for an (oblate) 
+        ellipsoidal model of the earth to compute the geodesic distance and
+        bearings between two given points or the destination point given an
+        start point and (initial) bearing.</em>
     </li>
     </ul>
     </li>
@@ -1430,15 +1430,6 @@
         href="pygeodesy.ellipsoidalGeodSolve.LatLon-class.html" 
         class="link">LatLon</a> points.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalNvector.Cartesian-class.html">pygeodesy.ellipsoidalNvector.Cartesian</a></strong>:
-      <em class="summary">Extended to convert geocentric, <a 
-        href="pygeodesy.ellipsoidalNvector.Cartesian-class.html" 
-        class="link">Cartesian</a> points to <a 
-        href="pygeodesy.ellipsoidalNvector.Nvector-class.html" 
-        class="link">Nvector</a> and n-vector-based, geodetic <a 
-        href="pygeodesy.ellipsoidalNvector.LatLon-class.html" 
-        class="link">LatLon</a>.</em>
-    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.Cartesian-class.html">pygeodesy.ellipsoidalKarney.Cartesian</a></strong>:
       <em class="summary">Extended to convert <code>Karney</code>-based <a 
         href="pygeodesy.ellipsoidalKarney.Cartesian-class.html" 
@@ -1451,6 +1442,15 @@
         href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html" 
         class="link">Cartesian</a> points to Vincenty-based, ellipsoidal, 
         geodetic <a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
+        class="link">LatLon</a>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalNvector.Cartesian-class.html">pygeodesy.ellipsoidalNvector.Cartesian</a></strong>:
+      <em class="summary">Extended to convert geocentric, <a 
+        href="pygeodesy.ellipsoidalNvector.Cartesian-class.html" 
+        class="link">Cartesian</a> points to <a 
+        href="pygeodesy.ellipsoidalNvector.Nvector-class.html" 
+        class="link">Nvector</a> and n-vector-based, geodetic <a 
+        href="pygeodesy.ellipsoidalNvector.LatLon-class.html" 
         class="link">LatLon</a>.</em>
     </li>
     </ul>
@@ -2506,12 +2506,14 @@
         triangle sides <code>a</code>, <code>b</code> and <code>c</code> in
         <code>meter</code>, conventionally.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.resections.TriAngle4Tuple-class.html">pygeodesy.resections.TriAngle4Tuple</a></strong>:
-      <em class="summary">4-Tuple <code>(radA, radB, radC, rIn)</code> with the interior 
-        angles at triangle corners <code>A</code>, <code>B</code> and 
-        <code>C</code> in <code>radians</code> and the 
+    <li> <strong class="uidlink"><a href="pygeodesy.resections.TriAngle5Tuple-class.html">pygeodesy.resections.TriAngle5Tuple</a></strong>:
+      <em class="summary">5-Tuple <code>(radA, radB, radC, rIn, area)</code> with the 
+        interior angles at triangle corners <code>A</code>, <code>B</code> 
+        and <code>C</code> in <code>radians</code>, the 
         <code>InCircle</code> radius <code>rIn</code> aka 
-        <code>inradius</code> in <code>meter</code>, conventionally.</em>
+        <code>inradius</code> in <code>meter</code> and the triangle 
+        <code>area</code> in <code>meter</code> <i>squared</i>, 
+        conventionally.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.resections.TriSide2Tuple-class.html">pygeodesy.resections.TriSide2Tuple</a></strong>:
       <em class="summary">2-Tuple <code>(a, radA)</code> with triangle side <code>a</code> in
@@ -2605,46 +2607,52 @@
       <em class="summary">4-Tuple <code>(x, y, z, ltp)</code>, all in <code>meter</code> 
         except <code>ltp</code>.</em>
     </li>
-    <li> <strong class="uidlink">pygeodesy.deprecated._DeprecatedNamedTuple</strong>:
-      <em class="summary">(INTERNAL) Base class for DEPRECATED <code>_NamedTuple</code> 
-        classes.</em>
+    <li> <strong class="uidlink">pygeodesy.deprecated.classes._Deprecated_NamedTuple</strong>:
+      <em class="summary">DEPRECATED, <code>_NamedTuple</code> base.</em>
     <ul>
-    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.ClipCS3Tuple-class.html">pygeodesy.deprecated.ClipCS3Tuple</a></strong>:
-      <em class="summary">DEPRECATED, see function <a 
-        href="pygeodesy.deprecated-module.html#clipCS3" 
+    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.classes.ClipCS3Tuple-class.html">pygeodesy.deprecated.classes.ClipCS3Tuple</a></strong>:
+      <em class="summary">DEPRECATED, see <i>DEPRECATED</i> function <a 
+        href="pygeodesy.deprecated.functions-module.html#clipCS3" 
         class="link">pygeodesy.clipCS3</a>.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.EasNorExact4Tuple-class.html">pygeodesy.deprecated.EasNorExact4Tuple</a></strong>:
+    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.classes.EasNorExact4Tuple-class.html">pygeodesy.deprecated.classes.EasNorExact4Tuple</a></strong>:
       <em class="summary">DEPRECATED, use class <a 
         href="pygeodesy.namedTuples.Forward4Tuple-class.html" 
-        class="link">Forward4Tuple</a>.</em>
+        class="link">Forward4Tuple</a>, item <code>gamma</code> for 
+        <code>convergence</code>.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.LatLonExact4Tuple-class.html">pygeodesy.deprecated.LatLonExact4Tuple</a></strong>:
+    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.classes.LatLonExact4Tuple-class.html">pygeodesy.deprecated.classes.LatLonExact4Tuple</a></strong>:
       <em class="summary">DEPRECATED, used class <a 
         href="pygeodesy.namedTuples.Reverse4Tuple-class.html" 
-        class="link">Reverse4Tuple</a>.</em>
+        class="link">Reverse4Tuple</a>, item <code>gamma</code> for 
+        <code>convergence</code>.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.Ned3Tuple-class.html">pygeodesy.deprecated.Ned3Tuple</a></strong>:
+    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.classes.Ned3Tuple-class.html">pygeodesy.deprecated.classes.Ned3Tuple</a></strong>:
       <em class="summary">DEPRECATED, use class <a 
         href="pygeodesy.ltpTuples.Ned4Tuple-class.html" 
-        class="link">pygeodesy.Ned4Tuple</a>.</em>
+        class="link">Ned4Tuple</a>, ignoring item <code>ltp</code>.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.Rhumb7Tuple-class.html">pygeodesy.deprecated.Rhumb7Tuple</a></strong>:
+    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.classes.Rhumb7Tuple-class.html">pygeodesy.deprecated.classes.Rhumb7Tuple</a></strong>:
       <em class="summary">DEPRECATED, use class <a 
         href="pygeodesy.karney.Rhumb8Tuple-class.html" 
-        class="link">Rhumb8Tuple</a> ignoring item <code>a12</code>.</em>
+        class="link">Rhumb8Tuple</a>, ignoring item <code>a12</code>.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.Transform7Tuple-class.html">pygeodesy.deprecated.Transform7Tuple</a></strong>:
+    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.classes.Transform7Tuple-class.html">pygeodesy.deprecated.classes.Transform7Tuple</a></strong>:
       <em class="summary">DEPRECATED, use class <a 
         href="pygeodesy.trf.Helmert7Tuple-class.html" class="link" 
-        onclick="show_private();">Helmert7Tuple</a> without keyword 
+        onclick="show_private();">Helmert7Tuple</a>, <i>without</i> keyword
         arguments.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.UtmUps4Tuple-class.html">pygeodesy.deprecated.UtmUps4Tuple</a></strong>:
+    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.classes.TriAngle4Tuple-class.html">pygeodesy.deprecated.classes.TriAngle4Tuple</a></strong>:
+      <em class="summary">DEPRECATED, use class <a 
+        href="pygeodesy.resections.TriAngle5Tuple-class.html" 
+        class="link">TriAngle5Tuple</a>, ignoring item <code>area</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.classes.UtmUps4Tuple-class.html">pygeodesy.deprecated.classes.UtmUps4Tuple</a></strong>:
       <em class="summary">DEPRECATED and OBSOLETE, expect a <a 
         href="pygeodesy.namedTuples.UtmUps5Tuple-class.html" 
         class="link">UtmUps5Tuple</a> from method 
-        <code>Mgrs.toUtm(utm=None)</code>.</em>
+        <code>pygeodesy.Mgrs.toUtm(utm=None)</code>.</em>
     </li>
     </ul>
     </li>
@@ -3819,12 +3827,14 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
         triangle sides <code>a</code>, <code>b</code> and <code>c</code> in
         <code>meter</code>, conventionally.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.resections.TriAngle4Tuple-class.html">pygeodesy.resections.TriAngle4Tuple</a></strong>:
-      <em class="summary">4-Tuple <code>(radA, radB, radC, rIn)</code> with the interior 
-        angles at triangle corners <code>A</code>, <code>B</code> and 
-        <code>C</code> in <code>radians</code> and the 
+    <li> <strong class="uidlink"><a href="pygeodesy.resections.TriAngle5Tuple-class.html">pygeodesy.resections.TriAngle5Tuple</a></strong>:
+      <em class="summary">5-Tuple <code>(radA, radB, radC, rIn, area)</code> with the 
+        interior angles at triangle corners <code>A</code>, <code>B</code> 
+        and <code>C</code> in <code>radians</code>, the 
         <code>InCircle</code> radius <code>rIn</code> aka 
-        <code>inradius</code> in <code>meter</code>, conventionally.</em>
+        <code>inradius</code> in <code>meter</code> and the triangle 
+        <code>area</code> in <code>meter</code> <i>squared</i>, 
+        conventionally.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.resections.TriSide2Tuple-class.html">pygeodesy.resections.TriSide2Tuple</a></strong>:
       <em class="summary">2-Tuple <code>(a, radA)</code> with triangle side <code>a</code> in
@@ -3918,46 +3928,52 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
       <em class="summary">4-Tuple <code>(x, y, z, ltp)</code>, all in <code>meter</code> 
         except <code>ltp</code>.</em>
     </li>
-    <li> <strong class="uidlink">pygeodesy.deprecated._DeprecatedNamedTuple</strong>:
-      <em class="summary">(INTERNAL) Base class for DEPRECATED <code>_NamedTuple</code> 
-        classes.</em>
+    <li> <strong class="uidlink">pygeodesy.deprecated.classes._Deprecated_NamedTuple</strong>:
+      <em class="summary">DEPRECATED, <code>_NamedTuple</code> base.</em>
     <ul>
-    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.ClipCS3Tuple-class.html">pygeodesy.deprecated.ClipCS3Tuple</a></strong>:
-      <em class="summary">DEPRECATED, see function <a 
-        href="pygeodesy.deprecated-module.html#clipCS3" 
+    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.classes.ClipCS3Tuple-class.html">pygeodesy.deprecated.classes.ClipCS3Tuple</a></strong>:
+      <em class="summary">DEPRECATED, see <i>DEPRECATED</i> function <a 
+        href="pygeodesy.deprecated.functions-module.html#clipCS3" 
         class="link">pygeodesy.clipCS3</a>.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.EasNorExact4Tuple-class.html">pygeodesy.deprecated.EasNorExact4Tuple</a></strong>:
+    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.classes.EasNorExact4Tuple-class.html">pygeodesy.deprecated.classes.EasNorExact4Tuple</a></strong>:
       <em class="summary">DEPRECATED, use class <a 
         href="pygeodesy.namedTuples.Forward4Tuple-class.html" 
-        class="link">Forward4Tuple</a>.</em>
+        class="link">Forward4Tuple</a>, item <code>gamma</code> for 
+        <code>convergence</code>.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.LatLonExact4Tuple-class.html">pygeodesy.deprecated.LatLonExact4Tuple</a></strong>:
+    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.classes.LatLonExact4Tuple-class.html">pygeodesy.deprecated.classes.LatLonExact4Tuple</a></strong>:
       <em class="summary">DEPRECATED, used class <a 
         href="pygeodesy.namedTuples.Reverse4Tuple-class.html" 
-        class="link">Reverse4Tuple</a>.</em>
+        class="link">Reverse4Tuple</a>, item <code>gamma</code> for 
+        <code>convergence</code>.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.Ned3Tuple-class.html">pygeodesy.deprecated.Ned3Tuple</a></strong>:
+    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.classes.Ned3Tuple-class.html">pygeodesy.deprecated.classes.Ned3Tuple</a></strong>:
       <em class="summary">DEPRECATED, use class <a 
         href="pygeodesy.ltpTuples.Ned4Tuple-class.html" 
-        class="link">pygeodesy.Ned4Tuple</a>.</em>
+        class="link">Ned4Tuple</a>, ignoring item <code>ltp</code>.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.Rhumb7Tuple-class.html">pygeodesy.deprecated.Rhumb7Tuple</a></strong>:
+    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.classes.Rhumb7Tuple-class.html">pygeodesy.deprecated.classes.Rhumb7Tuple</a></strong>:
       <em class="summary">DEPRECATED, use class <a 
         href="pygeodesy.karney.Rhumb8Tuple-class.html" 
-        class="link">Rhumb8Tuple</a> ignoring item <code>a12</code>.</em>
+        class="link">Rhumb8Tuple</a>, ignoring item <code>a12</code>.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.Transform7Tuple-class.html">pygeodesy.deprecated.Transform7Tuple</a></strong>:
+    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.classes.Transform7Tuple-class.html">pygeodesy.deprecated.classes.Transform7Tuple</a></strong>:
       <em class="summary">DEPRECATED, use class <a 
         href="pygeodesy.trf.Helmert7Tuple-class.html" class="link" 
-        onclick="show_private();">Helmert7Tuple</a> without keyword 
+        onclick="show_private();">Helmert7Tuple</a>, <i>without</i> keyword
         arguments.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.UtmUps4Tuple-class.html">pygeodesy.deprecated.UtmUps4Tuple</a></strong>:
+    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.classes.TriAngle4Tuple-class.html">pygeodesy.deprecated.classes.TriAngle4Tuple</a></strong>:
+      <em class="summary">DEPRECATED, use class <a 
+        href="pygeodesy.resections.TriAngle5Tuple-class.html" 
+        class="link">TriAngle5Tuple</a>, ignoring item <code>area</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.classes.UtmUps4Tuple-class.html">pygeodesy.deprecated.classes.UtmUps4Tuple</a></strong>:
       <em class="summary">DEPRECATED and OBSOLETE, expect a <a 
         href="pygeodesy.namedTuples.UtmUps5Tuple-class.html" 
         class="link">UtmUps5Tuple</a> from method 
-        <code>Mgrs.toUtm(utm=None)</code>.</em>
+        <code>pygeodesy.Mgrs.toUtm(utm=None)</code>.</em>
     </li>
     </ul>
     </li>
@@ -4103,7 +4119,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Sep  1 13:25:16 2023
+    Generated by Epydoc 3.0.1 on Thu Sep 14 13:53:58 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

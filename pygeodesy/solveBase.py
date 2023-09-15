@@ -108,10 +108,13 @@ class _SolveLineSolveBase(_CapsBase):
             self._Exact = Exact
 
     @Property_RO
-    def f(self):
-        '''Get the ellipsoid's I{flattening} (C{float}), M{(a - b) / a}, C{0} for spherical, negative for prolate.
+    def flattening(self):
+        '''Get the C{ellipsoid}'s I{flattening} (C{scalar}), M{(a - b) / a},
+           C{0} for spherical, negative for prolate.
         '''
         return self.ellipsoid.f
+
+    f = flattening
 
     def _GDictInvoke(self, cmd, floats, Names, *args):
         '''(INTERNAL) Invoke C{Solve}, return results as C{GDict}.

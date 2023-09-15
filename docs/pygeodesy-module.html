@@ -292,7 +292,7 @@
     href="https://GeographicLib.SourceForge.io/html/utilities.html" 
     target="_top">GeodSolve</a> 2.2 and <a 
     href="https://GeographicLib.SourceForge.io/html/utilities.html" 
-    target="_top">RhumbSolve</a> 2.2), all on macOS 13.5.1 Ventura and in 
+    target="_top">RhumbSolve</a> 2.2), all on macOS 13.5.2 Ventura and in 
     64-bit only.</p>
     <p>All tests ran with and without <code>lazy import</code> for Python 3
     and with command line option <code>-W default</code> and env variable 
@@ -368,7 +368,7 @@
     href="https://PyPI.org/project/mccabe" target="_top">McCabe</a> using 
     Python 2.7.18 and with <a href="https://PyPI.org/project/flake8" 
     target="_top">Flake8</a> using Python 3.11.5, both in 64-bit on macOS 
-    13.5.1 Ventura.</p>
+    13.5.2 Ventura.</p>
     <p>For a summary of all <i>Karney</i>-based functionality in 
     <code>pygeodesy</code>, see module <a 
     href="https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.karney-module.html"
@@ -545,7 +545,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        23.08.31
+        23.09.14
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -655,14 +655,18 @@
         class="link">pygeodesy.remainder</a>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.css-module.html">pygeodesy.css</a></strong>: <em class="summary">Cassini-Soldner (CSS) projection.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.datums-module.html">pygeodesy.datums</a></strong>: <em class="summary">Datums and transformations thereof.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.deprecated-module.html">pygeodesy.deprecated</a></strong>: <em class="summary">DEPRECATED constants, classes, functions, methods, etc.</em>
+    <li> <strong class="uidlink"><a href="pygeodesy.deprecated-module.html">pygeodesy.deprecated</a></strong>: <em class="summary">DEPRECATED classes, constants, functions, interns, methods, etc.</em>
     <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.deprecated.bases-module.html">pygeodesy.deprecated.bases</a></strong>: <em class="summary">DEPRECATED, use module <a href="pygeodesy.latlonBase-module.html" 
         class="link">latlonBase</a> instead.</em>    </li>
+    <li class="private"> <strong class="uidlink"><a href="pygeodesy.deprecated.classes-module.html" onclick="show_private();">pygeodesy.deprecated.classes</a></strong>: <em class="summary">DEPRECATED classes for export and backward compatibility.</em>    </li>
+    <li class="private"> <strong class="uidlink"><a href="pygeodesy.deprecated.consterns-module.html" onclick="show_private();">pygeodesy.deprecated.consterns</a></strong>: <em class="summary">DEPRECATED constants and interns for export and backward 
+        compatibility.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.deprecated.datum-module.html">pygeodesy.deprecated.datum</a></strong>: <em class="summary">DEPRECATED, use module <a href="pygeodesy.datums-module.html" 
         class="link">datums</a> or <a 
         href="pygeodesy.ellipsoids-module.html" class="link">ellipsoids</a>
         instead.</em>    </li>
+    <li class="private"> <strong class="uidlink"><a href="pygeodesy.deprecated.functions-module.html" onclick="show_private();">pygeodesy.deprecated.functions</a></strong>: <em class="summary">DEPRECATED functions for export and backward compatibility.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.deprecated.nvector-module.html">pygeodesy.deprecated.nvector</a></strong>: <em class="summary">DEPRECATED, use module <a href="pygeodesy.nvectorBase-module.html" 
         class="link">nvectorBase</a> instead.</em>    </li>
     </ul>
@@ -691,7 +695,7 @@
     <li> <strong class="uidlink"><a href="pygeodesy.fmath-module.html">pygeodesy.fmath</a></strong>: <em class="summary">Utilities using precision floating point summation.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.formy-module.html">pygeodesy.formy</a></strong>: <em class="summary">Formulary of basic geodesy functions and approximations.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.frechet-module.html">pygeodesy.frechet</a></strong>: <em class="summary">Fr&#233;chet distances.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.fstats-module.html">pygeodesy.fstats</a></strong>: <em class="summary">Classes for running statistics and regreesions based on <a 
+    <li> <strong class="uidlink"><a href="pygeodesy.fstats-module.html">pygeodesy.fstats</a></strong>: <em class="summary">Classes for <i>running</i> statistics and regressions based on <a 
         href="pygeodesy.fsums.Fsum-class.html" 
         class="link">pygeodesy.Fsum</a>, precision floating point 
         summation.</em>    </li>
@@ -805,7 +809,7 @@
         class="link">wildberger3</a> and triangle functions <a 
         href="pygeodesy.resections-module.html#triAngle" 
         class="link">triAngle</a>, <a 
-        href="pygeodesy.resections-module.html#triAngle4" 
+        href="pygeodesy.deprecated.functions-module.html#triAngle4" 
         class="link">triAngle4</a>, <a 
         href="pygeodesy.resections-module.html#triSide" 
         class="link">triSide</a>, <a 
@@ -1530,9 +1534,9 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.deprecated.ClipCS3Tuple-class.html" class="summary-name">ClipCS3Tuple</a><br />
-      DEPRECATED, see function <a 
-        href="pygeodesy.deprecated-module.html#clipCS3" 
+        <a href="pygeodesy.deprecated.classes.ClipCS3Tuple-class.html" class="summary-name">ClipCS3Tuple</a><br />
+      DEPRECATED, see <i>DEPRECATED</i> function <a 
+        href="pygeodesy.deprecated.functions-module.html#clipCS3" 
         class="link">pygeodesy.clipCS3</a>.
     </td>
   </tr>
@@ -1839,10 +1843,11 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.deprecated.EasNorExact4Tuple-class.html" class="summary-name">EasNorExact4Tuple</a><br />
+        <a href="pygeodesy.deprecated.classes.EasNorExact4Tuple-class.html" class="summary-name">EasNorExact4Tuple</a><br />
       DEPRECATED, use class <a 
         href="pygeodesy.namedTuples.Forward4Tuple-class.html" 
-        class="link">Forward4Tuple</a>.
+        class="link">Forward4Tuple</a>, item <code>gamma</code> for 
+        <code>convergence</code>.
     </td>
   </tr>
 <tr>
@@ -3512,10 +3517,11 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.deprecated.LatLonExact4Tuple-class.html" class="summary-name">LatLonExact4Tuple</a><br />
+        <a href="pygeodesy.deprecated.classes.LatLonExact4Tuple-class.html" class="summary-name">LatLonExact4Tuple</a><br />
       DEPRECATED, used class <a 
         href="pygeodesy.namedTuples.Reverse4Tuple-class.html" 
-        class="link">Reverse4Tuple</a>.
+        class="link">Reverse4Tuple</a>, item <code>gamma</code> for 
+        <code>convergence</code>.
     </td>
   </tr>
 <tr>
@@ -3863,10 +3869,10 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.deprecated.Ned3Tuple-class.html" class="summary-name">Ned3Tuple</a><br />
+        <a href="pygeodesy.deprecated.classes.Ned3Tuple-class.html" class="summary-name">Ned3Tuple</a><br />
       DEPRECATED, use class <a 
         href="pygeodesy.ltpTuples.Ned4Tuple-class.html" 
-        class="link">pygeodesy.Ned4Tuple</a>.
+        class="link">Ned4Tuple</a>, ignoring item <code>ltp</code>.
     </td>
   </tr>
 <tr>
@@ -4232,10 +4238,10 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.deprecated.Rhumb7Tuple-class.html" class="summary-name">Rhumb7Tuple</a><br />
+        <a href="pygeodesy.deprecated.classes.Rhumb7Tuple-class.html" class="summary-name">Rhumb7Tuple</a><br />
       DEPRECATED, use class <a 
         href="pygeodesy.karney.Rhumb8Tuple-class.html" 
-        class="link">Rhumb8Tuple</a> ignoring item <code>a12</code>.
+        class="link">Rhumb8Tuple</a>, ignoring item <code>a12</code>.
     </td>
   </tr>
 <tr>
@@ -4468,10 +4474,10 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.deprecated.Transform7Tuple-class.html" class="summary-name">Transform7Tuple</a><br />
+        <a href="pygeodesy.deprecated.classes.Transform7Tuple-class.html" class="summary-name">Transform7Tuple</a><br />
       DEPRECATED, use class <a 
         href="pygeodesy.trf.Helmert7Tuple-class.html" class="link" 
-        onclick="show_private();">Helmert7Tuple</a> without keyword 
+        onclick="show_private();">Helmert7Tuple</a>, <i>without</i> keyword
         arguments.
     </td>
   </tr>
@@ -4479,12 +4485,24 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.resections.TriAngle4Tuple-class.html" class="summary-name">TriAngle4Tuple</a><br />
-      4-Tuple <code>(radA, radB, radC, rIn)</code> with the interior 
-        angles at triangle corners <code>A</code>, <code>B</code> and 
-        <code>C</code> in <code>radians</code> and the 
+        <a href="pygeodesy.deprecated.classes.TriAngle4Tuple-class.html" class="summary-name">TriAngle4Tuple</a><br />
+      DEPRECATED, use class <a 
+        href="pygeodesy.resections.TriAngle5Tuple-class.html" 
+        class="link">TriAngle5Tuple</a>, ignoring item <code>area</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.resections.TriAngle5Tuple-class.html" class="summary-name">TriAngle5Tuple</a><br />
+      5-Tuple <code>(radA, radB, radC, rIn, area)</code> with the 
+        interior angles at triangle corners <code>A</code>, <code>B</code> 
+        and <code>C</code> in <code>radians</code>, the 
         <code>InCircle</code> radius <code>rIn</code> aka 
-        <code>inradius</code> in <code>meter</code>, conventionally.
+        <code>inradius</code> in <code>meter</code> and the triangle 
+        <code>area</code> in <code>meter</code> <i>squared</i>, 
+        conventionally.
     </td>
   </tr>
 <tr>
@@ -4658,11 +4676,11 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.deprecated.UtmUps4Tuple-class.html" class="summary-name">UtmUps4Tuple</a><br />
+        <a href="pygeodesy.deprecated.classes.UtmUps4Tuple-class.html" class="summary-name">UtmUps4Tuple</a><br />
       DEPRECATED and OBSOLETE, expect a <a 
         href="pygeodesy.namedTuples.UtmUps5Tuple-class.html" 
         class="link">UtmUps5Tuple</a> from method 
-        <code>Mgrs.toUtm(utm=None)</code>.
+        <code>pygeodesy.Mgrs.toUtm(utm=None)</code>.
     </td>
   </tr>
 <tr>
@@ -5483,8 +5501,8 @@
         <span class="summary-sig-arg">x</span>,
         <span class="summary-sig-arg">reverse</span>=<span class="summary-sig-default">False</span>)</span><br />
       Return <code>atan2(<b>y</b>, <b>x</b>)</code> in degrees <i 
-      class="math">[-180..+180]</i>, optionally reversed (by 180 degrees 
-      for <code>azi2</code>).</td>
+      class="math">[-180..+180]</i>, optionally <i>reversed</i> (by 180 
+      degrees for <code>azi2</code>).</td>
           <td align="right" valign="top">
             
             
@@ -7057,7 +7075,9 @@
         <span class="summary-sig-arg">lat2</span>,
         <span class="summary-sig-arg">lon2</span>,
         <span class="summary-sig-arg">**options</span>)</span><br />
-      DEPRECATED, use function <code>equirectangular_</code>.</td>
+      DEPRECATED, use function <a 
+      href="pygeodesy.formy-module.html#equirectangular_" 
+      class="link">pygeodesy.equirectangular_</a>.</td>
           <td align="right" valign="top">
             
             
@@ -7204,7 +7224,7 @@
         <span class="summary-sig-arg">c</span>)</span><br />
       DEPRECATED, use function <a 
       href="pygeodesy.formy-module.html#excessAbc_" 
-      class="link">excessAbc_</a>.</td>
+      class="link">pygeodesy.excessAbc_</a>.</td>
           <td align="right" valign="top">
             
             
@@ -7266,7 +7286,7 @@
         <span class="summary-sig-arg">C</span>)</span><br />
       DEPRECATED, use function <a 
       href="pygeodesy.formy-module.html#excessGirard_" 
-      class="link">excessGirard_</a>.</td>
+      class="link">pygeodesy.excessGirard_</a>.</td>
           <td align="right" valign="top">
             
             
@@ -7357,7 +7377,7 @@
         <span class="summary-sig-arg">c</span>)</span><br />
       DEPRECATED, use function <a 
       href="pygeodesy.formy-module.html#excessLHuilier_" 
-      class="link">excessLHuilier_</a>.</td>
+      class="link">pygeodesy.excessLHuilier_</a>.</td>
           <td align="right" valign="top">
             
             
@@ -7629,8 +7649,8 @@
         <span class="summary-sig-arg">false</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">Error</span>=<span class="summary-sig-default">&lt;type 'exceptions.ValueError'&gt;</span>)</span><br />
       DEPRECATED, use function <a 
-      href="pygeodesy.deprecated-module.html#falsed2f" 
-      class="link">falsed2f</a>.</td>
+      href="pygeodesy.deprecated.functions-module.html#falsed2f" 
+      class="link">pygeodesy.falsed2f</a>.</td>
           <td align="right" valign="top">
             
             
@@ -7956,7 +7976,7 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#float0" class="summary-sig-name">float0</a>(<span class="summary-sig-arg">*xs</span>)</span><br />
       DEPRECATED, use function <a 
       href="pygeodesy.constants-module.html#float0_" 
-      class="link">float0_</a>.</td>
+      class="link">pygeodesy.float0_</a>.</td>
           <td align="right" valign="top">
             
             
@@ -8585,7 +8605,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fb9c8a24dd0&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7ff71045f250&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -9787,7 +9807,7 @@
         <span class="summary-sig-arg">minum</span>=<span class="summary-sig-default">0</span>)</span><br />
       DEPRECATED, use function <a 
       href="pygeodesy.basics-module.html#islistuple" 
-      class="link">islistuple</a>.</td>
+      class="link">pygeodesy.islistuple</a>.</td>
           <td align="right" valign="top">
             
             
@@ -11065,8 +11085,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#parseUTM" class="summary-sig-name">parseUTM</a>(<span class="summary-sig-arg">strUTM</span>,
-        <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">object()</span>,
-        <span class="summary-sig-arg">Utm</span>=<span class="summary-sig-default">object()</span>,
+        <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">_UTM</span>,
+        <span class="summary-sig-arg">Utm</span>=<span class="summary-sig-default">_UTM</span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
       DEPRECATED, use function <a 
       href="pygeodesy.utm-module.html#parseUTM5" 
@@ -11179,7 +11199,7 @@
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>)</span><br />
       DEPRECATED, use function <a 
       href="pygeodesy.points-module.html#perimeterOf" 
-      class="link">perimeterOf</a>.</td>
+      class="link">pygeodesy.perimeterOf</a>.</td>
           <td align="right" valign="top">
             
             
@@ -11295,7 +11315,8 @@
         <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">base</span>=<span class="summary-sig-default">None</span>)</span><br />
       DEPRECATED, use function <a 
-      href="pygeodesy.iters-module.html#points2" class="link">points2</a>.</td>
+      href="pygeodesy.iters-module.html#points2" 
+      class="link">pygeodesy.points2</a>.</td>
           <td align="right" valign="top">
             
             
@@ -12042,7 +12063,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a name="str2ub"></a><span class="summary-sig-name">str2ub</span>(<span class="summary-sig-arg">x</span>)</span><br />
-      NOP, pass thru.</td>
+      Pass thru, no-op</td>
           <td align="right" valign="top">
             
             
@@ -12302,7 +12323,7 @@
         <span class="summary-sig-arg">strict</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">zone</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">**cmoff</span>)</span><br />
-      Convert a lat-/longitude point to an ETM coordinate.</td>
+      Convert a geodetic lat-/longitude to an ETM coordinate.</td>
           <td align="right" valign="top">
             
             
@@ -12410,7 +12431,7 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#toUtm" class="summary-sig-name">toUtm</a>(<span class="summary-sig-arg">latlon</span>,
         <span class="summary-sig-arg">lon</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">Utm</span>=<span class="summary-sig-default">object()</span>,
+        <span class="summary-sig-arg">Utm</span>=<span class="summary-sig-default">_UTM</span>,
         <span class="summary-sig-arg">cmoff</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
       DEPRECATED, use function <a href="pygeodesy.utm-module.html#toUtm8" 
@@ -12563,7 +12584,49 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#triAngle4" class="summary-sig-name">triAngle4</a>(<span class="summary-sig-arg">a</span>,
         <span class="summary-sig-arg">b</span>,
         <span class="summary-sig-arg">c</span>)</span><br />
+      DEPRECATED, use function <a 
+      href="pygeodesy.resections-module.html#triAngle5" 
+      class="link">pygeodesy.triAngle5</a>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#triAngle5" class="summary-sig-name">triAngle5</a>(<span class="summary-sig-arg">a</span>,
+        <span class="summary-sig-arg">b</span>,
+        <span class="summary-sig-arg">c</span>)</span><br />
       Compute the angles of a triangle.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#triArea" class="summary-sig-name">triArea</a>(<span class="summary-sig-arg">a</span>,
+        <span class="summary-sig-arg">b</span>,
+        <span class="summary-sig-arg">c</span>)</span><br />
+      Compute the area of a triangle using <a 
+      href="https://WikiPedia.org/wiki/Heron%27s_formula" 
+      target="_top">Heron's</a> <code>stable</code> formula.</td>
           <td align="right" valign="top">
             
             
@@ -12601,7 +12664,7 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#triSide2" class="summary-sig-name">triSide2</a>(<span class="summary-sig-arg">b</span>,
         <span class="summary-sig-arg">c</span>,
         <span class="summary-sig-arg">radB</span>)</span><br />
-      Compute one side and the opposite angle of a triangle.</td>
+      Compute a side and its opposite angle of a triangle.</td>
           <td align="right" valign="top">
             
             
@@ -12727,7 +12790,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a name="ub2str"></a><span class="summary-sig-name">ub2str</span>(<span class="summary-sig-arg">x</span>)</span><br />
-      NOP, pass thru.</td>
+      Pass thru, no-op</td>
           <td align="right" valign="top">
             
             
@@ -13240,7 +13303,7 @@ ygeodesy'"><code class="variable-quote">'</code><code class="variable-string">/U
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'23.8.31'"><code class="variable-quote">'</code><code class="variable-string">23.8.31</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'23.9.14'"><code class="variable-quote">'</code><code class="variable-string">23.9.14</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -14431,7 +14494,7 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
         <li><strong class="pname"><code>b</code></strong> - Polar radius (<code>scalar</code> &gt; 0).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The flattening (<code>float</code> or <code>0</code>), <i 
+        <dd>The flattening (<code>scalar</code> or <code>0</code>), <i 
           class="math">(a - b) / a</i>.</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
@@ -14465,7 +14528,7 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
         <li><strong class="pname"><code>b</code></strong> - Polar radius (<code>scalar</code> &gt; 0).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The <i>signed</i>, 2nd flattening (<code>float</code> or 
+        <dd>The <i>signed</i>, 2nd flattening (<code>scalar</code> or 
           <code>0</code>), <i class="math">(a - b) / b</i>.</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
@@ -14499,8 +14562,8 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
         <li><strong class="pname"><code>b</code></strong> - Polar radius (<code>scalar</code> &gt; 0).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The inverse flattening (<code>float</code> or <code>0</code>), <i
-          class="math">a / (a - b)</i>.</dd>
+        <dd>The inverse flattening (<code>scalar</code> or <code>0</code>), 
+          <i class="math">a / (a - b)</i>.</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
         The result is positive for <i>oblate</i>, negative for 
@@ -14533,7 +14596,7 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
         <li><strong class="pname"><code>b</code></strong> - Polar radius (<code>scalar</code> &gt; 0).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The <i>signed</i>, 3rd flattening (<code>float</code> or 
+        <dd>The <i>signed</i>, 3rd flattening (<code>scalar</code> or 
           <code>0</code>), <i class="math">(a - b) / (a + b)</i>.</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
@@ -14926,8 +14989,8 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
   </tr></table>
   
   <p>Return <code>atan2(<b>y</b>, <b>x</b>)</code> in degrees <i 
-  class="math">[-180..+180]</i>, optionally reversed (by 180 degrees for 
-  <code>azi2</code>).</p>
+  class="math">[-180..+180]</i>, optionally <i>reversed</i> (by 180 degrees
+  for <code>azi2</code>).</p>
   <dl class="fields">
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -15938,7 +16001,8 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
   class="link">pygeodesy.clipCS4</a>.</p>
   <dl class="fields">
     <dt>Returns:</dt>
-        <dd>Yield a <a href="pygeodesy.deprecated.ClipCS3Tuple-class.html" 
+        <dd>Yield a <a 
+          href="pygeodesy.deprecated.classes.ClipCS3Tuple-class.html" 
           class="link">ClipCS3Tuple</a><code>(start, end, index)</code> for
           each edge of the <i>clipped</i> path.</dd>
     <dt>Decorators:</dt>
@@ -17840,7 +17904,7 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
         <li><strong class="pname"><code>e</code></strong> - The (1st) eccentricity (0 &lt;= <code>float</code> &lt; 1)</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The flattening (<code>float</code> or <code>0</code>).</dd>
+        <dd>The flattening (<code>scalar</code> or <code>0</code>).</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.ellipsoids-module.html#e22f" 
@@ -18245,7 +18309,9 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
     </td>
   </tr></table>
   
-  <p>DEPRECATED, use function <code>equirectangular_</code>.</p>
+  <p>DEPRECATED, use function <a 
+  href="pygeodesy.formy-module.html#equirectangular_" 
+  class="link">pygeodesy.equirectangular_</a>.</p>
   <dl class="fields">
     <dt>Returns:</dt>
         <dd>3-Tuple <code>(distance2, delta_lat, delta_lon)</code>.</dd>
@@ -18602,7 +18668,7 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
   
   <p>DEPRECATED, use function <a 
   href="pygeodesy.formy-module.html#excessAbc_" 
-  class="link">excessAbc_</a>.</p>
+  class="link">pygeodesy.excessAbc_</a>.</p>
   <dl class="fields">
     <dt>Decorators:</dt>
     <dd><ul class="nomargin-top">
@@ -18714,7 +18780,7 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
   
   <p>DEPRECATED, use function <a 
   href="pygeodesy.formy-module.html#excessGirard_" 
-  class="link">excessGirard_</a>.</p>
+  class="link">pygeodesy.excessGirard_</a>.</p>
   <dl class="fields">
     <dt>Decorators:</dt>
     <dd><ul class="nomargin-top">
@@ -18890,7 +18956,7 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
   
   <p>DEPRECATED, use function <a 
   href="pygeodesy.formy-module.html#excessLHuilier_" 
-  class="link">excessLHuilier_</a>.</p>
+  class="link">pygeodesy.excessLHuilier_</a>.</p>
   <dl class="fields">
     <dt>Decorators:</dt>
     <dd><ul class="nomargin-top">
@@ -19181,7 +19247,7 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
           <i>prolate</i>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The <i>signed</i>, 2nd flattening (<code>float</code> or 
+        <dd>The <i>signed</i>, 2nd flattening (<code>scalar</code> or 
           <code>INF</code>), <i class="math">f / (1 - f)</i>.</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
@@ -19221,8 +19287,8 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
           <i>prolate</i>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The inverse flattening (<code>float</code> or <code>0</code>), <i
-          class="math">1 / f</i>.</dd>
+        <dd>The inverse flattening (<code>scalar</code> or <code>0</code>), 
+          <i class="math">1 / f</i>.</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
         The result is positive for <i>oblate</i>, negative for 
@@ -19346,7 +19412,7 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
         <li><strong class="pname"><code>f_</code></strong> - Inverse flattening (<code>scalar</code> &gt;&gt;&gt; 1).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The flattening (<code>float</code> or <code>0</code>), <i 
+        <dd>The flattening (<code>scalar</code> or <code>0</code>), <i 
           class="math">1 / f_</i>.</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
@@ -19399,8 +19465,8 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
   </tr></table>
   
   <p>DEPRECATED, use function <a 
-  href="pygeodesy.deprecated-module.html#falsed2f" 
-  class="link">falsed2f</a>.</p>
+  href="pygeodesy.deprecated.functions-module.html#falsed2f" 
+  class="link">pygeodesy.falsed2f</a>.</p>
   <dl class="fields">
     <dt>Decorators:</dt>
     <dd><ul class="nomargin-top">
@@ -20069,7 +20135,7 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
   
   <p>DEPRECATED, use function <a 
   href="pygeodesy.constants-module.html#float0_" 
-  class="link">float0_</a>.</p>
+  class="link">pygeodesy.float0_</a>.</p>
   <dl class="fields">
     <dt>Decorators:</dt>
     <dd><ul class="nomargin-top">
@@ -21168,7 +21234,7 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
           <b><code>earth</code></b>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The earth intersection (<a 
+        <dd>The intersection point (<a 
           href="pygeodesy.vector3d.Vector3d-class.html" 
           class="link">Vector3d</a>, <code>Cartesian type</code> of 
           <b><code>pov</code></b> or <a href=pygeodesy-LatLon-attributes-table.html><b><code>LatLon</code></b></a>).</dd>
@@ -21288,7 +21354,7 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fb9c8a24dd0&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7ff71045f250&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -23483,7 +23549,7 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
   
   <p>DEPRECATED, use function <a 
   href="pygeodesy.basics-module.html#islistuple" 
-  class="link">islistuple</a>.</p>
+  class="link">pygeodesy.islistuple</a>.</p>
   <dl class="fields">
     <dt>Decorators:</dt>
     <dd><ul class="nomargin-top">
@@ -24755,7 +24821,7 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
         <li><strong class="pname"><code>n</code></strong> - The 3rd flattening (-1 &lt;= <code>scalar</code> &lt; 1).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The flattening (<code>float</code> or NINF), <i class="math">2 * 
+        <dd>The flattening (<code>scalar</code> or NINF), <i class="math">2 *
           n / (1 + n)</i>.</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -24789,8 +24855,8 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
         <li><strong class="pname"><code>n</code></strong> - The 3rd flattening (-1 &lt;= <code>scalar</code> &lt; 1).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The inverse flattening (<code>float</code> or <code>0</code>), <i
-          class="math">1 / f</i>.</dd>
+        <dd>The inverse flattening (<code>scalar</code> or <code>0</code>), 
+          <i class="math">1 / f</i>.</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         <a href="pygeodesy.ellipsoids-module.html#n2f" class="link">n2f</a>
@@ -25491,7 +25557,7 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
     <dt>Returns:</dt>
         <dd><code>True</code> if both bearings point in opposite, 
           <code>False</code> if in similar or <code>None</code> if in 
-          perpendicular directions.</dd>
+          <i>perpendicular</i> directions.</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.formy-module.html#opposing_" 
@@ -26212,8 +26278,8 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">parseUTM</span>&nbsp;(<span class="sig-arg">strUTM</span>,
-        <span class="sig-arg">datum</span>=<span class="sig-default">object()</span>,
-        <span class="sig-arg">Utm</span>=<span class="sig-default">object()</span>,
+        <span class="sig-arg">datum</span>=<span class="sig-default">_UTM</span>,
+        <span class="sig-arg">Utm</span>=<span class="sig-default">_UTM</span>,
         <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -26476,7 +26542,7 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
   
   <p>DEPRECATED, use function <a 
   href="pygeodesy.points-module.html#perimeterOf" 
-  class="link">perimeterOf</a>.</p>
+  class="link">pygeodesy.perimeterOf</a>.</p>
   <dl class="fields">
     <dt>Decorators:</dt>
     <dd><ul class="nomargin-top">
@@ -26762,7 +26828,7 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
   </tr></table>
   
   <p>DEPRECATED, use function <a href="pygeodesy.iters-module.html#points2"
-  class="link">points2</a>.</p>
+  class="link">pygeodesy.points2</a>.</p>
   <dl class="fields">
     <dt>Decorators:</dt>
     <dd><ul class="nomargin-top">
@@ -28865,14 +28931,14 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
     </td>
   </tr></table>
   
-  <p>Convert a lat-/longitude point to an ETM coordinate.</p>
+  <p>Convert a geodetic lat-/longitude to an ETM coordinate.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>latlon</code></strong> - Latitude (<code>degrees</code>) or an (ellipsoidal) geodetic 
-          <code>LatLon</code> point.</li>
+          <code>LatLon</code> instance.</li>
         <li><strong class="pname"><code>lon</code></strong> - Optional longitude (<code>degrees</code>) or <code>None</code>.</li>
-        <li><strong class="pname"><code>datum</code></strong> - Optional datum for this ETM coordinate, overriding 
+        <li><strong class="pname"><code>datum</code></strong> - Optional datum for the ETM coordinate, overriding 
           <b><code>latlon</code></b>'s datum (<a 
           href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>, 
           <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
@@ -28894,16 +28960,16 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
           from the zone's central meridian (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The ETM coordinate (<b><code>Etm</code></b>) or a <a 
+        <dd>The ETM coordinate as an <b><code>Etm</code></b> instance or a <a
           href="pygeodesy.namedTuples.UtmUps8Tuple-class.html" 
           class="link">UtmUps8Tuple</a><code>(zone, hemipole, easting, 
           northing, band, datum, gamma, scale)</code> if 
           <b><code>Etm</code></b> is <code>None</code> or not 
-          <b><code>falsed</code></b>.  The <code>hemipole</code> is 
-          the<code>'N'|'S'</code> hemisphere.</dd>
+          <b><code>falsed</code></b>.  The <code>hemipole</code> is the 
+          <code>'N'|'S'</code> hemisphere.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.etm.ETMError-class.html">ETMError</a></strong></code> - No convergence transforming to ETM east- and northing.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.etm.ETMError-class.html">ETMError</a></strong></code> - No convergence transforming to ETM easting and northing.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.etm.ETMError-class.html">ETMError</a></strong></code> - Invalid <b><code>zone</code></b> or near-spherical or incompatible 
         <b><code>datum</code></b> or <code>ellipsoid</code>.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - If <b><code>lat</code></b> outside the valid UTM bands or if 
@@ -29186,7 +29252,7 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toUtm</span>&nbsp;(<span class="sig-arg">latlon</span>,
         <span class="sig-arg">lon</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">datum</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">Utm</span>=<span class="sig-default">object()</span>,
+        <span class="sig-arg">Utm</span>=<span class="sig-default">_UTM</span>,
         <span class="sig-arg">cmoff</span>=<span class="sig-default">True</span>,
         <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
   </h3>
@@ -29540,7 +29606,8 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Functions <a href="pygeodesy.resections-module.html#triAngle4" 
+        Functions <a 
+        href="pygeodesy.deprecated.functions-module.html#triAngle4" 
         class="link">pygeodesy.triAngle4</a> and <a 
         href="pygeodesy.resections-module.html#triSide" 
         class="link">pygeodesy.triSide</a>.
@@ -29555,6 +29622,38 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">triAngle4</span>&nbsp;(<span class="sig-arg">a</span>,
+        <span class="sig-arg">b</span>,
+        <span class="sig-arg">c</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>DEPRECATED, use function <a 
+  href="pygeodesy.resections-module.html#triAngle5" 
+  class="link">pygeodesy.triAngle5</a>.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>A <i>DEPRECATED</i> <a 
+          href="pygeodesy.deprecated.classes.TriAngle4Tuple-class.html" 
+          class="link">TriAngle4Tuple</a><code>(radA, radB, radC, 
+          rIn)</code>.</dd>
+    <dt>Decorators:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code>@deprecated_function</code></li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="triAngle5"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">triAngle5</span>&nbsp;(<span class="sig-arg">a</span>,
         <span class="sig-arg">b</span>,
         <span class="sig-arg">c</span>)</span>
   </h3>
@@ -29578,15 +29677,16 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
           <code>meter</code>, conventionally).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd><a href="pygeodesy.resections.TriAngle4Tuple-class.html" 
-          class="link">TriAngle4Tuple</a><code>(radA, radB, radC, 
-          rIn)</code> with angles <code>radA</code>, <code>radB</code> and 
+        <dd><a href="pygeodesy.resections.TriAngle5Tuple-class.html" 
+          class="link">TriAngle5Tuple</a><code>(radA, radB, radC, rIn, 
+          area)</code> with angles <code>radA</code>, <code>radB</code> and
           <code>radC</code> at triangle corners <code>A</code>, 
-          <code>B</code> and <code>C</code>, all in <code>radians</code> 
-          and the <code>InCircle</code> radius <code>rIn</code> aka 
+          <code>B</code> and <code>C</code>, all in <code>radians</code>, 
+          the <code>InCircle</code> radius <code>rIn</code> aka 
           <code>inradius</code>, same units as triangle sides 
           <b><code>a</code></b>, <b><code>b</code></b> and 
-          <b><code>c</code></b>.</dd>
+          <b><code>c</code></b> and the triangle <code>area</code> in those
+          same units <i>squared</i>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.TriangleError-class.html">TriangleError</a></strong></code> - Invalid or negative <b><code>a</code></b>, <b><code>b</code></b> or
@@ -29594,10 +29694,56 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Function <a href="pygeodesy.resections-module.html#triAngle" 
-        class="link">pygeodesy.triAngle</a>.
+        Functions <a href="pygeodesy.resections-module.html#triAngle" 
+        class="link">pygeodesy.triAngle</a> and <a 
+        href="pygeodesy.resections-module.html#triArea" 
+        class="link">pygeodesy.triArea</a>.
       </p>
 </div></td></tr></table>
+</div>
+<a name="triArea"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">triArea</span>&nbsp;(<span class="sig-arg">a</span>,
+        <span class="sig-arg">b</span>,
+        <span class="sig-arg">c</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the area of a triangle using <a 
+  href="https://WikiPedia.org/wiki/Heron%27s_formula" 
+  target="_top">Heron's</a> <code>stable</code> formula.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>a</code></strong> - Length of the triangle side opposite of triangle corner 
+          <code>A</code> (<code>scalar</code>, non-negative 
+          <code>meter</code>, conventionally).</li>
+        <li><strong class="pname"><code>b</code></strong> - Length of the triangle side opposite of triangle corner 
+          <code>B</code> (<code>scalar</code>, non-negative 
+          <code>meter</code>, conventionally).</li>
+        <li><strong class="pname"><code>c</code></strong> - Length of the triangle side opposite of triangle corner 
+          <code>C</code> (<code>scalar</code>, non-negative 
+          <code>meter</code>, conventionally).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The triangle area (<code>float</code>, conventionally 
+          <code>meter</code> or same units as <b><code>a</code></b>, 
+          <b><code>b</code></b> and <b><code>c</code></b> <i>squared</i>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.TriangleError-class.html">TriangleError</a></strong></code> - Invalid or negative <b><code>a</code></b>, <b><code>b</code></b> or
+        <b><code>c</code></b>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
 </div>
 <a name="triSide"></a>
 <div>
@@ -29665,7 +29811,7 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
     </td>
   </tr></table>
   
-  <p>Compute one side and the opposite angle of a triangle.</p>
+  <p>Compute a side and its opposite angle of a triangle.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -31099,7 +31245,7 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Sep  1 13:25:17 2023
+    Generated by Epydoc 3.0.1 on Thu Sep 14 13:53:58 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -35,13 +35,14 @@ from pygeodesy.props import Property, Property_RO, property_doc_, property_RO, \
                            _update_all
 from pygeodesy.streprs import Fmt, strs, unstr
 from pygeodesy.units import Bearing, Degrees, Meter
-from pygeodesy.utily import cotd, sincos2d, sincos2d_, tand, tand_, wrap180, wrap360
+from pygeodesy.utily import cotd, _loneg, sincos2d, sincos2d_, tand, tand_, \
+                            wrap180, wrap360
 from pygeodesy.vector3d import _ALL_LAZY, Vector3d
 
 # from math import fabs, floor as _floor  # from .fmath, .fsums
 
 __all__ = _ALL_LAZY.ltp
-__version__ = '23.08.06'
+__version__ = '23.09.06'
 
 _height0_ = _height_ + _0_
 _narrow_  = 'narrow'
@@ -343,7 +344,7 @@ class Frustum(_NamedBase):
         if not EPS < e < _180_0:
             raise _ValueError(tilt=t)
         if e > _90_0:
-            e = _180_0 - e
+            e = _loneg(e)
             b = _umod_360(b + _180_0)
 
         r = Degrees(roll=r, wrap=wrap180)  # roll center

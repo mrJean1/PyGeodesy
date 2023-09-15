@@ -63,7 +63,7 @@ from math import asinh, atan, atanh, atan2, cos, cosh, degrees, \
 from operator import mul as _mul
 
 __all__ = _ALL_LAZY.utm
-__version__ = '23.08.05'
+__version__ = '23.09.08'
 
 _Bands = 'CDEFGHJKLMNPQRSTUVWXX'  # UTM latitude bands C..X (no
 # I|O) 8° each, covering 80°S to 84°N and X repeated for 80-84°N
@@ -448,7 +448,7 @@ class Utm(UtmUpsBase):
         '''
         x, y = self.eastingnorthing2(falsed=not unfalse)
 
-        E = self.datum.ellipsoid
+        E  = self.datum.ellipsoid
         # from Karney 2011 Eq 15-22, 36
         A0 = self.scale0 * E.A
         if A0 < EPS0:
@@ -461,14 +461,14 @@ class Utm(UtmUpsBase):
 
         sy, cy = sincos2(y)
         shx = sinh(x)
-        H = hypot(shx, cy)
+        H   = hypot(shx, cy)
         if H < EPS0:
             raise self._Error(H=H)
 
         T =  sy / H  # τʹ == τ0
         p = _0_0  # previous d
         e = _0_0001 * eps
-        for T, i, d in E._es_tauf3(T, T):  # max 5
+        for T, i, d in E._es_tauf3(T, T):  # 4-5 trips
             # d may toggle on +/-1.12e-16 or +/-4.47e-16,
             # see the references at C{Ellipsoid.es_tauf}
             if fabs(d) < eps or fabs(d + p) < e:
@@ -476,7 +476,7 @@ class Utm(UtmUpsBase):
             p = d
         else:
             t = unstr(self.toLatLon, eps=eps, unfalse=unfalse)
-            raise self._Error(Fmt.no_convergence(d), txt=t)
+            raise self._Error(Fmt.no_convergence(d, eps), txt=t)
 
         a = atan(T)  # phi, lat
         b = atan2(shx, cy)

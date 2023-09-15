@@ -5,9 +5,12 @@ modules and function L{pygeodesy.machine}.
 '''
 import sys as _sys
 
-_COMMASPACE_ = ', '  # overriden below
-_pf2List     = []    # cached _platform2 list
-_Py3List     = []    # cached _pythonarchine list
+_COMMASPACE_  = ', '  # overriden below
+_pf2List      = []    # cached _platform2 list
+_Py3List      = []    # cached _pythonarchine list
+
+_sub_packages = 'auxilats', 'deprecated', 'geodesicx'  # PYCHOK in .lazily,
+# ... make._dist, MANIFEST, setup.setup, test.bases, test.testModules
 
 
 class _Dash(str):
@@ -615,7 +618,7 @@ def _version2(version, n=2):
 __all__ = (_NN_,  # not MISSING!
             Str_.__name__,  # classes
             machine.__name__)  # in .lazily
-__version__ = '23.08.30'
+__version__ = '23.09.13'
 
 if __name__ == '__main__':
 

@@ -4,7 +4,7 @@
 # Test L{named} module.
 
 __all__ = ('Tests',)
-__version__ = '23.03.27'
+__version__ = '23.09.13'
 
 from bases import endswith, TestsBase
 from pygeodesy import geohash, Datum, Datums, named, \
@@ -14,6 +14,7 @@ from os import linesep
 
 _B_    = ')}'
 _C_    = '}C{'
+_DEP_D = 'DEPRECATED'  # interns._DEPRECATED_
 _DICT  = 'Dict'
 _LINK  = 'L{'
 _TUPLE = 'Tuple'
@@ -100,25 +101,29 @@ class Tests(TestsBase):
     _NamedTuples = {}  # [<name>] = 'L{<name>}C{(...)}'
 
     def testNamed_classes(self, _Nbase, _Nclass, _attr_, _Ndict):
-        for c in self.pygeodesy_classes(Base=_Nbase):
+        for c in self.pygeodesy_classes(Base=_Nbase, deprecated=True):
             n = c.__name__
             if c is not _Nbase and n[-1 - len(_Nclass)].isdigit():
-                # compare _Nattr_ and __doc__
-                self.test(n, c.__name__, n)
-                # check signature
-                a = getattr(c, _attr_, ())
-                s = 'C{(%s%s' % (', '.join(a), _B_)
-                t = '%s-%s %s' % (len(a), _Nclass, s)
                 d = ' '.join(c.__doc__.strip().split())
-                self.test(n, d[:len(t)].strip(), t)
-                # check the count
-                d = n[:-len(_Nclass)]
-                while d and not d[:1].isdigit():
-                    d = d[1:]
-                if d:
-                    self.test(n, d, len(a))
+                if d.startswith(_DEP_D):
+                    self.test(n, d, d)
+                    s = _DEP_D
+                else:  # compare _Nattr_ and __doc__
+                    self.test(n, c.__name__, n)
+                    # check signature
+                    a = getattr(c, _attr_, ())
+                    s = 'C{(%s%s' % (', '.join(a), _B_)
+                    t = '%s-%s %s' % (len(a), _Nclass, s)
+                    self.test(n, d[:len(t)].strip(), t)
+                    # check the count
+                    d = n[:-len(_Nclass)]
+                    while d and not d[:1].isdigit():
+                        d = d[1:]
+                    if d:
+                        self.test(n, d, len(a))
+                    s = 'L{%s}%s' % (n, s)
                 # build _Named... dict
-                _Ndict[n] = 'L{%s}%s' % (n, s)
+                _Ndict[n] = s
 
     def testNamed__doc__(self, m, py):
         self.subtitle(named, 'ing %s ' % (m,))
@@ -140,10 +145,11 @@ class Tests(TestsBase):
         c = py.find(_B_, i)
         if 0 < L < i < c:
             m = _mod_line(m, py[:L])
-            n = py[L + len(_LINK):i + len(_N)]
+            n =  py[L + len(_LINK):i + len(_N)]
+            s = _Ndict.get(n, 'signature')
             t = ' '.join(py[L:c + len(_B_)].split())
-            # DEPRECATED Ned3Tuple in DEPRECATED .ellipsoidalNvector.toNed
-            self.test(m, t, _Ndict.get(n, 'signature'), known=n == 'Ned3Tuple')
+            self.test(m, t, s, known=s == _DEP_D)
+#           self.test(m, t, _Ndict.get(n, 'signature'), known=n in ('ClipCS3Tuple', 'Ned3Tuple'))
 
     def testNamed_xtend(self, namedTuples):
         self.subtitle(namedTuples, 'ing %s ' % ('xtend',))
@@ -244,7 +250,7 @@ if __name__ == '__main__':
     t.testNamedTuples()
 
     # test __doc__ strings in all pygeodesy modules
-    for n, m in t.pygeodesy_names2():
+    for n, m in t.pygeodesy_names2(deprecated=True):
         with open(n, 'rb') as f:
             py = ub2str(f.read())
             t.testNamed__doc__(m, py)

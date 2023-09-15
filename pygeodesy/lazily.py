@@ -30,25 +30,28 @@ from pygeodesy.interns import MISSING, NN, __all__ as _interns_a_l_l_, \
                              _areaOf_, _attribute_, _by_, _COLONSPACE_, \
                              _COMMASPACE_, _doesn_t_exist_, _DOT_, _enabled_, \
                              _EQUALSPACED_, _from_, _immutable_, _isclockwise_, \
-                             _ispolar_, _line_, _module_, _NL_, _no_, _not_, _or_, \
-                             _pygeodesy_, _pygeodesy_abspath_, _Python_, _QUOTE1_, \
-                             _QUOTE2_, _SPACE_, _UNDER_, _version_, _dunder_nameof
+                             _ispolar_, _line_, _module_, _NL_, _no_, _not_, \
+                             _or_, _pygeodesy_, _pygeodesy_abspath_, _Python_, \
+                             _QUOTE1_, _QUOTE2_, _SPACE_, _sub_packages, \
+                             _UNDER_, _version_, _dunder_nameof
 
 from os import getenv as _getenv  # in .errors, .geodsolve, .props, .units
 from os.path import basename as _basename
 import sys as _sys  # in .basics._sizeof
 
-_a_l_l_                 = '__all__'
+_a_l_l_                 = '__all__'  # in .__init__
 _FOR_DOCS               = _getenv('PYGEODESY_FOR_DOCS', NN)  # for epydoc ...
 _from_DOT__             = _SPACE_(NN, _from_, _DOT_)
 _imports_               = 'imports'
 _lazily_                = 'lazily'
 _lazily_imported__      = _SPACE_('#', _lazily_, 'imported', NN)
 _p_a_c_k_a_g_e_         = '__package__'
+_PYGEODESY_GEOCONVERT_  = 'PYGEODESY_GEOCONVERT'  # PYCHOK .mgrs, test.bases
+_PYGEODESY_GEODSOLVE_   = 'PYGEODESY_GEODSOLVE'   # PYCHOK .geodsolve, test.bases
 _PYGEODESY_LAZY_IMPORT_ = 'PYGEODESY_LAZY_IMPORT'
+_PYGEODESY_RHUMBSOLVE_  = 'PYGEODESY_RHUMBSOLVE'  # PYCHOK .rhumbsolve, test.bases
 _PYTHON_X_DEV           =  getattr(_sys, '_xoptions', {}).get('dev',  # Python 3.2+
                           _getenv('PYTHONDEVMODE', NN))  # PYCHOK exported
-_sub_packages           = 'auxilats', 'deprecated', 'geodesicx'  # in make._dist
 _sys_version_info2      = _sys.version_info[:2]  # in .basics, .fmath, ...
 _WARNINGS_X_DEV         = _getenv('PYGEODESY_WARNINGS', NN) and (
                           _PYTHON_X_DEV or bool(_sys.warnoptions))  # PYCHOK .props
@@ -162,15 +165,15 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                          datums=('Datum', 'Datums', 'Transform', 'Transforms'),
                      deprecated=('EPS1_2', 'MANTIS', 'OK',  # DEPRECATED constants
                                  'bases', 'datum', 'nvector',  # DEPRECATED modules, see _sub_packages
-                                 'ClipCS3Tuple', 'EcefCartesian', 'EasNorExact4Tuple', 'HeightIDW', 'HeightIDW2', 'HeightIDW3',  # DEPRECATED classes
-                                 'LatLonExact4Tuple', 'Ned3Tuple', 'RefFrameError', 'Rhumb7Tuple', 'Transform7Tuple', 'UtmUps4Tuple',
+                                 'ClipCS3Tuple', 'EasNorExact4Tuple', 'EcefCartesian', 'HeightIDW', 'HeightIDW2', 'HeightIDW3',  # DEPRECATED classes
+                                 'LatLonExact4Tuple', 'Ned3Tuple', 'RefFrameError', 'Rhumb7Tuple', 'Transform7Tuple', 'TriAngle4Tuple', 'UtmUps4Tuple',
                                  'anStr', 'areaof', 'bounds', 'clipCS3', 'clipDMS', 'clipStr', 'collins',   # most of the DEPRECATED functions, ...
                                  'decodeEPSG2', 'encodeEPSG', 'equirectangular3', 'enStr2',   # ... except ellipsoidal, spherical flavors
                                  'excessAbc', 'excessGirard', 'excessLHuilier',
                                  'false2f', 'falsed2f', 'float0', 'fStr', 'fStrzs', 'hypot3',
                                  'inStr', 'isDEPRECATED', 'isenclosedby', 'istuplist',
                                  'joined', 'joined_', 'nearestOn3', 'nearestOn4', 'parseUTM', 'perimeterof', 'polygon',
-                                 'scalar', 'simplify2', 'tienstra', 'toUtm', 'unsign0', 'unStr', 'utmZoneBand2'),
+                                 'scalar', 'simplify2', 'tienstra', 'toUtm', 'triAngle4', 'unsign0', 'unStr', 'utmZoneBand2'),
                             dms=('F_D',   'F_DM',   'F_DMS',   'F_DEG',   'F_MIN',   'F_SEC',   'F_D60',   'F__E',   'F__F',   'F__G',   'F_RAD',
                                  'F_D_',  'F_DM_',  'F_DMS_',  'F_DEG_',  'F_MIN_',  'F_SEC_',  'F_D60_',  'F__E_',  'F__F_',  'F__G_',  'F_RAD_',
                                  'F_D__', 'F_DM__', 'F_DMS__', 'F_DEG__', 'F_MIN__', 'F_SEC__', 'F_D60__', 'F__E__', 'F__F__', 'F__G__', 'F_RAD__',
@@ -296,10 +299,10 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'deprecated_class', 'deprecated_function', 'deprecated_method',
                                  'deprecated_Property_RO', 'deprecated_property_RO', 'DeprecationWarnings'),
                      resections=('Collins5Tuple', 'ResectionError', 'Survey3Tuple', 'Tienstra7Tuple',
-                                 'TriAngle4Tuple', 'TriSide2Tuple', 'TriSide4Tuple',
+                                 'TriAngle5Tuple', 'TriSide2Tuple', 'TriSide4Tuple',
                                  'cassini', 'collins5', 'pierlot', 'pierlotx', 'tienstra7',
                                  'snellius3', 'wildberger3',
-                                 'triAngle', 'triAngle4', 'triSide', 'triSide2', 'triSide4'),
+                                 'triAngle', 'triAngle5', 'triArea', 'triSide', 'triSide2', 'triSide4'),
                        rhumbaux=('RhumbAux', 'RhumbLineAux'),
                       rhumbBase=(),  # module only
                      rhumbsolve=('RhumbSolve', 'RhumbLineSolve', 'RhumbSolve7Tuple'),
@@ -441,7 +444,7 @@ class _ALL_MODS(object):
 _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '23.08.22'
+__version__ = '23.09.14'
 
 
 def _ALL_OTHER(*objs):

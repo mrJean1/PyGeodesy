@@ -139,8 +139,9 @@ from pygeodesy.constants import NAN, _isfinite as _math_isfinite, _0_0, _1_16th,
 from pygeodesy.datums import _a_ellipsoid, _EWGS84, _WGS84  # PYCHOK shared
 # from pygeodesy.ellipsoids import _EWGS84  # from .datums
 from pygeodesy.errors import GeodesicError, _ValueError, _xkwds, _xkwds_get
-from pygeodesy.fmath import cbrt, fremainder, norm2, unstr, \
-                            Fsum, hypot as _hypot  # PYCHOK shared
+from pygeodesy.fmath import cbrt, fremainder, hypot as _hypot, norm2, \
+                            Fsum, unstr  # PYCHOK shared
+# from pygeodesy.fsums import Fsum  # from .fmath
 from pygeodesy.interns import _2_, _a12_, _area_, _azi2_, _azi12_, _composite_, \
                               _lat1_, _lat2_, _lon1_, _lon2_, _m12_, _M12_, _M21_, \
                               _number_, _s12_, _S12_
@@ -156,7 +157,7 @@ from pygeodesy.utily import atan2d, sincos2d, tand, _unrollon,  fabs
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.karney
-__version__ = '23.08.20'
+__version__ = '23.09.12'
 
 _K_2_0      = _getenv('PYGEODESY_GEOGRAPHICLIB', _2_) == _2_
 _perimeter_ = 'perimeter'

@@ -18,16 +18,14 @@ from pygeodesy.karney import _Azi, Caps, _Deg, GeodesicError, _GTuple, \
                              _Pass, _Lat, _Lon, _M, _M2, _sincos2d, \
                              _xinstanceof
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, \
-                             _getenv, printf
+                             _PYGEODESY_GEODSOLVE_, _getenv, printf
 from pygeodesy.namedTuples import Destination3Tuple, Distance3Tuple
 from pygeodesy.props import Property, Property_RO
 from pygeodesy.solveBase import _SolveBase, _SolveLineBase,  wrap360
 # from pygeodesy.utily import wrap360  # from .solveBase
 
 __all__ = _ALL_LAZY.geodsolve
-__version__ = '23.08.04'
-
-_PYGEODESY_GEODSOLVE_ = 'PYGEODESY_GEODSOLVE'  # PYCHOK used!
+__version__ = '23.09.14'
 
 
 class GeodSolve12Tuple(_GTuple):

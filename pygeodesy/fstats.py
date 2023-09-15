@@ -1,7 +1,7 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Classes for running statistics and regreesions based on
+u'''Classes for I{running} statistics and regressions based on
 L{pygeodesy.Fsum}, precision floating point summation.
 '''
 # make sure int/int division yields float quotient, see .basics
@@ -9,10 +9,10 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import isodd, islistuple, _xinstanceof, \
                             _xsubclassof, _zip
-from pygeodesy.constants import _0_0, _1_5, _2_0, _3_0, _4_0, _6_0
-from pygeodesy.errors import _xError
-from pygeodesy.fmath import hypot2, sqrt
-from pygeodesy.fsums import _2float, Fmt, Fsum
+from pygeodesy.constants import _0_0, _2_0, _3_0, _4_0, _6_0,  _xError
+# from pygeodesy.errors import _xError  # from .constants
+from pygeodesy.fmath import hypot2,  sqrt
+from pygeodesy.fsums import _2float, Fsum,  Fmt
 from pygeodesy.interns import NN, _iadd_op_, _invalid_, _other_, _SPACE_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import _Named, _NotImplemented, notOverloaded, \
@@ -20,13 +20,13 @@ from pygeodesy.named import _Named, _NotImplemented, notOverloaded, \
 # from pygeodesy.props import property_RO  # from .named
 # from pygeodesy.streprs import Fmt  # from .fsums
 
-# from math import sqrt  # pow  from .fmath
+# from math import sqrt  # from .fmath
 
 __all__ = _ALL_LAZY.fstats
-__version__ = '23.07.21'
+__version__ = '23.09.08'
 
-_Float  =  Fsum, float
-_Scalar = _Float + (int,)  # XXX basics._Ints is ABCMeta
+_Floats =  Fsum, float
+_Scalar = _Floats + (int,)  # XXX basics._Ints is ABCMeta in Python 2
 try:
     _Scalar += (long,)
 except NameError:  # Python 3+
@@ -36,9 +36,15 @@ except NameError:  # Python 3+
 def _2Floats(xs, ys=False):
     '''(INTERNAL) Yield each value as C{float} or L{Fsum}.
     '''
-    for i, x in enumerate(xs):
-        yield x if isinstance(x, _Float) else (_2float(index=i, ys=x)
-                                   if ys else  _2float(index=i, xs=x))
+    if ys:
+        def _2f(i, x):
+            return _2float(index=i, ys=x)
+    else:
+        def _2f(i, x):  # PYCHOK redef
+            return _2float(index=i, xs=x)
+
+    for i, x in enumerate(xs):  # don't unravel Fsums
+        yield x if isinstance(x, _Floats) else _2f(i, x)
 
 
 def _sampled(n, sample):
@@ -143,7 +149,7 @@ class _FstatsBase(_FstatsNamed):
 
            @kwarg xs: Iterable with additional values (C{Scalar}).
            @kwarg sample: Return the I{sample} instead of the entire
-                          I{population} value (C{bool}).
+                          I{population} standard deviation (C{bool}).
 
            @return: Current, running (sample) standard deviation (C{float}).
 
@@ -164,7 +170,7 @@ class _FstatsBase(_FstatsNamed):
 
            @kwarg xs: Iterable with additional values (C{Scalar}s).
            @kwarg sample: Return the I{sample} instead of the entire
-                          I{population} value (C{bool}).
+                          I{population} variance (C{bool}).
 
            @return: Current, running (sample) variance (C{float}).
 
@@ -290,7 +296,7 @@ class Fcook(_FstatsBase):
            @arg xs: Iterable with additional values (C{Scalar}s,
                     meaning C{scalar} or L{Fsum} instances).
            @kwarg sample: Return the I{sample} instead of the entire
-                          I{population} value (C{bool}).
+                          I{population} count (C{bool}).
 
            @return: Current, running (sample) count (C{int}).
 
@@ -341,7 +347,7 @@ class Fcook(_FstatsBase):
            <https://WikiPedia.org/wiki/Jarque–Bera_test>} normality.
 
            @kwarg xs: Iterable with additional values (C{Scalar}s).
-           @kwarg sample: Return the I{sample} value (C{bool}), default.
+           @kwarg sample: Return the I{sample} normality (C{bool}), default.
            @kwarg excess: Return the I{excess} kurtosis (C{bool}), default.
 
            @return: Current, running (sample) Jarque-Bera normality (C{float}).
@@ -366,13 +372,13 @@ class Fcook(_FstatsBase):
 
            @kwarg xs: Iterable with additional values (C{Scalar}s).
            @kwarg sample: Return the I{sample} instead of the entire
-                          I{population} value (C{bool}).
+                          I{population} kurtosis (C{bool}).
            @kwarg excess: Return the I{excess} kurtosis (C{bool}), default.
 
            @return: Current, running (sample) kurtosis or I{excess} kurtosis (C{float}).
 
            @see: U{Kurtosis Formula<https://www.Macroption.com/kurtosis-formula>}
-                 and U{Mantalos<https://www.researchgate.net/publication/227440210>}.
+                 and U{Mantalos<https://www.ResearchGate.net/publication/227440210>}.
 
            @see: Method L{Fcook.fadd}.
         '''
@@ -427,21 +433,21 @@ class Fcook(_FstatsBase):
 
            @kwarg xs: Iterable with additional values (C{Scalar}s).
            @kwarg sample: Return the I{sample} instead of the entire
-                          I{population} value (C{bool}).
+                          I{population} skewness (C{bool}).
 
            @return: Current, running (sample) skewness (C{float}).
 
            @see: U{Skewness Formula<https://www.Macroption.com/skewness-formula/>}
-                 and U{Mantalos<https://www.researchgate.net/publication/227440210>}.
+                 and U{Mantalos<https://www.ResearchGate.net/publication/227440210>}.
 
            @see: Method L{Fcook.fadd}.
         '''
         s, n = _0_0, self.fadd(xs, sample=sample)
         if n > 0:
             _, M2, M3, _ = self._Ms
-            m2 = pow(float(M2), _1_5)
-            if m2:
-                S = M3 * (sqrt(float(n)) / m2)
+            m = float(M2**3)
+            if m > 0:
+                S = M3 * sqrt(float(n) / m)
                 if sample and 1 < n < len(self):
                     S *= (n + 1) / float(n - 1)
                 s = S.fsum()
@@ -537,7 +543,7 @@ class Fwelford(_FstatsBase):
            @arg xs: Iterable with additional values (C{Scalar}s,
                     meaning C{scalar} or L{Fsum} instances).
            @kwarg sample: Return the I{sample} instead of the entire
-                          I{population} value (C{bool}).
+                          I{population} count (C{bool}).
 
            @return: Current, running (sample) count (C{int}).
 
@@ -650,7 +656,7 @@ class Flinear(_FstatsNamed):
            @arg ys: Iterable with additional C{y} values (C{Scalar}s,
                     meaning C{scalar} or L{Fsum} instances).
            @kwarg sample: Return the I{sample} instead of the entire
-                          I{population} value (C{bool}).
+                          I{population} count (C{bool}).
 
            @return: Current, running (sample) count (C{int}).
 
@@ -689,7 +695,7 @@ class Flinear(_FstatsNamed):
         '''Return the current, running (sample) correlation (C{float}).
 
            @kwarg sample: Return the I{sample} instead of the entire
-                          I{population} value (C{bool}).
+                          I{population} correlation (C{bool}).
         '''
         return self._sampled(self.x.fstdev(sample=sample) *
                              self.y.fstdev(sample=sample), sample)
@@ -698,7 +704,7 @@ class Flinear(_FstatsNamed):
         '''Return the current, running (sample) intercept (C{float}).
 
            @kwarg sample: Return the I{sample} instead of the entire
-                          I{population} value (C{bool}).
+                          I{population} intercept (C{bool}).
         '''
         return float(self.y._M1 -
                     (self.x._M1 * self.fslope(sample=sample)))
@@ -707,7 +713,7 @@ class Flinear(_FstatsNamed):
         '''Return the current, running (sample) slope (C{float}).
 
            @kwarg sample: Return the I{sample} instead of the entire
-                          I{population} value (C{bool}).
+                          I{population} slope (C{bool}).
         '''
         return self._sampled(self.x.fvariance(sample=sample), sample)
 
