@@ -32,7 +32,7 @@ from pygeodesy.props import _allPropertiesOf_n, deprecated_method, _hasProperty,
 from pygeodesy.streprs import attrs, Fmt, lrstrip, pairs, reprs, unstr
 
 __all__ = _ALL_LAZY.named
-__version__ = '23.09.11'
+__version__ = '23.09.20'
 
 _COMMANL_           = _COMMA_ + _NL_
 _COMMASPACEDOT_     = _COMMASPACE_ + _DOT_
@@ -1251,7 +1251,7 @@ def notOverloaded(inst, *args, **kwds):  # PYCHOK no cover
        @arg kwds: Method or property keyword arguments (any C{type}s).
     '''
     u = _xkwds_pop(kwds, up=2)
-    n = _xkwds_pop(kwds, callername=NN) or callername(up=u)
+    n = _xkwds_pop(kwds, callername=NN) or callername(up=u, underOK=True)
     t = _notError(inst, n, args, kwds)
     raise _AssertionError(t, txt=notOverloaded.__name__.replace('O', ' o'))
 

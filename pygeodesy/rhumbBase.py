@@ -9,7 +9,7 @@ from I{GeographicLib versions 2.0} and I{2.2} and I{Karney}'s C++ example U{Rhum
 
 Class L{RhumbLine} has been enhanced with methods C{intersection2} and C{nearestOn4} to iteratively
 find the intersection of two rhumb lines, respectively the nearest point on a rumb line along a
-geodesic or perpendicular rhumb line.
+geodesic or perpendicular rhumb line from an other point.
 
 For more details, see the C++ U{GeographicLib<https://GeographicLib.SourceForge.io/C++/doc/index.html>}
 documentation, especially the U{Class List<https://GeographicLib.SourceForge.io/C++/doc/annotated.html>},
@@ -23,9 +23,9 @@ License.  For more information, see the U{GeographicLib<https://GeographicLib.So
 # make sure int/int division yields float quotient
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-# from pygeodesy.basics import _xinstanceof  # from .karney
-from pygeodesy.constants import EPS, EPS1, INT0, _EPSqrt as _TOL, \
-                               _0_0, _0_01, _1_0, _90_0
+# from pygeodesy.basics import unsigned0, _xinstanceof  # from .karney
+from pygeodesy.constants import EPS, EPS1, INT0, _EPSqrt as _TOL, NAN, \
+                               _0_0, _0_01, _1_0, _90_0, _over
 # from pygeodesy.datums import _spherical_datum  # from .formy
 # from pygeodesy.ellipsoids import _EWGS84  # from .karney
 from pygeodesy.errors import IntersectionError, itemsorted, RhumbError, \
@@ -34,26 +34,28 @@ from pygeodesy.errors import IntersectionError, itemsorted, RhumbError, \
 from pygeodesy.fmath import euclid, favg,  fabs, Fsum
 from pygeodesy.formy import opposing,  _spherical_datum
 # from pygeodesy.fsums import Fsum  # from .fmath
-from pygeodesy.interns import NN, _coincident_, _COMMASPACE_, _intersection_, \
-                             _no_, _parallel_, _under
-from pygeodesy.karney import Caps, _CapsBase, _diff182, _fix90, _norm180, \
-                            _EWGS84, _xinstanceof
+from pygeodesy.interns import NN, _coincident_, _COMMASPACE_, _Dash, \
+                             _intersection_, _no_, _parallel_, _under
+from pygeodesy.karney import _atan2d, Caps, _CapsBase, _diff182, _fix90, \
+                             GDict, _norm180,  _EWGS84, unsigned0, _xinstanceof
 # from pygeodesy.ktm import KTransverseMercator, _AlpCoeffs  # _MODS
 from pygeodesy.lazily import _ALL_DOCS, _ALL_MODS as _MODS
 # from pygeodesy.named import notOverloaded  # _MODS
 from pygeodesy.namedTuples import Distance2Tuple, LatLon2Tuple, NearestOn4Tuple
-from pygeodesy.props import Property, Property_RO, property_RO, _update_all
+from pygeodesy.props import deprecated_method, Property, Property_RO, property_RO, \
+                           _update_all
 from pygeodesy.streprs import Fmt, pairs, unstr
 from pygeodesy.units import Float_, Lat, Lon, Meter,  Int  # PYCHOK shared
-from pygeodesy.utily import _loneg, sincos2d, sincos2d_, _unrollon, _Wrap, \
-                             sincos2_  # PYCHOK shared
+from pygeodesy.utily import atan2d, _azireversed, _loneg, sincos2d, sincos2d_, \
+                           _unrollon, _Wrap,  sincos2_  # PYCHOK shared
 from pygeodesy.vector3d import _intersect3d3, Vector3d  # in .intersection2 below
 
 # from math import fabs  # from .fmath
 
 __all__ = ()
-__version__ = '23.09.15'
+__version__ = '23.09.20'
 
+_anti_ = _Dash('anti')
 _rls   = []  # instances of C{RbumbLine...} to be updated
 _TRIPS = 65  # .intersection2, .nearestOn4, 19+
 
@@ -114,6 +116,37 @@ class RhumbBase(_CapsBase):
 
     equatoradius = a
 
+    def ArcDirect(self, lat1, lon1, azi12, a12, outmask=Caps.LATITUDE_LONGITUDE):
+        '''Solve the I{direct rhumb} problem, optionally with area.
+
+           @arg lat1: Latitude of the first point (C{degrees90}).
+           @arg lon1: Longitude of the first point (C{degrees180}).
+           @arg azi12: Azimuth of the rhumb line (compass C{degrees}).
+           @arg a12: Angle along the rhumb line from the given to the
+                     destination point (C{degrees}), can be negative.
+
+           @return: L{GDict} with 2 up to 8 items C{lat2, lon2, a12, S12,
+                    lat1, lon1, azi12, s12} with the destination point's
+                    latitude C{lat2} and longitude C{lon2} in C{degrees},
+                    the rhumb angle C{a12} in C{degrees} and area C{S12}
+                    under the rhumb line in C{meter} I{squared}.
+
+           @raise ImportError: Package C{numpy} not found or not installed,
+                               only required for area C{S12} when C{B{exact}
+                               is True} and L{RhumbAux}.
+
+           @note: If B{C{a12}} is large enough that the rhumb line crosses
+                  a pole, the longitude of the second point is indeterminate
+                  and C{NAN} is returned for C{lon2} and area C{S12}.
+
+           @note: If the given point is a pole, the cosine of its latitude is
+                  taken to be C{sqrt(L{EPS})}.  This position is extremely
+                  close to the actual pole and allows the calculation to be
+                  carried out in finite terms.
+        '''
+        s12 = a12 * self._mpd
+        return self._DirectRhumb(lat1, lon1, azi12, a12, s12, outmask)
+
     @Property_RO
     def b(self):
         '''Get the C{ellipsoid}'s polar radius, semi-axis (C{meter}).
@@ -127,10 +160,36 @@ class RhumbBase(_CapsBase):
         '''
         return self.Direct(ll1.lat, ll1.lon, azi12, s12, **outmask)
 
-    def Direct(self, lat1, lon1, azi12, s12, outmask=0):  # PYCHOK no cover
-        '''I{Must be overloaded}, see function C{notOverloaded}.
+    def Direct(self, lat1, lon1, azi12, s12, outmask=Caps.LATITUDE_LONGITUDE):
+        '''Solve the I{direct rhumb} problem, optionally with area.
+
+           @arg lat1: Latitude of the first point (C{degrees90}).
+           @arg lon1: Longitude of the first point (C{degrees180}).
+           @arg azi12: Azimuth of the rhumb line (compass C{degrees}).
+           @arg s12: Distance along the rhumb line from the given to
+                     the destination point (C{meter}), can be negative.
+
+           @return: L{GDict} with 2 up to 8 items C{lat2, lon2, a12, S12,
+                    lat1, lon1, azi12, s12} with the destination point's
+                    latitude C{lat2} and longitude C{lon2} in C{degrees},
+                    the rhumb angle C{a12} in C{degrees} and area C{S12}
+                    under the rhumb line in C{meter} I{squared}.
+
+           @raise ImportError: Package C{numpy} not found or not installed,
+                               only required for area C{S12} when C{B{exact}
+                               is True} and L{RhumbAux}.
+
+           @note: If B{C{s12}} is large enough that the rhumb line crosses
+                  a pole, the longitude of the second point is indeterminate
+                  and C{NAN} is returned for C{lon2} and area C{S12}.
+
+           @note: If the given point is a pole, the cosine of its latitude is
+                  taken to be C{sqrt(L{EPS})}.  This position is extremely
+                  close to the actual pole and allows the calculation to be
+                  carried out in finite terms.
         '''
-        _MODS.named.notOverloaded(self, lat1, lon1, azi12, s12, outmask=outmask)
+        a12 = _over(s12, self._mpd)
+        return self._DirectRhumb(lat1, lon1, azi12, a12, s12, outmask)
 
     def Direct8(self, lat1, lon1, azi12, s12, outmask=Caps.LATITUDE_LONGITUDE_AREA):
         '''Like method L{Rhumb.Direct} but returning a L{Rhumb8Tuple} with area C{S12}.
@@ -161,10 +220,16 @@ class RhumbBase(_CapsBase):
            @note: Updates to this rhumb are reflected in the returned
                   rhumb line, unless C{B{caps} |= Caps.LINE_OFF}.
         '''
-        return self._RhumbLine(self, lat1=lat1, lon1=lon1, azi12=azi12,
-                                                         **caps_name)
+        return self._RhumbLine(self, lat1, lon1, azi12, **caps_name)
 
     Line = DirectLine  # synonyms
+
+    def _DirectRhumb(self, lat1, lon1, azi12, a12, s12, outmask):
+        '''(INTERNAL) See methods C{.ArcDirect} and C{.Direct}.
+        '''
+        rl = self._RhumbLine(self, lat1, lon1, azi12, caps=Caps.LINE_OFF,
+                                                      name=self.name)
+        return rl._Position(a12, s12, outmask | self._debug)  # lat2, lon2, S12
 
     @Property
     def ellipsoid(self):
@@ -247,10 +312,51 @@ class RhumbBase(_CapsBase):
             ll2 = _unrollon(ll1, _Wrap.point(ll2))
         return self.Inverse(ll1.lat, ll1.lon, ll2.lat, ll2.lon, **outmask)
 
-    def Inverse(self, lat1, lon1, lat2, lon2, outmask=0):  # PYCHOK no cover
+    def Inverse(self, lat1, lon1, lat2, lon2, outmask=Caps.AZIMUTH_DISTANCE):
+        '''Solve the I{inverse rhumb} problem.
+
+           @arg lat1: Latitude of the first point (C{degrees90}).
+           @arg lon1: Longitude of the first point (C{degrees180}).
+           @arg lat2: Latitude of the second point (C{degrees90}).
+           @arg lon2: Longitude of the second point (C{degrees180}).
+
+           @return: L{GDict} with 4 to 8 items C{lat1, lon1, lat2, lon2,
+                    azi12, s12, a12, S12, }, the rhumb line's azimuth
+                    C{azi12} in compass C{degrees} between C{-180} and
+                    C{+180}, the rhumb distance C{s12} and rhumb angle
+                    C{a12} between both points in C{meter} respectively
+                    C{degrees} and the area C{S12} under the rhumb line
+                    in C{meter} I{squared}.
+
+           @raise ImportError: Package C{numpy} not found or not installed,
+                               only required for L{RhumbAux} area C{S12}
+                               when C{B{exact} is True}.
+
+           @note: The shortest rhumb line is found.  If the end points are
+                  on opposite meridians, there are two shortest rhumb lines
+                  and the East-going one is chosen.
+
+           @note: If either point is a pole, the cosine of its latitude is
+                  taken to be C{sqrt(L{EPS})}.  This position is extremely
+                  close to the actual pole and allows the calculation to be
+                  carried out in finite terms.
+        '''
+        r  = GDict(lat1=lat1, lon1=lon1, lat2=lat2, lon2=lon2, name=self.name)
+        Cs = Caps
+        if (outmask & Cs.AZIMUTH_DISTANCE_AREA):
+            lon12, _ = _diff182(lon1, lon2, K_2_0=True)
+            y, x, s1, s2 = self._Inverse4(lon12, r, outmask)
+            if (outmask & Cs.AZIMUTH):
+                r.set_(azi12=_atan2d(y, x))
+            if (outmask & Cs.AREA):
+                S12 = self._S12d(s1, s2, lon12)
+                r.set_(S12=unsigned0(S12))  # like .gx
+        return r
+
+    def _Inverse4(self, lon12, r, outmask):  # PYCHOK no cover
         '''I{Must be overloaded}, see function C{notOverloaded}.
         '''
-        _MODS.named.notOverloaded(self, lat1, lon1, lat2, lon2, outmask=outmask)
+        _MODS.named.notOverloaded(self, lon12, r, outmask)
 
     def Inverse8(self, lat1, lon1, azi12, s12, outmask=Caps.AZIMUTH_DISTANCE_AREA):
         '''Like method L{Rhumb.Inverse} but returning a L{Rhumb8Tuple} with area C{S12}.
@@ -278,33 +384,50 @@ class RhumbBase(_CapsBase):
                        should I{not} be reflected in this rhumb line.
 
            @return: A C{RhumbLine...} instance and invoke its method
-                    C{.Position} to compute each point.
+                    C{ArcPosition} or C{Position} to compute points.
 
            @note: Updates to this rhumb are reflected in the returned
                   rhumb line, unless C{B{caps} |= Caps.LINE_OFF}.
         '''
         r = self.Inverse(lat1, lon1, lat2, lon2, outmask=Caps.AZIMUTH)
-        return self._RhumbLine(self, lat1=lat1, lon1=lon1, azi12=r.azi12,
-                                                         **caps_name)
+        return self._RhumbLine(self, lat1, lon1, r.azi12, **caps_name)
 
     @Property_RO
+    def _mpd(self):  # PYCHOK no cover
+        '''I{Must be overloaded}, see function C{notOverloaded}.
+        '''
+        _MODS.named.notOverloaded(self)
+
+    @property_RO
     def _RhumbLine(self):  # PYCHOK no cover
         '''I{Must be overloaded}, see function C{notOverloaded}.
         '''
         _MODS.named.notOverloaded(self)
 
-    def _TMorder(self, order):
-        '''(INTERNAL) Set the I{Transverse Mercator} order (C{int}).
-
-           @note: Setting C{TMorder} turns property C{exact} off.
+    def _S12d(self, s1, s2, lon):  # PYCHOK no cover
+        '''I{Must be overloaded}, see function C{notOverloaded}.
         '''
-        x =  self.exact
-        n = _Xorder(_MODS.ktm._AlpCoeffs, RhumbError, TMorder=order)
-        if self._mTM != n:
+        _MODS.named.notOverloaded(self, s1, s2, lon)
+
+    @Property
+    def TMorder(self):
+        '''Get the I{Transverse Mercator} order (C{int}, 4, 5, 6, 7 or 8).
+        '''
+        return self._mTM
+
+    @TMorder.setter  # PYCHOK setter!
+    def TMorder(self, order):
+        '''Set the I{Transverse Mercator} order (C{int}, 4, 5, 6, 7 or 8).
+
+           @note: Setting C{TMorder} turns property C{exact} off, but only
+                  for L{Rhumb} instances.
+        '''
+        m = _Xorder(_MODS.ktm._AlpCoeffs, RhumbError, TMorder=order)
+        if self._mTM != m:
             _update_all_rls(self)
-            self._mTM = n
-            x = False
-        return x
+            self._mTM = m
+            if self.exact and isinstance(self, _MODS.rhumbx.Rhumb):
+                self.exact = False
 
     def toStr(self, prec=6, sep=_COMMASPACE_, **unused):  # PYCHOK no cover
         '''I{Must be overloaded}, see function C{notOverloaded}.
@@ -312,19 +435,20 @@ class RhumbBase(_CapsBase):
         _MODS.named.notOverloaded(self, prec=prec, sep=sep)
 
 
-class RhumbLineBase(RhumbBase):
-    '''(INTERNAL) Class C{RhumbLine}
+class RhumbLineBase(_CapsBase):
+    '''(INTERNAL) Base class for C{rhumbaux.RhumbLineAux} and C{rhumbx.RhumbLine}.
     '''
     _azi12 = _0_0
+    _calp  = _1_0
 #   _caps  =  0
 #   _debug =  0
 #   _lat1  = _0_0
 #   _lon1  = _0_0
 #   _lon12 = _0_0
-    _salp  = _0_0
-    _calp  = _1_0
     _Rhumb =  RhumbBase  # compatible C{Rhumb} class
     _rhumb =  None  # C{Rhumb} instance
+    _salp  = _0_0
+    _talp  = _0_0
 
     def __init__(self, rhumb, lat1, lon1, azi12, caps=Caps.STANDARD, name=NN):
         '''New C{RhumbLine}.
@@ -358,6 +482,35 @@ class RhumbLineBase(RhumbBase):
         self._rhumb = None
         # _update_all(self)  # throws TypeError during Python 2 cleanup
 
+    def ArcPosition(self, a12, outmask=Caps.LATITUDE_LONGITUDE):
+        '''Compute a point at a given angular distance on this rhumb line.
+
+           @arg a12: The angle along this rhumb line from its origin to the
+                     point (C{degrees}), can be negative.
+           @kwarg outmask: Bit-or'ed combination of L{Caps} values specifying
+                           the quantities to be returned.
+
+           @return: L{GDict} with 4 to 8 items C{azi12, a12, s12, S12, lat2,
+                    lon2, lat1, lon1} with latitude C{lat2} and longitude
+                    C{lon2} of the point in C{degrees}, the rhumb distance
+                    C{s12} in C{meter} from the start point of and the area
+                    C{S12} under this rhumb line in C{meter} I{squared}.
+
+           @raise ImportError: Package C{numpy} not found or not installed,
+                               only required for L{RhumbLineAux} area C{S12}
+                               when C{B{exact} is True}.
+
+           @note: If B{C{a12}} is large enough that the rhumb line crosses a
+                  pole, the longitude of the second point is indeterminate and
+                  C{NAN} is returned for C{lon2} and area C{S12}.
+
+                  If the first point is a pole, the cosine of its latitude is
+                  taken to be C{sqrt(L{EPS})}.  This position is extremely
+                  close to the actual pole and allows the calculation to be
+                  carried out in finite terms.
+        '''
+        return self._Position(a12, self.degrees2m(a12), outmask)
+
     @Property
     def azi12(self):
         '''Get this rhumb line's I{azimuth} (compass C{degrees}).
@@ -373,7 +526,8 @@ class RhumbLineBase(RhumbBase):
             if self._rhumb:
                 _update_all(self)
             self._azi12 = z
-            self._salp, self._calp = sincos2d(z)  # no NEG0
+            self._salp, self._calp = t = sincos2d(z)  # no NEG0
+            self._talp = _over(*t)
 
     @property_RO
     def azi12_sincos2(self):  # PYCHOK no cover
@@ -381,21 +535,23 @@ class RhumbLineBase(RhumbBase):
         '''
         return self._scalp, self._calp
 
-    def distance2(self, lat, lon):
-        '''Return the distance from and (initial) bearing at the given
-           point to this rhumb line's start point.
+    def degrees2m(self, angle):
+        '''Convert an angular distance along this rhumb line to C{meter}.
 
-           @arg lat: Latitude of the point (C{degrees}).
-           @arg lon: Longitude of the points (C{degrees}).
+           @arg angle: Angular distance (C{degrees}).
+
+           @return: Distance (C{meter}).
+        '''
+        return float(angle) * self.rhumb._mpd
+
+    @deprecated_method
+    def distance2(self, lat, lon):  # PYCHOK no cover
+        '''DEPRECATED, use method L{RhumbLineAux.Inverse} or L{RhumbLine.Inverse}.
 
            @return: A L{Distance2Tuple}C{(distance, initial)} with the C{distance}
-                    in C{meter} and C{initial} bearing in C{degrees}.
-
-           @see: Methods C{intersection2} and C{nearestOn4} of L{RhumbLineAux} and
-                 L{RhumbLine}.
+                    in C{meter} and C{initial} bearing (azimuth) in C{degrees}.
         '''
-        r = self.rhumb.Inverse(self.lat1, self.lon1, lat, lon)
-#                              outmask=Caps.AZIMUTH_DISTANCE)
+        r = self.Inverse(lat, lon)
         return Distance2Tuple(r.s12, r.azi12)
 
     @property_RO
@@ -440,9 +596,9 @@ class RhumbLineBase(RhumbBase):
             # make invariants and globals locals
             _s_3d, s_az =  self._xTM3d,  self.azi12
             _o_3d, o_az = other._xTM3d, other.azi12
-            t = opposing(s_az, o_az, margin=tol)
-            if t is not None:  # == t in (True, False)
-                raise ValueError(_parallel_)
+            p = opposing(s_az, o_az, margin=tol)
+            if p is not None:  # == t in (True, False)
+                raise ValueError(_anti_(_parallel_) if p else _parallel_)
             _diff =  euclid  # approximate length
             _i3d3 = _intersect3d3  # NOT .vector3d.intersection3d3
             _LL2T =  LatLon2Tuple
@@ -461,8 +617,29 @@ class RhumbLineBase(RhumbBase):
                                  name=self.intersection2.__name__)
         except Exception as x:
             raise IntersectionError(_no_(_intersection_), cause=x)
-        t = unstr(self.intersection2, tol=tol, **eps)
-        raise IntersectionError(Fmt.no_convergence(d), txt=t)
+        t = unstr(self.intersection2, other, **eps)
+        raise IntersectionError(Fmt.no_convergence(d, tol), txt=t)
+
+    def Inverse(self, lat2, lon2, wrap=False):
+        '''Return the rhumb angle, distance, azimuth, I{reverse} azimuth, etc. of
+           a rhumb line between the given point and this rhumb line's start point.
+
+           @arg lat2: Latitude of the point (C{degrees}).
+           @arg lon2: Longitude of the points (C{degrees}).
+           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll B{C{lat2}}
+                        and B{C{lon2}} (C{bool}).
+
+           @return: L{GDict} with 8 items C{a12, s12, azi12, azi21, lat1, lon1,
+                    lat2, lon2}, the rhumb angle C{a12} and rhumb distance C{s12}
+                    between both points in C{degrees} respectively C{meter}, the
+                    rhumb line's azimuth C{azi12} and I{reverse} azimuth C{azi21}
+                    both in compass C{degrees} between C{-180} and C{+180}.
+        '''
+        if wrap:
+            _, lat2, lon2 = _Wrap.latlon3(self.lon1, _fix90(lat2), lon2)
+        r = self.rhumb.Inverse(self.lat1, self.lon1,        lat2,  lon2)
+        r.set_(azi21=_azireversed(r.azi12))
+        return r
 
     @Property_RO
     def isLoxodrome(self):
@@ -492,14 +669,25 @@ class RhumbLineBase(RhumbBase):
         '''
         return LatLon2Tuple(self.lat1, self.lon1)
 
-    def _mu22(self, mu12, mu1):
-        mu2 = mu12 + mu1
-        x90 = fabs(mu2) > 90
-        if x90:  # reduce to [-180, 180)
-            mu2 = _norm180(mu2)
-            if fabs(mu2) > 90:  # point on anti-meridian
-                mu2 = _norm180(_loneg(mu2))
-        return mu2, x90
+    def m2degrees(self, distance):
+        '''Convert a distance along this rhumb line to an angular distance.
+
+           @arg distance: Distance (C{meter}).
+
+           @return: Angular distance (C{degrees}).
+        '''
+        return _over(float(distance), self.rhumb._mpd)
+
+    @property_RO
+    def _mu1(self):  # PYCHOK no cover
+        '''I{Must be overloaded}, see function C{notOverloaded}.
+        '''
+        _MODS.named.notOverloaded(self)
+
+    def _mu2lat(self, mu2):  # PYCHOK no cover
+        '''I{Must be overloaded}, see function C{notOverloaded}.
+        '''
+        _MODS.named.notOverloaded(self, mu2)
 
     def nearestOn4(self, lat, lon, tol=_TOL, exact=None, eps=EPS, est=None):
         '''I{Iteratively} locate the point on this rhumb line nearest to the
@@ -540,18 +728,18 @@ class RhumbLineBase(RhumbBase):
             z  = _norm180(self.azi12 + _90_0)  # perpendicular azimuth
             rl =  RhumbLineBase(self.rhumb, lat, lon, z, caps=Caps.LINE_OFF)
             p  =  self.intersection2(rl, tol=tol, eps=eps)
-            t  =  rl.distance2(p.lat, p.lon)
-            r  =  NearestOn4Tuple(p.lat, p.lon, t.distance, z,
+            r  =  rl.Inverse(p.lat, p.lon)
+            r  =  NearestOn4Tuple(p.lat, p.lon, r.s12, z,
                                                 iteration=p.iteration)
         else:  # C{rhumb-intercept}
             azi = self.azi12
             szi = self._salp
             E   = self.ellipsoid
-            gX  = E.geodesic_(exact=exact)
+            _gI = E.geodesic_(exact=exact).Inverse
             Cs  = Caps
-            gm  = Cs.AZIMUTH | Cs.LATITUDE_LONGITUDE | Cs.REDUCEDLENGTH | Cs.GEODESICSCALE
+            gm  = Cs._AZIMUTH_LATITUDE_LONGITUDE | Cs._REDUCEDLENGTH_GEODESICSCALE
             if est is None:  # get an estimate from the perpendicular
-                r = gX.Inverse(self.lat1, self.lon1, lat, lon, outmask=Cs.AZIMUTH_DISTANCE)
+                r = _gI(self.lat1, self.lon1, lat, lon, outmask=Cs.AZIMUTH_DISTANCE)
                 d, _ = _diff182(r.azi2, azi, K_2_0=True)
                 _, c = sincos2d(d)
                 s12  = c * r.s12  # signed
@@ -562,27 +750,97 @@ class RhumbLineBase(RhumbBase):
                 # def _over(p, q):  # see @note at RhumbLine[Aux].Position
                 #     return (p / (q or _copysign(tol, q))) if isfinite(q) else NAN
 
-                _s12 = Fsum(s12).fsum2_
+                _S12 = Fsum(s12).fsum2_
                 for i in range(1, _TRIPS):  # suffix 1 == C++ 2, 2 == C++ 3
-                    p = self.Position(s12)  # outmask=Cs.LATITUDE_LONGITUDE
-                    r = gX.Inverse(lat, lon, p.lat2, p.lon2, outmask=gm)
+                    p =  self.Position(s12)  # outmask=Cs.LATITUDE_LONGITUDE
+                    r = _gI(lat, lon, p.lat2, p.lon2, outmask=gm)
                     d, _ = _diff182(azi, r.azi2, K_2_0=True)
                     s, c, s2, c2 = sincos2d_(d, r.lat2)
-                    c2 *= E.rocPrimeVertical(r.lat2)  # aka rocTransverse
-                    s  *= (s2 * szi / c2) - (s * r.M21 / r.m12)  # XXX _over?
-                    s12, t = _s12(c / s)  # XXX _over?
+                    c2 *=  E.rocPrimeVertical(r.lat2)  # aka rocTransverse
+                    s  *= _over(s2 * szi, c2) - _over(s * r.M21, r.m12)
+                    s12, t = _S12(c / s)  # XXX _over?
                     if fabs(t) < tol:  # or fabs(c) < EPS
                         break
                 r = NearestOn4Tuple(r.lat2, r.lon2, s12, r.azi2,
                                                     iteration=i)
             except Exception as x:  # Fsum(NAN) Value-, ZeroDivisionError
-                raise IntersectionError(_no_(_intersection_), cause=x)
+                t = unstr(self.nearestOn4, lat, lon, tol=tol, exact=exact,
+                                           iteration=i, eps=eps, est=est)
+                raise IntersectionError(t, cause=x)
         return r
 
-    def Position(self, s12, outmask=0):  # PYCHOK no cover
+    def Position(self, s12, outmask=Caps.LATITUDE_LONGITUDE):
+        '''Compute a point at a given distance on this rhumb line.
+
+           @arg s12: The distance along this rhumb line from its origin to
+                     the point (C{meters}), can be negative.
+           @kwarg outmask: Bit-or'ed combination of L{Caps} values specifying
+                           the quantities to be returned.
+
+           @return: L{GDict} with 4 to 8 items C{azi12, a12, s12, S12, lat2,
+                    lon2, lat1, lon1} with latitude C{lat2} and longitude
+                    C{lon2} of the point in C{degrees}, the rhumb angle C{a12}
+                    in C{degrees} from the start point of and the area C{S12}
+                    under this rhumb line in C{meter} I{squared}.
+
+           @raise ImportError: Package C{numpy} not found or not installed,
+                               only required for L{RhumbLineAux} area C{S12}
+                               when C{B{exact} is True}.
+
+           @note: If B{C{s12}} is large enough that the rhumb line crosses a
+                  pole, the longitude of the second point is indeterminate and
+                  C{NAN} is returned for C{lon2} and area C{S12}.
+
+                  If the first point is a pole, the cosine of its latitude is
+                  taken to be C{sqrt(L{EPS})}.  This position is extremely
+                  close to the actual pole and allows the calculation to be
+                  carried out in finite terms.
+        '''
+        return self._Position(self.m2degrees(s12), s12, outmask)
+
+    def _Position(self, a12, s12, outmask):
+        '''(INTERNAL) C{Arc-/Position} helper.
+        '''
+        r  = GDict(azi12=self.azi12, a12=a12, s12=s12, name=self.name)
+        Cs = Caps
+        if (outmask & Cs.LATITUDE_LONGITUDE_AREA):
+            if a12 or s12:
+                mu12 = self._calp * a12
+                mu2  = self._mu1 + mu12
+                if fabs(mu2) > 90:  # past pole
+                    mu2 = _norm180(mu2)  # reduce to [-180, 180)
+                    if fabs(mu2) > 90:  # point on anti-meridian
+                        mu2 = _norm180(_loneg(mu2))
+                    lat2 = self._mu2lat(mu2)
+                    lon2 = S12 = NAN
+                else:
+                    lat2, lon2, S1, S2 = self._Position4(a12, mu2, s12, mu12)
+                    if (outmask & Cs.AREA):
+                        S12 = self.rhumb._S12d(S1, S2, lon2)
+                        S12 = unsigned0(S12)  # like .gx
+#                   else:
+#                       S12 = None  # unused
+                    if (outmask & Cs.LONGITUDE):
+                        if (outmask & Cs.LONG_UNROLL):
+                            lon2 +=  self.lon1
+                        else:
+                            lon2  = _norm180(self._lon12 + lon2)
+            else:  # coincident or outmask 0
+                lat2, lon2 = self.latlon1
+                S12 = _0_0
+
+            if (outmask & Cs.LATITUDE):
+                r.set_(lat2=lat2, lat1=self.lat1)
+            if (outmask & Cs.LONGITUDE):
+                r.set_(lon2=lon2, lon1=self.lon1)
+            if (outmask & Cs.AREA):
+                r.set_(S12=S12)
+        return r
+
+    def _Position4(self, a12, mu2, s12, mu12):  # PYCHOK no cover
         '''I{Must be overloaded}, see function C{notOverloaded}.
         '''
-        _MODS.named.notOverloaded(self, s12, outmask=outmask)
+        _MODS.named.notOverloaded(self, a12, s12, mu2, mu12)
 
     @Property_RO
     def rhumb(self):
@@ -631,7 +889,6 @@ class RhumbLineBase(RhumbBase):
 
 __all__ += _ALL_DOCS(RhumbBase, RhumbLineBase)
 
-
 if __name__ == '__main__':
 
     from pygeodesy import printf, Rhumb as R, RhumbAux as A
@@ -646,7 +903,7 @@ if __name__ == '__main__':
         e = (fabs(a - r) / a) if a else 0
         printf('Position.lon2 %.14f vs %.14f, diff %g', r, a, e)
 
-    for exact in (None, False, True, None):
+    for exact in (None, False, True):
         for est in (None, 1e6):
             a = A.nearestOn4(60, 0, exact=exact, est=est)
             r = R.nearestOn4(60, 0, exact=exact, est=est)
@@ -656,21 +913,21 @@ if __name__ == '__main__':
 
 # % python3 -m pygeodesy.rhumbBase
 
-# Position.lon2 11.61455846901637 vs 11.61455846901637, diff 3.05885e-16
+# Position.lon2 11.61455846901637 vs 11.61455846901637, diff 1.52942e-16
 # Position.lon2 7.58982302826842 vs 7.58982302826842, diff 2.34045e-16
-# Position.lon2 6.28526067416369 vs 6.28526067416369, diff 1.41311e-16
+# Position.lon2 6.28526067416369 vs 6.28526067416369, diff 2.82623e-16
 # Position.lon2 5.63938995325146 vs 5.63938995325146, diff 1.57495e-16
-# Position.lon2 5.25385527435707 vs 5.25385527435707, diff 3.38105e-16
+# Position.lon2 5.25385527435707 vs 5.25385527435707, diff 0
 # Position.lon2 4.99764604290380 vs 4.99764604290380, diff 8.88597e-16
 # Position.lon2 4.81503363740473 vs 4.81503363740473, diff 1.84459e-16
 # Position.lon2 4.67828821748836 vs 4.67828821748835, diff 5.69553e-16
 # Position.lon2 4.57205667906283 vs 4.57205667906283, diff 1.94262e-16
 
 # NearestOn4Tuple(lat=45.0, lon=15.830286, distance=1977981.142985, normal=135.0), iteration=9, exact=None, est=None
-# NearestOn4Tuple(lat=45.0, lon=15.830286, distance=1977981.142985, normal=135.0), iteration=9
+# NearestOn4Tuple(lat=45.0, lon=15.830286, distance=3278714.911694, normal=135.0), iteration=9
 
 # NearestOn4Tuple(lat=45.0, lon=15.830286, distance=1977981.142985, normal=135.0), iteration=9, exact=None, est=1000000.0
-# NearestOn4Tuple(lat=45.0, lon=15.830286, distance=1977981.142985, normal=135.0), iteration=9
+# NearestOn4Tuple(lat=45.0, lon=15.830286, distance=3278714.911694, normal=135.0), iteration=9
 
 # NearestOn4Tuple(lat=49.634582, lon=25.767876, distance=3083112.636236, normal=135.0), iteration=5, exact=False, est=None
 # NearestOn4Tuple(lat=49.634582, lon=25.767876, distance=3083112.636236, normal=135.0), iteration=5
@@ -683,12 +940,6 @@ if __name__ == '__main__':
 
 # NearestOn4Tuple(lat=49.634582, lon=25.767876, distance=3083112.636236, normal=135.0), iteration=7, exact=True, est=1000000.0
 # NearestOn4Tuple(lat=49.634582, lon=25.767876, distance=3083112.636236, normal=135.0), iteration=7
-
-# NearestOn4Tuple(lat=45.0, lon=15.830286, distance=1977981.142985, normal=135.0), iteration=9, exact=None, est=None
-# NearestOn4Tuple(lat=45.0, lon=15.830286, distance=1977981.142985, normal=135.0), iteration=9
-
-# NearestOn4Tuple(lat=45.0, lon=15.830286, distance=1977981.142985, normal=135.0), iteration=9, exact=None, est=1000000.0
-# NearestOn4Tuple(lat=45.0, lon=15.830286, distance=1977981.142985, normal=135.0), iteration=9
 
 # **) MIT License
 #

@@ -138,50 +138,6 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.rhumbaux.RhumbAux-class.html#Direct" class="summary-sig-name">Direct</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">lat1</span>,
-        <span class="summary-sig-arg">lon1</span>,
-        <span class="summary-sig-arg">azi12</span>,
-        <span class="summary-sig-arg">s12</span>,
-        <span class="summary-sig-arg">outmask</span>=<span class="summary-sig-default">384</span>)</span><br />
-      Solve the <i>direct rhumb</i> problem, optionally with the area.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.rhumbaux.RhumbAux-class.html#Inverse" class="summary-sig-name">Inverse</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">lat1</span>,
-        <span class="summary-sig-arg">lon1</span>,
-        <span class="summary-sig-arg">lat2</span>,
-        <span class="summary-sig-arg">lon2</span>,
-        <span class="summary-sig-arg">outmask</span>=<span class="summary-sig-default">1536</span>)</span><br />
-      Solve the <i>inverse rhumb</i> problem.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.rhumbaux.RhumbAux-class.html#toStr" class="summary-sig-name">toStr</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">6</span>,
         <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default">', '</span>,
@@ -199,8 +155,11 @@
   <tr>
     <td colspan="2" class="summary">
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.rhumbBase.RhumbBase-class.html">rhumbBase.RhumbBase</a></code></b>:
+      <code><a href="pygeodesy.rhumbBase.RhumbBase-class.html#ArcDirect">ArcDirect</a></code>,
+      <code><a href="pygeodesy.rhumbBase.RhumbBase-class.html#Direct">Direct</a></code>,
       <code><a href="pygeodesy.rhumbBase.RhumbBase-class.html#Direct8">Direct8</a></code>,
       <code><a href="pygeodesy.rhumbBase.RhumbBase-class.html#DirectLine">DirectLine</a></code>,
+      <code><a href="pygeodesy.rhumbBase.RhumbBase-class.html#Inverse">Inverse</a></code>,
       <code><a href="pygeodesy.rhumbBase.RhumbBase-class.html#Inverse8">Inverse8</a></code>,
       <code><a href="pygeodesy.rhumbBase.RhumbBase-class.html#InverseLine">InverseLine</a></code>,
       <code><a href="pygeodesy.rhumbBase.RhumbBase-class.html#Line">Line</a></code>
@@ -277,18 +236,10 @@
   <td align="left" colspan="2" class="table-header">
     <span class="table-header">Properties</span></td>
 </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.rhumbaux.RhumbAux-class.html#TMorder" class="summary-name">TMorder</a><br />
-      Get the <i>Transverse Mercator</i> order (<code>int</code>, 4, 5, 6, 
-      7 or 8).
-    </td>
-  </tr>
   <tr>
     <td colspan="2" class="summary">
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.rhumbBase.RhumbBase-class.html">rhumbBase.RhumbBase</a></code></b>:
+      <code><a href="pygeodesy.rhumbBase.RhumbBase-class.html#TMorder">TMorder</a></code>,
       <code><a href="pygeodesy.rhumbBase.RhumbBase-class.html#a">a</a></code>,
       <code><a href="pygeodesy.rhumbBase.RhumbBase-class.html#b">b</a></code>,
       <code><a href="pygeodesy.rhumbBase.RhumbBase-class.html#ellipsoid">ellipsoid</a></code>,
@@ -434,137 +385,6 @@
       </p>
 </div></td></tr></table>
 </div>
-<a name="Direct"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">Direct</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">lat1</span>,
-        <span class="sig-arg">lon1</span>,
-        <span class="sig-arg">azi12</span>,
-        <span class="sig-arg">s12</span>,
-        <span class="sig-arg">outmask</span>=<span class="sig-default">384</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Solve the <i>direct rhumb</i> problem, optionally with the area.</p>
-  <dl class="fields">
-    <dt>Arguments:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>lat1</code></strong> - Latitude of the first point (<code>degrees90</code>).</li>
-        <li><strong class="pname"><code>lon1</code></strong> - Longitude of the first point (<code>degrees180</code>).</li>
-        <li><strong class="pname"><code>azi12</code></strong> - Azimuth of the rhumb line (compass <code>degrees</code>).</li>
-        <li><strong class="pname"><code>s12</code></strong> - Distance along the rhumb line from the given to the destination 
-          point (<code>meter</code>), can be negative.</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd><a href="pygeodesy.karney.GDict-class.html" 
-          class="link">GDict</a> with 2 up to 8 items <code>lat2, lon2, 
-          a12, S12, lat1, lon1, azi12, s12</code> with the destination 
-          point's latitude <code>lat2</code> and longitude 
-          <code>lon2</code> in <code>degrees</code>, the rhumb angle 
-          <code>a12</code> in <code>degrees</code> and area 
-          <code>S12</code> under the rhumb line in <code>meter</code> 
-          <i>squared</i>.</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ImportError</strong></code> - Package <code>numpy</code> not found or not installed, only 
-        required for area <code>S12</code> when <code><b>exact</b> is 
-        True</code>.</li>
-    </ul></dd>
-    <dt>Overrides:
-        <a href="pygeodesy.rhumbBase.RhumbBase-class.html#Direct">rhumbBase.RhumbBase.Direct</a>
-    </dt>
-  </dl>
-<div class="fields">      <strong>Notes:</strong>
-      <ul class="nomargin-top">
-        <li>
-        If <b><code>s12</code></b> is large enough that the rhumb line 
-        crosses a pole, the longitude of the second point is indeterminate 
-        and <code>NAN</code> is returned for <code>lon2</code> and area 
-        <code>S12</code>.
-        </li>
-        <li>
-        If the given point is a pole, the cosine of its latitude is taken 
-        to be <code>sqrt(<a href="pygeodesy-module.html#EPS" 
-        class="link">EPS</a>)</code>.  This position is extremely close to 
-        the actual pole and allows the calculation to be carried out in 
-        finite terms.
-        </li>
-      </ul>
-</div></td></tr></table>
-</div>
-<a name="Inverse"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">Inverse</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">lat1</span>,
-        <span class="sig-arg">lon1</span>,
-        <span class="sig-arg">lat2</span>,
-        <span class="sig-arg">lon2</span>,
-        <span class="sig-arg">outmask</span>=<span class="sig-default">1536</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Solve the <i>inverse rhumb</i> problem.</p>
-  <dl class="fields">
-    <dt>Arguments:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>lat1</code></strong> - Latitude of the first point (<code>degrees90</code>).</li>
-        <li><strong class="pname"><code>lon1</code></strong> - Longitude of the first point (<code>degrees180</code>).</li>
-        <li><strong class="pname"><code>lat2</code></strong> - Latitude of the second point (<code>degrees90</code>).</li>
-        <li><strong class="pname"><code>lon2</code></strong> - Longitude of the second point (<code>degrees180</code>).</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd><a href="pygeodesy.karney.GDict-class.html" 
-          class="link">GDict</a> with 5 to 8 items <code>azi12, s12, a12, 
-          S12, lat1, lon1, lat2, lon2</code>, the rhumb line's azimuth 
-          <code>azi12</code> in compass <code>degrees</code> between 
-          <code>-180</code> and <code>+180</code>, the distance 
-          <code>s12</code> and rhumb angle <code>a12</code> between both 
-          points in <code>meter</code> respectively <code>degrees</code> 
-          and the area <code>S12</code> under the rhumb line in 
-          <code>meter</code> <i>squared</i>.</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ImportError</strong></code> - Package <code>numpy</code> not found or not installed, only 
-        required for area <code>S12</code> when <code><b>exact</b> is 
-        True</code>.</li>
-    </ul></dd>
-    <dt>Overrides:
-        <a href="pygeodesy.rhumbBase.RhumbBase-class.html#Inverse">rhumbBase.RhumbBase.Inverse</a>
-    </dt>
-  </dl>
-<div class="fields">      <strong>Notes:</strong>
-      <ul class="nomargin-top">
-        <li>
-        The shortest rhumb line is found.  If the end points are on 
-        opposite meridians, there are two shortest rhumb lines and the 
-        East-going one is chosen.
-        </li>
-        <li>
-        If either point is a pole, the cosine of its latitude is taken to 
-        be <code>sqrt(<a href="pygeodesy-module.html#EPS" 
-        class="link">EPS</a>)</code>.  This position is extremely close to 
-        the actual pole and allows the calculation to be carried out in 
-        finite terms.
-        </li>
-      </ul>
-</div></td></tr></table>
-</div>
 <a name="toStr"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -601,43 +421,6 @@
 </td></tr></table>
 </div>
 <br />
-<!-- ==================== PROPERTY DETAILS ==================== -->
-<a name="section-PropertyDetails"></a>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr bgcolor="#70b0f0" class="table-header">
-  <td align="left" colspan="2" class="table-header">
-    <span class="table-header">Property Details</span></td>
-</tr>
-</table>
-<a name="TMorder"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">TMorder</h3>
-  <p>Get the <i>Transverse Mercator</i> order (<code>int</code>, 4, 5, 6, 7
-  or 8).</p>
-  <dl class="fields">
-    <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">TMorder(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>Transverse Mercator</i> order (<code>int</code>, 4, 5, 6, 7 or 
-8).
-    </dd>
-    <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">TMorder(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">order</span>)</span>
-        - Set the <i>Transverse Mercator</i> order (<code>int</code>, 4, 5, 6, 7 or 
-8).
-    </dd>
-    <dt>Delete Method:</dt>
-    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
-        - Zap the <i>cached/memoized</i> <code>property</code> value.
-    </dd>
-  </dl>
-</td></tr></table>
-</div>
-<br />
 <!-- ==================== NAVIGATION BAR ==================== -->
 <table class="navbar" border="0" width="100%" cellpadding="0"
        bgcolor="#a0c0ff" cellspacing="0">
@@ -669,7 +452,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Sep 15 09:27:01 2023
+    Generated by Epydoc 3.0.1 on Wed Sep 20 15:53:35 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

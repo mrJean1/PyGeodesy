@@ -91,7 +91,7 @@ from pygeodesy.utily import atand, atan2b, atan2d, degrees90, m2radians, radians
 from math import asinh, atan, atanh, cos, degrees, exp, fabs, radians, sin, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '23.09.08'
+__version__ = '23.09.18'
 
 _f_0_0    = Float(f =_0_0)  # zero flattening
 _f__0_0   = Float(f_=_0_0)  # zero inverse flattening
@@ -1250,10 +1250,10 @@ class Ellipsoid(_NamedEnumItem):
         return Distance(L=self.b * r)
 
     @Property_RO
-    def _L_90(self):
+    def _Lpd(self):
         '''Get the I{quarter meridian} per degree (C{meter}), M{self.L / 90}.
         '''
-        return Distance(_L_90=self.L / _90_0)
+        return Distance(_Lpd=self.L / _90_0)
 
     def Llat(self, lat):
         '''Return the I{meridional length}, the distance along a meridian
@@ -1424,9 +1424,11 @@ class Ellipsoid(_NamedEnumItem):
            @see: C{Rtriaxial}
         '''
         a, b = self.a, self.b
-        q = (sqrt(_0_5 + self.b2_a2 * _0_5) * a) if a > b else (
-            (sqrt(_0_5 + self.a2_b2 * _0_5) * b) if a < b else a)
-        return Radius(Rbiaxial=q)
+        if b < a:
+            b  = sqrt(_0_5 + self.b2_a2 * _0_5) * a
+        elif b > a:
+            b *= sqrt(_0_5 + self.a2_b2 * _0_5)
+        return Radius(Rbiaxial=b)
 
     Requatorial = a  # for consistent naming
 

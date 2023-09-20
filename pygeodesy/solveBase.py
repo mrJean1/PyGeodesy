@@ -22,7 +22,7 @@ from pygeodesy.utily import unroll180,  wrap360  # PYCHOK shared
 from subprocess import PIPE as _PIPE, Popen as _Popen, STDOUT as _STDOUT
 
 __all__ = ()  # nothing public
-__version__ = '23.08.20'
+__version__ = '23.09.18'
 
 _ERROR_    = 'ERROR'
 _text_True =  dict() if _sys_version_info2 < (3, 7) else dict(text=True)
@@ -189,6 +189,10 @@ class _SolveLineSolveBase(_CapsBase):
             raise self._Error(cmd=t or _cmd_stdin_(cmd, stdin), cause=x)
         self._status = s
         return r
+
+    @Property_RO
+    def _mpd(self):  # meter per degree
+        return self.ellipsoid._Lpd
 
     @property_RO
     def _p_option(self):

@@ -61,17 +61,15 @@
 <!-- ==================== CLASS DESCRIPTION ==================== -->
 <h1 class="epydoc">Class RhumbLineBase</h1><p class="nomargin-top"></p>
 <pre class="base-tree">
-  object --+                
-           |                
-<a href="pygeodesy.named._Named-class.html">named._Named</a> --+            
-               |            
-<a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a> --+        
-                   |        
-    <a href="pygeodesy.karney._CapsBase-class.html">karney._CapsBase</a> --+    
-                       |    
-               <a href="pygeodesy.rhumbBase.RhumbBase-class.html">RhumbBase</a> --+
-                           |
-                          <strong class="uidshort">RhumbLineBase</strong>
+  object --+            
+           |            
+<a href="pygeodesy.named._Named-class.html">named._Named</a> --+        
+               |        
+<a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a> --+    
+                   |    
+    <a href="pygeodesy.karney._CapsBase-class.html">karney._CapsBase</a> --+
+                       |
+                      <strong class="uidshort">RhumbLineBase</strong>
 </pre>
 
 <dl><dt>Known Subclasses:</dt>
@@ -81,7 +79,8 @@
 </dd></dl>
 
 <hr />
-<p>(INTERNAL) Class <code>RhumbLine</code></p>
+<p>(INTERNAL) Base class for <code>rhumbaux.RhumbLineAux</code> and 
+  <code>rhumbx.RhumbLine</code>.</p>
 
 <!-- ==================== INSTANCE METHODS ==================== -->
 <a name="section-InstanceMethods"></a>
@@ -97,10 +96,50 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="Position"></a><span class="summary-sig-name">Position</span>(<span class="summary-sig-arg">self</span>,
+          <td><span class="summary-sig"><a href="pygeodesy.rhumbBase.RhumbLineBase-class.html#ArcPosition" class="summary-sig-name">ArcPosition</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">a12</span>,
+        <span class="summary-sig-arg">outmask</span>=<span class="summary-sig-default">384</span>)</span><br />
+      Compute a point at a given angular distance on this rhumb line.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.rhumbBase.RhumbLineBase-class.html#Inverse" class="summary-sig-name">Inverse</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">lat2</span>,
+        <span class="summary-sig-arg">lon2</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Return the rhumb angle, distance, azimuth, <i>reverse</i> azimuth, 
+      etc.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.rhumbBase.RhumbLineBase-class.html#Position" class="summary-sig-name">Position</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">s12</span>,
-        <span class="summary-sig-arg">outmask</span>=<span class="summary-sig-default">0</span>)</span><br />
-      <i>Must be overloaded</i>, see function <code>notOverloaded</code>.</td>
+        <span class="summary-sig-arg">outmask</span>=<span class="summary-sig-default">384</span>)</span><br />
+      Compute a point at a given distance on this rhumb line.</td>
           <td align="right" valign="top">
             
             
@@ -155,11 +194,33 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.rhumbBase.RhumbLineBase-class.html#degrees2m" class="summary-sig-name">degrees2m</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">angle</span>)</span><br />
+      Convert an angular distance along this rhumb line to 
+      <code>meter</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.rhumbBase.RhumbLineBase-class.html#distance2" class="summary-sig-name">distance2</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">lat</span>,
         <span class="summary-sig-arg">lon</span>)</span><br />
-      Return the distance from and (initial) bearing at the given point to 
-      this rhumb line's start point.</td>
+      DEPRECATED, use method <a 
+      href="pygeodesy.rhumbBase.RhumbLineBase-class.html#Inverse" 
+      class="link">RhumbLineAux.Inverse</a> or <a 
+      href="pygeodesy.rhumbBase.RhumbLineBase-class.html#Inverse" 
+      class="link">RhumbLine.Inverse</a>.</td>
           <td align="right" valign="top">
             
             
@@ -181,6 +242,24 @@
         <span class="summary-sig-arg">**eps</span>)</span><br />
       <i>Iteratively</i> find the intersection of this and an other rhumb 
       line.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.rhumbBase.RhumbLineBase-class.html#m2degrees" class="summary-sig-name">m2degrees</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">distance</span>)</span><br />
+      Convert a distance along this rhumb line to an angular distance.</td>
           <td align="right" valign="top">
             
             
@@ -238,15 +317,6 @@
   </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.rhumbBase.RhumbBase-class.html">RhumbBase</a></code></b>:
-      <code><a href="pygeodesy.rhumbBase.RhumbBase-class.html#Direct">Direct</a></code>,
-      <code><a href="pygeodesy.rhumbBase.RhumbBase-class.html#Direct8">Direct8</a></code>,
-      <code><a href="pygeodesy.rhumbBase.RhumbBase-class.html#DirectLine">DirectLine</a></code>,
-      <code><a href="pygeodesy.rhumbBase.RhumbBase-class.html#Inverse">Inverse</a></code>,
-      <code><a href="pygeodesy.rhumbBase.RhumbBase-class.html#Inverse8">Inverse8</a></code>,
-      <code><a href="pygeodesy.rhumbBase.RhumbBase-class.html#InverseLine">InverseLine</a></code>,
-      <code><a href="pygeodesy.rhumbBase.RhumbBase-class.html#Line">Line</a></code>
-      </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.karney._CapsBase-class.html">karney._CapsBase</a></code></b>:
       <code><a href="pygeodesy.karney._CapsBase-class.html#caps_">caps_</a></code>
       </p>
@@ -425,15 +495,6 @@
   </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.rhumbBase.RhumbBase-class.html">RhumbBase</a></code></b>:
-      <code><a href="pygeodesy.rhumbBase.RhumbBase-class.html#a">a</a></code>,
-      <code><a href="pygeodesy.rhumbBase.RhumbBase-class.html#b">b</a></code>,
-      <code><a href="pygeodesy.rhumbBase.RhumbBase-class.html#equatoradius">equatoradius</a></code>,
-      <code><a href="pygeodesy.rhumbBase.RhumbBase-class.html#f">f</a></code>,
-      <code><a href="pygeodesy.rhumbBase.RhumbBase-class.html#f_max">f_max</a></code>,
-      <code><a href="pygeodesy.rhumbBase.RhumbBase-class.html#flattening">flattening</a></code>,
-      <code><a href="pygeodesy.rhumbBase.RhumbBase-class.html#polaradius">polaradius</a></code>
-      </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.karney._CapsBase-class.html">karney._CapsBase</a></code></b>:
       <code><a href="pygeodesy.karney._CapsBase-class.html#caps">caps</a></code>,
       <code><a href="pygeodesy.karney._CapsBase-class.html#debug">debug</a></code>
@@ -464,6 +525,155 @@
     <span class="table-header">Method Details</span></td>
 </tr>
 </table>
+<a name="ArcPosition"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">ArcPosition</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">a12</span>,
+        <span class="sig-arg">outmask</span>=<span class="sig-default">384</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute a point at a given angular distance on this rhumb line.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>a12</code></strong> - The angle along this rhumb line from its origin to the point 
+          (<code>degrees</code>), can be negative.</li>
+        <li><strong class="pname"><code>outmask</code></strong> - Bit-or'ed combination of Caps values specifying the quantities to
+          be returned.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><a href="pygeodesy.karney.GDict-class.html" 
+          class="link">GDict</a> with 4 to 8 items <code>azi12, a12, s12, 
+          S12, lat2, lon2, lat1, lon1</code> with latitude 
+          <code>lat2</code> and longitude <code>lon2</code> of the point in
+          <code>degrees</code>, the rhumb distance <code>s12</code> in 
+          <code>meter</code> from the start point of and the area 
+          <code>S12</code> under this rhumb line in <code>meter</code> 
+          <i>squared</i>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ImportError</strong></code> - Package <code>numpy</code> not found or not installed, only 
+        required for <a href="pygeodesy.rhumbaux.RhumbLineAux-class.html" 
+        class="link">RhumbLineAux</a> area <code>S12</code> when 
+        <code><b>exact</b> is True</code>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        If <b><code>a12</code></b> is large enough that the rhumb line 
+        crosses a pole, the longitude of the second point is indeterminate 
+        and <code>NAN</code> is returned for <code>lon2</code> and area 
+        <code>S12</code>.
+        <p>If the first point is a pole, the cosine of its latitude is 
+        taken to be <code>sqrt(EPS)</code>.  This position is extremely 
+        close to the actual pole and allows the calculation to be carried 
+        out in finite terms.</p>
+      </p>
+</div></td></tr></table>
+</div>
+<a name="Inverse"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">Inverse</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">lat2</span>,
+        <span class="sig-arg">lon2</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the rhumb angle, distance, azimuth, <i>reverse</i> azimuth, 
+  etc. of a rhumb line between the given point and this rhumb line's start 
+  point.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>lat2</code></strong> - Latitude of the point (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lon2</code></strong> - Longitude of the points (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll 
+          <b><code>lat2</code></b> and <b><code>lon2</code></b> 
+          (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><a href="pygeodesy.karney.GDict-class.html" 
+          class="link">GDict</a> with 8 items <code>a12, s12, azi12, azi21,
+          lat1, lon1, lat2, lon2</code>, the rhumb angle <code>a12</code> 
+          and rhumb distance <code>s12</code> between both points in 
+          <code>degrees</code> respectively <code>meter</code>, the rhumb 
+          line's azimuth <code>azi12</code> and <i>reverse</i> azimuth 
+          <code>azi21</code> both in compass <code>degrees</code> between 
+          <code>-180</code> and <code>+180</code>.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="Position"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">Position</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">s12</span>,
+        <span class="sig-arg">outmask</span>=<span class="sig-default">384</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute a point at a given distance on this rhumb line.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>s12</code></strong> - The distance along this rhumb line from its origin to the point 
+          (<code>meters</code>), can be negative.</li>
+        <li><strong class="pname"><code>outmask</code></strong> - Bit-or'ed combination of Caps values specifying the quantities to
+          be returned.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><a href="pygeodesy.karney.GDict-class.html" 
+          class="link">GDict</a> with 4 to 8 items <code>azi12, a12, s12, 
+          S12, lat2, lon2, lat1, lon1</code> with latitude 
+          <code>lat2</code> and longitude <code>lon2</code> of the point in
+          <code>degrees</code>, the rhumb angle <code>a12</code> in 
+          <code>degrees</code> from the start point of and the area 
+          <code>S12</code> under this rhumb line in <code>meter</code> 
+          <i>squared</i>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ImportError</strong></code> - Package <code>numpy</code> not found or not installed, only 
+        required for <a href="pygeodesy.rhumbaux.RhumbLineAux-class.html" 
+        class="link">RhumbLineAux</a> area <code>S12</code> when 
+        <code><b>exact</b> is True</code>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        If <b><code>s12</code></b> is large enough that the rhumb line 
+        crosses a pole, the longitude of the second point is indeterminate 
+        and <code>NAN</code> is returned for <code>lon2</code> and area 
+        <code>S12</code>.
+        <p>If the first point is a pole, the cosine of its latitude is 
+        taken to be <code>sqrt(EPS)</code>.  This position is extremely 
+        close to the actual pole and allows the calculation to be carried 
+        out in finite terms.</p>
+      </p>
+</div></td></tr></table>
+</div>
 <a name="__init__"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -493,6 +703,33 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="degrees2m"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">degrees2m</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">angle</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert an angular distance along this rhumb line to 
+  <code>meter</code>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>angle</code></strong> - Angular distance (<code>degrees</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Distance (<code>meter</code>).</dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="distance2"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -509,28 +746,23 @@
     </td>
   </tr></table>
   
-  <p>Return the distance from and (initial) bearing at the given point to 
-  this rhumb line's start point.</p>
+  <p>DEPRECATED, use method <a 
+  href="pygeodesy.rhumbBase.RhumbLineBase-class.html#Inverse" 
+  class="link">RhumbLineAux.Inverse</a> or <a 
+  href="pygeodesy.rhumbBase.RhumbLineBase-class.html#Inverse" 
+  class="link">RhumbLine.Inverse</a>.</p>
   <dl class="fields">
-    <dt>Arguments:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>lat</code></strong> - Latitude of the point (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>lon</code></strong> - Longitude of the points (<code>degrees</code>).</li>
-    </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.namedTuples.Distance2Tuple-class.html" 
           class="link">Distance2Tuple</a><code>(distance, initial)</code> 
           with the <code>distance</code> in <code>meter</code> and 
-          <code>initial</code> bearing in <code>degrees</code>.</dd>
+          <code>initial</code> bearing (azimuth) in <code>degrees</code>.</dd>
+    <dt>Decorators:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code>@deprecated_method</code></li>
+    </ul></dd>
   </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        Methods <code>intersection2</code> and <code>nearestOn4</code> of 
-        <a href="pygeodesy.rhumbaux.RhumbLineAux-class.html" 
-        class="link">RhumbLineAux</a> and <a 
-        href="pygeodesy.rhumbx.RhumbLine-class.html" 
-        class="link">RhumbLine</a>.
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="intersection2"></a>
 <div>
@@ -587,6 +819,32 @@
         class="link">pygeodesy.intersection3d3</a> in that domain.
       </p>
 </div></td></tr></table>
+</div>
+<a name="m2degrees"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">m2degrees</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">distance</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert a distance along this rhumb line to an angular distance.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>distance</code></strong> - Distance (<code>meter</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Angular distance (<code>degrees</code>).</dd>
+  </dl>
+</td></tr></table>
 </div>
 <a name="nearestOn4"></a>
 <div>
@@ -1035,7 +1293,7 @@ class="link">KTransverseMercator</a> for <code>TMorder</code>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Sep 15 09:27:01 2023
+    Generated by Epydoc 3.0.1 on Wed Sep 20 15:53:35 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

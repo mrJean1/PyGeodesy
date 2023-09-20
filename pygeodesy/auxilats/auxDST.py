@@ -16,7 +16,7 @@ under the MIT/X11 License.  For more information, see the U{GeographicLib
 from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.auxilats.auxily import _Dm
-from pygeodesy.basics import isodd, map2, neg, _reverange, _xnumpy
+from pygeodesy.basics import isodd, neg, _reverange, _xnumpy
 from pygeodesy.constants import PI_2, PI_4, isfinite, _0_0, _0_5, _naninf
 # from pygeodesy.fsums import Fsum   # from .karney
 from pygeodesy.karney import _2cos2x,  _ALL_DOCS, Fsum, property_RO
@@ -24,7 +24,7 @@ from pygeodesy.karney import _2cos2x,  _ALL_DOCS, Fsum, property_RO
 # from pygeodesy.props import property_RO  # from .karney
 
 __all__ = ()
-__version__ = '23.09.14'
+__version__ = '23.09.19'
 
 
 class AuxDST(object):
@@ -97,7 +97,7 @@ class AuxDST(object):
 
            @return: FFTransforms (C{float}[0:N]).
         '''
-        t, N = (), self.N
+        T, N = (), self.N
         if N > 0:
             N2 = N * 2
             d  = tuple(data)
@@ -121,8 +121,8 @@ class AuxDST(object):
             d += tuple(map(neg, d[:N2]))
             c  = self._fft_real(d)  # complex[0:N*2]
             n2 = float(-N2)
-            t  = tuple(_cF(c[j], j).imag / n2 for j in range(1, N2, 2))
-        return t
+            T  = tuple(_cF(c[j], j).imag / n2 for j in range(1, N2, 2))
+        return T
 
     def _ffts2(self, data, F):
         '''(INTERNAL) Doubled FFTransforms.
@@ -132,23 +132,16 @@ class AuxDST(object):
 
            @return: Doubled FFTransforms (C{float}[N*2]).
         '''
-        __2 = _0_5
-
-        def _dmF_2(d, F):
-            return (d - F) * __2
-
-        def _dpF_2(d, F):
-            return (d + F) * __2
-
-        N = self._N
-        # copy DST-IV order N transform to d[0:N]
-        d = self._ffts(data, True)
-        # assert len(d) >= N and len(F) >= N
+        __2 = _0_5  # N = self._N
+        # copy DST-IV order N transform to D[0:N]
+        D = self._ffts(data, True)
+        # assert len(D) == N and len(F) >= N
         # (DST-IV order N - DST-III order N) / 2
-        m = map2(_dmF_2, d[:N], F[:N])
+        M = tuple((d - f) * __2 for d, f in zip(D, F))  # strict=False
         # (DST-IV order N + DST-III order N) / 2
-        p = map2(_dpF_2, d[:N], F[:N])
-        return p + tuple(reversed(m))
+        P = tuple((d + f) * __2 for d, f in zip(D, F))  # strict=False
+        # assert len(M) == len(P) == self._N
+        return P + tuple(reversed(M))
 
     @staticmethod
     def integral(sinx, cosx, F, *N):
@@ -218,11 +211,12 @@ class AuxDST(object):
         '''
         return self._N
 
-    def refine(self, f, F):
+    def refine(self, f, F, *sentinel):
         '''Refine the Fourier series by doubling the sampled points.
 
            @arg f: Single-argument callable (C{B{f}(sigma)}).
-           @arg F: The initial Fourier series coefficients (C{float}[:N]).
+           @arg F: Initial Fourier series coefficients (C{float}[:N]).
+           @arg sentinel: Optional coefficient(s) to append (C{float}).
 
            @return: Fourier series coefficients (C{float}[:N*2]).
         '''
@@ -232,7 +226,8 @@ class AuxDST(object):
                 for j in range(1, N*2, 2):
                     yield _f(r * j)
 
-        return self._ffts2(_data(f, self.N), F)
+        # F = F[:self.N] handled by zip strict=False
+        return self._ffts2(_data(f, self.N), F) + sentinel
 
     def reset(self, N):
         '''Reset this DST.

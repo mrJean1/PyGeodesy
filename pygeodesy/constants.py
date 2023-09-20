@@ -32,7 +32,7 @@ except ImportError:  # Python 3.3-
         return _log(x, 2)
 
 __all__ = _ALL_LAZY.constants
-__version__ = '23.08.30'
+__version__ = '23.09.18'
 
 
 def _copysign_0_0(y):
@@ -135,7 +135,7 @@ def _over(p, q):
     '''(INTERNAL) Return C{B{p} / B{q}} avoiding ZeroDivisionError exceptions.
     '''
     try:
-        return  p / q
+        return (p / q) if p else _0_0
     except ZeroDivisionError:
         return _naninf(p)
 

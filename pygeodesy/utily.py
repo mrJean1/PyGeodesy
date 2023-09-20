@@ -23,7 +23,7 @@ from pygeodesy.units import Degrees, Feet, Float, Lam, Lam_, Meter, Meter2, Radi
 from math import acos, asin, atan2, cos, degrees, fabs, radians, sin, tan  # pow
 
 __all__ = _ALL_LAZY.utily
-__version__ = '23.08.15'
+__version__ = '23.09.19'
 
 # read constant name "_M_Unit" as "meter per Unit"
 _M_CHAIN     = _F(  20.1168)     # yard2m(1) * 22
@@ -117,9 +117,13 @@ def atan2d(y, x, reverse=False):
         return NAN
     else:  # x == 0
         d = _N_90_0 if y < 0 else (_90_0 if y > 0 else _0_0)
-    if reverse:
-        d += _180_0 if d < 0 else _N_180_0
-    return d
+    return _azireversed(d) if reverse else d
+
+
+def _azireversed(azimuth):  # in .rhumbBase
+    '''(INTERNAL) Return the I{reverse} B{C{azimuth}}.
+    '''
+    return azimuth + (_N_180_0 if azimuth > 0 else _180_0)
 
 
 def chain2m(chains):

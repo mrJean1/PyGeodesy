@@ -32,7 +32,7 @@ from pygeodesy.utily import m2km, unroll180, _unrollon, _unrollon3, \
 from math import degrees, radians
 
 __all__ = _ALL_LAZY.ellipsoidalBaseDI
-__version__ = '23.05.15'
+__version__ = '23.09.16'
 
 _polar__  = 'polar?'
 _B2END    = _1_5  # _intersect3 bearing to pseudo-end point factor
@@ -372,15 +372,15 @@ class _Box(object):
         self._W = center.lon - d
 
     def overlaps(self, lat1, lon1, lat2, lon2):
-        '''Check whether this box overlaps a line between 2 points.
+        '''Check whether this box overlaps an other box.
 
-           @arg lat1: Latitude of first point (C{degrees}).
-           @arg lon1: Longitude of first point (C{degrees}).
-           @arg lat2: Latitude of second point (C{degrees}).
-           @arg lon2: Longitude of second point (C{degrees}).
+           @arg lat1: Latitude of a box corner (C{degrees}).
+           @arg lon1: Longitude of a box corner (C{degrees}).
+           @arg lat2: Latitude of the opposing corner (C{degrees}).
+           @arg lon2: Longitude of the opposing corner (C{degrees}).
 
-           @return: C{False} if there is certainly no overlap,
-                    C{True} otherwise (C{bool}).
+           @return: C{True} if there is some overlap, C{False}
+                    otherwise (C{bool}).
         '''
         if lat1 > lat2:
             lat1, lat2 = lat2, lat1

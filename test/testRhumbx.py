@@ -4,7 +4,7 @@
 # Some basic L{rhumbx} vs C++ C{RhumbSolve} tests.
 
 __all__ = ('Tests',)
-__version__ = '23.08.04'
+__version__ = '23.09.16'
 
 from bases import coverage, splitext, _fLate, RhumbSolve, startswith, TestsBase
 
@@ -57,23 +57,38 @@ class Tests(TestsBase):
         self.testDiffs('GDict', r, rX, 1, e=1e-11)  # Windows lon2=0.2555..23445
 #       self.test('iteration', r.iteration, r.iteration)
 
-        Rl = R.Line(40.6, -73.8, 51)  # coverage
-        n = classname(Rl)
-        t = Rl.toStr()
+        rl = R.Line(40.6, -73.8, 51)  # coverage
+        n = classname(rl)
+        t = rl.toStr()
         self.test(n, t, t, nl=1)
-        self.test(classname(R), Rl.rhumb.toRepr(), R.toRepr())
-#       r = Rl.Position(Rl.s13, Rl.ALL)  # coverage
-#       t = r.toRepr()
-#       self.test(n, t, t)
+        self.test(classname(R), rl.rhumb.toRepr(), R.toRepr())
+        self.test(rl.__class__.isLoxodrome.name, rl.isLoxodrome, True)
 
+        a = 51.0
+        r = rl.ArcPosition(a, rl.ALL)  # coverage
+        self.testDiffs(rl.ArcPosition.__name__, r, GDict(lat1=40.6, lat2=72.635128,
+                                                   lon1=-73.8, lon2=4.068528, S12=46665957571716.4,
+                                                   azi12=51.0, a12=a, s12=5667780.579944), 1, e=1e-5)
+        s = r.s12
+        r = rl.Position(s, rl.ALL)  # coverage
+        self.testDiffs(rl.Position.__name__, r, GDict(lat1=40.6, lat2=72.635128,
+                                                lon1=-73.8, lon2=4.068528, S12=46665957571716.4,
+                                                azi12=51.0, a12=a, s12=s), 1, e=1e-5)
+
+        s = 12782581.068
         r = R.Direct(40.6, -73.8, -92.38889, 12782581.068)  # coverage
         self.testDiffs(R.Direct.__name__, r, GDict(lat1=40.6, lat2=35.8,
                                                    lon1=-73.8, lon2=140.3,
-                                                   azi12=-92.38889, s12=12782581.068), 1, e=1e-5)
+                                                   azi12=-92.38889, a12=115.02062, s12=s), 1, e=1e-5)
+        a = r.a12
+        r = R.ArcDirect(40.6, -73.8, -92.38889, a)  # coverage
+        self.testDiffs(R.ArcDirect.__name__, r, GDict(lat1=40.6, lat2=35.8,
+                                                      lon1=-73.8, lon2=140.3,
+                                                      azi12=-92.38889, a12=a, s12=s), 1, e=1e-5)
 
         r = R.Direct8(40.6, -73.8, -92.38889, 12782581.068)  # coverage
         t = str(r)
-        self.test(R.Direct8.__name__, t, t)
+        self.test(R.Direct8.__name__, t, t, nl=1)
         t = str(r.toDirect9Tuple())  # coverage
         self.test(r.toDirect9Tuple.__name__, t, t)
 
@@ -198,17 +213,17 @@ class Tests(TestsBase):
                 except AssertionError:  # eps for f < -0.7
                     pass
 
-    def testRhumb_Line(self, E):
+    def testRhumbLine(self, E):
         R = E.rhumbx
         self.test('R.exact', R.exact, True, nl=1)
         R.exact = x = 0
         self.test('R.exact', R.exact, bool(x))
         self.test('R', repr(R), '''Rhumb(RAorder=6, TMorder=6, ellipsoid=Ellipsoid(name='WGS84',''', known=startswith)
-        Rl = R.Line(1, 2, 3)
+        rl = R.Line(1, 2, 3)
         R.exact = x = 1
         self.test('R.exact', R.exact, bool(x), nl=1)
-        self.test('R.Line.exact', Rl.exact, bool(x))
-        self.test('R.Line', repr(Rl), '''RhumbLine(TMorder=6, azi12=3.0, exact=True, lat1=1.0, lon1=2.0, rhumb=Rhumb(RAorder=6, TMorder=6, ellipsoid=Ellipsoid(name='WGS84',''', known=startswith)
+        self.test('R.Line.exact', rl.exact, bool(x))
+        self.test('R.Line', repr(rl), '''RhumbLine(TMorder=6, azi12=3.0, exact=True, lat1=1.0, lon1=2.0, rhumb=Rhumb(RAorder=6, TMorder=6, ellipsoid=Ellipsoid(name='WGS84',''', known=startswith)
         t = R.orders(4, 8)
         self.test(R.orders.__name__, str(t), '(6, 6)')
         t = R.orders(6, 6)
@@ -321,7 +336,7 @@ if __name__ == '__main__':
 
     t.testDirect(E, debug=_debug)
     t.testInverse(E, debug=_debug)
-    t.testRhumb_Line(E)
+    t.testRhumbLine(E)
 
     t.results()
     t.exit()

@@ -3,11 +3,11 @@
 u'''A pure Python version of I{Karney}'s C++ classes U{Rhumb
 <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Rhumb.html>} and U{RhumbLine
 <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1RhumbLine.html>} from
-I{GeographicLib version 2.2+}.
+I{GeographicLib version 2.2+} renamed as L{RhumbAux} respectively L{RhumbLineAux}.
 
-Class L{RhumbLine} has been enhanced with methods C{intersection2} and C{nearestOn4} to iteratively
+Class L{RhumbLineAux} has been enhanced with methods C{intersection2} and C{nearestOn4} to iteratively
 find the intersection of two rhumb lines, respectively the nearest point on a rumb line along a
-geodesic or perpendicular rhumb line.
+geodesic or perpendicular rhumb line from an other point.
 
 For more details, see the I{2.2} U{GeographicLib<https://GeographicLib.SourceForge.io/C++/doc/index.html>}
 documentation, especially the U{Class List<https://GeographicLib.SourceForge.io/C++/doc/annotated.html>},
@@ -19,34 +19,34 @@ Copyright (C) U{Charles Karney<mailto:Karney@Alum.MIT.edu>} (2022-2023) and lice
 License.  For more information, see the U{GeographicLib<https://GeographicLib.SourceForge.io>} documentation.
 
 @note: Class L{AuxDST} requires package U{numpy<https://PyPI.org/project/numpy>} to be installed,
-       version 1.16 or newer and needed for I{exact} area calculations.
+       version 1.16 or newer, needed only for I{exact} area calculations C{S12} in L{RhumbAux}
+       and L{RhumbLineAux}.
 '''
 # make sure int/int division yields float quotient
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.auxilats.auxAngle import AuxMu, AuxPhi,  atan2d, hypot
+from pygeodesy.auxilats.auxAngle import AuxMu, AuxPhi,  hypot
 from pygeodesy.auxilats.auxDLat import AuxDLat, _DClenshaw
 # from pygeodesy.auxilats.auxDST import AuxDST  # _MODS
 from pygeodesy.auxilats.auxily import _Dlam, _Dp0Dpsi, _Ufloats
-from pygeodesy.basics import _reverange, unsigned0, _zip,  _xkwds_get
-from pygeodesy.constants import EPS_2, MANT_DIG, NAN, PI4, isinf, \
+from pygeodesy.basics import copysign0, _reverange, _zip,  _xkwds_get
+from pygeodesy.constants import EPS_2, MANT_DIG, PI4, isinf, \
                                _0_0, _4_0, _720_0, _log2, _over
 # from pygeodesy.ellipsoids import _EWGS84  # from .karney
 # from pygeodesy.errors import itemsorted, _xkwds_get  # from .basics, ...
-from pygeodesy.karney import Caps, _diff182, GDict, _norm180,  _EWGS84
+from pygeodesy.karney import Caps, _polynomial,  _EWGS84
 # from pygeodesy.fmath import hypot  # from .auxilats.auxAngle
 from pygeodesy.interns import NN, _COMMASPACE_
-from pygeodesy.lazily import _ALL_LAZY, _ALL_DOCS, _ALL_MODS as _MODS
-# from pygeodesy.props import Property, Property_RO  # from .rhumbBase
-from pygeodesy.rhumbBase import RhumbBase, RhumbLineBase, itemsorted, \
-                                pairs,  Property, Property_RO
+from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
+# from pygeodesy.props import Property_RO  # from .rhumbBase
+from pygeodesy.rhumbBase import RhumbBase, RhumbLineBase, \
+                                itemsorted, pairs, Property_RO
 # from pygeodesy.streprs import pairs  # from .rhumbBase
-# from pygeodesy.utily import atan2d  # from .auxilats.auxAngle
 
 from math import ceil as _ceil, fabs, radians
 
 __all__ = _ALL_LAZY.rhumbaux
-__version__ = '23.09.15'
+__version__ = '23.09.20'
 
 # DIGITS = (sizeof(real) * 8) bits
 #        = (ctypes.sizeof(ctypes.c_double(1.0)) * 8) bits
@@ -122,111 +122,44 @@ class RhumbAux(RhumbBase):
     def _c2(self):  # radians makes _c2 a factor per degree
         return radians(self._auxD.AuthalicRadius2(exact=self.exact, f_max=self.f_max))
 
-    def Direct(self, lat1, lon1, azi12, s12, outmask=Caps.LATITUDE_LONGITUDE):
-        '''Solve the I{direct rhumb} problem, optionally with the area.
-
-           @arg lat1: Latitude of the first point (C{degrees90}).
-           @arg lon1: Longitude of the first point (C{degrees180}).
-           @arg azi12: Azimuth of the rhumb line (compass C{degrees}).
-           @arg s12: Distance along the rhumb line from the given to
-                     the destination point (C{meter}), can be negative.
-
-           @return: L{GDict} with 2 up to 8 items C{lat2, lon2, a12, S12,
-                    lat1, lon1, azi12, s12} with the destination point's
-                    latitude C{lat2} and longitude C{lon2} in C{degrees},
-                    the rhumb angle C{a12} in C{degrees} and area C{S12}
-                    under the rhumb line in C{meter} I{squared}.
-
-           @raise ImportError: Package C{numpy} not found or not installed,
-                               only required for area C{S12} when C{B{exact}
-                               is True}.
-
-           @note: If B{C{s12}} is large enough that the rhumb line crosses
-                  a pole, the longitude of the second point is indeterminate
-                  and C{NAN} is returned for C{lon2} and area C{S12}.
-
-           @note: If the given point is a pole, the cosine of its latitude is
-                  taken to be C{sqrt(L{EPS})}.  This position is extremely
-                  close to the actual pole and allows the calculation to be
-                  carried out in finite terms.
-        '''
-        rl = RhumbLineAux(self, lat1, lon1, azi12, caps=Caps.LINE_OFF,
-                                                   name=self.name)
-        return rl.Position(s12, outmask)  # lat2, lon2, S12
-
     def _DMu_DPsi(self, Phi1, Phi2, Chi1, Chi2):
         xD = self._auxD
-        return _over(xD.DRectifying(Phi1, Phi2),
-                     xD.DIsometric( Phi1, Phi2)) if self.exact else \
-               _over(xD.CRectifying(Chi1, Chi2),
-                     _Dlam(Chi1.tan, Chi2.tan))  # not Lambertian!
-
-    def Inverse(self, lat1, lon1, lat2, lon2, outmask=Caps.AZIMUTH_DISTANCE):
-        '''Solve the I{inverse rhumb} problem.
-
-           @arg lat1: Latitude of the first point (C{degrees90}).
-           @arg lon1: Longitude of the first point (C{degrees180}).
-           @arg lat2: Latitude of the second point (C{degrees90}).
-           @arg lon2: Longitude of the second point (C{degrees180}).
-
-           @return: L{GDict} with 5 to 8 items C{azi12, s12, a12, S12,
-                    lat1, lon1, lat2, lon2}, the rhumb line's azimuth C{azi12}
-                    in compass C{degrees} between C{-180} and C{+180}, the
-                    distance C{s12} and rhumb angle C{a12} between both points
-                    in C{meter} respectively C{degrees} and the area C{S12}
-                    under the rhumb line in C{meter} I{squared}.
-
-           @raise ImportError: Package C{numpy} not found or not installed,
-                               only required for area C{S12} when C{B{exact}
-                               is True}.
-
-           @note: The shortest rhumb line is found.  If the end points are
-                  on opposite meridians, there are two shortest rhumb lines
-                  and the East-going one is chosen.
-
-           @note: If either point is a pole, the cosine of its latitude is
-                  taken to be C{sqrt(L{EPS})}.  This position is extremely
-                  close to the actual pole and allows the calculation to be
-                  carried out in finite terms.
-        '''
-        r, Cs = GDict(name=self.name), Caps
-        if (outmask & Cs.AZIMUTH_DISTANCE_AREA):
-            psi1, Chi1, Phi1 = self._psiChiPhi3(lat1)
-            psi2, Chi2, Phi2 = self._psiChiPhi3(lat2)
-
-            psi12    =  psi2 - psi1
-            lon12, _ = _diff182(lon1, lon2, K_2_0=True)
-            lam12    =  radians(lon12)
-            if (outmask & Cs.AZIMUTH):
-                r.set_(azi12=atan2d(lam12, psi12))
-            if (outmask & Cs.DISTANCE):
-                if isinf(psi1) or isinf(psi2):  # PYCHOK no cover
-                    d  = Phi2.toMu(self).toRadians
-                    d -= Phi1.toMu(self).toRadians
-                    s  = fabs(d)
-                else:  # dmu/dpsi = dmu/dchi/dpsi/dchi
-                    s  = self._DMu_DPsi(Phi1, Phi2, Chi1, Chi2)
-                    s *= hypot(lam12, psi12)
-                r.set_(s12=self._rrm * s)
-            if (outmask & Cs.AREA):
-                S = self._c2SinXi(Chi1, Chi2)
-                r.set_(S12=unsigned0(S * lon12))  # like .gx
+        r  = xD.DRectifying(Phi1, Phi2) if self.exact else \
+             xD.CRectifying(Chi1, Chi2)
+        if r:
+            r = _over(r, xD.DIsometric(Phi1, Phi2) if self.exact else
+                        _Dlam(Chi1.tan, Chi2.tan))  # not Lambertian!
         return r
 
-    def _c2SinXi(self, Chix, Chiy):
-        pP, xD = self._RA, self._auxD
+    def _Inverse4(self, lon12, r, outmask):
+        '''(INTERNAL) See method C{RhumbBase.Inverse}.
+        '''
+        psi1, Chi1, Phi1 = self._psiChiPhi3(r.lat1)
+        psi2, Chi2, Phi2 = self._psiChiPhi3(r.lat2)
+        psi12 = psi2 - psi1  # radians
+        lam12 = radians(lon12)
+        if (outmask & Caps.DISTANCE):
+            if isinf(psi1) or isinf(psi2):  # PYCHOK no cover
+                d  = Phi2.toMu(self).toRadians
+                d -= Phi1.toMu(self).toRadians
+                s  = fabs(d)
+            else:  # dmu/dpsi = dmu/dchi/dpsi/dchi
+                s  = hypot(lam12, psi12)
+                if s:
+                    s *= self._DMu_DPsi(Phi1, Phi2, Chi1, Chi2)
+            s *= self._rrm
+            a = _over(s, self._mpd)
+            r.set_(a12=copysign0(a, s), s12=s)
+        return lam12, psi12, Chi1, Chi2
 
-        tx, Phix = Chix.tan, Chix.toPhi(self)
-        ty, Phiy = Chiy.tan, Chiy.toPhi(self)
-        dD  = _DClenshaw(False, Phix.toBeta(self).normalized,
-                                Phiy.toBeta(self).normalized,
-                                pP, min(len(pP), 8))  # Fsum
-        dD *= _over(xD.DParametric(Phix, Phiy),
-                    xD.DIsometric( Phix, Phiy)) if self.exact else \
-              _over(xD.CParametric(Chix, Chiy), _Dlam(tx, ty))  # not Lambertian!
-        dD += _Dp0Dpsi(tx, ty)
-        dD *=  self._c2
-        return float(dD)
+    def _latPhi2(self, mu):
+        Mu  = AuxMu.fromDegrees(mu)
+        Phi = Mu.toPhi(self)
+        return Phi.toDegrees, Phi
+
+    @Property_RO
+    def _mpd(self):  # meter per degree
+        return radians(self._rrm)  # == self.ellipsoid._Lpd
 
     def _psiChiPhi3(self, lat):
         Phi = AuxPhi.fromDegrees(lat)
@@ -239,27 +172,31 @@ class RhumbAux(RhumbBase):
         return tuple(_RAintegrate(self._auxD) if self.exact else
                      _RAseries(self._auxD))
 
-    @Property_RO
-    def _RhumbLine(self):
-        '''(INTERNAL) Get this module's C{RhumbLineAux} class.
-        '''
-        return RhumbLineAux
+#   _RhumbLine = RhumbLineAux  # see further below
 
     @Property_RO
     def _rrm(self):
         return self._auxD.RectifyingRadius(exact=self.exact)
 
-    @Property
-    def TMorder(self):
-        '''Get the I{Transverse Mercator} order (C{int}, 4, 5, 6, 7 or 8).
+    def _S12d(self, Chix, Chiy, lon12):  # degrees
+        '''(INTERNAL) Compute the area C{S12} from C{._meanSinXi(Chix, Chiy) * .c2 * lon12}.
         '''
-        return self._mTM
+        pP, xD = self._RA, self._auxD
 
-    @TMorder.setter  # PYCHOK setter!
-    def TMorder(self, order):
-        '''Set the I{Transverse Mercator} order (C{int}, 4, 5, 6, 7 or 8).
-        '''
-        self._TMorder(order)
+        tx, Phix = Chix.tan, Chix.toPhi(self)
+        ty, Phiy = Chiy.tan, Chiy.toPhi(self)
+
+        dD = xD.DParametric(Phix, Phiy) if self.exact else \
+             xD.CParametric(Chix, Chiy)
+        if dD:
+            dD  = _over(dD, xD.DIsometric(Phix, Phiy) if self.exact else
+                           _Dlam(tx, ty))  # not Lambertian!
+            dD *= _DClenshaw(False, Phix.toBeta(self).normalized,
+                                    Phiy.toBeta(self).normalized,
+                                    pP, min(len(pP), xD.ALorder))  # Fsum
+        dD += _Dp0Dpsi(tx, ty)
+        dD *=  self._c2 * lon12
+        return float(dD)
 
     def toStr(self, prec=6, sep=_COMMASPACE_, **unused):  # PYCHOK signature
         '''Return this C{Rhumb} as string.
@@ -316,74 +253,38 @@ class RhumbLineAux(RhumbLineBase):
 
     @Property_RO
     def _mu1(self):
+        '''(INTERNAL) Get the I{rectifying auxiliary} latitude (C{degrees}).
+        '''
         return self._Phi1.toMu(self.rhumb).toDegrees
+
+    def _mu2lat(self, mu):
+        '''(INTERNAL) Get the inverse I{rectifying auxiliary} latitude (C{degrees}).
+        '''
+        lat, _ = self.rhumb._latPhi2(mu)
+        return lat
 
     @Property_RO
     def _Phi1(self):
         return AuxPhi.fromDegrees(self.lat1)
 
-    def Position(self, s12, outmask=Caps.LATITUDE_LONGITUDE):
-        '''Compute a point at a given distance on this rhumb line.
-
-           @arg s12: The distance along this rhumb line between its origin
-                     and the point (C{meters}), can be negative.
-           @kwarg outmask: Bit-or'ed combination of L{Caps} values specifying
-                           the quantities to be returned.
-
-           @return: L{GDict} with 4 to 8 items C{azi12, a12, s12, S12, lat2,
-                    lon2, lat1, lon1} with latitude C{lat2} and longitude
-                    C{lon2} of the point in C{degrees}, the rhumb angle C{a12}
-                    in C{degrees} from the start point of and the area C{S12}
-                    under this rhumb line in C{meter} I{squared}.
-
-           @raise ImportError: Package C{numpy} not found or not installed,
-                               only required for area C{S12} when C{B{exact}
-                               is True}.
-
-           @note: If B{C{s12}} is large enough that the rhumb line crosses a
-                  pole, the longitude of the second point is indeterminate and
-                  C{NAN} is returned for C{lon2} and area C{S12}.
-
-                  If the first point is a pole, the cosine of its latitude is
-                  taken to be C{sqrt(L{EPS})}.  This position is extremely
-                  close to the actual pole and allows the calculation to be
-                  carried out in finite terms.
+    def _Position4(self, a12, mu2, *unused):  # PYCHOK s12, mu2
+        '''(INTERNAL) See method C{RhumbLineBase._Position}.
         '''
-        r, Cs = GDict(name=self.name), Caps
-        if (outmask & Cs.LATITUDE_LONGITUDE_AREA):
-            E, R =  self.ellipsoid, self.rhumb
-            r12  = _over(s12, radians(R._rrm))
-            mu2, x90 = self._mu22(self._calp * r12, self._mu1)
-            Mu2  = AuxMu.fromDegrees(mu2)
-            Phi2 = Mu2.toPhi(R)
-            lat2 = Phi2.toDegrees
-            if x90:  # PYCHOK no cover
-                lon2 = NAN
-                if (outmask & Cs.AREA):
-                    r.set_(S12=NAN)
-            else:
-                Chi2 = Phi2.toChi(R)
-                Chi1 = self._Chi1
-                lon2 = R._DMu_DPsi(self._Phi1, Phi2, Chi1, Chi2)
-                lon2 = _over(self._salp * r12, lon2)
-                if (outmask & Cs.AREA):
-                    S = R._c2SinXi(Chi1, Chi2)
-                    r.set_(S12=unsigned0(S * lon2))  # like .gx
-                if (outmask & Cs.LONGITUDE):
-                    if (outmask & Cs.LONG_UNROLL):
-                        lon2 +=  self.lon1
-                    else:
-                        lon2  = _norm180(self._lon12 + lon2)
-            r.set_(azi12=self.azi12, s12=s12, a12=s12 / E._L_90)
-            if (outmask & Cs.LATITUDE):
-                r.set_(lat2=lat2, lat1=self.lat1)
-            if (outmask & Cs.LONGITUDE):
-                r.set_(lon2=lon2, lon1=self.lon1)
-        return r
+        R = self.rhumb
+        lat2,  Phi2 = R._latPhi2(mu2)
+        Chi2 = Phi2.toChi(R)
+        Chi1 = self._Chi1
+        lon2 = self._salp * a12
+        if lon2:
+            m = R._DMu_DPsi(self._Phi1, Phi2, Chi1, Chi2)
+            lon2 = _over(lon2, m)
+        return lat2, lon2, Chi1, Chi2
 
 #   @Property_RO
 #   def _psi1(self):
 #       return self._Chi1.toLambertianRadians
+
+RhumbAux._RhumbLine = RhumbLineAux  # PYCHOK see RhumbBase._RhumbLine
 
 
 def _RAintegrate(auxD):
@@ -391,17 +292,18 @@ def _RAintegrate(auxD):
     L   =  2
     fft = _MODS.auxilats.auxDST.AuxDST(L)
     f   =  auxD._qIntegrand
-    c   =  fft.transform(f)
+    c_  =  fft.transform(f)
+    pP  =  []
+    _P  =  pP.append
     # assert L < _Lbits
     while L < _Lbits:
-        fft.reset(L)
-        c  = fft.refine(f, c)
-        L *= 2  # == len(c)
-        # assert len(c) == L
-        pP, k = [], -1
+        L  = fft.reset(L) * 2
+        c_ = fft.refine(f, c_, _0_0)  # sentine[L]
+        # assert len(c_) == L + 1
+        pP[:], k = [], -1
         for j in range(1, L + 1):
             # Compute Fourier coefficients of integral
-            p = -(c[j - 1] + (c[j] if j < L else _0_0)) / (_4_0 * j)
+            p = (c_[j - 1] + c_[j]) / (_4_0 * j)
             if fabs(p) > EPS_2:
                 k = -1  # run interrupted
             else:
@@ -409,8 +311,8 @@ def _RAintegrate(auxD):
                     k = 1  # mark as first small value
                 if (j - k) >= ((j + 7) // 8):
                     # run of at least (j - 1) // 8 small values
-                    return pP[:j]
-            pP.append(p)
+                    return pP[:j]  # break while L loop
+            _P(-p)
     return pP  # no convergence, use pP as-is
 
 
@@ -418,16 +320,17 @@ def _RAseries(auxD):
     # Series expansions in n for Fourier coeffients of the integral
     # @see: U{"Series expansions for computing rhumb areas"
     #       <https:#DOI.org/10.5281/zenodo.7685484>}.
-    d = n = auxD._n
-    i = 0
-    pP = []
+    d  =  n = auxD._n
+    i  =  0
     aL =  auxD.ALorder
     Cs = _RACoeffs[aL]
     # assert len(Cs) == (aL * (aL + 1)) // 2
-    _p = _MODS.karney._polynomial
+    pP = []
+    _P =  pP.append
+    _p = _polynomial
     for m in _reverange(aL):  # order
         j  = i + m + 1
-        pP.append(_p(n, Cs, i, j) * d)
+        _P(_p(n, Cs, i, j) * d)
         d *= n
         i  = j
     # assert i == len(pP)
@@ -491,13 +394,11 @@ _RACoeffs = {  # Rhumb Area Coefficients in matrix Q
 }
 del _f, _u, _Ufloats
 
-
 __all__ += _ALL_DOCS(Caps, RhumbAux, RhumbLineAux)
 
 if __name__ == '__main__':
 
-    from pygeodesy.lazily import printf
-    from pygeodesy import RhumbAux  # PYCHOK RhumbAux is __main__.RhumbAux
+    from pygeodesy import printf, RhumbAux  # PYCHOK RhumbAux is __main__.RhumbAux
 
     def _re(fmt, r3, x3):
         e3 = []
@@ -506,7 +407,7 @@ if __name__ == '__main__':
             e3.append('%.g' % (e,))
         printf((fmt % r3) + ' rel errors: ' + ', '.join(e3))
 
-    # <https://GeographicLib.SourceForge.io/cgi-bin/RhumbSolveå -p 9> version 2.2
+    # <https://GeographicLib.SourceForge.io/cgi-bin/RhumbSolve -p 9> version 2.2
     rhumb = RhumbAux(exact=True)  # WGS84 default
     printf('# %r\n', rhumb)
     r = rhumb.Direct8(40.6, -73.8, 51, 5.5e6)  # from JFK about NE

@@ -98,7 +98,7 @@ from math import asinh, atan, atan2, ceil, cosh, fabs, floor, \
                  radians, sin, sqrt, tanh
 
 __all__ = _ALL_LAZY.elliptic
-__version__ = '23.09.14'
+__version__ = '23.09.18'
 
 _TolRD  =  zqrt(EPS * 0.002)
 _TolRF  =  zqrt(EPS * 0.030)

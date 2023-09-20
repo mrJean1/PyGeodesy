@@ -9,7 +9,7 @@ as an (exact) rhumb or rhumb line from I{either GeographicLib 2.0 or 2.2+}.
        path of the C{RhumbSolve} executable.
 '''
 # from pygeodesy.basics import _xinstanceof  # from .karney
-from pygeodesy.constants import _0_0, _180_0, _N_180_0,  _90_0  # PYCHOK used!
+from pygeodesy.constants import _0_0, _180_0, _N_180_0, _over,  _90_0  # PYCHOK used!
 from pygeodesy.errors import RhumbError   # PYCHOK used!
 from pygeodesy.interns import NN, _a12_, _azi12_, _lat2_, _lon2_, _s12_, _S12_, _UNDER_
 from pygeodesy.karney import Caps, GDict, _norm180, Rhumb8Tuple, _sincos2d,  _xinstanceof
@@ -21,7 +21,7 @@ from pygeodesy.solveBase import _SolveBase, _SolveLineBase
 from pygeodesy.utily import _unrollon, _Wrap, wrap360
 
 __all__ = _ALL_LAZY.rhumbsolve
-__version__ = '23.09.14'
+__version__ = '23.09.18'
 
 
 class _RhumbSolveBase(_SolveBase):
@@ -167,7 +167,7 @@ class RhumbSolve(_RhumbSolveBase):
         '''(INTERNAL) Get C{_GenDirect}-like result as an 8-item C{GDict}.
         '''
         d = _RhumbSolveBase._GDictDirect(self, lat, lon, azi1, arcmode, s12_a12, **floats)
-        r =  GDict(lat1=lat, lon1=lon, azi12=azi1, s12=s12_a12)  # a12=s12_a12 / self.ellipsoid._L_90
+        r =  GDict(lat1=lat, lon1=lon, azi12=azi1, s12=s12_a12)  # a12=_over(s12_a12, self._mpd)
         r.update(d)
         return r
 
@@ -176,7 +176,7 @@ class RhumbSolve(_RhumbSolveBase):
            I{without} C{_SALPs_CALPs_}.
         '''
         i = _RhumbSolveBase._GDictInverse(self, lat1, lon1, lat2, lon2, **floats)
-        a =  float(i.s12) / self.ellipsoid._L_90  # for .Inverse1
+        a = _over(float(i.s12), self._mpd)  # for .Inverse1
         r =  GDict(lat1=lat1, lon1=lon1, lat2=lat2, lon2=lon2, a12=a)
         r.update(i)
         return r
@@ -279,7 +279,7 @@ class RhumbLineSolve(_RhumbSolveBase, _SolveLineBase):
 #          @return: A C{dict} with 8 items C{lat1, lon1, lat2, lon2,
 #                   azi12, a12, s12, S12}.
 #       '''
-#       s = a12 * self.ellipsoid._L_90
+#       s = a12 * self._mpd
 #       a = self._GDictInvoke(self._cmdArc, True, self._Names_Direct, s)
 #       r = GDict(a12=a12, s12=s, **self._lla1)
 #       r.updated(a)
@@ -316,7 +316,7 @@ class RhumbLineSolve(_RhumbSolveBase, _SolveLineBase):
                     azi12, s12, S12}.
         '''
         d = self._GDictInvoke(self._cmdDistance, True, self._Names_Direct, s12)
-        r = GDict(s12=s12, **self._lla1)  # a12=s12 / self.ellipsoid._L_90
+        r = GDict(s12=s12, **self._lla1)  # a12=_over(s12, self._mpd)
         r.update(d)
         return r
 

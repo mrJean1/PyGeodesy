@@ -28,7 +28,7 @@ from pygeodesy.elliptic import Elliptic as _Ef
 from pygeodesy.errors import AuxError, _xkwds, _xkwds_get, _Xorder
 # from pygeodesy.fmath import cbrt  # from .karney
 from pygeodesy.fsums import Fsum, _sum
-from pygeodesy.karney import _2cos2x,  _ALL_DOCS, cbrt, _MODS
+from pygeodesy.karney import _2cos2x, _polynomial,  _ALL_DOCS, cbrt, _MODS
 from pygeodesy.interns import NN, _DOT_, _UNDER_  # _earth_
 # from pygeodesy.lazily import _ALL_DOCS, _ALL_MODS as _MODS  # from .karney
 from pygeodesy.props import Property, Property_RO, _update_all
@@ -44,7 +44,7 @@ except ImportError:  # Python 3.11-
         return pow(_2_0, x)
 
 __all__ = ()
-__version__ = '23.09.14'
+__version__ = '23.09.18'
 
 _TRIPS = 1024  # XXX 2 or 3?
 
@@ -60,9 +60,10 @@ class AuxLat(AuxAngle):
        @see: I{Karney}'s C++ class U{AuxLatitude
              <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1AuxLatitude.html>}.
     '''
-    _csc =  dict()  # global coeffs cache: [aL][k], upto max(k) * (4 + 6 + 8) floats
-    _E   = _WGS84.ellipsoid
-    _mAL =  6       # 4, 6 or 8 aka Lmax
+    _csc  =  dict()  # global coeffs cache: [aL][k], upto max(k) * (4 + 6 + 8) floats
+    _E    = _WGS84.ellipsoid
+#   _Lmax =  0       # overwritten below
+    _mAL  =  6       # 4, 6 or 8 aka Lmax
 
     def __init__(self, a_earth=_WGS84, f=None, b=None, name=NN, **ALorder):
         '''New L{AuxLat} instance on an ellipsoid or datum.
@@ -185,7 +186,7 @@ class AuxLat(AuxAngle):
             # we do it for consistency with RectifyingRadius and, presumably, the
             # roundoff error is smaller compared to that for the exact expression.
             m   =  self.ALorder
-            c2  = _MODS.karney._polynomial(self._n, _AR2Coeffs[m], 0, m)
+            c2  = _polynomial(self._n, _AR2Coeffs[m], 0, m)
             c2 *=  self.a * (self.a + self.b)
         else:
             raise AuxError(exact=exact, f=f, f_max=f_max)
@@ -202,39 +203,42 @@ class AuxLat(AuxAngle):
     def _coeffs(self, auxout, auxin):
         # Get the polynomial coefficients as 4-, 6- or 8-tuple
         aL = self.ALorder  # aka Lmax
-        k  = Aux._1d(auxout, auxin)
-        try:
-            cs = AuxLat._csc[aL][k]
+        if auxout == auxin:
+            return _0_0s(aL)  # uncached
+
+        k = Aux._1d(auxout, auxin)
+        try:  # cached
+            return AuxLat._csc[aL][k]
         except KeyError:
-            if auxout == auxin:
-                cs = _0_0s(aL)  # not cached
-            else:
-                Cx = _CXcoeffs(aL)
-                try:
-                    Cx = Cx[auxout][auxin]
-                except KeyError as x:
-                    raise AuxError(auxout=auxout, auxin=auxin, cause=x)
+            pass
 
-                d = x = n = self._n
-                if Aux.use_n2(auxin) and Aux.use_n2(auxout):
-                    x = self._n2
+        Cx = _CXcoeffs(aL)
+        try:
+            Cx = Cx[auxout][auxin]
+        except KeyError as x:
+            raise AuxError(auxout=auxout, auxin=auxin, cause=x)
 
-                    def _m(m):
-                        return m // 2
-                else:
-                    def _m(m):  # PYCHOK expected
-                        return m
+        d = x = n = self._n
+        if Aux.use_n2(auxin) and Aux.use_n2(auxout):
+            x = self._n2
 
-                i  = 0
-                cs = []
-                _p = _MODS.karney._polynomial
-                for r in _reverange(aL):
-                    j  = i + _m(r) + 1  # order m = j - i - 1
-                    cs.append(_p(x, Cx, i, j) * d)
-                    d *= n
-                    i  = j
-                # assert i == len(Cx) and len(cs) == aL
-                AuxLat._csc.setdefault(aL, {})[k] = tuple(cs)
+            def _m(m):
+                return m // 2
+        else:
+            def _m(m):  # PYCHOK expected
+                return m
+
+        i  = 0
+        cs = []
+        _c =  cs.append
+        _p = _polynomial
+        for r in _reverange(aL):
+            j  = i + _m(r) + 1  # order m = j - i - 1
+            _c(_p(x, Cx, i, j) * d)
+            d *= n
+            i  = j
+        # assert i == len(Cx) and len(cs) == aL
+        AuxLat._csc.setdefault(aL, {})[k] = cs = tuple(cs)
         return cs
 
     def Conformal(self, Phi, **diff_name):
@@ -248,7 +252,7 @@ class AuxLat(AuxAngle):
         # assert Phi._AUX == Aux.PHI
         tphi = tchi = fabs(Phi.tan)
         if isfinite(tphi) and tphi and self.f:
-            sig   =  sinh(self._e2 * self._atanhee(tphi))
+            sig   =  sinh(self._atanhee(tphi) * self._e2)
             scsig = _sc(sig)
             scphi = _sc(tphi)
             if self.f > 0:
@@ -281,7 +285,7 @@ class AuxLat(AuxAngle):
                     atphi  = _asinh_2(tphi)  # atanh(sphi)
                     t      = _asinh_2(em1 * (tphi * scphib)) / em1
                     try:
-                        Dg = Fsum(atphi, atphib, t, e * t)
+                        Dg =  Fsum(atphi, atphib, t, e * t)
                     except ValueError:  # Fsum(NAN) exception
                         Dg = _sum((atphi, atphib, t, e * t))
                     e *= atphib
@@ -290,7 +294,7 @@ class AuxLat(AuxAngle):
                         Dg *= sinh(t) / t * cosh(atphi + e) * em1
                         t   = float(Dg)  # tphi - sig
                 tchi = _over(t * (_1_0 + sigtphi),
-                         scsig + scphi * sigtphi)  # if t else _0_0
+                         scsig + scphi * sigtphi) if t else _0_0
             else:
                 tchi =  tphi * scsig - sig * scphi
 
@@ -649,7 +653,7 @@ class AuxLat(AuxAngle):
     @Property_RO
     def _RectifyingR(self):
         m =  self.ALorder
-        d = _MODS.karney._polynomial(self._n2, _RRCoeffs[m], 0, m // 2)
+        d = _polynomial(self._n2, _RRCoeffs[m], 0, m // 2)
         return d * (self.a + self.b) * _0_5
 
     def _scbeta(self, tphi):
@@ -815,6 +819,8 @@ _RRCoeffs  = {4: _u(1  / _f(64),   _0_25),
               8: _u(25 / _f(16384), 1 / _f(256),  1 / _f(64),  _0_25)}  # PYCHOK used!
 del _f, _u, _Ufloats, _1__f3
 # assert set(_AR2Coeffs.keys()) == set(_RRCoeffs.keys())
+
+# AuxLat._Lmax = max(_AR2Coeffs.keys())  # == max(ALorder)
 
 __all__ += _ALL_DOCS(AuxLat)
 

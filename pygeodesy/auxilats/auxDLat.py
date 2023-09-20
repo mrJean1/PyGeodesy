@@ -25,7 +25,7 @@ from pygeodesy.elliptic import Elliptic as _Ef,  Fsum
 from math import atan, atan2, cos, sin, sqrt
 
 __all__ = ()
-__version__ = '23.09.14'
+__version__ = '23.09.18'
 
 
 class AuxDLat(AuxLat):
@@ -182,7 +182,7 @@ class AuxDLat(AuxLat):
 def _DClenshaw(sinp, Zeta1, Zeta2, cs, K):
     '''(INTERNAL) I{Divided Difference} of L{AuxLat._Clenshaw}.
 
-        @return: C{Fsum} if B{C{sinp}} otherwise a C{float}.
+        @return: C{float} if B{C{sinp}} otherwise a C{Fsum}.
     '''
     s1, c1, r1 = Zeta1._yxr_normalized(False)
     s2, c2, r2 = Zeta2._yxr_normalized(False)

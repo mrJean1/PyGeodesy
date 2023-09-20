@@ -61,19 +61,17 @@
 <!-- ==================== CLASS DESCRIPTION ==================== -->
 <h1 class="epydoc">Class RhumbLineAux</h1><p class="nomargin-top"></p>
 <pre class="base-tree">
-  object --+                    
-           |                    
-<a href="pygeodesy.named._Named-class.html">named._Named</a> --+                
-               |                
-<a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a> --+            
-                   |            
-    <a href="pygeodesy.karney._CapsBase-class.html">karney._CapsBase</a> --+        
-                       |        
-     <a href="pygeodesy.rhumbBase.RhumbBase-class.html">rhumbBase.RhumbBase</a> --+    
-                           |    
-     <a href="pygeodesy.rhumbBase.RhumbLineBase-class.html">rhumbBase.RhumbLineBase</a> --+
-                               |
-                              <strong class="uidshort">RhumbLineAux</strong>
+  object --+                
+           |                
+<a href="pygeodesy.named._Named-class.html">named._Named</a> --+            
+               |            
+<a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a> --+        
+                   |        
+    <a href="pygeodesy.karney._CapsBase-class.html">karney._CapsBase</a> --+    
+                       |    
+ <a href="pygeodesy.rhumbBase.RhumbLineBase-class.html">rhumbBase.RhumbLineBase</a> --+
+                           |
+                          <strong class="uidshort">RhumbLineAux</strong>
 </pre>
 
 <hr />
@@ -120,42 +118,19 @@
       
     </td>
   </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.rhumbaux.RhumbLineAux-class.html#Position" class="summary-sig-name">Position</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">s12</span>,
-        <span class="summary-sig-arg">outmask</span>=<span class="summary-sig-default">384</span>)</span><br />
-      Compute a point at a given distance on this rhumb line.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
   <tr>
     <td colspan="2" class="summary">
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.rhumbBase.RhumbLineBase-class.html">rhumbBase.RhumbLineBase</a></code></b>:
+      <code><a href="pygeodesy.rhumbBase.RhumbLineBase-class.html#ArcPosition">ArcPosition</a></code>,
+      <code><a href="pygeodesy.rhumbBase.RhumbLineBase-class.html#Inverse">Inverse</a></code>,
+      <code><a href="pygeodesy.rhumbBase.RhumbLineBase-class.html#Position">Position</a></code>,
       <code><a href="pygeodesy.rhumbBase.RhumbLineBase-class.html#__del__">__del__</a></code>,
+      <code><a href="pygeodesy.rhumbBase.RhumbLineBase-class.html#degrees2m">degrees2m</a></code>,
       <code><a href="pygeodesy.rhumbBase.RhumbLineBase-class.html#distance2">distance2</a></code>,
       <code><a href="pygeodesy.rhumbBase.RhumbLineBase-class.html#intersection2">intersection2</a></code>,
+      <code><a href="pygeodesy.rhumbBase.RhumbLineBase-class.html#m2degrees">m2degrees</a></code>,
       <code><a href="pygeodesy.rhumbBase.RhumbLineBase-class.html#nearestOn4">nearestOn4</a></code>,
       <code><a href="pygeodesy.rhumbBase.RhumbLineBase-class.html#toStr">toStr</a></code>
-      </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.rhumbBase.RhumbBase-class.html">rhumbBase.RhumbBase</a></code></b>:
-      <code><a href="pygeodesy.rhumbBase.RhumbBase-class.html#Direct">Direct</a></code>,
-      <code><a href="pygeodesy.rhumbBase.RhumbBase-class.html#Direct8">Direct8</a></code>,
-      <code><a href="pygeodesy.rhumbBase.RhumbBase-class.html#DirectLine">DirectLine</a></code>,
-      <code><a href="pygeodesy.rhumbBase.RhumbBase-class.html#Inverse">Inverse</a></code>,
-      <code><a href="pygeodesy.rhumbBase.RhumbBase-class.html#Inverse8">Inverse8</a></code>,
-      <code><a href="pygeodesy.rhumbBase.RhumbBase-class.html#InverseLine">InverseLine</a></code>,
-      <code><a href="pygeodesy.rhumbBase.RhumbBase-class.html#Line">Line</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.karney._CapsBase-class.html">karney._CapsBase</a></code></b>:
       <code><a href="pygeodesy.karney._CapsBase-class.html#caps_">caps_</a></code>
@@ -244,15 +219,6 @@
       <code><a href="pygeodesy.rhumbBase.RhumbLineBase-class.html#rhumb">rhumb</a></code>,
       <code><a href="pygeodesy.rhumbBase.RhumbLineBase-class.html#xTM">xTM</a></code>
       </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.rhumbBase.RhumbBase-class.html">rhumbBase.RhumbBase</a></code></b>:
-      <code><a href="pygeodesy.rhumbBase.RhumbBase-class.html#a">a</a></code>,
-      <code><a href="pygeodesy.rhumbBase.RhumbBase-class.html#b">b</a></code>,
-      <code><a href="pygeodesy.rhumbBase.RhumbBase-class.html#equatoradius">equatoradius</a></code>,
-      <code><a href="pygeodesy.rhumbBase.RhumbBase-class.html#f">f</a></code>,
-      <code><a href="pygeodesy.rhumbBase.RhumbBase-class.html#f_max">f_max</a></code>,
-      <code><a href="pygeodesy.rhumbBase.RhumbBase-class.html#flattening">flattening</a></code>,
-      <code><a href="pygeodesy.rhumbBase.RhumbBase-class.html#polaradius">polaradius</a></code>
-      </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.karney._CapsBase-class.html">karney._CapsBase</a></code></b>:
       <code><a href="pygeodesy.karney._CapsBase-class.html#caps">caps</a></code>,
       <code><a href="pygeodesy.karney._CapsBase-class.html#debug">debug</a></code>
@@ -325,64 +291,6 @@
   </dl>
 </td></tr></table>
 </div>
-<a name="Position"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">Position</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">s12</span>,
-        <span class="sig-arg">outmask</span>=<span class="sig-default">384</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Compute a point at a given distance on this rhumb line.</p>
-  <dl class="fields">
-    <dt>Arguments:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>s12</code></strong> - The distance along this rhumb line between its origin and the 
-          point (<code>meters</code>), can be negative.</li>
-        <li><strong class="pname"><code>outmask</code></strong> - Bit-or'ed combination of <a 
-          href="pygeodesy.rhumbaux-module.html#Caps" class="link">Caps</a> 
-          values specifying the quantities to be returned.</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd><a href="pygeodesy.karney.GDict-class.html" 
-          class="link">GDict</a> with 4 to 8 items <code>azi12, a12, s12, 
-          S12, lat2, lon2, lat1, lon1</code> with latitude 
-          <code>lat2</code> and longitude <code>lon2</code> of the point in
-          <code>degrees</code>, the rhumb angle <code>a12</code> in 
-          <code>degrees</code> from the start point of and the area 
-          <code>S12</code> under this rhumb line in <code>meter</code> 
-          <i>squared</i>.</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ImportError</strong></code> - Package <code>numpy</code> not found or not installed, only 
-        required for area <code>S12</code> when <code><b>exact</b> is 
-        True</code>.</li>
-    </ul></dd>
-    <dt>Overrides:
-        <a href="pygeodesy.rhumbBase.RhumbLineBase-class.html#Position">rhumbBase.RhumbLineBase.Position</a>
-    </dt>
-  </dl>
-<div class="fields">      <p><strong>Note:</strong>
-        If <b><code>s12</code></b> is large enough that the rhumb line 
-        crosses a pole, the longitude of the second point is indeterminate 
-        and <code>NAN</code> is returned for <code>lon2</code> and area 
-        <code>S12</code>.
-        <p>If the first point is a pole, the cosine of its latitude is 
-        taken to be <code>sqrt(<a href="pygeodesy-module.html#EPS" 
-        class="link">EPS</a>)</code>.  This position is extremely close to 
-        the actual pole and allows the calculation to be carried out in 
-        finite terms.</p>
-      </p>
-</div></td></tr></table>
-</div>
 <br />
 <!-- ==================== NAVIGATION BAR ==================== -->
 <table class="navbar" border="0" width="100%" cellpadding="0"
@@ -415,7 +323,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Sep 15 09:27:01 2023
+    Generated by Epydoc 3.0.1 on Wed Sep 20 15:53:36 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
