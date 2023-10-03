@@ -4,12 +4,12 @@
 # Test L{utily} module.
 
 __all__ = ('Tests',)
-__version__ = '23.03.27'
+__version__ = '23.09.28'
 
 from bases import TestsBase, geographiclib
 
 from pygeodesy import EPS, INF, NEG0, NINF, PI, PI2, PI_2, PI3_2, \
-                      acre2ha, acre2m2, atan2d, chain2m, cot_, cotd_, \
+                      acre2ha, acre2m2, atan1, atan2d, chain2m, cot_, cotd_, \
                       degrees90, degrees180, degrees360, degrees2m, \
                       fathom2m, ft2m, furlong2m, \
                       grades400, degrees2grades, grades2degrees, grades2radians, \
@@ -20,12 +20,12 @@ from pygeodesy import EPS, INF, NEG0, NINF, PI, PI2, PI_2, PI3_2, \
                       wrap90, wrap180, wrap360, wrapPI, wrapPI2, wrapPI_2, \
                       toise2m, yard2m, fstr  # DEPRECATED, use fstr
 
-from math import cos, radians, sin, tan
+from math import cos, fabs, radians, sin, tan
 
 if geographiclib:
     from geographiclib.geomath import Math
-    atand   = Math.atan2d
-    sincosd = Math.sincosd
+    Matan2d  = Math.atan2d
+    Msincosd = Math.sincosd
 else:
     Math = None
 
@@ -160,6 +160,9 @@ class Tests(TestsBase):
         self.test('unroll180', fstr(unroll180(-830, 90, wrap=True)), '-160.0, -990.0', nl=1)
         self.test('unroll180', fstr(unroll180(-830, 90, wrap=False)), '920.0, 90.0')
 
+        self.test('atan1', atan1(0,   -1), '0.0', nl=1)
+        self.test('atan1', atan1(0, NEG0), '0.0')
+
         e = d = g = f = t = 0
         for a in range(-1000, 1000, 2):
             a *= 0.47
@@ -167,28 +170,28 @@ class Tests(TestsBase):
             sr, cr = sin(r), cos(r)
 
             s, c = sincos2(r)
-            e = max(e, abs(sr - s), abs(cr - c))
+            e = max(e, fabs(sr - s), fabs(cr - c))
 
             sd, cd = sincos2d(a)
-            d = max(d, abs(sr - sd), abs(cr - cd))
+            d = max(d, fabs(sr - sd), fabs(cr - cd))
             if Math:  # compare with geographiclib
-                t = max(t, abs(atan2d(sr, cr) - atand(sr, cr)))
-                s, c = sincosd(a)
-                g = max(g, abs(sr - s), abs(cr - c))
-                f = max(f, abs(sd - s), abs(cd - c))
+                t = max(t, fabs(atan2d(sr, cr) - Matan2d(sr, cr)))
+                s, c = Msincosd(a)
+                g = max(g, fabs(sr - s), fabs(cr - c))
+                f = max(f, fabs(sd - s), fabs(cd - c))
 
         if sr:  # coverage
             c, _ = cot_(r, r)  # PYCHOK .next() or __next__()
             self.test('cot_ ', c, cr / sr, prec=12, nl=1)
         if sd:  # coverage
             c, _ = cotd_(a, a)  # PYCHOK .next() or __next__()
-            self.test('cotd_', c, cd / sd, prec=12, nl=1)
+            self.test('cotd_', c, cd / sd, prec=12)
         EPS_ = EPS * 8
-        self.test('sincos2',  e, EPS_, known=e < EPS_)
+        self.test('sincos2',  e, EPS_, known=e < EPS_, nl=1)
         self.test('sincos2d', d, EPS_, known=d < EPS_)
         if Math:
-            self.test('atand',    t, EPS,  known=t < EPS)
-            self.test('sincosd ', g, EPS_, known=g < EPS_)
+            self.test('Matan2d ', t, EPS,  known=t < EPS, nl=1)
+            self.test('Msincosd', g, EPS_, known=g < EPS_)
             self.test('sincos*d', f, EPS_, known=f < EPS_)
 
         # <https://www.CivilGeo.com/when-a-foot-isnt-really-a-foot/>

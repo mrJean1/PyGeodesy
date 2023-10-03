@@ -787,7 +787,7 @@ class GeodesicExact(_GeodesicBase):
         '''
         Cs = Caps
         r  = self._GDictInverse(lat1, lon1, lat2, lon2, Cs._SALPs_CALPs)  # No need for AZIMUTH
-        C  = (caps | Cs.DISTANCE) if (caps & Cs._DISTANCE_IN_OUT) else caps
+        C  = (caps | Cs.DISTANCE) if (caps & (Cs.DISTANCE_IN & Cs._OUT_MASK)) else caps
         azi1 = _atan2d(r.salp1, r.calp1)
         return _GeodesicLineExact(self, lat1, lon1, azi1, C,  # ensure a12 is distance
                                   self._debug, r.salp1, r.calp1, name=name)._GenSet(True, r.a12)
@@ -826,7 +826,7 @@ class GeodesicExact(_GeodesicBase):
             domg12 =   comg12 + _1_0
             salp12 = (p.sbet1 *   dbet2 + dbet1 * p.sbet2) * somg12
             calp12 = (p.sbet1 * p.sbet2 + dbet1 *   dbet2) * domg12
-            alp12  = _2_0 * atan2(salp12, calp12)
+            alp12  =  atan2(salp12, calp12) * _2_0
         else:
             # alp12 = alp2 - alp1, used in atan2, no need to normalize
             salp12, calp12 = _sincos12(salp1, calp1, salp2, calp2)

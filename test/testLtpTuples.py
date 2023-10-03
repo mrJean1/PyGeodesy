@@ -4,11 +4,11 @@
 # Test L{ltpTuples} I{local tangent plane} classes, tuples and conversions.
 
 __all__ = ('Tests',)
-__version__ = '23.03.27'
+__version__ = '23.10.02'
 
 from bases import startswith, TestsBase
 
-from pygeodesy import Aer, Enu, fstr, Local9Tuple, Ltp, Ned, XyzLocal
+from pygeodesy import Aer, Enu, fstr, Local9Tuple, Los, Ltp, Ned, XyzLocal
 from pygeodesy.ellipsoidalKarney import Cartesian, LatLon
 from pygeodesy.interns import _DOT_
 
@@ -70,6 +70,17 @@ class Tests(TestsBase):
                       'phi', 'lam', 'philam', 'philamheight'):
                 t = fstr(getattr(z, a), prec=3)
                 self.test(_DOT_(N, a), t, t)
+
+        s = Los(45, -45)
+        n = Los.__name__
+        self.test(n, repr(s), '[A:45.0°, E:-45.0°, R:1.0]', nl=1)
+        t = s.toEnu()
+        self.test(n, repr(t), '[E:0.5, N:0.5, U:-0.707]')
+        p = LatLon(0, 0, height=1e3)
+        t = s.toUvw(p)
+        self.test(n, repr(t), '[U:-0.707, V:0.5, W:0.5]')
+        r = t.toEnu(p)
+        self.test(n, r.toRepr(), '[E:0.5, N:0.5, U:-0.707]')
 
 
 class Xyz(XyzLocal):  # shorten name

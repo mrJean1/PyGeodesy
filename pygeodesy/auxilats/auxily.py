@@ -22,11 +22,12 @@ from pygeodesy.fmath import hypot1 as _sc, hypot2_
 from pygeodesy.karney import _ALL_DOCS, _Dict, _MODS  # PYCHOK used!
 # from pygeodesy.lazily import _ALL_DOCS, _ALL_MODS as _MODS  # from .karney
 # from pygeodesy.named import _Dict  # from .karney
+from pygeodesy.utily import atan1
 
-from math import asinh, atan, copysign
+from math import asinh, copysign
 
 __all__ = ()
-__version__ = '23.09.14'
+__version__ = '23.09.26'
 
 
 class Aux(object):
@@ -86,6 +87,7 @@ _Aux2Greek = {Aux.AUTHALIC:   'Xi',
               Aux.PARAMETRIC: 'Beta',
               Aux.RECTIFYING: 'Mu'}
 _Greek2Aux = dict(map(reversed, _Aux2Greek.items()))  # PYCHOK exported
+# _Greek2Aux.update((_g.upper(), _x) for _g, _x in _Greek2Aux.items())
 
 
 class _Coeffs(_Dict):
@@ -160,9 +162,9 @@ def _Datan(x, y):
     else:
         d = y - x
         if (r + xy) > 0:
-            r =  atan(_over(d, r)) / d  # atan2(d, r) / d
+            r =  atan1(d, r) / d  # atan(d / r) / d
         else:
-            r = (atan(y) - atan(x)) / d
+            r = (atan1(y) - atan1(x)) / d
     return r
 
 
@@ -176,13 +178,15 @@ def _Dh(x, y):
         r = copysign(_0_5, y)
     else:
         snx, sny = _sn(x), _sn(y)
-        d  = sny * y + snx * x
+        dy = sny * y
+        dx = snx * x
+        d  = dy + dx
         if (d * _0_5):
             if (x * y) > 0:
                 r *= hypot2_(snx / _sc(y), snx * sny,
                              sny / _sc(x)) / (d + d)
             else:
-                r = _over(_h(y) - _h(x), y - x)
+                r = _over((dy - dx) * _0_5, y - x)
         else:  # underflow and x == y == d == 0
             r *= _0_5  # PYCHOK no cover
     return r
@@ -230,7 +234,9 @@ def _Dp0Dpsi(x, y):  # Chi1.tan, Chi2.tan
 def _h(tx):
     '''(INTERNAL) M{h(tan(x)) = tan(x) * sin(x) / 2}
     '''
-    return (_sn(tx) * tx * _0_5) if tx else _0_0
+    if tx:
+        tx *= _sn(tx) * _0_5
+    return tx  # preserve signed-0
 
 
 def _sn(tx):

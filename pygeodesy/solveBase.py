@@ -22,7 +22,7 @@ from pygeodesy.utily import unroll180,  wrap360  # PYCHOK shared
 from subprocess import PIPE as _PIPE, Popen as _Popen, STDOUT as _STDOUT
 
 __all__ = ()  # nothing public
-__version__ = '23.09.18'
+__version__ = '23.09.22'
 
 _ERROR_    = 'ERROR'
 _text_True =  dict() if _sys_version_info2 < (3, 7) else dict(text=True)
@@ -73,9 +73,8 @@ class _SolveLineSolveBase(_CapsBase):
 
     @property_RO
     def _cmdBasic(self):  # PYCHOK no cover
-        '''(INTERNAL) I{Must be overloaded}, see function C{notOverloaded}.
-        '''
-        notOverloaded(self)
+        '''(INTERNAL) I{Must be overloaded}.'''
+        notOverloaded(self, underOK=True)
 
     @Property_RO
     def ellipsoid(self):

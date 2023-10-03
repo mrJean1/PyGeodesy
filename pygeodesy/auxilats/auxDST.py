@@ -24,11 +24,11 @@ from pygeodesy.karney import _2cos2x,  _ALL_DOCS, Fsum, property_RO
 # from pygeodesy.props import property_RO  # from .karney
 
 __all__ = ()
-__version__ = '23.09.19'
+__version__ = '23.09.22'
 
 
 class AuxDST(object):
-    '''Discrete Sine Transforms (DST) for I{Auxiliary Latitudes}.
+    '''Discrete Sine Transforms (DST) for I{Auxiliary} Latitudes.
 
        @see: I{Karney}'s C++ class U{DST
              <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1DST.html>}.
@@ -114,7 +114,7 @@ class AuxDST(object):
                 i = 1
                 # assert d[0] == _0_0
 
-                def _cF(c, unused):  # PYCHOK redef
+                def _cF(c, *unused):  # PYCHOK redef
                     return c
 
             d += tuple(reversed(d[i:N]))  # i == len(d) - N
@@ -216,9 +216,11 @@ class AuxDST(object):
 
            @arg f: Single-argument callable (C{B{f}(sigma)}).
            @arg F: Initial Fourier series coefficients (C{float}[:N]).
-           @arg sentinel: Optional coefficient(s) to append (C{float}).
+           @arg sentinel: Optional coefficient(s) to append (C{float}(s)).
 
            @return: Fourier series coefficients (C{float}[:N*2]).
+
+           @note: Any initial C{B{F}[N:]} sentinel coefficients are ignored.
         '''
         def _data(_f, N):  # [:N]
             if N > 0:
@@ -226,7 +228,7 @@ class AuxDST(object):
                 for j in range(1, N*2, 2):
                     yield _f(r * j)
 
-        # F = F[:self.N] handled by zip strict=False
+        # F = F[:self.N] handled by zip strict=False in ._ffts2 above
         return self._ffts2(_data(f, self.N), F) + sentinel
 
     def reset(self, N):
@@ -241,7 +243,7 @@ class AuxDST(object):
         return N
 
     def transform(self, f):
-        '''Determine C{N + 1} terms in the Fourier series.
+        '''Determine C{[N + 1]} terms in the Fourier series.
 
            @arg f: Single-argument callable (C{B{f}(sigma)}).
 

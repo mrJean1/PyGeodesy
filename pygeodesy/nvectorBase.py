@@ -38,7 +38,7 @@ from pygeodesy.vector3d import Vector3d, _xyzhdn3
 from math import fabs, sqrt
 
 __all__ = (_NorthPole_, _SouthPole_)  # constants
-__version__ = '23.08.05'
+__version__ = '23.09.22'
 
 
 class NvectorBase(Vector3d):  # XXX kept private
@@ -423,8 +423,7 @@ class LatLonNvectorBase(LatLonBase):
             LatLonBase._update(self, updated, *attrs, **setters)
 
 #   def distanceTo(self, other, **kwds):  # PYCHOK no cover
-#       '''(INTERNAL) I{Must be overloaded}, see function C{notOverloaded}.
-#       '''
+#       '''I{Must be overloaded}.'''
 #       _MODS.named.notOverloaded(self, other, **kwds)
 
     def intersections2(self, radius1, other, radius2, **kwds):  # PYCHOK expected

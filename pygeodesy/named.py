@@ -13,26 +13,26 @@ standard Python C{namedtuple}s.
 @see: Module L{pygeodesy.namedTuples} for (most of) the C{Named-Tuples}.
 '''
 
-from pygeodesy.basics import isclass, isidentifier, iskeyword, isstr, \
-                             issubclassof, len2, _sizeof, _xcopy, _xdup, _zip
+from pygeodesy.basics import isclass, isidentifier, iskeyword, isstr, issubclassof, \
+                             len2, _sizeof, _xcopy, _xdup, _zip
 from pygeodesy.errors import _AssertionError, _AttributeError, _incompatible, \
                              _IndexError, _IsnotError, itemsorted, LenError, \
                              _NameError, _NotImplementedError, _TypeError, \
-                             _TypesError, _ValueError, UnitError, _xattr, \
-                             _xkwds, _xkwds_get, _xkwds_pop, _xkwds_popitem
+                             _TypesError, _ValueError, UnitError, _xattr, _xkwds, \
+                             _xkwds_get, _xkwds_popitem
 from pygeodesy.interns import NN, _at_, _AT_, _COLON_, _COLONSPACE_, _COMMA_, \
                              _COMMASPACE_, _doesn_t_exist_, _DOT_, _DUNDER_, \
                              _EQUAL_, _EQUALSPACED_, _exists_, _immutable_, _name_, \
                              _NL_, _NN_, _not_, _other_, _s_, _SPACE_, _std_, \
                              _UNDER_, _valid_, _vs_,  _dunder_nameof, _isPyPy, _under
-from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _caller3, _getenv
+from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, _caller3, _getenv
 from pygeodesy.props import _allPropertiesOf_n, deprecated_method, _hasProperty, \
                             _update_all, property_doc_, Property_RO, property_RO, \
                             _update_attrs
 from pygeodesy.streprs import attrs, Fmt, lrstrip, pairs, reprs, unstr
 
 __all__ = _ALL_LAZY.named
-__version__ = '23.09.20'
+__version__ = '23.09.29'
 
 _COMMANL_           = _COMMA_ + _NL_
 _COMMASPACEDOT_     = _COMMASPACE_ + _DOT_
@@ -497,8 +497,7 @@ class _NamedBase(_Named):
 #       return Fmt.PAREN(self.named, s)  # clips(s)
 
     def toStr(self, **kwds):  # PYCHOK no cover
-        '''(INTERNAL) I{Must be overloaded}, see function C{notOverloaded}.
-        '''
+        '''I{Must be overloaded}.'''
         notOverloaded(self, **kwds)
 
 #   def toStr(self, **kwds):
@@ -1113,9 +1112,9 @@ def callername(up=1, dflt=NN, source=False, underOK=False):
 
        @kwarg up: Number of call stack frames up (C{int}).
        @kwarg dflt: Default return value (C{any}).
-       @kwarg source: Include source file name and line
-                      number (C{bool}).
-       @kwarg underOK: Private, internal callables are OK (C{bool}).
+       @kwarg source: Include source file name and line number (C{bool}).
+       @kwarg underOK: If C{True}, private, internal callables are OK,
+                       otherwise private callables are skipped (C{bool}).
 
        @return: The callable name (C{str}) or B{C{dflt}} if none found.
     '''
@@ -1130,6 +1129,14 @@ def callername(up=1, dflt=NN, source=False, underOK=False):
     except (AttributeError, ValueError):
         pass
     return dflt
+
+
+def _callername2(args, callername=NN, source=False, underOK=False, up=2, **kwds):
+    '''(INTERNAL) Extract C{callername}, C{source}, C{underOK} and C{up} from C{kwds}.
+    '''
+    n = callername or _MODS.named.callername(up=up + 1, source=source,
+                                        underOK=underOK or bool(args or kwds))
+    return n, kwds
 
 
 def _callname(name, class_name, self_name, up=1):
@@ -1210,6 +1217,14 @@ def nameof(inst):
     return n
 
 
+def _notDecaps(where):
+    '''De-Capitalize C{where.__name__}.
+    '''
+    n = where.__name__
+    c = n[3].lower()  # len(_not_)
+    return NN(n[:3], _SPACE_, c, n[4:])
+
+
 def _notError(inst, name, args, kwds):  # PYCHOK no cover
     '''(INTERNAL) Format an error message.
     '''
@@ -1224,9 +1239,9 @@ def _NotImplemented(inst, *other, **kwds):
     '''
     if _std_NotImplemented:
         return NotImplemented
-    u = _xkwds_pop(kwds, up=2)
-    n = _DOT_(classname(inst), callername(up=u, underOK=True))  # source=True
-    raise _NotImplementedError(unstr(n, *other, **kwds), txt=repr(inst))
+    n, kwds = _callername2(other, **kwds)  # source=True
+    t = unstr(_DOT_(classname(inst), n), *other, **kwds)
+    raise _NotImplementedError(t, txt=repr(inst))
 
 
 def notImplemented(inst, *args, **kwds):  # PYCHOK no cover
@@ -1235,12 +1250,13 @@ def notImplemented(inst, *args, **kwds):  # PYCHOK no cover
 
        @arg inst: Instance (C{any}) or C{None} for caller.
        @arg args: Method or property positional arguments (any C{type}s).
-       @arg kwds: Method or property keyword arguments (any C{type}s).
+       @arg kwds: Method or property keyword arguments (any C{type}s),
+                  except C{B{callername}=NN}, C{B{underOK}=False} and
+                  C{B{up}=2}.
     '''
-    u = _xkwds_pop(kwds, up=2)
-    n = _xkwds_pop(kwds, callername=NN) or callername(up=u)
+    n, kwds = _callername2(args, **kwds)
     t = _notError(inst, n, args, kwds) if inst else unstr(n, *args, **kwds)
-    raise _NotImplementedError(t, txt=notImplemented.__name__.replace('I', ' i'))
+    raise _NotImplementedError(t, txt=_notDecaps(notImplemented))
 
 
 def notOverloaded(inst, *args, **kwds):  # PYCHOK no cover
@@ -1248,12 +1264,13 @@ def notOverloaded(inst, *args, **kwds):  # PYCHOK no cover
 
        @arg inst: Instance (C{any}).
        @arg args: Method or property positional arguments (any C{type}s).
-       @arg kwds: Method or property keyword arguments (any C{type}s).
+       @arg kwds: Method or property keyword arguments (any C{type}s),
+                  except C{B{callername}=NN}, C{B{underOK}=False} and
+                  C{B{up}=2}.
     '''
-    u = _xkwds_pop(kwds, up=2)
-    n = _xkwds_pop(kwds, callername=NN) or callername(up=u, underOK=True)
+    n, kwds = _callername2(args, **kwds)
     t = _notError(inst, n, args, kwds)
-    raise _AssertionError(t, txt=notOverloaded.__name__.replace('O', ' o'))
+    raise _AssertionError(t, txt=_notDecaps(notOverloaded))
 
 
 def _Pass(arg, **unused):  # PYCHOK no cover

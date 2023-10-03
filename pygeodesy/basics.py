@@ -16,7 +16,7 @@ del division
 
 from pygeodesy.errors import _AssertionError, _AttributeError, _ImportError, \
                              _TypeError, _TypesError, _ValueError, _xkwds_get
-from pygeodesy.interns import MISSING, NN, _by_, _COMMA_, _DOT_, _ELLIPSIS4_, \
+from pygeodesy.interns import MISSING, NN, _1_, _by_, _COMMA_, _DOT_, _ELLIPSIS4_, \
                              _enquote, _EQUAL_, _in_, _invalid_, _N_A_, _SPACE_, \
                              _UNDER_, _version_  # _utf_8_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _FOR_DOCS, \
@@ -27,7 +27,7 @@ from math import copysign as _copysign
 import inspect as _inspect
 
 __all__ = _ALL_LAZY.basics
-__version__ = '23.09.08'
+__version__ = '23.09.28'
 
 _0_0                  =  0.0  # in .constants
 _below_               = 'below'
@@ -159,6 +159,18 @@ def halfs2(str2):
     if r or not h:
         raise _ValueError(str2=str2, txt=_odd_)
     return str2[:h], str2[h:]
+
+
+def int1s(x):
+    '''Count the number of 1-bits in an C{int}, I{unsigned}.
+
+       @note: C{int1s(-B{x}) == int1s(abs(B{x}))}.
+    '''
+    try:
+        return x.bit_count()  # Python 3.10+
+    except AttributeError:
+        # bin(-x) = '-' + bin(abs(x))
+        return bin(x).count(_1_)
 
 
 def isbool(obj):
@@ -390,12 +402,18 @@ def map2(func, *xs):
     return tuple(map(func, *xs))
 
 
-def neg(x):
-    '''Negate C{x} unless C{zero} or C{NEG0}.
+def neg(x, neg0=None):
+    '''Negate C{x} and optionally, negate C{0.0} amd C{-0.0}.
 
-       @return: C{-B{x}} if B{C{x}} else C{0.0}.
+       @kwarg neg0: Defines the return value for zero C{B{x}}: if C{None}
+                    return C{0.0}, if C{True} return C{NEG0 if B{x}=0.0}
+                    and C{0.0 if B{x}=NEG0} or if C{False} return C{B{x}}
+                    I{as-is} (C{bool} or C{None}).
+
+       @return: C{-B{x} if B{x} else 0.0, NEG0 or B{x}}.
     '''
-    return (-x) if x else _0_0
+    return (-x) if x else (_0_0 if neg0 is None else (x if not neg0 else
+                          (_0_0 if signBit(x) else _MODS.constants.NEG0)))
 
 
 def neg_(*xs):
@@ -406,10 +424,10 @@ def neg_(*xs):
     return map(neg, xs)
 
 
-def _reverange(n):
-    '''(INTERNAL) Reversed range yielding (n-1, n-2, ..., 1, 0).
+def _reverange(n, stop=-1, step=-1):
+    '''(INTERNAL) Reversed range yielding C{n-1, n-1-step, ..., stop+1}.
     '''
-    return range(n - 1, -1, -1)
+    return range(n - 1, stop, step)
 
 
 def signBit(x):

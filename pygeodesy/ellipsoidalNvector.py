@@ -181,9 +181,9 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #             gc = start.toNvector().cross(end.toNvector())
 #
 #         # (signed) angle between point and gc normal vector
-#         v = self.toNvector()
-#         a = gc.angleTo(v, vSign=v.cross(gc))
-#         a = (-PI_2 - a) if a < 0 else (PI_2 - a)
+#         v =  self.toNvector()
+#         a =  gc.angleTo(v, vSign=v.cross(gc))
+#         a = _copysign(PI_2, a) - a
 #         return a * float(radius)
 
     def deltaTo(self, other, Ned=Ned, wrap=False):

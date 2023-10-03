@@ -18,7 +18,7 @@ from pygeodesy.karney import _CapsBase, GeodesicError, isodd, \
 from math import ldexp as _ldexp
 
 __all__ = ()
-__version__ = '23.08.20'
+__version__ = '23.09.29'
 
 # valid C{nC4}s and C{C4order}s, see _xnC4 below
 _nC4s = {24: 2900, 27: 4032, 30: 5425}
@@ -97,7 +97,7 @@ def _sincos12(sin1, cos1, sin2, cos2, sineg0=False):  # PYCHOK shared
     '''(INTERNAL) Compute the sine and cosine of angle
        M{ang12 = atan2(sin2, cos2) - atan2(sin1, cos1)}.
 
-       Use C{-sin1} to get C{sin12} and C{cos12} of the sum
+       Negate C{sin1} to get C{sin12} and C{cos12} of the sum
        M{ang12 = atan2(sin2, cos2) + atan2(sin1, cos1)}.
 
        @kwarg sineg0: If C{True}, make negative C{sin12} zero (C{bool}).

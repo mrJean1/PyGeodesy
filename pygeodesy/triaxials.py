@@ -59,7 +59,7 @@ from pygeodesy.vector3d import _otherV3d, Vector3d,  _ALL_LAZY, _MODS
 from math import atan2, fabs, sqrt
 
 __all__ = _ALL_LAZY.triaxials
-__version__ = '23.09.07'
+__version__ = '23.10.02'
 
 _not_ordered_ = _not_('ordered')
 _omega_       = 'omega'
@@ -1166,19 +1166,33 @@ def _getitems(items, *indices):
     return type(items)(map(items.__getitem__, indices))
 
 
-def _hartzell3d2(pov, los, Tun):  # MCCABE 13 in .ellipsoidal.hartzell4, .formy.hartzell
+def _hartzell3d2(pov, los, Tun):  # in .ellipsoidal.hartzell4, .formy.hartzell
     '''(INTERNAL) Hartzell's "Satellite Line-of-Sight Intersection ...",
        formula for I{un-/ordered} triaxials.
     '''
+    def _povV3d(pov):
+        if isinstance(pov, _MODS.latlonBase.LatLonBase):
+            pov = pov.toCartesian()
+        return _otherV3d(pov=pov)
+
+    def _losV3d(los, pov):
+        try:  # pov must be LatLon or Cartesian if los is a Los
+            v = los.toUvw(pov)
+        except (AttributeError, TypeError):
+            v = _otherV3d(los=los)
+        return v
+
     a, b, c, T = Tun._ordered4
 
     a2     =  a**2  # largest, factored out
     b2, p2 = (b**2, T._1e2ab) if b != a else (a2, _1_0)
     c2, q2 = (c**2, T._1e2ac) if c != a else (a2, _1_0)
 
-    p3 = T._order3d(_otherV3d(pov=pov))
-    u3 = T._order3d(_otherV3d(los=los)) if los else p3.negate()
-    u3 =    u3.unit()  # unit vector, opposing signs
+    p3 = _povV3d(pov)
+    u3 = _losV3d(los, pov) if los else p3.negate()
+
+    p3 = T._order3d(p3)
+    u3 = T._order3d(u3).unit()  # unit vector, opposing signs
 
     x2, y2, z2 = p3.x2y2z2  # p3.times_(p3).xyz
     ux, vy, wz = u3.times_(p3).xyz
@@ -1205,7 +1219,7 @@ def _hartzell3d2(pov, los, Tun):  # MCCABE 13 in .ellipsoidal.hartzell4, .formy.
         raise _ValueError(_too_(_distant_))
 
     v = p3.minus(u3.times(d))  # Vector3d
-    h = p3.minus(v).length  # distance to triaxial
+    h = p3.minus(v).length  # distance to triaxial == -d
     return T._order3d(v, reverse=True), h
 
 
@@ -1214,18 +1228,18 @@ def hartzell4(pov, los=None, tri_biax=_WGS84, name=NN):
        from a Point-Of-View outside.
 
        @arg pov: Point-Of-View outside the tri-/biaxial (C{Cartesian}, L{Ecef9Tuple}
-                 or L{Vector3d}).
-       @kwarg los: Line-Of-Sight, I{direction} to the tri-/biaxial (L{Vector3d}) or
-                   C{None} to point to the tri-/biaxial's center.
+                 C{LatLon} or L{Vector3d}).
+       @kwarg los: Line-Of-Sight, I{direction} to the tri-/biaxial (L{Los}, L{Vector3d})
+                   or C{None} to point to the tri-/biaxial's center.
        @kwarg tri_biax: A triaxial (L{Triaxial}, L{Triaxial_}, L{JacobiConformal} or
                         L{JacobiConformalSpherical}) or biaxial ellipsoid (L{Datum},
                         L{Ellipsoid}, L{Ellipsoid2}, L{a_f2Tuple} or C{scalar} radius,
                         conventionally in C{meter}).
        @kwarg name: Optional name (C{str}).
 
-       @return: L{Vector4Tuple}C{(x, y, z, h)} on the tri-/biaxial's surface, with
-                C{h} the distance from B{C{pov}} to C{(x, y, z)} along the B{C{los}},
-                all in C{meter}, conventionally.
+       @return: L{Vector4Tuple}C{(x, y, z, h)} on the tri-/biaxial's surface, with C{h}
+                the distance from B{C{pov}} to C{(x, y, z)} I{along the} B{C{los}}, all
+                in C{meter}, conventionally.
 
        @raise TriaxialError: Null B{C{pov}} or B{C{los}}, or B{C{pov}} is inside the
                              tri-/biaxial or B{C{los}} points outside the tri-/biaxial
@@ -1233,9 +1247,10 @@ def hartzell4(pov, los=None, tri_biax=_WGS84, name=NN):
 
        @raise TypeError: Invalid B{C{pov}} or B{C{los}}.
 
-       @see: Function L{pygeodesy.hartzell}, L{pygeodesy.tyr3d} for B{C{los}} and
-             U{I{Satellite Line-of-Sight Intersection with Earth}<https://StephenHartzell.
-             Medium.com/satellite-line-of-sight-intersection-with-earth-d786b4a6a9b6>}.
+       @see: Function L{pygeodesy.hartzell}, L{pygeodesy.tyr3d}, class L{pygeodesy.Los}
+             and U{lookAtSpheroid<https://PyPI.org/project/pymap3d>} and U{I{Satellite
+             Line-of-Sight Intersection with Earth}<https://StephenHartzell.Medium.com/
+             satellite-line-of-sight-intersection-with-earth-d786b4a6a9b6>}.
     '''
     if isinstance(tri_biax, Triaxial_):
         T = tri_biax

@@ -12,7 +12,7 @@ L{ChLVYX2Tuple}, L{ChLVyx2Tuple} and L{Footprint5Tuple}.
 '''
 
 from pygeodesy.basics import isscalar, issubclassof
-from pygeodesy.constants import _0_0, _90_0, _N_90_0
+from pygeodesy.constants import _0_0, _1_0, _90_0, _N_90_0
 from pygeodesy.dms import F_D, toDMS
 from pygeodesy.errors import _TypeError, _TypesError, _xattr, _xkwds
 from pygeodesy.fmath import hypot, hypot_
@@ -29,13 +29,13 @@ from pygeodesy.props import deprecated_method, deprecated_Property_RO, \
 from pygeodesy.streprs import Fmt, fstr, strs, _xzipairs
 from pygeodesy.units import Bearing, Degrees, Degrees_, Height, Lat, Lon, \
                             Meter, Meter_
-from pygeodesy.utily import atan2d, atan2b, sincos2d_
+from pygeodesy.utily import atan2d, atan2b, sincos2_, sincos2d_
 from pygeodesy.vector3d import Vector3d
 
 from math import cos, radians
 
 __all__ = _ALL_LAZY.ltpTuples
-__version__ = '23.08.06'
+__version__ = '23.10.02'
 
 _aer_        = 'aer'
 _alt_        = 'alt'
@@ -46,6 +46,7 @@ _local_      = 'local'
 _roll_       = 'roll'
 _slantrange_ = 'slantrange'
 _tilt_       = 'tilt'
+_uvw_        = 'uvw'
 _yaw_        = 'yaw'
 
 
@@ -60,7 +61,7 @@ def _toStr2(inst, prec=None, fmt=Fmt.SQUARE, sep=_COMMASPACE_):
     '''(INTERNAL) Get attribute name and value strings, joined and bracketed.
     '''
     a = inst._toStr  # 'aer', 'enu', 'ned', 'xyz'
-    t = getattr(inst, a + _4_)[:len(a)]
+    t = getattr(inst, a + _4_, ())[:len(a)] or getattr(inst, a)
     t = strs(t, prec=3 if prec is None else prec)
     if sep:
         t = sep.join(t)
@@ -180,8 +181,7 @@ class _NamedAerNed(_NamedBase):
 
     @property_RO
     def xyz4(self):  # PYCHOK no cover
-        '''(INTERNAL) I{Must be overloaded}, see function C{notOverloaded}.
-        '''
+        '''I{Must be overloaded}.'''
         notOverloaded(self)
 
     @Property_RO
@@ -203,12 +203,13 @@ class Aer(_NamedAerNed):
     def __init__(self, azimuth_aer, elevation=0, slantrange=0, ltp=None, name=NN):
         '''New L{Aer}.
 
-           @arg azimuth_aer: Scalar azimuth, bearing from North (C{degrees360})
+           @arg azimuth_aer: Scalar azimuth, bearing from North (compass C{degrees})
                              or a previous I{local} instance (L{Aer}, L{Aer4Tuple},
                              L{Enu}, L{Enu4Tuple}, L{Local9Tuple}, L{Ned},
                              L{Ned4Tuple}, L{XyzLocal} or L{Xyz4Tuple}).
-           @kwarg elevation: Scalar angle I{above} horizon, I{above} B{C{ltp}}
-                             (C{degrees90}) only used with scalar B{C{azimuth_aer}}.
+           @kwarg elevation: Scalar angle I{above} the horizon, I{above} B{C{ltp}}
+                             (C{degrees}, horizon is 0, zenith +90 and nadir -90),
+                             only used with scalar B{C{azimuth_aer}}.
            @kwarg slantrange: Scalar distance (C{meter}), only used with scalar
                               B{C{azimuth_aer}}.
            @kwarg ltp: The I{local tangent plane}, (geodetic) origin (L{Ltp},
@@ -603,12 +604,45 @@ class Ned4Tuple(_NamedTuple):
         return Ned(self).xyzLocal
 
 
-class XyzLocal(Vector3d):
+class _Vector3d(Vector3d):
+
+    _toStr = _xyz_
+
+    def toRepr(self, prec=None, fmt=Fmt.SQUARE, sep=_COMMASPACE_, **unused):  # PYCHOK expected
+        '''Return a string representation of this ENU/NED/XYZ.
+
+           @kwarg prec: Number of (decimal) digits, unstripped (C{int}).
+           @kwarg fmt: Enclosing backets format (C{str}).
+           @kwarg sep: Separator to join (C{str}).
+
+           @return: This XYZ/ENU as "[E:meter, N:meter, U:meter]",
+                    "[N:meter, E:meter, D:meter]",
+                    "[U:meter, V:meter, W:meter]" respectively
+                    "[X:meter, Y:meter, Z:meter]" (C{str}).
+        '''
+        a, t = _toStr2(self, prec=prec, fmt=NN, sep=NN)
+        return _xzipairs(a.upper(), t, sep=sep, fmt=fmt)
+
+    def toStr(self, **prec_fmt_sep):  # PYCHOK expected
+        '''Return a string representation of this XYZ.
+
+           @kwarg prec_fmt_sep: Keyword arguments C{B{prec}=3} for the
+                                number of (decimal) digits, unstripped
+                                (C{int}), C{B{fmt}='[]'} the enclosing
+                                backets format (C{str}) and separator
+                                C{B{sep}=', '} to join (C{str}).
+
+           @return: This XYZ as "[meter, meter, meter]" (C{str}).
+        '''
+        _, t = _toStr2(self, **prec_fmt_sep)
+        return t
+
+
+class XyzLocal(_Vector3d):
     '''Local C{(x, y, z)} in a I{local tangent plane} (LTP),
        also base class for local L{Enu}.
     '''
-    _ltp   =  None  # local tangent plane (C{Ltp}), origin
-    _toStr = _xyz_
+    _ltp = None  # local tangent plane (C{Ltp}), origin
 
     def __init__(self, x_xyz, y=0, z=0, ltp=None, name=NN):
         '''New L{XyzLocal}.
@@ -843,34 +877,6 @@ class XyzLocal(Vector3d):
         '''
         return self.ned4._toNed(Ned, Ned_kwds)
 
-    def toRepr(self, prec=None, fmt=Fmt.SQUARE, sep=_COMMASPACE_, **unused):  # PYCHOK expected
-        '''Return a string representation of this ENU/NED/XYZ.
-
-           @kwarg prec: Number of (decimal) digits, unstripped (C{int}).
-           @kwarg fmt: Enclosing backets format (C{str}).
-           @kwarg sep: Separator to join (C{str}).
-
-           @return: This XYZ/ENU as "[E:meter, N:meter, U:meter]",
-                    "[N:meter, E:meter, D:meter]" respectively
-                    "[X:meter, Y:meter, Z:meter]" (C{str}).
-        '''
-        a, t = _toStr2(self, prec=prec, fmt=NN, sep=NN)
-        return _xzipairs(a.upper(), t, sep=sep, fmt=fmt)
-
-    def toStr(self, **prec_fmt_sep):  # PYCHOK expected
-        '''Return a string representation of this XYZ.
-
-           @kwarg prec_fmt_sep: Keyword arguments C{B{prec}=3} for the
-                                number of (decimal) digits, unstripped
-                                (C{int}), C{B{fmt}='[]'} the enclosing
-                                backets format (C{str}) and separator
-                                C{B{sep}=', '} to join (C{str}).
-
-           @return: This XYZ as "[meter, meter, meter]" (C{str}).
-        '''
-        _, t = _toStr2(self, **prec_fmt_sep)
-        return t
-
     def toXyz(self, Xyz=None, **Xyz_kwds):
         '''Get the local I{X, Y, Z} (XYZ) components.
 
@@ -976,6 +982,35 @@ class Enu(XyzLocal):
            @raise UnitError: Invalid B{C{east_enu}}, B{C{north}} or B{C{up}}.
         '''
         XyzLocal.__init__(self, east_enu, north, up, ltp=ltp, name=name)
+
+    def toUvw(self, location, Uvw=None, **Uvw_kwds):
+        '''Get the I{u, v, w} (UVW) components at a location.
+
+           @arg location: The geodetic (C{LatLon}) or geocentric (C{Cartesian},
+                          L{Vector3d}) location from where to cast the L{Los}.
+           @kwarg Uvw: Class to return UWV (L{Uvw}) or C{None}.
+           @kwarg Uvw_kwds: Optional, additional B{L{Uvw}} keyword
+                            arguments, ignored if C{B{Uvw} is None}.
+
+           @return: UVW as a L{Uvw} instance or if C{B{Uvw} is None}, a
+                    L{Uvw3Tuple}C{(u, v, w)}.
+
+           @raise TypeError: InvalidB{C{location}}.
+
+           @see: Function U{lookAtSpheroid<https://PyPI.org/project/pymap3d>}.
+        '''
+        try:
+            sa, ca, sb, cb = sincos2_(*location.philam)
+        except Exception as x:
+            raise _TypeError(location=location, cause=x)
+        e, n, u, _ = self.enu4
+
+        t = ca * u - sa * n
+        U = cb * t - sb * e
+        V = cb * e + sb * t
+        W = ca * n + sa * u
+        return Uvw3Tuple(U, V, W, name=self.name) if Uvw is None else \
+               Uvw(      U, V, W, **_xkwds(Uvw_kwds, name=self.name))
 
     @Property_RO
     def xyzLocal(self):
@@ -1196,6 +1231,114 @@ class Local9Tuple(_NamedTuple):
 
 _XyzLocals4 =  XyzLocal, Enu, Ned, Aer  # PYCHOK in .ltp
 _XyzLocals5 = _XyzLocals4 + (Local9Tuple,)  # PYCHOK in .ltp
+
+
+class Uvw(_Vector3d):
+    '''3-D C{u-v-w} (UVW) components.
+    '''
+    _toStr = _uvw_
+
+    def __init__(self, u_uvw, v=0, w=0, name=NN):
+        '''New L{Uvw}.
+
+           @arg u_uvw: Scalar U component (C{meter}) or a previous instance
+                       (L{Uvw}, L{Uvw3Tuple}, L{Vector3d}).
+           @kwarg v: V component (C{meter}) only used with scalar B{C{u_uvw}}.
+           @kwarg w: W component (C{meter}) only used with scalar B{C{u_uvw}}.
+           @kwarg name: Optional name (C{str}).
+
+           @raise TypeError: Invalid B{C{east_enu}}.
+
+           @raise UnitError: Invalid B{C{east_enu}}, B{C{v}} or B{C{w}}.
+        '''
+        Vector3d.__init__(self, u_uvw, v, w, name=name)
+
+    def toEnu(self, location, Enu=Enu, **Enu_kwds):
+        '''Get the I{East, North, Up} (ENU) components at a location.
+
+           @arg location: The geodetic (C{LatLon}) or geocentric (C{Cartesian},
+                          L{Vector3d}) location from where to cast the L{Los}.
+           @kwarg Enu: Class to return ENU (L{Enu}) or C{None}.
+           @kwarg Enu_kwds: Optional, additional B{L{Enu}} keyword
+                            arguments, ignored if C{B{Enu} is None}.
+
+           @return: ENU as an L{Enu} instance or if C{B{Enu} is None}, an
+                    L{Enu4Tuple}C{(east, north, up, ltp)} with C{ltp=None}.
+
+           @raise TypeError: InvalidB{C{location}}.
+
+           @see: Function U{lookAtSpheroid<https://PyPI.org/project/pymap3d>}.
+        '''
+        try:
+            sa, ca, sb, cb = sincos2_(*location.philam)
+        except Exception as x:
+            raise _TypeError(location=location, cause=x)
+        u, v, w = self.uvw
+
+        t = cb * u + sb * v
+        E = cb * v - sb * u
+        N = ca * w - sa * t
+        U = ca * t + sa * w
+        return Enu4Tuple(E, N, U, name=self.name) if Enu is None else \
+               Enu(      E, N, U, **_xkwds(Enu_kwds, name=self.name))
+
+    u = Vector3d.x
+
+    @Property_RO
+    def uvw(self):
+        '''Get the C{(U, V, W)} components (L{Uvw3Tuple}C{(u, v, w)}).
+        '''
+        return Uvw3Tuple(self.u, self.v, self.w, name=self.name)
+
+    v = Vector3d.y
+    w = Vector3d.z
+
+
+class Uvw3Tuple(_NamedTuple):
+    '''3-Tuple C{(u, v, w)}, in C{meter}.
+    '''
+    _Names_ = ('u',   'v',   'w')
+    _Units_ = ( Meter, Meter, Meter)
+
+
+class Los(Aer):
+    '''A Line-Of-Sight (LOS) from a C{LatLon} or C{Cartesian} location.
+    '''
+
+    def __init__(self, azimuth_aer, elevation=0, name=NN):
+        '''New L{Los}.
+
+           @arg azimuth_aer: Scalar azimuth, bearing from North (compass C{degrees})
+                             or a previous instance (L{Aer}, L{Aer4Tuple}, L{Enu},
+                             L{Enu4Tuple} or L{Los}).
+           @kwarg elevation: Scalar angle I{above} the horizon (C{degrees}, horizon
+                             is 0, zenith +90, nadir -90), only used with scalar
+                             B{C{azimuth_aer}}.
+           @kwarg name: Optional name (C{str}).
+
+           @raise TypeError: Invalid B{C{azimuth_aer}}.
+
+           @raise UnitError: Invalid B{C{azimuth_aer}} or B{C{elevation}}.
+        '''
+        t = Aer(azimuth_aer, elevation)
+        Aer.__init__(self, t.azimuth, t.elevation, slantrange=_1_0, name=name)
+
+    def toUvw(self, location, Uvw=Uvw, **Uvw_kwds):
+        '''Get this LOS' I{target} (UVW) components from a location.
+
+           @arg location: The geodetic (C{LatLon}) or geocentric (C{Cartesian},
+                          L{Vector3d}) location from where to cast the L{Los}.
+
+           @see: Method L{Enu.toUvw} for further details.
+        '''
+        return self.toEnu().toUvw(location, Uvw=Uvw, **Uvw_kwds)
+
+    def toEnu(self, Enu=Enu, **Enu_kwds):
+        '''Get this LOS as I{East, North, Up} (ENU) components.
+
+           @see: Method L{Aer.toEnu} for further details.
+        '''
+        return Aer.toEnu(self, Enu=Enu, **Enu_kwds)
 
 
 class ChLV9Tuple(Local9Tuple):

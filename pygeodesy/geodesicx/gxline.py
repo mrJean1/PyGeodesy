@@ -37,15 +37,16 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 # - s and c prefixes mean sin and cos
 
 # from pygeodesy.basics import _xinstanceof  # from .karney
-from pygeodesy.constants import NAN, _EPSmin, _0_0, _1_0, _180_0, _2__PI
+from pygeodesy.constants import NAN, _EPSmin, _0_0, _1_0, _180_0, \
+                               _2__PI, _copysign_1_0
 from pygeodesy.fsums import _COMMASPACE_, fsumf_, fsum1f_
 from pygeodesy.geodesicx.gxbases import _cosSeries, _GeodesicBase, \
                                         _sincos12, _sin1cos2
 # from pygeodesy.interns import _COMMASPACE_  # from .fsums
 from pygeodesy.lazily import _ALL_DOCS, _ALL_MODS as _MODS
-from pygeodesy.karney import _around, _atan2d, Caps, _copysign, GDict, \
-                             _fix90, _K_2_0, _norm2, _norm180, \
-                             _sincos2, _sincos2d, _xinstanceof
+from pygeodesy.karney import _around, _atan2d, Caps, GDict, _fix90, \
+                             _K_2_0, _norm2, _norm180, _sincos2, \
+                             _sincos2d, _xinstanceof
 from pygeodesy.props import Property_RO, _update_all
 # from pygeodesy.streprs import pairs  # _MODS
 from pygeodesy.utily import atan2d as _atan2d_reverse, sincos2
@@ -53,7 +54,7 @@ from pygeodesy.utily import atan2d as _atan2d_reverse, sincos2
 from math import atan2, cos, degrees, fabs, floor, radians, sin
 
 __all__ = ()
-__version__ = '23.08.19'
+__version__ = '23.09.29'
 
 _glXs = []  # instances of C{[_]GeodesicLineExact} to be updated
 # underflow guard, we require _TINY * EPS > 0, _TINY + EPS == EPS
@@ -242,7 +243,7 @@ class _GeodesicLineExact(_GeodesicBase):
     def _caps_DISTANCE_IN(self):
         '''(INTERNAL) Get C{Caps.DISTANCE_IN} and C{_OUT}.
         '''
-        return self.caps & Caps._DISTANCE_IN_OUT
+        return self.caps & (Caps.DISTANCE_IN & Caps._OUT_MASK)
 
     @Property_RO
     def _D0k2(self):
@@ -362,11 +363,11 @@ class _GeodesicLineExact(_GeodesicBase):
             lam12 = salp0 * self._H0e2_f1 * fsum1f_(eF.deltaH(ssig2, csig2, dn2),
                                                     -self._H1, sig12)
             if (outmask & Cs.LONG_UNROLL):
-                t = _copysign(_1_0, salp0)  # east-going?
+                _a, t = atan2, _copysign_1_0(salp0)  # east-going?
                 tchi1 = t * schi1
                 tchi2 = t * schi2
-                chi12 = t * fsum1f_(atan2(ssig1, csig1), -atan2(ssig2, csig2),
-                                    atan2(tchi2, cchi2), -atan2(tchi1, cchi1), sig12)
+                chi12 = t * fsum1f_(_a(ssig1, csig1), -_a(ssig2, csig2),
+                                    _a(tchi2, cchi2), -_a(tchi1, cchi1), sig12)
                 lon2 = self.lon1 + degrees(chi12 - lam12)
             else:
                 chi12 = atan2(*_sincos12(schi1, cchi1, schi2, cchi2))

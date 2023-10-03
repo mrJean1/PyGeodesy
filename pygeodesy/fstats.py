@@ -23,7 +23,7 @@ from pygeodesy.named import _Named, _NotImplemented, notOverloaded, \
 # from math import sqrt  # from .fmath
 
 __all__ = _ALL_LAZY.fstats
-__version__ = '23.09.08'
+__version__ = '23.09.22'
 
 _Floats =  Fsum, float
 _Scalar = _Floats + (int,)  # XXX basics._Ints is ABCMeta in Python 2
@@ -113,8 +113,7 @@ class _FstatsBase(_FstatsNamed):
         return c
 
     def fadd(self, xs, sample=False):  # PYCHOK no cover
-        '''(INTERNAL) I{Must be overloaded}, see function C{notOverloaded}.
-        '''
+        '''I{Must be overloaded}.'''
         notOverloaded(self, xs, sample=sample)
 
     def fadd_(self, *xs, **sample):

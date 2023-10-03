@@ -17,7 +17,7 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.auxilats.auxAngle import AuxAngle, AuxBeta, AuxChi, _AuxClass, \
                                         AuxMu, AuxPhi, AuxTheta, AuxXi
-from pygeodesy.auxilats.auxily import Aux, _sc, _sn, _Ufloats
+from pygeodesy.auxilats.auxily import Aux, _sc, _sn, _Ufloats,  atan1
 from pygeodesy.basics import isscalar, _reverange, _xinstanceof
 from pygeodesy.constants import INF, MAX_EXP, MIN_EXP, NAN, PI_2, PI_4, _EPSqrt, \
                                _0_0, _0_0s, _0_1, _0_25, _0_5, _1_0, _2_0, _3_0, \
@@ -33,9 +33,9 @@ from pygeodesy.interns import NN, _DOT_, _UNDER_  # _earth_
 # from pygeodesy.lazily import _ALL_DOCS, _ALL_MODS as _MODS  # from .karney
 from pygeodesy.props import Property, Property_RO, _update_all
 from pygeodesy.units import Degrees, Meter
-# from pygeodesy.utily import _passarg  # _MODS
+# from pygeodesy.utily import atan1, _passarg  # from .auxily, _MODS
 
-from math import asinh, atan, atan2, copysign, cosh, fabs, sin, sinh, sqrt
+from math import asinh, atan2, copysign, cosh, fabs, sin, sinh, sqrt
 try:
     from math import exp2 as _exp2
 except ImportError:  # Python 3.11-
@@ -44,7 +44,7 @@ except ImportError:  # Python 3.11-
         return pow(_2_0, x)
 
 __all__ = ()
-__version__ = '23.09.18'
+__version__ = '23.09.26'
 
 _TRIPS = 1024  # XXX 2 or 3?
 
@@ -127,8 +127,8 @@ class AuxLat(AuxAngle):
         f =  self.f
         s = _sn(self._fm1 * tphi) if f > 0 else _sn(tphi)
         if f:  # atanh(e * sphi) = asinh(e' * sbeta)
-            e = self._e
-            s = (atan(e * s) if f < 0 else asinh(self._e1 * s)) / e
+            e =  self._e
+            s = _over(atan1(e * s) if f < 0 else asinh(self._e1 * s), e)
         return s
 
     def Authalic(self, Phi, **diff_name):
@@ -222,18 +222,18 @@ class AuxLat(AuxAngle):
         if Aux.use_n2(auxin) and Aux.use_n2(auxout):
             x = self._n2
 
-            def _m(m):
-                return m // 2
+            def _m(aL):
+                for m in _reverange(aL):
+                    yield m // 2
         else:
-            def _m(m):  # PYCHOK expected
-                return m
+            _m = _reverange  # PYCHOK expected
 
         i  = 0
         cs = []
         _c =  cs.append
         _p = _polynomial
-        for r in _reverange(aL):
-            j  = i + _m(r) + 1  # order m = j - i - 1
+        for m in _m(aL):
+            j  = i + m + 1  # order m = j - i - 1
             _c(_p(x, Cx, i, j) * d)
             d *= n
             i  = j
@@ -322,7 +322,7 @@ class AuxLat(AuxAngle):
             ss = sinh(asinh(self._e1) * e)
             d = _over(_1_0, _sc(ss) + ss)
         elif e:
-            ss = sinh(-atan(e) * e)
+            ss = sinh(-atan1(e) * e)
             d = _sc(ss) - ss
         else:
             d = _1_0
@@ -543,7 +543,7 @@ class AuxLat(AuxAngle):
         q, f = self._e12p1, self.f
         if f:
             e  =  self._e
-            q += (asinh(self._e1) if f > 0 else atan(e)) / e
+            q += _over(asinh(self._e1) if f > 0 else atan1(e), e)
         else:
             q += _1_0
         return q

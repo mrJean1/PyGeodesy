@@ -76,7 +76,8 @@ from pygeodesy.formy import cosineAndoyerLambert, cosineForsytheAndoyerLambert, 
                             cosineLaw, equirectangular_, euclidean, flatLocal, \
                             flatPolar, haversine, thomas, vincentys,  radians
 from pygeodesy.interns import NN, _COMMASPACE_, _cubic_, _insufficient_, _knots_, \
-                             _linear_, _NOTEQUAL_, _PLUS_, _scipy_, _SPACE_, _STAR_
+                             _linear_, _NOTEQUAL_, _PLUS_, _scipy_, _SPACE_, \
+                             _STAR_, _version2
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _FOR_DOCS
 from pygeodesy.named import _Named, notOverloaded
 from pygeodesy.points import _distanceTo, LatLon_,  Fmt, _Wrap
@@ -88,7 +89,7 @@ from pygeodesy.props import Property_RO, property_RO
 # from math import radians  # from .formy
 
 __all__ = _ALL_LAZY.heights
-__version__ = '23.08.15'
+__version__ = '23.10.03'
 
 _error_     = 'error'
 _llis_      = 'llis'
@@ -225,7 +226,7 @@ class _HeightsBase(_HeightBase):  # in .geoids
     _np_sp = None  # (numpy, scipy)
 
     def __call__(self, *llis, **wrap):  # PYCHOK no cover
-        '''Interpolate the height for one or several locations.
+        '''Interpolate the height for one or several locations.  I{Must be overloaded}.
 
            @arg llis: One or more locations (C{LatLon}s), all positional.
            @kwarg wrap: If C{True}, wrap or I{normalize} all B{C{llis}}
@@ -254,8 +255,7 @@ class _HeightsBase(_HeightBase):  # in .geoids
         return _as, atype(xis), atype(yis), llis
 
     def _ev(self, *args):  # PYCHOK no cover
-        '''(INTERNAL) I{Must be overloaded}, see function C{notOverloaded}.
-        '''
+        '''(INTERNAL) I{Must be overloaded}.'''
         notOverloaded(self, *args)
 
     def _eval(self, llis, **wrap):  # XXX single arg, not *args
@@ -266,7 +266,7 @@ class _HeightsBase(_HeightBase):  # in .geoids
             raise _SciPyIssue(x)
 
     def height(self, lats, lons, **wrap):  # PYCHOK no cover
-        '''Interpolate the height for one or several lat-/longitudes.
+        '''Interpolate the height for one or several lat-/longitudes.  I{Must be overloaded}.
 
            @arg lats: Latitude or latitudes (C{degrees} or C{degrees}s).
            @arg lons: Longitude or longitudes (C{degrees} or C{degrees}s).
@@ -326,6 +326,11 @@ class _HeightsBase(_HeightBase):  # in .geoids
         _ = self.scipy
         import scipy.interpolate as spi
         return spi
+
+    def _scipy_version(self, **n):
+        '''Get the C{scipy} version as 2- or 3-tuple C{(major, minor, micro)}.
+        '''
+        return _version2(self.scipy.version.version, **n)
 
     def _xyhs3(self, knots, **wrap):
         # convert knot C{LatLon}s to tuples or C{NumPy} arrays and C{SciPy} sphericals

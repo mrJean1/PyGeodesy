@@ -61,19 +61,21 @@
 <!-- ==================== CLASS DESCRIPTION ==================== -->
 <h1 class="epydoc">Class Enu</h1><p class="nomargin-top"></p>
 <pre class="base-tree">
-       object --+                    
-                |                    
-     <a href="pygeodesy.named._Named-class.html">named._Named</a> --+                
-                    |                
-     <a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a> --+            
-                        |            
-<a href="pygeodesy.vector3dBase.Vector3dBase-class.html" onclick="show_private();">vector3dBase.Vector3dBase</a> --+        
-                            |        
-            <a href="pygeodesy.vector3d.Vector3d-class.html">vector3d.Vector3d</a> --+    
-                                |    
-                         <a href="pygeodesy.ltpTuples.XyzLocal-class.html">XyzLocal</a> --+
-                                    |
-                                   <strong class="uidshort">Enu</strong>
+       object --+                        
+                |                        
+     <a href="pygeodesy.named._Named-class.html">named._Named</a> --+                    
+                    |                    
+     <a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a> --+                
+                        |                
+<a href="pygeodesy.vector3dBase.Vector3dBase-class.html" onclick="show_private();">vector3dBase.Vector3dBase</a> --+            
+                            |            
+            <a href="pygeodesy.vector3d.Vector3d-class.html">vector3d.Vector3d</a> --+        
+                                |        
+                        _Vector3d --+    
+                                    |    
+                             <a href="pygeodesy.ltpTuples.XyzLocal-class.html">XyzLocal</a> --+
+                                        |
+                                       <strong class="uidshort">Enu</strong>
 </pre>
 
 <hr />
@@ -117,6 +119,26 @@
       
     </td>
   </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ltpTuples.Enu-class.html#toUvw" class="summary-sig-name">toUvw</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">location</span>,
+        <span class="summary-sig-arg">Uvw</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">**Uvw_kwds</span>)</span><br />
+      Get the <i>u, v, w</i> (UVW) components at a location.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
   <tr>
     <td colspan="2" class="summary">
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.ltpTuples.XyzLocal-class.html">XyzLocal</a></code></b>:
@@ -128,9 +150,11 @@
       <code><a href="pygeodesy.ltpTuples.XyzLocal-class.html#toLatLon">toLatLon</a></code>,
       <code><a href="pygeodesy.ltpTuples.XyzLocal-class.html#toLocal9Tuple">toLocal9Tuple</a></code>,
       <code><a href="pygeodesy.ltpTuples.XyzLocal-class.html#toNed">toNed</a></code>,
-      <code><a href="pygeodesy.ltpTuples.XyzLocal-class.html#toRepr">toRepr</a></code>,
-      <code><a href="pygeodesy.ltpTuples.XyzLocal-class.html#toStr">toStr</a></code>,
       <code><a href="pygeodesy.ltpTuples.XyzLocal-class.html#toXyz">toXyz</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>_Vector3d</code></b>:
+      <code>toRepr</code>,
+      <code>toStr</code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.vector3d.Vector3d-class.html">vector3d.Vector3d</a></code></b>:
       <code><a href="pygeodesy.vector3d.Vector3d-class.html#bearing">bearing</a></code>,
@@ -384,6 +408,55 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="toUvw"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toUvw</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">location</span>,
+        <span class="sig-arg">Uvw</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">**Uvw_kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Get the <i>u, v, w</i> (UVW) components at a location.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>location</code></strong> - The geodetic (<code>LatLon</code>) or geocentric 
+          (<code>Cartesian</code>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>) location from where to cast the <a 
+          href="pygeodesy.ltpTuples.Los-class.html" class="link">Los</a>.</li>
+        <li><strong class="pname"><code>Uvw</code></strong> - Class to return UWV (<a href="pygeodesy.ltpTuples.Uvw-class.html"
+          class="link">Uvw</a>) or <code>None</code>.</li>
+        <li><strong class="pname"><code>Uvw_kwds</code></strong> - Optional, additional <b><a 
+          href="pygeodesy.ltpTuples.Uvw-class.html" 
+          class="link">Uvw</a></b> keyword arguments, ignored if 
+          <code><b>Uvw</b> is None</code>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>UVW as a <a href="pygeodesy.ltpTuples.Uvw-class.html" 
+          class="link">Uvw</a> instance or if <code><b>Uvw</b> is 
+          None</code>, a <a href="pygeodesy.ltpTuples.Uvw3Tuple-class.html"
+          class="link">Uvw3Tuple</a><code>(u, v, w)</code>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid<b><code>location</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="https://PyPI.org/project/pymap3d" 
+        target="_top">lookAtSpheroid</a>.
+      </p>
+</div></td></tr></table>
+</div>
 <br />
 <!-- ==================== PROPERTY DETAILS ==================== -->
 <a name="section-PropertyDetails"></a>
@@ -452,7 +525,7 @@ class="link">XyzLocal</a>.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Sep 20 15:53:35 2023
+    Generated by Epydoc 3.0.1 on Tue Oct  3 15:52:49 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -14,7 +14,7 @@ from pygeodesy.props import deprecated_function
 from pygeodesy.units import Number_, Scalar_
 
 __all__ = ()
-__version__ = '23.09.12'
+__version__ = '23.09.28'
 
 _WGS84 = _UTM = object()
 
@@ -29,6 +29,12 @@ def anStr(name, OKd='._-', sub=_UNDER_):  # PYCHOK no cover
 def areaof(points, adjust=True, radius=R_M, wrap=True):  # PYCHOK no cover
     '''DEPRECATED, use function L{pygeodesy.areaOf}.'''
     return _MODS.points.areaOf(points, adjust=adjust, radius=radius, wrap=wrap)
+
+
+@deprecated_function
+def atand(x):
+    '''DEPRECATED, use function L{pygeodesy.atan1d}.'''
+    return _MODS.utily.atan1d(x)
 
 
 @deprecated_function
@@ -347,7 +353,7 @@ def utmZoneBand2(lat, lon):  # PYCHOK no cover
     return r.zone, r.band
 
 
-__all__ += _ALL_OTHER(anStr, areaof, bounds,
+__all__ += _ALL_OTHER(anStr, areaof, atand, bounds,
                       clipCS3, clipDMS, clipStr, collins, copysign,
                       decodeEPSG2, enStr2, encodeEPSG, equirectangular3,
                       excessAbc, excessGirard, excessLHuilier,

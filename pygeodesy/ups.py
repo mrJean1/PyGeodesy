@@ -39,16 +39,16 @@ from pygeodesy.props import deprecated_method, property_doc_, \
                             Property_RO, _update_all
 # from pygeodesy.streprs import Fmt  # from .utmupsBase
 from pygeodesy.units import Float, Float_, Meter, Lat
-from pygeodesy.utily import degrees90, degrees180, sincos2d
+from pygeodesy.utily import atan1d, degrees180, sincos2d
 from pygeodesy.utmupsBase import Fmt, _LLEB, _hemi, _parseUTMUPS5, _to4lldn, \
                                 _to3zBhp, _to3zll, _UPS_BANDS as _Bands, \
                                 _UPS_LAT_MAX, _UPS_LAT_MIN, _UPS_ZONE, \
                                 _UPS_ZONE_STR, UtmUpsBase
 
-from math import atan, atan2, fabs, radians, tan
+from math import atan2, fabs, radians, tan
 
 __all__ = _ALL_LAZY.ups
-__version__ = '23.08.05'
+__version__ = '23.09.29'
 
 _BZ_UPS  = _getenv('PYGEODESY_UPS_POLES', _std_) == _std_
 _Falsing =  Meter(2000e3)  # false easting and northing (C{meter})
@@ -242,12 +242,12 @@ class Ups(UtmUpsBase):
         r = hypot(x, y)
         t = (r * E.es_c / (self.scale0 * E.a * _2_0)) if r > 0 else EPS0
         t = E.es_tauf((_1_0 / t - t) * _0_5)
-        a = atan(t)
+        a = atan1d(t)
         if self._pole == _N_:
-            b, g = atan2(x, -y), 1
+            b, g    = atan2(x, -y), 1
         else:
-            a, b, g = _neg(a), atan2(x, y), -1
-        ll = _LLEB(degrees90(a), degrees180(b), datum=self._datum, name=self.name)
+            b, g, a = atan2(x, y), -1, _neg(a)
+        ll = _LLEB(a, degrees180(b), datum=self._datum, name=self.name)
 
         ll._gamma =  b * g
         ll._scale = _scale(E, r, t) if r > 0 else self.scale0

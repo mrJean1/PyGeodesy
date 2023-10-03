@@ -30,31 +30,30 @@ from pygeodesy.formy import antipode_, bearing_, _bearingTo2, excessAbc_, \
                             excessGirard_, excessLHuilier_, opposing_, _radical2, \
                             vincentys_
 from pygeodesy.interns import _1_, _2_, _coincident_, _composite_, _colinear_, \
-                              _concentric_, _convex_, _end_, _infinite_, \
-                              _invalid_, _line_, _near_, _not_, _null_, \
-                              _parallel_, _point_, _SPACE_, _too_
+                              _concentric_, _convex_, _end_, _infinite_, _invalid_,\
+                              _line_, _near_, _not_, _null_, _parallel_, _point_, \
+                              _SPACE_, _too_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _ALL_OTHER
 # from pygeodesy.named import notImplemented  # from .points
 # from pygeodesy.nvectorBase import NvectorBase, sumOf  # _MODE
-from pygeodesy.namedTuples import LatLon2Tuple, LatLon3Tuple, \
-                                  NearestOn3Tuple, Triangle7Tuple, \
-                                  Triangle8Tuple
+from pygeodesy.namedTuples import LatLon2Tuple, LatLon3Tuple, NearestOn3Tuple, \
+                                  Triangle7Tuple, Triangle8Tuple
 from pygeodesy.points import ispolar, nearestOn5 as _nearestOn5, \
-                             notImplemented, Fmt as _Fmt  # XXX shadowed
+                             Fmt as _Fmt, notImplemented  # XXX shadowed
 from pygeodesy.props import deprecated_function, deprecated_method
 from pygeodesy.sphericalBase import _angular, CartesianSphericalBase, _intersecant2, \
                                      LatLonSphericalBase, _rads3, _r2m, _trilaterate5
 # from pygeodesy.streprs import Fmt as _Fmt  # from .points XXX shadowed
 from pygeodesy.units import Bearing_, Height, Lam_, Phi_, Radius_, Scalar
-from pygeodesy.utily import acos1, asin1, degrees90, degrees180, degrees2m, \
-                            m2radians, radiansPI2, sincos2_, tan_2, _unrollon, \
-                            unrollPI, _unrollon3, _Wrap, wrap180, wrapPI
+from pygeodesy.utily import acos1, asin1, atan1d, atan2d, degrees90, degrees180, \
+                            degrees2m, m2radians, radiansPI2, sincos2_, tan_2, \
+                            unrollPI, _unrollon, _unrollon3, _Wrap, wrap180, wrapPI
 from pygeodesy.vector3d import sumOf, Vector3d
 
 from math import asin, atan2, cos, degrees, fabs, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '23.09.09'
+__version__ = '23.09.29'
 
 _PI_EPS4 = PI - EPS4
 if _PI_EPS4 >= PI:
@@ -395,15 +394,15 @@ class LatLon(LatLonSphericalBase):
                     y = a * ca1 * sb1 + b * ca2 * sb2
                     z = a * sa1       + b * sa2
 
-                    a = atan2(z, hypot(x, y))
-                    b = atan2(y, x)
+                    a = atan1d(z, hypot(x, y))
+                    b = atan2d(y, x)
 
                 else:  # PYCHOK no cover
-                    a = favg(a1, a2, f=f)  # coincident
-                    b = favg(b1, b2, f=f)
+                    a = degrees90( favg(a1, a2, f=f))  # coincident
+                    b = degrees180(favg(b1, b2, f=f))
 
                 h = self._havg(other, f=f, h=height)
-                p = self.classof(degrees90(a), degrees180(b), height=h)
+                p = self.classof(a, b, height=h)
         return p
 
     def intersection(self, end1, other, end2, height=None, wrap=False):
@@ -588,11 +587,11 @@ class LatLon(LatLonSphericalBase):
             x = ca2 * cdb + ca1
             y = ca2 * sdb
 
-            a  = atan2(sa1 + sa2, hypot(x, y))
-            b += atan2(y, x)
+            a = atan1d(sa1 + sa2, hypot(x, y))
+            b = degrees180(b + atan2(y, x))
 
             h = self._havg(other, h=height)
-            r = self.classof(degrees90(a), degrees180(b), height=h)
+            r = self.classof(a, b, height=h)
         else:
             r = self.intermediateTo(other, fraction, height=height, wrap=wrap)
         return r

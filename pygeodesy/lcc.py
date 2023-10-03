@@ -44,12 +44,12 @@ from pygeodesy.props import deprecated_method, Property, Property_RO, \
 from pygeodesy.streprs import Fmt, _fstrENH2, _xzipairs
 from pygeodesy.units import Easting, Height, _heigHt,  Lam_, Northing, \
                             Phi_, Scalar_
-from pygeodesy.utily import degrees90, degrees180, sincos2, tanPI_2_2
+from pygeodesy.utily import atan1, degrees90, degrees180, sincos2, tanPI_2_2
 
 from math import atan, fabs, log, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.lcc
-__version__ = '23.05.26'
+__version__ = '23.09.27'
 
 _E0_   = 'E0'
 _N0_   = 'N0'
@@ -353,7 +353,7 @@ class Conic(_NamedEnumItem):
     def _xdef(self, t_x):
         '''(INTERNAL) Compute x(t_x).
         '''
-        return PI_2 - _2_0 * atan(t_x)  # XXX + self._phi0
+        return PI_2 - atan(t_x) * _2_0  # XXX + self._phi0
 
 
 Conic._name = Conic.__name__
@@ -584,7 +584,7 @@ class Lcc(_NamedBase):
             if fabs(x - p) < 1e-9:  # XXX EPS too small?
                 break
         lat = degrees90(x)
-        lon = degrees180((atan(e / n) + c._opt3) * c._1_n + c._lam0)
+        lon = degrees180((atan1(e, n) + c._opt3) * c._1_n + c._lam0)
 
         h = _heigHt(self, height)
         return _LL4Tuple(lat, lon, h, c.datum, LatLon, LatLon_kwds,

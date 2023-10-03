@@ -36,15 +36,15 @@ from pygeodesy.ktm import KTransverseMercator, _Xs, \
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.props import deprecated_method, Property, Property_RO, property_RO
 from pygeodesy.rhumbBase import RhumbBase, RhumbLineBase,  Int, pairs, \
-                                sincos2_, _update_all_rls
+                               _update_all_rls
 # from pygeodesy.streprs import pairs  # from .rhumbBase
 # from pygeodesy.units import Int  # from .rhumbBase
-# from pygeodesy.utily import sincos2_  # from .rhumbBase
+from pygeodesy.utily import atan1, sincos2_
 
 from math import asinh, atan, cos, cosh, fabs, radians, sin, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.rhumbx
-__version__ = '23.09.20'
+__version__ = '23.09.29'
 
 
 class Rhumb(RhumbBase):
@@ -369,9 +369,9 @@ def _Datan(x, y):
     r  = xy + _1_0
     d  = x  -  y
     if d:  # 2 * xy > -1 == 2 * xy + 1 > 0 == xy + r > 0 == xy > -r
-        r = (atan(d / r) if xy > -r else (atan(x) - atan(y))) / d
+        r = (atan1(d, r) if xy > -r else (atan1(x) - atan1(y))) / d
     else:
-        r = _1_0 / r
+        r = _1_over(r)
     return r
 
 

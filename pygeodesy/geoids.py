@@ -85,20 +85,22 @@ from pygeodesy.basics import len2, map1, map2, isodd, ub2str as _ub2str
 from pygeodesy.constants import EPS, _float as _F, _0_0, _1_0, _180_0, _360_0
 # from pygeodesy.datums import _ellipsoidal_datum  # from .heights
 # from pygeodesy.dms import parseDMS2  # _MODS
-from pygeodesy.errors import _incompatible, LenError, RangeError, _SciPyIssue
+from pygeodesy.errors import _incompatible, LenError, RangeError, SciPyError, \
+                             _SciPyIssue
 from pygeodesy.fmath import favg, Fdot, fdot, Fhorner, frange
 # from pygoedesy.formy import heightOrthometric  # _MODS
 from pygeodesy.heights import _as_llis2, _ascalar, _height_called, HeightError, \
                               _HeightsBase,  _ellipsoidal_datum, _Wrap
-from pygeodesy.interns import NN, _4_, _COLONSPACE_, _COMMASPACE_, _cubic_, \
-                             _DOT_, _E_, _height_, _in_, _kind_, _knots_, \
-                             _lat_, _linear_, _lon_, _mean_, _N_, _n_a_, _not_, \
-                             _numpy_, _on_, _outside_, _S_, _s_, _scipy_, \
-                             _SPACE_, _stdev_, _supported_, _tbd_, _W_, _width_
+from pygeodesy.interns import MISSING, NN, _4_, _COLONSPACE_, _COMMASPACE_, \
+                             _cubic_, _DOT_, _E_, _height_, _in_, _kind_, \
+                             _knots_, _lat_, _linear_, _lon_, _mean_, _N_, \
+                             _n_a_, _not_, _numpy_, _on_, _outside_, _S_, \
+                             _s_, _scipy_, _SPACE_, _stdev_, _supported_, \
+                             _tbd_, _W_, _width_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, _FOR_DOCS
 from pygeodesy.named import _Named, _NamedTuple, notOverloaded
 # from pygeodesy.namedTuples import LatLon3Tuple  # _MODS
-from pygeodesy.props import Property_RO, property_RO
+from pygeodesy.props import deprecated_method, Property_RO, property_RO
 from pygeodesy.streprs import attrs, Fmt, fstr, pairs
 from pygeodesy.units import Height, Int_, Lat, Lon
 # from pygeodesy.utily import _Wrap  # from .heights
@@ -116,7 +118,7 @@ except ImportError:  # Python 3+
     from io import BytesIO as _BytesIO  # PYCHOK expected
 
 __all__ = _ALL_LAZY.geoids
-__version__ = '23.08.15'
+__version__ = '23.10.03'
 
 _assert_ = 'assert'
 _bHASH_  =  b'#'
@@ -186,6 +188,10 @@ class _GeoidBase(_HeightsBase):
            @raise SciPyWarning: A C{scipy.interpolate.inter2d} or
                                 C{-.RectBivariateSpline} warning as
                                 exception.
+
+           @note: C{scipy.interpolate.interp2d} has been C{DEPRECATED},
+                  specify keyword argument C{B{kind}=1..5} to use
+                  C{scipy.interpolate.RectBivariateSpline}.
         '''
         spi = self.scipy_interpolate
         # for 2d scipy.interpolate.interp2d(xs, ys, hs, ...) and
@@ -204,8 +210,11 @@ class _GeoidBase(_HeightsBase):
         # with rows (90..-90) reversed and columns (0..360) wrapped
         # to Easten longitude, 0 <= east < 180 and 180 <= west < 360
         k = self.kind
-        if k in _interp2d_ks:
-            self._interp2d = spi.interp2d(xs, ys, hs, kind=_interp2d_ks[k])
+        if k in _interp2d_ks:  # .interp2d DEPRECATED since scipy 1.10
+            if self._scipy_version() < (1, 10):
+                self._interp2d = spi.interp2d(xs, ys, hs, kind=_interp2d_ks[k])
+            else:  # call and overwrite the deprecated .interp2d
+                self._interp2d = self._interp2d(xs, ys, hs, k)
         elif 1 <= k <= 5:
             self._ev = spi.RectBivariateSpline(ys, xs, hs, bbox=bb, ky=k, kx=k,
                                                            s=self._smooth).ev
@@ -375,6 +384,7 @@ class _GeoidBase(_HeightsBase):
         return self.numpy.array(a), d
 
     def _g2ll2(self, lat, lon):  # PYCHOK no cover
+        '''(INTERNAL) I{Must be overloaded}.'''
         notOverloaded(self, lat, lon)
 
     def _gyx2g2(self, y, x):
@@ -440,6 +450,15 @@ class _GeoidBase(_HeightsBase):
         '''
         return self._yx_hits
 
+    @deprecated_method
+    def _interp2d(self, xs, ys, hs=(), k=0):  # overwritten in .__init__ above
+        '''DEPRECATED, use keyword argument C{B{kind}=1..5}.'''
+        # assert k in _interp2d_ks  # and len(hs) == len(xs) == len(ys)
+        try:
+            return self.scipy_interpolate.interp2d(xs, ys, hs, kind=_interp2d_ks[k])
+        except AttributeError as x:
+            raise SciPyError(interp2d=MISSING, kind=k, cause=x)
+
     @Property_RO
     def kind(self):
         '''Get the interpolator kind and order (C{int}).
@@ -453,6 +472,7 @@ class _GeoidBase(_HeightsBase):
         return self._knots
 
     def _ll2g2(self, lat, lon):  # PYCHOK no cover
+        '''(INTERNAL) I{Must be overloaded}.'''
         notOverloaded(self, lat, lon)
 
     @property_RO
@@ -768,6 +788,9 @@ class GeoidG2012B(_GeoidBase):
                                 warning as exception.
 
            @raise TypeError: Invalid B{C{datum}}.
+
+           @note: C{scipy.interpolate.interp2d} has been C{DEPRECATED}, specify
+                  C{B{kind}=1..5} for C{scipy.interpolate.RectBivariateSpline}.
         '''
         if crop is not None:
             raise GeoidError(crop=crop, txt=_not_(_supported_))
@@ -1313,6 +1336,9 @@ class GeoidPGM(_GeoidBase):
                                 warning as exception.
 
            @raise TypeError: Invalid B{C{datum}}.
+
+           @note: C{scipy.interpolate.interp2d} has been C{DEPRECATED}, specify
+                  C{B{kind}=1..5} for C{scipy.interpolate.RectBivariateSpline}.
 
            @note: The U{GeographicLib egm*.pgm<https://GeographicLib.SourceForge.io/
                   html/geoid.html#geoidinst>} file sizes are based on a 2-byte

@@ -61,17 +61,19 @@
 <!-- ==================== CLASS DESCRIPTION ==================== -->
 <h1 class="epydoc">Class XyzLocal</h1><p class="nomargin-top"></p>
 <pre class="base-tree">
-       object --+                
-                |                
-     <a href="pygeodesy.named._Named-class.html">named._Named</a> --+            
-                    |            
-     <a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a> --+        
-                        |        
-<a href="pygeodesy.vector3dBase.Vector3dBase-class.html" onclick="show_private();">vector3dBase.Vector3dBase</a> --+    
-                            |    
-            <a href="pygeodesy.vector3d.Vector3d-class.html">vector3d.Vector3d</a> --+
-                                |
-                               <strong class="uidshort">XyzLocal</strong>
+       object --+                    
+                |                    
+     <a href="pygeodesy.named._Named-class.html">named._Named</a> --+                
+                    |                
+     <a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a> --+            
+                        |            
+<a href="pygeodesy.vector3dBase.Vector3dBase-class.html" onclick="show_private();">vector3dBase.Vector3dBase</a> --+        
+                            |        
+            <a href="pygeodesy.vector3d.Vector3d-class.html">vector3d.Vector3d</a> --+    
+                                |    
+                        _Vector3d --+
+                                    |
+                                   <strong class="uidshort">XyzLocal</strong>
 </pre>
 
 <dl><dt>Known Subclasses:</dt>
@@ -276,45 +278,6 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.ltpTuples.XyzLocal-class.html#toRepr" class="summary-sig-name">toRepr</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">fmt</span>=<span class="summary-sig-default">'[%s]'</span>,
-        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default">', '</span>,
-        <span class="summary-sig-arg">**unused</span>)</span><br />
-      Return a string representation of this ENU/NED/XYZ.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.ltpTuples.XyzLocal-class.html#toStr" class="summary-sig-name">toStr</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">**prec_fmt_sep</span>)</span><br />
-      Return a string representation of this XYZ.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ltpTuples.XyzLocal-class.html#toXyz" class="summary-sig-name">toXyz</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">Xyz</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">**Xyz_kwds</span>)</span><br />
@@ -330,6 +293,10 @@
   </tr>
   <tr>
     <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>_Vector3d</code></b>:
+      <code>toRepr</code>,
+      <code>toStr</code>
+      </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.vector3d.Vector3d-class.html">vector3d.Vector3d</a></code></b>:
       <code><a href="pygeodesy.vector3d.Vector3d-class.html#bearing">bearing</a></code>,
       <code><a href="pygeodesy.vector3d.Vector3d-class.html#circin6">circin6</a></code>,
@@ -970,75 +937,6 @@
   </dl>
 </td></tr></table>
 </div>
-<a name="toRepr"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">toRepr</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">prec</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">fmt</span>=<span class="sig-default">'[%s]'</span>,
-        <span class="sig-arg">sep</span>=<span class="sig-default">', '</span>,
-        <span class="sig-arg">**unused</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Return a string representation of this ENU/NED/XYZ.</p>
-  <dl class="fields">
-    <dt>Arguments:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>prec</code></strong> - Number of (decimal) digits, unstripped (<code>int</code>).</li>
-        <li><strong class="pname"><code>fmt</code></strong> - Enclosing backets format (<code>str</code>).</li>
-        <li><strong class="pname"><code>sep</code></strong> - Separator to join (<code>str</code>).</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>This XYZ/ENU as &quot;[E:meter, N:meter, U:meter]&quot;, 
-          &quot;[N:meter, E:meter, D:meter]&quot; respectively 
-          &quot;[X:meter, Y:meter, Z:meter]&quot; (<code>str</code>).</dd>
-    <dt>Overrides:
-        <a href="pygeodesy.named._Named-class.html#toRepr">named._Named.toRepr</a>
-    </dt>
-  </dl>
-</td></tr></table>
-</div>
-<a name="toStr"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">toStr</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">**prec_fmt_sep</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Return a string representation of this XYZ.</p>
-  <dl class="fields">
-    <dt>Arguments:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>prec_fmt_sep</code></strong> - Keyword arguments <code><b>prec</b>=3</code> for the number of 
-          (decimal) digits, unstripped (<code>int</code>), 
-          <code><b>fmt</b>='[]'</code> the enclosing backets format 
-          (<code>str</code>) and separator <code><b>sep</b>=', '</code> to 
-          join (<code>str</code>).</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>This XYZ as &quot;[meter, meter, meter]&quot; (<code>str</code>).</dd>
-    <dt>Overrides:
-        <a href="pygeodesy.named._Named-class.html#toStr">named._Named.toStr</a>
-    </dt>
-  </dl>
-</td></tr></table>
-</div>
 <a name="toXyz"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1511,7 +1409,7 @@ class="link">XyzLocal</a>.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Sep 20 15:53:35 2023
+    Generated by Epydoc 3.0.1 on Tue Oct  3 15:52:49 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

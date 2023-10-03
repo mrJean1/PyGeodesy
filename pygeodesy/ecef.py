@@ -62,13 +62,13 @@ from pygeodesy.basics import copysign0, isscalar, issubclassof, neg, map1, \
 from pygeodesy.constants import EPS, EPS0, EPS02, EPS1, EPS2, EPS_2, INT0, PI, PI_2, \
                                _0_0, _0_0001, _0_01, _0_5, _1_0, _1_0_1T, _N_1_0, \
                                _2_0, _N_2_0, _3_0, _4_0, _6_0, _60_0, _90_0, _N_90_0, \
-                               _100_0,  isnon0  # PYCHOK used!
+                               _100_0, _copysign_1_0,  isnon0  # PYCHOK used!
 from pygeodesy.datums import a_f2Tuple, _ellipsoidal_datum, _WGS84,  _EWGS84
 # from pygeodesy.ellipsoids import a_f2Tuple, _EWGS84  # from .datums
 from pygeodesy.errors import _IndexError, LenError, _ValueError, _TypesError, \
                              _xattr, _xdatum, _xkwds, _xkwds_get
 from pygeodesy.fmath import cbrt, fdot, hypot, hypot1, hypot2_
-from pygeodesy.fsums import Fsum, fsumf_
+from pygeodesy.fsums import Fsum, fsumf_,  Fmt, unstr
 from pygeodesy.interns import NN, _a_, _C_, _datum_, _ellipsoid_, _f_, _height_, \
                              _lat_, _lon_, _M_, _name_, _singular_, _SPACE_, \
                              _x_, _xyz_, _y_, _z_
@@ -77,16 +77,16 @@ from pygeodesy.named import _NamedBase, _NamedTuple, notOverloaded, _Pass, _xnam
 from pygeodesy.namedTuples import LatLon2Tuple, LatLon3Tuple, \
                                   PhiLam2Tuple, Vector3Tuple, Vector4Tuple
 from pygeodesy.props import deprecated_method, Property_RO, property_RO, property_doc_
-from pygeodesy.streprs import Fmt, unstr
+# from pygeodesy.streprs import Fmt, unstr  # from .fsums
 from pygeodesy.units import Degrees, Height, Int, Lam, Lat, Lon, Meter, Phi, \
                             Scalar, Scalar_
-from pygeodesy.utily import atan2d, degrees90, degrees180, sincos2, sincos2_, \
+from pygeodesy.utily import atan1, atan1d, atan2d, degrees90, degrees180, sincos2, sincos2_, \
                             sincos2d, sincos2d_
 
 from math import atan2, cos, degrees, fabs, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '23.09.07'
+__version__ = '23.09.29'
 
 _Ecef_    = 'Ecef'
 _prolate_ = 'prolate'
@@ -350,8 +350,7 @@ class _EcefBase(_NamedBase):
         return atan2d(y, x) if R else _xkwds_get(name_lon00, lon00=self.lon00)
 
     def reverse(self, xyz, y=None, z=None, M=False, **name_lon00):  # PYCHOK no cover
-        '''(INTERNAL) I{Must be overloaded}, see function C{notOverloaded}.
-        '''
+        '''I{Must be overloaded}.'''
         notOverloaded(self, xyz, y=y, z=z, M=M, **name_lon00)
 
     def toStr(self, prec=9, **unused):  # PYCHOK signature
@@ -427,7 +426,7 @@ class EcefFarrell21(_EcefBase):
             v = b2 / (sqrt(r**2 + ez) * a)
 
             h   = hypot(r, z) * (_1_0 - v)
-            lat = atan2d((e2_ * v + _1_0) * z, p)
+            lat = atan1d((e2_ * v + _1_0) * z, p)
             lon = self._polon(y, x, p, **name_lon00)
             # note, phi and lam are swapped on page 29
 
@@ -482,7 +481,7 @@ class EcefFarrell22(_EcefBase):
             lon = self._polon(y, x, p, **name_lon00)
 
             s, c = sincos2(atan2(z * a, p * b))  # == _norm3
-            lat  = atan2d(z + s**3 * b * E.e22,
+            lat  = atan1d(z + s**3 * b * E.e22,
                           p - c**3 * a * E.e2)
 
             s, c = sincos2d(lat)
@@ -651,7 +650,7 @@ class EcefKarney(_EcefBase):
         # lon00 <https://GitHub.com/mrJean1/PyGeodesy/issues/77>
         lon = self._polon(sb, cb, R, **name_lon00)
         m   = self._Matrix(sa, ca, sb, cb) if M else None
-        return Ecef9Tuple(x, y, z, atan2d(sa, ca), lon, h,
+        return Ecef9Tuple(x, y, z, atan1d(sa, ca), lon, h,
                                    C, m, self.datum,
                                    name=name or self.name)
 
@@ -690,7 +689,7 @@ class EcefSudano(_EcefBase):
         R = hypot(x, y)  # Rh
         d = e - R
 
-        lat = atan2d(z, R * E.e21)
+        lat = atan1d(z, R * E.e21)
         sa, ca = sincos2d(fabs(lat))
         # Sudano's Eq (A-6) and (A-7) refactored/reduced,
         # replacing Rn from Eq (A-4) with n = E.a / ca:
@@ -721,7 +720,7 @@ class EcefSudano(_EcefBase):
             raise EcefError(Fmt.no_convergence(r, tol), txt=t)
 
         if lat is None:
-            lat = copysign0(atan2d(fabs(sa), ca), z)
+            lat = copysign0(atan1d(fabs(sa), ca), z)
         lon = self._polon(y, x, R, **name_lon00)
 
         h = fsumf_(R * ca, fabs(z * sa), -E.a * E.e2s(sa))  # use Veness'
@@ -806,7 +805,7 @@ class EcefVeness(_EcefBase):
             s =  c * t
 
             # geodetic latitude (Bowring eqn 18)
-            lat = atan2d(z +          b * s**3,
+            lat = atan1d(z +          b * s**3,
                          p - E.e2 * E.a * c**3)
 
             # height above ellipsoid (Bowring eqn 7)
@@ -886,7 +885,7 @@ class EcefYou(_EcefBase):
         if u > EPS02:
             u = sqrt(u)
             p = hypot(u, e)
-            B = atan2(p * z, u * q)  # beta0 = atan(p / u * z / q)
+            B = atan1(p * z, u * q)  # beta0 = atan(p / u * z / q)
             sB, cB = sincos2(B)
             if cB and sB:
                 p *= E.a
@@ -897,9 +896,9 @@ class EcefYou(_EcefBase):
         elif u < 0:
             raise EcefError(x=x, y=y, z=z, txt=_singular_)
         else:
-            sB, cB = (_N_1_0 if z < 0 else _1_0), _0_0
+            sB, cB = _copysign_1_0(z), _0_0
 
-        lat = atan2d(E.a * sB, E.b * cB)  # atan(E.a_b * tan(B))
+        lat = atan1d(E.a * sB, E.b * cB)  # atan(E.a_b * tan(B))
         lon = self._polon(y, x, q, **name_lon00)
 
         h = hypot(z - E.b * sB, q - E.a * cB)
@@ -1100,7 +1099,7 @@ class Ecef9Tuple(_NamedTuple):
 
     @Property_RO
     def lamVermeille(self):
-        '''Get the longitude in C{radians [-PI*3/2..+PI*3/2]} after U{Vermeille
+        '''Get the longitude in C{radians} M{[-PI*3/2..+PI*3/2]} after U{Vermeille
            <https://Search.ProQuest.com/docview/639493848>} (2004), page 95.
 
            @see: U{Karney<https://GeographicLib.SourceForge.io/C++/doc/geocentric.html>},
@@ -1287,7 +1286,7 @@ class Ecef9Tuple(_NamedTuple):
            @see: Propertes C{xyz} and C{xyzh}
         '''
         return self.xyz if Vector is None else self._xnamed(
-               Vector(self.x, self.y, self.z, **Vector_kwds))  # PYCHOK Ecef9Tuple
+               Vector(*self.xyz, **Vector_kwds))  # PYCHOK Ecef9Tuple
 
 #   def _T_x_M(self, T):
 #       '''(INTERNAL) Update M{self.M = T.multiply(self.M)}.

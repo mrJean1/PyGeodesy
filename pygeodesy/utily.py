@@ -10,20 +10,21 @@ U{Vector-based geodesy<https://www.Movable-Type.co.UK/scripts/latlong-vectors.ht
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import copysign0, isint, isstr
-from pygeodesy.constants import EPS, EPS0, INF, NAN, NEG0, NINF, PI, PI2, PI_2, R_M, \
-                               _float as _F, _isfinite, isnan, isnear0, isneg0, _M_KM, \
-                               _M_NM, _M_SM, _0_0, _1__90, _0_5, _1_0, _N_1_0, _2__PI, \
-                               _10_0, _90_0, _N_90_0, _180_0, _N_180_0, _360_0, _400_0
+from pygeodesy.basics import _copysign, isint, isstr, neg,  _ALL_LAZY, _MODS
+from pygeodesy.constants import EPS, EPS0, INF, NAN, NEG0, PI, PI2, PI_2, R_M, \
+                               _float as _F, _isfinite, isnan, isnear0, _over, \
+                               _M_KM, _M_NM, _M_SM, _0_0, _1__90, _0_5, _1_0, \
+                               _N_1_0, _2__PI, _10_0, _90_0, _N_90_0, _180_0, \
+                               _N_180_0, _360_0, _400_0
 from pygeodesy.errors import _ValueError, _xkwds, _xkwds_get
 from pygeodesy.interns import _edge_, _radians_, _semi_circular_, _SPACE_
-from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
+# from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS  # from .basics
 from pygeodesy.units import Degrees, Feet, Float, Lam, Lam_, Meter, Meter2, Radians
 
 from math import acos, asin, atan2, cos, degrees, fabs, radians, sin, tan  # pow
 
 __all__ = _ALL_LAZY.utily
-__version__ = '23.09.19'
+__version__ = '23.09.28'
 
 # read constant name "_M_Unit" as "meter per Unit"
 _M_CHAIN     = _F(  20.1168)     # yard2m(1) * 22
@@ -40,10 +41,16 @@ _M_TOISE     = _F(   1.9490436)  # French toise, 6 pieds (6 / 3.0784329298739)
 _M_YARD_UK   = _F(   0.9144)     # 254 * 12 * 3 / 10_000 == 3 * ft2m(1) Int'l
 
 
+def _abs1nan(x):
+    '''(INTERNAL) Bracket C{x}.
+    '''
+    return _N_1_0 < x < _1_0 or isnan(x)
+
+
 def acos1(x):
     '''Return C{math.acos(max(-1, min(1, B{x})))}.
     '''
-    return acos(x) if fabs(x) < _1_0 else (PI if x < 0 else _0_0)
+    return acos(x) if _abs1nan(x) else (PI if x < 0 else _0_0)
 
 
 def acre2ha(acres):
@@ -75,15 +82,23 @@ def acre2m2(acres):
 def asin1(x):
     '''Return C{math.asin(max(-1, min(1, B{x})))}.
     '''
-    return asin(x) if fabs(x) < _1_0 else (PI_2 if x > 0 else -PI_2)  # not PI3_2!
+    return asin(x) if _abs1nan(x) else _copysign(PI_2, x)
 
 
-def atand(y_x):
-    '''Return C{atan(B{y_x})} angle in C{degrees}.
+def atan1(y, x=_1_0):
+    '''Return C{atan(B{y} / B{x})} angle in C{radians} M{[-PI/2..+PI/2]}
+       using C{atan2} for consistency and to avoid C{ZeroDivisionError}.
+    '''
+    return atan2(-y, -x) if x < 0 else atan2(y, x or _0_0)  # -0. to 0.
+
+
+def atan1d(y, x=_1_0):
+    '''Return C{atan(B{y} / B{x})} angle in C{degrees} M{[-90..+90]}
+       using C{atan2d} for consistency and to avoid C{ZeroDivisionError}.
 
        @see: Function L{pygeodesy.atan2d}.
     '''
-    return atan2d(y_x, _1_0)
+    return atan2d(-y, -x) if x < 0 else atan2d(y, x or _0_0)  # -0. to 0.
 
 
 def atan2b(y, x):
@@ -109,19 +124,22 @@ def atan2d(y, x, reverse=False):
             d = degrees(atan2(x, -y)) - _90_0
         else:  # q = 2
             d = _90_0 - degrees(atan2(x, y))
-    elif x < 0:  # q = 1
-        d = copysign0(_180_0, y) - degrees(atan2(y, -x))
-    elif x > 0:  # q = 0
-        d = degrees(atan2(y, x)) if y else _0_0
     elif isnan(x) or isnan(y):
         return NAN
-    else:  # x == 0
-        d = _N_90_0 if y < 0 else (_90_0 if y > 0 else _0_0)
+    elif y:
+        if x > 0:  # q = 0
+            d =  degrees(atan2(y, x))
+        elif x < 0:  # q = 1
+            d = _copysign(_180_0, y) - degrees(atan2(y, -x))
+        else:  # x == 0
+            d = _copysign(_90_0, y)
+    else:
+        d = _180_0 if x < 0 else _0_0
     return _azireversed(d) if reverse else d
 
 
 def _azireversed(azimuth):  # in .rhumbBase
-    '''(INTERNAL) Return the I{reverse} B{C{azimuth}}.
+    '''(INTERNAL) Return the I{reverse} B{C{azimuth}} in degrees M{[-180..+180]}.
     '''
     return azimuth + (_N_180_0 if azimuth > 0 else _180_0)
 
@@ -171,9 +189,11 @@ def cot(rad, **error_kwds):
        @raise ValueError: L{pygeodesy.isnear0}C{(sin(B{rad})}.
     '''
     s, c = sincos2(rad)
-    if isnear0(s):
-        raise _valueError(cot, rad, **error_kwds)
-    return c / s
+    if c:
+        if isnear0(s):
+            raise _valueError(cot, rad, **error_kwds)
+        c = c / s  # /= chokes PyChecker
+    return c
 
 
 def cot_(*rads, **error_kwds):
@@ -204,9 +224,13 @@ def cotd(deg, **error_kwds):
        @raise ValueError: L{pygeodesy.isnear0}C{(sin(B{deg})}.
     '''
     s, c = sincos2d(deg)
-    if isnear0(s):
-        raise _valueError(cotd, deg, **error_kwds)
-    return c / s
+    if c:
+        if isnear0(s):
+            raise _valueError(cotd, deg, **error_kwds)
+        c = c / s  # /= chokes PyChecker
+    elif s < 0:
+        c = -c  # negate-0
+    return c
 
 
 def cotd_(*degs, **error_kwds):
@@ -780,14 +804,8 @@ def sincostan3(rad):
 
        @see: Function L{sincos2}.
     '''
-    rad %= PI2  # see ._wrap comments
-    if rad:
-        s, c = sincos2(rad)
-        t = (s / c) if c else (NINF if s < 0
-                         else  (INF if s > 0 else s))
-    else:  # sin(-0.0) == tan(-0.0) = -0.0
-        c = _1_0
-        s =  t = NEG0 if isneg0(rad) else _0_0
+    s, c = sincos2(float(rad))
+    t = NAN if s is NAN else (_over(s, c) if s else neg(s, neg0=c < 0))
     return s, c, t
 
 
@@ -823,7 +841,7 @@ def tan_2(rad, **semi):  # edge=1
             _SPACE_(_MODS.streprs.Fmt.SQUARE(**semi), _edge_)
         raise _ValueError(n, rad, txt=_semi_circular_)
 
-    return tan(rad * _0_5)
+    return tan(rad * _0_5) if _isfinite(rad) else NAN
 
 
 def tand(deg, **error_kwds):
@@ -837,9 +855,13 @@ def tand(deg, **error_kwds):
        @raise ValueError: If L{pygeodesy.isnear0}C{(cos(B{deg})}.
     '''
     s, c = sincos2d(deg)
-    if isnear0(c):
-        raise _valueError(tand, deg, **error_kwds)
-    return s / c
+    if s:
+        if isnear0(c):
+            raise _valueError(tand, deg, **error_kwds)
+        s = s / c  # /= chokes PyChecker
+    elif c < 0:
+        s = -s  # negate-0
+    return s
 
 
 def tand_(*degs, **error_kwds):
@@ -863,7 +885,8 @@ def tanPI_2_2(rad):
 
        @return: M{tan((rad + PI/2) / 2)} (C{float}).
     '''
-    return tan((rad + PI_2) * _0_5)
+    return tan((rad + PI_2) * _0_5) if _isfinite(rad) else (
+           NAN if isnan(rad) else (_N_90_0 if rad < 0 else _90_0))
 
 
 def toise2m(toises):
@@ -969,8 +992,8 @@ def unrollPI(rad1, rad2, wrap=True):
 def _valueError(where, x, **kwds):
     '''(INTERNAL) Return a C{_ValueError}.
     '''
-    x = _MODS.streprs.Fmt.PAREN(where.__name__, x)
-    return _ValueError(x, **kwds)
+    t = _MODS.streprs.Fmt.PAREN(where.__name__, x)
+    return _ValueError(t, **kwds)
 
 
 class _Wrap(object):

@@ -12,11 +12,11 @@ U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>}.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import isbool, isinstanceof, map1
+from pygeodesy.basics import _copysign, isbool, isinstanceof, map1
 from pygeodesy.cartesianBase import CartesianBase,  Bearing2Tuple
 from pygeodesy.constants import EPS, PI, PI2, PI_2, R_M, \
-                               _umod_360, isnear0, isnon0, _0_0, \
-                               _0_5, _1_0, _180_0
+                               _umod_360, isnear0, isnon0, _over, \
+                               _0_0, _0_5, _1_0, _180_0
 from pygeodesy.datums import Datums, _spherical_datum
 from pygeodesy.errors import IntersectionError, _ValueError, _xError
 from pygeodesy.fmath import favg, fdot, hypot, sqrt_a
@@ -33,13 +33,13 @@ from pygeodesy.props import deprecated_method, property_doc_, \
 from pygeodesy.units import Bearing, Bearing_, Radians_, Radius, \
                             Radius_, Scalar_
 from pygeodesy.utily import acos1, atan2b, atan2d, degrees90, \
-                            degrees180, sincos2, sincos2d, tanPI_2_2, \
-                            _unrollon, wrap360, wrapPI
+                            degrees180, sincos2, sincos2d, \
+                            tanPI_2_2, _unrollon, wrap360, wrapPI
 
 from math import cos, fabs, log, sin, sqrt
 
 __all__ = _ALL_LAZY.sphericalBase
-__version__ = '23.07.01'
+__version__ = '23.09.28'
 
 
 def _angular(distance, radius, low=EPS):  # PYCHOK in .spherical*
@@ -54,6 +54,12 @@ def _angular(distance, radius, low=EPS):  # PYCHOK in .spherical*
         # small near0 values from .rhumbDestination not exact OK
         r = _0_0 if low < 0 and low < r < 0 else Radians_(r, low=low)
     return r
+
+
+def _logPI_2_2(a2, a1):
+    '''(INTERNAL) C{log} of C{tanPI_2_2}'s quotient.
+    '''
+    return log(_over(tanPI_2_2(a2), tanPI_2_2(a1)))
 
 
 def _rads3(rad1, rad2, radius):  # in .sphericalTrigonometry
@@ -342,15 +348,15 @@ class LatLonSphericalBase(LatLonBase):
         a1, b1 = self.philam
         # if |db| > 180 take shorter rhumb
         # line across the anti-meridian
-        db = wrapPI(b2 - b1)
-        dp = log(tanPI_2_2(a2) / tanPI_2_2(a1))
-        da = a2 - a1
+        db =  wrapPI(b2 - b1)
+        dp = _logPI_2_2(a2, a1)
+        da =  a2 - a1
         if r:
             # on Mercator projection, longitude distances shrink
             # by latitude; the 'stretch factor' q becomes ill-
             # conditioned along E-W line (0/0); use an empirical
             # tolerance to avoid it
-            q  = (da / dp) if fabs(dp) > EPS else cos(self.phi)
+            q  = (da / dp) if fabs(dp) > EPS else cos(a1)
             da = hypot(da, q * db)  # angular distance radians
         return da, db, dp
 
@@ -432,12 +438,10 @@ class LatLonSphericalBase(LatLonBase):
             da = r  * cb
             a2 = a1 + da
             # normalize latitude if past pole
-            if a2 > PI_2:
-                a2 =  PI - a2
-            elif a2 < -PI_2:
-                a2 = -PI - a2
+            if fabs(a2) > PI_2:
+                a2 = _copysign(PI, a2) - a2
 
-            dp = log(tanPI_2_2(a2) / tanPI_2_2(a1))
+            dp = _logPI_2_2(a2, a1)
             # q becomes ill-conditioned on E-W course 0/0
             q  = (da / dp) if fabs(dp) > EPS else cos(a1)
             b2 = (b1 + r * sb / q) if fabs(q) > EPS else b1

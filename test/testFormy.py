@@ -4,7 +4,7 @@
 # Test L{formy} module.
 
 __all__ = ('Tests',)
-__version__ = '23.08.15'
+__version__ = '23.09.29'
 
 from bases import TestsBase
 
@@ -126,10 +126,10 @@ class Tests(TestsBase):
         los = V3(-0.7274, -0.3637, -0.5819)
         self.test('hartzell', hartzell(pov, los).toStr(prec=6), '(884080.396945, 5592040.198472, 2927517.711001)', nl=1)
         ll = hartzell(pov, los, LatLon=LatLon_)
-        self.test('hartzell', ll.toStr(prec=6), "27.500482°N, 081.016111°E, +0.00, 'hartzell'", known=abs(ll.height) < 1e-6)
+        self.test('hartzell', ll.toStr(prec=6), "27.500482°N, 081.016111°E, +12669647.30, 'hartzell'", known=ll.height > 12e6)
         self.test('hartzell', hartzell(pov).toStr(prec=6), '(3642031.283571, 3678090.99925, 3714150.714929)')
         ll = hartzell(pov, LatLon=LatLon_)
-        self.test('hartzell', ll.toStr(prec=6), "35.843738°N, 045.282243°E, +0.00, 'hartzell'", known=abs(ll.height) < 1e-6)
+        self.test('hartzell', ll.toStr(prec=6), "35.843738°N, 045.282243°E, +11296639.67, 'hartzell'", known=ll.height > 11e6)
 
         self.test('heightOf0',   heightOf(0,   R_M), 2638958.23912, fmt='%.5f')
         self.test('heightOf45',  heightOf(45,  R_M), 5401080.43931, fmt='%.5f')

@@ -26,7 +26,7 @@ from pygeodesy.units import Band, Easting, Northing, Scalar, Zone
 from pygeodesy.utily import _Wrap, wrap360
 
 __all__ = ()
-__version__ = '23.08.06'
+__version__ = '23.09.22'
 
 _UPS_BANDS = _A_, _B_, _Y_, _Z_  # UPS polar bands SE, SW, NE, NW
 # _UTM_BANDS = _MODS.utm._Bands
@@ -275,8 +275,7 @@ class UtmUpsBase(_NamedBase):
 
     @Property_RO
     def falsed2(self):  # PYCHOK no cover
-        '''(INTERNAL) I{Must be overloaded}, see function C{notOverloaded}.
-        '''
+        '''I{Must be overloaded}.'''
         notOverloaded(self)
 
     @Property_RO
@@ -374,8 +373,7 @@ class UtmUpsBase(_NamedBase):
         return self._epsg
 
     def _toLLEB(self, **kwds):  # PYCHOK no cover
-        '''(INTERNAL) I{Must be overloaded}.
-        '''
+        '''(INTERNAL) I{Must be overloaded}.'''
         notOverloaded(self, **kwds)
 
     def toMgrs(self, center=False):

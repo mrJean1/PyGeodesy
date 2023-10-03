@@ -200,17 +200,18 @@ class CartesianBase(Vector3d):
         '''Compute the intersection of a Line-Of-Sight (los) from this certesian
            Point-Of-View (pov) with this cartesian's ellipsoid surface.
 
-           @kwarg los: Line-Of-Sight, I{direction} to earth (L{Vector3d}) or
-                       C{None} to point to the ellipsoid's center.
+           @kwarg los: Line-Of-Sight, I{direction} to earth (L{Los}, L{Vector3d})
+                       or C{None} to point to the ellipsoid's center.
            @kwarg earth: The earth model (L{Datum}, L{Ellipsoid}, L{Ellipsoid2},
                          L{a_f2Tuple} or C{scalar} radius in C{meter}) overriding
                          this cartesian's C{datum} ellipsoid.
 
-           @return: The ellipsoid intersection (C{Cartesian}).
+           @return: The ellipsoid intersection (C{Cartesian}) with the C{.height}
+                    set to the distance to this C{pov}.
 
            @raise IntersectionError: Null C{pov} or B{C{los}} vector, this C{pov}
                                      is inside the ellipsoid or B{C{los}} points
-                                     outside the ellipsoid or in an opposite direction.
+                                     points outside or away from the ellipsoid.
 
            @raise TypeError: Invalid B{C{los}} or no B{C{datum}}.
 

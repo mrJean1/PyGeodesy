@@ -14,7 +14,7 @@ under the MIT/X11 License.  For more information, see the U{GeographicLib
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.auxilats.auxily import Aux, AuxError, _Aux2Greek
+from pygeodesy.auxilats.auxily import Aux, _Aux2Greek,  AuxError
 from pygeodesy.basics import _xinstanceof, _xkwds_get
 from pygeodesy.constants import EPS, INF, MAX, NAN, NINF, _0_0, _0_5, _1_0, \
                                _copysign_1_0, _over, _pos_self, isfinite, isnan
@@ -32,7 +32,7 @@ from pygeodesy.utily import atan2d, sincos2, sincos2d
 from math import asinh, atan2, copysign, degrees, fabs, radians, sinh
 
 __all__ = ()
-__version__ = '23.08.22'
+__version__ = '23.08.23'
 
 _0_INF_NAN_NINF = 0, _0_0, INF, NAN, NINF  # _INF_NAN_NINF
 _MAX_2          = MAX * _0_5  # PYCHOK used!

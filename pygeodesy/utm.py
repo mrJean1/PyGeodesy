@@ -51,19 +51,19 @@ from pygeodesy.props import deprecated_method, property_doc_, \
                             Property_RO
 from pygeodesy.streprs import Fmt, unstr
 from pygeodesy.units import Band, Int, Lat, Lon, Meter, Zone
-from pygeodesy.utily import degrees90, degrees180, sincos2
+from pygeodesy.utily import atan1, degrees90, degrees180, sincos2
 from pygeodesy.utmupsBase import _hemi, _LLEB, _parseUTMUPS5, _to4lldn, \
                                  _to3zBhp, _to3zll, _UPS_LATS, _UPS_ZONE, \
                                  _UTM_LAT_MAX, _UTM_ZONE_MAX, \
                                  _UTM_LAT_MIN, _UTM_ZONE_MIN, \
                                  _UTM_ZONE_OFF_MAX, UtmUpsBase, _xnamed
 
-from math import asinh, atan, atanh, atan2, cos, cosh, degrees, \
-                 fabs, radians, sin, sinh, tan, tanh
+from math import asinh, atanh, atan2, cos, cosh, degrees, fabs, \
+                 radians, sin, sinh, tan, tanh
 from operator import mul as _mul
 
 __all__ = _ALL_LAZY.utm
-__version__ = '23.09.08'
+__version__ = '23.09.29'
 
 _Bands = 'CDEFGHJKLMNPQRSTUVWXX'  # UTM latitude bands C..X (no
 # I|O) 8° each, covering 80°S to 84°N and X repeated for 80-84°N
@@ -478,7 +478,7 @@ class Utm(UtmUpsBase):
             t = unstr(self.toLatLon, eps=eps, unfalse=unfalse)
             raise self._Error(Fmt.no_convergence(d, eps), txt=t)
 
-        a = atan(T)  # phi, lat
+        a = atan1(T)  # phi, lat
         b = atan2(shx, cy)
         if unfalse and self.falsed:
             b += radians(_cmlon(self.zone))
@@ -488,8 +488,8 @@ class Utm(UtmUpsBase):
         p = neg(K.ps(-1))
         q =     K.qs(0)
         s = hypot(p, q) * E.a / A0
-        ll._gamma = degrees(atan(tan(y) * tanh(x)) + atan2(q, p))
-        ll._scale = (E.e2s(sin(a)) * H * hypot1(T) / s) if s else s  # INF?
+        ll._gamma = degrees(atan1(tan(y) * tanh(x)) + atan2(q, p))
+        ll._scale = (E.e2s(sin(a)) * hypot1(T) * H / s) if s else s  # INF?
         ll._iteration = i
         self._latlon5args(ll, _toBand, unfalse, eps)
 
@@ -717,9 +717,9 @@ def toUtm8(latlon, lon=None, datum=None, Utm=Utm, falsed=True,
     # convergence: Karney 2011 Eq 23, 24
     p_ = K.ps(1)
     q_ = K.qs(0)
-    g = degrees(atan(T_ / hypot1(T_) * tan(b)) + atan2(q_, p_))
+    g  = degrees(atan2(T_ * tan(b), hypot1(T_)) + atan2(q_, p_))
     # scale: Karney 2011 Eq 25
-    k = E.e2s(sin(a)) * T12 / H * (A0 / E.a * hypot(p_, q_))
+    k  = E.e2s(sin(a)) * T12 / H * (A0 / E.a * hypot(p_, q_))
 
     return _toXtm8(Utm, z, lat, x, y,
                         B, d, g, k, f, name, latlon, EPS)

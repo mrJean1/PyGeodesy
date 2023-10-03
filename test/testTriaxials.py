@@ -4,12 +4,12 @@
 # Test L{triaxials} module.
 
 __all__ = ('Tests',)
-__version__ = '23.07.21'
+__version__ = '23.10.02'
 
 from bases import random, startswith, TestsBase
 
-from pygeodesy import EPS4, PI_2, PI_4, Ellipsoids, F_DMS, fstr, \
-                      JacobiConformal, JacobiConformalSpherical, \
+from pygeodesy import EPS4, F_DEG_, F_DMS, PI_2, PI_4, Ellipsoids, fstr, \
+                      JacobiConformal, JacobiConformalSpherical, Los, \
                       map1, map2, signBit, sincos2d_, Triaxial, \
                       Triaxial_, Triaxials, triaxials, Vector3d
 from math import radians
@@ -28,6 +28,46 @@ def _r(s):
 
 
 class Tests(TestsBase):
+
+    def testHartzell(self, module, LatLon):
+        self.subtitle(module, 'Hartzell')
+
+        T = Triaxial(6378388, 6378318, 6356911.9461, name='Test')  # a - b = 70
+        n = T.hartzell4.__name__
+        U = Triaxial_(T.c, T.a, T.b, name='Un')
+
+        p = Vector3d(10.1e6, 10.2e6, 10.3e6)  # 10+ km
+        v = Vector3d(-0.7274, -0.3637, -0.5819)
+        t = T.hartzell4(p, v)
+        self.test(n, t.toStr(prec=6), '(884268.349816, 5592134.174908, 2927668.068131, 12669388.912805)')
+        self.test(n, T.sideOf(t), 0)
+        t = T.hartzell4(p)
+        self.test(n, t.toStr(prec=6), '(3642143.609933, 3678204.437754, 3714265.265575, 11296443.179278)')
+        self.test(n, T.sideOf(t), 0)
+
+        t = U.hartzell4(p, v)
+        self.test(n, t.toStr(prec=6), '(888679.181482, 5594339.590741, 2931196.612187, 12663325.092381)', nl=1)
+        self.test(n, U.sideOf(t), 0)
+        t = U.hartzell4(p)
+        self.test(n, t.toStr(prec=6), '(3642304.092727, 3678366.509487, 3714428.926247, 11296162.453809)')
+        self.test(n, U.sideOf(t, eps=EPS4), 0)
+
+        T = Ellipsoids.WGS84.toTriaxial()
+        t = T.hartzell4(p, v)
+        self.test(n, t.toStr(prec=6), '(884080.396945, 5592040.198472, 2927517.711001, 12669647.302276)', nl=1)
+        self.test(n, T.sideOf(t), 0)
+        t = T.hartzell4(p)
+        self.test(n, t.toStr(prec=6),    '(3642031.283571, 3678090.99925, 3714150.714929, 11296639.666827)')
+        self.test(n, T.sideOf(t), 0)
+
+        p = LatLon(30, 60, height=100e3)
+        n = p.hartzell.__name__
+        t = p.hartzell(Los(45, -45))
+        self.test(n, t.toStr(prec=3), '30°38′27.119″N, 060°44′36.777″E, +142549.69m', nl=1)
+        self.test(n, t.toStr(form=F_DEG_), '30.640866, 060.743549, +142549.69m')
+        c = p.toCartesian()
+        t = c.hartzell(Los(45, -45))
+        self.test(n, t.toStr(prec=3), '[2684238.298, 4791786.806, 3231700.636]')
 
     def testJacobiConformal(self, module):
         self.subtitle(module, JacobiConformal.__name__)
@@ -146,15 +186,14 @@ class Tests(TestsBase):
         self.test(n, t, "('110°45′42.27″N', '102°28′10.04″E')", known=True)
 
     def testTriaxial(self, module):
-        self.subtitle(module, Triaxial.__name__)
+        n = Triaxial.__name__
+        self.subtitle(module, n)
 
         E = Ellipsoids.WGS84  # earth as testFormy
 
         # <http://OJS.BBWPublisher.com/index.php/JWA/article/view/74>
-        n = Triaxial.__name__
         T = Triaxial(6378388, 6378318, 6356911.9461, name='Test')  # a - b = 70
         self.test(n, repr(T), "Triaxial(name='Test', a=6378388, b=6378318, c=6356911.9461, e2ab=", known=startswith)
-        n = Triaxial_.__name__
         U = Triaxial_(T.c, T.a, T.b, name='Un')
         self.test(n, repr(U), "Triaxial_(name='Un', a=6356911.9461, b=6378388, c=6378318, e2ab=", known=startswith)
 
@@ -213,27 +252,6 @@ class Tests(TestsBase):
         self.test(n, d, '(29.860398, 40.017494, 12918.032538)', known=True)
         d = p.toDegrees(form=F_DMS)
         self.test(n, d, "('29°51′37.43″', '40°01′02.98″', 12918.032538)", known=True)  # (30°01′38.2729″, 40°01′05.2057″)
-
-        n = T.hartzell4.__name__
-        p = Vector3d(10.1e6, 10.2e6, 10.3e6)  # 10+ km
-        v = Vector3d(-0.7274, -0.3637, -0.5819)
-        t = T.hartzell4(p, v)
-        self.test(n, t.toStr(prec=6), '(884268.349816, 5592134.174908, 2927668.068131, 12669388.912805)', nl=1)
-        self.test(n, T.sideOf(t), 0)
-        t = T.hartzell4(p)
-        self.test(n, t.toStr(prec=6), '(3642143.609933, 3678204.437754, 3714265.265575, 11296443.179278)')
-        self.test(n, T.sideOf(t), 0)
-
-        e = Triaxial(E.a, E.a, E.b, name=E.name)
-        self.test(n, e.hartzell4(p, v).toStr(prec=6), '(884080.396945, 5592040.198472, 2927517.711001, 12669647.302276)')
-        self.test(n, e.hartzell4(p).toStr(prec=6),    '(3642031.283571, 3678090.99925, 3714150.714929, 11296639.666827)')
-
-        t = U.hartzell4(p, v)
-        self.test(n, t.toStr(prec=6), '(888679.181482, 5594339.590741, 2931196.612187, 12663325.092381)', nl=1)
-        self.test(n, U.sideOf(t), 0)
-        t = U.hartzell4(p)
-        self.test(n, t.toStr(prec=6), '(3642304.092727, 3678366.509487, 3714428.926247, 11296162.453809)')
-        self.test(n, U.sideOf(t, eps=EPS4), 0)
 
         T = Triaxial(3, 2, 1)  # Eberly
         n = T.height4.__name__
@@ -342,7 +360,10 @@ class Tests(TestsBase):
 
 if __name__ == '__main__':
 
+    from pygeodesy.ellipsoidalVincenty import LatLon
+
     t = Tests(__file__, __version__)
+    t.testHartzell(triaxials, LatLon)
     t.testJacobiConformal(triaxials)
     t.testJacobiConformalSpherical(triaxials)
     t.testTriaxial(triaxials)

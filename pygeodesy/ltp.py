@@ -42,7 +42,7 @@ from pygeodesy.vector3d import _ALL_LAZY, Vector3d
 # from math import fabs, floor as _floor  # from .fmath, .fsums
 
 __all__ = _ALL_LAZY.ltp
-__version__ = '23.09.06'
+__version__ = '23.09.22'
 
 _height0_ = _height_ + _0_
 _narrow_  = 'narrow'
@@ -729,7 +729,7 @@ class _ChLV(object):
         return t
 
     def forward(self, latlonh, lon=None, height=0, M=None, name=NN):  # PYCHOK no cover
-        '''Convert WGS84 geodetic to I{Swiss} projection coordinates.
+        '''Convert WGS84 geodetic to I{Swiss} projection coordinates.  I{Must be overloaded}.
 
            @arg latlonh: Either a C{LatLon}, L{Ltp} or C{scalar} (geodetic) latitude (C{degrees}).
            @kwarg lon: Optional, C{scalar} (geodetic) longitude for C{scalar} B{C{latlonh}} (C{degrees}).
@@ -750,7 +750,7 @@ class _ChLV(object):
         notOverloaded(self, latlonh, lon=lon, height=height, M=M, name=name)
 
     def reverse(self, enh_, n=None, h_=0, M=None, **name):  # PYCHOK no cover
-        '''Convert I{Swiss} projection to WGS84 geodetic coordinates.
+        '''Convert I{Swiss} projection to WGS84 geodetic coordinates.  I{Must be overloaded}.
 
            @arg enh_: A Swiss projection (L{ChLV9Tuple}) or the C{scalar}, falsed I{Swiss E_LV95}
                      or I{y_LV03} easting (C{meter}).

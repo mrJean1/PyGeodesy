@@ -160,7 +160,7 @@ using Python 3.11.5, both in 64-bit on macOS 13.5.2 Ventura.
 For a summary of all *Karney*-based functionality in ``pygeodesy``, see
 module karney_.
 
-*Last updated: Sep 21, 2023.*
+*Last updated: Oct 05, 2023.*
 
 License
 =======

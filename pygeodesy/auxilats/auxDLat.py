@@ -12,7 +12,7 @@ under the MIT/X11 License.  For more information, see the U{GeographicLib
 from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.auxilats.auxily import Aux, _Datan, _Dasinh, _Dm, _sc, _sn, \
-                                      AuxError
+                                      atan1, AuxError
 from pygeodesy.auxilats.auxLat import AuxLat,  _ALL_DOCS
 from pygeodesy.basics import map1, _reverange
 from pygeodesy.constants import INF, NAN, isfinite, isinf, isnan, _0_0, _0_5, \
@@ -21,11 +21,12 @@ from pygeodesy.elliptic import Elliptic as _Ef,  Fsum
 # from pygeodesy.errors import AuxError  # from .auxilats.auxily
 # from pygeodesy.fsums import Fsum  # from .elliptic
 # from pygeodesy.lazily import _ALL_DOCS  # from .auxilats.auxLat
+# from pygeodesy.utily import atan1  # from .auxilats.auxily
 
-from math import atan, atan2, cos, sin, sqrt
+from math import atan2, cos, sin, sqrt
 
 __all__ = ()
-__version__ = '23.09.18'
+__version__ = '23.09.26'
 
 
 class AuxDLat(AuxLat):
@@ -131,12 +132,12 @@ class AuxDLat(AuxLat):
         fm1, e2m1 = self._fm1, self._e2m1
         tx,  ty   = Phi1.tan,  Phi2.tan
         # DbetaDphi = Datan(fm1*tx, fm1*ty) * fm1 / Datan(tx, ty)
-        # Datan(x, y) = 1 / (1 + x^2),                   if x == y
-        #             = (atan(y) - atan(x)) / (y-x),     if x*y < 0
-        #             = atan((y-x) / (1 + x*y)) / (y-x), if x*y > 0
+        # Datan(x, y) =  1 / (1 + x^2)                if x == y
+        #             = (atan1(y) - atan1(x)) / (y-x) if x*y < 0
+        #             =  atan1(y-x, x*y + 1) / (y-x)  if x*y > 0
         txy = tx * ty
         if txy < 0 or (isinf(ty) and not tx):
-            _a =  atan
+            _a =  atan1
             r  = _over(_a(fm1 * ty) - _a(fm1 * tx), _a(ty) - _a(tx))
         elif tx == ty:  # includes tx = ty = inf
             if txy > 1:  # == tx**2
@@ -144,17 +145,17 @@ class AuxDLat(AuxLat):
                 r   =  txy + e2m1
             else:
                 r   =  txy * e2m1 + _1_0
-            r = _over(fm1 * (txy + _1_0), r)
+            r = _over((txy + _1_0) * fm1, r)
         else:
             if txy > 1:
                 tx  = _1_over(tx)
                 ty  = _1_over(ty)
-                txy =  tx * ty
+                txy = _1_over(txy)
                 t   =  txy + e2m1
             else:
                 t   =  txy * e2m1 + _1_0
             r =  ty - tx
-            r = _over(atan2(r * fm1, t), atan2(r, _1_0 + txy))
+            r = _over(atan2(r * fm1, t), atan2(r, txy + _1_0))
         return r
 
     def DRectifying(self, Phi1, Phi2):
@@ -174,8 +175,8 @@ class AuxDLat(AuxLat):
                       self.Rectifying(Phi1).toRadians, y - x)
         else:
             r  = _over(self.b, self.RectifyingRadius(True))
-            r *= self.DE(*map1(self.Parametric, Phi1, Phi2))
-            r *= self.DParametric(Phi1, Phi2)
+            r *=  self.DE(*map1(self.Parametric, Phi1, Phi2))
+            r *=  self.DParametric(Phi1, Phi2)
         return r  # or INF or NAN
 
 

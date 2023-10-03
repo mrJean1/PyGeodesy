@@ -37,7 +37,7 @@ from pygeodesy.units import Epoch, _1mm as _TOL_M, Radius_
 # from math import fabs  # from .latlonBase
 
 __all__ = _ALL_LAZY.ellipsoidalBase
-__version__ = '23.09.09'
+__version__ = '23.09.22'
 
 
 class CartesianEllipsoidalBase(CartesianBase):
@@ -458,8 +458,7 @@ class LatLonEllipsoidalBase(LatLonBase):
         return self._Radjust2(adjust, datum, self._geoidHeight2)
 
     def intermediateTo(self, other, fraction, height=None, wrap=False):  # PYCHOK no cover
-        '''(INTERNAL) I{Must be overloaded}, see function C{notOverloaded}.
-        '''
+        '''I{Must be overloaded}.'''
         _MODS.named.notOverloaded(self, other, fraction, height=height, wrap=wrap)
 
     def intersection3(self, end1, other, end2, height=None, wrap=False,  # was=True

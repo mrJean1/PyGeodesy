@@ -545,7 +545,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        23.09.21
+        23.10.05
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -3697,6 +3697,15 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.ltpTuples.Los-class.html" class="summary-name">Los</a><br />
+      A Line-Of-Sight (LOS) from a <code>LatLon</code> or 
+        <code>Cartesian</code> location.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.ltp.Ltp-class.html" class="summary-name">Ltp</a><br />
       A <i>local tangent plan</i> (LTP), a sub-class of 
         <code>LocalCartesian</code> with (re-)configurable ECEF converter.
@@ -4740,6 +4749,22 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.ltpTuples.Uvw-class.html" class="summary-name">Uvw</a><br />
+      3-D <code>u-v-w</code> (UVW) components.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ltpTuples.Uvw3Tuple-class.html" class="summary-name">Uvw3Tuple</a><br />
+      3-Tuple <code>(u, v, w)</code>, in <code>meter</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.namedTuples.Vector2Tuple-class.html" class="summary-name">Vector2Tuple</a><br />
       2-Tuple <code>(x, y)</code> of (geocentric) components, each in 
         <code>meter</code> or the same <code>units</code>.
@@ -5482,6 +5507,48 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a name="atan1"></a><span class="summary-sig-name">atan1</span>(<span class="summary-sig-arg">y</span>,
+        <span class="summary-sig-arg">x</span>=<span class="summary-sig-default">1.0</span>)</span><br />
+      Return <code>atan(<b>y</b> / <b>x</b>)</code> angle in 
+      <code>radians</code> <i class="math">[-PI/2..+PI/2]</i> using 
+      <code>atan2</code> for consistency and to avoid 
+      <code>ZeroDivisionError</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#atan1d" class="summary-sig-name">atan1d</a>(<span class="summary-sig-arg">y</span>,
+        <span class="summary-sig-arg">x</span>=<span class="summary-sig-default">1.0</span>)</span><br />
+      Return <code>atan(<b>y</b> / <b>x</b>)</code> angle in 
+      <code>degrees</code> <i class="math">[-90..+90]</i> using 
+      <code>atan2d</code> for consistency and to avoid 
+      <code>ZeroDivisionError</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#atan2b" class="summary-sig-name">atan2b</a>(<span class="summary-sig-arg">y</span>,
         <span class="summary-sig-arg">x</span>)</span><br />
       Return <code>atan2(<b>y</b>, <b>x</b>)</code> in degrees <i 
@@ -5522,8 +5589,9 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#atand" class="summary-sig-name">atand</a>(<span class="summary-sig-arg">y_x</span>)</span><br />
-      Return <code>atan(<b>y_x</b>)</code> angle in <code>degrees</code>.</td>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#atand" class="summary-sig-name">atand</a>(<span class="summary-sig-arg">x</span>)</span><br />
+      DEPRECATED, use function <a href="pygeodesy.utily-module.html#atan1d"
+      class="link">pygeodesy.atan1d</a>.</td>
           <td align="right" valign="top">
             
             
@@ -6373,8 +6441,8 @@
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Compute the distance between two (ellipsoidal) points using the <a 
-      href="https://NavLib.net/wp-content/uploads/2013/10/admiralty-manual-of-navigation-vol-1-1964-english501c.pdf"
-      target="_top">Andoyer-Lambert correction</a> of the <a 
+      href="https://books.google.com/books?id=x2UiAQAAIAAJ" 
+      target="_top">Andoyer-Lambert</a> correction of the <a 
       href="https://www.Movable-Type.co.UK/scripts/latlong.html#cosine-law"
       target="_top">Law of Cosines</a> formula.</td>
           <td align="right" valign="top">
@@ -6397,9 +6465,8 @@
         <span class="summary-sig-arg">lam21</span>,
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>)</span><br />
       Compute the <i>angular</i> distance between two (ellipsoidal) points 
-      using the <a 
-      href="https://NavLib.net/wp-content/uploads/2013/10/admiralty-manual-of-navigation-vol-1-1964-english501c.pdf"
-      target="_top">Andoyer-Lambert correction</a> of the <a 
+      using the <a href="https://books.google.com/books?id=x2UiAQAAIAAJ" 
+      target="_top">Andoyer-Lambert</a> correction of the <a 
       href="https://www.Movable-Type.co.UK/scripts/latlong.html#cosine-law"
       target="_top">Law of Cosines</a> formula.</td>
           <td align="right" valign="top">
@@ -6425,7 +6492,7 @@
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Compute the distance between two (ellipsoidal) points using the <a 
       href="https://www2.UNB.Ca/gge/Pubs/TR77.pdf" 
-      target="_top">Forsythe-Andoyer-Lambert correction</a> of the <a 
+      target="_top">Forsythe-Andoyer-Lambert</a> correction of the <a 
       href="https://www.Movable-Type.co.UK/scripts/latlong.html#cosine-law"
       target="_top">Law of Cosines</a> formula.</td>
           <td align="right" valign="top">
@@ -6449,7 +6516,7 @@
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>)</span><br />
       Compute the <i>angular</i> distance between two (ellipsoidal) points 
       using the <a href="https://www2.UNB.Ca/gge/Pubs/TR77.pdf" 
-      target="_top">Forsythe-Andoyer-Lambert correction</a> of the <a 
+      target="_top">Forsythe-Andoyer-Lambert</a> correction of the <a 
       href="https://www.Movable-Type.co.UK/scripts/latlong.html#cosine-law"
       target="_top">Law of Cosines</a> formula.</td>
           <td align="right" valign="top">
@@ -8609,7 +8676,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f7b387d0450&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fa5785c0050&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -8944,6 +9011,23 @@
         <span class="summary-sig-arg">*args</span>,
         <span class="summary-sig-arg">**kwds</span>)</span><br />
       Return the string representation of an instantiation.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#int1s" class="summary-sig-name">int1s</a>(<span class="summary-sig-arg">x</span>)</span><br />
+      Count the number of 1-bits in an <code>int</code>, <i>unsigned</i>.</td>
           <td align="right" valign="top">
             
             
@@ -10637,8 +10721,10 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#neg" class="summary-sig-name">neg</a>(<span class="summary-sig-arg">x</span>)</span><br />
-      Negate <code>x</code> unless <code>zero</code> or <code>NEG0</code>.</td>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#neg" class="summary-sig-name">neg</a>(<span class="summary-sig-arg">x</span>,
+        <span class="summary-sig-arg">neg0</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Negate <code>x</code> and optionally, negate <code>0.0</code> amd 
+      <code>-0.0</code>.</td>
           <td align="right" valign="top">
             
             
@@ -13307,7 +13393,7 @@ ygeodesy'"><code class="variable-quote">'</code><code class="variable-string">/U
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'23.9.21'"><code class="variable-quote">'</code><code class="variable-string">23.9.21</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'23.10.5'"><code class="variable-quote">'</code><code class="variable-string">23.10.5</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -14951,6 +15037,33 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
   </dl>
 </td></tr></table>
 </div>
+<a name="atan1d"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">atan1d</span>&nbsp;(<span class="sig-arg">y</span>,
+        <span class="sig-arg">x</span>=<span class="sig-default">1.0</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return <code>atan(<b>y</b> / <b>x</b>)</code> angle in 
+  <code>degrees</code> <i class="math">[-90..+90]</i> using 
+  <code>atan2d</code> for consistency and to avoid 
+  <code>ZeroDivisionError</code>.</p>
+  <dl class="fields">
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.utily-module.html#atan2d" 
+        class="link">pygeodesy.atan2d</a>.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="atan2b"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -15011,22 +15124,22 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">atand</span>&nbsp;(<span class="sig-arg">y_x</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">atand</span>&nbsp;(<span class="sig-arg">x</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Return <code>atan(<b>y_x</b>)</code> angle in 
-  <code>degrees</code>.</p>
+  <p>DEPRECATED, use function <a href="pygeodesy.utily-module.html#atan1d" 
+  class="link">pygeodesy.atan1d</a>.</p>
   <dl class="fields">
+    <dt>Decorators:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code>@deprecated_function</code></li>
+    </ul></dd>
   </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        Function <a href="pygeodesy.utily-module.html#atan2d" 
-        class="link">pygeodesy.atan2d</a>.
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="attrs"></a>
 <div>
@@ -15441,7 +15554,8 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
         <li><strong class="pname"><code>up</code></strong> - Number of call stack frames up (<code>int</code>).</li>
         <li><strong class="pname"><code>dflt</code></strong> - Default return value (<code>any</code>).</li>
         <li><strong class="pname"><code>source</code></strong> - Include source file name and line number (<code>bool</code>).</li>
-        <li><strong class="pname"><code>underOK</code></strong> - Private, internal callables are OK (<code>bool</code>).</li>
+        <li><strong class="pname"><code>underOK</code></strong> - If <code>True</code>, private, internal callables are OK, 
+          otherwise private callables are skipped (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The callable name (<code>str</code>) or <b><code>dflt</code></b> 
@@ -16865,8 +16979,8 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
   </tr></table>
   
   <p>Compute the distance between two (ellipsoidal) points using the <a 
-  href="https://NavLib.net/wp-content/uploads/2013/10/admiralty-manual-of-navigation-vol-1-1964-english501c.pdf"
-  target="_top">Andoyer-Lambert correction</a> of the <a 
+  href="https://books.google.com/books?id=x2UiAQAAIAAJ" 
+  target="_top">Andoyer-Lambert</a> correction of the <a 
   href="https://www.Movable-Type.co.UK/scripts/latlong.html#cosine-law" 
   target="_top">Law of Cosines</a> formula.</p>
   <dl class="fields">
@@ -16944,9 +17058,8 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
   </tr></table>
   
   <p>Compute the <i>angular</i> distance between two (ellipsoidal) points 
-  using the <a 
-  href="https://NavLib.net/wp-content/uploads/2013/10/admiralty-manual-of-navigation-vol-1-1964-english501c.pdf"
-  target="_top">Andoyer-Lambert correction</a> of the <a 
+  using the <a href="https://books.google.com/books?id=x2UiAQAAIAAJ" 
+  target="_top">Andoyer-Lambert</a> correction of the <a 
   href="https://www.Movable-Type.co.UK/scripts/latlong.html#cosine-law" 
   target="_top">Law of Cosines</a> formula.</p>
   <dl class="fields">
@@ -17021,7 +17134,7 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
   
   <p>Compute the distance between two (ellipsoidal) points using the <a 
   href="https://www2.UNB.Ca/gge/Pubs/TR77.pdf" 
-  target="_top">Forsythe-Andoyer-Lambert correction</a> of the <a 
+  target="_top">Forsythe-Andoyer-Lambert</a> correction of the <a 
   href="https://www.Movable-Type.co.UK/scripts/latlong.html#cosine-law" 
   target="_top">Law of Cosines</a> formula.</p>
   <dl class="fields">
@@ -17100,7 +17213,7 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
   
   <p>Compute the <i>angular</i> distance between two (ellipsoidal) points 
   using the <a href="https://www2.UNB.Ca/gge/Pubs/TR77.pdf" 
-  target="_top">Forsythe-Andoyer-Lambert correction</a> of the <a 
+  target="_top">Forsythe-Andoyer-Lambert</a> correction of the <a 
   href="https://www.Movable-Type.co.UK/scripts/latlong.html#cosine-law" 
   target="_top">Law of Cosines</a> formula.</p>
   <dl class="fields">
@@ -21215,11 +21328,12 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>pov</code></strong> - Point-Of-View outside the earth (<code>Cartesian</code>, <a 
           href="pygeodesy.ecef.Ecef9Tuple-class.html" 
-          class="link">Ecef9Tuple</a> or <a 
+          class="link">Ecef9Tuple</a> <code>LatLon</code> or <a 
           href="pygeodesy.vector3d.Vector3d-class.html" 
           class="link">Vector3d</a>).</li>
         <li><strong class="pname"><code>los</code></strong> - Line-Of-Sight, <i>direction</i> to earth (<a 
-          href="pygeodesy.vector3d.Vector3d-class.html" 
+          href="pygeodesy.ltpTuples.Los-class.html" class="link">Los</a>, 
+          <a href="pygeodesy.vector3d.Vector3d-class.html" 
           class="link">Vector3d</a>) or <code>None</code> to point to the 
           earth' center.</li>
         <li><strong class="pname"><code>earth</code></strong> - The earth model (<a href="pygeodesy.datums.Datum-class.html" 
@@ -21290,11 +21404,12 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>pov</code></strong> - Point-Of-View outside the tri-/biaxial (<code>Cartesian</code>, 
           <a href="pygeodesy.ecef.Ecef9Tuple-class.html" 
-          class="link">Ecef9Tuple</a> or <a 
+          class="link">Ecef9Tuple</a> <code>LatLon</code> or <a 
           href="pygeodesy.vector3d.Vector3d-class.html" 
           class="link">Vector3d</a>).</li>
         <li><strong class="pname"><code>los</code></strong> - Line-Of-Sight, <i>direction</i> to the tri-/biaxial (<a 
-          href="pygeodesy.vector3d.Vector3d-class.html" 
+          href="pygeodesy.ltpTuples.Los-class.html" class="link">Los</a>, 
+          <a href="pygeodesy.vector3d.Vector3d-class.html" 
           class="link">Vector3d</a>) or <code>None</code> to point to the 
           tri-/biaxial's center.</li>
         <li><strong class="pname"><code>tri_biax</code></strong> - A triaxial (<a href="pygeodesy.triaxials.Triaxial-class.html" 
@@ -21320,8 +21435,8 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
         <dd><a href="pygeodesy.namedTuples.Vector4Tuple-class.html" 
           class="link">Vector4Tuple</a><code>(x, y, z, h)</code> on the 
           tri-/biaxial's surface, with <code>h</code> the distance from 
-          <b><code>pov</code></b> to <code>(x, y, z)</code> along the 
-          <b><code>los</code></b>, all in <code>meter</code>, 
+          <b><code>pov</code></b> to <code>(x, y, z)</code> <i>along 
+          the</i> <b><code>los</code></b>, all in <code>meter</code>, 
           conventionally.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
@@ -21336,8 +21451,11 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
         Function <a href="pygeodesy.formy-module.html#hartzell" 
         class="link">pygeodesy.hartzell</a>, <a 
         href="pygeodesy.ltp-module.html#tyr3d" 
-        class="link">pygeodesy.tyr3d</a> for <b><code>los</code></b> and <a
-        
+        class="link">pygeodesy.tyr3d</a>, class <a 
+        href="pygeodesy.ltpTuples.Los-class.html" 
+        class="link">pygeodesy.Los</a> and <a 
+        href="https://PyPI.org/project/pymap3d" 
+        target="_top">lookAtSpheroid</a> and <a 
         href="https://StephenHartzell.Medium.com/satellite-line-of-sight-intersection-with-earth-d786b4a6a9b6"
         target="_top"><i>Satellite Line-of-Sight Intersection with 
         Earth</i></a>.
@@ -21358,7 +21476,7 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f7b387d0450&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fa5785c0050&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -22099,6 +22217,29 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
         <dd>Representation (<code>str</code>).</dd>
   </dl>
 </td></tr></table>
+</div>
+<a name="int1s"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">int1s</span>&nbsp;(<span class="sig-arg">x</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Count the number of 1-bits in an <code>int</code>, 
+  <i>unsigned</i>.</p>
+  <dl class="fields">
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        <code>int1s(-<b>x</b>) == int1s(abs(<b>x</b>))</code>.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="intersection2"></a>
 <div>
@@ -25262,19 +25403,28 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">neg</span>&nbsp;(<span class="sig-arg">x</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">neg</span>&nbsp;(<span class="sig-arg">x</span>,
+        <span class="sig-arg">neg0</span>=<span class="sig-default">None</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Negate <code>x</code> unless <code>zero</code> or 
-  <code>NEG0</code>.</p>
+  <p>Negate <code>x</code> and optionally, negate <code>0.0</code> amd 
+  <code>-0.0</code>.</p>
   <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>neg0</code></strong> - Defines the return value for zero <code><b>x</b></code>: if 
+          <code>None</code> return <code>0.0</code>, if <code>True</code> 
+          return <code>NEG0 if <b>x</b>=0.0</code> and <code>0.0 if 
+          <b>x</b>=NEG0</code> or if <code>False</code> return 
+          <code><b>x</b></code> <i>as-is</i> (<code>bool</code> or 
+          <code>None</code>).</li>
+    </ul></dd>
     <dt>Returns:</dt>
-        <dd><code>-<b>x</b></code> if <b><code>x</code></b> else 
-          <code>0.0</code>.</dd>
+        <dd><code>-<b>x</b> if <b>x</b> else 0.0, NEG0 or <b>x</b></code>.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -25500,7 +25650,9 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>inst</code></strong> - Instance (<code>any</code>) or <code>None</code> for caller.</li>
         <li><strong class="pname"><code>args</code></strong> - Method or property positional arguments (any <code>type</code>s).</li>
-        <li><strong class="pname"><code>kwds</code></strong> - Method or property keyword arguments (any <code>type</code>s).</li>
+        <li><strong class="pname"><code>kwds</code></strong> - Method or property keyword arguments (any <code>type</code>s), 
+          except <code><b>callername</b>=NN</code>, 
+          <code><b>underOK</b>=False</code> and <code><b>up</b>=2</code>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -25528,7 +25680,9 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>inst</code></strong> - Instance (<code>any</code>).</li>
         <li><strong class="pname"><code>args</code></strong> - Method or property positional arguments (any <code>type</code>s).</li>
-        <li><strong class="pname"><code>kwds</code></strong> - Method or property keyword arguments (any <code>type</code>s).</li>
+        <li><strong class="pname"><code>kwds</code></strong> - Method or property keyword arguments (any <code>type</code>s), 
+          except <code><b>callername</b>=NN</code>, 
+          <code><b>underOK</b>=False</code> and <code><b>up</b>=2</code>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -31249,7 +31403,7 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Sep 20 15:53:31 2023
+    Generated by Epydoc 3.0.1 on Tue Oct  3 15:52:46 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

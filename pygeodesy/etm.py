@@ -84,14 +84,14 @@ from pygeodesy.props import deprecated_method, deprecated_property_RO, \
                             property_doc_
 from pygeodesy.streprs import Fmt, pairs, unstr
 from pygeodesy.units import Degrees, Scalar_
-from pygeodesy.utily import atand, atan2d, _loneg, sincos2
+from pygeodesy.utily import atan1d, atan2d, _loneg, sincos2
 from pygeodesy.utm import _cmlon, _LLEB, _parseUTM5, _toBand, _toXtm8, \
                           _to7zBlldfn, Utm, UTMError
 
 from math import asinh, atan2, degrees, radians, sinh, sqrt
 
 __all__ = _ALL_LAZY.etm
-__version__ = '23.09.07'
+__version__ = '23.09.28'
 
 _OVERFLOW = _1_EPS**2  # about 2e+31
 _TAYTOL   =  pow(EPS, 0.6)
@@ -1014,7 +1014,7 @@ class ExactTransverseMercator(_NamedBase):
         tau = self._E.es_tauf(t)
         g_k = self._scaled2(tau, d2, *sncndn6)
         if ll:
-            g_k += atand(tau), degrees(lam)
+            g_k += atan1d(tau), degrees(lam)
         return g_k  # or (g, k, lat, lon)
 
 

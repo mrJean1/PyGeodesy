@@ -85,7 +85,7 @@ Karney-based functionality
 
   - L{UtmUps}, L{Epsg} -- U{UTMUPS<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1UTMUPS.html>}
 
-  - L{pygeodesy.atand}, L{pygeodesy.atan2d}, L{pygeodesy.sincos2}, L{pygeodesy.sincos2d}, L{pygeodesy.tand} -- U{geomath.Math
+  - L{pygeodesy.atan1d}, L{pygeodesy.atan2d}, L{pygeodesy.sincos2}, L{pygeodesy.sincos2d}, L{pygeodesy.tand} -- U{geomath.Math
     <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Math.html>}
 
 are I{transcoded} from C++ classes in I{Karney}'s U{GeographicLib<https://GeographicLib.SourceForge.io/C++/doc/annotated.html>}.
@@ -131,20 +131,22 @@ in C{pygeodesy} are based on I{Karney}'s post U{Area of a spherical polygon
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import _copysign, neg, unsigned0, _xgeographiclib, \
-                             _xImportError, _xversion_info, _xinstanceof, \
-                             _zip,  isodd  # PYCHOK shared
-from pygeodesy.constants import NAN, _isfinite as _math_isfinite, _0_0, _1_16th, \
-                               _1_0, _2_0, _180_0, _N_180_0, _360_0
+from pygeodesy.basics import _copysign, int1s, isint, neg, unsigned0, \
+                             _xgeographiclib, _xImportError, _xversion_info, \
+                             _xinstanceof, _zip,  isodd  # PYCHOK shared
+from pygeodesy.constants import NAN, _isfinite as _math_isfinite, _0_0, \
+                               _1_16th,  _1_0, _2_0, _180_0, _N_180_0, _360_0
 from pygeodesy.datums import _a_ellipsoid, _EWGS84, _WGS84  # PYCHOK shared
 # from pygeodesy.ellipsoids import _EWGS84  # from .datums
-from pygeodesy.errors import GeodesicError, _ValueError, _xkwds, _xkwds_get
+from pygeodesy.errors import GeodesicError, itemsorted, _ValueError, _xkwds, \
+                            _xkwds_get
 from pygeodesy.fmath import cbrt, fremainder, hypot as _hypot, norm2, \
                             Fsum, unstr  # PYCHOK shared
 # from pygeodesy.fsums import Fsum  # from .fmath
-from pygeodesy.interns import _2_, _a12_, _area_, _azi2_, _azi12_, _composite_, \
-                              _lat1_, _lat2_, _lon1_, _lon2_, _m12_, _M12_, _M21_, \
-                              _number_, _s12_, _S12_
+from pygeodesy.interns import NN, _2_, _a12_, _area_, _azi2_, _azi12_, \
+                             _composite_, _lat1_, _lat2_, _lon1_, _lon2_, \
+                             _m12_, _M12_, _M21_, _number_, _s12_, _S12_, \
+                             _UNDER_,  _BAR_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, _getenv
 from pygeodesy.named import _Dict, _NamedBase, _NamedTuple, notImplemented, _Pass
 from pygeodesy.props import deprecated_method, Property_RO, property_RO
@@ -157,7 +159,7 @@ from pygeodesy.utily import atan2d, sincos2d, tand, _unrollon,  fabs
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.karney
-__version__ = '23.09.15'
+__version__ = '23.09.28'
 
 _K_2_0      = _getenv('PYGEODESY_GEOGRAPHICLIB', _2_) == _2_
 _perimeter_ = 'perimeter'
@@ -251,15 +253,27 @@ class Caps(object):  # PYCHOK
     _DEBUG_LINE    =  1 << 23  # (INTERNAL) include Line details
     _DEBUG_ALL     = _DEBUG_AREA | _DEBUG_DIRECT | _DEBUG_INVERSE | \
                      _DEBUG_LINE | _ANGLE_ONLY | _SALPs_CALPs
+
     _OUT_ALL       =  ALL
     _OUT_MASK      =  ALL | LONG_UNROLL | REVERSE2 | _DEBUG_ALL
 
     _AZIMUTH_LATITUDE_LONGITUDE           =  AZIMUTH | LATITUDE | LONGITUDE
     _DEBUG_DIRECT_LINE                    = _DEBUG_DIRECT | _DEBUG_LINE
-    _DISTANCE_IN_OUT                      =  DISTANCE_IN & _OUT_MASK
+#   _DISTANCE_IN_OUT                      =  DISTANCE_IN & _OUT_MASK  # == DISTANCE_IN in .gx, .gxline
     _LINE                                 =  AZIMUTH | LATITUDE | LONG_UNROLL
     _REDUCEDLENGTH_GEODESICSCALE          =  REDUCEDLENGTH | GEODESICSCALE
 #   _REDUCEDLENGTH_GEODESICSCALE_DISTANCE =  REDUCEDLENGTH | GEODESICSCALE | DISTANCE
+
+    def toStr(self, Csk, sep=_BAR_):
+        '''Return a C{Caps} or C{outmask} as C{str} or tuple of C{str}s.
+        '''
+        s = []
+        for c, C in itemsorted(self.__class__.__dict__):
+            if isint(C) and (Csk & C) and int1s(C) == 1 \
+                        and (C in (Caps.REVERSE2, Caps._SALPs_CALPs)
+                               or c.replace(_UNDER_, NN).isupper()):
+                s.append(c)
+        return sep.join(s) if sep else tuple(s)
 
 Caps = Caps()  # PYCHOK singleton
 '''I{Enum}-style masks to be bit-C{or}'ed to specify geodesic or

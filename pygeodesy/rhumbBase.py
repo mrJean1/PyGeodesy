@@ -53,7 +53,7 @@ from pygeodesy.vector3d import _intersect3d3, Vector3d  # in .intersection2 belo
 # from math import fabs  # from .fmath
 
 __all__ = ()
-__version__ = '23.09.20'
+__version__ = '23.09.22'
 
 _anti_ = _Dash('anti')
 _rls   = []  # instances of C{RbumbLine...} to be updated
@@ -354,9 +354,8 @@ class RhumbBase(_CapsBase):
         return r
 
     def _Inverse4(self, lon12, r, outmask):  # PYCHOK no cover
-        '''I{Must be overloaded}, see function C{notOverloaded}.
-        '''
-        _MODS.named.notOverloaded(self, lon12, r, outmask)
+        '''(INTERNAL) I{Must be overloaded}.'''
+        _MODS.named.notOverloaded(self, lon12, r, Caps.toStr(outmask))
 
     def Inverse8(self, lat1, lon1, azi12, s12, outmask=Caps.AZIMUTH_DISTANCE_AREA):
         '''Like method L{Rhumb.Inverse} but returning a L{Rhumb8Tuple} with area C{S12}.
@@ -394,19 +393,16 @@ class RhumbBase(_CapsBase):
 
     @Property_RO
     def _mpd(self):  # PYCHOK no cover
-        '''I{Must be overloaded}, see function C{notOverloaded}.
-        '''
+        '''(INTERNAL) I{Must be overloaded}.'''
         _MODS.named.notOverloaded(self)
 
     @property_RO
     def _RhumbLine(self):  # PYCHOK no cover
-        '''I{Must be overloaded}, see function C{notOverloaded}.
-        '''
-        _MODS.named.notOverloaded(self)
+        '''(INTERNAL) I{Must be overloaded}.'''
+        _MODS.named.notOverloaded(self, underOK=True)
 
     def _S12d(self, s1, s2, lon):  # PYCHOK no cover
-        '''I{Must be overloaded}, see function C{notOverloaded}.
-        '''
+        '''(INTERNAL) I{Must be overloaded}.'''
         _MODS.named.notOverloaded(self, s1, s2, lon)
 
     @Property
@@ -430,8 +426,7 @@ class RhumbBase(_CapsBase):
                 self.exact = False
 
     def toStr(self, prec=6, sep=_COMMASPACE_, **unused):  # PYCHOK no cover
-        '''I{Must be overloaded}, see function C{notOverloaded}.
-        '''
+        '''I{Must be overloaded}.'''
         _MODS.named.notOverloaded(self, prec=prec, sep=sep)
 
 
@@ -680,14 +675,12 @@ class RhumbLineBase(_CapsBase):
 
     @property_RO
     def _mu1(self):  # PYCHOK no cover
-        '''I{Must be overloaded}, see function C{notOverloaded}.
-        '''
-        _MODS.named.notOverloaded(self)
+        '''(INTERNAL) I{Must be overloaded}.'''
+        _MODS.named.notOverloaded(self, underOK=True)
 
     def _mu2lat(self, mu2):  # PYCHOK no cover
-        '''I{Must be overloaded}, see function C{notOverloaded}.
-        '''
-        _MODS.named.notOverloaded(self, mu2)
+        '''(INTERNAL) I{Must be overloaded}.'''
+        _MODS.named.notOverloaded(self, mu2, underOK=True)
 
     def nearestOn4(self, lat, lon, tol=_TOL, exact=None, eps=EPS, est=None):
         '''I{Iteratively} locate the point on this rhumb line nearest to the
@@ -838,8 +831,7 @@ class RhumbLineBase(_CapsBase):
         return r
 
     def _Position4(self, a12, mu2, s12, mu12):  # PYCHOK no cover
-        '''I{Must be overloaded}, see function C{notOverloaded}.
-        '''
+        '''(INTERNAL) I{Must be overloaded}.'''
         _MODS.named.notOverloaded(self, a12, s12, mu2, mu12)
 
     @Property_RO

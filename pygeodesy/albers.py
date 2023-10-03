@@ -32,13 +32,13 @@ from pygeodesy.named import _NamedBase, _NamedTuple, _Pass
 from pygeodesy.props import deprecated_Property_RO, Property_RO, _update_all
 from pygeodesy.streprs import Fmt, strs, unstr
 from pygeodesy.units import Bearing, Float_, Lat, Lat_, Lon, Meter, Scalar_
-from pygeodesy.utily import atand, atan2d, degrees360, sincos2, \
-                            sincos2d, sincos2d_
+from pygeodesy.utily import atan1, atan1d, degrees360, sincos2, sincos2d, \
+                            sincos2d_
 
-from math import atan, atan2, atanh, degrees, fabs, radians, sqrt
+from math import atan2, atanh, degrees, fabs, radians, sqrt
 
 __all__ = _ALL_LAZY.albers
-__version__ = '23.09.07'
+__version__ = '23.09.29'
 
 _k1_    = 'k1'
 _NUMIT  =   8  # XXX 4?
@@ -156,7 +156,7 @@ class _AlbersBase(_NamedBase):
         else:
             ta0, C = self._ta0C2(ca1, sa1, ta1, ca2, sa2, ta2)
 
-        self._lat0 = _Lat(lat0=self._sign * atand(ta0))
+        self._lat0 = _Lat(lat0=self._sign * atan1d(ta0))
         self._m02  =  m02 = _1_x21(E.f1 * ta0)
         self._n0   =  n0  =  ta0 / hypot1(ta0)
         if polar:
@@ -396,7 +396,7 @@ class _AlbersBase(_NamedBase):
             txi = (txi - d_) / (sqrt(d_2) if d_2 > EPS02 else EPS0)
 
         ta  = self._tanf(txi)
-        lat = atand(s * ta)
+        lat = atan1d(s * ta)
 
         th  = atan2(nx, y1)
         lon = degrees((th / self._k02n0) if n0 else (x / (y1 * k0)))
@@ -649,7 +649,7 @@ class AlbersEqualArea4(_AlbersBase):
         '''
         def _Lat_s_c3(name, s, c):
             r =  Float_(hypot(s, c), name=name, Error=AlbersError)
-            L = _Lat(atan2d(s, c), name=name)
+            L = _Lat(atan1d(s, c), name=name)
             return L, (s / r), (c / r)
 
         self._lat1, sa1, ca1 = _Lat_s_c3(_lat1_, slat1, clat1)
@@ -741,7 +741,7 @@ def _atanh1(x):
                 break
     elif s:
         s =  sqrt(s)
-        s = (atanh(s) if x > 0 else atan(s)) / s - _1_0
+        s = (atanh(s) if x > 0 else atan1(s)) / s - _1_0
     return s
 
 
@@ -751,12 +751,12 @@ def _atanheE(x, E):  # see Ellipsoid._es_atanh, .AuxLat._atanhee
        atan (sqrt(-E.e2) * x) / sqrt(-E.e2) if f < 0  # prolate
        x                                    if f = 0.
     '''
-    e = E.e
-    if E.f > 0:  # .isOblate
-        x =  atanh( x * e) / e
-    elif E.f < 0:  # .isProlate
-        x = (atan2(-x * e, _N_1_0) if x < 0 else
-             atan2( x * e,   _1_0)) / e
+    e = E.e  # == sqrt(E.e2abs)
+    if e and x:
+        if E.f > 0:  # .isOblate
+            x = atanh(x * e) / e
+        elif E.f < 0:  # .isProlate
+            x = atan1(x * e) / e
     return x
 
 

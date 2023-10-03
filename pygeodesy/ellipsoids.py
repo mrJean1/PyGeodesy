@@ -78,20 +78,20 @@ from pygeodesy.interns import NN, _a_, _Airy1830_, _AiryModified_, _b_, _Bessel1
                              _Krassowsky1940_, _meridional_, _lat_, _negative_, _not_finite_, \
                              _prime_vertical_, _radius_, _Sphere_, _SPACE_, _vs_, _WGS72_, \
                              _WGS84_
-from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
-from pygeodesy.named import _lazyNamedEnumItem as _lazy, _NamedEnum, \
-                            _NamedEnumItem, _NamedTuple, _Pass
+# from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS  # from .named
+from pygeodesy.named import _lazyNamedEnumItem as _lazy, _NamedEnum, _NamedEnumItem, \
+                            _NamedTuple, _Pass,  _ALL_LAZY, _MODS
 from pygeodesy.namedTuples import Distance2Tuple, Vector3Tuple, Vector4Tuple
 from pygeodesy.props import deprecated_Property_RO, Property_RO, property_doc_, property_RO
 from pygeodesy.streprs import Fmt, fstr, instr, strs, unstr
 from pygeodesy.units import Bearing_, Distance, Float, Float_, Height, Lam_, Lat, Meter, \
                             Meter2, Meter3, Phi, Phi_, Radius, Radius_, Scalar
-from pygeodesy.utily import atand, atan2b, atan2d, degrees90, m2radians, radians2m, sincos2d
+from pygeodesy.utily import atan1, atan1d, atan2b, degrees90, m2radians, radians2m, sincos2d
 
 from math import asinh, atan, atanh, cos, degrees, exp, fabs, radians, sin, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '23.09.18'
+__version__ = '23.09.29'
 
 _f_0_0    = Float(f =_0_0)  # zero flattening
 _f__0_0   = Float(f_=_0_0)  # zero inverse flattening
@@ -438,7 +438,7 @@ class Ellipsoid(_NamedEnumItem):
         '''
         if self.f:
             f = self._albersCyl._tanf if inverse else self._albersCyl._txif  # PYCHOK attr
-            lat = atand(f(tan(Phi_(lat))))  # PYCHOK attr
+            lat = atan1d(f(tan(Phi_(lat))))  # PYCHOK attr
         return _aux(lat, inverse, Ellipsoid.auxAuthalic)
 
     def auxConformal(self, lat, inverse=False):
@@ -457,7 +457,7 @@ class Ellipsoid(_NamedEnumItem):
         '''
         if self.f:
             f = self.es_tauf if inverse else self.es_taupf  # PYCHOK attr
-            lat = atand(f(tan(Phi_(lat))))  # PYCHOK attr
+            lat = atan1d(f(tan(Phi_(lat))))  # PYCHOK attr
         return _aux(lat, inverse, Ellipsoid.auxConformal)
 
     def auxGeocentric(self, lat, inverse=False):
@@ -476,7 +476,7 @@ class Ellipsoid(_NamedEnumItem):
         '''
         if self.f:
             f = self.a2_b2 if inverse else self.b2_a2
-            lat = atand(f * tan(Phi_(lat)))
+            lat = atan1d(f * tan(Phi_(lat)))
         return _aux(lat, inverse, Ellipsoid.auxGeocentric)
 
     def auxIsometric(self, lat, inverse=False):
@@ -499,8 +499,8 @@ class Ellipsoid(_NamedEnumItem):
         '''
         if self.f:
             r = Phi_(lat, clip=0)
-            lat = degrees(atan(self.es_tauf(sinh(r))) if inverse else
-                         asinh(self.es_taupf(tan(r))))
+            lat = degrees(atan1(self.es_tauf(sinh(r))) if inverse else
+                          asinh(self.es_taupf(tan(r))))
         # clip=0, since auxIsometric(+/-90) is far outside [-90..+90]
         return _aux(lat, inverse, Ellipsoid.auxIsometric, clip=0)
 
@@ -591,7 +591,7 @@ class Ellipsoid(_NamedEnumItem):
         '''
         s, c = sincos2d(lat)  # like Karney's tand(lat)
         s *= self.a_b if inverse else self.b_a
-        return atan2d(s, c)  # == atand(s / c) if c else copysign0(_90_0, lat)
+        return atan1d(s, c)
 
     @Property_RO
     def BetaKs(self):
@@ -646,7 +646,7 @@ class Ellipsoid(_NamedEnumItem):
                 if f > 0:  # .isOblate
                     c2 *= (asinh(sqrt(self.e22abs)) if c2x else atanh(e)) / e
                 elif f < 0:  # .isProlate
-                    c2 *= atan(e) / e  # XXX asin?
+                    c2 *=  atan1(e) / e  # XXX asin?
             c2 = Meter2(c2=(self.a2 + c2) * _0_5)
         return c2
 

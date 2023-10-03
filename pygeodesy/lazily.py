@@ -143,7 +143,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'LambertEqualArea', 'Orthographic', 'Stereographic',
                                  'equidistant', 'gnomonic'),
                          basics=('clips', 'copysign0', 'copytype', 'halfs2',
-                                 'isbool', 'isclass', 'iscomplex', 'isfloat',
+                                 'int1s', 'isbool', 'isclass', 'iscomplex', 'isfloat',
                                  'isidentifier', 'isinstanceof', 'isint', 'iskeyword', 'islistuple', 'isodd',
                                  'isscalar', 'issequence', 'isstr', 'issubclassof',
                                  'len2', 'map1', 'map2', 'neg', 'neg_',
@@ -167,7 +167,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'bases', 'datum', 'nvector',  # DEPRECATED modules, see _sub_packages
                                  'ClipCS3Tuple', 'EasNorExact4Tuple', 'EcefCartesian', 'HeightIDW', 'HeightIDW2', 'HeightIDW3',  # DEPRECATED classes
                                  'LatLonExact4Tuple', 'Ned3Tuple', 'RefFrameError', 'Rhumb7Tuple', 'Transform7Tuple', 'TriAngle4Tuple', 'UtmUps4Tuple',
-                                 'anStr', 'areaof', 'bounds', 'clipCS3', 'clipDMS', 'clipStr', 'collins',   # most of the DEPRECATED functions, ...
+                                 'anStr', 'areaof', 'atand', 'bounds', 'clipCS3', 'clipDMS', 'clipStr', 'collins',   # most of the DEPRECATED functions, ...
                                  'decodeEPSG2', 'encodeEPSG', 'equirectangular3', 'enStr2',   # ... except ellipsoidal, spherical flavors
                                  'excessAbc', 'excessGirard', 'excessLHuilier',
                                  'false2f', 'falsed2f', 'float0', 'fStr', 'fStrzs', 'hypot3',
@@ -271,8 +271,8 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'LocalCartesian', 'LocalError', 'Ltp', 'tyr3d'),
                       ltpTuples=('Aer', 'Aer4Tuple', 'Attitude4Tuple',
                                  'ChLVEN2Tuple', 'ChLV9Tuple', 'ChLVYX2Tuple', 'ChLVyx2Tuple',
-                                 'Enu', 'Enu4Tuple', 'Footprint5Tuple', 'Local9Tuple',
-                                 'Ned', 'Ned4Tuple', 'XyzLocal', 'Xyz4Tuple'),
+                                 'Enu', 'Enu4Tuple', 'Footprint5Tuple', 'Local9Tuple', 'Los',
+                                 'Ned', 'Ned4Tuple', 'Uvw', 'Uvw3Tuple', 'XyzLocal', 'Xyz4Tuple'),
                            mgrs=('Mgrs', 'parseMGRS', 'toMgrs', 'Mgrs4Tuple', 'Mgrs6Tuple'),
                           named=('callername', 'classname', 'classnaming', 'modulename',
                                  'nameof', 'notImplemented', 'notOverloaded'),
@@ -328,7 +328,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'Radius_', 'Scalar', 'Scalar_', 'Zone'),
                       unitsBase=('Float', 'Int', 'Radius', 'Str'),
                             ups=('Ups', 'UPSError', 'parseUPS5', 'toUps8', 'upsZoneBand5'),
-                          utily=('acos1', 'acre2ha', 'acre2m2', 'asin1', 'atand', 'atan2b', 'atan2d',
+                          utily=('acos1', 'acre2ha', 'acre2m2', 'asin1', 'atan1', 'atan1d', 'atan2b', 'atan2d',
                                  'chain2m', 'circle4', 'cot', 'cot_', 'cotd', 'cotd_',
                                  'degrees', 'degrees90', 'degrees180', 'degrees360', 'degrees2grades', 'degrees2m',
 #                                                                                    'degrees2grades as degrees2gons',
@@ -444,7 +444,7 @@ class _ALL_MODS(object):
 _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '23.09.14'
+__version__ = '23.10.02'
 
 
 def _ALL_OTHER(*objs):

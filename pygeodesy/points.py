@@ -64,7 +64,7 @@ from pygeodesy.utily import atan2b, degrees90, degrees180, degrees2m, \
 from math import cos, fabs, fmod, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '23.08.23'
+__version__ = '23.09.22'
 
 _ilat_  = 'ilat'
 _ilon_  = 'ilon'
@@ -610,7 +610,7 @@ class _Basequence(_Sequence):  # immutable, on purpose
             yield _point(_array[i])
 
     def point(self, *attrs):  # PYCHOK no cover
-        '''(INTERNAL) I{Must be overloaded}, see function C{notOverloaded in}.
+        '''I{Must be overloaded}.
 
            @arg attrs: Optional arguments.
         '''

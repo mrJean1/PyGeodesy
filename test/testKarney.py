@@ -4,9 +4,9 @@
 # Test L{karney} module and wrappers.
 
 __all__ = ('Tests',)
-__version__ = '23.07.10'
+__version__ = '23.09.22'
 
-from bases import GeodSolve, geographiclib, TestsBase
+from bases import endswith, GeodSolve, geographiclib, TestsBase
 
 from pygeodesy import karney, LatLon_, NEG0, unroll180, wrap180
 from pygeodesy.constants import _0_0, _360_0
@@ -132,6 +132,11 @@ class Tests(TestsBase):
                   'ALL', 'LONG_UNROLL'):
             m = getattr(g, n)
             self.test('Geodesic.' + n, m, m)
+        self.test('Geodesic.ALL', hex(g.ALL), hex(g.EMPTY | g.LATITUDE | g.LONGITUDE | g.AZIMUTH|
+                                                  g.DISTANCE | g.STANDARD | g.DISTANCE_IN |
+                                                  g.REDUCEDLENGTH | g.GEODESICSCALE | g.AREA))
+        Cs = karney.Caps
+        self.test(Cs.toStr.__name__, Cs.toStr(g.ALL), 'AREA|AZIMUTH|DISTANCE|DISTANCE_IN|GEODESICSCALE|LATITUDE|LONGITUDE|REDUCEDLENGTH', known=endswith)
 
     def testMath(self):
         self.subtitle(karney, 'Math')

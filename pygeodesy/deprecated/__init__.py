@@ -23,7 +23,7 @@ if _isLazy:  # XXX force import of all deprecated modules
     # XXX instead, use module_property or enhance .lazily
 
 __all__ = _ALL_LAZY.deprecated
-__version__ = '23.09.12'
+__version__ = '23.09.28'
 
 # **) MIT License
 #

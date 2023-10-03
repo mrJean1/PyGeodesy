@@ -10,7 +10,8 @@ L{pygeodesy.isnon0} and L{pygeodesy.remainder}.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import _0_0, _copysign, isbool, iscomplex, isint
+from pygeodesy.basics import _0_0, _copysign, isbool, iscomplex, \
+                              isint, neg
 from pygeodesy.errors import _xError, _xError2, _xkwds_get
 # from pygeodesy.fmath import fprod  # from _MODS
 from pygeodesy.interns import _INF_, _NAN_, _UNDER_
@@ -32,7 +33,7 @@ except ImportError:  # Python 3.3-
         return _log(x, 2)
 
 __all__ = _ALL_LAZY.constants
-__version__ = '23.09.18'
+__version__ = '23.09.28'
 
 
 def _copysign_0_0(y):
@@ -132,16 +133,16 @@ def _naninf(*xs):
 
 
 def _over(p, q):
-    '''(INTERNAL) Return C{B{p} / B{q}} avoiding ZeroDivisionError exceptions.
+    '''(INTERNAL) Return C{B{p} / B{q}} avoiding C{ZeroDivisionError} exceptions.
     '''
     try:
-        return (p / q) if p else _0_0
+        return (p / q) if p else neg(p, neg0=q < 0)
     except ZeroDivisionError:
         return _naninf(p)
 
 
 def _1_over(x):
-    '''(INTERNAL) Return reciprocal C{1 / B{x}} avoiding ZeroDivisionError exceptions.
+    '''(INTERNAL) Return reciprocal C{1 / B{x}} avoiding C{ZeroDivisionError} exceptions.
     '''
     try:
         return _1_0 / float(x)

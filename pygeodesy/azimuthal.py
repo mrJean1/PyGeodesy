@@ -63,15 +63,15 @@ from pygeodesy.namedTuples import LatLon2Tuple, LatLon4Tuple
 from pygeodesy.props import deprecated_Property_RO, Property_RO, \
                             property_doc_, _update_all
 from pygeodesy.streprs import Fmt, _fstrLL0, unstr
-from pygeodesy.units import Bearing, Easting, Lat_, Lon_, \
-                            Northing, Scalar, Scalar_
-from pygeodesy.utily import asin1, atan2b, atan2d, sincos2, \
+from pygeodesy.units import Bearing, Easting, Lat_, Lon_, Northing, \
+                            Scalar, Scalar_
+from pygeodesy.utily import asin1, atan1, atan2b, atan2d, sincos2, \
                             sincos2d, sincos2d_
 
-from math import acos, atan, atan2, degrees, fabs, sin, sqrt
+from math import acos, atan2, degrees, fabs, sin, sqrt
 
 __all__ = _ALL_LAZY.azimuthal
-__version__ = '23.09.07'
+__version__ = '23.09.29'
 
 _EPS_K         = _EPStol * _0_1  # Karney's eps_ or _EPSmin * _0_1?
 _over_horizon_ = 'over horizon'
@@ -144,8 +144,7 @@ class _AzimuthalBase(_NamedBase):
     f = flattening
 
     def forward(self, lat, lon, name=NN):  # PYCHOK no cover
-        '''(INTERNAL) I{Must be overloaded}, see function C{notOverloaded}.
-        '''
+        '''I{Must be overloaded}.'''
         notOverloaded(self, lat, lon, name=name)
 
     def _forward(self, lat, lon, name, _k_t_2):
@@ -236,8 +235,7 @@ class _AzimuthalBase(_NamedBase):
         self._sc0     = sincos2d(self.lat0)
 
     def reverse(self, x, y, name=NN, **LatLon_and_kwds):  # PYCHOK no cover
-        '''(INTERNAL) I{Must be overloaded}, see function C{notOverloaded}.
-        '''
+        '''I{Must be overloaded}.'''
         notOverloaded(self, x, y, name=name, **LatLon_and_kwds)
 
     def _reverse(self, x, y, name, _c, lea, LatLon=None, **LatLon_kwds):
@@ -451,8 +449,7 @@ class _AzimuthalGeodesic(_AzimuthalBase):
 
     @Property_RO
     def geodesic(self):  # PYCHOK no cover
-        '''(INTERNAL) I{Must be overloaded}, see function C{notOverloaded}.
-        '''
+        '''I{Must be overloaded}.'''
         notOverloaded(self)
 
     def _7Tuple(self, e, n, r, M=None, name=NN):
@@ -693,7 +690,7 @@ class Gnomonic(_AzimuthalBase):
                   perpendicular to this.
         '''
         def _c(c):
-            return atan(c) if c > EPS else None
+            return atan1(c) if c > EPS else None
 
         return self._reverse(x, y, name, _c, False, **LatLon_and_kwds)
 
@@ -808,7 +805,7 @@ class _GnomonicBase(_AzimuthalGeodesic):
         e, n, z, q = _enzh4(x, y)
 
         d = a = self.equatoradius
-        s = a * atan(q / a)
+        s = a * atan1(q, a)
         if q > a:  # PYCHOK no cover
             def _d(r, q):
                 return (r.M12 - q * r.m12) * r.m12  # negated
@@ -1123,7 +1120,7 @@ class Stereographic(_AzimuthalBase):
                   perpendicular to this.
         '''
         def _c(c):
-            return (_2_0 * atan2(c, self._k02)) if c > EPS else None
+            return (atan2(c, self._k02) * _2_0) if c > EPS else None
 
         return self._reverse(x, y, name, _c, False, **LatLon_and_kwds)
 

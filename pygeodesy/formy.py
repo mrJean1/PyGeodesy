@@ -41,7 +41,7 @@ from contextlib import contextmanager
 from math import asin, atan, atan2, cos, degrees, fabs, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '23.09.06'
+__version__ = '23.09.29'
 
 _D2_R2  = (PI / _180_0)**2  # degrees- to radians-squared
 _ratio_ = 'ratio'
@@ -189,9 +189,8 @@ def compassAngle(lat1, lon1, lat2, lon2, adjust=True, wrap=False):
 
 
 def cosineAndoyerLambert(lat1, lon1, lat2, lon2, datum=_WGS84, wrap=False):
-    '''Compute the distance between two (ellipsoidal) points using the
-       U{Andoyer-Lambert correction<https://NavLib.net/wp-content/uploads/2013/10/
-       admiralty-manual-of-navigation-vol-1-1964-english501c.pdf>} of the U{Law of
+    '''Compute the distance between two (ellipsoidal) points using the U{Andoyer-Lambert
+       <https://books.google.com/books?id=x2UiAQAAIAAJ>} correction of the U{Law of
        Cosines<https://www.Movable-Type.co.UK/scripts/latlong.html#cosine-law>} formula.
 
        @arg lat1: Start latitude (C{degrees}).
@@ -217,9 +216,8 @@ def cosineAndoyerLambert(lat1, lon1, lat2, lon2, datum=_WGS84, wrap=False):
 
 
 def cosineAndoyerLambert_(phi2, phi1, lam21, datum=_WGS84):
-    '''Compute the I{angular} distance between two (ellipsoidal) points using the
-       U{Andoyer-Lambert correction<https://NavLib.net/wp-content/uploads/2013/10/
-       admiralty-manual-of-navigation-vol-1-1964-english501c.pdf>} of the U{Law of
+    '''Compute the I{angular} distance between two (ellipsoidal) points using the U{Andoyer-Lambert
+       <https://books.google.com/books?id=x2UiAQAAIAAJ>} correction of the U{Law of
        Cosines<https://www.Movable-Type.co.UK/scripts/latlong.html#cosine-law>} formula.
 
        @arg phi2: End latitude (C{radians}).
@@ -256,10 +254,9 @@ def cosineAndoyerLambert_(phi2, phi1, lam21, datum=_WGS84):
 
 
 def cosineForsytheAndoyerLambert(lat1, lon1, lat2, lon2, datum=_WGS84, wrap=False):
-    '''Compute the distance between two (ellipsoidal) points using the
-       U{Forsythe-Andoyer-Lambert correction<https://www2.UNB.Ca/gge/Pubs/TR77.pdf>} of
-       the U{Law of Cosines<https://www.Movable-Type.co.UK/scripts/latlong.html#cosine-law>}
-       formula.
+    '''Compute the distance between two (ellipsoidal) points using the U{Forsythe-Andoyer-Lambert
+       <https://www2.UNB.Ca/gge/Pubs/TR77.pdf>} correction of the U{Law of Cosines
+       <https://www.Movable-Type.co.UK/scripts/latlong.html#cosine-law>} formula.
 
        @arg lat1: Start latitude (C{degrees}).
        @arg lon1: Start longitude (C{degrees}).
@@ -285,7 +282,7 @@ def cosineForsytheAndoyerLambert(lat1, lon1, lat2, lon2, datum=_WGS84, wrap=Fals
 
 def cosineForsytheAndoyerLambert_(phi2, phi1, lam21, datum=_WGS84):
     '''Compute the I{angular} distance between two (ellipsoidal) points using the
-       U{Forsythe-Andoyer-Lambert correction<https://www2.UNB.Ca/gge/Pubs/TR77.pdf>} of
+       U{Forsythe-Andoyer-Lambert<https://www2.UNB.Ca/gge/Pubs/TR77.pdf>} correction of
        the U{Law of Cosines<https://www.Movable-Type.co.UK/scripts/latlong.html#cosine-law>}
        formula.
 
@@ -329,9 +326,8 @@ def cosineForsytheAndoyerLambert_(phi2, phi1, lam21, datum=_WGS84):
 
 
 def cosineLaw(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
-    '''Compute the distance between two points using the U{spherical Law of
-       Cosines<https://www.Movable-Type.co.UK/scripts/latlong.html#cosine-law>}
-       formula.
+    '''Compute the distance between two points using the U{spherical Law of Cosines
+       <https://www.Movable-Type.co.UK/scripts/latlong.html#cosine-law>} formula.
 
        @arg lat1: Start latitude (C{degrees}).
        @arg lon1: Start longitude (C{degrees}).
@@ -359,9 +355,8 @@ def cosineLaw(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
 
 
 def cosineLaw_(phi2, phi1, lam21):
-    '''Compute the I{angular} distance between two points using the U{spherical
-       Law of Cosines<https://www.Movable-Type.co.UK/scripts/latlong.html#cosine-law>}
-       formula.
+    '''Compute the I{angular} distance between two points using the U{spherical Law of
+       Cosines<https://www.Movable-Type.co.UK/scripts/latlong.html#cosine-law>} formula.
 
        @arg phi2: End latitude (C{radians}).
        @arg phi1: Start latitude (C{radians}).
@@ -427,9 +422,8 @@ def _ellipsoidal(earth, where):
 
 
 def equirectangular(lat1, lon1, lat2, lon2, radius=R_M, **adjust_limit_wrap):
-    '''Compute the distance between two points using
-       the U{Equirectangular Approximation / Projection
-       <https://www.Movable-Type.co.UK/scripts/latlong.html#equirectangular>}.
+    '''Compute the distance between two points using the U{Equirectangular Approximation
+       / Projection<https://www.Movable-Type.co.UK/scripts/latlong.html#equirectangular>}.
 
        @arg lat1: Start latitude (C{degrees}).
        @arg lon1: Start longitude (C{degrees}).
@@ -464,9 +458,8 @@ def _equirectangular(lat1, lon1, lat2, lon2, **adjust_limit_wrap):
 
 
 def equirectangular_(lat1, lon1, lat2, lon2, adjust=True, limit=45, wrap=False):
-    '''Compute the distance between two points using the U{Equirectangular
-       Approximation / Projection
-       <https://www.Movable-Type.co.UK/scripts/latlong.html#equirectangular>}.
+    '''Compute the distance between two points using the U{Equirectangular Approximation
+       / Projection<https://www.Movable-Type.co.UK/scripts/latlong.html#equirectangular>}.
 
        This approximation is valid for short distance of several hundred Km
        or Miles, see the B{C{limit}} keyword argument and L{LimitError}.
@@ -546,8 +539,7 @@ def euclidean(lat1, lon1, lat2, lon2, radius=R_M, adjust=True, wrap=False):
 
 
 def euclidean_(phi2, phi1, lam21, adjust=True):
-    '''Approximate the I{angular} C{Euclidean} distance between two
-       (spherical) points.
+    '''Approximate the I{angular} C{Euclidean} distance between two (spherical) points.
 
        @arg phi2: End latitude (C{radians}).
        @arg phi1: Start latitude (C{radians}).
@@ -568,8 +560,8 @@ def euclidean_(phi2, phi1, lam21, adjust=True):
 
 
 def excessAbc_(A, b, c):
-    '''Compute the I{spherical excess} C{E} of a (spherical) triangle
-       from two sides and the included (small) angle.
+    '''Compute the I{spherical excess} C{E} of a (spherical) triangle from two sides
+       and the included (small) angle.
 
        @arg A: An interior triangle angle (C{radians}).
        @arg b: Frist adjacent triangle side (C{radians}).
@@ -591,8 +583,8 @@ def excessAbc_(A, b, c):
 
 
 def excessCagnoli_(a, b, c):
-    '''Compute the I{spherical excess} C{E} of a (spherical) triangle using
-       U{Cagnoli's<https://Zenodo.org/record/35392>} (D.34) formula.
+    '''Compute the I{spherical excess} C{E} of a (spherical) triangle using U{Cagnoli's
+       <https://Zenodo.org/record/35392>} (D.34) formula.
 
        @arg a: First triangle side (C{radians}).
        @arg b: Second triangle side (C{radians}).
@@ -617,9 +609,8 @@ def excessCagnoli_(a, b, c):
 
 
 def excessGirard_(A, B, C):
-    '''Compute the I{spherical excess} C{E} of a (spherical) triangle using
-       U{Girard's<https://MathWorld.Wolfram.com/GirardsSphericalExcessFormula.html>}
-       formula.
+    '''Compute the I{spherical excess} C{E} of a (spherical) triangle using U{Girard's
+       <https://MathWorld.Wolfram.com/GirardsSphericalExcessFormula.html>} formula.
 
        @arg A: First interior triangle angle (C{radians}).
        @arg B: Second interior triangle angle (C{radians}).
@@ -638,9 +629,8 @@ def excessGirard_(A, B, C):
 
 
 def excessLHuilier_(a, b, c):
-    '''Compute the I{spherical excess} C{E} of a (spherical) triangle using
-       U{L'Huilier's<https://MathWorld.Wolfram.com/LHuiliersTheorem.html>}
-       Theorem.
+    '''Compute the I{spherical excess} C{E} of a (spherical) triangle using U{L'Huilier's
+       <https://MathWorld.Wolfram.com/LHuiliersTheorem.html>} Theorem.
 
        @arg a: First triangle side (C{radians}).
        @arg b: Second triangle side (C{radians}).
@@ -695,8 +685,8 @@ def excessKarney(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
 
 
 def excessKarney_(phi2, phi1, lam21):
-    '''Compute the I{spherical excess} C{E} of a (spherical) quadrilateral bounded
-       by a segment of a great circle, two meridians and the equator using U{Karney's
+    '''Compute the I{spherical excess} C{E} of a (spherical) quadrilateral bounded by
+       a segment of a great circle, two meridians and the equator using U{Karney's
        <https://MathOverflow.net/questions/97711/the-area-of-spherical-polygons>}
        method.
 
@@ -948,9 +938,9 @@ def hartzell(pov, los=None, earth=_WGS84, name=NN, **LatLon_and_kwds):
        from a Point-Of-View in space.
 
        @arg pov: Point-Of-View outside the earth (C{Cartesian}, L{Ecef9Tuple}
-                 or L{Vector3d}).
-       @kwarg los: Line-Of-Sight, I{direction} to earth (L{Vector3d}) or
-                   C{None} to point to the earth' center.
+                 C{LatLon} or L{Vector3d}).
+       @kwarg los: Line-Of-Sight, I{direction} to earth (L{Los}, L{Vector3d})
+                   or C{None} to point to the earth' center.
        @kwarg earth: The earth model (L{Datum}, L{Ellipsoid}, L{Ellipsoid2},
                      L{a_f2Tuple} or C{scalar} radius in C{meter}).
        @kwarg name: Optional name (C{str}).
@@ -975,7 +965,7 @@ def hartzell(pov, los=None, earth=_WGS84, name=NN, **LatLon_and_kwds):
     D = earth if isinstance(earth, Datum) else \
            _spherical_datum(earth, name=hartzell.__name__)
     try:
-        r, _ = _MODS.triaxials._hartzell3d2(pov, los, D.ellipsoid._triaxial)
+        r, h = _MODS.triaxials._hartzell3d2(pov, los, D.ellipsoid._triaxial)
     except Exception as x:
         raise IntersectionError(pov=pov, los=los, earth=earth, cause=x)
 
@@ -1022,12 +1012,15 @@ def hartzell(pov, los=None, earth=_WGS84, name=NN, **LatLon_and_kwds):
 #           raise _Error(_too_(_distant_))
 #
 #       r = p3.minus(u3.times(d))
-# #     h = p3.minus(r).length  # distance to ellipsoid
+# #     h = p3.minus(r).length  # distance to ellipsoid  # == -d
 
     r = _xnamed(r, name or hartzell.__name__)
+    C = _MODS.cartesianBase.CartesianBase
     if LatLon_and_kwds:
-        c = _MODS.cartesianBase.CartesianBase(r, datum=D, name=r.name)
-        r =  c.toLatLon(**LatLon_and_kwds)
+        c = C(r, datum=D, name=r.name)
+        r = c.toLatLon(**_xkwds(LatLon_and_kwds, height=h))
+    elif isinstance(r, C):
+        r.height = h
     return r
 
 
@@ -1516,6 +1509,7 @@ def n_xyz2latlon(x, y, z, name=NN):
 
        @see: Function L{n_xyz2philam}.
     '''
+    print(y, x, atan2d(y, x))
     return LatLon2Tuple(atan2d(z, hypot(x, y)), atan2d(y, x), name=name)
 
 
