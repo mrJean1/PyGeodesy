@@ -1099,7 +1099,7 @@ class Ellipsoid(_NamedEnumItem):
                  methods L{Ellipsoid.height4} and L{Triaxial.hartzell4}.
         '''
         try:
-            v, d = _MODS.triaxials._hartzell3d2(pov, los, self._triaxial)
+            v, d = _MODS.triaxials._hartzell2(pov, los, self._triaxial)
         except Exception as x:
             raise IntersectionError(pov=pov, los=los, cause=x)
         return Vector4Tuple(v.x, v.y, v.z, d, name=self.hartzell4.__name__)

@@ -27,7 +27,7 @@ from pygeodesy.namedTuples import Bearing2Tuple, Distance4Tuple, \
                                   Intersection3Tuple, LatLon2Tuple, \
                                   PhiLam2Tuple, Vector3Tuple
 # from pygeodesy.streprs import Fmt, unstr  # from .named
-# from pygeodesy.triaxials import _hartzell3d2  # _MODS
+# from pygeodesy.triaxials import _hartzell2  # _MODS
 from pygeodesy.units import Bearing, Degrees_, Distance, Distance_, Height, \
                             Lam_, Lat, Lon, Meter_, Phi_, Radians, Radians_, \
                             Radius, Radius_, Scalar, _100km
@@ -983,7 +983,7 @@ def hartzell(pov, los=None, earth=_WGS84, name=NN, **LatLon_and_kwds):
     D = earth if isinstance(earth, Datum) else \
            _spherical_datum(earth, name=n)
     try:
-        r, h = _MODS.triaxials._hartzell3d2(pov, los, D.ellipsoid._triaxial)
+        r, h = _MODS.triaxials._hartzell2(pov, los, D.ellipsoid._triaxial)
     except Exception as x:
         raise IntersectionError(pov=pov, los=los, earth=earth, cause=x)
 

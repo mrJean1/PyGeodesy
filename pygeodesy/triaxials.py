@@ -59,7 +59,7 @@ from pygeodesy.vector3d import _otherV3d, Vector3d,  _ALL_LAZY, _MODS
 from math import atan2, fabs, sqrt
 
 __all__ = _ALL_LAZY.triaxials
-__version__ = '23.10.02'
+__version__ = '23.10.04'
 
 _not_ordered_ = _not_('ordered')
 _omega_       = 'omega'
@@ -486,7 +486,7 @@ class Triaxial_(_NamedEnumItem):
 
     @Property_RO
     def _ordered4(self):
-        '''(INTERNAL) Helper for C{_hartzell3d2} and C{_normalTo5}.
+        '''(INTERNAL) Helper for C{_hartzell2} and C{_normalTo5}.
         '''
         def _order2(reverse, a, b, c):
             '''(INTERNAL) Un-Order C{a}, C{b} and C{c}.
@@ -1166,9 +1166,9 @@ def _getitems(items, *indices):
     return type(items)(map(items.__getitem__, indices))
 
 
-def _hartzell3d2(pov, los, Tun):  # in .ellipsoidal.hartzell4, .formy.hartzell
+def _hartzell2(pov, los, Tun):  # in .ellipsoids.hartzell4, .formy.hartzell
     '''(INTERNAL) Hartzell's "Satellite Line-of-Sight Intersection ...",
-       formula for I{un-/ordered} triaxials.
+       formula from a Point-Of-View to an I{un-/ordered} triaxials.
     '''
     def _povV3d(pov):
         if isinstance(pov, _MODS.latlonBase.LatLonBase):
@@ -1218,8 +1218,8 @@ def _hartzell3d2(pov, los, Tun):  # in .ellipsoidal.hartzell4, .formy.hartzell
     elif fsum1f_(x2, y2, z2) < d**2:  # d past triaxial's center
         raise _ValueError(_too_(_distant_))
 
-    v = p3.minus(u3.times(d))  # Vector3d
-    h = p3.minus(v).length  # distance to triaxial == -d
+    v = p3.minus(u3.times(d))  # type(pov), Cartesian, Vector3d
+    h = p3.minus(v).length  # distance to pov == -d
     return T._order3d(v, reverse=True), h
 
 
@@ -1260,7 +1260,7 @@ def hartzell4(pov, los=None, tri_biax=_WGS84, name=NN):
         T = D.ellipsoid._triaxial
 
     try:
-        v, h = _hartzell3d2(pov, los, T)
+        v, h = _hartzell2(pov, los, T)
     except Exception as x:
         raise TriaxialError(pov=pov, los=los, tri_biax=tri_biax, cause=x)
     return Vector4Tuple(v.x, v.y, v.z, h, name=name or hartzell4.__name__)
@@ -1451,7 +1451,7 @@ def _rootXd(r, s, u, v, w, g, eps):
 
 
 def _sideOf(xyz, abc, eps=EPS):  # in .formy
-    '''(INTERNAL) Helper for C{_hartzell3d2}, M{.sideOf} and M{.reverseCartesian}.
+    '''(INTERNAL) Helper for C{_hartzell2}, M{.sideOf} and M{.reverseCartesian}.
 
        @return: M{sum((x / a)**2 for x, a in zip(xyz, abc)) - 1} or C{INT0},
     '''

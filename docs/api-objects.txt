@@ -3852,6 +3852,7 @@ pygeodesy.triaxials._TRIPS	pygeodesy.triaxials-module.html#_TRIPS
 pygeodesy.triaxials.sincos2d_	pygeodesy.utily-module.html#sincos2d_
 pygeodesy.triaxials._sideOf	pygeodesy.triaxials-module.html#_sideOf
 pygeodesy.triaxials.isfinite	pygeodesy.constants-module.html#isfinite
+pygeodesy.triaxials._hartzell2	pygeodesy.triaxials-module.html#_hartzell2
 pygeodesy.triaxials._omega_	pygeodesy.triaxials-module.html#_omega_
 pygeodesy.triaxials.hypot	pygeodesy.fmath-module.html#hypot
 pygeodesy.triaxials._Pass	pygeodesy.named-module.html#_Pass
@@ -3866,7 +3867,6 @@ pygeodesy.triaxials.isnear1	pygeodesy.constants-module.html#isnear1
 pygeodesy.triaxials.norm2	pygeodesy.fmath-module.html#norm2
 pygeodesy.triaxials.asin1	pygeodesy.utily-module.html#asin1
 pygeodesy.triaxials.fmean_	pygeodesy.fmath-module.html#fmean_
-pygeodesy.triaxials._hartzell3d2	pygeodesy.triaxials-module.html#_hartzell3d2
 pygeodesy.triaxials._otherV3d	pygeodesy.vector3d-module.html#_otherV3d
 pygeodesy.triaxials.SinCos2	pygeodesy.utily-module.html#SinCos2
 pygeodesy.triaxials.m2km	pygeodesy.utily-module.html#m2km
