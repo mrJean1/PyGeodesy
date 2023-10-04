@@ -32,7 +32,7 @@ from pygeodesy.vector3d import Vector3d, _xyzhdn3
 # from math import sqrt  # from .fmath
 
 __all__ = _ALL_LAZY.cartesianBase
-__version__ = '23.06.02'
+__version__ = '23.10.04'
 
 
 class CartesianBase(Vector3d):
@@ -206,10 +206,10 @@ class CartesianBase(Vector3d):
                          L{a_f2Tuple} or C{scalar} radius in C{meter}) overriding
                          this cartesian's C{datum} ellipsoid.
 
-           @return: The ellipsoid intersection (C{Cartesian}) with the C{.height}
-                    set to the distance to this C{pov}.
+           @return: The ellipsoid intersection (C{Cartesian}) with C{.height} set
+                    to the distance to this C{pov}.
 
-           @raise IntersectionError: Null C{pov} or B{C{los}} vector, this C{pov}
+           @raise IntersectionError: Null or bad C{pov} or B{C{los}}, this C{pov}
                                      is inside the ellipsoid or B{C{los}} points
                                      points outside or away from the ellipsoid.
 
@@ -217,7 +217,7 @@ class CartesianBase(Vector3d):
 
            @see: Function C{hartzell} for further details.
         '''
-        return _MODS.formy.hartzell(self, los=los, earth=earth or self.datum)
+        return _MODS.formy._hartzell(self, los, earth)
 
     @Property
     def height(self):

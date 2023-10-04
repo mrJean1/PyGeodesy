@@ -23,7 +23,7 @@ from pygeodesy.errors import _incompatible, IntersectionError, _IsnotError, \
 from pygeodesy.formy import antipode, compassAngle, cosineAndoyerLambert_, \
                             cosineForsytheAndoyerLambert_, cosineLaw, \
                             equirectangular, euclidean, flatLocal_, \
-                            flatPolar, hartzell, haversine, isantipode, \
+                            flatPolar, _hartzell, haversine, isantipode, \
                             _isequalTo, isnormal, normal, philam2n_xyz, \
                             thomas_, vincentys,  _spherical_datum
 from pygeodesy.interns import NN, _COMMASPACE_, _concentric_, _height_, \
@@ -51,7 +51,7 @@ from contextlib import contextmanager
 from math import asin, cos, degrees, fabs, radians
 
 __all__ = _ALL_LAZY.latlonBase
-__version__ = '23.10.02'
+__version__ = '23.10.04'
 
 
 class LatLonBase(_NamedBase):
@@ -601,25 +601,18 @@ class LatLonBase(_NamedBase):
                          L{a_f2Tuple} or C{scalar} radius in C{meter}) overriding
                          this point's C{datum} ellipsoid.
 
-           @return: The ellipsoid intersection (C{LatLon}) with the C{.height}
-                    set to the distance to this C{pov}.
+           @return: The ellipsoid intersection (C{LatLon}) with C{.height} set
+                    to the distance to this C{pov}.
 
-           @raise IntersectionError: Null C{pov} or B{C{los}} vector, this
-                                     C{pov's height} is negative or B{C{los}}
-                                     points outside or away from the ellipsoid.
+           @raise IntersectionError: Null or bad C{pov} or B{C{los}}, this C{pov}
+                                     is inside the ellipsoid or B{C{los}} points
+                                     outside or away from the ellipsoid.
 
            @raise TypeError: Invalid B{C{los}}.
 
            @see: Function C{hartzell} for further details.
         '''
-        h = self.height
-        if h > 0:
-            r = hartzell(self, los=los, earth=earth or self.datum, LatLon=self.classof)
-        elif h < 0:
-            raise IntersectionError(pov=self, los=los, height=h, txt=_negative_)
-        else:
-            r = self
-        return r
+        return _hartzell(self, los, earth, LatLon=self.classof)
 
     def haversineTo(self, other, **radius_wrap):
         '''Compute the distance between this and an other point using the
@@ -1321,6 +1314,10 @@ class LatLonBase(_NamedBase):
                         Fmt.SQUARE(n, i)
                     raise _ValueError(n, e, txt=_incompatible(E.__name__))
         return c
+
+    def toDatum(self, datum2, height=None, name=NN):
+        '''I{Must be overloaded}.'''
+        notOverloaded(self, datum2, height=height, name=name)
 
     def toEcef(self, height=None, M=False):
         '''Convert this point to I{geocentric} coordinates, also known as

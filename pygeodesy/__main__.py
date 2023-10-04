@@ -5,7 +5,7 @@ u'''Print L{pygeodesy} version, etc. using C{python -m pygeodesy}.
 '''
 
 __all__ = ()
-__version__ = '23.03.29'
+__version__ = '23.10.04'
 
 from os.path import basename, dirname
 
@@ -57,7 +57,8 @@ try:
     _main()
 except ImportError:
     from sys import executable as x
-    print('%s: %s %s %s' % ('usage', basename(x), '-m', basename(dirname(__file__))))
+    t = 'usage:', basename(x), '-m', basename(dirname(__file__))
+    print(' '.join(t))
 
 # **) MIT License
 #

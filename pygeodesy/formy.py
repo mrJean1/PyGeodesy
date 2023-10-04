@@ -20,7 +20,7 @@ from pygeodesy.errors import IntersectionError, LimitError, limiterrors, \
                             _xkwds, _xkwds_pop
 from pygeodesy.fmath import euclid, hypot, hypot2, sqrt0
 from pygeodesy.fsums import fsumf_,  isscalar
-from pygeodesy.interns import NN, _delta_, _distant_, _SPACE_, _too_
+from pygeodesy.interns import NN, _delta_, _distant_, _inside_, _SPACE_, _too_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _NamedTuple, _xnamed,  Fmt, unstr
 from pygeodesy.namedTuples import Bearing2Tuple, Distance4Tuple, \
@@ -41,7 +41,7 @@ from contextlib import contextmanager
 from math import asin, atan, atan2, cos, degrees, fabs, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '23.09.29'
+__version__ = '23.10.04'
 
 _D2_R2  = (PI / _180_0)**2  # degrees- to radians-squared
 _ratio_ = 'ratio'
@@ -933,6 +933,22 @@ def flatPolar_(phi2, phi1, lam21):
     return a
 
 
+def _hartzell(inst, los, earth, **kwds):
+    '''(INTERNAL) Helper for C{CartesianBase.hartzell} and C{LatLonBase.hartzell}.
+    '''
+    if earth is not None:
+        earth = _spherical_datum(earth, name=hartzell.__name__)
+        inst  =  inst.toDatum(earth)
+    h = inst.height
+    if h > 0:  # EPS0
+        r = hartzell(inst, los=los, earth=earth or inst.datum, **kwds)
+    elif h < 0:  # EPS0
+        raise IntersectionError(pov=inst, los=los, height=h, txt=_inside_)
+    else:
+        r = inst
+    return r
+
+
 def hartzell(pov, los=None, earth=_WGS84, name=NN, **LatLon_and_kwds):
     '''Compute the intersection of the earth's surface and a Line-Of-Sight
        from a Point-Of-View in space.
@@ -948,8 +964,9 @@ def hartzell(pov, los=None, earth=_WGS84, name=NN, **LatLon_and_kwds):
                                point plus C{LatLon} keyword arguments, include
                                B{C{datum}} if different from B{C{earth}}.
 
-       @return: The intersection point (L{Vector3d}, C{Cartesian type} of
-                B{C{pov}} or B{C{LatLon}}).
+       @return: The intersection point (L{Vector3d}, the C{Cartesian type} of
+                B{C{pov}} or the given C{B{LatLon}_and_kwds}) with C{.heigth}
+                set to the distance to the B{C{pov}}.
 
        @raise IntersectionError: Null B{C{pov}} or B{C{los}} vector, B{C{pov}}
                                  is inside the earth or B{C{los}} points outside
@@ -958,63 +975,19 @@ def hartzell(pov, los=None, earth=_WGS84, name=NN, **LatLon_and_kwds):
        @raise TypeError: Invalid B{C{pov}}, B{C{los}} or B{C{earth}}.
 
        @see: Function L{pygeodesy.hartzell4}, L{pygeodesy.tyr3d} for B{C{los}},
-             method L{Ellipsoid.hartzell4} and U{I{Satellite Line-of-Sight
-             Intersection with Earth}<https://StephenHartzell.Medium.com/
-             satellite-line-of-sight-intersection-with-earth-d786b4a6a9b6>}.
+             methods L{Ellipsoid.hartzell4}, C{Cartesian.hartzell}, C{LatLon.hartzell}
+             and U{I{Satellite Line-of-Sight Intersection with Earth}<https://
+             StephenHartzell.Medium.com/satellite-line-of-sight-intersection-with-earth-d786b4a6a9b6>}.
     '''
+    n = hartzell.__name__
     D = earth if isinstance(earth, Datum) else \
-           _spherical_datum(earth, name=hartzell.__name__)
+           _spherical_datum(earth, name=n)
     try:
         r, h = _MODS.triaxials._hartzell3d2(pov, los, D.ellipsoid._triaxial)
     except Exception as x:
         raise IntersectionError(pov=pov, los=los, earth=earth, cause=x)
 
-#   else:
-#       E  = D.ellipsoid
-#       # Triaxial(a, b, c) == (E.a, E.a, E.b)
-#
-#       def _Error(txt):
-#           return IntersectionError(pov=pov, los=los, earth=earth, txt=txt)
-#
-#       a2 = b2 = E.a2  # earth' x, y, ...
-#       c2 = E.b2  # ... z semi-axis squared
-#       q2 = E.b2_a2  # == c2 / a2
-#       bc = E.a * E.b  # == b * c
-#
-#       V3 = _MODS.vector3d._otherV3d
-#       p3 =  V3(pov=pov)
-#       u3 =  V3(los=los) if los else p3.negate()
-#       u3 =  u3.unit()  # unit vector, opposing signs
-#
-#       x2, y2, z2 = p3.x2y2z2  # p3.times_(p3).xyz
-#       ux, vy, wz = u3.times_(p3).xyz
-#       u2, v2, w2 = u3.x2y2z2  # u3.times_(u3).xyz
-#
-#       t = c2, c2, b2
-#       m = fdot(t, u2, v2, w2)  # a2 factored out
-#       if m < EPS0:  # zero or near-null LOS vector
-#           raise _Error(_near_(_null_))
-#
-#       # a2 and b2 factored out, b2 == a2 and b2 / a2 == 1
-#       r = fsumf_(b2 * w2,  c2 * v2,      -v2 * z2,      vy * wz * 2,
-#                  c2 * u2, -u2 * z2,      -w2 * x2,      ux * wz * 2,
-#                 -w2 * y2, -u2 * y2 * q2, -v2 * x2 * q2, ux * vy * 2 * q2)
-#       if r > 0:
-#           r = sqrt(r) * bc  # == a * a * b * c / a2
-#       elif r < 0:  # LOS pointing away from or missing the earth
-#           raise _Error(_opposite_ if max(ux, vy, wz) > 0 else _outside_)
-#
-#       d = Fdot(t, ux, vy, wz).fadd_(r).fover(m)  # -r for antipode, a2 factored out
-#       if d > 0:  # POV inside or LOS missing, outside the earth
-#           s = fsumf_(_1_0, x2 / a2, y2 / b2, z2 / c2, _N_2_0)  # like _sideOf
-#           raise _Error(_outside_ if s > 0 else _inside_)
-#       elif fsumf_(x2, y2, z2) < d**2:  # d past earth center
-#           raise _Error(_too_(_distant_))
-#
-#       r = p3.minus(u3.times(d))
-# #     h = p3.minus(r).length  # distance to ellipsoid  # == -d
-
-    r = _xnamed(r, name or hartzell.__name__)
+    r = _xnamed(r, name or n)
     C = _MODS.cartesianBase.CartesianBase
     if LatLon_and_kwds:
         c = C(r, datum=D, name=r.name)
@@ -1509,7 +1482,6 @@ def n_xyz2latlon(x, y, z, name=NN):
 
        @see: Function L{n_xyz2philam}.
     '''
-    print(y, x, atan2d(y, x))
     return LatLon2Tuple(atan2d(z, hypot(x, y)), atan2d(y, x), name=name)
 
 

@@ -91,7 +91,7 @@ from pygeodesy.utily import atan1, atan1d, atan2b, degrees90, m2radians, radians
 from math import asinh, atan, atanh, cos, degrees, exp, fabs, radians, sin, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '23.09.29'
+__version__ = '23.10.04'
 
 _f_0_0    = Float(f =_0_0)  # zero flattening
 _f__0_0   = Float(f_=_0_0)  # zero inverse flattening
@@ -1831,7 +1831,7 @@ class Ellipsoid(_NamedEnumItem):
         T = self._triaxial
         return T.copy(name=name) if name else T
 
-    @Property_RO
+    @property_RO
     def _triaxial(self):
         '''(INTERNAL) Get this ellipsoid's un-/ordered C{Triaxial/_}.
         '''

@@ -33,7 +33,7 @@ from pygeodesy.vector3dBase import Vector3dBase
 # from math import fabs, sqrt  # from .fmath
 
 __all__ = _ALL_LAZY.vector3d
-__version__ = '23.09.08'
+__version__ = '23.10.04'
 
 
 class Vector3d(Vector3dBase):
@@ -775,8 +775,8 @@ def _nVc(v, clas=None, name=NN, Vector=None, **Vector_kwds):  # in .vector2d
     return _xnamed(v, name) if name else v
 
 
-def _otherV3d(useZ=True, NN_OK=True, i=None, **name_v):  # in .CartesianEllipsoidalBase.intersections2,
-    # check named vector instance, return Vector3d            .Ellipsoid.height4, .formy.hartzell, .vector2d
+def _otherV3d(useZ=True, NN_OK=True, i=None, **name_v):
+    # check named vector instance, return Vector3d
     def _name_i(name, i):
         return name if i is None else Fmt.SQUARE(name, i)
 
