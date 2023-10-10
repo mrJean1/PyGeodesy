@@ -7,7 +7,7 @@ and U{RhumbLine<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_
 from I{GeographicLib versions 2.0} and I{2.2} and I{Karney}'s C++ example U{Rhumb intersect
 <https://SourceForge.net/p/geographiclib/discussion/1026620/thread/2ddc295e/>}.
 
-Class L{RhumbLine} has been enhanced with methods C{intersection2} and C{nearestOn4} to iteratively
+Class L{RhumbLine} has been enhanced with methods C{Intersection} and C{NearestOn} to iteratively
 find the intersection of two rhumb lines, respectively the nearest point on a rumb line along a
 geodesic or perpendicular rhumb line from an other point.
 
@@ -35,7 +35,7 @@ from pygeodesy.fmath import euclid, favg, sqrt_a,  fabs, Fsum
 from pygeodesy.formy import opposing,  _spherical_datum
 # from pygeodesy.fsums import Fsum  # from .fmath
 from pygeodesy.interns import NN, _coincident_, _COMMASPACE_, _Dash, \
-                             _intersection_, _no_, _parallel_, _too_, _under
+                             _no_, _parallel_, _too_, _under
 from pygeodesy.karney import _atan2d, Caps, _CapsBase, _diff182, _fix90, \
                              GDict, _norm180,  _EWGS84, unsigned0, _xinstanceof
 # from pygeodesy.ktm import KTransverseMercator, _AlpCoeffs  # _MODS
@@ -48,7 +48,7 @@ from pygeodesy.streprs import Fmt, pairs, unstr
 from pygeodesy.units import Float_, Lat, Lon, Meter, Radius_,  Int  # PYCHOK shared
 from pygeodesy.utily import atan2d, _azireversed, _loneg, sincos2d, \
                             sincos2d_, _unrollon, _Wrap,  sincos2_  # PYCHOK shared
-from pygeodesy.vector3d import _intersect3d3, Vector3d  # in .intersection2 below
+from pygeodesy.vector3d import _intersect3d3, Vector3d  # in .Intersection below
 
 # from math import fabs  # from .fmath
 
@@ -57,7 +57,7 @@ __version__ = '23.10.10'
 
 _anti_ = _Dash('anti')
 _rls   = []  # instances of C{RbumbLine...} to be updated
-_TRIPS = 65  # .intersection2, .nearestOn4, 19+
+_TRIPS = 65  # .Intersection, .NearestOn, 19+
 
 
 class _Lat(Lat):
@@ -626,7 +626,7 @@ class RhumbLineBase(_CapsBase):
            @raise IntersectionError: No convergence for this B{C{tol}} or
                                      no intersection for an other reason.
 
-           @see: Methods C{distance2} and C{nearestOn4} and function
+           @see: Methods C{distance2} and C{NearestOn} and function
                  L{pygeodesy.intersection3d3}.
 
            @note: Each iteration involves a round trip to this rhumb line's
@@ -668,11 +668,12 @@ class RhumbLineBase(_CapsBase):
                               name=self.name or self.Intersection.__name__)
                     p._iteration = i
                     return p
+            else:
+                raise ValueError(Fmt.no_convergence(d))
 
         except Exception as x:
-            raise IntersectionError(_no_(_intersection_), cause=x)
-        t = unstr(self.intersection2, other, eps=eps)
-        raise IntersectionError(Fmt.no_convergence(d, tol), txt=t)
+            t = unstr(self.Intersection, other, tol=tol, eps=eps)
+            raise IntersectionError(_no_(t), cause=x)
 
     def Inverse(self, lat2, lon2, wrap=False, **outmask):
         '''Return the rhumb angle, distance, azimuth, I{reverse} azimuth, etc. of
@@ -791,7 +792,7 @@ class RhumbLineBase(_CapsBase):
            @note: The (forward) azimuth C{azi2} at the nearest point is
                   always perpendicular to this rhumb line's azimuth.
 
-           @see: Methods C{distance2}, C{intersecant2} and C{intersection2}
+           @see: Methods C{distance2}, C{intersecant2} and C{Intersection}
                  and function L{pygeodesy.intersection3d3}.
         '''
         Cs = Caps
@@ -809,8 +810,8 @@ class RhumbLineBase(_CapsBase):
             if est is None:  # get an estimate from the "perpendicular" geodesic
                 r = _gI(self.lat1, self.lon1, lat0, lon0, outmask=Cs.AZIMUTH_DISTANCE)
                 d, _ = _diff182(r.azi2, azi, K_2_0=True)
-                _, c = sincos2d(d)
-                s12  = c * r.s12  # signed
+                _, s12 = sincos2d(d)
+                s12 *= r.s12  # signed
             else:
                 s12  = Meter(est=est)
             try:
@@ -836,7 +837,7 @@ class RhumbLineBase(_CapsBase):
             except Exception as x:  # Fsum(NAN) Value-, ZeroDivisionError
                 t = unstr(self.NearestOn, lat0, lon0, tol=tol, exact=exact,
                                           iteration=i, eps=eps, est=est)
-                raise IntersectionError(t, cause=x)
+                raise IntersectionError(_no_(t), cause=x)
 
         return p
 
