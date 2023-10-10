@@ -27,9 +27,9 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 from pygeodesy.basics import issubclassof, map2, _xinstanceof
 from pygeodesy.datums import _ellipsoidal_datum, _spherical_datum, _WGS84
 # from pygeodesy.dms import toDMS  # _MODS
-from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, \
-                                     _TOL_M, LatLonEllipsoidalBase, \
-                                     _nearestOn,  _Wrap
+from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, intersecant2, \
+                                     _nearestOn, LatLonEllipsoidalBase, \
+                                     _TOL_M,  _Wrap
 from pygeodesy.errors import _IsnotError, _xkwds
 # from pygeodesy.fmath import fdot  # from .nvectorBase
 from pygeodesy.interns import NN, _Nv00_, _COMMASPACE_
@@ -50,7 +50,7 @@ from pygeodesy.units import Bearing, Distance, Height, Scalar
 # from math import fabs  # from .nvectorBase
 
 __all__ = _ALL_LAZY.ellipsoidalNvector
-__version__ = '23.05.04'
+__version__ = '23.10.08'
 
 
 class Ned(_Ned):
@@ -744,6 +744,7 @@ def toNed(distance, bearing, elevation, Ned=Ned, name=NN):
 
 
 __all__ += _ALL_OTHER(Cartesian, LatLon, Ned, Nvector,  # classes
+                      intersecant2,  # from .ellipsoidalBase
                       meanOf, sumOf, toNed)
 
 # **) MIT License

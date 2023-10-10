@@ -4,7 +4,7 @@
 # Some basic L{rhumbx} vs C++ C{RhumbSolve} tests.
 
 __all__ = ('Tests',)
-__version__ = '23.09.16'
+__version__ = '23.10.10'
 
 from bases import coverage, splitext, _fLate, RhumbSolve, startswith, TestsBase
 
@@ -76,7 +76,7 @@ class Tests(TestsBase):
                                                 azi12=51.0, a12=a, s12=s), 1, e=1e-5)
 
         s = 12782581.068
-        r = R.Direct(40.6, -73.8, -92.38889, 12782581.068)  # coverage
+        r = R.Direct(40.6, -73.8, -92.38889, s)  # coverage
         self.testDiffs(R.Direct.__name__, r, GDict(lat1=40.6, lat2=35.8,
                                                    lon1=-73.8, lon2=140.3,
                                                    azi12=-92.38889, a12=115.02062, s12=s), 1, e=1e-5)
@@ -231,14 +231,28 @@ class Tests(TestsBase):
 
         R.TMorder = 7
         for exact in (False, True, None):
+            nonexact = exact is None
             # <https://SourceForge.net/p/geographiclib/discussion/1026620/thread/2ddc295e/>
             r = R.Line(30, 0, 45, caps=R.LINE_OFF)
-            for est in (None,) if exact is None else (1e6, None):
-                p = r.nearestOn4(60, 0, exact=exact, est=est)
+            for est in (None,) if nonexact else (1e6, None):
+                p = r.NearestOn(60, 0, exact=exact, est=est)
                 t = p.toRepr()
-                self.test('nearestOn4(exact=%s, est=%s)' % (exact, est), t, t)
-                self.test('distance', p.distance, (1977981.142985 if exact is None else 3083112.636236), prec=6)
+                self.test('NearestOn(exact=%s, est=%s)' % (exact, est), t, t, nl=1)
+                if nonexact:
+                    self.test('a02',   p.a02,      17.798332, prec=6)
+                    self.test('s02',   p.s02, 1977981.142985, prec=6)
+                    self.test('s12',   p.s12, 2169465.957531, prec=6)
+                    self.test('azi02', p.azi02,   135.000,    prec=3)
+                else:
+                    self.test('a02',   p.a02,      17.967658, prec=6)
+                    self.test('s02',   p.s02, 1997960.116871, prec=6)
+                    self.test('s12',   p.s12, 3083112.636236, prec=6)
+                    self.test('azi0',  p.azi0,    113.736,    prec=3)
+                    self.test('azi2',  p.azi2,    135.000,    prec=3)
                 self.test('iteration', p.iteration, p.iteration)
+
+            t = str(r.intersecant2(60, 0, radius=r.degrees2m(30)))
+            self.test('intersecant2', t, t, nl=1)
 
             # stats
             m = n = j = 0
@@ -246,11 +260,11 @@ class Tests(TestsBase):
             r = R.Line(20, 0, 0, caps=R.LINE_OFF)
             for d in range(0, 361, 60 if coverage else 6):
                 r.azi12 = d
-                p = r.nearestOn4(0, 40, exact=exact)
+                p = r.NearestOn(0, 40, exact=exact)
                 i = p.iteration
 #               t = p.toRepr()
-#               self.test('at %d nearestOn4' % (d,), t, t)
-                t = r.distance2(p.lat, p.lon)
+#               self.test('at %d NearestOn' % (d,), t, t)
+                t = r.distance2(p.lat2, p.lon2)
                 z = t.initial
 #               t = t.toRepr()
 #               self.test('at %d distance2' % (d,), t, t)
@@ -270,22 +284,23 @@ class Tests(TestsBase):
                     s += z
             d =  dict(exact=exact, min=n, mean=s.fmean(), stdev=s.fstdev(), max=m, iteration=j)
             t = _COMMASPACE_(*pairs(d, prec=6))
-            self.test('azi=%.3f' % (p.normal,), t, t, nt=1)
+            z =  p.azi02 if nonexact else p.azi0
+            self.test('azi0*=%.3f' % (z,), t, t)
         t = r.xTM.toRepr()  # coverage
-        self.test('xTM', t, t)
+        self.test('xTM', t, t, nl=1)
 
         # <https://www.MathWorks.com/help/map/ref/rhxrh.html>
         R = Rhumb(R_M, 0)  # sphere
 #       R.TMorder = 5
         r = R.Line(10, -56,  35)
         s = R.Line( 0, -10, 310)
-        p = r.intersection2(s)
+        p = r.Intersection(s)
         t = p.toRepr()
-        self.test('intersection2', t, '(26.9774, -43.4088)', nl=1, known=True)
-        t = r.nearestOn4(p.lat, p.lon).toRepr()
-        self.test('nearestOn4', t, t)
-        t = s.nearestOn4(p.lat, p.lon).toRepr()
-        self.test('nearestOn4', t, t)
+        self.test('Intersection', t, '(26.9774, -43.4088)', nl=1, known=True)
+        t = r.NearestOn(p.lat2, p.lon2).toRepr()
+        self.test('NearestOn', t, t)
+        t = s.NearestOn(p.lat2, p.lon2).toRepr()
+        self.test('NearestOn', t, t)
         t = r.xTM.toRepr()  # coverage
         self.test('xTM', t, t)
 
@@ -294,13 +309,13 @@ class Tests(TestsBase):
 #       R.TMorder = 7
         r = R.Line(37, -76,  90)
         s = R.Line(15, -17, 315)
-        p = r.intersection2(s)
+        p = r.Intersection(s)
         t = p.toRepr()
-        self.test('intersection2', t, '(37.0, -41.7028)', nl=1, known=True)
-        t = r.nearestOn4(p.lat, p.lon).toRepr()
-        self.test('nearestOn4', t, t)
-        t = s.nearestOn4(p.lat, p.lon).toRepr()
-        self.test('nearestOn4', t, t)
+        self.test('Intersection', t, '(37.0, -41.7028)', nl=1, known=True)
+        t = r.NearestOn(p.lat2, p.lon2).toRepr()
+        self.test('NearestOn', t, t)
+        t = s.NearestOn(p.lat2, p.lon2).toRepr()
+        self.test('NearestOn', t, t)
         t = r.xTM.toRepr()  # coverage
         self.test('xTM', t, t)
 

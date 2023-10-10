@@ -19,27 +19,28 @@ from pygeodesy.constants import EPS, PI, PI2, PI_2, R_M, \
                                _0_0, _0_5, _1_0, _180_0
 from pygeodesy.datums import Datums, _spherical_datum
 from pygeodesy.errors import IntersectionError, _ValueError, _xError
-from pygeodesy.fmath import favg, fdot, hypot, sqrt_a
+from pygeodesy.fmath import favg, fdot, hypot
 from pygeodesy.interns import NN, _COMMA_, _concentric_, _datum_, \
                              _distant_, _exceed_PI_radians_, _name_, \
                              _near_, _radius_, _too_
-from pygeodesy.latlonBase import LatLonBase, _trilaterate5  # PYCHOK passed
+from pygeodesy.latlonBase import _intersecend2, LatLonBase, \
+                                 _trilaterate5  # PYCHOK passed
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 # from pygeodesy.namedTuples import Bearing2Tuple  # from .cartesianBase
-from pygeodesy.nvectorBase import NvectorBase,  Fmt, _xattrs
+from pygeodesy.nvectorBase import NvectorBase,  _xattrs
 from pygeodesy.props import deprecated_method, property_doc_, \
                             property_RO, _update_all
 # from pygeodesy.streprs import Fmt, _xattrs  # from .nvectorBase
 from pygeodesy.units import Bearing, Bearing_, Radians_, Radius, \
                             Radius_, Scalar_
 from pygeodesy.utily import acos1, atan2b, atan2d, degrees90, \
-                            degrees180, sincos2, sincos2d, \
-                            tanPI_2_2, _unrollon, wrap360, wrapPI
+                            degrees180, sincos2, _unrollon, \
+                            tanPI_2_2, wrap360, wrapPI
 
 from math import cos, fabs, log, sin, sqrt
 
 __all__ = _ALL_LAZY.sphericalBase
-__version__ = '23.09.28'
+__version__ = '23.10.08'
 
 
 def _angular(distance, radius, low=EPS):  # PYCHOK in .spherical*
@@ -236,14 +237,16 @@ class LatLonSphericalBase(LatLonBase):
 
     def intersecant2(self, circle, point, bearing, radius=R_M, exact=False,
                                                    height=None, wrap=False):  # was=True
-        '''Compute the intersections of a circle and a line.
+        '''Compute the intersections of a circle and a line given as a point
+           and bearing or as two points.
 
            @arg circle: Radius of the circle centered at this location
                        (C{meter}, same units as B{C{radius}}) or a point
                        on the circle (this C{LatLon}).
-           @arg point: An other point in- or outside the circle (this C{LatLon}).
+           @arg point: An other point in- or outside the circle on the line
+                       (this C{LatLon}).
            @arg bearing: Bearing at the B{C{point}} (compass C{degrees360})
-                         or a second point on the line (this C{LatLon}).
+                         or an other point on the line (this C{LatLon}).
            @kwarg radius: Mean earth radius (C{meter}, conventionally).
            @kwarg exact: If C{True} use the I{exact} rhumb methods for azimuth,
                          destination and distance, if C{False} use the basic
@@ -601,23 +604,9 @@ def _intersecant2(c, r, p, b, radius=R_M, exact=False,
 
     d = p.distanceTo(c, radius=radius) if nonexact else \
         p.rhumbDistanceTo(c, radius=radius, exact=exact)
-    if d > EPS:
-        a = p.initialBearingTo(c) if nonexact else wrap360(
-            p.rhumbAzimuthTo(c, radius=radius, exact=exact))
-        s, c = sincos2d(b - a)
-        s = sqrt_a(r, fabs(s * d))
-        if s > r:
-            raise IntersectionError(_too_(Fmt.distant(s)))
-        elif (r - s) < EPS:
-            return p, p  # tangent
-        c *= d
-    else:  # p and c coincide
-        s, c = r, 0
-    t = ()
-    for d, b in ((s + c, b), (s - c, b + _180_0)):  # bearing direction first
-        t += (p.destination(d, b, radius=radius, height=height) if nonexact else
-              p.rhumbDestination(d, b, radius=radius, height=height, exact=exact)),
-    return t
+    a = 0 if d < EPS else (p.initialBearingTo(c) if nonexact else
+        wrap360(p.rhumbAzimuthTo(c, radius=radius, exact=exact)))
+    return _intersecend2(p, d, a, b, r, radius, height, exact)
 
 
 def _r2m(r, radius):

@@ -432,15 +432,6 @@
     </li>
     </ul>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.points.LatLon_-class.html">pygeodesy.points.LatLon_</a></strong>:
-      <em class="summary">Low-overhead <code>LatLon</code> class for <a 
-        href="pygeodesy.points.Numpy2LatLon-class.html" 
-        class="link">Numpy2LatLon</a> and <a 
-        href="pygeodesy.points.Tuple2LatLon-class.html" 
-        class="link">Tuple2LatLon</a>.</em>
-    <ul>
-    </ul>
-    </li>
     <li> <strong class="uidlink">_abcoll.Sized</strong>
     <ul>
     <li> <strong class="uidlink">_abcoll.Sequence</strong>:
@@ -1324,6 +1315,15 @@
     </li>
     </ul>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.points.LatLon_-class.html">pygeodesy.points.LatLon_</a></strong>:
+      <em class="summary">Low-overhead <code>LatLon</code> class, mainly for <a 
+        href="pygeodesy.points.Numpy2LatLon-class.html" 
+        class="link">Numpy2LatLon</a> and <a 
+        href="pygeodesy.points.Tuple2LatLon-class.html" 
+        class="link">Tuple2LatLon</a>.</em>
+    <ul>
+    </ul>
+    </li>
     </ul>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.lcc.Lcc-class.html">pygeodesy.lcc.Lcc</a></strong>:
@@ -1430,19 +1430,19 @@
         href="pygeodesy.ellipsoidalGeodSolve.LatLon-class.html" 
         class="link">LatLon</a> points.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html">pygeodesy.ellipsoidalVincenty.Cartesian</a></strong>:
-      <em class="summary">Extended to convert geocentric, <a 
-        href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html" 
-        class="link">Cartesian</a> points to Vincenty-based, ellipsoidal, 
-        geodetic <a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
-        class="link">LatLon</a>.</em>
-    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.Cartesian-class.html">pygeodesy.ellipsoidalKarney.Cartesian</a></strong>:
       <em class="summary">Extended to convert <code>Karney</code>-based <a 
         href="pygeodesy.ellipsoidalKarney.Cartesian-class.html" 
         class="link">Cartesian</a> to <code>Karney</code>-based <a 
         href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
         class="link">LatLon</a> points.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html">pygeodesy.ellipsoidalVincenty.Cartesian</a></strong>:
+      <em class="summary">Extended to convert geocentric, <a 
+        href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html" 
+        class="link">Cartesian</a> points to Vincenty-based, ellipsoidal, 
+        geodetic <a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
+        class="link">LatLon</a>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalNvector.Cartesian-class.html">pygeodesy.ellipsoidalNvector.Cartesian</a></strong>:
       <em class="summary">Extended to convert geocentric, <a 
@@ -2413,16 +2413,6 @@
         <code>closest</code> point are in <code>meter</code> respectively 
         compass <code>degrees360</code>.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.NearestOn4Tuple-class.html">pygeodesy.namedTuples.NearestOn4Tuple</a></strong>:
-      <em class="summary">4-Tuple <code>(lat, lon, distance, normal)</code> with the 
-        <code>lat</code>- and <code>lon</code>gitude of the nearest point, 
-        the <code>distance</code> in <code>meter</code> and the azimuth of 
-        the <code>normal</code>, perpendicular line.</em>
-    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.NearestOn5Tuple-class.html">pygeodesy.namedTuples.NearestOn5Tuple</a></strong>:
-      <em class="summary">5-Tuple <code>(lat, lon, distance, angle, height)</code> all in 
-        <code>degrees</code>, except <code>height</code>.</em>
-    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.NearestOn6Tuple-class.html">pygeodesy.namedTuples.NearestOn6Tuple</a></strong>:
       <em class="summary">6-Tuple <code>(closest, distance, fi, j, start, end)</code> with 
         the <code>closest</code> point, the <code>distance</code> in 
@@ -2644,6 +2634,13 @@
         class="link">Reverse4Tuple</a>, item <code>gamma</code> for 
         <code>convergence</code>.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.classes.NearestOn4Tuple-class.html">pygeodesy.deprecated.classes.NearestOn4Tuple</a></strong>:
+      <em class="summary">DEPRECATED on 23.10.10, see methods <a 
+        href="pygeodesy.rhumbBase.RhumbLineBase-class.html#nearestOn4" 
+        class="link">RhumbLine.nearestOn4</a> and <a 
+        href="pygeodesy.rhumbBase.RhumbLineBase-class.html#nearestOn4" 
+        class="link">RhumbLineAux.nearestOn4</a>.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.deprecated.classes.Ned3Tuple-class.html">pygeodesy.deprecated.classes.Ned3Tuple</a></strong>:
       <em class="summary">DEPRECATED, use class <a 
         href="pygeodesy.ltpTuples.Ned4Tuple-class.html" 
@@ -2661,7 +2658,7 @@
         arguments.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.deprecated.classes.TriAngle4Tuple-class.html">pygeodesy.deprecated.classes.TriAngle4Tuple</a></strong>:
-      <em class="summary">DEPRECATED, use class <a 
+      <em class="summary">DEPRECATED on 23.09.14, use class <a 
         href="pygeodesy.resections.TriAngle5Tuple-class.html" 
         class="link">TriAngle5Tuple</a>, ignoring item <code>area</code>.</em>
     </li>
@@ -3737,16 +3734,6 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
         <code>closest</code> point are in <code>meter</code> respectively 
         compass <code>degrees360</code>.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.NearestOn4Tuple-class.html">pygeodesy.namedTuples.NearestOn4Tuple</a></strong>:
-      <em class="summary">4-Tuple <code>(lat, lon, distance, normal)</code> with the 
-        <code>lat</code>- and <code>lon</code>gitude of the nearest point, 
-        the <code>distance</code> in <code>meter</code> and the azimuth of 
-        the <code>normal</code>, perpendicular line.</em>
-    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.NearestOn5Tuple-class.html">pygeodesy.namedTuples.NearestOn5Tuple</a></strong>:
-      <em class="summary">5-Tuple <code>(lat, lon, distance, angle, height)</code> all in 
-        <code>degrees</code>, except <code>height</code>.</em>
-    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.NearestOn6Tuple-class.html">pygeodesy.namedTuples.NearestOn6Tuple</a></strong>:
       <em class="summary">6-Tuple <code>(closest, distance, fi, j, start, end)</code> with 
         the <code>closest</code> point, the <code>distance</code> in 
@@ -3968,6 +3955,13 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
         class="link">Reverse4Tuple</a>, item <code>gamma</code> for 
         <code>convergence</code>.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.classes.NearestOn4Tuple-class.html">pygeodesy.deprecated.classes.NearestOn4Tuple</a></strong>:
+      <em class="summary">DEPRECATED on 23.10.10, see methods <a 
+        href="pygeodesy.rhumbBase.RhumbLineBase-class.html#nearestOn4" 
+        class="link">RhumbLine.nearestOn4</a> and <a 
+        href="pygeodesy.rhumbBase.RhumbLineBase-class.html#nearestOn4" 
+        class="link">RhumbLineAux.nearestOn4</a>.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.deprecated.classes.Ned3Tuple-class.html">pygeodesy.deprecated.classes.Ned3Tuple</a></strong>:
       <em class="summary">DEPRECATED, use class <a 
         href="pygeodesy.ltpTuples.Ned4Tuple-class.html" 
@@ -3985,7 +3979,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
         arguments.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.deprecated.classes.TriAngle4Tuple-class.html">pygeodesy.deprecated.classes.TriAngle4Tuple</a></strong>:
-      <em class="summary">DEPRECATED, use class <a 
+      <em class="summary">DEPRECATED on 23.09.14, use class <a 
         href="pygeodesy.resections.TriAngle5Tuple-class.html" 
         class="link">TriAngle5Tuple</a>, ignoring item <code>area</code>.</em>
     </li>
@@ -4139,7 +4133,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Oct  4 13:49:48 2023
+    Generated by Epydoc 3.0.1 on Tue Oct 10 10:59:14 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

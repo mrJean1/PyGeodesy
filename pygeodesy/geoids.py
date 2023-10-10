@@ -452,7 +452,7 @@ class _GeoidBase(_HeightsBase):
 
     @deprecated_method
     def _interp2d(self, xs, ys, hs=(), k=0):  # overwritten in .__init__ above
-        '''DEPRECATED, use keyword argument C{B{kind}=1..5}.'''
+        '''DEPRECATED on 23.01.06, use keyword argument C{B{kind}=1..5}.'''
         # assert k in _interp2d_ks  # and len(hs) == len(xs) == len(ys)
         try:
             return self.scipy_interpolate.interp2d(xs, ys, hs, kind=_interp2d_ks[k])

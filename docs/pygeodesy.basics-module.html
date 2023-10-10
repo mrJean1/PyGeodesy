@@ -67,7 +67,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        23.09.28
+        23.10.08
       </p>
 </div><!-- ==================== FUNCTIONS ==================== -->
 <a name="section-Functions"></a>
@@ -242,6 +242,23 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.basics-module.html#isCartesian" class="summary-sig-name">isCartesian</a>(<span class="summary-sig-arg">obj</span>)</span><br />
+      Is <b><code>obj</code></b> some <code>Cartesian</code>?</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.basics-module.html#iscomplex" class="summary-sig-name">iscomplex</a>(<span class="summary-sig-arg">obj</span>)</span><br />
       Check whether an object is a <code>complex</code> or complex 
       <code>str</code>.</td>
@@ -298,7 +315,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.basics-module.html#isinstanceof" class="summary-sig-name">isinstanceof</a>(<span class="summary-sig-arg">obj</span>,
         <span class="summary-sig-arg">*classes</span>)</span><br />
-      Check an instance of one or several <code>classes</code>.</td>
+      Is <b><code>ob</code></b> an intance of one of the 
+      <code>classes</code>?</td>
           <td align="right" valign="top">
             
             
@@ -351,9 +369,43 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.basics-module.html#isLatLon" class="summary-sig-name">isLatLon</a>(<span class="summary-sig-arg">obj</span>)</span><br />
+      Is <b><code>obj</code></b> some <code>LatLon</code>?</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.basics-module.html#islistuple" class="summary-sig-name">islistuple</a>(<span class="summary-sig-arg">obj</span>,
         <span class="summary-sig-arg">minum</span>=<span class="summary-sig-default">0</span>)</span><br />
       Check for list or tuple <code>type</code> with a minumal length.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.basics-module.html#isNvector" class="summary-sig-name">isNvector</a>(<span class="summary-sig-arg">obj</span>)</span><br />
+      Is <b><code>obj</code></b> some <code>Nvector</code>?</td>
           <td align="right" valign="top">
             
             
@@ -816,6 +868,32 @@
       </p>
 </div></td></tr></table>
 </div>
+<a name="isCartesian"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isCartesian</span>&nbsp;(<span class="sig-arg">obj</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Is <b><code>obj</code></b> some <code>Cartesian</code>?</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>obj</code></strong> - The object (any <code>type</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><code>type(<b>obj</b></code> if <b><code>obj</code></b> is a 
+          <code>Cartesian</code> instance, <code>None</code> otherwise.</dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="iscomplex"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -885,16 +963,18 @@
     </td>
   </tr></table>
   
-  <p>Check an instance of one or several <code>classes</code>.</p>
+  <p>Is <b><code>ob</code></b> an intance of one of the 
+  <code>classes</code>?</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>obj</code></strong> - The instance (<code>any</code>).</li>
+        <li><strong class="pname"><code>obj</code></strong> - The instance (any <code>type</code>).</li>
         <li><strong class="pname"><code>classes</code></strong> - One or more classes (<code>class</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd><code>True</code> if <b><code>obj</code></b> is in instance of 
-          one of the <b><code>classes</code></b>.</dd>
+        <dd><code>type(<b>obj</b></code> if <b><code>obj</code></b> is an 
+          instance of the <b><code>classes</code></b>, <code>None</code> 
+          otherwise.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -935,6 +1015,32 @@
       </p>
 </div></td></tr></table>
 </div>
+<a name="isLatLon"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isLatLon</span>&nbsp;(<span class="sig-arg">obj</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Is <b><code>obj</code></b> some <code>LatLon</code>?</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>obj</code></strong> - The object (any <code>type</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><code>type(<b>obj</b></code> if <b><code>obj</code></b> is a 
+          <code>LatLon</code> instance, <code>None</code> otherwise.</dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="islistuple"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -961,6 +1067,32 @@
         <dd><code>True</code> if <b><code>obj</code></b> is <code>list</code>
           or <code>tuple</code> with <code>len</code> at least 
           <b><code>minum</code></b>, <code>False</code> otherwise.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="isNvector"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isNvector</span>&nbsp;(<span class="sig-arg">obj</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Is <b><code>obj</code></b> some <code>Nvector</code>?</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>obj</code></strong> - The object (any <code>type</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><code>type(<b>obj</b></code> if <b><code>obj</code></b> is an 
+          <code>Nvector</code> instance, <code>None</code> otherwise.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1408,7 +1540,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Oct  4 13:49:49 2023
+    Generated by Epydoc 3.0.1 on Tue Oct 10 10:59:15 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

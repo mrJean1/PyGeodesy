@@ -7,7 +7,7 @@ u'''DEPRECATED classes for export and backward compatibility.
 from pygeodesy.clipy import ClipCS4Tuple as _ClipCS4Tuple
 from pygeodesy.constants import NAN, _float
 from pygeodesy.interns import NN, _a12_, _area_, _band_, _convergence_, \
-                             _gamma_, _i_, _ltp_
+                             _distance_, _gamma_, _i_, _lat_, _lon_, _ltp_
 from pygeodesy.deprecated.consterns import _Deprecated_Str
 from pygeodesy.karney import Rhumb8Tuple as _Rhumb8Tuple
 from pygeodesy.lazily import _ALL_MODS as _MODS, _ALL_OTHER
@@ -15,13 +15,14 @@ from pygeodesy.ltpTuples import Ned4Tuple as _Ned4Tuple
 # from pygeodesy.named import _NamedTuple  # from .namedTuples
 from pygeodesy.namedTuples import Forward4Tuple as _Forward4Tuple, \
                                   Reverse4Tuple as _Reverse4Tuple, \
-                                  UtmUps5Tuple as _UtmUps5Tuple,  _NamedTuple
+                                  UtmUps5Tuple  as _UtmUps5Tuple,  _NamedTuple
 from pygeodesy.props import deprecated_class, deprecated_method
 from pygeodesy.resections import TriAngle5Tuple as _TriAngle5Tuple
 from pygeodesy.trf import Helmert7Tuple as _Helmert7Tuple
+from pygeodesy.units import Bearing, Lat, Lon, Meter
 
 __all__ = ()
-__version__ = '23.09.12'
+__version__ = '23.10.10'
 
 
 class _Deprecated_NamedTuple(_NamedTuple):
@@ -147,6 +148,12 @@ class LatLonExact4Tuple(_Deprecated_NamedTuple):
     _Units_ =          _Reverse4Tuple._Units_
 
 
+class NearestOn4Tuple(_Deprecated_NamedTuple):  # PYCHOK no cover
+    '''DEPRECATED on 23.10.10, see methods L{RhumbLine.nearestOn4} and L{RhumbLineAux.nearestOn4}.'''
+    _Names_ = (_lat_, _lon_, _distance_, 'normal')  # s12, azi02
+    _Units_ = ( Lat,   Lon,   Meter,      Bearing)
+
+
 class Ned3Tuple(_Deprecated_NamedTuple):  # was in .ellipsoidalNvector
     '''DEPRECATED, use class L{Ned4Tuple}, ignoring item C{ltp}.'''
     assert _Ned4Tuple._Names_.index(_ltp_) == 3
@@ -209,7 +216,7 @@ class Transform7Tuple(_Deprecated_NamedTuple):  # PYCHOK no cover
 
 
 class TriAngle4Tuple(_Deprecated_NamedTuple):
-    '''DEPRECATED, use class L{TriAngle5Tuple}, ignoring item C{area}.'''
+    '''DEPRECATED on 23.09.14, use class L{TriAngle5Tuple}, ignoring item C{area}.'''
     assert _TriAngle5Tuple._Names_.index(_area_) == 4
     _Names_ = _TriAngle5Tuple._Names_[:4]
     _Units_ = _TriAngle5Tuple._Units_[:4]
@@ -227,8 +234,8 @@ class UtmUps4Tuple(_Deprecated_NamedTuple):  # PYCHOK no cover
 
 __all__ += _ALL_OTHER(ClipCS3Tuple, EasNorExact4Tuple, EcefCartesian,
                       HeightIDW, HeightIDW2, HeightIDW3, LatLonExact4Tuple,
-                      Ned3Tuple, RefFrameError, Rhumb7Tuple, Transform7Tuple,
-                      TriAngle4Tuple, UtmUps4Tuple)
+                      NearestOn4Tuple, Ned3Tuple, RefFrameError, Rhumb7Tuple,
+                      Transform7Tuple, TriAngle4Tuple, UtmUps4Tuple)
 
 # **) MIT License
 #

@@ -25,7 +25,7 @@ from math import fabs, sqrt  # pow
 from operator import mul as _mul  # in .triaxials
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '23.08.31'
+__version__ = '23.10.07'
 
 # sqrt(2) <https://WikiPedia.org/wiki/Square_root_of_2>
 _0_4142 = 0.414213562373095  # sqrt(_2_0) - _1_0
@@ -880,16 +880,19 @@ def _root(x, p, where):
     return pow(x, p) if x else _0_0
 
 
-def sqrt0(x):
+def sqrt0(x, Error=None):
     '''Return the square root iff C{B{x} >} L{EPS02}.
 
        @arg x: Value (C{scalar}).
+       @kwarg Error: Error to raise for negative B{C{x}}.
 
        @return: Square root (C{float}) or C{0.0}.
 
        @note: Any C{B{x} < }L{EPS02} I{including} C{B{x} < 0}
               returns C{0.0}.
     '''
+    if Error and x < 0:
+        raise Error(Fmt.PAREN(sqrt=x))
     return sqrt(x) if x > EPS02 else (_0_0 if x < EPS02 else EPS0)
 
 

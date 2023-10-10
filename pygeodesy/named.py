@@ -19,7 +19,7 @@ from pygeodesy.errors import _AssertionError, _AttributeError, _incompatible, \
                              _IndexError, _IsnotError, itemsorted, LenError, \
                              _NameError, _NotImplementedError, _TypeError, \
                              _TypesError, _ValueError, UnitError, _xattr, _xkwds, \
-                             _xkwds_get, _xkwds_popitem
+                             _xkwds_get, _xkwds_pop, _xkwds_popitem
 from pygeodesy.interns import NN, _at_, _AT_, _COLON_, _COLONSPACE_, _COMMA_, \
                              _COMMASPACE_, _doesn_t_exist_, _DOT_, _DUNDER_, \
                              _EQUAL_, _EQUALSPACED_, _exists_, _immutable_, _name_, \
@@ -32,7 +32,7 @@ from pygeodesy.props import _allPropertiesOf_n, deprecated_method, _hasProperty,
 from pygeodesy.streprs import attrs, Fmt, lrstrip, pairs, reprs, unstr
 
 __all__ = _ALL_LAZY.named
-__version__ = '23.09.29'
+__version__ = '23.10.08'
 
 _COMMANL_           = _COMMA_ + _NL_
 _COMMASPACEDOT_     = _COMMASPACE_ + _DOT_
@@ -130,6 +130,7 @@ class _Dict(dict):
            @kwarg items: One or more C{name=value} pairs.
         '''
         dict.update(self, items)
+        return self  # in .rhumbBase.RhumbLineBase
 
     def toRepr(self, **prec_fmt):  # PYCHOK signature
         '''Like C{repr(dict)} but with C{name} prefix and with
@@ -253,19 +254,23 @@ class _Named(object):
         '''
         return _DOT_(self.name, *names)
 
-    def dup(self, name=NN, **items):
-        '''Duplicate this instance, replacing some items.
+    def dup(self, deep=False, **items):
+        '''Duplicate this instance, replacing some attributes.
 
-           @kwarg name: Optional, non-empty name (C{str}).
+           @kwarg deep: If C{True} duplicate deep, otherwise shallow.
            @kwarg items: Attributes to be changed (C{any}).
 
            @return: The duplicate (C{This class} or sub-class thereof).
 
            @raise AttributeError: Some B{C{items}} invalid.
         '''
-        d = _xdup(self, **items)
-        if name:
-            d.rename(name=name)
+        n =  self.name
+        m = _xkwds_pop(items, name=n)
+        d = _xdup(self, deep=deep, **items)
+        if m != n:
+            d.rename(m)
+#       if items:
+#           _update_all(d)
         return d
 
     def _instr(self, name, prec, *attrs, **props_kwds):
@@ -386,7 +391,7 @@ class _Named(object):
 
     @deprecated_method
     def toStr2(self, **kwds):  # PYCHOK no cover
-        '''DEPRECATED, use method C{toRepr}.'''
+        '''DEPRECATED on 23.10.07, use method C{toRepr}.'''
         return self.toRepr(**kwds)
 
     def _unstr(self, which, *args, **kwds):
@@ -450,8 +455,8 @@ class _NamedBase(_Named):
 #       c = self.__class__.__name__
 #       return NotImplementedError(_DOT_(c, attr))
 
-    def others(self, *other, **name_other_up):  # see .points.LatLon_.others
-        '''Refined class comparison, invoked as C{.others(other=other)},
+    def others(self, *other, **name_other_up):
+        '''Refined class comparison, invoked as C{.others(other)},
            C{.others(name=other)} or C{.others(other, name='other')}.
 
            @arg other: The other instance (any C{type}).

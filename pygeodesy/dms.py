@@ -58,7 +58,7 @@ U{Vector-based geodesy<https://www.Movable-Type.co.UK/scripts/latlong-vectors.ht
        non-ascii characters and if so, I{not} C{unicode}.
 '''
 
-from pygeodesy.basics import copysign0, isodd, issequence, isstr, map2, \
+from pygeodesy.basics import copysign0, isLatLon, isodd, issequence, isstr, map2, \
                              neg as _neg  # in .ups
 from pygeodesy.constants import _umod_360, _0_0, _0_5, _60_0, _360_0, _3600_0
 from pygeodesy.errors import ParseError, _parseX, RangeError, rangerrors, _TypeError, \
@@ -78,7 +78,7 @@ except ImportError:  # Python 3+
     from string import ascii_letters as _LETTERS
 
 __all__ = _ALL_LAZY.dms
-__version__ = '23.08.24'
+__version__ = '23.10.07'
 
 _beyond_      = 'beyond'
 _DDDMMSS_     = 'DDDMMSS'
@@ -474,7 +474,7 @@ def latlonDMS(lls, **m_form_prec_sep_s_D_M_S):
               C{B{sep}.join(B{latlonDMS_}(...))}.
     '''
     sep, kwds = _latlonDMS_sep2(latlonDMS, **m_form_prec_sep_s_D_M_S)
-    if isinstance(lls, _MODS.latlonBase.LatLonBase):
+    if isLatLon(lls):
         t = lls.toStr(**kwds)
     elif issequence(lls):
         t = tuple(ll.toStr(**kwds) for ll in lls)

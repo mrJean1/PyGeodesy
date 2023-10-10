@@ -27,11 +27,11 @@ from math import copysign as _copysign
 import inspect as _inspect
 
 __all__ = _ALL_LAZY.basics
-__version__ = '23.09.28'
+__version__ = '23.10.08'
 
 _0_0                  =  0.0  # in .constants
 _below_               = 'below'
-_cannot_              = 'cannot'
+_can_t_               = "can't"
 _list_tuple_types     = (list, tuple)
 _list_tuple_set_types = (list, tuple, set)
 _odd_                 = 'odd'
@@ -74,7 +74,7 @@ try:
     def _Xstr(exc):  # PYCHOK no cover
         '''I{Invoke only with caught ImportError} B{C{exc}}.
 
-           C{... "cannot import name _distributor_init" ...}
+           C{... "can't import name _distributor_init" ...}
 
            only for C{numpy}, C{scipy} import errors occurring
            on arm64 Apple Silicon running macOS' Python 2.7.16?
@@ -85,7 +85,7 @@ try:
             from traceback import extract_tb
             tb = exc_info()[2]  # 3-tuple (type, value, traceback)
             t4 = extract_tb(tb, 1)[0]  # 4-tuple (file, line, name, 'import ...')
-            t = _SPACE_(_cannot_, t4[3] or _N_A_)
+            t = _SPACE_(_can_t_, t4[3] or _N_A_)
             del tb, t4
         return t
 
@@ -199,6 +199,17 @@ else:
     isclass = _inspect.isclass
 
 
+def isCartesian(obj):
+    '''Is B{C{obj}} some C{Cartesian}?
+
+       @arg obj: The object (any C{type}).
+
+       @return: C{type(B{obj}} if B{C{obj}} is a C{Cartesian}
+                instance, C{None} otherwise.
+    '''
+    return isinstanceof(obj, _MODS.cartesianBase.CartesianBase)
+
+
 def iscomplex(obj):
     '''Check whether an object is a C{complex} or complex C{str}.
 
@@ -242,15 +253,15 @@ except AttributeError:  # Python 2-
 
 
 def isinstanceof(obj, *classes):
-    '''Check an instance of one or several C{classes}.
+    '''Is B{C{ob}} an intance of one of the C{classes}?
 
-       @arg obj: The instance (C{any}).
+       @arg obj: The instance (any C{type}).
        @arg classes: One or more classes (C{class}).
 
-       @return: C{True} if B{C{obj}} is in instance of
-                one of the B{C{classes}}.
+       @return: C{type(B{obj}} if B{C{obj}} is an instance
+                of the B{C{classes}}, C{None} otherwise.
     '''
-    return isinstance(obj, classes)
+    return type(obj) if isinstance(obj, classes) else None
 
 
 def isint(obj, both=False):
@@ -286,6 +297,17 @@ except ImportError:
         return False
 
 
+def isLatLon(obj):
+    '''Is B{C{obj}} some C{LatLon}?
+
+       @arg obj: The object (any C{type}).
+
+       @return: C{type(B{obj}} if B{C{obj}} is a C{LatLon}
+                instance, C{None} otherwise.
+    '''
+    return isinstanceof(obj, _MODS.latlonBase.LatLonBase)
+
+
 def islistuple(obj, minum=0):
     '''Check for list or tuple C{type} with a minumal length.
 
@@ -296,6 +318,17 @@ def islistuple(obj, minum=0):
                 C{len} at least B{C{minum}}, C{False} otherwise.
     '''
     return type(obj) in _list_tuple_types and len(obj) >= (minum or 0)
+
+
+def isNvector(obj):
+    '''Is B{C{obj}} some C{Nvector}?
+
+       @arg obj: The object (any C{type}).
+
+       @return: C{type(B{obj}} if B{C{obj}} is an C{Nvector}
+                instance, C{None} otherwise.
+    '''
+    return isinstanceof(obj, _MODS.nvectorBase.NvectorBase)
 
 
 def isodd(x):
@@ -594,24 +627,26 @@ def _xcopy(inst, deep=False):
     return _deepcopy(inst) if deep else _copy(inst)
 
 
-def _xdup(inst, **items):
+def _xdup(inst, deep=False, **items):
     '''(INTERNAL) Duplicate an object, replacing some attributes.
 
        @arg inst: The object to copy (any C{type}).
+       @kwarg deep: If C{True} copy deep, otherwise shallow.
        @kwarg items: Attributes to be changed (C{any}).
 
-       @return: Shallow duplicate of B{C{inst}} with modified
+       @return: A duplicate of B{C{inst}} with modified
                 attributes, if any B{C{items}}.
 
        @raise AttributeError: Some B{C{items}} invalid.
     '''
-    d = _xcopy(inst, deep=False)
+    d = _xcopy(inst, deep=deep)
     for n, v in items.items():
-        if not hasattr(d, n):
+        if getattr(d, n, v) != v:
+            setattr(d, n, v)
+        elif not hasattr(d, n):
             t = _MODS.named.classname(inst)
             t = _SPACE_(_DOT_(t, n), _invalid_)
             raise _AttributeError(txt=t, this=inst, **items)
-        setattr(d, n, v)
     return d
 
 

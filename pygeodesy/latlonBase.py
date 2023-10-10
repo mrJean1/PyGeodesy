@@ -12,14 +12,15 @@ u'''(INTERNAL) Base class L{LatLonBase} for all elliposiodal, spherical and N-ve
 
 from pygeodesy.basics import isscalar, isstr, map1, _xinstanceof
 from pygeodesy.constants import EPS, EPS0, EPS1, EPS4, INT0, R_M, \
-                               _0_0, _0_5, _1_0
+                               _0_0, _0_5, _1_0, _180_0
 # from pygeodesy.datums import _spherical_datum  # from .formy
 from pygeodesy.dms import F_D, F_DMS, latDMS, lonDMS, parse3llh
 # from pygeodesy.ecef import EcefKarney  # _MODS
-from pygeodesy.errors import _incompatible, IntersectionError, _IsnotError, \
-                             _TypeError, _ValueError, _xdatum, _xError, \
-                             _xkwds, _xkwds_not
-# from pygeodesy.fmath import favg  # _MODS
+from pygeodesy.errors import _AttributeError, _incompatible, \
+                             _IsnotError, IntersectionError, \
+                             _TypeError, _ValueError, _xattr, _xdatum, \
+                             _xError, _xkwds, _xkwds_not
+from pygeodesy.fmath import favg, sqrt_a
 from pygeodesy.formy import antipode, compassAngle, cosineAndoyerLambert_, \
                             cosineForsytheAndoyerLambert_, cosineLaw, \
                             equirectangular, euclidean, flatLocal_, \
@@ -28,7 +29,7 @@ from pygeodesy.formy import antipode, compassAngle, cosineAndoyerLambert_, \
                             thomas_, vincentys,  _spherical_datum
 from pygeodesy.interns import NN, _COMMASPACE_, _concentric_, _height_, \
                              _intersection_, _LatLon_, _m_, _negative_, \
-                             _no_, _overlap_,  _point_  # PYCHOK used!
+                             _no_, _overlap_, _too_,  _point_  # PYCHOK used!
 # from pygeodesy.iters import PointsIter, points2  # from .vector3d, _MODS
 # from pygeodesy.karney import Caps  # _MODS
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
@@ -42,7 +43,7 @@ from pygeodesy.props import deprecated_method, Property, Property_RO, \
 # from pygeodesy.streprs import Fmt, hstr  # from .named, _MODS
 from pygeodesy.units import Distance_, Lat, Lon, Height, Radius, Radius_, \
                             Scalar, Scalar_
-from pygeodesy.utily import _unrollon, _unrollon3, _Wrap
+from pygeodesy.utily import sincos2d, _unrollon, _unrollon3, _Wrap
 from pygeodesy.vector2d import _circin6,  Circin6Tuple, _circum3, circum4_, \
                                 Circum3Tuple, _radii11ABC
 from pygeodesy.vector3d import nearestOn6, Vector3d,  PointsIter
@@ -51,7 +52,20 @@ from contextlib import contextmanager
 from math import asin, cos, degrees, fabs, radians
 
 __all__ = _ALL_LAZY.latlonBase
-__version__ = '23.10.04'
+__version__ = '23.10.08'
+
+
+def _latlonheight3(latlonh, height, wrap):  # in .points.LatLon_.__init__
+    '''(INTERNAL) Get 3-tuple C{(lat, lon, height)}.
+    '''
+    try:
+        lat, lon = latlonh.lat, latlonh.lon
+        height = _xattr(latlonh, height=height)
+    except AttributeError:
+        raise _IsnotError(_LatLon_, latlonh=latlonh)
+    if wrap:
+        lat, lon = _Wrap.latlon(lat, lon)
+    return lat, lon, height
 
 
 class LatLonBase(_NamedBase):
@@ -64,7 +78,7 @@ class LatLonBase(_NamedBase):
     _lat    = 0     # latitude (C{degrees})
     _lon    = 0     # longitude (C{degrees})
 
-    def __init__(self, latlonh, lon=None, height=0, wrap=False, name=NN):
+    def __init__(self, latlonh, lon=None, height=0, wrap=False, name=NN, datum=None):
         '''New C{LatLon}.
 
            @arg latlonh: Latitude (C{degrees} or DMS C{str} with N or S suffix) or
@@ -76,6 +90,8 @@ class LatLonBase(_NamedBase):
            @kwarg wrap: If C{True}, wrap or I{normalize} B{C{lat}} and B{C{lon}}
                         (C{bool}).
            @kwarg name: Optional name (C{str}).
+           @kwarg datum: Optional datum (L{Datum}, L{Ellipsoid}, L{Ellipsoid2},
+                         L{a_f2Tuple} or I{scalar} radius) or C{None}.
 
            @return: New instance (C{LatLon}).
 
@@ -96,13 +112,7 @@ class LatLonBase(_NamedBase):
             self.name = name
 
         if lon is None:
-            try:
-                lat, lon = latlonh.lat, latlonh.lon
-                height = latlonh.get(_height_, height)
-            except AttributeError:
-                raise _IsnotError(_LatLon_, latlonh=latlonh)
-            if wrap:
-                lat, lon = _Wrap.latlon(lat, lon)
+            lat, lon, height = _latlonheight3(latlonh, height, wrap)
         elif wrap:
             lat, lon = _Wrap.latlonDMS2(latlonh, lon)
         else:
@@ -111,7 +121,9 @@ class LatLonBase(_NamedBase):
         self._lat = Lat(lat)  # parseDMS2(lat, lon)
         self._lon = Lon(lon)  # PYCHOK LatLon2Tuple
         if height:  # elevation
-            self._height = Height(height)
+            self._height =  Height(height)
+        if datum:
+            self._datum = _spherical_datum(datum, name=self.name)
 
     def __eq__(self, other):
         return self.isequalTo(other)
@@ -647,7 +659,7 @@ class LatLonBase(_NamedBase):
                     the overriding B{C{height}} (C{Height}).
         '''
         return Height(h) if h is not None else \
-              _MODS.fmath.favg(self.height, other.height, f=f)
+               favg(self.height, other.height, f=f)
 
     @Property
     def height(self):
@@ -1090,13 +1102,16 @@ class LatLonBase(_NamedBase):
     def _rhumb3(self, exact, radius):  # != .sphericalBase._rhumbs3
         '''(INTERNAL) Get the C{rhumb} for this point's datum or for
            the B{C{radius}}' earth model iff non-C{None}.
-        '''
+        '''  # in .ellipsoidalBase.LatLonEllipsoidalBase.intersecant2
         try:
             d = self._rhumb3dict
             t = d[(exact, radius)]
         except KeyError:
             D = self.datum if radius is None else _spherical_datum(radius)  # ellipsoidal OK
-            r = D.ellipsoid.rhumb_(exact=exact)  # or D.isSpherical)
+            try:
+                r = D.ellipsoid.rhumb_(exact=exact)  # or D.isSpherical)
+            except AttributeError as x:
+                raise _AttributeError(datum=D, radius=radius, cause=x)
             t = r, D, _MODS.karney.Caps
             while d:
                 d.popitem()
@@ -1208,7 +1223,7 @@ class LatLonBase(_NamedBase):
         a, kwds = azimuth_other, _xkwds(name_caps, name=self.name)
         if isscalar(a):
             r = r._DirectLine(self, a, **kwds)
-        elif isinstance(a, LatLonBase):
+        elif isinstance(a, LatLonBase):  # isLatLon(a)
             r = r._InverseLine(self, a, wrap, **kwds)
         else:
             raise _TypeError(azimuth_other=a)
@@ -1635,6 +1650,26 @@ def _trilaterate5(p1, d1, p2, d2, p3, d3, area=True, eps=EPS1,  # MCCABE 13
     n, f = (_overlap_, max) if area else (_intersection_, min)
     t = _COMMASPACE_(_no_(n), '%s %.3g' % (f.__name__, m))
     raise IntersectionError(area=area, eps=eps, wrap=wrap, txt=t)
+
+
+def _intersecend2(p, d, a, b, r, radius, height, exact):  # in .ellipsoidalBas, .sphericalBase
+    '''(INTERNAL) Compute the intersecant2 end-result.
+    '''
+    if d > EPS:
+        s, c = sincos2d(b - a)
+        s = sqrt_a(r, fabs(s * d))
+        if s > r:
+            raise IntersectionError(_too_(Fmt.distant(s)))
+        elif (r - s) < EPS:
+            return p, p  # tangent
+        c *= d
+    else:  # p and c coincide
+        s, c = r, 0
+    t = ()
+    for d, b in ((s + c, b), (s - c, b + _180_0)):  # bearing direction first
+        t += (p.destination(d, b, radius=radius, height=height) if exact is None else
+              p.rhumbDestination(d, b, radius=radius, height=height, exact=exact)),
+    return t
 
 
 __all__ += _ALL_DOCS(LatLonBase)

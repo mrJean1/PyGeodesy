@@ -14,9 +14,9 @@ from pygeodesy.errors import _ALL_LAZY, _MODS, _xattr, _xkwds_not  # _xkwds
 from pygeodesy.interns import NN, _1_, _2_, _a_, _A_, _area_, _angle_, _b_, \
                              _B_, _band_, _c_, _C_, _datum_, _D_, _distance_, \
                              _E_, _easting_, _end_, _fi_, _gamma_, _height_, \
-                             _j_, _h_, _hemipole_, _initial_, _lam_, _lat_, \
+                             _h_, _j_, _hemipole_, _initial_, _lam_, _lat_, \
                              _lon_, _n_, _northing_, _number_, _outside_, \
-                             _phi_, _point_, _precision_, _radius_, _points_, \
+                             _phi_, _point_, _precision_, _points_, _radius_, \
                              _scale_, _start_, _x_, _y_, _z_, _zone_
 # from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS  # from .errors
 from pygeodesy.named import _NamedTuple, _Pass
@@ -27,7 +27,7 @@ from pygeodesy.units import Band, Bearing, Degrees, Degrees2, Easting, \
                             Radians, Radius, Scalar, Str
 
 __all__ = _ALL_LAZY.namedTuples
-__version__ = '23.07.21'
+__version__ = '23.10.08'
 
 # __DUNDER gets mangled in class
 _closest_     = 'closest'
@@ -35,7 +35,6 @@ _destination_ = 'destination'
 _elel_        = 'll'
 _final_       = 'final'
 _fraction_    = 'fraction'
-_normal_      = 'normal'
 
 
 class Bearing2Tuple(_NamedTuple):
@@ -341,13 +340,7 @@ class NearestOn3Tuple(_NamedTuple):  # .points.py, .sphericalTrigonometry.py
     _Units_ = (_Pass,      Meter,      Degrees)
 
 
-class NearestOn4Tuple(_NamedTuple):
-    '''4-Tuple C{(lat, lon, distance, normal)} with the C{lat}- and
-       C{lon}gitude of the nearest point, the C{distance} in C{meter}
-       and the azimuth of the C{normal}, perpendicular line.
-    '''
-    _Names_ = (_lat_, _lon_, _distance_, _normal_)
-    _Units_ = ( Lat,   Lon,   Meter,      Bearing)
+# NearestOn4Tuple DEPRECATED, see deprecated.nearestOn4
 
 
 class NearestOn5Tuple(_NamedTuple):

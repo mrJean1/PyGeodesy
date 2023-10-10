@@ -32,31 +32,29 @@ from pygeodesy.constants import EPS, EPS1, PI_2, R_M, isnear0, isnear1, \
                                _umod_360, _0_0, _0_5, _1_0, _2_0, _6_0, \
                                _90_0, _N_90_0, _180_0, _360_0
 # from pygeodesy.datums import _spherical_datum  # from .formy
-from pygeodesy.dms import F_D, latDMS, lonDMS, parseDMS, S_DEG, S_DMS, \
-                          S_MIN, S_SEC, S_SEP
+from pygeodesy.dms import F_D, parseDMS
 from pygeodesy.errors import CrossError, crosserrors, _IndexError, \
                             _IsnotError, _TypeError, _ValueError, \
                             _xattr, _xkwds, _xkwds_pop
 from pygeodesy.fmath import favg, fdot, hypot,  Fsum, fsum
 # from pygeodesy.fsums import Fsum, fsum  # from .fmath
-from pygeodesy.formy import _bearingTo2, equirectangular_, _isequalTo, \
-                             isnormal, latlon2n_xyz, normal, _spherical_datum
+from pygeodesy.formy import _bearingTo2, equirectangular_,  _spherical_datum
 from pygeodesy.interns import NN, _colinear_, _COMMASPACE_, _composite_, \
                              _DEQUALSPACED_, _ELLIPSIS_, _EW_, _immutable_, \
-                             _lat_, _lon_, _LatLon_, _near_, _no_, _not_, \
-                             _NS_, _point_, _SPACE_, _UNDER_, _valid_
+                             _near_, _no_, _not_, _NS_, _point_, _SPACE_, \
+                             _UNDER_, _valid_  # _lat_, _lon_
 from pygeodesy.iters import LatLon2PsxyIter, PointsIter, points2
-from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
+from pygeodesy.latlonBase import LatLonBase, _latlonheight3, \
+                                _ALL_DOCS, _ALL_LAZY, _MODS
+# from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import classname, nameof, notImplemented, notOverloaded, \
-                           _NamedTuple, _xnamed, _xother3, _xotherError
-from pygeodesy.namedTuples import Bounds2Tuple, Bounds4Tuple, \
-                                  LatLon2Tuple, NearestOn3Tuple, \
-                                  NearestOn5Tuple, PhiLam2Tuple, \
-                                  Point3Tuple, Vector3Tuple, Vector4Tuple
-from pygeodesy.nvectorBase import NvectorBase, _N_vector_
-from pygeodesy.props import deprecated_method, Property, Property_RO, \
-                            property_doc_, property_RO, _update_all
-from pygeodesy.streprs import Fmt, hstr, instr, pairs
+                           _NamedTuple
+from pygeodesy.namedTuples import Bounds2Tuple, Bounds4Tuple, LatLon2Tuple, \
+                                  NearestOn3Tuple, NearestOn5Tuple, \
+                                  Point3Tuple, Vector3Tuple, \
+                                  PhiLam2Tuple  # PYCHOK shared
+from pygeodesy.props import Property_RO, property_doc_, property_RO
+from pygeodesy.streprs import Fmt, instr
 from pygeodesy.units import Number_, Radius, Scalar, Scalar_
 from pygeodesy.utily import atan2b, degrees90, degrees180, degrees2m, \
                             unroll180, _unrollon, unrollPI, _Wrap, wrap180
@@ -64,7 +62,7 @@ from pygeodesy.utily import atan2b, degrees90, degrees180, degrees2m, \
 from math import cos, fabs, fmod, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '23.09.22'
+__version__ = '23.10.07'
 
 _ilat_  = 'ilat'
 _ilon_  = 'ilon'
@@ -72,63 +70,56 @@ _ncols_ = 'ncols'
 _nrows_ = 'nrows'
 
 
-class LatLon_(object):  # XXX in heights._HeightBase.height
-    '''Low-overhead C{LatLon} class for L{Numpy2LatLon} and L{Tuple2LatLon}.
+class LatLon_(LatLonBase):  # XXX in heights._HeightBase.height
+    '''Low-overhead C{LatLon} class, mainly for L{Numpy2LatLon} and L{Tuple2LatLon}.
     '''
-    # __slots__ efficiency is voided if the __slots__ class attribute
-    # is used in a subclass of a class with the traditional __dict__,
-    # see <https://docs.Python.org/2/reference/datamodel.html#slots>
-    # and __slots__ must be repeated in sub-classes, see Luciano
-    # Ramalho, "Fluent Python", O'Reilly, 2016 p. 276+ "Problems
-    # with __slots__" (also at <https://Books.Google.ie/books?
-    #   id=bIZHCgAAQBAJ&lpg=PP1&dq=fluent%20python&pg=PT364#
-    #   v=onepage&q=“Problems%20with%20__slots__”&f=false>),
-    #   2022 p. 390 "Summarizing the Issues with __slots__".
+    # __slots__ efficiency is voided if the __slots__ class attribute is
+    # used in a subclass of a class with the traditional __dict__, @see
+    # <https://docs.Python.org/2/reference/datamodel.html#slots> plus ...
+    #
+    # __slots__ must be repeated in sub-classes, @see Luciano Ramalho,
+    # "Fluent Python", O'Reilly, 2016 p. 276+ "Problems with __slots__",
+    # 2nd Ed, 2022 p. 390 "Summarizing the Issues with __slots__".
     #
     # __slots__ = (_lat_, _lon_, _height_, _datum_, _name_)
     # Property_RO = property_RO  # no __dict__ with __slots__!
     #
-    # However, sys.getsizeof(LatLon_(1, 2)) is 72-88 with __slots__
-    # but only 48-56 bytes without in Python 2.7.18+ and Python 3+.
+    # In addition, both size and overhead have shrunk in recent Python:
+    #
+    # sys.getsizeof(LatLon_(1, 2)) is 72-88 I{with} __slots__, but
+    # only 48-56 bytes I{without in Python 2.7.18+ and Python 3+}.
+    #
+    # python3 -m timeit -s "from pygeodesy... import LatLonBase as LL" "LL(0, 0)" 2.14 usec
+    # python3 -m timeit -s "from pygeodesy import LatLon_" "LatLon_(0, 0)" 216 nsec
 
-    def __init__(self, latlonh, lon=None, name=NN, height=0,
-                                          datum=None, wrap=False):
-        '''Creat a new, mininal, low-overhead L{LatLon_} instance.
+    def __init__(self, latlonh, lon=None, height=0, wrap=False, name=NN, datum=None):
+        '''New L{LatLon_}.
 
-           @arg latlonh: Latitude (C{degrees} or DMS C{str} with N or S suffix) or
-                         a previous C{LatLon} instance provided C{B{lon}=None}.
-           @kwarg lon: Longitude (C{degrees} or DMS C{str} with E or W suffix) or
-                       C(None), indicating B{C{latlonh}} is a C{LatLon}.
-           @kwarg name: Optional name (C{str}).
-           @kwarg height: Optional height (C{meter}, conventionally).
-           @kwarg datum: Optional datum (L{Datum}, L{Ellipsoid}, L{Ellipsoid2},
-                         L{a_f2Tuple} or I{scalar} radius) or C{None}.
-           @kwarg wrap: If C{True}, wrap or I{normalize} B{C{lat}} and B{C{lon}}
-                        (C{bool}).
+           @note: The lat- and longitude values are taken I{as-given,
+                  un-clipped and un-validated}.
 
-           @raise TypeError: Invalid B{C{datum}} or B{C{latlonh}} not a C{LatLon}.
-
-           @note: The lat- and longitude are taken as-given,
-                  un-clipped and un-validated .
+           @see: L{latlonBase.LatLonBase} for further details.
         '''
-        if lon is None:  # PYCHOK no cover
-            try:
-                ll = latlonh.lat, latlonh.lon
-                height = _xattr(latlonh, height=height)
-            except AttributeError:
-                raise _IsnotError(_LatLon_, latlonh=latlonh)
-            if wrap:
-                ll = _Wrap.latlon(*ll)
-        elif wrap:  # PYCHOK no cover
-            ll = _Wrap.latlonDMS2(latlonh, lon)
-        else:  # must be latNS, lonEW
-            ll = parseDMS(latlonh, suffix=_NS_), parseDMS(lon, suffix=_EW_)
+        if name:
+            self.name = name
 
-        self.lat, self.lon = ll
-        self.name   = str(name) if name else NN
-        self.height = height
-        self.datum  = datum if datum is None else \
-                     _spherical_datum(datum, name=self.name)
+        if lon is None:  # PYCHOK no cover
+            lat, lon, height = _latlonheight3(latlonh, height, wrap)
+        elif wrap:  # PYCHOK no cover
+            lat, lon = _Wrap.latlonDMS2(latlonh, lon)
+        else:  # must be latNS, lonEW
+            try:
+                lat, lon = float(latlonh), float(lon)
+            except (TypeError, ValueError):
+                lat = parseDMS(latlonh, suffix=_NS_)
+                lon = parseDMS(lon,     suffix=_EW_)
+
+        # get the minimal __dict__, see _isLatLon_ below
+        self._lat    = lat  # un-clipped and ...
+        self._lon    = lon  # ... un-validated
+        self._datum  = None if datum is None else \
+                      _spherical_datum(datum, name=self.name)
+        self._height = height
 
     def __eq__(self, other):
         return isinstance(other, LatLon_) and \
@@ -138,58 +129,15 @@ class LatLon_(object):  # XXX in heights._HeightBase.height
     def __ne__(self, other):
         return not self.__eq__(other)
 
-    def __repr__(self):
-        return self.toRepr()
-
-    def __str__(self):
-        return self.toStr()
-
-    def classof(self, *args, **kwds):
-        '''Instantiate this very class.
-
-           @arg args: Optional, positional arguments.
-           @kwarg kwds: Optional, keyword arguments.
-
-           @return: New instance (C{self.__class__}).
+    @Property_RO
+    def datum(self):
+        '''Get the C{datum} (L{Datum}) or C{None}.
         '''
-        return _xnamed(self.__class__(*args, **kwds), self.name)
-
-    def copy(self, deep=False):
-        '''Make a shallow or deep copy of this instance.
-
-           @kwarg deep: If C{True} make a deep, otherwise a
-                        shallow copy (C{bool}).
-
-           @return: The copy (C{This} (sub-)class).
-        '''
-        return _xcopy(self, deep=deep)
-
-    def dup(self, **items):
-        '''Duplicate this instance, replacing some items.
-
-           @kwarg items: Attributes to be changed (C{any}).
-
-           @return: The duplicate (C{This} (sub-)class).
-
-           @raise AttributeError: Some B{C{items}} invalid.
-        '''
-        d = _xdup(self, **items)
-        if items:
-            _update_all(d)
-        return d
-
-    def heightStr(self, prec=-2):
-        '''Return a string for the height B{C{height}}.
-
-           @kwarg prec: Number of (decimal) digits, unstripped (C{int}).
-
-           @see: Function L{pygeodesy.hstr}.
-        '''
-        return hstr(self.height, prec=prec)
+        return self._datum
 
     def intermediateTo(self, other, fraction, height=None, wrap=False):
-        '''Locate the point at a given fraction between (or along) this
-           and an other point.
+        '''Locate the point at a given fraction, I{linearly} between
+           (or along) this and an other point.
 
            @arg other: The other point (C{LatLon}).
            @arg fraction: Fraction between both points (C{float},
@@ -206,281 +154,39 @@ class LatLon_(object):  # XXX in heights._HeightBase.height
         f = Scalar(fraction=fraction)
         if isnear0(f):
             r = self
-        elif isnear1(f) and not wrap:
-            r = self.others(other)
         else:
-            p = self.others(other)
-            h = favg(self.height, p.height, f=f) if height is None else height
-            _, lat, lon = _Wrap.latlon3(self.lon, p.lat, p.lon, wrap=wrap)
-            r = self.classof(favg(self.lat, lat, f=f),
-                             favg(self.lon, lon, f=f),
-                             height=h, datum=self.datum,
-                             name=self.intermediateTo.__name__)
+            r = self.others(other)
+            if wrap or not isnear1(f):
+                _, lat, lon = _Wrap.latlon3(self.lon, r.lat, r.lon, wrap)
+                lat = favg(self.lat, lat, f=f)
+                lon = favg(self.lon, lon, f=f)
+                h = height if height is not None else \
+                    favg(self.height, r.height, f=f)
+                # = self._havg(r, f=f, h=height)
+                r = self.classof(lat, lon, height=h, datum=r.datum,
+                                           name=r.intermediateTo.__name__)
         return r
 
-    @Property_RO  # PYCHOK no cover
-    def isEllipsoidal(self):
-        '''Check whether this point is ellipsoidal (C{bool} or C{None} if unknown).
-        '''
-        return self.datum.isEllipsoidal if self.datum else None
-
-    @Property_RO  # PYCHOK no cover
-    def isEllipsoidalLatLon(self):
-        '''Get C{LatLon} base.
-        '''
-        return False
-
-    def isequalTo(self, other, eps=None):
-        '''Compare this point with an other point, I{ignoring} height.
-
-           @arg other: The other point (C{LatLon}).
-           @kwarg eps: Tolerance for equality (C{degrees}).
-
-           @return: C{True} if both points are identical,
-                    I{ignoring} height, C{False} otherwise.
-
-           @raise UnitError: Invalid B{C{eps}}.
-        '''
-        return _isequalTo(self, self.others(other), eps=eps)
-
-    @Property_RO
-    def isnormal(self):
-        '''Return C{True} if this point is normal (C{bool}),
-           meaning C{abs(lat) <= 90} and C{abs(lon) <= 180}.
-
-           @see: Methods L{normal}, L{toNormal} and functions
-                 L{pygeodesy.isnormal} and L{pygeodesy.normal}.
-        '''
-        return isnormal(self.lat, self.lon, eps=0)
-
-    @Property_RO
-    def isSpherical(self):  # PYCHOK no cover
-        '''Check whether this point is spherical (C{bool} or C{None} if unknown).
-        '''
-        return self.datum.isSpherical if self.datum else None
-
-    @Property_RO
-    def lam(self):
-        '''Get the longitude (B{C{radians}}).
-        '''
-        return radians(self.lon)
-
-    @Property
-    def latlon(self):
-        '''Get the lat- and longitude in C{degrees} (L{LatLon2Tuple}C{(lat, lon)}).
-        '''
-        return LatLon2Tuple(self.lat, self.lon, name=self.name)
-
-    @latlon.setter  # PYCHOK setter!
-    def latlon(self, latlon):
-        '''Set the lat- and longitude.
-
-           @arg latlon: New lat- and longitude in C{degrees} (C{2-tuple} or {-list}).
-        '''
-        if self.latlon != latlon[:2]:
-            _update_all(self)
-            self.lat, self.lon = latlon[:2]
-
-    @Property_RO
-    def latlonheight(self):
-        '''Get the lat-, longitude and height (L{LatLon3Tuple}C{(lat, lon, height)}).
-        '''
-        return self.latlon.to3Tuple(self.height)
-
-    @Property_RO
-    def _N_vector(self):
-        '''(INTERNAL) Get the minimal, low-overhead (C{nvectorBase._N_vector_})
-        '''
-        return _N_vector_(*latlon2n_xyz(self.lat, self.lon),
-                           h=self.height, name=self.name)
-
-    def others(self, *other, **name_other_up):  # see .named._namedBase.others
-        '''Refined class comparison.
-
-           @arg other: The other instance (any C{type}).
-           @kwarg name_other_up: Overriding C{name=other} and C{up=1}
-                                 keyword arguments.
-
-           @return: The B{C{other}} if compatible.
-
-           @raise TypeError: Incompatible B{C{other}} C{type}.
-        '''
-        other, name, up = _xother3(self, other, **name_other_up)
-        if isinstance(other, self.__class__) or (hasattr(other, _lat_)
-                                             and hasattr(other, _lon_)):
-            return other
-        raise _xotherError(self, other, name=name, up=up + 1)
-
-    def normal(self):
-        '''Normalize this point I{in-place} to C{abs(lat) <= 90} and
-           C{abs(lon) <= 180}.
-
-           @return: C{True} if this point was I{normal}, C{False} if it
-                    wasn't (but is now).
-
-           @see: Property L{isnormal} and method L{toNormal}.
-        '''
-        n = self.isnormal
-        if not n:
-            self.latlon = normal(*self.latlon)
-        return n
-
-    @Property_RO
-    def phi(self):
-        '''Get the latitude (B{C{radians}}).
-        '''
-        return radians(self.lat)
-
-    @Property_RO
-    def philam(self):
-        '''Get the lat- and longitude (L{PhiLam2Tuple}C{(phi, lam)}).
-        '''
-        return PhiLam2Tuple(self.phi, self.lam, name=self.name)
-
-    @Property_RO
-    def philamheight(self):
-        '''Get the lat-, longitude in C{radians} and height (L{PhiLam3Tuple}C{(phi, lam, height)}).
-        '''
-        return self.philam.to3Tuple(self.height)
-
-    @deprecated_method
-    def points(self, points, closed=False, base=None):  # PYCHOK no cover
-        '''DEPRECATED, use method C{points2}.'''
-        return points2(points, closed=closed, base=base)
-
-    def points2(self, points, closed=False, base=None):
-        '''Check a path or polygon represented by points.
-
-           @arg points: The path or polygon points (C{LatLon}[])
-           @kwarg closed: Optionally, consider the polygon closed,
-                          ignoring any duplicate or closing final
-                          B{C{points}} (C{bool}).
-           @kwarg base: Optionally, check all B{C{points}} against
-                        this base class, if C{None} don't check.
-
-           @return: A L{Points2Tuple}C{(number, points)} with the number
-                    of points and the points C{list} or C{tuple}.
-
-           @raise PointsError: Insufficient number of B{C{points}}.
-
-           @raise TypeError: Some B{C{points}} are not B{C{base}}.
-        '''
-        return points2(points, closed=closed, base=base)
-
-    def PointsIter(self, points, loop=0, dedup=False):
-        '''Return a points iterator.
-
-           @arg points: The path or polygon points (C{LatLon}[])
-           @kwarg loop: Number of loop-back points (non-negative C{int}).
-           @kwarg dedup: Skip duplicate points (C{bool}).
-
-           @return: A new C{PointsIter} iterator.
-
-           @raise PointsError: Insufficient number of B{C{points}}.
-        '''
-        return PointsIter(points, base=self, loop=loop, dedup=dedup)
-
-    @deprecated_method
-    def to2ab(self):  # PYCHOK no cover
-        '''DEPRECATED, use property L{philam}.'''
-        return self.philam
-
-    def toNormal(self, deep=False, name=NN):
-        '''Get a copy of this point normalized to C{abs(lat) <= 90}
-           and C{abs(lon) <= 180}.
-
-           @kwarg deep: If C{True} make a deep, otherwise a
-                        shallow copy (C{bool}).
-           @kwarg name: Optional name of the copy (C{str}).
-
-           @return: A copy of this point, I{normalized} and
-                    optionally renamed (C{LatLon}).
-
-           @see: Property L{isnormal}, method L{normal} and
-                 function L{pygeodesy.normal}.
-        '''
-        ll = self.copy(deep=deep)
-        _  = ll.normal()
-        if name:
-            ll.name = str(name)
-        return ll
-
-    def toNvector(self, h=None, Nvector=NvectorBase, **Nvector_kwds):
-        '''Convert this point to C{n-vector} (normal to the earth's
-           surface) components, I{including height}.
-
-           @kwarg h: Optional height, overriding this point's height
-                     (C{meter}).
-           @kwarg Nvector: Optional class to return the C{n-vector}
-                           components (C{Nvector}) or C{None}.
-           @kwarg Nvector_kwds: Optional, additional B{C{Nvector}} keyword
-                                arguments, ignored if C{B{Nvector} is None}.
-
-           @return: The C{n-vector} components B{C{Nvector}} or if
-                    B{C{Nvector}} is C{None}, a L{Vector4Tuple}C{(x,
-                    y, z, h)}.
-
-           @raise TypeError: Invalid B{C{Nvector}} or B{C{Nvector_kwds}}
-                             argument.
-        '''
-        x, y, z = latlon2n_xyz(self.lat, self.lon)
-        r = Vector4Tuple(x, y, z, self.height if h is None else h)
-        if Nvector is not None:
-            r = Nvector(x, y, z, **_xkwds(Nvector_kwds, h=r.h, ll=self))
-        return _xnamed(r, self.name)
-
     def toRepr(self, **kwds):
-        '''This L{LatLon_} as a string "class(<degrees>, ...)".
+        '''This L{LatLon_} as a string "class(<degrees>, ...)",
+           ignoring keyword argument C{B{std}=N/A}.
 
-           @kwarg kwds: Optional, keyword arguments.
-
-           @return: Class instance (C{str}).
+           @see: L{latlonBase.LatLonBase.toRepr} for further details.
         '''
-        _ = _xkwds_pop(kwds, std=None)  # PYCHOK std unused
-        return Fmt.PAREN(classname(self), self.toStr(**kwds))
+        _ = _xkwds_pop(kwds, std=NotImplemented)
+        return LatLonBase.toRepr(self, **kwds)
 
-    def toStr(self, form=F_D, joined=_COMMASPACE_, **prec_sep_s_D_M_S_kwds):
-        '''Convert this point to a "lat, lon[, height][, name][, ...]" string,
-           formatted in the given C{B{form}at}.
+    def toStr(self, form=F_D, joined=_COMMASPACE_, **m_prec_sep_s_D_M_S):  # PYCHOK expected
+        '''Convert this point to a "lat, lon[, height][, name][, ...]"
+           string, formatted in the given C{B{form}at}.
 
-           @kwarg form: The lat-/longitude C{B{form}at} to use (C{str}), see
-                        functions L{pygeodesy.latDMS} or L{pygeodesy.lonDMS}.
-           @kwarg joined: Separator to join the lat-, longitude, heigth, name
-                          and other strings (C{str} or C{None} or C{NN} for
-                          non-joined).
-           @kwarg prec_sep_s_D_M_S_kwds: Optional C{B{prec}ision}, C{B{sep}arator},
-                      B{C{s_D}}, B{C{s_M}}, B{C{s_S}}, B{C{s_DMS}} and possibly
-                      other keyword arguments, see functions L{pygeodesy.latDMS}
-                      or L{pygeodesy.lonDMS}.
-
-           @return: This point in the specified C{B{form}at}, etc. (C{str} or
-                    a 2- or 3+tuple C{(lat_str, lon_str[, height_str][, name_str][,
-                    ...])} if C{B{joined}=NN} or C{B{joined}=None} and with the
-                    C{height_str} and C{name_str} only included if non-zero
-                    respectively non-empty).
-
-           @see: Function L{pygeodesy.latDMS} or L{pygeodesy.lonDMS} for more
-                 details about keyword arguments C{B{form}at}, C{B{prec}ision},
-                 C{B{sep}arator}, B{C{s_D}}, B{C{s_M}}, B{C{s_S}} and B{C{s_DMS}}.
+           @see: L{latlonBase.LatLonBase.toStr} for further details.
         '''
-        def _t3(prec=None, sep=S_SEP, s_D=S_DEG, s_M=S_MIN, s_S=S_SEC, s_DMS=S_DMS, **kwds):
-            return dict(prec=prec, sep=sep, s_D=s_D, s_M=s_M, s_S=s_S, s_DMS=s_DMS), kwds, prec
-
-        prec_sep_s_D_M_S, kwds, prec = _t3(**prec_sep_s_D_M_S_kwds)
-        t = (latDMS(self.lat, form=form, **prec_sep_s_D_M_S),
-             lonDMS(self.lon, form=form, **prec_sep_s_D_M_S))
-        if self.height:
-            t += (self.heightStr(),)
+        t = LatLonBase.toStr(self, form=form, joined=NN,
+                                **_xkwds(m_prec_sep_s_D_M_S, m=NN))
         if self.name:
             t += (repr(self.name),)
-        if kwds:
-            t += pairs(kwds) if prec is None else pairs(kwds, prec=prec)
         return joined.join(t) if joined else t
-
-    @deprecated_method
-    def toStr2(self, **kwds):  # PYCHOK no cover
-        '''DEPRECATED, used method L{toRepr}.'''
-        return self.toRepr(**kwds)
 
 
 def _isLatLon(inst):
@@ -493,11 +199,7 @@ def _isLatLon_(LL):
     '''(INTERNAL) Check a (sub-)class of C{LatLon_}.
     '''
     return issubclassof(LL, LatLon_) or (isclass(LL) and
-            all(hasattr(LL, a) for a in _ALL_ATTRS_))
-
-
-# get all pseudo-slots for class C{LatLon_}
-_ALL_ATTRS_ = tuple(LatLon_(0, 0).__dict__.keys())
+            all(hasattr(LL, _) for _ in LatLon_(0, 0).__dict__.keys()))
 
 
 class _Basequence(_Sequence):  # immutable, on purpose
@@ -1847,22 +1549,23 @@ def nearestOn5(point, points, closed=False, wrap=False, adjust=True,
     # 3-D version used in .vector3d._nearestOn2
     #
     # point (x, y) on axis rotated ccw by angle a:
-    #   x' = y * sin(a) + x * cos(a)
+    #   x' = x * cos(a) + y * sin(a)
     #   y' = y * cos(a) - x * sin(a)
     #
     # distance (w) along and (h) perpendicular to
     # a line thru point (dx, dy) and the origin:
-    #   w = (y * dy + x * dx) / hypot(dx, dy)
-    #   h = (y * dx - x * dy) / hypot(dx, dy)
+    #   d =  hypot(dx, dy)
+    #   w = (x * dx + y * dy) / d
+    #   h = (y * dx - x * dy) / d
     #
     # closest point on that line thru (dx, dy):
-    #   xc = dx * w / hypot(dx, dy)
-    #   yc = dy * w / hypot(dx, dy)
+    #   xc = dx * w / d
+    #   yc = dy * w / d
     # or
     #   xc = dx * f
     #   yc = dy * f
     # with
-    #   f = w / hypot(dx, dy)
+    #   f = w / d
     # or
     #   f = (y * dy + x * dx) / hypot2(dx, dy)
     #
@@ -1900,8 +1603,8 @@ def nearestOn5(point, points, closed=False, wrap=False, adjust=True,
                 c, u, d, dy, dx = p1, u1, d2, -y01, -x01
         p1, u1 = p2, u2
 
-    a =  atan2b(dx, dy)
-    d =  hypot(dx, dy)
+    a =  atan2b(dx, dy)  # azimuth
+    d =  hypot( dx, dy)
     h = _h(c)
     n =  nameof(point) or nearestOn5.__name__
     if LatLon_and_kwds:

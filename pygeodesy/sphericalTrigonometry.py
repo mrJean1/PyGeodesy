@@ -942,14 +942,15 @@ def _intdot(ds, a1, b1, a, b, wrap):
 
 def intersecant2(center, circle, point, bearing, radius=R_M, exact=False,
                                                  height=None, wrap=False):  # was=True
-    '''Compute the intersections of a circle and a line.
+    '''Compute the intersections of a circle and a line given as a point and
+       bearing or as two points.
 
        @arg center: Center of the circle (L{LatLon}).
        @arg circle: Radius of the circle (C{meter}, same units as B{C{radius}})
                     or a point on the circle (L{LatLon}).
-       @arg point: A point in- or outside the circle (L{LatLon}).
+       @arg point: A point in- or outside the circle on the line (L{LatLon}).
        @arg bearing: Bearing at the B{C{point}} (compass C{degrees360}) or
-                     a second point on the line (L{LatLon}).
+                     an other point on the line (L{LatLon}).
        @kwarg radius: Mean earth radius (C{meter}, conventionally).
        @kwarg exact: If C{True} use the I{exact} rhumb methods for azimuth,
                      destination and distance, if C{False} use the basic

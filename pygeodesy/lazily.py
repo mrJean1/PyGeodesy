@@ -143,9 +143,9 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'LambertEqualArea', 'Orthographic', 'Stereographic',
                                  'equidistant', 'gnomonic'),
                          basics=('clips', 'copysign0', 'copytype', 'halfs2',
-                                 'int1s', 'isbool', 'isclass', 'iscomplex', 'isfloat',
-                                 'isidentifier', 'isinstanceof', 'isint', 'iskeyword', 'islistuple', 'isodd',
-                                 'isscalar', 'issequence', 'isstr', 'issubclassof',
+                                 'int1s', 'isbool', 'isCartesian', 'isclass', 'iscomplex', 'isfloat',
+                                 'isidentifier', 'isinstanceof', 'isint', 'iskeyword', 'isLatLon', 'islistuple',
+                                 'isNvector', 'isodd', 'isscalar', 'issequence', 'isstr', 'issubclassof',
                                  'len2', 'map1', 'map2', 'neg', 'neg_',
                                  'signBit', 'signOf', 'splice', 'str2ub', 'ub2str', 'unsigned0'),
                        booleans=('BooleanFHP', 'BooleanGH', 'LatLonFHP', 'LatLonGH',
@@ -165,8 +165,9 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                          datums=('Datum', 'Datums', 'Transform', 'Transforms'),
                      deprecated=('EPS1_2', 'MANTIS', 'OK',  # DEPRECATED constants
                                  'bases', 'datum', 'nvector',  # DEPRECATED modules, see _sub_packages
-                                 'ClipCS3Tuple', 'EasNorExact4Tuple', 'EcefCartesian', 'HeightIDW', 'HeightIDW2', 'HeightIDW3',  # DEPRECATED classes
-                                 'LatLonExact4Tuple', 'Ned3Tuple', 'RefFrameError', 'Rhumb7Tuple', 'Transform7Tuple', 'TriAngle4Tuple', 'UtmUps4Tuple',
+                                 'ClipCS3Tuple', 'EasNorExact4Tuple', 'EcefCartesian',  # DEPRECATED classes
+                                 'HeightIDW', 'HeightIDW2', 'HeightIDW3', 'LatLonExact4Tuple', 'NearestOn4Tuple', 'Ned3Tuple',
+                                 'RefFrameError', 'Rhumb7Tuple', 'Transform7Tuple', 'TriAngle4Tuple', 'UtmUps4Tuple',
                                  'anStr', 'areaof', 'atand', 'bounds', 'clipCS3', 'clipDMS', 'clipStr', 'collins',   # most of the DEPRECATED functions, ...
                                  'decodeEPSG2', 'encodeEPSG', 'equirectangular3', 'enStr2',   # ... except ellipsoidal, spherical flavors
                                  'excessAbc', 'excessGirard', 'excessLHuilier',
@@ -283,8 +284,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'LatLon2Tuple', 'LatLon3Tuple', 'LatLon4Tuple',
                                  'LatLonDatum3Tuple', 'LatLonDatum5Tuple',
                                  'LatLonPrec3Tuple', 'LatLonPrec5Tuple',
-                                 'NearestOn2Tuple', 'NearestOn3Tuple', 'NearestOn4Tuple',
-                                 'NearestOn5Tuple', 'NearestOn6Tuple', 'NearestOn8Tuple',
+                                 'NearestOn2Tuple', 'NearestOn3Tuple', 'NearestOn6Tuple', 'NearestOn8Tuple',
                                  'PhiLam2Tuple', 'PhiLam3Tuple', 'PhiLam4Tuple', 'Point3Tuple', 'Points2Tuple',
                                  'Reverse4Tuple', 'Triangle7Tuple', 'Triangle8Tuple', 'Trilaterate5Tuple',
                                  'UtmUps2Tuple', 'UtmUps5Tuple', 'UtmUps8Tuple', 'UtmUpsLatLon5Tuple',
@@ -444,7 +444,7 @@ class _ALL_MODS(object):
 _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '23.10.02'
+__version__ = '23.10.08'
 
 
 def _ALL_OTHER(*objs):

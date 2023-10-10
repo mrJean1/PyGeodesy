@@ -30,7 +30,8 @@ or by converting to anothor datum:
 '''
 
 from pygeodesy.datums import _WGS84
-from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, _nearestOn
+from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, \
+                                      intersecant2, _nearestOn
 from pygeodesy.ellipsoidalBaseDI import LatLonEllipsoidalBaseDI, _TOL_M, \
                                        _intersection3, _intersections2
 # from pygeodesy.errors import _xkwds  # from .karney
@@ -42,7 +43,7 @@ from pygeodesy.props import deprecated_method, Property_RO
 # from math import fabs  # from .karney
 
 __all__ = _ALL_LAZY.ellipsoidalKarney
-__version__ = '23.05.12'
+__version__ = '23.10.08'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -377,7 +378,7 @@ def perimeterOf(points, closed=False, datum=_WGS84, wrap=True):
 
 
 __all__ += _ALL_OTHER(Cartesian, LatLon,  # classes
-                      areaOf,  # functions
+                      areaOf, intersecant2,  # from .ellipsoidalBase
                       intersection3, intersections2, isclockwise, ispolar,
                       nearestOn, perimeterOf)
 

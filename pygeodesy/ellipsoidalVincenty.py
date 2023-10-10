@@ -51,9 +51,10 @@ or by converting to anothor datum:
 from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.constants import EPS, EPS0, _0_0, _1_0, _2_0, _3_0, _4_0, _6_0
-from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, _nearestOn
-from pygeodesy.ellipsoidalBaseDI import _intersection3, _intersections2, \
-                                         LatLonEllipsoidalBaseDI, _TOL_M
+from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, intersecant2, \
+                                     _nearestOn
+from pygeodesy.ellipsoidalBaseDI import LatLonEllipsoidalBaseDI, \
+                                       _intersection3, _intersections2, _TOL_M
 from pygeodesy.errors import _and, _ValueError, _xkwds
 from pygeodesy.fmath import Fpolynomial, hypot, hypot1
 from pygeodesy.interns import _ambiguous_, _antipodal_, _COLONSPACE_, \
@@ -71,7 +72,7 @@ from pygeodesy.utily import atan2b, atan2d, sincos2, sincos2d, unroll180, wrap18
 from math import atan2, cos, degrees, fabs, radians, tan
 
 __all__ = _ALL_LAZY.ellipsoidalVincenty
-__version__ = '23.05.30'
+__version__ = '23.10.08'
 
 _antipodal_to_ = _SPACE_(_antipodal_, _to_)
 
@@ -559,7 +560,7 @@ def perimeterOf(points, **closed_datum_wrap):
         return _MODS.ellipsoidalExact.perimeterOf(points, **closed_datum_wrap)
 
 
-__all__ += _ALL_OTHER(Cartesian, LatLon,
+__all__ += _ALL_OTHER(Cartesian, LatLon, intersecant2,  # from .ellipsoidalBase
                       intersection3, intersections2, ispolar,  # from .points
                       nearestOn) + _ALL_DOCS(areaOf, perimeterOf)  # deprecated
 

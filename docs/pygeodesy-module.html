@@ -261,13 +261,14 @@
     command line: <code>epydoc --html --no-private --no-source 
     --name=PyGeodesy --url=... -v pygeodesy</code>).</p>
   <h1 class="heading">Tests</h1>
-    <p>The tests ran with Python 3.11.5 (with <a 
+    <p>The tests ran with Python 3.12 (with <a 
+    href="https://PyPI.org/project/geographiclib" 
+    target="_top">geographiclib</a> 2.0, Python 3.11.5 (with <a 
     href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 2.0, <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.24.2 
     and <a href="https://PyPI.org/project/scipy" target="_top">scipy</a> 
-    1.10.1), <a href="https://formulae.brew.sh/formula/pypy3.10" 
-    target="_top">PyPy 7.3.12 (Python 3.10.12)</a>, Python 3.10.8 (with <a 
+    1.10.1), Python 3.10.8 (with <a 
     href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 2.0, <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.23.3, 
@@ -277,13 +278,8 @@
     href="https://GeographicLib.SourceForge.io/html/utilities.html" 
     target="_top">GeodSolve</a> 2.2 and <a 
     href="https://GeographicLib.SourceForge.io/html/utilities.html" 
-    target="_top">RhumbSolve</a> 2.2), Python 3.9.6, Python 3.8.10 (with <a
-    href="https://PyPI.org/project/geographiclib" 
-    target="_top">geographiclib</a> 1.52, <a 
-    href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.19.2 
-    and <a href="https://PyPI.org/project/scipy" target="_top">scipy</a> 
-    1.5.2) and Python 2.7.18 (with <a 
-    href="https://PyPI.org/project/geographiclib" 
+    target="_top">RhumbSolve</a> 2.2), Python 3.9.6 and Python 2.7.18 (with
+    <a href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 1.50, <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.16.6, 
     <a href="https://PyPI.org/project/scipy" target="_top">scipy</a> 1.2.2,
@@ -326,9 +322,9 @@
     10.13.6 High Sierra.</p>
     <p>Previously, the tests were run with Python 3.11.2-4, 3.10.1-7, 
     3.9.1, 3.8.7, 3.7.1, 2.7.15, <a href="https://PyPy.org" 
-    target="_top">PyPy</a>7.3.1 (Python 3.6.9) and <a 
-    href="https://PyPy.org" target="_top">PyPy</a> 7.1.1 (Python 2.7.13) 
-    (and <a href="https://PyPI.org/project/geographiclib" 
+    target="_top">PyPy</a> 7.3.12 (Python 3.10.12), 7.3.1 (Python 3.6.9) 
+    and <a href="https://PyPy.org" target="_top">PyPy</a> 7.1.1 (Python 
+    2.7.13) (and <a href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 1.52, <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.16.3, 
     1.16.4, 1.16.6, 1.19.0, 1.19.4, 1.19.5 or 1.22.4 and <a 
@@ -545,7 +541,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        23.10.06
+        23.10.10
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -3573,7 +3569,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.points.LatLon_-class.html" class="summary-name">LatLon_</a><br />
-      Low-overhead <code>LatLon</code> class for <a 
+      Low-overhead <code>LatLon</code> class, mainly for <a 
         href="pygeodesy.points.Numpy2LatLon-class.html" 
         class="link">Numpy2LatLon</a> and <a 
         href="pygeodesy.points.Tuple2LatLon-class.html" 
@@ -3828,20 +3824,12 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.namedTuples.NearestOn4Tuple-class.html" class="summary-name">NearestOn4Tuple</a><br />
-      4-Tuple <code>(lat, lon, distance, normal)</code> with the 
-        <code>lat</code>- and <code>lon</code>gitude of the nearest point, 
-        the <code>distance</code> in <code>meter</code> and the azimuth of 
-        the <code>normal</code>, perpendicular line.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.namedTuples.NearestOn5Tuple-class.html" class="summary-name">NearestOn5Tuple</a><br />
-      5-Tuple <code>(lat, lon, distance, angle, height)</code> all in 
-        <code>degrees</code>, except <a href=pygeodesy.heights-module.html><code>height</code></a>.
+        <a href="pygeodesy.deprecated.classes.NearestOn4Tuple-class.html" class="summary-name">NearestOn4Tuple</a><br />
+      DEPRECATED on 23.10.10, see methods <a 
+        href="pygeodesy.rhumbBase.RhumbLineBase-class.html#nearestOn4" 
+        class="link">RhumbLine.nearestOn4</a> and <a 
+        href="pygeodesy.rhumbBase.RhumbLineBase-class.html#nearestOn4" 
+        class="link">RhumbLineAux.nearestOn4</a>.
     </td>
   </tr>
 <tr>
@@ -4499,7 +4487,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.deprecated.classes.TriAngle4Tuple-class.html" class="summary-name">TriAngle4Tuple</a><br />
-      DEPRECATED, use class <a 
+      DEPRECATED on 23.09.14, use class <a 
         href="pygeodesy.resections.TriAngle5Tuple-class.html" 
         class="link">TriAngle5Tuple</a>, ignoring item <code>area</code>.
     </td>
@@ -5590,7 +5578,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#atand" class="summary-sig-name">atand</a>(<span class="summary-sig-arg">x</span>)</span><br />
-      DEPRECATED, use function <a href="pygeodesy.utily-module.html#atan1d"
+      DEPRECATED on 23.09.28, use function <a 
+      href="pygeodesy.utily-module.html#atan1d" 
       class="link">pygeodesy.atan1d</a>.</td>
           <td align="right" valign="top">
             
@@ -7293,7 +7282,7 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#excessAbc" class="summary-sig-name">excessAbc</a>(<span class="summary-sig-arg">A</span>,
         <span class="summary-sig-arg">b</span>,
         <span class="summary-sig-arg">c</span>)</span><br />
-      DEPRECATED, use function <a 
+      DEPRECATED on 23.04.04, use function <a 
       href="pygeodesy.formy-module.html#excessAbc_" 
       class="link">pygeodesy.excessAbc_</a>.</td>
           <td align="right" valign="top">
@@ -7355,7 +7344,7 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#excessGirard" class="summary-sig-name">excessGirard</a>(<span class="summary-sig-arg">A</span>,
         <span class="summary-sig-arg">B</span>,
         <span class="summary-sig-arg">C</span>)</span><br />
-      DEPRECATED, use function <a 
+      DEPRECATED on 23.04.04, use function <a 
       href="pygeodesy.formy-module.html#excessGirard_" 
       class="link">pygeodesy.excessGirard_</a>.</td>
           <td align="right" valign="top">
@@ -7446,7 +7435,7 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#excessLHuilier" class="summary-sig-name">excessLHuilier</a>(<span class="summary-sig-arg">a</span>,
         <span class="summary-sig-arg">b</span>,
         <span class="summary-sig-arg">c</span>)</span><br />
-      DEPRECATED, use function <a 
+      DEPRECATED on 23.04.04, use function <a 
       href="pygeodesy.formy-module.html#excessLHuilier_" 
       class="link">pygeodesy.excessLHuilier_</a>.</td>
           <td align="right" valign="top">
@@ -8045,7 +8034,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#float0" class="summary-sig-name">float0</a>(<span class="summary-sig-arg">*xs</span>)</span><br />
-      DEPRECATED, use function <a 
+      DEPRECATED on 23.04.21, use function <a 
       href="pygeodesy.constants-module.html#float0_" 
       class="link">pygeodesy.float0_</a>.</td>
           <td align="right" valign="top">
@@ -8676,7 +8665,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fb2986b1450&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f81185c4350&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -9134,6 +9123,23 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#isCartesian" class="summary-sig-name">isCartesian</a>(<span class="summary-sig-arg">obj</span>)</span><br />
+      Is <b><code>obj</code></b> some <code>Cartesian</code>?</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a name="isDEPRECATED"></a><span class="summary-sig-name">isDEPRECATED</span>(<span class="summary-sig-arg">obj</span>)</span><br />
       Return <code>True</code> if <code><b>obj</b></code> is a 
       <code>DEPRECATED</code> class, method or function, <code>False</code>
@@ -9170,8 +9176,42 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#isLatLon" class="summary-sig-name">isLatLon</a>(<span class="summary-sig-arg">obj</span>)</span><br />
+      Is <b><code>obj</code></b> some <code>LatLon</code>?</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#isNumpy2" class="summary-sig-name">isNumpy2</a>(<span class="summary-sig-arg">obj</span>)</span><br />
       Check for a <b><code>Numpy2LatLon</code></b> points wrapper.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#isNvector" class="summary-sig-name">isNvector</a>(<span class="summary-sig-arg">obj</span>)</span><br />
+      Is <b><code>obj</code></b> some <code>Nvector</code>?</td>
           <td align="right" valign="top">
             
             
@@ -9529,7 +9569,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#isinstanceof" class="summary-sig-name">isinstanceof</a>(<span class="summary-sig-arg">obj</span>,
         <span class="summary-sig-arg">*classes</span>)</span><br />
-      Check an instance of one or several <code>classes</code>.</td>
+      Is <b><code>ob</code></b> an intance of one of the 
+      <code>classes</code>?</td>
           <td align="right" valign="top">
             
             
@@ -9893,7 +9934,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#istuplist" class="summary-sig-name">istuplist</a>(<span class="summary-sig-arg">obj</span>,
         <span class="summary-sig-arg">minum</span>=<span class="summary-sig-default">0</span>)</span><br />
-      DEPRECATED, use function <a 
+      DEPRECATED on 23.03.31, use function <a 
       href="pygeodesy.basics-module.html#islistuple" 
       class="link">pygeodesy.islistuple</a>.</td>
           <td align="right" valign="top">
@@ -12098,7 +12139,8 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#sqrt0" class="summary-sig-name">sqrt0</a>(<span class="summary-sig-arg">x</span>)</span><br />
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#sqrt0" class="summary-sig-name">sqrt0</a>(<span class="summary-sig-arg">x</span>,
+        <span class="summary-sig-arg">Error</span>=<span class="summary-sig-default">None</span>)</span><br />
       Return the square root iff <code><b>x</b> &gt;</code> EPS02.</td>
           <td align="right" valign="top">
             
@@ -12674,7 +12716,7 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#triAngle4" class="summary-sig-name">triAngle4</a>(<span class="summary-sig-arg">a</span>,
         <span class="summary-sig-arg">b</span>,
         <span class="summary-sig-arg">c</span>)</span><br />
-      DEPRECATED, use function <a 
+      DEPRECATED on 23.09.14, use function <a 
       href="pygeodesy.resections-module.html#triAngle5" 
       class="link">pygeodesy.triAngle5</a>.</td>
           <td align="right" valign="top">
@@ -13393,7 +13435,7 @@ ygeodesy'"><code class="variable-quote">'</code><code class="variable-string">/U
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'23.10.6'"><code class="variable-quote">'</code><code class="variable-string">23.10.6</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'23.10.10'"><code class="variable-quote">'</code><code class="variable-string">23.10.10</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -15131,7 +15173,8 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
     </td>
   </tr></table>
   
-  <p>DEPRECATED, use function <a href="pygeodesy.utily-module.html#atan1d" 
+  <p>DEPRECATED on 23.09.28, use function <a 
+  href="pygeodesy.utily-module.html#atan1d" 
   class="link">pygeodesy.atan1d</a>.</p>
   <dl class="fields">
     <dt>Decorators:</dt>
@@ -18783,7 +18826,7 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
     </td>
   </tr></table>
   
-  <p>DEPRECATED, use function <a 
+  <p>DEPRECATED on 23.04.04, use function <a 
   href="pygeodesy.formy-module.html#excessAbc_" 
   class="link">pygeodesy.excessAbc_</a>.</p>
   <dl class="fields">
@@ -18895,7 +18938,7 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
     </td>
   </tr></table>
   
-  <p>DEPRECATED, use function <a 
+  <p>DEPRECATED on 23.04.04, use function <a 
   href="pygeodesy.formy-module.html#excessGirard_" 
   class="link">pygeodesy.excessGirard_</a>.</p>
   <dl class="fields">
@@ -19071,7 +19114,7 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
     </td>
   </tr></table>
   
-  <p>DEPRECATED, use function <a 
+  <p>DEPRECATED on 23.04.04, use function <a 
   href="pygeodesy.formy-module.html#excessLHuilier_" 
   class="link">pygeodesy.excessLHuilier_</a>.</p>
   <dl class="fields">
@@ -20250,7 +20293,7 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
     </td>
   </tr></table>
   
-  <p>DEPRECATED, use function <a 
+  <p>DEPRECATED on 23.04.21, use function <a 
   href="pygeodesy.constants-module.html#float0_" 
   class="link">pygeodesy.float0_</a>.</p>
   <dl class="fields">
@@ -21480,7 +21523,7 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fb2986b1450&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f81185c4350&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -22518,6 +22561,32 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
   </dl>
 </td></tr></table>
 </div>
+<a name="isCartesian"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isCartesian</span>&nbsp;(<span class="sig-arg">obj</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Is <b><code>obj</code></b> some <code>Cartesian</code>?</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>obj</code></strong> - The object (any <code>type</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><code>type(<b>obj</b></code> if <b><code>obj</code></b> is a 
+          <code>Cartesian</code> instance, <code>None</code> otherwise.</dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="isError"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -22546,6 +22615,32 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
   </dl>
 </td></tr></table>
 </div>
+<a name="isLatLon"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isLatLon</span>&nbsp;(<span class="sig-arg">obj</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Is <b><code>obj</code></b> some <code>LatLon</code>?</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>obj</code></strong> - The object (any <code>type</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><code>type(<b>obj</b></code> if <b><code>obj</code></b> is a 
+          <code>LatLon</code> instance, <code>None</code> otherwise.</dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="isNumpy2"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -22570,6 +22665,32 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
         <dd><code>True</code> if <b><code>obj</code></b> is a 
           <b><code>Numpy2LatLon</code></b> instance, <code>False</code> 
           otherwise.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="isNvector"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isNvector</span>&nbsp;(<span class="sig-arg">obj</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Is <b><code>obj</code></b> some <code>Nvector</code>?</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>obj</code></strong> - The object (any <code>type</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><code>type(<b>obj</b></code> if <b><code>obj</code></b> is an 
+          <code>Nvector</code> instance, <code>None</code> otherwise.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -23135,16 +23256,18 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
     </td>
   </tr></table>
   
-  <p>Check an instance of one or several <code>classes</code>.</p>
+  <p>Is <b><code>ob</code></b> an intance of one of the 
+  <code>classes</code>?</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>obj</code></strong> - The instance (<code>any</code>).</li>
+        <li><strong class="pname"><code>obj</code></strong> - The instance (any <code>type</code>).</li>
         <li><strong class="pname"><code>classes</code></strong> - One or more classes (<code>class</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd><code>True</code> if <b><code>obj</code></b> is in instance of 
-          one of the <b><code>classes</code></b>.</dd>
+        <dd><code>type(<b>obj</b></code> if <b><code>obj</code></b> is an 
+          instance of the <b><code>classes</code></b>, <code>None</code> 
+          otherwise.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -23696,7 +23819,7 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
     </td>
   </tr></table>
   
-  <p>DEPRECATED, use function <a 
+  <p>DEPRECATED on 23.03.31, use function <a 
   href="pygeodesy.basics-module.html#islistuple" 
   class="link">pygeodesy.islistuple</a>.</p>
   <dl class="fields">
@@ -25300,9 +25423,7 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
           class="link">NearestOn3Tuple</a><code>(closest, distance, 
           angle)</code> with the {closest} point 
           (<a href=pygeodesy-LatLon-attributes-table.html><b><code>LatLon</code></b></a>) or if <code><b>LatLon</b> is 
-          None</code>, a <a 
-          href="pygeodesy.namedTuples.NearestOn5Tuple-class.html" 
-          class="link">NearestOn5Tuple</a><code>(lat, lon, distance, angle,
+          None</code>, a NearestOn5Tuple<code>(lat, lon, distance, angle, 
           height)</code>. The <code>distance</code> is the <a 
           href="pygeodesy.formy-module.html#equirectangular" 
           class="link">pygeodesy.equirectangular</a> distance between the 
@@ -28354,7 +28475,8 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">sqrt0</span>&nbsp;(<span class="sig-arg">x</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">sqrt0</span>&nbsp;(<span class="sig-arg">x</span>,
+        <span class="sig-arg">Error</span>=<span class="sig-default">None</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -28366,6 +28488,7 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>x</code></strong> - Value (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>Error</code></strong> - Error to raise for negative <b><code>x</code></b>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Square root (<code>float</code>) or <code>0.0</code>.</dd>
@@ -29792,7 +29915,7 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
     </td>
   </tr></table>
   
-  <p>DEPRECATED, use function <a 
+  <p>DEPRECATED on 23.09.14, use function <a 
   href="pygeodesy.resections-module.html#triAngle5" 
   class="link">pygeodesy.triAngle5</a>.</p>
   <dl class="fields">
@@ -31407,7 +31530,7 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Oct  4 13:49:49 2023
+    Generated by Epydoc 3.0.1 on Tue Oct 10 10:59:15 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

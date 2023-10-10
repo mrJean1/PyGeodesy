@@ -122,18 +122,17 @@ C{epydoc --html --no-private --no-source --name=PyGeodesy --url=... -v pygeodesy
 Tests
 =====
 
-The tests ran with Python 3.11.5 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0, U{numpy
-<https://PyPI.org/project/numpy>} 1.24.2 and U{scipy<https://PyPI.org/project/scipy>} 1.10.1), U{PyPy 7.3.12
-(Python 3.10.12)<https://formulae.brew.sh/formula/pypy3.10>}, Python 3.10.8 (with U{geographiclib
-<https://PyPI.org/project/geographiclib>} 2.0, U{numpy<https://PyPI.org/project/numpy>} 1.23.3, U{scipy
-<https://PyPI.org/project/scipy>} 1.9.1, U{GeoConvert
+The tests ran with Python 3.12 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0,
+Python 3.11.5 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0, U{numpy
+<https://PyPI.org/project/numpy>} 1.24.2 and U{scipy<https://PyPI.org/project/scipy>} 1.10.1), Python
+3.10.8 (with U{geographiclib <https://PyPI.org/project/geographiclib>} 2.0, U{numpy
+<https://PyPI.org/project/numpy>} 1.23.3, U{scipy<https://PyPI.org/project/scipy>} 1.9.1, U{GeoConvert
 <https://GeographicLib.SourceForge.io/html/utilities.html>} 2.2, U{GeodSolve
 <https://GeographicLib.SourceForge.io/html/utilities.html>} 2.2 and U{RhumbSolve
-<https://GeographicLib.SourceForge.io/html/utilities.html>} 2.2), Python 3.9.6, Python 3.8.10 (with
-U{geographiclib<https://PyPI.org/project/geographiclib>} 1.52, U{numpy<https://PyPI.org/project/numpy>} 1.19.2
-and U{scipy<https://PyPI.org/project/scipy>} 1.5.2) and Python 2.7.18 (with U{geographiclib
-<https://PyPI.org/project/geographiclib>} 1.50, U{numpy<https://PyPI.org/project/numpy>} 1.16.6, U{scipy
-<https://PyPI.org/project/scipy>} 1.2.2, U{GeoConvert<https://GeographicLib.SourceForge.io/html/utilities.html>}
+<https://GeographicLib.SourceForge.io/html/utilities.html>} 2.2), Python 3.9.6 and Python 2.7.18 (with
+U{geographiclib<https://PyPI.org/project/geographiclib>} 1.50, U{numpy<https://PyPI.org/project/numpy>}
+1.16.6, U{scipy<https://PyPI.org/project/scipy>} 1.2.2, U{GeoConvert
+<https://GeographicLib.SourceForge.io/html/utilities.html>}
 2.2, U{GeodSolve<https://GeographicLib.SourceForge.io/html/utilities.html>} 2.2 and U{RhumbSolve
 <https://GeographicLib.SourceForge.io/html/utilities.html>} 2.2), all on macOS 13.5.2 Ventura and in 64-bit only.
 
@@ -157,12 +156,12 @@ A single-File and single-Directory application with C{pygeodesy} has been bundle
 <https://PyPI.org/project/pyinstaller>} 3.4 and 64-bit Python 3.7.3 on macOS 10.13.6 High Sierra.
 
 Previously, the tests were run with Python 3.11.2-4, 3.10.1-7, 3.9.1, 3.8.7, 3.7.1, 2.7.15, U{PyPy
-<https://PyPy.org>}7.3.1 (Python 3.6.9) and U{PyPy<https://PyPy.org>} 7.1.1 (Python 2.7.13) (and U{geographiclib
-<https://PyPI.org/project/geographiclib>} 1.52, U{numpy<https://PyPI.org/project/numpy>} 1.16.3, 1.16.4, 1.16.6,
-1.19.0, 1.19.4, 1.19.5 or 1.22.4 and U{scipy<https://PyPI.org/project/scipy>} 1.2.1, 1.4.1, 1.5.2 or 1.8.1) on
-U{Ubuntu 16.04<https://Travis-CI.com/mrJean1/PyGeodesy>}, with Python 3.10.0-1, 3.9.0-5, 3.8.0-6, 3.7.2-6, 3.7.0,
-3.6.2-5, 3.5.3, 2.7.13-17, 2.7.10 and 2.6.9 (and U{numpy<https://PyPI.org/project/numpy>} 1.19.0, 1.16.5, 1.16.2,
-1.15.2, 1.14.0, 1.13.1, 1.8.0rc1 or 1.6.2 and U{scipy<https://PyPI.org/project/scipy>} 1.5.0), U{PyPy
+<https://PyPy.org>} 7.3.12 (Python 3.10.12), 7.3.1 (Python 3.6.9) and U{PyPy<https://PyPy.org>} 7.1.1 (Python
+2.7.13) (and U{geographiclib <https://PyPI.org/project/geographiclib>} 1.52, U{numpy<https://PyPI.org/project/numpy>}
+1.16.3, 1.16.4, 1.16.6, 1.19.0, 1.19.4, 1.19.5 or 1.22.4 and U{scipy<https://PyPI.org/project/scipy>} 1.2.1, 1.4.1,
+1.5.2 or 1.8.1) on U{Ubuntu 16.04<https://Travis-CI.com/mrJean1/PyGeodesy>}, with Python 3.10.0-1, 3.9.0-5, 3.8.0-6,
+3.7.2-6, 3.7.0, 3.6.2-5, 3.5.3, 2.7.13-17, 2.7.10 and 2.6.9 (and U{numpy<https://PyPI.org/project/numpy>} 1.19.0,
+1.16.5, 1.16.2, 1.15.2, 1.14.0, 1.13.1, 1.8.0rc1 or 1.6.2 and U{scipy<https://PyPI.org/project/scipy>} 1.5.0), U{PyPy
 <https://PyPy.org>} 7.3.0 (Python 2.7.13 and 3.6.9), U{PyPy<https://PyPy.org>} 6.0.0 (Python 2.7.13 and 3.5.3)
 and U{Intel-Python<https://software.Intel.com/en-us/distribution-for-python>} 3.5.3 (and U{numpy
 <https://PyPI.org/project/numpy>} 1.11.3) on macOS 13.0-4 Ventura, 12.1-6 Monterey, 11.0-5.2-6.1 Big Sur (aka
@@ -596,7 +595,7 @@ else:
     _init__all__ = False
 
 from pygeodesy.interns import _DOT_  # PYCHOK import
-__version__ = '23.10.06'
+__version__ = '23.10.10'
 # see setup.py for similar logic
 version     = _DOT_.join(map(str, map(int, __version__.split(_DOT_))))
 

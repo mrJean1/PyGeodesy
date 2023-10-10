@@ -30,7 +30,7 @@ see the U{GeographicLib<https://GeographicLib.SourceForge.io>} documentation.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import isscalar, map1, _zip,  _ValueError
+from pygeodesy.basics import isLatLon, isscalar, map1, _zip,  _ValueError
 from pygeodesy.constants import EPS, EPS0, EPS02, EPS4, _EPS2e4, INT0, PI2, PI_3, PI4, \
                                _0_0, _0_5, _1_0, _N_2_0, float0_, isfinite, isnear1, \
                                _4_0  # PYCHOK used!
@@ -39,7 +39,7 @@ from pygeodesy.datums import Datum, _spherical_datum, _WGS84,  Ellipsoid, Fmt
 # from pygeodesy.ellipsoids import Ellipsoid  # from .datums
 # from pygeodesy.elliptic import Elliptic  # _MODS
 # from pygeodesy.errors import _ValueError  # from .basics
-from pygeodesy.fmath import Fdot, fdot, fmean_, hypot, hypot_, norm2
+from pygeodesy.fmath import Fdot, fdot, fmean_, hypot, hypot_, norm2, sqrt0
 from pygeodesy.fsums import Fsum, fsumf_, fsum1f_
 from pygeodesy.interns import NN, _a_, _b_, _beta_, _c_, _distant_, _finite_, \
                              _height_, _inside_, _near_, _not_, _NOTEQUAL_, _null_, \
@@ -59,7 +59,7 @@ from pygeodesy.vector3d import _otherV3d, Vector3d,  _ALL_LAZY, _MODS
 from math import atan2, fabs, sqrt
 
 __all__ = _ALL_LAZY.triaxials
-__version__ = '23.10.04'
+__version__ = '23.10.07'
 
 _not_ordered_ = _not_('ordered')
 _omega_       = 'omega'
@@ -557,13 +557,6 @@ class Triaxial_(_NamedEnumItem):
         '''
         return _sideOf(_otherV3d_(x_xyz, y, z).xyz, self._abc3, eps=eps)
 
-    def _sqrt(self, x):
-        '''(INTERNAL) Helper, see L{pygeodesy.sqrt0}.
-        '''
-        if x < 0:
-            raise TriaxialError(Fmt.PAREN(sqrt=x))
-        return _0_0 if x < EPS02 else sqrt(x)
-
     def toEllipsoid(self, name=NN):
         '''Convert this triaxial to an L{Ellipsoid}, provided 2 axes match.
 
@@ -668,8 +661,8 @@ class Triaxial(Triaxial_):
         '''
         if u > 0:
             u2 = u**2
-            x  = u * self._sqrt(_1_0 + self._a2c2 / u2)
-            y  = u * self._sqrt(_1_0 + self._b2c2 / u2)
+            x  = u * sqrt0(_1_0 + self._a2c2 / u2, Error=TriaxialError)
+            y  = u * sqrt0(_1_0 + self._b2c2 / u2, Error=TriaxialError)
         else:
             x  = y = u = _0_0
         return x, y, u
@@ -699,9 +692,9 @@ class Triaxial(Triaxial_):
             sb, cb = SinCos2(omega)
 
             r  =      self._a2b2_a2c2
-            x *= cb * self._sqrt(ca**2 + r * sa**2)
+            x *= cb * sqrt0(ca**2 + r * sa**2, Error=TriaxialError)
             y *= ca * sb
-            z *= sa * self._sqrt(_1_0  - r * cb**2)
+            z *= sa * sqrt0(_1_0  - r * cb**2, Error=TriaxialError)
         return Vector3Tuple(x, y, z, name=name)
 
     def forwardBetaOmega_(self, sbeta, cbeta, somega, comega, name=NN):
@@ -786,7 +779,7 @@ class Triaxial(Triaxial_):
         ca_x_sb = ca * sb
         # 1 - (1 - (c/a)**2) * sa**2 - (1 - (b/a)**2) * ca**2 * sb**2
         t = fsumf_(_1_0, -self.e2ac * sa**2, -self.e2ab * ca_x_sb**2)
-        n = self.a / self._sqrt(t)  # prime vertical
+        n = self.a / sqrt0(t, Error=TriaxialError)  # prime vertical
         x = (h + n)               * ca * cb
         y = (h + n * self._1e2ab) * ca_x_sb
         z = (h + n * self._1e2ac) * sa
@@ -821,9 +814,9 @@ class Triaxial(Triaxial_):
         z2 = Fsum(c2_a2,         sb**2, b2_a2 * cb**2).fover(a2c2_a2)
 
         x, y, z = self._abc3
-        x *= cb * self._sqrt(x2)
+        x *= cb * sqrt0(x2, Error=TriaxialError)
         y *= ca * sb
-        z *= sa * self._sqrt(z2)
+        z *= sa * sqrt0(z2, Error=TriaxialError)
         return x, y, z
 
     def reverseBetaOmega(self, x_xyz, y=None, z=None, name=NN):
@@ -1168,28 +1161,23 @@ def _getitems(items, *indices):
 
 def _hartzell2(pov, los, Tun):  # in .ellipsoids.hartzell4, .formy.hartzell
     '''(INTERNAL) Hartzell's "Satellite Line-of-Sight Intersection ...",
-       formula from a Point-Of-View to an I{un-/ordered} triaxials.
+       formula from a Point-Of-View to an I{un-/ordered} Triaxial.
     '''
-    def _povV3d(pov):
-        if isinstance(pov, _MODS.latlonBase.LatLonBase):
-            pov = pov.toCartesian()
-        return _otherV3d(pov=pov)
-
-    def _losV3d(los, pov):
+    def _toUvwV3d(los, pov):
         try:  # pov must be LatLon or Cartesian if los is a Los
             v = los.toUvw(pov)
         except (AttributeError, TypeError):
             v = _otherV3d(los=los)
         return v
 
+    p3 = _otherV3d(pov=pov.toCartesian() if isLatLon(pov) else pov)
+    u3 = _toUvwV3d(los, pov) if los else p3.negate()
+
     a, b, c, T = Tun._ordered4
 
     a2     =  a**2  # largest, factored out
     b2, p2 = (b**2, T._1e2ab) if b != a else (a2, _1_0)
     c2, q2 = (c**2, T._1e2ac) if c != a else (a2, _1_0)
-
-    p3 = _povV3d(pov)
-    u3 = _losV3d(los, pov) if los else p3.negate()
 
     p3 = T._order3d(p3)
     u3 = T._order3d(u3).unit()  # unit vector, opposing signs
@@ -1203,9 +1191,9 @@ def _hartzell2(pov, los, Tun):  # in .ellipsoids.hartzell4, .formy.hartzell
     if m < EPS0:  # zero or near-null LOS vector
         raise _ValueError(_near_(_null_))
 
-    r = fsumf_(b2 * w2,       c2 * v2,      -v2 * z2,      vy * wz * 2,
-              -w2 * y2,       b2 * u2 * q2, -u2 * z2 * p2, ux * wz * 2 * p2,
-              -w2 * x2 * p2, -u2 * y2 * q2, -v2 * x2 * q2, ux * vy * 2 * q2)
+    r = fsumf_(b2 * w2,      c2 * v2,      -v2 * z2,      vy * wz * 2,
+              -w2 * y2,     -u2 * y2 * q2, -u2 * z2 * p2, ux * wz * 2 * p2,
+              -w2 * x2 * p2, b2 * u2 * q2, -v2 * x2 * q2, ux * vy * 2 * q2)
     if r > 0:  # a2 factored out
         r = sqrt(r) * b * c  # == a * a * b * c / a2
     elif r < 0:  # LOS pointing away from or missing the triaxial
@@ -1218,7 +1206,7 @@ def _hartzell2(pov, los, Tun):  # in .ellipsoids.hartzell4, .formy.hartzell
     elif fsum1f_(x2, y2, z2) < d**2:  # d past triaxial's center
         raise _ValueError(_too_(_distant_))
 
-    v = p3.minus(u3.times(d))  # type(pov), Cartesian, Vector3d
+    v = p3.minus(u3.times(d))  # cartesian type(pov) or Vector3d
     h = p3.minus(v).length  # distance to pov == -d
     return T._order3d(v, reverse=True), h
 

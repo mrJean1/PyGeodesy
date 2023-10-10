@@ -4,7 +4,7 @@
 # Test L{points} module.
 
 __all__ = ('Tests',)
-__version__ = '23.05.31'
+__version__ = '23.10.07'
 
 from bases import GeodSolve, geographiclib, isPython37, TestsBase
 
@@ -208,7 +208,7 @@ class Tests(TestsBase):
         self.test('philam', p.philam, '(-1.162389, -1.53589)')
 #       self.test('to2ab ', p.to2ab(), p.philam)
         if LatLon is LatLon_:
-            self.test('toStr', p.toStr(prec=6, kwds='test'), "66.6°S, 088.0°W, kwds='test'")
+            self.test('toStr', p.toStr(prec=6), '66.6°S, 088.0°W')
             q = p.classof(p.lat, p.lon, name='test')
             self.test('__ne__', q != p, False)
             self.test('isequalTo', q.isequalTo(p), True)  # coverage
