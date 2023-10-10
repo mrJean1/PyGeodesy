@@ -212,7 +212,7 @@ OTHER DEALINGS IN THE SOFTWARE.``
 .. _Debian 11: https://Cirrus-CI.com/github/mrJean1/PyGeodesy/master
 .. _distribution files: https://GitHub.com/mrJean1/PyGeodesy/tree/master/dist
 .. _docs: https://www.Movable-Type.co.UK/scripts/geodesy/docs
-.. _documentation: https://GitHub.com/mrJean1/PyGeodesy/blob/master/docs/index.html
+.. _documentation: https://mrJean1.GitHub.io/PyGeodesy
 .. _ECEF: https://WikiPedia.org/wiki/ECEF
 .. _EPSG: https://EPSG.org
 .. _Epydoc: https://PyPI.org/project/epydoc
