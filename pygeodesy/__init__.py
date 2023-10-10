@@ -12,28 +12,26 @@ Transcoded from U{JavaScript originals<https://GitHub.com/ChrisVeness/geodesy>} 
 by I{Charles F.F. Karney (C) 2008-2023} and published under the same U{MIT License
 <https://OpenSource.org/licenses/MIT>}**.
 
-There are four modules for ellipsoidal earth models, C{ellipsoidalExact}, C{-Karney},
-C{-Vincenty} and C{-Nvector} and two for spherical ones, C{sphericalTrigonometry}
-and C{-Nvector}.  Each module provides a geodetic B{C{LatLon}} and a geocentric
-B{C{Cartesian}} class with methods and functions to compute distance, surface area,
-perimeter, initial and final bearing, intermediate and nearest points, circle intersections
-and secants, path intersections, U{3-point resections<https://WikiPedia.org/wiki/
-Position_resection_and_intersection>}, rhumb and rhumb lines, trilateration (by intersection,
-by overlap and in 3d), conversions and unrolling, among other things.  For more information
-and further details see the U{documentation<https://mrJean1.GitHub.io/PyGeodesy>}, the
-descriptions of U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>},
-U{Vincenty<https://www.Movable-Type.co.UK/scripts/latlong-vincenty.html>} and
-U{Vector-based<https://www.Movable-Type.co.UK/scripts/latlong-vectors.html>} geodesy,
-the original U{JavaScript source<https://GitHub.com/ChrisVeness/geodesy>} or
-U{docs<https://www.Movable-Type.co.UK/scripts/geodesy/docs>} and I{Karney}'s Python
-U{geographiclib<https://PyPI.org/project/geographiclib>} and U{C++ GeographicLib
+There are four modules for ellipsoidal earth models, C{ellipsoidalExact}, C{-Karney}, C{-Vincenty} and
+C{-Nvector} and two for spherical ones, C{sphericalTrigonometry} and C{-Nvector}.  Each module provides
+a geodetic B{C{LatLon}} and a geocentric B{C{Cartesian}} class with methods and functions to compute
+distance, surface area, perimeter, initial and final bearing, intermediate and nearest points, circle
+intersections and secants, path intersections, U{3-point resections<https://WikiPedia.org/wiki/
+Position_resection_and_intersection>}, rhumb and rhumb lines, trilateration (by intersection, by overlap
+and in 3d), conversions and unrolling, among other things.  For more information and further details see
+the U{documentation<https://GitHub.com/mrJean1/PyGeodesy/blob/master/docs/index.html>}, the descriptions
+of U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>}, U{Vincenty
+<https://www.Movable-Type.co.UK/scripts/latlong-vincenty.html>} and U{Vector-based
+<https://www.Movable-Type.co.UK/scripts/latlong-vectors.html>} geodesy, the original U{JavaScript source
+<https://GitHub.com/ChrisVeness/geodesy>} or U{docs<https://www.Movable-Type.co.UK/scripts/geodesy/docs>}
+and I{Karney}'s Python U{geographiclib<https://PyPI.org/project/geographiclib>} and U{C++ GeographicLib
 <https://GeographicLib.SourceForge.io/C++/doc/index.html>}.
 
 Also included are modules for conversions to and from U{Cassini-Soldner
 <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1CassiniSoldner.html>},
 U{ECEF<https://WikiPedia.org/wiki/ECEF>} (Earth-Centered, Earth-Fixed cartesian), U{UTM
-<https://www.Movable-Type.co.UK/scripts/latlong-utm-mgrs.html>} (Universal Transverse Mercator
-and U{Exact<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1TransverseMercatorExact.html>}),
+<https://www.Movable-Type.co.UK/scripts/latlong-utm-mgrs.html>} (Universal Transverse Mercator and
+U{Exact<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1TransverseMercatorExact.html>}),
 U{UPS<https://WikiPedia.org/wiki/Universal_polar_stereographic_coordinate_system>} (Universal Polar
 Stereographic) and U{Web Mercator<https://WikiPedia.org/wiki/Web_Mercator>} (Pseudo-Mercator) coordinates,
 U{MGRS<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1MGRS.html>} (Military Grid Reference
