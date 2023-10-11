@@ -563,21 +563,25 @@ class RhumbLineBase(_CapsBase):
         '''
         return self.rhumb.exact
 
-    def intersecant2(self, lat0, lon0, radius, **tol_eps):
-        '''Compute the intersections of this rhumb line and a circle.
+    def Intersecant2(self, lat0, lon0, radius, **tol_eps):
+        '''Compute the intersection(s) of this rhumb line and a circle.
 
            @arg lat0: Latitude of the circle center (C{degrees}).
            @arg lon0: Longitude of the circle center (C{degrees}).
            @arg radius: Radius of the circle (C{meter}, conventionally).
            @kwarg tol_eps: Optional keyword arguments, see method
-                           method L{Intersection} for details.
+                           method L{Intersection} for further details.
 
-           @return: 2-Tuple C{(P, Q)} with the 2 intersection points
-                    (representing a chord), each like a L{GDict}
-                    from method L{NearestOn}.  If the rhumb line is
-                    tangent to the circle, both points are the same
-                    L{GDict} instance with rhumb distance C{s02}
-                    near-equal the B{C{radius}}.
+           @return: 2-Tuple C{(P, Q)} with the 2 intersections
+                    (representing a chord), each a L{GDict} from method
+                    L{Intersection} extended to 14 items with C{azi03,
+                    a03, s03, lat3, lon3} for the chord center C{lat3,
+                    lon3} and the angle C{a03}, distance C{s03}, azimuth
+                    C{azi03} and start point C{lat0, lon0} of the rhumb
+                    line perpendicular to this rhumb line.  If this
+                    rhumb line is tangential to the circle, both points
+                    are the same L{GDict} instance with rhumb distances
+                    C{s02} and C{s03} near-equal to the B{C{radius}}.
 
            @raise IntersectionError: The circle and this rhumb line
                                      do not intersect.
@@ -587,16 +591,21 @@ class RhumbLineBase(_CapsBase):
         r = Radius_(radius)
         p = q = self.NearestOn(lat0, lon0, exact=None, **tol_eps)
         d = q.s02
+        t = dict(azi03=q.azi02, a03=q.a02, s03=d, lat3=q.lat2, lon3=q.lon2)
         if d < r:
             a = sqrt_a(r, d)
             s = q.s12
-            t = dict(a02=q.a02, s02=d, azi02=q.azi02, iteration=q.iteration,
-                                name=self.name or self.intersecant2.__name__)
-            p = self.Position(s + a).set_(**t)
-            q = self.Position(s - a).set_(**t)
+            i = q.iteration
+            n = self.name or self.Intersecant2.__name__
+            t.update(lat0=q.lat1, lon0=q.lon1)  # or lat0, lon0
+            p = self.Position(s + a).set_(name=n, **t)
+            q = self.Position(s - a).set_(name=n, **t)
+            p._iteration = q._iteration = i
         elif d > r:
-            t = unstr(self.intersecant2, lat0, lon0, radius=radius, **tol_eps)
-            raise IntersectionError(_too_(Fmt.distant(d)), txt=t)
+            t = unstr(self.Intersecant2, lat0, lon0, radius=radius, **tol_eps)
+            raise IntersectionError(_no_(t), txt=_too_(Fmt.distant(d)))
+        else:  # tangential
+            q.set_(**t)  # == p.set(_**t)
         return p, q
 
     def intersection2(self, other, **tol_eps):  # PYCHOK no cover
@@ -609,19 +618,19 @@ class RhumbLineBase(_CapsBase):
     def Intersection(self, other, tol=_TOL, **eps):
         '''I{Iteratively} find the intersection of this and an other rhumb line.
 
-           @arg other: The other rhumb line (C{RhumbLine}) or C{None} for
-                       a rhumb line perpendicular to this one.
+           @arg other: The other rhumb line (C{RhumbLine}) or C{None} for a
+                       rhumb line perpendicular to this one.
            @kwarg tol: Tolerance for longitudinal convergence and parallel
                        error (C{degrees}).
            @kwarg eps: Tolerance for L{pygeodesy.intersection3d3} (C{EPS}).
 
-           @return: The intersection point C{(lat2, lon2)}, an extended
-                    L{Position} on this rhumb line: a L{GDict} of 10 items
-                    C{lat2, lon2, a12, s12, a02, s02, azi02, lat1, lon1,
-                    azi12} with C{a02} and C{s02} the rhumb angle and rhumb
-                    distance between the intersection and the start point of
-                    the B{C{other}} rhumb line and C{azi02} the latter's
-                    azimuth.  See method L{Position} for further details.
+           @return: The intersection point, a L{Position}-like L{GDict} with
+                    12 items C{azi12, a12, s12, lat2, lat1, lat0, lon1, lon2,
+                    lon0, azi02, a02, s02} with C{a02} and C{s02} the rhumb
+                    angle and rhumb distance between the intersection C{lat2,
+                    lon2} point and the start point C{lat0, lon0} on the
+                    B{C{other}} rhumb line and the latter's azimuth C{azi02}.
+                    See method L{Position} for further details.
 
            @raise IntersectionError: No convergence for this B{C{tol}} or
                                      no intersection for an other reason.
@@ -631,8 +640,8 @@ class RhumbLineBase(_CapsBase):
 
            @note: Each iteration involves a round trip to this rhumb line's
                   L{ExactTransverseMercator} or L{KTransverseMercator}
-                  projection and invoking function L{pygeodesy.intersection3d3}
-                  in that domain.
+                  projection and function L{pygeodesy.intersection3d3} in
+                  that domain.
         '''
         _xinstanceof(RhumbLineBase, other=other)
         _xdatum(self.rhumb, other.rhumb, Error=RhumbError)
@@ -660,11 +669,12 @@ class RhumbLineBase(_CapsBase):
                 p = _LL2T(t.lat + p.lat, t.lon)  # PYCHOK t.lon + p.lon = lon0
                 if d < tol:  # 19 trips
                     lat, lon = p.lat, p.lon  # PYCHOK p...
-                    d = other.Inverse(lat, lon, outmask=Caps.DISTANCE)
+                    t = other.Inverse(lat, lon, outmask=Caps.DISTANCE)
                     r = self.Inverse( lat, lon, outmask=Caps.DISTANCE)
-                    p = GDict(lat2=lat, lon2=lon, a12=r.a12, s12=r.s12,
-                              a02=d.a12, s02=d.s12, azi02=other.azi12,
-                              lat1=self.lat1, lon1=self.lon1, azi12=self.azi12,
+                    p = GDict(azi12=self.azi12, a12=r.a12, s12=r.s12,
+                              lat2=lat, lat1=self.lat1, lat0=other.lat1,
+                              lon2=lon, lon1=self.lon1, lon0=other.lon1,
+                              azi02=other.azi12, a02=t.a12, s02=t.s12,
                               name=self.name or self.Intersection.__name__)
                     p._iteration = i
                     return p
@@ -697,8 +707,8 @@ class RhumbLineBase(_CapsBase):
 
     @Property_RO
     def isLoxodrome(self):
-        '''Is this rhumb line a loxodrome (C{True} if non-meridional and
-           non-parallel, C{False} if parallel or C{None} if meridional)?
+        '''Is this rhumb line a meridional (C{None}), a parallel
+           (C{False}) or a C{True} loxodrome?
 
            @see: I{Osborne's} U{2.5 Rumb lines and loxodromes
                  <https://Zenodo.org/record/35392>}, page 37.
@@ -770,15 +780,14 @@ class RhumbLineBase(_CapsBase):
                        distance tolerance (C(meter)) when C{B{exact} is None},
                        respectively C{not None}.
 
-           @return: The nearest point C{(lat2, lon2)}, an extended L{Position}
-                    on this rhumb line.  If B{C{exact}=None}, a L{GDict} with
-                    I{10} items from method L{Intersection}.  If B{C{exact}} is
-                    not C{None}, a L{GDict} of I{11} items C{lat2, lon2, a12,
-                    s12, a02, s02, azi0, azi2, lat1, lon1, azi12} with C{a02}
-                    and C{s02} the angle respectively distance between the given
-                    and the nearest point I{along} the specified C{geodetic}
-                    and C{azi0} and C{azi2} the (forward) azimuth at the given
-                    respectively the nearest point.  The latter is always
+           @return: The nearest point on this rhumb line, a L{GDict} from method
+                    L{Intersection} if B{C{exact}=None}.  If B{C{exact}} is not
+                    C{None}, a L{GDict} of 13 items C{azi12, a12, s12, lat2, lat1,
+                    lon2, lon1, a02, s02, azi0, azi2, lat0, lon0} with C{a02} and
+                    C{s02} the angle respectively distance from the given C{lat0,
+                    lon0} to the nearest C{lat2, lon2} point along the specified
+                    C{geodetic} and C{azi0} and C{azi2} the (forward) azimuth at
+                    the given respectively the nearest point.  The latter is always
                     perpendicular to this rhumb line's azimuth.  See method
                     L{Position} for further details.
 
@@ -792,7 +801,7 @@ class RhumbLineBase(_CapsBase):
            @note: The (forward) azimuth C{azi2} at the nearest point is
                   always perpendicular to this rhumb line's azimuth.
 
-           @see: Methods C{distance2}, C{intersecant2} and C{Intersection}
+           @see: Methods C{distance2}, C{Intersecant2} and C{Intersection}
                  and function L{pygeodesy.intersection3d3}.
         '''
         Cs = Caps
@@ -831,8 +840,9 @@ class RhumbLineBase(_CapsBase):
                     s12, t = _S12(c / s)  # XXX _over?
                     if fabs(t) < tol:  # or fabs(c) < EPS
                         break
-                p.set_(a02=r.a12, s02=r.s12, azi0=r.azi1, azi2=r.azi2,
-                       name=self.name or self.NearestOn.__name__)
+                p.set_(azi0=r.azi1, azi2=r.azi2, a02=r.a12, s02=r.s12,
+                       lat0=lat0, lon0=lon0, name=self.name or
+                                                  self.NearestOn.__name__)
                 p._iteration = i
             except Exception as x:  # Fsum(NAN) Value-, ZeroDivisionError
                 t = unstr(self.NearestOn, lat0, lon0, tol=tol, exact=exact,
@@ -850,7 +860,7 @@ class RhumbLineBase(_CapsBase):
                            the quantities to be returned.
 
            @return: L{GDict} with 4 to 8 items C{azi12, a12, s12, S12, lat2,
-                    lon2, lat1, lon1} with latitude C{lat2} and longitude
+                    lat1. lon2, lon1} with latitude C{lat2} and longitude
                     C{lon2} of the point in C{degrees}, the rhumb angle C{a12}
                     in C{degrees} from the start point of and the area C{S12}
                     under this rhumb line in C{meter} I{squared}.
@@ -897,16 +907,16 @@ class RhumbLineBase(_CapsBase):
                             lon2 +=  self.lon1
                         else:
                             lon2  = _norm180(self._lon12 + lon2)
-            else:  # coincident or outmask 0
+            else:  # coincident
                 lat2, lon2 = self.latlon1
                 S12 = _0_0
 
+            if (outmask & Cs.AREA):
+                r.set_(S12=S12)
             if (outmask & Cs.LATITUDE):
                 r.set_(lat2=lat2, lat1=self.lat1)
             if (outmask & Cs.LONGITUDE):
                 r.set_(lon2=lon2, lon1=self.lon1)
-            if (outmask & Cs.AREA):
-                r.set_(S12=S12)
         return r
 
     def _Position4(self, a12, mu2, s12, mu12):  # PYCHOK no cover

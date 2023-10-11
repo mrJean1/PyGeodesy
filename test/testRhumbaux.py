@@ -249,8 +249,8 @@ class Tests(TestsBase):
                     self.test('azi2',  p.azi2,    135.000,    prec=3)
                 self.test('iteration', p.iteration, p.iteration)
 
-            t = str(r.intersecant2(60, 0, radius=r.degrees2m(30)))
-            self.test('intersecant2', t, t, nl=1)
+            t = str(r.Intersecant2(60, 0, radius=r.degrees2m(30)))
+            self.test('Intersecant2', t, t, nl=1)
 
             # stats
             m = n = j = 0

@@ -25205,6 +25205,7 @@ pygeodesy.rhumbBase.RhumbLineBase.distance2	pygeodesy.rhumbBase.RhumbLineBase-cl
 pygeodesy.rhumbBase.RhumbLineBase.toStr	pygeodesy.rhumbBase.RhumbLineBase-class.html#toStr
 pygeodesy.karney._CapsBase.LONGITUDE	pygeodesy.karney._CapsBase-class.html#LONGITUDE
 pygeodesy.karney._CapsBase.caps	pygeodesy.karney._CapsBase-class.html#caps
+pygeodesy.rhumbBase.RhumbLineBase.Intersecant2	pygeodesy.rhumbBase.RhumbLineBase-class.html#Intersecant2
 pygeodesy.rhumbBase.RhumbLineBase.Position	pygeodesy.rhumbBase.RhumbLineBase-class.html#Position
 pygeodesy.rhumbBase.RhumbLineBase._Position4	pygeodesy.rhumbBase.RhumbLineBase-class.html#_Position4
 pygeodesy.rhumbBase.RhumbLineBase.TMorder	pygeodesy.rhumbBase.RhumbLineBase-class.html#TMorder
@@ -25275,7 +25276,6 @@ pygeodesy.rhumbBase.RhumbLineBase._mu1	pygeodesy.rhumbBase.RhumbLineBase-class.h
 pygeodesy.rhumbBase.RhumbLineBase.intersection2	pygeodesy.rhumbBase.RhumbLineBase-class.html#intersection2
 pygeodesy.karney._CapsBase.REDUCEDLENGTH	pygeodesy.karney._CapsBase-class.html#REDUCEDLENGTH
 pygeodesy.rhumbBase.RhumbLineBase.ArcPosition	pygeodesy.rhumbBase.RhumbLineBase-class.html#ArcPosition
-pygeodesy.rhumbBase.RhumbLineBase.intersecant2	pygeodesy.rhumbBase.RhumbLineBase-class.html#intersecant2
 pygeodesy.karney._CapsBase.LATITUDE	pygeodesy.karney._CapsBase-class.html#LATITUDE
 pygeodesy.karney._CapsBase.caps_	pygeodesy.karney._CapsBase-class.html#caps_
 pygeodesy.rhumbaux.RhumbAux	pygeodesy.rhumbaux.RhumbAux-class.html
@@ -25387,6 +25387,7 @@ pygeodesy.rhumbBase.RhumbLineBase.distance2	pygeodesy.rhumbBase.RhumbLineBase-cl
 pygeodesy.rhumbBase.RhumbLineBase.toStr	pygeodesy.rhumbBase.RhumbLineBase-class.html#toStr
 pygeodesy.karney._CapsBase.LONGITUDE	pygeodesy.karney._CapsBase-class.html#LONGITUDE
 pygeodesy.karney._CapsBase.caps	pygeodesy.karney._CapsBase-class.html#caps
+pygeodesy.rhumbBase.RhumbLineBase.Intersecant2	pygeodesy.rhumbBase.RhumbLineBase-class.html#Intersecant2
 pygeodesy.rhumbBase.RhumbLineBase.Position	pygeodesy.rhumbBase.RhumbLineBase-class.html#Position
 pygeodesy.rhumbaux.RhumbLineAux._Position4	pygeodesy.rhumbaux.RhumbLineAux-class.html#_Position4
 pygeodesy.rhumbBase.RhumbLineBase.TMorder	pygeodesy.rhumbBase.RhumbLineBase-class.html#TMorder
@@ -25459,7 +25460,6 @@ pygeodesy.rhumbaux.RhumbLineAux._mu1	pygeodesy.rhumbaux.RhumbLineAux-class.html#
 pygeodesy.rhumbBase.RhumbLineBase.xTM	pygeodesy.rhumbBase.RhumbLineBase-class.html#xTM
 pygeodesy.karney._CapsBase.REDUCEDLENGTH	pygeodesy.karney._CapsBase-class.html#REDUCEDLENGTH
 pygeodesy.rhumbBase.RhumbLineBase.ArcPosition	pygeodesy.rhumbBase.RhumbLineBase-class.html#ArcPosition
-pygeodesy.rhumbBase.RhumbLineBase.intersecant2	pygeodesy.rhumbBase.RhumbLineBase-class.html#intersecant2
 pygeodesy.karney._CapsBase.LATITUDE	pygeodesy.karney._CapsBase-class.html#LATITUDE
 pygeodesy.karney._CapsBase.caps_	pygeodesy.karney._CapsBase-class.html#caps_
 pygeodesy.rhumbsolve.RhumbLineSolve	pygeodesy.rhumbsolve.RhumbLineSolve-class.html
@@ -25942,6 +25942,7 @@ pygeodesy.rhumbBase.RhumbLineBase.distance2	pygeodesy.rhumbBase.RhumbLineBase-cl
 pygeodesy.rhumbBase.RhumbLineBase.toStr	pygeodesy.rhumbBase.RhumbLineBase-class.html#toStr
 pygeodesy.karney._CapsBase.LONGITUDE	pygeodesy.karney._CapsBase-class.html#LONGITUDE
 pygeodesy.karney._CapsBase.caps	pygeodesy.karney._CapsBase-class.html#caps
+pygeodesy.rhumbBase.RhumbLineBase.Intersecant2	pygeodesy.rhumbBase.RhumbLineBase-class.html#Intersecant2
 pygeodesy.rhumbBase.RhumbLineBase.Position	pygeodesy.rhumbBase.RhumbLineBase-class.html#Position
 pygeodesy.rhumbx.RhumbLine._Position4	pygeodesy.rhumbx.RhumbLine-class.html#_Position4
 pygeodesy.rhumbBase.RhumbLineBase.TMorder	pygeodesy.rhumbBase.RhumbLineBase-class.html#TMorder
@@ -26015,7 +26016,6 @@ pygeodesy.rhumbx.RhumbLine._mu1	pygeodesy.rhumbx.RhumbLine-class.html#_mu1
 pygeodesy.rhumbBase.RhumbLineBase.xTM	pygeodesy.rhumbBase.RhumbLineBase-class.html#xTM
 pygeodesy.karney._CapsBase.REDUCEDLENGTH	pygeodesy.karney._CapsBase-class.html#REDUCEDLENGTH
 pygeodesy.rhumbBase.RhumbLineBase.ArcPosition	pygeodesy.rhumbBase.RhumbLineBase-class.html#ArcPosition
-pygeodesy.rhumbBase.RhumbLineBase.intersecant2	pygeodesy.rhumbBase.RhumbLineBase-class.html#intersecant2
 pygeodesy.karney._CapsBase.LATITUDE	pygeodesy.karney._CapsBase-class.html#LATITUDE
 pygeodesy.karney._CapsBase.caps_	pygeodesy.karney._CapsBase-class.html#caps_
 pygeodesy.rhumbx.RhumbOrder2Tuple	pygeodesy.rhumbx.RhumbOrder2Tuple-class.html

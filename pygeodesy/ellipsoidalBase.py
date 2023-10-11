@@ -37,7 +37,7 @@ from pygeodesy.units import Bearing, Epoch, _1mm as _TOL_M, Radius_
 # from math import fabs  # from .latlonBase
 
 __all__ = _ALL_LAZY.ellipsoidalBase
-__version__ = '23.10.08'
+__version__ = '23.10.10'
 
 
 class CartesianEllipsoidalBase(CartesianBase):
@@ -496,7 +496,7 @@ class LatLonEllipsoidalBase(LatLonBase):
            @raise ValueError: Invalid B{C{circle}}, B{C{bearing}}, B{C{radius}},
                               B{C{exact}} or B{C{height}}.
 
-           @see: Methods L{RhumbLineAux.intersecant2} and L{RhumbLine.intersecant2}.
+           @see: Methods L{RhumbLineAux.Intersecant2} and L{RhumbLine.Intersecant2}.
         '''
         c, p = self, self.others(point=point)
         try:
@@ -531,9 +531,8 @@ class LatLonEllipsoidalBase(LatLonBase):
            @arg end1: End point of this line (C{LatLon}) or the initial
                       bearing at this point (compass C{degrees360}).
            @arg other: Start point of the other line (C{LatLon}).
-           @arg end2: End point of the other line (C{LatLon}) or the
-                      initial bearing at the other point (compass
-                      C{degrees360}).
+           @arg end2: End point of the other line (C{LatLon}) or the initial
+                      bearing at the other point (compass C{degrees360}).
            @kwarg height: Optional height at the intersection (C{meter},
                           conventionally) or C{None} for the mean height.
            @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the
@@ -565,10 +564,11 @@ class LatLonEllipsoidalBase(LatLonBase):
                   gu-/estimate of the intersection point (and between 1/8 and 3/8
                   of the authalic earth perimeter).
 
-           @see: U{The B{ellipsoidal} case<https://GIS.StackExchange.com/questions/48937/
-                 calculating-intersection-of-two-circles>} and U{Karney's paper
-                 <https://ArXiv.org/pdf/1102.1215.pdf>}, pp 20-21, section B{14. MARITIME
-                 BOUNDARIES} for more details about the iteration algorithm.
+           @see: I{Karney's} U{intersect.cpp<https://SourceForge.net/p/geographiclib/
+                 discussion/1026621/thread/21aaff9f/>}, U{The B{ellipsoidal} case<https://
+                 GIS.StackExchange.com/questions/48937/calculating-intersection-of-two-circles>}
+                 and U{Karney's paper<https://ArXiv.org/pdf/1102.1215.pdf>}, pp 20-21, section
+                 B{14. MARITIME BOUNDARIES} for more details about the iteration algorithm.
         '''
         try:
             s2 = self.others(other)
@@ -596,7 +596,7 @@ class LatLonEllipsoidalBase(LatLonBase):
            @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the B{C{other}}
                         center (C{bool}).
            @kwarg equidistant: An azimuthal equidistant projection (I{class} or
-                               function L{pygeodesy.equidistant}), or C{None}
+                               function L{pygeodesy.equidistant}) or C{None}
                                for this point's preferred C{.Equidistant}.
            @kwarg tol: Convergence tolerance (C{meter}, same units as
                        B{C{radius1}} and B{C{radius2}}).
@@ -717,7 +717,7 @@ class LatLonEllipsoidalBase(LatLonBase):
            @kwarg wrap: If C{True}, wrap or I{normalize} and unroll both
                         B{C{point1}} and B{C{point2}} (C{bool}).
            @kwarg equidistant: An azimuthal equidistant projection (I{class} or
-                               function L{pygeodesy.equidistant}), or C{None}
+                               function L{pygeodesy.equidistant}) or C{None}
                                for this point's preferred C{.Equidistant}.
            @kwarg tol: Convergence tolerance (C{meter}, conventionally).
 
@@ -734,10 +734,11 @@ class LatLonEllipsoidalBase(LatLonBase):
            @raise ValueError: Datum or ellipsoid of B{C{point1}} or B{C{point2}} is
                               incompatible or no convergence for the given B{C{tol}}.
 
-           @see: U{The B{ellipsoidal} case<https://GIS.StackExchange.com/questions/48937/
-                 calculating-intersection-of-two-circles>} and U{Karney's paper
-                 <https://ArXiv.org/pdf/1102.1215.pdf>}, pp 20-21, section B{14. MARITIME
-                 BOUNDARIES} for details about the iteration algorithm.
+           @see: I{Karney}'s U{intercept.cpp<https://SourceForge.net/p/geographiclib/
+                 discussion/1026621/thread/21aaff9f/>}, U{The B{ellipsoidal} case<https://
+                 GIS.StackExchange.com/questions/48937/calculating-intersection-of-two-circles>}
+                 and U{Karney's paper<https://ArXiv.org/pdf/1102.1215.pdf>}, pp 20-21, section
+                 B{14. MARITIME BOUNDARIES} for details about the iteration algorithm.
         '''
         try:
             t = _MODS.ellipsoidalBaseDI._nearestOn2(self, point1, point2, within=within,
@@ -1186,7 +1187,7 @@ def intersecant2(center, circle, point, bearing, radius=None, exact=False,
        @raise ValueError: Invalid B{C{circle}}, B{C{bearing}}, B{C{radius}},
                           B{C{exact}} or B{C{height}}.
 
-       @see: Methods L{RhumbLineAux.intersecant2} and L{RhumbLine.intersecant2}.
+       @see: Methods L{RhumbLineAux.Intersecant2} and L{RhumbLine.Intersecant2}.
     '''
     try:
         if not isinstance(center, LatLonEllipsoidalBase):

@@ -4,7 +4,7 @@
 # Test ellipsoidals earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '23.05.23'
+__version__ = '23.10.10'
 
 from bases import coverage, GeodSolve, geographiclib, isPython35, RandomLatLon
 from testLatLon import Tests as _TestsLL
@@ -153,6 +153,11 @@ class Tests(_TestsLL, _TestsV):
             t = LatLon(45.5, 20.5).nearestOn8(b, height=0)
             self.test('neareston8', t, '(LatLon(45°30′03.93″N, 020°00′00.0″E), 39078.779519, 1.501069, 2, LatLon(45°00′00.0″N, 020°00′00.0″E), LatLon(46°00′00.0″N, 020°00′00.0″E), 270.356041, 269.999412)')
             self.test('iteration', t.iteration, t.iteration)
+
+        # <https://sourceforge.net/p/geographiclib/discussion/1026621/thread/21aaff9f/>
+        if X and hasattr(LatLon, 'nearestOn'):  # intercept.cpp 2014-11-09
+            t = LatLon(64, -22).nearestOn(LatLon(42, 29), LatLon(39, -77))
+            self.test('nearestOn', t.toStr(form=F_D), '54.928536°N, 021.934843°W')
 
     def testKarney(self, module, datum, X=False, GS=False):
 
@@ -576,20 +581,21 @@ class Tests(_TestsLL, _TestsV):
 
         # same as testVectorial for now
         k = GS or K or V or not X
+        LL = m.LatLon
 
         # <https://www.MathOpenRef.com/coordintersection.html>
-        s1, e1 = m.LatLon(15, 10), m.LatLon(49, 25)
-        s2, e2 = m.LatLon(29, 5),  m.LatLon(32, 32)
+        s1, e1 = LL(15, 10), LL(49, 25)
+        s2, e2 = LL(29, 5),  LL(32, 32)
         self.test('(30, 17)', s1.intersection3(e1, s2, e2),         '(LatLon(30°52′03.1″N, 015°30′38.41″E), 0, 0)')
         self.test('(30, 17)', s1.intersection3(_b(s1, e1), s2, e2), '(LatLon(30°52′03.1″N, 015°30′38.41″E), -1, 0)')
-        s2 = m.LatLon(7, 10)
+        s2 = LL(7, 10)
         self.test('(-1,  3)', s1.intersection3(e1, s2, e2),         '(LatLon(01°34′52.49″N, 006°00′51.83″E), -1, -2)')
         self.test('(-1,  3)', s1.intersection3(e1, s2, _b(s2, e2)), '(LatLon(01°34′52.49″N, 006°00′51.83″E), -1, 2)')
-        s2 = m.LatLon(62, 32)
+        s2 = LL(62, 32)
         self.test('(65, 32)', s1.intersection3(e1, s2, e2),                 '(LatLon(56°58′26.51″N, 032°00′00.0″E), 1, 0)')
         self.test('(65, 32)', s1.intersection3(_b(s1, e1), s2, _b(s2, e2)), '(LatLon(56°58′26.51″N, 032°00′00.0″E), 1, 2)')
         try:
-            s2 = m.LatLon(32 - (49 - 15), 32 - (25 - 10))
+            s2 = LL(32 - (49 - 15), 32 - (25 - 10))
             self.test('(-2, 17)', m.intersection3(s1, e1, s2, e2), IntersectionError.__name__)
         except Exception as x:
             self.test('(-2, 17)', x.__class__, IntersectionError)
@@ -597,18 +603,25 @@ class Tests(_TestsLL, _TestsV):
         self.test('(49, 25)', t, '(LatLon(49°00′00.0″N, 025°00′00.0″E), 0, 0)', known=t.outside2 in (0, -2))
 
         # courtesy of U{sbonaime<https://GitHub.com/mrJean1/PyGeodesy/issues/58>}
-        s1, s2 = m.LatLon(8, 0), m.LatLon(0, 8.4)
+        s1, s2 = LL(8, 0), LL(0, 8.4)
         self.test('#58', s1.intersection3(150.06, s2, 55.61), '(LatLon(01°54′25.65″S, 005°37′48.76″E), 1, -2)', known=k)  # 01°54′25.28″N, 174°22′10.76″W, -1, 2
         try:
-            s1, s2 = m.LatLon(80, 0), m.LatLon(0, 84)
+            s1, s2 = LL(80, 0), LL(0, 84)
             self.test('#58', s1.intersection3(150.06, s2, 55.61), IntersectionError, knonw=True)
         except Exception as x:
             self.test('#58', x.__class__, IntersectionError)  # ...: no convergence (7660.82): tolerance (0.001) too low, near-polar?
 
+        # <https://sourceforge.net/p/geographiclib/discussion/1026621/thread/21aaff9f/>
+        if X and hasattr(LL, 'intersection3'):  # intersect.cpp 2014-11-09
+            t = LL(42, 29).intersection3(LL(39, -77), LL(64, -22), LL(6, 0))
+            self.test('intersection3', t, "(LatLon(54°43′01.31″N, 014°33′49.88″W), 0, 0)")
+            self.test('intersection3', t.point.toStr(form=F_D), '54.71703°N, 014.563856°W')
+
     def testIntersections2(self, m, Eq, GS=False, K=False, X=False, V=False, d_m=1e-6):
 
         self.subtitle(m, 'Intersections2')
-        n = Eq.__name__
+        LL = m.LatLon
+        n  = Eq.__name__
 
         def _100p2(t, r, *s):
             e = max(abs(a.distanceTo(b) - r) for a in s
@@ -621,26 +634,26 @@ class Tests(_TestsLL, _TestsV):
                  # '36.9893°N, 088.151°W, 38.2384°N, 092.3905°W'  # PYCHOK cf. sph.Trig
 
         # <https://GIS.StackExchange.com/questions/48937/calculating-intersection-of-two-circles>
-        p = m.LatLon(37.673442, -90.234036)  # (-0.00323306, -0.7915,   0.61116)
-        q = m.LatLon(36.109997, -90.953669)  # (-0.0134464,  -0.807775, 0.589337)
+        p = LL(37.673442, -90.234036)  # (-0.00323306, -0.7915,   0.61116)
+        q = LL(36.109997, -90.953669)  # (-0.0134464,  -0.807775, 0.589337)
 
         t = p.intersections2(0.0312705 * R_M, q, 0.0421788 * R_M)  # radians to meter
         self.test(n, ', '.join(latlonDMS(t, form=F_D, prec=4)), _x(GS or K or X), known=V)   # V and isPython2
 
         t = m.intersections2(p, 0.0312705 * R_M, q, 0.0421788 * R_M,  # radians to meter
-                             equidistant=Eq, LatLon=m.LatLon)
+                             equidistant=Eq, LatLon=LL)
         self.test(n, ', '.join(latlonDMS(t, form=F_D, prec=4)), _x(GS or K or X))
 #       self.test(n,           latlonDMS(t, form=F_D, prec=4, sep=', '), _x(GS or K or X))  # XXX force DeprecationWarning
 
         r = PI_4 * R_M
-        t = m.intersections2(m.LatLon(30, 0), r, m.LatLon(-30, 0), r, equidistant=Eq, LatLon=m.LatLon)
+        t = m.intersections2(LL(30, 0), r, LL(-30, 0), r, equidistant=Eq, LatLon=LL)
         e, s = _100p2(t, r, q, p)
         self.test(n, ', '.join(latlonDMS(t, form=F_D, prec=4)), '00.0°N, 035.3478°W, 00.0°S, 035.3478°E' if K or X
                                                            else '00.0°S, 035.4073°W, 00.0°S, 035.4073°E', known=True)  # 0.0
                                                               # '00.0°N, 035.2644°W, 00.0°N, 035.2644°E'  # PYCHOK cf. sph.Trig
         self.test(n, s, s)
 
-        t = m.intersections2(m.LatLon(0, 40), r, m.LatLon(0, -40), r, equidistant=Eq, LatLon=m.LatLon)
+        t = m.intersections2(LL(0, 40), r, LL(0, -40), r, equidistant=Eq, LatLon=LL)
         e, s = _100p2(t, r, q, p)
         self.test(n, ', '.join(latlonDMS(t, form=F_D, prec=4)), '22.657°N, 000.0°E, 22.657°S, 000.0°E' if K or X
                                                            else '22.756°N, 000.0°W, 22.756°S, 000.0°W', known=True)  # 0.0
@@ -648,7 +661,7 @@ class Tests(_TestsLL, _TestsV):
         self.test(n, s, s)
 
         r = R_M * PI / 3
-        t = m.intersections2(m.LatLon(30, 30), r, m.LatLon(-30, -30), r, equidistant=Eq, LatLon=m.LatLon)
+        t = m.intersections2(LL(30, 30), r, LL(-30, -30), r, equidistant=Eq, LatLon=LL)
         e, s = _100p2(t, r, q, p)
         self.test(n, ', '.join(latlonDMS(t, form=F_D, prec=4)), '29.4898°N, 040.1785°W, 29.4898°S, 040.1785°E' if GS or K or X
                                                            else '29.2359°N, 040.2625°W, 29.2359°S, 040.2625°E', knonw=e < 1.5)
@@ -656,7 +669,7 @@ class Tests(_TestsLL, _TestsV):
         self.test(n, s, s)
 
         r = R_M * PI / 4
-        t = m.intersections2(m.LatLon(0, 0), r, m.LatLon(0, 22.567), r / 2, equidistant=Eq, LatLon=m.LatLon)
+        t = m.intersections2(LL(0, 0), r, LL(0, 22.567), r / 2, equidistant=Eq, LatLon=LL)
         e, s = _100p2(t, r, q, p)
         self.test(n, ', '.join(latlonDMS(t, form=F_D, prec=4)), '02.7402°S, 044.885°E, 02.7402°N, 044.885°E' if GS or K or X
                                                            else '01.1557°S, 045.0894°E, 01.1557°N, 045.0894°E', knonw=e < 2.0)
@@ -668,12 +681,12 @@ class Tests(_TestsLL, _TestsV):
         # the other 2 as the intersections ... but the
         # longitudes are farther and farther out
         for d in range(5, 66, 5):
-            p = m.LatLon(d, -d)
-            q = m.LatLon(-d, d)
+            p = LL(d, -d)
+            q = LL(-d, d)
             r = radians(2 * d) * R_M
             d = '%s %d' % (n, d)
             try:  # see .testSpherical
-                t = m.intersections2(p, r, q, r, equidistant=Eq, LatLon=m.LatLon)
+                t = m.intersections2(p, r, q, r, equidistant=Eq, LatLon=LL)
                 if t[0] is t[1]:
                     s = ', '.join(latlonDMS(t[:1], form=F_D, prec=4)) + ' abutting'
                 else:
@@ -685,7 +698,7 @@ class Tests(_TestsLL, _TestsV):
                 self.test(n, str(x), '2-tuple', known=True)
 
         # courtesy of U{Samuel Čavoj<https://GitHub.com/mrJean1/PyGeodesy/issues/41>}
-        R = RandomLatLon(m.LatLon, 90, 90)  # +/- 45
+        R = RandomLatLon(LL, 90, 90)  # +/- 45
         r = R()
         s = latlonDMS(r, form=F_D) + ' Random +/- 45'
         self.test(n, s, s)
@@ -693,7 +706,7 @@ class Tests(_TestsLL, _TestsV):
             p, q = R(), R()
             try:  # see .testSpherical
                 i1, i2 = m.intersections2(p, p.distanceTo(r),
-                                          q, q.distanceTo(r), equidistant=Eq, LatLon=m.LatLon)
+                                          q, q.distanceTo(r), equidistant=Eq, LatLon=LL)
                 d, d2 = r.distanceTo(i1), r.distanceTo(i2)
                 if d2 < d:
                     d, i1, i2 = d2, i2, i1
