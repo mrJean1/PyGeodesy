@@ -15,12 +15,12 @@ from pygeodesy.interns import NN, _0_, _0to9_, MISSING, _BAR_, _COMMASPACE_, \
 from pygeodesy.interns import _convergence_, _distant_, _e_, _eps_, _exceeds_, \
                               _EQUALSPACED_, _f_, _F_, _g_, _limit_, _no_, \
                               _tolerance_  # PYCHOK used!
-from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
+from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _getenv
 
 from math import fabs, log10 as _log10
 
 __all__ = _ALL_LAZY.streprs
-__version__ = '23.06.12'
+__version__ = '23.06.27'
 
 _EN_PREC    =  6           # max MGRS/OSGR precision, 1 micrometer
 _EN_WIDE    =  5           # number of MGRS/OSGR units, log10(_100km)
@@ -127,6 +127,7 @@ class Fmt(object):
     exceeds_eps   = _Fmt(_exceeds_(_eps_, _PAREN_g))
     exceeds_limit = _Fmt(_exceeds_(_limit_, _PAREN_g))
     f             =  Fstr(_f_)
+    form          = _getenv('PYGEODESY_FMT_FORM', NN)
     F             =  Fstr(_F_)
     g             =  Fstr(_g_)
     G             =  Fstr('G')

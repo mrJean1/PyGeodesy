@@ -4,7 +4,7 @@
 # Test C{LatLon}.
 
 __all__ = ('Tests',)
-__version__ = '23.07.10'  # '23.05.23'
+__version__ = '23.10.20'
 
 from bases import GeodSolve, geographiclib, isPyPy, isPython2, TestsBase
 
@@ -131,7 +131,7 @@ class Tests(TestsBase):
 
             # <https://GitHub.com/ChrisVeness/geodesy/issues/64>
             d = LatLon(20, 0).distanceTo(LatLon(-2, 180))
-            self.test('distanceTo', d, '18013602.92' if Sph or Nv else ('18003740.39' if X else '18012714.66'), fmt='%.2f')
+            self.test('distanceTo', d, '18013602.92' if Sph or Nv else '18012714.66', fmt='%.2f')
             try:
                 d = LatLon(0, 0).distanceTo(LatLon(0, 180))  # antipodal
                 self.test('distanceTo', d, '20015114.35' if Sph else '20003931.46', fmt='%.2f', known=Nv or X or GS)  # PYCHOK 0.0 for Nv ...

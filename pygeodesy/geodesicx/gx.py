@@ -41,28 +41,28 @@ from pygeodesy.constants import EPS, EPS0, EPS02, MANT_DIG, NAN, PI, _EPSqrt, \
                                _SQRT2_2, isnan, _0_0, _0_001, _0_01, _0_1, _0_5, \
                                _1_0, _N_1_0, _1_75, _2_0, _N_2_0, _2__PI, _3_0, \
                                _4_0, _6_0, _8_0, _16_0, _90_0, _180_0, _1000_0
-# from pygeodesy.datums import _a_ellipsoid  # from .karney
+# from pygeodesy.datums import _earth_datum, _WGS84  # from .karney
 # from pygeodesy.ellipsoids import _EWGS84  # from .karney
-# from pygeodesy.fmath import cbrt as _cbrt, hypot as hypot_  # from .karney
+# from pygeodesy.fmath import cbrt as _cbrt, hypot as _hypot  # from .karney
 from pygeodesy.fsums import fsumf_, fsum1f_
 from pygeodesy.geodesicx.gxbases import _cosSeries, _GeodesicBase, \
                                         _sincos12, _sin1cos2, _xnC4
 from pygeodesy.geodesicx.gxline import _GeodesicLineExact, _TINY, _update_glXs
 from pygeodesy.interns import NN, _COMMASPACE_, _DOT_, _UNDER_
 from pygeodesy.karney import _around, _atan2d, Caps, _cbrt, _copysign, _diff182, \
-                             _EWGS84, _fix90, GDict, GeodesicError, _hypot, _K_2_0, \
-                             _norm2, _norm180, _polynomial, _signBit, _sincos2, \
-                             _sincos2d, _sincos2de, _unsigned2,  _a_ellipsoid
+                             _fix90, GDict, GeodesicError, _hypot, _K_2_0, _norm2, \
+                             _norm180, _polynomial, _signBit, _sincos2, _sincos2d, \
+                             _sincos2de, _unsigned2,  _earth_datum, _EWGS84, _WGS84
 from pygeodesy.lazily import _ALL_DOCS, _ALL_MODS as _MODS
 from pygeodesy.namedTuples import Destination3Tuple, Distance3Tuple
-from pygeodesy.props import deprecated_Property, Property, Property_RO
+from pygeodesy.props import deprecated_Property, Property, Property_RO, property_RO
 from pygeodesy.streprs import Fmt, pairs
-from pygeodesy.utily import atan2d as _atan2d_reverse, _Wrap, wrap360
+from pygeodesy.utily import atan2d as _atan2d_reverse, _unrollon, _Wrap, wrap360
 
 from math import atan2, copysign, cos, degrees, fabs, radians, sqrt
 
 __all__ = ()
-__version__ = '23.08.20'
+__version__ = '23.11.09'
 
 _MAXIT1 = 20
 _MAXIT2 = 10 + _MAXIT1 + MANT_DIG  # MANT_DIG == C++ digits
@@ -131,8 +131,8 @@ class GeodesicExact(_GeodesicBase):
        modeled after I{Karney}'s Python class U{geodesic.Geodesic<https://GitHub.com/
        geographiclib/geographiclib-python>}.
     '''
-    _E   = _EWGS84
-    _nC4 =  30  # default C4order
+    _datum = _WGS84
+    _nC4   =  30  # default C4order
 
     def __init__(self, a_ellipsoid=_EWGS84, f=None, name=NN, C4order=None,
                        C4Order=None):  # for backward compatibility
@@ -150,9 +150,7 @@ class GeodesicExact(_GeodesicBase):
 
            @raise GeodesicError: Invalid B{C{C4order}}.
         '''
-        if a_ellipsoid not in (GeodesicExact._E, None):
-            self._E = _a_ellipsoid(a_ellipsoid, f, name=name)
-
+        _earth_datum(self, a_ellipsoid, f=f, name=name)
         if name:
             self.name = name
         if C4order:  # XXX private copy, always?
@@ -324,7 +322,13 @@ class GeodesicExact(_GeodesicBase):
 
         return tuple(_C4(self._nC4))  # 3rd flattening
 
-    def Direct(self, lat1, lon1, azi1, s12, outmask=Caps.STANDARD):
+    @property_RO
+    def datum(self):
+        '''Get the datum (C{Datum}).
+        '''
+        return self._datum
+
+    def Direct(self, lat1, lon1, azi1, s12=0, outmask=Caps.STANDARD):
         '''Solve the I{Direct} geodesic problem
 
            @arg lat1: Latitude of the first point (C{degrees}).
@@ -352,6 +356,11 @@ class GeodesicExact(_GeodesicBase):
         '''
         r = self._GDictDirect(lat1, lon1, azi1, False, s12, Caps._AZIMUTH_LATITUDE_LONGITUDE)
         return Destination3Tuple(r.lat2, r.lon2, r.azi2)  # no iteration
+
+    def _DirectLine(self, ll1, azi12, s12=0, **caps_name):
+        '''(INTERNAL) Short-cut version.
+        '''
+        return self.DirectLine(ll1.lat, ll1.lon, azi12, s12, **caps_name)
 
     def DirectLine(self, lat1, lon1, azi1, s12, caps=Caps.STANDARD, name=NN):
         '''Define a L{GeodesicLineExact} in terms of the I{direct} geodesic problem and as distance.
@@ -430,7 +439,7 @@ class GeodesicExact(_GeodesicBase):
     def ellipsoid(self):
         '''Get the ellipsoid (C{Ellipsoid}).
         '''
-        return self._E
+        return self.datum.ellipsoid
 
     @Property_RO
     def ep2(self):
@@ -714,6 +723,13 @@ class GeodesicExact(_GeodesicBase):
         r = self._GDictInverse(lat1, lon1, lat2, lon2, outmask | Caps._SALPs_CALPs)
         return r.toInverse10Tuple()
 
+    def _Inverse(self, ll1, ll2, wrap, **outmask):
+        '''(INTERNAL) Short-cut version, see .ellipsoidalBaseDI.intersecant2.
+        '''
+        if wrap:
+            ll2 = _unrollon(ll1, _Wrap.point(ll2))
+        return self.Inverse(ll1.lat, ll1.lon, ll2.lat, ll2.lon, **outmask)
+
     def Inverse(self, lat1, lon1, lat2, lon2, outmask=Caps.STANDARD):
         '''Perform the I{Inverse} geodesic calculation.
 
@@ -760,6 +776,13 @@ class GeodesicExact(_GeodesicBase):
         r = self._GDictInverse(lat1, lon1, lat2, lon2, Caps.AZIMUTH_DISTANCE)
         return Distance3Tuple(r.s12, wrap360(r.azi1), wrap360(r.azi2),
                               iteration=r.iteration)
+
+    def _InverseLine(self, ll1, ll2, wrap, **caps_name):
+        '''(INTERNAL) Short-cut version.
+        '''
+        if wrap:
+            ll2 = _unrollon(ll1, _Wrap.point(ll2))
+        return self.InverseLine(ll1.lat, ll1.lon, ll2.lat, ll2.lon, **caps_name)
 
     def InverseLine(self, lat1, lon1, lat2, lon2, caps=Caps.STANDARD, name=NN):
         '''Define a L{GeodesicLineExact} in terms of the I{Inverse} geodesic problem.
@@ -1126,6 +1149,7 @@ class GeodesicExact(_GeodesicBase):
            @return: 6-Tuple C{(sig12, salp1, calp1, salp2, calp2, domg12)}
                     and C{p.iter} and C{p.trip} updated.
         '''
+        _abs = fabs
         # This is a straightforward solution of f(alp1) = lambda12(alp1) -
         # lam12 = 0 with one wrinkle.  f(alp) has exactly one root in the
         # interval (0, PI) and its derivative is positive at the root.
@@ -1169,7 +1193,7 @@ class GeodesicExact(_GeodesicBase):
 
             # 2 * _TOL0 is approximately 1 ulp [0, PI]
             # reversed test to allow escape with NaNs
-            if tripb or fabs(v) < TOLv:
+            if tripb or _abs(v) < TOLv:
                 break
             # update bracketing values
             if v > 0 and (i > MAXIT1 or (calp1 / salp1) > (calp1b / salp1b)):
@@ -1179,7 +1203,7 @@ class GeodesicExact(_GeodesicBase):
 
             if i < MAXIT1 and dv > 0:
                 dalp1 = -v / dv
-                if fabs(dalp1) < PI:
+                if _abs(dalp1) < PI:
                     s, c = _sincos2(dalp1)
                     # nalp1 = alp1 + dalp1
                     s, c = _sincos12(-s, c, salp1, calp1)
@@ -1188,9 +1212,9 @@ class GeodesicExact(_GeodesicBase):
                         # in some regimes we don't get quadratic convergence
                         # because slope -> 0.  So use convergence conditions
                         # based on epsilon instead of sqrt(epsilon)
-                        TOLv = TOL0 if fabs(v) > _TOL016 else _TOL08
+                        TOLv = TOL0 if _abs(v) > _TOL016 else _TOL08
                         continue
-
+            TOLv  = TOL0
             # Either dv was not positive or updated value was outside
             # legal range.  Use the midpoint of the bracket as the next
             # estimate.  This mechanism is not needed for the WGS84
@@ -1201,10 +1225,8 @@ class GeodesicExact(_GeodesicBase):
             # with random input: mean = 4.74, stdev = 0.99
             salp1, calp1 = _norm2((salp1a + salp1b) * HALF,
                                   (calp1a + calp1b) * HALF)
-            tripb = fsum1f_(calp1a, -calp1, fabs(salp1a - salp1)) < TOLb or \
-                    fsum1f_(calp1b, -calp1, fabs(salp1b - salp1)) < TOLb
-            TOLv  = TOL0
-
+            tripb = fsum1f_(calp1a, -calp1, _abs(salp1a - salp1)) < TOLb or \
+                    fsum1f_(calp1b, -calp1, _abs(salp1b - salp1)) < TOLb
         else:
             raise GeodesicError(Fmt.no_convergence(v, TOLv), txt=repr(self))  # self.toRepr()
 
@@ -1220,7 +1242,7 @@ class GeodesicExact(_GeodesicBase):
         # ensure cbet1 = +epsilon at poles; doing the fix on beta means
         # that sig12 will be <= 2*tiny for two points at the same pole
         sbet, cbet = _norm2(sbet * self.f1, cbet)
-        return sbet, max(_TINY, cbet)
+        return sbet, (cbet if fabs(cbet) > _TINY else _TINY)
 
     def toStr(self, prec=6, sep=_COMMASPACE_, **unused):  # PYCHOK signature
         '''Return this C{GeodesicExact} as string.

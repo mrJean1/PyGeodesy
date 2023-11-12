@@ -11,11 +11,10 @@ L{pygeodesy.isnon0} and L{pygeodesy.remainder}.
 from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import _0_0, _copysign, isbool, iscomplex, \
-                              isint, neg
+                              isint,  _ALL_LAZY
 from pygeodesy.errors import _xError, _xError2, _xkwds_get
-# from pygeodesy.fmath import fprod  # from _MODS
 from pygeodesy.interns import _INF_, _NAN_, _UNDER_
-from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
+# from pygeodesy.lazily import _ALL_LAZY  # from .basics
 # from pygeodesy.streprs import Fmt  # from .unitsBase
 from pygeodesy.unitsBase import Float, Int, Radius,  Fmt
 
@@ -24,16 +23,9 @@ try:
     from math import inf as _inf, nan as _nan  # PYCHOK Python 3+
 except ImportError:  # Python 2-
     _inf, _nan = float(_INF_), float(_NAN_)
-try:
-    from math import log2 as _log2
-except ImportError:  # Python 3.3-
-    from math import log as _log
-
-    def _log2(x):  # in .rhumbaux, .auxilats.auxLat
-        return _log(x, 2)
 
 __all__ = _ALL_LAZY.constants
-__version__ = '23.09.28'
+__version__ = '23.10.19'
 
 
 def _copysign_0_0(y):
@@ -126,19 +118,30 @@ def _floatuple(*fs):
     return tuple(map(_float, fs))
 
 
-def _naninf(*xs):
+try:
+    from math import log2 as _log2
+except ImportError:  # Python 3.3-
+    from math import log as _log
+
+    def _log2(x):  # in .rhumbaux, .auxilats.auxLat
+        return _log(x, 2)
+
+
+def _naninf(p, *xs):
     '''(INTERNAL) Return C{NAN}, C{NINF} or C{INF}.
     '''
-    return NAN if NAN in xs else _copysignINF(_MODS.fmath.fprod(xs))
+    for x in xs:
+        p *= x  # fmath.fprod(xs)
+    return _copysignINF(p) if isfinite(p) else p
 
 
 def _over(p, q):
     '''(INTERNAL) Return C{B{p} / B{q}} avoiding C{ZeroDivisionError} exceptions.
     '''
     try:
-        return (p / q) if p else neg(p, neg0=q < 0)
+        return (p / q)
     except ZeroDivisionError:
-        return _naninf(p)
+        return (_copysignINF(p) if isfinite(p) else NAN) if p else p
 
 
 def _1_over(x):
@@ -147,7 +150,7 @@ def _1_over(x):
     try:
         return _1_0 / float(x)
     except ZeroDivisionError:
-        return  INF
+        return  NINF if isneg0(x) else INF
 
 
 _floats  = {}     # PYCHOK floats cache, in .__main__
@@ -320,7 +323,7 @@ def isclose(a, b, rel_tol=1e-12, abs_tol=EPS0):
 
 
 try:
-    from math import isfinite as _isfinite  # in .ellipsoids, .fsums, .karney
+    from math import isfinite as _isfinite  # in .ellipsoids, ...
 except ImportError:  # Python 3.1-
 
     def _isfinite(x):

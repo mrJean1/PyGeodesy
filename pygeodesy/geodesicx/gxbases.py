@@ -11,14 +11,16 @@ U{GeographicLib<https://GeographicLib.SourceForge.io>} documentation.
 # from pygeodesy.basics import isodd  # from .karney
 from pygeodesy.constants import _0_0, _100_0
 from pygeodesy.errors import _not_, _or
+# from pygeodesy.fmath import hypot as _hypot  # from .karney
 # from pygeodesy.interns import _not_  # from .errors
 from pygeodesy.karney import _CapsBase, GeodesicError, isodd, \
                              _2cos2x, _hypot, _sum2_,  _MODS
+# from pygeodesy.lazily import printf  # _MODS
 
 from math import ldexp as _ldexp
 
 __all__ = ()
-__version__ = '23.09.29'
+__version__ = '23.10.02'
 
 # valid C{nC4}s and C{C4order}s, see _xnC4 below
 _nC4s = {24: 2900, 27: 4032, 30: 5425}

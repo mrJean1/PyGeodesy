@@ -67,7 +67,7 @@
                     |            
      <a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a> --+        
                         |        
-<a href="pygeodesy.vector3dBase.Vector3dBase-class.html" onclick="show_private();">vector3dBase.Vector3dBase</a> --+    
+<a href="pygeodesy.vector3dBase.Vector3dBase-class.html">vector3dBase.Vector3dBase</a> --+    
                             |    
             <a href="pygeodesy.vector3d.Vector3d-class.html">vector3d.Vector3d</a> --+
                                 |
@@ -349,7 +349,7 @@
       <code><a href="pygeodesy.vector3d.Vector3d-class.html#trilaterate2d2">trilaterate2d2</a></code>,
       <code><a href="pygeodesy.vector3d.Vector3d-class.html#trilaterate3d2">trilaterate3d2</a></code>
       </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html" onclick="show_private();">vector3dBase.Vector3dBase</a></code></b>:
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html">vector3dBase.Vector3dBase</a></code></b>:
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__abs__">__abs__</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__add__">__add__</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__bool__">__bool__</a></code>,
@@ -490,6 +490,16 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.nvectorBase.NvectorBase-class.html#ellipsoidalNvector" class="summary-name">ellipsoidalNvector</a><br />
+      Get the <code>Nvector type</code> iff ellipsoidal, overloaded in <a 
+      href="pygeodesy.ellipsoidalNvector.Nvector-class.html" 
+      class="link">ellipsoidalNvector.Nvector</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.nvectorBase.NvectorBase-class.html#h" class="summary-name">h</a><br />
       Class <code>property</code> with retrievable name.
     </td>
@@ -612,6 +622,16 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.nvectorBase.NvectorBase-class.html#sphericalNvector" class="summary-name">sphericalNvector</a><br />
+      Get the <code>Nvector type</code> iff spherical, overloaded in <a 
+      href="pygeodesy.sphericalNvector.Nvector-class.html" 
+      class="link">sphericalNvector.Nvector</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.nvectorBase.NvectorBase-class.html#xyzh" class="summary-name">xyzh</a><br />
       Get this n-vector's components (<a 
       href="pygeodesy.namedTuples.Vector4Tuple-class.html" 
@@ -620,9 +640,10 @@
   </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html" onclick="show_private();">vector3dBase.Vector3dBase</a></code></b>:
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html">vector3dBase.Vector3dBase</a></code></b>:
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#crosserrors">crosserrors</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#euclid">euclid</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#homogeneous">homogeneous</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#length">length</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#length2">length2</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#x">x</a></code>,
@@ -1197,6 +1218,33 @@ class="link">EcefKarney</a>), <i>lazily</i>.
   </dl>
 </td></tr></table>
 </div>
+<a name="ellipsoidalNvector"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">ellipsoidalNvector</h3>
+  <p>Get the <code>Nvector type</code> iff ellipsoidal, overloaded in <a 
+  href="pygeodesy.ellipsoidalNvector.Nvector-class.html" 
+  class="link">ellipsoidalNvector.Nvector</a>.</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">ellipsoidalNvector(<span class="summary-sig-arg">self</span>)</span>
+        - Get the <code>Nvector type</code> iff ellipsoidal, overloaded in <code 
+class="link">ellipsoidalNvector.Nvector</code>.
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="h"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1537,6 +1585,33 @@ class="link">PhiLam4Tuple</a><code>(phi, lam, height, datum)</code>).
   </dl>
 </td></tr></table>
 </div>
+<a name="sphericalNvector"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">sphericalNvector</h3>
+  <p>Get the <code>Nvector type</code> iff spherical, overloaded in <a 
+  href="pygeodesy.sphericalNvector.Nvector-class.html" 
+  class="link">sphericalNvector.Nvector</a>.</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">sphericalNvector(<span class="summary-sig-arg">self</span>)</span>
+        - Get the <code>Nvector type</code> iff spherical, overloaded in <code 
+class="link">sphericalNvector.Nvector</code>.
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="xyzh"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1597,7 +1672,7 @@ class="link">Vector4Tuple</a><code>(x, y, z, h)</code>)
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Oct 11 15:46:56 2023
+    Generated by Epydoc 3.0.1 on Sun Nov 12 13:03:56 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

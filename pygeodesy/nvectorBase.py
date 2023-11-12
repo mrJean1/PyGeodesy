@@ -28,8 +28,8 @@ from pygeodesy.latlonBase import LatLonBase, _ALL_DOCS, _MODS
 from pygeodesy.named import notImplemented, _xother3
 from pygeodesy.namedTuples import Trilaterate5Tuple, Vector3Tuple, \
                                   Vector4Tuple,  map1
-from pygeodesy.props import deprecated_method, property_doc_, \
-                            Property_RO, _update_all
+from pygeodesy.props import deprecated_method, Property_RO, property_doc_, \
+                            property_RO, _update_all
 from pygeodesy.streprs import Fmt, hstr, unstr, _xattrs
 from pygeodesy.units import Bearing, Height, Radius_, Scalar
 from pygeodesy.utily import sincos2d, _unrollon, _unrollon3
@@ -38,7 +38,7 @@ from pygeodesy.vector3d import Vector3d, _xyzhdn3
 from math import fabs, sqrt
 
 __all__ = (_NorthPole_, _SouthPole_)  # constants
-__version__ = '23.09.22'
+__version__ = '23.10.24'
 
 
 class NvectorBase(Vector3d):  # XXX kept private
@@ -92,6 +92,12 @@ class NvectorBase(Vector3d):  # XXX kept private
         '''Get the ECEF I{class} (L{EcefKarney}), I{lazily}.
         '''
         return _MODS.ecef.EcefKarney  # default
+
+    @property_RO
+    def ellipsoidalNvector(self):
+        '''Get the C{Nvector type} iff ellipsoidal, overloaded in L{ellipsoidalNvector.Nvector}.
+        '''
+        return False
 
     @property_doc_(''' the height above surface (C{meter}).''')
     def h(self):
@@ -206,6 +212,12 @@ class NvectorBase(Vector3d):  # XXX kept private
         '''
         return self.philamheight.to4Tuple(self.datum)
 
+    @property_RO
+    def sphericalNvector(self):
+        '''Get the C{Nvector type} iff spherical, overloaded in L{sphericalNvector.Nvector}.
+        '''
+        return False
+
     @deprecated_method
     def to2ab(self):  # PYCHOK no cover
         '''DEPRECATED, use property L{philam}.
@@ -254,8 +266,8 @@ class NvectorBase(Vector3d):  # XXX kept private
             >>> c = v.toCartesian()  # [3194434, 3194434, 4487327]
             >>> p = c.toLatLon()  # 45.0°N, 45.0°E
         '''
-        d = _spherical_datum(datum or self.datum, name=self.name)
-        E =  d.ellipsoid
+        D = _spherical_datum(datum or self.datum, name=self.name)
+        E =  D.ellipsoid
         h =  self.h if h is None else Height(h)
 
         x, y, z = self.x, self.y, self.z
@@ -268,9 +280,9 @@ class NvectorBase(Vector3d):  # XXX kept private
         z *= h + n
 
         if Cartesian is None:
-            r = self.Ecef(d).reverse(x, y, z, M=True)
+            r = self.Ecef(D).reverse(x, y, z, M=True)
         else:
-            kwds = _xkwds(Cartesian_kwds, datum=d)  # h=0
+            kwds = _xkwds(Cartesian_kwds, datum=D)  # h=0
             r = Cartesian(x, y, z, **kwds)
         return self._xnamed(r)
 
@@ -427,8 +439,7 @@ class LatLonNvectorBase(LatLonBase):
 #       _MODS.named.notOverloaded(self, other, **kwds)
 
     def intersections2(self, radius1, other, radius2, **kwds):  # PYCHOK expected
-        '''B{Not implemented}, throws a C{NotImplementedError} always.
-        '''
+        '''B{Not implemented}, throws a C{NotImplementedError} always.'''
         notImplemented(self, radius1, other, radius2, **kwds)
 
     def others(self, *other, **name_other_up):

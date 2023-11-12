@@ -67,7 +67,8 @@ from pygeodesy.basics import map1, neg, neg_, _xinstanceof
 from pygeodesy.constants import EPS, EPS02, PI_2, PI_4, _K0_UTM, \
                                _1_EPS, _0_0, _0_1, _0_5, _1_0, _2_0, \
                                _3_0, _4_0, _90_0, isnear0, isnear90
-from pygeodesy.datums import _ellipsoidal_datum, _WGS84
+from pygeodesy.datums import _ellipsoidal_datum, _WGS84,  _EWGS84
+# from pygeodesy.ellipsoids import _EWGS84  # from .datums
 from pygeodesy.elliptic import _ALL_LAZY, Elliptic
 # from pygeodesy.errors import _incompatible  # from .named
 from pygeodesy.fmath import cbrt, hypot, hypot1, hypot2
@@ -91,7 +92,7 @@ from pygeodesy.utm import _cmlon, _LLEB, _parseUTM5, _toBand, _toXtm8, \
 from math import asinh, atan2, degrees, radians, sinh, sqrt
 
 __all__ = _ALL_LAZY.etm
-__version__ = '23.09.28'
+__version__ = '23.10.15'
 
 _OVERFLOW = _1_EPS**2  # about 2e+31
 _TAYTOL   =  pow(EPS, 0.6)
@@ -244,17 +245,18 @@ class ExactTransverseMercator(_NamedBase):
        <https://GeographicLib.SourceForge.io/C++/doc/TransverseMercatorExact_8cpp_source.html>},
        a numerically exact transverse Mercator projection, further referred to as C{TMExact}.
     '''
-    _datum     =  None    # Datum
-    _E         =  None    # Ellipsoid
-    _extendp   =  False   # use extended domain
-#   _iteration =  None    # ._sigmaInv2 and ._zetaInv2
-    _k0        = _K0_UTM  # central scale factor
-    _lon0      = _0_0     # central meridian
-    _mu        = _0_0     # ._E.e2, 1st eccentricity squared
-    _mv        = _1_0     # _1_0 - ._mu
-    _raiser    =  False   # throw Error
-    _sigmaC    =  None    # most recent _sigmaInv04 case C{int}
-    _zetaC     =  None    # most recent _zetaInv04 case C{int}
+    _datum     = _WGS84       # Datum
+    _E         = _EWGS84      # Ellipsoid
+    _extendp   =  False       # use extended domain
+#   _iteration =  None        # ._sigmaInv2 and ._zetaInv2
+    _k0        = _K0_UTM      # central scale factor
+    _lat0      = _0_0         # central parallel
+    _lon0      = _0_0         # central meridian
+    _mu        = _EWGS84.e2   # 1st eccentricity squared
+    _mv        = _EWGS84.e21  # 1 - ._mu
+    _raiser    =  False       # throw Error
+    _sigmaC    =  None        # most recent _sigmaInv04 case C{int}
+    _zetaC     =  None        # most recent _zetaInv04 case C{int}
 
     def __init__(self, datum=_WGS84, lon0=0, k0=_K0_UTM, extendp=False, name=NN, raiser=False):
         '''New L{ExactTransverseMercator} projection.
@@ -288,9 +290,13 @@ class ExactTransverseMercator(_NamedBase):
         if raiser:
             self.raiser = True
 
-        self.datum = datum  # invokes ._reset
-        self.k0    = k0
-        self.lon0  = lon0
+        TM = ExactTransverseMercator
+        if datum not in (TM._datum, TM._E, None):
+            self.datum = datum  # invokes ._resets
+        if lon0 or lon0 != TM._lon0:
+            self.lon0 = lon0
+        if k0 is not TM._k0:
+            self.k0 = k0
 
     @property_doc_(''' the datum (L{Datum}).''')
     def datum(self):
@@ -305,7 +311,7 @@ class ExactTransverseMercator(_NamedBase):
            @raise ETMError: Near-spherical B{C{datum}} or C{ellipsoid}.
         '''
         d = _ellipsoidal_datum(datum, name=self.name)  # raiser=_datum_)
-        self._reset(d)
+        self._resets(d)
         self._datum = d
 
     @Property_RO
@@ -467,7 +473,7 @@ class ExactTransverseMercator(_NamedBase):
            @raise ETMError: No convergence, thrown iff property
                             C{B{raiser}=True}.
         '''
-        lat    = _fix90(lat)
+        lat    = _fix90(lat - self._lat0)
         lon, _ = _diff182((self.lon0 if lon0 is None else lon0), lon)
         if self.extendp:
             backside = _lat = _lon = False
@@ -647,7 +653,23 @@ class ExactTransverseMercator(_NamedBase):
         '''
         self._raiser = bool(raiser)
 
-    def _reset(self, datum):
+    def reset(self, lat0, lon0):
+        '''Set the central parallel and meridian.
+
+           @arg lat0: Latitude of the central parallel (C{degrees90}).
+           @arg lon0: Longitude of the central parallel (C{degrees180}).
+
+           @return: 2-Tuple C{(lat0, lon0)} of the previous central
+                    parallel and meridian.
+
+           @raise ETMError: Invalid B{C{lat0}} or B{C{lon0}}.
+        '''
+        t = self._lat0, self.lon0
+        self._lat0 = _fix90(Degrees(lat0=lat0, Error=ETMError))
+        self. lon0 =  lon0
+        return t
+
+    def _resets(self, datum):
         '''(INTERNAL) Set the ellipsoid and elliptic moduli.
 
            @arg datum: Ellipsoidal datum (C{Datum}).
@@ -717,7 +739,8 @@ class ExactTransverseMercator(_NamedBase):
             lat, g = neg_(lat, g)
         if _lon:
             lon, g = neg_(lon, g)
-        lon += self.lon0 if lon0 is None else _norm180(lon0)
+        lat += self._lat0
+        lon += self._lon0 if lon0 is None else _norm180(lon0)
         return Reverse4Tuple(lat, _norm180(lon), g, k,  # _norm180(lat)
                                    iteration=self._iteration,
                                    name=name or self.name)

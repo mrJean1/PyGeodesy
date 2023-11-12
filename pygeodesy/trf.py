@@ -51,8 +51,8 @@ en/how-to-deal-with-etrs89-datum-and-time-dependent-transformation-parameters-45
 from pygeodesy.basics import map1, _xinstanceof, _zip
 from pygeodesy.constants import _float as _F, _0_0s, _0_0, _0_001, \
                                 _0_01, _0_1, _0_26, _0_5, _N_0_5, _1_0
-from pygeodesy.datums import _a_ellipsoid, Transform
-from pygeodesy.ellipsoids import Ellipsoids, Fmt, Property_RO
+from pygeodesy.datums import _earth_datum, Transform, _WGS84
+from pygeodesy.ellipsoids import Ellipsoids,  Fmt, Property_RO
 from pygeodesy.errors import _ALL_LAZY, _IsnotError, TRFError
 from pygeodesy.interns import NN, _COMMASPACE_, _cartesian_, _conversion_, \
                              _ellipsoid_, _ellipsoidal_, _epoch_, _exists_, \
@@ -68,7 +68,7 @@ from pygeodesy.units import Epoch, Float
 from math import ceil
 
 __all__ = _ALL_LAZY.trf
-__version__ = '23.05.26'
+__version__ = '23.11.02'
 
 _0_02  =   0.02
 _0_06  =   0.06
@@ -126,8 +126,8 @@ class Helmert7Tuple(_NamedTuple):
 class RefFrame(_NamedEnumItem):
     '''Terrestrial Reference Frame (TRF) parameters.
     '''
-    _ellipsoid =  None  # ellipsoid GRS80 or WGS84 (L{Ellipsoid} or L{Ellipsoid2})
-    _epoch     = _0_0   # epoch, calendar year (L{Epoch} or C{float})
+    _datum = _WGS84  # ellipsoid GRS80 or WGS84 (L{Ellipsoid} or L{Ellipsoid2})
+    _epoch = _0_0    # epoch, calendar year (L{Epoch} or C{float})
 
     def __init__(self, epoch, ellipsoid, name=NN):
         '''New L{RefFrame}.
@@ -144,7 +144,7 @@ class RefFrame(_NamedEnumItem):
 
            @raise TypeError: Invalid B{C{ellipsoid}}.
         '''
-        self._ellipsoid = _a_ellipsoid(ellipsoid, name=name, raiser=_ellipsoid_)
+        _earth_datum(self, ellipsoid, raiser=_ellipsoid_)
         self._epoch = Epoch(epoch)
         self._register(RefFrames, name)
 
@@ -163,7 +163,7 @@ class RefFrame(_NamedEnumItem):
     def ellipsoid(self):
         '''Get this reference frame's ellipsoid (L{Ellipsoid} or L{Ellipsoid2}).
         '''
-        return self._ellipsoid
+        return self._datum.ellipsoid
 
     @Property_RO
     def epoch(self):
@@ -179,11 +179,11 @@ class RefFrame(_NamedEnumItem):
 
            @return: This L{RefFrame}'s attributes (C{str}).
         '''
-        e = self.ellipsoid
+        E = self.ellipsoid
         t = (Fmt.EQUAL(_name_, repr(name or self.name)),
              Fmt.EQUAL(_epoch_, self.epoch),
-             Fmt.PAREN(Fmt.EQUAL(_ellipsoid_, classname(e)),
-                       Fmt.EQUAL(_name_, repr(e.name))))
+             Fmt.PAREN(Fmt.EQUAL(_ellipsoid_, classname(E)),
+                       Fmt.EQUAL(_name_, repr(E.name))))
         return _COMMASPACE_.join(t[1:] if name is None else t)
 
 

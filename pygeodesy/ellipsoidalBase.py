@@ -12,32 +12,32 @@ and published under the same MIT Licence**, see for example U{latlon-ellipsoidal
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import isinstanceof, _xinstanceof
+# from pygeodesy.basics import _xinstanceof  # from .datums
 from pygeodesy.constants import EPS, EPS0, EPS1, _0_0, _0_5
-from pygeodesy.cartesianBase import CartesianBase,  _ellipsoidal_  # PYCHOK used!
-from pygeodesy.datums import Datum, Datums, _ellipsoidal_datum, \
-                            _spherical_datum, _WGS84
+from pygeodesy.cartesianBase import CartesianBase  # PYCHOK used!
+from pygeodesy.datums import Datum, Datums, _earth_ellipsoid, _ellipsoidal_datum, \
+                            _WGS84,  _xinstanceof  # _spherical_datum
 from pygeodesy.errors import _incompatible, _IsnotError, RangeError, TRFError, \
                              _ValueError, _xattr, _xellipsoidal, _xError, \
                              _xkwds, _xkwds_get, _xkwds_not
-# from pygeodesy.interns import _ellipsoidal_  # from .cartesianBase
+# from pygeodesy.fmath import favg  # _MODS
 from pygeodesy.interns import MISSING, NN, _COMMA_, _conversion_, _DOT_, \
-                             _no_, _reframe_, _SPACE_
-from pygeodesy.latlonBase import _intersecend2, LatLonBase, _trilaterate5, \
-                                  fabs, _unrollon, Vector3Tuple, _Wrap
+                             _ellipsoidal_, _no_, _reframe_, _SPACE_
+from pygeodesy.latlonBase import LatLonBase, _trilaterate5, \
+                                 fabs, Vector3Tuple, _Wrap
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 # from pygeodesy.lcc import toLcc  # _MODS
 # from pygeodesy.named import notOverloaded  # _MODS
 # from pygeodesy.namedTuples import Vector3Tuple  # from .latlonBase
 from pygeodesy.props import deprecated_method, deprecated_property_RO, \
                             Property_RO, property_doc_, property_RO, _update_all
-from pygeodesy.units import Bearing, Epoch, _1mm as _TOL_M, Radius_
-# from pygeodesy.utily import _unrollon, _Wrap  # from .latlonBase
+from pygeodesy.units import Epoch, _1mm as _TOL_M, Radius_
+# from pygeodesy.utily import _Wrap  # from .latlonBase
 
 # from math import fabs  # from .latlonBase
 
 __all__ = _ALL_LAZY.ellipsoidalBase
-__version__ = '23.10.10'
+__version__ = '23.11.08'
 
 
 class CartesianEllipsoidalBase(CartesianBase):
@@ -57,6 +57,12 @@ class CartesianEllipsoidalBase(CartesianBase):
     def convertRefFrame(self, reframe2, reframe, epoch=None):
         '''DEPRECATED, use method L{toRefFrame}.'''
         return self.toRefFrame(reframe2, reframe, epoch=epoch)
+
+    @property_RO
+    def ellipsoidalCartesian(self):
+        '''Get this C{Cartesian}'s ellipsoidal class.
+        '''
+        return type(self)
 
     def intersections2(self, radius, center2, radius2, sphere=True,
                                                        Vector=None, **Vector_kwds):
@@ -356,6 +362,12 @@ class LatLonEllipsoidalBase(LatLonBase):
         '''
         return _xattr(self, datum=datum).ellipsoid
 
+    @property_RO
+    def ellipsoidalLatLon(self):
+        '''Get this C{LatLon}'s ellipsoidal class.
+        '''
+        return type(self)
+
     def ellipsoids(self, other):
         '''Check the type and ellipsoid of this and an other point's datum.
 
@@ -460,68 +472,6 @@ class LatLonEllipsoidalBase(LatLonBase):
     def intermediateTo(self, other, fraction, height=None, wrap=False):  # PYCHOK no cover
         '''I{Must be overloaded}.'''
         _MODS.named.notOverloaded(self, other, fraction, height=height, wrap=wrap)
-
-    def intersecant2(self, circle, point, bearing, radius=None, exact=False,
-                                                   height=None, wrap=False):
-        '''Compute the intersections of a circle and a line given as a point
-           and bearing or as two points.
-
-           @arg circle: Radius of the circle centered at this location (C{meter},
-                        same units as B{C{radius}}) or a point on the circle
-                        (this C{LatLon}).
-           @arg point: An other point in- or outside the circle on the line (this
-                       C{LatLon}).
-           @arg bearing: Bearing at the B{C{point}} (compass C{degrees360}) or an
-                         other point on the line (this C{LatLon}).
-           @kwarg radius: Optional earth radius (C{meter}) or earth model (L{Datum},
-                          L{Ellipsoid}, L{Ellipsoid2} or L{a_f2Tuple}), overriding
-                          this and the B{C{point}}'s datum.
-           @kwarg exact: Exact C{Rhumb...} to use (C{bool} or C{Rhumb...}), see
-                         method L{Ellipsoid.rhumb_}.
-           @kwarg height: Optional height for the intersection points (C{meter},
-                          conventionally) or C{None}.
-           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the
-                        B{C{point}}, B{C{circle}} and/or B{C{bearing}} (C{bool}).
-
-           @return: 2-Tuple of the intersection points (representing a chord),
-                    each an instance of this class.  For a tangent line, both
-                    points are the same instance, the B{C{point}} or wrapped
-                    or I{normalized}.
-
-           @raise IntersectionError: The circle and line do not intersect.
-
-           @raise TypeError: If B{C{point}} is not this C{LatLon} or B{C{circle}}
-                             or B{C{bearing}} invalid.
-
-           @raise ValueError: Invalid B{C{circle}}, B{C{bearing}}, B{C{radius}},
-                              B{C{exact}} or B{C{height}}.
-
-           @see: Methods L{RhumbLineAux.Intersecant2} and L{RhumbLine.Intersecant2}.
-        '''
-        c, p = self, self.others(point=point)
-        try:
-            if wrap:
-                p = _unrollon(c, p, wrap=wrap)
-
-            r = circle
-            if isinstanceof(r, c.__class__, p.__class__):
-                r = c.rhumbDistanceTo(r, radius=radius, exact=exact, wrap=wrap)
-            else:
-                r = Radius_(circle=r)
-
-            b = bearing
-            if isinstanceof(b, c.__class__, p.__class__):
-                b = p.rhumbAzimuthTo(b, radius=radius, exact=exact, wrap=wrap)
-            else:
-                b = Bearing(b)
-
-            R, _, Cs = p._rhumb3(exact, radius)
-            d = R._Inverse(p, c, False, outmask=Cs.AZIMUTH_DISTANCE)
-            return _intersecend2(p, d.s12, d.azi12, b, r, radius, height, exact)
-
-        except (TypeError, ValueError) as x:
-            raise _xError(x, center=self, circle=circle, point=point, bearing=bearing,
-                                                         exact=exact, wrap=wrap)
 
     def intersection3(self, end1, other, end2, height=None, wrap=False,  # was=True
                                           equidistant=None, tol=_TOL_M):
@@ -635,12 +585,6 @@ class LatLonEllipsoidalBase(LatLonBase):
         except (AssertionError, TypeError, ValueError) as x:
             raise _xError(x, center=self, radius1=radius1, other=other, radius2=radius2,
                                           height=height, wrap=wrap, tol=tol)
-
-    @Property_RO
-    def isEllipsoidalLatLon(self):
-        '''Get C{LatLon} base.
-        '''
-        return True
 
     def isenclosedBy(self, points, wrap=False):
         '''Check whether a polygon or composite encloses this point.
@@ -813,7 +757,7 @@ class LatLonEllipsoidalBase(LatLonBase):
                 if n > EPS0:
                     # use ratio, datum and NAD83 units may differ
                     E = self.ellipsoid() if datum in (None, self.datum) else \
-                       _spherical_datum(datum).ellipsoid
+                      _earth_ellipsoid(datum)
                     r = E.rocGauss(self.lat)
                     if r > EPS0 and fabs(r - n) > EPS:  # EPS1
                         m *= r / n
@@ -1098,9 +1042,9 @@ class LatLonEllipsoidalBase(LatLonBase):
                     largest B{C{distance#}}.
 
            @raise IntersectionError: Trilateration failed for the given B{C{eps}},
-                                     insufficient overlap for C{B{area}=True} or
-                                     no intersection or all (near-)concentric for
-                                     C{B{area}=False}.
+                                     insufficient overlap for C{B{area}=True}, no
+                                     circle intersections for C{B{area}=False} or
+                                     all circles are (near-)concentric.
 
            @raise TypeError: Invalid B{C{point2}} or B{C{point3}}.
 
@@ -1153,52 +1097,6 @@ class LatLonEllipsoidalBase(LatLonBase):
         return True
 
 
-def intersecant2(center, circle, point, bearing, radius=None, exact=False,
-                                                 height=None, wrap=False):  # was=True
-    '''Compute the intersections of a circle and a line given as a point and
-       bearing or as two points.
-
-       @arg center: Center of the circle (C{LatLon}).
-       @arg circle: Radius of the circle (C{meter}, same units as B{C{radius}})
-                    or a point on the circle (C{LatLon}).
-       @arg point: A point in- or outside the circle on the line (C{LatLon}).
-       @arg bearing: Bearing at the B{C{point}} (compass C{degrees360}) or
-                     an other point on the line (C{LatLon}).
-       @kwarg radius: Optional earth radius (C{meter}) or earth model (L{Datum},
-                      L{Ellipsoid}, L{Ellipsoid2} or L{a_f2Tuple}), overriding
-                      the B{C{center}}'s and B{C{point}}'s datum.
-       @kwarg exact: Exact C{Rhumb...} to use (C{bool} or C{Rhumb...}), see
-                     method L{Ellipsoid.rhumb_}.
-       @kwarg height: Optional height for the intersection points (C{meter},
-                      conventionally) or C{None}.
-       @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the B{C{point}}
-                    and the B{C{circle}} and B{C{bearing}} points (C{bool}).
-
-       @return: 2-Tuple of the intersection points (representing a chord),
-                each an instance of this class.  For a tangent line, both
-                points are the same instance, the B{C{point}} or wrapped
-                or I{normalized}.
-
-       @raise IntersectionError: The circle and line do not intersect.
-
-       @raise TypeError: If B{C{center}} or B{C{point}} not ellipsoidal C{LatLon}
-                         or B{C{circle}} or B{C{bearing}} invalid.
-
-       @raise ValueError: Invalid B{C{circle}}, B{C{bearing}}, B{C{radius}},
-                          B{C{exact}} or B{C{height}}.
-
-       @see: Methods L{RhumbLineAux.Intersecant2} and L{RhumbLine.Intersecant2}.
-    '''
-    try:
-        if not isinstance(center, LatLonEllipsoidalBase):
-            raise _IsnotError(_ellipsoidal_, center=center)
-        return center.intersecant2(circle, point, bearing, radius=radius, exact=exact,
-                                                           height=height, wrap=wrap)
-    except (TypeError, ValueError) as x:
-        raise _xError(x, center=center, circle=circle,
-                         point=point, bearing=bearing, exact=exact)
-
-
 def _lowerleft(utmups, center):
     '''(INTERNAL) Optionally I{un}-center C{utmups}.
     '''
@@ -1237,7 +1135,7 @@ def _set_reframe(inst, reframe):
         inst._reframe = None
 
 
-__all__ += _ALL_DOCS(CartesianEllipsoidalBase, LatLonEllipsoidalBase, intersecant2)
+__all__ += _ALL_DOCS(CartesianEllipsoidalBase, LatLonEllipsoidalBase)
 
 # **) MIT License
 #

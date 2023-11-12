@@ -29,24 +29,22 @@ from pygeodesy.auxilats.auxAngle import AuxMu, AuxPhi,  hypot
 from pygeodesy.auxilats.auxDLat import AuxDLat, _DClenshaw
 # from pygeodesy.auxilats.auxDST import AuxDST  # _MODS
 from pygeodesy.auxilats.auxily import _Dlam, _Dp0Dpsi, _Ufloats
-from pygeodesy.basics import copysign0, _reverange, _zip,  _xkwds_get
+from pygeodesy.basics import copysign0, _reverange,  _xkwds_get
 from pygeodesy.constants import EPS_2, MANT_DIG, PI4, isinf, \
                                _0_0, _4_0, _720_0, _log2, _over
-# from pygeodesy.ellipsoids import _EWGS84  # from .karney
-# from pygeodesy.errors import itemsorted, _xkwds_get  # from .basics, ...
-from pygeodesy.karney import Caps, _polynomial,  _EWGS84
+# from pygeodesy.datums import _WGS84  # from .karney
+# from pygeodesy.errors import _xkwds_get  # from .basics
+from pygeodesy.karney import Caps, _polynomial,  NN, _WGS84
 # from pygeodesy.fmath import hypot  # from .auxilats.auxAngle
-from pygeodesy.interns import NN, _COMMASPACE_
+# from pygeodesy.interns import NN  # from .karney
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 # from pygeodesy.props import Property_RO  # from .rhumbBase
-from pygeodesy.rhumbBase import RhumbBase, RhumbLineBase, \
-                                itemsorted, pairs, Property_RO
-# from pygeodesy.streprs import pairs  # from .rhumbBase
+from pygeodesy.rhumbBase import RhumbBase, RhumbLineBase,  Property_RO
 
 from math import ceil as _ceil, fabs, radians
 
 __all__ = _ALL_LAZY.rhumbaux
-__version__ = '23.09.20'
+__version__ = '23.10.27'
 
 # DIGITS = (sizeof(real) * 8) bits
 #        = (ctypes.sizeof(ctypes.c_double(1.0)) * 8) bits
@@ -67,14 +65,14 @@ class RhumbAux(RhumbBase):
               installed, version 1.16 or later.
     '''
 
-    def __init__(self, a_earth=_EWGS84, f=None, exact=True, name=NN, **TMorder):  # PYCHOK signature
+    def __init__(self, a_earth=_WGS84, f=None, exact=True, name=NN, **TMorder):  # PYCHOK signature
         '''New C{rhumbaux.RhumbAux}.
 
-           @kwarg a_earth: This rhumb's earth model (L{Ellipsoid}, L{Ellipsoid2},
-                           L{a_f2Tuple}, L{Datum}, 2-tuple C{(a, f)}) or the
-                           (equatorial) radius (C{scalar}).
+           @kwarg a_earth: This rhumb's earth model (L{Datum}, L{Ellipsoid},
+                           L{Ellipsoid2}, L{a_f2Tuple}, 2-tuple C{(a, f)}) or
+                           the (equatorial) radius (C{meter}, conventionally).
            @kwarg f: The ellipsoid's flattening (C{scalar}), iff B{C{a_earth}} is
-                     a C{scalar}, ignored otherwise.
+                     C{scalar}, ignored otherwise.
            @kwarg exact: If C{True}, use the exact expressions for the I{Auxiliary
                          Latitudes}, otherwise use the I{Fourier} series expansion
                          (C{bool}), see also property C{exact}.
@@ -178,6 +176,8 @@ class RhumbAux(RhumbBase):
     def _rrm(self):
         return self._auxD.RectifyingRadius(exact=self.exact)
 
+    _mpr = _rrm  # meter per radian, see _mpd
+
     def _S12d(self, Chix, Chiy, lon12):  # degrees
         '''(INTERNAL) Compute the area C{S12} from C{._meanSinXi(Chix, Chiy) * .c2 * lon12}.
         '''
@@ -197,20 +197,6 @@ class RhumbAux(RhumbBase):
         dD += _Dp0Dpsi(tx, ty)
         dD *=  self._c2 * lon12
         return float(dD)
-
-    def toStr(self, prec=6, sep=_COMMASPACE_, **unused):  # PYCHOK signature
-        '''Return this C{Rhumb} as string.
-
-           @kwarg prec: The C{float} precision, number of decimal digits (0..9).
-                        Trailing zero decimals are stripped for B{C{prec}} values
-                        of 1 and above, but kept for negative B{C{prec}} values.
-           @kwarg sep: Separator to join (C{str}).
-
-           @return: Tuple items (C{str}).
-        '''
-        d = dict(ellipsoid=self.ellipsoid, exact=self.exact,
-                   TMorder=self.TMorder)
-        return sep.join(pairs(itemsorted(d, asorted=False), prec=prec))
 
 
 class RhumbLineAux(RhumbLineBase):
@@ -399,6 +385,7 @@ __all__ += _ALL_DOCS(Caps, RhumbAux, RhumbLineAux)
 if __name__ == '__main__':
 
     from pygeodesy import printf, RhumbAux  # PYCHOK RhumbAux is __main__.RhumbAux
+    from pygeodesy.basics import _zip
 
     def _re(fmt, r3, x3):
         e3 = []

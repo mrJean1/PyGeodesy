@@ -136,12 +136,12 @@ from pygeodesy.basics import _copysign, int1s, isint, neg, unsigned0, \
                              _xinstanceof, _zip,  isodd  # PYCHOK shared
 from pygeodesy.constants import NAN, _isfinite as _math_isfinite, _0_0, \
                                _1_16th,  _1_0, _2_0, _180_0, _N_180_0, _360_0
-from pygeodesy.datums import _a_ellipsoid, _EWGS84, _WGS84  # PYCHOK shared
+from pygeodesy.datums import _earth_datum, _EWGS84, _WGS84  # PYCHOK shared
 # from pygeodesy.ellipsoids import _EWGS84  # from .datums
 from pygeodesy.errors import GeodesicError, itemsorted, _ValueError, _xkwds, \
                             _xkwds_get
 from pygeodesy.fmath import cbrt, fremainder, hypot as _hypot, norm2, \
-                            Fsum, unstr  # PYCHOK shared
+                            euclid, Fsum, unstr  # PYCHOK shared
 # from pygeodesy.fsums import Fsum  # from .fmath
 from pygeodesy.interns import NN, _2_, _a12_, _area_, _azi2_, _azi12_, \
                              _composite_, _lat1_, _lat2_, _lon1_, _lon2_, \
@@ -149,7 +149,7 @@ from pygeodesy.interns import NN, _2_, _a12_, _area_, _azi2_, _azi12_, \
                              _UNDER_,  _BAR_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, _getenv
 from pygeodesy.named import _Dict, _NamedBase, _NamedTuple, notImplemented, _Pass
-from pygeodesy.props import deprecated_method, Property_RO, property_RO
+from pygeodesy.props import deprecated_method, Property_RO,  property_RO  # PYCHOK shared
 # from pygeodesy.streps import unstr  # from .fmath
 from pygeodesy.units import Bearing as _Azi, Degrees as _Deg, Lat, Lon, \
                             Meter as _M, Meter2 as _M2, Number_, \
@@ -159,7 +159,7 @@ from pygeodesy.utily import atan2d, sincos2d, tand, _unrollon,  fabs
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.karney
-__version__ = '23.09.28'
+__version__ = '23.11.02'
 
 _K_2_0      = _getenv('PYGEODESY_GEOGRAPHICLIB', _2_) == _2_
 _perimeter_ = 'perimeter'
@@ -385,15 +385,6 @@ class GDict(_Dict):  # XXX _NamedDict
        Results of all C{geodesic} methods are returned as a
        L{GDict} instance.
     '''
-    _iteration = None  # Iteration number (C{int}) or C{None}
-
-    @property_RO
-    def iteration(self):  # see .named._NamedBase
-        '''Get the iteration number (C{int}) or
-           C{None} if not available/applicable.
-        '''
-        return self._iteration
-
     def toDirect9Tuple(self, dflt=NAN):
         '''Convert this L{GDict} result to a 9-tuple, like I{Karney}'s
            method C{geographiclib.geodesic.Geodesic._GenDirect}.

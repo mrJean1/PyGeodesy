@@ -37,16 +37,18 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 # - s and c prefixes mean sin and cos
 
 # from pygeodesy.basics import _xinstanceof  # from .karney
-from pygeodesy.constants import NAN, _EPSmin, _0_0, _1_0, _180_0, \
-                               _2__PI, _copysign_1_0
-from pygeodesy.fsums import _COMMASPACE_, fsumf_, fsum1f_
+from pygeodesy.constants import NAN, _EPSmin, _EPSqrt as _TOL, \
+                               _0_0, _1_0, _180_0, _2__PI, _copysign_1_0
+from pygeodesy.errors import _xError, _xkwds_get
+from pygeodesy.fsums import fsumf_, fsum1f_
 from pygeodesy.geodesicx.gxbases import _cosSeries, _GeodesicBase, \
                                         _sincos12, _sin1cos2
-# from pygeodesy.interns import _COMMASPACE_  # from .fsums
+# from pygeodesy.geodesicw import _Intersecant2  # _MODS
+from pygeodesy.interns import NN, _COMMASPACE_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_MODS as _MODS
 from pygeodesy.karney import _around, _atan2d, Caps, GDict, _fix90, \
                              _K_2_0, _norm2, _norm180, _sincos2, \
-                             _sincos2d, _xinstanceof
+                             _sincos2d,  _xinstanceof
 from pygeodesy.props import Property_RO, _update_all
 # from pygeodesy.streprs import pairs  # _MODS
 from pygeodesy.utily import atan2d as _atan2d_reverse, sincos2
@@ -54,7 +56,7 @@ from pygeodesy.utily import atan2d as _atan2d_reverse, sincos2
 from math import atan2, cos, degrees, fabs, floor, radians, sin
 
 __all__ = ()
-__version__ = '23.09.29'
+__version__ = '23.11.09'
 
 _glXs = []  # instances of C{[_]GeodesicLineExact} to be updated
 # underflow guard, we require _TINY * EPS > 0, _TINY + EPS == EPS
@@ -88,7 +90,7 @@ class _GeodesicLineExact(_GeodesicBase):
     _somg1 = _comg1 = NAN
     _ssig1 = _csig1 = NAN
 
-    def __init__(self, gX, lat1, lon1, azi1, caps, _debug, *salp1_calp1, **name):
+    def __init__(self, gX, lat1, lon1, azi1, caps, _debug, *salp1_calp1, **name):  # name=NN
         '''(INTERNAL) New C{[_]GeodesicLineExact} instance.
         '''
         _xinstanceof(_MODS.geodesicx.GeodesicExact, gX=gX)
@@ -103,8 +105,10 @@ class _GeodesicLineExact(_GeodesicBase):
             # guard against salp0 underflow,
             # also -0 is converted to +0
             salp1, calp1 = _sincos2d(_around(azi1))
-        if name:
-            self.name = name
+        if name:  # *args, name=NN): Python3
+            name = _xkwds_get(name, name=NN)
+            if name:
+                self.name = name
 
         self._gX    = gX  # GeodesicExact only
         self._lat1  = lat1 = _fix90(lat1)
@@ -462,8 +466,39 @@ class _GeodesicLineExact(_GeodesicBase):
     def geodesic(self):
         '''Get the I{exact} geodesic (L{GeodesicExact}).
         '''
-        assert isinstance(self._gX, _MODS.geodesicx.GeodesicExact)
+        _xinstanceof(_MODS.geodesicx.GeodesicExact, geodesic=self._gX)
         return self._gX
+
+    def Intersecant2(self, lat0, lon0, radius, tol=_TOL):
+        '''Compute the intersection(s) of this geodesic line and a circle.
+
+           @arg lat0: Latitude of the circle center (C{degrees}).
+           @arg lon0: Longitude of the circle center (C{degrees}).
+           @arg radius: Radius of the circle (C{meter}, conventionally).
+           @kwarg tol: Convergence tolerance (C{scalar}).
+
+           @return: 2-Tuple C{(P, Q)} with both intersections (representing
+                    a geodesic chord), each a L{GDict} from method L{Position}
+                    extended to 14 items by C{lon0, lat0, azi0, a02, s02, at}
+                    with the circle center C{lat0}, C{lon0}, azimuth C{azi0}
+                    at, distance C{a02} in C{degrees} and C{s02} in C{meter}
+                    along the geodesic from the circle center to the intersection
+                    C{lat2}, C{lon2} and the angle C{at} between the geodesic
+                    and this line at the intersection.  The geodesic azimuth
+                    at the intersection is C{(at + azi2)}.  If this geodesic
+                    line is tangential to the circle, both points are the same
+                    L{GDict} instance.
+
+           @raise IntersectionError: The circle and this geodesic line do not
+                                     intersect, no I{perpencular} geodetic
+                                     intersection or no convergence.
+
+           @raise UnitError: Invalid B{C{radius}}.
+        '''
+        try:
+            return _MODS.geodesicw._Intersecant2(self, lat0, lon0, radius, tol=tol)
+        except (TypeError, ValueError) as x:
+            raise _xError(x, lat0, lon0, radius, tol=_TOL)
 
     @Property_RO
     def _H0e2_f1(self):
@@ -495,10 +530,35 @@ class _GeodesicLineExact(_GeodesicBase):
         '''
         return _norm180(self._lon1)
 
+    def PlumbTo(self, lat0, lon0, est=None, tol=_TOL):
+        '''Compute the I{perpendicular} intersection of this geodesic line
+           and a geodesic from the given point.
+
+           @arg lat0: Latitude of the point (C{degrees}).
+           @arg lon0: Longitude of the point (C{degrees}).
+           @kwarg est: Optional, initial estimate for the distance C{s12} of
+                       the intersection I{along} this geodesic line (C{meter}).
+           @kwarg tol: Convergence tolerance (C(meter)).
+
+           @return: The intersection point on this geodesic line, a L{GDict}
+                    from method L{Position} extended to 14 items C{lat1, lon1,
+                    azi1, lat2, lon2, azi2, a12, s12, lat0, lon0, azi0, a02,
+                    s02, at} with distance C{a02} in C{degrees} and C{s02} in
+                    C{meter} between the given C{lat0, lon0} point and the
+                    intersection C{lat2, lon2}, azimuth C{azi0} at the given
+                    point and C{at} the (perpendicular) angle between the
+                    geodesic and this line at the intersection.  The geodesic
+                    azimuth at the intersection is C{(at + azi2)}.  See method
+                    L{Position} for further details.
+
+           @see: Methods C{Intersecant2}, C{Intersection} and C{Position}.
+        '''
+        return _MODS.geodesicw._PlumbTo(self, lat0, lon0, est=est, tol=tol)
+
     def Position(self, s12, outmask=Caps.STANDARD):
         '''Find the position on the line given B{C{s12}}.
 
-           @arg s12: Distance from the first point to the second (C{meter}).
+           @arg s12: Distance from this this line's first point (C{meter}).
            @kwarg outmask: Bit-or'ed combination of L{Caps} values specifying
                            the quantities to be returned.
 
@@ -533,10 +593,11 @@ class _GeodesicLineExact(_GeodesicBase):
            @return: The distance C{s13} (C{meter}) between the first and
                     the reference point or C{NAN}.
         '''
-        self._a13 = a13
-        self._s13 = s13 = self._GDictPosition(True, a13, Caps.DISTANCE).s12
-        _update_all(self)
-        return s13
+        if self._a13 != a13:
+            self._a13 = a13
+            self._s13 = self._GDictPosition(True, a13, Caps.DISTANCE).s12  # if a13 else _0_0
+            _update_all(self)
+        return self._s13
 
     def SetDistance(self, s13):
         '''Set reference point 3 in terms relative to the first point.
@@ -546,10 +607,11 @@ class _GeodesicLineExact(_GeodesicBase):
            @return: The arc length C{a13} (C{degrees}) between the first
                     and the reference point or C{NAN}.
         '''
-        self._s13 = s13
-        self._a13 = a13 = self._GDictPosition(False, s13, 0).a12
-        _update_all(self)
-        return a13  # NAN for GeodesicLineExact without Cap.DISTANCE_IN
+        if self._s13 != s13:
+            self._s13 = s13
+            self._a13 = self._GDictPosition(False, s13, 0).a12 if s13 else _0_0
+            _update_all(self)
+        return self._a13  # NAN for GeodesicLineExact without Cap.DISTANCE_IN
 
     @Property_RO
     def _stau1_ctau1(self):

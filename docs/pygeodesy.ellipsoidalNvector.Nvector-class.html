@@ -67,7 +67,7 @@
                     |                
      <a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a> --+            
                         |            
-<a href="pygeodesy.vector3dBase.Vector3dBase-class.html" onclick="show_private();">vector3dBase.Vector3dBase</a> --+        
+<a href="pygeodesy.vector3dBase.Vector3dBase-class.html">vector3dBase.Vector3dBase</a> --+        
                             |        
             <a href="pygeodesy.vector3d.Vector3d-class.html">vector3d.Vector3d</a> --+    
                                 |    
@@ -202,7 +202,7 @@
       <code><a href="pygeodesy.vector3d.Vector3d-class.html#trilaterate2d2">trilaterate2d2</a></code>,
       <code><a href="pygeodesy.vector3d.Vector3d-class.html#trilaterate3d2">trilaterate3d2</a></code>
       </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html" onclick="show_private();">vector3dBase.Vector3dBase</a></code></b>:
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html">vector3dBase.Vector3dBase</a></code></b>:
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__abs__">__abs__</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__add__">__add__</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__bool__">__bool__</a></code>,
@@ -321,6 +321,14 @@
       href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>).
     </td>
   </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ellipsoidalNvector.Nvector-class.html#ellipsoidalNvector" class="summary-name">ellipsoidalNvector</a><br />
+      Get this <code>Nvector</code>'s ellipsoidal class.
+    </td>
+  </tr>
   <tr>
     <td colspan="2" class="summary">
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.nvectorBase.NvectorBase-class.html">nvectorBase.NvectorBase</a></code></b>:
@@ -339,11 +347,13 @@
       <code><a href="pygeodesy.nvectorBase.NvectorBase-class.html#philam">philam</a></code>,
       <code><a href="pygeodesy.nvectorBase.NvectorBase-class.html#philamheight">philamheight</a></code>,
       <code><a href="pygeodesy.nvectorBase.NvectorBase-class.html#philamheightdatum">philamheightdatum</a></code>,
+      <code><a href="pygeodesy.nvectorBase.NvectorBase-class.html#sphericalNvector">sphericalNvector</a></code>,
       <code><a href="pygeodesy.nvectorBase.NvectorBase-class.html#xyzh">xyzh</a></code>
       </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html" onclick="show_private();">vector3dBase.Vector3dBase</a></code></b>:
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html">vector3dBase.Vector3dBase</a></code></b>:
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#crosserrors">crosserrors</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#euclid">euclid</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#homogeneous">homogeneous</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#length">length</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#length2">length2</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#x">x</a></code>,
@@ -439,13 +449,7 @@
         object.__init__
     </dt>
   </dl>
-<div class="fields">      <p><strong>Example:</strong>
-        <pre class="py-doctest">
-<span class="py-prompt">&gt;&gt;&gt; </span><span class="py-keyword">from</span> ellipsoidalNvector <span class="py-keyword">import</span> Nvector
-<span class="py-prompt">&gt;&gt;&gt; </span>v = Nvector(0.5, 0.5, 0.7071, 1)
-<span class="py-prompt">&gt;&gt;&gt; </span>v.toLatLon()  <span class="py-comment"># 45.0&#176;N, 045.0&#176;E, +1.00m</span></pre>
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="toCartesian"></a>
 <div>
@@ -493,13 +497,7 @@
         <a href="pygeodesy.nvectorBase.NvectorBase-class.html#toCartesian">nvectorBase.NvectorBase.toCartesian</a>
     </dt>
   </dl>
-<div class="fields">      <p><strong>Example:</strong>
-        <pre class="py-doctest">
-<span class="py-prompt">&gt;&gt;&gt; </span>v = Nvector(0.5, 0.5, 0.7071)
-<span class="py-prompt">&gt;&gt;&gt; </span>c = v.toCartesian()  <span class="py-comment"># [3194434, 3194434, 4487327]</span>
-<span class="py-prompt">&gt;&gt;&gt; </span>p = c.toLatLon()  <span class="py-comment"># 45.0&#176;N, 45.0&#176;E</span></pre>
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="toLatLon"></a>
 <div>
@@ -546,12 +544,7 @@
         <a href="pygeodesy.nvectorBase.NvectorBase-class.html#toLatLon">nvectorBase.NvectorBase.toLatLon</a>
     </dt>
   </dl>
-<div class="fields">      <p><strong>Example:</strong>
-        <pre class="py-doctest">
-<span class="py-prompt">&gt;&gt;&gt; </span>v = Nvector(0.5, 0.5, 0.7071)
-<span class="py-prompt">&gt;&gt;&gt; </span>p = v.toLatLon()  <span class="py-comment"># 45.0&#176;N, 45.0&#176;E</span></pre>
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="unit"></a>
 <div>
@@ -620,6 +613,30 @@ class="link">Datum</a>).
   </dl>
 </td></tr></table>
 </div>
+<a name="ellipsoidalNvector"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">ellipsoidalNvector</h3>
+  <p>Get this <code>Nvector</code>'s ellipsoidal class.</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">ellipsoidalNvector(<span class="summary-sig-arg">self</span>)</span>
+        - Get this <code>Nvector</code>'s ellipsoidal class.
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
 <br />
 <!-- ==================== NAVIGATION BAR ==================== -->
 <table class="navbar" border="0" width="100%" cellpadding="0"
@@ -652,7 +669,7 @@ class="link">Datum</a>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Oct 11 15:46:54 2023
+    Generated by Epydoc 3.0.1 on Sun Nov 12 13:03:54 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

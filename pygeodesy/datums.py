@@ -11,16 +11,17 @@ converting between them and to cartesian coordinates.  Transcoded from JavaScrip
 I{(C) Chris Veness 2005-2016} and published under the same MIT Licence**, see U{latlon-ellipsoidal.js
 <https://www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal.js.html>}.
 
-Historical geodetic datums: a latitude/longitude point defines a geographic location on or
-above/below the earth’s surface, measured in degrees from the equator, from the International
-Reference Meridian, in meters above the ellipsoid and based on a given datum.  The datum in turn
-is based on a reference ellipsoid and tied to geodetic survey reference points.
+Historical geodetic datums: a latitude/longitude point defines a geographic location on, above
+or below the earth’s surface.  Latitude is measured in degrees from the equator, lomgitude from
+the International Reference Meridian and height in meters above an ellipsoid based on the given
+datum.  The datum in turn is based on a reference ellipsoid and tied to geodetic survey
+reference points.
 
-Modern geodesy is generally based on the WGS84 datum (as used for instance by GPS systems),
-but previously various reference ellipsoids and datum references were used.
+Modern geodesy is generally based on the WGS84 datum (as used for instance by GPS systems), but
+previously various other reference ellipsoids and datum references were used.
 
-The UK Ordnance Survey National Grid References are still based on the otherwise historical
-OSGB36 datum, q.v. U{"A Guide to Coordinate Systems in Great Britain", Section 6
+The UK Ordnance Survey National Grid References are still based on the otherwise historical OSGB36
+datum, q.v. U{"A Guide to Coordinate Systems in Great Britain", Section 6
 <https://www.OrdnanceSurvey.co.UK/docs/support/guide-coordinate-systems-great-britain.pdf>}.
 
 @var Datums.BD72: Datum(name='BD72', ellipsoid=Ellipsoids.Intl1924, transform=Transforms.BD72)
@@ -68,7 +69,7 @@ from pygeodesy.basics import islistuple, isscalar, map2, neg, _xinstanceof
 from pygeodesy.constants import R_M, _float as _F, _0_0, _0_26, _1_0, _2_0, _8_0, _3600_0
 from pygeodesy.ellipsoids import a_f2Tuple, Ellipsoid, Ellipsoid2, Ellipsoids, \
                                 _EWGS84,  Vector3Tuple
-from pygeodesy.errors import _IsnotError, _xattr
+from pygeodesy.errors import _IsnotError, _TypeError, _xattr
 from pygeodesy.fmath import fdot, fmean,  Fmt
 from pygeodesy.interns import NN, _a_, _Airy1830_, _AiryModified_, _Bessel1841_, _cartesian_, \
                              _Clarke1866_, _Clarke1880IGN_, _COMMASPACE_, _DOT_, _earth_, \
@@ -77,21 +78,23 @@ from pygeodesy.interns import NN, _a_, _Airy1830_, _AiryModified_, _Bessel1841_,
                              _sx_, _sy_, _sz_, _transform_, _tx_, _ty_, _tz_, _UNDER_, \
                              _WGS72_, _WGS84_, _under
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
-from pygeodesy.named import _NamedEnum, _NamedEnumItem, \
-                                    _lazyNamedEnumItem as _lazy, Property_RO
+from pygeodesy.named import _NamedEnum, _NamedEnumItem,  Property_RO, property_RO, \
+                                    _lazyNamedEnumItem as _lazy
 # from pygeodesy.namedTuples import Vector3Tuple  # from .ellipsoids
-# from pygeodesy.props import Property_RO  # from .named
+# from pygeodesy.props import Property_RO, property_RO  # from .named
 # from pygeodesy.streprs import Fmt  # from .fmath
 from pygeodesy.units import radians, Radius_
 
 # from math import radians  # from .units
 
 __all__ = _ALL_LAZY.datums
-__version__ = '23.08.20'
+__version__ = '23.11.05'
 
 _a_ellipsoid_ = _UNDER_(_a_, _ellipsoid_)
 _BD72_        = 'BD72'
 _DHDN_        = 'DHDN'
+_DHDNE_       = 'DHDNE'
+_DHDNW_       = 'DHDNW'
 _ED50_        = 'ED50'
 _GDA2020_     = 'GDA2020'
 _Identity_    = 'Identity'
@@ -102,15 +105,14 @@ _MGI_         = 'MGI'
 _NTF_         = 'NTF'
 _OSGB36_      = 'OSGB36'
 _Potsdam_     = 'Potsdam'
+_RPS          =  radians(_1_0 / _3600_0)  # radians per degree_second
 _TokyoJapan_  = 'TokyoJapan'
 
-_r_s1 = radians(1 / _3600_0)  # 1 degree second to radians
 
-
-def _r_s2(s_):
-    '''(INTERNAL) rotation in C{radians} and C{degree seconds}.
+def _rps2(s_):
+    '''(INTERNAL) Rotation in C{radians} and C{degree seconds}.
     '''
-    return _F(_r_s1 * s_), s_
+    return (_RPS * s_), s_
 
 
 class Transform(_NamedEnumItem):
@@ -155,11 +157,11 @@ class Transform(_NamedEnumItem):
         if tz:
             self.tz = tz
         if sx:  # secs to rads
-            self.rx, self.sx = _r_s2(sx)
+            self.rx, self.sx = _rps2(sx)
         if sy:
-            self.ry, self.sy = _r_s2(sy)
+            self.ry, self.sy = _rps2(sy)
         if sz:
-            self.rz, self.sz = _r_s2(sz)
+            self.rz, self.sz = _rps2(sz)
         if s:
             self.s  =    s
             self.s1 = _F(s * 1e-6 + _1_0)  # normalize ppm to (s + 1)
@@ -241,7 +243,7 @@ class Transform(_NamedEnumItem):
         s1   = self.s1
         if inverse:
             xyz1 =  map2(neg, xyz1)
-            s1  -= _2_0  # = -(1 - s * 1e-6)) = -(1 - (s1 - 1)) = -(2 - s1)
+            s1  -= _2_0  # = s * 1e-6 - 1 = (s1 - 1) - 1
         # x', y', z' = (x * .s1 - y * .rz + z * .ry + .tx,
         #               x * .rz + y * .s1 - z * .rx + .ty,
         #              -x * .ry + y * .rx + z * .s1 + .tz)
@@ -262,7 +264,7 @@ class Transforms(_NamedEnum):
 
 Transforms = Transforms(Transform)  # PYCHOK singleton
 '''Some pre-defined L{Transform}s, all I{lazily} instantiated.'''
-# <https://WikiPedia.org/wiki/Helmert_transformation> from WGS84
+# <https://WikiPedia.org/wiki/Helmert_transformation> from WGS84 to ...
 Transforms._assert(
     BD72           = _lazy(_BD72_, tx=_F(106.868628), ty=_F(-52.297783), tz=_F(103.723893),
                      # <https://www.NGI.Be/FR/FR4-4.shtm> ETRS89 == WG84
@@ -276,6 +278,14 @@ Transforms._assert(
     DHDN           = _lazy(_DHDN_, tx=_F(-591.28),  ty=_F(-81.35),   tz=_F(-396.39),
                                    sx=_F(   1.477), sy=_F( -0.0736), sz=_F(  -1.458),
                                     s=_F(  -9.82)),  # Germany
+    DHDNE          = _lazy(_DHDNE_, tx=_F(-612.4),   ty=_F(-77.0),   tz=_F(-440.2),
+                     # <https://EPSG.org/transformation_15869/DHDN-to-WGS-84-3.html>
+                                    sx=_F(   0.054), sy=_F( -0.057), sz=_F(   2.797),
+                                     s=_F(  -2.55)),  # East Germany
+    DHDNW          = _lazy(_DHDNW_, tx=_F(-598.1),   ty=_F(-73.7),   tz=_F(-418.2),
+                     # <https://EPSG.org/transformation_1777/DHDN-to-WGS-84-2.html>
+                                    sx=_F(  -0.202), sy=_F( -0.045), sz=_F(   2.455),
+                                     s=_F(  -6.7)),  # West Germany
     ED50           = _lazy(_ED50_, tx=_F(89.5), ty=_F(93.8), tz=_F(123.1),
                      # <https://GeoNet.ESRI.com/thread/36583> sz=_F(-0.156)
                      # <https://GitHub.com/ChrisVeness/geodesy/blob/master/latlon-ellipsoidal.js>
@@ -283,12 +293,13 @@ Transforms._assert(
                                                              sz=_F(  0.156), s=_F(-1.2)),
     Identity       = _lazy(_Identity_),
     Irl1965        = _lazy(_Irl1965_, tx=_F(-482.530), ty=_F(130.596), tz=_F(-564.557),
+                     # <https://EPSG.org/transformation_1641/TM65-to-WGS-84-2.html>
                                       sx=_F(   1.042), sy=_F(  0.214), sz=_F(   0.631),
                                        s=_F(  -8.15)),
     Irl1975        = _lazy(_Irl1975_, tx=_F(-482.530), ty=_F(130.596), tz=_F(-564.557),
-                     # XXX rotation signs may be opposite, to be checked
-                                      sx=_F(  -1.042), sy=_F( -0.214), sz=_F(  -0.631),
-                                       s=_F(  -1.1)),
+                     # <https://EPSG.org/transformation_1954/TM75-to-WGS-84-2.html>
+                                      sx=_F(   1.042), sy=_F(  0.214), sz=_F(   0.631),
+                                       s=_F(  -8.15)),
     Krassovski1940 = _lazy(_Krassovski1940_, tx=_F(-24.0),  ty=_F(123.0), tz=_F(94.0),
                                              sx=_F( -0.02), sy=    _0_26, sz=_F( 0.13),
                                               s=_F( -2.423)),  # spelling
@@ -304,6 +315,7 @@ Transforms._assert(
                                      s=_F(-0.0015)),
     NTF            = _lazy(_NTF_, tx=_F(-168), ty=_F(-60), tz=_F(320)),  # XXX verify
     OSGB36         = _lazy(_OSGB36_, tx=_F(-446.448),  ty=_F(125.157),  tz=_F(-542.060),
+                     # <https://EPSG.org/transformation_1314/OSGB36-to-WGS-84-6.html>
                                      sx=_F(  -0.1502), sy=_F( -0.2470), sz=_F(  -0.8421),
                                       s=_F(  20.4894)),
     TokyoJapan     = _lazy(_TokyoJapan_, tx=_F(148), ty=_F(-507), tz=_F(-685)),
@@ -358,7 +370,7 @@ class Datum(_NamedEnumItem):
 
            @raise TypeError: Invalid B{C{other}}.
         '''
-        try:  # only CartesianBase and EllipsoidalLatLonBase
+        try:  # only CartesianBase and LatLonEllipsoidalBase
             return other.toDatum(self)
         except AttributeError:
             pass
@@ -393,25 +405,25 @@ class Datum(_NamedEnumItem):
     def _hash(self):
         return hash(self.ellipsoid) + hash(self.transform)
 
-    @Property_RO
+    @property_RO
     def isEllipsoidal(self):
         '''Check whether this datum is ellipsoidal (C{bool}).
         '''
         return self.ellipsoid.isEllipsoidal
 
-    @Property_RO
+    @property_RO
     def isOblate(self):
         '''Check whether this datum's ellipsoidal is I{oblate} (C{bool}).
         '''
         return self.ellipsoid.isOblate
 
-    @Property_RO
+    @property_RO
     def isProlate(self):
         '''Check whether this datum's ellipsoidal is I{prolate} (C{bool}).
         '''
         return self.ellipsoid.isProlate
 
-    @Property_RO
+    @property_RO
     def isSpherical(self):
         '''Check whether this datum is (near-)spherical (C{bool}).
         '''
@@ -440,38 +452,47 @@ class Datum(_NamedEnumItem):
         return self._transform
 
 
-def _En2(earth, name):
-    '''(INTERNAL) Helper for C{_ellipsoid} and C{_ellipsoidal_datum}.
-    '''
-    if isinstance(earth, (Ellipsoid, Ellipsoid2)):
-        E =  earth
-        n = _under(name or E.name)
-    elif isinstance(earth, Datum):
-        E =  earth.ellipsoid
-        n = _under(name or earth.name)
-    elif isinstance(earth, a_f2Tuple):
-        n = _under(name or earth.name)
-        E =  Ellipsoid(earth.a, earth.b, name=n)
-    elif islistuple(earth, minum=2):
-        a, f = earth[:2]
-        n = _under(name or _xattr(earth, name=NN))
-        E =  Ellipsoid(a, f=f, name=n)
-    else:
-        E, n = None, NN
-    return E, n
+def _earth_datum(inst, a_earth, f=None, name=NN, raiser=_a_ellipsoid_):  # in .karney, .trf, ...
+    '''(INTERNAL) Set C{inst._datum} from C{(B{a_..}, B{f})} or C{B{.._ellipsoid}}
+       (L{Ellipsoid}, L{Ellipsoid2}, L{Datum}, C{a_f2Tuple} or C{scalar} earth radius).
 
-
-def _a_ellipsoid(a_ellipsoid, f=None, name=NN, raiser=_a_ellipsoid_):  # in .karney, .trf, ...
-    '''(INTERNAL) Get an ellipsoid from C{(B{a_..}, B{f})} or C{B{.._ellipsoid}},
-       an L{Ellipsoid} or L{Ellipsoid2} from L{Datum} or C{a_f2Tuple}.
+       @note: C{B{raiser}='a_ellipsoid'} for backward naming compatibility.
     '''
-    if f is None:
-        E, _ = _En2(a_ellipsoid, name)
+    if f is not None:
+        E, n, D = _EnD3((a_earth, f), name)
         if raiser and not E:
-            _xinstanceof(Ellipsoid, Ellipsoid2, a_f2Tuple, Datum, **{raiser: a_ellipsoid})
+            raise _TypeError(f=f, **{raiser: a_earth})
+    elif a_earth is _EWGS84 or a_earth in (_EWGS84, _WGS84, None):
+        return
+    elif isinstance(a_earth, Datum):
+        E, n, D =  None, NN, a_earth
     else:
-        E =  Ellipsoid2(a_ellipsoid, f, name=name)
-    return E
+        E, n, D = _EnD3(a_earth, name)
+        if raiser and not E:
+            _xinstanceof(Ellipsoid, Ellipsoid2, a_f2Tuple, Datum, **{raiser: a_earth})
+    if D is None:
+        D = Datum(E, transform=Transforms.Identity, name=_under(n))
+    inst._datum = D
+
+
+def _earth_ellipsoid(earth, *name_raiser):
+    '''(INTERAL) Return the ellipsoid for the given C{earth} model.
+    '''
+    return Ellipsoids.Sphere if earth is  R_M else (
+          _EWGS84            if earth is _EWGS84 or earth is _WGS84 else
+          _spherical_datum(earth, *name_raiser).ellipsoid)
+
+
+def _ED2(radius, name):
+    '''(INTERNAL) Helper for C{_EnD3} and C{_spherical_datum}.
+    '''
+    D = Datums.Sphere
+    E = D.ellipsoid
+    if name or radius != E.a:  # != E.b
+        n = _under(name)
+        E =  Ellipsoid(radius, radius, name=n)
+        D =  Datum(E, transform=Transforms.Identity, name=n)
+    return E, D
 
 
 def _ellipsoidal_datum(earth, Error=TypeError, name=NN, raiser=NN):
@@ -481,16 +502,48 @@ def _ellipsoidal_datum(earth, Error=TypeError, name=NN, raiser=NN):
        @kwarg raiser: If not C{NN}, raise an B{C{Error}} if not ellipsoidal.
     '''
     if isinstance(earth, Datum):
-        d = earth
+        D = earth
     else:
-        E, n = _En2(earth, name)
+        E, n, D = _EnD3(earth, name)
         if not E:
             n = raiser or _earth_
             _xinstanceof(Datum, Ellipsoid, Ellipsoid2, a_f2Tuple, **{n: earth})
-        d = Datum(E, transform=Transforms.Identity, name=n)
-    if raiser and not d.isEllipsoidal:
+        if D is None:
+            D = Datum(E, transform=Transforms.Identity, name=_under(n))
+    if raiser and not D.isEllipsoidal:
         raise _IsnotError(_ellipsoidal_, Error=Error, **{raiser: earth})
-    return d
+    return D
+
+
+def _EnD3(earth, name):
+    '''(INTERNAL) Helper for C{_earth_datum} and C{_ellipsoidal_datum}.
+    '''
+    D = None
+    if isinstance(earth, (Ellipsoid, Ellipsoid2)):
+        E =  earth
+        n = _under(name or E.name)
+    elif isinstance(earth, Datum):
+        E =  earth.ellipsoid
+        n = _under(name or earth.name)
+        D =  earth
+    elif isscalar(earth):
+        E, D = _ED2(Radius_(earth), name)
+        n =  E.name
+    elif isinstance(earth, a_f2Tuple):
+        n = _under(name or earth.name)
+        E =  earth.ellipsoid(name=n)
+    elif islistuple(earth, minum=2):
+        E =  Ellipsoids.Sphere
+        a, f = earth[:2]
+        if f or a != E.a:  # != E.b
+            n = _under(name or _xattr(earth, name=NN))
+            E =  Ellipsoid(a, f=f, name=n)
+        else:
+            n =  E.name
+            D =  Datums.Sphere
+    else:
+        E, n = None, NN
+    return E, n, D
 
 
 def _mean_radius(radius, *lats):
@@ -514,19 +567,12 @@ def _spherical_datum(earth, Error=TypeError, name=NN, raiser=NN):
        @kwarg raiser: If not C{NN}, raise an B{C{Error}} if not spherical.
     '''
     if isscalar(earth):
-        E = Datums.Sphere.ellipsoid
-        if earth == E.a == E.b and not name:
-            d =  Datums.Sphere
-        else:
-            r =  Radius_(earth, Error=Error)  # invalid datum
-            n = _under(name)
-            E =  Ellipsoid(r, r, name=n)
-            d =  Datum(E, transform=Transforms.Identity, name=n)
+        _, D = _ED2(Radius_(earth, Error=Error), name)
     else:
-        d = _ellipsoidal_datum(earth, Error=Error, name=name)
-    if raiser and not d.isSpherical:
+        D = _ellipsoidal_datum(earth, Error=Error, name=name)
+    if raiser and not D.isSpherical:
         raise _IsnotError(_spherical_, Error=Error, **{raiser: earth})
-    return d
+    return D
 
 
 class Datums(_NamedEnum):

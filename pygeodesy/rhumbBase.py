@@ -7,9 +7,9 @@ and U{RhumbLine<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_
 from I{GeographicLib versions 2.0} and I{2.2} and I{Karney}'s C++ example U{Rhumb intersect
 <https://SourceForge.net/p/geographiclib/discussion/1026620/thread/2ddc295e/>}.
 
-Class L{RhumbLine} has been enhanced with methods C{Intersection} and C{NearestOn} to iteratively
-find the intersection of two rhumb lines, respectively the nearest point on a rumb line along a
-geodesic or perpendicular rhumb line from an other point.
+Class L{RhumbLine} has been enhanced with method C{Intersection} to iteratively find the intersection
+of two rhumb lines and C{PlumbTo} to find the I{perpendicular} intersection of a rumb line and a
+geodesic or rhumb line from a given point.
 
 For more details, see the C++ U{GeographicLib<https://GeographicLib.SourceForge.io/C++/doc/index.html>}
 documentation, especially the U{Class List<https://GeographicLib.SourceForge.io/C++/doc/annotated.html>},
@@ -23,41 +23,41 @@ License.  For more information, see the U{GeographicLib<https://GeographicLib.So
 # make sure int/int division yields float quotient
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-# from pygeodesy.basics import unsigned0, _xinstanceof  # from .karney
-from pygeodesy.constants import EPS, EPS1, INT0, _EPSqrt as _TOL, NAN, \
-                               _0_0, _0_01, _1_0, _90_0, _over
-# from pygeodesy.datums import _spherical_datum  # from .formy
-# from pygeodesy.ellipsoids import _EWGS84  # from .karney
+from pygeodesy.basics import _copysign, unsigned0, _xinstanceof
+from pygeodesy.constants import EPS, EPS0, EPS1, INT0, NAN, _over, \
+                               _EPSqrt as _TOL, _0_0, _0_01, _1_0, _90_0
+# from pygeodesy.datums import Datum, _spherical_datum  # from .formy
+# from pygeodesy.datums import _earth_datum, _WGS84  # from .karney
 from pygeodesy.errors import IntersectionError, itemsorted, RhumbError, \
-                            _xdatum, _xkwds, _Xorder
+                            _xdatum, _xkwds, _xkwds_pop, _Xorder
 # from pygeodesy.etm import ExactTransverseMercator  # _MODS
-from pygeodesy.fmath import euclid, favg, sqrt_a,  fabs, Fsum
-from pygeodesy.formy import opposing,  _spherical_datum
+from pygeodesy.fmath import euclid, favg, sqrt_a,  Fsum
+from pygeodesy.formy import opposing,  Datum, _spherical_datum
 # from pygeodesy.fsums import Fsum  # from .fmath
 from pygeodesy.interns import NN, _coincident_, _COMMASPACE_, _Dash, \
-                             _no_, _parallel_, _too_, _under
+                             _dunder_nameof, _parallel_, _too_, _under
 from pygeodesy.karney import _atan2d, Caps, _CapsBase, _diff182, _fix90, \
-                             GDict, _norm180,  _EWGS84, unsigned0, _xinstanceof
+                             _norm180, GDict,  _earth_datum, _WGS84
 # from pygeodesy.ktm import KTransverseMercator, _AlpCoeffs  # _MODS
 from pygeodesy.lazily import _ALL_DOCS, _ALL_MODS as _MODS
 # from pygeodesy.named import notOverloaded  # _MODS
 from pygeodesy.namedTuples import Distance2Tuple, LatLon2Tuple
 from pygeodesy.props import deprecated_method, Property, Property_RO, \
                             property_RO, _update_all
-from pygeodesy.streprs import Fmt, pairs, unstr
+from pygeodesy.streprs import Fmt, pairs
 from pygeodesy.units import Float_, Lat, Lon, Meter, Radius_,  Int  # PYCHOK shared
-from pygeodesy.utily import atan2d, _azireversed, _loneg, sincos2d, \
-                            sincos2d_, _unrollon, _Wrap,  sincos2_  # PYCHOK shared
+from pygeodesy.utily import acos1, _azireversed, _loneg, sincos2d, sincos2d_, \
+                           _unrollon, _Wrap
 from pygeodesy.vector3d import _intersect3d3, Vector3d  # in .Intersection below
 
-# from math import fabs  # from .fmath
+from math import cos, fabs
 
 __all__ = ()
-__version__ = '23.10.10'
+__version__ = '23.11.09'
 
 _anti_ = _Dash('anti')
 _rls   = []  # instances of C{RbumbLine...} to be updated
-_TRIPS = 65  # .Intersection, .NearestOn, 19+
+_TRIPS = 65  # .Intersection, .PlumbTo, 19+
 
 
 class _Lat(Lat):
@@ -91,7 +91,7 @@ def _update_all_rls(r):
 class RhumbBase(_CapsBase):
     '''(INTERNAL) Base class for C{rhumbaux.RhumbAux} and C{rhumbx.Rhumb}.
     '''
-    _E     = _EWGS84
+    _datum = _WGS84
     _exact =  True
     _f_max = _0_01
     _mTM   =  6  # see .TMorder
@@ -99,10 +99,7 @@ class RhumbBase(_CapsBase):
     def __init__(self, a_earth, f, exact, name):
         '''New C{rhumbaux.RhumbAux} or C{rhumbx.Rhum}.
         '''
-        if f is not None:
-            self.ellipsoid = a_earth, f
-        elif a_earth not in (_EWGS84, None):
-            self.ellipsoid = a_earth
+        _earth_datum(self, a_earth, f=f, name=name)
         if not exact:
             self.exact = False
         if name:
@@ -155,8 +152,26 @@ class RhumbBase(_CapsBase):
 
     polaradius = b
 
+    @property
+    def datum(self):
+        '''Get this rhumb's datum (L{Datum}).
+        '''
+        return self._datum
+
+    @datum.setter  # PYCHOK setter!
+    def datum(self, datum):
+        '''Set this rhumb's datum (L{Datum}).
+
+           @raise RhumbError: If C{abs(B{f}} exceeds non-zero C{f_max} and C{exact=False}.
+        '''
+        _xinstanceof(Datum, datum=datum)
+        if self._datum != datum:
+            self._exactest(self.exact, datum.ellipsoid, self.f_max)
+            _update_all_rls(self)
+            self._datum = datum
+
     def _Direct(self, ll1, azi12, s12, **outmask):
-        '''(INTERNAL) Short-cut version, see .latlonBase.
+        '''(INTERNAL) Short-cut version, see .latlonBase.rhumb....
         '''
         return self.Direct(ll1.lat, ll1.lon, azi12, s12, **outmask)
 
@@ -235,7 +250,7 @@ class RhumbBase(_CapsBase):
     def ellipsoid(self):
         '''Get this rhumb's ellipsoid (L{Ellipsoid}).
         '''
-        return self._E
+        return self.datum.ellipsoid
 
     @ellipsoid.setter  # PYCHOK setter!
     def ellipsoid(self, a_earth_f):
@@ -244,11 +259,7 @@ class RhumbBase(_CapsBase):
 
            @raise RhumbError: If C{abs(B{f}} exceeds non-zero C{f_max} and C{exact=False}.
         '''
-        E = _spherical_datum(a_earth_f, Error=RhumbError).ellipsoid
-        if self._E != E:
-            self._exactest(self.exact, E, self.f_max)
-            _update_all_rls(self)
-            self._E = E
+        self.datum = _spherical_datum(a_earth_f, Error=RhumbError)
 
     @Property
     def exact(self):
@@ -306,7 +317,7 @@ class RhumbBase(_CapsBase):
             self._f_max = f
 
     def _Inverse(self, ll1, ll2, wrap, **outmask):
-        '''(INTERNAL) Short-cut version, see .latlonBase.
+        '''(INTERNAL) Short-cut version, see .latlonBase.rhumb....
         '''
         if wrap:
             ll2 = _unrollon(ll1, _Wrap.point(ll2))
@@ -399,6 +410,12 @@ class RhumbBase(_CapsBase):
         _MODS.named.notOverloaded(self)
 
     @property_RO
+    def RAorder(self):
+        '''Get the I{Rhumb Area} order, C{None} always.
+        '''
+        return None
+
+    @property_RO
     def _RhumbLine(self):  # PYCHOK no cover
         '''(INTERNAL) I{Must be overloaded}.'''
         _MODS.named.notOverloaded(self, underOK=True)
@@ -427,9 +444,19 @@ class RhumbBase(_CapsBase):
             if self.exact and isinstance(self, _MODS.rhumbx.Rhumb):
                 self.exact = False
 
-    def toStr(self, prec=6, sep=_COMMASPACE_, **unused):  # PYCHOK no cover
-        '''I{Must be overloaded}.'''
-        _MODS.named.notOverloaded(self, prec=prec, sep=sep)
+    def toStr(self, prec=6, sep=_COMMASPACE_, **unused):  # PYCHOK signature
+        '''Return this C{Rhumb} as string.
+
+           @kwarg prec: The C{float} precision, number of decimal digits (0..9).
+                        Trailing zero decimals are stripped for B{C{prec}} values
+                        of 1 and above, but kept for negative B{C{prec}} values.
+           @kwarg sep: Separator to join (C{str}).
+
+           @return: Tuple items (C{str}).
+        '''
+        d = dict(ellipsoid=self.ellipsoid, RAorder=self.RAorder,
+                     exact=self.exact,     TMorder=self.TMorder)
+        return sep.join(pairs(itemsorted(d, asorted=False), prec=prec))
 
 
 class RhumbLineBase(_CapsBase):
@@ -532,6 +559,12 @@ class RhumbLineBase(_CapsBase):
         '''
         return self._scalp, self._calp
 
+    @property_RO
+    def datum(self):
+        '''Get this rhumb line's datum (L{Datum}).
+        '''
+        return self.rhumb.datum
+
     def degrees2m(self, angle):
         '''Convert an angular distance along this rhumb line to C{meter}.
 
@@ -563,25 +596,26 @@ class RhumbLineBase(_CapsBase):
         '''
         return self.rhumb.exact
 
-    def Intersecant2(self, lat0, lon0, radius, **tol_eps):
+    def Intersecant2(self, lat0, lon0, radius, napier=True, **tol_eps):
         '''Compute the intersection(s) of this rhumb line and a circle.
 
            @arg lat0: Latitude of the circle center (C{degrees}).
            @arg lon0: Longitude of the circle center (C{degrees}).
            @arg radius: Radius of the circle (C{meter}, conventionally).
+           @kwarg napier: If C{True}, apply I{Napier}'s spherical triangle
+                          instead of planar trigonometry (C{bool}).
            @kwarg tol_eps: Optional keyword arguments, see method
                            method L{Intersection} for further details.
 
-           @return: 2-Tuple C{(P, Q)} with the 2 intersections
-                    (representing a chord), each a L{GDict} from method
-                    L{Intersection} extended to 14 items with C{azi03,
-                    a03, s03, lat3, lon3} for the chord center C{lat3,
-                    lon3} and the angle C{a03}, distance C{s03}, azimuth
-                    C{azi03} and start point C{lat0, lon0} of the rhumb
-                    line perpendicular to this rhumb line.  If this
+           @return: 2-Tuple C{(P, Q)} with both intersections (representing
+                    a rhumb chord), each a L{GDict} from method L{Intersection}
+                    extended to 18 items by C{lat3, lon3, azi03, a03, s03}
+                    with azimuth C{azi03} of, distance C{a03} in C{degrees}
+                    and C{s03} in C{meter} along the rhumb line from the circle
+                    C{lat0, lon0} to the chord center C{lat3, lon3}.  If this
                     rhumb line is tangential to the circle, both points
-                    are the same L{GDict} instance with rhumb distances
-                    C{s02} and C{s03} near-equal to the B{C{radius}}.
+                    are the same L{GDict} instance with distances C{s02} and
+                    C{s03} near-equal to the B{C{radius}}.
 
            @raise IntersectionError: The circle and this rhumb line
                                      do not intersect.
@@ -589,21 +623,29 @@ class RhumbLineBase(_CapsBase):
            @raise UnitError: Invalid B{C{radius}}.
         '''
         r = Radius_(radius)
-        p = q = self.NearestOn(lat0, lon0, exact=None, **tol_eps)
-        d = q.s02
-        t = dict(azi03=q.azi02, a03=q.a02, s03=d, lat3=q.lat2, lon3=q.lon2)
-        if d < r:
-            a = sqrt_a(r, d)
-            s = q.s12
-            i = q.iteration
-            n = self.name or self.Intersecant2.__name__
-            t.update(lat0=q.lat1, lon0=q.lon1)  # or lat0, lon0
-            p = self.Position(s + a).set_(name=n, **t)
-            q = self.Position(s - a).set_(name=n, **t)
-            p._iteration = q._iteration = i
-        elif d > r:
-            t = unstr(self.Intersecant2, lat0, lon0, radius=radius, **tol_eps)
-            raise IntersectionError(_no_(t), txt=_too_(Fmt.distant(d)))
+        p = q = self.PlumbTo(lat0, lon0, exact=None, **tol_eps)
+        a = q.s02
+        t = dict(lat3=q.lat2, lon3=q.lon2, azi03=q.azi02, a03=q.a02, s03=a)
+        if a < r:
+            t.update(iteration=q.iteration, lat0=q.lat1, lon0=q.lon1,  # or lat0, lon0
+                     name=_dunder_nameof(self.Intersecant2, self.name))
+            if fabs(a) < EPS0:  # coincident centers
+                d, h = _0_0, r
+            else:
+                d = q.s12
+                if napier:  # Napier rule (R1) cos(b) = cos(c) / cos(a)
+                    # <https://WikiPedia.org/wiki/Spherical_trigonometry>
+                    m =  self.rhumb._mpr
+                    h = (acos1(cos(r / m) / cos(a / m)) * m) if m else _0_0
+                else:
+                    h = _copysign(sqrt_a(r, a), a)
+            p = q = self.Position(d + h).set_(**t)
+            if h:
+                q = self.Position(d - h).set_(**t)
+        elif a > r:
+            t = _too_(Fmt.distant(a))
+            raise IntersectionError(self, lat0, lon0, radius,
+                                          txt=t, **tol_eps)
         else:  # tangential
             q.set_(**t)  # == p.set(_**t)
         return p, q
@@ -618,24 +660,24 @@ class RhumbLineBase(_CapsBase):
     def Intersection(self, other, tol=_TOL, **eps):
         '''I{Iteratively} find the intersection of this and an other rhumb line.
 
-           @arg other: The other rhumb line (C{RhumbLine}) or C{None} for a
-                       rhumb line perpendicular to this one.
+           @arg other: The other rhumb line (C{RhumbLine}).
            @kwarg tol: Tolerance for longitudinal convergence and parallel
                        error (C{degrees}).
            @kwarg eps: Tolerance for L{pygeodesy.intersection3d3} (C{EPS}).
 
            @return: The intersection point, a L{Position}-like L{GDict} with
-                    12 items C{azi12, a12, s12, lat2, lat1, lat0, lon1, lon2,
-                    lon0, azi02, a02, s02} with C{a02} and C{s02} the rhumb
-                    angle and rhumb distance between the intersection C{lat2,
-                    lon2} point and the start point C{lat0, lon0} on the
-                    B{C{other}} rhumb line and the latter's azimuth C{azi02}.
+                    13 items C{lat1, lon1, azi12, a12, s12, lat2, lon2, lat0,
+                    lon0, azi02, a02, s02, at} with the rhumb angle C{a02}
+                    and rhumb distance C{s02} between the start point C{lat0,
+                    lon0} of the B{C{other}} rhumb line and the intersection
+                    C{lat2, lon2}, the azimuth C{azi02} of the B{C{other}}
+                    rhumb line and the angle C{at} between both rhumb lines.
                     See method L{Position} for further details.
 
            @raise IntersectionError: No convergence for this B{C{tol}} or
                                      no intersection for an other reason.
 
-           @see: Methods C{distance2} and C{NearestOn} and function
+           @see: Methods C{distance2} and C{PlumbTo} and function
                  L{pygeodesy.intersection3d3}.
 
            @note: Each iteration involves a round trip to this rhumb line's
@@ -668,22 +710,23 @@ class RhumbLineBase(_CapsBase):
                 d = _diff(t.lon - p.lon, t.lat)  # PYCHOK t.lat + p.lat - p.lat
                 p = _LL2T(t.lat + p.lat, t.lon)  # PYCHOK t.lon + p.lon = lon0
                 if d < tol:  # 19 trips
-                    lat, lon = p.lat, p.lon  # PYCHOK p...
-                    t = other.Inverse(lat, lon, outmask=Caps.DISTANCE)
-                    r = self.Inverse( lat, lon, outmask=Caps.DISTANCE)
-                    p = GDict(azi12=self.azi12, a12=r.a12, s12=r.s12,
-                              lat2=lat, lat1=self.lat1, lat0=other.lat1,
-                              lon2=lon, lon1=self.lon1, lon0=other.lon1,
-                              azi02=other.azi12, a02=t.a12, s02=t.s12,
-                              name=self.name or self.Intersection.__name__)
-                    p._iteration = i
-                    return p
+                    break
             else:
                 raise ValueError(Fmt.no_convergence(d))
 
+            n = _dunder_nameof(self.Intersection, self.name)
+            r =  self.Inverse( p.lat, p.lon, outmask=Caps.DISTANCE)
+            t =  other.Inverse(p.lat, p.lon, outmask=Caps.DISTANCE)
+            P =  GDict(lat1=self.lat1, lat2=p.lat, lat0=other.lat1,
+                       lon1=self.lon1, lon2=p.lon, lon0=other.lon1,
+                       azi12= self.azi12, a12=r.a12, s12=r.s12,
+                       azi02=other.azi12, a02=t.a12, s02=t.s12,
+                       at=other.azi12 - self.azi12, name=n)
+            P._iteration = i  # .set_(iteration=i, ...) only
         except Exception as x:
-            t = unstr(self.Intersection, other, tol=tol, eps=eps)
-            raise IntersectionError(_no_(t), cause=x)
+            raise IntersectionError(self, other, tol=tol,
+                                          eps=eps, cause=x)
+        return P
 
     def Inverse(self, lat2, lon2, wrap=False, **outmask):
         '''Return the rhumb angle, distance, azimuth, I{reverse} azimuth, etc. of
@@ -752,17 +795,22 @@ class RhumbLineBase(_CapsBase):
         _MODS.named.notOverloaded(self, mu2, underOK=True)
 
     @deprecated_method
-    def nearestOn4(self, lat, lon, **exact_eps_est_tol):
-        '''DEPRECATED on 23.10.10, use method L{NearestOn}.'''
-        p =  self.NearestOn(lat, lon, **exact_eps_est_tol)
-        r = _MODS.deprecated.NearestOn4Tuple(p.lat2, p.lon2, p.s12, p.azi02,
+    def nearestOn4(self, lat0, lon0, **exact_eps_est_tol):
+        '''DEPRECATED on 23.10.10, use method L{PlumbTo}.'''
+        P =  self.PlumbTo(lat0, lon0, **exact_eps_est_tol)
+        r = _MODS.deprecated.NearestOn4Tuple(P.lat2, P.lon2, P.s12, P.azi02,
                                              name=self.nearestOn4.__name__)
-        r._iteration = p.iteration
+        r._iteration = P.iteration
         return r
 
-    def NearestOn(self, lat0, lon0, exact=None, eps=EPS, est=None, tol=_TOL):
-        '''I{Iteratively} locate the point on this rhumb line nearest to the
-           given point, in part transcoded from I{Karney}'s C++ U{rhumb-intercept
+    @deprecated_method
+    def NearestOn(self, lat0, lon0, **exact_eps_est_tol):
+        '''DEPRECATED on 23.10.30, use method L{PlumbTo}.'''
+        return self.PlumbTo(lat0, lon0, **exact_eps_est_tol)
+
+    def PlumbTo(self, lat0, lon0, exact=None, eps=EPS, est=None, tol=_TOL):
+        '''Compute the I{perpendicular} intersection of this rumb line with a geodesic
+           from the given point, in part transcoded from I{Karney}'s C++ U{rhumb-intercept
            <https://SourceForge.net/p/geographiclib/discussion/1026620/thread/2ddc295e/>}.
 
            @arg lat0: Latitude of the point (C{degrees}).
@@ -771,35 +819,32 @@ class RhumbLineBase(_CapsBase):
                          line, otherwise use an I{exact} C{Geodesic...} from the
                          given point perpendicular to this rhumb line (C{bool} or
                          C{Geodesic...}), see method L{Ellipsoid.geodesic_}.
-           @kwarg eps: Optional tolerance for L{pygeodesy.intersection3d3}
-                       (C{EPS}), used only if C{B{exact} is None}.
-           @kwarg est: Optional, initial estimate for the distance C{s13} of
-                       the intersection I{along} this rhumb line (C{meter}),
-                       used only if C{B{exact} is not None}.
-           @kwarg tol: Longitudinal convergence tolerance (C{degrees}) or the
-                       distance tolerance (C(meter)) when C{B{exact} is None},
-                       respectively C{not None}.
+           @kwarg eps: Optional tolerance for L{pygeodesy.intersection3d3} (C{EPS}),
+                       used only if C{B{exact} is None}.
+           @kwarg est: Optional, initial estimate for the distance C{s12} of the
+                       intersection I{along} this rhumb line (C{meter}), used only
+                       if C{B{exact} is not None}.
+           @kwarg tol: Longitudinal convergence tolerance (C{degrees}) or distance
+                       tolerance (C(meter)) when C{B{exact} is None}, respectively
+                       C{not None}.
 
-           @return: The nearest point on this rhumb line, a L{GDict} from method
-                    L{Intersection} if B{C{exact}=None}.  If B{C{exact}} is not
-                    C{None}, a L{GDict} of 13 items C{azi12, a12, s12, lat2, lat1,
-                    lon2, lon1, a02, s02, azi0, azi2, lat0, lon0} with C{a02} and
-                    C{s02} the angle respectively distance from the given C{lat0,
-                    lon0} to the nearest C{lat2, lon2} point along the specified
-                    C{geodetic} and C{azi0} and C{azi2} the (forward) azimuth at
-                    the given respectively the nearest point.  The latter is always
-                    perpendicular to this rhumb line's azimuth.  See method
-                    L{Position} for further details.
+           @return: The intersection point on this rhumb line, a L{GDict} from method
+                    L{Intersection} if B{C{exact}=None}.  If B{C{exact}} is not C{None},
+                    a L{Position}-like L{GDict} of 13 items C{azi12, a12, s12, lat2,
+                    lat1, lat0, lon2, lon1, lon0, azi0, a02, s02, at} with distance
+                    C{a02} in C{degrees} and C{s02} in C{meter} between the given point
+                    C{lat0, lon0} and the intersection C{lat2, lon2}, geodesic azimuth
+                    C{azi0} at the given point and the (perpendicular) angle C{at}
+                    between the geodesic and this rhumb line at the intersection.  The
+                    I{geodesic} azimuth at the intersection is C{(at + azi12)}.  See
+                    method L{Position} for further details.
 
            @raise ImportError: I{Karney}'s U{geographiclib
                                <https://PyPI.org/project/geographiclib>}
                                package not found or not installed.
 
-           @raise IntersectionError: No convergence for this B{C{eps}} or
-                                     no intersection for an other reason.
-
-           @note: The (forward) azimuth C{azi2} at the nearest point is
-                  always perpendicular to this rhumb line's azimuth.
+           @raise IntersectionError: No convergence for this B{C{eps}} or no
+                                     intersection for some other reason.
 
            @see: Methods C{distance2}, C{Intersecant2} and C{Intersection}
                  and function L{pygeodesy.intersection3d3}.
@@ -808,48 +853,44 @@ class RhumbLineBase(_CapsBase):
         if exact is None:
             z  = _norm180(self.azi12 + _90_0)  # perpendicular azimuth
             rl =  RhumbLineBase(self.rhumb, lat0, lon0, z, caps=Cs.LINE_OFF)
-            p  =  self.Intersection(rl, tol=tol, eps=eps)
+            P  =  self.Intersection(rl, tol=tol, eps=eps)
 
         else:  # C{rhumb-intercept}
-            azi = self.azi12
-            szi = self._salp
             E   = self.ellipsoid
             _gI = E.geodesic_(exact=exact).Inverse
             gm  = Cs.STANDARD | Cs._REDUCEDLENGTH_GEODESICSCALE  # ^ Cs.DISTANCE_IN
             if est is None:  # get an estimate from the "perpendicular" geodesic
                 r = _gI(self.lat1, self.lon1, lat0, lon0, outmask=Cs.AZIMUTH_DISTANCE)
-                d, _ = _diff182(r.azi2, azi, K_2_0=True)
+                d, _ = _diff182(r.azi2, self.azi12, K_2_0=True)
                 _, s12 = sincos2d(d)
                 s12 *= r.s12  # signed
             else:
                 s12  = Meter(est=est)
             try:
                 tol  = Float_(tol=tol, low=EPS, high=None)
-                # def _over(p, q):  # see @note at RhumbLine[Aux].Position
+                # def _over(p, q):  # see @note at method C{.Position}
                 #     return (p / (q or _copysign(tol, q))) if isfinite(q) else NAN
 
                 _ErT = E.rocPrimeVertical  # aka rocTransverse
                 _S12 = Fsum(s12).fsum2_
                 for i in range(1, _TRIPS):  # suffix 1 == C++ 2, 2 == C++ 3
-                    p =  self.Position(s12)  # outmask = Cs.LATITUDE_LONGITUDE
-                    r = _gI(lat0, lon0, p.lat2, p.lon2, outmask=gm)
-                    d, _ = _diff182(azi, r.azi2, K_2_0=True)
+                    P =  self.Position(s12)  # outmask = Cs.LATITUDE_LONGITUDE
+                    r = _gI(lat0, lon0, P.lat2, P.lon2, outmask=gm)
+                    d, _ = _diff182(self.azi12, r.azi2, K_2_0=True)
                     s, c, s2, c2 = sincos2d_(d, r.lat2)
                     c2 *= _ErT(r.lat2)
-                    s  *= _over(s2 * szi, c2) - _over(s * r.M21, r.m12)
+                    s  *= _over(s2 * self._salp, c2) - _over(s * r.M21, r.m12)
                     s12, t = _S12(c / s)  # XXX _over?
                     if fabs(t) < tol:  # or fabs(c) < EPS
                         break
-                p.set_(azi0=r.azi1, azi2=r.azi2, a02=r.a12, s02=r.s12,
-                       lat0=lat0, lon0=lon0, name=self.name or
-                                                  self.NearestOn.__name__)
-                p._iteration = i
+                P.set_(azi0=r.azi1, a02=r.a12, s02=r.s12,  # azi2=r.azi2,
+                       lat0=lat0, lon0=lon0, iteration=i, at=r.azi2 - self.azi12,
+                       name=_dunder_nameof(self.PlumbTo, self.name))
             except Exception as x:  # Fsum(NAN) Value-, ZeroDivisionError
-                t = unstr(self.NearestOn, lat0, lon0, tol=tol, exact=exact,
-                                          iteration=i, eps=eps, est=est)
-                raise IntersectionError(_no_(t), cause=x)
+                raise IntersectionError(lat0, lon0, tol=tol, exact=exact,
+                                        eps=eps, est=est, iteration=i, cause=x)
 
-        return p
+        return P
 
     def Position(self, s12, outmask=Caps.LATITUDE_LONGITUDE):
         '''Compute a point at a given distance on this rhumb line.
@@ -860,7 +901,7 @@ class RhumbLineBase(_CapsBase):
                            the quantities to be returned.
 
            @return: L{GDict} with 4 to 8 items C{azi12, a12, s12, S12, lat2,
-                    lat1. lon2, lon1} with latitude C{lat2} and longitude
+                    lat1, lon2, lon1} with latitude C{lat2} and longitude
                     C{lon2} of the point in C{degrees}, the rhumb angle C{a12}
                     in C{degrees} from the start point of and the area C{S12}
                     under this rhumb line in C{meter} I{squared}.
@@ -968,11 +1009,35 @@ class RhumbLineBase(_CapsBase):
         return V3d(t.easting, t.northing, z)
 
 
+class _PseudoRhumbLine(RhumbLineBase):
+    '''(INTERNAL) Pseudo-rhumb line for a geodesic (line), see C{geodesicw._PlumbTo}.
+    '''
+    def __init__(self, gl, name=NN):
+        R = RhumbBase(gl.geodesic.ellipsoid, None, True, name)
+        RhumbLineBase.__init__(self, R, gl.lat1, gl.lon1, 0, caps=Caps.LINE_OFF)
+        self._azi1 = self.azi12 = gl.azi1
+        self._gl   = gl
+        self._gD   = gl.geodesic.Direct
+
+    def PlumbTo(self, lat0, lon0, **exact_eps_est_tol):  # PYCHOK signature
+        P = RhumbLineBase.PlumbTo(self, lat0, lon0, **exact_eps_est_tol)
+        P.set_(azi1=self._gl.azi1, azi2=_xkwds_pop(P, azi12=None))
+        return P  # geodesic L{Position}
+
+    def Position(self, s12, **unused):  # PYCHOK signature
+        r = self._gD(self.lat1, self.lon1, self._azi1, s12)
+        self._azi1     = r.azi1
+        self.azi12 = z = r.azi2
+        self._salp, _  = sincos2d(z)
+        return r.set_(azi12=z)
+
+
 __all__ += _ALL_DOCS(RhumbBase, RhumbLineBase)
 
 if __name__ == '__main__':
 
     from pygeodesy import printf, Rhumb as R, RhumbAux as A
+    from pygeodesy.ellipsoids import _EWGS84
 
     A = A(_EWGS84).Line(30, 0, 45)
     R = R(_EWGS84).Line(30, 0, 45)
@@ -986,41 +1051,41 @@ if __name__ == '__main__':
 
     for exact in (None, False, True):
         for est in (None, 1e6):
-            a = A.NearestOn(60, 0, exact=exact, est=est)
-            r = R.NearestOn(60, 0, exact=exact, est=est)
+            a = A.PlumbTo(60, 0, exact=exact, est=est)
+            r = R.PlumbTo(60, 0, exact=exact, est=est)
             printf('# %s, iteration=%s, exact=%s, est=%s\n# %s, iteration=%s',
                    a.toRepr(), a.iteration, exact, est,
                    r.toRepr(), r.iteration, nl=1)
 
 # % python3 -m pygeodesy.rhumbBase
 
-# Position.lon2 11.61455846901637 vs 11.61455846901637, diff 6.11769e-16
-# Position.lon2 7.58982302826842 vs 7.58982302826842, diff 1.17022e-16
+# Position.lon2 11.61455846901637 vs 11.61455846901637, diff 3.05885e-16
+# Position.lon2 7.58982302826842 vs 7.58982302826842, diff 2.34045e-16
 # Position.lon2 6.28526067416369 vs 6.28526067416369, diff 2.82623e-16
-# Position.lon2 5.63938995325146 vs 5.63938995325146, diff 4.72486e-16
-# Position.lon2 5.25385527435707 vs 5.25385527435707, diff 1.69053e-16
-# Position.lon2 4.99764604290380 vs 4.99764604290380, diff 3.55439e-16
+# Position.lon2 5.63938995325146 vs 5.63938995325146, diff 1.57495e-16
+# Position.lon2 5.25385527435707 vs 5.25385527435707, diff 0
+# Position.lon2 4.99764604290380 vs 4.99764604290380, diff 8.88597e-16
 # Position.lon2 4.81503363740473 vs 4.81503363740473, diff 1.84459e-16
 # Position.lon2 4.67828821748836 vs 4.67828821748835, diff 5.69553e-16
-# Position.lon2 4.57205667906283 vs 4.57205667906283, diff 1.94262e-16
+# Position.lon2 4.57205667906283 vs 4.57205667906283, diff 5.82787e-16
 
-# Intersection(a02=17.798332, a12=19.521356, azi02=135.0, azi12=45.0, lat1=30.0, lat2=45.0, lon1=0.0, lon2=15.830286, name='Intersection', s02=1977981.142985, s12=2169465.957531), iteration=9, exact=None, est=None
-# Intersection(a02=17.798332, a12=19.521356, azi02=135.0, azi12=45.0, lat1=30.0, lat2=45.0, lon1=0.0, lon2=15.830286, name='Intersection', s02=1977981.142985, s12=2169465.957531), iteration=9
+# Intersection(a02=17.798332, a12=19.521356, at=90.0, azi02=135.0, azi12=45.0, lat0=60.0, lat1=30.0, lat2=45.0, lon0=0.0, lon1=0.0, lon2=15.830286, name='Intersection', s02=1977981.142985, s12=2169465.957531), iteration=9, exact=None, est=None
+# Intersection(a02=17.798332, a12=19.521356, at=90.0, azi02=135.0, azi12=45.0, lat0=60.0, lat1=30.0, lat2=45.0, lon0=0.0, lon1=0.0, lon2=15.830286, name='Intersection', s02=1977981.142985, s12=2169465.957531), iteration=9
 
-# Intersection(a02=17.798332, a12=19.521356, azi02=135.0, azi12=45.0, lat1=30.0, lat2=45.0, lon1=0.0, lon2=15.830286, name='Intersection', s02=1977981.142985, s12=2169465.957531), iteration=9, exact=None, est=1000000.0
-# Intersection(a02=17.798332, a12=19.521356, azi02=135.0, azi12=45.0, lat1=30.0, lat2=45.0, lon1=0.0, lon2=15.830286, name='Intersection', s02=1977981.142985, s12=2169465.957531), iteration=9
+# Intersection(a02=17.798332, a12=19.521356, at=90.0, azi02=135.0, azi12=45.0, lat0=60.0, lat1=30.0, lat2=45.0, lon0=0.0, lon1=0.0, lon2=15.830286, name='Intersection', s02=1977981.142985, s12=2169465.957531), iteration=9, exact=None, est=1000000.0
+# Intersection(a02=17.798332, a12=19.521356, at=90.0, azi02=135.0, azi12=45.0, lat0=60.0, lat1=30.0, lat2=45.0, lon0=0.0, lon1=0.0, lon2=15.830286, name='Intersection', s02=1977981.142985, s12=2169465.957531), iteration=9
 
-# NearestOn(a02=17.978107, a12=27.74256, azi0=113.73626, azi12=45.0, azi2=135.0, lat1=30.0, lat2=49.634582, lon1=0.0, lon2=25.767876, name='NearestOn', s02=1997960.116871, s12=3083112.636236), iteration=5, exact=False, est=None
-# NearestOn(a02=17.978107, a12=27.74256, azi0=113.73626, azi12=45.0, azi2=135.0, lat1=30.0, lat2=49.634582, lon1=0.0, lon2=25.767876, name='NearestOn', s02=1997960.116871, s12=3083112.636236), iteration=5
+# PlumbTo(a02=17.967658, a12=27.74256, at=90.0, azi0=113.73626, azi12=45.0, lat0=60, lat1=30.0, lat2=49.634582, lon0=0, lon1=0.0, lon2=25.767876, name='PlumbTo', s02=1997960.116871, s12=3083112.636236), iteration=5, exact=False, est=None
+# PlumbTo(a02=17.967658, a12=27.74256, at=90.0, azi0=113.73626, azi12=45.0, lat0=60, lat1=30.0, lat2=49.634582, lon0=0, lon1=0.0, lon2=25.767876, name='PlumbTo', s02=1997960.116871, s12=3083112.636236), iteration=5
 
-# NearestOn(a02=17.978107, a12=27.74256, azi0=113.73626, azi12=45.0, azi2=135.0, lat1=30.0, lat2=49.634582, lon1=0.0, lon2=25.767876, name='NearestOn', s02=1997960.116871, s12=3083112.636236), iteration=7, exact=False, est=1000000.0
-# NearestOn(a02=17.978107, a12=27.74256, azi0=113.73626, azi12=45.0, azi2=135.0, lat1=30.0, lat2=49.634582, lon1=0.0, lon2=25.767876, name='NearestOn', s02=1997960.116871, s12=3083112.636236), iteration=7
+# PlumbTo(a02=17.967658, a12=27.74256, at=90.0, azi0=113.73626, azi12=45.0, lat0=60, lat1=30.0, lat2=49.634582, lon0=0, lon1=0.0, lon2=25.767876, name='PlumbTo', s02=1997960.116871, s12=3083112.636236), iteration=7, exact=False, est=1000000.0
+# PlumbTo(a02=17.967658, a12=27.74256, at=90.0, azi0=113.73626, azi12=45.0, lat0=60, lat1=30.0, lat2=49.634582, lon0=0, lon1=0.0, lon2=25.767876, name='PlumbTo', s02=1997960.116871, s12=3083112.636236), iteration=7
 
-# NearestOn(a02=17.978107, a12=27.74256, azi0=113.73626, azi12=45.0, azi2=135.0, lat1=30.0, lat2=49.634582, lon1=0.0, lon2=25.767876, name='NearestOn', s02=1997960.116871, s12=3083112.636236), iteration=5, exact=True, est=None
-# NearestOn(a02=17.978107, a12=27.74256, azi0=113.73626, azi12=45.0, azi2=135.0, lat1=30.0, lat2=49.634582, lon1=0.0, lon2=25.767876, name='NearestOn', s02=1997960.116871, s12=3083112.636236), iteration=5
+# PlumbTo(a02=17.967658, a12=27.74256, at=90.0, azi0=113.73626, azi12=45.0, lat0=60, lat1=30.0, lat2=49.634582, lon0=0, lon1=0.0, lon2=25.767876, name='PlumbTo', s02=1997960.116871, s12=3083112.636236), iteration=5, exact=True, est=None
+# PlumbTo(a02=17.967658, a12=27.74256, at=90.0, azi0=113.73626, azi12=45.0, lat0=60, lat1=30.0, lat2=49.634582, lon0=0, lon1=0.0, lon2=25.767876, name='PlumbTo', s02=1997960.116871, s12=3083112.636236), iteration=5
 
-# NearestOn(a02=17.978107, a12=27.74256, azi0=113.73626, azi12=45.0, azi2=135.0, lat1=30.0, lat2=49.634582, lon1=0.0, lon2=25.767876, name='NearestOn', s02=1997960.116871, s12=3083112.636236), iteration=7, exact=True, est=1000000.0
-# NearestOn(a02=17.978107, a12=27.74256, azi0=113.73626, azi12=45.0, azi2=135.0, lat1=30.0, lat2=49.634582, lon1=0.0, lon2=25.767876, name='NearestOn', s02=1997960.116871, s12=3083112.636236), iteration=7
+# PlumbTo(a02=17.967658, a12=27.74256, at=90.0, azi0=113.73626, azi12=45.0, lat0=60, lat1=30.0, lat2=49.634582, lon0=0, lon1=0.0, lon2=25.767876, name='PlumbTo', s02=1997960.116871, s12=3083112.636236), iteration=7, exact=True, est=1000000.0
+# PlumbTo(a02=17.967658, a12=27.74256, at=90.0, azi0=113.73626, azi12=45.0, lat0=60, lat1=30.0, lat2=49.634582, lon0=0, lon1=0.0, lon2=25.767876, name='PlumbTo', s02=1997960.116871, s12=3083112.636236), iteration=7
 
 # **) MIT License
 #

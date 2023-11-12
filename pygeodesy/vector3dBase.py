@@ -9,19 +9,20 @@ A pure Python implementation of vector-based functions by I{(C) Chris Veness
 '''
 
 from pygeodesy.basics import _copysign, islistuple, isscalar, map1, _zip
-from pygeodesy.constants import EPS, EPS0, INT0, PI, PI2, _float0, \
-                                isnear0, isnear1, _pos_self, _1_0
+from pygeodesy.constants import EPS, EPS0, INT0, PI, PI2, _copysignINF, \
+                               _float0, isnear0, isnear1, isneg0, \
+                               _pos_self, _1_0
 from pygeodesy.errors import CrossError, _InvalidError, _IsnotError, \
                              VectorError
 from pygeodesy.fmath import euclid_, fdot, hypot_, hypot2_
 from pygeodesy.interns import NN, _coincident_, _colinear_, \
                              _COMMASPACE_, _y_, _z_
-from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, \
+from pygeodesy.lazily import _ALL_LAZY, _ALL_DOCS, _ALL_MODS as _MODS, \
                              _sys_version_info2
 from pygeodesy.named import _NamedBase, _NotImplemented, _xother3
 # from pygeodesy.namedTuples import Vector3Tuple  # _MODS
 from pygeodesy.props import deprecated_method, Property, Property_RO, \
-                            property_doc_, _update_all
+                            property_doc_, property_RO, _update_all
 from pygeodesy.streprs import Fmt, strs
 from pygeodesy.units import Float, Scalar
 from pygeodesy.utily import sincos2,  atan2, fabs
@@ -29,18 +30,11 @@ from pygeodesy.utily import sincos2,  atan2, fabs
 # from math import atan2, fabs  # from .utily
 
 __all__ = _ALL_LAZY.vector3dBase
-__version__ = '23.09.29'
+__version__ = '23.10.15'
 
 
 class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
     '''(INTERNAL) Generic 3-D vector base class.
-
-       In a geodesy context, these may be used to represent:
-        - n-vector representing a normal to point on earth's surface
-        - earth-centered, earth-fixed cartesian (= spherical n-vector)
-        - great circle normal to vector
-        - motion vector on earth's surface
-        - etc.
     '''
     _crosserrors = True  # un/set by .errors.crosserrors
 
@@ -499,9 +493,9 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
 
         if raiser and self.crosserrors and eps0 > 0 \
                   and max(map1(fabs, x, y, z)) < eps0:
-            t =  self.isequalTo(other, eps=eps0)
-            s =   self._fromll or self
             r =  other._fromll or other
+            s =   self._fromll or self
+            t =  self.isequalTo(other, eps=eps0)
             t = _coincident_ if t else _colinear_
             raise CrossError(raiser, s, other=r, txt=t)
 
@@ -515,7 +509,7 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
 
     @crosserrors.setter  # PYCHOK setter!
     def crosserrors(self, raiser):
-        '''Raise L{CrossError} exceptions (C{bool}).
+        '''Raise or ignore L{CrossError} exceptions (C{bool}).
         '''
         self._crosserrors = bool(raiser)
 
@@ -588,6 +582,25 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
         '''(INTERNAL) Set the latlon reference (C{LatLon}) or C{None}.
         '''
         self._ll = ll or None
+
+    @property_RO
+    def homogeneous(self):
+        '''Get this vector's homogeneous representation (L{Vector3d}).
+        '''
+        z = self.z
+        if z:
+            x =  self.x / z
+            y =  self.y / z
+#           z = _1_0
+        elif isneg0(z):
+            x = _copysignINF(-self.x)
+            y = _copysignINF(-self.y)
+#           z =  NAN
+        else:
+            x = _copysignINF(self.x)
+            y = _copysignINF(self.y)
+#           z =  NAN
+        return self.classof(x, y, _1_0)
 
     def intermediateTo(self, other, fraction, **unused):  # height=None, wrap=False
         '''Locate the vector at a given fraction between (or along) this
@@ -1003,6 +1016,9 @@ def _xyzkwds(y_z, **xyz):  # PYCHOK no cover
             d.update(x=x)
             return d
     return xyz
+
+
+__all__ += _ALL_DOCS(Vector3dBase)
 
 # **) MIT License
 #

@@ -4,7 +4,7 @@
 # Test spherical earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '23.06.12'
+__version__ = '23.10.23'
 
 from bases import isPython2, isWindows, RandomLatLon
 from testLatLon import Tests as _TestsLL
@@ -139,27 +139,51 @@ class Tests(_TestsLL, _TestsV):
             self.test('crossingParallels', t, '009°35′38.65″E, 170°24′21.35″E')
 
         c, p = LatLon(5, 0), LatLon(0, 2)
-        for e, x in ((None,  '''(LatLon(04°15′07.82″N, 006°15′50.15″E), LatLon(01°14′59.64″S, 000°44′59.28″E))'''),
-                     (False, '''(LatLon(04°15′12.05″N, 006°15′26.13″E), LatLon(01°15′02.91″S, 000°44′56.74″E))'''),
-                     (True,  '''(LatLon(04°15′15.1″N, 006°15′29.19″E), LatLon(01°15′28.78″S, 000°44′30.85″E))''')):
-            t = c.intersecant2(700000, p, 45, exact=e)
-            self.test('intersecant2', t, x, nl=1)
+        for e, x in ((None,  '04.260346°N, 006.272173°E and 01.250608°S, 000.749094°E'),
+                     (False, '04.261539°N, 006.265474°E and 00.0°N, 002.0°E'),
+                     (True,  '04.262363°N, 006.2663°E and 01.258709°S, 000.74119°E')):
+            # c.napieradius = ...
+            t = c.intersecant2(700.e3, p, 45, exact=e)
+            s = ' and '.join(_.toStr(form=F_D) for _ in t)
+            self.test('intersecant2', s, x, nl=1)
             for i, s in enumerate(t):  # both secant points should be on the circle
                 d = c.distanceTo(s) if e is None else c.rhumbDistanceTo(s, exact=e)
                 self.test('intersecant2', int(d), '700000', known=True)
             s, t = t
             b = t.initialBearingTo(s) if e is None else t.rhumbAzimuthTo(s, exact=e)
-            self.test('intersecant2', int(b), 45, known=True)
+            self.test('intersecant2', b, 45, known=44 < b < 46, prec=3)
 
         c, p = LatLon(0, 0), LatLon(-25, 0)
         for e in (None, True, False):
-            nl = dict(nl=1)
-            for r in (degrees2m(25), LatLon(25, 0)):
+            nl = 1
+            for r in (degrees2m(25), LatLon(25, 0)):  # r = 2_779_874 > rNspherical
                 for z in (45, LatLon(0, 25)):
                     a, b = t = c.intersecant2(r, p, z, exact=e)
-                    self.test('intersecant4', t, 'LatLon(0, 25), LatLon(-25, 0)',
-                                                 known= 24 < a.lon < 26 and -26 < b.lat < -24, **nl)
-                    nl = {}
+                    s = ' and '.join(_.toStr(form=F_D) for _ in t)
+                    self.test('intersecant4', s, '00.0°N, 025.0°E and 25.0°S, 000.0°E', nl=nl,
+                                                 known=24 < a.lon < 27 and -26 < b.lat < -24)
+                    nl = 0
+
+        c  = LatLon(0, 0)
+        r  = 3333000.0  # int(_EWGS84.degrees2m(30))
+        i  = 0
+        for p, q in ((LatLon(+30,   0), 45),
+                     (LatLon(+30,   0), 135),
+                     (LatLon(-30,   0), 135),
+                     (LatLon(-15,  15), 45),
+                     (LatLon(-30,   0), LatLon( 0, 30)),
+                     (LatLon(-45, -15), LatLon(15, 45))):
+            i += 1
+            nl = 1
+            for n in (0, r * 2):
+                c.napieradius = n
+                n = '' if r < n else 'Napier'
+                for t in c.intersecant2(r, p, q, exact=None):
+                    d = t.distanceTo(c)
+                    # p = '%.3f%%' % (d * 100 / r)
+                    t = 'intersecant2.%d: %r %s' % (i, t, n)
+                    self.test(t, d, r, prec=3, nl=nl, known=abs(d - r) < 2 or not n)
+                    nl = 0
 
         if hasattr(LatLon, 'intersections2') and Sph:
 
@@ -175,7 +199,7 @@ class Tests(_TestsLL, _TestsV):
             q = LatLon(36.109997, -90.953669)  # (-0.0134464,  -0.807775, 0.589337)
             t = p.intersections2(0.0312705, q, 0.0421788, radius=None, height=0)  # radii in radians
             s = ', '.join(latlonDMS(t, form=F_D, prec=6))
-            self.test(n, s, '36.98931°N, 088.151425°W, 38.23838°N, 092.390487°W')
+            self.test(n, s, '36.98931°N, 088.151425°W, 38.23838°N, 092.390487°W', nl=1)
             s = ', '.join(latlonDMS(t, form=F_DEG_, prec=9))
             # 36.989311051533505, -88.15142628069133, 38.2383796094578, -92.39048549120287
             self.test(n, s, '36.989310429, -088.151425243, 38.238379679, -092.390486808', known=True)

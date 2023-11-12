@@ -27,7 +27,7 @@ from math import copysign as _copysign
 import inspect as _inspect
 
 __all__ = _ALL_LAZY.basics
-__version__ = '23.10.08'
+__version__ = '23.10.15'
 
 _0_0                  =  0.0  # in .constants
 _below_               = 'below'
@@ -199,14 +199,23 @@ else:
     isclass = _inspect.isclass
 
 
-def isCartesian(obj):
+def isCartesian(obj, ellipsoidal=None):
     '''Is B{C{obj}} some C{Cartesian}?
 
        @arg obj: The object (any C{type}).
+       @kwarg ellipsoidal: If C{None}, return the type of any C{Cartesian},
+                           if C{True}, only an ellipsoidal C{Cartesian type}
+                           or if C{False}, only a spherical C{Cartesian type}.
 
-       @return: C{type(B{obj}} if B{C{obj}} is a C{Cartesian}
-                instance, C{None} otherwise.
+       @return: C{type(B{obj}} if B{C{obj}} is a C{Cartesian} instance of
+                the required type, C{False} if a C{Cartesian} of an other
+                type or C{None} otherwise.
     '''
+    if ellipsoidal is not None:
+        try:
+            return obj.ellipsoidalCartesian if ellipsoidal else obj.sphericalCartesian
+        except AttributeError:
+            return None
     return isinstanceof(obj, _MODS.cartesianBase.CartesianBase)
 
 
@@ -297,14 +306,23 @@ except ImportError:
         return False
 
 
-def isLatLon(obj):
+def isLatLon(obj, ellipsoidal=None):
     '''Is B{C{obj}} some C{LatLon}?
 
        @arg obj: The object (any C{type}).
+       @kwarg ellipsoidal: If C{None}, return the type of any C{LatLon},
+                           if C{True}, only an ellipsoidal C{LatLon type}
+                           or if C{False}, only a spherical C{LatLon type}.
 
-       @return: C{type(B{obj}} if B{C{obj}} is a C{LatLon}
-                instance, C{None} otherwise.
+       @return: C{type(B{obj}} if B{C{obj}} is a C{LatLon} instance of
+                the required type, C{False} if a C{LatLon} of an other
+                type or {None} otherwise.
     '''
+    if ellipsoidal is not None:
+        try:
+            return obj.ellipsoidalLatLon if ellipsoidal else obj.sphericalLatLon
+        except AttributeError:
+            return None
     return isinstanceof(obj, _MODS.latlonBase.LatLonBase)
 
 
@@ -320,14 +338,23 @@ def islistuple(obj, minum=0):
     return type(obj) in _list_tuple_types and len(obj) >= (minum or 0)
 
 
-def isNvector(obj):
+def isNvector(obj, ellipsoidal=None):
     '''Is B{C{obj}} some C{Nvector}?
 
        @arg obj: The object (any C{type}).
+       @kwarg ellipsoidal: If C{None}, return the type of any C{Nvector},
+                           if C{True}, only an ellipsoidal C{Nvector type}
+                           or if C{False}, only a spherical C{Nvector type}.
 
-       @return: C{type(B{obj}} if B{C{obj}} is an C{Nvector}
-                instance, C{None} otherwise.
+       @return: C{type(B{obj}} if B{C{obj}} is an C{Nvector} instance of
+                the required type, C{False} if an C{Nvector} of an other
+                type or {None} otherwise.
     '''
+    if ellipsoidal is not None:
+        try:
+            return obj.ellipsoidalNvector if ellipsoidal else obj.sphericalNvector
+        except AttributeError:
+            return None
     return isinstanceof(obj, _MODS.nvectorBase.NvectorBase)
 
 

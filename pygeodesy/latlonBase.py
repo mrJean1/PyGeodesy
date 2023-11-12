@@ -12,15 +12,16 @@ u'''(INTERNAL) Base class L{LatLonBase} for all elliposiodal, spherical and N-ve
 
 from pygeodesy.basics import isscalar, isstr, map1, _xinstanceof
 from pygeodesy.constants import EPS, EPS0, EPS1, EPS4, INT0, R_M, \
-                               _0_0, _0_5, _1_0, _180_0
+                               _EPSqrt as _TOL, _0_0, _0_5, _1_0, \
+                               _360_0, _umod_360
 # from pygeodesy.datums import _spherical_datum  # from .formy
 from pygeodesy.dms import F_D, F_DMS, latDMS, lonDMS, parse3llh
 # from pygeodesy.ecef import EcefKarney  # _MODS
 from pygeodesy.errors import _AttributeError, _incompatible, \
                              _IsnotError, IntersectionError, \
-                             _TypeError, _ValueError, _xattr, _xdatum, \
+                             _ValueError, _xattr, _xdatum, \
                              _xError, _xkwds, _xkwds_not
-from pygeodesy.fmath import favg, sqrt_a
+# from pygeodesy.fmath import favg  # _MODS
 from pygeodesy.formy import antipode, compassAngle, cosineAndoyerLambert_, \
                             cosineForsytheAndoyerLambert_, cosineLaw, \
                             equirectangular, euclidean, flatLocal_, \
@@ -34,7 +35,7 @@ from pygeodesy.interns import NN, _COMMASPACE_, _concentric_, _height_, \
 # from pygeodesy.karney import Caps  # _MODS
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 # from pygeodesy.ltp import Ltp, _xLtp  # _MODS
-from pygeodesy.named import _NamedBase, notOverloaded,  Fmt
+from pygeodesy.named import _NamedBase, notImplemented, notOverloaded,  Fmt
 from pygeodesy.namedTuples import Bounds2Tuple, LatLon2Tuple, PhiLam2Tuple, \
                                   Trilaterate5Tuple, Vector3Tuple
 # from pygeodesy.nvectorBase import _N_vector_  # _MODS
@@ -43,7 +44,7 @@ from pygeodesy.props import deprecated_method, Property, Property_RO, \
 # from pygeodesy.streprs import Fmt, hstr  # from .named, _MODS
 from pygeodesy.units import Distance_, Lat, Lon, Height, Radius, Radius_, \
                             Scalar, Scalar_
-from pygeodesy.utily import sincos2d, _unrollon, _unrollon3, _Wrap
+from pygeodesy.utily import _unrollon, _unrollon3, _Wrap
 from pygeodesy.vector2d import _circin6,  Circin6Tuple, _circum3, circum4_, \
                                 Circum3Tuple, _radii11ABC
 from pygeodesy.vector3d import nearestOn6, Vector3d,  PointsIter
@@ -52,20 +53,7 @@ from contextlib import contextmanager
 from math import asin, cos, degrees, fabs, radians
 
 __all__ = _ALL_LAZY.latlonBase
-__version__ = '23.10.08'
-
-
-def _latlonheight3(latlonh, height, wrap):  # in .points.LatLon_.__init__
-    '''(INTERNAL) Get 3-tuple C{(lat, lon, height)}.
-    '''
-    try:
-        lat, lon = latlonh.lat, latlonh.lon
-        height = _xattr(latlonh, height=height)
-    except AttributeError:
-        raise _IsnotError(_LatLon_, latlonh=latlonh)
-    if wrap:
-        lat, lon = _Wrap.latlon(lat, lon)
-    return lat, lon, height
+__version__ = '23.11.08'
 
 
 class LatLonBase(_NamedBase):
@@ -493,6 +481,12 @@ class LatLonBase(_NamedBase):
         '''
         return self._Ecef_forward(self, M=True)
 
+    @property_RO
+    def ellipsoidalLatLon(self):
+        '''Get the C{LatLon type} iff ellipsoidal, overloaded in L{LatLonEllipsoidalBase}.
+        '''
+        return False
+
     @deprecated_method
     def equals(self, other, eps=None):  # PYCHOK no cover
         '''DEPRECATED, use method L{isequalTo}.'''
@@ -659,7 +653,7 @@ class LatLonBase(_NamedBase):
                     the overriding B{C{height}} (C{Height}).
         '''
         return Height(h) if h is not None else \
-               favg(self.height, other.height, f=f)
+              _MODS.fmath.favg(self.height, other.height, f=f)
 
     @Property
     def height(self):
@@ -732,6 +726,36 @@ class LatLonBase(_NamedBase):
         '''
         return _MODS.streprs.hstr(self.height, prec=prec, m=m)
 
+    def intersecant2(self, *args, **kwds):  # PYCHOK no cover
+        '''B{Not implemented}, throws a C{NotImplementedError} always.'''
+        notImplemented(self, *args, **kwds)
+
+    def _intersecend2(self, p, q, wrap, height, g_or_r, P, Q, unused):  # in .LatLonEllipsoidalBaseDI.intersecant2
+        '''(INTERNAL) Interpolate 2 heights along a geodesic or rhumb
+           line and return the 2 intercant points accordingly.
+        '''
+        if height is None:
+            hp = hq = _xattr(p, height=INT0)
+            h = _xattr(q, height=hp)  # if isLatLon(q) else hp
+            if h != hp:
+                s = g_or_r._Inverse(p, q, wrap).s12
+                if s:  # fmath.fidw?
+                    s = (h - hp) / s  # slope
+                    hq += s * Q.s12
+                    hp += s * P.s12
+                else:
+                    hp = hq = _MODS.fmath.favg(hp, h)
+        else:
+            hp = hq = Height(height)
+
+#       n = self.name or unused.__name__
+        p = q = self.classof(P.lat2, P.lon2, datum=g_or_r.datum, height=hp)  # name=n
+        p._iteration = P.iteration
+        if P is not Q:
+            q = self.classof(Q.lat2, Q.lon2, datum=g_or_r.datum, height=hq)  # name=n
+            q._iteration = Q.iteration
+        return p, q
+
     @deprecated_method
     def isantipode(self, other, eps=EPS):  # PYCHOK no cover
         '''DEPRECATED, use method L{isantipodeTo}.'''
@@ -755,12 +779,6 @@ class LatLonBase(_NamedBase):
         '''Check whether this point is ellipsoidal (C{bool} or C{None} if unknown).
         '''
         return self.datum.isEllipsoidal if self._datum else None
-
-    @Property_RO
-    def isEllipsoidalLatLon(self):
-        '''Get C{LatLon} base.
-        '''
-        return False
 
     def isequalTo(self, other, eps=None):
         '''Compare this point with an other point, I{ignoring} height.
@@ -987,6 +1005,10 @@ class LatLonBase(_NamedBase):
         e  = _r(e).toLatLon(**kwds) if e is not c else p
         return t.dup(closest=p, start=s, end=e)
 
+    def nearestTo(self, *args, **kwds):  # PYCHOK no cover
+        '''B{Not implemented}, throws a C{NotImplementedError} always.'''
+        notImplemented(self, *args, **kwds)
+
     def normal(self):
         '''Normalize this point I{in-place} to C{abs(lat) <= 90} and
            C{abs(lon) <= 180}.
@@ -1102,14 +1124,14 @@ class LatLonBase(_NamedBase):
     def _rhumb3(self, exact, radius):  # != .sphericalBase._rhumbs3
         '''(INTERNAL) Get the C{rhumb} for this point's datum or for
            the B{C{radius}}' earth model iff non-C{None}.
-        '''  # in .ellipsoidalBase.LatLonEllipsoidalBase.intersecant2
+        '''
         try:
             d = self._rhumb3dict
             t = d[(exact, radius)]
         except KeyError:
             D = self.datum if radius is None else _spherical_datum(radius)  # ellipsoidal OK
             try:
-                r = D.ellipsoid.rhumb_(exact=exact)  # or D.isSpherical)
+                r = D.ellipsoid.rhumb_(exact=exact)  # or D.isSpherical
             except AttributeError as x:
                 raise _AttributeError(datum=D, radius=radius, cause=x)
             t = r, D, _MODS.karney.Caps
@@ -1119,12 +1141,12 @@ class LatLonBase(_NamedBase):
         return t
 
     @Property_RO
-    def _rhumb3dict(self):
+    def _rhumb3dict(self):  # in rhumbIntersecant2 below
         return {}  # single-item cache
 
-    def rhumbAzimuthTo(self, other, exact=False, radius=None, wrap=False):
-        '''Return the azimuth (bearing) of a rhumb line (loxodrome)
-           between this and an other (ellipsoidal) point.
+    def rhumbAzimuthTo(self, other, exact=False, radius=None, wrap=False, b360=False):
+        '''Return the azimuth (bearing) of a rhumb line (loxodrome) between
+           this and an other (ellipsoidal) point.
 
            @arg other: The other point (C{LatLon}).
            @kwarg exact: Exact C{Rhumb...} to use (C{bool} or C{Rhumb...}),
@@ -1134,37 +1156,38 @@ class LatLonBase(_NamedBase):
                           L{a_f2Tuple}), overriding this point's datum.
            @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the
                         B{C{other}} point (C{bool}).
+           @kwarg b360: If C{True}, return the azimuth in the bearing range.
 
-           @return: Rhumb azimuth (compass C{degrees360}).
+           @return: Rhumb azimuth (compass C{degrees180} or C{degrees360}).
 
            @raise TypeError: The B{C{other}} point is incompatible or
                              B{C{radius}} is invalid.
         '''
         r, _, Cs = self._rhumb3(exact, radius)
-        return r._Inverse(self, other, wrap, outmask=Cs.AZIMUTH).azi12
+        z = r._Inverse(self, other, wrap, outmask=Cs.AZIMUTH).azi12
+        return _umod_360(z + _360_0) if b360 else z
 
     def rhumbDestination(self, distance, azimuth, exact=False, radius=None, height=None):
-        '''Return the destination point having travelled the given distance
-           from this point along a rhumb line (loxodrome) at the given azimuth.
+        '''Return the destination point having travelled the given distance from
+           this point along a rhumb line (loxodrome) of the given azimuth.
 
            @arg distance: Distance travelled (C{meter}, same units as this
                           point's datum (ellipsoid) axes or B{C{radius}},
                           may be negative.
-           @arg azimuth: Azimuth (bearing) at this point (compass C{degrees}).
-           @kwarg exact: Exact C{Rhumb...} to use (C{bool} or C{Rhumb...}),
-                         see method L{Ellipsoid.rhumb_}.
+           @arg azimuth: Azimuth (bearing) of the rhumb line (compass C{degrees}).
+           @kwarg exact: Exact C{Rhumb...} to use (C{bool} or C{Rhumb...}), see
+                         method L{Ellipsoid.rhumb_}.
            @kwarg radius: Optional earth radius (C{meter}) or earth model
                           (L{Datum}, L{Ellipsoid}, L{Ellipsoid2} or
                           L{a_f2Tuple}), overriding this point's datum.
-           @kwarg height: Optional height, overriding the default height
-                          (C{meter}).
+           @kwarg height: Optional height, overriding the default height (C{meter}).
 
            @return: The destination point (ellipsoidal C{LatLon}).
 
            @raise TypeError: Invalid B{C{radius}}.
 
-           @raise ValueError: Invalid B{C{distance}}, B{C{azimuth}},
-                              B{C{radius}} or B{C{height}}.
+           @raise ValueError: Invalid B{C{distance}}, B{C{azimuth}}, B{C{radius}}
+                              or B{C{height}}.
         '''
         r, D, _ = self._rhumb3(exact, radius)
         d = r._Direct(self, azimuth, distance)
@@ -1195,46 +1218,90 @@ class LatLonBase(_NamedBase):
         r, _, Cs = self._rhumb3(exact, radius)
         return r._Inverse(self, other, wrap, outmask=Cs.DISTANCE).s12
 
-    def rhumbLine(self, azimuth_other, exact=False, radius=None, wrap=False,
-                                                               **name_caps):
-        '''Get a rhumb line through this point at a given azimuth or
-           through this and an other point.
+    def rhumbIntersecant2(self, circle, point, other, height=None,
+                                                    **exact_radius_wrap_eps_tol):
+        '''Compute the intersections of a circle and a rhumb line given as two
+           points or as a point and azimuth.
 
-           @arg azimuth_other: The azimuth of the rhumb line (compass
-                               C{degrees}) or the other point (C{LatLon}).
-           @kwarg exact: Exact C{Rhumb...} to use (C{bool} or C{Rhumb...}),
-                         see method L{Ellipsoid.rhumb_}.
+           @arg circle: Radius of the circle centered at this location (C{meter}),
+                        or a point on the circle (this C{LatLon}).
+           @arg point: The start point of the rhumb line (this C{LatLon}).
+           @arg other: An other point I{on} (this C{LatLon}) or the azimuth I{of}
+                       (compass C{degrees}) the rhumb line.
+           @kwarg height: Optional height for the intersection points (C{meter},
+                          conventionally) or C{None} for interpolated heights.
+           @kwarg exact_radius_wrap_eps_tol: Optional keyword arguments, see
+                        methods L{rhumbLine} and L{RhumbLineAux.Intersecant2}
+                        or L{RhumbLine.Intersecant2}.
+
+           @return: 2-Tuple of the intersection points (representing a chord),
+                    each an instance of this class.  Both points are the same
+                    instance if the rhumb line is tangent to the circle.
+
+           @raise IntersectionError: The circle and rhumb line do not intersect.
+
+           @raise TypeError: If B{C{point}} is not this C{LatLon} or B{C{circle}}
+                             or B{C{other}} invalid.
+
+           @raise ValueError: Invalid B{C{circle}}, B{C{other}}, B{C{height}}
+                              or B{C{exact_radius_wrap}}.
+
+           @see: Methods L{RhumbLineAux.Intersecant2} and L{RhumbLine.Intersecant2}.
+        '''
+        def _kwds3(eps=EPS, tol=_TOL, wrap=False, **kwds):
+            return kwds, wrap, dict(eps=eps, tol=tol)
+
+        exact_radius, w, eps_tol = _kwds3(**exact_radius_wrap_eps_tol)
+
+        p = _unrollon(self, self.others(point=point), wrap=w)
+        try:
+            r = Radius_(circle=circle) if isscalar(circle) else \
+                self.rhumbDistanceTo(self.others(circle=circle), wrap=w, **exact_radius)
+            rl = p.rhumbLine(other, wrap=w, **exact_radius)
+            P, Q = rl.Intersecant2(self.lat, self.lon, r, **eps_tol)
+
+            return self._intersecend2(p, other, w, height, rl.rhumb, P, Q,
+                                                           self.rhumbIntersecant2)
+
+        except (TypeError, ValueError) as x:
+            raise _xError(x, center=self, circle=circle, point=point, other=other,
+                                                       **exact_radius_wrap_eps_tol)
+
+    def rhumbLine(self, other, exact=False, radius=None, wrap=False, **name_caps):
+        '''Get a rhumb line through this point at a given azimuth or through
+           this and an other point.
+
+           @arg other: The azimuth I{of} (compass C{degrees}) or an other point
+                       I{on} (this C{LatLon}) the rhumb line.
+           @kwarg exact: Exact C{Rhumb...} to use (C{bool} or C{Rhumb...}), see
+                         method L{Ellipsoid.rhumb_}.
            @kwarg radius: Optional earth radius (C{meter}) or earth model
-                          (L{Datum}, L{Ellipsoid}, L{Ellipsoid2} or
-                          L{a_f2Tuple}), overriding this point's datum.
-           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the
-                        C{azimuth_B{other}} point (C{bool}).
-           @kwarg name_caps: Optional C{B{name}=str} and C{caps}, see
-                             L{RhumbLine} C{B{caps}}.
+                          (L{Datum}, L{Ellipsoid}, L{Ellipsoid2} or L{a_f2Tuple}),
+                          overriding this point's datum.
+           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the B{C{other}}
+                        point (C{bool}).
+           @kwarg name_caps: Optional C{B{name}=str} and C{caps}, see L{RhumbLine}
+                             or L{RhumbLineAux} C{B{caps}}.
 
            @return: A C{RhumbLine} instance.
 
-           @raise TypeError: Invalid B{C{radius}} or BC{C{azimuth_other}}
-                             not a C{scalar} nor a C{LatLon}.
+           @raise TypeError: Invalid B{C{radius}} or B{C{other}} not C{scalar} nor
+                             this C{LatLon}.
 
            @see: Modules L{rhumbaux} and L{rhumbx}.
         '''
-        r, _, _ = self._rhumb3(exact, radius)
-        a, kwds = azimuth_other, _xkwds(name_caps, name=self.name)
-        if isscalar(a):
-            r = r._DirectLine(self, a, **kwds)
-        elif isinstance(a, LatLonBase):  # isLatLon(a)
-            r = r._InverseLine(self, a, wrap, **kwds)
-        else:
-            raise _TypeError(azimuth_other=a)
-        return r
+        r, _, Cs = self._rhumb3(exact, radius)
+        kwds = _xkwds(name_caps, name=self.name, caps=Cs.LINE_OFF)
+        rl = r._DirectLine( self, other, **kwds) if isscalar(other) else \
+             r._InverseLine(self, self.others(other), wrap, **kwds)
+        return rl
 
     def rhumbMidpointTo(self, other, exact=False, radius=None,
                                      height=None, fraction=_0_5, wrap=False):
         '''Return the (loxodromic) midpoint on the rhumb line between
            this and an other point.
 
-           @arg other: The other point (C{LatLon}).
+           @arg other: The other point (this C{LatLon}).
            @kwarg exact: Exact C{Rhumb...} to use (C{bool} or C{Rhumb...}),
                          see method L{Ellipsoid.rhumb_}.
            @kwarg radius: Optional earth radius (C{meter}) or earth model
@@ -1250,7 +1317,7 @@ class LatLonBase(_NamedBase):
                         B{C{other}} point (C{bool}).
 
            @return: The midpoint at the given B{C{fraction}} along the
-                    rhumb line (C{LatLon}).
+                    rhumb line (this C{LatLon}).
 
            @raise TypeError: The B{C{other}} point is incompatible or
                              B{C{radius}} is invalid.
@@ -1259,10 +1326,16 @@ class LatLonBase(_NamedBase):
         '''
         r, D, _ = self._rhumb3(exact, radius)
         f = Scalar(fraction=fraction)
-        d = r._Inverse(self, other, wrap)  # C.AZIMUTH_DISTANCE
+        d = r._Inverse(self, self.others(other), wrap)  # C.AZIMUTH_DISTANCE
         d = r._Direct( self, d.azi12, d.s12 * f)
         h = self._havg(other, f=f, h=height)
         return self.classof(d.lat2, d.lon2, datum=D, height=h)
+
+    @property_RO
+    def sphericalLatLon(self):
+        '''Get the C{LatLon type} iff spherical, overloaded in L{LatLonSphericalBase}.
+        '''
+        return False
 
     def thomasTo(self, other, wrap=False):
         '''Compute the distance between this and an other point using
@@ -1570,10 +1643,10 @@ class LatLonBase(_NamedBase):
         return self.xyz.to4Tuple(self.height)
 
 
-class _toCartesian3(object):  # see also .geodesicw._wargs, .vector2d._numpy
+class _toCartesian3(object):  # see also .formy._idllmn6, .geodesicw._wargs, .vector2d._numpy
     '''(INTERNAL) Wrapper to convert 2 other points.
     '''
-    @contextmanager  # <https://www.python.org/dev/peps/pep-0343/> Examples
+    @contextmanager  # <https://www.Python.org/dev/peps/pep-0343/> Examples
     def __call__(self, p, p2, p3, wrap, **kwds):
         try:
             if wrap:
@@ -1582,10 +1655,23 @@ class _toCartesian3(object):  # see also .geodesicw._wargs, .vector2d._numpy
             yield (p. toCartesian().copy(name=_point_),  # copy to rename
                    p._toCartesianEcef(up=4, point2=p2),
                    p._toCartesianEcef(up=4, point3=p3))
-        except (AssertionError, TypeError, ValueError) as x:
+        except (AssertionError, TypeError, ValueError) as x:  # Exception?
             raise _xError(x, point=p, point2=p2, point3=p3, **kwds)
 
 _toCartesian3 = _toCartesian3()  # PYCHOK singleton
+
+
+def _latlonheight3(latlonh, height, wrap):  # in .points.LatLon_.__init__
+    '''(INTERNAL) Get 3-tuple C{(lat, lon, height)}.
+    '''
+    try:
+        lat, lon = latlonh.lat, latlonh.lon
+        height = _xattr(latlonh, height=height)
+    except AttributeError:
+        raise _IsnotError(_LatLon_, latlonh=latlonh)
+    if wrap:
+        lat, lon = _Wrap.latlon(lat, lon)
+    return lat, lon, height
 
 
 def _trilaterate5(p1, d1, p2, d2, p3, d3, area=True, eps=EPS1,  # MCCABE 13
@@ -1650,26 +1736,6 @@ def _trilaterate5(p1, d1, p2, d2, p3, d3, area=True, eps=EPS1,  # MCCABE 13
     n, f = (_overlap_, max) if area else (_intersection_, min)
     t = _COMMASPACE_(_no_(n), '%s %.3g' % (f.__name__, m))
     raise IntersectionError(area=area, eps=eps, wrap=wrap, txt=t)
-
-
-def _intersecend2(p, d, a, b, r, radius, height, exact):  # in .ellipsoidalBas, .sphericalBase
-    '''(INTERNAL) Compute the intersecant2 end-result.
-    '''
-    if d > EPS:
-        s, c = sincos2d(b - a)
-        s = sqrt_a(r, fabs(s * d))
-        if s > r:
-            raise IntersectionError(_too_(Fmt.distant(s)))
-        elif (r - s) < EPS:
-            return p, p  # tangent
-        c *= d
-    else:  # p and c coincide
-        s, c = r, 0
-    t = ()
-    for d, b in ((s + c, b), (s - c, b + _180_0)):  # bearing direction first
-        t += (p.destination(d, b, radius=radius, height=height) if exact is None else
-              p.rhumbDestination(d, b, radius=radius, height=height, exact=exact)),
-    return t
 
 
 __all__ += _ALL_DOCS(LatLonBase)

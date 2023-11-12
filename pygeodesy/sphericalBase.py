@@ -12,73 +12,35 @@ U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>}.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import _copysign, isbool, isinstanceof, map1
+from pygeodesy.basics import _copysign, isbool, isinstanceof, isscalar, map1
 from pygeodesy.cartesianBase import CartesianBase,  Bearing2Tuple
-from pygeodesy.constants import EPS, PI, PI2, PI_2, R_M, \
-                               _umod_360, isnear0, isnon0, _over, \
-                               _0_0, _0_5, _1_0, _180_0
-from pygeodesy.datums import Datums, _spherical_datum
-from pygeodesy.errors import IntersectionError, _ValueError, _xError
-from pygeodesy.fmath import favg, fdot, hypot
+from pygeodesy.constants import EPS, EPS0, PI, PI2, PI_2, R_M, \
+                               _0_0, _0_5, _1_0, _180_0, _360_0, \
+                               _over, isnear0, isnon0
+from pygeodesy.datums import Datums, _earth_ellipsoid, _spherical_datum
+from pygeodesy.errors import IntersectionError, _ValueError, \
+                            _xattr, _xError
+from pygeodesy.fmath import favg, fdot, hypot, sqrt_a
 from pygeodesy.interns import NN, _COMMA_, _concentric_, _datum_, \
                              _distant_, _exceed_PI_radians_, _name_, \
                              _near_, _radius_, _too_
-from pygeodesy.latlonBase import _intersecend2, LatLonBase, \
-                                 _trilaterate5  # PYCHOK passed
+from pygeodesy.latlonBase import LatLonBase,  _trilaterate5  # PYCHOK passed
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 # from pygeodesy.namedTuples import Bearing2Tuple  # from .cartesianBase
-from pygeodesy.nvectorBase import NvectorBase,  _xattrs
+from pygeodesy.nvectorBase import NvectorBase,  Fmt, _xattrs
 from pygeodesy.props import deprecated_method, property_doc_, \
                             property_RO, _update_all
 # from pygeodesy.streprs import Fmt, _xattrs  # from .nvectorBase
 from pygeodesy.units import Bearing, Bearing_, Radians_, Radius, \
-                            Radius_, Scalar_
-from pygeodesy.utily import acos1, atan2b, atan2d, degrees90, \
-                            degrees180, sincos2, _unrollon, \
-                            tanPI_2_2, wrap360, wrapPI
+                            Radius_, Scalar_, _100km
+from pygeodesy.utily import acos1, asin1, atan2b, atan2d, degrees90, \
+                            degrees180, sincos2, sincos2d, _unrollon, \
+                            tanPI_2_2, wrapPI
 
 from math import cos, fabs, log, sin, sqrt
 
 __all__ = _ALL_LAZY.sphericalBase
-__version__ = '23.10.08'
-
-
-def _angular(distance, radius, low=EPS):  # PYCHOK in .spherical*
-    '''(INTERNAL) Return an angular distance in C{radians}.
-
-       @raise UnitError: Invalid B{C{distance}} or B{C{radius}}.
-    '''
-    r = float(distance)
-    if radius:
-        r = r / Radius_(radius=radius)  # /= chokes PyChecker
-    if low is not None:
-        # small near0 values from .rhumbDestination not exact OK
-        r = _0_0 if low < 0 and low < r < 0 else Radians_(r, low=low)
-    return r
-
-
-def _logPI_2_2(a2, a1):
-    '''(INTERNAL) C{log} of C{tanPI_2_2}'s quotient.
-    '''
-    return log(_over(tanPI_2_2(a2), tanPI_2_2(a1)))
-
-
-def _rads3(rad1, rad2, radius):  # in .sphericalTrigonometry
-    '''(INTERNAL) Convert radii to radians.
-    '''
-    r1 = Radius_(rad1=rad1)
-    r2 = Radius_(rad2=rad2)
-    if radius is not None:  # convert radii to radians
-        r1 = _angular(r1, radius)
-        r2 = _angular(r2, radius)
-
-    x = r1 < r2
-    if x:
-        r1, r2 = r2, r1
-    if r1 > PI:
-        raise IntersectionError(rad1=rad1, rad2=rad2,
-                                txt=_exceed_PI_radians_)
-    return r1, r2, x
+__version__ = '23.10.24'
 
 
 class CartesianSphericalBase(CartesianBase):
@@ -142,11 +104,18 @@ class CartesianSphericalBase(CartesianBase):
         return (_xattrs(x1, self, _datum_, _name_),
                 _xattrs(x2, self, _datum_, _name_))
 
+    @property_RO
+    def sphericalCartesian(self):
+        '''Get this C{Cartesian}'s spherical class.
+        '''
+        return type(self)
+
 
 class LatLonSphericalBase(LatLonBase):
     '''(INTERNAL) Base class for spherical C{LatLon}s.
     '''
-    _datum = Datums.Sphere  # spherical L{Datum}
+    _datum       =  Datums.Sphere  # spherical L{Datum}
+    _napieradius = _100km
 
     def __init__(self, latlonh, lon=None, height=0, datum=None, wrap=False, name=NN):
         '''Create a spherical C{LatLon} point frome the given lat-, longitude and
@@ -230,53 +199,51 @@ class LatLonSphericalBase(LatLonBase):
         p = self.others(other)
         if wrap:
             p = _unrollon(self, p, wrap=wrap)
-        # final bearing is the reverse of the other, initial one;
-        # .initialBearingTo is inside .-Nvector and .-Trigonometry
-        b = p.initialBearingTo(self, wrap=False, raiser=raiser)
-        return _umod_360(b + _180_0)
+        # final bearing is the reverse of the other, initial one
+        b = p.initialBearingTo(self, wrap=False, raiser=raiser) + _180_0
+        return b if b < 360 else (b - _360_0)
 
-    def intersecant2(self, circle, point, bearing, radius=R_M, exact=False,
-                                                   height=None, wrap=False):  # was=True
-        '''Compute the intersections of a circle and a line given as a point
-           and bearing or as two points.
+    def intersecant2(self, circle, point, other, radius=R_M, exact=False,  # PYCHOK signature
+                                                 height=None, wrap=False):
+        '''Compute the intersections of a circle and a (great circle) line
+           given as two points or as a point and bearing.
 
-           @arg circle: Radius of the circle centered at this location
-                       (C{meter}, same units as B{C{radius}}) or a point
-                       on the circle (this C{LatLon}).
-           @arg point: An other point in- or outside the circle on the line
-                       (this C{LatLon}).
-           @arg bearing: Bearing at the B{C{point}} (compass C{degrees360})
-                         or an other point on the line (this C{LatLon}).
+           @arg circle: Radius of the circle centered at this location (C{meter},
+                        same units as B{C{radius}}) or a point on the circle
+                        (this C{LatLon}).
+           @arg point: A point on the (great circle) line (this C{LatLon}).
+           @arg other: An other point I{on} (this {LatLon}) or the bearing at
+                       B{C{point}} I{of} the (great circle) line (compass
+                       C{degrees}).
            @kwarg radius: Mean earth radius (C{meter}, conventionally).
            @kwarg exact: If C{True} use the I{exact} rhumb methods for azimuth,
                          destination and distance, if C{False} use the basic
                          rhumb methods (C{bool}) or if C{None} use the I{great
                          circle} methods.
            @kwarg height: Optional height for the intersection points (C{meter},
-                          conventionally) or C{None}.
-           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the
-                        B{C{point}}, B{C{circle}} and/or B{C{bearing}} (C{bool}).
+                          conventionally) or C{None} for interpolated heights.
+           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the points
+                        B{C{circle}}, B{C{point}} and/or B{C{other}} (C{bool}).
 
-           @return: 2-Tuple of the intersection points (representing a chord),
-                    each an instance of this class.  For a tangent line, both
-                    points are the same instance, the B{C{point}} or wrapped
-                    or I{normalized}.
+           @return: 2-Tuple of the intersection points (representing a chord), each
+                    an instance of the B{C{point}} class.  Both points are the same
+                    instance if the (great circle) line is tangent to the circle.
 
            @raise IntersectionError: The circle and line do not intersect.
 
            @raise TypeError: If B{C{point}} is not this C{LatLon} or B{C{circle}}
-                             or B{C{bearing}} invalid.
+                             or B{C{other}} invalid.
 
-           @raise ValueError: Invalid B{C{circle}}, B{C{bearing}}, B{C{radius}},
-                              B{C{exact}} or B{C{height}}.
+           @raise UnitError: Invalid B{C{circle}}, B{C{other}}, B{C{radius}},
+                             B{C{exact}}, B{C{height}} or B{C{napieradius}}.
         '''
         p = self.others(point=point)
         try:
-            return _intersecant2(self, circle, p, bearing, radius=radius, exact=exact,
-                                                           height=height, wrap=wrap)
+            return _intersecant2(self, circle, p, other, radius=radius, exact=exact,
+                                                         height=height, wrap=wrap)
         except (TypeError, ValueError) as x:
-            raise _xError(x, center=self, circle=circle, point=point, bearing=bearing,
-                                                         exact=exact, wrap=wrap)
+            raise _xError(x, center=self, circle=circle, point=point, other=other,
+                             radius=radius, exact=exact, height=height, wrap=wrap)
 
     def maxLat(self, bearing):
         '''Return the maximum latitude reached when travelling
@@ -311,6 +278,37 @@ class LatLonSphericalBase(LatLonBase):
            @raise ValueError: Invalid B{C{bearing}}.
         '''
         return -self.maxLat(bearing)
+
+    def _mpr(self, radius=R_M, exact=None):  # meter per radian
+        if exact and not isscalar(radius):  # see .rhumbx.Rhumb._mpr
+            radius = _earth_ellipsoid(radius)._Lpr
+        return radius
+
+    @property_doc_(''' the I{Napier} radius to apply spherical trigonometry.''')
+    def napieradius(self):
+        '''Get the I{Napier} radius (C{meter}, conventionally).
+        '''
+        return self._napieradius
+
+    @napieradius.setter  # PYCHOK setter!
+    def napieradius(self, radius):
+        '''Set this I{Napier} radius (C{meter}, conventionally) or C{0}.
+
+           In methods L{intersecant2} and L{rhumbIntersecant2}, I{Napier}'s
+           spherical trigonometry is applied if the circle radius exceeds
+           the I{Napier} radius, otherwise planar trigonometry is used.
+
+           @raise UnitError: Invalid B{C{radius}}.
+        '''
+        self._napieradius = Radius(napieradius=radius or 0)
+
+#   def nearestTo(self, point, other, **radius_exact_height_wrap):  # PYCHOK signature
+#       p = self.others(point=point)
+#       try:
+#           p, q = _intersecant2(self, p, p, other, **radius_exact_height_wrap)
+#       except (TypeError, ValueError) as x:
+#           raise _xError(x, this=self, point=point, other=other, **radius_exact_height_wrap)
+#       return p.midpointTo(q)
 
     def parse(self, strllh, height=0, sep=_COMMA_, name=NN):
         '''Parse a string representing a similar, spherical C{LatLon}
@@ -363,9 +361,9 @@ class LatLonSphericalBase(LatLonBase):
             da = hypot(da, q * db)  # angular distance radians
         return da, db, dp
 
-    def rhumbAzimuthTo(self, other, radius=R_M, exact=False, wrap=False):
-        '''Return the azimuth (bearing) of a rhumb line (loxodrome)
-           between this and an other (spherical) point.
+    def rhumbAzimuthTo(self, other, radius=R_M, exact=False, wrap=False, b360=False):
+        '''Return the azimuth (bearing) of a rhumb line (loxodrome) between
+           this and an other (spherical) point.
 
            @arg other: The other point (spherical C{LatLon}).
            @kwarg radius: Earth radius (C{meter}) or earth model (L{Datum},
@@ -374,8 +372,9 @@ class LatLonSphericalBase(LatLonBase):
                          default C{False} for backward compatibility.
            @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the
                         B{C{other}} point (C{bool}).
+           @kwarg b360: If C{True}, return the azimuth in the bearing range.
 
-           @return: Rhumb line azimuth (compass C{degrees180}).
+           @return: Rhumb azimuth (compass C{degrees180} or C{degrees360}).
 
            @raise TypeError: The B{C{other}} point is incompatible or
                              B{C{radius}} is invalid.
@@ -388,36 +387,35 @@ class LatLonSphericalBase(LatLonBase):
         '''
         if exact:  # use series, always
             z = LatLonBase.rhumbAzimuthTo(self, other, exact=False,  # Krüger
-                                                radius=radius, wrap=wrap)
+                                                radius=radius, wrap=wrap, b360=b360)
         else:
             _, db, dp = self._rhumbs3(other, wrap)
-            z = atan2d(db, dp)  # see .rhumbx.Rhumb.Inverse
+            z = (atan2b if b360 else atan2d)(db, dp)  # see .rhumbBase.RhumbBase.Inverse
         return z
 
     @deprecated_method
     def rhumbBearingTo(self, other):  # unwrapped
         '''DEPRECATED, use method C{.rhumbAzimuthTo}.'''
-        return wrap360(self.rhumbAzimuthTo(other))  # [0..360)
+        return self.rhumbAzimuthTo(other, b360=True)  # [0..360)
 
-    def rhumbDestination(self, distance, bearing, radius=R_M, height=None, exact=False):
-        '''Return the destination point having travelled the given distance
-           from this point along a rhumb line (loxodrome) at the given bearing.
+    def rhumbDestination(self, distance, azimuth, radius=R_M, height=None, exact=False):
+        '''Return the destination point having travelled the given distance from
+           this point along a rhumb line (loxodrome) of the given azimuth.
 
            @arg distance: Distance travelled (C{meter}, same units as B{C{radius}}),
                           may be negative if C{B{exact}=True}.
-           @arg bearing: Bearing (azimuth) at this point (compass C{degrees360}).
+           @arg azimuth: Azimuth (bearing) of the rhumb line (compass C{degrees}).
            @kwarg radius: Earth radius (C{meter}) or earth model (L{Datum},
                           L{Ellipsoid}, L{Ellipsoid2} or L{a_f2Tuple}) if
                           C{B{exact}=True}.
-           @kwarg height: Optional height, overriding the default height
-                          (C{meter}, same unit as B{C{radius}}).
-           @kwarg exact: If C{True}, use I{Krüger} L{rhumbx} (C{bool}),
-                         default C{False} for backward compatibility.
+           @kwarg height: Optional height, overriding the default height (C{meter}.
+           @kwarg exact: If C{True}, use I{Krüger} L{rhumbx} (C{bool}), default
+                         C{False} for backward compatibility.
 
            @return: The destination point (spherical C{LatLon}).
 
-           @raise ValueError: Invalid B{C{distance}}, B{C{bearing}},
-                              B{C{radius}} or B{C{height}}.
+           @raise ValueError: Invalid B{C{distance}}, B{C{azimuth}}, B{C{radius}}
+                              or B{C{height}}.
 
            @example:
 
@@ -425,7 +423,7 @@ class LatLonSphericalBase(LatLonBase):
             >>> q = p.rhumbDestination(40300, 116.7)  # 50.9642°N, 001.8530°E
         '''
         if exact:  # use series, always
-            r = LatLonBase.rhumbDestination(self, distance, bearing, exact=False,  # Krüger
+            r = LatLonBase.rhumbDestination(self, distance, azimuth, exact=False,  # Krüger
                                                   radius=radius, height=height)
         else:  # radius=None from .rhumbMidpointTo
             if radius in (None, self._radius):
@@ -433,10 +431,10 @@ class LatLonSphericalBase(LatLonBase):
             else:
                 d = _spherical_datum(radius, raiser=_radius_)  # spherical only
                 r =  d.ellipsoid.equatoradius
-            r = _angular(distance, r, low=-EPS)  # distance=0 from .rhumbMidpointTo
+            r = _m2radians(distance, r, low=-EPS)  # distance=0 from .rhumbMidpointTo
 
             a1, b1 = self.philam
-            sb, cb = sincos2(Bearing_(bearing))
+            sb, cb = sincos2(Bearing_(azimuth))  # radians
 
             da = r  * cb
             a2 = a1 + da
@@ -446,8 +444,8 @@ class LatLonSphericalBase(LatLonBase):
 
             dp = _logPI_2_2(a2, a1)
             # q becomes ill-conditioned on E-W course 0/0
-            q  = (da / dp) if fabs(dp) > EPS else cos(a1)
-            b2 = (b1 + r * sb / q) if fabs(q) > EPS else b1
+            q  = cos(a1) if isnear0(dp) else (da / dp)
+            b2 = b1 if isnear0(q) else (b1 + r * sb / q)
 
             h = self._heigHt(height)
             r = self.classof(degrees90(a2), degrees180(b2), datum=d, height=h)
@@ -490,6 +488,44 @@ class LatLonSphericalBase(LatLonBase):
             if radius is not None:
                 r *= Radius(radius)
         return r
+
+    def rhumbIntersecant2(self, circle, point, other, radius=R_M, exact=True,  # PYCHOK signature
+                                                      height=None, wrap=False):
+        '''Compute the intersections of a circle and a rhumb line given as two
+           points and as a point and azimuth.
+
+           @arg circle: Radius of the circle centered at this location (C{meter},
+                        same units as B{C{radius}}) or a point on the circle
+                        (this C{LatLon}).
+           @arg point: The rhumb line's start point (this C{LatLon}).
+           @arg other: An other point (this I{on} C{LatLon}) or the azimuth I{of}
+                       (compass C{degrees}) the rhumb line.
+           @kwarg radius: Mean earth radius (C{meter}, conventionally).
+           @kwarg exact: If C{True} use the I{exact} rhumb methods for azimuth,
+                         destination and distance, if C{False} use the basic
+                         rhumb methods (C{bool}) or if C{None} use the I{great
+                         circle} methods.
+           @kwarg height: Optional height for the intersection points (C{meter},
+                          conventionally) or C{None}.
+           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the points
+                        B{C{circle}}, B{C{point}} and/or B{C{other}} (C{bool}).
+
+           @return: 2-Tuple of the intersection points (representing a chord),
+                    each an instance of this class.  For a tangent line, both
+                    points are the same instance, wrapped or I{normalized}.
+
+           @raise IntersectionError: The circle and line do not intersect.
+
+           @raise TypeError: If B{C{point}} is not this C{LatLon} or B{C{circle}}
+                             or B{C{other}} invalid.
+
+           @raise UnitError: Invalid B{C{circle}}, B{C{other}}, B{C{radius}},
+                             B{C{exact}} or B{C{height}}.
+        '''
+        m = LatLonBase.rhumbIntersecant2 if exact else \
+            LatLonSphericalBase.intersecant2
+        return m(self, circle, point, other, radius=radius, exact=exact,
+                                             height=height, wrap=wrap)
 
     def rhumbMidpointTo(self, other, height=None, radius=R_M, exact=False,
                                                 fraction=_0_5, wrap=False):
@@ -561,6 +597,12 @@ class LatLonSphericalBase(LatLonBase):
             r = self.classof(degrees90(a3), degrees180(b3), datum=d, height=h)
         return r
 
+    @property_RO
+    def sphericalLatLon(self):
+        '''Get this C{LatLon}'s spherical class.
+        '''
+        return type(self)
+
     def toNvector(self, Nvector=NvectorBase, **Nvector_kwds):  # PYCHOK signature
         '''Convert this point to C{Nvector} components, I{including
            height}.
@@ -577,9 +619,8 @@ class LatLonSphericalBase(LatLonBase):
         return LatLonBase.toNvector(self, Nvector=Nvector, **Nvector_kwds)
 
 
-def _intersecant2(c, r, p, b, radius=R_M, exact=False,
-                              height=None, wrap=False):
-    # (INTERNAL) Intersect a circle and bearing, see L{intersecant2}
+def _intersecant2(c, r, p, b, radius=R_M, exact=False, height=None, wrap=False):
+    # (INTERNAL) Intersect a circle and line, see L{intersecant2}
     # above, separated to allow callers to embellish any exceptions
 
     if wrap:
@@ -600,21 +641,95 @@ def _intersecant2(c, r, p, b, radius=R_M, exact=False,
     elif nonexact:
         b = p.initialBearingTo(b, wrap=wrap)
     else:
-        b = p.rhumbAzimuthTo(b, radius=radius, exact=exact, wrap=wrap)
+        b = p.rhumbAzimuthTo(b, radius=radius, exact=exact, wrap=wrap,
+                             b360=True)
 
     d = p.distanceTo(c, radius=radius) if nonexact else \
         p.rhumbDistanceTo(c, radius=radius, exact=exact)
-    a = 0 if d < EPS else (p.initialBearingTo(c) if nonexact else
-        wrap360(p.rhumbAzimuthTo(c, radius=radius, exact=exact)))
-    return _intersecend2(p, d, a, b, r, radius, height, exact)
+    if d > EPS0:
+        n = _xattr(c, napieradius=0)
+        a =  p.initialBearingTo(c) if nonexact else \
+             p.rhumbAzimuthTo(c, radius=radius, exact=exact, b360=True)
+        s, c = sincos2d(b - a)  # Napier's sin(A), cos(A)
+        if r > n:
+            # Napier's right spherical triangle rules (R2) and (R1)
+            # <https://WikiPedia.org/wiki/Spherical_trigonometry>
+            m = p._mpr(radius=radius, exact=exact)  # meter per radian
+            if fabs(c) > EPS0:
+                d =  d / m  # /= chokes PyChecker
+                a =  asin1(sin(d) * fabs(s))  # Napier's a
+                c = _copysign(cos(a), c)
+                d =  acos1(cos(d) / c) * m
+                a *= m  # meter
+            else:  # point and chord center coincident
+                a, d = d, 0
+                c = cos(a / m)
+            h = (acos1(cos(r / m) / c) * m) if a < r else 0
+        else:  # distance from the chord center to ...
+            a  = fabs(d * s)  # ... the cicle center ...
+            d *= c  # ... and to the point
+            h  = sqrt_a(r, a) if a < r else 0  # half chord length
+        if a > r:
+            raise IntersectionError(_too_(Fmt.distant(a)))
+    else:
+        d, h = 0, r  # point and circle center coincident
+
+    _intersecant1, kwds = (p.destination, {}) if nonexact else \
+                          (p.rhumbDestination, dict(exact=exact))
+    kwds.update(radius=radius, height=height)
+    t = (_intersecant1(d + h, b, **kwds),)
+    if h:
+        t += (_intersecant1(d - h, b, **kwds),)
+    else:  # same instance twice
+        t *= 2
+    return t
 
 
-def _r2m(r, radius):
-    '''(INTERNAL) Angular distance in C{radians} to C{meter}.
+def _logPI_2_2(a2, a1):
+    '''(INTERNAL) C{log} of C{tanPI_2_2}'s quotient.
+    '''
+    return log(_over(tanPI_2_2(a2), tanPI_2_2(a1)))
+
+
+def _m2radians(distance, radius, low=EPS):  # PYCHOK in .spherical*
+    '''(INTERNAL) Distance in C{meter} to angular distance in C{radians}.
+
+       @raise UnitError: Invalid B{C{distance}} or B{C{radius}}.
+    '''
+    r = float(distance)
+    if radius:
+        r = r / Radius_(radius=radius)  # /= chokes PyChecker
+    if low is not None:
+        # small near0 values from .rhumbDestination not exact OK
+        r = _0_0 if low < 0 and r < 0 else Radians_(r, low=low)
+        # _0_0 if low < 0 and low < r < 0 else Radians_(r, low=low)
+    return r
+
+
+def _radians2m(rad, radius):
+    '''(INTERNAL) Angular distance in C{radians} to distance in C{meter}.
     '''
     if radius is not None:  # not in (None, _0_0)
-        r *= R_M if radius is R_M else Radius(radius)
-    return r
+        rad *= R_M if radius is R_M else Radius(radius)
+    return rad
+
+
+def _rads3(rad1, rad2, radius):  # in .sphericalTrigonometry
+    '''(INTERNAL) Convert radii to radians.
+    '''
+    r1 = Radius_(rad1=rad1)
+    r2 = Radius_(rad2=rad2)
+    if radius is not None:  # convert radii to radians
+        r1 = _m2radians(r1, radius)
+        r2 = _m2radians(r2, radius)
+
+    x = r1 < r2
+    if x:
+        r1, r2 = r2, r1
+    if r1 > PI:
+        raise IntersectionError(rad1=rad1, rad2=rad2,
+                                txt=_exceed_PI_radians_)
+    return r1, r2, x
 
 
 __all__ += _ALL_DOCS(CartesianSphericalBase, LatLonSphericalBase)

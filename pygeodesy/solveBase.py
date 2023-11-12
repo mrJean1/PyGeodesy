@@ -6,12 +6,13 @@ u'''(INTERNAL) Private base classes for L{pygeodesy.geodsolve} and L{pygeodesy.r
 
 from pygeodesy.basics import map2, ub2str, _zip
 from pygeodesy.constants import DIG
+# from pygeodesy.datums import _earth_datum, _WGS84  # from .karney
 # from pygeodesy.ellipsoids import _EWGS84  # from .karney
 from pygeodesy.errors import _AssertionError, _xkwds_get
 from pygeodesy.interns import NN, _0_, _BACKSLASH_, _COMMASPACE_, _enquote, \
                              _EQUAL_, _Error_, _not_, _SPACE_, _UNUSED_
-from pygeodesy.karney import Caps, _CapsBase, _a_ellipsoid, GDict, \
-                             Precision_,  _EWGS84
+from pygeodesy.karney import Caps, _CapsBase, GDict, Precision_,  \
+                            _earth_datum, _EWGS84, _WGS84
 from pygeodesy.lazily import _ALL_DOCS, printf, _sys_version_info2
 from pygeodesy.named import callername, notOverloaded
 from pygeodesy.props import Property, Property_RO, property_RO, _update_all
@@ -22,7 +23,7 @@ from pygeodesy.utily import unroll180,  wrap360  # PYCHOK shared
 from subprocess import PIPE as _PIPE, Popen as _Popen, STDOUT as _STDOUT
 
 __all__ = ()  # nothing public
-__version__ = '23.09.22'
+__version__ = '23.11.02'
 
 _ERROR_    = 'ERROR'
 _text_True =  dict() if _sys_version_info2 < (3, 7) else dict(text=True)
@@ -51,7 +52,6 @@ def _popen2(cmd, stdin=None):  # in .mgrs, .test.base, .test.testMgrs
 class _SolveLineSolveBase(_CapsBase):
     '''(NTERNAL) Base class for C{_Solve} and C{_LineSolve}.
     '''
-    _E             = _EWGS84
     _Error         =  None
     _Exact         =  True
     _invokation    =  0
@@ -65,30 +65,10 @@ class _SolveLineSolveBase(_CapsBase):
     _unroll        =  False
     _verbose       =  False
 
-    @Property_RO
-    def a(self):
-        '''Get the I{equatorial} radius, semi-axis (C{meter}).
-        '''
-        return self.ellipsoid.a
-
     @property_RO
     def _cmdBasic(self):  # PYCHOK no cover
         '''(INTERNAL) I{Must be overloaded}.'''
         notOverloaded(self, underOK=True)
-
-    @Property_RO
-    def ellipsoid(self):
-        '''Get the ellipsoid (C{Ellipsoid}).
-        '''
-        return self._E
-
-    @Property_RO
-    def _e_option(self):
-        E = self.ellipsoid
-        if E is _EWGS84:
-            return ()  # default
-        a, f = strs(E.a_f, fmt=Fmt.F, prec=DIG + 3)  # not .G!
-        return ('-e', a, f)
 
     @property
     def Exact(self):
@@ -105,15 +85,6 @@ class _SolveLineSolveBase(_CapsBase):
         if self._Exact != Exact:
             _update_all(self)
             self._Exact = Exact
-
-    @Property_RO
-    def flattening(self):
-        '''Get the C{ellipsoid}'s I{flattening} (C{scalar}), M{(a - b) / a},
-           C{0} for spherical, negative for prolate.
-        '''
-        return self.ellipsoid.f
-
-    f = flattening
 
     def _GDictInvoke(self, cmd, floats, Names, *args):
         '''(INTERNAL) Invoke C{Solve}, return results as C{GDict}.
@@ -302,6 +273,8 @@ class _SolveLineSolveBase(_CapsBase):
 class _SolveBase(_SolveLineSolveBase):
     '''(NTERNAL) Base class for C{_GeodesicSolveBase} and C{_RhumbSolveBase}.
     '''
+    _datum = _WGS84
+
     def __init__(self, a_ellipsoid=_EWGS84, f=None, path=NN, name=NN):
         '''New C{Solve} instance.
 
@@ -316,12 +289,17 @@ class _SolveBase(_SolveLineSolveBase):
 
            @raise TypeError: Invalid B{C{a_ellipsoid}} or B{C{f}}.
         '''
-        if a_ellipsoid not in (self._E, None):  # NOT self.ellipsoid
-            self._E = _a_ellipsoid(a_ellipsoid, f, name=name)
+        _earth_datum(self, a_ellipsoid, f=f, name=name)
         if name:
             self.name = name
         if path:
             self._setSolve(path)
+
+    @Property_RO
+    def a(self):
+        '''Get the I{equatorial} radius, semi-axis (C{meter}).
+        '''
+        return self.ellipsoid.a
 
     @Property_RO
     def _cmdDirect(self):
@@ -335,10 +313,39 @@ class _SolveBase(_SolveLineSolveBase):
         '''
         return self._cmdBasic + ('-i',)
 
+    @property_RO
+    def datum(self):
+        '''Get the datum (C{Datum}).
+        '''
+        return self._datum
+
     def Direct(self, lat1, lon1, azi1, s12, outmask=_UNUSED_):  # PYCHOK unused
         '''Return the C{Direct} result.
         '''
         return self._GDictDirect(lat1, lon1, azi1, False, s12)
+
+    @Property_RO
+    def ellipsoid(self):
+        '''Get the ellipsoid (C{Ellipsoid}).
+        '''
+        return self.datum.ellipsoid
+
+    @Property_RO
+    def _e_option(self):
+        E = self.ellipsoid
+        if E is _EWGS84:
+            return ()  # default
+        a, f = strs(E.a_f, fmt=Fmt.F, prec=DIG + 3)  # not .G!
+        return ('-e', a, f)
+
+    @Property_RO
+    def flattening(self):
+        '''Get the C{ellipsoid}'s I{flattening} (C{scalar}), M{(a - b) / a},
+           C{0} for spherical, negative for prolate.
+        '''
+        return self.ellipsoid.f
+
+    f = flattening
 
     def _GDictDirect(self, lat, lon, azi, arcmode, s12_a12, outmask=_UNUSED_, **floats):  # PYCHOK for .geodesicx.gxarea
         '''(INTERNAL) Get C{_GenDirect}-like result as C{GDict}.
@@ -407,6 +414,12 @@ class _SolveLineBase(_SolveLineSolveBase):
 
         t = strs(_lla3(**self._lla1), prec=DIG, fmt=Fmt.F)  # self._solve.prec
         return self._cmdBasic + ('-L',) + t
+
+    @property_RO
+    def datum(self):
+        '''Get the datum (C{Datum}).
+        '''
+        return self._solve.datum
 
     @property_RO
     def ellipsoid(self):

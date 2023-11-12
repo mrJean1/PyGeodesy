@@ -63,21 +63,21 @@ Following is the list of predefined L{Ellipsoid}s, all instantiated lazily.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import copysign0, isbool, isint, _xinstanceof
+from pygeodesy.basics import copysign0, isbool, isint
 from pygeodesy.constants import EPS, EPS0, EPS02, EPS1, INF, NINF, PI4, PI_2, PI_3, R_M, R_MA, R_FM, \
                                _EPSqrt, _EPStol as _TOL, _floatuple as _T, _isfinite, _SQRT2_2, \
                                _0_0s, _0_0, _0_5, _1_0, _1_EPS, _2_0, _4_0, _90_0, \
                                _0_25, _3_0  # PYCHOK used!
-from pygeodesy.errors import _AssertionError, IntersectionError, _ValueError, _xkwds_not
+from pygeodesy.errors import _AssertionError, IntersectionError, _ValueError, _xattr, _xkwds_not
 from pygeodesy.fmath import cbrt, cbrt2, fdot, Fhorner, fpowers, Fsum, hypot, hypot_, \
                             hypot1, hypot2, sqrt3
 # from pygeodesy.fsums import Fsum  # from .fmath
 from pygeodesy.interns import NN, _a_, _Airy1830_, _AiryModified_, _b_, _Bessel1841_, _beta_, \
                              _Clarke1866_, _Clarke1880IGN_, _DOT_, _f_, _GRS80_, _height_, \
                              _Intl1924_, _incompatible_, _invalid_, _Krassovski1940_, \
-                             _Krassowsky1940_, _meridional_, _lat_, _negative_, _not_finite_, \
-                             _prime_vertical_, _radius_, _Sphere_, _SPACE_, _vs_, _WGS72_, \
-                             _WGS84_
+                             _Krassowsky1940_, _meridional_, _lat_, _negative_, _not_, \
+                             _not_finite_, _prime_vertical_, _radius_, _Sphere_, _SPACE_, \
+                             _vs_, _WGS72_, _WGS84_
 # from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS  # from .named
 from pygeodesy.named import _lazyNamedEnumItem as _lazy, _NamedEnum, _NamedEnumItem, \
                             _NamedTuple, _Pass,  _ALL_LAZY, _MODS
@@ -91,7 +91,7 @@ from pygeodesy.utily import atan1, atan1d, atan2b, degrees90, m2radians, radians
 from math import asinh, atan, atanh, cos, degrees, exp, fabs, radians, sin, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '23.10.04'
+__version__ = '23.10.27'
 
 _f_0_0    = Float(f =_0_0)  # zero flattening
 _f__0_0   = Float(f_=_0_0)  # zero inverse flattening
@@ -1020,22 +1020,22 @@ class Ellipsoid(_NamedEnumItem):
             g = _MODS.geodesicx.GeodesicExact(self, C4order=30 if exact else 24,
                                               name=self.name)
         else:
-            g = exact
-            _xinstanceof(*self._Geodesics, exact=g)
-            if g.ellipsoid != self:
-                raise _ValueError(exact=g, ellipsosid=g.ellipsoid)
+            g =  exact
+            E = _xattr(g, ellipsoid=None)
+            if not (E is self and isinstance(g, self._Geodesics)):
+                raise _ValueError(exact=g, ellipsoid=E, txt=_not_(self.name))
         return g
 
     @property_RO
     def _Geodesics(self):
         '''(INTERNAL) Get all C{Geodesic...} classes, I{once}.
         '''
-        Ellipsoid._Geodesics = t = (_MODS.geodesicw.Geodesic,  # overwrite property_RO
+        Ellipsoid._Geodesics = t = (_MODS.geodesicw._wrapped.Geodesic,  # overwrite property_RO
                                     _MODS.geodesicx.GeodesicExact,
                                     _MODS.geodsolve.GeodesicSolve)
         return t
 
-    @Property_RO
+    @property_RO
     def geodesicw(self):
         '''Get this ellipsoid's I{wrapped} U{geodesicw.Geodesic
            <https://GeographicLib.SourceForge.io/Python/doc/code.html>}, provided
@@ -1046,7 +1046,7 @@ class Ellipsoid(_NamedEnumItem):
         #     raise _IsnotError(_ellipsoidal_, ellipsoid=self)
         return _MODS.geodesicw.Geodesic(self)
 
-    @Property_RO
+    @property_RO
     def geodesicx(self):
         '''Get this ellipsoid's I{exact} L{GeodesicExact}.
         '''
@@ -1249,12 +1249,6 @@ class Ellipsoid(_NamedEnumItem):
         r = self._elliptic_e22.cE if self.f else PI_2
         return Distance(L=self.b * r)
 
-    @Property_RO
-    def _Lpd(self):
-        '''Get the I{quarter meridian} per degree (C{meter}), M{self.L / 90}.
-        '''
-        return Distance(_Lpd=self.L / _90_0)
-
     def Llat(self, lat):
         '''Return the I{meridional length}, the distance along a meridian
            between the equator and a (geodetic) latitude, see C{L}.
@@ -1268,6 +1262,18 @@ class Ellipsoid(_NamedEnumItem):
         return Distance(Llat=self.b * r)
 
     Lmeridian = Llat  # meridional distance
+
+    @property_RO
+    def _Lpd(self):
+        '''Get the I{quarter meridian} per degree (C{meter}), M{self.L / 90}.
+        '''
+        return Meter(_Lpd=self.L / _90_0)
+
+    @property_RO
+    def _Lpr(self):
+        '''Get the I{quarter meridian} per radian (C{meter}), M{self.L / PI_2}.
+        '''
+        return Meter(_Lpr=self.L / PI_2)
 
     @deprecated_Property_RO
     def majoradius(self):  # PYCHOK no cover
@@ -1485,13 +1491,13 @@ class Ellipsoid(_NamedEnumItem):
         if isbool(exact):  # use Rhumb for backward compatibility
             r = _MODS.rhumbx.Rhumb(self, exact=exact, name=self.name)
         else:
-            r = exact
-            _xinstanceof(*self._Rhumbs, exact=r)
-            if r.ellipsoid != self:
-                raise _ValueError(exact=r, ellipsosid=r.ellipsoid)
+            r =  exact
+            E = _xattr(r, ellipsoid=None)
+            if not (E is self and isinstance(r, self._Rhumbs)):
+                raise _ValueError(exact=r, ellipsosid=E, txt=_not_(self.name))
         return r
 
-    @Property_RO
+    @property_RO
     def rhumbaux(self):
         '''Get this ellipsoid's I{Auxiliary} C{rhumbaux.RhumbAux}.
         '''
@@ -1527,7 +1533,7 @@ class Ellipsoid(_NamedEnumItem):
         '''
         self._rhumbsolve = path
 
-    @Property_RO
+    @property_RO
     def rhumbx(self):
         '''Get this ellipsoid's I{Elliptic} C{rhumbx.Rhumb}.
         '''
@@ -1818,6 +1824,8 @@ class Ellipsoid(_NamedEnumItem):
         E = Ellipsoid
         t = E.a, E.b, E.f_, E.f, E.f2, E.n, E.e, E.e2, E.e21, E.e22, E.e32, \
             E.A, E.L, E.R1, E.R2, E.R3, E.Rbiaxial, E.Rtriaxial
+        if Fmt.form:  # terse form[at]
+            t = t[:4]
         return self._instr(name, prec, props=t)
 
     def toTriaxial(self, name=NN):

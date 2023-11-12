@@ -3,21 +3,20 @@
 
 u'''Ellipsoidal, C{N-vector}-based geodesy.
 
-Ellipsoidal classes geodetic (lat-/longitude) L{LatLon}, geocentric
-(ECEF) L{Cartesian}, DEPRECATED L{Ned} and L{Nvector} and functions
-L{meanOf}, L{sumOf} and DEPRECATED L{toNed}.
+Ellipsoidal classes geodetic (lat-/longitude) L{LatLon}, geocentric (ECEF)
+L{Cartesian}, L{Nvector} and DEPRECATED L{Ned} and functions L{meanOf},
+L{sumOf} and DEPRECATED L{toNed}.
 
 Pure Python implementation of n-vector-based geodetic (lat-/longitude)
 methods by I{(C) Chris Veness 2011-2016} published under the same MIT
 Licence**, see U{Vector-based geodesy
 <https://www.Movable-Type.co.UK/scripts/latlong-vectors.html>}.
 
-These classes and functions work with: (a) geodesic (polar) lat-/longitude
-points on the earth's surface and (b) 3-D vectors used as n-vectors
-representing points on the earth's surface or vectors normal to the plane
-of a great circle.
+These classes and functions work with: (a) geodetic lat-/longitude points on
+the earth's surface and (b) 3-D vectors used as n-vectors representing points
+on the earth's surface or vectors normal to the plane of a great circle.
 
-See also Kenneth Gade U{'A Non-singular Horizontal Position Representation'
+See also I{Kenneth Gade} U{'A Non-singular Horizontal Position Representation'
 <https://www.NavLab.net/Publications/A_Nonsingular_Horizontal_Position_Representation.pdf>},
 The Journal of Navigation (2010), vol 63, nr 3, pp 395-417.
 '''
@@ -25,9 +24,9 @@ The Journal of Navigation (2010), vol 63, nr 3, pp 395-417.
 from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import issubclassof, map2, _xinstanceof
-from pygeodesy.datums import _ellipsoidal_datum, _spherical_datum, _WGS84
+from pygeodesy.datums import _earth_ellipsoid, _ellipsoidal_datum, _WGS84
 # from pygeodesy.dms import toDMS  # _MODS
-from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, intersecant2, \
+from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, \
                                      _nearestOn, LatLonEllipsoidalBase, \
                                      _TOL_M,  _Wrap
 from pygeodesy.errors import _IsnotError, _xkwds
@@ -42,7 +41,7 @@ from pygeodesy.ltpTuples import Aer as _Aer, Ned as _Ned, Ned4Tuple, \
 from pygeodesy.nvectorBase import fabs, fdot, NorthPole, LatLonNvectorBase, \
                                   NvectorBase, sumOf as _sumOf
 from pygeodesy.props import deprecated_class, deprecated_function, \
-                            deprecated_method, Property_RO
+                            deprecated_method, Property_RO, property_RO
 from pygeodesy.streprs import Fmt, fstr, _xzipairs
 from pygeodesy.units import Bearing, Distance, Height, Scalar
 # from pygeodesy.utily import sincos2d_, _Wrap  # from .ltpTuples, .ellipsoidalBase
@@ -50,7 +49,7 @@ from pygeodesy.units import Bearing, Distance, Height, Scalar
 # from math import fabs  # from .nvectorBase
 
 __all__ = _ALL_LAZY.ellipsoidalNvector
-__version__ = '23.10.08'
+__version__ = '23.11.08'
 
 
 class Ned(_Ned):
@@ -118,12 +117,6 @@ class Cartesian(CartesianEllipsoidalBase):
                     is set to C{None}, a L{Vector4Tuple}C{(x, y, z, h)}
 
            @raise TypeError: Invalid B{C{Nvector_and_kwds}}.
-
-           @example:
-
-            >>> from ellipsoidalNvector import LatLon
-            >>> c = Cartesian(3980581, 97, 4966825)
-            >>> n = c.toNvector()  # (0.62282, 0.000002, 0.78237, +0.24)
         '''
         kwds = _xkwds(Nvector_and_kwds, Nvector=Nvector, datum=self.datum)
         return CartesianEllipsoidalBase.toNvector(self, **kwds)
@@ -131,11 +124,6 @@ class Cartesian(CartesianEllipsoidalBase):
 
 class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
     '''An n-vector-based, ellipsoidal L{LatLon} point.
-
-       @example:
-
-        >>> from ellipsoidalNvector import LatLon
-        >>> p = LatLon(52.205, 0.119)  # height=0, datum=Datums.WGS84
     '''
     _Nv = None  # cached toNvector (L{Nvector})
 
@@ -161,17 +149,6 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #                     as B{C{radius}}).
 #
 #            @raise TypeError: If B{C{start}} or B{C{end}} point is not L{LatLon}.
-#
-#            @example:
-#
-#             >>> p = LatLon(53.2611, -0.7972)
-#
-#             >>> s = LatLon(53.3206, -1.7297)
-#             >>> b = 96.0
-#             >>> d = p.crossTrackDistanceTo(s, b)  # -305.7
-#
-#             >>> e = LatLon(53.1887, 0.1334)
-#             >>> d = p.crossTrackDistanceTo(s, e)  # -307.5
 #         '''
 #         self.others(start=start)
 #
@@ -189,15 +166,14 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
     def deltaTo(self, other, Ned=Ned, wrap=False):
         '''Calculate the local delta from this to an other point.
 
-           @note: This is a linear delta, I{unrelated} to a geodesic
-                  on the ellipsoid.
+           @note: This is a linear delta, I{unrelated} to a geodesic on the
+                  ellipsoid.
 
            @arg other: The other point (L{LatLon}).
-           @kwarg Ned: Class to use (L{pygeodesy.Ned} or
-                       L{pygeodesy.Ned4Tuple}), overriding the
-                       default DEPRECATED L{Ned}.
-           @kwarg wrap: If C{True}, wrap or I{normalize} the
-                        B{C{other}} point (C{bool}).
+           @kwarg Ned: Class to use (L{pygeodesy.Ned} or L{pygeodesy.Ned4Tuple}),
+                       overriding the default DEPRECATED L{Ned}.
+           @kwarg wrap: If C{True}, wrap or I{normalize} the B{C{other}}
+                        point (C{bool}).
 
            @return: Delta from this to the other point (B{C{Ned}}).
 
@@ -206,15 +182,6 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
                              L{pygeodesy.Ned4Tuple} nor DEPRECATED L{Ned}.
 
            @raise ValueError: If ellipsoids are incompatible.
-
-           @example:
-
-            >>> a = LatLon(49.66618, 3.45063)
-            >>> b = LatLon(48.88667, 2.37472)
-            >>> delta = a.deltaTo(b)  # [N:-86126, E:-78900, D:1069]
-            >>> d = delta.length  # 116807.681 m
-            >>> b = delta.bearing  # 222.493°
-            >>> e = delta.elevation  # -0.5245°
         '''
         self.ellipsoids(other)  # throws TypeError and ValueError
 
@@ -245,14 +212,8 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #                           as B{C{radius}}).
 #
 #            @return: Destination point (L{LatLon}).
-#
-#            @example:
-#
-#             >>> p = LatLon(51.4778, -0.0015)
-#             >>> q = p.destination(7794, 300.7)
-#             >>> q.toStr()  # '51.5135°N, 000.0983°W' ?
 #         '''
-#         r = _angular(distance, radius)  # angular distance in radians
+#         r = _m2radians(distance, radius)  # angular distance in radians
 #         # great circle by starting from this point on given bearing
 #         gc = self.greatCircle(bearing)
 #
@@ -274,12 +235,6 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 
            @raise TypeError: If B{C{delta}} is not L{pygeodesy.Ned} or
                              DEPRECATED L{Ned}.
-
-           @example:
-
-            >>> a = LatLon(49.66618, 3.45063)
-            >>> delta = Ned(-86126, -78900, 1069)  # from Aer(222.493, -0.5245, 116807.681)
-            >>> b = a.destinationNed(delta)  # 48.886669°N, 002.374721°E or 48°53′12.01″N, 002°22′29.0″E   +0.20m
         '''
         _xinstanceof(_Ned, delta=delta)
 
@@ -312,19 +267,13 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
            @raise TypeError: The B{C{other}} point is not L{LatLon}.
 
            @raise ValueError: Invalid B{C{radius}}.
-
-           @example:
-
-            >>> p = LatLon(52.205, 0.119)
-            >>> q = LatLon(48.857, 2.351);
-            >>> d = p.distanceTo(q)  # 404300
         '''
         p = self.others(other)
         if wrap:
             p = _Wrap.point(p)
         a = self._N_vector.angleTo(p._N_vector, wrap=wrap)
-        d = self.datum if radius is None else _spherical_datum(radius)
-        return fabs(a) * d.ellipsoid.R1  # see .utily.radians2m
+        E = self.datum.ellipsoid if radius is None else _earth_ellipsoid(radius)
+        return fabs(a) * E.R1  # see .utily.radians2m
 
     @Property_RO
     def Ecef(self):
@@ -352,12 +301,6 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
            @raise ValueError: Invalid B{C{eps}}.
 
            @see: Method C{isequalTo3} to include I{height}.
-
-           @example:
-
-            >>> p = LatLon(52.205, 0.119)
-            >>> q = LatLon(52.205, 0.119)
-            >>> e = p.isequalTo(q)  # True
         '''
         return self.datum == self.others(other).datum and \
               _MODS.formy._isequalTo(self, other, eps=eps)
@@ -372,12 +315,6 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #            @arg bearing: Bearing from this point (compass C{degrees360}).
 #
 #            @return: N-vector representing great circle (L{Nvector}).
-#
-#            @example:
-#
-#             >>> p = LatLon(53.3206, -1.7297)
-#             >>> g = p.greatCircle(96.0)
-#             >>> g.toStr()  # '(-0.794, 0.129, 0.594)'
 #         '''
 #         a, b, _ = self.philamheight
 #         t = radians(bearing)
@@ -398,12 +335,6 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #            @return: Initial bearing (compass C{degrees360}).
 #
 #            @raise TypeError: The B{C{other}} point is not L{LatLon}.
-#
-#            @example:
-#
-#             >>> p1 = LatLon(52.205, 0.119)
-#             >>> p2 = LatLon(48.857, 2.351)
-#             >>> b = p1.bearingTo(p2)  # 156.2
 #         '''
 #         p = self.others(other)
 #         if wrap:
@@ -431,12 +362,6 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
            @return: Intermediate point (L{LatLon}).
 
            @raise TypeError: The B{C{other}} point is not L{LatLon}.
-
-           @example:
-
-            >>> p = LatLon(52.205, 0.119)
-            >>> q = LatLon(48.857, 2.351)
-            >>> p = p.intermediateTo(q, 0.25)  # 51.3721°N, 000.7073°E
         '''
         p = self.others(other)
         if wrap:
@@ -486,12 +411,6 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
                     is set to C{None}, a L{Vector4Tuple}C{(x, y, z, h)}.
 
            @raise TypeError: Invalid B{C{Nvector}} or other B{C{Nvector_and_kwds}}.
-
-           @example:
-
-            >>> p = LatLon(45, 45)
-            >>> n = p.toNvector()
-            >>> n.toStr()  # [0.50, 0.50, 0.70710]
         '''
         kwds = _xkwds(Nvector_and_kwds, Nvector=Nvector, datum=self.datum)
         return LatLonNvectorBase.toNvector(self, **kwds)
@@ -531,12 +450,6 @@ class Nvector(NvectorBase):
            @kwarg name: Optional name (C{str}).
 
            @raise TypeError: If B{C{datum}} is not a L{Datum}.
-
-           @example:
-
-            >>> from ellipsoidalNvector import Nvector
-            >>> v = Nvector(0.5, 0.5, 0.7071, 1)
-            >>> v.toLatLon()  # 45.0°N, 045.0°E, +1.00m
         '''
         NvectorBase.__init__(self, x_xyz, y=y, z=z, h=h, ll=ll, name=name)
         if datum not in (None, self._datum):
@@ -547,6 +460,12 @@ class Nvector(NvectorBase):
         '''Get this n-vector's datum (L{Datum}).
         '''
         return self._datum
+
+    @property_RO
+    def ellipsoidalNvector(self):
+        '''Get this C{Nvector}'s ellipsoidal class.
+        '''
+        return type(self)
 
     def toCartesian(self, **Cartesian_and_kwds):  # PYCHOK Cartesian=Cartesian
         '''Convert this n-vector to C{Nvector}-based cartesian (ECEF) coordinates.
@@ -561,12 +480,6 @@ class Nvector(NvectorBase):
                     datum)} with C{C} and C{M} if available.
 
            @raise TypeError: Invalid B{C{Cartesian_and_kwds}}.
-
-           @example:
-
-            >>> v = Nvector(0.5, 0.5, 0.7071)
-            >>> c = v.toCartesian()  # [3194434, 3194434, 4487327]
-            >>> p = c.toLatLon()  # 45.0°N, 45.0°E
         '''
         kwds = _xkwds(Cartesian_and_kwds, h=self.h, Cartesian=Cartesian,
                                                         datum=self.datum)
@@ -585,11 +498,6 @@ class Nvector(NvectorBase):
                     C, M, datum)} with C{C} and C{M} if available.
 
            @raise TypeError: Invalid B{C{LatLon_and_kwds}}.
-
-           @example:
-
-            >>> v = Nvector(0.5, 0.5, 0.7071)
-            >>> p = v.toLatLon()  # 45.0°N, 45.0°E
         '''
         kwds = _xkwds(LatLon_and_kwds, height=self.h, datum=self.datum, LatLon=LatLon)
         return NvectorBase.toLatLon(self, **kwds)  # class or .classof
@@ -744,7 +652,6 @@ def toNed(distance, bearing, elevation, Ned=Ned, name=NN):
 
 
 __all__ += _ALL_OTHER(Cartesian, LatLon, Ned, Nvector,  # classes
-                      intersecant2,  # from .ellipsoidalBase
                       meanOf, sumOf, toNed)
 
 # **) MIT License

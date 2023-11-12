@@ -41,7 +41,7 @@ from contextlib import contextmanager
 from math import asin, atan, atan2, cos, degrees, fabs, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '23.10.04'
+__version__ = '23.10.16'
 
 _D2_R2  = (PI / _180_0)**2  # degrees- to radians-squared
 _ratio_ = 'ratio'
@@ -152,10 +152,9 @@ def _bearingTo2(p1, p2, wrap=False):  # for points.ispolar, sphericalTrigonometr
     except AttributeError:
         pass
     # XXX spherical version, OK for ellipsoidal ispolar?
-    a1, b1 = p1.philam
-    a2, b2 = p2.philam
-    return Bearing2Tuple(degrees(bearing_(a1, b1, a2, b2, final=False, wrap=wrap)),
-                         degrees(bearing_(a1, b1, a2, b2, final=True,  wrap=wrap)),
+    t = p1.philam + p2.philam
+    return Bearing2Tuple(degrees(bearing_(*t, final=False, wrap=wrap)),
+                         degrees(bearing_(*t, final=True,  wrap=wrap)),
                          name=_bearingTo2.__name__)
 
 
@@ -249,7 +248,7 @@ def cosineAndoyerLambert_(phi2, phi1, lam21, datum=_WGS84):
                 if isnon0(sr_2) and isnon0(cr_2):
                     s  = (sr + r) * ((s1 - s2) / sr_2)**2
                     c  = (sr - r) * ((s1 + s2) / cr_2)**2
-                    r += (c - s) * E.f * _0_125
+                    r += (c  - s) * E.f * _0_125
     return r
 
 
@@ -601,10 +600,11 @@ def excessCagnoli_(a, b, c):
     b = Radians_(b=b)
     c = Radians_(c=c)
 
-    s = fsumf_(a, b, c) * _0_5
-    r = sin(s) * sin(s - a) * sin(s - b) * sin(s - c)
-    c = cos(a * _0_5) * cos(b * _0_5) * cos(c * _0_5)
-    r = asin(sqrt(r) * _0_5 / c) if c and r > 0 else _0_0
+    s  =  fsumf_(a, b, c) * _0_5
+    _s =  sin
+    r  = _s(s) * _s(s - a) * _s(s - b) * _s(s - c)
+    c  =  cos(a * _0_5) * cos(b * _0_5) * cos(c * _0_5)
+    r  =  asin(sqrt(r) * _0_5 / c) if c and r > 0 else _0_0
     return Radians(Cagnoli=r * _2_0)
 
 
@@ -630,7 +630,7 @@ def excessGirard_(A, B, C):
 
 def excessLHuilier_(a, b, c):
     '''Compute the I{spherical excess} C{E} of a (spherical) triangle using U{L'Huilier's
-       <https://MathWorld.Wolfram.com/LHuiliersTheorem.html>} Theorem.
+       <https://MathWorld.Wolfram.com/LHuiliersTheorem.html>}'s Theorem.
 
        @arg a: First triangle side (C{radians}).
        @arg b: Second triangle side (C{radians}).
@@ -647,9 +647,10 @@ def excessLHuilier_(a, b, c):
     b = Radians_(b=b)
     c = Radians_(c=c)
 
-    s = fsumf_(a, b, c) * _0_5
-    r = tan_2(s) * tan_2(s - a) * tan_2(s - b) * tan_2(s - c)
-    r = atan(sqrt(r)) if r > 0 else _0_0
+    s  =  fsumf_(a, b, c) * _0_5
+    _t =  tan_2
+    r  = _t(s) * _t(s - a) * _t(s - b) * _t(s - c)
+    r  =  atan(sqrt(r)) if r > 0 else _0_0
     return Radians(LHuilier=r * _4_0)
 
 
@@ -710,9 +711,10 @@ def excessKarney_(phi2, phi1, lam21):
     #
     # where E is the spherical excess of the trapezium obtained by extending
     # the edge to the equator-circle vector for each edge (see also ***).
-    t2 = tan_2(phi2)
-    t1 = tan_2(phi1)
-    t  = tan_2(lam21, lam21=None)
+    _t =  tan_2
+    t2 = _t(phi2)
+    t1 = _t(phi1)
+    t  = _t(lam21, lam21=None)
     return Radians(Karney=atan2(t * (t1 + t2),
                              _1_0 + (t1 * t2)) * _2_0)
 
@@ -1080,7 +1082,7 @@ def heightOf(angle, distance, radius=R_M):
     if d > EPS0:  # and h > EPS0
         d = d / h  # /= h chokes PyChecker
         s = sin(Phi_(angle=angle, clip=_180_0))
-        s = fsumf_(_1_0, _2_0 * s * d, d**2)
+        s = fsumf_(_1_0, s * d * _2_0, d**2)
         if s > 0:
             return h * sqrt(s) - r
 
@@ -1124,17 +1126,15 @@ def horizon(height, radius=R_M, refraction=False):
     if min(h, r) < 0:
         raise _ValueError(height=height, radius=radius)
 
-    if refraction:
-        d2 = 2.415750694528 * h * r  # 2.0 / 0.8279
-    else:
-        d2 = h * fsumf_(r, r, h)
+    d2 = ((r * 2.415750694528) if refraction else  # 2.0 / 0.8279
+          fsumf_(r, r, h)) * h
     return sqrt0(d2)
 
 
-class _idllmn6(object):  # see also .geodesicw._wargs, .vector2d._numpy
+class _idllmn6(object):  # see also .geodesicw._wargs, .latlonBase._toCartesian3, .vector2d._numpy
     '''(INTERNAL) Helper for C{intersection2} and C{intersections2}.
     '''
-    @contextmanager  # <https://www.python.org/dev/peps/pep-0343/> Examples
+    @contextmanager  # <https://www.Python.org/dev/peps/pep-0343/> Examples
     def __call__(self, datum, lat1, lon1, lat2, lon2, small, wrap, s, **kwds):
         try:
             if wrap:

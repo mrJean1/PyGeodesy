@@ -89,13 +89,7 @@
   href="pygeodesy.ellipsoidalNvector.LatLon-class.html" 
   class="link">LatLon</a> point.</p>
 
-<hr />
-<div class="fields">      <p><strong>Example:</strong>
-        <pre class="py-doctest">
-<span class="py-prompt">&gt;&gt;&gt; </span><span class="py-keyword">from</span> ellipsoidalNvector <span class="py-keyword">import</span> LatLon
-<span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(52.205, 0.119)  <span class="py-comment"># height=0, datum=Datums.WGS84</span></pre>
-      </p>
-</div><!-- ==================== INSTANCE METHODS ==================== -->
+<!-- ==================== INSTANCE METHODS ==================== -->
 <a name="section-InstanceMethods"></a>
 <table class="summary" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
@@ -280,7 +274,6 @@
       <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#ellipsoid">ellipsoid</a></code>,
       <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#ellipsoids">ellipsoids</a></code>,
       <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#geoidHeight2">geoidHeight2</a></code>,
-      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#intersecant2">intersecant2</a></code>,
       <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#intersection3">intersection3</a></code>,
       <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#isenclosedBy">isenclosedBy</a></code>,
       <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#midpointTo">midpointTo</a></code>,
@@ -325,6 +318,7 @@
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#height4">height4</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#heightStr">heightStr</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#hubenyTo">hubenyTo</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#intersecant2">intersecant2</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#isantipode">isantipode</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#isantipodeTo">isantipodeTo</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#isequalTo3">isequalTo3</a></code>,
@@ -332,6 +326,7 @@
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#latlon2round">latlon2round</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#latlon_">latlon_</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#nearestOn6">nearestOn6</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#nearestTo">nearestTo</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#normal">normal</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#philam2">philam2</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#points">points</a></code>,
@@ -340,6 +335,7 @@
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#rhumbAzimuthTo">rhumbAzimuthTo</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#rhumbDestination">rhumbDestination</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#rhumbDistanceTo">rhumbDistanceTo</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#rhumbIntersecant2">rhumbIntersecant2</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#rhumbLine">rhumbLine</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#rhumbMidpointTo">rhumbMidpointTo</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#thomasTo">thomasTo</a></code>,
@@ -410,9 +406,9 @@
       <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#Equidistant">Equidistant</a></code>,
       <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#convergence">convergence</a></code>,
       <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#datum">datum</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#ellipsoidalLatLon">ellipsoidalLatLon</a></code>,
       <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#epoch">epoch</a></code>,
       <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#gamma">gamma</a></code>,
-      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#isEllipsoidalLatLon">isEllipsoidalLatLon</a></code>,
       <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#iteration">iteration</a></code>,
       <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#reframe">reframe</a></code>,
       <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#scale">scale</a></code>
@@ -431,6 +427,7 @@
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#phi">phi</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#philam">philam</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#philamheight">philamheight</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#sphericalLatLon">sphericalLatLon</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#xyz">xyz</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#xyzh">xyzh</a></code>
       </p>
@@ -512,15 +509,6 @@
         This is a linear delta, <i>unrelated</i> to a geodesic on the 
         ellipsoid.
       </p>
-      <p><strong>Example:</strong>
-        <pre class="py-doctest">
-<span class="py-prompt">&gt;&gt;&gt; </span>a = LatLon(49.66618, 3.45063)
-<span class="py-prompt">&gt;&gt;&gt; </span>b = LatLon(48.88667, 2.37472)
-<span class="py-prompt">&gt;&gt;&gt; </span>delta = a.deltaTo(b)  <span class="py-comment"># [N:-86126, E:-78900, D:1069]</span>
-<span class="py-prompt">&gt;&gt;&gt; </span>d = delta.length  <span class="py-comment"># 116807.681 m</span>
-<span class="py-prompt">&gt;&gt;&gt; </span>b = delta.bearing  <span class="py-comment"># 222.493&#176;</span>
-<span class="py-prompt">&gt;&gt;&gt; </span>e = delta.elevation  <span class="py-comment"># -0.5245&#176;</span></pre>
-      </p>
 </div></td></tr></table>
 </div>
 <a name="destinationNed"></a>
@@ -561,13 +549,7 @@
         class="link">Ned</a>.</li>
     </ul></dd>
   </dl>
-<div class="fields">      <p><strong>Example:</strong>
-        <pre class="py-doctest">
-<span class="py-prompt">&gt;&gt;&gt; </span>a = LatLon(49.66618, 3.45063)
-<span class="py-prompt">&gt;&gt;&gt; </span>delta = Ned(-86126, -78900, 1069)  <span class="py-comment"># from Aer(222.493, -0.5245, 116807.681)</span>
-<span class="py-prompt">&gt;&gt;&gt; </span>b = a.destinationNed(delta)  <span class="py-comment"># 48.886669&#176;N, 002.374721&#176;E or 48&#176;53&#8242;12.01&#8243;N, 002&#176;22&#8242;29.0&#8243;E   +0.20m</span></pre>
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="distanceTo"></a>
 <div>
@@ -617,13 +599,7 @@
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>radius</code></b>.</li>
     </ul></dd>
   </dl>
-<div class="fields">      <p><strong>Example:</strong>
-        <pre class="py-doctest">
-<span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(52.205, 0.119)
-<span class="py-prompt">&gt;&gt;&gt; </span>q = LatLon(48.857, 2.351);
-<span class="py-prompt">&gt;&gt;&gt; </span>d = p.distanceTo(q)  <span class="py-comment"># 404300</span></pre>
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="equals"></a>
 <div>
@@ -697,12 +673,6 @@
 <div class="fields">      <p><strong>See Also:</strong>
         Method <code>isequalTo3</code> to include <i>height</i>.
       </p>
-      <p><strong>Example:</strong>
-        <pre class="py-doctest">
-<span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(52.205, 0.119)
-<span class="py-prompt">&gt;&gt;&gt; </span>q = LatLon(52.205, 0.119)
-<span class="py-prompt">&gt;&gt;&gt; </span>e = p.isequalTo(q)  <span class="py-comment"># True</span></pre>
-      </p>
 </div></td></tr></table>
 </div>
 <a name="intermediateTo"></a>
@@ -752,13 +722,7 @@
         <a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#intermediateTo">ellipsoidalBase.LatLonEllipsoidalBase.intermediateTo</a>
     </dt>
   </dl>
-<div class="fields">      <p><strong>Example:</strong>
-        <pre class="py-doctest">
-<span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(52.205, 0.119)
-<span class="py-prompt">&gt;&gt;&gt; </span>q = LatLon(48.857, 2.351)
-<span class="py-prompt">&gt;&gt;&gt; </span>p = p.intermediateTo(q, 0.25)  <span class="py-comment"># 51.3721&#176;N, 000.7073&#176;E</span></pre>
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="toCartesian"></a>
 <div>
@@ -855,13 +819,7 @@
         <a href="pygeodesy.latlonBase.LatLonBase-class.html#toNvector">latlonBase.LatLonBase.toNvector</a>
     </dt>
   </dl>
-<div class="fields">      <p><strong>Example:</strong>
-        <pre class="py-doctest">
-<span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(45, 45)
-<span class="py-prompt">&gt;&gt;&gt; </span>n = p.toNvector()
-<span class="py-prompt">&gt;&gt;&gt; </span>n.toStr()  <span class="py-comment"># [0.50, 0.50, 0.70710]</span></pre>
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <br />
 <!-- ==================== PROPERTY DETAILS ==================== -->
@@ -932,7 +890,7 @@ class="link">EcefVeness</a>), <i>lazily</i>.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Oct 11 15:46:54 2023
+    Generated by Epydoc 3.0.1 on Sun Nov 12 13:03:54 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

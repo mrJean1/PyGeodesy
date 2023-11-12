@@ -41,8 +41,9 @@ from pygeodesy.namedTuples import LatLon2Tuple, LatLon3Tuple, NearestOn3Tuple, \
 from pygeodesy.points import ispolar, nearestOn5 as _nearestOn5, \
                              Fmt as _Fmt, notImplemented  # XXX shadowed
 from pygeodesy.props import deprecated_function, deprecated_method
-from pygeodesy.sphericalBase import _angular, CartesianSphericalBase, _intersecant2, \
-                                     LatLonSphericalBase, _rads3, _r2m, _trilaterate5
+from pygeodesy.sphericalBase import _m2radians, CartesianSphericalBase, \
+                                    _intersecant2, LatLonSphericalBase, \
+                                    _rads3, _radians2m, _trilaterate5
 # from pygeodesy.streprs import Fmt as _Fmt  # from .points XXX shadowed
 from pygeodesy.units import Bearing_, Height, Lam_, Phi_, Radius_, Scalar
 from pygeodesy.utily import acos1, asin1, atan1d, atan2d, degrees90, degrees180, \
@@ -53,7 +54,7 @@ from pygeodesy.vector3d import sumOf, Vector3d
 from math import asin, atan2, cos, degrees, fabs, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '23.09.29'
+__version__ = '23.10.24'
 
 _PI_EPS4 = PI - EPS4
 if _PI_EPS4 >= PI:
@@ -140,7 +141,7 @@ class LatLon(LatLonSphericalBase):
         r, x, b = self._a_x_b3(start, end, radius, wrap)
         cx = cos(x)
         return _0_0 if isnear0(cx) else \
-               _r2m(copysign0(acos1(cos(r) / cx), cos(b)), radius)
+               _radians2m(copysign0(acos1(cos(r) / cx), cos(b)), radius)
 
     def _a_x_b3(self, start, end, radius, wrap):
         '''(INTERNAL) Helper for .along-/crossTrackDistanceTo.
@@ -220,7 +221,7 @@ class LatLon(LatLonSphericalBase):
             >>> d = p.crossTrackDistanceTo(s, e)  # -307.5
         '''
         _, x, _ = self._a_x_b3(start, end, radius, wrap)
-        return _r2m(x, radius)
+        return _radians2m(x, radius)
 
     def destination(self, distance, bearing, radius=R_M, height=None):
         '''Locate the destination from this point after having
@@ -245,7 +246,7 @@ class LatLon(LatLonSphericalBase):
             >>> p2.toStr()  # '51.5135°N, 000.0983°W'
         '''
         a, b =  self.philam
-        r, t = _angular(distance, radius, low=None), Bearing_(bearing)
+        r, t = _m2radians(distance, radius, low=None), Bearing_(bearing)
 
         a, b = _destination2(a, b, r, t)
         h = self._heigHt(height)
@@ -274,7 +275,7 @@ class LatLon(LatLonSphericalBase):
             >>> d = p1.distanceTo(p2)  # 404300
         '''
         a1, _, a2, _, db = self._ab1_ab2_db5(other, wrap)
-        return _r2m(vincentys_(a2, a1, db), radius)
+        return _radians2m(vincentys_(a2, a1, db), radius)
 
 #   @Property_RO
 #   def Ecef(self):
@@ -940,47 +941,38 @@ def _intdot(ds, a1, b1, a, b, wrap):
     return fdot(ds, db, a - a1)
 
 
-def intersecant2(center, circle, point, bearing, radius=R_M, exact=False,
-                                                 height=None, wrap=False):  # was=True
-    '''Compute the intersections of a circle and a line given as a point and
-       bearing or as two points.
+def intersecant2(center, circle, point, other, **radius_exact_height_wrap):
+    '''Compute the intersections of a circle and a (great circle) line given as
+       two points or as a point and bearing.
 
        @arg center: Center of the circle (L{LatLon}).
        @arg circle: Radius of the circle (C{meter}, same units as B{C{radius}})
                     or a point on the circle (L{LatLon}).
-       @arg point: A point in- or outside the circle on the line (L{LatLon}).
-       @arg bearing: Bearing at the B{C{point}} (compass C{degrees360}) or
-                     an other point on the line (L{LatLon}).
-       @kwarg radius: Mean earth radius (C{meter}, conventionally).
-       @kwarg exact: If C{True} use the I{exact} rhumb methods for azimuth,
-                     destination and distance, if C{False} use the basic
-                     rhumb methods (C{bool}) or if C{None} use the I{great
-                     circle} methods.
-       @kwarg height: Optional height for the intersection points (C{meter},
-                      conventionally) or C{None}.
-       @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the B{C{point}}
-                    and the B{C{circle}} and B{C{bearing}} points (C{bool}).
+       @arg point: A point on the (great circle) line (L{LatLon}).
+       @arg other: An other point on the (great circle) line (L{LatLon}) or
+                   the bearing at the B{C{point}} (compass C{degrees360}).
+       @kwarg radius_exact_height_wrap: Optional keyword arguments, see
+                     method L{LatLon.intersecant2} for further details.
 
-       @return: 2-Tuple of the intersection points (representing a chord),
-                each an instance of this class.  For a tangent line, both
-                points are the same instance, the B{C{point}} or wrapped
-                or I{normalized}.
+       @return: 2-Tuple of the intersection points (representing a chord), each
+                an instance of the B{C{point}} class.  Both points are the same
+                instance if the (great circle) line is tangent to the circle.
 
        @raise IntersectionError: The circle and line do not intersect.
 
        @raise TypeError: If B{C{center}} or B{C{point}} not L{LatLon} or
-                         B{C{circle}} or B{C{bearing}} invalid.
+                         B{C{circle}} or B{C{other}} invalid.
 
-       @raise ValueError: Invalid B{C{circle}}, B{C{bearing}}, B{C{radius}},
-                          B{C{exact}} or B{C{height}}.
+       @raise UnitError: Invalid B{C{circle}}, B{C{other}}, B{C{radius}},
+                         B{C{exact}}, B{C{height}} or B{C{napieradius}}.
     '''
     c = _T00.others(center=center)
     p = _T00.others(point=point)
     try:
-        return _intersecant2(c, circle, p, bearing, radius=radius, exact=exact,
-                                                    height=height, wrap=wrap)
+        return _intersecant2(c, circle, p, other, **radius_exact_height_wrap)
     except (TypeError, ValueError) as x:
-        raise _xError(x, center=center, circle=circle, point=point, bearing=bearing, exact=exact)
+        raise _xError(x, center=center, circle=circle, point=point, other=other,
+                                                     **radius_exact_height_wrap)
 
 
 def _intersect(start1, end1, start2, end2, height=None, wrap=False,  # in.ellipsoidalBaseDI._intersect3
@@ -1381,7 +1373,7 @@ def perimeterOf(points, closed=False, radius=R_M, wrap=True):
         r = points._sum2(LatLon, perimeterOf, closed=True, radius=radius, wrap=wrap)
     else:
         r = fsum(_rads(points, closed, wrap), floats=True)
-    return _r2m(r, radius)
+    return _radians2m(r, radius)
 
 
 def triangle7(latA, lonA, latB, lonB, latC, lonC, radius=R_M,

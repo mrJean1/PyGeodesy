@@ -67,7 +67,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        23.10.08
+        23.10.15
       </p>
 </div><!-- ==================== FUNCTIONS ==================== -->
 <a name="section-Functions"></a>
@@ -242,7 +242,8 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.basics-module.html#isCartesian" class="summary-sig-name">isCartesian</a>(<span class="summary-sig-arg">obj</span>)</span><br />
+          <td><span class="summary-sig"><a href="pygeodesy.basics-module.html#isCartesian" class="summary-sig-name">isCartesian</a>(<span class="summary-sig-arg">obj</span>,
+        <span class="summary-sig-arg">ellipsoidal</span>=<span class="summary-sig-default">None</span>)</span><br />
       Is <b><code>obj</code></b> some <code>Cartesian</code>?</td>
           <td align="right" valign="top">
             
@@ -369,7 +370,8 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.basics-module.html#isLatLon" class="summary-sig-name">isLatLon</a>(<span class="summary-sig-arg">obj</span>)</span><br />
+          <td><span class="summary-sig"><a href="pygeodesy.basics-module.html#isLatLon" class="summary-sig-name">isLatLon</a>(<span class="summary-sig-arg">obj</span>,
+        <span class="summary-sig-arg">ellipsoidal</span>=<span class="summary-sig-default">None</span>)</span><br />
       Is <b><code>obj</code></b> some <code>LatLon</code>?</td>
           <td align="right" valign="top">
             
@@ -404,7 +406,8 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.basics-module.html#isNvector" class="summary-sig-name">isNvector</a>(<span class="summary-sig-arg">obj</span>)</span><br />
+          <td><span class="summary-sig"><a href="pygeodesy.basics-module.html#isNvector" class="summary-sig-name">isNvector</a>(<span class="summary-sig-arg">obj</span>,
+        <span class="summary-sig-arg">ellipsoidal</span>=<span class="summary-sig-default">None</span>)</span><br />
       Is <b><code>obj</code></b> some <code>Nvector</code>?</td>
           <td align="right" valign="top">
             
@@ -875,7 +878,8 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">isCartesian</span>&nbsp;(<span class="sig-arg">obj</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isCartesian</span>&nbsp;(<span class="sig-arg">obj</span>,
+        <span class="sig-arg">ellipsoidal</span>=<span class="sig-default">None</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -887,10 +891,16 @@
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>obj</code></strong> - The object (any <code>type</code>).</li>
+        <li><strong class="pname"><code>ellipsoidal</code></strong> - If <code>None</code>, return the type of any 
+          <code>Cartesian</code>, if <code>True</code>, only an ellipsoidal
+          <code>Cartesian type</code> or if <code>False</code>, only a 
+          spherical <code>Cartesian type</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><code>type(<b>obj</b></code> if <b><code>obj</code></b> is a 
-          <code>Cartesian</code> instance, <code>None</code> otherwise.</dd>
+          <code>Cartesian</code> instance of the required type, 
+          <code>False</code> if a <code>Cartesian</code> of an other type 
+          or <code>None</code> otherwise.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1022,7 +1032,8 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">isLatLon</span>&nbsp;(<span class="sig-arg">obj</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isLatLon</span>&nbsp;(<span class="sig-arg">obj</span>,
+        <span class="sig-arg">ellipsoidal</span>=<span class="sig-default">None</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -1034,10 +1045,16 @@
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>obj</code></strong> - The object (any <code>type</code>).</li>
+        <li><strong class="pname"><code>ellipsoidal</code></strong> - If <code>None</code>, return the type of any <code>LatLon</code>,
+          if <code>True</code>, only an ellipsoidal <code>LatLon 
+          type</code> or if <code>False</code>, only a spherical 
+          <code>LatLon type</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><code>type(<b>obj</b></code> if <b><code>obj</code></b> is a 
-          <code>LatLon</code> instance, <code>None</code> otherwise.</dd>
+          <code>LatLon</code> instance of the required type, 
+          <code>False</code> if a <code>LatLon</code> of an other type or 
+          {None} otherwise.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1077,7 +1094,8 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">isNvector</span>&nbsp;(<span class="sig-arg">obj</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isNvector</span>&nbsp;(<span class="sig-arg">obj</span>,
+        <span class="sig-arg">ellipsoidal</span>=<span class="sig-default">None</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -1089,10 +1107,16 @@
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>obj</code></strong> - The object (any <code>type</code>).</li>
+        <li><strong class="pname"><code>ellipsoidal</code></strong> - If <code>None</code>, return the type of any 
+          <code>Nvector</code>, if <code>True</code>, only an ellipsoidal 
+          <code>Nvector type</code> or if <code>False</code>, only a 
+          spherical <code>Nvector type</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><code>type(<b>obj</b></code> if <b><code>obj</code></b> is an 
-          <code>Nvector</code> instance, <code>None</code> otherwise.</dd>
+          <code>Nvector</code> instance of the required type, 
+          <code>False</code> if an <code>Nvector</code> of an other type or
+          {None} otherwise.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1540,7 +1564,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Oct 11 15:46:53 2023
+    Generated by Epydoc 3.0.1 on Sun Nov 12 13:03:53 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -38,7 +38,7 @@ from pygeodesy.interns import NN, _arg_, _COMMASPACE_, _DASH_, _EQUAL_, \
                              _not_scalar_, _PERCENT_, _PLUS_, _R_, _RANGLE_, \
                              _SLASH_, _SPACE_, _STAR_, _UNDER_
 from pygeodesy.lazily import _ALL_LAZY, _getenv, _sys_version_info2
-from pygeodesy.named import _Named, _NamedTuple, _NotImplemented, Fmt, unstr
+from pygeodesy.named import _Named, _NamedTuple, _NotImplemented,  Fmt, unstr
 from pygeodesy.props import _allPropertiesOf_n, deprecated_property_RO, \
                              Property_RO, property_RO
 # from pygeodesy.streprs import Fmt, unstr  # from .named
@@ -47,7 +47,7 @@ from pygeodesy.props import _allPropertiesOf_n, deprecated_property_RO, \
 from math import ceil as _ceil, fabs, floor as _floor  # PYCHOK used! .ltp
 
 __all__ = _ALL_LAZY.fsums
-__version__ = '23.08.27'
+__version__ = '23.10.14'
 
 _add_op_       = _PLUS_  # in .auxilats.auxAngle
 _eq_op_        = _EQUAL_ * 2  # _DEQUAL_

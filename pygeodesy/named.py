@@ -32,7 +32,7 @@ from pygeodesy.props import _allPropertiesOf_n, deprecated_method, _hasProperty,
 from pygeodesy.streprs import attrs, Fmt, lrstrip, pairs, reprs, unstr
 
 __all__ = _ALL_LAZY.named
-__version__ = '23.10.08'
+__version__ = '23.10.15'
 
 _COMMANL_           = _COMMA_ + _NL_
 _COMMASPACEDOT_     = _COMMASPACE_ + _DOT_
@@ -104,6 +104,8 @@ class _Dict(dict):
     '''(INTERNAL) An C{dict} with both key I{and}
        attribute access to the C{dict} items.
     '''
+    _iteration = None  # Iteration number (C{int}) or C{None}
+
     def __getattr__(self, name):
         '''Get an attribute or item by B{C{name}}.
         '''
@@ -124,11 +126,21 @@ class _Dict(dict):
         '''
         return self.toStr()
 
-    def set_(self, **items):  # PYCHOK signature
+    @property_RO
+    def iteration(self):  # see .named._NamedBase
+        '''Get the iteration number (C{int}) or
+           C{None} if not available/applicable.
+        '''
+        return self._iteration
+
+    def set_(self, iteration=None, **items):  # PYCHOK signature
         '''Add one or several new items or replace existing ones.
 
+           @kwarg iteration: Optional C{iteration} (C{int}).
            @kwarg items: One or more C{name=value} pairs.
         '''
+        if iteration is not None:
+            self._iteration = iteration
         dict.update(self, items)
         return self  # in .rhumbBase.RhumbLineBase
 

@@ -75,7 +75,7 @@
 <dl><dt>Known Subclasses:</dt>
 <dd>
       <ul class="subclass-list">
-<li><a href="pygeodesy.rhumbx.RhumbLine-class.html">rhumbx.RhumbLine</a></li><li>, <a href="pygeodesy.rhumbaux.RhumbLineAux-class.html">rhumbaux.RhumbLineAux</a></li>  </ul>
+<li><a href="pygeodesy.rhumbx.RhumbLine-class.html">rhumbx.RhumbLine</a></li><li>, <a href="pygeodesy.rhumbaux.RhumbLineAux-class.html">rhumbaux.RhumbLineAux</a></li><li class="private">, _PseudoRhumbLine</li>  </ul>
 </dd></dl>
 
 <hr />
@@ -119,6 +119,7 @@
         <span class="summary-sig-arg">lat0</span>,
         <span class="summary-sig-arg">lon0</span>,
         <span class="summary-sig-arg">radius</span>,
+        <span class="summary-sig-arg">napier</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">**tol_eps</span>)</span><br />
       Compute the intersection(s) of this rhumb line and a circle.</td>
           <td align="right" valign="top">
@@ -182,12 +183,35 @@
           <td><span class="summary-sig"><a href="pygeodesy.rhumbBase.RhumbLineBase-class.html#NearestOn" class="summary-sig-name">NearestOn</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">lat0</span>,
         <span class="summary-sig-arg">lon0</span>,
+        <span class="summary-sig-arg">**exact_eps_est_tol</span>)</span><br />
+      DEPRECATED on 23.10.30, use method <a 
+      href="pygeodesy.rhumbBase.RhumbLineBase-class.html#PlumbTo" 
+      class="link">PlumbTo</a>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.rhumbBase.RhumbLineBase-class.html#PlumbTo" class="summary-sig-name">PlumbTo</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">lat0</span>,
+        <span class="summary-sig-arg">lon0</span>,
         <span class="summary-sig-arg">exact</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">2.220446049250313e-16</span>,
         <span class="summary-sig-arg">est</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">tol</span>=<span class="summary-sig-default">1.4901161193847656e-08</span>)</span><br />
-      <i>Iteratively</i> locate the point on this rhumb line nearest to the
-      given point, in part transcoded from <i>Karney</i>'s C++ <a 
+      Compute the <i>perpendicular</i> intersection of this rumb line with 
+      a geodesic from the given point, in part transcoded from 
+      <i>Karney</i>'s C++ <a 
       href="https://SourceForge.net/p/geographiclib/discussion/1026620/thread/2ddc295e/"
       target="_top">rhumb-intercept</a>.</td>
           <td align="right" valign="top">
@@ -345,12 +369,12 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.rhumbBase.RhumbLineBase-class.html#nearestOn4" class="summary-sig-name">nearestOn4</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">lat</span>,
-        <span class="summary-sig-arg">lon</span>,
+        <span class="summary-sig-arg">lat0</span>,
+        <span class="summary-sig-arg">lon0</span>,
         <span class="summary-sig-arg">**exact_eps_est_tol</span>)</span><br />
       DEPRECATED on 23.10.10, use method <a 
-      href="pygeodesy.rhumbBase.RhumbLineBase-class.html#NearestOn" 
-      class="link">NearestOn</a>.</td>
+      href="pygeodesy.rhumbBase.RhumbLineBase-class.html#PlumbTo" 
+      class="link">PlumbTo</a>.</td>
           <td align="right" valign="top">
             
             
@@ -478,6 +502,15 @@
         <a href="pygeodesy.rhumbBase.RhumbLineBase-class.html#azi12_sincos2" class="summary-name">azi12_sincos2</a><br />
       Get the sine and cosine of this rhumb line's <i>azimuth</i> (2-tuple 
       <code>(sin, cos)</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.rhumbBase.RhumbLineBase-class.html#datum" class="summary-name">datum</a><br />
+      Get this rhumb line's datum (<a 
+      href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>).
     </td>
   </tr>
 <tr>
@@ -654,6 +687,7 @@
         <span class="sig-arg">lat0</span>,
         <span class="sig-arg">lon0</span>,
         <span class="sig-arg">radius</span>,
+        <span class="sig-arg">napier</span>=<span class="sig-default">True</span>,
         <span class="sig-arg">**tol_eps</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -668,26 +702,28 @@
         <li><strong class="pname"><code>lat0</code></strong> - Latitude of the circle center (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lon0</code></strong> - Longitude of the circle center (<code>degrees</code>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Radius of the circle (<code>meter</code>, conventionally).</li>
+        <li><strong class="pname"><code>napier</code></strong> - If <code>True</code>, apply <i>Napier</i>'s spherical triangle 
+          instead of planar trigonometry (<code>bool</code>).</li>
         <li><strong class="pname"><code>tol_eps</code></strong> - Optional keyword arguments, see method method <a 
           href="pygeodesy.rhumbBase.RhumbLineBase-class.html#Intersection" 
           class="link">Intersection</a> for further details.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>2-Tuple <code>(P, Q)</code> with the 2 intersections 
-          (representing a chord), each a <a 
+        <dd>2-Tuple <code>(P, Q)</code> with both intersections (representing
+          a rhumb chord), each a <a 
           href="pygeodesy.karney.GDict-class.html" class="link">GDict</a> 
           from method <a 
           href="pygeodesy.rhumbBase.RhumbLineBase-class.html#Intersection" 
-          class="link">Intersection</a> extended to 14 items with 
-          <code>azi03, a03, s03, lat3, lon3</code> for the chord center 
-          <code>lat3, lon3</code> and the angle <code>a03</code>, distance 
-          <code>s03</code>, azimuth <code>azi03</code> and start point 
-          <code>lat0, lon0</code> of the rhumb line perpendicular to this 
-          rhumb line.  If this rhumb line is tangential to the circle, both
-          points are the same <a href="pygeodesy.karney.GDict-class.html" 
-          class="link">GDict</a> instance with rhumb distances 
-          <code>s02</code> and <code>s03</code> near-equal to the 
-          <b><code>radius</code></b>.</dd>
+          class="link">Intersection</a> extended to 18 items by <code>lat3,
+          lon3, azi03, a03, s03</code> with azimuth <code>azi03</code> of, 
+          distance <code>a03</code> in <code>degrees</code> and 
+          <code>s03</code> in <code>meter</code> along the rhumb line from 
+          the circle <code>lat0, lon0</code> to the chord center 
+          <code>lat3, lon3</code>.  If this rhumb line is tangential to the
+          circle, both points are the same <a 
+          href="pygeodesy.karney.GDict-class.html" class="link">GDict</a> 
+          instance with distances <code>s02</code> and <code>s03</code> 
+          near-equal to the <b><code>radius</code></b>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - The circle and this rhumb line do not intersect.</li>
@@ -718,8 +754,7 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>other</code></strong> - The other rhumb line (<code>RhumbLine</code>) or 
-          <code>None</code> for a rhumb line perpendicular to this one.</li>
+        <li><strong class="pname"><code>other</code></strong> - The other rhumb line (<code>RhumbLine</code>).</li>
         <li><strong class="pname"><code>tol</code></strong> - Tolerance for longitudinal convergence and parallel error 
           (<code>degrees</code>).</li>
         <li><strong class="pname"><code>eps</code></strong> - Tolerance for <a 
@@ -731,12 +766,14 @@
           href="pygeodesy.rhumbBase.RhumbLineBase-class.html#Position" 
           class="link">Position</a>-like <a 
           href="pygeodesy.karney.GDict-class.html" class="link">GDict</a> 
-          with 12 items <code>azi12, a12, s12, lat2, lat1, lat0, lon1, 
-          lon2, lon0, azi02, a02, s02</code> with <code>a02</code> and 
-          <code>s02</code> the rhumb angle and rhumb distance between the 
-          intersection <code>lat2, lon2</code> point and the start point 
-          <code>lat0, lon0</code> on the <b><code>other</code></b> rhumb 
-          line and the latter's azimuth <code>azi02</code>. See method <a 
+          with 13 items <code>lat1, lon1, azi12, a12, s12, lat2, lon2, 
+          lat0, lon0, azi02, a02, s02, at</code> with the rhumb angle 
+          <code>a02</code> and rhumb distance <code>s02</code> between the 
+          start point <code>lat0, lon0</code> of the 
+          <b><code>other</code></b> rhumb line and the intersection 
+          <code>lat2, lon2</code>, the azimuth <code>azi02</code> of the 
+          <b><code>other</code></b> rhumb line and the angle 
+          <code>at</code> between both rhumb lines. See method <a 
           href="pygeodesy.rhumbBase.RhumbLineBase-class.html#Position" 
           class="link">Position</a> for further details.</dd>
     <dt>Raises:</dt>
@@ -746,7 +783,7 @@
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Methods <code>distance2</code> and <code>NearestOn</code> and 
+        Methods <code>distance2</code> and <code>PlumbTo</code> and 
         function <a href="pygeodesy.vector3d-module.html#intersection3d3" 
         class="link">pygeodesy.intersection3d3</a>.
       </p>
@@ -813,6 +850,34 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">NearestOn</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">lat0</span>,
         <span class="sig-arg">lon0</span>,
+        <span class="sig-arg">**exact_eps_est_tol</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>DEPRECATED on 23.10.30, use method <a 
+  href="pygeodesy.rhumbBase.RhumbLineBase-class.html#PlumbTo" 
+  class="link">PlumbTo</a>.</p>
+  <dl class="fields">
+    <dt>Decorators:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code>@deprecated_method</code></li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="PlumbTo"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">PlumbTo</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">lat0</span>,
+        <span class="sig-arg">lon0</span>,
         <span class="sig-arg">exact</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">eps</span>=<span class="sig-default">2.220446049250313e-16</span>,
         <span class="sig-arg">est</span>=<span class="sig-default">None</span>,
@@ -823,8 +888,9 @@
     </td>
   </tr></table>
   
-  <p><i>Iteratively</i> locate the point on this rhumb line nearest to the 
-  given point, in part transcoded from <i>Karney</i>'s C++ <a 
+  <p>Compute the <i>perpendicular</i> intersection of this rumb line with a
+  geodesic from the given point, in part transcoded from <i>Karney</i>'s 
+  C++ <a 
   href="https://SourceForge.net/p/geographiclib/discussion/1026620/thread/2ddc295e/"
   target="_top">rhumb-intercept</a>.</p>
   <dl class="fields">
@@ -843,30 +909,33 @@
           href="pygeodesy.vector3d-module.html#intersection3d3" 
           class="link">pygeodesy.intersection3d3</a> (<code>EPS</code>), 
           used only if <code><b>exact</b> is None</code>.</li>
-        <li><strong class="pname"><code>est</code></strong> - Optional, initial estimate for the distance <code>s13</code> of 
+        <li><strong class="pname"><code>est</code></strong> - Optional, initial estimate for the distance <code>s12</code> of 
           the intersection <i>along</i> this rhumb line 
           (<code>meter</code>), used only if <code><b>exact</b> is not 
           None</code>.</li>
-        <li><strong class="pname"><code>tol</code></strong> - Longitudinal convergence tolerance (<code>degrees</code>) or the 
+        <li><strong class="pname"><code>tol</code></strong> - Longitudinal convergence tolerance (<code>degrees</code>) or 
           distance tolerance (C(meter)) when <code><b>exact</b> is 
           None</code>, respectively <code>not None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The nearest point on this rhumb line, a <a 
+        <dd>The intersection point on this rhumb line, a <a 
           href="pygeodesy.karney.GDict-class.html" class="link">GDict</a> 
           from method <a 
           href="pygeodesy.rhumbBase.RhumbLineBase-class.html#Intersection" 
           class="link">Intersection</a> if <b><code>exact</code>=None</b>.
           If <b><code>exact</code></b> is not <code>None</code>, a <a 
+          href="pygeodesy.rhumbBase.RhumbLineBase-class.html#Position" 
+          class="link">Position</a>-like <a 
           href="pygeodesy.karney.GDict-class.html" class="link">GDict</a> 
-          of 13 items <code>azi12, a12, s12, lat2, lat1, lon2, lon1, a02, 
-          s02, azi0, azi2, lat0, lon0</code> with <code>a02</code> and 
-          <code>s02</code> the angle respectively distance from the given 
-          <code>lat0, lon0</code> to the nearest <code>lat2, lon2</code> 
-          point along the specified <code>geodetic</code> and 
-          <code>azi0</code> and <code>azi2</code> the (forward) azimuth at 
-          the given respectively the nearest point.  The latter is always 
-          perpendicular to this rhumb line's azimuth.  See method <a 
+          of 13 items <code>azi12, a12, s12, lat2, lat1, lat0, lon2, lon1, 
+          lon0, azi0, a02, s02, at</code> with distance <code>a02</code> in
+          <code>degrees</code> and <code>s02</code> in <code>meter</code> 
+          between the given point <code>lat0, lon0</code> and the 
+          intersection <code>lat2, lon2</code>, geodesic azimuth 
+          <code>azi0</code> at the given point and the (perpendicular) 
+          angle <code>at</code> between the geodesic and this rhumb line at
+          the intersection.  The <i>geodesic</i> azimuth at the 
+          intersection is <code>(at + azi12)</code>.  See method <a 
           href="pygeodesy.rhumbBase.RhumbLineBase-class.html#Position" 
           class="link">Position</a> for further details.</dd>
     <dt>Raises:</dt>
@@ -874,14 +943,10 @@
         <li><code><strong class='fraise'>ImportError</strong></code> - <i>Karney</i>'s <a href="https://PyPI.org/project/geographiclib" 
         target="_top">geographiclib</a> package not found or not installed.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - No convergence for this <b><code>eps</code></b> or no intersection 
-        for an other reason.</li>
+        for some other reason.</li>
     </ul></dd>
   </dl>
-<div class="fields">      <p><strong>Note:</strong>
-        The (forward) azimuth <code>azi2</code> at the nearest point is 
-        always perpendicular to this rhumb line's azimuth.
-      </p>
-      <p><strong>See Also:</strong>
+<div class="fields">      <p><strong>See Also:</strong>
         Methods <code>distance2</code>, <code>Intersecant2</code> and 
         <code>Intersection</code> and function <a 
         href="pygeodesy.vector3d-module.html#intersection3d3" 
@@ -917,7 +982,7 @@
     <dt>Returns:</dt>
         <dd><a href="pygeodesy.karney.GDict-class.html" 
           class="link">GDict</a> with 4 to 8 items <code>azi12, a12, s12, 
-          S12, lat2, lat1. lon2, lon1</code> with latitude 
+          S12, lat2, lat1, lon2, lon1</code> with latitude 
           <code>lat2</code> and longitude <code>lon2</code> of the point in
           <code>degrees</code>, the rhumb angle <code>a12</code> in 
           <code>degrees</code> from the start point of and the area 
@@ -1067,8 +1132,8 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">nearestOn4</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">lat</span>,
-        <span class="sig-arg">lon</span>,
+        <span class="sig-arg">lat0</span>,
+        <span class="sig-arg">lon0</span>,
         <span class="sig-arg">**exact_eps_est_tol</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -1077,8 +1142,8 @@
   </tr></table>
   
   <p>DEPRECATED on 23.10.10, use method <a 
-  href="pygeodesy.rhumbBase.RhumbLineBase-class.html#NearestOn" 
-  class="link">NearestOn</a>.</p>
+  href="pygeodesy.rhumbBase.RhumbLineBase-class.html#PlumbTo" 
+  class="link">PlumbTo</a>.</p>
   <dl class="fields">
     <dt>Decorators:</dt>
     <dd><ul class="nomargin-top">
@@ -1196,6 +1261,32 @@
     <dd class="value"><span class="summary-sig">azi12_sincos2(<span class="summary-sig-arg">self</span>)</span>
         - Get the sine and cosine of this rhumb line's <i>azimuth</i> (2-tuple 
 <code>(sin, cos)</code>).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="datum"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">datum</h3>
+  <p>Get this rhumb line's datum (<a 
+  href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">datum(<span class="summary-sig-arg">self</span>)</span>
+        - Get this rhumb line's datum (<a href="pygeodesy.datums.Datum-class.html" 
+class="link">Datum</a>).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -1462,7 +1553,7 @@ class="link">KTransverseMercator</a> for <code>TMorder</code>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Oct 11 15:46:56 2023
+    Generated by Epydoc 3.0.1 on Sun Nov 12 13:03:56 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

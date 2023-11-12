@@ -25,26 +25,24 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 from pygeodesy.basics import copysign0, neg, _zip
 from pygeodesy.constants import PI_2, _0_0s, _0_0, _0_5, _1_0, \
                                _2_0, _4_0, _720_0, _over, _1_over
-# from pygeodesy.ellipsoids import _EWGS84  # from .karney
-from pygeodesy.errors import itemsorted, RhumbError, _Xorder
+# from pygeodesy.datums import _WGS84  # from .karney
+from pygeodesy.errors import RhumbError, _Xorder
 from pygeodesy.fmath import hypot, hypot1
 # from pygeodesy.fsums import fsum1f_  # _MODS
-from pygeodesy.interns import NN, _COMMASPACE_
-from pygeodesy.karney import Caps, _GTuple,  _EWGS84
+# from pygeodesy.interns import NN  # from .karney
+from pygeodesy.karney import Caps, _GTuple,  NN, _WGS84
 from pygeodesy.ktm import KTransverseMercator, _Xs, \
                          _AlpCoeffs, _BetCoeffs  # PYCHOK used!
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.props import deprecated_method, Property, Property_RO, property_RO
-from pygeodesy.rhumbBase import RhumbBase, RhumbLineBase,  Int, pairs, \
-                               _update_all_rls
-# from pygeodesy.streprs import pairs  # from .rhumbBase
+from pygeodesy.rhumbBase import RhumbBase, RhumbLineBase,  Int, _update_all_rls
 # from pygeodesy.units import Int  # from .rhumbBase
 from pygeodesy.utily import atan1, sincos2_
 
 from math import asinh, atan, cos, cosh, fabs, radians, sin, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.rhumbx
-__version__ = '23.09.29'
+__version__ = '23.10.27'
 
 
 class Rhumb(RhumbBase):
@@ -56,14 +54,14 @@ class Rhumb(RhumbBase):
     '''
     _mRA = 6  # see .RAorder
 
-    def __init__(self, a_earth=_EWGS84, f=None, exact=True, name=NN, **RA_TMorder):
+    def __init__(self, a_earth=_WGS84, f=None, exact=True, name=NN, **RA_TMorder):
         '''New C{rhumbx.Rhumb}.
 
-           @kwarg a_earth: This rhumb's earth model (L{Ellipsoid}, L{Ellipsoid2},
-                           L{a_f2Tuple}, L{Datum}, 2-tuple C{(a, f)}) or the
-                           (equatorial) radius (C{scalar}).
+           @kwarg a_earth: This rhumb's earth model (L{Datum}, L{Ellipsoid},
+                           L{Ellipsoid2}, L{a_f2Tuple}, 2-tuple C{(a, f)}) or
+                           the (equatorial) radius (C{meter}, conventionally).
            @kwarg f: The ellipsoid's flattening (C{scalar}), iff B{C{a_earth}} is
-                     a C{scalar}, ignored otherwise.
+                     C{scalar}, ignored otherwise.
            @kwarg exact: If C{True}, use an addition theorem for elliptic integrals
                          to compute I{Divided differences}, otherwise use the I{Krüger}
                          series expansion (C{bool} or C{None}), see also properties
@@ -145,7 +143,7 @@ class Rhumb(RhumbBase):
         '''(INTERNAL) Get the ellipsoid's elliptic function.
         '''
         # .k2 = 0.006739496742276434
-        return self._E._elliptic_e12  # _MODS.elliptic.Elliptic(-self._E._e12)
+        return self.ellipsoid._elliptic_e12  # _MODS.elliptic.Elliptic(-self.ellipsoid._e12)
 
     def _Inverse4(self, lon12, r, outmask):
         '''(INTERNAL) See method C{RhumbBase.Inverse}.
@@ -180,6 +178,10 @@ class Rhumb(RhumbBase):
     @Property_RO
     def _mpd(self):  # meter per degree
         return self.ellipsoid._Lpd
+
+    @Property_RO
+    def _mpr(self):  # meter per radian
+        return self.ellipsoid._Lpr  # degrees(._Lpd)
 
     @deprecated_method
     def orders(self, RAorder=None, TMorder=None):  # PYCHOK expected
@@ -238,20 +240,6 @@ class Rhumb(RhumbBase):
                 s += _sincosSeries(False, _gd(x), _gd(y), *self._RA2) * _Dgd(x, y)
             S *= s
         return S
-
-    def toStr(self, prec=6, sep=_COMMASPACE_, **unused):  # PYCHOK signature
-        '''Return this C{Rhumb} as string.
-
-           @kwarg prec: The C{float} precision, number of decimal digits (0..9).
-                        Trailing zero decimals are stripped for B{C{prec}} values
-                        of 1 and above, but kept for negative B{C{prec}} values.
-           @kwarg sep: Separator to join (C{str}).
-
-           @return: Tuple items (C{str}).
-        '''
-        d = dict(ellipsoid=self.ellipsoid, RAorder=self.RAorder,
-                     exact=self.exact,     TMorder=self.TMorder)
-        return sep.join(pairs(itemsorted(d, asorted=False), prec=prec))
 
 
 class RhumbLine(RhumbLineBase):

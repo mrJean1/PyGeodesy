@@ -35,7 +35,7 @@ from pygeodesy.vector3d import Vector3d
 from math import cos, radians
 
 __all__ = _ALL_LAZY.ltpTuples
-__version__ = '23.10.02'
+__version__ = '23.10.12'
 
 _aer_        = 'aer'
 _alt_        = 'alt'
@@ -1344,7 +1344,7 @@ class Los(Aer):
 class ChLV9Tuple(Local9Tuple):
     '''9-Tuple C{(Y, X, h_, lat, lon, height, ltp, ecef, M)} with I{B{unfalsed} Swiss
        (Y, X, h_)} coordinates and height, all in C{meter}, C{ltp} either a L{ChLV},
-       L{ChLVa} or L{ChLVe} instance and C{ecef} (L{EcefKarney} I{at Bern, Ch},
+       L{ChLVa} or L{ChLVe} instance and C{ecef} (L{EcefKarney} I{at Bern, Ch}),
        otherwise like L{Local9Tuple}.
     '''
     _Names_ = (_Y_, _X_, _h__) + Local9Tuple._Names_[3:]

@@ -42,18 +42,19 @@ U{GeographicLib<https://GeographicLib.SourceForge.io>} documentation.
 # make sure int/int division yields float quotient
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import copysign0, isodd, neg, neg_, _reverange
+from pygeodesy.basics import copysign0, isodd, neg, neg_, \
+                            _reverange, _xinstanceof
 from pygeodesy.constants import INF, _K0_UTM, PI, PI_2, _0_0s, _0_0, \
                                _1_0, _90_0, _copysignINF
-# from pygeodesy.datums import _spherical_datum  # _MODS
-# from pygeodesy.ellipsoids import _EWGS84  # from .karney
-from pygeodesy.errors import _ValueError, _xkwds_get, _Xorder
+from pygeodesy.datums import Datum, _spherical_datum, _WGS84,  _EWGS84
+# from pygeodesy.ellipsoids import _EWGS84  # from .datums
+from pygeodesy.errors import _ValueError, _xkwds_get, _Xorder,  _pairs
 from pygeodesy.fmath import hypot, hypot1
-from pygeodesy.fsums import fsum1f_
+from pygeodesy.fsums import fsum1f_,  _ALL_LAZY
 from pygeodesy.interns import NN, _COMMASPACE_, _singular_
-from pygeodesy.karney import _atan2d, _diff182, _fix90, _polynomial, \
-                             _norm180, _unsigned2,  _EWGS84, _NamedBase
-from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS,  _pairs
+from pygeodesy.karney import _atan2d, _diff182, _fix90, _norm180, \
+                             _polynomial, _unsigned2,  _NamedBase
+# from pygeodesy.lazily import _ALL_LAZY,  _pairs  # from .errors, .fsums
 # from pygeodesy.named import _NamedBase  # from .karney
 from pygeodesy.namedTuples import Forward4Tuple, Reverse4Tuple
 from pygeodesy.props import property_doc_, Property, Property_RO, \
@@ -66,7 +67,7 @@ from cmath import polar
 from math import atan2, asinh, cos, cosh, degrees, fabs, sin, sinh, sqrt, tanh
 
 __all__ = _ALL_LAZY.ktm
-__version__ = '23.09.28'
+__version__ = '23.10.15'
 
 
 class KTMError(_ValueError):
@@ -107,8 +108,9 @@ class KTransverseMercator(_NamedBase):
        convergence is the bearing of grid North, the C{y axis}, measured clockwise
        from true North.
     '''
-    _E      = _EWGS84
+    _datum  = _WGS84
     _k0     = _K0_UTM  # central scale factor
+    _lat0   = _0_0     # central parallel
     _lon0   = _0_0     # central meridian
     _mTM    =  6
     _raiser =  False   # throw Error
@@ -133,7 +135,11 @@ class KTransverseMercator(_NamedBase):
         '''
         if f is not None:
             self.ellipsoid = a_earth, f
-        elif a_earth not in (_EWGS84, None):
+        elif a_earth in (_EWGS84, _WGS84, None):
+            pass
+        elif isinstance(a_earth, Datum):
+            self.datum = a_earth
+        else:
             self.ellipsoid = a_earth
         self.lon0 = lon0
         self.k0 = k0
@@ -165,21 +171,33 @@ class KTransverseMercator(_NamedBase):
         C = _Xs(_BetCoeffs, self.TMorder, self.ellipsoid)
         return tuple(map(neg, C)) if self.f else C  # negated if isEllipsoidal
 
+    @property
+    def datum(self):
+        '''Get this rhumb's datum (L{Datum}).
+        '''
+        return self._datum
+
+    @datum.setter  # PYCHOK setter!
+    def datum(self, datum):
+        '''Set this rhumb's datum (L{Datum}).
+        '''
+        _xinstanceof(Datum, datum=datum)
+        if self._datum != datum:
+            _update_all(self)
+            self._datum = datum
+
     @Property
     def ellipsoid(self):
         '''Get the ellipsoid (L{Ellipsoid}).
         '''
-        return self._E
+        return self.datum.ellipsoid
 
     @ellipsoid.setter  # PYCHOK setter!
     def ellipsoid(self, a_earth_f):
         '''Set this rhumb's ellipsoid (L{Ellipsoid}, L{Ellipsoid2}, L{Datum},
            L{a_f2Tuple} or 2-tuple C{(a, f)}).
         '''
-        E = _MODS.datums._spherical_datum(a_earth_f, Error=KTMError).ellipsoid
-        if self._E != E:
-            _update_all(self)
-            self._E = E
+        self.datum = _spherical_datum(a_earth_f, Error=KTMError)
 
     @Property_RO
     def equatoradius(self):
@@ -214,7 +232,7 @@ class KTransverseMercator(_NamedBase):
            @raise KTMError: For singularities, iff property C{raiser} is
                             C{True}.
         '''
-        lat, _lat = _unsigned2(_fix90(lat))
+        lat, _lat = _unsigned2(_fix90(lat - self._lat0))
         lon, _    = _diff182((self.lon0 if lon0 is None else lon0), lon)
         lon, _lon = _unsigned2(lon)
         backside  =  lon > 90
@@ -254,7 +272,6 @@ class KTransverseMercator(_NamedBase):
             y, g = neg_(y, g)
         if _lon:
             x, g = neg_(x, g)
-
         return Forward4Tuple(x, y, _norm180(g), k, name=name or self.name)
 
     @property_doc_(''' the central scale factor (C{float}).''')
@@ -314,6 +331,22 @@ class KTransverseMercator(_NamedBase):
         '''
         self._raiser = bool(raiser)
 
+    def reset(self, lat0, lon0):
+        '''Set the central parallel and meridian.
+
+           @arg lat0: Latitude of the central parallel (C{degrees90}).
+           @arg lon0: Longitude of the central parallel (C{degrees180}).
+
+           @return: 2-Tuple C{(lat0, lon0)} of the previous central
+                    parallel and meridian.
+
+           @raise KTMError: Invalid B{C{lat0}} or B{C{lon0}}.
+        '''
+        t = self._lat0, self.lon0
+        self._lat0 = _fix90(Degrees(lat0=lat0, Error=KTMError))
+        self. lon0 =  lon0
+        return t
+
     def reverse(self, x, y, lon0=None, name=NN):
         '''Reverse projection, from transverse Mercator to geographic.
 
@@ -348,8 +381,9 @@ class KTransverseMercator(_NamedBase):
             g  += _atan2d(s * tanh(etap), c)  # Krueger p 19 (31)
             k  *=  sqrt(E.e2 / (t**2 + _1_0) + E.e21) * hypot1(t) * r
         else:  # PYCHOK no cover
-            lat, lon = _90_0, _0_0
-            k *= E.es_c
+            lat = _90_0
+            lon = _0_0
+            k  *=  E.es_c
 
         if backside:  # PYCHOK no cover
             lon, g = _loneg(lon), _loneg(g)
@@ -357,8 +391,8 @@ class KTransverseMercator(_NamedBase):
             lat, g = neg_(lat, g)
         if _lon:
             lon, g = neg_(lon, g)
-
-        lon += self.lon0 if lon0 is None else _norm180(lon0)
+        lat += self._lat0
+        lon += self._lon0 if lon0 is None else _norm180(lon0)
         return Reverse4Tuple(lat, _norm180(lon), _norm180(g), k,
                                    name=name or self.name)
 

@@ -30,7 +30,7 @@ from contextlib import contextmanager
 # from math import fabs, sqrt  # from .fmath
 
 __all__ = _ALL_LAZY.vector2d
-__version__ = '23.06.08'
+__version__ = '23.10.16'
 
 _cA_        = 'cA'
 _cB_        = 'cB'
@@ -371,12 +371,13 @@ def _meeus4(A, point2, point3, circum=False, useZ=True, clas=None, **clas_kwds):
     return r, t, p2, p3
 
 
-class _numpy(object):  # see also .geodesicw._wargs
+class _numpy(object):  # see also .formy._idllmn6, .geodesicw._wargs, .latlonBase._toCartesian3
     '''(INTERNAL) Partial C{NumPy} wrapper.
     '''
-    @contextmanager  # <https://www.python.org/dev/peps/pep-0343/> Examples
+    @contextmanager  # <https://www.Python.org/dev/peps/pep-0343/> Examples
     def __call__(self, where, *args, **kwds):
-        '''(INTERNAL) Yield self with any errors raised as L{NumPyError}.
+        '''(INTERNAL) Yield self with any errors raised as L{NumPyError}
+           embellished with all B{C{args}} and B{C{kwds}}.
         '''
         np = self.np
         try:  # <https://NumPy.org/doc/stable/reference/generated/numpy.seterr.html>

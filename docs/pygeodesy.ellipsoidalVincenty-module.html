@@ -115,7 +115,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        23.10.08
+        23.11.08
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -178,13 +178,10 @@
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalVincenty-module.html#intersecant2" class="summary-sig-name">intersecant2</a>(<span class="summary-sig-arg">center</span>,
         <span class="summary-sig-arg">circle</span>,
         <span class="summary-sig-arg">point</span>,
-        <span class="summary-sig-arg">bearing</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">exact</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
-      Compute the intersections of a circle and a line given as a point and
-      bearing or as two points.</td>
+        <span class="summary-sig-arg">other</span>,
+        <span class="summary-sig-arg">**exact_height_wrap_tol</span>)</span><br />
+      Compute the intersections of a circle and a geodesic given as two 
+      points or as a point and (forward) bearing.</td>
           <td align="right" valign="top">
             
             
@@ -374,73 +371,46 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">intersecant2</span>&nbsp;(<span class="sig-arg">center</span>,
         <span class="sig-arg">circle</span>,
         <span class="sig-arg">point</span>,
-        <span class="sig-arg">bearing</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">exact</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
+        <span class="sig-arg">other</span>,
+        <span class="sig-arg">**exact_height_wrap_tol</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Compute the intersections of a circle and a line given as a point and 
-  bearing or as two points.</p>
+  <p>Compute the intersections of a circle and a geodesic given as two 
+  points or as a point and (forward) bearing.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>center</code></strong> - Center of the circle (<code>LatLon</code>).</li>
-        <li><strong class="pname"><code>circle</code></strong> - Radius of the circle (<code>meter</code>, same units as 
-          <b><code>radius</code></b>) or a point on the circle 
-          (<code>LatLon</code>).</li>
-        <li><strong class="pname"><code>point</code></strong> - A point in- or outside the circle on the line 
-          (<code>LatLon</code>).</li>
-        <li><strong class="pname"><code>bearing</code></strong> - Bearing at the <b><code>point</code></b> (compass 
-          <code>degrees360</code>) or an other point on the line 
-          (<code>LatLon</code>).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Optional earth radius (<code>meter</code>) or earth model (<a 
-          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>, 
-          <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
-          class="link">Ellipsoid</a>, <a 
-          href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
-          class="link">Ellipsoid2</a> or <a 
-          href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
-          class="link">a_f2Tuple</a>), overriding the 
-          <b><code>center</code></b>'s and <b><code>point</code></b>'s 
-          datum.</li>
-        <li><strong class="pname"><code>exact</code></strong> - Exact <code>Rhumb...</code> to use (<code>bool</code> or 
-          <code>Rhumb...</code>), see method <a 
-          href="pygeodesy.ellipsoids.Ellipsoid-class.html#rhumb_" 
-          class="link">Ellipsoid.rhumb_</a>.</li>
-        <li><strong class="pname"><code>height</code></strong> - Optional height for the intersection points (<code>meter</code>, 
-          conventionally) or <code>None</code>.</li>
-        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
-          <b><code>point</code></b> and the <b><code>circle</code></b> and 
-          <b><code>bearing</code></b> points (<code>bool</code>).</li>
+        <li><strong class="pname"><code>circle</code></strong> - Radius of the circle (<code>meter</code>, conventionally) or a 
+          point on the circle (<code>LatLon</code>, as 
+          <b><code>center</code></b>).</li>
+        <li><strong class="pname"><code>point</code></strong> - A point of the geodesic (<code>LatLon</code>, as 
+          <b><code>center</code></b>).</li>
+        <li><strong class="pname"><code>other</code></strong> - An other point of the geodesic (<code>LatLon</code>, as 
+          <b><code>center</code></b>) or the (forward) bearing at the 
+          <b><code>point</code></b> (compass <code>degrees</code>).</li>
+        <li><strong class="pname"><code>exact_height_wrap_tol</code></strong> - Optional keyword arguments, see below.</li>
     </ul></dd>
-    <dt>Returns:</dt>
-        <dd>2-Tuple of the intersection points (representing a chord), each 
-          an instance of this class.  For a tangent line, both points are 
-          the same instance, the <b><code>point</code></b> or wrapped or 
-          <i>normalized</i>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - The circle and line do not intersect.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - If <b><code>center</code></b> or <b><code>point</code></b> not 
-        ellipsoidal <code>LatLon</code> or <b><code>circle</code></b> or 
-        <b><code>bearing</code></b> invalid.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>circle</code></b>, <b><code>bearing</code></b>, 
-        <b><code>radius</code></b>, <b><code>exact</code></b> or 
-        <b><code>height</code></b>.</li>
+        <li><code><strong class='fraise'>NotImplementedError</strong></code> - Method <code>intersecant2</code> not available.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - If <b><code>center</code></b>, <b><code>point</code></b> or 
+        <b><code>circle</code></b> or <b><code>other</code></b> points not 
+        ellipsoidal or not compatible with <b><code>center</code></b>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Methods <a 
-        href="pygeodesy.rhumbBase.RhumbLineBase-class.html#Intersecant2" 
-        class="link">RhumbLineAux.Intersecant2</a> and <a 
-        href="pygeodesy.rhumbBase.RhumbLineBase-class.html#Intersecant2" 
-        class="link">RhumbLine.Intersecant2</a>.
+        Method <code>LatLon.intersecant2</code> of class <a 
+        href="pygeodesy.ellipsoidalExact.LatLon-class.html" 
+        class="link">ellipsoidalExact.LatLon</a>, <a 
+        href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
+        class="link">ellipsoidalKarney.LatLon</a> or <a 
+        href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
+        class="link">ellipsoidalVincenty.LatLon</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -832,7 +802,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Oct 11 15:46:53 2023
+    Generated by Epydoc 3.0.1 on Sun Nov 12 13:03:53 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

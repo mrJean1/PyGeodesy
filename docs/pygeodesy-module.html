@@ -288,7 +288,7 @@
     href="https://GeographicLib.SourceForge.io/html/utilities.html" 
     target="_top">GeodSolve</a> 2.2 and <a 
     href="https://GeographicLib.SourceForge.io/html/utilities.html" 
-    target="_top">RhumbSolve</a> 2.2), all on macOS 13.5.2 Ventura and in 
+    target="_top">RhumbSolve</a> 2.2), all on macOS 14.0 Sonoma and in 
     64-bit only.</p>
     <p>All tests ran with and without <code>lazy import</code> for Python 3
     and with command line option <code>-W default</code> and env variable 
@@ -342,7 +342,7 @@
     href="https://software.Intel.com/en-us/distribution-for-python" 
     target="_top">Intel-Python</a> 3.5.3 (and <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.11.3) 
-    on macOS 13.0-4 Ventura, 12.1-6 Monterey, 11.0-5.2-6.1 Big Sur (aka 
+    on macOS 13.0-5.2 Ventura, 12.1-6 Monterey, 11.0-5.2-6.1 Big Sur (aka 
     10.16), 10.15.3, 10.15.5-7 Catalina, 10.14 Mojave, 10.13.6 High Sierra 
     and 10.12 Sierra, MacOS X 10.11 El Capitan and/or MacOS X 10.10 
     Yosemite, with <a href="https://OMZ-Software.com/pythonista" 
@@ -364,7 +364,7 @@
     href="https://PyPI.org/project/mccabe" target="_top">McCabe</a> using 
     Python 2.7.18 and with <a href="https://PyPI.org/project/flake8" 
     target="_top">Flake8</a> using Python 3.11.5, both in 64-bit on macOS 
-    13.5.2 Ventura.</p>
+    14.0 Sonoma.</p>
     <p>For a summary of all <i>Karney</i>-based functionality in 
     <code>pygeodesy</code>, see module <a 
     href="https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.karney-module.html"
@@ -384,6 +384,10 @@
         <code>PYGEODESY_EXCEPTION_CHAINING</code> - see module <a 
         href="pygeodesy.errors-module.html" 
         class="link">pygeodesy.errors</a>.
+      </li>
+      <li>
+        <code>PYGEODESY_FMT_FORM</code> - see module <a 
+        href="pygeodesy.dms-module.html" class="link">pygeodesy.dms</a>.
       </li>
       <li>
         <code>PYGEODESY_FSUM_PARTIALS</code> - see module <a 
@@ -541,7 +545,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        23.10.10
+        23.11.11
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -1419,7 +1423,7 @@
         href="pygeodesy.ltp.ChLVe-class.html" class="link">ChLVe</a> 
         instance and <code>ecef</code> (<a 
         href="pygeodesy.ecef.EcefKarney-class.html" 
-        class="link">EcefKarney</a> <i>at Bern, Ch</i>, otherwise like <a 
+        class="link">EcefKarney</a> <i>at Bern, Ch</i>), otherwise like <a 
         href="pygeodesy.ltpTuples.Local9Tuple-class.html" 
         class="link">Local9Tuple</a>.
     </td>
@@ -3518,7 +3522,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.deprecated.classes.LatLonExact4Tuple-class.html" class="summary-name">LatLonExact4Tuple</a><br />
-      DEPRECATED, used class <a 
+      DEPRECATED, use class <a 
         href="pygeodesy.namedTuples.Reverse4Tuple-class.html" 
         class="link">Reverse4Tuple</a>, item <code>gamma</code> for 
         <code>convergence</code>.
@@ -5561,7 +5565,7 @@
         <span class="summary-sig-arg">reverse</span>=<span class="summary-sig-default">False</span>)</span><br />
       Return <code>atan2(<b>y</b>, <b>x</b>)</code> in degrees <i 
       class="math">[-180..+180]</i>, optionally <i>reversed</i> (by 180 
-      degrees for <code>azi2</code>).</td>
+      degrees for <code>azimuth</code>s).</td>
           <td align="right" valign="top">
             
             
@@ -6739,7 +6743,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#degrees180" class="summary-sig-name">degrees180</a>(<span class="summary-sig-arg">rad</span>)</span><br />
-      Convert radians to degrees and wrap <i class="math">[-180..+180]</i>.</td>
+      Convert radians to degrees and wrap <i class="math">[-180..+180)</i>.</td>
           <td align="right" valign="top">
             
             
@@ -6811,7 +6815,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#degrees90" class="summary-sig-name">degrees90</a>(<span class="summary-sig-arg">rad</span>)</span><br />
-      Convert radians to degrees and wrap <i class="math">[-270..+90]</i>.</td>
+      Convert radians to degrees and wrap <i class="math">[-90..+90)</i>.</td>
           <td align="right" valign="top">
             
             
@@ -7459,7 +7463,7 @@
       Compute the <i>spherical excess</i> <code>E</code> of a (spherical) 
       triangle using <a 
       href="https://MathWorld.Wolfram.com/LHuiliersTheorem.html" 
-      target="_top">L'Huilier's</a> Theorem.</td>
+      target="_top">L'Huilier's</a>'s Theorem.</td>
           <td align="right" valign="top">
             
             
@@ -8665,7 +8669,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fda70abc350&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fcb408c4c50&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -9066,8 +9070,8 @@
         <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">2.220446049250313e-16</span>,
         <span class="summary-sig-arg">useZ</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">**Vector_and_kwds</span>)</span><br />
-      Compute the intersection point of two lines, each defined by two 
-      points or by a point and a bearing.</td>
+      Compute the intersection point of two (2- or 3-D) lines, each defined
+      by two points or by a point and a bearing.</td>
           <td align="right" valign="top">
             
             
@@ -9123,7 +9127,8 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#isCartesian" class="summary-sig-name">isCartesian</a>(<span class="summary-sig-arg">obj</span>)</span><br />
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#isCartesian" class="summary-sig-name">isCartesian</a>(<span class="summary-sig-arg">obj</span>,
+        <span class="summary-sig-arg">ellipsoidal</span>=<span class="summary-sig-default">None</span>)</span><br />
       Is <b><code>obj</code></b> some <code>Cartesian</code>?</td>
           <td align="right" valign="top">
             
@@ -9176,7 +9181,8 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#isLatLon" class="summary-sig-name">isLatLon</a>(<span class="summary-sig-arg">obj</span>)</span><br />
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#isLatLon" class="summary-sig-name">isLatLon</a>(<span class="summary-sig-arg">obj</span>,
+        <span class="summary-sig-arg">ellipsoidal</span>=<span class="summary-sig-default">None</span>)</span><br />
       Is <b><code>obj</code></b> some <code>LatLon</code>?</td>
           <td align="right" valign="top">
             
@@ -9210,7 +9216,8 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#isNvector" class="summary-sig-name">isNvector</a>(<span class="summary-sig-arg">obj</span>)</span><br />
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#isNvector" class="summary-sig-name">isNvector</a>(<span class="summary-sig-arg">obj</span>,
+        <span class="summary-sig-arg">ellipsoidal</span>=<span class="summary-sig-default">None</span>)</span><br />
       Is <b><code>obj</code></b> some <code>Nvector</code>?</td>
           <td align="right" valign="top">
             
@@ -13278,7 +13285,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#wrap90" class="summary-sig-name">wrap90</a>(<span class="summary-sig-arg">deg</span>)</span><br />
-      Wrap degrees to <i class="math">[-270..+90]</i>.</td>
+      Wrap degrees to <i class="math">[-90..+90]</i>.</td>
           <td align="right" valign="top">
             
             
@@ -13329,7 +13336,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#wrapPI_2" class="summary-sig-name">wrapPI_2</a>(<span class="summary-sig-arg">rad</span>)</span><br />
-      Wrap radians to <i class="math">[-3PI/2..+PI/2]</i>.</td>
+      Wrap radians to <i class="math">[-PI/2..+PI/2]</i>.</td>
           <td align="right" valign="top">
             
             
@@ -13435,7 +13442,7 @@ ygeodesy'"><code class="variable-quote">'</code><code class="variable-string">/U
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'23.10.10'"><code class="variable-quote">'</code><code class="variable-string">23.10.10</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'23.11.11'"><code class="variable-quote">'</code><code class="variable-string">23.11.11</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -15149,7 +15156,7 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
   
   <p>Return <code>atan2(<b>y</b>, <b>x</b>)</code> in degrees <i 
   class="math">[-180..+180]</i>, optionally <i>reversed</i> (by 180 degrees
-  for <code>azi2</code>).</p>
+  for <code>azimuth</code>s).</p>
   <dl class="fields">
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -17742,7 +17749,7 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
   </tr></table>
   
   <p>Convert radians to degrees and wrap <i 
-  class="math">[-180..+180]</i>.</p>
+  class="math">[-180..+180)</i>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -17873,7 +17880,7 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
   </tr></table>
   
   <p>Convert radians to degrees and wrap <i 
-  class="math">[-270..+90]</i>.</p>
+  class="math">[-90..+90)</i>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -19144,7 +19151,7 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
   <p>Compute the <i>spherical excess</i> <code>E</code> of a (spherical) 
   triangle using <a 
   href="https://MathWorld.Wolfram.com/LHuiliersTheorem.html" 
-  target="_top">L'Huilier's</a> Theorem.</p>
+  target="_top">L'Huilier's</a>'s Theorem.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -21523,7 +21530,7 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fda70abc350&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fcb408c4c50&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -22401,8 +22408,8 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
     </td>
   </tr></table>
   
-  <p>Compute the intersection point of two lines, each defined by two 
-  points or by a point and a bearing.</p>
+  <p>Compute the intersection point of two (2- or 3-D) lines, each defined 
+  by two points or by a point and a bearing.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -22568,7 +22575,8 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">isCartesian</span>&nbsp;(<span class="sig-arg">obj</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isCartesian</span>&nbsp;(<span class="sig-arg">obj</span>,
+        <span class="sig-arg">ellipsoidal</span>=<span class="sig-default">None</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -22580,10 +22588,16 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>obj</code></strong> - The object (any <code>type</code>).</li>
+        <li><strong class="pname"><code>ellipsoidal</code></strong> - If <code>None</code>, return the type of any 
+          <code>Cartesian</code>, if <code>True</code>, only an ellipsoidal
+          <code>Cartesian type</code> or if <code>False</code>, only a 
+          spherical <code>Cartesian type</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><code>type(<b>obj</b></code> if <b><code>obj</code></b> is a 
-          <code>Cartesian</code> instance, <code>None</code> otherwise.</dd>
+          <code>Cartesian</code> instance of the required type, 
+          <code>False</code> if a <code>Cartesian</code> of an other type 
+          or <code>None</code> otherwise.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -22622,7 +22636,8 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">isLatLon</span>&nbsp;(<span class="sig-arg">obj</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isLatLon</span>&nbsp;(<span class="sig-arg">obj</span>,
+        <span class="sig-arg">ellipsoidal</span>=<span class="sig-default">None</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -22634,10 +22649,16 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>obj</code></strong> - The object (any <code>type</code>).</li>
+        <li><strong class="pname"><code>ellipsoidal</code></strong> - If <code>None</code>, return the type of any <code>LatLon</code>,
+          if <code>True</code>, only an ellipsoidal <code>LatLon 
+          type</code> or if <code>False</code>, only a spherical 
+          <code>LatLon type</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><code>type(<b>obj</b></code> if <b><code>obj</code></b> is a 
-          <code>LatLon</code> instance, <code>None</code> otherwise.</dd>
+          <code>LatLon</code> instance of the required type, 
+          <code>False</code> if a <code>LatLon</code> of an other type or 
+          {None} otherwise.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -22675,7 +22696,8 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">isNvector</span>&nbsp;(<span class="sig-arg">obj</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isNvector</span>&nbsp;(<span class="sig-arg">obj</span>,
+        <span class="sig-arg">ellipsoidal</span>=<span class="sig-default">None</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -22687,10 +22709,16 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>obj</code></strong> - The object (any <code>type</code>).</li>
+        <li><strong class="pname"><code>ellipsoidal</code></strong> - If <code>None</code>, return the type of any 
+          <code>Nvector</code>, if <code>True</code>, only an ellipsoidal 
+          <code>Nvector type</code> or if <code>False</code>, only a 
+          spherical <code>Nvector type</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><code>type(<b>obj</b></code> if <b><code>obj</code></b> is an 
-          <code>Nvector</code> instance, <code>None</code> otherwise.</dd>
+          <code>Nvector</code> instance of the required type, 
+          <code>False</code> if an <code>Nvector</code> of an other type or
+          {None} otherwise.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -31146,7 +31174,7 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
     </td>
   </tr></table>
   
-  <p>Wrap degrees to <i class="math">[-270..+90]</i>.</p>
+  <p>Wrap degrees to <i class="math">[-90..+90]</i>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -31221,7 +31249,7 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
     </td>
   </tr></table>
   
-  <p>Wrap radians to <i class="math">[-3PI/2..+PI/2]</i>.</p>
+  <p>Wrap radians to <i class="math">[-PI/2..+PI/2]</i>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -31530,7 +31558,7 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Oct 11 15:46:53 2023
+    Generated by Epydoc 3.0.1 on Sun Nov 12 13:03:53 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -699,6 +699,26 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a name="intersecant2"></a><span class="summary-sig-name">intersecant2</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">*args</span>,
+        <span class="summary-sig-arg">**kwds</span>)</span><br />
+      <b>Not implemented</b>, throws a <code>NotImplementedError</code> 
+      always.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#isantipode" class="summary-sig-name">isantipode</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>,
         <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">2.220446049250313e-16</span>)</span><br />
@@ -858,6 +878,26 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a name="nearestTo"></a><span class="summary-sig-name">nearestTo</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">*args</span>,
+        <span class="summary-sig-arg">**kwds</span>)</span><br />
+      <b>Not implemented</b>, throws a <code>NotImplementedError</code> 
+      always.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#normal" class="summary-sig-name">normal</a>(<span class="summary-sig-arg">self</span>)</span><br />
       Normalize this point <i>in-place</i> to <code>abs(lat) &lt;= 
       90</code> and <code>abs(lon) &lt;= 180</code>.</td>
@@ -961,7 +1001,8 @@
         <span class="summary-sig-arg">other</span>,
         <span class="summary-sig-arg">exact</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">b360</span>=<span class="summary-sig-default">False</span>)</span><br />
       Return the azimuth (bearing) of a rhumb line (loxodrome) between this
       and an other (ellipsoidal) point.</td>
           <td align="right" valign="top">
@@ -986,7 +1027,7 @@
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>)</span><br />
       Return the destination point having travelled the given distance from
-      this point along a rhumb line (loxodrome) at the given azimuth.</td>
+      this point along a rhumb line (loxodrome) of the given azimuth.</td>
           <td align="right" valign="top">
             
             
@@ -1024,8 +1065,31 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#rhumbIntersecant2" class="summary-sig-name">rhumbIntersecant2</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">circle</span>,
+        <span class="summary-sig-arg">point</span>,
+        <span class="summary-sig-arg">other</span>,
+        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">**exact_radius_wrap_eps_tol</span>)</span><br />
+      Compute the intersections of a circle and a rhumb line given as two 
+      points or as a point and azimuth.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#rhumbLine" class="summary-sig-name">rhumbLine</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">azimuth_other</span>,
+        <span class="summary-sig-arg">other</span>,
         <span class="summary-sig-arg">exact</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>,
@@ -1466,6 +1530,16 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.latlonBase.LatLonBase-class.html#ellipsoidalLatLon" class="summary-name">ellipsoidalLatLon</a><br />
+      Get the <code>LatLon type</code> iff ellipsoidal, overloaded in <a 
+      href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html" 
+      class="link">LatLonEllipsoidalBase</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.latlonBase.LatLonBase-class.html#height" class="summary-name">height</a><br />
       Get the height (<code>meter</code>).
     </td>
@@ -1477,14 +1551,6 @@
         <a href="pygeodesy.latlonBase.LatLonBase-class.html#isEllipsoidal" class="summary-name">isEllipsoidal</a><br />
       Check whether this point is ellipsoidal (<code>bool</code> or 
       <code>None</code> if unknown).
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.latlonBase.LatLonBase-class.html#isEllipsoidalLatLon" class="summary-name">isEllipsoidalLatLon</a><br />
-      Get <code>LatLon</code> base.
     </td>
   </tr>
 <tr>
@@ -1576,6 +1642,16 @@
       Get the lat-, longitude in <code>radians</code> and height (<a 
       href="pygeodesy.namedTuples.PhiLam3Tuple-class.html" 
       class="link">PhiLam3Tuple</a><code>(phi, lam, height)</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.latlonBase.LatLonBase-class.html#sphericalLatLon" class="summary-name">sphericalLatLon</a><br />
+      Get the <code>LatLon type</code> iff spherical, overloaded in <a 
+      href="pygeodesy.sphericalBase.LatLonSphericalBase-class.html" 
+      class="link">LatLonSphericalBase</a>.
     </td>
   </tr>
 <tr>
@@ -3483,7 +3559,8 @@
         <span class="sig-arg">other</span>,
         <span class="sig-arg">exact</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">radius</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">b360</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -3510,9 +3587,11 @@
           class="link">a_f2Tuple</a>), overriding this point's datum.</li>
         <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
           <b><code>other</code></b> point (<code>bool</code>).</li>
+        <li><strong class="pname"><code>b360</code></strong> - If <code>True</code>, return the azimuth in the bearing range.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Rhumb azimuth (compass <code>degrees360</code>).</dd>
+        <dd>Rhumb azimuth (compass <code>degrees180</code> or 
+          <code>degrees360</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>other</code></b> point is incompatible or 
@@ -3541,14 +3620,15 @@
   </tr></table>
   
   <p>Return the destination point having travelled the given distance from 
-  this point along a rhumb line (loxodrome) at the given azimuth.</p>
+  this point along a rhumb line (loxodrome) of the given azimuth.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>distance</code></strong> - Distance travelled (<code>meter</code>, same units as this 
           point's datum (ellipsoid) axes or <b><code>radius</code></b>, may
           be negative.</li>
-        <li><strong class="pname"><code>azimuth</code></strong> - Azimuth (bearing) at this point (compass <code>degrees</code>).</li>
+        <li><strong class="pname"><code>azimuth</code></strong> - Azimuth (bearing) of the rhumb line (compass 
+          <code>degrees</code>).</li>
         <li><strong class="pname"><code>exact</code></strong> - Exact <code>Rhumb...</code> to use (<code>bool</code> or 
           <code>Rhumb...</code>), see method <a 
           href="pygeodesy.ellipsoids.Ellipsoid-class.html#rhumb_" 
@@ -3626,6 +3706,69 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="rhumbIntersecant2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">rhumbIntersecant2</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">circle</span>,
+        <span class="sig-arg">point</span>,
+        <span class="sig-arg">other</span>,
+        <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">**exact_radius_wrap_eps_tol</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the intersections of a circle and a rhumb line given as two 
+  points or as a point and azimuth.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>circle</code></strong> - Radius of the circle centered at this location 
+          (<code>meter</code>), or a point on the circle (this 
+          <code>LatLon</code>).</li>
+        <li><strong class="pname"><code>point</code></strong> - The start point of the rhumb line (this <code>LatLon</code>).</li>
+        <li><strong class="pname"><code>other</code></strong> - An other point <i>on</i> (this <code>LatLon</code>) or the 
+          azimuth <i>of</i> (compass <code>degrees</code>) the rhumb line.</li>
+        <li><strong class="pname"><code>height</code></strong> - Optional height for the intersection points (<code>meter</code>, 
+          conventionally) or <code>None</code> for interpolated heights.</li>
+        <li><strong class="pname"><code>exact_radius_wrap_eps_tol</code></strong> - Optional keyword arguments, see methods <a 
+          href="pygeodesy.latlonBase.LatLonBase-class.html#rhumbLine" 
+          class="link">rhumbLine</a> and <a 
+          href="pygeodesy.rhumbBase.RhumbLineBase-class.html#Intersecant2" 
+          class="link">RhumbLineAux.Intersecant2</a> or <a 
+          href="pygeodesy.rhumbBase.RhumbLineBase-class.html#Intersecant2" 
+          class="link">RhumbLine.Intersecant2</a>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>2-Tuple of the intersection points (representing a chord), each 
+          an instance of this class.  Both points are the same instance if 
+          the rhumb line is tangent to the circle.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - The circle and rhumb line do not intersect.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - If <b><code>point</code></b> is not this <code>LatLon</code> or 
+        <b><code>circle</code></b> or <b><code>other</code></b> invalid.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>circle</code></b>, <b><code>other</code></b>, 
+        <b><code>height</code></b> or 
+        <b><code>exact_radius_wrap</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Methods <a 
+        href="pygeodesy.rhumbBase.RhumbLineBase-class.html#Intersecant2" 
+        class="link">RhumbLineAux.Intersecant2</a> and <a 
+        href="pygeodesy.rhumbBase.RhumbLineBase-class.html#Intersecant2" 
+        class="link">RhumbLine.Intersecant2</a>.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="rhumbLine"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -3634,7 +3777,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">rhumbLine</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">azimuth_other</span>,
+        <span class="sig-arg">other</span>,
         <span class="sig-arg">exact</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">radius</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>,
@@ -3650,8 +3793,8 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>azimuth_other</code></strong> - The azimuth of the rhumb line (compass <code>degrees</code>) or 
-          the other point (<code>LatLon</code>).</li>
+        <li><strong class="pname"><code>other</code></strong> - The azimuth <i>of</i> (compass <code>degrees</code>) or an other 
+          point <i>on</i> (this <code>LatLon</code>) the rhumb line.</li>
         <li><strong class="pname"><code>exact</code></strong> - Exact <code>Rhumb...</code> to use (<code>bool</code> or 
           <code>Rhumb...</code>), see method <a 
           href="pygeodesy.ellipsoids.Ellipsoid-class.html#rhumb_" 
@@ -3665,18 +3808,19 @@
           href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
           class="link">a_f2Tuple</a>), overriding this point's datum.</li>
         <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
-          <code>azimuth_<b>other</b></code> point (<code>bool</code>).</li>
+          <b><code>other</code></b> point (<code>bool</code>).</li>
         <li><strong class="pname"><code>name_caps</code></strong> - Optional <code><b>name</b>=str</code> and <code>caps</code>, see 
           <a href="pygeodesy.rhumbx.RhumbLine-class.html" 
-          class="link">RhumbLine</a> <code><b>caps</b></code>.</li>
+          class="link">RhumbLine</a> or <a 
+          href="pygeodesy.rhumbaux.RhumbLineAux-class.html" 
+          class="link">RhumbLineAux</a> <code><b>caps</b></code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <code>RhumbLine</code> instance.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>radius</code></b> or 
-        B<code><code>azimuth_other</code></code> not a <code>scalar</code> 
-        nor a <code>LatLon</code>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>radius</code></b> or <b><code>other</code></b> not
+        <code>scalar</code> nor this <code>LatLon</code>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -3711,7 +3855,7 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>other</code></strong> - The other point (<code>LatLon</code>).</li>
+        <li><strong class="pname"><code>other</code></strong> - The other point (this <code>LatLon</code>).</li>
         <li><strong class="pname"><code>exact</code></strong> - Exact <code>Rhumb...</code> to use (<code>bool</code> or 
           <code>Rhumb...</code>), see method <a 
           href="pygeodesy.ellipsoids.Ellipsoid-class.html#rhumb_" 
@@ -3734,7 +3878,7 @@
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The midpoint at the given <b><code>fraction</code></b> along the 
-          rhumb line (<code>LatLon</code>).</dd>
+          rhumb line (this <code>LatLon</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>other</code></b> point is incompatible or 
@@ -4446,6 +4590,34 @@ class="link">EcefKarney</a>), <i>lazily</i>.
   </dl>
 </td></tr></table>
 </div>
+<a name="ellipsoidalLatLon"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">ellipsoidalLatLon</h3>
+  <p>Get the <code>LatLon type</code> iff ellipsoidal, overloaded in <a 
+  href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html" 
+  class="link">LatLonEllipsoidalBase</a>.</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">ellipsoidalLatLon(<span class="summary-sig-arg">self</span>)</span>
+        - Get the <code>LatLon type</code> iff ellipsoidal, overloaded in <a 
+href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html" 
+class="link">LatLonEllipsoidalBase</a>.
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="height"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -4483,30 +4655,6 @@ class="link">EcefKarney</a>), <i>lazily</i>.
     <dd class="value"><span class="summary-sig">isEllipsoidal(<span class="summary-sig-arg">self</span>)</span>
         - Check whether this point is ellipsoidal (<code>bool</code> or 
 <code>None</code> if unknown).
-    </dd>
-    <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">val</span>)</span>
-        - Throws an <code>AttributeError</code>, always.
-    </dd>
-    <dt>Delete Method:</dt>
-    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
-        - Zap the <i>cached/memoized</i> <code>property</code> value.
-    </dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="isEllipsoidalLatLon"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">isEllipsoidalLatLon</h3>
-  <p>Get <code>LatLon</code> base.</p>
-  <dl class="fields">
-    <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">isEllipsoidalLatLon(<span class="summary-sig-arg">self</span>)</span>
-        - Get <code>LatLon</code> base.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -4795,6 +4943,34 @@ class="link">PhiLam3Tuple</a><code>(phi, lam, height)</code>).
   </dl>
 </td></tr></table>
 </div>
+<a name="sphericalLatLon"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">sphericalLatLon</h3>
+  <p>Get the <code>LatLon type</code> iff spherical, overloaded in <a 
+  href="pygeodesy.sphericalBase.LatLonSphericalBase-class.html" 
+  class="link">LatLonSphericalBase</a>.</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">sphericalLatLon(<span class="summary-sig-arg">self</span>)</span>
+        - Get the <code>LatLon type</code> iff spherical, overloaded in <a 
+href="pygeodesy.sphericalBase.LatLonSphericalBase-class.html" 
+class="link">LatLonSphericalBase</a>.
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="xyz"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -4891,7 +5067,7 @@ class="link">Vector4Tuple</a><code>(x, y, z, h)</code>)
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Oct 11 15:46:55 2023
+    Generated by Epydoc 3.0.1 on Sun Nov 12 13:03:55 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

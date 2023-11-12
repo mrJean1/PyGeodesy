@@ -708,7 +708,7 @@ class Meter(Float):
 _1um    = Meter(   _1um= 1.e-6)  # PYCHOK 1 micrometer in .mgrs
 _10um   = Meter(  _10um= 1.e-5)  # PYCHOK 10 micrometer in .osgr
 _1mm    = Meter(   _1mm=_0_001)  # PYCHOK 1 millimeter in .ellipsoidal...
-_100km  = Meter( _100km= 1.e+5)  # PYCHOK 100 kilometer in .formy, .mgrs, .osgr
+_100km  = Meter( _100km= 1.e+5)  # PYCHOK 100 kilometer in .formy, .mgrs, .osgr, .sphericalBase
 _2000km = Meter(_2000km= 2.e+6)  # PYCHOK 2,000 kilometer in .mgrs
 
 

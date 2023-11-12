@@ -220,9 +220,9 @@ class Tests(TestsBase):
             self.test('Ellipsoids.' + n + '.unregister', getattr(Ellipsoids, n, None), None)
         self.test('Ellipsoids', len(Ellipsoids), 0)
 
-        self.test('Transforms', len(Transforms), 15, known=True, nl=1)
+        self.test('Transforms', len(Transforms), 16, known=True, nl=1)
         t = tuple(Transforms.items(all=True, asorted=True))
-        self.test('Transforms', len(Transforms), 18)
+        self.test('Transforms', len(Transforms), 20)
         for n, x in t:
             x.unregister()  # coverage _NamedEnumItem.unregister
             self.test('Transforms.' + n + '.unregister', getattr(Transforms, n, None), None)

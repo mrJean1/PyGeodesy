@@ -33,17 +33,17 @@ from pygeodesy.vector3dBase import Vector3dBase
 # from math import fabs, sqrt  # from .fmath
 
 __all__ = _ALL_LAZY.vector3d
-__version__ = '23.10.04'
+__version__ = '23.10.15'
 
 
 class Vector3d(Vector3dBase):
     '''Extended 3-D vector.
 
        In a geodesy context, these may be used to represent:
-        - earth-centered, earth-fixed cartesian (ECEF)
-        - n-vector representing a normal to a point on earth's surface
-        - great circle normal to vector
-        - motion vector on earth's surface
+        - n-vector, the normal to a point on the earth's surface
+        - Earth-Centered, Earth-Fixed (ECEF) cartesian (== spherical n-vector)
+        - great circle normal to the vector
+        - motion vector on the earth's surface
         - etc.
     '''
 
@@ -402,11 +402,8 @@ def _intersect3d3(start1, end1, start2, end2, eps=EPS, useZ=False):  # MCCABE 16
     # (INTERNAL) Intersect two lines, see L{intersection3d3} below,
     # separated to allow callers to embellish any exceptions
 
-    def _outside(t, d2, o):  # -o before start#, +o after end#
-        return -o if t < 0 else (o if t > d2 else 0)  # XXX d2 + eps?
-
-    def _rightangle2(s1, b1, s2, useZ):
-        # Get the C{s1'} and C{e1'}, corners of a right-angle
+    def _corners2(s1, b1, s2, useZ):
+        # Get the C{s1'} and C{e1'} corners of a right-angle
         # triangle with the hypotenuse thru C{s1} at bearing
         # C{b1} and the right angle at C{s2}
         dx, dy, d = s2.minus(s1).xyz
@@ -423,16 +420,19 @@ def _intersect3d3(start1, end1, start2, end2, eps=EPS, useZ=False):  # MCCABE 16
             e1 = Vector3d(s1.x + s * d, s1.y + c * d, s1.z)
         return s1, e1
 
-    s1 = x = _otherV3d(useZ=useZ, start1=start1)
+    def _outside(t, d2, o):  # -o before start#, +o after end#
+        return -o if t < 0 else (o if t > d2 else 0)  # XXX d2 + eps?
+
+    s1 = t = _otherV3d(useZ=useZ, start1=start1)
     s2 =     _otherV3d(useZ=useZ, start2=start2)
     b1 = isscalar(end1)
     if b1:  # bearing, make an e1
-        s1, e1 = _rightangle2(s1, end1, s2, useZ)
+        s1, e1 = _corners2(s1, end1, s2, useZ)
     else:
         e1 = _otherV3d(useZ=useZ, end1=end1)
     b2 = isscalar(end2)
     if b2:  # bearing, make an e2
-        s2, e2 = _rightangle2(s2, end2, x, useZ)
+        s2, e2 = _corners2(s2, end2, t, useZ)
     else:
         e2 = _otherV3d(useZ=useZ, end2=end2)
 
@@ -481,8 +481,8 @@ def _intersect3d3(start1, end1, start2, end2, eps=EPS, useZ=False):  # MCCABE 16
 
 def intersection3d3(start1, end1, start2, end2, eps=EPS, useZ=True,
                                               **Vector_and_kwds):
-    '''Compute the intersection point of two lines, each defined by two
-       points or by a point and a bearing.
+    '''Compute the intersection point of two (2- or 3-D) lines, each defined
+       by two points or by a point and a bearing.
 
        @arg start1: Start point of the first line (C{Cartesian}, L{Vector3d},
                     C{Vector3Tuple} or C{Vector4Tuple}).
@@ -523,8 +523,8 @@ def intersection3d3(start1, end1, start2, end2, eps=EPS, useZ=True,
 
 
 def intersections2(center1, radius1, center2, radius2, sphere=True, **Vector_and_kwds):
-    '''Compute the intersection of two spheres or circles, each defined by a
-       (3-D) center point and a radius.
+    '''Compute the intersection of two spheres or circles, each defined by a (3-D)
+       center point and a radius.
 
        @arg center1: Center of the first sphere or circle (C{Cartesian}, L{Vector3d},
                      C{Vector3Tuple} or C{Vector4Tuple}).
@@ -608,8 +608,9 @@ def _intersects2(center1, r1, center2, r2, sphere=True, too_d=None,  # in Cartes
         else:  # abutting
             y = _0_0
     elif o < 0:  # PYCHOK no cover
-        t = d if too_d is None else too_d
-        raise IntersectionError(_too_(Fmt.distant(t)))
+        if too_d is not None:
+            d = too_d
+        raise IntersectionError(_too_(Fmt.distant(d)))
     else:  # abutting
         x, y = r1, _0_0
 

@@ -67,7 +67,7 @@
                     |                
      <a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a> --+            
                         |            
-<a href="pygeodesy.vector3dBase.Vector3dBase-class.html" onclick="show_private();">vector3dBase.Vector3dBase</a> --+        
+<a href="pygeodesy.vector3dBase.Vector3dBase-class.html">vector3dBase.Vector3dBase</a> --+        
                             |        
             <a href="pygeodesy.vector3d.Vector3d-class.html">vector3d.Vector3d</a> --+    
                                 |    
@@ -221,7 +221,7 @@
       <code><a href="pygeodesy.vector3d.Vector3d-class.html#trilaterate2d2">trilaterate2d2</a></code>,
       <code><a href="pygeodesy.vector3d.Vector3d-class.html#trilaterate3d2">trilaterate3d2</a></code>
       </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html" onclick="show_private();">vector3dBase.Vector3dBase</a></code></b>:
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html">vector3dBase.Vector3dBase</a></code></b>:
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__abs__">__abs__</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__add__">__add__</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__bool__">__bool__</a></code>,
@@ -336,6 +336,14 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.ellipsoidalBase.CartesianEllipsoidalBase-class.html#ellipsoidalCartesian" class="summary-name">ellipsoidalCartesian</a><br />
+      Get this <code>Cartesian</code>'s ellipsoidal class.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.ellipsoidalBase.CartesianEllipsoidalBase-class.html#reframe" class="summary-name">reframe</a><br />
       Class <code>property</code> with retrievable name.
     </td>
@@ -353,11 +361,13 @@
       <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#latlonheightdatum">latlonheightdatum</a></code>,
       <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#philam">philam</a></code>,
       <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#philamheight">philamheight</a></code>,
-      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#philamheightdatum">philamheightdatum</a></code>
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#philamheightdatum">philamheightdatum</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#sphericalCartesian">sphericalCartesian</a></code>
       </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html" onclick="show_private();">vector3dBase.Vector3dBase</a></code></b>:
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html">vector3dBase.Vector3dBase</a></code></b>:
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#crosserrors">crosserrors</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#euclid">euclid</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#homogeneous">homogeneous</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#length">length</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#length2">length2</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#x">x</a></code>,
@@ -580,6 +590,30 @@
     <span class="table-header">Property Details</span></td>
 </tr>
 </table>
+<a name="ellipsoidalCartesian"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">ellipsoidalCartesian</h3>
+  <p>Get this <code>Cartesian</code>'s ellipsoidal class.</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">ellipsoidalCartesian(<span class="summary-sig-arg">self</span>)</span>
+        - Get this <code>Cartesian</code>'s ellipsoidal class.
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="reframe"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -636,7 +670,7 @@ href="pygeodesy.trf.RefFrame-class.html" class="link">RefFrame</a>) or
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Oct 11 15:46:54 2023
+    Generated by Epydoc 3.0.1 on Sun Nov 12 13:03:54 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -7,6 +7,9 @@ Functions to parse and format bearing, compass, lat- and longitudes in various f
 degrees, minutes and seconds with or without degrees, minute and second symbols plus a
 compass point suffix, including parsing of C{decimal} and C{sexagecimal} degrees.
 
+Set env variable C{PYGEODESY_FMT_FORM} to any C{F_...} form to override default C{F_DMS}
+formatting of lat- and longitudes or to an empty string to restore the default.
+
 After I{(C) Chris Veness 2011-2015} published under the same MIT Licence**, see
 U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>} and
 U{Vector-based geodesy<https://www.Movable-Type.co.UK/scripts/latlong-vectors.html>}.
@@ -78,7 +81,7 @@ except ImportError:  # Python 3+
     from string import ascii_letters as _LETTERS
 
 __all__ = _ALL_LAZY.dms
-__version__ = '23.10.07'
+__version__ = '23.11.11'
 
 _beyond_      = 'beyond'
 _DDDMMSS_     = 'DDDMMSS'
@@ -171,25 +174,26 @@ def _split3(strDMS, suffix=_NSEW_):
 def _toDMS(deg, form, prec, sep, ddd, suff, s_D_M_S):  # MCCABE 13 in .units
     '''(INTERNAL) Convert C{deg} to C{str}, with/-out sign, DMS symbols and/or suffix.
     '''
+    f = Fmt.form or form
     try:
         deg = float(deg)
     except (TypeError, ValueError) as x:
-        raise _ValueError(deg=deg, form=form, prec=prec, cause=x)
+        raise _ValueError(deg=deg, form=f, prec=prec, cause=x)
 
-    if form[:1] in _PLUSMINUS_:  # signed
+    if f[:1] in _PLUSMINUS_:  # signed
         sign = _MINUS_ if deg < 0 else (
-               _PLUS_  if deg > 0 and form[:1] == _PLUS_ else NN)
-        form =  form.lstrip(_PLUSMINUS_)
+               _PLUS_  if deg > 0 and f[:1] == _PLUS_ else NN)
+        f    =  f.lstrip(_PLUSMINUS_)
         suff =  NN  # no suffix if signed
     else:  # suffixed
         sign =  NN  # no sign if suffixed
         if suff and sep:  # no sep if no suffix
             suff = NN(sep, suff)
     try:
-        F    = _F_case[form]  # .strip()
+        F = _F_case[f]  # .strip()
     except KeyError:
-        form =  form.lower()  # .strip()
-        F    = _F_case.get(form, F_DMS)
+        f =  f.lower()  # .strip()
+        F = _F_case.get(f, F_DMS)
 
     if prec is None:
         z = p = _F_prec.get(F, 6)
@@ -201,20 +205,20 @@ def _toDMS(deg, form, prec, sep, ddd, suff, s_D_M_S):  # MCCABE 13 in .units
     d = fabs(deg)
 
     if F is F_DMS:  # 'deg+min+sec', default
-        D, M, S = _DMS3(form, **s_D_M_S)
+        D, M, S = _DMS3(f, **s_D_M_S)
         d, m, s = _dms3(d, ddd, p, w)
         t = NN(sign, d,  D, sep,
                      m,  M, sep,
                    z(s), S, suff)
 
     elif F is F_DM:  # 'deg+min'
-        D, M, _ = _DMS3(form, **s_D_M_S)
+        D, M, _ = _DMS3(f, **s_D_M_S)
         d, m = divmod(round(d * _60_0, p), _60_0)
         t = NN(sign, _0wpF(ddd, 0, d),  D, sep,
                    z(_0wpF(w+2, p, m)), M, suff)
 
     elif F is F_D:  # 'deg'
-        D, _, _ = _DMS3(form, **s_D_M_S)
+        D, _, _ = _DMS3(f, **s_D_M_S)
         t = NN(sign, z(_0wpF(w+ddd, p, d)), D, suff)
 
     elif F is F_D60:  # 'deg.MM|SSss|'
@@ -230,7 +234,7 @@ def _toDMS(deg, form, prec, sep, ddd, suff, s_D_M_S):  # MCCABE 13 in .units
 
     else:  # F in (F__E, F__F, F__G)
         D = _xkwds_get(s_D_M_S, s_D=S_NUL)
-        d =  NN(_PERCENTDOTSTAR_, F) % (p, d)  # XXX form?
+        d =  NN(_PERCENTDOTSTAR_, F) % (p, d)  # XXX f?
         t =  NN(sign, z(d, ap1z=F is F__G), D, suff)
 
     return t  # NOT unicode in Python 2-

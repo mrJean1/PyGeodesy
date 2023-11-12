@@ -4,7 +4,7 @@
 # Test L{utily} module.
 
 __all__ = ('Tests',)
-__version__ = '23.09.28'
+__version__ = '23.10.21'
 
 from bases import TestsBase, geographiclib
 
@@ -37,10 +37,10 @@ class Tests(TestsBase):
         # Python 2.6.9 on Travis Ubuntu 14.04 produces -0.0
 
         self.test('degrees90(PI_2)', degrees90(PI_2), 90.0, nl=1)
-        self.test('degrees90(PI)',   degrees90(PI), -180.0)  # XXX
+        self.test('degrees90(PI)',   degrees90(PI),    0.0)
         self.test('degrees90(PI2)',  degrees90(PI2),   0.0)
         self.test('degrees90(-PI_2)',    degrees90(-PI_2), -90.0)
-        self.test('degrees90(-PI)',      degrees90(-PI),  -180.0)  # XXX
+        self.test('degrees90(-PI)',      degrees90(-PI),     0.0)
         self.test('degrees90(-PI2)', abs(degrees90(-PI2)),   0.0)  # -0.0
 
         self.test('degrees180(PI_2)', degrees180(PI_2), 90.0, nl=1)
@@ -86,10 +86,10 @@ class Tests(TestsBase):
         self.test('grades2radians(-400)', grades2radians(-400), -PI2)
 
         self.test('radiansPI_2(90)',  radiansPI_2(90), PI_2, nl=1)
-        self.test('radiansPI_2(180)', radiansPI_2(180), -PI)
+        self.test('radiansPI_2(180)', radiansPI_2(180), 0.0)
         self.test('radiansPI_2(360)', radiansPI_2(360), 0.0)
         self.test('radiansPI_2(-90)',      radiansPI_2(-90), -PI_2)
-        self.test('radiansPI_2(-180)',     radiansPI_2(-180), -PI)
+        self.test('radiansPI_2(-180)',     radiansPI_2(-180),  0.0)
         self.test('radiansPI_2(-360)', abs(radiansPI_2(-360)), 0.0)  # -0.0
 
         self.test('radiansPI(90)',  radiansPI(90), PI_2, nl=1)
@@ -107,10 +107,10 @@ class Tests(TestsBase):
         self.test('radiansPI2(-360)', abs(radiansPI2(-360)),   0.0)  # -0.0
 
         self.test('wrap90(90)',   wrap90(90),     90.0, nl=1)
-        self.test('wrap90(180)',  wrap90(180),  -180.0)
+        self.test('wrap90(180)',  wrap90(180),     0.0)
         self.test('wrap90(360)',  wrap90(360),     0.0)
         self.test('wrap90(-90)',  wrap90(-90),   -90.0)
-        self.test('wrap90(-180)', wrap90(-180), -180.0)
+        self.test('wrap90(-180)', wrap90(-180),    0.0)
         self.test('wrap90(-360)', wrap90(-360),    0.0)
 
         self.test('wrap180(90)',   wrap180(90),     90.0, nl=1)
@@ -128,24 +128,24 @@ class Tests(TestsBase):
         self.test('wrap360(-360)', wrap360(-360),   0.0)
 
         self.test('wrapPI_2(PI_2)', wrapPI_2(PI_2), PI_2, nl=1)
-        self.test('wrapPI_2(PI)',   wrapPI_2(PI),    -PI)  # XXX
+        self.test('wrapPI_2(PI)',   wrapPI_2(PI),    0.0)
         self.test('wrapPI_2(PI2)',  wrapPI_2(PI2),   0.0)
         self.test('wrapPI_2(-PI_2)',    wrapPI_2(-PI_2), -PI_2)
-        self.test('wrapPI_2(-PI)',      wrapPI_2(-PI),     -PI)  # XXX
+        self.test('wrapPI_2(-PI)',      wrapPI_2(-PI),     0.0)
         self.test('wrapPI_2(-PI2)', abs(wrapPI_2(-PI2)),   0.0)
 
         self.test('wrapPI(PI_2)', wrapPI(PI_2), PI_2, nl=1)
-        self.test('wrapPI(PI)',   wrapPI(PI),     PI)  # XXX
+        self.test('wrapPI(PI)',   wrapPI(PI),     PI)
         self.test('wrapPI(PI2)',  wrapPI(PI2),   0.0)
         self.test('wrapPI(-PI_2)',    wrapPI(-PI_2), -PI_2)
-        self.test('wrapPI(-PI)',      wrapPI(-PI),     -PI)  # XXX
+        self.test('wrapPI(-PI)',      wrapPI(-PI),     -PI)
         self.test('wrapPI(-PI2)', abs(wrapPI(-PI2)),   0.0)  # -0.0
 
         self.test('wrapPI2(PI_2)', wrapPI2(PI_2), PI_2, nl=1)
-        self.test('wrapPI2(PI)',   wrapPI2(PI),     PI)  # XXX
+        self.test('wrapPI2(PI)',   wrapPI2(PI),     PI)
         self.test('wrapPI2(PI2)',  wrapPI2(PI2),   0.0)
         self.test('wrapPI2(-PI_2)',    wrapPI2(-PI_2), PI_2+PI)
-        self.test('wrapPI2(-PI)',      wrapPI2(-PI),        PI)  # XXX
+        self.test('wrapPI2(-PI)',      wrapPI2(-PI),        PI)
         self.test('wrapPI2(-PI2)', abs(wrapPI2(-PI2)),     0.0)  # -0.0
 
         self.test('unroll180', fstr(unroll180(-90, 110, wrap=True)), '-160.0, -250.0', nl=1)

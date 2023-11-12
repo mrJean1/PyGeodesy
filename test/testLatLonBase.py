@@ -4,11 +4,11 @@
 # Test L{LatLonBase} classes.
 
 __all__ = ('Tests',)
-__version__ = '23.03.27'
+__version__ = '23.10.15'
 
 from bases import GeodSolve, TestsBase
 
-from pygeodesy import clips, F_D, F_DMS, precision
+from pygeodesy import clips, F_D, F_DMS, isCartesian, isLatLon, isNvector, precision
 
 
 class Tests(TestsBase):
@@ -81,10 +81,19 @@ class Tests(TestsBase):
         self.test('phimlam',       repr(q.philam), repr(p.philam))
         self.test('phimlamheight', repr(q.philamheight), repr(p.philamheight))
 
-        if not Base:  # coverage
+        self.test('ellipsoidalLatLon', p.ellipsoidalLatLon in (LatLon, False), True)
+        self.test('sphericalLatLon',   p.sphericalLatLon   in (LatLon, False), True)
+
+        q = LatLon(50.964, 1.853)
+        if Base:
+            for f in (isCartesian, isLatLon, isNvector):
+                t = '%s(%s, %%s)' % (f.__name__, LatLon.__name__)
+                for e in (None, True, False):
+                    r = f(q, ellipsoidal=e)
+                    self.test(t % (e,), r, r)
+        else:  # coverage
             t = clips(p.rhumbLine(30).toStr(), limit=150)
             self.test('rhumbLine', t, t, nl=1)
-            q = LatLon(50.964, 1.853)
             t = clips(p.rhumbLine(q).toStr(), limit=150)
             self.test('rhumbLine', t, t)
 
@@ -102,6 +111,9 @@ class Tests(TestsBase):
 
             d = p.rhumbDistanceTo(q, exact=Sph)  # force rhumb*.Rhumb[Line]
             self.test('rhumbDistanceTo', d, 42186.1 if Sph else 40413.1, fmt='%.1f')
+
+            t = str(p.rhumbIntersecant2(3.33e6, LatLon(30, 1.338), 45))
+            self.test('rhumbIntersecant2', t, t)
 
             m = p.rhumbMidpointTo(q, exact=Sph)  # ditto
             self.test('rhumbMidpointo-0.5', m, '51.069759°N, 001.625988°E' if Sph

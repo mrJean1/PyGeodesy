@@ -47,15 +47,15 @@ from pygeodesy.constants import EPS, EPS0, EPS1, NAN, isnon0, \
                                _EPStol, _umod_360, _0_0, _0_1, \
                                _0_5, _1_0, _N_1_0, _2_0
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB, \
-                               _spherical_datum, _WGS84, _xinstanceof
-# from pygeodesy.datums import _spherical_datum, _WGS84, _xinstanceof
+                              _xinstanceof
+from pygeodesy.datums import _spherical_datum, _WGS84
 from pygeodesy.errors import _ValueError, _xdatum, _xkwds
-from pygeodesy.fmath import euclid, Fsum, hypot
+# from pygeodesy.fmath import euclid, Fsum, hypot as _hypot  # from .karney
 # from pygeodesy.fsums import Fsum  # from .fmath
 # from pygeodesy.formy import antipode  # from latlonBase
 from pygeodesy.interns import NN, _azimuth_, _datum_, _lat_, _lon_, \
                              _scale_, _SPACE_, _x_, _y_
-from pygeodesy.karney import _norm180
+from pygeodesy.karney import _norm180,  euclid, Fsum, _hypot
 from pygeodesy.latlonBase import antipode, LatLonBase as _LLB
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _FOR_DOCS
 from pygeodesy.named import _NamedBase, _NamedTuple, notOverloaded, _Pass
@@ -71,7 +71,7 @@ from pygeodesy.utily import asin1, atan1, atan2b, atan2d, sincos2, \
 from math import acos, atan2, degrees, fabs, sin, sqrt
 
 __all__ = _ALL_LAZY.azimuthal
-__version__ = '23.09.29'
+__version__ = '23.11.01'
 
 _EPS_K         = _EPStol * _0_1  # Karney's eps_ or _EPSmin * _0_1?
 _over_horizon_ = 'over horizon'
@@ -84,7 +84,7 @@ def _enzh4(x, y, *h):
     e = Easting( x=x)
     n = Northing(y=y)
     z = atan2b(e, n)  # (x, y) for azimuth from true North
-    return e, n, z, (h[0] if h else hypot(e, n))
+    return e, n, z, (h[0] if h else _hypot(e, n))
 
 
 class _AzimuthalBase(_NamedBase):
@@ -819,7 +819,7 @@ class _GnomonicBase(_AzimuthalGeodesic):
         m  =  self._mask
         g  =  self.geodesic
 
-        _P  = g.Line(self.lat0, self.lon0, z, m | g.LINE_OFF).Position
+        _P  = g.Line(self.lat0, self.lon0, z, caps=m | g.LINE_OFF).Position
         _S2 = Fsum(s).fsum2_
         for i in range(1, _TRIPS):
             r = _P(s, outmask=m)

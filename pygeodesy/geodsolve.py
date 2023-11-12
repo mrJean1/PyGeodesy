@@ -10,22 +10,23 @@ of the C{GeodSolve} executable.
 '''
 
 # from pygeodesy.basics import _xinstanceof  # from .karney
+# from pygeodesy.errors import _xkwds
 from pygeodesy.interns import NN, _a12_, _azi1_, _azi2_, \
                              _lat1_, _lat2_, _lon1_, _lon2_, _m12_, \
                              _M12_, _M21_, _s12_, _S12_, _UNDER_
 from pygeodesy.interns import _UNUSED_, _not_  # PYCHOK used!
 from pygeodesy.karney import _Azi, Caps, _Deg, GeodesicError, _GTuple, \
                              _Pass, _Lat, _Lon, _M, _M2, _sincos2d, \
-                             _xinstanceof
+                             _xinstanceof, _xkwds
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, \
                              _PYGEODESY_GEODSOLVE_, _getenv, printf
 from pygeodesy.namedTuples import Destination3Tuple, Distance3Tuple
 from pygeodesy.props import Property, Property_RO
-from pygeodesy.solveBase import _SolveBase, _SolveLineBase,  wrap360
-# from pygeodesy.utily import wrap360  # from .solveBase
+from pygeodesy.solveBase import _SolveBase, _SolveLineBase
+from pygeodesy.utily import _unrollon, _Wrap, wrap360
 
 __all__ = _ALL_LAZY.geodsolve
-__version__ = '23.09.14'
+__version__ = '23.11.08'
 
 
 class GeodSolve12Tuple(_GTuple):
@@ -146,26 +147,21 @@ class GeodesicSolve(_GeodesicSolveBase):
         return Destination3Tuple(float(r.lat2), float(r.lon2), wrap360(r.azi2),
                                  iteration=r._iteration)
 
-    def Inverse3(self, lat1, lon1, lat2, lon2):  # PYCHOK outmask
-        '''Return the distance in C{meter} and the forward and
-           reverse azimuths (initial and final bearing) in C{degrees}.
-
-           @return: L{Distance3Tuple}C{(distance, initial, final)}.
+    def _DirectLine(self, ll1, azi12, **caps_name):  # PYCHOK no cover
+        '''(INTERNAL) Short-cut version.
         '''
-        r = self._GDictInverse(lat1, lon1, lat2, lon2, floats=False)
-        return Distance3Tuple(float(r.s12), wrap360(r.azi1), wrap360(r.azi2),
-                              iteration=r._iteration)
+        return self.DirectLine(ll1.lat, ll1.lon, azi12, **caps_name)
 
-    def Line(self, lat1, lon1, azi1, caps=Caps.ALL):
+    def DirectLine(self, lat1, lon1, azi1, **caps_name):
         '''Set up a L{GeodesicLineSolve} to compute several points
            on a single geodesic.
 
            @arg lat1: Latitude of the first point (C{degrees}).
            @arg lon1: Longitude of the first point (C{degrees}).
            @arg azi1: Azimuth at the first point (compass C{degrees}).
-           @kwarg caps: Bit-or'ed combination of L{Caps} values specifying
-                        the capabilities the L{GeodesicLineSolve} instance
-                        should possess, always C{Caps.ALL}.
+           @kwarg caps_name: Bit-or'ed combination of L{Caps} values specifying
+                       the capabilities the L{GeodesicLineSolve} instance should
+                       possess, C{caps=Caps.ALL} always.
 
            @return: A L{GeodesicLineSolve} instance.
 
@@ -177,7 +173,56 @@ class GeodesicSolve(_GeodesicSolveBase):
                  <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1GeodesicExact.html>}
                  and Python U{Geodesic.Line<https://GeographicLib.SourceForge.io/Python/doc/code.html>}.
         '''
-        return GeodesicLineSolve(self, lat1, lon1, azi1, caps=caps, name=self.name)
+        return GeodesicLineSolve(self, lat1, lon1, azi1, **_xkwds(caps_name, name=self.name))
+
+    Line = DirectLine
+
+    def _Inverse(self, ll1, ll2, wrap, **outmask):  # PYCHOK no cover
+        '''(INTERNAL) Short-cut version, see .ellipsoidalBaseDI.intersecant2.
+        '''
+        if wrap:
+            ll2 = _unrollon(ll1, _Wrap.point(ll2))
+        return self.Inverse(ll1.lat, ll1.lon, ll2.lat, ll2.lon, **outmask)
+
+    def Inverse3(self, lat1, lon1, lat2, lon2):  # PYCHOK outmask
+        '''Return the distance in C{meter} and the forward and
+           reverse azimuths (initial and final bearing) in C{degrees}.
+
+           @return: L{Distance3Tuple}C{(distance, initial, final)}.
+        '''
+        r = self._GDictInverse(lat1, lon1, lat2, lon2, floats=False)
+        return Distance3Tuple(float(r.s12), wrap360(r.azi1), wrap360(r.azi2),
+                              iteration=r._iteration)
+
+    def _InverseLine(self, ll1, ll2, wrap, **caps_name):  # PYCHOK no cover
+        '''(INTERNAL) Short-cut version.
+        '''
+        if wrap:
+            ll2 = _unrollon(ll1, _Wrap.point(ll2))
+        return self.InverseLine(ll1.lat, ll1.lon, ll2.lat, ll2.lon, **caps_name)
+
+    def InverseLine(self, lat1, lon1, lat2, lon2, **caps_name):  # PYCHOK no cover
+        '''Set up a L{GeodesicLineSolve} to compute several points
+           on a single geodesic.
+
+           @arg lat1: Latitude of the first point (C{degrees}).
+           @arg lon1: Longitude of the first point (C{degrees}).
+           @arg lat2: Latitude of the second point (C{degrees}).
+           @arg lon2: Longitude of the second point (C{degrees}).
+           @kwarg caps_name: Bit-or'ed combination of L{Caps} values specifying
+                       the capabilities the L{GeodesicLineSolve} instance should
+                       possess, C{caps=Caps.ALL} always.
+
+           @return: A L{GeodesicLineSolve} instance.
+
+           @note: Both B{C{lat1}} and B{C{lat2}} should in the range C{[-90, +90]}.
+
+           @see: C++ U{GeodesicExact.InverseLine
+                 <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1GeodesicExact.html>} and
+                 Python U{Geodesic.InverseLine<https://GeographicLib.SourceForge.io/Python/doc/code.html>}.
+        '''
+        r = self.Inverse(lat1, lon1, lat2, lon2)
+        return GeodesicLineSolve(self, lat1, lon1, r.azi1, **_xkwds(caps_name, name=self.name))
 
 
 class GeodesicLineSolve(_GeodesicSolveBase, _SolveLineBase):
@@ -254,6 +299,14 @@ class GeodesicLineSolve(_GeodesicSolveBase, _SolveLineBase):
         '''(INTERNAL) Get the C{GeodSolve} I{-a -L} cmd (C{tuple}).
         '''
         return self._cmdDistance + ('-a',)
+
+    def Intersecant2(self, lat0, lon0, radius, **kwds):  # PYCHOK no cover
+        '''B{Not implemented}, throws a C{NotImplementedError} always.'''
+        _MODS.named.notImplemented(self, lat0, lon0, radius, **kwds)
+
+    def PlumbTo(self, lat0, lon0, **kwds):  # PYCHOK no cover
+        '''B{Not implemented}, throws a C{NotImplementedError} always.'''
+        _MODS.named.notImplemented(self, lat0, lon0, **kwds)
 
     def Position(self, s12, outmask=_UNUSED_):  # PYCHOK unused
         '''Find the position on the line given B{C{s12}}.

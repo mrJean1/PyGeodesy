@@ -13,7 +13,8 @@ U{https://www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal.js.html
 # from pygeodesy.basics import _xinstanceof  # from .datums
 from pygeodesy.constants import EPS, EPS0, isnear0, _1_0, _N_1_0, \
                                _2_0, _4_0, _6_0
-from pygeodesy.datums import Datum, _spherical_datum, _WGS84, _xinstanceof
+from pygeodesy.datums import Datum, _earth_ellipsoid, _spherical_datum, \
+                            _WGS84,  _xinstanceof
 from pygeodesy.errors import _IsnotError, _ValueError, _xdatum, _xkwds
 from pygeodesy.fmath import cbrt, hypot_, hypot2, sqrt  # hypot
 from pygeodesy.fsums import Fmt, fsumf_
@@ -23,7 +24,7 @@ from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.namedTuples import LatLon4Tuple, Vector4Tuple, \
                                   Bearing2Tuple  # PYCHOK .sphericalBase
 from pygeodesy.props import deprecated_method, Property, Property_RO, \
-                            property_doc_, _update_all
+                            property_doc_, property_RO, _update_all
 # from pygeodesy.resections impoty cassini, collins5, pierlot, tienstra7
 # from pygeodesy.streprs import Fmt  # from .fsums
 from pygeodesy.units import Height, _heigHt
@@ -32,7 +33,7 @@ from pygeodesy.vector3d import Vector3d, _xyzhdn3
 # from math import sqrt  # from .fmath
 
 __all__ = _ALL_LAZY.cartesianBase
-__version__ = '23.10.04'
+__version__ = '23.10.29'
 
 
 class CartesianBase(Vector3d):
@@ -152,9 +153,9 @@ class CartesianBase(Vector3d):
         '''
         d = _spherical_datum(datum, name=self.name)
         if self._datum:  # is not None
-            if self._datum.isEllipsoidal and not d.isEllipsoidal:
+            if d.isEllipsoidal and not self._datum.isEllipsoidal:
                 raise _IsnotError(_ellipsoidal_, datum=datum)
-            elif self._datum.isSpherical and not d.isSpherical:
+            elif d.isSpherical and not self._datum.isSpherical:
                 raise _IsnotError(_spherical_, datum=datum)
         if self._datum != d:
             _update_all(self)
@@ -196,8 +197,14 @@ class CartesianBase(Vector3d):
         '''
         return self.Ecef(self.datum, name=self.name).reverse(self, M=True)
 
+    @property_RO
+    def ellipsoidalCartesian(self):
+        '''Get the C{Cartesian type} iff ellipsoidal, overloaded in L{CartesianEllipsoidalBase}.
+        '''
+        return False
+
     def hartzell(self, los=None, earth=None):
-        '''Compute the intersection of a Line-Of-Sight (los) from this certesian
+        '''Compute the intersection of a Line-Of-Sight (los) from this cartesian
            Point-Of-View (pov) with this cartesian's ellipsoid surface.
 
            @kwarg los: Line-Of-Sight, I{direction} to earth (L{Los}, L{Vector3d})
@@ -278,12 +285,12 @@ class CartesianBase(Vector3d):
            @see: L{Ellipsoid.height4} and L{Triaxial_.height4} for more information.
         '''
         d = self.datum if earth is None else earth
-        if normal and d == self.datum:
+        if normal and d is self.datum:
             r =  self._height4
         elif isinstance(d, _MODS.triaxials.Triaxial_):
             r =  d.height4(self, normal=normal)
         else:
-            r = _spherical_datum(d).ellipsoid.height4(self, normal=normal)
+            r = _earth_ellipsoid(d).height4(self, normal=normal)
         if Cartesian is not None:
             kwds = Cartesian_kwds.copy()
             h = kwds.pop(_height_, None)
@@ -454,6 +461,12 @@ class CartesianBase(Vector3d):
         '''
         return _MODS.resections.pierlotx(self, point2, point3, alpha1, alpha2, alpha3,
                                                useZ=useZ, datum=self.datum)
+
+    @property_RO
+    def sphericalCartesian(self):
+        '''Get the C{Cartesian type} iff spherical, overloaded in L{CartesianSphericalBase}.
+        '''
+        return False
 
     @deprecated_method
     def tienstra(self, pointB, pointC, alpha, beta=None, gamma=None, useZ=False):

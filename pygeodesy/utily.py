@@ -10,21 +10,21 @@ U{Vector-based geodesy<https://www.Movable-Type.co.UK/scripts/latlong-vectors.ht
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import _copysign, isint, isstr, neg,  _ALL_LAZY, _MODS
+from pygeodesy.basics import _copysign, isint, isstr, neg
 from pygeodesy.constants import EPS, EPS0, INF, NAN, NEG0, PI, PI2, PI_2, R_M, \
                                _float as _F, _isfinite, isnan, isnear0, _over, \
-                               _M_KM, _M_NM, _M_SM, _0_0, _1__90, _0_5, _1_0, \
-                               _N_1_0, _2__PI, _10_0, _90_0, _N_90_0, _180_0, \
-                               _N_180_0, _360_0, _400_0
-from pygeodesy.errors import _ValueError, _xkwds, _xkwds_get
+                               _umod_360, _umod_PI2, _M_KM, _M_NM, _M_SM, _0_0, \
+                               _1__90, _0_5, _1_0, _N_1_0, _2__PI, _10_0, _90_0, \
+                               _N_90_0, _180_0, _N_180_0, _360_0, _400_0
+from pygeodesy.errors import _ValueError, _xkwds, _xkwds_get,  _ALL_LAZY, _MODS
 from pygeodesy.interns import _edge_, _radians_, _semi_circular_, _SPACE_
-# from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS  # from .basics
+# from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS  # from .errors
 from pygeodesy.units import Degrees, Feet, Float, Lam, Lam_, Meter, Meter2, Radians
 
 from math import acos, asin, atan2, cos, degrees, fabs, radians, sin, tan  # pow
 
 __all__ = _ALL_LAZY.utily
-__version__ = '23.09.28'
+__version__ = '23.10.24'
 
 # read constant name "_M_Unit" as "meter per Unit"
 _M_CHAIN     = _F(  20.1168)     # yard2m(1) * 22
@@ -106,15 +106,15 @@ def atan2b(y, x):
 
        @see: Function L{pygeodesy.atan2d}.
     '''
-    d = atan2d(y, x)
-    if d < 0:
-        d += _360_0
-    return d
+    b = atan2d(y, x)
+    if b < 0:
+        b += _360_0
+    return b
 
 
 def atan2d(y, x, reverse=False):
     '''Return C{atan2(B{y}, B{x})} in degrees M{[-180..+180]},
-       optionally I{reversed} (by 180 degrees for C{azi2}).
+       optionally I{reversed} (by 180 degrees for C{azimuth}s).
 
        @see: I{Karney}'s C++ function U{Math.atan2d
              <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Math.html>}.
@@ -174,7 +174,7 @@ def circle4(earth, lat):
 
        @raise ValueError: B{C{earth}} or B{C{lat}}.
     '''
-    E = _MODS.datums._spherical_datum(earth).ellipsoid
+    E = _MODS.datums._earth_ellipsoid(earth)
     return E.circle4(lat)
 
 
@@ -251,23 +251,23 @@ def cotd_(*degs, **error_kwds):
 
 
 def degrees90(rad):
-    '''Convert radians to degrees and wrap M{[-270..+90]}.
+    '''Convert radians to degrees and wrap M{[-90..+90)}.
 
        @arg rad: Angle (C{radians}).
 
        @return: Angle, wrapped (C{degrees90}).
     '''
-    return _wrap(degrees(rad), _90_0, _360_0)
+    return wrap90(degrees(rad))
 
 
 def degrees180(rad):
-    '''Convert radians to degrees and wrap M{[-180..+180]}.
+    '''Convert radians to degrees and wrap M{[-180..+180)}.
 
        @arg rad: Angle (C{radians}).
 
        @return: Angle, wrapped (C{degrees180}).
     '''
-    return _wrap(degrees(rad), _180_0, _360_0)
+    return wrap180(degrees(rad))
 
 
 def degrees360(rad):
@@ -277,7 +277,7 @@ def degrees360(rad):
 
        @return: Angle, wrapped (C{degrees360}).
     '''
-    return _wrap(degrees(rad), _360_0, _360_0)
+    return _umod_360(degrees(rad))
 
 
 def degrees2grades(deg):
@@ -314,7 +314,7 @@ def degrees2m(deg, radius=R_M, lat=0):
 
        @see: Function L{radians2m} and L{m2degrees}.
     '''
-    return _radians2m(Lam_(deg=deg, clip=0), radius, lat)
+    return _Radians2m(Lam_(deg=deg, clip=0), radius, lat)
 
 
 def fathom2m(fathoms):
@@ -380,7 +380,7 @@ def grades400(rad):
 
        @return: Angle, wrapped (C{grades}).
     '''
-    return Float(grades400=_wrap(grades(rad), _400_0, _400_0))
+    return Float(grades400=(grades(rad) % _400_0) or _0_0)  # _umod_400
 
 
 def grades2degrees(gon):
@@ -531,8 +531,8 @@ def m2NM(meter):
 
 
 def m2radians(distance, radius=R_M, lat=0):
-    '''Convert a distance to an angle along the equator or
-       along the parallel at an other (geodetic) latitude.
+    '''Convert a distance to an angle along the equator or along the
+       parallel at an other (geodetic) latitude.
 
        @arg distance: Distance (C{meter}, same units as B{C{radius}}).
        @kwarg radius: Mean earth radius, ellipsoid or datum (C{meter},
@@ -642,10 +642,10 @@ def radians2m(rad, radius=R_M, lat=0):
 
        @see: Function L{degrees2m} and L{m2radians}.
     '''
-    return _radians2m(Lam(rad=rad, clip=0), radius, lat)
+    return _Radians2m(Lam(rad=rad, clip=0), radius, lat)
 
 
-def _radians2m(rad, radius, lat):
+def _Radians2m(rad, radius, lat):
     '''(INTERNAL) Helper for C{degrees2m} and C{radians2m}.
     '''
     m = circle4(radius, lat).radius
@@ -659,7 +659,7 @@ def radiansPI(deg):
 
        @return: Radians, wrapped (C{radiansPI})
     '''
-    return _wrap(radians(deg), PI, PI2)
+    return wrapPI(radians(deg))
 
 
 def radiansPI2(deg):
@@ -669,7 +669,7 @@ def radiansPI2(deg):
 
        @return: Radians, wrapped (C{radiansPI2})
     '''
-    return _wrap(radians(deg), PI2, PI2)
+    return _umod_PI2(radians(deg))
 
 
 def radiansPI_2(deg):
@@ -679,7 +679,7 @@ def radiansPI_2(deg):
 
        @return: Radians, wrapped (C{radiansPI_2})
     '''
-    return _wrap(radians(deg), PI_2, PI2)
+    return wrapPI_2(radians(deg))
 
 
 def _sin0cos2(q, r, sign):
@@ -935,8 +935,8 @@ def unroll180(lon1, lon2, wrap=True):
              <https://GeographicLib.SourceForge.io/html/python/interface.html#outmask>}.
     '''
     d = lon2 - lon1
-    if wrap and fabs(d) > _180_0:
-        u = _wrap(d, _180_0, _360_0)
+    if wrap:
+        u = wrap180(d)
         if u != d:
             return u, (lon1 + u)
     return d, lon2
@@ -982,8 +982,8 @@ def unrollPI(rad1, rad2, wrap=True):
              <https://GeographicLib.SourceForge.io/html/python/interface.html#outmask>}.
     '''
     r = rad2 - rad1
-    if wrap and fabs(r) > PI:
-        u = _wrap(r, PI, PI2)
+    if wrap:
+        u = wrapPI(r)
         if u != r:
             return u, (rad1 + u)
     return r, rad2
@@ -1013,7 +1013,7 @@ class _Wrap(object):
         '''
         t = {True: (_MODS.formy.normal, _MODS.formy.normal_),
              False: (self.wraplatlon,    self.wraphilam),
-             None:  (_passargs, _passargs)}.get(setting, ())
+             None:  (_passargs,         _passargs)}.get(setting, ())
         if t:
             self.latlon, self.philam = t
             self._normal = setting
@@ -1068,9 +1068,6 @@ class _Wrap(object):
         else:
             return _passargs
 
-    def wraphilam(self, phi, lam):
-        return wrapPI_2(phi), wrapPI(lam)
-
     def point(self, ll, wrap=True):  # in .points._fractional, -.PointsIter.iterate, ...
         '''Return C{ll} or a copy, I{normalized} or I{wrap}'d.
         '''
@@ -1085,33 +1082,34 @@ class _Wrap(object):
 _Wrap = _Wrap()  # PYCHOK singleton
 
 
-def _wrap(angle, wrap, modulo):
-    '''(INTERNAL) Angle wrapper M{((wrap-modulo)..+wrap]}.
-
-       @arg angle: Angle (C{degrees}, C{radians} or C{grades}).
-       @arg wrap: Range (C{degrees}, C{radians} or C{grades}).
-       @arg modulo: Upper limit (360 C{degrees}, PI2 C{radians} or 400 C{grades}).
-
-       @return: The B{C{angle}}, wrapped (C{degrees}, C{radians} or C{grades}).
-    '''
-    a = float(angle)
-    if not (wrap - modulo) <= a < wrap:
-        # math.fmod(-1.5, 3.14) == -1.5, but -1.5 % 3.14 == 1.64
-        # math.fmod(-1.5, 360)  == -1.5, but -1.5 % 360 == 358.5
-        a %= modulo
-        if a > wrap:
-            a -= modulo
-    return a
+# def _wrap(angle, wrap, modulo):
+#     '''(INTERNAL) Angle wrapper M{((wrap-modulo)..+wrap]}.
+#
+#        @arg angle: Angle (C{degrees}, C{radians} or C{grades}).
+#        @arg wrap: Range (C{degrees}, C{radians} or C{grades}).
+#        @arg modulo: Upper limit (360 C{degrees}, PI2 C{radians} or 400 C{grades}).
+#
+#        @return: The B{C{angle}}, wrapped (C{degrees}, C{radians} or C{grades}).
+#     '''
+#     a = float(angle)
+#     if not (wrap - modulo) <= a < wrap:
+#         # math.fmod(-1.5, 3.14) == -1.5, but -1.5 % 3.14 == 1.64
+#         # math.fmod(-1.5, 360)  == -1.5, but -1.5 % 360 == 358.5
+#         a %= modulo
+#         if a > wrap:
+#             a -= modulo
+#     return a
 
 
 def wrap90(deg):
-    '''Wrap degrees to M{[-270..+90]}.
+    '''Wrap degrees to M{[-90..+90]}.
 
        @arg deg: Angle (C{degrees}).
 
        @return: Degrees, wrapped (C{degrees90}).
     '''
-    return _wrap(deg, _90_0, _360_0)
+    w = wrap180(deg)
+    return (w - _180_0) if w > 90 else ((w + _180_0) if w < -90 else w)
 
 
 def wrap180(deg):
@@ -1121,7 +1119,13 @@ def wrap180(deg):
 
        @return: Degrees, wrapped (C{degrees180}).
     '''
-    return _wrap(deg, _180_0, _360_0)
+    d =  float(deg)
+    w = _umod_360(d)
+    if w > 180:
+        w -= _360_0
+    elif d < 0 and w == 180:
+        w = -w
+    return w
 
 
 def wrap360(deg):  # see .streprs._umod_360
@@ -1131,7 +1135,7 @@ def wrap360(deg):  # see .streprs._umod_360
 
        @return: Degrees, wrapped (C{degrees360}).
     '''
-    return _wrap(deg, _360_0, _360_0)
+    return _umod_360(float(deg))
 
 
 def wrapPI(rad):
@@ -1141,7 +1145,13 @@ def wrapPI(rad):
 
        @return: Radians, wrapped (C{radiansPI}).
     '''
-    return _wrap(rad, PI, PI2)
+    r =  float(rad)
+    w = _umod_PI2(r)
+    if w > PI:
+        w -= PI2
+    elif r < 0 and w == PI:
+        w = -PI
+    return w
 
 
 def wrapPI2(rad):
@@ -1151,17 +1161,24 @@ def wrapPI2(rad):
 
        @return: Radians, wrapped (C{radiansPI2}).
     '''
-    return _wrap(rad, PI2, PI2)
+    return _umod_PI2(float(rad))
 
 
 def wrapPI_2(rad):
-    '''Wrap radians to M{[-3PI/2..+PI/2]}.
+    '''Wrap radians to M{[-PI/2..+PI/2]}.
 
        @arg rad: Angle (C{radians}).
 
        @return: Radians, wrapped (C{radiansPI_2}).
     '''
-    return _wrap(rad, PI_2, PI2)
+    w = wrapPI(rad)
+    return (w - PI) if w > PI_2 else ((w + PI) if w < (-PI_2) else w)
+
+
+# def wraplatlon(lat, lon):
+#     '''Both C{wrap90(B{lat})} and C{wrap180(B{lon})}.
+#     '''
+#     return wrap90(lat), wrap180(lon)
 
 
 def wrap_normal(*normal):
@@ -1182,6 +1199,12 @@ def wrap_normal(*normal):
     if normal:
         _Wrap.normal = normal[0]
     return t
+
+
+# def wraphilam(phi, lam,):
+#     '''Both C{wrapPI_2(B{phi})} and C{wrapPI(B{lam})}.
+#     '''
+#     return wrapPI_2(phi), wrapPI(lam)
 
 
 def yard2m(yards):

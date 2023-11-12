@@ -62,7 +62,7 @@ from pygeodesy.utily import atan2b, degrees90, degrees180, degrees2m, \
 from math import cos, fabs, fmod, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '23.10.07'
+__version__ = '23.10.31'
 
 _ilat_  = 'ilat'
 _ilon_  = 'ilon'
@@ -265,8 +265,7 @@ class _Basequence(_Sequence):  # immutable, on purpose
         return -1
 
     def _findall(self, point, start_end):  # PYCHOK no cover
-        '''(INTERNAL) I{Must be implemented/overloaded}.
-        '''
+        '''(INTERNAL) I{Must be implemented/overloaded}.'''
         notImplemented(self, point, start_end)
 
     def _getitem(self, index):
@@ -312,10 +311,7 @@ class _Basequence(_Sequence):  # immutable, on purpose
             yield _point(_array[i])
 
     def point(self, *attrs):  # PYCHOK no cover
-        '''I{Must be overloaded}.
-
-           @arg attrs: Optional arguments.
-        '''
+        '''I{Must be overloaded}.'''
         notOverloaded(self, *attrs)
 
     def _range(self, start=None, end=None, step=1):
@@ -565,8 +561,7 @@ class _Array2LatLon(_Basequence):  # immutable, on purpose
         return self._shape
 
     def _subset(self, indices):  # PYCHOK no cover
-        '''(INTERNAL) I{Must be implemented/overloaded}.
-        '''
+        '''(INTERNAL) I{Must be implemented/overloaded}.'''
         notImplemented(self, indices)
 
     def subset(self, indices):

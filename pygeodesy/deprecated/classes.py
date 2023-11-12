@@ -22,7 +22,7 @@ from pygeodesy.trf import Helmert7Tuple as _Helmert7Tuple
 from pygeodesy.units import Bearing, Lat, Lon, Meter
 
 __all__ = ()
-__version__ = '23.10.10'
+__version__ = '23.10.15'
 
 
 class _Deprecated_NamedTuple(_NamedTuple):
@@ -143,7 +143,7 @@ def HeightIDW3(knots, **kwds):  # PYCHOK no cover
 
 
 class LatLonExact4Tuple(_Deprecated_NamedTuple):
-    '''DEPRECATED, used class L{Reverse4Tuple}, item C{gamma} for C{convergence}.'''
+    '''DEPRECATED, use class L{Reverse4Tuple}, item C{gamma} for C{convergence}.'''
     _Names_ = _reNames(_Reverse4Tuple._Names_, _gamma_, _convergence_)
     _Units_ =          _Reverse4Tuple._Units_
 

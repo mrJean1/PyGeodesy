@@ -180,6 +180,52 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.geodsolve.GeodesicSolve-class.html#DirectLine" class="summary-sig-name">DirectLine</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">lat1</span>,
+        <span class="summary-sig-arg">lon1</span>,
+        <span class="summary-sig-arg">azi1</span>,
+        <span class="summary-sig-arg">**caps_name</span>)</span><br />
+      Set up a <a href="pygeodesy.geodsolve.GeodesicLineSolve-class.html" 
+      class="link">GeodesicLineSolve</a> to compute several points on a 
+      single geodesic.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.geodsolve.GeodesicSolve-class.html#Line" class="summary-sig-name">Line</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">lat1</span>,
+        <span class="summary-sig-arg">lon1</span>,
+        <span class="summary-sig-arg">azi1</span>,
+        <span class="summary-sig-arg">**caps_name</span>)</span><br />
+      Set up a <a href="pygeodesy.geodsolve.GeodesicLineSolve-class.html" 
+      class="link">GeodesicLineSolve</a> to compute several points on a 
+      single geodesic.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.geodsolve.GeodesicSolve-class.html#Inverse3" class="summary-sig-name">Inverse3</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">lat1</span>,
         <span class="summary-sig-arg">lon1</span>,
@@ -202,11 +248,12 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.geodsolve.GeodesicSolve-class.html#Line" class="summary-sig-name">Line</a>(<span class="summary-sig-arg">self</span>,
+          <td><span class="summary-sig"><a href="pygeodesy.geodsolve.GeodesicSolve-class.html#InverseLine" class="summary-sig-name">InverseLine</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">lat1</span>,
         <span class="summary-sig-arg">lon1</span>,
-        <span class="summary-sig-arg">azi1</span>,
-        <span class="summary-sig-arg">caps</span>=<span class="summary-sig-default">32640</span>)</span><br />
+        <span class="summary-sig-arg">lat2</span>,
+        <span class="summary-sig-arg">lon2</span>,
+        <span class="summary-sig-arg">**caps_name</span>)</span><br />
       Set up a <a href="pygeodesy.geodsolve.GeodesicLineSolve-class.html" 
       class="link">GeodesicLineSolve</a> to compute several points on a 
       single geodesic.</td>
@@ -310,12 +357,15 @@
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.geodsolve._GeodesicSolveBase-class.html">_GeodesicSolveBase</a></code></b>:
       <code><a href="pygeodesy.geodsolve._GeodesicSolveBase-class.html#GeodSolve">GeodSolve</a></code>
       </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.solveBase._SolveBase-class.html">solveBase._SolveBase</a></code></b>:
+      <code><a href="pygeodesy.solveBase._SolveBase-class.html#a">a</a></code>,
+      <code><a href="pygeodesy.solveBase._SolveBase-class.html#datum">datum</a></code>,
+      <code><a href="pygeodesy.solveBase._SolveBase-class.html#ellipsoid">ellipsoid</a></code>,
+      <code><a href="pygeodesy.solveBase._SolveBase-class.html#f">f</a></code>,
+      <code><a href="pygeodesy.solveBase._SolveBase-class.html#flattening">flattening</a></code>
+      </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.solveBase._SolveLineSolveBase-class.html">solveBase._SolveLineSolveBase</a></code></b>:
       <code><a href="pygeodesy.solveBase._SolveLineSolveBase-class.html#Exact">Exact</a></code>,
-      <code><a href="pygeodesy.solveBase._SolveLineSolveBase-class.html#a">a</a></code>,
-      <code><a href="pygeodesy.solveBase._SolveLineSolveBase-class.html#ellipsoid">ellipsoid</a></code>,
-      <code><a href="pygeodesy.solveBase._SolveLineSolveBase-class.html#f">f</a></code>,
-      <code><a href="pygeodesy.solveBase._SolveLineSolveBase-class.html#flattening">flattening</a></code>,
       <code><a href="pygeodesy.solveBase._SolveLineSolveBase-class.html#invokation">invokation</a></code>,
       <code><a href="pygeodesy.solveBase._SolveLineSolveBase-class.html#prec">prec</a></code>,
       <code><a href="pygeodesy.solveBase._SolveLineSolveBase-class.html#reverse2">reverse2</a></code>,
@@ -461,6 +511,106 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="DirectLine"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">DirectLine</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">lat1</span>,
+        <span class="sig-arg">lon1</span>,
+        <span class="sig-arg">azi1</span>,
+        <span class="sig-arg">**caps_name</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Set up a <a href="pygeodesy.geodsolve.GeodesicLineSolve-class.html" 
+  class="link">GeodesicLineSolve</a> to compute several points on a single 
+  geodesic.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>lat1</code></strong> - Latitude of the first point (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lon1</code></strong> - Longitude of the first point (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>azi1</code></strong> - Azimuth at the first point (compass <code>degrees</code>).</li>
+        <li><strong class="pname"><code>caps_name</code></strong> - Bit-or'ed combination of Caps values specifying the capabilities 
+          the <a href="pygeodesy.geodsolve.GeodesicLineSolve-class.html" 
+          class="link">GeodesicLineSolve</a> instance should possess, 
+          <code>caps=Caps.ALL</code> always.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A <a href="pygeodesy.geodsolve.GeodesicLineSolve-class.html" 
+          class="link">GeodesicLineSolve</a> instance.</dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        If the point is at a pole, the azimuth is defined by keeping 
+        <b><code>lon1</code></b> fixed, writing <code><b>lat1</b> = &#177;(90 &#8722; 
+        &#949;)</code>, and taking the limit <code>&#949; &#8594; 0+</code>.
+      </p>
+      <p><strong>See Also:</strong>
+        C++ <a 
+        href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1GeodesicExact.html"
+        target="_top">GeodesicExact.Line</a> and Python <a 
+        href="https://GeographicLib.SourceForge.io/Python/doc/code.html" 
+        target="_top">Geodesic.Line</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="Line"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">Line</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">lat1</span>,
+        <span class="sig-arg">lon1</span>,
+        <span class="sig-arg">azi1</span>,
+        <span class="sig-arg">**caps_name</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Set up a <a href="pygeodesy.geodsolve.GeodesicLineSolve-class.html" 
+  class="link">GeodesicLineSolve</a> to compute several points on a single 
+  geodesic.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>lat1</code></strong> - Latitude of the first point (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lon1</code></strong> - Longitude of the first point (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>azi1</code></strong> - Azimuth at the first point (compass <code>degrees</code>).</li>
+        <li><strong class="pname"><code>caps_name</code></strong> - Bit-or'ed combination of Caps values specifying the capabilities 
+          the <a href="pygeodesy.geodsolve.GeodesicLineSolve-class.html" 
+          class="link">GeodesicLineSolve</a> instance should possess, 
+          <code>caps=Caps.ALL</code> always.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A <a href="pygeodesy.geodsolve.GeodesicLineSolve-class.html" 
+          class="link">GeodesicLineSolve</a> instance.</dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        If the point is at a pole, the azimuth is defined by keeping 
+        <b><code>lon1</code></b> fixed, writing <code><b>lat1</b> = &#177;(90 &#8722; 
+        &#949;)</code>, and taking the limit <code>&#949; &#8594; 0+</code>.
+      </p>
+      <p><strong>See Also:</strong>
+        C++ <a 
+        href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1GeodesicExact.html"
+        target="_top">GeodesicExact.Line</a> and Python <a 
+        href="https://GeographicLib.SourceForge.io/Python/doc/code.html" 
+        target="_top">Geodesic.Line</a>.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="Inverse3"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -489,18 +639,19 @@
   </dl>
 </td></tr></table>
 </div>
-<a name="Line"></a>
+<a name="InverseLine"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">Line</span>&nbsp;(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">InverseLine</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">lat1</span>,
         <span class="sig-arg">lon1</span>,
-        <span class="sig-arg">azi1</span>,
-        <span class="sig-arg">caps</span>=<span class="sig-default">32640</span>)</span>
+        <span class="sig-arg">lat2</span>,
+        <span class="sig-arg">lon2</span>,
+        <span class="sig-arg">**caps_name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -515,27 +666,27 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>lat1</code></strong> - Latitude of the first point (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lon1</code></strong> - Longitude of the first point (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>azi1</code></strong> - Azimuth at the first point (compass <code>degrees</code>).</li>
-        <li><strong class="pname"><code>caps</code></strong> - Bit-or'ed combination of Caps values specifying the capabilities 
+        <li><strong class="pname"><code>lat2</code></strong> - Latitude of the second point (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lon2</code></strong> - Longitude of the second point (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>caps_name</code></strong> - Bit-or'ed combination of Caps values specifying the capabilities 
           the <a href="pygeodesy.geodsolve.GeodesicLineSolve-class.html" 
           class="link">GeodesicLineSolve</a> instance should possess, 
-          always <code>Caps.ALL</code>.</li>
+          <code>caps=Caps.ALL</code> always.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.geodsolve.GeodesicLineSolve-class.html" 
           class="link">GeodesicLineSolve</a> instance.</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
-        If the point is at a pole, the azimuth is defined by keeping 
-        <b><code>lon1</code></b> fixed, writing <code><b>lat1</b> = &#177;(90 &#8722; 
-        &#949;)</code>, and taking the limit <code>&#949; &#8594; 0+</code>.
+        Both <b><code>lat1</code></b> and <b><code>lat2</code></b> should 
+        in the range <code>[-90, +90]</code>.
       </p>
       <p><strong>See Also:</strong>
         C++ <a 
         href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1GeodesicExact.html"
-        target="_top">GeodesicExact.Line</a> and Python <a 
+        target="_top">GeodesicExact.InverseLine</a> and Python <a 
         href="https://GeographicLib.SourceForge.io/Python/doc/code.html" 
-        target="_top">Geodesic.Line</a>.
+        target="_top">Geodesic.InverseLine</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -571,7 +722,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Oct 11 15:46:54 2023
+    Generated by Epydoc 3.0.1 on Sun Nov 12 13:03:55 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

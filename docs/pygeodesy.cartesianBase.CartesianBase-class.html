@@ -67,7 +67,7 @@
                     |            
      <a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a> --+        
                         |        
-<a href="pygeodesy.vector3dBase.Vector3dBase-class.html" onclick="show_private();">vector3dBase.Vector3dBase</a> --+    
+<a href="pygeodesy.vector3dBase.Vector3dBase-class.html">vector3dBase.Vector3dBase</a> --+    
                             |    
             <a href="pygeodesy.vector3d.Vector3d-class.html">vector3d.Vector3d</a> --+
                                 |
@@ -217,7 +217,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.cartesianBase.CartesianBase-class.html#hartzell" class="summary-sig-name">hartzell</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">los</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">earth</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Compute the intersection of a Line-Of-Sight (los) from this certesian
+      Compute the intersection of a Line-Of-Sight (los) from this cartesian
       Point-Of-View (pov) with this cartesian's ellipsoid surface.</td>
           <td align="right" valign="top">
             
@@ -621,7 +621,7 @@
       <code><a href="pygeodesy.vector3d.Vector3d-class.html#trilaterate2d2">trilaterate2d2</a></code>,
       <code><a href="pygeodesy.vector3d.Vector3d-class.html#trilaterate3d2">trilaterate3d2</a></code>
       </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html" onclick="show_private();">vector3dBase.Vector3dBase</a></code></b>:
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html">vector3dBase.Vector3dBase</a></code></b>:
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__abs__">__abs__</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__add__">__add__</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__bool__">__bool__</a></code>,
@@ -754,6 +754,16 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.cartesianBase.CartesianBase-class.html#ellipsoidalCartesian" class="summary-name">ellipsoidalCartesian</a><br />
+      Get the <code>Cartesian type</code> iff ellipsoidal, overloaded in <a
+      href="pygeodesy.ellipsoidalBase.CartesianEllipsoidalBase-class.html" 
+      class="link">CartesianEllipsoidalBase</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.cartesianBase.CartesianBase-class.html#height" class="summary-name">height</a><br />
       Get the height (<code>meter</code>).
     </td>
@@ -842,11 +852,22 @@
       class="link">PhiLam4Tuple</a><code>(phi, lam, height, datum)</code>).
     </td>
   </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.cartesianBase.CartesianBase-class.html#sphericalCartesian" class="summary-name">sphericalCartesian</a><br />
+      Get the <code>Cartesian type</code> iff spherical, overloaded in <a 
+      href="pygeodesy.sphericalBase.CartesianSphericalBase-class.html" 
+      class="link">CartesianSphericalBase</a>.
+    </td>
+  </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html" onclick="show_private();">vector3dBase.Vector3dBase</a></code></b>:
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html">vector3dBase.Vector3dBase</a></code></b>:
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#crosserrors">crosserrors</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#euclid">euclid</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#homogeneous">homogeneous</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#length">length</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#length2">length2</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#x">x</a></code>,
@@ -1175,7 +1196,7 @@
     </td>
   </tr></table>
   
-  <p>Compute the intersection of a Line-Of-Sight (los) from this certesian 
+  <p>Compute the intersection of a Line-Of-Sight (los) from this cartesian 
   Point-Of-View (pov) with this cartesian's ellipsoid surface.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
@@ -2061,6 +2082,34 @@ class="link">EcefKarney</a>), <i>lazily</i>.
   </dl>
 </td></tr></table>
 </div>
+<a name="ellipsoidalCartesian"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">ellipsoidalCartesian</h3>
+  <p>Get the <code>Cartesian type</code> iff ellipsoidal, overloaded in <a 
+  href="pygeodesy.ellipsoidalBase.CartesianEllipsoidalBase-class.html" 
+  class="link">CartesianEllipsoidalBase</a>.</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">ellipsoidalCartesian(<span class="summary-sig-arg">self</span>)</span>
+        - Get the <code>Cartesian type</code> iff ellipsoidal, overloaded in <a 
+href="pygeodesy.ellipsoidalBase.CartesianEllipsoidalBase-class.html" 
+class="link">CartesianEllipsoidalBase</a>.
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="height"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -2313,6 +2362,34 @@ class="link">PhiLam4Tuple</a><code>(phi, lam, height, datum)</code>).
   </dl>
 </td></tr></table>
 </div>
+<a name="sphericalCartesian"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">sphericalCartesian</h3>
+  <p>Get the <code>Cartesian type</code> iff spherical, overloaded in <a 
+  href="pygeodesy.sphericalBase.CartesianSphericalBase-class.html" 
+  class="link">CartesianSphericalBase</a>.</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">sphericalCartesian(<span class="summary-sig-arg">self</span>)</span>
+        - Get the <code>Cartesian type</code> iff spherical, overloaded in <a 
+href="pygeodesy.sphericalBase.CartesianSphericalBase-class.html" 
+class="link">CartesianSphericalBase</a>.
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
 <br />
 <!-- ==================== NAVIGATION BAR ==================== -->
 <table class="navbar" border="0" width="100%" cellpadding="0"
@@ -2345,7 +2422,7 @@ class="link">PhiLam4Tuple</a><code>(phi, lam, height, datum)</code>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Oct 11 15:46:53 2023
+    Generated by Epydoc 3.0.1 on Sun Nov 12 13:03:54 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

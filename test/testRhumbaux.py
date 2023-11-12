@@ -4,7 +4,7 @@
 # Some basic L{rhumbaux} vs C++ C{RhumbSolve} tests.
 
 __all__ = ('Tests',)
-__version__ = '23.10.10'
+__version__ = '23.11.01'
 
 from bases import coverage, splitext, _fLate, RhumbSolve, startswith, TestsBase
 
@@ -216,12 +216,12 @@ class Tests(TestsBase):
         self.test('R.exact', R.exact, True, nl=1)
         R.exact = x = 0
         self.test('R.exact', R.exact, bool(x))
-        self.test('R', repr(R), '''RhumbAux(TMorder=6, ellipsoid=Ellipsoid(name='WGS84',''', known=startswith)
+        self.test('R', repr(R), '''RhumbAux(RAorder=None, TMorder=6, ellipsoid=Ellipsoid(name='WGS84',''', known=startswith)
         rl = R.Line(1, 2, 3)
         R.exact = x = 1
         self.test('R.exact', R.exact, bool(x), nl=1)
         self.test('R.Line.exact', rl.exact, bool(x))
-        self.test('R.Line', repr(rl), '''RhumbLineAux(TMorder=6, azi12=3.0, exact=True, lat1=1.0, lon1=2.0, rhumb=RhumbAux(TMorder=6, ellipsoid=Ellipsoid(name='WGS84',''', known=startswith)
+        self.test('R.Line', repr(rl), '''RhumbLineAux(TMorder=6, azi12=3.0, exact=True, lat1=1.0, lon1=2.0, rhumb=RhumbAux(RAorder=None, TMorder=6, ellipsoid=Ellipsoid(name='WGS84',''', known=startswith)
 #       t = R.orders(4, 8)
 #       self.test(R.orders.__name__, str(t), '(6, 6)')
 #       t = R.orders(6, 6)
@@ -233,9 +233,9 @@ class Tests(TestsBase):
             # <https://SourceForge.net/p/geographiclib/discussion/1026620/thread/2ddc295e/>
             r = R.Line(30, 0, 45, caps=R.LINE_OFF)
             for est in (None,) if nonexact else (1e6, None):
-                p = r.NearestOn(60, 0, exact=exact, est=est)
+                p = r.PlumbTo(60, 0, exact=exact, est=est)
                 t = p.toRepr()
-                self.test('NearestOn(exact=%s, est=%s)' % (exact, est), t, t, nl=1)
+                self.test('PlumbTo(exact=%s, est=%s)' % (exact, est), t, t, nl=1)
                 if nonexact:
                     self.test('a02',   p.a02,      17.798332, prec=6)
                     self.test('s02',   p.s02, 1977981.142985, prec=6)
@@ -246,7 +246,8 @@ class Tests(TestsBase):
                     self.test('s02',   p.s02, 1997960.116871, prec=6)
                     self.test('s12',   p.s12, 3083112.636236, prec=6)
                     self.test('azi0',  p.azi0,    113.736,    prec=3)
-                    self.test('azi2',  p.azi2,    135.000,    prec=3)
+                    azi2 = p.at + p.azi12
+                    self.test('azi2',    azi2,    135.000,    prec=3)
                 self.test('iteration', p.iteration, p.iteration)
 
             t = str(r.Intersecant2(60, 0, radius=r.degrees2m(30)))
@@ -258,10 +259,10 @@ class Tests(TestsBase):
             r = R.Line(20, 0, 0, caps=R.LINE_OFF)
             for d in range(0, 361, 60 if coverage else 6):
                 r.azi12 = d
-                p = r.NearestOn(0, 40, exact=exact)
+                p = r.PlumbTo(0, 40, exact=exact)
                 i = p.iteration
 #               t = p.toRepr()
-#               self.test('at %d NearestOn' % (d,), t, t)
+#               self.test('at %d PlumbTo' % (d,), t, t)
                 t = r.distance2(p.lat2, p.lon2)
                 z = t.initial
 #               t = t.toRepr()
@@ -295,10 +296,10 @@ class Tests(TestsBase):
         p = r.Intersection(s)
         t = p.toRepr()
         self.test('Intersection', t, '(26.9774, -43.4088)', nl=1, known=True)
-        t = r.NearestOn(p.lat2, p.lon2).toRepr()
-        self.test('NearestOn', t, t)
-        t = s.NearestOn(p.lat2, p.lon2).toRepr()
-        self.test('NearestOn', t, t)
+        t = r.PlumbTo(p.lat2, p.lon2).toRepr()
+        self.test('PlumbTo', t, t)
+        t = s.PlumbTo(p.lat2, p.lon2).toRepr()
+        self.test('PlumbTo', t, t)
         t = r.xTM.toRepr()  # coverage
         self.test('xTM', t, t)
 
@@ -310,10 +311,10 @@ class Tests(TestsBase):
         p = r.Intersection(s)
         t = p.toRepr()
         self.test('Intersection', t, '(37.0, -41.7028)', nl=1, known=True)
-        t = r.NearestOn(p.lat2, p.lon2).toRepr()
-        self.test('NearestOn', t, t)
-        t = s.NearestOn(p.lat2, p.lon2).toRepr()
-        self.test('NearestOn', t, t)
+        t = r.PlumbTo(p.lat2, p.lon2).toRepr()
+        self.test('PlumbTo', t, t)
+        t = s.PlumbTo(p.lat2, p.lon2).toRepr()
+        self.test('PlumbTo', t, t)
         t = r.xTM.toRepr()  # coverage
         self.test('xTM', t, t)
 
