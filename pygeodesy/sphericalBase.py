@@ -40,7 +40,7 @@ from pygeodesy.utily import acos1, asin1, atan2b, atan2d, degrees90, \
 from math import cos, fabs, log, sin, sqrt
 
 __all__ = _ALL_LAZY.sphericalBase
-__version__ = '23.10.24'
+__version__ = '23.12.01'
 
 
 class CartesianSphericalBase(CartesianBase):
@@ -278,7 +278,7 @@ class LatLonSphericalBase(LatLonBase):
         return -self.maxLat(bearing)
 
     def _mpr(self, radius=R_M, exact=None):  # meter per radian
-        if exact and not isscalar(radius):  # see .rhumbx.Rhumb._mpr
+        if exact and not isscalar(radius):  # see .rhumb.ekx.Rhumb._mpr
             radius = _earth_ellipsoid(radius)._Lpr
         return radius
 
@@ -366,7 +366,7 @@ class LatLonSphericalBase(LatLonBase):
            @arg other: The other point (spherical C{LatLon}).
            @kwarg radius: Earth radius (C{meter}) or earth model (L{Datum},
                           L{Ellipsoid}, L{Ellipsoid2} or L{a_f2Tuple}).
-           @kwarg exact: If C{True}, use I{Krüger} L{rhumbx} (C{bool}),
+           @kwarg exact: If C{True}, use I{Elliptic, Krüger} L{Rhumb} (C{bool}),
                          default C{False} for backward compatibility.
            @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the
                         B{C{other}} point (C{bool}).
@@ -407,8 +407,8 @@ class LatLonSphericalBase(LatLonBase):
                           L{Ellipsoid}, L{Ellipsoid2} or L{a_f2Tuple}) if
                           C{B{exact}=True}.
            @kwarg height: Optional height, overriding the default height (C{meter}.
-           @kwarg exact: If C{True}, use I{Krüger} L{rhumbx} (C{bool}), default
-                         C{False} for backward compatibility.
+           @kwarg exact: If C{True}, use I{Elliptic, Krüger} L{Rhumb} (C{bool}),
+                         default C{False} for backward compatibility.
 
            @return: The destination point (spherical C{LatLon}).
 
@@ -457,7 +457,7 @@ class LatLonSphericalBase(LatLonBase):
            @kwarg radius: Earth radius (C{meter}) or earth model (L{Datum},
                           L{Ellipsoid}, L{Ellipsoid2} or L{a_f2Tuple}) if
                           C{B{exact}=True}.
-           @kwarg exact: If C{True}, use I{Krüger} L{rhumbx} (C{bool}),
+           @kwarg exact: If C{True}, use I{Elliptic, Krüger} L{Rhumb} (C{bool}),
                          default C{False} for backward compatibility.
            @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the
                         B{C{other}} point (C{bool}).
@@ -531,19 +531,18 @@ class LatLonSphericalBase(LatLonBase):
            this and an other point.
 
            @arg other: The other point (spherical LatLon).
-           @kwarg height: Optional height, overriding the mean height
-                          (C{meter}).
+           @kwarg height: Optional height, overriding the mean height (C{meter}).
            @kwarg radius: Earth radius (C{meter}) or earth model (L{Datum},
                           L{Ellipsoid}, L{Ellipsoid2} or L{a_f2Tuple}).
-           @kwarg exact: If C{True}, use I{Krüger} L{rhumbx} (C{bool}),
+           @kwarg exact: If C{True}, use I{Elliptic, Krüger} L{Rhumb} (C{bool}),
                          default C{False} for backward compatibility.
-           @kwarg fraction: Midpoint location from this point (C{scalar}),
-                            may be negative if C{B{exact}=True}.
-           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the
-                        B{C{other}} point (C{bool}).
+           @kwarg fraction: Midpoint location from this point (C{scalar}), may
+                            be negative if C{B{exact}=True}.
+           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the B{C{other}}
+                        point (C{bool}).
 
-           @return: The (mid)point at the given B{C{fraction}} along
-                    the rhumb line (spherical C{LatLon}).
+           @return: The (mid)point at the given B{C{fraction}} along the rhumb
+                    line (spherical C{LatLon}).
 
            @raise TypeError: The B{C{other}} point is incompatible.
 

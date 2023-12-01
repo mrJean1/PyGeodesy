@@ -10,7 +10,7 @@ Class L{RhumbLineAux} has been enhanced with methods C{Intersecant2}, C{intersec
 and C{PlumbTo} to iteratively find the intersection of a rhumb line and a circle or an other rhumb line,
 the nearest point on a rumb line along a geodesic or a perpendicular rhumb line from an other point.
 
-For more details, see the I{2.2} U{GeographicLib<https://GeographicLib.SourceForge.io/C++/doc/index.html>}
+For more details, see the U{GeographicLib<https://GeographicLib.SourceForge.io/C++/doc/index.html>} I{2.2}
 documentation, especially the U{Class List<https://GeographicLib.SourceForge.io/C++/doc/annotated.html>},
 the background information on U{Rhumb lines<https://GeographicLib.SourceForge.io/C++/doc/rhumb.html>},
 utility U{RhumbSolve<https://GeographicLib.SourceForge.io/C++/doc/RhumbSolve.1.html>} and U{Online rhumb
@@ -44,7 +44,7 @@ from pygeodesy.rhumb.bases import RhumbBase, RhumbLineBase,  Property_RO
 from math import ceil as _ceil, fabs, radians
 
 __all__ = _ALL_LAZY.rhumb_aux
-__version__ = '23.11.26'
+__version__ = '23.12.01'
 
 # DIGITS = (sizeof(real) * 8) bits
 #        = (ctypes.sizeof(ctypes.c_double(1.0)) * 8) bits
@@ -66,7 +66,7 @@ class RhumbAux(RhumbBase):
     '''
 
     def __init__(self, a_earth=_WGS84, f=None, exact=True, name=NN, **TMorder):  # PYCHOK signature
-        '''New C{rhumbaux.RhumbAux}.
+        '''New C{RhumbAux}.
 
            @kwarg a_earth: This rhumb's earth model (L{Datum}, L{Ellipsoid},
                            L{Ellipsoid2}, L{a_f2Tuple}, 2-tuple C{(a, f)}) or
@@ -206,12 +206,12 @@ class RhumbLineAux(RhumbLineBase):
        on a single rhumb line.  The starting point (C{lat1}, C{lon1})
        and the azimuth C{azi12} are specified once.
     '''
-    _Rhumb = RhumbAux  # rhumbaux.RhumbAux
+    _Rhumb = RhumbAux  # rhumb.aux.RhumbAux
 
     def __init__(self, rhumb, lat1=0, lon1=0, azi12=None, **caps_name):  # PYCHOK signature
-        '''New C{rhumbaux.RhumbLineAux}.
+        '''New C{RhumbLineAux}.
 
-           @arg rhumb: The rhumb reference (C{rhumbaux.RhumbAux}).
+           @arg rhumb: The rhumb reference (L{RhumbAux}).
            @kwarg lat1: Latitude of the start point (C{degrees90}).
            @kwarg lon1: Longitude of the start point (C{degrees180}).
            @kwarg azi12: Azimuth of this rhumb line (compass C{degrees}).

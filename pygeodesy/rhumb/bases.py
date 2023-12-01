@@ -53,7 +53,7 @@ from pygeodesy.vector3d import _intersect3d3, Vector3d  # in .Intersection below
 from math import cos, fabs
 
 __all__ = ()
-__version__ = '23.11.30'
+__version__ = '23.12.01'
 
 _anti_ = _Dash('anti')
 _rls   = []  # instances of C{RbumbLine...} to be updated
@@ -89,7 +89,7 @@ def _update_all_rls(r):
 
 
 class RhumbBase(_CapsBase):
-    '''(INTERNAL) Base class for C{rhumbaux.RhumbAux} and C{rhumbx.Rhumb}.
+    '''(INTERNAL) Base class for C{rhumb.aux.RhumbAux} and C{rhumb.ekx.Rhumb}.
     '''
     _datum = _WGS84
     _exact =  True
@@ -97,7 +97,7 @@ class RhumbBase(_CapsBase):
     _mTM   =  6  # see .TMorder
 
     def __init__(self, a_earth, f, exact, name):
-        '''New C{rhumbaux.RhumbAux} or C{rhumbx.Rhum}.
+        '''New C{RhumbAux} or C{Rhumb}.
         '''
         _earth_datum(self, a_earth, f=f, name=name)
         if not exact:
@@ -460,7 +460,7 @@ class RhumbBase(_CapsBase):
 
 
 class RhumbLineBase(_CapsBase):
-    '''(INTERNAL) Base class for C{rhumbaux.RhumbLineAux} and C{rhumbx.RhumbLine}.
+    '''(INTERNAL) Base class for C{rhumb.aux.RhumbLineAux} and C{rhumb.ekx.RhumbLine}.
     '''
     _azi12 = _0_0
     _calp  = _1_0
@@ -475,7 +475,7 @@ class RhumbLineBase(_CapsBase):
     _talp  = _0_0
 
     def __init__(self, rhumb, lat1, lon1, azi12, caps=Caps.STANDARD, name=NN):
-        '''New C{RhumbLine}.
+        '''New C{RhumbLine} or C{RhumbLineAux}.
         '''
         _xinstanceof(self._Rhumb, rhumb=rhumb)
 

@@ -42,7 +42,7 @@ from pygeodesy.utily import atan1, sincos2_
 from math import asinh, atan, cos, cosh, radians, sin, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.rhumb_ekx
-__version__ = '23.11.30'
+__version__ = '23.12.01'
 
 
 class Rhumb(RhumbBase):
@@ -55,7 +55,7 @@ class Rhumb(RhumbBase):
     _mRA = 6  # see .RAorder
 
     def __init__(self, a_earth=_WGS84, f=None, exact=True, name=NN, **RA_TMorder):
-        '''New C{rhumbx.Rhumb}.
+        '''New C{Rhumb}.
 
            @kwarg a_earth: This rhumb's earth model (L{Datum}, L{Ellipsoid},
                            L{Ellipsoid2}, L{a_f2Tuple}, 2-tuple C{(a, f)}) or
@@ -249,12 +249,12 @@ class RhumbLine(RhumbLineBase):
        a single rhumb line.  The starting point (C{lat1}, C{lon1})
        and the azimuth C{azi12} are specified once.
     '''
-    _Rhumb = Rhumb  # rhumbx.Rhumb
+    _Rhumb = Rhumb  # rhumb.ekx.Rhumb
 
     def __init__(self, rhumb, lat1=0, lon1=0, azi12=None, **caps_name):  # PYCHOK signature
-        '''New C{rhumbx.RhumbLine}.
+        '''New C{RhumbLine}.
 
-           @arg rhumb: The rhumb reference (C{rhumbx.Rhumb}).
+           @arg rhumb: The rhumb reference (L{Rhumb}).
            @kwarg lat1: Latitude of the start point (C{degrees90}).
            @kwarg lon1: Longitude of the start point (C{degrees180}).
            @kwarg azi12: Azimuth of this rhumb line (compass C{degrees}).

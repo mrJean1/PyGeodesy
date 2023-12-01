@@ -12479,6 +12479,7 @@ pygeodesy.ellipsoids.Ellipsoid._c2f	pygeodesy.ellipsoids.Ellipsoid-class.html#_c
 pygeodesy.ellipsoids.Ellipsoid.auxConformal	pygeodesy.ellipsoids.Ellipsoid-class.html#auxConformal
 pygeodesy.named._NamedBase.toRepr	pygeodesy.named._NamedBase-class.html#toRepr
 pygeodesy.ellipsoids.Ellipsoid.radians2m	pygeodesy.ellipsoids.Ellipsoid-class.html#radians2m
+pygeodesy.ellipsoids.Ellipsoid.rhumbekx	pygeodesy.ellipsoids.Ellipsoid-class.html#rhumbekx
 pygeodesy.ellipsoids.Ellipsoid._geodsolve	pygeodesy.ellipsoids.Ellipsoid-class.html#_geodsolve
 pygeodesy.ellipsoids.Ellipsoid.Rgeometric	pygeodesy.ellipsoids.Ellipsoid-class.html#Rgeometric
 pygeodesy.ellipsoids.Ellipsoid.b2	pygeodesy.ellipsoids.Ellipsoid-class.html#b2
@@ -12590,7 +12591,6 @@ pygeodesy.ellipsoids.Ellipsoid.b_a	pygeodesy.ellipsoids.Ellipsoid-class.html#b_a
 pygeodesy.ellipsoids.Ellipsoid.es_tauf	pygeodesy.ellipsoids.Ellipsoid-class.html#es_tauf
 pygeodesy.ellipsoids.Ellipsoid.e22abs	pygeodesy.ellipsoids.Ellipsoid-class.html#e22abs
 pygeodesy.ellipsoids.Ellipsoid._Kseries	pygeodesy.ellipsoids.Ellipsoid-class.html#_Kseries
-pygeodesy.ellipsoids.Ellipsoid.rhumbex	pygeodesy.ellipsoids.Ellipsoid-class.html#rhumbex
 pygeodesy.ellipsoids.Ellipsoid.eccentricity3rd2	pygeodesy.ellipsoids.Ellipsoid-class.html#eccentricity3rd2
 pygeodesy.ellipsoids.Ellipsoid.Rlat	pygeodesy.ellipsoids.Ellipsoid-class.html#Rlat
 pygeodesy.ellipsoids.Ellipsoid.A	pygeodesy.ellipsoids.Ellipsoid-class.html#A
@@ -12668,6 +12668,7 @@ pygeodesy.ellipsoids.Ellipsoid.e	pygeodesy.ellipsoids.Ellipsoid-class.html#e
 pygeodesy.ellipsoids.Ellipsoid.auxConformal	pygeodesy.ellipsoids.Ellipsoid-class.html#auxConformal
 pygeodesy.named._NamedBase.toRepr	pygeodesy.named._NamedBase-class.html#toRepr
 pygeodesy.ellipsoids.Ellipsoid.A	pygeodesy.ellipsoids.Ellipsoid-class.html#A
+pygeodesy.ellipsoids.Ellipsoid._assert	pygeodesy.ellipsoids.Ellipsoid-class.html#_assert
 pygeodesy.ellipsoids.Ellipsoid._geodsolve	pygeodesy.ellipsoids.Ellipsoid-class.html#_geodsolve
 pygeodesy.ellipsoids.Ellipsoid.Rgeometric	pygeodesy.ellipsoids.Ellipsoid-class.html#Rgeometric
 pygeodesy.ellipsoids.Ellipsoid.b2	pygeodesy.ellipsoids.Ellipsoid-class.html#b2
@@ -12717,7 +12718,7 @@ pygeodesy.named._Named.classname	pygeodesy.named._Named-class.html#classname
 pygeodesy.named._Named._DOT_	pygeodesy.named._Named-class.html#_DOT_
 pygeodesy.named._Named.classof	pygeodesy.named._Named-class.html#classof
 pygeodesy.ellipsoids.Ellipsoid.equatoradius	pygeodesy.ellipsoids.Ellipsoid-class.html#equatoradius
-pygeodesy.ellipsoids.Ellipsoid._assert	pygeodesy.ellipsoids.Ellipsoid-class.html#_assert
+pygeodesy.ellipsoids.Ellipsoid.rhumbekx	pygeodesy.ellipsoids.Ellipsoid-class.html#rhumbekx
 pygeodesy.ellipsoids.Ellipsoid._elliptic_e12	pygeodesy.ellipsoids.Ellipsoid-class.html#_elliptic_e12
 pygeodesy.ellipsoids.Ellipsoid.rhumbx	pygeodesy.ellipsoids.Ellipsoid-class.html#rhumbx
 pygeodesy.ellipsoids.Ellipsoid.Requatorial	pygeodesy.ellipsoids.Ellipsoid-class.html#Requatorial
@@ -12778,7 +12779,6 @@ pygeodesy.ellipsoids.Ellipsoid.b_a	pygeodesy.ellipsoids.Ellipsoid-class.html#b_a
 pygeodesy.ellipsoids.Ellipsoid.es_tauf	pygeodesy.ellipsoids.Ellipsoid-class.html#es_tauf
 pygeodesy.ellipsoids.Ellipsoid.e22abs	pygeodesy.ellipsoids.Ellipsoid-class.html#e22abs
 pygeodesy.ellipsoids.Ellipsoid._Kseries	pygeodesy.ellipsoids.Ellipsoid-class.html#_Kseries
-pygeodesy.ellipsoids.Ellipsoid.rhumbex	pygeodesy.ellipsoids.Ellipsoid-class.html#rhumbex
 pygeodesy.ellipsoids.Ellipsoid.R2x	pygeodesy.ellipsoids.Ellipsoid-class.html#R2x
 pygeodesy.ellipsoids.Ellipsoid.Rlat	pygeodesy.ellipsoids.Ellipsoid-class.html#Rlat
 pygeodesy.ellipsoids.Ellipsoid.radians2m	pygeodesy.ellipsoids.Ellipsoid-class.html#radians2m

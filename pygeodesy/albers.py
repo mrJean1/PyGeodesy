@@ -38,7 +38,7 @@ from pygeodesy.utily import atan1, atan1d, degrees360, sincos2, sincos2d, \
 from math import atan2, atanh, degrees, fabs, radians, sqrt
 
 __all__ = _ALL_LAZY.albers
-__version__ = '23.09.29'
+__version__ = '23.12.01'
 
 _k1_    = 'k1'
 _NUMIT  =   8  # XXX 4?
@@ -760,7 +760,7 @@ def _atanheE(x, E):  # see Ellipsoid._es_atanh, .AuxLat._atanhee
     return x
 
 
-def _DatanheE(x, y, E):  # see .rhumbx._DeatanhE
+def _DatanheE(x, y, E):  # see .rhumb.ekx._DeatanhE
     '''(INTERNAL) Function M{Datanhee(x, y)}, defined as
        M{atanhee((x - y) / (1 - E.e^2 * x * y)) / (x - y)}.
     '''

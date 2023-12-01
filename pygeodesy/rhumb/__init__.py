@@ -4,7 +4,7 @@
 from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER, _lazy_import_as, _unLazy0
 
 __all__ = _ALL_LAZY.rhumb
-__version__ = '23.11.30'
+__version__ = '23.12.01'
 
 if _unLazy0:
     from pygeodesy.rhumb.aux import RhumbAux, RhumbLineAux

@@ -26,7 +26,7 @@ from pygeodesy.elliptic import Elliptic as _Ef,  Fsum
 from math import atan2, cos, sin, sqrt
 
 __all__ = ()
-__version__ = '23.09.26'
+__version__ = '23.12.01'
 
 
 class AuxDLat(AuxLat):
@@ -241,7 +241,7 @@ def _DClenshaw(sinp, Zeta1, Zeta2, cs, K):
     return r
 
 
-def _Dsin(x, y):  # see also .rhumbx._Dsin
+def _Dsin(x, y):  # see also .rhumb.ekx._Dsin
     r = cos((x + y) * _0_5)
     d =     (x - y) * _0_5
     if d:

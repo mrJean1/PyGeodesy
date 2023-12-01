@@ -53,7 +53,7 @@ from contextlib import contextmanager
 from math import asin, cos, degrees, fabs, radians
 
 __all__ = _ALL_LAZY.latlonBase
-__version__ = '23.11.15'
+__version__ = '23.12.01'
 
 
 class LatLonBase(_NamedBase):
@@ -1123,8 +1123,8 @@ class LatLonBase(_NamedBase):
             return _radii11ABC(*cs, useZ=True)[0]
 
     def _rhumb3(self, exact, radius):  # != .sphericalBase._rhumbs3
-        '''(INTERNAL) Get the C{rhumb} for this point's datum or for
-           the B{C{radius}}' earth model iff non-C{None}.
+        '''(INTERNAL) Get the C{rhumb} for this point's datum or for the B{C{radius}}'
+           earth model iff non-C{None}.
         '''
         try:
             d = self._rhumb3dict
@@ -1146,23 +1146,23 @@ class LatLonBase(_NamedBase):
         return {}  # single-item cache
 
     def rhumbAzimuthTo(self, other, exact=False, radius=None, wrap=False, b360=False):
-        '''Return the azimuth (bearing) of a rhumb line (loxodrome) between
-           this and an other (ellipsoidal) point.
+        '''Return the azimuth (bearing) of a rhumb line (loxodrome) between this
+           and an other (ellipsoidal) point.
 
            @arg other: The other point (C{LatLon}).
-           @kwarg exact: Exact C{Rhumb...} to use (C{bool} or C{Rhumb...}),
-                         see method L{Ellipsoid.rhumb_}.
-           @kwarg radius: Optional earth radius (C{meter}) or earth model
-                          (L{Datum}, L{Ellipsoid}, L{Ellipsoid2} or
-                          L{a_f2Tuple}), overriding this point's datum.
-           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the
-                        B{C{other}} point (C{bool}).
+           @kwarg exact: Exact C{Rhumb...} to use (C{bool} or C{Rhumb...}), see
+                         method L{Ellipsoid.rhumb_}.
+           @kwarg radius: Optional earth radius (C{meter}) or earth model (L{Datum},
+                          L{Ellipsoid}, L{Ellipsoid2} or L{a_f2Tuple}), overriding
+                          this point's datum.
+           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the B{C{other}}
+                        point (C{bool}).
            @kwarg b360: If C{True}, return the azimuth in the bearing range.
 
            @return: Rhumb azimuth (compass C{degrees180} or C{degrees360}).
 
-           @raise TypeError: The B{C{other}} point is incompatible or
-                             B{C{radius}} is invalid.
+           @raise TypeError: The B{C{other}} point is incompatible or B{C{radius}}
+                             is invalid.
         '''
         r, _, Cs = self._rhumb3(exact, radius)
         z = r._Inverse(self, other, wrap, outmask=Cs.AZIMUTH).azi12
@@ -1172,15 +1172,14 @@ class LatLonBase(_NamedBase):
         '''Return the destination point having travelled the given distance from
            this point along a rhumb line (loxodrome) of the given azimuth.
 
-           @arg distance: Distance travelled (C{meter}, same units as this
-                          point's datum (ellipsoid) axes or B{C{radius}},
-                          may be negative.
+           @arg distance: Distance travelled (C{meter}, same units as this point's
+                          datum (ellipsoid) axes or B{C{radius}}, may be negative.
            @arg azimuth: Azimuth (bearing) of the rhumb line (compass C{degrees}).
            @kwarg exact: Exact C{Rhumb...} to use (C{bool} or C{Rhumb...}), see
                          method L{Ellipsoid.rhumb_}.
-           @kwarg radius: Optional earth radius (C{meter}) or earth model
-                          (L{Datum}, L{Ellipsoid}, L{Ellipsoid2} or
-                          L{a_f2Tuple}), overriding this point's datum.
+           @kwarg radius: Optional earth radius (C{meter}) or earth model (L{Datum},
+                          L{Ellipsoid}, L{Ellipsoid2} or L{a_f2Tuple}), overriding
+                          this point's datum.
            @kwarg height: Optional height, overriding the default height (C{meter}).
 
            @return: The destination point (ellipsoidal C{LatLon}).
@@ -1196,23 +1195,23 @@ class LatLonBase(_NamedBase):
         return self.classof(d.lat2, d.lon2, datum=D, height=h)
 
     def rhumbDistanceTo(self, other, exact=False, radius=None, wrap=False):
-        '''Return the distance from this to an other point along
-           a rhumb line (loxodrome).
+        '''Return the distance from this to an other point along a rhumb line
+           (loxodrome).
 
            @arg other: The other point (C{LatLon}).
-           @kwarg exact: Exact C{Rhumb...} to use (C{bool} or C{Rhumb...}),
-                         see method L{Ellipsoid.rhumb_}.
-           @kwarg radius: Optional earth radius (C{meter}) or earth model
-                          (L{Datum}, L{Ellipsoid}, L{Ellipsoid2} or
-                          L{a_f2Tuple}), overriding this point's datum.
-           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the
-                        B{C{other}} point (C{bool}).
+           @kwarg exact: Exact C{Rhumb...} to use (C{bool} or C{Rhumb...}), see
+                         method L{Ellipsoid.rhumb_}.
+           @kwarg radius: Optional earth radius (C{meter}) or earth model (L{Datum},
+                          L{Ellipsoid}, L{Ellipsoid2} or L{a_f2Tuple}), overriding
+                          this point's datum.
+           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the B{C{other}}
+                        point (C{bool}).
 
-           @return: Distance (C{meter}, the same units as this point's
-                    datum (ellipsoid) axes or B{C{radius}}.
+           @return: Distance (C{meter}, the same units as this point's datum
+                    (ellipsoid) axes or B{C{radius}}.
 
-           @raise TypeError: The B{C{other}} point is incompatible or
-                             B{C{radius}} is invalid.
+           @raise TypeError: The B{C{other}} point is incompatible or B{C{radius}}
+                             is invalid.
 
            @raise ValueError: Invalid B{C{radius}}.
         '''
@@ -1289,7 +1288,7 @@ class LatLonBase(_NamedBase):
            @raise TypeError: Invalid B{C{radius}} or B{C{other}} not C{scalar} nor
                              this C{LatLon}.
 
-           @see: Modules L{rhumbaux} and L{rhumbx}.
+           @see: Modules L{rhumb.aux} and L{rhumb.ekx}.
         '''
         r, _, Cs = self._rhumb3(exact, radius)
         kwds = _xkwds(name_caps, name=self.name, caps=Cs.LINE_OFF)
@@ -1299,29 +1298,27 @@ class LatLonBase(_NamedBase):
 
     def rhumbMidpointTo(self, other, exact=False, radius=None,
                                      height=None, fraction=_0_5, wrap=False):
-        '''Return the (loxodromic) midpoint on the rhumb line between
-           this and an other point.
+        '''Return the (loxodromic) midpoint on the rhumb line between this and
+           an other point.
 
            @arg other: The other point (this C{LatLon}).
-           @kwarg exact: Exact C{Rhumb...} to use (C{bool} or C{Rhumb...}),
-                         see method L{Ellipsoid.rhumb_}.
-           @kwarg radius: Optional earth radius (C{meter}) or earth model
-                          (L{Datum}, L{Ellipsoid}, L{Ellipsoid2} or
-                          L{a_f2Tuple}), overriding this point's datum.
-           @kwarg height: Optional height, overriding the mean height
-                          (C{meter}).
-           @kwarg fraction: Midpoint location from this point (C{scalar}), 0
-                            for this, 1 for the B{C{other}}, 0.5 for halfway
-                            between this and the B{C{other}} point, may be
-                            negative or greater than 1.
-           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the
-                        B{C{other}} point (C{bool}).
+           @kwarg exact: Exact C{Rhumb...} to use (C{bool} or C{Rhumb...}), see
+                         method L{Ellipsoid.rhumb_}.
+           @kwarg radius: Optional earth radius (C{meter}) or earth model (L{Datum},
+                          L{Ellipsoid}, L{Ellipsoid2} or L{a_f2Tuple}), overriding
+                          this point's datum.
+           @kwarg height: Optional height, overriding the mean height (C{meter}).
+           @kwarg fraction: Midpoint location from this point (C{scalar}), 0 for this,
+                            1 for the B{C{other}}, 0.5 for halfway between this and
+                            the B{C{other}} point, may be negative or greater than 1.
+           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the B{C{other}}
+                        point (C{bool}).
 
-           @return: The midpoint at the given B{C{fraction}} along the
-                    rhumb line (this C{LatLon}).
+           @return: The midpoint at the given B{C{fraction}} along the rhumb line
+                    (this C{LatLon}).
 
-           @raise TypeError: The B{C{other}} point is incompatible or
-                             B{C{radius}} is invalid.
+           @raise TypeError: The B{C{other}} point is incompatible or B{C{radius}}
+                             is invalid.
 
            @raise ValueError: Invalid B{C{height}} or B{C{fraction}}.
         '''

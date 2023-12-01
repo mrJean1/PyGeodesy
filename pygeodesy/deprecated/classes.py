@@ -22,7 +22,7 @@ from pygeodesy.trf import Helmert7Tuple as _Helmert7Tuple
 from pygeodesy.units import Bearing, Int, Lat, Lon, Meter
 
 __all__ = _ALL_DEPRECATED.deprecated_classes
-__version__ = '23.11.24'
+__version__ = '23.12.01'
 
 
 class _Deprecated_NamedTuple(_NamedTuple):
@@ -200,7 +200,7 @@ class Rhumb7Tuple(_Deprecated_NamedTuple):
 
 
 class RhumbOrder2Tuple(_Deprecated_NamedTuple, _GTuple):
-    '''DEPRECATED, see deprecated method L{rhumbx.Rhumb.orders}.'''
+    '''DEPRECATED, see deprecated method L{Rhumb.orders}.'''
     # 2-Tuple C{(RAorder, TMorder)} with a I{Rhumb Area} and
     # I{Transverse Mercator} order, both C{int}.
     _Names_ = ('RAorder', 'TMorder')

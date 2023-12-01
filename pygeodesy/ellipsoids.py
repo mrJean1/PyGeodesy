@@ -92,7 +92,7 @@ from pygeodesy.utily import atan1, atan1d, atan2b, degrees90, m2radians, radians
 from math import asinh, atan, atanh, cos, degrees, exp, fabs, radians, sin, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '23.11.30'
+__version__ = '23.12.01'
 
 _f_0_0    = Float(f =_0_0)  # zero flattening
 _f__0_0   = Float(f_=_0_0)  # zero inverse flattening
@@ -826,7 +826,7 @@ class Ellipsoid(_NamedEnumItem):
 
     @Property_RO
     def _elliptic_e12(self):  # see I{Karney}'s Ellipsoid._e12
-        '''(INTERNAL) Elliptic helper for C{rhumbx.Rhumb}.
+        '''(INTERNAL) Elliptic helper for C{Rhumb}.
         '''
         e12 = self.e2 / (_1_0 - self.e2)  # NOT DEPRECATED .e12!
         return _MODS.elliptic.Elliptic(-e12)
@@ -1504,8 +1504,8 @@ class Ellipsoid(_NamedEnumItem):
         return _MODS.rhumb.aux.RhumbAux(self, name=self.name)
 
     @property_RO
-    def rhumbex(self):
-        '''Get this ellipsoid's I{Elliptic} C{rhumb.Rhumb}.
+    def rhumbekx(self):
+        '''Get this ellipsoid's I{Elliptic, Krüger} C{rhumb.Rhumb}.
         '''
         # if not self.isEllipsoidal:
         #     raise _IsnotError(_ellipsoidal_, ellipsoid=self)
@@ -1517,7 +1517,7 @@ class Ellipsoid(_NamedEnumItem):
         '''
         p = _MODS.rhumb
         Ellipsoid._Rhumbs = t = (p.aux.RhumbAux,  # overwrite property_RO
-                                 p.elliptic.Rhumb, p.solve.RhumbSolve)
+                                 p.ekx.Rhumb, p.solve.RhumbSolve)
         return t
 
     @property
@@ -1541,8 +1541,8 @@ class Ellipsoid(_NamedEnumItem):
 
     @deprecated_property_RO
     def rhumbx(self):
-        '''DEPRECATED on 2023.11.28, use property C{rhumbex}. '''
-        return self.rhumbex
+        '''DEPRECATED on 2023.11.28, use property C{rhumbekx}. '''
+        return self.rhumbekx
 
     def Rlat(self, lat):
         '''I{Approximate} the earth radius of (geodetic) latitude.

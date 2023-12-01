@@ -95,7 +95,7 @@ installed for most L{Geoid...<pygeodesy.geoids>} and L{Height...<pygeodesy.heigh
 except L{GeoidKarney} and the L{HeightIDW...<pygeodesy.heights>} ones.
 
 Functions and C{LatLon} methods L{circin6}, L{circum3}, L{circum4_}, L{soddy4}, L{trilaterate3d2} and
-C{trilaterate5} and modules L{auxilats} and L{rhumbaux} require U{numpy<https://PyPI.org/project/numpy>}.
+C{trilaterate5} and modules L{auxilats} and L{rhumb} require U{numpy<https://PyPI.org/project/numpy>}.
 
 Modules L{ellipsoidalGeodSolve} and L{geodsolve} and L{azimuthal} classes L{EquidistantGeodSolve}
 and L{GnomonicGeodSolve} depend on I{Karney}'s C++ utility U{GeodSolve
@@ -106,7 +106,7 @@ To compare C{MGRS} results from modules L{mgrs} and C{testMgrs} with I{Karney}'s
 U{GeoConvert<https://GeographicLib.SourceForge.io/C++/doc/GeoConvert.1.html>}, the latter must
 be executable and set with env variable C{PYGEODESY_GEOCONVERT}.
 
-Module L{rhumbsolve} needs I{Karney}'s C++ utility U{RhumbSolve
+Module L{rhumb.solve} needs I{Karney}'s C++ utility U{RhumbSolve
 <https://GeographicLib.SourceForge.io/C++/doc/RhumbSolve.1.html>} to be executable and set with
 env variable C{PYGEODESY_RHUMBSOLVE} or with property L{Ellipsoid.rhumbsolve}.
 
