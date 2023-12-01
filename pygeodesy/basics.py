@@ -16,9 +16,9 @@ del division
 
 from pygeodesy.errors import _AssertionError, _AttributeError, _ImportError, \
                              _TypeError, _TypesError, _ValueError, _xkwds_get
-from pygeodesy.interns import MISSING, NN, _1_, _by_, _COMMA_, _DOT_, _ELLIPSIS4_, \
-                             _enquote, _EQUAL_, _in_, _invalid_, _N_A_, _SPACE_, \
-                             _UNDER_, _version_  # _utf_8_
+from pygeodesy.interns import MISSING, NN, _1_, _by_, _COMMA_, _DOT_, _DEPRECATED_, \
+                             _ELLIPSIS4_, _enquote, _EQUAL_, _in_, _invalid_, _N_A_, \
+                             _SPACE_, _UNDER_, _version_  # _utf_8_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _FOR_DOCS, \
                              _getenv, _sys, _sys_version_info2
 
@@ -27,7 +27,7 @@ from math import copysign as _copysign
 import inspect as _inspect
 
 __all__ = _ALL_LAZY.basics
-__version__ = '23.10.15'
+__version__ = '23.11.21'
 
 _0_0                  =  0.0  # in .constants
 _below_               = 'below'
@@ -234,6 +234,16 @@ def iscomplex(obj):
         return False
 
 
+def isDEPRECATED(obj):
+    '''Return C{True} if C{B{obj}} is a C{DEPRECATED} class, method
+       or function, C{False} if not or C{None} if undetermined.
+    '''
+    try:  # XXX inspect.getdoc(obj)
+        return bool(obj.__doc__.lstrip().startswith(_DEPRECATED_))
+    except AttributeError:
+        return None
+
+
 def isfloat(obj):
     '''Check whether an object is a C{float} or float C{str}.
 
@@ -335,7 +345,7 @@ def islistuple(obj, minum=0):
        @return: C{True} if B{C{obj}} is C{list} or C{tuple} with
                 C{len} at least B{C{minum}}, C{False} otherwise.
     '''
-    return type(obj) in _list_tuple_types and len(obj) >= (minum or 0)
+    return isinstance(obj, _list_tuple_types) and len(obj) >= minum
 
 
 def isNvector(obj, ellipsoidal=None):
@@ -632,13 +642,17 @@ def unsigned0(x):
     return x if x else _0_0
 
 
-def _xargs_names(callabl):
-    '''(INTERNAL) Get the C{callabl}'s args names.
+def _xargs_kwds_names(func):
+    '''(INTERNAL) Get a C{func}'s args and kwds names, including
+       C{self} for methods.
+
+       @note: Python 2 does I{not} include the C{*args} nor the
+              C{**kwds} names.
     '''
     try:
-        args_kwds = _inspect.signature(callabl).parameters.keys()
+        args_kwds = _inspect.signature(func).parameters.keys()
     except AttributeError:  # .signature new Python 3+
-        args_kwds = _inspect.getargspec(callabl).args
+        args_kwds = _inspect.getargspec(func).args
     return tuple(args_kwds)
 
 

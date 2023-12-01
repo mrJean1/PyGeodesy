@@ -13,7 +13,8 @@ and L{ChLVe} and L{Ltp}, L{ChLV}, L{LocalError}, L{Attitude} and L{Frustum}.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import isscalar, issubclassof, map1, _xargs_names
+from pygeodesy.basics import isscalar, issubclassof, map1, map2, \
+                            _xargs_kwds_names
 from pygeodesy.constants import EPS, INT0, _umod_360, _0_0, _0_01, _0_5, _1_0, \
                                _2_0, _60_0, _90_0, _100_0, _180_0, _3600_0, \
                                _N_1_0  # PYCHOK used!
@@ -42,7 +43,7 @@ from pygeodesy.vector3d import _ALL_LAZY, Vector3d
 # from math import fabs, floor as _floor  # from .fmath, .fsums
 
 __all__ = _ALL_LAZY.ltp
-__version__ = '23.09.22'
+__version__ = '23.11.16'
 
 _height0_ = _height_ + _0_
 _narrow_  = 'narrow'
@@ -124,14 +125,17 @@ class Attitude(_NamedBase):
     def matrix(self):
         '''Get the 3x3 rotation matrix C{R(yaw)·R(tilt)·R(roll)}, aka I{ZYX} (C{float}, row-order).
 
-           @see: The matrix M of case 10 in U{Appendix A
+           @see: Matrix M of case 10 in U{Appendix A
                  <https://ntrs.NASA.gov/api/citations/19770019231/downloads/19770019231.pdf>}.
         '''
-        def _5to3(x, y, _y, z, _z):
-            return x, fsum1f_(y, _y), fsum1f_(z, _z)
-
-        r0, r1, r2 = self._rows3
-        return _5to3(*r0), _5to3(*r1), r2
+        _f = fsum1f_
+        # to follow the definitions of rotation angles alpha, beta and gamma:
+        # negate yaw since yaw is counter-clockwise around the z-axis, swap
+        # tilt and roll since tilt is around the x- and roll around the y-axis
+        sa, ca, sb, cb, sg, cg = sincos2d_(-self.yaw, self.roll, self.tilt)
+        return ((ca * cb, _f(ca * sb * sg, -sa * cg), _f(ca * sb * cg,  sa * sg)),
+                (sa * cb, _f(sa * sb * sg,  ca * cg), _f(sa * sb * cg, -ca * sg)),
+                (    -sb,         cb * sg,                    cb * cg))
 
     @property_doc_(' roll/bank in C{degrees180}, positive to the right and down.')
     def roll(self):
@@ -145,16 +149,6 @@ class Attitude(_NamedBase):
             self._roll = r
 
     bank = roll
-
-    @Property_RO
-    def _rows3(self):
-        # to follow the definitions of rotation angles alpha, beta and gamma:
-        # negate yaw since yaw is counter-clockwise around the z-axis, swap
-        # tilt and roll since tilt is around the x- and roll around the y-axis
-        sa, ca, sb, cb, sg, cg = sincos2d_(-self.yaw, self.roll, self.tilt)
-        return ((ca * cb,  ca * sb * sg, -sa * cg,  ca * sb * cg,  sa * sg),
-                (sa * cb,  sa * sb * sg,  ca * cg,  sa * sb * cg, -ca * sg),
-                (    -sb,       cb * sg,                 cb * cg))
 
     def rotate(self, x_xyz, y=None, z=None, Vector=None, **Vector_kwds):
         '''Transform a (local) cartesian by this attitude's matrix.
@@ -177,18 +171,15 @@ class Attitude(_NamedBase):
         '''
         try:
             try:
-                x, y, z = map( float, x_xyz.xyz)
+                xyz = map2(float, x_xyz.xyz)
             except AttributeError:
-                x, y, z = map1(float, x_xyz, y, z)
+                xyz = map1(float, x_xyz, y, z)
         except (TypeError, ValueError) as x:
             raise AttitudeError(x_xyz=x_xyz, y=y, z=z, cause=x)
 
-        X, Y, Z = self._rows3
-        X = fdot(X, x, y, y, z, z)
-        Y = fdot(Y, x, y, y, z, z)
-        Z = fdot(Z, x, y, z)
-        return Vector3Tuple(X, Y, Z, name=self.name) if Vector is None else \
-                     Vector(X, Y, Z, **_xkwds(Vector_kwds, name=self.name))
+        x, y, z = (fdot(r, *xyz) for r in self.matrix)
+        return Vector3Tuple(x, y, z, name=self.name) if Vector is None else \
+                     Vector(x, y, z, **_xkwds(Vector_kwds, name=self.name))
 
     @property_doc_(' tilt/pitch/elevation from horizontal in C{degrees180}, negative down.')
     def tilt(self):
@@ -224,7 +215,7 @@ class Attitude(_NamedBase):
         def _r2d(r):
             return fsumf_(_N_1_0, *r)
 
-        return Vector3d(*map(_r2d, self._rows3), name=tyr3d.__name__)
+        return Vector3d(*map(_r2d, self.matrix), name=tyr3d.__name__)
 
     @property_doc_(' yaw/bearing/heading in compass C{degrees360}, clockwise from North.')
     def yaw(self):
@@ -269,7 +260,7 @@ class Frustum(_NamedBase):
         self._h_2 = h = _fov_2(hfov=hfov)
         self._v_2 =     _fov_2(vfov=vfov)
 
-        self._tan_h_2 = tand(h, fov_2=h)
+        self._tan_h_2 = tand(h, hfov_2=h)
 
         if ltp:
             self._ltp = _xLtp(ltp)
@@ -319,9 +310,10 @@ class Frustum(_NamedBase):
         def _xyz5(b, xy5, z, ltp):
             # rotate (x, y)'s by bearing, clockwise
             s, c = sincos2d(b)
+            _f   = fsum1f_
             for x, y in xy5:
-                yield Xyz4Tuple(fsum1f_(x * c,  y * s),
-                                fsum1f_(y * c, -x * s), z, ltp)
+                yield Xyz4Tuple(_f(x * c,  y * s),
+                                _f(y * c, -x * s), z, ltp)
 
         try:
             a, t, y, r = alt_attitude.atyr
@@ -353,9 +345,10 @@ class Frustum(_NamedBase):
         if fabs(y) < EPS:
             y = _0_0
 
+        v, h, t = self._v_2, self._h_2, self._tan_h_2
         # center and corners, clockwise from upperleft, rolled
-        xy5 = ((x, y),) + _xy2(a, e - self._v_2,  self._h_2,  self._tan_h_2, r) \
-                        + _xy2(a, e + self._v_2, -self._h_2, -self._tan_h_2, r)  # swapped
+        xy5 = ((x, y),) + _xy2(a, e - v,  h,  t, r) \
+                        + _xy2(a, e + v, -h, -t, r)  # swapped
         # turn center and corners by yaw, clockwise
         p = self.ltp if ltp is None else ltp  # None OK
         return Footprint5Tuple(_xyz5(b, xy5, z, p))  # *_xyz5
@@ -415,11 +408,11 @@ class LocalCartesian(_NamedBase):
 
        @see: Class L{Ltp}.
     '''
-    _ecef      = EcefKarney(_WGS84)
-    _EcefClass = EcefKarney
-    _lon00     = INT0  # self.lon0
-    _t0        = None  # origin (..., lat0, lon0, height0, ...) L{Ecef9Tuple}
-    _9Tuple    = Local9Tuple
+    _ecef   = EcefKarney(_WGS84)
+    _Ecef   = EcefKarney
+    _lon00  = INT0  # self.lon0
+    _t0     = None  # origin (..., lat0, lon0, height0, ...) L{Ecef9Tuple}
+    _9Tuple = Local9Tuple
 
     def __init__(self, latlonh0=INT0, lon0=INT0, height0=INT0, ecef=None, name=NN, **lon00):
         '''New L{LocalCartesian} converter.
@@ -608,7 +601,7 @@ class LocalCartesian(_NamedBase):
             lat0, lon0, height0, n = _llhn4(latlonh0, lon0, height0, suffix=_0_,
                                             Error=LocalError, name=name or self.name)
             if ecef:  # PYCHOK no cover
-                _xinstanceof(self._EcefClass, ecef=ecef)
+                _xinstanceof(self._Ecef, ecef=ecef)
                 _update_all(self)
                 self._ecef = ecef
             elif self._t0:
@@ -667,7 +660,7 @@ class Ltp(LocalCartesian):
     '''A I{local tangent plan} (LTP), a sub-class of C{LocalCartesian} with
        (re-)configurable ECEF converter.
     '''
-    _EcefClass = _EcefBase
+    _Ecef = _EcefBase
 
     def __init__(self, latlonh0=INT0, lon0=INT0, height0=INT0, ecef=None, name=NN, **lon00):
         '''New C{Ltp}, see L{LocalCartesian.__init__} for more details.
@@ -721,11 +714,10 @@ class _ChLV(object):
     def _enh_n_h(self):
         '''(INTERNAL) Get C{ChLV*.reverse} args[1:4] names, I{once}.
         '''
-        t = _xargs_names(_ChLV.reverse)[1:4]
-        _ChLV._enh_n_h = t  # overwrite this property_RO
-        # assert _xargs_names( ChLV.reverse)[1:4] == t
-        # assert _xargs_names(ChLVa.reverse)[1:4] == t
-        # assert _xargs_names(ChLVe.reverse)[1:4] == t
+        _ChLV._enh_n_h = t = _xargs_kwds_names(_ChLV.reverse)[1:4]  # overwrite property_RO
+        # assert _xargs_kwds_names( ChLV.reverse)[1:4] == t
+        # assert _xargs_kwds_names(ChLVa.reverse)[1:4] == t
+        # assert _xargs_kwds_names(ChLVe.reverse)[1:4] == t
         return t
 
     def forward(self, latlonh, lon=None, height=0, M=None, name=NN):  # PYCHOK no cover
@@ -750,7 +742,7 @@ class _ChLV(object):
         notOverloaded(self, latlonh, lon=lon, height=height, M=M, name=name)
 
     def reverse(self, enh_, n=None, h_=0, M=None, **name):  # PYCHOK no cover
-        '''Convert I{Swiss} projection to WGS84 geodetic coordinates.  I{Must be overloaded}.
+        '''Convert I{Swiss} projection to WGS84 geodetic coordinates.
 
            @arg enh_: A Swiss projection (L{ChLV9Tuple}) or the C{scalar}, falsed I{Swiss E_LV95}
                      or I{y_LV03} easting (C{meter}).
@@ -839,7 +831,7 @@ class ChLV(_ChLV, Ltp):
 
     _ab_d =  0.36    # a, b units per degree, ...
     _ab_m =  1.0e-6  # ... per meter and ...
-    _ab_M = _1_0     # ... per 1,000 kilometer
+    _ab_M = _1_0     # ... per 1,000 Km or 1 Mm
     _s_d  = _3600_0  # arc-seconds per degree ...
     _s_ab = _s_d / _ab_d  # ... and per a, b unit
     _sLat =  169028.66  # Bern, Ch in ...

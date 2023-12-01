@@ -51,7 +51,7 @@ __all__ = ('coverage', 'GeodSolve', 'geographiclib',  # constants
            'RandomLatLon', 'TestsBase',  # classes
            'ios_ver', 'nix_ver', 'secs2str',  # functions
            'tilde', 'type2str', 'versions')
-__version__ = '23.09.14'
+__version__ = '23.11.25'
 
 try:
     geographiclib = basics._xgeographiclib(basics, 1, 50)
@@ -100,6 +100,7 @@ isPython2  = sys.version_info[0] == 2
 isPython3  = sys.version_info[0] == 3
 isPython35 = sys.version_info[:2] >= (3, 5)  # in .testCartesian
 isPython37 = sys.version_info[:2] >= (3, 7)  # in .run, .testLazy
+isPython39 = sys.version_info[:2] >= (3, 9)  # M1 arm64
 isWindows  = sys.platform[:3] == 'win'
 
 try:

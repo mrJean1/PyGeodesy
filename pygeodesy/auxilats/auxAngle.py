@@ -1,7 +1,7 @@
 
 # -*- coding: utf-8 -*-
 
-u'''(INTERNAL) Private I{Auxiliary} base classes, constants and functions.
+u'''(INTERNAL) I{Auxiliary} latitudes' base classes, constants and functions.
 
 Class L{AuxAngle} transcoded to Python from I{Karney}'s C++ class U{AuxAngle
 <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1AuxAngle.html>}
@@ -15,13 +15,13 @@ under the MIT/X11 License.  For more information, see the U{GeographicLib
 from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.auxilats.auxily import Aux, _Aux2Greek,  AuxError
-from pygeodesy.basics import _xinstanceof, _xkwds_get
-from pygeodesy.constants import EPS, INF, MAX, NAN, NINF, _0_0, _0_5, _1_0, \
+from pygeodesy.basics import _xinstanceof,  _xkwds_get
+from pygeodesy.constants import EPS, _INF_NAN_NINF, MAX, NAN, _0_0, _0_5, _1_0, \
                                _copysign_1_0, _over, _pos_self, isfinite, isnan
 # from pygeodesy.errors import AuxError, _xkwds_get  # from .auxily, .basics
 from pygeodesy.fmath import hypot,  unstr
-from pygeodesy.fsums import _add_op_, _isub_op_, _sub_op_,  _Named
-from pygeodesy.interns import NN, _iadd_op_  # _near_
+from pygeodesy.fsums import _add_op_, _isub_op_, _sub_op_,  _iadd_op_, _Named, NN
+# from pygeodesy.interns import NN, _iadd_op_  # from .fsums
 # from pygeodesy.named import _Named  # from .fsums
 from pygeodesy.lazily import _ALL_DOCS, _ALL_MODS as _MODS
 from pygeodesy.props import Property, Property_RO, property_RO, _update_all
@@ -32,11 +32,11 @@ from pygeodesy.utily import atan2d, sincos2, sincos2d
 from math import asinh, atan2, copysign, degrees, fabs, radians, sinh
 
 __all__ = ()
-__version__ = '23.08.23'
+__version__ = '23.11.26'
 
-_0_INF_NAN_NINF = 0, _0_0, INF, NAN, NINF  # _INF_NAN_NINF
-_MAX_2          = MAX * _0_5  # PYCHOK used!
-# del MAX
+_0_INF_NAN_NINF = (0, _0_0) + _INF_NAN_NINF
+_MAX_2          =  MAX * _0_5  # PYCHOK used!
+# del _INF_NAN_NINF, MAX
 
 
 class AuxAngle(_Named):
@@ -80,7 +80,7 @@ class AuxAngle(_Named):
             self.name = name
 
     def __abs__(self):
-        '''Return this angle' absolute value (L{AuxAngle}).
+        '''Return this angle's absolute value (L{AuxAngle}).
         '''
         a     = self._copy_2(self.__abs__)
         a._yx = map(fabs, self._yx)
@@ -215,7 +215,7 @@ class AuxAngle(_Named):
         return other._copy_2(which)
 
     def copyquadrant(self, other):
-        '''Copy the B{C{other}}'s quadrant into this angle (L{auxAngle}).
+        '''Copy an B{C{other}} angle's quadrant into this angle (L{auxAngle}).
         '''
         _xinstanceof(AuxAngle, other=other)
         self._yx = copysign(self.y, other.y), \
@@ -277,7 +277,7 @@ class AuxAngle(_Named):
     def _RhumbAux(self):
         '''(INTERNAL) Import the L{RhumbAux} class, I{once}.
         '''
-        AuxAngle._RhumbAux = R = _MODS.rhumbaux.RhumbAux  # overwrite property_RO
+        AuxAngle._RhumbAux = R = _MODS.rhumb.aux.RhumbAux  # overwrite property_RO
         return R
 
     @Property_RO
@@ -349,7 +349,7 @@ class AuxAngle(_Named):
         '''Set this angle's C{x} (C{float}).
         '''
         x = float(x)
-        if self.x != x:
+        if self._x != x:
             _update_all(self)
             self._x = x
 

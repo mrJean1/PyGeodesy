@@ -33,7 +33,7 @@ from pygeodesy.vector3d import Vector3d, _xyzhdn3
 # from math import sqrt  # from .fmath
 
 __all__ = _ALL_LAZY.cartesianBase
-__version__ = '23.10.29'
+__version__ = '23.11.18'
 
 
 class CartesianBase(Vector3d):
@@ -185,11 +185,12 @@ class CartesianBase(Vector3d):
             r = Cartesian(*r, **_xkwds(Cartesian_kwds, datum=self.datum))
         return r._xnamed(r) if self.name else r
 
-    @Property_RO
+    @property_RO
     def Ecef(self):
-        '''Get the ECEF I{class} (L{EcefKarney}), I{lazily}.
+        '''Get the ECEF I{class} (L{EcefKarney}), I{lazily, once}.
         '''
-        return _MODS.ecef.EcefKarney  # default
+        CartesianBase.Ecef = E = _MODS.ecef.EcefKarney  # overwrite property_RO
+        return E
 
     @Property_RO
     def _ecef9(self):
@@ -346,7 +347,7 @@ class CartesianBase(Vector3d):
         '''(INTERNAL) Get the n-vector components as L{Vector4Tuple}.
         '''
         def _ErrorEPS0(x):
-            return _ValueError(origin=self, txt=Fmt.PARENTSPACED(EPS0=x))
+            return _ValueError(origin=self, txt=Fmt.PARENSPACED(EPS0=x))
 
         _xinstanceof(Datum, datum=datum)
         # <https://www.Movable-Type.co.UK/scripts/geodesy/docs/

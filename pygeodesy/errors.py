@@ -21,7 +21,7 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _getenv, \
                              _pairs, _PYTHON_X_DEV
 
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')  _under
-__version__ = '23.08.30'
+__version__ = '23.11.30'
 
 _box_        = 'box'
 _default_    = 'default'
@@ -277,8 +277,8 @@ class RangeError(_ValueError):
 
 
 class RhumbError(_ValueError):
-    '''Error raised for L{pygeodesy.rhumbaux}, L{pygeodesy.rhumbsolve}
-       or L{pygeodesy.rhumbx} issues.
+    '''A L{pygeodesy.rhumb.aux}, L{pygeodesy.rhumb.ekx}
+       or L{pygeodesy.rhumb.solve} issue.
     '''
     pass
 

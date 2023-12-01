@@ -25,7 +25,7 @@ except ImportError:  # Python 2-
     _inf, _nan = float(_INF_), float(_NAN_)
 
 __all__ = _ALL_LAZY.constants
-__version__ = '23.10.19'
+__version__ = '23.11.21'
 
 
 def _copysign_0_0(y):
@@ -108,7 +108,7 @@ def _float0(f):  # in .resections, .vector3dBase, ...
         f =  float(f)
         f = _floats.get(f, f)
     elif f is not INT0:
-        f = _0_0
+        f =  float(f) or _0_0  # force None, NN error
     return f
 
 
@@ -396,7 +396,7 @@ def isnear90(x, eps90=EPS0):
        @arg x: Value (C{scalar}).
        @kwarg eps90: Near-I{90} tolerance (C{EPS0}).
 
-       @return: C{isnear0(B{x} - 90)}.
+       @return: C{isnear0(B{x} - 90, eps0=eps90)}.
 
        @see: Function L{isnear0}.
     '''

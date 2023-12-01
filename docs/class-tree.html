@@ -62,7 +62,7 @@
       <em class="summary">The most base type</em>
     <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.auxilats.auxDST.AuxDST-class.html">pygeodesy.auxilats.auxDST.AuxDST</a></strong>:
-      <em class="summary">Discrete Sine Transforms (DST) for <i>Auxiliary</i> Latitudes.</em>
+      <em class="summary">Discrete Sine Transforms (DST) for <i>Auxiliary</i> latitudes.</em>
     </li>
     <li> <strong class="uidlink">exceptions.BaseException</strong>:
       <em class="summary">Common base class for all exceptions</em>
@@ -122,7 +122,8 @@
         class="link">Attitude4Tuple</a> issue.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.errors.AuxError-class.html">pygeodesy.errors.AuxError</a></strong>:
-      <em class="summary">Error raised for an <a href="pygeodesy.rhumbaux-module.html" 
+      <em class="summary">Error raised for an <a 
+        href="pygeodesy.deprecated.rhumbaux-module.html" 
         class="link">rhumbaux</a> <code>Aux</code>, <code>AuxDLat</code> or
         <code>AuxLat</code> issue.</em>
     </li>
@@ -299,12 +300,12 @@
         <code>residual</code>, <i>integer</i> or otherwise.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.errors.RhumbError-class.html">pygeodesy.errors.RhumbError</a></strong>:
-      <em class="summary">Error raised for <a href="pygeodesy.rhumbaux-module.html" 
-        class="link">pygeodesy.rhumbaux</a>, <a 
-        href="pygeodesy.rhumbsolve-module.html" 
-        class="link">pygeodesy.rhumbsolve</a> or <a 
-        href="pygeodesy.rhumbx-module.html" 
-        class="link">pygeodesy.rhumbx</a> issues.</em>
+      <em class="summary">A <a href="pygeodesy.rhumb.aux-module.html" class="link" 
+        onclick="show_private();">pygeodesy.rhumb.aux</a>, <a 
+        href="pygeodesy.rhumb.ekx-module.html" class="link" 
+        onclick="show_private();">pygeodesy.rhumb.ekx</a> or <a 
+        href="pygeodesy.rhumb.solve-module.html" class="link" 
+        onclick="show_private();">pygeodesy.rhumb.solve</a> issue.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.errors.TRFError-class.html">pygeodesy.errors.TRFError</a></strong>:
       <em class="summary">Terrestrial Reference Frame (TRF), <a 
@@ -346,8 +347,8 @@
         <code>*Nvector</code> issues.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.VincentyError-class.html">pygeodesy.ellipsoidalVincenty.VincentyError</a></strong>:
-      <em class="summary">Error raised from <i>Vincenty</i>'s <code>direct</code> and 
-        <code>inverse</code> methods for coincident points or lack of 
+      <em class="summary">Error raised by <i>Vincenty</i>'s <code>Direct</code> and 
+        <code>Inverse</code> methods for coincident points or lack of 
         convergence.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.wgrs.WGRSError-class.html">pygeodesy.wgrs.WGRSError</a></strong>:
@@ -563,16 +564,16 @@
       <em class="summary">A <i>Conformal, Auxiliary</i> latitude.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.auxilats.auxLat.AuxLat-class.html">pygeodesy.auxilats.auxLat.AuxLat</a></strong>:
-      <em class="summary">Accurate conversion between <i>Auxiliary</i> latitudes on an 
-        ellipsoid.</em>
+      <em class="summary">Base class for accurate conversion between <i>Auxiliary</i> 
+        latitudes on an ellipsoid.</em>
     <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.auxilats.auxDLat.AuxDLat-class.html">pygeodesy.auxilats.auxDLat.AuxDLat</a></strong>:
       <em class="summary">Class to compute <code>Divided Differences</code> of 
         <i>Auxiliary</i> latitudes and other <code>Divided 
         Differences</code> needed for <a 
-        href="pygeodesy.rhumbaux.RhumbAux-class.html" 
+        href="pygeodesy.rhumb.aux.RhumbAux-class.html" 
         class="link">RhumbAux</a> and <a 
-        href="pygeodesy.rhumbaux.RhumbLineAux-class.html" 
+        href="pygeodesy.rhumb.aux.RhumbLineAux-class.html" 
         class="link">RhumbLineAux</a> calculations.</em>
     </li>
     </ul>
@@ -1266,14 +1267,6 @@
         initial and final bearing (azimuths) between two given points or 
         the destination point given a start point and an (initial) bearing.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html">pygeodesy.ellipsoidalVincenty.LatLon</a></strong>:
-      <em class="summary">Using the formulae devised by <a 
-        href="https://WikiPedia.org/wiki/Vincenty's_formulae" 
-        target="_top"><i>Thaddeus Vincenty (1975)</i></a> for an (oblate) 
-        ellipsoidal model of the earth to compute the geodesic distance and
-        bearings between two given points or the destination point given an
-        start point and (initial) bearing.</em>
-    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.LatLon-class.html">pygeodesy.ellipsoidalKarney.LatLon</a></strong>:
       <em class="summary">An ellipsoidal <a 
         href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
@@ -1286,9 +1279,22 @@
         initial and final bearing (azimuths) between two given points or 
         the destination point given a start point and an (initial) bearing.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html">pygeodesy.ellipsoidalVincenty.LatLon</a></strong>:
+      <em class="summary">Using the formulae devised by <a 
+        href="https://WikiPedia.org/wiki/Vincenty's_formulae" 
+        target="_top"><i>Thaddeus Vincenty (1975)</i></a> for an (oblate) 
+        ellipsoidal model of the earth to compute the geodesic distance and
+        bearings between two given points or the destination point given an
+        start point and (initial) bearing.</em>
+    </li>
     </ul>
     </li>
     </ul>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.bases.LatLonHeightBase-class.html">pygeodesy.deprecated.bases.LatLonHeightBase</a></strong>:
+      <em class="summary">'DEPRECATED on 2021.02.10, use (INTERNAL) class <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html" 
+        class="link">pygeodesy.latlonBase.LatLonBase</a>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.nvectorBase.LatLonNvectorBase-class.html">pygeodesy.nvectorBase.LatLonNvectorBase</a></strong>:
       <em class="summary">(INTERNAL) Base class for n-vector-based ellipsoidal and spherical 
@@ -1440,9 +1446,8 @@
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalNvector.Cartesian-class.html">pygeodesy.ellipsoidalNvector.Cartesian</a></strong>:
       <em class="summary">Extended to convert geocentric, <a 
         href="pygeodesy.ellipsoidalNvector.Cartesian-class.html" 
-        class="link">Cartesian</a> points to <a 
-        href="pygeodesy.ellipsoidalNvector.Nvector-class.html" 
-        class="link">Nvector</a> and n-vector-based, geodetic <a 
+        class="link">Cartesian</a> points to <code>Nvector</code> and 
+        n-vector-based, geodetic <a 
         href="pygeodesy.ellipsoidalNvector.LatLon-class.html" 
         class="link">LatLon</a>.</em>
     </li>
@@ -1461,9 +1466,8 @@
     <li> <strong class="uidlink"><a href="pygeodesy.sphericalNvector.Cartesian-class.html">pygeodesy.sphericalNvector.Cartesian</a></strong>:
       <em class="summary">Extended to convert geocentric, <a 
         href="pygeodesy.sphericalNvector.Cartesian-class.html" 
-        class="link">Cartesian</a> points to <a 
-        href="pygeodesy.sphericalNvector.Nvector-class.html" 
-        class="link">Nvector</a> and n-vector-based, spherical <a 
+        class="link">Cartesian</a> points to <code>Nvector</code> and 
+        n-vector-based, spherical <a 
         href="pygeodesy.sphericalNvector.LatLon-class.html" 
         class="link">LatLon</a>.</em>
     </li>
@@ -1481,11 +1485,6 @@
     <li> <strong class="uidlink"><a href="pygeodesy.nvectorBase.NvectorBase-class.html">pygeodesy.nvectorBase.NvectorBase</a></strong>:
       <em class="summary">Base class for ellipsoidal and spherical <code>Nvector</code>s.</em>
     <ul>
-    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.nvector.Nvector-class.html">pygeodesy.deprecated.nvector.Nvector</a></strong>:
-      <em class="summary">DEPRECATED, see class <a 
-        href="pygeodesy.nvectorBase.NvectorBase-class.html" 
-        class="link">NvectorBase</a>.</em>
-    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalNvector.Nvector-class.html">pygeodesy.ellipsoidalNvector.Nvector</a></strong>:
       <em class="summary">An n-vector is a position representation using a (unit) vector 
         normal to the earth ellipsoid.</em>
@@ -1493,6 +1492,11 @@
     <li> <strong class="uidlink"><a href="pygeodesy.sphericalNvector.Nvector-class.html">pygeodesy.sphericalNvector.Nvector</a></strong>:
       <em class="summary">An n-vector is a position representation using a (unit) vector 
         normal to the earth's surface.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.nvector.Nvector-class.html">pygeodesy.deprecated.nvector.Nvector</a></strong>:
+      <em class="summary">DEPRECATED on 2021.05.20, see (INTERNAL) class <a 
+        href="pygeodesy.nvectorBase.NvectorBase-class.html" 
+        class="link">pygeodesy.nvectorBase.NvectorBase</a>.</em>
     </li>
     </ul>
     </li>
@@ -1701,29 +1705,29 @@
     <li> <strong class="uidlink"><a href="pygeodesy.karney._CapsBase-class.html">pygeodesy.karney._CapsBase</a></strong>:
       <em class="summary">(INTERNAL) Base class for <code>[_]Geodesic*Exact</code>.</em>
     <ul>
-    <li> <strong class="uidlink"><a href="pygeodesy.rhumbBase.RhumbBase-class.html">pygeodesy.rhumbBase.RhumbBase</a></strong>:
+    <li> <strong class="uidlink"><a href="pygeodesy.rhumb.bases.RhumbBase-class.html">pygeodesy.rhumb.bases.RhumbBase</a></strong>:
       <em class="summary">(INTERNAL) Base class for <code>rhumbaux.RhumbAux</code> and 
         <code>rhumbx.Rhumb</code>.</em>
     <ul>
-    <li> <strong class="uidlink"><a href="pygeodesy.rhumbx.Rhumb-class.html">pygeodesy.rhumbx.Rhumb</a></strong>:
+    <li> <strong class="uidlink"><a href="pygeodesy.rhumb.ekx.Rhumb-class.html">pygeodesy.rhumb.ekx.Rhumb</a></strong>:
       <em class="summary">Class to solve the <i>direct</i> and <i>inverse rhumb</i> problems,
-        based on <i>elliptic functions</i> or <i>Kr&#252;ger</i> series 
+        based on <i>elliptic functions</i> or <i>Kr&#252;ger series</i> 
         expansion.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.rhumbaux.RhumbAux-class.html">pygeodesy.rhumbaux.RhumbAux</a></strong>:
+    <li> <strong class="uidlink"><a href="pygeodesy.rhumb.aux.RhumbAux-class.html">pygeodesy.rhumb.aux.RhumbAux</a></strong>:
       <em class="summary">Class to solve the <i>direct</i> and <i>inverse rhumb</i> problems,
         based on <i>Auxiliary Latitudes</i> for accuracy near the poles.</em>
     </li>
     </ul>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.rhumbBase.RhumbLineBase-class.html">pygeodesy.rhumbBase.RhumbLineBase</a></strong>:
+    <li> <strong class="uidlink"><a href="pygeodesy.rhumb.bases.RhumbLineBase-class.html">pygeodesy.rhumb.bases.RhumbLineBase</a></strong>:
       <em class="summary">(INTERNAL) Base class for <code>rhumbaux.RhumbLineAux</code> and 
         <code>rhumbx.RhumbLine</code>.</em>
     <ul>
-    <li> <strong class="uidlink"><a href="pygeodesy.rhumbx.RhumbLine-class.html">pygeodesy.rhumbx.RhumbLine</a></strong>:
+    <li> <strong class="uidlink"><a href="pygeodesy.rhumb.ekx.RhumbLine-class.html">pygeodesy.rhumb.ekx.RhumbLine</a></strong>:
       <em class="summary">Compute one or several points on a single rhumb line.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.rhumbaux.RhumbLineAux-class.html">pygeodesy.rhumbaux.RhumbLineAux</a></strong>:
+    <li> <strong class="uidlink"><a href="pygeodesy.rhumb.aux.RhumbLineAux-class.html">pygeodesy.rhumb.aux.RhumbLineAux</a></strong>:
       <em class="summary">Compute one or several points on a single rhumb line.</em>
     </li>
     </ul>
@@ -1789,27 +1793,29 @@
     </li>
     </ul>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.rhumbsolve._RhumbSolveBase-class.html">pygeodesy.rhumbsolve._RhumbSolveBase</a></strong>:
+    <li> <strong class="uidlink"><a href="pygeodesy.rhumb.solve._RhumbSolveBase-class.html">pygeodesy.rhumb.solve._RhumbSolveBase</a></strong>:
       <em class="summary">(INTERNAL) Base class for <a 
-        href="pygeodesy.rhumbsolve._RhumbSolveBase-class.html#RhumbSolve" 
+        href="pygeodesy.rhumb.solve._RhumbSolveBase-class.html#RhumbSolve" 
         class="link">RhumbSolve</a> and <a 
-        href="pygeodesy.rhumbsolve.RhumbLineSolve-class.html" 
+        href="pygeodesy.rhumb.solve.RhumbLineSolve-class.html" 
         class="link">RhumbLineSolve</a>.</em>
     <ul>
-    <li> <strong class="uidlink"><a href="pygeodesy.rhumbsolve.RhumbLineSolve-class.html">pygeodesy.rhumbsolve.RhumbLineSolve</a></strong>:
-      <em class="summary">Wrapper to invoke <i>Karney</i>'s <a 
-        href="https://GeographicLib.SourceForge.io/C++/doc/RhumbSolve.1.html"
-        target="_top">RhumbSolve</a>, the <code>Exact</code> version of 
-        class <a href="pygeodesy.rhumbx.RhumbLine-class.html" 
-        class="link">pygeodesy.RhumbLine</a>.</em>
-    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.rhumbsolve.RhumbSolve-class.html">pygeodesy.rhumbsolve.RhumbSolve</a></strong>:
+    <li> <strong class="uidlink"><a href="pygeodesy.rhumb.solve.RhumbLineSolve-class.html">pygeodesy.rhumb.solve.RhumbLineSolve</a></strong>:
       <em class="summary">Wrapper to invoke <i>Karney</i>'s <a 
         href="https://GeographicLib.SourceForge.io/C++/doc/RhumbSolve.1.html"
         target="_top">RhumbSolve</a> like a class, similar to <a 
-        href="pygeodesy.rhumbx.Rhumb-class.html" 
+        href="pygeodesy.rhumb.ekx.RhumbLine-class.html" 
+        class="link">pygeodesy.RhumbLine</a> and <a 
+        href="pygeodesy.rhumb.aux.RhumbLineAux-class.html" 
+        class="link">pygeodesy.RhumbLineAux</a>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.rhumb.solve.RhumbSolve-class.html">pygeodesy.rhumb.solve.RhumbSolve</a></strong>:
+      <em class="summary">Wrapper to invoke <i>Karney</i>'s <a 
+        href="https://GeographicLib.SourceForge.io/C++/doc/RhumbSolve.1.html"
+        target="_top">RhumbSolve</a> like a class, similar to <a 
+        href="pygeodesy.rhumb.ekx.Rhumb-class.html" 
         class="link">pygeodesy.Rhumb</a> and <a 
-        href="pygeodesy.rhumbaux.RhumbAux-class.html" 
+        href="pygeodesy.rhumb.aux.RhumbAux-class.html" 
         class="link">pygeodesy.RhumbAux</a>.</em>
     </li>
     </ul>
@@ -1828,12 +1834,14 @@
         href="https://GeographicLib.SourceForge.io/C++/doc/python/code.html#geographiclib.geodesicline.GeodesicLine"
         target="_top">GeodesicLine</a>.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.rhumbsolve.RhumbLineSolve-class.html">pygeodesy.rhumbsolve.RhumbLineSolve</a></strong>:
+    <li> <strong class="uidlink"><a href="pygeodesy.rhumb.solve.RhumbLineSolve-class.html">pygeodesy.rhumb.solve.RhumbLineSolve</a></strong>:
       <em class="summary">Wrapper to invoke <i>Karney</i>'s <a 
         href="https://GeographicLib.SourceForge.io/C++/doc/RhumbSolve.1.html"
-        target="_top">RhumbSolve</a>, the <code>Exact</code> version of 
-        class <a href="pygeodesy.rhumbx.RhumbLine-class.html" 
-        class="link">pygeodesy.RhumbLine</a>.</em>
+        target="_top">RhumbSolve</a> like a class, similar to <a 
+        href="pygeodesy.rhumb.ekx.RhumbLine-class.html" 
+        class="link">pygeodesy.RhumbLine</a> and <a 
+        href="pygeodesy.rhumb.aux.RhumbLineAux-class.html" 
+        class="link">pygeodesy.RhumbLineAux</a>.</em>
     </li>
     </ul>
     </li>
@@ -2614,13 +2622,13 @@
       <em class="summary">4-Tuple <code>(x, y, z, ltp)</code>, all in <code>meter</code> 
         except <code>ltp</code>.</em>
     </li>
-    <li> <strong class="uidlink">pygeodesy.deprecated.classes._Deprecated_NamedTuple</strong>:
+    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.classes._Deprecated_NamedTuple-class.html">pygeodesy.deprecated.classes._Deprecated_NamedTuple</a></strong>:
       <em class="summary">DEPRECATED, <code>_NamedTuple</code> base.</em>
     <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.deprecated.classes.ClipCS3Tuple-class.html">pygeodesy.deprecated.classes.ClipCS3Tuple</a></strong>:
       <em class="summary">DEPRECATED, see <i>DEPRECATED</i> function <a 
         href="pygeodesy.deprecated.functions-module.html#clipCS3" 
-        class="link">pygeodesy.clipCS3</a>.</em>
+        class="link">pygeodesy.deprecated.clipCS3</a>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.deprecated.classes.EasNorExact4Tuple-class.html">pygeodesy.deprecated.classes.EasNorExact4Tuple</a></strong>:
       <em class="summary">DEPRECATED, use class <a 
@@ -2635,10 +2643,10 @@
         <code>convergence</code>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.deprecated.classes.NearestOn4Tuple-class.html">pygeodesy.deprecated.classes.NearestOn4Tuple</a></strong>:
-      <em class="summary">DEPRECATED on 23.10.10, see methods <a 
-        href="pygeodesy.rhumbBase.RhumbLineBase-class.html#nearestOn4" 
+      <em class="summary">DEPRECATED on 2023.10.10, see methods <a 
+        href="pygeodesy.rhumb.bases.RhumbLineBase-class.html#nearestOn4" 
         class="link">RhumbLine.nearestOn4</a> and <a 
-        href="pygeodesy.rhumbBase.RhumbLineBase-class.html#nearestOn4" 
+        href="pygeodesy.rhumb.bases.RhumbLineBase-class.html#nearestOn4" 
         class="link">RhumbLineAux.nearestOn4</a>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.deprecated.classes.Ned3Tuple-class.html">pygeodesy.deprecated.classes.Ned3Tuple</a></strong>:
@@ -2651,6 +2659,11 @@
         href="pygeodesy.karney.Rhumb8Tuple-class.html" 
         class="link">Rhumb8Tuple</a>, ignoring item <code>a12</code>.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.classes.RhumbOrder2Tuple-class.html">pygeodesy.deprecated.classes.RhumbOrder2Tuple</a></strong>:
+      <em class="summary">DEPRECATED, see deprecated method <a 
+        href="pygeodesy.rhumb.ekx.Rhumb-class.html#orders" 
+        class="link">rhumbx.Rhumb.orders</a>.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.deprecated.classes.Transform7Tuple-class.html">pygeodesy.deprecated.classes.Transform7Tuple</a></strong>:
       <em class="summary">DEPRECATED, use class <a 
         href="pygeodesy.trf.Helmert7Tuple-class.html" class="link" 
@@ -2658,7 +2671,7 @@
         arguments.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.deprecated.classes.TriAngle4Tuple-class.html">pygeodesy.deprecated.classes.TriAngle4Tuple</a></strong>:
-      <em class="summary">DEPRECATED on 23.09.14, use class <a 
+      <em class="summary">DEPRECATED on 2023.09.14, use class <a 
         href="pygeodesy.resections.TriAngle5Tuple-class.html" 
         class="link">TriAngle5Tuple</a>, ignoring item <code>area</code>.</em>
     </li>
@@ -2713,7 +2726,7 @@
         the area <code>S12</code> under the rhumb line and the angular 
         distance <code>a12</code> between both points.</em>
     <ul>
-    <li> <strong class="uidlink"><a href="pygeodesy.rhumbsolve.RhumbSolve7Tuple-class.html">pygeodesy.rhumbsolve.RhumbSolve7Tuple</a></strong>:
+    <li> <strong class="uidlink"><a href="pygeodesy.rhumb.solve.RhumbSolve7Tuple-class.html">pygeodesy.rhumb.solve.RhumbSolve7Tuple</a></strong>:
       <em class="summary">7-Tuple <code>(lat1, lon1, lat2, lon2, azi12, s12, S12)</code> with
         lat- <code>lat1</code>, <code>lat2</code> and longitudes 
         <code>lon1</code>, <code>lon2</code> of both points, the azimuth of
@@ -2723,10 +2736,10 @@
     </li>
     </ul>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.rhumbx.RhumbOrder2Tuple-class.html">pygeodesy.rhumbx.RhumbOrder2Tuple</a></strong>:
-      <em class="summary">2-Tuple <code>(RAorder, TMorder)</code> with a <i>Rhumb Area</i> 
-        and <i>Transverse Mercator</i> order, both <code>int</code>, 
-        DEPRECATED.</em>
+    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.classes.RhumbOrder2Tuple-class.html">pygeodesy.deprecated.classes.RhumbOrder2Tuple</a></strong>:
+      <em class="summary">DEPRECATED, see deprecated method <a 
+        href="pygeodesy.rhumb.ekx.Rhumb-class.html#orders" 
+        class="link">rhumbx.Rhumb.orders</a>.</em>
     </li>
     </ul>
     </li>
@@ -3935,13 +3948,13 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
       <em class="summary">4-Tuple <code>(x, y, z, ltp)</code>, all in <code>meter</code> 
         except <code>ltp</code>.</em>
     </li>
-    <li> <strong class="uidlink">pygeodesy.deprecated.classes._Deprecated_NamedTuple</strong>:
+    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.classes._Deprecated_NamedTuple-class.html">pygeodesy.deprecated.classes._Deprecated_NamedTuple</a></strong>:
       <em class="summary">DEPRECATED, <code>_NamedTuple</code> base.</em>
     <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.deprecated.classes.ClipCS3Tuple-class.html">pygeodesy.deprecated.classes.ClipCS3Tuple</a></strong>:
       <em class="summary">DEPRECATED, see <i>DEPRECATED</i> function <a 
         href="pygeodesy.deprecated.functions-module.html#clipCS3" 
-        class="link">pygeodesy.clipCS3</a>.</em>
+        class="link">pygeodesy.deprecated.clipCS3</a>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.deprecated.classes.EasNorExact4Tuple-class.html">pygeodesy.deprecated.classes.EasNorExact4Tuple</a></strong>:
       <em class="summary">DEPRECATED, use class <a 
@@ -3956,10 +3969,10 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
         <code>convergence</code>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.deprecated.classes.NearestOn4Tuple-class.html">pygeodesy.deprecated.classes.NearestOn4Tuple</a></strong>:
-      <em class="summary">DEPRECATED on 23.10.10, see methods <a 
-        href="pygeodesy.rhumbBase.RhumbLineBase-class.html#nearestOn4" 
+      <em class="summary">DEPRECATED on 2023.10.10, see methods <a 
+        href="pygeodesy.rhumb.bases.RhumbLineBase-class.html#nearestOn4" 
         class="link">RhumbLine.nearestOn4</a> and <a 
-        href="pygeodesy.rhumbBase.RhumbLineBase-class.html#nearestOn4" 
+        href="pygeodesy.rhumb.bases.RhumbLineBase-class.html#nearestOn4" 
         class="link">RhumbLineAux.nearestOn4</a>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.deprecated.classes.Ned3Tuple-class.html">pygeodesy.deprecated.classes.Ned3Tuple</a></strong>:
@@ -3972,6 +3985,11 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
         href="pygeodesy.karney.Rhumb8Tuple-class.html" 
         class="link">Rhumb8Tuple</a>, ignoring item <code>a12</code>.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.classes.RhumbOrder2Tuple-class.html">pygeodesy.deprecated.classes.RhumbOrder2Tuple</a></strong>:
+      <em class="summary">DEPRECATED, see deprecated method <a 
+        href="pygeodesy.rhumb.ekx.Rhumb-class.html#orders" 
+        class="link">rhumbx.Rhumb.orders</a>.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.deprecated.classes.Transform7Tuple-class.html">pygeodesy.deprecated.classes.Transform7Tuple</a></strong>:
       <em class="summary">DEPRECATED, use class <a 
         href="pygeodesy.trf.Helmert7Tuple-class.html" class="link" 
@@ -3979,7 +3997,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
         arguments.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.deprecated.classes.TriAngle4Tuple-class.html">pygeodesy.deprecated.classes.TriAngle4Tuple</a></strong>:
-      <em class="summary">DEPRECATED on 23.09.14, use class <a 
+      <em class="summary">DEPRECATED on 2023.09.14, use class <a 
         href="pygeodesy.resections.TriAngle5Tuple-class.html" 
         class="link">TriAngle5Tuple</a>, ignoring item <code>area</code>.</em>
     </li>
@@ -4034,7 +4052,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
         the area <code>S12</code> under the rhumb line and the angular 
         distance <code>a12</code> between both points.</em>
     <ul>
-    <li> <strong class="uidlink"><a href="pygeodesy.rhumbsolve.RhumbSolve7Tuple-class.html">pygeodesy.rhumbsolve.RhumbSolve7Tuple</a></strong>:
+    <li> <strong class="uidlink"><a href="pygeodesy.rhumb.solve.RhumbSolve7Tuple-class.html">pygeodesy.rhumb.solve.RhumbSolve7Tuple</a></strong>:
       <em class="summary">7-Tuple <code>(lat1, lon1, lat2, lon2, azi12, s12, S12)</code> with
         lat- <code>lat1</code>, <code>lat2</code> and longitudes 
         <code>lon1</code>, <code>lon2</code> of both points, the azimuth of
@@ -4044,10 +4062,10 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
     </li>
     </ul>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.rhumbx.RhumbOrder2Tuple-class.html">pygeodesy.rhumbx.RhumbOrder2Tuple</a></strong>:
-      <em class="summary">2-Tuple <code>(RAorder, TMorder)</code> with a <i>Rhumb Area</i> 
-        and <i>Transverse Mercator</i> order, both <code>int</code>, 
-        DEPRECATED.</em>
+    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.classes.RhumbOrder2Tuple-class.html">pygeodesy.deprecated.classes.RhumbOrder2Tuple</a></strong>:
+      <em class="summary">DEPRECATED, see deprecated method <a 
+        href="pygeodesy.rhumb.ekx.Rhumb-class.html#orders" 
+        class="link">rhumbx.Rhumb.orders</a>.</em>
     </li>
     </ul>
     </li>
@@ -4133,7 +4151,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Nov 12 13:03:52 2023
+    Generated by Epydoc 3.0.1 on Thu Nov 30 19:49:04 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

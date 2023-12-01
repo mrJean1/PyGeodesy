@@ -1,21 +1,21 @@
 
 # -*- coding: utf-8 -*-
 
-u'''DEPRECATED, use module L{datums} or L{ellipsoids} instead.
+u'''DEPRECATED on 2022.09.12, use module L{pygeodesy.datums} or L{pygeodesy.ellipsoids} instead.
 '''
+
 # XXX only the items previously public
 from pygeodesy.constants import R_M, R_MA, R_MB, R_KM, R_NM, R_SM, R_FM, R_VM
-from pygeodesy.ellipsoids import Ellipsoid, Ellipsoids, Curvature2Tuple  # PYCHOK exported
 from pygeodesy.datums import Datum, Datums, Transform, Transforms
-# from pygeodesy.props import _deprecated_module
+from pygeodesy.ellipsoids import Ellipsoid, Ellipsoids, Curvature2Tuple
+from pygeodesy.lazily import _ALL_DEPRECATED, _ALL_OTHER
 
-__all__ = (R_M.name,  R_MA.name, R_MB.name,
-           R_KM.name, R_NM.name, R_SM.name, R_FM.name, R_VM.name,
-           Datum.__name__, Ellipsoid.__name__, Transform.__name__, Curvature2Tuple.__name__,
-           Datums.name,    Ellipsoids.name,    Transforms.name)
-__version__ = '22.09.12'
+__all__ = _ALL_DEPRECATED.deprecated_datum
+__version__ = '23.11.26'
 
-# _deprecated_module(__name__)
+assert _ALL_OTHER(Curvature2Tuple, Datum,  Ellipsoid,  Transform) + \
+            tuple(_.name for _ in (Datums, Ellipsoids, Transforms,
+                    R_M, R_MA, R_MB, R_KM, R_NM, R_SM, R_FM, R_VM)) == __all__
 
 # **) MIT License
 #

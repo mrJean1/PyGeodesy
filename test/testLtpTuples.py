@@ -4,7 +4,7 @@
 # Test L{ltpTuples} I{local tangent plane} classes, tuples and conversions.
 
 __all__ = ('Tests',)
-__version__ = '23.10.02'
+__version__ = '23.11.21'
 
 from bases import startswith, TestsBase
 
@@ -20,7 +20,7 @@ def _truncate(txt, n=392):
 
 
 # <https://www.MathWorks.com/help/map/ref/enu2geodetic.html>
-Z = Ltp(46.017, 7.750, 1673, name='Zermatt')
+_Z = Ltp(46.017, 7.750, 1673, name='Zermatt')
 
 
 class Tests(TestsBase):
@@ -48,14 +48,14 @@ class Tests(TestsBase):
 
         for C in (Cartesian, LatLon):
             n = C.__name__
-            c = getattr(z.xyzLocal, 'to' + n)(C, ltp=Z, name=n)  # XXX ltp req'd
+            c = getattr(z.xyzLocal, 'to' + n)(C, ltp=_Z, name=n)  # XXX ltp req'd
             t = _truncate(c.toStr(prec=2))
             self.test(_DOT_(N, 'to' + n), t, t)
 
             if Loc is Local9Tuple:
                 continue
 
-            r = c.toLocal(Loc, ltp=Z, name=N)  # XXX ltp req'd
+            r = c.toLocal(Loc, ltp=_Z, name=N)  # XXX ltp req'd
             t = r.toStr(prec=2)
             self.test(_DOT_(C.__name__, 'toLocal ' + N), t, s)
 
@@ -90,10 +90,10 @@ class Xyz(XyzLocal):  # shorten name
 if __name__ == '__main__':
 
     t = Tests(__file__, __version__)
-    t.testLoc(Aer,  60,  40, 1000, ltp=Z)
-    t.testLoc(Enu, 100, 200, 1000, ltp=Z)
-    t.testLoc(Ned, 200, 100, 1000, ltp=Z)
-    t.testLoc(Xyz,  10,  20, 100, ltp=Z)
-    t.testLoc(Local9Tuple, 10.0, 20.0, 100.0, 46.02, 7.75, 1773.0, Z, None, None)
+    t.testLoc(Aer,  60,  40, 1000, ltp=_Z)
+    t.testLoc(Enu, 100, 200, 1000, ltp=_Z)
+    t.testLoc(Ned, 200, 100, 1000, ltp=_Z)
+    t.testLoc(Xyz,  10,  20, 100, ltp=_Z)
+    t.testLoc(Local9Tuple, 10.0, 20.0, 100.0, 46.02, 7.75, 1773.0, _Z, None, None)
     t.results()
     t.exit()

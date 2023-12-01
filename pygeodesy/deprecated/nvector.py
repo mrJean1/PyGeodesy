@@ -1,30 +1,29 @@
 
 # -*- coding: utf-8 -*-
 
-u'''DEPRECATED, use module L{nvectorBase} instead.
+u'''DEPRECATED on 2021.05.20, use (INTERNAL) module L{pygeodesy.nvectorBase} instead.
 '''
 
-from pygeodesy.interns import NN, _NorthPole_, _SouthPole_
-from pygeodesy.lazily import _ALL_DOCS
-from pygeodesy.nvectorBase import LatLonNvectorBase, \
-                                  NorthPole, SouthPole, \
-                                  NvectorBase, sumOf  # PYCHOK exported
-from pygeodesy.props import deprecated_class  # _deprecated_module
+# from pygeodesy.interns import NN  # from .lazily
+from pygeodesy.lazily import _ALL_DEPRECATED, _ALL_OTHER,  NN
+from pygeodesy.nvectorBase import LatLonNvectorBase, NorthPole, NvectorBase, \
+                                                     SouthPole, sumOf
+from pygeodesy.props import deprecated_class
+
+__all__ = _ALL_DEPRECATED.deprecated_nvector
+__version__ = '23.11.26'
 
 
-class Nvector(NvectorBase):
-    '''DEPRECATED, see class L{NvectorBase}.
+class Nvector(NvectorBase):  # PYCHOK no cover
+    '''DEPRECATED on 2021.05.20, see (INTERNAL) class L{pygeodesy.nvectorBase.NvectorBase}.
     '''
-    def __init__(self, x, y=None, z=None, h=0, ll=None, datum=None, name=NN):  # PYCHOK no cover
+    def __init__(self, x, y=None, z=None, h=0, ll=None, datum=None, name=NN):
         deprecated_class(self.__class__)
         NvectorBase.__init__(self, x, y=y, z=z, h=h, ll=ll, datum=datum, name=name)
 
 
-__all__ = _ALL_DOCS(LatLonNvectorBase, Nvector, sumOf) + (
-          _NorthPole_, _SouthPole_)  # constants
-__version__ = '21.05.20'
-
-# _deprecated_module(__name__)
+assert (_ALL_OTHER(LatLonNvectorBase, Nvector, sumOf) +
+                  (NorthPole.name, SouthPole.name)) == __all__
 
 # **) MIT License
 #

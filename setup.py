@@ -27,7 +27,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '23.09.15'
+__version__ = '23.11.26'
 
 
 def _c2(*names):
@@ -84,7 +84,7 @@ _KeyWords = ('AER', 'Albers', 'altitude', 'Andoyer', 'annulus', 'antipode', 'are
              'nearest', 'NED', 'normalize', 'Norrdine', 'north-east-down', 'numpy', 'n-vector', 'Nvector',
              'oblate', 'omega', 'orthographic', 'orthometric-height', 'OSGB', 'OSGR', 'overlap',
              'parallel', 'parallel-of-latitude', 'Parametric', 'path-intersection',
-             'perimeter', 'Peucker', 'Pierlot', 'pitch', 'Point-Of-View', 'polar', 'Popa', 'POV',
+             'perimeter', 'Peucker', 'Pierlot', 'pitch', 'plumb', 'Point-Of-View', 'polar', 'Popa', 'POV',
              'precision-cubic-root', 'precision-hypotenuse', 'precision-powers',
              'precision-running-summation', 'precision-square-root', 'precision-summation',
              'prolate', 'Pseudo-Mercator', 'PyGeodesy', 'PyInstaller', 'PyPy',
@@ -106,7 +106,7 @@ _KeyWords = ('AER', 'Albers', 'altitude', 'Andoyer', 'annulus', 'antipode', 'are
              'XYZ', 'yaw', 'You')
 
 setup(name='PyGeodesy',
-      packages=['pygeodesy', 'pygeodesy.auxilats', 'pygeodesy.deprecated', 'pygeodesy.geodesicx'],
+      packages=['pygeodesy', 'pygeodesy.auxilats', 'pygeodesy.deprecated', 'pygeodesy.geodesicx', 'pygeodesy.rhumb'],
       description='Pure Python geodesy tools',
       version=_version(),
 
@@ -138,11 +138,12 @@ setup(name='PyGeodesy',
                    _c2('Programming Language', 'Python', '2.7'),
 #                  _c2('Programming Language', 'Python', '3.5'),
 #                  _c2('Programming Language', 'Python', '3.6'),
-#                  _c2('Programming Language', 'Python', '3.7'),
-#                  _c2('Programming Language', 'Python', '3.8'),
+                   _c2('Programming Language', 'Python', '3.7'),
+                   _c2('Programming Language', 'Python', '3.8'),
                    _c2('Programming Language', 'Python', '3.9'),
                    _c2('Programming Language', 'Python', '3.10'),
                    _c2('Programming Language', 'Python', '3.11'),
+                   _c2('Programming Language', 'Python', '3.12'),
                    _c2('Topic', 'Software Development'),
                    _c2('Topic', 'Scientific/Engineering', 'GIS'),
       ],  # PYCHOK indent

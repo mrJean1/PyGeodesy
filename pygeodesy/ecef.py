@@ -53,8 +53,8 @@ C{lon00} to configure that value.
 
 @see: Module L{ltp} and class L{LocalCartesian}, a transcription of I{Charles Karney}'s C++ class
 U{LocalCartesian<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1LocalCartesian.html>},
-for conversion between geodetic and I{local cartesian} coordinates in a I{local tangent plane} as
-opposed to I{geocentric} (ECEF) ones.
+for conversion between geodetic and I{local cartesian} coordinates in a I{local tangent
+plane} as opposed to I{geocentric} (ECEF) ones.
 '''
 
 from pygeodesy.basics import copysign0, isscalar, issubclassof, neg, map1, \
@@ -80,66 +80,24 @@ from pygeodesy.props import deprecated_method, Property_RO, property_RO, propert
 # from pygeodesy.streprs import Fmt, unstr  # from .fsums
 from pygeodesy.units import Degrees, Height, Int, Lam, Lat, Lon, Meter, Phi, \
                             Scalar, Scalar_
-from pygeodesy.utily import atan1, atan1d, atan2d, degrees90, degrees180, sincos2, sincos2_, \
-                            sincos2d, sincos2d_
+from pygeodesy.utily import atan1, atan1d, atan2d, degrees90, degrees180, \
+                            sincos2, sincos2_, sincos2d, sincos2d_
 
 from math import atan2, cos, degrees, fabs, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '23.09.29'
+__version__ = '23.11.16'
 
 _Ecef_    = 'Ecef'
 _prolate_ = 'prolate'
-_TRIPS    =  17  # 8..9 sufficient, EcefSudano.reverse
-_xyz_y_z  = _xyz_, _y_, _z_  # _xargs_names(_xyzn4)[:3]
+_TRIPS    =  33  # 8..9 sufficient, EcefSudano.reverse
+_xyz_y_z  = _xyz_, _y_, _z_  # _xargs_kwds_names(_xyzn4)[:3]
 
 
 class EcefError(_ValueError):
     '''An ECEF or C{Ecef*} related issue.
     '''
     pass
-
-
-def _llhn4(latlonh, lon, height, suffix=NN, Error=EcefError, name=NN):  # in .ltp.LocalCartesian.forward and -.reset
-    '''(INTERNAL) Get C{lat, lon, h, name} as C{4-tuple}.
-    '''
-    try:
-        lat, lon = latlonh.lat, latlonh.lon
-        h = _xattr(latlonh, height=_xattr(latlonh, h=height))
-        n = _xattr(latlonh, name=NN)
-    except AttributeError:
-        lat, h, n = latlonh, height, NN
-
-    try:
-        llhn = Lat(lat), Lon(lon), Height(h), (name or n)
-    except (TypeError, ValueError) as x:
-        t = _lat_, _lon_, _height_
-        if suffix:
-            t = (_ + suffix for _ in t)
-        d = dict(zip(t, (lat, lon, h)))
-        raise Error(cause=x, **d)
-    return llhn
-
-
-# kwd lon00 unused but will throw a TypeError if misspelled, etc.
-def _xyzn4(xyz, y, z, Types, Error=EcefError, name=NN,   # PYCHOK unused
-                     _xyz_y_z_names=_xyz_y_z, lon00=0):  # in .ltp
-    '''(INTERNAL) Get an C{(x, y, z, name)} 4-tuple.
-    '''
-    try:
-        try:
-            t = xyz.x, xyz.y, xyz.z, _xattr(xyz, name=name)
-            if not isinstance(xyz, Types):
-                raise _TypesError(_xyz_y_z_names[0], xyz, *Types)
-        except AttributeError:
-            t = map1(float, xyz, y, z) + (name,)
-
-    except (TypeError, ValueError) as x:
-        d = dict(zip(_xyz_y_z_names, (xyz, y, z)))
-        raise Error(cause=x, **d)
-    return t
-
-# assert _xyz_y_z == _xargs_names(_xyzn4)[:3]
 
 
 class _EcefBase(_NamedBase):
@@ -171,23 +129,20 @@ class _EcefBase(_NamedBase):
         try:
             E = a_ellipsoid
             if f is None:
-                if E is _EWGS84 or E is _WGS84:
-                    raise AssertionError  # "break"
+                pass
             elif isscalar(E) and isscalar(f):
                 E = a_f2Tuple(E, f)
             else:
                 raise ValueError  # _invalid_
 
-            d = _ellipsoidal_datum(E, name=name)
-            E =  d.ellipsoid
-            if E.a < EPS or E.f > EPS1:
-                raise ValueError  # _invalid_
+            if E not in (_EWGS84, _WGS84):
+                d = _ellipsoidal_datum(E, name=name)
+                E =  d.ellipsoid
+                if E.a < EPS or E.f > EPS1:
+                    raise ValueError  # _invalid_
+                self._datum = d
+                self._E     = E
 
-            self._datum = d
-            self._E = E
-
-        except AssertionError:  # "break"
-            pass
         except (TypeError, ValueError) as x:
             t = unstr(self.classname, a=a_ellipsoid, f=f)
             raise EcefError(_SPACE_(t, _ellipsoid_), cause=x)
@@ -413,9 +368,9 @@ class EcefFarrell21(_EcefBase):
             p2 = p**2
             G  = p2 + ez - e2 * (a2 - b2)  # p2 + ez - e4 * a2
             F  = b2 * z2 * 54
-            c  = e4 * p2 * F / G**3
-            s  = cbrt(_1_0 + sqrt(c**2 + c + c) + c)
-            G *= fsumf_(s, _1_0, _1_0 / s)
+            t  = e4 * p2 * F / G**3
+            t  = cbrt(sqrt(t * (t + _2_0)) + t + _1_0)
+            G *= fsumf_(t , _1_0, _1_0 / t)
             P  = F / (G**2 * _3_0)
             Q  = sqrt(_2_0 * e4 * P + _1_0)
             Q1 = Q +  _1_0
@@ -689,6 +644,7 @@ class EcefSudano(_EcefBase):
         R = hypot(x, y)  # Rh
         d = e - R
 
+        _a  = fabs
         lat = atan1d(z, R * E.e21)
         sa, ca = sincos2d(fabs(lat))
         # Sudano's Eq (A-6) and (A-7) refactored/reduced,
@@ -702,34 +658,34 @@ class EcefSudano(_EcefBase):
         #         (E.e2 * E.a / E.e2s2(sa) - R / ca**2)
         tol = self.tolerance
         _S2 = Fsum(sa).fsum2_
+        _rt = sqrt
         for i in range(1, _TRIPS):
             ca2 = _1_0 - sa**2
             if ca2 < EPS_2:  # PYCHOK no cover
                 ca = _0_0
                 break
-            ca = sqrt(ca2)
+            ca = _rt(ca2)
             r = e / E.e2s2(sa) - R / ca2
-            if fabs(r) < EPS_2:
+            if _a(r) < EPS_2:
                 break
             lat = None
             sa, r = _S2(-z * ca / r, -d * sa / r)
-            if fabs(r) < tol:
+            if _a(r) < tol:
                 break
         else:
             t = unstr(self.reverse, x=x, y=y, z=z)
-            raise EcefError(Fmt.no_convergence(r, tol), txt=t)
+            raise EcefError(t, txt=Fmt.no_convergence(r, tol))
 
         if lat is None:
-            lat = copysign0(atan1d(fabs(sa), ca), z)
+            lat = copysign0(atan1d(_a(sa), ca), z)
         lon = self._polon(y, x, R, **name_lon00)
 
-        h = fsumf_(R * ca, fabs(z * sa), -E.a * E.e2s(sa))  # use Veness'
+        h = fsumf_(R * ca, _a(z * sa), -E.a * E.e2s(sa))  # use Veness'
         # because Sudano's Eq (7) doesn't produce the correct height
         # h = (fabs(z) + R - E.a * cos(a + E.e21) * sa / ca) / (ca + sa)
-        r = Ecef9Tuple(x, y, z, lat, lon, h,
-                                i, None, self.datum,  # M=None
-                                iteration=i, name=name or self.name)
-        return r
+        return Ecef9Tuple(x, y, z, lat, lon, h,
+                                   i, None, self.datum,  # C=i, M=None
+                                   iteration=i, name=name or self.name)
 
     @property_doc_(''' the convergence tolerance (C{float}).''')
     def tolerance(self):
@@ -794,30 +750,30 @@ class EcefVeness(_EcefBase):
         x, y, z, name = _xyzn4(xyz, y, z, self._Geocentrics, **name_lon00)
 
         E = self.ellipsoid
+        a = E.a
 
         p = hypot(x, y)  # distance from minor axis
         r = hypot(p, z)  # polar radius
         if min(p, r) > EPS0:
             b =  E.b * E.e22
             # parametric latitude (Bowring eqn 17, replaced)
-            t = (E.b * z) / (E.a * p) * (_1_0 + b / r)
+            t = (E.b * z) / (a * p) * (_1_0 + b / r)
             c = _1_0 / hypot1(t)
             s =  c * t
-
             # geodetic latitude (Bowring eqn 18)
-            lat = atan1d(z +          b * s**3,
-                         p - E.e2 * E.a * c**3)
+            lat = atan1d(z + s**3 * b,
+                         p - c**3 * a * E.e2)
 
             # height above ellipsoid (Bowring eqn 7)
             sa, ca = sincos2d(lat)
-#           r = E.a / E.e2s(sa)  # length of normal terminated by minor axis
-#           h = p * ca + z * sa - (E.a * E.a / r)
-            h = fsumf_(p * ca, z * sa, -E.a * E.e2s(sa))
+#           r = a / E.e2s(sa)  # length of normal terminated by minor axis
+#           h = p * ca + z * sa - (a * a / r)
+            h = fsumf_(p * ca, z * sa, -a * E.e2s(sa))
             C = 1
 
         # see <https://GIS.StackExchange.com/questions/28446>
         elif p > EPS:  # lat arbitrarily zero, equatorial lon
-            C, lat, h = 2, _0_0, (p - E.a)
+            C, lat, h = 2, _0_0, (p - a)
 
         else:  # polar lat, lon arbitrarily lon00
             C, lat, h = 3, (_N_90_0 if z < 0 else _90_0), (fabs(z) - E.b)
@@ -846,7 +802,7 @@ class EcefYou(_EcefBase):
     @staticmethod
     def _e2(E):
         e2 = E.a2 - E.b2
-        if E.f < 0 or e2 < 0:
+        if e2 < 0 or E.f < 0:
             raise EcefError(ellipsoid=E, txt=_prolate_)
         return e2
 
@@ -1316,7 +1272,28 @@ def _4Ecef(this, Ecef):  # in .datums.Datum.ecef, .ellipsoids.Ellipsoid.ecef
     return Ecef(this, name=this.name)
 
 
-def _xEcef(Ecef):  # PYCHOK .latlonBase.py
+def _llhn4(latlonh, lon, height, suffix=NN, Error=EcefError, name=NN):  # in .ltp
+    '''(INTERNAL) Get a C{(lat, lon, h, name)} 4-tuple.
+    '''
+    try:
+        lat, lon = latlonh.lat, latlonh.lon
+        h = _xattr(latlonh, height=_xattr(latlonh, h=height))
+        n = _xattr(latlonh, name=NN)
+    except AttributeError:
+        lat, h, n = latlonh, height, NN
+
+    try:
+        llhn = Lat(lat), Lon(lon), Height(h), (name or n)
+    except (TypeError, ValueError) as x:
+        t = _lat_, _lon_, _height_
+        if suffix:
+            t = (_ + suffix for _ in t)
+        d = dict(zip(t, (lat, lon, h)))
+        raise Error(cause=x, **d)
+    return llhn
+
+
+def _xEcef(Ecef):  # PYCHOK .latlonBase
     '''(INTERNAL) Validate B{C{Ecef}} I{class}.
     '''
     if issubclassof(Ecef, _EcefBase):
@@ -1324,9 +1301,28 @@ def _xEcef(Ecef):  # PYCHOK .latlonBase.py
     raise _TypesError(_Ecef_, Ecef, *_Ecefs)
 
 
+# kwd lon00 unused but will throw a TypeError if misspelled, etc.
+def _xyzn4(xyz, y, z, Types, Error=EcefError, name=NN,   # PYCHOK unused
+                     _xyz_y_z_names=_xyz_y_z, lon00=0):  # in .ltp
+    '''(INTERNAL) Get an C{(x, y, z, name)} 4-tuple.
+    '''
+    try:
+        try:
+            t = xyz.x, xyz.y, xyz.z, _xattr(xyz, name=name)
+            if not isinstance(xyz, Types):
+                raise _TypesError(_xyz_y_z_names[0], xyz, *Types)
+        except AttributeError:
+            t = map1(float, xyz, y, z) + (name,)
+
+    except (TypeError, ValueError) as x:
+        d = dict(zip(_xyz_y_z_names, (xyz, y, z)))
+        raise Error(cause=x, **d)
+    return t
+# assert _xyz_y_z == _MODS.basics._xargs_kwds_names(_xyzn4)[:3]
+
+
 _Ecefs = (EcefKarney, EcefSudano, EcefVeness, EcefYou,
                       EcefFarrell21, EcefFarrell22)
-
 __all__ += _ALL_DOCS(_EcefBase)
 
 # **) MIT License

@@ -1,18 +1,21 @@
 
 # -*- coding: utf-8 -*-
 
-u'''DEPRECATED, use module L{latlonBase} instead.
+u'''DEPRECATED on 2021.02.10, use (INTERNAL) module L{pygeodesy.latlonBase} instead.
 '''
 
 from pygeodesy.iters import points2  # PYCHOK exported
-from pygeodesy.latlonBase import LatLonBase as LatLonHeightBase  # PYCHOK exported
-from pygeodesy.lazily import _ALL_DOCS
-# from pygeodesy.props import _deprecated_module
+from pygeodesy.latlonBase import LatLonBase as _LatLonBase
+from pygeodesy.lazily import _ALL_DEPRECATED
 
-__all__ = _ALL_DOCS(LatLonHeightBase, points2)
-__version__ = '21.02.10'
+__all__ = _ALL_DEPRECATED.deprecated_bases
+__version__ = '23.11.25'
 
-# _deprecated_module(__name__)
+
+class LatLonHeightBase(_LatLonBase):  # PYCHOK no cover
+    ''''DEPRECATED on 2021.02.10, use (INTERNAL) class L{pygeodesy.latlonBase.LatLonBase}.'''
+    pass
+
 
 # **) MIT License
 #

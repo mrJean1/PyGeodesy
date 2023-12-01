@@ -1,7 +1,7 @@
 
 # -*- coding: utf-8 -*-
 
-u'''DEPRECATED classes for export and backward compatibility.
+u'''DEPRECATED classes kept for backward compatibility.
 '''
 
 from pygeodesy.clipy import ClipCS4Tuple as _ClipCS4Tuple
@@ -9,8 +9,8 @@ from pygeodesy.constants import NAN, _float
 from pygeodesy.interns import NN, _a12_, _area_, _band_, _convergence_, \
                              _distance_, _gamma_, _i_, _lat_, _lon_, _ltp_
 from pygeodesy.deprecated.consterns import _Deprecated_Str
-from pygeodesy.karney import Rhumb8Tuple as _Rhumb8Tuple
-from pygeodesy.lazily import _ALL_MODS as _MODS, _ALL_OTHER
+from pygeodesy.karney import _GTuple, Rhumb8Tuple as _Rhumb8Tuple
+from pygeodesy.lazily import _ALL_DEPRECATED, _ALL_DOCS, _ALL_MODS as _MODS
 from pygeodesy.ltpTuples import Ned4Tuple as _Ned4Tuple
 # from pygeodesy.named import _NamedTuple  # from .namedTuples
 from pygeodesy.namedTuples import Forward4Tuple as _Forward4Tuple, \
@@ -19,10 +19,10 @@ from pygeodesy.namedTuples import Forward4Tuple as _Forward4Tuple, \
 from pygeodesy.props import deprecated_class, deprecated_method
 from pygeodesy.resections import TriAngle5Tuple as _TriAngle5Tuple
 from pygeodesy.trf import Helmert7Tuple as _Helmert7Tuple
-from pygeodesy.units import Bearing, Lat, Lon, Meter
+from pygeodesy.units import Bearing, Int, Lat, Lon, Meter
 
-__all__ = ()
-__version__ = '23.10.15'
+__all__ = _ALL_DEPRECATED.deprecated_classes
+__version__ = '23.11.24'
 
 
 class _Deprecated_NamedTuple(_NamedTuple):
@@ -40,7 +40,7 @@ def _reNames(names, old, *new):
 
 
 class ClipCS3Tuple(_Deprecated_NamedTuple):  # PYCHOK no cover
-    '''DEPRECATED, see I{DEPRECATED} function L{pygeodesy.clipCS3}.'''
+    '''DEPRECATED, see I{DEPRECATED} function L{pygeodesy.deprecated.clipCS3}.'''
     assert _ClipCS4Tuple._Names_.index(_i_) == 2
     _Names_ = _reNames(_ClipCS4Tuple._Names_[:3], _i_, 'index')
     _Units_ =          _ClipCS4Tuple._Units_[:3]
@@ -95,7 +95,6 @@ def EcefCartesian(*args, **kwds):
                                                         t.ecef.C, t.M, t.ecef.datum,
                                                         name=t.name or self.name)
 
-    _MODS.deprecated.EcefCartesian = Ltp
     return EcefCartesian_(*args, **kwds)
 
 
@@ -109,7 +108,6 @@ def HeightIDW(knots, **kwds):  # PYCHOK no cover
             deprecated_class(self.__class__)
             HeightIDWeuclidean.__init__(self, knots, adjust=adjust, beta=beta, name=name)
 
-    _MODS.deprecated.HeightIDW = HeightIDW
     return HeightIDW(knots, **kwds)
 
 
@@ -123,7 +121,6 @@ def HeightIDW2(knots, **kwds):  # PYCHOK no cover
             deprecated_class(self.__class__)
             HeightIDWequirectangular.__init__(self, knots, adjust=adjust, wrap=wrap, name=name)
 
-    _MODS.deprecated.HeightIDW2 = HeightIDW2
     return HeightIDW2(knots, **kwds)
 
 
@@ -138,7 +135,6 @@ def HeightIDW3(knots, **kwds):  # PYCHOK no cover
             deprecated_class(self.__class__)
             HeightIDWhaversine.__init__(self, knots, beta=beta, wrap=wrap, name=name)
 
-    _MODS.deprecated.HeightIDW3 = HeightIDW3
     return HeightIDW3(knots, **kwds)
 
 
@@ -149,7 +145,7 @@ class LatLonExact4Tuple(_Deprecated_NamedTuple):
 
 
 class NearestOn4Tuple(_Deprecated_NamedTuple):  # PYCHOK no cover
-    '''DEPRECATED on 23.10.10, see methods L{RhumbLine.nearestOn4} and L{RhumbLineAux.nearestOn4}.'''
+    '''DEPRECATED on 2023.10.10, see methods L{RhumbLine.nearestOn4} and L{RhumbLineAux.nearestOn4}.'''
     _Names_ = (_lat_, _lon_, _distance_, 'normal')  # s12, azi02
     _Units_ = ( Lat,   Lon,   Meter,      Bearing)
 
@@ -172,7 +168,6 @@ def RefFrameError(*args, **kwds):  # PYCHOK no cover
             deprecated_class(self.__class__)
             TRFError.__init__(self, *name_value, **txt_name_values)
 
-    _MODS.deprecated.RefFrameError = RefFrameError
     return RefFrameError(*args, **kwds)
 
 
@@ -204,6 +199,14 @@ class Rhumb7Tuple(_Deprecated_NamedTuple):
         return self
 
 
+class RhumbOrder2Tuple(_Deprecated_NamedTuple, _GTuple):
+    '''DEPRECATED, see deprecated method L{rhumbx.Rhumb.orders}.'''
+    # 2-Tuple C{(RAorder, TMorder)} with a I{Rhumb Area} and
+    # I{Transverse Mercator} order, both C{int}.
+    _Names_ = ('RAorder', 'TMorder')
+    _Units_ = ( Int,       Int)
+
+
 class Transform7Tuple(_Deprecated_NamedTuple):  # PYCHOK no cover
     '''DEPRECATED, use class L{Helmert7Tuple}, I{without} keyword arguments.'''
     _Names_ = _Helmert7Tuple._Names_
@@ -216,7 +219,7 @@ class Transform7Tuple(_Deprecated_NamedTuple):  # PYCHOK no cover
 
 
 class TriAngle4Tuple(_Deprecated_NamedTuple):
-    '''DEPRECATED on 23.09.14, use class L{TriAngle5Tuple}, ignoring item C{area}.'''
+    '''DEPRECATED on 2023.09.14, use class L{TriAngle5Tuple}, ignoring item C{area}.'''
     assert _TriAngle5Tuple._Names_.index(_area_) == 4
     _Names_ = _TriAngle5Tuple._Names_[:4]
     _Units_ = _TriAngle5Tuple._Units_[:4]
@@ -232,10 +235,7 @@ class UtmUps4Tuple(_Deprecated_NamedTuple):  # PYCHOK no cover
     _Units_ = (_Deprecated_Str,) + _UtmUps5Tuple._Units_[1:4]
 
 
-__all__ += _ALL_OTHER(ClipCS3Tuple, EasNorExact4Tuple, EcefCartesian,
-                      HeightIDW, HeightIDW2, HeightIDW3, LatLonExact4Tuple,
-                      NearestOn4Tuple, Ned3Tuple, RefFrameError, Rhumb7Tuple,
-                      Transform7Tuple, TriAngle4Tuple, UtmUps4Tuple)
+__all__ += _ALL_DOCS(_Deprecated_NamedTuple)
 
 # **) MIT License
 #

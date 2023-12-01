@@ -3,7 +3,7 @@
 
 u'''3-Point resection functions L{cassini}, L{collins5}, L{pierlot}, L{pierlotx} and
 L{tienstra7}, survey functions L{snellius3} and L{wildberger3} and triangle functions
-L{triAngle}, L{triAngle4}, L{triSide}, L{triSide2} and L{triSide4}.
+L{triAngle}, L{triAngle5}, L{triSide}, L{triSide2} and L{triSide4}.
 
 @note: Functions L{pierlot} and L{pierlotx} are transcoded to Python with permission from
        U{triangulationPierlot<http://www.Telecom.ULg.ac.BE/triangulation/doc/total_8c.html>} and
@@ -32,7 +32,7 @@ from pygeodesy.vector3d import _otherV3d, Vector3d
 from math import cos, atan2, degrees, fabs, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.resections
-__version__ = '23.09.12'
+__version__ = '23.11.21'
 
 _concyclic_ = 'concyclic'
 _PA_        = 'PA'
@@ -690,7 +690,7 @@ def triAngle(a, b, c):
 
        @raise TriangleError: Invalid or negative B{C{a}}, B{C{b}} or B{C{c}}.
 
-       @see: Functions L{pygeodesy.triAngle4} and L{pygeodesy.triSide}.
+       @see: Functions L{pygeodesy.triAngle5} and L{pygeodesy.triSide}.
     '''
     try:
         return _triAngle(a, b, c)

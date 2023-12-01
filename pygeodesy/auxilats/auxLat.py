@@ -44,16 +44,17 @@ except ImportError:  # Python 3.11-
         return pow(_2_0, x)
 
 __all__ = ()
-__version__ = '23.09.26'
+__version__ = '23.11.24'
 
 _TRIPS = 1024  # XXX 2 or 3?
 
 
 class AuxLat(AuxAngle):
-    '''Accurate conversion between I{Auxiliary} latitudes on an ellipsoid.
+    '''Base class for accurate conversion between I{Auxiliary} latitudes
+       on an ellipsoid.
 
-       Latitudes are represented by instances of L{AuxAngle} in order to
-       maintain precision close to the poles, I{Authalic} latitude C{Xi},
+       Latitudes are represented by L{AuxAngle} instances in order to
+       maintain precision near the poles, I{Authalic} latitude C{Xi},
        I{Conformal} C{Chi}, I{Geocentric} C{Theta}, I{Geographic} C{Phi},
        I{Parametric} C{Beta} and I{Rectifying} C{Mu}.
 

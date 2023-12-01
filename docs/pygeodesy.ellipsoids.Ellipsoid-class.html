@@ -1629,7 +1629,15 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#rhumbaux" class="summary-name">rhumbaux</a><br />
-      Get this ellipsoid's <i>Auxiliary</i> <code>rhumbaux.RhumbAux</code>.
+      Get this ellipsoid's <i>Auxiliary</i> <code>rhumb.RhumbAux</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#rhumbex" class="summary-name">rhumbex</a><br />
+      Get this ellipsoid's <i>Elliptic</i> <code>rhumb.Rhumb</code>.
     </td>
   </tr>
 <tr>
@@ -1638,7 +1646,7 @@
     </td><td class="summary">
         <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#rhumbsolve" class="summary-name">rhumbsolve</a><br />
       Get this ellipsoid's <a 
-      href="pygeodesy.rhumbsolve.RhumbSolve-class.html" 
+      href="pygeodesy.rhumb.solve.RhumbSolve-class.html" 
       class="link">RhumbSolve</a>, the <i>wrapper</i> around utility <a 
       href="https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html" 
       target="_top">RhumbSolve</a>, provided the path to the 
@@ -1651,7 +1659,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#rhumbx" class="summary-name">rhumbx</a><br />
-      Get this ellipsoid's <i>Elliptic</i> <code>rhumbx.Rhumb</code>.
+      DEPRECATED on 2023.11.28, use property <code>rhumbex</code>.
     </td>
   </tr>
 <tr>
@@ -2511,9 +2519,7 @@
         <li><strong class="pname"><code>exact</code></strong> - If <code>bool</code> return <a 
           href="pygeodesy.geodesicx.gx.GeodesicExact-class.html" 
           class="link">GeodesicExact</a><code>(exact=<b>exact</b>, 
-          ...)</code>, otherwise a <code>geodesic</code> for this ellipsoid
-          (<code>.geodesicw</code>, <code>.geodesicx</code>, 
-          <code>.geodsolve</code>) or an other <a 
+          ...)</code>, otherwise a <a 
           href="pygeodesy.geodesicw-module.html#Geodesic" 
           class="link">Geodesic</a>, <a 
           href="pygeodesy.geodesicx.gx.GeodesicExact-class.html" 
@@ -2877,15 +2883,13 @@
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>exact</code></strong> - If <code>bool</code> or <code>None</code> return <a 
-          href="pygeodesy.rhumbx.Rhumb-class.html" 
+          href="pygeodesy.rhumb.ekx.Rhumb-class.html" 
           class="link">Rhumb</a><code>(exact=<b>exact</b>, ...)</code>, 
-          otherwise a <code>rhumb</code> for this ellipsoid 
-          (<code>.rhumbaux</code>, <code>.rhumbsolve</code>, 
-          <code>.rhumbx</code>) or an other <a 
-          href="pygeodesy.rhumbx.Rhumb-class.html" class="link">Rhumb</a>, 
-          <a href="pygeodesy.rhumbaux.RhumbAux-class.html" 
+          otherwise a <a href="pygeodesy.rhumb.ekx.Rhumb-class.html" 
+          class="link">Rhumb</a>, <a 
+          href="pygeodesy.rhumb.aux.RhumbAux-class.html" 
           class="link">RhumbAux</a> or <a 
-          href="pygeodesy.rhumbsolve.RhumbSolve-class.html" 
+          href="pygeodesy.rhumb.solve.RhumbSolve-class.html" 
           class="link">RhumbSolve</a> instance for <i>this</i> ellipsoid.</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -5451,12 +5455,35 @@ class="math">sqrt(a * b)</i>.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">rhumbaux</h3>
-  <p>Get this ellipsoid's <i>Auxiliary</i> 
-  <code>rhumbaux.RhumbAux</code>.</p>
+  <p>Get this ellipsoid's <i>Auxiliary</i> <code>rhumb.RhumbAux</code>.</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">rhumbaux(<span class="summary-sig-arg">self</span>)</span>
-        - Get this ellipsoid's <i>Auxiliary</i> <code>rhumbaux.RhumbAux</code>.
+        - Get this ellipsoid's <i>Auxiliary</i> <code>rhumb.RhumbAux</code>.
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="rhumbex"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">rhumbex</h3>
+  <p>Get this ellipsoid's <i>Elliptic</i> <code>rhumb.Rhumb</code>.</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">rhumbex(<span class="summary-sig-arg">self</span>)</span>
+        - Get this ellipsoid's <i>Elliptic</i> <code>rhumb.Rhumb</code>.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -5477,7 +5504,7 @@ class="math">sqrt(a * b)</i>.
 <tr><td>
   <h3 class="epydoc">rhumbsolve</h3>
   <p>Get this ellipsoid's <a 
-  href="pygeodesy.rhumbsolve.RhumbSolve-class.html" 
+  href="pygeodesy.rhumb.solve.RhumbSolve-class.html" 
   class="link">RhumbSolve</a>, the <i>wrapper</i> around utility <a 
   href="https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html" 
   target="_top">RhumbSolve</a>, provided the path to the 
@@ -5486,7 +5513,7 @@ class="math">sqrt(a * b)</i>.
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">rhumbsolve(<span class="summary-sig-arg">self</span>)</span>
-        - Get this ellipsoid's <a href="pygeodesy.rhumbsolve.RhumbSolve-class.html" 
+        - Get this ellipsoid's <a href="pygeodesy.rhumb.solve.RhumbSolve-class.html" 
 class="link">RhumbSolve</a>, the <i>wrapper</i> around utility <a 
 href="https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html" 
 target="_top">RhumbSolve</a>, provided the path to the 
@@ -5510,11 +5537,11 @@ target="_top">RhumbSolve</a> executable, overriding env variable
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">rhumbx</h3>
-  <p>Get this ellipsoid's <i>Elliptic</i> <code>rhumbx.Rhumb</code>.</p>
+  <p>DEPRECATED on 2023.11.28, use property <code>rhumbex</code>.</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">rhumbx(<span class="summary-sig-arg">self</span>)</span>
-        - Get this ellipsoid's <i>Elliptic</i> <code>rhumbx.Rhumb</code>.
+        - DEPRECATED on 2023.11.28, use property <code>rhumbex</code>.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -5836,7 +5863,7 @@ class="math">4 / 3 * PI * R3**3</i>.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Nov 12 13:03:54 2023
+    Generated by Epydoc 3.0.1 on Thu Nov 30 19:49:07 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

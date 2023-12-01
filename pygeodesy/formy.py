@@ -6,19 +6,19 @@ u'''Formulary of basic geodesy functions and approximations.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-# from pygeodesy.basics import isscalar  # from .fsums
+# from pygeodesy.basics import isscalar  from .fsums
 # from pygeodesy.cartesianBase import CartesianBase  # _MODS
 from pygeodesy.constants import EPS, EPS0, EPS1, PI, PI2, PI3, PI_2, R_M, \
-                               _umod_PI2, float0_, isnon0, remainder, \
-                               _0_0, _0_125, _0_25, _0_5, _1_0, _2_0, \
-                               _4_0, _32_0, _90_0, _180_0, _360_0
+                               _isfinite, float0_, isnon0, remainder, _umod_PI2, \
+                               _0_0, _0_125, _0_25, _0_5, _1_0, _2_0, _4_0, \
+                               _32_0, _90_0, _180_0, _360_0
 from pygeodesy.datums import Datum, Ellipsoid, _ellipsoidal_datum, \
                             _mean_radius, _spherical_datum, _WGS84,  _EWGS84
 # from pygeodesy.ellipsoids import Ellipsoid, _EWGS84  # from .datums
 from pygeodesy.errors import IntersectionError, LimitError, limiterrors, \
                             _TypeError, _ValueError, _xattr, _xError, \
                             _xkwds, _xkwds_pop
-from pygeodesy.fmath import euclid, hypot, hypot2, sqrt0
+from pygeodesy.fmath import euclid, hypot, hypot_, hypot2, sqrt0
 from pygeodesy.fsums import fsumf_,  isscalar
 from pygeodesy.interns import NN, _delta_, _distant_, _inside_, _SPACE_, _too_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
@@ -28,12 +28,13 @@ from pygeodesy.namedTuples import Bearing2Tuple, Distance4Tuple, \
                                   PhiLam2Tuple, Vector3Tuple
 # from pygeodesy.streprs import Fmt, unstr  # from .named
 # from pygeodesy.triaxials import _hartzell2  # _MODS
-from pygeodesy.units import Bearing, Degrees_, Distance, Distance_, Height, \
-                            Lam_, Lat, Lon, Meter_, Phi_, Radians, Radians_, \
-                            Radius, Radius_, Scalar, _100km
+from pygeodesy.units import Bearing, Degrees, Degrees_, Distance, Distance_, \
+                            Height, Lam_, Lat, Lon, Meter_, Phi_, Radians, \
+                            Radians_, Radius, Radius_, Scalar, _100km
 from pygeodesy.utily import acos1, atan2b, atan2d, degrees2m, _loneg, m2degrees, \
                             tan_2, sincos2, sincos2_, sincos2d_, _Wrap
 # from pygeodesy.vector3d import _otherV3d  # _MODS
+# from pygeodesy.vector3dBase import _xyz_y_z3  # _MODS
 # from pygeodesy import ellipsoidalExact, ellipsoidalKarney, vector3d, \
 #                       sphericalNvector, sphericalTrigonometry  # _MODS
 
@@ -41,7 +42,7 @@ from contextlib import contextmanager
 from math import asin, atan, atan2, cos, degrees, fabs, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '23.10.16'
+__version__ = '23.11.18'
 
 _D2_R2  = (PI / _180_0)**2  # degrees- to radians-squared
 _ratio_ = 'ratio'
@@ -1635,6 +1636,43 @@ def _radistance(inst):
     return _func_wrap
 
 
+def rtp2xyz(r, theta, phi):
+    '''Convert spherical C{(r, theta, phi)} to cartesian C{(x, y, z)} coordinates.
+
+       @arg r: Radial distance (C{scalar}, conventially C{meter}).
+       @arg theta: Inclination (C{degrees} with respect to the positive z-axis).
+       @arg phi: Azimuthal angle (C{degrees}).
+
+       @return: L{Vector3Tuple}C{(x, y, z)} in C{meter}, same units as C{r}.
+
+       @see: Functions L{rtp2xyz_} and L{xyz2rtp}.
+    '''
+    return rtp2xyz_(r, radians(theta), radians(phi))
+
+
+def rtp2xyz_(r, theta, phi):
+    '''Convert spherical C{(r, theta, phi)} to cartesian C{(x, y, z)} coordinates.
+
+       @arg r: Radial distance (C{scalar}, conventially C{meter}).
+       @arg theta: Inclination (C{radians} with respect to the positive z-axis).
+       @arg phi: Azimuthal angle (C{radians}).
+
+       @return: L{Vector3Tuple}C{(x, y, z)} in C{meter}, same units as C{r}.
+
+       @see: U{Physics<https://WikiPedia.org/wiki/Spherical_coordinate_system>}
+             convention (ISO 80000-2:2019).
+    '''
+    if r and _isfinite(r):
+        s, z, y, x = sincos2_(theta, phi)
+        s *= r
+        x *= s
+        y *= s
+        z *= r
+    else:
+        x = y = z = r
+    return Vector3Tuple(x, y, z)
+
+
 def _scale_deg(lat1, lat2):  # degrees
     # scale factor cos(mean of lats) for delta lon
     m = fabs(lat1 + lat2) * _0_5
@@ -1796,6 +1834,44 @@ def vincentys_(phi2, phi1, lam21):
     x = s1 * s2 + c1 * c
     y = c1 * s2 - s1 * c
     return atan2(hypot(c2 * s21, y), x)
+
+
+def xyz2rtp(x_xyz, *y_z):
+    '''Convert cartesian C{(x, y, z)} to spherical C{(r, theta, phi)} coordinates.
+
+       @return: 3-Tuple C{(r, theta, phi)} in C{degrees}.
+
+       @see: Function L{xyz2rtp_}.
+    '''
+    r, t, p = xyz2rtp_(x_xyz, *y_z)
+    return r, Degrees(theta=degrees(t)), Degrees(phi=degrees(p))
+
+
+def xyz2rtp_(x_xyz, *y_z):
+    '''Convert cartesian C{(x, y, z)} to spherical C{(r, theta, phi)} coordinates.
+
+       @arg x_xyz: X component (C{scalar}) or a cartesian (C{Cartesian}, L{Ecef9Tuple},
+                   C{Nvector}, L{Vector3d}, L{Vector3Tuple}, L{Vector4Tuple} or a
+                   C{tuple} or C{list} of 3+ C{scalar} items) if no C{y_z} specified.
+       @arg y_z: Y and Z component (C{scalar}s), ignored if C{x_xyz} is not a C{scalar}.
+
+       @return: 3-Tuple C{(r, theta, phi)} with radial distance C{r} (C{meter}, same
+                units as C{x}, C{y} and C{z}), inclination C{theta} (with respect to
+                the positive z-axis) and azimuthal angle C{phi} in C{radians}.
+
+       @see: U{Physics<https://WikiPedia.org/wiki/Spherical_coordinate_system>}
+             convention (ISO 80000-2:2019).
+    '''
+    x, y, z = _MODS.vector3dBase._xyz3(xyz2rtp, x_xyz, *y_z)
+    r = hypot_(x, y, z)
+    if r:
+        t = acos1(z / r)
+        p = atan2(y, x)
+        if p < 0:
+            p += PI2
+    else:
+        t = p = _0_0
+    return r, Radians(theta=t), Radians(phi=p)
 
 # **) MIT License
 #

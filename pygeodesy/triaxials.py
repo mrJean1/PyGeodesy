@@ -30,13 +30,13 @@ see the U{GeographicLib<https://GeographicLib.SourceForge.io>} documentation.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import isLatLon, isscalar, map1, _zip,  _ValueError
+from pygeodesy.basics import isLatLon, isscalar, map2, _zip,  _ValueError
 from pygeodesy.constants import EPS, EPS0, EPS02, EPS4, _EPS2e4, INT0, PI2, PI_3, PI4, \
                                _0_0, _0_5, _1_0, _N_2_0, float0_, isfinite, isnear1, \
                                _4_0  # PYCHOK used!
-from pygeodesy.datums import Datum, _spherical_datum, _WGS84,  Ellipsoid, Fmt
+from pygeodesy.datums import Datum, _spherical_datum, _WGS84,  Ellipsoid, _EWGS84, Fmt
 # from pygeodesy.dms import toDMS  # _MODS
-# from pygeodesy.ellipsoids import Ellipsoid  # from .datums
+# from pygeodesy.ellipsoids import Ellipsoid, _EWGS84  # from .datums
 # from pygeodesy.elliptic import Elliptic  # _MODS
 # from pygeodesy.errors import _ValueError  # from .basics
 from pygeodesy.fmath import Fdot, fdot, fmean_, hypot, hypot_, norm2, sqrt0
@@ -59,7 +59,7 @@ from pygeodesy.vector3d import _otherV3d, Vector3d,  _ALL_LAZY, _MODS
 from math import atan2, fabs, sqrt
 
 __all__ = _ALL_LAZY.triaxials
-__version__ = '23.10.07'
+__version__ = '23.11.14'
 
 _not_ordered_ = _not_('ordered')
 _omega_       = 'omega'
@@ -1132,7 +1132,7 @@ Triaxials = Triaxials(Triaxial, Triaxial_)  # PYCHOK singleton
 # <https://ArxIV.org/pdf/1909.06452.pdf> Table 1 Semi-axes in Km
 # <https://www.JPS.NASA.gov/education/images/pdf/ss-moons.pdf>
 # <https://link.Springer.com/article/10.1007/s00190-022-01650-9>
-_E = _WGS84.ellipsoid
+_EWGS84_35 = _EWGS84.a + 35, _EWGS84.a - 35, _EWGS84.b
 Triaxials._assert(                 # a (Km)       b (Km)     c (Km)     planet
     Amalthea  = _lazy('Amalthea',  125.0,        73.0,      64),      # Jupiter
     Ariel     = _lazy('Ariel',     581.1,       577.9,     577.7),    # Uranus
@@ -1145,8 +1145,8 @@ Triaxials._assert(                 # a (Km)       b (Km)     c (Km)     planet
     Miranda   = _lazy('Miranda',   240.4,       234.2,     232.9),    # Uranus
     Moon      = _lazy('Moon',     1735.55,     1735.324,  1734.898),  # Earth
     Tethys    = _lazy('Tethys',    535.6,       528.2,     525.8),    # Saturn
-    WGS84_35  = _lazy('WGS84_35', *map1(m2km, _E.a + 35, _E.a - 35, _E.b)))
-del _E
+    WGS84_35  = _lazy('WGS84_35', *map2(m2km, _EWGS84_35)))
+del _EWGS84_35
 
 
 def _getitems(items, *indices):
@@ -1275,11 +1275,11 @@ def _normalTo4(x, y, a, b, eps=EPS):
     if not (b > 0 and isfinite(a)):
         raise _ValueError(a=a, b=b)
 
-    i = None
+    i, _a = None, fabs
     if y:
         if x:
-            u =  fabs(x / a)
-            v =  fabs(y / b)
+            u = _a(x / a)
+            v = _a(y / b)
             g = _hypot21(u, v)
             if g:
                 r = (a / b)**2
@@ -1292,12 +1292,12 @@ def _normalTo4(x, y, a, b, eps=EPS):
         else:  # x == 0
             if y < 0:
                 b = -b
-            a, d = x, fabs(y - b)
+            a, d = x, _a(y - b)
 
     else:  # y == 0
         n =  a * x
         d = (a + b) * (a - b)
-        if d > fabs(n):  # PYCHOK no cover
+        if d > _a(n):  # PYCHOK no cover
             r  = n / d
             a *= r
             b *= sqrt(_1_0 - r**2)
@@ -1305,7 +1305,7 @@ def _normalTo4(x, y, a, b, eps=EPS):
         else:
             if x < 0:
                 a = -a
-            b, d = y, fabs(x - a)
+            b, d = y, _a(x - a)
     return a, b, d, i
 
 
@@ -1321,7 +1321,7 @@ def _normalTo5(x, y, z, Tun, eps=EPS):  # MCCABE 19
         a, b, c, d, i = _normalTo5(*t, eps=eps)
         return T._order3(a, b, c, reverse=True) + (d, i)
 
-    if not (isfinite(a) and c > 0):
+    if not (c > 0 and isfinite(a)):
         raise _ValueError(a=a, b=b, c=c)
 
     if eps > 0:
@@ -1329,13 +1329,13 @@ def _normalTo5(x, y, z, Tun, eps=EPS):  # MCCABE 19
     else:  # no validation
         val, eps = 0, -eps
 
-    i = None
+    i, _a = None, fabs
     if z:
         if y:
             if x:
-                u =  fabs(x / a)
-                v =  fabs(y / b)
-                w =  fabs(z / c)
+                u = _a(x / a)
+                v = _a(y / b)
+                w = _a(z / c)
                 g = _hypot21(u, v, w)
                 if g:
                     r = T._1e2ac  # (c / a)**2
@@ -1356,17 +1356,17 @@ def _normalTo5(x, y, z, Tun, eps=EPS):  # MCCABE 19
         else:  # x == y == 0
             if z < 0:
                 c = -c
-            a, b, d = x, y, fabs(z - c)
+            a, b, d = x, y, _a(z - c)
 
     else:  # z == 0
-        t = False
-        n = a * x
+        t = True
         d = T._a2c2  # (a + c) * (a - c)
-        if d > fabs(n):
+        n = a * x
+        if d > _a(n):
             u = n / d
-            n = b * y
             d = T._b2c2  # (b + c) * (b - c)
-            if d > fabs(n):
+            n = b * y
+            if d > _a(n):
                 v =  n / d
                 n = _hypot21(u, v)
                 if n < 0:
@@ -1374,9 +1374,9 @@ def _normalTo5(x, y, z, Tun, eps=EPS):  # MCCABE 19
                     b *= v
                     c *= sqrt(-n)
                     d  = hypot_(x - a, y - b, c)
-                    t  = True
-        if not t:
-            c          =  z  # 0
+                    t  = False
+        if t:
+            c          =  z  # signed-0
             a, b, d, i = _normalTo4(x, y, a, b, eps=eps)
 
     if val > 0:  # validate
@@ -1390,7 +1390,7 @@ def _normalTo5(x, y, z, Tun, eps=EPS):  # MCCABE 19
                 m = m.unit()
                 n = T.normal3d(a, b, c)
                 e = n.dot(m)  # n.negate().dot(m)
-                if not isnear1(fabs(e), eps1=val):
+                if not isnear1(_a(e), eps1=val):
                     raise _ValueError(n=n, m=m,
                                     dot=e, eps=val)
     return a, b, c, d, i

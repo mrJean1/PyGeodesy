@@ -59,18 +59,17 @@
 </table>
 <!-- ==================== PACKAGE DESCRIPTION ==================== -->
 <h1 class="epydoc">Package deprecated</h1><p class="nomargin-top"></p>
-<p>DEPRECATED classes, constants, functions, interns, methods, etc.</p>
-  <p>Kept and exported for backward compatibility, including deprecated 
-  modules <code>pygeodesy.bases</code>, <code>pygeodesy.datum</code> and 
-  <code>pygeodesy,nvector</code>, previously inside the 
-  <code>pygeodesy</code> package.</p>
-  <p>Use either <code>from pygeodesy import bases</code> or <code>from 
-  pygeodesy.deprecated import bases</code>.  Likewise for 
-  <code>datum</code> and <code>nvector</code>.</p>
+<p>DEPRECATED classes, constants, functions, interns, methods, etc. and 
+  all lazily imported.</p>
+  <p>Kept for backward compatibility, including DEPRECATED modules 
+  <code>pygeodesy.bases</code>, <code>pygeodesy.datum</code> and 
+  <code>pygeodesy.nvector</code>.  Use either <code>from pygeodesy import 
+  bases</code> or <code>from pygeodesy.deprecated import bases</code>.  
+  Likewise for <code>datum</code> and <code>nvector</code>.</p>
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        23.10.10
+        23.11.27
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -82,18 +81,32 @@
 </tr>
   <tr><td class="summary">
   <ul class="nomargin">
-    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.bases-module.html">pygeodesy.deprecated.bases</a></strong>: <em class="summary">DEPRECATED, use module <a href="pygeodesy.latlonBase-module.html" 
-        class="link">latlonBase</a> instead.</em>    </li>
-    <li class="private"> <strong class="uidlink"><a href="pygeodesy.deprecated.classes-module.html" onclick="show_private();">pygeodesy.deprecated.classes</a></strong>: <em class="summary">DEPRECATED classes for export and backward compatibility.</em>    </li>
-    <li class="private"> <strong class="uidlink"><a href="pygeodesy.deprecated.consterns-module.html" onclick="show_private();">pygeodesy.deprecated.consterns</a></strong>: <em class="summary">DEPRECATED constants and interns for export and backward 
-        compatibility.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.datum-module.html">pygeodesy.deprecated.datum</a></strong>: <em class="summary">DEPRECATED, use module <a href="pygeodesy.datums-module.html" 
-        class="link">datums</a> or <a 
-        href="pygeodesy.ellipsoids-module.html" class="link">ellipsoids</a>
-        instead.</em>    </li>
-    <li class="private"> <strong class="uidlink"><a href="pygeodesy.deprecated.functions-module.html" onclick="show_private();">pygeodesy.deprecated.functions</a></strong>: <em class="summary">DEPRECATED functions for export and backward compatibility.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.nvector-module.html">pygeodesy.deprecated.nvector</a></strong>: <em class="summary">DEPRECATED, use module <a href="pygeodesy.nvectorBase-module.html" 
-        class="link">nvectorBase</a> instead.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.bases-module.html">pygeodesy.deprecated.bases</a></strong>: <em class="summary">DEPRECATED on 2021.02.10, use (INTERNAL) module <a 
+        href="pygeodesy.latlonBase-module.html" 
+        class="link">pygeodesy.latlonBase</a> instead.</em>    </li>
+    <li class="private"> <strong class="uidlink"><a href="pygeodesy.deprecated.classes-module.html" onclick="show_private();">pygeodesy.deprecated.classes</a></strong>: <em class="summary">DEPRECATED classes kept for backward compatibility.</em>    </li>
+    <li class="private"> <strong class="uidlink"><a href="pygeodesy.deprecated.consterns-module.html" onclick="show_private();">pygeodesy.deprecated.consterns</a></strong>: <em class="summary">DEPRECATED constants and interns kept for backward compatibility.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.datum-module.html">pygeodesy.deprecated.datum</a></strong>: <em class="summary">DEPRECATED on 2022.09.12, use module <a 
+        href="pygeodesy.datums-module.html" 
+        class="link">pygeodesy.datums</a> or <a 
+        href="pygeodesy.ellipsoids-module.html" 
+        class="link">pygeodesy.ellipsoids</a> instead.</em>    </li>
+    <li class="private"> <strong class="uidlink"><a href="pygeodesy.deprecated.functions-module.html" onclick="show_private();">pygeodesy.deprecated.functions</a></strong>: <em class="summary">DEPRECATED functions kept for backward compatibility.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.nvector-module.html">pygeodesy.deprecated.nvector</a></strong>: <em class="summary">DEPRECATED on 2021.05.20, use (INTERNAL) module <a 
+        href="pygeodesy.nvectorBase-module.html" 
+        class="link">pygeodesy.nvectorBase</a> instead.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.rhumbBase-module.html">pygeodesy.deprecated.rhumbBase</a></strong>: <em class="summary">DEPRECATED on 2023.11.26, use module <a 
+        href="pygeodesy.rhumb.bases-module.html" class="link" 
+        onclick="show_private();">pygeodesy.rhumb.bases</a> instead.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.rhumbaux-module.html">pygeodesy.deprecated.rhumbaux</a></strong>: <em class="summary">DEPRECATED on 2023.11.26, use module <a 
+        href="pygeodesy.rhumb.aux-module.html" class="link" 
+        onclick="show_private();">pygeodesy.rhumb.aux</a> instead.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.rhumbsolve-module.html">pygeodesy.deprecated.rhumbsolve</a></strong>: <em class="summary">DEPRECATED on 2023.11.26, use module <a 
+        href="pygeodesy.rhumb.solve-module.html" class="link" 
+        onclick="show_private();">pygeodesy.rhumb.solve</a> instead.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.rhumbx-module.html">pygeodesy.deprecated.rhumbx</a></strong>: <em class="summary">DEPRECATED on 2023.11.26, use module <a 
+        href="pygeodesy.rhumb.ekx-module.html" class="link" 
+        onclick="show_private();">pygeodesy.rhumb.ekx</a> instead.</em>    </li>
   </ul></td></tr>
 </table>
 
@@ -113,7 +126,24 @@
         <a href="pygeodesy.deprecated.classes.ClipCS3Tuple-class.html" class="summary-name">ClipCS3Tuple</a><br />
       DEPRECATED, see <i>DEPRECATED</i> function <a 
         href="pygeodesy.deprecated.functions-module.html#clipCS3" 
-        class="link">pygeodesy.clipCS3</a>.
+        class="link">pygeodesy.deprecated.clipCS3</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ellipsoids.Curvature2Tuple-class.html" class="summary-name">Curvature2Tuple</a><br />
+      2-Tuple <code>(meridional, prime_vertical)</code> of radii of 
+        curvature, both in <code>meter</code>, conventionally.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.datums.Datum-class.html" class="summary-name">Datum</a><br />
+      Ellipsoid and transform parameters for an earth model.
     </td>
   </tr>
 <tr>
@@ -131,6 +161,17 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" class="summary-name">Ellipsoid</a><br />
+      Ellipsoid with <i>equatorial</i> and <i>polar</i> radii, 
+        <i>flattening</i>, <i>inverse flattening</i> and other, often used,
+        <i>cached</i> attributes, supporting <i>oblate</i> and 
+        <i>prolate</i> ellipsoidal and <i>spherical</i> earth models.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.deprecated.classes.LatLonExact4Tuple-class.html" class="summary-name">LatLonExact4Tuple</a><br />
       DEPRECATED, use class <a 
         href="pygeodesy.namedTuples.Reverse4Tuple-class.html" 
@@ -142,11 +183,30 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.deprecated.bases.LatLonHeightBase-class.html" class="summary-name">LatLonHeightBase</a><br />
+      'DEPRECATED on 2021.02.10, use (INTERNAL) class <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html" 
+        class="link">pygeodesy.latlonBase.LatLonBase</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.nvectorBase.LatLonNvectorBase-class.html" class="summary-name">LatLonNvectorBase</a><br />
+      (INTERNAL) Base class for n-vector-based ellipsoidal and spherical 
+        <code>LatLon</code> classes.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.deprecated.classes.NearestOn4Tuple-class.html" class="summary-name">NearestOn4Tuple</a><br />
-      DEPRECATED on 23.10.10, see methods <a 
-        href="pygeodesy.rhumbBase.RhumbLineBase-class.html#nearestOn4" 
+      DEPRECATED on 2023.10.10, see methods <a 
+        href="pygeodesy.rhumb.bases.RhumbLineBase-class.html#nearestOn4" 
         class="link">RhumbLine.nearestOn4</a> and <a 
-        href="pygeodesy.rhumbBase.RhumbLineBase-class.html#nearestOn4" 
+        href="pygeodesy.rhumb.bases.RhumbLineBase-class.html#nearestOn4" 
         class="link">RhumbLineAux.nearestOn4</a>.
     </td>
   </tr>
@@ -164,10 +224,38 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.deprecated.nvector.Nvector-class.html" class="summary-name">Nvector</a><br />
+      DEPRECATED on 2021.05.20, see (INTERNAL) class <a 
+        href="pygeodesy.nvectorBase.NvectorBase-class.html" 
+        class="link">pygeodesy.nvectorBase.NvectorBase</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.deprecated.classes.Rhumb7Tuple-class.html" class="summary-name">Rhumb7Tuple</a><br />
       DEPRECATED, use class <a 
         href="pygeodesy.karney.Rhumb8Tuple-class.html" 
         class="link">Rhumb8Tuple</a>, ignoring item <code>a12</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.deprecated.classes.RhumbOrder2Tuple-class.html" class="summary-name">RhumbOrder2Tuple</a><br />
+      DEPRECATED, see deprecated method <a 
+        href="pygeodesy.rhumb.ekx.Rhumb-class.html#orders" 
+        class="link">rhumbx.Rhumb.orders</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.datums.Transform-class.html" class="summary-name">Transform</a><br />
+      Helmert transformation.
     </td>
   </tr>
 <tr>
@@ -186,7 +274,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.deprecated.classes.TriAngle4Tuple-class.html" class="summary-name">TriAngle4Tuple</a><br />
-      DEPRECATED on 23.09.14, use class <a 
+      DEPRECATED on 2023.09.14, use class <a 
         href="pygeodesy.resections.TriAngle5Tuple-class.html" 
         class="link">TriAngle5Tuple</a>, ignoring item <code>area</code>.
     </td>
@@ -360,7 +448,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.deprecated-module.html#atand" class="summary-sig-name">atand</a>(<span class="summary-sig-arg">x</span>)</span><br />
-      DEPRECATED on 23.09.28, use function <a 
+      DEPRECATED on 2023.09.28, use function <a 
       href="pygeodesy.utily-module.html#atan1d" 
       class="link">pygeodesy.atan1d</a>.</td>
           <td align="right" valign="top">
@@ -486,6 +574,26 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.deprecated-module.html#copysign" class="summary-sig-name">copysign</a>(<span class="summary-sig-arg">x</span>,
+        <span class="summary-sig-arg">y</span>)</span><br />
+      DEPRECATED, use function <a 
+      href="pygeodesy.basics-module.html#copysign0" 
+      class="link">pygeodesy.copysign0</a>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.deprecated-module.html#decodeEPSG2" class="summary-sig-name">decodeEPSG2</a>(<span class="summary-sig-arg">arg</span>)</span><br />
       DEPRECATED, use function <a href="pygeodesy.epsg-module.html#decode2"
       class="link">epsg.decode2</a>.</td>
@@ -572,7 +680,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.deprecated-module.html#excessAbc" class="summary-sig-name">excessAbc</a>(<span class="summary-sig-arg">A</span>,
         <span class="summary-sig-arg">b</span>,
         <span class="summary-sig-arg">c</span>)</span><br />
-      DEPRECATED on 23.04.04, use function <a 
+      DEPRECATED on 2023.04.04, use function <a 
       href="pygeodesy.formy-module.html#excessAbc_" 
       class="link">pygeodesy.excessAbc_</a>.</td>
           <td align="right" valign="top">
@@ -593,7 +701,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.deprecated-module.html#excessGirard" class="summary-sig-name">excessGirard</a>(<span class="summary-sig-arg">A</span>,
         <span class="summary-sig-arg">B</span>,
         <span class="summary-sig-arg">C</span>)</span><br />
-      DEPRECATED on 23.04.04, use function <a 
+      DEPRECATED on 2023.04.04, use function <a 
       href="pygeodesy.formy-module.html#excessGirard_" 
       class="link">pygeodesy.excessGirard_</a>.</td>
           <td align="right" valign="top">
@@ -614,7 +722,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.deprecated-module.html#excessLHuilier" class="summary-sig-name">excessLHuilier</a>(<span class="summary-sig-arg">a</span>,
         <span class="summary-sig-arg">b</span>,
         <span class="summary-sig-arg">c</span>)</span><br />
-      DEPRECATED on 23.04.04, use function <a 
+      DEPRECATED on 2023.04.04, use function <a 
       href="pygeodesy.formy-module.html#excessLHuilier_" 
       class="link">pygeodesy.excessLHuilier_</a>.</td>
           <td align="right" valign="top">
@@ -677,9 +785,9 @@
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">value</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">false</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">Error</span>=<span class="summary-sig-default">&lt;type 'exceptions.ValueError'&gt;</span>)</span><br />
-      DEPRECATED, use function <a 
-      href="pygeodesy.deprecated.functions-module.html#falsed2f" 
-      class="link">pygeodesy.falsed2f</a>.</td>
+      DEPRECATED, use class <a href="pygeodesy.units.Easting-class.html" 
+      class="link">Easting</a> or <a 
+      href="pygeodesy.units.Northing-class.html" class="link">Northing</a>.</td>
           <td align="right" valign="top">
             
             
@@ -717,7 +825,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.deprecated-module.html#float0" class="summary-sig-name">float0</a>(<span class="summary-sig-arg">*xs</span>)</span><br />
-      DEPRECATED on 23.04.21, use function <a 
+      DEPRECATED on 2023.04.21, use function <a 
       href="pygeodesy.constants-module.html#float0_" 
       class="link">pygeodesy.float0_</a>.</td>
           <td align="right" valign="top">
@@ -776,25 +884,6 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="isDEPRECATED"></a><span class="summary-sig-name">isDEPRECATED</span>(<span class="summary-sig-arg">obj</span>)</span><br />
-      Return <code>True</code> if <code><b>obj</b></code> is a 
-      <code>DEPRECATED</code> class, method or function, <code>False</code>
-      if not or <code>None</code> if undetermined.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.deprecated-module.html#isenclosedby" class="summary-sig-name">isenclosedby</a>(<span class="summary-sig-arg">point</span>,
         <span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
@@ -818,7 +907,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.deprecated-module.html#istuplist" class="summary-sig-name">istuplist</a>(<span class="summary-sig-arg">obj</span>,
         <span class="summary-sig-arg">minum</span>=<span class="summary-sig-default">0</span>)</span><br />
-      DEPRECATED on 23.03.31, use function <a 
+      DEPRECATED on 2023.03.31, use function <a 
       href="pygeodesy.basics-module.html#islistuple" 
       class="link">pygeodesy.islistuple</a>.</td>
           <td align="right" valign="top">
@@ -965,6 +1054,26 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.deprecated-module.html#points2" class="summary-sig-name">points2</a>(<span class="summary-sig-arg">points</span>,
+        <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">base</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">Error</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.errors.PointsError'&gt;</span>)</span><br />
+      Check a path or polygon represented by points.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.deprecated-module.html#polygon" class="summary-sig-name">polygon</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">base</span>=<span class="summary-sig-default">None</span>)</span><br />
@@ -1033,6 +1142,26 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.deprecated-module.html#sumOf" class="summary-sig-name">sumOf</a>(<span class="summary-sig-arg">nvectors</span>,
+        <span class="summary-sig-arg">Vector</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">h</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">**Vector_kwds</span>)</span><br />
+      Return the <i>vectorial</i> sum of two or more n-vectors.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.deprecated-module.html#tienstra" class="summary-sig-name">tienstra</a>(<span class="summary-sig-arg">pointA</span>,
         <span class="summary-sig-arg">pointB</span>,
         <span class="summary-sig-arg">pointC</span>,
@@ -1082,7 +1211,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.deprecated-module.html#triAngle4" class="summary-sig-name">triAngle4</a>(<span class="summary-sig-arg">a</span>,
         <span class="summary-sig-arg">b</span>,
         <span class="summary-sig-arg">c</span>)</span><br />
-      DEPRECATED on 23.09.14, use function <a 
+      DEPRECATED on 2023.09.14, use function <a 
       href="pygeodesy.resections-module.html#triAngle5" 
       class="link">pygeodesy.triAngle5</a>.</td>
           <td align="right" valign="top">
@@ -1167,7 +1296,19 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="__all__"></a><span class="summary-name">__all__</span> = <code title="_ALL_LAZY.deprecated">_ALL_LAZY.deprecated</code>
+        <a name="__getattr__"></a><span class="summary-name">__getattr__</span> = <code title="_lazy_import_as(__name__)">_lazy_import_as(__name__)</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.deprecated-module.html#Datums" class="summary-name">Datums</a> = <code title="Datums.OSGB36: Datum(name='OSGB36', ellipsoid=Ellipsoids.Airy1830, tra\
+nsform=Transforms.OSGB36),
+Datums.WGS84: Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transfor\
+m=Transforms.WGS84),
+Datums.Sphere: Datum(name='Sphere', ellipsoid=Ellipsoids.Sphere, trans\
+form=Transforms.WGS84)">Datums.OSGB36: Datum(name='OSGB36', ellipsoid=Ellipso<code class="variable-ellipsis">...</code></code>
     </td>
   </tr>
 <tr>
@@ -1181,6 +1322,21 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.deprecated-module.html#Ellipsoids" class="summary-name">Ellipsoids</a> = <code title="Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
+8.771415, f_=0, f=0, f2=0, n=0, e=0, e2=0, e21=1, e22=0, e32=0, A=6371\
+008.771415, L=10007557.17611675, R1=6371008.771415, R2=6371008.771415,\
+ R3=6371008.771415, Rbiaxial=6371008.771415, Rtriaxial=6371008.771415)\
+,
+Ellipsoids.WGS84: Ellipsoid(name='WGS84', a=6378137, b=6356752.3142451\
+8, f_=298.25722356, f=0.00335281, f2=0.00336409, n=0.00167922, e=0.081\
+81919, e2=0.00669438, e21=0.99330562, e22=0.0067395, e32=0.00335843, A\
+...">Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=637<code class="variable-ellipsis">...</code></code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a name="MANTIS"></a><span class="summary-name">MANTIS</span> = <code title="53">53</code>
     </td>
   </tr>
@@ -1188,7 +1344,90 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a name="NorthPole"></a><span class="summary-name">NorthPole</span> = <code title="NvectorBase(0.0, 0.0, 1.0)">NvectorBase(0.0, 0.0, 1.0)</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a name="OK"></a><span class="summary-name">OK</span> = <code title="'OK'">'OK'</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="R_FM"></a><span class="summary-name">R_FM</span> = <code title="6371000.0">6371000.0</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="R_KM"></a><span class="summary-name">R_KM</span> = <code title="6371.0087714149995">6371.0087714149995</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="R_M"></a><span class="summary-name">R_M</span> = <code title="6371008.771415">6371008.771415</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="R_MA"></a><span class="summary-name">R_MA</span> = <code title="6378137.0">6378137.0</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="R_MB"></a><span class="summary-name">R_MB</span> = <code title="6356752.3">6356752.3</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="R_NM"></a><span class="summary-name">R_NM</span> = <code title="3440.06953100162">3440.06953100162</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="R_SM"></a><span class="summary-name">R_SM</span> = <code title="3958.7613160486508">3958.7613160486508</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="R_VM"></a><span class="summary-name">R_VM</span> = <code title="6366707.0194937">6366707.0194937</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="SouthPole"></a><span class="summary-name">SouthPole</span> = <code title="NvectorBase(0.0, 0.0, -1.0)">NvectorBase(0.0, 0.0, -1.0)</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.deprecated-module.html#Transforms" class="summary-name">Transforms</a> = <code title="Transforms.OSGB36: Transform(name='OSGB36', tx=-446.448, ty=125.157, t\
+z=-542.06, rx=-0, ry=-0, rz=-0, s=20.4894, s1=1.00002, sx=-0.1502, sy=\
+-0.247, sz=-0.8421),
+Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
+, rz=0, s=0, s1=1, sx=0, sy=0, sz=0),
+Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
+, ry=0, rz=0, s=0, s1=1, sx=0, sy=0, sz=0)">Transforms.OSGB36: Transform(name='OSGB36', tx=-4<code class="variable-ellipsis">...</code></code>
     </td>
   </tr>
 </table>
@@ -1268,7 +1507,7 @@
     </td>
   </tr></table>
   
-  <p>DEPRECATED on 23.09.28, use function <a 
+  <p>DEPRECATED on 2023.09.28, use function <a 
   href="pygeodesy.utily-module.html#atan1d" 
   class="link">pygeodesy.atan1d</a>.</p>
   <dl class="fields">
@@ -1425,6 +1664,32 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="copysign"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">copysign</span>&nbsp;(<span class="sig-arg">x</span>,
+        <span class="sig-arg">y</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>DEPRECATED, use function <a 
+  href="pygeodesy.basics-module.html#copysign0" 
+  class="link">pygeodesy.copysign0</a>.</p>
+  <dl class="fields">
+    <dt>Decorators:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code>@deprecated_function</code></li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="decodeEPSG2"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1554,7 +1819,7 @@
     </td>
   </tr></table>
   
-  <p>DEPRECATED on 23.04.04, use function <a 
+  <p>DEPRECATED on 2023.04.04, use function <a 
   href="pygeodesy.formy-module.html#excessAbc_" 
   class="link">pygeodesy.excessAbc_</a>.</p>
   <dl class="fields">
@@ -1581,7 +1846,7 @@
     </td>
   </tr></table>
   
-  <p>DEPRECATED on 23.04.04, use function <a 
+  <p>DEPRECATED on 2023.04.04, use function <a 
   href="pygeodesy.formy-module.html#excessGirard_" 
   class="link">pygeodesy.excessGirard_</a>.</p>
   <dl class="fields">
@@ -1608,7 +1873,7 @@
     </td>
   </tr></table>
   
-  <p>DEPRECATED on 23.04.04, use function <a 
+  <p>DEPRECATED on 2023.04.04, use function <a 
   href="pygeodesy.formy-module.html#excessLHuilier_" 
   class="link">pygeodesy.excessLHuilier_</a>.</p>
   <dl class="fields">
@@ -1689,9 +1954,9 @@
     </td>
   </tr></table>
   
-  <p>DEPRECATED, use function <a 
-  href="pygeodesy.deprecated.functions-module.html#falsed2f" 
-  class="link">pygeodesy.falsed2f</a>.</p>
+  <p>DEPRECATED, use class <a href="pygeodesy.units.Easting-class.html" 
+  class="link">Easting</a> or <a href="pygeodesy.units.Northing-class.html"
+  class="link">Northing</a>.</p>
   <dl class="fields">
     <dt>Decorators:</dt>
     <dd><ul class="nomargin-top">
@@ -1755,7 +2020,7 @@
     </td>
   </tr></table>
   
-  <p>DEPRECATED on 23.04.21, use function <a 
+  <p>DEPRECATED on 2023.04.21, use function <a 
   href="pygeodesy.constants-module.html#float0_" 
   class="link">pygeodesy.float0_</a>.</p>
   <dl class="fields">
@@ -1860,7 +2125,7 @@
     </td>
   </tr></table>
   
-  <p>DEPRECATED on 23.03.31, use function <a 
+  <p>DEPRECATED on 2023.03.31, use function <a 
   href="pygeodesy.basics-module.html#islistuple" 
   class="link">pygeodesy.islistuple</a>.</p>
   <dl class="fields">
@@ -2044,6 +2309,48 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="points2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">points2</span>&nbsp;(<span class="sig-arg">points</span>,
+        <span class="sig-arg">closed</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">base</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">Error</span>=<span class="sig-default">&lt;class 'pygeodesy.errors.PointsError'&gt;</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Check a path or polygon represented by points.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>points</code></strong> - The path or polygon points (<code>LatLon</code>[])</li>
+        <li><strong class="pname"><code>closed</code></strong> - Optionally, consider the polygon closed, ignoring any duplicate 
+          or closing final <b><code>points</code></b> (<code>bool</code>).</li>
+        <li><strong class="pname"><code>base</code></strong> - Optionally, check all <b><code>points</code></b> against this 
+          base class, if <code>None</code> don't check.</li>
+        <li><strong class="pname"><code>Error</code></strong> - Exception to raise (<code>ValueError</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A <a href="pygeodesy.namedTuples.Points2Tuple-class.html" 
+          class="link">Points2Tuple</a><code>(number, points)</code> with 
+          the number of points and the points <code>list</code> or 
+          <code>tuple</code>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.PointsError-class.html">PointsError</a></strong></code> - Insufficient number of <b><code>points</code></b>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some <b><code>points</code></b> are not <b><code>base</code></b> 
+        compatible or composite <b><code>points</code></b>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="polygon"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -2136,6 +2443,46 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="sumOf"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">sumOf</span>&nbsp;(<span class="sig-arg">nvectors</span>,
+        <span class="sig-arg">Vector</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">h</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">**Vector_kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the <i>vectorial</i> sum of two or more n-vectors.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>nvectors</code></strong> - Vectors to be added (<code>Nvector</code>[]).</li>
+        <li><strong class="pname"><code>Vector</code></strong> - Optional class for the vectorial sum (<code>Nvector</code>) or 
+          <code>None</code>.</li>
+        <li><strong class="pname"><code>h</code></strong> - Optional height, overriding the mean height (<code>meter</code>).</li>
+        <li><strong class="pname"><code>Vector_kwds</code></strong> - Optional, additional <b><code>Vector</code></b> keyword 
+          arguments, ignored if <code><b>Vector</b> is None</code>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Vectorial sum (<b><code>Vector</code></b>) or a <a 
+          href="pygeodesy.namedTuples.Vector4Tuple-class.html" 
+          class="link">Vector4Tuple</a><code>(x, y, z, h)</code> if 
+          <b><code>Vector</code></b> is <code>None</code>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.VectorError-class.html">VectorError</a></strong></code> - No <b><code>nvectors</code></b>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="tienstra"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -2215,7 +2562,7 @@
     </td>
   </tr></table>
   
-  <p>DEPRECATED on 23.09.14, use function <a 
+  <p>DEPRECATED on 2023.09.14, use function <a 
   href="pygeodesy.resections-module.html#triAngle5" 
   class="link">pygeodesy.triAngle5</a>.</p>
   <dl class="fields">
@@ -2311,6 +2658,89 @@
 </td></tr></table>
 </div>
 <br />
+<!-- ==================== VARIABLES DETAILS ==================== -->
+<a name="section-VariablesDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Variables Details</span></td>
+</tr>
+</table>
+<a name="Datums"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">Datums</h3>
+  
+  <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+Datums.OSGB36: Datum(name='OSGB36', ellipsoid=Ellipsoids.Airy1830, tra<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+nsform=Transforms.OSGB36),
+Datums.WGS84: Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transfor<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+m=Transforms.WGS84),
+Datums.Sphere: Datum(name='Sphere', ellipsoid=Ellipsoids.Sphere, trans<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+form=Transforms.WGS84)
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="Ellipsoids"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">Ellipsoids</h3>
+  
+  <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+8.771415, f_=0, f=0, f2=0, n=0, e=0, e2=0, e21=1, e22=0, e32=0, A=6371<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+008.771415, L=10007557.17611675, R1=6371008.771415, R2=6371008.771415,<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+ R3=6371008.771415, Rbiaxial=6371008.771415, Rtriaxial=6371008.771415)<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+,
+Ellipsoids.WGS84: Ellipsoid(name='WGS84', a=6378137, b=6356752.3142451<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+8, f_=298.25722356, f=0.00335281, f2=0.00336409, n=0.00167922, e=0.081<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+81919, e2=0.00669438, e21=0.99330562, e22=0.0067395, e32=0.00335843, A<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+<code class="variable-ellipsis">...</code>
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="Transforms"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">Transforms</h3>
+  
+  <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+Transforms.OSGB36: Transform(name='OSGB36', tx=-446.448, ty=125.157, t<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+z=-542.06, rx=-0, ry=-0, rz=-0, s=20.4894, s1=1.00002, sx=-0.1502, sy=<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+-0.247, sz=-0.8421),
+Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+, rz=0, s=0, s1=1, sx=0, sy=0, sz=0),
+Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+, ry=0, rz=0, s=0, s1=1, sx=0, sy=0, sz=0)
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
 <!-- ==================== NAVIGATION BAR ==================== -->
 <table class="navbar" border="0" width="100%" cellpadding="0"
        bgcolor="#a0c0ff" cellspacing="0">
@@ -2342,7 +2772,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Nov 12 13:03:53 2023
+    Generated by Epydoc 3.0.1 on Thu Nov 30 19:49:05 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

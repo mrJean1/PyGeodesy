@@ -11,8 +11,7 @@ from pygeodesy.basics import isLatLon, isscalar, issubclassof
 from pygeodesy.constants import EPS, MAX, PI, PI2, PI_4, isnear0, isnear1, \
                                _EPSqrt as _TOL, _0_0, _0_5, _1_5, _3_0
 # from pygeodesy.dms import F_DMS  # _MODS
-from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase, Property_RO, \
-                                      property_RO, _TOL_M
+from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase, property_RO, _TOL_M
 from pygeodesy.errors import _AssertionError, IntersectionError, _IsnotError, \
                              _or, _ValueError, _xellipsoidal, _xError, _xkwds_not
 from pygeodesy.fmath import favg, fmean_
@@ -24,7 +23,7 @@ from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.namedTuples import Bearing2Tuple, Destination2Tuple, \
                                   Intersection3Tuple, NearestOn2Tuple, \
                                   NearestOn8Tuple, _LL4Tuple
-# from pygeodesy.props import Property_RO, property_RO  # from .ellipsoidalBase
+# from pygeodesy.props import property_RO  # from .ellipsoidalBase
 # from pygeodesy.streprs import Fmt  # from .fsums
 from pygeodesy.units import _fi_j2, Radius_, Scalar
 from pygeodesy.utily import m2km, unroll180, _unrollon, _unrollon3, \
@@ -33,7 +32,7 @@ from pygeodesy.utily import m2km, unroll180, _unrollon, _unrollon3, \
 from math import degrees, radians
 
 __all__ = _ALL_LAZY.ellipsoidalBaseDI
-__version__ = '23.11.11'
+__version__ = '23.11.16'
 
 _polar__  = 'polar?'
 _B2END    = _1_5  # _intersect3 bearing to pseudo-end point factor
@@ -203,7 +202,7 @@ class LatLonEllipsoidalBaseDI(LatLonEllipsoidalBase):
         '''
         return self._Inverse(other, wrap).final
 
-    @Property_RO
+    @property_RO
     def geodesic(self):  # overloaded by I{Karney}'s, N/A for I{Vincenty}
         '''N/A, invalid (C{None} I{always}).
         '''
@@ -415,7 +414,7 @@ class LatLonEllipsoidalBaseDI(LatLonEllipsoidalBase):
            @arg other: An other point (C{LatLon}) on the geodesic (line) or the
                        (forward) bearing at the B{C{point}} (compass C{degrees}).
            @kwarg exact: Exact C{geodesic...} to use (C{bool} or C{Geodesic...}),
-                         nsee method L{Ellipsoid.geodesic_}.
+                         see method L{Ellipsoid.geodesic_}.
            @kwarg height: Optional height for the intersection point (C{meter},
                           conventionally) or C{None} for an interpolated height.
            @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the B{C{point}}

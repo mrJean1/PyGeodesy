@@ -47,7 +47,7 @@ from pygeodesy.props import _allPropertiesOf_n, deprecated_property_RO, \
 from math import ceil as _ceil, fabs, floor as _floor  # PYCHOK used! .ltp
 
 __all__ = _ALL_LAZY.fsums
-__version__ = '23.10.14'
+__version__ = '23.11.18'
 
 _add_op_       = _PLUS_  # in .auxilats.auxAngle
 _eq_op_        = _EQUAL_ * 2  # _DEQUAL_
@@ -652,9 +652,16 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
         f = self._copy_r2(other, self.__rmul__)
         return f._fmul(self, _mul_op_)
 
-    def __round__(self, ndigits=None):  # PYCHOK no cover
-        '''Not implemented.'''
-        return _NotImplemented(self, ndigits=ndigits)
+    def __round__(self, *ndigits):  # PYCHOK no cover
+        '''Return C{round(B{self}, *B{ndigits}} as an L{Fsum}.
+
+           @arg ndigits: Optional number of digits (C{int}).
+        '''
+        # <https://docs.Python.org/3.12/reference/datamodel.html?#object.__round__>
+        f = Fsum(name=self.__round__.__name__)
+        f._n  = 1
+        f._ps = [round(float(self), *ndigits)]  # can be C{int}
+        return f
 
     def __rpow__(self, other, *mod):
         '''Return C{B{other}**B{self}} as an L{Fsum}.

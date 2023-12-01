@@ -23,8 +23,8 @@ from pygeodesy.interns import NN, _1_, _2_, _3_, _bearing_, _coincident_, \
                              _COMMASPACE_, _distance_, _h_, _insufficient_, \
                              _intersection_, _no_, _NorthPole_, _point_, \
                              _pole_, _SPACE_, _SouthPole_, _under
-from pygeodesy.latlonBase import LatLonBase, _ALL_DOCS, _MODS
-# from pygeodesy.lazily import _ALL_DOCS, _ALL_MODS as _MODS  # from .latlonBase
+from pygeodesy.latlonBase import LatLonBase,  _ALL_DOCS, _ALL_LAZY, _MODS
+# from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS  # from .latlonBase
 from pygeodesy.named import notImplemented, _xother3
 from pygeodesy.namedTuples import Trilaterate5Tuple, Vector3Tuple, \
                                   Vector4Tuple,  map1
@@ -37,8 +37,8 @@ from pygeodesy.vector3d import Vector3d, _xyzhdn3
 
 from math import fabs, sqrt
 
-__all__ = (_NorthPole_, _SouthPole_)  # constants
-__version__ = '23.10.24'
+__all__ = _ALL_LAZY.nvectorBase
+__version__ = '23.11.29'
 
 
 class NvectorBase(Vector3d):  # XXX kept private
@@ -87,15 +87,16 @@ class NvectorBase(Vector3d):  # XXX kept private
         '''
         return self._datum
 
-    @Property_RO
+    @property_RO
     def Ecef(self):
-        '''Get the ECEF I{class} (L{EcefKarney}), I{lazily}.
+        '''Get the ECEF I{class} (L{EcefKarney}), I{lazily, once}.
         '''
-        return _MODS.ecef.EcefKarney  # default
+        NvectorBase.Ecef = E = _MODS.ecef.EcefKarney  # overwrite property_RO
+        return E
 
     @property_RO
     def ellipsoidalNvector(self):
-        '''Get the C{Nvector type} iff ellipsoidal, overloaded in L{ellipsoidalNvector.Nvector}.
+        '''Get the C{Nvector type} iff ellipsoidal, overloaded in L{pygeodesy.ellipsoidalNvector.Nvector}.
         '''
         return False
 
@@ -214,7 +215,7 @@ class NvectorBase(Vector3d):  # XXX kept private
 
     @property_RO
     def sphericalNvector(self):
-        '''Get the C{Nvector type} iff spherical, overloaded in L{sphericalNvector.Nvector}.
+        '''Get the C{Nvector type} iff spherical, overloaded in L{pygeodesy.sphericalNvector.Nvector}.
         '''
         return False
 

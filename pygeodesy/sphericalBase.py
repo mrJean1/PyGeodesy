@@ -246,15 +246,13 @@ class LatLonSphericalBase(LatLonBase):
                              radius=radius, exact=exact, height=height, wrap=wrap)
 
     def maxLat(self, bearing):
-        '''Return the maximum latitude reached when travelling
-           on a great circle on given bearing from this point
-           based on Clairaut's formula.
+        '''Return the maximum latitude reached when travelling on a great circle
+           on given bearing from this point based on Clairaut's formula.
 
-           The maximum latitude is independent of longitude
-           and the same for all points on a given latitude.
+           The maximum latitude is independent of longitude and the same for all
+           points on a given latitude.
 
-           Negate the result for the minimum latitude (on the
-           Southern hemisphere).
+           Negate the result for the minimum latitude (on the Southern hemisphere).
 
            @arg bearing: Initial bearing (compass C{degrees360}).
 
@@ -262,12 +260,12 @@ class LatLonSphericalBase(LatLonBase):
 
            @raise ValueError: Invalid B{C{bearing}}.
         '''
-        m = acos1(fabs(sin(Bearing_(bearing)) * cos(self.phi)))
-        return degrees90(m)
+        r = acos1(fabs(sin(Bearing_(bearing)) * cos(self.phi)))
+        return degrees90(r)
 
     def minLat(self, bearing):
-        '''Return the minimum latitude reached when travelling
-           on a great circle on given bearing from this point.
+        '''Return the minimum latitude reached when travelling on a great circle
+           on given bearing from this point.
 
            @arg bearing: Initial bearing (compass C{degrees360}).
 

@@ -82,7 +82,8 @@ from pygeodesy.interns import NN, _a_, _Airy1830_, _AiryModified_, _b_, _Bessel1
 from pygeodesy.named import _lazyNamedEnumItem as _lazy, _NamedEnum, _NamedEnumItem, \
                             _NamedTuple, _Pass,  _ALL_LAZY, _MODS
 from pygeodesy.namedTuples import Distance2Tuple, Vector3Tuple, Vector4Tuple
-from pygeodesy.props import deprecated_Property_RO, Property_RO, property_doc_, property_RO
+from pygeodesy.props import deprecated_Property_RO, Property_RO, property_doc_, \
+                            deprecated_property_RO, property_RO
 from pygeodesy.streprs import Fmt, fstr, instr, strs, unstr
 from pygeodesy.units import Bearing_, Distance, Float, Float_, Height, Lam_, Lat, Meter, \
                             Meter2, Meter3, Phi, Phi_, Radius, Radius_, Scalar
@@ -91,7 +92,7 @@ from pygeodesy.utily import atan1, atan1d, atan2b, degrees90, m2radians, radians
 from math import asinh, atan, atanh, cos, degrees, exp, fabs, radians, sin, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '23.10.27'
+__version__ = '23.11.30'
 
 _f_0_0    = Float(f =_0_0)  # zero flattening
 _f__0_0   = Float(f_=_0_0)  # zero inverse flattening
@@ -1004,10 +1005,8 @@ class Ellipsoid(_NamedEnumItem):
     def geodesic_(self, exact=True):
         '''Get the an I{exact} C{Geodesic...} instance for this ellipsoid.
 
-           @kwarg exact: If C{bool} return L{GeodesicExact}C{(exact=B{exact},
-                         ...)}, otherwise a C{geodesic} for this ellipsoid
-                         (C{.geodesicw}, C{.geodesicx}, C{.geodsolve}) or an
-                         other L{Geodesic}, L{GeodesicExact} or L{GeodesicSolve}
+           @kwarg exact: If C{bool} return L{GeodesicExact}C{(exact=B{exact}, ...)},
+                         otherwise a L{Geodesic}, L{GeodesicExact} or L{GeodesicSolve}
                          instance for I{this} ellipsoid.
 
            @return: The C{exact} geodesic (C{Geodesic...}).
@@ -1477,10 +1476,9 @@ class Ellipsoid(_NamedEnumItem):
     def rhumb_(self, exact=True):
         '''Get the an I{exact} C{Rhumb...} instance for this ellipsoid.
 
-           @kwarg exact: If C{bool} or C{None} return L{Rhumb}C{(exact=B{exact},
-                         ...)}, otherwise a C{rhumb} for this ellipsoid (C{.rhumbaux},
-                         C{.rhumbsolve}, C{.rhumbx}) or an other L{Rhumb}, L{RhumbAux}
-                         or L{RhumbSolve} instance for I{this} ellipsoid.
+           @kwarg exact: If C{bool} or C{None} return L{Rhumb}C{(exact=B{exact}, ...)},
+                         otherwise a L{Rhumb}, L{RhumbAux} or L{RhumbSolve} instance
+                         for I{this} ellipsoid.
 
            @return: The C{exact} rhumb (C{Rhumb...}).
 
@@ -1489,7 +1487,7 @@ class Ellipsoid(_NamedEnumItem):
            @raise ValueError: Incompatible B{C{exact}} ellipsoid.
         '''
         if isbool(exact):  # use Rhumb for backward compatibility
-            r = _MODS.rhumbx.Rhumb(self, exact=exact, name=self.name)
+            r = _MODS.rhumb.ekx.Rhumb(self, exact=exact, name=self.name)
         else:
             r =  exact
             E = _xattr(r, ellipsoid=None)
@@ -1499,19 +1497,27 @@ class Ellipsoid(_NamedEnumItem):
 
     @property_RO
     def rhumbaux(self):
-        '''Get this ellipsoid's I{Auxiliary} C{rhumbaux.RhumbAux}.
+        '''Get this ellipsoid's I{Auxiliary} C{rhumb.RhumbAux}.
         '''
         # if not self.isEllipsoidal:
         #     raise _IsnotError(_ellipsoidal_, ellipsoid=self)
-        return _MODS.rhumbaux.RhumbAux(self, name=self.name)
+        return _MODS.rhumb.aux.RhumbAux(self, name=self.name)
+
+    @property_RO
+    def rhumbex(self):
+        '''Get this ellipsoid's I{Elliptic} C{rhumb.Rhumb}.
+        '''
+        # if not self.isEllipsoidal:
+        #     raise _IsnotError(_ellipsoidal_, ellipsoid=self)
+        return _MODS.rhumb.ekx.Rhumb(self, name=self.name)
 
     @property_RO
     def _Rhumbs(self):
         '''(INTERNAL) Get all C{Rhumb...} classes, I{once}.
         '''
-        Ellipsoid._Rhumbs = t = (_MODS.rhumbaux.RhumbAux,  # overwrite property_RO
-                                 _MODS.rhumbsolve.RhumbSolve,
-                                 _MODS.rhumbx.Rhumb)
+        p = _MODS.rhumb
+        Ellipsoid._Rhumbs = t = (p.aux.RhumbAux,  # overwrite property_RO
+                                 p.elliptic.Rhumb, p.solve.RhumbSolve)
         return t
 
     @property
@@ -1523,7 +1529,7 @@ class Ellipsoid(_NamedEnumItem):
         '''
         # if not self.isEllipsoidal:
         #     raise _IsnotError(_ellipsoidal_, ellipsoid=self)
-        return _MODS.rhumbsolve.RhumbSolve(self, path=self._rhumbsolve, name=self.name)
+        return _MODS.rhumb.solve.RhumbSolve(self, path=self._rhumbsolve, name=self.name)
 
     @rhumbsolve.setter  # PYCHOK setter!
     def rhumbsolve(self, path):
@@ -1533,13 +1539,10 @@ class Ellipsoid(_NamedEnumItem):
         '''
         self._rhumbsolve = path
 
-    @property_RO
+    @deprecated_property_RO
     def rhumbx(self):
-        '''Get this ellipsoid's I{Elliptic} C{rhumbx.Rhumb}.
-        '''
-        # if not self.isEllipsoidal:
-        #     raise _IsnotError(_ellipsoidal_, ellipsoid=self)
-        return _MODS.rhumbx.Rhumb(self, name=self.name)
+        '''DEPRECATED on 2023.11.28, use property C{rhumbex}. '''
+        return self.rhumbex
 
     def Rlat(self, lat):
         '''I{Approximate} the earth radius of (geodetic) latitude.

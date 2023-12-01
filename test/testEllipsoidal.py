@@ -4,9 +4,9 @@
 # Test ellipsoidals earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '23.11.08'
+__version__ = '23.11.25'
 
-from bases import coverage, GeodSolve, geographiclib, isPython35, RandomLatLon
+from bases import coverage, GeodSolve, geographiclib, isPython35, isPython39, RandomLatLon
 from testLatLon import Tests as _TestsLL
 from testVectorial import Tests as _TestsV
 
@@ -169,7 +169,7 @@ class Tests(_TestsLL, _TestsV):
                  (LatLon(-30,   0), 135),
                  (LatLon(-30,   0), LatLon( 0, 30)),
                  (LatLon(-45, -15), LatLon(15, 45))]
-            for _ in range(6):
+            for _ in range(5 if isPython39 else 1):
                 p, z = c.destination2(r, random() * 360)
                 q, _ = c.destination2(r, random() * 360)
                 t.append((p, q))

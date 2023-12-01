@@ -26,7 +26,7 @@ from pygeodesy.solveBase import _SolveBase, _SolveLineBase
 from pygeodesy.utily import _unrollon, _Wrap, wrap360
 
 __all__ = _ALL_LAZY.geodsolve
-__version__ = '23.11.08'
+__version__ = '23.11.18'
 
 
 class GeodSolve12Tuple(_GTuple):

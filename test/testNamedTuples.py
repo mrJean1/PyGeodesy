@@ -4,7 +4,7 @@
 # Test L{namedTuples} module.
 
 __all__ = ('Tests',)
-__version__ = '23.08.05'
+__version__ = '23.11.26'
 
 from bases import TestsBase
 from pygeodesy import FIx, issubclassof
@@ -15,7 +15,7 @@ from pygeodesy.hausdorff import Hausdorff6Tuple
 from pygeodesy.interns import _DOT_
 from pygeodesy.karney import _GTuple
 from pygeodesy.named import _NamedTuple, _Pass
-# from pygeodesy.rhumbBase import _Lat as rLat, _Lon as rLon
+# from pygeodesy.rhumb.bases import _Lat as rLat, _Lon as rLon
 from pygeodesy.triaxials import _NamedTupleTo
 from pygeodesy.units import _NamedUnit
 

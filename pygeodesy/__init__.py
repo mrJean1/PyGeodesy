@@ -134,7 +134,8 @@ U{geographiclib<https://PyPI.org/project/geographiclib>} 1.50, U{numpy<https://P
 1.16.6, U{scipy<https://PyPI.org/project/scipy>} 1.2.2, U{GeoConvert
 <https://GeographicLib.SourceForge.io/html/utilities.html>} 2.2, U{GeodSolve
 <https://GeographicLib.SourceForge.io/html/utilities.html>} 2.2 and U{RhumbSolve
-<https://GeographicLib.SourceForge.io/html/utilities.html>} 2.2), all on macOS 14.0 Sonoma and in 64-bit only.
+<https://GeographicLib.SourceForge.io/html/utilities.html>} 2.2), all on macOS 14.1.1 Sonoma and
+in 64-bit only.
 
 All tests ran with and without C{lazy import} for Python 3 and with command line option C{-W default} and
 env variable C{PYGEODESY_WARNINGS=on} for all Python versions.  The results of those tests are included in
@@ -164,13 +165,13 @@ Previously, the tests were run with Python 3.11.2-4, 3.10.1-7, 3.9.1, 3.8.7, 3.7
 1.16.5, 1.16.2, 1.15.2, 1.14.0, 1.13.1, 1.8.0rc1 or 1.6.2 and U{scipy<https://PyPI.org/project/scipy>} 1.5.0), U{PyPy
 <https://PyPy.org>} 7.3.0 (Python 2.7.13 and 3.6.9), U{PyPy<https://PyPy.org>} 6.0.0 (Python 2.7.13 and 3.5.3)
 and U{Intel-Python<https://software.Intel.com/en-us/distribution-for-python>} 3.5.3 (and U{numpy
-<https://PyPI.org/project/numpy>} 1.11.3) on macOS 13.0-5.2 Ventura, 12.1-6 Monterey, 11.0-5.2-6.1 Big Sur (aka
-10.16), 10.15.3, 10.15.5-7 Catalina, 10.14 Mojave, 10.13.6 High Sierra and 10.12 Sierra, MacOS X 10.11 El Capitan
-and/or MacOS X 10.10 Yosemite, with U{Pythonista<https://OMZ-Software.com/pythonista>}3.2 (with geographiclib
-1.50 or 1.49 and numpy 1.8.0) on iOS 14.4.2, 11.4.1, 12.0-3 on iPad4, iPhone6, iPhone10 and/or iPhone12, with
-U{Pythonista<https://OMZ-Software.com/pythonista>} 3.1 on iOS 10.3.3, 11.0.3, 11.1.2 and 11.3 on iPad4, all in
-64-bit only and with 32-bit Python 2.7.14 on Windows Server 2012R2, Windows 10 Pro and with 32-bit Python 2.6.6
-on Windows XP SP3.
+<https://PyPI.org/project/numpy>} 1.11.3) on macOS 14.0 Sonoma, 13.0-5.2 Ventura, 12.1-6 Monterey, 11.0-5.2-6.1
+Big Sur (aka 10.16), 10.15.3, 10.15.5-7 Catalina, 10.14 Mojave, 10.13.6 High Sierra and 10.12 Sierra, MacOS X
+10.11 El Capitan and/or MacOS X 10.10 Yosemite, with U{Pythonista<https://OMZ-Software.com/pythonista>}3.2 (with
+geographiclib 1.50 or 1.49 and numpy 1.8.0) on iOS 14.4.2, 11.4.1, 12.0-3 on iPad4, iPhone6, iPhone10 and/or
+iPhone12, with U{Pythonista<https://OMZ-Software.com/pythonista>} 3.1 on iOS 10.3.3, 11.0.3, 11.1.2 and 11.3
+on iPad4, all in 64-bit only and with 32-bit Python 2.7.14 on Windows Server 2012R2, Windows 10 Pro and with
+32-bit Python 2.6.6 on Windows XP SP3.
 
 Notes
 =====
@@ -179,7 +180,7 @@ All Python source code has been statically U{checked<https://GitHub.com/ActiveSt
 Python/546532_PyChecker_postprocessor>} with U{PyChecker<https://PyPI.org/project/pychecker>}, U{PyFlakes
 <https://PyPI.org/project/pyflakes>}, U{PyCodeStyle<https://PyPI.org/project/pycodestyle>} (formerly Pep8) and
 U{McCabe<https://PyPI.org/project/mccabe>} using Python 2.7.18 and with U{Flake8<https://PyPI.org/project/flake8>}
-using Python 3.11.5, both in 64-bit on macOS 14.0 Sonoma.
+using Python 3.11.5, both in 64-bit on macOS 14.1.1 Sonoma.
 
 For a summary of all I{Karney}-based functionality in C{pygeodesy}, see module U{karney
 <https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.karney-module.html>}.
@@ -200,7 +201,7 @@ The following environment variables are observed by C{PyGeodesy}:
  - C{PYGEODESY_GEODSOLVE} - see module L{pygeodesy.geodsolve}.
  - C{PYGEODESY_LAZY_IMPORT} - see module L{pygeodesy.lazily} and variable L{pygeodesy.isLazy}.
  - C{PYGEODESY_NOTIMPLEMENTED} - __special__ methods return C{NotImplemented} if set to "std".
- - C{PYGEODESY_RHUMBSOLVE} - see module L{pygeodesy.rhumbsolve}.
+ - C{PYGEODESY_RHUMBSOLVE} - see module L{pygeodesy.rhumb.solve}.
  - C{PYGEODESY_UPS_POLES} - see modules L{pygeodesy.ups} and L{pygeodesy.mgrs}.
 
 and these to control standard or I{named} C{repr}esentations:
@@ -228,7 +229,8 @@ and:
    other than C{"__all__"} to avoid importing all C{pygeodesy} modules unnecessarily
    (in Python 2 or with C{PYGEODESY_LAZY_IMPORT} turned off in Python 3).  However,
    to import a C{pygeodesy} item, the item name must be qualified with the C{module}
-   name, for example C{ from pygeodesy.ellipsoidalExact import LatLon }
+   name, for example C{ from pygeodesy.ellipsoidalExact import LatLon } or C{ from
+   pygeodesy.deprecated import collins }
 
 License
 =======
@@ -374,13 +376,10 @@ else:
         sys.path.insert(0, pygeodesy_abspath)  # XXX __path__[0]
 
     try:  # lazily requires Python 3.7+, see lazily.__doc__
-        from pygeodesy.lazily import _a_l_l_, _getenv, LazyImportError, \
-                                     _lazy_import2  # PYCHOK expected
+        from pygeodesy.lazily import _init__all__, _lazy_import2  # PYCHOK expected
         _, __getattr__ = _lazy_import2(_pygeodesy_)  # PYCHOK expected
-        _init__all__   = _getenv('PYGEODESY_INIT__ALL__', _a_l_l_) == _a_l_l_
-        del _a_l_l_, _getenv
 
-    except (ImportError, LazyImportError, NotImplementedError):
+    except (ImportError, NotImplementedError):  # LazyImportError
         _lazy_import2 = None
 
 if _init__all__ and not _lazy_import2:  # import and set __all__
@@ -389,21 +388,19 @@ if _init__all__ and not _lazy_import2:  # import and set __all__
     import pygeodesy.albers                as albers                 # PYCHOK exported
     import pygeodesy.auxilats              as auxilats               # PYCHOK exported
     import pygeodesy.azimuthal             as azimuthal              # PYCHOK exported
-    import pygeodesy.deprecated.bases      as bases                  # PYCHOK DEPRECATED
     import pygeodesy.basics                as basics                 # PYCHOK exported
     import pygeodesy.booleans              as booleans               # PYCHOK exported
-    import pygeodesy.cartesianBase         as cartesianBase          # PYCHOK exported
+    import pygeodesy.cartesianBase         as cartesianBase          # PYCHOK INTERNAL
     import pygeodesy.clipy                 as clipy                  # PYCHOK exported
     import pygeodesy.constants             as constants              # PYCHOK exported
     import pygeodesy.css                   as css                    # PYCHOK exported
-    import pygeodesy.deprecated.datum      as datum                  # PYCHOK DEPRECATED
     import pygeodesy.datums                as datums                 # PYCHOK exported
     import pygeodesy.deprecated            as deprecated             # PYCHOK exported
     import pygeodesy.dms                   as dms                    # PYCHOK exported
     import pygeodesy.ecef                  as ecef                   # PYCHOK exported
     import pygeodesy.elevations            as elevations             # PYCHOK exported
-    import pygeodesy.ellipsoidalBase       as ellipsoidalBase        # PYCHOK exported
-    import pygeodesy.ellipsoidalBaseDI     as ellipsoidalBaseDI      # PYCHOK exported
+    import pygeodesy.ellipsoidalBase       as ellipsoidalBase        # PYCHOK INTERNAL
+    import pygeodesy.ellipsoidalBaseDI     as ellipsoidalBaseDI      # PYCHOK INTERNAL
     import pygeodesy.ellipsoidalExact      as ellipsoidalExact       # PYCHOK exported
     import pygeodesy.ellipsoidalGeodSolve  as ellipsoidalGeodSolve   # PYCHOK exported
     import pygeodesy.ellipsoidalKarney     as ellipsoidalKarney      # PYCHOK exported
@@ -431,7 +428,7 @@ if _init__all__ and not _lazy_import2:  # import and set __all__
     import pygeodesy.iters                 as iters                  # PYCHOK exported
     import pygeodesy.karney                as karney                 # PYCHOK exported
     import pygeodesy.ktm                   as ktm                    # PYCHOK exported
-    import pygeodesy.latlonBase            as latlonBase             # PYCHOK exported
+    import pygeodesy.latlonBase            as latlonBase             # PYCHOK INTERNAL
     import pygeodesy.lazily                as lazily                 # PYCHOK exported
     import pygeodesy.lcc                   as lcc                    # PYCHOK exported
     import pygeodesy.ltp                   as ltp                    # PYCHOK exported
@@ -439,18 +436,14 @@ if _init__all__ and not _lazy_import2:  # import and set __all__
     import pygeodesy.mgrs                  as mgrs                   # PYCHOK exported
     import pygeodesy.named                 as named                  # PYCHOK exported
     import pygeodesy.namedTuples           as namedTuples            # PYCHOK exported
-    import pygeodesy.nvectorBase           as nvectorBase            # PYCHOK exported
-    import pygeodesy.deprecated.nvector    as nvector                # PYCHOK DEPRECATED
+    import pygeodesy.nvectorBase           as nvectorBase            # PYCHOK INTERNAL
     import pygeodesy.osgr                  as osgr                   # PYCHOK exported
     import pygeodesy.points                as points                 # PYCHOK exported
     import pygeodesy.props                 as props                  # PYCHOK exported
     import pygeodesy.resections            as resections             # PYCHOK exported
-    import pygeodesy.rhumbaux              as rhumbaux               # PYCHOK exported
-    import pygeodesy.rhumbBase             as rhumbBase              # PYCHOK exported
-    import pygeodesy.rhumbsolve            as rhumbsolve             # PYCHOK exported
-    import pygeodesy.rhumbx                as rhumbx                 # PYCHOK exported
+    import pygeodesy.rhumb                 as rhumb                  # PYCHOK exported
     import pygeodesy.simplify              as simplify               # PYCHOK exported
-    import pygeodesy.sphericalBase         as sphericalBase          # PYCHOK exported
+    import pygeodesy.sphericalBase         as sphericalBase          # PYCHOK INTERNAL
     import pygeodesy.sphericalNvector      as sphericalNvector       # PYCHOK exported
     import pygeodesy.sphericalTrigonometry as sphericalTrigonometry  # PYCHOK exported
     import pygeodesy.solveBase             as solveBase              # PYCHOK exported
@@ -458,15 +451,15 @@ if _init__all__ and not _lazy_import2:  # import and set __all__
     import pygeodesy.trf                   as trf                    # PYCHOK exported
     import pygeodesy.triaxials             as triaxials              # PYCHOK exported
     import pygeodesy.units                 as units                  # PYCHOK exported
-    import pygeodesy.unitsBase             as unitsBase              # PYCHOK exported
+    import pygeodesy.unitsBase             as unitsBase              # PYCHOK INTERNAL
     import pygeodesy.ups                   as ups                    # PYCHOK exported
     import pygeodesy.utily                 as utily                  # PYCHOK exported
     import pygeodesy.utm                   as utm                    # PYCHOK exported
     import pygeodesy.utmups                as utmups                 # PYCHOK exported
-    import pygeodesy.utmupsBase            as utmupsBase             # PYCHOK exported
+    import pygeodesy.utmupsBase            as utmupsBase             # PYCHOK INTERNAL
     import pygeodesy.vector2d              as vector2d               # PYCHOK exported
     import pygeodesy.vector3d              as vector3d               # PYCHOK exported
-    import pygeodesy.vector3dBase          as vector3dBase           # PYCHOK exported
+    import pygeodesy.vector3dBase          as vector3dBase           # PYCHOK INTERNAL
     import pygeodesy.webmercator           as webmercator            # PYCHOK exported
     import pygeodesy.wgrs                  as wgrs                   # PYCHOK exported
 
@@ -480,17 +473,17 @@ if _init__all__ and not _lazy_import2:  # import and set __all__
 #   from pygeodesy.auxilats              import *  # PYCHOK __(_)__
     from pygeodesy.basics                import *  # PYCHOK __all__
     from pygeodesy.booleans              import *  # PYCHOK __all__
-#   from pygeodesy.cartesianBase         import *  # PYCHOK __(_)__
+    from pygeodesy.cartesianBase         import *  # PYCHOK __(_)__ INTERNAL
     from pygeodesy.clipy                 import *  # PYCHOK __all__
     from pygeodesy.constants             import *  # PYCHOK __all__
     from pygeodesy.css                   import *  # PYCHOK __all__
     from pygeodesy.datums                import *  # PYCHOK __all__
-    from pygeodesy.deprecated            import *  # PYCHOK __all__
+    from pygeodesy.deprecated            import *  # PYCHOK __all__ DEPRECATED
     from pygeodesy.dms                   import *  # PYCHOK __all__
     from pygeodesy.ecef                  import *  # PYCHOK __all__
     from pygeodesy.elevations            import *  # PYCHOK __all__
-#   from pygeodesy.ellipsoidalBase       import *  # PYCHOK __(_)__
-#   from pygeodesy.ellipsoidalBaseDI     import *  # PYCHOK __(_)__
+#   from pygeodesy.ellipsoidalBase       import *  # PYCHOK __(_)__ INTERNAL
+#   from pygeodesy.ellipsoidalBaseDI     import *  # PYCHOK __(_)__ INTERNAL
 #   from pygeodesy.ellipsoidalExact      import *  # PYCHOK __(_)__
 #   from pygeodesy.ellipsoidalGeodSolve  import *  # PYCHOK __(_)__
 #   from pygeodesy.ellipsoidalKarney     import *  # PYCHOK __(_)__
@@ -519,7 +512,7 @@ if _init__all__ and not _lazy_import2:  # import and set __all__
     from pygeodesy.iters                 import *  # PYCHOK __all__
     from pygeodesy.karney                import *  # PYCHOK __all__
     from pygeodesy.ktm                   import *  # PYCHOK __all__
-#   from pygeodesy.latlonBase            import *  # PYCHOK __(_)__
+    from pygeodesy.latlonBase            import *  # PYCHOK __(_)__ INTERNAL
     from pygeodesy.lazily                import *  # PYCHOK __all__
     from pygeodesy.lcc                   import *  # PYCHOK __all__
     from pygeodesy.ltp                   import *  # PYCHOK __all__
@@ -527,39 +520,36 @@ if _init__all__ and not _lazy_import2:  # import and set __all__
     from pygeodesy.mgrs                  import *  # PYCHOK __all__
     from pygeodesy.named                 import *  # PYCHOK __all__
     from pygeodesy.namedTuples           import *  # PYCHOK __all__
-#   from pygeodesy.nvectorBase           import *  # PYCHOK __(_)__
+#   from pygeodesy.nvectorBase           import *  # PYCHOK __(_)__ INTERNAL
     from pygeodesy.osgr                  import *  # PYCHOK __all__
     from pygeodesy.points                import *  # PYCHOK __all__
     from pygeodesy.props                 import *  # PYCHOK __all__
     from pygeodesy.resections            import *  # PYCHOK __all__
-    from pygeodesy.rhumbaux              import *  # PYCHOK __all__
-#   from pygeodesy.rhumbBase             import *  # PYCHOK __(_)__
-    from pygeodesy.rhumbsolve            import *  # PYCHOK __all__
-    from pygeodesy.rhumbx                import *  # PYCHOK __all__
+    from pygeodesy.rhumb                 import *  # PYCHOK __all__
     from pygeodesy.simplify              import *  # PYCHOK __all__
-#   from pygeodesy.sphericalBase         import *  # PYCHOK __(_)__
+#   from pygeodesy.sphericalBase         import *  # PYCHOK __(_)__ INTERNAL
 #   from pygeodesy.sphericalNvector      import *  # PYCHOK __(_)__
 #   from pygeodesy.sphericalTrigonometry import *  # PYCHOK __(_)__
-#   from pygeodesy.solveBase             import *  # PYCHOK __(_)__
+#   from pygeodesy.solveBase             import *  # PYCHOK __(_)__ INTERNAL
     from pygeodesy.streprs               import *  # PYCHOK __all__
     from pygeodesy.trf                   import *  # PYCHOK __all__
     from pygeodesy.triaxials             import *  # PYCHOK __all__
     from pygeodesy.units                 import *  # PYCHOK __all__
-    from pygeodesy.unitsBase             import *  # PYCHOK __all__
+    from pygeodesy.unitsBase             import *  # PYCHOK __all__ Float, ...
     from pygeodesy.ups                   import *  # PYCHOK __all__
     from pygeodesy.utily                 import *  # PYCHOK __all__
     from pygeodesy.utm                   import *  # PYCHOK __all__
     from pygeodesy.utmups                import *  # PYCHOK __all__
-#   from pygeodesy.utmupsBase            import *  # PYCHOK __(_)__
+#   from pygeodesy.utmupsBase            import *  # PYCHOK __(_)__ INTERNAL
     from pygeodesy.vector2d              import *  # PYCHOK __all__
     from pygeodesy.vector3d              import *  # PYCHOK __all__
-#   from pygeodesy.vector3dBase          import *  # PYCHOK __(_)__
+    from pygeodesy.vector3dBase          import *  # PYCHOK __(_)__ INTERNAL
     from pygeodesy.webmercator           import *  # PYCHOK __all__
     from pygeodesy.wgrs                  import Georef, WGRSError  # PYCHOK lazily
 
     def _all(globalocals):
-        from pygeodesy.interns import NN as _NN, _attribute_, _COMMASPACE_, \
-                                     _DOT_, _module_, _s_  # PYCHOK expected
+        from pygeodesy.interns import NN as _NN, _attribute_, _COMMASPACE_, _DOT_, \
+                                      _headof, _module_, _s_, _tailof, _UNDER_  # PYCHOK expected
         from pygeodesy.streprs import Fmt as _Fmt  # PYCHOK expected
         # collect all public module and attribute names and check
         # that modules are imported from this package, 'pygeodesy'
@@ -569,11 +559,12 @@ if _init__all__ and not _lazy_import2:  # import and set __all__
         ns = list(lazily._ALL_INIT)
 # XXX   ps = () if _isfrozen else set([_pygeodesy_] + __name__.split(_DOT_))
         for mod, attrs in lazily._ALL_LAZY.enums():
+            mod = _headof(_headof(mod))
             if mod not in globalocals:
                 t = _DOT_(_pygeodesy_, mod)
                 raise ImportError('missing %s%s: %s' % (_module_, _NN, t))
             ns.append(mod)
-            # check that all other public attributes do exist
+            # check that all other public attrs do exist
             if attrs and isinstance(attrs, tuple):
                 t = tuple(a for a in attrs if a not in globalocals)
                 if t:
@@ -596,11 +587,10 @@ else:
     _init__all__ = False
 
 from pygeodesy.interns import _DOT_  # PYCHOK import
-__version__ = '23.11.11'
+__version__ = '23.12.02'
 # see setup.py for similar logic
-version     = _DOT_.join(map(str, map(int, __version__.split(_DOT_))))
+version     = _DOT_(*map(int, __version__.split(_DOT_)))
 
-# XXX del ellipsoidalBase, ellipsoidalBaseDI, sphericalBase, utmupsBase  # PYCHOK expected
 del abspath, basename, dirname, _DOT_, _lazy_import2, sys
 
 # **) MIT License

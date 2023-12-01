@@ -1,29 +1,42 @@
 
 # -*- coding: utf-8 -*-
 
-u'''DEPRECATED classes, constants, functions, interns, methods, etc.
+u'''DEPRECATED classes, constants, functions, interns, methods, etc. and all
+lazily imported.
 
-Kept and exported for backward compatibility, including deprecated modules
-C{pygeodesy.bases}, C{pygeodesy.datum} and C{pygeodesy,nvector}, previously
-inside the C{pygeodesy} package.
-
-Use either C{from pygeodesy import bases} or C{from pygeodesy.deprecated import
-bases}.  Likewise for C{datum} and C{nvector}.
+Kept for backward compatibility, including DEPRECATED modules C{pygeodesy.bases},
+C{pygeodesy.datum} and C{pygeodesy.nvector}.  Use either C{from pygeodesy import
+bases} or C{from pygeodesy.deprecated import bases}.  Likewise for C{datum} and
+C{nvector}.
 '''
+
+from pygeodesy.deprecated.bases import *  # PYCHOK not pygeodesy.__init__
+from pygeodesy.deprecated.datum import *  # PYCHOK not pygeodesy.__init__
+from pygeodesy.deprecated.nvector import *  # PYCHOK not pygeodesy.__init__
 
 from pygeodesy.deprecated.classes import *  # PYCHOK expected
 from pygeodesy.deprecated.consterns import *  # PYCHOK expected
 from pygeodesy.deprecated.functions import *  # PYCHOK expected
-from pygeodesy.lazily import _ALL_LAZY, isLazy as _isLazy
 
-if _isLazy:  # XXX force import of all deprecated modules
-    import pygeodesy.deprecated.bases as bases, \
-           pygeodesy.deprecated.datum as datum, \
-           pygeodesy.deprecated.nvector as nvector  # PYCHOK unused
-    # XXX instead, use module_property or enhance .lazily
+from pygeodesy.lazily import _ALL_ATTRS, _ALL_DEPRECATED, _lazy_import_as, _unLazy0  # _lazy_import_star
 
-__all__ = _ALL_LAZY.deprecated
-__version__ = '23.10.10'
+__all__ = (_ALL_DEPRECATED.deprecated_bases +
+           _ALL_DEPRECATED.deprecated_datum +
+           _ALL_DEPRECATED.deprecated_nvector +
+
+           _ALL_DEPRECATED.deprecated_classes +
+           _ALL_DEPRECATED.deprecated_consterns +
+           _ALL_DEPRECATED.deprecated_functions)
+__version__ = '23.11.27'
+
+if _unLazy0:
+    from pygeodesy.deprecated import bases, datum, nvector, rhumbBase, \
+                                     rhumbaux, rhumbsolve, rhumbx  # PYCHOK expected
+    __all__ += _ALL_ATTRS(_ALL_DEPRECATED.deprecated)  # DEPRECATED modules
+
+else:  # lazily import modules only
+    __getattr__ = _lazy_import_as(__name__)
+#   __star__    = _lazy_import_star(__name__)
 
 # **) MIT License
 #

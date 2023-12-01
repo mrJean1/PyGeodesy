@@ -4,14 +4,14 @@
 # Test L{resections} module.
 
 __all__ = ('Tests',)
-__version__ = '23.09.11'
+__version__ = '23.11.21'
 
 from bases import endswith, isWindows, TestsBase
 
 from pygeodesy import EPS0, PI, PI_4, cassini, collins5, fstr, pierlot, pierlotx, \
                       ResectionError, snellius3, tienstra7, triAngle, triAngle5, \
-                      triArea, triSide, triSide2, triSide4, Vector3d, wildberger3, \
-                      collins, tienstra, triAngle4  # DEPRECATED
+                      triArea, triSide, triSide2, triSide4, Vector3d, wildberger3
+from pygeodesy.deprecated import collins, tienstra, triAngle4  # DEPRECATED
 from math import degrees
 
 

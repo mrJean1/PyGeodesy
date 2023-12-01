@@ -106,7 +106,7 @@
         Python <code>dict[auxout][auxin]</code>.</em>    </li>
     <li class="private"> <strong class="uidlink"><a href="pygeodesy.auxilats.__main__-module.html">pygeodesy.auxilats.__main__</a></strong>: <em class="summary">Print <a href="pygeodesy.auxilats-module.html" 
         class="link">auxilats</a> version, etc.</em>    </li>
-    <li class="private"> <strong class="uidlink"><a href="pygeodesy.auxilats.auxAngle-module.html" onclick="show_private();">pygeodesy.auxilats.auxAngle</a></strong>: <em class="summary">(INTERNAL) Private <i>Auxiliary</i> base classes, constants and 
+    <li class="private"> <strong class="uidlink"><a href="pygeodesy.auxilats.auxAngle-module.html" onclick="show_private();">pygeodesy.auxilats.auxAngle</a></strong>: <em class="summary">(INTERNAL) <i>Auxiliary</i> latitudes' base classes, constants and 
         functions.</em>    </li>
     <li class="private"> <strong class="uidlink"><a href="pygeodesy.auxilats.auxDLat-module.html" onclick="show_private();">pygeodesy.auxilats.auxDLat</a></strong>: <em class="summary">Class <a href="pygeodesy.auxilats.auxDLat.AuxDLat-class.html" 
         class="link">AuxDLat</a> transcoded to Python from <i>Karney</i>'s 
@@ -123,7 +123,7 @@
         C++ class <a 
         href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1AuxLatitude.html"
         target="_top">AuxLatitude</a> in <i>GeographicLib version 2.2+</i>.</em>    </li>
-    <li class="private"> <strong class="uidlink"><a href="pygeodesy.auxilats.auxily-module.html" onclick="show_private();">pygeodesy.auxilats.auxily</a></strong>: <em class="summary">(INTERNAL) Private <i>Auxiliary</i> base classes, constants and 
+    <li class="private"> <strong class="uidlink"><a href="pygeodesy.auxilats.auxily-module.html" onclick="show_private();">pygeodesy.auxilats.auxily</a></strong>: <em class="summary">(INTERNAL) <i>Auxiliary</i> latitudes' classes, constants and 
         functions.</em>    </li>
     </ul>
     </li>
@@ -165,20 +165,34 @@
         class="link">pygeodesy.remainder</a>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.css-module.html">pygeodesy.css</a></strong>: <em class="summary">Cassini-Soldner (CSS) projection.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.datums-module.html">pygeodesy.datums</a></strong>: <em class="summary">Datums and transformations thereof.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.deprecated-module.html">pygeodesy.deprecated</a></strong>: <em class="summary">DEPRECATED classes, constants, functions, interns, methods, etc.</em>
-    <ul>
-    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.bases-module.html">pygeodesy.deprecated.bases</a></strong>: <em class="summary">DEPRECATED, use module <a href="pygeodesy.latlonBase-module.html" 
-        class="link">latlonBase</a> instead.</em>    </li>
-    <li class="private"> <strong class="uidlink"><a href="pygeodesy.deprecated.classes-module.html" onclick="show_private();">pygeodesy.deprecated.classes</a></strong>: <em class="summary">DEPRECATED classes for export and backward compatibility.</em>    </li>
-    <li class="private"> <strong class="uidlink"><a href="pygeodesy.deprecated.consterns-module.html" onclick="show_private();">pygeodesy.deprecated.consterns</a></strong>: <em class="summary">DEPRECATED constants and interns for export and backward 
-        compatibility.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.datum-module.html">pygeodesy.deprecated.datum</a></strong>: <em class="summary">DEPRECATED, use module <a href="pygeodesy.datums-module.html" 
-        class="link">datums</a> or <a 
-        href="pygeodesy.ellipsoids-module.html" class="link">ellipsoids</a>
-        instead.</em>    </li>
-    <li class="private"> <strong class="uidlink"><a href="pygeodesy.deprecated.functions-module.html" onclick="show_private();">pygeodesy.deprecated.functions</a></strong>: <em class="summary">DEPRECATED functions for export and backward compatibility.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.nvector-module.html">pygeodesy.deprecated.nvector</a></strong>: <em class="summary">DEPRECATED, use module <a href="pygeodesy.nvectorBase-module.html" 
-        class="link">nvectorBase</a> instead.</em>    </li>
+    <li class="private"> <strong class="uidlink"><a href="pygeodesy.deprecated-module.html" onclick="show_private();">pygeodesy.deprecated</a></strong>: <em class="summary">DEPRECATED classes, constants, functions, interns, methods, etc.</em>
+    <ul class="private">
+    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.bases-module.html">pygeodesy.deprecated.bases</a></strong>: <em class="summary">DEPRECATED on 2021.02.10, use (INTERNAL) module <a 
+        href="pygeodesy.latlonBase-module.html" 
+        class="link">pygeodesy.latlonBase</a> instead.</em>    </li>
+    <li class="private"> <strong class="uidlink"><a href="pygeodesy.deprecated.classes-module.html" onclick="show_private();">pygeodesy.deprecated.classes</a></strong>: <em class="summary">DEPRECATED classes kept for backward compatibility.</em>    </li>
+    <li class="private"> <strong class="uidlink"><a href="pygeodesy.deprecated.consterns-module.html" onclick="show_private();">pygeodesy.deprecated.consterns</a></strong>: <em class="summary">DEPRECATED constants and interns kept for backward compatibility.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.datum-module.html">pygeodesy.deprecated.datum</a></strong>: <em class="summary">DEPRECATED on 2022.09.12, use module <a 
+        href="pygeodesy.datums-module.html" 
+        class="link">pygeodesy.datums</a> or <a 
+        href="pygeodesy.ellipsoids-module.html" 
+        class="link">pygeodesy.ellipsoids</a> instead.</em>    </li>
+    <li class="private"> <strong class="uidlink"><a href="pygeodesy.deprecated.functions-module.html" onclick="show_private();">pygeodesy.deprecated.functions</a></strong>: <em class="summary">DEPRECATED functions kept for backward compatibility.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.nvector-module.html">pygeodesy.deprecated.nvector</a></strong>: <em class="summary">DEPRECATED on 2021.05.20, use (INTERNAL) module <a 
+        href="pygeodesy.nvectorBase-module.html" 
+        class="link">pygeodesy.nvectorBase</a> instead.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.rhumbBase-module.html">pygeodesy.deprecated.rhumbBase</a></strong>: <em class="summary">DEPRECATED on 2023.11.26, use module <a 
+        href="pygeodesy.rhumb.bases-module.html" class="link" 
+        onclick="show_private();">pygeodesy.rhumb.bases</a> instead.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.rhumbaux-module.html">pygeodesy.deprecated.rhumbaux</a></strong>: <em class="summary">DEPRECATED on 2023.11.26, use module <a 
+        href="pygeodesy.rhumb.aux-module.html" class="link" 
+        onclick="show_private();">pygeodesy.rhumb.aux</a> instead.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.rhumbsolve-module.html">pygeodesy.deprecated.rhumbsolve</a></strong>: <em class="summary">DEPRECATED on 2023.11.26, use module <a 
+        href="pygeodesy.rhumb.solve-module.html" class="link" 
+        onclick="show_private();">pygeodesy.rhumb.solve</a> instead.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.rhumbx-module.html">pygeodesy.deprecated.rhumbx</a></strong>: <em class="summary">DEPRECATED on 2023.11.26, use module <a 
+        href="pygeodesy.rhumb.ekx-module.html" class="link" 
+        onclick="show_private();">pygeodesy.rhumb.ekx</a> instead.</em>    </li>
     </ul>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.dms-module.html">pygeodesy.dms</a></strong>: <em class="summary">Parsers and formatters of angles in degrees, minutes and seconds or
@@ -319,16 +333,29 @@
         class="link">wildberger3</a> and triangle functions <a 
         href="pygeodesy.resections-module.html#triAngle" 
         class="link">triAngle</a>, <a 
-        href="pygeodesy.deprecated.functions-module.html#triAngle4" 
-        class="link">triAngle4</a>, <a 
+        href="pygeodesy.resections-module.html#triAngle5" 
+        class="link">triAngle5</a>, <a 
         href="pygeodesy.resections-module.html#triSide" 
         class="link">triSide</a>, <a 
         href="pygeodesy.resections-module.html#triSide2" 
         class="link">triSide2</a> and <a 
         href="pygeodesy.resections-module.html#triSide4" 
         class="link">triSide4</a>.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.rhumbBase-module.html">pygeodesy.rhumbBase</a></strong>: <em class="summary">Base classes <code>RhumbBase</code> and <code>RhumbLineBase</code>,
-        pure Python version of <i>Karney</i>'s C++ classes <a 
+    <li> <strong class="uidlink"><a href="pygeodesy.rhumb-module.html">pygeodesy.rhumb</a></strong>
+    <ul>
+    <li class="private"> <strong class="uidlink"><a href="pygeodesy.rhumb.aux-module.html" onclick="show_private();">pygeodesy.rhumb.aux</a></strong>: <em class="summary">A pure Python version of <i>Karney</i>'s <i>Auxiliary 
+        Latitudes</i>, C++ classes <a 
+        href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Rhumb.html"
+        target="_top">Rhumb</a> and <a 
+        href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1RhumbLine.html"
+        target="_top">RhumbLine</a> from <i>GeographicLib version 2.2+</i> 
+        renamed to <a href="pygeodesy.rhumb.aux.RhumbAux-class.html" 
+        class="link">RhumbAux</a> respectively <a 
+        href="pygeodesy.rhumb.aux.RhumbLineAux-class.html" 
+        class="link">RhumbLineAux</a>.</em>    </li>
+    <li class="private"> <strong class="uidlink"><a href="pygeodesy.rhumb.bases-module.html" onclick="show_private();">pygeodesy.rhumb.bases</a></strong>: <em class="summary">(INTERNAL) base classes <code>RhumbBase</code> and 
+        <code>RhumbLineBase</code>, pure Python version of <i>Karney</i>'s 
+        C++ classes <a 
         href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Rhumb.html"
         target="_top">Rhumb</a> and <a 
         href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1RhumbLine.html"
@@ -336,30 +363,25 @@
         and <i>2.2</i> and <i>Karney</i>'s C++ example <a 
         href="https://SourceForge.net/p/geographiclib/discussion/1026620/thread/2ddc295e/"
         target="_top">Rhumb intersect</a>.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.rhumbaux-module.html">pygeodesy.rhumbaux</a></strong>: <em class="summary">A pure Python version of <i>Karney</i>'s C++ classes <a 
+    <li class="private"> <strong class="uidlink"><a href="pygeodesy.rhumb.ekx-module.html" onclick="show_private();">pygeodesy.rhumb.ekx</a></strong>: <em class="summary">A pure Python version of <i>Karney</i>'s <i>elliptic functions</i>,
+        <code>Kr&#252;ger series</code>, C++ classes <a 
         href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Rhumb.html"
         target="_top">Rhumb</a> and <a 
         href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1RhumbLine.html"
-        target="_top">RhumbLine</a> from <i>GeographicLib version 2.2+</i> 
-        renamed as <a href="pygeodesy.rhumbaux.RhumbAux-class.html" 
-        class="link">RhumbAux</a> respectively <a 
-        href="pygeodesy.rhumbaux.RhumbLineAux-class.html" 
-        class="link">RhumbLineAux</a>.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.rhumbsolve-module.html">pygeodesy.rhumbsolve</a></strong>: <em class="summary">Wrapper to invoke <i>Karney</i>'s <a 
+        target="_top">RhumbLine</a> from <i>GeographicLib version 2.0</i>, 
+        kept for backward compatibility.</em>    </li>
+    <li class="private"> <strong class="uidlink"><a href="pygeodesy.rhumb.solve-module.html" onclick="show_private();">pygeodesy.rhumb.solve</a></strong>: <em class="summary">Wrapper to invoke <i>Karney</i>'s <a 
         href="https://GeographicLib.SourceForge.io/C++/doc/RhumbSolve.1.html"
         target="_top">RhumbSolve</a> utility as an (exact) rhumb or rhumb 
         line from <i>either GeographicLib 2.0 or 2.2+</i>.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.rhumbx-module.html">pygeodesy.rhumbx</a></strong>: <em class="summary">A pure Python version of <i>Karney</i>'s C++ classes <a 
-        href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Rhumb.html"
-        target="_top">Rhumb</a> and <a 
-        href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1RhumbLine.html"
-        target="_top">RhumbLine</a> from <i>GeographicLib version 2.0</i>.</em>    </li>
+    </ul>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.simplify-module.html">pygeodesy.simplify</a></strong>: <em class="summary">Simplify or linearize a path.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.solveBase-module.html">pygeodesy.solveBase</a></strong>: <em class="summary">(INTERNAL) Private base classes for <a 
         href="pygeodesy.geodsolve-module.html" 
         class="link">pygeodesy.geodsolve</a> and <a 
-        href="pygeodesy.rhumbsolve-module.html" 
-        class="link">pygeodesy.rhumbsolve</a>.</em>    </li>
+        href="pygeodesy.rhumb.solve-module.html" class="link" 
+        onclick="show_private();">pygeodesy.rhumb.solve</a>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.sphericalBase-module.html">pygeodesy.sphericalBase</a></strong>: <em class="summary">(INTERNAL) Private spherical base classes 
         <code>CartesianSphericalBase</code> and 
         <code>LatLonSphericalBase</code> for <a 
@@ -471,7 +493,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Nov 12 13:03:52 2023
+    Generated by Epydoc 3.0.1 on Thu Nov 30 19:49:04 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

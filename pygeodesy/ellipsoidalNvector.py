@@ -4,7 +4,7 @@
 u'''Ellipsoidal, C{N-vector}-based geodesy.
 
 Ellipsoidal classes geodetic (lat-/longitude) L{LatLon}, geocentric (ECEF)
-L{Cartesian}, L{Nvector} and DEPRECATED L{Ned} and functions L{meanOf},
+L{Cartesian}, C{Nvector} and DEPRECATED L{Ned} and functions L{meanOf},
 L{sumOf} and DEPRECATED L{toNed}.
 
 Pure Python implementation of n-vector-based geodetic (lat-/longitude)
@@ -49,7 +49,7 @@ from pygeodesy.units import Bearing, Distance, Height, Scalar
 # from math import fabs  # from .nvectorBase
 
 __all__ = _ALL_LAZY.ellipsoidalNvector
-__version__ = '23.11.08'
+__version__ = '23.11.27'
 
 
 class Ned(_Ned):
@@ -80,13 +80,13 @@ class Ned(_Ned):
 
 class Cartesian(CartesianEllipsoidalBase):
     '''Extended to convert geocentric, L{Cartesian} points to
-       L{Nvector} and n-vector-based, geodetic L{LatLon}.
+       C{Nvector} and n-vector-based, geodetic L{LatLon}.
     '''
-    @Property_RO
+    @property_RO
     def Ecef(self):
-        '''Get the ECEF I{class} (L{EcefVeness}), I{lazily}.
+        '''Get the ECEF I{class} (L{EcefVeness}), I{lazily, once}.
         '''
-        return _MODS.ecef.EcefVeness
+        return _Ecef()
 
     def toLatLon(self, **LatLon_and_kwds):  # PYCHOK LatLon=LatLon, datum=None
         '''Convert this cartesian to an C{Nvector}-based geodetic point.
@@ -106,14 +106,14 @@ class Cartesian(CartesianEllipsoidalBase):
         return CartesianEllipsoidalBase.toLatLon(self, **kwds)
 
     def toNvector(self, **Nvector_and_kwds):  # PYCHOK Datums.WGS84
-        '''Convert this cartesian to L{Nvector} components, I{including height}.
+        '''Convert this cartesian to C{Nvector} components, I{including height}.
 
-           @kwarg Nvector_and_kwds: Optional L{Nvector}, B{C{datum}} and other
+           @kwarg Nvector_and_kwds: Optional C{Nvector}, B{C{datum}} and other
                                     keyword arguments.  Use C{B{Nvector}=...} to
-                                    override this L{Nvector} class or specify
+                                    override this C{Nvector} class or specify
                                     C{B{Nvector} is None}.
 
-           @return: The C{n-vector} components (L{Nvector}) or if B{C{Nvector}}
+           @return: The C{n-vector} components (C{Nvector}) or if B{C{Nvector}}
                     is set to C{None}, a L{Vector4Tuple}C{(x, y, z, h)}
 
            @raise TypeError: Invalid B{C{Nvector_and_kwds}}.
@@ -125,7 +125,7 @@ class Cartesian(CartesianEllipsoidalBase):
 class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
     '''An n-vector-based, ellipsoidal L{LatLon} point.
     '''
-    _Nv = None  # cached toNvector (L{Nvector})
+    _Nv = None  # cached toNvector (C{Nvector})
 
     def _update(self, updated, *attrs, **setters):  # PYCHOK args
         '''(INTERNAL) Zap cached attributes if updated.
@@ -275,11 +275,11 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
         E = self.datum.ellipsoid if radius is None else _earth_ellipsoid(radius)
         return fabs(a) * E.R1  # see .utily.radians2m
 
-    @Property_RO
+    @property_RO
     def Ecef(self):
-        '''Get the ECEF I{class} (L{EcefVeness}), I{lazily}.
+        '''Get the ECEF I{class} (L{EcefVeness}), I{lazily, once}.
         '''
-        return _MODS.ecef.EcefVeness
+        return _Ecef()
 
     @deprecated_method
     def equals(self, other, eps=None):  # PYCHOK no cover
@@ -314,7 +314,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #
 #            @arg bearing: Bearing from this point (compass C{degrees360}).
 #
-#            @return: N-vector representing great circle (L{Nvector}).
+#            @return: N-vector representing great circle (C{Nvector}).
 #         '''
 #         a, b, _ = self.philamheight
 #         t = radians(bearing)
@@ -400,14 +400,14 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
         return LatLonEllipsoidalBase.toCartesian(self, **kwds)
 
     def toNvector(self, **Nvector_and_kwds):  # PYCHOK signature
-        '''Convert this point to L{Nvector} components, I{including height}.
+        '''Convert this point to C{Nvector} components, I{including height}.
 
-           @kwarg Nvector_and_kwds: Optional L{Nvector}, B{C{datum}} and other
+           @kwarg Nvector_and_kwds: Optional C{Nvector}, B{C{datum}} and other
                                     keyword arguments.  Use C{B{Nvector}=...}
-                                    to override this L{Nvector} class or specify
+                                    to override this C{Nvector} class or specify
                                     C{B{Nvector}=None}.
 
-           @return: The C{n-vector} components (L{Nvector}) or if B{C{Nvector}}
+           @return: The C{n-vector} components (C{Nvector}) or if B{C{Nvector}}
                     is set to C{None}, a L{Vector4Tuple}C{(x, y, z, h)}.
 
            @raise TypeError: Invalid B{C{Nvector}} or other B{C{Nvector_and_kwds}}.
@@ -428,7 +428,7 @@ class Nvector(NvectorBase):
        with than other position representations like lat-/longitude,
        earth-centred earth-fixed (ECEF) vectors, UTM coordinates, etc.
 
-       Note commonality with L{sphericalNvector.Nvector}.
+       Note commonality with L{pygeodesy.sphericalNvector.Nvector}.
     '''
     _datum = _WGS84  # default datum (L{Datum})
 
@@ -507,12 +507,18 @@ class Nvector(NvectorBase):
 
            @kwarg ll: Optional, original latlon (C{LatLon}).
 
-           @return: Normalised vector (L{Nvector}).
+           @return: Normalised vector (C{Nvector}).
         '''
         u = NvectorBase.unit(self, ll=ll)
         if u.datum != self.datum:
             u._update(False, datum=self.datum)
         return u
+
+
+def _Ecef():
+    # return the Ecef class and overwrite property_RO
+    Cartesian.Ecef = LatLon.Ecef = E = _MODS.ecef.EcefVeness
+    return E
 
 
 def meanOf(points, datum=_WGS84, height=None, wrap=False,
@@ -596,8 +602,8 @@ def nearestOn(point, point1, point2, within=True, height=None, wrap=False,
 def sumOf(nvectors, Vector=Nvector, h=None, **Vector_kwds):
     '''Return the vectorial sum of two or more n-vectors.
 
-       @arg nvectors: Vectors to be added (L{Nvector}[]).
-       @kwarg Vector: Optional class for the vectorial sum (L{Nvector}).
+       @arg nvectors: Vectors to be added (C{Nvector}[]).
+       @kwarg Vector: Optional class for the vectorial sum (C{Nvector}).
        @kwarg h: Optional height, overriding the mean height (C{meter}).
        @kwarg Vector_kwds: Optional, additional B{C{Vector}} keyword
                            arguments, ignored if C{B{Vector} is None}.
@@ -646,8 +652,8 @@ def toNed(distance, bearing, elevation, Ned=Ned, name=NN):
         e  = sb * d * ce
         d *= se
 
-    r = _MODS.deprecated.Ned3Tuple(n, e, -d) if Ned is None else \
-                               Ned(n, e, -d)
+    r = _MODS.deprecated.classes.Ned3Tuple(n, e, -d) if Ned is None else \
+                                       Ned(n, e, -d)
     return _xnamed(r, name)
 
 

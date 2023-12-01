@@ -4,7 +4,7 @@
 u'''Spherical, C{N-vector}-based geodesy.
 
 N-vector-based classes geodetic (lat-/longitude) L{LatLon}, geocentric
-(ECEF) L{Cartesian} and L{Nvector} and functions L{areaOf}, L{intersection},
+(ECEF) L{Cartesian} and C{Nvector} and functions L{areaOf}, L{intersection},
 L{meanOf}, L{nearestOn3}, L{perimeterOf}, L{sumOf}, L{triangulate} and
 L{trilaterate}, I{all spherical}.
 
@@ -61,14 +61,14 @@ from pygeodesy.utily import atan2, degrees360, fabs, sincos2, sincos2_, \
 # from math import atan2, fabs  # from utily
 
 __all__ = _ALL_LAZY.sphericalNvector
-__version__ = '23.10.24'
+__version__ = '23.11.27'
 
 _lines_ = 'lines'
 
 
 class Cartesian(CartesianSphericalBase):
     '''Extended to convert geocentric, L{Cartesian} points to
-       L{Nvector} and n-vector-based, spherical L{LatLon}.
+       C{Nvector} and n-vector-based, spherical L{LatLon}.
     '''
 
     def toLatLon(self, **LatLon_and_kwds):  # PYCHOK LatLon=LatLon
@@ -89,14 +89,14 @@ class Cartesian(CartesianSphericalBase):
         return CartesianSphericalBase.toLatLon(self, **kwds)
 
     def toNvector(self, **Nvector_and_kwds):  # PYCHOK Datums.WGS84
-        '''Convert this cartesian to L{Nvector} components, I{including height}.
+        '''Convert this cartesian to C{Nvector} components, I{including height}.
 
-           @kwarg Nvector_and_kwds: Optional L{Nvector} and L{Nvector} keyword
+           @kwarg Nvector_and_kwds: Optional C{Nvector} and C{Nvector} keyword
                                     arguments, like C{datum}.  Use C{B{Nvector}=...}
-                                    to override this L{Nvector} class or specify
+                                    to override this C{Nvector} class or specify
                                     C{B{Nvector}=None}.
 
-           @return: The C{n-vector} components (L{Nvector}) or if B{C{Nvector}}
+           @return: The C{n-vector} components (C{Nvector}) or if B{C{Nvector}}
                     is set to C{None}, a L{Vector4Tuple}C{(x, y, z, h)}
 
            @raise TypeError: Invalid B{C{Nvector_and_kwds}} argument.
@@ -120,7 +120,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         >>> from sphericalNvector import LatLon
         >>> p = LatLon(52.205, 0.119)
     '''
-    _Nv = None  # cached_toNvector L{Nvector})
+    _Nv = None  # cached_toNvector C{Nvector})
 
     def _update(self, updated, *attrs, **setters):  # PYCHOK args
         '''(INTERNAL) Zap cached attributes if updated.
@@ -305,7 +305,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            @arg bearing: Bearing from this point (compass C{degrees360}).
 
-           @return: N-vector representing the great circle (L{Nvector}).
+           @return: N-vector representing the great circle (C{Nvector}).
         '''
         t = Bearing_(bearing)
         a, b = self.philam
@@ -327,7 +327,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            @kwarg wrap: If C{True}, wrap or I{normalize} and unroll
                         the B{C{other}} point (C{bool}).
 
-           @return: N-vector representing the great circle (L{Nvector}).
+           @return: N-vector representing the great circle (C{Nvector}).
 
            @raise TypeError: The B{C{other}} point is not L{LatLon}.
 
@@ -793,14 +793,14 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         return LatLonSphericalBase.toCartesian(self, **kwds)
 
     def toNvector(self, **Nvector_and_kwds):  # PYCHOK signature
-        '''Convert this point to L{Nvector} components, I{including height}.
+        '''Convert this point to C{Nvector} components, I{including height}.
 
-           @kwarg Nvector_and_kwds: Optional L{Nvector} and L{Nvector} keyword
+           @kwarg Nvector_and_kwds: Optional C{Nvector} and C{Nvector} keyword
                                     arguments.  Specify C{B{Nvector}=...} to
-                                    override this L{Nvector} class or use
+                                    override this C{Nvector} class or use
                                     C{B{Nvector}=None}.
 
-           @return: The C{n-vector} components (L{Nvector}) or if B{C{Nvector}} is
+           @return: The C{n-vector} components (C{Nvector}) or if B{C{Nvector}} is
                     set to C{None}, a L{Vector4Tuple}C{(x, y, z, h)}.
 
            @raise TypeError: Invalid B{C{Nvector_and_kwds}} argument.
@@ -827,7 +827,7 @@ class Nvector(NvectorBase):
        On a spherical model earth, an n-vector is equivalent to an
        earth-centred earth-fixed (ECEF) vector.
 
-       Note commonality with L{ellipsoidalNvector.Nvector}.
+       Note commonality with L{pygeodesy.ellipsoidalNvector.Nvector}.
     '''
     _datum = Datums.Sphere  # default datum (L{Datum})
 
@@ -884,7 +884,7 @@ class Nvector(NvectorBase):
 
            @arg bearing: Initial compass bearing (C{degrees}).
 
-           @return: N-vector representing great circle (L{Nvector}).
+           @return: N-vector representing great circle (C{Nvector}).
 
            @raise Valuerror: Polar coincidence.
 
@@ -1262,8 +1262,8 @@ def perimeterOf(points, closed=False, radius=R_M, wrap=False):
 def sumOf(nvectors, Vector=Nvector, h=None, **Vector_kwds):
     '''Return the I{vectorial} sum of two or more n-vectors.
 
-       @arg nvectors: Vectors to be added (L{Nvector}[]).
-       @kwarg Vector: Optional class for the vectorial sum (L{Nvector}).
+       @arg nvectors: Vectors to be added (C{Nvector}[]).
+       @kwarg Vector: Optional class for the vectorial sum (C{Nvector}).
        @kwarg h: Optional height, overriding the mean height (C{meter}).
        @kwarg Vector_kwds: Optional, additional B{C{Vector}} keyword arguments.
 

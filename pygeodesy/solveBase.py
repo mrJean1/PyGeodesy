@@ -1,7 +1,7 @@
 
 # -*- coding: utf-8 -*-
 
-u'''(INTERNAL) Private base classes for L{pygeodesy.geodsolve} and L{pygeodesy.rhumbsolve}.
+u'''(INTERNAL) Private base classes for L{pygeodesy.geodsolve} and L{pygeodesy.rhumb.solve}.
 '''
 
 from pygeodesy.basics import map2, ub2str, _zip
@@ -13,7 +13,7 @@ from pygeodesy.interns import NN, _0_, _BACKSLASH_, _COMMASPACE_, _enquote, \
                              _EQUAL_, _Error_, _not_, _SPACE_, _UNUSED_
 from pygeodesy.karney import Caps, _CapsBase, GDict, Precision_,  \
                             _earth_datum, _EWGS84, _WGS84
-from pygeodesy.lazily import _ALL_DOCS, printf, _sys_version_info2
+from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, printf, _unlazy
 from pygeodesy.named import callername, notOverloaded
 from pygeodesy.props import Property, Property_RO, property_RO, _update_all
 from pygeodesy.streprs import Fmt, fstr, fstrzs, pairs, strs
@@ -22,11 +22,11 @@ from pygeodesy.utily import unroll180,  wrap360  # PYCHOK shared
 
 from subprocess import PIPE as _PIPE, Popen as _Popen, STDOUT as _STDOUT
 
-__all__ = ()  # nothing public
-__version__ = '23.11.02'
+__all__ = _ALL_LAZY.solveBase
+__version__ = '23.11.29'
 
 _ERROR_    = 'ERROR'
-_text_True =  dict() if _sys_version_info2 < (3, 7) else dict(text=True)
+_text_True =  dict() if _unlazy else dict(text=True)
 
 
 def _cmd_stdin_(cmd, stdin):  # PYCHOK no cover

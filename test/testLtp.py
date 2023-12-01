@@ -4,7 +4,7 @@
 # Test L{ltp} I{local tangent plane} classes.
 
 __all__ = ('Tests',)
-__version__ = '23.08.07'
+__version__ = '23.11.21'
 
 from bases import startswith, TestsBase
 
@@ -12,8 +12,8 @@ from pygeodesy import Aer, Attitude, ChLV, ChLVa, ChLVe, \
                       EcefFarrell21, EcefFarrell22, EcefKarney, \
                       EcefVeness, EcefSudano, Ecef9Tuple, EcefYou, \
                       Enu, Frustum, fstr, LatLon_, LocalCartesian, \
-                      Local9Tuple, Ltp, Ned, tyr3d, XyzLocal, latDMS, lonDMS, \
-                      EcefCartesian  # DEPRECATED, use L{LocalCartesian}
+                      Local9Tuple, Ltp, Ned, tyr3d, XyzLocal, latDMS, lonDMS
+from pygeodesy.deprecated import EcefCartesian  # DEPRECATED, use L{LocalCartesian}
 
 
 def _absdiff(a, *b):

@@ -1,7 +1,7 @@
 
 # -*- coding: utf-8 -*-
 
-u'''(INTERNAL) Private I{Auxiliary} base classes, constants and functions.
+u'''(INTERNAL) I{Auxiliary} latitudes' classes, constants and functions.
 
 Class L{AuxAngle} transcoded to Python from I{Karney}'s C++ class U{AuxAngle
 <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1AuxAngle.html>}
@@ -27,7 +27,7 @@ from pygeodesy.utily import atan1
 from math import asinh, copysign
 
 __all__ = ()
-__version__ = '23.09.26'
+__version__ = '23.11.23'
 
 
 class Aux(object):

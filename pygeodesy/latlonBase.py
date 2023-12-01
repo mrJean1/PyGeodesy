@@ -53,7 +53,7 @@ from contextlib import contextmanager
 from math import asin, cos, degrees, fabs, radians
 
 __all__ = _ALL_LAZY.latlonBase
-__version__ = '23.11.08'
+__version__ = '23.11.15'
 
 
 class LatLonBase(_NamedBase):
@@ -463,11 +463,12 @@ class LatLonBase(_NamedBase):
         r = func_(phi2, self.phi, lam21, datum=D)
         return r * (D.ellipsoid.a if radius is None else radius)
 
-    @Property_RO
+    @property_RO
     def Ecef(self):
-        '''Get the ECEF I{class} (L{EcefKarney}), I{lazily}.
+        '''Get the ECEF I{class} (L{EcefKarney}), I{lazily, once}.
         '''
-        return _MODS.ecef.EcefKarney  # default
+        LatLonBase.Ecef = E = _MODS.ecef.EcefKarney  # overwrite property_RO
+        return E
 
     @Property_RO
     def _Ecef_forward(self):
@@ -1395,11 +1396,11 @@ class LatLonBase(_NamedBase):
         E = self.Ecef
         if E:
             for p in (p, c):
-                e = getattr(p, LatLonBase.Ecef.name, None)
+                e = _xattr(p, Ecef=None)
                 if e not in (None, E):  # PYCHOK no cover
                     n, _ = name_point.popitem()
                     if i is not None:
-                        Fmt.SQUARE(n, i)
+                        n = Fmt.SQUARE(n, i)
                     raise _ValueError(n, e, txt=_incompatible(E.__name__))
         return c
 

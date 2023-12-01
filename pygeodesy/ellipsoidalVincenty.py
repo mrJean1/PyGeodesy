@@ -64,7 +64,7 @@ from pygeodesy.namedTuples import Destination2Tuple, Destination3Tuple, \
                                   Distance3Tuple
 from pygeodesy.points import Fmt, ispolar  # PYCHOK exported
 from pygeodesy.props import deprecated_function, deprecated_method, \
-                            Property_RO, property_doc_
+                            property_doc_, property_RO
 # from pygeodesy.streprs import Fmt  # from .points
 from pygeodesy.units import Number_, Scalar_
 from pygeodesy.utily import atan2b, atan2d, sincos2, sincos2d, unroll180, wrap180
@@ -72,13 +72,13 @@ from pygeodesy.utily import atan2b, atan2d, sincos2, sincos2d, unroll180, wrap18
 from math import atan2, cos, degrees, fabs, radians, tan
 
 __all__ = _ALL_LAZY.ellipsoidalVincenty
-__version__ = '23.11.08'
+__version__ = '23.11.20'
 
 _antipodal_to_ = _SPACE_(_antipodal_, _to_)
 
 
 class VincentyError(_ValueError):
-    '''Error raised from I{Vincenty}'s C{direct} and C{inverse} methods
+    '''Error raised by I{Vincenty}'s C{Direct} and C{Inverse} methods
        for coincident points or lack of convergence.
     '''
     pass
@@ -88,11 +88,11 @@ class Cartesian(CartesianEllipsoidalBase):
     '''Extended to convert geocentric, L{Cartesian} points to
        Vincenty-based, ellipsoidal, geodetic L{LatLon}.
     '''
-    @Property_RO
+    @property_RO
     def Ecef(self):
-        '''Get the ECEF I{class} (L{EcefVeness}), I{lazily}.
+        '''Get the ECEF I{class} (L{EcefVeness}), I{lazily, once}.
         '''
-        return _MODS.ecef.EcefVeness
+        return _Ecef()
 
     def toLatLon(self, **LatLon_and_kwds):  # PYCHOK LatLon=LatLon, datum=None
         '''Convert this cartesian point to a C{Vincenty}-based geodetic point.
@@ -139,11 +139,11 @@ class LatLon(LatLonEllipsoidalBaseDI):
         '''
         return self.initialBearingTo(other, wrap=wrap)
 
-    @Property_RO
+    @property_RO
     def Ecef(self):
-        '''Get the ECEF I{class} (L{EcefVeness}), I{lazily}.
+        '''Get the ECEF I{class} (L{EcefVeness}), I{lazily, once}.
         '''
-        return _MODS.ecef.EcefVeness
+        return _Ecef()
 
     @property_doc_(''' the convergence epsilon (C{radians}).''')
     def epsilon(self):
@@ -320,7 +320,7 @@ class LatLon(LatLonEllipsoidalBaseDI):
             f = atan2b(c2 * s,  c1s2 - s1c2 * c)
             r = atan2b(c1 * s, -s1c2 + c1s2 * c)
         else:
-            f = r = _0_0
+            f = r = _0_0  # NAN
         return Distance3Tuple(d, f, r, name=self.name, iteration=i)
 
     def _is_to(self, other, anti):
@@ -374,6 +374,12 @@ def _Ds(B, cs, ss, c2sm, d):
     return d
 
 
+def _Ecef():
+    # get the Ecef class and overwrite property_RO
+    Cartesian.Ecef = LatLon.Ecef = E = _MODS.ecef.EcefVeness
+    return E
+
+
 def _sincos22(sa):
     # 2-Tuple C{(sin(a), cos(a)**2)}
     ca2 = _1_0 - sa**2
@@ -381,12 +387,12 @@ def _sincos22(sa):
 
 
 def _sincostan3r(a, f):
-    # I{Reduced} C{(sin(B{a}), cos(B{a}), tan(B{a}))}
+    # I{Reduced} 3-tuple C{(sin(B{a}), cos(B{a}), tan(B{a}))}
     if a:  # see L{sincostan3}
         t = (_1_0 - f) * tan(a)
         if t:
             c = _1_0 / hypot1(t)
-            s =  t * c
+            s =  c * t
             return s, c, t
     return _0_0, _1_0, _0_0
 

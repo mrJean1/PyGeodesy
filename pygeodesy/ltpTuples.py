@@ -35,7 +35,7 @@ from pygeodesy.vector3d import Vector3d
 from math import cos, radians
 
 __all__ = _ALL_LAZY.ltpTuples
-__version__ = '23.10.12'
+__version__ = '23.11.20'
 
 _aer_        = 'aer'
 _alt_        = 'alt'
@@ -496,7 +496,7 @@ class Ned(_NamedAerNed):
     @deprecated_Property_RO
     def ned(self):
         '''DEPRECATED, use property C{ned4}.'''
-        return _MODS.deprecated.Ned3Tuple(self.north, self.east, self.down, name=self.name)
+        return _MODS.deprecated.classes.Ned3Tuple(self.north, self.east, self.down, name=self.name)
 
     @Property_RO
     def ned4(self):
@@ -987,7 +987,7 @@ class Enu(XyzLocal):
         '''Get the I{u, v, w} (UVW) components at a location.
 
            @arg location: The geodetic (C{LatLon}) or geocentric (C{Cartesian},
-                          L{Vector3d}) location from where to cast the L{Los}.
+                          L{Vector3d}) location, like a Point-Of-View.
            @kwarg Uvw: Class to return UWV (L{Uvw}) or C{None}.
            @kwarg Uvw_kwds: Optional, additional B{L{Uvw}} keyword
                             arguments, ignored if C{B{Uvw} is None}.

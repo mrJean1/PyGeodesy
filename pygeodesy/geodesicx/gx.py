@@ -21,9 +21,9 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 # notation is as follows:
 # - at a general point (no suffix or 1 or 2 as suffix)
 #   - phi = latitude
+#   - lambda = longitude
 #   - beta = latitude on auxiliary sphere
 #   - omega = longitude on auxiliary sphere
-#   - lambda = longitude
 #   - alpha = azimuth of great circle
 #   - sigma = arc length along great circle
 #   - s = distance
@@ -62,7 +62,7 @@ from pygeodesy.utily import atan2d as _atan2d_reverse, _unrollon, _Wrap, wrap360
 from math import atan2, copysign, cos, degrees, fabs, radians, sqrt
 
 __all__ = ()
-__version__ = '23.11.09'
+__version__ = '23.11.30'
 
 _MAXIT1 = 20
 _MAXIT2 = 10 + _MAXIT1 + MANT_DIG  # MANT_DIG == C++ digits
@@ -110,7 +110,7 @@ class _PDict(GDict):
     '''(INTERNAL) Parameters passed around in C{._GDictInverse} and
        optionally returned when C{GeodesicExact.debug} is C{True}.
     '''
-    def setsigs(self, ssig1, csig1, ssig2, csig2):
+    def set_sigs(self, ssig1, csig1, ssig2, csig2):
         '''Update the C{sig1} and C{sig2} parameters.
         '''
         self.set_(ssig1=ssig1, csig1=csig1, sncndn1=(ssig1, csig1, self.dn1),  # PYCHOK dn1
@@ -577,7 +577,7 @@ class GeodesicExact(_GeodesicBase):
             salp1, calp1 =  slam12, clam12  # head to target lon
             salp2, calp2 = _0_0,   _1_0  # then head north
             # tan(bet) = tan(sig) * cos(alp)
-            p.setsigs(sbet1, calp1 * cbet1, sbet2, calp2 * cbet2)
+            p.set_sigs(sbet1, calp1 * cbet1, sbet2, calp2 * cbet2)
             # sig12 = sig2 - sig1
             sig12 = _atan12(sbet1, p.csig1, sbet2, p.csig2, sineg0=True)  # PYCHOK csig*
             s12x, m12x, _, \
@@ -724,7 +724,7 @@ class GeodesicExact(_GeodesicBase):
         return r.toInverse10Tuple()
 
     def _Inverse(self, ll1, ll2, wrap, **outmask):
-        '''(INTERNAL) Short-cut version, see .ellipsoidalBaseDI.intersecant2.
+        '''(INTERNAL) Short-cut version, see .base.ellipsoidalDI.intersecant2.
         '''
         if wrap:
             ll2 = _unrollon(ll1, _Wrap.point(ll2))
@@ -872,7 +872,7 @@ class GeodesicExact(_GeodesicBase):
            C{salp2}, C{calp2}, C{dnm} and C{sig12} non-C{None}.
 
            @return: 6-Tuple C{(sig12, salp1, calp1, salp2, calp2, dnm)}
-                    and C{p.setsigs} updated for Newton, C{sig12=None}.
+                    and C{p.set_sigs} updated for Newton, C{sig12=None}.
         '''
         sig12 = None  # use Newton
         salp1 = calp1 = salp2 = calp2 = dnm = NAN
@@ -919,7 +919,7 @@ class GeodesicExact(_GeodesicBase):
             f = self.f
             if f < 0:  # PYCHOK no cover
                 # ssig1=sbet1, csig1=-cbet1, ssig2=sbet2, csig2=cbet2
-                p.setsigs(p.sbet1, -p.cbet1, p.sbet2, p.cbet2)
+                p.set_sigs(p.sbet1, -p.cbet1, p.sbet2, p.cbet2)
                 # if lon12 = 180, this repeats a calculation made in Inverse
                 _, m12b, m0, _, _ = self._Length5(atan2(sbet12a, cbet12a) + PI,
                                                   Caps.REDUCEDLENGTH, p)
@@ -991,7 +991,7 @@ class GeodesicExact(_GeodesicBase):
         '''(INTERNAL) Helper.
 
            @return: 6-Tuple C{(lam12, sig12, salp2, calp2, domg12,
-                    dlam12} and C{p.setsigs} updated.
+                    dlam12} and C{p.set_sigs} updated.
         '''
         eF = self._eF
         f1 = self.f1
@@ -1035,7 +1035,7 @@ class GeodesicExact(_GeodesicBase):
         # chi12 = chi2 - chi1, limit to [0, PI]
         schi12, cchi12 = _sincos12(somg1, cchi1, somg2, cchi2, sineg0=True)
 
-        p.setsigs(ssig1, csig1, ssig2, csig2)
+        p.set_sigs(ssig1, csig1, ssig2, csig2)
         # sig12 = sig2 - sig1, limit to [0, PI]
         sig12 = _atan12(ssig1, csig1, ssig2, csig2, sineg0=True)
 

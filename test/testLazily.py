@@ -4,7 +4,7 @@
 # Test the lazy import module L{lazily}.
 
 __all__ = ('Tests',)
-__version__ = '23.03.27'
+__version__ = '23.11.29'
 
 from bases import TestsBase, ismacOS, isNix, isPython37, isWindows, \
                   PythonX, type2str
@@ -43,7 +43,9 @@ class Tests(TestsBase):
         self.test('isLazy', z, z)
         if not z:
             for a, m in lazily._all_missing2(_all_):
-                self.test('missing in %s' % (a,), m or None, None)
+                t = all(_.startswith('rhumb') for _ in m) if m else False
+                m = ', '.join(m) if m else None
+                self.test('missing in %s' % (a,), m, None, known=t)
 
         # simple lazy_import enable tests
         self.test('cmd', _cmd, _cmd)

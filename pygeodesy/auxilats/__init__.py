@@ -11,10 +11,10 @@ in I{GeographicLib version 2.2+}.
 Copyright (C) U{Charles Karney<mailto:Karney@Alum.MIT.edu>} (2022-2023) and licensed under the MIT/X11
 License.  For more information, see the U{GeographicLib<https://GeographicLib.SourceForge.io>} documentation.
 
-@note: Class L{AuxDST} requires package U{numpy<https://PyPI.org/project/numpy>} to be installed,
-       version 1.16 or newer and needed for I{exact} area calculations.
+@note: Class L{AuxDST} requires package U{numpy<https://PyPI.org/project/numpy>} version 1.16 or newer
+       to be installed, but only for I{exact} area calculations.
 
-@see: U{Auxiliary latitudes<https:#GeographicLib.SourceForge.io/C++/doc/auxlat.html>}
+@see: U{Auxiliary latitudes<https:#GeographicLib.SourceForge.io/C++/doc/auxlat.html>} and
       U{On auxiliary latitudes<https:#ArXiv.org/abs/2212.05818>}.
 '''
 
@@ -26,9 +26,10 @@ from pygeodesy.auxilats.auxily import Aux  # PYCHOK exported
 from pygeodesy.auxilats.auxLat import AuxLat  # PYCHOK exported
 from pygeodesy.lazily import _ALL_OTHER
 
+# no modules: auxAngle, auxDLat, auxDST, auxily, auxLat
 __all__ = _ALL_OTHER(Aux, AuxAngle, AuxDLat, AuxDST, AuxLat,
                      AuxBeta, AuxChi, AuxMu, AuxPhi, AuxTheta, AuxXi)
-__version__ = '23.09.26'
+__version__ = '23.11.24'
 
 # **) MIT License
 #

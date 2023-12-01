@@ -21,9 +21,9 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 # notation is as follows:
 # - at a general point (no suffix or 1 or 2 as suffix)
 #   - phi = latitude
+#   - lambda = longitude
 #   - beta = latitude on auxiliary sphere
 #   - omega = longitude on auxiliary sphere
-#   - lambda = longitude
 #   - alpha = azimuth of great circle
 #   - sigma = arc length along great circle
 #   - s = distance
@@ -56,7 +56,7 @@ from pygeodesy.utily import atan2d as _atan2d_reverse, sincos2
 from math import atan2, cos, degrees, fabs, floor, radians, sin
 
 __all__ = ()
-__version__ = '23.11.09'
+__version__ = '23.11.30'
 
 _glXs = []  # instances of C{[_]GeodesicLineExact} to be updated
 # underflow guard, we require _TINY * EPS > 0, _TINY + EPS == EPS
@@ -79,16 +79,16 @@ class _GeodesicLineExact(_GeodesicBase):
     '''(INTERNAL) Base class for L{GeodesicLineExact}.
     '''
     _a13   = _s13 = NAN
-    _azi1  = _0_0
-    _cchi1 =  NAN
-    _dn1   =  NAN
+#   _azi1  = _0_0
+#   _cchi1 =  NAN
+#   _dn1   =  NAN
     _gX    =  None  # Exact only
-    _k2    =  NAN
-    _lat1  = _lon1 = _0_0
-    _salp0 = _calp0 = NAN
-    _salp1 = _calp1 = NAN
-    _somg1 = _comg1 = NAN
-    _ssig1 = _csig1 = NAN
+#   _k2    =  NAN
+#   _lat1  = _lon1 = _0_0
+#   _salp0 = _calp0 = NAN
+#   _salp1 = _calp1 = NAN
+#   _somg1 = _comg1 = NAN
+#   _ssig1 = _csig1 = NAN
 
     def __init__(self, gX, lat1, lon1, azi1, caps, _debug, *salp1_calp1, **name):  # name=NN
         '''(INTERNAL) New C{[_]GeodesicLineExact} instance.

@@ -4,12 +4,16 @@ u'''Single C{str}ing constants, C{intern}'ed across C{pygeodesy}
 modules and function L{pygeodesy.machine}.
 '''
 import sys as _sys
+try:
+    _intern =  intern  # PYCHOK in .lazily
+except NameError:  # Python 3+
+    _intern = _sys.intern
 
 _COMMASPACE_  = ', '  # overriden below
 _pf2List      = []    # cached _platform2 list
 _Py3List      = []    # cached _pythonarchine list
 
-_sub_packages = 'auxilats', 'deprecated', 'geodesicx'  # PYCHOK in .lazily,
+_sub_packages = 'auxilats', 'deprecated', 'geodesicx', 'rhumb'  # PYCHOK in .lazily,
 # ... make._dist, MANIFEST, setup.setup, test.bases, test.testModules
 
 
@@ -472,6 +476,13 @@ def _enquote(strs, quote=_QUOTE2_):  # in .basics, .solveBase
     return strs
 
 
+def _headof(name):
+    '''(INTERNAL) Get the head name of qualified C{name} or the C{name}.
+    '''
+    i = name.find(_DOT_)
+    return name if i < 0 else name[:i]
+
+
 def _is(a, b):  # PYCHOK no cover
     '''(INTERNAL) C{a is b}? in C{PyPy}
     '''
@@ -579,6 +590,13 @@ def _sysctl_uint(name):
     return int(r if r else u.value)  # -1 ENOENT error, -2 no libc
 
 
+def _tailof(name):
+    '''(INTERNAL) Get the base name of qualified C{name} or the C{name}.
+    '''
+    i = name.rfind(_DOT_) + 1
+    return name[i:] if i > 0 else name
+
+
 def _under(name):  # PYCHOK in .datums, .auxilats, .ups, .utm, .utmupsBase, ...
     '''(INTERNAL) Prefix C{name} with I{underscore}.
     '''
@@ -618,7 +636,7 @@ def _version2(version, n=2):
 __all__ = (_NN_,  # not MISSING!
             Str_.__name__,  # classes
             machine.__name__)  # in .lazily
-__version__ = '23.09.13'
+__version__ = '23.11.30'
 
 if __name__ == '__main__':
 

@@ -159,7 +159,7 @@ from pygeodesy.utily import atan2d, sincos2d, tand, _unrollon,  fabs
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.karney
-__version__ = '23.11.02'
+__version__ = '23.11.20'
 
 _K_2_0      = _getenv('PYGEODESY_GEOGRAPHICLIB', _2_) == _2_
 _perimeter_ = 'perimeter'
@@ -425,7 +425,7 @@ class GDict(_Dict):  # XXX _NamedDict
 
            @return: A I{DEPRECATED} L{Rhumb7Tuple}.
         '''
-        return self._toTuple(_MODS.deprecated.Rhumb7Tuple, dflt)
+        return self._toTuple(_MODS.deprecated.classes.Rhumb7Tuple, dflt)
 
     def toRhumb8Tuple(self, dflt=NAN):
         '''Convert this L{GDict} result to a 8-tuple.
@@ -445,7 +445,7 @@ class GDict(_Dict):  # XXX _NamedDict
            @return: L{RhumbSolve7Tuple}C{(lat1, lon1, lat2, lon2,
                     azi12, s12, S12)}.
         '''
-        return self._toTuple(_MODS.rhumbsolve.RhumbSolve7Tuple, dflt)
+        return self._toTuple(_MODS.rhumb.solve.RhumbSolve7Tuple, dflt)
 
     def _toTuple(self, nTuple, dflt):
         '''(INTERNAL) Convert this C{GDict} to an B{C{nTuple}}.
@@ -569,7 +569,7 @@ class Rhumb8Tuple(_GTuple):
     @deprecated_method
     def _to7Tuple(self):
         '''DEPRECATED, do not use!'''
-        return _MODS.deprecated.Rhumb7Tuple(self[:-1])
+        return _MODS.deprecated.classes.Rhumb7Tuple(self[:-1])
 
 
 def _around(x):  # in .utily.sincos2d

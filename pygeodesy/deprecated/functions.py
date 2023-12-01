@@ -1,20 +1,20 @@
 
 # -*- coding: utf-8 -*-
 
-u'''DEPRECATED functions for export and backward compatibility.
+u'''DEPRECATED functions kept for backward compatibility.
 '''
 
 from pygeodesy.constants import EPS, R_M, float0_
 from pygeodesy.deprecated.classes import ClipCS3Tuple, TriAngle4Tuple, _TriAngle5Tuple
-from pygeodesy.interns import NN, _area_, _COMMASPACE_, _DEPRECATED_, _negative_, \
+from pygeodesy.interns import NN, _area_, _COMMASPACE_, _negative_, \
                              _scalar_, _sep_, _SPACE_, _UNDER_, _value_
-from pygeodesy.lazily import _ALL_MODS as _MODS, _ALL_OTHER
+from pygeodesy.lazily import _ALL_DEPRECATED, _ALL_MODS as _MODS
 from pygeodesy.props import deprecated_function
 # from pygeodesy.resections import TriAngle5Tuple as _TriAngle5Tuple  # from .classes
 from pygeodesy.units import Number_, Scalar_
 
-__all__ = ()
-__version__ = '23.09.28'
+__all__ = _ALL_DEPRECATED.deprecated_functions
+__version__ = '23.11.24'
 
 _WGS84 = _UTM = object()
 
@@ -33,7 +33,7 @@ def areaof(points, adjust=True, radius=R_M, wrap=True):  # PYCHOK no cover
 
 @deprecated_function
 def atand(x):
-    '''DEPRECATED on 23.09.28, use function L{pygeodesy.atan1d}.'''
+    '''DEPRECATED on 2023.09.28, use function L{pygeodesy.atan1d}.'''
     return _MODS.utily.atan1d(x)
 
 
@@ -120,25 +120,25 @@ def equirectangular3(lat1, lon1, lat2, lon2, **options):  # PYCHOK no cover
 
 @deprecated_function
 def excessAbc(A, b, c):
-    '''DEPRECATED on 23.04.04, use function L{pygeodesy.excessAbc_}.'''
+    '''DEPRECATED on 2023.04.04, use function L{pygeodesy.excessAbc_}.'''
     return _MODS.formy.excessAbc_(A, b, c)
 
 
 @deprecated_function
 def excessGirard(A, B, C):
-    '''DEPRECATED on 23.04.04, use function L{pygeodesy.excessGirard_}.'''
+    '''DEPRECATED on 2023.04.04, use function L{pygeodesy.excessGirard_}.'''
     return _MODS.formy.excessGirard_(A, B, C)
 
 
 @deprecated_function
 def excessLHuilier(a, b, c):
-    '''DEPRECATED on 23.04.04, use function L{pygeodesy.excessLHuilier_}.'''
+    '''DEPRECATED on 2023.04.04, use function L{pygeodesy.excessLHuilier_}.'''
     return _MODS.formy.excessLHuilier_(a, b, c)
 
 
 @deprecated_function
 def false2f(value, name=_value_, false=True, Error=ValueError):  # PYCHOK no cover
-    '''DEPRECATED, use function L{pygeodesy.falsed2f}.'''
+    '''DEPRECATED, use class L{Easting} or L{Northing}.'''
     return falsed2f(falsed=false, Error=Error, **{name: value})
 
 
@@ -172,7 +172,7 @@ def falsed2f(falsed=True, Error=ValueError, **name_value):  # PYCHOK no cover
 
 @deprecated_function
 def float0(*xs):
-    '''DEPRECATED on 23.04.21, use function L{pygeodesy.float0_}.'''
+    '''DEPRECATED on 2023.04.21, use function L{pygeodesy.float0_}.'''
     return float0_(*xs)
 
 
@@ -200,16 +200,6 @@ def inStr(inst, *args, **kwds):  # PYCHOK no cover
     return _MODS.streprs.instr(inst, *args, **kwds)
 
 
-def isDEPRECATED(obj):
-    '''Return C{True} if C{B{obj}} is a C{DEPRECATED} class, method
-       or function, C{False} if not or C{None} if undetermined.
-    '''
-    try:  # XXX inspect.getdoc(obj)
-        return bool(obj.__doc__.lstrip().startswith(_DEPRECATED_))
-    except AttributeError:
-        return None
-
-
 @deprecated_function
 def isenclosedby(point, points, wrap=False):  # PYCHOK no cover
     '''DEPRECATED, use function L{pygeodesy.isenclosedBy}.'''
@@ -218,7 +208,7 @@ def isenclosedby(point, points, wrap=False):  # PYCHOK no cover
 
 @deprecated_function
 def istuplist(obj, minum=0):  # PYCHOK no cover
-    '''DEPRECATED on 23.03.31, use function L{pygeodesy.islistuple}.'''
+    '''DEPRECATED on 2023.03.31, use function L{pygeodesy.islistuple}.'''
     return _MODS.basics.islistuple(obj, minum=minum)
 
 
@@ -323,7 +313,7 @@ def toUtm(latlon, lon=None, datum=None, Utm=_UTM, cmoff=True, name=NN):  # PYCHO
 
 @deprecated_function
 def triAngle4(a, b, c):
-    '''DEPRECATED on 23.09.14, use function L{pygeodesy.triAngle5}.
+    '''DEPRECATED on 2023.09.14, use function L{pygeodesy.triAngle5}.
 
        @return: A I{DEPRECATED} L{TriAngle4Tuple}C{(radA, radB, radC, rIn)}.
     '''
@@ -351,17 +341,6 @@ def utmZoneBand2(lat, lon):  # PYCHOK no cover
     '''
     r = _MODS.utm.utmZoneBand5(lat, lon)  # UtmUpsLatLon5Tuple
     return r.zone, r.band
-
-
-__all__ += _ALL_OTHER(anStr, areaof, atand, bounds,
-                      clipCS3, clipDMS, clipStr, collins, copysign,
-                      decodeEPSG2, enStr2, encodeEPSG, equirectangular3,
-                      excessAbc, excessGirard, excessLHuilier,
-                      false2f, falsed2f, float0, fStr, fStrzs,
-                      hypot3, inStr, isDEPRECATED, isenclosedby, istuplist,
-                      joined, joined_, nearestOn3, nearestOn4,
-                      parseUTM, perimeterof, polygon, scalar, simplify2,
-                      tienstra, toUtm, triAngle4, unsign0, unStr, utmZoneBand2)
 
 # **) MIT License
 #

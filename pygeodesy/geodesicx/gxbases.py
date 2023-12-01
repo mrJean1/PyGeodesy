@@ -20,7 +20,7 @@ from pygeodesy.karney import _CapsBase, GeodesicError, isodd, \
 from math import ldexp as _ldexp
 
 __all__ = ()
-__version__ = '23.10.02'
+__version__ = '23.11.18'
 
 # valid C{nC4}s and C{C4order}s, see _xnC4 below
 _nC4s = {24: 2900, 27: 4032, 30: 5425}

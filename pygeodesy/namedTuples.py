@@ -27,7 +27,7 @@ from pygeodesy.units import Band, Bearing, Degrees, Degrees2, Easting, \
                             Radians, Radius, Scalar, Str
 
 __all__ = _ALL_LAZY.namedTuples
-__version__ = '23.10.08'
+__version__ = '23.11.20'
 
 # __DUNDER gets mangled in class
 _closest_     = 'closest'
@@ -340,7 +340,7 @@ class NearestOn3Tuple(_NamedTuple):  # .points.py, .sphericalTrigonometry.py
     _Units_ = (_Pass,      Meter,      Degrees)
 
 
-# NearestOn4Tuple DEPRECATED, see deprecated.nearestOn4
+# NearestOn4Tuple DEPRECATED, see .deprecated.classes.NearestOn4Tuple
 
 
 class NearestOn5Tuple(_NamedTuple):

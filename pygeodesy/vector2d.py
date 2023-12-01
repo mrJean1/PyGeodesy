@@ -14,7 +14,7 @@ from pygeodesy.errors import _and, _AssertionError, IntersectionError, NumPyErro
 from pygeodesy.fmath import fabs, fdot, hypot, hypot2_, sqrt
 from pygeodesy.fsums import Fsum, fsumf_, fsum1f_
 from pygeodesy.interns import NN, _a_, _and_, _b_, _c_, _center_, _coincident_, \
-                             _colinear_, _concentric_, _COMMASPACE_, _few_, \
+                             _colinear_, _COMMASPACE_, _concentric_, _few_, \
                              _intersection_, _invalid_, _near_, _no_, _of_, \
                              _radius_, _rIn_, _s_, _SPACE_, _too_, _with_
 # from pygeodesy.lazily import _ALL_LAZY  # from .named
@@ -30,7 +30,7 @@ from contextlib import contextmanager
 # from math import fabs, sqrt  # from .fmath
 
 __all__ = _ALL_LAZY.vector2d
-__version__ = '23.10.16'
+__version__ = '23.11.17'
 
 _cA_        = 'cA'
 _cB_        = 'cB'
@@ -694,7 +694,7 @@ def _trilaterate3d2(c1, r1, c2, r2, c3, r3, eps=EPS, coin=False,
             A  = _np.pseudo_inverse(A)  # [4 x 3]
             bs = [c.length2 for c in (c1, c2, c3)]
             # perturbe radii and vector b slightly by eps and eps * 4
-            for p in _tri5perturb(eps, min(rs)):
+            for p in _tri5perturbs(eps, min(rs)):
                 b = [((r + p)**2 - b) for r, b in zip(rs, bs)]  # [3 x 1]
                 X, x = _F3d2(A.dot(b))
                 # quadratic polynomial, coefficients ordered (^0, ^1, ^2)
@@ -746,7 +746,7 @@ def _tri4near2far(c1, r1, c2, r2, coin):
     return _SPACE_(c1.name, _and_, c2.name, t) if t else NN
 
 
-def _tri5perturb(eps, r):
+def _tri5perturbs(eps, r):
     # perturb the radii to handle this corner case
     # <https://GitHub.com/mrJean1/PyGeodesy/issues/49>
     yield _0_0

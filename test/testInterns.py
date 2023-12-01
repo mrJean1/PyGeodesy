@@ -4,7 +4,7 @@
 # Test L{interns} module.
 
 __all__ = ('Tests',)
-__version__ = '23.08.22'
+__version__ = '23.11.30'
 
 from bases import ismacOS, sys, TestsBase
 

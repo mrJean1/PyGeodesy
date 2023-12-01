@@ -5,7 +5,7 @@ u'''Print L{pygeodesy} version, etc. using C{python -m pygeodesy}.
 '''
 
 __all__ = ()
-__version__ = '23.10.04'
+__version__ = '23.11.24'
 
 from os.path import basename, dirname
 
@@ -16,20 +16,22 @@ def _main():  # PYCHOK no cover
         from pygeodesy import _isfrozen, pygeodesy_abspath, version
         from pygeodesy.basics import _xgeographiclib, _xnumpy, _xscipy
         from pygeodesy.constants import _floats
-        from pygeodesy.interns import _COMMASPACE_, _pygeodesy_abspath_, \
+        from pygeodesy.interns import _COMMASPACE_, _DEPRECATED_, _pygeodesy_abspath_, \
                                       _pythonarchine, _SPACE_, _usage, _version_
-        from pygeodesy.lazily import _a_l_l_, _all_imports, isLazy, printf
+        from pygeodesy.lazily import _a_l_l_, _all_deprecates, _all_imports, \
+                                      isLazy, printf
         from pygeodesy.streprs import Fmt
 
-        def _dot_attr(name, value):
-            return Fmt.DOT(Fmt.EQUAL(name, value))
+        def _p(name_value):
+            return Fmt.DOT(Fmt.EQUAL(*name_value))
 
-        p = [_dot_attr(*t) for t in ((_version_,            version),
-                                     (_pygeodesy_abspath_,  pygeodesy_abspath),
-                                     ('isLazy',             isLazy),
-                                     ('_isfrozen',       _isfrozen),
-                                     ('_floats',      len(_floats)),
-                                     (_a_l_l_, len(_all_imports())))]
+        p = [_p(t) for t in ((_version_,                     version),
+                             (_pygeodesy_abspath_, pygeodesy_abspath),
+                             ('isLazy',                       isLazy),
+                             ('_isfrozen',                 _isfrozen),
+                             ('_floats',                len(_floats)),
+                             (_a_l_l_,           len(_all_imports())),
+                             (_DEPRECATED_,   len(_all_deprecates())))]
 
         def _nv(_xpkg, v):
             try:
@@ -82,11 +84,17 @@ except ImportError:
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 
-# python3 -m pygeodesy
-# pygeodesy.version=23.1.6, .pygeodesy_abspath=.../PyGeodesy/pygeodesy, .isLazy=1, ._isfrozen=False, ._floats=81, .__all__=908 (Python 3.11.0, 64bit, arm64, geographiclib 2.0)
+# % python3.12 -m pygeodesy
+# pygeodesy.version=23.12.2, .pygeodesy_abspath=.../PyGeodesy/pygeodesy, .isLazy=1, ._isfrozen=False, ._floats=82, .__all__=909, .DEPRECATED=94 (Python 3.12.0, 64bit, arm64, geographiclib 2.0)
+
+# % python3.11 -m pygeodesy
+# pygeodesy.version=23.12.2, .pygeodesy_abspath=.../PyGeodesy/pygeodesy, .isLazy=1, ._isfrozen=False, ._floats=82, .__all__=909, .DEPRECATED=94 (Python 3.11.5, 64bit, arm64, geographiclib 2.0, numpy 1.24.2, scipy 1.10.1)
+
+# % python3.10 -m pygeodesy
+# pygeodesy.version=23.12.2, .pygeodesy_abspath=.../PyGeodesy/pygeodesy, .isLazy=1, ._isfrozen=False, ._floats=82, .__all__=909, .DEPRECATED=94 (Python 3.10.8, 64bit, arm64, geographiclib 2.0, numpy 1.23.3, scipy 1.9.1)
 
 # % python3.9 -m pygeodesy
-# pygeodesy.version=23.1.6, .pygeodesy_abspath=.../PyGeodesy/pygeodesy, .isLazy=1, ._isfrozen=False, ._floats=81, .__all__=908 (Python 3.9.6, 64bit, arm64)
+# pygeodesy.version=23.11.11, .pygeodesy_abspath=.../PyGeodesy/pygeodesy, .isLazy=1, ._isfrozen=False, ._floats=82, .__all__=964 (Python 3.9.6, 64bit, arm64)
 
 # % python3.8 -m pygeodesy
 # pygeodesy.version=23.1.6, .pygeodesy_abspath=.../PyGeodesy/pygeodesy, .isLazy=1, ._isfrozen=False, ._floats=81, .__all__=908 (Python 3.8.10, 64bit, arm64_x86_64, geographiclib 1.52, numpy 1.19.2, scipy 1.5.2)
