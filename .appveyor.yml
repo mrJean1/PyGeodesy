@@ -1,7 +1,9 @@
 
+# 23.11.1
 # <http://Tomassetti.me/continous-integration-on-linux-and-windows-travis-and-appveyor/>
 # <http://GitHub.com/pypa/setuptools/blob/master/appveyor.yml>
 # <http://www.AppVeyor.com/docs/windows-images-software/#python>
+# <https://www.appveyor.com/docs/appveyor-yml/>
 
 image: Visual Studio 2022
 
@@ -11,15 +13,15 @@ environment:
 # CODECOV_ENV: APPVEYOR_JOB_NAME
 
   matrix:
-    - PYTHON: "C:\\Python311-x64"
+    - PYTHON: "C:\\Python312-x64"
       PYTHON_ARCH: "64"
-      APPVEYOR_JOB_NAME: "Python311-64bit"
+      APPVEYOR_JOB_NAME: "Python312-64bit"
 
-    - PYTHON: "C:\\Python311-x64"
+    - PYTHON: "C:\\Python312-x64"
       PYTHON_ARCH: "64"
       PYTHONDONTWRITEBYTECODE: "1"
       PYGEODESY_LAZY_IMPORT: "0"
-      APPVEYOR_JOB_NAME: "Python311-64bit-isLazy-0"
+      APPVEYOR_JOB_NAME: "Python312-64bit-isLazy-0"
 
     - PYTHON: "C:\\Python27-x64"
       PYTHON_ARCH: "64"
@@ -47,6 +49,13 @@ install:
   # "pip install win_unicode_console"
 
 build: off
+
+clone_depth: 1
+skip_commits:
+  file:
+    - 'dist/*.*'
+    - 'docs/*.html'
+    - 'testresults/*.txt'
 
 #cache:
 #  - '%LOCALAPPDATA%\pip\Cache'
