@@ -34,7 +34,7 @@ if _unLazy0:
                                      rhumbaux, rhumbsolve, rhumbx  # PYCHOK expected
     __all__ += _ALL_ATTRS(_ALL_DEPRECATED.deprecated)  # DEPRECATED modules
 
-else:  # lazily import modules only
+else:  # lazily import modules and exported attrs
     __getattr__ = _lazy_import_as(__name__)
 #   __star__    = _lazy_import_star(__name__)
 

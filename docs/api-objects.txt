@@ -2953,7 +2953,7 @@ pygeodesy.lazily._unlazy	pygeodesy.lazily-module.html#_unlazy
 pygeodesy.lazily._lazy_import_as	pygeodesy.lazily-module.html#_lazy_import_as
 pygeodesy.lazily._all_imports	pygeodesy.lazily-module.html#_all_imports
 pygeodesy.lazily._QUOTE2_	pygeodesy.lazily-module.html#_QUOTE2_
-pygeodesy.lazily._lazily_imported__	pygeodesy.lazily-module.html#_lazily_imported__
+pygeodesy.lazily._lazy_attr	pygeodesy.lazily-module.html#_lazy_attr
 pygeodesy.lazily._COLONSPACE_	pygeodesy.lazily-module.html#_COLONSPACE_
 pygeodesy.lazily.__as__	pygeodesy.lazily-module.html#__as__
 pygeodesy.lazily._NorthPole_	pygeodesy.lazily-module.html#_NorthPole_
@@ -2973,6 +2973,7 @@ pygeodesy.lazily._COMMASPACE_	pygeodesy.lazily-module.html#_COMMASPACE_
 pygeodesy.lazily._sub_packages	pygeodesy.lazily-module.html#_sub_packages
 pygeodesy.lazily._tailof	pygeodesy.interns-module.html#_tailof
 pygeodesy.lazily._init__all__	pygeodesy.lazily-module.html#_init__all__
+pygeodesy.lazily._lazily_imported__	pygeodesy.lazily-module.html#_lazily_imported__
 pygeodesy.lazily._WARNINGS_X_DEV	pygeodesy.lazily-module.html#_WARNINGS_X_DEV
 pygeodesy.lazily._by_	pygeodesy.lazily-module.html#_by_
 pygeodesy.lazily._lazy_import2	pygeodesy.lazily-module.html#_lazy_import2

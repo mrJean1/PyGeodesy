@@ -11,8 +11,8 @@ in I{GeographicLib version 2.2+}.
 Copyright (C) U{Charles Karney<mailto:Karney@Alum.MIT.edu>} (2022-2023) and licensed under the MIT/X11
 License.  For more information, see the U{GeographicLib<https://GeographicLib.SourceForge.io>} documentation.
 
-@note: Class L{AuxDST} requires package U{numpy<https://PyPI.org/project/numpy>} version 1.16 or newer
-       to be installed, but only for I{exact} area calculations.
+@note: Class L{AuxDST} requires U{numpy<https://PyPI.org/project/numpy>} to be installed, version 1.16
+       or newer.
 
 @see: U{Auxiliary latitudes<https:#GeographicLib.SourceForge.io/C++/doc/auxlat.html>} and
       U{On auxiliary latitudes<https:#ArXiv.org/abs/2212.05818>}.

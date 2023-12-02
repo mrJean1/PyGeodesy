@@ -7,9 +7,9 @@ and U{RhumbLine<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_
 from I{GeographicLib versions 2.0} and I{2.2} and I{Karney}'s C++ example U{Rhumb intersect
 <https://SourceForge.net/p/geographiclib/discussion/1026620/thread/2ddc295e/>}.
 
-Class L{RhumbLineBase} has been enhanced with methods C{Intersecant2}, C{intersection2}, C{Intersection},
-and C{PlumbTo} to iteratively find the intersection of a rhumb line and a circle or an other rhumb line,
-the nearest point on a rumb line along a geodesic or a perpendicular rhumb line from an other point.
+Class L{RhumbLineBase} has been enhanced with methods C{Intersecant2}, C{Intersection} and C{PlumbTo}
+to iteratively find the intersection of a rhumb line and a circle or an other rhumb line, respectively
+a perpendicular geodesic or other rhumb line.
 
 For more details, see the C++ U{GeographicLib<https://GeographicLib.SourceForge.io/C++/doc/index.html>}
 documentation, especially the U{Class List<https://GeographicLib.SourceForge.io/C++/doc/annotated.html>},

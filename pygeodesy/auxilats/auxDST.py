@@ -9,8 +9,8 @@ Copyright (C) U{Charles Karney<mailto:Karney@Alum.MIT.edu>} (2022-2023) and lice
 under the MIT/X11 License.  For more information, see the U{GeographicLib
 <https://GeographicLib.SourceForge.io>} documentation.
 
-@note: Class L{AuxDST} requires package U{numpy<https://PyPI.org/project/numpy>} version
-       1.16 or newer to be installed, but only for I{exact} area calculations.
+@note: Class L{AuxDST} requires U{numpy<https://PyPI.org/project/numpy>} to be
+       installed, version 1.16 or newer.
 '''
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
@@ -24,7 +24,7 @@ from pygeodesy.karney import _2cos2x,  _ALL_DOCS, Fsum, property_RO
 # from pygeodesy.props import property_RO  # from .karney
 
 __all__ = ()
-__version__ = '23.11.24'
+__version__ = '23.12.02'
 
 
 class AuxDST(object):

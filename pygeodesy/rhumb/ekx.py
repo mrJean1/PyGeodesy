@@ -1,14 +1,14 @@
 
 # -*- coding: utf-8 -*-
 
-u'''A pure Python version of I{Karney}'s I{elliptic functions}, C{Krüger series}, C++ classes U{Rhumb
-<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Rhumb.html>} and U{RhumbLine
-<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1RhumbLine.html>} from
-I{GeographicLib version 2.0}, kept for backward compatibility.
+u'''A pure Python version of I{Karney}'s I{elliptic functions}, I{Krüger series expansion}, C++
+classes U{Rhumb<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Rhumb.html>} and
+and U{RhumbLine<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1RhumbLine.html>}
+from I{GeographicLib version 2.0}, kept for backward compatibility.
 
-Class L{RhumbLine} has been enhanced with methods C{Intersecant2}, C{intersection2}, C{Intersection},
-and C{PlumbTo} to iteratively find the intersection of a rhumb line and a circle or an other rhumb line,
-the nearest point on a rumb line along a geodesic or a perpendicular rhumb line from an other point.
+Class L{RhumbLine} has been enhanced with methods C{Intersecant2}, C{Intersection} and C{PlumbTo} to
+iteratively find the intersection of a rhumb line and a circle or an other rhumb line, respectively
+a perpendicular geodesic or other rhumb line.
 
 For more details, see the C++ U{GeographicLib<https://GeographicLib.SourceForge.io/C++/doc/index.html>}
 documentation, especially the U{Class List<https://GeographicLib.SourceForge.io/C++/doc/annotated.html>},
@@ -47,7 +47,7 @@ __version__ = '23.12.01'
 
 class Rhumb(RhumbBase):
     '''Class to solve the I{direct} and I{inverse rhumb} problems, based on
-       I{elliptic functions} or I{Krüger series} expansion.
+       I{elliptic functions} or I{Krüger series expansion}
 
        @see: The U{Detailed Description<https://GeographicLib.SourceForge.io/C++/doc/
              classGeographicLib_1_1Rhumb.html>} of I{Karney}'s C++ C{Rhumb Class}.

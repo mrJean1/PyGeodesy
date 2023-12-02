@@ -562,6 +562,10 @@ def _caller3(up):  # in .named
             f.f_lineno)  # line number
 
 
+def _lazy_attr(unused):  # PYCHOK overwritten in _lazy_import
+    pass
+
+
 # def _lazy_attributes(_name_):
 #     '''(INTERNAL) Return a function to C{B{_name_}.__getattr__(attr)}
 #        on lazily imported modules and sub-modules.
@@ -663,11 +667,14 @@ def _lazy_import2(pack):  # MCCABE 14
 
         return imported  # __getattr__
 
+    global _lazy_attr
+    _lazy_attr = __getattr__
+
     return package, __getattr__  # _lazy_import2
 
 
 # def _lazy_import_all(_name_):
-#     '''(INTERNAL) Return a function mimicking  C{from B{__name__} import *},
+#     '''(INTERNAL) Return a function mimicking C{from B{__name__} import *},
 #        of all items, see .deprecated.__init__
 #     '''
 #     if _unlazy:
@@ -684,20 +691,24 @@ def _lazy_import2(pack):  # MCCABE 14
 
 
 def _lazy_import_as(_name_):
-    '''(INTERNAL) Return a function enabling C{import B{__name__}.mod as mod}
-       I{of modules only}, see .deprecated, .rhumb
+    '''(INTERNAL) Return a function to C{import B{__name__}.mod as mod}
+       I{of modules only}, see .deprecated, .rhumb or get an attribute
+       lazily exported by C{__name__}.
     '''
     if _unlazy:
         return None
 
     def _import_as(mod):
-        return _ALL_MODS.getmodule(_DOT_(_name_, mod))
+        try:
+            return _ALL_MODS.getmodule(_DOT_(_name_, mod))
+        except ImportError:
+            return _lazy_attr(mod)
 
     return _import_as
 
 
 # def _lazy_import_star(_name_, ALL_=_ALL_DEPRECATES):
-#     '''(INTERNAL) Return a function to mimick  C{from B{__name__} import *},
+#     '''(INTERNAL) Return a function to mimick C{from B{__name__} import *},
 #        of all DEPRECATED items, see .deprecated, .testDeprecated
 #     '''
 #     if _unlazy:

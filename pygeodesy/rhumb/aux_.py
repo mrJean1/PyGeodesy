@@ -6,9 +6,9 @@ u'''A pure Python version of I{Karney}'s I{Auxiliary Latitudes}, C++ classes U{R
 <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1RhumbLine.html>} from
 I{GeographicLib version 2.2+} renamed to L{RhumbAux} respectively L{RhumbLineAux}.
 
-Class L{RhumbLineAux} has been enhanced with methods C{Intersecant2}, C{intersection2}, C{Intersection},
-and C{PlumbTo} to iteratively find the intersection of a rhumb line and a circle or an other rhumb line,
-the nearest point on a rumb line along a geodesic or a perpendicular rhumb line from an other point.
+Class L{RhumbLineAux} has been enhanced with methods C{Intersecant2}, C{Intersection} and C{PlumbTo}
+to iteratively find the intersection of a rhumb line and a circle or an other rhumb line, respectively
+a perpendicular geodesic or other rhumb line.
 
 For more details, see the U{GeographicLib<https://GeographicLib.SourceForge.io/C++/doc/index.html>} I{2.2}
 documentation, especially the U{Class List<https://GeographicLib.SourceForge.io/C++/doc/annotated.html>},
@@ -19,8 +19,8 @@ line calculations<https://GeographicLib.SourceForge.io/cgi-bin/RhumbSolve>}.
 Copyright (C) U{Charles Karney<mailto:Karney@Alum.MIT.edu>} (2022-2023) and licensed under the MIT/X11
 License.  For more information, see the U{GeographicLib<https://GeographicLib.SourceForge.io>} documentation.
 
-@note: Class L{AuxDST} requires package U{numpy<https://PyPI.org/project/numpy>} to be installed, version
-       1.16 or newer, needed only for I{exact} area calculations C{S12} in L{RhumbAux} and L{RhumbLineAux}.
+@note: C{S12} area calculations in classes L{RhumbAux} and L{RhumbLineAux} depend on class L{AuxDST} which
+       requires U{numpy<https://PyPI.org/project/numpy>} to be installed, version 1.16 or newer.
 
 @note: Windows reserves file names U{AUX, COM[#], CON, LPT[#], NUL, PRN<https://learn.Microsoft.com/en-us/
        windows/win32/fileio/naming-a-file#naming-conventions>} with and without extension.

@@ -1,6 +1,11 @@
 
 # -*- coding: utf-8 -*-
 
+u'''Package of lazily imported C{rhumb} modules L{rhumb.aux_}, L{rhumb.ekx} and L{rhumb.solve}.
+
+@note: C{S12} area calculations in classes L{RhumbAux} and L{RhumbLineAux} depend on class L{AuxDST}
+       which requires U{numpy<https://PyPI.org/project/numpy>} to be installed, version 1.16 or newer.
+'''
 from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER, _lazy_import_as, _unLazy0
 
 __all__ = _ALL_LAZY.rhumb
@@ -15,7 +20,7 @@ if _unLazy0:
                           RhumbSolve, RhumbLineSolve, RhumbSolve7Tuple)
     assert _ALL_LAZY.rhumb_aux_ + _ALL_LAZY.rhumb_ekx + _ALL_LAZY.rhumb_solve == __all__
 
-else:  # lazily import modules only
+else:  # lazily import modules and exported attrs
     __getattr__ = _lazy_import_as(__name__)
 
 # **) MIT License

@@ -94,8 +94,8 @@ Both U{numpy<https://PyPI.org/project/numpy>} and U{scipy<https://PyPI.org/proje
 installed for most L{Geoid...<pygeodesy.geoids>} and L{Height...<pygeodesy.heights>} interpolators,
 except L{GeoidKarney} and the L{HeightIDW...<pygeodesy.heights>} ones.
 
-Functions and C{LatLon} methods L{circin6}, L{circum3}, L{circum4_}, L{soddy4}, L{trilaterate3d2} and
-C{trilaterate5} and modules L{auxilats} and L{rhumb} require U{numpy<https://PyPI.org/project/numpy>}.
+Functions and C{LatLon} methods L{circin6}, L{circum3}, L{circum4_}, L{soddy4}, L{trilaterate3d2} do and
+C{trilaterate5} and modules L{auxilats} and L{rhumb} may require U{numpy<https://PyPI.org/project/numpy>}.
 
 Modules L{ellipsoidalGeodSolve} and L{geodsolve} and L{azimuthal} classes L{EquidistantGeodSolve}
 and L{GnomonicGeodSolve} depend on I{Karney}'s C++ utility U{GeodSolve
