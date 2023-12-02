@@ -32,7 +32,7 @@ from pygeodesy.utily import atan2d, sincos2, sincos2d
 from math import asinh, atan2, copysign, degrees, fabs, radians, sinh
 
 __all__ = ()
-__version__ = '23.11.26'
+__version__ = '23.12.02'
 
 _0_INF_NAN_NINF = (0, _0_0) + _INF_NAN_NINF
 _MAX_2          =  MAX * _0_5  # PYCHOK used!
@@ -277,7 +277,7 @@ class AuxAngle(_Named):
     def _RhumbAux(self):
         '''(INTERNAL) Import the L{RhumbAux} class, I{once}.
         '''
-        AuxAngle._RhumbAux = R = _MODS.rhumb.aux.RhumbAux  # overwrite property_RO
+        AuxAngle._RhumbAux = R = _MODS.rhumb.aux_.RhumbAux  # overwrite property_RO
         return R
 
     @Property_RO

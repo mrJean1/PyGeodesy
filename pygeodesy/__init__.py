@@ -134,7 +134,7 @@ U{geographiclib<https://PyPI.org/project/geographiclib>} 1.50, U{numpy<https://P
 1.16.6, U{scipy<https://PyPI.org/project/scipy>} 1.2.2, U{GeoConvert
 <https://GeographicLib.SourceForge.io/html/utilities.html>} 2.2, U{GeodSolve
 <https://GeographicLib.SourceForge.io/html/utilities.html>} 2.2 and U{RhumbSolve
-<https://GeographicLib.SourceForge.io/html/utilities.html>} 2.2), all on macOS 14.1.1 Sonoma and
+<https://GeographicLib.SourceForge.io/html/utilities.html>} 2.2), all on macOS 14.1.2 Sonoma and
 in 64-bit only.
 
 All tests ran with and without C{lazy import} for Python 3 and with command line option C{-W default} and
@@ -180,7 +180,7 @@ All Python source code has been statically U{checked<https://GitHub.com/ActiveSt
 Python/546532_PyChecker_postprocessor>} with U{PyChecker<https://PyPI.org/project/pychecker>}, U{PyFlakes
 <https://PyPI.org/project/pyflakes>}, U{PyCodeStyle<https://PyPI.org/project/pycodestyle>} (formerly Pep8) and
 U{McCabe<https://PyPI.org/project/mccabe>} using Python 2.7.18 and with U{Flake8<https://PyPI.org/project/flake8>}
-using Python 3.11.5, both in 64-bit on macOS 14.1.1 Sonoma.
+using Python 3.11.5, both in 64-bit on macOS 14.1.2 Sonoma.
 
 For a summary of all I{Karney}-based functionality in C{pygeodesy}, see module U{karney
 <https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.karney-module.html>}.

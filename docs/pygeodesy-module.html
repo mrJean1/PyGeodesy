@@ -289,7 +289,7 @@
     href="https://GeographicLib.SourceForge.io/html/utilities.html" 
     target="_top">GeodSolve</a> 2.2 and <a 
     href="https://GeographicLib.SourceForge.io/html/utilities.html" 
-    target="_top">RhumbSolve</a> 2.2), all on macOS 14.1.1 Sonoma and in 
+    target="_top">RhumbSolve</a> 2.2), all on macOS 14.1.2 Sonoma and in 
     64-bit only.</p>
     <p>All tests ran with and without <code>lazy import</code> for Python 3
     and with command line option <code>-W default</code> and env variable 
@@ -365,7 +365,7 @@
     href="https://PyPI.org/project/mccabe" target="_top">McCabe</a> using 
     Python 2.7.18 and with <a href="https://PyPI.org/project/flake8" 
     target="_top">Flake8</a> using Python 3.11.5, both in 64-bit on macOS 
-    14.1.1 Sonoma.</p>
+    14.1.2 Sonoma.</p>
     <p>For a summary of all <i>Karney</i>-based functionality in 
     <code>pygeodesy</code>, see module <a 
     href="https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.karney-module.html"
@@ -677,8 +677,8 @@
         href="pygeodesy.rhumb.bases-module.html" class="link" 
         onclick="show_private();">pygeodesy.rhumb.bases</a> instead.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.deprecated.rhumbaux-module.html">pygeodesy.deprecated.rhumbaux</a></strong>: <em class="summary">DEPRECATED on 2023.11.26, use module <a 
-        href="pygeodesy.rhumb.aux-module.html" class="link" 
-        onclick="show_private();">pygeodesy.rhumb.aux</a> instead.</em>    </li>
+        href="pygeodesy.rhumb.aux_-module.html" class="link" 
+        onclick="show_private();">pygeodesy.rhumb.aux_</a> instead.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.deprecated.rhumbsolve-module.html">pygeodesy.deprecated.rhumbsolve</a></strong>: <em class="summary">DEPRECATED on 2023.11.26, use module <a 
         href="pygeodesy.rhumb.solve-module.html" class="link" 
         onclick="show_private();">pygeodesy.rhumb.solve</a> instead.</em>    </li>
@@ -835,15 +835,15 @@
         class="link">triSide4</a>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.rhumb-module.html">pygeodesy.rhumb</a></strong>
     <ul>
-    <li class="private"> <strong class="uidlink"><a href="pygeodesy.rhumb.aux-module.html" onclick="show_private();">pygeodesy.rhumb.aux</a></strong>: <em class="summary">A pure Python version of <i>Karney</i>'s <i>Auxiliary 
+    <li class="private"> <strong class="uidlink"><a href="pygeodesy.rhumb.aux_-module.html" onclick="show_private();">pygeodesy.rhumb.aux_</a></strong>: <em class="summary">A pure Python version of <i>Karney</i>'s <i>Auxiliary 
         Latitudes</i>, C++ classes <a 
         href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Rhumb.html"
         target="_top">Rhumb</a> and <a 
         href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1RhumbLine.html"
         target="_top">RhumbLine</a> from <i>GeographicLib version 2.2+</i> 
-        renamed to <a href="pygeodesy.rhumb.aux.RhumbAux-class.html" 
+        renamed to <a href="pygeodesy.rhumb.aux_.RhumbAux-class.html" 
         class="link">RhumbAux</a> respectively <a 
-        href="pygeodesy.rhumb.aux.RhumbLineAux-class.html" 
+        href="pygeodesy.rhumb.aux_.RhumbLineAux-class.html" 
         class="link">RhumbLineAux</a>.</em>    </li>
     <li class="private"> <strong class="uidlink"><a href="pygeodesy.rhumb.bases-module.html" onclick="show_private();">pygeodesy.rhumb.bases</a></strong>: <em class="summary">(INTERNAL) base classes <code>RhumbBase</code> and 
         <code>RhumbLineBase</code>, pure Python version of <i>Karney</i>'s 
@@ -1232,7 +1232,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.errors.AuxError-class.html" class="summary-name">AuxError</a><br />
-      An <code>rhumb.aux</code> <code>Aux</code>, <code>AuxDLat</code> or
+      A <code>rhumb.aux_</code> <code>Aux</code>, <code>AuxDLat</code> or
         <code>AuxLat</code> issue.
     </td>
   </tr>
@@ -4225,7 +4225,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.rhumb.aux.RhumbAux-class.html" class="summary-name">RhumbAux</a><br />
+        <a href="pygeodesy.rhumb.aux_.RhumbAux-class.html" class="summary-name">RhumbAux</a><br />
       Class to solve the <i>direct</i> and <i>inverse rhumb</i> problems,
         based on <i>Auxiliary Latitudes</i> for accuracy near the poles.
     </td>
@@ -4235,8 +4235,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.errors.RhumbError-class.html" class="summary-name">RhumbError</a><br />
-      A <a href="pygeodesy.rhumb.aux-module.html" class="link" 
-        onclick="show_private();">pygeodesy.rhumb.aux</a>, <a 
+      A <a href="pygeodesy.rhumb.aux_-module.html" class="link" 
+        onclick="show_private();">pygeodesy.rhumb.aux_</a>, <a 
         href="pygeodesy.rhumb.ekx-module.html" class="link" 
         onclick="show_private();">pygeodesy.rhumb.ekx</a> or <a 
         href="pygeodesy.rhumb.solve-module.html" class="link" 
@@ -4255,7 +4255,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.rhumb.aux.RhumbLineAux-class.html" class="summary-name">RhumbLineAux</a><br />
+        <a href="pygeodesy.rhumb.aux_.RhumbLineAux-class.html" class="summary-name">RhumbLineAux</a><br />
       Compute one or several points on a single rhumb line.
     </td>
   </tr>
@@ -4269,7 +4269,7 @@
         target="_top">RhumbSolve</a> like a class, similar to <a 
         href="pygeodesy.rhumb.ekx.RhumbLine-class.html" 
         class="link">pygeodesy.RhumbLine</a> and <a 
-        href="pygeodesy.rhumb.aux.RhumbLineAux-class.html" 
+        href="pygeodesy.rhumb.aux_.RhumbLineAux-class.html" 
         class="link">pygeodesy.RhumbLineAux</a>.
     </td>
   </tr>
@@ -4283,7 +4283,7 @@
         target="_top">RhumbSolve</a> like a class, similar to <a 
         href="pygeodesy.rhumb.ekx.Rhumb-class.html" 
         class="link">pygeodesy.Rhumb</a> and <a 
-        href="pygeodesy.rhumb.aux.RhumbAux-class.html" 
+        href="pygeodesy.rhumb.aux_.RhumbAux-class.html" 
         class="link">pygeodesy.RhumbAux</a>.
     </td>
   </tr>
@@ -8070,7 +8070,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fb3f84ef9d0&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f8eb83ec9d0&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -20031,7 +20031,7 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fb3f84ef9d0&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f8eb83ec9d0&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -29667,7 +29667,7 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Dec  1 14:08:22 2023
+    Generated by Epydoc 3.0.1 on Sat Dec  2 09:40:28 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -53,7 +53,7 @@ from pygeodesy.vector3d import _intersect3d3, Vector3d  # in .Intersection below
 from math import cos, fabs
 
 __all__ = ()
-__version__ = '23.12.01'
+__version__ = '23.12.02'
 
 _anti_ = _Dash('anti')
 _rls   = []  # instances of C{RbumbLine...} to be updated
@@ -81,7 +81,7 @@ def _update_all_rls(r):
        of any C{RhumbLine} instances tied to the given
        C{Rhumb} instance B{C{r}}.
     '''
-    # _xinstanceof(_MODS.rhumb.aux.RhumbAux, _MODS.rhumb.ekx.Rhumb, r=r)
+    # _xinstanceof(_MODS.rhumb.aux_.RhumbAux, _MODS.rhumb.ekx.Rhumb, r=r)
     _update_all(r)
     for rl in _rls:  # PYCHOK use weakref?
         if rl._rhumb is r:
@@ -89,7 +89,7 @@ def _update_all_rls(r):
 
 
 class RhumbBase(_CapsBase):
-    '''(INTERNAL) Base class for C{rhumb.aux.RhumbAux} and C{rhumb.ekx.Rhumb}.
+    '''(INTERNAL) Base class for C{rhumb.aux_.RhumbAux} and C{rhumb.ekx.Rhumb}.
     '''
     _datum = _WGS84
     _exact =  True
@@ -460,7 +460,7 @@ class RhumbBase(_CapsBase):
 
 
 class RhumbLineBase(_CapsBase):
-    '''(INTERNAL) Base class for C{rhumb.aux.RhumbLineAux} and C{rhumb.ekx.RhumbLine}.
+    '''(INTERNAL) Base class for C{rhumb.aux_.RhumbLineAux} and C{rhumb.ekx.RhumbLine}.
     '''
     _azi12 = _0_0
     _calp  = _1_0

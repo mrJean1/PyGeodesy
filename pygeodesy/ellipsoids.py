@@ -92,7 +92,7 @@ from pygeodesy.utily import atan1, atan1d, atan2b, degrees90, m2radians, radians
 from math import asinh, atan, atanh, cos, degrees, exp, fabs, radians, sin, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '23.12.01'
+__version__ = '23.12.02'
 
 _f_0_0    = Float(f =_0_0)  # zero flattening
 _f__0_0   = Float(f_=_0_0)  # zero inverse flattening
@@ -1501,7 +1501,7 @@ class Ellipsoid(_NamedEnumItem):
         '''
         # if not self.isEllipsoidal:
         #     raise _IsnotError(_ellipsoidal_, ellipsoid=self)
-        return _MODS.rhumb.aux.RhumbAux(self, name=self.name)
+        return _MODS.rhumb.aux_.RhumbAux(self, name=self.name)
 
     @property_RO
     def rhumbekx(self):
@@ -1516,7 +1516,7 @@ class Ellipsoid(_NamedEnumItem):
         '''(INTERNAL) Get all C{Rhumb...} classes, I{once}.
         '''
         p = _MODS.rhumb
-        Ellipsoid._Rhumbs = t = (p.aux.RhumbAux,  # overwrite property_RO
+        Ellipsoid._Rhumbs = t = (p.aux_.RhumbAux,  # overwrite property_RO
                                  p.ekx.Rhumb, p.solve.RhumbSolve)
         return t
 

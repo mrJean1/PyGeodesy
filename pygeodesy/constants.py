@@ -25,7 +25,7 @@ except ImportError:  # Python 2-
     _inf, _nan = float(_INF_), float(_NAN_)
 
 __all__ = _ALL_LAZY.constants
-__version__ = '23.12.01'
+__version__ = '23.12.02'
 
 
 def _copysign_0_0(y):
@@ -123,7 +123,7 @@ try:
 except ImportError:  # Python 3.3-
     from math import log as _log
 
-    def _log2(x):  # in .rhumb.aux, .auxilats.auxLat
+    def _log2(x):  # in .rhumb.aux_, .auxilats.auxLat
         return _log(x, 2)
 
 

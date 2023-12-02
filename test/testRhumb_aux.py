@@ -1,10 +1,10 @@
 
 # -*- coding: utf-8 -*-
 
-# Some basic C{rhumb.aux} vs C++ C{RhumbSolve} tests.
+# Some basic C{rhumb.aux_} vs C++ C{RhumbSolve} tests.
 
 __all__ = ('Tests',)
-__version__ = '23.11.28'
+__version__ = '23.12.02'
 
 from bases import coverage, _fLate, RhumbSolve, startswith, TestsBase
 
@@ -13,7 +13,7 @@ from pygeodesy import NN, Caps, classname, DIG, Ellipsoid, Ellipsoids, GDict, \
                       RhumbAux, RhumbLineAux, RhumbLineSolve, R_M, \
                       Fwelford, fremainder, pairs
 from pygeodesy.interns import _COLON_, _COMMASPACE_, _DOT_
-from pygeodesy.rhumb import aux as rhumbaux  # NOT deprecated.rhumbaux
+from pygeodesy.rhumb import aux_ as rhumbaux  # NOT deprecated.rhumbaux
 
 _C = _COLON_
 _G = '%%.%sg' % (DIG,)

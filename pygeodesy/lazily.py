@@ -142,7 +142,7 @@ class _NamedEnum_RO(dict):
         for m, t in dict.items(self):
             if isinstance(t, tuple) and \
                not m.startswith(_UNDER_):  # skip _name
-                m = m.replace(_UNDER_, _DOT_)
+                m = m.replace(_UNDER_, _DOT_, 1)
                 yield m, t
 
     def imports(self):
@@ -329,8 +329,8 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                    'snellius3', 'wildberger3',
                                    'triAngle', 'triAngle5', 'triArea', 'triSide', 'triSide2', 'triSide4'),
                           rhumb=_i(),  # module only
-                      rhumb_aux=_i('RhumbAux', 'RhumbLineAux'),
-                 rhumb_ekx=_i('Rhumb', 'RhumbLine'),
+                     rhumb_aux_=_i('RhumbAux', 'RhumbLineAux'),
+                      rhumb_ekx=_i('Rhumb', 'RhumbLine'),
                     rhumb_solve=_i('RhumbSolve', 'RhumbLineSolve', 'RhumbSolve7Tuple'),
                   sphericalBase=_i(),  # module only
                sphericalNvector=_i(),  # module only
@@ -471,7 +471,7 @@ class _ALL_MODS(object):
 _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '23.11.30'
+__version__ = '23.12.02'
 
 
 def _ALL_ATTRS(*mods):

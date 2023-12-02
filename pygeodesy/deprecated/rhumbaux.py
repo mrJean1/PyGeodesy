@@ -1,14 +1,14 @@
 
 # -*- coding: utf-8 -*-
 
-u'''DEPRECATED on 2023.11.26, use module L{pygeodesy.rhumb.aux} instead.
+u'''DEPRECATED on 2023.11.26, use module L{pygeodesy.rhumb.aux_} instead.
 '''
 
-from pygeodesy.rhumb.aux import *  # PYCHOK expected
+from pygeodesy.rhumb.aux_ import *  # PYCHOK expected
 from pygeodesy.lazily import _ALL_LAZY
 
-__all__ = _ALL_LAZY.rhumb_aux  # attrs NOT DEPRECATED
-__version__ = '23.11.26'
+__all__ = _ALL_LAZY.rhumb_aux_  # attrs NOT DEPRECATED
+__version__ = '23.12.02'
 
 # **) MIT License
 #

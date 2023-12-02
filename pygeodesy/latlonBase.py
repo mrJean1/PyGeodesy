@@ -53,7 +53,7 @@ from contextlib import contextmanager
 from math import asin, cos, degrees, fabs, radians
 
 __all__ = _ALL_LAZY.latlonBase
-__version__ = '23.12.01'
+__version__ = '23.12.02'
 
 
 class LatLonBase(_NamedBase):
@@ -1288,7 +1288,7 @@ class LatLonBase(_NamedBase):
            @raise TypeError: Invalid B{C{radius}} or B{C{other}} not C{scalar} nor
                              this C{LatLon}.
 
-           @see: Modules L{rhumb.aux} and L{rhumb.ekx}.
+           @see: Modules L{rhumb.aux_} and L{rhumb.ekx}.
         '''
         r, _, Cs = self._rhumb3(exact, radius)
         kwds = _xkwds(name_caps, name=self.name, caps=Cs.LINE_OFF)

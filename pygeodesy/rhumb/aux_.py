@@ -21,6 +21,9 @@ License.  For more information, see the U{GeographicLib<https://GeographicLib.So
 
 @note: Class L{AuxDST} requires package U{numpy<https://PyPI.org/project/numpy>} to be installed, version
        1.16 or newer, needed only for I{exact} area calculations C{S12} in L{RhumbAux} and L{RhumbLineAux}.
+
+@note: Windows reserves file names U{AUX, COM[#], CON, LPT[#], NUL, PRN<https://learn.Microsoft.com/en-us/
+       windows/win32/fileio/naming-a-file#naming-conventions>} with and without extension.
 '''
 # make sure int/int division yields float quotient
 from __future__ import division as _; del _  # PYCHOK semicolon
@@ -43,8 +46,8 @@ from pygeodesy.rhumb.bases import RhumbBase, RhumbLineBase,  Property_RO
 
 from math import ceil as _ceil, fabs, radians
 
-__all__ = _ALL_LAZY.rhumb_aux
-__version__ = '23.12.01'
+__all__ = _ALL_LAZY.rhumb_aux_
+__version__ = '23.12.02'
 
 # DIGITS = (sizeof(real) * 8) bits
 #        = (ctypes.sizeof(ctypes.c_double(1.0)) * 8) bits
@@ -108,8 +111,8 @@ class RhumbAux(RhumbBase):
                  and method L{auxilats.AuxLat.AuthalicRadius2}.
         '''
         x = _xkwds_get(exact, exact=self.exact)
-        a = (self._c2 * _720_0) if bool(x) is self.exact else \
-            (self._auxD.AuthalicRadius2(exact=x, f_max=self.f_max) * PI4)
+        a = (self._c2 * _720_0) if bool(x) is self.exact else (
+             self._auxD.AuthalicRadius2(exact=x, f_max=self.f_max) * PI4)
         return a
 
     @Property_RO
@@ -138,11 +141,10 @@ class RhumbAux(RhumbBase):
         lam12 = radians(lon12)
         if (outmask & Caps.DISTANCE):
             if isinf(psi1) or isinf(psi2):  # PYCHOK no cover
-                d  = Phi2.toMu(self).toRadians
-                d -= Phi1.toMu(self).toRadians
-                s  = fabs(d)
+                s = fabs(Phi2.toMu(self).toRadians -
+                         Phi1.toMu(self).toRadians)
             else:  # dmu/dpsi = dmu/dchi/dpsi/dchi
-                s  = hypot(lam12, psi12)
+                s = hypot(lam12, psi12)
                 if s:
                     s *= self._DMu_DPsi(Phi1, Phi2, Chi1, Chi2)
             s *= self._rrm
@@ -206,7 +208,7 @@ class RhumbLineAux(RhumbLineBase):
        on a single rhumb line.  The starting point (C{lat1}, C{lon1})
        and the azimuth C{azi12} are specified once.
     '''
-    _Rhumb = RhumbAux  # rhumb.aux.RhumbAux
+    _Rhumb = RhumbAux  # rhumb.aux_.RhumbAux
 
     def __init__(self, rhumb, lat1=0, lon1=0, azi12=None, **caps_name):  # PYCHOK signature
         '''New C{RhumbLineAux}.

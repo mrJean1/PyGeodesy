@@ -4,16 +4,16 @@
 from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER, _lazy_import_as, _unLazy0
 
 __all__ = _ALL_LAZY.rhumb
-__version__ = '23.12.01'
+__version__ = '23.12.02'
 
 if _unLazy0:
-    from pygeodesy.rhumb.aux import RhumbAux, RhumbLineAux
+    from pygeodesy.rhumb.aux_ import RhumbAux, RhumbLineAux
     from pygeodesy.rhumb.ekx import Rhumb, RhumbLine
     from pygeodesy.rhumb.solve import RhumbSolve, RhumbLineSolve, RhumbSolve7Tuple
 
     __all__ += _ALL_OTHER(RhumbAux, RhumbLineAux, Rhumb, RhumbLine,
                           RhumbSolve, RhumbLineSolve, RhumbSolve7Tuple)
-    assert _ALL_LAZY.rhumb_aux + _ALL_LAZY.rhumb_ekx + _ALL_LAZY.rhumb_solve == __all__
+    assert _ALL_LAZY.rhumb_aux_ + _ALL_LAZY.rhumb_ekx + _ALL_LAZY.rhumb_solve == __all__
 
 else:  # lazily import modules only
     __getattr__ = _lazy_import_as(__name__)

@@ -69,7 +69,7 @@ Karney-based functionality
 
   - L{Osgr} -- U{OSGB<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1OSGB.html>}
 
-  - L{rhumb.aux}, L{RhumbAux}, L{RhumbLineAux} -- U{Rhumb
+  - L{rhumb.aux_}, L{RhumbAux}, L{RhumbLineAux} -- U{Rhumb
     <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Rhumb.html>} and U{RhumbLine
     <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1RhumbLine.html>} from I{GeographicLib 2.2+}
 
@@ -114,8 +114,8 @@ C++ utility U{RhumbSolve<https://GeographicLib.SourceForge.io/C++/doc/RhumbSolve
     L{ellipsoidalVincenty.LatLon.intersection3}, L{ellipsoidalVincenty.LatLon.intersections2},
     L{ellipsoidalVincenty.LatLon.nearestOn}, L{ellipsoidalVincenty.LatLon.trilaterate5}
 
-  - L{RhumbLineAux.intersection2} and L{RhumbLineAux.nearestOn4} C{(exact=None)} in L{rhumb.aux} and
-    L{RhumbLine.intersection2} and L{RhumbLine.nearestOn4} C{(exact=None)} in L{rhumb.ekx}
+  - L{RhumbLineAux.Intersecant2}, L{RhumbLineAux.Intersection} and L{RhumbLineAux.PlumbTo} C{(exact=None)} in L{rhumb.aux_}
+    and L{RhumbLine.Intersecant2}, L{RhumbLine.Intersection} and L{RhumbLine.PlumbTo} C{(exact=None)} in L{rhumb.ekx}
 
 are implementations of I{Karney}'s iterative solution posted under U{The B{ellipsoidal} case
 <https://GIS.StackExchange.com/questions/48937/calculating-intersection-of-two-circles>} and in paper U{Geodesics
@@ -159,7 +159,7 @@ from pygeodesy.utily import atan2d, sincos2d, tand, _unrollon,  fabs
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.karney
-__version__ = '23.12.01'
+__version__ = '23.12.02'
 
 _K_2_0      = _getenv('PYGEODESY_GEOGRAPHICLIB', _2_) == _2_
 _perimeter_ = 'perimeter'

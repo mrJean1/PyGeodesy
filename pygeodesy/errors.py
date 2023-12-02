@@ -21,7 +21,7 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _getenv, \
                              _pairs, _PYTHON_X_DEV
 
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')  _under
-__version__ = '23.12.01'
+__version__ = '23.12.02'
 
 _box_        = 'box'
 _default_    = 'default'
@@ -155,7 +155,7 @@ class _ZeroDivisionError(ZeroDivisionError):
 
 
 class AuxError(_ValueError):
-    '''An C{rhumb.aux} C{Aux}, C{AuxDLat} or C{AuxLat} issue.
+    '''A C{rhumb.aux_} C{Aux}, C{AuxDLat} or C{AuxLat} issue.
     '''
     pass
 
@@ -277,7 +277,7 @@ class RangeError(_ValueError):
 
 
 class RhumbError(_ValueError):
-    '''A L{pygeodesy.rhumb.aux}, L{pygeodesy.rhumb.ekx}
+    '''A L{pygeodesy.rhumb.aux_}, L{pygeodesy.rhumb.ekx}
        or L{pygeodesy.rhumb.solve} issue.
     '''
     pass
