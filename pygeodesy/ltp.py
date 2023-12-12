@@ -13,8 +13,7 @@ and L{ChLVe} and L{Ltp}, L{ChLV}, L{LocalError}, L{Attitude} and L{Frustum}.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import isscalar, issubclassof, map1, map2, \
-                            _xargs_kwds_names
+from pygeodesy.basics import issubclassof, map1, map2, _xargs_kwds_names
 from pygeodesy.constants import EPS, INT0, _umod_360, _0_0, _0_01, _0_5, _1_0, \
                                _2_0, _60_0, _90_0, _100_0, _180_0, _3600_0, \
                                _N_1_0  # PYCHOK used!
@@ -35,7 +34,7 @@ from pygeodesy.namedTuples import LatLon3Tuple, LatLon4Tuple, Vector3Tuple
 from pygeodesy.props import Property, Property_RO, property_doc_, property_RO, \
                            _update_all
 from pygeodesy.streprs import Fmt, strs, unstr
-from pygeodesy.units import Bearing, Degrees, Meter
+from pygeodesy.units import Bearing, Degrees, _isHeight, Meter
 from pygeodesy.utily import cotd, _loneg, sincos2d, sincos2d_, tand, tand_, \
                             wrap180, wrap360
 from pygeodesy.vector3d import _ALL_LAZY, Vector3d
@@ -43,7 +42,7 @@ from pygeodesy.vector3d import _ALL_LAZY, Vector3d
 # from math import fabs, floor as _floor  # from .fmath, .fsums
 
 __all__ = _ALL_LAZY.ltp
-__version__ = '23.11.16'
+__version__ = '23.12.03'
 
 _height0_ = _height_ + _0_
 _narrow_  = 'narrow'
@@ -88,7 +87,7 @@ class Attitude(_NamedBase):
            @see: U{Principal axes<https://WikiPedia.org/wiki/Aircraft_principal_axes>} and
                  U{Yaw, pitch, and roll rotations<http://MSL.CS.UIUC.edu/planning/node102.html>}.
         '''
-        if isscalar(alt_attitude):
+        if _isHeight(alt_attitude):
             t = Attitude4Tuple(alt_attitude, tilt, yaw, roll)
         else:
             try:
@@ -1087,7 +1086,7 @@ def _xLtp(ltp, *dflt):
 
 # **) MIT License
 #
-# Copyright (C) 2016-2023 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

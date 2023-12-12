@@ -6,7 +6,6 @@ u'''Formulary of basic geodesy functions and approximations.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-# from pygeodesy.basics import isscalar  from .fsums
 # from pygeodesy.cartesianBase import CartesianBase  # _MODS
 from pygeodesy.constants import EPS, EPS0, EPS1, PI, PI2, PI3, PI_2, R_M, \
                                _isfinite, float0_, isnon0, remainder, _umod_PI2, \
@@ -19,7 +18,7 @@ from pygeodesy.errors import IntersectionError, LimitError, limiterrors, \
                             _TypeError, _ValueError, _xattr, _xError, \
                             _xkwds, _xkwds_pop
 from pygeodesy.fmath import euclid, hypot, hypot_, hypot2, sqrt0
-from pygeodesy.fsums import fsumf_,  isscalar
+from pygeodesy.fsums import fsumf_
 from pygeodesy.interns import NN, _delta_, _distant_, _inside_, _SPACE_, _too_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _NamedTuple, _xnamed,  Fmt, unstr
@@ -28,9 +27,10 @@ from pygeodesy.namedTuples import Bearing2Tuple, Distance4Tuple, \
                                   PhiLam2Tuple, Vector3Tuple
 # from pygeodesy.streprs import Fmt, unstr  # from .named
 # from pygeodesy.triaxials import _hartzell2  # _MODS
-from pygeodesy.units import Bearing, Degrees, Degrees_, Distance, Distance_, \
-                            Height, Lam_, Lat, Lon, Meter_, Phi_, Radians, \
-                            Radians_, Radius, Radius_, Scalar, _100km
+from pygeodesy.units import _isHeight, _isRadius, Bearing, Degrees, Degrees_, \
+                             Distance, Distance_, Height, Lam_, Lat, Lon, \
+                             Meter_, Phi_, Radians, Radians_, Radius, Radius_, \
+                             Scalar, _100km
 from pygeodesy.utily import acos1, atan2b, atan2d, degrees2m, _loneg, m2degrees, \
                             tan_2, sincos2, sincos2_, sincos2d_, _Wrap
 # from pygeodesy.vector3d import _otherV3d  # _MODS
@@ -42,7 +42,7 @@ from contextlib import contextmanager
 from math import asin, atan, atan2, cos, degrees, fabs, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '23.11.18'
+__version__ = '23.12.03'
 
 _D2_R2  = (PI / _180_0)**2  # degrees- to radians-squared
 _ratio_ = 'ratio'
@@ -416,9 +416,9 @@ def _ellipsoidal(earth, where):
     '''(INTERNAL) Helper for distances.
     '''
     return _EWGS84 if earth in (_WGS84, _EWGS84)   else (
-            earth  if isinstance(earth, Ellipsoid) else
-           (earth  if isinstance(earth, Datum)     else  # PYCHOK indent
-           _ellipsoidal_datum(earth, name=where.__name__)).ellipsoid)
+             earth if isinstance(earth, Ellipsoid) else
+            (earth if isinstance(earth, Datum)     else  # PYCHOK indent
+            _ellipsoidal_datum(earth, name=where.__name__)).ellipsoid)
 
 
 def equirectangular(lat1, lon1, lat2, lon2, radius=R_M, **adjust_limit_wrap):
@@ -1105,7 +1105,7 @@ def heightOrthometric(h_ll, N):
              GEOID/PRESENTATIONS/2007_02_24_CCPS/Roman_A_PLSC2007notes.pdf>}, page
              6 and module L{pygeodesy.geoids}.
     '''
-    h = h_ll if isscalar(h_ll) else _xattr(h_ll, height=_xattr(h_ll, h=0))
+    h = h_ll if _isHeight(h_ll) else _xattr(h_ll, height=_xattr(h_ll, h=0))
     return Height(H=Height(h=h) - Height(N=N))
 
 
@@ -1146,7 +1146,7 @@ class _idllmn6(object):  # see also .geodesicw._wargs, .latlonBase._toCartesian3
             if datum is None or euclidean(lat1, lon1, lat2, lon2) < m:
                 d, m = None, _MODS.vector3d
                 _i   = m._intersects2 if s else m._intersect3d3
-            elif isscalar(datum) and datum < 0 and not s:
+            elif _isRadius(datum) and datum < 0 and not s:
                 d = _spherical_datum(-datum, name=n)
                 m = _MODS.sphericalNvector
                 _i = m.intersection
@@ -1875,7 +1875,7 @@ def xyz2rtp_(x_xyz, *y_z):
 
 # **) MIT License
 #
-# Copyright (C) 2016-2023 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

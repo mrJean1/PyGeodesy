@@ -4,7 +4,7 @@
 # Test L{named} module.
 
 __all__ = ('Tests',)
-__version__ = '23.09.13'
+__version__ = '23.12.06'
 
 from bases import endswith, TestsBase
 from pygeodesy import geohash, Datum, Datums, named, \
@@ -101,9 +101,10 @@ class Tests(TestsBase):
     _NamedTuples = {}  # [<name>] = 'L{<name>}C{(...)}'
 
     def testNamed_classes(self, _Nbase, _Nclass, _attr_, _Ndict):
+        _n = -(1 + len(_Nclass))
         for c in self.pygeodesy_classes(Base=_Nbase, deprecated=True):
             n = c.__name__
-            if c is not _Nbase and n[-1 - len(_Nclass)].isdigit():
+            if c is not _Nbase and n[_n].isdigit():
                 d = ' '.join(c.__doc__.strip().split())
                 if d.startswith(_DEP_D):
                     self.test(n, d, d)

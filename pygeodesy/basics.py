@@ -20,14 +20,14 @@ from pygeodesy.interns import MISSING, NN, _1_, _by_, _COMMA_, _DOT_, _DEPRECATE
                              _ELLIPSIS4_, _enquote, _EQUAL_, _in_, _invalid_, _N_A_, \
                              _SPACE_, _UNDER_, _version_  # _utf_8_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _FOR_DOCS, \
-                             _getenv, _sys, _sys_version_info2
+                             _getenv, LazyImportError, _sys, _sys_version_info2
 
 from copy import copy as _copy, deepcopy as _deepcopy
 from math import copysign as _copysign
 import inspect as _inspect
 
 __all__ = _ALL_LAZY.basics
-__version__ = '23.11.21'
+__version__ = '23.12.10'
 
 _0_0                  =  0.0  # in .constants
 _below_               = 'below'
@@ -39,7 +39,7 @@ _required_            = 'required'
 _PYGEODESY_XPACKAGES_ = 'PYGEODESY_XPACKAGES'
 
 try:  # Luciano Ramalho, "Fluent Python", O'Reilly, 2016 p. 395, 2022 p. 577+
-    from numbers import Integral as _Ints, Real as _Scalars
+    from numbers import Integral as _Ints, Real as _Scalars  # .units
 except ImportError:
     try:
         _Ints = int, long  # int objects (C{tuple})
@@ -61,15 +61,23 @@ except ImportError:
     _Sequence = tuple  # immutable for .points._Basequence
     _Seqs     = list, _Sequence  # , range for function len2 below
 
+
+def _passarg(arg):  # in .auxilats.auxLat
+    '''(INTERNAL) Helper, no-op.
+    '''
+    return arg
+
+
+def _passargs(*args):  # in .utily
+    '''(INTERNAL) Helper, no-op.
+    '''
+    return args
+
+
 try:
     _Bytes = unicode, bytearray  # PYCHOK expected
     _Strs  = basestring, str  # XXX , bytes
-
-    def _pass(x):  # == .utily._passarg
-        '''Pass thru, no-op'''
-        return x
-
-    str2ub = ub2str = _pass  # avoids UnicodeDecodeError
+    str2ub = ub2str = _passarg  # avoids UnicodeDecodeError
 
     def _Xstr(exc):  # PYCHOK no cover
         '''I{Invoke only with caught ImportError} B{C{exc}}.
@@ -698,15 +706,15 @@ def _xgeographiclib(where, *required):
         _xpackage(_xgeographiclib)
         import geographiclib
     except ImportError as x:
-        raise _xImportError(x, where)
+        raise _xImportError(x, where, Error=LazyImportError)
     return _xversion(geographiclib, where, *required)
 
 
-def _xImportError(x, where, **name):
-    '''(INTERNAL) Embellish an C{ImportError}.
+def _xImportError(x, where, Error=_ImportError, **name):
+    '''(INTERNAL) Embellish an C{Lazy/ImportError}.
     '''
     t = _SPACE_(_required_, _by_, _xwhere(where, **name))
-    return _ImportError(_Xstr(x), txt=t, cause=x)
+    return Error(_Xstr(x), txt=t, cause=x)
 
 
 def _xinstanceof(*Types, **name_value_pairs):
@@ -830,7 +838,7 @@ else:  # Python 3.10+
 
 # **) MIT License
 #
-# Copyright (C) 2016-2023 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

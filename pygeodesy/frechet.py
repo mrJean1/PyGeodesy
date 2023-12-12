@@ -846,7 +846,7 @@ class Frechet6Tuple(_NamedTuple):
 
 # **) MIT License
 #
-# Copyright (C) 2016-2023 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

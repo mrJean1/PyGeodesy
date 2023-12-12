@@ -41,8 +41,8 @@ from pygeodesy.constants import EPS, EPS0, EPS02, MANT_DIG, NAN, PI, _EPSqrt, \
                                _SQRT2_2, isnan, _0_0, _0_001, _0_01, _0_1, _0_5, \
                                _1_0, _N_1_0, _1_75, _2_0, _N_2_0, _2__PI, _3_0, \
                                _4_0, _6_0, _8_0, _16_0, _90_0, _180_0, _1000_0
-# from pygeodesy.datums import _earth_datum, _WGS84  # from .karney
-# from pygeodesy.ellipsoids import _EWGS84  # from .karney
+from pygeodesy.datums import _earth_datum, _WGS84,  _EWGS84
+# from pygeodesy.ellipsoids import _EWGS84  # from .datums
 # from pygeodesy.fmath import cbrt as _cbrt, hypot as _hypot  # from .karney
 from pygeodesy.fsums import fsumf_, fsum1f_
 from pygeodesy.geodesicx.gxbases import _cosSeries, _GeodesicBase, \
@@ -52,7 +52,7 @@ from pygeodesy.interns import NN, _COMMASPACE_, _DOT_, _UNDER_
 from pygeodesy.karney import _around, _atan2d, Caps, _cbrt, _copysign, _diff182, \
                              _fix90, GDict, GeodesicError, _hypot, _K_2_0, _norm2, \
                              _norm180, _polynomial, _signBit, _sincos2, _sincos2d, \
-                             _sincos2de, _unsigned2,  _earth_datum, _EWGS84, _WGS84
+                             _sincos2de, _unsigned2
 from pygeodesy.lazily import _ALL_DOCS, _ALL_MODS as _MODS
 from pygeodesy.namedTuples import Destination3Tuple, Distance3Tuple
 from pygeodesy.props import deprecated_Property, Property, Property_RO, property_RO
@@ -62,7 +62,7 @@ from pygeodesy.utily import atan2d as _atan2d_reverse, _unrollon, _Wrap, wrap360
 from math import atan2, copysign, cos, degrees, fabs, radians, sqrt
 
 __all__ = ()
-__version__ = '23.11.30'
+__version__ = '23.12.09'
 
 _MAXIT1 = 20
 _MAXIT2 = 10 + _MAXIT1 + MANT_DIG  # MANT_DIG == C++ digits
@@ -1361,7 +1361,7 @@ __all__ += _ALL_DOCS(GeodesicExact, GeodesicLineExact)
 
 # **) MIT License
 #
-# Copyright (C) 2016-2023 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

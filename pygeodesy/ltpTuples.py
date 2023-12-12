@@ -11,7 +11,7 @@ L{ChLVYX2Tuple}, L{ChLVyx2Tuple} and L{Footprint5Tuple}.
 @see: References in module L{ltp}.
 '''
 
-from pygeodesy.basics import isscalar, issubclassof
+# from pygeodesy.basics import issubclassof  # from .units
 from pygeodesy.constants import _0_0, _1_0, _90_0, _N_90_0
 from pygeodesy.dms import F_D, toDMS
 from pygeodesy.errors import _TypeError, _TypesError, _xattr, _xkwds
@@ -27,15 +27,15 @@ from pygeodesy.namedTuples import LatLon2Tuple, PhiLam2Tuple, Vector3Tuple
 from pygeodesy.props import deprecated_method, deprecated_Property_RO, \
                             Property_RO, property_RO
 from pygeodesy.streprs import Fmt, fstr, strs, _xzipairs
-from pygeodesy.units import Bearing, Degrees, Degrees_, Height, Lat, Lon, \
-                            Meter, Meter_
+from pygeodesy.units import Bearing, Degrees, Degrees_, Height, _isDegrees, \
+                           _isMeter, Lat, Lon, Meter, Meter_,  issubclassof
 from pygeodesy.utily import atan2d, atan2b, sincos2_, sincos2d_
 from pygeodesy.vector3d import Vector3d
 
 from math import cos, radians
 
 __all__ = _ALL_LAZY.ltpTuples
-__version__ = '23.11.20'
+__version__ = '23.12.03'
 
 _aer_        = 'aer'
 _alt_        = 'alt'
@@ -221,7 +221,7 @@ class Aer(_NamedAerNed):
            @raise UnitError: Invalid B{C{azimuth_aer}}, B{C{elevation}} or
                              or B{C{slantrange}}.
         '''
-        if isscalar(azimuth_aer):
+        if _isDegrees(azimuth_aer):
             self._azimuth    = Bearing(azimuth=azimuth_aer)
             self._elevation  = Degrees_(elevation=elevation, low=_N_90_0, high=_90_0)
             self._slantrange = Meter_(slantrange=slantrange)
@@ -430,7 +430,7 @@ class Ned(_NamedAerNed):
 
            @raise UnitError: Invalid B{C{north_ned}}, B{C{east}} or B{C{down}}.
         '''
-        if isscalar(north_ned):
+        if _isMeter(north_ned):
             self._north = Meter(north=north_ned or _0_0)
             self._east  = Meter(east=east or _0_0)
             self._down  = Meter(down=down or _0_0)
@@ -663,7 +663,7 @@ class XyzLocal(_Vector3d):
 
            @raise UnitError: Invalid scalar B{C{x_xyz}}, B{C{y}} or B{C{z}}.
         '''
-        if isscalar(x_xyz):
+        if _isMeter(x_xyz):
             self._x = Meter(x=x_xyz or _0_0)
             self._y = Meter(y=y or _0_0)
             self._z = Meter(z=z or _0_0)
@@ -1541,7 +1541,7 @@ __all__ += _ALL_DOCS(_NamedAerNed)
 
 # **) MIT License
 #
-# Copyright (C) 2016-2023 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

@@ -235,7 +235,7 @@ and:
 License
 =======
 
-**) U{Copyright (C) 2016-2023 -- mrJean1 at Gmail -- All Rights Reserved.
+**) U{Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
 <https://OpenSource.org/licenses/MIT>}
 
 C{Permission is hereby granted, free of charge, to any person obtaining a
@@ -549,7 +549,7 @@ if _init__all__ and not _lazy_import2:  # import and set __all__
 
     def _all(globalocals):
         from pygeodesy.interns import NN as _NN, _attribute_, _COMMASPACE_, _DOT_, \
-                                      _headof, _module_, _s_, _tailof, _UNDER_  # PYCHOK expected
+                                     _headof, _module_, _s_, _UNDER_  # PYCHOK expected
         from pygeodesy.streprs import Fmt as _Fmt  # PYCHOK expected
         # collect all public module and attribute names and check
         # that modules are imported from this package, 'pygeodesy'
@@ -566,6 +566,7 @@ if _init__all__ and not _lazy_import2:  # import and set __all__
             ns.append(mod)
             # check that all other public attrs do exist
             if attrs and isinstance(attrs, tuple):
+                attrs = lazily._ALL_ATTRS(attrs)
                 t = tuple(a for a in attrs if a not in globalocals)
                 if t:
                     s = _Fmt.SQUARE(_s_, len(t)) if len(t) > 1 else _NN
@@ -578,7 +579,8 @@ if _init__all__ and not _lazy_import2:  # import and set __all__
 # XXX           d = dirname(abspath(f)) if f else pygeodesy_abspath
 # XXX           p = getattr(m, '__package__', _NN) or _pygeodesy_
 # XXX           if p not in ps or d != pygeodesy_abspath:
-# XXX               raise ImportError('foreign module: %s from %r' % (_DOT_(p, mod), f or p))
+# XXX               t = '%s from %r' % (_DOT_(p, mod), f or p)
+# XXX               raise ImportError('foreign %s: %s' % (_module_, t))
         return tuple(set(ns))  # remove duplicates
 
     __all__ = _all(globals())  # or locals()
@@ -587,7 +589,7 @@ else:
     _init__all__ = False
 
 from pygeodesy.interns import _DOT_  # PYCHOK import
-__version__ = '23.12.02'
+__version__ = '23.12.12'
 # see setup.py for similar logic
 version     = _DOT_(*map(int, __version__.split(_DOT_)))
 
@@ -595,7 +597,7 @@ del abspath, basename, dirname, _DOT_, _lazy_import2, sys
 
 # **) MIT License
 #
-# Copyright (C) 2016-2023 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

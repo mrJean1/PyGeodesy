@@ -78,7 +78,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        23.04.29
+        23.12.03
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -439,12 +439,7 @@
         <li><code><strong class='fraise'><a href="pygeodesy.geohash.GeohashError-class.html">GeohashError</a></strong></code> - Invalid or <code>null</code> <b><code>geohash</code></b>.</li>
     </ul></dd>
   </dl>
-<div class="fields">      <p><strong>Example:</strong>
-        <pre class="py-doctest">
-<span class="py-prompt">&gt;&gt;&gt; </span>geohash.bounds(<span class="py-string">'u120fxw'</span>)  <span class="py-comment">#  52.20428467, 0.11810303, 52.20565796, 0.11947632</span>
-<span class="py-prompt">&gt;&gt;&gt; </span>geohash.decode(<span class="py-string">'u120fxw'</span>)  <span class="py-comment"># '52.205',    '0.1188'</span></pre>
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="decode"></a>
 <div>
@@ -478,15 +473,7 @@
         <li><code><strong class='fraise'><a href="pygeodesy.geohash.GeohashError-class.html">GeohashError</a></strong></code> - Invalid or null <b><code>geohash</code></b>.</li>
     </ul></dd>
   </dl>
-<div class="fields">      <p><strong>Example:</strong>
-        <pre class="py-doctest">
-<span class="py-prompt">&gt;&gt;&gt; </span>geohash.decode(<span class="py-string">'u120fxw'</span>)  <span class="py-comment"># '52.205', '0.1188'</span>
-<span class="py-prompt">&gt;&gt;&gt; </span>geohash.decode(<span class="py-string">'sunny'</span>)  <span class="py-comment"># '23.708', '42.473'  Saudi Arabia</span>
-<span class="py-prompt">&gt;&gt;&gt; </span>geohash.decode(<span class="py-string">'fur'</span>)  <span class="py-comment"># '69.6', '-45.7'  Greenland</span>
-<span class="py-prompt">&gt;&gt;&gt; </span>geohash.decode(<span class="py-string">'reef'</span>)  <span class="py-comment"># '-24.87', '162.95'  Coral Sea</span>
-<span class="py-prompt">&gt;&gt;&gt; </span>geohash.decode(<span class="py-string">'geek'</span>)  <span class="py-comment"># '65.48', '-17.75'  Iceland</span></pre>
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="decode2"></a>
 <div>
@@ -565,14 +552,7 @@
         <li><code><strong class='fraise'><a href="pygeodesy.geohash.GeohashError-class.html">GeohashError</a></strong></code> - Invalid or null <b><code>geohash</code></b>.</li>
     </ul></dd>
   </dl>
-<div class="fields">      <p><strong>Example:</strong>
-        <pre class="py-doctest">
-<span class="py-prompt">&gt;&gt;&gt; </span>geohash.decode_error(<span class="py-string">'u120fxw'</span>)  <span class="py-comment"># 0.00068665, 0.00068665</span>
-<span class="py-prompt">&gt;&gt;&gt; </span>geohash.decode_error(<span class="py-string">'fur'</span>)  <span class="py-comment"># 0.703125, 0.703125</span>
-<span class="py-prompt">&gt;&gt;&gt; </span>geohash.decode_error(<span class="py-string">'fu'</span>)  <span class="py-comment"># 2.8125, 5.625</span>
-<span class="py-prompt">&gt;&gt;&gt; </span>geohash.decode_error(<span class="py-string">'f'</span>)  <span class="py-comment"># 22.5, 22.5</span></pre>
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="distance_"></a>
 <div>
@@ -609,11 +589,7 @@
         class="link">Geohash</a>, <code>LatLon</code> or <code>str</code>.</li>
     </ul></dd>
   </dl>
-<div class="fields">      <p><strong>Example:</strong>
-        <pre class="py-doctest">
-<span class="py-prompt">&gt;&gt;&gt; </span>geohash.distance_(<span class="py-string">'u120fxwsh'</span>, <span class="py-string">'u120fxws0'</span>)  <span class="py-comment"># 15.239</span></pre>
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="encode"></a>
 <div>
@@ -649,15 +625,7 @@
         <b><code>precision</code></b>.</li>
     </ul></dd>
   </dl>
-<div class="fields">      <p><strong>Example:</strong>
-        <pre class="py-doctest">
-<span class="py-prompt">&gt;&gt;&gt; </span>geohash.encode(52.205, 0.119,   7)  <span class="py-comment"># 'u120fxw'</span>
-<span class="py-prompt">&gt;&gt;&gt; </span>geohash.encode(52.205, 0.119,  12)  <span class="py-comment"># 'u120fxwshvkg'</span>
-<span class="py-prompt">&gt;&gt;&gt; </span>geohash.encode(52.205, 0.1188, 12)  <span class="py-comment"># 'u120fxws0jre'</span>
-<span class="py-prompt">&gt;&gt;&gt; </span>geohash.encode(52.205, 0.1188)      <span class="py-comment"># 'u120fxw'</span>
-<span class="py-prompt">&gt;&gt;&gt; </span>geohash.encode(     0, 0)           <span class="py-comment"># 's00000000000'</span></pre>
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="equirectangular_"></a>
 <div>
@@ -699,11 +667,7 @@
         class="link">Geohash</a>, <code>LatLon</code> or <code>str</code>.</li>
     </ul></dd>
   </dl>
-<div class="fields">      <p><strong>Example:</strong>
-        <pre class="py-doctest">
-<span class="py-prompt">&gt;&gt;&gt; </span>geohash.equirectangular_(<span class="py-string">'u120fxwsh'</span>, <span class="py-string">'u120fxws0'</span>)  <span class="py-comment"># 19.0879</span></pre>
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="haversine_"></a>
 <div>
@@ -745,11 +709,7 @@
         class="link">Geohash</a>, <code>LatLon</code> or <code>str</code>.</li>
     </ul></dd>
   </dl>
-<div class="fields">      <p><strong>Example:</strong>
-        <pre class="py-doctest">
-<span class="py-prompt">&gt;&gt;&gt; </span>geohash.haversine_(<span class="py-string">'u120fxwsh'</span>, <span class="py-string">'u120fxws0'</span>)  <span class="py-comment"># 11.6978</span></pre>
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="neighbors"></a>
 <div>
@@ -944,7 +904,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Dec  2 13:21:02 2023
+    Generated by Epydoc 3.0.1 on Tue Dec 12 13:31:24 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

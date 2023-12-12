@@ -39,7 +39,7 @@ from pygeodesy.units import Degrees_, Int, Lat, Lon, Precision_, Str, \
 from math import fabs, ldexp, log10, radians
 
 __all__ = _ALL_LAZY.geohash
-__version__ = '23.04.29'
+__version__ = '23.12.03'
 
 
 class _GH(object):
@@ -409,13 +409,6 @@ class Geohash(Str):
                     is C{None}.
 
            @raise TypeError: Invalid B{C{LatLon}} or B{C{LatLon_kwds}}.
-
-           @example:
-
-            >>> from sphericalTrigonometry import LatLon
-            >>> ll = Geohash('u120fxw').toLatLon(LatLon)
-            >>> print(repr(ll))  # LatLon(52°12′17.9″N, 000°07′07.64″E)
-            >>> print(ll)  # 52.204971°N, 000.11879°E
         '''
         return self.latlon if LatLon is None else _xnamed(LatLon(
               *self.latlon, **LatLon_kwds), self.name)
@@ -524,11 +517,6 @@ def bounds(geohash, LatLon=None, **LatLon_kwds):
                          B{C{LatLon_kwds}}.
 
        @raise GeohashError: Invalid or C{null} B{C{geohash}}.
-
-       @example:
-
-        >>> geohash.bounds('u120fxw')  #  52.20428467, 0.11810303, 52.20565796, 0.11947632
-        >>> geohash.decode('u120fxw')  # '52.205',    '0.1188'
     '''
     gh = _2Geohash(geohash)
     if len(gh) < 1:
@@ -577,14 +565,6 @@ def decode(geohash):
                          C{LatLon} or C{str}.
 
        @raise GeohashError: Invalid or null B{C{geohash}}.
-
-       @example:
-
-        >>> geohash.decode('u120fxw')  # '52.205', '0.1188'
-        >>> geohash.decode('sunny')  # '23.708', '42.473'  Saudi Arabia
-        >>> geohash.decode('fur')  # '69.6', '-45.7'  Greenland
-        >>> geohash.decode('reef')  # '-24.87', '162.95'  Coral Sea
-        >>> geohash.decode('geek')  # '65.48', '-17.75'  Iceland
     '''
     b, h, w  = _bounds3(geohash)
     lat, lon = _2center(b)
@@ -631,13 +611,6 @@ def decode_error(geohash):
                          C{LatLon} or C{str}.
 
        @raise GeohashError: Invalid or null B{C{geohash}}.
-
-       @example:
-
-        >>> geohash.decode_error('u120fxw')  # 0.00068665, 0.00068665
-        >>> geohash.decode_error('fur')  # 0.703125, 0.703125
-        >>> geohash.decode_error('fu')  # 2.8125, 5.625
-        >>> geohash.decode_error('f')  # 22.5, 22.5
     '''
     _, h, w = _bounds3(geohash)
     return LatLon2Tuple(h * _0_5,  # Height error
@@ -654,10 +627,6 @@ def distance_(geohash1, geohash2):
 
        @raise TypeError: If B{C{geohash1}} or B{C{geohash2}} is
                          not a L{Geohash}, C{LatLon} or C{str}.
-
-       @example:
-
-        >>> geohash.distance_('u120fxwsh', 'u120fxws0')  # 15.239
     '''
     return _2Geohash(geohash1).distanceTo(geohash2)
 
@@ -693,14 +662,6 @@ def encode(lat, lon, precision=None):
        @return: The C{geohash} (C{str}).
 
        @raise GeohashError: Invalid B{C{lat}}, B{C{lon}} or B{C{precision}}.
-
-       @example:
-
-        >>> geohash.encode(52.205, 0.119,   7)  # 'u120fxw'
-        >>> geohash.encode(52.205, 0.119,  12)  # 'u120fxwshvkg'
-        >>> geohash.encode(52.205, 0.1188, 12)  # 'u120fxws0jre'
-        >>> geohash.encode(52.205, 0.1188)      # 'u120fxw'
-        >>> geohash.encode(     0, 0)           # 's00000000000'
     '''
     lat, lon = _2fll(lat, lon)
 
@@ -763,10 +724,6 @@ def equirectangular_(geohash1, geohash2, radius=R_M):
 
        @raise TypeError: If B{C{geohash1}} or B{C{geohash2}} is
                          not a L{Geohash}, C{LatLon} or C{str}.
-
-       @example:
-
-        >>> geohash.equirectangular_('u120fxwsh', 'u120fxws0')  # 19.0879
     '''
     return _2Geohash(geohash1).equirectangularTo(geohash2, radius=radius)
 
@@ -784,10 +741,6 @@ def haversine_(geohash1, geohash2, radius=R_M):
 
        @raise TypeError: If B{C{geohash1}} or B{C{geohash2}} is
                          not a L{Geohash}, C{LatLon} or C{str}.
-
-       @example:
-
-        >>> geohash.haversine_('u120fxwsh', 'u120fxws0')  # 11.6978
     '''
     return _2Geohash(geohash1).haversineTo(geohash2, radius=radius)
 
@@ -900,7 +853,7 @@ __all__ += _ALL_OTHER(bounds,  # functions
 
 # **) MIT License
 #
-# Copyright (C) 2016-2023 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

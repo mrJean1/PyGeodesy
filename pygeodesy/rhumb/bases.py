@@ -26,18 +26,17 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 from pygeodesy.basics import _copysign, unsigned0, _xinstanceof
 from pygeodesy.constants import EPS, EPS0, EPS1, INT0, NAN, _over, \
                                _EPSqrt as _TOL, _0_0, _0_01, _1_0, _90_0
-# from pygeodesy.datums import Datum, _spherical_datum  # from .formy
-# from pygeodesy.datums import _earth_datum, _WGS84  # from .karney
+from pygeodesy.datums import Datum, _earth_datum, _spherical_datum, _WGS84
 from pygeodesy.errors import IntersectionError, itemsorted, RhumbError, \
                             _xdatum, _xkwds, _xkwds_pop, _Xorder
 # from pygeodesy.etm import ExactTransverseMercator  # _MODS
 from pygeodesy.fmath import euclid, favg, sqrt_a,  Fsum
-from pygeodesy.formy import opposing,  Datum, _spherical_datum
+# from pygeodesy.formy import opposing  # _MODS
 # from pygeodesy.fsums import Fsum  # from .fmath
 from pygeodesy.interns import NN, _coincident_, _COMMASPACE_, _Dash, \
                              _dunder_nameof, _parallel_, _too_, _under
 from pygeodesy.karney import _atan2d, Caps, _CapsBase, _diff182, _fix90, \
-                             _norm180, GDict,  _earth_datum, _WGS84
+                             _norm180, GDict
 # from pygeodesy.ktm import KTransverseMercator, _AlpCoeffs  # _MODS
 from pygeodesy.lazily import _ALL_DOCS, _ALL_MODS as _MODS
 # from pygeodesy.named import notOverloaded  # _MODS
@@ -53,7 +52,7 @@ from pygeodesy.vector3d import _intersect3d3, Vector3d  # in .Intersection below
 from math import cos, fabs
 
 __all__ = ()
-__version__ = '23.12.02'
+__version__ = '23.12.03'
 
 _anti_ = _Dash('anti')
 _rls   = []  # instances of C{RbumbLine...} to be updated
@@ -693,7 +692,7 @@ class RhumbLineBase(_CapsBase):
             # make invariants and globals locals
             _s_3d, s_az =  self._xTM3d,  self.azi12
             _o_3d, o_az = other._xTM3d, other.azi12
-            p = opposing(s_az, o_az, margin=tol)
+            p = _MODS.formy.opposing(s_az, o_az, margin=tol)
             if p is not None:  # == t in (True, False)
                 raise ValueError(_anti_(_parallel_) if p else _parallel_)
             _diff =  euclid  # approximate length
@@ -795,7 +794,7 @@ class RhumbLineBase(_CapsBase):
         _MODS.named.notOverloaded(self, mu2, underOK=True)
 
     @deprecated_method
-    def nearestOn4(self, lat0, lon0, **exact_eps_est_tol):
+    def nearestOn4(self, lat0, lon0, **exact_eps_est_tol):  # PYCHOK no cover
         '''DEPRECATED on 23.10.10, use method L{PlumbTo}.'''
         P =  self.PlumbTo(lat0, lon0, **exact_eps_est_tol)
         r = _MODS.deprecated.classes.NearestOn4Tuple(P.lat2, P.lon2, P.s12, P.azi02,
@@ -804,7 +803,7 @@ class RhumbLineBase(_CapsBase):
         return r
 
     @deprecated_method
-    def NearestOn(self, lat0, lon0, **exact_eps_est_tol):
+    def NearestOn(self, lat0, lon0, **exact_eps_est_tol):  # PYCHOK no cover
         '''DEPRECATED on 23.10.30, use method L{PlumbTo}.'''
         return self.PlumbTo(lat0, lon0, **exact_eps_est_tol)
 
@@ -1121,7 +1120,7 @@ if __name__ == '__main__':
 
 # **) MIT License
 #
-# Copyright (C) 2022-2023 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2022-2024 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

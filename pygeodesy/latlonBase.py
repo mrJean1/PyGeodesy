@@ -10,11 +10,11 @@ u'''(INTERNAL) Base class L{LatLonBase} for all elliposiodal, spherical and N-ve
       U{RhumbLine<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1RhumbLine.html>} classes.
 '''
 
-from pygeodesy.basics import isscalar, isstr, map1, _xinstanceof
+from pygeodesy.basics import isstr, map1, _xinstanceof
 from pygeodesy.constants import EPS, EPS0, EPS1, EPS4, INT0, R_M, \
                                _EPSqrt as _TOL, _0_0, _0_5, _1_0, \
                                _360_0, _umod_360
-# from pygeodesy.datums import _spherical_datum  # from .formy
+from pygeodesy.datums import _spherical_datum
 from pygeodesy.dms import F_D, F_DMS, latDMS, lonDMS, parse3llh
 # from pygeodesy.ecef import EcefKarney  # _MODS
 from pygeodesy.errors import _AttributeError, _incompatible, \
@@ -22,12 +22,12 @@ from pygeodesy.errors import _AttributeError, _incompatible, \
                              _ValueError, _xattr, _xdatum, \
                              _xError, _xkwds, _xkwds_not
 # from pygeodesy.fmath import favg  # _MODS
-from pygeodesy.formy import antipode, compassAngle, cosineAndoyerLambert_, \
-                            cosineForsytheAndoyerLambert_, cosineLaw, \
-                            equirectangular, euclidean, flatLocal_, \
-                            flatPolar, _hartzell, haversine, isantipode, \
-                            _isequalTo, isnormal, normal, philam2n_xyz, \
-                            thomas_, vincentys,  _spherical_datum
+# from pygeodesy.formy import antipode, compassAngle, cosineAndoyerLambert_, \
+#                             cosineForsytheAndoyerLambert_, cosineLaw, \
+#                             equirectangular, euclidean, flatLocal_, \
+#                             flatPolar, _hartzell, haversine, isantipode, \
+#                             _isequalTo, isnormal, normal, philam2n_xyz, \
+#                             thomas_, vincentys  # as _formy
 from pygeodesy.interns import NN, _COMMASPACE_, _concentric_, _height_, \
                              _intersection_, _LatLon_, _m_, _negative_, \
                              _no_, _overlap_, _too_,  _point_  # PYCHOK used!
@@ -37,13 +37,13 @@ from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 # from pygeodesy.ltp import Ltp, _xLtp  # _MODS
 from pygeodesy.named import _NamedBase, notImplemented, notOverloaded,  Fmt
 from pygeodesy.namedTuples import Bounds2Tuple, LatLon2Tuple, PhiLam2Tuple, \
-                                  Trilaterate5Tuple, Vector3Tuple
+                                  Trilaterate5Tuple
 # from pygeodesy.nvectorBase import _N_vector_  # _MODS
 from pygeodesy.props import deprecated_method, Property, Property_RO, \
                             property_RO, _update_all
 # from pygeodesy.streprs import Fmt, hstr  # from .named, _MODS
-from pygeodesy.units import Distance_, Lat, Lon, Height, Radius, Radius_, \
-                            Scalar, Scalar_
+from pygeodesy.units import _isDegrees, _isRadius, Distance_, Lat, Lon, \
+                             Height, Radius, Radius_, Scalar, Scalar_
 from pygeodesy.utily import _unrollon, _unrollon3, _Wrap
 from pygeodesy.vector2d import _circin6,  Circin6Tuple, _circum3, circum4_, \
                                 Circum3Tuple, _radii11ABC
@@ -53,7 +53,7 @@ from contextlib import contextmanager
 from math import asin, cos, degrees, fabs, radians
 
 __all__ = _ALL_LAZY.latlonBase
-__version__ = '23.12.02'
+__version__ = '23.12.12'
 
 
 class LatLonBase(_NamedBase):
@@ -89,12 +89,6 @@ class LatLonBase(_NamedBase):
            @raise TypeError: If B{C{latlonh}} is not a C{LatLon}.
 
            @raise UnitError: Invalid B{C{lat}}, B{C{lon}} or B{C{height}}.
-
-           @example:
-
-            >>> p = LatLon(50.06632, -5.71475)
-            >>> q = LatLon('50°03′59″N', """005°42'53"W""")
-            >>> r = LatLon(p)
         '''
         if name:
             self.name = name
@@ -109,8 +103,8 @@ class LatLonBase(_NamedBase):
         self._lat = Lat(lat)  # parseDMS2(lat, lon)
         self._lon = Lon(lon)  # PYCHOK LatLon2Tuple
         if height:  # elevation
-            self._height =  Height(height)
-        if datum:
+            self._height = Height(height)
+        if datum is not None:
             self._datum = _spherical_datum(datum, name=self.name)
 
     def __eq__(self, other):
@@ -123,16 +117,17 @@ class LatLonBase(_NamedBase):
         return self.toStr(form=F_D, prec=6)
 
     def antipode(self, height=None):
-        '''Return the antipode, the point diametrically opposite
-           to this point.
+        '''Return the antipode, the point diametrically opposite to
+           this point.
 
            @kwarg height: Optional height of the antipode (C{meter}),
                           this point's height otherwise.
 
            @return: The antipodal point (C{LatLon}).
         '''
+        a = self._formy.antipode(*self.latlon)
         h = self._heigHt(height)
-        return self.classof(*antipode(*self.latlon), height=h)
+        return self.classof(*a, height=h)
 
     @deprecated_method
     def bounds(self, wide, tall, radius=R_M):  # PYCHOK no cover
@@ -349,7 +344,7 @@ class LatLonBase(_NamedBase):
                  <https://www.EdWilliams.org/avform.htm#flat>}.
         '''
         p = self.others(other)
-        return compassAngle(self.lat, self.lon, p.lat, p.lon, **adjust_wrap)
+        return self._formy.compassAngle(self.lat, self.lon, p.lat, p.lon, **adjust_wrap)
 
     def cosineAndoyerLambertTo(self, other, wrap=False):
         '''Compute the distance between this and an other point using the U{Andoyer-Lambert correction<https://
@@ -371,7 +366,7 @@ class LatLonBase(_NamedBase):
                  L{flatLocalTo}/L{hubenyTo}, L{flatPolarTo}, L{haversineTo},
                  L{thomasTo} and L{vincentysTo}.
         '''
-        return self._distanceTo_(cosineAndoyerLambert_, other, wrap=wrap)
+        return self._distanceTo_(self._formy.cosineAndoyerLambert_, other, wrap=wrap)
 
     def cosineForsytheAndoyerLambertTo(self, other, wrap=False):
         '''Compute the distance between this and an other point using
@@ -394,7 +389,7 @@ class LatLonBase(_NamedBase):
                  L{equirectangularTo}, L{euclideanTo}, L{flatLocalTo}/L{hubenyTo},
                  L{flatPolarTo}, L{haversineTo}, L{thomasTo} and L{vincentysTo}.
         '''
-        return self._distanceTo_(cosineForsytheAndoyerLambert_, other, wrap=wrap)
+        return self._distanceTo_(self._formy.cosineForsytheAndoyerLambert_, other, wrap=wrap)
 
     def cosineLawTo(self, other, radius=None, wrap=False):
         '''Compute the distance between this and an other point using the
@@ -418,7 +413,7 @@ class LatLonBase(_NamedBase):
                  L{euclideanTo}, L{flatLocalTo}/L{hubenyTo}, L{flatPolarTo},
                  L{haversineTo}, L{thomasTo} and L{vincentysTo}.
         '''
-        return self._distanceTo(cosineLaw, other, radius, wrap=wrap)
+        return self._distanceTo(self._formy.cosineLaw, other, radius, wrap=wrap)
 
     @property_RO
     def datum(self):  # PYCHOK no cover
@@ -443,7 +438,7 @@ class LatLonBase(_NamedBase):
 
            @raise TypeError: Invalid B{C{delta}}, B{C{LatLon}} or B{C{LatLon_kwds}}.
         '''
-        t = self._ltp._local2ecef(delta, nine=True)
+        t = self._Ltp._local2ecef(delta, nine=True)
         return t.toLatLon(LatLon=LatLon, **_xkwds(LatLon_kwds, name=self.name))
 
     def _distanceTo(self, func, other, radius=None, **kwds):
@@ -455,7 +450,7 @@ class LatLonBase(_NamedBase):
         return func(self.lat, self.lon, p.lat, p.lon, radius=r, **kwds)
 
     def _distanceTo_(self, func_, other, wrap=False, radius=None):
-        '''(INTERNAL) Helper for (ellipsoidal) methods C{<func>To}.
+        '''(INTERNAL) Helper for (ellipsoidal) distance methods C{<func>To}.
         '''
         p = self.others(other, up=2)
         D = self.datum
@@ -522,7 +517,7 @@ class LatLonBase(_NamedBase):
                  C{euclideanTo}, L{flatLocalTo}/L{hubenyTo}, L{flatPolarTo},
                  L{haversineTo}, L{thomasTo} and L{vincentysTo}.
         '''
-        return self._distanceTo(equirectangular, other, **radius_adjust_limit_wrap)
+        return self._distanceTo(self._formy.equirectangular, other, **radius_adjust_limit_wrap)
 
     def euclideanTo(self, other, **radius_adjust_wrap):
         '''Approximate the C{Euclidian} distance between this and
@@ -544,7 +539,7 @@ class LatLonBase(_NamedBase):
                  L{equirectangularTo}, L{flatLocalTo}/L{hubenyTo}, L{flatPolarTo},
                  L{haversineTo}, L{thomasTo} and L{vincentysTo}.
         '''
-        return self._distanceTo(euclidean, other, **radius_adjust_wrap)
+        return self._distanceTo(self._formy.euclidean, other, **radius_adjust_wrap)
 
     def flatLocalTo(self, other, radius=None, wrap=False):
         '''Compute the distance between this and an other point using the
@@ -571,7 +566,7 @@ class LatLonBase(_NamedBase):
                  L{flatPolarTo}, L{haversineTo}, L{thomasTo} and L{vincentysTo} and
                  U{local, flat Earth approximation<https://www.edwilliams.org/avform.htm#flat>}.
         '''
-        return self._distanceTo_(flatLocal_, other, wrap=wrap, radius=
+        return self._distanceTo_(self._formy.flatLocal_, other, wrap=wrap, radius=
                      radius if radius in (None, R_M, _1_0, 1) else Radius(radius))  # PYCHOK kwargs
 
     hubenyTo = flatLocalTo  # for Karl Hubeny
@@ -596,7 +591,15 @@ class LatLonBase(_NamedBase):
                  L{equirectangularTo}, L{euclideanTo}, L{flatLocalTo}/L{hubenyTo},
                  L{haversineTo}, L{thomasTo} and L{vincentysTo}.
         '''
-        return self._distanceTo(flatPolar, other, **radius_wrap)
+        return self._distanceTo(self._formy.flatPolar, other, **radius_wrap)
+
+    @property_RO
+    def _formy(self):
+        '''(INTERNAL) Import module C{distance.formy}, I{once} and I{lazily}
+           to avoid circular imports.
+        '''
+        LatLonBase._formy = f = _MODS.formy  # overwrite property_RO
+        return f
 
     def hartzell(self, los=None, earth=None):
         '''Compute the intersection of a Line-Of-Sight (los) from this Point-Of-View
@@ -619,7 +622,7 @@ class LatLonBase(_NamedBase):
 
            @see: Function C{hartzell} for further details.
         '''
-        return _hartzell(self, los, earth, LatLon=self.classof)
+        return self._formy._hartzell(self, los, earth, LatLon=self.classof)
 
     def haversineTo(self, other, **radius_wrap):
         '''Compute the distance between this and an other point using the
@@ -641,7 +644,7 @@ class LatLonBase(_NamedBase):
                  L{equirectangularTo}, L{euclideanTo}, L{flatLocalTo}/L{hubenyTo},
                  L{flatPolarTo}, L{thomasTo} and L{vincentysTo}.
         '''
-        return self._distanceTo(haversine, other, **radius_wrap)
+        return self._distanceTo(self._formy.haversine, other, **radius_wrap)
 
     def _havg(self, other, f=_0_5, h=None):
         '''(INTERNAL) Weighted, average height.
@@ -773,7 +776,7 @@ class LatLonBase(_NamedBase):
                     tolerance, C{False} otherwise.
         '''
         p = self.others(other)
-        return isantipode(*(self.latlon + p.latlon), eps=eps)
+        return self._formy.isantipode(*(self.latlon + p.latlon), eps=eps)
 
     @Property_RO
     def isEllipsoidal(self):
@@ -798,7 +801,7 @@ class LatLonBase(_NamedBase):
 
            @see: Method L{isequalTo3}.
         '''
-        return _isequalTo(self, self.others(other), eps=eps)
+        return self._formy._isequalTo(self, self.others(other), eps=eps)
 
     def isequalTo3(self, other, eps=None):
         '''Compare this point with an other point, I{including} height.
@@ -806,27 +809,27 @@ class LatLonBase(_NamedBase):
            @arg other: The other point (C{LatLon}).
            @kwarg eps: Tolerance for equality (C{degrees}).
 
-           @return: C{True} if both points are identical
-                    I{including} height, C{False} otherwise.
+           @return: C{True} if both points are identical I{including}
+                    height, C{False} otherwise.
 
            @raise TypeError: The B{C{other}} point is not C{LatLon}
-                             or mismatch of the B{C{other}} and
-                             this C{class} or C{type}.
+                             or mismatch of the B{C{other}} and this
+                             C{class} or C{type}.
 
            @see: Method L{isequalTo}.
         '''
         return self.height == self.others(other).height and \
-              _isequalTo(self, other, eps=eps)
+             self._formy._isequalTo(self, other, eps=eps)
 
     @Property_RO
     def isnormal(self):
         '''Return C{True} if this point is normal (C{bool}),
            meaning C{abs(lat) <= 90} and C{abs(lon) <= 180}.
 
-           @see: Methods L{normal}, L{toNormal} and functions
-                 L{pygeodesy.isnormal} and L{pygeodesy.normal}.
+           @see: Methods L{normal}, L{toNormal} and functions L{isnormal
+                 <pygeodesy.isnormal>} and L{normal<pygeodesy.normal>}.
         '''
-        return isnormal(self.lat, self.lon, eps=0)
+        return self._formy.isnormal(self.lat, self.lon, eps=0)
 
     @Property_RO
     def isSpherical(self):
@@ -923,8 +926,8 @@ class LatLonBase(_NamedBase):
     @latlonheight.setter  # PYCHOK setter!
     def latlonheight(self, latlonh):
         '''Set the lat- and longitude and optionally the height
-           (2- or 3-tuple or comma- or space-separated C{str}
-           of C{degrees90}, C{degrees180} and C{meter}).
+           (2- or 3-tuple or comma- or space-separated C{str} of
+           C{degrees90}, C{degrees180} and C{meter}).
 
            @see: Property L{latlon} for more details.
         '''
@@ -947,11 +950,18 @@ class LatLonBase(_NamedBase):
             _update_all(self)
             self._lon = lon
 
-    @Property_RO
+    @property_RO
     def _ltp(self):
+        '''(INTERNAL) Get the C{.ltp} module, I{once}.
+        '''
+        LatLonBase._ltp = m = _MODS.ltp  # overwrite property_RO
+        return m
+
+    @Property_RO
+    def _Ltp(self):
         '''(INTERNAL) Cache for L{toLtp}.
         '''
-        return _MODS.ltp.Ltp(self, ecef=self.Ecef(self.datum), name=self.name)
+        return self._ltp.Ltp(self, ecef=self.Ecef(self.datum), name=self.name)
 
     def nearestOn6(self, points, closed=False, height=None, wrap=False):
         '''Locate the point on a path or polygon closest to this point.
@@ -981,7 +991,7 @@ class LatLonBase(_NamedBase):
 
            @raise ValueError: Some B{C{points}}' C{Ecef} is incompatible.
 
-           @see: Function L{pygeodesy.nearestOn6}.
+           @see: Function L{nearestOn6<pygeodesy.nearestOn6>}.
         '''
         def _cs(Ps, h, w, C):
             p = None  # not used
@@ -1021,14 +1031,21 @@ class LatLonBase(_NamedBase):
         '''
         n = self.isnormal
         if not n:
-            self.latlon = normal(*self.latlon)
+            self.latlon = self._formy.normal(*self.latlon)
         return n
 
-    @Property_RO
+    @property_RO
     def _N_vector(self):
-        '''(INTERNAL) Get the (C{nvectorBase._N_vector_})
+        '''(INTERNAL) Get the C{Nvector} (C{nvectorBase._N_vector_})
         '''
-        return _MODS.nvectorBase._N_vector_(*self.xyzh)
+        x, y, z = self._n_xyz3
+        return _MODS.nvectorBase._N_vector_(x, y, z, h=self.height, name=self.name)
+
+    @Property_RO
+    def _n_xyz3(self):
+        '''(INTERNAL)  Get the n-vector components as L{Vector3Tuple}.
+        '''
+        return self._formy.philam2n_xyz(self.phi, self.lam, name=self.name)
 
     @Property_RO
     def phi(self):
@@ -1123,14 +1140,15 @@ class LatLonBase(_NamedBase):
             return _radii11ABC(*cs, useZ=True)[0]
 
     def _rhumb3(self, exact, radius):  # != .sphericalBase._rhumbs3
-        '''(INTERNAL) Get the C{rhumb} for this point's datum or for the B{C{radius}}'
-           earth model iff non-C{None}.
+        '''(INTERNAL) Get the C{rhumb} for this point's datum or for
+           the B{C{radius}}' earth model iff non-C{None}.
         '''
         try:
             d = self._rhumb3dict
             t = d[(exact, radius)]
         except KeyError:
-            D = self.datum if radius is None else _spherical_datum(radius)  # ellipsoidal OK
+            D = self.datum if radius is None else \
+               _spherical_datum(radius)  # ellipsoidal OK
             try:
                 r = D.ellipsoid.rhumb_(exact=exact)  # or D.isSpherical
             except AttributeError as x:
@@ -1255,7 +1273,7 @@ class LatLonBase(_NamedBase):
 
         p = _unrollon(self, self.others(point=point), wrap=w)
         try:
-            r = Radius_(circle=circle) if isscalar(circle) else \
+            r = Radius_(circle=circle) if _isRadius(circle) else \
                 self.rhumbDistanceTo(self.others(circle=circle), wrap=w, **exact_radius)
             rl = p.rhumbLine(other, wrap=w, **exact_radius)
             P, Q = rl.Intersecant2(self.lat, self.lon, r, **eps_tol)
@@ -1292,7 +1310,7 @@ class LatLonBase(_NamedBase):
         '''
         r, _, Cs = self._rhumb3(exact, radius)
         kwds = _xkwds(name_caps, name=self.name, caps=Cs.LINE_OFF)
-        rl = r._DirectLine( self, other, **kwds) if isscalar(other) else \
+        rl = r._DirectLine( self, other, **kwds) if _isDegrees(other) else \
              r._InverseLine(self, self.others(other), wrap, **kwds)
         return rl
 
@@ -1354,7 +1372,7 @@ class LatLonBase(_NamedBase):
                  L{equirectangularTo}, L{euclideanTo}, L{flatLocalTo}/L{hubenyTo},
                  L{flatPolarTo}, L{haversineTo} and L{vincentysTo}.
         '''
-        return self._distanceTo_(thomas_, other, wrap=wrap)
+        return self._distanceTo_(self._formy.thomas_, other, wrap=wrap)
 
     @deprecated_method
     def to2ab(self):  # PYCHOK no cover
@@ -1378,10 +1396,12 @@ class LatLonBase(_NamedBase):
                     datum)} with C{C=0} and C{M} if available.
 
            @raise TypeError: Invalid B{C{Cartesian}} or B{C{Cartesian_kwds}}.
+
+           @see: Methods C{toNvector}, C{toVector} and C{toVector3d}.
         '''
         r = self._ecef9 if height is None else self.toEcef(height=height)
         if Cartesian is not None:  # class or .classof
-            r = self._xnamed(Cartesian(r, **Cartesian_kwds))
+            r = Cartesian(r, **_xkwds(Cartesian_kwds, name=self.name))
         _xdatum(r.datum, self.datum)
         return r
 
@@ -1443,7 +1463,7 @@ class LatLonBase(_NamedBase):
 
            @raise TypeError: Invalid B{C{ltp}}.
         '''
-        p = _MODS.ltp._xLtp(ltp, self._ltp)
+        p = self._ltp._xLtp(ltp, self._Ltp)
         return p._ecef2local(self._ecef9, Xyz, Xyz_kwds)
 
     def toLtp(self, Ecef=None):
@@ -1452,7 +1472,7 @@ class LatLonBase(_NamedBase):
            @kwarg Ecef: Optional ECEF I{class} (L{EcefKarney}, ...
                         L{EcefYou}), overriding this point's C{Ecef}.
         '''
-        return self._ltp if Ecef in (None, self.Ecef) else _MODS.ltp.Ltp(
+        return self._Ltp if Ecef in (None, self.Ecef) else self._ltp.Ltp(
                self, ecef=Ecef(self.datum), name=self.name)
 
     def toNormal(self, deep=False, name=NN):
@@ -1479,21 +1499,27 @@ class LatLonBase(_NamedBase):
         '''Convert this point to C{n-vector} (normal to the earth's surface)
            components, I{including height}.
 
-           @kwarg h: Optional height, overriding this point's
-                     height (C{meter}).
-           @kwarg Nvector: Optional class to return the C{n-vector}
-                           components (C{Nvector}) or C{None}.
-           @kwarg Nvector_kwds_wrap: Optional, additional B{C{Nvector}}
-                               keyword arguments, ignored if C{B{Nvector}
-                               is None}.
+           @kwarg h: Optional height, overriding this point's height (C{meter}).
+           @kwarg Nvector: Optional class to return the C{n-vector} components
+                           (C{Nvector}) or C{None}.
+           @kwarg Nvector_kwds: Optional, additional B{C{Nvector}} keyword
+                               arguments, ignored if C{B{Nvector} is None}.
 
-           @return: A B{C{Nvector}} or a L{Vector4Tuple}C{(x, y, z, h)}
-                    if B{C{Nvector}} is C{None}.
+           @return: An B{C{Nvector}} or a L{Vector4Tuple}C{(x, y, z, h)} if
+                    B{C{Nvector}} is C{None}.
 
-           @raise TypeError: Invalid B{C{Nvector}} or B{C{Nvector_kwds}}.
+           @raise TypeError: Invalid B{C{h}}, B{C{Nvector}} or B{C{Nvector_kwds}}
+                             item.
+
+           @see: Methods C{toCartesian}, C{toVector} and C{toVector3d}.
         '''
-        return self.toVector(Vector=Nvector, h=self.height if h is None else h,
-                                            ll=self, **Nvector_kwds)
+        h = self._heigHt(h)
+        if Nvector is None:
+            r = self._n_xyz3.to4Tuple(h)
+        else:
+            x, y, z = self._n_xyz3
+            r = Nvector(x, y, z, h=h, ll=self, **_xkwds(Nvector_kwds, name=self.name))
+        return r
 
     def toStr(self, form=F_DMS, joined=_COMMASPACE_, m=_m_, **prec_sep_s_D_M_S):  # PYCHOK expected
         '''Convert this point to a "lat, lon[, +/-height]" string, formatted
@@ -1517,12 +1543,6 @@ class LatLonBase(_NamedBase):
            @see: Function L{pygeodesy.latDMS} or L{pygeodesy.lonDMS} for more
                  details about keyword arguments C{B{form}at}, C{B{prec}ision},
                  C{B{sep}arator}, B{C{s_D}}, B{C{s_M}}, B{C{s_S}} and B{C{s_DMS}}.
-
-           @example:
-
-            >>> LatLon(51.4778, -0.0016).toStr()  # 51°28′40″N, 000°00′06″W
-            >>> LatLon(51.4778, -0.0016).toStr(F_D)  # 51.4778°N, 000.0016°W
-            >>> LatLon(51.4778, -0.0016, 42).toStr()  # 51°28′40″N, 000°00′06″W, +42.00m
         '''
         t = (latDMS(self.lat, form=form, **prec_sep_s_D_M_S),
              lonDMS(self.lon, form=form, **prec_sep_s_D_M_S))
@@ -1531,38 +1551,40 @@ class LatLonBase(_NamedBase):
         return joined.join(t) if joined else t
 
     def toVector(self, Vector=None, **Vector_kwds):
-        '''Convert this point to C{n-vector} (normal to the earth's
-           surface) components, I{ignoring height}.
+        '''Convert this point to a C{Vector} with the I{geocentric} C{(x,
+           y, z)} coordinates, I{ignoring height}.
 
-           @kwarg Vector: Optional class to return the C{n-vector}
+           @kwarg Vector: Optional class to return the I{geocentric}
                           components (L{Vector3d}) or C{None}.
-           @kwarg Vector_kwds: Optional, additional B{C{Vector}}
-                               keyword arguments, ignored if
-                               C{B{Vector} is None}.
+           @kwarg Vector_kwds: Optional, additional B{C{Vector}} keyword
+                               arguments, ignored if C{B{Vector} is None}.
 
            @return: A B{C{Vector}} or a L{Vector3Tuple}C{(x, y, z)}
                     if B{C{Vector}} is C{None}.
 
-           @raise TypeError: Invalid B{C{Vector}} or B{C{kwds}}.
+           @raise TypeError: Invalid B{C{Vector}} or B{C{Vector_kwds}} item.
 
-           @note: These are C{n-vector} x, y and z components,
-                  I{NOT} geocentric (ECEF) x, y and z coordinates!
+           @see: Methods C{toCartesian}, C{toNvector} and C{toVector3d}.
         '''
-        r = self._vector3tuple
-        if Vector is not None:
-            r = Vector(*r, **_xkwds(Vector_kwds, name=self.name))
-        return r
+        return self._ecef9.toVector(Vector=Vector, **Vector_kwds)
 
-    def toVector3d(self):
-        '''Convert this point to C{n-vector} (normal to the earth's
-           surface) components, I{ignoring height}.
+    def toVector3d(self, norm=True, **Vector3d_kwds):
+        '''Convert this point to a L{Vector3d} with the I{geocentric} C{(x,
+           y, z)} I{unit} coordinates, I{ignoring height}.
+
+           @kwarg norm: Normalize the 3-D vector (C{bool}).
+           @kwarg Vector3d_kwds: Optional L{Vector3d} keyword arguments.
 
            @return: Unit vector (L{Vector3d}).
 
-           @note: These are C{n-vector} x, y and z components,
-                  I{NOT} geocentric (ECEF) x, y and z coordinates!
+           @raise TypeError: Invalid B{C{Vector3d_kwds}} item.
+
+           @see: Methods C{toCartesian}, C{toNvector} and C{toVector}.
         '''
-        return self._vector3d  # XXX .unit()
+        r = self.toVector(Vector=Vector3d, **Vector3d_kwds)
+        if norm:
+            r = r.unit(ll=self)
+        return r
 
     def toWm(self, **toWm_kwds):
         '''Convert this point to a WM coordinate.
@@ -1581,18 +1603,6 @@ class LatLonBase(_NamedBase):
         '''DEPRECATED, use property L{xyz} or method L{toNvector}, L{toVector},
            L{toVector3d} or perhaps (geocentric) L{toEcef}.'''
         return self.xyz  # self.toVector()
-
-    @Property_RO
-    def _vector3d(self):
-        '''(INTERNAL) Cache for L{toVector3d}.
-        '''
-        return self.toVector(Vector=Vector3d)  # XXX .unit()
-
-    @Property_RO
-    def _vector3tuple(self):
-        '''(INTERNAL) Cache for L{toVector}.
-        '''
-        return philam2n_xyz(self.phi, self.lam, name=self.name)
 
     def vincentysTo(self, other, **radius_wrap):
         '''Compute the distance between this and an other point using
@@ -1614,7 +1624,7 @@ class LatLonBase(_NamedBase):
                  L{equirectangularTo}, L{euclideanTo}, L{flatLocalTo}/L{hubenyTo},
                  L{flatPolarTo}, L{haversineTo} and L{thomasTo}.
         '''
-        return self._distanceTo(vincentys, other, **_xkwds(radius_wrap, radius=None))
+        return self._distanceTo(self._formy.vincentys, other, **_xkwds(radius_wrap, radius=None))
 
     @Property_RO
     def _wm(self):
@@ -1622,21 +1632,15 @@ class LatLonBase(_NamedBase):
         '''
         return _MODS.webmercator.toWm(self)
 
-    @Property_RO
+    @property_RO
     def xyz(self):
-        '''Get the C{n-vector} X, Y and Z components (L{Vector3Tuple}C{(x, y, z)})
-
-           @note: These are C{n-vector} x, y and z components, I{NOT}
-                  geocentric (ECEF) x, y and z coordinates!
+        '''Get the I{geocentric} C{(x, y, z)} coordinates (L{Vector3Tuple}C{(x, y, z)})
         '''
-        return self.toVector(Vector=Vector3Tuple)
+        return self._ecef9.xyz
 
     @Property_RO
     def xyzh(self):
-        '''Get the C{n-vector} X, Y, Z and H components (L{Vector4Tuple}C{(x, y, z, h)})
-
-           @note: These are C{n-vector} x, y and z components, I{NOT}
-                  geocentric (ECEF) x, y and z coordinates!
+        '''Get the I{geocentric} C{(x, y, z)} coordinates and height (L{Vector4Tuple}C{(x, y, z, h)})
         '''
         return self.xyz.to4Tuple(self.height)
 
@@ -1740,7 +1744,7 @@ __all__ += _ALL_DOCS(LatLonBase)
 
 # **) MIT License
 #
-# Copyright (C) 2016-2023 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

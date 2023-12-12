@@ -15,17 +15,16 @@ L{pygeodesy.geodesicx} and L{pygeodesy.karney} will use U{GeographicLib 2.0
 
 from pygeodesy.basics import _copysign, _xinstanceof
 from pygeodesy.constants import EPS, NAN, _EPSqrt as _TOL, _0_5
-# from pygeodesy.datums import _earth_datum, _WGS84  # from .karney
+from pygeodesy.datums import _earth_datum, _WGS84,  _EWGS84
 # from pygeodesy.dms import F_D  # from .latlonBase
-# from pygeodesy.ellipsoids import _EWGS84  # from .karney
+# from pygeodesy.ellipsoids import _EWGS84  # from .datums
 from pygeodesy.errors import IntersectionError, GeodesicError
 from pygeodesy.interns import NN, _DOT_, _dunder_nameof, _SPACE_, \
                              _to_, _too_,_under
 from pygeodesy.karney import _atan2d, Caps, Direct9Tuple, GDict, \
-                             _kWrapped, Inverse10Tuple,  _earth_datum, \
-                             _ALL_LAZY, _EWGS84, _MODS, _WGS84  # PYCHOK used!
+                             _kWrapped, Inverse10Tuple
 from pygeodesy.latlonBase import LatLonBase as _LLB,  F_D, Radius_
-# from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS  # from .karney
+from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import callername, classname
 from pygeodesy.namedTuples import Destination3Tuple, Distance3Tuple
 from pygeodesy.props import Property, Property_RO, property_RO
@@ -37,7 +36,7 @@ from contextlib import contextmanager
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.geodesicw
-__version__ = '23.11.18'
+__version__ = '23.12.09'
 
 _plumb_ = 'plumb'
 _TRIPS  =  129
@@ -545,7 +544,7 @@ def _PlumbTo(gl, lat0, lon0, est=None, tol=_TOL):
 
 # **) MIT License
 #
-# Copyright (C) 2016-2023 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

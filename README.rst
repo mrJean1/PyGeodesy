@@ -159,12 +159,12 @@ using Python 3.11.5, both in 64-bit on macOS 14.1.2 Sonoma.
 For a summary of all *Karney*-based functionality in ``pygeodesy``, see
 module karney_.
 
-*Last updated: Dec 02, 2023.*
+*Last updated: Dec 12, 2023.*
 
 License
 =======
 
-``Copyright (C) 2016-2023 -- mrJean1 at Gmail -- All Rights Reserved.``
+``Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.``
 
 ``Permission is hereby granted, free of charge, to any person obtaining a
 copy of this software and associated documentation files (the "Software"),

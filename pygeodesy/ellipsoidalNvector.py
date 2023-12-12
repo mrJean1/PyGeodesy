@@ -49,7 +49,7 @@ from pygeodesy.units import Bearing, Distance, Height, Scalar
 # from math import fabs  # from .nvectorBase
 
 __all__ = _ALL_LAZY.ellipsoidalNvector
-__version__ = '23.11.27'
+__version__ = '23.12.03'
 
 
 class Ned(_Ned):
@@ -152,7 +152,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #         '''
 #         self.others(start=start)
 #
-#         if isscalar(end):  # gc from point and bearing
+#         if _isDegrees(end):  # gc from point and bearing
 #             gc = start.greatCircle(end)
 #         else:  # gc by two points
 #             gc = start.toNvector().cross(end.toNvector())
@@ -662,7 +662,7 @@ __all__ += _ALL_OTHER(Cartesian, LatLon, Ned, Nvector,  # classes
 
 # **) MIT License
 #
-# Copyright (C) 2016-2023 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

@@ -49,7 +49,7 @@ from pygeodesy.utily import atan1, degrees90, degrees180, sincos2, tanPI_2_2
 from math import atan, fabs, log, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.lcc
-__version__ = '23.09.27'
+__version__ = '23.12.03'
 
 _E0_   = 'E0'
 _N0_   = 'N0'
@@ -103,12 +103,6 @@ class Conic(_NamedEnumItem):
            @raise ValueError: Invalid B{C{par1}}, B{C{par2}},
                               B{C{E0}}, B{C{N0}}, B{C{k0}}
                               or B{C{opt3}}.
-
-           @example:
-
-            >>> from pygeodesy import Conic, Datums, ellipsoidalNvector
-            >>> ll0 = ellipsoidalNvector.LatLon(23, -96, datum=Datums.NAD27)
-            >>> Snyder = Conic(ll0, 33, 45, E0=0, N0=0, name='Snyder')
         '''
         if latlon0 is not None:
             _xinstanceof(_LLEB, latlon0=latlon0)
@@ -421,10 +415,6 @@ class Lcc(_NamedBase):
                             negative B{C{e}} or B{C{n}}.
 
            @raise TypeError: If B{C{conic}} is not L{Conic}.
-
-           @example:
-
-            >>> lb = Lcc(448251, 5411932.0001)
         '''
         if conic not in (None, Lcc._conic):
             self.conic = conic
@@ -673,7 +663,7 @@ if __name__ == '__main__':
 
 # **) MIT License
 #
-# Copyright (C) 2016-2023 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

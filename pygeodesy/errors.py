@@ -21,15 +21,15 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _getenv, \
                              _pairs, _PYTHON_X_DEV
 
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')  _under
-__version__ = '23.12.02'
+__version__ = '23.12.08'
 
 _box_        = 'box'
 _default_    = 'default'
 _kwargs_     = 'kwargs'  # XXX _kwds_?
-_limiterrors =  True  # imported by .formy
+_limiterrors =  True  # in .formy
 _multiple_   = 'multiple'
 _name_value_ =  repr('name=value')
-_rangerrors  =  True  # imported by .dms
+_rangerrors  =  True  # in .dms
 _region_     = 'region'
 _vs__        = _SPACE_(NN, _vs_, NN)
 
@@ -132,12 +132,13 @@ class _TypeError(TypeError):
         _error_init(TypeError, self, args, fmt_name_value='type(%s) (%r)', **kwds)
 
 
-class _TypesError(_TypeError):
+def _TypesError(name, value, *Types, **kwds):
     '''(INTERNAL) Format a C{TypeError} with/-out exception chaining.
     '''
-    def __init__(self, name, value, *Types, **kwds):
-        t = _not_(_an(_or(*(t.__name__ for t in Types))))
-        _TypeError.__init__(self, name, value, txt=t, **kwds)
+    # no longer C{class _TypesError} to avoid missing value
+    # argument errors in _XError line ...E = Error(str(e))
+    t = _not_(_an(_or(*(t.__name__ for t in Types))))
+    return _TypeError(name, value, txt=t, **kwds)
 
 
 class _ValueError(ValueError):
@@ -155,7 +156,7 @@ class _ZeroDivisionError(ZeroDivisionError):
 
 
 class AuxError(_ValueError):
-    '''A C{rhumb.aux_} C{Aux}, C{AuxDLat} or C{AuxLat} issue.
+    '''Error raised for a L{rhumb.aux_}, C{Aux}, C{AuxDLat} or C{AuxLat} issue.
     '''
     pass
 
@@ -277,7 +278,7 @@ class RangeError(_ValueError):
 
 
 class RhumbError(_ValueError):
-    '''A L{pygeodesy.rhumb.aux_}, L{pygeodesy.rhumb.ekx}
+    '''Error raised for a L{pygeodesy.rhumb.aux_}, L{pygeodesy.rhumb.ekx}
        or L{pygeodesy.rhumb.solve} issue.
     '''
     pass
@@ -794,7 +795,7 @@ def _xzip(*args, **strict):  # PYCHOK no cover
 
 # **) MIT License
 #
-# Copyright (C) 2016-2023 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

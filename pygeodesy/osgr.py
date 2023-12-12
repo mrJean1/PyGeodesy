@@ -53,7 +53,7 @@ from pygeodesy.utily import degrees90, degrees180, sincostan3, truncate
 from math import cos, fabs, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.osgr
-__version__ = '23.08.24'
+__version__ = '23.12.03'
 
 _equivalent_ = 'equivalent'
 _OSGR_       = 'OSGR'
@@ -318,15 +318,6 @@ class Osgr(_NamedBase):
 
            @raise TypeError: If B{C{LatLon}} is not ellipsoidal or B{C{datum}}
                              is invalid or conversion to B{C{datum}} failed.
-
-           @example:
-
-            >>> from pygeodesy import Datums, ellipsoidalVincenty as eV, Osgr
-            >>> g = Osgr(651409.903, 313177.270)
-            >>> p = g.toLatLon(eV.LatLon)  # 52°39′28.723″N, 001°42′57.787″E
-            >>> p = g.toLatLon(eV.LatLon, kTM=True)  # 52°39′28.723″N, 001°42′57.787″E
-            >>> # to obtain (historical) OSGB36 lat-/longitude point
-            >>> p = g.toLatLon(eV.LatLon, datum=Datums.OSGB36)  # 52°39′27.253″N, 001°43′04.518″E
         '''
         NG = _NG
         if kTM:
@@ -443,13 +434,6 @@ class Osgr(_NamedBase):
                              < -4} and C{B{GD}=False}.
 
            @raise ValueError: Invalid B{C{prec}}.
-
-           @example:
-
-            >>> r = Osgr(651409, 313177)
-            >>> str(r)  # 'TG 5140 1317'
-            >>> r.toStr()  # 'TG5140913177'
-            >>> r.toStr(GD=False)  # '651409,313177'
         '''
         def _i2c(i):
             if i > 7:
@@ -542,16 +526,6 @@ def parseOSGR(strOSGR, Osgr=Osgr, name=NN, **Osgr_kwds):
                 C{None} an L{EasNor2Tuple}C{(easting, northing)}.
 
        @raise OSGRError: Invalid B{C{strOSGR}}.
-
-       @example:
-
-        >>> r = parseOSGR('TG5140913177')
-        >>> str(r)  # 'TG 51409 13177'
-        >>> r = parseOSGR('TG 51409 13177')
-        >>> r.toStr()  # 'TG5140913177'
-        >>> r = parseOSGR('651409,313177')
-        >>> r.toStr(sep=' ')  # 'TG 51409 13177'
-        >>> r.toStr(GD=False)  # '651409,313177'
     '''
     def _c2i(G):
         g = ord(G.upper()) - _ord_A
@@ -638,15 +612,6 @@ def toOsgr(latlon, lon=None, kTM=False, datum=_WGS84, Osgr=Osgr, name=NN,  # MCC
        @raise TypeError: Non-ellipsoidal B{C{latlon}} or invalid
                          B{C{datum}}, B{C{Osgr}}, B{C{Osgr_kwds}}
                          or conversion to C{Datums.OSGB36} failed.
-
-       @example:
-
-        >>> p = LatLon(52.65798, 1.71605)
-        >>> r = toOsgr(p)  # [G:TG, E:51409, N:13177]
-        >>> # for conversion of (historical) OSGB36 lat-/longitude:
-        >>> r = toOsgr(52.65757, 1.71791, datum=Datums.OSGB36)
-        >>> # alternatively and using Krüger
-        >>> r = p.toOsgr(kTM=True)  # [G:TG, E:51409, N:13177]
     '''
     def _prec_kwds2(prec=MISSING, **kwds):
         return prec, kwds
@@ -766,7 +731,7 @@ if __name__ == '__main__':
 
 # **) MIT License
 #
-# Copyright (C) 2016-2023 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

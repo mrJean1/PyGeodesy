@@ -33,7 +33,7 @@ from pygeodesy.units import Bearing, Degrees, Easting, Height, _heigHt, \
 # from math import fabs  # from .karney
 
 __all__ = _ALL_LAZY.css
-__version__ = '23.09.07'
+__version__ = '23.12.03'
 
 
 def _CS0(cs0):
@@ -75,15 +75,6 @@ class CassiniSoldner(_NamedBase):
            @kwarg name: Optional name (C{str}).
 
            @raise CSSError: Invalid B{C{lat}} or B{C{lon}}.
-
-           @example:
-
-            >>> p = CassiniSoldner(48 + 50/60.0, 2 + 20/60.0)  # Paris
-            >>> p.forward(50.9, 1.8)  # Calais
-            (-37518.854545, 230003.561828)
-
-            >>> p.reverse4(-38e3, 230e3)
-            (50.899937, 1.793161, 89.580797, 0.999982)
         '''
         if datum not in (None, self._datum):
             self._datum = _xellipsoidal(datum=_ellipsoidal_datum(datum, name=name))
@@ -422,10 +413,6 @@ class Css(_NamedBase):
            @raise TypeError: If B{C{cs0}} is not L{CassiniSoldner}.
 
            @raise ValueError: Invalid B{C{h}}.
-
-           @example:
-
-            >>> cs = Css(448251, 5411932.0001)
         '''
         self._cs0 = _CS0(cs0)
         self._easting  = Easting(e,  Error=CSSError)
@@ -652,7 +639,7 @@ def toCss(latlon, cs0=None, height=None, Css=Css, name=NN):
 
 # **) MIT License
 #
-# Copyright (C) 2016-2023 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

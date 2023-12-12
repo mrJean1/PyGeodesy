@@ -18,7 +18,7 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 from pygeodesy.auxilats.auxAngle import AuxAngle, AuxBeta, AuxChi, _AuxClass, \
                                         AuxMu, AuxPhi, AuxTheta, AuxXi
 from pygeodesy.auxilats.auxily import Aux, _sc, _sn, _Ufloats,  atan1
-from pygeodesy.basics import isscalar, _reverange, _xinstanceof
+from pygeodesy.basics import _passarg, _reverange, _xinstanceof
 from pygeodesy.constants import INF, MAX_EXP, MIN_EXP, NAN, PI_2, PI_4, _EPSqrt, \
                                _0_0, _0_0s, _0_1, _0_25, _0_5, _1_0, _2_0, _3_0, \
                                _360_0, isfinite, isinf, isnan, _log2, _over
@@ -32,8 +32,8 @@ from pygeodesy.karney import _2cos2x, _polynomial,  _ALL_DOCS, cbrt, _MODS
 from pygeodesy.interns import NN, _DOT_, _UNDER_  # _earth_
 # from pygeodesy.lazily import _ALL_DOCS, _ALL_MODS as _MODS  # from .karney
 from pygeodesy.props import Property, Property_RO, _update_all
-from pygeodesy.units import Degrees, Meter
-# from pygeodesy.utily import atan1, _passarg  # from .auxily, _MODS
+from pygeodesy.units import _isDegrees, _isRadius, Degrees, Meter
+# from pygeodesy.utily import atan1  # from .auxily
 
 from math import asinh, atan2, copysign, cosh, fabs, sin, sinh, sqrt
 try:
@@ -44,7 +44,7 @@ except ImportError:  # Python 3.11-
         return pow(_2_0, x)
 
 __all__ = ()
-__version__ = '23.11.24'
+__version__ = '23.12.10'
 
 _TRIPS = 1024  # XXX 2 or 3?
 
@@ -87,7 +87,7 @@ class AuxLat(AuxAngle):
             try:
                 if b is f is None:
                     E = _ellipsoidal_datum(a_earth, name=n).ellipsoid  # XXX raiser=_earth_
-                elif isscalar(a_earth):
+                elif _isRadius(a_earth):
                     E =  Ellipsoid(a_earth, f=f, b=b, name=_UNDER_(n))
                 else:
                     raise ValueError()
@@ -359,7 +359,7 @@ class AuxLat(AuxAngle):
             # assert Z._AUX == auxout
             return Z
 
-        elif isinstance(d, Degrees) or isscalar(d):
+        elif _isDegrees(d):
             Z  = AuxPhi.fromDegrees(d)
             d  = round((d - Z.toDegrees) / _360_0) * _360_0
             d += self.convert(auxout, Z, exact).toDegrees
@@ -482,10 +482,10 @@ class AuxLat(AuxAngle):
         '''(INTERNAL) switch(auxin): ...
         '''
         return {Aux.AUTHALIC:         cbrt,
-                Aux.CONFORMAL: _MODS.utily._passarg,
+                Aux.CONFORMAL:    _passarg,
                 Aux.GEOCENTRIC: self._e2m1,
-                Aux.GEOGRAPHIC:      _1_0,
-                Aux.PARAMETRIC: self._fm1,
+                Aux.GEOGRAPHIC:       _1_0,
+                Aux.PARAMETRIC:  self._fm1,
                 Aux.RECTIFYING:       sqrt}
 
     def Geocentric(self, Phi, **diff_name):
@@ -827,7 +827,7 @@ __all__ += _ALL_DOCS(AuxLat)
 
 # **) MIT License
 #
-# Copyright (C) 2023-2023 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2023-2024 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

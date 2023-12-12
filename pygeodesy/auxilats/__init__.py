@@ -29,11 +29,11 @@ from pygeodesy.lazily import _ALL_OTHER
 # no modules: auxAngle, auxDLat, auxDST, auxily, auxLat
 __all__ = _ALL_OTHER(Aux, AuxAngle, AuxDLat, AuxDST, AuxLat,
                      AuxBeta, AuxChi, AuxMu, AuxPhi, AuxTheta, AuxXi)
-__version__ = '23.12.02'
+__version__ = '23.12.07'
 
 # **) MIT License
 #
-# Copyright (C) 2023-2023 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2023-2024 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

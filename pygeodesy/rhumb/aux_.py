@@ -35,11 +35,11 @@ from pygeodesy.auxilats.auxily import _Dlam, _Dp0Dpsi, _Ufloats
 from pygeodesy.basics import copysign0, _reverange,  _xkwds_get
 from pygeodesy.constants import EPS_2, MANT_DIG, PI4, isinf, \
                                _0_0, _4_0, _720_0, _log2, _over
-# from pygeodesy.datums import _WGS84  # from .karney
+from pygeodesy.datums import _WGS84,  NN
 # from pygeodesy.errors import _xkwds_get  # from .basics
-from pygeodesy.karney import Caps, _polynomial,  NN, _WGS84
+from pygeodesy.karney import Caps, _polynomial
 # from pygeodesy.fmath import hypot  # from .auxilats.auxAngle
-# from pygeodesy.interns import NN  # from .karney
+# from pygeodesy.interns import NN  # from .datums
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 # from pygeodesy.props import Property_RO  # from .rhumbBase
 from pygeodesy.rhumb.bases import RhumbBase, RhumbLineBase,  Property_RO
@@ -47,7 +47,7 @@ from pygeodesy.rhumb.bases import RhumbBase, RhumbLineBase,  Property_RO
 from math import ceil as _ceil, fabs, radians
 
 __all__ = _ALL_LAZY.rhumb_aux_
-__version__ = '23.12.02'
+__version__ = '23.12.09'
 
 # DIGITS = (sizeof(real) * 8) bits
 #        = (ctypes.sizeof(ctypes.c_double(1.0)) * 8) bits
@@ -376,7 +376,7 @@ __all__ += _ALL_DOCS(Caps)
 
 # **) MIT License
 #
-# Copyright (C) 2023-2023 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2023-2024 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

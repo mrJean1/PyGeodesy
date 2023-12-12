@@ -81,7 +81,7 @@ except ImportError:  # Python 3+
     from string import ascii_letters as _LETTERS
 
 __all__ = _ALL_LAZY.dms
-__version__ = '23.11.11'
+__version__ = '23.12.03'
 
 _beyond_      = 'beyond'
 _DDDMMSS_     = 'DDDMMSS'
@@ -845,11 +845,6 @@ def parse3llh(strllh, height=0, sep=_COMMA_, clipLat=90, clipLon=180, wrap=False
 
        @see: Functions L{pygeodesy.parseDDDMMSS}, L{pygeodesy.parseDMS},
              L{pygeodesy.parseDMS2} and L{pygeodesy.toDMS}.
-
-       @example:
-
-        >>> parse3llh('000°00′05.31″W, 51° 28′ 40.12″ N')
-        (51.4778°N, 000.0015°W, 0)
     '''
 
     def _3llh(strllh, height, sep, wrap):
@@ -976,7 +971,7 @@ def toDMS(deg, form=F_DMS, prec=2, sep=S_SEP, ddd=2, neg=_MINUS_, pos=_PLUS_, **
 
 # **) MIT License
 #
-# Copyright (C) 2016-2023 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

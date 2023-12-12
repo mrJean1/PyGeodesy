@@ -7,7 +7,7 @@ C{Cartesian}s.
 After I{(C) Chris Veness 2011-2015} published under the same MIT Licence**,
 see U{https://www.Movable-Type.co.UK/scripts/latlong.html},
 U{https://www.Movable-Type.co.UK/scripts/latlong-vectors.html} and
-U{https://www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal.js.html}..
+U{https://www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal.js.html}.
 '''
 
 # from pygeodesy.basics import _xinstanceof  # from .datums
@@ -25,7 +25,7 @@ from pygeodesy.namedTuples import LatLon4Tuple, Vector4Tuple, \
                                   Bearing2Tuple  # PYCHOK .sphericalBase
 from pygeodesy.props import deprecated_method, Property, Property_RO, \
                             property_doc_, property_RO, _update_all
-# from pygeodesy.resections impoty cassini, collins5, pierlot, tienstra7
+# from pygeodesy.resections import cassini, collins5, pierlot, tienstra7
 # from pygeodesy.streprs import Fmt  # from .fsums
 from pygeodesy.units import Height, _heigHt
 from pygeodesy.vector3d import Vector3d, _xyzhdn3
@@ -33,7 +33,7 @@ from pygeodesy.vector3d import Vector3d, _xyzhdn3
 # from math import sqrt  # from .fmath
 
 __all__ = _ALL_LAZY.cartesianBase
-__version__ = '23.11.18'
+__version__ = '23.12.12'
 
 
 class CartesianBase(Vector3d):
@@ -99,7 +99,7 @@ class CartesianBase(Vector3d):
 
            @see: Function L{pygeodesy.cassini} for references and more details.
         '''
-        return _MODS.resections.cassini(self, pointB, pointC, alpha, beta,
+        return self._resections.cassini(self, pointB, pointC, alpha, beta,
                                               useZ=useZ, datum=self.datum)
 
     @deprecated_method
@@ -135,8 +135,13 @@ class CartesianBase(Vector3d):
 
            @see: Function L{pygeodesy.collins5} for references and more details.
         '''
-        return _MODS.resections.collins5(self, pointB, pointC, alpha, beta,
+        return self._resections.collins5(self, pointB, pointC, alpha, beta,
                                                useZ=useZ, datum=self.datum)
+
+    @deprecated_method
+    def convertDatum(self, datum2, **datum):
+        '''DEPRECATED, use method L{toDatum}.'''
+        return self.toDatum(datum2, **datum)
 
     @property_doc_(''' this cartesian's datum (L{Datum}).''')
     def datum(self):
@@ -179,9 +184,9 @@ class CartesianBase(Vector3d):
                              B{C{Cartesian_kwds}}.
         '''
         if Cartesian is None:
-            r = self._ltp._local2ecef(delta, nine=True)
+            r = self._Ltp._local2ecef(delta, nine=True)
         else:
-            r = self._ltp._local2ecef(delta, nine=False)
+            r = self._Ltp._local2ecef(delta, nine=False)
             r = Cartesian(*r, **_xkwds(Cartesian_kwds, datum=self.datum))
         return r._xnamed(r) if self.name else r
 
@@ -219,7 +224,7 @@ class CartesianBase(Vector3d):
 
            @raise IntersectionError: Null or bad C{pov} or B{C{los}}, this C{pov}
                                      is inside the ellipsoid or B{C{los}} points
-                                     points outside or away from the ellipsoid.
+                                     outside or away from the ellipsoid.
 
            @raise TypeError: Invalid B{C{los}} or no B{C{datum}}.
 
@@ -330,18 +335,26 @@ class CartesianBase(Vector3d):
         '''
         return self.toEcef().latlonheightdatum
 
-    @Property_RO
+    @property_RO
     def _ltp(self):
+        '''(INTERNAL) Get module C{.ltp}, I{once}.
+        '''
+        CartesianBase._ltp = m = _MODS.ltp  # overwrite property_RO
+        return m
+
+    @Property_RO
+    def _Ltp(self):
         '''(INTERNAL) Cache for L{toLtp}.
         '''
-        return _MODS.ltp.Ltp(self._ecef9, ecef=self.Ecef(self.datum), name=self.name)
+        return self._ltp.Ltp(self._ecef9, ecef=self.Ecef(self.datum), name=self.name)
 
     @Property_RO
     def _N_vector(self):
         '''(INTERNAL) Get the (C{nvectorBase._N_vector_}).
         '''
+        m = _MODS.nvectorBase
         x, y, z, h = self._n_xyzh4(self.datum)
-        return _MODS.nvectorBase._N_vector_(x, y, z, h=h, name=self.name)
+        return m._N_vector_(x, y, z, h=h, name=self.name)
 
     def _n_xyzh4(self, datum):
         '''(INTERNAL) Get the n-vector components as L{Vector4Tuple}.
@@ -433,7 +446,7 @@ class CartesianBase(Vector3d):
 
            @see: Function L{pygeodesy.pierlot} for references and more details.
         '''
-        return _MODS.resections.pierlot(self, point2, point3, alpha12, alpha23,
+        return self._resections.pierlot(self, point2, point3, alpha12, alpha23,
                                               useZ=useZ, eps=eps, datum=self.datum)
 
     def pierlotx(self, point2, point3, alpha1, alpha2, alpha3, useZ=False):
@@ -460,8 +473,15 @@ class CartesianBase(Vector3d):
 
            @see: Function L{pygeodesy.pierlotx} for references and more details.
         '''
-        return _MODS.resections.pierlotx(self, point2, point3, alpha1, alpha2, alpha3,
+        return self._resections.pierlotx(self, point2, point3, alpha1, alpha2, alpha3,
                                                useZ=useZ, datum=self.datum)
+
+    @property_RO
+    def _resections(self):
+        '''(INTERNAL) Import the C{.resections} module, I{once}.
+        '''
+        CartesianBase._resections = m = _MODS.resections  # overwrite property_RO
+        return m
 
     @property_RO
     def sphericalCartesian(self):
@@ -506,7 +526,7 @@ class CartesianBase(Vector3d):
 
            @see: Function L{pygeodesy.tienstra7} for references and more details.
         '''
-        return _MODS.resections.tienstra7(self, pointB, pointC, alpha, beta, gamma,
+        return self._resections.tienstra7(self, pointB, pointC, alpha, beta, gamma,
                                                 useZ=useZ, datum=self.datum)
 
     @deprecated_method
@@ -527,7 +547,7 @@ class CartesianBase(Vector3d):
 
     @deprecated_method
     def to3llh(self, datum=None):  # PYCHOK no cover
-        '''DEPRECATED, use property L{latlonheightdatum} or L{latlonheight}.
+        '''DEPRECATED, use property L{latlonheight} or L{latlonheightdatum}.
 
            @return: A L{LatLon4Tuple}C{(lat, lon, height, datum)}.
 
@@ -579,8 +599,6 @@ class CartesianBase(Vector3d):
 
         return c.toTransform(d.transform, inverse=i, datum=datum2)
 
-    convertDatum = toDatum  # for backward compatibility
-
     def toEcef(self):
         '''Convert this cartesian to I{geodetic} (lat-/longitude) coordinates.
 
@@ -592,7 +610,7 @@ class CartesianBase(Vector3d):
         return self._ecef9
 
     def toLatLon(self, datum=None, height=None, LatLon=None, **LatLon_kwds):  # see .ecef.Ecef9Tuple.toDatum
-        '''Convert this cartesian to a geodetic (lat-/longitude) point.
+        '''Convert this cartesian to a I{geodetic} (lat-/longitude) point.
 
            @kwarg datum: Optional datum (L{Datum}, L{Ellipsoid}, L{Ellipsoid2}
                          or L{a_f2Tuple}).
@@ -639,7 +657,7 @@ class CartesianBase(Vector3d):
 
            @raise TypeError: Invalid B{C{ltp}}.
         '''
-        p = _MODS.ltp._xLtp(ltp, self._ltp)
+        p = self._ltp._xLtp(ltp, self._Ltp)
         return p._ecef2local(self._ecef9, Xyz, Xyz_kwds)
 
     def toLtp(self, Ecef=None):
@@ -648,33 +666,32 @@ class CartesianBase(Vector3d):
            @kwarg Ecef: Optional ECEF I{class} (L{EcefKarney}, ...
                         L{EcefYou}), overriding this cartesian's C{Ecef}.
         '''
-        return self._ltp if Ecef in (None, self.Ecef) else _MODS.ltp.Ltp(
+        return self._Ltp if Ecef in (None, self.Ecef) else self._ltp.Ltp(
                self._ecef9, ecef=Ecef(self.datum), name=self.name)
 
     def toNvector(self, Nvector=None, datum=None, **Nvector_kwds):
-        '''Convert this cartesian to C{n-vector} components.
+        '''Convert this cartesian to C{n-vector} components, I{including height}.
 
-           @kwarg Nvector: Optional class to return the C{n-vector}
-                           components (C{Nvector}) or C{None}.
+           @kwarg Nvector: Optional class to return the C{n-vector} components
+                           (C{Nvector}) or C{None}.
            @kwarg datum: Optional datum (L{Datum}, L{Ellipsoid}, L{Ellipsoid2}
                          or L{a_f2Tuple}) overriding this cartesian's datum.
            @kwarg Nvector_kwds: Optional, additional B{C{Nvector}} keyword
                                 arguments, ignored if C{B{Nvector} is None}.
 
-           @return: The C{unit, n-vector} components (B{C{Nvector}}) or a
-                    L{Vector4Tuple}C{(x, y, z, h)} if B{C{Nvector}} is C{None}.
+           @return: An B{C{Nvector}} or a L{Vector4Tuple}C{(x, y, z, h)} if
+                    B{C{Nvector}} is C{None}.
 
-           @raise TypeError: Invalid B{C{datum}}.
+           @raise TypeError: Invalid B{C{Nvector}}, B{C{Nvector_kwds}} or
+                             B{C{datum}}.
 
-           @raise ValueError: The B{C{Cartesian}} at origin.
-
-           @example:
-
-            >>> c = Cartesian(3980581, 97, 4966825)
-            >>> n = c.toNvector()  # (x=0.622818, y=0.00002, z=0.782367, h=0.242887)
+           @raise ValueError: B{C{Cartesian}} at origin.
         '''
-        d = _spherical_datum(datum or self.datum, name=self.name)
-        r =  self._N_vector.xyzh if self.datum == d else self._n_xyzh4(d)
+        r, d = self._N_vector.xyzh, self.datum
+        if datum is not None:
+            d = _spherical_datum(datum, name=self.name)
+            if d != self.datum:
+                r = self._n_xyzh4(d)
 
         if Nvector is not None:
             kwds = _xkwds(Nvector_kwds, h=r.h, datum=d)
@@ -716,9 +733,9 @@ class CartesianBase(Vector3d):
         return self.classof(xyz, datum=d)
 
     def toVector(self, Vector=None, **Vector_kwds):
-        '''Return this cartesian's components as vector.
+        '''Return this cartesian's I{geocentric} components as vector.
 
-           @kwarg Vector: Optional class to return the C{n-vector}
+           @kwarg Vector: Optional class to return the I{geocentric}
                           components (L{Vector3d}) or C{None}.
            @kwarg Vector_kwds: Optional, additional B{C{Vector}} keyword
                                arguments, ignored if C{B{Vector} is None}.
@@ -736,7 +753,7 @@ __all__ += _ALL_DOCS(CartesianBase)
 
 # **) MIT License
 #
-# Copyright (C) 2016-2023 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

@@ -7,7 +7,7 @@ class C{LatLonEllipsoidalBaseDI} and functions.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import isLatLon, isscalar, issubclassof
+from pygeodesy.basics import isLatLon, issubclassof
 from pygeodesy.constants import EPS, MAX, PI, PI2, PI_4, isnear0, isnear1, \
                                _EPSqrt as _TOL, _0_0, _0_5, _1_5, _3_0
 # from pygeodesy.dms import F_DMS  # _MODS
@@ -16,7 +16,7 @@ from pygeodesy.errors import _AssertionError, IntersectionError, _IsnotError, \
                              _or, _ValueError, _xellipsoidal, _xError, _xkwds_not
 from pygeodesy.fmath import favg, fmean_
 from pygeodesy.fsums import Fmt, fsumf_
-from pygeodesy.formy import opposing, _radical2
+# from pygeodesy.formy import _isequalTo, opposing, _radical2  # _MODS
 from pygeodesy.interns import _antipodal_, _concentric_, _ellipsoidal_, \
                               _exceed_PI_radians_, _low_, _near_, _SPACE_, _too_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
@@ -25,14 +25,15 @@ from pygeodesy.namedTuples import Bearing2Tuple, Destination2Tuple, \
                                   NearestOn8Tuple, _LL4Tuple
 # from pygeodesy.props import property_RO  # from .ellipsoidalBase
 # from pygeodesy.streprs import Fmt  # from .fsums
-from pygeodesy.units import _fi_j2, Radius_, Scalar
+from pygeodesy.units import _fi_j2, _isDegrees, _isHeight, _isRadius, \
+                             Radius_, Scalar
 from pygeodesy.utily import m2km, unroll180, _unrollon, _unrollon3, \
                            _Wrap, wrap360
 
 from math import degrees, radians
 
 __all__ = _ALL_LAZY.ellipsoidalBaseDI
-__version__ = '23.11.16'
+__version__ = '23.12.12'
 
 _polar__  = 'polar?'
 _B2END    = _1_5  # _intersect3 bearing to pseudo-end point factor
@@ -213,7 +214,7 @@ class LatLonEllipsoidalBaseDI(LatLonEllipsoidalBase):
         '''
         p  = _unrollon(self, self.others(point=point), wrap=wrap)
         g  =  self.datum.ellipsoid.geodesic_(exact=exact)
-        gl =  g._DirectLine( p, other) if isscalar(other) else \
+        gl =  g._DirectLine( p, other) if _isDegrees(other) else \
               g._InverseLine(p, self.others(other), wrap)
         return g, gl, p
 
@@ -306,7 +307,7 @@ class LatLonEllipsoidalBaseDI(LatLonEllipsoidalBase):
         '''
         try:
             g, gl, p = self._g_gl_p3(point, other, exact, wrap)
-            r = Radius_(circle=circle) if isscalar(circle) else \
+            r = Radius_(circle=circle) if _isRadius(circle) else \
                 g._Inverse(self, self.others(circle=circle), wrap).s12
 
             P, Q = _MODS.geodesicw._Intersecant2(gl, self.lat, self.lon, r, tol=tol,
@@ -604,15 +605,16 @@ def _intersect3(s1, end1, s2, end2, height=None, wrap=False,  # MCCABE 16  was=T
     '''(INTERNAL) Intersect two (ellipsoidal) lines, see ellipsoidal method
        L{intersection3}, separated to allow callers to embellish any exceptions.
     '''
+    _opp = _MODS.formy.opposing
     _LLS = _MODS.sphericalTrigonometry.LatLon
     _si  = _MODS.sphericalTrigonometry._intersect
     _vi3 = _MODS.vector3d._intersect3d3
 
     def _b_d(s, e, w, t, h=_0_0):
         # compute opposing and distance
-        t = s.classof(t.lat, t.lon, height=h, name=t.name)
-        t = s.distanceTo3(t, wrap=w)  # Distance3Tuple
-        b = opposing(e, t.initial)  # "before" start
+        t =  s.classof(t.lat, t.lon, height=h, name=t.name)
+        t =  s.distanceTo3(t, wrap=w)  # Distance3Tuple
+        b = _opp(e, t.initial)  # "before" start
         return b, t.distance
 
     def _b_e(s, e, w, t):
@@ -629,7 +631,7 @@ def _intersect3(s1, end1, s2, end2, height=None, wrap=False,  # MCCABE 16  was=T
 
     def _e_ll(s, e, w, **end):
         # return 2-tuple (end, False if bearing else True)
-        ll = not isscalar(e)
+        ll = not _isDegrees(e)
         if ll:
             e = s.others(**end)
             if w:  # unroll180 == .karney._unroll2
@@ -642,7 +644,7 @@ def _intersect3(s1, end1, s2, end2, height=None, wrap=False,  # MCCABE 16  was=T
     def _o(o, b, n, s, t, e):
         # determine C{o}utside before, on or after start point
         if not o:  # intersection may be on start
-            if _MODS.latlonBase._isequalTo(s, t, eps=e.degrees):
+            if _MODS.formy._isequalTo(s, t, eps=e.degrees):
                 return o
         return -n if b else n
 
@@ -772,7 +774,7 @@ def _intersects2(c1, radius1, c2, radius2, height=None, wrap=False,  # MCCABE 16
     if fsumf_(r1, r2, -m) < 0:
         raise IntersectionError(_too_(Fmt.distant(m)))
 
-    f = _radical2(m, r1, r2).ratio  # "radical fraction"
+    f = _MODS.formy._radical2(m, r1, r2).ratio  # "radical fraction"
     e = _Tol(tol, E, favg(c1.lat, c2.lat, f=f))
 
     # gu-/estimate initial intersections, spherically ...
@@ -888,7 +890,7 @@ def _nearestOn3(p, p1, p2, A, within=True, height=None, tol=_TOL_M,
 
     if height is None:
         h = v.z  # nearest
-    elif isscalar(height):
+    elif _isHeight(height):
         h = height
     r = _LL4Tuple(t.lat, t.lon, h, t.datum, LatLon, LatLon_kwds, inst=p,
                                             iteration=t.iteration, name=n)
@@ -899,7 +901,7 @@ __all__ += _ALL_DOCS(LatLonEllipsoidalBaseDI, intersecant2)
 
 # **) MIT License
 #
-# Copyright (C) 2016-2023 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

@@ -195,8 +195,10 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.cartesianBase.CartesianBase-class.html#convertDatum" class="summary-sig-name">convertDatum</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">datum2</span>,
-        <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Convert this cartesian from one datum to an other.</td>
+        <span class="summary-sig-arg">**datum</span>)</span><br />
+      DEPRECATED, use method <a 
+      href="pygeodesy.cartesianBase.CartesianBase-class.html#toDatum" 
+      class="link">toDatum</a>.</td>
           <td align="right" valign="top">
             
             
@@ -414,10 +416,10 @@
           <td><span class="summary-sig"><a href="pygeodesy.cartesianBase.CartesianBase-class.html#to3llh" class="summary-sig-name">to3llh</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">None</span>)</span><br />
       DEPRECATED, use property <a 
-      href="pygeodesy.cartesianBase.CartesianBase-class.html#latlonheightdatum"
-      class="link">latlonheightdatum</a> or <a 
       href="pygeodesy.cartesianBase.CartesianBase-class.html#latlonheight" 
-      class="link">latlonheight</a>.</td>
+      class="link">latlonheight</a> or <a 
+      href="pygeodesy.cartesianBase.CartesianBase-class.html#latlonheightdatum"
+      class="link">latlonheightdatum</a>.</td>
           <td align="right" valign="top">
             
             
@@ -475,7 +477,7 @@
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">**LatLon_kwds</span>)</span><br />
-      Convert this cartesian to a geodetic (lat-/longitude) point.</td>
+      Convert this cartesian to a <i>geodetic</i> (lat-/longitude) point.</td>
           <td align="right" valign="top">
             
             
@@ -534,7 +536,8 @@
         <span class="summary-sig-arg">Nvector</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">**Nvector_kwds</span>)</span><br />
-      Convert this cartesian to <code>n-vector</code> components.</td>
+      Convert this cartesian to <code>n-vector</code> components, 
+      <i>including height</i>.</td>
           <td align="right" valign="top">
             
             
@@ -594,7 +597,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.cartesianBase.CartesianBase-class.html#toVector" class="summary-sig-name">toVector</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">Vector</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">**Vector_kwds</span>)</span><br />
-      Return this cartesian's components as vector.</td>
+      Return this cartesian's <i>geocentric</i> components as vector.</td>
           <td align="right" valign="top">
             
             
@@ -1140,27 +1143,20 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">convertDatum</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">datum2</span>,
-        <span class="sig-arg">datum</span>=<span class="sig-default">None</span>)</span>
+        <span class="sig-arg">**datum</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Convert this cartesian from one datum to an other.</p>
+  <p>DEPRECATED, use method <a 
+  href="pygeodesy.cartesianBase.CartesianBase-class.html#toDatum" 
+  class="link">toDatum</a>.</p>
   <dl class="fields">
-    <dt>Arguments:</dt>
+    <dt>Decorators:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>datum2</code></strong> - Datum to convert <i>to</i> (<a 
-          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>).</li>
-        <li><strong class="pname"><code>datum</code></strong> - Datum to convert <i>from</i> (<a 
-          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>).</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>The converted point (<code>Cartesian</code>).</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - <b><code>datum2</code></b> or <b><code>datum</code></b> invalid.</li>
+        <li><code>@deprecated_method</code></li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -1259,7 +1255,7 @@
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - Null or bad <code>pov</code> or <b><code>los</code></b>, this 
         <code>pov</code> is inside the ellipsoid or <b><code>los</code></b>
-        points points outside or away from the ellipsoid.</li>
+        points outside or away from the ellipsoid.</li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>los</code></b> or no <b><code>datum</code></b>.</li>
     </ul></dd>
   </dl>
@@ -1644,10 +1640,10 @@
   </tr></table>
   
   <p>DEPRECATED, use property <a 
-  href="pygeodesy.cartesianBase.CartesianBase-class.html#latlonheightdatum"
-  class="link">latlonheightdatum</a> or <a 
   href="pygeodesy.cartesianBase.CartesianBase-class.html#latlonheight" 
-  class="link">latlonheight</a>.</p>
+  class="link">latlonheight</a> or <a 
+  href="pygeodesy.cartesianBase.CartesianBase-class.html#latlonheightdatum"
+  class="link">latlonheightdatum</a>.</p>
   <dl class="fields">
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.namedTuples.LatLon4Tuple-class.html" 
@@ -1745,7 +1741,8 @@
     </td>
   </tr></table>
   
-  <p>Convert this cartesian to a geodetic (lat-/longitude) point.</p>
+  <p>Convert this cartesian to a <i>geodetic</i> (lat-/longitude) 
+  point.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -1873,7 +1870,8 @@
     </td>
   </tr></table>
   
-  <p>Convert this cartesian to <code>n-vector</code> components.</p>
+  <p>Convert this cartesian to <code>n-vector</code> components, 
+  <i>including height</i>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -1891,23 +1889,18 @@
           arguments, ignored if <code><b>Nvector</b> is None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The <code>unit, n-vector</code> components 
-          (<b><code>Nvector</code></b>) or a <a 
+        <dd>An <b><code>Nvector</code></b> or a <a 
           href="pygeodesy.namedTuples.Vector4Tuple-class.html" 
           class="link">Vector4Tuple</a><code>(x, y, z, h)</code> if 
           <b><code>Nvector</code></b> is <code>None</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>datum</code></b>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - The <b><code>Cartesian</code></b> at origin.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>Nvector</code></b>, 
+        <b><code>Nvector_kwds</code></b> or <b><code>datum</code></b>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - <b><code>Cartesian</code></b> at origin.</li>
     </ul></dd>
   </dl>
-<div class="fields">      <p><strong>Example:</strong>
-        <pre class="py-doctest">
-<span class="py-prompt">&gt;&gt;&gt; </span>c = Cartesian(3980581, 97, 4966825)
-<span class="py-prompt">&gt;&gt;&gt; </span>n = c.toNvector()  <span class="py-comment"># (x=0.622818, y=0.00002, z=0.782367, h=0.242887)</span></pre>
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="toStr"></a>
 <div>
@@ -1999,11 +1992,11 @@
     </td>
   </tr></table>
   
-  <p>Return this cartesian's components as vector.</p>
+  <p>Return this cartesian's <i>geocentric</i> components as vector.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>Vector</code></strong> - Optional class to return the <code>n-vector</code> components (<a
+        <li><strong class="pname"><code>Vector</code></strong> - Optional class to return the <i>geocentric</i> components (<a 
           href="pygeodesy.vector3d.Vector3d-class.html" 
           class="link">Vector3d</a>) or <code>None</code>.</li>
         <li><strong class="pname"><code>Vector_kwds</code></strong> - Optional, additional <b><code>Vector</code></b> keyword 
@@ -2422,7 +2415,7 @@ class="link">CartesianSphericalBase</a>.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Dec  2 13:21:02 2023
+    Generated by Epydoc 3.0.1 on Tue Dec 12 13:31:25 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

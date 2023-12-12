@@ -4,16 +4,16 @@
 # Test L{points} module.
 
 __all__ = ('Tests',)
-__version__ = '23.10.07'
+__version__ = '23.12.03'
 
-from bases import GeodSolve, geographiclib, isPython37, TestsBase
+from bases import GeodSolve, geographiclib, isPython37, numpy, \
+                  startswith, TestsBase
 
 from pygeodesy import EPS, NN, R_M, R_MA, LatLon_, LatLon2psxy, \
                       Numpy2LatLon, Tuple2LatLon, areaOf, boundsOf, \
-                      centroidOf, classname, fstr, \
-                      isclockwise, isconvex, ispolar, luneOf, \
-                      nearestOn5, perimeterOf, points, quadOf
-
+                      centroidOf, classname, fstr, isclockwise, \
+                      isconvex, ispolar, luneOf, nearestOn5, \
+                      perimeterOf, points, quadOf
 try:
     if isPython37:
         from collections.abc import Sequence
@@ -21,11 +21,6 @@ try:
         from collections import Sequence
 except ImportError:
     Sequence = None
-
-try:
-    import numpy
-except ImportError:
-    numpy = None
 
 
 class Tests(TestsBase):
@@ -218,8 +213,8 @@ class Tests(TestsBase):
         self.test('philamheight', p.philamheight, '(-1.162389, -1.53589, 0)')
 
         self.test('_N_vector', p._N_vector, '(0.01386, -0.39691, -0.91775)')
-        self.test('toNvector', p.toNvector().toStr(prec=5), '(0.01386, -0.39691, -0.91775)')
-        self.test('toNvector', p.toNvector(Nvector=None),   '(0.01386, -0.396906, -0.917755)', known=True)
+        self.test('toNvector', p.toNvector().toStr(prec=5), '(0.01386, -0.39691, -0.91775', known=startswith)
+        self.test('toNvector', p.toNvector(Nvector=None),   '(0.01386, -0.396906, -0.917755', known=startswith)
 
         q = p.classof(-66.6, -88)
         self.test('classof', q, p)

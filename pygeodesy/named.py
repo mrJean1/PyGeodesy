@@ -32,7 +32,7 @@ from pygeodesy.props import _allPropertiesOf_n, deprecated_method, _hasProperty,
 from pygeodesy.streprs import attrs, Fmt, lrstrip, pairs, reprs, unstr
 
 __all__ = _ALL_LAZY.named
-__version__ = '23.10.15'
+__version__ = '23.12.03'
 
 _COMMANL_           = _COMMA_ + _NL_
 _COMMASPACEDOT_     = _COMMASPACE_ + _DOT_
@@ -1112,13 +1112,13 @@ class _NamedTuple(tuple, _Named):
 
         self.__class__._validated = True
 
-    def _xtend(self, xTuple, *items):
+    def _xtend(self, xTuple, *items, **name):
         '''(INTERNAL) Extend this C{Named-Tuple} with C{items} to an other B{C{xTuple}}.
         '''
         if (issubclassof(xTuple, _NamedTuple) and
             (len(self._Names_) + len(items)) == len(xTuple._Names_) and
                  self._Names_ == xTuple._Names_[:len(self)]):
-            return self._xnamed(xTuple(self + items))  # *(self + items)
+            return xTuple(self + items, **_xkwds(name, name=self.name))  # *(self + items)
         c = NN(self.classname,  repr(self._Names_))  # PYCHOK no cover
         x = NN(xTuple.__name__, repr(xTuple._Names_))  # PYCHOK no cover
         raise TypeError(_SPACE_(c, _vs_, x))
@@ -1303,7 +1303,7 @@ __all__ += _ALL_DOCS(_Named,
 
 # **) MIT License
 #
-# Copyright (C) 2016-2023 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -1322,6 +1322,3 @@ __all__ += _ALL_DOCS(_Named,
 # OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
-
-# % env PYGEODESY_FOR_DOCS=1 python -m pygeodesy.named
-# all 71 locals OK

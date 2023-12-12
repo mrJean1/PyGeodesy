@@ -62,7 +62,7 @@ from pygeodesy.utily import atan2b, degrees90, degrees180, degrees2m, \
 from math import cos, fabs, fmod, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '23.10.31'
+__version__ = '23.12.03'
 
 _ilat_  = 'ilat'
 _ilon_  = 'ilon'
@@ -940,7 +940,7 @@ def _area2(points, adjust, wrap):
     return A2.fsum(), tuple(pts)
 
 
-def _areaError(pts, near_=NN):  # imported by .ellipsoidalKarney
+def _areaError(pts, near_=NN):  # in .ellipsoidalKarney
     '''(INTERNAL) Area issue.
     '''
     t = _ELLIPSIS_(pts[:3], NN)
@@ -1001,12 +1001,6 @@ def boundsOf(points, wrap=False, LatLon=None):  # was=True
        @raise TypeError: Some B{C{points}} are not C{LatLon}.
 
        @see: Function L{quadOf}.
-
-       @example:
-
-        >>> b = LatLon(45,1), LatLon(45,2), LatLon(46,2), LatLon(46,1)
-        >>> boundsOf(b)  # False
-        >>> 45.0, 1.0, 46.0, 2.0
     '''
     Ps = LatLon2PsxyIter(points, loop=1, wrap=wrap)
     w, s, _ = e, n, _ = Ps[0]
@@ -1222,12 +1216,6 @@ def isclockwise(points, adjust=False, wrap=True):
        @raise TypeError: Some B{C{points}} are not C{LatLon}.
 
        @raise ValueError: The B{C{points}} enclose a pole or zero area.
-
-       @example:
-
-        >>> f = LatLon(45,1), LatLon(45,2), LatLon(46,2), LatLon(46,1)
-        >>> isclockwise(f)  # False
-        >>> isclockwise(reversed(f))  # True
     '''
     a, pts = _area2(points, adjust, wrap)
     if a > 0:  # opposite of ellipsoidalExact and -Karney
@@ -1254,14 +1242,6 @@ def isconvex(points, adjust=False, wrap=False):  # was=True
        @raise PointsError: Insufficient number of B{C{points}}
 
        @raise TypeError: Some B{C{points}} are not C{LatLon}.
-
-       @example:
-
-        >>> t = LatLon(45,1), LatLon(46,1), LatLon(46,2)
-        >>> isconvex(t)  # True
-
-        >>> f = LatLon(45,1), LatLon(46,2), LatLon(45,2), LatLon(46,1)
-        >>> isconvex(f)  # False
     '''
     return bool(isconvex_(points, adjust=adjust, wrap=wrap))
 
@@ -1283,14 +1263,6 @@ def isconvex_(points, adjust=False, wrap=False):  # was=True
        @raise PointsError: Insufficient number of B{C{points}}
 
        @raise TypeError: Some B{C{points}} are not C{LatLon}.
-
-       @example:
-
-        >>> t = LatLon(45,1), LatLon(46,1), LatLon(46,2)
-        >>> isconvex_(t)  # +1
-
-        >>> f = LatLon(45,1), LatLon(46,2), LatLon(45,2), LatLon(46,1)
-        >>> isconvex_(f)  # 0
     '''
     if adjust:
         def _unroll2(x1, x2, w, y1, y2):
@@ -1694,7 +1666,7 @@ __all__ += _ALL_DOCS(_Array2LatLon, _Basequence)
 
 # **) MIT License
 #
-# Copyright (C) 2016-2023 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

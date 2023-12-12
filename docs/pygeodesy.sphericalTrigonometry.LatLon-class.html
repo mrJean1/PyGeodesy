@@ -77,12 +77,7 @@
 <hr />
 <p>New point on spherical model earth model.</p>
 
-<hr />
-<div class="fields">      <p><strong>Example:</strong>
-        <pre class="py-doctest">
-<span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(52.205, 0.119)  <span class="py-comment"># height=0</span></pre>
-      </p>
-</div><!-- ==================== INSTANCE METHODS ==================== -->
+<!-- ==================== INSTANCE METHODS ==================== -->
 <a name="section-InstanceMethods"></a>
 <table class="summary" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
@@ -740,15 +735,7 @@
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>radius</code></b>.</li>
     </ul></dd>
   </dl>
-<div class="fields">      <p><strong>Example:</strong>
-        <pre class="py-doctest">
-<span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(53.2611, -0.7972)</pre>
-<pre class="py-doctest">
-<span class="py-prompt">&gt;&gt;&gt; </span>s = LatLon(53.3206, -1.7297)
-<span class="py-prompt">&gt;&gt;&gt; </span>e = LatLon(53.1887, 0.1334)
-<span class="py-prompt">&gt;&gt;&gt; </span>d = p.alongTrackDistanceTo(s, e)  <span class="py-comment"># 62331.58</span></pre>
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="bearingTo"></a>
 <div>
@@ -861,15 +848,7 @@
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>radius</code></b>.</li>
     </ul></dd>
   </dl>
-<div class="fields">      <p><strong>Example:</strong>
-        <pre class="py-doctest">
-<span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(53.2611, -0.7972)</pre>
-<pre class="py-doctest">
-<span class="py-prompt">&gt;&gt;&gt; </span>s = LatLon(53.3206, -1.7297)
-<span class="py-prompt">&gt;&gt;&gt; </span>e = LatLon(53.1887, 0.1334)
-<span class="py-prompt">&gt;&gt;&gt; </span>d = p.crossTrackDistanceTo(s, e)  <span class="py-comment"># -307.5</span></pre>
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="destination"></a>
 <div>
@@ -911,13 +890,7 @@
         <b><code>radius</code></b> or <b><code>height</code></b>.</li>
     </ul></dd>
   </dl>
-<div class="fields">      <p><strong>Example:</strong>
-        <pre class="py-doctest">
-<span class="py-prompt">&gt;&gt;&gt; </span>p1 = LatLon(51.4778, -0.0015)
-<span class="py-prompt">&gt;&gt;&gt; </span>p2 = p1.destination(7794, 300.7)
-<span class="py-prompt">&gt;&gt;&gt; </span>p2.toStr()  <span class="py-comment"># '51.5135&#176;N, 000.0983&#176;W'</span></pre>
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="distanceTo"></a>
 <div>
@@ -960,13 +933,7 @@
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>radius</code></b>.</li>
     </ul></dd>
   </dl>
-<div class="fields">      <p><strong>Example:</strong>
-        <pre class="py-doctest">
-<span class="py-prompt">&gt;&gt;&gt; </span>p1 = LatLon(52.205, 0.119)
-<span class="py-prompt">&gt;&gt;&gt; </span>p2 = LatLon(48.857, 2.351);
-<span class="py-prompt">&gt;&gt;&gt; </span>d = p1.distanceTo(p2)  <span class="py-comment"># 404300</span></pre>
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="greatCircle"></a>
 <div>
@@ -1006,13 +973,7 @@
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>bearing</code></b>.</li>
     </ul></dd>
   </dl>
-<div class="fields">      <p><strong>Example:</strong>
-        <pre class="py-doctest">
-<span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(53.3206, -1.7297)
-<span class="py-prompt">&gt;&gt;&gt; </span>g = p.greatCircle(96.0)
-<span class="py-prompt">&gt;&gt;&gt; </span>g.toStr()  <span class="py-comment"># (-0.794, 0.129, 0.594)</span></pre>
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="initialBearingTo"></a>
 <div>
@@ -1060,13 +1021,7 @@
         class="link">LatLon</a>.</li>
     </ul></dd>
   </dl>
-<div class="fields">      <p><strong>Example:</strong>
-        <pre class="py-doctest">
-<span class="py-prompt">&gt;&gt;&gt; </span>p1 = LatLon(52.205, 0.119)
-<span class="py-prompt">&gt;&gt;&gt; </span>p2 = LatLon(48.857, 2.351)
-<span class="py-prompt">&gt;&gt;&gt; </span>b = p1.initialBearingTo(p2)  <span class="py-comment"># 156.2</span></pre>
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="intermediateTo"></a>
 <div>
@@ -1115,12 +1070,6 @@
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Methods <code>midpointTo</code> and <code>rhumbMidpointTo</code>.
-      </p>
-      <p><strong>Example:</strong>
-        <pre class="py-doctest">
-<span class="py-prompt">&gt;&gt;&gt; </span>p1 = LatLon(52.205, 0.119)
-<span class="py-prompt">&gt;&gt;&gt; </span>p2 = LatLon(48.857, 2.351)
-<span class="py-prompt">&gt;&gt;&gt; </span>p = p1.intermediateTo(p2, 0.25)  <span class="py-comment"># 51.3721&#176;N, 000.7073&#176;E</span></pre>
       </p>
 </div></td></tr></table>
 </div>
@@ -1186,13 +1135,7 @@
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>height</code></b> or <code>null</code> line.</li>
     </ul></dd>
   </dl>
-<div class="fields">      <p><strong>Example:</strong>
-        <pre class="py-doctest">
-<span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(51.8853, 0.2545)
-<span class="py-prompt">&gt;&gt;&gt; </span>s = LatLon(49.0034, 2.5735)
-<span class="py-prompt">&gt;&gt;&gt; </span>i = p.intersection(108.547, s, 32.435)  <span class="py-comment"># '50.9078&#176;N, 004.5084&#176;E'</span></pre>
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="intersections2"></a>
 <div>
@@ -1382,12 +1325,6 @@
 <div class="fields">      <p><strong>See Also:</strong>
         Methods <code>intermediateTo</code> and 
         <code>rhumbMidpointTo</code>.
-      </p>
-      <p><strong>Example:</strong>
-        <pre class="py-doctest">
-<span class="py-prompt">&gt;&gt;&gt; </span>p1 = LatLon(52.205, 0.119)
-<span class="py-prompt">&gt;&gt;&gt; </span>p2 = LatLon(48.857, 2.351)
-<span class="py-prompt">&gt;&gt;&gt; </span>m = p1.midpointTo(p2)  <span class="py-comment"># '50.5363&#176;N, 001.2746&#176;E'</span></pre>
       </p>
 </div></td></tr></table>
 </div>
@@ -1782,7 +1719,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Dec  2 13:21:05 2023
+    Generated by Epydoc 3.0.1 on Tue Dec 12 13:31:28 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

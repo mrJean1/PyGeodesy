@@ -38,7 +38,7 @@ from pygeodesy.vector3d import Vector3d, _xyzhdn3
 from math import fabs, sqrt
 
 __all__ = _ALL_LAZY.nvectorBase
-__version__ = '23.11.29'
+__version__ = '23.12.03'
 
 
 class NvectorBase(Vector3d):  # XXX kept private
@@ -67,12 +67,6 @@ class NvectorBase(Vector3d):  # XXX kept private
                              coordinate or B{C{x}} not an C{Nvector},
                              L{Vector3Tuple} or L{Vector4Tuple} or
                              invalid B{C{datum}}.
-
-           @example:
-
-            >>> from pygeodesy.sphericalNvector import Nvector
-            >>> v = Nvector(0.5, 0.5, 0.7071, 1)
-            >>> v.toLatLon()  # 45.0°N, 045.0°E, +1.00m
         '''
         h, d, n = _xyzhdn3(x_xyz, h, datum, ll)
         Vector3d.__init__(self, x_xyz, y=y, z=z, ll=ll, name=name or n)
@@ -260,12 +254,6 @@ class NvectorBase(Vector3d):  # XXX kept private
                              argument.
 
            @raise ValueError: Invalid B{C{h}}.
-
-           @example:
-
-            >>> v = Nvector(0.5, 0.5, 0.7071)
-            >>> c = v.toCartesian()  # [3194434, 3194434, 4487327]
-            >>> p = c.toLatLon()  # 45.0°N, 45.0°E
         '''
         D = _spherical_datum(datum or self.datum, name=self.name)
         E =  D.ellipsoid
@@ -328,11 +316,6 @@ class NvectorBase(Vector3d):  # XXX kept private
                              argument.
 
            @raise ValueError: Invalid B{C{height}}.
-
-           @example:
-
-             >>> v = Nvector(0.5, 0.5, 0.7071)
-             >>> p = v.toLatLon()  # 45.0°N, 45.0°E
         '''
         d = _spherical_datum(datum or self.datum, name=self.name)
         h =  self.h if height is None else Height(height)
@@ -356,11 +339,6 @@ class NvectorBase(Vector3d):  # XXX kept private
 
            @return: Comma-separated C{"(x, y, z [, h])"} enclosed in
                     B{C{fmt}} brackets (C{str}).
-
-           @example:
-
-           >>> Nvector(0.5, 0.5, 0.7071).toStr()  # (0.5, 0.5, 0.7071)
-           >>> Nvector(0.5, 0.5, 0.7071, 1).toStr(-3)  # (0.500, 0.500, 0.707, +1.00)
         '''
         t = Vector3d.toStr(self, prec=prec, fmt=NN, sep=sep)
         if self.h:
@@ -368,8 +346,7 @@ class NvectorBase(Vector3d):  # XXX kept private
         return (fmt % (t,)) if fmt else t
 
     def toVector3d(self, norm=True):
-        '''Convert this n-vector to a 3-D vector, I{ignoring
-           the height}.
+        '''Convert this n-vector to a 3-D vector, I{ignoring height}.
 
            @kwarg norm: Normalize the 3-D vector (C{bool}).
 
@@ -380,8 +357,7 @@ class NvectorBase(Vector3d):  # XXX kept private
 
     @deprecated_method
     def to4xyzh(self, h=None):  # PYCHOK no cover
-        '''DEPRECATED, use property L{xyzh} or C{xyz.to4Tuple(B{h})}.
-        '''
+        '''DEPRECATED, use property L{xyzh} or C{xyz.to4Tuple(B{h})}.'''
         return self.xyzh if h in (None, self.h) else Vector4Tuple(
                self.x, self.y, self.z, h, name=self.name)
 
@@ -417,8 +393,8 @@ class _N_vector_(NvectorBase):
 
 
 class LatLonNvectorBase(LatLonBase):
-    '''(INTERNAL) Base class for n-vector-based ellipsoidal
-       and spherical C{LatLon} classes.
+    '''(INTERNAL) Base class for n-vector-based ellipsoidal and
+       spherical C{LatLon} classes.
     '''
 
     def _update(self, updated, *attrs, **setters):  # PYCHOK _Nv=None
@@ -464,19 +440,18 @@ class LatLonNvectorBase(LatLonBase):
             LatLonBase.others(self, other, name=name, up=up + 1)
         return other
 
-    def toNvector(self, Nvector=NvectorBase, **Nvector_kwds):  # PYCHOK signature
+    def toNvector(self, **Nvector_and_kwds):  # PYCHOK signature
         '''Convert this point to C{Nvector} components, I{including height}.
 
-           @kwarg Nvector_kwds: Optional, additional B{C{Nvector}} keyword
-                                arguments, ignored if C{B{Nvector} is None}.
+           @kwarg Nvector_and_kwds: Optional C{Nvector} class and C{Nvector} keyword arguments,
+                                    Specify C{B{Nvector}=...} to override this C{Nvector} class
+                                    or use C{B{Nvector}=None}.
 
-           @return: An B{C{Nvector}} or a L{Vector4Tuple}C{(x, y, z, h)} if
-                    B{C{Nvector}} is C{None}.
+           @return: An C{Nvector} or if C{Nvector is None}, a L{Vector4Tuple}C{(x, y, z, h)}.
 
-           @raise TypeError: Invalid B{C{Nvector}} or B{C{Nvector_kwds}}
-                             argument.
+           @raise TypeError: Invalid C{Nvector} or other B{C{Nvector_and_kwds}} item.
         '''
-        return LatLonBase.toNvector(self, Nvector=Nvector, **Nvector_kwds)
+        return LatLonBase.toNvector(self, **_xkwds(Nvector_and_kwds, Nvector=NvectorBase))
 
     def triangulate(self, bearing1, other, bearing2, height=None, wrap=False):
         '''Locate a point given this and an other point and a bearing
@@ -495,12 +470,6 @@ class LatLonNvectorBase(LatLonBase):
            @raise TypeError: Invalid B{C{other}} point.
 
            @raise Valuerror: Points coincide.
-
-           @example:
-
-            >>> p = LatLon("47°18.228'N","002°34.326'W")  # Basse Castouillet
-            >>> q = LatLon("47°18.664'N","002°31.717'W")  # Basse Hergo
-            >>> t = p.triangulate(7, q, 295)  # 47.323667°N, 002.568501°W'
         '''
         return _triangulate(self, bearing1, self.others(other), bearing2,
                                   height=height, wrap=wrap, LatLon=self.classof)
@@ -705,7 +674,7 @@ __all__ += _ALL_DOCS(LatLonNvectorBase, NvectorBase, sumOf)  # classes
 
 # **) MIT License
 #
-# Copyright (C) 2016-2023 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

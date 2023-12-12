@@ -10,7 +10,7 @@ U{Vector-based geodesy<https://www.Movable-Type.co.UK/scripts/latlong-vectors.ht
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import _copysign, isint, isstr, neg
+from pygeodesy.basics import _copysign, isint, isstr, neg, _passargs
 from pygeodesy.constants import EPS, EPS0, INF, NAN, NEG0, PI, PI2, PI_2, R_M, \
                                _float as _F, _isfinite, isnan, isnear0, _over, \
                                _umod_360, _umod_PI2, _M_KM, _M_NM, _M_SM, _0_0, \
@@ -24,7 +24,7 @@ from pygeodesy.units import Degrees, Feet, Float, Lam, Lam_, Meter, Meter2, Radi
 from math import acos, asin, atan2, cos, degrees, fabs, radians, sin, tan  # pow
 
 __all__ = _ALL_LAZY.utily
-__version__ = '23.10.24'
+__version__ = '23.12.10'
 
 # read constant name "_M_Unit" as "meter per Unit"
 _M_CHAIN     = _F(  20.1168)     # yard2m(1) * 22
@@ -604,18 +604,6 @@ def NM2m(nm):
        @raise ValueError: Invalid B{C{nm}}.
     '''
     return Meter(Float(nm=nm) * _M_NM)
-
-
-def _passarg(arg):  # in .auxilats.auxLat, .formy
-    '''(INTERNAL) Helper, no-op.
-    '''
-    return arg
-
-
-def _passargs(*args):  # in .formy
-    '''(INTERNAL) Helper, no-op.
-    '''
-    return args
 
 
 def radians2m(rad, radius=R_M, lat=0):
@@ -1220,7 +1208,7 @@ def yard2m(yards):
 
 # **) MIT License
 #
-# Copyright (C) 2016-2023 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

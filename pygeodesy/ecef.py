@@ -78,15 +78,15 @@ from pygeodesy.namedTuples import LatLon2Tuple, LatLon3Tuple, \
                                   PhiLam2Tuple, Vector3Tuple, Vector4Tuple
 from pygeodesy.props import deprecated_method, Property_RO, property_RO, property_doc_
 # from pygeodesy.streprs import Fmt, unstr  # from .fsums
-from pygeodesy.units import Degrees, Height, Int, Lam, Lat, Lon, Meter, Phi, \
-                            Scalar, Scalar_
+from pygeodesy.units import _isRadius, Degrees, Height, Int, Lam, Lat, Lon, Meter, \
+                             Phi, Scalar, Scalar_
 from pygeodesy.utily import atan1, atan1d, atan2d, degrees90, degrees180, \
                             sincos2, sincos2_, sincos2d, sincos2d_
 
 from math import atan2, cos, degrees, fabs, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '23.11.16'
+__version__ = '23.12.03'
 
 _Ecef_    = 'Ecef'
 _prolate_ = 'prolate'
@@ -130,7 +130,7 @@ class _EcefBase(_NamedBase):
             E = a_ellipsoid
             if f is None:
                 pass
-            elif isscalar(E) and isscalar(f):
+            elif _isRadius(E) and isscalar(f):
                 E = a_f2Tuple(E, f)
             else:
                 raise ValueError  # _invalid_
@@ -1241,8 +1241,8 @@ class Ecef9Tuple(_NamedTuple):
 
            @see: Propertes C{xyz} and C{xyzh}
         '''
-        return self.xyz if Vector is None else self._xnamed(
-               Vector(*self.xyz, **Vector_kwds))  # PYCHOK Ecef9Tuple
+        return self.xyz if Vector is None else Vector(
+              *self.xyz, **_xkwds(Vector_kwds, name=self.name))  # PYCHOK Ecef9Tuple
 
 #   def _T_x_M(self, T):
 #       '''(INTERNAL) Update M{self.M = T.multiply(self.M)}.
@@ -1327,7 +1327,7 @@ __all__ += _ALL_DOCS(_EcefBase)
 
 # **) MIT License
 #
-# Copyright (C) 2016-2023 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

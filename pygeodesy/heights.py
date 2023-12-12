@@ -71,25 +71,25 @@ from pygeodesy.constants import EPS, PI, PI2, _0_0, _90_0, _180_0
 from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.errors import _AssertionError, LenError, PointsError, \
                              _SciPyIssue, _xattr, _xkwds, _xkwds_get
-from pygeodesy.fmath import fidw,  Float_, Int_
+# from pygeodesy.fmath import fidw  # _MODS
 from pygeodesy.formy import cosineAndoyerLambert, cosineForsytheAndoyerLambert, \
                             cosineLaw, equirectangular_, euclidean, flatLocal, \
                             flatPolar, haversine, thomas, vincentys,  radians
 from pygeodesy.interns import NN, _COMMASPACE_, _cubic_, _insufficient_, _knots_, \
                              _linear_, _NOTEQUAL_, _PLUS_, _scipy_, _SPACE_, \
                              _STAR_, _version2
-from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _FOR_DOCS
+from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, _FOR_DOCS
 from pygeodesy.named import _Named, notOverloaded
 from pygeodesy.points import _distanceTo, LatLon_,  Fmt, _Wrap
 from pygeodesy.props import Property_RO, property_RO
 # from pygeodesy.streprs import Fmt  # from .points
-# from pygeodesy.units import Float_, Int_  # from .fmath
+from pygeodesy.units import _isDegrees, Float_, Int_
 # from pygeodesy.utily import _Wrap  # from .points
 
 # from math import radians  # from .formy
 
 __all__ = _ALL_LAZY.heights
-__version__ = '23.10.03'
+__version__ = '23.12.03'
 
 _error_     = 'error'
 _llis_      = 'llis'
@@ -147,7 +147,7 @@ def _as_llis2(llis, m=1, Error=HeightError):  # in .geoids
 
 def _height_called(inst, lats, lons, Error=HeightError, **wrap):  # in .geoids
     LLis, d = inst._LLis, inst.datum
-    if isscalar(lats) and isscalar(lons):
+    if _isDegrees(lats) and _isDegrees(lons):
         llis = LLis(lats, lons, datum=d)
     else:
         n, lats = len2(lats)
@@ -703,7 +703,7 @@ class _HeightIDW(_HeightBase):
         try:
             ds =  self._distances(x, y)
             hs = (k.height for k in self._ks)
-            return fidw(hs, ds, beta=self._beta)
+            return _MODS.fmath.fidw(hs, ds, beta=self._beta)
         except (TypeError, ValueError) as x:
             raise HeightError(str(x), cause=x)
 
@@ -1123,7 +1123,7 @@ __all__ += _ALL_DOCS(_HeightBase, _HeightIDW, _HeightsBase)
 
 # **) MIT License
 #
-# Copyright (C) 2016-2023 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

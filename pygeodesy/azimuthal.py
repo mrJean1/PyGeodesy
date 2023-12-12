@@ -52,12 +52,12 @@ from pygeodesy.datums import _spherical_datum, _WGS84
 from pygeodesy.errors import _ValueError, _xdatum, _xkwds
 # from pygeodesy.fmath import euclid, Fsum, hypot as _hypot  # from .karney
 # from pygeodesy.fsums import Fsum  # from .fmath
-# from pygeodesy.formy import antipode  # from latlonBase
+# from pygeodesy.formy import antipode  # _MODS
 from pygeodesy.interns import NN, _azimuth_, _datum_, _lat_, _lon_, \
                              _scale_, _SPACE_, _x_, _y_
 from pygeodesy.karney import _norm180,  euclid, Fsum, _hypot
-from pygeodesy.latlonBase import antipode, LatLonBase as _LLB
-from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _FOR_DOCS
+from pygeodesy.latlonBase import _MODS, LatLonBase as _LLB
+from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _FOR_DOCS  # ALL_MODS
 from pygeodesy.named import _NamedBase, _NamedTuple, notOverloaded, _Pass
 from pygeodesy.namedTuples import LatLon2Tuple, LatLon4Tuple
 from pygeodesy.props import deprecated_Property_RO, Property_RO, \
@@ -71,7 +71,7 @@ from pygeodesy.utily import asin1, atan1, atan2b, atan2d, sincos2, \
 from math import acos, atan2, degrees, fabs, sin, sqrt
 
 __all__ = _ALL_LAZY.azimuthal
-__version__ = '23.11.13'
+__version__ = '23.12.12'
 
 _EPS_K         = _EPStol * _0_1  # Karney's eps_ or _EPSmin * _0_1?
 _over_horizon_ = 'over horizon'
@@ -332,7 +332,7 @@ class Azimuthal7Tuple(_NamedTuple):
            @kwarg azimuth: Optional azimuth, overriding the current azimuth
                            (C{compass degrees360}).
         '''
-        a = antipode(self.lat, self.lon)  # PYCHOK named
+        a = _MODS.formy.antipode(self.lat, self.lon)  # PYCHOK _namedTuple
         z = self.azimuth if azimuth is None else Bearing(azimuth=azimuth)  # PYCHOK named
         return _NamedTuple.dup(self, lat=a.lat, lon=a.lon, azimuth=z)
 
@@ -1129,7 +1129,7 @@ __all__ += _ALL_DOCS(_AzimuthalBase, _AzimuthalGeodesic, _EquidistantBase, _Gnom
 
 # **) MIT License
 #
-# Copyright (C) 2016-2023 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

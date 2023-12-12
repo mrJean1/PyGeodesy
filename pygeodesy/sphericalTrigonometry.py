@@ -16,7 +16,7 @@ U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>}.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import copysign0, isscalar, map1, signOf
+from pygeodesy.basics import copysign0, map1, signOf
 from pygeodesy.constants import EPS, EPS1, EPS4, PI, PI2, PI_2, PI_4, R_M, \
                                 isnear0, isnear1, isnon0, _0_0, _0_5, \
                                 _1_0, _2_0, _90_0
@@ -45,7 +45,8 @@ from pygeodesy.sphericalBase import _m2radians, CartesianSphericalBase, \
                                     _intersecant2, LatLonSphericalBase, \
                                     _rads3, _radians2m, _trilaterate5
 # from pygeodesy.streprs import Fmt as _Fmt  # from .points XXX shadowed
-from pygeodesy.units import Bearing_, Height, Lam_, Phi_, Radius_, Scalar
+from pygeodesy.units import Bearing_, Height, _isDegrees, _isRadius, Lam_, \
+                              Phi_, Radius_, Scalar
 from pygeodesy.utily import acos1, asin1, atan1d, atan2d, degrees90, degrees180, \
                             degrees2m, m2radians, radiansPI2, sincos2_, tan_2, \
                             unrollPI, _unrollon, _unrollon3, _Wrap, wrap180, wrapPI
@@ -54,7 +55,7 @@ from pygeodesy.vector3d import sumOf, Vector3d
 from math import asin, atan2, cos, degrees, fabs, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '23.10.24'
+__version__ = '23.12.03'
 
 _PI_EPS4 = PI - EPS4
 if _PI_EPS4 >= PI:
@@ -85,10 +86,6 @@ class Cartesian(CartesianSphericalBase):
 
 class LatLon(LatLonSphericalBase):
     '''New point on spherical model earth model.
-
-       @example:
-
-        >>> p = LatLon(52.205, 0.119)  # height=0
     '''
 
     def _ab1_ab2_db5(self, other, wrap):
@@ -129,14 +126,6 @@ class LatLon(LatLonSphericalBase):
            @raise TypeError: Invalid B{C{start}} or B{C{end}} point.
 
            @raise ValueError: Invalid B{C{radius}}.
-
-           @example:
-
-            >>> p = LatLon(53.2611, -0.7972)
-
-            >>> s = LatLon(53.3206, -1.7297)
-            >>> e = LatLon(53.1887, 0.1334)
-            >>> d = p.alongTrackDistanceTo(s, e)  # 62331.58
         '''
         r, x, b = self._a_x_b3(start, end, radius, wrap)
         cx = cos(x)
@@ -211,14 +200,6 @@ class LatLon(LatLonSphericalBase):
            @raise TypeError: If B{C{start}} or B{C{end}} is not L{LatLon}.
 
            @raise ValueError: Invalid B{C{radius}}.
-
-           @example:
-
-            >>> p = LatLon(53.2611, -0.7972)
-
-            >>> s = LatLon(53.3206, -1.7297)
-            >>> e = LatLon(53.1887, 0.1334)
-            >>> d = p.crossTrackDistanceTo(s, e)  # -307.5
         '''
         _, x, _ = self._a_x_b3(start, end, radius, wrap)
         return _radians2m(x, radius)
@@ -238,12 +219,6 @@ class LatLon(LatLonSphericalBase):
 
            @raise ValueError: Invalid B{C{distance}}, B{C{bearing}},
                               B{C{radius}} or B{C{height}}.
-
-           @example:
-
-            >>> p1 = LatLon(51.4778, -0.0015)
-            >>> p2 = p1.destination(7794, 300.7)
-            >>> p2.toStr()  # '51.5135°N, 000.0983°W'
         '''
         a, b =  self.philam
         r, t = _m2radians(distance, radius, low=None), Bearing_(bearing)
@@ -267,12 +242,6 @@ class LatLon(LatLonSphericalBase):
            @raise TypeError: The B{C{other}} point is not L{LatLon}.
 
            @raise ValueError: Invalid B{C{radius}}.
-
-           @example:
-
-            >>> p1 = LatLon(52.205, 0.119)
-            >>> p2 = LatLon(48.857, 2.351);
-            >>> d = p1.distanceTo(p2)  # 404300
         '''
         a1, _, a2, _, db = self._ab1_ab2_db5(other, wrap)
         return _radians2m(vincentys_(a2, a1, db), radius)
@@ -299,12 +268,6 @@ class LatLon(LatLonSphericalBase):
            @return: Vector representing great circle (C{Vector}).
 
            @raise ValueError: Invalid B{C{bearing}}.
-
-           @example:
-
-            >>> p = LatLon(53.3206, -1.7297)
-            >>> g = p.greatCircle(96.0)
-            >>> g.toStr()  # (-0.794, 0.129, 0.594)
         '''
         a, b = self.philam
         sa, ca, sb, cb, st, ct = sincos2_(a, b, Bearing_(bearing))
@@ -331,12 +294,6 @@ class LatLon(LatLonSphericalBase):
                               L{pygeodesy.crosserrors} is C{True}.
 
            @raise TypeError: The B{C{other}} point is not L{LatLon}.
-
-           @example:
-
-            >>> p1 = LatLon(52.205, 0.119)
-            >>> p2 = LatLon(48.857, 2.351)
-            >>> b = p1.initialBearingTo(p2)  # 156.2
         '''
         a1, b1, a2, b2, db = self._ab1_ab2_db5(other, wrap)
         # XXX behavior like sphericalNvector.LatLon.initialBearingTo
@@ -364,12 +321,6 @@ class LatLon(LatLonSphericalBase):
            @raise ValueError: Invalid B{C{fraction}} or B{C{height}}.
 
            @see: Methods C{midpointTo} and C{rhumbMidpointTo}.
-
-           @example:
-
-            >>> p1 = LatLon(52.205, 0.119)
-            >>> p2 = LatLon(48.857, 2.351)
-            >>> p = p1.intermediateTo(p2, 0.25)  # 51.3721°N, 000.7073°E
         '''
         p = self
         f = Scalar(fraction=fraction)
@@ -433,12 +384,6 @@ class LatLon(LatLonSphericalBase):
                              or B{C{end2}} not C{scalar} nor L{LatLon}.
 
            @raise ValueError: Invalid B{C{height}} or C{null} line.
-
-           @example:
-
-            >>> p = LatLon(51.8853, 0.2545)
-            >>> s = LatLon(49.0034, 2.5735)
-            >>> i = p.intersection(108.547, s, 32.435)  # '50.9078°N, 004.5084°E'
         '''
         try:
             s2 = self.others(other)
@@ -573,12 +518,6 @@ class LatLon(LatLonSphericalBase):
            @raise ValueError: Invalid B{C{height}}.
 
            @see: Methods C{intermediateTo} and C{rhumbMidpointTo}.
-
-           @example:
-
-            >>> p1 = LatLon(52.205, 0.119)
-            >>> p2 = LatLon(48.857, 2.351)
-            >>> m = p1.midpointTo(p2)  # '50.5363°N, 001.2746°E'
         '''
         if fraction is _0_5:
             # see <https://MathForum.org/library/drmath/view/51822.html>
@@ -835,14 +774,6 @@ def areaOf(points, radius=R_M, wrap=False):  # was=True
        @see: Functions L{pygeodesy.areaOf}, L{sphericalNvector.areaOf},
              L{pygeodesy.excessKarney}, L{ellipsoidalExact.areaOf} and
              L{ellipsoidalKarney.areaOf}.
-
-       @example:
-
-        >>> b = LatLon(45, 1), LatLon(45, 2), LatLon(46, 2), LatLon(46, 1)
-        >>> areaOf(b)  # 8666058750.718977
-
-        >>> c = LatLon(0, 0), LatLon(1, 0), LatLon(0, 1)
-        >>> areaOf(c)  # 6.18e9
     '''
     if _MODS.booleans.isBoolean(points):
         return points._sum2(LatLon, areaOf, radius=radius, wrap=wrap)
@@ -912,7 +843,7 @@ def _int3d2(s, end, wrap, _i_, Vector, hs):
     # and similar logic in .ellipsoidalBaseDI._intersect3
     a1, b1 = s.philam
 
-    if isscalar(end):  # bearing, get pseudo-end point
+    if _isDegrees(end):  # bearing, get pseudo-end point
         a2, b2 = _destination2(a1, b1, PI_4, radians(end))
     else:  # must be a point
         s.others(end, name=_end_ + _i_)
@@ -993,7 +924,7 @@ def _intersect(start1, end1, start2, end2, height=None, wrap=False,  # in.ellips
         a, b = favg(a1, a2), favg(b1, b2)
 
     # see <https://www.EdWilliams.org/avform.htm#Intersection>
-    elif isscalar(end1) and isscalar(end2):  # both bearings
+    elif _isDegrees(end1) and _isDegrees(end2):  # both bearings
         sa1, ca1, sa2, ca2, sr12, cr12 = sincos2_(a1, a2, r12)
 
         x1, x2 = (sr12 * ca1), (sr12 * ca2)
@@ -1078,12 +1009,6 @@ def intersection(start1, end1, start2, end2, height=None, wrap=False,
                          or B{C{end2}} point not L{LatLon}.
 
        @raise ValueError: Invalid B{C{height}} or C{null} line.
-
-       @example:
-
-        >>> p = LatLon(51.8853, 0.2545)
-        >>> s = LatLon(49.0034, 2.5735)
-        >>> i = intersection(p, 108.547, s, 32.435)  # '50.9078°N, 004.5084°E'
     '''
     s1 = _T00.others(start1=start1)
     s2 = _T00.others(start2=start2)
@@ -1355,8 +1280,8 @@ def perimeterOf(points, closed=False, radius=R_M, wrap=True):
 
        @note: Distances are based on function L{pygeodesy.vincentys_}.
 
-       @see: Functions L{pygeodesy.perimeterOf}, L{sphericalNvector.perimeterOf}
-             and L{ellipsoidalKarney.perimeterOf}.
+       @see: Functions L{perimeterOf<pygeodesy.perimeterOf>},
+             L{sphericalNvector.perimeterOf} and L{ellipsoidalKarney.perimeterOf}.
     '''
     def _rads(ps, c, w):  # angular edge lengths in radians
         Ps = _T00.PointsIter(ps, loop=1, wrap=w)
@@ -1463,7 +1388,7 @@ def _t7Tuple(t, radius):
     '''(INTERNAL) Convert a L{Triangle8Tuple} to L{Triangle7Tuple}.
     '''
     if radius:  # not in (None, _0_0)
-        r = radius if isscalar(radius) else \
+        r = radius if _isRadius(radius) else \
             _ellipsoidal_datum(radius).ellipsoid.Rmean
         A, B, C = map1(degrees, t.A, t.B, t.C)
         t = Triangle7Tuple(A, (r * t.a),
@@ -1484,7 +1409,7 @@ __all__ += _ALL_OTHER(Cartesian, LatLon,  # classes
 
 # **) MIT License
 #
-# Copyright (C) 2016-2023 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

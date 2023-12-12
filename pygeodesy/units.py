@@ -6,7 +6,7 @@ C{Str} from basic C{float}, C{int} respectively C{str} to
 named units as L{Degrees}, L{Feet}, L{Meter}, L{Radians}, etc.
 '''
 
-from pygeodesy.basics import isstr, issubclassof, signOf
+from pygeodesy.basics import isscalar, isstr, issubclassof, signOf
 from pygeodesy.constants import EPS, EPS1, PI, PI2, PI_2, \
                                _umod_360, _0_0, _0_001, \
                                _0_5, INT0  # PYCHOK for .mgrs, .namedTuples
@@ -30,7 +30,7 @@ from pygeodesy.unitsBase import _Error, Float, Fmt, fstr, Int, _NamedUnit, \
 from math import degrees, radians
 
 __all__ = _ALL_LAZY.units
-__version__ = '23.05.12'
+__version__ = '23.12.03'
 
 _negative_falsed_ = 'negative, falsed'
 
@@ -844,6 +844,37 @@ class Zone(Int):
         return Int_.__new__(cls, arg=arg, name=name, **Error_name_arg)
 
 
+_Scalars =  Float, Float_, Scalar, Scalar_
+_Degrees = (Bearing, Bearing_, Degrees, Degrees_) + _Scalars
+_Meters  = (Distance, Distance_, Meter, Meter_) + _Scalars
+_Radii   = _Meters + (Radius, Radius_)
+
+
+def _isDegrees(obj):
+    # Check for valid degrees types.
+    return isinstance(obj, _Degrees) or _isScalar(obj)
+
+
+def _isHeight(obj):
+    # Check for valid heigth types.
+    return isinstance(obj, _Meters) or _isScalar(obj)
+
+
+def _isMeter(obj):
+    # Check for valid meter types.
+    return isinstance(obj, _Meters) or _isScalar(obj)
+
+
+def _isRadius(obj):
+    # Check for valid earth radius types.
+    return isinstance(obj, _Radii) or _isScalar(obj)
+
+
+def _isScalar(obj):
+    # Check for pure scalar types.
+    return isscalar(obj) and not isinstance(obj, _NamedUnit)
+
+
 def _xStrError(*Refs, **name_value_Error):
     '''(INTERNAL) Create a C{TypeError} for C{Garef}, C{Geohash}, C{Wgrs}.
     '''
@@ -890,7 +921,7 @@ __all__ += _ALL_DOCS(_NamedUnit)
 
 # **) MIT License
 #
-# Copyright (C) 2016-2023 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

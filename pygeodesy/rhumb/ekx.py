@@ -25,13 +25,13 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 from pygeodesy.basics import copysign0, neg
 from pygeodesy.constants import PI_2, _0_0s, _0_0, _0_5, _1_0, \
                                _2_0, _4_0, _720_0, _over, _1_over
-# from pygeodesy.datums import _WGS84  # from .karney
+from pygeodesy.datums import _WGS84
 # from pygeodesy.deprecated import RhumbOrder2Tuple  # _MODS
 from pygeodesy.errors import RhumbError, _Xorder
 from pygeodesy.fmath import hypot, hypot1
 # from pygeodesy.fsums import fsum1f_  # _MODS
-# from pygeodesy.interns import NN  # from .karney
-from pygeodesy.karney import Caps,  NN, _WGS84
+# from pygeodesy.interns import NN  # from .farney
+from pygeodesy.karney import Caps,  NN
 from pygeodesy.ktm import KTransverseMercator, _Xs, \
                          _AlpCoeffs, _BetCoeffs  # PYCHOK used!
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
@@ -42,7 +42,7 @@ from pygeodesy.utily import atan1, sincos2_
 from math import asinh, atan, cos, cosh, radians, sin, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.rhumb_ekx
-__version__ = '23.12.01'
+__version__ = '23.12.03'
 
 
 class Rhumb(RhumbBase):
@@ -91,7 +91,7 @@ class Rhumb(RhumbBase):
         return _1_0 + (_sincosSeries(True, x, y, *self._A2) if self.f else _0_0)
 
     @deprecated_method
-    def Direct7(self, lat1, lon1, azi12, s12, outmask=Caps.LATITUDE_LONGITUDE_AREA):
+    def Direct7(self, lat1, lon1, azi12, s12, outmask=Caps.LATITUDE_LONGITUDE_AREA):  # PYCHOK no cover
         '''DEPRECATED, use method L{Rhumb.Direct8}.
 
            @return: A I{DEPRECATED} L{Rhumb7Tuple}.
@@ -168,7 +168,7 @@ class Rhumb(RhumbBase):
         return lon12, psi12, psi1, psi2
 
     @deprecated_method
-    def Inverse7(self, lat1, lon1, azi12, s12, outmask=Caps.AZIMUTH_DISTANCE_AREA):
+    def Inverse7(self, lat1, lon1, azi12, s12, outmask=Caps.AZIMUTH_DISTANCE_AREA):  # PYCHOK no cover
         '''DEPRECATED, use method L{Rhumb.Inverse8}.
 
            @return: A I{DEPRECATED} L{Rhumb7Tuple}.
@@ -184,7 +184,7 @@ class Rhumb(RhumbBase):
         return self.ellipsoid._Lpr  # degrees(._Lpd)
 
     @deprecated_method
-    def orders(self, RAorder=None, TMorder=None):  # PYCHOK expected
+    def orders(self, RAorder=None, TMorder=None):  # PYCHOK no cover
         '''DEPRECATED, use properties C{RAorder} and/or C{TMorder}.
 
            Get and set the I{RAorder} and/or I{TMorder}.
@@ -542,7 +542,7 @@ __all__ += _ALL_DOCS(Caps)
 
 # **) MIT License
 #
-# Copyright (C) 2022-2023 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2022-2024 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

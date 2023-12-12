@@ -4,9 +4,10 @@
 # Test C{LatLon}.
 
 __all__ = ('Tests',)
-__version__ = '23.10.20'
+__version__ = '23.12.03'
 
-from bases import GeodSolve, geographiclib, isPyPy, isPython2, TestsBase
+from bases import GeodSolve, geographiclib, isPyPy, isPython2, \
+                  startswith, TestsBase
 
 from pygeodesy import F_D, F_DM, F_DMS, F_RAD, R_M, R_NM, \
                       degrees, fstr, Height, isclockwise, isconvex, \
@@ -454,10 +455,12 @@ class Tests(TestsBase):
 
         if not Nv:
             # XXX prec=5 for NvectorBase.toStr vs prec=6 for Vector3Tuple.toStr
-            self.test('toNvector', p.toNvector(), '(0.61566, 0.0, 0.78801)' if Sph
-                                             else '(0.615661, 0.0, 0.788011)')
-        self.test('toVector',   p.toVector(), '(0.615661, 0.0, 0.788011)')
-        self.test('toVector3d', p.toVector3d(), '(0.61566, 0.0, 0.78801)')
+            self.test('toNvector', p.toNvector(), '(0.61566, 0.0, 0.78801' if Sph
+                                             else '(0.615661, 0.0, 0.788011', known=startswith)
+        self.test('toVector',   p.toVector(), '(3922384.659522, 0.0, 5020423.423198)' if Sph
+                                         else '(3934960.466675, 0.0, 5002803.345483)')  # (0.615661, 0.0, 0.788011)
+        self.test('toVector3d', p.toVector3d(), '(0.61566, 0.0, 0.78801)' if Sph
+                                           else '(0.61823, 0.0, 0.786)')  # (0.61566, 0.0, 0.78801)')
 
         # courtesy of U{AleixDev<https://GitHub.com/mrJean1/PyGeodesy/issues/43>}
         def _known(p):

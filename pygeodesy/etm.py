@@ -92,7 +92,7 @@ from pygeodesy.utm import _cmlon, _LLEB, _parseUTM5, _toBand, _toXtm8, \
 from math import asinh, atan2, degrees, radians, sinh, sqrt
 
 __all__ = _ALL_LAZY.etm
-__version__ = '23.10.15'
+__version__ = '23.12.03'
 
 _OVERFLOW = _1_EPS**2  # about 2e+31
 _TAYTOL   =  pow(EPS, 0.6)
@@ -132,11 +132,6 @@ class Etm(Utm):
     '''New L{Etm} Exact Transverse Mercator coordinate, raising L{ETMError}s.
 
        @see: L{Utm.__init__} for more information.
-
-       @example:
-
-        >>> import pygeodesy
-        >>> u = pygeodesy.Etm(31, 'N', 448251, 5411932)
     '''
 
     @property_doc_(''' the ETM projection (L{ExactTransverseMercator}).''')
@@ -203,12 +198,6 @@ class Etm(Utm):
                             lat- and longitude.
 
            @raise TypeError: Invalid or non-ellipsoidal B{C{LatLon}}.
-
-           @example:
-
-            >>> from pygeodesy import ellipsoidalVincenty as eV, Etm
-            >>> u = Etm(31, 'N', 448251.795, 5411932.678)
-            >>> ll = u.toLatLon(eV.LatLon)  # 48°51′29.52″N, 002°17′40.20″E
         '''
         if not self._latlon or self._latlon._toLLEB_args != (unfalse, self.exactTM):
             self._toLLEB(unfalse=unfalse)
@@ -1061,13 +1050,6 @@ def parseETM5(strUTM, datum=_WGS84, Etm=Etm, falsed=True, name=NN):
        @raise ETMError: Invalid B{C{strUTM}}.
 
        @raise TypeError: Invalid or near-spherical B{C{datum}}.
-
-       @example:
-
-        >>> u = parseETM5('31 N 448251 5411932')
-        >>> u.toRepr()  # [Z:31, H:N, E:448251, N:5411932]
-        >>> u = parseETM5('31 N 448251.8 5411932.7')
-        >>> u.toStr()  # 31 N 448252 5411933
     '''
     r = _parseUTM5(strUTM, datum, Etm, falsed, Error=ETMError, name=name)
     return r
@@ -1187,7 +1169,7 @@ if __name__ == '__main__':  # MCCABE 13
 
 # **) MIT License
 #
-# Copyright (C) 2016-2023 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

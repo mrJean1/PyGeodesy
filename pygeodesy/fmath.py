@@ -6,7 +6,7 @@ u'''Utilities using precision floating point summation.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import _copysign, copysign0, isint, isscalar, len2
+from pygeodesy.basics import _copysign, copysign0, isint, len2
 from pygeodesy.constants import EPS0, EPS02, EPS1, NAN, PI, PI_2, PI_4, \
                                _0_0, _0_125, _0_25, _0_5, _1_0, _N_1_0, \
                                _1_3rd, _1_5, _1_6th, _2_0, _2_3rd, _3_0, \
@@ -19,13 +19,13 @@ from pygeodesy.interns import MISSING, _few_, _h_, _invokation_, _negative_, \
                              _not_scalar_, _SPACE_, _too_
 from pygeodesy.lazily import _ALL_LAZY, _sys_version_info2
 # from pygeodesy.streprs import Fmt, unstr  # from .fsums
-from pygeodesy.units import Int_,  Float_  # PYCHOK for .heights
+from pygeodesy.units import Int_, _isHeight, _isRadius,  Float_  # PYCHOK for .heights
 
 from math import fabs, sqrt  # pow
 from operator import mul as _mul  # in .triaxials
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '23.10.07'
+__version__ = '23.12.03'
 
 # sqrt(2) <https://WikiPedia.org/wiki/Square_root_of_2>
 _0_4142 = 0.414213562373095  # sqrt(_2_0) - _1_0
@@ -929,7 +929,7 @@ def sqrt_a(h, b):
              ~jburkardt/py_src/geometry/geometry.py>}.
     '''
     try:
-        if not (isscalar(h) and isscalar(b)):
+        if not (_isHeight(h) and _isRadius(b)):
             raise TypeError(_not_scalar_)
         elif isnear0(h):  # PYCHOK no cover
             c, b = fabs(h), fabs(b)
@@ -992,7 +992,7 @@ def zqrt(x):
 
 # **) MIT License
 #
-# Copyright (C) 2016-2023 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

@@ -55,7 +55,7 @@ from pygeodesy.utm import toUtm8, _to3zBlat, Utm, _UTM_ZONE_MAX, _UTM_ZONE_MIN
 # from pygeodesy.utmupsBase import _UTM_ZONE_MAX, _UTM_ZONE_MIN  # from .utm
 
 __all__ = _ALL_LAZY.mgrs
-__version__ = '23.09.14'
+__version__ = '23.12.03'
 
 _AN_    = 'AN'  # default south pole grid tile and band B
 _AtoPx_ = _AtoZnoIO_.tillP
@@ -110,13 +110,6 @@ class Mgrs(_NamedBase):
                              B{C{northing}}, B{C{band}} or B{C{resolution}}.
 
            @raise TypeError: Invalid B{C{datum}}.
-
-           @example:
-
-            >>> from pygeodesy import Mgrs
-            >>> m = Mgrs('31U', 'DQ', 48251, 11932)  # 31U DQ 48251 11932
-            >>> m = Mgrs()  # defaults to south pole
-            >>> m.toLatLon()  # ... lat=-90.0, lon=0.0, datum=...
         '''
         if name:
             self.name = name
@@ -127,7 +120,7 @@ class Mgrs(_NamedBase):
             self._zone, self._band, self._bandLat = _to3zBlat(zone, band, Error=MGRSError)
             en = str(EN)
             if len(en) != 2 or not en.isalpha():
-                raise ValueError  # caught below
+                raise ValueError()  # caught below
             self._EN = en.upper()
             _ = self._EN2m  # check E and N
         except (IndexError, KeyError, TypeError, ValueError):
@@ -344,16 +337,6 @@ class Mgrs(_NamedBase):
            @note: MGRS grid references are truncated, not rounded (unlike UTM/UPS).
 
            @raise ValueError: Invalid B{C{prec}}.
-
-           @example:
-
-            >>> from pygeodesy import Mgrs, NN, parseMGRS
-            >>> m = Mgrs(31, 'DQ', 48251, 11932, band='U')
-            >>> m.toStr()  # '31U DQ 48251 11932'
-            >>> m = parseMGRS('BAN1234567890')
-            >>> str(m)  # 'B AN 12345 67890'
-            >>> m.toStr()  # 'BAN1234567890'
-            >>> m.toStr(prec=-2)  # 'BAN123678'
         '''
         zB = self.zoneB
         t  = enstr2(self._easting, self._northing, prec, zB, self.EN)
@@ -568,19 +551,6 @@ def parseMGRS(strMGRS, datum=_WGS84, Mgrs=Mgrs, name=NN):
                 EN, easting, northing)}.
 
        @raise MGRSError: Invalid B{C{strMGRS}}.
-
-       @example:
-
-        >>> m = parseMGRS('31U DQ 48251 11932')
-        >>> str(m)  # '31U DQ 48251 11932'
-        >>> m = parseMGRS('31UDQ4825111932')
-        >>> repr(m)  # [Z:31U, G:DQ, E:48251, N:11932]
-        >>> m = parseMGRS('42SXD0970538646')
-        >>> str(m)  # '42S XD 09705 38646'
-        >>> m = parseMGRS('42SXD9738')  # Km
-        >>> str(m)  # '42S XD 97000 38000'
-        >>> m = parseMGRS('YUB17770380')  # polar
-        >>> str(m)  # 'Y UB 17770 03800'
     '''
     def _mg(s, re_UTM, re_UPS):  # return re.match groups
         m = re_UTM.match(s)
@@ -640,11 +610,6 @@ def toMgrs(utmups, Mgrs=Mgrs, name=NN, **Mgrs_kwds):
 
        @raise TypeError: If B{C{utmups}} is not L{Utm} nor L{Etm}
                          nor L{Ups}.
-
-       @example:
-
-        >>> u = Utm(31, 'N', 448251, 5411932)
-        >>> m = u.toMgrs()  # 31U DQ 48251 11932
     '''
 #   _MODS.utmups.utmupsValidate(utmups, MGRS=True, Error-MGRSError)
     _xinstanceof(Utm, Ups, utmups=utmups)  # Utm, Etm, Ups
@@ -735,7 +700,7 @@ if __name__ == '__main__':
 
 # **) MIT License
 #
-# Copyright (C) 2016-2023 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

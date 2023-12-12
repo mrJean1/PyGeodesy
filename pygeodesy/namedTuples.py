@@ -27,7 +27,7 @@ from pygeodesy.units import Band, Bearing, Degrees, Degrees2, Easting, \
                             Radians, Radius, Scalar, Str
 
 __all__ = _ALL_LAZY.namedTuples
-__version__ = '23.11.20'
+__version__ = '23.12.07'
 
 # __DUNDER gets mangled in class
 _closest_     = 'closest'
@@ -198,22 +198,24 @@ class LatLon2Tuple(_NamedTuple):
     _Names_ = (_lat_, _lon_)
     _Units_ = ( Lat,   Lon)
 
-    def to3Tuple(self, height):
+    def to3Tuple(self, height, **name):
         '''Extend this L{LatLon2Tuple} to a L{LatLon3Tuple}.
 
            @arg height: The height to add (C{scalar}).
+           @kwarg name: Optional name (C{str}), overriding this name.
 
            @return: A L{LatLon3Tuple}C{(lat, lon, height)}.
 
            @raise ValueError: Invalid B{C{height}}.
         '''
-        return self._xtend(LatLon3Tuple, height)
+        return self._xtend(LatLon3Tuple, height, **name)
 
-    def to4Tuple(self, height, datum):
+    def to4Tuple(self, height, datum, **name):
         '''Extend this L{LatLon2Tuple} to a L{LatLon4Tuple}.
 
            @arg height: The height to add (C{scalar}).
            @arg datum: The datum to add (C{Datum}).
+           @kwarg name: Optional name (C{str}), overriding this name.
 
            @return: A L{LatLon4Tuple}C{(lat, lon, height, datum)}.
 
@@ -221,7 +223,7 @@ class LatLon2Tuple(_NamedTuple):
 
            @raise ValueError: Invalid B{C{height}}.
         '''
-        return self.to3Tuple(height).to4Tuple(datum)
+        return self.to3Tuple(height).to4Tuple(datum, **name)
 
 
 class LatLon3Tuple(_NamedTuple):
@@ -231,20 +233,21 @@ class LatLon3Tuple(_NamedTuple):
     _Names_ = (_lat_, _lon_, _height_)
     _Units_ = ( Lat,   Lon,   Height)
 
-    def to4Tuple(self, datum):
+    def to4Tuple(self, datum, **name):
         '''Extend this L{LatLon3Tuple} to a L{LatLon4Tuple}.
 
            @arg datum: The datum to add (C{Datum}).
+           @kwarg name: Optional name (C{str}), overriding this name.
 
            @return: A L{LatLon4Tuple}C{(lat, lon, height, datum)}.
 
            @raise TypeError: If B{C{datum}} not a C{Datum}.
         '''
         _xinstanceof(_MODS.datums.Datum, datum=datum)
-        return self._xtend(LatLon4Tuple, datum)
+        return self._xtend(LatLon4Tuple, datum, **name)
 
 
-class LatLon4Tuple(LatLon3Tuple):  # .cartesianBase.py, .css.py, .ecef.py, .lcc.py
+class LatLon4Tuple(LatLon3Tuple):  # .cartesianBase, .css, .ecef, .lcc
     '''4-Tuple C{(lat, lon, height, datum)} in C{degrees90},
        C{degrees180}, C{meter} and L{Datum}.
     '''
@@ -295,16 +298,17 @@ class LatLonPrec3Tuple(_NamedTuple):  # .gars.py, .wgrs.py
     _Names_ = (_lat_, _lon_, _precision_)
     _Units_ = ( Lat,   Lon,   Precision_)
 
-    def to5Tuple(self, height, radius):
+    def to5Tuple(self, height, radius, **name):
         '''Extend this L{LatLonPrec3Tuple} to a L{LatLonPrec5Tuple}.
 
            @arg height: The height to add (C{float} or C{None}).
            @arg radius: The radius to add (C{float} or C{None}).
+           @kwarg name: Optional name (C{str}), overriding this name.
 
            @return: A L{LatLonPrec5Tuple}C{(lat, lon, precision,
                     height, radius)}.
         '''
-        return self._xtend(LatLonPrec5Tuple, height, radius)
+        return self._xtend(LatLonPrec5Tuple, height, radius, **name)
 
 
 class LatLonPrec5Tuple(LatLonPrec3Tuple):  # .wgrs.py
@@ -316,7 +320,7 @@ class LatLonPrec5Tuple(LatLonPrec3Tuple):  # .wgrs.py
     _Units_ = LatLonPrec3Tuple._Units_ + ( Height,   Radius)
 
 
-class NearestOn2Tuple(_NamedTuple):  # .ellipsoidalBaseDI.py
+class NearestOn2Tuple(_NamedTuple):  # .ellipsoidalBaseDI
     '''2-Tuple C{(closest, fraction)} of the C{closest} point
        on and C{fraction} along a line (segment) between two
        points.  The C{fraction} is C{0} if the closest point
@@ -329,7 +333,7 @@ class NearestOn2Tuple(_NamedTuple):  # .ellipsoidalBaseDI.py
     _Units_ = (_Pass,     _Pass)
 
 
-class NearestOn3Tuple(_NamedTuple):  # .points.py, .sphericalTrigonometry.py
+class NearestOn3Tuple(_NamedTuple):  # .points.py, .sphericalTrigonometry
     '''3-Tuple C{(closest, distance, angle)} of the C{closest}
        point on the polygon, either a C{LatLon} instance or a
        L{LatLon3Tuple}C{(lat, lon, height)} and the C{distance}
@@ -372,7 +376,7 @@ class NearestOn6Tuple(_NamedTuple):  # .latlonBase.py, .vector3d.py
     _Units_ = (_Pass,      Meter,      FIx,  Number_, _Pass  , _Pass)
 
 
-class NearestOn8Tuple(_NamedTuple):  # .ellipsoidalBaseDI.py
+class NearestOn8Tuple(_NamedTuple):  # .ellipsoidalBaseDI
     '''8-Tuple C{(closest, distance, fi, j, start, end, initial, final)},
        like L{NearestOn6Tuple} but extended with the C{initial} and the
        C{final} bearing at the reference respectively the C{closest}
@@ -382,7 +386,7 @@ class NearestOn8Tuple(_NamedTuple):  # .ellipsoidalBaseDI.py
     _Units_ = NearestOn6Tuple._Units_ + Distance3Tuple._Units_[-2:]
 
 
-class PhiLam2Tuple(_NamedTuple):  # .frechet.py, .hausdorff.py, .latlonBase.py, .points.py, .vector3d.py
+class PhiLam2Tuple(_NamedTuple):  # .frechet, .hausdorff, .latlonBase, .points, .vector3d
     '''2-Tuple C{(phi, lam)} with latitude C{phi} in C{radians[PI_2]}
        and longitude C{lam} in C{radians[PI]}.
 
@@ -393,16 +397,17 @@ class PhiLam2Tuple(_NamedTuple):  # .frechet.py, .hausdorff.py, .latlonBase.py, 
     _Names_ = (_phi_, _lam_)
     _Units_ = ( Phi,   Lam)
 
-    def to3Tuple(self, height):
+    def to3Tuple(self, height, **name):
         '''Extend this L{PhiLam2Tuple} to a L{PhiLam3Tuple}.
 
            @arg height: The height to add (C{scalar}).
+           @kwarg name: Optional name (C{str}), overriding this name.
 
            @return: A L{PhiLam3Tuple}C{(phi, lam, height)}.
 
            @raise ValueError: Invalid B{C{height}}.
         '''
-        return self._xtend(PhiLam3Tuple, height)
+        return self._xtend(PhiLam3Tuple, height, **name)
 
     def to4Tuple(self, height, datum):
         '''Extend this L{PhiLam2Tuple} to a L{PhiLam4Tuple}.
@@ -431,17 +436,18 @@ class PhiLam3Tuple(_NamedTuple):  # .nvector.py, extends -2Tuple
     _Names_ = (_phi_, _lam_, _height_)
     _Units_ = ( Phi,   Lam,   Height)
 
-    def to4Tuple(self, datum):
+    def to4Tuple(self, datum, **name):
         '''Extend this L{PhiLam3Tuple} to a L{PhiLam4Tuple}.
 
            @arg datum: The datum to add (C{Datum}).
+           @kwarg name: Optional name (C{str}), overriding this name.
 
            @return: A L{PhiLam4Tuple}C{(phi, lam, height, datum)}.
 
            @raise TypeError: If B{C{datum}} not a C{Datum}.
         '''
         _xinstanceof(_MODS.datums.Datum, datum=datum)
-        return self._xtend(PhiLam4Tuple, datum)
+        return self._xtend(PhiLam4Tuple, datum, **name)
 
 
 class PhiLam4Tuple(_NamedTuple):  # extends -3Tuple
@@ -464,7 +470,7 @@ class Point3Tuple(_NamedTuple):
     _Units_ = ( Meter, Meter, _Pass)
 
 
-class Points2Tuple(_NamedTuple):  # .formy.py, .latlonBase.py
+class Points2Tuple(_NamedTuple):  # .formy, .latlonBase
     '''2-Tuple C{(number, points)} with the C{number} of points
        and -possible reduced- C{list} or C{tuple} of C{points}.
     '''
@@ -502,7 +508,7 @@ class Triangle8Tuple(_NamedTuple):
     _Units_ = ( Radians, Radians, Radians, Radians, Radians, Radians, Radians, Radians)
 
 
-class Trilaterate5Tuple(_NamedTuple):  # .latlonBase.py, .nvector.py
+class Trilaterate5Tuple(_NamedTuple):  # .latlonBase, .nvector
     '''5-Tuple C{(min, minPoint, max, maxPoint, n)} with C{min} and C{max}
        in C{meter}, the corresponding trilaterated C{minPoint} and C{maxPoint}
        as C{LatLon} and the number C{n}.  For area overlap, C{min} and C{max}
@@ -547,7 +553,7 @@ class UtmUps5Tuple(_NamedTuple):  # .mgrs.py, .ups.py, .utm.py, .utmups.py
         return _NamedTuple.__new__(cls, z, h, e, n, B, name=name)
 
 
-class UtmUps8Tuple(_NamedTuple, _Convergence):  # .ups.py, .utm.py, .utmups.py
+class UtmUps8Tuple(_NamedTuple, _Convergence):  # .ups, .utm, .utmups
     '''8-Tuple C{(zone, hemipole, easting, northing, band, datum,
        gamma, scale)} as C{int}, C{str}, C{meter}, C{meter}, C{band}
        letter, C{Datum}, C{degrees} and C{scalar}, where C{zone} is
@@ -595,16 +601,17 @@ class Vector2Tuple(_NamedTuple):
     _Names_ = (_x_,    _y_)
     _Units_ = ( Scalar, Scalar)
 
-    def to3Tuple(self, z=INT0):
+    def to3Tuple(self, z=INT0, **name):
         '''Extend this L{Vector2Tuple} to a L{Vector3Tuple}.
 
            @kwarg z: The Z component add (C{scalar}).
+           @kwarg name: Optional name (C{str}), overriding this name.
 
            @return: A L{Vector3Tuple}C{(x, y, z)}.
 
            @raise ValueError: Invalid B{C{z}}.
         '''
-        return self._xtend(Vector3Tuple, z)
+        return self._xtend(Vector3Tuple, z, **name)
 
 
 class Vector3Tuple(_NamedTuple):
@@ -614,16 +621,17 @@ class Vector3Tuple(_NamedTuple):
     _Names_ = (_x_,    _y_,    _z_)
     _Units_ = ( Scalar, Scalar, Scalar)
 
-    def to4Tuple(self, h):
+    def to4Tuple(self, h=INT0, **name):
         '''Extend this L{Vector3Tuple} to a L{Vector4Tuple}.
 
            @arg h: The height to add (C{scalar}).
+           @kwarg name: Optional name (C{str}), overriding this name.
 
            @return: A L{Vector4Tuple}C{(x, y, z, h)}.
 
            @raise ValueError: Invalid B{C{h}}.
         '''
-        return self._xtend(Vector4Tuple, h)
+        return self._xtend(Vector4Tuple, h, **name)
 
     @property_RO
     def xyz(self):
@@ -654,7 +662,7 @@ class Vector4Tuple(_NamedTuple):  # .nvector.py
 
 # **) MIT License
 #
-# Copyright (C) 2016-2023 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -673,6 +681,3 @@ class Vector4Tuple(_NamedTuple):  # .nvector.py
 # OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
-
-# % env PYGEODESY_FOR_DOCS=1 python -m pygeodesy.named
-# all 71 locals OK

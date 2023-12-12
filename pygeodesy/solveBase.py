@@ -6,13 +6,12 @@ u'''(INTERNAL) Private base classes for L{pygeodesy.geodsolve} and L{pygeodesy.r
 
 from pygeodesy.basics import map2, ub2str, _zip
 from pygeodesy.constants import DIG
-# from pygeodesy.datums import _earth_datum, _WGS84  # from .karney
-# from pygeodesy.ellipsoids import _EWGS84  # from .karney
+from pygeodesy.datums import _earth_datum, _WGS84,  _EWGS84
+# from pygeodesy.ellipsoids import _EWGS84  # from .datums
 from pygeodesy.errors import _AssertionError, _xkwds_get
 from pygeodesy.interns import NN, _0_, _BACKSLASH_, _COMMASPACE_, _enquote, \
                              _EQUAL_, _Error_, _not_, _SPACE_, _UNUSED_
-from pygeodesy.karney import Caps, _CapsBase, GDict, Precision_,  \
-                            _earth_datum, _EWGS84, _WGS84
+from pygeodesy.karney import Caps, _CapsBase, GDict, Precision_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, printf, _unlazy
 from pygeodesy.named import callername, notOverloaded
 from pygeodesy.props import Property, Property_RO, property_RO, _update_all
@@ -23,7 +22,7 @@ from pygeodesy.utily import unroll180,  wrap360  # PYCHOK shared
 from subprocess import PIPE as _PIPE, Popen as _Popen, STDOUT as _STDOUT
 
 __all__ = _ALL_LAZY.solveBase
-__version__ = '23.11.29'
+__version__ = '23.12.09'
 
 _ERROR_    = 'ERROR'
 _text_True =  dict() if _unlazy else dict(text=True)
@@ -452,7 +451,7 @@ __all__ += _ALL_DOCS(_SolveBase, _SolveLineBase, _SolveLineSolveBase)
 
 # **) MIT License
 #
-# Copyright (C) 2016-2023 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

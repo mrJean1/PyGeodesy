@@ -65,7 +65,7 @@ datum, q.v. U{"A Guide to Coordinate Systems in Great Britain", Section 6
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import islistuple, isscalar, map2, neg, _xinstanceof
+from pygeodesy.basics import islistuple, map2, neg, _xinstanceof
 from pygeodesy.constants import R_M, _float as _F, _0_0, _0_26, _1_0, _2_0, _8_0, _3600_0
 from pygeodesy.ellipsoids import a_f2Tuple, Ellipsoid, Ellipsoid2, Ellipsoids, \
                                 _EWGS84,  Vector3Tuple
@@ -83,12 +83,12 @@ from pygeodesy.named import _NamedEnum, _NamedEnumItem,  Property_RO, property_R
 # from pygeodesy.namedTuples import Vector3Tuple  # from .ellipsoids
 # from pygeodesy.props import Property_RO, property_RO  # from .named
 # from pygeodesy.streprs import Fmt  # from .fmath
-from pygeodesy.units import radians, Radius_
+from pygeodesy.units import _isRadius, radians, Radius_
 
 # from math import radians  # from .units
 
 __all__ = _ALL_LAZY.datums
-__version__ = '23.11.05'
+__version__ = '23.12.03'
 
 _a_ellipsoid_ = _UNDER_(_a_, _ellipsoid_)
 _BD72_        = 'BD72'
@@ -526,7 +526,7 @@ def _EnD3(earth, name):
         E =  earth.ellipsoid
         n = _under(name or earth.name)
         D =  earth
-    elif isscalar(earth):
+    elif _isRadius(earth):
         E, D = _ED2(Radius_(earth), name)
         n =  E.name
     elif isinstance(earth, a_f2Tuple):
@@ -552,7 +552,7 @@ def _mean_radius(radius, *lats):
     '''
     if radius is R_M:
         r =  radius
-    elif isscalar(radius):
+    elif _isRadius(radius):
         r =  Radius_(radius, low=0, Error=TypeError)
     else:
         E = _ellipsoidal_datum(radius).ellipsoid
@@ -566,7 +566,7 @@ def _spherical_datum(earth, Error=TypeError, name=NN, raiser=NN):
 
        @kwarg raiser: If not C{NN}, raise an B{C{Error}} if not spherical.
     '''
-    if isscalar(earth):
+    if _isRadius(earth):
         _, D = _ED2(Radius_(earth, Error=Error), name)
     else:
         D = _ellipsoidal_datum(earth, Error=Error, name=name)
@@ -667,7 +667,7 @@ if __name__ == '__main__':
 
 # **) MIT License
 #
-# Copyright (C) 2016-2023 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

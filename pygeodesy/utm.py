@@ -63,7 +63,7 @@ from math import asinh, atanh, atan2, cos, cosh, degrees, fabs, \
 from operator import mul as _mul
 
 __all__ = _ALL_LAZY.utm
-__version__ = '23.09.29'
+__version__ = '23.12.07'
 
 _Bands = 'CDEFGHJKLMNPQRSTUVWXX'  # UTM latitude bands C..X (no
 # I|O) 8° each, covering 80°S to 84°N and X repeated for 80-84°N
@@ -283,11 +283,6 @@ class Utm(UtmUpsBase):
            @raise UTMError: Invalid B{C{zone}}, B{C{hemishere}}, B{C{easting}},
                             B{C{northing}}, B{C{band}}, B{C{convergence}} or
                             B{C{scale}}.
-
-           @example:
-
-            >>> import pygeodesy
-            >>> u = pygeodesy.Utm(31, 'N', 448251, 5411932)
         '''
         if name:
             self.name = name
@@ -428,11 +423,6 @@ class Utm(UtmUpsBase):
 
            @raise UTMError: Invalid meridional radius or H-value.
 
-           @example:
-
-            >>> u = Utm(31, 'N', 448251.795, 5411932.678)
-            >>> from pygeodesy import ellipsoidalVincenty as eV
-            >>> ll = u.toLatLon(eV.LatLon)  # 48°51′29.52″N, 002°17′40.20″E
         '''
         if eps < EPS:
             eps = EPS  # less doesn't converge
@@ -534,14 +524,7 @@ class Utm(UtmUpsBase):
                     easting, northing, [convergence, scale]} in
                     C{"00 N|S meter meter"} plus C{" degrees float"} if
                     B{C{cs}} is C{True} (C{str}).
-
-           @example:
-
-            >>> u = Utm(3, 'N', 448251, 5411932.0001)
-            >>> u.toStr(4)  # 03 N 448251.0 5411932.0001
-            >>> u.toStr(sep=', ')  # 03 N, 448251, 5411932
         '''
-
         return self._toStr(self.hemisphere, B, cs, prec, sep)
 
     def toUps(self, pole=NN, eps=EPS, falsed=True, **unused):
@@ -629,16 +612,8 @@ def parseUTM5(strUTM, datum=_WGS84, Utm=Utm, falsed=True, name=NN):
        @raise UTMError: Invalid B{C{strUTM}}.
 
        @raise TypeError: Invalid B{C{datum}}.
-
-       @example:
-
-        >>> u = parseUTM5('31 N 448251 5411932')
-        >>> u.toRepr()  # [Z:31, H:N, E:448251, N:5411932]
-        >>> u = parseUTM5('31 N 448251.8 5411932.7')
-        >>> u.toStr()  # 31 N 448252 5411933
     '''
-    r = _parseUTM5(strUTM, datum, Utm, falsed, name=name)
-    return r
+    return _parseUTM5(strUTM, datum, Utm, falsed, name=name)
 
 
 def toUtm8(latlon, lon=None, datum=None, Utm=Utm, falsed=True,
@@ -680,13 +655,6 @@ def toUtm8(latlon, lon=None, datum=None, Utm=Utm, falsed=True,
        @note: Implements Karney’s method, using 8-th order Krüger series,
               giving results accurate to 5 nm (or better) for distances
               up to 3,900 Km from the central meridian.
-
-       @example:
-
-        >>> p = LatLon(48.8582, 2.2945)  # 31 N 448251.8 5411932.7
-        >>> u = toUtm(p)  # 31 N 448252 5411933
-        >>> p = LatLon(13.4125, 103.8667) # 48 N 377302.4 1483034.8
-        >>> u = toUtm(p)  # 48 N 377302 1483035
     '''
     z, B, lat, lon, d, f, name = _to7zBlldfn(latlon, lon, datum,
                                              falsed, name, zone,
@@ -772,7 +740,7 @@ def utmZoneBand5(lat, lon, cmoff=False, name=NN):
 
 # **) MIT License
 #
-# Copyright (C) 2016-2023 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

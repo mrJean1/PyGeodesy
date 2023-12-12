@@ -28,7 +28,7 @@ all initial imports.
 '''
 
 # from pygeodesy.errors import _xError2  # _ALL_MODS
-from pygeodesy.interns import MISSING, NN, __all__ as _interns_a_l_l_, _areaOf_, \
+from pygeodesy.interns import MISSING, NN, __all__ as _interns__all__, _areaOf_, \
                              _attribute_, _by_, _COLONSPACE_, _COMMASPACE_, \
                              _doesn_t_exist_, _DOT_, _enabled_, _EQUALSPACED_, \
                              _from_, _immutable_, _isclockwise_, _ispolar_, _NL_, \
@@ -49,12 +49,11 @@ except ImportError:  # Python 2.6-
         t = _ALL_MODS.streprs.unstr(import_module, name, *package)
         raise LazyImportError(t, txt=_doesn_t_exist_)
 
-_a_l_l_                 = '__all__'  # in .__init__
+_a_l_l_                 = '__all__'  # .__main__
 __as__                  = ' as '
 _FOR_DOCS               = _getenv('PYGEODESY_FOR_DOCS', NN)  # for epydoc ...
 _from_DOT__             = _SPACE_(NN, _from_, _DOT_)
 _i0                     = ()  # PYCHOK empty tuple
-_imports_               = 'imports'
 _init__all__            = _FOR_DOCS or _getenv('PYGEODESY_INIT__ALL__', _a_l_l_) == _a_l_l_  # PYCHOK expoted
 _lazily_                = 'lazily'
 _lazily_imported__      = _SPACE_('#', _lazily_, 'imported', NN)
@@ -90,6 +89,8 @@ class LazyImportError(ImportError):
 class _Dict(dict):
     '''(INTERNAL) Imports C{dict}.
     '''
+    _name = NN
+
     def __getattr__(self, attr):
         try:
             return self[attr]
@@ -102,21 +103,24 @@ class _Dict(dict):
 #       else:
 #           dict.__setattr__(self, attr, value)
 
-    def add(self, key, value, *values):
-        '''Add C{[key] = value}, typically C{[attr] = mod}.
+    def add(self, name, mod_, *subs):
+        '''Add a C{[name] = mod_} item.
 
-           @raise AssertionError: The B{C{key}} already exists
-                                  with a different B{C{value}}.
+           @raise AssertionError: The B{C{name}} already exists
+                                  with a different B{C{mod_}}.
         '''
-        if key in self:
-            val = self[key]  # duplicate OK
-            if val != value and val not in values:  # PYCHOK no cover
-                k = _ALL_MODS.streprs.Fmt.SQUARE(_imports_, key)
-                t = _COLONSPACE_(k,       repr(val))
-                t = _COMMASPACE_(t, _not_(repr(value)))
+        if name in self:
+            sub = self[name]  # duplicate OK
+            if sub != mod_ and sub not in subs:  # PYCHOK no cover
+                t = _DOT_(self._name, name)
+                t = _COLONSPACE_(t,       repr(sub))
+                t = _COMMASPACE_(t, _not_(repr(mod_)))
                 raise AssertionError(t)
         else:
-            self[key] = value
+            self[name] = mod_
+
+    def _NAME(self, which):
+        self._name = _intern(which.__name__.upper())
 
 
 class _NamedEnum_RO(dict):
@@ -139,23 +143,32 @@ class _NamedEnum_RO(dict):
         raise LazyAttributeError(t, txt=_immutable_)
 
     def enums(self):
+        # Yield all C{(mod_, tuple)} pairs
         for m, t in dict.items(self):
-            if isinstance(t, tuple) and \
-               not m.startswith(_UNDER_):  # skip _name
-                m = m.replace(_UNDER_, _DOT_, 1)
-                yield m, t
+            n = m.replace(_UNDER_, _DOT_)
+            if n != m:
+                if m.startswith(_UNDER_):
+                    t = None  # skip _name= ...
+                else:
+                    u = m.rstrip(_UNDER_)
+                    if u != m:
+                        u = len(u)
+                        n = n[:u] + m[u:]
+            if isinstance(t, tuple):
+                yield n, t
 
-    def imports(self):
-        _D   = _Dict()
-        _add = _D.add
+    def fill_D(self, _D, which):
+        # Fill C{_Dict _D}.
+        _D._NAME(which)
+        _a = _D.add
         for m, t in self.enums():
-            _add(m, m)
+            _a(m, _DOT_(m, NN, NN))  # import module
             for a in t:
                 a, _, as_ = a.partition(__as__)
-                if as_:
-                    _add(as_, _DOT_(m, a), *_sub_packages)
+                if as_:  # import attr as attr_
+                    _a(as_, _DOT_(m, a, NN), *_sub_packages)
                 else:
-                    _add(a, m)
+                    _a(a, m)
         return _D
 
 
@@ -163,6 +176,15 @@ def _i(*names):
     '''(INTERNAL) Intern all C{names}.
     '''
     return tuple(map(_intern, names)) if names else _i0
+
+
+def _ALL_ATTRS(*attrs):
+    '''(INTERNAL) Unravel all exported module attributes.
+    '''
+    t = ()
+    for attr in attrs:
+        t += tuple(map(_attrof, attr))
+    return t
 
 
 _ALL_INIT = _i(_pygeodesy_abspath_, _version_)
@@ -285,7 +307,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                    'HeightIDWeuclidean', 'HeightIDWexact', 'HeightIDWflatLocal', 'HeightIDWflatPolar',
                                    'HeightIDWhaversine', 'HeightIDWhubeny', 'HeightIDWkarney', 'HeightIDWthomas',
                                    'HeightIDWvincentys', 'HeightLinear', 'HeightLSQBiSpline', 'HeightSmoothBiSpline'),
-                        interns=_interns_a_l_l_,
+                        interns=_interns__all__,
                           iters=_i('LatLon2PsxyIter', 'PointsIter', 'points2',
                                    'isNumpy2', 'isPoints2', 'isTuple2', 'iterNumpy2', 'iterNumpy2over'),
                          karney=_i('Area3Tuple', 'Caps', 'Direct9Tuple', 'GDict', 'Inverse10Tuple', 'Rhumb8Tuple'),
@@ -471,16 +493,7 @@ class _ALL_MODS(object):
 _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '23.12.02'
-
-
-def _ALL_ATTRS(*mods):
-    '''(INTERNAL) Unravel all exported module attributes.
-    '''
-    t = []
-    for mod in mods:
-        t.extend(map(_attrof, mod))
-    return tuple(t)
+__version__ = '23.12.08'
 
 
 def _ALL_OTHER(*objs):
@@ -511,8 +524,9 @@ else:
 def _all_deprecates():
     '''(INTERNAL) Build C{dict} of all deprecated imports.
     '''
-    _D = _ALL_DEPRECATED.imports()  # see _all_imports()
-    _ALL_DEPRECATES.update(_D)
+    _D = _ALL_DEPRECATES
+    if not _D:
+        _ALL_DEPRECATED.fill_D(_D, _all_deprecates)  # see _all_imports()
     return _D
 
 _ALL_DEPRECATES = _Dict()  # PYCHOK _ALL_DEPRECATED.imports()
@@ -525,9 +539,10 @@ def _all_imports():
     #  import <module>                        - [<module>] = <module>
     #  from <module> import <attr>            - [<attr>] = <module>
     #  from pygeodesy import <attr>           - [<attr>] = <attr>
-    #  from <module> import <attr> as <name>  - [<name>] = <module>.<attr>
-    _D = _ALL_LAZY.imports()
-    _ALL_IMPORTS.update(_D)
+    #  from <module> import <attr> as <name>  - [<name>] = <module>.<attr>.
+    _D = _ALL_IMPORTS
+    if not _D:
+        _ALL_LAZY.fill_D(_D, _all_imports)  # see _all_deprecates()
     return _D
 
 _ALL_IMPORTS = _Dict()  # PYCHOK _ALL_LAZY.imports()
@@ -546,8 +561,8 @@ def _all_missing2(_all_):
 
 
 def _attrof(attr_as):  # .testDeprecated
-    a, _, as_ = attr_as.partition(__as__)
-    return as_ or a
+    a_, _, as_ = attr_as.partition(__as__)
+    return as_ or a_.rstrip(_DOT_)
 
 
 def _caller3(up):  # in .named
@@ -626,15 +641,16 @@ def _lazy_import2(pack):  # MCCABE 14
             # importlib.import_module() implicitly sets sub-modules
             # on this module as appropriate for direct imports (see
             # note in the _lazy_import2.__doc__ above).
-            if mod in imports or mod in deprecates:
-                attr = name if name != _tailof(mod) else NN
-            else:  # must be 'mod.attr as name'
-                mod, _, attr = mod.rpartition(_DOT_)
-                if not (attr and (mod in imports or mod in deprecates)):
-                    t = _DOT_(parent, mod)
-                    # <https://GitHub.com/mrJean1/PyGeodesy/issues/76>
-                    raise LazyAttributeError(_no_(_module_), txt=t)
-            imported = import_module(_DOT_(pack, mod), parent)
+            if mod.endswith(_DOT_):  # import mod[.attr] as name
+                mod, _, attr = mod[:-1].rpartition(_DOT_)
+            else:  # from mod import name
+                attr = name
+            try:
+                t = _DOT_(pack, mod)
+                imported = import_module(t, parent)
+            except ImportError:
+                # <https://GitHub.com/mrJean1/PyGeodesy/issues/76>
+                raise LazyImportError(_no_(_module_), txt=t)
             t = getattr(imported, _p_a_c_k_a_g_e_, None)
             if t not in subpacks:  # invalid module package
                 raise LazyImportError(_DOT_(mod, _p_a_c_k_a_g_e_), t)
@@ -912,7 +928,7 @@ if __name__ == '__main__':
 
 # **) MIT License
 #
-# Copyright (C) 2018-2023 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2018-2024 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

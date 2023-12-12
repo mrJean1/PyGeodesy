@@ -33,7 +33,7 @@ to a normalised version of an (ECEF) cartesian coordinate.
 # make sure int/int division yields float quosient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import isscalar, _xinstanceof
+# from pygeodesy.basics import _xinstanceof  # _MODS
 from pygeodesy.constants import EPS, EPS0, PI, PI2, PI_2, R_M, \
                                _0_0, _0_5, _1_0
 # from pygeodesy.datums import Datums  # from .sphericalBase
@@ -54,14 +54,14 @@ from pygeodesy.props import deprecated_function, deprecated_method, \
 from pygeodesy.sphericalBase import _m2radians, CartesianSphericalBase, \
                                     _intersecant2, LatLonSphericalBase, \
                                     _radians2m,  Datums
-from pygeodesy.units import Bearing, Bearing_, Radius, Scalar
+from pygeodesy.units import Bearing, Bearing_, _isDegrees, Radius, Scalar
 from pygeodesy.utily import atan2, degrees360, fabs, sincos2, sincos2_, \
                             sincos2d, _unrollon, _Wrap
 
 # from math import atan2, fabs  # from utily
 
 __all__ = _ALL_LAZY.sphericalNvector
-__version__ = '23.11.27'
+__version__ = '23.12.03'
 
 _lines_ = 'lines'
 
@@ -74,16 +74,15 @@ class Cartesian(CartesianSphericalBase):
     def toLatLon(self, **LatLon_and_kwds):  # PYCHOK LatLon=LatLon
         '''Convert this cartesian to an C{Nvector}-based geodetic point.
 
-           @kwarg LatLon_and_kwds: Optional L{LatLon} and L{LatLon} keyword
+           @kwarg LatLon_and_kwds: Optional C{LatLon} class and C{LatLon} keyword
                                    arguments, like C{datum}.  Use C{B{LatLon}=...}
                                    to override this L{LatLon} class or specify
                                    C{B{LatLon}=None}.
 
-           @return: The geodetic point (L{LatLon}) or if B{C{LatLon}} is set
-                    to C{None}, an L{Ecef9Tuple}C{(x, y, z, lat, lon, height,
-                    C, M, datum)} with C{C} and C{M} if available.
+           @return: A C{LatLon} or if C{LatLon is None}, an L{Ecef9Tuple}C{(x, y, z,
+                    lat, lon, height, C, M, datum)} with C{C} and C{M} if available.
 
-           @raise TypeError: Invalid B{C{LatLon_and_kwds}} argument.
+           @raise TypeError: Invalid C{LatLon} or other B{C{LatLon_and_kwds}} item.
         '''
         kwds = _xkwds(LatLon_and_kwds, LatLon=LatLon, datum=self.datum)
         return CartesianSphericalBase.toLatLon(self, **kwds)
@@ -91,15 +90,14 @@ class Cartesian(CartesianSphericalBase):
     def toNvector(self, **Nvector_and_kwds):  # PYCHOK Datums.WGS84
         '''Convert this cartesian to C{Nvector} components, I{including height}.
 
-           @kwarg Nvector_and_kwds: Optional C{Nvector} and C{Nvector} keyword
+           @kwarg Nvector_and_kwds: Optional C{Nvector} class and C{Nvector} keyword
                                     arguments, like C{datum}.  Use C{B{Nvector}=...}
                                     to override this C{Nvector} class or specify
                                     C{B{Nvector}=None}.
 
-           @return: The C{n-vector} components (C{Nvector}) or if B{C{Nvector}}
-                    is set to C{None}, a L{Vector4Tuple}C{(x, y, z, h)}
+           @return: An C{Nvector}) or if C{Nvector is None}, a L{Vector4Tuple}C{(x, y, z, h)}.
 
-           @raise TypeError: Invalid B{C{Nvector_and_kwds}} argument.
+           @raise TypeError: Invalid C{Nvector} or other B{C{Nvector_and_kwds}} item.
         '''
         # ll = CartesianBase.toLatLon(self, LatLon=LatLon,
         #                                    datum=datum or self.datum)
@@ -114,11 +112,6 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
        Tools for working with points, lines and paths on (a spherical
        model of) the earth's surface using vector-based methods.
-
-       @example:
-
-        >>> from sphericalNvector import LatLon
-        >>> p = LatLon(52.205, 0.119)
     '''
     _Nv = None  # cached_toNvector C{Nvector})
 
@@ -156,14 +149,6 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            @raise TypeError: If B{C{start}} or B{C{end}} point is not L{LatLon}.
 
            @raise Valuerror: Some points coincide.
-
-           @example:
-
-            >>> p = LatLon(53.2611, -0.7972)
-
-            >>> s = LatLon(53.3206, -1.7297)
-            >>> e = LatLon(53.1887, 0.1334)
-            >>> d = p.alongTrackDistanceTo(s, e)  # 62331.58
         '''
         p = self.others(start=start)
         n = self.toNvector()
@@ -183,12 +168,11 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            defined by a start and end point.
 
            @arg start: Start point of great circle line (L{LatLon}).
-           @arg end: End point of great circle line (L{LatLon}) or
-                     initial bearing from start point (compass
-                     C{degrees360}).
+           @arg end: End point of great circle line (L{LatLon}) or initial
+                     bearing from start point (compass C{degrees360}).
            @kwarg radius: Mean earth radius (C{meter}) or C{None}.
-           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll
-                        the B{C{start}} and B{C{end}} points (C{bool}).
+           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the
+                        B{C{start}} and B{C{end}} points (C{bool}).
 
            @return: Distance to great circle (C{radians} if C{B{radius}
                     is None} else C{meter}, same units as B{C{radius}}),
@@ -198,16 +182,6 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            @raise TypeError: If B{C{start}} or B{C{end}} point is not L{LatLon}.
 
            @raise Valuerror: Some points coincide.
-
-           @example:
-
-            >>> p = LatLon(53.2611, -0.7972)
-
-            >>> s = LatLon(53.3206, -1.7297)
-            >>> d = p.crossTrackDistanceTo(s, 96)  # -305.7
-
-            >>> e = LatLon(53.1887, 0.1334)
-            >>> d = p.crossTrackDistanceTo(s, e)  # -307.5
         '''
         p = self.others(start=start)
         n = self.toNvector()
@@ -216,11 +190,11 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         return _radians2m(gc.angleTo(n) - PI_2, radius)
 
     def destination(self, distance, bearing, radius=R_M, height=None):
-        '''Locate the destination from this point after having
-           travelled the given distance on the given bearing.
+        '''Locate the destination from this point after having travelled
+           the given distance on the given bearing.
 
-           @arg distance: Distance travelled (C{meter}, same units
-                          as B{C{radius}}).
+           @arg distance: Distance travelled (C{meter}, same units as
+                          B{C{radius}}).
            @arg bearing: Bearing from this point (compass C{degrees360}).
            @kwarg radius: Mean earth radius (C{meter}).
            @kwarg height: Optional height at destination, overriding the
@@ -230,12 +204,6 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            @raise Valuerror: Polar coincidence or invalid B{C{distance}},
                              B{C{bearing}}, B{C{radius}} or B{C{height}}.
-
-           @example:
-
-            >>> p = LatLon(51.4778, -0.0015)
-            >>> q = p.destination(7794, 300.7)
-            >>> q.toStr()  # 51.513546°N, 000.098345°W
         '''
         b =  Bearing_(bearing)
         a = _m2radians(distance, radius, low=None)
@@ -261,12 +229,6 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
                     if B{C{radius}} is C{None}).
 
            @raise TypeError: Invalid B{C{other}} point.
-
-           @example:
-
-            >>> p = LatLon(52.205, 0.119)
-            >>> q = LatLon(48.857, 2.351);
-            >>> d = p.distanceTo(q)  # 404.3 Km
         '''
         p = self.others(other)
         if wrap:
@@ -285,7 +247,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         '''(INTERNAL) Return great circle, start and end Nvectors.
         '''
         s = start.toNvector()
-        if isscalar(end):  # bearing
+        if _isDegrees(end):  # bearing
             gc = s.greatCircle(end)
             e  = None
         else:  # point
@@ -332,16 +294,6 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            @raise TypeError: The B{C{other}} point is not L{LatLon}.
 
            @raise Valuerror: Points coincide.
-
-           @example:
-
-            >>> p = LatLon(53.3206, -1.7297)
-            >>> gc = p.greatCircle(96.0)
-            >>> gc.toStr()  # (-0.79408, 0.12856, 0.59406)
-
-            >>> q = LatLon(53.1887, 0.1334)
-            >>> g = p.greatCircleTo(q)
-            >>> g.toStr()  # (-0.79408, 0.12859, 0.59406)
         '''
         gc, _, _ = self._gc3(self, other, _other_, wrap=wrap)
         return gc.unit()
@@ -361,12 +313,6 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
                               L{pygeodesy.crosserrors} is C{True}.
 
            @raise TypeError: The B{C{other}} point is not L{LatLon}.
-
-           @example:
-
-            >>> p1 = LatLon(52.205, 0.119)
-            >>> p2 = LatLon(48.857, 2.351)
-            >>> b = p1.initialBearingTo(p2)  # 156.2
         '''
         n = self.toNvector()
         p = self.others(other)
@@ -395,12 +341,6 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            @return: Intermediate point (L{LatLon}).
 
            @raise TypeError: The B{C{other}} point is not L{LatLon}.
-
-           @example:
-
-            >>> p = LatLon(52.205, 0.119)
-            >>> q = LatLon(48.857, 2.351)
-            >>> i = p.intermediateChordTo(q, 0.25)  # 51.3723°N, 000.7072°E
         '''
         n = self.toNvector()
         p = self.others(other)
@@ -433,12 +373,6 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            @raise Valuerror: Points coincide or invalid B{C{height}}.
 
            @see: Methods C{midpointTo} and C{rhumbMidpointTo}.
-
-           @example:
-
-            >>> p = LatLon(52.205, 0.119)
-            >>> q = LatLon(48.857, 2.351)
-            >>> i = p.intermediateTo(q, 0.25)  # 51.3721°N, 000.7074°E
         '''
         n = self.toNvector()
         p = self.others(other)
@@ -481,12 +415,6 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            @see: Function L{sphericalNvector.intersection} and method
                  L{intersection2}.
-
-           @example:
-
-            >>> s = LatLon(51.8853, 0.2545)
-            >>> e = LatLon(49.0034, 2.5735)
-            >>> i = s.intersection(108.55, e, 32.44)  # 50.9076°N, 004.5086°E
         '''
         return intersection(self, end1, start2, end2, height=height,
                                         wrap=wrap, LatLon=self.classof)
@@ -634,12 +562,6 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            @raise TypeError: The B{C{other}} point is not L{LatLon}.
 
            @see: Methods C{intermediateTo} and C{rhumbMidpointTo}.
-
-           @example:
-
-            >>> p1 = LatLon(52.205, 0.119)
-            >>> p2 = LatLon(48.857, 2.351)
-            >>> m = p1.midpointTo(p2)  # '50.5363°N, 001.2746°E'
         '''
         if fraction is _0_5:
             p = self.others(other)
@@ -673,19 +595,6 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
                                        not supported.
 
            @raise TypeError: Invalid B{C{point1}} or B{C{point2}}.
-
-           @example:
-
-            >>> s1 = LatLon(51.0, 1.0)
-            >>> s2 = LatLon(51.0, 2.0)
-
-            >>> s = LatLon(51.0, 1.9)
-            >>> p = s.nearestOn(s1, s2)  # 51.0004°N, 001.9000°E
-
-            >>> d = p.distanceTo(s)  # 42.71 m
-
-            >>> s = LatLon(51.0, 2.1)
-            >>> p = s.nearestOn(s1, s2)  # 51.0000°N, 002.0000°E
         '''
         p1 = self.others(point1=point1)
         p2 = self.others(point2=point2)
@@ -783,11 +692,10 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
                                       to override this L{Cartesian} class or specify
                                       C{B{Cartesian}=None}.
 
-           @return: The cartesian point (L{Cartesian}) or if B{C{Cartesian}} is
-                    set to C{None}, an L{Ecef9Tuple}C{(x, y, z, lat, lon, height,
-                    C, M, datum)} with C{C} and C{M} if available.
+           @return: A L{Cartesian} or if C{B{Cartesian} is None}, an L{Ecef9Tuple}C{(x, y,
+                    z, lat, lon, height, C, M, datum)} with C{C} and C{M} if available.
 
-           @raise TypeError: Invalid B{C{Cartesian_and_kwds}} argument.
+           @raise TypeError: Invalid L{Cartesian} or other B{C{Cartesian_and_kwds}} item.
         '''
         kwds = _xkwds(Cartesian_and_kwds, Cartesian=Cartesian, datum=self.datum)
         return LatLonSphericalBase.toCartesian(self, **kwds)
@@ -795,24 +703,15 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
     def toNvector(self, **Nvector_and_kwds):  # PYCHOK signature
         '''Convert this point to C{Nvector} components, I{including height}.
 
-           @kwarg Nvector_and_kwds: Optional C{Nvector} and C{Nvector} keyword
-                                    arguments.  Specify C{B{Nvector}=...} to
-                                    override this C{Nvector} class or use
-                                    C{B{Nvector}=None}.
+           @kwarg Nvector_and_kwds: Optional C{Nvector} and C{Nvector} keyword arguments.
+                                    Specify C{B{Nvector}=...} to override this C{Nvector}
+                                    class or use C{B{Nvector}=None}.
 
-           @return: The C{n-vector} components (C{Nvector}) or if B{C{Nvector}} is
-                    set to C{None}, a L{Vector4Tuple}C{(x, y, z, h)}.
+           @return: An C{Nvector} or if B{C{Nvector}} is C{None}, a L{Vector4Tuple}C{(x, y, z, h)}.
 
-           @raise TypeError: Invalid B{C{Nvector_and_kwds}} argument.
-
-           @example:
-
-            >>> p = LatLon(45, 45)
-            >>> n = p.toNvector()
-            >>> n.toStr()  # [0.50, 0.50, 0.70710]
+           @raise TypeError: Invalid C{Nvector} or other B{C{Nvector_and_kwds}} item.
         '''
-        kwds = _xkwds(Nvector_and_kwds, Nvector=Nvector)
-        return LatLonNvectorBase.toNvector(self, **kwds)
+        return LatLonNvectorBase.toNvector(self, **_xkwds(Nvector_and_kwds, Nvector=Nvector))
 
 
 class Nvector(NvectorBase):
@@ -887,11 +786,6 @@ class Nvector(NvectorBase):
            @return: N-vector representing great circle (C{Nvector}).
 
            @raise Valuerror: Polar coincidence.
-
-           @example:
-
-            >>> n = LatLon(53.3206, -1.7297).toNvector()
-            >>> gc = n.greatCircle(96.0)  # [-0.794, 0.129, 0.594]
         '''
         s, c = sincos2d(Bearing(bearing))
 
@@ -925,11 +819,6 @@ def areaOf(points, radius=R_M, wrap=False):
 
        @see: Functions L{pygeodesy.areaOf}, L{sphericalTrigonometry.areaOf}
              and L{ellipsoidalKarney.areaOf}.
-
-       @example:
-
-        >>> b = LatLon(45, 1), LatLon(45, 2), LatLon(46, 2), LatLon(46, 1)
-        >>> areaOf(b)  # 8666058750.718977
     '''
     def _interangles(ps, w):  # like .karney._polygon
         Ps = _Nvll.PointsIter(ps, loop=2, wrap=w)
@@ -1028,12 +917,6 @@ def intersection(start1, end1, start2, end2, height=None, wrap=False,
                           the lines are parallel, coincident or null.
 
        @see: Function L{sphericalNvector.intersection2}.
-
-       @example:
-
-        >>> p = LatLon(51.8853, 0.2545)
-        >>> q = LatLon(49.0034, 2.5735)
-        >>> i = intersection(p, 108.55, q, 32.44)  # 50.9076°N, 004.5086°E
     '''
     i, _, h = _intersect3(start1, end1, start2, end2, height, wrap)
     kwds = _xkwds(LatLon_kwds, height=h, LatLon=LatLon)
@@ -1209,7 +1092,7 @@ def nearestOn3(point, points, closed=False, radius=R_M, height=None, wrap=False)
 
        @raise TypeError: Some B{C{points}} or B{C{point}} not C{LatLon}.
     '''
-    _xinstanceof(LatLon, point=point)
+    _MODS.basics._xinstanceof(LatLon, point=point)
 
     return point.nearestOn3(points, closed=closed, radius=radius,
                                     height=height, wrap=wrap)
@@ -1300,12 +1183,6 @@ def triangulate(point1, bearing1, point2, bearing2,
        @raise TypeError: If B{C{point1}} or B{C{point2}} is not L{LatLon}.
 
        @raise Valuerror: Points coincide.
-
-       @example:
-
-        >>> p = LatLon("47°18.228'N","002°34.326'W")  # Basse Castouillet
-        >>> q = LatLon("47°18.664'N","002°31.717'W")  # Basse Hergo
-        >>> t = triangulate(p, 7, q, 295)  # 47.323667°N, 002.568501°W'
     '''
     return _triangulate(_Nvll.others(point1=point1), bearing1,
                         _Nvll.others(point2=point2), bearing2,
@@ -1366,7 +1243,7 @@ __all__ += _ALL_OTHER(Cartesian, LatLon, Nvector,  # classes
 
 # **) MIT License
 #
-# Copyright (C) 2016-2023 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

@@ -7,13 +7,11 @@ Function L{intersection3d3}, L{intersections2}, L{parse3d}, L{sumOf},
 L{trilaterate2d2} and L{trilaterate3d2}.
 '''
 
-# from pygeodesy.basics import isscalar  # from .fmath
 from pygeodesy.constants import EPS, EPS0, EPS1, EPS4, INT0, isnear0, \
                                _0_0, _1_0
 from pygeodesy.errors import IntersectionError, _ValueError, VectorError, \
                             _xattr, _xError, _xkwds_get, _xkwds, _xkwds_popitem
-from pygeodesy.fmath import euclid, fabs, fdot, hypot, sqrt, \
-                            fsum1_, isscalar
+from pygeodesy.fmath import euclid, fabs, fdot, hypot, sqrt,  fsum1_
 # from pygeodesy.fsums import fsum1_  # from .fmath
 # from pygeodesy.formy import _radical2  # in _intersects2 below
 from pygeodesy.interns import NN, _COMMA_, _concentric_, _intersection_, \
@@ -25,7 +23,7 @@ from pygeodesy.namedTuples import Intersection3Tuple, NearestOn2Tuple, \
                                   NearestOn6Tuple, Vector3Tuple  # Vector4Tuple
 # from pygeodesy.nvectorBase import _nsumOf  # _MODS
 # from pygeodesy.streprs import Fmt  # from .iters
-from pygeodesy.units import _fi_j2, Radius, Radius_
+from pygeodesy.units import _fi_j2, _isDegrees, Radius, Radius_
 from pygeodesy.utily import atan2b, sincos2d
 # from pygeodesy.vector2d import ....  # in .... below
 from pygeodesy.vector3dBase import Vector3dBase
@@ -33,7 +31,7 @@ from pygeodesy.vector3dBase import Vector3dBase
 # from math import fabs, sqrt  # from .fmath
 
 __all__ = _ALL_LAZY.vector3d
-__version__ = '23.10.15'
+__version__ = '23.12.03'
 
 
 class Vector3d(Vector3dBase):
@@ -425,12 +423,12 @@ def _intersect3d3(start1, end1, start2, end2, eps=EPS, useZ=False):  # MCCABE 16
 
     s1 = t = _otherV3d(useZ=useZ, start1=start1)
     s2 =     _otherV3d(useZ=useZ, start2=start2)
-    b1 = isscalar(end1)
+    b1 = _isDegrees(end1)
     if b1:  # bearing, make an e1
         s1, e1 = _corners2(s1, end1, s2, useZ)
     else:
         e1 = _otherV3d(useZ=useZ, end1=end1)
-    b2 = isscalar(end2)
+    b2 = _isDegrees(end2)
     if b2:  # bearing, make an e2
         s2, e2 = _corners2(s2, end2, t, useZ)
     else:
@@ -950,7 +948,7 @@ __all__ += _ALL_DOCS(intersections2, sumOf, Vector3dBase)
 
 # **) MIT License
 #
-# Copyright (C) 2016-2023 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

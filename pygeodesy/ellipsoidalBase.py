@@ -16,19 +16,19 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 from pygeodesy.constants import EPS, EPS0, EPS1, _0_0, _0_5
 from pygeodesy.cartesianBase import CartesianBase  # PYCHOK used!
 from pygeodesy.datums import Datum, Datums, _earth_ellipsoid, _ellipsoidal_datum, \
-                            _WGS84,  _xinstanceof  # _spherical_datum
+                            _WGS84,  _EWGS84, _xinstanceof  # _spherical_datum
+# from pygeodesy.ellipsoids import _EWGS84  # from .datums
 from pygeodesy.errors import _incompatible, _IsnotError, RangeError, TRFError, \
                              _ValueError, _xattr, _xellipsoidal, _xError, \
                              _xkwds, _xkwds_get, _xkwds_not
 # from pygeodesy.fmath import favg  # _MODS
 from pygeodesy.interns import MISSING, NN, _COMMA_, _conversion_, _DOT_, \
                              _ellipsoidal_, _no_, _reframe_, _SPACE_
-from pygeodesy.latlonBase import LatLonBase, _trilaterate5, \
-                                 fabs, Vector3Tuple, _Wrap
+from pygeodesy.latlonBase import LatLonBase, _trilaterate5,  fabs, _Wrap
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 # from pygeodesy.lcc import toLcc  # _MODS
 # from pygeodesy.named import notOverloaded  # _MODS
-# from pygeodesy.namedTuples import Vector3Tuple  # from .latlonBase
+# from pygeodesy.namedTuples import Vector3Tuple  # _MODS
 from pygeodesy.props import deprecated_method, deprecated_property_RO, \
                             Property_RO, property_doc_, property_RO, _update_all
 from pygeodesy.units import Epoch, _1mm as _TOL_M, Radius_
@@ -37,7 +37,7 @@ from pygeodesy.units import Epoch, _1mm as _TOL_M, Radius_
 # from math import fabs  # from .latlonBase
 
 __all__ = _ALL_LAZY.ellipsoidalBase
-__version__ = '23.11.08'
+__version__ = '23.12.12'
 
 
 class CartesianEllipsoidalBase(CartesianBase):
@@ -213,13 +213,9 @@ class LatLonEllipsoidalBase(LatLonBase):
                              or B{C{epoch}} is not C{scalar} non-zero.
 
            @raise UnitError: Invalid B{C{lat}}, B{C{lon}} or B{C{height}}.
-
-           @example:
-
-            >>> p = LatLon(51.4778, -0.0016)  # height=0, datum=Datums.WGS84
         '''
         LatLonBase.__init__(self, latlonh, lon=lon, height=height, wrap=wrap, name=name)
-        if datum not in (None, self._datum):
+        if datum not in (None, self._datum, _EWGS84):
             self.datum = _ellipsoidal_datum(datum, name=name)
         if reframe:
             self.reframe = reframe
@@ -810,11 +806,6 @@ class LatLonEllipsoidalBase(LatLonBase):
                     matches this point's C{datum}.
 
            @raise TypeError: Invalid B{C{datum2}}.
-
-           @example:
-
-            >>> p = LatLon(51.4778, -0.0016)  # default Datums.WGS84
-            >>> p.toDatum(Datums.OSGB36)  # 51.477284°N, 000.00002°E
         '''
         n  =  name or self.name
         d2 = _ellipsoidal_datum(datum2, name=n)
@@ -901,12 +892,6 @@ class LatLonEllipsoidalBase(LatLonBase):
                             B{C{reframe2}} is not available.
 
            @raise TypeError: Invalid B{C{reframe2}}, not a L{RefFrame}.
-
-           @example:
-
-            >>> p = LatLon(51.4778, -0.0016, reframe=RefFrames.ETRF2000)  # default Datums.WGS84
-            >>> p.toRefFrame(RefFrames.ITRF2014)  # 51.477803°N, 000.001597°W, +0.01m
-            >>> p.toRefFrame(RefFrames.ITRF2014, height=0)  # 51.477803°N, 000.001597°W
         '''
         if not self.reframe:
             t = _SPACE_(_DOT_(repr(self), _reframe_), MISSING)
@@ -998,7 +983,7 @@ class LatLonEllipsoidalBase(LatLonBase):
            @note: Overloads C{LatLonBase.to3xyz}
         '''
         r = self.toEcef()
-        return Vector3Tuple(r.x, r.y, r.z, name=self.name)
+        return _MODS.namedTuples.Vector3Tuple(r.x, r.y, r.z, name=self.name)
 
     def trilaterate5(self, distance1, point2, distance2, point3, distance3,
                            area=True, eps=EPS1, wrap=False):
@@ -1139,7 +1124,7 @@ __all__ += _ALL_DOCS(CartesianEllipsoidalBase, LatLonEllipsoidalBase)
 
 # **) MIT License
 #
-# Copyright (C) 2016-2023 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

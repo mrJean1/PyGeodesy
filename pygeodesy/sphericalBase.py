@@ -12,7 +12,7 @@ U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>}.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import _copysign, isbool, isinstanceof, isscalar, map1
+from pygeodesy.basics import _copysign, isbool, isinstanceof, map1
 from pygeodesy.cartesianBase import CartesianBase,  Bearing2Tuple
 from pygeodesy.constants import EPS, EPS0, PI, PI2, PI_2, R_M, \
                                _0_0, _0_5, _1_0, _180_0, _360_0, \
@@ -31,8 +31,8 @@ from pygeodesy.nvectorBase import NvectorBase,  Fmt, _xattrs
 from pygeodesy.props import deprecated_method, property_doc_, \
                             property_RO, _update_all
 # from pygeodesy.streprs import Fmt, _xattrs  # from .nvectorBase
-from pygeodesy.units import Bearing, Bearing_, Radians_, Radius, \
-                            Radius_, Scalar_, _100km
+from pygeodesy.units import _isRadius, Bearing, Bearing_, Radians_, \
+                             Radius, Radius_, Scalar_, _100km
 from pygeodesy.utily import acos1, asin1, atan2b, atan2d, degrees90, \
                             degrees180, sincos2, sincos2d, _unrollon, \
                             tanPI_2_2, wrapPI
@@ -40,7 +40,7 @@ from pygeodesy.utily import acos1, asin1, atan2b, atan2d, degrees90, \
 from math import cos, fabs, log, sin, sqrt
 
 __all__ = _ALL_LAZY.sphericalBase
-__version__ = '23.12.01'
+__version__ = '23.12.03'
 
 
 class CartesianSphericalBase(CartesianBase):
@@ -189,12 +189,6 @@ class LatLonSphericalBase(LatLonBase):
            @return: Final bearing (compass C{degrees360}).
 
            @raise TypeError: The B{C{other}} point is not spherical.
-
-           @example:
-
-            >>> p = LatLon(52.205, 0.119)
-            >>> q = LatLon(48.857, 2.351)
-            >>> b = p.finalBearingTo(q)  # 157.9
         '''
         p = self.others(other)
         if wrap:
@@ -278,7 +272,7 @@ class LatLonSphericalBase(LatLonBase):
         return -self.maxLat(bearing)
 
     def _mpr(self, radius=R_M, exact=None):  # meter per radian
-        if exact and not isscalar(radius):  # see .rhumb.ekx.Rhumb._mpr
+        if exact and not _isRadius(radius):  # see .rhumb.ekx.Rhumb._mpr
             radius = _earth_ellipsoid(radius)._Lpr
         return radius
 
@@ -376,12 +370,6 @@ class LatLonSphericalBase(LatLonBase):
 
            @raise TypeError: The B{C{other}} point is incompatible or
                              B{C{radius}} is invalid.
-
-           @example:
-
-            >>> p = LatLon(51.127, 1.338)
-            >>> q = LatLon(50.964, 1.853)
-            >>> b = p.rhumbBearingTo(q)  # 116.7
         '''
         if exact:  # use series, always
             z = LatLonBase.rhumbAzimuthTo(self, other, exact=False,  # Krüger
@@ -414,11 +402,6 @@ class LatLonSphericalBase(LatLonBase):
 
            @raise ValueError: Invalid B{C{distance}}, B{C{azimuth}}, B{C{radius}}
                               or B{C{height}}.
-
-           @example:
-
-            >>> p = LatLon(51.127, 1.338)
-            >>> q = p.rhumbDestination(40300, 116.7)  # 50.9642°N, 001.8530°E
         '''
         if exact:  # use series, always
             r = LatLonBase.rhumbDestination(self, distance, azimuth, exact=False,  # Krüger
@@ -468,12 +451,6 @@ class LatLonSphericalBase(LatLonBase):
            @raise TypeError: The B{C{other}} point is incompatible.
 
            @raise ValueError: Invalid B{C{radius}}.
-
-           @example:
-
-            >>> p = LatLon(51.127, 1.338)
-            >>> q = LatLon(50.964, 1.853)
-            >>> d = p.rhumbDistanceTo(q)  # 403100
         '''
         if exact:  # use series, always
             r = LatLonBase.rhumbDistanceTo(self, other, exact=False,  # Krüger
@@ -547,13 +524,6 @@ class LatLonSphericalBase(LatLonBase):
            @raise TypeError: The B{C{other}} point is incompatible.
 
            @raise ValueError: Invalid B{C{height}} or B{C{fraction}}
-
-           @example:
-
-            >>> p = LatLon(51.127, 1.338)
-            >>> q = LatLon(50.964, 1.853)
-            >>> m = p.rhumb_midpointTo(q)
-            >>> m.toStr()  # '51.0455°N, 001.5957°E'
         '''
         if exact:  # use series, always
             r = LatLonBase.rhumbMidpointTo(self, other, exact=False,  # Krüger
@@ -733,7 +703,7 @@ __all__ += _ALL_DOCS(CartesianSphericalBase, LatLonSphericalBase)
 
 # **) MIT License
 #
-# Copyright (C) 2016-2023 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

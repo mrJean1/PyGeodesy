@@ -85,7 +85,7 @@ Karney-based functionality
 
   - L{UtmUps}, L{Epsg} -- U{UTMUPS<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1UTMUPS.html>}
 
-  - L{pygeodesy.atan1d}, L{pygeodesy.atan2d}, L{pygeodesy.sincos2}, L{pygeodesy.sincos2d}, L{pygeodesy.tand} -- U{geomath.Math
+  - L{atan1d}, L{atan2d}, L{sincos2}, L{sincos2d}, L{tand} -- U{geomath.Math
     <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Math.html>}
 
 are I{transcoded} from C++ classes in I{Karney}'s U{GeographicLib<https://GeographicLib.SourceForge.io/C++/doc/annotated.html>}.
@@ -114,14 +114,20 @@ C++ utility U{RhumbSolve<https://GeographicLib.SourceForge.io/C++/doc/RhumbSolve
     L{ellipsoidalVincenty.LatLon.intersection3}, L{ellipsoidalVincenty.LatLon.intersections2},
     L{ellipsoidalVincenty.LatLon.nearestOn}, L{ellipsoidalVincenty.LatLon.trilaterate5}
 
-  - L{RhumbLineAux.Intersecant2}, L{RhumbLineAux.Intersection} and L{RhumbLineAux.PlumbTo} C{(exact=None)} in L{rhumb.aux_}
-    and L{RhumbLine.Intersecant2}, L{RhumbLine.Intersection} and L{RhumbLine.PlumbTo} C{(exact=None)} in L{rhumb.ekx}
+  - L{RhumbLineAux.Intersection} and L{RhumbLine.Intersection}
 
 are implementations of I{Karney}'s iterative solution posted under U{The B{ellipsoidal} case
 <https://GIS.StackExchange.com/questions/48937/calculating-intersection-of-two-circles>} and in paper U{Geodesics
 on an ellipsoid of revolution<https://ArXiv.org/pdf/1102.1215.pdf>} (pp 20-21, section B{14. MARITIME BOUNDARIES}).
 
-4. Spherical functions
+4. The C{pygeodesy} methods to compute I{ellipsoidal} intersections and nearest points
+
+  - L{RhumbLineAux.Intersecant2}, L{RhumbLineAux.PlumbTo}, L{RhumbLine.Intersecant2} and L{RhumbLine.PlumbTo}
+
+are I{transcoded} of I{Karney}'s iterative C++ U{rhumb-intercept
+<https://SourceForge.net/p/geographiclib/discussion/1026620/thread/2ddc295e/>} function.
+
+5. Spherical functions
 
   - L{pygeodesy.excessKarney_}, L{sphericalTrigonometry.areaOf}
 
@@ -136,8 +142,6 @@ from pygeodesy.basics import _copysign, int1s, isint, neg, unsigned0, \
                              _xinstanceof, _zip,  isodd  # PYCHOK shared
 from pygeodesy.constants import NAN, _isfinite as _math_isfinite, _0_0, \
                                _1_16th,  _1_0, _2_0, _180_0, _N_180_0, _360_0
-from pygeodesy.datums import _earth_datum, _EWGS84, _WGS84  # PYCHOK shared
-# from pygeodesy.ellipsoids import _EWGS84  # from .datums
 from pygeodesy.errors import GeodesicError, itemsorted, _ValueError, _xkwds, \
                             _xkwds_get
 from pygeodesy.fmath import cbrt, fremainder, hypot as _hypot, norm2, \
@@ -159,7 +163,7 @@ from pygeodesy.utily import atan2d, sincos2d, tand, _unrollon,  fabs
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.karney
-__version__ = '23.12.02'
+__version__ = '23.12.10'
 
 _K_2_0      = _getenv('PYGEODESY_GEOGRAPHICLIB', _2_) == _2_
 _perimeter_ = 'perimeter'
@@ -475,15 +479,15 @@ class Inverse10Tuple(_GTuple):
 
 
 class _kWrapped(object):  # in .geodesicw
-    ''''(INTERNAL) Wrapper for some of I{Karney}'s U{geographiclib
-        <https://PyPI.org/project/geographiclib>} classes.
+    ''''(INTERNAL) Wrapper around I{Karney}'s U{geographiclib
+        <https://PyPI.org/project/geographiclib>}.
     '''
 
     @Property_RO
     def geographiclib(self):
-        '''Get the imported C{geographiclib}, provided the U{geographiclib
+        '''Lazily import C{geographiclib}, provided the U{geographiclib
            <https://PyPI.org/project/geographiclib>} package is installed,
-           otherwise an C{ImportError}.
+           otherwise a C{LazyImportError}.
         '''
         g = _xgeographiclib(self.__class__, 1, 49)
         from geographiclib.geodesic import Geodesic
@@ -494,7 +498,7 @@ class _kWrapped(object):  # in .geodesicw
         g.Math = Math
         return g
 
-    @Property_RO  # MCCABE 13
+    @Property_RO
     def Math(self):
         '''Wrap the C{geomath.Math} class, provided the U{geographiclib
            <https://PyPI.org/project/geographiclib>} package is installed,
@@ -578,7 +582,7 @@ def _around(x):  # in .utily.sincos2d
        @return: Coarsened value (C{float}).
 
        @see: I{Karney}'s U{geomath.Math.AngRound<https://SourceForge.net/p/
-       geographiclib/code/ci/release/tree/python/geographiclib/geomath.py>}
+             geographiclib/code/ci/release/tree/python/geographiclib/geomath.py>}
     '''
     try:
         return _wrapped.Math.AngRound(x)
@@ -747,10 +751,11 @@ def _polynomial(x, cs, i, j):  # PYCHOK shared
 #   try:
 #       return _wrapped.Math.polyval(j - i - 1, cs, i, x)
 #   except AttributeError:
-#       pass
-    s, t = cs[i], _0_0
-    for c in cs[i+1:j]:
-        s, t = _sum2_(s * x, t * x, c)
+#       s, t = cs[i], _0_0
+#       for c in cs[i+1:j]:
+#           s, t = _sum2_(s * x, t * x, c)
+#       return s  # + t
+    s, _ = _sum2_(cs[i], _0_0, x=x, *cs[i+1:j])
     return s  # + t
 
 
@@ -830,8 +835,10 @@ def _sum2(u, v):  # mimick geomath.Math.sum, actually sum2
         return s, t
 
 
-def _sum2_(s, t, *vs):
+def _sum2_(s, t, *vs, **x):
     '''Accumulate any B{C{vs}} into a previous C{_sum2(s, t)}.
+
+       @kwarg x: Optional polynomial C{B{x}=1} (C{scalar}).
 
        @return: 2-Tuple C{(B{s} + B{t} + sum(B{vs}), residual)}.
 
@@ -841,8 +848,13 @@ def _sum2_(s, t, *vs):
 
        @note: NOT "error-free", see C{pygeodesy.test/testKarney.py}.
     '''
+    x = _xkwds_get(x, x=0)
+
     _s2, _u0 = _sum2, unsigned0
     for v in vs:
+        if x:
+            s *= x
+            t *= x
         if v:
             t, u = _s2(t, v)  # start at the least-
             if s:
@@ -891,7 +903,7 @@ __all__ += _ALL_DOCS(_CapsBase)
 
 # **) MIT License
 #
-# Copyright (C) 2016-2023 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
