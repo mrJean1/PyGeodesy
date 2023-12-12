@@ -1552,7 +1552,7 @@ class LatLonBase(_NamedBase):
 
     def toVector(self, Vector=None, **Vector_kwds):
         '''Convert this point to a C{Vector} with the I{geocentric} C{(x,
-           y, z)} coordinates, I{ignoring height}.
+           y, z)} (ECEF) coordinates, I{ignoring height}.
 
            @kwarg Vector: Optional class to return the I{geocentric}
                           components (L{Vector3d}) or C{None}.
@@ -1570,7 +1570,7 @@ class LatLonBase(_NamedBase):
 
     def toVector3d(self, norm=True, **Vector3d_kwds):
         '''Convert this point to a L{Vector3d} with the I{geocentric} C{(x,
-           y, z)} I{unit} coordinates, I{ignoring height}.
+           y, z)} (ECEF) I{unit} coordinates, I{ignoring height}.
 
            @kwarg norm: Normalize the 3-D vector (C{bool}).
            @kwarg Vector3d_kwds: Optional L{Vector3d} keyword arguments.
