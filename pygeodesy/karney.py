@@ -1,16 +1,18 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Wrapper around several C{geomath.Math} functions from I{Karney}'s Python package
-U{geographiclib<https://PyPI.org/project/geographiclib>}, provided that package is installed.
+u'''Wrapper around several C{geomath.Math} functions from I{Karney}'s Python package U{geographiclib
+<https://PyPI.org/project/geographiclib>}, provided that package is installed.
 
 The I{wrapped} class methods return a L{GDict} instance offering access to the C{dict} items
 either by C{key} or by C{attribute} name.
+All methods of the I{wrapped} L{Geodesic<geodesicw.Geodesic>} and L{GeodesicLine<geodesicw.GeodesicLine>}
+classes return a L{GDict} instance offering access to the C{dict} items either by C{key} or by
+C{attribute} name.
 
-With env variable C{PYGEODESY_GEOGRAPHICLIB} left undefined or set to C{"2"}, this module,
-L{pygeodesy.geodesicw} and L{pygeodesy.geodesicx} will use U{GeographicLib 2.0
-<https://GeographicLib.SourceForge.io/C++/doc/>} and newer transcoding, otherwise C{1.52}
-or older.
+With env variable C{PYGEODESY_GEOGRAPHICLIB} left undefined or set to C{"2"}, modules L{geodesicx},
+L{geodesicw} and this module will use U{GeographicLib 2.0<https://GeographicLib.SourceForge.io/C++/doc/>}
+and newer transcoding, otherwise C{1.52} or older.
 
 Karney-based functionality
 ==========================
@@ -124,8 +126,8 @@ on an ellipsoid of revolution<https://ArXiv.org/pdf/1102.1215.pdf>} (pp 20-21, s
 
   - L{RhumbLineAux.Intersecant2}, L{RhumbLineAux.PlumbTo}, L{RhumbLine.Intersecant2} and L{RhumbLine.PlumbTo}
 
-are I{transcoded} of I{Karney}'s iterative C++ U{rhumb-intercept
-<https://SourceForge.net/p/geographiclib/discussion/1026620/thread/2ddc295e/>} function.
+are I{transcoded} of I{Karney}'s iterative C++ function U{rhumb-intercept
+<https://SourceForge.net/p/geographiclib/discussion/1026620/thread/2ddc295e/>}.
 
 5. Spherical functions
 
@@ -163,7 +165,7 @@ from pygeodesy.utily import atan2d, sincos2d, tand, _unrollon,  fabs
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.karney
-__version__ = '23.12.10'
+__version__ = '23.12.18'
 
 _K_2_0      = _getenv('PYGEODESY_GEOGRAPHICLIB', _2_) == _2_
 _perimeter_ = 'perimeter'
@@ -203,7 +205,7 @@ class _Lon(Lon):
 
 class Area3Tuple(_NamedTuple):  # in .geodesicx.gxarea
     '''3-Tuple C{(number, perimeter, area)} with the C{number}
-       of points on the polygon or polyline, the C{perimeter} in
+       of points of the polygon or polyline, the C{perimeter} in
        C{meter} and the C{area} in C{meter} I{squared}.
     '''
     _Names_ = (_number_, _perimeter_, _area_)
@@ -383,15 +385,14 @@ class Direct9Tuple(_GTuple):
 
 
 class GDict(_Dict):  # XXX _NamedDict
-    '''Basic C{dict} with both key I{and} attribute access
-       to the C{dict} items.
+    '''A C{dict} with both C{key} I{and} C{attribute} access to the C{dict} items.
 
-       Results of all C{geodesic} methods are returned as a
-       L{GDict} instance.
+       Results of all C{geodesic} and C{rhumb} methods (with capitalized named) are
+       returned as L{GDict} instances, see for example L{GeodesicExact} and L{RhumbAux}.
     '''
     def toDirect9Tuple(self, dflt=NAN):
-        '''Convert this L{GDict} result to a 9-tuple, like I{Karney}'s
-           method C{geographiclib.geodesic.Geodesic._GenDirect}.
+        '''Convert this L{GDict} result to a 9-tuple, like I{Karney}'s method
+           C{geographiclib.geodesic.Geodesic._GenDirect}.
 
            @kwarg dflt: Default value for missing items (C{any}).
 
@@ -463,7 +464,7 @@ class Inverse10Tuple(_GTuple):
     '''10-Tuple C{(a12, s12, salp1, calp1, salp2, calp2, m12, M12, M21, S12)} with arc length
        C{a12} in C{degrees}, distance C{s12} and reduced length C{m12} in C{meter}, area
        C{S12} in C{meter} I{squared} and the sines C{salp1}, C{salp2} and cosines C{calp1},
-       C{calp2} of the initial C{1} and final C{2} foward azimuths.
+       C{calp2} of the initial C{1} and final C{2} (forward) azimuths.
     '''
     _Names_ = (_a12_, _s12_, 'salp1', 'calp1', 'salp2', 'calp2', _m12_, _M12_, _M21_, _S12_)
     _Units_ = (_Azi,  _M,    _Pass,   _Pass,   _Pass,   _Pass,   _Pass, _Pass, _Pass, _M2)

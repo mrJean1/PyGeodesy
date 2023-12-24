@@ -3,17 +3,17 @@
 
 u'''Geohash en-/decoding.
 
-Classes L{Geohash} and L{GeohashError} and several functions to
-encode, decode and inspect I{geohashes}.
+Classes L{Geohash} and L{GeohashError} and several functions to encode,
+decode and inspect I{geohashes}.
 
 Transcoded from JavaScript originals by I{(C) Chris Veness 2011-2015}
 and published under the same MIT Licence**, see U{Geohashes
 <https://www.Movable-Type.co.UK/scripts/geohash.html>}.
 
-See also U{Geohash<https://WikiPedia.org/wiki/Geohash>},
-U{Geohash<https://GitHub.com/vinsci/geohash>},
-U{PyGeohash<https://PyPI.org/project/pygeohash>} and
-U{Geohash-Javascript<https://GitHub.com/DaveTroy/geohash-js>}.
+See also U{Geohash<https://WikiPedia.org/wiki/Geohash>}, U{Geohash
+<https://GitHub.com/vinsci/geohash>}, U{PyGeohash
+<https://PyPI.org/project/pygeohash>} and U{Geohash-Javascript
+<https://GitHub.com/DaveTroy/geohash-js>}.
 '''
 
 from pygeodesy.basics import isodd, isstr, map2
@@ -22,16 +22,15 @@ from pygeodesy.constants import EPS, R_M, _floatuple, _0_0, _0_5, _180_0, \
 from pygeodesy.dms import parse3llh  # parseDMS2
 from pygeodesy.errors import _ValueError, _xkwds
 from pygeodesy.fmath import favg
-from pygeodesy.formy import equirectangular_ as _equirectangular_, \
-                            equirectangular, euclidean, haversine, vincentys
+# from pygeodesy import formy as _formy  # _MODS
 from pygeodesy.interns import NN, _COMMA_, _DOT_, _E_, _N_, _NE_, _NW_, \
                              _S_, _SE_, _SW_, _W_
-from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
+from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _ALL_OTHER
 from pygeodesy.named import _NamedDict, _NamedTuple, nameof, _xnamed
 from pygeodesy.namedTuples import Bounds2Tuple, Bounds4Tuple, \
                                   LatLon2Tuple, PhiLam2Tuple
 from pygeodesy.props import deprecated_function, deprecated_method, \
-                            deprecated_property_RO, Property_RO
+                            deprecated_property_RO, Property_RO, property_RO
 from pygeodesy.streprs import fstr
 from pygeodesy.units import Degrees_, Int, Lat, Lon, Precision_, Str, \
                            _xStrError
@@ -39,7 +38,7 @@ from pygeodesy.units import Degrees_, Int, Lat, Lon, Precision_, Str, \
 from math import fabs, ldexp, log10, radians
 
 __all__ = _ALL_LAZY.geohash
-__version__ = '23.12.03'
+__version__ = '23.12.18'
 
 
 class _GH(object):
@@ -246,7 +245,7 @@ class Geohash(Str):
               _2bounds(LatLon, LatLon_kwds, *r, name=self.name)
 
     def _distanceTo(self, func_, other, **kwds):
-        '''(INTERNAL) Helper for distances, see C{formy._distanceTo*}.
+        '''(INTERNAL) Helper for distances, see C{.formy._distanceTo*}.
         '''
         lls = self.latlon + _2Geohash(other).latlon
         return func_(*lls, **kwds)
@@ -317,19 +316,17 @@ class Geohash(Str):
         '''
         lls  =  self.latlon + _2Geohash(other).latlon
         kwds = _xkwds(adjust_limit_wrap, adjust=False, limit=None, wrap=False)
-        return equirectangular( *lls, radius=radius, **kwds) if radius else \
-              _equirectangular_(*lls, **kwds).distance2
+        m    =  self._formy
+        return m.equirectangular( *lls, radius=radius, **kwds) if radius else \
+               m.equirectangular_(*lls, **kwds).distance2
 
-    def euclideanTo(self, other, radius=R_M, **adjust_wrap):
-        '''Approximate the distance between this and an other geohash
-           using function L{pygeodesy.euclidean}.
+    def euclideanTo(self, other, **radius_adjust_wrap):
+        '''Approximate the distance between this and an other geohash using
+           function L{pygeodesy.euclidean}.
 
            @arg other: The other geohash (L{Geohash}, C{LatLon} or C{str}).
-           @kwarg radius: Mean earth radius, ellipsoid or datum
-                          (C{meter}, L{Ellipsoid}, L{Ellipsoid2},
-                          L{Datum} or L{a_f2Tuple}).
-           @kwarg adjust_wrap: Optional keyword arguments for function
-                               L{pygeodesy.euclidean}.
+           @kwarg radius_adjust_wrap: Optional keyword arguments for function
+                                      L{pygeodesy.euclidean}.
 
            @return: Distance (C{meter}, same units as B{C{radius}} or the
                     ellipsoid or datum axes).
@@ -337,8 +334,14 @@ class Geohash(Str):
            @raise TypeError: The B{C{other}} is not a L{Geohash}, C{LatLon}
                              or C{str} or invalid B{C{radius}}.
         '''
-        return self._distanceTo(euclidean, other, radius=radius,
-                                                **adjust_wrap)
+        return self._distanceTo(self._formy.euclidean, other, **radius_adjust_wrap)
+
+    @property_RO
+    def _formy(self):
+        '''(INTERNAL) Get the C{.formy} module, I{once}.
+        '''
+        Geohash._formy = f = _MODS.formy  # overwrite property_RO
+        return f
 
     def haversineTo(self, other, **radius_wrap):
         '''Compute the distance between this and an other geohash using
@@ -354,7 +357,7 @@ class Geohash(Str):
            @raise TypeError: The B{C{other}} is not a L{Geohash}, C{LatLon}
                              or C{str} or invalid B{C{radius}}.
         '''
-        return self._distanceTo(haversine, other, **radius_wrap)
+        return self._distanceTo(self._formy.haversine, other, **radius_wrap)
 
     @Property_RO
     def latlon(self):
@@ -427,7 +430,7 @@ class Geohash(Str):
            @raise TypeError: The B{C{other}} is not a L{Geohash}, C{LatLon}
                              or C{str} or invalid B{C{radius}}.
         '''
-        return self._distanceTo(vincentys, other, **radius_wrap)
+        return self._distanceTo(self._formy.vincentys, other, **radius_wrap)
 
     @Property_RO
     def N(self):
@@ -524,20 +527,20 @@ def bounds(geohash, LatLon=None, **LatLon_kwds):
 
     s, w, n, e = _GH.Bounds4
     try:
-        d = True
+        d, _avg = True, favg
         for c in gh.lower():
             i = _GH.DecodedBase32[c]
             for m in (16, 8, 4, 2, 1):
                 if d:  # longitude
                     if i & m:
-                        w = favg(w, e)
+                        w = _avg(w, e)
                     else:
-                        e = favg(w, e)
+                        e = _avg(w, e)
                 else:  # latitude
                     if i & m:
-                        s = favg(s, n)
+                        s = _avg(s, n)
                     else:
-                        n = favg(s, n)
+                        n = _avg(s, n)
                 d = not d
     except KeyError:
         raise GeohashError(geohash=geohash)
@@ -576,8 +579,8 @@ def decode(geohash):
 
 
 def decode2(geohash, LatLon=None, **LatLon_kwds):
-    '''Decode a geohash to lat-/longitude of the (approximate
-       centre of) geohash cell to reasonable precision.
+    '''Decode a geohash to lat-/longitude of the (approximate center
+       of) geohash cell to reasonable precision.
 
        @arg geohash: To be decoded (L{Geohash}).
        @kwarg LatLon: Optional class to return the location (C{LatLon})
@@ -625,8 +628,8 @@ def distance_(geohash1, geohash2):
 
        @return: Approximate distance (C{meter}).
 
-       @raise TypeError: If B{C{geohash1}} or B{C{geohash2}} is
-                         not a L{Geohash}, C{LatLon} or C{str}.
+       @raise TypeError: If B{C{geohash1}} or B{C{geohash2}} is not a
+                         L{Geohash}, C{LatLon} or C{str}.
     '''
     return _2Geohash(geohash1).distanceTo(geohash2)
 
@@ -682,17 +685,18 @@ def encode(lat, lon, precision=None):
     d, gh = True, []
     s, w, n, e = _GH.Bounds4
 
+    _avg = favg
     while p > 0:
         i += i
         if d:  # bisect longitude
-            m = favg(e, w)
+            m = _avg(e, w)
             if lon < m:
                 e = m
             else:
                 w = m
                 i += 1
         else:  # bisect latitude
-            m = favg(n, s)
+            m = _avg(n, s)
             if lat < m:
                 n = m
             else:
@@ -717,24 +721,43 @@ def equirectangular_(geohash1, geohash2, radius=R_M):
 
        @arg geohash1: First geohash (L{Geohash}, C{LatLon} or C{str}).
        @arg geohash2: Second geohash (L{Geohash}, C{LatLon} or C{str}).
-       @kwarg radius: Mean earth radius (C{meter}) or C{None}.
+       @kwarg radius: Mean earth radius (C{meter}) or C{None}, see method
+                      L{Geohash.equirectangularTo}.
 
-       @return: Approximate distance (C{meter}, same units as
-                B{C{radius}}).
+       @return: Approximate distance (C{meter}, same units as B{C{radius}}),
+                see method L{Geohash.equirectangularTo}.
 
-       @raise TypeError: If B{C{geohash1}} or B{C{geohash2}} is
-                         not a L{Geohash}, C{LatLon} or C{str}.
+       @raise TypeError: If B{C{geohash1}} or B{C{geohash2}} is not a
+                         L{Geohash}, C{LatLon} or C{str}.
     '''
     return _2Geohash(geohash1).equirectangularTo(geohash2, radius=radius)
 
 
-def haversine_(geohash1, geohash2, radius=R_M):
+def euclidean_(geohash1, geohash2, **radius_adjust_wrap):
+    '''Approximate the distance between two geohashes using the
+       L{pygeodesy.euclidean} formula.
+
+       @arg geohash1: First geohash (L{Geohash}, C{LatLon} or C{str}).
+       @arg geohash2: Second geohash (L{Geohash}, C{LatLon} or C{str}).
+       @kwarg radius_adjust_wrap: Optional keyword arguments for function
+                                  L{pygeodesy.euclidean}.
+
+       @return: Approximate distance (C{meter}, same units as B{C{radius}}).
+
+       @raise TypeError: If B{C{geohash1}} or B{C{geohash2}} is not a
+                         L{Geohash}, C{LatLon} or C{str}.
+    '''
+    return _2Geohash(geohash1).euclideanTo(geohash2, **radius_adjust_wrap)
+
+
+def haversine_(geohash1, geohash2, **radius_wrap):
     '''Compute the great-circle distance between two geohashes
        using the L{pygeodesy.haversine} formula.
 
        @arg geohash1: First geohash (L{Geohash}, C{LatLon} or C{str}).
        @arg geohash2: Second geohash (L{Geohash}, C{LatLon} or C{str}).
-       @kwarg radius: Mean earth radius (C{meter}).
+       @kwarg radius_wrap: Optional keyword arguments for function
+                           L{pygeodesy.haversine}.
 
        @return: Great-circle distance (C{meter}, same units as
                 B{C{radius}}).
@@ -742,7 +765,7 @@ def haversine_(geohash1, geohash2, radius=R_M):
        @raise TypeError: If B{C{geohash1}} or B{C{geohash2}} is
                          not a L{Geohash}, C{LatLon} or C{str}.
     '''
-    return _2Geohash(geohash1).haversineTo(geohash2, radius=radius)
+    return _2Geohash(geohash1).haversineTo(geohash2, **radius_wrap)
 
 
 def neighbors(geohash):
@@ -846,10 +869,27 @@ def sizes(geohash):
     return _2Geohash(geohash).sizes
 
 
+def vincentys_(geohash1, geohash2, **radius_wrap):
+    '''Compute the distance between two geohashes using the
+       L{pygeodesy.vincentys} formula.
+
+       @arg geohash1: First geohash (L{Geohash}, C{LatLon} or C{str}).
+       @arg geohash2: Second geohash (L{Geohash}, C{LatLon} or C{str}).
+       @kwarg radius_wrap: Optional keyword arguments for function
+                           L{pygeodesy.vincentys}.
+
+       @return: Distance (C{meter}, same units as B{C{radius}}).
+
+       @raise TypeError: If B{C{geohash1}} or B{C{geohash2}} is not a
+                         L{Geohash}, C{LatLon} or C{str}.
+    '''
+    return _2Geohash(geohash1).vincentysTo(geohash2, **radius_wrap)
+
+
 __all__ += _ALL_OTHER(bounds,  # functions
                       decode, decode2, decode_error, distance_,
-                      encode, equirectangular_, haversine_,
-                      neighbors, precision, resolution2, sizes)
+                      encode, equirectangular_, euclidean_, haversine_,
+                      neighbors, precision, resolution2, sizes, vincentys_)
 
 # **) MIT License
 #

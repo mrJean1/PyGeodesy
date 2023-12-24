@@ -1,13 +1,13 @@
 
 # -*- coding: utf-8 -*-
 
-# Test UTM functions with the C(TMcoords.dat} from U{C.F.F. Karney,
+# Test UTM functions with the C(TMcoords.dat} from U{C. F. F. Karney,
 # "Test data for the transverse Mercator projection (2009)"
 # <https://GeographicLib.SourceForge.io/html/transversemercator.html>},
 # also available U{here<https://Zenodo.org/record/32470>}, file C{TMcoords.dat}.
 
 __all__ = ('testUtmTMcoords',)
-__version__ = '23.05.23'
+__version__ = '23.12.18'
 
 from testTMcoords import testTMcoords
 

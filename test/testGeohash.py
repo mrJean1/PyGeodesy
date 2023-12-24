@@ -4,7 +4,7 @@
 # Test L{geohash} module.
 
 __all__ = ('Tests',)
-__version__ = '23.03.27'
+__version__ = '23.12.18'
 
 from bases import TestsBase
 
@@ -37,8 +37,10 @@ class Tests(TestsBase):
         self.test('decode2', geohash.decode2(g), '(65.390646, -17.929709)')
         self.test('decode_error', fstr(geohash.decode_error(g), fmt='%.*e'), '2.145767e-05, 2.145767e-05')
         self.test('distance1To', g.distanceTo('geehpb'), '2758.887', prec=3)
-        self.test('distance2To', g.equirectangularTo('geehpb'),  '682.760', prec=3)
-        self.test('distance3To', g.haversineTo('geehpb'),  '397.404', prec=3)
+        self.test('distance2To', g.equirectangularTo('geehpb'), '682.760', prec=3)
+        self.test('distance3To', g.euclideanTo('geehpb'),       '410.732', prec=3)
+        self.test('distance4To', g.haversineTo('geehpb'),       '397.404', prec=3)
+        self.test('distance5To', g.vincentysTo('geehpb'),       '397.404', prec=3)
         self.test('sizes', fstr(g.sizes, prec=1), '4.8, 4.8')
         self.testCopy(g)
 
@@ -82,9 +84,11 @@ class Tests(TestsBase):
         self.test('decode', geohash.decode('u120fxw'), "('52.205', '0.1188')")
         self.test('decode2', geohash.decode2('u120fxw'), '(52.205, 0.1188)')
         self.test('decode_error', fstr(geohash.decode_error('u120fxw'), fmt='%.*e'), '6.866455e-04, 6.866455e-04')
-        self.test('distance1', geohash.distance_('u120fxw', 'u120fxws0'), '486.710', prec=3)
-        self.test('distance2', geohash.equirectangular_('u120fxw', 'u120fxws0'),   '3.374', prec=3)
-        self.test('distance3', geohash.haversine_('u120fxw', 'u120fxws0'),   '2.798', prec=3)
+        self.test('distance_', geohash.distance_('u120fxw', 'u120fxws0'), '486.710', prec=3)
+        self.test('distance2', geohash.equirectangular_('u120fxw', 'u120fxws0'), '3.374', prec=3)
+        self.test('distance3', geohash.euclidean_('u120fxw', 'u120fxws0'),       '2.992', prec=3)
+        self.test('distance4', geohash.haversine_('u120fxw', 'u120fxws0'),       '2.798', prec=3)
+        self.test('distance5', geohash.vincentys_('u120fxw', 'u120fxws0'),       '2.798', prec=3)
         self.test('sizes', fstr(geohash.sizes('u120fxw'), prec=1), '153.0, 153.0')
 
         g = Geohash('52.5009, 13.354')
@@ -109,7 +113,9 @@ class Tests(TestsBase):
         self.test('decode', geohash.decode('ezs42'), "('42.605', '-5.603')")
         self.test('distance1', geohash.distance_('bcd3u', 'bc83n'), '503442.4', prec=1)  # 625441.
         self.test('distance2', geohash.equirectangular_('bcd3u', 'bc83n'), '303317.6', prec=1)
-        self.test('distance3', geohash.haversine_('bcd3u', 'bc83n'), '179940.1', prec=1)
+        self.test('distance3', geohash.euclidean_('bcd3u', 'bc83n'), '185425.4', prec=1)
+        self.test('distance4', geohash.haversine_('bcd3u', 'bc83n'), '179940.1', prec=1)
+        self.test('distance5', geohash.vincentys_('bcd3u', 'bc83n'), '179940.1', prec=1)
 
         for t in range(0, 14):
             r = geohash.resolution2(t, t)

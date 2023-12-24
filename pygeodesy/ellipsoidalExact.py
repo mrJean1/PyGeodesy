@@ -24,7 +24,7 @@ from pygeodesy.points import _areaError, ispolar  # PYCHOK exported
 # from math import fabs  # from .karney
 
 __all__ = _ALL_LAZY.ellipsoidalExact
-__version__ = '23.11.08'
+__version__ = '23.12.18'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -52,9 +52,7 @@ class Cartesian(CartesianEllipsoidalBase):
 class LatLon(LatLonEllipsoidalBaseDI):
     '''An ellipsoidal L{LatLon} like L{ellipsoidalKarney.LatLon} but using
        exact geodesic classes L{GeodesicExact} and L{GeodesicLineExact} to
-       compute the geodesic distance, initial and final bearing (azimuths)
-       between two given points or the destination point given a start point
-       and an (initial) bearing.
+       compute geodesic distances, bearings (azimuths), etc.
     '''
 
     @Property_RO

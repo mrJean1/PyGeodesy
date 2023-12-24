@@ -49,7 +49,7 @@ from pygeodesy.units import Bearing, Distance, Height, Scalar
 # from math import fabs  # from .nvectorBase
 
 __all__ = _ALL_LAZY.ellipsoidalNvector
-__version__ = '23.12.03'
+__version__ = '23.12.14'
 
 
 class Ned(_Ned):
@@ -84,7 +84,7 @@ class Cartesian(CartesianEllipsoidalBase):
     '''
     @property_RO
     def Ecef(self):
-        '''Get the ECEF I{class} (L{EcefVeness}), I{lazily, once}.
+        '''Get the ECEF I{class} (L{EcefVeness}), I{once}.
         '''
         return _Ecef()
 
@@ -277,7 +277,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 
     @property_RO
     def Ecef(self):
-        '''Get the ECEF I{class} (L{EcefVeness}), I{lazily, once}.
+        '''Get the ECEF I{class} (L{EcefVeness}), I{once}.
         '''
         return _Ecef()
 

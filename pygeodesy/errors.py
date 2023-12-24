@@ -21,7 +21,7 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _getenv, \
                              _pairs, _PYTHON_X_DEV
 
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')  _under
-__version__ = '23.12.08'
+__version__ = '23.12.14'
 
 _box_        = 'box'
 _default_    = 'default'
@@ -189,8 +189,8 @@ class CrossError(_ValueError):
 
 
 class GeodesicError(_ValueError):
-    '''Error raised for L{pygeodesy.geodesicx} lack of convergence
-       or other L{pygeodesy.geodesicx} or L{pygeodesy.karney} issues.
+    '''Error raised for lack of convergence or other issues in L{pygeodesy.geodesicx},
+       L{pygeodesy.geodesicw} or L{pygeodesy.karney}.
     '''
     pass
 

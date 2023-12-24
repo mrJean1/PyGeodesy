@@ -59,7 +59,7 @@ from pygeodesy.vector3d import _otherV3d, Vector3d,  _ALL_LAZY, _MODS
 from math import atan2, fabs, sqrt
 
 __all__ = _ALL_LAZY.triaxials
-__version__ = '23.11.14'
+__version__ = '23.11.16'
 
 _not_ordered_ = _not_('ordered')
 _omega_       = 'omega'
@@ -683,7 +683,7 @@ class Triaxial(Triaxial_):
                  www.Topo.Auth.GR/wp-content/uploads/sites/111/2021/12/09_Panou.pdf>}.
         '''
         if height:
-            h = Height_(height=height, low=-self.c, Error=TriaxialError)
+            h = self._Height(height)
             x, y, z = self._exyz3(h + self.c)
         else:
             x, y, z = self._abc3  # == self._exyz3(self.c)
@@ -773,10 +773,11 @@ class Triaxial(Triaxial_):
         sb, cb = self._norm2(slon, clon)
         return self._forwardLatLon3(height, name, sa, ca, sb, cb)
 
-    def _forwardLatLon3(self, h, name, sa, ca, sb, cb):
+    def _forwardLatLon3(self, height, name, sa, ca, sb, cb):
         '''(INTERNAL) Helper for C{.forwardLatLon} and C{.forwardLatLon_}.
         '''
         ca_x_sb = ca * sb
+        h = self._Height(height)
         # 1 - (1 - (c/a)**2) * sa**2 - (1 - (b/a)**2) * ca**2 * sb**2
         t = fsumf_(_1_0, -self.e2ac * sa**2, -self.e2ab * ca_x_sb**2)
         n = self.a / sqrt0(t, Error=TriaxialError)  # prime vertical
@@ -784,6 +785,11 @@ class Triaxial(Triaxial_):
         y = (h + n * self._1e2ab) * ca_x_sb
         z = (h + n * self._1e2ac) * sa
         return Vector3Tuple(x, y, z, name=name)
+
+    def _Height(self, height):
+        '''(INTERNAL) Validate a C{height}.
+        '''
+        return Height_(height=height, low=-self.c, Error=TriaxialError)
 
     @Property_RO
     def _k2_kp2(self):

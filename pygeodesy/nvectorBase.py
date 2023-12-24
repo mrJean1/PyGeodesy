@@ -38,7 +38,7 @@ from pygeodesy.vector3d import Vector3d, _xyzhdn3
 from math import fabs, sqrt
 
 __all__ = _ALL_LAZY.nvectorBase
-__version__ = '23.12.03'
+__version__ = '23.12.23'
 
 
 class NvectorBase(Vector3d):  # XXX kept private
@@ -83,7 +83,7 @@ class NvectorBase(Vector3d):  # XXX kept private
 
     @property_RO
     def Ecef(self):
-        '''Get the ECEF I{class} (L{EcefKarney}), I{lazily, once}.
+        '''Get the ECEF I{class} (L{EcefKarney}), I{once}.
         '''
         NvectorBase.Ecef = E = _MODS.ecef.EcefKarney  # overwrite property_RO
         return E
@@ -453,9 +453,9 @@ class LatLonNvectorBase(LatLonBase):
         '''
         return LatLonBase.toNvector(self, **_xkwds(Nvector_and_kwds, Nvector=NvectorBase))
 
-    def triangulate(self, bearing1, other, bearing2, height=None, wrap=False):
-        '''Locate a point given this and an other point and a bearing
-           at this and the other point.
+    def triangulate(self, bearing1, other, bearing2, height=None, wrap=False):  # PYCHOK signature
+        '''Locate a point given this, an other point and the (initial) bearing
+           from this and the other point.
 
            @arg bearing1: Bearing at this point (compass C{degrees360}).
            @arg other: The other point (C{LatLon}).

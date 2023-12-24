@@ -69,8 +69,8 @@
   target="_top">JavaScript originals</a> by <i>Chris Veness (C) 
   2005-2022</i> and from several <a 
   href="https://GeographicLib.SourceForge.io/C++/doc/annotated.html" 
-  target="_top">C++ classes</a> by <i>Charles F.F. Karney (C) 2008-2023</i>
-  and published under the same <a 
+  target="_top">C++ classes</a> by <i>Charles F. F. Karney (C) 
+  2008-2023</i> and published under the same <a 
   href="https://OpenSource.org/licenses/MIT" target="_top">MIT 
   License</a>**.</p>
   <p>There are four modules for ellipsoidal earth models, 
@@ -84,9 +84,9 @@
   intersections, <a 
   href="https://WikiPedia.org/wiki/Position_resection_and_intersection" 
   target="_top">3-point resections</a>, rhumb and rhumb lines, 
-  trilateration (by intersection, by overlap and in 3d), conversions and 
-  unrolling, among other things.  For more information and further details 
-  see the <a href="https://mrJean1.GitHub.io/PyGeodesy" 
+  triangulation, trilateration (by intersection, by overlap and in 3d), 
+  conversions and unrolling, among other things.  For more information and 
+  further details see the <a href="https://mrJean1.GitHub.io/PyGeodesy" 
   target="_top">documentation</a>, the descriptions of <a 
   href="https://www.Movable-Type.co.UK/scripts/latlong.html" 
   target="_top">Latitude/Longitude</a>, <a 
@@ -547,7 +547,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        23.12.12
+        23.12.23
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -1197,7 +1197,7 @@
     </td><td class="summary">
         <a href="pygeodesy.karney.Area3Tuple-class.html" class="summary-name">Area3Tuple</a><br />
       3-Tuple <code>(number, perimeter, area)</code> with the 
-        <code>number</code> of points on the polygon or polyline, the 
+        <code>number</code> of points of the polygon or polyline, the 
         <code>perimeter</code> in <code>meter</code> and the 
         <code>area</code> in <code>meter</code> <i>squared</i>.
     </td>
@@ -2541,8 +2541,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.karney.GDict-class.html" class="summary-name">GDict</a><br />
-      Basic <code>dict</code> with both key <i>and</i> attribute access 
-        to the <code>dict</code> items.
+      A <code>dict</code> with both <code>key</code> <i>and</i> 
+        <code>attribute</code> access to the <code>dict</code> items.
     </td>
   </tr>
 <tr>
@@ -2580,12 +2580,13 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.errors.GeodesicError-class.html" class="summary-name">GeodesicError</a><br />
-      Error raised for <a href="pygeodesy.geodesicx-module.html" 
-        class="link">pygeodesy.geodesicx</a> lack of convergence or other 
-        <a href="pygeodesy.geodesicx-module.html" 
-        class="link">pygeodesy.geodesicx</a> or <a 
+      Error raised for lack of convergence or other issues in <a 
+        href="pygeodesy.geodesicx-module.html" 
+        class="link">pygeodesy.geodesicx</a>, <a 
+        href="pygeodesy.geodesicw-module.html" 
+        class="link">pygeodesy.geodesicw</a> or <a 
         href="pygeodesy.karney-module.html" 
-        class="link">pygeodesy.karney</a> issues.
+        class="link">pygeodesy.karney</a>.
     </td>
   </tr>
 <tr>
@@ -3254,9 +3255,9 @@
     </td><td class="summary">
         <a href="pygeodesy.units.HeightX-class.html" class="summary-name">HeightX</a><br />
       Like <a href="pygeodesy.units.Height-class.html" 
-        class="link">Height</a> but to distinguish the interpolated height 
-        at a clip intersection from an original <a 
-        href="pygeodesy.units.Height-class.html" class="link">Height</a>.
+        class="link">Height</a>, used to distinguish the interpolated 
+        height from an original <a href="pygeodesy.units.Height-class.html"
+        class="link">Height</a> at a clip intersection.
     </td>
   </tr>
 <tr>
@@ -3331,7 +3332,7 @@
         <code>meter</code> <i>squared</i> and the sines <code>salp1</code>,
         <code>salp2</code> and cosines <code>calp1</code>, 
         <code>calp2</code> of the initial <code>1</code> and final 
-        <code>2</code> foward azimuths.
+        <code>2</code> (forward) azimuths.
     </td>
   </tr>
 <tr>
@@ -8078,7 +8079,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fa6f0a22850&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f8480786e50&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -12523,7 +12524,7 @@ ygeodesy'"><code class="variable-quote">'</code><code class="variable-string">/U
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'23.12.12'">'23.12.12'</code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'23.12.23'">'23.12.23'</code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -20033,7 +20034,7 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fa6f0a22850&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f8480786e50&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -29584,7 +29585,7 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Dec 12 13:59:48 2023
+    Generated by Epydoc 3.0.1 on Sun Dec 24 10:53:51 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

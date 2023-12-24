@@ -78,7 +78,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        23.12.03
+        23.12.18
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -182,7 +182,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.geohash-module.html#decode2" class="summary-sig-name">decode2</a>(<span class="summary-sig-arg">geohash</span>,
         <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">**LatLon_kwds</span>)</span><br />
-      Decode a geohash to lat-/longitude of the (approximate centre of) 
+      Decode a geohash to lat-/longitude of the (approximate center of) 
       geohash cell to reasonable precision.</td>
           <td align="right" valign="top">
             
@@ -276,9 +276,30 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.geohash-module.html#euclidean_" class="summary-sig-name">euclidean_</a>(<span class="summary-sig-arg">geohash1</span>,
+        <span class="summary-sig-arg">geohash2</span>,
+        <span class="summary-sig-arg">**radius_adjust_wrap</span>)</span><br />
+      Approximate the distance between two geohashes using the <a 
+      href="pygeodesy.formy-module.html#euclidean" 
+      class="link">pygeodesy.euclidean</a> formula.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.geohash-module.html#haversine_" class="summary-sig-name">haversine_</a>(<span class="summary-sig-arg">geohash1</span>,
         <span class="summary-sig-arg">geohash2</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>)</span><br />
+        <span class="summary-sig-arg">**radius_wrap</span>)</span><br />
       Compute the great-circle distance between two geohashes using the <a 
       href="pygeodesy.formy-module.html#haversine" 
       class="link">pygeodesy.haversine</a> formula.</td>
@@ -359,6 +380,27 @@
       Return the lat- and longitudinal size of this <a 
       href="pygeodesy.geohash.Geohash-class.html" class="link">Geohash</a> 
       cell.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.geohash-module.html#vincentys_" class="summary-sig-name">vincentys_</a>(<span class="summary-sig-arg">geohash1</span>,
+        <span class="summary-sig-arg">geohash2</span>,
+        <span class="summary-sig-arg">**radius_wrap</span>)</span><br />
+      Compute the distance between two geohashes using the <a 
+      href="pygeodesy.formy-module.html#vincentys" 
+      class="link">pygeodesy.vincentys</a> formula.</td>
           <td align="right" valign="top">
             
             
@@ -491,7 +533,7 @@
     </td>
   </tr></table>
   
-  <p>Decode a geohash to lat-/longitude of the (approximate centre of) 
+  <p>Decode a geohash to lat-/longitude of the (approximate center of) 
   geohash cell to reasonable precision.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
@@ -655,7 +697,56 @@
         <li><strong class="pname"><code>geohash2</code></strong> - Second geohash (<a href="pygeodesy.geohash.Geohash-class.html" 
           class="link">Geohash</a>, <code>LatLon</code> or 
           <code>str</code>).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>) or <code>None</code>.</li>
+        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>) or <code>None</code>, see 
+          method <a 
+          href="pygeodesy.geohash.Geohash-class.html#equirectangularTo" 
+          class="link">Geohash.equirectangularTo</a>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Approximate distance (<code>meter</code>, same units as 
+          <b><code>radius</code></b>), see method <a 
+          href="pygeodesy.geohash.Geohash-class.html#equirectangularTo" 
+          class="link">Geohash.equirectangularTo</a>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - If <b><code>geohash1</code></b> or <b><code>geohash2</code></b> is 
+        not a <a href="pygeodesy.geohash.Geohash-class.html" 
+        class="link">Geohash</a>, <code>LatLon</code> or <code>str</code>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="euclidean_"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">euclidean_</span>&nbsp;(<span class="sig-arg">geohash1</span>,
+        <span class="sig-arg">geohash2</span>,
+        <span class="sig-arg">**radius_adjust_wrap</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Approximate the distance between two geohashes using the <a 
+  href="pygeodesy.formy-module.html#euclidean" 
+  class="link">pygeodesy.euclidean</a> formula.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>geohash1</code></strong> - First geohash (<a href="pygeodesy.geohash.Geohash-class.html" 
+          class="link">Geohash</a>, <code>LatLon</code> or 
+          <code>str</code>).</li>
+        <li><strong class="pname"><code>geohash2</code></strong> - Second geohash (<a href="pygeodesy.geohash.Geohash-class.html" 
+          class="link">Geohash</a>, <code>LatLon</code> or 
+          <code>str</code>).</li>
+        <li><strong class="pname"><code>radius_adjust_wrap</code></strong> - Optional keyword arguments for function <a 
+          href="pygeodesy.formy-module.html#euclidean" 
+          class="link">pygeodesy.euclidean</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Approximate distance (<code>meter</code>, same units as 
@@ -678,7 +769,7 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">haversine_</span>&nbsp;(<span class="sig-arg">geohash1</span>,
         <span class="sig-arg">geohash2</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.771415</span>)</span>
+        <span class="sig-arg">**radius_wrap</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -697,7 +788,9 @@
         <li><strong class="pname"><code>geohash2</code></strong> - Second geohash (<a href="pygeodesy.geohash.Geohash-class.html" 
           class="link">Geohash</a>, <code>LatLon</code> or 
           <code>str</code>).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>).</li>
+        <li><strong class="pname"><code>radius_wrap</code></strong> - Optional keyword arguments for function <a 
+          href="pygeodesy.formy-module.html#haversine" 
+          class="link">pygeodesy.haversine</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Great-circle distance (<code>meter</code>, same units as 
@@ -872,6 +965,50 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="vincentys_"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">vincentys_</span>&nbsp;(<span class="sig-arg">geohash1</span>,
+        <span class="sig-arg">geohash2</span>,
+        <span class="sig-arg">**radius_wrap</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the distance between two geohashes using the <a 
+  href="pygeodesy.formy-module.html#vincentys" 
+  class="link">pygeodesy.vincentys</a> formula.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>geohash1</code></strong> - First geohash (<a href="pygeodesy.geohash.Geohash-class.html" 
+          class="link">Geohash</a>, <code>LatLon</code> or 
+          <code>str</code>).</li>
+        <li><strong class="pname"><code>geohash2</code></strong> - Second geohash (<a href="pygeodesy.geohash.Geohash-class.html" 
+          class="link">Geohash</a>, <code>LatLon</code> or 
+          <code>str</code>).</li>
+        <li><strong class="pname"><code>radius_wrap</code></strong> - Optional keyword arguments for function <a 
+          href="pygeodesy.formy-module.html#vincentys" 
+          class="link">pygeodesy.vincentys</a>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Distance (<code>meter</code>, same units as 
+          <b><code>radius</code></b>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - If <b><code>geohash1</code></b> or <b><code>geohash2</code></b> is 
+        not a <a href="pygeodesy.geohash.Geohash-class.html" 
+        class="link">Geohash</a>, <code>LatLon</code> or <code>str</code>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
 <br />
 <!-- ==================== NAVIGATION BAR ==================== -->
 <table class="navbar" border="0" width="100%" cellpadding="0"
@@ -904,7 +1041,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Dec 12 13:59:49 2023
+    Generated by Epydoc 3.0.1 on Sun Dec 24 10:53:51 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

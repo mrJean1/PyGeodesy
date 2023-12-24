@@ -22,8 +22,8 @@ from pygeodesy.constants import EPS, EPS1, EPS4, PI, PI2, PI_2, PI_4, R_M, \
                                 _1_0, _2_0, _90_0
 from pygeodesy.datums import _ellipsoidal_datum, _mean_radius
 from pygeodesy.errors import _AssertionError, CrossError, crosserrors, \
-                             _ValueError, IntersectionError, _xError, \
-                             _xkwds, _xkwds_get, _xkwds_pop
+                             _TypeError, _ValueError, IntersectionError, \
+                             _xError, _xkwds, _xkwds_get, _xkwds_pop
 from pygeodesy.fmath import favg, fdot, fmean, hypot
 from pygeodesy.fsums import Fsum, fsum, fsumf_
 from pygeodesy.formy import antipode_, bearing_, _bearingTo2, excessAbc_, \
@@ -55,7 +55,7 @@ from pygeodesy.vector3d import sumOf, Vector3d
 from math import asin, atan2, cos, degrees, fabs, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '23.12.03'
+__version__ = '23.12.18'
 
 _PI_EPS4 = PI - EPS4
 if _PI_EPS4 >= PI:
@@ -85,7 +85,7 @@ class Cartesian(CartesianSphericalBase):
 
 
 class LatLon(LatLonSphericalBase):
-    '''New point on spherical model earth model.
+    '''New point on a spherical earth model, based on trigonometry formulae.
     '''
 
     def _ab1_ab2_db5(self, other, wrap):
@@ -683,6 +683,24 @@ class LatLon(LatLonSphericalBase):
         r = self.philam + B.philam + C.philam
         t = triangle8_(*r, wrap=wrap)
         return self._xnamed(_t7Tuple(t, radius))
+
+    def triangulate(self, bearing1, other, bearing2, **height_wrap):
+        '''Locate a point given this, an other point and the (initial) bearing
+           at this and at the other point.
+
+           @arg bearing1: Bearing at this point (compass C{degrees360}).
+           @arg other: The other point (C{LatLon}).
+           @arg bearing2: Bearing at the other point (compass C{degrees360}).
+           @kwarg height_wrap_tol: Optional keyword arguments C{B{height}=None},
+                         C{B{wrap}=False}, see method L{intersection}.
+
+           @return: Triangulated point (C{LatLon}).
+
+           @see: Method L{intersection} for further details.
+        '''
+        if _isDegrees(bearing1) and _isDegrees(bearing2):
+            return self.intersection(bearing1, other, bearing2, **height_wrap)
+        raise _TypeError(bearing1=bearing1, bearing2=bearing2, **height_wrap)
 
     def trilaterate5(self, distance1, point2, distance2, point3, distance3,
                            area=True, eps=EPS1, radius=R_M, wrap=False):

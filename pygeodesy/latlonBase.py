@@ -53,7 +53,7 @@ from contextlib import contextmanager
 from math import asin, cos, degrees, fabs, radians
 
 __all__ = _ALL_LAZY.latlonBase
-__version__ = '23.12.12'
+__version__ = '23.12.14'
 
 
 class LatLonBase(_NamedBase):
@@ -460,7 +460,7 @@ class LatLonBase(_NamedBase):
 
     @property_RO
     def Ecef(self):
-        '''Get the ECEF I{class} (L{EcefKarney}), I{lazily, once}.
+        '''Get the ECEF I{class} (L{EcefKarney}), I{once}.
         '''
         LatLonBase.Ecef = E = _MODS.ecef.EcefKarney  # overwrite property_RO
         return E

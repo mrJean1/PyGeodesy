@@ -19,21 +19,21 @@ showing imports.  Using C{3} or higher also shows the importing file name
 and line number.
 
 @note: C{Lazy import} applies only to top-level modules of C{pygeodesy}.
-A C{lazy import} of a top-level module inherently loads all sub-modules
-imported by that top-level module.
+       The C{lazy import} of a top-level module invariably loads all
+       sub-modules imported by that top-level module.
 
 @note: C{Lazy import} raises a L{LazyAttributeError} or L{LazyImportError}
-depending on the cause of the error and such errors can occur late, after
-all initial imports.
+       depending on the cause of the error and such errors can occur late,
+       after all initial imports.
 '''
 
 # from pygeodesy.errors import _xError2  # _ALL_MODS
 from pygeodesy.interns import MISSING, NN, __all__ as _interns__all__, _areaOf_, \
                              _attribute_, _by_, _COLONSPACE_, _COMMASPACE_, \
                              _doesn_t_exist_, _DOT_, _enabled_, _EQUALSPACED_, \
-                             _from_, _immutable_, _isclockwise_, _ispolar_, _NL_, \
-                             _no_, _NorthPole_, _not_, _or_, _pygeodesy_, _line_, \
-                             _module_, _pygeodesy_abspath_, _Python_, _QUOTE1_, \
+                             _from_, _HASH_, _immutable_, _isclockwise_, _ispolar_, \
+                             _NL_, _no_, _NorthPole_, _not_, _or_, _pygeodesy_, \
+                             _line_, _module_, _pygeodesy_abspath_, _Python_, _QUOTE1_, \
                              _QUOTE2_, _SouthPole_, _SPACE_, _sub_packages, _UNDER_, \
                              _version_, _dunder_nameof, _headof, _tailof  # _DEPRECATED_
 from pygeodesy.interns import _intern  # PYCHOK used!
@@ -56,7 +56,7 @@ _from_DOT__             = _SPACE_(NN, _from_, _DOT_)
 _i0                     = ()  # PYCHOK empty tuple
 _init__all__            = _FOR_DOCS or _getenv('PYGEODESY_INIT__ALL__', _a_l_l_) == _a_l_l_  # PYCHOK expoted
 _lazily_                = 'lazily'
-_lazily_imported__      = _SPACE_('#', _lazily_, 'imported', NN)
+_lazily_imported__      = _SPACE_(_HASH_, _lazily_, 'imported', NN)
 _p_a_c_k_a_g_e_         = '__package__'
 _PYGEODESY_GEOCONVERT_  = 'PYGEODESY_GEOCONVERT'  # PYCHOK .mgrs, test.bases
 _PYGEODESY_GEODSOLVE_   = 'PYGEODESY_GEODSOLVE'   # PYCHOK .geodsolve, test.bases
@@ -69,7 +69,7 @@ _unlazy = _unLazy0      = _sys_version_info2 < (3, 7)  # PYCHOK mod.__getattr__ 
 _WARNINGS_X_DEV         = _getenv('PYGEODESY_WARNINGS', NN) and (
                           _PYTHON_X_DEV or bool(_sys.warnoptions))  # PYCHOK .props
 # @module_property[_RO?] <https://GitHub.com/jtushman/proxy_tools/>
-isLazy = None  # see @var isLazy in .__init__
+isLazy                  = None  # see @var isLazy in .__init__
 
 
 class LazyAttributeError(AttributeError):

@@ -61,7 +61,7 @@ from pygeodesy.utily import atan2, degrees360, fabs, sincos2, sincos2_, \
 # from math import atan2, fabs  # from utily
 
 __all__ = _ALL_LAZY.sphericalNvector
-__version__ = '23.12.03'
+__version__ = '23.12.18'
 
 _lines_ = 'lines'
 
@@ -108,7 +108,7 @@ class Cartesian(CartesianSphericalBase):
 
 
 class LatLon(LatLonNvectorBase, LatLonSphericalBase):
-    '''New n-vector based point on a spherical earth model.
+    '''New n-vector-based point on a spherical earth model.
 
        Tools for working with points, lines and paths on (a spherical
        model of) the earth's surface using vector-based methods.
@@ -1163,7 +1163,7 @@ def sumOf(nvectors, Vector=Nvector, h=None, **Vector_kwds):
 def triangulate(point1, bearing1, point2, bearing2,
                                   height=None, wrap=False,
                                   LatLon=LatLon, **LatLon_kwds):
-    '''Locate a point given two known points and the initial bearings
+    '''Locate a point given two known points and the (initial) bearing
        from those points.
 
        @arg point1: First reference point (L{LatLon}).

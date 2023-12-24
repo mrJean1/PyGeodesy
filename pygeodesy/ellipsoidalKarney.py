@@ -43,7 +43,7 @@ from pygeodesy.props import deprecated_method, Property_RO
 # from math import fabs  # from .karney
 
 __all__ = _ALL_LAZY.ellipsoidalKarney
-__version__ = '23.11.08'
+__version__ = '23.12.18'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -72,12 +72,10 @@ class Cartesian(CartesianEllipsoidalBase):
 class LatLon(LatLonEllipsoidalBaseDI):
     '''An ellipsoidal L{LatLon} similar to L{ellipsoidalVincenty.LatLon}
        but using I{Charles F. F. Karney}'s Python U{geographiclib
-       <https://PyPI.org/project/geographiclib>} to compute the geodesic
-       distance, initial and final bearing (azimuths) between two given
-       points or the destination point given a start point and an (initial)
-       bearing.
+       <https://PyPI.org/project/geographiclib>} to compute geodesic
+       distances, bearings (azimuths), etc.
 
-       @note: This L{LatLon} require the U{geographiclib
+       @note: This L{LatLon} class requires the U{geographiclib
               <https://PyPI.org/project/geographiclib>} package.
     '''
 

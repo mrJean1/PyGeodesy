@@ -1433,6 +1433,7 @@ pygeodesy.ellipsoidalBase._incompatible	pygeodesy.errors-module.html#_incompatib
 pygeodesy.ellipsoidalBase._trilaterate5	pygeodesy.latlonBase-module.html#_trilaterate5
 pygeodesy.ellipsoidalBase.deprecated_method	pygeodesy.props-module.html#deprecated_method
 pygeodesy.ellipsoidalBase._xkwds_get	pygeodesy.errors-module.html#_xkwds_get
+pygeodesy.ellipsoidalBase._isDegrees	pygeodesy.units-module.html#_isDegrees
 pygeodesy.ellipsoidalBase._update_all	pygeodesy.props-module.html#_update_all
 pygeodesy.ellipsoidalBase._nearestOn	pygeodesy.ellipsoidalBase-module.html#_nearestOn
 pygeodesy.ellipsoidalBase._earth_ellipsoid	pygeodesy.datums-module.html#_earth_ellipsoid
@@ -2298,7 +2299,7 @@ pygeodesy.geohash.decode_error	pygeodesy.geohash-module.html#decode_error
 pygeodesy.geohash._xkwds	pygeodesy.errors-module.html#_xkwds
 pygeodesy.geohash._Neighbors8Defaults	pygeodesy.geohash-module.html#_Neighbors8Defaults
 pygeodesy.geohash.distance_	pygeodesy.geohash-module.html#distance_
-pygeodesy.geohash.equirectangular	pygeodesy.formy-module.html#equirectangular
+pygeodesy.geohash._xnamed	pygeodesy.named-module.html#_xnamed
 pygeodesy.geohash.parse3llh	pygeodesy.dms-module.html#parse3llh
 pygeodesy.geohash.distance2	pygeodesy.geohash-module.html#distance2
 pygeodesy.geohash.distance3	pygeodesy.geohash-module.html#distance3
@@ -2307,30 +2308,27 @@ pygeodesy.geohash.nameof	pygeodesy.named-module.html#nameof
 pygeodesy.geohash._2Geohash	pygeodesy.geohash-module.html#_2Geohash
 pygeodesy.geohash._2bounds	pygeodesy.geohash-module.html#_2bounds
 pygeodesy.geohash.sizes	pygeodesy.geohash-module.html#sizes
-pygeodesy.geohash.equirectangular_	pygeodesy.geohash-module.html#equirectangular_
 pygeodesy.geohash._GH	pygeodesy.geohash-module.html#_GH
 pygeodesy.geohash.__all__	pygeodesy.geohash-module.html#__all__
-pygeodesy.geohash.euclidean	pygeodesy.formy-module.html#euclidean
 pygeodesy.geohash.favg	pygeodesy.fmath-module.html#favg
 pygeodesy.geohash.isodd	pygeodesy.basics-module.html#isodd
 pygeodesy.geohash.fstr	pygeodesy.streprs-module.html#fstr
 pygeodesy.geohash.decode2	pygeodesy.geohash-module.html#decode2
-pygeodesy.geohash._xnamed	pygeodesy.named-module.html#_xnamed
+pygeodesy.geohash.equirectangular_	pygeodesy.geohash-module.html#equirectangular_
 pygeodesy.geohash.haversine_	pygeodesy.geohash-module.html#haversine_
 pygeodesy.geohash.decode	pygeodesy.geohash-module.html#decode
 pygeodesy.geohash.encode	pygeodesy.geohash-module.html#encode
 pygeodesy.geohash._xStrError	pygeodesy.units-module.html#_xStrError
 pygeodesy.geohash._floatuple	pygeodesy.constants-module.html#_floatuple
-pygeodesy.geohash._equirectangular_	pygeodesy.formy-module.html#equirectangular_
 pygeodesy.geohash.precision	pygeodesy.geohash-module.html#precision
 pygeodesy.geohash.deprecated_property_RO	pygeodesy.props-module.html#deprecated_property_RO
 pygeodesy.geohash.resolution2	pygeodesy.geohash-module.html#resolution2
+pygeodesy.geohash.vincentys_	pygeodesy.geohash-module.html#vincentys_
 pygeodesy.geohash.isstr	pygeodesy.basics-module.html#isstr
 pygeodesy.geohash.bounds	pygeodesy.geohash-module.html#bounds
+pygeodesy.geohash.euclidean_	pygeodesy.geohash-module.html#euclidean_
 pygeodesy.geohash.deprecated_function	pygeodesy.props-module.html#deprecated_function
 pygeodesy.geohash._2geostr	pygeodesy.geohash-module.html#_2geostr
-pygeodesy.geohash.vincentys	pygeodesy.formy-module.html#vincentys
-pygeodesy.geohash.haversine	pygeodesy.formy-module.html#haversine
 pygeodesy.geohash.__package__	pygeodesy.geohash-module.html#__package__
 pygeodesy.geohash.deprecated_method	pygeodesy.props-module.html#deprecated_method
 pygeodesy.geohash._bounds3	pygeodesy.geohash-module.html#_bounds3
@@ -2766,6 +2764,7 @@ pygeodesy.interns._S_	pygeodesy.interns-module.html#_S_
 pygeodesy.interns._few_	pygeodesy.interns-module.html#_few_
 pygeodesy.interns._pygeodesy_	pygeodesy.interns-module.html#_pygeodesy_
 pygeodesy.iters	pygeodesy.iters-module.html
+pygeodesy.iters._passarg	pygeodesy.basics-module.html#_passarg
 pygeodesy.iters._NOTHING	pygeodesy.iters-module.html#_NOTHING
 pygeodesy.iters._items_	pygeodesy.iters-module.html#_items_
 pygeodesy.iters.len2	pygeodesy.basics-module.html#len2
@@ -2947,6 +2946,7 @@ pygeodesy.lazily._QUOTE2_	pygeodesy.lazily-module.html#_QUOTE2_
 pygeodesy.lazily._lazy_attr	pygeodesy.lazily-module.html#_lazy_attr
 pygeodesy.lazily._COLONSPACE_	pygeodesy.lazily-module.html#_COLONSPACE_
 pygeodesy.lazily.__as__	pygeodesy.lazily-module.html#__as__
+pygeodesy.lazily._HASH_	pygeodesy.lazily-module.html#_HASH_
 pygeodesy.lazily._NorthPole_	pygeodesy.lazily-module.html#_NorthPole_
 pygeodesy.lazily._NL_	pygeodesy.lazily-module.html#_NL_
 pygeodesy.lazily._sys_version_info2	pygeodesy.lazily-module.html#_sys_version_info2
@@ -9824,6 +9824,7 @@ pygeodesy.latlonBase.LatLonBase.toEcef	pygeodesy.latlonBase.LatLonBase-class.htm
 pygeodesy.latlonBase.LatLonBase.cosineLawTo	pygeodesy.latlonBase.LatLonBase-class.html#cosineLawTo
 pygeodesy.named._Named.methodname	pygeodesy.named._Named-class.html#methodname
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
+pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.triangulate	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#triangulate
 pygeodesy.latlonBase.LatLonBase.clipid	pygeodesy.latlonBase.LatLonBase-class.html#clipid
 pygeodesy.latlonBase.LatLonBase._Ecef_forward	pygeodesy.latlonBase.LatLonBase-class.html#_Ecef_forward
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase._lcc	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#_lcc
@@ -10016,6 +10017,7 @@ pygeodesy.latlonBase.LatLonBase.toEcef	pygeodesy.latlonBase.LatLonBase-class.htm
 pygeodesy.latlonBase.LatLonBase.cosineLawTo	pygeodesy.latlonBase.LatLonBase-class.html#cosineLawTo
 pygeodesy.named._Named.methodname	pygeodesy.named._Named-class.html#methodname
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
+pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.triangulate	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#triangulate
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase._ups	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#_ups
 pygeodesy.latlonBase.LatLonBase._Ecef_forward	pygeodesy.latlonBase.LatLonBase-class.html#_Ecef_forward
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase._lcc	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#_lcc
@@ -10406,6 +10408,7 @@ pygeodesy.latlonBase.LatLonBase.toEcef	pygeodesy.latlonBase.LatLonBase-class.htm
 pygeodesy.latlonBase.LatLonBase.cosineLawTo	pygeodesy.latlonBase.LatLonBase-class.html#cosineLawTo
 pygeodesy.named._Named.methodname	pygeodesy.named._Named-class.html#methodname
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
+pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.triangulate	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#triangulate
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase._ups	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#_ups
 pygeodesy.latlonBase.LatLonBase._Ecef_forward	pygeodesy.latlonBase.LatLonBase-class.html#_Ecef_forward
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase._lcc	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#_lcc
@@ -10796,6 +10799,7 @@ pygeodesy.latlonBase.LatLonBase.toEcef	pygeodesy.latlonBase.LatLonBase-class.htm
 pygeodesy.latlonBase.LatLonBase.cosineLawTo	pygeodesy.latlonBase.LatLonBase-class.html#cosineLawTo
 pygeodesy.named._Named.methodname	pygeodesy.named._Named-class.html#methodname
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
+pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.triangulate	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#triangulate
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase._ups	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#_ups
 pygeodesy.latlonBase.LatLonBase._Ecef_forward	pygeodesy.latlonBase.LatLonBase-class.html#_Ecef_forward
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase._lcc	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#_lcc
@@ -11185,6 +11189,7 @@ pygeodesy.latlonBase.LatLonBase.toEcef	pygeodesy.latlonBase.LatLonBase-class.htm
 pygeodesy.latlonBase.LatLonBase.cosineLawTo	pygeodesy.latlonBase.LatLonBase-class.html#cosineLawTo
 pygeodesy.named._Named.methodname	pygeodesy.named._Named-class.html#methodname
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
+pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.triangulate	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#triangulate
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase._ups	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#_ups
 pygeodesy.latlonBase.LatLonBase._Ecef_forward	pygeodesy.latlonBase.LatLonBase-class.html#_Ecef_forward
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase._lcc	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#_lcc
@@ -12192,6 +12197,7 @@ pygeodesy.latlonBase.LatLonBase.toEcef	pygeodesy.latlonBase.LatLonBase-class.htm
 pygeodesy.latlonBase.LatLonBase.cosineLawTo	pygeodesy.latlonBase.LatLonBase-class.html#cosineLawTo
 pygeodesy.named._Named.methodname	pygeodesy.named._Named-class.html#methodname
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
+pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.triangulate	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#triangulate
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase._ups	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#_ups
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase._osgr	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#_osgr
 pygeodesy.latlonBase.LatLonBase._Ecef_forward	pygeodesy.latlonBase.LatLonBase-class.html#_Ecef_forward
@@ -16921,6 +16927,7 @@ pygeodesy.named._Named.named3	pygeodesy.named._Named-class.html#named3
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
+pygeodesy.named._Named.rename	pygeodesy.named._Named-class.html#rename
 pygeodesy.unitsBase.Str.__repr__	pygeodesy.unitsBase.Str-class.html#__repr__
 pygeodesy.named._Named.__matmul__	pygeodesy.named._Named-class.html#__matmul__
 pygeodesy.geohash.Geohash.equirectangularTo	pygeodesy.geohash.Geohash-class.html#equirectangularTo
@@ -16940,7 +16947,7 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.geohash.Geohash.SW	pygeodesy.geohash.Geohash-class.html#SW
 pygeodesy.geohash.Geohash.bounds	pygeodesy.geohash.Geohash-class.html#bounds
 pygeodesy.geohash.Geohash.SE	pygeodesy.geohash.Geohash-class.html#SE
-pygeodesy.named._Named.rename	pygeodesy.named._Named-class.html#rename
+pygeodesy.geohash.Geohash._formy	pygeodesy.geohash.Geohash-class.html#_formy
 pygeodesy.geohash.Geohash.ab	pygeodesy.geohash.Geohash-class.html#ab
 pygeodesy.unitsBase._NamedUnit.std_repr	pygeodesy.unitsBase._NamedUnit-class.html#std_repr
 pygeodesy.geohash.Geohash.__new__	pygeodesy.geohash.Geohash-class.html#__new__
@@ -27716,6 +27723,7 @@ pygeodesy.sphericalBase.LatLonSphericalBase._napieradius	pygeodesy.sphericalBase
 pygeodesy.latlonBase.LatLonBase.toEcef	pygeodesy.latlonBase.LatLonBase-class.html#toEcef
 pygeodesy.named._Named.methodname	pygeodesy.named._Named-class.html#methodname
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
+pygeodesy.sphericalTrigonometry.LatLon.triangulate	pygeodesy.sphericalTrigonometry.LatLon-class.html#triangulate
 pygeodesy.latlonBase.LatLonBase.clipid	pygeodesy.latlonBase.LatLonBase-class.html#clipid
 pygeodesy.latlonBase.LatLonBase._Ecef_forward	pygeodesy.latlonBase.LatLonBase-class.html#_Ecef_forward
 pygeodesy.named._Named._xrenamed	pygeodesy.named._Named-class.html#_xrenamed
@@ -28145,6 +28153,7 @@ pygeodesy.named._Named.classof	pygeodesy.named._Named-class.html#classof
 pygeodesy.triaxials.Triaxial_._order3d	pygeodesy.triaxials.Triaxial_-class.html#_order3d
 pygeodesy.triaxials.Triaxial.area	pygeodesy.triaxials.Triaxial-class.html#area
 pygeodesy.triaxials.Triaxial_._Elliptic	pygeodesy.triaxials.Triaxial_-class.html#_Elliptic
+pygeodesy.triaxials.Triaxial._Height	pygeodesy.triaxials.Triaxial-class.html#_Height
 pygeodesy.triaxials.JacobiConformal._yE	pygeodesy.triaxials.JacobiConformal-class.html#_yE
 pygeodesy.named._NamedEnumItem._enum	pygeodesy.named._NamedEnumItem-class.html#_enum
 pygeodesy.triaxials.Triaxial.reverseCartesian	pygeodesy.triaxials.Triaxial-class.html#reverseCartesian
@@ -28243,6 +28252,7 @@ pygeodesy.named._Named.classof	pygeodesy.named._Named-class.html#classof
 pygeodesy.triaxials.Triaxial_._order3d	pygeodesy.triaxials.Triaxial_-class.html#_order3d
 pygeodesy.triaxials.Triaxial.area	pygeodesy.triaxials.Triaxial-class.html#area
 pygeodesy.triaxials.Triaxial_._Elliptic	pygeodesy.triaxials.Triaxial_-class.html#_Elliptic
+pygeodesy.triaxials.Triaxial._Height	pygeodesy.triaxials.Triaxial-class.html#_Height
 pygeodesy.triaxials.JacobiConformal._yE	pygeodesy.triaxials.JacobiConformal-class.html#_yE
 pygeodesy.named._NamedEnumItem._enum	pygeodesy.named._NamedEnumItem-class.html#_enum
 pygeodesy.triaxials.Triaxial.reverseCartesian	pygeodesy.triaxials.Triaxial-class.html#reverseCartesian
@@ -28336,6 +28346,7 @@ pygeodesy.named._Named.classof	pygeodesy.named._Named-class.html#classof
 pygeodesy.triaxials.Triaxial_._order3d	pygeodesy.triaxials.Triaxial_-class.html#_order3d
 pygeodesy.triaxials.Triaxial.area	pygeodesy.triaxials.Triaxial-class.html#area
 pygeodesy.triaxials.Triaxial_._Elliptic	pygeodesy.triaxials.Triaxial_-class.html#_Elliptic
+pygeodesy.triaxials.Triaxial._Height	pygeodesy.triaxials.Triaxial-class.html#_Height
 pygeodesy.named._NamedEnumItem._enum	pygeodesy.named._NamedEnumItem-class.html#_enum
 pygeodesy.triaxials.Triaxial.reverseCartesian	pygeodesy.triaxials.Triaxial-class.html#reverseCartesian
 pygeodesy.triaxials.Triaxial.forwardLatLon	pygeodesy.triaxials.Triaxial-class.html#forwardLatLon

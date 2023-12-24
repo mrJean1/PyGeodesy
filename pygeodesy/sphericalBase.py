@@ -40,7 +40,7 @@ from pygeodesy.utily import acos1, asin1, atan2b, atan2d, degrees90, \
 from math import cos, fabs, log, sin, sqrt
 
 __all__ = _ALL_LAZY.sphericalBase
-__version__ = '23.12.03'
+__version__ = '23.12.18'
 
 
 class CartesianSphericalBase(CartesianBase):
@@ -132,7 +132,7 @@ class LatLonSphericalBase(LatLonBase):
                          conventionally).
            @kwarg wrap: If C{True}, wrap or I{normalize} B{C{lat}} and B{C{lon}}
                         (C{bool}).
-           @kwarg name: Optional name (string).
+           @kwarg name: Optional name (C{str}).
 
            @raise TypeError: If B{C{latlonh}} is not a C{LatLon} or B{C{datum}} not
                              spherical.

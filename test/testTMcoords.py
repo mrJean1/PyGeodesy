@@ -1,13 +1,13 @@
 
 # -*- coding: utf-8 -*-
 
-# For UTM/UPS tests using C(TMcoords.dat} from U{C.F.F. Karney,
+# For UTM/UPS tests using C(TMcoords.dat} from U{C. F. F. Karney,
 # "Test data for the transverse Mercator projection (2009)"
 # <https://GeographicLib.SourceForge.io/html/transversemercator.html>},
 # also available U{here<https://Zenodo.org/record/32470>}, file C{TMcoords.dat}.
 
 __all__ = ('testTMcoords',)
-__version__ = '23.05.23'  # '19.05.23'
+__version__ = '23.12.18'  # '19.05.23'
 
 from bases import isiOS, TestsBase
 

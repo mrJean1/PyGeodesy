@@ -19,8 +19,8 @@ from pygeodesy.datums import Datum, Datums, _earth_ellipsoid, _ellipsoidal_datum
                             _WGS84,  _EWGS84, _xinstanceof  # _spherical_datum
 # from pygeodesy.ellipsoids import _EWGS84  # from .datums
 from pygeodesy.errors import _incompatible, _IsnotError, RangeError, TRFError, \
-                             _ValueError, _xattr, _xellipsoidal, _xError, \
-                             _xkwds, _xkwds_get, _xkwds_not
+                             _TypeError, _ValueError, _xattr, _xellipsoidal, \
+                             _xError, _xkwds, _xkwds_get, _xkwds_not
 # from pygeodesy.fmath import favg  # _MODS
 from pygeodesy.interns import MISSING, NN, _COMMA_, _conversion_, _DOT_, \
                              _ellipsoidal_, _no_, _reframe_, _SPACE_
@@ -31,13 +31,13 @@ from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 # from pygeodesy.namedTuples import Vector3Tuple  # _MODS
 from pygeodesy.props import deprecated_method, deprecated_property_RO, \
                             Property_RO, property_doc_, property_RO, _update_all
-from pygeodesy.units import Epoch, _1mm as _TOL_M, Radius_
+from pygeodesy.units import Epoch, _isDegrees, Radius_, _1mm as _TOL_M
 # from pygeodesy.utily import _Wrap  # from .latlonBase
 
 # from math import fabs  # from .latlonBase
 
 __all__ = _ALL_LAZY.ellipsoidalBase
-__version__ = '23.12.12'
+__version__ = '23.12.18'
 
 
 class CartesianEllipsoidalBase(CartesianBase):
@@ -185,9 +185,8 @@ class LatLonEllipsoidalBase(LatLonBase):
 
     def __init__(self, latlonh, lon=None, height=0, datum=None, reframe=None,
                                           epoch=None, wrap=False, name=NN):
-        '''Create an ellipsoidal C{LatLon} point frome the given
-           lat-, longitude and height on the given datum and with
-           the given reference frame and epoch.
+        '''Create an ellipsoidal C{LatLon} point from the givenlat-, longitude
+           and height on the given datum, reference frame and epoch.
 
            @arg latlonh: Latitude (C{degrees} or DMS C{str} with N or S suffix) or
                          a previous C{LatLon} instance provided C{B{lon}=None}.
@@ -203,7 +202,7 @@ class LatLonEllipsoidalBase(LatLonBase):
                          if C{B{reframe}=None}.
            @kwarg wrap: If C{True}, wrap or I{normalize} B{C{lat}} and B{C{lon}}
                         (C{bool}).
-           @kwarg name: Optional name (string).
+           @kwarg name: Optional name (C{str}).
 
            @raise RangeError: Value of C{lat} or B{C{lon}} outside the valid
                               range and L{rangerrors} set to C{True}.
@@ -486,8 +485,8 @@ class LatLonEllipsoidalBase(LatLonBase):
            @kwarg equidistant: An azimuthal equidistant projection (I{class} or
                                function L{pygeodesy.equidistant}), or C{None}
                                for this point's preferred C{.Equidistant}.
-           @kwarg tol: Tolerance for skew line distance and length and for
-                       convergence (C{meter}, conventionally).
+           @kwarg tol: Tolerance for convergence and skew line distance and
+                       length (C{meter}, conventionally).
 
            @return: An L{Intersection3Tuple}C{(point, outside1, outside2)}
                     with C{point} a C{LatLon} instance.
@@ -984,6 +983,25 @@ class LatLonEllipsoidalBase(LatLonBase):
         '''
         r = self.toEcef()
         return _MODS.namedTuples.Vector3Tuple(r.x, r.y, r.z, name=self.name)
+
+    def triangulate(self, bearing1, other, bearing2, **height_wrap_tol):
+        '''I{Iteratively} locate a point given this, an other point and the (initial)
+           bearing at this and at the other point.
+
+           @arg bearing1: Bearing at this point (compass C{degrees360}).
+           @arg other: Start point of the other line (C{LatLon}).
+           @arg bearing2: Bearing at the other point (compass C{degrees360}).
+           @kwarg height_wrap_tol: Optional keyword arguments C{B{height}=None},
+                         C{B{wrap}=False} and C{B{tol}}, see method L{intersection3}.
+
+           @return: Triangulated point (C{LatLon}).
+
+           @see: Method L{intersection3} for further details.
+        '''
+        if _isDegrees(bearing1) and _isDegrees(bearing2):
+            r = self.intersection3(bearing1, other, bearing2, **height_wrap_tol)
+            return r.point
+        raise _TypeError(bearing1=bearing1, bearing2=bearing2 **height_wrap_tol)
 
     def trilaterate5(self, distance1, point2, distance2, point3, distance3,
                            area=True, eps=EPS1, wrap=False):

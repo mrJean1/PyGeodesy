@@ -9,7 +9,8 @@ the initial items, skipping of duplicate items and copying of the
 iterated items.
 '''
 
-from pygeodesy.basics import islistuple, issubclassof, len2, map2
+from pygeodesy.basics import islistuple, issubclassof, \
+                             len2, map2, _passarg
 # from pygeodesy.constants import _1_0  # from .utily
 from pygeodesy.errors import _IndexError, LenError, PointsError, \
                              _TypeError, _ValueError
@@ -24,7 +25,7 @@ from pygeodesy.units import Int, Radius
 from pygeodesy.utily import degrees2m, _Wrap,  _1_0
 
 __all__ = _ALL_LAZY.iters
-__version__ = '23.08.22'
+__version__ = '23.12.14'
 
 _items_        = 'items'
 _iterNumpy2len =  1  # adjustable for testing purposes
@@ -294,12 +295,12 @@ class PointsIter(_BaseIter):
         else:
             _oth = _fmt = None
 
-        w = self._wrap  # and _Wrap.normal is not None
-        n = self.loop if self._iter else 0
+        n  =  self.loop if self._iter else 0
+        _p = _Wrap.point if self._wrap else _passarg  # and _Wrap.normal is not None
         for p in _BaseIter.iterate(self, closed=closed, copies=copies, dedup=closed):
             if _oth:
                 _oth(p, name=_fmt(_0_, str(self._indx)), up=2)
-            yield _Wrap.point(p) if w else p
+            yield _p(p)
             n += 1
         if n < (4 if closed else 2):
             raise self._Error(self.name, n, txt=_too_(_few_))

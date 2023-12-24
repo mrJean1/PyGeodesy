@@ -33,7 +33,7 @@ from pygeodesy.vector3d import Vector3d, _xyzhdn3
 # from math import sqrt  # from .fmath
 
 __all__ = _ALL_LAZY.cartesianBase
-__version__ = '23.12.12'
+__version__ = '23.12.18'
 
 
 class CartesianBase(Vector3d):
@@ -192,7 +192,7 @@ class CartesianBase(Vector3d):
 
     @property_RO
     def Ecef(self):
-        '''Get the ECEF I{class} (L{EcefKarney}), I{lazily, once}.
+        '''Get the ECEF I{class} (L{EcefKarney}), I{once}.
         '''
         CartesianBase.Ecef = E = _MODS.ecef.EcefKarney  # overwrite property_RO
         return E
@@ -702,10 +702,10 @@ class CartesianBase(Vector3d):
         '''Return the string representation of this cartesian.
 
            @kwarg prec: Number of (decimal) digits, unstripped (C{int}).
-           @kwarg fmt: Enclosing backets format (string).
-           @kwarg sep: Separator to join (string).
+           @kwarg fmt: Enclosing backets format (C{str}).
+           @kwarg sep: Separator to join (C{str}).
 
-           @return: Cartesian represented as "[x, y, z]" (string).
+           @return: Cartesian represented as "[x, y, z]" (C{str}).
         '''
         return Vector3d.toStr(self, prec=prec, fmt=fmt, sep=sep)
 

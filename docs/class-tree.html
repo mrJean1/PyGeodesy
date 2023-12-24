@@ -172,12 +172,13 @@
         issue.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.errors.GeodesicError-class.html">pygeodesy.errors.GeodesicError</a></strong>:
-      <em class="summary">Error raised for <a href="pygeodesy.geodesicx-module.html" 
-        class="link">pygeodesy.geodesicx</a> lack of convergence or other 
-        <a href="pygeodesy.geodesicx-module.html" 
-        class="link">pygeodesy.geodesicx</a> or <a 
+      <em class="summary">Error raised for lack of convergence or other issues in <a 
+        href="pygeodesy.geodesicx-module.html" 
+        class="link">pygeodesy.geodesicx</a>, <a 
+        href="pygeodesy.geodesicw-module.html" 
+        class="link">pygeodesy.geodesicw</a> or <a 
         href="pygeodesy.karney-module.html" 
-        class="link">pygeodesy.karney</a> issues.</em>
+        class="link">pygeodesy.karney</a>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.geohash.GeohashError-class.html">pygeodesy.geohash.GeohashError</a></strong>:
       <em class="summary">Geohash encode, decode or other <a 
@@ -1250,10 +1251,8 @@
         classes <a href="pygeodesy.geodesicx.gx.GeodesicExact-class.html" 
         class="link">GeodesicExact</a> and <a 
         href="pygeodesy.geodesicx.gx.GeodesicLineExact-class.html" 
-        class="link">GeodesicLineExact</a> to compute the geodesic 
-        distance, initial and final bearing (azimuths) between two given 
-        points or the destination point given a start point and an 
-        (initial) bearing.</em>
+        class="link">GeodesicLineExact</a> to compute geodesic distances, 
+        bearings (azimuths), etc.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalGeodSolve.LatLon-class.html">pygeodesy.ellipsoidalGeodSolve.LatLon</a></strong>:
       <em class="summary">An ellipsoidal <a 
@@ -1268,12 +1267,11 @@
         the destination point given a start point and an (initial) bearing.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html">pygeodesy.ellipsoidalVincenty.LatLon</a></strong>:
-      <em class="summary">Using the formulae devised by <a 
+      <em class="summary">New point on an (oblate) ellipsoidal earth model, using the 
+        formulae devised by <a 
         href="https://WikiPedia.org/wiki/Vincenty's_formulae" 
-        target="_top"><i>Thaddeus Vincenty (1975)</i></a> for an (oblate) 
-        ellipsoidal model of the earth to compute the geodesic distance and
-        bearings between two given points or the destination point given an
-        start point and (initial) bearing.</em>
+        target="_top"><i>Thaddeus Vincenty</i></a> (1975) to compute 
+        geodesic distances, bearings (azimuths), etc.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.LatLon-class.html">pygeodesy.ellipsoidalKarney.LatLon</a></strong>:
       <em class="summary">An ellipsoidal <a 
@@ -1283,9 +1281,8 @@
         class="link">ellipsoidalVincenty.LatLon</a> but using <i>Charles F.
         F. Karney</i>'s Python <a 
         href="https://PyPI.org/project/geographiclib" 
-        target="_top">geographiclib</a> to compute the geodesic distance, 
-        initial and final bearing (azimuths) between two given points or 
-        the destination point given a start point and an (initial) bearing.</em>
+        target="_top">geographiclib</a> to compute geodesic distances, 
+        bearings (azimuths), etc.</em>
     </li>
     </ul>
     </li>
@@ -1306,7 +1303,7 @@
         class="link">LatLon</a> point.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.sphericalNvector.LatLon-class.html">pygeodesy.sphericalNvector.LatLon</a></strong>:
-      <em class="summary">New n-vector based point on a spherical earth model.</em>
+      <em class="summary">New n-vector-based point on a spherical earth model.</em>
     </li>
     </ul>
     </li>
@@ -1314,10 +1311,11 @@
       <em class="summary">(INTERNAL) Base class for spherical <code>LatLon</code>s.</em>
     <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.sphericalNvector.LatLon-class.html">pygeodesy.sphericalNvector.LatLon</a></strong>:
-      <em class="summary">New n-vector based point on a spherical earth model.</em>
+      <em class="summary">New n-vector-based point on a spherical earth model.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.sphericalTrigonometry.LatLon-class.html">pygeodesy.sphericalTrigonometry.LatLon</a></strong>:
-      <em class="summary">New point on spherical model earth model.</em>
+      <em class="summary">New point on a spherical earth model, based on trigonometry 
+        formulae.</em>
     </li>
     </ul>
     </li>
@@ -1489,14 +1487,14 @@
       <em class="summary">An n-vector is a position representation using a (unit) vector 
         normal to the earth ellipsoid.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.sphericalNvector.Nvector-class.html">pygeodesy.sphericalNvector.Nvector</a></strong>:
+      <em class="summary">An n-vector is a position representation using a (unit) vector 
+        normal to the earth's surface.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.deprecated.nvector.Nvector-class.html">pygeodesy.deprecated.nvector.Nvector</a></strong>:
       <em class="summary">DEPRECATED on 2021.05.20, see (INTERNAL) class <a 
         href="pygeodesy.nvectorBase.NvectorBase-class.html" 
         class="link">pygeodesy.nvectorBase.NvectorBase</a>.</em>
-    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.sphericalNvector.Nvector-class.html">pygeodesy.sphericalNvector.Nvector</a></strong>:
-      <em class="summary">An n-vector is a position representation using a (unit) vector 
-        normal to the earth's surface.</em>
     </li>
     </ul>
     </li>
@@ -2021,7 +2019,7 @@
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.karney.Area3Tuple-class.html">pygeodesy.karney.Area3Tuple</a></strong>:
       <em class="summary">3-Tuple <code>(number, perimeter, area)</code> with the 
-        <code>number</code> of points on the polygon or polyline, the 
+        <code>number</code> of points of the polygon or polyline, the 
         <code>perimeter</code> in <code>meter</code> and the 
         <code>area</code> in <code>meter</code> <i>squared</i>.</em>
     </li>
@@ -2716,7 +2714,7 @@
         <code>meter</code> <i>squared</i> and the sines <code>salp1</code>,
         <code>salp2</code> and cosines <code>calp1</code>, 
         <code>calp2</code> of the initial <code>1</code> and final 
-        <code>2</code> foward azimuths.</em>
+        <code>2</code> (forward) azimuths.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.karney.Rhumb8Tuple-class.html">pygeodesy.karney.Rhumb8Tuple</a></strong>:
       <em class="summary">8-Tuple <code>(lat1, lon1, lat2, lon2, azi12, s12, S12, a12)</code>
@@ -2902,9 +2900,9 @@
     <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.units.HeightX-class.html">pygeodesy.units.HeightX</a></strong>:
       <em class="summary">Like <a href="pygeodesy.units.Height-class.html" 
-        class="link">Height</a> but to distinguish the interpolated height 
-        at a clip intersection from an original <a 
-        href="pygeodesy.units.Height-class.html" class="link">Height</a>.</em>
+        class="link">Height</a>, used to distinguish the interpolated 
+        height from an original <a href="pygeodesy.units.Height-class.html"
+        class="link">Height</a> at a clip intersection.</em>
     </li>
     </ul>
     </li>
@@ -3063,8 +3061,8 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
         access to the <code>dict</code> items.</em>
     <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.karney.GDict-class.html">pygeodesy.karney.GDict</a></strong>:
-      <em class="summary">Basic <code>dict</code> with both key <i>and</i> attribute access 
-        to the <code>dict</code> items.</em>
+      <em class="summary">A <code>dict</code> with both <code>key</code> <i>and</i> 
+        <code>attribute</code> access to the <code>dict</code> items.</em>
     <ul>
     </ul>
     </li>
@@ -3206,9 +3204,9 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
     <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.units.HeightX-class.html">pygeodesy.units.HeightX</a></strong>:
       <em class="summary">Like <a href="pygeodesy.units.Height-class.html" 
-        class="link">Height</a> but to distinguish the interpolated height 
-        at a clip intersection from an original <a 
-        href="pygeodesy.units.Height-class.html" class="link">Height</a>.</em>
+        class="link">Height</a>, used to distinguish the interpolated 
+        height from an original <a href="pygeodesy.units.Height-class.html"
+        class="link">Height</a> at a clip intersection.</em>
     </li>
     </ul>
     </li>
@@ -3347,7 +3345,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.karney.Area3Tuple-class.html">pygeodesy.karney.Area3Tuple</a></strong>:
       <em class="summary">3-Tuple <code>(number, perimeter, area)</code> with the 
-        <code>number</code> of points on the polygon or polyline, the 
+        <code>number</code> of points of the polygon or polyline, the 
         <code>perimeter</code> in <code>meter</code> and the 
         <code>area</code> in <code>meter</code> <i>squared</i>.</em>
     </li>
@@ -4042,7 +4040,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
         <code>meter</code> <i>squared</i> and the sines <code>salp1</code>,
         <code>salp2</code> and cosines <code>calp1</code>, 
         <code>calp2</code> of the initial <code>1</code> and final 
-        <code>2</code> foward azimuths.</em>
+        <code>2</code> (forward) azimuths.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.karney.Rhumb8Tuple-class.html">pygeodesy.karney.Rhumb8Tuple</a></strong>:
       <em class="summary">8-Tuple <code>(lat1, lon1, lat2, lon2, azi12, s12, S12, a12)</code>
@@ -4151,7 +4149,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Dec 12 13:59:48 2023
+    Generated by Epydoc 3.0.1 on Sun Dec 24 10:53:50 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

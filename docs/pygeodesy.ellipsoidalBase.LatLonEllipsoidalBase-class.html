@@ -104,9 +104,8 @@
         <span class="summary-sig-arg">epoch</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
-      Create an ellipsoidal <code>LatLon</code> point frome the given lat-,
-      longitude and height on the given datum and with the given reference 
-      frame and epoch.</td>
+      Create an ellipsoidal <code>LatLon</code> point from the givenlat-, 
+      longitude and height on the given datum, reference frame and epoch.</td>
           <td align="right" valign="top">
             
             
@@ -647,6 +646,28 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#triangulate" class="summary-sig-name">triangulate</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">bearing1</span>,
+        <span class="summary-sig-arg">other</span>,
+        <span class="summary-sig-arg">bearing2</span>,
+        <span class="summary-sig-arg">**height_wrap_tol</span>)</span><br />
+      <i>Iteratively</i> locate a point given this, an other point and the 
+      (initial) bearing at this and at the other point.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#trilaterate5" class="summary-sig-name">trilaterate5</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">distance1</span>,
         <span class="summary-sig-arg">point2</span>,
@@ -927,9 +948,8 @@
     </td>
   </tr></table>
   
-  <p>Create an ellipsoidal <code>LatLon</code> point frome the given lat-, 
-  longitude and height on the given datum and with the given reference 
-  frame and epoch.</p>
+  <p>Create an ellipsoidal <code>LatLon</code> point from the givenlat-, 
+  longitude and height on the given datum, reference frame and epoch.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -958,7 +978,7 @@
         <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> 
           <b><code>lat</code></b> and <b><code>lon</code></b> 
           (<code>bool</code>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name (string).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>New instance (<code>LatLon</code>).</dd>
@@ -1343,7 +1363,7 @@
           href="pygeodesy.azimuthal-module.html#equidistant" 
           class="link">pygeodesy.equidistant</a>), or <code>None</code> for
           this point's preferred <code>.Equidistant</code>.</li>
-        <li><strong class="pname"><code>tol</code></strong> - Tolerance for skew line distance and length and for convergence 
+        <li><strong class="pname"><code>tol</code></strong> - Tolerance for convergence and skew line distance and length 
           (<code>meter</code>, conventionally).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -2079,6 +2099,48 @@
       </p>
 </div></td></tr></table>
 </div>
+<a name="triangulate"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">triangulate</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">bearing1</span>,
+        <span class="sig-arg">other</span>,
+        <span class="sig-arg">bearing2</span>,
+        <span class="sig-arg">**height_wrap_tol</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p><i>Iteratively</i> locate a point given this, an other point and the 
+  (initial) bearing at this and at the other point.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>bearing1</code></strong> - Bearing at this point (compass <code>degrees360</code>).</li>
+        <li><strong class="pname"><code>other</code></strong> - Start point of the other line (<code>LatLon</code>).</li>
+        <li><strong class="pname"><code>bearing2</code></strong> - Bearing at the other point (compass <code>degrees360</code>).</li>
+        <li><strong class="pname"><code>height_wrap_tol</code></strong> - Optional keyword arguments <code><b>height</b>=None</code>, 
+          <code><b>wrap</b>=False</code> and <code><b>tol</b></code>, see 
+          method <a 
+          href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#intersection3"
+          class="link">intersection3</a>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Triangulated point (<code>LatLon</code>).</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Method <a 
+        href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#intersection3"
+        class="link">intersection3</a> for further details.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="trilaterate5"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -2450,7 +2512,7 @@ href="pygeodesy.ups.Ups-class.html" class="link">Ups</a>.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Dec 12 13:59:50 2023
+    Generated by Epydoc 3.0.1 on Sun Dec 24 10:53:52 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

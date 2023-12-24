@@ -72,7 +72,7 @@ from pygeodesy.utily import atan2b, atan2d, sincos2, sincos2d, unroll180, wrap18
 from math import atan2, cos, degrees, fabs, radians, tan
 
 __all__ = _ALL_LAZY.ellipsoidalVincenty
-__version__ = '23.11.20'
+__version__ = '23.12.18'
 
 _antipodal_to_ = _SPACE_(_antipodal_, _to_)
 
@@ -90,7 +90,7 @@ class Cartesian(CartesianEllipsoidalBase):
     '''
     @property_RO
     def Ecef(self):
-        '''Get the ECEF I{class} (L{EcefVeness}), I{lazily, once}.
+        '''Get the ECEF I{class} (L{EcefVeness}), I{once}.
         '''
         return _Ecef()
 
@@ -113,21 +113,18 @@ class Cartesian(CartesianEllipsoidalBase):
 
 
 class LatLon(LatLonEllipsoidalBaseDI):
-    '''Using the formulae devised by U{I{Thaddeus Vincenty (1975)}
-       <https://WikiPedia.org/wiki/Vincenty's_formulae>} for an (oblate)
-       ellipsoidal model of the earth to compute the geodesic distance
-       and bearings between two given points or the destination point
-       given an start point and (initial) bearing.
+    '''New point on an (oblate) ellipsoidal earth model, using the formulae devised
+       by U{I{Thaddeus Vincenty}<https://WikiPedia.org/wiki/Vincenty's_formulae>}
+       (1975) to compute geodesic distances, bearings (azimuths), etc.
 
-       Set the earth model to be used with the keyword argument
-       datum.  The default is Datums.WGS84, which is the most globally
-       accurate.  For other models, see the Datums in module datum.
+       Set the earth model to be used with the keyword argument datum.  The default
+       is C{Datums.WGS84}, which is the most globally accurate.  For other models,
+       see the L{Datums<pygeodesy.datums>}.
 
-       Note: This implementation of I{Vincenty} methods may not converge
-       for some valid points, raising a L{VincentyError}.  In that case,
-       a result may be obtained by increasing the tolerance C{epsilon}
-       and/or iteration C{limit}, see properties L{LatLon.epsilon} and
-       L{LatLon.iterations}.
+       @note: This implementation of I{Vincenty} methods may not converge for some
+              valid points, raising a L{VincentyError}.  In that case, a result may
+              be obtained by increasing the tolerance C{epsilon} and/or iteration
+              C{limit}, see properties L{LatLon.epsilon} and L{LatLon.iterations}.
     '''
     _epsilon    = 1e-12  # radians, about 6 um
 #   _iteration  = None   # iteration number from .named._NamedBase
@@ -141,7 +138,7 @@ class LatLon(LatLonEllipsoidalBaseDI):
 
     @property_RO
     def Ecef(self):
-        '''Get the ECEF I{class} (L{EcefVeness}), I{lazily, once}.
+        '''Get the ECEF I{class} (L{EcefVeness}), I{once}.
         '''
         return _Ecef()
 

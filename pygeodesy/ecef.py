@@ -86,7 +86,7 @@ from pygeodesy.utily import atan1, atan1d, atan2d, degrees90, degrees180, \
 from math import atan2, cos, degrees, fabs, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '23.12.03'
+__version__ = '23.12.18'
 
 _Ecef_    = 'Ecef'
 _prolate_ = 'prolate'
