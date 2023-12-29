@@ -59,7 +59,7 @@ from pygeodesy.vector3d import _otherV3d, Vector3d,  _ALL_LAZY, _MODS
 from math import atan2, fabs, sqrt
 
 __all__ = _ALL_LAZY.triaxials
-__version__ = '23.11.16'
+__version__ = '23.12.29'
 
 _not_ordered_ = _not_('ordered')
 _omega_       = 'omega'
@@ -426,6 +426,15 @@ class Triaxial_(_NamedEnumItem):
         a, b, c = self._abc3
         return a if a == b == c else INT0
 
+    def _norm2(self, s, c, *a):
+        '''(INTERNAL) Normalize C{s} and C{c} iff not already.
+        '''
+        if fabs(_hypot21(s, c)) > EPS02:
+            s, c = norm2(s, c)
+        if a:
+            s, c = norm2(s * self.b, c * a[0])
+        return float0_(s, c)
+
     def normal3d(self, x_xyz, y=None, z=None, length=_1_0):
         '''Get a 3-D vector perpendicular to at a cartesian on this triaxial's surface.
 
@@ -457,15 +466,6 @@ class Triaxial_(_NamedEnumItem):
         d = max(self._abc3)
         t = tuple(((d / x)**2 if x != d else _1_0) for x in self._abc3)
         return Vector3d(*t, name=self.normal3d.__name__)
-
-    def _norm2(self, s, c, *a):
-        '''(INTERNAL) Normalize C{s} and C{c} iff not already.
-        '''
-        if fabs(_hypot21(s, c)) > EPS02:
-            s, c = norm2(s, c)
-        if a:
-            s, c = norm2(s * self.b, c * a[0])
-        return float0_(s, c)
 
     def _order3(self, *abc, **reverse):  # reverse=False
         '''(INTERNAL) Un-/Order C{a}, C{b} and C{c}.
@@ -1206,7 +1206,7 @@ def _hartzell2(pov, los, Tun):  # in .ellipsoids.hartzell4, .formy.hartzell
         raise _ValueError(_opposite_ if max(ux, vy, wz) > 0 else _outside_)
 
     d = Fdot(t, ux, vy, wz).fadd_(r).fover(m)  # -r for antipode, a2 factored out
-    if d > 0:  # POV inside or LOS missing, outside the triaxial
+    if d > 0:  # POV inside or LOS outside or missing the triaxial
         s = fsumf_(_1_0, x2 / a2, y2 / b2, z2 / c2, _N_2_0)  # like _sideOf
         raise _ValueError(_outside_ if s > 0 else _inside_)
     elif fsum1f_(x2, y2, z2) < d**2:  # d past triaxial's center

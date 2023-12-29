@@ -65,7 +65,7 @@ Both numpy_ and scipy_ must be installed for most Geoid_ and Height_ interpolato
 and the ``HeigthIDW...`` ones.
 
 Functions and ``LatLon`` methods ``circin6``, ``circum3``, ``circum4_``, ``soddy4``, ``trilaterate3d2``
-do and ``trilaterate5`` and modules``auxilats`` and ``rhumb`` may require numpy_.
+and ``trilaterate5`` do and modules ``auxilats`` and ``rhumb`` may require numpy_.
 
 Modules ``ellipsoidalGeodSolve`` and ``geodsolve`` and ``azimuthal`` classes ``EquidistantGeodSolve``
 and ``GnomonicGeodSolve`` depend on *Karney*\'s C++ utility GeodSolve_ to be executable and set with
@@ -131,30 +131,27 @@ and McCabe_ using Python 2.7.18 and with Flake8_ using Python 3.11.5, both in 64
 
 For a summary of all *Karney*-based functionality in ``pygeodesy``, see module karney_.
 
-*Last updated: Dec 23, 2023.*
+*Last updated: Dec 29, 2023.*
 
 License
 =======
 
 ``Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.``
 
-``Permission is hereby granted, free of charge, to any person obtaining a
-copy of this software and associated documentation files (the "Software"),
-to deal in the Software without restriction, including without limitation
-the rights to use, copy, modify, merge, publish, distribute, sublicense,
-and/or sell copies of the Software, and to permit persons to whom the
-Software is furnished to do so, subject to the following conditions:``
+``Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+andassociated documentation files (the "Software"), to deal in the Software without restriction,
+includingwithout limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
+and/or sellcopies of the Software, and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:``
 
-``The above copyright notice and this permission notice shall be included
-in all copies or substantial portions of the Software.``
+``The above copyright notice and this permission notice shall be included in all copies or substantial
+portions of the Software.``
 
-``THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
-OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-OTHER DEALINGS IN THE SOFTWARE.``
+``THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
+NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.``
 
 .. image:: https://Img.Shields.io/pypi/pyversions/PyGeodesy.svg?label=Python
   :target: https://PyPI.org/project/PyGeodesy

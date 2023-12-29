@@ -237,23 +237,20 @@ License
 **) U{Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
 <https://OpenSource.org/licenses/MIT>}
 
-C{Permission is hereby granted, free of charge, to any person obtaining a
-copy of this software and associated documentation files (the "Software"),
-to deal in the Software without restriction, including without limitation
-the rights to use, copy, modify, merge, publish, distribute, sublicense,
-and/or sell copies of the Software, and to permit persons to whom the
-Software is furnished to do so, subject to the following conditions:}
+C{Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+and associated documentation files (the "Software"), to deal in the Software without restriction,
+including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
+and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:}
 
-C{The above copyright notice and this permission notice shall be included
-in all copies or substantial portions of the Software.}
+C{The above copyright notice and this permission notice shall be included in all copies or substantial
+portions of the Software.}
 
-C{THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
-THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
-OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-OTHER DEALINGS IN THE SOFTWARE.}
+C{THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
+NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.}
 
 @newfield example: Example, Examples
 
@@ -352,14 +349,14 @@ OTHER DEALINGS IN THE SOFTWARE.}
 @var version: Normalized C{PyGeodesy} version (C{str}).
 '''
 
-from os.path import abspath, basename, dirname
-import sys
+import os.path as _pth
+import sys as _sys
 
-_init__all__      = True
+_init__all__      =  True
 # <https://PyInstaller.ReadTheDocs.io/en/stable/runtime-information.html>
-_isfrozen         = getattr(sys, 'frozen', False)
-pygeodesy_abspath = dirname(abspath(__file__))  # sys._MEIPASS + '/pygeodesy'
-_pygeodesy_       = __package__ or basename(pygeodesy_abspath)
+_isfrozen         =  getattr(_sys, 'frozen', False)
+pygeodesy_abspath = _pth.dirname(_pth.abspath(__file__))  # _sys._MEIPASS + '/pygeodesy'
+_pygeodesy_       = __package__ or _pth.basename(pygeodesy_abspath)
 
 if _isfrozen:  # avoid lazy import
     _lazy_import2 = None
@@ -369,10 +366,10 @@ else:
     try:  # ... make this import work, ...
         import pygeodesy.lazily as _
     except ImportError:  # ... if it doesn't, extend
-        # sys.path to include this very directory such
+        # _sys.path to include this very directory such
         # that all public and private sub-modules can
         # be imported (and checked by PyChecker, etc.)
-        sys.path.insert(0, pygeodesy_abspath)  # XXX __path__[0]
+        _sys.path.insert(0, pygeodesy_abspath)  # XXX __path__[0]
 
     try:  # lazily requires Python 3.7+, see lazily.__doc__
         from pygeodesy.lazily import _init__all__, _lazy_import2  # PYCHOK expected
@@ -575,7 +572,7 @@ if _init__all__ and not _lazy_import2:  # import and set __all__
 # XXX       if ps:  # check that mod is a _pygeodesy_ module
 # XXX           m = globalocals[mod]  # assert(m.__name__ == mod)
 # XXX           f = getattr(m, '__file__', _NN)
-# XXX           d = dirname(abspath(f)) if f else pygeodesy_abspath
+# XXX           d = _pth.dirname(_pth.abspath(f)) if f else pygeodesy_abspath
 # XXX           p = getattr(m, '__package__', _NN) or _pygeodesy_
 # XXX           if p not in ps or d != pygeodesy_abspath:
 # XXX               t = '%s from %r' % (_DOT_(p, mod), f or p)
@@ -588,11 +585,11 @@ else:
     _init__all__ = False
 
 from pygeodesy.interns import _DOT_  # PYCHOK import
-__version__ = '23.12.23'
+__version__ = '23.12.29'
 # see setup.py for similar logic
 version     = _DOT_(*map(int, __version__.split(_DOT_)))
 
-del abspath, basename, dirname, _DOT_, _lazy_import2, sys
+del _DOT_, _lazy_import2, _pth, _sys
 
 # **) MIT License
 #

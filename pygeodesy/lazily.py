@@ -38,6 +38,7 @@ from pygeodesy.interns import MISSING, NN, __all__ as _interns__all__, _areaOf_,
                              _version_, _dunder_nameof, _headof, _tailof  # _DEPRECATED_
 from pygeodesy.interns import _intern  # PYCHOK used!
 # from pygeodesy.streprs import Fmt, pairs, unstr  # _ALL_MODS
+from pygeodesy import _isfrozen  # handle as w/o lazy import
 
 from os import getenv as _getenv  # in .errors, .geodsolve, .props, .units
 from os.path import basename as _basename
@@ -65,7 +66,7 @@ _PYGEODESY_RHUMBSOLVE_  = 'PYGEODESY_RHUMBSOLVE'  # PYCHOK .rhumb.solve, test.ba
 _PYTHON_X_DEV           =  getattr(_sys, '_xoptions', {}).get('dev',  # Python 3.2+
                           _getenv('PYTHONDEVMODE', NN))  # PYCHOK exported
 _sys_version_info2      = _sys.version_info[:2]  # in .basics, .fmath, ...
-_unlazy = _unLazy0      = _sys_version_info2 < (3, 7)  # PYCHOK mod.__getattr__ 3.7+
+_unlazy = _unLazy0      = _isfrozen or _sys_version_info2 < (3, 7)  # PYCHOK mod.__getattr__ 3.7+
 _WARNINGS_X_DEV         = _getenv('PYGEODESY_WARNINGS', NN) and (
                           _PYTHON_X_DEV or bool(_sys.warnoptions))  # PYCHOK .props
 # @module_property[_RO?] <https://GitHub.com/jtushman/proxy_tools/>
@@ -493,7 +494,7 @@ class _ALL_MODS(object):
 _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '23.12.08'
+__version__ = '23.12.29'
 
 
 def _ALL_OTHER(*objs):

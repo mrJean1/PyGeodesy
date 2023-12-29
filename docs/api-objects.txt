@@ -2936,6 +2936,7 @@ pygeodesy.lazily.printf	pygeodesy.lazily-module.html#printf
 pygeodesy.lazily._ALL_ATTRS	pygeodesy.lazily-module.html#_ALL_ATTRS
 pygeodesy.lazily._lazy_init2	pygeodesy.lazily-module.html#_lazy_init2
 pygeodesy.lazily._pairs	pygeodesy.lazily-module.html#_pairs
+pygeodesy.lazily._isfrozen	pygeodesy.lazily-module.html#_isfrozen
 pygeodesy.lazily._ALL_INIT	pygeodesy.lazily-module.html#_ALL_INIT
 pygeodesy.lazily._QUOTE1_	pygeodesy.lazily-module.html#_QUOTE1_
 pygeodesy.lazily._PYGEODESY_GEOCONVERT_	pygeodesy.lazily-module.html#_PYGEODESY_GEOCONVERT_

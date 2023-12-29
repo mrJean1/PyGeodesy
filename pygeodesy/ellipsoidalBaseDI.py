@@ -33,7 +33,7 @@ from pygeodesy.utily import m2km, unroll180, _unrollon, _unrollon3, \
 from math import degrees, radians
 
 __all__ = _ALL_LAZY.ellipsoidalBaseDI
-__version__ = '23.12.12'
+__version__ = '23.12.29'
 
 _polar__  = 'polar?'
 _B2END    = _1_5  # _intersect3 bearing to pseudo-end point factor
@@ -638,9 +638,6 @@ def _intersect3(s1, end1, s2, end2, height=None, wrap=False,  # MCCABE 16  was=T
                 e = _unrollon(s, e)
         return e, ll
 
-    def _llS(ll):  # return an C{_LLS} instance
-        return _LLS(ll.lat, ll.lon, height=ll.height)
-
     def _o(o, b, n, s, t, e):
         # determine C{o}utside before, on or after start point
         if not o:  # intersection may be on start
@@ -660,8 +657,8 @@ def _intersect3(s1, end1, s2, end2, height=None, wrap=False,  # MCCABE 16  was=T
     A = _Equidistant00(equidistant, s1)
 
     # gu-/estimate initial intersection, spherically ...
-    t = _si(_llS(s1), (_llS(e1) if ll1 else e1),
-            _llS(s2), (_llS(e2) if ll2 else e2),
+    t = _si(_LLS(s1), (_LLS(e1) if ll1 else e1),
+            _LLS(s2), (_LLS(e2) if ll2 else e2),
             height=height, wrap=False, LatLon=_LLS)  # unrolled already
     h, n = t.height, t.name
 
@@ -681,7 +678,6 @@ def _intersect3(s1, end1, s2, end2, height=None, wrap=False,  # MCCABE 16  was=T
         # convert intersection back to geodetic
         t, d = A._reverse2(v)
         if e.done(d):  # below tol or unchanged?
-            t._iteration = i
             break
     else:
         raise e.degError(Error=IntersectionError)
@@ -696,7 +692,7 @@ def _intersect3(s1, end1, s2, end2, height=None, wrap=False,  # MCCABE 16  was=T
         b2, _ = _b_d(s2, end2, wrap, t)
 
     r = _LL4Tuple(t.lat, t.lon, h, t.datum, LatLon, LatLon_kwds, inst=s1,
-                                            iteration=t._iteration, name=n)
+                                            iteration=i, name=n)
     return Intersection3Tuple(r, (o1 if ll1 else _o(o1, b1, 1, s1, t, e)),
                                  (o2 if ll2 else _o(o2, b2, 2, s2, t, e)))
 
@@ -742,12 +738,9 @@ def _intersects2(c1, radius1, c2, radius2, height=None, wrap=False,  # MCCABE 16
     _si2 = _MODS.sphericalTrigonometry._intersects2
     _vi2 = _MODS.vector3d._intersects2
 
-    def _latlon4(t, h, n, c):
+    def _ll4(t, h, n, c):
         return _LL4Tuple(t.lat, t.lon, h, t.datum, LatLon, LatLon_kwds, inst=c,
                                                    iteration=t.iteration, name=n)
-
-    def _llS(ll):  # return an C{_LLS} instance
-        return _LLS(ll.lat, ll.lon, height=ll.height)
 
     r1 = Radius_(radius1=radius1)
     r2 = Radius_(radius2=radius2)
@@ -778,7 +771,7 @@ def _intersects2(c1, radius1, c2, radius2, height=None, wrap=False,  # MCCABE 16
     e = _Tol(tol, E, favg(c1.lat, c2.lat, f=f))
 
     # gu-/estimate initial intersections, spherically ...
-    t1, t2 = _si2(_llS(c1), r1, _llS(c2), r2, radius=e.radius,
+    t1, t2 = _si2(_LLS(c1), r1, _LLS(c2), r2, radius=e.radius,
                    height=height, wrap=False, too_d=m)  # unrolled already
     h, n = t1.height, t1.name
 
@@ -814,13 +807,13 @@ def _intersects2(c1, radius1, c2, radius2, height=None, wrap=False,  # MCCABE 16
     if ta:  # abutting circles
         pass  # PYCHOK no cover
     elif len(ts) == 2:
-        return (_latlon4(ts[0], h, n, c1),
-                _latlon4(ts[1], h, n, c2))
+        return (_ll4(ts[0], h, n, c1),
+                _ll4(ts[1], h, n, c2))
     elif len(ts) == 1:  # PYCHOK no cover
         ta = ts[0]  # assume abutting
     else:  # PYCHOK no cover
         raise _AssertionError(ts=ts)
-    r = _latlon4(ta, h, n, c1)
+    r = _ll4(ta, h, n, c1)
     return r, r
 
 
@@ -851,15 +844,12 @@ def _nearestOn3(p, p1, p2, A, within=True, height=None, tol=_TOL_M,
     _V3d = _MODS.vector3d.Vector3d
     _vn2 = _MODS.vector3d._nearestOn2
 
-    def _llS(ll):  # return an C{_LLS} instance
-        return _LLS(ll.lat, ll.lon, height=ll.height)
-
     E =  p.ellipsoids(p2)
     e = _Tol(tol, E, p.lat, p1.lat, p2.lat)
 
     # gu-/estimate initial nearestOn, spherically ... wrap=False, only!
     # using sphericalNvector.LatLon.nearestOn for within=False support
-    t = _llS(p).nearestOn(_llS(p1), _llS(p2), within=within,
+    t = _LLS(p).nearestOn(_LLS(p1), _LLS(p2), within=within,
                                               height=height)
     n, h = t.name, t.height
     if height is None:
@@ -883,7 +873,6 @@ def _nearestOn3(p, p1, p2, A, within=True, height=None, tol=_TOL_M,
         # convert nearest one back to geodetic
         t, d = A._reverse2(v)
         if e.done(d):  # below tol or unchanged?
-            t._iteration = i  # _NamedTuple._iteration
             break
     else:
         raise e.degError()
@@ -893,7 +882,7 @@ def _nearestOn3(p, p1, p2, A, within=True, height=None, tol=_TOL_M,
     elif _isHeight(height):
         h = height
     r = _LL4Tuple(t.lat, t.lon, h, t.datum, LatLon, LatLon_kwds, inst=p,
-                                            iteration=t.iteration, name=n)
+                                            iteration=i, name=n)
     return r, f, e  # fraction or None
 
 
