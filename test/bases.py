@@ -51,7 +51,7 @@ __all__ = ('coverage', 'GeodSolve', 'geographiclib',  # constants
            'RandomLatLon', 'TestsBase',  # classes
            'ios_ver', 'nix_ver', 'secs2str',  # functions
            'tilde', 'type2str', 'versions')
-__version__ = '23.11.25'
+__version__ = '23.12.30'
 
 try:
     geographiclib = basics._xgeographiclib(basics, 1, 50)
@@ -406,6 +406,23 @@ class TestError(RuntimeError):  # ValueError's are often caught
     '''
     def __init__(self, fmt, *args):
         RuntimeError.__init__(self, fmt % args)
+
+
+def _env_c2(c):  # .testFrozen, .testLazily
+    cmd = _SPACE_(PythonX, c)
+
+    if ismacOS or isNix:
+        env_cmd = _SPACE_('env %s', cmd, '>>/dev/null')
+    elif isWindows:  # XXX UNTESTED
+        env_cmd = _SPACE('set %s;', cmd)
+    else:
+        env_cmd =  NN
+
+    H = getenv('HOME', NN)
+    if H and cmd.startswith(H):
+        cmd = NN(_TILDE_, cmd[len(H):])
+
+    return env_cmd, cmd
 
 
 def _fLate(f):

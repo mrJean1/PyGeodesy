@@ -15,7 +15,8 @@ if not division:
 del division
 
 from pygeodesy.errors import _AssertionError, _AttributeError, _ImportError, \
-                             _TypeError, _TypesError, _ValueError, _xkwds_get
+                             _TypeError, _TypesError, _ValueError, _xkwds_get, \
+                             _xAssertionError
 from pygeodesy.interns import MISSING, NN, _1_, _by_, _COMMA_, _DOT_, _DEPRECATED_, \
                              _ELLIPSIS4_, _enquote, _EQUAL_, _in_, _invalid_, _N_A_, \
                              _SPACE_, _UNDER_, _version_  # _utf_8_
@@ -27,7 +28,7 @@ from math import copysign as _copysign
 import inspect as _inspect
 
 __all__ = _ALL_LAZY.basics
-__version__ = '23.12.10'
+__version__ = '24.01.02'
 
 _0_0                  =  0.0  # in .constants
 _below_               = 'below'
@@ -717,23 +718,23 @@ def _xImportError(x, where, Error=_ImportError, **name):
     return Error(_Xstr(x), txt=t, cause=x)
 
 
-def _xinstanceof(*Types, **name_value_pairs):
+def _xinstanceof(*Types, **names_values):
     '''(INTERNAL) Check C{Types} of all C{name=value} pairs.
 
        @arg Types: One or more classes or types (C{class}),
                    all positional.
-       @kwarg name_value_pairs: One or more C{B{name}=value} pairs
-                                with the C{value} to be checked.
+       @kwarg names_values: One or more C{B{name}=value} pairs
+                            with the C{value} to be checked.
 
-       @raise TypeError: One of the B{C{name_value_pairs}} is not
-                         an instance of any of the B{C{Types}}.
+       @raise TypeError: One B{C{names_values}} pair is not an
+                         instance of any of the B{C{Types}}.
     '''
-    if Types and name_value_pairs:
-        for n, v in name_value_pairs.items():
-            if not isinstance(v, Types):
-                raise _TypesError(n, v, *Types)
-    else:
-        raise _AssertionError(Types=Types, name_value_pairs=name_value_pairs)
+    if not (Types and names_values):
+        raise _xAssertionError(_xinstanceof, *Types, **names_values)
+
+    for n, v in names_values.items():
+        if not isinstance(v, Types):
+            raise _TypesError(n, v, *Types)
 
 
 def _xnumpy(where, *required):
@@ -776,18 +777,21 @@ def _xscipy(where, *required):
     return _xversion(scipy, where, *required)
 
 
-def _xsubclassof(*Classes, **name_value_pairs):
+def _xsubclassof(*Classes, **names_values):
     '''(INTERNAL) Check (super) class of all C{name=value} pairs.
 
-       @arg Classes: One or more classes or types (C{class}),
-                     all positional.
-       @kwarg name_value_pairs: One or more C{B{name}=value} pairs
-                                with the C{value} to be checked.
+       @arg Classes: One or more classes or types (C{class}), all
+                     positional.
+       @kwarg names_values: One or more C{B{name}=value} pairs
+                            with the C{value} to be checked.
 
-       @raise TypeError: One of the B{C{name_value_pairs}} is not
-                         a (sub-)class of any of the B{C{Classes}}.
+       @raise TypeError: One B{C{names_values}} pair is not a
+                         (sub-)class of any of the B{C{Classes}}.
     '''
-    for n, v in name_value_pairs.items():
+    if not (Classes and names_values):
+        raise _xAssertionError(_xsubclassof, *Classes, **names_values)
+
+    for n, v in names_values.items():
         if not issubclassof(v, *Classes):
             raise _TypesError(n, v, *Classes)
 

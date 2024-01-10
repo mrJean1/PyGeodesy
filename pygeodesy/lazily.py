@@ -264,7 +264,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                    'fpowers', 'fprod', 'frange', 'freduce', 'fremainder',
                                    'hypot', 'hypot_', 'hypot1', 'hypot2', 'hypot2_',
                                    'norm2', 'norm_', 'sqrt0', 'sqrt3', 'sqrt_a', 'zcrt', 'zqrt'),
-                          formy=_i('Radical2Tuple',
+                          formy=_i('Radical2Tuple', 'RThetaPhi3Tuple',
                                    'antipode', 'antipode_', 'bearing', 'bearing_',
                                    'compassAngle', 'cosineForsytheAndoyerLambert', 'cosineForsytheAndoyerLambert_',
                                    'cosineAndoyerLambert', 'cosineAndoyerLambert_', 'cosineLaw', 'cosineLaw_',
@@ -491,10 +491,14 @@ class _ALL_MODS(object):
         for n, m in _sys.modules.items():
             yield n, m
 
+    @property  # property_RO
+    def name(self):
+        return self.__class__.__name__
+
 _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '23.12.29'
+__version__ = '24.01.06'
 
 
 def _ALL_OTHER(*objs):
@@ -821,7 +825,7 @@ def _lazy_init2(pack):
     return package, parent
 
 
-def _pairs(*args, **kwds):  # in .errors, .ktm
+def _pairs(*args, **kwds):  # in .ktm
     # from pygeodesy.streprs import pairs
     return _ALL_MODS.streprs.pairs(*args, **kwds)
 

@@ -6,14 +6,15 @@ C{Str} from basic C{float}, C{int} respectively C{str} to
 named units as L{Degrees}, L{Feet}, L{Meter}, L{Radians}, etc.
 '''
 
-from pygeodesy.basics import isscalar, isstr, issubclassof, signOf
+from pygeodesy.basics import isinstanceof, isscalar, isstr, issubclassof, \
+                             signOf
 from pygeodesy.constants import EPS, EPS1, PI, PI2, PI_2, \
                                _umod_360, _0_0, _0_001, \
                                _0_5, INT0  # PYCHOK for .mgrs, .namedTuples
 from pygeodesy.dms import F__F, F__F_, parseDMS, parseRad, \
-                          S_NUL, S_SEP, _toDMS
+                          S_NUL, S_SEP, _toDMS, toDMS
 from pygeodesy.errors import _AssertionError, _IsnotError, TRFError, \
-                              UnitError, _xkwds_popitem
+                              UnitError, _xkwds, _xkwds_popitem
 from pygeodesy.interns import NN, _band_, _bearing_, _degrees_, _degrees2_, \
                              _distance_, _E_, _easting_, _epoch_, _EW_, \
                              _feet_, _height_, _lam_, _lat_, \
@@ -30,7 +31,7 @@ from pygeodesy.unitsBase import _Error, Float, Fmt, fstr, Int, _NamedUnit, \
 from math import degrees, radians
 
 __all__ = _ALL_LAZY.units
-__version__ = '23.12.14'
+__version__ = '24.01.10'
 
 _negative_falsed_ = 'negative, falsed'
 
@@ -847,6 +848,7 @@ class Zone(Int):
 _Scalars =  Float, Float_, Scalar, Scalar_
 _Degrees = (Bearing, Bearing_, Degrees, Degrees_) + _Scalars
 _Meters  = (Distance, Distance_, Meter, Meter_) + _Scalars
+_Radians = (Radians, Radians_) + _Scalars  # PYCHOK unused
 _Radii   = _Meters + (Radius, Radius_)
 
 
@@ -873,6 +875,31 @@ def _isRadius(obj):
 def _isScalar(obj):
     # Check for pure scalar types.
     return isscalar(obj) and not isinstance(obj, _NamedUnit)
+
+
+def _toDegrees(s, *xs, **toDMS_kwds):
+    '''(INTERNAL) Convert C{xs} from C{Radians} to C{Degrees} or C{toDMS}.
+    '''
+    if toDMS_kwds:
+        toDMS_kwds = _xkwds(toDMS_kwds, ddd=1, pos=NN)
+
+    for x in xs:
+        if not isinstanceof(x, Degrees, Degrees_):
+            s = None
+            x = x.toDegrees()
+        yield toDMS(x, **toDMS_kwds) if toDMS_kwds else x
+    yield None if toDMS_kwds else s
+
+
+def _toRadians(s, *xs):
+    '''(INTERNAL) Convert C{xs} from C{Degrees} to C{Radians}.
+    '''
+    for x in xs:
+        if not isinstanceof(x, Radians, Radians_):
+            s = None
+            x = x.toRadians()
+        yield x
+    yield s
 
 
 def _xStrError(*Refs, **name_value_Error):

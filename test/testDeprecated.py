@@ -4,7 +4,7 @@
 # Test L{deprecated} classes, functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '23.11.30'
+__version__ = '24.01.02'
 
 from bases import TestsBase
 
@@ -103,9 +103,12 @@ class Tests(TestsBase):
                 m = _MODS.getmodule(m.replace(_UNDER_, _DOT_))
                 for a in t:
                     a = _attrof(a)  # a_ or a
-                    v =  getattr(m, a)
                     n =  unstr(isDEPRECATED, a)
-                    self.test(n, isDEPRECATED(v), True, known=v in known)
+                    try:
+                        v = getattr(m, a)
+                        self.test(n, isDEPRECATED(v), True, known=v in known)
+                    except Exception as x:
+                        self.test(n, str(x), True)
 
 
 if __name__ == '__main__':

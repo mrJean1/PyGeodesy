@@ -48,13 +48,13 @@ from pygeodesy.constants import INF, _K0_UTM, PI, PI_2, _0_0s, _0_0, \
                                _1_0, _90_0, _copysignINF
 from pygeodesy.datums import Datum, _spherical_datum, _WGS84,  _EWGS84
 # from pygeodesy.ellipsoids import _EWGS84  # from .datums
-from pygeodesy.errors import _ValueError, _xkwds_get, _Xorder,  _pairs
+from pygeodesy.errors import _ValueError, _xkwds_get, _Xorder
 from pygeodesy.fmath import hypot, hypot1
-from pygeodesy.fsums import fsum1f_,  _ALL_LAZY
+from pygeodesy.fsums import fsum1f_
 from pygeodesy.interns import NN, _COMMASPACE_, _singular_
 from pygeodesy.karney import _atan2d, _diff182, _fix90, _norm180, \
                              _polynomial, _unsigned2,  _NamedBase
-# from pygeodesy.lazily import _ALL_LAZY,  _pairs  # from .errors, .fsums
+from pygeodesy.lazily import _ALL_LAZY,  _pairs
 # from pygeodesy.named import _NamedBase  # from .karney
 from pygeodesy.namedTuples import Forward4Tuple, Reverse4Tuple
 from pygeodesy.props import property_doc_, Property, Property_RO, \
@@ -67,7 +67,7 @@ from cmath import polar
 from math import atan2, asinh, cos, cosh, degrees, fabs, sin, sinh, sqrt, tanh
 
 __all__ = _ALL_LAZY.ktm
-__version__ = '23.12.01'
+__version__ = '24.01.02'
 
 
 class KTMError(_ValueError):

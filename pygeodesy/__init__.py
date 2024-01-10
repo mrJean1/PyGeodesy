@@ -585,7 +585,7 @@ else:
     _init__all__ = False
 
 from pygeodesy.interns import _DOT_  # PYCHOK import
-__version__ = '23.12.29'
+__version__ = '24.01.10'
 # see setup.py for similar logic
 version     = _DOT_(*map(int, __version__.split(_DOT_)))
 

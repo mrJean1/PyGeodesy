@@ -547,7 +547,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        23.12.29
+        24.01.10
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -4068,6 +4068,20 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.props.Property_RO-class.html" class="summary-name">Property_RO</a>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.formy.RThetaPhi3Tuple-class.html" class="summary-name">RThetaPhi3Tuple</a><br />
+      3-Tuple <code>(r, theta, phi)</code> with radial distance 
+        <code>r</code> in <code>meter</code>, inclination 
+        <code>theta</code> (with respect to the positive z-axis) and 
+        azimuthal angle <code>phi</code> in <a 
+        href="pygeodesy.units.Degrees-class.html" class="link">Degrees</a> 
+        <i>or</i> <a href="pygeodesy.units.Radians-class.html" 
+        class="link">Radians</a>.
     </td>
   </tr>
 <tr>
@@ -8079,7 +8093,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f9e883cac50&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fe9e044e4d0&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -12524,7 +12538,7 @@ ygeodesy'"><code class="variable-quote">'</code><code class="variable-string">/U
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'23.12.29'">'23.12.29'</code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'24.1.10'">'24.1.10'</code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -20034,7 +20048,7 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f9e883cac50&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fe9e044e4d0&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -29276,11 +29290,18 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
   phi)</code> coordinates.</p>
   <dl class="fields">
     <dt>Returns:</dt>
-        <dd>3-Tuple <code>(r, theta, phi)</code> in <code>degrees</code>.</dd>
+        <dd><a href="pygeodesy.formy.RThetaPhi3Tuple-class.html" 
+          class="link">RThetaPhi3Tuple</a><code>(r, theta, phi)</code> with
+          <code>theta</code> and <code>phi</code> both in <a 
+          href="pygeodesy.units.Degrees-class.html" 
+          class="link">Degrees</a>.</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.formy-module.html#xyz2rtp_" 
-        class="link">xyz2rtp_</a>.
+        class="link">xyz2rtp_</a>, class <a 
+        href="pygeodesy.formy.RThetaPhi3Tuple-class.html" 
+        class="link">RThetaPhi3Tuple</a> and method <code>toDegrees</code> 
+        thereof.
       </p>
 </div></td></tr></table>
 </div>
@@ -29320,11 +29341,14 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
           <code>x_xyz</code> is not a <code>scalar</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>3-Tuple <code>(r, theta, phi)</code> with radial distance 
-          <code>r</code> (<code>meter</code>, same units as <code>x</code>,
-          <code>y</code> and <code>z</code>), inclination 
+        <dd><a href="pygeodesy.formy.RThetaPhi3Tuple-class.html" 
+          class="link">RThetaPhi3Tuple</a><code>(r, theta, phi)</code> with
+          radial distance <code>r</code> (<code>meter</code>, same units as
+          <code>x</code>, <code>y</code> and <code>z</code>), inclination 
           <code>theta</code> (with respect to the positive z-axis) and 
-          azimuthal angle <code>phi</code> in <code>radians</code>.</dd>
+          azimuthal angle <code>phi</code> both in <a 
+          href="pygeodesy.units.Radians-class.html" 
+          class="link">Radians</a>.</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         <a href="https://WikiPedia.org/wiki/Spherical_coordinate_system" 
@@ -29585,7 +29609,7 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Dec 29 12:59:58 2023
+    Generated by Epydoc 3.0.1 on Wed Jan 10 13:55:26 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

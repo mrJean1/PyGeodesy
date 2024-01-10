@@ -51,15 +51,15 @@ from pygeodesy.named import _NamedEnum, _NamedEnumItem, _NamedTuple, _Pass, \
 from pygeodesy.namedTuples import LatLon3Tuple, Vector3Tuple, Vector4Tuple
 from pygeodesy.props import Property_RO, property_RO
 # from pygeodesy.streprs import Fmt  # from .datums
-from pygeodesy.units import Degrees, Float, Height_, Meter, Meter2, Meter3, \
-                            Radians, Radius, Scalar_
+from pygeodesy.units import Float, Height_, Meter, Meter2, Meter3, Radians, \
+                            Radius, Scalar_, _toDegrees, _toRadians
 from pygeodesy.utily import asin1, atan2d, km2m, m2km, SinCos2, sincos2d_
 from pygeodesy.vector3d import _otherV3d, Vector3d,  _ALL_LAZY, _MODS
 
 from math import atan2, fabs, sqrt
 
 __all__ = _ALL_LAZY.triaxials
-__version__ = '23.12.29'
+__version__ = '24.01.06'
 
 _not_ordered_ = _not_('ordered')
 _omega_       = 'omega'
@@ -70,22 +70,12 @@ class _NamedTupleTo(_NamedTuple):  # in .testNamedTuples
     '''(INTERNAL) Base for C{-.toDegrees}, C{-.toRadians}.
     '''
     def _toDegrees(self, a, b, *c, **toDMS_kwds):
-        if toDMS_kwds:
-            toDMS = _MODS.dms.toDMS
-            a = toDMS(a.toDegrees(), **toDMS_kwds)
-            b = toDMS(b.toDegrees(), **toDMS_kwds)
-        elif isinstance(a, Degrees) and \
-             isinstance(b, Degrees):
-            return self
-        else:
-            a, b = a.toDegrees(), b.toDegrees()
-        return self.classof(a, b, *c, name=self.name)
+        a, b, _ = _toDegrees(self, a, b, **toDMS_kwds)
+        return _ or self.classof(a, b, *c, name=self.name)
 
     def _toRadians(self, a, b, *c):
-        return self if isinstance(a, Radians) and \
-                       isinstance(b, Radians) else \
-               self.classof(a.toRadians(), b.toRadians(),
-                           *c, name=self.name)
+        a, b, _ = _toRadians(self, a, b)
+        return _ or self.classof(a, b, *c, name=self.name)
 
 
 class BetaOmega2Tuple(_NamedTupleTo):

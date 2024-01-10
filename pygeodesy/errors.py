@@ -15,19 +15,15 @@ C{PYGEODESY_EXCEPTION_CHAINING=std} or to any non-empty string.
 from pygeodesy.interns import MISSING, NN, _a_, _an_, _and_, _clip_, \
                              _COLON_, _COLONSPACE_, _COMMASPACE_, _datum_, \
                              _ellipsoidal_, _EQUAL_, _incompatible_, _invalid_, \
-                             _len_, _name_, _no_, _not_, _or_, _SPACE_, \
-                             _specified_, _UNDER_, _value_, _vs_, _with_
-from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _getenv, \
-                             _pairs, _PYTHON_X_DEV
+                             _len_, _not_, _or_, _SPACE_, _specified_, _UNDER_, \
+                             _vs_, _with_
+from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _getenv, _PYTHON_X_DEV
 
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')  _under
-__version__ = '23.12.14'
+__version__ = '24.01.02'
 
 _box_        = 'box'
-_default_    = 'default'
-_kwargs_     = 'kwargs'  # XXX _kwds_?
 _limiterrors =  True  # in .formy
-_multiple_   = 'multiple'
 _name_value_ =  repr('name=value')
 _rangerrors  =  True  # in .dms
 _region_     = 'region'
@@ -587,13 +583,20 @@ def _SciPyIssue(x, *extras):  # PYCHOK no cover
     return Error(t, cause=x)
 
 
+def _xAssertionError(where, *args, **kwds):  # in .basics
+    '''(INTERNAL) Embellish an C{AssertionError}.
+    '''
+    t = _MODS.streprs.unstr(where, *args, **kwds)
+    return _AssertionError(t)
+
+
 def _xattr(obj, **name_default):  # see .strerprs._xattrs
     '''(INTERNAL) Get an C{obj}'s attribute by C{name}.
     '''
     if len(name_default) == 1:
         for n, d in name_default.items():
             return getattr(obj, n, d)
-    raise _xkwds_Error(_xattr, {}, name_default)
+    raise _xAssertionError(_xattr, obj, **name_default)
 
 
 def _xdatum(datum1, datum2, Error=None):
@@ -604,7 +607,8 @@ def _xdatum(datum1, datum2, Error=None):
         if E1 != E2:
             raise Error(E2.named2, txt=_incompatible(E1.named2))
     elif datum1 != datum2:
-        t = _SPACE_(_datum_, repr(datum1.name), _not_, repr(datum2.name))
+        t = _SPACE_(_datum_, repr(datum1.name),
+                    _not_,   repr(datum2.name))
         raise _AssertionError(t)
 
 
@@ -714,22 +718,13 @@ def _xkwds_bool(inst, **kwds):  # in .frechet, .hausdorff, .heights
             setattr(inst, NN(_UNDER_, n), v)
 
 
-def _xkwds_Error(where, kwds, name_txt, txt=_default_):
-    # Helper for _xkwds_get, _xkwds_pop and _xkwds_popitem below
-    f = _COMMASPACE_.join(_pairs(kwds) + _pairs(name_txt))
-    f = _MODS.streprs.Fmt.PAREN(where.__name__, f)
-    t = _multiple_ if name_txt else _no_
-    t = _SPACE_(t, _EQUAL_(_name_, txt), _kwargs_)
-    return _AssertionError(f, txt=t)
-
-
 def _xkwds_get(kwds, **name_default):
     '''(INTERNAL) Get a C{kwds} value by C{name}, or the C{default}.
     '''
     if len(name_default) == 1:
         for n, d in name_default.items():
             return kwds.get(n, d)
-    raise _xkwds_Error(_xkwds_get, kwds, name_default)
+    raise _xAssertionError(_xkwds_get, kwds, **name_default)
 
 
 def _xkwds_get_(kwds, **names_defaults):
@@ -752,7 +747,7 @@ def _xkwds_pop(kwds, **name_default):
     if len(name_default) == 1:
         for n, d in name_default.items():
             return kwds.pop(n, d)
-    raise _xkwds_Error(_xkwds_pop, kwds, name_default)
+    raise _xAssertionError(_xkwds_pop, kwds, **name_default)
 
 
 def _xkwds_pop_(kwds, **names_defaults):
@@ -768,7 +763,7 @@ def _xkwds_popitem(name_value):
     '''
     if len(name_value) == 1:  # XXX TypeError
         return name_value.popitem()  # XXX AttributeError
-    raise _xkwds_Error(_xkwds_popitem, (), name_value, txt=_value_)
+    raise _xAssertionError(_xkwds_popitem, name_value)
 
 
 def _Xorder(_Coeffs, Error, **Xorder):  # in .ktm, .rhumbBase
