@@ -51,7 +51,7 @@ __all__ = ('coverage', 'GeodSolve', 'geographiclib',  # constants
            'RandomLatLon', 'TestsBase',  # classes
            'ios_ver', 'nix_ver', 'secs2str',  # functions
            'tilde', 'type2str', 'versions')
-__version__ = '23.12.30'
+__version__ = '24.01.10'
 
 try:
     geographiclib = basics._xgeographiclib(basics, 1, 50)
@@ -413,8 +413,8 @@ def _env_c2(c):  # .testFrozen, .testLazily
 
     if ismacOS or isNix:
         env_cmd = _SPACE_('env %s', cmd, '>>/dev/null')
-    elif isWindows:  # XXX UNTESTED
-        env_cmd = _SPACE('set %s;', cmd)
+    elif isWindows:
+        env_cmd = _SPACE_('set %s;', cmd)
     else:
         env_cmd =  NN
 
