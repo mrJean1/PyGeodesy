@@ -4,13 +4,13 @@
 # Test cartesians.
 
 __all__ = ('Tests',)
-__version__ = '23.05.23'
+__version__ = '24.01.14'
 
 from bases import GeodSolve, geographiclib, isPython35, TestsBase
 
-from pygeodesy import R_M, classname, Datums, degrees, fstr, Height, \
-                modulename, RefFrames, Transforms  # PYCHOK expected
-from pygeodesy.cartesianBase import CartesianBase
+from pygeodesy import R_M, classname, Datums, degrees, fstr, Height, modulename, \
+                      rtp2xyz, xyz2rtp, RefFrames, Transforms  # PYCHOK expected
+from pygeodesy.cartesianBase import CartesianBase, RadiusThetaPhi3Tuple
 from pygeodesy.ecef import Ecef9Tuple
 from pygeodesy.namedTuples import LatLon2Tuple, LatLon3Tuple, LatLon4Tuple, \
                                   PhiLam2Tuple, PhiLam3Tuple, PhiLam4Tuple, \
@@ -58,8 +58,11 @@ class Tests(TestsBase):
         self.test('height',  c.height, '-5918.380258' if Sph else '0.242887', prec=6)
         self.test('height4', c.height4().toStr(prec=1), '(3984282.2, 97.1, 4971443.2, -5918.4)' if Sph
                                                    else '(3980580.8, 97.0, 4966824.8, 0.2)')
-        self.test('height4', c.height4(Cartesian=Cartesian, height=0).toStr(prec=1), '[3984282.2, 97.1, 4971443.2]' if Sph
-                                                                                else '[3980580.8, 97.0, 4966824.8]')
+        t = c.height4(Cartesian=Cartesian, height=0)
+        self.test('height4', t.toStr(prec=1), '[3984282.2, 97.1, 4971443.2]' if Sph
+                                         else '[3980580.8, 97.0, 4966824.8]')
+        t = t.height3(height=c.height)
+        self.test('height3', t.toStr(prec=1), '(3980581.0, 97.0, 4966825.0)')
 
         n = c.toNvector()  # (x=0.622818, y=0.00002, z=0.782367, h=0.242887)
         t = n.classname  # Nvector.__name__
@@ -162,6 +165,18 @@ class Tests(TestsBase):
                 self.test(n, v2.toStr(prec=6), '(0.027459, -0.797488, 0.0)')
         except ImportError as x:
             self.skip(str(x), n=4)
+
+        r = xyz2rtp(10, 20, 30)
+        self.test(xyz2rtp.__name__, fstr(r, prec=3), '37.417, 36.699, 63.435', nl=1)
+        self.test(xyz2rtp.__name__, type(r), RadiusThetaPhi3Tuple)
+        t = rtp2xyz(*r)
+        self.test(rtp2xyz.__name__, fstr(t, prec=2), '10.0, 20.0, 30.0')
+        self.test(rtp2xyz.__name__, type(t), Vector3Tuple)
+        c = r.toCartesian(name='Test', Cartesian=Cartesian)
+        t = c.toRepr()  # coverage
+        self.test(r.toCartesian.__name__, t, t)
+        t = repr(c.toRtp())  # coverage
+        self.test(c.toRtp.__name__, t, t)
 
     def testReturnType(self, inst, clas, name):
         self.test(name, type(inst), clas)  # type(inst).__name__ == clas.__name__

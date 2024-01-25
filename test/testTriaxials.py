@@ -4,7 +4,7 @@
 # Test L{triaxials} module.
 
 __all__ = ('Tests',)
-__version__ = '23.10.02'
+__version__ = '24.01.19'
 
 from bases import random, startswith, TestsBase
 
@@ -57,7 +57,7 @@ class Tests(TestsBase):
         self.test(n, t.toStr(prec=6), '(884080.396945, 5592040.198472, 2927517.711001, 12669647.302276)', nl=1)
         self.test(n, T.sideOf(t), 0)
         t = T.hartzell4(p)
-        self.test(n, t.toStr(prec=6),    '(3642031.283571, 3678090.99925, 3714150.714929, 11296639.666827)')
+        self.test(n, t.toStr(prec=6), '(3642031.283571, 3678090.99925, 3714150.714929, 11296639.666827)')
         self.test(n, T.sideOf(t), 0)
 
         p = LatLon(30, 60, height=100e3)
@@ -66,8 +66,21 @@ class Tests(TestsBase):
         self.test(n, t.toStr(prec=3), '30°38′27.119″N, 060°44′36.777″E, +142549.69m', nl=1)
         self.test(n, t.toStr(form=F_DEG_), '30.640866, 060.743549, +142549.69m')
         c = p.toCartesian()
+        self.test(n, c.toStr(prec=3), '[2807429.59, 4862610.688, 3220373.735]')
         t = c.hartzell(Los(45, -45))
         self.test(n, t.toStr(prec=3), '[2684238.298, 4791786.806, 3231700.636]')
+        t = (t - c).length
+        self.test(n, t, '142549.6943849337', known=int(t)==142549)
+
+        t = p.hartzell(los=True)
+        self.test(n, t.toStr(prec=3), '30°00′00.0″N, 060°00′00.0″E, +100000.00m', nl=1)
+        self.test(n, t.toStr(form=F_DEG_), '30.0, 060.0, +100000.00m')
+        c = p.toCartesian()
+        self.test(n, c.toStr(prec=3), '[2807429.59, 4862610.688, 3220373.735]')
+        t = c.hartzell(los=True)
+        self.test(n, t.toStr(prec=3), '[2764128.32, 4787610.688, 3170373.735]')
+        t = (t - c).length
+        self.test(n, t, '100000.0', known=abs(t - 100000.0) < 1e-6)
 
     def testJacobiConformal(self, module):
         self.subtitle(module, JacobiConformal.__name__)

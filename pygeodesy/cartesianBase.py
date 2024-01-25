@@ -1,39 +1,52 @@
 
 # -*- coding: utf-8 -*-
 
-u'''(INTERNAL) Private base classes for elliposiodal, spherical and N-/vectorial
-C{Cartesian}s.
+u'''(INTERNAL) Private C{CartesianBase} class for elliposiodal, spherical and N-/vectorial
+C{Cartesian}s and public functions L{rtp2xyz}, L{rtp2xyz_}, L{xyz2rtp} and L{xyz2rtp_}.
 
-After I{(C) Chris Veness 2011-2015} published under the same MIT Licence**,
-see U{https://www.Movable-Type.co.UK/scripts/latlong.html},
+After I{(C) Chris Veness 2011-2015} published under the same MIT Licence**, see
+U{https://www.Movable-Type.co.UK/scripts/latlong.html},
 U{https://www.Movable-Type.co.UK/scripts/latlong-vectors.html} and
 U{https://www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal.js.html}.
 '''
 
 # from pygeodesy.basics import _xinstanceof  # from .datums
-from pygeodesy.constants import EPS, EPS0, isnear0, _1_0, _N_1_0, \
-                               _2_0, _4_0, _6_0
+from pygeodesy.constants import EPS, EPS0, INT0, PI2, _isfinite, isnear0, \
+                               _0_0, _1_0, _N_1_0, _2_0, _4_0, _6_0
 from pygeodesy.datums import Datum, _earth_ellipsoid, _spherical_datum, \
                             _WGS84,  _xinstanceof
-from pygeodesy.errors import _IsnotError, _ValueError, _xdatum, _xkwds
-from pygeodesy.fmath import cbrt, hypot_, hypot2, sqrt  # hypot
-from pygeodesy.fsums import Fmt, fsumf_
-from pygeodesy.interns import NN, _COMMASPACE_, _height_, _not_
+# from pygeodesy.ecef import EcefKarney  # _MODS
+from pygeodesy.errors import _IsnotError, _TypeError, _ValueError, \
+                             _xdatum, _xkwds
+from pygeodesy.fmath import cbrt, hypot, hypot_, hypot2,  fabs, sqrt  # hypot
+# from pygeodesy.formy import _hartzell  # _MODS
+from pygeodesy.fsums import fsumf_,  Fmt
+from pygeodesy.interns import NN, _COMMASPACE_, _not_, _phi_
 from pygeodesy.interns import _ellipsoidal_, _spherical_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
-from pygeodesy.namedTuples import LatLon4Tuple, Vector4Tuple, \
+from pygeodesy.named import _NamedTuple, _Pass
+from pygeodesy.namedTuples import LatLon4Tuple, Vector3Tuple, Vector4Tuple, \
                                   Bearing2Tuple  # PYCHOK .sphericalBase
+# from pygeodesy.nvectorBase import _N_vector  # _MODS
 from pygeodesy.props import deprecated_method, Property, Property_RO, \
                             property_doc_, property_RO, _update_all
 # from pygeodesy.resections import cassini, collins5, pierlot, tienstra7
 # from pygeodesy.streprs import Fmt  # from .fsums
-from pygeodesy.units import Height, _heigHt
+# from pygeodesy.triaxials import Triaxial_  # _MODS
+from pygeodesy.units import Degrees, Height, _heigHt, _isMeter, Meter, \
+                            Radians, _toDegrees, _toRadians
+from pygeodesy.utily import acos1, sincos2d, sincos2_,  atan2, degrees, radians
 from pygeodesy.vector3d import Vector3d, _xyzhdn3
+# from pygeodesy.vector3dBase import _xyz3  # _MODS
+# from pygeodesy import ltp, resections  # _MODS
 
-# from math import sqrt  # from .fmath
+# from math import atan2, degrees, fabs, radians, sqrt  # from .fmath, .utily
 
 __all__ = _ALL_LAZY.cartesianBase
-__version__ = '23.12.18'
+__version__ = '24.01.18'
+
+_r_     = 'r'
+_theta_ = 'theta'
 
 
 class CartesianBase(Vector3d):
@@ -56,9 +69,10 @@ class CartesianBase(Vector3d):
            @kwarg ll: Optional, original latlon (C{LatLon}).
            @kwarg name: Optional name (C{str}).
 
-           @raise TypeError: Non-scalar B{C{x_xyz}}, B{C{y}} or B{C{z}}
-                             coordinate or B{C{x_xyz}} not an L{Ecef9Tuple},
-                             L{Vector3Tuple} or L{Vector4Tuple}.
+           @raise TypeError: Non-scalar B{C{x_xyz}}, B{C{y}} or B{C{z}} coordinate
+                             or B{C{x_xyz}} not a C{Cartesian}, L{Ecef9Tuple},
+                             L{Vector3Tuple} or L{Vector4Tuple} or B{C{datum}} is
+                             not a L{Datum}.
         '''
         h, d, n = _xyzhdn3(x_xyz, None, datum, ll)
         Vector3d.__init__(self, x_xyz, y=y, z=z, ll=ll, name=name or n)
@@ -209,26 +223,27 @@ class CartesianBase(Vector3d):
         '''
         return False
 
-    def hartzell(self, los=None, earth=None):
-        '''Compute the intersection of a Line-Of-Sight (los) from this cartesian
-           Point-Of-View (pov) with this cartesian's ellipsoid surface.
+    def hartzell(self, los=False, earth=None):
+        '''Compute the intersection of a Line-Of-Sight from this cartesian Point-Of-View
+           (pov) and this cartesian's ellipsoid surface.
 
-           @kwarg los: Line-Of-Sight, I{direction} to earth (L{Los}, L{Vector3d})
-                       or C{None} to point to the ellipsoid's center.
-           @kwarg earth: The earth model (L{Datum}, L{Ellipsoid}, L{Ellipsoid2},
-                         L{a_f2Tuple} or C{scalar} radius in C{meter}) overriding
-                         this cartesian's C{datum} ellipsoid.
+           @kwarg los: Line-Of-Sight, I{direction} to the ellipsoid (L{Los}, L{Vector3d}),
+                       C{True} for the I{normal, plumb} onto the surface or I{False} or
+                       C{None} to point to the center of the ellipsoid.
+           @kwarg earth: The earth model (L{Datum}, L{Ellipsoid}, L{Ellipsoid2}, L{a_f2Tuple}
+                         or C{scalar} radius in C{meter}), overriding this cartesian's
+                         C{datum} ellipsoid.
 
-           @return: The ellipsoid intersection (C{Cartesian}) with C{.height} set
-                    to the distance to this C{pov}.
+           @return: The intersection (C{Cartesian}) with C{.height} set to the distance to
+                    this C{pov}.
 
-           @raise IntersectionError: Null or bad C{pov} or B{C{los}}, this C{pov}
-                                     is inside the ellipsoid or B{C{los}} points
-                                     outside or away from the ellipsoid.
+           @raise IntersectionError: Null or bad C{pov} or B{C{los}}, this C{pov} is inside
+                                     the ellipsoid or B{C{los}} points outside or away from
+                                     the ellipsoid.
 
-           @raise TypeError: Invalid B{C{los}} or no B{C{datum}}.
+           @raise TypeError: Invalid B{C{los}} or invalid or undefined B{C{earth}} or C{datum}.
 
-           @see: Function C{hartzell} for further details.
+           @see: Function L{hartzell<pygeodesy.formy.hartzell>} for further details.
         '''
         return _MODS.formy._hartzell(self, los, earth)
 
@@ -251,6 +266,58 @@ class CartesianBase(Vector3d):
             _update_all(self)
             self._height = h
 
+    def _height2C(self, r, Cartesian=None, datum=None, height=INT0, **kwds):
+        '''(INTERNAL) Helper for methods C{.height3} and C{.height4}.
+        '''
+        if Cartesian is not None:
+            r = Cartesian(r, **kwds)
+            if datum is not None:
+                r.datum = datum
+            if height is not None:
+                r.height = height  # Height(height)
+        return r
+
+    def height3(self, earth=None, height=None, **Cartesian_and_kwds):
+        '''Compute the cartesian at a height above or below this certesian's ellipsoid.
+
+           @kwarg earth: A datum, ellipsoid, triaxial ellipsoid or earth radius,
+                         I{overriding} this cartesian's datum (L{Datum}, L{Ellipsoid},
+                         L{Ellipsoid2}, L{a_f2Tuple} or C{meter}, conventionally).
+           @kwarg height: The height (C{meter}, conventionally), overriding this
+                          cartesian's height.
+           @kwarg Cartesian_and_kwds: Optional C{B{Cartesian}=None} class to return
+                            the cartesian I{at height} and additional B{C{Cartesian}}
+                            keyword arguments.
+
+           @return: An instance of B{C{Cartesian}} or if C{B{Cartesian} is None},
+                    a L{Vector3Tuple}C{(x, y, z)} with the C{x}, C{y} and C{z}
+                    coordinates I{at height} in C{meter}, conventionally.
+
+           @note: This cartesian's coordinates are returned if B{C{earth}} and this
+                  datum or B{C{heigth}} and/or this height are C{None} or undefined.
+
+           @note: Include keyword argument C{B{datum}=None} if class B{C{Cartesian}}
+                  does not accept a B{C{datum}} keyword agument.
+
+           @raise TriaxialError: No convergence in triaxial root finding.
+
+           @raise TypeError: Invalid or undefined B{C{earth}} or C{datum}.
+        '''
+        n = self.height3.__name__
+        d = self.datum if earth is None else _spherical_datum(earth, name=n)
+        c, h = self, _heigHt(self, height)
+        if h and d:
+            R, r = self.Roc2(earth=d)
+            if R > EPS0:
+                R =  (R + h) / R
+                r = ((r + h) / r) if r > EPS0 else _1_0
+                c = c.times_(R, R, r)
+
+        r = Vector3Tuple(c.x, c.y, c.z, name=n)
+        if Cartesian_and_kwds:
+            r = self._height2C(r, **_xkwds(Cartesian_and_kwds, datum=d))
+        return r
+
     @Property_RO
     def _height4(self):
         '''(INTERNAL) Get this C{height4}-tuple.
@@ -261,48 +328,51 @@ class CartesianBase(Vector3d):
             r = Vector4Tuple(self.x, self.y, self.z, 0, name=self.height4.__name__)
         return r
 
-    def height4(self, earth=None, normal=True, Cartesian=None, **Cartesian_kwds):
-        '''Compute the height of this cartesian above or below and the projection
-           on this datum's ellipsoid surface.
+    def height4(self, earth=None, normal=True, **Cartesian_and_kwds):
+        '''Compute the projection of this point on and the height above or below
+           this datum's ellipsoid surface.
 
-           @kwarg earth: A datum, ellipsoid, triaxial ellipsoid or earth radius
+           @kwarg earth: A datum, ellipsoid, triaxial ellipsoid or earth radius,
                          I{overriding} this datum (L{Datum}, L{Ellipsoid},
                          L{Ellipsoid2}, L{a_f2Tuple}, L{Triaxial}, L{Triaxial_},
                          L{JacobiConformal} or C{meter}, conventionally).
            @kwarg normal: If C{True} the projection is the nearest point on the
                           ellipsoid's surface, otherwise the intersection of the
-                          radial line to the center and the ellipsoid's surface.
-           @kwarg Cartesian: Optional class to return the height and projection
-                             (C{Cartesian}) or C{None}.
-           @kwarg Cartesian_kwds: Optional, additional B{C{Cartesian}} keyword
-                                  arguments, ignored if C{B{Cartesian} is None}.
-
-           @note: Use keyword argument C{height=0} to override C{B{Cartesian}.height}
-                  to {0} or any other C{scalar}, conventionally in C{meter}.
+                          radial line to the ellipsoid's center and the surface.
+           @kwarg Cartesian_and_kwds: Optional C{B{Cartesian}=None} class to return
+                            the I{projection} and additional B{C{Cartesian}} keyword
+                            arguments.
 
            @return: An instance of B{C{Cartesian}} or if C{B{Cartesian} is None}, a
                     L{Vector4Tuple}C{(x, y, z, h)} with the I{projection} C{x}, C{y}
                     and C{z} coordinates and height C{h} in C{meter}, conventionally.
 
+           @note: Include keyword argument C{B{datum}=None} if class B{C{Cartesian}}
+                  does not accept a B{C{datum}} keyword agument.
+
            @raise TriaxialError: No convergence in triaxial root finding.
 
-           @raise TypeError: Invalid B{C{earth}}.
+           @raise TypeError: Invalid or undefined B{C{earth}} or C{datum}.
 
-           @see: L{Ellipsoid.height4} and L{Triaxial_.height4} for more information.
+           @see: Methods L{Ellipsoid.height4} and L{Triaxial_.height4} for more information.
         '''
+        n = self.height4.__name__
         d = self.datum if earth is None else earth
         if normal and d is self.datum:
-            r =  self._height4
+            r = self._height4
         elif isinstance(d, _MODS.triaxials.Triaxial_):
-            r =  d.height4(self, normal=normal)
+            r = d.height4(self, normal=normal)
+            try:
+                d = d.toEllipsoid(name=n)
+            except (TypeError, ValueError):  # TriaxialError
+                d = None
         else:
             r = _earth_ellipsoid(d).height4(self, normal=normal)
-        if Cartesian is not None:
-            kwds = Cartesian_kwds.copy()
-            h = kwds.pop(_height_, None)
-            r = Cartesian(r, **kwds)
-            if h is not None:
-                r.height = Height(height=h)
+
+        if Cartesian_and_kwds:
+            if d and not isinstance(d, Datum):
+                d = _spherical_datum(d, name=n)
+            r = self._height2C(r, **_xkwds(Cartesian_and_kwds, datum=d))
         return r
 
     @Property_RO
@@ -482,6 +552,34 @@ class CartesianBase(Vector3d):
         '''
         CartesianBase._resections = m = _MODS.resections  # overwrite property_RO
         return m
+
+    def Roc2(self, earth=None):
+        '''Compute this cartesian's I{normal} and I{pseudo, z-based} radius of curvature.
+
+           @kwarg earth: A datum, ellipsoid, triaxial ellipsoid or earth radius,
+                         I{overriding} this cartesian's datum (L{Datum}, L{Ellipsoid},
+                         L{Ellipsoid2}, L{a_f2Tuple} or C{meter}, conventionally).
+
+           @return: 2-Tuple C{(R, r)} with the I{normal} and I{pseudo, z-based} radius of
+                    curvature C{R} respectively C{r}, both in C{meter} conventionally.
+
+           @raise TypeError: Invalid or undefined B{C{earth}} or C{datum}.
+        '''
+        r = z = fabs( self.z)
+        R, _0 = hypot(self.x, self.y), EPS0
+        if R < _0:  # polar
+            R = z
+        elif z > _0:  # non-equatorial
+            d = self.datum if earth is None else _spherical_datum(earth)
+            e = self.toLatLon(datum=d, height=0, LatLon=None)  # Ecef9Tuple
+            M = e.M  # EcefMatrix
+            sa, ca = map(fabs, (M._2_2_, M._2_1_) if M else sincos2d(e.lat))
+            if ca < _0:  # polar
+                R = z
+            else:  # prime-vertical, normal roc R
+                R = R / ca  # /= chokes PyChecker
+                r = R if sa < _0 else (r / sa)  # non-/equatorial
+        return R, r
 
     @property_RO
     def sphericalCartesian(self):
@@ -698,6 +796,16 @@ class CartesianBase(Vector3d):
             r = self._xnamed(Nvector(r.x, r.y, r.z, **kwds))
         return r
 
+    def toRtp(self):
+        '''Convert this cartesian to I{spherical, polar} coordinates.
+
+           @return: L{RadiusThetaPhi3Tuple}C{(r, theta, phi)} with C{theta}
+                    and C{phi}, both in L{Degrees}.
+
+           @see: Function L{xyz2rtp_} and class L{RadiusThetaPhi3Tuple}.
+        '''
+        return _rtp3(self.toRtp, Degrees, self, name=self.name)
+
     def toStr(self, prec=3, fmt=Fmt.SQUARE, sep=_COMMASPACE_):  # PYCHOK expected
         '''Return the string representation of this cartesian.
 
@@ -721,8 +829,8 @@ class CartesianBase(Vector3d):
 
            @return: The transformed cartesian (C{Cartesian}).
 
-           @raise Valuerror: If C{B{inverse}=True} and B{C{datum}}
-                             is not L{Datums}C{.WGS84}.
+           @raise Valuerror: If C{B{inverse}=True} and B{C{datum}} is
+                             not L{Datums}C{.WGS84}.
         '''
         d = datum or self.datum
         if inverse and d != _WGS84:
@@ -747,6 +855,181 @@ class CartesianBase(Vector3d):
         '''
         return self.xyz if Vector is None else self._xnamed(
                Vector(self.x, self.y, self.z, **Vector_kwds))
+
+
+class RadiusThetaPhi3Tuple(_NamedTuple):
+    '''3-Tuple C{(r, theta, phi)} with radial distance C{r} in C{meter}, inclination
+       C{theta} (with respect to the positive z-axis) and azimuthal angle C{phi} in
+       L{Degrees} I{or} L{Radians} representing a U{spherical, polar position
+       <https://WikiPedia.org/wiki/Spherical_coordinate_system>}.
+    '''
+    _Names_ = (_r_,    _theta_, _phi_)
+    _Units_ = ( Meter, _Pass,   _Pass)
+
+    def toCartesian(self, name=NN, **Cartesian_and_kwds):
+        '''Convert this L{RadiusThetaPhi3Tuple} to a cartesian C{(x, y, z)} vector.
+
+           @kwarg name: Optional name (C{str}), overriding this name.
+           @kwarg Cartesian_and_kwds: Optional C{B{Cartesian}=None} class and additional
+                            C{B{Cartesian}} keyword arguments.
+
+           @return: A C{B{Cartesian}(x, y, z)} instance or if no C{B{Cartesian}} keyword
+                    argument is given, a L{Vector3Tuple}C{(x, y, z)} with C{x}, C{y}
+                    and C{z} in the same units as radius C{r}, C{meter} conventionally.
+
+           @see: Function L{rtp2xyz_}.
+        '''
+        r, t, p =  self
+        t, p, _ = _toRadians(self, t, p)
+        return rtp2xyz_(r, t, p, name=name or self.name, **Cartesian_and_kwds)
+
+    def toDegrees(self, name=NN):
+        '''Convert this L{RadiusThetaPhi3Tuple}'s angles to L{Degrees}.
+
+           @kwarg name: Optional name (C{str}), overriding this name.
+
+           @return: L{RadiusThetaPhi3Tuple}C{(r, theta, phi)} with C{theta}
+                    and C{phi} both in L{Degrees}.
+        '''
+        r, t, p =  self
+        t, p, _ = _toDegrees(self, t, p)
+        return _ or self.classof(r, Degrees(theta=t), Degrees(phi=p),
+                                    name=name or self.name)
+
+    def toRadians(self, name=NN):
+        '''Convert this L{RadiusThetaPhi3Tuple}'s angles to L{Radians}.
+
+           @kwarg name: Optional name (C{str}), overriding this name.
+
+           @return: L{RadiusThetaPhi3Tuple}C{(r, theta, phi)} with C{theta}
+                    and C{phi} both in L{Radians}.
+        '''
+        r, t, p =  self
+        t, p, _ = _toRadians(self, t, p)
+        return _ or self.classof(r, Radians(theta=t), Radians(phi=p),
+                                    name=name or self.name)
+
+
+def rtp2xyz(r_rtp, *theta_phi, **name_Cartesian_and_kwds):
+    '''Convert I{spherical, polar} C{(r, theta, phi)} to cartesian C{(x, y, z)} coordinates.
+
+       @arg r_rtp: Radial distance (C{scalar}, conventially C{meter}) or a previous
+                   L{RadiusThetaPhi3Tuple} instance.
+       @arg theta_phi: Inclination B{C{theta}} (C{degrees} with respect to the positive z-axis)
+                       and azimuthal angle B{C{phi}} (C{degrees}), ignored if C{B{r_rtp}} is a
+                       L{RadiusThetaPhi3Tuple}.
+       @kwarg name_Cartesian_and_kwds: Optional C{B{name}=NN} (C{str}), a C{B{Cartesian}=None}
+                             class to return the coordinates and additional C{B{Cartesian}}
+                             keyword arguments.
+
+       @return: A C{B{Cartesian}(x, y, z)} instance or if no C{B{Cartesian}} keyword argument
+                is given a L{Vector3Tuple}C{(x, y, z)}, with C{x}, C{y} and C{z} in the same
+                units as radius C{r}, C{meter} conventionally.
+
+       @raise TypeError: Invalid B{C{r_rtp}}.
+
+       @see: Functions L{rtp2xyz_} and L{xyz2rtp}.
+    '''
+    if isinstance(r_rtp, RadiusThetaPhi3Tuple):
+        c = r_rtp.toCartesian(**name_Cartesian_and_kwds)
+    else:
+        c = rtp2xyz_(r_rtp, *map(radians, theta_phi), **name_Cartesian_and_kwds)
+    return c
+
+
+def rtp2xyz_(r_rtp, *theta_phi, **name_Cartesian_and_kwds):
+    '''Convert I{spherical, polar} C{(r, theta, phi)} to cartesian C{(x, y, z)} coordinates.
+
+       @arg r_rtp: Radial distance (C{scalar}, conventially C{meter}) or a previous
+                   L{RadiusThetaPhi3Tuple} instance.
+       @arg theta_phi: Inclination B{C{theta}} (C{radians} with respect to the positive z-axis)
+                       and azimuthal angle B{C{phi}} (C{degrees}), ignored is C{B{r_rtp}} is a
+                       L{RadiusThetaPhi3Tuple}.
+       @kwarg name_Cartesian_and_kwds: Optional C{B{name}=NN} (C{str}), a C{B{Cartesian}=None}
+                             class to return the coordinates and additional C{B{Cartesian}}
+                             keyword arguments.
+
+       @return: A C{B{Cartesian}(x, y, z)} instance or if no C{B{Cartesian}} keyword argument
+                is given a L{Vector3Tuple}C{(x, y, z)}, with C{x}, C{y} and C{z} in the same
+                units as radius C{r}, C{meter} conventionally.
+
+       @raise TypeError: Invalid B{C{r_rtp}} or B{C{theta_phi}}.
+
+       @see: U{Physics convention<https://WikiPedia.org/wiki/Spherical_coordinate_system>}
+             (ISO 80000-2:2019).
+    '''
+    if _isMeter(r_rtp) and len(theta_phi) == 2:
+        r = r_rtp
+        if r and _isfinite(r):
+            s, z, y, x = sincos2_(*theta_phi)
+            s *= r
+            z *= r
+            y *= s
+            x *= s
+        else:
+            x = y = z = r
+
+        def _n_C_kwds3(name=NN, Cartesian=None, **kwds):
+            return name, Cartesian, kwds
+
+        n, C, kwds = _n_C_kwds3(**name_Cartesian_and_kwds)
+        c = Vector3Tuple(x, y, z, name=n) if C is None else \
+                       C(x, y, z, name=n, **kwds)
+
+    elif isinstance(r_rtp, RadiusThetaPhi3Tuple):
+        c = r_rtp.toCartesian(**name_Cartesian_and_kwds)
+    else:
+        raise _TypeError(r_rtp=r_rtp, theta_phi=theta_phi)
+    return c
+
+
+def _rtp3(where, Unit, *x_y_z, **name):
+    '''(INTERNAL) Helper for C{.toRtp}, C{xyz2rtp} and C{xyz2rtp_}.
+    '''
+    x, y, z = _MODS.vector3dBase._xyz3(where, *x_y_z)
+    r = hypot_(x, y, z)
+    if r > 0:
+        t = acos1(z / r)
+        p = atan2(y, x)
+        while p < 0:
+            p += PI2
+        if Unit is Degrees:
+            t = degrees(t)
+            p = degrees(p)
+    else:
+        t = p = _0_0
+    return RadiusThetaPhi3Tuple(r, Unit(theta=t), Unit(phi=p), **name)
+
+
+def xyz2rtp(x_xyz, *y_z, **name):
+    '''Convert cartesian C{(x, y, z)} to I{spherical, polar} C{(r, theta, phi)} coordinates.
+
+       @return: L{RadiusThetaPhi3Tuple}C{(r, theta, phi)} with C{theta} and C{phi},
+                both in L{Degrees}.
+
+       @see: Function L{xyz2rtp_} and class L{RadiusThetaPhi3Tuple}.
+    '''
+    return _rtp3(xyz2rtp, Degrees, x_xyz, *y_z, **name)
+
+
+def xyz2rtp_(x_xyz, *y_z, **name):
+    '''Convert cartesian C{(x, y, z)} to I{spherical, polar} C{(r, theta, phi)} coordinates.
+
+       @arg x_xyz: X component (C{scalar}) or a cartesian (C{Cartesian}, L{Ecef9Tuple},
+                   C{Nvector}, L{Vector3d}, L{Vector3Tuple}, L{Vector4Tuple} or a
+                   C{tuple} or C{list} of 3+ C{scalar} items) if no C{y_z} specified.
+       @arg y_z: Y and Z component (C{scalar}s), ignored if C{x_xyz} is not a C{scalar}.
+       @kwarg name: Optional C{B{name}=NN} (C{str}).
+
+       @return: L{RadiusThetaPhi3Tuple}C{(r, theta, phi)} with radial distance C{r}
+                (C{meter}, same units as C{x}, C{y} and C{z}), inclination C{theta}
+                (with respect to the positive z-axis) and azimuthal angle C{phi},
+                both in L{Radians}.
+
+       @see: U{Physics convention<https://WikiPedia.org/wiki/Spherical_coordinate_system>}
+             (ISO 80000-2:2019).
+    '''
+    return _rtp3(xyz2rtp_, Radians, x_xyz, *y_z, **name)
 
 
 __all__ += _ALL_DOCS(CartesianBase)

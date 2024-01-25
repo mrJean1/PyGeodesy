@@ -17,10 +17,10 @@ from pygeodesy.constants import EPS, EPS0, EPS1, EPS4, INT0, R_M, \
 from pygeodesy.datums import _spherical_datum
 from pygeodesy.dms import F_D, F_DMS, latDMS, lonDMS, parse3llh
 # from pygeodesy.ecef import EcefKarney  # _MODS
-from pygeodesy.errors import _AttributeError, _incompatible, \
-                             _IsnotError, IntersectionError, \
-                             _ValueError, _xattr, _xdatum, \
-                             _xError, _xkwds, _xkwds_not
+from pygeodesy.errors import _AttributeError, IntersectionError, \
+                             _incompatible, _IsnotError, _TypeError, \
+                             _ValueError, _xattr, _xdatum, _xError, \
+                             _xkwds, _xkwds_not
 # from pygeodesy.fmath import favg  # _MODS
 # from pygeodesy.formy import antipode, compassAngle, cosineAndoyerLambert_, \
 #                             cosineForsytheAndoyerLambert_, cosineLaw, \
@@ -53,7 +53,7 @@ from contextlib import contextmanager
 from math import asin, cos, degrees, fabs, radians
 
 __all__ = _ALL_LAZY.latlonBase
-__version__ = '23.12.14'
+__version__ = '24.01.18'
 
 
 class LatLonBase(_NamedBase):
@@ -601,26 +601,27 @@ class LatLonBase(_NamedBase):
         LatLonBase._formy = f = _MODS.formy  # overwrite property_RO
         return f
 
-    def hartzell(self, los=None, earth=None):
-        '''Compute the intersection of a Line-Of-Sight (los) from this Point-Of-View
+    def hartzell(self, los=False, earth=None):
+        '''Compute the intersection of a Line-Of-Sight from this (geodetic) Point-Of-View
            (pov) with this point's ellipsoid surface.
 
-           @kwarg los: Line-Of-Sight, I{direction} to earth (L{Los}, L{Vector3d})
-                       or C{None} to point to the ellipsoid's center.
-           @kwarg earth: The earth model (L{Datum}, L{Ellipsoid}, L{Ellipsoid2},
-                         L{a_f2Tuple} or C{scalar} radius in C{meter}) overriding
-                         this point's C{datum} ellipsoid.
+           @kwarg los: Line-Of-Sight, I{direction} to the ellipsoid (L{Los}, L{Vector3d}),
+                       C{True} for the I{normal, plumb} onto the surface or I{False} or
+                       C{None} to point to the center of the ellipsoid.
+           @kwarg earth: The earth model (L{Datum}, L{Ellipsoid}, L{Ellipsoid2}, L{a_f2Tuple}
+                         or C{scalar} radius in C{meter}), overriding this point's C{datum}
+                         ellipsoid.
 
-           @return: The ellipsoid intersection (C{LatLon}) with C{.height} set
-                    to the distance to this C{pov}.
+           @return: The intersection (C{LatLon}) with C{.height} set to the distance to
+                    this C{pov}.
 
-           @raise IntersectionError: Null or bad C{pov} or B{C{los}}, this C{pov}
-                                     is inside the ellipsoid or B{C{los}} points
-                                     outside or away from the ellipsoid.
+           @raise IntersectionError: Null or bad C{pov} or B{C{los}}, this C{pov} is inside
+                                     the ellipsoid or B{C{los}} points outside or away from
+                                     the ellipsoid.
 
-           @raise TypeError: Invalid B{C{los}}.
+           @raise TypeError: Invalid B{C{los}} or invalid or undefined B{C{earth}} or C{datum}.
 
-           @see: Function C{hartzell} for further details.
+           @see: Function L{hartzell<pygeodesy.formy.hartzell>} for further details.
         '''
         return self._formy._hartzell(self, los, earth, LatLon=self.classof)
 
@@ -654,7 +655,7 @@ class LatLonBase(_NamedBase):
            @kwarg h: Overriding height (C{meter}).
 
            @return: Average, fractional height (C{float}) or
-                    the overriding B{C{height}} (C{Height}).
+                    the overriding height B{C{h}} (C{Height}).
         '''
         return Height(h) if h is not None else \
               _MODS.fmath.favg(self.height, other.height, f=f)
@@ -684,40 +685,43 @@ class LatLonBase(_NamedBase):
         return self.height if height is None else Height(height)
 
     def height4(self, earth=None, normal=True, LatLon=None, **LatLon_kwds):
-        '''Compute the height above or below and the projection of this point
-           on this datum's or on an other earth's ellipsoid surface.
+        '''Compute the projection of this point on and the height above or below
+           this datum's ellipsoid surface.
 
-           @kwarg earth: A datum, ellipsoid, triaxial ellipsoid or earth radius
+           @kwarg earth: A datum, ellipsoid, triaxial ellipsoid or earth radius,
                          I{overriding} this datum (L{Datum}, L{Ellipsoid},
                          L{Ellipsoid2}, L{a_f2Tuple}, L{Triaxial}, L{Triaxial_},
                          L{JacobiConformal} or C{meter}, conventionally).
-           @kwarg normal: If C{True} the projection is the nearest point on the
+           @kwarg normal: If C{True} the projection is the normal to this
                           ellipsoid's surface, otherwise the intersection of the
-                          radial line to the center and the ellipsoid's surface.
-           @kwarg LatLon: Optional class to return the  height and projection
-                          (C{LatLon}) or C{None}.
+                          I{radial} line to this ellipsoid's center (C{bool}).
+           @kwarg LatLon: Optional class to return the projection, height and
+                          datum (C{LatLon}) or C{None}.
            @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword arguments,
                                ignored if C{B{LatLon} is None}.
 
            @note: Use keyword argument C{height=0} to override C{B{LatLon}.height}
                   to {0} or any other C{scalar}, conventionally in C{meter}.
 
-           @return: An instance of B{C{LatLon}} or if C{B{LatLon} is None}, a
+           @return: An instance of class B{C{LatLon}} or if C{B{LatLon} is None}, a
                     L{Vector4Tuple}C{(x, y, z, h)} with the I{projection} C{x}, C{y}
                     and C{z} coordinates and height C{h} in C{meter}, conventionally.
 
            @raise TriaxialError: No convergence in triaxial root finding.
 
-           @raise TypeError: Invalid B{C{earth}}.
+           @raise TypeError: Invalid B{C{earth}} or triaxial B{C{earth}} couldn't be
+                             converted to biaxial B{C{LatLon}} datum.
 
-           @see: L{Ellipsoid.height4} and L{Triaxial_.height4} for more information.
+           @see: Methods L{Ellipsoid.height4} and L{Triaxial_.height4} for more information.
         '''
         c = self.toCartesian()
         if LatLon is None:
             r = c.height4(earth=earth, normal=normal)
         else:
-            r = c.height4(earth=earth, normal=normal, Cartesian=c.classof, height=0)
-            r = r.toLatLon(LatLon=LatLon, **_xkwds(LatLon_kwds, height=r.height))
+            c = c.height4(earth=earth, normal=normal, Cartesian=c.classof, height=0)
+            r = c.toLatLon(LatLon=LatLon, **_xkwds(LatLon_kwds, datum=c.datum, height=c.height))
+            if r.datum != c.datum:
+                raise _TypeError(earth=earth, datum=r.datum)
         return r
 
     def heightStr(self, prec=-2, m=_m_):
@@ -819,7 +823,7 @@ class LatLonBase(_NamedBase):
            @see: Method L{isequalTo}.
         '''
         return self.height == self.others(other).height and \
-             self._formy._isequalTo(self, other, eps=eps)
+               self._formy._isequalTo(self, other, eps=eps)
 
     @Property_RO
     def isnormal(self):
@@ -1681,8 +1685,8 @@ def _trilaterate5(p1, d1, p2, d2, p3, d3, area=True, eps=EPS1,  # MCCABE 13
     '''(INTERNAL) Trilaterate three points by I{area overlap} or by
        I{perimeter intersection} of three circles.
 
-       @note: The B{C{radius}} is only needed for both the n-vectorial
-              and C{sphericalTrigonometry.LatLon.distanceTo} methods and
+       @note: The B{C{radius}} is only needed for the n-vectorial and
+              C{sphericalTrigonometry.LatLon.distanceTo} methods and
               silently ignored by the C{ellipsoidalExact}, C{-GeodSolve},
               C{-Karney} and C{-Vincenty.LatLon.distanceTo} methods.
     '''

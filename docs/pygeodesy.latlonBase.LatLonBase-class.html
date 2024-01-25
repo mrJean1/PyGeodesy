@@ -593,9 +593,9 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#hartzell" class="summary-sig-name">hartzell</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">los</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">los</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">earth</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Compute the intersection of a Line-Of-Sight (los) from this 
+      Compute the intersection of a Line-Of-Sight from this (geodetic) 
       Point-Of-View (pov) with this point's ellipsoid surface.</td>
           <td align="right" valign="top">
             
@@ -638,8 +638,8 @@
         <span class="summary-sig-arg">normal</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">**LatLon_kwds</span>)</span><br />
-      Compute the height above or below and the projection of this point on
-      this datum's or on an other earth's ellipsoid surface.</td>
+      Compute the projection of this point on and the height above or below
+      this datum's ellipsoid surface.</td>
           <td align="right" valign="top">
             
             
@@ -2813,7 +2813,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">hartzell</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">los</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">los</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">earth</span>=<span class="sig-default">None</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -2821,16 +2821,17 @@
     </td>
   </tr></table>
   
-  <p>Compute the intersection of a Line-Of-Sight (los) from this 
+  <p>Compute the intersection of a Line-Of-Sight from this (geodetic) 
   Point-Of-View (pov) with this point's ellipsoid surface.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>los</code></strong> - Line-Of-Sight, <i>direction</i> to earth (<a 
+        <li><strong class="pname"><code>los</code></strong> - Line-Of-Sight, <i>direction</i> to the ellipsoid (<a 
           href="pygeodesy.ltpTuples.Los-class.html" class="link">Los</a>, 
           <a href="pygeodesy.vector3d.Vector3d-class.html" 
-          class="link">Vector3d</a>) or <code>None</code> to point to the 
-          ellipsoid's center.</li>
+          class="link">Vector3d</a>), <code>True</code> for the <i>normal, 
+          plumb</i> onto the surface or <i>False</i> or <code>None</code> 
+          to point to the center of the ellipsoid.</li>
         <li><strong class="pname"><code>earth</code></strong> - The earth model (<a href="pygeodesy.datums.Datum-class.html" 
           class="link">Datum</a>, <a 
           href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
@@ -2839,23 +2840,24 @@
           class="link">Ellipsoid2</a>, <a 
           href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
           class="link">a_f2Tuple</a> or <code>scalar</code> radius in 
-          <code>meter</code>) overriding this point's <code>datum</code> 
+          <code>meter</code>), overriding this point's <code>datum</code> 
           ellipsoid.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The ellipsoid intersection (<code>LatLon</code>) with 
-          <code>.height</code> set to the distance to this 
-          <code>pov</code>.</dd>
+        <dd>The intersection (<code>LatLon</code>) with <code>.height</code> 
+          set to the distance to this <code>pov</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - Null or bad <code>pov</code> or <b><code>los</code></b>, this 
         <code>pov</code> is inside the ellipsoid or <b><code>los</code></b>
         points outside or away from the ellipsoid.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>los</code></b>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>los</code></b> or invalid or undefined 
+        <b><code>earth</code></b> or <code>datum</code>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Function <code>hartzell</code> for further details.
+        Function <a href="pygeodesy.formy-module.html#hartzell" 
+        class="link">hartzell</a> for further details.
       </p>
 </div></td></tr></table>
 </div>
@@ -2939,12 +2941,12 @@
     </td>
   </tr></table>
   
-  <p>Compute the height above or below and the projection of this point on 
-  this datum's or on an other earth's ellipsoid surface.</p>
+  <p>Compute the projection of this point on and the height above or below 
+  this datum's ellipsoid surface.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>earth</code></strong> - A datum, ellipsoid, triaxial ellipsoid or earth radius 
+        <li><strong class="pname"><code>earth</code></strong> - A datum, ellipsoid, triaxial ellipsoid or earth radius, 
           <i>overriding</i> this datum (<a 
           href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>, 
           <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
@@ -2960,16 +2962,17 @@
           href="pygeodesy.triaxials.JacobiConformal-class.html" 
           class="link">JacobiConformal</a> or <code>meter</code>, 
           conventionally).</li>
-        <li><strong class="pname"><code>normal</code></strong> - If <code>True</code> the projection is the nearest point on the 
-          ellipsoid's surface, otherwise the intersection of the radial 
-          line to the center and the ellipsoid's surface.</li>
-        <li><strong class="pname"><code>LatLon</code></strong> - Optional class to return the  height and projection 
+        <li><strong class="pname"><code>normal</code></strong> - If <code>True</code> the projection is the normal to this 
+          ellipsoid's surface, otherwise the intersection of the 
+          <i>radial</i> line to this ellipsoid's center 
+          (<code>bool</code>).</li>
+        <li><strong class="pname"><code>LatLon</code></strong> - Optional class to return the projection, height and datum 
           (<code>LatLon</code>) or <code>None</code>.</li>
         <li><strong class="pname"><code>LatLon_kwds</code></strong> - Optional, additional <b><code>LatLon</code></b> keyword 
           arguments, ignored if <code><b>LatLon</b> is None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>An instance of <b><code>LatLon</code></b> or if 
+        <dd>An instance of class <b><code>LatLon</code></b> or if 
           <code><b>LatLon</b> is None</code>, a <a 
           href="pygeodesy.namedTuples.Vector4Tuple-class.html" 
           class="link">Vector4Tuple</a><code>(x, y, z, h)</code> with the 
@@ -2979,7 +2982,9 @@
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.triaxials.TriaxialError-class.html">TriaxialError</a></strong></code> - No convergence in triaxial root finding.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>earth</code></b>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>earth</code></b> or triaxial 
+        <b><code>earth</code></b> couldn't be converted to biaxial 
+        <b><code>LatLon</code></b> datum.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
@@ -2988,7 +2993,7 @@
         <code>scalar</code>, conventionally in <code>meter</code>.
       </p>
       <p><strong>See Also:</strong>
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#height4" 
+        Methods <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#height4"
         class="link">Ellipsoid.height4</a> and <a 
         href="pygeodesy.triaxials.Triaxial_-class.html#height4" 
         class="link">Triaxial_.height4</a> for more information.
@@ -5075,7 +5080,7 @@ class="link">Vector4Tuple</a><code>(x, y, z, h)</code>)
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Jan 10 13:55:29 2024
+    Generated by Epydoc 3.0.1 on Thu Jan 25 16:45:47 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

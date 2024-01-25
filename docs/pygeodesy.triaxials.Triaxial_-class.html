@@ -176,7 +176,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.triaxials.Triaxial_-class.html#hartzell4" class="summary-sig-name">hartzell4</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">pov</span>,
-        <span class="summary-sig-arg">los</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">los</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
       Compute the intersection of this triaxial's surface with a 
       Line-Of-Sight from a Point-Of-View in space.</td>
@@ -201,8 +201,8 @@
         <span class="summary-sig-arg">z</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">normal</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">2.220446049250313e-16</span>)</span><br />
-      Compute the projection on and the height of a cartesian above or 
-      below this triaxial's surface.</td>
+      Compute the projection on and the height above or below this 
+      triaxial's surface.</td>
           <td align="right" valign="top">
             
             
@@ -223,8 +223,8 @@
         <span class="summary-sig-arg">y</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">z</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">length</span>=<span class="summary-sig-default">1.0</span>)</span><br />
-      Get a 3-D vector perpendicular to at a cartesian on this triaxial's 
-      surface.</td>
+      Get a 3-D vector at a cartesian on and perpendicular to this 
+      triaxial's surface.</td>
           <td align="right" valign="top">
             
             
@@ -570,7 +570,7 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">hartzell4</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">pov</span>,
-        <span class="sig-arg">los</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">los</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -584,7 +584,7 @@
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.triaxials-module.html#hartzell4" 
-        class="link">pygeodesy.hartzell4</a> for further details.
+        class="link">hartzell4</a> for further details.
       </p>
 </div></td></tr></table>
 </div>
@@ -607,8 +607,8 @@
     </td>
   </tr></table>
   
-  <p>Compute the projection on and the height of a cartesian above or below
-  this triaxial's surface.</p>
+  <p>Compute the projection on and the height above or below this 
+  triaxial's surface.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -626,10 +626,9 @@
           <b><code>x_xyz</code></b> if <code>scalar</code>.</li>
         <li><strong class="pname"><code>z</code></strong> - Z component (<code>scalar</code>), required if 
           <b><code>x_xyz</code></b> if <code>scalar</code>.</li>
-        <li><strong class="pname"><code>normal</code></strong> - If <code>True</code> the projection is perpendicular to (the 
-          nearest point on) this triaxial's surface, otherwise the 
-          <code>radial</code> line to this triaxial's center 
-          (<code>bool</code>).</li>
+        <li><strong class="pname"><code>normal</code></strong> - If <code>True</code> the projection is the <i>normal, plumb</i> 
+          to the surface of, otherwise the <code>radial</code> line to the 
+          center of this triaxial (<code>bool</code>).</li>
         <li><strong class="pname"><code>eps</code></strong> - Tolerance for root finding and validation (<code>scalar</code>), 
           use a negative value to skip validation.</li>
     </ul></dd>
@@ -651,7 +650,7 @@
         Method <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#height4" 
         class="link">Ellipsoid.height4</a> and <i>Eberly</i>'s <a 
         href="https://www.GeometricTools.com/Documentation/DistancePointEllipseEllipsoid.pdf"
-        target="_top">Distance from a Point to ... an Ellipsoid ...</a>.
+        target="_top">Distance from a Point to ...</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -673,8 +672,8 @@
     </td>
   </tr></table>
   
-  <p>Get a 3-D vector perpendicular to at a cartesian on this triaxial's 
-  surface.</p>
+  <p>Get a 3-D vector at a cartesian on and perpendicular to this 
+  triaxial's surface.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -698,6 +697,10 @@
         <dd>A <code>Vector3d(x_, y_, z_)</code> normalized to 
           <b><code>length</code></b>, pointing in- or outward for neg- 
           respectively positive <b><code>length</code></b>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.triaxials.TriaxialError-class.html">TriaxialError</a></strong></code> - Zero length cartesian or vector.</li>
+    </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
         Cartesian location <code>(<b>x</b>, <b>y</b>, <b>z</b>)</code> must
@@ -743,13 +746,15 @@
           <b><code>x_xyz</code></b> if <code>scalar</code>.</li>
         <li><strong class="pname"><code>z</code></strong> - Z component (<code>scalar</code>), required if 
           <b><code>x_xyz</code></b> if <code>scalar</code>.</li>
-        <li><strong class="pname"><code>eps</code></strong> - Near surface tolerance(<code>scalar</code>).</li>
+        <li><strong class="pname"><code>eps</code></strong> - Near-surface tolerance (<code>scalar</code>, distance 
+          <i>squared</i>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><code>INT0</code> if <code>(<b>x</b>, <b>y</b>, <b>z</b>)</code> 
           is near this triaxial's surface within tolerance 
-          <b><code>eps</code></b>, otherwise a neg- or positive 
-          <code>float</code> if in- respectively outside this triaxial.</dd>
+          <b><code>eps</code></b>, otherwise a signed, radial, normalized 
+          distance <i>squared</i> (<code>float</code>), negative or 
+          positive for in- respectively outside this triaxial.</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Methods <a href="pygeodesy.triaxials.Triaxial_-class.html#height4" 
@@ -1127,7 +1132,7 @@ as <b><code>a</code></b>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Jan 10 13:55:30 2024
+    Generated by Epydoc 3.0.1 on Thu Jan 25 16:45:48 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

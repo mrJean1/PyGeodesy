@@ -10,7 +10,7 @@ U{Vector-based geodesy<https://www.Movable-Type.co.UK/scripts/latlong-vectors.ht
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import _copysign, isint, isstr, neg, _passargs
+from pygeodesy.basics import _copysign, isinstanceof, isint, isstr, neg, _passargs
 from pygeodesy.constants import EPS, EPS0, INF, NAN, NEG0, PI, PI2, PI_2, R_M, \
                                _float as _F, _isfinite, isnan, isnear0, _over, \
                                _umod_360, _umod_PI2, _M_KM, _M_NM, _M_SM, _0_0, \
@@ -19,12 +19,13 @@ from pygeodesy.constants import EPS, EPS0, INF, NAN, NEG0, PI, PI2, PI_2, R_M, \
 from pygeodesy.errors import _ValueError, _xkwds, _xkwds_get,  _ALL_LAZY, _MODS
 from pygeodesy.interns import _edge_, _radians_, _semi_circular_, _SPACE_
 # from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS  # from .errors
-from pygeodesy.units import Degrees, Feet, Float, Lam, Lam_, Meter, Meter2, Radians
+from pygeodesy.units import Degrees, Degrees_, Feet, Float, Lam, Lam_, \
+                            Meter, Meter2, Radians, Radians_
 
 from math import acos, asin, atan2, cos, degrees, fabs, radians, sin, tan  # pow
 
 __all__ = _ALL_LAZY.utily
-__version__ = '23.12.10'
+__version__ = '24.01.12'
 
 # read constant name "_M_Unit" as "meter per Unit"
 _M_CHAIN     = _F(  20.1168)     # yard2m(1) * 22
@@ -687,6 +688,19 @@ def _sin0cos2(q, r, sign):
     return s, c
 
 
+def SinCos2(x):
+    '''Get C{sin} and C{cos} of I{typed} angle.
+
+       @arg x: Angle (L{Degrees}, L{Degrees_}, L{Radians}, L{Radians_}
+               or scalar C{radians}).
+
+       @return: 2-Tuple (C{sin(B{x})}, C{cos(B{x})}).
+    '''
+    return sincos2d(x) if isinstanceof(x, Degrees, Degrees_) else (
+           sincos2(x)  if isinstanceof(x, Radians, Radians_) else
+           sincos2(float(x)))  # assume C{radians}
+
+
 def sincos2(rad):
     '''Return the C{sine} and C{cosine} of an angle in C{radians}.
 
@@ -754,18 +768,6 @@ def sincos2d(deg, **adeg):
     else:
         t =  NAN, NAN
     return t
-
-
-def SinCos2(x):
-    '''Get C{sin} and C{cos} of I{typed} angle.
-
-       @arg x: Angle (L{Degrees}, L{Radians} or C{radians}).
-
-       @return: 2-Tuple (C{sin(B{x})}, C{cos(B{x})}).
-    '''
-    return sincos2d(x) if isinstance(x, Degrees) else (
-           sincos2(x)  if isinstance(x, Radians) else
-           sincos2(float(x)))  # assume C{radians}
 
 
 def sincos2d_(*degs):

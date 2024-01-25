@@ -209,7 +209,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                    'signBit', 'signOf', 'splice', 'str2ub', 'ub2str', 'unsigned0'),
                        booleans=_i('BooleanFHP', 'BooleanGH', 'LatLonFHP', 'LatLonGH',
                                    'isBoolean'),
-                  cartesianBase=_i(),  # module only
+                  cartesianBase=_i('RadiusThetaPhi3Tuple', 'rtp2xyz', 'rtp2xyz_', 'xyz2rtp', 'xyz2rtp_'),
                           clipy=_i('ClipCS4Tuple', 'ClipFHP4Tuple', 'ClipGH4Tuple', 'ClipLB6Tuple', 'ClipSH3Tuple',
                                    'clipCS4', 'clipFHP4', 'clipGH4', 'clipLB6', 'clipSH', 'clipSH3'),
                             css=_i('CassiniSoldner', 'Css', 'CSSError', 'toCss',
@@ -264,7 +264,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                    'fpowers', 'fprod', 'frange', 'freduce', 'fremainder',
                                    'hypot', 'hypot_', 'hypot1', 'hypot2', 'hypot2_',
                                    'norm2', 'norm_', 'sqrt0', 'sqrt3', 'sqrt_a', 'zcrt', 'zqrt'),
-                          formy=_i('Radical2Tuple', 'RThetaPhi3Tuple',
+                          formy=_i('Radical2Tuple',
                                    'antipode', 'antipode_', 'bearing', 'bearing_',
                                    'compassAngle', 'cosineForsytheAndoyerLambert', 'cosineForsytheAndoyerLambert_',
                                    'cosineAndoyerLambert', 'cosineAndoyerLambert_', 'cosineLaw', 'cosineLaw_',
@@ -275,8 +275,8 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                    'hartzell', 'haversine', 'haversine_', 'heightOf', 'heightOrthometric', 'horizon', 'hubeny', 'hubeny_',
                                    'intersection2', 'intersections2', 'isantipode', 'isantipode_', 'isnormal', 'isnormal_',
                                    'latlon2n_xyz', 'normal', 'normal_', 'n_xyz2latlon', 'n_xyz2philam',
-                                   'opposing', 'opposing_', 'philam2n_xyz', 'radical2', 'rtp2xyz', 'rtp2xyz_',
-                                   'thomas', 'thomas_', 'vincentys', 'vincentys_', 'xyz2rtp', 'xyz2rtp_'),
+                                   'opposing', 'opposing_', 'philam2n_xyz', 'radical2',
+                                   'thomas', 'thomas_', 'vincentys', 'vincentys_'),
                         frechet=_i('Frechet', 'FrechetDegrees', 'FrechetError', 'FrechetRadians',
                                    'FrechetCosineAndoyerLambert', 'FrechetCosineForsytheAndoyerLambert',
                                    'FrechetCosineLaw', 'FrechetDistanceTo', 'FrechetEquirectangular',
@@ -363,7 +363,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                         streprs=_i('anstr', 'attrs', 'enstr2', 'fstr', 'fstrzs', 'hstr', 'instr',
                                    'lrstrip', 'pairs', 'reprs', 'strs', 'unstr'),
                             trf=_i('Helmert7Tuple', 'RefFrame', 'RefFrames',
-                                   'date2epoch', 'epoch2date', 'trfXform'),
+                                   'date2epoch', 'epoch2date', 'trfTransforms', 'trfXform'),
                       triaxials=_i('BetaOmega2Tuple', 'BetaOmega3Tuple', 'Jacobi2Tuple',
                                    'JacobiConformal', 'JacobiConformalSpherical',
                                    'Triaxial', 'Triaxial_', 'TriaxialError', 'Triaxials', 'hartzell4'),
@@ -498,7 +498,7 @@ class _ALL_MODS(object):
 _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '24.01.06'
+__version__ = '24.01.24'
 
 
 def _ALL_OTHER(*objs):

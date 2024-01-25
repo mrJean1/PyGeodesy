@@ -92,7 +92,7 @@ from pygeodesy.utily import atan1, atan1d, atan2b, degrees90, m2radians, radians
 from math import asinh, atan, atanh, cos, degrees, exp, fabs, radians, sin, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '23.12.02'
+__version__ = '24.01.14'
 
 _f_0_0    = Float(f =_0_0)  # zero flattening
 _f__0_0   = Float(f_=_0_0)  # zero inverse flattening
@@ -1118,8 +1118,8 @@ class Ellipsoid(_NamedEnumItem):
                           line to this ellipsoid's center (C{bool}).
 
            @return: L{Vector4Tuple}C{(x, y, z, h)} with the cartesian coordinates C{x},
-                    C{y} and C{z} of the projection on and with the height C{h} above
-                    the ellipsoid's surface, all in C{meter}, conventionally.
+                    C{y} and C{z} of the projection on and the height C{h} above or
+                    below this ellipsoid's surface, all in C{meter}, conventionally.
 
            @raise ValueError: Null B{C{xyz}}.
 
@@ -2261,38 +2261,39 @@ def n2f_(n):
     return f2f_(n2f(n))
 
 
-def _normalTo3(px, py, E):  # in .height4 above
+def _normalTo3(px, py, E, eps=EPS):  # in .height4 above
     '''(INTERNAL) Nearest point on a 2-D ellipse in 1st quadrant.
 
-       @see: Functions C{.triaxial._normalTo4} and C{-To5}.
+       @see: Functions C{pygeodesy.triaxial._normalTo4} and C{-To5}.
     '''
-    a, b = E.a, E.b
-    if min(px, py, a, b) < EPS0:
+    a, b, e0 = E.a, E.b, EPS0
+    if min(px, py, a, b) < e0:
         raise _AssertionError(px=px, py=py, a=a, b=b, E=E)
 
     a2 = a - b * E.b_a
     b2 = b - a * E.a_b
     tx = ty = _SQRT2_2
+    _a,  _h =  fabs, hypot
     for i in range(16):  # max 5
         ex = a2 * tx**3
         ey = b2 * ty**3
 
-        qx = px - ex
-        qy = py - ey
-        q  = hypot(qx, qy)
-        if q < EPS0:  # PYCHOK no cover
+        qx =  px - ex
+        qy =  py - ey
+        q  = _h(qx, qy)
+        if q < e0:  # PYCHOK no cover
             break
-        r = hypot(ex - tx * a, ey - ty * b) / q
+        r = _h(ex - tx * a, ey - ty * b) / q
 
         sx, tx = tx, min(_1_0, max(0, (ex + qx * r) / a))
         sy, ty = ty, min(_1_0, max(0, (ey + qy * r) / b))
-        t = hypot(ty, tx)
-        if t < EPS0:  # PYCHOK no cover
+        t = _h(ty, tx)
+        if t < e0:  # PYCHOK no cover
             break
         tx = tx / t  # /= chokes PyChecker
         ty = ty / t
-        if fabs(sx - tx) < EPS and \
-           fabs(sy - ty) < EPS:
+        if _a(sx - tx) < eps and \
+           _a(sy - ty) < eps:
             break
 
     tx *= a / px

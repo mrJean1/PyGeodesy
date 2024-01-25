@@ -31,36 +31,54 @@ Note WGS84(G730/G873/G1150) are coincident with ITRF at 10-centimetre level, see
 to agree at the centimeter level"}, see also U{QPS/Qinsy<https://Confluence.QPS.NL/qinsy/
 en/how-to-deal-with-etrs89-datum-and-time-dependent-transformation-parameters-45353274.html>}.
 
-@var RefFrames.ETRF2000: RefFrame(name='ETRF2000', epoch=2005, ellipsoid=Ellipsoid(name='GRS80')
-@var RefFrames.GDA2020: RefFrame(name='GDA2020', epoch=2020, ellipsoid=Ellipsoid(name='GRS80')
-@var RefFrames.GDA94: RefFrame(name='GDA94', epoch=1994, ellipsoid=Ellipsoid(name='GRS80')
-@var RefFrames.ITRF2000: RefFrame(name='ITRF2000', epoch=1997, ellipsoid=Ellipsoid(name='GRS80')
-@var RefFrames.ITRF2005: RefFrame(name='ITRF2005', epoch=2000, ellipsoid=Ellipsoid(name='GRS80')
-@var RefFrames.ITRF2008: RefFrame(name='ITRF2008', epoch=2005, ellipsoid=Ellipsoid(name='GRS80')
-@var RefFrames.ITRF2014: RefFrame(name='ITRF2014', epoch=2010, ellipsoid=Ellipsoid(name='GRS80')
-@var RefFrames.ITRF90: RefFrame(name='ITRF90', epoch=1988, ellipsoid=Ellipsoid(name='GRS80')
-@var RefFrames.ITRF91: RefFrame(name='ITRF91', epoch=1988, ellipsoid=Ellipsoid(name='GRS80')
-@var RefFrames.ITRF93: RefFrame(name='ITRF93', epoch=1988, ellipsoid=Ellipsoid(name='GRS80')
-@var RefFrames.NAD83: RefFrame(name='NAD83', epoch=1997, ellipsoid=Ellipsoid(name='GRS80')
-@var RefFrames.WGS84: RefFrame(name='WGS84', epoch=1984, ellipsoid=Ellipsoid(name='WGS84')
-@var RefFrames.WGS84g1150: RefFrame(name='WGS84g1150', epoch=2001, ellipsoid=Ellipsoid(name='WGS84')
-@var RefFrames.WGS84g1674: RefFrame(name='WGS84g1674', epoch=2005, ellipsoid=Ellipsoid(name='WGS84')
-@var RefFrames.WGS84g1762: RefFrame(name='WGS84g1762', epoch=2005, ellipsoid=Ellipsoid(name='WGS84')
+@var RefFrames.ETRF88: RefFrame(name='ETRF88', epoch=1988, ellipsoid=Ellipsoids.GRS80)
+@var RefFrames.ETRF89: RefFrame(name='ETRF89', epoch=1989, ellipsoid=Ellipsoids.GRS80)
+@var RefFrames.ETRF90: RefFrame(name='ETRF90', epoch=1990, ellipsoid=Ellipsoids.GRS80)
+@var RefFrames.ETRF91: RefFrame(name='ETRF91', epoch=1991, ellipsoid=Ellipsoids.GRS80)
+@var RefFrames.ETRF92: RefFrame(name='ETRF92', epoch=1992, ellipsoid=Ellipsoids.GRS80)
+@var RefFrames.ETRF93: RefFrame(name='ETRF93', epoch=1993, ellipsoid=Ellipsoids.GRS80)
+@var RefFrames.ETRF94: RefFrame(name='ETRF94', epoch=1994, ellipsoid=Ellipsoids.GRS80)
+@var RefFrames.ETRF96: RefFrame(name='ETRF96', epoch=1996, ellipsoid=Ellipsoids.GRS80)
+@var RefFrames.ETRF97: RefFrame(name='ETRF97', epoch=1997, ellipsoid=Ellipsoids.GRS80)
+@var RefFrames.ETRF2000: RefFrame(name='ETRF2000', epoch=2005, ellipsoid=Ellipsoids.GRS80)
+@var RefFrames.ETRF2005: RefFrame(name='ETRF2005', epoch=2005, ellipsoid=Ellipsoids.GRS80)
+@var RefFrames.ETRF2008: RefFrame(name='ETRF2008', epoch=2008, ellipsoid=Ellipsoids.GRS80)
+@var RefFrames.ETRF2014: RefFrame(name='ETRF2014', epoch=2014, ellipsoid=Ellipsoids.GRS80)
+@var RefFrames.GDA94: RefFrame(name='GDA94', epoch=1994, ellipsoid=Ellipsoids.GRS80)
+@var RefFrames.GDA2020: RefFrame(name='GDA2020', epoch=2020, ellipsoid=Ellipsoids.GRS80)
+@var RefFrames.ITRF88: RefFrame(name='ITRF88', epoch=1988, ellipsoid=Ellipsoids.GRS80)
+@var RefFrames.ITRF89: RefFrame(name='ITRF89', epoch=1989, ellipsoid=Ellipsoids.GRS80)
+@var RefFrames.ITRF90: RefFrame(name='ITRF90', epoch=1988, ellipsoid=Ellipsoids.GRS80)
+@var RefFrames.ITRF91: RefFrame(name='ITRF91', epoch=1988, ellipsoid=Ellipsoids.GRS80)
+@var RefFrames.ITRF92: RefFrame(name='ITRF92', epoch=1988, ellipsoid=Ellipsoids.GRS80)
+@var RefFrames.ITRF93: RefFrame(name='ITRF93', epoch=1988, ellipsoid=Ellipsoids.GRS80)
+@var RefFrames.ITRF94: RefFrame(name='ITRF94', epoch=1993, ellipsoid=Ellipsoids.GRS80)
+@var RefFrames.ITRF96: RefFrame(name='ITRF96', epoch=1997, ellipsoid=Ellipsoids.GRS80)
+@var RefFrames.ITRF97: RefFrame(name='ITRF97', epoch=1997, ellipsoid=Ellipsoids.GRS80)
+@var RefFrames.ITRF2000: RefFrame(name='ITRF2000', epoch=1997, ellipsoid=Ellipsoids.GRS80)
+@var RefFrames.ITRF2005: RefFrame(name='ITRF2005', epoch=2000, ellipsoid=Ellipsoids.GRS80)
+@var RefFrames.ITRF2008: RefFrame(name='ITRF2008', epoch=2005, ellipsoid=Ellipsoids.GRS80)
+@var RefFrames.ITRF2014: RefFrame(name='ITRF2014', epoch=2010, ellipsoid=Ellipsoids.GRS80)
+@var RefFrames.ITRF2020: RefFrame(name='ITRF2020', epoch=2015, ellipsoid=Ellipsoids.GRS80)
+@var RefFrames.NAD83: RefFrame(name='NAD83', epoch=1997, ellipsoid=Ellipsoids.GRS80)
+@var RefFrames.WGS84: RefFrame(name='WGS84', epoch=1984, ellipsoid=Ellipsoids.WGS84)
+@var RefFrames.WGS84g1150: RefFrame(name='WGS84g1150', epoch=2001, ellipsoid=Ellipsoids.WGS84)
+@var RefFrames.WGS84g1674: RefFrame(name='WGS84g1674', epoch=2005, ellipsoid=Ellipsoids.WGS84)
+@var RefFrames.WGS84g1762: RefFrame(name='WGS84g1762', epoch=2005, ellipsoid=Ellipsoids.WGS84)
 '''
 
-from pygeodesy.basics import map1, _xinstanceof, _zip
-from pygeodesy.constants import _float as _F, _0_0s, _0_0, _0_001, \
-                                _0_01, _0_1, _0_26, _0_5, _N_0_5, _1_0
+from pygeodesy.basics import map1, isstr, _xinstanceof, _zip
+from pygeodesy.constants import _float as _F, _0_0, _0_001, _0_5, _1_0
 from pygeodesy.datums import _earth_datum, Transform, _WGS84
 from pygeodesy.ellipsoids import Ellipsoids,  Fmt, Property_RO
-from pygeodesy.errors import _ALL_LAZY, _IsnotError, TRFError
-from pygeodesy.interns import NN, _COMMASPACE_, _cartesian_, _conversion_, \
-                             _ellipsoid_, _ellipsoidal_, _epoch_, _exists_, \
-                             _GRS80_, _NAD83_, _name_, _no_, _s_, _SPACE_, \
-                             _sx_, _sy_, _sz_, _to_, _tx_, _ty_, _tz_, _WGS84_
-# from pygeodesy.lazily import _ALL_LAZY  # from .errors
-from pygeodesy.named import classname, _lazyNamedEnumItem as _lazy, _NamedEnum, \
-                           _NamedEnumItem, _NamedDict as _XD, _NamedTuple
+from pygeodesy.errors import _IsnotError, TRFError
+from pygeodesy.interns import MISSING, NN, _AT_, _COMMASPACE_, _cartesian_, _conversion_, \
+                             _DOT_, _ellipsoid_, _ellipsoidal_, _exists_, _GRS80_, _NAD83_, \
+                             _no_, _reframe_, _s_, _SPACE_, _sx_, _sy_, _sz_, _to_, _tx_, \
+                             _ty_, _tz_, _WGS84_, _intern as _i
+from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
+from pygeodesy.named import classname, _lazyNamedEnumItem as _lazy, _NamedDict as _XD, \
+                           _NamedEnum, _NamedEnumItem, _NamedTuple
 # from pygeodesy.props import Property_RO  # from .ellipsoids
 # from pygeodesy.streprs import Fmt  # from .ellipsoids
 from pygeodesy.units import Epoch, Float
@@ -68,52 +86,63 @@ from pygeodesy.units import Epoch, Float
 from math import ceil
 
 __all__ = _ALL_LAZY.trf
-__version__ = '23.11.02'
+__version__ = '24.01.24'
 
-_0_02  =   0.02
-_0_06  =   0.06
-_0_09  =   0.09
-_0_12  =   0.12
-_366_0 = 366.0
-
+_366_0   = 366.0
 _Forward =  _0_001  # mm2m, ppb2ppM, mas2as
 _Inverse = -_0_001  # same, inverse transforms
 _mas     =  _mm = _ppb = Float  # as == arcseconds
 _mDays   =  (0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31, 0)
-_N_0_06  = -_0_06
-_N_0_1   = -_0_1
 
-_ETRF2000_   = 'ETRF2000'
-_GDA2020_    = 'GDA2020'
-_GDA94_      = 'GDA94'
-_ITRF_       = 'ITRF'
-_ITRF88_     = 'ITRF88'
-_ITRF89_     = 'ITRF89'
-_ITRF90_     = 'ITRF90'
-_ITRF91_     = 'ITRF91'
-_ITRF92_     = 'ITRF92'
-_ITRF93_     = 'ITRF93'
-_ITRF94_     = 'ITRF94'
-_ITRF96_     = 'ITRF96'
-_ITRF97_     = 'ITRF97'
-_ITRF2000_   = 'ITRF2000'
-_ITRF2005_   = 'ITRF2005'
-_ITRF2008_   = 'ITRF2008'
-_ITRF2014_   = 'ITRF2014'
-_WGS84g1150_ = 'WGS84g1150'
-_WGS84g1674_ = 'WGS84g1674'
-_WGS84g1762_ = 'WGS84g1762'
+_ETRF88_     = _i('ETRF88')
+_ETRF89_     = _i('ETRF89')
+_ETRF90_     = _i('ETRF90')
+_ETRF91_     = _i('ETRF91')
+_ETRF92_     = _i('ETRF92')
+_ETRF93_     = _i('ETRF93')
+_ETRF94_     = _i('ETRF94')
+_ETRF96_     = _i('ETRF96')
+_ETRF97_     = _i('ETRF97')
+_ETRF2000_   = _i('ETRF2000')
+_ETRF2005_   = _i('ETRF2005')
+_ETRF2008_   = _i('ETRF2008')
+_ETRF2014_   = _i('ETRF2014')
+_GDA94_      = _i('GDA94')
+_GDA2020_    = _i('GDA2020')
+_ITRF_       = _i('ITRF')
+_ITRF88_     = _i('ITRF88')
+_ITRF89_     = _i('ITRF89')
+_ITRF90_     = _i('ITRF90')
+_ITRF91_     = _i('ITRF91')
+_ITRF92_     = _i('ITRF92')
+_ITRF93_     = _i('ITRF93')
+_ITRF94_     = _i('ITRF94')
+_ITRF96_     = _i('ITRF96')
+_ITRF97_     = _i('ITRF97')
+_ITRF2000_   = _i('ITRF2000')
+_ITRF2005_   = _i('ITRF2005')
+_ITRF2008_   = _i('ITRF2008')
+_ITRF2014_   = _i('ITRF2014')
+_ITRF2020_   = _i('ITRF2020')
+_WGS84g1150_ = _i('WGS84g1150')
+_WGS84g1674_ = _i('WGS84g1674')
+_WGS84g1762_ = _i('WGS84g1762')
+# del _i
 
 
 class Helmert7Tuple(_NamedTuple):
     '''7-Tuple C{(tx, ty, tz, s, sx, sy, sz)} of Helmert transform
        parameters with translations C{tx}, C{ty} and C{tz} in
        C{millimeter}, scale C{s} in C{ppb} and rotations C{sx},
-       C{sy} and C{sz} in C{milliarcseconds}.
+       C{sy} and C{sz} in C{milli-arc-seconds}.
 
-       @see: L{Datum} L{Transform}.
+       @note: The parameters names are often capitalized and
+              alternate names are C{(Tx, Ty, Tz, D, Rx, Ry, Rz)}
+              and C{(T1, T2, T3, D, R1, R2, R3)}.
+
+       @see: L{Datum} L{Transform} keyword arguments.
     '''
-    _Names_ = (_tx_, _ty_, _tz_, _s_,  _sx_, _sy_, _sz_)
+    _Names_ = (_tx_, _ty_, _tz_, _s_,  _sx_, _sy_, _sz_)  # == kwds
     _Units_ = (_mm,  _mm,  _mm,  _ppb, _mas, _mas, _mas)
 
     def __new__(cls, tx, ty, tz, s, sx, sy, sz, name=NN):
@@ -133,12 +162,11 @@ class RefFrame(_NamedEnumItem):
         '''New L{RefFrame}.
 
            @arg epoch: Epoch, a fractional calendar year (C{scalar} or C{str}).
-           @arg ellipsoid: The ellipsoid (L{Ellipsoid}, L{Ellipsoid2},
-                           L{Datum} or L{a_f2Tuple}).
-           @kwarg name: Optional, unique name (C{str}).
+           @arg ellipsoid: The ellipsoid (L{Ellipsoid}, L{Ellipsoid2}, L{Datum}
+                           or L{a_f2Tuple}).
+           @kwarg name: Unique, non-empty name (C{str}).
 
-           @raise NameError: A L{RefFrame} with that B{C{name}}
-                             already exists.
+           @raise NameError: A L{RefFrame} with that B{C{name}} already exists.
 
            @raise TRFError: Invalid B{C{epoch}}.
 
@@ -171,19 +199,34 @@ class RefFrame(_NamedEnumItem):
         '''
         return self._epoch
 
-    def toStr(self, name=NN, **unused):  # PYCHOK expected
+    def toRefFrame(self, point, reframe2, epoch2=None, epoch=None, name=NN):
+        '''Convert a cartesian or geodetic point from this to another reframe and epoch.
+
+           @return: A copy of the B{C{point}}, converted or renamed.
+
+           @see: Ellipsoidal methods L{LatLon.toRefFrame<ellipsoidalBase.LatLonEllipsoidalBase.toRefFrame>}
+                 and L{Cartesian.toRefFrame<ellipsoidalBase.CartesianEllipsoidalBase.toRefFrame>}
+                 more details.
+        '''
+        b = _MODS.ellipsoidalBase
+        _xinstanceof(b.LatLonEllipsoidalBase, b.CartesianEllipsoidalBase, point=point)
+        r = point.dup(reframe=self)
+        return r.toRefFrame(reframe2, epoch2=epoch2, epoch=epoch, name=name or self.name)
+
+    def toStr(self, epoch=None, name=NN, **unused):  # PYCHOK expected
         '''Return this reference frame as a text string.
 
+           @kwarg epoch: Override this reframe's epoch (C{scalar} or C{str}).
            @kwarg name: Override name (C{str}) or C{None} to exclude the
                         reframe's name.
 
            @return: This L{RefFrame}'s attributes (C{str}).
         '''
         E = self.ellipsoid
-        t = (Fmt.EQUAL(_name_, repr(name or self.name)),
-             Fmt.EQUAL(_epoch_, self.epoch),
-             Fmt.PAREN(Fmt.EQUAL(_ellipsoid_, classname(E)),
-                       Fmt.EQUAL(_name_, repr(E.name))))
+        e = self.epoch if epoch is None else Epoch(epoch)
+        t = (Fmt.EQUAL(name=repr(name or self.name)),
+             Fmt.EQUAL(epoch=e),
+             Fmt.EQUAL(ellipsoid=_DOT_(classname(E) + _s_, E.name)))
         return _COMMASPACE_.join(t[1:] if name is None else t)
 
 
@@ -200,16 +243,35 @@ RefFrames = RefFrames(RefFrame)  # PYCHOK singleton
 '''Some pre-defined L{RefFrame}s, all I{lazily} instantiated.'''
 # <https://GitHub.com/ChrisVeness/geodesy/blob/master/latlon-ellipsoidal-referenceframe.js>
 RefFrames._assert(
-    ETRF2000   = _lazy(_ETRF2000_,   _F(2005), _GRS80_),  # ETRF2000(R08)
-    GDA2020    = _lazy(_GDA2020_,    _F(2020), _GRS80_),  # Australia
+    ETRF88     = _lazy(_ETRF88_,     _F(1988), _GRS80_),  # epoch?
+    ETRF89     = _lazy(_ETRF89_,     _F(1989), _GRS80_),  # epoch?
+    ETRF90     = _lazy(_ETRF90_,     _F(1990), _GRS80_),  # epoch?
+    ETRF91     = _lazy(_ETRF91_,     _F(1991), _GRS80_),  # epoch?
+    ETRF92     = _lazy(_ETRF92_,     _F(1992), _GRS80_),  # epoch?
+    ETRF93     = _lazy(_ETRF93_,     _F(1993), _GRS80_),  # epoch?
+    ETRF94     = _lazy(_ETRF94_,     _F(1994), _GRS80_),  # epoch?
+    ETRF96     = _lazy(_ETRF96_,     _F(1996), _GRS80_),  # epoch?
+    ETRF97     = _lazy(_ETRF97_,     _F(1997), _GRS80_),  # epoch?
+    ETRF2000   = _lazy(_ETRF2000_,   _F(2005), _GRS80_),
+    ETRF2005   = _lazy(_ETRF2005_,   _F(2005), _GRS80_),  # epoch?
+    ETRF2008   = _lazy(_ETRF2008_,   _F(2008), _GRS80_),  # epoch?
+    ETRF2014   = _lazy(_ETRF2014_,   _F(2014), _GRS80_),  # epoch?
     GDA94      = _lazy(_GDA94_,      _F(1994), _GRS80_),  # Australia
+    GDA2020    = _lazy(_GDA2020_,    _F(2020), _GRS80_),  # Australia
+    ITRF88     = _lazy(_ITRF88_,     _F(1988), _GRS80_),
+    ITRF89     = _lazy(_ITRF89_,     _F(1989), _GRS80_),
+    ITRF90     = _lazy(_ITRF90_,     _F(1988), _GRS80_),
+    ITRF91     = _lazy(_ITRF91_,     _F(1988), _GRS80_),
+    ITRF92     = _lazy(_ITRF92_,     _F(1988), _GRS80_),
+    ITRF93     = _lazy(_ITRF93_,     _F(1988), _GRS80_),
+    ITRF94     = _lazy(_ITRF94_,     _F(1993), _GRS80_),
+    ITRF96     = _lazy(_ITRF96_,     _F(1997), _GRS80_),
+    ITRF97     = _lazy(_ITRF97_,     _F(1997), _GRS80_),
     ITRF2000   = _lazy(_ITRF2000_,   _F(1997), _GRS80_),
     ITRF2005   = _lazy(_ITRF2005_,   _F(2000), _GRS80_),
     ITRF2008   = _lazy(_ITRF2008_,   _F(2005), _GRS80_),  # aka ITRF08
     ITRF2014   = _lazy(_ITRF2014_,   _F(2010), _GRS80_),
-    ITRF90     = _lazy(_ITRF90_,     _F(1988), _GRS80_),
-    ITRF91     = _lazy(_ITRF91_,     _F(1988), _GRS80_),
-    ITRF93     = _lazy(_ITRF93_,     _F(1988), _GRS80_),
+    ITRF2020   = _lazy(_ITRF2020_,   _F(2015), _GRS80_),
     NAD83      = _lazy(_NAD83_,      _F(1997), _GRS80_),  # CORS96
     WGS84      = _lazy(_WGS84_,      _F(1984), _WGS84_),
     WGS84g1150 = _lazy(_WGS84g1150_, _F(2001), _WGS84_),
@@ -253,7 +315,7 @@ def epoch2date(epoch):
        @note: Any B{C{year}} is considered a leap year, i.e. having
               29 days in February.
     '''
-    e = Epoch(epoch, Error=TRFError, low=0)
+    e = Epoch(epoch, low=0)
     y = int(e)
     d = int(ceil(_366_0 * (e - y)))
     for m, n in enumerate(_mDays[1:]):
@@ -264,61 +326,91 @@ def epoch2date(epoch):
     return y, (m + 1), max(1, d)
 
 
-def _intermediate(n1, n2):
-    '''(INTERNAL) Find a trf* "in between" C{n1} and C{n2}.
+def _epochTransforms2(inst, reframe, epoch, reframe2, epoch2):
+    '''(INTERNAL) Get epoch and a 0-, 1- or 2-tuple of Helmert L{Transform}s
+       to convert B{C{refFrame}} observed at B{C{epoch}} into B{C{refFrame2}}
+       observed at B{C{epoch2}} iff C{not None} else B{C{epoch}}.
     '''
-    f1 = set(m for n, m in _trfXs.keys() if n == n1)  # from trf1
-    t2 = set(n for n, m in _trfXs.keys() if m == n2)  # to trf2
-    n  = f1.intersection(t2)
+    r = reframe or inst.reframe
+    if not r:
+        t = _SPACE_(_DOT_(repr(inst), _reframe_), MISSING)
+        raise TRFError(_no_(_conversion_), txt=t)
+
+    _xinstanceof(RefFrame, reframe2=reframe2, reframe=r)
+
+    e1 = Epoch(epoch or inst.epoch or r.epoch)
+    e2 = e1 if epoch2 is None else Epoch(epoch2=epoch2)
+
+    xs = _2Transforms(r.name, e1, reframe2.name, e2)
+    if xs is None:
+        t = _SPACE_(RefFrame.__name__, repr(r.name), _AT_, e1,
+                          _to_, repr(reframe2.name), _AT_, e2)
+        raise TRFError(_no_(_conversion_), txt=t)
+    return e2, xs
+
+
+def _intermediate(n1, n2):
+    '''(INTERNAL) Find a trf* "between" C{n1} and C{n2}.
+    '''
+    f = set(m for n, m in _trfXs.keys() if n == n1)  # from trf1
+    t = set(n for n, m in _trfXs.keys() if m == n2)  # to trf2
+    n = f.intersection(t)
     return n.pop() if n else NN
 
 
-def _reframeTransforms2(rf2, rf, epoch):
-    '''(INTERNAL) Get 0, 1 or 2 Helmert L{Transform}s to convert
-       reference frame B{C{rf}} observed at B{C{epoch}} into B{C{rf2}}.
-    '''
-    e = rf.epoch if epoch is None else Epoch(epoch)
+def _2Transform(n1_n2, e, _Forward_Inverse):
+    '''(INTERNAL) Combine the TRF C{xform} and C{rates} from
+       a conversion C{_trfXs[n1_n2]} observed at C{B{e}poch}
+       into a single I{datum} L{Transform}.
 
-    n2 = rf2.name  # .upper()
-    n1 = rf.name   # .upper()
-    if n1 == n2 or (n1.startswith(_ITRF_) and n2.startswith(_WGS84_)) \
-                or (n2.startswith(_ITRF_) and n1.startswith(_WGS84_)):
-        return e, ()  # PYCHOK returns
-
-    if (n1, n2) in _trfXs:
-        return e, (_2Transform((n1, n2), e, _Forward),)  # PYCHOK returns
-
-    if (n2, n1) in _trfXs:
-        return e, (_2Transform((n2, n1), e, _Inverse),)  # PYCHOK returns
-
-    n = _intermediate(n1, n2)
-    if n:
-        return e, (_2Transform((n1, n), e, _Forward),  # PYCHOK returns
-                   _2Transform((n, n2), e, _Forward))
-
-    n = _intermediate(n2, n1)
-    if n:
-        return e, (_2Transform((n, n1), e, _Inverse),  # PYCHOK returns
-                   _2Transform((n2, n), e, _Inverse))
-
-    t = _SPACE_(RefFrame.__name__, repr(n1), _to_, repr(n2))
-    raise TRFError(_no_(_conversion_), txt=t)
-
-
-def _2Transform(n1_n2, epoch, _Forward_Inverse):
-    '''(INTERNAL) Combine two Helmert transforms from TRF
-       conversion C{_trfXs[n1_n2]} observed at B{C{epoch}}
-       into a single datum L{Transform}.
-
-       @note: Translations are converted from C{millimeter}
-              to C{meter}, rotations from C{milliarcseconds}
-              to C{arcseconds} and scale from C{ppb} to C{ppM}.
+       @note: Translations are converted from C{millimeter} to C{meter},
+              rotations from C{milliarcseconds} to C{arcseconds} and
+              scale from C{ppb} to C{ppM}.
     '''
     X = _trfXs[n1_n2]
-    e =  epoch - X.epoch  # fractional delta years
-    d =  dict((n, (p + r * e) * _Forward_Inverse) for n, p, r in
+    e -= X.epoch  # delta in fractional years
+    d  = dict((n, (x + e * r) * _Forward_Inverse) for n, x, r in
               _zip(Helmert7Tuple._Names_, X.xform, X.rates))  # strict=True
     return Transform(**d)
+
+
+def _2Transforms(n1, e1, n2, e2):
+    '''(INTERNAL) Get 0-, 1- or 2-tuple of Helmert L{Transform}s or C{None}.
+    '''
+    if n1 == n2 or (n1.startswith(_ITRF_) and n2.startswith(_WGS84_)) \
+                or (n2.startswith(_ITRF_) and n1.startswith(_WGS84_)):
+        return ()  # PYCHOK returns
+    if e2 == e1:
+        if (n1, n2) in _trfXs:
+            return _2Transform((n1, n2), e2, _Forward),  # PYCHOK returns
+        if (n2, n1) in _trfXs:
+            return _2Transform((n2, n1), e2, _Inverse),  # PYCHOK returns
+    n = _intermediate(n1, n2)
+    if n:
+        return (_2Transform((n1, n), e1, _Forward),  # PYCHOK returns
+                _2Transform((n, n2), e2, _Forward))
+    n = _intermediate(n2, n1)
+    if n:
+        return (_2Transform((n, n1), e1, _Inverse),  # PYCHOK returns
+                _2Transform((n2, n), e2, _Inverse))
+    return None
+
+
+def trfTransforms(reframe, epoch, reframe2, epoch2):
+    '''Get the L{Transform}(s) to convert reframe at epoch to reframe2 at epoch2.
+
+       @arg reframe: Reference frame to convert I{from} (L{RefFrame} or C{str}).
+       @arg epoch: Epoch to observe I{from} (L{Epoch}, C{scalar} or C{str}).
+       @arg reframe2: Reference frame to convert I{to} (L{RefFrame} or C{str}).
+       @arg epoch2: Epoch to observe to observe I{to} (L{Epoch}, C{scalar} or C{str}).
+
+       @return: A 0-, 1- or 2-tuple of Helmert L{Transform}s or C{None} if no
+                conversion exists.
+    '''
+    _xinstanceof(RefFrame, str, reframe=reframe, reframe2=reframe2)
+    n1 = reframe.upper()  if isstr(reframe)  else reframe.name
+    n2 = reframe2.upper() if isstr(reframe2) else reframe2.name
+    return _2Transforms(n1, Epoch(epoch), n2, Epoch(epoch2=epoch2))
 
 
 def trfXform(reframe1, reframe2, epoch=None, xform=None, rates=None):
@@ -328,13 +420,14 @@ def trfXform(reframe1, reframe2, epoch=None, xform=None, rates=None):
        @arg reframe2: Destination reframe (L{RefFrame}), converting I{to}.
        @kwarg epoch: Epoch, a fractional calendar year (C{scalar} or C{str})
                      or C{None} for C{B{reframe2}.epoch}.
-       @kwarg xform: Helmert transform parameters (C{Helmert7Tuple}).
-       @kwarg rates: Helmert rate parameters (C{Helmert7Tuple}).
+       @kwarg xform: Helmert I{transform} parameters (C{Helmert7Tuple}).
+       @kwarg rates: Helmert I{rate} parameters (C{Helmert7Tuple}), like
+                     B{C{xform}}, but in C{units per year}.
 
        @raise TRFError: Invalid B{C{epoch}} or TRF conversion already exists.
     '''
     _xinstanceof(RefFrame, reframe1=reframe1, reframe2=reframe2)
-    e = reframe2.epoch if epoch is None else Epoch(epoch=epoch, Error=TRFError)
+    e = reframe2.epoch if epoch is None else Epoch(epoch=epoch)
     _xinstanceof(Helmert7Tuple, xform=xform, rates=rates)
     _trfX(reframe1.name, reframe2.name, epoch=e, xform=xform, rates=rates)
 
@@ -348,145 +441,302 @@ def _trfX(n1, n2, **epoch_xform_rates):
     _trfXs[n1_n2] = _XD(X=n1_n2, **epoch_xform_rates)
 
 
-_H      =  Helmert7Tuple
-_H_0_0s = _H(*_0_0s(len(_H._Names_)))
+def _H(*ps):
+    h = Helmert7Tuple(*ps)
+    return _Hs.setdefault(h, h)  # PYCHOK del
+
 # TRF conversions specified as an epoch and dual 7-parameter Helmert transforms.  Most from U{Transformation
 # Parameters<http://ITRF.IGN.Fr/trans_para.php>}, more at U{Quinsy QPS<https://confluence.QPS.NL/qinsy/
 # files/latest/en/182618383/182618384/1/1579182881000/ITRF_Transformation_Parameters.xlsx>}.  See also
 # U{Quinsy International Terrestrial Reference Frame 2014 (ITRF2014)<https://confluence.QPS.NL/qinsy/
 # latest/en/international-terrestrial-reference-frame-2014-itrf2014-182618383.html>}.
+_Hs    = dict()  # PYCHOK unique HelmertTuples, temporary
 _trfXs = dict()  # key is [(from_TRF, to_TRF)] 2-tuple
-# see U{Transformation Parameters ITRF2014<http://ITRF.IGN.Fr/doc_ITRF/Transfo-ITRF2014_ITRFs.txt>}
+_trfX(_ITRF2020_, _ITRF2014_, epoch=_F(2015),  # <https://ITRF.IGN.Fr/docs/solutions/itrf2020/Transfo-ITRF2020_TRFs.txt>
+                              xform=_H(  -1.4,     -0.9,     1.4,   -0.42,     _0_0,      _0_0,     _0_0),
+                              rates=_H(  _0_0,     -0.1,     0.2,    _0_0,     _0_0,      _0_0,     _0_0))
+_trfX(_ITRF2020_, _ITRF2008_, epoch=_F(2015),
+                              xform=_H(   0.2,      1.0,     3.3,   -0.29,     _0_0,      _0_0,     _0_0),
+                              rates=_H(  _0_0,     -0.1,     0.1,    0.03,     _0_0,      _0_0,     _0_0))
+_trfX(_ITRF2020_, _ITRF2005_, epoch=_F(2015),
+                              xform=_H(   2.7,      0.1,    -1.4,    0.65,     _0_0,      _0_0,     _0_0),
+                              rates=_H(   0.3,     -0.1,     0.1,    0.03,     _0_0,      _0_0,     _0_0))
+_trfX(_ITRF2020_, _ITRF2000_, epoch=_F(2015),
+                              xform=_H(  -0.2,      0.8,   -34.2,    2.25,     _0_0,      _0_0,     _0_0),
+                              rates=_H(   0.1,     _0_0,    -1.7,    0.11,     _0_0,      _0_0,     _0_0))
+_trfX(_ITRF2020_, _ITRF97_,   epoch=_F(2015),
+                              xform=_H(   6.5,     -3.9,   -77.9,    3.98,     _0_0,      _0_0,      0.36),
+                              rates=_H(   0.1,     -0.6,    -3.1,    0.12,     _0_0,      _0_0,      0.02))
+_trfX(_ITRF2020_, _ITRF96_,   epoch=_F(2015),
+                              xform=_H(   6.5,     -3.9,   -77.9,    3.98,     _0_0,      _0_0,      0.36),
+                              rates=_H(   0.1,     -0.6,    -3.1,    0.12,     _0_0,      _0_0,      0.02))
+_trfX(_ITRF2020_, _ITRF94_,   epoch=_F(2015),
+                              xform=_H(   6.5,     -3.9,   -77.9,    3.98,     _0_0,      _0_0,      0.36),
+                              rates=_H(   0.1,     -0.6,    -3.1,    0.12,     _0_0,      _0_0,      0.02))
+_trfX(_ITRF2020_, _ITRF93_,   epoch=_F(2015),
+                              xform=_H( -65.8,      1.9,   -71.3,    4.47,     -3.36,     -4.33,     0.75),
+                              rates=_H(  -2.8,     -0.2,    -2.3,    0.12,     -0.11,     -0.19,     0.07))
+_trfX(_ITRF2020_, _ITRF92_,   epoch=_F(2015),
+                              xform=_H(  14.5,     -1.9,   -85.9,    3.27,     _0_0,      _0_0,      0.36),
+                              rates=_H(   0.1,     -0.6,    -3.1,    0.12,     _0_0,      _0_0,      0.02))
+_trfX(_ITRF2020_, _ITRF91_,   epoch=_F(2015),
+                              xform=_H(  26.5,     12.1,   -91.9,    4.67,     _0_0,      _0_0,      0.36),
+                              rates=_H(   0.1,     -0.6,    -3.1,    0.12,     _0_0,      _0_0,      0.02))
+_trfX(_ITRF2020_, _ITRF90_,   epoch=_F(2015),
+                              xform=_H(  24.5,      8.1,  -107.9,    4.97,     _0_0,      _0_0,      0.36),
+                              rates=_H(   0.1,     -0.6,    -3.1,    0.12,     _0_0,      _0_0,      0.02))
+_trfX(_ITRF2020_, _ITRF89_,   epoch=_F(2015),
+                              xform=_H(  29.5,     32.1,  -145.9,    8.37,     _0_0,      _0_0,      0.36),
+                              rates=_H(   0.1,     -0.6,    -3.1,    0.12,     _0_0,      _0_0,      0.02))
+_trfX(_ITRF2020_, _ITRF88_,   epoch=_F(2015),
+                              xform=_H(  24.5,     -3.9,  -169.9,   11.47,      0.1,      _0_0,      0.36),
+                              rates=_H(   0.1,     -0.6,    -3.1,    0.12,     _0_0,      _0_0,      0.02))
+
+# see U{Transformation Parameters ITRF2014<http://ITRF.IGN.Fr/doc_ITRF/Transfo-ITRF2014_ITRFs.txt>} and
+# Altamimi, Z. U{"EUREF Technical Note 1: Relationship and Transformation between the International and
+# the European Terrestrial Reference Systems"<https://ERTS89.ENSG,IFN.Fr/pub/EUREF-TN-1.pdf>} Appendix A.
 _trfX(_ITRF2014_, _ITRF2008_, epoch=_F(2010),  # <http://ITRF.ENSG.IGN.Fr/ITRF_solutions/2014/tp_14-08.php>
-                              xform=_H(   1.6,      1.9,     2.4,   -0.02,     _0_0,     _0_0,      _0_0),
-                              rates=_H(  _0_0,     _0_0,  _N_0_1,    0.03,     _0_0,     _0_0,      _0_0))
+                              xform=_H(   1.6,      1.9,     2.4,   -0.02,     _0_0,      _0_0,     _0_0),
+                              rates=_H(  _0_0,     _0_0,    -0.1,    0.03,     _0_0,      _0_0,     _0_0))
 _trfX(_ITRF2014_, _ITRF2005_, epoch=_F(2010),
-                              xform=_H(   2.6,     _1_0,    -2.3,    0.92,     _0_0,     _0_0,      _0_0),
-                              rates=_H(   0.3,     _0_0,  _N_0_1,    0.03,     _0_0,     _0_0,      _0_0))
+                              xform=_H(   2.6,     _1_0,    -2.3,    0.92,     _0_0,      _0_0,     _0_0),
+                              rates=_H(   0.3,     _0_0,    -0.1,    0.03,     _0_0,      _0_0,     _0_0))
 _trfX(_ITRF2014_, _ITRF2000_, epoch=_F(2010),
-                              xform=_H(   0.7,      1.2,   -26.1,    2.12,     _0_0,     _0_0,      _0_0),
-                              rates=_H(  _0_1,     _0_1,    -1.9,    0.11,     _0_0,     _0_0,      _0_0))
+                              xform=_H(   0.7,      1.2,   -26.1,    2.12,     _0_0,      _0_0,     _0_0),
+                              rates=_H(   0.1,      0.1,    -1.9,    0.11,     _0_0,      _0_0,     _0_0))
 _trfX(_ITRF2014_, _ITRF97_,   epoch=_F(2010),
-                              xform=_H(   7.4,   _N_0_5,   -62.8,    3.8,      _0_0,     _0_0,      _0_26),
-                              rates=_H(  _0_1,   _N_0_5,    -3.3,   _0_12,     _0_0,     _0_0,      _0_02))
+                              xform=_H(   7.4,     -0.5,   -62.8,    3.8,      _0_0,      _0_0,      0.26),
+                              rates=_H(   0.1,     -0.5,    -3.3,    0.12,     _0_0,      _0_0,      0.02))
 _trfX(_ITRF2014_, _ITRF96_,   epoch=_F(2010),
-                              xform=_H(   7.4,   _N_0_5,   -62.8,    3.8,      _0_0,     _0_0,      _0_26),
-                              rates=_H(  _0_1,   _N_0_5,    -3.3,   _0_12,     _0_0,     _0_0,      _0_02))
+                              xform=_H(   7.4,     -0.5,   -62.8,    3.8,      _0_0,      _0_0,      0.26),
+                              rates=_H(   0.1,     -0.5,    -3.3,    0.12,     _0_0,      _0_0,      0.02))
 _trfX(_ITRF2014_, _ITRF94_,   epoch=_F(2010),
-                              xform=_H(   7.4,   _N_0_5,   -62.8,    3.8,      _0_0,     _0_0,      _0_26),
-                              rates=_H(  _0_1,   _N_0_5,    -3.3,   _0_12,     _0_0,     _0_0,      _0_02))
+                              xform=_H(   7.4,     -0.5,   -62.8,    3.8,      _0_0,      _0_0,      0.26),
+                              rates=_H(   0.1,     -0.5,    -3.3,    0.12,     _0_0,      _0_0,      0.02))
 _trfX(_ITRF2014_, _ITRF93_,   epoch=_F(2010),
-                              xform=_H( -50.4,      3.3,   -60.2,    4.29,     -2.81,    -3.38,      0.4),
-                              rates=_H(  -2.8,   _N_0_1,    -2.5,   _0_12,     -0.11,    -0.19,      0.07))
+                              xform=_H( -50.4,      3.3,   -60.2,    4.29,     -2.81,     -3.38,     0.4),
+                              rates=_H(  -2.8,     -0.1,    -2.5,    0.12,     -0.11,     -0.19,     0.07))
 _trfX(_ITRF2014_, _ITRF92_,   epoch=_F(2010),
-                              xform=_H(  15.4,      1.5,   -70.8,    3.09,     _0_0,     _0_0,      _0_26),
-                              rates=_H(  _0_1,   _N_0_5,    -3.3,   _0_12,     _0_0,     _0_0,      _0_02))
+                              xform=_H(  15.4,      1.5,   -70.8,    3.09,     _0_0,      _0_0,      0.26),
+                              rates=_H(   0.1,     -0.5,    -3.3,    0.12,     _0_0,      _0_0,      0.02))
 _trfX(_ITRF2014_, _ITRF91_,   epoch=_F(2010),
-                              xform=_H(  27.4,     15.5,   -76.8,    4.49,     _0_0,     _0_0,      _0_26),
-                              rates=_H(  _0_1,   _N_0_5,    -3.3,   _0_12,     _0_0,     _0_0,      _0_02))
+                              xform=_H(  27.4,     15.5,   -76.8,    4.49,     _0_0,      _0_0,      0.26),
+                              rates=_H(   0.1,     -0.5,    -3.3,    0.12,     _0_0,      _0_0,      0.02))
 _trfX(_ITRF2014_, _ITRF90_,   epoch=_F(2010),
-                              xform=_H(  25.4,     11.5,   -92.8,    4.79,     _0_0,     _0_0,      _0_26),
-                              rates=_H(  _0_1,   _N_0_5,    -3.3,   _0_12,     _0_0,     _0_0,      _0_02))
+                              xform=_H(  25.4,     11.5,   -92.8,    4.79,     _0_0,      _0_0,      0.26),
+                              rates=_H(   0.1,     -0.5,    -3.3,    0.12,     _0_0,      _0_0,      0.02))
 _trfX(_ITRF2014_, _ITRF89_,   epoch=_F(2010),
-                              xform=_H(  30.4,     35.5,  -130.8,    8.19,     _0_0,     _0_0,      _0_26),
-                              rates=_H(  _0_1,   _N_0_5,    -3.3,   _0_12,     _0_0,     _0_0,      _0_02))
+                              xform=_H(  30.4,     35.5,  -130.8,    8.19,     _0_0,      _0_0,      0.26),
+                              rates=_H(   0.1,     -0.5,    -3.3,    0.12,     _0_0,      _0_0,      0.02))
 _trfX(_ITRF2014_, _ITRF88_,   epoch=_F(2010),
-                              xform=_H(  25.4,   _N_0_5,  -154.8,   11.29,     _0_1,     _0_0,      _0_26),
-                              rates=_H(  _0_1,   _N_0_5,    -3.3,   _0_12,     _0_0,     _0_0,      _0_02))
+                              xform=_H(  25.4,     -0.5,  -154.8,   11.29,      0.1,      _0_0,      0.26),
+                              rates=_H(   0.1,     -0.5,    -3.3,    0.12,     _0_0,      _0_0,      0.02))
 
 # see U{Transformation Parameters ITRF2008<http://ITRF.IGN.Fr/doc_ITRF/Transfo-ITRF2008_ITRFs.txt>}
 # _trfX(_ITRF2008_, _ITRF2005_, epoch=_F(2005),  # <http://ITRF.ENSG.IGN.Fr/ITRF_solutions/2008/tp_08-05.php>
-#                             xform=_H(_N_0_5,  s  -0.9,    -4.7,    0.94,     _0_0,     _0_0,      _0_0),
-#                             rates=_H(   0.3,     _0_0,    _0_0,   _0_0,      _0_0,     _0_0,      _0_0))
+#                             xform=_H(  -0.5,  s  -0.9,    -4.7,    0.94,     _0_0,      _0_0,     _0_0),
+#                             rates=_H(   0.3,     _0_0,    _0_0,   _0_0,      _0_0,      _0_0,     _0_0))
 _trfX(_ITRF2008_, _ITRF2005_, epoch=_F(2000),
-                              xform=_H(  -2.0,     -0.9,    -4.7,    0.94,     _0_0,     _0_0,      _0_0),
-                              rates=_H(   0.3,     _0_0,    _0_0,   _0_0,      _0_0,     _0_0,      _0_0))
+                              xform=_H(  -2.0,     -0.9,    -4.7,    0.94,     _0_0,      _0_0,     _0_0),
+                              rates=_H(   0.3,     _0_0,    _0_0,   _0_0,      _0_0,      _0_0,     _0_0))
 _trfX(_ITRF2008_, _ITRF2000_, epoch=_F(2000),
-                              xform=_H(  -1.9,     -1.7,   -10.5,    1.34,     _0_0,     _0_0,      _0_0),
-                              rates=_H(  _0_1,     _0_1,    -1.8,    0.08,     _0_0,     _0_0,      _0_0))
+                              xform=_H(  -1.9,     -1.7,   -10.5,    1.34,     _0_0,      _0_0,     _0_0),
+                              rates=_H(   0.1,      0.1,    -1.8,    0.08,     _0_0,      _0_0,     _0_0))
 _trfX(_ITRF2008_, _ITRF97_,   epoch=_F(2000),
-                              xform=_H(   4.8,      2.6,   -33.2,    2.92,     _0_0,     _0_0,      _0_06),
-                              rates=_H(  _0_1,   _N_0_5,    -3.2,   _0_09,     _0_0,     _0_0,      _0_02))
+                              xform=_H(   4.8,      2.6,   -33.2,    2.92,     _0_0,      _0_0,      0.06),
+                              rates=_H(   0.1,     -0.5,    -3.2,    0.09,     _0_0,      _0_0,      0.02))
 _trfX(_ITRF2008_, _ITRF96_,   epoch=_F(2000),
-                              xform=_H(   4.8,      2.6,   -33.2,    2.92,     _0_0,     _0_0,      _0_06),
-                              rates=_H(  _0_1,   _N_0_5,    -3.2,   _0_09,     _0_0,     _0_0,      _0_02))
+                              xform=_H(   4.8,      2.6,   -33.2,    2.92,     _0_0,      _0_0,      0.06),
+                              rates=_H(   0.1,     -0.5,    -3.2,    0.09,     _0_0,      _0_0,      0.02))
 _trfX(_ITRF2008_, _ITRF94_,   epoch=_F(2000),
-                              xform=_H(   4.8,      2.6,   -33.2,    2.92,     _0_0,     _0_0,      _0_06),
-                              rates=_H(  _0_1,   _N_0_5,    -3.2,   _0_09,     _0_0,     _0_0,      _0_02))
+                              xform=_H(   4.8,      2.6,   -33.2,    2.92,     _0_0,      _0_0,      0.06),
+                              rates=_H(   0.1,     -0.5,    -3.2,    0.09,     _0_0,      _0_0,      0.02))
 _trfX(_ITRF2008_, _ITRF93_,   epoch=_F(2000),
-                              xform=_H( -24.0,      2.4,   -38.6,    3.41,     -1.71,    -1.48,     -0.3),
-                              rates=_H(  -2.8,   _N_0_1,    -2.4,   _0_09,     -0.11,    -0.19,      0.07))
+                              xform=_H( -24.0,      2.4,   -38.6,    3.41,     -1.71,     -1.48,    -0.3),
+                              rates=_H(  -2.8,     -0.1,    -2.4,    0.09,     -0.11,     -0.19,     0.07))
 _trfX(_ITRF2008_, _ITRF92_,   epoch=_F(2000),
-                              xform=_H(  12.8,      4.6,   -41.2,    2.21,     _0_0,     _0_0,      _0_06),
-                              rates=_H(  _0_1,   _N_0_5,    -3.2,   _0_09,     _0_0,     _0_0,      _0_02))
+                              xform=_H(  12.8,      4.6,   -41.2,    2.21,     _0_0,      _0_0,      0.06),
+                              rates=_H(   0.1,     -0.5,    -3.2,    0.09,     _0_0,      _0_0,      0.02))
 _trfX(_ITRF2008_, _ITRF91_,   epoch=_F(2000),
-                              xform=_H(  24.8,     18.6,   -47.2,    3.61,     _0_0,     _0_0,      _0_06),
-                              rates=_H(  _0_1,   _N_0_5,    -3.2,   _0_09,     _0_0,     _0_0,      _0_02))
+                              xform=_H(  24.8,     18.6,   -47.2,    3.61,     _0_0,     _0_0,       0.06),
+                              rates=_H(   0.1,     -0.5,    -3.2,    0.09,     _0_0,     _0_0,       0.02))
 _trfX(_ITRF2008_, _ITRF90_,   epoch=_F(2000),
-                              xform=_H(  22.8,     14.6,   -63.2,    3.91,     _0_0,     _0_0,      _0_06),
-                              rates=_H(  _0_1,   _N_0_5,    -3.2,   _0_09,     _0_0,     _0_0,      _0_02))
+                              xform=_H(  22.8,     14.6,   -63.2,    3.91,     _0_0,     _0_0,       0.06),
+                              rates=_H(   0.1,     -0.5,    -3.2,    0.09,     _0_0,     _0_0,       0.02))
 _trfX(_ITRF2008_, _ITRF89_,   epoch=_F(2000),
-                              xform=_H(  27.8,     38.6,  -101.2,    7.31,     _0_0,     _0_0,      _0_06),
-                              rates=_H(  _0_1,   _N_0_5,    -3.2,   _0_09,     _0_0,     _0_0,      _0_02))
+                              xform=_H(  27.8,     38.6,  -101.2,    7.31,     _0_0,     _0_0,       0.06),
+                              rates=_H(   0.1,     -0.5,    -3.2,    0.09,     _0_0,     _0_0,       0.02))
 _trfX(_ITRF2008_, _ITRF88_,   epoch=_F(2000),
-                              xform=_H(  22.8,      2.6,  -125.2,   10.41,     _0_1,     _0_0,      _0_06),
-                              rates=_H(  _0_1,   _N_0_5,    -3.2,   _0_09,     _0_0,     _0_0,      _0_02))
+                              xform=_H(  22.8,      2.6,  -125.2,   10.41,      0.1,     _0_0,       0.06),
+                              rates=_H(   0.1,     -0.5,    -3.2,    0.09,     _0_0,     _0_0,       0.02))
 
 _trfX(_ITRF2005_, _ITRF2000_, epoch=_F(2000),  # <http://ITRF.ENSG.IGN.Fr/ITRF_solutions/2005/tp_05-00.php>
-                              xform=_H(  _0_1,     -0.8,    -5.8,    0.4,      _0_0,     _0_0,      _0_0),
-                              rates=_H(  -0.2,     _0_1,    -1.8,    0.08,     _0_0,     _0_0,      _0_0))
+                              xform=_H(   0.1,     -0.8,    -5.8,    0.4,      _0_0,     _0_0,      _0_0),
+                              rates=_H(  -0.2,      0.1,    -1.8,    0.08,     _0_0,     _0_0,      _0_0))
 
 _trfX(_ITRF2000_, _ITRF97_,   epoch=_F(1997),
                               xform=_H(   0.67,     0.61,   -1.85,   1.55,     _0_0,     _0_0,      _0_0),
-                              rates=_H(  _0_0,   _N_0_06,   -0.14,  _0_01,     _0_0,     _0_0,      _0_02))
+                              rates=_H(  _0_0,     -0.06,   -0.14,   0.01,     _0_0,     _0_0,       0.02))
 _trfX(_ITRF2000_, _ITRF96_,   epoch=_F(1997),
                               xform=_H(   0.67,     0.61,   -1.85,   1.55,     _0_0,     _0_0,      _0_0),
-                              rates=_H(  _0_0,   _N_0_06,   -0.14,  _0_01,     _0_0,     _0_0,      _0_02))
+                              rates=_H(  _0_0,     -0.06,   -0.14,   0.01,     _0_0,     _0_0,       0.02))
 _trfX(_ITRF2000_, _ITRF94_,   epoch=_F(1997),
                               xform=_H(   0.67,     0.61,   -1.85,   1.55,     _0_0,     _0_0,      _0_0),
-                              rates=_H(  _0_0,   _N_0_06,   -0.14,  _0_01,     _0_0,     _0_0,      _0_02))
+                              rates=_H(  _0_0,     -0.06,   -0.14,   0.01,     _0_0,     _0_0,       0.02))
 _trfX(_ITRF2000_, _ITRF93_,   epoch=_F(1988),
                               xform=_H(  12.7,      6.5,   -20.9,    1.95,     -0.39,     0.8,      -1.14),
-                              rates=_H(  -2.9,     -0.2,    -0.6,   _0_01,     -0.11,    -0.19,      0.07))
+                              rates=_H(  -2.9,     -0.2,    -0.6,    0.01,     -0.11,    -0.19,      0.07))
 _trfX(_ITRF2000_, _ITRF92_,   epoch=_F(1988),
                               xform=_H(   1.47,     1.35,   -1.39,   0.75,     _0_0,     _0_0,      -0.18),
-                              rates=_H(  _0_0,   _N_0_06,   -0.14,  _0_01,     _0_0,     _0_0,      _0_02))
+                              rates=_H(  _0_0,     -0.06,   -0.14,   0.01,     _0_0,     _0_0,       0.02))
 _trfX(_ITRF2000_, _ITRF91_,   epoch=_F(1988),
                               xform=_H(   26.7,    27.5,   -19.9,    2.15,     _0_0,     _0_0,      -0.18),
-                              rates=_H(   _0_0,    -0.6,    -1.4,   _0_01,     _0_0,     _0_0,      _0_02))
+                              rates=_H(   _0_0,    -0.6,    -1.4,    0.01,     _0_0,     _0_0,       0.02))
 _trfX(_ITRF2000_, _ITRF90_,   epoch=_F(1988),
                               xform=_H(   2.47,     2.35,   -3.59,   2.45,     _0_0,     _0_0,      -0.18),
-                              rates=_H(  _0_0,   _N_0_06,   -0.14,  _0_01,     _0_0,     _0_0,      _0_02))
+                              rates=_H(  _0_0,     -0.06,   -0.14,   0.01,     _0_0,     _0_0,       0.02))
 _trfX(_ITRF2000_, _ITRF89_,   epoch=_F(1988),
                               xform=_H(   2.97,     4.75,   -7.39,   5.85,     _0_0,     _0_0,      -0.18),
-                              rates=_H(  _0_0,   _N_0_06,   -0.14,  _0_01,     _0_0,     _0_0,      _0_02))
+                              rates=_H(  _0_0,     -0.06,   -0.14,   0.01,     _0_0,     _0_0,       0.02))
 _trfX(_ITRF2000_, _ITRF88_,   epoch=_F(1988),
-                              xform=_H(   2.47,     1.15,   -9.79,   8.95,     _0_1,     _0_0,      -0.18),
-                              rates=_H(  _0_0,   _N_0_06,   -0.14,  _0_01,     _0_0,     _0_0,      _0_02))
+                              xform=_H(   2.47,     1.15,   -9.79,   8.95,      0.1,     _0_0,      -0.18),
+                              rates=_H(  _0_0,     -0.06,   -0.14,   0.01,     _0_0,     _0_0,       0.02))
 
-# see U{Boucher, C. & Altamimi, Z. "Memo: Specifications for reference frame fixing in the
-# analysis of a EUREF GPS campaign" (2011) <https://ETRS89.ENSG.IGN.Fr/memo-V8.pdf>} and
-# Altamimi, Z. U{"Key results of ITRF2014 and implication to ETRS89 realization", EUREF2016
-# <https://www.EUREF.EU/symposia/2016SanSebastian/01-02-Altamimi.pdf>}.
-_trfX(_ITRF2014_, _ETRF2000_, epoch=_F(2000),
-                              xform=_H(  53.7,     51.2,   -55.1,    1.02,      0.891,    5.39,     -8.712),
-                              rates=_H(  _0_1,     _0_1,    -1.9,    0.11,      0.081,    0.49,     -0.792))
-_trfX(_ITRF2008_, _ETRF2000_, epoch=_F(2000),
-                              xform=_H(  52.1,     49.3,   -58.5,    1.34,      0.891,    5.39,     -8.712),
-                              rates=_H(  _0_1,     _0_1,    -1.8,    0.08,      0.081,    0.49,     -0.792))
-_trfX(_ITRF2005_, _ETRF2000_, epoch=_F(2000),
-                              xform=_H(  54.1,     50.2,   -53.8,    0.4,       0.891,    5.39,     -8.712),
-                              rates=_H(  -0.2,     _0_1,    -1.8,    0.08,      0.081,    0.49,     -0.792))
-_trfX(_ITRF2000_, _ETRF2000_, epoch=_F(2000),
-                              xform=_H(  54.0,     51.0,   -48.0,   _0_0,       0.891,    5.39,     -8.712),
-                              rates=_H(  _0_0,     _0_0,    _0_0,   _0_0,       0.081,    0.49,     -0.792))
+# see Altamimi, Z. U{"EUREF Technical Note 1: Relationship and Transformation between the International and
+# the European Terrestrial Reference Systems"<https://ERTS89.ENSG,IFN.Fr/pub/EUREF-TN-1.pdf>} Table 1.
+# _trfX(_ITRF2014_, _ETRF2014_, epoch=_F(1989),
+#                             xform=_H(  _0_0,     _0_0,    _0_0,   _0_0,      _0_0,     _0_0,      _0_0),
+#                             rates=_H(  _0_0,     _0_0,    _0_0,   _0_0,       0.085,    0.531,    -0.77))
+_trfX(_ITRF2005_, _ETRF2005_, epoch=_F(1989),
+                              xform=_H(  56.0,     48.0,   -37.0,   _0_0,      _0_0,     _0_0,      _0_0),
+                              rates=_H(  _0_0,     _0_0,    _0_0,   _0_0,       0.054,    0.518,    -0.781))
+# _trfX(_ITRF2000_, _ETRF2000_, epoch=_F(1989),
+#                             xform=_H(  54.0,     51.0,   -48.0,   _0_0,      _0_0,     _0_0,      _0_0),
+#                             rates=_H(  _0_0,     _0_0,    _0_0,   _0_0,       0.081,    0.49,     -0.792))
+_trfX(_ITRF97_,   _ETRF97_,   epoch=_F(1989),
+                              xform=_H(  41.0,     41.0,   -49.0,   _0_0,      _0_0,     _0_0,      _0_0),
+                              rates=_H(  _0_0,     _0_0,    _0_0,   _0_0,       0.2,      0.5,      -0.65))
+_trfX(_ITRF96_,   _ETRF96_,   epoch=_F(1989),
+                              xform=_H(  41.0,     41.0,   -49.0,   _0_0,      _0_0,      _0_0,      _0_0),
+                              rates=_H(  _0_0,     _0_0,    _0_0,   _0_0,       0.2,       0.5,      -0.65))
+_trfX(_ITRF94_,   _ETRF94_,   epoch=_F(1989),
+                              xform=_H(  41.0,     41.0,   -49.0,   _0_0,      _0_0,      _0_0,      _0_0),
+                              rates=_H(  _0_0,     _0_0,    _0_0,   _0_0,       0.2,       0.5,      -0.65))
+_trfX(_ITRF93_,   _ETRF93_,   epoch=_F(1989),
+                              xform=_H(  19.0,     53.0,   -21.0,   _0_0,      _0_0,      _0_0,      _0_0),
+                              rates=_H(  _0_0,     _0_0,    _0_0,   _0_0,       0.32,      0.78,     -0.67))
+_trfX(_ITRF92_,   _ETRF92_,   epoch=_F(1989),
+                              xform=_H(  38.0,     40.0,   -37.0,    0.0,       0.0,       0.0,       0.0),
+                              rates=_H(  _0_0,     _0_0,    _0_0,   _0_0,       0.21,      0.52,     -0.68))
+_trfX(_ITRF91_,   _ETRF91_,   epoch=_F(1989),
+                              xform=_H(  21.0,     25.0,   -37.0,   _0_0,      _0_0,      _0_0,      _0_0),
+                              rates=_H(  _0_0,     _0_0,    _0_0,   _0_0,       0.21,      0.52,     -0.68))
+_trfX(_ITRF90_,   _ETRF90_,   epoch=_F(1989),
+                              xform=_H(  19.0,     28.0,   -23.0,   _0_0,      _0_0,      _0_0,      _0_0),
+                              rates=_H(  _0_0,     _0_0,    _0_0,   _0_0,       0.11,      0.57,     -0.71))
+_trfX(_ITRF89_,   _ETRF89_,   epoch=_F(1989),
+                              xform=_H(  _0_0,     _0_0,    _0_0,   _0_0,      _0_0,      _0_0,      _0_0),
+                              rates=_H(  _0_0,     _0_0,    _0_0,   _0_0,       0.11,      0.57,     -0.71))
+
+# see Altamimi, Z. U{"EUREF Technical Note 1: Relationship and Transformation between the International and
+# the European Terrestrial Reference Systems"<https://ERTS89.ENSG,IFN.Fr/pub/EUREF-TN-1.pdf>} Table 2.
+_trfX(_ITRF2014_, _ETRF2014_, epoch=_F(2010),
+                              xform=_H(  _0_0,     _0_0,    _0_0,   _0_0,       1.785,    11.151,   -16.17),
+                              rates=_H(  _0_0,     _0_0,    _0_0,   _0_0,       0.085,     0.531,    -0.77))
+_trfX(_ITRF2008_, _ETRF2014_, epoch=_F(2010),
+                              xform=_H(  -1.6,     -1.9,    -2.4,    0.02,      1.785,    11.151,   -16.17),
+                              rates=_H(  _0_0,     _0_0,     0.1,   -0.03,      0.085,     0.531,    -0.77))
+_trfX(_ITRF2005_, _ETRF2014_, epoch=_F(2010),
+                              xform=_H(  -2.6,     -1.0,     2.3,   -0.92,      1.785,    11.151,   -16.17),
+                              rates=_H(  -0.3,     _0_0,     0.1,   -0.03,      0.085,     0.531,    -0.77))
+_trfX(_ITRF2000_, _ETRF2014_, epoch=_F(2010),
+                              xform=_H(  -0.7,     -1.2,    26.1,   -2.12,      1.785,    11.151,   -16.17),
+                              rates=_H(  -0.1,     -0.1,     1.9,   -0.11,      0.085,     0.531,    -0.77))
+_trfX(_ITRF97_,   _ETRF2014_, epoch=_F(2010),
+                              xform=_H(  -7.4,      0.5,    62.8,   -3.8,       1.785,    11.151,   -16.43),
+                              rates=_H(  -0.1,      0.5,     3.3,   -0.12,      0.085,     0.531,    -0.79))
+_trfX(_ITRF96_,   _ETRF2014_, epoch=_F(2010),
+                              xform=_H(  -7.4,      0.5,    62.8,   -3.8,       1.785,    11.151,   -16.43),
+                              rates=_H(  -0.1,      0.5,     3.3,  -0.12,       0.085,     0.531,    -0.79))
+_trfX(_ITRF94_,   _ETRF2014_, epoch=_F(2010),
+                              xform=_H(  -7.4,      0.5,    62.8,   -3.8,       1.785,    11.151,   -16.43),
+                              rates=_H(  -0.1,      0.5,     3.3,   -0.12,      0.085,     0.531,    -0.79))
+_trfX(_ITRF93_,   _ETRF2014_, epoch=_F(2010),
+                              xform=_H(  50.4,     -3.3,    60.2,   -4.29,      4.595,    14.531,   -16.57),
+                              rates=_H(   2.8,      0.1,     2.5,   -0.12,      0.195,     0.721,    -0.84))
+_trfX(_ITRF92_,   _ETRF2014_, epoch=_F(2010),
+                              xform=_H( -15.4,     -1.5,    70.8,   -3.09,      1.785,    11.151,   -16.43),
+                              rates=_H(  -0.1,      0.5,     3.3,   -0.12,      0.085,     0.531,    -0.79))
+_trfX(_ITRF91_,   _ETRF2014_, epoch=_F(2010),
+                              xform=_H( -27.4,    -15.5,    76.8,   -4.49,      1.785,    11.151,   -16.43),
+                              rates=_H(  -0.1,      0.5,     3.3,   -0.12,      0.085,     0.531,    -0.79))
+_trfX(_ITRF90_,   _ETRF2014_, epoch=_F(2010),
+                              xform=_H( -25.4,    -11.5,    92.8,   -4.79,      1.785,    11.151,   -16.43),
+                              rates=_H(  -0.1,      0.5,     3.3,   -0.12,      0.085,     0.531,    -0.79))
+_trfX(_ITRF89_,   _ETRF2014_, epoch=_F(2010),
+                              xform=_H( -30.4,    -35.5,   130.8,   -8.19,      1.785,    11.151,   -16.43),
+                              rates=_H(  -0.1,      0.5,     3.3,   -0.12,      0.085,     0.531,    -0.79))
+
+# see U{Altamimi, Z. "EUREF Technical Note 1: Relationship and Transformation between the International and
+# the European Terrestrial Reference Systems"<https://ERTS89.ENSG,IFN.Fr/pub/EUREF-TN-1.pdf>} Table 3,
+# U{Boucher, C. & Altamimi, Z. "Memo: Specifications for reference frame fixing in the analysis of a EUREF GPS
+# campaign" (2011) <https://ETRS89.ENSG.IGN.Fr/memo-V8.pdf>} and U{Altamimi, Z. "Key results of ITRF2014 and
+# implication to ETRS89 realization", EUREF2016<https://www.EUREF.EU/symposia/2016SanSebastian/01-02-Altamimi.pdf>}.
+# _trfX(_ITRF2014_, _ETRF2000_, epoch=_F(2000),
+#                             xform=_H(  53.7,     51.2,   -55.1,    1.02,      0.891,    5.39,     -8.712),
+#                             rates=_H(   0.1,      0.1,    -1.9,    0.11,      0.081,    0.49,     -0.792))
+_trfX(_ITRF2014_, _ETRF2000_, epoch=_F(2010),
+                              xform=_H(  54.7,     52.2,   -74.1,    2.12,      1.701,   10.29,    -16.632),
+                              rates=_H(   0.1,      0.1,    -1.9,    0.11,      0.081,    0.49,     -0.792))
+# _trfX(_ITRF2008_, _ETRF2000_, epoch=_F(2000),
+#                             xform=_H(  52.1,     49.3,   -58.5,    1.34,      0.891,    5.39,     -8.712),
+#                             rates=_H(   0.1,      0.1,    -1.8,    0.08,      0.081,    0.49,     -0.792))
+_trfX(_ITRF2008_, _ETRF2000_, epoch=_F(2010),
+                              xform=_H(  53.1,     50.3,   -76.5,    2.14,      1.701,   10.29,    -16.632),
+                              rates=_H(   0.1,      0.1,    -1.8,    0.08,      0.081,    0.49,     -0.792))
+# _trfX(_ITRF2005_, _ETRF2000_, epoch=_F(2000),
+#                             xform=_H(  54.1,     50.2,   -53.8,    0.4,       0.891,    5.39,     -8.712),
+#                             rates=_H(  -0.2,      0.1,    -1.8,    0.08,      0.081,    0.49,     -0.792))
+_trfX(_ITRF2005_, _ETRF2000_, epoch=_F(2010),
+                              xform=_H(  52.1,     51.2,   -71.8,    1.2,       1.701,   10.29,    -16.632),
+                              rates=_H(  -0.2,      0.1,    -1.8,    0.08,      0.081,    0.49,     -0.792))
+# _trfX(_ITRF2000_, _ETRF2000_, epoch=_F(2000),
+#                             xform=_H(  54.0,     51.0,   -48.0,   _0_0,       0.891,    5.39,     -8.712),
+#                             rates=_H(  _0_0,     _0_0,    _0_0,   _0_0,       0.081,    0.49,     -0.792))
+_trfX(_ITRF2000_, _ETRF2000_, epoch=_F(2010),
+                              xform=_H(  54.0,     51.0,   -48.0,   _0_0,       1.701,   10.29,    -16.632),
+                              rates=_H(  _0_0,     _0_0,    _0_0,   _0_0,       0.081,    0.49,     -0.812))
+_trfX(_ITRF97_,   _ETRF2000_, epoch=_F(2010),
+                              xform=_H(  54.0,     51.0,   -48.0,   -1.68,      1.701,   10.29,    -16.892),
+                              rates=_H(  _0_0,      0.6,     1.4,   -0.01,      0.081,    0.49,     -0.812))
+_trfX(_ITRF96_,   _ETRF2000_, epoch=_F(2010),
+                              xform=_H(  54.0,     51.0,   -48.0,   -1.68,      1.701,   10.29,    -16.892),
+                              rates=_H(  _0_0,      0.6,     1.4,   -0.01,      0.081,    0.49,     -0.812))
+_trfX(_ITRF94_,   _ETRF2000_, epoch=_F(2010),
+                              xform=_H(  47.3,     52.7,   -11.3,   -1.68,      1.701,   10.29,    -16.892),
+                              rates=_H(  _0_0,      0.6,     1.4,   -0.01,      0.081,    0.49,     -0.812))
+_trfX(_ITRF93_,   _ETRF2000_, epoch=_F(2010),
+                              xform=_H( 105.1,     48.9,   -13.9,   -2.17,      4.511,   13.67,    -17.032),
+                              rates=_H(   2.9,      0.2,     0.6,   -0.01,      0.191,    0.68,     -0.862))
+_trfX(_ITRF92_,   _ETRF2000_, epoch=_F(2010),
+                              xform=_H(  39.3,     50.7,    -3.3,   -0.97,      1.701,   10.29,    -16.892),
+                              rates=_H(  _0_0,      0.6,     1.4,   -0.01,      0.081,    0.49,     -0.812))
+_trfX(_ITRF91_,   _ETRF2000_, epoch=_F(2010),
+                              xform=_H(  27.3,     36.7,     2.7,   -2.37,      1.701,   10.29,    -16.892),
+                              rates=_H(  _0_0,      0.6,     1.4,   -0.01,      0.081,    0.49,     -0.812))
+_trfX(_ITRF90_,   _ETRF2000_, epoch=_F(2010),
+                              xform=_H(  29.3,     40.7,    18.7,   -2.67,      1.701,   10.29,    -16.892),
+                              rates=_H(  _0_0,      0.6,     1.4,   -0.01,      0.081,    0.49,     -0.812))
+_trfX(_ITRF89_,   _ETRF2000_, epoch=_F(2010),
+                              xform=_H(  24.3,     16.7,    56.7,   -6.07,      1.701,   10.29,    -16.892),
+                              rates=_H(  _0_0,      0.6,     1.4,   -0.01,      0.081,    0.49,     -0.812))
 
 # GDA2020 "Geocentric Datum of Australia 2020 Technical Manual", v1.5, 2020-12-09, Table 3.3 and 3.4
 # <https://www.ICSM.gov.AU/sites/default/files/2020-12/GDA2020%20Technical%20Manual%20V1.5_4.pdf>
 # (the GDA2020 xforms are different but the rates are the same as GDA94, further below)
 _trfX(_ITRF2014_, _GDA2020_,  epoch=_F(2020),
-                              xform=_H_0_0s,
-                              rates=_H(  _0_0,     _0_0,   _0_0,    _0_0,       1.50379,  1.18346,   1.20716))
+                              xform=_H(  _0_0,     _0_0,    _0_0,   _0_0,      _0_0,     _0_0,      _0_0),
+                              rates=_H(  _0_0,     _0_0,    _0_0,   _0_0,       1.50379,  1.18346,   1.20716))
 _trfX(_ITRF2008_, _GDA2020_,  epoch=_F(2020),
                               xform=_H(  13.79,     4.55,   15.22,   2.5,       0.2808,   0.2677,   -0.4638),
                               rates=_H(   1.42,     1.34,    0.9,    0.109,     1.5461,   1.182,     1.1551))
@@ -527,12 +777,12 @@ _trfX(_ITRF2005_, _NAD83_,    epoch=_F(1997),
                               xform=_H( 996.3,  -1902.4,  -521.9,    0.775,   -25.915,   -9.426,   -11.599),
                               rates=_H(   0.5,     -0.6,    -1.3,   -0.10201,  -0.06667,  0.75744,   0.05133))
 _trfX(_ITRF90_,   _NAD83_,    epoch=_F(1997),
-                              xform=_H( 973.0,  -1919.2, -482.9,    -0.9,     -25.79,    -9.65,    -11.66),
-                              rates=_H(  _0_0,     _0_0,   _0_0,    _0_0,      -0.053,    0.742,     0.032))
+                              xform=_H( 973.0,  -1919.2,  -482.9,   -0.9,     -25.79,    -9.65,    -11.66),
+                              rates=_H(  _0_0,     _0_0,    _0_0,   _0_0,      -0.053,    0.742,     0.032))
 _trfX(_ITRF90_,   _WGS84_,    epoch=_F(1984),
-                              xform=_H(  60.0,   -517.0, -223.0,   -11.0,      18.3,     -0.3,       7.0),
-                              rates=_H_0_0s)
-# del _H, _H_0_0s
+                              xform=_H(  60.0,   -517.0,  -223.0,  -11.0,      18.3,     -0.3,       7.0),
+                              rates=_H(  _0_0,     _0_0,    _0_0,   _0_0,      _0_0,     _0_0,      _0_0))
+del _H, _Hs
 
 if __name__ == '__main__':
 
@@ -582,51 +832,51 @@ if __name__ == '__main__':
 
 # % python -m pygeodesy.trf
 #
-# date2epoch(2022,  1,  1) = 2022.003, epoch2date(2022.003) = 2022,  1,  1
-# date2epoch(2022,  1, 15) = 2022.041, epoch2date(2022.041) = 2022,  1, 15
-# date2epoch(2022,  1, 30) = 2022.082, epoch2date(2022.082) = 2022,  1, 30
-# date2epoch(2022,  1, 31) = 2022.085, epoch2date(2022.085) = 2022,  1, 31
-# date2epoch(2022,  2,  1) = 2022.087, epoch2date(2022.087) = 2022,  2,  2 *
-# date2epoch(2022,  2, 15) = 2022.126, epoch2date(2022.126) = 2022,  2, 16 *
-# date2epoch(2022,  2, 28) = 2022.161, epoch2date(2022.161) = 2022,  2, 28
-# date2epoch(2022,  2, 29) = 2022.164, epoch2date(2022.164) = 2022,  3,  1 *
-# date2epoch(2022,  3,  1) = 2022.167, epoch2date(2022.167) = 2022,  3,  2 *
-# date2epoch(2022,  3, 15) = 2022.205, epoch2date(2022.205) = 2022,  3, 16 *
-# date2epoch(2022,  3, 30) = 2022.246, epoch2date(2022.246) = 2022,  3, 31 *
-# date2epoch(2022,  3, 31) = 2022.249, epoch2date(2022.249) = 2022,  4,  1 *
-# date2epoch(2022,  4,  1) = 2022.251, epoch2date(2022.251) = 2022,  4,  1
-# date2epoch(2022,  4, 15) = 2022.290, epoch2date(2022.290) = 2022,  4, 15
-# date2epoch(2022,  4, 29) = 2022.328, epoch2date(2022.328) = 2022,  4, 29
-# date2epoch(2022,  4, 30) = 2022.331, epoch2date(2022.331) = 2022,  4, 30
-# date2epoch(2022,  5,  1) = 2022.333, epoch2date(2022.333) = 2022,  5,  1
-# date2epoch(2022,  5, 15) = 2022.372, epoch2date(2022.372) = 2022,  5, 15
-# date2epoch(2022,  5, 30) = 2022.413, epoch2date(2022.413) = 2022,  5, 30
-# date2epoch(2022,  5, 31) = 2022.415, epoch2date(2022.415) = 2022,  6,  1 *
-# date2epoch(2022,  6,  1) = 2022.418, epoch2date(2022.418) = 2022,  6,  2 *
-# date2epoch(2022,  6, 15) = 2022.456, epoch2date(2022.456) = 2022,  6, 16 *
-# date2epoch(2022,  6, 29) = 2022.495, epoch2date(2022.495) = 2022,  6, 30 *
-# date2epoch(2022,  6, 30) = 2022.497, epoch2date(2022.497) = 2022,  7,  1 *
-# date2epoch(2022,  7,  1) = 2022.500, epoch2date(2022.500) = 2022,  7,  1
-# date2epoch(2022,  7, 15) = 2022.538, epoch2date(2022.538) = 2022,  7, 16 *
-# date2epoch(2022,  7, 30) = 2022.579, epoch2date(2022.579) = 2022,  7, 30
-# date2epoch(2022,  7, 31) = 2022.582, epoch2date(2022.582) = 2022,  7, 31
-# date2epoch(2022,  8,  1) = 2022.585, epoch2date(2022.585) = 2022,  8,  1
-# date2epoch(2022,  8, 15) = 2022.623, epoch2date(2022.623) = 2022,  8, 15
-# date2epoch(2022,  8, 30) = 2022.664, epoch2date(2022.664) = 2022,  8, 31 *
-# date2epoch(2022,  8, 31) = 2022.667, epoch2date(2022.667) = 2022,  9,  1 *
-# date2epoch(2022,  9,  1) = 2022.669, epoch2date(2022.669) = 2022,  9,  2 *
-# date2epoch(2022,  9, 15) = 2022.708, epoch2date(2022.708) = 2022,  9, 16 *
-# date2epoch(2022,  9, 29) = 2022.746, epoch2date(2022.746) = 2022,  9, 30 *
-# date2epoch(2022,  9, 30) = 2022.749, epoch2date(2022.749) = 2022, 10,  1 *
-# date2epoch(2022, 10,  1) = 2022.751, epoch2date(2022.751) = 2022, 10,  1
-# date2epoch(2022, 10, 15) = 2022.790, epoch2date(2022.790) = 2022, 10, 15
-# date2epoch(2022, 10, 30) = 2022.831, epoch2date(2022.831) = 2022, 10, 30
-# date2epoch(2022, 10, 31) = 2022.833, epoch2date(2022.833) = 2022, 10, 31
-# date2epoch(2022, 11,  1) = 2022.836, epoch2date(2022.836) = 2022, 11,  1
-# date2epoch(2022, 11, 15) = 2022.874, epoch2date(2022.874) = 2022, 11, 15
-# date2epoch(2022, 11, 29) = 2022.913, epoch2date(2022.913) = 2022, 11, 29
-# date2epoch(2022, 11, 30) = 2022.915, epoch2date(2022.915) = 2022, 12,  1 *
-# date2epoch(2022, 12,  1) = 2022.918, epoch2date(2022.918) = 2022, 12,  2 *
-# date2epoch(2022, 12, 15) = 2022.956, epoch2date(2022.956) = 2022, 12, 16 *
-# date2epoch(2022, 12, 30) = 2022.997, epoch2date(2022.997) = 2022, 12, 31 *
-# date2epoch(2022, 12, 31) = 2023.000, epoch2date(2023.000) = 2023,  1,  1 *
+# date2epoch(2024,  1,  1) = 2024.003, epoch2date(2024.003) = 2024,  1,  1
+# date2epoch(2024,  1, 15) = 2024.041, epoch2date(2024.041) = 2024,  1, 15
+# date2epoch(2024,  1, 30) = 2024.082, epoch2date(2024.082) = 2024,  1, 30
+# date2epoch(2024,  1, 31) = 2024.085, epoch2date(2024.085) = 2024,  1, 31
+# date2epoch(2024,  2,  1) = 2024.087, epoch2date(2024.087) = 2024,  2,  2 *
+# date2epoch(2024,  2, 15) = 2024.126, epoch2date(2024.126) = 2024,  2, 16 *
+# date2epoch(2024,  2, 28) = 2024.161, epoch2date(2024.161) = 2024,  2, 28
+# date2epoch(2024,  2, 29) = 2024.164, epoch2date(2024.164) = 2024,  3,  1 *
+# date2epoch(2024,  3,  1) = 2024.167, epoch2date(2024.167) = 2024,  3,  2 *
+# date2epoch(2024,  3, 15) = 2024.205, epoch2date(2024.205) = 2024,  3, 16 *
+# date2epoch(2024,  3, 30) = 2024.246, epoch2date(2024.246) = 2024,  3, 31 *
+# date2epoch(2024,  3, 31) = 2024.249, epoch2date(2024.249) = 2024,  4,  1 *
+# date2epoch(2024,  4,  1) = 2024.251, epoch2date(2024.251) = 2024,  4,  1
+# date2epoch(2024,  4, 15) = 2024.290, epoch2date(2024.290) = 2024,  4, 15
+# date2epoch(2024,  4, 29) = 2024.328, epoch2date(2024.328) = 2024,  4, 29
+# date2epoch(2024,  4, 30) = 2024.331, epoch2date(2024.331) = 2024,  4, 30
+# date2epoch(2024,  5,  1) = 2024.333, epoch2date(2024.333) = 2024,  5,  1
+# date2epoch(2024,  5, 15) = 2024.372, epoch2date(2024.372) = 2024,  5, 15
+# date2epoch(2024,  5, 30) = 2024.413, epoch2date(2024.413) = 2024,  5, 30
+# date2epoch(2024,  5, 31) = 2024.415, epoch2date(2024.415) = 2024,  6,  1 *
+# date2epoch(2024,  6,  1) = 2024.418, epoch2date(2024.418) = 2024,  6,  2 *
+# date2epoch(2024,  6, 15) = 2024.456, epoch2date(2024.456) = 2024,  6, 16 *
+# date2epoch(2024,  6, 29) = 2024.495, epoch2date(2024.495) = 2024,  6, 30 *
+# date2epoch(2024,  6, 30) = 2024.497, epoch2date(2024.497) = 2024,  7,  1 *
+# date2epoch(2024,  7,  1) = 2024.500, epoch2date(2024.500) = 2024,  7,  1
+# date2epoch(2024,  7, 15) = 2024.538, epoch2date(2024.538) = 2024,  7, 16 *
+# date2epoch(2024,  7, 30) = 2024.579, epoch2date(2024.579) = 2024,  7, 30
+# date2epoch(2024,  7, 31) = 2024.582, epoch2date(2024.582) = 2024,  7, 31
+# date2epoch(2024,  8,  1) = 2024.585, epoch2date(2024.585) = 2024,  8,  1
+# date2epoch(2024,  8, 15) = 2024.623, epoch2date(2024.623) = 2024,  8, 15
+# date2epoch(2024,  8, 30) = 2024.664, epoch2date(2024.664) = 2024,  8, 31 *
+# date2epoch(2024,  8, 31) = 2024.667, epoch2date(2024.667) = 2024,  9,  1 *
+# date2epoch(2024,  9,  1) = 2024.669, epoch2date(2024.669) = 2024,  9,  2 *
+# date2epoch(2024,  9, 15) = 2024.708, epoch2date(2024.708) = 2024,  9, 16 *
+# date2epoch(2024,  9, 29) = 2024.746, epoch2date(2024.746) = 2024,  9, 30 *
+# date2epoch(2024,  9, 30) = 2024.749, epoch2date(2024.749) = 2024, 10,  1 *
+# date2epoch(2024, 10,  1) = 2024.751, epoch2date(2024.751) = 2024, 10,  1
+# date2epoch(2024, 10, 15) = 2024.790, epoch2date(2024.790) = 2024, 10, 15
+# date2epoch(2024, 10, 30) = 2024.831, epoch2date(2024.831) = 2024, 10, 30
+# date2epoch(2024, 10, 31) = 2024.833, epoch2date(2024.833) = 2024, 10, 31
+# date2epoch(2024, 11,  1) = 2024.836, epoch2date(2024.836) = 2024, 11,  1
+# date2epoch(2024, 11, 15) = 2024.874, epoch2date(2024.874) = 2024, 11, 15
+# date2epoch(2024, 11, 29) = 2024.913, epoch2date(2024.913) = 2024, 11, 29
+# date2epoch(2024, 11, 30) = 2024.915, epoch2date(2024.915) = 2024, 12,  1 *
+# date2epoch(2024, 12,  1) = 2024.918, epoch2date(2024.918) = 2024, 12,  2 *
+# date2epoch(2024, 12, 15) = 2024.956, epoch2date(2024.956) = 2024, 12, 16 *
+# date2epoch(2024, 12, 30) = 2024.997, epoch2date(2024.997) = 2024, 12, 31 *
+# date2epoch(2024, 12, 31) = 2025.000, epoch2date(2025.000) = 2025,  1,  1 *

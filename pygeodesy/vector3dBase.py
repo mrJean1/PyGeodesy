@@ -30,7 +30,7 @@ from pygeodesy.units import Float, Scalar
 from math import atan2, ceil, fabs, floor, trunc
 
 __all__ = _ALL_LAZY.vector3dBase
-__version__ = '23.11.18'
+__version__ = '24.01.19'
 
 
 class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
@@ -978,7 +978,7 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
         self._x, self._y, self._z = _xyz3(_xyz_, x_xyz, *y_z)
         return self
 
-    @Property_RO
+    @property_RO
     def x2y2z2(self):
         '''Get the X, Y and Z components I{squared} (3-tuple C{(x**2, y**2, z**2)}).
         '''
@@ -1015,7 +1015,7 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
             self._z = z
 
 
-def _xyz3(where, x_xyz, *y_z):  # in .formy.xyz2rtp_
+def _xyz3(where, x_xyz, *y_z):  # in .cartesianBase._rtp3
     '''(INTERNAL) Helper for C{Vector3dBase.__init__}, C{-.apply}, C{-.times_} and C{-._xyz}.
     '''
     try:

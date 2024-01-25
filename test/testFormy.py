@@ -4,7 +4,7 @@
 # Test L{formy} module.
 
 __all__ = ('Tests',)
-__version__ = '23.11.18'
+__version__ = '24.01.18'
 
 from bases import TestsBase
 
@@ -12,13 +12,12 @@ from pygeodesy import PI, PI_2, R_M, antipode, bearing, cosineAndoyerLambert, \
                       cosineForsytheAndoyerLambert as _cosineForsythe_, \
                       cosineLaw, Datums, equirectangular, euclidean, \
                       excessAbc_, excessCagnoli_, excessGirard_, excessLHuilier_, \
-                      excessKarney, excessQuad, flatLocal, flatPolar, formy, fstr, \
+                      excessKarney, excessQuad, flatLocal, flatPolar, formy, \
                       hartzell, haversine, heightOf, heightOrthometric, horizon, hubeny, \
                       IntersectionError, intersection2, intersections2, \
                       isantipode, isantipode_, isnormal, isnormal_, \
                       LatLon_, latlonDMS, LimitError, limiterrors, map1, normal, \
-                      parseDMS, radical2, thomas, Vector3d as V3, vincentys, \
-                      rtp2xyz, xyz2rtp
+                      parseDMS, radical2, thomas, Vector3d as V3, vincentys
 
 from math import degrees, radians
 
@@ -131,6 +130,9 @@ class Tests(TestsBase):
         self.test('hartzell', hartzell(pov).toStr(prec=6), '(3642031.283571, 3678090.99925, 3714150.714929)')
         ll = hartzell(pov, LatLon=LatLon_)
         self.test('hartzell', ll.toStr(prec=6), "35.843738°N, 045.282243°E, +11296639.67, 'hartzell'", known=ll.height > 11e6)
+        self.test('hartzell', hartzell(pov, los=True).toStr(prec=6), '(3647362.058328, 3683474.553955, 3703640.299338)')
+        ll = hartzell(pov, los=True, LatLon=LatLon_)
+        self.test('hartzell', ll.toStr(prec=6), "35.726966°N, 045.282243°E, +11296619.03, 'hartzell'", known=ll.height > 11e6)
 
         self.test('heightOf0',   heightOf(0,   R_M), 2638958.23912, fmt='%.5f')
         self.test('heightOf45',  heightOf(45,  R_M), 5401080.43931, fmt='%.5f')
@@ -208,12 +210,6 @@ class Tests(TestsBase):
         p = LatLon_(1, 2, height=3)
         self.test(heightOrthometric.__name__, heightOrthometric(p, 4), -1.0, nl=1)
         self.test(heightOrthometric.__name__, heightOrthometric(5, 4),  1.0)
-
-        r = xyz2rtp(10, 20, 30)
-        t = fstr(r, prec=3)
-        self.test(xyz2rtp.__name__, t, t, nl=1)
-        t = fstr(rtp2xyz(*r), prec=3)
-        self.test(rtp2xyz.__name__, t, '10.0, 20.0, 30.0')
 
     def testIntersections2(self, datum):
         # centers at 2 opposite corners of a "square" and

@@ -457,6 +457,26 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toCartesian" class="summary-sig-name">toCartesian</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">**Cartesian_and_kwds</span>)</span><br />
+      Convert this point to cartesian, <i>geocentric</i> coordinates, also 
+      known as <i>Earth-Centered, Earth-Fixed</i> (ECEF).</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toCss" class="summary-sig-name">toCss</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">**toCss_kwds</span>)</span><br />
       Convert this <code>LatLon</code> point to a Cassini-Soldner location.</td>
@@ -571,9 +591,12 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toRefFrame" class="summary-sig-name">toRefFrame</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">reframe2</span>,
+        <span class="summary-sig-arg">reframe</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">epoch</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">epoch2</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
-      Convert this point to an other reference frame.</td>
+      Convert this point to an other reference frame and epoch.</td>
           <td align="right" valign="top">
             
             
@@ -742,7 +765,6 @@
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#thomasTo">thomasTo</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#to2ab">to2ab</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#to3llh">to3llh</a></code>,
-      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#toCartesian">toCartesian</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#toEcef">toEcef</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#toLocal">toLocal</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#toLtp">toLtp</a></code>,
@@ -1732,6 +1754,57 @@
       </p>
 </div></td></tr></table>
 </div>
+<a name="toCartesian"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toCartesian</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">**Cartesian_and_kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert this point to cartesian, <i>geocentric</i> coordinates, also 
+  known as <i>Earth-Centered, Earth-Fixed</i> (ECEF).</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>height</code></strong> - Optional height, overriding this point's height 
+          (<code>meter</code>, conventionally).</li>
+        <li><strong class="pname"><code>Cartesian</code></strong> - Optional class to return the geocentric coordinates 
+          (<code>Cartesian</code>) or <code>None</code>.</li>
+        <li><strong class="pname"><code>Cartesian_kwds</code></strong> - Optional, additional <b><code>Cartesian</code></b> keyword 
+          arguments, ignored if <code><b>Cartesian</b> is None</code>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A <b><code>Cartesian</code></b> or if 
+          <b><code>Cartesian</code></b> is <code>None</code>, an <a 
+          href="pygeodesy.ecef.Ecef9Tuple-class.html" 
+          class="link">Ecef9Tuple</a><code>(x, y, z, lat, lon, height, C, 
+          M, datum)</code> with <code>C=0</code> and <code>M</code> if 
+          available.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>Cartesian</code></b> or 
+        <b><code>Cartesian_kwds</code></b>.</li>
+    </ul></dd>
+    <dt>Overrides:
+        <a href="pygeodesy.latlonBase.LatLonBase-class.html#toCartesian">latlonBase.LatLonBase.toCartesian</a>
+    </dt>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Method <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#toCartesian" 
+        class="link">toCartesian</a> for further details.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="toCss"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1955,6 +2028,9 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toRefFrame</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">reframe2</span>,
+        <span class="sig-arg">reframe</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">epoch</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">epoch2</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
   </h3>
@@ -1963,28 +2039,40 @@
     </td>
   </tr></table>
   
-  <p>Convert this point to an other reference frame.</p>
+  <p>Convert this point to an other reference frame and epoch.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>reframe2</code></strong> - Reference frame to convert <i>to</i> (<a 
           href="pygeodesy.trf.RefFrame-class.html" 
           class="link">RefFrame</a>).</li>
+        <li><strong class="pname"><code>reframe</code></strong> - Optional reference frame (<a 
+          href="pygeodesy.trf.RefFrame-class.html" 
+          class="link">RefFrame</a>), overriding this point's reference 
+          frame.</li>
+        <li><strong class="pname"><code>epoch</code></strong> - Optional epoch (<a href="pygeodesy.units.Epoch-class.html" 
+          class="link">Epoch</a>, <code>scalar</code> or <code>str</code>),
+          overriding this point's epoch.</li>
+        <li><strong class="pname"><code>epoch2</code></strong> - Optional epoch to observe for the converted point (<a 
+          href="pygeodesy.units.Epoch-class.html" class="link">Epoch</a>, 
+          <code>scalar</code> or <code>str</code>).</li>
         <li><strong class="pname"><code>height</code></strong> - Optional height, overriding the converted height 
           (<code>meter</code>).</li>
         <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>), iff converted.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The converted point (ellipsoidal <code>LatLon</code>) or this 
-          point if conversion is <code>nil</code>, or a copy of this point 
-          if the <b><code>name</code></b> is non-empty.</dd>
+        <dd>The converted point (ellipsoidal <code>LatLon</code>) or if 
+          conversion is <code>nil</code>, this point or a copy of this 
+          point if the <b><code>name</code></b> is non-empty.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.TRFError-class.html">TRFError</a></strong></code> - This point's <code>reframe</code> is not defined or conversion from
-        this point's <code>reframe</code> to <b><code>reframe2</code></b> 
-        is not available.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>reframe2</code></b>, not a <a 
-        href="pygeodesy.trf.RefFrame-class.html" class="link">RefFrame</a>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.TRFError-class.html">TRFError</a></strong></code> - This point's <code>reframe</code> is not defined, invalid 
+        <b><code>epoch</code></b> or <b><code>epoch2</code></b> or 
+        conversion from this point's <code>reframe</code> to 
+        <b><code>reframe2</code></b> is not available.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - <b><code>reframe2</code></b> or <b><code>reframe</code></b> not a 
+        <a href="pygeodesy.trf.RefFrame-class.html" 
+        class="link">RefFrame</a>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -2354,15 +2442,16 @@ href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>).
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">epoch(<span class="summary-sig-arg">self</span>)</span>
-        - Get this point's observed or <code>reframe</code> epoch 
-(<code>float</code>) or <code>None</code>.
+        - Get this point's observed or <code>reframe</code> epoch (<a 
+href="pygeodesy.units.Epoch-class.html" class="link">Epoch</a>) or 
+<code>None</code>.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">epoch(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">epoch</span>)</span>
         - Set or clear this point's observed epoch, a fractional calendar year (<a 
 href="pygeodesy.units.Epoch-class.html" class="link">Epoch</a>, 
-<code>scalar</code>) or <code>None</code>.
+<code>scalar</code> or <code>str</code>) or <code>None</code>.
     </dd>
   </dl>
 </td></tr></table>
@@ -2512,7 +2601,7 @@ href="pygeodesy.ups.Ups-class.html" class="link">Ups</a>.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Jan 10 13:55:28 2024
+    Generated by Epydoc 3.0.1 on Thu Jan 25 16:45:45 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

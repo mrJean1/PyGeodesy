@@ -31,7 +31,7 @@ from pygeodesy.vector3dBase import Vector3dBase
 # from math import fabs, sqrt  # from .fmath
 
 __all__ = _ALL_LAZY.vector3d
-__version__ = '23.12.03'
+__version__ = '24.01.19'
 
 
 class Vector3d(Vector3dBase):

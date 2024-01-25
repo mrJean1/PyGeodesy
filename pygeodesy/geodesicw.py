@@ -36,10 +36,10 @@ from contextlib import contextmanager
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.geodesicw
-__version__ = '23.12.09'
+__version__ = '24.01.16'
 
 _plumb_ = 'plumb'
-_TRIPS  =  129
+_TRIPS  =  65
 
 
 class _gWrapped(_kWrapped):

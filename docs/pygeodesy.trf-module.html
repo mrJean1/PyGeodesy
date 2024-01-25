@@ -101,7 +101,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        23.11.02
+        24.01.24
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -121,7 +121,7 @@
         <code>ty</code> and <code>tz</code> in <code>millimeter</code>, 
         scale <code>s</code> in <code>ppb</code> and rotations 
         <code>sx</code>, <code>sy</code> and <code>sz</code> in 
-        <code>milliarcseconds</code>.
+        <code>milli-arc-seconds</code>.
     </td>
   </tr>
 <tr>
@@ -183,6 +183,28 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.trf-module.html#trfTransforms" class="summary-sig-name">trfTransforms</a>(<span class="summary-sig-arg">reframe</span>,
+        <span class="summary-sig-arg">epoch</span>,
+        <span class="summary-sig-arg">reframe2</span>,
+        <span class="summary-sig-arg">epoch2</span>)</span><br />
+      Get the <a href="pygeodesy.datums.Transform-class.html" 
+      class="link">Transform</a>(s) to convert reframe at epoch to reframe2
+      at epoch2.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.trf-module.html#trfXform" class="summary-sig-name">trfXform</a>(<span class="summary-sig-arg">reframe1</span>,
         <span class="summary-sig-arg">reframe2</span>,
         <span class="summary-sig-arg">epoch</span>=<span class="summary-sig-default">None</span>,
@@ -228,8 +250,103 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="RefFrames.ETRF2000"></a><span class="summary-name">RefFrames.ETRF2000</span><br />
-      RefFrame(name='ETRF2000', epoch=2005, 
-      ellipsoid=Ellipsoid(name='GRS80')
+      RefFrame(name='ETRF2000', epoch=2005, ellipsoid=Ellipsoids.GRS80)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="RefFrames.ETRF2005"></a><span class="summary-name">RefFrames.ETRF2005</span><br />
+      RefFrame(name='ETRF2005', epoch=2005, ellipsoid=Ellipsoids.GRS80)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="RefFrames.ETRF2008"></a><span class="summary-name">RefFrames.ETRF2008</span><br />
+      RefFrame(name='ETRF2008', epoch=2008, ellipsoid=Ellipsoids.GRS80)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="RefFrames.ETRF2014"></a><span class="summary-name">RefFrames.ETRF2014</span><br />
+      RefFrame(name='ETRF2014', epoch=2014, ellipsoid=Ellipsoids.GRS80)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="RefFrames.ETRF88"></a><span class="summary-name">RefFrames.ETRF88</span><br />
+      RefFrame(name='ETRF88', epoch=1988, ellipsoid=Ellipsoids.GRS80)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="RefFrames.ETRF89"></a><span class="summary-name">RefFrames.ETRF89</span><br />
+      RefFrame(name='ETRF89', epoch=1989, ellipsoid=Ellipsoids.GRS80)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="RefFrames.ETRF90"></a><span class="summary-name">RefFrames.ETRF90</span><br />
+      RefFrame(name='ETRF90', epoch=1990, ellipsoid=Ellipsoids.GRS80)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="RefFrames.ETRF91"></a><span class="summary-name">RefFrames.ETRF91</span><br />
+      RefFrame(name='ETRF91', epoch=1991, ellipsoid=Ellipsoids.GRS80)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="RefFrames.ETRF92"></a><span class="summary-name">RefFrames.ETRF92</span><br />
+      RefFrame(name='ETRF92', epoch=1992, ellipsoid=Ellipsoids.GRS80)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="RefFrames.ETRF93"></a><span class="summary-name">RefFrames.ETRF93</span><br />
+      RefFrame(name='ETRF93', epoch=1993, ellipsoid=Ellipsoids.GRS80)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="RefFrames.ETRF94"></a><span class="summary-name">RefFrames.ETRF94</span><br />
+      RefFrame(name='ETRF94', epoch=1994, ellipsoid=Ellipsoids.GRS80)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="RefFrames.ETRF96"></a><span class="summary-name">RefFrames.ETRF96</span><br />
+      RefFrame(name='ETRF96', epoch=1996, ellipsoid=Ellipsoids.GRS80)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="RefFrames.ETRF97"></a><span class="summary-name">RefFrames.ETRF97</span><br />
+      RefFrame(name='ETRF97', epoch=1997, ellipsoid=Ellipsoids.GRS80)
     </td>
   </tr>
 <tr>
@@ -237,8 +354,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="RefFrames.GDA2020"></a><span class="summary-name">RefFrames.GDA2020</span><br />
-      RefFrame(name='GDA2020', epoch=2020, 
-      ellipsoid=Ellipsoid(name='GRS80')
+      RefFrame(name='GDA2020', epoch=2020, ellipsoid=Ellipsoids.GRS80)
     </td>
   </tr>
 <tr>
@@ -246,7 +362,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="RefFrames.GDA94"></a><span class="summary-name">RefFrames.GDA94</span><br />
-      RefFrame(name='GDA94', epoch=1994, ellipsoid=Ellipsoid(name='GRS80')
+      RefFrame(name='GDA94', epoch=1994, ellipsoid=Ellipsoids.GRS80)
     </td>
   </tr>
 <tr>
@@ -254,8 +370,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="RefFrames.ITRF2000"></a><span class="summary-name">RefFrames.ITRF2000</span><br />
-      RefFrame(name='ITRF2000', epoch=1997, 
-      ellipsoid=Ellipsoid(name='GRS80')
+      RefFrame(name='ITRF2000', epoch=1997, ellipsoid=Ellipsoids.GRS80)
     </td>
   </tr>
 <tr>
@@ -263,8 +378,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="RefFrames.ITRF2005"></a><span class="summary-name">RefFrames.ITRF2005</span><br />
-      RefFrame(name='ITRF2005', epoch=2000, 
-      ellipsoid=Ellipsoid(name='GRS80')
+      RefFrame(name='ITRF2005', epoch=2000, ellipsoid=Ellipsoids.GRS80)
     </td>
   </tr>
 <tr>
@@ -272,8 +386,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="RefFrames.ITRF2008"></a><span class="summary-name">RefFrames.ITRF2008</span><br />
-      RefFrame(name='ITRF2008', epoch=2005, 
-      ellipsoid=Ellipsoid(name='GRS80')
+      RefFrame(name='ITRF2008', epoch=2005, ellipsoid=Ellipsoids.GRS80)
     </td>
   </tr>
 <tr>
@@ -281,8 +394,31 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="RefFrames.ITRF2014"></a><span class="summary-name">RefFrames.ITRF2014</span><br />
-      RefFrame(name='ITRF2014', epoch=2010, 
-      ellipsoid=Ellipsoid(name='GRS80')
+      RefFrame(name='ITRF2014', epoch=2010, ellipsoid=Ellipsoids.GRS80)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="RefFrames.ITRF2020"></a><span class="summary-name">RefFrames.ITRF2020</span><br />
+      RefFrame(name='ITRF2020', epoch=2015, ellipsoid=Ellipsoids.GRS80)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="RefFrames.ITRF88"></a><span class="summary-name">RefFrames.ITRF88</span><br />
+      RefFrame(name='ITRF88', epoch=1988, ellipsoid=Ellipsoids.GRS80)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="RefFrames.ITRF89"></a><span class="summary-name">RefFrames.ITRF89</span><br />
+      RefFrame(name='ITRF89', epoch=1989, ellipsoid=Ellipsoids.GRS80)
     </td>
   </tr>
 <tr>
@@ -290,7 +426,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="RefFrames.ITRF90"></a><span class="summary-name">RefFrames.ITRF90</span><br />
-      RefFrame(name='ITRF90', epoch=1988, ellipsoid=Ellipsoid(name='GRS80')
+      RefFrame(name='ITRF90', epoch=1988, ellipsoid=Ellipsoids.GRS80)
     </td>
   </tr>
 <tr>
@@ -298,7 +434,15 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="RefFrames.ITRF91"></a><span class="summary-name">RefFrames.ITRF91</span><br />
-      RefFrame(name='ITRF91', epoch=1988, ellipsoid=Ellipsoid(name='GRS80')
+      RefFrame(name='ITRF91', epoch=1988, ellipsoid=Ellipsoids.GRS80)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="RefFrames.ITRF92"></a><span class="summary-name">RefFrames.ITRF92</span><br />
+      RefFrame(name='ITRF92', epoch=1988, ellipsoid=Ellipsoids.GRS80)
     </td>
   </tr>
 <tr>
@@ -306,7 +450,31 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="RefFrames.ITRF93"></a><span class="summary-name">RefFrames.ITRF93</span><br />
-      RefFrame(name='ITRF93', epoch=1988, ellipsoid=Ellipsoid(name='GRS80')
+      RefFrame(name='ITRF93', epoch=1988, ellipsoid=Ellipsoids.GRS80)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="RefFrames.ITRF94"></a><span class="summary-name">RefFrames.ITRF94</span><br />
+      RefFrame(name='ITRF94', epoch=1993, ellipsoid=Ellipsoids.GRS80)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="RefFrames.ITRF96"></a><span class="summary-name">RefFrames.ITRF96</span><br />
+      RefFrame(name='ITRF96', epoch=1997, ellipsoid=Ellipsoids.GRS80)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="RefFrames.ITRF97"></a><span class="summary-name">RefFrames.ITRF97</span><br />
+      RefFrame(name='ITRF97', epoch=1997, ellipsoid=Ellipsoids.GRS80)
     </td>
   </tr>
 <tr>
@@ -314,7 +482,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="RefFrames.NAD83"></a><span class="summary-name">RefFrames.NAD83</span><br />
-      RefFrame(name='NAD83', epoch=1997, ellipsoid=Ellipsoid(name='GRS80')
+      RefFrame(name='NAD83', epoch=1997, ellipsoid=Ellipsoids.GRS80)
     </td>
   </tr>
 <tr>
@@ -322,7 +490,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="RefFrames.WGS84"></a><span class="summary-name">RefFrames.WGS84</span><br />
-      RefFrame(name='WGS84', epoch=1984, ellipsoid=Ellipsoid(name='WGS84')
+      RefFrame(name='WGS84', epoch=1984, ellipsoid=Ellipsoids.WGS84)
     </td>
   </tr>
 <tr>
@@ -330,8 +498,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="RefFrames.WGS84g1150"></a><span class="summary-name">RefFrames.WGS84g1150</span><br />
-      RefFrame(name='WGS84g1150', epoch=2001, 
-      ellipsoid=Ellipsoid(name='WGS84')
+      RefFrame(name='WGS84g1150', epoch=2001, ellipsoid=Ellipsoids.WGS84)
     </td>
   </tr>
 <tr>
@@ -339,8 +506,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="RefFrames.WGS84g1674"></a><span class="summary-name">RefFrames.WGS84g1674</span><br />
-      RefFrame(name='WGS84g1674', epoch=2005, 
-      ellipsoid=Ellipsoid(name='WGS84')
+      RefFrame(name='WGS84g1674', epoch=2005, ellipsoid=Ellipsoids.WGS84)
     </td>
   </tr>
 <tr>
@@ -348,8 +514,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="RefFrames.WGS84g1762"></a><span class="summary-name">RefFrames.WGS84g1762</span><br />
-      RefFrame(name='WGS84g1762', epoch=2005, 
-      ellipsoid=Ellipsoid(name='WGS84')
+      RefFrame(name='WGS84g1762', epoch=2005, ellipsoid=Ellipsoids.WGS84)
     </td>
   </tr>
 </table>
@@ -435,6 +600,50 @@
       </p>
 </div></td></tr></table>
 </div>
+<a name="trfTransforms"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">trfTransforms</span>&nbsp;(<span class="sig-arg">reframe</span>,
+        <span class="sig-arg">epoch</span>,
+        <span class="sig-arg">reframe2</span>,
+        <span class="sig-arg">epoch2</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Get the <a href="pygeodesy.datums.Transform-class.html" 
+  class="link">Transform</a>(s) to convert reframe at epoch to reframe2 at 
+  epoch2.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>reframe</code></strong> - Reference frame to convert <i>from</i> (<a 
+          href="pygeodesy.trf.RefFrame-class.html" 
+          class="link">RefFrame</a> or <code>str</code>).</li>
+        <li><strong class="pname"><code>epoch</code></strong> - Epoch to observe <i>from</i> (<a 
+          href="pygeodesy.units.Epoch-class.html" class="link">Epoch</a>, 
+          <code>scalar</code> or <code>str</code>).</li>
+        <li><strong class="pname"><code>reframe2</code></strong> - Reference frame to convert <i>to</i> (<a 
+          href="pygeodesy.trf.RefFrame-class.html" 
+          class="link">RefFrame</a> or <code>str</code>).</li>
+        <li><strong class="pname"><code>epoch2</code></strong> - Epoch to observe to observe <i>to</i> (<a 
+          href="pygeodesy.units.Epoch-class.html" class="link">Epoch</a>, 
+          <code>scalar</code> or <code>str</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A 0-, 1- or 2-tuple of Helmert <a 
+          href="pygeodesy.datums.Transform-class.html" 
+          class="link">Transform</a>s or <code>None</code> if no conversion
+          exists.</dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="trfXform"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -464,8 +673,9 @@
         <li><strong class="pname"><code>epoch</code></strong> - Epoch, a fractional calendar year (<code>scalar</code> or 
           <code>str</code>) or <code>None</code> for 
           <code><b>reframe2</b>.epoch</code>.</li>
-        <li><strong class="pname"><code>xform</code></strong> - Helmert transform parameters (<code>Helmert7Tuple</code>).</li>
-        <li><strong class="pname"><code>rates</code></strong> - Helmert rate parameters (<code>Helmert7Tuple</code>).</li>
+        <li><strong class="pname"><code>xform</code></strong> - Helmert <i>transform</i> parameters (<code>Helmert7Tuple</code>).</li>
+        <li><strong class="pname"><code>rates</code></strong> - Helmert <i>rate</i> parameters (<code>Helmert7Tuple</code>), like
+          <b><code>xform</code></b>, but in <code>units per year</code>.</li>
     </ul></dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
@@ -506,7 +716,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Jan 10 13:55:27 2024
+    Generated by Epydoc 3.0.1 on Thu Jan 25 16:45:45 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

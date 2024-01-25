@@ -31,9 +31,9 @@ see the U{GeographicLib<https://GeographicLib.SourceForge.io>} documentation.
 from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import isLatLon, isscalar, map2, _zip,  _ValueError
-from pygeodesy.constants import EPS, EPS0, EPS02, EPS4, _EPS2e4, INT0, PI2, PI_3, PI4, \
-                               _0_0, _0_5, _1_0, _N_2_0, float0_, isfinite, isnear1, \
-                               _4_0  # PYCHOK used!
+from pygeodesy.constants import EPS, EPS0, EPS02, EPS4, INT0, PI2, PI_3, PI4, \
+                               _EPS2e4, float0_, isfinite, isnear1, _0_0, _0_5, \
+                               _1_0, _N_1_0, _N_2_0,  _4_0  # PYCHOK used!
 from pygeodesy.datums import Datum, _spherical_datum, _WGS84,  Ellipsoid, _EWGS84, Fmt
 # from pygeodesy.dms import toDMS  # _MODS
 # from pygeodesy.ellipsoids import Ellipsoid, _EWGS84  # from .datums
@@ -42,9 +42,9 @@ from pygeodesy.datums import Datum, _spherical_datum, _WGS84,  Ellipsoid, _EWGS8
 from pygeodesy.fmath import Fdot, fdot, fmean_, hypot, hypot_, norm2, sqrt0
 from pygeodesy.fsums import Fsum, fsumf_, fsum1f_
 from pygeodesy.interns import NN, _a_, _b_, _beta_, _c_, _distant_, _finite_, \
-                             _height_, _inside_, _near_, _not_, _NOTEQUAL_, _null_, \
-                             _opposite_, _outside_, _SPACE_, _spherical_, _too_, \
-                             _x_, _y_
+                             _height_, _inside_, _near_, _negative_, _not_, \
+                             _NOTEQUAL_, _null_, _opposite_, _outside_, _SPACE_, \
+                             _spherical_, _too_, _x_, _y_
 # from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS  # from .vector3d
 from pygeodesy.named import _NamedEnum, _NamedEnumItem, _NamedTuple, _Pass, \
                             _lazyNamedEnumItem as _lazy
@@ -59,14 +59,14 @@ from pygeodesy.vector3d import _otherV3d, Vector3d,  _ALL_LAZY, _MODS
 from math import atan2, fabs, sqrt
 
 __all__ = _ALL_LAZY.triaxials
-__version__ = '24.01.06'
+__version__ = '24.01.21'
 
 _not_ordered_ = _not_('ordered')
 _omega_       = 'omega'
-_TRIPS        =  537  # 52..58, Eberly 1074?
+_TRIPS        =  269  # 48-55, Eberly 1074?
 
 
-class _NamedTupleTo(_NamedTuple):  # in .testNamedTuples
+class _NamedTupleTo(_NamedTuple):  # in .testNamedTuples, like .cartesianBase.RadiusThetaPhi3Tuple
     '''(INTERNAL) Base for C{-.toDegrees}, C{-.toRadians}.
     '''
     def _toDegrees(self, a, b, *c, **toDMS_kwds):
@@ -345,39 +345,35 @@ class Triaxial_(_NamedEnumItem):
         Triaxial_._Elliptic = E = _MODS.elliptic.Elliptic  # overwrite property_RO
         return E
 
-    def hartzell4(self, pov, los=None, name=NN):
+    def hartzell4(self, pov, los=False, name=NN):
         '''Compute the intersection of this triaxial's surface with a Line-Of-Sight
            from a Point-Of-View in space.
 
-           @see: Function L{pygeodesy.hartzell4} for further details.
+           @see: Function L{hartzell4<triaxials.hartzell4>} for further details.
         '''
         return hartzell4(pov, los=los, tri_biax=self, name=name)
 
     def height4(self, x_xyz, y=None, z=None, normal=True, eps=EPS):
-        '''Compute the projection on and the height of a cartesian above or below
-           this triaxial's surface.
+        '''Compute the projection on and the height above or below this triaxial's surface.
 
-           @arg x_xyz: X component (C{scalar}) or a cartesian (C{Cartesian},
-                       L{Ecef9Tuple}, L{Vector3d}, L{Vector3Tuple} or L{Vector4Tuple}).
+           @arg x_xyz: X component (C{scalar}) or a cartesian (C{Cartesian}, L{Ecef9Tuple},
+                       L{Vector3d}, L{Vector3Tuple} or L{Vector4Tuple}).
            @kwarg y: Y component (C{scalar}), required if B{C{x_xyz}} if C{scalar}.
            @kwarg z: Z component (C{scalar}), required if B{C{x_xyz}} if C{scalar}.
-           @kwarg normal: If C{True} the projection is perpendicular to (the nearest
-                          point on) this triaxial's surface, otherwise the C{radial}
-                          line to this triaxial's center (C{bool}).
-           @kwarg eps: Tolerance for root finding and validation (C{scalar}), use a
-                       negative value to skip validation.
+           @kwarg normal: If C{True} the projection is the I{normal, plumb} to the surface of,
+                          otherwise the C{radial} line to the center of this triaxial (C{bool}).
+           @kwarg eps: Tolerance for root finding and validation (C{scalar}), use a negative
+                       value to skip validation.
 
-           @return: L{Vector4Tuple}C{(x, y, z, h)} with the cartesian coordinates
-                    C{x}, C{y} and C{z} of the projection on or the intersection
-                    with and with the height C{h} above or below the triaxial's
-                    surface in C{meter}, conventionally.
+           @return: L{Vector4Tuple}C{(x, y, z, h)} with the cartesian coordinates C{x}, C{y}
+                    and C{z} of the projection on or the intersection with and with the height
+                    C{h} above or below the triaxial's surface in C{meter}, conventionally.
 
-           @raise TriaxialError: Non-cartesian B{C{xyz}}, invalid B{C{eps}}, no
-                                 convergence in root finding or validation failed.
+           @raise TriaxialError: Non-cartesian B{C{xyz}}, invalid B{C{eps}}, no convergence in
+                  root finding or validation failed.
 
-           @see: Method L{Ellipsoid.height4} and I{Eberly}'s U{Distance from a Point
-                 to ... an Ellipsoid ...<https://www.GeometricTools.com/Documentation/
-                 DistancePointEllipseEllipsoid.pdf>}.
+           @see: Method L{Ellipsoid.height4} and I{Eberly}'s U{Distance from a Point to ...
+                 <https://www.GeometricTools.com/Documentation/DistancePointEllipseEllipsoid.pdf>}.
         '''
         v, r = _otherV3d_(x_xyz, y, z), self.isSpherical
 
@@ -391,9 +387,9 @@ class Triaxial_(_NamedEnumItem):
         else:
             x, y, z = v.xyz
             try:
-                if normal:  # perpendicular to triaxial
+                if normal:  # plumb to surface
                     x, y, z, h, i = _normalTo5(x, y, z, self, eps=eps)
-                else:  # radially to triaxial's center
+                else:  # radial to center
                     x, y, z = self._radialTo3(z, hypot(x, y), y, x)
                     h = v.minus_(x, y, z).length
             except Exception as e:
@@ -426,7 +422,7 @@ class Triaxial_(_NamedEnumItem):
         return float0_(s, c)
 
     def normal3d(self, x_xyz, y=None, z=None, length=_1_0):
-        '''Get a 3-D vector perpendicular to at a cartesian on this triaxial's surface.
+        '''Get a 3-D vector at a cartesian on and perpendicular to this triaxial's surface.
 
            @arg x_xyz: X component (C{scalar}) or a cartesian (C{Cartesian},
                        L{Ecef9Tuple}, L{Vector3d}, L{Vector3Tuple} or L{Vector4Tuple}).
@@ -436,6 +432,8 @@ class Triaxial_(_NamedEnumItem):
 
            @return: A C{Vector3d(x_, y_, z_)} normalized to B{C{length}}, pointing
                     in- or outward for neg- respectively positive B{C{length}}.
+
+           @raise TriaxialError: Zero length cartesian or vector.
 
            @note: Cartesian location C{(B{x}, B{y}, B{z})} must be on this triaxial's
                   surface, use method L{Triaxial.sideOf} to validate.
@@ -476,7 +474,7 @@ class Triaxial_(_NamedEnumItem):
 
     @Property_RO
     def _ordered4(self):
-        '''(INTERNAL) Helper for C{_hartzell2} and C{_normalTo5}.
+        '''(INTERNAL) Helper for C{_hartzell3} and C{_normalTo5}.
         '''
         def _order2(reverse, a, b, c):
             '''(INTERNAL) Un-Order C{a}, C{b} and C{c}.
@@ -537,11 +535,12 @@ class Triaxial_(_NamedEnumItem):
                        L{Ecef9Tuple}, L{Vector3d}, L{Vector3Tuple} or L{Vector4Tuple}).
            @kwarg y: Y component (C{scalar}), required if B{C{x_xyz}} if C{scalar}.
            @kwarg z: Z component (C{scalar}), required if B{C{x_xyz}} if C{scalar}.
-           @kwarg eps: Near surface tolerance(C{scalar}).
+           @kwarg eps: Near-surface tolerance (C{scalar}, distance I{squared}).
 
            @return: C{INT0} if C{(B{x}, B{y}, B{z})} is near this triaxial's surface
-                    within tolerance B{C{eps}}, otherwise a neg- or positive C{float}
-                    if in- respectively outside this triaxial.
+                    within tolerance B{C{eps}}, otherwise a signed, radial, normalized
+                    distance I{squared} (C{float}), negative or positive for in-
+                    respectively outside this triaxial.
 
            @see: Methods L{Triaxial.height4} and L{Triaxial.normal3d}.
         '''
@@ -681,7 +680,7 @@ class Triaxial(Triaxial_):
             sa, ca = SinCos2(beta)
             sb, cb = SinCos2(omega)
 
-            r  =      self._a2b2_a2c2
+            r  = self._a2b2_a2c2
             x *= cb * sqrt0(ca**2 + r * sa**2, Error=TriaxialError)
             y *= ca * sb
             z *= sa * sqrt0(_1_0  - r * cb**2, Error=TriaxialError)
@@ -1048,17 +1047,17 @@ class JacobiConformalSpherical(JacobiConformal):
                   and C{c} are copied.
         '''
         try:
-            r, j = radius_triaxial, False
+            r = radius_triaxial
             if isinstance(r, Triaxial):  # ordered only
-                if (not (ab or bc)) and isinstance(r, JacobiConformalSpherical):
-                    j = True
                 t = r._abc3
+                j = isinstance(r, JacobiConformalSpherical) and not bool(ab or bc)
             else:
                 t = (Radius(radius=r),) * 3
+                j =  False
             self._ab = r.ab if j else Scalar_(ab=ab)  # low=0
             self._bc = r.bc if j else Scalar_(bc=bc)  # low=0
             if (self.ab + self.bc) <= 0:
-                raise ValueError('(ab + bc)')
+                raise ValueError(_negative_)
             a, _,  c = self._abc3 = t
             if not (a >= c and isfinite(self._a2b2)
                            and isfinite(self._a2c2)):
@@ -1155,7 +1154,7 @@ def _getitems(items, *indices):
     return type(items)(map(items.__getitem__, indices))
 
 
-def _hartzell2(pov, los, Tun):  # in .ellipsoids.hartzell4, .formy.hartzell
+def _hartzell3(pov, los, Tun):  # in .ellipsoids.hartzell4, .formy.hartzell
     '''(INTERNAL) Hartzell's "Satellite Line-of-Sight Intersection ...",
        formula from a Point-Of-View to an I{un-/ordered} Triaxial.
     '''
@@ -1167,7 +1166,11 @@ def _hartzell2(pov, los, Tun):  # in .ellipsoids.hartzell4, .formy.hartzell
         return v
 
     p3 = _otherV3d(pov=pov.toCartesian() if isLatLon(pov) else pov)
-    u3 = _toUvwV3d(los, pov) if los else p3.negate()
+    if los is True:  # normal
+        a, b, c, d, i = _normalTo5(p3.x, p3.y, p3.z, Tun)
+        return type(p3)(a, b, c), d, i
+
+    u3 = p3.negate() if los is False or los is None else _toUvwV3d(los, pov)
 
     a, b, c, T = Tun._ordered4
 
@@ -1197,24 +1200,25 @@ def _hartzell2(pov, los, Tun):  # in .ellipsoids.hartzell4, .formy.hartzell
 
     d = Fdot(t, ux, vy, wz).fadd_(r).fover(m)  # -r for antipode, a2 factored out
     if d > 0:  # POV inside or LOS outside or missing the triaxial
-        s = fsumf_(_1_0, x2 / a2, y2 / b2, z2 / c2, _N_2_0)  # like _sideOf
+        s = fsumf_(_N_1_0, x2 / a2, y2 / b2, z2 / c2)  # like _sideOf
         raise _ValueError(_outside_ if s > 0 else _inside_)
     elif fsum1f_(x2, y2, z2) < d**2:  # d past triaxial's center
         raise _ValueError(_too_(_distant_))
 
     v = p3.minus(u3.times(d))  # cartesian type(pov) or Vector3d
     h = p3.minus(v).length  # distance to pov == -d
-    return T._order3d(v, reverse=True), h
+    return T._order3d(v, reverse=True), h, None
 
 
-def hartzell4(pov, los=None, tri_biax=_WGS84, name=NN):
+def hartzell4(pov, los=False, tri_biax=_WGS84, name=NN):
     '''Compute the intersection of a tri-/biaxial ellipsoid and a Line-Of-Sight
        from a Point-Of-View outside.
 
        @arg pov: Point-Of-View outside the tri-/biaxial (C{Cartesian}, L{Ecef9Tuple}
                  C{LatLon} or L{Vector3d}).
-       @kwarg los: Line-Of-Sight, I{direction} to the tri-/biaxial (L{Los}, L{Vector3d})
-                   or C{None} to point to the tri-/biaxial's center.
+       @kwarg los: Line-Of-Sight, I{direction} to the tri-/biaxial (L{Los}, L{Vector3d}),
+                   C{True} for the I{normal, plumb} onto the surface or C{False} or
+                   C{None} to point to the center of the tri-/biaxial.
        @kwarg tri_biax: A triaxial (L{Triaxial}, L{Triaxial_}, L{JacobiConformal} or
                         L{JacobiConformalSpherical}) or biaxial ellipsoid (L{Datum},
                         L{Ellipsoid}, L{Ellipsoid2}, L{a_f2Tuple} or C{scalar} radius,
@@ -1225,29 +1229,29 @@ def hartzell4(pov, los=None, tri_biax=_WGS84, name=NN):
                 the distance from B{C{pov}} to C{(x, y, z)} I{along the} B{C{los}}, all
                 in C{meter}, conventionally.
 
-       @raise TriaxialError: Null B{C{pov}} or B{C{los}}, or B{C{pov}} is inside the
-                             tri-/biaxial or B{C{los}} points outside the tri-/biaxial
-                             or points in an opposite direction.
+       @raise TriaxialError: Invalid B{C{pov}} or B{C{pov}} inside the tri-/biaxial or
+                             invalid B{C{los}} or B{C{los}} points outside or away from
+                             the tri-/biaxial.
 
-       @raise TypeError: Invalid B{C{pov}} or B{C{los}}.
+       @raise TypeError: Invalid B{C{tri_biax}}, C{ellipsoid} or C{datum}.
 
-       @see: Function L{pygeodesy.hartzell}, L{pygeodesy.tyr3d}, class L{pygeodesy.Los}
-             and U{lookAtSpheroid<https://PyPI.org/project/pymap3d>} and U{I{Satellite
-             Line-of-Sight Intersection with Earth}<https://StephenHartzell.Medium.com/
+       @see: Class L{pygeodesy3.Los}, functions L{pygeodesy.tyr3d} and L{pygeodesy.hartzell}
+             and U{lookAtSpheroid<https://PyPI.org/project/pymap3d>} and U{"Satellite
+             Line-of-Sight Intersection with Earth"<https://StephenHartzell.Medium.com/
              satellite-line-of-sight-intersection-with-earth-d786b4a6a9b6>}.
     '''
+    n = hartzell4.__name__
     if isinstance(tri_biax, Triaxial_):
         T = tri_biax
     else:
         D = tri_biax if isinstance(tri_biax, Datum) else \
-                  _spherical_datum(tri_biax, name=hartzell4.__name__)
+                  _spherical_datum(tri_biax, name=n)
         T = D.ellipsoid._triaxial
-
     try:
-        v, h = _hartzell2(pov, los, T)
+        v, h, i = _hartzell3(pov, los, T)
     except Exception as x:
         raise TriaxialError(pov=pov, los=los, tri_biax=tri_biax, cause=x)
-    return Vector4Tuple(v.x, v.y, v.z, h, name=name or hartzell4.__name__)
+    return Vector4Tuple(v.x, v.y, v.z, h, iteration=i, name=name or n)
 
 
 def _hypot21(x, y, z=0):
@@ -1277,14 +1281,14 @@ def _normalTo4(x, y, a, b, eps=EPS):
             u = _a(x / a)
             v = _a(y / b)
             g = _hypot21(u, v)
-            if g:
-                r = (a / b)**2
-                t, i = _rootXd(r, 0, u, 0, v, g, eps)
-                a = x / (t / r + _1_0)
+            if _a(g) < EPS02:  # on the ellipse
+                a, b, d = x, y, _0_0
+            else:
+                r = (b / a)**2
+                t, i = _rootXd(_1_0 / r, 0, u, 0, v, g, eps)
+                a = x / (t * r + _1_0)
                 b = y / (t     + _1_0)
                 d = hypot(x - a, y - b)
-            else:  # on the ellipse
-                a, b, d = x, y, _0_0
         else:  # x == 0
             if y < 0:
                 b = -b
@@ -1296,8 +1300,13 @@ def _normalTo4(x, y, a, b, eps=EPS):
         if d > _a(n):  # PYCHOK no cover
             r  = n / d
             a *= r
-            b *= sqrt(_1_0 - r**2)
-            d  = hypot(x - a, b)
+            r = _1_0 - r**2
+            if r > EPS02:
+                b *= sqrt(r)
+                d  = hypot(x - a, b)
+            else:
+                b = _0_0
+                d = _a(x - a)
         else:
             if x < 0:
                 a = -a
@@ -1323,7 +1332,7 @@ def _normalTo5(x, y, z, Tun, eps=EPS):  # MCCABE 19
     if eps > 0:
         val = max(eps * 1e8, EPS)
     else:  # no validation
-        val, eps = 0, -eps
+        val, eps = 0, max(EPS0, -eps)
 
     i, _a = None, fabs
     if z:
@@ -1333,7 +1342,9 @@ def _normalTo5(x, y, z, Tun, eps=EPS):  # MCCABE 19
                 v = _a(y / b)
                 w = _a(z / c)
                 g = _hypot21(u, v, w)
-                if g:
+                if _a(g) < EPS02:  # on the ellipsoid
+                    a, b, c, d = x, y, z, _0_0
+                else:
                     r = T._1e2ac  # (c / a)**2
                     s = T._1e2bc  # (c / b)**2
                     t, i = _rootXd(_1_0 / r, _1_0 / s, u, v, w, g, eps)
@@ -1341,8 +1352,6 @@ def _normalTo5(x, y, z, Tun, eps=EPS):  # MCCABE 19
                     b = y / (t * s + _1_0)
                     c = z / (t     + _1_0)
                     d = hypot_(x - a, y - b, z - c)
-                else:  # on the ellipsoid
-                    a, b, c, d = x, y, z, _0_0
             else:  # x == 0
                 a          =  x  # 0
                 b, c, d, i = _normalTo4(y, z, b, c, eps=eps)
@@ -1405,23 +1414,23 @@ def _rootXd(r, s, u, v, w, g, eps):
        @see: I{Eberly}'s U{Robust Root Finders ...<https://www.GeometricTools.com/
              Documentation/DistancePointEllipseEllipsoid.pdf>}.
     '''
-    _1, __2 = _1_0, _0_5
-    _a, _h2 = fabs, _hypot21
+    _1, __2  = _1_0, _0_5
+    _a, _h21 = fabs, _hypot21
 
     u *=  r
     v *=  s  # 0 for 2d-root
     t0 =  w - _1
-    t1 = _0_0 if g < 0 else _h2(u, w, v)
+    t1 = _0_0 if g < 0 else (hypot_(u, w, v) - _1)
     # assert t0 <= t1
-    for i in range(1, _TRIPS):  # 52-58
+    for i in range(1, _TRIPS):  # 48-55
         e = _a(t0 - t1)
         if e < eps:
             break
         t = (t0 + t1) * __2
         if t in (t0, t1):
             break
-        g = _h2(u / (t + r), w / (t + _1),
-               (v / (t + s)) if v else 0)
+        g = _h21(u / (t + r), w / (t + _1),
+                (v / (t + s)) if v else 0)
         if g > 0:
             t0 = t
         elif g < 0:
@@ -1434,13 +1443,13 @@ def _rootXd(r, s, u, v, w, g, eps):
     return t, i
 
 
-def _sideOf(xyz, abc, eps=EPS):  # in .formy
-    '''(INTERNAL) Helper for C{_hartzell2}, M{.sideOf} and M{.reverseCartesian}.
+def _sideOf(xyz, abc, eps=EPS):
+    '''(INTERNAL) Helper for C{_hartzell3}, M{.sideOf} and M{.reverseCartesian}.
 
-       @return: M{sum((x / a)**2 for x, a in zip(xyz, abc)) - 1} or C{INT0},
+       @return: M{sum((x / a)**2 for x, a in zip(xyz, abc)) - 1} or C{INT0}.
     '''
-    s = _hypot21(*((x / a) for x, a in _zip(xyz, abc) if a))  # strict=True
-    return s if fabs(s) > eps else INT0
+    s = fsumf_(_N_1_0, *((x / a)**2 for x, a in _zip(xyz, abc) if a))  # strict=True
+    return INT0 if fabs(s) < eps else s
 
 
 if __name__ == '__main__':

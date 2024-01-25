@@ -63,7 +63,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        24.01.06
+        24.01.19
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -81,20 +81,6 @@
       2-Tuple <code>(ratio, xline)</code> of the <i>radical</i> 
         <code>ratio</code> and <i>radical</i> <code>xline</code>, both 
         <code>scalar</code> and <code>0.0 &lt;= ratio &lt;= 1.0</code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.formy.RThetaPhi3Tuple-class.html" class="summary-name">RThetaPhi3Tuple</a><br />
-      3-Tuple <code>(r, theta, phi)</code> with radial distance 
-        <code>r</code> in <code>meter</code>, inclination 
-        <code>theta</code> (with respect to the positive z-axis) and 
-        azimuthal angle <code>phi</code> in <a 
-        href="pygeodesy.units.Degrees-class.html" class="link">Degrees</a> 
-        <i>or</i> <a href="pygeodesy.units.Radians-class.html" 
-        class="link">Radians</a>.
     </td>
   </tr>
 </table>
@@ -789,7 +775,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.formy-module.html#hartzell" class="summary-sig-name">hartzell</a>(<span class="summary-sig-arg">pov</span>,
-        <span class="summary-sig-arg">los</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">los</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">earth</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">**LatLon_and_kwds</span>)</span><br />
@@ -1233,46 +1219,6 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.formy-module.html#rtp2xyz" class="summary-sig-name">rtp2xyz</a>(<span class="summary-sig-arg">r</span>,
-        <span class="summary-sig-arg">theta</span>,
-        <span class="summary-sig-arg">phi</span>)</span><br />
-      Convert spherical <code>(r, theta, phi)</code> to cartesian <code>(x,
-      y, z)</code> coordinates.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.formy-module.html#rtp2xyz_" class="summary-sig-name">rtp2xyz_</a>(<span class="summary-sig-arg">r</span>,
-        <span class="summary-sig-arg">theta</span>,
-        <span class="summary-sig-arg">phi</span>)</span><br />
-      Convert spherical <code>(r, theta, phi)</code> to cartesian <code>(x,
-      y, z)</code> coordinates.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.formy-module.html#thomas" class="summary-sig-name">thomas</a>(<span class="summary-sig-arg">lat1</span>,
         <span class="summary-sig-arg">lon1</span>,
         <span class="summary-sig-arg">lat2</span>,
@@ -1349,44 +1295,6 @@
       Compute the <i>angular</i> distance between two (spherical) points 
       using <a href="https://WikiPedia.org/wiki/Great-circle_distance" 
       target="_top">Vincenty's</a> spherical formula.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.formy-module.html#xyz2rtp" class="summary-sig-name">xyz2rtp</a>(<span class="summary-sig-arg">x_xyz</span>,
-        <span class="summary-sig-arg">*y_z</span>)</span><br />
-      Convert cartesian <code>(x, y, z)</code> to spherical <code>(r, 
-      theta, phi)</code> coordinates.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.formy-module.html#xyz2rtp_" class="summary-sig-name">xyz2rtp_</a>(<span class="summary-sig-arg">x_xyz</span>,
-        <span class="summary-sig-arg">*y_z</span>)</span><br />
-      Convert cartesian <code>(x, y, z)</code> to spherical <code>(r, 
-      theta, phi)</code> coordinates.</td>
           <td align="right" valign="top">
             
             
@@ -3225,7 +3133,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">hartzell</span>&nbsp;(<span class="sig-arg">pov</span>,
-        <span class="sig-arg">los</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">los</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">earth</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
         <span class="sig-arg">name</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">**LatLon_and_kwds</span>)</span>
@@ -3240,16 +3148,18 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>pov</code></strong> - Point-Of-View outside the earth (<code>Cartesian</code>, <a 
+        <li><strong class="pname"><code>pov</code></strong> - Point-Of-View outside the earth (<code>LatLon</code>, 
+          <code>Cartesian</code>, <a 
           href="pygeodesy.ecef.Ecef9Tuple-class.html" 
-          class="link">Ecef9Tuple</a> <code>LatLon</code> or <a 
+          class="link">Ecef9Tuple</a> or <a 
           href="pygeodesy.vector3d.Vector3d-class.html" 
           class="link">Vector3d</a>).</li>
         <li><strong class="pname"><code>los</code></strong> - Line-Of-Sight, <i>direction</i> to earth (<a 
           href="pygeodesy.ltpTuples.Los-class.html" class="link">Los</a>, 
           <a href="pygeodesy.vector3d.Vector3d-class.html" 
-          class="link">Vector3d</a>) or <code>None</code> to point to the 
-          earth' center.</li>
+          class="link">Vector3d</a>), <code>True</code> for the <i>normal, 
+          plumb</i> onto the surface or <code>False</code> or 
+          <code>None</code> to point to the center of the earth.</li>
         <li><strong class="pname"><code>earth</code></strong> - The earth model (<a href="pygeodesy.datums.Datum-class.html" 
           class="link">Datum</a>, <a 
           href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
@@ -3257,44 +3167,40 @@
           href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
           class="link">Ellipsoid2</a>, <a 
           href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
-          class="link">a_f2Tuple</a> or <code>scalar</code> radius in 
-          <code>meter</code>).</li>
+          class="link">a_f2Tuple</a> or a <code>scalar</code> earth radius 
+          in <code>meter</code>).</li>
         <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
-        <li><strong class="pname"><code>LatLon_and_kwds</code></strong> - Optional <code>LatLon</code> class for the intersection point 
-          plus <code>LatLon</code> keyword arguments, include 
-          <b><code>datum</code></b> if different from 
+        <li><strong class="pname"><code>LatLon_and_kwds</code></strong> - Optional <code><b>LatLon</b>=None</code> class to return the 
+          intersection plus additional <code>LatLon</code> keyword 
+          arguments, include <b><code>datum</code></b> if different from 
           <b><code>earth</code></b>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The intersection point (<a 
+        <dd>The intersection (<a 
           href="pygeodesy.vector3d.Vector3d-class.html" 
-          class="link">Vector3d</a>, the <code>Cartesian type</code> of 
-          <b><code>pov</code></b> or the given 
-          <code><b>LatLon</b>_and_kwds</code>) with <code>.heigth</code> 
-          set to the distance to the <b><code>pov</code></b>.</dd>
+          class="link">Vector3d</a>, <b><code>pov</code></b>'s 
+          <code>cartesian type</code> or the given 
+          <b><code>LatLon</code></b> instance) with attribute 
+          <code>heigth</code> set to the distance to the 
+          <b><code>pov</code></b>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - Null <b><code>pov</code></b> or <b><code>los</code></b> vector, 
-        <b><code>pov</code></b> is inside the earth or 
-        <b><code>los</code></b> points outside the earth or points in an 
-        opposite direction.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>pov</code></b>, <b><code>los</code></b> or 
-        <b><code>earth</code></b>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - Invalid <b><code>pov</code></b> or <b><code>pov</code></b> inside 
+        the earth or invalid <b><code>los</code></b> or 
+        <b><code>los</code></b> points outside or away from the earth.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>earth</code></b>, <code>ellipsoid</code> or 
+        <code>datum</code>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Function <a href="pygeodesy.triaxials-module.html#hartzell4" 
-        class="link">pygeodesy.hartzell4</a>, <a 
-        href="pygeodesy.ltp-module.html#tyr3d" 
-        class="link">pygeodesy.tyr3d</a> for <b><code>los</code></b>, 
-        methods <a 
+        Class <a href="pygeodesy.ltpTuples.Los-class.html" 
+        class="link">Los</a>, functions <a 
+        href="pygeodesy.ltp-module.html#tyr3d" class="link">tyr3d</a> and 
+        <a href="pygeodesy.triaxials-module.html#hartzell4" 
+        class="link">hartzell4</a> and methods <a 
         href="pygeodesy.ellipsoids.Ellipsoid-class.html#hartzell4" 
-        class="link">Ellipsoid.hartzell4</a>, 
-        <code>Cartesian.hartzell</code>, <code>LatLon.hartzell</code> and 
-        <a 
-        href="https://StephenHartzell.Medium.com/satellite-line-of-sight-intersection-with-earth-d786b4a6a9b6"
-        target="_top"><i>Satellite Line-of-Sight Intersection with 
-        Earth</i></a>.
+        class="link">Ellipsoid.hartzell4</a> and any 
+        <code>Cartesian.hartzell</code> and <code>LatLon.hartzell</code>.
       </p>
 </div></td></tr></table>
 </div>
@@ -4255,84 +4161,6 @@
       </p>
 </div></td></tr></table>
 </div>
-<a name="rtp2xyz"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">rtp2xyz</span>&nbsp;(<span class="sig-arg">r</span>,
-        <span class="sig-arg">theta</span>,
-        <span class="sig-arg">phi</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Convert spherical <code>(r, theta, phi)</code> to cartesian <code>(x, 
-  y, z)</code> coordinates.</p>
-  <dl class="fields">
-    <dt>Arguments:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>r</code></strong> - Radial distance (<code>scalar</code>, conventially 
-          <code>meter</code>).</li>
-        <li><strong class="pname"><code>theta</code></strong> - Inclination (<code>degrees</code> with respect to the positive 
-          z-axis).</li>
-        <li><strong class="pname"><code>phi</code></strong> - Azimuthal angle (<code>degrees</code>).</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd><a href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
-          class="link">Vector3Tuple</a><code>(x, y, z)</code> in 
-          <code>meter</code>, same units as <code>r</code>.</dd>
-  </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        Functions <a href="pygeodesy.formy-module.html#rtp2xyz_" 
-        class="link">rtp2xyz_</a> and <a 
-        href="pygeodesy.formy-module.html#xyz2rtp" 
-        class="link">xyz2rtp</a>.
-      </p>
-</div></td></tr></table>
-</div>
-<a name="rtp2xyz_"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">rtp2xyz_</span>&nbsp;(<span class="sig-arg">r</span>,
-        <span class="sig-arg">theta</span>,
-        <span class="sig-arg">phi</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Convert spherical <code>(r, theta, phi)</code> to cartesian <code>(x, 
-  y, z)</code> coordinates.</p>
-  <dl class="fields">
-    <dt>Arguments:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>r</code></strong> - Radial distance (<code>scalar</code>, conventially 
-          <code>meter</code>).</li>
-        <li><strong class="pname"><code>theta</code></strong> - Inclination (<code>radians</code> with respect to the positive 
-          z-axis).</li>
-        <li><strong class="pname"><code>phi</code></strong> - Azimuthal angle (<code>radians</code>).</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd><a href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
-          class="link">Vector3Tuple</a><code>(x, y, z)</code> in 
-          <code>meter</code>, same units as <code>r</code>.</dd>
-  </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        <a href="https://WikiPedia.org/wiki/Spherical_coordinate_system" 
-        target="_top">Physics</a> convention (ISO 80000-2:2019).
-      </p>
-</div></td></tr></table>
-</div>
 <a name="thomas"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -4639,91 +4467,6 @@
       </p>
 </div></td></tr></table>
 </div>
-<a name="xyz2rtp"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">xyz2rtp</span>&nbsp;(<span class="sig-arg">x_xyz</span>,
-        <span class="sig-arg">*y_z</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Convert cartesian <code>(x, y, z)</code> to spherical <code>(r, theta,
-  phi)</code> coordinates.</p>
-  <dl class="fields">
-    <dt>Returns:</dt>
-        <dd><a href="pygeodesy.formy.RThetaPhi3Tuple-class.html" 
-          class="link">RThetaPhi3Tuple</a><code>(r, theta, phi)</code> with
-          <code>theta</code> and <code>phi</code> both in <a 
-          href="pygeodesy.units.Degrees-class.html" 
-          class="link">Degrees</a>.</dd>
-  </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        Function <a href="pygeodesy.formy-module.html#xyz2rtp_" 
-        class="link">xyz2rtp_</a>, class <a 
-        href="pygeodesy.formy.RThetaPhi3Tuple-class.html" 
-        class="link">RThetaPhi3Tuple</a> and method <code>toDegrees</code> 
-        thereof.
-      </p>
-</div></td></tr></table>
-</div>
-<a name="xyz2rtp_"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">xyz2rtp_</span>&nbsp;(<span class="sig-arg">x_xyz</span>,
-        <span class="sig-arg">*y_z</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Convert cartesian <code>(x, y, z)</code> to spherical <code>(r, theta,
-  phi)</code> coordinates.</p>
-  <dl class="fields">
-    <dt>Arguments:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>x_xyz</code></strong> - X component (<code>scalar</code>) or a cartesian 
-          (<code>Cartesian</code>, <a 
-          href="pygeodesy.ecef.Ecef9Tuple-class.html" 
-          class="link">Ecef9Tuple</a>, <code>Nvector</code>, <a 
-          href="pygeodesy.vector3d.Vector3d-class.html" 
-          class="link">Vector3d</a>, <a 
-          href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
-          class="link">Vector3Tuple</a>, <a 
-          href="pygeodesy.namedTuples.Vector4Tuple-class.html" 
-          class="link">Vector4Tuple</a> or a <code>tuple</code> or 
-          <code>list</code> of 3+ <code>scalar</code> items) if no 
-          <code>y_z</code> specified.</li>
-        <li><strong class="pname"><code>y_z</code></strong> - Y and Z component (<code>scalar</code>s), ignored if 
-          <code>x_xyz</code> is not a <code>scalar</code>.</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd><a href="pygeodesy.formy.RThetaPhi3Tuple-class.html" 
-          class="link">RThetaPhi3Tuple</a><code>(r, theta, phi)</code> with
-          radial distance <code>r</code> (<code>meter</code>, same units as
-          <code>x</code>, <code>y</code> and <code>z</code>), inclination 
-          <code>theta</code> (with respect to the positive z-axis) and 
-          azimuthal angle <code>phi</code> both in <a 
-          href="pygeodesy.units.Radians-class.html" 
-          class="link">Radians</a>.</dd>
-  </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        <a href="https://WikiPedia.org/wiki/Spherical_coordinate_system" 
-        target="_top">Physics</a> convention (ISO 80000-2:2019).
-      </p>
-</div></td></tr></table>
-</div>
 <br />
 <!-- ==================== NAVIGATION BAR ==================== -->
 <table class="navbar" border="0" width="100%" cellpadding="0"
@@ -4756,7 +4499,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Jan 10 13:55:27 2024
+    Generated by Epydoc 3.0.1 on Thu Jan 25 16:45:44 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

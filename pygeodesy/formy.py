@@ -8,7 +8,7 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 
 # from pygeodesy.cartesianBase import CartesianBase  # _MODS
 from pygeodesy.constants import EPS, EPS0, EPS1, PI, PI2, PI3, PI_2, R_M, \
-                               _isfinite, float0_, isnon0, remainder, _umod_PI2, \
+                               _umod_PI2, float0_, isnon0, remainder, \
                                _0_0, _0_125, _0_25, _0_5, _1_0, _2_0, _4_0, \
                                _32_0, _90_0, _180_0, _360_0
 from pygeodesy.datums import Datum, Ellipsoid, _ellipsoidal_datum, \
@@ -17,19 +17,18 @@ from pygeodesy.datums import Datum, Ellipsoid, _ellipsoidal_datum, \
 from pygeodesy.errors import IntersectionError, LimitError, limiterrors, \
                             _TypeError, _ValueError, _xattr, _xError, \
                             _xkwds, _xkwds_pop
-from pygeodesy.fmath import euclid, hypot, hypot_, hypot2, sqrt0
+from pygeodesy.fmath import euclid, hypot, hypot2, sqrt0
 from pygeodesy.fsums import fsumf_
-from pygeodesy.interns import NN, _delta_, _distant_, _inside_, _phi_, _SPACE_, _too_
+from pygeodesy.interns import NN, _delta_, _distant_, _inside_, _SPACE_, _too_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
-from pygeodesy.named import _NamedTuple, _Pass, _xnamed,  Fmt, unstr
+from pygeodesy.named import _NamedTuple, _xnamed,  Fmt, unstr
 from pygeodesy.namedTuples import Bearing2Tuple, Distance4Tuple, Intersection3Tuple, \
                                   LatLon2Tuple, PhiLam2Tuple, Vector3Tuple
 # from pygeodesy.streprs import Fmt, unstr  # from .named
 # from pygeodesy.triaxials import _hartzell2  # _MODS
 from pygeodesy.units import _isHeight, _isRadius, Bearing, Degrees_, Distance, \
-                             Distance_, Height, Lam_, Lat, Lon, Meter, Meter_, \
-                             Phi_, Radians, Radians_, Radius, Radius_, Scalar, \
-                             _toDegrees, _toRadians, _100km
+                             Distance_, Height, Lam_, Lat, Lon, Meter_,  Phi_, \
+                             Radians, Radians_, Radius, Radius_, Scalar, _100km
 from pygeodesy.utily import acos1, atan2b, atan2d, degrees2m, _loneg, m2degrees, \
                             tan_2, sincos2, sincos2_, sincos2d_, _Wrap
 # from pygeodesy.vector3d import _otherV3d  # _MODS
@@ -41,13 +40,11 @@ from contextlib import contextmanager
 from math import asin, atan, atan2, cos, degrees, fabs, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '24.01.06'
+__version__ = '24.01.19'
 
-_D2_R2  = (PI / _180_0)**2  # degrees- to radians-squared
-_r_     = 'r'
-_ratio_ = 'ratio'
-_theta_ = 'theta'
-_xline_ = 'xline'
+_RADIANS2 = (PI / _180_0)**2  # degrees- to radians-squared
+_ratio_   = 'ratio'
+_xline_   = 'xline'
 
 
 def _anti2(a, b, n_2, n, n2):
@@ -455,7 +452,7 @@ def _equirectangular(lat1, lon1, lat2, lon2, **adjust_limit_wrap):
     '''(INTERNAL) Helper for the L{frechet._FrecherMeterRadians}
        and L{hausdorff._HausdorffMeterRedians} classes.
     '''
-    return equirectangular_(lat1, lon1, lat2, lon2, **adjust_limit_wrap).distance2 * _D2_R2
+    return equirectangular_(lat1, lon1, lat2, lon2, **adjust_limit_wrap).distance2 * _RADIANS2
 
 
 def equirectangular_(lat1, lon1, lat2, lon2, adjust=True, limit=45, wrap=False):
@@ -937,67 +934,67 @@ def flatPolar_(phi2, phi1, lam21):
     return a
 
 
-def _hartzell(inst, los, earth, **kwds):
+def _hartzell(pov, los, earth, **kwds):
     '''(INTERNAL) Helper for C{CartesianBase.hartzell} and C{LatLonBase.hartzell}.
     '''
-    if earth is not None:
-        earth = _spherical_datum(earth, name=hartzell.__name__)
-        inst  =  inst.toDatum(earth)
-    h = inst.height
-    if h > 0:  # EPS0
-        r = hartzell(inst, los=los, earth=earth or inst.datum, **kwds)
-    elif h < 0:  # EPS0
-        raise IntersectionError(pov=inst, los=los, height=h, txt=_inside_)
+    if earth is None:
+        earth =  pov.datum
     else:
-        r = inst
-    return r
+        earth = _spherical_datum(earth, name=hartzell.__name__)
+        pov   =  pov.toDatum(earth)
+    h = pov.height
+    if h < 0:  # EPS0
+        t = _SPACE_(Fmt.PARENSPACED(height=h), _inside_)
+        raise IntersectionError(pov=pov, earth=earth, txt=t)
+    return hartzell(pov, los=los, earth=earth, **kwds) if h > 0 else pov  # EPS0
 
 
-def hartzell(pov, los=None, earth=_WGS84, name=NN, **LatLon_and_kwds):
-    '''Compute the intersection of the earth's surface and a Line-Of-Sight
-       from a Point-Of-View in space.
+def hartzell(pov, los=False, earth=_WGS84, name=NN, **LatLon_and_kwds):
+    '''Compute the intersection of the earth's surface and a Line-Of-Sight from
+       a Point-Of-View in space.
 
-       @arg pov: Point-Of-View outside the earth (C{Cartesian}, L{Ecef9Tuple}
-                 C{LatLon} or L{Vector3d}).
-       @kwarg los: Line-Of-Sight, I{direction} to earth (L{Los}, L{Vector3d})
-                   or C{None} to point to the earth' center.
+       @arg pov: Point-Of-View outside the earth (C{LatLon}, C{Cartesian},
+                 L{Ecef9Tuple} or L{Vector3d}).
+       @kwarg los: Line-Of-Sight, I{direction} to earth (L{Los}, L{Vector3d}),
+                   C{True} for the I{normal, plumb} onto the surface or
+                   C{False} or C{None} to point to the center of the earth.
        @kwarg earth: The earth model (L{Datum}, L{Ellipsoid}, L{Ellipsoid2},
-                     L{a_f2Tuple} or C{scalar} radius in C{meter}).
+                     L{a_f2Tuple} or a C{scalar} earth radius in C{meter}).
        @kwarg name: Optional name (C{str}).
-       @kwarg LatLon_and_kwds: Optional C{LatLon} class for the intersection
-                               point plus C{LatLon} keyword arguments, include
-                               B{C{datum}} if different from B{C{earth}}.
+       @kwarg LatLon_and_kwds: Optional C{B{LatLon}=None} class to return the
+                               intersection plus additional C{LatLon} keyword
+                               arguments, include B{C{datum}} if different
+                               from B{C{earth}}.
 
-       @return: The intersection point (L{Vector3d}, the C{Cartesian type} of
-                B{C{pov}} or the given C{B{LatLon}_and_kwds}) with C{.heigth}
-                set to the distance to the B{C{pov}}.
+       @return: The intersection (L{Vector3d}, B{C{pov}}'s C{cartesian type} or
+                the given B{C{LatLon}} instance) with attribute C{heigth} set
+                to the distance to the B{C{pov}}.
 
-       @raise IntersectionError: Null B{C{pov}} or B{C{los}} vector, B{C{pov}}
-                                 is inside the earth or B{C{los}} points outside
-                                 the earth or points in an opposite direction.
+       @raise IntersectionError: Invalid B{C{pov}} or B{C{pov}} inside the earth or
+                                 invalid B{C{los}} or B{C{los}} points outside or
+                                 away from the earth.
 
-       @raise TypeError: Invalid B{C{pov}}, B{C{los}} or B{C{earth}}.
+       @raise TypeError: Invalid B{C{earth}}, C{ellipsoid} or C{datum}.
 
-       @see: Function L{pygeodesy.hartzell4}, L{pygeodesy.tyr3d} for B{C{los}},
-             methods L{Ellipsoid.hartzell4}, C{Cartesian.hartzell}, C{LatLon.hartzell}
-             and U{I{Satellite Line-of-Sight Intersection with Earth}<https://
-             StephenHartzell.Medium.com/satellite-line-of-sight-intersection-with-earth-d786b4a6a9b6>}.
+       @see: Class L{Los}, functions L{tyr3d} and L{hartzell4} and methods
+             L{Ellipsoid.hartzell4} and any C{Cartesian.hartzell} and C{LatLon.hartzell}.
     '''
     n = hartzell.__name__
-    D = earth if isinstance(earth, Datum) else \
-           _spherical_datum(earth, name=n)
+    D = earth if isinstance(earth, Datum) else _spherical_datum(earth, name=n)
     try:
-        r, h = _MODS.triaxials._hartzell2(pov, los, D.ellipsoid._triaxial)
-    except Exception as x:
-        raise IntersectionError(pov=pov, los=los, earth=earth, cause=x)
+        r, h, i = _MODS.triaxials._hartzell3(pov, los, D.ellipsoid._triaxial)
 
-    r = _xnamed(r, name or n)
-    C = _MODS.cartesianBase.CartesianBase
-    if LatLon_and_kwds:
-        c = C(r, datum=D, name=r.name)
-        r = c.toLatLon(**_xkwds(LatLon_and_kwds, height=h))
-    elif isinstance(r, C):
-        r.height = h
+        r = _xnamed(r, name or n)
+        C = _MODS.cartesianBase.CartesianBase
+        if LatLon_and_kwds:
+            c = C(r, datum=D, name=r.name)
+            r = c.toLatLon(**_xkwds(LatLon_and_kwds, height=h))
+        elif isinstance(r, C):
+            r.height = h
+        if i:
+            r._iteration = i
+    except Exception as x:
+        raise IntersectionError(pov=pov, los=los, earth=earth, cause=x, **LatLon_and_kwds)
     return r
 
 
@@ -1637,43 +1634,6 @@ def _radistance(inst):
     return _func_wrap
 
 
-def rtp2xyz(r, theta, phi):
-    '''Convert spherical C{(r, theta, phi)} to cartesian C{(x, y, z)} coordinates.
-
-       @arg r: Radial distance (C{scalar}, conventially C{meter}).
-       @arg theta: Inclination (C{degrees} with respect to the positive z-axis).
-       @arg phi: Azimuthal angle (C{degrees}).
-
-       @return: L{Vector3Tuple}C{(x, y, z)} in C{meter}, same units as C{r}.
-
-       @see: Functions L{rtp2xyz_} and L{xyz2rtp}.
-    '''
-    return rtp2xyz_(r, radians(theta), radians(phi))
-
-
-def rtp2xyz_(r, theta, phi):
-    '''Convert spherical C{(r, theta, phi)} to cartesian C{(x, y, z)} coordinates.
-
-       @arg r: Radial distance (C{scalar}, conventially C{meter}).
-       @arg theta: Inclination (C{radians} with respect to the positive z-axis).
-       @arg phi: Azimuthal angle (C{radians}).
-
-       @return: L{Vector3Tuple}C{(x, y, z)} in C{meter}, same units as C{r}.
-
-       @see: U{Physics<https://WikiPedia.org/wiki/Spherical_coordinate_system>}
-             convention (ISO 80000-2:2019).
-    '''
-    if r and _isfinite(r):
-        s, z, y, x = sincos2_(theta, phi)
-        s *= r
-        x *= s
-        y *= s
-        z *= r
-    else:
-        x = y = z = r
-    return Vector3Tuple(x, y, z)
-
-
 def _scale_deg(lat1, lat2):  # degrees
     # scale factor cos(mean of lats) for delta lon
     m = fabs(lat1 + lat2) * _0_5
@@ -1835,71 +1795,6 @@ def vincentys_(phi2, phi1, lam21):
     x = s1 * s2 + c1 * c
     y = c1 * s2 - s1 * c
     return atan2(hypot(c2 * s21, y), x)
-
-
-class RThetaPhi3Tuple(_NamedTuple):
-    '''3-Tuple C{(r, theta, phi)} with radial distance C{r} in C{meter},
-       inclination C{theta} (with respect to the positive z-axis) and
-       azimuthal angle C{phi} in L{Degrees} I{or} L{Radians}.
-    '''
-    _Names_ = (_r_,    _theta_, _phi_)
-    _Units_ = ( Meter, _Pass,   _Pass)
-
-    def toDegrees(self):
-        '''Convert this L{RThetaPhi3Tuple}'s angles to L{Degrees}.
-
-           @return: L{RThetaPhi3Tuple}C{(r, theta, phi)} with C{theta} and C{phi}
-                    both in L{Degrees}.
-        '''
-        t, p, _ = _toDegrees(self, self.theta, self.phi)  # PYCHOK named
-        return _ or self.classof(self.r, t, p, name=self.name)  # PYCHOK named
-
-    def toRadians(self):
-        '''Convert this L{RThetaPhi3Tuple}'s angles to L{Radians}.
-
-           @return: L{RThetaPhi3Tuple}C{(r, theta, phi)} with C{theta} and C{phi}
-                    both in L{Radians}.
-        '''
-        t, p, _ = _toRadians(self, self.theta, self.phi)  # PYCHOK named
-        return _ or self.classof(self.r, t, p, name=self.name)  # PYCHOK named
-
-
-def xyz2rtp(x_xyz, *y_z):
-    '''Convert cartesian C{(x, y, z)} to spherical C{(r, theta, phi)} coordinates.
-
-       @return: L{RThetaPhi3Tuple}C{(r, theta, phi)} with C{theta} and C{phi} both in
-                L{Degrees}.
-
-       @see: Function L{xyz2rtp_}, class L{RThetaPhi3Tuple} and method C{toDegrees} thereof.
-    '''
-    return xyz2rtp_(x_xyz, *y_z).toDegrees()
-
-
-def xyz2rtp_(x_xyz, *y_z):
-    '''Convert cartesian C{(x, y, z)} to spherical C{(r, theta, phi)} coordinates.
-
-       @arg x_xyz: X component (C{scalar}) or a cartesian (C{Cartesian}, L{Ecef9Tuple},
-                   C{Nvector}, L{Vector3d}, L{Vector3Tuple}, L{Vector4Tuple} or a
-                   C{tuple} or C{list} of 3+ C{scalar} items) if no C{y_z} specified.
-       @arg y_z: Y and Z component (C{scalar}s), ignored if C{x_xyz} is not a C{scalar}.
-
-       @return: L{RThetaPhi3Tuple}C{(r, theta, phi)} with radial distance C{r} (C{meter},
-                same units as C{x}, C{y} and C{z}), inclination C{theta} (with respect to
-                the positive z-axis) and azimuthal angle C{phi} both in L{Radians}.
-
-       @see: U{Physics<https://WikiPedia.org/wiki/Spherical_coordinate_system>}
-             convention (ISO 80000-2:2019).
-    '''
-    x, y, z = _MODS.vector3dBase._xyz3(xyz2rtp, x_xyz, *y_z)
-    r = hypot_(x, y, z)
-    if r:
-        t = acos1(z / r)
-        p = atan2(y, x)
-        if p < 0:
-            p += PI2
-    else:
-        t = p = _0_0
-    return RThetaPhi3Tuple(r, Radians(theta=t), Radians(phi=p))
 
 # **) MIT License
 #

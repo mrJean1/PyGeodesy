@@ -93,7 +93,7 @@
         interpretation</a>.
       </p>
       <p><strong>Version:</strong>
-        24.01.06
+        24.01.21
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -203,7 +203,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.triaxials-module.html#hartzell4" class="summary-sig-name">hartzell4</a>(<span class="summary-sig-arg">pov</span>,
-        <span class="summary-sig-arg">los</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">los</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">tri_biax</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
       Compute the intersection of a tri-/biaxial ellipsoid and a 
@@ -389,7 +389,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">hartzell4</span>&nbsp;(<span class="sig-arg">pov</span>,
-        <span class="sig-arg">los</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">los</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">tri_biax</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
         <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
   </h3>
@@ -411,8 +411,9 @@
         <li><strong class="pname"><code>los</code></strong> - Line-Of-Sight, <i>direction</i> to the tri-/biaxial (<a 
           href="pygeodesy.ltpTuples.Los-class.html" class="link">Los</a>, 
           <a href="pygeodesy.vector3d.Vector3d-class.html" 
-          class="link">Vector3d</a>) or <code>None</code> to point to the 
-          tri-/biaxial's center.</li>
+          class="link">Vector3d</a>), <code>True</code> for the <i>normal, 
+          plumb</i> onto the surface or <code>False</code> or 
+          <code>None</code> to point to the center of the tri-/biaxial.</li>
         <li><strong class="pname"><code>tri_biax</code></strong> - A triaxial (<a href="pygeodesy.triaxials.Triaxial-class.html" 
           class="link">Triaxial</a>, <a 
           href="pygeodesy.triaxials.Triaxial_-class.html" 
@@ -441,25 +442,26 @@
           conventionally.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.triaxials.TriaxialError-class.html">TriaxialError</a></strong></code> - Null <b><code>pov</code></b> or <b><code>los</code></b>, or 
-        <b><code>pov</code></b> is inside the tri-/biaxial or 
-        <b><code>los</code></b> points outside the tri-/biaxial or points 
-        in an opposite direction.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>pov</code></b> or <b><code>los</code></b>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.triaxials.TriaxialError-class.html">TriaxialError</a></strong></code> - Invalid <b><code>pov</code></b> or <b><code>pov</code></b> inside 
+        the tri-/biaxial or invalid <b><code>los</code></b> or 
+        <b><code>los</code></b> points outside or away from the 
+        tri-/biaxial.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>tri_biax</code></b>, <code>ellipsoid</code> or 
+        <code>datum</code>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Function <a href="pygeodesy.formy-module.html#hartzell" 
-        class="link">pygeodesy.hartzell</a>, <a 
+        Class <a href="pygeodesy.ltpTuples.Los-class.html" 
+        class="link">pygeodesy3.Los</a>, functions <a 
         href="pygeodesy.ltp-module.html#tyr3d" 
-        class="link">pygeodesy.tyr3d</a>, class <a 
-        href="pygeodesy.ltpTuples.Los-class.html" 
-        class="link">pygeodesy.Los</a> and <a 
+        class="link">pygeodesy.tyr3d</a> and <a 
+        href="pygeodesy.formy-module.html#hartzell" 
+        class="link">pygeodesy.hartzell</a> and <a 
         href="https://PyPI.org/project/pymap3d" 
         target="_top">lookAtSpheroid</a> and <a 
         href="https://StephenHartzell.Medium.com/satellite-line-of-sight-intersection-with-earth-d786b4a6a9b6"
-        target="_top"><i>Satellite Line-of-Sight Intersection with 
-        Earth</i></a>.
+        target="_top">&quot;Satellite Line-of-Sight Intersection with 
+        Earth&quot;</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -495,7 +497,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Jan 10 13:55:27 2024
+    Generated by Epydoc 3.0.1 on Thu Jan 25 16:45:45 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

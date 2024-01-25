@@ -18,12 +18,11 @@ from pygeodesy.cartesianBase import CartesianBase  # PYCHOK used!
 from pygeodesy.datums import Datum, Datums, _earth_ellipsoid, _ellipsoidal_datum, \
                             _WGS84,  _EWGS84, _xinstanceof  # _spherical_datum
 # from pygeodesy.ellipsoids import _EWGS84  # from .datums
-from pygeodesy.errors import _incompatible, _IsnotError, RangeError, TRFError, \
-                             _TypeError, _ValueError, _xattr, _xellipsoidal, \
-                             _xError, _xkwds, _xkwds_get, _xkwds_not
+from pygeodesy.errors import _incompatible, _IsnotError, RangeError, _TypeError, \
+                             _ValueError, _xattr, _xellipsoidal, _xError, _xkwds, \
+                             _xkwds_get, _xkwds_not
 # from pygeodesy.fmath import favg  # _MODS
-from pygeodesy.interns import MISSING, NN, _COMMA_, _conversion_, _DOT_, \
-                             _ellipsoidal_, _no_, _reframe_, _SPACE_
+from pygeodesy.interns import NN, _COMMA_, _ellipsoidal_
 from pygeodesy.latlonBase import LatLonBase, _trilaterate5,  fabs, _Wrap
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 # from pygeodesy.lcc import toLcc  # _MODS
@@ -31,20 +30,44 @@ from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 # from pygeodesy.namedTuples import Vector3Tuple  # _MODS
 from pygeodesy.props import deprecated_method, deprecated_property_RO, \
                             Property_RO, property_doc_, property_RO, _update_all
+# from pygeodesy.trf import _epochTransforms2  # _MODS
 from pygeodesy.units import Epoch, _isDegrees, Radius_, _1mm as _TOL_M
 # from pygeodesy.utily import _Wrap  # from .latlonBase
 
 # from math import fabs  # from .latlonBase
 
 __all__ = _ALL_LAZY.ellipsoidalBase
-__version__ = '23.12.18'
+__version__ = '24.01.24'
 
 
 class CartesianEllipsoidalBase(CartesianBase):
     '''(INTERNAL) Base class for ellipsoidal C{Cartesian}s.
     '''
     _datum   = _WGS84  # L{Datum}
-    _reframe =  None
+    _epoch   =  None   # overriding .reframe.epoch (C{float})
+    _reframe =  None   # reference frame (L{RefFrame})
+
+    def __init__(self, x_xyz, y=None, z=None, datum=None, reframe=None,
+                                              epoch=None, ll=None, name=NN):
+        '''New ellispoidal C{Cartesian...}.
+
+           @kwarg reframe: Optional reference frame (L{RefFrame}).
+           @kwarg epoch: Optional epoch to observe for B{C{reframe}} (C{scalar}),
+                         a non-zero, fractional calendar year; silently ignored
+                         if C{B{reframe}=None}.
+
+           @raise TypeError: Non-scalar B{C{x_xyz}}, B{C{y}} or B{C{z}} coordinate
+                             or B{C{x_xyz}} not a C{Cartesian} L{Ecef9Tuple},
+                             L{Vector3Tuple} or L{Vector4Tuple} or B{C{datum}} is
+                             not a L{Datum}, B{C{reframe}} is not a L{RefFrame} or
+                             B{C{epoch}} is not C{scalar} non-zero.
+
+           @see: Super-class L{CartesianBase<CartesianBase.__init__>} for more details.
+        '''
+        CartesianBase.__init__(self, x_xyz, y=y, z=z, datum=datum, ll=ll, name=name)
+        if reframe:
+            self.reframe = reframe
+            self.epoch = epoch
 
 #   def __matmul__(self, other):  # PYCHOK Python 3.5+
 #       '''Return C{NotImplemented} for C{c_ = c @ datum}, C{c_ = c @ reframe} and C{c_ = c @ Transform}.
@@ -56,13 +79,28 @@ class CartesianEllipsoidalBase(CartesianBase):
     @deprecated_method
     def convertRefFrame(self, reframe2, reframe, epoch=None):
         '''DEPRECATED, use method L{toRefFrame}.'''
-        return self.toRefFrame(reframe2, reframe, epoch=epoch)
+        return self.toRefFrame(reframe2, reframe=reframe, epoch=epoch)
 
     @property_RO
     def ellipsoidalCartesian(self):
         '''Get this C{Cartesian}'s ellipsoidal class.
         '''
         return type(self)
+
+    @property_doc_(''' this cartesian's observed or C{reframe} epoch (C{float}).''')
+    def epoch(self):
+        '''Get this cartesian's observed or C{reframe} epoch (C{Epoch}) or C{None}.
+        '''
+        return self._epoch or (self.reframe.epoch if self.reframe else None)
+
+    @epoch.setter  # PYCHOK setter!
+    def epoch(self, epoch):
+        '''Set or clear this cartesian's observed epoch, a fractional
+           calendar year (L{Epoch}, C{scalar} or C{str}) or C{None}.
+
+           @raise TRFError: Invalid B{C{epoch}}.
+        '''
+        self._epoch = None if epoch is None else Epoch(epoch)
 
     def intersections2(self, radius, center2, radius2, sphere=True,
                                                        Vector=None, **Vector_kwds):
@@ -123,42 +161,56 @@ class CartesianEllipsoidalBase(CartesianBase):
         '''
         _set_reframe(self, reframe)
 
-    def toRefFrame(self, reframe2, reframe=None, epoch=None):
-        '''Convert this cartesian point from one to an other reference frame.
+    def toLatLon(self, datum=None, height=None, **LatLon_and_kwds):  # PYCHOK signature
+        '''Convert this cartesian to a I{geodetic} (lat-/longitude) point.
+
+           @see: Method L{toLatLon<cartesianBase.CartesianBase.toLatLon>}
+                 for further details.
+        '''
+        kwds = LatLon_and_kwds
+        if kwds:
+            kwds = _xkwds(kwds, reframe=self.reframe, epoch=self.epoch)
+        return CartesianBase.toLatLon(self, datum=datum, height=height, **kwds)
+
+    def toRefFrame(self, reframe2, reframe=None, epoch=None, epoch2=None, name=NN):
+        '''Convert this point to an other reference frame and epoch.
 
            @arg reframe2: Reference frame to convert I{to} (L{RefFrame}).
-           @arg reframe: Reference frame to convert I{from} (L{RefFrame}),
-                         overriding this cartesian's C{reframe}.
-           @kwarg epoch: Optional epoch to observe (C{scalar}, fractional
-                         calendar year), overriding B{C{reframe}}'s epoch.
+           @kwarg reframe: Optional reference frame (L{RefFrame}), overriding this
+                           point's reference frame.
+           @kwarg epoch: Optional epoch (L{Epoch}, C{scalar} or C{str}), overriding
+                         this point's epoch.
+           @kwarg epoch2: Optional epoch to observe I{to} (L{Epoch}, C{scalar} or
+                          C{str}).
+           @kwarg name: Optional name (C{str}), iff converted.
 
-           @return: The converted point (C{Cartesian}) or this point if
-                    conversion is C{nil}.
+           @return: The converted point (ellipsoidal C{Cartesian}) or if conversion
+                    is C{nil}, this point or a copy of this point if the B{C{name}}
+                    is non-empty.
 
-           @raise TRFError: No conversion available from B{C{reframe}}
-                            to B{C{reframe2}} or invalid B{C{epoch}}.
+           @raise TRFError: This point's C{reframe} is not defined, invalid B{C{epoch}}
+                            or B{C{epoch2}} or conversion from this point's C{reframe}
+                            to B{C{reframe2}} is not available.
 
-           @raise TypeError: B{C{reframe2}} or B{C{reframe}} not a
-                             L{RefFrame}.
+           @raise TypeError: B{C{reframe2}} or B{C{reframe}} not a L{RefFrame}.
         '''
-        r = self.reframe if reframe is None else reframe
-        if r in (None, reframe2):
-            xs = None  # XXX _set_reframe(self, reframe2)?
+        e, xs = _MODS.trf._epochTransforms2(self, reframe, epoch, reframe2, epoch2)
+        if xs:
+            r = self.copy(name=name or self.name).toTransforms_(*xs)
+            r.reframe, r.epoch = reframe2, e
         else:
-            trf = _MODS.trf
-            _xinstanceof(trf.RefFrame, reframe2=reframe2, reframe=r)
-            _, xs = trf._reframeTransforms2(reframe2, r, epoch)
-        return self.toTransforms_(*xs) if xs else self
+            r = self.copy(name=name) if name else self
+        return r
 
     def toTransforms_(self, *transforms, **datum):
-        '''Apply none, one or several Helmert transforms.
+        '''Apply none, one or several Helmert transforms to this point.
 
            @arg transforms: Transforms to apply, in order (L{Transform}s).
-           @kwarg datum: Datum for the transformed point (L{Datum}),
-                         overriding this point's datum.
+           @kwarg datum: Datum for the transformed point (L{Datum}), overriding
+                         this point's datum.
 
-           @return: The transformed point (C{Cartesian}) or this point
-                    if the B{C{transforms}} produce the same point.
+           @return: The transformed point (C{Cartesian}) or this point if the
+                    B{C{transforms}} produce the same point.
         '''
         r = self
         if transforms:
@@ -390,14 +442,14 @@ class LatLonEllipsoidalBase(LatLonBase):
 
     @property_doc_(''' this point's observed or C{reframe} epoch (C{float}).''')
     def epoch(self):
-        '''Get this point's observed or C{reframe} epoch (C{float}) or C{None}.
+        '''Get this point's observed or C{reframe} epoch (L{Epoch}) or C{None}.
         '''
         return self._epoch or (self.reframe.epoch if self.reframe else None)
 
     @epoch.setter  # PYCHOK setter!
     def epoch(self, epoch):
         '''Set or clear this point's observed epoch, a fractional
-           calendar year (L{Epoch}, C{scalar}) or C{None}.
+           calendar year (L{Epoch}, C{scalar} or C{str}) or C{None}.
 
            @raise TRFError: Invalid B{C{epoch}}.
         '''
@@ -780,6 +832,18 @@ class LatLonEllipsoidalBase(LatLonBase):
         '''
         return self._scale
 
+    def toCartesian(self, height=None, **Cartesian_and_kwds):  # PYCHOK signature
+        '''Convert this point to cartesian, I{geocentric} coordinates,
+           also known as I{Earth-Centered, Earth-Fixed} (ECEF).
+
+           @see: Method L{toCartesian<latlonBase.LatLonBase.toCartesian>}
+                 for further details.
+        '''
+        kwds = Cartesian_and_kwds
+        if kwds:
+            kwds = _xkwds(kwds, reframe=self.reframe, epoch=self.epoch)
+        return LatLonBase.toCartesian(self, height=height, **kwds)
+
     def toCss(self, **toCss_kwds):
         '''Convert this C{LatLon} point to a Cassini-Soldner location.
 
@@ -874,32 +938,30 @@ class LatLonEllipsoidalBase(LatLonBase):
             r =  self._osgrTM if kTM else self._osgr
         return r
 
-    def toRefFrame(self, reframe2, height=None, name=NN):
-        '''Convert this point to an other reference frame.
+    def toRefFrame(self, reframe2, reframe=None, epoch=None, epoch2=None, height=None, name=NN):
+        '''Convert this point to an other reference frame and epoch.
 
            @arg reframe2: Reference frame to convert I{to} (L{RefFrame}).
-           @kwarg height: Optional height, overriding the converted
-                          height (C{meter}).
+           @kwarg reframe: Optional reference frame (L{RefFrame}), overriding this
+                           point's reference frame.
+           @kwarg epoch: Optional epoch (L{Epoch}, C{scalar} or C{str}), overriding
+                         this point's epoch.
+           @kwarg epoch2: Optional epoch to observe for the converted point (L{Epoch},
+                          C{scalar} or C{str}).
+           @kwarg height: Optional height, overriding the converted height (C{meter}).
            @kwarg name: Optional name (C{str}), iff converted.
 
-           @return: The converted point (ellipsoidal C{LatLon}) or this
-                    point if conversion is C{nil}, or a copy of this
-                    point if the B{C{name}} is non-empty.
+           @return: The converted point (ellipsoidal C{LatLon}) or if conversion is
+                    C{nil}, this point or a copy of this point if the B{C{name}} is
+                    non-empty.
 
-           @raise TRFError: This point's C{reframe} is not defined or
-                            conversion from this point's C{reframe} to
-                            B{C{reframe2}} is not available.
+           @raise TRFError: This point's C{reframe} is not defined, invalid B{C{epoch}}
+                            or B{C{epoch2}} or conversion from this point's C{reframe}
+                            to B{C{reframe2}} is not available.
 
-           @raise TypeError: Invalid B{C{reframe2}}, not a L{RefFrame}.
+           @raise TypeError: B{C{reframe2}} or B{C{reframe}} not a L{RefFrame}.
         '''
-        if not self.reframe:
-            t = _SPACE_(_DOT_(repr(self), _reframe_), MISSING)
-            raise TRFError(_no_(_conversion_), txt=t)
-
-        trf = _MODS.trf
-        trf._xinstanceof(trf.RefFrame, reframe2=reframe2)
-
-        e, xs = trf._reframeTransforms2(reframe2, self.reframe, self.epoch)
+        e, xs = _MODS.trf._epochTransforms2(self, reframe, epoch, reframe2, epoch2)
         if xs:
             c = self.toCartesian().toTransforms_(*xs)
             n = name or self.name
