@@ -31,65 +31,65 @@ Note WGS84(G730/G873/G1150) are coincident with ITRF at 10-centimetre level, see
 to agree at the centimeter level"}, see also U{QPS/Qinsy<https://Confluence.QPS.NL/qinsy/
 en/how-to-deal-with-etrs89-datum-and-time-dependent-transformation-parameters-45353274.html>}.
 
-@var RefFrames.ETRF88: RefFrame(name='ETRF88', epoch=1988, ellipsoid=Ellipsoids.GRS80)
-@var RefFrames.ETRF89: RefFrame(name='ETRF89', epoch=1989, ellipsoid=Ellipsoids.GRS80)
-@var RefFrames.ETRF90: RefFrame(name='ETRF90', epoch=1990, ellipsoid=Ellipsoids.GRS80)
-@var RefFrames.ETRF91: RefFrame(name='ETRF91', epoch=1991, ellipsoid=Ellipsoids.GRS80)
-@var RefFrames.ETRF92: RefFrame(name='ETRF92', epoch=1992, ellipsoid=Ellipsoids.GRS80)
-@var RefFrames.ETRF93: RefFrame(name='ETRF93', epoch=1993, ellipsoid=Ellipsoids.GRS80)
-@var RefFrames.ETRF94: RefFrame(name='ETRF94', epoch=1994, ellipsoid=Ellipsoids.GRS80)
-@var RefFrames.ETRF96: RefFrame(name='ETRF96', epoch=1996, ellipsoid=Ellipsoids.GRS80)
-@var RefFrames.ETRF97: RefFrame(name='ETRF97', epoch=1997, ellipsoid=Ellipsoids.GRS80)
-@var RefFrames.ETRF2000: RefFrame(name='ETRF2000', epoch=2005, ellipsoid=Ellipsoids.GRS80)
-@var RefFrames.ETRF2005: RefFrame(name='ETRF2005', epoch=2005, ellipsoid=Ellipsoids.GRS80)
-@var RefFrames.ETRF2008: RefFrame(name='ETRF2008', epoch=2008, ellipsoid=Ellipsoids.GRS80)
-@var RefFrames.ETRF2014: RefFrame(name='ETRF2014', epoch=2014, ellipsoid=Ellipsoids.GRS80)
-@var RefFrames.GDA94: RefFrame(name='GDA94', epoch=1994, ellipsoid=Ellipsoids.GRS80)
-@var RefFrames.GDA2020: RefFrame(name='GDA2020', epoch=2020, ellipsoid=Ellipsoids.GRS80)
-@var RefFrames.ITRF88: RefFrame(name='ITRF88', epoch=1988, ellipsoid=Ellipsoids.GRS80)
-@var RefFrames.ITRF89: RefFrame(name='ITRF89', epoch=1989, ellipsoid=Ellipsoids.GRS80)
-@var RefFrames.ITRF90: RefFrame(name='ITRF90', epoch=1988, ellipsoid=Ellipsoids.GRS80)
-@var RefFrames.ITRF91: RefFrame(name='ITRF91', epoch=1988, ellipsoid=Ellipsoids.GRS80)
-@var RefFrames.ITRF92: RefFrame(name='ITRF92', epoch=1988, ellipsoid=Ellipsoids.GRS80)
-@var RefFrames.ITRF93: RefFrame(name='ITRF93', epoch=1988, ellipsoid=Ellipsoids.GRS80)
-@var RefFrames.ITRF94: RefFrame(name='ITRF94', epoch=1993, ellipsoid=Ellipsoids.GRS80)
-@var RefFrames.ITRF96: RefFrame(name='ITRF96', epoch=1997, ellipsoid=Ellipsoids.GRS80)
-@var RefFrames.ITRF97: RefFrame(name='ITRF97', epoch=1997, ellipsoid=Ellipsoids.GRS80)
-@var RefFrames.ITRF2000: RefFrame(name='ITRF2000', epoch=1997, ellipsoid=Ellipsoids.GRS80)
-@var RefFrames.ITRF2005: RefFrame(name='ITRF2005', epoch=2000, ellipsoid=Ellipsoids.GRS80)
-@var RefFrames.ITRF2008: RefFrame(name='ITRF2008', epoch=2005, ellipsoid=Ellipsoids.GRS80)
-@var RefFrames.ITRF2014: RefFrame(name='ITRF2014', epoch=2010, ellipsoid=Ellipsoids.GRS80)
-@var RefFrames.ITRF2020: RefFrame(name='ITRF2020', epoch=2015, ellipsoid=Ellipsoids.GRS80)
-@var RefFrames.NAD83: RefFrame(name='NAD83', epoch=1997, ellipsoid=Ellipsoids.GRS80)
-@var RefFrames.WGS84: RefFrame(name='WGS84', epoch=1984, ellipsoid=Ellipsoids.WGS84)
-@var RefFrames.WGS84g1150: RefFrame(name='WGS84g1150', epoch=2001, ellipsoid=Ellipsoids.WGS84)
-@var RefFrames.WGS84g1674: RefFrame(name='WGS84g1674', epoch=2005, ellipsoid=Ellipsoids.WGS84)
-@var RefFrames.WGS84g1762: RefFrame(name='WGS84g1762', epoch=2005, ellipsoid=Ellipsoids.WGS84)
+@var RefFrames.ETRF88: RefFrame(name='ETRF88', epoch=1988, datum=Datums.GRS80)
+@var RefFrames.ETRF89: RefFrame(name='ETRF89', epoch=1989, datum=Datums.GRS80)
+@var RefFrames.ETRF90: RefFrame(name='ETRF90', epoch=1990, datum=Datums.GRS80)
+@var RefFrames.ETRF91: RefFrame(name='ETRF91', epoch=1991, datum=Datums.GRS80)
+@var RefFrames.ETRF92: RefFrame(name='ETRF92', epoch=1992, datum=Datums.GRS80)
+@var RefFrames.ETRF93: RefFrame(name='ETRF93', epoch=1993, datum=Datums.GRS80)
+@var RefFrames.ETRF94: RefFrame(name='ETRF94', epoch=1994, datum=Datums.GRS80)
+@var RefFrames.ETRF96: RefFrame(name='ETRF96', epoch=1996, datum=Datums.GRS80)
+@var RefFrames.ETRF97: RefFrame(name='ETRF97', epoch=1997, datum=Datums.GRS80)
+@var RefFrames.ETRF2000: RefFrame(name='ETRF2000', epoch=2005, datum=Datums.GRS80)
+@var RefFrames.ETRF2005: RefFrame(name='ETRF2005', epoch=2005, datum=Datums.GRS80)
+@var RefFrames.ETRF2008: RefFrame(name='ETRF2008', epoch=2008, datum=Datums.GRS80)
+@var RefFrames.ETRF2014: RefFrame(name='ETRF2014', epoch=2014, datum=Datums.GRS80)
+@var RefFrames.GDA94: RefFrame(name='GDA94', epoch=1994, datum=Datums.GRS80)
+@var RefFrames.GDA2020: RefFrame(name='GDA2020', epoch=2020, datum=Datums.GRS80)
+@var RefFrames.ITRF88: RefFrame(name='ITRF88', epoch=1988, datum=Datums.GRS80)
+@var RefFrames.ITRF89: RefFrame(name='ITRF89', epoch=1989, datum=Datums.GRS80)
+@var RefFrames.ITRF90: RefFrame(name='ITRF90', epoch=1988, datum=Datums.GRS80)
+@var RefFrames.ITRF91: RefFrame(name='ITRF91', epoch=1988, datum=Datums.GRS80)
+@var RefFrames.ITRF92: RefFrame(name='ITRF92', epoch=1988, datum=Datums.GRS80)
+@var RefFrames.ITRF93: RefFrame(name='ITRF93', epoch=1988, datum=Datums.GRS80)
+@var RefFrames.ITRF94: RefFrame(name='ITRF94', epoch=1993, datum=Datums.GRS80)
+@var RefFrames.ITRF96: RefFrame(name='ITRF96', epoch=1997, datum=Datums.GRS80)
+@var RefFrames.ITRF97: RefFrame(name='ITRF97', epoch=1997, datum=Datums.GRS80)
+@var RefFrames.ITRF2000: RefFrame(name='ITRF2000', epoch=1997, datum=Datums.GRS80)
+@var RefFrames.ITRF2005: RefFrame(name='ITRF2005', epoch=2000, datum=Datums.GRS80)
+@var RefFrames.ITRF2008: RefFrame(name='ITRF2008', epoch=2005, datum=Datums.GRS80)
+@var RefFrames.ITRF2014: RefFrame(name='ITRF2014', epoch=2010, datum=Datums.GRS80)
+@var RefFrames.ITRF2020: RefFrame(name='ITRF2020', epoch=2015, datum=Datums.GRS80)
+@var RefFrames.NAD83: RefFrame(name='NAD83', epoch=1997, datum=Datums.GRS80)
+@var RefFrames.WGS84: RefFrame(name='WGS84', epoch=1984, datum=Datums.GRS80)
+@var RefFrames.WGS84g1150: RefFrame(name='WGS84g1150', epoch=2001, datum=Datums.GRS80)
+@var RefFrames.WGS84g1674: RefFrame(name='WGS84g1674', epoch=2005, datum=Datums.GRS80)
+@var RefFrames.WGS84g1762: RefFrame(name='WGS84g1762', epoch=2005, datum=Datums.GRS80)
 '''
 
 from pygeodesy.basics import map1, isstr, _xinstanceof, _zip
 from pygeodesy.constants import _float as _F, _0_0, _0_001, _0_5, _1_0
-from pygeodesy.datums import _earth_datum, Transform, _WGS84
-from pygeodesy.ellipsoids import Ellipsoids,  Fmt, Property_RO
+from pygeodesy.datums import Datums, _earth_datum, Transform, _WGS84
 from pygeodesy.errors import _IsnotError, TRFError
 from pygeodesy.interns import MISSING, NN, _AT_, _COMMASPACE_, _cartesian_, _conversion_, \
-                             _DOT_, _ellipsoid_, _ellipsoidal_, _exists_, _GRS80_, _NAD83_, \
-                             _no_, _reframe_, _s_, _SPACE_, _sx_, _sy_, _sz_, _to_, _tx_, \
-                             _ty_, _tz_, _WGS84_, _intern as _i
+                             _datum_, _DOT_, _ellipsoidal_, _exists_, _NAD83_, _no_, \
+                             _reframe_, _s_, _SPACE_, _sx_, _sy_, _sz_, _to_, _tx_, _ty_, \
+                             _tz_, _WGS84_, _intern as _i
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import classname, _lazyNamedEnumItem as _lazy, _NamedDict as _XD, \
-                           _NamedEnum, _NamedEnumItem, _NamedTuple
-# from pygeodesy.props import Property_RO  # from .ellipsoids
-# from pygeodesy.streprs import Fmt  # from .ellipsoids
+                           _NamedEnum, _NamedEnumItem, _NamedTuple,  Fmt
+from pygeodesy.props import Property_RO, property_RO
+# from pygeodesy.streprs import Fmt  # from .named
 from pygeodesy.units import Epoch, Float
 
 from math import ceil
 
 __all__ = _ALL_LAZY.trf
-__version__ = '24.01.24'
+__version__ = '24.01.25'
 
 _366_0   = 366.0
 _Forward =  _0_001  # mm2m, ppb2ppM, mas2as
+_GRS80   =   Datums.GRS80
 _Inverse = -_0_001  # same, inverse transforms
 _mas     =  _mm = _ppb = Float  # as == arcseconds
 _mDays   =  (0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31, 0)
@@ -155,24 +155,25 @@ class Helmert7Tuple(_NamedTuple):
 class RefFrame(_NamedEnumItem):
     '''Terrestrial Reference Frame (TRF) parameters.
     '''
-    _datum = _WGS84  # ellipsoid GRS80 or WGS84 (L{Ellipsoid} or L{Ellipsoid2})
+    _datum = _GRS80  # Datums.GRS80 or .WGS84 (L{Datum})
     _epoch = _0_0    # epoch, calendar year (L{Epoch} or C{float})
 
-    def __init__(self, epoch, ellipsoid, name=NN):
+    def __init__(self, epoch, datum, name=NN):
         '''New L{RefFrame}.
 
            @arg epoch: Epoch, a fractional calendar year (C{scalar} or C{str}).
-           @arg ellipsoid: The ellipsoid (L{Ellipsoid}, L{Ellipsoid2}, L{Datum}
-                           or L{a_f2Tuple}).
+           @arg datum: Datum or ellipsoid (L{Datum}, {Ellipsoid}, L{Ellipsoid2}
+                       or L{a_f2Tuple}).
            @kwarg name: Unique, non-empty name (C{str}).
 
            @raise NameError: A L{RefFrame} with that B{C{name}} already exists.
 
            @raise TRFError: Invalid B{C{epoch}}.
 
-           @raise TypeError: Invalid B{C{ellipsoid}}.
+           @raise TypeError: Invalid B{C{datum}}.
         '''
-        _earth_datum(self, ellipsoid, raiser=_ellipsoid_)
+        if datum is not _GRS80:
+            _earth_datum(self, datum, raiser=_datum_)
         self._epoch = Epoch(epoch)
         self._register(RefFrames, name)
 
@@ -186,6 +187,12 @@ class RefFrame(_NamedEnumItem):
         except AttributeError:
             pass
         raise _IsnotError(_cartesian_, _ellipsoidal_, other=other)
+
+    @property_RO
+    def datum(self):
+        '''Get this reference frame's datum (L{Datum}).
+        '''
+        return self._datum
 
     @Property_RO
     def ellipsoid(self):
@@ -206,7 +213,7 @@ class RefFrame(_NamedEnumItem):
 
            @see: Ellipsoidal methods L{LatLon.toRefFrame<ellipsoidalBase.LatLonEllipsoidalBase.toRefFrame>}
                  and L{Cartesian.toRefFrame<ellipsoidalBase.CartesianEllipsoidalBase.toRefFrame>}
-                 more details.
+                 for more details.
         '''
         b = _MODS.ellipsoidalBase
         _xinstanceof(b.LatLonEllipsoidalBase, b.CartesianEllipsoidalBase, point=point)
@@ -222,11 +229,11 @@ class RefFrame(_NamedEnumItem):
 
            @return: This L{RefFrame}'s attributes (C{str}).
         '''
-        E = self.ellipsoid
+        D = self.datum
         e = self.epoch if epoch is None else Epoch(epoch)
         t = (Fmt.EQUAL(name=repr(name or self.name)),
              Fmt.EQUAL(epoch=e),
-             Fmt.EQUAL(ellipsoid=_DOT_(classname(E) + _s_, E.name)))
+             Fmt.EQUAL(datum=_DOT_(classname(D) + _s_, D.name)))
         return _COMMASPACE_.join(t[1:] if name is None else t)
 
 
@@ -234,49 +241,49 @@ class RefFrames(_NamedEnum):
     '''(INTERNAL) L{RefFrame} registry, I{must} be a sub-class
        to accommodate the L{_LazyNamedEnumItem} properties.
     '''
-    def _Lazy(self, epoch, ellipsoid_name, name=NN):
+    def _Lazy(self, epoch, datum=_GRS80, name=NN):
         '''(INTERNAL) Instantiate the L{RefFrame}.
         '''
-        return RefFrame(epoch, Ellipsoids.get(ellipsoid_name), name=name)
+        return RefFrame(epoch, datum, name=name)
 
 RefFrames = RefFrames(RefFrame)  # PYCHOK singleton
 '''Some pre-defined L{RefFrame}s, all I{lazily} instantiated.'''
 # <https://GitHub.com/ChrisVeness/geodesy/blob/master/latlon-ellipsoidal-referenceframe.js>
 RefFrames._assert(
-    ETRF88     = _lazy(_ETRF88_,     _F(1988), _GRS80_),  # epoch?
-    ETRF89     = _lazy(_ETRF89_,     _F(1989), _GRS80_),  # epoch?
-    ETRF90     = _lazy(_ETRF90_,     _F(1990), _GRS80_),  # epoch?
-    ETRF91     = _lazy(_ETRF91_,     _F(1991), _GRS80_),  # epoch?
-    ETRF92     = _lazy(_ETRF92_,     _F(1992), _GRS80_),  # epoch?
-    ETRF93     = _lazy(_ETRF93_,     _F(1993), _GRS80_),  # epoch?
-    ETRF94     = _lazy(_ETRF94_,     _F(1994), _GRS80_),  # epoch?
-    ETRF96     = _lazy(_ETRF96_,     _F(1996), _GRS80_),  # epoch?
-    ETRF97     = _lazy(_ETRF97_,     _F(1997), _GRS80_),  # epoch?
-    ETRF2000   = _lazy(_ETRF2000_,   _F(2005), _GRS80_),
-    ETRF2005   = _lazy(_ETRF2005_,   _F(2005), _GRS80_),  # epoch?
-    ETRF2008   = _lazy(_ETRF2008_,   _F(2008), _GRS80_),  # epoch?
-    ETRF2014   = _lazy(_ETRF2014_,   _F(2014), _GRS80_),  # epoch?
-    GDA94      = _lazy(_GDA94_,      _F(1994), _GRS80_),  # Australia
-    GDA2020    = _lazy(_GDA2020_,    _F(2020), _GRS80_),  # Australia
-    ITRF88     = _lazy(_ITRF88_,     _F(1988), _GRS80_),
-    ITRF89     = _lazy(_ITRF89_,     _F(1989), _GRS80_),
-    ITRF90     = _lazy(_ITRF90_,     _F(1988), _GRS80_),
-    ITRF91     = _lazy(_ITRF91_,     _F(1988), _GRS80_),
-    ITRF92     = _lazy(_ITRF92_,     _F(1988), _GRS80_),
-    ITRF93     = _lazy(_ITRF93_,     _F(1988), _GRS80_),
-    ITRF94     = _lazy(_ITRF94_,     _F(1993), _GRS80_),
-    ITRF96     = _lazy(_ITRF96_,     _F(1997), _GRS80_),
-    ITRF97     = _lazy(_ITRF97_,     _F(1997), _GRS80_),
-    ITRF2000   = _lazy(_ITRF2000_,   _F(1997), _GRS80_),
-    ITRF2005   = _lazy(_ITRF2005_,   _F(2000), _GRS80_),
-    ITRF2008   = _lazy(_ITRF2008_,   _F(2005), _GRS80_),  # aka ITRF08
-    ITRF2014   = _lazy(_ITRF2014_,   _F(2010), _GRS80_),
-    ITRF2020   = _lazy(_ITRF2020_,   _F(2015), _GRS80_),
-    NAD83      = _lazy(_NAD83_,      _F(1997), _GRS80_),  # CORS96
-    WGS84      = _lazy(_WGS84_,      _F(1984), _WGS84_),
-    WGS84g1150 = _lazy(_WGS84g1150_, _F(2001), _WGS84_),
-    WGS84g1674 = _lazy(_WGS84g1674_, _F(2005), _WGS84_),
-    WGS84g1762 = _lazy(_WGS84g1762_, _F(2005), _WGS84_))  # same epoch
+    ETRF88     = _lazy(_ETRF88_,     _F(1988)),  # epoch?
+    ETRF89     = _lazy(_ETRF89_,     _F(1989)),  # epoch?
+    ETRF90     = _lazy(_ETRF90_,     _F(1990)),  # epoch?
+    ETRF91     = _lazy(_ETRF91_,     _F(1991)),  # epoch?
+    ETRF92     = _lazy(_ETRF92_,     _F(1992)),  # epoch?
+    ETRF93     = _lazy(_ETRF93_,     _F(1993)),  # epoch?
+    ETRF94     = _lazy(_ETRF94_,     _F(1994)),  # epoch?
+    ETRF96     = _lazy(_ETRF96_,     _F(1996)),  # epoch?
+    ETRF97     = _lazy(_ETRF97_,     _F(1997)),  # epoch?
+    ETRF2000   = _lazy(_ETRF2000_,   _F(2005)),
+    ETRF2005   = _lazy(_ETRF2005_,   _F(2005)),  # epoch?
+    ETRF2008   = _lazy(_ETRF2008_,   _F(2008)),  # epoch?
+    ETRF2014   = _lazy(_ETRF2014_,   _F(2014)),  # epoch?
+    GDA94      = _lazy(_GDA94_,      _F(1994)),  # Australia
+    GDA2020    = _lazy(_GDA2020_,    _F(2020)),  # Australia
+    ITRF88     = _lazy(_ITRF88_,     _F(1988)),
+    ITRF89     = _lazy(_ITRF89_,     _F(1989)),
+    ITRF90     = _lazy(_ITRF90_,     _F(1988)),
+    ITRF91     = _lazy(_ITRF91_,     _F(1988)),
+    ITRF92     = _lazy(_ITRF92_,     _F(1988)),
+    ITRF93     = _lazy(_ITRF93_,     _F(1988)),
+    ITRF94     = _lazy(_ITRF94_,     _F(1993)),
+    ITRF96     = _lazy(_ITRF96_,     _F(1997)),
+    ITRF97     = _lazy(_ITRF97_,     _F(1997)),
+    ITRF2000   = _lazy(_ITRF2000_,   _F(1997)),
+    ITRF2005   = _lazy(_ITRF2005_,   _F(2000)),
+    ITRF2008   = _lazy(_ITRF2008_,   _F(2005)),  # aka ITRF08
+    ITRF2014   = _lazy(_ITRF2014_,   _F(2010)),
+    ITRF2020   = _lazy(_ITRF2020_,   _F(2015)),
+    NAD83      = _lazy(_NAD83_,      _F(1997)),  # CORS96
+    WGS84      = _lazy(_WGS84_,      _F(1984), _WGS84),
+    WGS84g1150 = _lazy(_WGS84g1150_, _F(2001), _WGS84),
+    WGS84g1674 = _lazy(_WGS84g1674_, _F(2005), _WGS84),
+    WGS84g1762 = _lazy(_WGS84g1762_, _F(2005), _WGS84))  # same epoch
 
 
 def date2epoch(year, month, day):
@@ -326,10 +333,10 @@ def epoch2date(epoch):
     return y, (m + 1), max(1, d)
 
 
-def _epochTransforms2(inst, reframe, epoch, reframe2, epoch2):
-    '''(INTERNAL) Get epoch and a 0-, 1- or 2-tuple of Helmert L{Transform}s
-       to convert B{C{refFrame}} observed at B{C{epoch}} into B{C{refFrame2}}
-       observed at B{C{epoch2}} iff C{not None} else B{C{epoch}}.
+def _eTsDs4(inst, reframe, epoch, reframe2, epoch2):
+    '''(INTERNAL) Get epoch, a 0-, 1- or 2-tuple of Helmert L{Transform}s
+       datum and datum2 to convert B{C{refFrame}} observed at B{C{epoch}}
+       into B{C{refFrame2}} observed at B{C{epoch2 or epoch}}.
     '''
     r = reframe or inst.reframe
     if not r:
@@ -346,7 +353,8 @@ def _epochTransforms2(inst, reframe, epoch, reframe2, epoch2):
         t = _SPACE_(RefFrame.__name__, repr(r.name), _AT_, e1,
                           _to_, repr(reframe2.name), _AT_, e2)
         raise TRFError(_no_(_conversion_), txt=t)
-    return e2, xs
+
+    return e2, xs, r.datum, reframe2.datum
 
 
 def _intermediate(n1, n2):
@@ -358,16 +366,16 @@ def _intermediate(n1, n2):
     return n.pop() if n else NN
 
 
-def _2Transform(n1_n2, e, _Forward_Inverse):
-    '''(INTERNAL) Combine the TRF C{xform} and C{rates} from
-       a conversion C{_trfXs[n1_n2]} observed at C{B{e}poch}
+def _2Transform(n1, n2, e, _Forward_Inverse):
+    '''(INTERNAL) Combine the TRF C{xform} and C{rates} from a
+       conversion C{_trfXs[(n1, n2)]} observed at C{B{e}poch}
        into a single I{datum} L{Transform}.
 
        @note: Translations are converted from C{millimeter} to C{meter},
               rotations from C{milliarcseconds} to C{arcseconds} and
               scale from C{ppb} to C{ppM}.
     '''
-    X = _trfXs[n1_n2]
+    X = _trfXs[(n1, n2)]
     e -= X.epoch  # delta in fractional years
     d  = dict((n, (x + e * r) * _Forward_Inverse) for n, x, r in
               _zip(Helmert7Tuple._Names_, X.xform, X.rates))  # strict=True
@@ -380,19 +388,22 @@ def _2Transforms(n1, e1, n2, e2):
     if n1 == n2 or (n1.startswith(_ITRF_) and n2.startswith(_WGS84_)) \
                 or (n2.startswith(_ITRF_) and n1.startswith(_WGS84_)):
         return ()  # PYCHOK returns
-    if e2 == e1:
-        if (n1, n2) in _trfXs:
-            return _2Transform((n1, n2), e2, _Forward),  # PYCHOK returns
-        if (n2, n1) in _trfXs:
-            return _2Transform((n2, n1), e2, _Inverse),  # PYCHOK returns
+    if (n1, n2) in _trfXs:
+        return (_2Transform(n1, n2, e1, _Forward),  # PYCHOK returns
+                _2Transform(n1, n2, e2, _Forward)) if e2 != e1 else \
+               (_2Transform(n1, n2, e2, _Forward),)
+    if (n2, n1) in _trfXs:
+        return (_2Transform(n2, n1, e1, _Inverse),  # PYCHOK returns
+                _2Transform(n2, n1, e2, _Inverse)) if e2 != e1 else \
+               (_2Transform(n2, n1, e2, _Inverse),)
     n = _intermediate(n1, n2)
     if n:
-        return (_2Transform((n1, n), e1, _Forward),  # PYCHOK returns
-                _2Transform((n, n2), e2, _Forward))
+        return (_2Transform(n1, n, e1, _Forward),  # PYCHOK returns
+                _2Transform(n, n2, e2, _Forward))
     n = _intermediate(n2, n1)
     if n:
-        return (_2Transform((n, n1), e1, _Inverse),  # PYCHOK returns
-                _2Transform((n2, n), e2, _Inverse))
+        return (_2Transform(n, n1, e1, _Inverse),  # PYCHOK returns
+                _2Transform(n2, n, e2, _Inverse))
     return None
 
 

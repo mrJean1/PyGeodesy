@@ -91,7 +91,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.trf.RefFrame-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">epoch</span>,
-        <span class="summary-sig-arg">ellipsoid</span>,
+        <span class="summary-sig-arg">datum</span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
       New <a href="pygeodesy.trf.RefFrame-class.html" 
       class="link">RefFrame</a>.</td>
@@ -215,6 +215,15 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.trf.RefFrame-class.html#datum" class="summary-name">datum</a><br />
+      Get this reference frame's datum (<a 
+      href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.trf.RefFrame-class.html#ellipsoid" class="summary-name">ellipsoid</a><br />
       Get this reference frame's ellipsoid (<a 
       href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
@@ -270,7 +279,7 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">epoch</span>,
-        <span class="sig-arg">ellipsoid</span>,
+        <span class="sig-arg">datum</span>,
         <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
     <br /><em class="fname">(Constructor)</em>
   </h3>
@@ -286,13 +295,11 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>epoch</code></strong> - Epoch, a fractional calendar year (<code>scalar</code> or 
           <code>str</code>).</li>
-        <li><strong class="pname"><code>ellipsoid</code></strong> - The ellipsoid (<a 
-          href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
-          class="link">Ellipsoid</a>, <a 
+        <li><strong class="pname"><code>datum</code></strong> - Datum or ellipsoid (<a href="pygeodesy.datums.Datum-class.html" 
+          class="link">Datum</a>, {Ellipsoid}, <a 
           href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
-          class="link">Ellipsoid2</a>, <a 
-          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a> 
-          or <a href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
+          class="link">Ellipsoid2</a> or <a 
+          href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
           class="link">a_f2Tuple</a>).</li>
         <li><strong class="pname"><code>name</code></strong> - Unique, non-empty name (<code>str</code>).</li>
     </ul></dd>
@@ -302,7 +309,7 @@
         class="link">RefFrame</a> with that <b><code>name</code></b> 
         already exists.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.errors.TRFError-class.html">TRFError</a></strong></code> - Invalid <b><code>epoch</code></b>.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>ellipsoid</code></b>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>datum</code></b>.</li>
     </ul></dd>
     <dt>Overrides:
         object.__init__
@@ -368,7 +375,7 @@
         href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toRefFrame"
         class="link">LatLon.toRefFrame</a> and <a 
         href="pygeodesy.ellipsoidalBase.CartesianEllipsoidalBase-class.html#toRefFrame"
-        class="link">Cartesian.toRefFrame</a> more details.
+        class="link">Cartesian.toRefFrame</a> for more details.
       </p>
 </div></td></tr></table>
 </div>
@@ -417,6 +424,32 @@
     <span class="table-header">Property Details</span></td>
 </tr>
 </table>
+<a name="datum"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">datum</h3>
+  <p>Get this reference frame's datum (<a 
+  href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">datum(<span class="summary-sig-arg">self</span>)</span>
+        - Get this reference frame's datum (<a 
+href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="ellipsoid"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -504,7 +537,7 @@ class="link">Ellipsoid2</a>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Jan 25 16:45:48 2024
+    Generated by Epydoc 3.0.1 on Fri Jan 26 16:32:36 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

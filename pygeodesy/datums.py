@@ -47,10 +47,12 @@ datum, q.v. U{"A Guide to Coordinate Systems in Great Britain", Section 6
 @var Transforms.Bessel1841: Transform(name='Bessel1841', tx=-582, ty=-105, tz=-414, rx=-0.00001, ry=-0, rz=0.00001, s=-8.3, s1=0.99999, sx=-1.04, sy=-0.35, sz=3.08)
 @var Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=-176, rx=0, ry=0, rz=0, s=0, s1=1, sx=0, sy=0, sz=0)
 @var Transforms.DHDN: Transform(name='DHDN', tx=-591.28, ty=-81.35, tz=-396.39, rx=0.00001, ry=-0, rz=-0.00001, s=-9.82, s1=0.99999, sx=1.477, sy=-0.0736, sz=-1.458)
+@var Transforms.DHDNE: Transform(name='DHDNE', tx=-612.4, ty=-77, tz=-440.2, rx=0, ry=-0, rz=0.00001, s=-2.55, s1=1, sx=0.054, sy=-0.057, sz=2.797)
+@var Transforms.DHDNW: Transform(name='DHDNW', tx=-598.1, ty=-73.7, tz=-418.2, rx=-0, ry=-0, rz=0.00001, s=-6.7, s1=0.99999, sx=-0.202, sy=-0.045, sz=2.455)
 @var Transforms.ED50: Transform(name='ED50', tx=89.5, ty=93.8, tz=123.1, rx=0, ry=0, rz=0, s=-1.2, s1=1, sx=0, sy=0, sz=0.156)
 @var Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0, ry=0, rz=0, s=0, s1=1, sx=0, sy=0, sz=0)
 @var Transforms.Irl1965: Transform(name='Irl1965', tx=-482.53, ty=130.596, tz=-564.557, rx=0.00001, ry=0, rz=0, s=-8.15, s1=0.99999, sx=1.042, sy=0.214, sz=0.631)
-@var Transforms.Irl1975: Transform(name='Irl1975', tx=-482.53, ty=130.596, tz=-564.557, rx=-0.00001, ry=-0, rz=-0, s=-1.1, s1=1, sx=-1.042, sy=-0.214, sz=-0.631)
+@var Transforms.Irl1975: Transform(name='Irl1975', tx=-482.53, ty=130.596, tz=-564.557, rx=0.00001, ry=0, rz=0, s=-8.15, s1=0.99999, sx=1.042, sy=0.214, sz=0.631)
 @var Transforms.Krassovski1940: Transform(name='Krassovski1940', tx=-24, ty=123, tz=94, rx=-0, ry=0, rz=0, s=-2.423, s1=1, sx=-0.02, sy=0.26, sz=0.13)
 @var Transforms.Krassowsky1940: Transform(name='Krassowsky1940', tx=-24, ty=123, tz=94, rx=-0, ry=0, rz=0, s=-2.423, s1=1, sx=-0.02, sy=0.26, sz=0.13)
 @var Transforms.MGI: Transform(name='MGI', tx=-577.326, ty=-90.129, tz=-463.92, rx=0.00002, ry=0.00001, rz=0.00003, s=-2.423, s1=1, sx=5.137, sy=1.474, sz=5.297)
@@ -60,7 +62,7 @@ datum, q.v. U{"A Guide to Coordinate Systems in Great Britain", Section 6
 @var Transforms.OSGB36: Transform(name='OSGB36', tx=-446.448, ty=125.157, tz=-542.06, rx=-0, ry=-0, rz=-0, s=20.4894, s1=1.00002, sx=-0.1502, sy=-0.247, sz=-0.8421)
 @var Transforms.TokyoJapan: Transform(name='TokyoJapan', tx=148, ty=-507, tz=-685, rx=0, ry=0, rz=0, s=0, s1=1, sx=0, sy=0, sz=0)
 @var Transforms.WGS72: Transform(name='WGS72', tx=0, ty=0, tz=-4.5, rx=0, ry=0, rz=0, s=-0.22, s1=1, sx=0, sy=0, sz=0.554)
-@var Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0, rz=0, s=0, s1=1, sx=0, sy=0, sz=0)
+@var Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0, rz=0, s=0, s1=1, sx=0, sy=0, sz=0)  # .isunity
 '''
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
@@ -88,7 +90,7 @@ from pygeodesy.units import _isRadius, radians, Radius_
 # from math import radians  # from .units
 
 __all__ = _ALL_LAZY.datums
-__version__ = '23.12.03'
+__version__ = '24.01.25'
 
 _a_ellipsoid_ = _UNDER_(_a_, _ellipsoid_)
 _BD72_        = 'BD72'
@@ -200,8 +202,8 @@ class Transform(_NamedEnumItem):
 
     @Property_RO
     def _hash(self):
-        return hash((self.rx, self.ry, self.rz, self.s,
-                     self.tx, self.ty, self.tz))
+        return hash((self.tx, self.ty, self.tz,
+                     self.rx, self.ry, self.rz, self.s))
 
     def inverse(self, name=NN):
         '''Return the inverse of this transform.
@@ -215,6 +217,13 @@ class Transform(_NamedEnumItem):
         return Transform(name=name or (self.name + _Inverse_),
                          tx=-self.tx, ty=-self.ty, tz=-self.tz,
                          sx=-self.sx, sy=-self.sy, sz=-self.sz, s=-self.s)
+
+    @Property_RO
+    def isunity(self):
+        '''Is this a C{unity, identidy} transform (C{bool}), like WGS84?
+        '''
+        return not any((self.tx, self.ty, self.tz,
+                        self.rx, self.ry, self.rz, self.s))
 
     def toStr(self, prec=5, name=NN, **unused):  # PYCHOK expected
         '''Return this transform as a string.
@@ -239,6 +248,9 @@ class Transform(_NamedEnumItem):
 
            @return: A L{Vector3Tuple}C{(x, y, z)}, transformed.
         '''
+        if self.isunity:
+            return Vector3Tuple(x, y, z, name=self.name)
+
         xyz1 = x, y, z, _1_0
         s1   = self.s1
         if inverse:
@@ -654,6 +666,7 @@ Datums._assert(
 
 _WGS84 = Datums.WGS84
 assert _WGS84.ellipsoid is _EWGS84
+# assert _WGS84.transform.isunity
 
 if __name__ == '__main__':
 

@@ -8,7 +8,7 @@
 # <https://GitHub.com/ChrisVeness/geodesy/blob/master/test/latlon-ellipsoidal-referenceframe-tests.js>
 
 __all__ = ('Tests',)
-__version__ = '24.01.22'
+__version__ = '24.01.25'
 
 from bases import GeodSolve, TestsBase
 
@@ -147,7 +147,31 @@ class Tests(TestsBase):
 #           t = str(x)
 #       self.test('TypeError', t, "type(epoch) ('2000'): not scalar")
 
-        # courtesy GGaesler <https://github.com/mrJean1/PyGeodesy/issues/80>
+        def _n(c):
+            return '%s@%s' % (c.reframe.name, c.epoch)
+
+        X = Cartesian(4160476.485, 653193.021, 4774604.780)  # expected
+        for c in (Cartesian(4160476.944, 653192.600, 4774604.455, reframe=RefFrames.ETRF89,   epoch=1989),
+                  Cartesian(4160476.952, 653192.582, 4774604.441, reframe=RefFrames.ETRF2000, epoch=2000),
+                  Cartesian(4160476.674, 653192.806, 4774604.648, reframe=RefFrames.ITRF2008, epoch=2005)):
+            t = c.toStr(prec=-6)
+            self.test(_n(c), t, t, known=True, nl=1)
+            x = c.toRefFrame(RefFrames.ITRF2014, epoch2=2018.8)
+            self.test(_n(x), x.toStr(prec=-3), X, known=True)
+            e = x - X
+            self.test('Delta (m)', e.toStr(prec=6), '[0.01, 0.01, 0.01]', known=max(map(abs, e.xyz)) < 0.5)
+            e = e.length
+            self.test('Error (m)', e, '0.01', prec=6, known=e < 1.5)
+            r = x.epoch - c.epoch
+            self.test('Epoch range', r, '14.0', prec=3, known=True)
+            x = x.toRefFrame(c.reframe, epoch2=c.epoch)
+            self.test(_n(x), x.toStr(prec=-6), t)
+
+        x = RefFrames.ITRF2014.toRefFrame(X, RefFrames.ITRF2020, epoch=2018.8, epoch2=2024.1)  # coverage
+        x = (x - X).toStr(prec=6)
+        self.test('toRefFrame', x, x, nl=1)
+
+        # courtesy GGaessler <https://github.com/mrJean1/PyGeodesy/issues/80>
         p = LatLon('48 46 36.89676N', '8 55 21.25713E', height=476.049, reframe=RefFrames.ETRF89, epoch=1989)
         self.test('Issue80', p.toStr(form='D', prec=10), '48.7769157667°N, 008.922571425°E, +476.05m', nl=1)
         x = p.toRefFrame(RefFrames.ITRF2014, epoch2=2018.8)
@@ -191,10 +215,10 @@ class Tests(TestsBase):
 
         r = RefFrames.GDA94
         t = r.toStr()
-        self.test('toStr', t, "name='GDA94', epoch=1994, ellipsoid=Ellipsoids.GRS80")
+        self.test('toStr', t, "name='GDA94', epoch=1994, datum=Datums.GRS80")
         self.test('str', str(r),t)
         t = r.toRepr()
-        self.test('toStr2', t, "RefFrame(name='GDA94', epoch=1994, ellipsoid=Ellipsoids.GRS80)")
+        self.test('toStr2', t, "RefFrame(name='GDA94', epoch=1994, datum=Datums.GRS80)")
         self.test('repr', repr(r), t)
 
         for y, m, d, x in ((2020,  1,  1, 2020.003),

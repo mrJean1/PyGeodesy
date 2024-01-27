@@ -30,7 +30,7 @@ from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 # from pygeodesy.namedTuples import Vector3Tuple  # _MODS
 from pygeodesy.props import deprecated_method, deprecated_property_RO, \
                             Property_RO, property_doc_, property_RO, _update_all
-# from pygeodesy.trf import _epochTransforms2  # _MODS
+# from pygeodesy.trf import _eTsDs4  # _MODS
 from pygeodesy.units import Epoch, _isDegrees, Radius_, _1mm as _TOL_M
 # from pygeodesy.utily import _Wrap  # from .latlonBase
 
@@ -194,10 +194,12 @@ class CartesianEllipsoidalBase(CartesianBase):
 
            @raise TypeError: B{C{reframe2}} or B{C{reframe}} not a L{RefFrame}.
         '''
-        e, xs = _MODS.trf._epochTransforms2(self, reframe, epoch, reframe2, epoch2)
+        e, xs, d, d2 = _MODS.trf._eTsDs4(self, reframe, epoch, reframe2, epoch2)
         if xs:
-            r = self.copy(name=name or self.name).toTransforms_(*xs)
+            r = self.toDatum(d).toTransforms_(*xs).toDatum(d2).toDatum(self.datum)
             r.reframe, r.epoch = reframe2, e
+            if name:
+                r.rename(name)
         else:
             r = self.copy(name=name) if name else self
         return r
@@ -961,9 +963,9 @@ class LatLonEllipsoidalBase(LatLonBase):
 
            @raise TypeError: B{C{reframe2}} or B{C{reframe}} not a L{RefFrame}.
         '''
-        e, xs = _MODS.trf._epochTransforms2(self, reframe, epoch, reframe2, epoch2)
+        e, xs, d, d2 = _MODS.trf._eTsDs4(self, reframe, epoch, reframe2, epoch2)
         if xs:
-            c = self.toCartesian().toTransforms_(*xs)
+            c = self.toCartesian().toDatum(d).toTransforms_(*xs).toDatum(d2)
             n = name or self.name
             ll = c.toLatLon(datum=self.datum, epoch=e, height=height,
                             LatLon=self.classof, name=n, reframe=reframe2)

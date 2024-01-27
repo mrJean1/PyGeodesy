@@ -43,7 +43,7 @@ from pygeodesy.vector3d import Vector3d, _xyzhdn3
 # from math import atan2, degrees, fabs, radians, sqrt  # from .fmath, .utily
 
 __all__ = _ALL_LAZY.cartesianBase
-__version__ = '24.01.18'
+__version__ = '24.01.25'
 
 _r_     = 'r'
 _theta_ = 'theta'
@@ -685,6 +685,10 @@ class CartesianBase(Vector3d):
         if d == datum2:
             return c.copy() if c is self else c
 
+        elif datum2.transform.isunity and \
+                  d.transform.isunity:
+            return c.dup(datum=datum2)
+
         elif d == _WGS84:
             d = datum2  # convert from WGS84 to datum2
 
@@ -837,8 +841,12 @@ class CartesianBase(Vector3d):
             raise _ValueError(inverse=inverse, datum=d,
                               txt=_not_(_WGS84.name))
 
-        xyz = transform.transform(*self.xyz, inverse=inverse)
-        return self.classof(xyz, datum=d)
+        if transform.isunity:
+            c   = self.dup(datum=d)
+        else:
+            xyz = transform.transform(*self.xyz, inverse=inverse)
+            c   = self.dup(xyz=xyz, datum=d)
+        return c
 
     def toVector(self, Vector=None, **Vector_kwds):
         '''Return this cartesian's I{geocentric} components as vector.
