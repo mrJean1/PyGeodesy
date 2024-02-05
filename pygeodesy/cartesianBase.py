@@ -43,7 +43,7 @@ from pygeodesy.vector3d import Vector3d, _xyzhdn3
 # from math import atan2, degrees, fabs, radians, sqrt  # from .fmath, .utily
 
 __all__ = _ALL_LAZY.cartesianBase
-__version__ = '24.01.25'
+__version__ = '24.02.04'
 
 _r_     = 'r'
 _theta_ = 'theta'
@@ -814,7 +814,7 @@ class CartesianBase(Vector3d):
         '''Return the string representation of this cartesian.
 
            @kwarg prec: Number of (decimal) digits, unstripped (C{int}).
-           @kwarg fmt: Enclosing backets format (C{str}).
+           @kwarg fmt: Enclosing backets format (C{letter}).
            @kwarg sep: Separator to join (C{str}).
 
            @return: Cartesian represented as "[x, y, z]" (C{str}).

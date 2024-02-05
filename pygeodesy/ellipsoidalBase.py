@@ -30,14 +30,14 @@ from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 # from pygeodesy.namedTuples import Vector3Tuple  # _MODS
 from pygeodesy.props import deprecated_method, deprecated_property_RO, \
                             Property_RO, property_doc_, property_RO, _update_all
-# from pygeodesy.trf import _eTsDs4  # _MODS
+# from pygeodesy.trf import _eT0Ds4  # _MODS
 from pygeodesy.units import Epoch, _isDegrees, Radius_, _1mm as _TOL_M
 # from pygeodesy.utily import _Wrap  # from .latlonBase
 
 # from math import fabs  # from .latlonBase
 
 __all__ = _ALL_LAZY.ellipsoidalBase
-__version__ = '24.01.24'
+__version__ = '24.02.04'
 
 
 class CartesianEllipsoidalBase(CartesianBase):
@@ -194,9 +194,9 @@ class CartesianEllipsoidalBase(CartesianBase):
 
            @raise TypeError: B{C{reframe2}} or B{C{reframe}} not a L{RefFrame}.
         '''
-        e, xs, d, d2 = _MODS.trf._eTsDs4(self, reframe, epoch, reframe2, epoch2)
-        if xs:
-            r = self.toDatum(d).toTransforms_(*xs).toDatum(d2).toDatum(self.datum)
+        e, t0, d, d2 = _MODS.trf._eT0Ds4(self, reframe, epoch, reframe2, epoch2)
+        if t0:
+            r = self.toDatum(d).toTransforms_(t0).toDatum(d2).toDatum(self.datum)
             r.reframe, r.epoch = reframe2, e
             if name:
                 r.rename(name)
@@ -963,9 +963,9 @@ class LatLonEllipsoidalBase(LatLonBase):
 
            @raise TypeError: B{C{reframe2}} or B{C{reframe}} not a L{RefFrame}.
         '''
-        e, xs, d, d2 = _MODS.trf._eTsDs4(self, reframe, epoch, reframe2, epoch2)
-        if xs:
-            c = self.toCartesian().toDatum(d).toTransforms_(*xs).toDatum(d2)
+        e, t0, d, d2 = _MODS.trf._eT0Ds4(self, reframe, epoch, reframe2, epoch2)
+        if t0:
+            c = self.toCartesian().toDatum(d).toTransforms_(t0).toDatum(d2)
             n = name or self.name
             ll = c.toLatLon(datum=self.datum, epoch=e, height=height,
                             LatLon=self.classof, name=n, reframe=reframe2)

@@ -20,7 +20,7 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _getenv
 from math import fabs, log10 as _log10
 
 __all__ = _ALL_LAZY.streprs
-__version__ = '23.06.27'
+__version__ = '24.02.04'
 
 _EN_PREC    =  6           # max MGRS/OSGR precision, 1 micrometer
 _EN_WIDE    =  5           # number of MGRS/OSGR units, log10(_100km)
@@ -289,7 +289,7 @@ def fstr(floats, prec=6, fmt=Fmt.F, ints=False, sep=_COMMASPACE_, strepr=None):
                     addition, trailing decimal zeros are stripped for U{alternate,
                     form '#'<https://docs.Python.org/3/library/stdtypes.html
                     #printf-style-string-formatting>}.
-       @kwarg fmt: Optional, C{float} format (C{str}).
+       @kwarg fmt: Optional C{float} format (C{letter}).
        @kwarg ints: Optionally, remove the decimal dot for C{int} values (C{bool}).
        @kwarg sep: Separator joining the B{C{floats}} (C{str}).
        @kwarg strepr: Optional callable to format non-C{floats} (typically
@@ -304,10 +304,10 @@ def fstr(floats, prec=6, fmt=Fmt.F, ints=False, sep=_COMMASPACE_, strepr=None):
         return sep.join(_streprs(prec, floats, fmt, ints, True, strepr))
 
 
-def _fstrENH2(inst, prec, m):  # in .css, .lcc, .utmupsBase
+def _fstrENH2(inst, prec, m, fmt=Fmt.F):  # in .css, .lcc, .utmupsBase
     # (INTERNAL) For C{Css.} and C{Lcc.} C{toRepr} and C{toStr} and C{UtmUpsBase._toStr}.
     t = inst.easting, inst.northing
-    t = tuple(_streprs(prec, t, Fmt.F, False, True, None))
+    t = tuple(_streprs(prec, t, fmt, False, True, None))
     T = _E_, _N_
     if m is not None and fabs(inst.height):  # fabs(self.height) > EPS
         t +=  hstr(inst.height, prec=-2, m=m),
@@ -368,7 +368,7 @@ def hstr(height, prec=2, fmt=Fmt.h, ints=False, m=NN):
        @kwarg prec: The C{float} precision, number of decimal digits (0..9).
                     Trailing zero decimals are stripped if B{C{prec}} is
                     positive, but kept for negative B{C{prec}} values.
-       @kwarg fmt: Optional, C{float} format (C{str}).
+       @kwarg fmt: Optional C{float} format (C{letter}).
        @kwarg ints: Optionally, remove the decimal dot for C{int} values (C{bool}).
        @kwarg m: Optional unit of the height (C{str}).
     '''
@@ -414,7 +414,7 @@ def pairs(items, prec=6, fmt=Fmt.F, ints=False, sep=_EQUAL_):
        @kwarg prec: The C{float} precision, number of decimal digits (0..9).
                     Trailing zero decimals are stripped if B{C{prec}} is
                     positive, but kept for negative B{C{prec}} values.
-       @kwarg fmt: Optional, C{float} format (C{str}).
+       @kwarg fmt: Optional C{float} format (C{letter}).
        @kwarg ints: Optionally, remove the decimal dot for C{int} values (C{bool}).
        @kwarg sep: Separator joining I{names} and I{values} (C{str}).
 
@@ -446,7 +446,7 @@ def reprs(objs, prec=6, fmt=Fmt.F, ints=False):
        @kwarg prec: The C{float} precision, number of decimal digits (0..9).
                     Trailing zero decimals are stripped if B{C{prec}} is
                     positive, but kept for negative B{C{prec}} values.
-       @kwarg fmt: Optional, C{float} format (C{str}).
+       @kwarg fmt: Optional C{float} format (C{letter}).
        @kwarg ints: Optionally, remove the decimal dot for C{int} values (C{bool}).
 
        @return: A C{tuple(map(fstr|repr, objs))} of C{str}s.
@@ -509,7 +509,7 @@ def strs(objs, prec=6, fmt=Fmt.F, ints=False):
        @kwarg prec: The C{float} precision, number of decimal digits (0..9).
                     Trailing zero decimals are stripped if B{C{prec}} is
                     positive, but kept for negative B{C{prec}} values.
-       @kwarg fmt: Optional, C{float} format (C{str}).
+       @kwarg fmt: Optional C{float} format (C{letter}).
        @kwarg ints: Optionally, remove the decimal dot for C{int} values (C{bool}).
 
        @return: A C{tuple(map(fstr|str, objs))} of C{str}s.
@@ -593,7 +593,7 @@ def _xzipairs(names, values, sep=_COMMASPACE_, fmt=NN, pair_fmt=Fmt.COLON):
         t = sep.join(pair_fmt(*t) for t in _zip(names, values))  # strict=True
     except Exception as x:
         raise _ValueError(names=names, values=values, cause=x)
-    return (fmt % (t,)) if fmt else t
+    return (fmt % (t,)) if fmt else t  # enc
 
 # **) MIT License
 #

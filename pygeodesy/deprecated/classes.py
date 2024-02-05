@@ -18,11 +18,11 @@ from pygeodesy.namedTuples import Forward4Tuple as _Forward4Tuple, \
                                   UtmUps5Tuple  as _UtmUps5Tuple,  _NamedTuple
 from pygeodesy.props import deprecated_class, deprecated_method
 from pygeodesy.resections import TriAngle5Tuple as _TriAngle5Tuple
-from pygeodesy.trf import Helmert7Tuple as _Helmert7Tuple
+from pygeodesy.trf import TRFXform7Tuple as _TRFXform7Tuple
 from pygeodesy.units import Bearing, Int, Lat, Lon, Meter
 
 __all__ = _ALL_DEPRECATED.deprecated_classes
-__version__ = '23.12.01'
+__version__ = '24.02.02'
 
 
 class _Deprecated_NamedTuple(_NamedTuple):
@@ -208,14 +208,16 @@ class RhumbOrder2Tuple(_Deprecated_NamedTuple, _GTuple):
 
 
 class Transform7Tuple(_Deprecated_NamedTuple):  # PYCHOK no cover
-    '''DEPRECATED, use class L{Helmert7Tuple}, I{without} keyword arguments.'''
-    _Names_ = _Helmert7Tuple._Names_
-    _Units_ = _Helmert7Tuple._Units_
+    '''DEPRECATED on 2024.02.02, use class L{TRFXform7Tuple}, I{without} keyword arguments.'''
+    _Names_ = _TRFXform7Tuple._Names_
+    _Units_ = _TRFXform7Tuple._Units_
 
     def __new__(cls, tx=0, ty=0, tz=0, s=0,
                      sx=0, sy=0, sz=0, name=NN):
         t = map(_float, (tx, ty, tz, s, sx, sy, sz))
         return _Deprecated_NamedTuple.__new__(cls, *t, name=name)
+
+Helmert7Tuple = Transform7Tuple  # PYCHOK likewise
 
 
 class TriAngle4Tuple(_Deprecated_NamedTuple):

@@ -855,6 +855,10 @@
     </li>
     </ul>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.trf.TRFXform-class.html">pygeodesy.trf.TRFXform</a></strong>:
+      <em class="summary">Terrestrial Reference Frame (TRF) converter between two reference 
+        frames observed at an <code>epoch</code>.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.iters._BaseIter-class.html">pygeodesy.iters._BaseIter</a></strong>:
       <em class="summary">(INTERNAL) Iterator over items with loop-back and de-duplication.</em>
     <ul>
@@ -1434,6 +1438,13 @@
         href="pygeodesy.ellipsoidalGeodSolve.LatLon-class.html" 
         class="link">LatLon</a> points.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.Cartesian-class.html">pygeodesy.ellipsoidalKarney.Cartesian</a></strong>:
+      <em class="summary">Extended to convert <code>Karney</code>-based <a 
+        href="pygeodesy.ellipsoidalKarney.Cartesian-class.html" 
+        class="link">Cartesian</a> to <code>Karney</code>-based <a 
+        href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
+        class="link">LatLon</a> points.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html">pygeodesy.ellipsoidalVincenty.Cartesian</a></strong>:
       <em class="summary">Extended to convert geocentric, <a 
         href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html" 
@@ -1448,13 +1459,6 @@
         n-vector-based, geodetic <a 
         href="pygeodesy.ellipsoidalNvector.LatLon-class.html" 
         class="link">LatLon</a>.</em>
-    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.Cartesian-class.html">pygeodesy.ellipsoidalKarney.Cartesian</a></strong>:
-      <em class="summary">Extended to convert <code>Karney</code>-based <a 
-        href="pygeodesy.ellipsoidalKarney.Cartesian-class.html" 
-        class="link">Cartesian</a> to <code>Karney</code>-based <a 
-        href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
-        class="link">LatLon</a> points.</em>
     </li>
     </ul>
     </li>
@@ -1920,7 +1924,8 @@
         tangent plane</i>.</em>
     <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalNvector.Ned-class.html">pygeodesy.ellipsoidalNvector.Ned</a></strong>:
-      <em class="summary">DEPRECATED, use class <a href="pygeodesy.ltpTuples.Ned-class.html" 
+      <em class="summary">DEPRECATED on 2024.02.04, use class <a 
+        href="pygeodesy.ltpTuples.Ned-class.html" 
         class="link">pygeodesy.Ned</a>.</em>
     </li>
     </ul>
@@ -1954,7 +1959,13 @@
       <em class="summary">Terrestrial Reference Frame (TRF) parameters.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.datums.Transform-class.html">pygeodesy.datums.Transform</a></strong>:
-      <em class="summary">Helmert transformation.</em>
+      <em class="summary">Helmert <i>datum</i> transformation.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.trf.TransformXform-class.html">pygeodesy.trf.TransformXform</a></strong>:
+      <em class="summary">Helmert transformation, extended with an <code>Xform</code> 
+        converter.</em>
+    </li>
+    </ul>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.triaxials.Triaxial_-class.html">pygeodesy.triaxials.Triaxial_</a></strong>:
       <em class="summary"><i>Unordered</i> triaxial ellipsoid and base class.</em>
@@ -2293,14 +2304,6 @@
         the <code><i>mean</i> Hausdorff</code> distance <code>md</code> and
         the class or name of both distance <code>units</code>.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.trf.Helmert7Tuple-class.html">pygeodesy.trf.Helmert7Tuple</a></strong>:
-      <em class="summary">7-Tuple <code>(tx, ty, tz, s, sx, sy, sz)</code> of Helmert 
-        transform parameters with translations <code>tx</code>, 
-        <code>ty</code> and <code>tz</code> in <code>millimeter</code>, 
-        scale <code>s</code> in <code>ppb</code> and rotations 
-        <code>sx</code>, <code>sy</code> and <code>sz</code> in 
-        <code>milli-arc-seconds</code>.</em>
-    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.Intersection3Tuple-class.html">pygeodesy.namedTuples.Intersection3Tuple</a></strong>:
       <em class="summary">3-Tuple <code>(point, outside1, outside2)</code> of an intersection
         <code>point</code> and <code>outside1</code>, the position of the 
@@ -2520,6 +2523,13 @@
         <code>B</code> and <code>C</code> in <code>meter</code>, 
         conventionally.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.trf.TRFXform7Tuple-class.html">pygeodesy.trf.TRFXform7Tuple</a></strong>:
+      <em class="summary">7-Tuple <code>(tx, ty, tz, s, sx, sy, sz)</code> of conversion 
+        parameters with translations <code>tx</code>, <code>ty</code> and 
+        <code>tz</code> in <code>milli-meter</code>, scale <code>s</code> 
+        in <code>ppb</code> and rates <code>sx</code>, <code>sy</code> and 
+        <code>sz</code> in <code>milli-arc-seconds-per-year</code>.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.resections.Tienstra7Tuple-class.html">pygeodesy.resections.Tienstra7Tuple</a></strong>:
       <em class="summary">7-Tuple <code>(pointP, A, B, C, a, b, c)</code> with survey 
         <code>pointP</code>, interior triangle angles <code>A</code>, 
@@ -2674,9 +2684,9 @@
         class="link">Rhumb.orders</a>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.deprecated.classes.Transform7Tuple-class.html">pygeodesy.deprecated.classes.Transform7Tuple</a></strong>:
-      <em class="summary">DEPRECATED, use class <a 
-        href="pygeodesy.trf.Helmert7Tuple-class.html" 
-        class="link">Helmert7Tuple</a>, <i>without</i> keyword arguments.</em>
+      <em class="summary">DEPRECATED on 2024.02.02, use class <a 
+        href="pygeodesy.trf.TRFXform7Tuple-class.html" 
+        class="link">TRFXform7Tuple</a>, <i>without</i> keyword arguments.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.deprecated.classes.TriAngle4Tuple-class.html">pygeodesy.deprecated.classes.TriAngle4Tuple</a></strong>:
       <em class="summary">DEPRECATED on 2023.09.14, use class <a 
@@ -3066,9 +3076,9 @@ dict(iterable) -&gt; new dictionary initialized as if via:
 dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
     in the keyword argument list.</em>
     <ul>
-    <li> <strong class="uidlink">pygeodesy.named._Dict</strong>:
-      <em class="summary">(INTERNAL) An <code>dict</code> with both key <i>and</i> attribute 
-        access to the <code>dict</code> items.</em>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.ADict-class.html">pygeodesy.named.ADict</a></strong>:
+      <em class="summary">A <code>dict</code> with both key <i>and</i> attribute access to 
+        the <code>dict</code> items.</em>
     <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.karney.GDict-class.html">pygeodesy.karney.GDict</a></strong>:
       <em class="summary">A <code>dict</code> with both <code>key</code> <i>and</i> 
@@ -3629,14 +3639,6 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
         the <code><i>mean</i> Hausdorff</code> distance <code>md</code> and
         the class or name of both distance <code>units</code>.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.trf.Helmert7Tuple-class.html">pygeodesy.trf.Helmert7Tuple</a></strong>:
-      <em class="summary">7-Tuple <code>(tx, ty, tz, s, sx, sy, sz)</code> of Helmert 
-        transform parameters with translations <code>tx</code>, 
-        <code>ty</code> and <code>tz</code> in <code>millimeter</code>, 
-        scale <code>s</code> in <code>ppb</code> and rotations 
-        <code>sx</code>, <code>sy</code> and <code>sz</code> in 
-        <code>milli-arc-seconds</code>.</em>
-    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.Intersection3Tuple-class.html">pygeodesy.namedTuples.Intersection3Tuple</a></strong>:
       <em class="summary">3-Tuple <code>(point, outside1, outside2)</code> of an intersection
         <code>point</code> and <code>outside1</code>, the position of the 
@@ -3856,6 +3858,13 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
         <code>B</code> and <code>C</code> in <code>meter</code>, 
         conventionally.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.trf.TRFXform7Tuple-class.html">pygeodesy.trf.TRFXform7Tuple</a></strong>:
+      <em class="summary">7-Tuple <code>(tx, ty, tz, s, sx, sy, sz)</code> of conversion 
+        parameters with translations <code>tx</code>, <code>ty</code> and 
+        <code>tz</code> in <code>milli-meter</code>, scale <code>s</code> 
+        in <code>ppb</code> and rates <code>sx</code>, <code>sy</code> and 
+        <code>sz</code> in <code>milli-arc-seconds-per-year</code>.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.resections.Tienstra7Tuple-class.html">pygeodesy.resections.Tienstra7Tuple</a></strong>:
       <em class="summary">7-Tuple <code>(pointP, A, B, C, a, b, c)</code> with survey 
         <code>pointP</code>, interior triangle angles <code>A</code>, 
@@ -4010,9 +4019,9 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
         class="link">Rhumb.orders</a>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.deprecated.classes.Transform7Tuple-class.html">pygeodesy.deprecated.classes.Transform7Tuple</a></strong>:
-      <em class="summary">DEPRECATED, use class <a 
-        href="pygeodesy.trf.Helmert7Tuple-class.html" 
-        class="link">Helmert7Tuple</a>, <i>without</i> keyword arguments.</em>
+      <em class="summary">DEPRECATED on 2024.02.02, use class <a 
+        href="pygeodesy.trf.TRFXform7Tuple-class.html" 
+        class="link">TRFXform7Tuple</a>, <i>without</i> keyword arguments.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.deprecated.classes.TriAngle4Tuple-class.html">pygeodesy.deprecated.classes.TriAngle4Tuple</a></strong>:
       <em class="summary">DEPRECATED on 2023.09.14, use class <a 
@@ -4169,7 +4178,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Jan 26 16:32:32 2024
+    Generated by Epydoc 3.0.1 on Mon Feb  5 13:29:30 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

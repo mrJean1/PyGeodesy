@@ -27,7 +27,7 @@ __all__ = (_ALL_DEPRECATED.deprecated_bases +
            _ALL_DEPRECATED.deprecated_classes +
            _ALL_DEPRECATED.deprecated_consterns +
            _ALL_DEPRECATED.deprecated_functions)
-__version__ = '23.12.02'
+__version__ = '24.02.02'
 
 if _unLazy0:
     from pygeodesy.deprecated import bases, datum, nvector, rhumbBase, \

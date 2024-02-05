@@ -636,7 +636,7 @@ def _version2(version, n=2):
 __all__ = (_NN_,  # not MISSING!
             Str_.__name__,  # classes
             machine.__name__)  # in .lazily
-__version__ = '23.11.30'
+__version__ = '24.02.03'
 
 if __name__ == '__main__':
 

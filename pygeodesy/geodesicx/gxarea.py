@@ -23,14 +23,14 @@ from pygeodesy.interns import NN, _COMMASPACE_
 from pygeodesy.karney import Area3Tuple, _diff182, GeodesicError, isodd, \
                             _norm180, _remainder, _sum2_, unsigned0
 from pygeodesy.lazily import _ALL_DOCS, printf
-from pygeodesy.named import callername, _Dict, _NamedBase, pairs
+from pygeodesy.named import ADict, callername, _NamedBase, pairs
 from pygeodesy.props import Property, Property_RO, property_RO
 # from pygeodesy.streprs import pairs  # from .named
 
 from math import fmod
 
 __all__ = ()
-__version__ = '23.08.19'
+__version__ = '24.02.02'
 
 
 class GeodesicAreaExact(_NamedBase):
@@ -272,7 +272,7 @@ class GeodesicAreaExact(_NamedBase):
     def _print(self, n, p, a, r, **kwds):  # PYCHOK no cover
         '''(INTERNAL) Print a verbose line.
         '''
-        d = _Dict(p=p, s12=r.s12 if r else NAN, **kwds)
+        d = ADict(p=p, s12=r.s12 if r else NAN, **kwds)
         if self._Area:
             d.set_(a=a, S12=r.S12 if r else NAN)
         t = _COMMASPACE_.join(pairs(d, prec=10))

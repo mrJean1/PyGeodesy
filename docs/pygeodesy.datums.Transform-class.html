@@ -72,13 +72,19 @@
                       <strong class="uidshort">Transform</strong>
 </pre>
 
+<dl><dt>Known Subclasses:</dt>
+<dd>
+      <ul class="subclass-list">
+<li><a href="pygeodesy.trf.TransformXform-class.html">trf.TransformXform</a></li>  </ul>
+</dd></dl>
+
 <hr />
-<p>Helmert transformation.</p>
+<p>Helmert <i>datum</i> transformation.</p>
 
 <hr />
 <div class="fields">      <p><strong>See Also:</strong>
-        <a href="pygeodesy.trf.Helmert7Tuple-class.html" 
-        class="link">Helmert7Tuple</a>.
+        <a href="pygeodesy.trf.TransformXform-class.html" 
+        class="link">TransformXform</a>.
       </p>
 </div><!-- ==================== INSTANCE METHODS ==================== -->
 <a name="section-InstanceMethods"></a>
@@ -155,9 +161,60 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a name="__iter__"></a><span class="summary-sig-name">__iter__</span>(<span class="summary-sig-arg">self</span>)</span><br />
+      Yield the attribute values.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.datums.Transform-class.html#__matmul__" class="summary-sig-name">__matmul__</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">other</span>)</span><br />
-      Helmert-transform a cartesian <b><code>other</code></b>.</td>
+        <span class="summary-sig-arg">point</span>)</span><br />
+      Helmert-transform an <i>ellipsoidal</i> cartesian 
+      <b><code>point</code></b>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="__neg__"></a><span class="summary-sig-name">__neg__</span>(<span class="summary-sig-arg">self</span>)</span></td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="items"></a><span class="summary-sig-name">items</span>(<span class="summary-sig-arg">self</span>)</span><br />
+      Yield each attribute as 2-tuple <code>(name, value)</code>.</td>
           <td align="right" valign="top">
             
             
@@ -193,6 +250,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.datums.Transform-class.html#toStr" class="summary-sig-name">toStr</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">5</span>,
+        <span class="summary-sig-arg">fmt</span>=<span class="summary-sig-default">'g'</span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">**unused</span>)</span><br />
       Return this transform as a string.</td>
@@ -216,7 +274,7 @@
         <span class="summary-sig-arg">y</span>,
         <span class="summary-sig-arg">z</span>,
         <span class="summary-sig-arg">inverse</span>=<span class="summary-sig-default">False</span>)</span><br />
-      Transform a (geocentric) Cartesian point, forward or inverse.</td>
+      Transform a (geocentric) position, forward or inverse.</td>
           <td align="right" valign="top">
             
             
@@ -424,13 +482,13 @@
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>name</code></strong> - Optional, unique name (<code>str</code>).</li>
-        <li><strong class="pname"><code>tx</code></strong> - Optional X translation (<code>meter</code>).</li>
-        <li><strong class="pname"><code>ty</code></strong> - Optional Y translation (<code>meter</code>).</li>
-        <li><strong class="pname"><code>tz</code></strong> - Optional Z translation (<code>meter</code>).</li>
-        <li><strong class="pname"><code>s</code></strong> - Optional scale (<code>float</code>), ppm.</li>
-        <li><strong class="pname"><code>sx</code></strong> - Optional X rotation (<code>degree seconds</code>).</li>
-        <li><strong class="pname"><code>sy</code></strong> - Optional Y rotation (<code>degree seconds</code>).</li>
-        <li><strong class="pname"><code>sz</code></strong> - Optional Z rotation (<code>degree seconds</code>).</li>
+        <li><strong class="pname"><code>tx</code></strong> - X translation (<code>meter</code>).</li>
+        <li><strong class="pname"><code>ty</code></strong> - Y translation (<code>meter</code>).</li>
+        <li><strong class="pname"><code>tz</code></strong> - Z translation (<code>meter</code>).</li>
+        <li><strong class="pname"><code>s</code></strong> - Scale (<code>float</code>), ppm.</li>
+        <li><strong class="pname"><code>sx</code></strong> - X rotation (<code>degree-seconds</code>).</li>
+        <li><strong class="pname"><code>sy</code></strong> - Y rotation (<code>degree-seconds</code>).</li>
+        <li><strong class="pname"><code>sz</code></strong> - Z rotation (<code>degree-seconds</code>).</li>
     </ul></dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
@@ -503,18 +561,19 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">__matmul__</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">other</span>)</span>
+        <span class="sig-arg">point</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Helmert-transform a cartesian <b><code>other</code></b>.</p>
+  <p>Helmert-transform an <i>ellipsoidal</i> cartesian 
+  <b><code>point</code></b>.</p>
   <dl class="fields">
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>other</code></b>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>point</code></b>.</li>
     </ul></dd>
     <dt>Overrides:
         <a href="pygeodesy.named._Named-class.html#__matmul__">named._Named.__matmul__</a>
@@ -544,7 +603,8 @@
         <li><strong class="pname"><code>name</code></strong> - Optional, unique name (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Inverse (Transform).</dd>
+        <dd>Inverse (<a href="pygeodesy.datums.Transform-class.html" 
+          class="link">Transform</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>NameError</strong></code> - Transform with that <b><code>name</code></b> already exists.</li>
@@ -561,6 +621,7 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toStr</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">prec</span>=<span class="sig-default">5</span>,
+        <span class="sig-arg">fmt</span>=<span class="sig-default">'g'</span>,
         <span class="sig-arg">name</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">**unused</span>)</span>
   </h3>
@@ -574,6 +635,7 @@
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>prec</code></strong> - Number of (decimal) digits, unstripped (<code>int</code>).</li>
+        <li><strong class="pname"><code>fmt</code></strong> - Optional <code>float</code> format (<code>letter</code>).</li>
         <li><strong class="pname"><code>name</code></strong> - Override name (<code>str</code>) or <code>None</code> to exclude 
           this transform's name.</li>
     </ul></dd>
@@ -603,7 +665,7 @@
     </td>
   </tr></table>
   
-  <p>Transform a (geocentric) Cartesian point, forward or inverse.</p>
+  <p>Transform a (geocentric) position, forward or inverse.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -613,8 +675,9 @@
         <li><strong class="pname"><code>inverse</code></strong> - Optional direction, forward or inverse (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>A <a href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
-          class="link">Vector3Tuple</a><code>(x, y, z)</code>, transformed.</dd>
+        <dd>The transformed position (<a 
+          href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
+          class="link">Vector3Tuple</a><code>(x, y, z)</code>).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -686,7 +749,7 @@ WGS84?
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Jan 26 16:32:33 2024
+    Generated by Epydoc 3.0.1 on Mon Feb  5 13:29:31 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

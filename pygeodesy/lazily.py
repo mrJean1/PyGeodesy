@@ -323,7 +323,8 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                    'Enu', 'Enu4Tuple', 'Footprint5Tuple', 'Local9Tuple', 'Los',
                                    'Ned', 'Ned4Tuple', 'Uvw', 'Uvw3Tuple', 'XyzLocal', 'Xyz4Tuple'),
                            mgrs=_i('Mgrs', 'parseMGRS', 'toMgrs', 'Mgrs4Tuple', 'Mgrs6Tuple'),
-                          named=_i('callername', 'classname', 'classnaming', 'modulename',
+                          named=_i('ADict',
+                                   'callername', 'classname', 'classnaming', 'modulename',
                                    'nameof', 'notImplemented', 'notOverloaded'),
                     namedTuples=_i('Bearing2Tuple', 'Bounds2Tuple', 'Bounds4Tuple',
                                    'Destination2Tuple', 'Destination3Tuple',
@@ -362,8 +363,8 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                       solveBase=_i(),  # module only
                         streprs=_i('anstr', 'attrs', 'enstr2', 'fstr', 'fstrzs', 'hstr', 'instr',
                                    'lrstrip', 'pairs', 'reprs', 'strs', 'unstr'),
-                            trf=_i('Helmert7Tuple', 'RefFrame', 'RefFrames',
-                                   'date2epoch', 'epoch2date', 'trfTransforms', 'trfXform'),
+                            trf=_i('RefFrame', 'RefFrames', 'TransformXform', 'TRFXform', 'TRFXform7Tuple',
+                                   'date2epoch', 'epoch2date', 'trfTransform0', 'trfXform'),
                       triaxials=_i('BetaOmega2Tuple', 'BetaOmega3Tuple', 'Jacobi2Tuple',
                                    'JacobiConformal', 'JacobiConformalSpherical',
                                    'Triaxial', 'Triaxial_', 'TriaxialError', 'Triaxials', 'hartzell4'),
@@ -408,7 +409,7 @@ _ALL_DEPRECATED = _NamedEnum_RO(_name='_ALL_DEPRECATED',
                                          'rhumbaux', 'rhumbBase', 'rhumbsolve', 'rhumbx'),  # ... names
                      deprecated_bases=_i('LatLonHeightBase', 'points2'),
                    deprecated_classes=_i('ClipCS3Tuple', 'EasNorExact4Tuple', 'EcefCartesian',
-                                         'HeightIDW', 'HeightIDW2', 'HeightIDW3',
+                                         'HeightIDW', 'HeightIDW2', 'HeightIDW3', 'Helmert7Tuple',
                                          'LatLonExact4Tuple', 'NearestOn4Tuple', 'Ned3Tuple',
                                          'RefFrameError', 'Rhumb7Tuple', 'RhumbOrder2Tuple',
                                          'Transform7Tuple', 'TriAngle4Tuple', 'UtmUps4Tuple'),
@@ -424,7 +425,8 @@ _ALL_DEPRECATED = _NamedEnum_RO(_name='_ALL_DEPRECATED',
                                          'inStr', 'isenclosedby', 'istuplist',
                                          'joined', 'joined_', 'nearestOn3', 'nearestOn4',
                                          'parseUTM', 'perimeterof', 'polygon', 'scalar', 'simplify2',
-                                         'tienstra', 'toUtm', 'triAngle4', 'unsign0', 'unStr', 'utmZoneBand2'),
+                                         'tienstra', 'toUtm', 'trfTransforms', 'triAngle4',
+                                         'unsign0', 'unStr', 'utmZoneBand2'),
                    deprecated_nvector=_i('LatLonNvectorBase', 'Nvector', 'sumOf', 'NorthPole', 'SouthPole'),)
 
 
@@ -498,7 +500,7 @@ class _ALL_MODS(object):
 _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '24.01.24'
+__version__ = '24.02.02'
 
 
 def _ALL_OTHER(*objs):

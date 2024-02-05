@@ -548,7 +548,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        24.01.24
+        24.02.04
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -1080,6 +1080,15 @@
       World Geographic Reference System (WGRS) encode, decode or other <a
         href="pygeodesy.wgrs.Georef-class.html" class="link">Georef</a> 
         issue.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.named.ADict-class.html" class="summary-name">ADict</a><br />
+      A <code>dict</code> with both key <i>and</i> attribute access to 
+        the <code>dict</code> items.
     </td>
   </tr>
 <tr>
@@ -3284,19 +3293,6 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.trf.Helmert7Tuple-class.html" class="summary-name">Helmert7Tuple</a><br />
-      7-Tuple <code>(tx, ty, tz, s, sx, sy, sz)</code> of Helmert 
-        transform parameters with translations <code>tx</code>, 
-        <code>ty</code> and <code>tz</code> in <code>millimeter</code>, 
-        scale <code>s</code> in <code>ppb</code> and rotations 
-        <code>sx</code>, <code>sy</code> and <code>sz</code> in 
-        <code>milli-arc-seconds</code>.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
         <a href="pygeodesy.unitsBase.Int-class.html" class="summary-name">Int</a><br />
       Named <code>int</code>.
     </td>
@@ -4445,6 +4441,27 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.trf.TRFXform-class.html" class="summary-name">TRFXform</a><br />
+      Terrestrial Reference Frame (TRF) converter between two reference 
+        frames observed at an <code>epoch</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.trf.TRFXform7Tuple-class.html" class="summary-name">TRFXform7Tuple</a><br />
+      7-Tuple <code>(tx, ty, tz, s, sx, sy, sz)</code> of conversion 
+        parameters with translations <code>tx</code>, <code>ty</code> and 
+        <code>tz</code> in <code>milli-meter</code>, scale <code>s</code> 
+        in <code>ppb</code> and rates <code>sx</code>, <code>sy</code> and 
+        <code>sz</code> in <code>milli-arc-seconds-per-year</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.resections.Tienstra7Tuple-class.html" class="summary-name">Tienstra7Tuple</a><br />
       7-Tuple <code>(pointP, A, B, C, a, b, c)</code> with survey 
         <code>pointP</code>, interior triangle angles <code>A</code>, 
@@ -4458,7 +4475,16 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.datums.Transform-class.html" class="summary-name">Transform</a><br />
-      Helmert transformation.
+      Helmert <i>datum</i> transformation.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.trf.TransformXform-class.html" class="summary-name">TransformXform</a><br />
+      Helmert transformation, extended with an <code>Xform</code> 
+        converter.
     </td>
   </tr>
 <tr>
@@ -6353,7 +6379,7 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#date2epoch" class="summary-sig-name">date2epoch</a>(<span class="summary-sig-arg">year</span>,
         <span class="summary-sig-arg">month</span>,
         <span class="summary-sig-arg">day</span>)</span><br />
-      Return the reference frame <code>epoch</code> for a calendar day.</td>
+      Return the <code>epoch</code> for a calendar day.</td>
           <td align="right" valign="top">
             
             
@@ -8105,7 +8131,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fa868549cd0&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f9700beac50&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -11831,13 +11857,14 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#trfTransforms" class="summary-sig-name">trfTransforms</a>(<span class="summary-sig-arg">reframe</span>,
-        <span class="summary-sig-arg">epoch</span>,
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#trfTransform0" class="summary-sig-name">trfTransform0</a>(<span class="summary-sig-arg">reframe</span>,
         <span class="summary-sig-arg">reframe2</span>,
-        <span class="summary-sig-arg">epoch2</span>)</span><br />
-      Get the <a href="pygeodesy.datums.Transform-class.html" 
-      class="link">Transform</a>(s) to convert reframe at epoch to reframe2
-      at epoch2.</td>
+        <span class="summary-sig-arg">epoch</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">epoch2</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Get the <a href="pygeodesy.trf.TransformXform-class.html" 
+      class="link">TransformXform</a> to convert a <code>reframe</code> 
+      observed at <code>epoch</code> to <code>reframe2</code> at observed 
+      at <code>epoch2 or epoch</code>.</td>
           <td align="right" valign="top">
             
             
@@ -11858,7 +11885,7 @@
         <span class="summary-sig-arg">epoch</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">xform</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">rates</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Define a new Terrestrial Reference Frame (TRF) conversion.</td>
+      Define a new Terrestrial Reference Frame (TRF) converter.</td>
           <td align="right" valign="top">
             
             
@@ -12574,7 +12601,7 @@ ygeodesy'"><code class="variable-quote">'</code><code class="variable-string">/U
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'24.1.24'">'24.1.24'</code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'24.2.4'">'24.2.4'</code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -13267,7 +13294,15 @@ Ellipsoids.GRS80: Ellipsoid(name='GRS80', a=6378137, b=6356752.3141403\
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="RefFrames"></a><span class="summary-name">RefFrames</span> = <code title=""></code><br />
+        <a href="pygeodesy-module.html#RefFrames" class="summary-name">RefFrames</a> = <code title="RefFrames.ETRF89: RefFrame(name='ETRF89', epoch=1989, datum=Datums.GRS\
+80),
+RefFrames.GDA2020: RefFrame(name='GDA2020', epoch=2020, datum=Datums.G\
+RS80),
+RefFrames.ETRF92: RefFrame(name='ETRF92', epoch=1992, datum=Datums.GRS\
+80),
+RefFrames.ETRF93: RefFrame(name='ETRF93', epoch=1993, datum=Datums.GRS\
+80),
+...">RefFrames.ETRF89: RefFrame(name='ETRF89', epoch=19<code class="variable-ellipsis">...</code></code><br />
       Registered, predefined reference frames (<code>enum-like</code>).
     </td>
   </tr>
@@ -13335,13 +13370,13 @@ Ellipsoids.GRS80: Ellipsoid(name='GRS80', a=6378137, b=6356752.3141403\
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy-module.html#Transforms" class="summary-name">Transforms</a> = <code title="Transforms.OSGB36: Transform(name='OSGB36', tx=-446.448, ty=125.157, t\
-z=-542.06, rx=-0, ry=-0, rz=-0, s=20.4894, s1=1.00002, sx=-0.1502, sy=\
--0.247, sz=-0.8421),
-Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
-, rz=0, s=0, s1=1, sx=0, sy=0, sz=0),
-Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
-, ry=0, rz=0, s=0, s1=1, sx=0, sy=0, sz=0)">Transforms.OSGB36: Transform(name='OSGB36', tx=-4<code class="variable-ellipsis">...</code></code><br />
+        <a href="pygeodesy-module.html#Transforms" class="summary-name">Transforms</a> = <code title="Transforms.OSGB36: Transform(name='OSGB36', tx=-446.45, ty=125.16, tz=\
+-542.06, s1=1.0, rx=-7.2819e-07, ry=-1.1975e-06, rz=-4.0826e-06, s=20.\
+489, sx=-0.1502, sy=-0.247, sz=-0.8421),
+Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1\
+.0, rx=0.0, ry=0.0, rz=0.0, s=0.0, sx=0.0, sy=0.0, sz=0.0),
+Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
+, s1=1.0, rx=0.0, ry=0.0, rz=0.0, s=0.0, sx=0.0, sy=0.0, sz=0.0)">Transforms.OSGB36: Transform(name='OSGB36', tx=-4<code class="variable-ellipsis">...</code></code><br />
       Registered, predefined transforms (<code>enum-like</code>).
     </td>
   </tr>
@@ -16539,7 +16574,7 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
     </td>
   </tr></table>
   
-  <p>Return the reference frame <code>epoch</code> for a calendar day.</p>
+  <p>Return the <code>epoch</code> for a calendar day.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -19387,7 +19422,7 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
           zeros are stripped for <a 
           href="https://docs.Python.org/3/library/stdtypes.html#printf-style-string-formatting"
           target="_top">alternate, form '#'</a>.</li>
-        <li><strong class="pname"><code>fmt</code></strong> - Optional, <code>float</code> format (<code>str</code>).</li>
+        <li><strong class="pname"><code>fmt</code></strong> - Optional <code>float</code> format (<code>letter</code>).</li>
         <li><strong class="pname"><code>ints</code></strong> - Optionally, remove the decimal dot for <code>int</code> values 
           (<code>bool</code>).</li>
         <li><strong class="pname"><code>sep</code></strong> - Separator joining the <b><code>floats</code></b> 
@@ -20091,7 +20126,7 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fa868549cd0&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f9700beac50&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -20443,7 +20478,7 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
           (0..9). Trailing zero decimals are stripped if 
           <b><code>prec</code></b> is positive, but kept for negative 
           <b><code>prec</code></b> values.</li>
-        <li><strong class="pname"><code>fmt</code></strong> - Optional, <code>float</code> format (<code>str</code>).</li>
+        <li><strong class="pname"><code>fmt</code></strong> - Optional <code>float</code> format (<code>letter</code>).</li>
         <li><strong class="pname"><code>ints</code></strong> - Optionally, remove the decimal dot for <code>int</code> values 
           (<code>bool</code>).</li>
         <li><strong class="pname"><code>m</code></strong> - Optional unit of the height (<code>str</code>).</li>
@@ -24264,7 +24299,7 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
           (0..9). Trailing zero decimals are stripped if 
           <b><code>prec</code></b> is positive, but kept for negative 
           <b><code>prec</code></b> values.</li>
-        <li><strong class="pname"><code>fmt</code></strong> - Optional, <code>float</code> format (<code>str</code>).</li>
+        <li><strong class="pname"><code>fmt</code></strong> - Optional <code>float</code> format (<code>letter</code>).</li>
         <li><strong class="pname"><code>ints</code></strong> - Optionally, remove the decimal dot for <code>int</code> values 
           (<code>bool</code>).</li>
         <li><strong class="pname"><code>sep</code></strong> - Separator joining <i>names</i> and <i>values</i> 
@@ -25881,7 +25916,7 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
           (0..9). Trailing zero decimals are stripped if 
           <b><code>prec</code></b> is positive, but kept for negative 
           <b><code>prec</code></b> values.</li>
-        <li><strong class="pname"><code>fmt</code></strong> - Optional, <code>float</code> format (<code>str</code>).</li>
+        <li><strong class="pname"><code>fmt</code></strong> - Optional <code>float</code> format (<code>letter</code>).</li>
         <li><strong class="pname"><code>ints</code></strong> - Optionally, remove the decimal dot for <code>int</code> values 
           (<code>bool</code>).</li>
     </ul></dd>
@@ -26870,7 +26905,7 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
           (0..9). Trailing zero decimals are stripped if 
           <b><code>prec</code></b> is positive, but kept for negative 
           <b><code>prec</code></b> values.</li>
-        <li><strong class="pname"><code>fmt</code></strong> - Optional, <code>float</code> format (<code>str</code>).</li>
+        <li><strong class="pname"><code>fmt</code></strong> - Optional <code>float</code> format (<code>letter</code>).</li>
         <li><strong class="pname"><code>ints</code></strong> - Optionally, remove the decimal dot for <code>int</code> values 
           (<code>bool</code>).</li>
     </ul></dd>
@@ -27998,47 +28033,58 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
       </p>
 </div></td></tr></table>
 </div>
-<a name="trfTransforms"></a>
+<a name="trfTransform0"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">trfTransforms</span>&nbsp;(<span class="sig-arg">reframe</span>,
-        <span class="sig-arg">epoch</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">trfTransform0</span>&nbsp;(<span class="sig-arg">reframe</span>,
         <span class="sig-arg">reframe2</span>,
-        <span class="sig-arg">epoch2</span>)</span>
+        <span class="sig-arg">epoch</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">epoch2</span>=<span class="sig-default">None</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Get the <a href="pygeodesy.datums.Transform-class.html" 
-  class="link">Transform</a>(s) to convert reframe at epoch to reframe2 at 
-  epoch2.</p>
+  <p>Get the <a href="pygeodesy.trf.TransformXform-class.html" 
+  class="link">TransformXform</a> to convert a <code>reframe</code> 
+  observed at <code>epoch</code> to <code>reframe2</code> at observed at 
+  <code>epoch2 or epoch</code>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>reframe</code></strong> - Reference frame to convert <i>from</i> (<a 
           href="pygeodesy.trf.RefFrame-class.html" 
           class="link">RefFrame</a> or <code>str</code>).</li>
-        <li><strong class="pname"><code>epoch</code></strong> - Epoch to observe <i>from</i> (<a 
-          href="pygeodesy.units.Epoch-class.html" class="link">Epoch</a>, 
-          <code>scalar</code> or <code>str</code>).</li>
         <li><strong class="pname"><code>reframe2</code></strong> - Reference frame to convert <i>to</i> (<a 
           href="pygeodesy.trf.RefFrame-class.html" 
           class="link">RefFrame</a> or <code>str</code>).</li>
-        <li><strong class="pname"><code>epoch2</code></strong> - Epoch to observe to observe <i>to</i> (<a 
+        <li><strong class="pname"><code>epoch</code></strong> - Epoch to observe <i>from</i> (<a 
           href="pygeodesy.units.Epoch-class.html" class="link">Epoch</a>, 
-          <code>scalar</code> or <code>str</code>).</li>
+          <code>scalar</code> or <code>str</code>), otherwise 
+          <code><b>reframe</b></code>'s <code>epoch</code>.</li>
+        <li><strong class="pname"><code>epoch2</code></strong> - Optional epoch to observe to observe <i>to</i> (<a 
+          href="pygeodesy.units.Epoch-class.html" class="link">Epoch</a>, 
+          <code>scalar</code> or <code>str</code>), otherwise 
+          <b><code>epoch</code></b> or <code><b>reframe</b></code>'s 
+          <code>epoch</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>A 0-, 1- or 2-tuple of Helmert <a 
-          href="pygeodesy.datums.Transform-class.html" 
-          class="link">Transform</a>s or <code>None</code> if no conversion
+        <dd>A <a href="pygeodesy.trf.TransformXform-class.html" 
+          class="link">TransformXform</a> instance, a <code>0-tuple</code> 
+          for <i>unity, identity</i> or <code>None</code> if no conversion 
           exists.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.TRFError-class.html">TRFError</a></strong></code> - Invalid <b><code>reframe</code></b>, <b><code>epoch</code></b>, 
+        <b><code>reframe2</code></b> or <b><code>epoch2</code></b>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>reframe</code></b> or 
+        <b><code>reframe2</code></b>.</li>
+    </ul></dd>
   </dl>
 </td></tr></table>
 </div>
@@ -28060,24 +28106,37 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
     </td>
   </tr></table>
   
-  <p>Define a new Terrestrial Reference Frame (TRF) conversion.</p>
+  <p>Define a new Terrestrial Reference Frame (TRF) converter.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>reframe1</code></strong> - Source reframe (<a href="pygeodesy.trf.RefFrame-class.html" 
-          class="link">RefFrame</a>), converting <i>from</i>.</li>
+          class="link">RefFrame</a> or <code>str</code>), converting 
+          <i>from</i>.</li>
         <li><strong class="pname"><code>reframe2</code></strong> - Destination reframe (<a href="pygeodesy.trf.RefFrame-class.html" 
-          class="link">RefFrame</a>), converting <i>to</i>.</li>
-        <li><strong class="pname"><code>epoch</code></strong> - Epoch, a fractional calendar year (<code>scalar</code> or 
-          <code>str</code>) or <code>None</code> for 
-          <code><b>reframe2</b>.epoch</code>.</li>
-        <li><strong class="pname"><code>xform</code></strong> - Helmert <i>transform</i> parameters (<code>Helmert7Tuple</code>).</li>
-        <li><strong class="pname"><code>rates</code></strong> - Helmert <i>rate</i> parameters (<code>Helmert7Tuple</code>), like
-          <b><code>xform</code></b>, but in <code>units per year</code>.</li>
+          class="link">RefFrame</a> or <code>str</code>), converting 
+          <i>to</i>.</li>
+        <li><strong class="pname"><code>epoch</code></strong> - Epoch, a fractional year (<a 
+          href="pygeodesy.units.Epoch-class.html" class="link">Epoch</a>, 
+          <code>scalar</code> or <code>str</code>) or <code>None</code> for
+          <code><b>reframe2</b></code>'s epoch.</li>
+        <li><strong class="pname"><code>xform</code></strong> - <i>Transform</i> parameters (<a 
+          href="pygeodesy.trf.TRFXform7Tuple-class.html" 
+          class="link">TRFXform7Tuple</a>).</li>
+        <li><strong class="pname"><code>rates</code></strong> - <i>Rate</i> parameters (<a 
+          href="pygeodesy.trf.TRFXform7Tuple-class.html" 
+          class="link">TRFXform7Tuple</a>), as <b><code>xform</code></b>, 
+          but in <code>units-per-year</code>.</li>
     </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The new TRF converter (<a 
+          href="pygeodesy.trf.TRFXform-class.html" 
+          class="link">TRFXform</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.TRFError-class.html">TRFError</a></strong></code> - Invalid <b><code>epoch</code></b> or TRF conversion already exists.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.TRFError-class.html">TRFError</a></strong></code> - Invalid <b><code>reframe1</code></b>, <b><code>reframe2</code></b>,
+        <b><code>epoch</code></b>, <b><code>xform</code></b> or 
+        <b><code>rates</code></b> or the TRF converter already exists.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -29679,6 +29738,32 @@ Ellipsoids.GRS80: Ellipsoid(name='GRS80', a=6378137, b=6356752.3141403<span clas
   </dl>
 </td></tr></table>
 </div>
+<a name="RefFrames"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">RefFrames</h3>
+  Registered, predefined reference frames (<code>enum-like</code>).
+  <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+RefFrames.ETRF89: RefFrame(name='ETRF89', epoch=1989, datum=Datums.GRS<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+80),
+RefFrames.GDA2020: RefFrame(name='GDA2020', epoch=2020, datum=Datums.G<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+RS80),
+RefFrames.ETRF92: RefFrame(name='ETRF92', epoch=1992, datum=Datums.GRS<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+80),
+RefFrames.ETRF93: RefFrame(name='ETRF93', epoch=1993, datum=Datums.GRS<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+80),
+<code class="variable-ellipsis">...</code>
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="Transforms"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -29691,13 +29776,13 @@ Ellipsoids.GRS80: Ellipsoid(name='GRS80', a=6378137, b=6356752.3141403<span clas
   <dl class="fields">
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
-Transforms.OSGB36: Transform(name='OSGB36', tx=-446.448, ty=125.157, t<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-z=-542.06, rx=-0, ry=-0, rz=-0, s=20.4894, s1=1.00002, sx=-0.1502, sy=<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
--0.247, sz=-0.8421),
-Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-, rz=0, s=0, s1=1, sx=0, sy=0, sz=0),
-Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-, ry=0, rz=0, s=0, s1=1, sx=0, sy=0, sz=0)
+Transforms.OSGB36: Transform(name='OSGB36', tx=-446.45, ty=125.16, tz=<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+-542.06, s1=1.0, rx=-7.2819e-07, ry=-1.1975e-06, rz=-4.0826e-06, s=20.<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+489, sx=-0.1502, sy=-0.247, sz=-0.8421),
+Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+.0, rx=0.0, ry=0.0, rz=0.0, s=0.0, sx=0.0, sy=0.0, sz=0.0),
+Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+, s1=1.0, rx=0.0, ry=0.0, rz=0.0, s=0.0, sx=0.0, sy=0.0, sz=0.0)
 </pre></td></tr></table>
 </dd>
   </dl>
@@ -29735,7 +29820,7 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Jan 26 16:32:32 2024
+    Generated by Epydoc 3.0.1 on Mon Feb  5 13:29:30 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

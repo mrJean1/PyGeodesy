@@ -36,7 +36,7 @@ from pygeodesy.utily import degrees90, degrees180
 from math import atan, atanh, exp, radians, sin, tanh
 
 __all__ = _ALL_LAZY.webmercator
-__version__ = '23.12.07'
+__version__ = '24.02.04'
 
 # _FalseEasting  = 0   # false Easting (C{meter})
 # _FalseNorthing = 0   # false Northing (C{meter})
@@ -230,7 +230,7 @@ class Wm(_NamedBase):
         '''Return a string representation of this WM coordinate.
 
            @kwarg prec: Number of (decimal) digits, unstripped (C{int}).
-           @kwarg fmt: The C{float} format (C{str}).
+           @kwarg fmt: Optional C{float} format (C{letter}).
            @kwarg sep: Optional separator to join (C{str}) or C{None}
                        to return an unjoined C{tuple} of C{str}s.
            @kwarg radius: If C{True} include the radius (C{bool}) or

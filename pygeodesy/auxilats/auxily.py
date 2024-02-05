@@ -19,15 +19,15 @@ from pygeodesy.constants import INF, NAN, isinf, isnan, _0_0, _0_5, \
 from pygeodesy.errors import AuxError,  NN
 from pygeodesy.fmath import hypot1 as _sc, hypot2_
 # from pygeodesy.interns import NN  # from .errors
-from pygeodesy.karney import _ALL_DOCS, _Dict, _MODS  # PYCHOK used!
+from pygeodesy.karney import ADict, _ALL_DOCS, _MODS  # PYCHOK used!
 # from pygeodesy.lazily import _ALL_DOCS, _ALL_MODS as _MODS  # from .karney
-# from pygeodesy.named import _Dict  # from .karney
+# from pygeodesy.named import ADict  # from .karney
 from pygeodesy.utily import atan1
 
 from math import asinh, copysign
 
 __all__ = ()
-__version__ = '23.11.23'
+__version__ = '24.02.02'
 
 
 class Aux(object):
@@ -90,11 +90,11 @@ _Greek2Aux = dict(map(reversed, _Aux2Greek.items()))  # PYCHOK exported
 # _Greek2Aux.update((_g.upper(), _x) for _g, _x in _Greek2Aux.items())
 
 
-class _Coeffs(_Dict):
+class _Coeffs(ADict):
     '''(INTERNAL) With C{items keys} string-ified.
     '''
     def items(self):
-        for n, v in _Dict.items(self):
+        for n, v in ADict.items(self):
             yield str(n), v
 
 

@@ -8,16 +8,17 @@
 # <https://GitHub.com/ChrisVeness/geodesy/blob/master/test/latlon-ellipsoidal-referenceframe-tests.js>
 
 __all__ = ('Tests',)
-__version__ = '24.01.25'
+__version__ = '24.02.04'
 
 from bases import GeodSolve, TestsBase
 
-from pygeodesy import date2epoch, Epoch, epoch2date, F_D, F_DMS, RefFrames, TRFError
+from pygeodesy import date2epoch, Epoch, epoch2date, F_D, F_DMS, \
+                      RefFrames, TRFError, trfTransform0, Vector3d
 
 
 class Tests(TestsBase):
 
-    def testTrf(self, ellipsoidal_):  # MCCABE 17
+    def testTrf(self, ellipsoidal_):  # MCCABE 15
 
         self.subtitle(ellipsoidal_, 'Trf')
 
@@ -35,7 +36,7 @@ class Tests(TestsBase):
         self.test('toLatLon', x.toStr(form=F_D, prec=4), '50.7978°N, 004.3592°E, +148.96m')
         c = Cartesian(3980574.247, -102.127, 4966830.065)
         x = c.toRefFrame(RefFrames.ETRF2000, RefFrames.ITRF2000)
-        self.test('convertRefFrame', x, '[3980574.395, -102.209, 4966829.941]')  # [3980574.395, -102.214, 4966829.941]
+        self.test('convertRefFrame', x, '[3980574.395, -102.214, 4966829.941]')
 
         p = LatLon(0, 0, reframe=RefFrames.ITRF2000)
         x = p.toRefFrame(RefFrames.ITRF2000)
@@ -85,7 +86,7 @@ class Tests(TestsBase):
         x = c.toRefFrame(RefFrames.ITRF91, RefFrames.ITRF2005, 2007)
         self.test('EUREF C2', x.toStr(prec=4), '[4027894.0444, 307045.6209, 4919474.8613]')
         x = c.toRefFrame(RefFrames.ETRF2000, RefFrames.ITRF2000, 2012)
-        self.test('EUREF C4', x.toStr(prec=4), '[4027894.356, 307045.2501, 4919474.6447]')  # [4027894.3559, 307045.2508, 4919474.6447]
+        self.test('EUREF C4', x.toStr(prec=4), '[4027894.3559, 307045.2508, 4919474.6447]')
         x = c.toRefFrame(RefFrames.ETRF2000, RefFrames.ITRF2014, 2012)
         self.test('EUREF C5', x.toStr(prec=4), '[4027894.3662, 307045.253, 4919474.6263]')
 
@@ -99,10 +100,10 @@ class Tests(TestsBase):
         self.test('Case 1B', x.toStr(prec=4), '[4027894.0054, 307045.5938, 4919474.9083]')  # was .0053, .5939
         c = Cartesian(4027893.5358, 307046.0740, 4919475.2748, reframe=RefFrames.ITRF2014, epoch=2020.0)
         x = c.toRefFrame(RefFrames.ETRF2014, epoch=2020)
-        self.test('Case 2A', x.toStr(prec=4), '[4027893.9639, 307045.545, 4919474.9573]')  # was .5450
+        self.test('Case 2A', x.toStr(prec=4), '[4027893.9639, 307045.545, 4919474.9573]')
         c = Cartesian(4027893.5505, 307046.0772, 4919475.245, reframe=RefFrames.ITRF2000)
         x = c.toRefFrame(RefFrames.ETRF2000, epoch=2020)
-        self.test('Case 2B', x.toStr(prec=4), '[4027894.0036, 307045.585, 4919474.9041]')  # was .0033, .5889, .9047
+        self.test('Case 2B', x.toStr(prec=4), '[4027894.0033, 307045.5889, 4919474.9041]')  # was .0033, .5889, .9047
 
         try:
             t = LatLon(0, 0, reframe='ITRF2000')
@@ -158,51 +159,100 @@ class Tests(TestsBase):
             self.test(_n(c), t, t, known=True, nl=1)
             x = c.toRefFrame(RefFrames.ITRF2014, epoch2=2018.8)
             self.test(_n(x), x.toStr(prec=-3), X, known=True)
+            h = trfTransform0(c.reframe, RefFrames.ITRF2014, epoch=c.epoch, epoch2=2018.8)
+            self.test('TransformXform', h.name, h.name)
             e = x - X
             self.test('Delta (m)', e.toStr(prec=6), '[0.01, 0.01, 0.01]', known=max(map(abs, e.xyz)) < 0.5)
             e = e.length
             self.test('Error (m)', e, '0.01', prec=6, known=e < 1.5)
             r = x.epoch - c.epoch
             self.test('Epoch range', r, '14.0', prec=3, known=True)
-            x = x.toRefFrame(c.reframe, epoch2=c.epoch)
-            self.test(_n(x), x.toStr(prec=-6), t)
+            r = x.toRefFrame(c.reframe, epoch2=c.epoch)
+            self.test(_n(r), r.toStr(prec=-6), t, known=(r - c).length < 1)
+            h = trfTransform0(x.reframe, c.reframe, epoch=x.epoch, epoch2=c.epoch)
+            self.test('TransformXform', h.name, h.name)
 
-        x = RefFrames.ITRF2014.toRefFrame(X, RefFrames.ITRF2020, epoch=2018.8, epoch2=2024.1)  # coverage
-        x = (x - X).toStr(prec=6)
-        self.test('toRefFrame', x, x, nl=1)
+        def _t(x, dX):
+            return '%s@%s %s %s' % (x.reframe.name, x.reframe.epoch, x.epoch, dX.toStr(prec=8))
+
+        x = RefFrames.ITRF2014.toRefFrame(X, RefFrames.ITRF2020, epoch=2018.8, epoch2=2024.31)
+        self.test('toRefFrame1', _t(x, x - X), "ITRF2020@2015 2024.310 [0.0031474, 0.00210534, -0.00125667]", nl=1)
+        x = RefFrames.ITRF2020.Xform('ITRF2014').toRefFrame(X, epoch=2018.8, epoch2=2024.32)
+        self.test('toRefFrame2', _t(x, X - x), "ITRF2014@2010 2024.320 [0.0031474, 0.00210634, -0.00125867]")  # flipped
+        T = trfTransform0('ITRF2014', RefFrames.ITRF2020)  # get Transform from reframe, no epoch or epoch2 ...
+        self.test('transform0', T.name, T.name)
+        t = repr(T.Xform)
+        self.test('transform0X', t, t)
+        x = T.toRefFrame(X, epoch=2018.8, epoch2=2024.33)  # ... apply epoch and epoch2 at toRefFrame calls
+        self.test('toRefFrame3', _t(x, x - X), "ITRF2020@2015 2024.330 [0.0031474, 0.00210734, -0.00126067]")
+        x = T.transform(X.x, X.y, X.z)
+        self.test('transform2x', x.toStr(prec=-6), '(4160476.488147, 653193.021674, 4774604.781605)')
+        v = T.velocities()
+        self.test('transform2v', v.toStr(prec=-3), '(0.004, 0.003, 0.004)', known=True)
+
+        def _t4(c, x, p):
+            c = Vector3d(*c)
+            x = Vector3d(*x)
+            e = c - x
+            d = e.length
+            return c.toStr(prec=p), x.toStr(prec=p), d, e.toStr(prec=9) + ' %.4g' % (d,)
+
+        # Alamimi, Z. Example 1 <http://ETRS89.ENSG.IGN.FR/pub/EUREF-TN-1-Jan-31-2024.pdf>
+        f, _, r1 =        (4027893.6750, 307045.9069, 4919475.1721), (-0.01361,  0.01686,  0.01024), 'ITRF2020'
+        for t, w, r2 in (((4027893.9585, 307045.5550, 4919474.9619), ( 0.00011,  0.00011,  0.00024), 'ETRF2020'),
+                         ((4027893.6719, 307045.9064, 4919475.1704), (-0.01361,  0.01676,  0.01044), 'ITRF2014'),
+                         ((4027893.9620, 307045.5480, 4919474.9553), ( 0.00020, -0.00030,  0.00020), 'ETRF2014'),
+                         ((4027893.6812, 307045.9082, 4919475.1547), (-0.01307,  0.01690,  0.00908), 'ITRF2000'),
+                         ((4027894.0053, 307045.5939, 4919474.9083), (-0.00020, -0.00050, -0.00036), 'ETRF2000')):
+            T = trfTransform0(r1, r2, epoch=2010)
+            x = T.toStr(prec=9)
+            self.test('Transform0', x, x, nl=1)
+            c = T.transform(*f)
+            c, x, d, e = _t4(c, t, -4)
+            self.test('Transform0c', c, x, known=d < 1.e-4)
+            self.test('    Error0c', e, e)
+            v = T.velocities()
+            v, x, d, e = _t4(v, w, -5)
+            self.test('Transform0v', v, x, known=d < 1.0)
+            self.test('    Error0v', e, e)
+            f, r1 = t, r2
 
         # courtesy GGaessler <https://github.com/mrJean1/PyGeodesy/issues/80>
         p = LatLon('48 46 36.89676N', '8 55 21.25713E', height=476.049, reframe=RefFrames.ETRF89, epoch=1989)
-        self.test('Issue80', p.toStr(form='D', prec=10), '48.7769157667°N, 008.922571425°E, +476.05m', nl=1)
+        self.test('Issue80', p.toStr(form='D', prec=8), '48.77691577°N, 008.92257142°E, +476.05m', nl=1)
         x = p.toRefFrame(RefFrames.ITRF2014, epoch2=2018.8)
-        self.test('Issue80', x.toStr(form='D', prec=10), '48.7769169572°N, 008.9225709519°E, +476.09m')
+        self.test('Issue80', x.toStr(form='D', prec=8), '48.77692147°N, 008.92257868°E, +476.09m')
         t = x.toRefFrame(RefFrames.ETRF89, epoch=1989)  # 48.7769157667°N, 008.9225714250°E, +476.049m
-        self.test('Issue80', t.toStr(prec=6), '48°46′36.898876″N, 008°55′21.257278″E, +476.10m')
+        d = p.vincentysTo(t)
+        self.test('Issue80', t.toStr(prec=6), '48°46′36.915134″N, 008°55′21.285094″E, +476.10', known=d < 0.9)
+        self.test('Issue80', d, '0.01', prec=3, known=d < 0.9)
 
         c = p.toCartesian(Cartesian=Cartesian)  # reframe=RefFrames.ETRF89, epoch=1989
         self.test('Issue80', c.toStr(prec=6), '[4160476.944064, 653192.600457, 4774604.455385]')
         x = c.toRefFrame(RefFrames.ITRF2014, epoch2=2018.8)
-        self.test('Issue80', x.toStr(prec=6), '[4160476.875697, 653192.554523, 4774604.571079]')
+        self.test('Issue80', x.toStr(prec=6), '[4160476.415504, 653193.057171, 4774604.903316]')
         t = x.toRefFrame(RefFrames.ETRF89, epoch=1989)
-        self.test('Issue80', t.toStr(prec=6), '[4160476.928094, 653192.601, 4774604.536651]')
+        self.test('Issue80', t.toStr(prec=6), '[4160476.467901, 653193.103647, 4774604.868888]')
         p = t.toLatLon(LatLon=LatLon)  # reframe=RefFrames.ETRF89, epoch=1989
-        self.test('Issue80', p.toStr(prec=6), '48°46′36.898876″N, 008°55′21.257278″E, +476.10m')
+        self.test('Issue80', p.toStr(prec=6), '48°46′36.915133″N, 008°55′21.285094″E, +476.10m')
 
         p = LatLon('48 46 36.91314N', '8 55 21.28095E', height=476.049, reframe=RefFrames.ITRF2014, epoch=2018.8)
-        self.test('Issue80', p.toStr(form='D', prec=10), '48.7769203167°N, 008.9225780417°E, +476.05m', nl=1)
+        self.test('Issue80', p.toStr(form='D', prec=8), '48.77692032°N, 008.92257804°E, +476.05m', nl=1)
         x = p.toRefFrame(RefFrames.ETRF89, epoch2=1989)
-        self.test('Issue80', x.toStr(form='D', prec=10, nl=1), '48.7769191262°N, 008.9225785148°E, +476.01m')
-        t = x.toRefFrame(RefFrames.ITRF2014, epoch=2018.8)    # 48.7769203167°N, 008.9225780417°E, +476.037m
-        self.test('Issue80', t.toStr(prec=6), '48°46′36.929398″N, 008°55′21.308766″E, +476.05m')
+        self.test('Issue80', x.toStr(form='D', prec=8, nl=1), '48.77691971°N, 008.92257856°E, +476.06m')
+        t = x.toRefFrame(RefFrames.ITRF2014, epoch=2018.8)   # 48.7769203167°N, 008.9225780417°E, +476.037m
+        d = p.vincentysTo(t)
+        self.test('Issue80', t.toStr(prec=4), '48°46′36.9131″N, 008°55′21.28095″E, +476.05m', known=d < 0.9)
+        self.test('Issue80', d, '0.01', prec=3, known=d < 0.9)
 
         c = p.toCartesian(Cartesian=Cartesian)  # reframe=RefFrames.ITRF2014, epoch=2018.8
         self.test('Issue80', c.toStr(prec=6), '[4160476.492633, 653193.021888, 4774604.78885]')
         x = c.toRefFrame(RefFrames.ETRF89, epoch2=1989)
-        self.test('Issue80', x.toStr(prec=6), '[4160476.561, 653193.067822, 4774604.673156]')
+        self.test('Issue80', x.toStr(prec=6), '[4160476.54503, 653193.068365, 4774604.754422]')
         t = x.toRefFrame(RefFrames.ITRF2014, epoch=2018.8)
-        self.test('Issue80', t.toStr(prec=6), '[4160476.03244, 653193.524536, 4774605.121087]')
-        p = t.toLatLon(LatLon=LatLon)  # reframe=RefFrames.ITRF2014, epoch=2018.8
-        self.test('Issue80', p.toStr(prec=6), '48°46′36.929398″N, 008°55′21.308766″E, +476.05m')
+        self.test('Issue80', t.toStr(prec=6), '[4160476.016469, 653193.525079, 4774605.202353]')
+        t = t.toLatLon(LatLon=LatLon)  # reframe=RefFrames.ITRF2014, epoch=2018.8
+        self.test('Issue80', t.toStr(prec=4), '48°46′36.9315″N, 008°55′21.3089″E, +476.10m')
 
     def testEpoch(self):
 

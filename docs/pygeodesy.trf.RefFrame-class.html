@@ -110,6 +110,23 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a name="__eq__"></a><span class="summary-sig-name">__eq__</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>)</span></td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.trf.RefFrame-class.html#__matmul__" class="summary-sig-name">__matmul__</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>)</span><br />
       Convert cartesian or ellipsoidal <b><code>other</code></b> to this 
@@ -132,9 +149,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.trf.RefFrame-class.html#toRefFrame" class="summary-sig-name">toRefFrame</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">point</span>,
         <span class="summary-sig-arg">reframe2</span>,
-        <span class="summary-sig-arg">epoch2</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">epoch</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">**epoch2_epoch_name</span>)</span><br />
       Convert a cartesian or geodetic point from this to another reframe 
       and epoch.</td>
           <td align="right" valign="top">
@@ -157,6 +172,44 @@
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">**unused</span>)</span><br />
       Return this reference frame as a text string.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.trf.RefFrame-class.html#Xform" class="summary-sig-name">Xform</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">reframe2</span>)</span><br />
+      Get the converter Xform <i>from</i> this reference frame <i>to</i> 
+      <code>reframe2</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.trf.RefFrame-class.html#Xforms" class="summary-sig-name">Xforms</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">inverse</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Return all Xforms converting <i>from</i> or <i>to</i> this reference 
+      frame.</td>
           <td align="right" valign="top">
             
             
@@ -355,9 +408,7 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toRefFrame</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">point</span>,
         <span class="sig-arg">reframe2</span>,
-        <span class="sig-arg">epoch2</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">epoch</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">**epoch2_epoch_name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -411,6 +462,76 @@
     <dt>Overrides:
         <a href="pygeodesy.named._Named-class.html#toStr">named._Named.toStr</a>
     </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="Xform"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">Xform</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">reframe2</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Get the converter Xform <i>from</i> this reference frame <i>to</i> 
+  <code>reframe2</code>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>reframe2</code></strong> - Destination frame to convert <i>to</i> (<a 
+          href="pygeodesy.trf.RefFrame-class.html" 
+          class="link">RefFrame</a> or <code>str</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The <a href="pygeodesy.trf.TRFXform-class.html" 
+          class="link">TRFXform</a> instance or <code>None</code> if not 
+          available.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>reframe2</code></b>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="Xforms"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">Xforms</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">inverse</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return all Xforms converting <i>from</i> or <i>to</i> this reference 
+  frame.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>inverse</code></strong> - If <code>True</code>, get all <i>inverse, to</i> Xforms 
+          (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>An <a href="pygeodesy.named.ADict-class.html" 
+          class="link">ADict</a> of <i>from</i> <code>[refName2]=</code><a 
+          href="pygeodesy.trf.TRFXform-class.html" 
+          class="link">TRFXform</a>s) or if 
+          <code><b>inverse</b>=True</code> of <i>to</i> 
+          <code>[refName1]=</code><a 
+          href="pygeodesy.trf.TRFXform-class.html" 
+          class="link">TRFXform</a>s).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -537,7 +658,7 @@ class="link">Ellipsoid2</a>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Jan 26 16:32:36 2024
+    Generated by Epydoc 3.0.1 on Mon Feb  5 13:29:34 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

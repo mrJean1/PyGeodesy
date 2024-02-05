@@ -69,7 +69,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        23.12.02
+        24.02.02
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -172,6 +172,16 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.deprecated.classes.Transform7Tuple-class.html" class="summary-name">Helmert7Tuple</a><br />
+      DEPRECATED on 2024.02.02, use class <a 
+        href="pygeodesy.trf.TRFXform7Tuple-class.html" 
+        class="link">TRFXform7Tuple</a>, <i>without</i> keyword arguments.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.deprecated.classes.LatLonExact4Tuple-class.html" class="summary-name">LatLonExact4Tuple</a><br />
       DEPRECATED, use class <a 
         href="pygeodesy.namedTuples.Reverse4Tuple-class.html" 
@@ -255,7 +265,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.datums.Transform-class.html" class="summary-name">Transform</a><br />
-      Helmert transformation.
+      Helmert <i>datum</i> transformation.
     </td>
   </tr>
 <tr>
@@ -263,9 +273,9 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.deprecated.classes.Transform7Tuple-class.html" class="summary-name">Transform7Tuple</a><br />
-      DEPRECATED, use class <a 
-        href="pygeodesy.trf.Helmert7Tuple-class.html" 
-        class="link">Helmert7Tuple</a>, <i>without</i> keyword arguments.
+      DEPRECATED on 2024.02.02, use class <a 
+        href="pygeodesy.trf.TRFXform7Tuple-class.html" 
+        class="link">TRFXform7Tuple</a>, <i>without</i> keyword arguments.
     </td>
   </tr>
 <tr>
@@ -1207,6 +1217,29 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.deprecated-module.html#trfTransforms" class="summary-sig-name">trfTransforms</a>(<span class="summary-sig-arg">reframe</span>,
+        <span class="summary-sig-arg">epoch</span>,
+        <span class="summary-sig-arg">reframe2</span>,
+        <span class="summary-sig-arg">epoch2</span>)</span><br />
+      DEPRECATED on 2024.02.02, use function <a 
+      href="pygeodesy.trf-module.html#trfTransform0" 
+      class="link">trfTransform0</a><code>(reframe, reframe2, epoch=None, 
+      epoch2=None)</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.deprecated-module.html#triAngle4" class="summary-sig-name">triAngle4</a>(<span class="summary-sig-arg">a</span>,
         <span class="summary-sig-arg">b</span>,
         <span class="summary-sig-arg">c</span>)</span><br />
@@ -1422,13 +1455,13 @@ Ellipsoids.GRS80: Ellipsoid(name='GRS80', a=6378137, b=6356752.3141403\
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.deprecated-module.html#Transforms" class="summary-name">Transforms</a> = <code title="Transforms.OSGB36: Transform(name='OSGB36', tx=-446.448, ty=125.157, t\
-z=-542.06, rx=-0, ry=-0, rz=-0, s=20.4894, s1=1.00002, sx=-0.1502, sy=\
--0.247, sz=-0.8421),
-Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
-, rz=0, s=0, s1=1, sx=0, sy=0, sz=0),
-Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
-, ry=0, rz=0, s=0, s1=1, sx=0, sy=0, sz=0)">Transforms.OSGB36: Transform(name='OSGB36', tx=-4<code class="variable-ellipsis">...</code></code>
+        <a href="pygeodesy.deprecated-module.html#Transforms" class="summary-name">Transforms</a> = <code title="Transforms.OSGB36: Transform(name='OSGB36', tx=-446.45, ty=125.16, tz=\
+-542.06, s1=1.0, rx=-7.2819e-07, ry=-1.1975e-06, rz=-4.0826e-06, s=20.\
+489, sx=-0.1502, sy=-0.247, sz=-0.8421),
+Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1\
+.0, rx=0.0, ry=0.0, rz=0.0, s=0.0, sx=0.0, sy=0.0, sz=0.0),
+Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
+, s1=1.0, rx=0.0, ry=0.0, rz=0.0, s=0.0, sx=0.0, sy=0.0, sz=0.0)">Transforms.OSGB36: Transform(name='OSGB36', tx=-4<code class="variable-ellipsis">...</code></code>
     </td>
   </tr>
 </table>
@@ -2547,6 +2580,40 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0\
   </dl>
 </td></tr></table>
 </div>
+<a name="trfTransforms"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">trfTransforms</span>&nbsp;(<span class="sig-arg">reframe</span>,
+        <span class="sig-arg">epoch</span>,
+        <span class="sig-arg">reframe2</span>,
+        <span class="sig-arg">epoch2</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>DEPRECATED on 2024.02.02, use function <a 
+  href="pygeodesy.trf-module.html#trfTransform0" 
+  class="link">trfTransform0</a><code>(reframe, reframe2, epoch=None, 
+  epoch2=None)</code>.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>A 0-, 1- or 2-tuple of Helmert <a 
+          href="pygeodesy.datums.Transform-class.html" 
+          class="link">Transform</a>s or <code>None</code> if no conversion
+          exists.</dd>
+    <dt>Decorators:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code>@deprecated_function</code></li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="triAngle4"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -2731,13 +2798,13 @@ Ellipsoids.GRS80: Ellipsoid(name='GRS80', a=6378137, b=6356752.3141403<span clas
   <dl class="fields">
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
-Transforms.OSGB36: Transform(name='OSGB36', tx=-446.448, ty=125.157, t<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-z=-542.06, rx=-0, ry=-0, rz=-0, s=20.4894, s1=1.00002, sx=-0.1502, sy=<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
--0.247, sz=-0.8421),
-Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-, rz=0, s=0, s1=1, sx=0, sy=0, sz=0),
-Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-, ry=0, rz=0, s=0, s1=1, sx=0, sy=0, sz=0)
+Transforms.OSGB36: Transform(name='OSGB36', tx=-446.45, ty=125.16, tz=<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+-542.06, s1=1.0, rx=-7.2819e-07, ry=-1.1975e-06, rz=-4.0826e-06, s=20.<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+489, sx=-0.1502, sy=-0.247, sz=-0.8421),
+Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+.0, rx=0.0, ry=0.0, rz=0.0, s=0.0, sx=0.0, sy=0.0, sz=0.0),
+Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+, s1=1.0, rx=0.0, ry=0.0, rz=0.0, s=0.0, sx=0.0, sy=0.0, sz=0.0)
 </pre></td></tr></table>
 </dd>
   </dl>
@@ -2775,7 +2842,7 @@ Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Jan 26 16:32:33 2024
+    Generated by Epydoc 3.0.1 on Mon Feb  5 13:29:31 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

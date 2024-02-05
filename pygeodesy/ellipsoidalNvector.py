@@ -49,11 +49,11 @@ from pygeodesy.units import Bearing, Distance, Height, Scalar
 # from math import fabs  # from .nvectorBase
 
 __all__ = _ALL_LAZY.ellipsoidalNvector
-__version__ = '23.12.14'
+__version__ = '24.02.04'
 
 
 class Ned(_Ned):
-    '''DEPRECATED, use class L{pygeodesy.Ned}.'''
+    '''DEPRECATED on 2024.02.04, use class L{pygeodesy.Ned}.'''
 
     def __init__(self, north, east, down, name=NN):
         deprecated_class(self.__class__)
@@ -72,7 +72,7 @@ class Ned(_Ned):
                     and elevation C{E}.
         '''
         dms = _MODS.dms
-        t = (fstr(self.slantrange, prec=3 if prec is None else prec),
+        t = (fstr(self.slantrange, prec=prec),
              dms.toDMS(self.azimuth,   form=dms.F_D, prec=prec, ddd=0),
              dms.toDMS(self.elevation, form=dms.F_D, prec=prec, ddd=0))
         return _xzipairs('LBE', t, sep=sep, fmt=fmt)

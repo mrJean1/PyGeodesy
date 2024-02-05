@@ -154,7 +154,7 @@ from pygeodesy.interns import NN, _2_, _a12_, _area_, _azi2_, _azi12_, \
                              _m12_, _M12_, _M21_, _number_, _s12_, _S12_, \
                              _UNDER_,  _BAR_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, _getenv
-from pygeodesy.named import _Dict, _NamedBase, _NamedTuple, notImplemented, _Pass
+from pygeodesy.named import ADict, _NamedBase, _NamedTuple, notImplemented, _Pass
 from pygeodesy.props import deprecated_method, Property_RO,  property_RO  # PYCHOK shared
 # from pygeodesy.streps import unstr  # from .fmath
 from pygeodesy.units import Bearing as _Azi, Degrees as _Deg, Lat, Lon, \
@@ -165,7 +165,7 @@ from pygeodesy.utily import atan2d, sincos2d, tand, _unrollon,  fabs
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.karney
-__version__ = '23.12.18'
+__version__ = '24.02.02'
 
 _K_2_0      = _getenv('PYGEODESY_GEOGRAPHICLIB', _2_) == _2_
 _perimeter_ = 'perimeter'
@@ -384,7 +384,7 @@ class Direct9Tuple(_GTuple):
     _Units_ = (_Azi,  _Lat,   _Lon,   _Azi,   _M,    _Pass, _Pass, _Pass, _M2)
 
 
-class GDict(_Dict):  # XXX _NamedDict
+class GDict(ADict):  # XXX _NamedDict
     '''A C{dict} with both C{key} I{and} C{attribute} access to the C{dict} items.
 
        Results of all C{geodesic} and C{rhumb} methods (with capitalized named) are

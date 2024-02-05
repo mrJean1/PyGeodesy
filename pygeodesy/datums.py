@@ -43,54 +43,55 @@ datum, q.v. U{"A Guide to Coordinate Systems in Great Britain", Section 6
 @var Datums.WGS72: Datum(name='WGS72', ellipsoid=Ellipsoids.WGS72, transform=Transforms.WGS72)
 @var Datums.WGS84: Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Transforms.WGS84)
 
-@var Transforms.BD72: Transform(name='BD72', tx=106.86863, ty=-52.29778, tz=103.72389, rx=-0, ry=-0, rz=-0.00001, s=1.2727, s1=1, sx=-0.33657, sy=-0.45696, sz=-1.84218)
-@var Transforms.Bessel1841: Transform(name='Bessel1841', tx=-582, ty=-105, tz=-414, rx=-0.00001, ry=-0, rz=0.00001, s=-8.3, s1=0.99999, sx=-1.04, sy=-0.35, sz=3.08)
-@var Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=-176, rx=0, ry=0, rz=0, s=0, s1=1, sx=0, sy=0, sz=0)
-@var Transforms.DHDN: Transform(name='DHDN', tx=-591.28, ty=-81.35, tz=-396.39, rx=0.00001, ry=-0, rz=-0.00001, s=-9.82, s1=0.99999, sx=1.477, sy=-0.0736, sz=-1.458)
-@var Transforms.DHDNE: Transform(name='DHDNE', tx=-612.4, ty=-77, tz=-440.2, rx=0, ry=-0, rz=0.00001, s=-2.55, s1=1, sx=0.054, sy=-0.057, sz=2.797)
-@var Transforms.DHDNW: Transform(name='DHDNW', tx=-598.1, ty=-73.7, tz=-418.2, rx=-0, ry=-0, rz=0.00001, s=-6.7, s1=0.99999, sx=-0.202, sy=-0.045, sz=2.455)
-@var Transforms.ED50: Transform(name='ED50', tx=89.5, ty=93.8, tz=123.1, rx=0, ry=0, rz=0, s=-1.2, s1=1, sx=0, sy=0, sz=0.156)
-@var Transforms.Identity: Transform(name='Identity', tx=0, ty=0, tz=0, rx=0, ry=0, rz=0, s=0, s1=1, sx=0, sy=0, sz=0)
-@var Transforms.Irl1965: Transform(name='Irl1965', tx=-482.53, ty=130.596, tz=-564.557, rx=0.00001, ry=0, rz=0, s=-8.15, s1=0.99999, sx=1.042, sy=0.214, sz=0.631)
-@var Transforms.Irl1975: Transform(name='Irl1975', tx=-482.53, ty=130.596, tz=-564.557, rx=0.00001, ry=0, rz=0, s=-8.15, s1=0.99999, sx=1.042, sy=0.214, sz=0.631)
-@var Transforms.Krassovski1940: Transform(name='Krassovski1940', tx=-24, ty=123, tz=94, rx=-0, ry=0, rz=0, s=-2.423, s1=1, sx=-0.02, sy=0.26, sz=0.13)
-@var Transforms.Krassowsky1940: Transform(name='Krassowsky1940', tx=-24, ty=123, tz=94, rx=-0, ry=0, rz=0, s=-2.423, s1=1, sx=-0.02, sy=0.26, sz=0.13)
-@var Transforms.MGI: Transform(name='MGI', tx=-577.326, ty=-90.129, tz=-463.92, rx=0.00002, ry=0.00001, rz=0.00003, s=-2.423, s1=1, sx=5.137, sy=1.474, sz=5.297)
-@var Transforms.NAD27: Transform(name='NAD27', tx=8, ty=-160, tz=-176, rx=0, ry=0, rz=0, s=0, s1=1, sx=0, sy=0, sz=0)
-@var Transforms.NAD83: Transform(name='NAD83', tx=1.004, ty=-1.91, tz=-0.515, rx=0, ry=0, rz=0, s=-0.0015, s1=1, sx=0.0267, sy=0.00034, sz=0.011)
-@var Transforms.NTF: Transform(name='NTF', tx=-168, ty=-60, tz=320, rx=0, ry=0, rz=0, s=0, s1=1, sx=0, sy=0, sz=0)
-@var Transforms.OSGB36: Transform(name='OSGB36', tx=-446.448, ty=125.157, tz=-542.06, rx=-0, ry=-0, rz=-0, s=20.4894, s1=1.00002, sx=-0.1502, sy=-0.247, sz=-0.8421)
-@var Transforms.TokyoJapan: Transform(name='TokyoJapan', tx=148, ty=-507, tz=-685, rx=0, ry=0, rz=0, s=0, s1=1, sx=0, sy=0, sz=0)
-@var Transforms.WGS72: Transform(name='WGS72', tx=0, ty=0, tz=-4.5, rx=0, ry=0, rz=0, s=-0.22, s1=1, sx=0, sy=0, sz=0.554)
-@var Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0, rz=0, s=0, s1=1, sx=0, sy=0, sz=0)  # .isunity
+@var Transforms.BD72: Transform(name='BD72', tx=106.869, ty=-52.2978, tz=103.724, s1=1.0, rx=-1.63174e-06, ry=-2.21538e-06, rz=-8.93114e-06, s=1.2727, sx=-0.33657, sy=-0.456955, sz=-1.84218)
+@var Transforms.Bessel1841: Transform(name='Bessel1841', tx=-582, ty=-105, tz=-414, s1=0.999992, rx=-5.04206e-06, ry=-1.69685e-06, rz=1.49323e-05, s=-8.3, sx=-1.04, sy=-0.35, sz=3.08)
+@var Transforms.Clarke1866: Transform(name='Clarke1866', tx=8.0, ty=-160, tz=-176, s1=1.0, rx=0.0, ry=0.0, rz=0.0, s=0.0, sx=0.0, sy=0.0, sz=0.0)
+@var Transforms.DHDN: Transform(name='DHDN', tx=-591.28, ty=-81.35, tz=-396.39, s1=0.99999, rx=7.1607e-06, ry=-3.56823e-07, rz=-7.06858e-06, s=-9.82, sx=1.477, sy=-0.0736, sz=-1.458)
+@var Transforms.DHDNE: Transform(name='DHDNE', tx=-612.4, ty=-77, tz=-440.2, s1=0.999997, rx=2.61799e-07, ry=-2.76344e-07, rz=1.35602e-05, s=-2.55, sx=0.054, sy=-0.057, sz=2.797)
+@var Transforms.DHDNW: Transform(name='DHDNW', tx=-598.1, ty=-73.7, tz=-418.2, s1=0.999993, rx=-9.79324e-07, ry=-2.18166e-07, rz=1.19022e-05, s=-6.7, sx=-0.202, sy=-0.045, sz=2.455)
+@var Transforms.ED50: Transform(name='ED50', tx=89.5, ty=93.8, tz=123.1, s1=0.999999, rx=0.0, ry=0.0, rz=7.56309e-07, s=-1.2, sx=0.0, sy=0.0, sz=0.156)
+@var Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0, s1=1.0, rx=0.0, ry=0.0, rz=0.0, s=0.0, sx=0.0, sy=0.0, sz=0.0)
+@var Transforms.Irl1965: Transform(name='Irl1965', tx=-482.53, ty=130.596, tz=-564.557, s1=0.999992, rx=5.05176e-06, ry=1.0375e-06, rz=3.05917e-06, s=-8.15, sx=1.042, sy=0.214, sz=0.631)
+@var Transforms.Irl1975: Transform(name='Irl1975', tx=-482.53, ty=130.596, tz=-564.557, s1=0.999992, rx=5.05176e-06, ry=1.0375e-06, rz=3.05917e-06, s=-8.15, sx=1.042, sy=0.214, sz=0.631)
+@var Transforms.Krassovski1940: Transform(name='Krassovski1940', tx=-24, ty=123.0, tz=94.0, s1=0.999998, rx=-9.69627e-08, ry=1.26052e-06, rz=6.30258e-07, s=-2.423, sx=-0.02, sy=0.26, sz=0.13)
+@var Transforms.Krassowsky1940: Transform(name='Krassowsky1940', tx=-24, ty=123.0, tz=94.0, s1=0.999998, rx=-9.69627e-08, ry=1.26052e-06, rz=6.30258e-07, s=-2.423, sx=-0.02, sy=0.26, sz=0.13)
+@var Transforms.MGI: Transform(name='MGI', tx=-577.326, ty=-90.129, tz=-463.92, s1=0.999998, rx=2.49049e-05, ry=7.14615e-06, rz=2.56806e-05, s=-2.423, sx=5.137, sy=1.474, sz=5.297)
+@var Transforms.NAD27: Transform(name='NAD27', tx=8.0, ty=-160, tz=-176, s1=1.0, rx=0.0, ry=0.0, rz=0.0, s=0.0, sx=0.0, sy=0.0, sz=0.0)
+@var Transforms.NAD83: Transform(name='NAD83', tx=1.004, ty=-1.91, tz=-0.515, s1=1.0, rx=1.29445e-07, ry=1.64837e-09, rz=5.33295e-08, s=-0.0015, sx=0.0267, sy=0.00034, sz=0.011)
+@var Transforms.NTF: Transform(name='NTF', tx=-168, ty=-60, tz=320.0, s1=1.0, rx=0.0, ry=0.0, rz=0.0, s=0.0, sx=0.0, sy=0.0, sz=0.0)
+@var Transforms.OSGB36: Transform(name='OSGB36', tx=-446.448, ty=125.157, tz=-542.06, s1=1.00002, rx=-7.2819e-07, ry=-1.19749e-06, rz=-4.08262e-06, s=20.4894, sx=-0.1502, sy=-0.247, sz=-0.8421)
+@var Transforms.TokyoJapan: Transform(name='TokyoJapan', tx=148.0, ty=-507, tz=-685, s1=1.0, rx=0.0, ry=0.0, rz=0.0, s=0.0, sx=0.0, sy=0.0, sz=0.0)
+@var Transforms.WGS72: Transform(name='WGS72', tx=0.0, ty=0.0, tz=-4.5, s1=1.0, rx=0.0, ry=0.0, rz=2.68587e-06, s=-0.22, sx=0.0, sy=0.0, sz=0.554)
+@var Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1.0, rx=0.0, ry=0.0, rz=0.0, s=0.0, sx=0.0, sy=0.0, sz=0.0)
 '''
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import islistuple, map2, neg, _xinstanceof
 from pygeodesy.constants import R_M, _float as _F, _0_0, _0_26, _1_0, _2_0, _8_0, _3600_0
-from pygeodesy.ellipsoids import a_f2Tuple, Ellipsoid, Ellipsoid2, Ellipsoids, \
-                                _EWGS84,  Vector3Tuple
+# from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase as _CEB, \
+#                                          LatLonEllipsoidalBase as _LLEB  # MODS
+from pygeodesy.ellipsoids import a_f2Tuple, Ellipsoid, Ellipsoid2, Ellipsoids, _EWGS84, \
+                                 Vector3Tuple
 from pygeodesy.errors import _IsnotError, _TypeError, _xattr
 from pygeodesy.fmath import fdot, fmean,  Fmt
-from pygeodesy.interns import NN, _a_, _Airy1830_, _AiryModified_, _Bessel1841_, _cartesian_, \
+from pygeodesy.interns import NN, _a_, _Airy1830_, _AiryModified_, _Bessel1841_, \
                              _Clarke1866_, _Clarke1880IGN_, _COMMASPACE_, _DOT_, _earth_, \
-                             _ellipsoid_, _ellipsoidal_, _GRS80_, _Intl1924_, _Krassovski1940_, \
-                             _Krassowsky1940_, _NAD27_, _NAD83_, _s_, _Sphere_, _spherical_, \
-                             _sx_, _sy_, _sz_, _transform_, _tx_, _ty_, _tz_, _UNDER_, \
-                             _WGS72_, _WGS84_, _under
+                             _ellipsoid_, _ellipsoidal_, _GRS80_, _Intl1924_, _MINUS_, \
+                             _Krassovski1940_, _Krassowsky1940_, _NAD27_, _NAD83_, _s_, \
+                             _Sphere_, _spherical_, _sx_, _sy_, _sz_, _transform_, _tx_, \
+                             _ty_, _tz_, _UNDER_, _WGS72_, _WGS84_, _under
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
-from pygeodesy.named import _NamedEnum, _NamedEnumItem,  Property_RO, property_RO, \
-                                    _lazyNamedEnumItem as _lazy
+from pygeodesy.named import _NamedEnum, _NamedEnumItem, _lazyNamedEnumItem as _lazy
 # from pygeodesy.namedTuples import Vector3Tuple  # from .ellipsoids
-# from pygeodesy.props import Property_RO, property_RO  # from .named
+from pygeodesy.props import Property_RO, property_RO
 # from pygeodesy.streprs import Fmt  # from .fmath
-from pygeodesy.units import _isRadius, radians, Radius_
+from pygeodesy.units import _isRadius, Radius_,  radians
 
 # from math import radians  # from .units
 
 __all__ = _ALL_LAZY.datums
-__version__ = '24.01.25'
+__version__ = '24.02.04'
 
 _a_ellipsoid_ = _UNDER_(_a_, _ellipsoid_)
 _BD72_        = 'BD72'
@@ -100,27 +101,20 @@ _DHDNW_       = 'DHDNW'
 _ED50_        = 'ED50'
 _GDA2020_     = 'GDA2020'
 _Identity_    = 'Identity'
-_Inverse_     = 'Inverse'
 _Irl1965_     = 'Irl1965'
 _Irl1975_     = 'Irl1975'
 _MGI_         = 'MGI'
 _NTF_         = 'NTF'
 _OSGB36_      = 'OSGB36'
 _Potsdam_     = 'Potsdam'
-_RPS          =  radians(_1_0 / _3600_0)  # radians per degree_second
+_RPS          =  radians(_1_0 / _3600_0)  # radians per degree-second
 _TokyoJapan_  = 'TokyoJapan'
 
 
-def _rps2(s_):
-    '''(INTERNAL) Rotation in C{radians} and C{degree seconds}.
-    '''
-    return (_RPS * s_), s_
-
-
 class Transform(_NamedEnumItem):
-    '''Helmert transformation.
+    '''Helmert I{datum} transformation.
 
-       @see: L{Helmert7Tuple}.
+       @see: L{TransformXform<trf.TransformXform>}.
     '''
     tx = _0_0  # x translation (C{meter})
     ty = _0_0  # y translation (C{meter})
@@ -133,22 +127,22 @@ class Transform(_NamedEnumItem):
     s  = _0_0  # scale ppm (C{float})
     s1 = _1_0  # scale + 1 (C{float})
 
-    sx = _0_0  # x rotation (degree seconds)
-    sy = _0_0  # y rotation (degree seconds)
-    sz = _0_0  # z rotation (degree seconds)
+    sx = _0_0  # x rotation (C{degree-seconds})
+    sy = _0_0  # y rotation (C{degree-seconds})
+    sz = _0_0  # z rotation (C{degree-seconds})
 
     def __init__(self, name=NN, tx=0, ty=0, tz=0,
                                 sx=0, sy=0, sz=0, s=0):
         '''New L{Transform}.
 
            @kwarg name: Optional, unique name (C{str}).
-           @kwarg tx: Optional X translation (C{meter}).
-           @kwarg ty: Optional Y translation (C{meter}).
-           @kwarg tz: Optional Z translation (C{meter}).
-           @kwarg s: Optional scale (C{float}), ppm.
-           @kwarg sx: Optional X rotation (C{degree seconds}).
-           @kwarg sy: Optional Y rotation (C{degree seconds}).
-           @kwarg sz: Optional Z rotation (C{degree seconds}).
+           @kwarg tx: X translation (C{meter}).
+           @kwarg ty: Y translation (C{meter}).
+           @kwarg tz: Z translation (C{meter}).
+           @kwarg s: Scale (C{float}), ppm.
+           @kwarg sx: X rotation (C{degree-seconds}).
+           @kwarg sy: Y rotation (C{degree-seconds}).
+           @kwarg sz: Z rotation (C{degree-seconds}).
 
            @raise NameError: Transform with that B{C{name}} already exists.
         '''
@@ -159,16 +153,17 @@ class Transform(_NamedEnumItem):
         if tz:
             self.tz = tz
         if sx:  # secs to rads
-            self.rx, self.sx = _rps2(sx)
+            self.rx, self.sx = self._rps2(sx)
         if sy:
-            self.ry, self.sy = _rps2(sy)
+            self.ry, self.sy = self._rps2(sy)
         if sz:
-            self.rz, self.sz = _rps2(sz)
+            self.rz, self.sz = self._rps2(sz)
         if s:
             self.s  =    s
             self.s1 = _F(s * 1e-6 + _1_0)  # normalize ppm to (s + 1)
 
-        self._register(Transforms, name)
+        if name and not name.startswith(_MINUS_):
+            self._register(Transforms, name)
 
     def __eq__(self, other):
         '''Compare this and an other transform.
@@ -177,76 +172,87 @@ class Transform(_NamedEnumItem):
 
            @return: C{True} if equal, C{False} otherwise.
         '''
-        return self is other or (isinstance(other, Transform)
-                                 and self.tx == other.tx
-                                 and self.ty == other.ty
-                                 and self.tz == other.tz
-                                 and self.rx == other.rx
-                                 and self.ry == other.ry
-                                 and self.rz == other.rz
-                                 and self.s  == other.s)
+        return self is other or (isinstance(other, Transform) and all(
+                                 s == t for s, t in zip(self, other)))
 
     def __hash__(self):
         return self._hash  # memoized
 
-    def __matmul__(self, other):  # PYCHOK Python 3.5+
-        '''Helmert-transform a cartesian B{C{other}}.
-
-           @raise TypeError: Invalid B{C{other}}.
+    def __iter__(self):
+        '''Yield the attribute values.
         '''
-        try:  # only CartesianBase
-            return other.toTransform(self)
-        except AttributeError:
-            pass
-        raise _IsnotError(_cartesian_, other=other)
+        for _, x in self.items():
+            yield x
+
+    def __matmul__(self, point):  # PYCHOK Python 3.5+
+        '''Helmert-transform an I{ellipsoidal} cartesian B{C{point}}.
+
+           @raise TypeError: Invalid B{C{point}}.
+        '''
+        m = _MODS.ellipsoidalBase
+        _xinstanceof(m.CartesianEllipsoidalBase, point=point)
+        return point.toTransform(self)
+
+    def __neg__(self):
+        return self.inverse()
 
     @Property_RO
     def _hash(self):
-        return hash((self.tx, self.ty, self.tz,
-                     self.rx, self.ry, self.rz, self.s))
+        return hash(x for x in self)
+
+    def items(self):
+        '''Yield each attribute as 2-tuple C{(name, value)}.
+        '''
+        for n in (_tx_, _ty_, _tz_, _s_, _sx_, _sy_, _sz_):
+            yield n, getattr(self, n)
 
     def inverse(self, name=NN):
         '''Return the inverse of this transform.
 
            @kwarg name: Optional, unique name (C{str}).
 
-           @return: Inverse (Transform).
+           @return: Inverse (L{Transform}).
 
            @raise NameError: Transform with that B{C{name}} already exists.
         '''
-        return Transform(name=name or (self.name + _Inverse_),
-                         tx=-self.tx, ty=-self.ty, tz=-self.tz,
-                         sx=-self.sx, sy=-self.sy, sz=-self.sz, s=-self.s)
+        d = dict((n, -v) for n, v in self.items())
+        n = name or _minus(self.name)
+        return type(self)(name=n, **d)
 
     @Property_RO
     def isunity(self):
         '''Is this a C{unity, identidy} transform (C{bool}), like WGS84?
         '''
-        return not any((self.tx, self.ty, self.tz,
-                        self.rx, self.ry, self.rz, self.s))
+        return not any(s for s in self)
 
-    def toStr(self, prec=5, name=NN, **unused):  # PYCHOK expected
+    def _rps2(self, s_):
+        '''(INTERNAL) Rotation in C{radians} and C{degree-seconds}.
+        '''
+        return (_RPS * s_), s_
+
+    def toStr(self, prec=5, fmt=Fmt.g, name=NN, **unused):  # PYCHOK expected
         '''Return this transform as a string.
 
            @kwarg prec: Number of (decimal) digits, unstripped (C{int}).
+           @kwarg fmt: Optional C{float} format (C{letter}).
            @kwarg name: Override name (C{str}) or C{None} to exclude
                         this transform's name.
 
            @return: Transform attributes (C{str}).
         '''
         return self._instr(name, prec, _tx_, _ty_, _tz_,
-                                       'rx', 'ry', 'rz', _s_, 's1',
-                                       _sx_, _sy_, _sz_)
+                                 's1', 'rx', 'ry', 'rz',
+                                  _s_, _sx_, _sy_, _sz_, fmt=fmt)
 
     def transform(self, x, y, z, inverse=False):
-        '''Transform a (geocentric) Cartesian point, forward or inverse.
+        '''Transform a (geocentric) position, forward or inverse.
 
            @arg x: X coordinate (C{meter}).
            @arg y: Y coordinate (C{meter}).
            @arg z: Z coordinate (C{meter}).
            @kwarg inverse: Optional direction, forward or inverse (C{bool}).
 
-           @return: A L{Vector3Tuple}C{(x, y, z)}, transformed.
+           @return: The transformed position (L{Vector3Tuple}C{(x, y, z)}).
         '''
         if self.isunity:
             return Vector3Tuple(x, y, z, name=self.name)
@@ -377,16 +383,14 @@ class Datum(_NamedEnumItem):
     def __hash__(self):
         return self._hash  # memoized
 
-    def __matmul__(self, other):  # PYCHOK Python 3.5+
-        '''Convert cartesian or ellipsoidal B{C{other}} to this datum.
+    def __matmul__(self, point):  # PYCHOK Python 3.5+
+        '''Convert an I{ellipsoidal} B{C{point}} to this datum.
 
-           @raise TypeError: Invalid B{C{other}}.
+           @raise TypeError: Invalid B{C{point}}.
         '''
-        try:  # only CartesianBase and LatLonEllipsoidalBase
-            return other.toDatum(self)
-        except AttributeError:
-            pass
-        raise _IsnotError(_cartesian_, _ellipsoidal_, other=other)
+        m = _MODS.ellipsoidalBase
+        _xinstanceof(m.CartesianEllipsoidalBase, m.LatLonEllipsoidalBase, point=point)
+        return point.toDatum(self)
 
     def ecef(self, Ecef=None):
         '''Return U{ECEF<https://WikiPedia.org/wiki/ECEF>} converter.
@@ -570,6 +574,13 @@ def _mean_radius(radius, *lats):
         E = _ellipsoidal_datum(radius).ellipsoid
         r =  fmean(map(E.Rgeocentric, lats)) if lats else E.Rmean
     return r
+
+
+def _minus(name):  # in .trf
+    '''(INTERNAL) Name of C{inverse} Xform.
+    '''
+    m = _MINUS_
+    return name[len(m):] if name.startswith(m) else NN(m, name)
 
 
 def _spherical_datum(earth, Error=TypeError, name=NN, raiser=NN):

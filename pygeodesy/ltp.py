@@ -368,7 +368,7 @@ class Frustum(_NamedBase):
         '''Convert this frustum to a "hfov, vfov, ltp" string.
 
            @kwarg prec: Number of (decimal) digits, unstripped (0..8 or C{None}).
-           @kwarg fmt: Optional, C{float} format (C{str}).
+           @kwarg fmt: Optional, C{float} format (C{letter}).
            @kwarg sep: Separator to join (C{str}).
 
            @return: Frustum in the specified form (C{str}).
