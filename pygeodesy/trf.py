@@ -68,14 +68,15 @@ en/how-to-deal-with-etrs89-datum-and-time-dependent-transformation-parameters-45
 @var RefFrames.WGS84g1762: RefFrame(name='WGS84g1762', epoch=2005, datum=Datums.GRS80) .Xforms=(0, 0)
 '''
 
-from pygeodesy.basics import map1, neg, isstr, _xinstanceof, _zip
+from pygeodesy.basics import map1, neg, isscalar, isstr, _xinstanceof, _zip
 from pygeodesy.constants import _0_0s, _0_0, _0_001, _0_5, _1_0, _float as _F
 from pygeodesy.datums import Datums, _earth_datum, _minus, Transform, _WGS84
 from pygeodesy.errors import _IsnotError, TRFError, _xkwds
 from pygeodesy.interns import MISSING, NN, _AT_, _COMMASPACE_, _cartesian_, _conversion_, \
                              _datum_, _DOT_, _ellipsoidal_, _exists_, _invalid_, _MINUS_, \
-                             _NAD83_, _no_, _PLUS_, _reframe_, _s_, _SPACE_, _sx_, _sy_, \
-                             _sz_, _to_, _tx_, _ty_, _tz_, _WGS84_, _x_, _intern as _i
+                             _NAD83_, _no_, _PLUS_, _reframe_, _s_, _scalar_, _SPACE_, \
+                             _sx_, _sy_, _sz_, _to_, _tx_, _ty_, _tz_, _WGS84_, _x_, \
+                             _intern as _i
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import ADict, classname, _lazyNamedEnumItem as _lazy, _Named, \
                            _NamedEnum, _NamedEnumItem, _NamedTuple,  Fmt, unstr
@@ -86,7 +87,7 @@ from pygeodesy.units import Epoch, Float
 from math import ceil
 
 __all__ = _ALL_LAZY.trf
-__version__ = '24.02.03'
+__version__ = '24.02.04'
 
 _EP0CH =  Epoch(0, low=0)
 _Es    = {_EP0CH: _EP0CH}  # L{Epoch} de_dup
@@ -352,17 +353,22 @@ class TransformXform(Transform):
         '''
         return self.Xform.toRefFrame(point, epoch=epoch, **_xkwds(epoch2_datum_name))
 
-    def velocities(self):
+    def velocities(self, factor=_MM2M):
         '''Compute the X, Y and Z I{velocities} of this transform.
 
+           @kwarg factor: Factor to scale this Xform's C{rates} (C{scalar}), default
+                          from C{milli-meter-} to C{meter-per-year}.
+
            @return: A L{Vector3Tuple}C{(x, y, z)} or C{None}.
+
+           @raise TypeError: Invalid B{C{factor}}.
 
            @see: Alamimi, Z. "EUREF-TN-1-Jan-31-2024", U{Appendix A, equation (3)
                  <http://ETRS89.ENSG.IGN.FR/pub/EUREF-TN-1-Jan-31-2024.pdf>}.
         '''
         v = self.Xform
         if v is not None:
-            r = v.rates  # eq (3) ...
+            r = v.rates * factor  # eq (3) ...
             T = self.dup(tx=r.sx, ty=r.sy, tz=r.sz,  # Xyy-dot?
                          s1=0, name=NN(self.name, _v_))
             v = T.transform(r.tx, r.ty, r.tz)  # Xyy?
@@ -403,6 +409,11 @@ class TRFXform7Tuple(_NamedTuple):
         _xinstanceof(TRFXform7Tuple, other=other)
         return TRFXform7Tuple(((s + t) for s, t in _zip(self, other)),
                               name=_PLUS_)  # .fsums._add_op_
+
+    def __mul__(self, factor):
+        if not isscalar(factor):
+            raise _IsnotError(_scalar_, factor=factor)
+        return type(self)(_ * factor for _ in self)
 
     def __neg__(self):
         return self.inverse()

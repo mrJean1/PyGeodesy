@@ -3826,6 +3826,7 @@ pygeodesy.trf._ITRF94_	pygeodesy.trf-module.html#_ITRF94_
 pygeodesy.trf._xkwds	pygeodesy.errors-module.html#_xkwds
 pygeodesy.trf._F	pygeodesy.constants-module.html#_float
 pygeodesy.trf._E	pygeodesy.trf-module.html#_E
+pygeodesy.trf.isscalar	pygeodesy.basics-module.html#isscalar
 pygeodesy.trf._ETRF94_	pygeodesy.trf-module.html#_ETRF94_
 pygeodesy.trf._ITRF_	pygeodesy.trf-module.html#_ITRF_
 pygeodesy.trf._ITRF2020_	pygeodesy.trf-module.html#_ITRF2020_
@@ -28158,12 +28159,13 @@ pygeodesy.named._Named._classnaming	pygeodesy.named._Named-class.html#_classnami
 pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
-pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
+pygeodesy.trf.TRFXform7Tuple.__neg__	pygeodesy.trf.TRFXform7Tuple-class.html#__neg__
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.trf.TRFXform7Tuple.isunity	pygeodesy.trf.TRFXform7Tuple-class.html#isunity
 pygeodesy.named._NamedTuple.iterunits	pygeodesy.named._NamedTuple-class.html#iterunits
+pygeodesy.named._Named._xrenamed	pygeodesy.named._Named-class.html#_xrenamed
 pygeodesy.trf.TRFXform7Tuple.__add__	pygeodesy.trf.TRFXform7Tuple-class.html#__add__
 pygeodesy.named._NamedTuple.iteritems	pygeodesy.named._NamedTuple-class.html#iteritems
 pygeodesy.named._Named.__rmatmul__	pygeodesy.named._Named-class.html#__rmatmul__
@@ -28178,8 +28180,8 @@ pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._Named.iteration	pygeodesy.named._Named-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
 pygeodesy.named._NamedTuple.__delattr__	pygeodesy.named._NamedTuple-class.html#__delattr__
-pygeodesy.trf.TRFXform7Tuple.__neg__	pygeodesy.trf.TRFXform7Tuple-class.html#__neg__
-pygeodesy.named._Named._xrenamed	pygeodesy.named._Named-class.html#_xrenamed
+pygeodesy.trf.TRFXform7Tuple.__mul__	pygeodesy.trf.TRFXform7Tuple-class.html#__mul__
+pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.__matmul__	pygeodesy.named._Named-class.html#__matmul__
 pygeodesy.trf.TRFXform7Tuple._Units_	pygeodesy.trf.TRFXform7Tuple-class.html#_Units_
 pygeodesy.named._Named._unstr	pygeodesy.named._Named-class.html#_unstr
