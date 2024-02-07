@@ -91,7 +91,7 @@ from pygeodesy.units import _isRadius, Radius_,  radians
 # from math import radians  # from .units
 
 __all__ = _ALL_LAZY.datums
-__version__ = '24.02.04'
+__version__ = '24.02.06'
 
 _a_ellipsoid_ = _UNDER_(_a_, _ellipsoid_)
 _BD72_        = 'BD72'
@@ -162,8 +162,7 @@ class Transform(_NamedEnumItem):
             self.s  =    s
             self.s1 = _F(s * 1e-6 + _1_0)  # normalize ppm to (s + 1)
 
-        if name and not name.startswith(_MINUS_):
-            self._register(Transforms, name)
+        self._register(Transforms, name)
 
     def __eq__(self, other):
         '''Compare this and an other transform.

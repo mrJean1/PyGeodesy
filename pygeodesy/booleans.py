@@ -17,7 +17,7 @@ C{reverse-difference}, C{sum} and C{union}.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import isodd, isscalar, issubclassof, map2
+from pygeodesy.basics import isodd, issubclassof, map2, _xisscalar
 from pygeodesy.constants import EPS, EPS2, INT0, _0_0, _0_5, _1_0
 from pygeodesy.errors import ClipError, _IsnotError, _TypeError, \
                             _ValueError, _xattr, _xkwds_get
@@ -26,7 +26,7 @@ from pygeodesy.fmath import favg, hypot, hypot2
 from pygeodesy.interns import NN, _BANG_, _clip_, _clipid_, _COMMASPACE_, \
                              _composite_, _DOT_, _e_, _ELLIPSIS_, _few_, \
                              _height_, _lat_,_LatLon_, _lon_, _not_, \
-                             _points_, _scalar_,_SPACE_, _too_, _X_, _x_, \
+                             _points_, _SPACE_, _too_, _X_, _x_, \
                              _B_, _d_, _R_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.latlonBase import LatLonBase, \
@@ -42,7 +42,7 @@ from pygeodesy.utily import fabs, _unrollon, _Wrap
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.booleans
-__version__ = '23.09.11'
+__version__ = '24.02.06'
 
 _0_EPS =  EPS  # near-zero, positive
 _EPS_0 = -EPS  # near-zero, negative
@@ -330,8 +330,7 @@ class LatLonFHP(_LatLonBool):
         return self.x * other.x + self.y * other.y
 
     def __rmul__(self, other):  # scalar product
-        if not isscalar(other):
-            raise _IsnotError(_scalar_, other=other)
+        _xisscalar(other=other)
         return self.__class__(self.y * other, self.x * other)
 
     def _e_x_str(self, t):  # PYCHOK no cover

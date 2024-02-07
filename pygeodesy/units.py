@@ -31,7 +31,7 @@ from pygeodesy.unitsBase import _Error, Float, Fmt, fstr, Int, _NamedUnit, \
 from math import degrees, radians
 
 __all__ = _ALL_LAZY.units
-__version__ = '24.01.10'
+__version__ = '24.02.06'
 
 _negative_falsed_ = 'negative, falsed'
 
@@ -471,7 +471,7 @@ class Epoch(Float_):  # in .ellipsoidalBase, .trf
         return arg if isinstance(arg, Epoch) else Float_.__new__(cls,
                arg=arg, name=name, Error=Error, low=low, high=high)
 
-    def toRepr(self, std=False, **unused):  # PYCHOK prec=3, fmt=Fmt.F, ints=True
+    def toRepr(self, prec=3, std=False, **unused):  # PYCHOK fmt=Fmt.F, ints=True
         '''Return a representation of this C{Epoch}.
 
            @kwarg std: Use the standard C{repr} or the named
@@ -479,14 +479,14 @@ class Epoch(Float_):  # in .ellipsoidalBase, .trf
 
            @see: Method L{Float.toRepr} for more documentation.
         '''
-        return Float_.toRepr(self, std=std)  # prec=-3, fmt=Fmt.F, ints=True
+        return Float_.toRepr(self, prec=prec, std=std)  # fmt=Fmt.F, ints=True
 
-    def toStr(self, **unused):  # PYCHOK prec=3, fmt=Fmt.F, ints=True
+    def toStr(self, prec=3, **unused):  # PYCHOK fmt=Fmt.F, ints=True
         '''Format this C{Epoch} as C{str}.
 
            @see: Function L{pygeodesy.fstr} for more documentation.
         '''
-        return fstr(self, prec=-3, fmt=Fmt.F, ints=True)
+        return fstr(self, prec=prec, fmt=Fmt.F, ints=True)
 
     __str__ = toStr  # PYCHOK default '%.3F', with trailing zeros and decimal point
 

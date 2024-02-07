@@ -118,13 +118,68 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.trf.TransformXform-class.html#__eq__" class="summary-sig-name">__eq__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>)</span><br />
+      Compare this and an other transform.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.trf.TransformXform-class.html#rename" class="summary-sig-name">rename</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+      Change this transform and its Xform's name.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.trf.TransformXform-class.html#toRefFrame" class="summary-sig-name">toRefFrame</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">point</span>,
-        <span class="summary-sig-arg">epoch</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">**epoch2_datum_name</span>)</span><br />
-      Convert a cartesian or geodetic point using this transform and 
-      <code>refName1</code>, <code>refName2</code> and <code>epoch</code> 
-      of this transform's <code>Xform</code>.</td>
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+      Convert an ellipsoidal point using this transform and Xform.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.trf.TransformXform-class.html#toTransform" class="summary-sig-name">toTransform</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">epoch1</span>,
+        <span class="summary-sig-arg">**epoch2_inverse</span>)</span><br />
+      Return this transform observed at <b><code>epoch1</code></b> as a 
+      Helmert <a href="pygeodesy.trf.TransformXform-class.html" 
+      class="link">TransformXform</a>, optionally at <b><code>epoch2 or 
+      epoch1</code></b>.</td>
           <td align="right" valign="top">
             
             
@@ -155,7 +210,6 @@
   <tr>
     <td colspan="2" class="summary">
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.datums.Transform-class.html">datums.Transform</a></code></b>:
-      <code><a href="pygeodesy.datums.Transform-class.html#__eq__">__eq__</a></code>,
       <code><a href="pygeodesy.datums.Transform-class.html#__hash__">__hash__</a></code>,
       <code><a href="pygeodesy.datums.Transform-class.html#__iter__">__iter__</a></code>,
       <code><a href="pygeodesy.datums.Transform-class.html#__matmul__">__matmul__</a></code>,
@@ -182,7 +236,6 @@
       <code><a href="pygeodesy.named._Named-class.html#copy">copy</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#dup">dup</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#methodname">methodname</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#rename">rename</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#toStr2">toStr2</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
@@ -315,10 +368,72 @@
       <p><strong>Note:</strong>
         The name of this <a href="pygeodesy.trf.TransformXform-class.html" 
         class="link">TransformXform</a> starts with 
-        <code>&quot;-&quot;</code> if its <code>Xform</code> was applied 
+        <code>&quot;-&quot;</code> if its <code>Xform</code> was 
         <i>inversed</i>.
       </p>
 </div></td></tr></table>
+</div>
+<a name="__eq__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__eq__</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">other</span>)</span>
+    <br /><em class="fname">(Equality operator)</em>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compare this and an other transform.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>other</code></strong> - The other transform (<a 
+          href="pygeodesy.datums.Transform-class.html" 
+          class="link">Transform</a>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><code>True</code> if equal, <code>False</code> otherwise.</dd>
+    <dt>Overrides:
+        <a href="pygeodesy.datums.Transform-class.html#__eq__">datums.Transform.__eq__</a>
+        <dd><em class="note">(inherited documentation)</em></dd>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="rename"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">rename</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Change this transform and its Xform's name.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>name</code></strong> - The new name (<code>str</code>), overriding the base name.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The old name (<code>str</code>).</dd>
+    <dt>Overrides:
+        <a href="pygeodesy.named._Named-class.html#rename">named._Named.rename</a>
+    </dt>
+  </dl>
+</td></tr></table>
 </div>
 <a name="toRefFrame"></a>
 <div>
@@ -329,33 +444,74 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toRefFrame</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">point</span>,
-        <span class="sig-arg">epoch</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">**epoch2_datum_name</span>)</span>
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Convert a cartesian or geodetic point using this transform and 
-  <code>refName1</code>, <code>refName2</code> and <code>epoch</code> of 
-  this transform's <code>Xform</code>.</p>
+  <p>Convert an ellipsoidal point using this transform and Xform.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>epoch</code></strong> - Optional epoch ((<a href="pygeodesy.units.Epoch-class.html" 
-          class="link">Epoch</a>, <code>scalar</code> or 
-          <code>str</code>)), overriding this transform's Xform's 
-          <code>epoch</code>.</li>
+        <li><strong class="pname"><code>point</code></strong> - The point to convert (<code>Cartesian</code> or 
+          <code>LatLon</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>A copy of the <b><code>point</code></b>, converted or renamed.</dd>
+        <dd>A copy of the <b><code>point</code></b>, converted 
+          <i>directly</i> to this transform's Xform's <code>refName2</code>
+          and <code>epoch</code>.</dd>
   </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        Method <a href="pygeodesy.trf.RefFrame-class.html#toRefFrame" 
-        class="link">RefFrame.toRefFrame</a> for more details.
+<div class="fields">      <p><strong>Note:</strong>
+        The <b><code>point</code></b>'s original <code>reframe</code> and 
+        <code>epoch</code> are <i>ignored</i>, its <code>datum</code> and 
+        <code>height</code> are preserved but <i>not</i> taken into 
+        account.
       </p>
 </div></td></tr></table>
+</div>
+<a name="toTransform"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toTransform</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">epoch1</span>,
+        <span class="sig-arg">**epoch2_inverse</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return this transform observed at <b><code>epoch1</code></b> as a 
+  Helmert <a href="pygeodesy.trf.TransformXform-class.html" 
+  class="link">TransformXform</a>, optionally at <b><code>epoch2 or 
+  epoch1</code></b>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>epoch1</code></strong> - Epoch to observe <i>from</i> (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>epoch2</code></strong> - Optional epoch to observe <i>to</i> (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>epoch2_inverse</code></strong> - Optional <code><b>epoch2</b>=None</code> and 
+          <code><b>inverse</b>=False</code>, see class Xform's method <a 
+          href="pygeodesy.trf.TRFXform-class.html#toTransform" 
+          class="link">toTransform</a>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The Helmert transform (<a 
+          href="pygeodesy.trf.TransformXform-class.html" 
+          class="link">TransformXform</a>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.TRFError-class.html">TRFError</a></strong></code> - Invalid <b><code>epoch1</code></b>, <b><code>epoch2</code></b> or 
+        missing Xform.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
 </div>
 <a name="velocities"></a>
 <div>
@@ -386,11 +542,11 @@
           <code>None</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>factor</code></b>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <b><code>factor</code></b>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Alamimi, Z. &quot;EUREF-TN-1-Jan-31-2024&quot;, <a 
+        Altamimi, Z. &quot;EUREF-TN-1-Jan-31-2024&quot;, <a 
         href="http://ETRS89.ENSG.IGN.FR/pub/EUREF-TN-1-Jan-31-2024.pdf" 
         target="_top">Appendix A, equation (3)</a>.
       </p>
@@ -466,7 +622,7 @@ class="link">TRFXform</a>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Feb  5 16:03:12 2024
+    Generated by Epydoc 3.0.1 on Wed Feb  7 13:12:42 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

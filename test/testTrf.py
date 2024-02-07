@@ -8,7 +8,7 @@
 # <https://GitHub.com/ChrisVeness/geodesy/blob/master/test/latlon-ellipsoidal-referenceframe-tests.js>
 
 __all__ = ('Tests',)
-__version__ = '24.02.04'
+__version__ = '24.02.06'
 
 from bases import GeodSolve, TestsBase
 
@@ -176,15 +176,15 @@ class Tests(TestsBase):
             return '%s@%s %s %s' % (x.reframe.name, x.reframe.epoch, x.epoch, dX.toStr(prec=8))
 
         x = RefFrames.ITRF2014.toRefFrame(X, RefFrames.ITRF2020, epoch=2018.8, epoch2=2024.31)
-        self.test('toRefFrame1', _t(x, x - X), "ITRF2020@2015 2024.310 [0.0031474, 0.00210534, -0.00125667]", nl=1)
+        self.test('toRefFrame1', _t(x, x - X), "ITRF2020@2015 2024.31 [0.0031474, 0.00210534, -0.00125667]", nl=1)
         x = RefFrames.ITRF2020.Xform('ITRF2014').toRefFrame(X, epoch=2018.8, epoch2=2024.32)
-        self.test('toRefFrame2', _t(x, X - x), "ITRF2014@2010 2024.320 [0.0031474, 0.00210634, -0.00125867]")  # flipped
+        self.test('toRefFrame2', _t(x, X - x), "ITRF2014@2010 2024.32 [0.0031474, 0.00210634, -0.00125867]")  # flipped
         T = trfTransform0('ITRF2014', RefFrames.ITRF2020)  # get Transform from reframe, no epoch or epoch2 ...
         self.test('transform0', T.name, T.name)
         t = repr(T.Xform)
         self.test('transform0X', t, t)
-        x = T.toRefFrame(X, epoch=2018.8, epoch2=2024.33)  # ... apply epoch and epoch2 at toRefFrame calls
-        self.test('toRefFrame3', _t(x, x - X), "ITRF2020@2015 2024.330 [0.0031474, 0.00210734, -0.00126067]")
+        x = T.toRefFrame(X)
+        self.test('toRefFrame3', _t(x, x - X), "ITRF2020@2015 2010 [0.0031474, 0.00067434, 0.00160533]")
         x = T.transform(X.x, X.y, X.z)
         self.test('transform2x', x.toStr(prec=-6), '(4160476.488147, 653193.021674, 4774604.781605)')
         v = T.velocities()
@@ -216,6 +216,11 @@ class Tests(TestsBase):
             self.test('Transform0v', v, x, known=d < 1.0)
             self.test('    Error0v', e, e)
             f, r1 = t, r2
+
+        t = str(T)
+        self.test('toTransform', t, t, nl=1)
+        t = str(T.toTransform(epoch1=T.Xform.epoch))
+        self.test('toTransform', t, t)
 
         # courtesy GGaessler <https://github.com/mrJean1/PyGeodesy/issues/80>
         p = LatLon('48 46 36.89676N', '8 55 21.25713E', height=476.049, reframe=RefFrames.ETRF89, epoch=1989)

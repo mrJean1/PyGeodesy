@@ -110,6 +110,23 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a name="__eq__"></a><span class="summary-sig-name">__eq__</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>)</span></td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a name="__lt__"></a><span class="summary-sig-name">__lt__</span>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>)</span></td>
           <td align="right" valign="top">
@@ -178,6 +195,24 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.trf.TRFXform-class.html#rename" class="summary-sig-name">rename</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+      Change this Xform's name.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.trf.TRFXform-class.html#toEpoch" class="summary-sig-name">toEpoch</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">epoch</span>)</span><br />
       Convert this Xform to <b><code>epoch</code></b>, if needed.</td>
@@ -201,10 +236,9 @@
         <span class="summary-sig-arg">epoch</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='GRS80', ellipsoid=Ellipsoids.GRS80, transform=Tran<code class="variable-ellipsis">...</code></span>,
         <span class="summary-sig-arg">**epoch2_name</span>)</span><br />
-      Convert a cartesian or geodetic point using this Xform's 
-      <code>refName1</code>, <code>refName2</code>, <code>epoch</code> and 
-      <a href="pygeodesy.trf.TransformXform-class.html" 
-      class="link">Transform</a>.</td>
+      Convert an ellipsoidal point from this Xform's <code>refName1</code> 
+      and <code>epoch</code> to this Xform's <code>refName1</code> and 
+      <code>epoch2 or epoch</code>.</td>
           <td align="right" valign="top">
             
             
@@ -241,7 +275,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.trf.TRFXform-class.html#toStr" class="summary-sig-name">toStr</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">epoch</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">**unused</span>)</span><br />
-      Return this Xform as <code>&quot;fromRef@epoch_toRef&quot;</code> 
+      Return this Xform as <code>&quot;refName1@epochxrefName2&quot;</code>
       (<code>str</code>).</td>
           <td align="right" valign="top">
             
@@ -287,7 +321,6 @@
       <code><a href="pygeodesy.named._Named-class.html#copy">copy</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#dup">dup</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#methodname">methodname</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#rename">rename</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#toStr2">toStr2</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
@@ -313,13 +346,6 @@
   <td align="left" colspan="2" class="table-header">
     <span class="table-header">Class Variables</span></td>
 </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="epoch"></a><span class="summary-name">epoch</span> = <code title="epoch (0)">epoch (0)</code>
-    </td>
-  </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
@@ -357,6 +383,31 @@
   <td align="left" colspan="2" class="table-header">
     <span class="table-header">Properties</span></td>
 </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.trf.TRFXform-class.html#epoch" class="summary-name">epoch</a><br />
+      Get the epoch (<a href="pygeodesy.units.Epoch-class.html" 
+      class="link">Epoch</a>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.trf.TRFXform-class.html#reframe1" class="summary-name">reframe1</a><br />
+      Get the un-/registered <i>from</i> frame (<code>RefFrame</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.trf.TRFXform-class.html#reframe2" class="summary-name">reframe2</a><br />
+      Get the un-/registered <i>to</i> frame (<code>RefFrame</code>).
+    </td>
+  </tr>
   <tr>
     <td colspan="2" class="summary">
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
@@ -481,13 +532,39 @@
   
   <p>Return the inverse of this Xform.</p>
   <dl class="fields">
-    <dt>Arguments:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
-    </ul></dd>
     <dt>Returns:</dt>
         <dd>Inverse (<a href="pygeodesy.trf.TRFXform-class.html" 
           class="link">TRFXform</a>).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="rename"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">rename</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Change this Xform's name.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>name</code></strong> - The new name (<code>str</code>), overriding the base name 
+          <code>&quot;refName1@epochxrefName2&quot;</code>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The old name (<code>str</code>).</dd>
+    <dt>Overrides:
+        <a href="pygeodesy.named._Named-class.html#rename">named._Named.rename</a>
+    </dt>
   </dl>
 </td></tr></table>
 </div>
@@ -540,17 +617,23 @@
     </td>
   </tr></table>
   
-  <p>Convert a cartesian or geodetic point using this Xform's 
-  <code>refName1</code>, <code>refName2</code>, <code>epoch</code> and <a 
-  href="pygeodesy.trf.TransformXform-class.html" 
-  class="link">Transform</a>.</p>
+  <p>Convert an ellipsoidal point from this Xform's <code>refName1</code> 
+  and <code>epoch</code> to this Xform's <code>refName1</code> and 
+  <code>epoch2 or epoch</code>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>point</code></strong> - The point to convert (<code>Cartesian</code> or 
+          <code>LatLon</code>).</li>
         <li><strong class="pname"><code>epoch</code></strong> - Optional epoch ((<a href="pygeodesy.units.Epoch-class.html" 
           class="link">Epoch</a>, <code>scalar</code> or 
-          <code>str</code>)), overriding this transform's Xform's 
-          <code>epoch</code>.</li>
+          <code>str</code>)), overriding this Xform's <code>epoch</code>.</li>
+        <li><strong class="pname"><code>datum</code></strong> - Optional datum to define a temporary <a 
+          href="pygeodesy.trf.RefFrame-class.html" 
+          class="link">RefFrame</a> from this Xform's <code>refName1</code>
+          or <code>refName2</code> (<code>datum</code>).</li>
+        <li><strong class="pname"><code>epoch2_name</code></strong> - Optional keyword arguments <b><code>epoch2</code>=None</b> and 
+          <code><b>name</b>=NN</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A copy of the <b><code>point</code></b>, converted or renamed.</dd>
@@ -600,7 +683,7 @@
     </td>
   </tr></table>
   
-  <p>Return this Xform as <code>&quot;fromRef@epoch_toRef&quot;</code> 
+  <p>Return this Xform as <code>&quot;refName1@epochxrefName2&quot;</code> 
   (<code>str</code>).</p>
   <dl class="fields">
     <dt>Arguments:</dt>
@@ -639,8 +722,12 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>epoch1</code></strong> - Epoch to observe <i>from</i> (<code>scalar</code>).</li>
         <li><strong class="pname"><code>epoch2</code></strong> - Optional epoch to observe <i>to</i> (<code>scalar</code>).</li>
-        <li><strong class="pname"><code>inverse</code></strong> - Invert the Helmert tranformation (<code>bool</code>).</li>
+        <li><strong class="pname"><code>inverse</code></strong> - Invert the Helmert tranform (<code>bool</code>).</li>
     </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The Helmert transform (<a 
+          href="pygeodesy.trf.TransformXform-class.html" 
+          class="link">TransformXform</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.TRFError-class.html">TRFError</a></strong></code> - Invalid <b><code>epoch1</code></b> or <b><code>epoch2</code></b>.</li>
@@ -701,6 +788,91 @@ TRFXform7Tuple(tx=0.0, ty=0.0, tz=0.0, s=0.0, sx=0.0, sy=0.0, sz=0.0)
 </td></tr></table>
 </div>
 <br />
+<!-- ==================== PROPERTY DETAILS ==================== -->
+<a name="section-PropertyDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Property Details</span></td>
+</tr>
+</table>
+<a name="epoch"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">epoch</h3>
+  <p>Get the epoch (<a href="pygeodesy.units.Epoch-class.html" 
+  class="link">Epoch</a>).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">epoch(<span class="summary-sig-arg">self</span>)</span>
+        - Get the epoch (<a href="pygeodesy.units.Epoch-class.html" 
+class="link">Epoch</a>).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">epoch(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">epoch</span>)</span>
+        - Set the epoch (<a href="pygeodesy.units.Epoch-class.html" 
+class="link">Epoch</a>, <code>scalar</code> or <code>str</code>).
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="reframe1"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">reframe1</h3>
+  <p>Get the un-/registered <i>from</i> frame (<code>RefFrame</code>).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">reframe1(<span class="summary-sig-arg">self</span>)</span>
+        - Get the un-/registered <i>from</i> frame (<code>RefFrame</code>).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="reframe2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">reframe2</h3>
+  <p>Get the un-/registered <i>to</i> frame (<code>RefFrame</code>).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">reframe2(<span class="summary-sig-arg">self</span>)</span>
+        - Get the un-/registered <i>to</i> frame (<code>RefFrame</code>).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
 <!-- ==================== NAVIGATION BAR ==================== -->
 <table class="navbar" border="0" width="100%" cellpadding="0"
        bgcolor="#a0c0ff" cellspacing="0">
@@ -732,7 +904,7 @@ TRFXform7Tuple(tx=0.0, ty=0.0, tz=0.0, s=0.0, sx=0.0, sy=0.0, sz=0.0)
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Feb  5 16:03:12 2024
+    Generated by Epydoc 3.0.1 on Wed Feb  7 13:12:42 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

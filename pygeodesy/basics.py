@@ -19,7 +19,7 @@ from pygeodesy.errors import _AssertionError, _AttributeError, _ImportError, \
                              _xAssertionError
 from pygeodesy.interns import MISSING, NN, _1_, _by_, _COMMA_, _DOT_, _DEPRECATED_, \
                              _ELLIPSIS4_, _enquote, _EQUAL_, _in_, _invalid_, _N_A_, \
-                             _SPACE_, _UNDER_, _version_  # _utf_8_
+                             _not_scalar_, _SPACE_, _UNDER_, _version_  # _utf_8_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _FOR_DOCS, \
                              _getenv, LazyImportError, _sys, _sys_version_info2
 
@@ -28,7 +28,7 @@ from math import copysign as _copysign
 import inspect as _inspect
 
 __all__ = _ALL_LAZY.basics
-__version__ = '24.01.02'
+__version__ = '24.02.06'
 
 _0_0                  =  0.0  # in .constants
 _below_               = 'below'
@@ -735,6 +735,14 @@ def _xinstanceof(*Types, **names_values):
     for n, v in names_values.items():
         if not isinstance(v, Types):
             raise _TypesError(n, v, *Types)
+
+
+def _xisscalar(**names_values):
+    '''(INTERNAL) Check all C{name=value} pairs to be C{scalar}.
+    '''
+    for n, v in names_values.items():
+        if not isscalar(v):
+            raise _TypeError(n, v, txt=_not_scalar_)
 
 
 def _xnumpy(where, *required):
