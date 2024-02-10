@@ -14,7 +14,7 @@ from pygeodesy.props import deprecated_function
 from pygeodesy.units import Number_, Scalar_
 
 __all__ = _ALL_DEPRECATED.deprecated_functions
-__version__ = '24.02.02'
+__version__ = '24.02.08'
 
 _WGS84 = _UTM = object()
 
@@ -311,14 +311,14 @@ def toUtm(latlon, lon=None, datum=None, Utm=_UTM, cmoff=True, name=NN):  # PYCHO
     return r
 
 
-@deprecated_function
-def trfTransforms(reframe, epoch, reframe2, epoch2):
-    '''DEPRECATED on 2024.02.02, use function L{trfTransform0}C{(reframe, reframe2, epoch=None, epoch2=None)}.
-
-       @return: A 0-, 1- or 2-tuple of Helmert L{Transform}s or C{None} if no conversion exists.
-    '''
-    t = _MODS.trf.trfTransform0(reframe, reframe2, epoch=epoch, epoch2=epoch2)
-    return (t,) if t else t
+# @deprecated_function
+# def trfTransforms(reframe, epoch, reframe2, epoch2):
+#     '''DEPRECATED on 2024.02.02, use function L{trfTransform0}C{(reframe, reframe2, epoch=None, epoch2=None)}.
+#
+#        @return: A 0-, 1- or 2-tuple of Helmert L{Transform}s or C{None} if no conversion exists.
+#     '''
+#     t = _MODS.trf.trfTransform0(reframe, reframe2, epoch=epoch, epoch2=epoch2)
+#     return (t,) if t else t
 
 
 @deprecated_function

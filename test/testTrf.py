@@ -8,12 +8,12 @@
 # <https://GitHub.com/ChrisVeness/geodesy/blob/master/test/latlon-ellipsoidal-referenceframe-tests.js>
 
 __all__ = ('Tests',)
-__version__ = '24.02.06'
+__version__ = '24.02.09'
 
-from bases import GeodSolve, TestsBase
+from bases import GeodSolve, isPython2, TestsBase
 
-from pygeodesy import date2epoch, Epoch, epoch2date, F_D, F_DMS, \
-                      RefFrames, TRFError, trfTransform0, Vector3d
+from pygeodesy import date2epoch, Epoch, epoch2date, F_D, F_DMS, RefFrames, \
+                      TRFError, trfTransform0, trfTransforms, Vector3d
 
 
 class Tests(TestsBase):
@@ -57,7 +57,7 @@ class Tests(TestsBase):
         # Dawson, J. & Woods, A., Appendix A, Journal of Applied Geodesy 4 (2010)
         p = LatLon('23°40′12.41482″S', '133°53′7.86712″E', height=603.2562, reframe=RefFrames.ITRF2005, epoch=2010.4559)
         x = p.toRefFrame(RefFrames.GDA94)
-        self.test('Geodetic', x.toStr(form=F_DMS, prec=5), '23°40′12.44582″S, 133°53′07.84795″E, +603.34m')  # +603.3361m
+        self.test('Geodetic', x.toStr(form=F_DMS, prec=5), '23°40′12.44582″S, 133°53′07.84795″E, +603.34m', nl=1)  # +603.3361m
         c = x.toCartesian()
         self.test('Cartesian', c.toStr(prec=4), '[-4052051.7614, 4212836.1945, -2545106.0147]')
 
@@ -79,22 +79,36 @@ class Tests(TestsBase):
         c = p.toCartesian()  # NGS Data Sheet Meades Ranch
         self.test('Cartesian', c, '[-734972.563, 4893188.492, 4011982.811]')
 
-        # <https://EPNCB.OMA.Be/_productsservices/coord_trans> (tutorial)
+        # Tutorial <https://EPNCB.OMA.Be/_productsservices/coord_trans>
+        def _ts(x, c, r1, r2, e):
+            for i, T in enumerate(trfTransforms(r1, r2, epoch=e)):
+                x = T.toRefFrame(x)
+                d = c - x
+                t = '%s %.5g %.3f' % (T.name, d.length, T.Xform.epoched)
+                self.test('transform%s' % (i,), t, t)
+
         c = Cartesian(4027894.006, 307045.600, 4919474.910)
-        x = c.toRefFrame(RefFrames.ITRF91, RefFrames.ITRF2005, 2007)
-        self.test('EUREF C1', x.toStr(prec=4), '[4027894.0444, 307045.6209, 4919474.8613]')
-        x = c.toRefFrame(RefFrames.ITRF91, RefFrames.ITRF2005, 2007)
-        self.test('EUREF C2', x.toStr(prec=4), '[4027894.0444, 307045.6209, 4919474.8613]')
+        x = c.toRefFrame(RefFrames.ITRF2005, RefFrames.ITRF91, 2007)
+        self.test('EUREF EX1', x.toStr(prec=4), '[4027894.0444, 307045.6209, 4919474.8613]', known=isPython2, nl=1)
+        _ts(x, c, 'ITRF2005', 'ITRF91', 2007)
+
+        x = x.toRefFrame(RefFrames.ITRF91, RefFrames.ITRF2005, 2007)
+        self.test('EUREF EX2', x.toStr(prec=-4), c.toStr(prec=-4), known=isPython2)
+        _ts(x, c, 'ITRF91', 'ITRF2005', 2007)
+
         x = c.toRefFrame(RefFrames.ETRF2000, RefFrames.ITRF2000, 2012)
-        self.test('EUREF C4', x.toStr(prec=4), '[4027894.3559, 307045.2508, 4919474.6447]')
-        x = c.toRefFrame(RefFrames.ETRF2000, RefFrames.ITRF2014, 2012)
-        self.test('EUREF C5', x.toStr(prec=4), '[4027894.3662, 307045.253, 4919474.6263]')
+        self.test('EUREF EX4', x.toStr(prec=-4), '[4027894.3559, 307045.2508, 4919474.6447]', known=isPython2)
+        _ts(x, c, 'ETRF2000', 'ITRF2000', 2012)
+
+        x = c.toRefFrame(RefFrames.ITRF2014, RefFrames.ETRF2000, 2012)
+        self.test('EUREF EX5', x.toStr(prec=-4), '[4027894.3662, 307045.2530, 4919474.6263]', known=isPython2 or abs(x.x - 4027894.3662) < 0.75)
+        _ts(x, c, 'ITRF2014', 'ETRF2000', 2012)
 
         # Altamimi, Z. U{"EUREF Technical Note 1: Relationship and Transformation between the International and
         # the European Terrestrial Reference Systems"<https://ERTS89.ENSG,IFN.Fr/pub/EUREF-TN-1.pdf>} Appendix B.
         c = Cartesian(4027893.6719, 307045.9064, 4919475.1704, reframe=RefFrames.ITRF2014, epoch=2010.0)
         x = c.toRefFrame(RefFrames.ETRF2014, epoch=2010)
-        self.test('Case 1A', x.toStr(prec=4), '[4027893.9619, 307045.5481, 4919474.9553]')  # was .9620, .5480
+        self.test('Case 1A', x.toStr(prec=4), '[4027893.9619, 307045.5481, 4919474.9553]', nl=1)  # was .9620, .5480
         c = Cartesian(4027893.6812, 307045.9082, 4919475.1547, reframe=RefFrames.ITRF2000)
         x = c.toRefFrame(RefFrames.ETRF2000, epoch=2010)
         self.test('Case 1B', x.toStr(prec=4), '[4027894.0054, 307045.5938, 4919474.9083]')  # was .0053, .5939
@@ -109,7 +123,7 @@ class Tests(TestsBase):
             t = LatLon(0, 0, reframe='ITRF2000')
         except TypeError as x:
             t = str(x)
-        self.test('TypeError', t, "type(reframe) ('ITRF2000'): not a RefFrame")
+        self.test('TypeError', t, "type(reframe) ('ITRF2000'): not a RefFrame", nl=1)
 
         try:
             t = LatLon(0, 0, reframe=RefFrames.ITRF2000, epoch=1899)
@@ -191,11 +205,11 @@ class Tests(TestsBase):
         self.test('transform2v', v.toStr(prec=-3), '(0.004, 0.003, 0.004)', known=True)
 
         def _t4(c, x, p):
-            c = Vector3d(*c)
-            x = Vector3d(*x)
+            c = Vector3d(c)
+            x = Vector3d(x)
             e = c - x
             d = e.length
-            return c.toStr(prec=p), x.toStr(prec=p), d, e.toStr(prec=9) + ' %.4g' % (d,)
+            return c.toStr(prec=p), x.toStr(prec=p), d, '%s %.4g' % (e.toStr(prec=9), d)
 
         # Alamimi, Z. Example 1 <http://ETRS89.ENSG.IGN.FR/pub/EUREF-TN-1-Jan-31-2024.pdf>
         f, _, r1 =        (4027893.6750, 307045.9069, 4919475.1721), (-0.01361,  0.01686,  0.01024), 'ITRF2020'
@@ -206,14 +220,14 @@ class Tests(TestsBase):
                          ((4027894.0053, 307045.5939, 4919474.9083), (-0.00020, -0.00050, -0.00036), 'ETRF2000')):
             T = trfTransform0(r1, r2, epoch=2010)
             x = T.toStr(prec=9)
-            self.test('Transform0', x, x, nl=1)
+            self.test('transform0', x, x, nl=1)
             c = T.transform(*f)
             c, x, d, e = _t4(c, t, -4)
-            self.test('Transform0c', c, x, known=d < 1.e-4)
+            self.test('transform0c', c, x, known=d < 1.e-4)
             self.test('    Error0c', e, e)
             v = T.velocities()
             v, x, d, e = _t4(v, w, -5)
-            self.test('Transform0v', v, x, known=d < 1.0)
+            self.test('transform0v', v, x, known=d < 1.0)
             self.test('    Error0v', e, e)
             f, r1 = t, r2
 

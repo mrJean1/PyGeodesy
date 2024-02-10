@@ -364,7 +364,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                         streprs=_i('anstr', 'attrs', 'enstr2', 'fstr', 'fstrzs', 'hstr', 'instr',
                                    'lrstrip', 'pairs', 'reprs', 'strs', 'unstr'),
                             trf=_i('RefFrame', 'RefFrames', 'TransformXform', 'TRFXform', 'TRFXform7Tuple',
-                                   'date2epoch', 'epoch2date', 'trfTransform0', 'trfXform'),
+                                   'date2epoch', 'epoch2date', 'trfTransform0', 'trfTransforms', 'trfXform'),
                       triaxials=_i('BetaOmega2Tuple', 'BetaOmega3Tuple', 'Jacobi2Tuple',
                                    'JacobiConformal', 'JacobiConformalSpherical',
                                    'Triaxial', 'Triaxial_', 'TriaxialError', 'Triaxials', 'hartzell4'),
@@ -425,7 +425,7 @@ _ALL_DEPRECATED = _NamedEnum_RO(_name='_ALL_DEPRECATED',
                                          'inStr', 'isenclosedby', 'istuplist',
                                          'joined', 'joined_', 'nearestOn3', 'nearestOn4',
                                          'parseUTM', 'perimeterof', 'polygon', 'scalar', 'simplify2',
-                                         'tienstra', 'toUtm', 'trfTransforms', 'triAngle4',
+                                         'tienstra', 'toUtm', 'triAngle4',
                                          'unsign0', 'unStr', 'utmZoneBand2'),
                    deprecated_nvector=_i('LatLonNvectorBase', 'Nvector', 'sumOf', 'NorthPole', 'SouthPole'),)
 
@@ -500,7 +500,7 @@ class _ALL_MODS(object):
 _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '24.02.02'
+__version__ = '24.02.08'
 
 
 def _ALL_OTHER(*objs):
