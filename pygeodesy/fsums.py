@@ -48,7 +48,7 @@ from pygeodesy.props import _allPropertiesOf_n, deprecated_property_RO, \
 from math import ceil as _ceil, fabs, floor as _floor  # PYCHOK used! .ltp
 
 __all__ = _ALL_LAZY.fsums
-__version__ = '24.02.06'
+__version__ = '24.02.10'
 
 _add_op_       = _PLUS_  # in .auxilats.auxAngle
 _eq_op_        = _EQUAL_ * 2  # _DEQUAL_
@@ -1261,7 +1261,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
 
            @return: Precision running sum (C{float} or C{int}).
 
-           @see: Method L{Fsum.fsum}.
+           @see: Methods L{Fsum.fsum} and L{Fsum.fsumf_}.
         '''
         f = self._facc(_2floats(xs, origin=1)) if xs else self  # PYCHOK yield
         return f._fprs
@@ -1307,6 +1307,12 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
             return s, _fsum((s, -p, r, -t))  # ((s - p) + (r - t))
         else:  # PYCHOK no cover
             return p, _0_0
+
+    def fsumf_(self, *xs):
+        '''Like method L{Fsum.fsum_} but only for known C{float B{xs}}.
+        '''
+        f = self._facc(xs) if xs else self  # PYCHOK yield
+        return f._fprs
 
 #   ftruediv = __itruediv__   # for naming consistency
 

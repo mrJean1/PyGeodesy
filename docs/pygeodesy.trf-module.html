@@ -101,7 +101,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        24.02.09
+        24.02.12
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -230,8 +230,9 @@
         <span class="summary-sig-arg">epoch2</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">indirect</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">inverse</span>=<span class="summary-sig-default">True</span>)</span><br />
-      Yield all Helmert transform to convert one C{reframe} observed at C{epoch}
-to an other C{reframe2} at observed at C{epoch2 or epoch}.</td>
+      Yield all Helmert transform to convert one <code>reframe</code> 
+      observed at <code>epoch</code> to an other <code>reframe2</code> at 
+      observed at <code>epoch2 or epoch</code>.</td>
           <td align="right" valign="top">
             
             
@@ -252,7 +253,8 @@ to an other C{reframe2} at observed at C{epoch2 or epoch}.</td>
         <span class="summary-sig-arg">epoch</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">xform</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">rates</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Define a new Terrestrial Reference Frame (TRF) converter.</td>
+      Define a new Terrestrial Reference Frame (TRF) converter or get an 
+      existing one.</td>
           <td align="right" valign="top">
             
             
@@ -747,31 +749,45 @@ RefFrames.ETRF93: RefFrame(name='ETRF93', epoch=1993, datum=Datums.GRS\
     </td>
   </tr></table>
   
-  <pre class="literalblock">
-Yield all Helmert transform to convert one C{reframe} observed at C{epoch}
-to an other C{reframe2} at observed at C{epoch2 or epoch}.
-
-@arg reframe: The frame to convert I{from} (L{RefFrame} or C{str}).
-@arg reframe2: The frame to convert I{to} (L{RefFrame} or C{str}).
-@arg epoch: Epoch to observe I{from} (L{Epoch}, C{scalar} or C{str}),
-            otherwise C{B{reframe}}'s C{epoch}.
-@kwarg epoch2: Optional epoch to observe to observe I{to} (L{Epoch}, C{scalar}
-               or C{str}), otherwise B{C{epoch}} or C{B{reframe}}'s C{epoch}.
-@kwarg indirect: If C{True}, include double transforms via I{one} intermediate
-                 reframe, otherwise only direct transforms between B{C{reframe1}
-                 and B{C{reframe2}} (C{bool}).
-@kwarg inverse: If C{True}, include inverse, otherwise only foward transforms
-                (C{bool}).
-
-                @return: A L{TransformXform} instance for each conversion.
-
-@raise TRFError: Invalid B{C{reframe}}, B{C{epoch}}, B{C{reframe2}} or
-                 B{C{epoch2}}.
-
-@raise TypeError: Invalid B{C{reframe}} or B{C{reframe2}}.
-
-</pre>
+  <p>Yield all Helmert transform to convert one <code>reframe</code> 
+  observed at <code>epoch</code> to an other <code>reframe2</code> at 
+  observed at <code>epoch2 or epoch</code>.</p>
   <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>reframe</code></strong> - The frame to convert <i>from</i> (<a 
+          href="pygeodesy.trf.RefFrame-class.html" 
+          class="link">RefFrame</a> or <code>str</code>).</li>
+        <li><strong class="pname"><code>reframe2</code></strong> - The frame to convert <i>to</i> (<a 
+          href="pygeodesy.trf.RefFrame-class.html" 
+          class="link">RefFrame</a> or <code>str</code>).</li>
+        <li><strong class="pname"><code>epoch</code></strong> - Epoch to observe <i>from</i> (<a 
+          href="pygeodesy.units.Epoch-class.html" class="link">Epoch</a>, 
+          <code>scalar</code> or <code>str</code>), otherwise 
+          <code><b>reframe</b></code>'s <code>epoch</code>.</li>
+        <li><strong class="pname"><code>epoch2</code></strong> - Optional epoch to observe to observe <i>to</i> (<a 
+          href="pygeodesy.units.Epoch-class.html" class="link">Epoch</a>, 
+          <code>scalar</code> or <code>str</code>), otherwise 
+          <b><code>epoch</code></b> or <code><b>reframe</b></code>'s 
+          <code>epoch</code>.</li>
+        <li><strong class="pname"><code>indirect</code></strong> - If <code>True</code>, include transforms via <i>one</i> 
+          intermediate reframe, otherwise only <i>direct</i> 
+          <b><code>reframe</code></b> to <b><code>reframe2</code></b> 
+          transforms (<code>bool</code>).</li>
+        <li><strong class="pname"><code>inverse</code></strong> - If <code>True</code>, include inverse, otherwise only forward 
+          transforms (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A <a href="pygeodesy.trf.TransformXform-class.html" 
+          class="link">TransformXform</a> instance for each available 
+          conversion.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.TRFError-class.html">TRFError</a></strong></code> - Invalid <b><code>reframe</code></b>, <b><code>epoch</code></b>, 
+        <b><code>reframe2</code></b> or <b><code>epoch2</code></b>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>reframe</code></b> or 
+        <b><code>reframe2</code></b>.</li>
+    </ul></dd>
   </dl>
 </td></tr></table>
 </div>
@@ -793,7 +809,8 @@ to an other C{reframe2} at observed at C{epoch2 or epoch}.
     </td>
   </tr></table>
   
-  <p>Define a new Terrestrial Reference Frame (TRF) converter.</p>
+  <p>Define a new Terrestrial Reference Frame (TRF) converter or get an 
+  existing one.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -818,7 +835,11 @@ to an other C{reframe2} at observed at C{epoch2 or epoch}.
     <dt>Returns:</dt>
         <dd>The new TRF converter (<a 
           href="pygeodesy.trf.TRFXform-class.html" 
-          class="link">TRFXform</a>).</dd>
+          class="link">TRFXform</a>) or if no <b><code>epoch</code></b>, 
+          <b><code>xform</code></b> and <b><code>rates</code></b> are 
+          given, return the existing one (<a 
+          href="pygeodesy.trf.TRFXform-class.html" 
+          class="link">TRFXform</a>) or <code>None</code> if not available.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.TRFError-class.html">TRFError</a></strong></code> - Invalid <b><code>reframe1</code></b>, <b><code>reframe2</code></b>,
@@ -897,7 +918,7 @@ RefFrames.ETRF93: RefFrame(name='ETRF93', epoch=1993, datum=Datums.GRS<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Feb  9 17:00:54 2024
+    Generated by Epydoc 3.0.1 on Mon Feb 12 13:31:25 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

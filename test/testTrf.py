@@ -8,12 +8,12 @@
 # <https://GitHub.com/ChrisVeness/geodesy/blob/master/test/latlon-ellipsoidal-referenceframe-tests.js>
 
 __all__ = ('Tests',)
-__version__ = '24.02.09'
+__version__ = '24.02.12'
 
 from bases import GeodSolve, isPython2, TestsBase
 
-from pygeodesy import date2epoch, Epoch, epoch2date, F_D, F_DMS, RefFrames, \
-                      TRFError, trfTransform0, trfTransforms, Vector3d
+from pygeodesy import date2epoch, Epoch, epoch2date, F_D, F_DMS, fstr, RefFrames, \
+                      TRFError, trfTransform0, trfTransforms, trfXform, Vector3d
 
 
 class Tests(TestsBase):
@@ -84,7 +84,7 @@ class Tests(TestsBase):
             for i, T in enumerate(trfTransforms(r1, r2, epoch=e)):
                 x = T.toRefFrame(x)
                 d = c - x
-                t = '%s %.5g %.3f' % (T.name, d.length, T.Xform.epoched)
+                t = '%s  %.5g  %s' % (T.name, d.length, fstr(T.Xform.epoched, prec=3))
                 self.test('transform%s' % (i,), t, t)
 
         c = Cartesian(4027894.006, 307045.600, 4919474.910)
@@ -273,6 +273,24 @@ class Tests(TestsBase):
         t = t.toLatLon(LatLon=LatLon)  # reframe=RefFrames.ITRF2014, epoch=2018.8
         self.test('Issue80', t.toStr(prec=4), '48°46′36.9315″N, 008°55′21.3089″E, +476.10m')
 
+        # <https://Geodesy.NOAA.gov/TOOLS/Htdp/Using_HTDP.pdf> equations (5)-(11)
+        X = trfXform('ITRF96', 'NAD83')
+        self.test(X.name, X.toRepr(), repr(RefFrames.ITRF96.Xform('NAD83')), nl=1)
+        h = X.toHelmert()
+        self.test(X.name, h, "name='ITRF96@1997xNAD83', tx=0.991, ty=-0.19072, tz=-0.5129, s1=1.0,"
+                                                      " rx=1.2503e-07, ry=4.6785e-08, rz=5.6529e-08, s=0.0,"
+                                                      " sx=0.02579, sy=0.00965, sz=0.01166")
+        t = X.toTransform(2007)  # to show the 10-year deltas for rx, ry and rz
+        self.test(X.name, t, "name='ITRF96@1997xNAD83@2007', tx=0.991, ty=-0.19072, tz=-0.5129, s1=1.0,"
+                                                           " rx=1.2761e-07, ry=1.0797e-08, rz=5.4997e-08, s=0.0,"
+                                                           " sx=0.026322, sy=0.002227, sz=0.011344")
+
+        def _d(h, t):
+            return '%.5g' % ((h - t) * 0.1)  # per year, see (8)-(10)
+
+        t = 'rx=%s, ry=%s, rz=%s' % (_d(h.rx, t.rx), _d(h.ry, t.ry), _d(h.rz, t.rz))
+        self.test(X.name, t, "rx=-2.5792e-10, ry=3.5988e-09, rz=1.532e-10")
+
     def testEpoch(self):
 
         try:  # coverage
@@ -288,7 +306,7 @@ class Tests(TestsBase):
         self.test('str', str(r),t)
         t = r.toRepr()
         self.test('toStr2', t, "RefFrame(name='GDA94', epoch=1994, datum=Datums.GRS80)")
-        self.test('repr', repr(r), t)
+        self.test('repr', repr(r), t, nt=1)
 
         for y, m, d, x in ((2020,  1,  1, 2020.003),
                            (2020,  4,  1, 2020.251),
@@ -301,7 +319,7 @@ class Tests(TestsBase):
             self.test('y-m-d', t, (y, m, d), known=t[0] == 2021)
 
         e = Epoch(Epoch=2020.)
-        self.test(e.toRepr() + '.std_repr', e.std_repr, False)
+        self.test(e.toRepr() + '.std_repr', e.std_repr, False, nl=1)
         d = m = 0
         for n in (0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31):
             m += 1

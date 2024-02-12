@@ -19,10 +19,11 @@ from pygeodesy.datums import _earth_datum, _WGS84,  _EWGS84
 # from pygeodesy.dms import F_D  # from .latlonBase
 # from pygeodesy.ellipsoids import _EWGS84  # from .datums
 from pygeodesy.errors import IntersectionError, GeodesicError
+# from pygeodesy.fsums import Fsum  # from .karney
 from pygeodesy.interns import NN, _DOT_, _dunder_nameof, _SPACE_, \
                              _to_, _too_,_under
 from pygeodesy.karney import _atan2d, Caps, Direct9Tuple, GDict, \
-                             _kWrapped, Inverse10Tuple
+                             _kWrapped, Inverse10Tuple,  Fsum
 from pygeodesy.latlonBase import LatLonBase as _LLB,  F_D, Radius_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import callername, classname
@@ -36,7 +37,7 @@ from contextlib import contextmanager
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.geodesicw
-__version__ = '24.01.16'
+__version__ = '24.02.10'
 
 _plumb_ = 'plumb'
 _TRIPS  =  65
@@ -486,12 +487,14 @@ def _Intersecant2(gl, lat0, lon0, radius, tol=_TOL, form=F_D):  # MCCABE in LatL
         return _a(d.s12), P, d
 
     def _bisect2(s, c, Rc, r, tol):
-        b = c
-        while True:
-            b += s
+        _s = Fsum(c).fsumf_
+        for i in range(_TRIPS):
+            b = _s(s)
             Rb, P, d = _R3(b)
             if Rb > r:
                 break
+        else:
+            raise ValueError(Fmt.no_convergence(b, s))
         # assert Rb > r > Rc
         for i in range(_TRIPS):  # 47-48
             s = (b + c) * _0_5

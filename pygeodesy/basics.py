@@ -28,7 +28,7 @@ from math import copysign as _copysign
 import inspect as _inspect
 
 __all__ = _ALL_LAZY.basics
-__version__ = '24.02.06'
+__version__ = '24.02.12'
 
 _0_0                  =  0.0  # in .constants
 _below_               = 'below'
@@ -655,7 +655,7 @@ def _xargs_kwds_names(func):
     '''(INTERNAL) Get a C{func}'s args and kwds names, including
        C{self} for methods.
 
-       @note: Python 2 does I{not} include the C{*args} nor the
+       @note: Python 2 may I{not} include the C{*args} nor the
               C{**kwds} names.
     '''
     try:

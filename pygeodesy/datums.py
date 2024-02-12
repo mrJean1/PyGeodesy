@@ -76,11 +76,11 @@ from pygeodesy.ellipsoids import a_f2Tuple, Ellipsoid, Ellipsoid2, Ellipsoids, _
 from pygeodesy.errors import _IsnotError, _TypeError, _xattr
 from pygeodesy.fmath import fdot, fmean,  Fmt
 from pygeodesy.interns import NN, _a_, _Airy1830_, _AiryModified_, _Bessel1841_, \
-                             _Clarke1866_, _Clarke1880IGN_, _COMMASPACE_, _DOT_, _earth_, \
-                             _ellipsoid_, _ellipsoidal_, _GRS80_, _Intl1924_, _MINUS_, \
-                             _Krassovski1940_, _Krassowsky1940_, _NAD27_, _NAD83_, _s_, \
-                             _Sphere_, _spherical_, _sx_, _sy_, _sz_, _transform_, _tx_, \
-                             _ty_, _tz_, _UNDER_, _WGS72_, _WGS84_, _under
+                             _Clarke1866_, _Clarke1880IGN_, _COMMASPACE_, _DOT_, \
+                             _earth_, _ellipsoid_, _ellipsoidal_, _GRS80_, _Intl1924_, \
+                             _MINUS_, _Krassovski1940_, _Krassowsky1940_, _NAD27_, \
+                             _NAD83_, _s_, _Sphere_, _spherical_, _transform_, \
+                             _UNDER_, _WGS72_, _WGS84_, _under
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _NamedEnum, _NamedEnumItem, _lazyNamedEnumItem as _lazy
 # from pygeodesy.namedTuples import Vector3Tuple  # from .ellipsoids
@@ -91,7 +91,7 @@ from pygeodesy.units import _isRadius, Radius_,  radians
 # from math import radians  # from .units
 
 __all__ = _ALL_LAZY.datums
-__version__ = '24.02.06'
+__version__ = '24.02.12'
 
 _a_ellipsoid_ = _UNDER_(_a_, _ellipsoid_)
 _BD72_        = 'BD72'
@@ -104,10 +104,13 @@ _Identity_    = 'Identity'
 _Irl1965_     = 'Irl1965'
 _Irl1975_     = 'Irl1975'
 _MGI_         = 'MGI'
+_Names7       = 'tx', 'ty', 'tz', _s_, 'sx', 'sy', 'sz'  # in .trf
+_Names11      = _Names7[:3] + ('s1', 'rx', 'ry', 'rz') + _Names7[3:]
 _NTF_         = 'NTF'
 _OSGB36_      = 'OSGB36'
 _Potsdam_     = 'Potsdam'
 _RPS          =  radians(_1_0 / _3600_0)  # radians per degree-second
+_S1_S         =  1.e-6  # in .trf
 _TokyoJapan_  = 'TokyoJapan'
 
 
@@ -160,7 +163,7 @@ class Transform(_NamedEnumItem):
             self.rz, self.sz = self._rps2(sz)
         if s:
             self.s  =    s
-            self.s1 = _F(s * 1e-6 + _1_0)  # normalize ppm to (s + 1)
+            self.s1 = _F(s * _S1_S + _1_0)  # normalize ppM to (s + 1)
 
         self._register(Transforms, name)
 
@@ -172,13 +175,13 @@ class Transform(_NamedEnumItem):
            @return: C{True} if equal, C{False} otherwise.
         '''
         return self is other or (isinstance(other, Transform) and all(
-                                 s == t for s, t in zip(self, other)))
+                                 a == b for a, b in zip(self, other)))
 
     def __hash__(self):
         return self._hash  # memoized
 
     def __iter__(self):
-        '''Yield the attribute values.
+        '''Yield the initial attribute values.
         '''
         for _, x in self.items():
             yield x
@@ -195,6 +198,15 @@ class Transform(_NamedEnumItem):
     def __neg__(self):
         return self.inverse()
 
+#   def __sub__(self, other):
+#       _xinstanceof(Transform, other=other)
+#
+#       def _sub(a, b):
+#           for n in _Names11:
+#               yield getattr(a, n) - getattr(b, n)
+#
+#       return type(self)(_sub(self, other), name=_MINUS_)  # .fsums._sub_op
+
     @Property_RO
     def _hash(self):
         return hash(x for x in self)
@@ -202,7 +214,7 @@ class Transform(_NamedEnumItem):
     def items(self):
         '''Yield each attribute as 2-tuple C{(name, value)}.
         '''
-        for n in (_tx_, _ty_, _tz_, _s_, _sx_, _sy_, _sz_):
+        for n in _Names7:
             yield n, getattr(self, n)
 
     def inverse(self, name=NN):
@@ -214,7 +226,7 @@ class Transform(_NamedEnumItem):
 
            @raise NameError: Transform with that B{C{name}} already exists.
         '''
-        d = dict((n, -v) for n, v in self.items())
+        d = dict((n, neg(v)) for n, v in self.items())
         n = name or _minus(self.name)
         return type(self)(name=n, **d)
 
@@ -239,9 +251,7 @@ class Transform(_NamedEnumItem):
 
            @return: Transform attributes (C{str}).
         '''
-        return self._instr(name, prec, _tx_, _ty_, _tz_,
-                                 's1', 'rx', 'ry', 'rz',
-                                  _s_, _sx_, _sy_, _sz_, fmt=fmt)
+        return self._instr(name, prec, *_Names11, fmt=fmt)
 
     def transform(self, x, y, z, inverse=False):
         '''Transform a (geocentric) position, forward or inverse.

@@ -4,7 +4,7 @@
 # Test ellipsoidals earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '24.01.16'
+__version__ = '24.02.10'
 
 from bases import coverage, GeodSolve, geographiclib, isPython35, isPython39, RandomLatLon
 from testLatLon import Tests as _TestsLL
@@ -181,7 +181,7 @@ class Tests(_TestsLL, _TestsV):
                         e = abs(d - r) * 100.0 / r
                         i = t.iteration
                         t = '%.3e%% %d %r' % (e, i, t)
-                        self.test('intersecant2', t, '2.0e-10% ', known=e < 2.e-10)
+                        self.test('intersecant2', t, '2.0e-10% ...', known=e < 2.e-10)
                 except IntersectionError as x:
                     t = str(x)
                     self.test('intersecant2', t, t)

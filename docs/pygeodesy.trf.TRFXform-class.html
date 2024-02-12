@@ -177,9 +177,27 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.trf.TRFXform-class.html#__str__" class="summary-sig-name">__str__</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Default <code>str(self)</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.trf.TRFXform-class.html#inverse" class="summary-sig-name">inverse</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
-      Return the inverse of this Xform.</td>
+      Get an <i>inverse</i> of this Xform, <code>refName1</code> and 
+      <code>-2</code> swapped.</td>
           <td align="right" valign="top">
             
             
@@ -216,6 +234,24 @@
           <td><span class="summary-sig"><a href="pygeodesy.trf.TRFXform-class.html#toEpoch" class="summary-sig-name">toEpoch</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">epoch</span>)</span><br />
       Convert this Xform to <b><code>epoch</code></b>, if needed.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.trf.TRFXform-class.html#toHelmert" class="summary-sig-name">toHelmert</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">factor</span>=<span class="summary-sig-default">0.001</span>)</span><br />
+      Return the Helmert transform from this Xform scaled accordingly.</td>
           <td align="right" valign="top">
             
             
@@ -275,7 +311,8 @@
           <td><span class="summary-sig"><a href="pygeodesy.trf.TRFXform-class.html#toStr" class="summary-sig-name">toStr</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">epoch</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">**unused</span>)</span><br />
-      Return this Xform as <code>&quot;refName1@epochxrefName2&quot;</code>
+      Return this Xform as 
+      <code>&quot;refName1<b>@</b>epoch<b>x</b>refName2&quot;</code> 
       (<code>str</code>).</td>
           <td align="right" valign="top">
             
@@ -293,13 +330,13 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.trf.TRFXform-class.html#toTransform" class="summary-sig-name">toTransform</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">epoch1</span>,
+        <span class="summary-sig-arg">epoch</span>,
         <span class="summary-sig-arg">epoch2</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">inverse</span>=<span class="summary-sig-default">False</span>)</span><br />
-      Combine this Xform observed at <b><code>epoch1</code></b> into a 
+      Combine this Xform observed at <b><code>epoch</code></b> into a 
       Helmert <a href="pygeodesy.trf.TransformXform-class.html" 
       class="link">TransformXform</a>, optionally at <b><code>epoch2 or 
-      epoch1</code></b>.</td>
+      epoch</code></b>.</td>
           <td align="right" valign="top">
             
             
@@ -315,7 +352,6 @@
       <code><a href="pygeodesy.named._Named-class.html#__imatmul__">__imatmul__</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#__matmul__">__matmul__</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#__rmatmul__">__rmatmul__</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#__str__">__str__</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#attrs">attrs</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#classof">classof</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#copy">copy</a></code>,
@@ -364,14 +400,14 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.trf.TRFXform-class.html#xform" class="summary-name">xform</a> = <code title="TRFXform7Tuple(tx=0.0, ty=0.0, tz=0.0, s=0.0, sx=0.0, sy=0.0, sz=0.0)">TRFXform7Tuple(tx=0.0, ty=0.0, tz=0.0, s=0.0, sx=0.0, <code class="variable-ellipsis">...</code></code>
+        <a href="pygeodesy.trf.TRFXform-class.html#xform" class="summary-name">xform</a> = <code title="unity(tx=0.0, ty=0.0, tz=0.0, s=0.0, sx=0.0, sy=0.0, sz=0.0)">unity(tx=0.0, ty=0.0, tz=0.0, s=0.0, sx=0.0, sy=0.0, s<code class="variable-ellipsis">...</code></code>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.trf.TRFXform-class.html#rates" class="summary-name">rates</a> = <code title="TRFXform7Tuple(tx=0.0, ty=0.0, tz=0.0, s=0.0, sx=0.0, sy=0.0, sz=0.0)">TRFXform7Tuple(tx=0.0, ty=0.0, tz=0.0, s=0.0, sx=0.0, <code class="variable-ellipsis">...</code></code>
+        <a href="pygeodesy.trf.TRFXform-class.html#rates" class="summary-name">rates</a> = <code title="unity(tx=0.0, ty=0.0, tz=0.0, s=0.0, sx=0.0, sy=0.0, sz=0.0)">unity(tx=0.0, ty=0.0, tz=0.0, s=0.0, sx=0.0, sy=0.0, s<code class="variable-ellipsis">...</code></code>
     </td>
   </tr>
 </table>
@@ -405,7 +441,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.trf.TRFXform-class.html#indirected" class="summary-name">indirected</a><br />
-      Is this an <i>indirected</i> Xform? (<code>bool</code>).
+      Is this an <i>indirected</i> Xform? (<code>str</code>) or 
+      <code>NN</code>.
     </td>
   </tr>
 <tr>
@@ -496,9 +533,11 @@
           class="link">TRFXform7Tuple</a>).</li>
         <li><strong class="pname"><code>rates</code></strong> - <i>Rate</i> parameters (<a 
           href="pygeodesy.trf.TRFXform7Tuple-class.html" 
-          class="link">TRFXform7Tuple</a>), as <b><code>xform</code></b>, 
+          class="link">TRFXform7Tuple</a>), like <b><code>xform</code></b>,
           but in <code>units-per-year</code>.</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>)</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>), overriding the default from 
+          method <a href="pygeodesy.trf.TRFXform-class.html#toStr" 
+          class="link">toStr</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The TRF converter (<a href="pygeodesy.trf.TRFXform-class.html" 
@@ -538,6 +577,30 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="__str__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__str__</span>&nbsp;(<span class="sig-arg">self</span>)</span>
+    <br /><em class="fname">(Informal representation operator)</em>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Default <code>str(self)</code>.</p>
+  <dl class="fields">
+    <dt>Overrides:
+        object.__str__
+        <dd><em class="note">(inherited documentation)</em></dd>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
 <a name="inverse"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -553,7 +616,8 @@
     </td>
   </tr></table>
   
-  <p>Return the inverse of this Xform.</p>
+  <p>Get an <i>inverse</i> of this Xform, <code>refName1</code> and 
+  <code>-2</code> swapped.</p>
   <dl class="fields">
     <dt>Returns:</dt>
         <dd>Inverse (<a href="pygeodesy.trf.TRFXform-class.html" 
@@ -621,6 +685,40 @@
     </ul></dd>
   </dl>
 </td></tr></table>
+</div>
+<a name="toHelmert"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toHelmert</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">factor</span>=<span class="sig-default">0.001</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the Helmert transform from this Xform scaled accordingly.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>factor</code></strong> - Scale to convert <code>milli-meter</code> (<code>scalar</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The Helmert transform (<a 
+          href="pygeodesy.trf.TransformXform-class.html" 
+          class="link">TransformXform</a>).</dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        By defaut, Translations are converted from <code>milli-meter</code>
+        to <code>meter</code>, rates from <code>milli-arc-seconds</code> to
+        <code>arc-seconds</code> and scale from <code>ppb</code> to 
+        <code>ppM</code>.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="toRefFrame"></a>
 <div>
@@ -706,12 +804,14 @@
     </td>
   </tr></table>
   
-  <p>Return this Xform as <code>&quot;refName1@epochxrefName2&quot;</code> 
+  <p>Return this Xform as 
+  <code>&quot;refName1<b>@</b>epoch<b>x</b>refName2&quot;</code> 
   (<code>str</code>).</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>epoch</code></strong> - Epoch (<code>scalar</code>), overriding this Xform's epoch.</li>
+        <li><strong class="pname"><code>epoch</code></strong> - Epoch (<code>Epoch</code>, <code>scalar</code> or 
+          <code>str</code>), overriding this Xform's epoch.</li>
     </ul></dd>
     <dt>Overrides:
         <a href="pygeodesy.named._Named-class.html#toStr">named._Named.toStr</a>
@@ -727,7 +827,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toTransform</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">epoch1</span>,
+        <span class="sig-arg">epoch</span>,
         <span class="sig-arg">epoch2</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">inverse</span>=<span class="sig-default">False</span>)</span>
   </h3>
@@ -736,16 +836,16 @@
     </td>
   </tr></table>
   
-  <p>Combine this Xform observed at <b><code>epoch1</code></b> into a 
+  <p>Combine this Xform observed at <b><code>epoch</code></b> into a 
   Helmert <a href="pygeodesy.trf.TransformXform-class.html" 
   class="link">TransformXform</a>, optionally at <b><code>epoch2 or 
-  epoch1</code></b>.</p>
+  epoch</code></b>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>epoch1</code></strong> - Epoch to observe <i>from</i> (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>epoch</code></strong> - Epoch to observe <i>from</i> (<code>scalar</code>).</li>
         <li><strong class="pname"><code>epoch2</code></strong> - Optional epoch to observe <i>to</i> (<code>scalar</code>).</li>
-        <li><strong class="pname"><code>inverse</code></strong> - Invert the Helmert tranform (<code>bool</code>).</li>
+        <li><strong class="pname"><code>inverse</code></strong> - Use the Xform's inverse (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The Helmert transform (<a 
@@ -753,14 +853,12 @@
           class="link">TransformXform</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.TRFError-class.html">TRFError</a></strong></code> - Invalid <b><code>epoch1</code></b> or <b><code>epoch2</code></b>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.TRFError-class.html">TRFError</a></strong></code> - Invalid <b><code>epoch</code></b> or <b><code>epoch2</code></b>.</li>
     </ul></dd>
   </dl>
-<div class="fields">      <p><strong>Note:</strong>
-        Translations are converted from <code>milli-meter</code> to 
-        <code>meter</code>, shift rates from <code>milli-arc-seconds</code>
-        to <code>arc-seconds</code> and scale from <code>ppb</code> to 
-        <code>ppM</code>.
+<div class="fields">      <p><strong>See Also:</strong>
+        Method <a href="pygeodesy.trf.TRFXform-class.html#toHelmert" 
+        class="link">toHelmert</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -786,7 +884,7 @@
   <dl class="fields">
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
-TRFXform7Tuple(tx=0.0, ty=0.0, tz=0.0, s=0.0, sx=0.0, sy=0.0, sz=0.0)
+unity(tx=0.0, ty=0.0, tz=0.0, s=0.0, sx=0.0, sy=0.0, sz=0.0)
 </pre></td></tr></table>
 </dd>
   </dl>
@@ -804,7 +902,7 @@ TRFXform7Tuple(tx=0.0, ty=0.0, tz=0.0, s=0.0, sx=0.0, sy=0.0, sz=0.0)
   <dl class="fields">
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
-TRFXform7Tuple(tx=0.0, ty=0.0, tz=0.0, s=0.0, sx=0.0, sy=0.0, sz=0.0)
+unity(tx=0.0, ty=0.0, tz=0.0, s=0.0, sx=0.0, sy=0.0, sz=0.0)
 </pre></td></tr></table>
 </dd>
   </dl>
@@ -877,11 +975,12 @@ class="link">Epoch</a>, <code>scalar</code> or <code>str</code>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">indirected</h3>
-  <p>Is this an <i>indirected</i> Xform? (<code>bool</code>).</p>
+  <p>Is this an <i>indirected</i> Xform? (<code>str</code>) or 
+  <code>NN</code>.</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">indirected(<span class="summary-sig-arg">self</span>)</span>
-        - Is this an <i>indirected</i> Xform? (<code>bool</code>).
+        - Is this an <i>indirected</i> Xform? (<code>str</code>) or <code>NN</code>.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -999,7 +1098,7 @@ class="link">Epoch</a>, <code>scalar</code> or <code>str</code>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Feb  9 17:00:57 2024
+    Generated by Epydoc 3.0.1 on Mon Feb 12 13:31:29 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

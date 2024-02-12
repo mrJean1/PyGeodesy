@@ -398,18 +398,12 @@ _start_               = 'start'              # PYCHOK OK
 _std_                 = 'std'                # PYCHOK OK
 _stdev_               = 'stdev'              # PYCHOK OK
 _supported_           = 'supported'          # PYCHOK OK
-_sx_                  = 'sx'                 # PYCHOK OK
-_sy_                  = 'sy'                 # PYCHOK OK
-_sz_                  = 'sz'                 # PYCHOK OK
 _tbd_                 = 'tbd'                # PYCHOK OK
 _TILDE_               = '~'                  # PYCHOK OK
 _to_                  = 'to'                 # PYCHOK OK
 _tolerance_   = _Prefix('tolerance')         # PYCHOK OK
 _too_         = _Prefix('too')               # PYCHOK OK
 _transform_           = 'transform'          # PYCHOK OK
-_tx_                  = 'tx'                 # PYCHOK OK
-_ty_                  = 'ty'                 # PYCHOK OK
-_tz_                  = 'tz'                 # PYCHOK OK
 _UNDER_          = Str_('_')                 # PYCHOK OK
 _units_               = 'units'              # PYCHOK OK
 _UNUSED_              = 'UNUSED'             # PYCHOK OK
@@ -636,7 +630,7 @@ def _version2(version, n=2):
 __all__ = (_NN_,  # not MISSING!
             Str_.__name__,  # classes
             machine.__name__)  # in .lazily
-__version__ = '24.02.03'
+__version__ = '24.02.12'
 
 if __name__ == '__main__':
 
