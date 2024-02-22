@@ -400,14 +400,16 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.trf.TRFXform-class.html#xform" class="summary-name">xform</a> = <code title="unity(tx=0.0, ty=0.0, tz=0.0, s=0.0, sx=0.0, sy=0.0, sz=0.0)">unity(tx=0.0, ty=0.0, tz=0.0, s=0.0, sx=0.0, sy=0.0, s<code class="variable-ellipsis">...</code></code>
+        <a name="xform"></a><span class="summary-name">xform</span> = <code title="None">None</code><br />
+      hash(x)
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.trf.TRFXform-class.html#rates" class="summary-name">rates</a> = <code title="unity(tx=0.0, ty=0.0, tz=0.0, s=0.0, sx=0.0, sy=0.0, sz=0.0)">unity(tx=0.0, ty=0.0, tz=0.0, s=0.0, sx=0.0, sy=0.0, s<code class="variable-ellipsis">...</code></code>
+        <a name="rates"></a><span class="summary-name">rates</span> = <code title="None">None</code><br />
+      hash(x)
     </td>
   </tr>
 </table>
@@ -424,8 +426,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.trf.TRFXform-class.html#epoch" class="summary-name">epoch</a><br />
-      Get the epoch (<a href="pygeodesy.units.Epoch-class.html" 
-      class="link">Epoch</a>).
+      Class <code>property</code> with retrievable name.
     </td>
   </tr>
 <tr>
@@ -644,8 +645,8 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>name</code></strong> - The new name (<code>str</code>), overriding the base name 
-          <code>&quot;refName1@epochxrefName2&quot;</code>.</li>
+        <li><strong class="pname"><code>name</code></strong> - New name (<code>str</code>), overriding the base name 
+          <code>&quot;refName1<b>@</b>epoch<b>x</b>refName2&quot;</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The old name (<code>str</code>).</dd>
@@ -754,7 +755,7 @@
           class="link">RefFrame</a> from this Xform's <code>refName1</code>
           or <code>refName2</code> (<code>datum</code>).</li>
         <li><strong class="pname"><code>epoch2_name</code></strong> - Optional keyword arguments <b><code>epoch2</code>=None</b> and 
-          <code><b>name</b>=NN</code>.</li>
+          <code><b>name</b>=refName1</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A copy of the <b><code>point</code></b>, converted or renamed.</dd>
@@ -863,52 +864,6 @@
 </div></td></tr></table>
 </div>
 <br />
-<!-- ==================== CLASS VARIABLE DETAILS ==================== -->
-<a name="section-ClassVariableDetails"></a>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr bgcolor="#70b0f0" class="table-header">
-  <td align="left" colspan="2" class="table-header">
-    <span class="table-header">Class Variable Details</span></td>
-</tr>
-</table>
-<a name="xform"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">xform</h3>
-  
-  <dl class="fields">
-  </dl>
-  <dl class="fields">
-    <dt>Value:</dt>
-      <dd><table><tr><td><pre class="variable">
-unity(tx=0.0, ty=0.0, tz=0.0, s=0.0, sx=0.0, sy=0.0, sz=0.0)
-</pre></td></tr></table>
-</dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="rates"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">rates</h3>
-  
-  <dl class="fields">
-  </dl>
-  <dl class="fields">
-    <dt>Value:</dt>
-      <dd><table><tr><td><pre class="variable">
-unity(tx=0.0, ty=0.0, tz=0.0, s=0.0, sx=0.0, sy=0.0, sz=0.0)
-</pre></td></tr></table>
-</dd>
-  </dl>
-</td></tr></table>
-</div>
-<br />
 <!-- ==================== PROPERTY DETAILS ==================== -->
 <a name="section-PropertyDetails"></a>
 <table class="details" border="1" cellpadding="3"
@@ -924,8 +879,7 @@ unity(tx=0.0, ty=0.0, tz=0.0, s=0.0, sx=0.0, sy=0.0, sz=0.0)
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">epoch</h3>
-  <p>Get the epoch (<a href="pygeodesy.units.Epoch-class.html" 
-  class="link">Epoch</a>).</p>
+  <p>Class <code>property</code> with retrievable name.</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">epoch(<span class="summary-sig-arg">self</span>)</span>
@@ -937,10 +891,6 @@ class="link">Epoch</a>).
         <span class="summary-sig-arg">epoch</span>)</span>
         - Set the epoch (<a href="pygeodesy.units.Epoch-class.html" 
 class="link">Epoch</a>, <code>scalar</code> or <code>str</code>).
-    </dd>
-    <dt>Delete Method:</dt>
-    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
-        - Zap the <i>cached/memoized</i> <code>property</code> value.
     </dd>
   </dl>
 </td></tr></table>
@@ -1098,7 +1048,7 @@ class="link">Epoch</a>, <code>scalar</code> or <code>str</code>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Feb 12 13:31:29 2024
+    Generated by Epydoc 3.0.1 on Thu Feb 22 12:20:56 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

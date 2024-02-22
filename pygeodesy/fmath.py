@@ -12,7 +12,7 @@ from pygeodesy.constants import EPS0, EPS02, EPS1, NAN, PI, PI_2, PI_4, \
                                _1_3rd, _1_5, _1_6th, _2_0, _2_3rd, _3_0, \
                                _isfinite, isnear0, isnear1, _over, remainder
 from pygeodesy.errors import _IsnotError, LenError, _TypeError, _ValueError, \
-                             _xError, _xkwds_get, _xkwds_pop
+                             _xError, _xkwds_get, _xkwds_pop2
 from pygeodesy.fsums import _2float, _Powers, Fsum, _fsum, fsum, fsum1_, \
                             _pow_op_,  Fmt, unstr
 from pygeodesy.interns import MISSING, _few_, _h_, _invokation_, _negative_, \
@@ -25,7 +25,7 @@ from math import fabs, sqrt  # pow
 from operator import mul as _mul  # in .triaxials
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '23.12.03'
+__version__ = '24.02.18'
 
 # sqrt(2) <https://WikiPedia.org/wiki/Square_root_of_2>
 _0_4142 = 0.414213562373095  # sqrt(_2_0) - _1_0
@@ -99,8 +99,8 @@ class Fhypot(Fsum):
                         C{B{RESIDUAL}=None}, see L{Fsum.__init__}.
         '''
         try:
-            p = _xkwds_pop(power_name_RESIDUAL, power=2)
-            Fsum.__init__(self, **power_name_RESIDUAL)
+            p, kwds = _xkwds_pop2(power_name_RESIDUAL, power=2)
+            Fsum.__init__(self, **kwds)
             if xs:
                 self._facc(_Powers(p, xs), up=False)  # PYCHOK yield
             self._fset(self._fpow(_1_0 / p, _pow_op_), asis=True)

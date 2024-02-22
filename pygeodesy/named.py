@@ -14,12 +14,12 @@ standard Python C{namedtuple}s.
 '''
 
 from pygeodesy.basics import isclass, isidentifier, iskeyword, isstr, issubclassof, \
-                             len2, _sizeof, _xcopy, _xdup, _zip
+                             itemsorted, len2, _sizeof, _xcopy, _xdup, _zip
 from pygeodesy.errors import _AssertionError, _AttributeError, _incompatible, \
-                             _IndexError, _IsnotError, itemsorted, LenError, \
-                             _NameError, _NotImplementedError, _TypeError, \
-                             _TypesError, _ValueError, UnitError, _xattr, _xkwds, \
-                             _xkwds_get, _xkwds_pop, _xkwds_popitem
+                             _IndexError, _IsnotError, LenError, _NameError, \
+                             _NotImplementedError, _TypeError, _TypesError, \
+                             _ValueError, UnitError, _xattr, _xkwds, _xkwds_get, \
+                             _xkwds_item2, _xkwds_pop2
 from pygeodesy.interns import NN, _at_, _AT_, _COLON_, _COLONSPACE_, _COMMA_, \
                              _COMMASPACE_, _doesn_t_exist_, _DOT_, _DUNDER_, \
                              _EQUAL_, _EQUALSPACED_, _exists_, _immutable_, _name_, \
@@ -32,7 +32,7 @@ from pygeodesy.props import _allPropertiesOf_n, deprecated_method, _hasProperty,
 from pygeodesy.streprs import attrs, Fmt, lrstrip, pairs, reprs, unstr
 
 __all__ = _ALL_LAZY.named
-__version__ = '24.02.04'
+__version__ = '24.02.22'
 
 _COMMANL_           = _COMMA_ + _NL_
 _COMMASPACEDOT_     = _COMMASPACE_ + _DOT_
@@ -75,7 +75,7 @@ def _xother3(inst, other, name=_other_, up=1, **name_other):
     '''(INTERNAL) Get C{name} and C{up} for a named C{other}.
     '''
     if name_other:  # and not other and len(name_other) == 1
-        name, other = _xkwds_popitem(name_other)
+        name, other = _xkwds_item2(name_other)
     elif other and len(other) == 1:
         other = other[0]
     else:
@@ -254,7 +254,7 @@ class _Named(object):
                         a shallow copy (C{bool}).
            @kwarg name: Optional, non-empty name (C{str}).
 
-           @return: The copy (C{This class} or sub-class thereof).
+           @return: The copy (C{This class}).
         '''
         c = _xcopy(self, deep=deep)
         if name:
@@ -272,12 +272,12 @@ class _Named(object):
            @kwarg deep: If C{True} duplicate deep, otherwise shallow.
            @kwarg items: Attributes to be changed (C{any}).
 
-           @return: The duplicate (C{This class} or sub-class thereof).
+           @return: The duplicate (C{This class}).
 
            @raise AttributeError: Some B{C{items}} invalid.
         '''
-        n =  self.name
-        m = _xkwds_pop(items, name=n)
+        n = self.name
+        m, items = _xkwds_pop2(items, name=n)
         d = _xdup(self, deep=deep, **items)
         if m != n:
             d.rename(m)
@@ -378,7 +378,7 @@ class _Named(object):
 
            @arg name: The new name (C{str}).
 
-           @return: The old name (C{str}).
+           @return: The previous name (C{str}).
         '''
         m, n = self._name, str(name)
         if n != m:
@@ -547,18 +547,19 @@ class _NamedDict(ADict, _Named):
     '''
     def __init__(self, *args, **kwds):
         if args:  # args override kwds
-            if len(args) != 1:
+            if len(args) != 1:  # or not isinstance(args[0], dict)
                 t = unstr(self.classname, *args, **kwds)  # PYCHOK no cover
                 raise _ValueError(args=len(args), txt=t)
             kwds = _xkwds(dict(args[0]), **kwds)
-        if _name_ in kwds:
-            _Named.name.fset(self, kwds.pop(_name_))  # see _Named.name
+        n, kwds = _xkwds_pop2(kwds, name=NN)
+        if n:
+            _Named.name.fset(self, n)  # see _Named.name
         ADict.__init__(self, kwds)
 
     def __delattr__(self, name):
         '''Delete an attribute or item by B{C{name}}.
         '''
-        if name in ADict.keys(self):
+        if name in self:  # in ADict.keys(self):
             ADict.pop(name)
         elif name in (_name_, _name):
             # ADict.__setattr__(self, name, NN)
@@ -586,7 +587,7 @@ class _NamedDict(ADict, _Named):
     def __setattr__(self, name, value):
         '''Set attribute or item B{C{name}} to B{C{value}}.
         '''
-        if name in ADict.keys(self):
+        if name in self:  # in ADict.keys(self)
             ADict.__setitem__(self, name, value)  # self[name] = value
         else:
             ADict.__setattr__(self, name, value)

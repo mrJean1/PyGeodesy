@@ -13,11 +13,11 @@ and L{ChLVe} and L{Ltp}, L{ChLV}, L{LocalError}, L{Attitude} and L{Frustum}.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import issubclassof, map1, map2, _xargs_kwds_names
+from pygeodesy.basics import _args_kwds_names, issubclassof, map1, map2   # .datums
 from pygeodesy.constants import EPS, INT0, _umod_360, _0_0, _0_01, _0_5, _1_0, \
                                _2_0, _60_0, _90_0, _100_0, _180_0, _3600_0, \
                                _N_1_0  # PYCHOK used!
-from pygeodesy.datums import _WGS84, _xinstanceof
+from pygeodesy.datums import _WGS84,  _xinstanceof
 from pygeodesy.ecef import _EcefBase, EcefKarney, _llhn4, _xyzn4
 from pygeodesy.errors import _NotImplementedError, _TypesError, _ValueError, \
                              _xattr, _xkwds, _xkwds_get
@@ -42,7 +42,7 @@ from pygeodesy.vector3d import _ALL_LAZY, Vector3d
 # from math import fabs, floor as _floor  # from .fmath, .fsums
 
 __all__ = _ALL_LAZY.ltp
-__version__ = '23.12.03'
+__version__ = '24.02.16'
 
 _height0_ = _height_ + _0_
 _narrow_  = 'narrow'
@@ -687,7 +687,7 @@ class Ltp(LocalCartesian):
            @raise TypeError: Invalid B{C{ecef}}.
         '''
         _xinstanceof(_EcefBase, ecef=ecef)
-        if ecef != self._ecef:  # PYCHOK no cover
+        if self._ecef != ecef:  # PYCHOK no cover
             self.reset(self._t0)
             self._ecef = ecef
 
@@ -713,10 +713,10 @@ class _ChLV(object):
     def _enh_n_h(self):
         '''(INTERNAL) Get C{ChLV*.reverse} args[1:4] names, I{once}.
         '''
-        _ChLV._enh_n_h = t = _xargs_kwds_names(_ChLV.reverse)[1:4]  # overwrite property_RO
-        # assert _xargs_kwds_names( ChLV.reverse)[1:4] == t
-        # assert _xargs_kwds_names(ChLVa.reverse)[1:4] == t
-        # assert _xargs_kwds_names(ChLVe.reverse)[1:4] == t
+        _ChLV._enh_n_h = t = _args_kwds_names(_ChLV.reverse)[1:4]  # overwrite property_RO
+        # assert _args_kwds_names( ChLV.reverse)[1:4] == t
+        # assert _args_kwds_names(ChLVa.reverse)[1:4] == t
+        # assert _args_kwds_names(ChLVe.reverse)[1:4] == t
         return t
 
     def forward(self, latlonh, lon=None, height=0, M=None, name=NN):  # PYCHOK no cover
@@ -1003,25 +1003,25 @@ class ChLVe(_ChLV, LocalCartesian):
         # overloaded for the _ChLV.forward.__doc__
         lat, lon, h, name = _llhn4(latlonh, lon, height, name=name)
         a, b, h_    = _ChLV._llh2abh_3(lat, lon, h)
-        ab_M, z, _F =  ChLV._ab_M, 0, Fhorner
+        ab_M, z, _H =  ChLV._ab_M, 0, Fhorner
 
-        B1 = _F(a, 211428.533991, -10939.608605, -2.658213, -8.539078, -0.00345, -0.007992)
-        B3 = _F(a,    -44.232717,      4.291740, -0.309883,  0.013924)
-        B5 = _F(a,      0.019784,     -0.004277)
-        Y  = _F(b, z, B1, z, B3, z, B5).fover(ab_M)  # 1,000 Km!
+        B1 = _H(a, 211428.533991, -10939.608605, -2.658213, -8.539078, -0.00345, -0.007992)
+        B3 = _H(a,    -44.232717,      4.291740, -0.309883,  0.013924)
+        B5 = _H(a,      0.019784,     -0.004277)
+        Y  = _H(b, z, B1, z, B3, z, B5).fover(ab_M)  # 1,000 Km!
 
-        B0 = _F(a,    z,      308770.746371, 75.028131, 120.435227, 0.009488, 0.070332, -0.00001)
-        B2 = _F(a, 3745.408911, -193.792705,  4.340858,  -0.376174, 0.004053)
-        B4 = _F(a,   -0.734684,    0.144466, -0.011842)
+        B0 = _H(a,    z,      308770.746371, 75.028131, 120.435227, 0.009488, 0.070332, -0.00001)
+        B2 = _H(a, 3745.408911, -193.792705,  4.340858,  -0.376174, 0.004053)
+        B4 = _H(a,   -0.734684,    0.144466, -0.011842)
         B6 =          0.000488
-        X  = _F(b, B0, z, B2, z, B4, z, B6).fover(ab_M)  # 1,000 Km!
+        X  = _H(b, B0, z, B2, z, B4, z, B6).fover(ab_M)  # 1,000 Km!
 
         t = self._ChLV9Tuple(True, M, name, Y, X, h_, lat, lon, h)
         if gamma:
-            U1 = _F(a, 2255515.207166, 2642.456961,  1.284180, 2.577486, 0.001165)
-            U3 = _F(a,    -412.991934,   64.106344, -2.679566, 0.123833)
-            U5 = _F(a,       0.204129,   -0.037725)
-            g  = _F(b, z, U1, z, U3, z, U5).fover(ChLV._ab_m)  # * ChLV._ab_d degrees?
+            U1 = _H(a, 2255515.207166, 2642.456961,  1.284180, 2.577486, 0.001165)
+            U3 = _H(a,    -412.991934,   64.106344, -2.679566, 0.123833)
+            U5 = _H(a,       0.204129,   -0.037725)
+            g  = _H(b, z, U1, z, U3, z, U5).fover(ChLV._ab_m)  # * ChLV._ab_d degrees?
             t  =  t, g
         return t
 
@@ -1029,26 +1029,26 @@ class ChLVe(_ChLV, LocalCartesian):
         # overloaded for the _ChLV.reverse.__doc__
         Y, X, h_, name = self._YXh_n4(enh_, n, h_, name=name)
         a, b, h    = _ChLV._YXh_2abh3(Y, X, h_)
-        s_d, _F, z =  ChLV._s_d, Fhorner, 0
+        s_d, _H, z =  ChLV._s_d, Fhorner, 0
 
-        A0  = _F(b,  ChLV._sLat, 32386.4877666, -25.486822, -132.457771, 0.48747, 0.81305, -0.0069)
-        A2  = _F(b, -2713.537919, -450.442705,  -75.53194,   -14.63049, -2.7604)
-        A4  = _F(b,    24.42786,    13.20703,     4.7476)
+        A0  = _H(b,  ChLV._sLat, 32386.4877666, -25.486822, -132.457771, 0.48747, 0.81305, -0.0069)
+        A2  = _H(b, -2713.537919, -450.442705,  -75.53194,   -14.63049, -2.7604)
+        A4  = _H(b,    24.42786,    13.20703,     4.7476)
         A6  =          -0.4249
-        lat = _F(a, A0, z, A2, z, A4, z, A6).fover(s_d)
+        lat = _H(a, A0, z, A2, z, A4, z, A6).fover(s_d)
 
-        A1  = _F(b, 47297.3056722, 7925.714783, 1328.129667, 255.02202, 48.17474, 9.0243)
-        A3  = _F(b,  -442.709889,  -255.02202,   -96.34947,  -30.0808)
-        A5  = _F(b,     9.63495,      9.0243)
-        lon = _F(a,  ChLV._sLon, A1, z, A3, z, A5).fover(s_d)
+        A1  = _H(b, 47297.3056722, 7925.714783, 1328.129667, 255.02202, 48.17474, 9.0243)
+        A3  = _H(b,  -442.709889,  -255.02202,   -96.34947,  -30.0808)
+        A5  = _H(b,     9.63495,      9.0243)
+        lon = _H(a,  ChLV._sLon, A1, z, A3, z, A5).fover(s_d)
         #  == (ChLV._sLon + a * (A1 + a**2 * (A3 + a**2 * A5))) / s_d
 
         t = self._ChLV9Tuple(False, M, name, Y, X, h_, lat, lon, h)
         if gamma:
-            U1 = _F(b, 106679.792202, 17876.57022, 4306.5241, 794.87772, 148.1545, 27.8725)
-            U3 = _F(b,  -1435.508,     -794.8777,  -296.309,  -92.908)
-            U5 = _F(b,     29.631,       27.873)
-            g  = _F(a, z, U1, z, U3, z, U5).fover(ChLV._s_ab)  # degrees
+            U1 = _H(b, 106679.792202, 17876.57022, 4306.5241, 794.87772, 148.1545, 27.8725)
+            U3 = _H(b,  -1435.508,     -794.8777,  -296.309,  -92.908)
+            U5 = _H(b,     29.631,       27.873)
+            g  = _H(a, z, U1, z, U3, z, U5).fover(ChLV._s_ab)  # degrees
             t  =  t, g
         return t
 

@@ -139,33 +139,27 @@ in C{pygeodesy} are based on I{Karney}'s post U{Area of a spherical polygon
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import _copysign, int1s, isint, neg, unsigned0, \
-                             _xgeographiclib, _xImportError, _xversion_info, \
-                             _xinstanceof, _zip,  isodd  # PYCHOK shared
+from pygeodesy.basics import _copysign, int1s, isint, itemsorted, neg, unsigned0, \
+                             _xgeographiclib, _zip
 from pygeodesy.constants import NAN, _isfinite as _math_isfinite, _0_0, \
                                _1_16th,  _1_0, _2_0, _180_0, _N_180_0, _360_0
-from pygeodesy.errors import GeodesicError, itemsorted, _ValueError, _xkwds, \
-                            _xkwds_get
-from pygeodesy.fmath import cbrt, fremainder, hypot as _hypot, norm2, \
-                            euclid, Fsum, unstr  # PYCHOK shared
-# from pygeodesy.fsums import Fsum  # from .fmath
-from pygeodesy.interns import NN, _2_, _a12_, _area_, _azi2_, _azi12_, \
-                             _composite_, _lat1_, _lat2_, _lon1_, _lon2_, \
-                             _m12_, _M12_, _M21_, _number_, _s12_, _S12_, \
-                             _UNDER_,  _BAR_  # PYCHOK used!
+from pygeodesy.errors import GeodesicError, _ValueError, _xkwds, _xkwds_get
+from pygeodesy.fmath import cbrt, fremainder, norm2
+from pygeodesy.interns import NN, _2_, _a12_, _area_, _azi2_, _azi12_, _composite_, \
+                             _lat1_, _lat2_, _lon1_, _lon2_, _m12_, _M12_, _M21_, \
+                             _number_, _s12_, _S12_, _UNDER_, _version_info, \
+                             _BAR_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, _getenv
 from pygeodesy.named import ADict, _NamedBase, _NamedTuple, notImplemented, _Pass
-from pygeodesy.props import deprecated_method, Property_RO,  property_RO  # PYCHOK shared
-# from pygeodesy.streps import unstr  # from .fmath
+from pygeodesy.props import deprecated_method, Property_RO
 from pygeodesy.units import Bearing as _Azi, Degrees as _Deg, Lat, Lon, \
-                            Meter as _M, Meter2 as _M2, Number_, \
-                            Precision_, _1mm as _TOL_M  # PYCHOK shared
+                            Meter as _M, Meter2 as _M2, Number_
 from pygeodesy.utily import atan2d, sincos2d, tand, _unrollon,  fabs
 
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.karney
-__version__ = '24.02.02'
+__version__ = '24.02.21'
 
 _K_2_0      = _getenv('PYGEODESY_GEOGRAPHICLIB', _2_) == _2_
 _perimeter_ = 'perimeter'
@@ -480,8 +474,8 @@ class Inverse10Tuple(_GTuple):
 
 
 class _kWrapped(object):  # in .geodesicw
-    ''''(INTERNAL) Wrapper around I{Karney}'s U{geographiclib
-        <https://PyPI.org/project/geographiclib>}.
+    ''''(INTERNAL) Wrapper for some of I{Karney}'s U{geographiclib
+        <https://PyPI.org/project/geographiclib>} classes.
     '''
 
     @Property_RO
@@ -508,7 +502,7 @@ class _kWrapped(object):  # in .geodesicw
         try:
             g = self.geographiclib
             M = g.Math
-            if _xversion_info(g) < (2,):
+            if _version_info(g) < (2,):
                 if _K_2_0:
                     M = None
 #           elif not _K_2_0:  # XXX set 2.0?

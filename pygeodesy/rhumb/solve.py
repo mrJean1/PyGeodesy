@@ -8,11 +8,11 @@ as an (exact) rhumb or rhumb line from I{either GeographicLib 2.0 or 2.2+}.
 @note: Set env variable C{PYGEODESY_RHUMBSOLVE} to the (fully qualified)
        path of the C{RhumbSolve} executable.
 '''
-# from pygeodesy.basics import _xinstanceof  # from .karney
+from pygeodesy.basics import _xinstanceof
 from pygeodesy.constants import _0_0, _180_0, _N_180_0, _over,  _90_0  # PYCHOK used!
 from pygeodesy.errors import RhumbError   # PYCHOK used!
 from pygeodesy.interns import NN, _a12_, _azi12_, _lat2_, _lon2_, _s12_, _S12_, _UNDER_
-from pygeodesy.karney import Caps, GDict, _norm180, Rhumb8Tuple, _sincos2d,  _xinstanceof
+from pygeodesy.karney import Caps, GDict, _norm180, Rhumb8Tuple, _sincos2d
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, _getenv, \
                              _PYGEODESY_RHUMBSOLVE_
 from pygeodesy.namedTuples import Destination3Tuple, Distance3Tuple
@@ -21,7 +21,7 @@ from pygeodesy.solveBase import _SolveBase, _SolveLineBase
 from pygeodesy.utily import _unrollon, _Wrap, wrap360
 
 __all__ = _ALL_LAZY.rhumb_solve
-__version__ = '23.11.30'
+__version__ = '24.02.21'
 
 
 class _RhumbSolveBase(_SolveBase):

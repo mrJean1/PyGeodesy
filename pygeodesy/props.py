@@ -10,7 +10,7 @@ with command line option C{-X dev} or with one of the C{-W}
 choices, see callable L{DeprecationWarnings} below.
 '''
 
-# from pygeodesy.basics import isclass  # _MODS
+from pygeodesy.basics import isclass as _isclass  # _MODS
 from pygeodesy.errors import _AssertionError, _AttributeError, \
                              _xkwds, _xkwds_get
 from pygeodesy.interns import MISSING, NN, _an_, _COMMASPACE_, \
@@ -25,7 +25,7 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, \
 from functools import wraps as _wraps
 
 __all__ = _ALL_LAZY.props
-__version__ = '23.08.23'
+__version__ = '24.02.21'
 
 _class_       = 'class'
 _dont_use_    = _DEPRECATED_ + ", don't use."
@@ -73,13 +73,11 @@ def _hasProperty(inst, name, *Classes):  # in .named._NamedBase._update
                   and p.name == name)
 
 
-def _isclass(obj):
-    '''(INTERNAL) Get and overwrite C{_isclass}.
-    '''
-    f = _MODS.basics.isclass
-    # assert __name__.endswith('.props')
-    _MODS.props._isclass = f
-    return f(obj)
+# def _isclass(obj):
+#     '''(INTERNAL) Get and overwrite C{_isclass}.
+#     '''
+#     _MODS.getmodule(__name__)._isclass = f = _MODS.basics.isclass
+#     return f(obj)
 
 
 def _update_all(inst, *attrs, **Base):
@@ -169,6 +167,17 @@ class _PropertyBase(property):
 
         property.__init__(self, fget, fset, self._fdel, d or _N_A_)
 
+    def _Error(self, kind, nameter, farg):
+        '''(INTERNAL) Return an C{AttributeError} instance.
+        '''
+        if farg:
+            n = _DOT_(self.name, nameter.__name__)
+            n = _SPACE_(n, farg.__name__)
+        else:
+            n = nameter
+        e = _SPACE_(kind, _MODS.named.classname(self))
+        return _AttributeError(e, txt=n)
+
     def _fdel(self, inst):
         '''Zap the I{cached/memoized} C{property} value.
         '''
@@ -222,17 +231,6 @@ class _PropertyBase(property):
         '''Throws an C{AttributeError}, always.
         '''
         raise self._Error(_immutable_, self.setter, fset)
-
-    def _Error(self, kind, nameter, farg):
-        '''(INTERNAL) Return an C{AttributeError} instance.
-        '''
-        if farg:
-            n = _DOT_(self.name, nameter.__name__)
-            n = _SPACE_(n, farg.__name__)
-        else:
-            n = nameter
-        e = _SPACE_(kind, _MODS.named.classname(self))
-        return _AttributeError(e, txt=n)
 
 
 class Property_RO(_PropertyBase):

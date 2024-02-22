@@ -14,14 +14,14 @@ U{https://www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal.js.html
 from pygeodesy.constants import EPS, EPS0, INT0, PI2, _isfinite, isnear0, \
                                _0_0, _1_0, _N_1_0, _2_0, _4_0, _6_0
 from pygeodesy.datums import Datum, _earth_ellipsoid, _spherical_datum, \
-                            _WGS84,  _xinstanceof
+                             Transform, _WGS84,  _xinstanceof
 # from pygeodesy.ecef import EcefKarney  # _MODS
 from pygeodesy.errors import _IsnotError, _TypeError, _ValueError, \
                              _xdatum, _xkwds
 from pygeodesy.fmath import cbrt, hypot, hypot_, hypot2,  fabs, sqrt  # hypot
 # from pygeodesy.formy import _hartzell  # _MODS
 from pygeodesy.fsums import fsumf_,  Fmt
-from pygeodesy.interns import NN, _COMMASPACE_, _not_, _phi_
+from pygeodesy.interns import NN, _COMMASPACE_, _phi_  # _not_
 from pygeodesy.interns import _ellipsoidal_, _spherical_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _NamedTuple, _Pass
@@ -43,7 +43,7 @@ from pygeodesy.vector3d import Vector3d, _xyzhdn3
 # from math import atan2, degrees, fabs, radians, sqrt  # from .fmath, .utily
 
 __all__ = _ALL_LAZY.cartesianBase
-__version__ = '24.02.04'
+__version__ = '24.02.14'
 
 _r_     = 'r'
 _theta_ = 'theta'
@@ -822,30 +822,27 @@ class CartesianBase(Vector3d):
         return Vector3d.toStr(self, prec=prec, fmt=fmt, sep=sep)
 
     def toTransform(self, transform, inverse=False, datum=None):
-        '''Return a new cartesian by applying a Helmert transform
-           to this cartesian.
+        '''Apply a Helmert transform to this cartesian.
 
-           @arg transform: Transform to apply (L{Transform}).
-           @kwarg inverse: Apply the inverse of the Helmert
-                           transform (C{bool}).
-           @kwarg datum: Datum for the transformed cartesian (L{Datum}),
-                         overriding this cartesian's datum.
+           @arg transform: Transform to apply (L{Transform} or L{TransformXform}).
+           @kwarg inverse: Apply the inverse of the C{B{transform}} (C{bool}).
+           @kwarg datum: Datum for the transformed cartesian (L{Datum}), overriding
+                         this cartesian's datum but I{not} taking it into account.
 
-           @return: The transformed cartesian (C{Cartesian}).
+           @return: A transformed cartesian (C{Cartesian}) or a copy of this
+                    cartesian if C{B{transform}.isunity}.
 
-           @raise Valuerror: If C{B{inverse}=True} and B{C{datum}} is
-                             not L{Datums}C{.WGS84}.
+           @raise TypeError: Invalid B{C{transform}}.
         '''
-        d = datum or self.datum
-        if inverse and d != _WGS84:
-            raise _ValueError(inverse=inverse, datum=d,
-                              txt=_not_(_WGS84.name))
-
+        _xinstanceof(Transform, transform=transform)
         if transform.isunity:
-            c   = self.dup(datum=d)
+            c = self.dup(datum=datum or self.datum)
         else:
+            # if inverse and d != _WGS84:
+            #     raise _ValueError(inverse=inverse, datum=d,
+            #                       txt=_not_(_WGS84.name))
             xyz = transform.transform(*self.xyz, inverse=inverse)
-            c   = self.dup(xyz=xyz, datum=d)
+            c = self.dup(xyz=xyz, datum=datum or self.datum)
         return c
 
     def toVector(self, Vector=None, **Vector_kwds):

@@ -3,24 +3,29 @@
 
 u'''Errors, exceptions, exception formatting and exception chaining.
 
-Error, exception classes and functions to format PyGeodesy errors,
-including the setting of I{exception chaining} in Python 3+.
+Error, exception classes and functions to format PyGeodesy errors, including
+the setting of I{exception chaining} for Python 3.9+.
 
 By default, I{exception chaining} is turned I{off}.  To enable I{exception
 chaining}, use command line option C{python -X dev} I{OR} set env variable
-C{PYTHONDEVMODE=1} or to any non-empyty string I{OR} set env variable
+C{PYTHONDEVMODE=1} or to any non-empty string I{OR} set env variable
 C{PYGEODESY_EXCEPTION_CHAINING=std} or to any non-empty string.
 '''
-
-from pygeodesy.interns import MISSING, NN, _a_, _an_, _and_, _clip_, \
-                             _COLON_, _COLONSPACE_, _COMMASPACE_, _datum_, \
-                             _ellipsoidal_, _EQUAL_, _incompatible_, _invalid_, \
-                             _len_, _not_, _or_, _SPACE_, _specified_, _UNDER_, \
-                             _vs_, _with_
+# from pygeodesy.basics import isint, isodd, itemsorted, _xinstanceof, _zip  # _MODS
+# from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, LatLonEllipsoidalBase  # _MODS
+# from pygeodesy import errors  # _MODS.getattr
+from pygeodesy.interns import MISSING, NN, _a_, _an_, _and_, _clip_, _COLON_, \
+                             _COLONSPACE_, _COMMASPACE_, _datum_, _ellipsoidal_, \
+                             _incompatible_, _invalid_, _len_, _not_, _or_, _SPACE_, \
+                             _specified_, _UNDER_, _vs_, _with_, _tailof
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _getenv, _PYTHON_X_DEV
+# from pygeodesy.streprs import Fmt, unstr  # _MODS
+# from pygeodesy.vector3dBase import Vector3dBase  # _MODS
+
+from copy import copy as _copy
 
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')  _under
-__version__ = '24.01.02'
+__version__ = '24.02.20'
 
 _box_        = 'box'
 _limiterrors =  True  # in .formy
@@ -31,7 +36,7 @@ _vs__        = _SPACE_(NN, _vs_, NN)
 
 try:
     _exception_chaining = None  # not available
-    _ = Exception().__cause__   # Python 3+ exception chaining
+    _ = Exception().__cause__   # Python 3.9+ exception chaining
 
     if _PYTHON_X_DEV or _getenv('PYGEODESY_EXCEPTION_CHAINING', NN):  # == _std_
         _exception_chaining = True  # turned on, std
@@ -215,7 +220,7 @@ class LenError(_ValueError):  # in .ecef, .fmath, .heights, .iters, .named
                             (C{keyword arguments}).
         '''
         def _ns_vs_txt_x(cause=None, txt=_invalid_, **kwds):
-            ns, vs = zip(*itemsorted(kwds))  # unzip
+            ns, vs = zip(*_MODS.basics.itemsorted(kwds))  # unzip
             return ns, vs, txt, cause
 
         ns, vs, txt, x = _ns_vs_txt_x(**lens_txt)
@@ -363,10 +368,10 @@ def crosserrors(raiser=None):
 
        @see: Property C{Vector3d[Base].crosserrors}.
     '''
-    B = _MODS.vector3dBase.Vector3dBase
-    t =  B._crosserrors  # XXX class attr!
+    V = _MODS.vector3dBase.Vector3dBase
+    t =  V._crosserrors  # XXX class attr!
     if raiser in (True, False):
-        B._crosserrors = raiser
+        V._crosserrors = raiser
     return t
 
 
@@ -402,7 +407,7 @@ def _error_init(Error, inst, args, fmt_name_value='%s (%r)', txt=NN,
         t =  str(args[0]),
 
     if kwds:
-        t += _fmtuple(itemsorted(kwds))
+        t += _fmtuple(_MODS.basics.itemsorted(kwds))
     t = _or(*t) if t else _SPACE_(_name_value_, MISSING)
 
     if txt is not None:
@@ -426,23 +431,23 @@ def _error_under(inst):
     return inst
 
 
-def exception_chaining(error=None):
+def exception_chaining(exc=None):
     '''Get an error's I{cause} or the exception chaining setting.
 
-       @kwarg error: An error instance (C{Exception}) or C{None}.
+       @kwarg exc: An error instance (C{Exception}) or C{None}.
 
-       @return: If C{B{error} is None}, return C{True} if exception
+       @return: If C{B{exc} is None}, return C{True} if exception
                 chaining is enabled for PyGeodesy errors, C{False}
                 if turned off and C{None} if not available.  If
-                B{C{error}} is not C{None}, return it's error
-                I{cause} or C{None}.
+                B{C{exc}} is not C{None}, return it's error I{cause}
+                or C{None}.
 
        @note: To enable exception chaining for C{pygeodesy} errors,
               set env var C{PYGEODESY_EXCEPTION_CHAINING} to any
               non-empty value prior to C{import pygeodesy}.
     '''
-    return _exception_chaining if error is None else \
-            getattr(error, '__cause__', None)
+    return _exception_chaining if exc is None else \
+            getattr(exc, '__cause__', None)
 
 
 def _incompatible(this):
@@ -465,17 +470,17 @@ def _InvalidError(Error=_ValueError, **txt_name_values_cause):  # txt=_invalid_,
     return _XError(Error, **txt_name_values_cause)
 
 
-def isError(obj):
+def isError(exc):
     '''Check a (caught) exception.
 
-       @arg obj: The exception C({Exception}).
+       @arg exc: The exception C({Exception}).
 
-       @return: C{True} if B{C{obj}} is a C{pygeodesy} error,
-                C{False} if B{C{obj}} is a standard Python error
+       @return: C{True} if B{C{exc}} is a C{pygeodesy} error,
+                C{False} if B{C{exc}} is a standard Python error
                 of C{None} if neither.
     '''
-    return True  if isinstance(obj, _XErrors)   else (
-           False if isinstance(obj,  Exception) else None)
+    return True  if isinstance(exc, _XErrors)   else (
+           False if isinstance(exc,  Exception) else None)
 
 
 def _IsnotError(*nouns, **name_value_Error_cause):  # name=value [, Error=TypeError, cause=None]
@@ -488,31 +493,14 @@ def _IsnotError(*nouns, **name_value_Error_cause):  # name=value [, Error=TypeEr
 
        @return: A C{TypeError} or an B{C{Error}} instance.
     '''
-    x, Error = _xkwds_pop_(name_value_Error_cause, cause=None, Error=TypeError)
-    n, v =  _xkwds_popitem(name_value_Error_cause) if name_value_Error_cause \
-                    else (_name_value_, MISSING)  # XXX else tuple(...)
+    def _n_v_E_x(cause=None, Error=TypeError, **name_value):
+        return _xkwds_item2(name_value) + (Error, cause)
+
+    n, v, E, x = _n_v_E_x(**name_value_Error_cause)
+
     n = _MODS.streprs.Fmt.PARENSPACED(n, repr(v))
     t = _not_(_an(_or(*nouns)) if nouns else _specified_)
-    return _XError(Error, n, txt=t, cause=x)
-
-
-def itemsorted(adict, *args, **asorted_reverse):
-    '''Return the items of C{B{adict}} sorted I{alphabetically, case-insensitively}
-       and in I{ascending} order.
-
-       @arg args: Optional argument(s) for method C{B{adict}.items(B*{args})}.
-       @kwarg asorted_reverse: Use keyword argument C{B{asorted}=False} for
-                      I{case-sensitive} sorting and C{B{reverse}=True} for
-                      results in C{descending} order.
-    '''
-    def _un(item):
-        return item[0].lower()
-
-    # see .rhumb.Rhumb and ._RhumbLine
-    a, r = _xkwds_get_(asorted_reverse, asorted=True, reverse=False) \
-                    if asorted_reverse  else   (True,         False)
-    items = adict.items(*args) if args else adict.items()
-    return sorted(items, reverse=r, key=_un if a else None)
+    return _XError(E, n, txt=t, cause=x)
 
 
 def limiterrors(raiser=None):
@@ -553,9 +541,9 @@ def _parseX(parser, *args, **name_values_Error):  # name=value[, ..., Error=Pars
     try:
         return parser(*args)
     except Exception as x:
-        E = _xkwds_pop(name_values_Error, Error=type(x) if isError(x) else
-                                                ParseError)
-        raise _XError(E, **_xkwds(name_values_Error, cause=x))
+        E = type(x) if isError(x) else ParseError
+        E, kwds = _xkwds_pop2(name_values_Error, Error=E)
+        raise _XError(E, **_xkwds(kwds, cause=x))
 
 
 def rangerrors(raiser=None):
@@ -574,20 +562,21 @@ def rangerrors(raiser=None):
     return t
 
 
-def _SciPyIssue(x, *extras):  # PYCHOK no cover
-    if isinstance(x, (RuntimeWarning, UserWarning)):
-        Error = SciPyWarning
+def _SciPyIssue(exc, *extras):  # PYCHOK no cover
+    if isinstance(exc, (RuntimeWarning, UserWarning)):
+        E = SciPyWarning
     else:
-        Error = SciPyError  # PYCHOK not really
-    t = _SPACE_(str(x).strip(), *extras)
-    return Error(t, cause=x)
+        E = SciPyError  # PYCHOK not really
+    t = _SPACE_(str(exc).strip(), *extras)
+    return E(t, cause=exc)
 
 
-def _xAssertionError(where, *args, **kwds):  # in .basics
-    '''(INTERNAL) Embellish an C{AssertionError}.
+def _xAssertionError(where, *args, **kwds):
+    '''(INTERNAL) Embellish an C{AssertionError} with/-out exception chaining.
     '''
-    t = _MODS.streprs.unstr(where, *args, **kwds)
-    return _AssertionError(t)
+    x, kwds = _xkwds_pop2(kwds, cause=None)
+    w = _MODS.streprs.unstr(where, *args, **kwds)
+    return _AssertionError(w, txt=None, cause=x)
 
 
 def _xattr(obj, **name_default):  # see .strerprs._xattrs
@@ -603,32 +592,40 @@ def _xdatum(datum1, datum2, Error=None):
     '''(INTERNAL) Check for datum, ellipsoid or rhumb mis-match.
     '''
     if Error:
-        E1, E2 = datum1.ellipsoid, datum2.ellipsoid
-        if E1 != E2:
-            raise Error(E2.named2, txt=_incompatible(E1.named2))
+        e1, e2 = datum1.ellipsoid, datum2.ellipsoid
+        if e1 != e2:
+            raise Error(e2.named2, txt=_incompatible(e1.named2))
     elif datum1 != datum2:
         t = _SPACE_(_datum_, repr(datum1.name),
                     _not_,   repr(datum2.name))
         raise _AssertionError(t)
 
 
-def _xellipsoidal(**name_value):
-    '''(INTERNAL) Check an I{ellipsoidal} item.
-
-       @return: The B{C{value}} if ellipsoidal.
-
-       @raise TypeError: Not ellipsoidal B{C{value}}.
+def _xellipsoidal(**name_value):  # see _xellipsoidall elel
+    '''(INTERNAL) Check an I{ellipsoidal} item and return its value.
     '''
-    try:
+    if len(name_value) == 1:
         for n, v in name_value.items():
-            if v.isEllipsoidal:
-                return v
-            break
-        else:
-            n = v = MISSING
-    except AttributeError:
-        pass
-    raise _TypeError(n, v, txt=_not_(_ellipsoidal_))
+            try:
+                if v.isEllipsoidal:
+                    return v
+            except AttributeError:
+                pass
+            raise _TypeError(n, v, txt=_not_(_ellipsoidal_))
+    raise _xAssertionError(_xellipsoidal, name_value)
+
+
+def _xellipsoidall(point):  # see _xellipsoidal
+    '''(INTERNAL) Check an ellipsoidal C{point}, return C{True}
+       if geodetic latlon or C{False} if cartesian.
+    '''
+    m = _MODS.ellipsoidalBase
+    ll = isinstance(point, m.LatLonEllipsoidalBase)
+    if not ll:
+        b = _MODS.basics
+        b._xinstanceof(m.CartesianEllipsoidalBase,
+                       m.LatLonEllipsoidalBase, point=point)
+    return ll
 
 
 def _XError(Error, *args, **kwds):
@@ -645,59 +642,59 @@ def _XError(Error, *args, **kwds):
     return E
 
 
-_XErrors = _TypeError, _ValueError
-# map certain C{Exception} classes to the C{_Error}
-_X2Error = {AssertionError:      _AssertionError,
-            AttributeError:      _AttributeError,
-            ImportError:         _ImportError,
-            IndexError:          _IndexError,
-            KeyError:            _KeyError,
-            NameError:           _NameError,
-            NotImplementedError: _NotImplementedError,
-            OverflowError:       _OverflowError,
-            TypeError:           _TypeError,
-            ValueError:          _ValueError,
-            ZeroDivisionError:   _ZeroDivisionError}
-
-
-def _xError(x, *args, **kwds):
+def _xError(exc, *args, **kwds):
     '''(INTERNAL) Embellish a (caught) exception.
 
-       @arg x: The exception (usually, C{_Error}).
+       @arg exc: The exception (usually, C{_Error}).
        @arg args: Embelishments (C{any}).
        @kwarg kwds: Embelishments (C{any}).
     '''
-    return _XError(type(x), *args, **_xkwds(kwds, cause=x))
+    return _XError(type(exc), *args, **_xkwds(kwds, cause=exc))
 
 
-def _xError2(x):  # in .fsums
+def _xError2(exc):  # in .constants, .fsums, .lazily, .vector2d
     '''(INTERNAL) Map an exception to 2-tuple (C{_Error} class, error C{txt}).
 
-       @arg x: The exception instance (usually, C{Exception}).
+       @arg exc: The exception instance (usually, C{Exception}).
     '''
-    X =  type(x)
-    E = _X2Error.get(X, X)
-    if E is X and not isError(x):
+    m =  __name__  # 'pygeodesy.errors'
+    X =  type(exc)
+    n =  NN(_UNDER_, _tailof(X.__name__))
+    E = _MODS.getattr(m, n, X)  # == _X2Error.get(X, X)
+    if E is X and not isError(exc):
         E = _NotImplementedError
-        t =  repr(x)
+        t =  repr(exc)
     else:
-        t =  str(x)
+        t =  str(exc)
     return E, t
 
+
+_XErrors = _TypeError, _ValueError
+# map certain C{Exception} classes to the C{_Error}
+# _X2Error = {AssertionError:      _AssertionError,
+#             AttributeError:      _AttributeError,
+#             ImportError:         _ImportError,
+#             IndexError:          _IndexError,
+#             KeyError:            _KeyError,
+#             NameError:           _NameError,
+#             NotImplementedError: _NotImplementedError,
+#             OverflowError:       _OverflowError,
+#             TypeError:           _TypeError,
+#             ValueError:          _ValueError,
+#             ZeroDivisionError:   _ZeroDivisionError}
 
 try:
     _ = {}.__or__  # {} | {}  # Python 3.9+
 
     def _xkwds(kwds, **dflts):
-        '''(INTERNAL) Override C{dflts} with specified C{kwds}.
+        '''(INTERNAL) Update C{dflts} with specified C{kwds}.
         '''
         return (dflts | kwds) if kwds else dflts
 
 except AttributeError:
-    from copy import copy as _copy
 
     def _xkwds(kwds, **dflts):  # PYCHOK expected
-        '''(INTERNAL) Override C{dflts} with specified C{kwds}.
+        '''(INTERNAL) Update C{dflts} with specified C{kwds}.
         '''
         d = dflts
         if kwds:
@@ -706,22 +703,23 @@ except AttributeError:
         return d
 
 
-def _xkwds_bool(inst, **kwds):  # in .frechet, .hausdorff, .heights
-    '''(INTERNAL) Set applicable C{bool} properties/attributes.
-    '''
-    for n, v in kwds.items():
-        b = getattr(inst, n, None)
-        if b is None:  # invalid bool attr
-            t = _SPACE_(_EQUAL_(n, repr(v)), 'for', inst.__class__.__name__)  # XXX .classname
-            raise _AttributeError(t, txt=_not_('applicable'))
-        if v in (False, True) and v != b:
-            setattr(inst, NN(_UNDER_, n), v)
+# def _xkwds_bool(inst, **kwds):  # no longer in .frechet, .hausdorff, .heights
+#     '''(INTERNAL) Set applicable C{bool} properties/attributes.
+#     '''
+#     for n, v in kwds.items():
+#         b = getattr(inst, n, None)
+#         if b is None:  # invalid bool attr
+#             t = _SPACE_(_EQUAL_(n, repr(v)), 'for', inst.__class__.__name__)  # XXX .classname
+#             raise _AttributeError(t, txt=_not_('applicable'))
+#         if v in (False, True) and v != b:
+#             setattr(inst, NN(_UNDER_, n), v)
 
 
 def _xkwds_get(kwds, **name_default):
-    '''(INTERNAL) Get a C{kwds} value by C{name}, or the C{default}.
+    '''(INTERNAL) Get a C{kwds} value by C{name} or the
+       C{default} if not present.
     '''
-    if len(name_default) == 1:
+    if isinstance(kwds, dict) and len(name_default) == 1:
         for n, d in name_default.items():
             return kwds.get(n, d)
     raise _xAssertionError(_xkwds_get, kwds, **name_default)
@@ -729,10 +727,22 @@ def _xkwds_get(kwds, **name_default):
 
 def _xkwds_get_(kwds, **names_defaults):
     '''(INTERNAL) Yield each C{kwds} value or its C{default}
-       in I{case-insensitive, alphabetical} order.
+       in I{case-insensitive, alphabetical} C{name} order.
     '''
-    for n, d in itemsorted(names_defaults):
+    if not isinstance(kwds, dict):
+        raise _xAssertionError(_xkwds_get_, kwds)
+    for n, d in _MODS.basics.itemsorted(names_defaults):
         yield kwds.get(n, d)
+
+
+def _xkwds_item2(kwds):
+    '''(INTERNAL) Return the 2-tuple C{item}, keeping the
+       single-item C{kwds} I{unmodified}.
+    '''
+    if isinstance(kwds, dict) and len(kwds) == 1:
+        for item in kwds.items():
+            return item
+    raise _xAssertionError(_xkwds_item2, kwds)
 
 
 def _xkwds_not(*args, **kwds):
@@ -741,52 +751,27 @@ def _xkwds_not(*args, **kwds):
     return dict((n, v) for n, v in kwds.items() if v not in args)
 
 
-def _xkwds_pop(kwds, **name_default):
-    '''(INTERNAL) Pop a C{kwds} value by C{name}, or the C{default}.
+def _xkwds_pop2(kwds, **name_default):
+    '''(INTERNAL) Pop a C{kwds} item by C{name} and return the value and
+       reduced C{kwds} copy, otherwise the C{default} and original C{kwds}.
     '''
-    if len(name_default) == 1:
+    if isinstance(kwds, dict) and len(name_default) == 1:
         for n, d in name_default.items():
-            return kwds.pop(n, d)
-    raise _xAssertionError(_xkwds_pop, kwds, **name_default)
+            if n in kwds:
+                kwds = _copy(kwds)
+                d = kwds.pop(n, d)
+            return d, kwds
+    raise _xAssertionError(_xkwds_pop2, kwds, **name_default)
 
 
-def _xkwds_pop_(kwds, **names_defaults):
-    '''(INTERNAL) Pop and yield each C{kwds} value or its C{default}
-       in I{case-insensitive, alphabetical} order.
-    '''
-    for n, d in itemsorted(names_defaults):
-        yield kwds.pop(n, d)
-
-
-def _xkwds_popitem(name_value):
-    '''(INTERNAL) Return exactly one C{(name, value)} item.
-    '''
-    if len(name_value) == 1:  # XXX TypeError
-        return name_value.popitem()  # XXX AttributeError
-    raise _xAssertionError(_xkwds_popitem, name_value)
-
-
-def _Xorder(_Coeffs, Error, **Xorder):  # in .ktm, .rhumbBase
+def _Xorder(_Coeffs, Error, **Xorder):  # in .auxLat, .ktm, .rhumb.bases, .rhumb.ekx
     '''(INTERNAL) Validate C{RAorder} or C{TMorder}.
     '''
-    X, m = Xorder.popitem()
+    X, m = _xkwds_item2(Xorder)
     if m in _Coeffs and _MODS.basics.isint(m):
         return m
     t = sorted(map(str, _Coeffs.keys()))
     raise Error(X, m, txt=_not_(_or(*t)))
-
-
-def _xzip(*args, **strict):  # PYCHOK no cover
-    '''(INTERNAL) Standard C{zip(..., strict=True)}.
-    '''
-    s = _xkwds_get(strict, strict=True)
-    if s:
-        _zip = _MODS.basics._zip
-        if _zip is zip:  # < (3, 10)
-            t = _MODS.streprs.unstr(_xzip.__name__, *args, strict=s)
-            raise _NotImplementedError(t, txt=None)
-        return _zip(*args)
-    return zip(*args)
 
 # **) MIT License
 #

@@ -613,18 +613,33 @@ def _usage(file_py, *args):  # in .etm
 def _version2(version, n=2):
     '''(INTERNAL) Split C{B{version} str} into a C{1-, 2- or 3-tuple} of C{int}s.
     '''
-    def _ints(vs):
-        for v in vs:
-            if v:
-                try:
-                    yield int(v.strip())
-                except (TypeError, ValueError):
-                    pass
-
-    t = tuple(_ints(version.split(_DOT_, 2)))
+    t = _version_ints(version.split(_DOT_, 2))
     if len(t) < n:
         t += (0,) * n
-    return tuple(t[:n])
+    return t[:n]
+
+
+def _version_info(package):  # in .Base.karney, .basics
+    '''(INTERNAL) Get the C{package.__version_info__} as a 2- or
+       3-tuple C{(major, minor, revision)} if C{int}s.
+    '''
+    try:
+        return _version_ints(package.__version_info__)
+    except AttributeError:
+        return _version2(package.__version__.strip(), n=3)
+
+
+def _version_ints(vs):
+    # helper for _version2 and _version_info above
+
+    def _ints(vs):
+        for v in vs:
+            try:
+                yield int(v.strip())
+            except (TypeError, ValueError):
+                pass
+
+    return tuple(_ints(vs))
 
 
 __all__ = (_NN_,  # not MISSING!

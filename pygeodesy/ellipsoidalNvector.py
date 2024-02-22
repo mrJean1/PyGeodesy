@@ -3,9 +3,9 @@
 
 u'''Ellipsoidal, C{N-vector}-based geodesy.
 
-Ellipsoidal classes geodetic (lat-/longitude) L{LatLon}, geocentric (ECEF)
-L{Cartesian}, C{Nvector} and DEPRECATED L{Ned} and functions L{meanOf},
-L{sumOf} and DEPRECATED L{toNed}.
+Ellipsoidal classes geodetic L{LatLon}, geocentric (ECEF) L{Cartesian}
+and C{Nvector} and DEPRECATED L{Ned} and functions L{meanOf}, L{sumOf}
+and DEPRECATED L{toNed}.
 
 Pure Python implementation of n-vector-based geodetic (lat-/longitude)
 methods by I{(C) Chris Veness 2011-2016} published under the same MIT
@@ -29,7 +29,7 @@ from pygeodesy.datums import _earth_ellipsoid, _ellipsoidal_datum, _WGS84
 from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, \
                                      _nearestOn, LatLonEllipsoidalBase, \
                                      _TOL_M,  _Wrap
-from pygeodesy.errors import _IsnotError, _xkwds
+from pygeodesy.errors import _IsnotError, _xkwds, _xkwds_pop2
 # from pygeodesy.fmath import fdot  # from .nvectorBase
 from pygeodesy.interns import NN, _Nv00_, _COMMASPACE_
 from pygeodesy.interns import _down_, _east_, _north_, _pole_  # PYCHOK used!
@@ -49,7 +49,7 @@ from pygeodesy.units import Bearing, Distance, Height, Scalar
 # from math import fabs  # from .nvectorBase
 
 __all__ = _ALL_LAZY.ellipsoidalNvector
-__version__ = '24.02.04'
+__version__ = '24.02.18'
 
 
 class Ned(_Ned):
@@ -163,17 +163,17 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #         a = _copysign(PI_2, a) - a
 #         return a * float(radius)
 
-    def deltaTo(self, other, Ned=Ned, wrap=False):
+    def deltaTo(self, other, wrap=False, **Ned_and_kwds):
         '''Calculate the local delta from this to an other point.
 
            @note: This is a linear delta, I{unrelated} to a geodesic on the
                   ellipsoid.
 
            @arg other: The other point (L{LatLon}).
-           @kwarg Ned: Class to use (L{pygeodesy.Ned} or L{pygeodesy.Ned4Tuple}),
-                       overriding the default DEPRECATED L{Ned}.
            @kwarg wrap: If C{True}, wrap or I{normalize} the B{C{other}}
                         point (C{bool}).
+           @kwarg Ned_and_kwds: Optional C{B{Ned}=L{Ned} class and B{name}=NN}
+                          to return delta and other B{C{Ned}} keyword arguments.
 
            @return: Delta from this to the other point (B{C{Ned}}).
 
@@ -193,11 +193,13 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
         # rotate dc to get delta in n-vector reference
         # frame using the rotation matrix row vectors
         ned_ = map2(dc.dot, self._rotation3)
-        if issubclassof(Ned, Ned4Tuple):
-            ned_ += (_MODS.ltp.Ltp(self, ecef=self.Ecef(self.datum)),)
-        elif not issubclassof(Ned, _Ned):
-            raise _IsnotError(Fmt.sub_class(_Ned, Ned4Tuple), Ned=Ned)
-        return Ned(*ned_, name=self.name)
+
+        N, kwds = _xkwds_pop2(Ned_and_kwds, Ned=Ned)
+        if issubclassof(N, Ned4Tuple):
+            ned_ += _MODS.ltp.Ltp(self, ecef=self.Ecef(self.datum)),
+        elif not issubclassof(N, _Ned):
+            raise _IsnotError(Fmt.sub_class(_Ned, Ned4Tuple), Ned=N)
+        return N(*ned_, **_xkwds(kwds, name=self.name))
 
 #     def destination(self, distance, bearing, radius=R_M, height=None):
 #         '''Return the destination point after traveling from this
@@ -240,7 +242,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 
         nv, ev, dv = self._rotation3
         # convert NED delta to standard coordinate frame of n-vector
-        dn = delta.ned
+        dn = delta.ned[:3]  # XXX Ned4Tuple.to3Tuple
         # rotate dn to get delta in cartesian (ECEF) coordinate
         # reference frame using the rotation matrix column vectors
         dc = Cartesian(fdot(dn, nv.x, ev.x, dv.x),

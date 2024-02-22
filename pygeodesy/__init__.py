@@ -255,12 +255,12 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.}
 @newfield example: Example, Examples
 
 @var EPS:    System's M{epsilon} ≈ 2.22044604925e-16 (C{float}).
-@var EPS0:   M{EPS**2}    ≈ 4.9e-32 for near-zero comparison
-@var EPS02:  M{EPS**4}    ≈ 2.4e-63 for near-zero squared comparison
-@var EPS1:   M{1 - EPS}   ≈ 0.9999999999999998 (C{float}).
-@var EPS2:   M{EPS * 2}   ≈ 4.440892098501e-16 (C{float}).
-@var EPS_2:  M{EPS / 2}   ≈ 1.110223024625e-16 (C{float}).
-@var EPS4:   M{EPS * 4}   ≈ 8.881784197001e-16 (C{float}).
+@var EPS0:   M{EPS**2}  ≈ 4.9e-32 for near-zero comparison
+@var EPS02:  M{EPS**4}  ≈ 2.4e-63 for near-zero squared comparison
+@var EPS1:   M{1 - EPS} ≈ 0.9999999999999998 (C{float}).
+@var EPS2:   M{EPS * 2} ≈ 4.440892098501e-16 (C{float}).
+@var EPS_2:  M{EPS / 2} ≈ 1.110223024625e-16 (C{float}).
+@var EPS4:   M{EPS * 4} ≈ 8.881784197001e-16 (C{float}).
 
 @var F_D:   Format degrees as unsigned "deg°" with symbol, plus compass point suffix C{N, S, E} or C{W} (C{str}).
 @var F_DM:  Format degrees as unsigned "deg°min′" with symbols, plus suffix (C{str}).
@@ -586,7 +586,7 @@ else:
     _init__all__ = False
 
 from pygeodesy.interns import _DOT_, _version2  # PYCHOK import
-__version__ = '24.02.12'
+__version__ = '24.02.22'
 # see setup.py for similar logic
 version     = _DOT_(*_version2(__version__, n=3))
 

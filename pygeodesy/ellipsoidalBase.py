@@ -16,11 +16,11 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 from pygeodesy.constants import EPS, EPS0, EPS1, _0_0, _0_5
 from pygeodesy.cartesianBase import CartesianBase  # PYCHOK used!
 from pygeodesy.datums import Datum, Datums, _earth_ellipsoid, _ellipsoidal_datum, \
-                            _WGS84,  _EWGS84, _xinstanceof  # _spherical_datum
+                             Transform, _WGS84,  _EWGS84, _xinstanceof  # _spherical_datum
 # from pygeodesy.ellipsoids import _EWGS84  # from .datums
 from pygeodesy.errors import _incompatible, _IsnotError, RangeError, _TypeError, \
                              _ValueError, _xattr, _xellipsoidal, _xError, _xkwds, \
-                             _xkwds_get, _xkwds_not
+                             _xkwds_not
 # from pygeodesy.fmath import favg  # _MODS
 from pygeodesy.interns import NN, _COMMA_, _ellipsoidal_
 from pygeodesy.latlonBase import LatLonBase, _trilaterate5,  fabs, _Wrap
@@ -37,7 +37,7 @@ from pygeodesy.units import Epoch, _isDegrees, Radius_, _1mm as _TOL_M
 # from math import fabs  # from .latlonBase
 
 __all__ = _ALL_LAZY.ellipsoidalBase
-__version__ = '24.02.04'
+__version__ = '24.02.16'
 
 
 class CartesianEllipsoidalBase(CartesianBase):
@@ -180,12 +180,12 @@ class CartesianEllipsoidalBase(CartesianBase):
                            point's reference frame.
            @kwarg epoch: Optional epoch (L{Epoch}, C{scalar} or C{str}), overriding
                          this point's epoch.
-           @kwarg epoch2: Optional epoch to observe I{to} (L{Epoch}, C{scalar} or
-                          C{str}).
+           @kwarg epoch2: Optional epoch to observe for the converted point (L{Epoch},
+                          C{scalar} or C{str}).
            @kwarg name: Optional name (C{str}), iff converted.
 
            @return: The converted point (ellipsoidal C{Cartesian}) or if conversion
-                    is C{nil}, this point or a copy of this point if the B{C{name}}
+                    C{isunity}, this point or a copy of this point if the B{C{name}}
                     is non-empty.
 
            @raise TRFError: This point's C{reframe} is not defined, invalid B{C{epoch}}
@@ -194,35 +194,16 @@ class CartesianEllipsoidalBase(CartesianBase):
 
            @raise TypeError: B{C{reframe2}} or B{C{reframe}} not a L{RefFrame}.
         '''
-        e, t0, d, d2 = _MODS.trf._eT0Ds4(self, reframe, epoch, reframe2, epoch2)
-        if t0:
-            r = self.toDatum(d).toTransforms_(t0).toDatum(d2).toDatum(self.datum)
-            r.reframe, r.epoch = reframe2, e
-            if name:
-                r.rename(name)
-        else:
-            r = self.copy(name=name) if name else self
-        return r
+        return _MODS.trf._toRefFrame(self, reframe2, reframe=reframe, epoch=epoch,
+                                                      epoch2=epoch2, name=name)
 
+    @deprecated_method
     def toTransforms_(self, *transforms, **datum):
-        '''Apply none, one or several Helmert transforms to this point.
-
-           @arg transforms: Transforms to apply, in order (L{Transform}s).
-           @kwarg datum: Datum for the transformed point (L{Datum}), overriding
-                         this point's datum.
-
-           @return: The transformed point (C{Cartesian}) or this point if the
-                    B{C{transforms}} produce the same point.
-        '''
+        '''DEPRECATED on 2024.02.14, use method C{toTransform}.'''
         r = self
-        if transforms:
-            xyz = r.xyz
-            for t in transforms:
-                xyz = t.transform(*xyz)
-            d = _xkwds_get(datum, datum=r.datum)
-            if d != r.datum or xyz != r.xyz:
-                r = r.classof(xyz, datum=d)
-        return r
+        for t in transforms:
+            r = r.toTransform(t)
+        return r.dup(**datum) if datum else r
 
 
 class LatLonEllipsoidalBase(LatLonBase):
@@ -239,7 +220,7 @@ class LatLonEllipsoidalBase(LatLonBase):
 
     def __init__(self, latlonh, lon=None, height=0, datum=None, reframe=None,
                                           epoch=None, wrap=False, name=NN):
-        '''Create an ellipsoidal C{LatLon} point from the givenlat-, longitude
+        '''Create an ellipsoidal C{LatLon} point from the given lat-, longitude
            and height on the given datum, reference frame and epoch.
 
            @arg latlonh: Latitude (C{degrees} or DMS C{str} with N or S suffix) or
@@ -390,9 +371,8 @@ class LatLonEllipsoidalBase(LatLonBase):
                   radius between the B{C{datum}} and C{NAV83} upon which the
                   L{elevations.elevation2} is based.
 
-           @note: NED elevation is only available for locations within the
-                  U{Conterminous US (CONUS)
-                  <https://WikiPedia.org/wiki/Contiguous_United_States>}.
+           @note: NED elevation is only available for locations within the U{Conterminous
+                  US (CONUS)<https://WikiPedia.org/wiki/Contiguous_United_States>}.
 
            @see: Function L{elevations.elevation2} and method C{Ellipsoid.Rgeocentric}
                  for further details and possible C{error}s.
@@ -506,9 +486,8 @@ class LatLonEllipsoidalBase(LatLonBase):
                   radius between the B{C{datum}} and C{NAV83/NADV88} upon which
                   the L{elevations.geoidHeight2} is based.
 
-           @note: The geoid height is only available for locations within the
-                  U{Conterminous US (CONUS)
-                  <https://WikiPedia.org/wiki/Contiguous_United_States>}.
+           @note: The geoid height is only available for locations within the U{Conterminous
+                  US (CONUS)<https://WikiPedia.org/wiki/Contiguous_United_States>}.
 
            @see: Function L{elevations.geoidHeight2} and method C{Ellipsoid.Rgeocentric}
                  for further details and possible C{error}s.
@@ -963,15 +942,33 @@ class LatLonEllipsoidalBase(LatLonBase):
 
            @raise TypeError: B{C{reframe2}} or B{C{reframe}} not a L{RefFrame}.
         '''
-        e, t0, d, d2 = _MODS.trf._eT0Ds4(self, reframe, epoch, reframe2, epoch2)
-        if t0:
-            c = self.toCartesian().toDatum(d).toTransforms_(t0).toDatum(d2)
-            n = name or self.name
-            ll = c.toLatLon(datum=self.datum, epoch=e, height=height,
-                            LatLon=self.classof, name=n, reframe=reframe2)
+        return _MODS.trf._toRefFrame(self, reframe2, reframe=reframe, epoch=epoch,
+                                           epoch2=epoch2, name=name, height=height)
+
+    def toTransform(self, transform, inverse=False, datum=None, **LatLon_kwds):
+        '''Apply a Helmert transform to this geodetic point.
+
+           @arg transform: Transform to apply (L{Transform} or L{TransformXform}).
+           @kwarg inverse: Apply the inverse of the Helmert transform (C{bool}).
+           @kwarg datum: Datum for the transformed point (L{Datum}), overriding
+                         this point's datum but I{not} taking it into account.
+           @kwarg LatLon_kwds: Optional keyword arguments for the transformed
+                               point, like C{B{height}=...}.
+
+           @return: A transformed point (C{LatLon}) or a copy of this point if
+                    C{B{transform}.isunity}.
+
+           @raise TypeError: Invalid B{C{transform}}.
+        '''
+        _xinstanceof(Transform, transform=transform)
+        d = datum or self.datum
+        if transform.isunity:
+            r = self.dup(datum=d, **LatLon_kwds)
         else:
-            ll = self.copy(name=name) if name else self
-        return ll
+            c = self.toCartesian()
+            c = c.toTransform(transform, inverse=inverse, datum=d)
+            r = c.toLatLon(LatLon=self.classof, **_xkwds(LatLon_kwds, height=self.height))
+        return r
 
     def toUps(self, pole=NN, falsed=True, center=False):
         '''Convert this C{LatLon} point to a UPS coordinate.
@@ -1123,7 +1120,7 @@ class LatLonEllipsoidalBase(LatLonBase):
                   <https://PyPI.org/project/geographiclib>} if installed, otherwise
                   the accurate (but slower) C{ellipsoidalExact.LatLon} methods.
         '''
-        return _trilaterate5(self, distance1,
+        return _trilaterate5(self,                       distance1,
                              self.others(point2=point2), distance2,
                              self.others(point3=point3), distance3,
                              area=area, eps=eps, wrap=wrap)

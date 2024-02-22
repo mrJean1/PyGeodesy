@@ -26,13 +26,12 @@ and L{Fsum.__itruediv__}.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import iscomplex, isint, isscalar, signOf, _signOf, \
-                            _xisscalar
+from pygeodesy.basics import iscomplex, isint, isscalar, itemsorted, \
+                             signOf, _signOf, _xisscalar
 from pygeodesy.constants import INT0, _isfinite, isinf, isnan, _pos_self, \
                                _0_0, _1_0, _N_1_0,  Float, Int
-from pygeodesy.errors import itemsorted, _OverflowError, _TypeError, \
-                            _ValueError, _xError2, _xkwds_get, _xkwds_get_, \
-                            _ZeroDivisionError
+from pygeodesy.errors import _OverflowError, _TypeError, _ValueError, \
+                             _xError2, _xkwds_get, _ZeroDivisionError
 from pygeodesy.interns import NN, _arg_, _COMMASPACE_, _DASH_, _EQUAL_, \
                              _exceeds_, _from_, _iadd_op_, _LANGLE_, \
                              _negative_, _NOTEQUAL_, _not_finite_, \
@@ -48,7 +47,7 @@ from pygeodesy.props import _allPropertiesOf_n, deprecated_property_RO, \
 from math import ceil as _ceil, fabs, floor as _floor  # PYCHOK used! .ltp
 
 __all__ = _ALL_LAZY.fsums
-__version__ = '24.02.10'
+__version__ = '24.02.20'
 
 _add_op_       = _PLUS_  # in .auxilats.auxAngle
 _eq_op_        = _EQUAL_ * 2  # _DEQUAL_
@@ -75,7 +74,7 @@ _isub_op_      = _sub_op_ + _fset_op_  # in .auxilats.auxAngle, .fsums
 def _2float(index=None, **name_value):  # in .fmath, .fstats
     '''(INTERNAL) Raise C{TypeError} or C{ValueError} if not scalar or infinite.
     '''
-    n, v = name_value.popitem()  # _xkwds_popitem(name_value)
+    n, v = name_value.popitem()  # _xkwds_item2(name_value)
     try:
         v = float(v)
         if _isfinite(v):
@@ -83,9 +82,7 @@ def _2float(index=None, **name_value):  # in .fmath, .fstats
         E, t = _ValueError, _not_finite_
     except Exception as e:
         E, t = _xError2(e)
-    if index is not None:
-        n = Fmt.SQUARE(n, index)
-    raise E(n, v, txt=t)
+    raise E(Fmt.INDEX(n, index), v, txt=t)
 
 
 def _2floats(xs, origin=0, sub=False):
@@ -265,9 +262,10 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
            @see: Methods L{Fsum.fadd} and L{Fsum.RESIDUAL}.
         '''
         if name_RESIDUAL:
-            n, r = _xkwds_get_(name_RESIDUAL, name=NN, RESIDUAL=None)
+            n = _xkwds_get(name_RESIDUAL, name=NN)
             if n:  # set name ...
                 self.name = n
+            r = _xkwds_get(name_RESIDUAL, RESIDUAL=None)
             if r is not None:
                 self.RESIDUAL(r)  # ... for ResidualError
 #       self._n  = 0

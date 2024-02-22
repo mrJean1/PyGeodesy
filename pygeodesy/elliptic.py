@@ -80,14 +80,13 @@ from pygeodesy.constants import EPS, INF, NAN, PI, PI_2, PI_4, \
                                _0_25, _0_5, _1_0, _2_0, _N_2_0, \
                                _3_0, _4_0, _6_0, _8_0, _180_0, \
                                _360_0, _over
-from pygeodesy.errors import _ValueError, _xattr, _xkwds_pop
-from pygeodesy.fmath import fdot, hypot1, zqrt
-from pygeodesy.fsums import Fsum, _sum
-from pygeodesy.interns import NN, _delta_, _DOT_, _f_, _invalid_, \
-                             _invokation_, _negative_, _SPACE_
-from pygeodesy.karney import _K_2_0, _norm180, _signBit, _sincos2, \
-                             _ALL_LAZY
-# from pygeodesy.lazily import _ALL_LAZY  # from .karney
+# from pygeodesy.errors import _ValueError  # from .fmath
+from pygeodesy.fmath import fdot, hypot1, zqrt,  _ValueError
+from pygeodesy.fsums import Fsum, _sum,  _ALL_LAZY
+from pygeodesy.interns import NN, _delta_, _DOT_, _dunder_nameof, _f_, \
+                             _invalid_, _invokation_, _negative_, _SPACE_
+from pygeodesy.karney import _K_2_0, _norm180, _signBit, _sincos2
+# from pygeodesy.lazily import _ALL_LAZY  # from .fsums
 from pygeodesy.named import _Named, _NamedTuple,  Fmt, unstr
 from pygeodesy.props import _allPropertiesOf_n, Property_RO, _update_all
 # from pygeodesy.streprs import Fmt, unstr  # from .named
@@ -98,7 +97,7 @@ from math import asinh, atan, atan2, ceil, cosh, fabs, floor, \
                  radians, sin, sqrt, tanh
 
 __all__ = _ALL_LAZY.elliptic
-__version__ = '23.09.18'
+__version__ = '24.02.18'
 
 _TolRD  =  zqrt(EPS * 0.002)
 _TolRF  =  zqrt(EPS * 0.030)
@@ -1003,13 +1002,16 @@ def _deltaX(sn, cn, dn, cX, fX):
 def _ellipticError(where, *args, **kwds_cause_txt):
     '''(INTERNAL) Format an L{EllipticError}.
     '''
-    c = _xkwds_pop(kwds_cause_txt, cause=None)
-    t = _xkwds_pop(kwds_cause_txt, txt=NN)
-    n = _xattr(where, __name__=where)  # _dunder_nameof(where, where)
+    def _x_t_kwds(cause=None, txt=NN, **kwds):
+        return cause, txt, kwds
+
+    x, t, kwds = _x_t_kwds(**kwds_cause_txt)
+
+    n = _dunder_nameof(where, where)
     n = _DOT_(Elliptic.__name__, n)
     n = _SPACE_(_invokation_, n)
-    u =  unstr(n, *args, **kwds_cause_txt)
-    return EllipticError(u, cause=c, txt=t)
+    u =  unstr(n, *args, **kwds)
+    return EllipticError(u, cause=x, txt=t)
 
 
 def _Horner(S, e1, E2, E3, E4, E5, *over):

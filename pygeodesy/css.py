@@ -19,7 +19,7 @@ from pygeodesy.interns import NN, _azimuth_, _COMMASPACE_, _easting_, \
                              _reciprocal_, _SPACE_
 from pygeodesy.interns import _C_  # PYCHOK used!
 from pygeodesy.karney import _atan2d, _copysign, _diff182, _norm2, \
-                             _norm180, _signBit, _sincos2d, fabs
+                             _norm180, _signBit, _sincos2d,  fabs
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _NamedBase, _NamedTuple, nameof
 from pygeodesy.namedTuples import EasNor2Tuple, EasNor3Tuple, \
@@ -33,7 +33,7 @@ from pygeodesy.units import Bearing, Degrees, Easting, Height, _heigHt, \
 # from math import fabs  # from .karney
 
 __all__ = _ALL_LAZY.css
-__version__ = '23.12.03'
+__version__ = '24.02.21'
 
 
 def _CS0(cs0):

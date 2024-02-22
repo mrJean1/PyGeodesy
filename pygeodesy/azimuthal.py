@@ -50,12 +50,12 @@ from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB, \
                               _xinstanceof
 from pygeodesy.datums import _spherical_datum, _WGS84
 from pygeodesy.errors import _ValueError, _xdatum, _xkwds
-# from pygeodesy.fmath import euclid, Fsum, hypot as _hypot  # from .karney
+from pygeodesy.fmath import euclid, hypot as _hypot,  Fsum
 # from pygeodesy.fsums import Fsum  # from .fmath
 # from pygeodesy.formy import antipode  # _MODS
 from pygeodesy.interns import NN, _azimuth_, _datum_, _lat_, _lon_, \
                              _scale_, _SPACE_, _x_, _y_
-from pygeodesy.karney import _norm180,  euclid, Fsum, _hypot
+from pygeodesy.karney import _norm180
 from pygeodesy.latlonBase import _MODS, LatLonBase as _LLB
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _FOR_DOCS  # ALL_MODS
 from pygeodesy.named import _NamedBase, _NamedTuple, notOverloaded, _Pass
@@ -71,7 +71,7 @@ from pygeodesy.utily import asin1, atan1, atan2b, atan2d, sincos2, \
 from math import acos, atan2, degrees, fabs, sin, sqrt
 
 __all__ = _ALL_LAZY.azimuthal
-__version__ = '23.12.12'
+__version__ = '24.02.21'
 
 _EPS_K         = _EPStol * _0_1  # Karney's eps_ or _EPSmin * _0_1?
 _over_horizon_ = 'over horizon'

@@ -86,12 +86,12 @@ from pygeodesy.utily import atan1, atan1d, atan2d, degrees90, degrees180, \
 from math import atan2, cos, degrees, fabs, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '23.12.18'
+__version__ = '24.01.11'
 
 _Ecef_    = 'Ecef'
 _prolate_ = 'prolate'
 _TRIPS    =  33  # 8..9 sufficient, EcefSudano.reverse
-_xyz_y_z  = _xyz_, _y_, _z_  # _xargs_kwds_names(_xyzn4)[:3]
+_xyz_y_z  = _xyz_, _y_, _z_  # _args_kwds_names(_xyzn4)[:3]
 
 
 class EcefError(_ValueError):
@@ -1318,7 +1318,7 @@ def _xyzn4(xyz, y, z, Types, Error=EcefError, name=NN,   # PYCHOK unused
         d = dict(zip(_xyz_y_z_names, (xyz, y, z)))
         raise Error(cause=x, **d)
     return t
-# assert _xyz_y_z == _MODS.basics._xargs_kwds_names(_xyzn4)[:3]
+# assert _xyz_y_z == _MODS.basics._args_kwds_names(_xyzn4)[:3]
 
 
 _Ecefs = (EcefKarney, EcefSudano, EcefVeness, EcefYou,

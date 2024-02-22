@@ -8,7 +8,7 @@
 # <https://GitHub.com/ChrisVeness/geodesy/blob/master/test/latlon-ellipsoidal-referenceframe-tests.js>
 
 __all__ = ('Tests',)
-__version__ = '24.02.12'
+__version__ = '24.02.18'
 
 from bases import GeodSolve, isPython2, TestsBase
 
@@ -18,7 +18,7 @@ from pygeodesy import date2epoch, Epoch, epoch2date, F_D, F_DMS, fstr, RefFrames
 
 class Tests(TestsBase):
 
-    def testTrf(self, ellipsoidal_):  # MCCABE 15
+    def testTrf(self, ellipsoidal_):  # MCCABE 17
 
         self.subtitle(ellipsoidal_, 'Trf')
 
@@ -205,7 +205,6 @@ class Tests(TestsBase):
         self.test('transform2v', v.toStr(prec=-3), '(0.004, 0.003, 0.004)', known=True)
 
         def _t4(c, x, p):
-            c = Vector3d(c)
             x = Vector3d(x)
             e = c - x
             d = e.length
@@ -221,11 +220,11 @@ class Tests(TestsBase):
             T = trfTransform0(r1, r2, epoch=2010)
             x = T.toStr(prec=9)
             self.test('transform0', x, x, nl=1)
-            c = T.transform(*f)
+            c = T.transform(*f, Vector=Vector3d)
             c, x, d, e = _t4(c, t, -4)
             self.test('transform0c', c, x, known=d < 1.e-4)
             self.test('    Error0c', e, e)
-            v = T.velocities()
+            v = T.velocities(Vector=Vector3d)
             v, x, d, e = _t4(v, w, -5)
             self.test('transform0v', v, x, known=d < 1.0)
             self.test('    Error0v', e, e)

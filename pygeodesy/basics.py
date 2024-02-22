@@ -14,12 +14,12 @@ if not division:
     raise ImportError('%s 1/2 == %s' % ('division', division))
 del division
 
-from pygeodesy.errors import _AssertionError, _AttributeError, _ImportError, \
-                             _TypeError, _TypesError, _ValueError, _xkwds_get, \
-                             _xAssertionError
+from pygeodesy.errors import _AttributeError, _ImportError, _NotImplementedError, \
+                             _TypeError, _TypesError, _ValueError, _xAssertionError, \
+                             _xkwds_get
 from pygeodesy.interns import MISSING, NN, _1_, _by_, _COMMA_, _DOT_, _DEPRECATED_, \
                              _ELLIPSIS4_, _enquote, _EQUAL_, _in_, _invalid_, _N_A_, \
-                             _not_scalar_, _SPACE_, _UNDER_, _version_  # _utf_8_
+                             _not_scalar_, _SPACE_, _UNDER_, _version_, _version_info
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _FOR_DOCS, \
                              _getenv, LazyImportError, _sys, _sys_version_info2
 
@@ -28,16 +28,15 @@ from math import copysign as _copysign
 import inspect as _inspect
 
 __all__ = _ALL_LAZY.basics
-__version__ = '24.02.12'
+__version__ = '24.02.21'
 
 _0_0                  =  0.0  # in .constants
 _below_               = 'below'
-_can_t_               = "can't"
 _list_tuple_types     = (list, tuple)
 _list_tuple_set_types = (list, tuple, set)
 _odd_                 = 'odd'
-_required_            = 'required'
 _PYGEODESY_XPACKAGES_ = 'PYGEODESY_XPACKAGES'
+_required_            = 'required'
 
 try:  # Luciano Ramalho, "Fluent Python", O'Reilly, 2016 p. 395, 2022 p. 577+
     from numbers import Integral as _Ints, Real as _Scalars  # .units
@@ -57,10 +56,10 @@ try:
         #                        and isinstance(range(1), _Sequence):
         _Seqs = _Sequence
     else:
-        raise ImportError  # _AssertionError
+        raise ImportError()  # _AssertionError
 except ImportError:
     _Sequence = tuple  # immutable for .points._Basequence
-    _Seqs     = list, _Sequence  # , range for function len2 below
+    _Seqs     = list, _Sequence  # range for function len2 below
 
 
 def _passarg(arg):  # in .auxilats.auxLat
@@ -94,7 +93,7 @@ try:
             from traceback import extract_tb
             tb = exc_info()[2]  # 3-tuple (type, value, traceback)
             t4 = extract_tb(tb, 1)[0]  # 4-tuple (file, line, name, 'import ...')
-            t = _SPACE_(_can_t_, t4[3] or _N_A_)
+            t = _SPACE_("can't", t4[3] or _N_A_)
             del tb, t4
         return t
 
@@ -118,6 +117,20 @@ except NameError:  # Python 3+
         if isinstance(ub, _Bytes):
             ub = str(ub.decode(_utf_8_))
         return ub
+
+
+def _args_kwds_names(func):
+    '''(INTERNAL) Get a C{func}'s args and kwds names, including
+       C{self} for methods.
+
+       @note: Python 2 may I{not} include the C{*args} nor the
+              C{**kwds} names.
+    '''
+    try:
+        args_kwds = _inspect.signature(func).parameters.keys()
+    except AttributeError:  # .signature new Python 3+
+        args_kwds = _inspect.getargspec(func).args
+    return tuple(args_kwds)
 
 
 def clips(sb, limit=50, white=NN):
@@ -193,10 +206,9 @@ def isbool(obj):
     return isinstance(obj, bool)  # and (obj is False
 #                                     or obj is True)
 
-if isbool(1) or isbool(0):  # PYCHOK assert
-    raise _AssertionError(isbool=1)
+assert not (isbool(1) or isbool(0) or isbool(None))  # PYCHOK 2
 
-if _FOR_DOCS:  # XXX avoid epidoc Python 2.7 error
+if _FOR_DOCS:  # XXX avoid epydoc Python 2.7 error
 
     def isclass(obj):
         '''Return C{True} if B{C{obj}} is a C{class} or C{type}.
@@ -281,7 +293,7 @@ except AttributeError:  # Python 2-
 
 
 def isinstanceof(obj, *classes):
-    '''Is B{C{ob}} an intance of one of the C{classes}?
+    '''Is B{C{ob}} an instance of one of the C{classes}?
 
        @arg obj: The instance (any C{type}).
        @arg classes: One or more classes (C{class}).
@@ -439,6 +451,27 @@ def issubclassof(Sub, *Supers):
     return None
 
 
+def itemsorted(adict, *items_args, **asorted_reverse):
+    '''Return the items of C{B{adict}} sorted I{alphabetically,
+       case-insensitively} and in I{ascending} order.
+
+       @arg items_args: Optional positional argument(s) for method
+                        C{B{adict}.items(B*{items_args})}.
+       @kwarg asorted_reverse: Use keyword argument C{B{asorted}=False}
+                      for I{case-sensitive} sorting and C{B{reverse}=True}
+                      for results in C{descending} order.
+    '''
+    def _ins(item):
+        return item[0].lower()
+
+    def _key_rev(asorted=True, reverse=False):
+        return (_ins if asorted else None), reverse
+
+    key, rev = _key_rev(**asorted_reverse)
+    items = adict.items(*items_args) if items_args else adict.items()
+    return sorted(items, reverse=rev, key=key)
+
+
 def len2(items):
     '''Make built-in function L{len} work for generators, iterators,
        etc. since those can only be started exactly once.
@@ -454,35 +487,35 @@ def len2(items):
 
 
 def map1(fun1, *xs):  # XXX map_
-    '''Apply each B{C{xs}} to a single-argument function and
+    '''Apply a single-argument function to each B{C{xs}} and
        return a C{tuple} of results.
 
-       @arg fun1: 1-Arg function to apply (C{callable}).
-       @arg xs: Arguments to apply (C{any positional}).
+       @arg fun1: 1-Arg function (C{callable}).
+       @arg xs: Arguments (C{any positional}).
 
        @return: Function results (C{tuple}).
     '''
     return tuple(map(fun1, xs))
 
 
-def map2(func, *xs):
-    '''Apply arguments to a function and return a C{tuple} of results.
+def map2(fun, *xs):
+    '''Apply a function to arguments and return a C{tuple} of results.
 
        Unlike Python 2's built-in L{map}, Python 3+ L{map} returns a
        L{map} object, an iterator-like object which generates the
        results only once.  Converting the L{map} object to a tuple
        maintains the Python 2 behavior.
 
-       @arg func: Function to apply (C{callable}).
-       @arg xs: Arguments to apply (C{list, tuple, ...}).
+       @arg fun: Function (C{callable}).
+       @arg xs: Arguments (C{list, tuple, ...}).
 
        @return: Function results (C{tuple}).
     '''
-    return tuple(map(func, *xs))
+    return tuple(map(fun, *xs))
 
 
 def neg(x, neg0=None):
-    '''Negate C{x} and optionally, negate C{0.0} amd C{-0.0}.
+    '''Negate C{x} and optionally, negate C{0.0} and C{-0.0}.
 
        @kwarg neg0: Defines the return value for zero C{B{x}}: if C{None}
                     return C{0.0}, if C{True} return C{NEG0 if B{x}=0.0}
@@ -501,6 +534,17 @@ def neg_(*xs):
        @return: A C{map(neg, B{xs})}.
     '''
     return map(neg, xs)
+
+
+def _req_d_by(where, **name):  # in .basics
+    '''(INTERNAL) Get the fully qualified name.
+    '''
+    m = _MODS.named.modulename(where, prefixed=True)
+    if name:
+        n = _xkwds_get(name, name=NN)
+        if n:
+            m = _DOT_(m, n)
+    return _SPACE_(_required_, _by_, m)
 
 
 def _reverange(n, stop=-1, step=-1):
@@ -640,9 +684,6 @@ def _splituple(strs, *sep_splits):  # in .mgrs, .osgr, .webmercator
     return tuple(s.strip() for s in t if s)
 
 
-_XPACKAGES = _splituple(_getenv(_PYGEODESY_XPACKAGES_, NN))
-
-
 def unsigned0(x):
     '''Unsign if C{0.0}.
 
@@ -651,52 +692,40 @@ def unsigned0(x):
     return x if x else _0_0
 
 
-def _xargs_kwds_names(func):
-    '''(INTERNAL) Get a C{func}'s args and kwds names, including
-       C{self} for methods.
-
-       @note: Python 2 may I{not} include the C{*args} nor the
-              C{**kwds} names.
-    '''
-    try:
-        args_kwds = _inspect.signature(func).parameters.keys()
-    except AttributeError:  # .signature new Python 3+
-        args_kwds = _inspect.getargspec(func).args
-    return tuple(args_kwds)
-
-
-def _xcopy(inst, deep=False):
+def _xcopy(obj, deep=False):
     '''(INTERNAL) Copy an object, shallow or deep.
 
-       @arg inst: The object to copy (any C{type}).
+       @arg obj: The object to copy (any C{type}).
        @kwarg deep: If C{True} make a deep, otherwise
                     a shallow copy (C{bool}).
 
-       @return: The copy of B{C{inst}}.
+       @return: The copy of B{C{obj}}.
     '''
-    return _deepcopy(inst) if deep else _copy(inst)
+    return _deepcopy(obj) if deep else _copy(obj)
 
 
-def _xdup(inst, deep=False, **items):
+def _xdup(obj, deep=False, **items):
     '''(INTERNAL) Duplicate an object, replacing some attributes.
 
-       @arg inst: The object to copy (any C{type}).
+       @arg obj: The object to copy (any C{type}).
        @kwarg deep: If C{True} copy deep, otherwise shallow.
        @kwarg items: Attributes to be changed (C{any}).
 
-       @return: A duplicate of B{C{inst}} with modified
+       @return: A duplicate of B{C{obj}} with modified
                 attributes, if any B{C{items}}.
 
        @raise AttributeError: Some B{C{items}} invalid.
     '''
-    d = _xcopy(inst, deep=deep)
+    d = _xcopy(obj, deep=deep)
     for n, v in items.items():
         if getattr(d, n, v) != v:
             setattr(d, n, v)
         elif not hasattr(d, n):
-            t = _MODS.named.classname(inst)
+            t = _MODS.named.classname(obj)
             t = _SPACE_(_DOT_(t, n), _invalid_)
-            raise _AttributeError(txt=t, this=inst, **items)
+            raise _AttributeError(txt=t, obj=obj, **items)
+#   if items:
+#       _MODS.props._update_all(d)
     return d
 
 
@@ -711,18 +740,18 @@ def _xgeographiclib(where, *required):
     return _xversion(geographiclib, where, *required)
 
 
-def _xImportError(x, where, Error=_ImportError, **name):
+def _xImportError(exc, where, Error=_ImportError, **name):
     '''(INTERNAL) Embellish an C{Lazy/ImportError}.
     '''
-    t = _SPACE_(_required_, _by_, _xwhere(where, **name))
-    return Error(_Xstr(x), txt=t, cause=x)
+    t = _req_d_by(where, **name)
+    return Error(_Xstr(exc), txt=t, cause=exc)
 
 
 def _xinstanceof(*Types, **names_values):
     '''(INTERNAL) Check C{Types} of all C{name=value} pairs.
 
-       @arg Types: One or more classes or types (C{class}),
-                   all positional.
+       @arg Types: One or more classes or types (C{class}), all
+                   positional.
        @kwarg names_values: One or more C{B{name}=value} pairs
                             with the C{value} to be checked.
 
@@ -756,22 +785,22 @@ def _xnumpy(where, *required):
     return _xversion(numpy, where, *required)
 
 
-def _xpackage(_xpkg):
-    '''(INTERNAL) Check dependency to be excluded.
-    '''
-    n = _xpkg.__name__[2:]
-    if n in _XPACKAGES:
-        x = _SPACE_(n, _in_, _PYGEODESY_XPACKAGES_)
-        e = _enquote(_getenv(_PYGEODESY_XPACKAGES_, NN))
-        raise ImportError(_EQUAL_(x, e))
-
-
 def _xor(x, *xs):
     '''(INTERNAL) Exclusive-or C{x} and C{xs}.
     '''
     for x_ in xs:
         x ^= x_
     return x
+
+
+def _xpackage(_xpkg):
+    '''(INTERNAL) Check dependency to be excluded.
+    '''
+    n = _xpkg.__name__[2:]  # remove _x
+    if n in _XPACKAGES:
+        x = _SPACE_(n, _in_, _PYGEODESY_XPACKAGES_)
+        e = _enquote(_getenv(_PYGEODESY_XPACKAGES_, NN))
+        raise ImportError(_EQUAL_(x, e))
 
 
 def _xscipy(where, *required):
@@ -807,38 +836,27 @@ def _xsubclassof(*Classes, **names_values):
 def _xversion(package, where, *required, **name):
     '''(INTERNAL) Check the C{package} version vs B{C{required}}.
     '''
-    n = len(required)
-    if n:
-        t = _xversion_info(package)
-        if t[:n] < required:
-            t = _SPACE_(package.__name__, _version_, _DOT_(*t),
+    if required:
+        t = _version_info(package)
+        if t[:len(required)] < required:
+            t = _SPACE_(package.__name__,
+                       _version_, _DOT_(*t),
                        _below_, _DOT_(*required),
-                       _required_, _by_, _xwhere(where, **name))
+                       _req_d_by(where, **name))
             raise ImportError(t)
     return package
 
 
-def _xversion_info(package):  # in .karney
-    '''(INTERNAL) Get the C{package.__version_info__} as a 2- or
-       3-tuple C{(major, minor, revision)} if C{int}s.
+def _xzip(*args, **strict):  # PYCHOK no cover
+    '''(INTERNAL) Standard C{zip(..., strict=True)}.
     '''
-    try:
-        t = package.__version_info__
-    except AttributeError:
-        t = package.__version__.strip()
-        t = t.replace(_DOT_, _SPACE_).split()[:3]
-    return map2(int, t)
-
-
-def _xwhere(where, **name):
-    '''(INTERNAL) Get the fully qualified name.
-    '''
-    m = _MODS.named.modulename(where, prefixed=True)
-    if name:
-        n = _xkwds_get(name, name=NN)
-        if n:
-            m = _DOT_(m, n)
-    return m
+    s = _xkwds_get(strict, strict=True)
+    if s:
+        if _zip is zip:  # < (3, 10)
+            t = _MODS.streprs.unstr(_xzip, *args, strict=s)
+            raise _NotImplementedError(t, txt=None)
+        return _zip(*args)
+    return zip(*args)
 
 
 if _sys_version_info2 < (3, 10):  # see .errors
@@ -847,6 +865,8 @@ else:  # Python 3.10+
 
     def _zip(*args):
         return zip(*args, strict=True)
+
+_XPACKAGES = _splituple(_getenv(_PYGEODESY_XPACKAGES_, NN).lower())
 
 # **) MIT License
 #

@@ -23,12 +23,12 @@ License.  For more information, see the U{GeographicLib<https://GeographicLib.So
 # make sure int/int division yields float quotient
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import _copysign, unsigned0, _xinstanceof
+from pygeodesy.basics import _copysign, itemsorted, unsigned0, _xinstanceof
 from pygeodesy.constants import EPS, EPS0, EPS1, INT0, NAN, _over, \
                                _EPSqrt as _TOL, _0_0, _0_01, _1_0, _90_0
 from pygeodesy.datums import Datum, _earth_datum, _spherical_datum, _WGS84
-from pygeodesy.errors import IntersectionError, itemsorted, RhumbError, \
-                            _xdatum, _xkwds, _xkwds_pop, _Xorder
+from pygeodesy.errors import IntersectionError, RhumbError, _xdatum, \
+                            _xkwds, _xkwds_pop2, _Xorder
 # from pygeodesy.etm import ExactTransverseMercator  # _MODS
 from pygeodesy.fmath import euclid, favg, sqrt_a,  Fsum
 # from pygeodesy.formy import opposing  # _MODS
@@ -52,7 +52,7 @@ from pygeodesy.vector3d import _intersect3d3, Vector3d  # in .Intersection below
 from math import cos, fabs
 
 __all__ = ()
-__version__ = '23.12.03'
+__version__ = '24.02.20'
 
 _anti_ = _Dash('anti')
 _rls   = []  # instances of C{RbumbLine...} to be updated
@@ -1020,7 +1020,8 @@ class _PseudoRhumbLine(RhumbLineBase):
 
     def PlumbTo(self, lat0, lon0, **exact_eps_est_tol):  # PYCHOK signature
         P = RhumbLineBase.PlumbTo(self, lat0, lon0, **exact_eps_est_tol)
-        P.set_(azi1=self._gl.azi1, azi2=_xkwds_pop(P, azi12=None))
+        z, P = _xkwds_pop2(P, azi12=None)
+        P.set_(azi1=self._gl.azi1, azi2=z)
         return P  # geodesic L{Position}
 
     def Position(self, s12, **unused):  # PYCHOK signature

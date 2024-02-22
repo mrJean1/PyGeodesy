@@ -204,7 +204,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                          basics=_i('clips', 'copysign0', 'copytype', 'halfs2',
                                    'int1s', 'isbool', 'isCartesian', 'isclass', 'iscomplex', 'isDEPRECATED', 'isfloat',
                                    'isidentifier', 'isinstanceof', 'isint', 'iskeyword', 'isLatLon', 'islistuple',
-                                   'isNvector', 'isodd', 'isscalar', 'issequence', 'isstr', 'issubclassof',
+                                   'isNvector', 'isodd', 'isscalar', 'issequence', 'isstr', 'issubclassof', 'itemsorted',
                                    'len2', 'map1', 'map2', 'neg', 'neg_',
                                    'signBit', 'signOf', 'splice', 'str2ub', 'ub2str', 'unsigned0'),
                        booleans=_i('BooleanFHP', 'BooleanGH', 'LatLonFHP', 'LatLonGH',
@@ -253,8 +253,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                    'NumPyError', 'LenError', 'LimitError', 'MGRSError',
                                    'ParseError', 'PointsError', 'RangeError', 'RhumbError',
                                    'SciPyError', 'SciPyWarning', 'TRFError', 'TriangleError', 'UnitError', 'VectorError',
-                                   'crosserrors', 'exception_chaining', 'isError', 'itemsorted',
-                                   'limiterrors', 'rangerrors'),
+                                   'crosserrors', 'exception_chaining', 'isError', 'limiterrors', 'rangerrors'),
                             etm=_i('Etm', 'ETMError', 'ExactTransverseMercator',
                                    'parseETM5', 'toEtm8'),
                           fmath=_i('Fdot', 'Fhorner', 'Fhypot', 'Fpolynomial', 'Fpowers', 'Fn_rt', 'Fcbrt', 'Fsqrt',
@@ -439,12 +438,17 @@ class _ALL_MODS(object):
     def __getattr__(self, name):
         '''Get a C{pygeodesy} module or attribute by B{C{name}}.
 
-           @arg name: Qualified module or attribute name (C{str}).
+           @arg name: Un/qualified module or qualified attribute name (C{str}).
 
            @raise ImportError: Importing module B{C{name}} failed.
 
            @raise AttributeError: No attribute named B{C{name}}.
         '''
+        try:  # most likely ... module is already imported
+            return _sys.modules[_DOT_(_pygeodesy_, name)]
+        except KeyError:
+            pass
+
         m = self.getmodule(name)
         return m if _tailof(m.__name__) == name else \
                getattr(m, _tailof(name))
@@ -453,20 +457,20 @@ class _ALL_MODS(object):
         t = _EQUALSPACED_(self._DOT_(attr), repr(value))
         raise AttributeError(_COLONSPACE_(t, _immutable_))
 
-    def getattr(self, mod, *attr_dflt):  # , parent=_pygeodesy_
+    def getattr(self, name, *attr_dflt):  # , parent=_pygeodesy_
         '''Get an attribute of/or a C{pygeodesy} module.
 
-           @arg mod: Qualified module name (C{str}).
+           @arg name: Un/qualified module name (C{str}).
            @arg attr_dflt: Optional attribute name (C{str}) and
                            optional default value (any C{type}).
 
            @return: The C{pygeodesy} module's attribute value.
 
-           @raise ImportError: Importing module B{C{mod}} failed.
+           @raise ImportError: Importing module B{C{name}} failed.
 
            @raise AttributeError: No attribute named B{C{attr}}.
         '''
-        v = self.getmodule(mod)
+        v = self.getmodule(name)
         if attr_dflt:
             v = getattr(v, *attr_dflt)
         return v
@@ -500,7 +504,7 @@ class _ALL_MODS(object):
 _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '24.02.08'
+__version__ = '24.02.22'
 
 
 def _ALL_OTHER(*objs):

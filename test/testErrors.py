@@ -99,6 +99,9 @@ if __name__ == '__main__':
                                   UPSError, UTMError, UTMUPSError, VectorError, \
                                   VincentyError, WebMercatorError, WGRSError  # ClipError, RefFrameError
 
+    def _xkwds_pop(kwds, **name_default):
+        return errors._xkwds_pop2(kwds, **name_default)[0]
+
     t = Tests(__file__, __version__, errors)
     for E in (errors._AssertionError, errors._AttributeError, errors._IndexError,
               errors.LimitError,      errors._NameError,      errors.ParseError,
@@ -112,6 +115,6 @@ if __name__ == '__main__':
         t.testError(E)
     t.testErrors(errors._InvalidError, errors._IsnotError)
     t.testKwds(errors._xkwds_get)
-    t.testKwds(errors._xkwds_pop)
+    t.testKwds(       _xkwds_pop)
     t.results()
     t.exit()

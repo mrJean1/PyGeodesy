@@ -7,7 +7,6 @@
 # see <https://www.Movable-Type.co.UK/scripts/latlong-vectors.html>
 # and <https://www.Movable-Type.co.UK/scripts/latlong.html>.
 
-# from copy import copy as _xcopy
 from glob import glob
 from inspect import isclass, isfunction, ismethod, ismodule
 from os import X_OK, access, getenv, sep as _SEP  # environ
@@ -51,13 +50,12 @@ __all__ = ('coverage', 'GeodSolve', 'geographiclib',  # constants
            'RandomLatLon', 'TestsBase',  # classes
            'ios_ver', 'nix_ver', 'secs2str',  # functions
            'tilde', 'type2str', 'versions')
-__version__ = '24.01.10'
+__version__ = '24.02.21'
 
 try:
     geographiclib = basics._xgeographiclib(basics, 1, 50)
 except ImportError:
     geographiclib = None
-
 # don't test with numpy and scypi older than 1.9 resp. 1.0
 try:
     numpy = basics._xnumpy(basics, 1, 9)
@@ -67,7 +65,6 @@ try:
     scipy = basics._xscipy(basics, 1, 0)
 except ImportError:
     scipy = None
-
 _xcopy = basics._xcopy
 del basics
 
@@ -91,17 +88,19 @@ isIntelPython = 'intelpython' in PythonX
 endswith   = str.endswith
 startswith = str.startswith
 
+_pl, _v2 = sys.platform, sys.version_info[:2]
 # isiOS is used by some tests known to fail on iOS only
-isiOS      = sys.platform[:3] == 'ios'  # public
-ismacOS    = sys.platform[:6] == 'darwin'  # public
-isNix      = uname()[0] in ('Linux', 'linux')
-isPyPy     = interns._isPyPy()
-isPython2  = sys.version_info[0] == 2
-isPython3  = sys.version_info[0] == 3
-isPython35 = sys.version_info[:2] >= (3, 5)  # in .testCartesian
-isPython37 = sys.version_info[:2] >= (3, 7)  # in .run, .testLazy
-isPython39 = sys.version_info[:2] >= (3, 9)  # M1 arm64
-isWindows  = sys.platform[:3] == 'win'
+isiOS      = _pl[:3] == 'ios'  # public
+ismacOS    = _pl[:6] == 'darwin'  # public
+isNix      =  uname()[0].lower() == 'linux'
+isPyPy     =  interns._isPyPy()
+isPython2  = _v2[0] == 2
+isPython3  = _v2[0] == 3
+isPython35 = _v2 >= (3, 5)  # in .testCartesian
+isPython37 = _v2 >= (3, 7)  # in .run, .testLazy
+isPython39 = _v2 >= (3, 9)  # M1 arm64
+isWindows  = _pl[:3] == 'win'
+del _pl, _v2
 
 try:
     # use distro only for Linux, not macOS, etc.

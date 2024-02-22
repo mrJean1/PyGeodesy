@@ -14,7 +14,7 @@ and published under the same MIT Licence**, see U{Vector-based geodesy
 from pygeodesy.constants import EPS, EPS1, EPS_2, R_M, _2_0, _N_2_0
 # from pygeodesy.datums import _spherical_datum  # from .formy
 from pygeodesy.errors import IntersectionError, _ValueError, VectorError, \
-                            _xkwds, _xkwds_pop
+                            _xkwds, _xkwds_pop2
 from pygeodesy.fmath import fdot, fidw, hypot_  # PYCHOK fdot shared
 from pygeodesy.fsums import Fsum, fsumf_
 from pygeodesy.formy import _isequalTo, n_xyz2latlon, n_xyz2philam, \
@@ -38,7 +38,7 @@ from pygeodesy.vector3d import Vector3d, _xyzhdn3
 from math import fabs, sqrt
 
 __all__ = _ALL_LAZY.nvectorBase
-__version__ = '23.12.23'
+__version__ = '24.02.18'
 
 
 class NvectorBase(Vector3d):  # XXX kept private
@@ -404,7 +404,7 @@ class LatLonNvectorBase(LatLonBase):
                  for the special case of B{C{_Nv}}.
         '''
         if updated:
-            _Nv = _xkwds_pop(setters, _Nv=None)
+            _Nv, setters = _xkwds_pop2(setters, _Nv=None)
             if _Nv is not None:
                 if _Nv._fromll is not None:
                     _Nv._fromll = None

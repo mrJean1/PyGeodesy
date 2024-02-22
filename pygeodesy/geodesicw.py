@@ -19,17 +19,17 @@ from pygeodesy.datums import _earth_datum, _WGS84,  _EWGS84
 # from pygeodesy.dms import F_D  # from .latlonBase
 # from pygeodesy.ellipsoids import _EWGS84  # from .datums
 from pygeodesy.errors import IntersectionError, GeodesicError
-# from pygeodesy.fsums import Fsum  # from .karney
+from pygeodesy.fsums import Fsum,  Fmt, unstr
 from pygeodesy.interns import NN, _DOT_, _dunder_nameof, _SPACE_, \
                              _to_, _too_,_under
 from pygeodesy.karney import _atan2d, Caps, Direct9Tuple, GDict, \
-                             _kWrapped, Inverse10Tuple,  Fsum
+                             _kWrapped, Inverse10Tuple
 from pygeodesy.latlonBase import LatLonBase as _LLB,  F_D, Radius_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import callername, classname
 from pygeodesy.namedTuples import Destination3Tuple, Distance3Tuple
 from pygeodesy.props import Property, Property_RO, property_RO
-from pygeodesy.streprs import Fmt, unstr
+# from pygeodesy.streprs import Fmt, unstr  # from .fsums
 # from pygeodesy.units import Radius_  # from .latlonBase
 from pygeodesy.utily import _unrollon, _Wrap, wrap360,  fabs  # PYCHOK used!
 
@@ -37,7 +37,7 @@ from contextlib import contextmanager
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.geodesicw
-__version__ = '24.02.10'
+__version__ = '24.02.21'
 
 _plumb_ = 'plumb'
 _TRIPS  =  65
@@ -472,8 +472,8 @@ _wargs = _wargs()  # PYCHOK singleton
 
 
 def _Intersecant2(gl, lat0, lon0, radius, tol=_TOL, form=F_D):  # MCCABE in LatLonEllipsoidalBaseDI.intersecant2, .geodesicx.gxline.Intersecant2
-    # (INTERNAL) Return a 2-Tuple C{(P, Q)} with the intersections of
-    # a circle at C{lat0, lon0} and a geodesic line, each a C{GDict}.
+    # (INTERNAL) Return the intersections of a circle at C{lat0, lon0}
+    # and a geodesic line as a 2-Tuple C{(P, Q)}, each a C{GDict}.
     r  =  Radius_(radius)
     n  = _dunder_nameof(_Intersecant2)[1:]
     _P =  gl.Position
@@ -493,11 +493,11 @@ def _Intersecant2(gl, lat0, lon0, radius, tol=_TOL, form=F_D):  # MCCABE in LatL
             Rb, P, d = _R3(b)
             if Rb > r:
                 break
-        else:
+        else:  # b >>> s and c >>> s
             raise ValueError(Fmt.no_convergence(b, s))
-        # assert Rb > r > Rc
+        __2 = _0_5  # Rb > r > Rc
         for i in range(_TRIPS):  # 47-48
-            s = (b + c) * _0_5
+            s = (b + c) * __2
             R, P, d = _R3(s)
             if Rb > R > r:
                 b, Rb = s, R
@@ -506,16 +506,15 @@ def _Intersecant2(gl, lat0, lon0, radius, tol=_TOL, form=F_D):  # MCCABE in LatL
             t = _a(b - c)
             if t < tol:  # or _a(R - r) < tol:
                 break
-        else:
-            # t = min(t, _a(R - r))
+        else:  # t = min(t, _a(R - r))
             raise ValueError(Fmt.no_convergence(t, tol))
         i += C.iteration  # combine iterations
         P.set_(lat0=lat0, lon0=lon0, azi0=d.azi1, iteration=i,
                a02=d.a12, s02=d.s12, at=d.azi2 - P.azi2, name=n)
         return P, s
 
-    # get the perpendicular intersection of 2
-    # geodesics, one as a pseudo-rhumb line
+    # get the perpendicular intersection of 2 geodesics,
+    # one the plumb, pseudo-rhumb line to the other
     C = _PlumbTo(gl, lat0, lon0, tol=tol)
     try:
         a = _a(C.s02)  # distance between centers

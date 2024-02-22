@@ -25,7 +25,7 @@ except ImportError:  # Python 2-
     _inf, _nan = float(_INF_), float(_NAN_)
 
 __all__ = _ALL_LAZY.constants
-__version__ = '23.12.02'
+__version__ = '24.02.20'
 
 
 def _copysign_0_0(y):
@@ -201,7 +201,7 @@ _N_90_0  = _float( -_90_0)   # PYCHOK expected
 _N_180_0 = _float(-_180_0)   # PYCHOK expected
 
 _M_KM =       _1000_0     # meter per Kilo meter, see .utily
-_M_NM = _float(1852.0)    # meter per Nautical Mile
+_M_NM = _float(1852.0)    # meter per Nautical Mile, exactly
 _M_SM = _float(1609.344)  # meter per Statute Mile
 
 try:
@@ -481,8 +481,7 @@ def _umod_PI2(rad):
 
 if __name__ == '__main__':
 
-    from pygeodesy.errors import itemsorted
-    from pygeodesy.lazily import printf
+    from pygeodesy import itemsorted, printf
 
     t = n = v = []
     for n, v in itemsorted(locals()):

@@ -548,7 +548,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        24.02.12
+        24.02.22
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -6894,7 +6894,7 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#exception_chaining" class="summary-sig-name">exception_chaining</a>(<span class="summary-sig-arg">error</span>=<span class="summary-sig-default">None</span>)</span><br />
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#exception_chaining" class="summary-sig-name">exception_chaining</a>(<span class="summary-sig-arg">exc</span>=<span class="summary-sig-default">None</span>)</span><br />
       Get an error's <i>cause</i> or the exception chaining setting.</td>
           <td align="right" valign="top">
             
@@ -8131,7 +8131,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f8710671150&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f9be050ba50&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -8585,7 +8585,7 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#isError" class="summary-sig-name">isError</a>(<span class="summary-sig-arg">obj</span>)</span><br />
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#isError" class="summary-sig-name">isError</a>(<span class="summary-sig-arg">exc</span>)</span><br />
       Check a (caught) exception.</td>
           <td align="right" valign="top">
             
@@ -8976,7 +8976,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#isinstanceof" class="summary-sig-name">isinstanceof</a>(<span class="summary-sig-arg">obj</span>,
         <span class="summary-sig-arg">*classes</span>)</span><br />
-      Is <b><code>ob</code></b> an intance of one of the 
+      Is <b><code>ob</code></b> an instance of one of the 
       <code>classes</code>?</td>
           <td align="right" valign="top">
             
@@ -9340,7 +9340,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#itemsorted" class="summary-sig-name">itemsorted</a>(<span class="summary-sig-arg">adict</span>,
-        <span class="summary-sig-arg">*args</span>,
+        <span class="summary-sig-arg">*items_args</span>,
         <span class="summary-sig-arg">**asorted_reverse</span>)</span><br />
       Return the items of <code><b>adict</b></code> sorted 
       <i>alphabetically, case-insensitively</i> and in <i>ascending</i> 
@@ -9808,7 +9808,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#map1" class="summary-sig-name">map1</a>(<span class="summary-sig-arg">fun1</span>,
         <span class="summary-sig-arg">*xs</span>)</span><br />
-      Apply each <b><code>xs</code></b> to a single-argument function and 
+      Apply a single-argument function to each <b><code>xs</code></b> and 
       return a <code>tuple</code> of results.</td>
           <td align="right" valign="top">
             
@@ -9825,9 +9825,9 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#map2" class="summary-sig-name">map2</a>(<span class="summary-sig-arg">func</span>,
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#map2" class="summary-sig-name">map2</a>(<span class="summary-sig-arg">fun</span>,
         <span class="summary-sig-arg">*xs</span>)</span><br />
-      Apply arguments to a function and return a <code>tuple</code> of 
+      Apply a function to arguments and return a <code>tuple</code> of 
       results.</td>
           <td align="right" valign="top">
             
@@ -10067,7 +10067,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#neg" class="summary-sig-name">neg</a>(<span class="summary-sig-arg">x</span>,
         <span class="summary-sig-arg">neg0</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Negate <code>x</code> and optionally, negate <code>0.0</code> amd 
+      Negate <code>x</code> and optionally, negate <code>0.0</code> and 
       <code>-0.0</code>.</td>
           <td align="right" valign="top">
             
@@ -12627,7 +12627,7 @@ ygeodesy'"><code class="variable-quote">'</code><code class="variable-string">/U
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'24.2.12'">'24.2.12'</code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'24.2.22'">'24.2.22'</code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -12693,7 +12693,7 @@ form=Transforms.WGS84)">Datums.OSGB36: Datum(name='OSGB36', ellipsoid=Ellipso<co
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="EPS0"></a><span class="summary-name">EPS0</span> = <code title="4.930380657631324e-32">4.930380657631324e-32</code><br />
-      <i class="math">EPS**2</i>    &#8776; 4.9e-32 for near-zero comparison
+      <i class="math">EPS**2</i>  &#8776; 4.9e-32 for near-zero comparison
     </td>
   </tr>
 <tr>
@@ -12701,7 +12701,7 @@ form=Transforms.WGS84)">Datums.OSGB36: Datum(name='OSGB36', ellipsoid=Ellipso<co
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="EPS02"></a><span class="summary-name">EPS02</span> = <code title="2.4308653429145085e-63">2.4308653429145085e-63</code><br />
-      <i class="math">EPS**4</i>    &#8776; 2.4e-63 for near-zero squared 
+      <i class="math">EPS**4</i>  &#8776; 2.4e-63 for near-zero squared 
       comparison
     </td>
   </tr>
@@ -12710,7 +12710,7 @@ form=Transforms.WGS84)">Datums.OSGB36: Datum(name='OSGB36', ellipsoid=Ellipso<co
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="EPS1"></a><span class="summary-name">EPS1</span> = <code title="0.9999999999999998">0.9999999999999998</code><br />
-      <i class="math">1 - EPS</i>   &#8776; 0.9999999999999998 
+      <i class="math">1 - EPS</i> &#8776; 0.9999999999999998 
       (<code>float</code>).
     </td>
   </tr>
@@ -12719,7 +12719,7 @@ form=Transforms.WGS84)">Datums.OSGB36: Datum(name='OSGB36', ellipsoid=Ellipso<co
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="EPS2"></a><span class="summary-name">EPS2</span> = <code title="4.440892098500626e-16">4.440892098500626e-16</code><br />
-      <i class="math">EPS * 2</i>   &#8776; 4.440892098501e-16 
+      <i class="math">EPS * 2</i> &#8776; 4.440892098501e-16 
       (<code>float</code>).
     </td>
   </tr>
@@ -12728,7 +12728,7 @@ form=Transforms.WGS84)">Datums.OSGB36: Datum(name='OSGB36', ellipsoid=Ellipso<co
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="EPS4"></a><span class="summary-name">EPS4</span> = <code title="8.881784197001252e-16">8.881784197001252e-16</code><br />
-      <i class="math">EPS * 4</i>   &#8776; 8.881784197001e-16 
+      <i class="math">EPS * 4</i> &#8776; 8.881784197001e-16 
       (<code>float</code>).
     </td>
   </tr>
@@ -12737,7 +12737,7 @@ form=Transforms.WGS84)">Datums.OSGB36: Datum(name='OSGB36', ellipsoid=Ellipso<co
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="EPS_2"></a><span class="summary-name">EPS_2</span> = <code title="1.1102230246251565e-16">1.1102230246251565e-16</code><br />
-      <i class="math">EPS / 2</i>   &#8776; 1.110223024625e-16 
+      <i class="math">EPS / 2</i> &#8776; 1.110223024625e-16 
       (<code>float</code>).
     </td>
   </tr>
@@ -13322,11 +13322,11 @@ Ellipsoids.GRS80: Ellipsoid(name='GRS80', a=6378137, b=6356752.3141403\
     </td><td class="summary">
         <a href="pygeodesy-module.html#RefFrames" class="summary-name">RefFrames</a> = <code title="RefFrames.ETRF89: RefFrame(name='ETRF89', epoch=1989, datum=Datums.GRS\
 80),
+RefFrames.NAD83cors96: RefFrame(name='NAD83cors96', epoch=1997, datum=\
+Datums.GRS80),
 RefFrames.GDA2020: RefFrame(name='GDA2020', epoch=2020, datum=Datums.G\
 RS80),
 RefFrames.ETRF92: RefFrame(name='ETRF92', epoch=1992, datum=Datums.GRS\
-80),
-RefFrames.ETRF93: RefFrame(name='ETRF93', epoch=1993, datum=Datums.GRS\
 80),
 ...">RefFrames.ETRF89: RefFrame(name='ETRF89', epoch=19<code class="variable-ellipsis">...</code></code><br />
       Registered, predefined reference frames (<code>enum-like</code>).
@@ -17639,7 +17639,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">exception_chaining</span>&nbsp;(<span class="sig-arg">error</span>=<span class="sig-default">None</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">exception_chaining</span>&nbsp;(<span class="sig-arg">exc</span>=<span class="sig-default">None</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -17650,15 +17650,14 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>error</code></strong> - An error instance (<code>Exception</code>) or <code>None</code>.</li>
+        <li><strong class="pname"><code>exc</code></strong> - An error instance (<code>Exception</code>) or <code>None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>If <code><b>error</b> is None</code>, return <code>True</code> if
+        <dd>If <code><b>exc</b> is None</code>, return <code>True</code> if 
           exception chaining is enabled for PyGeodesy errors, 
           <code>False</code> if turned off and <code>None</code> if not 
-          available.  If <b><code>error</code></b> is not 
-          <code>None</code>, return it's error <i>cause</i> or 
-          <code>None</code>.</dd>
+          available.  If <b><code>exc</code></b> is not <code>None</code>, 
+          return it's error <i>cause</i> or <code>None</code>.</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
         To enable exception chaining for <code>pygeodesy</code> errors, set
@@ -20152,7 +20151,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f8710671150&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f9be050ba50&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -21178,7 +21177,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">isError</span>&nbsp;(<span class="sig-arg">obj</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isError</span>&nbsp;(<span class="sig-arg">exc</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -21189,12 +21188,12 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>obj</code></strong> - The exception C({Exception}).</li>
+        <li><strong class="pname"><code>exc</code></strong> - The exception C({Exception}).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd><code>True</code> if <b><code>obj</code></b> is a 
+        <dd><code>True</code> if <b><code>exc</code></b> is a 
           <code>pygeodesy</code> error, <code>False</code> if 
-          <b><code>obj</code></b> is a standard Python error of 
+          <b><code>exc</code></b> is a standard Python error of 
           <code>None</code> if neither.</dd>
   </dl>
 </td></tr></table>
@@ -21805,7 +21804,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
     </td>
   </tr></table>
   
-  <p>Is <b><code>ob</code></b> an intance of one of the 
+  <p>Is <b><code>ob</code></b> an instance of one of the 
   <code>classes</code>?</p>
   <dl class="fields">
     <dt>Arguments:</dt>
@@ -22361,7 +22360,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">itemsorted</span>&nbsp;(<span class="sig-arg">adict</span>,
-        <span class="sig-arg">*args</span>,
+        <span class="sig-arg">*items_args</span>,
         <span class="sig-arg">**asorted_reverse</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -22375,8 +22374,8 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>args</code></strong> - Optional argument(s) for method 
-          <code><b>adict</b>.items(B*{args})</code>.</li>
+        <li><strong class="pname"><code>items_args</code></strong> - Optional positional argument(s) for method 
+          <code><b>adict</b>.items(B*{items_args})</code>.</li>
         <li><strong class="pname"><code>asorted_reverse</code></strong> - Use keyword argument <code><b>asorted</b>=False</code> for 
           <i>case-sensitive</i> sorting and 
           <code><b>reverse</b>=True</code> for results in 
@@ -23360,13 +23359,13 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
     </td>
   </tr></table>
   
-  <p>Apply each <b><code>xs</code></b> to a single-argument function and 
+  <p>Apply a single-argument function to each <b><code>xs</code></b> and 
   return a <code>tuple</code> of results.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>fun1</code></strong> - 1-Arg function to apply (<code>callable</code>).</li>
-        <li><strong class="pname"><code>xs</code></strong> - Arguments to apply (<code>any positional</code>).</li>
+        <li><strong class="pname"><code>fun1</code></strong> - 1-Arg function (<code>callable</code>).</li>
+        <li><strong class="pname"><code>xs</code></strong> - Arguments (<code>any positional</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Function results (<code>tuple</code>).</dd>
@@ -23380,7 +23379,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">map2</span>&nbsp;(<span class="sig-arg">func</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">map2</span>&nbsp;(<span class="sig-arg">fun</span>,
         <span class="sig-arg">*xs</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -23388,7 +23387,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
     </td>
   </tr></table>
   
-  <p>Apply arguments to a function and return a <code>tuple</code> of 
+  <p>Apply a function to arguments and return a <code>tuple</code> of 
   results.</p>
   <p>Unlike Python 2's built-in <code class="link">map</code>, Python 3+ 
   <code class="link">map</code> returns a <code class="link">map</code> 
@@ -23398,8 +23397,8 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>func</code></strong> - Function to apply (<code>callable</code>).</li>
-        <li><strong class="pname"><code>xs</code></strong> - Arguments to apply (<code>list, tuple, ...</code>).</li>
+        <li><strong class="pname"><code>fun</code></strong> - Function (<code>callable</code>).</li>
+        <li><strong class="pname"><code>xs</code></strong> - Arguments (<code>list, tuple, ...</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Function results (<code>tuple</code>).</dd>
@@ -23947,7 +23946,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
     </td>
   </tr></table>
   
-  <p>Negate <code>x</code> and optionally, negate <code>0.0</code> amd 
+  <p>Negate <code>x</code> and optionally, negate <code>0.0</code> and 
   <code>-0.0</code>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
@@ -29824,11 +29823,11 @@ Ellipsoids.GRS80: Ellipsoid(name='GRS80', a=6378137, b=6356752.3141403<span clas
       <dd><table><tr><td><pre class="variable">
 RefFrames.ETRF89: RefFrame(name='ETRF89', epoch=1989, datum=Datums.GRS<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
 80),
+RefFrames.NAD83cors96: RefFrame(name='NAD83cors96', epoch=1997, datum=<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+Datums.GRS80),
 RefFrames.GDA2020: RefFrame(name='GDA2020', epoch=2020, datum=Datums.G<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
 RS80),
 RefFrames.ETRF92: RefFrame(name='ETRF92', epoch=1992, datum=Datums.GRS<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-80),
-RefFrames.ETRF93: RefFrame(name='ETRF93', epoch=1993, datum=Datums.GRS<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
 80),
 <code class="variable-ellipsis">...</code>
 </pre></td></tr></table>
@@ -29892,7 +29891,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Feb 12 13:31:25 2024
+    Generated by Epydoc 3.0.1 on Thu Feb 22 12:20:53 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

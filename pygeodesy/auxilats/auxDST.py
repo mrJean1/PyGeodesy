@@ -18,10 +18,10 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 from pygeodesy.auxilats.auxily import _Dm
 from pygeodesy.basics import isodd, neg, _reverange, _xnumpy
 from pygeodesy.constants import PI_2, PI_4, isfinite, _0_0, _0_5, _naninf
-# from pygeodesy.fsums import Fsum   # from .karney
-from pygeodesy.karney import _2cos2x,  _ALL_DOCS, Fsum, property_RO
+from pygeodesy.fsums import Fsum,  property_RO
+from pygeodesy.karney import _2cos2x,  _ALL_DOCS
 # from pygeodesy.lazily import _ALL_DOCS  # from .karney
-# from pygeodesy.props import property_RO  # from .karney
+# from pygeodesy.props import property_RO  # from .fsums
 
 __all__ = ()
 __version__ = '23.12.02'

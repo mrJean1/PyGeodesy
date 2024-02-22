@@ -17,20 +17,20 @@ U{GeographicLib<https://GeographicLib.SourceForge.io>} documentation.
 # make sure int/int division yields float quotient
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-# from pygeodesy.basics import isodd, unsigned0  # from .karney
+from pygeodesy.basics import isodd, unsigned0
 from pygeodesy.constants import NAN, _0_0, _0_5, _720_0
 from pygeodesy.interns import NN, _COMMASPACE_
-from pygeodesy.karney import Area3Tuple, _diff182, GeodesicError, isodd, \
-                            _norm180, _remainder, _sum2_, unsigned0
+from pygeodesy.karney import Area3Tuple, _diff182, GeodesicError, \
+                            _norm180, _remainder, _sum2_
 from pygeodesy.lazily import _ALL_DOCS, printf
-from pygeodesy.named import ADict, callername, _NamedBase, pairs
+from pygeodesy.named import ADict, callername, _NamedBase,  pairs
 from pygeodesy.props import Property, Property_RO, property_RO
 # from pygeodesy.streprs import pairs  # from .named
 
 from math import fmod
 
 __all__ = ()
-__version__ = '24.02.02'
+__version__ = '24.02.21'
 
 
 class GeodesicAreaExact(_NamedBase):

@@ -9,15 +9,14 @@ Set env variable C{PYGEODESY_GEODSOLVE} to the (fully qualified) path
 of the C{GeodSolve} executable.
 '''
 
-# from pygeodesy.basics import _xinstanceof  # from .karney
-# from pygeodesy.errors import _xkwds
+from pygeodesy.basics import _xinstanceof
+# from pygeodesy.errors import _xkwds  # from .karney
 from pygeodesy.interns import NN, _a12_, _azi1_, _azi2_, \
                              _lat1_, _lat2_, _lon1_, _lon2_, _m12_, \
                              _M12_, _M21_, _s12_, _S12_, _UNDER_
 from pygeodesy.interns import _UNUSED_, _not_  # PYCHOK used!
 from pygeodesy.karney import _Azi, Caps, _Deg, GeodesicError, _GTuple, \
-                             _Pass, _Lat, _Lon, _M, _M2, _sincos2d, \
-                             _xinstanceof, _xkwds
+                             _Pass, _Lat, _Lon, _M, _M2, _sincos2d,  _xkwds
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, \
                              _PYGEODESY_GEODSOLVE_, _getenv, printf
 from pygeodesy.namedTuples import Destination3Tuple, Distance3Tuple
@@ -26,7 +25,7 @@ from pygeodesy.solveBase import _SolveBase, _SolveLineBase
 from pygeodesy.utily import _unrollon, _Wrap, wrap360
 
 __all__ = _ALL_LAZY.geodsolve
-__version__ = '23.11.18'
+__version__ = '24.02.21'
 
 
 class GeodSolve12Tuple(_GTuple):

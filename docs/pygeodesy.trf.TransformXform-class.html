@@ -138,7 +138,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.trf.TransformXform-class.html#rename" class="summary-sig-name">rename</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
-      Change this transform and its Xform's name.</td>
+      Change this transform's name.</td>
           <td align="right" valign="top">
             
             
@@ -196,7 +196,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.trf.TransformXform-class.html#velocities" class="summary-sig-name">velocities</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">factor</span>=<span class="summary-sig-default">0.001</span>)</span><br />
+        <span class="summary-sig-arg">factor</span>=<span class="summary-sig-default">0.001</span>,
+        <span class="summary-sig-arg">**Vector_and_kwds</span>)</span><br />
       Compute the X, Y and Z <i>velocities</i> of this transform.</td>
           <td align="right" valign="top">
             
@@ -291,9 +292,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.trf.TransformXform-class.html#Xform" class="summary-name">Xform</a><br />
-      Get the Xform of this Helmert (<a 
-      href="pygeodesy.trf.TRFXform-class.html" class="link">TRFXform</a> or
-      <code>None</code>).
+      Class <code>property</code> with retrievable name.
     </td>
   </tr>
   <tr>
@@ -368,8 +367,7 @@
       <p><strong>Note:</strong>
         This <a href="pygeodesy.trf.TransformXform-class.html" 
         class="link">TransformXform</a>'s name starts with 
-        <code>&quot;-&quot;</code> if its <code>Xform</code> was 
-        <i>inversed</i>.
+        <code>&quot;-&quot;</code> iff <i>inversed</i>.
       </p>
 </div></td></tr></table>
 </div>
@@ -421,14 +419,15 @@
     </td>
   </tr></table>
   
-  <p>Change this transform and its Xform's name.</p>
+  <p>Change this transform's name.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>name</code></strong> - The new name (<code>str</code>), overriding the base name.</li>
+        <li><strong class="pname"><code>name</code></strong> - New name (<code>str</code>), overriding this transform's Xform's 
+          name.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The old name (<code>str</code>).</dd>
+        <dd>The previous name (<code>str</code>).</dd>
     <dt>Overrides:
         <a href="pygeodesy.named._Named-class.html#rename">named._Named.rename</a>
     </dt>
@@ -495,13 +494,12 @@
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>epoch1</code></strong> - Epoch to observe <i>from</i> (<code>scalar</code>).</li>
-        <li><strong class="pname"><code>epoch2</code></strong> - Optional epoch to observe <i>to</i> (<code>scalar</code>).</li>
-        <li><strong class="pname"><code>epoch2_inverse</code></strong> - Optional <code><b>epoch2</b>=None</code> and 
-          <code><b>inverse</b>=False</code>, see <a 
-          href="pygeodesy.trf.TRFXform-class.html" 
-          class="link">TRFXform</a>'s method <a 
+        <li><strong class="pname"><code>epoch2_inverse</code></strong> - Optional <code><b>epoch2</b>=None</code> to observe <i>to</i> and
+          <code><b>inverse</b>=False</code>, see method <a 
           href="pygeodesy.trf.TRFXform-class.html#toTransform" 
-          class="link">toTransform</a>.</li>
+          class="link">toTransform</a> from <a 
+          href="pygeodesy.trf.TRFXform-class.html" 
+          class="link">TRFXform</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The Helmert transform (<a 
@@ -523,7 +521,8 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">velocities</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">factor</span>=<span class="sig-default">0.001</span>)</span>
+        <span class="sig-arg">factor</span>=<span class="sig-default">0.001</span>,
+        <span class="sig-arg">**Vector_and_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -537,11 +536,15 @@
         <li><strong class="pname"><code>factor</code></strong> - Factor to scale this Xform's <code>rates</code> 
           (<code>scalar</code>), default from <code>milli-meter-</code> to 
           <code>meter-per-year</code>.</li>
+        <li><strong class="pname"><code>Vector_and_kwds</code></strong> - An optional, (3-D) <code><b>Vector</b>=None</code> or cartesian 
+          class and additional <code><b>Vector</b></code> keyword arguments
+          to return the <i>velocities</i>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
-          class="link">Vector3Tuple</a><code>(x, y, z)</code> or 
-          <code>None</code>.</dd>
+          class="link">Vector3Tuple</a><code>(x, y, z)</code> unless some 
+          <b><code>Vector_and_kwds</code></b> is specified or 
+          <code>None</code> if this transform's Xform is missing.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <b><code>factor</code></b>.</li>
@@ -570,24 +573,19 @@
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">Xform</h3>
-  <p>Get the Xform of this Helmert (<a 
-  href="pygeodesy.trf.TRFXform-class.html" class="link">TRFXform</a> or 
-  <code>None</code>).</p>
+  <p>Class <code>property</code> with retrievable name.</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">Xform(<span class="summary-sig-arg">self</span>)</span>
-        - Get the Xform of this Helmert (<a href="pygeodesy.trf.TRFXform-class.html" 
-class="link">TRFXform</a> or <code>None</code>).
+        - Get this Helmert transform's Xform (<a 
+href="pygeodesy.trf.TRFXform-class.html" class="link">TRFXform</a> or 
+<code>None</code>).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">Xform(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">Xform</span>)</span>
-        - Set the Xform of this Helmert (<a href="pygeodesy.trf.TRFXform-class.html" 
-class="link">TRFXform</a>).
-    </dd>
-    <dt>Delete Method:</dt>
-    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
-        - Zap the <i>cached/memoized</i> <code>property</code> value.
+        - Set this Helmert transform's Xform (<a 
+href="pygeodesy.trf.TRFXform-class.html" class="link">TRFXform</a>).
     </dd>
   </dl>
 </td></tr></table>
@@ -624,7 +622,7 @@ class="link">TRFXform</a>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Feb 12 13:31:29 2024
+    Generated by Epydoc 3.0.1 on Thu Feb 22 12:20:56 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

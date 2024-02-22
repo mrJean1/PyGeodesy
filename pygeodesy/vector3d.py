@@ -10,7 +10,7 @@ L{trilaterate2d2} and L{trilaterate3d2}.
 from pygeodesy.constants import EPS, EPS0, EPS1, EPS4, INT0, isnear0, \
                                _0_0, _1_0
 from pygeodesy.errors import IntersectionError, _ValueError, VectorError, \
-                            _xattr, _xError, _xkwds_get, _xkwds, _xkwds_popitem
+                            _xattr, _xError, _xkwds, _xkwds_get, _xkwds_item2
 from pygeodesy.fmath import euclid, fabs, fdot, hypot, sqrt,  fsum1_
 # from pygeodesy.fsums import fsum1_  # from .fmath
 # from pygeodesy.formy import _radical2  # in _intersects2 below
@@ -31,7 +31,7 @@ from pygeodesy.vector3dBase import Vector3dBase
 # from math import fabs, sqrt  # from .fmath
 
 __all__ = _ALL_LAZY.vector3d
-__version__ = '24.01.19'
+__version__ = '24.02.20'
 
 
 class Vector3d(Vector3dBase):
@@ -776,17 +776,16 @@ def _nVc(v, clas=None, name=NN, Vector=None, **Vector_kwds):  # in .vector2d
 
 def _otherV3d(useZ=True, NN_OK=True, i=None, **name_v):
     # check named vector instance, return Vector3d
-    def _name_i(name, i):
-        return name if i is None else Fmt.SQUARE(name, i)
-
-    name, v = _xkwds_popitem(name_v)
+    n, v = _xkwds_item2(name_v)
     if useZ and isinstance(v, Vector3dBase):
-        return v if NN_OK or v.name else v.copy(name=_name_i(name, i))
+        return v if NN_OK or v.name else v.copy(name=Fmt.INDEX(n, i))
+
+    n = Fmt.INDEX(n, i)
     try:
-        return Vector3d(v.x, v.y, (v.z if useZ else INT0), name=_name_i(name, i))
+        return Vector3d(v.x, v.y, (v.z if useZ else INT0), name=n)
     except AttributeError:  # no .x, .y or .z attr
         pass
-    raise _xotherError(Vector3d(0, 0, 0), v, name=_name_i(name, i), up=2)
+    raise _xotherError(Vector3d(0, 0, 0), v, name=n, up=2)
 
 
 def parse3d(str3d, sep=_COMMA_, Vector=Vector3d, **Vector_kwds):

@@ -81,7 +81,7 @@ except ImportError:  # Python 3+
     from string import ascii_letters as _LETTERS
 
 __all__ = _ALL_LAZY.dms
-__version__ = '23.12.03'
+__version__ = '23.12.31'
 
 _beyond_      = 'beyond'
 _DDDMMSS_     = 'DDDMMSS'

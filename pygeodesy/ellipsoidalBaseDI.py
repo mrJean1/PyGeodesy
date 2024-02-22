@@ -7,18 +7,19 @@ class C{LatLonEllipsoidalBaseDI} and functions.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import isLatLon, issubclassof
+from pygeodesy.basics import isLatLon, issubclassof, map2
 from pygeodesy.constants import EPS, MAX, PI, PI2, PI_4, isnear0, isnear1, \
                                _EPSqrt as _TOL, _0_0, _0_5, _1_5, _3_0
 # from pygeodesy.dms import F_DMS  # _MODS
-from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase, property_RO, _TOL_M
+from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase, _TOL_M,  property_RO
 from pygeodesy.errors import _AssertionError, IntersectionError, _IsnotError, \
                              _or, _ValueError, _xellipsoidal, _xError, _xkwds_not
 from pygeodesy.fmath import favg, fmean_
 from pygeodesy.fsums import Fmt, fsumf_
-# from pygeodesy.formy import _isequalTo, opposing, _radical2  # _MODS
-from pygeodesy.interns import _antipodal_, _concentric_, _ellipsoidal_, \
-                              _exceed_PI_radians_, _low_, _near_, _SPACE_, _too_
+from pygeodesy.formy import _isequalTo, opposing, _radical2
+from pygeodesy.interns import _antipodal_, _concentric_, _dunder_nameof, \
+                              _ellipsoidal_, _exceed_PI_radians_, _low_, \
+                              _near_, _SPACE_, _too_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.namedTuples import Bearing2Tuple, Destination2Tuple, \
                                   Intersection3Tuple, NearestOn2Tuple, \
@@ -33,7 +34,7 @@ from pygeodesy.utily import m2km, unroll180, _unrollon, _unrollon3, \
 from math import degrees, radians
 
 __all__ = _ALL_LAZY.ellipsoidalBaseDI
-__version__ = '23.12.29'
+__version__ = '24.02.14'
 
 _polar__  = 'polar?'
 _B2END    = _1_5  # _intersect3 bearing to pseudo-end point factor
@@ -569,9 +570,11 @@ def _Equidistant00(equidistant, p1):
     '''
     if equidistant is None or not callable(equidistant):
         equidistant = p1.Equidistant
-    elif not issubclassof(equidistant, *_MODS.azimuthal._Equidistants):  # PYCHOK no cover
-        t = tuple(_.__name__ for _  in  _MODS.azimuthal._Equidistants)
-        raise _IsnotError(*t, equidistant=equidistant)
+    else:
+        Eqs = _MODS.azimuthal._Equidistants
+        if not issubclassof(equidistant, *Eqs):  # PYCHOK no cover
+            t = map2(_dunder_nameof, Eqs)
+            raise _IsnotError(*t, equidistant=equidistant)
     return equidistant(0, 0, p1.datum)
 
 
@@ -605,24 +608,23 @@ def _intersect3(s1, end1, s2, end2, height=None, wrap=False,  # MCCABE 16  was=T
     '''(INTERNAL) Intersect two (ellipsoidal) lines, see ellipsoidal method
        L{intersection3}, separated to allow callers to embellish any exceptions.
     '''
-    _opp = _MODS.formy.opposing
     _LLS = _MODS.sphericalTrigonometry.LatLon
     _si  = _MODS.sphericalTrigonometry._intersect
     _vi3 = _MODS.vector3d._intersect3d3
 
     def _b_d(s, e, w, t, h=_0_0):
         # compute opposing and distance
-        t =  s.classof(t.lat, t.lon, height=h, name=t.name)
-        t =  s.distanceTo3(t, wrap=w)  # Distance3Tuple
-        b = _opp(e, t.initial)  # "before" start
+        t = s.classof(t.lat, t.lon, height=h, name=t.name)
+        t = s.distanceTo3(t, wrap=w)  # Distance3Tuple
+        b = opposing(e, t.initial)  # "before" start
         return b, t.distance
 
     def _b_e(s, e, w, t):
-        # compute an end point along the initial bearing
-        # about 1.5 times the distance to the gu-/estimate, at
-        # least 1/8 and at most 3/8 of the earth perimeter like
+        # compute an end point along the initial bearing about
+        # 1.5 times the distance to the gu-/estimate, at least
+        # 1/8 and at most 3/8 of the earth perimeter like the
         # radians in .sphericalTrigonometry._int3d2 and bearing
-        # comparison in .sphericalTrigonometry._intb
+        # comparison in .sphericaltrigonometry._intb
         b, d = _b_d(s, e, w, t, h=t.height)
         m = s.ellipsoid().R2x * PI_4  # authalic exact
         d = min(max(d * _B2END, m), m * _3_0)
@@ -641,7 +643,7 @@ def _intersect3(s1, end1, s2, end2, height=None, wrap=False,  # MCCABE 16  was=T
     def _o(o, b, n, s, t, e):
         # determine C{o}utside before, on or after start point
         if not o:  # intersection may be on start
-            if _MODS.formy._isequalTo(s, t, eps=e.degrees):
+            if _isequalTo(s, t, eps=e.degrees):
                 return o
         return -n if b else n
 
@@ -767,7 +769,7 @@ def _intersects2(c1, radius1, c2, radius2, height=None, wrap=False,  # MCCABE 16
     if fsumf_(r1, r2, -m) < 0:
         raise IntersectionError(_too_(Fmt.distant(m)))
 
-    f = _MODS.formy._radical2(m, r1, r2).ratio  # "radical fraction"
+    f = _radical2(m, r1, r2).ratio  # "radical fraction"
     e = _Tol(tol, E, favg(c1.lat, c2.lat, f=f))
 
     # gu-/estimate initial intersections, spherically ...

@@ -23,7 +23,7 @@ from pygeodesy.constants import EPS, EPS1, EPS4, PI, PI2, PI_2, PI_4, R_M, \
 from pygeodesy.datums import _ellipsoidal_datum, _mean_radius
 from pygeodesy.errors import _AssertionError, CrossError, crosserrors, \
                              _TypeError, _ValueError, IntersectionError, \
-                             _xError, _xkwds, _xkwds_get, _xkwds_pop
+                             _xError, _xkwds, _xkwds_get, _xkwds_pop2
 from pygeodesy.fmath import favg, fdot, fmean, hypot
 from pygeodesy.fsums import Fsum, fsum, fsumf_
 from pygeodesy.formy import antipode_, bearing_, _bearingTo2, excessAbc_, \
@@ -55,7 +55,7 @@ from pygeodesy.vector3d import sumOf, Vector3d
 from math import asin, atan2, cos, degrees, fabs, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '23.12.18'
+__version__ = '24.02.18'
 
 _PI_EPS4 = PI - EPS4
 if _PI_EPS4 >= PI:
@@ -565,7 +565,7 @@ class LatLon(LatLonSphericalBase):
                  and method L{sphericalTrigonometry.LatLon.nearestOn3}.
         '''
         # remove kwarg B{C{within}} if present
-        w = _xkwds_pop(wrap_adjust_limit, within=True)
+        w, kwds = _xkwds_pop2(wrap_adjust_limit, within=True)
         if not w:
             notImplemented(self, within=w)
 
@@ -589,7 +589,7 @@ class LatLon(LatLonSphericalBase):
 
         # without kwarg B{C{within}}, use backward compatible .nearestOn3
         return self.nearestOn3([point1, point2], closed=False, radius=radius,
-                                               **wrap_adjust_limit)[0]
+                                                             **kwds)[0]
 
     @deprecated_method
     def nearestOn2(self, points, closed=False, radius=R_M, **options):  # PYCHOK no cover
@@ -1268,10 +1268,9 @@ def nearestOn3(point, points, closed=False, radius=R_M, wrap=False, adjust=True,
     h = t.height
     n = nearestOn3.__name__
 
-    kwds = _xkwds(LatLon_and_kwds, height=h, name=n)
-    LL   = _xkwds_pop(kwds, LatLon=LatLon)
-    r    =  LatLon3Tuple(t.lat, t.lon, h, name=n) if LL is None else \
-                      LL(t.lat, t.lon, **kwds)
+    LL, kwds = _xkwds_pop2(LatLon_and_kwds, LatLon=LatLon)
+    r = LatLon3Tuple(t.lat, t.lon, h, name=n) if LL is None else \
+                  LL(t.lat, t.lon, **_xkwds(kwds, height=h, name=n))
     return NearestOn3Tuple(r, d, t.angle, name=n)
 
 

@@ -16,7 +16,7 @@ from pygeodesy.datums import Datum, Ellipsoid, _ellipsoidal_datum, \
 # from pygeodesy.ellipsoids import Ellipsoid, _EWGS84  # from .datums
 from pygeodesy.errors import IntersectionError, LimitError, limiterrors, \
                             _TypeError, _ValueError, _xattr, _xError, \
-                            _xkwds, _xkwds_pop
+                            _xkwds, _xkwds_pop2
 from pygeodesy.fmath import euclid, hypot, hypot2, sqrt0
 from pygeodesy.fsums import fsumf_
 from pygeodesy.interns import NN, _delta_, _distant_, _inside_, _SPACE_, _too_
@@ -40,7 +40,7 @@ from contextlib import contextmanager
 from math import asin, atan, atan2, cos, degrees, fabs, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '24.01.19'
+__version__ = '24.02.18'
 
 _RADIANS2 = (PI / _180_0)**2  # degrees- to radians-squared
 _ratio_   = 'ratio'
@@ -1610,9 +1610,8 @@ def _radistance(inst):
     '''(INTERNAL) Helper for the L{frechet._FrecherMeterRadians}
        and L{hausdorff._HausdorffMeterRedians} classes.
     '''
-    kwds_ = _xkwds(inst._kwds, wrap=False)
-    wrap_ = _xkwds_pop(kwds_, wrap=False)
-    func_ =  inst._func_
+    wrap_, kwds_ = _xkwds_pop2(inst._kwds, wrap=False)
+    func_ = inst._func_
     try:  # calling lower-overhead C{func_}
         func_(0, _0_25, _0_5, **kwds_)
         wrap_ = _Wrap._philamop(wrap_)
