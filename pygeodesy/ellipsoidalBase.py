@@ -37,7 +37,7 @@ from pygeodesy.units import Epoch, _isDegrees, Radius_, _1mm as _TOL_M
 # from math import fabs  # from .latlonBase
 
 __all__ = _ALL_LAZY.ellipsoidalBase
-__version__ = '24.02.16'
+__version__ = '24.02.22'
 
 
 class CartesianEllipsoidalBase(CartesianBase):
@@ -951,7 +951,7 @@ class LatLonEllipsoidalBase(LatLonBase):
            @arg transform: Transform to apply (L{Transform} or L{TransformXform}).
            @kwarg inverse: Apply the inverse of the Helmert transform (C{bool}).
            @kwarg datum: Datum for the transformed point (L{Datum}), overriding
-                         this point's datum but I{not} taking it into account.
+                         this point's datum but I{not} taken it into account.
            @kwarg LatLon_kwds: Optional keyword arguments for the transformed
                                point, like C{B{height}=...}.
 

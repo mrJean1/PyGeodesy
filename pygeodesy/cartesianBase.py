@@ -43,7 +43,7 @@ from pygeodesy.vector3d import Vector3d, _xyzhdn3
 # from math import atan2, degrees, fabs, radians, sqrt  # from .fmath, .utily
 
 __all__ = _ALL_LAZY.cartesianBase
-__version__ = '24.02.14'
+__version__ = '24.02.22'
 
 _r_     = 'r'
 _theta_ = 'theta'
@@ -827,7 +827,7 @@ class CartesianBase(Vector3d):
            @arg transform: Transform to apply (L{Transform} or L{TransformXform}).
            @kwarg inverse: Apply the inverse of the C{B{transform}} (C{bool}).
            @kwarg datum: Datum for the transformed cartesian (L{Datum}), overriding
-                         this cartesian's datum but I{not} taking it into account.
+                         this cartesian's datum but I{not} taken it into account.
 
            @return: A transformed cartesian (C{Cartesian}) or a copy of this
                     cartesian if C{B{transform}.isunity}.
