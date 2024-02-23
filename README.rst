@@ -41,8 +41,8 @@ or Hausdorff_ distances.
 Installation
 ============
 
-To install PyGeodesy, type ``python[3] -m pip install PyGeodesy`` or ``python[3] -m easy_install
-PyGeodesy`` in a terminal or command window.
+To install PyGeodesy, type ``python[3] -m pip install PyGeodesy`` or ``python[3] -m easy_install PyGeodesy``
+in a terminal or command window.
 
 If the wheel ``PyGeodesy-yy.m.d-py2.py3-none-any.whl`` is missing in `PyPI Download files`_, download
 the file from `GitHub/dist`_.  Install that with ``python[3] -m pip install <path-to-downloaded-wheel>``

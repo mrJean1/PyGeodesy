@@ -88,7 +88,7 @@ from pygeodesy.units import Epoch, Float
 from math import ceil as _ceil
 
 __all__ = _ALL_LAZY.trf
-__version__ = '24.02.18'
+__version__ = '24.02.22'
 
 _EP0CH    =  Epoch(0, low=0)
 _Es       = {_EP0CH: _EP0CH}  # L{Epoch}s, deleted below
@@ -985,7 +985,7 @@ def _trfT0s(_toT0s, reframe, reframe2, epoch, epoch2, **indirect_inverse):
     return _toT0s(r1.name, e1, r2.name, e2, **indirect_inverse)
 
 
-def trfXform(reframe1, reframe2, epoch=None, xform=None, rates=None):
+def trfXform(reframe1, reframe2, epoch=None, xform=None, rates=None, raiser=True):
     '''Define a new Terrestrial Reference Frame (TRF) converter or get an
        existing one.
 
@@ -996,6 +996,8 @@ def trfXform(reframe1, reframe2, epoch=None, xform=None, rates=None):
        @kwarg xform: I{Transform} parameters (L{TRFXform7Tuple}).
        @kwarg rates: I{Rate} parameters (L{TRFXform7Tuple}), as B{C{xform}},
                      but in C{units-per-year}.
+       @kwarg raiser: If C{False}, do not raise an error if the converter
+                      exists, replace it (C{bool}).
 
        @return: The new TRF converter (L{TRFXform}) or if no B{C{epoch}},
                 B{C{xform}} and B{C{rates}} are given, return the existing
@@ -1014,25 +1016,27 @@ def trfXform(reframe1, reframe2, epoch=None, xform=None, rates=None):
             e =  r2.epoch
         else:
             e = _Epoch(epoch)
-        return _trfX(r1.name, r2.name, epoch=e, xform=xform,
-                                                rates=rates)
+        return _trfX(r1.name, r2.name, raiser=raiser, epoch=e,
+                                       xform=xform, rates=rates)
     except (TypeError, ValueError) as x:
         t = unstr(trfXform, reframe1, reframe2, epoch=epoch)
         raise TRFError(t, cause=x)
 
 
-def _trfX(n1, n2, **epoch_xform_rates):
+def _trfX(n1, n2, raiser=True, **epoch_xform_rates):
     '''(INTERNAL) New, I{unique} L{TRFXform} converter.
     '''
     r1 = RefFrames.get(n1)
+    if r1 is None:
+        raise ValueError(_invalid_)
     r2 = RefFrames.get(n2)
-    if r1 and r2:
+    if r2 is None:
+        raise ValueError(_invalid_)
+    if raiser:
         if n2 in r1._Xto:
             raise ValueError(_exists_)
-        elif n1 in r2._Xto:
+        if n1 in r2._Xto:
             raise ValueError(_SPACE_(_inverse_, _exists_))
-    else:
-        raise ValueError(_invalid_)
     r1._Xto[n2] = X = TRFXform(n1, n2, **epoch_xform_rates)
     return X
 
