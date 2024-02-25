@@ -88,7 +88,7 @@ from pygeodesy.units import Epoch, Float
 from math import ceil as _ceil
 
 __all__ = _ALL_LAZY.trf
-__version__ = '24.02.22'
+__version__ = '24.02.24'
 
 _EP0CH    =  Epoch(0, low=0)
 _Es       = {_EP0CH: _EP0CH}  # L{Epoch}s, deleted below
@@ -99,11 +99,11 @@ _MM2M     = _0_001  # scale mm2m, ppb2ppM, mas2as
 _mDays    = (0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31, 0)
 _366_0    = _F(sum(_mDays))
 _rates_   = 'rates'  # PYCHOK used!
-_Rs       = {}  # L{TRFXform7Tuple}s, deleted below
+_Rs       = {}  # L{TRFXform7Tuple}s de-dup, deleted below
 _S_S1     = _N_1_0 / _S1_S  # Transform.s for .s1 == 0
 _v_       = 'v'
 _xform_   = 'xform'  # PYCHOK used!
-_Xs       = {}  # L{TRFXform7Tuple}s, deleted below
+_Xs       = {}  # L{TRFXform7Tuple}s de-dup, deleted below
 
 _ETRF88_      = _i('ETRF88')
 _ETRF89_      = _i('ETRF89')
@@ -266,19 +266,26 @@ class RefFrame(_NamedEnumItem):
         return self._Xto.get(n2, None)
 
     def Xforms(self, inverse=False):
-        '''Return all Xforms converting I{from} or I{to} this reference frame.
+        '''Return all Xforms converting I{from} or I{to} this reference frame or both.
 
-           @kwarg inverse: If C{True}, get all I{inverse, to} Xforms (C{bool}).
+           @kwarg inverse: If C{True}, get all I{inverse, to} Xforms (C{bool}) or if
+                           C{B{inverse}=2} (C{int}) get all I{to} Xforms I{inverted}
+                           plus all I{from} Xforms.
 
-           @return: An L{ADict} of C{name=}L{TRFXform}s I{from} this reframe or
-                    if C{B{inverse}=True} I{to} this reframe.
+           @return: An L{ADict} of C{name=}L{TRFXform}s I{from} this reframe or if
+                    C{B{inverse}=True} I{to} this reframe or if C{B{inverse}=2} both.
         '''
-        def _Xi(n2):
+        def _Xi(n2, i):
             for n1, r in RefFrames.items():
-                if n2 in r._Xto:
-                    yield n1, r
+                X = r._Xto.get(n2, None)
+                if X:
+                    yield n1, (X.inverse() if i else X)
 
-        return ADict(_Xi(self.name) if inverse else self._Xto)
+        i = inverse == 2
+        d = ADict(_Xi(self.name, i) if inverse else self._Xto)
+        if i:
+            d.update(self._Xto)  # from overrides inverted to
+        return d
 
 
 class RefFrames(_NamedEnum):
@@ -355,6 +362,9 @@ class TransformXform(Transform):
 
     def __eq__(self, other):
         return isinstance(other, TransformXform) and Transform.__eq__(self, other)
+
+    def __hash__(self):
+        return Transform.__hash__(self)
 
     def rename(self, name=NN):
         '''Change this transform's name.
@@ -545,9 +555,22 @@ class TRFXform(_Named):
         self.rates = rates
         self.rename(name or self.toStr())
 
+    def __add__(self, other):
+        _xinstanceof(TRFXform, other=other)
+        assert self.epoch == other.epoch
+        n = other.name
+        n = NN(self.name, (NN if n.startswith(_MINUS_) else _PLUS_), n)
+        return type(self)(self.refName1, other.refName2, epoch=self.epoch,
+                                                         xform=self.xform + other.xform,
+                                                         rates=self.rates + other.rates,
+                                                         name=n)
+
     def __eq__(self, other):
         return isinstance(other, TRFXform) and self.epoch == other.epoch and \
                  self.xform == other.xform and self.rates == other.rates
+
+#   def __hash__(self):
+#       return hash((self.xform._hash * 1e18 + self.rates._hash) * 1e5 + self.epoch)
 
     def __lt__(self, other):  # for sorting
         return isinstance(other, TRFXform) and (self.refName1 < other.refName1
@@ -806,8 +829,29 @@ def epoch2date(epoch):
     return y, (m + 1), max(1, d)
 
 
+def _eXhaust(n1, n2):
+    '''(INTERNAL) Yield all possible Xforms C{n1} to {n2} via
+       any number of intermediate reframes.
+    '''
+    R = dict(RefFrames)
+    r = R.pop(n1, None)
+    if r:
+        Xs = list(r.Xforms(inverse=2).items())
+        while Xs:
+            n, X = Xs.pop(0)
+            if n == n2:
+                yield X
+            else:
+                r = R.pop(n, None)
+                if r:
+                    for n, x in r.Xforms(inverse=2).items():
+                        x = x.toEpoch(X.epoch)
+                        Xs.append((n, X + x))
+
+
 def _indirects(n1, n2):
-    '''(INTERNAL) Yield all Xforms between C{n1} and C{n2} via C{n}.
+    '''(INTERNAL) Yield all Xforms between C{n1} and C{n2} via
+       I{one} intermediate reframe C{n}.
     '''
     def _X4(_Xto, n2):
         _d = _direct
@@ -911,31 +955,44 @@ def _toTransform0(n1, e1, n2, e2, **indirect_inverse):
     return None
 
 
-def _toTransforms(n1, e1, n2, e2, indirect=True, inverse=True):
+def _toTransforms(n1, e1, n2, e2, indirect=True, inverse=True, exhaust=False):  # MCCABE 16
     '''(INTERNAL) Yield all possible Helmert transforms, if any.
     '''
+    class Ts(list):  # L{TransformXform}s de-dup
+        def __call__(self, Xs, e1=e1, e2=e2, inverse=False):
+            for X in Xs:
+                if X:
+                    T = X.toTransform(e1, epoch2=e2, inverse=inverse)
+                    if T not in self:
+                        self.append(T)
+                        yield T
+
     def _k(X):
         return -X.epoch
 
-    X = _direct(n1, n2)
-    if X:
-        yield X.toTransform(e1, epoch2=e2)
+    _Ts = Ts()
 
+    for T in _Ts((_direct(n1, n2),)):
+        yield T
     if inverse:
-        X = _direct(n2, n1)
-        if X:
-            yield X.toTransform(e1, epoch2=e2, inverse=True)
+        for T in _Ts((_direct(n2, n1),), inverse=True):
+            yield T
 
     if indirect:
-        for X in sorted(_indirects(n1, n2), key=_k):
-            yield X.toTransform(e1, epoch2=e2)
-
+        for T in _Ts(sorted(_indirects(n1, n2), key=_k)):
+            yield T
         if inverse:
-            for X in sorted(_indirects(n2, n1), key=_k):
-                yield X.toTransform(e1, epoch2=e2, inverse=True)
+            for T in _Ts(sorted(_indirects(n2, n1), key=_k), inverse=True):
+                yield T
+
+    if exhaust:
+        for T in _Ts(sorted(_eXhaust(n1, n2), key=_k)):
+            yield T
+        for T in _Ts(sorted(_eXhaust(n2, n1), key=_k), inverse=True):
+            yield T
 
 
-def trfTransform0(reframe, reframe2, epoch=None, epoch2=None, indirect=True, inverse=True):
+def trfTransform0(reframe, reframe2, epoch=None, epoch2=None, indirect=True, inverse=True, exhaust=False):
     '''Get a Helmert transform to convert one C{reframe} observed at C{epoch}
        to an other C{reframe2} at observed at C{epoch2 or epoch}.
 
@@ -945,10 +1002,10 @@ def trfTransform0(reframe, reframe2, epoch=None, epoch2=None, indirect=True, inv
        @see: Function L{trfTransforms} for futher details.
     '''
     return _trfT0s(_toTransform0, reframe, reframe2, epoch, epoch2,
-                                  indirect=indirect, inverse=inverse)
+                                  indirect=indirect, inverse=inverse, exhaust=exhaust)
 
 
-def trfTransforms(reframe, reframe2, epoch=None, epoch2=None, indirect=True, inverse=True):
+def trfTransforms(reframe, reframe2, epoch=None, epoch2=None, indirect=True, inverse=True, exhaust=False):
     '''Yield all Helmert transform to convert one C{reframe} observed at C{epoch}
        to an other C{reframe2} at observed at C{epoch2 or epoch}.
 
@@ -963,6 +1020,8 @@ def trfTransforms(reframe, reframe2, epoch=None, epoch2=None, indirect=True, inv
                         transforms (C{bool}).
        @kwarg inverse: If C{True}, include inverse, otherwise only forward transforms
                        (C{bool}).
+       @kwarg exhaust: If C{True}, exhaustively search for all aggregate, concatenated
+                       transforms, forward and inverse (C{bool}).
 
        @return: A L{TransformXform} instance for each available conversion.
 
@@ -972,17 +1031,17 @@ def trfTransforms(reframe, reframe2, epoch=None, epoch2=None, indirect=True, inv
        @raise TypeError: Invalid B{C{reframe}} or B{C{reframe2}}.
     '''
     return _trfT0s(_toTransforms, reframe, reframe2, epoch, epoch2,
-                                  indirect=indirect, inverse=inverse)
+                                  indirect=indirect, inverse=inverse, exhaust=exhaust)
 
 
-def _trfT0s(_toT0s, reframe, reframe2, epoch, epoch2, **indirect_inverse):
+def _trfT0s(_toT0s, reframe, reframe2, epoch, epoch2, **indirect_inverse_exhaust):
     '''(INTERNAL) Handle C{trfTransforms0} and C{trfTransforms} calls.
     '''
     r1 = _reframe(reframe=reframe)
     e1 =  r1.epoch if epoch is None else _Epoch(epoch)
     r2 = _reframe(reframe2=reframe2)
     e2 =  e1 if epoch2 is None else Epoch(epoch2=epoch2)
-    return _toT0s(r1.name, e1, r2.name, e2, **indirect_inverse)
+    return _toT0s(r1.name, e1, r2.name, e2, **indirect_inverse_exhaust)
 
 
 def trfXform(reframe1, reframe2, epoch=None, xform=None, rates=None, raiser=True):

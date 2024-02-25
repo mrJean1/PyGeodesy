@@ -92,7 +92,7 @@ from pygeodesy.units import _isRadius, Radius_,  radians
 # from math import radians  # from .units
 
 __all__ = _ALL_LAZY.datums
-__version__ = '24.02.18'
+__version__ = '24.02.24'
 
 _a_ellipsoid_ = _UNDER_(_a_, _ellipsoid_)
 _BD72_        = 'BD72'
@@ -179,7 +179,7 @@ class Transform(_NamedEnumItem):
                                  a == b for a, b in zip(self, other)))
 
     def __hash__(self):
-        return self._hash  # memoized
+        return hash(x for x in self)
 
     def __iter__(self):
         '''Yield the initial attribute values.
@@ -188,9 +188,13 @@ class Transform(_NamedEnumItem):
             yield x
 
     def __matmul__(self, point):  # PYCHOK Python 3.5+
-        '''Convert an I{ellipsoidal} B{C{point}} with the Helmert transform.
+        '''Transform an I{ellipsoidal} B{C{point}} with this Helmert.
+
+           @return: A transformed copy of B{C{point}}.
 
            @raise TypeError: Invalid B{C{point}}.
+
+           @see: Method C{B{point}.toTransform}.
         '''
         _ = _xellipsoidall(point)
         return point.toTransform(self)
@@ -207,9 +211,9 @@ class Transform(_NamedEnumItem):
 #
 #       return type(self)(_sub(self, other), name=_MINUS_)  # .fsums._sub_op
 
-    @Property_RO
-    def _hash(self):
-        return hash(x for x in self)
+#   @Property_RO
+#   def _hash(self):
+#       return hash(x for x in self)
 
     def items(self):
         '''Yield each attribute as 2-tuple C{(name, value)}.
