@@ -281,17 +281,26 @@ class RefFrame(_NamedEnumItem):
            @return: An L{ADict} of C{name=}L{TRFXform}s I{from} this reframe or if
                     C{B{inverse}=True} I{to} this reframe or both if C{B{inverse}=2}.
         '''
-        def _Xi(n2, i):
-            for n1, r in RefFrames.items():
-                X = r._Xto.get(n2, None)
-                if X:
-                    yield n1, (X.inverse() if i else X)
+        return self._Xforms(inverse, RefFrames)
 
+    def _Xforms(self, inverse, RFs):
+        '''(INTERNAL) Helper for _eXhaustives, .Xforms.
+        '''
         i = inverse == 2
-        d = ADict(_Xi(self.name, i) if inverse else self._Xto)
+        d = ADict(self._Xfrom(RFs, i) if inverse else self._Xto)
         if i:
-            d.update(self._Xto)  # from overrides inverse to
+            d.update(self._Xto)  # to overrides from
         return d
+
+    def _Xfrom(self, RFs, i):
+        '''(INTERNAL) Yield the re-/inversed items as 2-tuple (refName,
+           I{from} Xform) converting I{to} this reframe.
+        '''
+        n2 = self.name
+        for n1, r in RFs.items():
+            X = r._Xto.get(n2, None)
+            if X:
+                yield n1, (X.inverse() if i else X)
 
 
 class RefFrames(_NamedEnum):
@@ -568,9 +577,9 @@ class TRFXform(_Named):
         return self._add_sub(other, True)
 
     def __eq__(self, other):
-        return isinstance(other, TRFXform) and self.epoch == other.epoch \
-                                           and self.xform == other.xform \
-                                           and self.rates == other.rates
+        return isinstance(other, TRFXform) and other.epoch == self.epoch \
+                                           and other.xform == self.xform \
+                                           and other.rates == self.rates
 
 #   def __hash__(self):
 #       return hash((self.epoch, self.xform, self.rates))
@@ -594,6 +603,9 @@ class TRFXform(_Named):
 
     def _add_sub(self, other, p_, *n1_n2_n):  # in _indirects below
         '''(INTERNAL) Summate C{this +/- other} Xform at C{this.epoch}.
+
+           @see: U{Appendix, Table 7, last column "Sum of the previous ..."
+                 <https://Geodesy.NOAA.gov/TOOLS/Htdp/Pearson_Snay_2012.pdf">}
         '''
         _xinstanceof(TRFXform, other=other)
         X1 = self
@@ -645,7 +657,8 @@ class TRFXform(_Named):
 
     @property_RO
     def indirected(self):
-        '''Is this an I{indirected} Xform? (C{str}) or C{NN}.
+        '''Is this an I{indirected} Xform? (C{str} of space-separated
+           refNames) or C{NN}.
         '''
         return self._indir_d
 
@@ -856,9 +869,9 @@ def epoch2date(epoch):
     return y, (m + 1), max(1, d)
 
 
-def _eXhaust(n1, n2):
+def _eXhaustives(n1, n2):
     '''(INTERNAL) Yield all I{possible} Xforms C{n1} to {n2} via
-       any number of intermediate reframes.
+       any number of intermediate reframe conversions.
     '''
     def _k2(item):
         return -item[1].epoch  # most recent first
@@ -866,9 +879,7 @@ def _eXhaust(n1, n2):
     R = dict(RefFrames)
     r = R.pop(n1, None)
     if r:
-        # U{Appendix, Table 7, last column "Sum of the previous ..."
-        # <https://Geodesy.NOAA.gov/TOOLS/Htdp/Pearson_Snay_2012.pdf">}
-        Xs = list(sorted(r.Xforms(inverse=2).items(), key=_k2))
+        Xs = list(sorted(r._Xforms(2, R).items(), key=_k2))
         while Xs:
             n, X = Xs.pop(0)
             if n == n2:
@@ -876,13 +887,13 @@ def _eXhaust(n1, n2):
             else:
                 r = R.pop(n, None)
                 if r:
-                    for n, x in r.Xforms(inverse=2).items():
+                    for n, x in r._Xforms(2, R).items():
                         Xs.append((n, X + x))
 
 
 def _indirects(n1, n2):
     '''(INTERNAL) Yield all Xforms between C{n1} and C{n2} via
-       I{one} intermediate reframe C{n}.
+       I{one} intermediate reframe C{n} conversions.
     '''
     def _X4(_Xto, n2):
         _d = _direct
@@ -902,8 +913,6 @@ def _indirects(n1, n2):
                 X1 = X1.toEpoch(e2)
 #           elif e1 > e2:  # X2 to e1
 #               X2 = X2.toEpoch(e1)
-            # U{Appendix, Table 7, last column "Sum of the previous ..."
-            # <https://Geodesy.NOAA.gov/TOOLS/Htdp/Pearson_Snay_2012.pdf">}
             yield X1._add_sub(X2, p_, n1, n2, n)
 
 
@@ -916,7 +925,7 @@ def _n1_n2_n3(X1, X2):
 
 
 def _npop(X):
-    '''(INTERNAL) Pop L{TRFXform.indirected} pre/-suffix.
+    '''(INTERNAL) Pop L{TRFXform.indirected}'s ends.
     '''
     n = X.indirected.split()
     if n and n[-1] == X.refName2:
@@ -1051,9 +1060,9 @@ def _toTransforms(n1, e1, n2, e2, indirect=True, inverse=True, exhaust=False):  
                 yield T
 
     if exhaust:
-        for T in _Ts(_eXhaust(n1, n2), inverse=False):
+        for T in _Ts(_eXhaustives(n1, n2), inverse=False):
             yield T
-        for T in _Ts(_eXhaust(n2, n1), inverse=True):
+        for T in _Ts(_eXhaustives(n2, n1), inverse=True):
             yield T
 
 
