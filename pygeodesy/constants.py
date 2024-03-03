@@ -25,7 +25,7 @@ except ImportError:  # Python 2-
     _inf, _nan = float(_INF_), float(_NAN_)
 
 __all__ = _ALL_LAZY.constants
-__version__ = '24.02.20'
+__version__ = '24.02.27'
 
 
 def _copysign_0_0(y):
@@ -166,7 +166,6 @@ _0_01    = _float(   0.01)    # PYCHOK expected
 _0_1     = _float(   0.1)     # PYCHOK expected
 _0_125   = _float(   0.125)   # PYCHOK expected
 _0_25    = _float(   0.25)    # PYCHOK expected
-_0_26    = _float(   0.26)    # PYCHOK expected
 _0_5     = _float(   0.5)     # PYCHOK expected
 _1_0     = _float(   1)       # PYCHOK expected
 _1_0_1T  = _1_0,              # PYCHOK 1-tuple

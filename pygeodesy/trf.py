@@ -69,15 +69,16 @@ en/how-to-deal-with-etrs89-datum-and-time-dependent-transformation-parameters-45
 @var RefFrames.WGS84g1762: RefFrame(name='WGS84g1762', epoch=2005, datum=Datums.GRS80) .Xforms=(0, 0)
 '''
 
-from pygeodesy.basics import map1, neg, isstr, _xinstanceof, _xisscalar, _zip
+from pygeodesy.basics import map1, neg, isidentifier, isstr, _xinstanceof, _xisscalar
 from pygeodesy.constants import _float as _F, _0_0s, _0_0, _0_001, _0_5, _1_0, _N_1_0
-from pygeodesy.datums import Datums, _earth_datum, _GDA2020_, _minus, _Names7, \
-                             Transform, _S1_S, _WGS84
-from pygeodesy.errors import TRFError, _xattr, _xellipsoidall, _xkwds
+from pygeodesy.datums import Datums, _earth_datum, _equall, _GDA2020_, _Names7, \
+                            _negstr, Transform, _S1_S, _WGS84,  _EWGS84, _operator
+# from pygeodesy.ellipsoids import _EWGS84  # from .datums
+from pygeodesy.errors import TRFError, _xattr, _xellipsoidall, _xkwds, _xkwds_item2
 from pygeodesy.interns import MISSING, NN, _AT_, _COMMASPACE_, _conversion_, \
                              _datum_, _DOT_, _exists_, _invalid_, _MINUS_, \
                              _NAD83_, _no_, _PLUS_, _reframe_, _s_, _SPACE_, \
-                             _STAR_, _to_, _WGS84_, _x_, _intern as _i
+                             _STAR_, _to_, _vs_, _WGS84_, _x_, _intern as _i
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import ADict, classname, _lazyNamedEnumItem as _lazy, _Named, \
                            _NamedEnum, _NamedEnumItem, _NamedTuple,  Fmt, unstr
@@ -86,9 +87,10 @@ from pygeodesy.props import deprecated_method, property_doc_, Property_RO, prope
 from pygeodesy.units import Epoch, Float
 
 from math import ceil as _ceil
+# import operator as _operator  # from .datums
 
 __all__ = _ALL_LAZY.trf
-__version__ = '24.02.24'
+__version__ = '24.03.02'
 
 _EP0CH    =  Epoch(0, low=0)
 _Es       = {_EP0CH: _EP0CH}  # L{Epoch}s, deleted below
@@ -101,7 +103,6 @@ _366_0    = _F(sum(_mDays))
 _rates_   = 'rates'  # PYCHOK used!
 _Rs       = {}  # L{TRFXform7Tuple}s de-dup, deleted below
 _S_S1     = _N_1_0 / _S1_S  # Transform.s for .s1 == 0
-_v_       = 'v'
 _xform_   = 'xform'  # PYCHOK used!
 _Xs       = {}  # L{TRFXform7Tuple}s de-dup, deleted below
 
@@ -161,7 +162,7 @@ class RefFrame(_NamedEnumItem):
     _datum = _GRS80  # Datums.GRS80 or .WGS84 (L{Datum})
     _epoch = _EP0CH  # epoch, fractional year (L{Epoch})
 
-    def __init__(self, epoch, datum, name=NN):
+    def __init__(self, epoch, datum=_GRS80, name=NN):
         '''New L{RefFrame}.
 
            @arg epoch: Epoch, a fractional calendar year (C{scalar} or C{str}).
@@ -175,16 +176,21 @@ class RefFrame(_NamedEnumItem):
 
            @raise TypeError: Invalid B{C{datum}}.
         '''
-        if datum is not _GRS80:
+        if datum in (_GRS80, None):
+            pass
+        elif datum in (_WGS84, _EWGS84):
+            self._datum = _WGS84
+        else:
             _earth_datum(self, datum, raiser=_datum_)
         self._epoch = _Epoch(epoch)
         self._Xto = {}  # dict of Xforms
         if name:
-            self._register(RefFrames, name)
+            self._register(RefFrames, _stref(name=name))
 
     def __eq__(self, other):
         return isinstance(other, RefFrame) and other.epoch == self.epoch \
-                                           and other.datum == self.datum
+                                           and other.datum == self.datum \
+                                           and other.name  == self.name
 
     def __lt__(self, other):  # for sorting
         return isinstance(other, RefFrame) and (self.name  < other.name
@@ -268,12 +274,12 @@ class RefFrame(_NamedEnumItem):
     def Xforms(self, inverse=False):
         '''Return all Xforms converting I{from} or I{to} this reference frame or both.
 
-           @kwarg inverse: If C{True}, get all I{inverse, to} Xforms (C{bool}) or if
-                           C{B{inverse}=2} (C{int}) get all I{to} Xforms I{inverted}
+           @kwarg inverse: If C{True}, get all I{inverse, to} Xforms un-inverted (C{bool})
+                           or if C{B{inverse}=2} (C{int}) get all I{to} Xforms I{inverted}
                            plus all I{from} Xforms.
 
            @return: An L{ADict} of C{name=}L{TRFXform}s I{from} this reframe or if
-                    C{B{inverse}=True} I{to} this reframe or if C{B{inverse}=2} both.
+                    C{B{inverse}=True} I{to} this reframe or both if C{B{inverse}=2}.
         '''
         def _Xi(n2, i):
             for n1, r in RefFrames.items():
@@ -284,7 +290,7 @@ class RefFrame(_NamedEnumItem):
         i = inverse == 2
         d = ADict(_Xi(self.name, i) if inverse else self._Xto)
         if i:
-            d.update(self._Xto)  # from overrides inverted to
+            d.update(self._Xto)  # from overrides inverse to
         return d
 
 
@@ -340,7 +346,7 @@ RefFrames._assert(
 
 
 class TransformXform(Transform):
-    '''Helmert transformation, extended with an C{Xform} converter.
+    '''Helmert transformation, extended with an C{Xform} TRF converter.
 
        @see: L{Transform<datums.Transform>} and L{Xform<TRFXform>}.
     '''
@@ -358,10 +364,10 @@ class TransformXform(Transform):
         '''
         Transform.__init__(self, **tx_ty_tz_s_sx_sy_sz)
         if name:
-            self.name = name
+            self.name = name  # unregistered
 
     def __eq__(self, other):
-        return isinstance(other, TransformXform) and Transform.__eq__(self, other)
+        return isinstance(other, TransformXform) and _equall(other, self)
 
     def __hash__(self):
         return Transform.__hash__(self)
@@ -424,11 +430,11 @@ class TransformXform(Transform):
            @kwarg factor: Factor to scale this Xform's C{rates} (C{scalar}),
                           default from C{milli-meter-} to C{meter-per-year}.
            @kwarg Vector_and_kwds: An optional, (3-D) C{B{Vector}=None} or
-                             cartesian class and additional C{B{Vector}}
-                             keyword arguments to return the I{velocities}.
+                         cartesian class and additional C{B{Vector}} keyword
+                         arguments to return the I{velocities}.
 
            @return: A L{Vector3Tuple}C{(x, y, z)} unless some B{C{Vector_and_kwds}}
-                    is specified or C{None} if this transform's Xform is missing.
+                    are specified or C{None} if this transform's Xform is missing.
 
            @raise TypeError: Non-scalar B{C{factor}}.
 
@@ -439,7 +445,7 @@ class TransformXform(Transform):
         if X is not None:
             r = X.rates * factor  # eq (3) ...
             H = Transform(tx=r.sx, ty=r.sy, tz=r.sz,  # Xyy-dot
-                          s=_S_S1, name=NN(self.name, _v_))
+                          s=_S_S1, name=NN(self.name, _vs_))
             H.s1, H.rx, H.ry, H.rz = 0, self.rx, self.ry, self.rz
             v = H.transform(r.tx, r.ty, r.tz, inverse=False,  # Xyy
                                             **Vector_and_kwds)
@@ -471,34 +477,35 @@ class TRFXform7Tuple(_NamedTuple):
 
        @see: Class L{TransformXform}'s matching keyword argument names.
     '''
-    _Names_ = _Names7  # ('tx', 'ty', 'tz', _s_,  'sx', 'sy', 'sz') == Transform.__init__
+    _Names_ = _Names7  # ('tx', 'ty', 'tz', _s_,  'sx', 'sy', 'sz') == TransformXform.__init__
     _Units_ =            (_MM,  _MM,  _MM,  _PPB, _MAS, _MAS, _MAS)
 
     def __add__(self, other):
-        _xinstanceof(TRFXform7Tuple, other=other)
-        return type(self)(((a + b) for a, b in _zip(self, other)), name=_PLUS_)  # .fsums._add_op
+        return self._add_sub(other, True)
 
     def __eq__(self, other):
-        return isinstance(other, TRFXform7Tuple) and all(a == b for a, b in _zip(self, other))
+        return isinstance(other, TRFXform7Tuple) and _equall(other, self)
                                        # PYCHOK  and self.name == other.name
 
     def __hash__(self):
-        return self._hash  # memoized
+        return _NamedTuple.__hash__(self)
 
     def __mul__(self, factor):
         _xisscalar(factor=factor)
-        return type(self)((s * factor for s in self), name=_STAR_)  # .fsums._mul_op
+        return type(self)((x * factor for x in self), name=_STAR_)  # .fsums._mul_op
 
     def __neg__(self):
         return self.inverse()
 
     def __sub__(self, other):
-        _xinstanceof(TRFXform7Tuple, other=other)
-        return type(self)(((a - b) for a, b in _zip(self, other)), name=_MINUS_)  # .fsums._sub_op
+        return self._add_sub(other, False)
 
-    @Property_RO
-    def _hash(self):
-        return hash(s for s in self)
+    def _add_sub(self, other, p_):
+        '''(INTERNAL) Return C{this +/- other} L{TRFXform7Tuple}.
+        '''
+        _xinstanceof(TRFXform7Tuple, other=other)
+        op = _operator.add if p_ else _operator.sub
+        return type(self)(map(op, self, other), name=_PLUS_ if p_ else _MINUS_)
 
     def inverse(self, name=NN):
         '''Return the inverse of this transform.
@@ -507,12 +514,12 @@ class TRFXform7Tuple(_NamedTuple):
 
            @return: Inverse (L{TransformXform}).
         '''
-        n = name or _minus(self.name)
+        n = name or _negstr(self.name)
         return type(self)(map(neg, self), name=n)
 
     @Property_RO
     def isunity(self):
-        '''Is this a C{unity, identidy} transform (C{bool}).
+        '''Is this a C{unity, identity} transform (C{bool}).
         '''
         return not any(self)
 
@@ -532,23 +539,25 @@ class TRFXform(_Named):
 
     def __init__(self, refName1, refName2, epoch=None, xform=None,
                                            rates=None, name=NN):
-        '''New L{trfXform}.
+        '''New L{TRFXform} TRF converter.
 
            @arg refName1: Source reframe (C{str}), converting I{from}.
            @arg refName2: Destination reframe (C{str}), converting I{to}.
            @kwarg epoch: Epoch, a fractional year (L{Epoch}, C{scalar} or C{str}).
-           @kwarg xform: I{Transform} parameters (L{TRFXform7Tuple}).
+           @kwarg xform: I{Transform} parameters at B{C{epoch}} (L{TRFXform7Tuple}).
            @kwarg rates: I{Rate} parameters (L{TRFXform7Tuple}), like B{C{xform}},
                          but in C{units-per-year}.
-           @kwarg name: Optional name (C{str}), overriding the default from
-                        method L{toStr<TRFXform.toStr>}.
+           @kwarg name: Optional name (C{str}), overriding the default from method
+                        L{toStr<TRFXform.toStr>}.
 
-           @return: The TRF converter (L{TRFXform}).
+           @raise TRFError: Invalid B{C{refName1}}, B{C{refName2}} or B{C{epoch}}.
 
-           @raise TRFError: Invalid B{C{epoch}}, B{C{xform}} or B{C{rates}}.
+           @raise TypeError: Invalid B{C{xform}} or B{C{rates}}.
+
+           @see: Functions L{trfXform}, L{trfTransform0} and L{trfTransforms}.
         '''
-        self.refName1 = str(refName1)
-        self.refName2 = str(refName2)
+        self.refName1 = _stref(refName1=refName1)
+        self.refName2 = _stref(refName2=refName2)
         _xinstanceof(TRFXform7Tuple, xform=xform, rates=rates)
         self.epoch = epoch
         self.xform = xform
@@ -556,21 +565,15 @@ class TRFXform(_Named):
         self.rename(name or self.toStr())
 
     def __add__(self, other):
-        _xinstanceof(TRFXform, other=other)
-        assert self.epoch == other.epoch
-        n = other.name
-        n = NN(self.name, (NN if n.startswith(_MINUS_) else _PLUS_), n)
-        return type(self)(self.refName1, other.refName2, epoch=self.epoch,
-                                                         xform=self.xform + other.xform,
-                                                         rates=self.rates + other.rates,
-                                                         name=n)
+        return self._add_sub(other, True)
 
     def __eq__(self, other):
-        return isinstance(other, TRFXform) and self.epoch == other.epoch and \
-                 self.xform == other.xform and self.rates == other.rates
+        return isinstance(other, TRFXform) and self.epoch == other.epoch \
+                                           and self.xform == other.xform \
+                                           and self.rates == other.rates
 
 #   def __hash__(self):
-#       return hash((self.xform._hash * 1e18 + self.rates._hash) * 1e5 + self.epoch)
+#       return hash((self.epoch, self.xform, self.rates))
 
     def __lt__(self, other):  # for sorting
         return isinstance(other, TRFXform) and (self.refName1 < other.refName1
@@ -585,6 +588,27 @@ class TRFXform(_Named):
 
     def __str__(self):
         return self.toStr()
+
+    def __sub__(self, other):
+        return self._add_sub(other, False)
+
+    def _add_sub(self, other, p_, *n1_n2_n):  # in _indirects below
+        '''(INTERNAL) Summate C{this +/- other} Xform at C{this.epoch}.
+        '''
+        _xinstanceof(TRFXform, other=other)
+        X1 = self
+        e1 = X1.epoch
+        X2 = other.toEpoch(e1)  # if other.epoch != e1 else other
+
+        n1, n2, n = n1_n2_n or _n1_n2_n3(X1, X2)
+
+        X = type(X1)(n1, n2, epoch=e1, xform=X1.xform._add_sub(X2.xform, p_),
+                                       rates=X1.rates._add_sub(X2.rates, p_),
+                                       name=_sumstr(X1.name,   X2.name,  p_))
+        X._epoch_d = X1.epoched + X2.epoched  # max, abs?
+        X._indir_d = n  # reframe?
+        X._inver_d = X1.inversed and X2.inversed
+        return X
 
     def _at(self, epoch):
         '''(INTERNAL) Return C{"self.nameB{@}epoch"}.
@@ -615,7 +639,7 @@ class TRFXform(_Named):
 
     @property_RO
     def epoched(self):
-        '''Get this Xform's I{epoch} deltas (C{float}).
+        '''Get this Xform's aggregate I{epoch} deltas (C{float}).
         '''
         return self._epoch_d
 
@@ -626,14 +650,24 @@ class TRFXform(_Named):
         return self._indir_d
 
     def inverse(self, name=NN):
-        '''Get an I{inverse} of this Xform, C{refName1} and C{-2} swapped.
+        '''Return this Xform {inversed}, C{refName1} and C{-2} swapped.
 
-           @return: Inverse (L{TRFXform}).
+           @return: The inverse (L{TRFXform}).
         '''
-        return self.dup(refName1=self.refName2, xform=-self.xform,
-                        refName2=self.refName1, rates=-self.rates,
-                        name=name or _minus(self.name),
-                       _inver_d=not self.inversed)
+        n = name or _negstr(self.name)
+        X = self.dup(refName1=self.refName2, xform=-self.xform,
+                     refName2=self.refName1, rates=-self.rates,
+                     name=n, _inver_d=not self.inversed)
+#       X = type(self)(self.refName2, self.refName1, epoch= self.epoch,
+#                                                    xform=-self.xform,
+#                                                    rates=-self.rates, name=n)
+#       if self.epoched:
+#           X._epoch_d = self.epoched
+#       if self.indirected:
+#           X._indir_d = self.indirected
+#       if not self.inversed:
+#           X._inver_d = True
+        return X
 
     @property_RO
     def inversed(self):
@@ -687,7 +721,7 @@ class TRFXform(_Named):
         if d:
             t = X.xform + X.rates * d
             X = X.dup(epoch=e, xform=t, name=X._at(e))
-            X._epoch_d += d  # abs(d)?
+            X._epoch_d += d  # max, abs(d)?
         return X
 
     def toHelmert(self, factor=_MM2M):
@@ -706,31 +740,24 @@ class TRFXform(_Named):
         H.Xform = self
         return H
 
-    def toRefFrame(self, point, epoch=None, datum=_GRS80, **epoch2_name):
+    def toRefFrame(self, point, datum=_GRS80, **epoch_epoch2_name):
         '''Convert an ellipsoidal point from this Xform's C{refName1} and
            C{epoch} to this Xform's C{refName2} and C{epoch2 or epoch}.
 
            @arg point: The point to convert (C{Cartesian} or C{LatLon}).
-           @kwarg epoch: Optional epoch ((L{Epoch}, C{scalar} or C{str})),
-                         overriding this Xform's C{epoch}.
            @kwarg datum: Optional datum to define a temporary L{RefFrame} from
                          this Xform's C{refName1} or C{refName2} (C{datum}).
-           @kwarg epoch2_name: Optional keyword arguments B{C{epoch2}=None}
-                               and C{B{name}=refName1}.
+           @kwarg epoch_epoch2_name: Optional keyword arguments C{B{epoch}=None},
+                        B{C{epoch2}=None} and C{B{name}=refName1}.
 
            @return: A copy of the B{C{point}}, converted or renamed.
 
            @see: Method L{RefFrame.toRefFrame} for more details.
         '''
-        def _r(name):
-            r = RefFrames.get(name)
-            if r is None or r.datum != datum:
-                r = RefFrame(epoch or self.epoch, datum)
-                r.name = name  # unregistered
-            return r
-
-        return _r(self.refName1).toRefFrame(point,
-               _r(self.refName2), epoch=epoch, **epoch2_name)
+        r1 = self._reframe(self.refName1, datum=datum)
+        r2 = self._reframe(self.refName2, datum=datum)
+        return _toRefFrame(point, r2, reframe=r1,
+                        **_xkwds(epoch_epoch2_name, name=r1.name))
 
     def toRepr(self, **unused):  # PYCHOK signature
         '''Return the represention of this Xform (C{str}).
@@ -830,22 +857,26 @@ def epoch2date(epoch):
 
 
 def _eXhaust(n1, n2):
-    '''(INTERNAL) Yield all possible Xforms C{n1} to {n2} via
+    '''(INTERNAL) Yield all I{possible} Xforms C{n1} to {n2} via
        any number of intermediate reframes.
     '''
+    def _k2(item):
+        return -item[1].epoch  # most recent first
+
     R = dict(RefFrames)
     r = R.pop(n1, None)
     if r:
-        Xs = list(r.Xforms(inverse=2).items())
+        # U{Appendix, Table 7, last column "Sum of the previous ..."
+        # <https://Geodesy.NOAA.gov/TOOLS/Htdp/Pearson_Snay_2012.pdf">}
+        Xs = list(sorted(r.Xforms(inverse=2).items(), key=_k2))
         while Xs:
             n, X = Xs.pop(0)
             if n == n2:
-                yield X
+                yield _npop(X)
             else:
                 r = R.pop(n, None)
                 if r:
                     for n, x in r.Xforms(inverse=2).items():
-                        x = x.toEpoch(X.epoch)
                         Xs.append((n, X + x))
 
 
@@ -865,36 +896,66 @@ def _indirects(n1, n2):
 
     r1 = RefFrames.get(n1)
     if r1:
-        for X1, X2, n, f in _X4(r1._Xto, n2):
+        for X1, X2, n, p_ in _X4(r1._Xto, n2):
             e1, e2 = X1.epoch, X2.epoch
             if e1 < e2:  # X1 to e2
                 X1 = X1.toEpoch(e2)
-                e1 = e2
-            elif e1 > e2:  # X2 to e1
-                X2 = X2.toEpoch(e1)
+#           elif e1 > e2:  # X2 to e1
+#               X2 = X2.toEpoch(e1)
             # U{Appendix, Table 7, last column "Sum of the previous ..."
             # <https://Geodesy.NOAA.gov/TOOLS/Htdp/Pearson_Snay_2012.pdf">}
-            X = TRFXform(n1, n2, epoch=e1,
-                                 xform=X1.xform + (X2.xform if f else -X2.xform),
-                                 rates=X1.rates + (X2.rates if f else -X2.rates),
-                                 name=NN(X1._at(e1), _PLUS_ if f else _MINUS_,
-                                         X2._at(e1)))
-            X._epoch_d = X1.epoched + X2.epoched  # max, abs?
-            X._indir_d = n  # reframe?
-            yield X
+            yield X1._add_sub(X2, p_, n1, n2, n)
+
+
+def _n1_n2_n3(X1, X2):
+    '''(INTERNAL) L{TRFXform._add_sub} helper.
+    '''
+    n =  X1.indirected
+    n = _SPACE_(n, X1.refName2) if n else X1.refName2
+    return X1.refName1, X2.refName2, n
+
+
+def _npop(X):
+    '''(INTERNAL) Pop L{TRFXform.indirected} pre/-suffix.
+    '''
+    n = X.indirected.split()
+    if n and n[-1] == X.refName2:
+        _ = n.pop()
+    if n and n[ 0] == X.refName1:
+        _ = n.pop(0)
+    X._indir_d = _SPACE_.join(n) if n else NN
+    return X
 
 
 def _reframe(**name_reframe):
     '''(INTERNAL) Get a C{reframe}.
     '''
-    if len(name_reframe) == 1:
-        for r in name_reframe.values():
-            break
-        if isstr(r) and r:  # not NN
-            r = RefFrames.get(r)
-        if r and isinstance(r, RefFrame):
-            return r
+    _, r = _xkwds_item2(name_reframe)
+    if isstr(r) and r:  # not NN
+        r = RefFrames.get(r)
+    if r and isinstance(r, RefFrame):
+        return r
     raise TRFError(**name_reframe)  # _invalid_
+
+
+def _stref(**name_refname):
+    '''(INTERNAL) Check a reference frame name.
+    '''
+    _, n = _xkwds_item2(name_refname)
+    if isstr(n) and isidentifier(n):
+        return str(n)
+    raise TRFError(**name_refname)  # _invalid_
+
+
+def _sumstr(name1, name2, p_):
+    '''(INTERNAL) "Sum" of C{name1 + ('+' if p_ else '-') + name2}.
+    '''
+    if name2:
+        n = name2 if p_ else _negstr(name2)
+        p = NN if n.startswith(_MINUS_) or \
+                  n.startswith(_PLUS_) else _PLUS_
+        name1 = NN(name1, p, n)
+    return name1
 
 
 def _toRefFrame(point, reframe2, reframe=None, epoch=None,
@@ -959,36 +1020,40 @@ def _toTransforms(n1, e1, n2, e2, indirect=True, inverse=True, exhaust=False):  
     '''(INTERNAL) Yield all possible Helmert transforms, if any.
     '''
     class Ts(list):  # L{TransformXform}s de-dup
-        def __call__(self, Xs, e1=e1, e2=e2, inverse=False):
+        def __call__(self, Xs, e1=e1, e2=e2, **inverse):
             for X in Xs:
                 if X:
-                    T = X.toTransform(e1, epoch2=e2, inverse=inverse)
+                    T = X.toTransform(e1, epoch2=e2, **inverse)
                     if T not in self:
                         self.append(T)
                         yield T
 
+#       def __contains__(self, T):
+#           _xinstanceof(TransformXform, T=T)
+#           return any(t == T for t in self)
+
     def _k(X):
-        return -X.epoch
+        return -X.epoch  # most recent first
 
     _Ts = Ts()
 
-    for T in _Ts((_direct(n1, n2),)):
+    for T in _Ts((_direct(n1, n2),), inverse=False):
         yield T
     if inverse:
         for T in _Ts((_direct(n2, n1),), inverse=True):
             yield T
 
     if indirect:
-        for T in _Ts(sorted(_indirects(n1, n2), key=_k)):
+        for T in _Ts(sorted(_indirects(n1, n2), key=_k), inverse=False):
             yield T
         if inverse:
             for T in _Ts(sorted(_indirects(n2, n1), key=_k), inverse=True):
                 yield T
 
     if exhaust:
-        for T in _Ts(sorted(_eXhaust(n1, n2), key=_k)):
+        for T in _Ts(_eXhaust(n1, n2), inverse=False):
             yield T
-        for T in _Ts(sorted(_eXhaust(n2, n1), key=_k), inverse=True):
+        for T in _Ts(_eXhaust(n2, n1), inverse=True):
             yield T
 
 
@@ -1013,20 +1078,20 @@ def trfTransforms(reframe, reframe2, epoch=None, epoch2=None, indirect=True, inv
        @arg reframe2: The frame to convert I{to} (L{RefFrame} or C{str}).
        @arg epoch: Epoch to observe I{from} (L{Epoch}, C{scalar} or C{str}),
                    otherwise C{B{reframe}}'s C{epoch}.
-       @kwarg epoch2: Optional epoch to observe to observe I{to} (L{Epoch}, C{scalar}
-                      or C{str}), otherwise B{C{epoch}} or C{B{reframe}}'s C{epoch}.
+       @kwarg epoch2: Optional epoch to observe to observe I{to} (L{Epoch}, C{scalar} or
+                      C{str}), otherwise B{C{epoch}} or C{B{reframe}}'s C{epoch}.
        @kwarg indirect: If C{True}, include transforms via I{one} intermediate reframe,
                         otherwise only I{direct} B{C{reframe}} to B{C{reframe2}}
                         transforms (C{bool}).
        @kwarg inverse: If C{True}, include inverse, otherwise only forward transforms
                        (C{bool}).
-       @kwarg exhaust: If C{True}, exhaustively search for all aggregate, concatenated
-                       transforms, forward and inverse (C{bool}).
+       @kwarg exhaust: If C{True}, exhaustively generate all transforms, forward and
+                       inverse and via any number of intermediate reframes (C{bool}).
 
-       @return: A L{TransformXform} instance for each available conversion.
+       @return: A L{TransformXform} instance for each available conversion, without
+                duplicates.
 
-       @raise TRFError: Invalid B{C{reframe}}, B{C{epoch}}, B{C{reframe2}} or
-                        B{C{epoch2}}.
+       @raise TRFError: Invalid B{C{reframe}}, B{C{reframe2}}, B{C{epoch}} or B{C{epoch2}}.
 
        @raise TypeError: Invalid B{C{reframe}} or B{C{reframe2}}.
     '''

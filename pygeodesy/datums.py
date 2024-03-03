@@ -67,20 +67,20 @@ datum, q.v. U{"A Guide to Coordinate Systems in Great Britain", Section 6
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import islistuple, map2, neg, _xinstanceof
-from pygeodesy.constants import R_M, _float as _F, _0_0, _0_26, _1_0, _2_0, _8_0, _3600_0
+from pygeodesy.basics import islistuple, map2, neg, _passarg, _xinstanceof, _zip
+from pygeodesy.constants import R_M, _float as _F, _0_0, _1_0, _2_0, _8_0, _3600_0
 # from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase as _CEB, \
 #                                          LatLonEllipsoidalBase as _LLEB  # MODS
 from pygeodesy.ellipsoids import a_f2Tuple, Ellipsoid, Ellipsoid2, Ellipsoids, _EWGS84, \
                                  Vector3Tuple
 from pygeodesy.errors import _IsnotError, _TypeError, _xattr, _xellipsoidall, _xkwds, \
                              _xkwds_pop2
-from pygeodesy.fmath import fdot, fmean,  Fmt
+from pygeodesy.fmath import fdot, fmean,  Fmt, _operator
 from pygeodesy.interns import NN, _a_, _Airy1830_, _AiryModified_, _Bessel1841_, \
                              _Clarke1866_, _Clarke1880IGN_, _COMMASPACE_, _DOT_, \
                              _earth_, _ellipsoid_, _ellipsoidal_, _GRS80_, _Intl1924_, \
                              _MINUS_, _Krassovski1940_, _Krassowsky1940_, _NAD27_, \
-                             _NAD83_, _s_, _Sphere_, _spherical_, _transform_, \
+                             _NAD83_, _PLUS_, _s_, _Sphere_, _spherical_, _transform_, \
                              _UNDER_, _WGS72_, _WGS84_, _under
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _NamedEnum, _NamedEnumItem, _lazyNamedEnumItem as _lazy
@@ -90,9 +90,10 @@ from pygeodesy.props import Property_RO, property_RO
 from pygeodesy.units import _isRadius, Radius_,  radians
 
 # from math import radians  # from .units
+# import operator as _operator  # from .fmath
 
 __all__ = _ALL_LAZY.datums
-__version__ = '24.02.24'
+__version__ = '24.02.29'
 
 _a_ellipsoid_ = _UNDER_(_a_, _ellipsoid_)
 _BD72_        = 'BD72'
@@ -106,7 +107,7 @@ _Irl1965_     = 'Irl1965'
 _Irl1975_     = 'Irl1975'
 _MGI_         = 'MGI'
 _Names7       = 'tx', 'ty', 'tz', _s_, 'sx', 'sy', 'sz'  # in .trf
-_Names11      = _Names7[:3] + ('s1', 'rx', 'ry', 'rz') + _Names7[3:]
+_Names11      = _Names7[:3]  +  ('s1', 'rx', 'ry', 'rz') + _Names7[3:]
 _NTF_         = 'NTF'
 _OSGB36_      = 'OSGB36'
 _Potsdam_     = 'Potsdam'
@@ -136,7 +137,7 @@ class Transform(_NamedEnumItem):
     sz = _0_0  # z rotation (C{degree-seconds})
 
     def __init__(self, name=NN, tx=0, ty=0, tz=0,
-                                sx=0, sy=0, sz=0, s=0):
+                           s=0, sx=0, sy=0, sz=0):
         '''New L{Transform}.
 
            @kwarg name: Optional, unique name (C{str}).
@@ -156,15 +157,15 @@ class Transform(_NamedEnumItem):
             self.ty = ty
         if tz:
             self.tz = tz
+        if s:
+            self.s  =    s
+            self.s1 = _F(s * _S1_S + _1_0)  # normalize ppM to (s + 1)
         if sx:  # secs to rads
             self.rx, self.sx = self._rps2(sx)
         if sy:
             self.ry, self.sy = self._rps2(sy)
         if sz:
             self.rz, self.sz = self._rps2(sz)
-        if s:
-            self.s  =    s
-            self.s1 = _F(s * _S1_S + _1_0)  # normalize ppM to (s + 1)
 
         self._register(Transforms, name)
 
@@ -175,17 +176,17 @@ class Transform(_NamedEnumItem):
 
            @return: C{True} if equal, C{False} otherwise.
         '''
-        return self is other or (isinstance(other, Transform) and all(
-                                 a == b for a, b in zip(self, other)))
+        return self is other or (isinstance(other, Transform)
+                                and _equall(other, self))
 
     def __hash__(self):
-        return hash(x for x in self)
+        return hash(tuple(self))
 
     def __iter__(self):
-        '''Yield the initial attribute values.
+        '''Yield the initial attribute values, I{in order}.
         '''
-        for _, x in self.items():
-            yield x
+        for n in _Names7:
+            yield getattr(self, n)
 
     def __matmul__(self, point):  # PYCHOK Python 3.5+
         '''Transform an I{ellipsoidal} B{C{point}} with this Helmert.
@@ -202,43 +203,34 @@ class Transform(_NamedEnumItem):
     def __neg__(self):
         return self.inverse()
 
-#   def __sub__(self, other):
-#       _xinstanceof(Transform, other=other)
-#
-#       def _sub(a, b):
-#           for n in _Names11:
-#               yield getattr(a, n) - getattr(b, n)
-#
-#       return type(self)(_sub(self, other), name=_MINUS_)  # .fsums._sub_op
-
-#   @Property_RO
-#   def _hash(self):
-#       return hash(x for x in self)
-
-    def items(self):
-        '''Yield each attribute as 2-tuple C{(name, value)}.
-        '''
-        for n in _Names7:
-            yield n, getattr(self, n)
-
     def inverse(self, name=NN):
         '''Return the inverse of this transform.
 
            @kwarg name: Optional, unique name (C{str}).
 
-           @return: Inverse (L{Transform}).
-
-           @raise NameError: Transform with that B{C{name}} already exists.
+           @return: Inverse (L{Transform}), unregistered.
         '''
-        d = dict((n, neg(v)) for n, v in self.items())
-        n = name or _minus(self.name)
-        return type(self)(name=n, **d)
+        r = type(self)(**dict(self.items(inverse=True)))
+        n = name or _negstr(self.name)
+        if n:
+            r.name = n  # unregistered
+        return r
 
     @Property_RO
     def isunity(self):
-        '''Is this a C{unity, identidy} transform (C{bool}), like WGS84?
+        '''Is this a C{unity, identity} transform (C{bool}), like
+           WGS84 with translation, scale and rotation all zero?
         '''
-        return not any(s for s in self)
+        return not any(self)
+
+    def items(self, inverse=False):
+        '''Yield the initial attributes, each as 2-tuple C{(name, value)}.
+
+           @kwarg inverse: If C{True}, negate the values (C{bool}).
+        '''
+        _p = neg if inverse else _passarg
+        for n, x in _zip(_Names7, self):
+            yield n, _p(x)
 
     def _rps2(self, s_):
         '''(INTERNAL) Rotation in C{radians} and C{degree-seconds}.
@@ -258,22 +250,21 @@ class Transform(_NamedEnumItem):
         return self._instr(name, prec, *_Names11, fmt=fmt)
 
     def transform(self, x, y, z, inverse=False, **Vector_and_kwds):
-        '''Transform a (geocentric) position, forward or inverse.
+        '''Transform a (cartesian) position, forward or inverse.
 
            @arg x: X coordinate (C{meter}).
            @arg y: Y coordinate (C{meter}).
            @arg z: Z coordinate (C{meter}).
            @kwarg inverse: If C{True}, apply the inverse transform (C{bool}).
            @kwarg Vector_and_kwds: An optional, (3-D) C{B{Vector}=None} or
-                             cartesian class and additional C{B{Vector}}
-                             keyword arguments to return the transformed
-                             point.
+                         cartesian class and additional C{B{Vector}} keyword
+                         arguments to return the transformed position.
 
            @return: The transformed position (L{Vector3Tuple}C{(x, y, z)})
-                    unless some B{C{Vector_and_kwds}} is specified.
+                    unless some B{C{Vector_and_kwds}} are specified.
         '''
         if self.isunity:
-            r = Vector3Tuple(x, y, z, name=self.name)
+            r = Vector3Tuple(x, y, z, name=self.name)  # == inverse
         else:
             xyz1 = x, y, z, _1_0
             s1   = self.s1
@@ -298,69 +289,74 @@ class Transforms(_NamedEnum):
     '''(INTERNAL) L{Transform} registry, I{must} be a sub-class
        to accommodate the L{_LazyNamedEnumItem} properties.
     '''
-    def _Lazy(self, **name_tx_ty_tz_sx_sy_sz_s):
+    def _Lazy(self, **name_tx_ty_tz_s_sx_sy_sz):
         '''(INTERNAL) Instantiate the C{Transform}.
         '''
-        return Transform(**name_tx_ty_tz_sx_sy_sz_s)
+        return Transform(**name_tx_ty_tz_s_sx_sy_sz)
 
 Transforms = Transforms(Transform)  # PYCHOK singleton
 '''Some pre-defined L{Transform}s, all I{lazily} instantiated.'''
 # <https://WikiPedia.org/wiki/Helmert_transformation> from WGS84 to ...
 Transforms._assert(
-    BD72           = _lazy(_BD72_, tx=_F(106.868628), ty=_F(-52.297783), tz=_F(103.723893),
-                     # <https://www.NGI.Be/FR/FR4-4.shtm> ETRS89 == WG84
-                     # <https://EPSG.org/transformation_15929/BD72-to-WGS-84-3.html>
-                                    sx=_F(-0.33657),   sy=_F( -0.456955), sz=_F( -1.84218),
-                                     s=_F( 1.2727)),
-    Bessel1841     = _lazy(_Bessel1841_, tx=_F(-582.0),  ty=_F(-105.0),  tz=_F(-414.0),
-                                         sx=_F(  -1.04), sy=_F(  -0.35), sz=_F(   3.08),
-                                          s=_F(  -8.3)),
+    BD72           = _lazy(_BD72_, tx=_F(106.868628), ty=_F(-52.297783), tz=_F(103.723893), s=_F(1.2727),
+                                   # <https://www.NGI.Be/FR/FR4-4.shtm> ETRS89 == WG84
+                                   # <https://EPSG.org/transformation_15929/BD72-to-WGS-84-3.html>
+                                   sx=_F( -0.33657),  sy=_F( -0.456955), sz=_F( -1.84218)),
+
+    Bessel1841     = _lazy(_Bessel1841_, tx=_F(-582.0),  ty=_F(-105.0),  tz=_F(-414.0), s=_F(-8.3),
+                                         sx=_F(  -1.04), sy=_F(  -0.35), sz=_F(   3.08)),
+
     Clarke1866     = _lazy(_Clarke1866_, tx=_F(8), ty=_F(-160), tz=_F(-176)),
-    DHDN           = _lazy(_DHDN_, tx=_F(-591.28),  ty=_F(-81.35),   tz=_F(-396.39),
-                                   sx=_F(   1.477), sy=_F( -0.0736), sz=_F(  -1.458),
-                                    s=_F(  -9.82)),  # Germany
-    DHDNE          = _lazy(_DHDNE_, tx=_F(-612.4),   ty=_F(-77.0),   tz=_F(-440.2),
-                     # <https://EPSG.org/transformation_15869/DHDN-to-WGS-84-3.html>
-                                    sx=_F(   0.054), sy=_F( -0.057), sz=_F(   2.797),
-                                     s=_F(  -2.55)),  # East Germany
-    DHDNW          = _lazy(_DHDNW_, tx=_F(-598.1),   ty=_F(-73.7),   tz=_F(-418.2),
-                     # <https://EPSG.org/transformation_1777/DHDN-to-WGS-84-2.html>
-                                    sx=_F(  -0.202), sy=_F( -0.045), sz=_F(   2.455),
-                                     s=_F(  -6.7)),  # West Germany
-    ED50           = _lazy(_ED50_, tx=_F(89.5), ty=_F(93.8), tz=_F(123.1),
-                     # <https://GeoNet.ESRI.com/thread/36583> sz=_F(-0.156)
-                     # <https://GitHub.com/ChrisVeness/geodesy/blob/master/latlon-ellipsoidal.js>
-                     # <https://www.Gov.UK/guidance/oil-and-gas-petroleum-operations-notices#pon-4>
-                                                             sz=_F(  0.156), s=_F(-1.2)),
+
+    DHDN           = _lazy(_DHDN_, tx=_F(-591.28),  ty=_F(-81.35),   tz=_F(-396.39), s=_F(-9.82),
+                                   sx=_F(   1.477), sy=_F( -0.0736), sz=_F(  -1.458)),  # Germany
+
+    DHDNE          = _lazy(_DHDNE_, tx=_F(-612.4),   ty=_F(-77.0),   tz=_F(-440.2), s=_F(-2.55),
+                                    # <https://EPSG.org/transformation_15869/DHDN-to-WGS-84-3.html>
+                                    sx=_F(   0.054), sy=_F( -0.057), sz=_F(   2.797)),  # East Germany
+
+    DHDNW          = _lazy(_DHDNW_, tx=_F(-598.1),   ty=_F(-73.7),   tz=_F(-418.2), s=_F(-6.7),
+                                    # <https://EPSG.org/transformation_1777/DHDN-to-WGS-84-2.html>
+                                    sx=_F(  -0.202), sy=_F( -0.045), sz=_F(   2.455)),  # West Germany
+
+    ED50           = _lazy(_ED50_, tx=_F(89.5), ty=_F(93.8), tz=_F(123.1), s=_F(-1.2),
+                                   # <https://GeoNet.ESRI.com/thread/36583> sz=_F(-0.156)
+                                   # <https://GitHub.com/ChrisVeness/geodesy/blob/master/latlon-ellipsoidal.js>
+                                   # <https://www.Gov.UK/guidance/oil-and-gas-petroleum-operations-notices#pon-4>
+                                                             sz=_F(  0.156)),
     Identity       = _lazy(_Identity_),
-    Irl1965        = _lazy(_Irl1965_, tx=_F(-482.530), ty=_F(130.596), tz=_F(-564.557),
-                     # <https://EPSG.org/transformation_1641/TM65-to-WGS-84-2.html>
-                                      sx=_F(   1.042), sy=_F(  0.214), sz=_F(   0.631),
-                                       s=_F(  -8.15)),
-    Irl1975        = _lazy(_Irl1975_, tx=_F(-482.530), ty=_F(130.596), tz=_F(-564.557),
-                     # <https://EPSG.org/transformation_1954/TM75-to-WGS-84-2.html>
-                                      sx=_F(   1.042), sy=_F(  0.214), sz=_F(   0.631),
-                                       s=_F(  -8.15)),
-    Krassovski1940 = _lazy(_Krassovski1940_, tx=_F(-24.0),  ty=_F(123.0), tz=_F(94.0),
-                                             sx=_F( -0.02), sy=    _0_26, sz=_F( 0.13),
-                                              s=_F( -2.423)),  # spelling
-    Krassowsky1940 = _lazy(_Krassowsky1940_, tx=_F(-24.0),  ty=_F(123.0), tz=_F(94.0),
-                                             sx=_F( -0.02), sy=    _0_26, sz=_F( 0.13),
-                                              s=_F( -2.423)),  # spelling
-    MGI            = _lazy(_MGI_, tx=_F(-577.326), ty=_F(-90.129), tz=_F(-463.920),
-                                  sx=_F(   5.137), sy=_F(  1.474), sz=_F(   5.297),
-                                   s=_F(  -2.423)),  # Austria
+
+    Irl1965        = _lazy(_Irl1965_, tx=_F(-482.530), ty=_F(130.596), tz=_F(-564.557), s=_F(-8.15),
+                                       # <https://EPSG.org/transformation_1641/TM65-to-WGS-84-2.html>
+                                      sx=_F(   1.042), sy=_F(  0.214), sz=_F(   0.631)),
+    Irl1975        = _lazy(_Irl1975_, tx=_F(-482.530), ty=_F(130.596), tz=_F(-564.557), s=_F(-8.15),
+                                      # <https://EPSG.org/transformation_1954/TM75-to-WGS-84-2.html>
+                                      sx=_F(   1.042), sy=_F(  0.214), sz=_F(   0.631)),
+
+    Krassovski1940 = _lazy(_Krassovski1940_, tx=_F(-24.0),  ty=_F(123.0),  tz=_F(94.0), s=_F(-2.423),
+                                             sx=_F( -0.02), sy=_F(  0.26), sz=_F( 0.13)),  # spelling
+
+    Krassowsky1940 = _lazy(_Krassowsky1940_, tx=_F(-24.0),  ty=_F(123.0),  tz=_F(94.0), s=_F(-2.423),
+                                             sx=_F( -0.02), sy=_F(  0.26), sz=_F( 0.13)),  # spelling
+
+    MGI            = _lazy(_MGI_, tx=_F(-577.326), ty=_F(-90.129), tz=_F(-463.920), s=_F(-2.423),
+                                  sx=_F(   5.137), sy=_F(  1.474), sz=_F(   5.297)),  # Austria
+
     NAD27          = _lazy(_NAD27_, tx=_8_0, ty=_F(-160), tz=_F(-176)),
-    NAD83          = _lazy(_NAD83_, tx=_F( 1.004),  ty=_F(-1.910),   tz=_F(-0.515),
-                                    sx=_F( 0.0267), sy=_F( 0.00034), sz=_F( 0.011),
-                                     s=_F(-0.0015)),
+
+    NAD83          = _lazy(_NAD83_, tx=_F(1.004),  ty=_F(-1.910),   tz=_F(-0.515), s=_F(-0.0015),
+                                    sx=_F(0.0267), sy=_F( 0.00034), sz=_F( 0.011)),
+
     NTF            = _lazy(_NTF_, tx=_F(-168), ty=_F(-60), tz=_F(320)),  # XXX verify
-    OSGB36         = _lazy(_OSGB36_, tx=_F(-446.448),  ty=_F(125.157),  tz=_F(-542.060),
-                     # <https://EPSG.org/transformation_1314/OSGB36-to-WGS-84-6.html>
-                                     sx=_F(  -0.1502), sy=_F( -0.2470), sz=_F(  -0.8421),
-                                      s=_F(  20.4894)),
+
+    OSGB36         = _lazy(_OSGB36_, tx=_F(-446.448),  ty=_F(125.157),  tz=_F(-542.060), s=_F(20.4894),
+                                     # <https://EPSG.org/transformation_1314/OSGB36-to-WGS-84-6.html>
+                                     sx=_F(  -0.1502), sy=_F( -0.2470), sz=_F(  -0.8421)),
+
     TokyoJapan     = _lazy(_TokyoJapan_, tx=_F(148), ty=_F(-507), tz=_F(-685)),
-    WGS72          = _lazy(_WGS72_, tz=_F(-4.5), sz=_F(0.554), s=_F(-0.22)),
+
+    WGS72          = _lazy(_WGS72_, tz=_F(-4.5), s=_F(-0.22), sz=_F(0.554)),
+
     WGS84          = _lazy(_WGS84_),  # unity
 )
 
@@ -500,7 +496,7 @@ def _earth_datum(inst, a_earth, f=None, name=NN, raiser=_a_ellipsoid_):  # in .k
         E, n, D = _EnD3((a_earth, f), name)
         if raiser and not E:
             raise _TypeError(f=f, **{raiser: a_earth})
-    elif a_earth is _EWGS84 or a_earth in (_EWGS84, _WGS84, None):
+    elif a_earth in (_EWGS84, _WGS84, None) and inst._datum is _WGS84:
         return
     elif isinstance(a_earth, Datum):
         E, n, D =  None, NN, a_earth
@@ -584,6 +580,12 @@ def _EnD3(earth, name):
     return E, n, D
 
 
+def _equall(t1, t2):  # in .trf
+    '''(INTERNAL) Return L{Transform} C{t1 == t2}.
+    '''
+    return all(map(_operator.eq, t1, t2))
+
+
 def _mean_radius(radius, *lats):
     '''(INTERNAL) Compute the mean radius of a L{Datum} from an L{Ellipsoid},
        L{Ellipsoid2} or scalar earth C{radius} over several latitudes.
@@ -598,11 +600,24 @@ def _mean_radius(radius, *lats):
     return r
 
 
-def _minus(name):  # in .trf
-    '''(INTERNAL) Name of C{inverse} Xform.
-    '''
-    m = _MINUS_
-    return name[len(m):] if name.startswith(m) else NN(m, name)
+try:
+    _MINUSxPLUS = str.maketrans({_MINUS_: _PLUS_, _PLUS_: _MINUS_})
+
+    def _negstr(name):  # in .trf
+        '''(INTERNAL) Negate a C{Transform/-Xform} name.
+        '''
+        n = name.translate(_MINUSxPLUS)
+        return n.lstrip(_PLUS_) if n.startswith(_PLUS_) else NN(_MINUS_, n)
+
+except AttributeError:  # no str.maketran in Python 2-
+    from pygeodesy.interns import _BAR_
+
+    def _negstr(name):  # PYCHOK in .trf
+        '''(INTERNAL) Negate a C{Transform/-Xform} name.
+        '''
+        b, m, p = _BAR_, _MINUS_, _PLUS_
+        n = name.replace(m, b).replace(p, m).replace(b, p)
+        return n.lstrip(p) if n.startswith(p) else NN(m, n)
 
 
 def _spherical_datum(earth, Error=TypeError, name=NN, raiser=NN):

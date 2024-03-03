@@ -32,7 +32,7 @@ from pygeodesy.props import _allPropertiesOf_n, deprecated_method, _hasProperty,
 from pygeodesy.streprs import attrs, Fmt, lrstrip, pairs, reprs, unstr
 
 __all__ = _ALL_LAZY.named
-__version__ = '24.02.22'
+__version__ = '24.02.27'
 
 _COMMANL_           = _COMMA_ + _NL_
 _COMMASPACEDOT_     = _COMMASPACE_ + _DOT_
@@ -968,6 +968,9 @@ class _NamedTuple(tuple, _Named):
 #       '''Get the item(s) at an B{C{index}} or slice.
 #       '''
 #       return tuple.__getitem__(self, index)
+
+    def __hash__(self):
+        return tuple.__hash__(self)
 
     def __repr__(self):
         '''Default C{repr(self)}.

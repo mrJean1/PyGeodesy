@@ -39,7 +39,7 @@ from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.dms import degDMS, parseDMS2
 from pygeodesy.errors import MGRSError, RangeError, _ValueError, \
                             _xkwds_get
-from pygeodesy.fmath import fdot3, hypot, hypot1
+from pygeodesy.fmath import fdot3, hypot, hypot1,  _operator
 from pygeodesy.interns import MISSING, NN, _by_, _COMMASPACE_, _N_, \
                              _NS_, _outside_, _range_, _S_, _scale0_, \
                              _SPACE_, _UTM_, _V_, _X_, _zone_, _under
@@ -60,10 +60,10 @@ from pygeodesy.utmupsBase import _hemi, _LLEB, _parseUTMUPS5, _to4lldn, \
 
 from math import asinh, atanh, atan2, cos, cosh, degrees, fabs, \
                  radians, sin, sinh, tan, tanh
-from operator import mul as _mul
+# import operator as _operator  # from .fmath
 
 __all__ = _ALL_LAZY.utm
-__version__ = '23.12.07'
+__version__ = '24.02.29'
 
 _Bands = 'CDEFGHJKLMNPQRSTUVWXX'  # UTM latitude bands C..X (no
 # I|O) 8° each, covering 80°S to 84°N and X repeated for 80-84°N
@@ -94,20 +94,21 @@ class _Kseries(object):
            @arg x: Eta angle (C{radians}).
            @arg y: Ksi angle (C{radians}).
         '''
-        n, j2 = len2(range(2, len(AB) * 2 + 1, 2))
+        n,   j2 = len2(range(2, len(AB) * 2 + 1, 2))
+        _m2, _x = map2, _operator.mul
 
-        self._ab = AB
-        self._pq = map2(_mul, j2, AB)
+        self._ab =  AB
+        self._pq = _m2(_x, j2, AB)
 #       assert len(self._ab) == len(self._pq) == n
 
-        x2 = map2(_mul, j2, (x,) * n)
-        self._chx = map2(cosh, x2)
-        self._shx = map2(sinh, x2)
+        x2 = _m2(_x, j2, (x,) * n)
+        self._chx = _m2(cosh, x2)
+        self._shx = _m2(sinh, x2)
 #       assert len(x2) == len(self._chx) == len(self._shx) == n
 
-        y2 = map2(_mul, j2, (y,) * n)
-        self._cy = map2(cos, y2)
-        self._sy = map2(sin, y2)
+        y2 = _m2(_x, j2, (y,) * n)
+        self._cy = _m2(cos, y2)
+        self._sy = _m2(sin, y2)
         # self._sy, self._cy = splice(sincos2(*y2))  # PYCHOK false
 #       assert len(y2) == len(self._cy) == len(self._sy) == n
 

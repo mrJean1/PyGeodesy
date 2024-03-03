@@ -37,7 +37,7 @@ from pygeodesy.units import Epoch, _isDegrees, Radius_, _1mm as _TOL_M
 # from math import fabs  # from .latlonBase
 
 __all__ = _ALL_LAZY.ellipsoidalBase
-__version__ = '24.02.22'
+__version__ = '24.03.02'
 
 
 class CartesianEllipsoidalBase(CartesianBase):
@@ -198,7 +198,7 @@ class CartesianEllipsoidalBase(CartesianBase):
                                                       epoch2=epoch2, name=name)
 
     @deprecated_method
-    def toTransforms_(self, *transforms, **datum):
+    def toTransforms_(self, *transforms, **datum):  # PYCHOK no cover
         '''DEPRECATED on 2024.02.14, use method C{toTransform}.'''
         r = self
         for t in transforms:

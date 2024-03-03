@@ -93,8 +93,8 @@
         <span class="summary-sig-arg">xform</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">rates</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
-      New <a href="pygeodesy.trf-module.html#trfXform" 
-      class="link">trfXform</a>.</td>
+      New <a href="pygeodesy.trf.TRFXform-class.html" 
+      class="link">TRFXform</a> TRF converter.</td>
           <td align="right" valign="top">
             
             
@@ -211,9 +211,26 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a name="__sub__"></a><span class="summary-sig-name">__sub__</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>)</span></td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.trf.TRFXform-class.html#inverse" class="summary-sig-name">inverse</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
-      Get an <i>inverse</i> of this Xform, <code>refName1</code> and 
+      Return this Xform {inversed}, <code>refName1</code> and 
       <code>-2</code> swapped.</td>
           <td align="right" valign="top">
             
@@ -286,9 +303,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.trf.TRFXform-class.html#toRefFrame" class="summary-sig-name">toRefFrame</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">point</span>,
-        <span class="summary-sig-arg">epoch</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='GRS80', ellipsoid=Ellipsoids.GRS80, transform=Tran<code class="variable-ellipsis">...</code></span>,
-        <span class="summary-sig-arg">**epoch2_name</span>)</span><br />
+        <span class="summary-sig-arg">**epoch_epoch2_name</span>)</span><br />
       Convert an ellipsoidal point from this Xform's <code>refName1</code> 
       and <code>epoch</code> to this Xform's <code>refName2</code> and 
       <code>epoch2 or epoch</code>.</td>
@@ -451,7 +467,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.trf.TRFXform-class.html#epoched" class="summary-name">epoched</a><br />
-      Get this Xform's <i>epoch</i> deltas (<code>float</code>).
+      Get this Xform's aggregate <i>epoch</i> deltas (<code>float</code>).
     </td>
   </tr>
 <tr>
@@ -536,8 +552,8 @@
     </td>
   </tr></table>
   
-  <p>New <a href="pygeodesy.trf-module.html#trfXform" 
-  class="link">trfXform</a>.</p>
+  <p>New <a href="pygeodesy.trf.TRFXform-class.html" 
+  class="link">TRFXform</a> TRF converter.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -546,7 +562,7 @@
         <li><strong class="pname"><code>epoch</code></strong> - Epoch, a fractional year (<a 
           href="pygeodesy.units.Epoch-class.html" class="link">Epoch</a>, 
           <code>scalar</code> or <code>str</code>).</li>
-        <li><strong class="pname"><code>xform</code></strong> - <i>Transform</i> parameters (<a 
+        <li><strong class="pname"><code>xform</code></strong> - <i>Transform</i> parameters at <b><code>epoch</code></b> (<a 
           href="pygeodesy.trf.TRFXform7Tuple-class.html" 
           class="link">TRFXform7Tuple</a>).</li>
         <li><strong class="pname"><code>rates</code></strong> - <i>Rate</i> parameters (<a 
@@ -557,19 +573,25 @@
           method <a href="pygeodesy.trf.TRFXform-class.html#toStr" 
           class="link">toStr</a>.</li>
     </ul></dd>
-    <dt>Returns:</dt>
-        <dd>The TRF converter (<a href="pygeodesy.trf.TRFXform-class.html" 
-          class="link">TRFXform</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.TRFError-class.html">TRFError</a></strong></code> - Invalid <b><code>epoch</code></b>, <b><code>xform</code></b> or 
-        <b><code>rates</code></b>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.TRFError-class.html">TRFError</a></strong></code> - Invalid <b><code>refName1</code></b>, <b><code>refName2</code></b> 
+        or <b><code>epoch</code></b>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>xform</code></b> or <b><code>rates</code></b>.</li>
     </ul></dd>
     <dt>Overrides:
         object.__init__
     </dt>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>See Also:</strong>
+        Functions <a href="pygeodesy.trf-module.html#trfXform" 
+        class="link">trfXform</a>, <a 
+        href="pygeodesy.trf-module.html#trfTransform0" 
+        class="link">trfTransform0</a> and <a 
+        href="pygeodesy.trf-module.html#trfTransforms" 
+        class="link">trfTransforms</a>.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="__repr__"></a>
 <div>
@@ -634,11 +656,11 @@
     </td>
   </tr></table>
   
-  <p>Get an <i>inverse</i> of this Xform, <code>refName1</code> and 
+  <p>Return this Xform {inversed}, <code>refName1</code> and 
   <code>-2</code> swapped.</p>
   <dl class="fields">
     <dt>Returns:</dt>
-        <dd>Inverse (<a href="pygeodesy.trf.TRFXform-class.html" 
+        <dd>The inverse (<a href="pygeodesy.trf.TRFXform-class.html" 
           class="link">TRFXform</a>).</dd>
   </dl>
 </td></tr></table>
@@ -747,9 +769,8 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toRefFrame</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">point</span>,
-        <span class="sig-arg">epoch</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">datum</span>=<span class="sig-default">Datum(name='GRS80', ellipsoid=Ellipsoids.GRS80, transform=Tran<code class="variable-ellipsis">...</code></span>,
-        <span class="sig-arg">**epoch2_name</span>)</span>
+        <span class="sig-arg">**epoch_epoch2_name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -764,14 +785,12 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>point</code></strong> - The point to convert (<code>Cartesian</code> or 
           <code>LatLon</code>).</li>
-        <li><strong class="pname"><code>epoch</code></strong> - Optional epoch ((<a href="pygeodesy.units.Epoch-class.html" 
-          class="link">Epoch</a>, <code>scalar</code> or 
-          <code>str</code>)), overriding this Xform's <code>epoch</code>.</li>
         <li><strong class="pname"><code>datum</code></strong> - Optional datum to define a temporary <a 
           href="pygeodesy.trf.RefFrame-class.html" 
           class="link">RefFrame</a> from this Xform's <code>refName1</code>
           or <code>refName2</code> (<code>datum</code>).</li>
-        <li><strong class="pname"><code>epoch2_name</code></strong> - Optional keyword arguments <b><code>epoch2</code>=None</b> and 
+        <li><strong class="pname"><code>epoch_epoch2_name</code></strong> - Optional keyword arguments <code><b>epoch</b>=None</code>, 
+          <b><code>epoch2</code>=None</b> and 
           <code><b>name</b>=refName1</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -918,11 +937,12 @@ class="link">Epoch</a>, <code>scalar</code> or <code>str</code>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">epoched</h3>
-  <p>Get this Xform's <i>epoch</i> deltas (<code>float</code>).</p>
+  <p>Get this Xform's aggregate <i>epoch</i> deltas 
+  (<code>float</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">epoched(<span class="summary-sig-arg">self</span>)</span>
-        - Get this Xform's <i>epoch</i> deltas (<code>float</code>).
+        - Get this Xform's aggregate <i>epoch</i> deltas (<code>float</code>).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -1065,7 +1085,7 @@ class="link">Epoch</a>, <code>scalar</code> or <code>str</code>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Feb 25 12:37:25 2024
+    Generated by Epydoc 3.0.1 on Sat Mar  2 17:11:30 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

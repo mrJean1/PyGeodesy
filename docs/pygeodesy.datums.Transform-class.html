@@ -105,10 +105,10 @@
         <span class="summary-sig-arg">tx</span>=<span class="summary-sig-default">0</span>,
         <span class="summary-sig-arg">ty</span>=<span class="summary-sig-default">0</span>,
         <span class="summary-sig-arg">tz</span>=<span class="summary-sig-default">0</span>,
+        <span class="summary-sig-arg">s</span>=<span class="summary-sig-default">0</span>,
         <span class="summary-sig-arg">sx</span>=<span class="summary-sig-default">0</span>,
         <span class="summary-sig-arg">sy</span>=<span class="summary-sig-default">0</span>,
-        <span class="summary-sig-arg">sz</span>=<span class="summary-sig-default">0</span>,
-        <span class="summary-sig-arg">s</span>=<span class="summary-sig-default">0</span>)</span><br />
+        <span class="summary-sig-arg">sz</span>=<span class="summary-sig-default">0</span>)</span><br />
       New <a href="pygeodesy.datums.Transform-class.html" 
       class="link">Transform</a>.</td>
           <td align="right" valign="top">
@@ -162,7 +162,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a name="__iter__"></a><span class="summary-sig-name">__iter__</span>(<span class="summary-sig-arg">self</span>)</span><br />
-      Yield the initial attribute values.</td>
+      Yield the initial attribute values, <i>in order</i>.</td>
           <td align="right" valign="top">
             
             
@@ -213,8 +213,9 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="items"></a><span class="summary-sig-name">items</span>(<span class="summary-sig-arg">self</span>)</span><br />
-      Yield each attribute as 2-tuple <code>(name, value)</code>.</td>
+          <td><span class="summary-sig"><a href="pygeodesy.datums.Transform-class.html#inverse" class="summary-sig-name">inverse</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+      Return the inverse of this transform.</td>
           <td align="right" valign="top">
             
             
@@ -230,9 +231,10 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.datums.Transform-class.html#inverse" class="summary-sig-name">inverse</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
-      Return the inverse of this transform.</td>
+          <td><span class="summary-sig"><a href="pygeodesy.datums.Transform-class.html#items" class="summary-sig-name">items</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">inverse</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Yield the initial attributes, each as 2-tuple <code>(name, 
+      value)</code>.</td>
           <td align="right" valign="top">
             
             
@@ -275,7 +277,7 @@
         <span class="summary-sig-arg">z</span>,
         <span class="summary-sig-arg">inverse</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">**Vector_and_kwds</span>)</span><br />
-      Transform a (geocentric) position, forward or inverse.</td>
+      Transform a (cartesian) position, forward or inverse.</td>
           <td align="right" valign="top">
             
             
@@ -420,8 +422,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.datums.Transform-class.html#isunity" class="summary-name">isunity</a><br />
-      Is this a <code>unity, identidy</code> transform (<code>bool</code>),
-      like WGS84?
+      Is this a <code>unity, identity</code> transform (<code>bool</code>),
+      like WGS84 with translation, scale and rotation all zero?
     </td>
   </tr>
   <tr>
@@ -466,10 +468,10 @@
         <span class="sig-arg">tx</span>=<span class="sig-default">0</span>,
         <span class="sig-arg">ty</span>=<span class="sig-default">0</span>,
         <span class="sig-arg">tz</span>=<span class="sig-default">0</span>,
+        <span class="sig-arg">s</span>=<span class="sig-default">0</span>,
         <span class="sig-arg">sx</span>=<span class="sig-default">0</span>,
         <span class="sig-arg">sy</span>=<span class="sig-default">0</span>,
-        <span class="sig-arg">sz</span>=<span class="sig-default">0</span>,
-        <span class="sig-arg">s</span>=<span class="sig-default">0</span>)</span>
+        <span class="sig-arg">sz</span>=<span class="sig-default">0</span>)</span>
     <br /><em class="fname">(Constructor)</em>
   </h3>
   </td><td align="right" valign="top"
@@ -610,10 +612,31 @@
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Inverse (<a href="pygeodesy.datums.Transform-class.html" 
-          class="link">Transform</a>).</dd>
-    <dt>Raises:</dt>
+          class="link">Transform</a>), unregistered.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="items"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">items</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">inverse</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Yield the initial attributes, each as 2-tuple <code>(name, 
+  value)</code>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>NameError</strong></code> - Transform with that <b><code>name</code></b> already exists.</li>
+        <li><strong class="pname"><code>inverse</code></strong> - If <code>True</code>, negate the values (<code>bool</code>).</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -672,7 +695,7 @@
     </td>
   </tr></table>
   
-  <p>Transform a (geocentric) position, forward or inverse.</p>
+  <p>Transform a (cartesian) position, forward or inverse.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -683,13 +706,13 @@
           (<code>bool</code>).</li>
         <li><strong class="pname"><code>Vector_and_kwds</code></strong> - An optional, (3-D) <code><b>Vector</b>=None</code> or cartesian 
           class and additional <code><b>Vector</b></code> keyword arguments
-          to return the transformed point.</li>
+          to return the transformed position.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The transformed position (<a 
           href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
           class="link">Vector3Tuple</a><code>(x, y, z)</code>) unless some 
-          <b><code>Vector_and_kwds</code></b> is specified.</dd>
+          <b><code>Vector_and_kwds</code></b> are specified.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -709,13 +732,13 @@
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">isunity</h3>
-  <p>Is this a <code>unity, identidy</code> transform (<code>bool</code>), 
-  like WGS84?</p>
+  <p>Is this a <code>unity, identity</code> transform (<code>bool</code>), 
+  like WGS84 with translation, scale and rotation all zero?</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">isunity(<span class="summary-sig-arg">self</span>)</span>
-        - Is this a <code>unity, identidy</code> transform (<code>bool</code>), like 
-WGS84?
+        - Is this a <code>unity, identity</code> transform (<code>bool</code>), like 
+WGS84 with translation, scale and rotation all zero?
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -761,7 +784,7 @@ WGS84?
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Feb 25 12:37:23 2024
+    Generated by Epydoc 3.0.1 on Sat Mar  2 17:11:27 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -8,7 +8,7 @@
 # <https://GitHub.com/ChrisVeness/geodesy/blob/master/test/latlon-ellipsoidal-referenceframe-tests.js>
 
 __all__ = ('Tests',)
-__version__ = '24.02.18'
+__version__ = '24.02.26'
 
 from bases import GeodSolve, isPython2, TestsBase
 
@@ -80,8 +80,8 @@ class Tests(TestsBase):
         self.test('Cartesian', c, '[-734972.563, 4893188.492, 4011982.811]')
 
         # Tutorial <https://EPNCB.OMA.Be/_productsservices/coord_trans>
-        def _ts(x, c, r1, r2, e):
-            for i, T in enumerate(trfTransforms(r1, r2, epoch=e)):
+        def _ts(x, c, r1, r2, e, **exhaust):
+            for i, T in enumerate(trfTransforms(r1, r2, epoch=e, **exhaust)):
                 x = T.toRefFrame(x)
                 d = c - x
                 t = '%s  %.5g  %s' % (T.name, d.length, fstr(T.Xform.epoched, prec=3))
@@ -90,7 +90,7 @@ class Tests(TestsBase):
         c = Cartesian(4027894.006, 307045.600, 4919474.910)
         x = c.toRefFrame(RefFrames.ITRF2005, RefFrames.ITRF91, 2007)
         self.test('EUREF EX1', x.toStr(prec=4), '[4027894.0444, 307045.6209, 4919474.8613]', known=isPython2, nl=1)
-        _ts(x, c, 'ITRF2005', 'ITRF91', 2007)
+        _ts(x, c, 'ITRF2005', 'ITRF91', 2007, exhaust=True)
 
         x = x.toRefFrame(RefFrames.ITRF91, RefFrames.ITRF2005, 2007)
         self.test('EUREF EX2', x.toStr(prec=-4), c.toStr(prec=-4), known=isPython2)

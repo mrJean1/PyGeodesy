@@ -30,7 +30,7 @@ from pygeodesy.units import Float, Scalar
 from math import atan2, ceil, fabs, floor, trunc
 
 __all__ = _ALL_LAZY.vector3dBase
-__version__ = '24.01.19'
+__version__ = '24.02.28'
 
 
 class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
@@ -1019,12 +1019,12 @@ def _xyz3(where, x_xyz, *y_z):  # in .cartesianBase._rtp3
     '''(INTERNAL) Helper for C{Vector3dBase.__init__}, C{-.apply}, C{-.times_} and C{-._xyz}.
     '''
     try:
-        x, y, z = map1(_float0, x_xyz, *y_z) if y_z else (  # islistuple for VectorXTuple
-                  map2(_float0, x_xyz[:3]) if islistuple(x_xyz, minum=3) else
-                  x_xyz.xyz)
+        x_y_z = map1(_float0, x_xyz, *y_z) if y_z else (  # islistuple for VectorXTuple
+                map2(_float0, x_xyz[:3]) if islistuple(x_xyz, minum=3) else
+                x_xyz.xyz)
     except (AttributeError, TypeError, ValueError) as x:
         raise _xError(x, unstr(where, x_xyz, *y_z))
-    return x, y, z
+    return x_y_z
 
 
 __all__ += _ALL_DOCS(Vector3dBase)
