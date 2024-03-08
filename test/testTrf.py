@@ -8,7 +8,7 @@
 # <https://GitHub.com/ChrisVeness/geodesy/blob/master/test/latlon-ellipsoidal-referenceframe-tests.js>
 
 __all__ = ('Tests',)
-__version__ = '24.02.26'
+__version__ = '24.03.08'
 
 from bases import GeodSolve, isPython2, TestsBase
 
@@ -210,8 +210,28 @@ class Tests(TestsBase):
             d = e.length
             return c.toStr(prec=p), x.toStr(prec=p), d, '%s %.4g' % (e.toStr(prec=9), d)
 
+        # Alamimi, Z. Example 2 <http://ETRS89.ENSG.IGN.FR/pub/EUREF-TN-1-Jan-31-2024.pdf>
+        f, r1 =        (4027893.5389, 307046.0755, 4919475.2745), 'ITRF2020'
+        for t, r2 in (((4027893.9574, 307045.5561, 4919474.9643), 'ETRF2020'),
+                      ((4027893.5358, 307046.0740, 4919475.2748), 'ITRF2014'),
+                      ((4027893.9639, 307045.5450, 4919474.9573), 'ETRF2014'),
+                      ((4027893.5505, 307046.0772, 4919475.2456), 'ITRF2000'),
+                      ((4027894.0033, 307045.5889, 4919474.9047), 'ETRF2000')):
+            T = trfTransform0(r1, r2, epoch=2020)
+            x = T.toStr(prec=9)
+            self.test('transform0', x, x, nl=1)
+            c, v = T.transform2(*f, Vector=Vector3d)
+            c, x, d, e = _t4(c, t, -4)
+            self.test('transform2c', c, x, known=d < 1.e-4)
+            self.test('    Error2c', e, e)
+            v = v.toStr(prec=-5)
+            self.test('transform2v', v, v)
+            v = T.velocities(Vector=Vector3d).toStr(prec=-5)
+            self.test('transform0v', v, v)
+            f, r1 = t, r2
+
         # Alamimi, Z. Example 1 <http://ETRS89.ENSG.IGN.FR/pub/EUREF-TN-1-Jan-31-2024.pdf>
-        f, _, r1 =        (4027893.6750, 307045.9069, 4919475.1721), (-0.01361,  0.01686,  0.01024), 'ITRF2020'
+        f, v, r1 =        (4027893.6750, 307045.9069, 4919475.1721), (-0.01361,  0.01686,  0.01024), 'ITRF2020'
         for t, w, r2 in (((4027893.9585, 307045.5550, 4919474.9619), ( 0.00011,  0.00011,  0.00024), 'ETRF2020'),
                          ((4027893.6719, 307045.9064, 4919475.1704), (-0.01361,  0.01676,  0.01044), 'ITRF2014'),
                          ((4027893.9620, 307045.5480, 4919474.9553), ( 0.00020, -0.00030,  0.00020), 'ETRF2014'),
@@ -220,15 +240,18 @@ class Tests(TestsBase):
             T = trfTransform0(r1, r2, epoch=2010)
             x = T.toStr(prec=9)
             self.test('transform0', x, x, nl=1)
-            c = T.transform(*f, Vector=Vector3d)
+            c, v = T.transform2(*(f + v), Vector=Vector3d)
             c, x, d, e = _t4(c, t, -4)
-            self.test('transform0c', c, x, known=d < 1.e-4)
-            self.test('    Error0c', e, e)
+            self.test('transform2c', c, x, known=d < 1.e-4)
+            self.test('    Error2c', e, e)
+            v, x, d, e = _t4(v, w, -5)
+            self.test('transform2v', v, x, known=d < 1.0 or d > 100.0)
+            self.test('    Error2v', e, e)
             v = T.velocities(Vector=Vector3d)
             v, x, d, e = _t4(v, w, -5)
             self.test('transform0v', v, x, known=d < 1.0)
             self.test('    Error0v', e, e)
-            f, r1 = t, r2
+            f, r1, v = t, r2, w
 
         t = str(T)
         self.test('toTransform', t, t, nl=1)

@@ -25,7 +25,7 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, \
 from functools import wraps as _wraps
 
 __all__ = _ALL_LAZY.props
-__version__ = '24.02.21'
+__version__ = '24.03.06'
 
 _class_       = 'class'
 _dont_use_    = _DEPRECATED_ + ", don't use."
@@ -80,7 +80,7 @@ def _hasProperty(inst, name, *Classes):  # in .named._NamedBase._update
 #     return f(obj)
 
 
-def _update_all(inst, *attrs, **Base):
+def _update_all(inst, *attrs, **Base_needed):
     '''(INTERNAL) Zap all I{cached} L{property_RO}s, L{Property}s,
        L{Property_RO}s and the named C{attrs} of an instance.
 
@@ -93,8 +93,8 @@ def _update_all(inst, *attrs, **Base):
     except AttributeError:
         return 0
     u = len(d)
-    if u:
-        B = _xkwds_get(Base, Base=_PropertyBase)
+    if u >  _xkwds_get(Base_needed, needed=0):
+        B = _xkwds_get(Base_needed, Base=_PropertyBase)
         for p in _allPropertiesOf(inst, B):
             p._update(inst)  # d.pop(p.name, None)
 

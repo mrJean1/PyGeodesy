@@ -5,9 +5,9 @@ u'''I{Veness}' Terrestrial Reference Frames (TRF).
 
 Classes L{RefFrame}, registry L{RefFrames} and L{TRFError}.
 
-Transcoded from I{Chris Veness'} (C) 2006-2022 JavaScript originals
-U{latlon-ellipsoidal-referenceframe.js<https://GitHub.com/ChrisVeness/geodesy/blob/master/
-latlon-ellipsoidal-referenceframe.js>} and U{latlon-ellipsoidal-referenceframe-txparams.js
+Transcoded from I{Chris Veness'} (C) 2006-2022 JavaScript originals U{latlon-ellipsoidal-referenceframe.js
+<https://GitHub.com/ChrisVeness/geodesy/blob/master/latlon-ellipsoidal-referenceframe.js>} and
+U{latlon-ellipsoidal-referenceframe-txparams.js
 <https://GitHub.com/ChrisVeness/geodesy/blob/master/latlon-ellipsoidal-referenceframe-txparams.js>}.
 
 Following is a copy of the comments in I{Veness}' U{latlon-ellipsoidal-referenceframe.js
@@ -70,39 +70,39 @@ en/how-to-deal-with-etrs89-datum-and-time-dependent-transformation-parameters-45
 '''
 
 from pygeodesy.basics import map1, neg, isidentifier, isstr, _xinstanceof, _xisscalar
-from pygeodesy.constants import _float as _F, _0_0s, _0_0, _0_001, _0_5, _1_0, _N_1_0
+from pygeodesy.constants import _float as _F, _0_0s, _0_0, _0_001, _0_5, _1_0
 from pygeodesy.datums import Datums, _earth_datum, _equall, _GDA2020_, _Names7, \
-                            _negstr, Transform, _S1_S, _WGS84,  _EWGS84, _operator
+                            _negastr, Transform, _WGS84,  _EWGS84, _operator
 # from pygeodesy.ellipsoids import _EWGS84  # from .datums
 from pygeodesy.errors import TRFError, _xattr, _xellipsoidall, _xkwds, _xkwds_item2
 from pygeodesy.interns import MISSING, NN, _AT_, _COMMASPACE_, _conversion_, \
                              _datum_, _DOT_, _exists_, _invalid_, _MINUS_, \
                              _NAD83_, _no_, _PLUS_, _reframe_, _s_, _SPACE_, \
                              _STAR_, _to_, _vs_, _WGS84_, _x_, _intern as _i
-from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
+# from pygeodesy.lazily import _ALL_LAZY  # from .units
 from pygeodesy.named import ADict, classname, _lazyNamedEnumItem as _lazy, _Named, \
                            _NamedEnum, _NamedEnumItem, _NamedTuple,  Fmt, unstr
 from pygeodesy.props import deprecated_method, property_doc_, Property_RO, property_RO
 # from pygeodesy.streprs import Fmt, unstr  # from .named
-from pygeodesy.units import Epoch, Float
+from pygeodesy.units import Epoch, Float,  _ALL_LAZY
+# from pygeodesy.utily import sincos2d_
 
 from math import ceil as _ceil
 # import operator as _operator  # from .datums
 
 __all__ = _ALL_LAZY.trf
-__version__ = '24.03.02'
+__version__ = '24.03.08'
 
 _EP0CH    =  Epoch(0, low=0)
 _Es       = {_EP0CH: _EP0CH}  # L{Epoch}s, deleted below
 _GRS80    =  Datums.GRS80
 _inverse_ = 'inverse'
 _MAS      = _MM = _PPB = Float  # Units
-_MM2M     = _0_001  # scale mm2m, ppb2ppM, mas2as
+_MM2M     = _0_001  # scale mm2m, ppB2ppM, mas2as
 _mDays    = (0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31, 0)
 _366_0    = _F(sum(_mDays))
 _rates_   = 'rates'  # PYCHOK used!
 _Rs       = {}  # L{TRFXform7Tuple}s de-dup, deleted below
-_S_S1     = _N_1_0 / _S1_S  # Transform.s for .s1 == 0
 _xform_   = 'xform'  # PYCHOK used!
 _Xs       = {}  # L{TRFXform7Tuple}s de-dup, deleted below
 
@@ -274,33 +274,35 @@ class RefFrame(_NamedEnumItem):
     def Xforms(self, inverse=False):
         '''Return all Xforms converting I{from} or I{to} this reference frame or both.
 
-           @kwarg inverse: If C{True}, get all I{inverse, to} Xforms un-inverted (C{bool})
-                           or if C{B{inverse}=2} (C{int}) get all I{to} Xforms I{inverted}
-                           plus all I{from} Xforms.
+           @kwarg inverse: If C{True}, get all I{from} otherwise I{to} Xforms
+                           I{un-inverted} (C{bool}) or if C{B{inverse}=2} (C{int})
+                           get all I{to} Xforms I{inverted} plus all I{from}s.
 
            @return: An L{ADict} of C{name=}L{TRFXform}s I{from} this reframe or if
                     C{B{inverse}=True} I{to} this reframe or both if C{B{inverse}=2}.
         '''
-        return self._Xforms(inverse, RefFrames)
+        return ADict(self._Xitems(inverse, RefFrames))
 
-    def _Xforms(self, inverse, RFs):
-        '''(INTERNAL) Helper for _eXhaustives, .Xforms.
-        '''
-        i = inverse == 2
-        d = ADict(self._Xfrom(RFs, i) if inverse else self._Xto)
-        if i:
-            d.update(self._Xto)  # to overrides from
-        return d
-
-    def _Xfrom(self, RFs, i):
-        '''(INTERNAL) Yield the re-/inversed items as 2-tuple (refName,
-           I{from} Xform) converting I{to} this reframe.
+    def _Xfrom(self, RFs, inverted):
+        '''(INTERNAL) Yield all 2-tuples C{(name, I{from} Xform)} converting I{to}
+           this reframe, inverted if C{inverted is True}.
         '''
         n2 = self.name
         for n1, r in RFs.items():
             X = r._Xto.get(n2, None)
             if X:
-                yield n1, (X.inverse() if i else X)
+                yield n1, (X.inverse() if inverted else X)
+
+    def _Xitems(self, inverse, RFs):  # in _eXhaustives, .Xforms
+        '''(INTERNAL) Yield all C{._Xfrom} and C{._Xto}'s as 2-tuple items.
+        '''
+        i = inverse == 2
+        if i or inverse:
+            for item in self._Xfrom(RFs, i):
+                yield item
+        if i or not inverse:
+            for item in self._Xto.items():
+                yield item
 
 
 class RefFrames(_NamedEnum):
@@ -381,6 +383,17 @@ class TransformXform(Transform):
     def __hash__(self):
         return Transform.__hash__(self)
 
+    def inverse(self, name=NN):
+        '''Return the inverse of this transform.
+
+           @kwarg name: Optional, unique name (C{str}).
+
+           @return: Inverse (L{TransformXform}), unregistered.
+        '''
+        r = Transform.inverse(name=name)
+        r._Xform = r.Xform.inverse()
+        return r
+
     def rename(self, name=NN):
         '''Change this transform's name.
 
@@ -433,11 +446,64 @@ class TransformXform(Transform):
             raise TRFError(Xform=X, txt=MISSING)
         return X.toTransform(epoch1, **epoch2_inverse)
 
+    def transform2(self, x, y, z, vx=0, vy=0, vz=0, inverse=False, factor=_MM2M,
+                                                  **Vector_and_kwds):
+        '''Transform a (cartesian) position I{with} velocities, forward or inverse.
+
+           @arg x: X coordinate (C{meter}).
+           @arg y: Y coordinate (C{meter}).
+           @arg z: Z coordinate (C{meter}).
+           @kwarg vx: X velocity (C{meter-per-year}).
+           @kwarg vy: Y velocity (C{meter-per-year}).
+           @kwarg vz: Z velocity (C{meter-per-year}).
+           @kwarg inverse: If C{True}, apply the inverse transform (C{bool}).
+           @kwarg factor: Factor to scale this Xform's C{rates} (C{scalar}),
+                          default from C{milli-meter-} to C{meter-per-year},
+                          from C{milli-arc-} to C{arc-seconds-per-year} and
+                          from C{ppB-} to C{ppM-per-year}.
+           @kwarg Vector_and_kwds: An optional, (3-D) C{B{Vector}=None} or cartesian
+                         class and additional C{B{Vector}} keyword arguments to
+                         return the transformed position and the I{velocities}.
+
+           @return: 2-Tuple C{(position, velocities)}, the tranformed C{position}
+                    and C{velocities}, each a L{Vector3Tuple}C{(x, y, z)} unless
+                    some B{C{Vector_and_kwds}} are specified.
+
+           @note: If this transform's Xform is missing, the returned C{velocities}
+                  are the given ones, I{un-transformed}.
+
+           @raise TypeError: Non-scalar B{C{factor}}.
+
+           @see: Soler, T. & Snay, R.A. "Transforming Positions and Velocities ...", U{equations
+                 (4) and (5)<https://www.NGS.NOAA.gov/CORS/Articles/SolerSnayASCE.pdf>}
+                 and HTDP functions C{VTRANF} and C{VTRANF_IERS} in file U{HTDP/hdtp.f
+                 <https://Geodesy.NOAA.gov/TOOLS/Htdp/Htdp.shtml>}.
+        '''
+        p = self.transform(x, y, z, inverse=inverse, **Vector_and_kwds)
+        X = self.Xform
+        if X is not None:
+            r = X.rates * factor  # equ (4) ...
+            # vx', vy', vz' = (.tx + x * .s  + y * .rz - z * .ry,
+            #                  .ty - x * .rz + y * .s  + z * .rx,
+            #                  .tz + x * .ry - y * .rx + z * .s)
+            # using counter-/clockwise .rx, .ry, and .rz
+            V = Transform(**dict(r.items()))  # unregistered
+            _ = V._s_s1(r.s)
+            v = V.transform(p.x, p.y, p.z, inverse=inverse)
+            # + (vx, vy, vz) like HTDP
+            vx += v.x
+            vy += v.y
+            vz += v.z
+        v = p.dup(x=vx, y=vy, z=vz, name=NN(p.name, _vs_))
+        return p, v
+
     def velocities(self, factor=_MM2M, **Vector_and_kwds):
         '''Compute the X, Y and Z I{velocities} of this transform.
 
            @kwarg factor: Factor to scale this Xform's C{rates} (C{scalar}),
-                          default from C{milli-meter-} to C{meter-per-year}.
+                          default from C{milli-meter-} to C{meter-per-year},
+                          from C{milli-arc-} to C{arc-seconds-per-year} and
+                          from C{ppB-} to C{ppM-per-year}.
            @kwarg Vector_and_kwds: An optional, (3-D) C{B{Vector}=None} or
                          cartesian class and additional C{B{Vector}} keyword
                          arguments to return the I{velocities}.
@@ -448,15 +514,16 @@ class TransformXform(Transform):
            @raise TypeError: Non-scalar B{C{factor}}.
 
            @see: Altamimi, Z. "EUREF-TN-1-Jan-31-2024", U{Appendix A, equation (3)
-                 <http://ETRS89.ENSG.IGN.FR/pub/EUREF-TN-1-Jan-31-2024.pdf>}.
+                 <http://ETRS89.ENSG.IGN.FR/pub/EUREF-TN-1-Jan-31-2024.pdf>} and
+                 method L{transform2<TransformXform.transform2>}.
         '''
         v = X = self.Xform
         if X is not None:
-            r = X.rates * factor  # eq (3) ...
-            H = Transform(tx=r.sx, ty=r.sy, tz=r.sz,  # Xyy-dot
-                          s=_S_S1, name=NN(self.name, _vs_))
-            H.s1, H.rx, H.ry, H.rz = 0, self.rx, self.ry, self.rz
-            v = H.transform(r.tx, r.ty, r.tz, inverse=False,  # Xyy
+            r = X.rates * factor  # equ (3) ...
+            V = self.dup(tx=r.sx, ty=r.sy, tz=r.sz, _Xform=None,  # Xyy-dot
+                         name=NN(self.name, _vs_))  # unregistered
+            _ = V._s_s1(0)
+            v = V.transform(r.tx, r.ty, r.tz, inverse=False,  # Xyy
                                             **Vector_and_kwds)
         return v
 
@@ -479,7 +546,8 @@ class TransformXform(Transform):
 class TRFXform7Tuple(_NamedTuple):
     '''7-Tuple C{(tx, ty, tz, s, sx, sy, sz)} of conversion parameters with
        translations C{tx}, C{ty} and C{tz} in C{milli-meter}, scale C{s} in
-       C{ppb} and rates C{sx}, C{sy} and C{sz} in C{milli-arc-seconds-per-year}.
+       C{ppB} and rotations C{sx}, C{sy} and C{sz} in C{milli-arc-seconds}.
+       For C{rates} all are C{units-per-year}.
 
        @note: The parameters are also named as C{(Tx, Ty, Tz, D, Rx, Ry, Rz)}
               or C{(T1, T2, T3, D, R1, R2, R3)}.
@@ -523,7 +591,7 @@ class TRFXform7Tuple(_NamedTuple):
 
            @return: Inverse (L{TransformXform}).
         '''
-        n = name or _negstr(self.name)
+        n = name or _negastr(self.name)
         return type(self)(map(neg, self), name=n)
 
     @Property_RO
@@ -667,7 +735,7 @@ class TRFXform(_Named):
 
            @return: The inverse (L{TRFXform}).
         '''
-        n = name or _negstr(self.name)
+        n = name or _negastr(self.name)
         X = self.dup(refName1=self.refName2, xform=-self.xform,
                      refName2=self.refName1, rates=-self.rates,
                      name=n, _inver_d=not self.inversed)
@@ -740,16 +808,16 @@ class TRFXform(_Named):
     def toHelmert(self, factor=_MM2M):
         '''Return the Helmert transform from this Xform scaled accordingly.
 
-           @kwarg factor: Scale to convert C{milli-meter} (C{scalar}).
+           @kwarg factor: Factor to scale this Xform's C{xform} (C{scalar}),
+                          default from C{milli-meter-} to C{meter-}, from
+                          C{milli-arc-} to C{arc-seconds} and from C{ppB}
+                          to C{ppM}.
 
            @return: The Helmert transform (L{TransformXform}).
-
-           @note: By defaut, Translations are converted from C{milli-meter} to
-                  C{meter}, rates from C{milli-arc-seconds} to C{arc-seconds}
-                  and scale from C{ppb} to C{ppM}.
         '''
         h = self.xform * factor
-        H = TransformXform(name=self.name, **dict(h.items()))
+        H = TransformXform(**dict(h.items()))
+        H.name  = self.name  # unregistered
         H.Xform = self
         return H
 
@@ -870,8 +938,8 @@ def epoch2date(epoch):
 
 
 def _eXhaustives(n1, n2):
-    '''(INTERNAL) Yield all I{possible} Xforms C{n1} to {n2} via
-       any number of intermediate reframe conversions.
+    '''(INTERNAL) Yield all I{coalesced} Xforms from C{n1} to {n2}
+       via I{any number of} intermediate reframe conversions.
     '''
     def _k2(item):
         return -item[1].epoch  # most recent first
@@ -879,31 +947,31 @@ def _eXhaustives(n1, n2):
     R = dict(RefFrames)
     r = R.pop(n1, None)
     if r:
-        Xs = list(sorted(r._Xforms(2, R).items(), key=_k2))
+        Xs = list(sorted(tuple(r._Xitems(2, R)), key=_k2))
         while Xs:
             n, X = Xs.pop(0)
             if n == n2:
-                yield _npop(X)
+                yield _n_pop(X)
             else:
                 r = R.pop(n, None)
                 if r:
-                    for n, x in r._Xforms(2, R).items():
+                    for n, x in r._Xitems(2, R):
                         Xs.append((n, X + x))
 
 
 def _indirects(n1, n2):
     '''(INTERNAL) Yield all Xforms between C{n1} and C{n2} via
-       I{one} intermediate reframe C{n} conversions.
+       I{one} intermediate reframe C{n} conversion.
     '''
     def _X4(_Xto, n2):
         _d = _direct
         for n, X1 in _Xto.items():
             X2 = _d(n, n2)
             if X2:
-                yield X1, X2, n, True  # +
+                yield X1, X2, n, True   # X1 + X2
             X2 = _d(n2, n)
             if X2:
-                yield X1, X2, n, False  # -
+                yield X1, X2, n, False  # X1 - X2
 
     r1 = RefFrames.get(n1)
     if r1:
@@ -924,15 +992,16 @@ def _n1_n2_n3(X1, X2):
     return X1.refName1, X2.refName2, n
 
 
-def _npop(X):
+def _n_pop(X):
     '''(INTERNAL) Pop L{TRFXform.indirected}'s ends.
     '''
-    n = X.indirected.split()
+    p, n = None, X.indirected.split()
     if n and n[-1] == X.refName2:
-        _ = n.pop()
+        p = n.pop()
     if n and n[ 0] == X.refName1:
-        _ = n.pop(0)
-    X._indir_d = _SPACE_.join(n) if n else NN
+        p = n.pop(0)
+    if p:
+        X._indir_d = _SPACE_.join(n) if n else NN
     return X
 
 
@@ -960,7 +1029,7 @@ def _sumstr(name1, name2, p_):
     '''(INTERNAL) "Sum" of C{name1 + ('+' if p_ else '-') + name2}.
     '''
     if name2:
-        n = name2 if p_ else _negstr(name2)
+        n = name2 if p_ else _negastr(name2)
         p = NN if n.startswith(_MINUS_) or \
                   n.startswith(_PLUS_) else _PLUS_
         name1 = NN(name1, p, n)
@@ -1172,6 +1241,48 @@ def _trfX(n1, n2, raiser=True, **epoch_xform_rates):
             raise ValueError(_SPACE_(_inverse_, _exists_))
     r1._Xto[n2] = X = TRFXform(n1, n2, **epoch_xform_rates)
     return X
+
+
+# def velocities2neu(vx, vy, vz, lat=0, lon=0):
+#     '''Convert X, Y, and Z I{velocities} to North, East, Up.
+#
+#        @arg vx: X velocity (C{meter-per-time}).
+#        @arg vx: Y velocity (C{meter-per-time}).
+#        @arg vx: Z velocity (C{meter-per-time}).
+#        @kwarg lat: Latitude (C{degrees}).
+#        @kwarg lon: Longitude (C{degrees}).
+#
+#        @return: 3-Tuple C{(vnorth, veast, vup)} with the
+#                 North, East and Up velocities, same units
+#                 as B{C{vx}, B{C{vy}} and B{C{vx}}.
+#     '''
+#     sa, ca, sb, cb = sincos2d_(lat, lon)
+#     ve  = cb * vy - sb * vx
+#     v   = cb * vx + sb * vy
+#     vn  = ca * vz - sa * v
+#     vu  = sa * vz + ca * v
+#     return vn, ve, vu
+
+
+# def velocities2xyz(vn, ve, vu, lat=0, lon=0):
+#     '''Convert North, East and Up I{velocities} to X, Y, Z.
+#
+#        @arg vn: North velocity (C{meter-per-time}).
+#        @arg ve: East velocity (C{meter-per-time}).
+#        @arg vu: Up velocity (C{meter-per-time}).
+#        @kwarg lat: Latitude (C{degrees}).
+#        @kwarg lon: Longitude (C{degrees}).
+#
+#        @return: 3-Tuple C{(vx, vy, vz)} with the X, Y
+#                 and Z velocities, same units as B{C{vn},
+#                 B{C{ve}} and B{C{vu}}.
+#     '''
+#     sa, ca, sb, cb = sincos2d_(lat, lon)
+#     vz = ca * vn + sa * vu
+#     v  = ca * vu - sa * vn
+#     vx = cb * v  - sb * ve
+#     vy = sb * v  + cb * ve
+#     return vx, vy, vz
 
 
 def _X(*ps):  # deleted below
@@ -1613,6 +1724,7 @@ del _E, _Es, _i, _P, _P_0_0s, _R, _Rs, _X, _Xs
 if __name__ == '__main__':
 
     def _main():
+        from pygeodesy.basics import _args_kwds_names
         from pygeodesy.interns import _COLONSPACE_,_COMMA_, _NL_, _NLATvar_, _vs_
         from pygeodesy.lazily import printf
         from time import localtime
@@ -1651,7 +1763,7 @@ if __name__ == '__main__':
             printf('#%4d %-24s xform=%r', t, X.name, X.xform)
             printf('#%29s rates=%r', _SPACE_, X.rates)
 
-        t = _MODS.basics._args_kwds_names(Transform.__init__)
+        t = _args_kwds_names(Transform.__init__)
         for n in TRFXform7Tuple._Names_:
             if n not in t:
                 raise AssertionError(_SPACE_(n, _vs_, t))

@@ -30,7 +30,7 @@ from pygeodesy.units import Float, Scalar
 from math import atan2, ceil, fabs, floor, trunc
 
 __all__ = _ALL_LAZY.vector3dBase
-__version__ = '24.02.28'
+__version__ = '24.03.06'
 
 
 class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
@@ -953,7 +953,7 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
         '''
         x = Float(x=x)
         if self._x != x:
-            _update_all(self)
+            _update_all(self, needed=3)
             self._x = x
 
     @Property
@@ -973,8 +973,7 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
     def _xyz(self, x_xyz, *y_z):
         '''(INTERNAL) Set the C{_x}, C{_y} and C{_z} attributes.
         '''
-        if len(self.__dict__) > 3:  # any other than initial ._x, ._y and ._z attrs
-            _update_all(self)
+        _update_all(self, needed=3)
         self._x, self._y, self._z = _xyz3(_xyz_, x_xyz, *y_z)
         return self
 
@@ -996,7 +995,7 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
         '''
         y = Float(y=y)
         if self._y != y:
-            _update_all(self)
+            _update_all(self, needed=3)
             self._y = y
 
     @Property
@@ -1011,7 +1010,7 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
         '''
         z = Float(z=z)
         if self._z != z:
-            _update_all(self)
+            _update_all(self, needed=3)
             self._z = z
 
 

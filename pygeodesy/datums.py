@@ -76,7 +76,7 @@ from pygeodesy.ellipsoids import a_f2Tuple, Ellipsoid, Ellipsoid2, Ellipsoids, _
 from pygeodesy.errors import _IsnotError, _TypeError, _xattr, _xellipsoidall, _xkwds, \
                              _xkwds_pop2
 from pygeodesy.fmath import fdot, fmean,  Fmt, _operator
-from pygeodesy.interns import NN, _a_, _Airy1830_, _AiryModified_, _Bessel1841_, \
+from pygeodesy.interns import NN, _a_, _Airy1830_, _AiryModified_, _BAR_, _Bessel1841_, \
                              _Clarke1866_, _Clarke1880IGN_, _COMMASPACE_, _DOT_, \
                              _earth_, _ellipsoid_, _ellipsoidal_, _GRS80_, _Intl1924_, \
                              _MINUS_, _Krassovski1940_, _Krassowsky1940_, _NAD27_, \
@@ -93,7 +93,7 @@ from pygeodesy.units import _isRadius, Radius_,  radians
 # import operator as _operator  # from .fmath
 
 __all__ = _ALL_LAZY.datums
-__version__ = '24.02.29'
+__version__ = '24.03.07'
 
 _a_ellipsoid_ = _UNDER_(_a_, _ellipsoid_)
 _BD72_        = 'BD72'
@@ -111,7 +111,7 @@ _Names11      = _Names7[:3]  +  ('s1', 'rx', 'ry', 'rz') + _Names7[3:]
 _NTF_         = 'NTF'
 _OSGB36_      = 'OSGB36'
 _Potsdam_     = 'Potsdam'
-_RPS          =  radians(_1_0 / _3600_0)  # radians per degree-second
+_RPS          =  radians(_1_0 / _3600_0)  # radians per arc-second
 _S1_S         =  1.e-6  # in .trf
 _TokyoJapan_  = 'TokyoJapan'
 
@@ -132,9 +132,9 @@ class Transform(_NamedEnumItem):
     s  = _0_0  # scale ppm (C{float})
     s1 = _1_0  # scale + 1 (C{float})
 
-    sx = _0_0  # x rotation (C{degree-seconds})
-    sy = _0_0  # y rotation (C{degree-seconds})
-    sz = _0_0  # z rotation (C{degree-seconds})
+    sx = _0_0  # x rotation (C{arc-seconds})
+    sy = _0_0  # y rotation (C{arc-seconds})
+    sz = _0_0  # z rotation (C{arc-seconds})
 
     def __init__(self, name=NN, tx=0, ty=0, tz=0,
                            s=0, sx=0, sy=0, sz=0):
@@ -145,9 +145,9 @@ class Transform(_NamedEnumItem):
            @kwarg ty: Y translation (C{meter}).
            @kwarg tz: Z translation (C{meter}).
            @kwarg s: Scale (C{float}), ppm.
-           @kwarg sx: X rotation (C{degree-seconds}).
-           @kwarg sy: Y rotation (C{degree-seconds}).
-           @kwarg sz: Z rotation (C{degree-seconds}).
+           @kwarg sx: X rotation (C{arc-seconds}).
+           @kwarg sy: Y rotation (C{arc-seconds}).
+           @kwarg sz: Z rotation (C{arc-seconds}).
 
            @raise NameError: Transform with that B{C{name}} already exists.
         '''
@@ -211,7 +211,7 @@ class Transform(_NamedEnumItem):
            @return: Inverse (L{Transform}), unregistered.
         '''
         r = type(self)(**dict(self.items(inverse=True)))
-        n = name or _negstr(self.name)
+        n = name or _negastr(self.name)
         if n:
             r.name = n  # unregistered
         return r
@@ -233,9 +233,19 @@ class Transform(_NamedEnumItem):
             yield n, _p(x)
 
     def _rps2(self, s_):
-        '''(INTERNAL) Rotation in C{radians} and C{degree-seconds}.
+        '''(INTERNAL) Rotation in C{radians} and C{arc-seconds}.
         '''
+        # _MR == _RPS * 1.e-3  # radians per milli-arc-second, equ (2)
+        # <https://www.NGS.NOAA.gov/CORS/Articles/SolerSnayASCE.pdf>
         return (_RPS * s_), s_
+
+    def _s_s1(self, s1):  # in .trf
+        '''(INTERNAL) Set C{s1} and C{s}.
+        '''
+        Transform.isunity._update(self)
+        self.s1 = s1
+        self.s  = s = (s1 - _1_0) / _S1_S
+        return s
 
     def toStr(self, prec=5, fmt=Fmt.g, name=NN, **unused):  # PYCHOK expected
         '''Return this transform as a string.
@@ -600,24 +610,17 @@ def _mean_radius(radius, *lats):
     return r
 
 
-try:
-    _MINUSxPLUS = str.maketrans({_MINUS_: _PLUS_, _PLUS_: _MINUS_})
-
-    def _negstr(name):  # in .trf
-        '''(INTERNAL) Negate a C{Transform/-Xform} name.
-        '''
-        n = name.translate(_MINUSxPLUS)
-        return n.lstrip(_PLUS_) if n.startswith(_PLUS_) else NN(_MINUS_, n)
-
-except AttributeError:  # no str.maketran in Python 2-
-    from pygeodesy.interns import _BAR_
-
-    def _negstr(name):  # PYCHOK in .trf
-        '''(INTERNAL) Negate a C{Transform/-Xform} name.
-        '''
-        b, m, p = _BAR_, _MINUS_, _PLUS_
-        n = name.replace(m, b).replace(p, m).replace(b, p)
-        return n.lstrip(p) if n.startswith(p) else NN(m, n)
+def _negastr(name):  # in .trf
+    '''(INTERNAL) Negate a C{Transform/-Xform} name.
+    '''
+    b, m, p = _BAR_, _MINUS_, _PLUS_
+    n = name.replace(m, b).replace(p, m).replace(b, p)
+    # as good and fast as (in Python 3+ only) ...
+    # _MINUSxPLUS = str.maketrans({_MINUS_: _PLUS_, _PLUS_: _MINUS_})
+    # def _negastr(name):
+    #     n = name.translate(_MINUSxPLUS)
+    #     ...
+    return n.lstrip(p) if n.startswith(p) else NN(m, n)
 
 
 def _spherical_datum(earth, Error=TypeError, name=NN, raiser=NN):
