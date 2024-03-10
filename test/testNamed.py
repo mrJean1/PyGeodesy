@@ -4,7 +4,7 @@
 # Test L{named} module.
 
 __all__ = ('Tests',)
-__version__ = '24.02.16'
+__version__ = '24.03.09'
 
 from bases import endswith, TestsBase
 from pygeodesy import geohash, Datum, Datums, named, \
@@ -215,7 +215,7 @@ class Tests(TestsBase):
 
         self.test('Ellipsoids', len(Ellipsoids), 12, known=True, nl=1)
         t = tuple(Ellipsoids.items(all=True, asorted=True))
-        self.test('Ellipsoids', len(Ellipsoids), 48)
+        self.test('Ellipsoids', len(Ellipsoids), 49)
         for n, e in t:
             e.unregister()  # coverage _NamedEnum.unregister
             self.test('Ellipsoids.' + n + '.unregister', getattr(Ellipsoids, n, None), None)

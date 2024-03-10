@@ -4,7 +4,7 @@
 # Test L{ellipsoids} module.
 
 __all__ = ('Tests',)
-__version__ = '23.08.27'
+__version__ = '24.03.09'
 
 from bases import TestsBase
 
@@ -208,7 +208,7 @@ class Tests(TestsBase):
             f = n2f(E.n)
             self.test('%s(%s)' % (n2f.__name__, E.name), f, E.f, fmt='%.8f', known=fabs(f - E.f) < _TOL)
             t += 1
-        self.test('total', t, 49, nl=1)
+        self.test('total', t, 50, nl=1)
 
         t = P.roc1_.__name__ + ' '
         for E, x in ((Ellipsoids.WGS84, 1.863e-9), (P, 1.863e-9),

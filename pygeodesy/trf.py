@@ -87,11 +87,11 @@ from pygeodesy.props import deprecated_method, property_doc_, Property_RO, prope
 from pygeodesy.units import Epoch, Float,  _ALL_LAZY
 # from pygeodesy.utily import sincos2d_
 
-from math import ceil as _ceil
+from math import ceil as _ceil, fabs
 # import operator as _operator  # from .datums
 
 __all__ = _ALL_LAZY.trf
-__version__ = '24.03.08'
+__version__ = '24.03.09'
 
 _EP0CH    =  Epoch(0, low=0)
 _Es       = {_EP0CH: _EP0CH}  # L{Epoch}s, deleted below
@@ -219,28 +219,28 @@ class RefFrame(_NamedEnumItem):
         '''
         return self._epoch
 
-    def toRefFrame(self, point, reframe2, **epoch2_epoch_name):
+    def toRefFrame(self, point, reframe2, **epoch_epoch2_name):
         '''Convert an ellipsoidal point from this reframe and from C{epoch} to
            an other C{reframe2} and C{epoch2 or epoch}.
 
-           @arg point: The point to convert (C{Cartesian} or C{LatLon}).
+           @arg point: The point to convert (C{LatLon} or C{Cartesian}).
            @arg reframe2: Reference frame to convert I{to} (L{RefFrame}).
-           @kwarg epoch2_epoch_name: Optional keyword arguments C{B{epoch2}=None},
-                         C{B{epoch}=None} and C{B{name}=NN}.
+           @kwarg epoch_epoch2_name: Optional keyword arguments C{B{epoch}=None},
+                        C{B{epoch2}=None} and C{B{name}=B{reframe2}.name}.
 
-           @return: A copy of the B{C{point}}, converted or renamed.
+           @return: A copy of the B{C{point}}, converted and renamed.
 
            @raise TypeError: Invalid B{C{point}}.
 
-           @note: The B{C{point}}'s C{reframe} and C{epoch} are overridden by
-                  this reframe respectively B{C{epoch}} or this reframe's epoch.
+           @note: The C{B{point}.reframe} is overridden by this reframe and
+                  C{B{point}.epoch} by C{B{epoch}} or this reframe.C{epoch}.
 
-           @see: Ellipsoidal methods L{toRefFrame<ellipsoidalBase.LatLonEllipsoidalBase.toRefFrame>}
-                 and L{toRefFrame<ellipsoidalBase.CartesianEllipsoidalBase.toRefFrame>}
+           @see: Methods L{LatLon.toRefFrame<ellipsoidalBase.LatLonEllipsoidalBase.toRefFrame>}
+                 and L{Cartesian.toRefFrame<ellipsoidalBase.CartesianEllipsoidalBase.toRefFrame>}
                  for more details.
         '''
-        return _toRefFrame(point, reframe2, reframe=self,
-                        **_xkwds(epoch2_epoch_name, name=self.name))
+        return _toRefFrame(point, reframe2, reframe=self, **_xkwds(epoch_epoch2_name,
+                                               name=_xattr(reframe2, name=self.name)))
 
     def toStr(self, epoch=None, name=NN, **unused):  # PYCHOK expected
         '''Return this reference frame as a string.
@@ -488,7 +488,7 @@ class TransformXform(Transform):
             #                  .tz + x * .ry - y * .rx + z * .s)
             # using counter-/clockwise .rx, .ry, and .rz
             V = Transform(**dict(r.items()))  # unregistered
-            _ = V._s_s1(r.s)
+            _ = V._s_s1(0)  # XXX r.s?
             v = V.transform(p.x, p.y, p.z, inverse=inverse)
             # + (vx, vy, vz) like HTDP
             vx += v.x
@@ -685,7 +685,7 @@ class TRFXform(_Named):
         X = type(X1)(n1, n2, epoch=e1, xform=X1.xform._add_sub(X2.xform, p_),
                                        rates=X1.rates._add_sub(X2.rates, p_),
                                        name=_sumstr(X1.name,   X2.name,  p_))
-        X._epoch_d = X1.epoched + X2.epoched  # max, abs?
+        X._epoch_d = X1.epoched + X2.epoched
         X._indir_d = n  # reframe?
         X._inver_d = X1.inversed and X2.inversed
         return X
@@ -802,7 +802,7 @@ class TRFXform(_Named):
         if d:
             t = X.xform + X.rates * d
             X = X.dup(epoch=e, xform=t, name=X._at(e))
-            X._epoch_d += d  # max, abs(d)?
+            X._epoch_d += fabs(d)
         return X
 
     def toHelmert(self, factor=_MM2M):
@@ -831,7 +831,7 @@ class TRFXform(_Named):
            @kwarg epoch_epoch2_name: Optional keyword arguments C{B{epoch}=None},
                         B{C{epoch2}=None} and C{B{name}=refName1}.
 
-           @return: A copy of the B{C{point}}, converted or renamed.
+           @return: A copy of the B{C{point}}, converted and renamed.
 
            @see: Method L{RefFrame.toRefFrame} for more details.
         '''
@@ -854,11 +854,12 @@ class TRFXform(_Named):
         e = self.epoch if epoch is None else _Epoch(epoch)
         return NN(_AT_(self.refName1, e), _x_, self.refName2)
 
-    def toTransform(self, epoch, epoch2=None, inverse=False):
+    def toTransform(self, epoch=None, epoch2=None, inverse=False):
         '''Combine this Xform observed at B{C{epoch}} into a Helmert
            L{TransformXform}, optionally at B{C{epoch2 or epoch}}.
 
-           @arg epoch: Epoch to observe I{from} (C{scalar}).
+           @kwarg epoch: Epoch to observe I{from} (C{scalar}),
+                         overriding this converter's epoch.
            @kwarg epoch2: Optional epoch to observe I{to} (C{scalar}).
            @kwarg inverse: Use the Xform's inverse (C{bool}).
 
@@ -868,9 +869,10 @@ class TRFXform(_Named):
 
            @see: Method L{toHelmert}.
         '''
-        # X=self.toEpoch(epoch); if epoch2: X=X.toEpoch(epoch2)
-        e = epoch if epoch2 is None else Epoch(epoch2=epoch2)
-        X = self.toEpoch(e)
+        if epoch2 is None:
+            X = self if epoch is None else self.toEpoch(epoch)
+        else:
+            X = self.toEpoch(Epoch(epoch2=epoch2))
         if inverse:
             X = X.inverse()
         return X.toHelmert()
@@ -1074,7 +1076,8 @@ def _toRefFrame(point, reframe2, reframe=None, epoch=None,
         p._epoch   = _xattr(t0.Xform, epoch=e2)
         p.rename(name or reframe2.name)
     else:
-        p = point.dup(name=name) if name else point
+        p = point.dup(_reframe=reframe2,  # ditto
+                      _epoch=e2, name=name) if name else point
     return p
 
 
@@ -1156,8 +1159,8 @@ def trfTransforms(reframe, reframe2, epoch=None, epoch2=None, indirect=True, inv
        @arg reframe2: The frame to convert I{to} (L{RefFrame} or C{str}).
        @arg epoch: Epoch to observe I{from} (L{Epoch}, C{scalar} or C{str}),
                    otherwise C{B{reframe}}'s C{epoch}.
-       @kwarg epoch2: Optional epoch to observe to observe I{to} (L{Epoch}, C{scalar} or
-                      C{str}), otherwise B{C{epoch}} or C{B{reframe}}'s C{epoch}.
+       @kwarg epoch2: Optional epoch to observe I{to} (L{Epoch}, C{scalar} or C{str}),
+                      otherwise B{C{epoch}}.
        @kwarg indirect: If C{True}, include transforms via I{one} intermediate reframe,
                         otherwise only I{direct} B{C{reframe}} to B{C{reframe2}}
                         transforms (C{bool}).

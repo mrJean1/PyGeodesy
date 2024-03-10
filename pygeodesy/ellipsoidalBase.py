@@ -37,7 +37,7 @@ from pygeodesy.units import Epoch, _isDegrees, Radius_, _1mm as _TOL_M
 # from math import fabs  # from .latlonBase
 
 __all__ = _ALL_LAZY.ellipsoidalBase
-__version__ = '24.03.02'
+__version__ = '24.03.09'
 
 
 class CartesianEllipsoidalBase(CartesianBase):
@@ -176,13 +176,13 @@ class CartesianEllipsoidalBase(CartesianBase):
         '''Convert this point to an other reference frame and epoch.
 
            @arg reframe2: Reference frame to convert I{to} (L{RefFrame}).
-           @kwarg reframe: Optional reference frame (L{RefFrame}), overriding this
-                           point's reference frame.
+           @kwarg reframe: Optional reference frame to convert I{from} (L{RefFrame}),
+                           overriding this point's reference frame.
            @kwarg epoch: Optional epoch (L{Epoch}, C{scalar} or C{str}), overriding
-                         this point's epoch.
+                         this point's C{epoch or B{reframe}.epoch}.
            @kwarg epoch2: Optional epoch to observe for the converted point (L{Epoch},
-                          C{scalar} or C{str}).
-           @kwarg name: Optional name (C{str}), iff converted.
+                          C{scalar} or C{str}), otherwise B{C{epoch}}.
+           @kwarg name: Optional name (C{str}), C{B{reframe2}.name} iff converted.
 
            @return: The converted point (ellipsoidal C{Cartesian}) or if conversion
                     C{isunity}, this point or a copy of this point if the B{C{name}}
@@ -923,18 +923,18 @@ class LatLonEllipsoidalBase(LatLonBase):
         '''Convert this point to an other reference frame and epoch.
 
            @arg reframe2: Reference frame to convert I{to} (L{RefFrame}).
-           @kwarg reframe: Optional reference frame (L{RefFrame}), overriding this
-                           point's reference frame.
+           @kwarg reframe: Optional reference frame to convert I{from} (L{RefFrame}),
+                           overriding this point's reference frame.
            @kwarg epoch: Optional epoch (L{Epoch}, C{scalar} or C{str}), overriding
-                         this point's epoch.
+                         this point's C{epoch or B{reframe}.epoch}.
            @kwarg epoch2: Optional epoch to observe for the converted point (L{Epoch},
-                          C{scalar} or C{str}).
+                          C{scalar} or C{str}), otherwise B{C{epoch}}.
            @kwarg height: Optional height, overriding the converted height (C{meter}).
-           @kwarg name: Optional name (C{str}), iff converted.
+           @kwarg name: Optional name (C{str}), C{B{reframe2}.name} iff converted.
 
-           @return: The converted point (ellipsoidal C{LatLon}) or if conversion is
-                    C{nil}, this point or a copy of this point if the B{C{name}} is
-                    non-empty.
+           @return: The converted point (ellipsoidal C{LatLon}) or if conversion
+                    C{isunity}, this point or a copy of this point if the B{C{name}}
+                    is non-empty.
 
            @raise TRFError: This point's C{reframe} is not defined, invalid B{C{epoch}}
                             or B{C{epoch2}} or conversion from this point's C{reframe}

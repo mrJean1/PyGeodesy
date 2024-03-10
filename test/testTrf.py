@@ -8,7 +8,7 @@
 # <https://GitHub.com/ChrisVeness/geodesy/blob/master/test/latlon-ellipsoidal-referenceframe-tests.js>
 
 __all__ = ('Tests',)
-__version__ = '24.03.08'
+__version__ = '24.03.09'
 
 from bases import GeodSolve, isPython2, TestsBase
 
@@ -204,31 +204,12 @@ class Tests(TestsBase):
         v = T.velocities()
         self.test('transform2v', v.toStr(prec=-3), '(0.004, 0.003, 0.004)', known=True)
 
-        def _t4(c, x, p):
+        def _t4(c, x, p, X=None):
             x = Vector3d(x)
             e = c - x
-            d = e.length
-            return c.toStr(prec=p), x.toStr(prec=p), d, '%s %.4g' % (e.toStr(prec=9), d)
-
-        # Alamimi, Z. Example 2 <http://ETRS89.ENSG.IGN.FR/pub/EUREF-TN-1-Jan-31-2024.pdf>
-        f, r1 =        (4027893.5389, 307046.0755, 4919475.2745), 'ITRF2020'
-        for t, r2 in (((4027893.9574, 307045.5561, 4919474.9643), 'ETRF2020'),
-                      ((4027893.5358, 307046.0740, 4919475.2748), 'ITRF2014'),
-                      ((4027893.9639, 307045.5450, 4919474.9573), 'ETRF2014'),
-                      ((4027893.5505, 307046.0772, 4919475.2456), 'ITRF2000'),
-                      ((4027894.0033, 307045.5889, 4919474.9047), 'ETRF2000')):
-            T = trfTransform0(r1, r2, epoch=2020)
-            x = T.toStr(prec=9)
-            self.test('transform0', x, x, nl=1)
-            c, v = T.transform2(*f, Vector=Vector3d)
-            c, x, d, e = _t4(c, t, -4)
-            self.test('transform2c', c, x, known=d < 1.e-4)
-            self.test('    Error2c', e, e)
-            v = v.toStr(prec=-5)
-            self.test('transform2v', v, v)
-            v = T.velocities(Vector=Vector3d).toStr(prec=-5)
-            self.test('transform0v', v, v)
-            f, r1 = t, r2
+            d = max(map(abs, e.xyz))
+            X = (', epoched %.3f' % (X.epoched,)) if X else ''
+            return c.toStr(prec=p), x.toStr(prec=p), d, '%s max %.4g%s' % (e.toStr(prec=9), d, X)
 
         # Alamimi, Z. Example 1 <http://ETRS89.ENSG.IGN.FR/pub/EUREF-TN-1-Jan-31-2024.pdf>
         f, v, r1 =        (4027893.6750, 307045.9069, 4919475.1721), (-0.01361,  0.01686,  0.01024), 'ITRF2020'
@@ -241,7 +222,7 @@ class Tests(TestsBase):
             x = T.toStr(prec=9)
             self.test('transform0', x, x, nl=1)
             c, v = T.transform2(*(f + v), Vector=Vector3d)
-            c, x, d, e = _t4(c, t, -4)
+            c, x, d, e = _t4(c, t, -4, T.Xform)
             self.test('transform2c', c, x, known=d < 1.e-4)
             self.test('    Error2c', e, e)
             v, x, d, e = _t4(v, w, -5)
@@ -253,12 +234,61 @@ class Tests(TestsBase):
             self.test('    Error0v', e, e)
             f, r1, v = t, r2, w
 
+        f,    r1 = (4027893.9620, 307045.5480, 4919474.9553,    0.00020, -0.00030,  0.00020), 'ETRF2014'
+        t, w, r2 = (4027893.6812, 307045.9082, 4919475.1547), (-0.01307,  0.01690,  0.00908), 'ITRF2000'
+        for i, T in enumerate(trfTransforms(r1, r2, epoch=2010)):
+            n = 'transform' + str(i)
+            x = T.toStr(prec=9)
+            self.test(n + '/', x, x, nl=1)
+            c, v = T.transform2(*f, Vector=Vector3d)
+            c, x, d, e = _t4(c, t, -4, T.Xform)
+            self.test('transform2c', c, x, known=d < 0.2)
+            self.test('    Error2c', e, e)
+            v, x, d, e = _t4(v, w, -5)
+            self.test('transform2v', v, x, known=d < 1.0 or d > 100.0)
+            self.test('    Error2v', e, e)
+
+        # Alamimi, Z. Example 2 <http://ETRS89.ENSG.IGN.FR/pub/EUREF-TN-1-Jan-31-2024.pdf>
+        f, r1 =        (4027893.5389, 307046.0755, 4919475.2745), 'ITRF2020'
+        for t, r2 in (((4027893.9574, 307045.5561, 4919474.9643), 'ETRF2020'),
+                      ((4027893.5358, 307046.0740, 4919475.2748), 'ITRF2014'),
+                      ((4027893.9639, 307045.5450, 4919474.9573), 'ETRF2014'),
+                      ((4027893.5505, 307046.0772, 4919475.2456), 'ITRF2000'),
+                      ((4027894.0033, 307045.5889, 4919474.9047), 'ETRF2000')):
+            T = trfTransform0(r1, r2, epoch=2020)
+            x = T.toStr(prec=9)
+            self.test('transform0', x, x, nl=1)
+            c, v = T.transform2(*f, Vector=Vector3d)
+            c, x, d, e = _t4(c, t, -4, T.Xform)
+            self.test('transform2c', c, x, known=d < 1.e-4)
+            self.test('    Error2c', e, e)
+            v = v.toStr(prec=-5)
+            self.test('transform2v', v, v)
+            f, r1 = t, r2
+
+        # courtesy GGaessler <https://GitHub.com/mrJean1/PyGeodesy/issues/80>
+        t, w = (4160476.485, 653193.021, 4774604.780), (0.004, 0.003, 0.004)
+        for f, r1, e in (((4160476.944, 653192.600, 4774604.455), 'ETRF89',   1989),
+                         ((4160476.952, 653192.582, 4774604.441), 'ETRF2000', 2000),
+                         ((4160476.674, 653192.806, 4774604.648), 'ETRF2008', 2005)):
+            for i, T in enumerate(trfTransforms(r1, 'ITRF2014', epoch=e, epoch2=2018.8)):
+                n = 'transform' + str(i)
+                x = T.toStr(prec=9)
+                self.test(n + '*', x, x, nl=1)
+                c, v = T.transform2(*(f + w), Vector=Vector3d)
+                c, x, d, e = _t4(c, t, -4, T.Xform)
+                self.test('transform2c', c, x, known=d < 0.2)
+                self.test('    Error2c', e, e)
+                v, x, d, e = _t4(v, w, -5)
+                self.test('transform2v', v, x, known=d < 0.03)
+                self.test('    Error2v', e, e)
+
         t = str(T)
         self.test('toTransform', t, t, nl=1)
         t = str(T.toTransform(epoch1=T.Xform.epoch))
         self.test('toTransform', t, t)
 
-        # courtesy GGaessler <https://github.com/mrJean1/PyGeodesy/issues/80>
+        # courtesy GGaessler <https://GitHub.com/mrJean1/PyGeodesy/issues/80>
         p = LatLon('48 46 36.89676N', '8 55 21.25713E', height=476.049, reframe=RefFrames.ETRF89, epoch=1989)
         self.test('Issue80', p.toStr(form='D', prec=8), '48.77691577°N, 008.92257142°E, +476.05m', nl=1)
         x = p.toRefFrame(RefFrames.ITRF2014, epoch2=2018.8)

@@ -59,6 +59,7 @@ Following is the list of predefined L{Ellipsoid}s, all instantiated lazily.
 @var Ellipsoids.WGS66: Ellipsoid(name='WGS66', a=6378145, b=6356759.76948868, f_=298.25, f=0.00335289, f2=0.00336417, n=0.00167926, e=0.08182018, e2=0.00669454, e21=0.99330546, e22=0.00673966, e32=0.00335851, A=6367456.87366841, L=10001977.86818326, R1=6371016.58982956, R2=6371014.999254, R3=6371008.60802667, Rbiaxial=6367461.36258457, Rtriaxial=6372805.42010473)
 @var Ellipsoids.WGS72: Ellipsoid(name='WGS72', a=6378135, b=6356750.52001609, f_=298.26, f=0.00335278, f2=0.00336406, n=0.0016792, e=0.08181881, e2=0.00669432, e21=0.99330568, e22=0.00673943, e32=0.0033584, A=6367447.24862383, L=10001962.74919858, R1=6371006.84000536, R2=6371005.24953886, R3=6370998.8587507, Rbiaxial=6367451.7372317, Rtriaxial=6372795.60727472)
 @var Ellipsoids.WGS84: Ellipsoid(name='WGS84', a=6378137, b=6356752.31424518, f_=298.25722356, f=0.00335281, f2=0.00336409, n=0.00167922, e=0.08181919, e2=0.00669438, e21=0.99330562, e22=0.0067395, e32=0.00335843, A=6367449.14582341, L=10001965.72931272, R1=6371008.77141506, R2=6371007.18091847, R3=6371000.79000916, Rbiaxial=6367453.63451633, Rtriaxial=6372797.5559594)
+@var Ellipsoids.WGS84_NGS: Ellipsoid(name='WGS84_NGS', a=6378137, b=6356752.31414035, f_=298.2572221, f=0.00335281, f2=0.00336409, n=0.00167922, e=0.08181919, e2=0.00669438, e21=0.99330562, e22=0.0067395, e32=0.00335843, A=6367449.14577104, L=10001965.72923046, R1=6371008.77138012, R2=6371007.18088351, R3=6371000.78997414, Rbiaxial=6367453.634464, Rtriaxial=6372797.55593326)
 '''
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
@@ -92,7 +93,7 @@ from pygeodesy.utily import atan1, atan1d, atan2b, degrees90, m2radians, radians
 from math import asinh, atan, atanh, cos, degrees, exp, fabs, radians, sin, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '24.02.27'
+__version__ = '24.03.09'
 
 _f_0_0    = Float(f =_0_0)  # zero flattening
 _f__0_0   = Float(f_=_0_0)  # zero inverse flattening
@@ -2389,7 +2390,9 @@ Ellipsoids._assert(  # <https://WikiPedia.org/wiki/Earth_ellipsoid>
     WGS60          = _lazy('WGS60',          *_T(6378165.0,    6356783.28695944,  298.3)),
     WGS66          = _lazy('WGS66',          *_T(6378145.0,    6356759.76948868,  298.25)),
     WGS72          = _lazy(_WGS72_,          *_T(6378135.0,   _0_0,               298.26)),  # b=6356750.52
-    WGS84          = _lazy(_WGS84_,          *_T(R_MA,        _0_0,           _f__WGS84))  # GPS b=6356752.3142451793
+    WGS84          = _lazy(_WGS84_,          *_T(R_MA,        _0_0,           _f__WGS84)),  # GPS b=6356752.3142451793
+#   U{NOAA/NOS/NGS/inverse<https://GitHub.com/noaa-ngs/inverse/blob/main/invers3d.f>}
+    WGS84_NGS      = _lazy('WGS84_NGS',      *_T(R_MA,        _0_0,               298.257222100882711243162836600094))
 )
 
 _EWGS84 = Ellipsoids.WGS84  # (INTERNAL) shared

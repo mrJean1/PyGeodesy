@@ -25,7 +25,7 @@ except ImportError:  # Python 2-
     _inf, _nan = float(_INF_), float(_NAN_)
 
 __all__ = _ALL_LAZY.constants
-__version__ = '24.02.27'
+__version__ = '24.03.09'
 
 
 def _copysign_0_0(y):
@@ -263,7 +263,7 @@ NAN   =  Float(NAN =_nan)    # PYCHOK Not-A-Number, see function L{isnan}, NOT _
 NEG0  =  Float(NEG0=_N_0_0)  # PYCHOK NEGative 0.0, see function L{isneg0}, NOT _Float!
 NINF  =  Float(NINF=-INF)    # PYCHOK Negative INFinity, NOT _Float!
 
-PI    = _Float(PI   =_PI)
+PI    = _Float(PI   =_PI)         # 3.1415_9265_3589_7932_3846_2643_3832_795
 PI2   = _Float(PI2  =_PI * _2_0)  # PYCHOK Two PI, M{PI * 2} aka I{Tau}
 PI_2  = _Float(PI_2 =_PI / _2_0)  # PYCHOK Half PI, M{PI / 2}
 PI3   = _Float(PI3  =_PI * _3_0)  # PYCHOK Three PI, M{PI * 3}
