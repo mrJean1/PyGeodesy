@@ -38,7 +38,7 @@ from pygeodesy.utily import atan1, atan1d, degrees360, sincos2, sincos2d, \
 from math import atan2, atanh, degrees, fabs, radians, sqrt
 
 __all__ = _ALL_LAZY.albers
-__version__ = '23.12.01'
+__version__ = '24.03.22'
 
 _k1_    = 'k1'
 _NUMIT  =   8  # XXX 4?
@@ -96,7 +96,7 @@ class _AlbersBase(_NamedBase):
     '''(INTERNAL) Base class for C{AlbersEqualArea...} projections.
 
        @see: I{Karney}'s C++ class U{AlbersEqualArea<https://GeographicLib.SourceForge.io/
-             html/classGeographicLib_1_1AlbersEqualArea.html>}, method C{Init}.
+             C++/doc/classGeographicLib_1_1AlbersEqualArea.html>}, method C{Init}.
     '''
     _datum  = _WGS84
     _k      =  NN    # or _k0_ or _k1_

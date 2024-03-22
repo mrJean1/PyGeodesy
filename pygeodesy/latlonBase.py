@@ -20,7 +20,7 @@ from pygeodesy.dms import F_D, F_DMS, latDMS, lonDMS, parse3llh
 from pygeodesy.errors import _AttributeError, IntersectionError, \
                              _incompatible, _IsnotError, _TypeError, \
                              _ValueError, _xattr, _xdatum, _xError, \
-                             _xkwds, _xkwds_not
+                             _xkwds, _xkwds_item2, _xkwds_not
 # from pygeodesy.fmath import favg  # _MODS
 # from pygeodesy.formy import antipode, compassAngle, cosineAndoyerLambert_, \
 #                             cosineForsytheAndoyerLambert_, cosineLaw, \
@@ -53,7 +53,7 @@ from contextlib import contextmanager
 from math import asin, cos, degrees, fabs, radians
 
 __all__ = _ALL_LAZY.latlonBase
-__version__ = '24.01.18'
+__version__ = '24.03.15'
 
 
 class LatLonBase(_NamedBase):
@@ -595,8 +595,7 @@ class LatLonBase(_NamedBase):
 
     @property_RO
     def _formy(self):
-        '''(INTERNAL) Import module C{distance.formy}, I{once} and I{lazily}
-           to avoid circular imports.
+        '''(INTERNAL) Get module C{formy}, I{once}.
         '''
         LatLonBase._formy = f = _MODS.formy  # overwrite property_RO
         return f
@@ -1419,9 +1418,7 @@ class LatLonBase(_NamedBase):
             for p in (p, c):
                 e = _xattr(p, Ecef=None)
                 if e not in (None, E):  # PYCHOK no cover
-                    n, _ = name_point.popitem()
-                    if i is not None:
-                        n = Fmt.SQUARE(n, i)
+                    n = Fmt.INDEX(_xkwds_item2(name_point)[0], i)
                     raise _ValueError(n, e, txt=_incompatible(E.__name__))
         return c
 

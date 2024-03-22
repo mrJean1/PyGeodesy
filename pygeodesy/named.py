@@ -16,15 +16,15 @@ standard Python C{namedtuple}s.
 from pygeodesy.basics import isclass, isidentifier, iskeyword, isstr, issubclassof, \
                              itemsorted, len2, _sizeof, _xcopy, _xdup, _zip
 from pygeodesy.errors import _AssertionError, _AttributeError, _incompatible, \
-                             _IndexError, _IsnotError, LenError, _NameError, \
-                             _NotImplementedError, _TypeError, _TypesError, \
-                             _ValueError, UnitError, _xattr, _xkwds, _xkwds_get, \
-                             _xkwds_item2, _xkwds_pop2
-from pygeodesy.interns import NN, _at_, _AT_, _COLON_, _COLONSPACE_, _COMMA_, \
-                             _COMMASPACE_, _doesn_t_exist_, _DOT_, _DUNDER_, \
-                             _EQUAL_, _EQUALSPACED_, _exists_, _immutable_, _name_, \
-                             _NL_, _NN_, _not_, _other_, _s_, _SPACE_, _std_, \
-                             _UNDER_, _valid_, _vs_,  _dunder_nameof, _isPyPy, _under
+                             _IndexError, _IsnotError, _KeyError, LenError, \
+                             _NameError, _NotImplementedError, _TypeError, \
+                             _TypesError, UnitError, _ValueError, _xattr, _xkwds, \
+                             _xkwds_get, _xkwds_item2, _xkwds_pop2
+from pygeodesy.interns import MISSING, NN, _at_, _AT_, _COLON_, _COLONSPACE_, _COMMA_, \
+                             _COMMASPACE_, _doesn_t_exist_, _DOT_, _DUNDER_, _EQUAL_, \
+                             _exists_, _immutable_, _name_, _NL_, _NN_, _no_, _other_, \
+                             _s_, _SPACE_, _std_, _UNDER_, _valid_, _vs_, \
+                             _dunder_nameof, _isPyPy, _under
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, _caller3, _getenv
 from pygeodesy.props import _allPropertiesOf_n, deprecated_method, _hasProperty, \
                             _update_all, property_doc_, Property_RO, property_RO, \
@@ -32,7 +32,7 @@ from pygeodesy.props import _allPropertiesOf_n, deprecated_method, _hasProperty,
 from pygeodesy.streprs import attrs, Fmt, lrstrip, pairs, reprs, unstr
 
 __all__ = _ALL_LAZY.named
-__version__ = '24.02.27'
+__version__ = '24.03.22'
 
 _COMMANL_           = _COMMA_ + _NL_
 _COMMASPACEDOT_     = _COMMASPACE_ + _DOT_
@@ -74,7 +74,7 @@ def _xnamed(inst, name, force=False):
 def _xother3(inst, other, name=_other_, up=1, **name_other):
     '''(INTERNAL) Get C{name} and C{up} for a named C{other}.
     '''
-    if name_other:  # and not other and len(name_other) == 1
+    if name_other:  # and other is None
         name, other = _xkwds_item2(name_other)
     elif other and len(other) == 1:
         other = other[0]
@@ -90,14 +90,14 @@ def _xotherError(inst, other, name=_other_, up=1):
     return _TypeError(name, other, txt=_incompatible(n))
 
 
-def _xvalid(name, _OK=False):
+def _xvalid(name, underOK=False):
     '''(INTERNAL) Check valid attribute name C{name}.
     '''
-    return True if (name and isstr(name)
-                         and name != _name_
-                         and (_OK or not name.startswith(_UNDER_))
-                         and (not iskeyword(name))
-                         and isidentifier(name)) else False
+    return bool(name and isstr(name)
+                     and name != _name_
+                     and (underOK or not name.startswith(_UNDER_))
+                     and (not iskeyword(name))
+                     and isidentifier(name))
 
 
 class ADict(dict):
@@ -107,14 +107,14 @@ class ADict(dict):
     _iteration = None  # Iteration number (C{int}) or C{None}
 
     def __getattr__(self, name):
-        '''Get an attribute or item by B{C{name}}.
+        '''Get the value of an item by B{C{name}}.
         '''
         try:
             return self[name]
         except KeyError:
-            pass
-        name = _DOT_(self.__class__.__name__, name)
-        raise _AttributeError(item=name, txt=_doesn_t_exist_)
+            if name == _name_:
+                return NN
+        raise self._AttributeError(name)
 
     def __repr__(self):
         '''Default C{repr(self)}.
@@ -125,6 +125,13 @@ class ADict(dict):
         '''Default C{str(self)}.
         '''
         return self.toStr()
+
+    def _AttributeError(self, name):
+        '''(INTERNAL) Create an C{AttributeError}.
+        '''
+        if _DOT_ not in name:  # NOT classname(self)!
+            name = _DOT_(self.__class__.__name__, name)
+        return _AttributeError(item=name, txt=_doesn_t_exist_)
 
     @property_RO
     def iteration(self):  # see .named._NamedBase
@@ -141,25 +148,25 @@ class ADict(dict):
         '''
         if iteration is not None:
             self._iteration = iteration
-        dict.update(self, items)
-        return self  # in .rhumbBase.RhumbLineBase
+        if items:
+            dict.update(self, items)
+        return self  # in RhumbLineBase.Intersecant2, _PseudoRhumbLine.Position
 
-    def toRepr(self, **prec_fmt):  # PYCHOK signature
+    def toRepr(self, **prec_fmt):
         '''Like C{repr(dict)} but with C{name} prefix and with
            C{floats} formatted by function L{pygeodesy.fstr}.
         '''
-        n = _xkwds_get(self, name=classname(self))
+        n = _xattr(self, name=NN) or self.__class__.__name__
         return Fmt.PAREN(n, self._toT(_EQUAL_, **prec_fmt))
 
-    def toStr(self, **prec_fmt):  # PYCHOK signature
+    def toStr(self, **prec_fmt):
         '''Like C{str(dict)} but with C{floats} formatted by
            function L{pygeodesy.fstr}.
         '''
         return Fmt.CURLY(self._toT(_COLONSPACE_, **prec_fmt))
 
     def _toT(self, sep, **kwds):
-        '''(INTERNAL) Helper for C{.toRepr} and C{.toStr}, also
-           in C{_NamedDict} below.
+        '''(INTERNAL) Helper for C{.toRepr} and C{.toStr}.
         '''
         kwds = _xkwds(kwds, prec=6, fmt=Fmt.F, sep=sep)
         return _COMMASPACE_.join(pairs(itemsorted(self), **kwds))
@@ -195,23 +202,20 @@ class _Named(object):
         '''
         return self.named2
 
-    def attrs(self, *names, **sep_COMMASPACE__Nones_True__pairs_kwds):
+    def attrs(self, *names, **sep_Nones_pairs_kwds):
         '''Join named attributes as I{name=value} strings, with C{float}s formatted by
            function L{pygeodesy.fstr}.
 
            @arg names: The attribute names, all positional (C{str}).
-           @kwarg sep_COMMASPACE__Nones_True__pairs_kwds: Keyword argument for function
-                  L{pygeodesy.pairs}, except C{B{sep}=", "} and C{B{Nones}=True} to
-                  in- or exclude missing or C{None}-valued attributes.
+           @kwarg sep_Nones_pairs_kwds: Keyword arguments for function L{pygeodesy.pairs},
+                      except C{B{sep}=", "} and C{B{Nones}=True} to in-/exclude missing
+                      or C{None}-valued attributes.
 
            @return: All C{name=value} pairs, joined by B{C{sep}} (C{str}).
 
-           @see: Functions L{pygeodesy.attrs}, L{pygeodesy.fstr} and L{pygeodesy.pairs}.
+           @see: Functions L{pygeodesy.attrs}, L{pygeodesy.pairs} and L{pygeodesy.fstr}
         '''
-        def _sep_kwds(sep=_COMMASPACE_, **kwds):
-            return sep, kwds
-
-        sep, kwds = _sep_kwds(**sep_COMMASPACE__Nones_True__pairs_kwds)
+        sep, kwds = _xkwds_pop2(sep_Nones_pairs_kwds, sep=_COMMASPACE_)
         return sep.join(attrs(self, *names, **kwds))
 
     @Property_RO
@@ -291,18 +295,18 @@ class _Named(object):
         def _fmt_props_kwds(fmt=Fmt.F, props=(), **kwds):
             return fmt, props, kwds
 
-        fmt, props, kwds =_fmt_props_kwds(**fmt_props_kwds)
+        fmt, props, kwds = _fmt_props_kwds(**fmt_props_kwds)
 
-        t = Fmt.EQUAL(_name_, repr(name or self.name)),
+        t = () if name is None else (Fmt.EQUAL(name=repr(name or self.name)),)
         if attrs:
             t += pairs(((a, getattr(self, a)) for a in attrs),
-                       prec=prec, fmt=fmt, ints=True)
+                       prec=prec, ints=True, fmt=fmt)
         if props:
             t += pairs(((p.name, getattr(self, p.name)) for p in props),
                        prec=prec, ints=True)
         if kwds:
             t += pairs(kwds, prec=prec)
-        return _COMMASPACE_.join(t[1:] if name is None else t)
+        return _COMMASPACE_.join(t)
 
     @property_RO
     def iteration(self):  # see .karney.GDict
@@ -340,14 +344,14 @@ class _Named(object):
             n =  repr(n)
             c =  self.classname
             t = _DOT_(c, Fmt.PAREN(self.rename.__name__, n))
+            n = _DOT_(c, Fmt.EQUALSPACED(name=n))
             m =  Fmt.PAREN(_SPACE_('was', repr(m)))
-            n = _DOT_(c, _EQUALSPACED_(_name_, n))
             n = _SPACE_(n, m)
-            raise _NameError(_SPACE_('use', t), txt=_not_(n))
+            raise _NameError(n, txt=_SPACE_('use', t))
         # to set the name from a sub-class, use
-        #  self.name = name or
-        # _Named.name.fset(self, name), but NOT
-        # _Named(self).name = name
+        #   self.name = name or
+        #  _Named.name.fset(self, name), but NOT
+        #  _Named(self).name = name
 
     @Property_RO
     def named(self):
@@ -407,14 +411,13 @@ class _Named(object):
         '''DEPRECATED on 23.10.07, use method C{toRepr}.'''
         return self.toRepr(**kwds)
 
-    def _unstr(self, which, *args, **kwds):
-        '''(INTERNAL) Return the string representation of a method
-           invokation of this instance: C{str(self).method(...)}
-
-           @see: Function L{pygeodesy.unstr}.
-        '''
-        n = _DOT_(self, which.__name__ if callable(which) else _NN_)
-        return unstr(n, *args, **kwds)
+#   def _unstr(self, which, *args, **kwds):
+#       '''(INTERNAL) Return the string representation of a method
+#          invokation of this instance: C{str(self).method(...)}
+#
+#          @see: Function L{pygeodesy.unstr}.
+#       '''
+#       return _DOT_(self, unstr(which, *args, **kwds))
 
     def _xnamed(self, inst, name=NN, force=False):
         '''(INTERNAL) Set the instance' C{.name = self.name}.
@@ -457,16 +460,6 @@ class _NamedBase(_Named):
         '''Default C{str(self)}.
         '''
         return self.toStr()
-
-#   def notImplemented(self, attr):
-#       '''Raise error for a missing method, function or attribute.
-#
-#          @arg attr: Attribute name (C{str}).
-#
-#          @raise NotImplementedError: No such attribute.
-#       '''
-#       c = self.__class__.__name__
-#       return NotImplementedError(_DOT_(c, attr))
 
     def others(self, *other, **name_other_up):
         '''Refined class comparison, invoked as C{.others(other)},
@@ -560,7 +553,7 @@ class _NamedDict(ADict, _Named):
         '''Delete an attribute or item by B{C{name}}.
         '''
         if name in self:  # in ADict.keys(self):
-            ADict.pop(name)
+            ADict.pop(self, name)
         elif name in (_name_, _name):
             # ADict.__setattr__(self, name, NN)
             _Named.rename(self, NN)
@@ -568,21 +561,30 @@ class _NamedDict(ADict, _Named):
             ADict.__delattr__(self, name)
 
     def __getattr__(self, name):
-        '''Get an attribute or item by B{C{name}}.
+        '''Get the value of an item by B{C{name}}.
         '''
         try:
             return self[name]
         except KeyError:
             if name == _name_:
                 return _Named.name.fget(self)
-        raise _AttributeError(item=self._DOT_(name), txt=_doesn_t_exist_)
+        raise ADict._AttributeError(self, self._DOT_(name))
 
     def __getitem__(self, key):
         '''Get the value of an item by B{C{key}}.
         '''
         if key == _name_:
-            raise KeyError(Fmt.SQUARE(self.classname, key))
+            raise self._KeyError(key)
         return ADict.__getitem__(self, key)
+
+    def _KeyError(self, key, *value):  # PYCHOK no cover
+        '''(INTERNAL) Create a C{KeyError}.
+        '''
+        n = self.name or self.__class__.__name__
+        t = Fmt.SQUARE(n, key)
+        if value:
+            t = Fmt.EQUALSPACED(t, *value)
+        return _KeyError(t)
 
     def __setattr__(self, name, value):
         '''Set attribute or item B{C{name}} to B{C{value}}.
@@ -596,20 +598,8 @@ class _NamedDict(ADict, _Named):
         '''Set item B{C{key}} to B{C{value}}.
         '''
         if key == _name_:
-            raise KeyError(_EQUAL_(Fmt.SQUARE(self.classname, key), repr(value)))
+            raise self._KeyError(key, repr(value))
         ADict.__setitem__(self, key, value)
-
-    def toRepr(self, **prec_fmt):  # PYCHOK signature
-        '''Like C{repr(dict)} but with C{name} prefix and with
-           C{floats} formatted by function L{pygeodesy.fstr}.
-        '''
-        return Fmt.PAREN(self.name, self._toT(_EQUAL_, **prec_fmt))
-
-    def toStr(self, **prec_fmt):  # PYCHOK signature
-        '''Like C{str(dict)} but with C{floats} formatted by
-           function L{pygeodesy.fstr}.
-        '''
-        return Fmt.CURLY(self._toT(_COLONSPACE_, **prec_fmt))
 
 
 class _NamedEnum(_NamedDict):
@@ -627,18 +617,13 @@ class _NamedEnum(_NamedDict):
         '''
         self._item_Classes = (Class,) + Classes
         n = _xkwds_get(name, name=NN) or NN(Class.__name__, _s_)
-        if n and _xvalid(n, _OK=True):
+        if n and _xvalid(n, underOK=True):
             _Named.name.fset(self, n)  # see _Named.name
 
     def __getattr__(self, name):
         '''Get the value of an attribute or item by B{C{name}}.
         '''
-        try:
-            return self[name]
-        except KeyError:
-            if name == _name_:
-                return _NamedDict.name.fget(self)
-        raise _AttributeError(item=self._DOT_(name), txt=_doesn_t_exist_)
+        return _NamedDict.__getattr__(self, name)
 
     def __repr__(self):
         '''Default C{repr(self)}.
@@ -665,16 +650,18 @@ class _NamedEnum(_NamedDict):
             else:
                 raise _TypeError(v, name=n)
 
-    def find(self, item, dflt=None):
+    def find(self, item, dflt=None, all=False):
         '''Find a registered item.
 
            @arg item: The item to look for (any C{type}).
            @kwarg dflt: Value to return if not found (any C{type}).
+           @kwarg all: Use C{True} to search I{all} items or C{False} only
+                       the currently I{registered} ones (C{bool}).
 
-           @return: The B{C{item}}'s name if found (C{str}), or C{{dflt}} if
-                    there is no such I{registered} B{C{item}}.
+           @return: The B{C{item}}'s name if found (C{str}), or C{{dflt}}
+                    if there is no such B{C{item}}.
         '''
-        for k, v in self.items():  # or ADict.items(self)
+        for k, v in self.items(all=all):  # or ADict.items(self)
             if v is item:
                 return k
         return dflt
@@ -686,7 +673,7 @@ class _NamedEnum(_NamedDict):
            @kwarg dflt: Value to return (any C{type}).
 
            @return: The item with B{C{name}} if found, or B{C{dflt}} if
-                    there is no item I{registered} with that B{C{name}}.
+                    there is no I{registered} item with that B{C{name}}.
         '''
         # getattr needed to instantiate L{_LazyNamedEnumItem}
         return getattr(self, name, dflt)
@@ -694,58 +681,63 @@ class _NamedEnum(_NamedDict):
     def items(self, all=False, asorted=False):
         '''Yield all or only the I{registered} items.
 
-           @kwarg all: Use C{True} to yield {all} items or C{False}
-                       for only the currently I{registered} ones.
-           @kwarg asorted: If C{True}, yield the items sorted in
-                           I{alphabetical, case-insensitive} order.
+           @kwarg all: Use C{True} to yield I{all} items or C{False} for
+                       only the currently I{registered} ones (C{bool}).
+           @kwarg asorted: If C{True}, yield the items in I{alphabetical,
+                           case-insensitive} order (C{bool}).
         '''
-        if all:  # instantiate any remaining L{_LazyNamedEnumItem} ...
-            # ... and remove the L{_LazyNamedEnumItem} from the class
-            for n in tuple(n for n, p in self.__class__.__dict__.items()
-                                      if isinstance(p, _LazyNamedEnumItem)):
-                _ = getattr(self, n)
+        if all:  # instantiate any remaining L{_LazyNamedEnumItem}
+            for n, p in tuple(self.__class__.__dict__.items()):
+                if isinstance(p, _LazyNamedEnumItem):
+                    _ = getattr(self, n)
         return itemsorted(self) if asorted else ADict.items(self)
 
     def keys(self, **all_asorted):
-        '''Yield the keys (C{str}) of all or only the I{registered} items,
-           optionally sorted I{alphabetically} and I{case-insensitively}.
+        '''Yield the name (C{str}) of I{all} or only the currently I{registered}
+           items, optionally sorted I{alphabetically, case-insensitively}.
 
-           @kwarg all_asorted: See method C{items}..
+           @kwarg all_asorted: See method C{items}.
         '''
         for k, _ in self.items(**all_asorted):
             yield k
 
     def popitem(self):
-        '''Remove I{an, any} curretly I{registed} item.
+        '''Remove I{an, any} currently I{registed} item.
 
            @return: The removed item.
         '''
-        return self._zapitem(*ADict.pop(self))
+        return self._zapitem(*ADict.popitem(self))
 
     def register(self, item):
-        '''Registed a new item.
+        '''Registed one new item or I{all} or I{any} unregistered ones.
 
-           @arg item: The item (any C{type}).
+           @arg item: The item (any C{type}) or B{I{all}} or B{C{any}}.
 
-           @return: The item name (C{str}).
+           @return: The item name (C{str}) or C("all") or C{"any"}.
 
-           @raise NameError: An B{C{item}} already registered with
-                             that name or the B{C{item}} has no, an
-                             empty or an invalid name.
+           @raise NameError: An B{C{item}} with that name is already
+                             registered the B{C{item}} has no or an
+                             invalid name.
 
            @raise TypeError: The B{C{item}} type invalid.
         '''
-        try:
-            n = item.name
-            if not (n and isstr(n) and isidentifier(n)):
-                raise ValueError
-        except (AttributeError, ValueError, TypeError) as x:
-            raise _NameError(_DOT_(_item_, _name_), item, cause=x)
-        if n in self:
-            raise _NameError(self._DOT_(n), item, txt=_exists_)
-        if not (self._item_Classes and isinstance(item, self._item_Classes)):
-            raise _TypesError(self._DOT_(n), item, *self._item_Classes)
-        self[n] = item
+        if item is all or item is any:
+            _ = self.items(all=True)
+            n = item.__name__
+        else:
+            try:
+                n = item.name
+                if not (n and isstr(n) and isidentifier(n)):
+                    raise ValueError()
+            except (AttributeError, ValueError, TypeError) as x:
+                raise _NameError(_DOT_(_item_, _name_), item, cause=x)
+            if n in self:
+                t = _SPACE_(_item_, self._DOT_(n), _exists_)
+                raise _NameError(t, txt=repr(item))
+            if not isinstance(item, self._item_Classes):
+                raise _TypesError(self._DOT_(n), item, *self._item_Classes)
+            self[n] = item
+        return n
 
     def unregister(self, name_or_item):
         '''Remove a I{registered} item.
@@ -754,14 +746,17 @@ class _NamedEnum(_NamedDict):
 
            @return: The unregistered item.
 
-           @raise NameError: No item with that B{C{name}}.
+           @raise AttributeError: No such B{C{item}}.
 
-           @raise ValueError: No such item.
+           @raise NameError: No item with that B{C{name}}.
         '''
         if isstr(name_or_item):
             name = name_or_item
         else:
-            name = self.find(name_or_item)
+            name = self.find(name_or_item, dflt=MISSING)  # all=True?
+            if name is MISSING:
+                t = _SPACE_(_no_, 'such', self.classname, _item_)
+                raise _AttributeError(t, txt=repr(name_or_item))
         try:
             item = ADict.pop(self, name)
         except KeyError:
@@ -770,14 +765,14 @@ class _NamedEnum(_NamedDict):
 
     pop = unregister
 
-    def toRepr(self, prec=6, fmt=Fmt.F, sep=_COMMANL_, **all_asorted):  # PYCHOK _NamedDict
+    def toRepr(self, prec=6, fmt=Fmt.F, sep=_COMMANL_, **all_asorted):  # PYCHOK _NamedDict, ADict
         '''Like C{repr(dict)} but C{name}s optionally sorted and
            C{floats} formatted by function L{pygeodesy.fstr}.
         '''
         t = ((self._DOT_(n), v) for n, v in self.items(**all_asorted))
         return sep.join(pairs(t, prec=prec, fmt=fmt, sep=_COLONSPACE_))
 
-    def toStr(self, *unused, **all_asorted):  # PYCHOK _NamedDict
+    def toStr(self, *unused, **all_asorted):  # PYCHOK _NamedDict, ADict
         '''Return a string with all C{name}s, optionally sorted.
         '''
         return self._DOT_(_COMMASPACEDOT_.join(self.keys(**all_asorted)))
@@ -870,7 +865,7 @@ class _NamedEnumItem(_NamedBase):
            @note: Don't register if name is empty or doesn't
                   start with a letter.
         '''
-        if name and _xvalid(name, _OK=True):
+        if name and _xvalid(name, underOK=True):
             self.name = name
             if name[:1].isalpha():  # '_...' not registered
                 enum.register(self)
@@ -1093,7 +1088,7 @@ class _NamedTuple(tuple, _Named):
 
     iterunits = units
 
-    def _validate(self, _OK=False):  # see .EcefMatrix
+    def _validate(self, underOK=False):  # see .EcefMatrix
         '''(INTERNAL) One-time check of C{_Names_} and C{_Units_}
            for each C{_NamedUnit} I{sub-class separately}.
         '''
@@ -1101,7 +1096,7 @@ class _NamedTuple(tuple, _Named):
         if not (isinstance(ns, tuple) and len(ns) > 1):  # XXX > 0
             raise _TypeError(_DOT_(self.classname, _Names_), ns)
         for i, n in enumerate(ns):
-            if not _xvalid(n, _OK=_OK):
+            if not _xvalid(n, underOK=underOK):
                 t = Fmt.SQUARE(_Names_=i)  # PYCHOK no cover
                 raise _ValueError(_DOT_(self.classname, t), n)
 
@@ -1239,7 +1234,7 @@ def nameof(inst):
     return n
 
 
-def _notDecaps(where):
+def _notDecap(where):
     '''De-Capitalize C{where.__name__}.
     '''
     n = where.__name__
@@ -1278,7 +1273,7 @@ def notImplemented(inst, *args, **kwds):  # PYCHOK no cover
     '''
     n, kwds = _callername2(args, **kwds)
     t = _notError(inst, n, args, kwds) if inst else unstr(n, *args, **kwds)
-    raise _NotImplementedError(t, txt=_notDecaps(notImplemented))
+    raise _NotImplementedError(t, txt=_notDecap(notImplemented))
 
 
 def notOverloaded(inst, *args, **kwds):  # PYCHOK no cover
@@ -1292,7 +1287,7 @@ def notOverloaded(inst, *args, **kwds):  # PYCHOK no cover
     '''
     n, kwds = _callername2(args, **kwds)
     t = _notError(inst, n, args, kwds)
-    raise _AssertionError(t, txt=_notDecaps(notOverloaded))
+    raise _AssertionError(t, txt=_notDecap(notOverloaded))
 
 
 def _Pass(arg, **unused):  # PYCHOK no cover

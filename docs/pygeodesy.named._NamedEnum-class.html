@@ -171,7 +171,8 @@ new empty dictionary
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.named._NamedEnum-class.html#find" class="summary-sig-name">find</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">item</span>,
-        <span class="summary-sig-arg">dflt</span>=<span class="summary-sig-default">None</span>)</span><br />
+        <span class="summary-sig-arg">dflt</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">all</span>=<span class="summary-sig-default">False</span>)</span><br />
       Find a registered item.</td>
           <td align="right" valign="top">
             
@@ -228,9 +229,9 @@ new empty dictionary
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.named._NamedEnum-class.html#keys" class="summary-sig-name">keys</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">**all_asorted</span>)</span><br />
-      Yield the keys (<code>str</code>) of all or only the 
-      <i>registered</i> items, optionally sorted <i>alphabetically</i> and 
-      <i>case-insensitively</i>.</td>
+      Yield the name (<code>str</code>) of <i>all</i> or only the currently
+      <i>registered</i> items, optionally sorted <i>alphabetically, 
+      case-insensitively</i>.</td>
           <td align="right" valign="top">
             
             
@@ -247,7 +248,7 @@ new empty dictionary
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.named._NamedEnum-class.html#popitem" class="summary-sig-name">popitem</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      Remove <i>an, any</i> curretly <i>registed</i> item.</td>
+      Remove <i>an, any</i> currently <i>registed</i> item.</td>
           <td align="right" valign="top">
             
             
@@ -265,7 +266,7 @@ new empty dictionary
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.named._NamedEnum-class.html#register" class="summary-sig-name">register</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">item</span>)</span><br />
-      Registed a new item.</td>
+      Registed one new item or <i>all</i> or <i>any</i> unregistered ones.</td>
           <td align="right" valign="top">
             
             
@@ -602,7 +603,8 @@ new empty dictionary
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">find</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">item</span>,
-        <span class="sig-arg">dflt</span>=<span class="sig-default">None</span>)</span>
+        <span class="sig-arg">dflt</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">all</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -615,10 +617,13 @@ new empty dictionary
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>item</code></strong> - The item to look for (any <code>type</code>).</li>
         <li><strong class="pname"><code>dflt</code></strong> - Value to return if not found (any <code>type</code>).</li>
+        <li><strong class="pname"><code>all</code></strong> - Use <code>True</code> to search <i>all</i> items or 
+          <code>False</code> only the currently <i>registered</i> ones 
+          (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The <b><code>item</code></b>'s name if found (<code>str</code>), 
-          or <code>{dflt}</code> if there is no such <i>registered</i> 
+          or <code>{dflt}</code> if there is no such 
           <b><code>item</code></b>.</dd>
   </dl>
 </td></tr></table>
@@ -648,7 +653,7 @@ new empty dictionary
     </ul></dd>
     <dt>Returns: D[k] if k in D, else d</dt>
         <dd>The item with <b><code>name</code></b> if found, or 
-          <b><code>dflt</code></b> if there is no item <i>registered</i> 
+          <b><code>dflt</code></b> if there is no <i>registered</i> item 
           with that <b><code>name</code></b>.</dd>
     <dt>Overrides:
         dict.get
@@ -676,10 +681,11 @@ new empty dictionary
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>all</code></strong> - Use <code>True</code> to yield {all} items or <code>False</code> 
-          for only the currently <i>registered</i> ones.</li>
-        <li><strong class="pname"><code>asorted</code></strong> - If <code>True</code>, yield the items sorted in <i>alphabetical, 
-          case-insensitive</i> order.</li>
+        <li><strong class="pname"><code>all</code></strong> - Use <code>True</code> to yield <i>all</i> items or 
+          <code>False</code> for only the currently <i>registered</i> ones 
+          (<code>bool</code>).</li>
+        <li><strong class="pname"><code>asorted</code></strong> - If <code>True</code>, yield the items in <i>alphabetical, 
+          case-insensitive</i> order (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns: list of D's (key, value) pairs, as 2-tuples</dt>
     <dt>Overrides:
@@ -703,13 +709,13 @@ new empty dictionary
     </td>
   </tr></table>
   
-  <p>Yield the keys (<code>str</code>) of all or only the <i>registered</i>
-  items, optionally sorted <i>alphabetically</i> and 
-  <i>case-insensitively</i>.</p>
+  <p>Yield the name (<code>str</code>) of <i>all</i> or only the currently 
+  <i>registered</i> items, optionally sorted <i>alphabetically, 
+  case-insensitively</i>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>all_asorted</code></strong> - See method <code>items</code>..</li>
+        <li><strong class="pname"><code>all_asorted</code></strong> - See method <code>items</code>.</li>
     </ul></dd>
     <dt>Returns: list of D's keys</dt>
     <dt>Overrides:
@@ -732,7 +738,7 @@ new empty dictionary
     </td>
   </tr></table>
   
-  <p>Remove <i>an, any</i> curretly <i>registed</i> item.</p>
+  <p>Remove <i>an, any</i> currently <i>registed</i> item.</p>
   <dl class="fields">
     <dt>Returns: (k, v), remove and return some (key, value) pair as a</dt>
         <dd>The removed item.</dd>
@@ -757,18 +763,21 @@ new empty dictionary
     </td>
   </tr></table>
   
-  <p>Registed a new item.</p>
+  <p>Registed one new item or <i>all</i> or <i>any</i> unregistered 
+  ones.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>item</code></strong> - The item (any <code>type</code>).</li>
+        <li><strong class="pname"><code>item</code></strong> - The item (any <code>type</code>) or <b><i>all</i></b> or 
+          <b><code>any</code></b>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The item name (<code>str</code>).</dd>
+        <dd>The item name (<code>str</code>) or C(&quot;all&quot;) or 
+          <code>&quot;any&quot;</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>NameError</strong></code> - An <b><code>item</code></b> already registered with that name or 
-        the <b><code>item</code></b> has no, an empty or an invalid name.</li>
+        <li><code><strong class='fraise'>NameError</strong></code> - An <b><code>item</code></b> with that name is already registered 
+        the <b><code>item</code></b> has no or an invalid name.</li>
         <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>item</code></b> type invalid.</li>
     </ul></dd>
   </dl>
@@ -799,8 +808,8 @@ new empty dictionary
         <dd>The unregistered item.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>AttributeError</strong></code> - No such <b><code>item</code></b>.</li>
         <li><code><strong class='fraise'>NameError</strong></code> - No item with that <b><code>name</code></b>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - No such item.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -830,8 +839,8 @@ new empty dictionary
         <dd>The unregistered item.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>AttributeError</strong></code> - No such <b><code>item</code></b>.</li>
         <li><code><strong class='fraise'>NameError</strong></code> - No item with that <b><code>name</code></b>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - No such item.</li>
     </ul></dd>
     <dt>Overrides:
         dict.pop
@@ -954,7 +963,7 @@ new empty dictionary
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Mar 10 16:19:44 2024
+    Generated by Epydoc 3.0.1 on Fri Mar 22 10:57:47 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

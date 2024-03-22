@@ -1,18 +1,16 @@
 # -*- coding: utf-8 -*-
 
-u'''Single-instance C{float} and C{int} constants across C{pygeodesy}
-modules and related functions L{pygeodesy.float_}, L{pygeodesy.isclose},
-L{pygeodesy.isfinite}, L{pygeodesy.isinf}, L{pygeodesy.isint0},
-L{pygeodesy.isnan}, L{pygeodesy.isnear0}, L{pygeodesy.isnear1},
-L{pygeodesy.isnear90}, L{pygeodesy.isneg0}, L{pygeodesy.isninf},
+u'''Single-instance C{float} and C{int} constants across C{pygeodesy} modules and
+related functions L{pygeodesy.float_}, L{pygeodesy.isclose}, L{pygeodesy.isfinite},
+L{pygeodesy.isinf}, L{pygeodesy.isint0}, L{pygeodesy.isnan}, L{pygeodesy.isnear0},
+L{pygeodesy.isnear1}, L{pygeodesy.isnear90}, L{pygeodesy.isneg0}, L{pygeodesy.isninf},
 L{pygeodesy.isnon0} and L{pygeodesy.remainder}.
 '''
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import _0_0, _copysign, isbool, iscomplex, \
-                              isint,  _ALL_LAZY
-from pygeodesy.errors import _xError, _xError2, _xkwds_get
+from pygeodesy.basics import _0_0, _copysign, isbool, iscomplex, isint,  _ALL_LAZY
+from pygeodesy.errors import _xError, _xError2, _xkwds_get, _xkwds_item2
 from pygeodesy.interns import _INF_, _NAN_, _UNDER_
 # from pygeodesy.lazily import _ALL_LAZY  # from .basics
 # from pygeodesy.streprs import Fmt  # from .unitsBase
@@ -25,7 +23,7 @@ except ImportError:  # Python 2-
     _inf, _nan = float(_INF_), float(_NAN_)
 
 __all__ = _ALL_LAZY.constants
-__version__ = '24.03.09'
+__version__ = '24.03.15'
 
 
 def _copysign_0_0(y):
@@ -49,14 +47,14 @@ def _copysignINF(y):
 def _Float(**name_arg):
     '''(INTERNAL) New named, cached C{Float}.
     '''
-    n, arg = name_arg.popitem()
+    n, arg = _xkwds_item2(name_arg)
     return Float(_float(arg), name=n)
 
 
 def _Radius(**name_arg):
     '''(INTERNAL) New named, cached C{Radius}.
     '''
-    n, arg = name_arg.popitem()
+    n, arg = _xkwds_item2(name_arg)
     return Radius(_float(arg), name=n)
 
 
@@ -73,7 +71,7 @@ def float_(*fs, **sets):  # sets=False
        @raise TypeError: Some B{C{fs}} is not C{scalar}.
     '''
     fl = []
-    _a = fl.append
+    _a =  fl.append
     _f = _floats.setdefault if _xkwds_get(sets, sets=False) else \
          _floats.get
     try:

@@ -86,7 +86,7 @@ from pygeodesy.utily import atan1, atan1d, atan2d, degrees90, degrees180, \
 from math import atan2, cos, degrees, fabs, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '24.01.11'
+__version__ = '24.03.22'
 
 _Ecef_    = 'Ecef'
 _prolate_ = 'prolate'
@@ -877,10 +877,10 @@ class EcefMatrix(_NamedTuple):
                '_2_0_', '_2_1_', '_2_2_')
     _Units_ = (Scalar,) * len(_Names_)
 
-    def _validate(self, **_OK):  # PYCHOK unused
+    def _validate(self, **unused):  # PYCHOK unused
         '''(INTERNAL) Allow C{_Names_} with leading underscore.
         '''
-        _NamedTuple._validate(self, _OK=True)
+        _NamedTuple._validate(self, underOK=True)
 
     def __new__(cls, sa, ca, sb, cb, *_more):
         '''New L{EcefMatrix} matrix.

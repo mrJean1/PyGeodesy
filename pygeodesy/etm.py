@@ -92,7 +92,7 @@ from pygeodesy.utm import _cmlon, _LLEB, _parseUTM5, _toBand, _toXtm8, \
 from math import asinh, atan2, degrees, radians, sinh, sqrt
 
 __all__ = _ALL_LAZY.etm
-__version__ = '23.12.03'
+__version__ = '24.03.22'
 
 _OVERFLOW = _1_EPS**2  # about 2e+31
 _TAYTOL   =  pow(EPS, 0.6)
@@ -123,7 +123,7 @@ class Etm(Utm):
               coordinates is 3-4 times slower than to/from L{Utm}.
 
        @see: Karney's U{Detailed Description<https://GeographicLib.SourceForge.io/
-             html/classGeographicLib_1_1TransverseMercatorExact.html#details>}.
+             C++/doc/classGeographicLib_1_1TransverseMercatorExact.html#details>}.
     '''
     _Error   = ETMError  # see utm.UTMError
     _exactTM = None
@@ -262,7 +262,7 @@ class ExactTransverseMercator(_NamedBase):
                             or B{C{k0}}.
 
            @see: U{Constructor TransverseMercatorExact<https://GeographicLib.SourceForge.io/
-                 html/classGeographicLib_1_1TransverseMercatorExact.html>} for more details,
+                 C++/doc/classGeographicLib_1_1TransverseMercatorExact.html>} for more details,
                  especially on B{X{extendp}}.
 
            @note: For all 255.5K U{TMcoords.dat<https://Zenodo.org/record/32470>} tests (with

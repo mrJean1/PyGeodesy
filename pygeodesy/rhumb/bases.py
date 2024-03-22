@@ -52,7 +52,7 @@ from pygeodesy.vector3d import _intersect3d3, Vector3d  # in .Intersection below
 from math import cos, fabs
 
 __all__ = ()
-__version__ = '24.02.20'
+__version__ = '24.03.16'
 
 _anti_ = _Dash('anti')
 _rls   = []  # instances of C{RbumbLine...} to be updated
@@ -463,14 +463,14 @@ class RhumbLineBase(_CapsBase):
     '''
     _azi12 = _0_0
     _calp  = _1_0
-#   _caps  =  0
+#   _caps  =  \
 #   _debug =  0
-#   _lat1  = _0_0
-#   _lon1  = _0_0
+#   _lat1  =  \
+#   _lon1  =  \
 #   _lon12 = _0_0
     _Rhumb =  RhumbBase  # compatible C{Rhumb} class
     _rhumb =  None  # C{Rhumb} instance
-    _salp  = _0_0
+    _salp  =  \
     _talp  = _0_0
 
     def __init__(self, rhumb, lat1, lon1, azi12, caps=Caps.STANDARD, name=NN):
@@ -649,6 +649,7 @@ class RhumbLineBase(_CapsBase):
             q.set_(**t)  # == p.set(_**t)
         return p, q
 
+    @deprecated_method
     def intersection2(self, other, **tol_eps):  # PYCHOK no cover
         '''DEPRECATED on 23.10.10, use method L{Intersection}.'''
         p = self.Intersection(other, **tol_eps)
@@ -693,7 +694,7 @@ class RhumbLineBase(_CapsBase):
             _s_3d, s_az =  self._xTM3d,  self.azi12
             _o_3d, o_az = other._xTM3d, other.azi12
             p = _MODS.formy.opposing(s_az, o_az, margin=tol)
-            if p is not None:  # == t in (True, False)
+            if p is not None:  # == p in (True, False)
                 raise ValueError(_anti_(_parallel_) if p else _parallel_)
             _diff =  euclid  # approximate length
             _i3d3 = _intersect3d3  # NOT .vector3d.intersection3d3
@@ -711,17 +712,16 @@ class RhumbLineBase(_CapsBase):
                 if d < tol:  # 19 trips
                     break
             else:
-                raise ValueError(Fmt.no_convergence(d))
+                raise ValueError(Fmt.no_convergence(d, tol))
 
-            n = _dunder_nameof(self.Intersection, self.name)
-            r =  self.Inverse( p.lat, p.lon, outmask=Caps.DISTANCE)
-            t =  other.Inverse(p.lat, p.lon, outmask=Caps.DISTANCE)
-            P =  GDict(lat1=self.lat1, lat2=p.lat, lat0=other.lat1,
-                       lon1=self.lon1, lon2=p.lon, lon0=other.lon1,
-                       azi12= self.azi12, a12=r.a12, s12=r.s12,
-                       azi02=other.azi12, a02=t.a12, s02=t.s12,
-                       at=other.azi12 - self.azi12, name=n)
-            P._iteration = i  # .set_(iteration=i, ...) only
+            P = GDict(lat1=self.lat1, lat2=p.lat, lat0=other.lat1,
+                      lon1=self.lon1, lon2=p.lon, lon0=other.lon1,
+                      name=_dunder_nameof(self.Intersection, self.name))
+            r = self.Inverse( p.lat, p.lon, outmask=Caps.DISTANCE)
+            t = other.Inverse(p.lat, p.lon, outmask=Caps.DISTANCE)
+            P.set_(azi12= self.azi12, a12=r.a12, s12=r.s12,
+                   azi02=other.azi12, a02=t.a12, s02=t.s12,
+                   at=other.azi12 - self.azi12, iteration=i)
         except Exception as x:
             raise IntersectionError(self, other, tol=tol,
                                           eps=eps, cause=x)
@@ -848,7 +848,13 @@ class RhumbLineBase(_CapsBase):
            @see: Methods C{distance2}, C{Intersecant2} and C{Intersection}
                  and function L{pygeodesy.intersection3d3}.
         '''
-        Cs = Caps
+        Cs, tol = Caps, Float_(tol=tol, low=EPS, high=None)
+
+#       def _over(p, q):  # see @note at method C{.Position}
+#           if p:
+#               p = (p / (q or _copysign(tol, q))) if isfinite(q) else NAN
+#           return p
+
         if exact is None:
             z  = _norm180(self.azi12 + _90_0)  # perpendicular azimuth
             rl =  RhumbLineBase(self.rhumb, lat0, lon0, z, caps=Cs.LINE_OFF)
@@ -862,25 +868,25 @@ class RhumbLineBase(_CapsBase):
                 r = _gI(self.lat1, self.lon1, lat0, lon0, outmask=Cs.AZIMUTH_DISTANCE)
                 d, _ = _diff182(r.azi2, self.azi12, K_2_0=True)
                 _, s12 = sincos2d(d)
-                s12 *= r.s12  # signed
+                s12 *=  r.s12  # signed
             else:
-                s12  = Meter(est=est)
+                s12  =  Meter(est=est)
             try:
-                tol  = Float_(tol=tol, low=EPS, high=None)
-                # def _over(p, q):  # see @note at method C{.Position}
-                #     return (p / (q or _copysign(tol, q))) if isfinite(q) else NAN
-
-                _ErT = E.rocPrimeVertical  # aka rocTransverse
-                _S12 = Fsum(s12).fsum2_
-                for i in range(1, _TRIPS):  # suffix 1 == C++ 2, 2 == C++ 3
-                    P =  self.Position(s12)  # outmask = Cs.LATITUDE_LONGITUDE
+                _abs =  fabs
+                _d2  = _diff182
+                _ErT =  E.rocPrimeVertical  # aka rocTransverse
+                _ovr = _over
+                _S12 =  Fsum(s12).fsum2_
+                _scd =  sincos2d_
+                for i in range(1, _TRIPS):  # 9+, suffix 1 == C++ 2, 2 == C++ 3
+                    P =  self.Position(s12)  # outmask=Cs.LATITUDE_LONGITUDE
                     r = _gI(lat0, lon0, P.lat2, P.lon2, outmask=gm)
-                    d, _ = _diff182(self.azi12, r.azi2, K_2_0=True)
-                    s, c, s2, c2 = sincos2d_(d, r.lat2)
+                    d, _ = _d2(self.azi12, r.azi2, K_2_0=True)
+                    s, c, s2, c2 = _scd(d, r.lat2)
                     c2 *= _ErT(r.lat2)
-                    s  *= _over(s2 * self._salp, c2) - _over(s * r.M21, r.m12)
-                    s12, t = _S12(c / s)  # XXX _over?
-                    if fabs(t) < tol:  # or fabs(c) < EPS
+                    s  *= _ovr(s2 * self._salp, c2) - _ovr(s * r.M21, r.m12)
+                    s12, t = _S12(c / s)  # XXX _ovr?
+                    if _abs(t) < tol:  # or fabs(c) < EPS
                         break
                 P.set_(azi0=r.azi1, a02=r.a12, s02=r.s12,  # azi2=r.azi2,
                        lat0=lat0, lon0=lon0, iteration=i, at=r.azi2 - self.azi12,

@@ -885,6 +885,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoids.Ellipsoid-class.html#toStr" class="summary-sig-name">toStr</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">8</span>,
+        <span class="summary-sig-arg">terse</span>=<span class="summary-sig-default">0</span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">**unused</span>)</span><br />
       Return this ellipsoid as a text string.</td>
@@ -1916,7 +1917,7 @@
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         <a 
-        href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Ellipsoid.html"
+        href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Ellipsoid.html"
         target="_top">Inverse-/AuthalicLatitude</a>, <a 
         href="https://WikiPedia.org/wiki/Latitude#Authalic_latitude" 
         target="_top">Authalic latitude</a>, and <a 
@@ -1958,7 +1959,7 @@
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         <a 
-        href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Ellipsoid.html"
+        href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Ellipsoid.html"
         target="_top">Inverse-/ConformalLatitude</a>, <a 
         href="https://WikiPedia.org/wiki/Latitude#Conformal_latitude" 
         target="_top">Conformal latitude</a>, and <a 
@@ -1999,7 +2000,7 @@
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         <a 
-        href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Ellipsoid.html"
+        href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Ellipsoid.html"
         target="_top">Inverse-/GeocentricLatitude</a>, <a 
         href="https://WikiPedia.org/wiki/Latitude#Geocentric_latitude" 
         target="_top">Geocentric latitude</a>, and <a 
@@ -2046,7 +2047,7 @@
       </p>
       <p><strong>See Also:</strong>
         <a 
-        href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Ellipsoid.html"
+        href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Ellipsoid.html"
         target="_top">Inverse-/IsometricLatitude</a>, <a 
         href="https://WikiPedia.org/wiki/Latitude#Isometric_latitude" 
         target="_top">Isometric latitude</a>, and <a 
@@ -2088,7 +2089,7 @@
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         <a 
-        href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Ellipsoid.html"
+        href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Ellipsoid.html"
         target="_top">Inverse-/ParametricLatitude</a>, <a 
         href="https://WikiPedia.org/wiki/Latitude#Parametric_(or_reduced)_latitude"
         target="_top">Parametric latitude</a>, and <a 
@@ -2130,7 +2131,7 @@
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         <a 
-        href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Ellipsoid.html"
+        href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Ellipsoid.html"
         target="_top">Inverse-/ParametricLatitude</a>, <a 
         href="https://WikiPedia.org/wiki/Latitude#Parametric_(or_reduced)_latitude"
         target="_top">Parametric latitude</a>, and <a 
@@ -2172,7 +2173,7 @@
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         <a 
-        href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Ellipsoid.html"
+        href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Ellipsoid.html"
         target="_top">Inverse-/RectifyingLatitude</a>, <a 
         href="https://WikiPedia.org/wiki/Latitude#Rectifying_latitude" 
         target="_top">Rectifying latitude</a>, and <a 
@@ -2437,7 +2438,7 @@
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a 
-        href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Math.html"
+        href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Math.html"
         target="_top">Math::eatanhe</a>.
       </p>
 </div></td></tr></table>
@@ -3358,6 +3359,7 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toStr</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">prec</span>=<span class="sig-default">8</span>,
+        <span class="sig-arg">terse</span>=<span class="sig-default">0</span>,
         <span class="sig-arg">name</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">**unused</span>)</span>
   </h3>
@@ -3371,6 +3373,7 @@
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>prec</code></strong> - Number of decimal digits, unstripped (<code>int</code>).</li>
+        <li><strong class="pname"><code>terse</code></strong> - Limit the number of items (<code>int</code>, 0...18).</li>
         <li><strong class="pname"><code>name</code></strong> - Override name (<code>str</code>) or <code>None</code> to exclude 
           this ellipsoid's name.</li>
     </ul></dd>
@@ -5865,7 +5868,7 @@ class="math">4 / 3 * PI * R3**3</i>.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Mar 10 16:19:43 2024
+    Generated by Epydoc 3.0.1 on Fri Mar 22 10:57:45 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

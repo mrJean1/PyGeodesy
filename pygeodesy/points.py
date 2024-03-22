@@ -35,7 +35,7 @@ from pygeodesy.constants import EPS, EPS1, PI_2, R_M, isnear0, isnear1, \
 from pygeodesy.dms import F_D, parseDMS
 from pygeodesy.errors import CrossError, crosserrors, _IndexError, \
                             _IsnotError, _TypeError, _ValueError, \
-                            _xattr, _xkwds, _xkwds_pop2
+                            _xattr, _xkwds, _xkwds_item2, _xkwds_pop2
 from pygeodesy.fmath import favg, fdot, hypot,  Fsum, fsum
 # from pygeodesy.fsums import Fsum, fsum  # from .fmath
 from pygeodesy.formy import _bearingTo2, equirectangular_,  _spherical_datum
@@ -62,7 +62,7 @@ from pygeodesy.utily import atan2b, degrees90, degrees180, degrees2m, \
 from math import cos, fabs, fmod, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '24.02.21'
+__version__ = '24.03.12'
 
 _ilat_  = 'ilat'
 _ilon_  = 'ilon'
@@ -1025,18 +1025,6 @@ def boundsOf(points, wrap=False, LatLon=None):  # was=True
            Bounds2Tuple(LatLon(s, w), LatLon(n, e))  # PYCHOK inconsistent
 
 
-def _distanceTo(Error, **name_points):  # .frechet, .hausdorff, .heights
-    '''(INTERNAL) Chech callable C{distanceTo} methods.
-    '''
-    name, ps = name_points.popitem()
-    for i, p in enumerate(ps):
-        if not callable(_xattr(p, distanceTo=None)):
-            n = _distanceTo.__name__[1:]
-            t = _SPACE_(_no_, callable.__name__, n)
-            raise Error(Fmt.SQUARE(name, i), p, txt=t)
-    return ps
-
-
 def centroidOf(points, wrap=False, LatLon=None):  # was=True
     '''Determine the centroid of a polygon.
 
@@ -1089,6 +1077,18 @@ def centroidOf(points, wrap=False, LatLon=None):  # was=True
         raise _areaError(pts, near_=_near_)
     y, x = degrees90(Y.fover(a)), degrees180(X.fover(a))
     return LatLon2Tuple(y, x) if LatLon is None else LatLon(y, x)
+
+
+def _distanceTo(Error, **name_points):  # .frechet, .hausdorff, .heights
+    '''(INTERNAL) Check all callable C{distanceTo} methods.
+    '''
+    name, ps = _xkwds_item2(name_points)
+    for i, p in enumerate(ps):
+        if not callable(_xattr(p, distanceTo=None)):
+            n = _distanceTo.__name__[1:]
+            t = _SPACE_(_no_, callable.__name__, n)
+            raise Error(Fmt.SQUARE(name, i), p, txt=t)
+    return ps
 
 
 def fractional(points, fi, j=None, wrap=None, LatLon=None, Vector=None, **kwds):

@@ -7,21 +7,21 @@ u'''Floating point and other formatting utilities.
 from pygeodesy.basics import isint, islistuple, isscalar, isstr, itemsorted, \
                             _zip,  _0_0
 # from pygeodesy.constants import _0_0
-from pygeodesy.errors import _AttributeError, _IsnotError, _or, _TypeError, \
-                             _ValueError, _xkwds_get, _xkwds_pop2
+from pygeodesy.errors import _or, _AttributeError, _IsnotError, _TypeError, \
+                             _ValueError, _xkwds_get, _xkwds_item2, _xkwds_pop2
 from pygeodesy.interns import NN, _0_, _0to9_, MISSING, _BAR_, _COMMASPACE_, \
-                             _DOT_, _dunder_nameof, _E_, _ELLIPSIS_, _EQUAL_, \
-                             _H_, _LR_PAIRS, _N_, _name_, _not_, _not_scalar_, \
-                             _PERCENT_, _SPACE_, _STAR_, _UNDER_
+                             _DOT_, _E_, _ELLIPSIS_, _EQUAL_, _H_, _LR_PAIRS, \
+                             _N_, _name_, _not_, _not_scalar_, _PERCENT_, \
+                             _SPACE_, _STAR_, _UNDER_,  _dunder_nameof
 from pygeodesy.interns import _convergence_, _distant_, _e_, _eps_, _exceeds_, \
                               _EQUALSPACED_, _f_, _F_, _g_, _limit_, _no_, \
                               _tolerance_  # PYCHOK used!
-from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _getenv
+from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 
 from math import fabs, log10 as _log10
 
 __all__ = _ALL_LAZY.streprs
-__version__ = '24.02.20'
+__version__ = '24.03.20'
 
 _EN_PREC    =  6           # max MGRS/OSGR precision, 1 micrometer
 _EN_WIDE    =  5           # number of MGRS/OSGR units, log10(_100km)
@@ -30,24 +30,20 @@ _PAREN_g    = '(%g)'       # PYCHOK used!
 _threshold_ = 'threshold'  # PYCHOK used!
 
 
-class _Fmt(str):  # in .streprs
+class _Fmt(str):
     '''(INTERNAL) Callable formatting.
     '''
     name = NN
 
     def __call__(self, *name_value_, **name_value):
-        '''Format a C{name=value} pair or C{name, value} pair
-           or just a single C{value}.
+        '''Format a C{name=value} pair or C{name, value} pair or
+           just a single C{value}.
         '''
         for n, v in name_value.items():
             break
         else:
-            if len(name_value_) > 1:
-                n, v = name_value_[:2]
-            elif name_value_:
-                n, v = NN, name_value_[0]
-            else:
-                n, v = NN, MISSING
+            n, v = name_value_[:2] if len(name_value_) > 1 else (NN,
+                  (name_value_[0]  if name_value_ else MISSING))
         t = str.__mod__(self, v)
         return NN(n, t) if n else t
 
@@ -97,7 +93,7 @@ class Fstr(str):
 
         if not isscalar(arg):
             raise _TypeError(_error(arg))
-        return self(arg, prec=prec)
+        return self(arg, prec=prec)  # Fstr.__call__(self, arg, prec=prec)
 
 
 class _Sub(str):
@@ -128,7 +124,6 @@ class Fmt(object):
     exceeds_eps   = _Fmt(_exceeds_(_eps_, _PAREN_g))
     exceeds_limit = _Fmt(_exceeds_(_limit_, _PAREN_g))
     f             =  Fstr(_f_)
-    form          = _getenv('PYGEODESY_FMT_FORM', NN)
     F             =  Fstr(_F_)
     g             =  Fstr(_g_)
     G             =  Fstr('G')
@@ -159,10 +154,18 @@ class Fmt(object):
         return str(obj) if isint(obj) else next(
               _streprs(prec, (obj,), Fmt.g, False, False, repr))
 
-    def INDEX(self, name, i=None):
+    def INDEX(self, name=NN, i=None, **name_i):
+        '''Return C{"B{name}" if B{i} is None else "B{name}[B{i}]"}.
+        '''
+        if name_i:
+            name, i = _xkwds_item2(name_i)
         return name if i is None else self.SQUARE(name, i)
 
     def no_convergence(self, _d, *tol, **thresh):
+        '''Return C{"no convergence (B{_d})"}, C{"no convergence
+           (B{_d}), tolerance (B{tol})"} or C{"no convergence
+           (B{_d}), threshold (B{tol})"}.
+        '''
         t = Fmt.convergence(fabs(_d))
         if tol:
             t = _COMMASPACE_(t, Fmt.tolerance(tol[0]))
@@ -526,18 +529,19 @@ def unstr(where, *args, **kwds):
 
        @arg where: Class, function, method (C{type}) or name (C{str}).
        @arg args: Optional positional arguments.
-       @kwarg kwds: Optional keyword arguments, except
-                    C{B{_ELLIPSIS}=False}.
+       @kwarg kwds: Optional keyword arguments, except C{B{_fmt}=Fmt.g}
+                    and C{B{_ELLIPSIS}=False}.
 
        @return: Representation (C{str}).
     '''
-    t = reprs(args, fmt=Fmt.g) if args else ()
     e, kwds = _xkwds_pop2(kwds, _ELLIPSIS=False)
+    g, kwds = _xkwds_pop2(kwds, _fmt=Fmt.g)
+    t = reprs(args, fmt=g) if args else ()
     if e:
         t += _ELLIPSIS_,
     if kwds:
-        t += pairs(itemsorted(kwds), fmt=Fmt.g)
-    n = where if isstr(where) else _dunder_nameof(where)
+        t += pairs(itemsorted(kwds), fmt=g)
+    n = where if isstr(where) else _dunder_nameof(where)  # _NN_
     return Fmt.PAREN(n, _COMMASPACE_.join(t))
 
 

@@ -44,7 +44,7 @@ Frames) and modules to encode and decode U{EPSG<https://EPSG.org>}, U{Geohashes
 <https://WikiPedia.org/wiki/Global_Area_Reference_System>}.
 
 Other modules provide U{Albers equal-area<https://GeographicLib.SourceForge.io/
-html/classGeographicLib_1_1AlbersEqualArea.html>} projections, U{equidistant
+C++/doc/classGeographicLib_1_1AlbersEqualArea.html>} projections, U{equidistant
 <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1AzimuthalEquidistant.html>}
 and other I{azimuthal} projections, Lambert I{conformal conic} projections and
 positions, functions to clip paths or polygons of C{LatLon} points using the
@@ -126,14 +126,14 @@ Python 3.11.5 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0
 <https://PyPI.org/project/numpy>} 1.24.2 and U{scipy<https://PyPI.org/project/scipy>} 1.10.1), Python
 3.10.8 (with U{geographiclib <https://PyPI.org/project/geographiclib>} 2.0, U{numpy
 <https://PyPI.org/project/numpy>} 1.23.3, U{scipy<https://PyPI.org/project/scipy>} 1.9.1, U{GeoConvert
-<https://GeographicLib.SourceForge.io/html/utilities.html>} 2.2, U{GeodSolve
-<https://GeographicLib.SourceForge.io/html/utilities.html>} 2.2 and U{RhumbSolve
-<https://GeographicLib.SourceForge.io/html/utilities.html>} 2.2), Python 3.9.6 and Python 2.7.18 (with
+<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.2, U{GeodSolve
+<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.2 and U{RhumbSolve
+<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.2), Python 3.9.6 and Python 2.7.18 (with
 U{geographiclib<https://PyPI.org/project/geographiclib>} 1.50, U{numpy<https://PyPI.org/project/numpy>}
 1.16.6, U{scipy<https://PyPI.org/project/scipy>} 1.2.2, U{GeoConvert
-<https://GeographicLib.SourceForge.io/html/utilities.html>} 2.2, U{GeodSolve
-<https://GeographicLib.SourceForge.io/html/utilities.html>} 2.2 and U{RhumbSolve
-<https://GeographicLib.SourceForge.io/html/utilities.html>} 2.2), all on macOS 14.3.1 Sonoma and
+<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.2, U{GeodSolve
+<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.2 and U{RhumbSolve
+<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.2), all on macOS 14.3.1 Sonoma and
 in 64-bit only.
 
 All tests ran with and without C{lazy import} for Python 3 and with command line option C{-W default} and
@@ -586,7 +586,7 @@ else:
     _init__all__ = False
 
 from pygeodesy.interns import _DOT_, _version2  # PYCHOK import
-__version__ = '24.03.09'
+__version__ = '24.03.24'
 # see setup.py for similar logic
 version     = _DOT_(*_version2(__version__, n=3))
 

@@ -25,10 +25,10 @@ from math import fabs, sqrt  # pow
 import operator as _operator  # in .datums, .trf, .utm
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '24.02.29'
+__version__ = '24.03.14'
 
 # sqrt(2) <https://WikiPedia.org/wiki/Square_root_of_2>
-_0_4142 = 0.414213562373095  # sqrt(_2_0) - _1_0
+_0_4142 = 0.41421356237309504880  # ... sqrt(2) - 1
 
 
 class Fdot(Fsum):
@@ -488,7 +488,7 @@ def fidw(xs, ds, beta=2):
         else:  # b == 0
             x = fsum(xs) / n  # fmean(xs)
     elif d < 0:  # PYCHOK no cover
-        n = Fmt.SQUARE(ds=ds.index(d))
+        n = Fmt.INDEX(distance=ds.index(d))
         raise _ValueError(n, d, txt=_negative_)
     return x
 

@@ -28,7 +28,7 @@ from math import copysign as _copysign
 import inspect as _inspect
 
 __all__ = _ALL_LAZY.basics
-__version__ = '24.02.21'
+__version__ = '24.03.19'
 
 _0_0                  =  0.0  # in .constants
 _below_               = 'below'
@@ -458,8 +458,9 @@ def itemsorted(adict, *items_args, **asorted_reverse):
        @arg items_args: Optional positional argument(s) for method
                         C{B{adict}.items(B*{items_args})}.
        @kwarg asorted_reverse: Use keyword argument C{B{asorted}=False}
-                      for I{case-sensitive} sorting and C{B{reverse}=True}
-                      for results in C{descending} order.
+                      for I{alphabetical, case-sensitive} sorting and
+                      C{B{reverse}=True} for sorting in C{descending}
+                      order.
     '''
     def _ins(item):
         return item[0].lower()

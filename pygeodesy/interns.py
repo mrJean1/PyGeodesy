@@ -150,6 +150,7 @@ _angle_               = 'angle'              # PYCHOK OK
 _antipodal_           = 'antipodal'          # PYCHOK OK
 _areaOf_              = 'areaOf'             # PYCHOK OK
 _arg_                 = 'arg'                # PYCHOK OK
+# _ASTERISK_          = _STAR_               # PYCHOK OK
 _at_                  = 'at'                 # PYCHOK OK
 _AT_             = Str_('@')                 # PYCHOK OK
 _AtoZnoIO_    = _Slicer('ABCDEFGHJKLMNPQRSTUVWXYZ')  # PYCHOK in .gars, .mgrs and .wgrs
@@ -645,7 +646,7 @@ def _version_ints(vs):
 __all__ = (_NN_,  # not MISSING!
             Str_.__name__,  # classes
             machine.__name__)  # in .lazily
-__version__ = '24.02.12'
+__version__ = '24.03.20'
 
 if __name__ == '__main__':
 

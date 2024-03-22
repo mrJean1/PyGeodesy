@@ -25,7 +25,7 @@ Typical usage
 1. Choose one of the interpolator classes L{GeoidG2012B}, L{GeoidKarney}
 or L{GeoidPGM} and download a C{geoid} model file, containing locations with
 known heights also referred to as the C{grid knots}.  See the documentation
-of interpolator class for references to available C{grid} models.
+of the interpolator class for references to available C{grid} models.
 
 C{>>> from pygeodesy import GeoidG2012B  # or -Karney or -PGM as GeoidXyz}
 
@@ -37,6 +37,7 @@ C{>>> ginterpolator = GeoidXyz(geoid_model_file, **options)}
 3. Get the interpolated geoid height of other C{LatLon} location(s) with
 
 C{>>> ll = LatLon(1, 2, ...)}
+
 C{>>> h = ginterpolator(ll)}
 
 or
@@ -66,9 +67,9 @@ courtesy of SBFRF.
        C{scipy} can be thrown as L{SciPyWarning} exceptions, provided Python
        C{warnings} are filtered accordingly, see L{SciPyWarning}.
 
-@see: I{Karney}'s U{GeographicLib<https://GeographicLib.SourceForge.io/html/index.html>},
-      U{Geoid height<https://GeographicLib.SourceForge.io/html/geoid.html>} and U{Installing
-      the Geoid datasets<https://GeographicLib.SourceForge.io/html/geoid.html#geoidinst>},
+@see: I{Karney}'s U{GeographicLib<https://GeographicLib.SourceForge.io/C++/doc/index.html>},
+      U{Geoid height<https://GeographicLib.SourceForge.io/C++/doc/geoid.html>} and U{Installing
+      the Geoid datasets<https://GeographicLib.SourceForge.io/C++/doc/geoid.html#geoidinst>},
       U{SciPy<https://docs.SciPy.org/doc/scipy/reference/interpolate.html>} interpolation
       U{RectBivariateSpline<https://docs.SciPy.org/doc/scipy/reference/generated/scipy.
       interpolate.RectBivariateSpline.html>} and U{interp2d<https://docs.SciPy.org/doc/scipy/
@@ -81,7 +82,7 @@ courtesy of SBFRF.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import len2, map1, map2, isodd, ub2str as _ub2str
+from pygeodesy.basics import len2, map1, isodd, ub2str as _ub2str
 from pygeodesy.constants import EPS, _float as _F, _0_0, _1_0, _180_0, _360_0
 # from pygeodesy.datums import _ellipsoidal_datum  # from .heights
 # from pygeodesy.dms import parseDMS2  # _MODS
@@ -92,11 +93,11 @@ from pygeodesy.fmath import favg, Fdot, fdot, Fhorner, frange
 from pygeodesy.heights import _as_llis2, _ascalar, _height_called, HeightError, \
                               _HeightsBase,  _ellipsoidal_datum, _Wrap
 from pygeodesy.interns import MISSING, NN, _4_, _COLONSPACE_, _COMMASPACE_, \
-                             _cubic_, _DOT_, _E_, _height_, _in_, _kind_, \
-                             _knots_, _lat_, _linear_, _lon_, _mean_, _N_, \
-                             _n_a_, _not_, _numpy_, _on_, _outside_, _S_, \
-                             _s_, _scipy_, _SPACE_, _stdev_, _supported_, \
-                             _tbd_, _W_, _width_
+                             _cubic_, _E_, _height_, _in_, _kind_, _knots_, \
+                             _lat_, _linear_, _lon_, _mean_, _N_, _n_a_, \
+                             _not_, _numpy_, _on_, _outside_, _S_, _s_, \
+                             _scipy_, _SPACE_, _stdev_, _supported_, _tbd_, \
+                             _W_, _width_, _version2
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, _FOR_DOCS
 from pygeodesy.named import _Named, _NamedTuple, notOverloaded
 # from pygeodesy.namedTuples import LatLon3Tuple  # _MODS
@@ -109,7 +110,6 @@ from math import floor
 import os.path as _os_path
 from os import SEEK_CUR as _SEEK_CUR, SEEK_SET as _SEEK_SET
 from struct import calcsize as _calcsize, unpack as _unpack
-
 try:
     from StringIO import StringIO as _BytesIO  # reads bytes
     _ub2str = str  # PYCHOK convert bytes to str for egm*.pgm text
@@ -118,7 +118,7 @@ except ImportError:  # Python 3+
     from io import BytesIO as _BytesIO  # PYCHOK expected
 
 __all__ = _ALL_LAZY.geoids
-__version__ = '23.12.14'
+__version__ = '24.03.22'
 
 _assert_ = 'assert'
 _bHASH_  =  b'#'
@@ -213,7 +213,7 @@ class _GeoidBase(_HeightsBase):
         if k in _interp2d_ks:  # .interp2d DEPRECATED since scipy 1.10
             if self._scipy_version() < (1, 10):
                 self._interp2d = spi.interp2d(xs, ys, hs, kind=_interp2d_ks[k])
-            else:  # call and overwrite the deprecated .interp2d
+            else:  # call and overwrite the DEPRECATED .interp2d
                 self._interp2d = self._interp2d(xs, ys, hs, k)
         elif 1 <= k <= 5:
             self._ev = spi.RectBivariateSpline(ys, xs, hs, bbox=bb, ky=k, kx=k,
@@ -290,18 +290,18 @@ class _GeoidBase(_HeightsBase):
         # handle __call__
         _H = _MODS.formy.heightOrthometric if H else None
         _as, llis = _as_llis2(llis, Error=GeoidError)
+        hs, _w    =  [], _Wrap._latlonop(wrap)
+        _a, _h    =  hs.append, self._hGeoid
         try:
-            hs, _w = [], _Wrap._latlonop(wrap)
             for i, lli in enumerate(llis):
-                N = self._hGeoid(*_w(lli.lat, lli.lon))
-                if _H:  # convert to orthometric
-                    N = _H(lli, N)
-                hs.append(N)
+                N = _h(*_w(lli.lat, lli.lon))
+                # orthometric or geoid height
+                _a(_H(lli, N) if _H else N)
             return _as(hs)
 
         except (GeoidError, RangeError) as x:
             # XXX avoid str(LatLon()) degree symbols
-            t = _lli_ if _as is _ascalar else Fmt.SQUARE(llis=i)
+            t = _lli_ if _as is _ascalar else Fmt.INDEX(llis=i)
             lli = fstr((lli.lat, lli.lon), strepr=repr)
             raise type(x)(t, lli, wrap=wrap, H=H, cause=x)
         except Exception as x:
@@ -379,7 +379,7 @@ class _GeoidBase(_HeightsBase):
         for i in range(1, m):
             e = a[i] - a[i-1]
             if e < EPS:  # non-increasing axis
-                i = Fmt.SQUARE(name, i)
+                i = Fmt.INDEX(name, i)
                 raise GeoidError(i, e, txt=_non_increasing_)
         return self.numpy.array(a), d
 
@@ -477,10 +477,9 @@ class _GeoidBase(_HeightsBase):
 
     @property_RO
     def _LL3T(self):
-        '''(INTERNAL) Get L{LatLon3Tuple} once.
+        '''(INTERNAL) Get L{LatLon3Tuple}, I{once}.
         '''
-        T = _MODS.namedTuples.LatLon3Tuple
-        _GeoidBase._LL3T = T  # overwrite poperty_RO
+        _GeoidBase._LL3T = T = _MODS.namedTuples.LatLon3Tuple  # overwrite poperty_RO
         return T
 
     def _llh3(self, lat, lon):
@@ -862,12 +861,14 @@ def _T(*cs):
     '''
     return map1(_I, *cs)
 
+_T0s12 = (_I(0),) * 12  # PYCHOK _T(0, 0, ..., 0)
+
 
 class GeoidKarney(_GeoidBase):
     '''Geoid height interpolator for I{Karney}'s U{GeographicLib Earth
        Gravitational Model (EGM)<https://GeographicLib.SourceForge.io/C++/doc/
        geoid.html>} geoid U{egm*.pgm<https://GeographicLib.SourceForge.io/
-       html/geoid.html#geoidinst>} datasets using bilinear or U{cubic
+       C++/doc/geoid.html#geoidinst>} datasets using bilinear or U{cubic
        <https://dl.ACM.org/citation.cfm?id=368443>} interpolation and U{caching
        <https://GeographicLib.SourceForge.io/C++/doc/geoid.html#geoidcache>}
        in pure Python, transcoded from I{Karney}'s U{C++ class Geoid
@@ -880,12 +881,12 @@ class GeoidKarney(_GeoidBase):
     _C0 = _F(372), _F(240), _F(372)  # n, _ and s common denominators
     # matrices c3n_, c3, c3s_, transposed from GeographicLib/Geoid.cpp
     _C3 = ((_T(0,    0,   62,  124,  124,  62,    0,   0,   0,   0,    0,   0),
-            _T(0,    0,    0,    0,    0,   0,    0,   0,   0,   0,    0,   0),
+            _T0s12,
          _T(-131,    7,  -31,  -62,  -62, -31,   45, 216, 156, -45,  -55,  -7),
-            _T(0,    0,    0,    0,    0,   0,    0,   0,   0,   0,    0,   0),
+            _T0s12,
           _T(138, -138,    0,    0,    0,   0, -183,  33, 153,  -3,   48, -48),  # PYCHOK indent
           _T(144,   42,  -62, -124, -124, -62,   -9,  87,  99,   9,   42, -42),
-            _T(0,    0,    0,    0,    0,   0,    0,   0,   0,   0,    0,   0),
+            _T0s12,
             _T(0,    0,    0,    0,    0,   0,   93, -93, -93,  93,    0,   0),
          _T(-102,  102,    0,    0,    0,   0,   18,  12, -12, -18,  -84,  84),
           _T(-31,  -31,   31,   62,   62,  31,    0, -93, -93,   0,   31,  31)),  # PYCHOK indent
@@ -907,7 +908,7 @@ class GeoidKarney(_GeoidBase):
             _T(0,    0,   93,  -93,  -93,  93,    0,   0,   0,   0,    0,   0),
           _T(120, -120,  147,  -57, -129,  39,    0,   0,   0,   0,   66, -66),  # PYCHOK indent
           _T(135,   51,   -9, -192, -180,   9,   31,  62,  62,  31,   51, -51),
-            _T(0,    0,    0,    0,    0,   0,    0,   0,   0,   0,    0,   0),
+            _T0s12,
             _T(0,    0,  -93,   93,   93, -93,    0,   0,   0,   0,    0,   0),
           _T(-84,   84,   18,   12,  -12, -18,    0,   0,   0,   0, -102, 102),
           _T(-31,  -31,    0,   93,   93,   0,  -31, -62, -62, -31,   31,  31)))
@@ -956,7 +957,7 @@ class GeoidKarney(_GeoidBase):
         '''New L{GeoidKarney} interpolator.
 
            @arg egm_pgm: An U{EGM geoid dataset<https://GeographicLib.SourceForge.io/
-                         html/geoid.html#geoidinst>} file name (C{egm*.pgm}), see
+                         C++/doc/geoid.html#geoidinst>} file name (C{egm*.pgm}), see
                          note below.
            @kwarg crop: Optional box to limit geoid locations, a 4-tuple (C{south,
                         west, north, east}), 2-tuple (C{(south, west), (north,
@@ -1272,14 +1273,14 @@ class GeoidKarney(_GeoidBase):
             b = p.skip + (y * p.nlon + x) * self._u2B
             g.seek(b, _SEEK_SET)
             return b  # position
-        raise GeoidError('closed file: %r' % (p.egm,))  # IOError
+        raise GeoidError('closed file', txt=repr(p.egm))  # IOError
 
 
 class GeoidPGM(_GeoidBase):
     '''Geoid height interpolator for I{Karney}'s U{GeographicLib Earth
        Gravitational Model (EGM)<https://GeographicLib.SourceForge.io/C++/doc/
        geoid.html>} geoid U{egm*.pgm<https://GeographicLib.SourceForge.io/
-       html/geoid.html#geoidinst>} datasets but based on C{SciPy}
+       C++/doc/geoid.html#geoidinst>} datasets but based on C{SciPy}
        U{RectBivariateSpline<https://docs.SciPy.org/doc/scipy/reference/
        generated/scipy.interpolate.RectBivariateSpline.html>} or
        U{interp2d<https://docs.SciPy.org/doc/scipy/reference/generated/
@@ -1297,14 +1298,15 @@ class GeoidPGM(_GeoidBase):
        geoid.html#geoidinst>} file size and may exceed the available memory,
        especially with 32-bit Python, see properties C{.nBytes} and C{.sizeB}.
     '''
-    _endian = '>u2'
+    _cropped =  False
+    _endian  = '>u2'
 
     def __init__(self, egm_pgm, crop=None, datum=None,  # WGS84
                                 kind=3, name=NN, smooth=0):
         '''New L{GeoidPGM} interpolator.
 
            @arg egm_pgm: An U{EGM geoid dataset<https://GeographicLib.SourceForge.io/
-                         html/geoid.html#geoidinst>} file name (C{egm*.pgm}).
+                         C++/doc/geoid.html#geoidinst>} file name (C{egm*.pgm}).
            @kwarg crop: Optional box to crop B{C{egm_pgm}}, a 4-tuple (C{south, west,
                         north, east}) or 2-tuple (C{(south, west), (north, east)}),
                         in C{degrees90} lat- and C{degrees180} longitudes or a
@@ -1341,7 +1343,7 @@ class GeoidPGM(_GeoidBase):
                   C{B{kind}=1..5} for C{scipy.interpolate.RectBivariateSpline}.
 
            @note: The U{GeographicLib egm*.pgm<https://GeographicLib.SourceForge.io/
-                  html/geoid.html#geoidinst>} file sizes are based on a 2-byte
+                  C++/doc/geoid.html#geoidinst>} file sizes are based on a 2-byte
                   C{int} height converted to 8-byte C{dtype float64} for C{scipy}
                   interpolators.  Therefore, internal memory usage is 4 times the
                   C{egm*.pgm} file size and may exceed the available memory,
@@ -1360,14 +1362,9 @@ class GeoidPGM(_GeoidBase):
         self._pgm = p = _PGM(g, pgm=egm_pgm, itemsize=self.u2B, sizeB=self.sizeB)
         if crop:
             g = p._cropped(g, abs(kind) + 1, *self._swne(crop))
-            self._g2ll2 = self._g2ll2_cropped
-            self._ll2g2 = self._ll2g2_cropped
-            if map2(int, np.__version__.split(_DOT_)[:2]) < (1, 9):
+            if _version2(np.__version__) < (1, 9):
                 g = open(g.name, _rb_)  # reopen tempfile for numpy 1.8.0-
             self._cropped = True
-        else:
-            self._cropped = False
-
         try:
             # U{numpy dtype formats are different from Python struct formats
             # <https://docs.SciPy.org/doc/numpy-1.15.0/reference/arrays.dtypes.html>}
@@ -1384,24 +1381,22 @@ class GeoidPGM(_GeoidBase):
             g.close()
 
     def _g2ll2(self, lat, lon):
-        # convert grid (lat, lon) to earth (lat, lon), uncropped
-        while lon > _180_0:
-            lon -= _360_0
+        # convert grid (lat, lon) to earth (lat, lon), un-/cropped
+        if self._cropped:
+            lon -= self._lon_of
+        else:
+            while lon > _180_0:
+                lon -= _360_0
         return lat, lon
-
-    def _g2ll2_cropped(self, lat, lon):
-        # convert cropped grid (lat, lon) to earth (lat, lon)
-        return lat, lon - self._lon_og
 
     def _ll2g2(self, lat, lon):
-        # convert earth (lat, lon) to grid (lat, lon), uncropped
-        while lon < 0:
-            lon += _360_0
+        # convert earth (lat, lon) to grid (lat, lon), un-/cropped
+        if self._cropped:
+            lon += self._lon_of
+        else:
+            while lon < 0:
+                lon += _360_0
         return lat, lon
-
-    def _ll2g2_cropped(self, lat, lon):
-        # convert earth (lat, lon) to cropped grid (lat, lon)
-        return lat, lon + self._lon_of
 
     if _FOR_DOCS:
         __call__ = _GeoidBase.__call__
@@ -1688,7 +1683,7 @@ class PGMError(GeoidError):
 
 def egmGeoidHeights(GeoidHeights_dat):
     '''Generate geoid U{egm*.pgm<https://GeographicLib.SourceForge.io/
-       html/geoid.html#geoidinst>} height tests from U{GeoidHeights.dat
+       C++/doc/geoid.html#geoidinst>} height tests from U{GeoidHeights.dat
        <https://SourceForge.net/projects/geographiclib/files/testdata/>}
        U{Test data for Geoids<https://GeographicLib.SourceForge.io/C++/doc/
        geoid.html#testgeoid>}.

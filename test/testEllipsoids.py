@@ -4,7 +4,7 @@
 # Test L{ellipsoids} module.
 
 __all__ = ('Tests',)
-__version__ = '24.03.09'
+__version__ = '24.03.18'
 
 from bases import TestsBase
 
@@ -158,8 +158,9 @@ class Tests(TestsBase):
 
         self.subtitle(ellipsoids, 'Flattenings')
 
+        self.test(all.__name__, Ellipsoids.register(all), all.__name__)
         self.test('_TOL', _TOL, _TOL)
-        for n, E in Ellipsoids.items(all=True, asorted=True):  # includes f_None, b_None, Prolate
+        for n, E in Ellipsoids.items(asorted=True):  # includes f_None, b_None, Prolate
             if E.f and E.f_:
                 e = E.f_ - 1 / E.f
                 self.test(n + '.f_ - 1 / .f', e, e if fabs(e) < _TOL else _TOL, nl=1)

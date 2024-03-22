@@ -87,7 +87,7 @@
         <code>unicode</code>.
       </p>
       <p><strong>Version:</strong>
-        23.12.31
+        24.03.21
       </p>
 </div><!-- ==================== FUNCTIONS ==================== -->
 <a name="section-Functions"></a>
@@ -183,7 +183,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.dms-module.html#compassPoint" class="summary-sig-name">compassPoint</a>(<span class="summary-sig-arg">bearing</span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">3</span>)</span><br />
-      Convert bearing to a compass point.</td>
+      Convert a <code>bearing</code> from North to a compass point.</td>
           <td align="right" valign="top">
             
             
@@ -1114,11 +1114,11 @@
     </td>
   </tr></table>
   
-  <p>Convert bearing to a compass point.</p>
+  <p>Convert a <code>bearing</code> from North to a compass point.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>bearing</code></strong> - Bearing from North (compass <code>degrees360</code>).</li>
+        <li><strong class="pname"><code>bearing</code></strong> - Bearing (compass <code>degrees360</code>).</li>
         <li><strong class="pname"><code>prec</code></strong> - Precision, number of compass point characters: 1 for cardinal or 
           basic winds, 2 for intercardinal or ordinal or principal winds, 3
           for secondary-intercardinal or half-winds or 4 for 
@@ -1128,7 +1128,7 @@
         <dd>Compass point (1-, 2-, 3- or 4-letter <code>str</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>prec</code></b>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>bearing</code></b> or <b><code>prec</code></b>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -1136,20 +1136,6 @@
         target="_top">Dms.compassPoint</a> and <a 
         href="https://WikiPedia.org/wiki/Compass_rose" 
         target="_top">Compass rose</a>.
-      </p>
-      <p><strong>Example:</strong>
-        <pre class="py-doctest">
-<span class="py-prompt">&gt;&gt;&gt; </span>p = compassPoint(24, 1)  <span class="py-comment"># 'N'</span>
-<span class="py-prompt">&gt;&gt;&gt; </span>p = compassPoint(24, 2)  <span class="py-comment"># 'NE'</span>
-<span class="py-prompt">&gt;&gt;&gt; </span>p = compassPoint(24, 3)  <span class="py-comment"># 'NNE'</span>
-<span class="py-prompt">&gt;&gt;&gt; </span>p = compassPoint(24)     <span class="py-comment"># 'NNE'</span>
-<span class="py-prompt">&gt;&gt;&gt; </span>p = compassPoint(11, 4)  <span class="py-comment"># 'NbE'</span>
-<span class="py-prompt">&gt;&gt;&gt; </span>p = compassPoint(30, 4)  <span class="py-comment"># 'NEbN'</span></pre>
-<pre class="py-doctest">
-<span class="py-prompt">&gt;&gt;&gt; </span>p = compassPoint(11.249)  <span class="py-comment"># 'N'</span>
-<span class="py-prompt">&gt;&gt;&gt; </span>p = compassPoint(11.25)   <span class="py-comment"># 'NNE'</span>
-<span class="py-prompt">&gt;&gt;&gt; </span>p = compassPoint(-11.25)  <span class="py-comment"># 'N'</span>
-<span class="py-prompt">&gt;&gt;&gt; </span>p = compassPoint(348.749) <span class="py-comment"># 'NNW'</span></pre>
       </p>
 </div></td></tr></table>
 </div>
@@ -1311,17 +1297,18 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>lls</code></strong> - Single or list, sequence, tuple, etc. (<code>LatLon</code>s).</li>
-        <li><strong class="pname"><code>m_form_prec_sep_s_D_M_S</code></strong> - Optional <code><b>m</b>eter</code>, <code><b>form</b>at</code>, 
-          <code><b>prec</b>ision</code>, <i>DEPRECATED</i> 
-          <b><code>sep</code></b>, <b><code>s_D</code></b>, 
-          <b><code>s_M</code></b>, <b><code>s_S</code></b> and 
-          <b><code>s_DMS</code></b> keyword arguments, see method 
+        <li><strong class="pname"><code>lls</code></strong> - Single (<code>LatLon</code>) or list, sequence, tuple, etc. 
+          (<code>LatLon</code>s).</li>
+        <li><strong class="pname"><code>m_form_prec_sep_s_D_M_S</code></strong> - Optional keyword arguments <code><b>m</b>eter</code>, 
+          <code><b>form</b>at</code>, <code><b>prec</b>ision</code>, 
+          <b><code>s_D</code></b>, <b><code>s_M</code></b>, 
+          <b><code>s_S</code></b>, <b><code>s_DMS</code></b> and 
+          <i>DEPRECATED</i> <code><b>sep</b>=None</code>, see method 
           <code>LatLon.toStr</code> and functions <a 
           href="pygeodesy.dms-module.html#latDMS" 
           class="link">pygeodesy.latDMS</a> and <a 
           href="pygeodesy.dms-module.html#lonDMS" 
-          class="link">pygeodesy.lonDMS</a>.</li>
+          class="link">pygeodesy.lonDMS</a> for more details.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <code>tuple</code> of <code>str</code>s if 
@@ -1330,10 +1317,10 @@
           <b><code>lls</code></b> is a single <code>LatLon</code>.</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Functions <a href="pygeodesy.dms-module.html#latDMS" 
-        class="link">pygeodesy.latDMS</a>, <a 
-        href="pygeodesy.dms-module.html#latlonDMS_" 
+        Functions <a href="pygeodesy.dms-module.html#latlonDMS_" 
         class="link">pygeodesy.latlonDMS_</a>, <a 
+        href="pygeodesy.dms-module.html#latDMS" 
+        class="link">pygeodesy.latDMS</a>, <a 
         href="pygeodesy.dms-module.html#lonDMS" 
         class="link">pygeodesy.lonDMS</a> and <a 
         href="pygeodesy.dms-module.html#toDMS" 
@@ -1341,10 +1328,10 @@
         <code>LatLon.toStr</code>.
       </p>
       <p><strong>Note:</strong>
-        Keyword argument <code><b>sep</b>=None</code> to return a 
-        <code>str</code>ing instead of the <code>tuple</code>, has been 
+        Keyword argument <code><b>sep</b>=None</code> to join a 
+        <code>str</code>ing from the returned <code>tuple</code> has been 
         <i>DEPRECATED</i>, use 
-        <code><b>sep</b>.join(<b>latlonDMS_</b>(...))</code>.
+        <code><b>sep</b>.join(<b>latlonDMS_</b>(...))</code> instead.
       </p>
 </div></td></tr></table>
 </div>
@@ -1367,17 +1354,17 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>lls</code></strong> - The instances, all positional arguments (<code>LatLon</code>s).</li>
-        <li><strong class="pname"><code>m_form_prec_sep_s_D_M_S</code></strong> - Optional <code><b>m</b>eter</code>, <code><b>form</b>at</code>, 
-          <code><b>prec</b>ision</code>, <i>DEPRECATED</i> 
-          <b><code>sep</code></b>, <b><code>s_D</code></b>, 
-          <b><code>s_M</code></b>, <b><code>s_S</code></b> and 
-          <b><code>s_DMS</code></b> keyword arguments, see method 
+        <li><strong class="pname"><code>lls</code></strong> - The instances (<code>LatLon</code>s), all positional arguments.</li>
+        <li><strong class="pname"><code>m_form_prec_sep_s_D_M_S</code></strong> - Optional keyword arguments <code><b>m</b>eter</code>, 
+          <code><b>form</b>at</code>, <code><b>prec</b>ision</code>, 
+          <b><code>s_D</code></b>, <b><code>s_M</code></b>, 
+          <b><code>s_S</code></b>, <b><code>s_DMS</code></b> and 
+          <i>DEPRECATED</i> <code><b>sep</b>=None</code>, see method 
           <code>LatLon.toStr</code> and functions <a 
           href="pygeodesy.dms-module.html#latDMS" 
           class="link">pygeodesy.latDMS</a> and <a 
           href="pygeodesy.dms-module.html#lonDMS" 
-          class="link">pygeodesy.lonDMS</a>.</li>
+          class="link">pygeodesy.lonDMS</a> for more details.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <code>tuple</code> of <code>str</code>s if 2 or more 
@@ -1386,14 +1373,21 @@
           <b><code>lls</code></b>.</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Function <a href="pygeodesy.dms-module.html#latlonDMS" 
-        class="link">pygeodesy.latlonDMS</a>.
+        Functions <a href="pygeodesy.dms-module.html#latlonDMS" 
+        class="link">pygeodesy.latlonDMS</a>, <a 
+        href="pygeodesy.dms-module.html#latDMS" 
+        class="link">pygeodesy.latDMS</a> and <a 
+        href="pygeodesy.dms-module.html#lonDMS" 
+        class="link">pygeodesy.lonDMS</a> and <a 
+        href="pygeodesy.dms-module.html#toDMS" 
+        class="link">pygeodesy.toDMS</a> and method 
+        <code>LatLon.toStr</code>.
       </p>
       <p><strong>Note:</strong>
-        Keyword argument <code><b>sep</b>=None</code> to return a 
-        <code>str</code>ing instead of the <code>tuple</code>, has been 
+        Keyword argument <code><b>sep</b>=None</code> to join a 
+        <code>str</code>ing from the returned <code>tuple</code> has been 
         <i>DEPRECATED</i>, use 
-        <code><b>sep</b>.join(<b>latlonDMS_</b>(...))</code>.
+        <code><b>sep</b>.join(<b>latlonDMS_</b>(...))</code> instead.
       </p>
 </div></td></tr></table>
 </div>
@@ -1928,7 +1922,7 @@
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>form</code></b> or <b><code>prec</code></b> or 
-        <b><code>prec</code></b> outside the valid range <code>-/+9</code>.</li>
+        <b><code>prec</code></b> outside range <code>-9..+9</code>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -2091,7 +2085,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Mar 10 16:19:41 2024
+    Generated by Epydoc 3.0.1 on Fri Mar 22 10:57:44 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -97,7 +97,7 @@ from math import asinh, atan, atan2, ceil, cosh, fabs, floor, \
                  radians, sin, sqrt, tanh
 
 __all__ = _ALL_LAZY.elliptic
-__version__ = '24.02.18'
+__version__ = '24.03.22'
 
 _TolRD  =  zqrt(EPS * 0.002)
 _TolRF  =  zqrt(EPS * 0.030)
@@ -130,7 +130,7 @@ class Elliptic(_Named):
     '''Elliptic integrals and functions.
 
        @see: I{Karney}'s U{Detailed Description<https://GeographicLib.SourceForge.io/
-             html/classGeographicLib_1_1EllipticFunction.html#details>}.
+             C++/doc/classGeographicLib_1_1EllipticFunction.html#details>}.
     '''
 #   _alpha2  = 0
 #   _alphap2 = 0
@@ -580,7 +580,7 @@ class Elliptic(_Named):
                   riIOAAAAQAAJ&pg=PA181>}.
 
            @see: U{Geodesics in terms of elliptic integrals<https://
-                 GeographicLib.SourceForge.io/html/geodesic.html#geodellip>}
+                 GeographicLib.SourceForge.io/C++/doc/geodesic.html#geodellip>}
                  for the expression for the longitude in terms of this function.
         '''
         return self._fXa(phi_or_sn, cn, dn, self.alpha2 - self.k2,
@@ -604,7 +604,7 @@ class Elliptic(_Named):
                   <https://Books.Google.com/books?id=Zk0wAAAAIAAJ&pg=PA333>}.
 
            @see: U{Geodesics in terms of elliptic integrals<https://
-                 GeographicLib.SourceForge.io/html/geodesic.html#geodellip>}
+                 GeographicLib.SourceForge.io/C++/doc/geodesic.html#geodellip>}
                  for the expression for the longitude in terms of this function.
         '''
         return self._fXa(phi_or_sn, cn, dn, -self.alphap2,

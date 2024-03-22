@@ -1012,8 +1012,8 @@
         href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
         target="_top">Inverse Distance Weighting</a> (IDW) and the 
         <i>angular</i> distance in <code>degrees</code> from method <a 
-        href="pygeodesy.geodesicx.gx.GeodesicExact-class.html" 
-        class="link">GeodesicExact</a><code>.Inverse</code>.</em>
+        href="pygeodesy.geodesicx.gx.GeodesicExact-class.html#Inverse" 
+        class="link">GeodesicExact.Inverse</a>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.heights.HeightIDWflatLocal-class.html">pygeodesy.heights.HeightIDWflatLocal</a></strong>:
       <em class="summary">Height interpolator using <a 
@@ -1059,9 +1059,9 @@
         target="_top">Inverse Distance Weighting</a> (IDW) and the 
         <i>angular</i> distance in <code>degrees</code> from 
         <i>Karney</i>'s <a href="https://PyPI.org/project/geographiclib" 
-        target="_top">geographiclib</a> <a 
-        href="https://GeographicLib.SourceForge.io/Python/doc/code.html" 
-        target="_top">Geodesic</a> Inverse method.</em>
+        target="_top">geographiclib</a> method <a 
+        href="https://geographiclib.sourceforge.io/Python/doc/code.html#geographiclib.geodesic.Geodesic.Inverse"
+        target="_top">Geodesic.Inverse</a>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.heights.HeightIDWthomas-class.html">pygeodesy.heights.HeightIDWthomas</a></strong>:
       <em class="summary">Height interpolator using <a 
@@ -1135,7 +1135,7 @@
         href="https://GeographicLib.SourceForge.io/C++/doc/geoid.html" 
         target="_top">GeographicLib Earth Gravitational Model (EGM)</a> 
         geoid <a 
-        href="https://GeographicLib.SourceForge.io/html/geoid.html#geoidinst"
+        href="https://GeographicLib.SourceForge.io/C++/doc/geoid.html#geoidinst"
         target="_top">egm*.pgm</a> datasets using bilinear or <a 
         href="https://dl.ACM.org/citation.cfm?id=368443" 
         target="_top">cubic</a> interpolation and <a 
@@ -1150,7 +1150,7 @@
         href="https://GeographicLib.SourceForge.io/C++/doc/geoid.html" 
         target="_top">GeographicLib Earth Gravitational Model (EGM)</a> 
         geoid <a 
-        href="https://GeographicLib.SourceForge.io/html/geoid.html#geoidinst"
+        href="https://GeographicLib.SourceForge.io/C++/doc/geoid.html#geoidinst"
         target="_top">egm*.pgm</a> datasets but based on <code>SciPy</code>
         <a 
         href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.RectBivariateSpline.html"
@@ -1270,6 +1270,13 @@
         initial and final bearing (azimuths) between two given points or 
         the destination point given a start point and an (initial) bearing.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html">pygeodesy.ellipsoidalVincenty.LatLon</a></strong>:
+      <em class="summary">New point on an (oblate) ellipsoidal earth model, using the 
+        formulae devised by <a 
+        href="https://WikiPedia.org/wiki/Vincenty's_formulae" 
+        target="_top"><i>Thaddeus Vincenty</i></a> (1975) to compute 
+        geodesic distances, bearings (azimuths), etc.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.LatLon-class.html">pygeodesy.ellipsoidalKarney.LatLon</a></strong>:
       <em class="summary">An ellipsoidal <a 
         href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
@@ -1280,13 +1287,6 @@
         href="https://PyPI.org/project/geographiclib" 
         target="_top">geographiclib</a> to compute geodesic distances, 
         bearings (azimuths), etc.</em>
-    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html">pygeodesy.ellipsoidalVincenty.LatLon</a></strong>:
-      <em class="summary">New point on an (oblate) ellipsoidal earth model, using the 
-        formulae devised by <a 
-        href="https://WikiPedia.org/wiki/Vincenty's_formulae" 
-        target="_top"><i>Thaddeus Vincenty</i></a> (1975) to compute 
-        geodesic distances, bearings (azimuths), etc.</em>
     </li>
     </ul>
     </li>
@@ -1438,12 +1438,12 @@
         href="pygeodesy.ellipsoidalGeodSolve.LatLon-class.html" 
         class="link">LatLon</a> points.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html">pygeodesy.ellipsoidalVincenty.Cartesian</a></strong>:
-      <em class="summary">Extended to convert geocentric, <a 
-        href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html" 
-        class="link">Cartesian</a> points to Vincenty-based, ellipsoidal, 
-        geodetic <a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
-        class="link">LatLon</a>.</em>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.Cartesian-class.html">pygeodesy.ellipsoidalKarney.Cartesian</a></strong>:
+      <em class="summary">Extended to convert <code>Karney</code>-based <a 
+        href="pygeodesy.ellipsoidalKarney.Cartesian-class.html" 
+        class="link">Cartesian</a> to <code>Karney</code>-based <a 
+        href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
+        class="link">LatLon</a> points.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalNvector.Cartesian-class.html">pygeodesy.ellipsoidalNvector.Cartesian</a></strong>:
       <em class="summary">Extended to convert geocentric, <a 
@@ -1453,12 +1453,12 @@
         href="pygeodesy.ellipsoidalNvector.LatLon-class.html" 
         class="link">LatLon</a>.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.Cartesian-class.html">pygeodesy.ellipsoidalKarney.Cartesian</a></strong>:
-      <em class="summary">Extended to convert <code>Karney</code>-based <a 
-        href="pygeodesy.ellipsoidalKarney.Cartesian-class.html" 
-        class="link">Cartesian</a> to <code>Karney</code>-based <a 
-        href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
-        class="link">LatLon</a> points.</em>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html">pygeodesy.ellipsoidalVincenty.Cartesian</a></strong>:
+      <em class="summary">Extended to convert geocentric, <a 
+        href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html" 
+        class="link">Cartesian</a> points to Vincenty-based, ellipsoidal, 
+        geodetic <a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
+        class="link">LatLon</a>.</em>
     </li>
     </ul>
     </li>
@@ -1491,14 +1491,14 @@
       <em class="summary">An n-vector is a position representation using a (unit) vector 
         normal to the earth ellipsoid.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.sphericalNvector.Nvector-class.html">pygeodesy.sphericalNvector.Nvector</a></strong>:
+      <em class="summary">An n-vector is a position representation using a (unit) vector 
+        normal to the earth's surface.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.deprecated.nvector.Nvector-class.html">pygeodesy.deprecated.nvector.Nvector</a></strong>:
       <em class="summary">DEPRECATED on 2021.05.20, see (INTERNAL) class <a 
         href="pygeodesy.nvectorBase.NvectorBase-class.html" 
         class="link">pygeodesy.nvectorBase.NvectorBase</a>.</em>
-    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.sphericalNvector.Nvector-class.html">pygeodesy.sphericalNvector.Nvector</a></strong>:
-      <em class="summary">An n-vector is a position representation using a (unit) vector 
-        normal to the earth's surface.</em>
     </li>
     </ul>
     </li>
@@ -4178,7 +4178,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Mar 10 16:19:40 2024
+    Generated by Epydoc 3.0.1 on Fri Mar 22 10:57:43 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

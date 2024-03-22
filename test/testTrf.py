@@ -8,7 +8,7 @@
 # <https://GitHub.com/ChrisVeness/geodesy/blob/master/test/latlon-ellipsoidal-referenceframe-tests.js>
 
 __all__ = ('Tests',)
-__version__ = '24.03.09'
+__version__ = '24.03.12'
 
 from bases import GeodSolve, isPython2, TestsBase
 
@@ -84,7 +84,8 @@ class Tests(TestsBase):
             for i, T in enumerate(trfTransforms(r1, r2, epoch=e, **exhaust)):
                 x = T.toRefFrame(x)
                 d = c - x
-                t = '%s  %.5g  %s' % (T.name, d.length, fstr(T.Xform.epoched, prec=3))
+                d = max(map(abs, d.xyz))
+                t = '%s max %.5g, epoched %s' % (T.name, d, fstr(T.Xform.epoched, prec=3))
                 self.test('transform%s' % (i,), t, t)
 
         c = Cartesian(4027894.006, 307045.600, 4919474.910)
@@ -208,7 +209,7 @@ class Tests(TestsBase):
             x = Vector3d(x)
             e = c - x
             d = max(map(abs, e.xyz))
-            X = (', epoched %.3f' % (X.epoched,)) if X else ''
+            X = (', epoched %s' % (fstr(X.epoched, prec=3),)) if X else ''
             return c.toStr(prec=p), x.toStr(prec=p), d, '%s max %.4g%s' % (e.toStr(prec=9), d, X)
 
         # Alamimi, Z. Example 1 <http://ETRS89.ENSG.IGN.FR/pub/EUREF-TN-1-Jan-31-2024.pdf>

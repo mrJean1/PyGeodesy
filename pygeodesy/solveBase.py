@@ -8,7 +8,7 @@ from pygeodesy.basics import map2, ub2str, _zip
 from pygeodesy.constants import DIG
 from pygeodesy.datums import _earth_datum, _WGS84,  _EWGS84
 # from pygeodesy.ellipsoids import _EWGS84  # from .datums
-from pygeodesy.errors import _AssertionError, _xkwds_get
+from pygeodesy.errors import _AssertionError, _xkwds_get, _xkwds_item2
 from pygeodesy.interns import NN, _0_, _BACKSLASH_, _COMMASPACE_, _enquote, \
                              _EQUAL_, _Error_, _not_, _SPACE_, _UNUSED_
 from pygeodesy.karney import Caps, _CapsBase, GDict
@@ -22,7 +22,7 @@ from pygeodesy.utily import unroll180,  wrap360  # PYCHOK shared
 from subprocess import PIPE as _PIPE, Popen as _Popen, STDOUT as _STDOUT
 
 __all__ = _ALL_LAZY.solveBase
-__version__ = '24.02.21'
+__version__ = '24.03.15'
 
 _ERROR_    = 'ERROR'
 _text_True =  dict() if _unlazy else dict(text=True)
@@ -408,7 +408,7 @@ class _SolveLineBase(_SolveLineSolveBase):
         '''(INTERNAL) Get the C{GeodSolve} I{-L} cmd (C{tuple}).
         '''
         def _lla3(lat1=0, lon1=0, **azi):
-            _, azi = azi.popitem()
+            _, azi = _xkwds_item2(azi)
             return lat1, lon1, azi
 
         t = strs(_lla3(**self._lla1), prec=DIG, fmt=Fmt.F)  # self._solve.prec

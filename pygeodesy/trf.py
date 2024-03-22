@@ -91,7 +91,7 @@ from math import ceil as _ceil, fabs
 # import operator as _operator  # from .datums
 
 __all__ = _ALL_LAZY.trf
-__version__ = '24.03.09'
+__version__ = '24.03.12'
 
 _EP0CH    =  Epoch(0, low=0)
 _Es       = {_EP0CH: _EP0CH}  # L{Epoch}s, deleted below
@@ -860,7 +860,8 @@ class TRFXform(_Named):
 
            @kwarg epoch: Epoch to observe I{from} (C{scalar}),
                          overriding this converter's epoch.
-           @kwarg epoch2: Optional epoch to observe I{to} (C{scalar}).
+           @kwarg epoch2: Optional epoch to observe I{to} (C{scalar}),
+                          overriding B{C{epoch}}.
            @kwarg inverse: Use the Xform's inverse (C{bool}).
 
            @return: The Helmert transform (L{TransformXform}).
@@ -870,9 +871,12 @@ class TRFXform(_Named):
            @see: Method L{toHelmert}.
         '''
         if epoch2 is None:
-            X = self if epoch is None else self.toEpoch(epoch)
+            e = self.epoch if epoch is None else epoch
+        elif isinstance(epoch2, Epoch):
+            e = epoch2
         else:
-            X = self.toEpoch(Epoch(epoch2=epoch2))
+            e = Epoch(epoch2=epoch2)
+        X = self.toEpoch(e)
         if inverse:
             X = X.inverse()
         return X.toHelmert()
@@ -1091,7 +1095,7 @@ def _toTransform0(n1, e1, n2, e2, **indirect_inverse):
         return X  # first OK?
 
     if (n1.startswith(_ITRF_) and n2.startswith(_WGS84_)) or \
-       (n2.startswith(_ITRF_) and n1.startswith(_WGS84_)):
+       (n2.startswith(_ITRF_) and n1.startswith(_WGS84_)):  # and e1 == e2?
         return ()  # unity?
 
     return None

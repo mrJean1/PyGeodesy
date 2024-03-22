@@ -159,7 +159,7 @@ from pygeodesy.utily import atan2d, sincos2d, tand, _unrollon,  fabs
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.karney
-__version__ = '24.02.21'
+__version__ = '24.03.22'
 
 _K_2_0      = _getenv('PYGEODESY_GEOGRAPHICLIB', _2_) == _2_
 _perimeter_ = 'perimeter'
@@ -420,7 +420,7 @@ class GDict(ADict):  # XXX _NamedDict
 
     @deprecated_method
     def toRhumb7Tuple(self, dflt=NAN):  # PYCHOK no cover
-        '''DEPRECATED, used method C{toRhumb8Tuple}.
+        '''DEPRECATED on 23.12.07, use method C{toRhumb8Tuple}.
 
            @return: A I{DEPRECATED} L{Rhumb7Tuple}.
         '''
@@ -482,7 +482,7 @@ class _kWrapped(object):  # in .geodesicw
     def geographiclib(self):
         '''Lazily import C{geographiclib}, provided the U{geographiclib
            <https://PyPI.org/project/geographiclib>} package is installed,
-           otherwise a C{LazyImportError}.
+           otherwise raise a C{LazyImportError}.
         '''
         g = _xgeographiclib(self.__class__, 1, 49)
         from geographiclib.geodesic import Geodesic
@@ -838,7 +838,7 @@ def _sum2_(s, t, *vs, **x):
        @return: 2-Tuple C{(B{s} + B{t} + sum(B{vs}), residual)}.
 
        @see: I{Karney's} C++ U{Accumulator<https://GeographicLib.SourceForge.io/
-             html/Accumulator_8hpp_source.html>} comments for more details and
+             C++/doc/Accumulator_8hpp_source.html>} comments for more details and
              function C{_sum2} above.
 
        @note: NOT "error-free", see C{pygeodesy.test/testKarney.py}.

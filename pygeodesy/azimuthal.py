@@ -71,7 +71,7 @@ from pygeodesy.utily import asin1, atan1, atan2b, atan2d, sincos2, \
 from math import acos, atan2, degrees, fabs, sin, sqrt
 
 __all__ = _ALL_LAZY.azimuthal
-__version__ = '24.02.21'
+__version__ = '24.03.22'
 
 _EPS_K         = _EPStol * _0_1  # Karney's eps_ or _EPSmin * _0_1?
 _over_horizon_ = 'over horizon'
@@ -91,7 +91,7 @@ class _AzimuthalBase(_NamedBase):
     '''(INTERNAL) Base class for azimuthal projections.
 
        @see: I{Karney}'s C++ class U{AzimuthalEquidistant<https://GeographicLib.SourceForge.io/
-       html/classGeographicLib_1_1AzimuthalEquidistant.html>} and U{Gnomonic
+       C++/doc/classGeographicLib_1_1AzimuthalEquidistant.html>} and U{Gnomonic
        <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Gnomonic.html>} or the
        C{PyGeodesy} versions thereof L{EquidistantKarney} respectively L{GnomonicKarney}.
     '''

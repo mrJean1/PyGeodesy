@@ -4,7 +4,7 @@
 # Test L{named} module.
 
 __all__ = ('Tests',)
-__version__ = '24.03.09'
+__version__ = '24.03.17'
 
 from bases import endswith, TestsBase
 from pygeodesy import geohash, Datum, Datums, named, \
@@ -263,6 +263,7 @@ if __name__ == '__main__':
     t.subtitle(named, 'ing %s ' % ('coverage',))
     Nd = geohash.Neighbors8Dict  # coverage
     nd = Nd(**dict((t, t) for t in (Nd._Keys_ + ('name',))))
+    print(nd)
     t.test('nd.name', nd.name, 'name')
     t.test('nd.named', nd.named, 'name')
     del nd.name
@@ -284,6 +285,9 @@ if __name__ == '__main__':
     t.test('nd.classnaming', nd.classnaming, True)
     t.test('nd.classname', nd.classname, nd.classname)
     t.test('nd.named2', nd.named2, nd.named2)
+
+    delattr(nd, 'N')  # _NamedDict.__delattr__
+    t.test('delattr', getattr(nd, 'N', None), None)
 
     t.test('classnaming', named.classnaming(True), False)
     t.test('classnaming', named.classnaming(False), True)

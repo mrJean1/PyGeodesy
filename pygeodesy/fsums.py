@@ -30,13 +30,12 @@ from pygeodesy.basics import iscomplex, isint, isscalar, itemsorted, \
                              signOf, _signOf, _xisscalar
 from pygeodesy.constants import INT0, _isfinite, isinf, isnan, _pos_self, \
                                _0_0, _1_0, _N_1_0,  Float, Int
-from pygeodesy.errors import _OverflowError, _TypeError, _ValueError, \
-                             _xError2, _xkwds_get, _ZeroDivisionError
-from pygeodesy.interns import NN, _arg_, _COMMASPACE_, _DASH_, _EQUAL_, \
-                             _exceeds_, _from_, _iadd_op_, _LANGLE_, \
-                             _negative_, _NOTEQUAL_, _not_finite_, \
-                             _not_scalar_, _PERCENT_, _PLUS_, _R_, _RANGLE_, \
-                             _SLASH_, _SPACE_, _STAR_, _UNDER_
+from pygeodesy.errors import _OverflowError, _TypeError, _ValueError, _xError2, \
+                             _xkwds_get, _ZeroDivisionError
+from pygeodesy.interns import NN, _arg_, _COMMASPACE_, _DASH_, _DOT_, _EQUAL_, \
+                             _exceeds_, _from_, _iadd_op_, _LANGLE_, _negative_, \
+                             _NOTEQUAL_, _not_finite_, _not_scalar_, _PERCENT_, \
+                             _PLUS_, _R_, _RANGLE_, _SLASH_, _SPACE_, _STAR_, _UNDER_
 from pygeodesy.lazily import _ALL_LAZY, _getenv, _sys_version_info2
 from pygeodesy.named import _Named, _NamedTuple, _NotImplemented,  Fmt, unstr
 from pygeodesy.props import _allPropertiesOf_n, deprecated_property_RO, \
@@ -47,7 +46,7 @@ from pygeodesy.props import _allPropertiesOf_n, deprecated_property_RO, \
 from math import ceil as _ceil, fabs, floor as _floor  # PYCHOK used! .ltp
 
 __all__ = _ALL_LAZY.fsums
-__version__ = '24.02.20'
+__version__ = '24.03.18'
 
 _add_op_       = _PLUS_  # in .auxilats.auxAngle
 _eq_op_        = _EQUAL_ * 2  # _DEQUAL_
@@ -1643,7 +1642,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
                       float(t) if isscalar(t) else (  # for backward ...
                           _0_0 if bool(t) else _1_0))  # ... compatibility
             if t < 0:
-                u = self._unstr(self.RESIDUAL, *threshold)
+                u = _DOT_(self, unstr(self.RESIDUAL, *threshold))
                 raise _ValueError(u, RESIDUAL=t, txt=_negative_)
             self._RESIDUAL = t
         return r

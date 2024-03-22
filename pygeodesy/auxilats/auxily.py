@@ -27,7 +27,7 @@ from pygeodesy.utily import atan1
 from math import asinh, copysign
 
 __all__ = ()
-__version__ = '24.02.02'
+__version__ = '24.03.20'
 
 
 class Aux(object):
@@ -96,34 +96,6 @@ class _Coeffs(ADict):
     def items(self):
         for n, v in ADict.items(self):
             yield str(n), v
-
-
-class _Ufloats(dict):  # in .auxilats.auxily
-    '''(INTERNAL) "Uniquify" floats.
-    '''
-    n = 0  # total number of floats
-
-    def __call__(self, *fs):
-        '''Return a tuple of "uniquified" floats.
-        '''
-        self.n += len(fs)
-        _f = self.setdefault
-        return tuple(_f(f, f) for f in map(float, fs))  # PYCHOK as attr
-
-    def _Coeffs(self, ALorder, coeffs):
-        '''Return C{coeffs} (C{_Coeffs}, I{embellished}).
-        '''
-#       if True:
-#           n = 0
-#           for d in coeffs.values():
-#               for t in d.values():
-#                   n += len(t)
-#           assert n == self.n
-        Cx = _Coeffs(coeffs)
-        Cx.set_(ALorder=ALorder,  # used in .auxilats.__main__
-                n=self.n,   # total number of floats
-                u=len(self.keys()))  # unique floats
-        return Cx
 
 
 def _Dasinh(x, y):
@@ -246,6 +218,33 @@ def _sn(tx):
         tx = _copysign_1_0(tx) if isinf(tx) else (
                            NAN if isnan(tx) else (tx / _sc(tx)))
     return tx  # preserve signed-0
+
+
+class _Ufloats(dict):  # in .auxilats.auxily
+    '''(INTERNAL) "Uniquify" floats.
+    '''
+    n = 0  # total number of floats
+
+    def __call__(self, *fs):
+        '''Return a tuple of "uniquified" floats.
+        '''
+        self.n += len(fs)
+        _f = self.setdefault
+        return tuple(_f(f, f) for f in map(float, fs))  # PYCHOK as attr
+
+    def _Coeffs(self, ALorder, coeffs):
+        '''Return C{coeffs} (C{_Coeffs}, I{embellished}).
+        '''
+#       if True:
+#           n = 0
+#           for d in coeffs.values():
+#               n += sum(d.values())
+#           assert n == self.n
+        Cx = _Coeffs(coeffs)
+        Cx.set_(ALorder=ALorder,  # used in .auxilats.__main__
+                n=self.n,   # total number of floats
+                u=len(self.keys()))  # unique floats
+        return Cx
 
 
 __all__ += _ALL_DOCS(Aux.__class__)

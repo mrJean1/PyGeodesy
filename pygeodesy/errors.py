@@ -25,7 +25,7 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _getenv, _PYTHON_X_D
 from copy import copy as _copy
 
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')  _under
-__version__ = '24.02.20'
+__version__ = '24.03.14'
 
 _box_        = 'box'
 _limiterrors =  True  # in .formy
@@ -568,7 +568,7 @@ def _SciPyIssue(exc, *extras):  # PYCHOK no cover
     else:
         E = SciPyError  # PYCHOK not really
     t = _SPACE_(str(exc).strip(), *extras)
-    return E(t, cause=exc)
+    return E(t, txt=None, cause=exc)
 
 
 def _xAssertionError(where, *args, **kwds):

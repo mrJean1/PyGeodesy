@@ -64,14 +64,17 @@ U{Vector-based geodesy<https://www.Movable-Type.co.UK/scripts/latlong-vectors.ht
 from pygeodesy.basics import copysign0, isLatLon, isodd, issequence, isstr, map2, \
                              neg as _neg  # in .ups
 from pygeodesy.constants import _umod_360, _0_0, _0_5, _60_0, _360_0, _3600_0
-from pygeodesy.errors import ParseError, _parseX, RangeError, rangerrors, _TypeError, \
-                            _ValueError, _xkwds, _xkwds_get
+from pygeodesy.errors import ParseError, RangeError, _TypeError, _ValueError,\
+                            _parseX, rangerrors, _xkwds, _xkwds_get
 from pygeodesy.interns import NN, _arg_, _COMMA_, _d_, _DASH_, _deg_, _degrees_, _DOT_, \
                              _0_, _e_, _E_, _EW_, _f_, _F_, _g_, _MINUS_, _N_, _NE_, _NS_, \
                              _NSEW_, _NW_, _of_, _PERCENTDOTSTAR_, _PLUS_, _PLUSMINUS_, \
                              _QUOTE1_, _QUOTE2_, _radians_, _S_, _SE_, _SPACE_, _SW_, _W_
-from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
+from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _getenv
+# from pygeodesy.namedTuples import LatLon2Tuple  # _MODS
+# from pygeodesy.props import _throwarning  # _MODS
 from pygeodesy.streprs import Fmt, fstr, fstrzs, _0wpF
+# from pygeodesy.units import Precision_  # _MODS
 # from pygeodesy.utily import _Wrap  # _MODS
 
 from math import fabs, modf, radians
@@ -81,7 +84,7 @@ except ImportError:  # Python 3+
     from string import ascii_letters as _LETTERS
 
 __all__ = _ALL_LAZY.dms
-__version__ = '23.12.31'
+__version__ = '24.03.21'
 
 _beyond_      = 'beyond'
 _DDDMMSS_     = 'DDDMMSS'
@@ -98,16 +101,15 @@ F_D_,  F_DM_,  F_DMS_,  F_DEG_,  F_MIN_,  F_SEC_,  F_D60_,  F__E_,  F__F_,  F__G
 F_D__, F_DM__, F_DMS__, F_DEG__, F_MIN__, F_SEC__, F_D60__, F__E__, F__F__, F__G__, F_RAD__ = (NN(
  _PLUS_, _)  for _ in _F_s)
 del _F_s
+_F_DMS  = _getenv('PYGEODESY_FMT_FORM', NN) or F_DMS
 
 _F_case = {F_D:   F_D,   F_DEG: F_D,   _degrees_: F_D,  # unsigned _F_s
            F_DM:  F_DM,  F_MIN: F_DM,  _deg_min_: F_DM,
            F_D60: F_D60, F_RAD: F_RAD, _radians_: F_RAD,
            F__E:  F__E,  F__F:  F__F,   F__G:     F__G}  # default F_DMS
-
 _F_prec = {F_D:   6, F_DM:  4, F_DMS: 2,  # default precs
            F_DEG: 6, F_MIN: 4, F_SEC: 2, F_D60: 0,
            F__E:  8, F__F:  8, F__G:  8, F_RAD: 5}
-
 _F_symb = set((F_D, F_DM, F_DMS, _deg_min_))  # == {} pychok -Tb
 
 S_DEG = _DEGREES_ = '°'  # ord() = 176
@@ -174,7 +176,7 @@ def _split3(strDMS, suffix=_NSEW_):
 def _toDMS(deg, form, prec, sep, ddd, suff, s_D_M_S):  # MCCABE 13 in .units
     '''(INTERNAL) Convert C{deg} to C{str}, with/-out sign, DMS symbols and/or suffix.
     '''
-    f = Fmt.form or form
+    f = form
     try:
         deg = float(deg)
     except (TypeError, ValueError) as x:
@@ -204,38 +206,42 @@ def _toDMS(deg, form, prec, sep, ddd, suff, s_D_M_S):  # MCCABE 13 in .units
     z = fstrzs if z > 1 else _fstrzs
     d = fabs(deg)
 
-    if F is F_DMS:  # 'deg+min+sec', default
-        D, M, S = _DMS3(f, **s_D_M_S)
-        d, m, s = _dms3(d, ddd, p, w)
-        t = NN(sign, d,  D, sep,
-                     m,  M, sep,
-                   z(s), S, suff)
+    try:
+        if F is F_DMS:  # 'deg+min+sec', default
+            D, M, S = _DMS3(f, **s_D_M_S)
+            d, m, s = _dms3(d, ddd, p, w)
+            t = NN(sign, d,  D, sep,
+                         m,  M, sep,
+                       z(s), S, suff)
 
-    elif F is F_DM:  # 'deg+min'
-        D, M, _ = _DMS3(f, **s_D_M_S)
-        d, m = divmod(round(d * _60_0, p), _60_0)
-        t = NN(sign, _0wpF(ddd, 0, d),  D, sep,
-                   z(_0wpF(w+2, p, m)), M, suff)
+        elif F is F_DM:  # 'deg+min'
+            D, M, _ = _DMS3(f, **s_D_M_S)
+            d, m = divmod(round(d * _60_0, p), _60_0)
+            t = NN(sign, _0wpF(ddd, 0, d),  D, sep,
+                       z(_0wpF(w+2, p, m)), M, suff)
 
-    elif F is F_D:  # 'deg'
-        D, _, _ = _DMS3(f, **s_D_M_S)
-        t = NN(sign, z(_0wpF(w+ddd, p, d)), D, suff)
+        elif F is F_D:  # 'deg'
+            D, _, _ = _DMS3(f, **s_D_M_S)
+            t = NN(sign, z(_0wpF(w+ddd, p, d)), D, suff)
 
-    elif F is F_D60:  # 'deg.MM|SSss|'
-        D, M, S = _D603(sep, **s_D_M_S)
-        d, m, s = _dms3(d, ddd, p, w)
-        t = z(s).split(_DOT_) + [S, suff]
-        t = NN(sign, d, D, m, M, *t)
+        elif F is F_D60:  # 'deg.MM|SSss|'
+            D, M, S = _D603(sep, **s_D_M_S)
+            d, m, s = _dms3(d, ddd, p, w)
+            t = z(s).split(_DOT_) + [S, suff]
+            t = NN(sign, d, D, m, M, *t)
 
-    elif F is F_RAD:
-        R = _xkwds_get(s_D_M_S, s_R=S_RAD)
-        r =  NN(_PERCENTDOTSTAR_, _F_) % (p, radians(d))
-        t =  NN(sign, z(r), R, suff)
+        elif F is F_RAD:
+            R = _xkwds_get(s_D_M_S, s_R=S_RAD)
+            r =  NN(_PERCENTDOTSTAR_, _F_) % (p, radians(d))
+            t =  NN(sign, z(r), R, suff)
 
-    else:  # F in (F__E, F__F, F__G)
-        D = _xkwds_get(s_D_M_S, s_D=S_NUL)
-        d =  NN(_PERCENTDOTSTAR_, F) % (p, d)  # XXX f?
-        t =  NN(sign, z(d, ap1z=F is F__G), D, suff)
+        else:  # F in (F__E, F__F, F__G)
+            D = _xkwds_get(s_D_M_S, s_D=S_NUL)
+            d =  NN(_PERCENTDOTSTAR_, F) % (p, d)  # XXX f?
+            t =  NN(sign, z(d, ap1z=F is F__G), D, suff)
+
+    except Exception as x:
+        raise _ValueError(deg=deg, form=form, F=F, prec=prec, suff=suff, cause=x)
 
     return t  # NOT unicode in Python 2-
 
@@ -337,9 +343,9 @@ def compassDMS(bearing, form=F_D, prec=None, sep=S_SEP, **s_D_M_S):
 
 
 def compassPoint(bearing, prec=3):
-    '''Convert bearing to a compass point.
+    '''Convert a C{bearing} from North to a compass point.
 
-       @arg bearing: Bearing from North (compass C{degrees360}).
+       @arg bearing: Bearing (compass C{degrees360}).
        @kwarg prec: Precision, number of compass point characters:
                     1 for cardinal or basic winds,
                     2 for intercardinal or ordinal or principal winds,
@@ -348,38 +354,23 @@ def compassPoint(bearing, prec=3):
 
        @return: Compass point (1-, 2-, 3- or 4-letter C{str}).
 
-       @raise ValueError: Invalid B{C{prec}}.
+       @raise ValueError: Invalid B{C{bearing}} or B{C{prec}}.
 
        @see: U{Dms.compassPoint
              <https://GitHub.com/ChrisVeness/geodesy/blob/master/dms.js>}
              and U{Compass rose<https://WikiPedia.org/wiki/Compass_rose>}.
-
-       @example:
-
-        >>> p = compassPoint(24, 1)  # 'N'
-        >>> p = compassPoint(24, 2)  # 'NE'
-        >>> p = compassPoint(24, 3)  # 'NNE'
-        >>> p = compassPoint(24)     # 'NNE'
-        >>> p = compassPoint(11, 4)  # 'NbE'
-        >>> p = compassPoint(30, 4)  # 'NEbN'
-
-        >>> p = compassPoint(11.249)  # 'N'
-        >>> p = compassPoint(11.25)   # 'NNE'
-        >>> p = compassPoint(-11.25)  # 'N'
-        >>> p = compassPoint(348.749) # 'NNW'
     '''
     try:  # like .streprs.enstr2
-        m = 2 << prec
-        if m in (4, 8, 16, 32):
-            w = 32 // m
-            # not round(), i.e. half-even rounding in Python 3+,
-            # but round-away-from-zero as int(b + 0.5) iff b is
-            # non-negative, otherwise int(b + copysign0(_0_5, b))
-            w *= int(_umod_360(bearing) * m / _360_0 + _0_5) % m
-            return _WINDS[w]
-
-        raise  ValueError
-    except (IndexError, TypeError, ValueError) as x:
+        b = _umod_360(bearing)
+        p = _MODS.units.Precision_(prec, low=1, high=4) \
+             if prec != 3 else int(prec)
+        m =  2 << p
+        w = 32 // m  # if m in (4, 8, 16, 32)
+        # not round(b), half-even rounding in Python 3+, but
+        # round-away-from-zero as int(b + copysign0(_0_5, b))
+        w *= int(b * m / _360_0 + _0_5) % m
+        return _WINDS[w]
+    except Exception as x:
         raise _ValueError(bearing=bearing, prec=prec, cause=x)
 
 
@@ -426,7 +417,7 @@ def degDMS(deg, prec=6, s_D=S_DEG, s_M=S_MIN, s_S=S_SEC, neg=_MINUS_, pos=NN):
     return NN(n, t, s)  # NOT unicode in Python 2-
 
 
-def latDMS(deg, form=F_DMS, prec=None, sep=S_SEP, **s_D_M_S):
+def latDMS(deg, form=_F_DMS, prec=None, sep=S_SEP, **s_D_M_S):
     '''Convert latitude to a string, optionally suffixed with N or S.
 
        @arg deg: Latitude to be formatted (C{scalar degrees}).
@@ -458,24 +449,24 @@ def latDMS(deg, form=F_DMS, prec=None, sep=S_SEP, **s_D_M_S):
 def latlonDMS(lls, **m_form_prec_sep_s_D_M_S):
     '''Convert one or more C{LatLon} instances to strings.
 
-       @arg lls: Single or list, sequence, tuple, etc. (C{LatLon}s).
-       @kwarg m_form_prec_sep_s_D_M_S: Optional C{B{m}eter}, C{B{form}at},
-               C{B{prec}ision}, I{DEPRECATED} B{C{sep}}, B{C{s_D}}, B{C{s_M}},
-               B{C{s_S}} and B{C{s_DMS}} keyword arguments, see method
-               C{LatLon.toStr} and functions L{pygeodesy.latDMS} and
-               L{pygeodesy.lonDMS}.
+       @arg lls: Single (C{LatLon}) or list, sequence, tuple, etc. (C{LatLon}s).
+       @kwarg m_form_prec_sep_s_D_M_S: Optional keyword arguments C{B{m}eter},
+                C{B{form}at}, C{B{prec}ision}, B{C{s_D}}, B{C{s_M}}, B{C{s_S}},
+                B{C{s_DMS}} and I{DEPRECATED} C{B{sep}=None}, see method
+                C{LatLon.toStr} and functions L{pygeodesy.latDMS} and
+                L{pygeodesy.lonDMS} for more details.
 
        @return: A C{tuple} of C{str}s if B{C{lls}} is a list, sequence,
                 tuple, etc. of C{LatLon} instances or a single C{str}
                 if B{C{lls}} is a single C{LatLon}.
 
-       @see: Functions L{pygeodesy.latDMS}, L{pygeodesy.latlonDMS_},
+       @see: Functions L{pygeodesy.latlonDMS_}, L{pygeodesy.latDMS},
              L{pygeodesy.lonDMS} and L{pygeodesy.toDMS} and method
              C{LatLon.toStr}.
 
-       @note: Keyword argument C{B{sep}=None} to return a C{str}ing
-              instead of the C{tuple}, has been I{DEPRECATED}, use
-              C{B{sep}.join(B{latlonDMS_}(...))}.
+       @note: Keyword argument C{B{sep}=None} to join a C{str}ing
+              from the returned C{tuple} has been I{DEPRECATED},
+              use C{B{sep}.join(B{latlonDMS_}(...))} instead.
     '''
     sep, kwds = _latlonDMS_sep2(latlonDMS, **m_form_prec_sep_s_D_M_S)
     if isLatLon(lls):
@@ -492,22 +483,25 @@ def latlonDMS(lls, **m_form_prec_sep_s_D_M_S):
 def latlonDMS_(*lls, **m_form_prec_sep_s_D_M_S):
     '''Convert one or more C{LatLon} instances to strings.
 
-       @arg lls: The instances, all positional arguments (C{LatLon}s).
-       @kwarg m_form_prec_sep_s_D_M_S: Optional C{B{m}eter}, C{B{form}at},
-               C{B{prec}ision}, I{DEPRECATED} B{C{sep}}, B{C{s_D}}, B{C{s_M}},
-               B{C{s_S}} and B{C{s_DMS}} keyword arguments, see method
-               C{LatLon.toStr} and functions L{pygeodesy.latDMS} and
-               L{pygeodesy.lonDMS}.
+       @arg lls: The instances (C{LatLon}s), all positional arguments.
+       @kwarg m_form_prec_sep_s_D_M_S: Optional keyword arguments
+                C{B{m}eter}, C{B{form}at}, C{B{prec}ision}, B{C{s_D}},
+                B{C{s_M}}, B{C{s_S}}, B{C{s_DMS}} and I{DEPRECATED}
+                C{B{sep}=None}, see method C{LatLon.toStr} and
+                functions L{pygeodesy.latDMS} and L{pygeodesy.lonDMS}
+                for more details.
 
        @return: A C{tuple} of C{str}s if 2 or more C{LatLon} instances
                 or a single C{str} if only a single C{LatLon} instance
                 is given in B{C{lls}}.
 
-       @see: Function L{pygeodesy.latlonDMS}.
+       @see: Functions L{pygeodesy.latlonDMS}, L{pygeodesy.latDMS} and
+             L{pygeodesy.lonDMS} and L{pygeodesy.toDMS} and method
+             C{LatLon.toStr}.
 
-       @note: Keyword argument C{B{sep}=None} to return a C{str}ing
-              instead of the C{tuple}, has been I{DEPRECATED}, use
-              C{B{sep}.join(B{latlonDMS_}(...))}.
+       @note: Keyword argument C{B{sep}=None} to join a C{str}ing
+              from the returned C{tuple} has been I{DEPRECATED},
+              use C{B{sep}.join(B{latlonDMS_}(...))} instead.
     '''
     sep, kwds = _latlonDMS_sep2(latlonDMS, **m_form_prec_sep_s_D_M_S)
     if not lls:
@@ -528,7 +522,7 @@ def _latlonDMS_sep2(where, sep=None, **kwds):
     return sep, kwds
 
 
-def lonDMS(deg, form=F_DMS, prec=None, sep=S_SEP, **s_D_M_S):
+def lonDMS(deg, form=_F_DMS, prec=None, sep=S_SEP, **s_D_M_S):
     '''Convert longitude to a string, optionally suffixed with E or W.
 
        @arg deg: Longitude to be formatted (C{scalar degrees}).
@@ -905,7 +899,7 @@ def precision(form, prec=None):
        @return: Previous precision for the B{C{form}} (C{int}).
 
        @raise ValueError: Invalid B{C{form}} or B{C{prec}} or B{C{prec}}
-                          outside the valid range C{-/+9}.
+                          outside range C{-9..+9}.
     '''
     try:
         p = _F_prec[form]
@@ -913,12 +907,12 @@ def precision(form, prec=None):
         raise _ValueError(form=form)
 
     if prec is not None:  # set as default
-        _F_prec[form] = _MODS.units.Precision_(prec=prec, low=-9, high=9)
+        _F_prec[form] = _MODS.units.Precision_(prec, low=-9, high=9)
 
     return p
 
 
-def toDMS(deg, form=F_DMS, prec=2, sep=S_SEP, ddd=2, neg=_MINUS_, pos=_PLUS_, **s_D_M_S):
+def toDMS(deg, form=_F_DMS, prec=2, sep=S_SEP, ddd=2, neg=_MINUS_, pos=_PLUS_, **s_D_M_S):
     '''Convert I{signed} C{degrees} to string, without suffix.
 
        @arg deg: Degrees to be formatted (C{scalar degrees}).

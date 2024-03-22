@@ -14,7 +14,8 @@ L{ChLVYX2Tuple}, L{ChLVyx2Tuple} and L{Footprint5Tuple}.
 # from pygeodesy.basics import issubclassof  # from .units
 from pygeodesy.constants import _0_0, _1_0, _90_0, _N_90_0
 from pygeodesy.dms import F_D, toDMS
-from pygeodesy.errors import _TypeError, _TypesError, _xattr, _xkwds
+from pygeodesy.errors import _TypeError, _TypesError, _xattr, \
+                             _xkwds, _xkwds_item2
 from pygeodesy.fmath import hypot, hypot_
 from pygeodesy.interns import NN, _4_, _azimuth_, _center_, _COMMASPACE_, \
                              _down_, _east_, _ecef_, _elevation_, _height_, \
@@ -35,7 +36,7 @@ from pygeodesy.vector3d import Vector3d
 from math import cos, radians
 
 __all__ = _ALL_LAZY.ltpTuples
-__version__ = '23.12.03'
+__version__ = '24.03.15'
 
 _aer_        = 'aer'
 _alt_        = 'alt'
@@ -102,7 +103,7 @@ def _xyz2aer4(inst):
 def _xyzLocal(*Types, **name_inst):
     '''(INTERNAL) Get C{inst} or C{inst.xyzLocal}.
     '''
-    n, inst = name_inst.popitem()
+    n, inst = _xkwds_item2(name_inst)
     if isinstance(inst, Types):
         return None
     try:

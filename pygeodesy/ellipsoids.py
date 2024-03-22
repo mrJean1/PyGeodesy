@@ -93,7 +93,7 @@ from pygeodesy.utily import atan1, atan1d, atan2b, degrees90, m2radians, radians
 from math import asinh, atan, atanh, cos, degrees, exp, fabs, radians, sin, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '24.03.09'
+__version__ = '24.03.22'
 
 _f_0_0    = Float(f =_0_0)  # zero flattening
 _f__0_0   = Float(f_=_0_0)  # zero inverse flattening
@@ -434,7 +434,7 @@ class Ellipsoid(_NamedEnumItem):
            @return: The I{authalic} (or geodetic) latitude in C{degrees90}.
 
            @see: U{Inverse-/AuthalicLatitude<https://GeographicLib.SourceForge.io/
-                 html/classGeographicLib_1_1Ellipsoid.html>}, U{Authalic latitude
+                 C++/doc/classGeographicLib_1_1Ellipsoid.html>}, U{Authalic latitude
                  <https://WikiPedia.org/wiki/Latitude#Authalic_latitude>}, and
                  U{Snyder<https://Pubs.USGS.gov/pp/1395/report.pdf>}, p 16.
         '''
@@ -453,7 +453,7 @@ class Ellipsoid(_NamedEnumItem):
            @return: The I{conformal} (or geodetic) latitude in C{degrees90}.
 
            @see: U{Inverse-/ConformalLatitude<https://GeographicLib.SourceForge.io/
-                 html/classGeographicLib_1_1Ellipsoid.html>}, U{Conformal latitude
+                 C++/doc/classGeographicLib_1_1Ellipsoid.html>}, U{Conformal latitude
                  <https://WikiPedia.org/wiki/Latitude#Conformal_latitude>}, and
                  U{Snyder<https://Pubs.USGS.gov/pp/1395/report.pdf>}, pp 15-16.
         '''
@@ -472,7 +472,7 @@ class Ellipsoid(_NamedEnumItem):
            @return: The I{geocentric} (or geodetic) latitude in C{degrees90}.
 
            @see: U{Inverse-/GeocentricLatitude<https://GeographicLib.SourceForge.io/
-                 html/classGeographicLib_1_1Ellipsoid.html>}, U{Geocentric latitude
+                 C++/doc/classGeographicLib_1_1Ellipsoid.html>}, U{Geocentric latitude
                  <https://WikiPedia.org/wiki/Latitude#Geocentric_latitude>}, and
                  U{Snyder<https://Pubs.USGS.gov/pp/1395/report.pdf>}, pp 17-18.
         '''
@@ -495,7 +495,7 @@ class Ellipsoid(_NamedEnumItem):
                   thereof is the original geodetic latitude.
 
            @see: U{Inverse-/IsometricLatitude<https://GeographicLib.SourceForge.io/
-                 html/classGeographicLib_1_1Ellipsoid.html>}, U{Isometric latitude
+                 C++/doc/classGeographicLib_1_1Ellipsoid.html>}, U{Isometric latitude
                  <https://WikiPedia.org/wiki/Latitude#Isometric_latitude>}, and
                  U{Snyder<https://Pubs.USGS.gov/pp/1395/report.pdf>}, pp 15-16.
         '''
@@ -516,7 +516,7 @@ class Ellipsoid(_NamedEnumItem):
            @return: The I{parametric} (or geodetic) latitude in C{degrees90}.
 
            @see: U{Inverse-/ParametricLatitude<https://GeographicLib.SourceForge.io/
-                 html/classGeographicLib_1_1Ellipsoid.html>}, U{Parametric latitude
+                 C++/doc/classGeographicLib_1_1Ellipsoid.html>}, U{Parametric latitude
                  <https://WikiPedia.org/wiki/Latitude#Parametric_(or_reduced)_latitude>},
                  and U{Snyder<https://Pubs.USGS.gov/pp/1395/report.pdf>}, p 18.
         '''
@@ -536,7 +536,7 @@ class Ellipsoid(_NamedEnumItem):
            @return: The I{rectifying} (or geodetic) latitude in C{degrees90}.
 
            @see: U{Inverse-/RectifyingLatitude<https://GeographicLib.SourceForge.io/
-                 html/classGeographicLib_1_1Ellipsoid.html>}, U{Rectifying latitude
+                 C++/doc/classGeographicLib_1_1Ellipsoid.html>}, U{Rectifying latitude
                  <https://WikiPedia.org/wiki/Latitude#Rectifying_latitude>}, and
                  U{Snyder<https://Pubs.USGS.gov/pp/1395/report.pdf>}, pp 16-17.
         '''
@@ -888,7 +888,7 @@ class Ellipsoid(_NamedEnumItem):
            @raise ValueError: Invalid B{C{x}}.
 
            @see: Function U{Math::eatanhe<https://GeographicLib.SourceForge.io/
-                 html/classGeographicLib_1_1Math.html>}.
+                 C++/doc/classGeographicLib_1_1Math.html>}.
         '''
         return self._es_atanh(Scalar(x=x)) if self.f else _0_0
 
@@ -1816,10 +1816,11 @@ class Ellipsoid(_NamedEnumItem):
         '''
         return Ellipsoid2(self, None, name=name)
 
-    def toStr(self, prec=8, name=NN, **unused):  # PYCHOK expected
+    def toStr(self, prec=8, terse=0, name=NN, **unused):  # PYCHOK expected
         '''Return this ellipsoid as a text string.
 
            @kwarg prec: Number of decimal digits, unstripped (C{int}).
+           @kwarg terse: Limit the number of items (C{int}, 0...18).
            @kwarg name: Override name (C{str}) or C{None} to exclude
                         this ellipsoid's name.
 
@@ -1828,8 +1829,8 @@ class Ellipsoid(_NamedEnumItem):
         E = Ellipsoid
         t = E.a, E.b, E.f_, E.f, E.f2, E.n, E.e, E.e2, E.e21, E.e22, E.e32, \
             E.A, E.L, E.R1, E.R2, E.R3, E.Rbiaxial, E.Rtriaxial
-        if Fmt.form:  # terse form[at]
-            t = t[:4]
+        if terse:
+            t = t[:terse]
         return self._instr(name, prec, props=t)
 
     def toTriaxial(self, name=NN):
@@ -2107,7 +2108,7 @@ def f2e2(f):
               or C{0} for I{near-spherical} ellipsoids.
 
        @see: U{Eccentricity conversions<https://GeographicLib.SourceForge.io/
-             html/classGeographicLib_1_1Ellipsoid.html>} and U{Flattening
+             C++/doc/classGeographicLib_1_1Ellipsoid.html>} and U{Flattening
              <https://WikiPedia.org/wiki/Flattening>}.
     '''
     return Float(e2=_0_0 if _spherical_f(f) else (f * (_2_0 - f)))
@@ -2125,7 +2126,7 @@ def f2e22(f):
               or C{0} for near-spherical ellipsoids.
 
        @see: U{Eccentricity conversions<https://GeographicLib.SourceForge.io/
-             html/classGeographicLib_1_1Ellipsoid.html>}.
+             C++/doc/classGeographicLib_1_1Ellipsoid.html>}.
     '''
     # e2 / (1 - e2) == f * (2 - f) / (1 - f)**2
     t = (_1_0 - f)**2
@@ -2144,7 +2145,7 @@ def f2e32(f):
               or C{0} for I{near-spherical} ellipsoids.
 
        @see: U{Eccentricity conversions<https://GeographicLib.SourceForge.io/
-             html/classGeographicLib_1_1Ellipsoid.html>}.
+             C++/doc/classGeographicLib_1_1Ellipsoid.html>}.
     '''
     # e2 / (2 - e2) == f * (2 - f) / (1 + (1 - f)**2)
     e2 = f2e2(f)
@@ -2190,7 +2191,7 @@ def f2f2(f):
               or C{0} for I{near-spherical} ellipsoids.
 
        @see: U{Eccentricity conversions<https://GeographicLib.SourceForge.io/
-             html/classGeographicLib_1_1Ellipsoid.html>} and U{Flattening
+             C++/doc/classGeographicLib_1_1Ellipsoid.html>} and U{Flattening
              <https://WikiPedia.org/wiki/Flattening>}.
     '''
     t = _1_0 - f
@@ -2210,7 +2211,7 @@ def f2n(f):
               or C{0} for I{near-spherical} ellipsoids.
 
        @see: U{Eccentricity conversions<https://GeographicLib.SourceForge.io/
-             html/classGeographicLib_1_1Ellipsoid.html>} and U{Flattening
+             C++/doc/classGeographicLib_1_1Ellipsoid.html>} and U{Flattening
              <https://WikiPedia.org/wiki/Flattening>}.
     '''
     return Float(n=_0_0 if _spherical_f(f) else (f / float(_2_0 - f)))
@@ -2242,7 +2243,7 @@ def n2f(n):
        @return: The flattening (C{scalar} or NINF), M{2 * n / (1 + n)}.
 
        @see: U{Eccentricity conversions<https://GeographicLib.SourceForge.io/
-             html/classGeographicLib_1_1Ellipsoid.html>} and U{Flattening
+             C++/doc/classGeographicLib_1_1Ellipsoid.html>} and U{Flattening
              <https://WikiPedia.org/wiki/Flattening>}.
     '''
     t = n + _1_0

@@ -130,7 +130,7 @@
   href="https://WikiPedia.org/wiki/Global_Area_Reference_System" 
   target="_top">Garefs (GARS)</a>.</p>
   <p>Other modules provide <a 
-  href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1AlbersEqualArea.html"
+  href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1AlbersEqualArea.html"
   target="_top">Albers equal-area</a> projections, <a 
   href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1AzimuthalEquidistant.html"
   target="_top">equidistant</a> and other <i>azimuthal</i> projections, 
@@ -274,21 +274,21 @@
     target="_top">geographiclib</a> 2.0, <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.23.3, 
     <a href="https://PyPI.org/project/scipy" target="_top">scipy</a> 1.9.1,
-    <a href="https://GeographicLib.SourceForge.io/html/utilities.html" 
+    <a href="https://GeographicLib.SourceForge.io/C++/doc/utilities.html" 
     target="_top">GeoConvert</a> 2.2, <a 
-    href="https://GeographicLib.SourceForge.io/html/utilities.html" 
+    href="https://GeographicLib.SourceForge.io/C++/doc/utilities.html" 
     target="_top">GeodSolve</a> 2.2 and <a 
-    href="https://GeographicLib.SourceForge.io/html/utilities.html" 
+    href="https://GeographicLib.SourceForge.io/C++/doc/utilities.html" 
     target="_top">RhumbSolve</a> 2.2), Python 3.9.6 and Python 2.7.18 (with
     <a href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 1.50, <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.16.6, 
     <a href="https://PyPI.org/project/scipy" target="_top">scipy</a> 1.2.2,
-    <a href="https://GeographicLib.SourceForge.io/html/utilities.html" 
+    <a href="https://GeographicLib.SourceForge.io/C++/doc/utilities.html" 
     target="_top">GeoConvert</a> 2.2, <a 
-    href="https://GeographicLib.SourceForge.io/html/utilities.html" 
+    href="https://GeographicLib.SourceForge.io/C++/doc/utilities.html" 
     target="_top">GeodSolve</a> 2.2 and <a 
-    href="https://GeographicLib.SourceForge.io/html/utilities.html" 
+    href="https://GeographicLib.SourceForge.io/C++/doc/utilities.html" 
     target="_top">RhumbSolve</a> 2.2), all on macOS 14.3.1 Sonoma and in 
     64-bit only.</p>
     <p>All tests ran with and without <code>lazy import</code> for Python 3
@@ -548,7 +548,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        24.03.09
+        24.03.24
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -775,7 +775,8 @@
     <li> <strong class="uidlink"><a href="pygeodesy.geohash-module.html">pygeodesy.geohash</a></strong>: <em class="summary">Geohash en-/decoding.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.geoids-module.html">pygeodesy.geoids</a></strong>: <em class="summary">Geoid models and geoid height interpolations.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.hausdorff-module.html">pygeodesy.hausdorff</a></strong>: <em class="summary">Hausdorff distances.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.heights-module.html">pygeodesy.heights</a></strong>: <em class="summary">Height interpolations of <code>LatLon</code> points.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.heights-module.html">pygeodesy.heights</a></strong>: <em class="summary">Height interpolations at <code>LatLon</code> points from 
+        <code>knots</code>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.interns-module.html">pygeodesy.interns</a></strong>: <em class="summary">Single <code>str</code>ing constants, <code>intern</code>'ed across
         <code>pygeodesy</code> modules and function <a 
         href="pygeodesy.interns-module.html#machine" 
@@ -2726,7 +2727,7 @@
         href="https://GeographicLib.SourceForge.io/C++/doc/geoid.html" 
         target="_top">GeographicLib Earth Gravitational Model (EGM)</a> 
         geoid <a 
-        href="https://GeographicLib.SourceForge.io/html/geoid.html#geoidinst"
+        href="https://GeographicLib.SourceForge.io/C++/doc/geoid.html#geoidinst"
         target="_top">egm*.pgm</a> datasets using bilinear or <a 
         href="https://dl.ACM.org/citation.cfm?id=368443" 
         target="_top">cubic</a> interpolation and <a 
@@ -2746,7 +2747,7 @@
         href="https://GeographicLib.SourceForge.io/C++/doc/geoid.html" 
         target="_top">GeographicLib Earth Gravitational Model (EGM)</a> 
         geoid <a 
-        href="https://GeographicLib.SourceForge.io/html/geoid.html#geoidinst"
+        href="https://GeographicLib.SourceForge.io/C++/doc/geoid.html#geoidinst"
         target="_top">egm*.pgm</a> datasets but based on <code>SciPy</code>
         <a 
         href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.RectBivariateSpline.html"
@@ -3137,8 +3138,8 @@
         href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
         target="_top">Inverse Distance Weighting</a> (IDW) and the 
         <i>angular</i> distance in <code>degrees</code> from method <a 
-        href="pygeodesy.geodesicx.gx.GeodesicExact-class.html" 
-        class="link">GeodesicExact</a><code>.Inverse</code>.
+        href="pygeodesy.geodesicx.gx.GeodesicExact-class.html#Inverse" 
+        class="link">GeodesicExact.Inverse</a>.
     </td>
   </tr>
 <tr>
@@ -3207,9 +3208,9 @@
         target="_top">Inverse Distance Weighting</a> (IDW) and the 
         <i>angular</i> distance in <code>degrees</code> from 
         <i>Karney</i>'s <a href="https://PyPI.org/project/geographiclib" 
-        target="_top">geographiclib</a> <a 
-        href="https://GeographicLib.SourceForge.io/Python/doc/code.html" 
-        target="_top">Geodesic</a> Inverse method.
+        target="_top">geographiclib</a> method <a 
+        href="https://geographiclib.sourceforge.io/Python/doc/code.html#geographiclib.geodesic.Geodesic.Inverse"
+        target="_top">Geodesic.Inverse</a>.
     </td>
   </tr>
 <tr>
@@ -6085,7 +6086,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#compassPoint" class="summary-sig-name">compassPoint</a>(<span class="summary-sig-arg">bearing</span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">3</span>)</span><br />
-      Convert bearing to a compass point.</td>
+      Convert a <code>bearing</code> from North to a compass point.</td>
           <td align="right" valign="top">
             
             
@@ -6651,7 +6652,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#egmGeoidHeights" class="summary-sig-name">egmGeoidHeights</a>(<span class="summary-sig-arg">GeoidHeights_dat</span>)</span><br />
       Generate geoid <a 
-      href="https://GeographicLib.SourceForge.io/html/geoid.html#geoidinst"
+      href="https://GeographicLib.SourceForge.io/C++/doc/geoid.html#geoidinst"
       target="_top">egm*.pgm</a> height tests from <a 
       href="https://SourceForge.net/projects/geographiclib/files/testdata/"
       target="_top">GeoidHeights.dat</a> <a 
@@ -8131,7 +8132,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fdd9874ba50&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f9a0055b650&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -12630,7 +12631,7 @@ ygeodesy'"><code class="variable-quote">'</code><code class="variable-string">/U
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'24.3.9'">'24.3.9'</code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'24.3.24'">'24.3.24'</code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -15889,11 +15890,11 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
     </td>
   </tr></table>
   
-  <p>Convert bearing to a compass point.</p>
+  <p>Convert a <code>bearing</code> from North to a compass point.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>bearing</code></strong> - Bearing from North (compass <code>degrees360</code>).</li>
+        <li><strong class="pname"><code>bearing</code></strong> - Bearing (compass <code>degrees360</code>).</li>
         <li><strong class="pname"><code>prec</code></strong> - Precision, number of compass point characters: 1 for cardinal or 
           basic winds, 2 for intercardinal or ordinal or principal winds, 3
           for secondary-intercardinal or half-winds or 4 for 
@@ -15903,7 +15904,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <dd>Compass point (1-, 2-, 3- or 4-letter <code>str</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>prec</code></b>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>bearing</code></b> or <b><code>prec</code></b>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -15911,20 +15912,6 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         target="_top">Dms.compassPoint</a> and <a 
         href="https://WikiPedia.org/wiki/Compass_rose" 
         target="_top">Compass rose</a>.
-      </p>
-      <p><strong>Example:</strong>
-        <pre class="py-doctest">
-<span class="py-prompt">&gt;&gt;&gt; </span>p = compassPoint(24, 1)  <span class="py-comment"># 'N'</span>
-<span class="py-prompt">&gt;&gt;&gt; </span>p = compassPoint(24, 2)  <span class="py-comment"># 'NE'</span>
-<span class="py-prompt">&gt;&gt;&gt; </span>p = compassPoint(24, 3)  <span class="py-comment"># 'NNE'</span>
-<span class="py-prompt">&gt;&gt;&gt; </span>p = compassPoint(24)     <span class="py-comment"># 'NNE'</span>
-<span class="py-prompt">&gt;&gt;&gt; </span>p = compassPoint(11, 4)  <span class="py-comment"># 'NbE'</span>
-<span class="py-prompt">&gt;&gt;&gt; </span>p = compassPoint(30, 4)  <span class="py-comment"># 'NEbN'</span></pre>
-<pre class="py-doctest">
-<span class="py-prompt">&gt;&gt;&gt; </span>p = compassPoint(11.249)  <span class="py-comment"># 'N'</span>
-<span class="py-prompt">&gt;&gt;&gt; </span>p = compassPoint(11.25)   <span class="py-comment"># 'NNE'</span>
-<span class="py-prompt">&gt;&gt;&gt; </span>p = compassPoint(-11.25)  <span class="py-comment"># 'N'</span>
-<span class="py-prompt">&gt;&gt;&gt; </span>p = compassPoint(348.749) <span class="py-comment"># 'NNW'</span></pre>
       </p>
 </div></td></tr></table>
 </div>
@@ -17034,7 +17021,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   </tr></table>
   
   <p>Generate geoid <a 
-  href="https://GeographicLib.SourceForge.io/html/geoid.html#geoidinst" 
+  href="https://GeographicLib.SourceForge.io/C++/doc/geoid.html#geoidinst" 
   target="_top">egm*.pgm</a> height tests from <a 
   href="https://SourceForge.net/projects/geographiclib/files/testdata/" 
   target="_top">GeoidHeights.dat</a> <a 
@@ -18078,7 +18065,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
       </p>
       <p><strong>See Also:</strong>
         <a 
-        href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Ellipsoid.html"
+        href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Ellipsoid.html"
         target="_top">Eccentricity conversions</a> and <a 
         href="https://WikiPedia.org/wiki/Flattening" 
         target="_top">Flattening</a>.
@@ -18118,7 +18105,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
       </p>
       <p><strong>See Also:</strong>
         <a 
-        href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Ellipsoid.html"
+        href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Ellipsoid.html"
         target="_top">Eccentricity conversions</a>.
       </p>
 </div></td></tr></table>
@@ -18157,7 +18144,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
       </p>
       <p><strong>See Also:</strong>
         <a 
-        href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Ellipsoid.html"
+        href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Ellipsoid.html"
         target="_top">Eccentricity conversions</a>.
       </p>
 </div></td></tr></table>
@@ -18195,7 +18182,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
       </p>
       <p><strong>See Also:</strong>
         <a 
-        href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Ellipsoid.html"
+        href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Ellipsoid.html"
         target="_top">Eccentricity conversions</a> and <a 
         href="https://WikiPedia.org/wiki/Flattening" 
         target="_top">Flattening</a>.
@@ -18268,7 +18255,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
       </p>
       <p><strong>See Also:</strong>
         <a 
-        href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Ellipsoid.html"
+        href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Ellipsoid.html"
         target="_top">Eccentricity conversions</a> and <a 
         href="https://WikiPedia.org/wiki/Flattening" 
         target="_top">Flattening</a>.
@@ -20154,7 +20141,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fdd9874ba50&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f9a0055b650&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -22380,8 +22367,8 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <li><strong class="pname"><code>items_args</code></strong> - Optional positional argument(s) for method 
           <code><b>adict</b>.items(B*{items_args})</code>.</li>
         <li><strong class="pname"><code>asorted_reverse</code></strong> - Use keyword argument <code><b>asorted</b>=False</code> for 
-          <i>case-sensitive</i> sorting and 
-          <code><b>reverse</b>=True</code> for results in 
+          <i>alphabetical, case-sensitive</i> sorting and 
+          <code><b>reverse</b>=True</code> for sorting in 
           <code>descending</code> order.</li>
     </ul></dd>
   </dl>
@@ -22622,17 +22609,18 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>lls</code></strong> - Single or list, sequence, tuple, etc. (<code>LatLon</code>s).</li>
-        <li><strong class="pname"><code>m_form_prec_sep_s_D_M_S</code></strong> - Optional <code><b>m</b>eter</code>, <code><b>form</b>at</code>, 
-          <code><b>prec</b>ision</code>, <i>DEPRECATED</i> 
-          <b><code>sep</code></b>, <b><code>s_D</code></b>, 
-          <b><code>s_M</code></b>, <b><code>s_S</code></b> and 
-          <b><code>s_DMS</code></b> keyword arguments, see method 
+        <li><strong class="pname"><code>lls</code></strong> - Single (<code>LatLon</code>) or list, sequence, tuple, etc. 
+          (<code>LatLon</code>s).</li>
+        <li><strong class="pname"><code>m_form_prec_sep_s_D_M_S</code></strong> - Optional keyword arguments <code><b>m</b>eter</code>, 
+          <code><b>form</b>at</code>, <code><b>prec</b>ision</code>, 
+          <b><code>s_D</code></b>, <b><code>s_M</code></b>, 
+          <b><code>s_S</code></b>, <b><code>s_DMS</code></b> and 
+          <i>DEPRECATED</i> <code><b>sep</b>=None</code>, see method 
           <code>LatLon.toStr</code> and functions <a 
           href="pygeodesy.dms-module.html#latDMS" 
           class="link">pygeodesy.latDMS</a> and <a 
           href="pygeodesy.dms-module.html#lonDMS" 
-          class="link">pygeodesy.lonDMS</a>.</li>
+          class="link">pygeodesy.lonDMS</a> for more details.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <code>tuple</code> of <code>str</code>s if 
@@ -22641,10 +22629,10 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
           <b><code>lls</code></b> is a single <code>LatLon</code>.</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Functions <a href="pygeodesy.dms-module.html#latDMS" 
-        class="link">pygeodesy.latDMS</a>, <a 
-        href="pygeodesy.dms-module.html#latlonDMS_" 
+        Functions <a href="pygeodesy.dms-module.html#latlonDMS_" 
         class="link">pygeodesy.latlonDMS_</a>, <a 
+        href="pygeodesy.dms-module.html#latDMS" 
+        class="link">pygeodesy.latDMS</a>, <a 
         href="pygeodesy.dms-module.html#lonDMS" 
         class="link">pygeodesy.lonDMS</a> and <a 
         href="pygeodesy.dms-module.html#toDMS" 
@@ -22652,10 +22640,10 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <code>LatLon.toStr</code>.
       </p>
       <p><strong>Note:</strong>
-        Keyword argument <code><b>sep</b>=None</code> to return a 
-        <code>str</code>ing instead of the <code>tuple</code>, has been 
+        Keyword argument <code><b>sep</b>=None</code> to join a 
+        <code>str</code>ing from the returned <code>tuple</code> has been 
         <i>DEPRECATED</i>, use 
-        <code><b>sep</b>.join(<b>latlonDMS_</b>(...))</code>.
+        <code><b>sep</b>.join(<b>latlonDMS_</b>(...))</code> instead.
       </p>
 </div></td></tr></table>
 </div>
@@ -22678,17 +22666,17 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>lls</code></strong> - The instances, all positional arguments (<code>LatLon</code>s).</li>
-        <li><strong class="pname"><code>m_form_prec_sep_s_D_M_S</code></strong> - Optional <code><b>m</b>eter</code>, <code><b>form</b>at</code>, 
-          <code><b>prec</b>ision</code>, <i>DEPRECATED</i> 
-          <b><code>sep</code></b>, <b><code>s_D</code></b>, 
-          <b><code>s_M</code></b>, <b><code>s_S</code></b> and 
-          <b><code>s_DMS</code></b> keyword arguments, see method 
+        <li><strong class="pname"><code>lls</code></strong> - The instances (<code>LatLon</code>s), all positional arguments.</li>
+        <li><strong class="pname"><code>m_form_prec_sep_s_D_M_S</code></strong> - Optional keyword arguments <code><b>m</b>eter</code>, 
+          <code><b>form</b>at</code>, <code><b>prec</b>ision</code>, 
+          <b><code>s_D</code></b>, <b><code>s_M</code></b>, 
+          <b><code>s_S</code></b>, <b><code>s_DMS</code></b> and 
+          <i>DEPRECATED</i> <code><b>sep</b>=None</code>, see method 
           <code>LatLon.toStr</code> and functions <a 
           href="pygeodesy.dms-module.html#latDMS" 
           class="link">pygeodesy.latDMS</a> and <a 
           href="pygeodesy.dms-module.html#lonDMS" 
-          class="link">pygeodesy.lonDMS</a>.</li>
+          class="link">pygeodesy.lonDMS</a> for more details.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <code>tuple</code> of <code>str</code>s if 2 or more 
@@ -22697,14 +22685,21 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
           <b><code>lls</code></b>.</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Function <a href="pygeodesy.dms-module.html#latlonDMS" 
-        class="link">pygeodesy.latlonDMS</a>.
+        Functions <a href="pygeodesy.dms-module.html#latlonDMS" 
+        class="link">pygeodesy.latlonDMS</a>, <a 
+        href="pygeodesy.dms-module.html#latDMS" 
+        class="link">pygeodesy.latDMS</a> and <a 
+        href="pygeodesy.dms-module.html#lonDMS" 
+        class="link">pygeodesy.lonDMS</a> and <a 
+        href="pygeodesy.dms-module.html#toDMS" 
+        class="link">pygeodesy.toDMS</a> and method 
+        <code>LatLon.toStr</code>.
       </p>
       <p><strong>Note:</strong>
-        Keyword argument <code><b>sep</b>=None</code> to return a 
-        <code>str</code>ing instead of the <code>tuple</code>, has been 
+        Keyword argument <code><b>sep</b>=None</code> to join a 
+        <code>str</code>ing from the returned <code>tuple</code> has been 
         <i>DEPRECATED</i>, use 
-        <code><b>sep</b>.join(<b>latlonDMS_</b>(...))</code>.
+        <code><b>sep</b>.join(<b>latlonDMS_</b>(...))</code> instead.
       </p>
 </div></td></tr></table>
 </div>
@@ -23573,7 +23568,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         <a 
-        href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Ellipsoid.html"
+        href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Ellipsoid.html"
         target="_top">Eccentricity conversions</a> and <a 
         href="https://WikiPedia.org/wiki/Flattening" 
         target="_top">Flattening</a>.
@@ -25446,7 +25441,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>form</code></b> or <b><code>prec</code></b> or 
-        <b><code>prec</code></b> outside the valid range <code>-/+9</code>.</li>
+        <b><code>prec</code></b> outside range <code>-9..+9</code>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -28871,8 +28866,8 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <li><strong class="pname"><code>where</code></strong> - Class, function, method (<code>type</code>) or name 
           (<code>str</code>).</li>
         <li><strong class="pname"><code>args</code></strong> - Optional positional arguments.</li>
-        <li><strong class="pname"><code>kwds</code></strong> - Optional keyword arguments, except 
-          <code><b>_ELLIPSIS</b>=False</code>.</li>
+        <li><strong class="pname"><code>kwds</code></strong> - Optional keyword arguments, except <code><b>_fmt</b>=Fmt.g</code>
+          and <code><b>_ELLIPSIS</b>=False</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Representation (<code>str</code>).</dd>
@@ -29901,7 +29896,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Mar 10 16:19:41 2024
+    Generated by Epydoc 3.0.1 on Fri Mar 22 10:57:44 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -4,7 +4,7 @@
 # Test L{datums} and transforms.
 
 __all__ = ('Tests',)
-__version__ = '23.03.27'
+__version__ = '24.03.18'
 
 from bases import TestsBase
 
@@ -44,8 +44,9 @@ class Tests(TestsBase):
         self.test(S.name, _spherical_datum(R_M) is S, True)
 
     def testDatums(self):
+        self.test(all.__name__, Datums.register(all), all.__name__, nl=1)
         n = 0
-        for _, d in Datums.items(all=True, asorted=True):
+        for _, d in Datums.items(asorted=True):
             self.test(d.name, d, d, nl=1)
             e = d.ellipsoid
             self.test(e.name, e, e)

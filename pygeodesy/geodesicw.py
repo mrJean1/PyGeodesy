@@ -18,7 +18,7 @@ from pygeodesy.constants import EPS, NAN, _EPSqrt as _TOL, _0_5
 from pygeodesy.datums import _earth_datum, _WGS84,  _EWGS84
 # from pygeodesy.dms import F_D  # from .latlonBase
 # from pygeodesy.ellipsoids import _EWGS84  # from .datums
-from pygeodesy.errors import IntersectionError, GeodesicError
+from pygeodesy.errors import IntersectionError, GeodesicError, _xkwds_pop2
 from pygeodesy.fsums import Fsum,  Fmt, unstr
 from pygeodesy.interns import NN, _DOT_, _dunder_nameof, _SPACE_, \
                              _to_, _too_,_under
@@ -37,7 +37,7 @@ from contextlib import contextmanager
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.geodesicw
-__version__ = '24.02.21'
+__version__ = '24.03.22'
 
 _plumb_ = 'plumb'
 _TRIPS  =  65
@@ -64,19 +64,22 @@ class _gWrapped(_kWrapped):
             _datum   = _WGS84
             _debug   =  0  # like .geodesicx.bases._GeodesicBase
             LINE_OFF =  0  # in .azimuthal._GnomonicBase and .css.CassiniSoldner
+            _name    =  NN
 
             def __init__(self, a_ellipsoid=_EWGS84, f=None, name=NN):  # PYCHOK signature
                 '''New I{wrapped} C{geodesic.Geodesic} instance.
 
-                   @arg a_ellipsoid: An ellipsoid (L{Ellipsoid}) or datum (L{Datum})
-                          or the equatorial radius I{a} of the ellipsoid (C{meter}).
-                   @arg f: The flattening of the ellipsoid (C{scalar}), ignored if
-                           B{C{a_ellipsoid}) is not specified as C{scalar}.
-                   @kwarg name: Optional ellipsoid name (C{str}), ignored like B{C{f}}.
+                   @arg a_ellipsoid: The equatorial radius I{a} (C{meter}, conventionally),
+                                     an ellipsoid (L{Ellipsoid}) or a datum (L{Datum}).
+                   @arg f: The ellipsoid's flattening (C{scalar}), ignored if B{C{a_ellipsoid})
+                           is not C{meter}.
+                   @kwarg name: Optional name (C{str}).
                 '''
                 _earth_datum(self, a_ellipsoid, f=f, name=name)  # raiser=NN
                 with _wargs(self, *self.ellipsoid.a_f, name=name) as args:
                     _Geodesic.__init__(self, *args)
+                if name:
+                    self._name = str(name)
 
             def ArcDirect(self, lat1, lon1, azi1, a12, outmask=Caps._STD):
                 '''Return the C{_Geodesic.ArcDirect} result as L{GDict}.
@@ -85,10 +88,10 @@ class _gWrapped(_kWrapped):
                     d = _Geodesic.ArcDirect(self, *args)
                 return GDict(d)
 
-            def ArcDirectLine(self, lat1, lon1, azi1, a12, caps=Caps._STD_LINE):
+            def ArcDirectLine(self, lat1, lon1, azi1, a12, caps=Caps._STD_LINE, **name):
                 '''Return the C{_Geodesic.ArcDirectLine} as I{wrapped} C{GeodesicLine}.
                 '''
-                return self._GenDirectLine(lat1, lon1, azi1, True, a12, caps)
+                return self._GenDirectLine(lat1, lon1, azi1, True, a12, caps, **name)
 
             Area = _Geodesic.Polygon  # like GeodesicExact.Area
 
@@ -130,10 +133,10 @@ class _gWrapped(_kWrapped):
                 '''
                 return self.DirectLine(ll1.lat, ll1.lon, azi12, s12, **caps_name)
 
-            def DirectLine(self, lat1, lon1, azi1, s12, caps=Caps._STD_LINE):
+            def DirectLine(self, lat1, lon1, azi1, s12, caps=Caps._STD_LINE, **name):
                 '''Return the C{_Geodesic.DirectLine} as I{wrapped} C{GeodesicLine}.
                 '''
-                return self._GenDirectLine(lat1, lon1, azi1, False, s12, caps)
+                return self._GenDirectLine(lat1, lon1, azi1, False, s12, caps, **name)
 
             @Property_RO
             def ellipsoid(self):
@@ -161,13 +164,13 @@ class _gWrapped(_kWrapped):
                     t = _Geodesic._GenInverse(self, *args)
                 return Inverse10Tuple(t).toGDict(lon1=lon1, lon2=lon2)  # *t
 
-            def _GenDirectLine(self, lat1, lon1, azi1, arcmode, s12_a12, *caps):
+            def _GenDirectLine(self, lat1, lon1, azi1, arcmode, s12_a12, *caps, **name):
                 '''(INTERNAL) Invoked by C{_Geodesic.DirectLine} and C{-.ArcDirectLine},
                    returning the result as a I{wrapped} C{GeodesicLine}.
                 '''
-                with _wargs(self, lat1, lon1, azi1, arcmode, s12_a12, *caps) as args:
+                with _wargs(self, lat1, lon1, azi1, arcmode, s12_a12, *caps, **name) as args:
                     t = _Geodesic._GenDirectLine(self, *args)
-                return self._Line13(t)
+                return self._Line13(t, **name)
 
             def _Inverse(self, ll1, ll2, wrap, **outmask):
                 '''(INTERNAL) Short-cut version, see .ellipsoidalBaseDI.intersecant2.
@@ -211,27 +214,33 @@ class _gWrapped(_kWrapped):
                     ll2 = _unrollon(ll1, _Wrap.point(ll2))
                 return self.InverseLine(ll1.lat, ll1.lon, ll2.lat, ll2.lon, **caps_name)
 
-            def InverseLine(self, lat1, lon1, lat2, lon2, caps=Caps._STD_LINE):
+            def InverseLine(self, lat1, lon1, lat2, lon2, caps=Caps._STD_LINE, **name):
                 '''Return the C{_Geodesic.InverseLine} as I{wrapped} C{GeodesicLine}.
                 '''
-                with _wargs(self, lat1, lon1, lat2, lon2, caps) as args:
+                with _wargs(self, lat1, lon1, lat2, lon2, caps, **name) as args:
                     t = _Geodesic.InverseLine(self, *args)
-                return self._Line13(t)
+                return self._Line13(t, **name)
 
-            def Line(self, lat1, lon1, azi1, caps=Caps._STD_LINE):
+            def Line(self, lat1, lon1, azi1, caps=Caps._STD_LINE, **name):
                 '''Set up a I{wrapped} C{GeodesicLine} to compute several points
                    along a single, I{wrapped} (this) geodesic.
                 '''
-                return _wrapped.GeodesicLine(self, lat1, lon1, azi1, caps=caps)
+                return _wrapped.GeodesicLine(self, lat1, lon1, azi1, caps=caps, **name)
 
-            def _Line13(self, t):
+            def _Line13(self, t, **name):
                 '''(INTERNAL) Wrap C{_GeodesicLine}, add distance and arc length
                    to reference point 3.
                 '''
                 gl = _wrapped.GeodesicLine(self, t.lat1, t.lon1, t.azi1, caps=t.caps,
-                                                         salp1=t.salp1, calp1=t.calp1)
+                                                 salp1=t.salp1, calp1=t.calp1, **name)
                 gl.a13, gl.s13 = t.a13, t.s13
                 return gl
+
+            @property_RO
+            def name(self):
+                '''Get the name (C{str}).
+                '''
+                return self._name
 
 #           Polygon = _Geodesic.Polygon
 
@@ -255,22 +264,27 @@ class _gWrapped(_kWrapped):
                <https://PyPI.org/project/geographiclib>} class.
             '''
             _geodesic = None
+            _name     = NN
 
-            def __init__(self, geodesic, lat1, lon1, azi1, **caps_):  # salp1=NAN, calp1=NAN
+            def __init__(self, geodesic, lat1, lon1, azi1, **caps_name_):  # salp1=NAN, calp1=NAN, name=NN
                 '''New I{wrapped} C{geodesicline.GeodesicLine} instance.
 
                    @arg geodesic: A I{wrapped} C{Geodesic} instance.
                    @arg lat1: Latitude of the first points (C{degrees}).
                    @arg lon1: Longitude of the first points (C{degrees}).
                    @arg azi1: Azimuth at the first points (compass C{degrees360}).
-                   @kwarg caps_: Optional, bit-or'ed combination of L{Caps} values
-                                 specifying the capabilities the C{GeodesicLine}
-                                 instance should possess (plus optional keyword
-                                 arguments C{salp1=NAN} and C{calp1=NAN}).
+                   @kwarg caps_name_: Optional keyword arguments C{B{caps}=Caps.STANDARD},
+                               a bit-or'ed combination of L{Caps} values specifying the
+                               capabilities the C{GeodesicLine} instance should possess,
+                               an optional C{B{name}=NN} plus C{salp1=NAN} and C{calp1=NAN}
+                               for I{INTERNAL} use.
                 '''
                 _xinstanceof(_wrapped.Geodesic, geodesic=geodesic)
-                with _wargs(self, geodesic, lat1, lon1, azi1, **caps_) as args:
+                with _wargs(self, geodesic, lat1, lon1, azi1, **caps_name_) as args:
+                    name, caps_ = _xkwds_pop2(caps_name_, name=geodesic.name)
                     _GeodesicLine.__init__(self, *args, **caps_)
+                    if name:
+                        self._name = str(name)
                 self._geodesic = geodesic
 
             @Property_RO
@@ -464,7 +478,7 @@ class _wargs(object):  # see also .formy._idllmn6, .latlonBase._toCartesian3, .v
         '''
         try:
             yield args
-        except (AttributeError, TypeError, ValueError) as x:
+        except Exception as x:
             n = _DOT_(classname(inst), callername(up=3, underOK=True))
             raise GeodesicError(unstr(n, *args, **kwds), cause=x)
 
@@ -486,7 +500,7 @@ def _Intersecant2(gl, lat0, lon0, radius, tol=_TOL, form=F_D):  # MCCABE in LatL
         d = _I(lat0, lon0, P.lat2, P.lon2)
         return _a(d.s12), P, d
 
-    def _bisect2(s, c, Rc, r, tol):
+    def _bisect2(s, c, Rc, r, tol, _R3):
         _s = Fsum(c).fsumf_
         for i in range(_TRIPS):
             b = _s(s)
@@ -521,8 +535,8 @@ def _Intersecant2(gl, lat0, lon0, radius, tol=_TOL, form=F_D):  # MCCABE in LatL
         if a < r:
             c =  C.s12  # distance along pseudo-rhumb line
             h = _copysign(r, c)  # past half chord length
-            P, p = _bisect2( h, c, a, r, tol)
-            Q, q = _bisect2(-h, c, a, r, tol)
+            P, p = _bisect2( h, c, a, r, tol, _R3)
+            Q, q = _bisect2(-h, c, a, r, tol, _R3)
             if _a(p - q) < max(EPS, tol):
                 Q = P
         elif a > r:
