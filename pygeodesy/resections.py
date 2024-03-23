@@ -12,16 +12,16 @@ L{triAngle}, L{triAngle5}, L{triSide}, L{triSide2} and L{triSide4}.
 # make sure int/int division yields float quotient
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import map1, _ALL_LAZY
+from pygeodesy.basics import map1, _zip,  _ALL_LAZY
 from pygeodesy.constants import EPS, EPS0, EPS02, INT0, NEG0, PI, PI2, PI_2, PI_4, \
                                _0_0, _0_5, _1_0, _N_1_0, _2_0, _N_2_0, _4_0, _16_0, \
                                _180_0, _360_0, isnear0, _over, _umod_360
-from pygeodesy.errors import _and, _or, TriangleError, _ValueError, _xkwds
+from pygeodesy.errors import _and, _or, TriangleError, _ValueError, _xkwds, _xkwds_pop2
 from pygeodesy.fmath import favg, Fdot, fidw, fmean, hypot, hypot2_
 from pygeodesy.fsums import Fsum, fsumf_, fsum1, fsum1f_
 from pygeodesy.interns import _a_, _A_, _area_, _b_, _B_, _c_, _C_, _coincident_, \
-                              _colinear_, _d_, _eps_, _invalid_, _negative_, \
-                              _not_, _rIn_, _SPACE_
+                              _colinear_, _d_, _eps_, _invalid_, _negative_, _not_, \
+                              _rIn_, _SPACE_
 # from pygeodesy.lazily import _ALL_LAZY  # from .basics
 from pygeodesy.named import _NamedTuple, _Pass,  Fmt
 # from pygeodesy.streprs import Fmt  # from .named
@@ -32,7 +32,7 @@ from pygeodesy.vector3d import _otherV3d, Vector3d
 from math import cos, atan2, degrees, fabs, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.resections
-__version__ = '23.11.21'
+__version__ = '24.03.23'
 
 _concyclic_ = 'concyclic'
 _PA_        = 'PA'
@@ -54,6 +54,14 @@ class Collins5Tuple(_NamedTuple):
     '''
     _Names_ = (_pointP_, _pointH_, _a_,      _b_,      _c_)
     _Units_ = (_Pass,    _Pass,     Distance, Distance, Distance)
+
+
+def _F1(*xs):  # class
+    '''(INTERNAL) An L{Fsum}, 1-primed.
+    '''
+    F  =  Fsum(_1_0, *xs)
+    F += _N_1_0
+    return F
 
 
 class ResectionError(_ValueError):
@@ -123,7 +131,7 @@ def _B3(useZ, point1, point2, point3):
             _otherV3d(useZ=useZ, point3=point3))
 
 
-def cassini(pointA, pointB, pointC, alpha, beta, useZ=False, Clas=None, **Clas_kwds):
+def cassini(pointA, pointB, pointC, alpha, beta, useZ=False, **Clas_and_kwds):
     '''3-Point resection using U{Cassini<https://NL.WikiPedia.org/wiki/Achterwaartse_insnijding>}'s method.
 
        @arg pointA: First point (C{Cartesian}, L{Vector3d}, C{Vector3Tuple},
@@ -138,10 +146,9 @@ def cassini(pointA, pointB, pointC, alpha, beta, useZ=False, Clas=None, **Clas_k
                   (C{degrees}, non-negative).
        @kwarg useZ: If C{True}, use and interpolate the Z component, otherwise
                     force C{z=INT0} (C{bool}).
-       @kwarg Clas: Optional class to return the survey point or C{None} for
-                    B{C{pointA}}'s (sub-)class.
-       @kwarg Clas_kwds: Optional, additional keyword argument for the survey
-                         point instance.
+       @kwarg Clas_and_kwds: Optional class C{B{Clas}=B{pointA}.classof} to
+                   return the survey point with optionally other B{C{Clas}}
+                   keyword arguments for the survey point instance.
 
        @note: Typically, B{C{pointC}} is between B{C{pointA}} and B{C{pointB}}.
 
@@ -194,16 +201,21 @@ def cassini(pointA, pointB, pointC, alpha, beta, useZ=False, Clas=None, **Clas_k
         x =  Fdot(t, C.x, x1, C.y, y1).fover(N)
         y =  Fdot(t, y1, C.y, C.x, x1).fover(N)
         z = _zidw(x, y, useZ, A, B, C)
-
-        clas = Clas or pointA.classof
-        return clas(x, y, z, **_xkwds(Clas_kwds, name=cassini.__name__))
+        return _Clas(cassini, pointA, Clas_and_kwds, x, y, z)
 
     except (TypeError, ValueError) as x:
         raise ResectionError(pointA=pointA, pointB=pointB, pointC=pointC,
                              alpha=alpha, beta=beta, cause=x)
 
 
-def collins5(pointA, pointB, pointC, alpha, beta, useZ=False, Clas=None, **Clas_kwds):
+def _Clas(where, point, Clas_and_kwds, *args):
+    '''(INTERNAL) Return a C{B{Clas}=point.classof} survey point.
+    '''
+    Clas, kwds = _xkwds_pop2(Clas_and_kwds, Clas=point.classof)
+    return Clas(*args, **_xkwds(kwds, name=where.__name__))
+
+
+def collins5(pointA, pointB, pointC, alpha, beta, useZ=False, **Clas_and_kwds):
     '''3-Point resection using U{Collins<https://Dokumen.tips/documents/
        three-point-resection-problem-introduction-kaestner-burkhardt-method.html>}' method.
 
@@ -219,10 +231,9 @@ def collins5(pointA, pointB, pointC, alpha, beta, useZ=False, Clas=None, **Clas_
                   B{C{pointC}} (C{degrees}, non-negative).
        @kwarg useZ: If C{True}, use and interpolate the Z component, otherwise
                     force C{z=INT0} (C{bool}).
-       @kwarg Clas: Optional class to return the survey and auxiliary point
-                    or C{None} for B{C{pointA}}'s (sub-)class.
-       @kwarg Clas_kwds: Optional, additional keyword argument for the survey
-                         and auxiliary point instance.
+       @kwarg Clas_and_kwds: Optional class C{B{Clas}=B{pointA}.classof} to
+                   return the survey point with optionally other B{C{Clas}}
+                   keyword arguments for the survey point instance.
 
        @note: Typically, B{C{pointC}} is between B{C{pointA}} and B{C{pointB}}.
 
@@ -241,19 +252,19 @@ def collins5(pointA, pointB, pointC, alpha, beta, useZ=False, Clas=None, **Clas_
              L{pygeodesy.tienstra7}.
     '''
 
-    def _azi_len2(A, B, pi2):
+    def _azi_len2(A, B, pi2=PI2):
         v = B.minus(A)
         r = atan2(v.x, v.y)
-        if pi2 and r < 0:
+        if r < 0 and pi2:
             r += pi2
         return r, v.length
 
-    def _cV3(d, r, A, B, C, useZ, V3, **kwds):
+    def _xyz(d, r, A, B, C, useZ):
         s, c = sincos2(r)
         x =  A.x + d * s
         y =  A.y + d * c
         z = _zidw(x, y, useZ, A, B, C)
-        return V3(x, y, z, **kwds)
+        return x, y, z
 
     A, B, C = _ABC3(useZ, pointA, pointB, pointC)
     try:
@@ -265,26 +276,24 @@ def collins5(pointA, pointB, pointC, alpha, beta, useZ=False, Clas=None, **Clas_
         if isnear0(sra) or isnear0(srH):
             raise ValueError(_or(_coincident_, _colinear_, _concyclic_))
 
-        clas =  Clas or pointA.classof
-        kwds = _xkwds(Clas_kwds, name=collins5.__name__)
-
-#       za, a = _azi_len2(C, B, PI2)
-        zb, b = _azi_len2(C, A, PI2)
+#       za, a = _azi_len2(C, B)
+        zb, b = _azi_len2(C, A)
         zc, c = _azi_len2(A, B, 0)
 
 #       d =  c * sin(PI - rb) / srH  # B.minus(H).length
         d =  c * sin(PI - ra) / srH  # A.minus(H).length
         r =  zc + PI - rb  # zh = zc + (PI - rb)
-        H = _cV3(d, r, A, B, C, useZ, Vector3d)
+        H = _xyz(d, r, A, B, C, useZ)
 
-        zh, _ = _azi_len2(C, H, PI2)
+        zh, _ = _azi_len2(C, Vector3d(*H))
 
 #       d =  a * sin(za - zh) / sin(rb)  # B.minus(P).length
         d =  b * sin(zb - zh) / sra  # A.minus(P).length
         r =  zh - ra  # zb - PI + (PI - ra - (zb - zh))
-        P = _cV3(d, r, A, B, C, useZ, clas, **kwds)
+        P = _xyz(d, r, A, B, C, useZ)
+        P = _Clas(collins5, pointA, Clas_and_kwds, *P)
 
-        H =  clas(H.x, H.y, H.z, **kwds)
+        H = _Clas(collins5, pointA, Clas_and_kwds, *H)
         a =  B.minus(C).length
 
         return Collins5Tuple(P, H, a, b, c, name=collins5.__name__)
@@ -295,7 +304,7 @@ def collins5(pointA, pointB, pointC, alpha, beta, useZ=False, Clas=None, **Clas_
 
 
 def pierlot(point1, point2, point3, alpha12, alpha23, useZ=False, eps=EPS,
-                                                      Clas=None, **Clas_kwds):
+                                                    **Clas_and_kwds):
     '''3-Point resection using U{Pierlot<http://www.Telecom.ULg.ac.BE/publi/publications/
        pierlot/Pierlot2014ANewThree>}'s method C{ToTal} with I{approximate} limits for
        the (pseudo-)singularities.
@@ -313,16 +322,15 @@ def pierlot(point1, point2, point3, alpha12, alpha23, useZ=False, eps=EPS,
        @kwarg useZ: If C{True}, interpolate the survey point's Z component,
                     otherwise use C{z=INT0} (C{bool}).
        @kwarg eps: Tolerance for C{cot} (pseudo-)singularities (C{float}).
-       @kwarg Clas: Optional class to return the survey point, if C{None} use
-                    B{C{point1}}'s (sub-)class.
-       @kwarg Clas_kwds: Optional, additional keyword arguments for the survey
-                         point instance.
+       @kwarg Clas_and_kwds: Optional class C{B{Clas}=B{point1}.classof} to
+                   return the survey point with optionally other B{C{Clas}}
+                   keyword arguments for the survey point instance.
 
        @note: Typically, B{C{point1}}, B{C{point2}} and B{C{point3}} are ordered
               by angle, modulo 360, counter-clockwise.
 
        @return: The survey (or robot) point, an instance of B{C{Clas}} or if
-                C{B{Clas} is None} an instance of B{C{point1}}'s (sub-)class.
+                C{B{Clas}=None} an instance of B{C{point1}}'s (sub-)class.
 
        @raise ResectionError: Near-coincident, -colinear or -concyclic points
                               or invalid B{C{alpha12}} or B{C{alpha23}} or
@@ -330,7 +338,7 @@ def pierlot(point1, point2, point3, alpha12, alpha23, useZ=False, eps=EPS,
 
        @raise TypeError: Invalid B{C{point1}}, B{C{point2}} or B{C{point3}}.
 
-       @see: I{Pierlot's} C function U{triangulationPierlot<http://www.Telecom.ULg.ac.BE/
+       @see: I{Pierlot}'s C function U{triangulationPierlot<http://www.Telecom.ULg.ac.BE/
              triangulation/doc/total_8c_source.html>}, U{V. Pierlot, M. Van Droogenbroeck,
              "A New Three Object Triangulation Algorithm for Mobile Robot Positioning"
              <https://ORBi.ULiege.BE/bitstream/2268/157469/1/Pierlot2014ANewThree.pdf>},
@@ -347,9 +355,8 @@ def pierlot(point1, point2, point3, alpha12, alpha23, useZ=False, eps=EPS,
 
     B1, B2, B3 = _B3(useZ, point1, point2, point3)
     try:
-        x, y, z = _pierlot3(B1, B2, B3, alpha12, alpha23, useZ, _cot)
-        clas = Clas or point1.classof
-        return clas(x, y, z, **_xkwds(Clas_kwds, name=pierlot.__name__))
+        xyz = _pierlot3(B1, B2, B3, alpha12, alpha23, useZ, _cot)
+        return _Clas(pierlot, point1, Clas_and_kwds, *xyz)
 
     except (TypeError, ValueError) as x:
         raise ResectionError(point1=point1, point2=point2, point3=point3,
@@ -367,12 +374,12 @@ def _pierlot3(B1, B2, B3, a12, a23, useZ, cot):
     #       = (1 - c12 / s12 * c23 / s23) / (c12 / s12 + c23 / s23)
     #       = (1 - (c12 * c23) / (s12 * s23)) / (c12 * s23 + s12 * c23) / (s12 * s23)
     #       = (s12 * s23 - c12 * c23) / (c12 * s23 + s12 * c23)
-    #       =           c31           /           s31
+    #       =  c31 / s31
     cot31 = cot(fsum1f_(c12 * s23,  s12 * c23),  # s31
                 fsum1f_(s12 * s23, -c12 * c23))  # c31
 
-    K = Fsum(x3_ * x1_,  cot31 * (y3_ * x1_),
-             y3_ * y1_, -cot31 * (x3_ * y1_))
+    K = _F1(x3_ * x1_,  cot31 * (y3_ * x1_),
+            y3_ * y1_, -cot31 * (x3_ * y1_))
     if K:
         cot12 = cot(s12, c12)
         cot23 = cot(s23, c23)
@@ -387,81 +394,30 @@ def _pierlot3(B1, B2, B3, a12, a23, useZ, cot):
         # y31 = y3_ + y1_ - cot31 * (x3_ - x1_)
 
         # x12 - x23 = x1_ + cot12 * y1_ - x3_ + cot23 * y3_
-        X12_23 = Fsum(x1_,  cot12 * y1_, -x3_,  cot23 * y3_)
+        X12_23 = _F1(x1_,  cot12 * y1_, -x3_,  cot23 * y3_)
         # y12 - y23 = y1_ - cot12 * x1_ - y3_ - cot23 * x3_
-        Y12_23 = Fsum(y1_, -cot12 * x1_, -y3_, -cot23 * x3_)
+        Y12_23 = _F1(y1_, -cot12 * x1_, -y3_, -cot23 * x3_)
 
         # x31 - x23 = x3_ + x1_ + cot31 * (y3_ - y1_) - x3_ + cot23 * y3_
         #           = x1_ + cot31 * y3_ - cot31 * y1_ + cot23 * y3_
-        X31_23 = Fsum(x1_, -cot31 * y1_,  cot31 * y3_,  cot23 * y3_)
+        X31_23 = _F1(x1_, -cot31 * y1_,  cot31 * y3_,  cot23 * y3_)
         # y31 - y23 = y3_ + y1_ - cot31 * (x3_ - x1_) - y3_ - cot23 * x3_
         #           = y1_ - cot31 * x3_ + cot31 * x1_ - cot23 * x3_
-        Y31_23 = Fsum(y1_,  cot31 * x1_, -cot31 * x3_, -cot23 * x3_)
+        Y31_23 = _F1(y1_,  cot31 * x1_, -cot31 * x3_, -cot23 * x3_)
 
         # d = (x12 - x23) * (y23 - y31) + (x31 - x23) * (y12 - y23)
-        #   = (x31 - x23) * (y12 - y23) - (x12 - x23) * (y12 - y23)
-        d = float(X31_23 * Y12_23 - X12_23 * Y31_23)
-        if isnear0(d):
-            raise ValueError(_or(_coincident_, _colinear_, _concyclic_))
-
-        x = (B2.x * d + K * Y12_23).fover(d)
-        y = (B2.y * d - K * X12_23).fover(d)
+        #   = (x31 - x23) * (y12 - y23) - (x12 - x23) * (y31 - y23)
+        # x = (d * B2.x + K * Y12_23).fover(d)
+        # y = (d * B2.y - K * X12_23).fover(d)
+        x, y = _pierlotxy2(B2, -K, Y12_23, X12_23, (X31_23 * Y12_23 -
+                                                    X12_23 * Y31_23))
     else:
         x, y, _ = B2.xyz
     return x, y, _zidw(x, y, useZ, B1, B2, B3)
 
 
-def _pierlotx3(a_z_Bs, useZ, cot, C):
-    '''(INTERNAL) Core of L{pierlotx}.
-    '''
-    (a12, z12, B1), \
-    (a23, z23, B2), \
-    (a31, z31, B3) = a_z_Bs
-    if z12 and not z23:
-        C(1)
-    elif z23 and not z31:
-        C(2)
-        a23, B1, B2, B3 = a31, B2, B3, B1
-    elif z31 and not z12:
-        C(3)
-        a23,     B2, B3 = a12,     B3, B2
-    else:
-        C(4)
-        return _pierlot3(B1, B2, B3, a12, a23, useZ, cot)
-
-    x1_, y1_, _ = B1.minus(B3).xyz
-    x2_, y2_, _ = B2.minus(B3).xyz
-
-    K = Fsum(_1_0, y1_ * x2_, -x1_ * y2_, _N_1_0)  # 1-primed
-    if K:
-        cot23 = cot(*sincos2d(a23))
-
-        # x23 = x2_ + cot23 * y2_
-        # y23 = y2_ - cot23 * x2_
-
-        # x31 = x1_ + cot23 * y1_
-        # y31 = y1_ - cot23 * x1_
-
-        # x31 - x23 = x1_ + cot23 * y1_ - x2_ - cot23 * y2_
-        X31_23 = Fsum(x1_,  cot23 * y1_, -x2_, -cot23 * y2_)
-        # y31 - y23 = y1_ - cot23 * x1_ - y2_ + cot23 * x2_
-        Y31_23 = Fsum(y1_, -cot23 * x1_, -y2_,  cot23 * x2_)
-
-        # d = (x31 - x23) * (x2_ - x1_) - (y31 - y23) * (y1_ - y2_)
-        d = float(X31_23 * x2_ - X31_23 * x1_ +
-                  Y31_23 * y2_ - Y31_23 * y1_)
-        if isnear0(d):
-            raise ValueError(_or(_coincident_, _colinear_, _concyclic_))
-
-        x = (B3.x * d - K * Y31_23).fover(d)
-        y = (B3.y * d + K * X31_23).fover(d)
-    else:
-        x, y, _ = B3.xyz
-    return x, y, _zidw(x, y, useZ, B1, B2, B3)
-
-
 def pierlotx(point1, point2, point3, alpha1, alpha2, alpha3, useZ=False,
-                                                     Clas=None, **Clas_kwds):
+                                                           **Clas_and_kwds):
     '''3-Point resection using U{Pierlot<http://www.Telecom.ULg.ac.BE/publi/
        publications/pierlot/Pierlot2014ANewThree>}'s method C{ToTal} with
        I{exact} limits for the (pseudo-)singularities.
@@ -477,27 +433,27 @@ def pierlotx(point1, point2, point3, alpha1, alpha2, alpha3, useZ=False,
        @arg alpha3: Angle at B{C{point3}} (C{degrees}, counter-clockwise).
        @kwarg useZ: If C{True}, interpolate the survey point's Z component,
                     otherwise use C{z=INT0} (C{bool}).
-       @kwarg Clas: Optional class to return the survey point, if C{None} use
-                    B{C{point1}}'s (sub-)class.
-       @kwarg Clas_kwds: Optional, additional keyword arguments for the survey
-                         point instance.
+       @kwarg Clas_and_kwds: Optional class C{B{Clas}=B{point1}.classof} to
+                   return the survey point with optionally other B{C{Clas}}
+                   keyword arguments for the survey point instance.
 
        @return: The survey (or robot) point, an instance of B{C{Clas}} or if
-                C{B{Clas} is None} an instance of B{C{point1}}'s (sub-)class.
+                C{B{Clas}=None} an instance of B{C{point1}}'s (sub-)class.
 
        @raise ResectionError: Near-coincident, -colinear or -concyclic points or
                               invalid B{C{alpha1}}, B{C{alpha2}} or B{C{alpha3}}.
 
        @raise TypeError: Invalid B{C{point1}}, B{C{point2}} or B{C{point3}}.
 
-       @see: I{Pierlot's} C function U{triangulationPierlot2<http://www.Telecom.ULg.ac.BE/
+       @see: I{Pierlot}'s C function U{triangulationPierlot2<http://www.Telecom.ULg.ac.BE/
              triangulation/doc/total_8c_source.html>} and function L{pygeodesy.pierlot}.
     '''
 
     def _a_z_Bs(Bs, *alphas):
         a3 = map(_umod_360, alphas)  # 0 <= alphas < 360
-        (a1, a2, a3), (B1, B2, B3) = zip(*sorted(zip(a3, Bs)))
-        for a, d, B in ((a1, a2, B1), (a2, a3, B2), (a3, a1, B3)):
+        a3, Bs = zip(*sorted(_zip(a3, Bs)))  # unzip
+        d3 = a3[1:] + a3[:1]  # rotate(a3)
+        for a, d, B in _zip(a3, d3, Bs):
             d -= a  # a12 = a2 - a1, ...
             z  = isnear0(fabs(d) % _180_0)
             yield d, z, B
@@ -510,15 +466,71 @@ def pierlotx(point1, point2, point3, alpha1, alpha2, alpha3, useZ=False,
 
     Bs = _B3(useZ, point1, point2, point3)
     try:
-        C = [0]  # pseudo-global, passing the exception Case
-        x, y, z = _pierlotx3(_a_z_Bs(Bs, alpha1, alpha2, alpha3),
-                              useZ, _cot, C.append)
-        clas = Clas or point1.classof
-        return clas(x, y, z, **_xkwds(Clas_kwds, name=pierlotx.__name__))
+        Cs  = [0]  # pseudo-global, passing the exception Case
+        xyz = _pierlotx3(_a_z_Bs(Bs, alpha1, alpha2, alpha3),
+                         useZ, _cot, Cs.append)
+        return _Clas(pierlotx, point1, Clas_and_kwds, *xyz)
 
     except (TypeError, ValueError) as x:
-        raise ResectionError(point1=point1, point2=point2, point3=point3, C=C.pop(),
+        raise ResectionError(point1=point1, point2=point2, point3=point3, C=Cs.pop(),
                              alpha1=alpha1, alpha2=alpha2, alpha3=alpha3, cause=x)
+
+
+def _pierlotx3(a_z_Bs, useZ, cot, Cs):
+    '''(INTERNAL) Core of L{pierlotx}.
+    '''
+    (a12, z12, B1), \
+    (a23, z23, B2), \
+    (a31, z31, B3) = a_z_Bs
+    if z12 and not z23:
+        Cs(1)
+    elif z23 and not z31:
+        Cs(2)
+        a23, B1, B2, B3 = a31, B2, B3, B1
+    elif z31 and not z12:
+        Cs(3)
+        a23,     B2, B3 = a12,     B3, B2
+    else:
+        Cs(4)
+        return _pierlot3(B1, B2, B3, a12, a23, useZ, cot)
+
+    x1_, y1_, _ = B1.minus(B3).xyz
+    x2_, y2_, _ = B2.minus(B3).xyz
+
+    K = _F1(y1_ * x2_, -x1_ * y2_)
+    if K:
+        cot23 = cot(*sincos2d(a23))
+
+        # x23 = x2_ + cot23 * y2_
+        # y23 = y2_ - cot23 * x2_
+
+        # x31 = x1_ + cot23 * y1_
+        # y31 = y1_ - cot23 * x1_
+
+        # x31 - x23 = x1_ + cot23 * y1_ - x2_ - cot23 * y2_
+        X31_23 = _F1(x1_,  cot23 * y1_, -x2_, -cot23 * y2_)
+        # y31 - y23 = y1_ - cot23 * x1_ - y2_ + cot23 * x2_
+        Y31_23 = _F1(y1_, -cot23 * x1_, -y2_,  cot23 * x2_)
+
+        # d = (x31 - x23) * (x2_ - x1_) + (y31 - y23) * (y2_ - y1_)
+        # x = (D * B3.x - K * Y31_23).fover(d)
+        # y = (D * B3.y + K * X31_23).fover(d)
+        x, y = _pierlotxy2(B3, K, Y31_23, X31_23, (X31_23 * _F1(x2_, -x1_) +
+                                                   Y31_23 * _F1(y2_, -y1_)))
+    else:
+        x, y, _ = B3.xyz
+    return x, y, _zidw(x, y, useZ, B1, B2, B3)
+
+
+def _pierlotxy2(B, K, X, Y, D):
+    '''(INTERNAL) Helper for C{_pierlot3} and C{_pierlotx3}.
+    '''
+    d = float(D)
+    if isnear0(d):
+        raise ValueError(_or(_coincident_, _colinear_, _concyclic_))
+    x = (D * B.x - K * X).fover(d)
+    y = (D * B.y + K * Y).fover(d)
+    return x, y
 
 
 def snellius3(a, b, degC, alpha, beta):
@@ -576,7 +588,7 @@ def snellius3(a, b, degC, alpha, beta):
 
 
 def tienstra7(pointA, pointB, pointC, alpha, beta=None, gamma=None,
-                                             useZ=False, Clas=None, **Clas_kwds):
+                                             useZ=False, **Clas_and_kwds):
     '''3-Point resection using U{Tienstra<https://WikiPedia.org/wiki/Tienstra_formula>}'s formula.
 
        @arg pointA: First point (C{Cartesian}, L{Vector3d}, C{Vector3Tuple}, C{Vector4Tuple} or
@@ -593,9 +605,9 @@ def tienstra7(pointA, pointB, pointC, alpha, beta=None, gamma=None,
                      (C{degrees}, non-negative) or C{None} if C{B{beta} is not None}.
        @kwarg useZ: If C{True}, use and interpolate the Z component, otherwise force C{z=INT0}
                     (C{bool}).
-       @kwarg Clas: Optional class to return the survey point or C{None} for B{C{pointA}}'s
-                    (sub-)class.
-       @kwarg Clas_kwds: Optional, additional keyword arguments for the survey point instance.
+       @kwarg Clas_and_kwds: Optional class C{B{Clas}=B{pointA}.classof} to return the survey
+                   point with optionally other B{C{Clas}} keyword arguments for the survey
+                   point instance.
 
        @note: Points B{C{pointA}}, B{C{pointB}} and B{C{pointC}} are ordered clockwise.
 
@@ -665,10 +677,8 @@ def tienstra7(pointA, pointB, pointC, alpha, beta=None, gamma=None,
         y =  Fdot(ks, A.y, B.y, C.y).fover(k)
         z = _zidw(x, y, useZ, A, B, C)
 
-        n    = tienstra7.__name__
-        clas = Clas or pointA.classof
-        P    = clas(x, y, z, **_xkwds(Clas_kwds, name=n))
-        return Tienstra7Tuple(P, dA, dB, dC, a, b, c, name=n)
+        P = _Clas(tienstra7, pointA, Clas_and_kwds, x, y, z)
+        return Tienstra7Tuple(P, dA, dB, dC, a, b, c, name=tienstra7.__name__)
 
     except (TypeError, ValueError) as x:
         raise ResectionError(pointA=pointA, pointB=pointB, pointC=pointC,
@@ -966,7 +976,7 @@ def wildberger3(a, b, c, alpha, beta, R3=min):
 
     def _vpa(r1, r3, q2, q3, s3):
         r = r1 * r3 * _4_0
-        n = (r - Fsum(r1, r3, -q2).fpow(2)).fover(s3)
+        n = (r - _F1(r1, r3, -q2).fpow(2)).fover(s3)
         if n < 0 or isnear0(r):
             raise ValueError(_coincident_)
         return sqrt((n / r) * q3) if n else _0_0
@@ -985,14 +995,14 @@ def wildberger3(a, b, c, alpha, beta, R3=min):
         if min(q) < EPS02:
             raise ValueError(_coincident_)
 
-        r1 = s2 * q3 / s3  # s2!
-        r2 = s1 * q3 / s3  # s1!
-        Qs = Fsum(*q)  # == hypot2_(a, b, c)
-        Ss = Fsum(*s)  # == fsum1(s, floats=True)
-        s += Qs * _0_5,  # tuple!
-        C0 = Fdot(s, q1, q2, q3, -Ss)
-        r3 = C0.fover(-s3)
-        d0 = Qs.fpow(2).fsub_(hypot2_(*q) * _2_0).fmul(s1 * s2).fover(s3)
+        r1 =  s2 * q3 / s3  # s2!
+        r2 =  s1 * q3 / s3  # s1!
+        Qs = _F1(*q)  # == hypot2_(a, b, c)
+        Ss = _F1(*s)  # == fsum1(s, floats=True)
+        s += (Qs * _0_5),  # tuple!
+        C0 =  Fdot(s, q1, q2, q3, -Ss)
+        r3 =  C0.fover(-s3)
+        d0 =  Qs.fpow(2).fsub_(hypot2_(*q) * _2_0).fmul(s1 * s2).fover(s3)
         if d0 > EPS02:  # > c0
             d0 = sqrt(d0)
             if not callable(R3):

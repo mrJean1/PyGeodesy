@@ -95,7 +95,7 @@
         target="_top">Pierlot</a>.
       </p>
       <p><strong>Version:</strong>
-        23.11.21
+        24.03.23
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -208,8 +208,7 @@
         <span class="summary-sig-arg">alpha</span>,
         <span class="summary-sig-arg">beta</span>,
         <span class="summary-sig-arg">useZ</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">Clas</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">**Clas_kwds</span>)</span><br />
+        <span class="summary-sig-arg">**Clas_and_kwds</span>)</span><br />
       3-Point resection using <a 
       href="https://NL.WikiPedia.org/wiki/Achterwaartse_insnijding" 
       target="_top">Cassini</a>'s method.</td>
@@ -234,8 +233,7 @@
         <span class="summary-sig-arg">alpha</span>,
         <span class="summary-sig-arg">beta</span>,
         <span class="summary-sig-arg">useZ</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">Clas</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">**Clas_kwds</span>)</span><br />
+        <span class="summary-sig-arg">**Clas_and_kwds</span>)</span><br />
       3-Point resection using <a 
       href="https://Dokumen.tips/documents/three-point-resection-problem-introduction-kaestner-burkhardt-method.html"
       target="_top">Collins</a>' method.</td>
@@ -261,8 +259,7 @@
         <span class="summary-sig-arg">alpha23</span>,
         <span class="summary-sig-arg">useZ</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">2.220446049250313e-16</span>,
-        <span class="summary-sig-arg">Clas</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">**Clas_kwds</span>)</span><br />
+        <span class="summary-sig-arg">**Clas_and_kwds</span>)</span><br />
       3-Point resection using <a 
       href="http://www.Telecom.ULg.ac.BE/publi/publications/pierlot/Pierlot2014ANewThree"
       target="_top">Pierlot</a>'s method <code>ToTal</code> with 
@@ -289,8 +286,7 @@
         <span class="summary-sig-arg">alpha2</span>,
         <span class="summary-sig-arg">alpha3</span>,
         <span class="summary-sig-arg">useZ</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">Clas</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">**Clas_kwds</span>)</span><br />
+        <span class="summary-sig-arg">**Clas_and_kwds</span>)</span><br />
       3-Point resection using <a 
       href="http://www.Telecom.ULg.ac.BE/publi/publications/pierlot/Pierlot2014ANewThree"
       target="_top">Pierlot</a>'s method <code>ToTal</code> with 
@@ -340,8 +336,7 @@
         <span class="summary-sig-arg">beta</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">gamma</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">useZ</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">Clas</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">**Clas_kwds</span>)</span><br />
+        <span class="summary-sig-arg">**Clas_and_kwds</span>)</span><br />
       3-Point resection using <a 
       href="https://WikiPedia.org/wiki/Tienstra_formula" 
       target="_top">Tienstra</a>'s formula.</td>
@@ -533,8 +528,7 @@
         <span class="sig-arg">alpha</span>,
         <span class="sig-arg">beta</span>,
         <span class="sig-arg">useZ</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">Clas</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">**Clas_kwds</span>)</span>
+        <span class="sig-arg">**Clas_and_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -568,9 +562,9 @@
           <b><code>pointC</code></b> (<code>degrees</code>, non-negative).</li>
         <li><strong class="pname"><code>useZ</code></strong> - If <code>True</code>, use and interpolate the Z component, 
           otherwise force <code>z=INT0</code> (<code>bool</code>).</li>
-        <li><strong class="pname"><code>Clas</code></strong> - Optional class to return the survey point or <code>None</code> 
-          for <b><code>pointA</code></b>'s (sub-)class.</li>
-        <li><strong class="pname"><code>Clas_kwds</code></strong> - Optional, additional keyword argument for the survey point 
+        <li><strong class="pname"><code>Clas_and_kwds</code></strong> - Optional class <code><b>Clas</b>=<b>pointA</b>.classof</code> to 
+          return the survey point with optionally other 
+          <b><code>Clas</code></b> keyword arguments for the survey point 
           instance.</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -615,8 +609,7 @@
         <span class="sig-arg">alpha</span>,
         <span class="sig-arg">beta</span>,
         <span class="sig-arg">useZ</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">Clas</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">**Clas_kwds</span>)</span>
+        <span class="sig-arg">**Clas_and_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -652,10 +645,10 @@
           (<code>degrees</code>, non-negative).</li>
         <li><strong class="pname"><code>useZ</code></strong> - If <code>True</code>, use and interpolate the Z component, 
           otherwise force <code>z=INT0</code> (<code>bool</code>).</li>
-        <li><strong class="pname"><code>Clas</code></strong> - Optional class to return the survey and auxiliary point or 
-          <code>None</code> for <b><code>pointA</code></b>'s (sub-)class.</li>
-        <li><strong class="pname"><code>Clas_kwds</code></strong> - Optional, additional keyword argument for the survey and 
-          auxiliary point instance.</li>
+        <li><strong class="pname"><code>Clas_and_kwds</code></strong> - Optional class <code><b>Clas</b>=<b>pointA</b>.classof</code> to 
+          return the survey point with optionally other 
+          <b><code>Clas</code></b> keyword arguments for the survey point 
+          instance.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><a href="pygeodesy.resections.Collins5Tuple-class.html" 
@@ -704,8 +697,7 @@
         <span class="sig-arg">alpha23</span>,
         <span class="sig-arg">useZ</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">eps</span>=<span class="sig-default">2.220446049250313e-16</span>,
-        <span class="sig-arg">Clas</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">**Clas_kwds</span>)</span>
+        <span class="sig-arg">**Clas_and_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -744,15 +736,15 @@
           otherwise use <code>z=INT0</code> (<code>bool</code>).</li>
         <li><strong class="pname"><code>eps</code></strong> - Tolerance for <code>cot</code> (pseudo-)singularities 
           (<code>float</code>).</li>
-        <li><strong class="pname"><code>Clas</code></strong> - Optional class to return the survey point, if <code>None</code> 
-          use <b><code>point1</code></b>'s (sub-)class.</li>
-        <li><strong class="pname"><code>Clas_kwds</code></strong> - Optional, additional keyword arguments for the survey point 
+        <li><strong class="pname"><code>Clas_and_kwds</code></strong> - Optional class <code><b>Clas</b>=<b>point1</b>.classof</code> to 
+          return the survey point with optionally other 
+          <b><code>Clas</code></b> keyword arguments for the survey point 
           instance.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The survey (or robot) point, an instance of 
-          <b><code>Clas</code></b> or if <code><b>Clas</b> is None</code> 
-          an instance of <b><code>point1</code></b>'s (sub-)class.</dd>
+          <b><code>Clas</code></b> or if <code><b>Clas</b>=None</code> an 
+          instance of <b><code>point1</code></b>'s (sub-)class.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.resections.ResectionError-class.html">ResectionError</a></strong></code> - Near-coincident, -colinear or -concyclic points or invalid 
@@ -768,7 +760,7 @@
         counter-clockwise.
       </p>
       <p><strong>See Also:</strong>
-        <i>Pierlot's</i> C function <a 
+        <i>Pierlot</i>'s C function <a 
         href="http://www.Telecom.ULg.ac.BE/triangulation/doc/total_8c_source.html"
         target="_top">triangulationPierlot</a>, <a 
         href="https://ORBi.ULiege.BE/bitstream/2268/157469/1/Pierlot2014ANewThree.pdf"
@@ -804,8 +796,7 @@
         <span class="sig-arg">alpha2</span>,
         <span class="sig-arg">alpha3</span>,
         <span class="sig-arg">useZ</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">Clas</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">**Clas_kwds</span>)</span>
+        <span class="sig-arg">**Clas_and_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -842,15 +833,15 @@
           counter-clockwise).</li>
         <li><strong class="pname"><code>useZ</code></strong> - If <code>True</code>, interpolate the survey point's Z component,
           otherwise use <code>z=INT0</code> (<code>bool</code>).</li>
-        <li><strong class="pname"><code>Clas</code></strong> - Optional class to return the survey point, if <code>None</code> 
-          use <b><code>point1</code></b>'s (sub-)class.</li>
-        <li><strong class="pname"><code>Clas_kwds</code></strong> - Optional, additional keyword arguments for the survey point 
+        <li><strong class="pname"><code>Clas_and_kwds</code></strong> - Optional class <code><b>Clas</b>=<b>point1</b>.classof</code> to 
+          return the survey point with optionally other 
+          <b><code>Clas</code></b> keyword arguments for the survey point 
           instance.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The survey (or robot) point, an instance of 
-          <b><code>Clas</code></b> or if <code><b>Clas</b> is None</code> 
-          an instance of <b><code>point1</code></b>'s (sub-)class.</dd>
+          <b><code>Clas</code></b> or if <code><b>Clas</b>=None</code> an 
+          instance of <b><code>point1</code></b>'s (sub-)class.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.resections.ResectionError-class.html">ResectionError</a></strong></code> - Near-coincident, -colinear or -concyclic points or invalid 
@@ -861,7 +852,7 @@
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        <i>Pierlot's</i> C function <a 
+        <i>Pierlot</i>'s C function <a 
         href="http://www.Telecom.ULg.ac.BE/triangulation/doc/total_8c_source.html"
         target="_top">triangulationPierlot2</a> and function <a 
         href="pygeodesy.resections-module.html#pierlot" 
@@ -942,8 +933,7 @@
         <span class="sig-arg">beta</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">gamma</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">useZ</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">Clas</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">**Clas_kwds</span>)</span>
+        <span class="sig-arg">**Clas_and_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -984,9 +974,9 @@
           <code><b>beta</b> is not None</code>.</li>
         <li><strong class="pname"><code>useZ</code></strong> - If <code>True</code>, use and interpolate the Z component, 
           otherwise force <code>z=INT0</code> (<code>bool</code>).</li>
-        <li><strong class="pname"><code>Clas</code></strong> - Optional class to return the survey point or <code>None</code> 
-          for <b><code>pointA</code></b>'s (sub-)class.</li>
-        <li><strong class="pname"><code>Clas_kwds</code></strong> - Optional, additional keyword arguments for the survey point 
+        <li><strong class="pname"><code>Clas_and_kwds</code></strong> - Optional class <code><b>Clas</b>=<b>pointA</b>.classof</code> to 
+          return the survey point with optionally other 
+          <b><code>Clas</code></b> keyword arguments for the survey point 
           instance.</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -1433,7 +1423,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Mar 22 10:57:44 2024
+    Generated by Epydoc 3.0.1 on Sat Mar 23 15:35:30 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

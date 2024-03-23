@@ -3413,6 +3413,7 @@ pygeodesy.resections.fidw	pygeodesy.fmath-module.html#fidw
 pygeodesy.resections._xkwds	pygeodesy.errors-module.html#_xkwds
 pygeodesy.resections._triSide2	pygeodesy.resections-module.html#_triSide2
 pygeodesy.resections.triSide2	pygeodesy.resections-module.html#triSide2
+pygeodesy.resections._pierlotxy2	pygeodesy.resections-module.html#_pierlotxy2
 pygeodesy.resections._B3	pygeodesy.resections-module.html#_B3
 pygeodesy.resections._triSide	pygeodesy.resections-module.html#_triSide
 pygeodesy.resections._radC_	pygeodesy.resections-module.html#_radC_
@@ -3422,6 +3423,7 @@ pygeodesy.resections.acos1	pygeodesy.utily-module.html#acos1
 pygeodesy.resections.fsum1f_	pygeodesy.fsums-module.html#fsum1f_
 pygeodesy.resections.triArea	pygeodesy.resections-module.html#triArea
 pygeodesy.resections.triSide4	pygeodesy.resections-module.html#triSide4
+pygeodesy.resections._zip	pygeodesy.basics-module.html#_zip
 pygeodesy.resections._and	pygeodesy.errors-module.html#_and
 pygeodesy.resections._over	pygeodesy.constants-module.html#_over
 pygeodesy.resections._radB_	pygeodesy.resections-module.html#_radB_
@@ -3443,6 +3445,7 @@ pygeodesy.resections.cassini	pygeodesy.resections-module.html#cassini
 pygeodesy.resections.snellius3	pygeodesy.resections-module.html#snellius3
 pygeodesy.resections.asin1	pygeodesy.utily-module.html#asin1
 pygeodesy.resections._zidw	pygeodesy.resections-module.html#_zidw
+pygeodesy.resections._F1	pygeodesy.resections-module.html#_F1
 pygeodesy.resections._pointP_	pygeodesy.resections-module.html#_pointP_
 pygeodesy.resections._umod_360	pygeodesy.constants-module.html#_umod_360
 pygeodesy.resections._R3__	pygeodesy.resections-module.html#_R3__
@@ -3453,8 +3456,10 @@ pygeodesy.resections._pointH_	pygeodesy.resections-module.html#_pointH_
 pygeodesy.resections._triAngle	pygeodesy.resections-module.html#_triAngle
 pygeodesy.resections._positive_	pygeodesy.resections-module.html#_positive_
 pygeodesy.resections.triAngle5	pygeodesy.resections-module.html#triAngle5
+pygeodesy.resections._Clas	pygeodesy.resections-module.html#_Clas
 pygeodesy.resections.collins5	pygeodesy.resections-module.html#collins5
 pygeodesy.resections._pierlot3	pygeodesy.resections-module.html#_pierlot3
+pygeodesy.resections._xkwds_pop2	pygeodesy.errors-module.html#_xkwds_pop2
 pygeodesy.resections.sincos2	pygeodesy.utily-module.html#sincos2
 pygeodesy.resections.pierlotx	pygeodesy.resections-module.html#pierlotx
 pygeodesy.resections.__package__	pygeodesy.resections-module.html#__package__
