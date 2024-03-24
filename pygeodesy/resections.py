@@ -12,11 +12,12 @@ L{triAngle}, L{triAngle5}, L{triSide}, L{triSide2} and L{triSide4}.
 # make sure int/int division yields float quotient
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import map1, _zip,  _ALL_LAZY
+from pygeodesy.basics import map1, map2, _zip,  _ALL_LAZY
 from pygeodesy.constants import EPS, EPS0, EPS02, INT0, NEG0, PI, PI2, PI_2, PI_4, \
                                _0_0, _0_5, _1_0, _N_1_0, _2_0, _N_2_0, _4_0, _16_0, \
                                _180_0, _360_0, isnear0, _over, _umod_360
-from pygeodesy.errors import _and, _or, TriangleError, _ValueError, _xkwds, _xkwds_pop2
+from pygeodesy.errors import _and, _or, TriangleError, _ValueError, _xcallable, \
+                             _xkwds, _xkwds_pop2
 from pygeodesy.fmath import favg, Fdot, fidw, fmean, hypot, hypot2_
 from pygeodesy.fsums import Fsum, fsumf_, fsum1, fsum1f_
 from pygeodesy.interns import _a_, _A_, _area_, _b_, _B_, _c_, _C_, _coincident_, \
@@ -32,7 +33,7 @@ from pygeodesy.vector3d import _otherV3d, Vector3d
 from math import cos, atan2, degrees, fabs, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.resections
-__version__ = '24.03.23'
+__version__ = '24.03.24'
 
 _concyclic_ = 'concyclic'
 _PA_        = 'PA'
@@ -41,7 +42,6 @@ _PC_        = 'PC'
 _pointH_    = 'pointH'
 _pointP_    = 'pointP'
 _positive_  = 'positive'
-_R3__       = 'R3 '
 _radA_      = 'radA'
 _radB_      = 'radB'
 _radC_      = 'radC'
@@ -148,12 +148,12 @@ def cassini(pointA, pointB, pointC, alpha, beta, useZ=False, **Clas_and_kwds):
                     force C{z=INT0} (C{bool}).
        @kwarg Clas_and_kwds: Optional class C{B{Clas}=B{pointA}.classof} to
                    return the survey point with optionally other B{C{Clas}}
-                   keyword arguments for the survey point instance.
+                   keyword arguments to instantiate the survey point.
 
        @note: Typically, B{C{pointC}} is between B{C{pointA}} and B{C{pointB}}.
 
-       @return: The survey point, an instance of B{C{Clas}} or if C{B{Clas} is
-                None} an instance of B{C{pointA}}'s (sub-)class.
+       @return: The survey point, an instance of B{C{Clas}} or B{C{pointA}}'s
+                (sub-)class.
 
        @raise ResectionError: Near-coincident, -colinear or -concyclic points
                               or negative or invalid B{C{alpha}} or B{C{beta}}.
@@ -162,8 +162,7 @@ def cassini(pointA, pointB, pointC, alpha, beta, useZ=False, **Clas_and_kwds):
 
        @see: U{Three Point Resection Problem<https://Dokumen.tips/documents/
              three-point-resection-problem-introduction-kaestner-burkhardt-method.html>}
-             and functions L{pygeodesy.collins5}, L{pygeodesy.pierlot} and
-             L{pygeodesy.tienstra7}.
+             and functions L{collins5}, L{pierlot}, L{pierlotx} and L{tienstra7}.
     '''
 
     def _H(A, C, sa):
@@ -233,14 +232,14 @@ def collins5(pointA, pointB, pointC, alpha, beta, useZ=False, **Clas_and_kwds):
                     force C{z=INT0} (C{bool}).
        @kwarg Clas_and_kwds: Optional class C{B{Clas}=B{pointA}.classof} to
                    return the survey point with optionally other B{C{Clas}}
-                   keyword arguments for the survey point instance.
+                   keyword arguments to instantiate the survey point.
 
        @note: Typically, B{C{pointC}} is between B{C{pointA}} and B{C{pointB}}.
 
        @return: L{Collins5Tuple}C{(pointP, pointH, a, b, c)} with survey C{pointP},
-                auxiliary C{pointH}, each an instance of B{C{Clas}} or if C{B{Clas}
-                is None} an instance of B{C{pointA}}'s (sub-)class and triangle
-                sides C{a}, C{b} and C{c} in C{meter}, conventionally.
+                auxiliary C{pointH}, each an instance of B{C{Clas}} or B{C{pointA}}'s
+                (sub-)class and triangle sides C{a}, C{b} and C{c} in C{meter},
+                conventionally.
 
        @raise ResectionError: Near-coincident, -colinear or -concyclic points
                               or negative or invalid B{C{alpha}} or B{C{beta}}.
@@ -248,8 +247,7 @@ def collins5(pointA, pointB, pointC, alpha, beta, useZ=False, **Clas_and_kwds):
        @raise TypeError: Invalid B{C{pointA}}, B{C{pointB}} or B{C{pointM}}.
 
        @see: U{Collins' methode<https://NL.WikiPedia.org/wiki/Achterwaartse_insnijding>}
-             and functions L{pygeodesy.cassini}, L{pygeodesy.pierlot} and
-             L{pygeodesy.tienstra7}.
+             and functions L{cassini}, L{pierlot}, L{pierlotx} and L{tienstra7}.
     '''
 
     def _azi_len2(A, B, pi2=PI2):
@@ -324,13 +322,13 @@ def pierlot(point1, point2, point3, alpha12, alpha23, useZ=False, eps=EPS,
        @kwarg eps: Tolerance for C{cot} (pseudo-)singularities (C{float}).
        @kwarg Clas_and_kwds: Optional class C{B{Clas}=B{point1}.classof} to
                    return the survey point with optionally other B{C{Clas}}
-                   keyword arguments for the survey point instance.
+                   keyword arguments to instantiate the survey point.
 
        @note: Typically, B{C{point1}}, B{C{point2}} and B{C{point3}} are ordered
               by angle, modulo 360, counter-clockwise.
 
-       @return: The survey (or robot) point, an instance of B{C{Clas}} or if
-                C{B{Clas}=None} an instance of B{C{point1}}'s (sub-)class.
+       @return: The survey (or robot) point, an instance of B{C{Clas}} or B{C{point1}}'s
+                (sub-)class.
 
        @raise ResectionError: Near-coincident, -colinear or -concyclic points
                               or invalid B{C{alpha12}} or B{C{alpha23}} or
@@ -344,8 +342,7 @@ def pierlot(point1, point2, point3, alpha12, alpha23, useZ=False, eps=EPS,
              <https://ORBi.ULiege.BE/bitstream/2268/157469/1/Pierlot2014ANewThree.pdf>},
              U{Vincent Pierlot, Marc Van Droogenbroeck, "18 Triangulation Algorithms for 2D
              Positioning (also known as the Resection Problem)"<http://www.Telecom.ULg.ac.BE/
-             triangulation>} and functions L{pygeodesy.pierlotx}, L{pygeodesy.cassini},
-             L{pygeodesy.collins5} and L{pygeodesy.tienstra7}.
+             triangulation>} and functions L{pierlotx}, L{cassini}, L{collins5} and L{tienstra7}.
     '''
 
     def _cot(s, c):  # -eps < I{approximate} cotangent < eps
@@ -435,10 +432,10 @@ def pierlotx(point1, point2, point3, alpha1, alpha2, alpha3, useZ=False,
                     otherwise use C{z=INT0} (C{bool}).
        @kwarg Clas_and_kwds: Optional class C{B{Clas}=B{point1}.classof} to
                    return the survey point with optionally other B{C{Clas}}
-                   keyword arguments for the survey point instance.
+                   keyword arguments to instantiate the survey point.
 
-       @return: The survey (or robot) point, an instance of B{C{Clas}} or if
-                C{B{Clas}=None} an instance of B{C{point1}}'s (sub-)class.
+       @return: The survey (or robot) point, an instance of B{C{Clas}} or B{C{point1}}'s
+                (sub-)class.
 
        @raise ResectionError: Near-coincident, -colinear or -concyclic points or
                               invalid B{C{alpha1}}, B{C{alpha2}} or B{C{alpha3}}.
@@ -446,15 +443,15 @@ def pierlotx(point1, point2, point3, alpha1, alpha2, alpha3, useZ=False,
        @raise TypeError: Invalid B{C{point1}}, B{C{point2}} or B{C{point3}}.
 
        @see: I{Pierlot}'s C function U{triangulationPierlot2<http://www.Telecom.ULg.ac.BE/
-             triangulation/doc/total_8c_source.html>} and function L{pygeodesy.pierlot}.
+             triangulation/doc/total_8c_source.html>} and function L{pierlot}, L{cassini},
+             L{collins5} and L{tienstra7}.
     '''
 
     def _a_z_Bs(Bs, *alphas):
-        a3 = map(_umod_360, alphas)  # 0 <= alphas < 360
-        a3, Bs = zip(*sorted(_zip(a3, Bs)))  # unzip
-        d3 = a3[1:] + a3[:1]  # rotate(a3)
-        for a, d, B in _zip(a3, d3, Bs):
-            d -= a  # a12 = a2 - a1, ...
+        ds = map2(_umod_360, alphas)  # 0 <= alphas < 360
+        ds, Bs = zip(*sorted(_zip(ds, Bs)))  # unzip
+        for p, d, B in _zip(ds, _rotate(ds), Bs):
+            d -= p  # a12 = a2 - a1, ...
             z  = isnear0(fabs(d) % _180_0)
             yield d, z, B
 
@@ -533,6 +530,12 @@ def _pierlotxy2(B, K, X, Y, D):
     return x, y
 
 
+def _rotate(xs, n=1):
+    '''Rotate list or tuple C{xs} by C{n} items, right if C{n > 0} else left.
+    '''
+    return xs[n:] + xs[:n]
+
+
 def snellius3(a, b, degC, alpha, beta):
     '''Snellius' surveying using U{Snellius Pothenot<https://WikiPedia.org/wiki/Snellius–Pothenot_problem>}.
 
@@ -551,7 +554,7 @@ def snellius3(a, b, degC, alpha, beta):
        @raise TriangleError: Invalid B{C{a}}, B{C{b}} or B{C{degC}} or negative B{C{alpha}}
                              or B{C{beta}}.
 
-       @see: Function L{pygeodesy.wildberger3}.
+       @see: Function L{wildberger3}.
     '''
     try:
         a, b, degC, alpha, beta = t = map1(float, a, b, degC, alpha, beta)
@@ -559,28 +562,27 @@ def snellius3(a, b, degC, alpha, beta):
             raise ValueError(_negative_)
         ra, rb, rC = map1(radians, alpha, beta, degC)
 
-        r = fsumf_(ra, rb, rC) * _0_5
+        r = fsum1f_(ra, rb, rC) * _0_5
         k = PI - r
         if min(k, r) < 0:
             raise ValueError(_or(_coincident_, _colinear_))
 
-        sa, sb = sin(ra), sin(rb)
-        p = atan2(a * sa, b * sb)
+        sa, sb = map1(sin, ra, rb)
+        p = atan2(sa * a,  sb * b)
         sp, cp, sr, cr = sincos2_(PI_4 - p, r)
-        w = atan2(sp * sr, cp * cr)
-        x = k + w
-        y = k - w
+        p = atan2(sp * sr, cp * cr)
+        pa = k + p
+        pb = k - p
 
-        s = fabs(sa)
-        if fabs(sb) > s:
-            pc = fabs(a * sin(y) / sb)
-        elif s:
-            pc = fabs(b * sin(x) / sa)
+        if fabs(sb) > fabs(sa):
+            pc = fabs(a * sin(pb) / sb)
+        elif sa:
+            pc = fabs(b * sin(pa) / sa)
         else:
             raise ValueError(_or(_colinear_, _coincident_))
 
-        pa = _triSide(b, pc, fsumf_(PI, -ra, -x))
-        pb = _triSide(a, pc, fsumf_(PI, -rb, -y))
+        pa = _triSide(b, pc, fsumf_(PI, -ra, -pa))
+        pb = _triSide(a, pc, fsumf_(PI, -rb, -pb))
         return Survey3Tuple(pa, pb, pc, name=snellius3.__name__)
 
     except (TypeError, ValueError) as x:
@@ -606,16 +608,15 @@ def tienstra7(pointA, pointB, pointC, alpha, beta=None, gamma=None,
        @kwarg useZ: If C{True}, use and interpolate the Z component, otherwise force C{z=INT0}
                     (C{bool}).
        @kwarg Clas_and_kwds: Optional class C{B{Clas}=B{pointA}.classof} to return the survey
-                   point with optionally other B{C{Clas}} keyword arguments for the survey
-                   point instance.
+                   point with optionally other B{C{Clas}} keyword arguments to instantiate
+                   the survey point.
 
        @note: Points B{C{pointA}}, B{C{pointB}} and B{C{pointC}} are ordered clockwise.
 
        @return: L{Tienstra7Tuple}C{(pointP, A, B, C, a, b, c)} with survey C{pointP}, an
-                instance of B{C{Clas}} or if C{B{Clas} is None} an instance of B{C{pointA}}'s
-                (sub-)class, with triangle angles C{A} at B{C{pointA}}, C{B} at B{C{pointB}}
-                and C{C} at B{C{pointC}} in C{degrees} and with triangle sides C{a}, C{b} and
-                C{c} in C{meter}, conventionally.
+                instance of B{C{Clas}} or B{C{pointA}}'s (sub-)class, with triangle angles C{A}
+                at B{C{pointA}}, C{B} at B{C{pointB}} and C{C} at B{C{pointC}} in C{degrees}
+                and with triangle sides C{a}, C{b} and C{c} in C{meter}, conventionally.
 
        @raise ResectionError: Near-coincident, -colinear or -concyclic points or sum of
                               B{C{alpha}}, B{C{beta}} and B{C{gamma}} not C{360} or negative
@@ -627,7 +628,7 @@ def tienstra7(pointA, pointB, pointC, alpha, beta=None, gamma=None,
              U{V. Pierlot, M. Van Droogenbroeck, "A New Three Object Triangulation..."
              <http://www.Telecom.ULg.ac.BE/publi/publications/pierlot/Pierlot2014ANewThree/>},
              U{18 Triangulation Algorithms...<http://www.Telecom.ULg.ac.BE/triangulation/>} and
-             functions L{pygeodesy.cassini}, L{pygeodesy.collins5} and L{pygeodesy.pierlot}.
+             functions L{cassini}, L{collins5}, L{pierlot} and L{pierlotx}.
     '''
 
     def _deg_ks(r, s, ks, N):
@@ -700,7 +701,7 @@ def triAngle(a, b, c):
 
        @raise TriangleError: Invalid or negative B{C{a}}, B{C{b}} or B{C{c}}.
 
-       @see: Functions L{pygeodesy.triAngle5} and L{pygeodesy.triSide}.
+       @see: Functions L{triAngle5} and L{triSide}.
     '''
     try:
         return _triAngle(a, b, c)
@@ -743,7 +744,7 @@ def triAngle5(a, b, c):
 
        @raise TriangleError: Invalid or negative B{C{a}}, B{C{b}} or B{C{c}}.
 
-       @see: Functions L{pygeodesy.triAngle} and L{pygeodesy.triArea}.
+       @see: Functions L{triAngle} and L{triArea}.
     '''
     try:
         x, y, z = map1(float, a, b, c)
@@ -755,7 +756,7 @@ def triAngle5(a, b, c):
             y, z = z, y
 
         if z > EPS0:  # z = min(a, b, c)
-            s  = fsumf_(z, y, x) * _0_5
+            s  = fsum1f_(z, y, x) * _0_5
             sa, sb, r = (s - x), (s - y), (s - z)
             r *= _over(sa * sb, s)
             if r < EPS02:
@@ -832,8 +833,7 @@ def triSide(a, b, radC):
 
        @raise TriangleError: Invalid B{C{a}}, B{C{b}} or B{C{radC}}.
 
-       @see: Functions L{pygeodesy.sqrt_a}, L{pygeodesy.triAngle},
-             L{pygeodesy.triSide2} and L{pygeodesy.triSide4}.
+       @see: Functions L{sqrt_a}, L{triAngle}, L{triSide2} and L{triSide4}.
     '''
     try:
         return _triSide(a, b, radC)
@@ -876,8 +876,7 @@ def triSide2(b, c, radB):
        @raise TriangleError: Invalid B{C{b}} or B{C{c}} or either
                              B{C{b}} or B{C{radB}} near zero.
 
-       @see: Functions L{pygeodesy.sqrt_a}, L{pygeodesy.triSide}
-             and L{pygeodesy.triSide4}.
+       @see: Functions L{sqrt_a}, L{triSide} and L{triSide4}.
     '''
     try:
         return _triSide2(b, c, radB)
@@ -894,15 +893,12 @@ def _triSide2(b, c, radB):
     if isnear0(sB):
         if not isnear0(b):
             raise ValueError(_invalid_)
-        if cB < 0:
-            a, rA = (b + c), PI
-        else:
-            a, rA = fabs(b - c), _0_0
+        a, rA = ((b + c), PI) if cB < 0 else (fabs(b - c), _0_0)
     elif isnear0(b):
         raise ValueError(_invalid_)
     else:
         rA = fsumf_(PI, -rB, -asin1(c * sB / b))
-        a = sin(rA) * b / sB
+        a  = sin(rA) * b / sB
     return TriSide2Tuple(a, rA, name=triSide2.__name__)
 
 
@@ -925,7 +921,7 @@ def triSide4(radA, radB, c):
        @raise TriangleError: Invalid or negative B{C{radA}}, B{C{radB}} or B{C{c}}.
 
        @see: U{Triangulation, Surveying<https://WikiPedia.org/wiki/Triangulation_(surveying)>}
-             and functions L{pygeodesy.sqrt_a}, L{pygeodesy.triSide} and L{pygeodesy.triSide2}.
+             and functions L{sqrt_a}, L{triSide} and L{triSide2}.
     '''
     try:
         rA, rB, c = map1(float, radA, radB, c)
@@ -969,7 +965,7 @@ def wildberger3(a, b, c, alpha, beta, R3=min):
        @see: U{Wildberger, Norman J.<https://Math.Sc.Chula.ac.TH/cjm/content/
              survey-article-greek-geometry-rational-trigonometry-and-snellius-–-pothenot-surveying>},
              U{Devine Proportions, page 252<http://www.MS.LT/derlius/WildbergerDivineProportions.pdf>}
-             and function L{pygeodesy.snellius3}.
+             and function L{snellius3}.
     '''
     def _s(x):
         return sin(x)**2
@@ -998,15 +994,14 @@ def wildberger3(a, b, c, alpha, beta, R3=min):
         r1 =  s2 * q3 / s3  # s2!
         r2 =  s1 * q3 / s3  # s1!
         Qs = _F1(*q)  # == hypot2_(a, b, c)
-        Ss = _F1(*s)  # == fsum1(s, floats=True)
+        Ss = _F1(*s)  # == fsum1(s)
         s += (Qs * _0_5),  # tuple!
         C0 =  Fdot(s, q1, q2, q3, -Ss)
         r3 =  C0.fover(-s3)
         d0 =  Qs.fpow(2).fsub_(hypot2_(*q) * _2_0).fmul(s1 * s2).fover(s3)
         if d0 > EPS02:  # > c0
+            _xcallable(R3=R3)
             d0 = sqrt(d0)
-            if not callable(R3):
-                raise ValueError(_R3__ + _not_(callable.__name__))
             r3 = R3(float(C0 + d0), float(C0 - d0))  # XXX min or max
         elif d0 < 0:
             raise ValueError(_negative_)

@@ -30,7 +30,7 @@ from pygeodesy.props import Property, Property_RO, property_RO
 from math import fmod
 
 __all__ = ()
-__version__ = '24.02.21'
+__version__ = '24.03.24'
 
 
 class GeodesicAreaExact(_NamedBase):
@@ -69,7 +69,7 @@ class GeodesicAreaExact(_NamedBase):
         try:  # results returned as L{GDict}
             if not (callable(geodesic._GDictDirect) and
                     callable(geodesic._GDictInverse)):
-                raise TypeError
+                raise TypeError()
         except (AttributeError, TypeError):
             raise GeodesicError(geodesic=geodesic)
 

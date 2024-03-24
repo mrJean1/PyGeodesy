@@ -13,7 +13,7 @@ from pygeodesy.basics import _copysign, islistuple, isscalar, map1, \
 from pygeodesy.constants import EPS, EPS0, INT0, PI, PI2, _copysignINF, \
                                _float0, isnear0, isnear1, isneg0, \
                                _pos_self, _0_0, _1_0
-from pygeodesy.errors import CrossError, _IsnotError, VectorError, _xError
+from pygeodesy.errors import CrossError, VectorError, _xcallable, _xError
 from pygeodesy.fmath import euclid_, fdot, hypot_, hypot2_
 from pygeodesy.interns import NN, _coincident_, _colinear_, \
                              _COMMASPACE_, _xyz_
@@ -30,7 +30,7 @@ from pygeodesy.units import Float, Scalar
 from math import atan2, ceil, fabs, floor, trunc
 
 __all__ = _ALL_LAZY.vector3dBase
-__version__ = '24.03.06'
+__version__ = '24.03.24'
 
 
 class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
@@ -478,9 +478,7 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
 
            @raise ValueError: Invalid B{C{other_x}} or B{C{y_z}}.
         '''
-        if not callable(fun2):
-            raise _IsnotError(callable.__name__, fun2=fun2)
-
+        _xcallable(fun2=fun2)
         if fun2_kwds:
             def _f2(a, b):
                 return fun2(a, b, **fun2_kwds)

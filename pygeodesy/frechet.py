@@ -84,8 +84,7 @@ than the well-known C{Hausdorff} distance, see the L{hausdorff} module.
 # from pygeodesy.basics import isscalar  # from .points
 from pygeodesy.constants import EPS, EPS1, INF, NINF
 from pygeodesy.datums import _ellipsoidal_datum, _WGS84
-from pygeodesy.errors import _IsnotError, PointsError, _xattr, \
-                             _xkwds, _xkwds_get
+from pygeodesy.errors import PointsError, _xattr, _xcallable, _xkwds, _xkwds_get
 import pygeodesy.formy as _formy
 from pygeodesy.interns import NN, _DOT_, _n_, _units_
 # from pygeodesy.iters import points2 as _points2  # from .points
@@ -103,7 +102,7 @@ from collections import defaultdict as _defaultdict
 # from math import radians  # from .points
 
 __all__ = _ALL_LAZY.frechet
-__version__ = '23.10.31'
+__version__ = '24.03.24'
 
 
 def _fraction(fraction, n):
@@ -797,8 +796,7 @@ def frechet_(point1s, point2s, distance=None, units=NN):
        @note: Function L{frechet_} does I{not} support I{fractional} indices
               for intermediate B{C{point1s}} and B{C{point2s}}.
     '''
-    if not callable(distance):
-        raise _IsnotError(callable.__name__, distance=distance)
+    _xcallable(distance=distance)
 
     n1, ps1 = _points2(point1s, closed=False, Error=FrechetError)
     n2, ps2 = _points2(point2s, closed=False, Error=FrechetError)

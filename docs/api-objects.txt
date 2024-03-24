@@ -1809,6 +1809,7 @@ pygeodesy.errors.rangerrors	pygeodesy.errors-module.html#rangerrors
 pygeodesy.errors._XErrors	pygeodesy.errors-module.html#_XErrors
 pygeodesy.errors._InvalidError	pygeodesy.errors-module.html#_InvalidError
 pygeodesy.errors._and_or	pygeodesy.errors-module.html#_and_or
+pygeodesy.errors._xcallable	pygeodesy.errors-module.html#_xcallable
 pygeodesy.errors._an	pygeodesy.errors-module.html#_an
 pygeodesy.errors.limiterrors	pygeodesy.errors-module.html#limiterrors
 pygeodesy.etm	pygeodesy.etm-module.html
@@ -2036,7 +2037,6 @@ pygeodesy.formy.excessAbc_	pygeodesy.formy-module.html#excessAbc_
 pygeodesy.formy.compassAngle	pygeodesy.formy-module.html#compassAngle
 pygeodesy.formy._equirectangular	pygeodesy.formy-module.html#_equirectangular
 pygeodesy.frechet	pygeodesy.frechet-module.html
-pygeodesy.frechet._IsnotError	pygeodesy.errors-module.html#_IsnotError
 pygeodesy.frechet._xUnit	pygeodesy.units-module.html#_xUnit
 pygeodesy.frechet._xkwds	pygeodesy.errors-module.html#_xkwds
 pygeodesy.frechet._xkwds_get	pygeodesy.errors-module.html#_xkwds_get
@@ -2047,6 +2047,7 @@ pygeodesy.frechet.property_doc_	pygeodesy.props-module.html#property_doc_
 pygeodesy.frechet.isscalar	pygeodesy.basics-module.html#isscalar
 pygeodesy.frechet.__package__	pygeodesy.frechet-module.html#__package__
 pygeodesy.frechet._frechet_	pygeodesy.frechet-module.html#_frechet_
+pygeodesy.frechet._xcallable	pygeodesy.errors-module.html#_xcallable
 pygeodesy.frechet._ellipsoidal_datum	pygeodesy.datums-module.html#_ellipsoidal_datum
 pygeodesy.frechet._fraction	pygeodesy.frechet-module.html#_fraction
 pygeodesy.frechet.__all__	pygeodesy.frechet-module.html#__all__
@@ -2400,7 +2401,6 @@ pygeodesy.geoids._lli_	pygeodesy.geoids-module.html#_lli_
 pygeodesy.geoids.map1	pygeodesy.basics-module.html#map1
 pygeodesy.geoids.fdot	pygeodesy.fmath-module.html#fdot
 pygeodesy.hausdorff	pygeodesy.hausdorff-module.html
-pygeodesy.hausdorff._IsnotError	pygeodesy.errors-module.html#_IsnotError
 pygeodesy.hausdorff._xkwds	pygeodesy.errors-module.html#_xkwds
 pygeodesy.hausdorff._xkwds_get	pygeodesy.errors-module.html#_xkwds_get
 pygeodesy.hausdorff.__all__	pygeodesy.hausdorff-module.html#__all__
@@ -2410,6 +2410,7 @@ pygeodesy.hausdorff.notOverloaded	pygeodesy.named-module.html#notOverloaded
 pygeodesy.hausdorff._distanceTo	pygeodesy.points-module.html#_distanceTo
 pygeodesy.hausdorff.__package__	pygeodesy.hausdorff-module.html#__package__
 pygeodesy.hausdorff.randomrangenerator	pygeodesy.hausdorff-module.html#randomrangenerator
+pygeodesy.hausdorff._xcallable	pygeodesy.errors-module.html#_xcallable
 pygeodesy.hausdorff._ellipsoidal_datum	pygeodesy.datums-module.html#_ellipsoidal_datum
 pygeodesy.hausdorff.hausdorff_	pygeodesy.hausdorff-module.html#hausdorff_
 pygeodesy.hausdorff.property_doc_	pygeodesy.props-module.html#property_doc_
@@ -3417,6 +3418,7 @@ pygeodesy.resections._pierlotxy2	pygeodesy.resections-module.html#_pierlotxy2
 pygeodesy.resections._B3	pygeodesy.resections-module.html#_B3
 pygeodesy.resections._triSide	pygeodesy.resections-module.html#_triSide
 pygeodesy.resections._radC_	pygeodesy.resections-module.html#_radC_
+pygeodesy.resections._rotate	pygeodesy.resections-module.html#_rotate
 pygeodesy.resections._PC_	pygeodesy.resections-module.html#_PC_
 pygeodesy.resections.fsumf_	pygeodesy.fsums-module.html#fsumf_
 pygeodesy.resections.acos1	pygeodesy.utily-module.html#acos1
@@ -3448,7 +3450,6 @@ pygeodesy.resections._zidw	pygeodesy.resections-module.html#_zidw
 pygeodesy.resections._F1	pygeodesy.resections-module.html#_F1
 pygeodesy.resections._pointP_	pygeodesy.resections-module.html#_pointP_
 pygeodesy.resections._umod_360	pygeodesy.constants-module.html#_umod_360
-pygeodesy.resections._R3__	pygeodesy.resections-module.html#_R3__
 pygeodesy.resections._otherV3d	pygeodesy.vector3d-module.html#_otherV3d
 pygeodesy.resections.triAngle	pygeodesy.resections-module.html#triAngle
 pygeodesy.resections._or	pygeodesy.errors-module.html#_or
@@ -3459,6 +3460,7 @@ pygeodesy.resections.triAngle5	pygeodesy.resections-module.html#triAngle5
 pygeodesy.resections._Clas	pygeodesy.resections-module.html#_Clas
 pygeodesy.resections.collins5	pygeodesy.resections-module.html#collins5
 pygeodesy.resections._pierlot3	pygeodesy.resections-module.html#_pierlot3
+pygeodesy.resections.map2	pygeodesy.basics-module.html#map2
 pygeodesy.resections._xkwds_pop2	pygeodesy.errors-module.html#_xkwds_pop2
 pygeodesy.resections.sincos2	pygeodesy.utily-module.html#sincos2
 pygeodesy.resections.pierlotx	pygeodesy.resections-module.html#pierlotx
@@ -3466,6 +3468,7 @@ pygeodesy.resections.__package__	pygeodesy.resections-module.html#__package__
 pygeodesy.resections._concyclic_	pygeodesy.resections-module.html#_concyclic_
 pygeodesy.resections._pierlotx3	pygeodesy.resections-module.html#_pierlotx3
 pygeodesy.resections._radA_	pygeodesy.resections-module.html#_radA_
+pygeodesy.resections._xcallable	pygeodesy.errors-module.html#_xcallable
 pygeodesy.resections.fmean	pygeodesy.fmath-module.html#fmean
 pygeodesy.resections.map1	pygeodesy.basics-module.html#map1
 pygeodesy.resections._ABC3	pygeodesy.resections-module.html#_ABC3
@@ -4374,7 +4377,6 @@ pygeodesy.vector3d.trilaterate2d2	pygeodesy.vector3d-module.html#trilaterate2d2
 pygeodesy.vector3dBase	pygeodesy.vector3dBase-module.html
 pygeodesy.vector3dBase.isnear0	pygeodesy.constants-module.html#isnear0
 pygeodesy.vector3dBase.property_doc_	pygeodesy.props-module.html#property_doc_
-pygeodesy.vector3dBase._IsnotError	pygeodesy.errors-module.html#_IsnotError
 pygeodesy.vector3dBase.hypot2_	pygeodesy.fmath-module.html#hypot2_
 pygeodesy.vector3dBase.unstr	pygeodesy.streprs-module.html#unstr
 pygeodesy.vector3dBase.euclid_	pygeodesy.fmath-module.html#euclid_
@@ -4389,6 +4391,7 @@ pygeodesy.vector3dBase.deprecated_method	pygeodesy.props-module.html#deprecated_
 pygeodesy.vector3dBase.__all__	pygeodesy.vector3dBase-module.html#__all__
 pygeodesy.vector3dBase._update_all	pygeodesy.props-module.html#_update_all
 pygeodesy.vector3dBase._copysignINF	pygeodesy.constants-module.html#_copysignINF
+pygeodesy.vector3dBase._xcallable	pygeodesy.errors-module.html#_xcallable
 pygeodesy.vector3dBase._xyz3	pygeodesy.vector3dBase-module.html#_xyz3
 pygeodesy.vector3dBase._zip	pygeodesy.basics-module.html#_zip
 pygeodesy.vector3dBase._copysign	pygeodesy.geodesicx.gx-module.html#copysign

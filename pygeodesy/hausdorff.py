@@ -69,7 +69,7 @@ Analysis Machine Intelligence (PAMI), vol 37, no 11, pp 2153-2163, Nov 2015.
 
 from pygeodesy.constants import INF, NINF, _0_0
 from pygeodesy.datums import _ellipsoidal_datum, _WGS84
-from pygeodesy.errors import _IsnotError, PointsError, _xattr, _xkwds, _xkwds_get
+from pygeodesy.errors import PointsError, _xattr, _xcallable, _xkwds, _xkwds_get
 import pygeodesy.formy as _formy
 from pygeodesy.interns import NN, _i_, _j_, _units_
 # from pygeodesy.iters import points2  # from .points
@@ -86,7 +86,7 @@ from pygeodesy.unitsBase import _Str_degrees, _Str_degrees2, _Str_meter, _Str_NN
 from random import Random
 
 __all__ = _ALL_LAZY.hausdorff
-__version__ = '23.10.31'
+__version__ = '24.03.24'
 
 
 class HausdorffError(PointsError):
@@ -778,10 +778,7 @@ def hausdorff_(model, target, both=False, early=True, seed=None, units=NN,
 
        @raise TypeError: If B{C{distance}} or B{C{point}} is not callable.
     '''
-    if not callable(distance):
-        raise _IsnotError(callable.__name__, distance=distance)
-    if not callable(point):
-        raise _IsnotError(callable.__name__, point=point)
+    _xcallable(distance=distance, point=point)
 
     _, ps1 = _points2(model,  closed=False, Error=HausdorffError)  # PYCHOK non-sequence
     _, ps2 = _points2(target, closed=False, Error=HausdorffError)  # PYCHOK non-sequence

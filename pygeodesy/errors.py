@@ -25,7 +25,7 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _getenv, _PYTHON_X_D
 from copy import copy as _copy
 
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')  _under
-__version__ = '24.03.14'
+__version__ = '24.03.24'
 
 _box_        = 'box'
 _limiterrors =  True  # in .formy
@@ -586,6 +586,14 @@ def _xattr(obj, **name_default):  # see .strerprs._xattrs
         for n, d in name_default.items():
             return getattr(obj, n, d)
     raise _xAssertionError(_xattr, obj, **name_default)
+
+
+def _xcallable(**names_callables):
+    '''(INTERNAL) Check one or more C{callable}s.
+    '''
+    for n, c in names_callables.items():
+        if not callable(c):
+            raise _TypeError(n, c, txt=_not_(callable.__name__))
 
 
 def _xdatum(datum1, datum2, Error=None):

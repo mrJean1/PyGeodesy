@@ -95,7 +95,7 @@
         target="_top">Pierlot</a>.
       </p>
       <p><strong>Version:</strong>
-        24.03.23
+        24.03.24
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -564,12 +564,11 @@
           otherwise force <code>z=INT0</code> (<code>bool</code>).</li>
         <li><strong class="pname"><code>Clas_and_kwds</code></strong> - Optional class <code><b>Clas</b>=<b>pointA</b>.classof</code> to 
           return the survey point with optionally other 
-          <b><code>Clas</code></b> keyword arguments for the survey point 
-          instance.</li>
+          <b><code>Clas</code></b> keyword arguments to instantiate the 
+          survey point.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The survey point, an instance of <b><code>Clas</code></b> or if 
-          <code><b>Clas</b> is None</code> an instance of 
+        <dd>The survey point, an instance of <b><code>Clas</code></b> or 
           <b><code>pointA</code></b>'s (sub-)class.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
@@ -588,11 +587,13 @@
         href="https://Dokumen.tips/documents/three-point-resection-problem-introduction-kaestner-burkhardt-method.html"
         target="_top">Three Point Resection Problem</a> and functions <a 
         href="pygeodesy.resections-module.html#collins5" 
-        class="link">pygeodesy.collins5</a>, <a 
+        class="link">collins5</a>, <a 
         href="pygeodesy.resections-module.html#pierlot" 
-        class="link">pygeodesy.pierlot</a> and <a 
+        class="link">pierlot</a>, <a 
+        href="pygeodesy.resections-module.html#pierlotx" 
+        class="link">pierlotx</a> and <a 
         href="pygeodesy.resections-module.html#tienstra7" 
-        class="link">pygeodesy.tienstra7</a>.
+        class="link">tienstra7</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -647,16 +648,15 @@
           otherwise force <code>z=INT0</code> (<code>bool</code>).</li>
         <li><strong class="pname"><code>Clas_and_kwds</code></strong> - Optional class <code><b>Clas</b>=<b>pointA</b>.classof</code> to 
           return the survey point with optionally other 
-          <b><code>Clas</code></b> keyword arguments for the survey point 
-          instance.</li>
+          <b><code>Clas</code></b> keyword arguments to instantiate the 
+          survey point.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><a href="pygeodesy.resections.Collins5Tuple-class.html" 
           class="link">Collins5Tuple</a><code>(pointP, pointH, a, b, 
           c)</code> with survey <code>pointP</code>, auxiliary 
           <code>pointH</code>, each an instance of <b><code>Clas</code></b>
-          or if <code><b>Clas</b> is None</code> an instance of 
-          <b><code>pointA</code></b>'s (sub-)class and triangle sides 
+          or <b><code>pointA</code></b>'s (sub-)class and triangle sides 
           <code>a</code>, <code>b</code> and <code>c</code> in 
           <code>meter</code>, conventionally.</dd>
     <dt>Raises:</dt>
@@ -675,11 +675,13 @@
         <a href="https://NL.WikiPedia.org/wiki/Achterwaartse_insnijding" 
         target="_top">Collins' methode</a> and functions <a 
         href="pygeodesy.resections-module.html#cassini" 
-        class="link">pygeodesy.cassini</a>, <a 
+        class="link">cassini</a>, <a 
         href="pygeodesy.resections-module.html#pierlot" 
-        class="link">pygeodesy.pierlot</a> and <a 
+        class="link">pierlot</a>, <a 
+        href="pygeodesy.resections-module.html#pierlotx" 
+        class="link">pierlotx</a> and <a 
         href="pygeodesy.resections-module.html#tienstra7" 
-        class="link">pygeodesy.tienstra7</a>.
+        class="link">tienstra7</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -738,13 +740,13 @@
           (<code>float</code>).</li>
         <li><strong class="pname"><code>Clas_and_kwds</code></strong> - Optional class <code><b>Clas</b>=<b>point1</b>.classof</code> to 
           return the survey point with optionally other 
-          <b><code>Clas</code></b> keyword arguments for the survey point 
-          instance.</li>
+          <b><code>Clas</code></b> keyword arguments to instantiate the 
+          survey point.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The survey (or robot) point, an instance of 
-          <b><code>Clas</code></b> or if <code><b>Clas</b>=None</code> an 
-          instance of <b><code>point1</code></b>'s (sub-)class.</dd>
+          <b><code>Clas</code></b> or <b><code>point1</code></b>'s 
+          (sub-)class.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.resections.ResectionError-class.html">ResectionError</a></strong></code> - Near-coincident, -colinear or -concyclic points or invalid 
@@ -772,13 +774,13 @@
         Triangulation Algorithms for 2D Positioning (also known as the 
         Resection Problem)&quot;</a> and functions <a 
         href="pygeodesy.resections-module.html#pierlotx" 
-        class="link">pygeodesy.pierlotx</a>, <a 
+        class="link">pierlotx</a>, <a 
         href="pygeodesy.resections-module.html#cassini" 
-        class="link">pygeodesy.cassini</a>, <a 
+        class="link">cassini</a>, <a 
         href="pygeodesy.resections-module.html#collins5" 
-        class="link">pygeodesy.collins5</a> and <a 
+        class="link">collins5</a> and <a 
         href="pygeodesy.resections-module.html#tienstra7" 
-        class="link">pygeodesy.tienstra7</a>.
+        class="link">tienstra7</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -835,13 +837,13 @@
           otherwise use <code>z=INT0</code> (<code>bool</code>).</li>
         <li><strong class="pname"><code>Clas_and_kwds</code></strong> - Optional class <code><b>Clas</b>=<b>point1</b>.classof</code> to 
           return the survey point with optionally other 
-          <b><code>Clas</code></b> keyword arguments for the survey point 
-          instance.</li>
+          <b><code>Clas</code></b> keyword arguments to instantiate the 
+          survey point.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The survey (or robot) point, an instance of 
-          <b><code>Clas</code></b> or if <code><b>Clas</b>=None</code> an 
-          instance of <b><code>point1</code></b>'s (sub-)class.</dd>
+          <b><code>Clas</code></b> or <b><code>point1</code></b>'s 
+          (sub-)class.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.resections.ResectionError-class.html">ResectionError</a></strong></code> - Near-coincident, -colinear or -concyclic points or invalid 
@@ -856,7 +858,13 @@
         href="http://www.Telecom.ULg.ac.BE/triangulation/doc/total_8c_source.html"
         target="_top">triangulationPierlot2</a> and function <a 
         href="pygeodesy.resections-module.html#pierlot" 
-        class="link">pygeodesy.pierlot</a>.
+        class="link">pierlot</a>, <a 
+        href="pygeodesy.resections-module.html#cassini" 
+        class="link">cassini</a>, <a 
+        href="pygeodesy.resections-module.html#collins5" 
+        class="link">collins5</a> and <a 
+        href="pygeodesy.resections-module.html#tienstra7" 
+        class="link">tienstra7</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -915,7 +923,7 @@
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.resections-module.html#wildberger3" 
-        class="link">pygeodesy.wildberger3</a>.
+        class="link">wildberger3</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -976,18 +984,18 @@
           otherwise force <code>z=INT0</code> (<code>bool</code>).</li>
         <li><strong class="pname"><code>Clas_and_kwds</code></strong> - Optional class <code><b>Clas</b>=<b>pointA</b>.classof</code> to 
           return the survey point with optionally other 
-          <b><code>Clas</code></b> keyword arguments for the survey point 
-          instance.</li>
+          <b><code>Clas</code></b> keyword arguments to instantiate the 
+          survey point.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><a href="pygeodesy.resections.Tienstra7Tuple-class.html" 
           class="link">Tienstra7Tuple</a><code>(pointP, A, B, C, a, b, 
           c)</code> with survey <code>pointP</code>, an instance of 
-          <b><code>Clas</code></b> or if <code><b>Clas</b> is None</code> 
-          an instance of <b><code>pointA</code></b>'s (sub-)class, with 
-          triangle angles <code>A</code> at <b><code>pointA</code></b>, 
-          <code>B</code> at <b><code>pointB</code></b> and <code>C</code> 
-          at <b><code>pointC</code></b> in <code>degrees</code> and with 
+          <b><code>Clas</code></b> or <b><code>pointA</code></b>'s 
+          (sub-)class, with triangle angles <code>A</code> at 
+          <b><code>pointA</code></b>, <code>B</code> at 
+          <b><code>pointB</code></b> and <code>C</code> at 
+          <b><code>pointC</code></b> in <code>degrees</code> and with 
           triangle sides <code>a</code>, <code>b</code> and <code>c</code> 
           in <code>meter</code>, conventionally.</dd>
     <dt>Raises:</dt>
@@ -1014,11 +1022,13 @@
         href="http://www.Telecom.ULg.ac.BE/triangulation/" target="_top">18
         Triangulation Algorithms...</a> and functions <a 
         href="pygeodesy.resections-module.html#cassini" 
-        class="link">pygeodesy.cassini</a>, <a 
+        class="link">cassini</a>, <a 
         href="pygeodesy.resections-module.html#collins5" 
-        class="link">pygeodesy.collins5</a> and <a 
+        class="link">collins5</a>, <a 
         href="pygeodesy.resections-module.html#pierlot" 
-        class="link">pygeodesy.pierlot</a>.
+        class="link">pierlot</a> and <a 
+        href="pygeodesy.resections-module.html#pierlotx" 
+        class="link">pierlotx</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -1060,9 +1070,9 @@
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Functions <a href="pygeodesy.resections-module.html#triAngle5" 
-        class="link">pygeodesy.triAngle5</a> and <a 
+        class="link">triAngle5</a> and <a 
         href="pygeodesy.resections-module.html#triSide" 
-        class="link">pygeodesy.triSide</a>.
+        class="link">triSide</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -1115,9 +1125,9 @@
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Functions <a href="pygeodesy.resections-module.html#triAngle" 
-        class="link">pygeodesy.triAngle</a> and <a 
+        class="link">triAngle</a> and <a 
         href="pygeodesy.resections-module.html#triArea" 
-        class="link">pygeodesy.triArea</a>.
+        class="link">triArea</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -1205,13 +1215,13 @@
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Functions <a href="pygeodesy.fmath-module.html#sqrt_a" 
-        class="link">pygeodesy.sqrt_a</a>, <a 
+        class="link">sqrt_a</a>, <a 
         href="pygeodesy.resections-module.html#triAngle" 
-        class="link">pygeodesy.triAngle</a>, <a 
+        class="link">triAngle</a>, <a 
         href="pygeodesy.resections-module.html#triSide2" 
-        class="link">pygeodesy.triSide2</a> and <a 
+        class="link">triSide2</a> and <a 
         href="pygeodesy.resections-module.html#triSide4" 
-        class="link">pygeodesy.triSide4</a>.
+        class="link">triSide4</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -1257,11 +1267,11 @@
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Functions <a href="pygeodesy.fmath-module.html#sqrt_a" 
-        class="link">pygeodesy.sqrt_a</a>, <a 
+        class="link">sqrt_a</a>, <a 
         href="pygeodesy.resections-module.html#triSide" 
-        class="link">pygeodesy.triSide</a> and <a 
+        class="link">triSide</a> and <a 
         href="pygeodesy.resections-module.html#triSide4" 
-        class="link">pygeodesy.triSide4</a>.
+        class="link">triSide4</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -1311,12 +1321,11 @@
 <div class="fields">      <p><strong>See Also:</strong>
         <a href="https://WikiPedia.org/wiki/Triangulation_(surveying)" 
         target="_top">Triangulation, Surveying</a> and functions <a 
-        href="pygeodesy.fmath-module.html#sqrt_a" 
-        class="link">pygeodesy.sqrt_a</a>, <a 
-        href="pygeodesy.resections-module.html#triSide" 
-        class="link">pygeodesy.triSide</a> and <a 
+        href="pygeodesy.fmath-module.html#sqrt_a" class="link">sqrt_a</a>, 
+        <a href="pygeodesy.resections-module.html#triSide" 
+        class="link">triSide</a> and <a 
         href="pygeodesy.resections-module.html#triSide2" 
-        class="link">pygeodesy.triSide2</a>.
+        class="link">triSide2</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -1387,7 +1396,7 @@
         href="http://www.MS.LT/derlius/WildbergerDivineProportions.pdf" 
         target="_top">Devine Proportions, page 252</a> and function <a 
         href="pygeodesy.resections-module.html#snellius3" 
-        class="link">pygeodesy.snellius3</a>.
+        class="link">snellius3</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -1423,7 +1432,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Mar 23 15:35:30 2024
+    Generated by Epydoc 3.0.1 on Sun Mar 24 15:02:13 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
