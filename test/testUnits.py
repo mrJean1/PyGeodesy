@@ -4,7 +4,7 @@
 # Test L{units} module.
 
 __all__ = ('Tests',)
-__version__ = '23.03.27'
+__version__ = '23.03.29'
 
 from bases import TestsBase
 
@@ -81,15 +81,11 @@ class Tests(TestsBase):
         self.test('delattr', repr(u.name), "''")
 
     def testUnits(self):
-        for U in self.pygeodesy_classes(_NamedUnit):
-            if U not in (Band, Bool, Bearing_,
-                         Epoch, Epsg, FIx,
-                         Garef, Geohash, Georef,
-                         Int, Int_, Number_,
-                         Precision_, Str,
-                         Lam_, Phi_, Zone,
-                        _NamedUnit):
-                self.testUnit(U, 1.0)  # sample
+        for U in self.pygeodesy_classes_(_NamedUnit,
+                 Band, Bool, Bearing_, Epoch, Epsg, FIx, Garef,
+                 Geohash, Georef, Int, Int_, Number_, Precision_,
+                 Str, Lam_, Phi_, Zone, _NamedUnit):
+            self.testUnit(U, 1.0)  # sample
 
         for U in (Band, Str):
             self.testUnit(U, 'U', known=True)

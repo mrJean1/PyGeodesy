@@ -708,7 +708,7 @@
     </ul>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.fsums.Fsum-class.html">pygeodesy.fsums.Fsum</a></strong>:
-      <em class="summary">Precision floating point <i>running</i> summation.</em>
+      <em class="summary">Precision floating point summation and <i>running</i> summation.</em>
     <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.fmath.Fdot-class.html">pygeodesy.fmath.Fdot</a></strong>:
       <em class="summary">Precision dot product.</em>
@@ -717,16 +717,16 @@
       <em class="summary">Precision polynomial evaluation using the Horner form.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.fmath.Fhypot-class.html">pygeodesy.fmath.Fhypot</a></strong>:
-      <em class="summary">Precision hypotenuse of summation.</em>
+      <em class="summary">Precision summation and hypotenuse, default <code>power=2</code>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.fmath.Fn_rt-class.html">pygeodesy.fmath.Fn_rt</a></strong>:
-      <em class="summary">Precision n-th root of summation.</em>
+      <em class="summary">N-th root of a precision summation.</em>
     <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.fmath.Fcbrt-class.html">pygeodesy.fmath.Fcbrt</a></strong>:
-      <em class="summary">Precision cubic root of summation.</em>
+      <em class="summary">Cubic root of a precision summation.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.fmath.Fsqrt-class.html">pygeodesy.fmath.Fsqrt</a></strong>:
-      <em class="summary">Precision square root of summation.</em>
+      <em class="summary">Square root of a precision summation.</em>
     </li>
     </ul>
     </li>
@@ -734,7 +734,8 @@
       <em class="summary">Precision polynomial evaluation.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.fmath.Fpowers-class.html">pygeodesy.fmath.Fpowers</a></strong>:
-      <em class="summary">Precision summation or powers, optimized for <code>power=2</code>.</em>
+      <em class="summary">Precision summation of powers, optimized for <code>power=2, 3 and 
+        4</code>.</em>
     </li>
     </ul>
     </li>
@@ -1438,6 +1439,13 @@
         href="pygeodesy.ellipsoidalGeodSolve.LatLon-class.html" 
         class="link">LatLon</a> points.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html">pygeodesy.ellipsoidalVincenty.Cartesian</a></strong>:
+      <em class="summary">Extended to convert geocentric, <a 
+        href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html" 
+        class="link">Cartesian</a> points to Vincenty-based, ellipsoidal, 
+        geodetic <a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
+        class="link">LatLon</a>.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalNvector.Cartesian-class.html">pygeodesy.ellipsoidalNvector.Cartesian</a></strong>:
       <em class="summary">Extended to convert geocentric, <a 
         href="pygeodesy.ellipsoidalNvector.Cartesian-class.html" 
@@ -1452,13 +1460,6 @@
         class="link">Cartesian</a> to <code>Karney</code>-based <a 
         href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
         class="link">LatLon</a> points.</em>
-    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html">pygeodesy.ellipsoidalVincenty.Cartesian</a></strong>:
-      <em class="summary">Extended to convert geocentric, <a 
-        href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html" 
-        class="link">Cartesian</a> points to Vincenty-based, ellipsoidal, 
-        geodetic <a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
-        class="link">LatLon</a>.</em>
     </li>
     </ul>
     </li>
@@ -2194,6 +2195,11 @@
         unrolled and adjusted longitudinal <code>delta_lon = <b>lon2</b> - 
         <b>lon1</b></code> and <code>unroll_lon2</code>, the unrolled or 
         original <b><code>lon2</code></b>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.fsums.DivMod2Tuple-class.html">pygeodesy.fsums.DivMod2Tuple</a></strong>:
+      <em class="summary">2-Tuple <code>(div, mod)</code> with the quotient <code>div</code> 
+        and remainder <code>mod</code> results of a <code>divmod</code> 
+        operation.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.EasNor2Tuple-class.html">pygeodesy.namedTuples.EasNor2Tuple</a></strong>:
       <em class="summary">2-Tuple <code>(easting, northing)</code>, both in 
@@ -3530,6 +3536,11 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
         <b>lon1</b></code> and <code>unroll_lon2</code>, the unrolled or 
         original <b><code>lon2</code></b>.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.fsums.DivMod2Tuple-class.html">pygeodesy.fsums.DivMod2Tuple</a></strong>:
+      <em class="summary">2-Tuple <code>(div, mod)</code> with the quotient <code>div</code> 
+        and remainder <code>mod</code> results of a <code>divmod</code> 
+        operation.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.EasNor2Tuple-class.html">pygeodesy.namedTuples.EasNor2Tuple</a></strong>:
       <em class="summary">2-Tuple <code>(easting, northing)</code>, both in 
         <code>meter</code>, conventionally.</em>
@@ -4178,7 +4189,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Mar 24 15:02:12 2024
+    Generated by Epydoc 3.0.1 on Tue Apr  2 13:33:09 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

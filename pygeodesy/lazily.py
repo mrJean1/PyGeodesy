@@ -284,7 +284,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                    'FrechetVincentys', 'Frechet6Tuple',
                                    'frechet_'),
                          fstats=_i('Fcook', 'Flinear', 'Fwelford'),
-                          fsums=_i('Fsum', 'Fsum2Tuple', 'ResidualError',
+                          fsums=_i('Fsum', 'DivMod2Tuple', 'Fsum2Tuple', 'ResidualError',
                                    'fsum', 'fsum_', 'fsumf_', 'fsum1', 'fsum1_', 'fsum1f_'),
                            gars=_i('Garef', 'GARSError'),
                       geodesicw=_i('Geodesic', 'GeodesicLine', 'Geodesic_WGS84'),
@@ -504,7 +504,7 @@ class _ALL_MODS(object):
 _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '24.02.22'
+__version__ = '24.03.29'
 
 
 def _ALL_OTHER(*objs):

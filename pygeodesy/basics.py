@@ -28,7 +28,7 @@ from math import copysign as _copysign
 import inspect as _inspect
 
 __all__ = _ALL_LAZY.basics
-__version__ = '24.03.19'
+__version__ = '24.04.01'
 
 _0_0                  =  0.0  # in .constants
 _below_               = 'below'

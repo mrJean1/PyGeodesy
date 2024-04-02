@@ -4,7 +4,7 @@
 # Test L{fmath} module.
 
 __all__ = ('Tests',)
-__version__ = '23.08.30'
+__version__ = '24.03.30'
 
 from bases import endswith, isWindows, randoms, startswith, TestsBase
 
@@ -54,18 +54,22 @@ class Tests(TestsBase):
         self.test('fpowers', p[0], 2**3)
         self.test('fpowers', p[3], 2**9, nt=1)
 
+        def _Ak(Ah, A):
+            r = abs(Ah - A) / A
+            return r < 3e-16
+
         for _, E in Ellipsoids.items(all=True, asorted=True):
             a_n = E.a / (1 + E.n)
             n2  = E.n**2
             Ah = a_n * fhorner(n2, 1, 1./4, 1./64, 1./256, 25./16384)
-            self.test(E.name, Ah, E.A, prec=9, known=abs(Ah - E.A) < 1e-5)  # b_None, f_None on iPhone
+            self.test(E.name, Ah, E.A, prec=9, known=_Ak(Ah, E.A))  # b_None, f_None on iPhone
             Ah = a_n * (fhorner(n2, 16384, 4096, 256, 64, 25) / 16384)
-            self.test(E.name, Ah, E.A, prec=9, known=abs(Ah - E.A) < 1e-5)  # b_None, f_None on iPhone
+            self.test(E.name, Ah, E.A, prec=9, known=_Ak(Ah, E.A))  # b_None, f_None on iPhone
 
             Ah = a_n * fhorner(n2, 1, 1./4, 1./64, 1./256, 25./16384, 49./65536)
-            self.test(E.name, Ah, E.A, prec=9, known=abs(Ah - E.A) < 1e-8)
+            self.test(E.name, Ah, E.A, prec=9, known=_Ak(Ah, E.A))
             Ah = a_n * (fhorner(n2, 65536, 16384, 1024, 256, 100, 49) / 65536)
-            self.test(E.name, Ah, E.A, prec=9, known=abs(Ah - E.A) < 1e-8, nt=1)
+            self.test(E.name, Ah, E.A, prec=9, known=_Ak(Ah, E.A), nt=1)
 
         # cffk <https://Bugs.Python.org/issue43088> and <https://Bugs.Python.org/file49783/hypot_bug.py>
         x  = 0.6102683302836215

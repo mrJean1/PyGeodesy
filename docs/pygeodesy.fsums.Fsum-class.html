@@ -75,21 +75,20 @@
 </dd></dl>
 
 <hr />
-<p>Precision floating point <i>running</i> summation.</p>
+<p>Precision floating point summation and <i>running</i> summation.</p>
   <p>Unlike Python's <code>math.fsum</code>, this class accumulates values 
-  and provides intermediate, <i>running</i> precision floating point 
-  summation.  Accumulation may continue after intermediate, <i>running</i> 
-  summuation.</p>
+  and provides intermediate, <i>running</i>, precision floating point 
+  summations.  Accumulation may continue after any intermediate, 
+  <i>running</i> summuation.</p>
 
 <hr />
 <div class="fields">      <strong>Notes:</strong>
       <ul class="nomargin-top">
         <li>
         Accumulated values may be <a href="pygeodesy.fsums.Fsum-class.html"
-        class="link">Fsum</a> or <code>scalar</code> instances with 
-        <code>scalar</code> meaning type <code>float</code>, 
-        <code>int</code> or any <code>type</code> convertible to a single 
-        <code>float</code>, having method <code>__float__</code>.
+        class="link">Fsum</a> or <code>scalar</code> instances, any 
+        <code>type</code> having method <code>__float__</code> to convert 
+        the <code>scalar</code> to a single <code>float</code>.
         </li>
         <li>
         Handling of exceptions and <code>inf</code>, <code>INF</code>, 
@@ -127,7 +126,7 @@
         <span class="summary-sig-arg">*xs</span>,
         <span class="summary-sig-arg">**name_RESIDUAL</span>)</span><br />
       New <a href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> 
-      for precision floating point <i>running</i> summation.</td>
+      for <i>running</i> precision floating point summation.</td>
           <td align="right" valign="top">
             
             
@@ -252,9 +251,11 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fsums.Fsum-class.html#__divmod__" class="summary-sig-name">__divmod__</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>)</span><br />
-      Return <code>divmod(<b>self</b>, <b>other</b>)</code> as 2-tuple 
-      <code>(quotient, remainder)</code>, an <code>int</code> in Python 3+ 
-      or <code>float</code> in Python 2- and an <a 
+      Return <code>divmod(<b>self</b>, <b>other</b>)</code> as a <a 
+      href="pygeodesy.fsums.DivMod2Tuple-class.html" 
+      class="link">DivMod2Tuple</a> with quotient <code>div</code> an 
+      <code>int</code> in Python 3+ or <code>float</code> in Python 2- and 
+      remainder <code>mod</code> an <a 
       href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a>.</td>
           <td align="right" valign="top">
             
@@ -740,7 +741,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a name="__neg__"></a><span class="summary-sig-name">__neg__</span>(<span class="summary-sig-arg">self</span>)</span><br />
-      Return <i>a copy of</i> this instance, negated.</td>
+      Return <i>a copy of</i> this instance, <i>negated</i>.</td>
           <td align="right" valign="top">
             
             
@@ -1279,9 +1280,11 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fsums.Fsum-class.html#fdivmod" class="summary-sig-name">fdivmod</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>)</span><br />
-      Return <code>divmod(<b>self</b>, <b>other</b>)</code> as 2-tuple 
-      <code>(quotient, remainder)</code>, an <code>int</code> in Python 3+ 
-      or <code>float</code> in Python 2- and an <a 
+      Return <code>divmod(<b>self</b>, <b>other</b>)</code> as a <a 
+      href="pygeodesy.fsums.DivMod2Tuple-class.html" 
+      class="link">DivMod2Tuple</a> with quotient <code>div</code> an 
+      <code>int</code> in Python 3+ or <code>float</code> in Python 2- and 
+      remainder <code>mod</code> an <a 
       href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a>.</td>
           <td align="right" valign="top">
             
@@ -1300,7 +1303,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fsums.Fsum-class.html#fint" class="summary-sig-name">fint</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">raiser</span>=<span class="summary-sig-default">True</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Return this instance' current running sum as <code>integer</code>.</td>
           <td align="right" valign="top">
             
@@ -1841,17 +1844,18 @@
   </tr></table>
   
   <p>New <a href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> 
-  for precision floating point <i>running</i> summation.</p>
+  for <i>running</i> precision floating point summation.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xs</code></strong> - No, one or more initial values (each <code>scalar</code> or an <a
+        <li><strong class="pname"><code>xs</code></strong> - No, one or more initial values, all positional (each 
+          <code>scalar</code> or an <a 
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> 
           instance).</li>
         <li><strong class="pname"><code>name_RESIDUAL</code></strong> - Optional <code><b>name</b>=NN</code> for this <a 
-          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> 
-          (<code>str</code>) and <code><b>RESIDUAL</b>=None</code> for the 
-          <a href="pygeodesy.fsums.ResidualError-class.html" 
+          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> and 
+          <code><b>RESIDUAL</b>=None</code> for the <a 
+          href="pygeodesy.fsums.ResidualError-class.html" 
           class="link">ResidualError</a> threshold.</li>
     </ul></dd>
     <dt>Overrides:
@@ -1996,10 +2000,12 @@
     </td>
   </tr></table>
   
-  <p>Return <code>divmod(<b>self</b>, <b>other</b>)</code> as 2-tuple 
-  <code>(quotient, remainder)</code>, an <code>int</code> in Python 3+ or 
-  <code>float</code> in Python 2- and an <a 
-  href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a>.</p>
+  <p>Return <code>divmod(<b>self</b>, <b>other</b>)</code> as a <a 
+  href="pygeodesy.fsums.DivMod2Tuple-class.html" 
+  class="link">DivMod2Tuple</a> with quotient <code>div</code> an 
+  <code>int</code> in Python 3+ or <code>float</code> in Python 2- and 
+  remainder <code>mod</code> an <a href="pygeodesy.fsums.Fsum-class.html" 
+  class="link">Fsum</a>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -3165,9 +3171,10 @@
           class="link">Fsum</a> or <code>scalar</code> divisor.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>2-Tuple <code>(quotient, remainder)</code>, with the 
-          <code>quotient</code> an <code>int</code> in Python 3+ or a 
-          <code>float</code> in Python 2- and the <code>remainder</code> an
+        <dd>A <a href="pygeodesy.fsums.DivMod2Tuple-class.html" 
+          class="link">DivMod2Tuple</a><code>(div, mod)</code>, with 
+          quotient <code>div</code> an <code>int</code> in Python 3+ or 
+          <code>float</code> in Python 2- and remainder <code>mod</code> an
           <a href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> 
           instance.</dd>
   </dl>
@@ -3340,10 +3347,12 @@
     </td>
   </tr></table>
   
-  <p>Return <code>divmod(<b>self</b>, <b>other</b>)</code> as 2-tuple 
-  <code>(quotient, remainder)</code>, an <code>int</code> in Python 3+ or 
-  <code>float</code> in Python 2- and an <a 
-  href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a>.</p>
+  <p>Return <code>divmod(<b>self</b>, <b>other</b>)</code> as a <a 
+  href="pygeodesy.fsums.DivMod2Tuple-class.html" 
+  class="link">DivMod2Tuple</a> with quotient <code>div</code> an 
+  <code>int</code> in Python 3+ or <code>float</code> in Python 2- and 
+  remainder <code>mod</code> an <a href="pygeodesy.fsums.Fsum-class.html" 
+  class="link">Fsum</a>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -3366,7 +3375,7 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">fint</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">raiser</span>=<span class="sig-default">True</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -3921,7 +3930,7 @@
         If <b><code>mod</code></b> is given as <code>None</code>, the 
         result will be an <code>integer</code> <a 
         href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> 
-        provided this instance <code>is_integer</code> or set 
+        provided this instance <code>is_integer</code> or set to 
         <code>integer</code> with <a 
         href="pygeodesy.fsums.Fsum-class.html#fint" 
         class="link">Fsum.fint</a>.
@@ -4361,7 +4370,7 @@ always).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Mar 24 15:02:14 2024
+    Generated by Epydoc 3.0.1 on Tue Apr  2 13:33:12 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

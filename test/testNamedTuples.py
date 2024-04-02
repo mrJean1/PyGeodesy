@@ -4,13 +4,13 @@
 # Test L{namedTuples} module.
 
 __all__ = ('Tests',)
-__version__ = '23.11.26'
+__version__ = '24.03.29'
 
 from bases import TestsBase
 from pygeodesy import FIx, issubclassof
 from pygeodesy.albers import _Ks
 from pygeodesy.frechet import Frechet6Tuple
-from pygeodesy.fsums import _Float_Int
+from pygeodesy.fsums import DivMod2Tuple, _Float_Int
 from pygeodesy.hausdorff import Hausdorff6Tuple
 from pygeodesy.interns import _DOT_
 from pygeodesy.karney import _GTuple
@@ -62,12 +62,12 @@ class Tests(TestsBase):
         self.testValidated(t.__class__, True)
 
     def testNamedTuples(self):
-        for T in self.pygeodesy_classes(Base=_NamedTuple):
-            if T not in (_GTuple, _NamedTuple, _NamedTupleTo):
-                t = (0.5,) * len(T._Names_)  # some sample value
-                if T in (Frechet6Tuple, Hausdorff6Tuple):
-                    t = t[1:] + ('test',)
-                self.testNamedTuple(T, *t)
+        for T in self.pygeodesy_classes_(_NamedTuple,
+                  DivMod2Tuple, _GTuple, _NamedTuple, _NamedTupleTo):
+            t = (0.5,) * len(T._Names_)  # some sample value
+            if T in (Frechet6Tuple, Hausdorff6Tuple):
+                t = t[1:] + ('test',)
+            self.testNamedTuple(T, *t)
 
         self.testValidated(_NamedTuple, False)
 

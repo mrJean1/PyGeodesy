@@ -50,7 +50,7 @@ __all__ = ('coverage', 'GeodSolve', 'geographiclib',  # constants
            'RandomLatLon', 'TestsBase',  # classes
            'ios_ver', 'nix_ver', 'secs2str',  # functions
            'tilde', 'type2str', 'versions')
-__version__ = '24.03.03'
+__version__ = '24.03.29'
 
 try:
     geographiclib = basics._xgeographiclib(basics, 1, 50)
@@ -228,6 +228,13 @@ class TestsBase(object):
                 if isclass(C) and (issubclassof(C, B) if B else True) \
                               and C.__module__ == m.__name__:
                     yield C
+
+    def pygeodesy_classes_(self, Base, *Classes):
+        '''Yield all PyGeodesy class definitions, except any in C{Classes}.
+        '''
+        for C in self.pygeodesy_classes(Base):
+            if C not in Classes:
+                yield C
 
     def pygeodesy_modules(self, deprecated=False):
         '''Yield all PyGeodesy modules.

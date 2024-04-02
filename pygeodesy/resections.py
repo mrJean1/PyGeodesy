@@ -33,7 +33,7 @@ from pygeodesy.vector3d import _otherV3d, Vector3d
 from math import cos, atan2, degrees, fabs, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.resections
-__version__ = '24.03.24'
+__version__ = '24.03.26'
 
 _concyclic_ = 'concyclic'
 _PA_        = 'PA'
@@ -970,44 +970,43 @@ def wildberger3(a, b, c, alpha, beta, R3=min):
     def _s(x):
         return sin(x)**2
 
-    def _vpa(r1, r3, q2, q3, s3):
-        r = r1 * r3 * _4_0
-        n = (r - _F1(r1, r3, -q2).fpow(2)).fover(s3)
-        if n < 0 or isnear0(r):
+    def _vpa(r3, q2, q3, s2, s3):
+        r1 = s2 * q3 / s3
+        r  = r1 * r3 * _4_0
+        n  = (r - _F1(r1, r3, -q2)**2).fover(s3)
+        if n < 0 or r < EPS0:
             raise ValueError(_coincident_)
         return sqrt((n / r) * q3) if n else _0_0
 
     try:
-        a, b, c, da, db = t = map1(float, a, b, c, alpha, beta)
-        if min(t) < 0:
+        a, b, c, da, db = q = map1(float, a, b, c, alpha, beta)
+        if min(q) < 0:
             raise ValueError(_negative_)
-
-        ra, rb = radians(da), radians(db)
-        s1, s2, s3 = s = map1(_s, rb, ra, ra + rb)  # rb, ra!
-        if min(s) < EPS02:
-            raise ValueError(_or(_coincident_, _colinear_))
 
         q1, q2, q3 = q = a**2, b**2, c**2
         if min(q) < EPS02:
             raise ValueError(_coincident_)
 
-        r1 =  s2 * q3 / s3  # s2!
-        r2 =  s1 * q3 / s3  # s1!
-        Qs = _F1(*q)  # == hypot2_(a, b, c)
-        Ss = _F1(*s)  # == fsum1(s)
-        s += (Qs * _0_5),  # tuple!
-        C0 =  Fdot(s, q1, q2, q3, -Ss)
-        r3 =  C0.fover(-s3)
-        d0 =  Qs.fpow(2).fsub_(hypot2_(*q) * _2_0).fmul(s1 * s2).fover(s3)
+        ra, rb = map1(radians, da, db)
+        s1, s2, s3 = s = map1(_s, rb, ra, ra + rb)  # rb, ra!
+        if min(s) < EPS02:
+            raise ValueError(_or(_coincident_, _colinear_))
+
+        q4 =  hypot2_(*q) * _2_0  # a**4 + ...
+        Qs = _F1(*q)   # == hypot2_(a, b, c)
+        d0 = (Qs**2 - q4).fmul(s1 * s2).fover(s3)
+        if d0 < 0:
+            raise ValueError(_negative_)
+        s += _F1(*s),  # == fsum1(s),
+        C0 =  Fdot(s, q1, q2, q3, -Qs * _0_5)
+        r3 =  C0.fover(-s3)  # C0 /= -s3
         if d0 > EPS02:  # > c0
             _xcallable(R3=R3)
             d0 = sqrt(d0)
             r3 = R3(float(C0 + d0), float(C0 - d0))  # XXX min or max
-        elif d0 < 0:
-            raise ValueError(_negative_)
 
-        pa = _vpa(r1, r3, q2, q3, s3)
-        pb = _vpa(r2, r3, q1, q3, s3)
+        pa = _vpa(r3, q2, q3, s2, s3)
+        pb = _vpa(r3, q1, q3, s1, s3)
         pc =  favg(_triSide2(b, pa, ra).a,
                    _triSide2(a, pb, rb).a)
         return Survey3Tuple(pa, pb, pc, name=wildberger3.__name__)

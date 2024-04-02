@@ -71,7 +71,7 @@ from pygeodesy.utily import asin1, atan1, atan2b, atan2d, sincos2, \
 from math import acos, atan2, degrees, fabs, sin, sqrt
 
 __all__ = _ALL_LAZY.azimuthal
-__version__ = '24.03.22'
+__version__ = '24.04.02'
 
 _EPS_K         = _EPStol * _0_1  # Karney's eps_ or _EPSmin * _0_1?
 _over_horizon_ = 'over horizon'
@@ -332,7 +332,7 @@ class Azimuthal7Tuple(_NamedTuple):
            @kwarg azimuth: Optional azimuth, overriding the current azimuth
                            (C{compass degrees360}).
         '''
-        a = _MODS.formy.antipode(self.lat, self.lon)  # PYCHOK _namedTuple
+        a = _MODS.formy.antipode(self.lat, self.lon)  # PYCHOK named
         z = self.azimuth if azimuth is None else Bearing(azimuth=azimuth)  # PYCHOK named
         return _NamedTuple.dup(self, lat=a.lat, lon=a.lon, azimuth=z)
 

@@ -10,11 +10,11 @@ from pygeodesy.basics import _copysign, copysign0, isint, len2
 from pygeodesy.constants import EPS0, EPS02, EPS1, NAN, PI, PI_2, PI_4, \
                                _0_0, _0_125, _0_25, _0_5, _1_0, _N_1_0, \
                                _1_3rd, _1_5, _1_6th, _2_0, _2_3rd, _3_0, \
-                               _isfinite, isnear0, isnear1, _over, remainder
+                               _isfinite, isnear1, _over, remainder
 from pygeodesy.errors import _IsnotError, LenError, _TypeError, _ValueError, \
                              _xError, _xkwds_get, _xkwds_pop2
-from pygeodesy.fsums import _2float, _Powers, Fsum, _fsum, fsum, fsum1_, \
-                            _pow_op_,  Fmt, unstr
+from pygeodesy.fsums import _2float, Fsum, _fsum, fsum, fsum1_, _pow_op_, \
+                            _1primed,  Fmt, unstr
 from pygeodesy.interns import MISSING, _few_, _h_, _invokation_, _negative_, \
                              _not_scalar_, _SPACE_, _too_
 from pygeodesy.lazily import _ALL_LAZY, _sys_version_info2
@@ -25,22 +25,24 @@ from math import fabs, sqrt  # pow
 import operator as _operator  # in .datums, .trf, .utm
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '24.03.14'
+__version__ = '24.03.31'
 
 # sqrt(2) <https://WikiPedia.org/wiki/Square_root_of_2>
-_0_4142 = 0.41421356237309504880  # ... sqrt(2) - 1
+_0_4142  =  0.41421356237309504880  # ... sqrt(2) - 1
+_h_lt_b_ = 'abs(h) < abs(b)'
 
 
 class Fdot(Fsum):
     '''Precision dot product.
     '''
-    def __init__(self, a, *b, **name):
+    def __init__(self, a, *b, **name_RESIDUAL):
         '''New L{Fdot} precision dot product M{sum(a[i] * b[i]
-           for i=0..len(a))}.
+           for i=0..len(a)-1)}.
 
            @arg a: Iterable, list, tuple, etc. (C{scalar}s).
            @arg b: Other values (C{scalar}s), all positional.
-           @kwarg name: Optional name (C{str}).
+           @kwarg name_RESIDUAL: Optional C{B{name}=NN} and
+                       C{B{RESIDUAL}=None}, see L{Fsum.__init__}.
 
            @raise OverflowError: Partial C{2sum} overflow.
 
@@ -48,21 +50,22 @@ class Fdot(Fsum):
 
            @see: Function L{fdot} and method L{Fsum.fadd}.
         '''
-        Fsum.__init__(self, **name)
+        Fsum.__init__(self, **name_RESIDUAL)
         self.fadd(_map_mul(a, b, Fdot))
 
 
 class Fhorner(Fsum):
     '''Precision polynomial evaluation using the Horner form.
     '''
-    def __init__(self, x, *cs, **name):
-        '''New L{Fhorner} evaluation of the polynomial
-           M{sum(cs[i] * x**i for i=0..len(cs))}.
+    def __init__(self, x, *cs, **name_RESIDUAL):
+        '''New L{Fhorner} evaluation of polynomial M{sum(cs[i] * x**i
+           for i=0..len(cs)-1)}.
 
-           @arg x: Polynomial argument (C{scalar}).
+           @arg x: Polynomial argument (C{scalar} or C{Fsum} instance).
            @arg cs: Polynomial coeffients (C{scalar} or C{Fsum}
                     instances), all positional.
-           @kwarg name: Optional name (C{str}).
+           @kwarg name_RESIDUAL: Optional C{B{name}=NN} and
+                       C{B{RESIDUAL}=None}, see L{Fsum.__init__}.
 
            @raise OverflowError: Partial C{2sum} overflow.
 
@@ -70,40 +73,49 @@ class Fhorner(Fsum):
 
            @raise ValueError: Non-finite B{C{x}}.
 
-           @see: Function L{fhorner} and methods L{Fsum.fadd} and L{Fsum.fmul}.
+           @see: Function L{fhorner} and methods L{Fsum.fadd} and
+                 L{Fsum.fmul}.
         '''
-        Fsum.__init__(self, *cs[-1:], **name)
-        if len(cs) > 1:
-            x  = _2float(x=x)
-            _a =  self._fadd    # (other, op)
-            _f =  self._finite  # (other, op)
-            op =  Fhorner.__name__
-            ps =  self._ps
-            for c in reversed(cs[:-1]):  # multiply-accumulate
-                ps[:] = [_f(p * x, op) for p in ps]
-                _a(c, op)
-            # assert self._ps is ps
+        Fsum.__init__(self, **name_RESIDUAL)
+        if cs:
+            if isinstance(x, Fsum):
+                _mul = self._mul_Fsum
+            else:
+                _mul = self._mul_scalar
+                x = _2float(x=x)
+            op = Fhorner.__name__
+            if len(cs) > 1 and x:
+                for c in reversed(cs):
+                    self._fset_ps(_mul(x, op))
+                    self._fadd(c, op, up=False)
+                self._update()
+            else:  # x == 0
+                self._fadd(cs[0], op)
+        else:
+            self._fset(_0_0)
 
 
 class Fhypot(Fsum):
-    '''Precision hypotenuse of summation.
+    '''Precision summation and hypotenuse, default C{power=2}.
     '''
     def __init__(self, *xs, **power_name_RESIDUAL):
-        '''New L{Fhypot} hypotenuse of (the I{power} of) several
-           C{scalar} or C{Fsum} values.
+        '''New L{Fhypot} hypotenuse of (the I{power} of) several components.
 
-           @arg xs: One or more values to include (each C{scalar}
-                    or an C{Fsum} instance).
-           @kwarg power_name_RESIDUAL: Optional exponent and root
-                        order C{B{power}=2}, C{B{name}=NN} and
+           @arg xs: One or more components (each a C{scalar} or an C{Fsum}
+                    instance).
+           @kwarg power_name_RESIDUAL: Optional, C{scalar} exponent and
+                        root order C{B{power}=2}, a C{B{name}=NN} and
                         C{B{RESIDUAL}=None}, see L{Fsum.__init__}.
         '''
         try:
             p, kwds = _xkwds_pop2(power_name_RESIDUAL, power=2)
             Fsum.__init__(self, **kwds)
             if xs:
-                self._facc(_Powers(p, xs), up=False)  # PYCHOK yield
-            self._fset(self._fpow(_1_0 / p, _pow_op_), asis=True)
+                r = _1_0 / p
+                self._facc_power(p, xs, Fhypot)
+                self._fpow(r, _pow_op_)
+            else:
+                self._fset(_0_0)
         except Exception as X:
             raise self._ErrorX(X, xs, power=p)
 
@@ -111,14 +123,15 @@ class Fhypot(Fsum):
 class Fpolynomial(Fsum):
     '''Precision polynomial evaluation.
     '''
-    def __init__(self, x, *cs, **name):
+    def __init__(self, x, *cs, **name_RESIDUAL):
         '''New L{Fpolynomial} evaluation of the polynomial
-           M{sum(cs[i] * x**i for i=0..len(cs))}.
+           M{sum(cs[i] * x**i for i=0..len(cs)-1)}.
 
-           @arg x: Polynomial argument (C{scalar}).
-           @arg cs: Polynomial coeffients (C{scalar}s), all
-                    positional.
-           @kwarg name: Optional name (C{str}).
+           @arg x: Polynomial argument (C{scalar} or L{Fsum}).
+           @arg cs: Polynomial coeffients (each a C{scalar} or
+                    an L{Fsum} instance), all positional.
+           @kwarg name_RESIDUAL: Optional C{B{name}=NN} and
+                       C{B{RESIDUAL}=None}, see L{Fsum.__init__}.
 
            @raise OverflowError: Partial C{2sum} overflow.
 
@@ -126,79 +139,81 @@ class Fpolynomial(Fsum):
 
            @raise ValueError: Non-finite B{C{x}}.
 
-           @see: Function L{fpolynomial} and method L{Fsum.fadd}.
+           @see: Class L{Fhorner}, function L{fpolynomial} and
+                 method L{Fsum.fadd}.
         '''
-        Fsum.__init__(self, *cs[:1], **name)
+        Fsum.__init__(self, *cs[:1], **name_RESIDUAL)
         n = len(cs) - 1
         if n > 0:
-            self.fadd(_map_mul(cs[1:], fpowers(x, n), Fpolynomial))
+            self.fadd(_1map_mul(cs[1:], _powers(x, n)))
+        elif n < 0:
+            self._fset(_0_0)
 
 
 class Fpowers(Fsum):
-    '''Precision summation or powers, optimized for C{power=2}.
+    '''Precision summation of powers, optimized for C{power=2, 3 and 4}.
     '''
     def __init__(self, power, *xs, **name_RESIDUAL):
-        '''New L{Fpowers} sum of (the I{power} of) several C{scalar}
-           or C{Fsum} values.
+        '''New L{Fpowers} sum of (the I{power} of) several values.
 
-           @arg power: The exponent (C{scalar} or C{Fsum}).
-           @arg xs: One or more values to include (each C{scalar}
-                    or an C{Fsum} instance).
-           @kwarg power_name_RESIDUAL: Optional exponent and root
-                        order C{B{power}=2}, C{B{name}=NN} and
-                        C{B{RESIDUAL}=None}, see L{Fsum.__init__}.
+           @arg power: The exponent (C{scalar} or L{Fsum}).
+           @arg xs: One or more values (each a C{scalar} or an
+                    C{Fsum} instance).
+           @kwarg name_RESIDUAL: Optional C{B{name}=NN} and
+                       C{B{RESIDUAL}=None}, see L{Fsum.__init__}.
         '''
         try:
             Fsum.__init__(self, **name_RESIDUAL)
             if xs:
-                self._facc(_Powers(power, xs), up=False)  # PYCHOK yield
-        except Exception as X:
-            raise self._ErrorX(X, xs, power=power)
+                self._facc_power(power, xs, Fpowers)  # x**0 == 1
+            else:
+                self._fset(_0_0)
+        except Exception as x:
+            raise self._ErrorX(x, xs, power=power)
 
 
 class Fn_rt(Fsum):
-    '''Precision n-th root of summation.
+    '''N-th root of a precision summation.
     '''
     def __init__(self, root, *xs, **name_RESIDUAL):
-        '''New L{Fn_rt} root of the precision sum of several
-           C{scalar} or C{Fsum} values.
+        '''New L{Fn_rt} root of a precision sum.
 
-           @arg root: The order (C{scalar} or C{Fsum}).
-           @arg xs: Values to include (each C{scalar} or an
-                    C{Fsum} instance).
+           @arg root: The order (C{scalar} or C{Fsum}),
+                      non-zero.
+           @arg xs: Values to summate (each a C{scalar} or
+                    an C{Fsum} instance).
            @kwarg name_RESIDUAL: See L{Fsum.__init__}.
         '''
         try:
-            Fsum.__init__(self, *xs, **name_RESIDUAL)
-            self._fset(self._fpow(_1_0 / root, _pow_op_), asis=True)
-        except Exception as X:
-            raise self._ErrorX(X, xs, root=root)
+            Fsum.__init__(self, **name_RESIDUAL)
+            if xs:
+                r = _1_0 / root
+                self. fadd(xs)
+                self._fpow(r, _pow_op_)  # self **= r
+            else:
+                self._fset(_0_0)
+        except Exception as x:
+            raise self._ErrorX(x, xs, root=root)
 
 
 class Fcbrt(Fn_rt):
-    '''Precision cubic root of summation.
+    '''Cubic root of a precision summation.
     '''
     def __init__(self, *xs, **name_RESIDUAL):
-        '''New L{Fcbrt} cubic root of the precision sum of
-           several C{scalar} or C{Fsum} values.
+        '''New L{Fcbrt} cubic root of a precision sum.
 
-           @arg xs: Values to include (each C{scalar} or an
-                    C{Fsum} instance).
-           @kwarg name_RESIDUAL: See L{Fsum.__init__}.
+           @see: Class L{Fn_rt} for further details.
         '''
         Fn_rt.__init__(self, _3_0, *xs, **name_RESIDUAL)
 
 
 class Fsqrt(Fn_rt):
-    '''Precision square root of summation.
+    '''Square root of a precision summation.
     '''
     def __init__(self, *xs, **name_RESIDUAL):
-        '''New L{Fsqrt} square root of the precision sum of
-           several C{scalar} or C{Fsum} values.
+        '''New L{Fsqrt} square root of a precision sum.
 
-           @arg xs: Values to include (each C{scalar} or an
-                    C{Fsum} instance).
-           @kwarg name_RESIDUAL: See L{Fsum.__init__}.
+           @see: Class L{Fn_rt} for further details.
         '''
         Fn_rt.__init__(self, _2_0, *xs, **name_RESIDUAL)
 
@@ -355,12 +370,12 @@ def fatan2(y, x):
              master/Source/Shaders/Builtin/Functions/fastApproximateAtan.glsl>}
              and L{fatan1}.
     '''
-    b, a = fabs(y), fabs(x)
-    if a < b:
+    a, b = fabs(x), fabs(y)
+    if b > a:
         r = (PI_2 - fatan1(a / b)) if a else PI_2
-    elif b < a:
+    elif a > b:
         r = fatan1(b / a) if b else _0_0
-    elif a:  # == b != 0
+    elif a:  # a == b != 0
         r = PI_4
     else:  # a == b == 0
         return _0_0
@@ -407,7 +422,7 @@ def fdot(a, *b):
 
 def fdot3(a, b, c, start=0):
     '''Return the precision dot product M{start +
-       sum(a[i] * b[i] * c[i] for i=0..len(a))}.
+       sum(a[i] * b[i] * c[i] for i=0..len(a)-1)}.
 
        @arg a: Iterable, list, tuple, etc. (C{scalar}s).
        @arg b: Iterable, list, tuple, etc. (C{scalar}s).
@@ -424,7 +439,7 @@ def fdot3(a, b, c, start=0):
     def _mul3(a, b, c):  # map function
         return a * b * c
 
-    def _muly(a, b, c, start):
+    def _mul3_(a, b, c, start):
         yield start
         for abc in map(_mul3, a, b, c):
             yield abc
@@ -432,12 +447,12 @@ def fdot3(a, b, c, start=0):
     if not len(a) == len(b) == len(c):
         raise LenError(fdot3, a=len(a), b=len(b), c=len(c))
 
-    return fsum(_muly(a, b, c, start) if start else map(_mul3, a, b, c))
+    return fsum(_mul3_(a, b, c, start) if start else map(_mul3, a, b, c))
 
 
 def fhorner(x, *cs):
     '''Evaluate the polynomial M{sum(cs[i] * x**i for
-       i=0..len(cs))} using the Horner form.
+       i=0..len(cs)-1)} using the Horner form.
 
        @arg x: Polynomial argument (C{scalar}).
        @arg cs: Polynomial coeffients (C{scalar}s).
@@ -483,45 +498,37 @@ def fidw(xs, ds, beta=2):
         b = -Int_(beta=beta, low=0, high=3)
         if b < 0:
             ws = tuple(float(d)**b for d in ds)
-            t =  fsum(_map_mul1(xs, ws))  # fdot(xs, *ws)
+            t =  fsum(_1map_mul(xs, ws))  # Fdot(xs, *ws)
             x = _over(t, fsum(ws, floats=True))
         else:  # b == 0
             x = fsum(xs) / n  # fmean(xs)
     elif d < 0:  # PYCHOK no cover
-        n = Fmt.INDEX(distance=ds.index(d))
+        n = Fmt.SQUARE(distance=ds.index(d))
         raise _ValueError(n, d, txt=_negative_)
     return x
 
 
 def fmean(xs):
-    '''Compute the accurate mean M{sum(xs[i] for
-       i=0..len(xs)) / len(xs)}.
+    '''Compute the accurate mean M{sum(xs) / len(xs)}.
 
        @arg xs: Values (C{scalar} or L{Fsum} instances).
 
        @return: Mean value (C{float}).
 
-       @raise OverflowError: Partial C{2sum} overflow.
+       @raise LenError: No B{C{xs}} values.
 
-       @raise ValueError: No B{C{xs}} values.
+       @raise OverflowError: Partial C{2sum} overflow.
     '''
     n, xs = len2(xs)
-    if n > 0:
-        return fsum(xs) / n  # if n > 1 else _2float(index=0, xs=xs[0])
-    raise _ValueError(xs=xs)
+    if n < 1:
+        raise LenError(fmean, xs=xs)
+    return Fsum(*xs).fover(n) if n > 1 else _2float(index=0, xs=xs[0])
 
 
 def fmean_(*xs):
-    '''Compute the accurate mean M{sum(xs[i] for
-       i=0..len(xs)) / len(xs)}.
+    '''Compute the accurate mean M{sum(xs) / len(xs)}.
 
-       @arg xs: Values (C{scalar} or L{Fsum} instances).
-
-       @return: Mean value (C{float}).
-
-       @raise OverflowError: Partial C{2sum} overflow.
-
-       @raise ValueError: No B{C{xs}} values.
+       @see: Function L{fmean} for further details.
     '''
     return fmean(xs)
 
@@ -533,7 +540,8 @@ def fpolynomial(x, *cs, **over):
        @arg x: Polynomial argument (C{scalar}).
        @arg cs: Polynomial coeffients (C{scalar}s), all
                 positional.
-       @kwarg over: Optional, final divisor (C{scalar}
+       @kwarg over: Optional final, I{non-zero} divisor
+                    (C{scalar}).
 
        @return: Polynomial value (C{float}).
 
@@ -553,28 +561,24 @@ def fpolynomial(x, *cs, **over):
 def fpowers(x, n, alts=0):
     '''Return a series of powers M{[x**i for i=1..n]}.
 
-       @arg x: Value (C{scalar}).
+       @arg x: Value (C{scalar} or L{Fsum}).
        @arg n: Highest exponent (C{int}).
-       @kwarg alts: Only alternating powers, starting with
-                    this exponent (C{int}).
+       @kwarg alts: Only alternating powers, starting with this
+                    exponent (C{int}).
 
-       @return: Powers of B{C{x}} (C{float}s or C{int}s).
+       @return: Tuple of powers of B{C{x}} (C{type(B{x})}).
 
-       @raise TypeError: Non-scalar B{C{x}} or B{C{n}} not C{int}.
+       @raise TypeError: Invalid B{C{x}} or B{C{n}} not C{int}.
 
-       @raise ValueError: Non-finite B{C{x}} or non-positive B{C{n}}.
+       @raise ValueError: Non-finite B{C{x}} or invalid B{C{n}}.
     '''
     if not isint(n):
         raise _IsnotError(int.__name__, n=n)
     elif n < 1:
         raise _ValueError(n=n)
 
-    p  = t = x if isint(x) else _2float(x=x)
-    ps = [p]
-    _a = ps.append
-    for _ in range(1, n):
-        p *= t
-        _a(p)
+    p  = x if isint(x) or isinstance(x, Fsum) else _2float(x=x)
+    ps = tuple(_powers(p, n))
 
     if alts > 0:  # x**2, x**4, ...
         # ps[alts-1::2] chokes PyChecker
@@ -618,7 +622,7 @@ def frange(start, number, step=1):
     if not isint(number):
         raise _IsnotError(int.__name__, number=number)
     for i in range(number):
-        yield start + i * step
+        yield start + (step * i)
 
 
 try:
@@ -752,8 +756,10 @@ def _h_x2(xs):
             h = float(max(map(fabs, xs)))
             if h < EPS0:
                 x2 = _0_0
-            else:  # math.fsum, see C{_hypot21_} below
-                x2 = _fsum(_x2_h2(_1_0, xs, h, _N_1_0))
+            elif h in (_1_0, _N_1_0):
+                x2 = _fsum(_1primed(x**2 for x in xs))
+            else:  # math.fsum
+                x2 = _fsum(_1primed((x / h)**2 for x in xs))
             return h, x2
 
     raise _ValueError(xs=xs, txt=_too_(_few_))
@@ -814,17 +820,13 @@ def _map_mul(a, b, where):
     n = len(b)
     if len(a) != n:  # PYCHOK no cover
         raise LenError(where, a=len(a), b=n)
-    return map(_operator.mul, a, b) if n > 3 else _map_mul1(a, b)
+    return map(_operator.mul, a, b) if n > 3 else _1map_mul(a, b)
 
 
-def _map_mul1(a, b):
+def _1map_mul(a, b):
     '''(INTERNAL) Yield each B{C{a * b}}, 1-primed.
     '''
-    yield _1_0
-    for ab in map(_operator.mul, a, b):
-        if ab:
-            yield ab
-    yield _N_1_0
+    return _1primed(map(_operator.mul, a, b))
 
 
 def norm2(x, y):
@@ -869,6 +871,15 @@ def norm_(*xs):
     else:
         for _ in xs:
             yield _0_0
+
+
+def _powers(x, n):
+    '''(INTERNAL) Yield C{x**i for i=1..n}.
+    '''
+    p = 1  # type(p) == type(x)
+    for _ in range(n):
+        p *= x
+        yield p
 
 
 def _root(x, p, where):
@@ -931,36 +942,22 @@ def sqrt_a(h, b):
     try:
         if not (_isHeight(h) and _isRadius(b)):
             raise TypeError(_not_scalar_)
-        elif isnear0(h):  # PYCHOK no cover
-            c, b = fabs(h), fabs(b)
-            d = c - b
-            if d < 0:
-                raise ValueError('abs(h) < abs(b)')
-            a = copysign0(sqrt((c + b) * d), h) if d > 0 else _0_0
-        else:
-            c =  float(h)
+        c = fabs(h)
+        if c > EPS0:
             s = _1_0 - (b / c)**2
             if s < 0:
-                raise ValueError('abs(h) < abs(b)')
+                raise ValueError(_h_lt_b_)
             a = (sqrt(s) * c) if 0 < s < 1 else (c if s else _0_0)
+        else:  # PYCHOK no cover
+            b = fabs(b)
+            d = c - b
+            if d < 0:
+                raise ValueError(_h_lt_b_)
+            d *= c + b
+            a  = sqrt(d) if d else _0_0
     except Exception as x:
         raise _xError(x, h=h, b=b)
-    return a
-
-
-def _x2_h2(s, xs, h, e):
-    '''(INTERNAL) Yield M{(x / h)**2 for x in xs}.
-    '''
-    yield s
-    if h in (_0_0, _1_0):
-        for x in xs:
-            if x:
-                yield x**2
-    else:
-        for x in xs:
-            if x:
-                yield (x / h)**2
-    yield e
+    return copysign0(a, h)
 
 
 def zcrt(x):

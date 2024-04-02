@@ -63,7 +63,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        24.03.14
+        24.03.31
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -94,7 +94,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.fmath.Fhypot-class.html" class="summary-name">Fhypot</a><br />
-      Precision hypotenuse of summation.
+      Precision summation and hypotenuse, default <code>power=2</code>.
     </td>
   </tr>
 <tr>
@@ -110,7 +110,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.fmath.Fpowers-class.html" class="summary-name">Fpowers</a><br />
-      Precision summation or powers, optimized for <code>power=2</code>.
+      Precision summation of powers, optimized for <code>power=2, 3 and 
+        4</code>.
     </td>
   </tr>
 <tr>
@@ -118,7 +119,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.fmath.Fn_rt-class.html" class="summary-name">Fn_rt</a><br />
-      Precision n-th root of summation.
+      N-th root of a precision summation.
     </td>
   </tr>
 <tr>
@@ -126,7 +127,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.fmath.Fcbrt-class.html" class="summary-name">Fcbrt</a><br />
-      Precision cubic root of summation.
+      Cubic root of a precision summation.
     </td>
   </tr>
 <tr>
@@ -134,7 +135,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.fmath.Fsqrt-class.html" class="summary-name">Fsqrt</a><br />
-      Precision square root of summation.
+      Square root of a precision summation.
     </td>
   </tr>
 </table>
@@ -375,7 +376,7 @@
         <span class="summary-sig-arg">c</span>,
         <span class="summary-sig-arg">start</span>=<span class="summary-sig-default">0</span>)</span><br />
       Return the precision dot product <i class="math">start + sum(a[i] * 
-      b[i] * c[i] for i=0..len(a))</i>.</td>
+      b[i] * c[i] for i=0..len(a)-1)</i>.</td>
           <td align="right" valign="top">
             
             
@@ -394,7 +395,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#fhorner" class="summary-sig-name">fhorner</a>(<span class="summary-sig-arg">x</span>,
         <span class="summary-sig-arg">*cs</span>)</span><br />
       Evaluate the polynomial <i class="math">sum(cs[i] * x**i for 
-      i=0..len(cs))</i> using the Horner form.</td>
+      i=0..len(cs)-1)</i> using the Horner form.</td>
           <td align="right" valign="top">
             
             
@@ -432,8 +433,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#fmean" class="summary-sig-name">fmean</a>(<span class="summary-sig-arg">xs</span>)</span><br />
-      Compute the accurate mean <i class="math">sum(xs[i] for i=0..len(xs))
-      / len(xs)</i>.</td>
+      Compute the accurate mean <i class="math">sum(xs) / len(xs)</i>.</td>
           <td align="right" valign="top">
             
             
@@ -450,8 +450,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#fmean_" class="summary-sig-name">fmean_</a>(<span class="summary-sig-arg">*xs</span>)</span><br />
-      Compute the accurate mean <i class="math">sum(xs[i] for i=0..len(xs))
-      / len(xs)</i>.</td>
+      Compute the accurate mean <i class="math">sum(xs) / len(xs)</i>.</td>
           <td align="right" valign="top">
             
             
@@ -1164,7 +1163,7 @@
   </tr></table>
   
   <p>Return the precision dot product <i class="math">start + sum(a[i] * 
-  b[i] * c[i] for i=0..len(a))</i>.</p>
+  b[i] * c[i] for i=0..len(a)-1)</i>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -1200,7 +1199,7 @@
   </tr></table>
   
   <p>Evaluate the polynomial <i class="math">sum(cs[i] * x**i for 
-  i=0..len(cs))</i> using the Horner form.</p>
+  i=0..len(cs)-1)</i> using the Horner form.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -1281,8 +1280,7 @@
     </td>
   </tr></table>
   
-  <p>Compute the accurate mean <i class="math">sum(xs[i] for i=0..len(xs)) 
-  / len(xs)</i>.</p>
+  <p>Compute the accurate mean <i class="math">sum(xs) / len(xs)</i>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -1294,8 +1292,8 @@
         <dd>Mean value (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.LenError-class.html">LenError</a></strong></code> - No <b><code>xs</code></b> values.</li>
         <li><code><strong class='fraise'>OverflowError</strong></code> - Partial <code>2sum</code> overflow.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - No <b><code>xs</code></b> values.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -1314,24 +1312,14 @@
     </td>
   </tr></table>
   
-  <p>Compute the accurate mean <i class="math">sum(xs[i] for i=0..len(xs)) 
-  / len(xs)</i>.</p>
+  <p>Compute the accurate mean <i class="math">sum(xs) / len(xs)</i>.</p>
   <dl class="fields">
-    <dt>Arguments:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xs</code></strong> - Values (<code>scalar</code> or <a 
-          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> 
-          instances).</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>Mean value (<code>float</code>).</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>OverflowError</strong></code> - Partial <code>2sum</code> overflow.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - No <b><code>xs</code></b> values.</li>
-    </ul></dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.fmath-module.html#fmean" 
+        class="link">fmean</a> for further details.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="fpolynomial"></a>
 <div>
@@ -1356,7 +1344,7 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>x</code></strong> - Polynomial argument (<code>scalar</code>).</li>
         <li><strong class="pname"><code>cs</code></strong> - Polynomial coeffients (<code>scalar</code>s), all positional.</li>
-        <li><strong class="pname"><code>over</code></strong> - Optional, final divisor (<code>scalar</code></li>
+        <li><strong class="pname"><code>over</code></strong> - Optional final, <i>non-zero</i> divisor (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Polynomial value (<code>float</code>).</dd>
@@ -1396,20 +1384,20 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>x</code></strong> - Value (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>x</code></strong> - Value (<code>scalar</code> or <a 
+          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a>).</li>
         <li><strong class="pname"><code>n</code></strong> - Highest exponent (<code>int</code>).</li>
         <li><strong class="pname"><code>alts</code></strong> - Only alternating powers, starting with this exponent 
           (<code>int</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Powers of <b><code>x</code></b> (<code>float</code>s or 
-          <code>int</code>s).</dd>
+        <dd>Tuple of powers of <b><code>x</code></b> 
+          (<code>type(<b>x</b>)</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <b><code>x</code></b> or <b><code>n</code></b> not 
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>x</code></b> or <b><code>n</code></b> not 
         <code>int</code>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Non-finite <b><code>x</code></b> or non-positive 
-        <b><code>n</code></b>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Non-finite <b><code>x</code></b> or invalid <b><code>n</code></b>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -1948,7 +1936,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Mar 24 15:02:13 2024
+    Generated by Epydoc 3.0.1 on Tue Apr  2 13:33:10 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
