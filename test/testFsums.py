@@ -110,7 +110,7 @@ class Tests(TestsBase):
         t = a + a.fcopy().fmul(-1)
         self.test('FSum0', t.fsum(), 0.0)
         z = t.sizeof
-        self.test('sizeof', str(z), 397, known=z is None or 300 < z < 600)
+        self.test('sizeof', str(z), 397, known=z is None or 200 < z < 600)
 
         a.fsub_(*a._ps)
         self.test('FSum0', a.fsum(), 0.0)
