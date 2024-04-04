@@ -8,9 +8,9 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import _copysign, copysign0, isint, len2
 from pygeodesy.constants import EPS0, EPS02, EPS1, NAN, PI, PI_2, PI_4, \
-                               _0_0, _0_125, _0_25, _0_5, _1_0, _N_1_0, \
-                               _1_3rd, _1_5, _1_6th, _2_0, _2_3rd, _3_0, \
-                               _isfinite, isnear1, _over, remainder
+                               _0_0, _0_125, _0_25, _0_5, _1_0, _1_3rd, \
+                               _1_5, _1_6th, _2_0, _2_3rd, _3_0, \
+                               _copysign_0_0, _isfinite, _over, remainder
 from pygeodesy.errors import _IsnotError, LenError, _TypeError, _ValueError, \
                              _xError, _xkwds_get, _xkwds_pop2
 from pygeodesy.fsums import _2float, Fsum, _fsum, fsum, fsum1_, _pow_op_, \
@@ -25,7 +25,7 @@ from math import fabs, sqrt  # pow
 import operator as _operator  # in .datums, .trf, .utm
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '24.03.31'
+__version__ = '24.04.04'
 
 # sqrt(2) <https://WikiPedia.org/wiki/Square_root_of_2>
 _0_4142  =  0.41421356237309504880  # ... sqrt(2) - 1
@@ -116,8 +116,8 @@ class Fhypot(Fsum):
                 self._fpow(r, _pow_op_)
             else:
                 self._fset(_0_0)
-        except Exception as X:
-            raise self._ErrorX(X, xs, power=p)
+        except Exception as x:
+            raise self._ErrorXs(x, xs, power=p)
 
 
 class Fpolynomial(Fsum):
@@ -169,7 +169,7 @@ class Fpowers(Fsum):
             else:
                 self._fset(_0_0)
         except Exception as x:
-            raise self._ErrorX(x, xs, power=power)
+            raise self._ErrorXs(x, xs, power=power)
 
 
 class Fn_rt(Fsum):
@@ -193,7 +193,7 @@ class Fn_rt(Fsum):
             else:
                 self._fset(_0_0)
         except Exception as x:
-            raise self._ErrorX(x, xs, root=root)
+            raise self._ErrorXs(x, xs, root=root)
 
 
 class Fcbrt(Fn_rt):
@@ -359,7 +359,7 @@ def fatan1(x):
     # Eq (9): PI_4 * x - x * (abs(x) - 1) * (0.2447 + 0.0663 * abs(x)), for -1 < x < 1
     #         PI_4 * x - (x**2 - x) * (0.2447 + 0.0663 * x), for 0 < x - 1
     #         x * (1.0300981633974482 + x * (-0.1784 - x * 0.0663))
-    H = Fhorner(x, _0_0, 1.0300982, -0.1784, -0.0663)
+    H = Fhorner(x, _0_0, 1.0300981634, -0.1784, -0.0663)
     return float(H)
 
 
@@ -716,7 +716,7 @@ if _sys_version_info2 < (3, 8):  # PYCHOK no cover
                   computed as M{hypot_(*((c1 - c2) for c1, c2 in zip(p1, p2)))},
                   provided I{p1} and I{p2} have the same, non-zero length I{n}.
         '''
-        h, x2 = _h_x2(xs)
+        h, x2 = _h_x2(xs, hypot_)
         return (h * sqrt(x2)) if x2 else _0_0
 
 elif _sys_version_info2 < (3, 10):
@@ -747,22 +747,23 @@ else:
     hypot_ = hypot
 
 
-def _h_x2(xs):
+def _h_x2(xs, which):
     '''(INTERNAL) Helper for L{hypot_} and L{hypot2_}.
     '''
-    if xs:
-        n, xs = len2(xs)
-        if n > 0:
-            h = float(max(map(fabs, xs)))
-            if h < EPS0:
-                x2 = _0_0
-            elif h in (_1_0, _N_1_0):
-                x2 = _fsum(_1primed(x**2 for x in xs))
-            else:  # math.fsum
-                x2 = _fsum(_1primed((x / h)**2 for x in xs))
-            return h, x2
+    n, xs = len2(xs)
+    if n > 0:
+        h = float(max(map(fabs, xs)))
+        if h < EPS0:
+            x2 = _0_0
+        elif n > 1:
+            _h = (_1_0 / h) if h != _1_0 else _1_0
+            x2 = _fsum(_1primed((x * _h)**2 for x in xs))
+        else:
+            x2 = _1_0
+        return h, x2
 
-    raise _ValueError(xs=xs, txt=_too_(_few_))
+    t = Fmt.PAREN(which.__name__, xs)
+    raise _ValueError(t, txt=_too_(_few_))
 
 
 def hypot1(x):
@@ -783,15 +784,12 @@ def hypot2(x, y):
 
        @return: C{B{x}**2 + B{y}**2} (C{float}).
     '''
+    if fabs(x) < fabs(y):
+        x, y = y, x
     if x:
+        h2 = x**2
         if y:
-            if fabs(x) < fabs(y):
-                x, y = y, x
-            h2 = x**2 * ((y / x)**2 + _1_0)
-        else:
-            h2 = x**2
-    elif y:
-        h2 = y**2
+            h2 *= (y / x)**2 + _1_0
     else:
         h2 = _0_0
     return h2
@@ -810,7 +808,7 @@ def hypot2_(*xs):
 
        @see: Function L{hypot_}.
     '''
-    h, x2 = _h_x2(xs)
+    h, x2 = _h_x2(xs, hypot2_)
     return (h**2 * x2) if x2 else _0_0
 
 
@@ -840,14 +838,15 @@ def norm2(x, y):
        @raise ValueError: Invalid B{C{x}} or B{C{y}}
               or zero norm.
     '''
-    h = hypot(x, y)
-    if not h:
-        x = y = _0_0  # pass?
-    elif not isnear1(h):
-        try:
-            x, y = x / h, y / h
-        except Exception as e:
-            raise _xError(e, x=x, y=y, h=h)
+    try:
+        h = hypot(x, y)
+        if h:
+            x, y = (x / h), (y / h)
+        else:
+            x = _copysign_0_0(x)  # pass?
+            y = _copysign_0_0(y)
+    except Exception as e:
+        raise _xError(e, x=x, y=y, h=h)
     return x, y
 
 
@@ -861,16 +860,13 @@ def norm_(*xs):
        @raise ValueError: Invalid or insufficent B{C{xs}}
               or zero norm.
     '''
-    h = hypot_(*xs)
-    if h:
-        try:
-            for i, x in enumerate(xs):
-                yield x / h
-        except Exception as e:
-            raise _xError(e, Fmt.SQUARE(xs=i), x, _h_, h)
-    else:
-        for _ in xs:
-            yield _0_0
+    try:
+        h  = hypot_(*xs)
+        _h = (_1_0 / h) if h else _0_0
+        for i, x in enumerate(xs):
+            yield x * _h
+    except Exception as e:
+        raise _xError(e, Fmt.SQUARE(xs=i), x, _h_, h)
 
 
 def _powers(x, n):

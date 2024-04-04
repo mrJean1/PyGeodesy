@@ -23,7 +23,7 @@ except ImportError:  # Python 2-
     _inf, _nan = float(_INF_), float(_NAN_)
 
 __all__ = _ALL_LAZY.constants
-__version__ = '24.03.15'
+__version__ = '24.04.04'
 
 
 def _copysign_0_0(y):
@@ -137,7 +137,7 @@ def _over(p, q):
     '''(INTERNAL) Return C{B{p} / B{q}} avoiding C{ZeroDivisionError} exceptions.
     '''
     try:
-        return (p / q)
+        return (p / q)  # if p else _copysign_0_0(q)
     except ZeroDivisionError:
         return (_copysignINF(p) if isfinite(p) else NAN) if p else p
 

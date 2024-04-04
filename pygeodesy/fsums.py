@@ -14,8 +14,8 @@ L{Fsum.__rpow__} return a (very long) C{int} if invoked with optional argument
 C{mod} set to C{None}.  The C{residual} of an C{integer} L{Fsum} may be between
 C{-1.0} and C{+1.0}, including C{INT0} if considered to be I{exact}.
 
-Set env variable C{PYGEODESY_FSUM_PARTIALS} to an empty string (or anything
-other than C{"fsum"}) for backward compatible summation of L{Fsum} partials.
+Set env variable C{PYGEODESY_FSUM_PARTIALS} to string C{"fsum"}) for summation
+of L{Fsum} partials by Python function C{math.fsum}.
 
 Set env variable C{PYGEODESY_FSUM_RESIDUAL} to a C{float} string greater
 than C{"0.0"} as the threshold to throw a L{ResidualError} in division or
@@ -46,7 +46,7 @@ from pygeodesy.props import _allPropertiesOf_n, deprecated_property_RO, \
 from math import ceil as _ceil, fabs, floor as _floor  # PYCHOK used! .ltp
 
 __all__ = _ALL_LAZY.fsums
-__version__ = '24.04.02'
+__version__ = '24.04.04'
 
 _add_op_       = _PLUS_  # in .auxilats.auxAngle
 _eq_op_        = _EQUAL_ * 2  # _DEQUAL_
@@ -81,8 +81,8 @@ def _2float(index=None, **name_value):  # in .fmath, .fstats
         if _isfinite(v):
             return v
         raise ValueError(_not_finite_)
-    except Exception as e:
-        raise _xError(e, Fmt.INDEX(n, index), v)
+    except Exception as X:
+        raise _xError(X, Fmt.INDEX(n, index), v)
 
 
 def _2floats(xs, origin=0, neg=False):
@@ -123,28 +123,28 @@ def _2ps(s, r):
 
 
 def _psum(ps):  # PYCHOK used!
-    '''(INTERNAL) Partials summation updating C{ps}, I{overridden below}.
+    '''(INTERNAL) Partials sum, updating C{ps}, I{overridden below}.
     '''
     # assert isinstance(ps, list)
-    i = len(ps) - 1  # len(ps) > 2
-    if i < 0:
-        return _0_0
-    s   =  ps[i]
+    i   =  len(ps) - 1
+    s   = _0_0 if i < 0 else ps[i]
     _2s = _2sum
     while i > 0:
         i -= 1
         s, r = _2s(s, ps[i])
         if r:  # sum(ps) became inexact
-            ps[i:] = (s, r) if s else (r,)
-            if i > 0:
-                p = ps[i-1]  # round half-even
-                if (p > 0 and r > 0) or \
-                   (p < 0 and r < 0):  # signs match
-                    r *= 2
-                    t  = s + r
-                    if r == (t - s):
-                        s = t
-            break
+            if s:
+                ps[i:] = r, s
+                if i > 0:
+                    p = ps[i-1]  # round half-even
+                    if (p > 0 and r > 0) or \
+                       (p < 0 and r < 0):  # signs match
+                        r *= 2
+                        t  = s + r
+                        if r == (t - s):
+                            s = t
+                break  # return s
+            s = r  # PYCHOK no cover
         ps[i:] = s,
     return s
 
@@ -168,24 +168,24 @@ def _2scalar(other, _raiser=None):
 
 
 def _strcomplex(s, *args):
-    '''(INTERNAL) C{Complex} 2- or 3-arg C{pow} error C{str}.
+    '''(INTERNAL) C{Complex} 2- or 3-arg C{pow} error as C{str}.
     '''
-    c =  iscomplex.__name__[2:]
+    c = _strcomplex.__name__[4:]
     n = _DASH_(len(args), _arg_)
-    t = _SPACE_(c, s, _from_, n, pow.__name__)
-    return unstr(t, *args)
+    t =  unstr(pow, *args)
+    return _SPACE_(c, s, _from_, n, t)
 
 
 def _stresidual(prefix, residual, **name_values):
-    '''(INTERNAL) Residual error C{str}.
+    '''(INTERNAL) Residual error as C{str}.
     '''
-    p = _SPACE_(prefix, Fsum.residual.name)
+    p = _stresidual.__name__[3:]
     t =  Fmt.PARENSPACED(p, Fmt(residual))
     for n, v in itemsorted(name_values):
         n =  n.replace(_UNDER_, _SPACE_)
         p =  Fmt.PARENSPACED(n, Fmt(v))
         t = _COMMASPACE_(t, p)
-    return t
+    return _SPACE_(prefix, t)
 
 
 def _2sum(a, b):  # by .testFmath
@@ -219,8 +219,8 @@ def _2yield(xs, i, _X_ps, _x):
                         raise ValueError(_not_finite_)
                     yield f
             i += 1
-    except Exception as e:
-        raise _xError(e, Fmt.INDEX(xs=i), x)
+    except Exception as X:
+        raise _xError(X, Fmt.INDEX(xs=i), x)
 
 
 class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
@@ -756,14 +756,14 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
     def _cmp_0(self, other, op):
         '''(INTERNAL) Return C{scalar(self - B{other})} for 0-comparison.
         '''
-        if isscalar(other):
+        if isinstance(other, Fsum):
+            s = _fsum(self._ps_1(*other._ps))
+        elif isscalar(other):
             if other:
                 s = _fsum(self._ps_1(other))
             else:
                 s, r = self._fprs2
                 s = _signOf(s, -r)
-        elif isinstance(other, Fsum):
-            s = _fsum(self._ps_1(*other._ps))
         else:
             raise self._TypeError(op, other)  # txt=_invalid_
         return s
@@ -816,13 +816,21 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
         f = self._copy_2(self.divmod)
         return f._fdivmod2(other, _divmod_op_)
 
-    def _Error(self, op, other, Error, **txt):
+    def _Error(self, op, other, Error, **txt_cause):
         '''(INTERNAL) Format an B{C{Error}} for C{{self} B{op} B{other}}.
         '''
-        return Error(_SPACE_(self.toRepr(), op, repr(other)), **txt)
+        return Error(_SPACE_(self.toRepr(), op, repr(other)), **txt_cause)
 
-    def _ErrorX(self, X, xs, **kwds):  # in .fmath
-        '''(INTERNAL) Format a caught exception.
+    def _ErrorX(self, X, op, other, *mod):
+        '''(INTERNAL) Format the caught exception C{X}.
+        '''
+        E, t = _xError2(X)
+        if mod:
+            t = _COMMASPACE_(Fmt.PARENSPACED(mod=mod[0]), t)
+        return self._Error(op, other, E, txt=t, cause=X)
+
+    def _ErrorXs(self, X, xs, **kwds):  # in .fmath
+        '''(INTERNAL) Format the caught exception C{X}.
         '''
         E, t = _xError2(X)
         n = unstr(self.named3, *xs[:3], _ELLIPSIS=len(xs) > 3, **kwds)
@@ -834,13 +842,14 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
         n, ps, _2s = 0, self._ps, _2sum
         for x in xs:  # _iter()
             # assert isscalar(x) and isfinite(x)
-            i = 0
-            for p in ps:
-                x, p = _2s(x, p)
-                if p:
-                    ps[i] = p
-                    i += 1
-            ps[i:] = x,
+            if x:
+                i = 0
+                for p in ps:
+                    x, p = _2s(x, p)
+                    if p:
+                        ps[i] = p
+                        i += 1
+                ps[i:] = (x,) if x else ()
             n += 1
         # assert self._ps is ps
         if n:
@@ -858,30 +867,29 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
     def _facc_power(self, power, xs, which):  # in .fmath
         '''(INTERNAL) Add each C{xs} as C{float(x**power)}.
         '''
-        if isinstance(power, Fsum):
-            if power.is_exact:
-                return self._facc_power(power._fprs, xs, which)
+        p = power
+        if isinstance(p, Fsum):
+            if p.is_exact:
+                return self._facc_power(p._fprs, xs, which)
             _Pow = Fsum._pow_any
-        elif isint(power, both=True) and power >= 0:
-            _Pow = Fsum._pow_int
-            power = int(power)
+        elif isint(p, both=True) and p >= 0:
+            _Pow, p = Fsum._pow_int, int(p)
         else:
-            _Pow = Fsum._pow_scalar
-            power = _2float(power=power)
+            _Pow, p = Fsum._pow_scalar, _2float(power=p)
 
-        if power:
+        if p:
             from math import pow as _pow
             op = which.__name__
 
             def _X(X):
-                f = _Pow(X, power, power, op)
+                f = _Pow(X, p, power, op)
                 try:  # isinstance(f, Fsum)
                     return f._ps
                 except AttributeError:  # scalar
                     return f,
 
             def _x(x):
-                return _pow(float(x), power)
+                return _pow(float(x), p)
 
             self._facc(_2yield(xs, 1, _X, _x))  # PYCHOK yield
         else:
@@ -985,7 +993,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
         '''
         if _isfinite(other):
             return other
-        raise ValueError(_not_finite_) if not op else \
+        raise ValueError(_not_finite_) if op is None else \
               self._ValueError(op, other, txt=_not_finite_)
 
     def fint(self, raiser=True, **name):
@@ -1123,11 +1131,11 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
            running sum and residual (L{Fsum2Tuple}).
         '''
         ps = self._ps
-        n  = len(ps)
-        if n > 2:  # len(ps) > 2
+        n  = len(ps) - 2
+        if n > 0:  # len(ps) > 2
             s = _psum(ps)
             r = _fsum(self._ps_1(s)) or INT0
-        elif n > 1:  # len(ps) == 2
+        elif n == 0:  # len(ps) == 2
             ps[:] = _2ps(*_2sum(*ps))
             r, s  = (INT0, ps[0]) if len(ps) != 2 else ps
         elif ps:  # len(ps) == 1
@@ -1144,6 +1152,20 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
 #       if len(self._ps) > 2:
 #           _ = self._fprs
 #       return self
+
+    def fset_(self, *xs):
+        '''Replace this instance' value with C{xs}.
+
+           @arg xs: Optional, new values (C{scalar} or L{Fsum}
+                    instances), all positional.
+
+           @return: This instance (C{Fsum}).
+
+           @see: Method L{Fsum.fadd} for further details.
+        '''
+        self._n = 0
+        self._ps[:] = 0,
+        return self.fadd(xs) if xs else self._update()
 
     def _fset(self, other, asis=True, n=0):
         '''(INTERNAL) Overwrite this instance with an other or a C{scalar}.
@@ -1249,7 +1271,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
         f = self._facc(_2floats(xs, origin=1)) if xs else self  # PYCHOK yield
         return f._fprs
 
-    def fsum2(self, xs=(), **name):
+    def fsum2(self, xs=(), name=NN):
         '''Add more C{scalar} or L{Fsum} instances and return the
            current precision running sum and the C{residual}.
 
@@ -1268,9 +1290,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
         f = self._facc(_2floats(xs)) if xs else self  # PYCHOK yield
         t = f._fprs2
         if name:
-            n = _xkwds_get(name, name=NN)
-            if n:
-                t = t.dup(name=n)
+            t = t.dup(name=name)
         return t
 
     def fsum2_(self, *xs):
@@ -1306,16 +1326,16 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
         '''
         n = _1_0
         if isinstance(other, Fsum):
-            if other is self or other._fprs2 == self._fprs2:
+            if other is self or other == self:
                 return self._fset(_1_0)  # n=len(self)
             d, r = other._fprs2
             if r:
-                if not d:  # PYCHOK no cover
-                    d = r
-                elif self._raiser(r, d):
-                    raise self._ResidualError(op, other, r)
-                else:
+                if d:
+                    if self._raiser(r, d):
+                        raise self._ResidualError(op, other, r)
                     d, n = other.as_integer_ratio()
+                else:  # PYCHOK no cover
+                    d = r
         elif isscalar(other):
             d = other
         else:  # PYCHOK no cover
@@ -1323,9 +1343,8 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
         try:
             s = 0 if isinf(d) else (
                 d if isnan(d) else self._finite(n / d))
-        except Exception as x:
-            E, t = _xError2(x)
-            raise self._Error(op, other, E, txt=t)
+        except Exception as X:
+            raise self._ErrorX(X, op, other)
         f = self._mul_scalar(s, _mul_op_)  # handles 0, NAN, etc.
         return self._fset(f, asis=False)
 
@@ -1444,7 +1463,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
     def _pow_0_1(self, x, other):
         '''(INTERNAL) Return B{C{self}**1} or C{B{self}**0 == 1.0}.
         '''
-        return self if x else (1 if self.is_integer() and isint(other) else _1_0)
+        return self if x else (1 if isint(other) and self.is_integer() else _1_0)
 
     def _pow_2(self, b, x, other, op):
         '''(INTERNAL) 2-arg C{pow(B{b}, scalar B{x})} embellishing errors.
@@ -1455,10 +1474,9 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
             if not iscomplex(s):
                 return self._finite(s)  # 0**INF == 0.0, 1**INF==1.0
             # neg**frac == complex in Python 3+, but ValueError in 2-
-            E, t = _ValueError, _strcomplex(s, b, x)  # PYCHOK no cover
-        except Exception as x:
-            E, t = _xError2(x)
-        raise self._Error(op, other, E, txt=t)
+            raise ValueError(_strcomplex(s, b, x))  # PYCHOK no cover
+        except Exception as X:
+            raise self._ErrorX(X, op, other)
 
     def _pow_3(self, other, mod, op):
         '''(INTERNAL) 3-arg C{pow(B{self}, B{other}, int B{mod} or C{None})}.
@@ -1466,19 +1484,18 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
         b, r = self._fprs2 if mod is None else self._fint2
         if r and self._raiser(r, b):
             t = _non_zero_ if mod is None else _integer_
-            E, t = ResidualError, _stresidual(t, r, mod=mod)
-        else:
-            try:  # b, other, mod all C{int}, unless C{mod} is C{None}
-                x = _2scalar(other, _raiser=self._raiser)
-                s =  pow(b, x, mod)
-                if not iscomplex(s):
-                    return self._finite(s)
-                # neg**frac == complex in Python 3+, but ValueError in 2-
-                E, t = _ValueError, _strcomplex(s, b, x, mod)  # PYCHOK no cover
-            except Exception as x:
-                E, t = _xError2(x)
-                t = _COMMASPACE_(Fmt.PARENSPACED(mod=mod), t)
-        raise self._Error(op, other, E, txt=t)
+            t = _stresidual(t, r, mod=mod)
+            raise self._Error(op, other, ResidualError, txt=t)
+
+        try:  # b, other, mod all C{int}, unless C{mod} is C{None}
+            x = _2scalar(other, _raiser=self._raiser)
+            s =  pow(b, x, mod)
+            if not iscomplex(s):
+                return self._finite(s)
+            # neg**frac == complex in Python 3+, but ValueError in 2-
+            raise ValueError(_strcomplex(s, b, x, mod))  # PYCHOK no cover
+        except Exception as X:
+            raise self._ErrorX(X, op, other, mod)
 
     def _pow_any(self, other, unused, op):
         '''Return C{B{self} ** B{other}}.
@@ -1569,14 +1586,15 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
     def _ps_1(self, *less):
         '''(INTERNAL) Yield partials, 1-primed and subtract any C{less}.
         '''
-        yield _1_0
+        n = len(self._ps) + len(less) - 4
+        if n < 0:
+            yield _1_0
         for p in self._ps:
-            if p:
-                yield p
+            yield p
         for p in less:
-            if p:
-                yield -p
-        yield _N_1_0
+            yield -p
+        if n < 0:
+            yield _N_1_0
 
     def _ps_mul(self, op, *factors):  # see .fmath.Fhorner
         '''(INTERNAL) Yield all C{partials} times each B{C{factor}},
@@ -1636,12 +1654,12 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
                            C{PYGEODESY_FSUM_RESIDUAL} or if omitted, keep the
                            current setting.
 
-           @return: The previous C{RESIDUAL} setting (C{float}).
+           @return: The previous C{RESIDUAL} setting (C{float}), default C{0}.
 
            @raise ValueError: Negative B{C{threshold}}.
 
            @note: A L{ResidualError} is thrown if the non-zero I{ratio}
-                  C{residual} / C{fsum} exceeds the B{C{threshold}}.
+                  C{residual / fsum} exceeds the B{C{threshold}}.
         '''
         r = self._RESIDUAL
         if threshold:
@@ -1659,7 +1677,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
         '''(INTERNAL) Non-zero B{C{residual}} etc.
         '''
         t = _stresidual(_non_zero_, residual, ratio=self._ratio,
-                                            RESIDUAL=self._RESIDUAL)
+                                           RESIDUAL=self._RESIDUAL)
         t =  t.replace(_COMMASPACE_R_, _exceeds_R_)
         return self._Error(op, other, ResidualError, txt=t)
 
@@ -1721,7 +1739,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
 #           Fsum._fint2._update(self)
 #           Fsum._fprs ._update(self)
 #           Fsum._fprs2._update(self)
-        return self
+        return self  # for .fset_
 
     def _ValueError(self, op, other, **txt):  # PYCHOK no cover
         '''(INTERNAL) Return a C{ValueError}.
@@ -1820,7 +1838,7 @@ try:
 
     Fsum._math_fsum = _sum = _fsum  # PYCHOK exported
 
-    if _getenv('PYGEODESY_FSUM_PARTIALS', _fsum.__name__) == _fsum.__name__:
+    if _getenv('PYGEODESY_FSUM_PARTIALS', NN) == _fsum.__name__:
         _psum = _fsum  # PYCHOK re-def
 
 except ImportError:
@@ -1914,6 +1932,35 @@ def fsum1f_(*xs):
     '''
     return _fsum(_1primed(xs)) if xs else _0_0
 
+
+if __name__ == '__main__':
+
+    # usage: [env PYGEODESY_FSUM_PARTIALS=fsum] python3 -m pygeodesy.fsums
+
+    def _test(n):
+        # copied from Hettinger, see L{Fsum} reference
+        from pygeodesy import printf
+        from random import gauss, random, shuffle
+
+        printf(_fsum.__name__, end=_COMMASPACE_)
+        printf(_psum.__name__, end=_COMMASPACE_)
+
+        F = Fsum()
+        if F.is_math_fsum:
+            c = (7, 1e100, -7, -1e100, -9e-20, 8e-20) * 10
+            for _ in range(n):
+                t = list(c)
+                s = 0
+                for _ in range(n * 8):
+                    v = gauss(0, random())**7 - s
+                    t.append(v)
+                    s += v
+                shuffle(t)
+                assert float(F.fset_(*t)) == _fsum(t)
+                printf(_DOT_, end=NN)
+        printf(NN)
+
+    _test(128)
 
 # **) MIT License
 #

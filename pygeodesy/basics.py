@@ -14,21 +14,27 @@ if not division:
     raise ImportError('%s 1/2 == %s' % ('division', division))
 del division
 
+# from pygeodesy.cartesianBase import CartesianBase  # _MODS
+# from pygeodesy.constants import isneg0, NEG0  # _MODS
 from pygeodesy.errors import _AttributeError, _ImportError, _NotImplementedError, \
                              _TypeError, _TypesError, _ValueError, _xAssertionError, \
                              _xkwds_get
 from pygeodesy.interns import MISSING, NN, _1_, _by_, _COMMA_, _DOT_, _DEPRECATED_, \
                              _ELLIPSIS4_, _enquote, _EQUAL_, _in_, _invalid_, _N_A_, \
                              _not_scalar_, _SPACE_, _UNDER_, _version_, _version_info
+# from pygeodesy.latlonBase import LatLonBase  # _MODS
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _FOR_DOCS, \
                              _getenv, LazyImportError, _sys, _sys_version_info2
+# from pygeodesy.named import classname, modulename  # _MODS
+# from pygeodesy.nvectorBase import NvectorBase  # _MODS
+# from pygeodesy.props import _update_all  # _MODS
 
 from copy import copy as _copy, deepcopy as _deepcopy
 from math import copysign as _copysign
 import inspect as _inspect
 
 __all__ = _ALL_LAZY.basics
-__version__ = '24.04.01'
+__version__ = '24.04.04'
 
 _0_0                  =  0.0  # in .constants
 _below_               = 'below'
@@ -537,14 +543,19 @@ def neg_(*xs):
     return map(neg, xs)
 
 
-def _req_d_by(where, **name):  # in .basics
+def _neg0(x):
+    '''(INTERNAL) Return C{NEG0 if x < 0 else _0_0},
+       unlike C{_copysign_0_0} which returns C{_N_0_0}.
+    '''
+    return _MODS.constants.NEG0 if x < 0 else _0_0
+
+
+def _req_d_by(where, name=NN):  # in .basics
     '''(INTERNAL) Get the fully qualified name.
     '''
     m = _MODS.named.modulename(where, prefixed=True)
     if name:
-        n = _xkwds_get(name, name=NN)
-        if n:
-            m = _DOT_(m, n)
+        m = _DOT_(m, name)
     return _SPACE_(_required_, _by_, m)
 
 

@@ -4,7 +4,7 @@
 # Test L{fsums} module.
 
 __all__ = ('Tests',)
-__version__ = '24.04.01'
+__version__ = '24.04.04'
 
 from bases import endswith, isPython2, randoms, startswith, TestsBase
 
@@ -110,7 +110,7 @@ class Tests(TestsBase):
         t = a + a.fcopy().fmul(-1)
         self.test('FSum0', t.fsum(), 0.0)
         z = t.sizeof
-        self.test('sizeof', str(z), 397, known=z is None or 200 < z < 600)
+        self.test('sizeof', str(z), 413, known=z is None or 200 < z < 600)
 
         a.fsub_(*a._ps)
         self.test('FSum0', a.fsum(), 0.0)
@@ -182,14 +182,14 @@ class Tests(TestsBase):
         self.test('ceil ', ceil(t.fcopy().fadd_(1e-15)), '3', known=startswith)
         self.test('floor', floor(t), '2', known=startswith, nt=1)
 
-        self.test('divmod ', divmod(d, 2),  ("(2%s, <fsums.Fsum '__divmod__'[3] (0.0, 0)" % _dot0),  known=startswith)
+        self.test('divmod ', divmod(d, 2),  ("(2%s, <fsums.Fsum '__divmod__'[2] (0.0, 0)" % _dot0),  known=startswith)
         self.test('divmod ', d.fcopy().divmod(2), ("(2%s, <fsums.Fsum 'divmod'[2] (0.0, 0)" % _dot0), known=startswith)
         self.test('rdivmod ', divmod(2, d), ("(0%s, <fsums.Fsum '__rdivmod__'[1] (2.0, 0)" % _dot0), known=startswith)
         self.test('divmod ', divmod(Fsum(-3), 2), ("(-2%s, <fsums.Fsum '__divmod__'[2] (1.0, 0)" % _dot0), known=startswith)
         m  = d.fcopy(name='__imod__')
         m %= 2
         self.test('imod', m, "fsums.Fsum '__imod__'[2] (0.0, 0)")
-        self.test('mod ', d % 2, "fsums.Fsum '__mod__'[3] (0.0, 0)")
+        self.test('mod ', d % 2, "fsums.Fsum '__mod__'[2] (0.0, 0)")
         self.test('rmod', 2 % d, "fsums.Fsum '__rmod__'[1] (2.0, 0)")
         m = -t
         self.test('neg ', m, -t, known=m == -t)
@@ -309,7 +309,7 @@ class Tests(TestsBase):
         r = f.as_integer_ratio()
         self.test('ratio', str(r).replace('L', NN), '(-27021597764141911, 9007199254740992)')  # L on Windows
         t = Fsum(r[0] / r[1])  # C{int} in Python 2
-        self.test('ratio', t, f, known=abs(t.fsum() - f.fsum()) < 1e-9)  # python special
+        self.test('ratio', t, f, known=abs(t - f) < 1e-9)  # python special
         self.test('int_float', t.int_float(), '-3.000', prec=3)
         self.test('fint',  t.fint(raiser=False), ("fsums.Fsum 'fint'[1] (-3, 0)" if isPython2
                                              else "fsums.Fsum 'fint'[1] (-2, 0)"))

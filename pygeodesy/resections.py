@@ -13,9 +13,10 @@ L{triAngle}, L{triAngle5}, L{triSide}, L{triSide2} and L{triSide4}.
 from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import map1, map2, _zip,  _ALL_LAZY
-from pygeodesy.constants import EPS, EPS0, EPS02, INT0, NEG0, PI, PI2, PI_2, PI_4, \
-                               _0_0, _0_5, _1_0, _N_1_0, _2_0, _N_2_0, _4_0, _16_0, \
-                               _180_0, _360_0, isnear0, _over, _umod_360
+from pygeodesy.constants import EPS, EPS0, EPS02, INT0, PI, PI2, PI_2, PI_4, \
+                               _0_0, _0_5, _1_0, _N_1_0, _2_0, _N_2_0, _4_0, \
+                               _16_0, _180_0, _360_0, _copysign_0_0, isnear0, \
+                               _over, _umod_360
 from pygeodesy.errors import _and, _or, TriangleError, _ValueError, _xcallable, \
                              _xkwds, _xkwds_pop2
 from pygeodesy.fmath import favg, Fdot, fidw, fmean, hypot, hypot2_
@@ -33,7 +34,7 @@ from pygeodesy.vector3d import _otherV3d, Vector3d
 from math import cos, atan2, degrees, fabs, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.resections
-__version__ = '24.03.26'
+__version__ = '24.04.04'
 
 _concyclic_ = 'concyclic'
 _PA_        = 'PA'
@@ -457,7 +458,7 @@ def pierlotx(point1, point2, point3, alpha1, alpha2, alpha3, useZ=False,
 
     def _cot(s, c):  # I{exact} cotangent
         try:
-            return (c / s) if c else (NEG0 if s < 0 else _0_0)
+            return (c / s) if c else _copysign_0_0(s)
         except ZeroDivisionError:
             raise ValueError(_or(_coincident_, _colinear_))
 

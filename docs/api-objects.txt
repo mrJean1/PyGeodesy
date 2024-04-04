@@ -733,6 +733,7 @@ pygeodesy.basics.iscomplex	pygeodesy.basics-module.html#iscomplex
 pygeodesy.basics.isbool	pygeodesy.basics-module.html#isbool
 pygeodesy.basics.isodd	pygeodesy.basics-module.html#isodd
 pygeodesy.basics._xkwds_get	pygeodesy.errors-module.html#_xkwds_get
+pygeodesy.basics._neg0	pygeodesy.basics-module.html#_neg0
 pygeodesy.basics.isidentifier	pygeodesy.basics-module.html#isidentifier
 pygeodesy.basics.iskeyword	pygeodesy.basics-module.html#iskeyword
 pygeodesy.basics._signOf	pygeodesy.basics-module.html#_signOf
@@ -1885,11 +1886,11 @@ pygeodesy.fmath._powers	pygeodesy.fmath-module.html#_powers
 pygeodesy.fmath.favg	pygeodesy.fmath-module.html#favg
 pygeodesy.fmath.fprod	pygeodesy.fmath-module.html#fprod
 pygeodesy.fmath._isHeight	pygeodesy.units-module.html#_isHeight
+pygeodesy.fmath._copysign_0_0	pygeodesy.constants-module.html#_copysign_0_0
 pygeodesy.fmath.remainder	pygeodesy.constants-module.html#remainder
 pygeodesy.fmath._h_x2	pygeodesy.fmath-module.html#_h_x2
 pygeodesy.fmath._fsum	pygeodesy.fsums-module.html#_fsum
 pygeodesy.fmath._isfinite	pygeodesy.constants-module.html#_isfinite
-pygeodesy.fmath.isnear1	pygeodesy.constants-module.html#isnear1
 pygeodesy.fmath.cbrt	pygeodesy.fmath-module.html#cbrt
 pygeodesy.fmath._xkwds_get	pygeodesy.errors-module.html#_xkwds_get
 pygeodesy.fmath.norm2	pygeodesy.fmath-module.html#norm2
@@ -2115,6 +2116,7 @@ pygeodesy.fsums._stresidual	pygeodesy.fsums-module.html#_stresidual
 pygeodesy.fsums._isfinite	pygeodesy.constants-module.html#_isfinite
 pygeodesy.fsums._gt_op_	pygeodesy.fsums-module.html#_gt_op_
 pygeodesy.fsums._ROs	pygeodesy.fsums-module.html#_ROs
+pygeodesy.fsums._psum	pygeodesy.fsums-module.html#_psum
 pygeodesy.fsums._signOf	pygeodesy.basics-module.html#_signOf
 pygeodesy.fsums._le_op_	pygeodesy.fsums-module.html#_le_op_
 pygeodesy.fsums._mul_op_	pygeodesy.fsums-module.html#_mul_op_
@@ -3444,6 +3446,7 @@ pygeodesy.resections.__all__	pygeodesy.resections-module.html#__all__
 pygeodesy.resections._PA_	pygeodesy.resections-module.html#_PA_
 pygeodesy.resections.favg	pygeodesy.fmath-module.html#favg
 pygeodesy.resections.fsum1	pygeodesy.fsums-module.html#fsum1
+pygeodesy.resections._copysign_0_0	pygeodesy.constants-module.html#_copysign_0_0
 pygeodesy.resections.triSide	pygeodesy.resections-module.html#triSide
 pygeodesy.resections._PB_	pygeodesy.resections-module.html#_PB_
 pygeodesy.resections.wildberger3	pygeodesy.resections-module.html#wildberger3
@@ -4076,6 +4079,7 @@ pygeodesy.utily.cotd	pygeodesy.utily-module.html#cotd
 pygeodesy.utily.m2degrees	pygeodesy.utily-module.html#m2degrees
 pygeodesy.utily._Wrap	pygeodesy.utily-module.html#_Wrap
 pygeodesy.utily.degrees2m	pygeodesy.utily-module.html#degrees2m
+pygeodesy.utily.NM2m	pygeodesy.utily-module.html#NM2m
 pygeodesy.utily.radians	pygeodesy.utily-module.html#radians
 pygeodesy.utily.acre2m2	pygeodesy.utily-module.html#acre2m2
 pygeodesy.utily.wrap360	pygeodesy.utily-module.html#wrap360
@@ -4094,12 +4098,12 @@ pygeodesy.utily.neg	pygeodesy.basics-module.html#neg
 pygeodesy.utily.m2toise	pygeodesy.utily-module.html#m2toise
 pygeodesy.utily.wrap90	pygeodesy.utily-module.html#wrap90
 pygeodesy.utily.atan2b	pygeodesy.utily-module.html#atan2b
-pygeodesy.utily.NM2m	pygeodesy.utily-module.html#NM2m
 pygeodesy.utily.atan2d	pygeodesy.utily-module.html#atan2d
 pygeodesy.utily.ft2m	pygeodesy.utily-module.html#ft2m
 pygeodesy.utily.tan_2	pygeodesy.utily-module.html#tan_2
 pygeodesy.utily._sin0cos2	pygeodesy.utily-module.html#_sin0cos2
 pygeodesy.utily.cotd_	pygeodesy.utily-module.html#cotd_
+pygeodesy.utily._copysign_0_0	pygeodesy.constants-module.html#_copysign_0_0
 pygeodesy.utily._M_FATHOM	pygeodesy.utily-module.html#_M_FATHOM
 pygeodesy.utily.cot	pygeodesy.utily-module.html#cot
 pygeodesy.utily.m2SM	pygeodesy.utily-module.html#m2SM
@@ -13422,6 +13426,7 @@ pygeodesy.fsums.Fsum.fsum_	pygeodesy.fsums.Fsum-class.html#fsum_
 pygeodesy.fsums.Fsum.__ne__	pygeodesy.fsums.Fsum-class.html#__ne__
 pygeodesy.fsums.Fsum._pow_int	pygeodesy.fsums.Fsum-class.html#_pow_int
 pygeodesy.fsums.Fsum._facc_power	pygeodesy.fsums.Fsum-class.html#_facc_power
+pygeodesy.fsums.Fsum._ErrorXs	pygeodesy.fsums.Fsum-class.html#_ErrorXs
 pygeodesy.fsums.Fsum._fmul	pygeodesy.fsums.Fsum-class.html#_fmul
 pygeodesy.fsums.Fsum.residual	pygeodesy.fsums.Fsum-class.html#residual
 pygeodesy.fsums.Fsum._pow_any	pygeodesy.fsums.Fsum-class.html#_pow_any
@@ -13429,7 +13434,7 @@ pygeodesy.fsums.Fsum._fprs2	pygeodesy.fsums.Fsum-class.html#_fprs2
 pygeodesy.fsums.Fsum.__divmod__	pygeodesy.fsums.Fsum-class.html#__divmod__
 pygeodesy.fsums.Fsum._ErrorX	pygeodesy.fsums.Fsum-class.html#_ErrorX
 pygeodesy.fsums.Fsum._neg	pygeodesy.fsums.Fsum-class.html#_neg
-pygeodesy.fsums.Fsum.float_int	pygeodesy.fsums.Fsum-class.html#float_int
+pygeodesy.fsums.Fsum.__rmatmul__	pygeodesy.fsums.Fsum-class.html#__rmatmul__
 pygeodesy.fsums.Fsum.fsum2	pygeodesy.fsums.Fsum-class.html#fsum2
 pygeodesy.fsums.Fsum._facc	pygeodesy.fsums.Fsum-class.html#_facc
 pygeodesy.named._Named.named3	pygeodesy.named._Named-class.html#named3
@@ -13446,6 +13451,7 @@ pygeodesy.fsums.Fsum._fsub	pygeodesy.fsums.Fsum-class.html#_fsub
 pygeodesy.fsums.Fsum._ratio	pygeodesy.fsums.Fsum-class.html#_ratio
 pygeodesy.fsums.Fsum._fset_ps	pygeodesy.fsums.Fsum-class.html#_fset_ps
 pygeodesy.fsums.Fsum.fsub	pygeodesy.fsums.Fsum-class.html#fsub
+pygeodesy.fsums.Fsum.fset_	pygeodesy.fsums.Fsum-class.html#fset_
 pygeodesy.fsums.Fsum.pow	pygeodesy.fsums.Fsum-class.html#pow
 pygeodesy.named._Named.named	pygeodesy.named._Named-class.html#named
 pygeodesy.fsums.Fsum.fsum	pygeodesy.fsums.Fsum-class.html#fsum
@@ -13454,7 +13460,7 @@ pygeodesy.named._Named._DOT_	pygeodesy.named._Named-class.html#_DOT_
 pygeodesy.fsums.Fsum.__rtruediv__	pygeodesy.fsums.Fsum-class.html#__rtruediv__
 pygeodesy.fsums.Fsum.__rsub__	pygeodesy.fsums.Fsum-class.html#__rsub__
 pygeodesy.fsums.Fsum.divmod	pygeodesy.fsums.Fsum-class.html#divmod
-pygeodesy.fsums.Fsum.__rmatmul__	pygeodesy.fsums.Fsum-class.html#__rmatmul__
+pygeodesy.fsums.Fsum.float_int	pygeodesy.fsums.Fsum-class.html#float_int
 pygeodesy.named._Named._xnamed	pygeodesy.named._Named-class.html#_xnamed
 pygeodesy.fsums.Fsum.is_integer	pygeodesy.fsums.Fsum-class.html#is_integer
 pygeodesy.fsums.Fsum.__float__	pygeodesy.fsums.Fsum-class.html#__float__
@@ -13582,6 +13588,7 @@ pygeodesy.fsums.Fsum.fsum_	pygeodesy.fsums.Fsum-class.html#fsum_
 pygeodesy.fsums.Fsum.__ne__	pygeodesy.fsums.Fsum-class.html#__ne__
 pygeodesy.fsums.Fsum._pow_int	pygeodesy.fsums.Fsum-class.html#_pow_int
 pygeodesy.fsums.Fsum._facc_power	pygeodesy.fsums.Fsum-class.html#_facc_power
+pygeodesy.fsums.Fsum._ErrorXs	pygeodesy.fsums.Fsum-class.html#_ErrorXs
 pygeodesy.fsums.Fsum._fmul	pygeodesy.fsums.Fsum-class.html#_fmul
 pygeodesy.fsums.Fsum.residual	pygeodesy.fsums.Fsum-class.html#residual
 pygeodesy.fsums.Fsum._pow_any	pygeodesy.fsums.Fsum-class.html#_pow_any
@@ -13589,7 +13596,7 @@ pygeodesy.fsums.Fsum._fprs2	pygeodesy.fsums.Fsum-class.html#_fprs2
 pygeodesy.fsums.Fsum.__divmod__	pygeodesy.fsums.Fsum-class.html#__divmod__
 pygeodesy.fsums.Fsum._ErrorX	pygeodesy.fsums.Fsum-class.html#_ErrorX
 pygeodesy.fsums.Fsum._neg	pygeodesy.fsums.Fsum-class.html#_neg
-pygeodesy.fsums.Fsum.float_int	pygeodesy.fsums.Fsum-class.html#float_int
+pygeodesy.fsums.Fsum.__rmatmul__	pygeodesy.fsums.Fsum-class.html#__rmatmul__
 pygeodesy.fsums.Fsum.fsum2	pygeodesy.fsums.Fsum-class.html#fsum2
 pygeodesy.fsums.Fsum._facc	pygeodesy.fsums.Fsum-class.html#_facc
 pygeodesy.named._Named.named3	pygeodesy.named._Named-class.html#named3
@@ -13606,6 +13613,7 @@ pygeodesy.fsums.Fsum._fsub	pygeodesy.fsums.Fsum-class.html#_fsub
 pygeodesy.fsums.Fsum._ratio	pygeodesy.fsums.Fsum-class.html#_ratio
 pygeodesy.fsums.Fsum._fset_ps	pygeodesy.fsums.Fsum-class.html#_fset_ps
 pygeodesy.fsums.Fsum.fsub	pygeodesy.fsums.Fsum-class.html#fsub
+pygeodesy.fsums.Fsum.fset_	pygeodesy.fsums.Fsum-class.html#fset_
 pygeodesy.fsums.Fsum.pow	pygeodesy.fsums.Fsum-class.html#pow
 pygeodesy.named._Named.named	pygeodesy.named._Named-class.html#named
 pygeodesy.fsums.Fsum.fsum	pygeodesy.fsums.Fsum-class.html#fsum
@@ -13614,7 +13622,7 @@ pygeodesy.named._Named._DOT_	pygeodesy.named._Named-class.html#_DOT_
 pygeodesy.fsums.Fsum.__rtruediv__	pygeodesy.fsums.Fsum-class.html#__rtruediv__
 pygeodesy.fsums.Fsum.__rsub__	pygeodesy.fsums.Fsum-class.html#__rsub__
 pygeodesy.fsums.Fsum.divmod	pygeodesy.fsums.Fsum-class.html#divmod
-pygeodesy.fsums.Fsum.__rmatmul__	pygeodesy.fsums.Fsum-class.html#__rmatmul__
+pygeodesy.fsums.Fsum.float_int	pygeodesy.fsums.Fsum-class.html#float_int
 pygeodesy.named._Named._xnamed	pygeodesy.named._Named-class.html#_xnamed
 pygeodesy.fsums.Fsum.is_integer	pygeodesy.fsums.Fsum-class.html#is_integer
 pygeodesy.fsums.Fsum.__float__	pygeodesy.fsums.Fsum-class.html#__float__
@@ -13742,6 +13750,7 @@ pygeodesy.fsums.Fsum.fsum_	pygeodesy.fsums.Fsum-class.html#fsum_
 pygeodesy.fsums.Fsum.__ne__	pygeodesy.fsums.Fsum-class.html#__ne__
 pygeodesy.fsums.Fsum._pow_int	pygeodesy.fsums.Fsum-class.html#_pow_int
 pygeodesy.fsums.Fsum._facc_power	pygeodesy.fsums.Fsum-class.html#_facc_power
+pygeodesy.fsums.Fsum._ErrorXs	pygeodesy.fsums.Fsum-class.html#_ErrorXs
 pygeodesy.fsums.Fsum._fmul	pygeodesy.fsums.Fsum-class.html#_fmul
 pygeodesy.fsums.Fsum.residual	pygeodesy.fsums.Fsum-class.html#residual
 pygeodesy.fsums.Fsum._pow_any	pygeodesy.fsums.Fsum-class.html#_pow_any
@@ -13749,7 +13758,7 @@ pygeodesy.fsums.Fsum._fprs2	pygeodesy.fsums.Fsum-class.html#_fprs2
 pygeodesy.fsums.Fsum.__divmod__	pygeodesy.fsums.Fsum-class.html#__divmod__
 pygeodesy.fsums.Fsum._ErrorX	pygeodesy.fsums.Fsum-class.html#_ErrorX
 pygeodesy.fsums.Fsum._neg	pygeodesy.fsums.Fsum-class.html#_neg
-pygeodesy.fsums.Fsum.float_int	pygeodesy.fsums.Fsum-class.html#float_int
+pygeodesy.fsums.Fsum.__rmatmul__	pygeodesy.fsums.Fsum-class.html#__rmatmul__
 pygeodesy.fsums.Fsum.fsum2	pygeodesy.fsums.Fsum-class.html#fsum2
 pygeodesy.fsums.Fsum._facc	pygeodesy.fsums.Fsum-class.html#_facc
 pygeodesy.named._Named.named3	pygeodesy.named._Named-class.html#named3
@@ -13766,6 +13775,7 @@ pygeodesy.fsums.Fsum._fsub	pygeodesy.fsums.Fsum-class.html#_fsub
 pygeodesy.fsums.Fsum._ratio	pygeodesy.fsums.Fsum-class.html#_ratio
 pygeodesy.fsums.Fsum._fset_ps	pygeodesy.fsums.Fsum-class.html#_fset_ps
 pygeodesy.fsums.Fsum.fsub	pygeodesy.fsums.Fsum-class.html#fsub
+pygeodesy.fsums.Fsum.fset_	pygeodesy.fsums.Fsum-class.html#fset_
 pygeodesy.fsums.Fsum.pow	pygeodesy.fsums.Fsum-class.html#pow
 pygeodesy.named._Named.named	pygeodesy.named._Named-class.html#named
 pygeodesy.fsums.Fsum.fsum	pygeodesy.fsums.Fsum-class.html#fsum
@@ -13774,7 +13784,7 @@ pygeodesy.named._Named._DOT_	pygeodesy.named._Named-class.html#_DOT_
 pygeodesy.fsums.Fsum.__rtruediv__	pygeodesy.fsums.Fsum-class.html#__rtruediv__
 pygeodesy.fsums.Fsum.__rsub__	pygeodesy.fsums.Fsum-class.html#__rsub__
 pygeodesy.fsums.Fsum.divmod	pygeodesy.fsums.Fsum-class.html#divmod
-pygeodesy.fsums.Fsum.__rmatmul__	pygeodesy.fsums.Fsum-class.html#__rmatmul__
+pygeodesy.fsums.Fsum.float_int	pygeodesy.fsums.Fsum-class.html#float_int
 pygeodesy.named._Named._xnamed	pygeodesy.named._Named-class.html#_xnamed
 pygeodesy.fsums.Fsum.is_integer	pygeodesy.fsums.Fsum-class.html#is_integer
 pygeodesy.fsums.Fsum.__float__	pygeodesy.fsums.Fsum-class.html#__float__
@@ -13902,6 +13912,7 @@ pygeodesy.fsums.Fsum.fsum_	pygeodesy.fsums.Fsum-class.html#fsum_
 pygeodesy.fsums.Fsum.__ne__	pygeodesy.fsums.Fsum-class.html#__ne__
 pygeodesy.fsums.Fsum._pow_int	pygeodesy.fsums.Fsum-class.html#_pow_int
 pygeodesy.fsums.Fsum._facc_power	pygeodesy.fsums.Fsum-class.html#_facc_power
+pygeodesy.fsums.Fsum._ErrorXs	pygeodesy.fsums.Fsum-class.html#_ErrorXs
 pygeodesy.fsums.Fsum._fmul	pygeodesy.fsums.Fsum-class.html#_fmul
 pygeodesy.fsums.Fsum.residual	pygeodesy.fsums.Fsum-class.html#residual
 pygeodesy.fsums.Fsum._pow_any	pygeodesy.fsums.Fsum-class.html#_pow_any
@@ -13909,7 +13920,7 @@ pygeodesy.fsums.Fsum._fprs2	pygeodesy.fsums.Fsum-class.html#_fprs2
 pygeodesy.fsums.Fsum.__divmod__	pygeodesy.fsums.Fsum-class.html#__divmod__
 pygeodesy.fsums.Fsum._ErrorX	pygeodesy.fsums.Fsum-class.html#_ErrorX
 pygeodesy.fsums.Fsum._neg	pygeodesy.fsums.Fsum-class.html#_neg
-pygeodesy.fsums.Fsum.float_int	pygeodesy.fsums.Fsum-class.html#float_int
+pygeodesy.fsums.Fsum.__rmatmul__	pygeodesy.fsums.Fsum-class.html#__rmatmul__
 pygeodesy.fsums.Fsum.fsum2	pygeodesy.fsums.Fsum-class.html#fsum2
 pygeodesy.fsums.Fsum._facc	pygeodesy.fsums.Fsum-class.html#_facc
 pygeodesy.named._Named.named3	pygeodesy.named._Named-class.html#named3
@@ -13926,6 +13937,7 @@ pygeodesy.fsums.Fsum._fsub	pygeodesy.fsums.Fsum-class.html#_fsub
 pygeodesy.fsums.Fsum._ratio	pygeodesy.fsums.Fsum-class.html#_ratio
 pygeodesy.fsums.Fsum._fset_ps	pygeodesy.fsums.Fsum-class.html#_fset_ps
 pygeodesy.fsums.Fsum.fsub	pygeodesy.fsums.Fsum-class.html#fsub
+pygeodesy.fsums.Fsum.fset_	pygeodesy.fsums.Fsum-class.html#fset_
 pygeodesy.fsums.Fsum.pow	pygeodesy.fsums.Fsum-class.html#pow
 pygeodesy.named._Named.named	pygeodesy.named._Named-class.html#named
 pygeodesy.fsums.Fsum.fsum	pygeodesy.fsums.Fsum-class.html#fsum
@@ -13934,7 +13946,7 @@ pygeodesy.named._Named._DOT_	pygeodesy.named._Named-class.html#_DOT_
 pygeodesy.fsums.Fsum.__rtruediv__	pygeodesy.fsums.Fsum-class.html#__rtruediv__
 pygeodesy.fsums.Fsum.__rsub__	pygeodesy.fsums.Fsum-class.html#__rsub__
 pygeodesy.fsums.Fsum.divmod	pygeodesy.fsums.Fsum-class.html#divmod
-pygeodesy.fsums.Fsum.__rmatmul__	pygeodesy.fsums.Fsum-class.html#__rmatmul__
+pygeodesy.fsums.Fsum.float_int	pygeodesy.fsums.Fsum-class.html#float_int
 pygeodesy.named._Named._xnamed	pygeodesy.named._Named-class.html#_xnamed
 pygeodesy.fsums.Fsum.is_integer	pygeodesy.fsums.Fsum-class.html#is_integer
 pygeodesy.fsums.Fsum.__float__	pygeodesy.fsums.Fsum-class.html#__float__
@@ -14062,6 +14074,7 @@ pygeodesy.fsums.Fsum.fsum_	pygeodesy.fsums.Fsum-class.html#fsum_
 pygeodesy.fsums.Fsum.__ne__	pygeodesy.fsums.Fsum-class.html#__ne__
 pygeodesy.fsums.Fsum._pow_int	pygeodesy.fsums.Fsum-class.html#_pow_int
 pygeodesy.fsums.Fsum._facc_power	pygeodesy.fsums.Fsum-class.html#_facc_power
+pygeodesy.fsums.Fsum._ErrorXs	pygeodesy.fsums.Fsum-class.html#_ErrorXs
 pygeodesy.fsums.Fsum._fmul	pygeodesy.fsums.Fsum-class.html#_fmul
 pygeodesy.fsums.Fsum.residual	pygeodesy.fsums.Fsum-class.html#residual
 pygeodesy.fsums.Fsum._pow_any	pygeodesy.fsums.Fsum-class.html#_pow_any
@@ -14069,7 +14082,7 @@ pygeodesy.fsums.Fsum._fprs2	pygeodesy.fsums.Fsum-class.html#_fprs2
 pygeodesy.fsums.Fsum.__divmod__	pygeodesy.fsums.Fsum-class.html#__divmod__
 pygeodesy.fsums.Fsum._ErrorX	pygeodesy.fsums.Fsum-class.html#_ErrorX
 pygeodesy.fsums.Fsum._neg	pygeodesy.fsums.Fsum-class.html#_neg
-pygeodesy.fsums.Fsum.float_int	pygeodesy.fsums.Fsum-class.html#float_int
+pygeodesy.fsums.Fsum.__rmatmul__	pygeodesy.fsums.Fsum-class.html#__rmatmul__
 pygeodesy.fsums.Fsum.fsum2	pygeodesy.fsums.Fsum-class.html#fsum2
 pygeodesy.fsums.Fsum._facc	pygeodesy.fsums.Fsum-class.html#_facc
 pygeodesy.named._Named.named3	pygeodesy.named._Named-class.html#named3
@@ -14086,6 +14099,7 @@ pygeodesy.fsums.Fsum._fsub	pygeodesy.fsums.Fsum-class.html#_fsub
 pygeodesy.fsums.Fsum._ratio	pygeodesy.fsums.Fsum-class.html#_ratio
 pygeodesy.fsums.Fsum._fset_ps	pygeodesy.fsums.Fsum-class.html#_fset_ps
 pygeodesy.fsums.Fsum.fsub	pygeodesy.fsums.Fsum-class.html#fsub
+pygeodesy.fsums.Fsum.fset_	pygeodesy.fsums.Fsum-class.html#fset_
 pygeodesy.fsums.Fsum.pow	pygeodesy.fsums.Fsum-class.html#pow
 pygeodesy.named._Named.named	pygeodesy.named._Named-class.html#named
 pygeodesy.fsums.Fsum.fsum	pygeodesy.fsums.Fsum-class.html#fsum
@@ -14094,7 +14108,7 @@ pygeodesy.named._Named._DOT_	pygeodesy.named._Named-class.html#_DOT_
 pygeodesy.fsums.Fsum.__rtruediv__	pygeodesy.fsums.Fsum-class.html#__rtruediv__
 pygeodesy.fsums.Fsum.__rsub__	pygeodesy.fsums.Fsum-class.html#__rsub__
 pygeodesy.fsums.Fsum.divmod	pygeodesy.fsums.Fsum-class.html#divmod
-pygeodesy.fsums.Fsum.__rmatmul__	pygeodesy.fsums.Fsum-class.html#__rmatmul__
+pygeodesy.fsums.Fsum.float_int	pygeodesy.fsums.Fsum-class.html#float_int
 pygeodesy.named._Named._xnamed	pygeodesy.named._Named-class.html#_xnamed
 pygeodesy.fsums.Fsum.is_integer	pygeodesy.fsums.Fsum-class.html#is_integer
 pygeodesy.fsums.Fsum.__float__	pygeodesy.fsums.Fsum-class.html#__float__
@@ -14222,6 +14236,7 @@ pygeodesy.fsums.Fsum.fsum_	pygeodesy.fsums.Fsum-class.html#fsum_
 pygeodesy.fsums.Fsum.__ne__	pygeodesy.fsums.Fsum-class.html#__ne__
 pygeodesy.fsums.Fsum._pow_int	pygeodesy.fsums.Fsum-class.html#_pow_int
 pygeodesy.fsums.Fsum._facc_power	pygeodesy.fsums.Fsum-class.html#_facc_power
+pygeodesy.fsums.Fsum._ErrorXs	pygeodesy.fsums.Fsum-class.html#_ErrorXs
 pygeodesy.fsums.Fsum._fmul	pygeodesy.fsums.Fsum-class.html#_fmul
 pygeodesy.fsums.Fsum.residual	pygeodesy.fsums.Fsum-class.html#residual
 pygeodesy.fsums.Fsum._pow_any	pygeodesy.fsums.Fsum-class.html#_pow_any
@@ -14229,7 +14244,7 @@ pygeodesy.fsums.Fsum._fprs2	pygeodesy.fsums.Fsum-class.html#_fprs2
 pygeodesy.fsums.Fsum.__divmod__	pygeodesy.fsums.Fsum-class.html#__divmod__
 pygeodesy.fsums.Fsum._ErrorX	pygeodesy.fsums.Fsum-class.html#_ErrorX
 pygeodesy.fsums.Fsum._neg	pygeodesy.fsums.Fsum-class.html#_neg
-pygeodesy.fsums.Fsum.float_int	pygeodesy.fsums.Fsum-class.html#float_int
+pygeodesy.fsums.Fsum.__rmatmul__	pygeodesy.fsums.Fsum-class.html#__rmatmul__
 pygeodesy.fsums.Fsum.fsum2	pygeodesy.fsums.Fsum-class.html#fsum2
 pygeodesy.fsums.Fsum._facc	pygeodesy.fsums.Fsum-class.html#_facc
 pygeodesy.named._Named.named3	pygeodesy.named._Named-class.html#named3
@@ -14246,6 +14261,7 @@ pygeodesy.fsums.Fsum._fsub	pygeodesy.fsums.Fsum-class.html#_fsub
 pygeodesy.fsums.Fsum._ratio	pygeodesy.fsums.Fsum-class.html#_ratio
 pygeodesy.fsums.Fsum._fset_ps	pygeodesy.fsums.Fsum-class.html#_fset_ps
 pygeodesy.fsums.Fsum.fsub	pygeodesy.fsums.Fsum-class.html#fsub
+pygeodesy.fsums.Fsum.fset_	pygeodesy.fsums.Fsum-class.html#fset_
 pygeodesy.fsums.Fsum.pow	pygeodesy.fsums.Fsum-class.html#pow
 pygeodesy.named._Named.named	pygeodesy.named._Named-class.html#named
 pygeodesy.fsums.Fsum.fsum	pygeodesy.fsums.Fsum-class.html#fsum
@@ -14254,7 +14270,7 @@ pygeodesy.named._Named._DOT_	pygeodesy.named._Named-class.html#_DOT_
 pygeodesy.fsums.Fsum.__rtruediv__	pygeodesy.fsums.Fsum-class.html#__rtruediv__
 pygeodesy.fsums.Fsum.__rsub__	pygeodesy.fsums.Fsum-class.html#__rsub__
 pygeodesy.fsums.Fsum.divmod	pygeodesy.fsums.Fsum-class.html#divmod
-pygeodesy.fsums.Fsum.__rmatmul__	pygeodesy.fsums.Fsum-class.html#__rmatmul__
+pygeodesy.fsums.Fsum.float_int	pygeodesy.fsums.Fsum-class.html#float_int
 pygeodesy.named._Named._xnamed	pygeodesy.named._Named-class.html#_xnamed
 pygeodesy.fsums.Fsum.is_integer	pygeodesy.fsums.Fsum-class.html#is_integer
 pygeodesy.fsums.Fsum.__float__	pygeodesy.fsums.Fsum-class.html#__float__
@@ -14382,6 +14398,7 @@ pygeodesy.fsums.Fsum.fsum_	pygeodesy.fsums.Fsum-class.html#fsum_
 pygeodesy.fsums.Fsum.__ne__	pygeodesy.fsums.Fsum-class.html#__ne__
 pygeodesy.fsums.Fsum._pow_int	pygeodesy.fsums.Fsum-class.html#_pow_int
 pygeodesy.fsums.Fsum._facc_power	pygeodesy.fsums.Fsum-class.html#_facc_power
+pygeodesy.fsums.Fsum._ErrorXs	pygeodesy.fsums.Fsum-class.html#_ErrorXs
 pygeodesy.fsums.Fsum._fmul	pygeodesy.fsums.Fsum-class.html#_fmul
 pygeodesy.fsums.Fsum.residual	pygeodesy.fsums.Fsum-class.html#residual
 pygeodesy.fsums.Fsum._pow_any	pygeodesy.fsums.Fsum-class.html#_pow_any
@@ -14389,7 +14406,7 @@ pygeodesy.fsums.Fsum._fprs2	pygeodesy.fsums.Fsum-class.html#_fprs2
 pygeodesy.fsums.Fsum.__divmod__	pygeodesy.fsums.Fsum-class.html#__divmod__
 pygeodesy.fsums.Fsum._ErrorX	pygeodesy.fsums.Fsum-class.html#_ErrorX
 pygeodesy.fsums.Fsum._neg	pygeodesy.fsums.Fsum-class.html#_neg
-pygeodesy.fsums.Fsum.float_int	pygeodesy.fsums.Fsum-class.html#float_int
+pygeodesy.fsums.Fsum.__rmatmul__	pygeodesy.fsums.Fsum-class.html#__rmatmul__
 pygeodesy.fsums.Fsum.fsum2	pygeodesy.fsums.Fsum-class.html#fsum2
 pygeodesy.fsums.Fsum._facc	pygeodesy.fsums.Fsum-class.html#_facc
 pygeodesy.named._Named.named3	pygeodesy.named._Named-class.html#named3
@@ -14406,6 +14423,7 @@ pygeodesy.fsums.Fsum._fsub	pygeodesy.fsums.Fsum-class.html#_fsub
 pygeodesy.fsums.Fsum._ratio	pygeodesy.fsums.Fsum-class.html#_ratio
 pygeodesy.fsums.Fsum._fset_ps	pygeodesy.fsums.Fsum-class.html#_fset_ps
 pygeodesy.fsums.Fsum.fsub	pygeodesy.fsums.Fsum-class.html#fsub
+pygeodesy.fsums.Fsum.fset_	pygeodesy.fsums.Fsum-class.html#fset_
 pygeodesy.fsums.Fsum.pow	pygeodesy.fsums.Fsum-class.html#pow
 pygeodesy.named._Named.named	pygeodesy.named._Named-class.html#named
 pygeodesy.fsums.Fsum.fsum	pygeodesy.fsums.Fsum-class.html#fsum
@@ -14414,7 +14432,7 @@ pygeodesy.named._Named._DOT_	pygeodesy.named._Named-class.html#_DOT_
 pygeodesy.fsums.Fsum.__rtruediv__	pygeodesy.fsums.Fsum-class.html#__rtruediv__
 pygeodesy.fsums.Fsum.__rsub__	pygeodesy.fsums.Fsum-class.html#__rsub__
 pygeodesy.fsums.Fsum.divmod	pygeodesy.fsums.Fsum-class.html#divmod
-pygeodesy.fsums.Fsum.__rmatmul__	pygeodesy.fsums.Fsum-class.html#__rmatmul__
+pygeodesy.fsums.Fsum.float_int	pygeodesy.fsums.Fsum-class.html#float_int
 pygeodesy.named._Named._xnamed	pygeodesy.named._Named-class.html#_xnamed
 pygeodesy.fsums.Fsum.is_integer	pygeodesy.fsums.Fsum-class.html#is_integer
 pygeodesy.fsums.Fsum.__float__	pygeodesy.fsums.Fsum-class.html#__float__
@@ -14542,6 +14560,7 @@ pygeodesy.fsums.Fsum.fsum_	pygeodesy.fsums.Fsum-class.html#fsum_
 pygeodesy.fsums.Fsum.__ne__	pygeodesy.fsums.Fsum-class.html#__ne__
 pygeodesy.fsums.Fsum._pow_int	pygeodesy.fsums.Fsum-class.html#_pow_int
 pygeodesy.fsums.Fsum._facc_power	pygeodesy.fsums.Fsum-class.html#_facc_power
+pygeodesy.fsums.Fsum._ErrorXs	pygeodesy.fsums.Fsum-class.html#_ErrorXs
 pygeodesy.fsums.Fsum._fmul	pygeodesy.fsums.Fsum-class.html#_fmul
 pygeodesy.fsums.Fsum.residual	pygeodesy.fsums.Fsum-class.html#residual
 pygeodesy.fsums.Fsum._pow_any	pygeodesy.fsums.Fsum-class.html#_pow_any
@@ -14549,7 +14568,7 @@ pygeodesy.fsums.Fsum._fprs2	pygeodesy.fsums.Fsum-class.html#_fprs2
 pygeodesy.fsums.Fsum.__divmod__	pygeodesy.fsums.Fsum-class.html#__divmod__
 pygeodesy.fsums.Fsum._ErrorX	pygeodesy.fsums.Fsum-class.html#_ErrorX
 pygeodesy.fsums.Fsum._neg	pygeodesy.fsums.Fsum-class.html#_neg
-pygeodesy.fsums.Fsum.float_int	pygeodesy.fsums.Fsum-class.html#float_int
+pygeodesy.fsums.Fsum.__rmatmul__	pygeodesy.fsums.Fsum-class.html#__rmatmul__
 pygeodesy.fsums.Fsum.fsum2	pygeodesy.fsums.Fsum-class.html#fsum2
 pygeodesy.fsums.Fsum._facc	pygeodesy.fsums.Fsum-class.html#_facc
 pygeodesy.named._Named.named3	pygeodesy.named._Named-class.html#named3
@@ -14566,6 +14585,7 @@ pygeodesy.fsums.Fsum._fsub	pygeodesy.fsums.Fsum-class.html#_fsub
 pygeodesy.fsums.Fsum._ratio	pygeodesy.fsums.Fsum-class.html#_ratio
 pygeodesy.fsums.Fsum._fset_ps	pygeodesy.fsums.Fsum-class.html#_fset_ps
 pygeodesy.fsums.Fsum.fsub	pygeodesy.fsums.Fsum-class.html#fsub
+pygeodesy.fsums.Fsum.fset_	pygeodesy.fsums.Fsum-class.html#fset_
 pygeodesy.fsums.Fsum.pow	pygeodesy.fsums.Fsum-class.html#pow
 pygeodesy.named._Named.named	pygeodesy.named._Named-class.html#named
 pygeodesy.fsums.Fsum.fsum	pygeodesy.fsums.Fsum-class.html#fsum
@@ -14574,7 +14594,7 @@ pygeodesy.named._Named._DOT_	pygeodesy.named._Named-class.html#_DOT_
 pygeodesy.fsums.Fsum.__rtruediv__	pygeodesy.fsums.Fsum-class.html#__rtruediv__
 pygeodesy.fsums.Fsum.__rsub__	pygeodesy.fsums.Fsum-class.html#__rsub__
 pygeodesy.fsums.Fsum.divmod	pygeodesy.fsums.Fsum-class.html#divmod
-pygeodesy.fsums.Fsum.__rmatmul__	pygeodesy.fsums.Fsum-class.html#__rmatmul__
+pygeodesy.fsums.Fsum.float_int	pygeodesy.fsums.Fsum-class.html#float_int
 pygeodesy.named._Named._xnamed	pygeodesy.named._Named-class.html#_xnamed
 pygeodesy.fsums.Fsum.is_integer	pygeodesy.fsums.Fsum-class.html#is_integer
 pygeodesy.fsums.Fsum.__float__	pygeodesy.fsums.Fsum-class.html#__float__
@@ -15996,6 +16016,7 @@ pygeodesy.fsums.Fsum.fsum_	pygeodesy.fsums.Fsum-class.html#fsum_
 pygeodesy.fsums.Fsum.__ne__	pygeodesy.fsums.Fsum-class.html#__ne__
 pygeodesy.fsums.Fsum._pow_int	pygeodesy.fsums.Fsum-class.html#_pow_int
 pygeodesy.fsums.Fsum._facc_power	pygeodesy.fsums.Fsum-class.html#_facc_power
+pygeodesy.fsums.Fsum._ErrorXs	pygeodesy.fsums.Fsum-class.html#_ErrorXs
 pygeodesy.fsums.Fsum._fmul	pygeodesy.fsums.Fsum-class.html#_fmul
 pygeodesy.fsums.Fsum.residual	pygeodesy.fsums.Fsum-class.html#residual
 pygeodesy.fsums.Fsum._pow_any	pygeodesy.fsums.Fsum-class.html#_pow_any
@@ -16003,7 +16024,7 @@ pygeodesy.fsums.Fsum._fprs2	pygeodesy.fsums.Fsum-class.html#_fprs2
 pygeodesy.fsums.Fsum.__divmod__	pygeodesy.fsums.Fsum-class.html#__divmod__
 pygeodesy.fsums.Fsum._ErrorX	pygeodesy.fsums.Fsum-class.html#_ErrorX
 pygeodesy.fsums.Fsum._neg	pygeodesy.fsums.Fsum-class.html#_neg
-pygeodesy.fsums.Fsum.__rmatmul__	pygeodesy.fsums.Fsum-class.html#__rmatmul__
+pygeodesy.fsums.Fsum.float_int	pygeodesy.fsums.Fsum-class.html#float_int
 pygeodesy.fsums.Fsum.fsum2	pygeodesy.fsums.Fsum-class.html#fsum2
 pygeodesy.fsums.Fsum._facc	pygeodesy.fsums.Fsum-class.html#_facc
 pygeodesy.named._Named.named3	pygeodesy.named._Named-class.html#named3
@@ -16020,6 +16041,7 @@ pygeodesy.fsums.Fsum._fsub	pygeodesy.fsums.Fsum-class.html#_fsub
 pygeodesy.fsums.Fsum._ratio	pygeodesy.fsums.Fsum-class.html#_ratio
 pygeodesy.fsums.Fsum.fadd_	pygeodesy.fsums.Fsum-class.html#fadd_
 pygeodesy.fsums.Fsum.fsub	pygeodesy.fsums.Fsum-class.html#fsub
+pygeodesy.fsums.Fsum.fset_	pygeodesy.fsums.Fsum-class.html#fset_
 pygeodesy.fsums.Fsum.pow	pygeodesy.fsums.Fsum-class.html#pow
 pygeodesy.named._Named.named	pygeodesy.named._Named-class.html#named
 pygeodesy.fsums.Fsum.fsum	pygeodesy.fsums.Fsum-class.html#fsum
@@ -16028,7 +16050,7 @@ pygeodesy.named._Named._DOT_	pygeodesy.named._Named-class.html#_DOT_
 pygeodesy.fsums.Fsum._update	pygeodesy.fsums.Fsum-class.html#_update
 pygeodesy.fsums.Fsum.__rsub__	pygeodesy.fsums.Fsum-class.html#__rsub__
 pygeodesy.fsums.Fsum.divmod	pygeodesy.fsums.Fsum-class.html#divmod
-pygeodesy.fsums.Fsum.float_int	pygeodesy.fsums.Fsum-class.html#float_int
+pygeodesy.fsums.Fsum.__rmatmul__	pygeodesy.fsums.Fsum-class.html#__rmatmul__
 pygeodesy.named._Named._xnamed	pygeodesy.named._Named-class.html#_xnamed
 pygeodesy.fsums.Fsum.is_integer	pygeodesy.fsums.Fsum-class.html#is_integer
 pygeodesy.fsums.Fsum.__float__	pygeodesy.fsums.Fsum-class.html#__float__
