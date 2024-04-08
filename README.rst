@@ -154,19 +154,19 @@ DEALINGS IN THE SOFTWARE.
 
 .. image:: https://Img.Shields.io/pypi/pyversions/PyGeodesy.svg?label=Python
   :target: https://PyPI.org/project/PyGeodesy
+.. image:: https://Img.Shields.io/pypi/v/PyGeodesy.svg?label=PyPI
+  :target: https://PyPI.org/project/PyGeodesy
 .. image:: https://Img.Shields.io/appveyor/ci/mrJean1/PyGeodesy.svg?branch=master&label=AppVeyor
   :target: https://CI.AppVeyor.com/project/mrJean1/PyGeodesy/branch/master
 .. image:: https://Img.Shields.io/cirrus/github/mrJean1/PyGeodesy?branch=master&label=Cirrus
   :target: https://Cirrus-CI.com/github/mrJean1/PyGeodesy
 .. image:: https://Img.Shields.io/badge/coverage-95%25-brightgreen
   :target: https://GitHub.com/mrJean1/PyGeodesy/blob/master/testcoverage.pdf
-.. image:: https://Img.Shields.io/pypi/v/PyGeodesy.svg?label=PyPI
-  :target: https://PyPI.org/project/PyGeodesy
 .. image:: https://Img.Shields.io/pypi/wheel/PyGeodesy.svg
   :target: https://PyPI.org/project/PyGeodesy/#files
-.. image:: https://img.shields.io/pypi/dm/PyGeodesy
-  :target: https://PyPI.org/project/PyGeodesy
 .. image:: https://Img.Shields.io/pypi/l/PyGeodesy.svg
+  :target: https://PyPI.org/project/PyGeodesy
+.. image:: https://img.shields.io/pypi/dm/PyGeodesy
   :target: https://PyPI.org/project/PyGeodesy
 
 .. _Albers equal-area: https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1AlbersEqualArea.html
