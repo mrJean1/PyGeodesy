@@ -37,7 +37,7 @@ from contextlib import contextmanager
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.geodesicw
-__version__ = '24.03.22'
+__version__ = '24.04.07'
 
 _plumb_ = 'plumb'
 _TRIPS  =  65
@@ -479,7 +479,7 @@ class _wargs(object):  # see also .formy._idllmn6, .latlonBase._toCartesian3, .v
         try:
             yield args
         except Exception as x:
-            n = _DOT_(classname(inst), callername(up=3, underOK=True))
+            n = _DOT_(classname(inst), callername(up=2, underOK=True))
             raise GeodesicError(unstr(n, *args, **kwds), cause=x)
 
 _wargs = _wargs()  # PYCHOK singleton

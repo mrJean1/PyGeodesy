@@ -35,7 +35,7 @@ from pygeodesy.interns import NN, _COMMASPACE_, _concentric_, _height_, \
 # from pygeodesy.karney import Caps  # _MODS
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 # from pygeodesy.ltp import Ltp, _xLtp  # _MODS
-from pygeodesy.named import _NamedBase, notImplemented, notOverloaded,  Fmt
+from pygeodesy.named import _NamedBase,  Fmt
 from pygeodesy.namedTuples import Bounds2Tuple, LatLon2Tuple, PhiLam2Tuple, \
                                   Trilaterate5Tuple
 # from pygeodesy.nvectorBase import _N_vector_  # _MODS
@@ -53,7 +53,7 @@ from contextlib import contextmanager
 from math import asin, cos, degrees, fabs, radians
 
 __all__ = _ALL_LAZY.latlonBase
-__version__ = '24.03.15'
+__version__ = '24.04.07'
 
 
 class LatLonBase(_NamedBase):
@@ -418,7 +418,7 @@ class LatLonBase(_NamedBase):
     @property_RO
     def datum(self):  # PYCHOK no cover
         '''I{Must be overloaded}.'''
-        notOverloaded(self)
+        self._notOverloaded()
 
     def destinationXyz(self, delta, LatLon=None, **LatLon_kwds):
         '''Calculate the destination using a I{local} delta from this point.
@@ -735,7 +735,7 @@ class LatLonBase(_NamedBase):
 
     def intersecant2(self, *args, **kwds):  # PYCHOK no cover
         '''B{Not implemented}, throws a C{NotImplementedError} always.'''
-        notImplemented(self, *args, **kwds)
+        self._notImplemented(*args, **kwds)
 
     def _intersecend2(self, p, q, wrap, height, g_or_r, P, Q, unused):  # in .LatLonEllipsoidalBaseDI.intersecant2
         '''(INTERNAL) Interpolate 2 heights along a geodesic or rhumb
@@ -1021,7 +1021,7 @@ class LatLonBase(_NamedBase):
 
     def nearestTo(self, *args, **kwds):  # PYCHOK no cover
         '''B{Not implemented}, throws a C{NotImplementedError} always.'''
-        notImplemented(self, *args, **kwds)
+        self._notImplemented(*args, **kwds)
 
     def normal(self):
         '''Normalize this point I{in-place} to C{abs(lat) <= 90} and
@@ -1424,7 +1424,7 @@ class LatLonBase(_NamedBase):
 
     def toDatum(self, datum2, height=None, name=NN):
         '''I{Must be overloaded}.'''
-        notOverloaded(self, datum2, height=height, name=name)
+        self._notOverloaded(datum2, height=height, name=name)
 
     def toEcef(self, height=None, M=False):
         '''Convert this point to I{geocentric} coordinates, also known as

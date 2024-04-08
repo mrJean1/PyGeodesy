@@ -99,7 +99,7 @@ from pygeodesy.interns import MISSING, NN, _4_, _COLONSPACE_, _COMMASPACE_, \
                              _scipy_, _SPACE_, _stdev_, _supported_, _tbd_, \
                              _W_, _width_, _version2
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, _FOR_DOCS
-from pygeodesy.named import _Named, _NamedTuple, notOverloaded
+from pygeodesy.named import _Named, _NamedTuple
 # from pygeodesy.namedTuples import LatLon3Tuple  # _MODS
 from pygeodesy.props import deprecated_method, Property_RO, property_RO
 from pygeodesy.streprs import attrs, Fmt, fstr, pairs
@@ -118,7 +118,7 @@ except ImportError:  # Python 3+
     from io import BytesIO as _BytesIO  # PYCHOK expected
 
 __all__ = _ALL_LAZY.geoids
-__version__ = '24.03.22'
+__version__ = '24.04.07'
 
 _assert_ = 'assert'
 _bHASH_  =  b'#'
@@ -385,7 +385,7 @@ class _GeoidBase(_HeightsBase):
 
     def _g2ll2(self, lat, lon):  # PYCHOK no cover
         '''(INTERNAL) I{Must be overloaded}.'''
-        notOverloaded(self, lat, lon)
+        self._notOverloaded(lat, lon)
 
     def _gyx2g2(self, y, x):
         # convert grid (y, x) indices to grid (lat, lon)
@@ -473,7 +473,7 @@ class _GeoidBase(_HeightsBase):
 
     def _ll2g2(self, lat, lon):  # PYCHOK no cover
         '''(INTERNAL) I{Must be overloaded}.'''
-        notOverloaded(self, lat, lon)
+        self._notOverloaded(lat, lon)
 
     @property_RO
     def _LL3T(self):

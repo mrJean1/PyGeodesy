@@ -4,7 +4,7 @@
 # Test L{fsums} module.
 
 __all__ = ('Tests',)
-__version__ = '24.04.04'
+__version__ = '24.04.06'
 
 from bases import endswith, isPython2, randoms, startswith, TestsBase
 
@@ -223,7 +223,7 @@ class Tests(TestsBase):
         except Exception as X:
             self.test('pow(F, -)', repr(X), ResidualError.__name__, known=startswith)
         try:
-            self.test('pow(-F, F)', pow(m, x), ResidualError.__name__)
+            self.test('pow(-F, F)', pow(m, float(x)), ResidualError.__name__)
         except Exception as X:
             self.test('pow(-F, F)', repr(X), ValueError.__name__, known=startswith)
         try:

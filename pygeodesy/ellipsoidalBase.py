@@ -26,7 +26,6 @@ from pygeodesy.interns import NN, _COMMA_, _ellipsoidal_
 from pygeodesy.latlonBase import LatLonBase, _trilaterate5,  fabs, _Wrap
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 # from pygeodesy.lcc import toLcc  # _MODS
-# from pygeodesy.named import notOverloaded  # _MODS
 # from pygeodesy.namedTuples import Vector3Tuple  # _MODS
 from pygeodesy.props import deprecated_method, deprecated_property_RO, \
                             Property_RO, property_doc_, property_RO, _update_all
@@ -37,7 +36,7 @@ from pygeodesy.units import Epoch, _isDegrees, Radius_, _1mm as _TOL_M
 # from math import fabs  # from .latlonBase
 
 __all__ = _ALL_LAZY.ellipsoidalBase
-__version__ = '24.03.09'
+__version__ = '24.04.07'
 
 
 class CartesianEllipsoidalBase(CartesianBase):
@@ -499,7 +498,7 @@ class LatLonEllipsoidalBase(LatLonBase):
 
     def intermediateTo(self, other, fraction, height=None, wrap=False):  # PYCHOK no cover
         '''I{Must be overloaded}.'''
-        _MODS.named.notOverloaded(self, other, fraction, height=height, wrap=wrap)
+        self._notOverloaded(other, fraction, height=height, wrap=wrap)
 
     def intersection3(self, end1, other, end2, height=None, wrap=False,  # was=True
                                           equidistant=None, tol=_TOL_M):

@@ -92,7 +92,7 @@ from pygeodesy.utm import _cmlon, _LLEB, _parseUTM5, _toBand, _toXtm8, \
 from math import asinh, atan2, degrees, radians, sinh, sqrt
 
 __all__ = _ALL_LAZY.etm
-__version__ = '24.03.22'
+__version__ = '24.04.07'
 
 _OVERFLOW = _1_EPS**2  # about 2e+31
 _TAYTOL   =  pow(EPS, 0.6)
@@ -606,8 +606,8 @@ class ExactTransverseMercator(_NamedBase):
             _zetaDwd2 = self._sigmaDwd2
 
         d2, r = tol2, self.raiser
-        _U_2  = Fsum(u).fsum2_
-        _V_2  = Fsum(v).fsum2_
+        _U_2  = Fsum(u).fsum2f_
+        _V_2  = Fsum(v).fsum2f_
         # min iterations 2, max 6 or 7, mean 3.9 or 4.0
         for i in range(1, _TRIPS):  # GEOGRAPHICLIB_PANIC
             sncndn6 =  self._sncndn6(u, v)

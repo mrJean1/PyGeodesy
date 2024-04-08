@@ -108,7 +108,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        24.04.04
+        24.04.08
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -230,7 +230,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fsums-module.html#fsum1" class="summary-sig-name">fsum1</a>(<span class="summary-sig-arg">xs</span>,
         <span class="summary-sig-arg">floats</span>=<span class="summary-sig-default">False</span>)</span><br />
-      Precision floating point summation of a few arguments, 1-primed.</td>
+      Precision floating point summation, 1-primed.</td>
           <td align="right" valign="top">
             
             
@@ -248,7 +248,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fsums-module.html#fsum1_" class="summary-sig-name">fsum1_</a>(<span class="summary-sig-arg">*xs</span>,
         <span class="summary-sig-arg">**floats</span>)</span><br />
-      Precision floating point summation of a few arguments, 1-primed.</td>
+      Precision floating point summation, 1-primed.</td>
           <td align="right" valign="top">
             
             
@@ -265,7 +265,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a name="fsum1f_"></a><span class="summary-sig-name">fsum1f_</span>(<span class="summary-sig-arg">*xs</span>)</span><br />
-      Precision floating point summation <a 
+      Precision floating point summation, <a 
       href="pygeodesy.fsums-module.html#fsum1_" 
       class="link">fsum1_</a><code>(*xs, floats=True)</code>.</td>
           <td align="right" valign="top">
@@ -326,8 +326,9 @@
         <li><strong class="pname"><code>xs</code></strong> - Iterable, list, tuple, etc. of values (<code>scalar</code> or <a 
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> 
           instances).</li>
-        <li><strong class="pname"><code>floats</code></strong> - Optionally, use <code><b>floats</b>=True</code> iff <i>all</i> 
-          <b><code>xs</code></b> are known to be <code>float</code>.</li>
+        <li><strong class="pname"><code>floats</code></strong> - Use <code><b>floats</b>=True</code> iff <i>all</i> 
+          <b><code>xs</code></b> are known to be <code>float</code> scalars
+          (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Precision <code>fsum</code> (<code>float</code>).</dd>
@@ -339,8 +340,8 @@
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
-        Exceptions and <i>non-finite</i> handling may differ if not based 
-        on Python's <code>math.fsum</code>.
+        Exception and <i>non-finite</i> handling may differ if not based on
+        Python's <code>math.fsum</code>.
       </p>
       <p><strong>See Also:</strong>
         Class <a href="pygeodesy.fsums.Fsum-class.html" 
@@ -374,8 +375,9 @@
         <li><strong class="pname"><code>xs</code></strong> - Values to be added (<code>scalar</code> or <a 
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> 
           instances), all positional.</li>
-        <li><strong class="pname"><code>floats</code></strong> - Optionally, use <code><b>floats</b>=True</code> iff <i>all</i> 
-          <b><code>xs</code></b> are known to be <code>float</code>.</li>
+        <li><strong class="pname"><code>floats</code></strong> - Use <code><b>floats</b>=True</code> iff <i>all</i> 
+          <b><code>xs</code></b> are known to be <code>float</code> scalars
+          (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Precision <code>fsum</code> (<code>float</code>).</dd>
@@ -400,14 +402,14 @@
     </td>
   </tr></table>
   
-  <p>Precision floating point summation of a few arguments, 1-primed.</p>
+  <p>Precision floating point summation, 1-primed.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>xs</code></strong> - Iterable, list, tuple, etc. of values (<code>scalar</code> or <a 
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> 
           instances).</li>
-        <li><strong class="pname"><code>floats</code></strong> - Optionally, use <code><b>floats</b>=True</code> iff <i>all</i> 
+        <li><strong class="pname"><code>floats</code></strong> - Use <code><b>floats</b>=True</code> iff <i>all</i> 
           <b><code>xs</code></b> are known to be <code>float</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -433,15 +435,16 @@
     </td>
   </tr></table>
   
-  <p>Precision floating point summation of a few arguments, 1-primed.</p>
+  <p>Precision floating point summation, 1-primed.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>xs</code></strong> - Values to be added (<code>scalar</code> or <a 
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> 
           instances), all positional.</li>
-        <li><strong class="pname"><code>floats</code></strong> - Optionally, use <code><b>floats</b>=True</code> iff <i>all</i> 
-          <b><code>xs</code></b> are known to be <code>float</code>.</li>
+        <li><strong class="pname"><code>floats</code></strong> - Use <code><b>floats</b>=True</code> iff <i>all</i> 
+          <b><code>xs</code></b> are known to be <code>float</code> scalars
+          (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Precision <code>fsum</code> (<code>float</code>).</dd>
@@ -483,7 +486,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Apr  4 15:33:25 2024
+    Generated by Epydoc 3.0.1 on Mon Apr  8 10:21:43 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -81,7 +81,7 @@ from pygeodesy.interns import NN, _COMMASPACE_, _cubic_, _insufficient_, _knots_
                              _linear_, _NOTEQUAL_, _PLUS_, _scipy_, _SPACE_, \
                              _STAR_, _version2
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, _FOR_DOCS
-from pygeodesy.named import _Named, notOverloaded
+from pygeodesy.named import _Named
 from pygeodesy.points import _distanceTo, LatLon_,  Fmt, radians, _Wrap
 from pygeodesy.props import Property_RO, property_RO
 # from pygeodesy.streprs import Fmt  # from .points
@@ -91,7 +91,7 @@ from pygeodesy.units import _isDegrees, Float_, Int_
 # from math import radians  # from .points
 
 __all__ = _ALL_LAZY.heights
-__version__ = '24.03.14'
+__version__ = '24.04.07'
 
 _error_     = 'error'
 _llis_      = 'llis'
@@ -245,7 +245,7 @@ class _HeightsBase(_HeightBase):  # in .geoids
 
            @raise SciPyWarning: A C{scipy} warning as exception.
         '''
-        notOverloaded(self, callername='__call__', *llis, **wrap)
+        self._notOverloaded(callername='__call__', *llis, **wrap)
 
     def _as_xyllis4(self, llis, **wrap):
         # convert lli C{LatLon}s to tuples or C{NumPy} arrays of
@@ -258,7 +258,7 @@ class _HeightsBase(_HeightBase):  # in .geoids
 
     def _ev(self, *args):  # PYCHOK no cover
         '''(INTERNAL) I{Must be overloaded}.'''
-        notOverloaded(self, *args)
+        self._notOverloaded(*args)
 
     def _eval(self, llis, **wrap):  # XXX single arg, not *args
         _as, xis, yis, _ = self._as_xyllis4(llis, **wrap)
@@ -286,7 +286,7 @@ class _HeightsBase(_HeightBase):  # in .geoids
 
            @raise SciPyWarning: A C{scipy} warning as exception.
         '''
-        notOverloaded(self, lats, lons, **wrap)
+        self._notOverloaded(lats, lons, **wrap)
 
     def _np_sp2(self, throwarnings=False):
         '''(INTERNAL) Import C{numpy} and C{scipy}, once.
@@ -687,7 +687,7 @@ class _HeightIDW(_HeightBase):
         '''
         _f, kwds = self._func, self._kwds
         if not callable(_f):  # PYCHOK no cover
-            notOverloaded(self, distance_function=_f)
+            self._notOverloaded(distance_function=_f)
         try:
             for i, k in enumerate(self._knots):
                 yield _f(y, x, k.lat, k.lon, **kwds)

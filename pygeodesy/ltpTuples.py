@@ -22,8 +22,7 @@ from pygeodesy.interns import NN, _4_, _azimuth_, _center_, _COMMASPACE_, \
                              _lat_, _lon_, _ltp_, _M_, _north_, _not_, _up_, \
                              _X_, _x_, _xyz_, _Y_, _y_, _z_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
-from pygeodesy.named import _NamedBase, _NamedTuple, notOverloaded, \
-                            _Pass, _xnamed
+from pygeodesy.named import _NamedBase, _NamedTuple, _Pass, _xnamed
 from pygeodesy.namedTuples import LatLon2Tuple, PhiLam2Tuple, Vector3Tuple
 from pygeodesy.props import deprecated_method, deprecated_Property_RO, \
                             Property_RO, property_RO
@@ -36,7 +35,7 @@ from pygeodesy.vector3d import Vector3d
 from math import cos, radians
 
 __all__ = _ALL_LAZY.ltpTuples
-__version__ = '24.03.15'
+__version__ = '24.04.07'
 
 _aer_        = 'aer'
 _alt_        = 'alt'
@@ -183,7 +182,7 @@ class _NamedAerNed(_NamedBase):
     @property_RO
     def xyz4(self):  # PYCHOK no cover
         '''I{Must be overloaded}.'''
-        notOverloaded(self)
+        self._notOverloaded()
 
     @Property_RO
     def xyzLocal(self):

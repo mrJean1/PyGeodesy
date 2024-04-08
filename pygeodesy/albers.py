@@ -38,7 +38,7 @@ from pygeodesy.utily import atan1, atan1d, degrees360, sincos2, sincos2d, \
 from math import atan2, atanh, degrees, fabs, radians, sqrt
 
 __all__ = _ALL_LAZY.albers
-__version__ = '24.03.22'
+__version__ = '24.04.07'
 
 _k1_    = 'k1'
 _NUMIT  =   8  # XXX 4?
@@ -431,7 +431,7 @@ class _AlbersBase(_NamedBase):
         e21    =  E.e21
         e22    =  E.e22  # == e2 / e21
         tol    = _tol(_TOL0, ta0)
-        _Ta02  =  Fsum(ta0).fsum2_
+        _Ta02  =  Fsum(ta0).fsum2f_
         _fabs  =  fabs
         _fsum1 =  fsum1f_
         _sqrt  =  sqrt
@@ -504,7 +504,7 @@ class _AlbersBase(_NamedBase):
         qx  =  self._qx
 
         ta     =  txi
-        _Ta2   =  Fsum(ta).fsum2_
+        _Ta2   =  Fsum(ta).fsum2f_
         _fabs  =  fabs
         _sqrt3 =  sqrt3
         _txif  =  self._txif
@@ -732,7 +732,7 @@ def _atanh1(x):
         # x < E.e^2 == 2 * E.f use ...
         # x / 3 + x^2 / 5 + x^3 / 7 + ...
         y, k = x, 3
-        _S2  = Fsum(y / k).fsum2_
+        _S2  = Fsum(y / k).fsum2f_
         for _ in range(_TERMS):  # 9 terms
             y *= x  # x**n
             k += 2  # 2*n + 1
@@ -781,15 +781,15 @@ def _D2atanheE(x, y, E):
             e = z = _1_0
             k = 1
             T   = Fsum()  # Taylor expansion
-            _T  = T.fsum_
-            _C  = Fsum().fsum_
+            _T  = T.Fsumf_
+            _C  = Fsum().Fsum_
             _S2 = Fsum().fsum2_
             for _ in range(_TERMS):  # 15 terms
-                T *= y; p = _T(z); z *= x  # PYCHOK ;
-                T *= y; t = _T(z); z *= x  # PYCHOK ;
+                T *= y; P = _T(z); z *= x  # PYCHOK ;
+                T *= y; Q = _T(z); z *= x  # PYCHOK ;
                 e *= e2
                 k += 2
-                s, d = _S2(_C(p, t) * e / k)
+                s, d = _S2(_C(P, Q) * e / k)
                 if not d:
                     break
         else:  # PYCHOK no cover

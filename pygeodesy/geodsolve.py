@@ -11,6 +11,7 @@ of the C{GeodSolve} executable.
 
 from pygeodesy.basics import _xinstanceof
 # from pygeodesy.errors import _xkwds  # from .karney
+# from pygeodesy.geodesicx import GeodesicAreaExact  # _MODS
 from pygeodesy.interns import NN, _a12_, _azi1_, _azi2_, \
                              _lat1_, _lat2_, _lon1_, _lon2_, _m12_, \
                              _M12_, _M21_, _s12_, _S12_, _UNDER_
@@ -25,7 +26,7 @@ from pygeodesy.solveBase import _SolveBase, _SolveLineBase
 from pygeodesy.utily import _unrollon, _Wrap, wrap360
 
 __all__ = _ALL_LAZY.geodsolve
-__version__ = '24.02.21'
+__version__ = '24.04.07'
 
 
 class GeodSolve12Tuple(_GTuple):
@@ -301,11 +302,11 @@ class GeodesicLineSolve(_GeodesicSolveBase, _SolveLineBase):
 
     def Intersecant2(self, lat0, lon0, radius, **kwds):  # PYCHOK no cover
         '''B{Not implemented}, throws a C{NotImplementedError} always.'''
-        _MODS.named.notImplemented(self, lat0, lon0, radius, **kwds)
+        self._notImplemented(lat0, lon0, radius, **kwds)
 
     def PlumbTo(self, lat0, lon0, **kwds):  # PYCHOK no cover
         '''B{Not implemented}, throws a C{NotImplementedError} always.'''
-        _MODS.named.notImplemented(self, lat0, lon0, **kwds)
+        self._notImplemented(lat0, lon0, **kwds)
 
     def Position(self, s12, outmask=_UNUSED_):  # PYCHOK unused
         '''Find the position on the line given B{C{s12}}.

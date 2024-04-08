@@ -46,7 +46,7 @@ from pygeodesy.props import _allPropertiesOf_n, deprecated_property_RO, \
 from math import ceil as _ceil, fabs, floor as _floor  # PYCHOK used! .ltp
 
 __all__ = _ALL_LAZY.fsums
-__version__ = '24.04.04'
+__version__ = '24.04.08'
 
 _add_op_       = _PLUS_  # in .auxilats.auxAngle
 _eq_op_        = _EQUAL_ * 2  # _DEQUAL_
@@ -72,54 +72,89 @@ _divmod_op_    = _floordiv_op_ + _mod_op_
 _isub_op_      = _sub_op_ + _fset_op_  # in .auxilats.auxAngle, .fsums
 
 
+def _2delta(*ab):
+    '''(INTERNAL) Helper for C{Fsum.fsum2f_}.
+    '''
+    try:
+        a, b = _2sum(*ab)
+    except _OverflowError:
+        a, b =  ab
+    return float(a if fabs(a) > fabs(b) else b)
+
+
+def _2error(unused):
+    '''(INTERNAL) Throw a C{not finite} exception.
+    '''
+    raise ValueError(_not_finite_)
+
+
 def _2float(index=None, **name_value):  # in .fmath, .fstats
     '''(INTERNAL) Raise C{TypeError} or C{ValueError} if not scalar or infinite.
     '''
     n, v = name_value.popitem()  # _xkwds_item2(name_value)
     try:
         v = float(v)
-        if _isfinite(v):
-            return v
-        raise ValueError(_not_finite_)
+        return v if _isfinite(v) else _2error(v)
     except Exception as X:
         raise _xError(X, Fmt.INDEX(n, index), v)
 
 
-def _2floats(xs, origin=0, neg=False):
+def _X_ps(X):  # == lambda X: X._ps
+    return X._ps
+
+
+def _2floats(xs, origin=0, _X=_X_ps, _x=float):
     '''(INTERNAL) Yield each B{C{xs}} as a C{float}.
     '''
-    if neg:
-        def _X(X):
-            return X._ps_neg
+    try:
+        i, x =  origin, None
+        _fin = _isfinite
+        _Fs  =  Fsum
+        for x in xs:
+            if isinstance(x, _Fs):
+                for p in _X(x):
+                    yield p
+            else:
+                f = _x(x)
+                yield f if _fin(f) else _2error(f)
+            i += 1
+    except Exception as X:
+        raise _xError(X, Fmt.INDEX(xs=i), x)
 
-        def _x(x):
-            return -float(x)
-    else:
-        def _X(X):  # PYCHOK re-def
-            return X._ps
 
-        _x = float
+def _2floats_neg(xs, **origin):
+    '''(INTERNAL) Yield each B{C{xs}} as a C{float}, negated.
+    '''
+    for x in _2floats(xs, **origin):  # PYCHOK yield
+        yield -x
 
-    return _2yield(xs, origin, _X, _x)
+
+def _2halfeven(s, r, p):
+    '''(INTERNAL) Round half-even.
+    '''
+    if (p > 0 and r > 0) or \
+       (p < 0 and r < 0):  # signs match
+        r *= 2
+        t  = s + r
+        if r == (t - s):
+            s = t
+    return s
 
 
 def _1primed(xs):  # in .fmath
-    '''(INTERNAL) 1-Prime the summation of C{xs}
-       arguments I{known} to be C{finite float}.
+    '''(INTERNAL) 1-Primed summation of iterable C{xs}
+       items, all I{known} to be C{finite float}.
     '''
     yield _1_0
     for x in xs:
-        if x:
-            yield x
+        yield x
     yield _N_1_0
 
 
 def _2ps(s, r):
     '''(INTERNAL) Return a C{s} and C{r} pair, I{ps-ordered}.
     '''
-    if fabs(s) < fabs(r):
-        s, r = r, s
-    return ((r, s) if s else (r,)) if r else (s,)
+    return (s, r) if fabs(s) < fabs(r) else (r, s)
 
 
 def _psum(ps):  # PYCHOK used!
@@ -136,20 +171,14 @@ def _psum(ps):  # PYCHOK used!
             if s:
                 ps[i:] = r, s
                 if i > 0:
-                    p = ps[i-1]  # round half-even
-                    if (p > 0 and r > 0) or \
-                       (p < 0 and r < 0):  # signs match
-                        r *= 2
-                        t  = s + r
-                        if r == (t - s):
-                            s = t
+                    s = _2halfeven(s, r, ps[i-1])
                 break  # return s
             s = r  # PYCHOK no cover
         ps[i:] = s,
     return s
 
 
-def _2scalar(other, _raiser=None):
+def _2scalar(other, _raiser=None, **mod):
     '''(INTERNAL) Return B{C{other}} as C{int}, C{float} or C{as-is}.
     '''
     if isinstance(other, Fsum):
@@ -158,7 +187,8 @@ def _2scalar(other, _raiser=None):
             s, r = other._fprs2
             if r:  # PYCHOK no cover
                 if _raiser and _raiser(r, s):
-                    raise ValueError(_stresidual(_non_zero_, r))
+                    t = _stresidual(_non_zero_, r, **mod)
+                    raise ResidualError(t, txt=None)
                 s = other  # L{Fsum} as-is
     else:
         s = other  # C{type} as-is
@@ -193,34 +223,12 @@ def _2sum(a, b):  # by .testFmath
     '''
     s = a + b
     if not _isfinite(s):
-        u = unstr(_2sum.__name__, a, b)
+        u = unstr(_2sum, a, b)
         t = Fmt.PARENSPACED(_not_finite_, s)
         raise _OverflowError(u, txt=t)
     if fabs(a) < fabs(b):
         a, b = b, a
     return s, (b - (s - a))
-
-
-def _2yield(xs, i, _X_ps, _x):
-    '''(INTERNAL) Yield each B{C{xs}} as a C{float}.
-    '''
-    x = None
-    try:
-        _fin = _isfinite
-        _Fs  =  Fsum
-        for x in xs:
-            if isinstance(x, _Fs):
-                for p in _X_ps(x):
-                    yield p
-            else:
-                f = _x(x)
-                if f:
-                    if not _fin(f):
-                        raise ValueError(_not_finite_)
-                    yield f
-            i += 1
-    except Exception as X:
-        raise _xError(X, Fmt.INDEX(xs=i), x)
 
 
 class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
@@ -282,7 +290,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
         return (-self) if s < 0 else self._copy_2(self.__abs__)
 
     def __add__(self, other):
-        '''Return the C{Fsum(B{self}, B{other})}.
+        '''Return C{B{self} + B{other}} as an L{Fsum}.
 
            @arg other: An L{Fsum} or C{scalar}.
 
@@ -338,7 +346,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
         return self._cmp_0(other, _eq_op_) == 0
 
     def __float__(self):
-        '''Return this instance' current precision running sum as C{float}.
+        '''Return this instance' current, precision running sum as C{float}.
 
            @see: Methods L{Fsum.fsum} and L{Fsum.int_float}.
         '''
@@ -819,7 +827,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
     def _Error(self, op, other, Error, **txt_cause):
         '''(INTERNAL) Format an B{C{Error}} for C{{self} B{op} B{other}}.
         '''
-        return Error(_SPACE_(self.toRepr(), op, repr(other)), **txt_cause)
+        return Error(_SPACE_(self.toStr(), op, other), **txt_cause)
 
     def _ErrorX(self, X, op, other, *mod):
         '''(INTERNAL) Format the caught exception C{X}.
@@ -841,7 +849,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
         '''
         n, ps, _2s = 0, self._ps, _2sum
         for x in xs:  # _iter()
-            # assert isscalar(x) and isfinite(x)
+            # assert isscalar(x) and _isfinite(x)
             if x:
                 i = 0
                 for p in ps:
@@ -850,7 +858,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
                         ps[i] = p
                         i += 1
                 ps[i:] = (x,) if x else ()
-            n += 1
+                n += 1
         # assert self._ps is ps
         if n:
             self._n += n
@@ -879,22 +887,20 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
 
         if p:
             from math import pow as _pow
-            op = which.__name__
+            op  = which.__name__
+            _Fs = Fsum
 
             def _X(X):
                 f = _Pow(X, p, power, op)
-                try:  # isinstance(f, Fsum)
-                    return f._ps
-                except AttributeError:  # scalar
-                    return f,
+                return f._ps if isinstance(f, _Fs) else (f,)
 
             def _x(x):
                 return _pow(float(x), p)
 
-            self._facc(_2yield(xs, 1, _X, _x))  # PYCHOK yield
+            f = self._facc(_2floats(xs, origin=1, _X=_X, _x=_x))  # PYCHOK yield
         else:
-            self._facc_(float(len(xs)))  # x**0 == 1
-        return self
+            f = self._facc_(float(len(xs)))  # x**0 == 1
+        return f
 
 #   def _facc_up(self, up=True):
 #       '''(INTERNAL) Update the C{partials}, by removing
@@ -956,7 +962,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
         '''
         if isinstance(other, Fsum):
             if other is self:
-                self._facc_(*other._ps, **up)  # == ._facc(tuple(other._ps))
+                self._facc(other.partials, **up)
             elif other._ps:
                 self._facc(other._ps, **up)
         elif not isscalar(other):
@@ -1000,7 +1006,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
         '''Return this instance' current running sum as C{integer}.
 
            @kwarg raiser: If C{True} throw a L{ResidualError} if the
-                          I{integer} residual is non-zero.
+                          I{integer} residual is non-zero (C{bool}).
            @kwarg name: Optional name (C{str}), overriding C{"fint"}.
 
            @return: The C{integer} (L{Fsum}).
@@ -1035,7 +1041,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
         s, r = self._fprs2
         i =  int(s)
         r = _fsum(self._ps_1(i)) if r else float(s - i)
-        return i, (r or INT0)
+        return i, (r or INT0)  # Fsum2Tuple?
 
     @deprecated_property_RO
     def float_int(self):  # PYCHOK no cover
@@ -1102,12 +1108,12 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
         '''
         if mod:
             if mod[0] is not None:  # == 3-arg C{pow}
-                f = self._pow_3(other, mod[0], op)
+                f = self._pow_2_3(self, other, other, op, *mod)
             elif self.is_integer():
                 # return an exact C{int} for C{int}**C{int}
+                i, _ = self._fint2  # assert _ == 0
                 x = _2scalar(other)  # C{int}, C{float} or other
-                i =  self._fint2[0]  # assert _fint2[1] == 0
-                f =  self._pow_2(i, x, other, op) if isscalar(x) else \
+                f =  self._pow_2_3(i, x, other, op) if isscalar(x) else \
                     _Fsum_ps(i)._pow_any(x, other, op)
             else:  # mod[0] is None, power(self, other)
                 f =  self._pow_any(other, other, op)
@@ -1134,8 +1140,11 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
         n  = len(ps) - 2
         if n > 0:  # len(ps) > 2
             s = _psum(ps)
-            r = _fsum(self._ps_1(s)) or INT0
-        elif n == 0:  # len(ps) == 2
+            n =  len(ps) - 2
+            if n > 0:
+                r = _fsum(self._ps_1(s)) or INT0
+                return Fsum2Tuple(s, r)
+        if n == 0:  # len(ps) == 2
             ps[:] = _2ps(*_2sum(*ps))
             r, s  = (INT0, ps[0]) if len(ps) != 2 else ps
         elif ps:  # len(ps) == 1
@@ -1150,7 +1159,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
 #       '''(INTERNAL) Compress, squeeze the C{partials}.
 #       '''
 #       if len(self._ps) > 2:
-#           _ = self._fprs
+#           _ = self._fprs2
 #       return self
 
     def fset_(self, *xs):
@@ -1214,7 +1223,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
 
            @see: Method L{Fsum.fadd}.
         '''
-        return self._facc(_2floats(xs, neg=True)) if xs else self  # PYCHOK yield
+        return self._facc(_2floats_neg(xs)) if xs else self
 
     def fsub_(self, *xs):
         '''Subtract all positional C{scalar} or L{Fsum} instances from
@@ -1227,7 +1236,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
 
            @see: Method L{Fsum.fadd}.
         '''
-        return self._facc(_2floats(xs, origin=1, neg=True)) if xs else self  # PYCHOK yield
+        return self._facc(_2floats_neg(xs, origin=1)) if xs else self
 
     def _fsub(self, other, op):
         '''(INTERNAL) Apply C{B{self} -= B{other}}.
@@ -1261,15 +1270,22 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
     def fsum_(self, *xs):
         '''Add all positional C{scalar} or L{Fsum} instances and summate.
 
-           @arg xs: Values to add (C{scalar} or L{Fsum} instances),
-                    all positional.
+           @arg xs: Values to add (C{scalar} or L{Fsum} instances), all
+                    positional.
 
            @return: Precision running sum (C{float} or C{int}).
 
-           @see: Methods L{Fsum.fsum} and L{Fsum.fsumf_}.
+           @see: Methods L{Fsum.fsum}, L{Fsum.Fsum_} and L{Fsum.fsumf_}.
         '''
         f = self._facc(_2floats(xs, origin=1)) if xs else self  # PYCHOK yield
         return f._fprs
+
+    def Fsum_(self, *xs):
+        '''Like method L{Fsum.fsum_} but returning an L{Fsum}.
+
+           @return: Current, precision running sum (L{Fsum}).
+        '''
+        return self._facc(_2floats(xs, origin=1))._copy_2(self.Fsum_)  # PYCHOK yield
 
     def fsum2(self, xs=(), name=NN):
         '''Add more C{scalar} or L{Fsum} instances and return the
@@ -1297,29 +1313,39 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
         '''Add any positional C{scalar} or L{Fsum} instances and return
            the precision running sum and the C{differential}.
 
-           @arg xs: Values to add (C{scalar} or L{Fsum} instances),
-                    all positional.
+           @arg xs: Values to add (C{scalar} or L{Fsum} instances), all
+                    positional.
 
-           @return: 2-Tuple C{(fsum, delta)} with the current precision
-                    running C{fsum} and C{delta}, the difference with
-                    the previous running C{fsum} (C{float}s).
+           @return: 2Tuple C{(fsum, delta)} with the current, precision
+                    running C{fsum} like method L{Fsum.fsum} and C{delta},
+                    the difference with previous running C{fsum}, C{float}.
 
            @see: Methods L{Fsum.fsum_} and L{Fsum.fsum}.
         '''
-        p, r = self._fprs2
-        if xs:
-            s, t = self._facc(_2floats(xs, origin=1))._fprs2  # PYCHOK yield
-            return s, _fsum((s, -p, r, -t))  # ((s - p) + (r - t))
-        else:  # PYCHOK no cover
-            return p, _0_0
+        return self.fsum2f_(*_2floats(xs, origin=1)) if xs else self.fsum2f_()  # PYCHOK yield
 
     def fsumf_(self, *xs):
-        '''Like method L{Fsum.fsum_} but only for known C{float B{xs}}.
+        '''Like method L{Fsum.fsum_} but only for I{known} C{float B{xs}}.
         '''
-        f = self._facc(xs) if xs else self  # PYCHOK yield
+        f = self._facc(xs) if xs else self
         return f._fprs
 
-#   ftruediv = __itruediv__   # for naming consistency
+    def Fsumf_(self, *xs):
+        '''Like method L{Fsum.Fsum_} but only for I{known} C{float B{xs}}.
+        '''
+        return self._facc(xs)._copy_2(self.Fsumf_)
+
+    def fsum2f_(self, *xs):
+        '''Like method L{Fsum.fsum2_} but only for I{known} C{float B{xs}}.
+        '''
+        p, q = self._fprs2
+        if xs:
+            s, r = self._facc(xs)._fprs2
+            return s, _2delta(s - p, r - q)  # _fsum(_1primed((s, -p, r, -q))
+        else:
+            return p, _0_0
+
+#   ftruediv = __itruediv__   # for naming consistency?
 
     def _ftruediv(self, other, op):
         '''(INTERNAL) Apply C{B{self} /= B{other}}.
@@ -1412,7 +1438,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
         '''
         # assert isinstance(other, Fsum)
         if self._ps and other._ps:
-            f = _Fsum_xs(self._ps_mul(op, *other._ps))
+            f =  self._ps_mul(op, *other._ps)  # keep Fsum
         else:
             f = _0_0
         return f
@@ -1424,20 +1450,20 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
         if self._ps and self._finite(factor, op):
             f =  self      if factor == _1_0 else (
                  self._neg if factor == _N_1_0 else
-                _Fsum_xs(self._ps_mul(op, factor)))  # PYCHOK indent
+                 self._ps_mul(op, factor)._2scalar)
         else:
             f = _0_0
         return f
 
     @property_RO
     def _neg(self):
-        '''(INTERNAL) Return C{-self}.
+        '''(INTERNAL) Return C{Fsum(-self)} or C{NEG0}.
         '''
         return _Fsum_ps(*self._ps_neg) if self._ps else NEG0
 
     @property_RO
     def partials(self):
-        '''Get this instance' current partial sums (C{tuple} of C{float}s and/or C{int}s).
+        '''Get this instance' current, partial sums (C{tuple} of C{float}s).
         '''
         return tuple(self._ps)
 
@@ -1453,7 +1479,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
 
            @note: If B{C{mod}} is given as C{None}, the result will be an
                   C{integer} L{Fsum} provided this instance C{is_integer}
-                  or set to C{integer} with L{Fsum.fint}.
+                  or set to C{integer} by an L{Fsum.fint} call.
 
            @see: Methods L{Fsum.__ipow__}, L{Fsum.fint} and L{Fsum.is_integer}.
         '''
@@ -1465,50 +1491,37 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
         '''
         return self if x else (1 if isint(other) and self.is_integer() else _1_0)
 
-    def _pow_2(self, b, x, other, op):
-        '''(INTERNAL) 2-arg C{pow(B{b}, scalar B{x})} embellishing errors.
+    def _pow_2_3(self, b, x, other, op, *mod):
+        '''(INTERNAL) 2-arg C{pow(B{b}, scalar B{x})} and 3-arg C{pow(B{b},
+           B{x}, int B{mod} or C{None})}, embellishing errors.
         '''
-        # assert isscalar(b) and isscalar(x)
-        try:  # type(s) == type(x) if x in (_1_0, 1)
-            s = pow(b, x)  # -1**2.3 == -(1**2.3)
-            if not iscomplex(s):
-                return self._finite(s)  # 0**INF == 0.0, 1**INF==1.0
-            # neg**frac == complex in Python 3+, but ValueError in 2-
-            raise ValueError(_strcomplex(s, b, x))  # PYCHOK no cover
+        try:
+            if mod:  # b, x, mod all C{int}, unless C{mod} is C{None}
+                m = mod[0]
+                b, r = b._fprs2 if m is None else b._fint2
+                if r and self._raiser(r, b):
+                    t = _non_zero_ if m is None else _integer_
+                    raise ResidualError(_stresidual(t, r, mod=m), txt=None)
+                x = _2scalar(x, _raiser=self._raiser, mod=m)
+            # 0**INF == 0.0, 1**INF == 1.0, -1**2.3 == -(1**2.3)
+            s = pow(b, x, *mod)
+            if iscomplex(s):
+                # neg**frac == complex in Python 3+, but ValueError in 2-
+                raise ValueError(_strcomplex(s, b, x, *mod))
+            return self._finite(s)
         except Exception as X:
-            raise self._ErrorX(X, op, other)
-
-    def _pow_3(self, other, mod, op):
-        '''(INTERNAL) 3-arg C{pow(B{self}, B{other}, int B{mod} or C{None})}.
-        '''
-        b, r = self._fprs2 if mod is None else self._fint2
-        if r and self._raiser(r, b):
-            t = _non_zero_ if mod is None else _integer_
-            t = _stresidual(t, r, mod=mod)
-            raise self._Error(op, other, ResidualError, txt=t)
-
-        try:  # b, other, mod all C{int}, unless C{mod} is C{None}
-            x = _2scalar(other, _raiser=self._raiser)
-            s =  pow(b, x, mod)
-            if not iscomplex(s):
-                return self._finite(s)
-            # neg**frac == complex in Python 3+, but ValueError in 2-
-            raise ValueError(_strcomplex(s, b, x, mod))  # PYCHOK no cover
-        except Exception as X:
-            raise self._ErrorX(X, op, other, mod)
+            raise self._ErrorX(X, op, other, *mod)
 
     def _pow_any(self, other, unused, op):
         '''Return C{B{self} ** B{other}}.
         '''
         if isinstance(other, Fsum):
             x, r = other._fprs2
+            if r and self._raiser(r, x):
+                raise self._ResidualError(op, other, r)
             f = self._pow_scalar(x, other, op)
             if r:
-                if self._raiser(r, x):
-                    raise self._ResidualError(op, other, r)
-                s  =  self._pow_scalar(r, other, op)
-#               s  = _2scalar(s)  # _raiser = None
-                f *=  s
+                f *= self._pow_scalar(r, other, op)
         elif isscalar(other):
             x = self._finite(other, op)
             f = self._pow_scalar(x, other, op)
@@ -1522,32 +1535,28 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
         # assert isint(x) and x >= 0
         ps = self._ps
         if len(ps) > 1:
-            f = self
+            _mul_Fsum = Fsum._mul_Fsum
             if x > 4:
-                m = 1  # single-bit mask
-                if (x & m):
-                    x -= m  # x ^= m
-                else:
-                    f = _Fsum_ps(_1_0)
                 p = self
-                while x:
-                    p  = p._mul_Fsum(p, op)  # p **= 2
-                    m += m  # m <<= 1
-                    if (x & m):
-                        x -= m  # x ^= m
-                        f  = f._mul_Fsum(p, op)  # f *= p
+                f = self if (x & 1) else _Fsum_ps(_1_0)
+                m = x >> 1  # // 2
+                while m:
+                    p = _mul_Fsum(p, p, op)  # p **= 2
+                    if (m & 1):
+                        f = _mul_Fsum(f, p, op)  # f *= p
+                    m >>= 1  # //= 2
             elif x > 1:  # self**2, 3 or 4
-                f = f._mul_Fsum(f, op)
+                f = _mul_Fsum(self, self, op)
                 if x > 2:  # self**3 or 4
-                    p = self if x < 4 else f
-                    f = f._mul_Fsum(p, op)
+                    p =  self if x < 4 else f
+                    f = _mul_Fsum(f, p, op)._2scalar
             else:  # self**1 or self**0 == 1 or _1_0
-                f = f._pow_0_1(x, other)
+                f = self._pow_0_1(x, other)
         elif ps:  # self._ps[0]**x
-            f = self._pow_2(ps[0], x, other, op)
+            f = self._pow_2_3(ps[0], x, other, op)
         else:  # PYCHOK no cover
             # 0**pos_int == 0, but 0**0 == 1
-            f = 0 if x else 1  # like ._fprs
+            f = 0 if x else 1
         return f
 
     def _pow_scalar(self, x, other, op):
@@ -1569,7 +1578,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
                     # use **= -1 for the CPython float_pow
                     # error if s is zero, and not s = 1 / s
                     x = -1
-            elif x < 0:  # self**-1 == 1 / self
+            elif x < 0:  # == -1: self**(-1) == 1 / self
                 if r:
                     return _Fsum_ps(_1_0)._ftruediv(self, op)
             else:  # self**1 or self**0
@@ -1581,33 +1590,32 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
             t = _stresidual(_non_zero_, r, fractional_power=x)
             raise self._Error(op, other, ResidualError, txt=t)
         # assert isscalar(s) and isscalar(x)
-        return self._pow_2(s, x, other, op)
+        return self._pow_2_3(s, x, other, op)
 
     def _ps_1(self, *less):
         '''(INTERNAL) Yield partials, 1-primed and subtract any C{less}.
         '''
-        n = len(self._ps) + len(less) - 4
-        if n < 0:
-            yield _1_0
+        yield _1_0
         for p in self._ps:
-            yield p
+            yield  p
         for p in less:
             yield -p
-        if n < 0:
-            yield _N_1_0
+        yield _N_1_0
 
-    def _ps_mul(self, op, *factors):  # see .fmath.Fhorner
-        '''(INTERNAL) Yield all C{partials} times each B{C{factor}},
-           in total, up to C{len(partials) * len(factors)} items.
+    def _ps_mul(self, op, *factors):
+        '''(INTERNAL) Multiply C{partials} with each of the B{C{factors}},
+           all known to be scalar.
         '''
-        ps = self._ps  # tuple(self._ps)
-        if len(ps) < len(factors):
-            ps, factors = factors, ps
-        _f = _isfinite
-        for f in factors:
-            for p in ps:
-                p *= f
-                yield p if _f(p) else self._finite(p, op)
+        def _xs(ps, fs):
+            if len(ps) < len(fs):
+                ps, fs = fs, ps
+            _fin = _isfinite
+            for f in fs:
+                for p in ps:
+                    p *= f
+                    yield p if _fin(p) else self._finite(p, op)
+
+        return Fsum()._facc(_xs(self._ps, factors), up=False)  # self.partials
 
     @property_RO
     def _ps_neg(self):
@@ -1658,7 +1666,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
 
            @raise ValueError: Negative B{C{threshold}}.
 
-           @note: A L{ResidualError} is thrown if the non-zero I{ratio}
+           @note: L{ResidualError}s will be thrown if the non-zero I{ratio}
                   C{residual / fsum} exceeds the B{C{threshold}}.
         '''
         r = self._RESIDUAL
@@ -1681,6 +1689,13 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
         t =  t.replace(_COMMASPACE_R_, _exceeds_R_)
         return self._Error(op, other, ResidualError, txt=t)
 
+    @property_RO
+    def _2scalar(self):
+        '''(INTERNAL) Get this instance as C{scalar} or C{as-is}.
+        '''
+        s, r = self._fprs2
+        return self if r else s
+
     def signOf(self, res=True):
         '''Determine the sign of this instance.
 
@@ -1689,8 +1704,8 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
 
            @return: The sign (C{int}, -1, 0 or +1).
         '''
-        s, r = self._fprs2 if res else (self._fprs, 0)
-        return _signOf(s, -r)
+        s, r = self._fprs2
+        return _signOf(s, (-r) if res else 0)
 
     def toRepr(self, **prec_sep_fmt_lenc):  # PYCHOK signature
         '''Return this C{Fsum} instance as representation.
@@ -1820,13 +1835,6 @@ def _Fsum_ps(*ps, **name):
     return f
 
 
-def _Fsum_xs(xs, up=False, **name):
-    '''(INTERNAL) Return an C{Fsum} from known floats C{xs}.
-    '''
-    f = Fsum(**name) if name else Fsum()
-    return f._facc(xs, up=up)
-
-
 try:
     from math import fsum as _fsum  # precision IEEE-754 sum, Python 2.6+
 
@@ -1847,7 +1855,9 @@ except ImportError:
     def _fsum(xs):
         '''(INTERNAL) Precision summation, Python 2.5-.
         '''
-        return Fsum(name=_fsum.__name__).fsum(xs) if xs else _0_0
+        f = Fsum()
+        f.name = _fsum.__name__
+        return f.fsum(xs)
 
 
 def fsum(xs, floats=False):
@@ -1855,8 +1865,8 @@ def fsum(xs, floats=False):
 
        @arg xs: Iterable, list, tuple, etc. of values (C{scalar} or L{Fsum}
                 instances).
-       @kwarg floats: Optionally, use C{B{floats}=True} iff I{all} B{C{xs}}
-                      are known to be C{float}.
+       @kwarg floats: Use C{B{floats}=True} iff I{all} B{C{xs}} are known
+                      to be C{float} scalars (C{bool}).
 
        @return: Precision C{fsum} (C{float}).
 
@@ -1866,8 +1876,8 @@ def fsum(xs, floats=False):
 
        @raise ValueError: Invalid or non-finite B{C{xs}} value.
 
-       @note: Exceptions and I{non-finite} handling may differ if not
-              based on Python's C{math.fsum}.
+       @note: Exception and I{non-finite} handling may differ if not based
+              on Python's C{math.fsum}.
 
        @see: Class L{Fsum} and methods L{Fsum.fsum} and L{Fsum.fadd}.
     '''
@@ -1879,8 +1889,8 @@ def fsum_(*xs, **floats):
 
        @arg xs: Values to be added (C{scalar} or L{Fsum} instances), all
                 positional.
-       @kwarg floats: Optionally, use C{B{floats}=True} iff I{all} B{C{xs}}
-                      are known to be C{float}.
+       @kwarg floats: Use C{B{floats}=True} iff I{all} B{C{xs}} are known
+                      to be C{float} scalars (C{bool}).
 
        @return: Precision C{fsum} (C{float}).
 
@@ -1897,12 +1907,12 @@ def fsumf_(*xs):
 
 
 def fsum1(xs, floats=False):
-    '''Precision floating point summation of a few arguments, 1-primed.
+    '''Precision floating point summation, 1-primed.
 
        @arg xs: Iterable, list, tuple, etc. of values (C{scalar} or L{Fsum}
                 instances).
-       @kwarg floats: Optionally, use C{B{floats}=True} iff I{all} B{C{xs}}
-                      are known to be C{float}.
+       @kwarg floats: Use C{B{floats}=True} iff I{all} B{C{xs}} are known
+                      to be C{float}.
 
        @return: Precision C{fsum} (C{float}).
 
@@ -1912,12 +1922,12 @@ def fsum1(xs, floats=False):
 
 
 def fsum1_(*xs, **floats):
-    '''Precision floating point summation of a few arguments, 1-primed.
+    '''Precision floating point summation, 1-primed.
 
        @arg xs: Values to be added (C{scalar} or L{Fsum} instances), all
                 positional.
-       @kwarg floats: Optionally, use C{B{floats}=True} iff I{all} B{C{xs}}
-                      are known to be C{float}.
+       @kwarg floats: Use C{B{floats}=True} iff I{all} B{C{xs}} are known
+                      to be C{float} scalars (C{bool}).
 
        @return: Precision C{fsum} (C{float}).
 
@@ -1928,7 +1938,7 @@ def fsum1_(*xs, **floats):
 
 
 def fsum1f_(*xs):
-    '''Precision floating point summation L{fsum1_}C{(*xs, floats=True)}.
+    '''Precision floating point summation, L{fsum1_}C{(*xs, floats=True)}.
     '''
     return _fsum(_1primed(xs)) if xs else _0_0
 
@@ -1946,7 +1956,7 @@ if __name__ == '__main__':
         printf(_psum.__name__, end=_COMMASPACE_)
 
         F = Fsum()
-        if F.is_math_fsum:
+        if F.is_math_fsum():
             c = (7, 1e100, -7, -1e100, -9e-20, 8e-20) * 10
             for _ in range(n):
                 t = list(c)

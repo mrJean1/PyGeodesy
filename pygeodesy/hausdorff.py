@@ -74,7 +74,7 @@ import pygeodesy.formy as _formy
 from pygeodesy.interns import NN, _i_, _j_, _units_
 # from pygeodesy.iters import points2  # from .points
 from pygeodesy.lazily import _ALL_LAZY, _FOR_DOCS
-from pygeodesy.named import _Named, _NamedTuple, notOverloaded, _Pass
+from pygeodesy.named import _Named, _NamedTuple, _Pass
 # from pygeodesy.namedTuples import PhiLam2Tuple  # from .points
 from pygeodesy.points import _distanceTo, points2 as _points2,  PhiLam2Tuple, radians
 from pygeodesy.props import Property_RO, property_doc_, property_RO
@@ -86,7 +86,7 @@ from pygeodesy.unitsBase import _Str_degrees, _Str_degrees2, _Str_meter, _Str_NN
 from random import Random
 
 __all__ = _ALL_LAZY.hausdorff
-__version__ = '24.03.24'
+__version__ = '24.04.07'
 
 
 class HausdorffError(PointsError):
@@ -273,7 +273,7 @@ class HausdorffDegrees(Hausdorff):
 
     def distance(self, point1, point2):  # PYCHOK no cover
         '''I{Must be overloaded}.'''
-        notOverloaded(self, point1, point2)
+        self._notOverloaded(point1, point2)
 
 
 class HausdorffRadians(Hausdorff):
@@ -290,7 +290,7 @@ class HausdorffRadians(Hausdorff):
     def distance(self, point1, point2):  # PYCHOK no cover
         '''Return the distance in C{radians} between B{C{point1}} and B{C{point2}}.
            I{Must be overloaded}.'''
-        notOverloaded(self, point1, point2)
+        self._notOverloaded(point1, point2)
 
     def point(self, point):
         '''Return B{C{point}} as L{PhiLam2Tuple} to maintain
@@ -334,7 +334,7 @@ class _HausdorffMeterRadians(Hausdorff):
 
     def _func_(self, *args, **kwds):  # PYCHOK no cover
         '''(INTERNAL) I{Must be overloaded}.'''
-        notOverloaded(self, *args, **kwds)
+        self._notOverloaded(*args, **kwds)
 
 
 class HausdorffCosineAndoyerLambert(_HausdorffMeterRadians):

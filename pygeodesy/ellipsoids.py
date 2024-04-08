@@ -93,7 +93,7 @@ from pygeodesy.utily import atan1, atan1d, atan2b, degrees90, m2radians, radians
 from math import asinh, atan, atanh, cos, degrees, exp, fabs, radians, sin, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '24.03.22'
+__version__ = '24.04.07'
 
 _f_0_0    = Float(f =_0_0)  # zero flattening
 _f__0_0   = Float(f_=_0_0)  # zero inverse flattening
@@ -933,7 +933,7 @@ class Ellipsoid(_NamedEnumItem):
            toggles on +/-1.12e-16 or +/-4.47e-16, see C{.utm.Utm._toLLEB}.
         '''
         e    = self._1_e21
-        _F2_ = Fsum(T).fsum2_  # τ0
+        _F2_ = Fsum(T).fsum2f_  # τ0
         _tf2 = self._es_taupf2
         for i in range(1, N + 1):
             a, h = _tf2(T)

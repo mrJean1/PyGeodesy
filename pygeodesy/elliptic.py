@@ -97,7 +97,7 @@ from math import asinh, atan, atan2, ceil, cosh, fabs, floor, \
                  radians, sin, sqrt, tanh
 
 __all__ = _ALL_LAZY.elliptic
-__version__ = '24.03.22'
+__version__ = '24.04.07'
 
 _TolRD  =  zqrt(EPS * 0.002)
 _TolRF  =  zqrt(EPS * 0.030)
@@ -405,7 +405,7 @@ class Elliptic(_Named):
         # For kp2 close to zero use asin(r / cE) or J. P. Boyd,
         # Applied Math. and Computation 218, 7005-7013 (2012)
         # <https://DOI.org/10.1016/j.amc.2011.12.021>
-        _Phi2, self._iteration = Phi.fsum2_, 0  # aggregate
+        _Phi2, self._iteration = Phi.fsum2f_, 0  # aggregate
         for i in range(1, _TRIPS):  # GEOGRAPHICLIB_PANIC
             sn, cn, dn = self._sncndn3(phi)
             if dn:

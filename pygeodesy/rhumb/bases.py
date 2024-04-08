@@ -39,7 +39,6 @@ from pygeodesy.karney import _atan2d, Caps, _CapsBase, _diff182, _fix90, \
                              _norm180, GDict
 # from pygeodesy.ktm import KTransverseMercator, _AlpCoeffs  # _MODS
 from pygeodesy.lazily import _ALL_DOCS, _ALL_MODS as _MODS
-# from pygeodesy.named import notOverloaded  # _MODS
 from pygeodesy.namedTuples import Distance2Tuple, LatLon2Tuple
 from pygeodesy.props import deprecated_method, Property, Property_RO, \
                             property_RO, _update_all
@@ -52,7 +51,7 @@ from pygeodesy.vector3d import _intersect3d3, Vector3d  # in .Intersection below
 from math import cos, fabs
 
 __all__ = ()
-__version__ = '24.03.16'
+__version__ = '24.04.07'
 
 _anti_ = _Dash('anti')
 _rls   = []  # instances of C{RbumbLine...} to be updated
@@ -367,7 +366,7 @@ class RhumbBase(_CapsBase):
 
     def _Inverse4(self, lon12, r, outmask):  # PYCHOK no cover
         '''(INTERNAL) I{Must be overloaded}.'''
-        _MODS.named.notOverloaded(self, lon12, r, Caps.toStr(outmask))
+        self._notOverloaded(lon12, r, Caps.toStr(outmask))  # underOK=True
 
     def Inverse8(self, lat1, lon1, azi12, s12, outmask=Caps.AZIMUTH_DISTANCE_AREA):
         '''Like method L{Rhumb.Inverse} but returning a L{Rhumb8Tuple} with area C{S12}.
@@ -417,11 +416,11 @@ class RhumbBase(_CapsBase):
     @property_RO
     def _RhumbLine(self):  # PYCHOK no cover
         '''(INTERNAL) I{Must be overloaded}.'''
-        _MODS.named.notOverloaded(self, underOK=True)
+        self._notOverloaded(underOK=True)
 
     def _S12d(self, s1, s2, lon):  # PYCHOK no cover
         '''(INTERNAL) I{Must be overloaded}.'''
-        _MODS.named.notOverloaded(self, s1, s2, lon)
+        self._notOverloaded(s1, s2, lon)  # underOK=True
 
     @Property
     def TMorder(self):
@@ -787,11 +786,11 @@ class RhumbLineBase(_CapsBase):
     @property_RO
     def _mu1(self):  # PYCHOK no cover
         '''(INTERNAL) I{Must be overloaded}.'''
-        _MODS.named.notOverloaded(self, underOK=True)
+        self._notOverloaded(underOK=True)
 
     def _mu2lat(self, mu2):  # PYCHOK no cover
         '''(INTERNAL) I{Must be overloaded}.'''
-        _MODS.named.notOverloaded(self, mu2, underOK=True)
+        self._notOverloaded(mu2)  # underOK=True
 
     @deprecated_method
     def nearestOn4(self, lat0, lon0, **exact_eps_est_tol):  # PYCHOK no cover
@@ -808,27 +807,27 @@ class RhumbLineBase(_CapsBase):
         return self.PlumbTo(lat0, lon0, **exact_eps_est_tol)
 
     def PlumbTo(self, lat0, lon0, exact=None, eps=EPS, est=None, tol=_TOL):
-        '''Compute the I{perpendicular} intersection of this rumb line with a geodesic
-           from the given point, in part transcoded from I{Karney}'s C++ U{rhumb-intercept
-           <https://SourceForge.net/p/geographiclib/discussion/1026620/thread/2ddc295e/>}.
+        '''Compute the I{perpendicular} intersection of this rhumb line with a geodesic
+           from the given point (transcoded from I{Karney}'s C++ U{rhumb-intercept
+           <https://SourceForge.net/p/geographiclib/discussion/1026620/thread/2ddc295e/>}).
 
-           @arg lat0: Latitude of the point (C{degrees}).
-           @arg lon0: Longitude of the point (C{degrees}).
-           @kwarg exact: If C{None}, use a rhumb line perpendicular to this rhumb
-                         line, otherwise use an I{exact} C{Geodesic...} from the
-                         given point perpendicular to this rhumb line (C{bool} or
-                         C{Geodesic...}), see method L{Ellipsoid.geodesic_}.
+           @arg lat0: Latitude of the point on the geodesic (C{degrees}).
+           @arg lon0: Longitude of the point on the geodesic (C{degrees}).
+           @kwarg exact: If C{None}, use a rhumb line perpendicular to this rhumb line,
+                         otherwise use an I{exact} C{Geodesic...} from the given point
+                         perpendicular to this rhumb line (C{bool} or C{Geodesic...}),
+                         see method L{Ellipsoid.geodesic_}.
            @kwarg eps: Optional tolerance for L{pygeodesy.intersection3d3} (C{EPS}),
                        used only if C{B{exact} is None}.
-           @kwarg est: Optional, initial estimate for the distance C{s12} of the
-                       intersection I{along} this rhumb line (C{meter}), used only
-                       if C{B{exact} is not None}.
+           @kwarg est: Optionally, an initial estimate for the distance C{s12} of the
+                       intersection I{along} this rhumb line (C{meter}), used only if
+                       C{B{exact} is not None}.
            @kwarg tol: Longitudinal convergence tolerance (C{degrees}) or distance
                        tolerance (C(meter)) when C{B{exact} is None}, respectively
                        C{not None}.
 
            @return: The intersection point on this rhumb line, a L{GDict} from method
-                    L{Intersection} if B{C{exact}=None}.  If B{C{exact}} is not C{None},
+                    L{Intersection} if B{C{exact}=None}.  If C{B{exact} is not None},
                     a L{Position}-like L{GDict} of 13 items C{azi12, a12, s12, lat2,
                     lat1, lat0, lon2, lon1, lon0, azi0, a02, s02, at} with distance
                     C{a02} in C{degrees} and C{s02} in C{meter} between the given point
@@ -876,7 +875,7 @@ class RhumbLineBase(_CapsBase):
                 _d2  = _diff182
                 _ErT =  E.rocPrimeVertical  # aka rocTransverse
                 _ovr = _over
-                _S12 =  Fsum(s12).fsum2_
+                _S12 =  Fsum(s12).fsum2f_
                 _scd =  sincos2d_
                 for i in range(1, _TRIPS):  # 9+, suffix 1 == C++ 2, 2 == C++ 3
                     P =  self.Position(s12)  # outmask=Cs.LATITUDE_LONGITUDE
@@ -886,7 +885,7 @@ class RhumbLineBase(_CapsBase):
                     c2 *= _ErT(r.lat2)
                     s  *= _ovr(s2 * self._salp, c2) - _ovr(s * r.M21, r.m12)
                     s12, t = _S12(c / s)  # XXX _ovr?
-                    if _abs(t) < tol:  # or fabs(c) < EPS
+                    if _abs(t) < tol:  # or _abs(c) < EPS
                         break
                 P.set_(azi0=r.azi1, a02=r.a12, s02=r.s12,  # azi2=r.azi2,
                        lat0=lat0, lon0=lon0, iteration=i, at=r.azi2 - self.azi12,
@@ -967,7 +966,7 @@ class RhumbLineBase(_CapsBase):
 
     def _Position4(self, a12, mu2, s12, mu12):  # PYCHOK no cover
         '''(INTERNAL) I{Must be overloaded}.'''
-        _MODS.named.notOverloaded(self, a12, s12, mu2, mu12)
+        self._notOverloaded(a12, s12, mu2, mu12)  # underOK=True
 
     @Property_RO
     def rhumb(self):
@@ -1085,7 +1084,7 @@ if __name__ == '__main__':
         r = rh.Inverse8(40.6, -73.8, 35.8, 140.3)  # JFK to Tokyo Narita
         _ref('# JFK-NRT azi12=%.12f, s12=%.3f S12=%.1f', (r.azi12, r.s12, r.S12), NRT)
 
-# % python3 -m pygeodesy.rhumb.bases
+# % python3.10 -m pygeodesy3.rhumb.Bases
 
 # Position.lon2 11.61455846901637 vs 11.61455846901637, diff 3.05885e-16
 # Position.lon2 7.58982302826842 vs 7.58982302826842, diff 2.34045e-16

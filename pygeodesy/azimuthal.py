@@ -58,7 +58,7 @@ from pygeodesy.interns import NN, _azimuth_, _datum_, _lat_, _lon_, \
 from pygeodesy.karney import _norm180
 from pygeodesy.latlonBase import _MODS, LatLonBase as _LLB
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _FOR_DOCS  # ALL_MODS
-from pygeodesy.named import _NamedBase, _NamedTuple, notOverloaded, _Pass
+from pygeodesy.named import _NamedBase, _NamedTuple, _Pass
 from pygeodesy.namedTuples import LatLon2Tuple, LatLon4Tuple
 from pygeodesy.props import deprecated_Property_RO, Property_RO, \
                             property_doc_, _update_all
@@ -71,7 +71,7 @@ from pygeodesy.utily import asin1, atan1, atan2b, atan2d, sincos2, \
 from math import acos, atan2, degrees, fabs, sin, sqrt
 
 __all__ = _ALL_LAZY.azimuthal
-__version__ = '24.04.02'
+__version__ = '24.04.07'
 
 _EPS_K         = _EPStol * _0_1  # Karney's eps_ or _EPSmin * _0_1?
 _over_horizon_ = 'over horizon'
@@ -145,7 +145,7 @@ class _AzimuthalBase(_NamedBase):
 
     def forward(self, lat, lon, name=NN):  # PYCHOK no cover
         '''I{Must be overloaded}.'''
-        notOverloaded(self, lat, lon, name=name)
+        self._notOverloaded(lat, lon, name=name)
 
     def _forward(self, lat, lon, name, _k_t_2):
         '''(INTERNAL) Azimuthal (spherical) forward C{lat, lon} to C{x, y}.
@@ -236,7 +236,7 @@ class _AzimuthalBase(_NamedBase):
 
     def reverse(self, x, y, name=NN, **LatLon_and_kwds):  # PYCHOK no cover
         '''I{Must be overloaded}.'''
-        notOverloaded(self, x, y, name=name, **LatLon_and_kwds)
+        self._notOverloaded(x, y, name=name, **LatLon_and_kwds)
 
     def _reverse(self, x, y, name, _c, lea, LatLon=None, **LatLon_kwds):
         '''(INTERNAL) Azimuthal (spherical) reverse C{x, y} to C{lat, lon}.
@@ -450,7 +450,7 @@ class _AzimuthalGeodesic(_AzimuthalBase):
     @Property_RO
     def geodesic(self):  # PYCHOK no cover
         '''I{Must be overloaded}.'''
-        notOverloaded(self)
+        self._notOverloaded()
 
     def _7Tuple(self, e, n, r, M=None, name=NN):
         '''(INTERNAL) Return an C{Azimuthal7Tuple}.
@@ -819,11 +819,12 @@ class _GnomonicBase(_AzimuthalGeodesic):
         m  =  self._mask
         g  =  self.geodesic
 
-        _P  = g.Line(self.lat0, self.lon0, z, caps=m | g.LINE_OFF).Position
-        _S2 = Fsum(s).fsum2_
+        _P   = g.Line(self.lat0, self.lon0, z, caps=m | g.LINE_OFF).Position
+        _S2  = Fsum(s).fsum2f_
+        _abs = fabs
         for i in range(1, _TRIPS):
             r = _P(s, outmask=m)
-            if fabs(d) < a:
+            if _abs(d) < a:
                 break
             s, d = _S2(_d(r, q))
         else:  # PYCHOK no cover

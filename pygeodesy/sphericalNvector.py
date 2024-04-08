@@ -43,12 +43,12 @@ from pygeodesy.fmath import fmean, fsum
 from pygeodesy.interns import _composite_, _end_, _Nv00_, _other_, \
                               _point_, _pole_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _ALL_OTHER
-# from pygeodesy.named import notImplemented  # from .nvectorBase
+# from pygeodesy.named import notImplemented  # from .points
 # from pygeodesy.namedTuples import NearestOn3Tuple  # from .points
-from pygeodesy.nvectorBase import LatLonNvectorBase, NorthPole, \
-                                  notImplemented, NvectorBase, _nsumOf, \
-                                  _triangulate, _trilaterate
-from pygeodesy.points import NearestOn3Tuple, ispolar  # PYCHOK exported
+from pygeodesy.nvectorBase import LatLonNvectorBase, NorthPole, _nsumOf, \
+                                  NvectorBase, _triangulate, _trilaterate
+from pygeodesy.points import NearestOn3Tuple, notImplemented, \
+                             ispolar  # PYCHOK exported
 from pygeodesy.props import deprecated_function, deprecated_method, \
                             property_RO
 from pygeodesy.sphericalBase import _m2radians, CartesianSphericalBase, \
@@ -61,7 +61,7 @@ from pygeodesy.utily import atan2, degrees360, fabs, sincos2, sincos2_, \
 # from math import atan2, fabs  # from utily
 
 __all__ = _ALL_LAZY.sphericalNvector
-__version__ = '23.12.18'
+__version__ = '24.04.07'
 
 _lines_ = 'lines'
 

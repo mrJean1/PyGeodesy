@@ -34,12 +34,11 @@ from pygeodesy.interns import _1_, _2_, _coincident_, _composite_, _colinear_, \
                               _line_, _near_, _not_, _null_, _parallel_, _point_, \
                               _SPACE_, _too_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _ALL_OTHER
-# from pygeodesy.named import notImplemented  # from .points
 # from pygeodesy.nvectorBase import NvectorBase, sumOf  # _MODE
 from pygeodesy.namedTuples import LatLon2Tuple, LatLon3Tuple, NearestOn3Tuple, \
                                   Triangle7Tuple, Triangle8Tuple
 from pygeodesy.points import ispolar, nearestOn5 as _nearestOn5, \
-                             Fmt as _Fmt, notImplemented  # XXX shadowed
+                             Fmt as _Fmt  # XXX shadowed
 from pygeodesy.props import deprecated_function, deprecated_method
 from pygeodesy.sphericalBase import _m2radians, CartesianSphericalBase, \
                                     _intersecant2, LatLonSphericalBase, \
@@ -55,7 +54,7 @@ from pygeodesy.vector3d import sumOf, Vector3d
 from math import asin, atan2, cos, degrees, fabs, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '24.02.18'
+__version__ = '24.04.07'
 
 _PI_EPS4 = PI - EPS4
 if _PI_EPS4 >= PI:
@@ -567,7 +566,7 @@ class LatLon(LatLonSphericalBase):
         # remove kwarg B{C{within}} if present
         w, kwds = _xkwds_pop2(wrap_adjust_limit, within=True)
         if not w:
-            notImplemented(self, within=w)
+            self._notImplemented(within=w)
 
 #       # UNTESTED - handle C{B{within}=False} and C{B{within}=True}
 #       wrap = _xkwds_get(options, wrap=False)

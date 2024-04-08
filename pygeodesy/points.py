@@ -47,8 +47,8 @@ from pygeodesy.iters import LatLon2PsxyIter, PointsIter, points2
 from pygeodesy.latlonBase import LatLonBase, _latlonheight3, \
                                 _ALL_DOCS, _ALL_LAZY, _MODS
 # from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
-from pygeodesy.named import classname, nameof, notImplemented, notOverloaded, \
-                           _NamedTuple
+from pygeodesy.named import classname, _NamedTuple, nameof, \
+                            notImplemented, notOverloaded
 from pygeodesy.namedTuples import Bounds2Tuple, Bounds4Tuple, LatLon2Tuple, \
                                   NearestOn3Tuple, NearestOn5Tuple, \
                                   Point3Tuple, Vector3Tuple, \
@@ -62,7 +62,7 @@ from pygeodesy.utily import atan2b, degrees90, degrees180, degrees2m, \
 from math import cos, fabs, fmod, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '24.03.12'
+__version__ = '24.04.07'
 
 _ilat_  = 'ilat'
 _ilon_  = 'ilon'

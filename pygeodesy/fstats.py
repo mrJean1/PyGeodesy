@@ -15,15 +15,14 @@ from pygeodesy.fmath import hypot2,  sqrt
 from pygeodesy.fsums import _2float, Fsum,  Fmt
 from pygeodesy.interns import NN, _iadd_op_, _invalid_, _other_, _SPACE_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
-from pygeodesy.named import _Named, _NotImplemented, notOverloaded, \
-                             property_RO
+from pygeodesy.named import _Named, _NotImplemented, property_RO
 # from pygeodesy.props import property_RO  # from .named
 # from pygeodesy.streprs import Fmt  # from .fsums
 
 # from math import sqrt  # from .fmath
 
 __all__ = _ALL_LAZY.fstats
-__version__ = '23.09.22'
+__version__ = '24.04.07'
 
 _Floats =  Fsum, float
 _Scalar = _Floats + (int,)  # XXX basics._Ints is ABCMeta in Python 2
@@ -114,7 +113,7 @@ class _FstatsBase(_FstatsNamed):
 
     def fadd(self, xs, sample=False):  # PYCHOK no cover
         '''I{Must be overloaded}.'''
-        notOverloaded(self, xs, sample=sample)
+        self._notOverloaded(xs, sample=sample)
 
     def fadd_(self, *xs, **sample):
         '''Accumulate and return the current count.

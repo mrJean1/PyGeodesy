@@ -25,7 +25,7 @@ from pygeodesy.interns import NN, _1_, _2_, _3_, _bearing_, _coincident_, \
                              _pole_, _SPACE_, _SouthPole_, _under
 from pygeodesy.latlonBase import LatLonBase,  _ALL_DOCS, _ALL_LAZY, _MODS
 # from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS  # from .latlonBase
-from pygeodesy.named import notImplemented, _xother3
+from pygeodesy.named import _xother3
 from pygeodesy.namedTuples import Trilaterate5Tuple, Vector3Tuple, \
                                   Vector4Tuple,  map1
 from pygeodesy.props import deprecated_method, Property_RO, property_doc_, \
@@ -38,7 +38,7 @@ from pygeodesy.vector3d import Vector3d, _xyzhdn3
 from math import fabs, sqrt
 
 __all__ = _ALL_LAZY.nvectorBase
-__version__ = '24.02.18'
+__version__ = '24.04.07'
 
 
 class NvectorBase(Vector3d):  # XXX kept private
@@ -413,11 +413,11 @@ class LatLonNvectorBase(LatLonBase):
 
 #   def distanceTo(self, other, **kwds):  # PYCHOK no cover
 #       '''I{Must be overloaded}.'''
-#       _MODS.named.notOverloaded(self, other, **kwds)
+#       self._notOverloaded(other, **kwds)
 
     def intersections2(self, radius1, other, radius2, **kwds):  # PYCHOK expected
         '''B{Not implemented}, throws a C{NotImplementedError} always.'''
-        notImplemented(self, radius1, other, radius2, **kwds)
+        self._notImplemented(radius1, other, radius2, **kwds)
 
     def others(self, *other, **name_other_up):
         '''Refined class comparison.
@@ -528,7 +528,7 @@ class LatLonNvectorBase(LatLonBase):
            @see: Method L{trilaterate} for other and more details.
         '''
         if area:
-            notImplemented(self, area=area)
+            self._notImplemented(area=area)
 
         t = _trilaterate(self, distance1, self.others(point2=point2), distance2,
                                           self.others(point3=point3), distance3,

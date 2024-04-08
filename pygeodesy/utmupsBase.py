@@ -17,7 +17,7 @@ from pygeodesy.interns import NN, _A_, _B_, _COMMA_, _Error_, \
                              _gamma_, _n_a_, _not_, _N_, _NS_, _PLUS_, \
                              _scale_, _SPACE_, _Y_, _Z_, _under
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
-from pygeodesy.named import _NamedBase, nameof, notOverloaded, _xnamed
+from pygeodesy.named import _NamedBase, nameof, _xnamed
 from pygeodesy.namedTuples import EasNor2Tuple, LatLonDatum5Tuple
 from pygeodesy.props import deprecated_method, property_doc_, _update_all, \
                             deprecated_property_RO, Property_RO, property_RO
@@ -26,7 +26,7 @@ from pygeodesy.units import Band, Easting, Northing, Scalar, Zone
 from pygeodesy.utily import _Wrap, wrap360
 
 __all__ = _ALL_LAZY.utmupsBase
-__version__ = '23.11.29'
+__version__ = '24.04.07'
 
 _UPS_BANDS = _A_, _B_, _Y_, _Z_  # UPS polar bands SE, SW, NE, NW
 # _UTM_BANDS = _MODS.utm._Bands
@@ -170,7 +170,7 @@ class UtmUpsBase(_NamedBase):
         '''
         E = self._Error
         if not E:  # PYCHOK no cover
-            notOverloaded(self, callername=_under(_Error_))
+            self._notOverloaded(callername=_under(_Error_))
 
         self._easting  = Easting(easting,   Error=E)
         self._northing = Northing(northing, Error=E)
@@ -203,7 +203,7 @@ class UtmUpsBase(_NamedBase):
         if band:
             _xinstanceof(str, band=band)
 #           if not self._Bands:  # PYCHOK no cover
-#               notOverloaded(self, callername=_under('Bands'))
+#               self._notOverloaded(callername=_under('Bands'))
             if band not in self._Bands:
                 t = _or(*sorted(set(map(repr, self._Bands))))
                 raise self._Error(band=band, txt=_not_(t))
@@ -276,7 +276,7 @@ class UtmUpsBase(_NamedBase):
     @Property_RO
     def falsed2(self):  # PYCHOK no cover
         '''I{Must be overloaded}.'''
-        notOverloaded(self)
+        self._notOverloaded(self)
 
     @Property_RO
     def gamma(self):
@@ -374,7 +374,7 @@ class UtmUpsBase(_NamedBase):
 
     def _toLLEB(self, **kwds):  # PYCHOK no cover
         '''(INTERNAL) I{Must be overloaded}.'''
-        notOverloaded(self, **kwds)
+        self._notOverloaded(**kwds)
 
     def toMgrs(self, center=False):
         '''Convert this UTM/UPS coordinate to an MGRS grid reference.

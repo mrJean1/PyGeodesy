@@ -89,7 +89,7 @@ import pygeodesy.formy as _formy
 from pygeodesy.interns import NN, _DOT_, _n_, _units_
 # from pygeodesy.iters import points2 as _points2  # from .points
 from pygeodesy.lazily import _ALL_LAZY, _FOR_DOCS
-from pygeodesy.named import _Named, _NamedTuple, notOverloaded, _Pass
+from pygeodesy.named import _Named, _NamedTuple, _Pass
 # from pygeodesy.namedTuples import PhiLam2Tuple  # from .points
 from pygeodesy.points import _distanceTo, _fractional,  isscalar, \
                               PhiLam2Tuple, points2 as _points2, radians
@@ -102,7 +102,7 @@ from collections import defaultdict as _defaultdict
 # from math import radians  # from .points
 
 __all__ = _ALL_LAZY.frechet
-__version__ = '24.03.24'
+__version__ = '24.04.07'
 
 
 def _fraction(fraction, n):
@@ -248,7 +248,7 @@ class Frechet(_Named):
 
     def _func(self, *args, **kwds):  # PYCHOK no cover
         '''(INTERNAL) I{Must be overloaded}.'''
-        notOverloaded(self, *args, **kwds)
+        self._notOverloaded(*args, **kwds)
 
     @property_RO
     def kwds(self):
@@ -325,7 +325,7 @@ class FrechetDegrees(Frechet):
 
     def distance(self, point1, point2, *args, **kwds):  # PYCHOK no cover
         '''I{Must be overloaded}.'''
-        notOverloaded(self, point1, point2, *args, **kwds)
+        self._notOverloaded(point1, point2, *args, **kwds)
 
 
 class FrechetRadians(Frechet):
@@ -339,7 +339,7 @@ class FrechetRadians(Frechet):
 
     def distance(self, point1, point2, *args, **kwds):  # PYCHOK no cover
         '''I{Must be overloaded}.'''
-        notOverloaded(self, point1, point2, *args, **kwds)
+        self._notOverloaded(point1, point2, *args, **kwds)
 
     def point(self, point):
         '''Return B{C{point}} as L{PhiLam2Tuple} to maintain
@@ -373,7 +373,7 @@ class _FrechetMeterRadians(Frechet):
 
     def _func_(self, *args, **kwds):  # PYCHOK no cover
         '''(INTERNAL) I{Must be overloaded}.'''
-        notOverloaded(self, *args, **kwds)
+        self._notOverloaded(*args, **kwds)
 
 
 class FrechetCosineAndoyerLambert(_FrechetMeterRadians):

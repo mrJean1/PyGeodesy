@@ -42,7 +42,7 @@ from pygeodesy.vector3d import _ALL_LAZY, Vector3d
 # from math import fabs, floor as _floor  # from .fmath, .fsums
 
 __all__ = _ALL_LAZY.ltp
-__version__ = '24.02.16'
+__version__ = '24.04.07'
 
 _height0_ = _height_ + _0_
 _narrow_  = 'narrow'

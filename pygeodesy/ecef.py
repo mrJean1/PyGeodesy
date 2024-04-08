@@ -73,7 +73,7 @@ from pygeodesy.interns import NN, _a_, _C_, _datum_, _ellipsoid_, _f_, _height_,
                              _lat_, _lon_, _M_, _name_, _singular_, _SPACE_, \
                              _x_, _xyz_, _y_, _z_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
-from pygeodesy.named import _NamedBase, _NamedTuple, notOverloaded, _Pass, _xnamed
+from pygeodesy.named import _NamedBase, _NamedTuple, _Pass, _xnamed
 from pygeodesy.namedTuples import LatLon2Tuple, LatLon3Tuple, \
                                   PhiLam2Tuple, Vector3Tuple, Vector4Tuple
 from pygeodesy.props import deprecated_method, Property_RO, property_RO, property_doc_
@@ -86,7 +86,7 @@ from pygeodesy.utily import atan1, atan1d, atan2d, degrees90, degrees180, \
 from math import atan2, cos, degrees, fabs, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '24.03.22'
+__version__ = '24.04.07'
 
 _Ecef_    = 'Ecef'
 _prolate_ = 'prolate'
@@ -306,7 +306,7 @@ class _EcefBase(_NamedBase):
 
     def reverse(self, xyz, y=None, z=None, M=False, **name_lon00):  # PYCHOK no cover
         '''I{Must be overloaded}.'''
-        notOverloaded(self, xyz, y=y, z=z, M=M, **name_lon00)
+        self._notOverloaded(xyz, y=y, z=z, M=M, **name_lon00)
 
     def toStr(self, prec=9, **unused):  # PYCHOK signature
         '''Return this C{Ecef*} as a string.
@@ -657,7 +657,7 @@ class EcefSudano(_EcefBase):
         # N / D = (z * ca + (E.e2 * E.a - R) * sa) /
         #         (E.e2 * E.a / E.e2s2(sa) - R / ca**2)
         tol = self.tolerance
-        _S2 = Fsum(sa).fsum2_
+        _S2 = Fsum(sa).fsum2f_
         _rt = sqrt
         for i in range(1, _TRIPS):
             ca2 = _1_0 - sa**2

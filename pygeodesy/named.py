@@ -32,7 +32,7 @@ from pygeodesy.props import _allPropertiesOf_n, deprecated_method, _hasProperty,
 from pygeodesy.streprs import attrs, Fmt, lrstrip, pairs, reprs, unstr
 
 __all__ = _ALL_LAZY.named
-__version__ = '24.03.22'
+__version__ = '24.04.07'
 
 _COMMANL_           = _COMMA_ + _NL_
 _COMMASPACEDOT_     = _COMMASPACE_ + _DOT_
@@ -45,6 +45,7 @@ _Names_             = '_Names_'
 _registered_        = 'registered'  # PYCHOK used!
 _std_NotImplemented = _getenv('PYGEODESY_NOTIMPLEMENTED', NN).lower() == _std_
 _Units_             = '_Units_'
+_UP                 =  2
 
 
 def _xjoined_(prefix, name):
@@ -376,6 +377,16 @@ class _Named(object):
         '''Get the C{package.module.class} name I{and/or} the name or C{""} (C{str}).
         '''
         return _xjoined_(_DOT_(self.__module__, self.__class__.__name__),  self.name)
+
+    def _notImplemented(self, *args, **kwds):
+        '''(INTERNAL) See function L{notImplemented}.
+        '''
+        notImplemented(self, *args, **_xkwds(kwds, up=_UP + 1))
+
+    def _notOverloaded(self, *args, **kwds):
+        '''(INTERNAL) See function L{notOverloaded}.
+        '''
+        notOverloaded(self, *args, **_xkwds(kwds, up=_UP + 1))
 
     def rename(self, name):
         '''Change the name.
@@ -1148,7 +1159,7 @@ def callername(up=1, dflt=NN, source=False, underOK=False):
     return dflt
 
 
-def _callername2(args, callername=NN, source=False, underOK=False, up=2, **kwds):
+def _callername2(args, callername=NN, source=False, underOK=False, up=_UP, **kwds):
     '''(INTERNAL) Extract C{callername}, C{source}, C{underOK} and C{up} from C{kwds}.
     '''
     n = callername or _MODS.named.callername(up=up + 1, source=source,
@@ -1265,7 +1276,7 @@ def notImplemented(inst, *args, **kwds):  # PYCHOK no cover
     '''Raise a C{NotImplementedError} for a missing instance method or
        property or for a missing caller feature.
 
-       @arg inst: Instance (C{any}) or C{None} for caller.
+       @arg inst: Caller instance (C{any}) or C{None} for function.
        @arg args: Method or property positional arguments (any C{type}s).
        @arg kwds: Method or property keyword arguments (any C{type}s),
                   except C{B{callername}=NN}, C{B{underOK}=False} and
