@@ -66,6 +66,7 @@ _mul_op_       = _STAR_
 _ne_op_        = _NOTEQUAL_
 _non_zero_     = 'non-zero'
 _pow_op_       = _STAR_ * 2  # _DSTAR_, in .fmath
+_recursive_    = 'recursive'
 _sub_op_       = _DASH_      # in .auxilats.auxAngle, .fsums
 _truediv_op_   = _SLASH_
 _divmod_op_    = _floordiv_op_ + _mod_op_
@@ -99,11 +100,11 @@ def _2float(index=None, **name_value):  # in .fmath, .fstats
         raise _xError(X, Fmt.INDEX(n, index), v)
 
 
-def _X_ps(X):  # == lambda X: X._ps
+def _X_ps(X):  # for _2floats only
     return X._ps
 
 
-def _2floats(xs, origin=0, _X=_X_ps, _x=float):
+def _2floats(xs, into, origin=0, _X=_X_ps, _x=float):
     '''(INTERNAL) Yield each B{C{xs}} as a C{float}.
     '''
     try:
@@ -112,6 +113,8 @@ def _2floats(xs, origin=0, _X=_X_ps, _x=float):
         _Fs  =  Fsum
         for x in xs:
             if isinstance(x, _Fs):
+                if x is into:
+                    raise ValueError(_recursive_)
                 for p in _X(x):
                     yield p
             else:
@@ -122,10 +125,10 @@ def _2floats(xs, origin=0, _X=_X_ps, _x=float):
         raise _xError(X, Fmt.INDEX(xs=i), x)
 
 
-def _2floats_neg(xs, **origin):
+def _2floats_neg(xs, into=None, **origin):
     '''(INTERNAL) Yield each B{C{xs}} as a C{float}, negated.
     '''
-    for x in _2floats(xs, **origin):  # PYCHOK yield
+    for x in _2floats(xs, into, **origin):  # PYCHOK yield
         yield -x
 
 
@@ -277,11 +280,8 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
                 self.RESIDUAL(r)  # ... ResidualError
 #       self._n  = 0
         self._ps = []  # [_0_0], see L{Fsum._fprs}
-        if len(xs) > 1:
-            self._facc(_2floats(xs, origin=1), up=False)  # PYCHOK yield
-        elif xs:  # len(xs) == 1
-            self._n     =  1
-            self._ps[:] = _2float(x=xs[0]),
+        if xs:
+            self._facc(_2floats(xs, self, origin=1), up=False)  # PYCHOK yield
 
     def __abs__(self):
         '''Return this instance' absolute value as an L{Fsum}.
@@ -847,7 +847,9 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
     def _facc(self, xs, up=True):  # from .elliptic._Defer.Fsum
         '''(INTERNAL) Accumulate more known C{scalar}s.
         '''
-        n, ps, _2s = 0, self._ps, _2sum
+        n   =  0
+        ps  =  self._ps  # recursive?
+        _2s = _2sum
         for x in xs:  # _iter()
             # assert isscalar(x) and _isfinite(x)
             if x:
@@ -859,7 +861,6 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
                         i += 1
                 ps[i:] = (x,) if x else ()
                 n += 1
-        # assert self._ps is ps
         if n:
             self._n += n
             # Fsum._px = max(Fsum._px, len(ps))
@@ -897,7 +898,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
             def _x(x):
                 return _pow(float(x), p)
 
-            f = self._facc(_2floats(xs, origin=1, _X=_X, _x=_x))  # PYCHOK yield
+            f = self._facc(_2floats(xs, self, origin=1, _X=_X, _x=_x))  # PYCHOK yield
         else:
             f = self._facc_(float(len(xs)))  # x**0 == 1
         return f
@@ -932,11 +933,11 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
            @raise ValueError: Invalid or non-finite B{C{xs}} value.
         '''
         if isinstance(xs, Fsum):
-            self._facc(xs._ps)
+            self._fadd_Fsum(xs)
         elif isscalar(xs):  # for backward compatibility
             self._facc_(_2float(x=xs))  # PYCHOK no cover
         elif xs:
-            self._facc(_2floats(xs))  # PYCHOK yield
+            self._facc(_2floats(xs, self))  # PYCHOK yield
         return self
 
     def fadd_(self, *xs):
@@ -955,21 +956,24 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
 
            @raise ValueError: Invalid or non-finite B{C{xs}} value.
         '''
-        return self._facc(_2floats(xs, origin=1))  # PYCHOK yield
+        return self._facc(_2floats(xs, self, origin=1))  # PYCHOK yield
 
     def _fadd(self, other, op, **up):  # in .fmath.Fhorner
         '''(INTERNAL) Apply C{B{self} += B{other}}.
         '''
         if isinstance(other, Fsum):
-            if other is self:
-                self._facc(other.partials, **up)
-            elif other._ps:
-                self._facc(other._ps, **up)
+            self._fadd_Fsum(other, **up)
         elif not isscalar(other):
             raise self._TypeError(op, other)  # txt=_invalid_
         elif other:
             self._facc_(other, **up)
         return self
+
+    def _fadd_Fsum(self, other, **up):
+        '''Apply C{B{self} += B{other}}.
+        '''
+        ps = other.partials if other is self else other._ps
+        return self._facc(ps, **up) if ps else self
 
     fcopy   =   copy        # for backward compatibility
     fdiv    = __itruediv__  # for backward compatibility
@@ -1264,7 +1268,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
 
            @note: Accumulation can continue after summation.
         '''
-        f = self._facc(_2floats(xs)) if xs else self  # PYCHOK yield
+        f = self._facc(_2floats(xs, self)) if xs else self  # PYCHOK yield
         return f._fprs
 
     def fsum_(self, *xs):
@@ -1277,7 +1281,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
 
            @see: Methods L{Fsum.fsum}, L{Fsum.Fsum_} and L{Fsum.fsumf_}.
         '''
-        f = self._facc(_2floats(xs, origin=1)) if xs else self  # PYCHOK yield
+        f = self._facc(_2floats(xs, self, origin=1)) if xs else self  # PYCHOK yield
         return f._fprs
 
     def Fsum_(self, *xs):
@@ -1285,7 +1289,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
 
            @return: Current, precision running sum (L{Fsum}).
         '''
-        return self._facc(_2floats(xs, origin=1))._copy_2(self.Fsum_)  # PYCHOK yield
+        return self._facc(_2floats(xs, self, origin=1))._copy_2(self.Fsum_)  # PYCHOK yield
 
     def fsum2(self, xs=(), name=NN):
         '''Add more C{scalar} or L{Fsum} instances and return the
@@ -1303,7 +1307,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
 
            @see: Methods L{Fsum.fint2}, L{Fsum.fsum} and L{Fsum.fsum2_}
         '''
-        f = self._facc(_2floats(xs)) if xs else self  # PYCHOK yield
+        f = self._facc(_2floats(xs, self)) if xs else self  # PYCHOK yield
         t = f._fprs2
         if name:
             t = t.dup(name=name)
@@ -1322,7 +1326,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
 
            @see: Methods L{Fsum.fsum_} and L{Fsum.fsum}.
         '''
-        return self.fsum2f_(*_2floats(xs, origin=1)) if xs else self.fsum2f_()  # PYCHOK yield
+        return self.fsum2f_(*_2floats(xs, self, origin=1)) if xs else self.fsum2f_()  # PYCHOK yield
 
     def fsumf_(self, *xs):
         '''Like method L{Fsum.fsum_} but only for I{known} C{float B{xs}}.
@@ -1881,7 +1885,7 @@ def fsum(xs, floats=False):
 
        @see: Class L{Fsum} and methods L{Fsum.fsum} and L{Fsum.fadd}.
     '''
-    return _fsum(xs if floats else _2floats(xs)) if xs else _0_0  # PYCHOK yield
+    return _fsum(xs if floats else _2floats(xs, None)) if xs else _0_0  # PYCHOK yield
 
 
 def fsum_(*xs, **floats):
@@ -1897,7 +1901,7 @@ def fsum_(*xs, **floats):
        @see: Function C{fsum}.
     '''
     return _fsum(xs if _xkwds_get(floats, floats=False) else
-                _2floats(xs, origin=1)) if xs else _0_0  # PYCHOK yield
+                _2floats(xs, None, origin=1)) if xs else _0_0  # PYCHOK yield
 
 
 def fsumf_(*xs):
@@ -1918,7 +1922,7 @@ def fsum1(xs, floats=False):
 
        @see: Function C{fsum}.
     '''
-    return _fsum(_1primed(xs if floats else _2floats(xs))) if xs else _0_0  # PYCHOK yield
+    return _fsum(_1primed(xs if floats else _2floats(xs, None))) if xs else _0_0  # PYCHOK yield
 
 
 def fsum1_(*xs, **floats):
@@ -1934,7 +1938,7 @@ def fsum1_(*xs, **floats):
        @see: Function C{fsum}
     '''
     return _fsum(_1primed(xs if _xkwds_get(floats, floats=False) else
-                         _2floats(xs, origin=1))) if xs else _0_0  # PYCHOK yield
+                         _2floats(xs, None, origin=1))) if xs else _0_0  # PYCHOK yield
 
 
 def fsum1f_(*xs):
