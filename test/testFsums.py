@@ -4,7 +4,7 @@
 # Test L{fsums} module.
 
 __all__ = ('Tests',)
-__version__ = '24.04.06'
+__version__ = '24.04.12'
 
 from bases import endswith, isPython2, randoms, startswith, TestsBase
 
@@ -331,7 +331,18 @@ class Tests(TestsBase):
         n = sorted.__name__  # _xkwds_get_ test
         f = Fsum(name=n, RESIDUAL=9)
         self.test('RESIDUAL', f.RESIDUAL(), 9.0)
-        self.test('RESIDUAL', f.name, n)
+        self.test('RESIDUAL', f.name, n, nt=1)
+
+        f = Fsum(2)
+        try:
+            self.test('recursive', f.fsum_(1, f, 1, f), '8.0')
+        except ValueError as x:
+            self.test('recursive', str(x), 8.0)
+        try:
+            f += f
+            self.test('recursive', f.fsum(), '16.0')
+        except ValueError as x:
+            self.test('recursive', str(x), 16.0)
 
 
 if __name__ == '__main__':

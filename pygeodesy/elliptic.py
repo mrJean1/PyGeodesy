@@ -97,7 +97,7 @@ from math import asinh, atan, atan2, ceil, cosh, fabs, floor, \
                  radians, sin, sqrt, tanh
 
 __all__ = _ALL_LAZY.elliptic
-__version__ = '24.04.07'
+__version__ = '24.04.09'
 
 _TolRD  =  zqrt(EPS * 0.002)
 _TolRF  =  zqrt(EPS * 0.030)
@@ -112,7 +112,7 @@ class _Cs(object):
         self.__dict__ = kwds
 
 
-class _D(list):
+class _Dsum(list):
     '''(INTERNAL) Deferred C{Fsum}.
     '''
     def __call__(self, s):
@@ -896,7 +896,7 @@ class Elliptic3Tuple(_NamedTuple):
     _Units_ = ( Scalar, Scalar, Scalar)
 
 
-class _L(list):
+class _List(list):
     '''(INTERNAL) Helper for C{_RD}, C{_RF3} and C{_RJ}.
     '''
     _a0   = None
@@ -938,7 +938,7 @@ class _L(list):
                 r = fdot(s[:3], s[1], s[2], s[0])  # sqrt(x) * sqrt(y) + ...
             except ValueError:  # Fsum(NAN) exception
                 r = _sum(s[i] * s[(i + 1) % 3] for i in range(3))
-            L[:] = [(r + _) * _0_25 for _ in L]
+            L[:] = ((r + _) * _0_25 for _ in L)
             a    =  (r + a) * _0_25
             if y:  # yield only if used
                 yield a, m, r, s  # L[2] is next z
@@ -951,9 +951,10 @@ class _L(list):
         '''Rescale C{x}, C{y}, ...
         '''
         # assert am
-        a0 = self._a0
+        a0  =  self._a0
+        _am = _1_0 / am
         for x in xs:
-            yield (a0 - x) / am
+            yield (a0 - x) * _am
 
 
 def _ab2(inst, x, y):
@@ -961,16 +962,15 @@ def _ab2(inst, x, y):
     '''
     a, b = sqrt(x), sqrt(y)
     if b > a:
-        a, b = b, a
-    yield a, b  # initial x0, y0
+        b, a = a, b
     for i in range(_TRIPS):
+        yield a, b  # xi, yi
         d =  fabs(a - b)
         t = _TolRG0 * a
         if d <= t:  # 3-4 trips
             _iterations(inst, i)
             break
         a, b = ((a + b) * _0_5), sqrt(a * b)
-        yield a, b  # xn, yn
     else:  # PYCHOK no cover
         raise _convergenceError(d, t)
 
@@ -1031,7 +1031,9 @@ def _Horner(S, e1, E2, E3, E4, E5, *over):
     S += F(E2 * -706860, E22 *  675675, E3 *  306306,  680680).fmul(E3)
     S += F(E2 *  417690, E22 * -255255,               -875160).fmul(E2)
     S += 4084080
-    return S.fdiv((over[0] * e) if over else e)  # Fsum
+    if over:
+        e *= over[0]
+    return S.fdiv(e)  # Fsum
 
 
 def _iterations(inst, i):
@@ -1069,8 +1071,8 @@ def _rC(unused, x, y):
 def _RD(inst, x, y, z, *over):
     '''(INTERNAL) Carlson, eqs 2.28 - 2.34.
     '''
-    L = _L(x, y, z)
-    S = _D()
+    L = _List(x, y, z)
+    S = _Dsum()
     for a, m, r, s in L.amrs4(inst, True, _TolRF):
         if s:
             S += _over(_3_0, (r + z) * s[2] * m)
@@ -1097,7 +1099,7 @@ def _rF2(inst, x, y):  # 2-arg version, z=0
 def _RF3(inst, x, y, z):  # 3-arg version
     '''(INTERNAL) Carlson, eqs 2.2 - 2.7.
     '''
-    L = _L(x, y, z)
+    L = _List(x, y, z)
     for a, m, _, _ in L.amrs4(inst, False, _TolRF):
         pass
     x, y = L.rescale(a * m, x, y)
@@ -1120,7 +1122,7 @@ def _rG2(inst, x, y, PI_=PI_4):  # 2-args
     '''(INTERNAL) Carlson, eqs 2.36 - 2.39.
     '''
     m = -1  # neg!
-    S = _D()
+    S = _Dsum()
     # assert not S
     for a, b in _ab2(inst, x, y):  # PYCHOK yield
         if S:
@@ -1148,9 +1150,9 @@ def _RJ(inst, x, y, z, p, *over):
     def _xyzp(x, y, z, p):
         return (x + p) * (y + p) * (z + p)
 
-    L = _L(x, y, z, p)
+    L = _List(x, y, z, p)
     n =  neg(_xyzp(x, y, z, -p))
-    S = _D()
+    S = _Dsum()
     for a, m, _, s in L.amrs4(inst, True, _TolRD):
         if s:
             d = _xyzp(*s)
