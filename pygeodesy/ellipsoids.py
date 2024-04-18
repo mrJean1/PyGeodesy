@@ -70,8 +70,8 @@ from pygeodesy.constants import EPS, EPS0, EPS02, EPS1, INF, NINF, PI4, PI_2, PI
                                _0_0s, _0_0, _0_5, _1_0, _1_EPS, _2_0, _4_0, _90_0, \
                                _0_25, _3_0  # PYCHOK used!
 from pygeodesy.errors import _AssertionError, IntersectionError, _ValueError, _xattr, _xkwds_not
-from pygeodesy.fmath import cbrt, cbrt2, fdot, Fhorner, fpowers, Fsum, hypot, hypot_, \
-                            hypot1, hypot2, sqrt3
+from pygeodesy.fmath import cbrt, cbrt2, fdot, Fhorner, fpowers, hypot, hypot_, \
+                            hypot1, hypot2, sqrt3,  Fsum
 # from pygeodesy.fsums import Fsum  # from .fmath
 from pygeodesy.interns import NN, _a_, _Airy1830_, _AiryModified_, _b_, _Bessel1841_, _beta_, \
                              _Clarke1866_, _Clarke1880IGN_, _DOT_, _f_, _GRS80_, _height_, \
@@ -93,7 +93,7 @@ from pygeodesy.utily import atan1, atan1d, atan2b, degrees90, m2radians, radians
 from math import asinh, atan, atanh, cos, degrees, exp, fabs, radians, sin, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '24.04.07'
+__version__ = '24.04.14'
 
 _f_0_0    = Float(f =_0_0)  # zero flattening
 _f__0_0   = Float(f_=_0_0)  # zero inverse flattening

@@ -12,7 +12,7 @@ from pygeodesy.constants import EPS, EPS0, EPS02, EPS4, INF, INT0, \
 from pygeodesy.errors import _and, _AssertionError, IntersectionError, NumPyError, \
                               PointsError, TriangleError, _xError, _xkwds
 from pygeodesy.fmath import fabs, fdot, hypot, hypot2_, sqrt
-from pygeodesy.fsums import Fsum, fsumf_, fsum1f_
+from pygeodesy.fsums import _Fsumf_, fsumf_, fsum1f_
 from pygeodesy.interns import NN, _a_, _and_, _b_, _c_, _center_, _coincident_, \
                              _colinear_, _COMMASPACE_, _concentric_, _few_, \
                              _intersection_, _invalid_, _near_, _no_, _of_, \
@@ -30,7 +30,7 @@ from contextlib import contextmanager
 # from math import fabs, sqrt  # from .fmath
 
 __all__ = _ALL_LAZY.vector2d
-__version__ = '23.11.17'
+__version__ = '24.04.18'
 
 _cA_        = 'cA'
 _cB_        = 'cB'
@@ -354,10 +354,11 @@ def _meeus4(A, point2, point3, circum=False, useZ=True, clas=None, **clas_kwds):
         a, c, A, C = c, a, C, A
 
     if a > EPS02 and (circum or a < (b + c)):  # circumradius
-        b = sqrt(b / a)
-        c = sqrt(c / a)
-        R = Fsum(_1_0, b, c) * Fsum(_1_0, b, -c) * Fsum(_1_0, -b, c) * Fsum(_N_1_0, b, c)
-        r = R.fover(a)
+        b =  sqrt(b / a)
+        c =  sqrt(c / a)
+        R = _Fsumf_(_1_0,  b, c) * _Fsumf_(_1_0,   b, -c) * \
+            _Fsumf_(_1_0, -b, c) * _Fsumf_(_N_1_0, b,  c)
+        r =  R.fover(a)
         if r < EPS02:
             raise IntersectionError(_coincident_ if b < EPS0 or c < EPS0 else (
                                     _colinear_ if _iscolinearWith(A, B, C) else _invalid_))
@@ -503,8 +504,8 @@ def _radii11ABC(point1, point2, point3, useZ=True):
     b = C.minus(A).length
     c = A.minus(B).length
 
-    S = Fsum(a, b, c) * _0_5
-    s = float(S)  # semi-perimeter
+    S = _Fsumf_(a, b, c) * _0_5
+    s =  float(S)  # semi-perimeter
     if s > EPS0:
         rs = float(S - a), float(S - b), float(S - c)
         r3, r2, r1 = sorted(rs)  # r3 <= r2 <= r1

@@ -22,7 +22,7 @@ from pygeodesy.ecef import _EcefBase, EcefKarney, _llhn4, _xyzn4
 from pygeodesy.errors import _NotImplementedError, _TypesError, _ValueError, \
                              _xattr, _xkwds, _xkwds_get
 from pygeodesy.fmath import fabs, fdot, Fhorner
-from pygeodesy.fsums import _floor, Fsum, fsumf_, fsum1f_
+from pygeodesy.fsums import _floor, _Fsumf_, fsumf_, fsum1f_
 from pygeodesy.interns import NN, _0_, _COMMASPACE_, _DOT_, _ecef_, _height_, \
                              _invalid_, _lat0_, _lon0_, _ltp_, _M_, _name_, _too_
 # from pygeodesy.lazily import _ALL_LAZY  # from vector3d
@@ -42,7 +42,7 @@ from pygeodesy.vector3d import _ALL_LAZY, Vector3d
 # from math import fabs, floor as _floor  # from .fmath, .fsums
 
 __all__ = _ALL_LAZY.ltp
-__version__ = '24.04.07'
+__version__ = '24.04.14'
 
 _height0_ = _height_ + _0_
 _narrow_  = 'narrow'
@@ -964,15 +964,15 @@ class ChLVa(_ChLV, LocalCartesian):
         a, b, h      =  _ChLV._YXh_2abh3(Y, X, h_)
         ab_d, a2, b2 =   ChLV._ab_d, a**2, b**2
 
-        lat = Fsum(16.9023892, 3.238272 * b,
-                              -0.270978 * a2,
-                              -0.002528 * b2,
-                              -0.0447   * a2 * b,
-                              -0.014    * b2 * b).fover(ab_d)
-        lon = Fsum( 2.6779094, 4.728982 * a,
-                               0.791484 * a * b,
-                               0.1306   * a * b2,
-                              -0.0436   * a * a2).fover(ab_d)
+        lat = _Fsumf_(16.9023892, 3.238272 * b,
+                                 -0.270978 * a2,
+                                 -0.002528 * b2,
+                                 -0.0447   * a2 * b,
+                                 -0.014    * b2 * b).fover(ab_d)
+        lon = _Fsumf_( 2.6779094, 4.728982 * a,
+                                  0.791484 * a * b,
+                                  0.1306   * a * b2,
+                                 -0.0436   * a * a2).fover(ab_d)
         return self._ChLV9Tuple(False, M, name, Y, X, h_, lat, lon, h)
 
 

@@ -22,7 +22,7 @@ from pygeodesy.constants import EPS0, EPS02, _EPSqrt as _TOL, \
 from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.errors import _ValueError, _xkwds
 from pygeodesy.fmath import hypot, hypot1, sqrt3
-from pygeodesy.fsums import Fsum, fsum1f_
+from pygeodesy.fsums import Fsum, _Fsum1f_, fsum1f_
 from pygeodesy.interns import NN, _COMMASPACE_, _datum_, _gamma_, _k0_, \
                              _lat_, _lat1_, _lat2_, _lon_, _name_, _not_, \
                              _negative_, _scale_, _SPACE_, _x_, _y_
@@ -38,7 +38,7 @@ from pygeodesy.utily import atan1, atan1d, degrees360, sincos2, sincos2d, \
 from math import atan2, atanh, degrees, fabs, radians, sqrt
 
 __all__ = _ALL_LAZY.albers
-__version__ = '24.04.07'
+__version__ = '24.04.14'
 
 _k1_    = 'k1'
 _NUMIT  =   8  # XXX 4?
@@ -52,14 +52,6 @@ def _ct2(s, c):
     '''
     c = max(EPS0, c)
     return c, (s / c)
-
-
-def _Fsum1(a, b, c=_0_0):  # floats=True
-    '''(INTERNAL) C{Fsum} 1-primed.
-    '''
-    S = Fsum()
-    S._facc_(_1_0, a, b, c, _N_1_0, up=False)
-    return S
 
 
 def _Ks(**name_k):
@@ -388,12 +380,13 @@ class _AlbersBase(_NamedBase):
 
         den = hypot(nx, y1) + nrho0  # 0 implies origin with polar aspect
         if den:
-            drho = _Fsum1(x * nx, y_ * nrho0 * _N_2_0, y_ * ny).fover(den / k0)
+            drho = _Fsum1f_(x * nx, y_ * nrho0 * _N_2_0, y_ * ny).fover(den / k0)
             # dsxia = scxi0 * dsxi
-            t  +=  drho  * n0
+            t  +=  drho  * n0  # k0 below
             d_  = (nrho0 + t) * drho * self._scxi0_  # / (qZ * E.a2)
-            d_2 = (txi * _2_0 - d_) * d_ + _1_0
-            txi = (txi - d_) / (sqrt(d_2) if d_2 > EPS02 else EPS0)
+            t_  =  txi - d_
+            d_  = (txi + t_) * d_ + _1_0
+            txi =  t_ / (sqrt(d_) if d_ > EPS02 else EPS0)
 
         ta  = self._tanf(txi)
         lat = atan1d(s * ta)
@@ -487,11 +480,11 @@ class _AlbersBase(_NamedBase):
                                        (ca2, sa2, ta2, scb22))
 
         dsxi = ((esa12 / esa1_2) + _DatanheE(sa2, sa1, E)) * dsn_2 / self._qx
-        C = _Fsum1(sxi * dtb12 / dsxi, scb22, scb12).fover(scb22 * scb12 * _2_0)
+        C = _Fsum1f_(sxi * dtb12 / dsxi, scb22, scb12).fover(scb22 * scb12 * _2_0)
 
-        sa12  =  fsum1f_(sa1, sa2, sa12)
-        axi  *= (sa12 * e2 + _1) / (sa12 + _1)
-        bxi  *= _Fsum1(sa1, sa2, esa12).fover(esa1_2) * e2 + _D2atanheE(sa1, sa2, E) * E.e21
+        S     = _Fsum1f_(sa1, sa2, sa12)
+        axi  *= (S * e2 + _1).fover(S + _1, raiser=False)
+        bxi  *= _Fsum1f_(sa1, sa2, esa12).fover(esa1_2) * e2 + _D2atanheE(sa1, sa2, E) * E.e21
         s1_qZ = (axi * self._qZ - bxi) * dsn_2 / dtb12
         ta0   =  self._ta0(s1_qZ, (ta1 + ta2) * _0_5, E)
         return ta0, C
@@ -571,7 +564,7 @@ class _AlbersBase(_NamedBase):
         es2m1a =  es2m1 * E.e21  # e2m
         s =  sqrt((ca2 / (es1p1 * es2m1a) + _atanheE(ca2 / es1m1, E))
                        * (es1m1 / es2m1a  + _atanheE(es1p1, E)))
-        t = _Fsum1(sa / es2m1, _atanheE(sa, E)).fover(s)
+        t = _Fsum1f_(sa / es2m1, _atanheE(sa, E)).fover(s)
         return neg(t) if ta < 0 else t
 
 

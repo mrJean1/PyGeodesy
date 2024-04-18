@@ -4,11 +4,11 @@
 # Test L{fmath} module.
 
 __all__ = ('Tests',)
-__version__ = '24.03.30'
+__version__ = '24.04.17'
 
 from bases import endswith, isWindows, randoms, startswith, TestsBase
 
-from pygeodesy import EPS, Fcbrt, Fhypot, INF, Fn_rt, Fpowers, Fsqrt, Fsum, \
+from pygeodesy import EPS, Fcbrt, Fhypot, INF, Fpowers, Froot, Fsqrt, Fsum, \
                       bqrt, cbrt, cbrt2, euclid_, Ellipsoids, facos1, fasin1, \
                       fatan, fatan1, fatan2, fhorner, fmath, fpolynomial, \
                       fpowers, fsum_, hypot, hypot_, hypot2_, norm_, signOf, \
@@ -157,24 +157,24 @@ class Tests(TestsBase):
 
         f = Fsum(3)
         n = Fsqrt.__name__
-        r = Fn_rt.__name__
+        r = Froot.__name__
         self.test(n, Fsqrt(f, 6), '(3.0, 0)', known=endswith, nl=1)
         self.test(n, Fcbrt(20, 4, f), '(3.0, 0)', known=endswith)
         f = -f
         self.test(n, Fsqrt(f, -4, 9),       '(1.41421, 0)', known=endswith)
         self.test(n, Fsqrt(f, Fsum(-4, 9)), '(1.41421, 0)', known=endswith)
-        self.test(r, Fn_rt(-1, f, -4, 9), '(0.5, 0)', known=endswith)
-        self.test(r, Fn_rt(-1, f, Fsum(-4, 9)), '(0.5, 0)', known=endswith)
+        self.test(r, Froot(-1, f, -4, 9), '(0.5, 0)', known=endswith)
+        self.test(r, Froot(-1, f, Fsum(-4, 9)), '(0.5, 0)', known=endswith)
         f = Fsum(-1)
         try:
             self.test(n, Fsqrt(f, -1), ValueError.__name__)
         except Exception as x:
             self.test(n, str(x), "fmath.Fsqrt(<fsums.Fsum[1] (-1, 0) ", known=startswith)
         try:
-            self.test(r, Fn_rt(0, f, -1), ValueError.__name__)
+            self.test(r, Froot(0, f, -1), ValueError.__name__)
         except Exception as x:
             self.test(n, str(x), ' float division by zero', known=endswith)
-        self.test(r, Fn_rt(-1, f, -3), '(-0.25, 0)', known=endswith)
+        self.test(r, Froot(-1, f, -3), '(-0.25, 0)', known=endswith)
 
         i = 0
         while i < 9:

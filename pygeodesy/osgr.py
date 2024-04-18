@@ -34,8 +34,8 @@ from pygeodesy.datums import Datums, _ellipsoidal_datum, _WGS84
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.errors import _parseX, _TypeError, _ValueError, \
                              _xkwds, _xkwds_get
-from pygeodesy.fmath import Fdot, fpowers, Fsum
-# from pygeodesy.fsums import Fsum  # from .fmath
+from pygeodesy.fmath import Fdot, fpowers
+from pygeodesy.fsums import _Fsumf_
 from pygeodesy.interns import MISSING, NN, _A_, _COLON_, _COMMA_, \
                              _COMMASPACE_, _DOT_, _ellipsoidal_, \
                              _latlon_, _not_, _SPACE_
@@ -121,10 +121,10 @@ class _NG(object):
     @Property_RO
     def Mabcd(self):  # meridional coefficients (a, b, c, d)
         n, n2, n3 = fpowers(self.ellipsoid.n, 3)
-        M = (Fsum(4,  4 * n,  5 * n2,  5 * n3) / 4,
-             Fsum(   24 * n, 24 * n2, 21 * n3) / 8,
-             Fsum(           15 * n2, 15 * n3) / 8,
-                                     (35 * n3 / 24))
+        M = (_Fsumf_(4,  4 * n,  5 * n2,  5 * n3) / 4,
+             _Fsumf_(   24 * n, 24 * n2, 21 * n3) / 8,
+             _Fsumf_(           15 * n2, 15 * n3) / 8,
+                                        (35 * n3 / 24))
         return M
 
     def Mabcd0(self, a):  # meridional arc, scaled
@@ -327,10 +327,10 @@ class Osgr(_NamedBase):
             e0 =     self.easting  - NG.eas0
             n0 = m = self.northing - NG.nor0
 
-            _M = NG.Mabcd0
-            a0 = NG.a0
-            a  = NG.phi0
-            _A = Fsum(a).fsum_
+            _M =  NG.Mabcd0
+            a0 =  NG.a0
+            a  =  NG.phi0
+            _A = _Fsumf_(a).fsum_
             for self._iteration in range(1, _TRIPS):
                 a = _A(m / a0)
                 m = n0 - _M(a)  # meridional arc
@@ -354,14 +354,14 @@ class Osgr(_NamedBase):
             d2  = d**2
 
             a = (d2 * ta * (-1 +  # Horner-like
-                 d2 / 12 * (Fsum( 5,  3 * ta2, -9 * ta2 * n2, n2) -
-                 d2 / 30 *  Fsum(61, 90 * ta2, 45 * ta4)))).fsum_(a)
+                 d2 / 12 * (_Fsumf_( 5,  3 * ta2, -9 * ta2 * n2, n2) -
+                 d2 / 30 *  _Fsumf_(61, 90 * ta2, 45 * ta4)))).fsum_(a)
 
-            b = (d  / ca * (1 -  # Horner-like
-                 d2 /  6 * (Fsum(v_r,  2 * ta2) -
-                 d2 / 20 * (Fsum( 5,  28 * ta2,   24 * ta4) +
-                 d2 / 42 *  Fsum(61, 662 * ta2, 1320 * ta4,
-                                     720 * ta2 * ta4))))).fsum_(NG.lam0)
+            b = (d  / ca * ( 1 -  # Horner-like
+                 d2 /  6 * (_Fsumf_(v_r,  2 * ta2) -
+                 d2 / 20 * (_Fsumf_( 5,  28 * ta2,   24 * ta4) +
+                 d2 / 42 *  _Fsumf_(61, 662 * ta2, 1320 * ta4,
+                                        720 * ta2 * ta4))))).fsum_(NG.lam0)
 
             r = _LLEB(degrees90(a), degrees180(b), datum=self.datum, name=self.name)
             r._iteration = self._iteration  # only ellipsoidal LatLon
@@ -652,14 +652,14 @@ def toOsgr(latlon, lon=None, kTM=False, datum=_WGS84, Osgr=Osgr, name=NN,  # MCC
         ta2 = -(ta**2)
         ta4 =   ta2**2
 
-        e = (d  *  v * (1 +  # Horner-like
-             d2 /  6 * (Fsum(v_r, ta2) +
-             d2 / 20 *  Fsum(5,  18 * ta2, ta4, 14 * n2,
-                            58 * n2 * ta2)))).fsum_(NG.eas0)
+        e = (d  *  v * ( 1 +  # Horner-like
+             d2 /  6 * (_Fsumf_(v_r, ta2) +
+             d2 / 20 *  _Fsumf_(5,  18 * ta2, ta4, 14 * n2,
+                               58 * n2 * ta2)))).fsum_(NG.eas0)
 
-        n = (d  *  t * (1 +  # Horner-like
-             d2 / 12 * (Fsum( 5, ta2,  9 * n2) +
-             d2 / 30 *  Fsum(61, ta4, 58 * ta2)))).fsum_(m0, NG.nor0)
+        n = (d  *  t * ( 1 +  # Horner-like
+             d2 / 12 * (_Fsumf_( 5, ta2,  9 * n2) +
+             d2 / 30 *  _Fsumf_(61, ta4, 58 * ta2)))).fsum_(m0, NG.nor0)
 
     p, kwds = _prec_kwds2(**prec_Osgr_kwds)
     if p is not MISSING:

@@ -4,7 +4,7 @@
 # Test L{fsums} module.
 
 __all__ = ('Tests',)
-__version__ = '24.04.12'
+__version__ = '24.04.14'
 
 from bases import endswith, isPython2, randoms, startswith, TestsBase
 
@@ -50,8 +50,9 @@ class Tests(TestsBase):
             self.test('fsum', s, s, nl=1)
             self.test('sum' + str(i), sum(t), s, known=True)
 
-            p = f * f * f * f
-            self.test('pow(4)', f.pow(4), p, known=True)  # abs(p - f**4) < 1e-3
+            q = f * f * f * f
+            p = f.pow(4)
+            self.test('pow(4)', p, q, known=abs(p - q) < 1e-5)
             p = f.pow(1)
             self.test('pow(1)', p, f, known=p == f)
             self.test('pow(0)', f.pow(0), " (1.0, 0)", known=endswith)
@@ -233,7 +234,7 @@ class Tests(TestsBase):
         try:
             self.test('pow(F, f, i)', pow(x, 2.1, 2), ResidualError.__name__)
         except Exception as X:
-            self.test('pow(F, f, i)', repr(X), ResidualError.__name__, known=startswith)
+            self.test('pow(F, f, i)', repr(X), TypeError.__name__, known=startswith)  # ResidualError.__name__
         try:
             self.test('pow(F, F, i)', m.pow(Fsum(2.1), 2), TypeError.__name__)
         except Exception as X:

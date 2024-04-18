@@ -13,8 +13,8 @@ from pygeodesy.constants import EPS0, EPS02, EPS1, NAN, PI, PI_2, PI_4, \
                                _copysign_0_0, _isfinite, _over, remainder
 from pygeodesy.errors import _IsnotError, LenError, _TypeError, _ValueError, \
                              _xError, _xkwds_get, _xkwds_pop2
-from pygeodesy.fsums import _2float, Fsum, _fsum, fsum, fsum1_, _pow_op_, \
-                            _1primed,  Fmt, unstr
+from pygeodesy.fsums import _2float, Fsum, _fsum, fsum, fsum1_, _1primed, \
+                             Fmt, unstr
 from pygeodesy.interns import MISSING, _few_, _h_, _invokation_, _negative_, \
                              _not_scalar_, _SPACE_, _too_
 from pygeodesy.lazily import _ALL_LAZY, _sys_version_info2
@@ -25,11 +25,19 @@ from math import fabs, sqrt  # pow
 import operator as _operator  # in .datums, .trf, .utm
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '24.04.04'
+__version__ = '24.04.17'
 
 # sqrt(2) <https://WikiPedia.org/wiki/Square_root_of_2>
 _0_4142  =  0.41421356237309504880  # ... sqrt(2) - 1
 _h_lt_b_ = 'abs(h) < abs(b)'
+
+
+def _Fsum__init__(inst, raiser=MISSING, **name_RESIDUAL):
+    '''(INTERNAL) Init an C{Fsum} instance.
+    '''
+    Fsum.__init__(inst, **name_RESIDUAL)  # PYCHOK self
+    inst._fset_ps(_0_0)
+    return {} if raiser is MISSING else dict(raiser=raiser)
 
 
 class Fdot(Fsum):
@@ -41,8 +49,8 @@ class Fdot(Fsum):
 
            @arg a: Iterable, list, tuple, etc. (C{scalar}s).
            @arg b: Other values (C{scalar}s), all positional.
-           @kwarg name_RESIDUAL: Optional C{B{name}=NN} and
-                       C{B{RESIDUAL}=None}, see L{Fsum.__init__}.
+           @kwarg name_RESIDUAL: Optional C{B{name}=NN} and C{B{RESIDUAL}=None},
+                       see L{Fsum<Fsum.__init__>}.
 
            @raise OverflowError: Partial C{2sum} overflow.
 
@@ -64,8 +72,8 @@ class Fhorner(Fsum):
            @arg x: Polynomial argument (C{scalar} or C{Fsum} instance).
            @arg cs: Polynomial coeffients (C{scalar} or C{Fsum}
                     instances), all positional.
-           @kwarg name_RESIDUAL: Optional C{B{name}=NN} and
-                       C{B{RESIDUAL}=None}, see L{Fsum.__init__}.
+           @kwarg name_RESIDUAL: Optional C{B{name}=NN} and C{B{RESIDUAL}=None},
+                       see L{Fsum<Fsum.__init__>}.
 
            @raise OverflowError: Partial C{2sum} overflow.
 
@@ -92,32 +100,30 @@ class Fhorner(Fsum):
             else:  # x == 0
                 self._fadd(cs[0], op)
         else:
-            self._fset(_0_0)
+            self._fset_ps(_0_0)
 
 
 class Fhypot(Fsum):
     '''Precision summation and hypotenuse, default C{power=2}.
     '''
-    def __init__(self, *xs, **power_name_RESIDUAL):
-        '''New L{Fhypot} hypotenuse of (the I{power} of) several components.
+    def __init__(self, *xs, **root_name_RESIDUAL_raiser):
+        '''New L{Fhypot} hypotenuse of (the I{root} of) several components.
 
-           @arg xs: One or more components (each a C{scalar} or an C{Fsum}
-                    instance).
-           @kwarg power_name_RESIDUAL: Optional, C{scalar} exponent and
-                        root order C{B{power}=2}, a C{B{name}=NN} and
-                        C{B{RESIDUAL}=None}, see L{Fsum.__init__}.
+           @arg xs: One or more components (each a C{scalar} or an C{Fsum} instance).
+           @kwarg root_name_RESIDUAL_raiser: Optional, exponent and C{B{root}=2} order,
+                       C{B{name}=NN}, C{B{RESIDUAL}=None} and C{B{raiser}=True}, see
+                       class L{Fsum<Fsum.__init__>} and method L{root<Fsum.root>}.
         '''
+        r = None  # _xkwds_pop2 error
         try:
-            p, kwds = _xkwds_pop2(power_name_RESIDUAL, power=2)
-            Fsum.__init__(self, **kwds)
+            r, kwds = _xkwds_pop2(root_name_RESIDUAL_raiser, root=2)
+            r, kwds = _xkwds_pop2(kwds, power=r)  # for backward compatibility
+            raiser  = _Fsum__init__(self, **kwds)
             if xs:
-                r = _1_0 / p
-                self._facc_power(p, xs, Fhypot)
-                self._fpow(r, _pow_op_)
-            else:
-                self._fset(_0_0)
-        except Exception as x:
-            raise self._ErrorXs(x, xs, power=p)
+                self._facc_power(r, xs, Fhypot, **raiser)
+            self._fset(self.root(r, **raiser))
+        except Exception as X:
+            raise self._ErrorXs(X, xs, root=r)
 
 
 class Fpolynomial(Fsum):
@@ -128,10 +134,10 @@ class Fpolynomial(Fsum):
            M{sum(cs[i] * x**i for i=0..len(cs)-1)}.
 
            @arg x: Polynomial argument (C{scalar} or L{Fsum}).
-           @arg cs: Polynomial coeffients (each a C{scalar} or
-                    an L{Fsum} instance), all positional.
-           @kwarg name_RESIDUAL: Optional C{B{name}=NN} and
-                       C{B{RESIDUAL}=None}, see L{Fsum.__init__}.
+           @arg cs: Polynomial coeffients (each a C{scalar} or an L{Fsum} instance),
+                    all positional.
+           @kwarg name_RESIDUAL: Optional C{B{name}=NN} and C{B{RESIDUAL}=None},
+                       see L{Fsum<Fsum.__init__>}.
 
            @raise OverflowError: Partial C{2sum} overflow.
 
@@ -147,75 +153,68 @@ class Fpolynomial(Fsum):
         if n > 0:
             self.fadd(_1map_mul(cs[1:], _powers(x, n)))
         elif n < 0:
-            self._fset(_0_0)
+            self._fset_ps(_0_0)
 
 
 class Fpowers(Fsum):
     '''Precision summation of powers, optimized for C{power=2, 3 and 4}.
     '''
-    def __init__(self, power, *xs, **name_RESIDUAL):
+    def __init__(self, power, *xs, **name_RESIDUAL_raiser):
         '''New L{Fpowers} sum of (the I{power} of) several values.
 
            @arg power: The exponent (C{scalar} or L{Fsum}).
-           @arg xs: One or more values (each a C{scalar} or an
-                    C{Fsum} instance).
-           @kwarg name_RESIDUAL: Optional C{B{name}=NN} and
-                       C{B{RESIDUAL}=None}, see L{Fsum.__init__}.
+           @arg xs: One or more values (each a C{scalar} or an C{Fsum} instance).
+           @kwarg name_RESIDUAL_raiser: Optional C{B{name}=NN}, C{B{RESIDUAL}=None} and
+                       C{B{raiser}=True}, see L{Fsum<Fsum.__init__>} and L{fpow<Fsum.fpow>}.
         '''
         try:
-            Fsum.__init__(self, **name_RESIDUAL)
+            raiser = _Fsum__init__(self, **name_RESIDUAL_raiser)
             if xs:
-                self._facc_power(power, xs, Fpowers)  # x**0 == 1
-            else:
-                self._fset(_0_0)
-        except Exception as x:
-            raise self._ErrorXs(x, xs, power=power)
+                self._facc_power(power, xs, Fpowers, **raiser)  # x**0 == 1
+        except Exception as X:
+            raise self._ErrorXs(X, xs, power=power)
 
 
-class Fn_rt(Fsum):
-    '''N-th root of a precision summation.
+class Froot(Fsum):
+    '''The root of a precision summation.
     '''
-    def __init__(self, root, *xs, **name_RESIDUAL):
-        '''New L{Fn_rt} root of a precision sum.
+    def __init__(self, root, *xs, **name_RESIDUAL_raiser):
+        '''New L{Froot} root of a precision sum.
 
-           @arg root: The order (C{scalar} or C{Fsum}),
-                      non-zero.
-           @arg xs: Values to summate (each a C{scalar} or
-                    an C{Fsum} instance).
-           @kwarg name_RESIDUAL: See L{Fsum.__init__}.
+           @arg root: The order (C{scalar} or C{Fsum}), non-zero.
+           @arg xs: Values to summate (each a C{scalar} or an C{Fsum} instance).
+           @kwarg name_RESIDUAL_raiser: Optional C{B{name}=NN}, C{B{RESIDUAL}=None} and
+                       C{B{raiser}=True}, see L{Fsum<Fsum.__init__>} and L{fpow<Fsum.fpow>}.
         '''
         try:
-            Fsum.__init__(self, **name_RESIDUAL)
+            raiser = _Fsum__init__(self, **name_RESIDUAL_raiser)
             if xs:
-                r = _1_0 / root
                 self. fadd(xs)
-                self._fpow(r, _pow_op_)  # self **= r
-            else:
-                self._fset(_0_0)
-        except Exception as x:
-            raise self._ErrorXs(x, xs, root=root)
+            self._fset(self.root(root, **raiser))
+        except Exception as X:
+            raise self._ErrorXs(X, xs, root=root)
 
 
-class Fcbrt(Fn_rt):
+class Fcbrt(Froot):
     '''Cubic root of a precision summation.
     '''
-    def __init__(self, *xs, **name_RESIDUAL):
+    def __init__(self, *xs, **name_RESIDUAL_raiser):
         '''New L{Fcbrt} cubic root of a precision sum.
 
-           @see: Class L{Fn_rt} for further details.
+           @see: Class L{Froot} for further details.
         '''
-        Fn_rt.__init__(self, _3_0, *xs, **name_RESIDUAL)
+        Froot.__init__(self, _3_0, *xs, **name_RESIDUAL_raiser)
 
 
-class Fsqrt(Fn_rt):
+class Fsqrt(Froot):
     '''Square root of a precision summation.
     '''
-    def __init__(self, *xs, **name_RESIDUAL):
+    def __init__(self, *xs, **name_RESIDUAL_raiser):
         '''New L{Fsqrt} square root of a precision sum.
 
-           @see: Class L{Fn_rt} for further details.
+           @see: Class L{Froot} for further details.
         '''
-        Fn_rt.__init__(self, _2_0, *xs, **name_RESIDUAL)
+        Froot.__init__(self, _2_0, *xs, **name_RESIDUAL_raiser)
 
 
 def bqrt(x):
@@ -818,7 +817,7 @@ def _map_mul(a, b, where):
     n = len(b)
     if len(a) != n:  # PYCHOK no cover
         raise LenError(where, a=len(a), b=n)
-    return map(_operator.mul, a, b) if n > 3 else _1map_mul(a, b)
+    return _1map_mul(a, b) if n < 4 else map(_operator.mul, a, b)
 
 
 def _1map_mul(a, b):

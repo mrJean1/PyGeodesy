@@ -97,7 +97,7 @@ from math import asinh, atan, atan2, ceil, cosh, fabs, floor, \
                  radians, sin, sqrt, tanh
 
 __all__ = _ALL_LAZY.elliptic
-__version__ = '24.04.09'
+__version__ = '24.04.14'
 
 _TolRD  =  zqrt(EPS * 0.002)
 _TolRF  =  zqrt(EPS * 0.030)
@@ -1023,13 +1023,12 @@ def _Horner(S, e1, E2, E3, E4, E5, *over):
     #    + 3*E5/26 - E2**3/16 + 3*E3**2/40 + 3*E2*E4/20
     #    + 45*E2**2*E3/272 - 9*(E3*E4+E2*E5)/68)
     # converted to Horner-like form ...
-    F  = Fsum
     e  = e1 * 4084080
     S *= e
-    S += F(E2 * -540540,                               471240).fmul(E5)
-    S += F(E2 *  612612,                E3 * -540540, -556920).fmul(E4)
-    S += F(E2 * -706860, E22 *  675675, E3 *  306306,  680680).fmul(E3)
-    S += F(E2 *  417690, E22 * -255255,               -875160).fmul(E2)
+    S += Fsum(E2 * -540540,                               471240).fmul(E5)
+    S += Fsum(E2 *  612612,                E3 * -540540, -556920).fmul(E4)
+    S += Fsum(E2 * -706860, E22 *  675675, E3 *  306306,  680680).fmul(E3)
+    S += Fsum(E2 *  417690, E22 * -255255,               -875160).fmul(E2)
     S += 4084080
     if over:
         e *= over[0]
@@ -1122,14 +1121,14 @@ def _rG2(inst, x, y, PI_=PI_4):  # 2-args
     '''(INTERNAL) Carlson, eqs 2.36 - 2.39.
     '''
     m = -1  # neg!
-    S = _Dsum()
-    # assert not S
+    S = None
     for a, b in _ab2(inst, x, y):  # PYCHOK yield
-        if S:
+        if S is None:  # initial
+            S  = _Dsum()
+            S += (a + b)**2 * _0_5
+        else:
             S += (a - b)**2 *  m
             m *=  2
-        else:  # initial
-            S += (a + b)**2 * _0_5
     return S(PI_).fover(a + b)
 
 

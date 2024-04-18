@@ -256,7 +256,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                    'crosserrors', 'exception_chaining', 'isError', 'limiterrors', 'rangerrors'),
                             etm=_i('Etm', 'ETMError', 'ExactTransverseMercator',
                                    'parseETM5', 'toEtm8'),
-                          fmath=_i('Fdot', 'Fhorner', 'Fhypot', 'Fpolynomial', 'Fpowers', 'Fn_rt', 'Fcbrt', 'Fsqrt',
+                          fmath=_i('Fdot', 'Fhorner', 'Fhypot', 'Fpolynomial', 'Fpowers', 'Fcbrt', 'Froot', 'Fsqrt',
                                    'bqrt', 'cbrt', 'cbrt2', 'euclid', 'euclid_',
                                    'facos1', 'fasin1', 'fatan', 'fatan1', 'fatan2', 'favg',
                                    'fdot', 'fdot3', 'fmean', 'fmean_', 'fhorner', 'fidw', 'fpolynomial',
@@ -407,7 +407,7 @@ _ALL_DEPRECATED = _NamedEnum_RO(_name='_ALL_DEPRECATED',
                            deprecated=_i('bases', 'datum', 'nvector',  # DEPRECATED modules and ...
                                          'rhumbaux', 'rhumbBase', 'rhumbsolve', 'rhumbx'),  # ... names
                      deprecated_bases=_i('LatLonHeightBase', 'points2'),
-                   deprecated_classes=_i('ClipCS3Tuple', 'EasNorExact4Tuple', 'EcefCartesian',
+                   deprecated_classes=_i('ClipCS3Tuple', 'EasNorExact4Tuple', 'EcefCartesian', 'Fn_rt',
                                          'HeightIDW', 'HeightIDW2', 'HeightIDW3', 'Helmert7Tuple',
                                          'LatLonExact4Tuple', 'NearestOn4Tuple', 'Ned3Tuple',
                                          'RefFrameError', 'Rhumb7Tuple', 'RhumbOrder2Tuple',
@@ -504,7 +504,7 @@ class _ALL_MODS(object):
 _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '24.04.07'
+__version__ = '24.04.17'
 
 
 def _ALL_OTHER(*objs):

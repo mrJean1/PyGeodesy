@@ -22,7 +22,7 @@ from pygeodesy.trf import TRFXform7Tuple as _TRFXform7Tuple
 from pygeodesy.units import Bearing, Int, Lat, Lon, Meter
 
 __all__ = _ALL_DEPRECATED.deprecated_classes
-__version__ = '24.02.02'
+__version__ = '24.04.17'
 
 
 class _Deprecated_NamedTuple(_NamedTuple):
@@ -96,6 +96,19 @@ def EcefCartesian(*args, **kwds):
                                                         name=t.name or self.name)
 
     return EcefCartesian_(*args, **kwds)
+
+
+def Fn_rt(root, *xs, **name_RESIDUAL_raiser):  # PYCHOK no cover
+    '''DEPRECATED on 2024.04.17, use class L{Froot}.
+    '''
+    Froot = _MODS.fmath.Froot
+
+    class Fn_rt(Froot):  # PYCHOK no cover
+        '''DEPRECATED on 2024.04.17, use class L{Froot}.
+        '''
+        def __init__(self, root, *xs, **name_RESIDUAL_raiser):
+            deprecated_class(self.__class__)
+            Froot.__init__(self, root, *xs, **name_RESIDUAL_raiser)
 
 
 def HeightIDW(knots, **kwds):  # PYCHOK no cover

@@ -20,7 +20,7 @@ from pygeodesy.constants import EPS, EPS0, EPS02, INT0, PI, PI2, PI_2, PI_4, \
 from pygeodesy.errors import _and, _or, TriangleError, _ValueError, _xcallable, \
                              _xkwds, _xkwds_pop2
 from pygeodesy.fmath import favg, Fdot, fidw, fmean, hypot, hypot2_
-from pygeodesy.fsums import Fsum, fsumf_, fsum1, fsum1f_
+from pygeodesy.fsums import _Fsumf_, fsumf_, fsum1, fsum1f_
 from pygeodesy.interns import _a_, _A_, _area_, _b_, _B_, _c_, _C_, _coincident_, \
                               _colinear_, _d_, _eps_, _invalid_, _negative_, _not_, \
                               _rIn_, _SPACE_
@@ -34,7 +34,7 @@ from pygeodesy.vector3d import _otherV3d, Vector3d
 from math import cos, atan2, degrees, fabs, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.resections
-__version__ = '24.04.04'
+__version__ = '24.04.14'
 
 _concyclic_ = 'concyclic'
 _PA_        = 'PA'
@@ -55,14 +55,6 @@ class Collins5Tuple(_NamedTuple):
     '''
     _Names_ = (_pointP_, _pointH_, _a_,      _b_,      _c_)
     _Units_ = (_Pass,    _Pass,     Distance, Distance, Distance)
-
-
-def _F1(*xs):  # class
-    '''(INTERNAL) An L{Fsum}, 1-primed.
-    '''
-    F  =  Fsum(_1_0, *xs)
-    F += _N_1_0
-    return F
 
 
 class ResectionError(_ValueError):
@@ -376,8 +368,8 @@ def _pierlot3(B1, B2, B3, a12, a23, useZ, cot):
     cot31 = cot(fsum1f_(c12 * s23,  s12 * c23),  # s31
                 fsum1f_(s12 * s23, -c12 * c23))  # c31
 
-    K = _F1(x3_ * x1_,  cot31 * (y3_ * x1_),
-            y3_ * y1_, -cot31 * (x3_ * y1_))
+    K = _Fsumf_(x3_ * x1_,  cot31 * (y3_ * x1_),
+                y3_ * y1_, -cot31 * (x3_ * y1_))
     if K:
         cot12 = cot(s12, c12)
         cot23 = cot(s23, c23)
@@ -392,16 +384,16 @@ def _pierlot3(B1, B2, B3, a12, a23, useZ, cot):
         # y31 = y3_ + y1_ - cot31 * (x3_ - x1_)
 
         # x12 - x23 = x1_ + cot12 * y1_ - x3_ + cot23 * y3_
-        X12_23 = _F1(x1_,  cot12 * y1_, -x3_,  cot23 * y3_)
+        X12_23 = _Fsumf_(x1_,  cot12 * y1_, -x3_,  cot23 * y3_)
         # y12 - y23 = y1_ - cot12 * x1_ - y3_ - cot23 * x3_
-        Y12_23 = _F1(y1_, -cot12 * x1_, -y3_, -cot23 * x3_)
+        Y12_23 = _Fsumf_(y1_, -cot12 * x1_, -y3_, -cot23 * x3_)
 
         # x31 - x23 = x3_ + x1_ + cot31 * (y3_ - y1_) - x3_ + cot23 * y3_
         #           = x1_ + cot31 * y3_ - cot31 * y1_ + cot23 * y3_
-        X31_23 = _F1(x1_, -cot31 * y1_,  cot31 * y3_,  cot23 * y3_)
+        X31_23 = _Fsumf_(x1_, -cot31 * y1_,  cot31 * y3_,  cot23 * y3_)
         # y31 - y23 = y3_ + y1_ - cot31 * (x3_ - x1_) - y3_ - cot23 * x3_
         #           = y1_ - cot31 * x3_ + cot31 * x1_ - cot23 * x3_
-        Y31_23 = _F1(y1_,  cot31 * x1_, -cot31 * x3_, -cot23 * x3_)
+        Y31_23 = _Fsumf_(y1_,  cot31 * x1_, -cot31 * x3_, -cot23 * x3_)
 
         # d = (x12 - x23) * (y23 - y31) + (x31 - x23) * (y12 - y23)
         #   = (x31 - x23) * (y12 - y23) - (x12 - x23) * (y31 - y23)
@@ -495,7 +487,7 @@ def _pierlotx3(a_z_Bs, useZ, cot, Cs):
     x1_, y1_, _ = B1.minus(B3).xyz
     x2_, y2_, _ = B2.minus(B3).xyz
 
-    K = _F1(y1_ * x2_, -x1_ * y2_)
+    K = _Fsumf_(y1_ * x2_, -x1_ * y2_)
     if K:
         cot23 = cot(*sincos2d(a23))
 
@@ -506,15 +498,15 @@ def _pierlotx3(a_z_Bs, useZ, cot, Cs):
         # y31 = y1_ - cot23 * x1_
 
         # x31 - x23 = x1_ + cot23 * y1_ - x2_ - cot23 * y2_
-        X31_23 = _F1(x1_,  cot23 * y1_, -x2_, -cot23 * y2_)
+        X31_23 = _Fsumf_(x1_,  cot23 * y1_, -x2_, -cot23 * y2_)
         # y31 - y23 = y1_ - cot23 * x1_ - y2_ + cot23 * x2_
-        Y31_23 = _F1(y1_, -cot23 * x1_, -y2_,  cot23 * x2_)
+        Y31_23 = _Fsumf_(y1_, -cot23 * x1_, -y2_,  cot23 * x2_)
 
         # d = (x31 - x23) * (x2_ - x1_) + (y31 - y23) * (y2_ - y1_)
         # x = (D * B3.x - K * Y31_23).fover(d)
         # y = (D * B3.y + K * X31_23).fover(d)
-        x, y = _pierlotxy2(B3, K, Y31_23, X31_23, (X31_23 * _F1(x2_, -x1_) +
-                                                   Y31_23 * _F1(y2_, -y1_)))
+        x, y = _pierlotxy2(B3, K, Y31_23, X31_23, (X31_23 * _Fsumf_(x2_, -x1_) +
+                                                   Y31_23 * _Fsumf_(y2_, -y1_)))
     else:
         x, y, _ = B3.xyz
     return x, y, _zidw(x, y, useZ, B1, B2, B3)
@@ -974,7 +966,7 @@ def wildberger3(a, b, c, alpha, beta, R3=min):
     def _vpa(r3, q2, q3, s2, s3):
         r1 = s2 * q3 / s3
         r  = r1 * r3 * _4_0
-        n  = (r - _F1(r1, r3, -q2)**2).fover(s3)
+        n  = (r - _Fsumf_(r1, r3, -q2)**2).fover(s3)
         if n < 0 or r < EPS0:
             raise ValueError(_coincident_)
         return sqrt((n / r) * q3) if n else _0_0
@@ -994,11 +986,11 @@ def wildberger3(a, b, c, alpha, beta, R3=min):
             raise ValueError(_or(_coincident_, _colinear_))
 
         q4 =  hypot2_(*q) * _2_0  # a**4 + ...
-        Qs = _F1(*q)   # == hypot2_(a, b, c)
+        Qs = _Fsumf_(*q)   # == hypot2_(a, b, c)
         d0 = (Qs**2 - q4).fmul(s1 * s2).fover(s3)
         if d0 < 0:
             raise ValueError(_negative_)
-        s += _F1(*s),  # == fsum1(s),
+        s += _Fsumf_(*s),  # == fsum1(s),
         C0 =  Fdot(s, q1, q2, q3, -Qs * _0_5)
         r3 =  C0.fover(-s3)  # C0 /= -s3
         if d0 > EPS02:  # > c0

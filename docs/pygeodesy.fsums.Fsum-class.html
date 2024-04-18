@@ -71,7 +71,7 @@
 <dl><dt>Known Subclasses:</dt>
 <dd>
       <ul class="subclass-list">
-<li><a href="pygeodesy.fmath.Fn_rt-class.html">fmath.Fn_rt</a></li><li>, <a href="pygeodesy.fmath.Fdot-class.html">fmath.Fdot</a></li><li>, <a href="pygeodesy.fmath.Fhorner-class.html">fmath.Fhorner</a></li><li>, <a href="pygeodesy.fmath.Fhypot-class.html">fmath.Fhypot</a></li><li>, <a href="pygeodesy.fmath.Fpolynomial-class.html">fmath.Fpolynomial</a></li><li>, <a href="pygeodesy.fmath.Fpowers-class.html">fmath.Fpowers</a></li>  </ul>
+<li><a href="pygeodesy.fmath.Froot-class.html">fmath.Froot</a></li><li>, <a href="pygeodesy.fmath.Fdot-class.html">fmath.Fdot</a></li><li>, <a href="pygeodesy.fmath.Fhorner-class.html">fmath.Fhorner</a></li><li>, <a href="pygeodesy.fmath.Fhypot-class.html">fmath.Fhypot</a></li><li>, <a href="pygeodesy.fmath.Fpolynomial-class.html">fmath.Fpolynomial</a></li><li>, <a href="pygeodesy.fmath.Fpowers-class.html">fmath.Fpowers</a></li>  </ul>
 </dd></dl>
 
 <hr />
@@ -543,7 +543,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fsums.Fsum-class.html#__ipow__" class="summary-sig-name">__ipow__</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>,
-        <span class="summary-sig-arg">*mod</span>)</span><br />
+        <span class="summary-sig-arg">*mod</span>,
+        <span class="summary-sig-arg">**raiser</span>)</span><br />
       Apply <code><b>self</b> **= <b>other</b></code> to this instance.</td>
           <td align="right" valign="top">
             
@@ -597,7 +598,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fsums.Fsum-class.html#__itruediv__" class="summary-sig-name">__itruediv__</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">other</span>)</span><br />
+        <span class="summary-sig-arg">other</span>,
+        <span class="summary-sig-arg">**raiser</span>)</span><br />
       Apply <code><b>self</b> /= <b>other</b></code> to this instance.</td>
           <td align="right" valign="top">
             
@@ -967,7 +969,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fsums.Fsum-class.html#__rtruediv__" class="summary-sig-name">__rtruediv__</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">other</span>)</span><br />
+        <span class="summary-sig-arg">other</span>,
+        <span class="summary-sig-arg">**raiser</span>)</span><br />
       Return <code><b>other</b> / <b>self</b></code> as an <a 
       href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a>.</td>
           <td align="right" valign="top">
@@ -1022,7 +1025,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fsums.Fsum-class.html#__truediv__" class="summary-sig-name">__truediv__</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">other</span>)</span><br />
+        <span class="summary-sig-arg">other</span>,
+        <span class="summary-sig-arg">**raiser</span>)</span><br />
       Return <code><b>self</b> / <b>other</b></code> as an <a 
       href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a>.</td>
           <td align="right" valign="top">
@@ -1058,7 +1062,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fsums.Fsum-class.html#__div__" class="summary-sig-name">__div__</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">other</span>)</span><br />
+        <span class="summary-sig-arg">other</span>,
+        <span class="summary-sig-arg">**raiser</span>)</span><br />
       Return <code><b>self</b> / <b>other</b></code> as an <a 
       href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a>.</td>
           <td align="right" valign="top">
@@ -1077,7 +1082,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fsums.Fsum-class.html#__idiv__" class="summary-sig-name">__idiv__</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">other</span>)</span><br />
+        <span class="summary-sig-arg">other</span>,
+        <span class="summary-sig-arg">**raiser</span>)</span><br />
       Apply <code><b>self</b> /= <b>other</b></code> to this instance.</td>
           <td align="right" valign="top">
             
@@ -1129,7 +1135,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fsums.Fsum-class.html#__rdiv__" class="summary-sig-name">__rdiv__</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">other</span>)</span><br />
+        <span class="summary-sig-arg">other</span>,
+        <span class="summary-sig-arg">**raiser</span>)</span><br />
       Return <code><b>other</b> / <b>self</b></code> as an <a 
       href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a>.</td>
           <td align="right" valign="top">
@@ -1184,7 +1191,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fsums.Fsum-class.html#divmod" class="summary-sig-name">divmod</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">other</span>)</span><br />
+        <span class="summary-sig-arg">other</span>,
+        <span class="summary-sig-arg">**raiser</span>)</span><br />
       Return <code>divmod(<b>self</b>, <b>other</b>)</code> as 2-tuple 
       <code>(quotient, remainder)</code>.</td>
           <td align="right" valign="top">
@@ -1262,7 +1270,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fsums.Fsum-class.html#fdiv" class="summary-sig-name">fdiv</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">other</span>)</span><br />
+        <span class="summary-sig-arg">other</span>,
+        <span class="summary-sig-arg">**raiser</span>)</span><br />
       Apply <code><b>self</b> /= <b>other</b></code> to this instance.</td>
           <td align="right" valign="top">
             
@@ -1359,7 +1368,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fsums.Fsum-class.html#fover" class="summary-sig-name">fover</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">over</span>)</span><br />
+        <span class="summary-sig-arg">over</span>,
+        <span class="summary-sig-arg">**raiser</span>)</span><br />
       Apply <code><b>self</b> /= <b>over</b></code> and summate.</td>
           <td align="right" valign="top">
             
@@ -1378,7 +1388,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fsums.Fsum-class.html#fpow" class="summary-sig-name">fpow</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>,
-        <span class="summary-sig-arg">*mod</span>)</span><br />
+        <span class="summary-sig-arg">*mod</span>,
+        <span class="summary-sig-arg">**raiser</span>)</span><br />
       Apply <code><b>self</b> **= <b>other</b></code> to this instance.</td>
           <td align="right" valign="top">
             
@@ -1559,8 +1570,8 @@
           <td><span class="summary-sig"><a name="fsumf_"></a><span class="summary-sig-name">fsumf_</span>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">*xs</span>)</span><br />
       Like method <a href="pygeodesy.fsums.Fsum-class.html#fsum_" 
-      class="link">Fsum.fsum_</a> but only for <i>known</i> <code>float 
-      <b>xs</b></code>.</td>
+      class="link">Fsum.fsum_</a> but only for <code><b>xs</b></code>, 
+      <i>known to be scalar</i>.</td>
           <td align="right" valign="top">
             
             
@@ -1579,8 +1590,8 @@
           <td><span class="summary-sig"><a name="Fsumf_"></a><span class="summary-sig-name">Fsumf_</span>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">*xs</span>)</span><br />
       Like method <a href="pygeodesy.fsums.Fsum-class.html#Fsum_" 
-      class="link">Fsum.Fsum_</a> but only for <i>known</i> <code>float 
-      <b>xs</b></code>.</td>
+      class="link">Fsum.Fsum_</a> but only for <code><b>xs</b></code>, 
+      <i>known to be scalar</i>.</td>
           <td align="right" valign="top">
             
             
@@ -1599,8 +1610,8 @@
           <td><span class="summary-sig"><a name="fsum2f_"></a><span class="summary-sig-name">fsum2f_</span>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">*xs</span>)</span><br />
       Like method <a href="pygeodesy.fsums.Fsum-class.html#fsum2_" 
-      class="link">Fsum.fsum2_</a> but only for <i>known</i> <code>float 
-      <b>xs</b></code>.</td>
+      class="link">Fsum.fsum2_</a> but only for <code><b>xs</b></code>, 
+      <i>known to be scalar</i>.</td>
           <td align="right" valign="top">
             
             
@@ -1696,7 +1707,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fsums.Fsum-class.html#pow" class="summary-sig-name">pow</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">x</span>,
-        <span class="summary-sig-arg">*mod</span>)</span><br />
+        <span class="summary-sig-arg">*mod</span>,
+        <span class="summary-sig-arg">**raiser</span>)</span><br />
       Return <code><b>self</b>**<b>x</b></code> as <a 
       href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a>.</td>
           <td align="right" valign="top">
@@ -1720,6 +1732,26 @@
       href="pygeodesy.fsums.ResidualError-class.html" 
       class="link">ResidualError</a>s, overriding the default from env 
       variable <code>PYGEODESY_FSUM_RESIDUAL</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.fsums.Fsum-class.html#root" class="summary-sig-name">root</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">root</span>,
+        <span class="summary-sig-arg">**raiser</span>)</span><br />
+      Return <code><b>self</b>**(1 / <b>root</b>)</code> as <a 
+      href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a>.</td>
           <td align="right" valign="top">
             
             
@@ -2440,7 +2472,8 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">__ipow__</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">other</span>,
-        <span class="sig-arg">*mod</span>)</span>
+        <span class="sig-arg">*mod</span>,
+        <span class="sig-arg">**raiser</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -2456,6 +2489,11 @@
         <li><strong class="pname"><code>mod</code></strong> - Optional modulus (<code>int</code> or <code>None</code>) for the 
           3-argument <code>pow(<b>self</b>, <b>other</b>, 
           <b>mod</b>)</code> version.</li>
+        <li><strong class="pname"><code>raiser</code></strong> - Use <code><b>raiser</b>=False</code> to ignore <a 
+          href="pygeodesy.fsums.ResidualError-class.html" 
+          class="link">ResidualError</a>s (<code>bool</code>), see also 
+          method <a href="pygeodesy.fsums.Fsum-class.html#RESIDUAL" 
+          class="link">RESIDUAL</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>This instance, updated (<a href="pygeodesy.fsums.Fsum-class.html"
@@ -2535,7 +2573,8 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">__itruediv__</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">other</span>)</span>
+        <span class="sig-arg">other</span>,
+        <span class="sig-arg">**raiser</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -2548,6 +2587,11 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>other</code></strong> - An <a href="pygeodesy.fsums.Fsum-class.html" 
           class="link">Fsum</a> or <code>scalar</code> divisor.</li>
+        <li><strong class="pname"><code>raiser</code></strong> - Use <code><b>raiser</b>=False</code> to ignore <a 
+          href="pygeodesy.fsums.ResidualError-class.html" 
+          class="link">ResidualError</a>s (<code>bool</code>), see also 
+          method <a href="pygeodesy.fsums.Fsum-class.html#RESIDUAL" 
+          class="link">RESIDUAL</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>This instance, updated (<a href="pygeodesy.fsums.Fsum-class.html"
@@ -2900,7 +2944,8 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">__rtruediv__</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">other</span>)</span>
+        <span class="sig-arg">other</span>,
+        <span class="sig-arg">**raiser</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -2982,7 +3027,8 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">__truediv__</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">other</span>)</span>
+        <span class="sig-arg">other</span>,
+        <span class="sig-arg">**raiser</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -2996,6 +3042,11 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>other</code></strong> - An <a href="pygeodesy.fsums.Fsum-class.html" 
           class="link">Fsum</a> or <code>scalar</code> divisor.</li>
+        <li><strong class="pname"><code>raiser</code></strong> - Use <code><b>raiser</b>=False</code> to ignore <a 
+          href="pygeodesy.fsums.ResidualError-class.html" 
+          class="link">ResidualError</a>s (<code>bool</code>), see also 
+          method <a href="pygeodesy.fsums.Fsum-class.html#RESIDUAL" 
+          class="link">RESIDUAL</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The quotient (<a href="pygeodesy.fsums.Fsum-class.html" 
@@ -3046,7 +3097,8 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">__div__</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">other</span>)</span>
+        <span class="sig-arg">other</span>,
+        <span class="sig-arg">**raiser</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -3060,6 +3112,11 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>other</code></strong> - An <a href="pygeodesy.fsums.Fsum-class.html" 
           class="link">Fsum</a> or <code>scalar</code> divisor.</li>
+        <li><strong class="pname"><code>raiser</code></strong> - Use <code><b>raiser</b>=False</code> to ignore <a 
+          href="pygeodesy.fsums.ResidualError-class.html" 
+          class="link">ResidualError</a>s (<code>bool</code>), see also 
+          method <a href="pygeodesy.fsums.Fsum-class.html#RESIDUAL" 
+          class="link">RESIDUAL</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The quotient (<a href="pygeodesy.fsums.Fsum-class.html" 
@@ -3079,7 +3136,8 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">__idiv__</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">other</span>)</span>
+        <span class="sig-arg">other</span>,
+        <span class="sig-arg">**raiser</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -3092,6 +3150,11 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>other</code></strong> - An <a href="pygeodesy.fsums.Fsum-class.html" 
           class="link">Fsum</a> or <code>scalar</code> divisor.</li>
+        <li><strong class="pname"><code>raiser</code></strong> - Use <code><b>raiser</b>=False</code> to ignore <a 
+          href="pygeodesy.fsums.ResidualError-class.html" 
+          class="link">ResidualError</a>s (<code>bool</code>), see also 
+          method <a href="pygeodesy.fsums.Fsum-class.html#RESIDUAL" 
+          class="link">RESIDUAL</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>This instance, updated (<a href="pygeodesy.fsums.Fsum-class.html"
@@ -3151,7 +3214,8 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">__rdiv__</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">other</span>)</span>
+        <span class="sig-arg">other</span>,
+        <span class="sig-arg">**raiser</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -3235,7 +3299,8 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">divmod</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">other</span>)</span>
+        <span class="sig-arg">other</span>,
+        <span class="sig-arg">**raiser</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -3249,6 +3314,11 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>other</code></strong> - An <a href="pygeodesy.fsums.Fsum-class.html" 
           class="link">Fsum</a> or <code>scalar</code> divisor.</li>
+        <li><strong class="pname"><code>raiser</code></strong> - Use <code><b>raiser</b>=False</code> to ignore <a 
+          href="pygeodesy.fsums.ResidualError-class.html" 
+          class="link">ResidualError</a>s (<code>bool</code>), see also 
+          method <a href="pygeodesy.fsums.Fsum-class.html#RESIDUAL" 
+          class="link">RESIDUAL</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.fsums.DivMod2Tuple-class.html" 
@@ -3379,7 +3449,8 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">fdiv</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">other</span>)</span>
+        <span class="sig-arg">other</span>,
+        <span class="sig-arg">**raiser</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -3392,6 +3463,11 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>other</code></strong> - An <a href="pygeodesy.fsums.Fsum-class.html" 
           class="link">Fsum</a> or <code>scalar</code> divisor.</li>
+        <li><strong class="pname"><code>raiser</code></strong> - Use <code><b>raiser</b>=False</code> to ignore <a 
+          href="pygeodesy.fsums.ResidualError-class.html" 
+          class="link">ResidualError</a>s (<code>bool</code>), see also 
+          method <a href="pygeodesy.fsums.Fsum-class.html#RESIDUAL" 
+          class="link">RESIDUAL</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>This instance, updated (<a href="pygeodesy.fsums.Fsum-class.html"
@@ -3466,10 +3542,11 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>raiser</code></strong> - If <code>True</code> throw a <a 
+        <li><strong class="pname"><code>raiser</code></strong> - Use <code><b>raiser</b>=False</code> to ignore <a 
           href="pygeodesy.fsums.ResidualError-class.html" 
-          class="link">ResidualError</a> if the <i>integer</i> residual is 
-          non-zero (<code>bool</code>).</li>
+          class="link">ResidualError</a>s (<code>bool</code>), see also 
+          method <a href="pygeodesy.fsums.Fsum-class.html#RESIDUAL" 
+          class="link">RESIDUAL</a>.</li>
         <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>), overriding 
           <code>&quot;fint&quot;</code>.</li>
     </ul></dd>
@@ -3562,7 +3639,8 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">fover</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">over</span>)</span>
+        <span class="sig-arg">over</span>,
+        <span class="sig-arg">**raiser</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -3575,6 +3653,11 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>over</code></strong> - An <a href="pygeodesy.fsums.Fsum-class.html" 
           class="link">Fsum</a> or <code>scalar</code> denominator.</li>
+        <li><strong class="pname"><code>raiser</code></strong> - Use <code><b>raiser</b>=False</code> to ignore <a 
+          href="pygeodesy.fsums.ResidualError-class.html" 
+          class="link">ResidualError</a>s (<code>bool</code>), see also 
+          method <a href="pygeodesy.fsums.Fsum-class.html#RESIDUAL" 
+          class="link">RESIDUAL</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Precision running sum (<code>float</code>).</dd>
@@ -3596,7 +3679,8 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">fpow</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">other</span>,
-        <span class="sig-arg">*mod</span>)</span>
+        <span class="sig-arg">*mod</span>,
+        <span class="sig-arg">**raiser</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -3612,6 +3696,11 @@
         <li><strong class="pname"><code>mod</code></strong> - Optional modulus (<code>int</code> or <code>None</code>) for the 
           3-argument <code>pow(<b>self</b>, <b>other</b>, 
           <b>mod</b>)</code> version.</li>
+        <li><strong class="pname"><code>raiser</code></strong> - Use <code><b>raiser</b>=False</code> to ignore <a 
+          href="pygeodesy.fsums.ResidualError-class.html" 
+          class="link">ResidualError</a>s (<code>bool</code>), see also 
+          method <a href="pygeodesy.fsums.Fsum-class.html#RESIDUAL" 
+          class="link">RESIDUAL</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>This instance, updated (<a href="pygeodesy.fsums.Fsum-class.html"
@@ -3958,7 +4047,8 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>raiser</code></strong> - If <code>True</code> throw a <a 
           href="pygeodesy.fsums.ResidualError-class.html" 
-          class="link">ResidualError</a> if the residual is non-zero.</li>
+          class="link">ResidualError</a> if the residual is non-zero 
+          (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>This <code>integer</code> sum if this instance 
@@ -4043,7 +4133,8 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">pow</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">x</span>,
-        <span class="sig-arg">*mod</span>)</span>
+        <span class="sig-arg">*mod</span>,
+        <span class="sig-arg">**raiser</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -4060,6 +4151,11 @@
         <li><strong class="pname"><code>mod</code></strong> - Optional modulus (<code>int</code> or <code>None</code>) for the 
           3-argument <code>pow(<b>self</b>, <b>other</b>, 
           <b>mod</b>)</code> version.</li>
+        <li><strong class="pname"><code>raiser</code></strong> - Use <code><b>raiser</b>=False</code> to ignore <a 
+          href="pygeodesy.fsums.ResidualError-class.html" 
+          class="link">ResidualError</a>s (<code>bool</code>), see also 
+          method <a href="pygeodesy.fsums.Fsum-class.html#RESIDUAL" 
+          class="link">RESIDUAL</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The <code>pow(self, <b>x</b>)</code> or <code>pow(self, <b>x</b>,
@@ -4079,9 +4175,11 @@
         Methods <a href="pygeodesy.fsums.Fsum-class.html#__ipow__" 
         class="link">Fsum.__ipow__</a>, <a 
         href="pygeodesy.fsums.Fsum-class.html#fint" 
-        class="link">Fsum.fint</a> and <a 
+        class="link">Fsum.fint</a>, <a 
         href="pygeodesy.fsums.Fsum-class.html#is_integer" 
-        class="link">Fsum.is_integer</a>.
+        class="link">Fsum.is_integer</a> and <a 
+        href="pygeodesy.fsums.Fsum-class.html#root" 
+        class="link">Fsum.root</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -4116,7 +4214,7 @@
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The previous <code>RESIDUAL</code> setting (<code>float</code>), 
-          default <code>0</code>.</dd>
+          default <code>0.</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Negative <b><code>threshold</code></b>.</li>
@@ -4127,6 +4225,44 @@
         class="link">ResidualError</a>s will be thrown if the non-zero 
         <i>ratio</i> <code>residual / fsum</code> exceeds the 
         <b><code>threshold</code></b>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="root"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">root</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">root</span>,
+        <span class="sig-arg">**raiser</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return <code><b>self</b>**(1 / <b>root</b>)</code> as <a 
+  href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>root</code></strong> - The order (<code>scalar</code> or <code>Fsum</code>), non-zero.</li>
+        <li><strong class="pname"><code>raiser</code></strong> - Use <code><b>raiser</b>=False</code> to ignore <a 
+          href="pygeodesy.fsums.ResidualError-class.html" 
+          class="link">ResidualError</a>s (<code>bool</code>), see also 
+          method <a href="pygeodesy.fsums.Fsum-class.html#RESIDUAL" 
+          class="link">RESIDUAL</a>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The <code>self ** (1 / <b>root</b>)</code> result (<a 
+          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a>).</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Method <a href="pygeodesy.fsums.Fsum-class.html#pow" 
+        class="link">Fsum.pow</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -4511,7 +4647,7 @@ always).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Apr 12 12:21:07 2024
+    Generated by Epydoc 3.0.1 on Thu Apr 18 14:56:24 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

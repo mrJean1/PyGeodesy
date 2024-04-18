@@ -11,9 +11,9 @@ chaining}, use command line option C{python -X dev} I{OR} set env variable
 C{PYTHONDEVMODE=1} or to any non-empty string I{OR} set env variable
 C{PYGEODESY_EXCEPTION_CHAINING=std} or to any non-empty string.
 '''
-# from pygeodesy.basics import isint, isodd, itemsorted, _xinstanceof, _zip  # _MODS
+# from pygeodesy.basics import isint, isodd, issubclassof, itemsorted, _xinstanceof, _zip  # _MODS
 # from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, LatLonEllipsoidalBase  # _MODS
-# from pygeodesy import errors  # _MODS.getattr
+# from pygeodesy import errors  # _MODS, _MODS.getattr
 from pygeodesy.interns import MISSING, NN, _a_, _an_, _and_, _clip_, _COLON_, \
                              _COLONSPACE_, _COMMASPACE_, _datum_, _ellipsoidal_, \
                              _incompatible_, _invalid_, _len_, _not_, _or_, _SPACE_, \
@@ -25,7 +25,7 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _getenv, _PYTHON_X_D
 from copy import copy as _copy
 
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')  _under
-__version__ = '24.03.24'
+__version__ = '24.04.17'
 
 _box_        = 'box'
 _limiterrors =  True  # in .formy
@@ -425,7 +425,7 @@ def _error_init(Error, inst, args, fmt_name_value='%s (%r)', txt=NN,
 def _error_under(inst):
     '''(INTERNAL) Remove leading underscore from instance' class name.
     '''
-    n = inst.__class__.__name__
+    n = inst.__class__.__name__  # _tailof?
     if n.startswith(_UNDER_):
         inst.__class__.__name__ = n.lstrip(_UNDER_)
     return inst
@@ -479,8 +479,15 @@ def isError(exc):
                 C{False} if B{C{exc}} is a standard Python error
                 of C{None} if neither.
     '''
-    return True  if isinstance(exc, _XErrors)   else (
-           False if isinstance(exc,  Exception) else None)
+    def _X(exc):
+        X = type(exc)
+        m = X.__module__
+        return _MODS.basics.issubclassof(X, _XErrors) or \
+               ((m is __name__ or m == __name__) and
+               _tailof(X.__name__).startswith(_UNDER_))
+
+    return True   if isinstance(exc, _XErrors)   else (
+          _X(exc) if isinstance(exc,  Exception) else None)
 
 
 def _IsnotError(*nouns, **name_value_Error_cause):  # name=value [, Error=TypeError, cause=None]
@@ -665,31 +672,23 @@ def _xError2(exc):  # in .constants, .fsums, .lazily, .vector2d
 
        @arg exc: The exception instance (usually, C{Exception}).
     '''
-    m =  __name__  # 'pygeodesy.errors'
-    X =  type(exc)
-    n =  NN(_UNDER_, _tailof(X.__name__))
-    E = _MODS.getattr(m, n, X)  # == _X2Error.get(X, X)
-    if E is X and not isError(exc):
-        E = _NotImplementedError
-        t =  repr(exc)
-    else:
-        t =  str(exc)
-    return E, t
+    x = isError(exc)
+    if x:
+        E =  type(exc)
+    elif x is None:
+        E = _AssertionError
+    else:  # get _Error from Error
+        n =  NN(_UNDER_, _tailof(type(exc).__name__))
+        E = _MODS.getattr(__name__, n, _NotImplementedError)
+        x =  E is not _NotImplementedError
+    return E, (str(exc) if x else repr(exc))
 
 
-_XErrors = _TypeError, _ValueError
+_XErrors = (_AssertionError, _AttributeError,  # some isError's
+            _TypeError, _ValueError, _ZeroDivisionError)
 # map certain C{Exception} classes to the C{_Error}
-# _X2Error = {AssertionError:      _AssertionError,
-#             AttributeError:      _AttributeError,
-#             ImportError:         _ImportError,
-#             IndexError:          _IndexError,
-#             KeyError:            _KeyError,
-#             NameError:           _NameError,
-#             NotImplementedError: _NotImplementedError,
-#             OverflowError:       _OverflowError,
-#             TypeError:           _TypeError,
-#             ValueError:          _ValueError,
-#             ZeroDivisionError:   _ZeroDivisionError}
+# _X2Error = {AssertionError:    _AssertionError, ...
+#             ZeroDivisionError: _ZeroDivisionError}
 
 try:
     _ = {}.__or__  # {} | {}  # Python 3.9+

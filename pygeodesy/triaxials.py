@@ -40,7 +40,7 @@ from pygeodesy.datums import Datum, _spherical_datum, _WGS84,  Ellipsoid, _EWGS8
 # from pygeodesy.elliptic import Elliptic  # _MODS
 # from pygeodesy.errors import _ValueError  # from .basics
 from pygeodesy.fmath import Fdot, fdot, fmean_, hypot, hypot_, norm2, sqrt0
-from pygeodesy.fsums import Fsum, fsumf_, fsum1f_
+from pygeodesy.fsums import _Fsumf_, fsumf_, fsum1f_
 from pygeodesy.interns import NN, _a_, _b_, _beta_, _c_, _distant_, _finite_, \
                              _height_, _inside_, _near_, _negative_, _not_, \
                              _NOTEQUAL_, _null_, _opposite_, _outside_, _SPACE_, \
@@ -59,7 +59,7 @@ from pygeodesy.vector3d import _otherV3d, Vector3d,  _ALL_LAZY, _MODS
 from math import atan2, fabs, sqrt
 
 __all__ = _ALL_LAZY.triaxials
-__version__ = '24.01.21'
+__version__ = '24.04.14'
 
 _not_ordered_ = _not_('ordered')
 _omega_       = 'omega'
@@ -805,8 +805,8 @@ class Triaxial(Triaxial_):
         c2_a2   = -self._1e2ac  # == -(c/a)**2
         a2c2_a2 =  self.  e2ac  # (a**2 - c**2) / a**2 == 1 - (c/a)**2
 
-        x2 = Fsum(_1_0, -b2_a2 * sa**2, c2_a2 * ca**2).fover(a2c2_a2)
-        z2 = Fsum(c2_a2,         sb**2, b2_a2 * cb**2).fover(a2c2_a2)
+        x2 = _Fsumf_(_1_0, -b2_a2 * sa**2, c2_a2 * ca**2).fover(a2c2_a2)
+        z2 = _Fsumf_(c2_a2,         sb**2, b2_a2 * cb**2).fover(a2c2_a2)
 
         x, y, z = self._abc3
         x *= cb * sqrt0(x2, Error=TriaxialError)
