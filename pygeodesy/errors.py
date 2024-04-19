@@ -25,7 +25,7 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _getenv, _PYTHON_X_D
 from copy import copy as _copy
 
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')  _under
-__version__ = '24.04.17'
+__version__ = '24.04.18'
 
 _box_        = 'box'
 _limiterrors =  True  # in .formy
@@ -482,7 +482,7 @@ def isError(exc):
     def _X(exc):
         X = type(exc)
         m = X.__module__
-        return _MODS.basics.issubclassof(X, _XErrors) or \
+        return _MODS.basics.issubclassof(X, *_XErrors) or \
                ((m is __name__ or m == __name__) and
                _tailof(X.__name__).startswith(_UNDER_))
 

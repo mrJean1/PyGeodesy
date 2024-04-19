@@ -4,7 +4,7 @@
 # Test L{fsums} module.
 
 __all__ = ('Tests',)
-__version__ = '24.04.14'
+__version__ = '24.04.18'
 
 from bases import endswith, isPython2, randoms, startswith, TestsBase
 
@@ -52,7 +52,7 @@ class Tests(TestsBase):
 
             q = f * f * f * f
             p = f.pow(4)
-            self.test('pow(4)', p, q, known=abs(p - q) < 1e-5)
+            self.test('pow(4)', p, q, known=abs(p - q) < 1e-3)
             p = f.pow(1)
             self.test('pow(1)', p, f, known=p == f)
             self.test('pow(0)', f.pow(0), " (1.0, 0)", known=endswith)

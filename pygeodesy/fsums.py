@@ -45,7 +45,7 @@ from pygeodesy.props import _allPropertiesOf_n, deprecated_property_RO, \
 from math import ceil as _ceil, fabs, floor as _floor  # PYCHOK used! .ltp
 
 __all__ = _ALL_LAZY.fsums
-__version__ = '24.04.17'
+__version__ = '24.04.18'
 
 _add_op_       = _PLUS_  # in .auxilats.auxAngle
 _eq_op_        = _EQUAL_ * 2  # _DEQUAL_
@@ -1168,7 +1168,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
                     _Psum_1(i)._pow(  x, other, op, **raiser)  # x is Fsum
             else:  # mod[0] is None, power(self, other)
                 f =  self._pow(other, other, op, **raiser)
-        else:  # pow(self, other) == pow(self, other, None)
+        else:  # pow(self, other)
             f = self._pow(other, other, op, **raiser)
         return self._fset(f, asis=isint(f))  # n=max(len(self), 1)
 
@@ -1777,6 +1777,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
 
            @see: Method L{Fsum.pow}.
         '''
+        _root_ = self.root.__name__
         if isinstance(root, Fsum):
             x = root.__rtruediv__(_1_0, **raiser)
         else:
@@ -1784,9 +1785,10 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
                 x = _1_0 / _2float(root=root)
             except Exception as X:
                 E, t = _xError2(X)
-                n = _SPACE_(_1_0,_truediv_op_, self.root.__name__)
+                n = _SPACE_(_1_0, _truediv_op_, _root_)
                 raise E(n, root, txt=t, cause=X)
-        return self.pow(x, **raiser)
+        f = self._copy_2(self.root)
+        return f._fpow(x, _root_, **raiser)  # == pow(f, x)
 
     def _scalar(self, other, op, **txt):
         '''(INTERNAL) Return scalar C{other}.
