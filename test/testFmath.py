@@ -4,15 +4,15 @@
 # Test L{fmath} module.
 
 __all__ = ('Tests',)
-__version__ = '24.04.17'
+__version__ = '24.04.22'
 
-from bases import endswith, isWindows, randoms, startswith, TestsBase
+from bases import endswith, isWindows, startswith, TestsBase
 
 from pygeodesy import EPS, Fcbrt, Fhypot, INF, Fpowers, Froot, Fsqrt, Fsum, \
                       bqrt, cbrt, cbrt2, euclid_, Ellipsoids, facos1, fasin1, \
                       fatan, fatan1, fatan2, fhorner, fmath, fpolynomial, \
-                      fpowers, fsum_, hypot, hypot_, hypot2_, norm_, signOf, \
-                      sqrt3, sqrt_a, zcrt, zqrt
+                      fpowers, frandoms, fsum_, hypot, hypot_, hypot2_, norm_, \
+                      signOf, sqrt3, sqrt_a, zcrt, zqrt
 
 from math import acos, asin, atan, atan2, sqrt
 from sys import version_info as _version_info
@@ -176,9 +176,7 @@ class Tests(TestsBase):
             self.test(n, str(x), ' float division by zero', known=endswith)
         self.test(r, Froot(-1, f, -3), '(-0.25, 0)', known=endswith)
 
-        i = 0
-        while i < 9:
-            t = randoms(i)
+        for i, t in enumerate(frandoms(10)):
             F = Fsum(*t)
             s = fsum_(F, *t)
             if s > 0:

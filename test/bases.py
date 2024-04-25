@@ -12,7 +12,7 @@ from inspect import isclass, isfunction, ismethod, ismodule
 from os import X_OK, access, getenv, sep as _SEP  # environ
 from os.path import abspath, basename, dirname, join as joined, splitext
 from platform import architecture, java_ver, mac_ver, win32_ver, uname
-from random import gauss, random, seed, shuffle
+from random import random, seed
 import sys
 from time import localtime, time
 
@@ -50,7 +50,7 @@ __all__ = ('coverage', 'GeodSolve', 'geographiclib',  # constants
            'RandomLatLon', 'TestsBase',  # classes
            'ios_ver', 'nix_ver', 'secs2str',  # functions
            'tilde', 'type2str', 'versions')
-__version__ = '24.03.29'
+__version__ = '24.04.24'
 
 try:
     geographiclib = basics._xgeographiclib(basics, 1, 50)
@@ -488,25 +488,6 @@ def prefix2(prev):  # in .run
     p = '%7.3f ' % ((t - prev),)
     p = p.replace('  0.', '   .')
     return p, t
-
-
-# <https://GitHub.com/ActiveState/code/blob/master/recipes/Python/
-#        393090_Binary_floating_point_summatiaccurate_full/recipe-393090.py>
-def randoms(n):
-    '''Return a (lon) list of random floats.
-    '''
-    t  = [7, 1e100, -9e-20, -7, -1e100, 8e-20]
-    t *= max(1, min(n, 10))
-    s  = 0
-    _a = t.append
-    _g = gauss
-    _r = random
-    for _ in range(20):
-        v  = _g(0, _r())**7 - s
-        s += v
-        _a(v)
-    shuffle(t)
-    return t
 
 
 def secs2str(secs):

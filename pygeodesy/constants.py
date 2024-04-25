@@ -23,7 +23,7 @@ except ImportError:  # Python 2-
     _inf, _nan = float(_INF_), float(_NAN_)
 
 __all__ = _ALL_LAZY.constants
-__version__ = '24.04.04'
+__version__ = '24.04.23'
 
 
 def _copysign_0_0(y):
@@ -247,7 +247,6 @@ _1_16th  = _Float(_1_16th =_1_0 / _16_0)  # PYCHOK in .ellipsoids, .karney
 _1_64th  = _Float(_1_64th =_1_0 /  64)    # PYCHOK in .elliptic, pow(2.0, -6)
 _1_3rd   = _Float(_1_3rd  =_1_0 /  _3_0)  # PYCHOK in .fmath
 _1_6th   = _Float(_1_6th  =_1_0 /  _6_0)  # PYCHOK in .fmath
-_2_3rd   = _Float(_2_3rd  =_2_0 /  _3_0)  # PYCHOK in .fmath
 
 _K0_UTM  = _Float(_K0_UTM = 0.9996)  # PYCHOK in .etm, .ktm, .utm, UTM scale at central meridian
 # sqrt(2) <https://WikiPedia.org/wiki/Square_root_of_2>

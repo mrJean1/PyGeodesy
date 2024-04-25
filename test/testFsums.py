@@ -4,11 +4,11 @@
 # Test L{fsums} module.
 
 __all__ = ('Tests',)
-__version__ = '24.04.18'
+__version__ = '24.04.22'
 
-from bases import endswith, isPython2, randoms, startswith, TestsBase
+from bases import endswith, isPython2, startswith, TestsBase
 
-from pygeodesy import Fsum, fsum, fsum_, fsums, NN, ResidualError
+from pygeodesy import Fsum, frandoms, fsum, fsum_, fsums, NN, ResidualError
 
 from math import ceil, floor
 
@@ -43,12 +43,11 @@ class Tests(TestsBase):
         self.test('Fsum', Fsum().fsum(t),  s, prec=-16)
         self.test('Fsum', float(Fsum(*t)), s, prec=-16, nt=1)
 
-        for i in range(1, 101):
-            t = randoms(i)
+        for i, t in enumerate(frandoms(100)):
             f = Fsum(*t)
             s = f.fsum()
             self.test('fsum', s, s, nl=1)
-            self.test('sum' + str(i), sum(t), s, known=True)
+            self.test('sum' + str(i + 1), sum(t), s, known=True)
 
             q = f * f * f * f
             p = f.pow(4)
@@ -216,7 +215,7 @@ class Tests(TestsBase):
             self.test('F / 0', repr(X), ZeroDivisionError.__name__, known=startswith)
 
         try:
-            self.test('pow(F, +)', pow(x, 2.1), ResidualError.__name__)
+            self.test('pow(F, +)', pow(x, 2.1), ' 0)', known=endswith)
         except Exception as X:
             self.test('pow(F, +)', repr(X), ResidualError.__name__, known=startswith)
         try:

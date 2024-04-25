@@ -548,7 +548,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        24.04.18
+        24.04.24
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -2229,7 +2229,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.fmath.Fhypot-class.html" class="summary-name">Fhypot</a><br />
-      Precision summation and hypotenuse, default <code>power=2</code>.
+      Precision summation and hypotenuse, default <code>root=2</code>.
     </td>
   </tr>
 <tr>
@@ -5578,7 +5578,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#bqrt" class="summary-sig-name">bqrt</a>(<span class="summary-sig-arg">x</span>)</span><br />
       Return the 4-th, <i>bi-quadratic</i> or <i>quartic</i> root, <i 
-      class="math">x**(1 / 4)</i>.</td>
+      class="math">x**(1 / 4)</i>, preserving <code>type(<b>x</b>)</code>.</td>
           <td align="right" valign="top">
             
             
@@ -5640,7 +5640,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#cbrt" class="summary-sig-name">cbrt</a>(<span class="summary-sig-arg">x</span>)</span><br />
-      Compute the cube root <i class="math">x**(1/3)</i>.</td>
+      Compute the cube root <i class="math">x**(1/3)</i>, preserving 
+      <code>type(<b>x</b>)</code>.</td>
           <td align="right" valign="top">
             
             
@@ -5657,7 +5658,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#cbrt2" class="summary-sig-name">cbrt2</a>(<span class="summary-sig-arg">x</span>)</span><br />
-      Compute the cube root <i>squared</i> <i class="math">x**(2/3)</i>.</td>
+      Compute the cube root <i>squared</i> <i class="math">x**(2/3)</i>, 
+      preserving <code>type(<b>x</b>)</code>.</td>
           <td align="right" valign="top">
             
             
@@ -7679,6 +7681,24 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#frandoms" class="summary-sig-name">frandoms</a>(<span class="summary-sig-arg">n</span>,
+        <span class="summary-sig-arg">seeded</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Generate <code>n</code> (long) lists of random <code>floats</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#frange" class="summary-sig-name">frange</a>(<span class="summary-sig-arg">start</span>,
         <span class="summary-sig-arg">number</span>,
         <span class="summary-sig-arg">step</span>=<span class="summary-sig-default">1</span>)</span><br />
@@ -8141,7 +8161,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fa4881ef450&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fc5b8e13b50&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -8397,7 +8417,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#hypot2_" class="summary-sig-name">hypot2_</a>(<span class="summary-sig-arg">*xs</span>)</span><br />
-      Compute the <i>squared</i> norm <code>sum(x**2 for x in 
+      Compute the <i>squared</i> norm <code>fsum(x**2 for x in 
       <b>xs</b>)</code>.</td>
           <td align="right" valign="top">
             
@@ -11379,7 +11399,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#sqrt0" class="summary-sig-name">sqrt0</a>(<span class="summary-sig-arg">x</span>,
         <span class="summary-sig-arg">Error</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Return the square root iff <code><b>x</b> &gt;</code> EPS02.</td>
+      Return the square root <code>sqrt(<b>x</b>)</code> iff <code><b>x</b>
+      &gt; </code>EPS02, preserving <code>type(<b>x</b>)</code>.</td>
           <td align="right" valign="top">
             
             
@@ -11397,7 +11418,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#sqrt3" class="summary-sig-name">sqrt3</a>(<span class="summary-sig-arg">x</span>)</span><br />
       Return the square root, <i>cubed</i> <i class="math">sqrt(x)**3</i> 
-      or <i class="math">sqrt(x**3)</i>.</td>
+      or <i class="math">sqrt(x**3)</i>, preserving 
+      <code>type(<b>x</b>)</code>.</td>
           <td align="right" valign="top">
             
             
@@ -12586,7 +12608,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#zcrt" class="summary-sig-name">zcrt</a>(<span class="summary-sig-arg">x</span>)</span><br />
       Return the 6-th, <i>zenzi-cubic</i> root, <i class="math">x**(1 / 
-      6)</i>.</td>
+      6)</i>, preserving <code>type(<b>x</b>)</code>.</td>
           <td align="right" valign="top">
             
             
@@ -12604,7 +12626,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#zqrt" class="summary-sig-name">zqrt</a>(<span class="summary-sig-arg">x</span>)</span><br />
       Return the 8-th, <i>zenzi-quartic</i> or <i>squared-quartic</i> root,
-      <i class="math">x**(1 / 8)</i>.</td>
+      <i class="math">x**(1 / 8)</i>, preserving 
+      <code>type(<b>x</b>)</code>.</td>
           <td align="right" valign="top">
             
             
@@ -12637,7 +12660,7 @@ ygeodesy'"><code class="variable-quote">'</code><code class="variable-string">/U
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'24.4.18'">'24.4.18'</code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'24.4.24'">'24.4.24'</code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -14644,14 +14667,17 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   </tr></table>
   
   <p>Return the 4-th, <i>bi-quadratic</i> or <i>quartic</i> root, <i 
-  class="math">x**(1 / 4)</i>.</p>
+  class="math">x**(1 / 4)</i>, preserving <code>type(<b>x</b>)</code>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>x</code></strong> - Value (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>x</code></strong> - Value (<code>scalar</code> or <a 
+          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> 
+          instance).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd><i>Quartic</i> root (<code>float</code>).</dd>
+        <dd><i>Quartic</i> root (<code>float</code> or <a 
+          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Negative <b><code>x</code></b>.</li>
@@ -14793,14 +14819,18 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
     </td>
   </tr></table>
   
-  <p>Compute the cube root <i class="math">x**(1/3)</i>.</p>
+  <p>Compute the cube root <i class="math">x**(1/3)</i>, preserving 
+  <code>type(<b>x</b>)</code>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>x</code></strong> - Value (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>x</code></strong> - Value (<code>scalar</code> or <a 
+          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> 
+          instance).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Cubic root (<code>float</code>).</dd>
+        <dd>Cubic root (<code>float</code> or <a 
+          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a>).</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Functions <a href="pygeodesy.fmath-module.html#cbrt2" 
@@ -14823,14 +14853,18 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
     </td>
   </tr></table>
   
-  <p>Compute the cube root <i>squared</i> <i class="math">x**(2/3)</i>.</p>
+  <p>Compute the cube root <i>squared</i> <i class="math">x**(2/3)</i>, 
+  preserving <code>type(<b>x</b>)</code>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>x</code></strong> - Value (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>x</code></strong> - Value (<code>scalar</code> or <a 
+          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> 
+          instance).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Cube root <i>squared</i> (<code>float</code>).</dd>
+        <dd>Cube root <i>squared</i> (<code>float</code> or <a 
+          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a>).</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Functions <a href="pygeodesy.fmath-module.html#cbrt" 
@@ -17438,11 +17472,16 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>x</code></strong> - X component (<code>scalar</code>).</li>
-        <li><strong class="pname"><code>y</code></strong> - Y component (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>x</code></strong> - X component (<code>scalar</code> or <a 
+          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> 
+          instance).</li>
+        <li><strong class="pname"><code>y</code></strong> - Y component (<code>scalar</code> or <a 
+          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> 
+          instance).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Appoximate norm (<code>float</code>).</dd>
+        <dd>Appoximate norm (<code>float</code> or <a 
+          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a>).</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.fmath-module.html#euclid_" 
@@ -17470,10 +17509,13 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xs</code></strong> - X arguments, positional (<code>scalar</code>s).</li>
+        <li><strong class="pname"><code>xs</code></strong> - X arguments, positional (<code>scalar</code>s or <a 
+          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> 
+          instances).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Appoximate norm (<code>float</code>).</dd>
+        <dd>Appoximate norm (<code>float</code> or <a 
+          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a>).</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.fmath-module.html#euclid" 
@@ -18455,8 +18497,12 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>v1</code></strong> - One value (<code>scalar</code>).</li>
-        <li><strong class="pname"><code>v2</code></strong> - Other value (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>v1</code></strong> - One value (<code>scalar</code> or <a 
+          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> 
+          instance).</li>
+        <li><strong class="pname"><code>v2</code></strong> - Other value (<code>scalar</code> or <a 
+          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> 
+          instance).</li>
         <li><strong class="pname"><code>f</code></strong> - Optional fraction (<code>float</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -19230,6 +19276,39 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         Class <a href="pygeodesy.units.FIx-class.html" class="link">FIx</a>
         and method <a href="pygeodesy.units.FIx-class.html#fractional" 
         class="link">FIx.fractional</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="frandoms"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">frandoms</span>&nbsp;(<span class="sig-arg">n</span>,
+        <span class="sig-arg">seeded</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Generate <code>n</code> (long) lists of random 
+  <code>floats</code>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>n</code></strong> - Number of lists to generate (<code>int</code>, non-negative).</li>
+        <li><strong class="pname"><code>seeded</code></strong> - If <code>scalar</code>, use 
+          <code>random.seed(<b>seeded</b>)</code> or if <code>True</code>, 
+          seed using today's <code>year-day</code>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a 
+        href="https://GitHub.com/ActiveState/code/tree/master/recipes/Python/393090_Binary_floating_point_summatiaccurate_full/recipe-393090.py"
+        target="_top">Hettinger</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -20135,7 +20214,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fa4881ef450&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fc5b8e13b50&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -20684,7 +20763,9 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>x</code></strong> - Argument (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>x</code></strong> - Argument (<code>scalar</code> or <a 
+          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> 
+          instance).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Norm (<code>float</code>).</dd>
@@ -20710,11 +20791,16 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>x</code></strong> - X argument (<code>scalar</code>).</li>
-        <li><strong class="pname"><code>y</code></strong> - Y argument (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>x</code></strong> - X argument (<code>scalar</code> or <a 
+          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> 
+          instance).</li>
+        <li><strong class="pname"><code>y</code></strong> - Y argument (<code>scalar</code> or <a 
+          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> 
+          instance).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd><code><b>x</b>**2 + <b>y</b>**2</code> (<code>float</code>).</dd>
+        <dd><code><b>x</b>**2 + <b>y</b>**2</code> (<code>float</code> or <a 
+          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a>).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -20732,12 +20818,14 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
     </td>
   </tr></table>
   
-  <p>Compute the <i>squared</i> norm <code>sum(x**2 for x in 
+  <p>Compute the <i>squared</i> norm <code>fsum(x**2 for x in 
   <b>xs</b>)</code>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xs</code></strong> - X arguments (<code>scalar</code>s), all positional.</li>
+        <li><strong class="pname"><code>xs</code></strong> - X arguments (<code>scalar</code>s or <a 
+          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> 
+          instances), all positional.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Squared norm (<code>float</code>).</dd>
@@ -26807,15 +26895,20 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
     </td>
   </tr></table>
   
-  <p>Return the square root iff <code><b>x</b> &gt;</code> EPS02.</p>
+  <p>Return the square root <code>sqrt(<b>x</b>)</code> iff <code><b>x</b> 
+  &gt; </code>EPS02, preserving <code>type(<b>x</b>)</code>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>x</code></strong> - Value (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>x</code></strong> - Value (<code>scalar</code> or <a 
+          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> 
+          instance).</li>
         <li><strong class="pname"><code>Error</code></strong> - Error to raise for negative <b><code>x</code></b>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Square root (<code>float</code>) or <code>0.0</code>.</dd>
+        <dd>Square root (<code>float</code> or <a 
+          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a>) or 
+          <code>0.0</code>.</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
         Any <code><b>x</b> &lt; </code>EPS02 <i>including</i> 
@@ -26838,14 +26931,18 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   </tr></table>
   
   <p>Return the square root, <i>cubed</i> <i class="math">sqrt(x)**3</i> or
-  <i class="math">sqrt(x**3)</i>.</p>
+  <i class="math">sqrt(x**3)</i>, preserving 
+  <code>type(<b>x</b>)</code>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>x</code></strong> - Value (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>x</code></strong> - Value (<code>scalar</code> or <a 
+          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> 
+          instance).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Square root <i>cubed</i> (<code>float</code>).</dd>
+        <dd>Square root <i>cubed</i> (<code>float</code> or <a 
+          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Negative <b><code>x</code></b>.</li>
@@ -29658,14 +29755,17 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   </tr></table>
   
   <p>Return the 6-th, <i>zenzi-cubic</i> root, <i class="math">x**(1 / 
-  6)</i>.</p>
+  6)</i>, preserving <code>type(<b>x</b>)</code>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>x</code></strong> - Value (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>x</code></strong> - Value (<code>scalar</code> or <a 
+          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> 
+          instance).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd><i>Zenzi-cubic</i> root (<code>float</code>).</dd>
+        <dd><i>Zenzi-cubic</i> root (<code>float</code> or <a 
+          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Negative <b><code>x</code></b>.</li>
@@ -29693,14 +29793,18 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   </tr></table>
   
   <p>Return the 8-th, <i>zenzi-quartic</i> or <i>squared-quartic</i> root, 
-  <i class="math">x**(1 / 8)</i>.</p>
+  <i class="math">x**(1 / 8)</i>, preserving 
+  <code>type(<b>x</b>)</code>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>x</code></strong> - Value (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>x</code></strong> - Value (<code>scalar</code> or <a 
+          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> 
+          instance).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd><i>Zenzi-quartic</i> root (<code>float</code>).</dd>
+        <dd><i>Zenzi-quartic</i> root (<code>float</code> or <a 
+          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Negative <b><code>x</code></b>.</li>
@@ -29895,7 +29999,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Apr 19 10:02:20 2024
+    Generated by Epydoc 3.0.1 on Wed Apr 24 15:45:25 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

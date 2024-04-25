@@ -6,17 +6,14 @@ u'''Utilities using precision floating point summation.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import _copysign, copysign0, isint, len2
+from pygeodesy.basics import _copysign, copysign0, isbool, isint, isscalar, len2
 from pygeodesy.constants import EPS0, EPS02, EPS1, NAN, PI, PI_2, PI_4, \
-                               _0_0, _0_125, _0_25, _0_5, _1_0, _1_3rd, \
-                               _1_5, _1_6th, _2_0, _2_3rd, _3_0, \
-                               _copysign_0_0, _isfinite, _over, remainder
+                               _0_0, _0_125, _1_6th, _0_25, _1_3rd, _0_5, _1_0, \
+                               _1_5, _copysign_0_0, _isfinite, _over, remainder
 from pygeodesy.errors import _IsnotError, LenError, _TypeError, _ValueError, \
                              _xError, _xkwds_get, _xkwds_pop2
-from pygeodesy.fsums import _2float, Fsum, _fsum, fsum, fsum1_, _1primed, \
-                             Fmt, unstr
-from pygeodesy.interns import MISSING, _few_, _h_, _invokation_, _negative_, \
-                             _not_scalar_, _SPACE_, _too_
+from pygeodesy.fsums import _2float, Fsum, fsum, fsum1_, _1primed,  Fmt, unstr
+from pygeodesy.interns import MISSING, _few_, _negative_, _not_scalar_, _too_
 from pygeodesy.lazily import _ALL_LAZY, _sys_version_info2
 # from pygeodesy.streprs import Fmt, unstr  # from .fsums
 from pygeodesy.units import Int_, _isHeight, _isRadius,  Float_  # PYCHOK for .heights
@@ -25,19 +22,12 @@ from math import fabs, sqrt  # pow
 import operator as _operator  # in .datums, .trf, .utm
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '24.04.17'
+__version__ = '24.04.24'
 
 # sqrt(2) <https://WikiPedia.org/wiki/Square_root_of_2>
 _0_4142  =  0.41421356237309504880  # ... sqrt(2) - 1
+_2_3rd   = _1_3rd * 2
 _h_lt_b_ = 'abs(h) < abs(b)'
-
-
-def _Fsum__init__(inst, raiser=MISSING, **name_RESIDUAL):
-    '''(INTERNAL) Init an C{Fsum} instance.
-    '''
-    Fsum.__init__(inst, **name_RESIDUAL)  # PYCHOK self
-    inst._fset_ps(_0_0)
-    return {} if raiser is MISSING else dict(raiser=raiser)
 
 
 class Fdot(Fsum):
@@ -104,7 +94,7 @@ class Fhorner(Fsum):
 
 
 class Fhypot(Fsum):
-    '''Precision summation and hypotenuse, default C{power=2}.
+    '''Precision summation and hypotenuse, default C{root=2}.
     '''
     def __init__(self, *xs, **root_name_RESIDUAL_raiser):
         '''New L{Fhypot} hypotenuse of (the I{root} of) several components.
@@ -189,7 +179,7 @@ class Froot(Fsum):
         try:
             raiser = _Fsum__init__(self, **name_RESIDUAL_raiser)
             if xs:
-                self. fadd(xs)
+                self.fadd(xs)
             self._fset(self.root(root, **raiser))
         except Exception as X:
             raise self._ErrorXs(X, xs, root=root)
@@ -203,7 +193,7 @@ class Fcbrt(Froot):
 
            @see: Class L{Froot} for further details.
         '''
-        Froot.__init__(self, _3_0, *xs, **name_RESIDUAL_raiser)
+        Froot.__init__(self, 3, *xs, **name_RESIDUAL_raiser)
 
 
 class Fsqrt(Froot):
@@ -214,15 +204,24 @@ class Fsqrt(Froot):
 
            @see: Class L{Froot} for further details.
         '''
-        Froot.__init__(self, _2_0, *xs, **name_RESIDUAL_raiser)
+        Froot.__init__(self, 2, *xs, **name_RESIDUAL_raiser)
+
+
+def _Fsum__init__(inst, raiser=MISSING, **name_RESIDUAL):
+    '''(INTERNAL) Init an C{F...} instance above.
+    '''
+    Fsum.__init__(inst, **name_RESIDUAL)  # PYCHOK self
+    inst._fset_ps(_0_0)
+    return {} if raiser is MISSING else dict(raiser=raiser)
 
 
 def bqrt(x):
-    '''Return the 4-th, I{bi-quadratic} or I{quartic} root, M{x**(1 / 4)}.
+    '''Return the 4-th, I{bi-quadratic} or I{quartic} root, M{x**(1 / 4)},
+       preserving C{type(B{x})}.
 
-       @arg x: Value (C{scalar}).
+       @arg x: Value (C{scalar} or L{Fsum} instance).
 
-       @return: I{Quartic} root (C{float}).
+       @return: I{Quartic} root (C{float} or L{Fsum}).
 
        @raise ValueError: Negative B{C{x}}.
 
@@ -232,70 +231,76 @@ def bqrt(x):
 
 
 try:
-    from math import cbrt  # Python 3.11+
-
-    def cbrt2(x):
-        '''Compute the cube root I{squared} M{x**(2/3)}.
-        '''
-        return cbrt(x)**2  # cbrt(-0.0*2) == -0.0
+    from math import cbrt as _cbrt  # Python 3.11+
 
 except ImportError:  # Python 3.10-
 
-    def cbrt(x):
-        '''Compute the cube root M{x**(1/3)}.
-
-           @arg x: Value (C{scalar}).
-
-           @return: Cubic root (C{float}).
-
-           @see: Functions L{cbrt2} and L{sqrt3}.
+    def _cbrt(x):
+        '''(INTERNAL) Compute the I{signed}, cube root M{x**(1/3)}.
         '''
         # <https://archive.lib.MSU.edu/crcmath/math/math/r/r021.htm>
         # simpler and more accurate than Ken Turkowski's CubeRoot, see
         # <https://People.FreeBSD.org/~lstewart/references/apple_tr_kt32_cuberoot.pdf>
-        return _copysign(pow(fabs(x), _1_3rd), x)  # cbrt(-0.0) == -0.0
+        return _copysign(pow(fabs(x), _1_3rd), x)  # to avoid complex
 
-    def cbrt2(x):  # PYCHOK attr
-        '''Compute the cube root I{squared} M{x**(2/3)}.
 
-           @arg x: Value (C{scalar}).
+def cbrt(x):
+    '''Compute the cube root M{x**(1/3)}, preserving C{type(B{x})}.
 
-           @return: Cube root I{squared} (C{float}).
+       @arg x: Value (C{scalar} or L{Fsum} instance).
 
-           @see: Functions L{cbrt} and L{sqrt3}.
-        '''
-        return pow(fabs(x), _2_3rd)  # XXX pow(fabs(x), _1_3rd)**2
+       @return: Cubic root (C{float} or L{Fsum}).
+
+       @see: Functions L{cbrt2} and L{sqrt3}.
+    '''
+    if isinstance(x, Fsum):
+        r = (-(-x).pow(_1_3rd)) if x < 0 else x.pow(_1_3rd)
+    else:
+        r = _cbrt(x)
+    return r  # cbrt(-0.0) == -0.0
+
+
+def cbrt2(x):  # PYCHOK attr
+    '''Compute the cube root I{squared} M{x**(2/3)}, preserving C{type(B{x})}.
+
+       @arg x: Value (C{scalar} or L{Fsum} instance).
+
+       @return: Cube root I{squared} (C{float} or L{Fsum}).
+
+       @see: Functions L{cbrt} and L{sqrt3}.
+    '''
+    return abs(x).pow(_2_3rd) if isinstance(x, Fsum) else _cbrt(x**2)
 
 
 def euclid(x, y):
     '''I{Appoximate} the norm M{sqrt(x**2 + y**2)} by
        M{max(abs(x), abs(y)) + min(abs(x), abs(y)) * 0.4142...}.
 
-       @arg x: X component (C{scalar}).
-       @arg y: Y component (C{scalar}).
+       @arg x: X component (C{scalar} or L{Fsum} instance).
+       @arg y: Y component (C{scalar} or L{Fsum} instance).
 
-       @return: Appoximate norm (C{float}).
+       @return: Appoximate norm (C{float} or L{Fsum}).
 
        @see: Function L{euclid_}.
     '''
-    x, y = fabs(x), fabs(y)
+    x, y = abs(x), abs(y)  # NOT fabs!
     if x < y:
         x, y = y, x
     return x + y * _0_4142  # XXX * _0_5 before 20.10.02
 
 
 def euclid_(*xs):
-    '''I{Appoximate} the norm M{sqrt(sum(x**2 for x in xs))}
-       by cascaded L{euclid}.
+    '''I{Appoximate} the norm M{sqrt(sum(x**2 for x in xs))} by
+       cascaded L{euclid}.
 
-       @arg xs: X arguments, positional (C{scalar}s).
+       @arg xs: X arguments, positional (C{scalar}s or L{Fsum} instances).
 
-       @return: Appoximate norm (C{float}).
+       @return: Appoximate norm (C{float} or L{Fsum}).
 
        @see: Function L{euclid}.
     '''
     e = _0_0
-    for x in sorted(map(fabs, xs)):  # XXX not reverse=True
+    for x in sorted(map(abs, xs)):  # NOT fabs, reverse=True!
         # e = euclid(x, e)
         if e < x:
             e, x = x, e
@@ -388,8 +393,8 @@ def fatan2(y, x):
 def favg(v1, v2, f=_0_5):
     '''Return the average of two values.
 
-       @arg v1: One value (C{scalar}).
-       @arg v2: Other value (C{scalar}).
+       @arg v1: One value (C{scalar} or L{Fsum} instance).
+       @arg v2: Other value (C{scalar} or L{Fsum} instance).
        @kwarg f: Optional fraction (C{float}).
 
        @return: M{v1 + f * (v2 - v1)} (C{float}).
@@ -606,6 +611,39 @@ except ImportError:
         return freduce(_operator.mul, xs, start)
 
 
+def frandoms(n, seeded=None):
+    '''Generate C{n} (long) lists of random C{floats}.
+
+       @arg n: Number of lists to generate (C{int}, non-negative).
+       @kwarg seeded: If C{scalar}, use C{random.seed(B{seeded})} or
+                      if C{True}, seed using today's C{year-day}.
+
+       @see: U{Hettinger<https://GitHub.com/ActiveState/code/tree/master/recipes/
+             Python/393090_Binary_floating_point_summatiaccurate_full/recipe-393090.py>}.
+    '''
+    from random import gauss, random, seed, shuffle
+
+    if seeded is None:
+        pass
+    elif seeded and isbool(seeded):
+        from time import localtime
+        seed(localtime().tm_yday)
+    elif isscalar(seeded):
+        seed(seeded)
+
+    c = (7, 1e100, -7, -1e100, -9e-20, 8e-20) * 7
+    for _ in range(n):
+        s  = 0
+        t  = list(c)
+        _a = t.append
+        for _ in range(n * 8):
+            v = gauss(0, random())**7 - s
+            _a(v)
+            s += v
+        shuffle(t)
+        yield t
+
+
 def frange(start, number, step=1):
     '''Generate a range of C{float}s.
 
@@ -715,8 +753,8 @@ if _sys_version_info2 < (3, 8):  # PYCHOK no cover
                   computed as M{hypot_(*((c1 - c2) for c1, c2 in zip(p1, p2)))},
                   provided I{p1} and I{p2} have the same, non-zero length I{n}.
         '''
-        h, x2 = _h_x2(xs, hypot_)
-        return (h * sqrt(x2)) if x2 else _0_0
+        _, R = _h_xs2(xs, True, hypot_)
+        return float(R)
 
 elif _sys_version_info2 < (3, 10):
     # In Python 3.8 and 3.9 C{math.hypot} is inaccurate, see
@@ -732,13 +770,8 @@ elif _sys_version_info2 < (3, 10):
 
            @return: C{sqrt(B{x}**2 + B{y}**2)} (C{float}).
         '''
-        if x:
-            h = sqrt(x**2 + y**2) if y else fabs(x)
-        elif y:
-            h = fabs(y)
-        else:
-            h = _0_0
-        return h
+        return (float(Fhypot(x, y, raiser=False)) if y else
+                fabs(x)) if x else fabs(y)
 
     from math import hypot as hypot_  # PYCHOK in Python 3.8 and 3.9
 else:
@@ -746,29 +779,32 @@ else:
     hypot_ = hypot
 
 
-def _h_x2(xs, which):
+def _h_xs2(xs, pot_, which):
     '''(INTERNAL) Helper for L{hypot_} and L{hypot2_}.
     '''
     n, xs = len2(xs)
     if n > 0:
-        h = float(max(map(fabs, xs)))
+        h = float(max(map(abs, xs)))  # NOT fabs!
         if h < EPS0:
-            x2 = _0_0
+            R = _0_0
         elif n > 1:
-            _h = (_1_0 / h) if h != _1_0 else _1_0
-            x2 = _fsum(_1primed((x * _h)**2 for x in xs))
+            if pot_:
+                if h != _1_0:
+                    xs = ((x / h) for x in xs)
+                R = Fhypot(*xs, raiser=False) * h
+            else:
+                R = Fpowers(2, *xs)
         else:
-            x2 = _1_0
-        return h, x2
+            R = h if pot_ else (h**2)
+        return h, R
 
-    t = Fmt.PAREN(which.__name__, xs)
-    raise _ValueError(t, txt=_too_(_few_))
+    raise _ValueError(unstr(which, xs), txt=_too_(_few_))
 
 
 def hypot1(x):
     '''Compute the norm M{sqrt(1 + x**2)}.
 
-       @arg x: Argument (C{scalar}).
+       @arg x: Argument (C{scalar} or L{Fsum} instance).
 
        @return: Norm (C{float}).
     '''
@@ -778,12 +814,12 @@ def hypot1(x):
 def hypot2(x, y):
     '''Compute the I{squared} norm M{x**2 + y**2}.
 
-       @arg x: X argument (C{scalar}).
-       @arg y: Y argument (C{scalar}).
+       @arg x: X argument (C{scalar} or L{Fsum} instance).
+       @arg y: Y argument (C{scalar} or L{Fsum} instance).
 
-       @return: C{B{x}**2 + B{y}**2} (C{float}).
+       @return: C{B{x}**2 + B{y}**2} (C{float} or L{Fsum}).
     '''
-    if fabs(x) < fabs(y):
+    if abs(x) < abs(y):  # NOT fabs!
         x, y = y, x
     if x:
         h2 = x**2
@@ -795,9 +831,10 @@ def hypot2(x, y):
 
 
 def hypot2_(*xs):
-    '''Compute the I{squared} norm C{sum(x**2 for x in B{xs})}.
+    '''Compute the I{squared} norm C{fsum(x**2 for x in B{xs})}.
 
-       @arg xs: X arguments (C{scalar}s), all positional.
+       @arg xs: X arguments (C{scalar}s or L{Fsum} instances),
+                all positional.
 
        @return: Squared norm (C{float}).
 
@@ -807,8 +844,8 @@ def hypot2_(*xs):
 
        @see: Function L{hypot_}.
     '''
-    h, x2 = _h_x2(xs, hypot2_)
-    return (h**2 * x2) if x2 else _0_0
+    _, R = _h_xs2(xs, False, hypot2_)
+    return float(R)
 
 
 def _map_mul(a, b, where):
@@ -860,12 +897,13 @@ def norm_(*xs):
               or zero norm.
     '''
     try:
+        i  = x = h = None
         h  = hypot_(*xs)
         _h = (_1_0 / h) if h else _0_0
         for i, x in enumerate(xs):
             yield x * _h
-    except Exception as e:
-        raise _xError(e, Fmt.SQUARE(xs=i), x, _h_, h)
+    except Exception as X:
+        raise _xError(X, Fmt.SQUARE(xs=i), x, h=h)
 
 
 def _powers(x, n):
@@ -880,34 +918,40 @@ def _powers(x, n):
 def _root(x, p, where):
     '''(INTERNAL) Raise C{x} to power C{0 < p < 1}.
     '''
-    if x < 0:
-        t = _SPACE_(_invokation_, where.__name__)
-        raise _ValueError(unstr(t, x), txt=_negative_)
-    return pow(x, p) if x else _0_0
+    try:
+        if x > 0:
+            return pow(x, p)
+        elif x < 0:
+            raise ValueError(_negative_)
+    except Exception as X:
+        raise _xError(X, unstr(where, x))
+    return _0_0
 
 
 def sqrt0(x, Error=None):
-    '''Return the square root iff C{B{x} >} L{EPS02}.
+    '''Return the square root C{sqrt(B{x})} iff C{B{x} > }L{EPS02},
+       preserving C{type(B{x})}.
 
-       @arg x: Value (C{scalar}).
+       @arg x: Value (C{scalar} or L{Fsum} instance).
        @kwarg Error: Error to raise for negative B{C{x}}.
 
-       @return: Square root (C{float}) or C{0.0}.
+       @return: Square root (C{float} or L{Fsum}) or C{0.0}.
 
        @note: Any C{B{x} < }L{EPS02} I{including} C{B{x} < 0}
               returns C{0.0}.
     '''
     if Error and x < 0:
-        raise Error(Fmt.PAREN(sqrt=x))
-    return sqrt(x) if x > EPS02 else (_0_0 if x < EPS02 else EPS0)
+        raise Error(unstr(sqrt0, x))
+    return _root(x, _0_5, sqrt0) if x > EPS02 else (_0_0 if x < EPS02 else EPS0)
 
 
 def sqrt3(x):
-    '''Return the square root, I{cubed} M{sqrt(x)**3} or M{sqrt(x**3)}.
+    '''Return the square root, I{cubed} M{sqrt(x)**3} or M{sqrt(x**3)},
+       preserving C{type(B{x})}.
 
-       @arg x: Value (C{scalar}).
+       @arg x: Value (C{scalar} or L{Fsum} instance).
 
-       @return: Square root I{cubed} (C{float}).
+       @return: Square root I{cubed} (C{float} or L{Fsum}).
 
        @raise ValueError: Negative B{C{x}}.
 
@@ -956,11 +1000,12 @@ def sqrt_a(h, b):
 
 
 def zcrt(x):
-    '''Return the 6-th, I{zenzi-cubic} root, M{x**(1 / 6)}.
+    '''Return the 6-th, I{zenzi-cubic} root, M{x**(1 / 6)},
+       preserving C{type(B{x})}.
 
-       @arg x: Value (C{scalar}).
+       @arg x: Value (C{scalar} or L{Fsum} instance).
 
-       @return: I{Zenzi-cubic} root (C{float}).
+       @return: I{Zenzi-cubic} root (C{float} or L{Fsum}).
 
        @see: Functions L{bqrt} and L{zqrt}.
 
@@ -970,11 +1015,12 @@ def zcrt(x):
 
 
 def zqrt(x):
-    '''Return the 8-th, I{zenzi-quartic} or I{squared-quartic} root, M{x**(1 / 8)}.
+    '''Return the 8-th, I{zenzi-quartic} or I{squared-quartic} root,
+       M{x**(1 / 8)}, preserving C{type(B{x})}.
 
-       @arg x: Value (C{scalar}).
+       @arg x: Value (C{scalar} or L{Fsum} instance).
 
-       @return: I{Zenzi-quartic} root (C{float}).
+       @return: I{Zenzi-quartic} root (C{float} or L{Fsum}).
 
        @see: Functions L{bqrt} and L{zcrt}.
 

@@ -98,7 +98,7 @@
       </ul>
       <p><strong>See Also:</strong>
         <a 
-        href="https://GitHub.com/ActiveState/code/blob/master/recipes/Python/393090_Binary_floating_point_summatiaccurate_full/recipe-393090.py"
+        href="https://GitHub.com/ActiveState/code/tree/master/recipes/Python/393090_Binary_floating_point_summatiaccurate_full/recipe-393090.py"
         target="_top">Hettinger</a>, <a 
         href="https://WikiPedia.org/wiki/Kahan_summation_algorithm" 
         target="_top">Kahan</a>, <a 
@@ -216,7 +216,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fsums.Fsum-class.html#__cmp__" class="summary-sig-name">__cmp__</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>)</span><br />
-      Compare this with an other instance or <code>scalar</code>.</td>
+      Compare this with an other instance or <code>scalar</code>, Python 
+      2-.</td>
           <td align="right" valign="top">
             
             
@@ -234,7 +235,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fsums.Fsum-class.html#cmp" class="summary-sig-name">cmp</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>)</span><br />
-      Compare this with an other instance or <code>scalar</code>.</td>
+      Compare this with an other instance or <code>scalar</code>, Python 
+      2-.</td>
           <td align="right" valign="top">
             
             
@@ -1313,7 +1315,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fsums.Fsum-class.html#fint" class="summary-sig-name">fint</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">raiser</span>=<span class="summary-sig-default">True</span>,
-        <span class="summary-sig-arg">**name</span>)</span><br />
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>,
+        <span class="summary-sig-arg">**RESIDUAL</span>)</span><br />
       Return this instance' current running sum as <code>integer</code>.</td>
           <td align="right" valign="top">
             
@@ -1628,7 +1631,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fsums.Fsum-class.html#int_float" class="summary-sig-name">int_float</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">raiser</span>=<span class="summary-sig-default">False</span>)</span><br />
+        <span class="summary-sig-arg">raiser</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">**RESIDUAL</span>)</span><br />
       Return this instance' current running sum as <code>int</code> or 
       <code>float</code>.</td>
           <td align="right" valign="top">
@@ -1690,6 +1694,24 @@
       and <a href="pygeodesy.fsums-module.html#fsum1_" 
       class="link">fsum1_</a> plus partials summation are based on Python's
       <code>math.fsum</code> or not.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.fsums.Fsum-class.html#is_scalar" class="summary-sig-name">is_scalar</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Is this instance' running sum <code>scalar</code>? 
+      (<code>bool</code>).</td>
           <td align="right" valign="top">
             
             
@@ -1847,6 +1869,16 @@
   <td align="left" colspan="2" class="table-header">
     <span class="table-header">Properties</span></td>
 </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.fsums.Fsum-class.html#as_iscalar" class="summary-name">as_iscalar</a><br />
+      Get this instance <i>as-is</i> (<a 
+      href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a>) or 
+      <code>scalar</code> iff scalar.
+    </td>
+  </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
@@ -2060,7 +2092,8 @@
     </td>
   </tr></table>
   
-  <p>Compare this with an other instance or <code>scalar</code>.</p>
+  <p>Compare this with an other instance or <code>scalar</code>, Python 
+  2-.</p>
   <dl class="fields">
     <dt>Returns:</dt>
         <dd>-1, 0 or +1 (<code>int</code>).</dd>
@@ -2086,7 +2119,8 @@
     </td>
   </tr></table>
   
-  <p>Compare this with an other instance or <code>scalar</code>.</p>
+  <p>Compare this with an other instance or <code>scalar</code>, Python 
+  2-.</p>
   <dl class="fields">
     <dt>Returns:</dt>
         <dd>-1, 0 or +1 (<code>int</code>).</dd>
@@ -3531,7 +3565,8 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">fint</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">raiser</span>=<span class="sig-default">True</span>,
-        <span class="sig-arg">**name</span>)</span>
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>,
+        <span class="sig-arg">**RESIDUAL</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -3549,10 +3584,15 @@
           class="link">RESIDUAL</a>.</li>
         <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>), overriding 
           <code>&quot;fint&quot;</code>.</li>
+        <li><strong class="pname"><code>RESIDUAL</code></strong> - Optional threshold, overriding the current <a 
+          href="pygeodesy.fsums.Fsum-class.html#RESIDUAL" 
+          class="link">RESIDUAL</a> (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The <code>integer</code> (<a 
-          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a>).</dd>
+        <dd>The <code>integer</code> sum (<a 
+          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a>) if 
+          this instance <code>is_integer</code> and the residual is zero or
+          insignificant or if <code><b>raiser</b>=False</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.fsums.ResidualError-class.html">ResidualError</a></strong></code> - Non-zero <i>integer</i> residual.</li>
@@ -4033,7 +4073,8 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">int_float</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">raiser</span>=<span class="sig-default">False</span>)</span>
+        <span class="sig-arg">raiser</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">**RESIDUAL</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -4047,13 +4088,16 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>raiser</code></strong> - If <code>True</code> throw a <a 
           href="pygeodesy.fsums.ResidualError-class.html" 
-          class="link">ResidualError</a> if the residual is non-zero 
-          (<code>bool</code>).</li>
+          class="link">ResidualError</a> if the residual exceeds the 
+          <code>RESIDUAL</code> (<code>bool</code>).</li>
+        <li><strong class="pname"><code>RESIDUAL</code></strong> - Optional threshold, overriding the current <a 
+          href="pygeodesy.fsums.Fsum-class.html#RESIDUAL" 
+          class="link">RESIDUAL</a> (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>This <code>integer</code> sum if this instance 
           <code>is_integer</code>, otherwise return the <code>float</code> 
-          sum if the residual is zero or if 
+          sum if the residual is zero or insignificant or if 
           <code><b>raiser</b>=False</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
@@ -4064,7 +4108,9 @@
         Methods <a href="pygeodesy.fsums.Fsum-class.html#fint" 
         class="link">Fsum.fint</a> and <a 
         href="pygeodesy.fsums.Fsum-class.html#fint2" 
-        class="link">Fsum.fint2</a>.
+        class="link">Fsum.fint2</a> and property <a 
+        href="pygeodesy.fsums.Fsum-class.html#as_iscalar" 
+        class="link">Fsum.as_iscalar</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -4088,9 +4134,11 @@
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Methods <a href="pygeodesy.fsums.Fsum-class.html#fint" 
-        class="link">Fsum.fint</a> and <a 
+        class="link">Fsum.fint</a>, <a 
         href="pygeodesy.fsums.Fsum-class.html#fint2" 
-        class="link">Fsum.fint2</a>.
+        class="link">Fsum.fint2</a> and <a 
+        href="pygeodesy.fsums.Fsum-class.html#is_scalar" 
+        class="link">Fsum.is_scalar</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -4123,6 +4171,32 @@
           summation is not) or <code>False</code> if none are.</dd>
   </dl>
 </td></tr></table>
+</div>
+<a name="is_scalar"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">is_scalar</span>&nbsp;(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Is this instance' running sum <code>scalar</code>? 
+  (<code>bool</code>).</p>
+  <dl class="fields">
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Method <a href="pygeodesy.fsums.Fsum-class.html#is_integer" 
+        class="link">Fsum.is_integer</a> and property <a 
+        href="pygeodesy.fsums.Fsum-class.html#as_iscalar" 
+        class="link">Fsum.as_iscalar</a>.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="pow"></a>
 <div>
@@ -4214,7 +4288,7 @@
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The previous <code>RESIDUAL</code> setting (<code>float</code>), 
-          default <code>0.</code>.</dd>
+          default <code>0.0</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Negative <b><code>threshold</code></b>.</li>
@@ -4373,6 +4447,33 @@
     <span class="table-header">Property Details</span></td>
 </tr>
 </table>
+<a name="as_iscalar"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">as_iscalar</h3>
+  <p>Get this instance <i>as-is</i> (<a 
+  href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a>) or 
+  <code>scalar</code> iff scalar.</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">as_iscalar(<span class="summary-sig-arg">self</span>)</span>
+        - Get this instance <i>as-is</i> (<a href="pygeodesy.fsums.Fsum-class.html" 
+class="link">Fsum</a>) or <code>scalar</code> iff scalar.
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="ceil"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -4647,7 +4748,7 @@ always).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Apr 19 10:02:22 2024
+    Generated by Epydoc 3.0.1 on Wed Apr 24 15:45:27 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
