@@ -34,7 +34,7 @@ from math import copysign as _copysign
 import inspect as _inspect
 
 __all__ = _ALL_LAZY.basics
-__version__ = '24.04.04'
+__version__ = '24.04.28'
 
 _0_0                  =  0.0  # in .constants
 _below_               = 'below'
@@ -576,7 +576,7 @@ def signBit(x):
 def _signOf(x, ref):  # in .fsums
     '''(INTERNAL) Return the sign of B{C{x}} versus B{C{ref}}.
     '''
-    return +1 if x > ref else (-1 if x < ref else 0)
+    return (-1) if x < ref else (+1 if x > ref else 0)
 
 
 def signOf(x):

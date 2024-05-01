@@ -247,7 +247,6 @@ _HASH_                = '#'                  # PYCHOK OK
 _height_              = 'height'             # PYCHOK OK
 _hemipole_            = 'hemipole'           # PYCHOK OK
 _i_                   = 'i'                  # PYCHOK OK
-_iadd_op_             = '+='                 # PYCHOK OK
 _immutable_           = 'immutable'          # PYCHOK OK
 _in_                  = 'in'                 # PYCHOK OK
 _incompatible_        = 'incompatible'       # PYCHOK OK

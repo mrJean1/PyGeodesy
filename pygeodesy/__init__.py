@@ -194,7 +194,6 @@ The following environment variables are observed by C{PyGeodesy}:
 
  - C{PYGEODESY_EXCEPTION_CHAINING} - see module L{pygeodesy.errors}.
  - C{PYGEODESY_FMT_FORM} - see module L{pygeodesy.dms}.
- - C{PYGEODESY_FSUM_PARTIALS} - see module L{pygeodesy.fsums} and class L{pygeodesy.Fsum}.
  - C{PYGEODESY_FSUM_RESIDUAL} - see module L{pygeodesy.fsums} and class L{pygeodesy.Fsum}.
  - C{PYGEODESY_GEOCONVERT} - see module L{pygeodesy.mgrs}.
  - C{PYGEODESY_GEODSOLVE} - see module L{pygeodesy.geodsolve}.
@@ -586,7 +585,7 @@ else:
     _init__all__ = False
 
 from pygeodesy.interns import _DOT_, _version2  # PYCHOK import
-__version__ = '24.04.24'
+__version__ = '24.05.02'
 # see setup.py for similar logic
 version     = _DOT_(*_version2(__version__, n=3))
 

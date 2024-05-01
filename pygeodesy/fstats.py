@@ -12,8 +12,8 @@ from pygeodesy.basics import isodd, islistuple, _xinstanceof, \
 from pygeodesy.constants import _0_0, _2_0, _3_0, _4_0, _6_0,  _xError
 # from pygeodesy.errors import _xError  # from .constants
 from pygeodesy.fmath import hypot2,  sqrt
-from pygeodesy.fsums import _2float, Fsum,  Fmt
-from pygeodesy.interns import NN, _iadd_op_, _invalid_, _other_, _SPACE_
+from pygeodesy.fsums import _2float, Fsum, _iadd_op_,  Fmt
+from pygeodesy.interns import NN, _invalid_, _other_, _SPACE_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import _Named, _NotImplemented, property_RO
 # from pygeodesy.props import property_RO  # from .named
@@ -22,7 +22,7 @@ from pygeodesy.named import _Named, _NotImplemented, property_RO
 # from math import sqrt  # from .fmath
 
 __all__ = _ALL_LAZY.fstats
-__version__ = '24.04.07'
+__version__ = '24.04.26'
 
 _Floats =  Fsum, float
 _Scalar = _Floats + (int,)  # XXX basics._Ints is ABCMeta in Python 2

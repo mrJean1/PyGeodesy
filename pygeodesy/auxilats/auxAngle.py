@@ -20,8 +20,8 @@ from pygeodesy.constants import EPS, _INF_NAN_NINF, MAX, NAN, _0_0, _0_5, _1_0, 
                                _copysign_1_0, _over, _pos_self, isfinite, isnan
 # from pygeodesy.errors import AuxError, _xkwds_get  # from .auxily, .basics
 from pygeodesy.fmath import hypot,  unstr
-from pygeodesy.fsums import _add_op_, _isub_op_, _sub_op_,  _iadd_op_, _Named, NN
-# from pygeodesy.interns import NN, _iadd_op_  # from .fsums
+from pygeodesy.fsums import _add_op_, _iadd_op_, _isub_op_, _sub_op_,  _Named, NN
+# from pygeodesy.interns import NN  # from .fsums
 # from pygeodesy.named import _Named  # from .fsums
 from pygeodesy.lazily import _ALL_DOCS, _ALL_MODS as _MODS
 from pygeodesy.props import Property, Property_RO, property_RO, _update_all
@@ -32,7 +32,7 @@ from pygeodesy.utily import atan2d, sincos2, sincos2d
 from math import asinh, atan2, copysign, degrees, fabs, radians, sinh
 
 __all__ = ()
-__version__ = '23.12.02'
+__version__ = '24.04.26'
 
 _0_INF_NAN_NINF = (0, _0_0) + _INF_NAN_NINF
 _MAX_2          =  MAX * _0_5  # PYCHOK used!

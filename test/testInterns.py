@@ -4,7 +4,7 @@
 # Test L{interns} module.
 
 __all__ = ('Tests',)
-__version__ = '23.11.30'
+__version__ = '24.04.26'
 
 from bases import ismacOS, sys, TestsBase
 
@@ -21,7 +21,6 @@ _functions  = (interns._platform2,
 _exceptions = (_0to9_, _AtoZnoIO_,
                interns._doesn_t_exist_,
                interns._exceed_PI_radians_,
-               interns._iadd_op_,
                interns._n_a_,
                interns._NLATvar_,
                interns._NLHASH_,

@@ -30,7 +30,7 @@ see the U{GeographicLib<https://GeographicLib.SourceForge.io>} documentation.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import isLatLon, isscalar, map2, _zip,  _ValueError
+from pygeodesy.basics import isLatLon, isscalar, _zip,  _ValueError
 from pygeodesy.constants import EPS, EPS0, EPS02, EPS4, INT0, PI2, PI_3, PI4, \
                                _EPS2e4, float0_, isfinite, isnear1, _0_0, _0_5, \
                                _1_0, _N_1_0, _N_2_0,  _4_0  # PYCHOK used!
@@ -59,7 +59,7 @@ from pygeodesy.vector3d import _otherV3d, Vector3d,  _ALL_LAZY, _MODS
 from math import atan2, fabs, sqrt
 
 __all__ = _ALL_LAZY.triaxials
-__version__ = '24.04.14'
+__version__ = '24.04.30'
 
 _not_ordered_ = _not_('ordered')
 _omega_       = 'omega'
@@ -1127,7 +1127,7 @@ Triaxials = Triaxials(Triaxial, Triaxial_)  # PYCHOK singleton
 # <https://ArxIV.org/pdf/1909.06452.pdf> Table 1 Semi-axes in Km
 # <https://www.JPS.NASA.gov/education/images/pdf/ss-moons.pdf>
 # <https://link.Springer.com/article/10.1007/s00190-022-01650-9>
-_EWGS84_35 = _EWGS84.a + 35, _EWGS84.a - 35, _EWGS84.b
+_abc84_35 = (_EWGS84.a + 35), (_EWGS84.a - 35), _EWGS84.b
 Triaxials._assert(                 # a (Km)       b (Km)     c (Km)     planet
     Amalthea  = _lazy('Amalthea',  125.0,        73.0,      64),      # Jupiter
     Ariel     = _lazy('Ariel',     581.1,       577.9,     577.7),    # Uranus
@@ -1140,8 +1140,8 @@ Triaxials._assert(                 # a (Km)       b (Km)     c (Km)     planet
     Miranda   = _lazy('Miranda',   240.4,       234.2,     232.9),    # Uranus
     Moon      = _lazy('Moon',     1735.55,     1735.324,  1734.898),  # Earth
     Tethys    = _lazy('Tethys',    535.6,       528.2,     525.8),    # Saturn
-    WGS84_35  = _lazy('WGS84_35', *map2(m2km, _EWGS84_35)))
-del _EWGS84_35
+    WGS84_35  = _lazy('WGS84_35', *map(m2km, _abc84_35)))
+del _abc84_35, _EWGS84
 
 
 def _getitems(items, *indices):

@@ -4,7 +4,7 @@
 # Test L{fmath} module.
 
 __all__ = ('Tests',)
-__version__ = '24.04.22'
+__version__ = '24.04.28'
 
 from bases import endswith, isWindows, startswith, TestsBase
 
@@ -141,17 +141,17 @@ class Tests(TestsBase):
         f = -f
         self.test(n, Fhypot(f, -4, 8), '(9.43398, 0)', known=endswith)
         self.test(n, Fhypot(f, Fsum(-4, 8)), '(5.0, 0)', known=endswith)
-        self.test(n, Fhypot(f, -4, 8, power=-1), '(-2.18182, 0)', known=endswith)
-        self.test(n, Fhypot(f, Fsum(-4, 8), power=-1), '(-12, 0)', known=endswith)
+        self.test(n, Fhypot(f, -4, 8, root=-1), '(-2.18182, 0)', known=endswith)
+        self.test(n, Fhypot(f, Fsum(-4, 8), root=-1), '(-12, 0)', known=endswith)
         f = Fsum(-1)
         self.test(n, Fhypot(f, -1), '(1.41421, 0)', known=endswith)
-        self.test(n, Fhypot(f, -1, power=-1), '(-0.5, 0)', known=endswith)
+        self.test(n, Fhypot(f, -1, root=-1), '(-0.5, 0)', known=endswith)
         try:  # pow(INF, -1) == 0.0
-            self.test(n, Fhypot(f, INF, f, f, power=-1), ValueError.__name__, known=True)
+            self.test(n, Fhypot(f, INF, f, f, root=-1), '33, 0)', known=endswith)
         except Exception as x:
             self.test(n, str(x), ' not finite', known=endswith)
         try:
-            self.test(n, Fhypot(f, -1, power=0), ZeroDivisionError.__name__)
+            self.test(n, Fhypot(f, -1, root=0), ZeroDivisionError.__name__)
         except Exception as x:
             self.test(n, str(x), ' float division by zero', known=endswith)
 
@@ -169,7 +169,7 @@ class Tests(TestsBase):
         try:
             self.test(n, Fsqrt(f, -1), ValueError.__name__)
         except Exception as x:
-            self.test(n, str(x), "fmath.Fsqrt(<fsums.Fsum[1] (-1, 0) ", known=startswith)
+            self.test(n, str(x), "fmath.Fsqrt(<Fsum[1] (-1, 0) ", known=startswith)
         try:
             self.test(r, Froot(0, f, -1), ValueError.__name__)
         except Exception as x:
