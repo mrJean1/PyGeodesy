@@ -105,7 +105,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        24.05.01
+        24.05.02
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -209,7 +209,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fsums-module.html#fsumf_" class="summary-sig-name">fsumf_</a>(<span class="summary-sig-arg">*xs</span>)</span><br />
       Precision floating point summation iff <i>all</i> 
-      <code><b>xs</b></code> are <i>known to be scalar</i>.</td>
+      <code><b>xs</b></code> items are <i>known to be scalar</i>.</td>
           <td align="right" valign="top">
             
             
@@ -320,14 +320,12 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xs</code></strong> - Iterable, list, tuple, etc. of values (each item a 
-          <code>scalar</code> or <a href="pygeodesy.fsums.Fsum-class.html" 
-          class="link">Fsum</a> or <a 
-          href="pygeodesy.fsums.Fsum2Tuple-class.html" 
-          class="link">Fsum2Tuple</a> instance or a <code>tuple</code> of 
-          the former).</li>
+        <li><strong class="pname"><code>xs</code></strong> - Iterable of items to add (each <code>scalar</code> or an <a 
+          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
+          <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
+          class="link">Fsum2Tuple</a> instance).</li>
         <li><strong class="pname"><code>floats</code></strong> - Use <code><b>floats</b>=True</code> iff <i>all</i> 
-          <b><code>xs</code></b> are <i>known to be scalar</i> 
+          <b><code>xs</code></b> items are <i>known to be scalar</i> 
           (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -372,13 +370,12 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xs</code></strong> - Values to add (each a <code>scalar</code> or <a 
-          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or  
+        <li><strong class="pname"><code>xs</code></strong> - Items to add (each <code>scalar</code> or an <a 
+          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
           <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
-          class="link">Fsum2Tuple</a> instance or a <code>tuple</code> of 
-          the former), all positional.</li>
+          class="link">Fsum2Tuple</a> instance), all positional.</li>
         <li><strong class="pname"><code>floats</code></strong> - Use <code><b>floats</b>=True</code> iff <i>all</i> 
-          <b><code>xs</code></b> are <i>known to be scalar</i> 
+          <b><code>xs</code></b> items are <i>known to be scalar</i> 
           (<code>bool</code>).</li>
     </ul></dd>
   </dl>
@@ -403,7 +400,7 @@
   </tr></table>
   
   <p>Precision floating point summation iff <i>all</i> 
-  <code><b>xs</b></code> are <i>known to be scalar</i>.</p>
+  <code><b>xs</b></code> items are <i>known to be scalar</i>.</p>
   <dl class="fields">
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -431,14 +428,12 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xs</code></strong> - Iterable, list, tuple, etc. of values (each item a 
-          <code>scalar</code> or <a href="pygeodesy.fsums.Fsum-class.html" 
-          class="link">Fsum</a> or <a 
-          href="pygeodesy.fsums.Fsum2Tuple-class.html" 
-          class="link">Fsum2Tuple</a> instance or a <code>tuple</code> of 
-          the former).</li>
+        <li><strong class="pname"><code>xs</code></strong> - Iterable of items to add (each <code>scalar</code> or an <a 
+          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
+          <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
+          class="link">Fsum2Tuple</a> instance).</li>
         <li><strong class="pname"><code>floats</code></strong> - Use <code><b>floats</b>=True</code> iff <i>all</i> 
-          <b><code>xs</code></b> are <i>known to be scalar</i> 
+          <b><code>xs</code></b> items are <i>known to be scalar</i> 
           (<code>bool</code>).</li>
     </ul></dd>
   </dl>
@@ -468,19 +463,18 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xs</code></strong> - Values to add (each a <code>scalar</code> or <a 
+        <li><strong class="pname"><code>xs</code></strong> - Items to add (each <code>scalar</code> or an <a 
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
           <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
-          class="link">Fsum2Tuple</a> instance or a <code>tuple</code> of 
-          the former), all positional.</li>
+          class="link">Fsum2Tuple</a> instance), all positional.</li>
         <li><strong class="pname"><code>floats</code></strong> - Use <code><b>floats</b>=True</code> iff <i>all</i> 
-          <b><code>xs</code></b> are <i>known to be scalar</i> 
+          <b><code>xs</code></b> items are <i>known to be scalar</i> 
           (<code>bool</code>).</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Function <a href="pygeodesy.fsums-module.html#fsum" 
-        class="link">fsum</a> for further details.
+        Function <a href="pygeodesy.fsums-module.html#fsum_" 
+        class="link">fsum_</a> for further details.
       </p>
 </div></td></tr></table>
 </div>
@@ -503,8 +497,8 @@
   <dl class="fields">
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Function <a href="pygeodesy.fsums-module.html#fsum" 
-        class="link">fsum</a> for further details.
+        Function <a href="pygeodesy.fsums-module.html#fsum_" 
+        class="link">fsum_</a> for further details.
       </p>
 </div></td></tr></table>
 </div>
@@ -540,7 +534,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed May  1 12:57:49 2024
+    Generated by Epydoc 3.0.1 on Thu May  2 14:14:11 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

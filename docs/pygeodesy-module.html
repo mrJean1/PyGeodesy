@@ -7910,7 +7910,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#fsumf_" class="summary-sig-name">fsumf_</a>(<span class="summary-sig-arg">*xs</span>)</span><br />
       Precision floating point summation iff <i>all</i> 
-      <code><b>xs</b></code> are <i>known to be scalar</i>.</td>
+      <code><b>xs</b></code> items are <i>known to be scalar</i>.</td>
           <td align="right" valign="top">
             
             
@@ -8153,7 +8153,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f95a0bf9b50&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f95602f0d50&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -19564,14 +19564,12 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xs</code></strong> - Iterable, list, tuple, etc. of values (each item a 
-          <code>scalar</code> or <a href="pygeodesy.fsums.Fsum-class.html" 
-          class="link">Fsum</a> or <a 
-          href="pygeodesy.fsums.Fsum2Tuple-class.html" 
-          class="link">Fsum2Tuple</a> instance or a <code>tuple</code> of 
-          the former).</li>
+        <li><strong class="pname"><code>xs</code></strong> - Iterable of items to add (each <code>scalar</code> or an <a 
+          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
+          <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
+          class="link">Fsum2Tuple</a> instance).</li>
         <li><strong class="pname"><code>floats</code></strong> - Use <code><b>floats</b>=True</code> iff <i>all</i> 
-          <b><code>xs</code></b> are <i>known to be scalar</i> 
+          <b><code>xs</code></b> items are <i>known to be scalar</i> 
           (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -19616,14 +19614,12 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xs</code></strong> - Iterable, list, tuple, etc. of values (each item a 
-          <code>scalar</code> or <a href="pygeodesy.fsums.Fsum-class.html" 
-          class="link">Fsum</a> or <a 
-          href="pygeodesy.fsums.Fsum2Tuple-class.html" 
-          class="link">Fsum2Tuple</a> instance or a <code>tuple</code> of 
-          the former).</li>
+        <li><strong class="pname"><code>xs</code></strong> - Iterable of items to add (each <code>scalar</code> or an <a 
+          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
+          <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
+          class="link">Fsum2Tuple</a> instance).</li>
         <li><strong class="pname"><code>floats</code></strong> - Use <code><b>floats</b>=True</code> iff <i>all</i> 
-          <b><code>xs</code></b> are <i>known to be scalar</i> 
+          <b><code>xs</code></b> items are <i>known to be scalar</i> 
           (<code>bool</code>).</li>
     </ul></dd>
   </dl>
@@ -19653,19 +19649,18 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xs</code></strong> - Values to add (each a <code>scalar</code> or <a 
+        <li><strong class="pname"><code>xs</code></strong> - Items to add (each <code>scalar</code> or an <a 
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
           <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
-          class="link">Fsum2Tuple</a> instance or a <code>tuple</code> of 
-          the former), all positional.</li>
+          class="link">Fsum2Tuple</a> instance), all positional.</li>
         <li><strong class="pname"><code>floats</code></strong> - Use <code><b>floats</b>=True</code> iff <i>all</i> 
-          <b><code>xs</code></b> are <i>known to be scalar</i> 
+          <b><code>xs</code></b> items are <i>known to be scalar</i> 
           (<code>bool</code>).</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Function <a href="pygeodesy.fsums-module.html#fsum" 
-        class="link">fsum</a> for further details.
+        Function <a href="pygeodesy.fsums-module.html#fsum_" 
+        class="link">fsum_</a> for further details.
       </p>
 </div></td></tr></table>
 </div>
@@ -19688,8 +19683,8 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   <dl class="fields">
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Function <a href="pygeodesy.fsums-module.html#fsum" 
-        class="link">fsum</a> for further details.
+        Function <a href="pygeodesy.fsums-module.html#fsum_" 
+        class="link">fsum_</a> for further details.
       </p>
 </div></td></tr></table>
 </div>
@@ -19712,13 +19707,12 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xs</code></strong> - Values to add (each a <code>scalar</code> or <a 
-          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or  
+        <li><strong class="pname"><code>xs</code></strong> - Items to add (each <code>scalar</code> or an <a 
+          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
           <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
-          class="link">Fsum2Tuple</a> instance or a <code>tuple</code> of 
-          the former), all positional.</li>
+          class="link">Fsum2Tuple</a> instance), all positional.</li>
         <li><strong class="pname"><code>floats</code></strong> - Use <code><b>floats</b>=True</code> iff <i>all</i> 
-          <b><code>xs</code></b> are <i>known to be scalar</i> 
+          <b><code>xs</code></b> items are <i>known to be scalar</i> 
           (<code>bool</code>).</li>
     </ul></dd>
   </dl>
@@ -19743,7 +19737,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   </tr></table>
   
   <p>Precision floating point summation iff <i>all</i> 
-  <code><b>xs</b></code> are <i>known to be scalar</i>.</p>
+  <code><b>xs</b></code> items are <i>known to be scalar</i>.</p>
   <dl class="fields">
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -20263,7 +20257,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f95a0bf9b50&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f95602f0d50&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -30048,7 +30042,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed May  1 12:57:49 2024
+    Generated by Epydoc 3.0.1 on Thu May  2 14:14:10 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

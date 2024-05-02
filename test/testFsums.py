@@ -4,7 +4,7 @@
 # Test L{fsums} module.
 
 __all__ = ('Tests',)
-__version__ = '24.05.01'
+__version__ = '24.05.02'
 
 from bases import endswith, isPython2, startswith, TestsBase
 
@@ -183,15 +183,15 @@ class Tests(TestsBase):
         self.test('ceil ', ceil(t.fcopy().fadd_(1e-15)), '3', known=startswith)
         self.test('floor', floor(t), '2', known=startswith, nt=1)
 
-        self.test('divmod ', divmod(d, 2),        ('(2%s, <Fsum[2] __divmod__(0.0, 0)'  % _dot0), known=startswith)
-        self.test('divmod ', d.fcopy().divmod(2), ('(2%s, <Fsum[2] __divmod__(0.0, 0)'  % _dot0), known=startswith)
-        self.test('rdivmod ', divmod(2, d),       ('(0%s, <Fsum[1] __rdivmod__(2.0, 0)' % _dot0), known=startswith)
-        self.test('divmod ', divmod(Fsum(-3), 2), ('(-2%s, <Fsum[2] __divmod__(1'       % _dot0), known=startswith)
+        self.test('divmod ', divmod(d, 2),        ('(2%s, <Fsum[2] __divmod__(0.0, 0)' % _dot0), known=startswith)
+        self.test('divmod ', d.fcopy().divmod(2), ('(2%s, <Fsum[2] __divmod__(0.0, 0)' % _dot0), known=startswith)
+        self.test('rdivmod ', divmod(2, d),       ('(0%s, <Fsum[1] __rdivmod__(2' % _dot0), known=startswith)
+        self.test('divmod ', divmod(Fsum(-3), 2), ('(-2%s, <Fsum[2] __divmod__(1' % _dot0), known=startswith)
         m  = d.fcopy(name='__imod__')
         m %= 2
         self.test('imod', m,     'Fsum[2] __imod__(0.0, 0)')
         self.test('mod ', d % 2, 'Fsum[2] __mod__(0.0, 0)')
-        self.test('rmod', 2 % d, 'Fsum[1] __rmod__(2.0, 0)')
+        self.test('rmod', 2 % d, 'Fsum[1] __rmod__(2', known=startswith)
         m = -t
         self.test('neg ', m, -t, known=m == -t)
         m = +t  # PYCHOK "Unary positive (+) usually has no effect"
@@ -341,9 +341,9 @@ class Tests(TestsBase):
             _ = f.RESIDUAL(-1.e-18)
             self.test(n, (1 / f), n, nt=1)
         except Exception as x:
-            self.test(n, x, '1.0 / ', known=startswith, nt=1)
+            self.test(n, x, ' threshold', known=endswith, nt=1)
 
-        f = Fsum(2, Fsum2Tuple(1, -1), (2, -2))
+        f = Fsum(2, Fsum2Tuple(1, -1))
         try:
             self.test('recursive', f.fsum_(1, f, 1, f), '8.0')
         except ValueError as x:
