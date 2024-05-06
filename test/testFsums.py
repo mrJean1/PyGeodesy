@@ -4,7 +4,7 @@
 # Test L{fsums} module.
 
 __all__ = ('Tests',)
-__version__ = '24.05.04'
+__version__ = '24.05.06'
 
 from bases import endswith, isPython2, startswith, TestsBase
 
@@ -367,6 +367,31 @@ class Tests(TestsBase):
         self.test('**F2T', float(f), '16.0', known=startswith)
         f.fdivmod(t, raiser=False)
         self.test('%=F2T', float(f), '16.0', known=startswith)
+
+        self.test('abs(T)',   abs(t),     'Fsum', known=startswith, nl=1)
+        self.test('bool(T)',  bool(t),     True)
+        self.test('float(T)', float(t),   '1.0',  known=startswith)
+        self.test('T.Fsum_',  t.Fsum_(t), 'Fsum', known=startswith)
+        self.test('int(T)',   int(t),     '1')
+        self.test('-T',       (-t),       'Fsum', known=startswith)
+        self.test('+T',       (+t),       'Fsum', known=startswith)  # PYCHOK no effect
+        self.test('as_i_',  t.as_integer_ratio(), '(4', known=startswith)
+        self.test('is_x?',  t.is_exact(),   True)
+        self.test('is_i?',  t.is_integer(), False)
+
+        self.test('F==T', f == t, False, nl=1)
+        self.test('F>=T', f >= t, True)
+        self.test('F> T', f >  t, True)
+        self.test('F<=T', f <= t, False)
+        self.test('F< T', f <  t, False)
+        self.test('F!=T', f != t, True)
+
+        self.test('T._fint2',  t._fint2, '(1, ',   known=startswith, nl=1)
+        self.test('T._fprs2',  t._fprs2, '(1.0, ', known=startswith)
+        self.test('T._n',      t._n,      '4')
+        self.test('T._ps',     t._ps,     '[1.0',  known=startswith)
+        self.test('T._ps_neg', list(t._ps_neg), '[-1.0', known=startswith)
+        self.test('T.signOf',  t.signOf(), '1')
 
 
 if __name__ == '__main__':

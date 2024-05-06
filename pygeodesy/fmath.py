@@ -24,7 +24,7 @@ from math import fabs, sqrt  # pow
 import operator as _operator  # in .datums, .trf, .utm
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '24.05.05'
+__version__ = '24.05.06'
 
 # sqrt(2) <https://WikiPedia.org/wiki/Square_root_of_2>
 _0_4142  =  0.41421356237309504880  # ... sqrt(2) - 1
@@ -531,15 +531,15 @@ def fidw(xs, ds, beta=2):
                         break
                     D = _F(d).fpow(b)
                     W += D
-                    X += D * x
+                    X += D.fmul(x)
                 else:
                     x  = X.fover(W, raiser=False)
                     i += 1  # len(xs) >= len(ds)
             except IndexError:
                 i += 1  # len(xs) < i < len(ds)
             except Exception as X:
-                n = Fmt.SQUARE(distance=i)
-                raise _xError(X, n, ds[i])
+                _I = Fmt.INDEX
+                raise _xError(X, _I(ds=i), d, _I(xs=i), x)
         else:  # b == 0
             x = fsum(xs) / n  # fmean(xs)
             i = n

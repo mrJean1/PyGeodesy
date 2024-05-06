@@ -23,7 +23,7 @@ from pygeodesy.named import _Named, _NotImplemented, property_RO
 # from math import sqrt  # from .fmath
 
 __all__ = _ALL_LAZY.fstats
-__version__ = '24.05.05'
+__version__ = '24.05.06'
 
 _Floats = _Fsum_Fsum2Tuple_types + (_Float,)
 _Scalar = _Floats + (int,)  # XXX basics._Ints is ABCMeta in Python 2
@@ -86,10 +86,8 @@ class _FstatsNamed(_Named):
         return _NotImplemented(self, other)
 
     def __str__(self):
-        n = self.name
-        if n:
-            n = NN(_SPACE_, n)
-        n = NN(self.classname, n)
+        n =  self.name
+        n = _SPACE_(self.classname, n) if n else self.classname
         return Fmt.SQUARE(n, len(self))
 
     def fcopy(self, deep=False, name=NN):

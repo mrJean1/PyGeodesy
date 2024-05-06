@@ -25,7 +25,7 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _getenv, _PYTHON_X_D
 from copy import copy as _copy
 
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')  _under
-__version__ = '24.04.18'
+__version__ = '24.05.06'
 
 _box_        = 'box'
 _limiterrors =  True  # in .formy
@@ -397,15 +397,14 @@ def _error_init(Error, inst, args, fmt_name_value='%s (%r)', txt=NN,
 
     t, n = (), len(args)
     if n > 2:
-        s = _MODS.basics.isodd(n)
         t = _fmtuple(zip(args[0::2], args[1::2]))
+        s = _MODS.basics.isodd(n)
         if s:  # XXX _xzip(..., strict=s)
             t += args[-1:]
     elif n == 2:
         t = (fmt_name_value % args),
     elif n:  # == 1
         t =  str(args[0]),
-
     if kwds:
         t += _fmtuple(_MODS.basics.itemsorted(kwds))
     t = _or(*t) if t else _SPACE_(_name_value_, MISSING)

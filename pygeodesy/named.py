@@ -48,10 +48,16 @@ _Units_             = '_Units_'
 _UP                 =  2
 
 
-def _xjoined_(prefix, name):
+def _xjoined_(prefix, name, enquote=True):
     '''(INTERNAL) Join C{pref} and non-empty C{name}.
     '''
-    return _SPACE_(prefix, repr(name)) if name and prefix else (prefix or name)
+    if name and prefix:
+        if enquote:
+            name = repr(name)
+        n = _SPACE_(prefix, name)
+    else:
+        n =  prefix or name
+    return n
 
 
 def _xnamed(inst, name, force=False):
@@ -360,9 +366,15 @@ class _Named(object):
         '''
         return self.name or self.classname
 
+#   @Property_RO
+#   def named_(self):
+#       '''Get the C{class} name I{and/or} the str(name) or C{""} (C{str}).
+#       '''
+#       return _xjoined_(self.classname, self.name, enquote=False)
+
     @Property_RO
     def named2(self):
-        '''Get the C{class} name I{and/or} the name or C{""} (C{str}).
+        '''Get the C{class} name I{and/or} the repr(name) or C{""} (C{str}).
         '''
         return _xjoined_(self.classname, self.name)
 

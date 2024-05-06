@@ -461,11 +461,14 @@ def _dunder_nameof(inst, *dflt):
     return dflt[0] if dflt else inst.__class__.__name__
 
 
-def _enquote(strs, quote=_QUOTE2_):  # in .basics, .solveBase
-    '''(INTERNAL) Enquote a string containing whitespace.
+def _enquote(strs, quote=_QUOTE2_, white=NN):  # in .basics, .solveBase
+    '''(INTERNAL) Enquote a string containing whitespace or replace
+       whitespace by C{white} if specified.
     '''
-    if len(strs.split()) > 1:
-        strs = NN(quote, strs, quote)
+    if strs:
+        t = strs.split()
+        if len(t) > 1:
+            strs = white.join(t if white else (quote, strs, quote))
     return strs
 
 
@@ -644,7 +647,7 @@ def _version_ints(vs):
 __all__ = (_NN_,  # not MISSING!
             Str_.__name__,  # classes
             machine.__name__)  # in .lazily
-__version__ = '24.05.04'
+__version__ = '24.05.06'
 
 if __name__ == '__main__':
 

@@ -2121,6 +2121,7 @@ pygeodesy.fsums._lt_op_	pygeodesy.fsums-module.html#_lt_op_
 pygeodesy.fsums.unstr	pygeodesy.streprs-module.html#unstr
 pygeodesy.fsums.fsum1	pygeodesy.fsums-module.html#fsum1
 pygeodesy.fsums._truediv_op_	pygeodesy.fsums-module.html#_truediv_op_
+pygeodesy.fsums._enquote	pygeodesy.interns-module.html#_enquote
 pygeodesy.fsums.iscomplex	pygeodesy.basics-module.html#iscomplex
 pygeodesy.fsums._NotImplemented	pygeodesy.named-module.html#_NotImplemented
 pygeodesy.fsums.isbool	pygeodesy.basics-module.html#isbool
