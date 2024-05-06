@@ -801,10 +801,11 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
     def as_integer_ratio(self):
         '''Return this instance as the ratio of 2 integers.
 
-           @return: 2-Tuple C{(numerator, denominator)} both
-                    C{int} and with positive C{denominator}.
+           @return: 2-Tuple C{(numerator, denominator)} both C{int}
+                    with C{numerator} signed and C{denominator}
+                    non-zero, positive.
 
-           @see: Standard C{float.as_integer_ratio} in Python 3+.
+           @see: Standard C{float.as_integer_ratio} in Python 2.7+.
         '''
         n, r = self._fint2
         if r:
@@ -817,17 +818,18 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
 
     @property_RO
     def as_iscalar(self):
-        '''Get this instance I{as-is} (L{Fsum}) or as C{scalar} iff scalar.
+        '''Get this instance I{as-is} (L{Fsum} or C{scalar}), the
+           latter only if the C{residual} equals C{zero}.
         '''
         s, r = self._fprs2
         return self if r else s
 
     @property_RO
     def ceil(self):
-        '''Get this instance' C{ceil} value (C{int} in Python 3+,
-           but C{float} in Python 2-).
+        '''Get this instance' C{ceil} value (C{int} in Python 3+, but
+           C{float} in Python 2-).
 
-           @note: The C{ceil} takes the C{residual} into account.
+           @note: This C{ceil} takes the C{residual} into account.
 
            @see: Method L{Fsum.int_float} and properties L{Fsum.floor},
                  L{Fsum.imag} and L{Fsum.real}.
@@ -1138,7 +1140,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
         '''Get this instance' C{floor} (C{int} in Python 3+, but
            C{float} in Python 2-).
 
-           @note: The C{floor} takes the C{residual} into account.
+           @note: This C{floor} takes the C{residual} into account.
 
            @see: Method L{Fsum.int_float} and properties L{Fsum.ceil},
                  L{Fsum.imag} and L{Fsum.real}.
@@ -1171,7 +1173,8 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
             else:  # _len(other._ps) == _len(self._ps) == 1
                 f = self._finite(self._ps[0] * other._ps[0])
         else:
-            f = self._mul_scalar(other, op)
+            s = self._scalar(other, op)
+            f = self._mul_scalar(s, op)
         return self._fset(f)  # n=_len(self) + 1
 
     def fover(self, over, **raiser_RESIDUAL):
@@ -1494,7 +1497,8 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
         return s
 
     def is_exact(self):
-        '''Is this instance' running C{fsum} considered to be exact? (C{bool}).
+        '''Is this instance' running C{fsum} considered to be exact?
+           (C{bool}), C{True} only if the C{residual is }L{INT0}.
         '''
         return self.residual is INT0
 
@@ -1551,10 +1555,10 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
         return f
 
     def _mul_scalar(self, factor, op):  # in .fmath.Fhorner
-        '''(INTERNAL) Return C{B{self} * scalar B{factor}} as L{Fsum}, C{0} or C{self}.
+        '''(INTERNAL) Return C{B{self} * scalar B{factor}} as L{Fsum}, C{0.0} or C{self}.
         '''
         # assert isscalar(factor)
-        if self._finite(factor, op) and self._ps:
+        if self._ps and self._finite(factor, op):
             f =  self      if factor == _1_0 else (
                  self._neg if factor == _N_1_0 else
                  self._ps_mul(op, factor).as_iscalar)
