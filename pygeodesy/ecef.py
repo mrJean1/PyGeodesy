@@ -67,7 +67,7 @@ from pygeodesy.datums import a_f2Tuple, _ellipsoidal_datum, _WGS84,  _EWGS84
 # from pygeodesy.ellipsoids import a_f2Tuple, _EWGS84  # from .datums
 from pygeodesy.errors import _IndexError, LenError, _ValueError, _TypesError, \
                              _xattr, _xdatum, _xkwds, _xkwds_get
-from pygeodesy.fmath import cbrt, fdot, hypot, hypot1, hypot2_
+from pygeodesy.fmath import cbrt, fdot, Fpowers, hypot, hypot1, hypot2_, sqrt0
 from pygeodesy.fsums import Fsum, fsumf_,  Fmt, unstr
 from pygeodesy.interns import NN, _a_, _C_, _datum_, _ellipsoid_, _f_, _height_, \
                              _lat_, _lon_, _M_, _name_, _singular_, _SPACE_, \
@@ -86,7 +86,7 @@ from pygeodesy.utily import atan1, atan1d, atan2d, degrees90, degrees180, \
 from math import atan2, cos, degrees, fabs, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '24.04.07'
+__version__ = '24.05.04'
 
 _Ecef_    = 'Ecef'
 _prolate_ = 'prolate'
@@ -797,14 +797,14 @@ class EcefYou(_EcefBase):
 
     def __init__(self, a_ellipsoid=_EWGS84, f=None, **name_lon00):  # PYCHOK signature
         _EcefBase.__init__(self, a_ellipsoid, f=f, **name_lon00)  # inherited documentation
-        _ = EcefYou._e2(self.ellipsoid)
+        self._ee2 = EcefYou._ee2(self.ellipsoid)
 
     @staticmethod
-    def _e2(E):
+    def _ee2(E):
         e2 = E.a2 - E.b2
         if e2 < 0 or E.f < 0:
             raise EcefError(ellipsoid=E, txt=_prolate_)
-        return e2
+        return sqrt0(e2), e2
 
     def reverse(self, xyz, y=None, z=None, M=None, **name_lon00):  # PYCHOK unused M
         '''Convert geocentric C{(x, y, z)} to geodetic C{(lat, lon, height)}
@@ -831,13 +831,12 @@ class EcefYou(_EcefBase):
         '''
         x, y, z, name = _xyzn4(xyz, y, z, self._Geocentrics, **name_lon00)
 
-        E  = self.ellipsoid
-        e2 = EcefYou._e2(E)
-        e  = sqrt(e2) if e2 > 0 else _0_0  # XXX sqrt0(e2)?
+        E = self.ellipsoid
+        e, e2 = self._ee2
 
-        q  = hypot(  x, y)  # R
-        r2 = hypot2_(x, y, z)
-        u  = fsumf_(r2, -e2, hypot(r2 - e2, e * z * _2_0)) * _0_5
+        q = hypot(x, y)  # R
+        u = Fpowers(2, x, y, z) - e2
+        u = u.fadd_(hypot(u, e * z * _2_0)).fover(_2_0)
         if u > EPS02:
             u = sqrt(u)
             p = hypot(u, e)
@@ -849,8 +848,8 @@ class EcefYou(_EcefBase):
                 if isnon0(d):
                     B += fsumf_(u * E.b, -p, e2) / d
                     sB, cB = sincos2(B)
-        elif u < 0:
-            raise EcefError(x=x, y=y, z=z, txt=_singular_)
+        elif u < (-EPS2):
+            raise EcefError(x=x, y=y, z=z, u=u, txt=_singular_)
         else:
             sB, cB = _copysign_1_0(z), _0_0
 

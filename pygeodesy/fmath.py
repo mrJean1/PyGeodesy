@@ -6,14 +6,16 @@ u'''Utilities using precision floating point summation.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import _copysign, copysign0, isbool, isint, isscalar, len2
+from pygeodesy.basics import _copysign, copysign0, isbool, isint, isscalar, \
+                              len2, map1
 from pygeodesy.constants import EPS0, EPS02, EPS1, NAN, PI, PI_2, PI_4, \
                                _0_0, _0_125, _1_6th, _0_25, _1_3rd, _0_5, _1_0, \
-                               _1_5, _copysign_0_0, _isfinite, _over, remainder
+                               _N_1_0, _1_5, _copysign_0_0, _isfinite, remainder
 from pygeodesy.errors import _IsnotError, LenError, _TypeError, _ValueError, \
                              _xError, _xkwds_get, _xkwds_pop2
-from pygeodesy.fsums import _2float, Fsum, fsum, fsum1_, _1primed,  Fmt, unstr
-from pygeodesy.interns import MISSING, _few_, _negative_, _not_scalar_, _too_
+from pygeodesy.fsums import _2float, Fsum, fsum, fsum1_, _isFsumTuple, _1primed, \
+                             Fmt, unstr
+from pygeodesy.interns import MISSING, _negative_, _not_scalar_
 from pygeodesy.lazily import _ALL_LAZY, _sys_version_info2
 # from pygeodesy.streprs import Fmt, unstr  # from .fsums
 from pygeodesy.units import Int_, _isHeight, _isRadius,  Float_  # PYCHOK for .heights
@@ -22,7 +24,7 @@ from math import fabs, sqrt  # pow
 import operator as _operator  # in .datums, .trf, .utm
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '24.04.24'
+__version__ = '24.05.05'
 
 # sqrt(2) <https://WikiPedia.org/wiki/Square_root_of_2>
 _0_4142  =  0.41421356237309504880  # ... sqrt(2) - 1
@@ -34,17 +36,23 @@ class Fdot(Fsum):
     '''Precision dot product.
     '''
     def __init__(self, a, *b, **name_RESIDUAL):
-        '''New L{Fdot} precision dot product M{sum(a[i] * b[i]
-           for i=0..len(a)-1)}.
+        '''New L{Fdot} precision dot product M{sum(a[i] * b[i] for
+           i=0..len(a)-1)}.
 
-           @arg a: Iterable, list, tuple, etc. (C{scalar}s).
-           @arg b: Other values (C{scalar}s), all positional.
-           @kwarg name_RESIDUAL: Optional C{B{name}=NN} and C{B{RESIDUAL}=None},
-                       see L{Fsum<Fsum.__init__>}.
+           @arg a: Iterable of values (each C{scalar} or an L{Fsum} or
+                   L{Fsum2Tuple} instance).
+           @arg b: Other values (each C{scalar} or an L{Fsum} or L{Fsum2Tuple}
+                   instance), all positional.
+           @kwarg name_RESIDUAL: Optional C{B{name}=NN} and C{B{RESIDUAL}=0.0}
+                       threshold, see L{Fsum<Fsum.__init__>}.
+
+           @raise LenError: Unequal C{len(B{a})} and C{len(B{b})}.
 
            @raise OverflowError: Partial C{2sum} overflow.
 
-           @raise LenError: Unequal C{len(B{a})} and C{len(B{b})}.
+           @raise TypeError: Invalid B{C{x}}.
+
+           @raise ValueError: Non-finite B{C{x}}.
 
            @see: Function L{fdot} and method L{Fsum.fadd}.
         '''
@@ -56,27 +64,26 @@ class Fhorner(Fsum):
     '''Precision polynomial evaluation using the Horner form.
     '''
     def __init__(self, x, *cs, **name_RESIDUAL):
-        '''New L{Fhorner} evaluation of polynomial M{sum(cs[i] * x**i
-           for i=0..len(cs)-1)}.
+        '''New L{Fhorner} evaluation of polynomial M{sum(cs[i] * x**i for
+           i=0..len(cs)-1)}.
 
-           @arg x: Polynomial argument (C{scalar} or C{Fsum} instance).
-           @arg cs: Polynomial coeffients (C{scalar} or C{Fsum}
-                    instances), all positional.
-           @kwarg name_RESIDUAL: Optional C{B{name}=NN} and C{B{RESIDUAL}=None},
-                       see L{Fsum<Fsum.__init__>}.
+           @arg x: Polynomial argument (C{scalar} or an L{Fsum} or L{Fsum2Tuple}).
+           @arg cs: Polynomial coeffients (each C{scalar} or an L{Fsum} or
+                    L{Fsum2Tuple} instance), all positional.
+           @kwarg name_RESIDUAL: Optional C{B{name}=NN} and C{B{RESIDUAL}=0.0}
+                       threshold, see L{Fsum<Fsum.__init__>}.
 
            @raise OverflowError: Partial C{2sum} overflow.
 
-           @raise TypeError: Non-scalar B{C{x}}.
+           @raise TypeError: Invalid B{C{x}}.
 
            @raise ValueError: Non-finite B{C{x}}.
 
-           @see: Function L{fhorner} and methods L{Fsum.fadd} and
-                 L{Fsum.fmul}.
+           @see: Function L{fhorner} and methods L{Fsum.fadd} and L{Fsum.fmul}.
         '''
         Fsum.__init__(self, **name_RESIDUAL)
         if cs:
-            if isinstance(x, Fsum):
+            if _isFsumTuple(x):
                 _mul = self._mul_Fsum
             else:
                 _mul = self._mul_scalar
@@ -97,12 +104,15 @@ class Fhypot(Fsum):
     '''Precision summation and hypotenuse, default C{root=2}.
     '''
     def __init__(self, *xs, **root_name_RESIDUAL_raiser):
-        '''New L{Fhypot} hypotenuse of (the I{root} of) several components.
+        '''New L{Fhypot} hypotenuse of (the I{root} of) several components
+           (raised to the power I{root}).
 
-           @arg xs: One or more components (each a C{scalar} or an C{Fsum} instance).
-           @kwarg root_name_RESIDUAL_raiser: Optional, exponent and C{B{root}=2} order,
-                       C{B{name}=NN}, C{B{RESIDUAL}=None} and C{B{raiser}=True}, see
-                       class L{Fsum<Fsum.__init__>} and method L{root<Fsum.root>}.
+           @arg xs: Components (each C{scalar} or an L{Fsum} or L{Fsum2Tuple}
+                    instance), all positional.
+           @kwarg root_name_RESIDUAL_raiser: Optional, exponent and C{B{root}=2}
+                       order, C{B{name}=NN}, C{B{RESIDUAL}=0.0} threshold and
+                       C{B{raiser}=True}, see class L{Fsum<Fsum.__init__>} and
+                       method L{root<Fsum.root>}.
         '''
         r = None  # _xkwds_pop2 error
         try:
@@ -123,20 +133,19 @@ class Fpolynomial(Fsum):
         '''New L{Fpolynomial} evaluation of the polynomial
            M{sum(cs[i] * x**i for i=0..len(cs)-1)}.
 
-           @arg x: Polynomial argument (C{scalar} or L{Fsum}).
-           @arg cs: Polynomial coeffients (each a C{scalar} or an L{Fsum} instance),
-                    all positional.
-           @kwarg name_RESIDUAL: Optional C{B{name}=NN} and C{B{RESIDUAL}=None},
-                       see L{Fsum<Fsum.__init__>}.
+           @arg x: Polynomial argument (C{scalar} or an L{Fsum} or L{Fsum2Tuple}).
+           @arg cs: Polynomial coeffients (each C{scalar} or an L{Fsum} or
+                    L{Fsum2Tuple} instance), all positional.
+           @kwarg name_RESIDUAL: Optional C{B{name}=NN} and C{B{RESIDUAL}=0.0}
+                       threshold, see L{Fsum<Fsum.__init__>}.
 
            @raise OverflowError: Partial C{2sum} overflow.
 
-           @raise TypeError: Non-scalar B{C{x}}.
+           @raise TypeError: Invalid B{C{x}}.
 
            @raise ValueError: Non-finite B{C{x}}.
 
-           @see: Class L{Fhorner}, function L{fpolynomial} and
-                 method L{Fsum.fadd}.
+           @see: Class L{Fhorner}, function L{fpolynomial} and method L{Fsum.fadd}.
         '''
         Fsum.__init__(self, *cs[:1], **name_RESIDUAL)
         n = len(cs) - 1
@@ -150,12 +159,14 @@ class Fpowers(Fsum):
     '''Precision summation of powers, optimized for C{power=2, 3 and 4}.
     '''
     def __init__(self, power, *xs, **name_RESIDUAL_raiser):
-        '''New L{Fpowers} sum of (the I{power} of) several values.
+        '''New L{Fpowers} sum of (the I{power} of) several bases.
 
-           @arg power: The exponent (C{scalar} or L{Fsum}).
-           @arg xs: One or more values (each a C{scalar} or an C{Fsum} instance).
-           @kwarg name_RESIDUAL_raiser: Optional C{B{name}=NN}, C{B{RESIDUAL}=None} and
-                       C{B{raiser}=True}, see L{Fsum<Fsum.__init__>} and L{fpow<Fsum.fpow>}.
+           @arg power: The exponent (C{scalar} or an L{Fsum} or L{Fsum2Tuple}).
+           @arg xs: One or more bases (each C{scalar} or an L{Fsum} or L{Fsum2Tuple}
+                    instance), all positional.
+           @kwarg name_RESIDUAL_raiser: Optional C{B{name}=NN}, C{B{RESIDUAL}=0.0}
+                       threshold and C{B{raiser}=True}, see L{Fsum<Fsum.__init__>}
+                       and L{fpow<Fsum.fpow>}.
         '''
         try:
             raiser = _Fsum__init__(self, **name_RESIDUAL_raiser)
@@ -171,10 +182,12 @@ class Froot(Fsum):
     def __init__(self, root, *xs, **name_RESIDUAL_raiser):
         '''New L{Froot} root of a precision sum.
 
-           @arg root: The order (C{scalar} or C{Fsum}), non-zero.
-           @arg xs: Values to summate (each a C{scalar} or an C{Fsum} instance).
-           @kwarg name_RESIDUAL_raiser: Optional C{B{name}=NN}, C{B{RESIDUAL}=None} and
-                       C{B{raiser}=True}, see L{Fsum<Fsum.__init__>} and L{fpow<Fsum.fpow>}.
+           @arg root: The order (C{scalar} or an L{Fsum} or L{Fsum2Tuple}), non-zero.
+           @arg xs: Items to summate (each a C{scalar} or an L{Fsum} or L{Fsum2Tuple}
+                    instance), all positional.
+           @kwarg name_RESIDUAL_raiser: Optional C{B{name}=NN}, C{B{RESIDUAL}=0.0}
+                       threshold and C{B{raiser}=True}, see L{Fsum<Fsum.__init__>}
+                       and L{fpow<Fsum.fpow>}.
         '''
         try:
             raiser = _Fsum__init__(self, **name_RESIDUAL_raiser)
@@ -219,9 +232,11 @@ def bqrt(x):
     '''Return the 4-th, I{bi-quadratic} or I{quartic} root, M{x**(1 / 4)},
        preserving C{type(B{x})}.
 
-       @arg x: Value (C{scalar} or L{Fsum} instance).
+       @arg x: Value (C{scalar} or an L{Fsum} or L{Fsum2Tuple}).
 
-       @return: I{Quartic} root (C{float} or L{Fsum}).
+       @return: I{Quartic} root (C{float} or an L{Fsum}).
+
+       @raise TypeeError: Invalid B{C{x}}.
 
        @raise ValueError: Negative B{C{x}}.
 
@@ -247,14 +262,16 @@ except ImportError:  # Python 3.10-
 def cbrt(x):
     '''Compute the cube root M{x**(1/3)}, preserving C{type(B{x})}.
 
-       @arg x: Value (C{scalar} or L{Fsum} instance).
+       @arg x: Value (C{scalar} or an L{Fsum} or L{Fsum2Tuple}).
 
        @return: Cubic root (C{float} or L{Fsum}).
 
        @see: Functions L{cbrt2} and L{sqrt3}.
     '''
-    if isinstance(x, Fsum):
-        r = (-(-x).pow(_1_3rd)) if x < 0 else x.pow(_1_3rd)
+    if _isFsumTuple(x):
+        r = abs(x).fpow(_1_3rd)
+        if x.signOf() < 0:
+            r = -r
     else:
         r = _cbrt(x)
     return r  # cbrt(-0.0) == -0.0
@@ -263,13 +280,13 @@ def cbrt(x):
 def cbrt2(x):  # PYCHOK attr
     '''Compute the cube root I{squared} M{x**(2/3)}, preserving C{type(B{x})}.
 
-       @arg x: Value (C{scalar} or L{Fsum} instance).
+       @arg x: Value (C{scalar} or an L{Fsum} or L{Fsum2Tuple}).
 
        @return: Cube root I{squared} (C{float} or L{Fsum}).
 
        @see: Functions L{cbrt} and L{sqrt3}.
     '''
-    return abs(x).pow(_2_3rd) if isinstance(x, Fsum) else _cbrt(x**2)
+    return abs(x).fpow(_2_3rd) if _isFsumTuple(x) else _cbrt(x**2)
 
 
 def euclid(x, y):
@@ -284,7 +301,7 @@ def euclid(x, y):
        @see: Function L{euclid_}.
     '''
     x, y = abs(x), abs(y)  # NOT fabs!
-    if x < y:
+    if y > x:
         x, y = y, x
     return x + y * _0_4142  # XXX * _0_5 before 20.10.02
 
@@ -293,7 +310,8 @@ def euclid_(*xs):
     '''I{Appoximate} the norm M{sqrt(sum(x**2 for x in xs))} by
        cascaded L{euclid}.
 
-       @arg xs: X arguments, positional (C{scalar}s or L{Fsum} instances).
+       @arg xs: X arguments (each C{scalar} or an L{Fsum}
+                instance), all positional.
 
        @return: Appoximate norm (C{float} or L{Fsum}).
 
@@ -390,29 +408,29 @@ def fatan2(y, x):
     return r
 
 
-def favg(v1, v2, f=_0_5):
-    '''Return the average of two values.
+def favg(a, b, f=_0_5):
+    '''Return the precision average of two values.
 
-       @arg v1: One value (C{scalar} or L{Fsum} instance).
-       @arg v2: Other value (C{scalar} or L{Fsum} instance).
+       @arg a: One (C{scalar} or an L{Fsum} or L{Fsum2Tuple}).
+       @arg b: Other (C{scalar} or an L{Fsum} or L{Fsum2Tuple}).
        @kwarg f: Optional fraction (C{float}).
 
-       @return: M{v1 + f * (v2 - v1)} (C{float}).
+       @return: M{a + f * (b - a)} (C{float}).
     '''
 #      @raise ValueError: Fraction out of range.
 #   '''
 #   if not 0 <= f <= 1:  # XXX restrict fraction?
 #       raise _ValueError(fraction=f)
-    # v1 + f * (v2 - v1) == v1 * (1 - f) + v2 * f
-    return fsum1_(v1, -f * v1, f * v2)
+    # a + f * (b - a) == a * (1 - f) + b * f
+    return fsum1_(a, a * (-f), b * f)
 
 
 def fdot(a, *b):
     '''Return the precision dot product M{sum(a[i] * b[i] for
        i=0..len(a))}.
 
-       @arg a: Iterable, list, tuple, etc. (C{scalar}s).
-       @arg b: All positional arguments (C{scalar}s).
+       @arg a: Iterable of values (each C{scalar}).
+       @arg b: Other values (each C{scalar}), all positional.
 
        @return: Dot product (C{float}).
 
@@ -424,52 +442,51 @@ def fdot(a, *b):
     return fsum(_map_mul(a, b, fdot))
 
 
-def fdot3(a, b, c, start=0):
+def fdot3(xs, ys, zs, start=0):
     '''Return the precision dot product M{start +
        sum(a[i] * b[i] * c[i] for i=0..len(a)-1)}.
 
-       @arg a: Iterable, list, tuple, etc. (C{scalar}s).
-       @arg b: Iterable, list, tuple, etc. (C{scalar}s).
-       @arg c: Iterable, list, tuple, etc. (C{scalar}s).
-       @kwarg start: Optional bias (C{scalar}).
+       @arg xs: Iterable (each C{scalar} or an L{Fsum} or
+                L{Fsum2Tuple} instance).
+       @arg ys: Iterable (each C{scalar} or an L{Fsum} or
+                L{Fsum2Tuple} instance).
+       @arg zs: Iterable (each C{scalar} or an L{Fsum} or
+                L{Fsum2Tuple} instance).
+       @kwarg start: Optional bias (C{scalar} or an L{Fsum}
+                     or L{Fsum2Tuple}).
 
        @return: Dot product (C{float}).
 
-       @raise LenError: Unequal C{len(B{a})}, C{len(B{b})}
-                        and/or C{len(B{c})}.
+       @raise LenError: Unequal C{len(B{xs})}, C{len(B{ys})}
+                        and/or C{len(B{zs})}.
 
        @raise OverflowError: Partial C{2sum} overflow.
     '''
-    def _mul3(a, b, c):  # map function
-        return a * b * c
+    def _mul3(xs, ys, zs, s, p):
+        if s:
+            yield s
+        if p:
+            yield _1_0
+        _F = Fsum
+        for x, y, z in zip(xs, ys, zs):
+            yield (_F(x) * y) * z
+        if p:
+            yield _N_1_0
 
-    def _mul3_(a, b, c, start):
-        yield start
-        for abc in map(_mul3, a, b, c):
-            yield abc
+    n = len(xs)
+    if not n == len(ys) == len(zs):
+        raise LenError(fdot3, xs=n, ys=len(ys), zs=len(zs))
 
-    if not len(a) == len(b) == len(c):
-        raise LenError(fdot3, a=len(a), b=len(b), c=len(c))
-
-    return fsum(_mul3_(a, b, c, start) if start else map(_mul3, a, b, c))
+    return fsum(_mul3(xs, ys, zs, start, n < 4))
 
 
 def fhorner(x, *cs):
     '''Evaluate the polynomial M{sum(cs[i] * x**i for
        i=0..len(cs)-1)} using the Horner form.
 
-       @arg x: Polynomial argument (C{scalar}).
-       @arg cs: Polynomial coeffients (C{scalar}s).
+       @return: Horner sum (C{float}).
 
-       @return: Horner value (C{float}).
-
-       @raise OverflowError: Partial C{2sum} overflow.
-
-       @raise TypeError: Non-scalar B{C{x}}.
-
-       @raise ValueError: No B{C{cs}} coefficients or B{C{x}} is not finite.
-
-       @see: Function L{fpolynomial} and class L{Fhorner}.
+       @see: Class L{Fhorner} for further details.
     '''
     H = Fhorner(x, *cs)
     return float(H)
@@ -479,36 +496,61 @@ def fidw(xs, ds, beta=2):
     '''Interpolate using U{Inverse Distance Weighting
        <https://WikiPedia.org/wiki/Inverse_distance_weighting>} (IDW).
 
-       @arg xs: Known values (C{scalar}s).
-       @arg ds: Non-negative distances (C{scalar}s).
+       @arg xs: Known values (each C{scalar} or an L{Fsum} or
+                L{Fsum2Tuple} instance).
+       @arg ds: Non-negative distances (each C{scalar} or an L{Fsum}
+                or L{Fsum2Tuple} instance).
        @kwarg beta: Inverse distance power (C{int}, 0, 1, 2, or 3).
 
        @return: Interpolated value C{x} (C{float}).
 
        @raise LenError: Unequal or zero C{len(B{ds})} and C{len(B{xs})}.
 
-       @raise ValueError: Invalid B{C{beta}}, negative B{C{ds}} value,
+       @raise TypeError: An invalid B{C{ds}} or B{C{xs}}.
+
+       @raise ValueError: Invalid B{C{beta}}, negative B{C{ds}} or
                           weighted B{C{ds}} below L{EPS}.
 
        @note: Using C{B{beta}=0} returns the mean of B{C{xs}}.
     '''
     n, xs = len2(xs)
-    d, ds = len2(ds)
-    if n != d or n < 1:
-        raise LenError(fidw, xs=n, ds=d)
-
-    d, x = min(zip(ds, xs))
-    if d > EPS0 and n > 1:
+    if n > 1:
         b = -Int_(beta=beta, low=0, high=3)
         if b < 0:
-            ws = tuple(float(d)**b for d in ds)
-            t =  fsum(_1map_mul(xs, ws))  # Fdot(xs, *ws)
-            x = _over(t, fsum(ws, floats=True))
+            try:  # weighted
+                _F =  Fsum
+                W  = _F()
+                X  = _F()
+                for i, d in enumerate(ds):
+                    x = xs[i]
+                    if d < EPS0:
+                        if d < 0:
+                            raise ValueError(_negative_)
+                        x = float(x)
+                        i = n
+                        break
+                    D = _F(d).fpow(b)
+                    W += D
+                    X += D * x
+                else:
+                    x  = X.fover(W, raiser=False)
+                    i += 1  # len(xs) >= len(ds)
+            except IndexError:
+                i += 1  # len(xs) < i < len(ds)
+            except Exception as X:
+                n = Fmt.SQUARE(distance=i)
+                raise _xError(X, n, ds[i])
         else:  # b == 0
             x = fsum(xs) / n  # fmean(xs)
-    elif d < 0:  # PYCHOK no cover
-        n = Fmt.SQUARE(distance=ds.index(d))
-        raise _ValueError(n, d, txt=_negative_)
+            i = n
+    elif n:
+        x = float(xs[0])
+        i = n
+    else:
+        x    = _0_0
+        i, _ =  len2(ds)
+    if i != n:
+        raise LenError(fidw, xs=n, ds=i)
     return x
 
 
@@ -541,21 +583,11 @@ def fpolynomial(x, *cs, **over):
     '''Evaluate the polynomial M{sum(cs[i] * x**i for
        i=0..len(cs)) [/ over]}.
 
-       @arg x: Polynomial argument (C{scalar}).
-       @arg cs: Polynomial coeffients (C{scalar}s), all
-                positional.
-       @kwarg over: Optional final, I{non-zero} divisor
-                    (C{scalar}).
+       @kwarg over: Optional final, I{non-zero} divisor (C{scalar}).
 
        @return: Polynomial value (C{float}).
 
-       @raise OverflowError: Partial C{2sum} overflow.
-
-       @raise TypeError: Non-scalar B{C{x}}.
-
-       @raise ValueError: No B{C{cs}} coefficients or B{C{x}} is not finite.
-
-       @see: Function L{fhorner} and class L{Fpolynomial}.
+       @see: Class L{Fpolynomial} for further details.
     '''
     P =  Fpolynomial(x, *cs)
     d = _xkwds_get(over, over=0) if over else 0
@@ -565,12 +597,12 @@ def fpolynomial(x, *cs, **over):
 def fpowers(x, n, alts=0):
     '''Return a series of powers M{[x**i for i=1..n]}.
 
-       @arg x: Value (C{scalar} or L{Fsum}).
+       @arg x: Value (C{scalar} or an L{Fsum} or L{Fsum2Tuple}).
        @arg n: Highest exponent (C{int}).
        @kwarg alts: Only alternating powers, starting with this
                     exponent (C{int}).
 
-       @return: Tuple of powers of B{C{x}} (C{type(B{x})}).
+       @return: Tuple of powers of B{C{x}} (each C{type(B{x})}).
 
        @raise TypeError: Invalid B{C{x}} or B{C{n}} not C{int}.
 
@@ -581,7 +613,7 @@ def fpowers(x, n, alts=0):
     elif n < 1:
         raise _ValueError(n=n)
 
-    p  = x if isint(x) or isinstance(x, Fsum) else _2float(x=x)
+    p  = x if isint(x) or _isFsumTuple(x) else _2float(x=x)
     ps = tuple(_powers(p, n))
 
     if alts > 0:  # x**2, x**4, ...
@@ -753,8 +785,7 @@ if _sys_version_info2 < (3, 8):  # PYCHOK no cover
                   computed as M{hypot_(*((c1 - c2) for c1, c2 in zip(p1, p2)))},
                   provided I{p1} and I{p2} have the same, non-zero length I{n}.
         '''
-        _, R = _h_xs2(xs, True, hypot_)
-        return float(R)
+        return float(Fhypot(*xs, raiser=False))
 
 elif _sys_version_info2 < (3, 10):
     # In Python 3.8 and 3.9 C{math.hypot} is inaccurate, see
@@ -770,8 +801,7 @@ elif _sys_version_info2 < (3, 10):
 
            @return: C{sqrt(B{x}**2 + B{y}**2)} (C{float}).
         '''
-        return (float(Fhypot(x, y, raiser=False)) if y else
-                fabs(x)) if x else fabs(y)
+        return float(Fhypot(x, y, raiser=False))
 
     from math import hypot as hypot_  # PYCHOK in Python 3.8 and 3.9
 else:
@@ -779,52 +809,36 @@ else:
     hypot_ = hypot
 
 
-def _h_xs2(xs, pot_, which):
-    '''(INTERNAL) Helper for L{hypot_} and L{hypot2_}.
-    '''
-    n, xs = len2(xs)
-    if n > 0:
-        h = float(max(map(abs, xs)))  # NOT fabs!
-        if h < EPS0:
-            R = _0_0
-        elif n > 1:
-            if pot_:
-                if h != _1_0:
-                    xs = ((x / h) for x in xs)
-                R = Fhypot(*xs, raiser=False) * h
-            else:
-                R = Fpowers(2, *xs)
-        else:
-            R = h if pot_ else (h**2)
-        return h, R
-
-    raise _ValueError(unstr(which, xs), txt=_too_(_few_))
-
-
 def hypot1(x):
     '''Compute the norm M{sqrt(1 + x**2)}.
 
-       @arg x: Argument (C{scalar} or L{Fsum} instance).
+       @arg x: Argument (C{scalar} or L{Fsum} or L{Fsum2Tuple}).
 
        @return: Norm (C{float}).
     '''
-    return hypot(_1_0, x) if x else _1_0
+    if _isFsumTuple(x):
+        h = float(Fhypot(_1_0, x)) if x else _1_0
+    else:
+        h = hypot(_1_0, x) if x else _1_0
+    return h
 
 
 def hypot2(x, y):
     '''Compute the I{squared} norm M{x**2 + y**2}.
 
-       @arg x: X argument (C{scalar} or L{Fsum} instance).
-       @arg y: Y argument (C{scalar} or L{Fsum} instance).
+       @arg x: X (C{scalar} or L{Fsum} or L{Fsum2Tuple}).
+       @arg y: Y (C{scalar} or L{Fsum} or L{Fsum2Tuple}).
 
-       @return: C{B{x}**2 + B{y}**2} (C{float} or L{Fsum}).
+       @return: C{B{x}**2 + B{y}**2} (C{float}).
     '''
-    if abs(x) < abs(y):  # NOT fabs!
+    x, y = map1(abs, x, y)  # NOT fabs!
+    if y > x:
         x, y = y, x
     if x:
         h2 = x**2
         if y:
             h2 *= (y / x)**2 + _1_0
+        h2 =  float(h2)
     else:
         h2 = _0_0
     return h2
@@ -833,34 +847,35 @@ def hypot2(x, y):
 def hypot2_(*xs):
     '''Compute the I{squared} norm C{fsum(x**2 for x in B{xs})}.
 
-       @arg xs: X arguments (C{scalar}s or L{Fsum} instances),
-                all positional.
+       @arg xs: Components (each C{scalar} or an L{Fsum} or
+                L{Fsum2Tuple} instance), all positional.
 
        @return: Squared norm (C{float}).
 
-       @raise OverflowError: Partial C{2sum} overflow.
-
-       @raise ValueError: Invalid or no B{C{xs}} value.
-
-       @see: Function L{hypot_}.
+       @see: Class L{Fpowers} for further details.
     '''
-    _, R = _h_xs2(xs, False, hypot2_)
-    return float(R)
+    h2 = float(max(map(abs, xs))) if xs else _0_0
+    if h2:
+        _h = _1_0 / h2
+        h2 =  Fpowers(2, *((x * _h) for x in xs))
+        h2 =  h2.fover(_h**2)
+    return h2
 
 
-def _map_mul(a, b, where):
-    '''(INTERNAL) Yield each B{C{a * b}}.
+def _map_mul(xs, ys, where):
+    '''(INTERNAL) Yield each B{C{x * y}}.
     '''
-    n = len(b)
-    if len(a) != n:  # PYCHOK no cover
-        raise LenError(where, a=len(a), b=n)
-    return _1map_mul(a, b) if n < 4 else map(_operator.mul, a, b)
+    n = len(ys)
+    if len(xs) != n:  # PYCHOK no cover
+        raise LenError(where, xs=len(xs), ys=n)
+    return _1map_mul(xs, ys) if n < 4 else map(
+           _operator.mul, map(Fsum, xs), ys)
 
 
-def _1map_mul(a, b):
-    '''(INTERNAL) Yield each B{C{a * b}}, 1-primed.
+def _1map_mul(xs, ys):
+    '''(INTERNAL) Yield each B{C{x * y}}, 1-primed.
     '''
-    return _1primed(map(_operator.mul, a, b))
+    return _1primed(map(_operator.mul, map(Fsum, xs), ys))
 
 
 def norm2(x, y):
@@ -920,7 +935,7 @@ def _root(x, p, where):
     '''
     try:
         if x > 0:
-            return pow(x, p)
+            return Fsum(x).fpow(p).as_iscalar
         elif x < 0:
             raise ValueError(_negative_)
     except Exception as X:
@@ -932,10 +947,12 @@ def sqrt0(x, Error=None):
     '''Return the square root C{sqrt(B{x})} iff C{B{x} > }L{EPS02},
        preserving C{type(B{x})}.
 
-       @arg x: Value (C{scalar} or L{Fsum} instance).
+       @arg x: Value (C{scalar} or an L{Fsum} or L{Fsum2Tuple}).
        @kwarg Error: Error to raise for negative B{C{x}}.
 
        @return: Square root (C{float} or L{Fsum}) or C{0.0}.
+
+       @raise TypeeError: Invalid B{C{x}}.
 
        @note: Any C{B{x} < }L{EPS02} I{including} C{B{x} < 0}
               returns C{0.0}.
@@ -949,9 +966,11 @@ def sqrt3(x):
     '''Return the square root, I{cubed} M{sqrt(x)**3} or M{sqrt(x**3)},
        preserving C{type(B{x})}.
 
-       @arg x: Value (C{scalar} or L{Fsum} instance).
+       @arg x: Value (C{scalar} or an L{Fsum} or L{Fsum2Tuple}).
 
        @return: Square root I{cubed} (C{float} or L{Fsum}).
+
+       @raise TypeeError: Invalid B{C{x}}.
 
        @raise ValueError: Negative B{C{x}}.
 
@@ -1003,11 +1022,13 @@ def zcrt(x):
     '''Return the 6-th, I{zenzi-cubic} root, M{x**(1 / 6)},
        preserving C{type(B{x})}.
 
-       @arg x: Value (C{scalar} or L{Fsum} instance).
+       @arg x: Value (C{scalar} or an L{Fsum} or L{Fsum2Tuple}).
 
        @return: I{Zenzi-cubic} root (C{float} or L{Fsum}).
 
        @see: Functions L{bqrt} and L{zqrt}.
+
+       @raise TypeeError: Invalid B{C{x}}.
 
        @raise ValueError: Negative B{C{x}}.
     '''
@@ -1018,11 +1039,13 @@ def zqrt(x):
     '''Return the 8-th, I{zenzi-quartic} or I{squared-quartic} root,
        M{x**(1 / 8)}, preserving C{type(B{x})}.
 
-       @arg x: Value (C{scalar} or L{Fsum} instance).
+       @arg x: Value (C{scalar} or an L{Fsum} or L{Fsum2Tuple}).
 
        @return: I{Zenzi-quartic} root (C{float} or L{Fsum}).
 
        @see: Functions L{bqrt} and L{zcrt}.
+
+       @raise TypeeError: Invalid B{C{x}}.
 
        @raise ValueError: Negative B{C{x}}.
     '''

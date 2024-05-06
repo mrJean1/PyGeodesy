@@ -30,7 +30,7 @@ from contextlib import contextmanager
 # from math import fabs, sqrt  # from .fmath
 
 __all__ = _ALL_LAZY.vector2d
-__version__ = '24.04.18'
+__version__ = '24.05.04'
 
 _cA_        = 'cA'
 _cB_        = 'cB'
@@ -663,7 +663,7 @@ def _trilaterate2d2(x1, y1, radius1, x2, y2, radius2, x3, y3, radius3,
     return t
 
 
-def _trilaterate3d2(c1, r1, c2, r2, c3, r3, eps=EPS, coin=False,
+def _trilaterate3d2(c1, r1, c2, r2, c3, r3, eps=EPS4, coin=False,
                                           **clas_Vector_and_kwds):
     # (INTERNAL) Intersect three spheres or circles, see function
     # L{pygeodesy.trilaterate3d2}, separated to allow callers to

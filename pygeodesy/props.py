@@ -25,7 +25,7 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, \
 from functools import wraps as _wraps
 
 __all__ = _ALL_LAZY.props
-__version__ = '24.03.06'
+__version__ = '24.05.03'
 
 _class_       = 'class'
 _dont_use_    = _DEPRECATED_ + ", don't use."
@@ -36,9 +36,9 @@ _method_      = 'method'
 _not_an_inst_ = _not_(_an_, 'instance')
 
 
-def _allPropertiesOf(Clas_or_inst, *Bases):
+def _allPropertiesOf(Clas_or_inst, *Bases, **excls):
     '''(INTERNAL) Yield all C{R/property/_RO}s at C{Clas_or_inst}
-       as specified in the C{Bases} arguments.
+       as specified in the C{Bases} arguments, except C{excls}.
     '''
     if _isclass(Clas_or_inst):
         S = Clas_or_inst,  # just this Clas
@@ -48,17 +48,18 @@ def _allPropertiesOf(Clas_or_inst, *Bases):
         except AttributeError:
             raise
             S = ()  # not an inst
-    B = Bases or _PropertyBase
+    B   = Bases or _PropertyBase
+    _is = isinstance
     for C in S:
         for n, p in C.__dict__.items():
-            if isinstance(p, B) and p.name == n:
+            if _is(p, B) and p.name == n and n not in excls:
                 yield p
 
 
-def _allPropertiesOf_n(n, Clas_or_inst, *Bases):
+def _allPropertiesOf_n(n, Clas_or_inst, *Bases, **excls):
     '''(INTERNAL) Assert the number of C{R/property/_RO}s at C{Clas_or_inst}.
     '''
-    t = tuple(p.name for p in _allPropertiesOf(Clas_or_inst, *Bases))
+    t = tuple(p.name for p in _allPropertiesOf(Clas_or_inst, *Bases, **excls))
     if len(t) != n:
         raise _AssertionError(_COMMASPACE_.join(t), Clas_or_inst,
                           txt=_COMMASPACE_(len(t), _not_(n)))

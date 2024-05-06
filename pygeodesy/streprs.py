@@ -21,8 +21,9 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from math import fabs, log10 as _log10
 
 __all__ = _ALL_LAZY.streprs
-__version__ = '24.04.28'
+__version__ = '24.05.04'
 
+_at_        = 'at'         # PYCHOK used!
 _EN_PREC    =  6           # max MGRS/OSGR precision, 1 micrometer
 _EN_WIDE    =  5           # number of MGRS/OSGR units, log10(_100km)
 _OKd_       = '._-'        # acceptable name characters
@@ -43,8 +44,8 @@ class _Fmt(str):
         for n, v in name_value.items():
             break
         else:
-            n, v = name_value_[:2] if len(name_value_) > 1 else (NN,
-                  (name_value_[0]  if name_value_ else MISSING))
+            n, v = name_value_[:2] if len(name_value_) > 1 else \
+                  (NN, (name_value_ or MISSING))
         t = str.__mod__(self, v)
         return NN(n, t) if n else t
 
@@ -175,6 +176,11 @@ class Fmt(object):
                 t = t.replace(_tolerance_, _threshold_)
         return _no_(t)
 
+    def repr_at(self, inst, text=NN):
+        '''Return a C{repr} string C{"<B{text} at B{hex_id}>"}.
+        '''
+        return self.ANGLE(_SPACE_((text or inst), _at_, hex(id(inst))))
+
 Fmt          = Fmt()  # PYCHOK singleton
 Fmt.__name__ = Fmt.__class__.__name__
 
@@ -288,7 +294,7 @@ def _enstr2m3(estr, nstr, wide=_EN_WIDE):  # in .mgrs, .osgr
     return e, n, m
 
 
-def fstr(floats, prec=6, fmt=Fmt.F, ints=False, sep=_COMMASPACE_, strepr=None):
+def fstr(floats, prec=6, fmt=Fmt.F, ints=False, sep=_COMMASPACE_, strepr=None, force=True):
     '''Convert one or more floats to string, optionally stripped of trailing zero decimals.
 
        @arg floats: Single or a list, sequence, tuple, etc. (C{scalar}s).
@@ -302,15 +308,18 @@ def fstr(floats, prec=6, fmt=Fmt.F, ints=False, sep=_COMMASPACE_, strepr=None):
        @kwarg ints: Optionally, remove the decimal dot for C{int} values (C{bool}).
        @kwarg sep: Separator joining the B{C{floats}} (C{str}).
        @kwarg strepr: Optional callable to format non-C{floats} (typically
-                      C{repr}, C{str}) or C{None} to raise a TypeError.
+                      C{repr}, C{str}) or C{None} to raise a TypeError and used
+                      only if C{B{force} is not True}.
+       @kwarg force: If C{True} format all B{C{floats}} using B{C{fmt}},
+                     otherwise use B{C{strepr}} for non-C{floats}.
 
        @return: The C{sep.join(strs(floats, ...)} joined (C{str}) or single
                 C{strs((floats,), ...)} (C{str}) if B{C{floats}} is C{scalar}.
     '''
     if isscalar(floats):  # see Fstr.__call__ above
-        return next(_streprs(prec, (floats,), fmt, ints, True, strepr))
+        return next(_streprs(prec, (floats,), fmt, ints, force, strepr))
     else:
-        return sep.join(_streprs(prec, floats, fmt, ints, True, strepr))
+        return sep.join(_streprs(prec, floats, fmt, ints, force, strepr))
 
 
 def _fstrENH2(inst, prec, m, fmt=Fmt.F):  # in .css, .lcc, .utmupsBase

@@ -4,11 +4,11 @@
 # Test L{fsums} module.
 
 __all__ = ('Tests',)
-__version__ = '24.05.02'
+__version__ = '24.05.04'
 
 from bases import endswith, isPython2, startswith, TestsBase
 
-from pygeodesy import Fsum, Fsum2Tuple, NN, ResidualError, \
+from pygeodesy import EPS, Fsum, Fsum2Tuple, NN, ResidualError, \
                       frandoms, fsum, fsum_, fsums
 
 from math import ceil, floor
@@ -317,7 +317,7 @@ class Tests(TestsBase):
         self.test('int_float', t.int_float(), '-3.000', prec=3)
         self.test('fint',  t.fint(raiser=False), ('Fsum[1] fint(-3, 0)' if isPython2
                                              else 'Fsum[1] fint(-2, 0)'))
-        self.test('fint2', t.fint2(), ('(-3, 0' if isPython2 else '(-2, -1.0)'), known=startswith)
+        self.test('fint2', t.fint2(), ('(-3, 0' if isPython2 else '(-2, -1'), known=startswith)
 
         f = Fsum(3) // 1
         try:
@@ -353,6 +353,20 @@ class Tests(TestsBase):
             self.test('recursive', f.fsum(), '16.0')
         except ValueError as x:
             self.test('recursive', str(x), 16.0)
+
+        t  = Fsum2Tuple(1.0, EPS)
+        f += t
+        self.test('+=F2T', float(f), '17.0', known=startswith, nl=1)
+        f -= t
+        self.test('-=F2T', float(f), '16.0', known=startswith)
+        f *= t
+        self.test('*=F2T', float(f), '16.0', known=startswith)
+        f.fdiv(t, raiser=False)
+        self.test('/=F2T', float(f), '16.0', known=startswith)
+        f.pow(t, raiser=False)
+        self.test('**F2T', float(f), '16.0', known=startswith)
+        f.fdivmod(t, raiser=False)
+        self.test('%=F2T', float(f), '16.0', known=startswith)
 
 
 if __name__ == '__main__':

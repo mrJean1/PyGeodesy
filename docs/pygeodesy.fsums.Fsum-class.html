@@ -1730,9 +1730,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fsums.Fsum-class.html#is_scalar" class="summary-sig-name">is_scalar</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">**raiser_RESIDUAL</span>)</span><br />
-      Is this instance' running sum <code>scalar</code> with an 
-      insignificant residual and the residual <i>ratio</i> not exceeding 
-      the RESIDUAL threshold? (<code>bool</code>).</td>
+      Is this instance' running sum <code>scalar</code> without residual or
+      with a residual <i>ratio</i> not exceeding the RESIDUAL threshold?</td>
           <td align="right" valign="top">
             
             
@@ -1829,7 +1828,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fsums.Fsum-class.html#toRepr" class="summary-sig-name">toRepr</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">**prec_sep_fmt_lenc</span>)</span><br />
+        <span class="summary-sig-arg">**lenc_prec_sep_fmt</span>)</span><br />
       Return this <code>Fsum</code> instance as representation.</td>
           <td align="right" valign="top">
             
@@ -1847,7 +1846,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fsums.Fsum-class.html#toStr" class="summary-sig-name">toStr</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">**prec_sep_fmt_lenc</span>)</span><br />
+        <span class="summary-sig-arg">lenc</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">**prec_sep_fmt</span>)</span><br />
       Return this <code>Fsum</code> instance as string.</td>
           <td align="right" valign="top">
             
@@ -4297,9 +4297,8 @@
     </td>
   </tr></table>
   
-  <p>Is this instance' running sum <code>scalar</code> with an 
-  insignificant residual and the residual <i>ratio</i> not exceeding the 
-  RESIDUAL threshold? (<code>bool</code>).</p>
+  <p>Is this instance' running sum <code>scalar</code> without residual or 
+  with a residual <i>ratio</i> not exceeding the RESIDUAL threshold?</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -4308,8 +4307,13 @@
           class="link">ResidualError</a>s and 
           <code><b>RESIDUAL</b>=scalar</code> to override the <a 
           href="pygeodesy.fsums.Fsum-class.html#RESIDUAL" 
-          class="link">RESIDUAL</a>.</li>
+          class="link">RESIDUAL</a> threshold.</li>
     </ul></dd>
+    <dt>Returns:</dt>
+        <dd><code>True</code> if this instance' non-zero residual 
+          <code>ratio</code> exceeds the <a 
+          href="pygeodesy.fsums.Fsum-class.html#RESIDUAL" 
+          class="link">RESIDUAL</a> threshold (<code>bool</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.fsums.ResidualError-class.html">ResidualError</a></strong></code> - Non-zero, significant residual or invalid 
@@ -4522,7 +4526,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toRepr</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">**prec_sep_fmt_lenc</span>)</span>
+        <span class="sig-arg">**lenc_prec_sep_fmt</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -4533,13 +4537,9 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>prec_sep_fmt_lenc</code></strong> - Optional keyword arguments for method <a 
-          href="pygeodesy.named._NamedTuple-class.html#toRepr" 
-          class="link">Fsum2Tuple.toRepr</a> plus 
-          <code><b>lenc</b>=True</code> (<code>bool</code>) to in-/exclude 
-          the current <code>[len]</code> of this <a 
-          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> 
-          enclosed in <i>[brackets]</i>.</li>
+        <li><strong class="pname"><code>lenc_prec_sep_fmt</code></strong> - Optional keyword arguments for method <a 
+          href="pygeodesy.fsums.Fsum-class.html#toStr" 
+          class="link">Fsum.toStr</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>This instance (<code>repr</code>).</dd>
@@ -4557,7 +4557,8 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toStr</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">**prec_sep_fmt_lenc</span>)</span>
+        <span class="sig-arg">lenc</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">**prec_sep_fmt</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -4568,13 +4569,13 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>prec_sep_fmt_lenc</code></strong> - Optional keyword arguments for method <a 
-          href="pygeodesy.named._NamedTuple-class.html#toStr" 
-          class="link">Fsum2Tuple.toStr</a> plus 
-          <code><b>lenc</b>=True</code> (<code>bool</code>) to in-/exclude 
-          the current <code>[len]</code> of this <a 
-          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> 
-          enclosed in <i>[brackets]</i>.</li>
+        <li><strong class="pname"><code>lenc</code></strong> - If <code>True</code> include the current <code>[len]</code> of 
+          this <a href="pygeodesy.fsums.Fsum-class.html" 
+          class="link">Fsum</a> enclosed in <i>[brackets]</i> 
+          (<code>bool</code>).</li>
+        <li><strong class="pname"><code>prec_sep_fmt</code></strong> - Optional keyword arguments for method <a 
+          href="pygeodesy.fsums.Fsum2Tuple-class.html#toStr" 
+          class="link">Fsum2Tuple.toStr</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>This instance (<code>str</code>).</dd>
@@ -4895,7 +4896,7 @@ always).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu May  2 14:14:12 2024
+    Generated by Epydoc 3.0.1 on Sun May  5 14:46:26 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

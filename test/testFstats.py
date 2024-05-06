@@ -4,9 +4,9 @@
 # Test L{fstats} module.
 
 __all__ = ('Tests',)
-__version__ = '23.03.27'
+__version__ = '23.05.05'
 
-from bases import TestsBase
+from bases import endswith, TestsBase
 
 from pygeodesy import EPS0, Fcook, Flinear, fstats, Fsum, Fwelford
 
@@ -33,7 +33,7 @@ class Tests(TestsBase):
         self.test(c.name, j, '1.039635', prec=6, nt=1)
 
         t = c.fcopy(name=c.fcopy.__name__)
-        self.test(t.name, t, c, known=True)
+        self.test(t.name, t, '[8]', known=endswith)
         self.test(t.name, t.fmean_(),  m)
         self.test(t.name, t.fstdev_(), d, prec=1)
         self.test(c.name, c.fadd(()), 8, nt=1)
@@ -51,7 +51,7 @@ class Tests(TestsBase):
 
         t = Fcook(name='Empty')
         t += c
-        self.test(t.name, t, c, known=True)
+        self.test(t.name, t, '[16]', known=endswith)
         t += 0
         t += Fsum()
         self.test(t.name, len(t), 18)
@@ -59,7 +59,7 @@ class Tests(TestsBase):
             t += None
             self.test(t.name, t, TypeError.__name__)
         except TypeError as x:
-            self.test(t.name, str(x), str(x))
+            self.test_x(t.name, x)
 
         # <https://www.Real-Statistics.com/descriptive-statistics/symmetry-skewness-kurtosis/>
         c = Fcook((2, 5, -1, 3, 4, 5, 0, Fsum(2)), name='Excel')
@@ -93,7 +93,7 @@ class Tests(TestsBase):
         self.test(w.name, v, d**2, prec=1, nt=1)
 
         t = w.fcopy(name=w.fcopy.__name__)
-        self.test(t.name, t, w, known=True)
+        self.test(t.name, t, '[8]', known=endswith)
         self.test(t.name, t.fmean_(),  m)
         self.test(t.name, t.fstdev_(), d, prec=1)
         self.test(t.name, t.fvariance_(), d**2, prec=1)
@@ -108,7 +108,7 @@ class Tests(TestsBase):
             t += None
             self.test(t.name, t, TypeError.__name__)
         except TypeError as x:
-            self.test(t.name, str(x), str(x))
+            self.test_x(t.name, x)
 
         # <https://www.DisplayR.com/what-is-linear-regression/>
         r = Flinear(( 23,  26,  30,   34,   43,   48,   52,   57,   58),
@@ -127,12 +127,16 @@ class Tests(TestsBase):
             r += None
             self.test(r.name, r, TypeError.__name__)
         except TypeError as x:
-            self.test(r.name, str(x), str(x))
+            self.test_x(r.name, x)
         try:
             r += 1, 2, 3
             self.test(r.name, r, ValueError.__name__)
         except ValueError as x:
-            self.test(r.name, str(x), str(x))
+            self.test_x(r.name, x)
+
+    def test_x(self, name, x):
+        x = repr(x)
+        self.test(name, x, x)
 
 
 if __name__ == '__main__':

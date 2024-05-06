@@ -301,7 +301,7 @@ class Vector3d(Vector3dBase):
         '''
         return _MODS.vector2d.soddy4(self, point2, point3, eps=eps, useZ=True)
 
-    def trilaterate2d2(self, radius, center2, radius2, center3, radius3, eps=EPS, z=INT0):
+    def trilaterate2d2(self, radius, center2, radius2, center3, radius3, eps=EPS4, z=INT0):
         '''Trilaterate this and two other circles, each given as a (2-D) center
            and a radius.
 
@@ -344,7 +344,7 @@ class Vector3d(Vector3dBase):
                              center2=center2, radius2=radius2,
                              center3=center3, radius3=radius3)
 
-    def trilaterate3d2(self, radius, center2, radius2, center3, radius3, eps=EPS):
+    def trilaterate3d2(self, radius, center2, radius2, center3, radius3, eps=EPS4):
         '''Trilaterate this and two other spheres, each given as a (3-D) center
            and a radius.
 
