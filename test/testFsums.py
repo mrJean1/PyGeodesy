@@ -4,7 +4,7 @@
 # Test L{fsums} module.
 
 __all__ = ('Tests',)
-__version__ = '24.05.06'
+__version__ = '24.05.08'
 
 from bases import endswith, isPython2, startswith, TestsBase
 
@@ -388,7 +388,7 @@ class Tests(TestsBase):
 
         self.test('T._fint2',  t._fint2, '(1, ',   known=startswith, nl=1)
         self.test('T._fprs2',  t._fprs2, '(1.0, ', known=startswith)
-        self.test('T._n',      t._n,      '4')
+        self.test('T._n',      t._n,      '2')
         self.test('T._ps',     t._ps,     '[1.0',  known=startswith)
         self.test('T._ps_neg', list(t._ps_neg), '[-1.0', known=startswith)
         self.test('T.signOf',  t.signOf(), '1')

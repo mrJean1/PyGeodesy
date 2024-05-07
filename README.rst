@@ -87,7 +87,7 @@ line: ``epydoc --html --no-private --no-source --name=PyGeodesy --url=... -v pyg
 Tests
 =====
 
-The tests ran with Python 3.12.2 (with geographiclib_ 2.0), 3.11.5 (with geographiclib_ 2.0, numpy_
+The tests ran with Python 3.12.3 (with geographiclib_ 2.0), 3.11.5 (with geographiclib_ 2.0, numpy_
 1.24.2 and scipy_ 1.10.1), Python 3.10.8 (with geographiclib_ 2.0, numpy_ 1.23.3, scipy_ 1.9.1,
 GeoConvert_ 2.2, GeodSolve_ 2.2 and RhumbSolve_ 2.2), Python 3.9.6 and Python 2.7.18 (with geographiclib_
 1.50, numpy_ 1.16.6, scipy_ 1.2.2, GeoConvert_ 2.2, GeodSolve_ 2.2 and RhumbSolve_ 2.2), all on macOS
@@ -110,7 +110,7 @@ Python 3.11.5, 3.10.10 and 2.7.18 (all with geographiclib_ 1.52) on `Windows 10`
 A single-File and single-Directory application with ``pygeodesy`` has been bundled using PyInstaller_
 3.4 and 64-bit Python 3.7.4 and 3.7.3 on macOS 10.13.6 High Sierra.
 
-Previously, the tests were run with Python 3.12.0-1, 3.11.2-4, 3.10.1-7, 3.9.1, 3.8.7, 3.7.1, 2.7.15, PyPy_
+Previously, the tests were run with Python 3.12.0-2, 3.11.2-4, 3.10.1-7, 3.9.1, 3.8.7, 3.7.1, 2.7.15, PyPy_
 7.3.12 (Python 3.10.12), 7.3.1 (Python 3.6.9) and PyPy_ 7.1.1 (Python 2.7.13) (and geographiclib_ 1.52,
 numpy_ 1.16.3, 1.16.4, 1.16.6, 1.19.0, 1.19.4, 1.19.5 or 1.22.4 and scipy_ 1.2.1, 1.4.1, 1.5.2 or 1.8.1)
 on `Ubuntu 16.04`_, with Python 3.10.0-1, 3.9.0-5, 3.8.0-6, 3.7.2-6, 3.7.0, 3.6.2-5, 3.5.3, 2.7.13-17,
@@ -131,7 +131,7 @@ and McCabe_ using Python 2.7.18 and with Flake8_ using Python 3.11.5, both in 64
 
 For a summary of all *Karney*-based functionality in ``pygeodesy``, see module karney_.
 
-*Last updated: May 06, 2024.*
+*Last updated: May 08, 2024.*
 
 License
 =======

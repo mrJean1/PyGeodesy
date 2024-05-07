@@ -21,7 +21,8 @@ from pygeodesy.errors import _AttributeError, _ImportError, _NotImplementedError
                              _xkwds_get
 from pygeodesy.interns import MISSING, NN, _1_, _by_, _COMMA_, _DOT_, _DEPRECATED_, \
                              _ELLIPSIS4_, _enquote, _EQUAL_, _in_, _invalid_, _N_A_, \
-                             _not_scalar_, _SPACE_, _UNDER_, _version_, _version_info
+                             _not_, _not_scalar_, _odd_, _SPACE_, _UNDER_, _version_, \
+                             _version_info
 # from pygeodesy.latlonBase import LatLonBase  # _MODS
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _FOR_DOCS, \
                              _getenv, LazyImportError, _sys, _sys_version_info2
@@ -34,13 +35,12 @@ from math import copysign as _copysign
 import inspect as _inspect
 
 __all__ = _ALL_LAZY.basics
-__version__ = '24.04.28'
+__version__ = '24.05.08'
 
 _0_0                  =  0.0  # in .constants
 _below_               = 'below'
 _list_tuple_types     = (list, tuple)
 _list_tuple_set_types = (list, tuple, set)
-_odd_                 = 'odd'
 _PYGEODESY_XPACKAGES_ = 'PYGEODESY_XPACKAGES'
 _required_            = 'required'
 
@@ -784,6 +784,15 @@ def _xisscalar(**names_values):
     for n, v in names_values.items():
         if not isscalar(v):
             raise _TypeError(n, v, txt=_not_scalar_)
+
+
+def _xiterable(obj):
+    '''(INTERNAL) Raise C{TypeError} if C{obj} is not iterable.
+    '''
+    # https://PyPI.org/project/isiterable/
+    if not (hasattr(obj, '__iter__') or
+            hasattr(obj, '__getitem__')):
+        raise TypeError(_not_(_xiterable.__name__[2:]))
 
 
 def _xnumpy(where, *required):

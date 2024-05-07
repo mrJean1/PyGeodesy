@@ -332,6 +332,7 @@ _null_                = 'null'               # PYCHOK OK
 _number_              = 'number'             # PYCHOK OK
 _numpy_               = 'numpy'              # PYCHOK OK
 _Nv00_                = 'Nv00'               # PYCHOK OK
+_odd_                 = 'odd'                # PYCHOK OK
 _of_                  = 'of'                 # PYCHOK OK
 _on_                  = 'on'                 # PYCHOK OK
 _opposite_            = 'opposite'           # PYCHOK OK
@@ -647,7 +648,7 @@ def _version_ints(vs):
 __all__ = (_NN_,  # not MISSING!
             Str_.__name__,  # classes
             machine.__name__)  # in .lazily
-__version__ = '24.05.06'
+__version__ = '24.05.08'
 
 if __name__ == '__main__':
 

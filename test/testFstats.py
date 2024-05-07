@@ -4,11 +4,12 @@
 # Test L{fstats} module.
 
 __all__ = ('Tests',)
-__version__ = '23.05.05'
+__version__ = '23.05.07'
 
 from bases import endswith, TestsBase
 
-from pygeodesy import EPS0, Fcook, Flinear, fstats, Fsum, Fwelford
+from pygeodesy import EPS0, Fcook, Flinear, fstats, \
+                      Fsum, Fsum2Tuple, Fwelford
 
 
 class Tests(TestsBase):
@@ -62,7 +63,7 @@ class Tests(TestsBase):
             self.test_x(t.name, x)
 
         # <https://www.Real-Statistics.com/descriptive-statistics/symmetry-skewness-kurtosis/>
-        c = Fcook((2, 5, -1, 3, 4, 5, 0, Fsum(2)), name='Excel')
+        c = Fcook((2, 5, -1, 3, 4, 5, 0, Fsum2Tuple(1, 1)), name='Excel')
         self.test(c.name, len(c), 8, nl=1)
         k = c.fkurtosis_()
         self.test(c.name, k, '-1.114187', prec=6)
@@ -121,7 +122,7 @@ class Tests(TestsBase):
         r = r + (1, 2)
         self.test(r.name, len(r), 10)
         r += r.fcopy()
-        r += Fsum(), Fsum()
+        r += Fsum(), Fsum2Tuple(3, 4)
         self.test(r.name, len(r), 21)
         try:
             r += None

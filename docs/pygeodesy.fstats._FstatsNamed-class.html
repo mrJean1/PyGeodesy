@@ -93,9 +93,10 @@
         <tr>
           <td><span class="summary-sig"><a name="__add__"></a><span class="summary-sig-name">__add__</span>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>)</span><br />
-      Sum of this and a scalar, an <a 
-      href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or an 
-      other instance.</td>
+      Sum of this and an other instance or a <code>scalar</code> or an <a 
+      href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a>, <a 
+      href="pygeodesy.fsums.Fsum2Tuple-class.html" 
+      class="link">Fsum2Tuple</a> or .</td>
           <td align="right" valign="top">
             
             
@@ -146,7 +147,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a name="__len__"></a><span class="summary-sig-name">__len__</span>(<span class="summary-sig-arg">self</span>)</span><br />
-      Return the <i>total</i> number of accumulated values 
+      Return the <i>total</i> number of accumulated <code>Scalars</code> 
       (<code>int</code>).</td>
           <td align="right" valign="top">
             
@@ -215,7 +216,7 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.fstats._FstatsNamed-class.html#fcopy" class="summary-sig-name">fcopy</a>(<span class="summary-sig-arg">self</span>,
+          <td><span class="summary-sig"><a href="pygeodesy.fstats._FstatsNamed-class.html#copy" class="summary-sig-name">copy</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">deep</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
       Copy this instance, <code>shallow</code> or <b><code>deep</code></b>.</td>
@@ -234,7 +235,7 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.fstats._FstatsNamed-class.html#copy" class="summary-sig-name">copy</a>(<span class="summary-sig-arg">self</span>,
+          <td><span class="summary-sig"><a href="pygeodesy.fstats._FstatsNamed-class.html#fcopy" class="summary-sig-name">fcopy</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">deep</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
       Copy this instance, <code>shallow</code> or <b><code>deep</code></b>.</td>
@@ -339,36 +340,6 @@
   </dl>
 </td></tr></table>
 </div>
-<a name="fcopy"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">fcopy</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">deep</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Copy this instance, <code>shallow</code> or 
-  <b><code>deep</code></b>.</p>
-  <dl class="fields">
-    <dt>Arguments:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>deep</code></strong> - If <code>True</code> make a deep, otherwise a shallow copy 
-          (<code>bool</code>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional, non-empty name (<code>str</code>).</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>The copy (<code>This class</code>).</dd>
-  </dl>
-</td></tr></table>
-</div>
 <a name="copy"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -399,6 +370,36 @@
     <dt>Overrides:
         <a href="pygeodesy.named._Named-class.html#copy">named._Named.copy</a>
     </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="fcopy"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">fcopy</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">deep</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Copy this instance, <code>shallow</code> or 
+  <b><code>deep</code></b>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>deep</code></strong> - If <code>True</code> make a deep, otherwise a shallow copy 
+          (<code>bool</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional, non-empty name (<code>str</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The copy (<code>This class</code>).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -434,7 +435,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon May  6 16:23:15 2024
+    Generated by Epydoc 3.0.1 on Tue May  7 15:34:18 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

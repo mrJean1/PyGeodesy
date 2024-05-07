@@ -43,7 +43,7 @@ from pygeodesy.streprs import Fmt, fstr, unstr
 from math import ceil as _ceil, fabs, floor as _floor  # PYCHOK used! .ltp
 
 __all__ = _ALL_LAZY.fsums
-__version__ = '24.05.06'
+__version__ = '24.05.08'
 
 _abs          =  abs
 _add_op_      = _PLUS_  # in .auxilats.auxAngle
@@ -71,7 +71,7 @@ _significant_ = 'significant'
 _sub_op_      = _DASH_  # in .auxilats.auxAngle
 _threshold_   = 'threshold'
 _truediv_op_  = _SLASH_
-_Tuple        =  tuple
+_Tuple        =  tuple  # in .fstats
 _divmod_op_   = _floordiv_op_ + _mod_op_
 _isub_op_     = _sub_op_ + _fset_op_  # in .auxilats.auxAngle
 
@@ -86,10 +86,17 @@ def _2delta(*ab):
     return _Float(a if fabs(a) > fabs(b) else b)
 
 
-def _2error(unused):
+def _2error(unused):  # in .fstats
     '''(INTERNAL) Throw a C{not-finite} exception.
     '''
     raise ValueError(_not_finite_)
+
+
+def _2finite(x):
+    '''(INTERNAL) return C{float(x)} if finite.
+    '''
+    x = _Float(x)
+    return x if _isfinite(x) else _2error(x)
 
 
 def _2float(index=None, **name_value):  # in .fmath, .fstats
@@ -97,8 +104,7 @@ def _2float(index=None, **name_value):  # in .fmath, .fstats
     '''
     n, v = name_value.popitem()  # _xkwds_item2(name_value)
     try:
-        v = _Float(v)
-        return v if _isfinite(v) else _2error(v)
+        return _2finite(v)
     except Exception as X:
         raise _xError(X, Fmt.INDEX(n, index), v)
 
@@ -838,7 +844,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
         c = _ceil(s) + int(r) - 1
         while r > (c - s):  # (s + r) > c
             c += 1
-        return c
+        return c  # _ceil(self._n_d)
 
     cmp = __cmp__
 
@@ -1149,7 +1155,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
         f = _floor(s) + _floor(r) + 1
         while (f - s) > r:  # f > (s + r)
             f -= 1
-        return f
+        return f  # _floor(self._n_d)
 
 #   ffloordiv = __ifloordiv__  # for naming consistency
 #   floordiv  = __floordiv__   # for naming consistency
@@ -1222,7 +1228,8 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
            @note: The precision running C{fsum} after a C{//=} or
                   C{//} C{floor} division is C{int} in Python 3+.
         '''
-        return self._fprs2.fsum
+        s, _ = self._fprs2
+        return s  # ._fprs2.fsum
 
     @Property_RO
     def _fprs2(self):
@@ -1356,7 +1363,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
         return self._facc_1(xs)._fprs
 
     @property_RO
-    def _Fsum(self):  # like L{Fsum2Tuple._Fsum}, for C{_2floats}.
+    def _Fsum(self):  # like L{Fsum2Tuple._Fsum}, for C{_2floats}, .fstats
         return self  # NOT @Property_RO, see .copy and ._copy_2
 
     def Fsum_(self, *xs, **name):
@@ -1559,12 +1566,17 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
         '''
         # assert isscalar(factor)
         if self._ps and self._finite(factor, op):
-            f =  self      if factor == _1_0 else (
+            f =  self      if factor == _1_0   else (
                  self._neg if factor == _N_1_0 else
                  self._ps_mul(op, factor).as_iscalar)
         else:
             f = _0_0
         return f
+
+#   @property_RO
+#   def _n_d(self):
+#       n, d = self.as_integer_ratio()
+#       return n / d
 
     @property_RO
     def _neg(self):
@@ -1751,8 +1763,8 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
         return ps
 
     def _ps_mul(self, op, *factors):
-        '''(INTERNAL) Multiply this instance' C{partials} with each
-           of the scalar B{C{factors}} and accumulate.
+        '''(INTERNAL) Multiply this instance' C{partials} with
+           each scalar C{factor} and accumulate into an C{Fsum}.
         '''
         def _pfs(ps, fs):
             if _len(ps) < _len(fs):
@@ -1763,7 +1775,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
                     p *= f
                     yield p if _fin(p) else self._finite(p, op)
 
-        return _Psum(self._ps_acc([], _pfs(self._ps, factors), up=False))
+        return Fsum()._facc_scalar(_pfs(self._ps, factors), up=False)
 
     @property_RO
     def _ps_neg(self):
@@ -1773,7 +1785,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
             yield -p
 
     def _ps_1sum(self, *less):
-        '''(INTERNAL) Return the partials sum, 1-primed C{less} any scalars.
+        '''(INTERNAL) Return the partials sum, 1-primed C{less} some scalars.
         '''
         def _1pls(ps, ls):
             yield _1_0
@@ -1966,7 +1978,7 @@ class DivMod2Tuple(_NamedTuple):
     _Units_ = (_Float_Int, Fsum)
 
 
-class Fsum2Tuple(_NamedTuple):
+class Fsum2Tuple(_NamedTuple):  # in .fstats
     '''2-Tuple C{(fsum, residual)} with the precision running C{fsum}
        and the C{residual}, the sum of the remaining partials.  Each
        item is C{float} or C{int}.
@@ -2031,7 +2043,7 @@ class Fsum2Tuple(_NamedTuple):
         return self._Fsum._fprs2
 
     @Property_RO
-    def _Fsum(self):  # this C{Fsum2Tuple} as L{Fsum}
+    def _Fsum(self):  # this C{Fsum2Tuple} as L{Fsum}, in .fstats
         s, r = _s_r(*self)
         ps = (r, s) if r else (s,)
         return _Psum(ps, name=self.name)
@@ -2085,7 +2097,7 @@ class Fsum2Tuple(_NamedTuple):
         '''
         return Fmt.PAREN(fstr(self, fmt=fmt, strepr=str, force=False, **prec_sep))
 
-_Fsum_Fsum2Tuple_types = Fsum, Fsum2Tuple  # PYCHOK in .fstats
+_Fsum_Fsum2Tuple_types = Fsum, Fsum2Tuple  # PYCHOK lines
 
 
 class ResidualError(_ValueError):

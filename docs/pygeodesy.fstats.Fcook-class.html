@@ -436,7 +436,10 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xs</code></strong> - Iterable with initial values (<code>Scalar</code>s).</li>
+        <li><strong class="pname"><code>xs</code></strong> - Iterable of additional values (each <code>scalar</code> or an <a 
+          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
+          <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
+          class="link">Fsum2Tuple</a> instance).</li>
         <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
     </ul></dd>
     <dt>Overrides:
@@ -471,18 +474,19 @@
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>other</code></strong> - An <a href="pygeodesy.fstats.Fcook-class.html" 
-          class="link">Fcook</a> instance or <code>Scalar</code>s, meaning 
-          one or more <code>scalar</code> or <a 
-          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> 
-          instances.</li>
+          class="link">Fcook</a> instance or value or iterable of values 
+          (each <code>scalar</code> or an <a 
+          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
+          <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
+          class="link">Fsum2Tuple</a> instance).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>This instance, updated (<a 
           href="pygeodesy.fstats.Fcook-class.html" class="link">Fcook</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>other</code></b> type.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>other</code></b>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>other</code></b>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid or non-finite <b><code>other</code></b>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -511,19 +515,20 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xs</code></strong> - Iterable with additional values (<code>Scalar</code>s, meaning 
-          <code>scalar</code> or <a href="pygeodesy.fsums.Fsum-class.html" 
-          class="link">Fsum</a> instances).</li>
-        <li><strong class="pname"><code>sample</code></strong> - Return the <i>sample</i> instead of the entire <i>population</i> 
-          count (<code>bool</code>).</li>
+        <li><strong class="pname"><code>xs</code></strong> - Iterable of additional values (each <code>scalar</code> or an <a 
+          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
+          <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
+          class="link">Fsum2Tuple</a> instance).</li>
+        <li><strong class="pname"><code>sample</code></strong> - Use <code><b>sample</b>=True</code> for the <i>sample</i> count 
+          instead of the <i>population</i> count (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Current, running (sample) count (<code>int</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>OverflowError</strong></code> - Partial <code>2sum</code> overflow.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <b><code>xs</code></b> value.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid or non-finite <b><code>xs</code></b> value.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>xs</code></b>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid or non-finite <b><code>xs</code></b>.</li>
     </ul></dd>
     <dt>Overrides:
         <a href="pygeodesy.fstats._FstatsBase-class.html#fadd">_FstatsBase.fadd</a>
@@ -559,7 +564,10 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xs</code></strong> - Iterable with additional values (<code>Scalar</code>s).</li>
+        <li><strong class="pname"><code>xs</code></strong> - Iterable of additional values (each <code>scalar</code> or an <a 
+          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
+          <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
+          class="link">Fsum2Tuple</a>).</li>
         <li><strong class="pname"><code>sample</code></strong> - Return the <i>sample</i> normality (<code>bool</code>), default.</li>
         <li><strong class="pname"><code>excess</code></strong> - Return the <i>excess</i> kurtosis (<code>bool</code>), default.</li>
     </ul></dd>
@@ -621,9 +629,13 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xs</code></strong> - Iterable with additional values (<code>Scalar</code>s).</li>
-        <li><strong class="pname"><code>sample</code></strong> - Return the <i>sample</i> instead of the entire <i>population</i> 
-          kurtosis (<code>bool</code>).</li>
+        <li><strong class="pname"><code>xs</code></strong> - Iterable of additional values (each <code>scalar</code> or an <a 
+          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
+          <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
+          class="link">Fsum2Tuple</a> instance).</li>
+        <li><strong class="pname"><code>sample</code></strong> - Use <code><b>sample</b>=True</code> for the <i>sample</i> 
+          kurtosis instead of the <i>population</i> kurtosis 
+          (<code>bool</code>).</li>
         <li><strong class="pname"><code>excess</code></strong> - Return the <i>excess</i> kurtosis (<code>bool</code>), default.</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -686,7 +698,10 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xs</code></strong> - Iterable with additional values (<code>Scalar</code>s).</li>
+        <li><strong class="pname"><code>xs</code></strong> - Iterable of additional values (each <code>scalar</code> or an <a 
+          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
+          <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
+          class="link">Fsum2Tuple</a> instance).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Current, running median (<code>float</code>).</dd>
@@ -747,9 +762,13 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xs</code></strong> - Iterable with additional values (<code>Scalar</code>s).</li>
-        <li><strong class="pname"><code>sample</code></strong> - Return the <i>sample</i> instead of the entire <i>population</i> 
-          skewness (<code>bool</code>).</li>
+        <li><strong class="pname"><code>xs</code></strong> - Iterable of additional values (each <code>scalar</code> or an <a 
+          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
+          <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
+          class="link">Fsum2Tuple</a> instance).</li>
+        <li><strong class="pname"><code>sample</code></strong> - Use <code><b>sample</b>=True</code> for the <i>sample</i> 
+          skewness instead of the <i>population</i> skewness 
+          (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Current, running (sample) skewness (<code>float</code>).</dd>
@@ -823,7 +842,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon May  6 16:23:15 2024
+    Generated by Epydoc 3.0.1 on Tue May  7 15:34:18 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -121,7 +121,7 @@ C{epydoc --html --no-private --no-source --name=PyGeodesy --url=... -v pygeodesy
 Tests
 =====
 
-The tests ran with Python 3.12.2 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0,
+The tests ran with Python 3.12.3 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0,
 Python 3.11.5 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0, U{numpy
 <https://PyPI.org/project/numpy>} 1.24.2 and U{scipy<https://PyPI.org/project/scipy>} 1.10.1), Python
 3.10.8 (with U{geographiclib <https://PyPI.org/project/geographiclib>} 2.0, U{numpy
@@ -155,7 +155,7 @@ U{Debian 11<https://Cirrus-CI.com/github/mrJean1/PyGeodesy/master>} in 64-bit on
 A single-File and single-Directory application with C{pygeodesy} has been bundled using U{PyInstaller
 <https://PyPI.org/project/pyinstaller>} 3.4 and 64-bit Python 3.7.3 on macOS 10.13.6 High Sierra.
 
-Previously, the tests were run with Python 3.12.0-1, 3.11.2-4, 3.10.1-7, 3.9.1, 3.8.7, 3.7.1, 2.7.15, U{PyPy
+Previously, the tests were run with Python 3.12.0-2, 3.11.2-4, 3.10.1-7, 3.9.1, 3.8.7, 3.7.1, 2.7.15, U{PyPy
 <https://PyPy.org>} 7.3.12 (Python 3.10.12), 7.3.1 (Python 3.6.9) and U{PyPy<https://PyPy.org>} 7.1.1 (Python
 2.7.13) (and U{geographiclib <https://PyPI.org/project/geographiclib>} 1.52, U{numpy<https://PyPI.org/project/numpy>}
 1.16.3, 1.16.4, 1.16.6, 1.19.0, 1.19.4, 1.19.5 or 1.22.4 and U{scipy<https://PyPI.org/project/scipy>} 1.2.1, 1.4.1,
@@ -585,7 +585,7 @@ else:
     _init__all__ = False
 
 from pygeodesy.interns import _DOT_, _version2  # PYCHOK import
-__version__ = '24.05.06'
+__version__ = '24.05.08'
 # see setup.py for similar logic
 version     = _DOT_(*_version2(__version__, n=3))
 
