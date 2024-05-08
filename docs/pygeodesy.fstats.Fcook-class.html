@@ -160,8 +160,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fstats.Fcook-class.html#fjb" class="summary-sig-name">fjb</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">xs</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">sample</span>=<span class="summary-sig-default">True</span>,
-        <span class="summary-sig-arg">excess</span>=<span class="summary-sig-default">True</span>)</span><br />
+        <span class="summary-sig-arg">excess</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">sample</span>=<span class="summary-sig-default">True</span>)</span><br />
       Accumulate and compute the current <a 
       href="https://WikiPedia.org/wiki/Jarque&#8211;Bera_test" 
       target="_top">Jarque-Bera</a> normality.</td>
@@ -203,8 +203,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fstats.Fcook-class.html#fkurtosis" class="summary-sig-name">fkurtosis</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">xs</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">sample</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">excess</span>=<span class="summary-sig-default">True</span>)</span><br />
+        <span class="summary-sig-arg">excess</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">**sample</span>)</span><br />
       Accumulate and return the current kurtosis.</td>
           <td align="right" valign="top">
             
@@ -223,7 +223,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fstats.Fcook-class.html#fkurtosis_" class="summary-sig-name">fkurtosis_</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">*xs</span>,
-        <span class="summary-sig-arg">**sample_excess</span>)</span><br />
+        <span class="summary-sig-arg">**excess_sample</span>)</span><br />
       Accumulate and return the current kurtosis.</td>
           <td align="right" valign="top">
             
@@ -278,7 +278,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fstats.Fcook-class.html#fskewness" class="summary-sig-name">fskewness</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">xs</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">sample</span>=<span class="summary-sig-default">False</span>)</span><br />
+        <span class="summary-sig-arg">**sample</span>)</span><br />
       Accumulate and return the current skewness.</td>
           <td align="right" valign="top">
             
@@ -550,8 +550,8 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">fjb</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">xs</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">sample</span>=<span class="sig-default">True</span>,
-        <span class="sig-arg">excess</span>=<span class="sig-default">True</span>)</span>
+        <span class="sig-arg">excess</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">sample</span>=<span class="sig-default">True</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -568,8 +568,9 @@
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
           <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
           class="link">Fsum2Tuple</a>).</li>
-        <li><strong class="pname"><code>sample</code></strong> - Return the <i>sample</i> normality (<code>bool</code>), default.</li>
-        <li><strong class="pname"><code>excess</code></strong> - Return the <i>excess</i> kurtosis (<code>bool</code>), default.</li>
+        <li><strong class="pname"><code>excess</code></strong> - Apply the <i>excess</i> kurtosis (<code>bool</code>), default.</li>
+        <li><strong class="pname"><code>sample</code></strong> - Use <code><b>sample</b>=False</code> for the <i>population</i> 
+          normality instead of the <i>sample</i> one (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Current, running (sample) Jarque-Bera normality 
@@ -604,7 +605,7 @@
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Method <a href="pygeodesy.fstats.Fcook-class.html#fjb" 
-        class="link">Fcook.fjb</a>.
+        class="link">Fcook.fjb</a> for further details.
       </p>
 </div></td></tr></table>
 </div>
@@ -617,8 +618,8 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">fkurtosis</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">xs</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">sample</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">excess</span>=<span class="sig-default">True</span>)</span>
+        <span class="sig-arg">excess</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">**sample</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -633,10 +634,10 @@
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
           <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
           class="link">Fsum2Tuple</a> instance).</li>
+        <li><strong class="pname"><code>excess</code></strong> - Return the <i>excess</i> kurtosis (<code>bool</code>), default.</li>
         <li><strong class="pname"><code>sample</code></strong> - Use <code><b>sample</b>=True</code> for the <i>sample</i> 
           kurtosis instead of the <i>population</i> kurtosis 
           (<code>bool</code>).</li>
-        <li><strong class="pname"><code>excess</code></strong> - Return the <i>excess</i> kurtosis (<code>bool</code>), default.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Current, running (sample) kurtosis or <i>excess</i> kurtosis 
@@ -663,7 +664,7 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">fkurtosis_</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">*xs</span>,
-        <span class="sig-arg">**sample_excess</span>)</span>
+        <span class="sig-arg">**excess_sample</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -675,7 +676,7 @@
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Method <a href="pygeodesy.fstats.Fcook-class.html#fkurtosis" 
-        class="link">Fcook.fkurtosis</a>.
+        class="link">Fcook.fkurtosis</a> for further details.
       </p>
 </div></td></tr></table>
 </div>
@@ -738,7 +739,7 @@
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Method <a href="pygeodesy.fstats.Fcook-class.html#fmedian" 
-        class="link">Fcook.fmedian</a>.
+        class="link">Fcook.fmedian</a> for further details.
       </p>
 </div></td></tr></table>
 </div>
@@ -751,7 +752,7 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">fskewness</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">xs</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">sample</span>=<span class="sig-default">False</span>)</span>
+        <span class="sig-arg">**sample</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -806,7 +807,7 @@
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Method <a href="pygeodesy.fstats.Fcook-class.html#fskewness" 
-        class="link">Fcook.fskewness</a>.
+        class="link">Fcook.fskewness</a> for further details.
       </p>
 </div></td></tr></table>
 </div>
@@ -842,7 +843,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue May  7 15:34:18 2024
+    Generated by Epydoc 3.0.1 on Wed May  8 14:23:04 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

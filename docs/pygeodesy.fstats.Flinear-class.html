@@ -169,7 +169,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fstats.Flinear-class.html#fcorrelation" class="summary-sig-name">fcorrelation</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">sample</span>=<span class="summary-sig-default">False</span>)</span><br />
+        <span class="summary-sig-arg">**sample</span>)</span><br />
       Return the current, running (sample) correlation 
       (<code>float</code>).</td>
           <td align="right" valign="top">
@@ -188,7 +188,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fstats.Flinear-class.html#fintercept" class="summary-sig-name">fintercept</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">sample</span>=<span class="summary-sig-default">False</span>)</span><br />
+        <span class="summary-sig-arg">**sample</span>)</span><br />
       Return the current, running (sample) intercept (<code>float</code>).</td>
           <td align="right" valign="top">
             
@@ -206,7 +206,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fstats.Flinear-class.html#fslope" class="summary-sig-name">fslope</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">sample</span>=<span class="summary-sig-default">False</span>)</span><br />
+        <span class="summary-sig-arg">**sample</span>)</span><br />
       Return the current, running (sample) slope (<code>float</code>).</td>
           <td align="right" valign="top">
             
@@ -341,17 +341,17 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xs</code></strong> - Iterable with initial <code>x</code> values (each 
+        <li><strong class="pname"><code>xs</code></strong> - Iterable of initial <code>x</code> values (each 
           <code>scalar</code> or an <a 
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
           <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
           class="link">Fsum2Tuple</a> instance).</li>
-        <li><strong class="pname"><code>ys</code></strong> - Iterable with initial <code>y</code> values (each 
+        <li><strong class="pname"><code>ys</code></strong> - Iterable of initial <code>y</code> values (each 
           <code>scalar</code> or an <a 
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
           <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
           class="link">Fsum2Tuple</a> instance).</li>
-        <li><strong class="pname"><code>Fstats</code></strong> - Stats class for <code>x</code> and <code>y</code> values (<a 
+        <li><strong class="pname"><code>Fstats</code></strong> - Class for <code>xs</code> and <code>ys</code> values (<a 
           href="pygeodesy.fstats.Fcook-class.html" class="link">Fcook</a> 
           or <a href="pygeodesy.fstats.Fwelford-class.html" 
           class="link">Fwelford</a>).</li>
@@ -395,7 +395,7 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>other</code></strong> - An <a href="pygeodesy.fstats.Flinear-class.html" 
           class="link">Flinear</a> instance or an iterable of 
-          <code>x_ys</code>, see method <code>fadd_</code>.</li>
+          <code>x_ys</code> values, see method <code>fadd_</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>This instance, updated (<a 
@@ -436,18 +436,18 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xs</code></strong> - Iterable with additional <code>x</code> values (each 
+        <li><strong class="pname"><code>xs</code></strong> - Iterable of additional <code>x</code> values (each 
           <code>scalar</code> or an <a 
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
           <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
           class="link">Fsum2Tuple</a> instance).</li>
-        <li><strong class="pname"><code>ys</code></strong> - Iterable with additional <code>y</code> values (each 
+        <li><strong class="pname"><code>ys</code></strong> - Iterable of additional <code>y</code> values (each 
           <code>scalar</code> or an <a 
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
           <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
           class="link">Fsum2Tuple</a> instance).</li>
-        <li><strong class="pname"><code>sample</code></strong> - Return the <i>sample</i> instead of the entire <i>population</i> 
-          count (<code>bool</code>).</li>
+        <li><strong class="pname"><code>sample</code></strong> - Use <code><b>sample</b>=True</code> for the <i>sample</i> count 
+          instead of the <i>population</i> count (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Current, running (sample) count (<code>int</code>).</dd>
@@ -489,7 +489,7 @@
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Method <code>Flinear.fadd</code>.
+        Method <code>Flinear.fadd</code> for further details.
       </p>
 </div></td></tr></table>
 </div>
@@ -501,7 +501,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">fcorrelation</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">sample</span>=<span class="sig-default">False</span>)</span>
+        <span class="sig-arg">**sample</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -513,8 +513,9 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>sample</code></strong> - Return the <i>sample</i> instead of the entire <i>population</i> 
-          correlation (<code>bool</code>).</li>
+        <li><strong class="pname"><code>sample</code></strong> - Use <code><b>sample</b>=True</code> for the <i>sample</i> 
+          correlation instead of the <i>population</i> correlation 
+          (<code>bool</code>).</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -527,7 +528,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">fintercept</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">sample</span>=<span class="sig-default">False</span>)</span>
+        <span class="sig-arg">**sample</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -539,8 +540,9 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>sample</code></strong> - Return the <i>sample</i> instead of the entire <i>population</i> 
-          intercept (<code>bool</code>).</li>
+        <li><strong class="pname"><code>sample</code></strong> - Use <code><b>sample</b>=True</code> for the <i>sample</i> 
+          intercept instead of the <i>population</i> intercept 
+          (<code>bool</code>).</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -553,7 +555,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">fslope</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">sample</span>=<span class="sig-default">False</span>)</span>
+        <span class="sig-arg">**sample</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -564,8 +566,8 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>sample</code></strong> - Return the <i>sample</i> instead of the entire <i>population</i> 
-          slope (<code>bool</code>).</li>
+        <li><strong class="pname"><code>sample</code></strong> - Use <code><b>sample</b>=True</code> for the <i>sample</i> slope 
+          instead of the <i>population</i> slope (<code>bool</code>).</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -670,7 +672,7 @@ href="pygeodesy.fstats.Fwelford-class.html" class="link">Fwelford</a>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue May  7 15:34:18 2024
+    Generated by Epydoc 3.0.1 on Wed May  8 14:23:04 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

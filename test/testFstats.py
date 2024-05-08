@@ -4,7 +4,7 @@
 # Test L{fstats} module.
 
 __all__ = ('Tests',)
-__version__ = '23.05.07'
+__version__ = '23.05.08'
 
 from bases import endswith, TestsBase
 

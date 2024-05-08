@@ -9,9 +9,9 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import isscalar, isodd, _xinstanceof, \
                             _xiterable, _xsubclassof, _zip
-from pygeodesy.constants import _0_0, _2_0, _3_0, _4_0, _6_0
+from pygeodesy.constants import _0_0, _1_0, _2_0, _3_0, _4_0, _6_0
 from pygeodesy.errors import _AssertionError, _ValueError, _xError
-from pygeodesy.fmath import hypot2,  sqrt
+from pygeodesy.fmath import Fsqrt
 from pygeodesy.fsums import _2finite, _Float, Fsum, _iadd_op_, \
                             _isAn, _isFsumTuple, _Tuple,  Fmt
 from pygeodesy.interns import NN, _odd_, _SPACE_
@@ -20,10 +20,8 @@ from pygeodesy.named import _Named, _NotImplemented, property_RO
 # from pygeodesy.props import property_RO  # from .named
 # from pygeodesy.streprs import Fmt  # from .fsums
 
-# from math import sqrt  # from .fmath
-
 __all__ = _ALL_LAZY.fstats
-__version__ = '24.05.07'
+__version__ = '24.05.08'
 
 
 def _2Floats(**xs):
@@ -103,13 +101,13 @@ class _FstatsBase(_FstatsNamed):
     '''
     _Ms = ()
 
-    def _copy(self, c, s):
+    def _copy(self, d, s):
         '''(INTERNAL) Copy C{B{c} = B{s}}.
         '''
-        _xinstanceof(self.__class__, c=c, s=s)
-        c._Ms = _Tuple(M.copy() for M in s._Ms)  # deep=False
-        c._n  =                          s._n
-        return c
+        _xinstanceof(self.__class__, d=d, s=s)
+        d._Ms = _Tuple(M.copy() for M in s._Ms)  # deep=False
+        d._n  =                          s._n
+        return d
 
     def fadd(self, xs, sample=False):  # PYCHOK no cover
         '''I{Must be overloaded}.'''
@@ -118,7 +116,7 @@ class _FstatsBase(_FstatsNamed):
     def fadd_(self, *xs, **sample):
         '''Accumulate and return the current count.
 
-           @see: Method C{fadd}.
+           @see: Method C{fadd} for further details.
         '''
         return self.fadd(xs, **sample)
 
@@ -132,60 +130,54 @@ class _FstatsBase(_FstatsNamed):
 
            @see: Method C{fadd}.
         '''
-        if xs:
-            self.fadd(xs)
-        return self._M1.fsum()
+        return _Float(self._Mean(xs))
 
     def fmean_(self, *xs):
         '''Accumulate and return the current mean.
 
-           @see: Method C{fmean}.
+           @see: Method C{fmean} for further details.
         '''
         return self.fmean(xs)
 
-    def fstdev(self, xs=None, sample=False):
+    def fstdev(self, xs=None, **sample):
         '''Accumulate and return the current standard deviation.
 
-           @arg xs: Iterable of additional values (each C{scalar} or
-                    an L{Fsum} or L{Fsum2Tuple} instance).
-           @kwarg sample: Use C{B{sample}=True} for the I{sample}
-                          deviation instead of the I{population}
-                          deviation (C{bool}).
+           @arg xs: Iterable of additional values (each C{scalar} or an
+                    L{Fsum} or L{Fsum2Tuple} instance).
+           @kwarg sample: Use C{B{sample}=True} for the I{sample} deviation
+                          instead of the I{population} deviation (C{bool}).
 
            @return: Current, running (sample) standard deviation (C{float}).
 
            @see: Method C{fadd}.
         '''
-        v = self.fvariance(xs, sample=sample)
-        return sqrt(v) if v > 0 else _0_0
+        return _Float(self._Stdev(xs, **sample))
 
     def fstdev_(self, *xs, **sample):
         '''Accumulate and return the current standard deviation.
 
-           @see: Method C{fstdev}.
+           @see: Method C{fstdev} for further details.
         '''
         return self.fstdev(xs, **sample)
 
-    def fvariance(self, xs=None, sample=False):
+    def fvariance(self, xs=None, **sample):
         '''Accumulate and return the current variance.
 
-           @arg xs: Iterable of additional values (each C{scalar} or
-                    an L{Fsum} or L{Fsum2Tuple} instance).
-           @kwarg sample: Use C{B{sample}=True} for the I{sample}
-                          variance instead of the I{population}
-                          variance (C{bool}).
+           @arg xs: Iterable of additional values (each C{scalar} or an
+                    L{Fsum} or L{Fsum2Tuple} instance).
+           @kwarg sample: Use C{B{sample}=True} for the I{sample} variance
+                          instead of the I{population} variance (C{bool}).
 
            @return: Current, running (sample) variance (C{float}).
 
            @see: Method C{fadd}.
         '''
-        n = self.fadd(xs, sample=sample)
-        return _Float(self._M2 / _Float(n)) if n > 0 else _0_0
+        return _Float(self._Variance(xs, **sample))
 
     def fvariance_(self, *xs, **sample):
         '''Accumulate and return the current variance.
 
-           @see: Method C{fvariance}.
+           @see: Method C{fvariance} for further details.
         '''
         return self.fvariance(xs, **sample)
 
@@ -213,6 +205,25 @@ class _FstatsBase(_FstatsNamed):
     def _M2(self):
         '''(INTERNAL) get the 2nd Moment accumulator.'''
         return self._Ms[1]
+
+    def _Mean(self, xs=None):
+        '''(INTERNAL) Return the current mean as L{Fsum}.
+        '''
+        if xs:
+            self.fadd(xs)
+        return self._M1  # .copy()
+
+    def _Stdev(self, xs=None, **sample):
+        '''(INTERNAL) Return the current (sample) standard deviation as L{Fsum}.
+        '''
+        V = self._Variance(xs, **sample)
+        return Fsqrt(V) if V > 0 else _0_0
+
+    def _Variance(self, xs=None, **sample):
+        '''(INTERNAL) Return the current (sample) variance as L{Fsum}.
+        '''
+        n = self.fadd(xs, **sample)
+        return (self._M2 / n) if n > 0 else _0_0
 
 
 class Fcook(_FstatsBase):
@@ -263,9 +274,9 @@ class Fcook(_FstatsBase):
                     B1, B2, B3, B4 = other._Ms
 
                     n   =  na + nb
-                    n_  = _Float(n)
+                    _n  = _1_0 / n
                     D   =  A1 - B1  # b1 - a1
-                    Dn  =  D / n_
+                    Dn  =  D * _n
                     Dn2 =  Dn**2  # d**2 / n**2
                     nab =  na * nb
                     Dn3 =  Dn2 * (D * nab)
@@ -278,16 +289,16 @@ class Fcook(_FstatsBase):
                     A4 += (Dn * Dn3) * (na2 - nab + nb2)  # d**4 / n**3
 
                     A3 +=  B3
-                    A3 += (A2 *  na - (B2 * nb)) * (Dn * _3_0)
+                    A3 += (A2 * na - (B2 * nb)) * (Dn * _3_0)
                     A3 +=  Dn3 * (na - nb)
 
                     A2 += B2
-                    A2 += Dn2 * (nab / n_)
+                    A2 += Dn2 * (nab * _n)
 
                     B1n = B1 * nb  # if other is self
                     A1 *= na
                     A1 += B1n
-                    A1 *= 1 / n_  # /= chokes PyChecker
+                    A1 *= _n
 
 #                   self._Ms = A1, A2, A3, A4
                     self._n  = n
@@ -300,11 +311,10 @@ class Fcook(_FstatsBase):
     def fadd(self, xs, sample=False):
         '''Accumulate and return the current count.
 
-           @arg xs: Iterable of additional values (each C{scalar} or
-                    an L{Fsum} or L{Fsum2Tuple} instance).
-           @kwarg sample: Use C{B{sample}=True} for the I{sample}
-                          count instead of the I{population}
-                          count (C{bool}).
+           @arg xs: Iterable of additional values (each C{scalar} or an
+                    L{Fsum} or L{Fsum2Tuple} instance).
+           @kwarg sample: Use C{B{sample}=True} for the I{sample} count
+                          instead of the I{population} count (C{bool}).
 
            @return: Current, running (sample) count (C{int}).
 
@@ -350,40 +360,38 @@ class Fcook(_FstatsBase):
             self._n  = n
         return _sampled(n, sample)
 
-    def fjb(self, xs=None, sample=True, excess=True):
+    def fjb(self, xs=None, excess=True, sample=True):
         '''Accumulate and compute the current U{Jarque-Bera
            <https://WikiPedia.org/wiki/Jarque–Bera_test>} normality.
 
            @kwarg xs: Iterable of additional values (each C{scalar} or an
                       L{Fsum} or L{Fsum2Tuple}).
-           @kwarg sample: Return the I{sample} normality (C{bool}), default.
-           @kwarg excess: Return the I{excess} kurtosis (C{bool}), default.
+           @kwarg excess: Apply the I{excess} kurtosis (C{bool}), default.
+           @kwarg sample: Use C{B{sample}=False} for the I{population}
+                          normality instead of the I{sample} one (C{bool}).
 
            @return: Current, running (sample) Jarque-Bera normality (C{float}).
 
            @see: Method L{Fcook.fadd}.
         '''
-        n = self.fadd(xs,  sample=sample)
-        k = self.fkurtosis(sample=sample, excess=excess) / _2_0
-        s = self.fskewness(sample=sample)
-        return n * hypot2(k, s) / _6_0
+        return _Float(self._JarqueBera(xs, excess, sample=sample))
 
     def fjb_(self, *xs, **sample_excess):
         '''Accumulate and compute the current U{Jarque-Bera
            <https://WikiPedia.org/wiki/Jarque–Bera_test>} normality.
 
-           @see: Method L{Fcook.fjb}.
+           @see: Method L{Fcook.fjb} for further details.
         '''
         return self.fjb(xs, **sample_excess)
 
-    def fkurtosis(self, xs=None, sample=False, excess=True):
+    def fkurtosis(self, xs=None, excess=True, **sample):
         '''Accumulate and return the current kurtosis.
 
-           @arg xs: Iterable of additional values (each C{scalar} or
-                    an L{Fsum} or L{Fsum2Tuple} instance).
+           @arg xs: Iterable of additional values (each C{scalar} or an
+                    L{Fsum} or L{Fsum2Tuple} instance).
+           @kwarg excess: Return the I{excess} kurtosis (C{bool}), default.
            @kwarg sample: Use C{B{sample}=True} for the I{sample} kurtosis
                           instead of the I{population} kurtosis (C{bool}).
-           @kwarg excess: Return the I{excess} kurtosis (C{bool}), default.
 
            @return: Current, running (sample) kurtosis or I{excess} kurtosis (C{float}).
 
@@ -392,33 +400,21 @@ class Fcook(_FstatsBase):
 
            @see: Method L{Fcook.fadd}.
         '''
-        k, n = _0_0, self.fadd(xs, sample=sample)
-        if n > 0:
-            _, M2, _, M4 = self._Ms
-            m2 = _Float(M2 * M2)
-            if m2:
-                K, x = (M4 * (n / m2)), _3_0
-                if sample and 2 < n < len(self):
-                    d  = _Float((n - 1) * (n - 2))
-                    K *=        (n + 1) * (n + 2) / d
-                    x *= n**2 / d
-                if excess:
-                    K -= x
-                k = K.fsum()
-        return k
+        n = self.fadd(xs, **sample)
+        return _Float(self._Kurtosis(n, excess, **sample))
 
-    def fkurtosis_(self, *xs, **sample_excess):
+    def fkurtosis_(self, *xs, **excess_sample):
         '''Accumulate and return the current kurtosis.
 
-           @see: Method L{Fcook.fkurtosis}.
+           @see: Method L{Fcook.fkurtosis} for further details.
         '''
-        return self.fkurtosis(xs, **sample_excess)
+        return self.fkurtosis(xs, **excess_sample)
 
     def fmedian(self, xs=None):
         '''Accumulate and return the current median.
 
-           @arg xs: Iterable of additional values (each C{scalar} or
-                    an L{Fsum} or L{Fsum2Tuple} instance).
+           @arg xs: Iterable of additional values (each C{scalar} or an
+                    L{Fsum} or L{Fsum2Tuple} instance).
 
            @return: Current, running median (C{float}).
 
@@ -427,23 +423,20 @@ class Fcook(_FstatsBase):
                  https://TowardsDataScience.com/skewness-kurtosis-simplified-1338e094fc85>}
                  and method L{Fcook.fadd}.
         '''
-        # skewness = 3 * (mean - median) / stdev, i.e.
-        # median = mean - skewness * stdef / 3
-        m = _Float(self._M1) if xs is None else self.fmean(xs)
-        return m - self.fskewness() * self.fstdev() / _3_0
+        return _Float(self._Median(xs))
 
     def fmedian_(self, *xs):
         '''Accumulate and return the current median.
 
-           @see: Method L{Fcook.fmedian}.
+           @see: Method L{Fcook.fmedian} for further details.
         '''
         return self.fmedian(xs)
 
-    def fskewness(self, xs=None, sample=False):
+    def fskewness(self, xs=None, **sample):
         '''Accumulate and return the current skewness.
 
-           @arg xs: Iterable of additional values (each C{scalar} or
-                    an L{Fsum} or L{Fsum2Tuple} instance).
+           @arg xs: Iterable of additional values (each C{scalar} or an
+                    L{Fsum} or L{Fsum2Tuple} instance).
            @kwarg sample: Use C{B{sample}=True} for the I{sample} skewness
                           instead of the I{population} skewness (C{bool}).
 
@@ -454,23 +447,64 @@ class Fcook(_FstatsBase):
 
            @see: Method L{Fcook.fadd}.
         '''
-        s, n = _0_0, self.fadd(xs, sample=sample)
-        if n > 0:
-            _, M2, M3, _ = self._Ms
-            m = _Float(M2**3)
-            if m > 0:
-                S = M3 * sqrt(_Float(n) / m)
-                if sample and 1 < n < len(self):
-                    S *= (n + 1) / _Float(n - 1)
-                s = S.fsum()
-        return s
+        n = self.fadd(xs, **sample)
+        return _Float(self._Skewness(n, **sample))
 
     def fskewness_(self, *xs, **sample):
         '''Accumulate and return the current skewness.
 
-           @see: Method L{Fcook.fskewness}.
+           @see: Method L{Fcook.fskewness} for further details.
         '''
         return self.fskewness(xs, **sample)
+
+    def _JarqueBera(self, xs, excess, **sample):
+        '''(INTERNAL) Return the (sample) Jarque-Bera normality as L{Fsum}.
+        '''
+        N, n = _0_0, self.fadd(xs, **sample)
+        if n > 0:
+            K = self._Kurtosis(n, excess, **sample) / _2_0
+            S = self._Skewness(n,         **sample)
+            N = (K**2 + S**2) * (n / _6_0)  # Fpowers(2, K, S) * ...
+        return N
+
+    def _Kurtosis(self, n, excess, sample=False):
+        '''(INTERNAL) Return the (sample) kurtosis as L{Fsum} or C{0.0}.
+        '''
+        K = _0_0
+        if n > 0:
+            _, M2, _, M4 = self._Ms
+            M = M2**2
+            if M > 0:
+                K, x = M.rdiv(M4 * n, raiser=False), _3_0
+                if sample and 2 < n < len(self):
+                    d  = (n - 1) * (n - 2)
+                    K *= (n + 1) * (n + 2) / d
+                    x *=  n**2 / d
+                if excess:
+                    K -= x
+        return K
+
+    def _Median(self, xs=None):
+        '''(INTERNAL) Return the median as L{Fsum}.
+        '''
+        # skewness = 3 * (mean - median) / stdev, i.e.
+        # median = mean - (skewness * stdef) / 3
+        return self._Mean(xs) - (self._Skewness(self._n) *
+                                 self._Stdev()) / _3_0
+
+    def _Skewness(self, n, sample=False):
+        '''(INTERNAL) Return the (sample) skewness as L{Fsum} or C{0.0}.
+        '''
+        S = _0_0
+        if n > 0:
+            _, M2, M3, _ = self._Ms
+            M = M2**3
+            if M > 0:
+                M = M.rdiv(n, raiser=False)
+                S = M3 * Fsqrt(M, raiser=False)
+                if sample and 1 < n < len(self):
+                    S *= (n + 1) / (n - 1)
+        return S
 
     def toFwelford(self, name=NN):
         '''Return an L{Fwelford} equivalent.
@@ -490,8 +524,8 @@ class Fwelford(_FstatsBase):
     def __init__(self, xs=None, name=NN):
         '''New L{Fwelford} stats accumulator.
 
-           @arg xs: Iterable of additional values (each C{scalar} or
-                    an L{Fsum} or L{Fsum2Tuple} instance).
+           @arg xs: Iterable of initial values (each C{scalar} or an
+                    L{Fsum} or L{Fsum2Tuple} instance).
            @kwarg name: Optional name (C{str}).
 
            @see: Method L{Fwelford.fadd}.
@@ -527,18 +561,18 @@ class Fwelford(_FstatsBase):
                     M_, S_ = other._Ms
 
                     n  =  na + nb
-                    n_ = _Float(n)
+                    _n = _1_0 / n
 
                     D  = M_ - M
                     D *= D  # D**2
-                    D *= na * nb / n_
+                    D *= na * nb * _n
                     S += D
                     S += S_
 
                     Mn = M_ * nb  # if other is self
                     M *= na
                     M += Mn
-                    M *= 1 / n_  # /= chokes PyChecker
+                    M *= _n
 
 #                   self._Ms = M, S
                     self._n  = n
@@ -554,8 +588,8 @@ class Fwelford(_FstatsBase):
     def fadd(self, xs, sample=False):
         '''Accumulate and return the current count.
 
-           @arg xs: Iterable of additional values (each C{scalar} or
-                    an L{Fsum} or L{Fsum2Tuple} instance).
+           @arg xs: Iterable of additional values (each C{scalar} or an
+                    L{Fsum} or L{Fsum2Tuple} instance).
            @kwarg sample: Use C{B{sample}=True} for the I{sample} count
                           instead of the I{population} count (C{bool}).
 
@@ -589,12 +623,12 @@ class Flinear(_FstatsNamed):
     def __init__(self, xs=None, ys=None, Fstats=Fwelford, name=NN):
         '''New L{Flinear} regression accumulator.
 
-           @kwarg xs: Iterable with initial C{x} values (each C{scalar} or
+           @kwarg xs: Iterable of initial C{x} values (each C{scalar} or
                       an L{Fsum} or L{Fsum2Tuple} instance).
-           @kwarg ys: Iterable with initial C{y} values (each C{scalar} or
+           @kwarg ys: Iterable of initial C{y} values (each C{scalar} or
                       an L{Fsum} or L{Fsum2Tuple} instance).
-           @kwarg Fstats: Stats class for C{x} and C{y} values (L{Fcook}
-                          or L{Fwelford}).
+           @kwarg Fstats: Class for C{xs} and C{ys} values (L{Fcook} or
+                          L{Fwelford}).
            @kwarg name: Optional name (C{str}).
 
            @raise TypeError: B{C{Fstats}} not L{Fcook} or L{Fwelford}.
@@ -615,7 +649,7 @@ class Flinear(_FstatsNamed):
         '''Add B{C{other}} to this instance.
 
            @arg other: An L{Flinear} instance or an iterable of
-                       C{x_ys}, see method C{fadd_}.
+                       C{x_ys} values, see method C{fadd_}.
 
            @return: This instance, updated (L{Flinear}).
 
@@ -630,20 +664,16 @@ class Flinear(_FstatsNamed):
         if _isAn(other, Flinear):
             if len(other) > 0:
                 if len(self) > 0:
-                    n = other._n
-                    S = other._S
-                    X = other._X
-                    Y = other._Y
-                    D = (X._M1 - self._X._M1) * \
-                        (Y._M1 - self._Y._M1) * \
-                        (n     * self._n / _Float(n + self._n))
+                    n =  other._n
+                    D = (other._X._M1 - self._X._M1) * \
+                        (other._Y._M1 - self._Y._M1) * \
+                        (n * self._n / (self._n + n))
+                    self._S += other._S + D
+                    self._X += other._X
+                    self._Y += other._Y
                     self._n += n
-                    self._S += S + D
-                    self._X += X
-                    self._Y += Y
                 else:
                     self._copy(self, other)
-
         else:
             try:
                 _xiterable(other)
@@ -653,25 +683,31 @@ class Flinear(_FstatsNamed):
                 raise _xError(x, op)
         return self
 
-    def _copy(self, c, s):
-        '''(INTERNAL) Copy C{B{c} = B{s}}.
+    def _copy(self, d, s):
+        '''(INTERNAL) Copy C{B{d} = B{s}}.
         '''
-        _xinstanceof(Flinear, c=c, s=s)
-        c._n = s._n
-        c._S = s._S.copy(deep=False)
-        c._X = s._X.copy(deep=False)
-        c._Y = s._Y.copy(deep=False)
-        return c
+        _xinstanceof(Flinear, d=d, s=s)
+        d._S = s._S.copy(deep=False)
+        d._X = s._X.copy(deep=False)
+        d._Y = s._Y.copy(deep=False)
+        d._n = s._n
+        return d
+
+    def _Correlation(self, **sample):
+        '''(INTERNAL) Return the current (sample) correlation as L{Fsum}.
+        '''
+        return self._Sampled(self._X._Stdev(**sample) *
+                             self._Y._Stdev(**sample), **sample)
 
     def fadd(self, xs, ys, sample=False):
         '''Accumulate and return the current count.
 
-           @arg xs: Iterable with additional C{x} values (each C{scalar}
+           @arg xs: Iterable of additional C{x} values (each C{scalar}
                     or an L{Fsum} or L{Fsum2Tuple} instance).
-           @arg ys: Iterable with additional C{y} values (each C{scalar}
+           @arg ys: Iterable of additional C{y} values (each C{scalar}
                     or an L{Fsum} or L{Fsum2Tuple} instance).
-           @kwarg sample: Return the I{sample} instead of the entire
-                          I{population} count (C{bool}).
+           @kwarg sample: Use C{B{sample}=True} for the I{sample} count
+                          instead of the I{population} count (C{bool}).
 
            @return: Current, running (sample) count (C{int}).
 
@@ -690,7 +726,7 @@ class Flinear(_FstatsNamed):
                 n1 = n
                 n += 1
                 if n1 > 0:
-                    S += (X._M1 - x) * (Y._M1 - y) * (n1 / _Float(n))
+                    S += (X._M1 - x) * (Y._M1 - y) * (n1 / n)
                 X += x
                 Y += y
             self._n = n
@@ -703,56 +739,64 @@ class Flinear(_FstatsNamed):
                       (each C{scalar} or an L{Fsum} or L{Fsum2Tuple}
                       instance).
 
-           @see: Method C{Flinear.fadd}.
+           @see: Method C{Flinear.fadd} for further details.
         '''
         if isodd(len(x_ys)):
             t = _SPACE_(_odd_, len.__name__)
             raise _ValueError(t, len(x_ys))
         return self.fadd(x_ys[0::2], x_ys[1::2], **sample)
 
-    def fcorrelation(self, sample=False):
+    def fcorrelation(self, **sample):
         '''Return the current, running (sample) correlation (C{float}).
 
-           @kwarg sample: Return the I{sample} instead of the entire
-                          I{population} correlation (C{bool}).
+           @kwarg sample: Use C{B{sample}=True} for the I{sample} correlation
+                          instead of the I{population} correlation (C{bool}).
         '''
-        return self._sampled(self.x.fstdev(sample=sample) *
-                             self.y.fstdev(sample=sample), sample)
+        return _Float(self._Correlation(**sample))
 
-    def fintercept(self, sample=False):
+    def fintercept(self, **sample):
         '''Return the current, running (sample) intercept (C{float}).
 
-           @kwarg sample: Return the I{sample} instead of the entire
-                          I{population} intercept (C{bool}).
+           @kwarg sample: Use C{B{sample}=True} for the I{sample} intercept
+                          instead of the I{population} intercept (C{bool}).
         '''
-        return _Float(self.y._M1 -
-                     (self.x._M1 * self.fslope(sample=sample)))
+        return _Float(self._Intercept(**sample))
 
-    def fslope(self, sample=False):
+    def fslope(self, **sample):
         '''Return the current, running (sample) slope (C{float}).
 
-           @kwarg sample: Return the I{sample} instead of the entire
-                          I{population} slope (C{bool}).
+           @kwarg sample: Use C{B{sample}=True} for the I{sample} slope
+                          instead of the I{population} slope (C{bool}).
         '''
-        return self._sampled(self.x.fvariance(sample=sample), sample)
+        return _Float(self._Slope(**sample))
 
-    def _sampled(self, t, sample):
+    def _Intercept(self, **sample):
+        '''(INTERNAL) Return the current (sample) intercept as L{Fsum}.
+        '''
+        return self._Y._M1 - self._X._M1 * self._Slope(**sample)
+
+    def _Sampled(self, T, sample=False):
         '''(INTERNAL) Compute the sampled or entire population result.
         '''
-        t *= _Float(_sampled(self._n, sample))
-        return _Float(self._S / t) if t else _0_0
+        T *= _sampled(self._n, sample)
+        return self._S.copy().fdiv(T, raiser=False) if T else T
+
+    def _Slope(self, **sample):
+        '''(INTERNAL) Return the current (sample) slope as L{Fsum}.
+        '''
+        return self._Sampled(self._X._Variance(**sample), **sample)
 
     @property_RO
     def x(self):
         '''Get the C{x} accumulator (L{Fcook} or L{Fwelford}).
         '''
-        return self._X
+        return self._X  # .copy()
 
     @property_RO
     def y(self):
         '''Get the C{y} accumulator (L{Fcook} or L{Fwelford}).
         '''
-        return self._Y
+        return self._Y  # .copy()
 
 
 __all__ += _ALL_DOCS(_FstatsBase, _FstatsNamed)

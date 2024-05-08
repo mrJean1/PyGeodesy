@@ -1266,7 +1266,8 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
 
            @see: Method L{Fsum.fadd} for further details.
         '''
-        f = Fsum(*xs) if xs else _0_0
+        f = xs[0] if len(xs) == 1 else (
+            Fsum(*xs) if xs else _0_0)
         return self._fset(f)
 
     def _fset(self, other, as_is=True, n=0, up=True):
@@ -1811,6 +1812,8 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
                 if fabs(q) > fabs(t):
                     return dict(ratio=q, R=t)
         return {}
+
+    rdiv = __rtruediv__
 
     @property_RO
     def real(self):
