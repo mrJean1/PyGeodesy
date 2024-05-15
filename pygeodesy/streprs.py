@@ -5,23 +5,24 @@ u'''Floating point and other formatting utilities.
 '''
 
 from pygeodesy.basics import isint, islistuple, isscalar, isstr, itemsorted, \
-                            _zip,  _0_0
+                            _zip, _0_0
 # from pygeodesy.constants import _0_0
 from pygeodesy.errors import _or, _AttributeError, _IsnotError, _TypeError, \
                              _ValueError, _xkwds_get, _xkwds_item2, _xkwds_pop2
+# from pygeodesy.internals import _dunder_nameof  # from .lazily
 from pygeodesy.interns import NN, _0_, _0to9_, MISSING, _BAR_, _COMMASPACE_, \
                              _DOT_, _E_, _ELLIPSIS_, _EQUAL_, _H_, _LR_PAIRS, \
                              _N_, _name_, _not_, _not_scalar_, _PERCENT_, \
-                             _SPACE_, _STAR_, _UNDER_,  _dunder_nameof
+                             _SPACE_, _STAR_, _UNDER_
 from pygeodesy.interns import _convergence_, _distant_, _e_, _eps_, _exceeds_, \
                               _EQUALSPACED_, _f_, _F_, _g_, _limit_, _no_, \
                               _tolerance_  # PYCHOK used!
-from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
+from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS,  _dunder_nameof
 
 from math import fabs, log10 as _log10
 
 __all__ = _ALL_LAZY.streprs
-__version__ = '24.05.04'
+__version__ = '24.05.13'
 
 _at_        = 'at'         # PYCHOK used!
 _EN_PREC    =  6           # max MGRS/OSGR precision, 1 micrometer

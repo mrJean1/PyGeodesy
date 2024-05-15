@@ -27,10 +27,11 @@ from pygeodesy.streprs import Fmt, strs, unstr
 from pygeodesy.units import Float, Scalar
 # from pygeodesy.utily import sincos2  # _MODS
 
+# from builtints import hash, int, isinstance, map, max, round, type, zip
 from math import atan2, ceil, fabs, floor, trunc
 
 __all__ = _ALL_LAZY.vector3dBase
-__version__ = '24.03.24'
+__version__ = '24.05.10'
 
 
 class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum

@@ -140,15 +140,15 @@ in C{pygeodesy} are based on I{Karney}'s post U{Area of a spherical polygon
 from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import _copysign, int1s, isint, itemsorted, neg, unsigned0, \
-                             _xgeographiclib, _zip
+                             _xgeographiclib, _zip,  _version_info
 from pygeodesy.constants import NAN, _isfinite as _math_isfinite, _0_0, \
                                _1_16th,  _1_0, _2_0, _180_0, _N_180_0, _360_0
 from pygeodesy.errors import GeodesicError, _ValueError, _xkwds, _xkwds_get
 from pygeodesy.fmath import cbrt, fremainder, norm2
+# from pygeodesy.internals import _version_info  # from .basics
 from pygeodesy.interns import NN, _2_, _a12_, _area_, _azi2_, _azi12_, _composite_, \
                              _lat1_, _lat2_, _lon1_, _lon2_, _m12_, _M12_, _M21_, \
-                             _number_, _s12_, _S12_, _UNDER_, _version_info, \
-                             _BAR_  # PYCHOK used!
+                             _number_, _s12_, _S12_, _UNDER_, _BAR_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, _getenv
 from pygeodesy.named import ADict, _NamedBase, _NamedTuple, notImplemented, _Pass
 from pygeodesy.props import deprecated_method, Property_RO
@@ -159,7 +159,7 @@ from pygeodesy.utily import atan2d, sincos2d, tand, _unrollon,  fabs
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.karney
-__version__ = '24.03.22'
+__version__ = '24.05.13'
 
 _K_2_0      = _getenv('PYGEODESY_GEOGRAPHICLIB', _2_) == _2_
 _perimeter_ = 'perimeter'

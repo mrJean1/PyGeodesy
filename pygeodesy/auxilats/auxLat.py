@@ -18,7 +18,7 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 from pygeodesy.auxilats.auxAngle import AuxAngle, AuxBeta, AuxChi, _AuxClass, \
                                         AuxMu, AuxPhi, AuxTheta, AuxXi
 from pygeodesy.auxilats.auxily import Aux, _sc, _sn, _Ufloats,  atan1
-from pygeodesy.basics import _passarg, _reverange, _xinstanceof
+from pygeodesy.basics import _reverange, _xinstanceof,  _passarg
 from pygeodesy.constants import INF, MAX_EXP, MIN_EXP, NAN, PI_2, PI_4, _EPSqrt, \
                                _0_0, _0_0s, _0_1, _0_25, _0_5, _1_0, _2_0, _3_0, \
                                _360_0, isfinite, isinf, isnan, _log2, _over
@@ -29,6 +29,7 @@ from pygeodesy.errors import AuxError, _xkwds, _xkwds_get, _Xorder
 # from pygeodesy.fmath import cbrt  # from .karney
 from pygeodesy.fsums import Fsum, _Fsumf_, _sum
 from pygeodesy.karney import _2cos2x, _polynomial,  _ALL_DOCS, cbrt, _MODS
+# from pygeodesy.internals import _passarg  # from .basics
 from pygeodesy.interns import NN, _DOT_, _UNDER_  # _earth_
 # from pygeodesy.lazily import _ALL_DOCS, _ALL_MODS as _MODS  # from .karney
 from pygeodesy.props import Property, Property_RO, _update_all

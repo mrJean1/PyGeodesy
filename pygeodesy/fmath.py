@@ -7,7 +7,7 @@ u'''Utilities using precision floating point summation.
 from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import _copysign, copysign0, isbool, isint, isscalar, \
-                              len2, map1
+                              len2, map1, _xiterable
 from pygeodesy.constants import EPS0, EPS02, EPS1, NAN, PI, PI_2, PI_4, \
                                _0_0, _0_125, _1_6th, _0_25, _1_3rd, _0_5, _1_0, \
                                _N_1_0, _1_5, _copysign_0_0, _isfinite, remainder
@@ -24,7 +24,7 @@ from math import fabs, sqrt  # pow
 import operator as _operator  # in .datums, .trf, .utm
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '24.05.07'
+__version__ = '24.05.10'
 
 # sqrt(2) <https://WikiPedia.org/wiki/Square_root_of_2>
 _0_4142  =  0.41421356237309504880  # ... sqrt(2) - 1
@@ -521,17 +521,18 @@ def fidw(xs, ds, beta=2):
                 _F =  Fsum
                 W  = _F()
                 X  = _F()
-                for i, d in enumerate(ds):
+                for i, d in enumerate(_xiterable(ds)):
                     x = xs[i]
-                    if d < EPS0:
-                        if d < 0:
+                    D = _F(d)
+                    if D < EPS0:
+                        if D < 0:
                             raise ValueError(_negative_)
                         x = float(x)
                         i = n
                         break
-                    D = _F(d).fpow(b)
-                    W += D
-                    X += D.fmul(x)
+                    if D.fpow(b):
+                        W += D
+                        X += D.fmul(x)
                 else:
                     x  = X.fover(W, raiser=False)
                     i += 1  # len(xs) >= len(ds)
@@ -630,12 +631,12 @@ except ImportError:
     def fprod(xs, start=1):
         '''Iterable product, like C{math.prod} or C{numpy.prod}.
 
-           @arg xs: Terms to be multiplied, an iterable, list,
-                    tuple, etc. (C{scalar}s).
-           @kwarg start: Initial term, also the value returned
+           @arg xs: Iterable of values to be multiplied (each
+                    C{scalar} or an L{Fsum}).
+           @kwarg start: Initial value, also the value returned
                          for an empty B{C{xs}} (C{scalar}).
 
-           @return: The product (C{float}).
+           @return: The product (C{float} or an L{Fsum}).
 
            @see: U{NumPy.prod<https://docs.SciPy.org/doc/
                  numpy/reference/generated/numpy.prod.html>}.

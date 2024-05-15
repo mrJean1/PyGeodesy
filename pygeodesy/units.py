@@ -6,32 +6,30 @@ C{Str} from basic C{float}, C{int} respectively C{str} to
 named units as L{Degrees}, L{Feet}, L{Meter}, L{Radians}, etc.
 '''
 
-from pygeodesy.basics import isinstanceof, isscalar, isstr, issubclassof, \
-                             signOf
-from pygeodesy.constants import EPS, EPS1, PI, PI2, PI_2, \
-                               _umod_360, _0_0, _0_001, \
-                               _0_5, INT0  # PYCHOK for .mgrs, .namedTuples
-from pygeodesy.dms import F__F, F__F_, parseDMS, parseRad, \
-                          S_NUL, S_SEP, _toDMS, toDMS
-from pygeodesy.errors import _AssertionError, _IsnotError, TRFError, \
-                              UnitError, _xkwds, _xkwds_item2
+from pygeodesy.basics import isinstanceof, isscalar, isstr, issubclassof, signOf
+from pygeodesy.constants import EPS, EPS1, PI, PI2, PI_2, _umod_360, _0_0, \
+                               _0_001,  _0_5, INT0  # PYCHOK for .mgrs, .namedTuples
+from pygeodesy.dms import F__F, F__F_, S_NUL, S_SEP, parseDMS, parseRad, \
+                         _toDMS, toDMS
+from pygeodesy.errors import _AssertionError, _IsnotError, TRFError, UnitError, \
+                             _xkwds, _xkwds_item2
 from pygeodesy.interns import NN, _band_, _bearing_, _degrees_, _degrees2_, \
-                             _distance_, _E_, _easting_, _epoch_, _EW_, \
-                             _feet_, _height_, _lam_, _lat_, \
-                             _LatLon_, _lon_, _meter_, _meter2_, _N_, \
-                             _northing_, _NS_, _NSEW_, _number_, _PERCENT_, \
-                             _phi_, _precision_, _radians_, _radians2_, \
-                             _radius_, _S_, _scalar_, _units_, \
-                             _W_, _zone_,  _std_  # PYCHOK used!
+                             _distance_, _E_, _easting_, _epoch_, _EW_, _feet_, \
+                             _height_, _lam_, _lat_, _LatLon_, _lon_, _meter_, \
+                             _meter2_, _N_, _northing_, _NS_, _NSEW_, _number_, \
+                             _PERCENT_, _phi_, _precision_, _radians_, _radians2_, \
+                             _radius_, _S_, _scalar_, _units_, _W_, _zone_, \
+                             _std_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, _getenv
 from pygeodesy.props import Property_RO
 # from pygeodesy.streprs import Fmt, fstr  # from .unitsBase
 from pygeodesy.unitsBase import _Error, Float, Fmt, fstr, Int, _NamedUnit, \
                                  Radius, Str  # PYCHOK shared .namedTuples
+
 from math import degrees, radians
 
 __all__ = _ALL_LAZY.units
-__version__ = '24.02.20'
+__version__ = '24.05.10'
 
 _negative_falsed_ = 'negative, falsed'
 

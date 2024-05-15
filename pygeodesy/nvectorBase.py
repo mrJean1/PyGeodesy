@@ -19,13 +19,14 @@ from pygeodesy.fmath import fdot, fidw, hypot_  # PYCHOK fdot shared
 from pygeodesy.fsums import Fsum, fsumf_
 from pygeodesy.formy import _isequalTo, n_xyz2latlon, n_xyz2philam, \
                             _spherical_datum
+# from pygeodesy.internals import _under  # from .named
 from pygeodesy.interns import NN, _1_, _2_, _3_, _bearing_, _coincident_, \
                              _COMMASPACE_, _distance_, _h_, _insufficient_, \
                              _intersection_, _no_, _NorthPole_, _point_, \
-                             _pole_, _SPACE_, _SouthPole_, _under
+                             _pole_, _SPACE_, _SouthPole_
 from pygeodesy.latlonBase import LatLonBase,  _ALL_DOCS, _ALL_LAZY, _MODS
 # from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS  # from .latlonBase
-from pygeodesy.named import _xother3
+from pygeodesy.named import _xother3,  _under
 from pygeodesy.namedTuples import Trilaterate5Tuple, Vector3Tuple, \
                                   Vector4Tuple,  map1
 from pygeodesy.props import deprecated_method, Property_RO, property_doc_, \
@@ -38,7 +39,7 @@ from pygeodesy.vector3d import Vector3d, _xyzhdn3
 from math import fabs, sqrt
 
 __all__ = _ALL_LAZY.nvectorBase
-__version__ = '24.04.07'
+__version__ = '24.05.13'
 
 
 class NvectorBase(Vector3d):  # XXX kept private

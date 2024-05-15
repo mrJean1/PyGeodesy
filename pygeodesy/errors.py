@@ -14,18 +14,18 @@ C{PYGEODESY_EXCEPTION_CHAINING=std} or to any non-empty string.
 # from pygeodesy.basics import isint, isodd, issubclassof, itemsorted, _xinstanceof, _zip  # _MODS
 # from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, LatLonEllipsoidalBase  # _MODS
 # from pygeodesy import errors  # _MODS, _MODS.getattr
-from pygeodesy.interns import MISSING, NN, _a_, _an_, _and_, _clip_, _COLON_, \
-                             _COLONSPACE_, _COMMASPACE_, _datum_, _ellipsoidal_, \
-                             _incompatible_, _invalid_, _len_, _not_, _or_, _SPACE_, \
-                             _specified_, _UNDER_, _vs_, _with_, _tailof
-from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _getenv, _PYTHON_X_DEV
+# from pygeodesy.internals import _tailof  # from .lazily
+from pygeodesy.interns import MISSING, NN, _a_, _an_, _and_, _clip_, _COLON_, _COLONSPACE_, \
+                             _COMMASPACE_, _datum_, _ellipsoidal_, _incompatible_, _invalid_, \
+                             _len_, _not_, _or_, _SPACE_, _specified_, _UNDER_, _vs_, _with_
+from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _getenv, _PYTHON_X_DEV,  _tailof
 # from pygeodesy.streprs import Fmt, unstr  # _MODS
 # from pygeodesy.vector3dBase import Vector3dBase  # _MODS
 
 from copy import copy as _copy
 
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')  _under
-__version__ = '24.05.06'
+__version__ = '24.05.13'
 
 _box_        = 'box'
 _limiterrors =  True  # in .formy

@@ -11,7 +11,6 @@ from glob import glob
 from inspect import isclass, isfunction, ismethod, ismodule
 from os import X_OK, access, getenv, sep as _SEP  # environ
 from os.path import abspath, basename, dirname, join as joined, splitext
-from platform import architecture, java_ver, mac_ver, win32_ver, uname
 from random import random, seed
 import sys
 from time import localtime, time
@@ -32,8 +31,8 @@ PyGeodesy_dir = dirname(test_dir)
 if PyGeodesy_dir not in sys.path:  # Python 3+ ModuleNotFoundError
     sys.path.insert(0, PyGeodesy_dir)
 
-from pygeodesy import anstr, basics, clips, DeprecationWarnings, interns, isint, \
-                      isLazy, issubclassof, iterNumpy2over, LazyImportError, \
+from pygeodesy import anstr, basics, clips, DeprecationWarnings, internals, interns, \
+                      isint, isLazy, issubclassof, iterNumpy2over, LazyImportError, \
                       lazily, map2, NN, normDMS, pairs, printf, property_RO, \
                       version as PyGeodesy_version  # PYCHOK expected
 
@@ -48,9 +47,8 @@ __all__ = ('coverage', 'GeodSolve', 'geographiclib',  # constants
            'isPython2', 'isPython3', 'isPython37', 'isWindows',
            'numpy', 'PyGeodesy_dir', 'PythonX', 'scipy', 'test_dir',
            'RandomLatLon', 'TestsBase',  # classes
-           'ios_ver', 'nix_ver', 'secs2str',  # functions
-           'tilde', 'type2str', 'versions')
-__version__ = '24.04.24'
+           'secs2str', 'tilde', 'type2str', 'versions')  # functions
+__version__ = '24.05.13'
 
 try:
     geographiclib = basics._xgeographiclib(basics, 1, 50)
@@ -75,7 +73,6 @@ except NameError:  # Python 3+
     _Ints = int
     _Strs = str
 
-_os_bitstr = architecture()[0]  # XXX sys.maxsize
 _pseudo_home_dir = dirname(PyGeodesy_dir or _TILDE_) or _TILDE_
 
 _W_opts = sys.warnoptions or NN
@@ -88,41 +85,19 @@ isIntelPython = 'intelpython' in PythonX
 endswith   = str.endswith
 startswith = str.startswith
 
-_pl, _v2 = sys.platform, sys.version_info[:2]
+v2 = sys.version_info[:2]
 # isiOS is used by some tests known to fail on iOS only
-isiOS      = _pl[:3] == 'ios'  # public
-ismacOS    = _pl[:6] == 'darwin'  # public
-isNix      =  uname()[0].lower() == 'linux'
-isPyPy     =  interns._isPyPy()
-isPython2  = _v2[0] == 2
-isPython3  = _v2[0] == 3
-isPython35 = _v2 >= (3, 5)  # in .testCartesian
-isPython37 = _v2 >= (3, 7)  # in .run, .testLazy
-isPython39 = _v2 >= (3, 9)  # M1 arm64
-isWindows  = _pl[:3] == 'win'
-del _pl, _v2
-
-try:
-    # use distro only for Linux, not macOS, etc.
-    if isNix:
-        import distro  # <https://PyPI.org/project/distro>
-    else:
-        raise ImportError
-
-    _Nix = anstr(distro.id()).capitalize()  # .name()?
-
-    def nix_ver():  # *nix release
-        try:  # no subprocess.check_output ...
-            v = distro.version()
-        except AttributeError:  # ... Python 2.6
-            v = NN
-        return anstr(v), _os_bitstr
-
-except ImportError:
-    _Nix = NN  # not linux?
-
-    def nix_ver():  # PYCHOK expected
-        return _Nix, _os_bitstr
+isiOS      = internals._isiOS()  # public
+ismacOS    = internals._ismacOS()  # public
+isNix      = internals._isNix()
+isPyPy     = internals._isPyPy()
+isPython2  = v2[0] == 2
+isPython3  = v2[0] == 3
+isPython35 = v2 >= (3, 5)  # in .testCartesian
+isPython37 = v2 >= (3, 7)  # in .run, .testLazy
+isPython39 = v2 >= (3, 9)  # arm64 Apple Si
+isWindows  = internals._isWindows()
+del v2
 
 
 class RandomLatLon(object):
@@ -556,9 +531,9 @@ def versions():
     '''
     vs = TestsBase._versions
     if not vs:
-        from pygeodesy.interns import _pythonarchine
 
-        vs = 'PyGeodesy', PyGeodesy_version, _pythonarchine(sep=_SPACE_)
+        vs =  internals._Pythonarchine(sep=_SPACE_)
+        vs = 'PyGeodesy', PyGeodesy_version, vs
         for t in (coverage, numpy, scipy, geographiclib):
             if t:
                 vs += t.__name__, t.__version__
@@ -571,24 +546,9 @@ def versions():
         for t in (GeoConvert, GeodSolve, RhumbSolve):
             vs += _name_version2(t)
 
-        # - mac_ver() returns ('10.12.5', ..., 'x86_64') on
-        #   macOS and ('10.3.3', ..., 'iPad4,2') on iOS
-        # - win32_ver is ('XP', ..., 'SP3', ...) on Windows XP SP3
-        # - platform() returns 'Darwin-16.6.0-x86_64-i386-64bit'
-        #   on macOS and 'Darwin-16.6.0-iPad4,2-64bit' on iOS
-        # - sys.platform is 'darwin' on macOS, 'ios' on iOS,
-        #   'win32' on Windows and 'cygwin' on Windows/Gygwin
-        # - distro.id() and .name() return 'Darwin' on macOS
-        for t, r in (('iOS',     ios_ver),
-                     ('macOS',   mac_ver),
-                     ('Windows', win32_ver),
-                     (_Nix,      nix_ver),
-                     ('Java',    java_ver),
-                     ('uname',   uname)):
-            r = r()[0]
-            if r:
-                vs += t, r
-                break
+        t, r = internals._osversion2()
+        if r:
+            vs += t, r
 
         if isinstance(isLazy, int):
             vs += 'isLazy', str(isLazy)
@@ -608,9 +568,21 @@ GeodSolve  = _getenv_path(lazily._PYGEODESY_GEODSOLVE_)
 RhumbSolve = _getenv_path(lazily._PYGEODESY_RHUMBSOLVE_)
 # versions()  # get versions once
 
-if __name__ == '__main__':
+if internals._dunder_main(__name__):
 
     print(versions())
+
+# python3.12 -m test.bases
+# PyGeodesy 24.5.12 Python 3.12.3 64bit arm64 geographiclib 2.0 Math _K_2_0 macOS 14.4.1 isLazy 1 -W ignore
+
+# python3.11 -m test.bases
+# PyGeodesy 24.5.12 Python 3.11.5 64bit arm64 numpy 1.24.2 scipy 1.10.1 geographiclib 2.0 Math _K_2_0 macOS 14.4.1 isLazy 1 -W ignore
+
+# python3.10 -m test.bases
+# PyGeodesy 24.5.12 Python 3.10.8 64bit arm64 numpy 1.23.3 scipy 1.9.1 geographiclib 2.0 Math _K_2_0 macOS 14.4.1 isLazy 1 -W ignore
+
+# python2 -m test.bases
+# PyGeodesy 24.5.12 Python 2.7.18 64bit arm64_x86_64 numpy 1.16.6 scipy 1.2.2 geographiclib 1.50 macOS 10.16
 
 # **) MIT License
 #

@@ -4,10 +4,11 @@
 # Test modules and attributes.
 
 __all__ = ('Tests',)
-__version__ = '23.11.26'
+__version__ = '24.05.13'
 
 from bases import isPyPy, TestsBase, type2str
-from pygeodesy.interns import _DOT_, _headof, _tailof
+from pygeodesy.internals import _headof, _tailof,  _DOT_
+# from pygeodesy.interns import _DOT_  # from .internals
 
 
 class Tests(TestsBase):

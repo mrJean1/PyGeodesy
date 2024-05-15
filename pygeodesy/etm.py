@@ -74,7 +74,7 @@ from pygeodesy.elliptic import _ALL_LAZY, Elliptic
 from pygeodesy.fmath import cbrt, hypot, hypot1, hypot2
 from pygeodesy.fsums import Fsum, fsum1f_
 from pygeodesy.interns import NN, _COMMASPACE_, _DASH_, _near_, _SPACE_, \
-                             _spherical_, _usage
+                             _spherical_
 from pygeodesy.karney import _copyBit, _diff182, _fix90, _norm2, _norm180, \
                              _tand, _unsigned2
 # from pygeodesy.lazily import _ALL_LAZY  # from .elliptic
@@ -92,7 +92,7 @@ from pygeodesy.utm import _cmlon, _LLEB, _parseUTM5, _toBand, _toXtm8, \
 from math import asinh, atan2, degrees, radians, sinh, sqrt
 
 __all__ = _ALL_LAZY.etm
-__version__ = '24.04.07'
+__version__ = '24.05.13'
 
 _OVERFLOW = _1_EPS**2  # about 2e+31
 _TAYTOL   =  pow(EPS, 0.6)
@@ -1109,6 +1109,7 @@ def toEtm8(latlon, lon=None, datum=None, Etm=Etm, falsed=True,
 
 if __name__ == '__main__':  # MCCABE 13
 
+    from pygeodesy.internals import _usage
     from pygeodesy import fstr, KTransverseMercator, printf
     from sys import argv, exit as _exit
 

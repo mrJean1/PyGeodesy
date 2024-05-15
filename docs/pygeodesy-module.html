@@ -304,7 +304,7 @@
     Apple M1 Silicon (<code>arm64</code>), <i>natively</i>. Python 3.8.10 
     and 2.7.18 ran on Intel (<code>x86_64</code>) or Intel <i>emulation</i>
     (&quot;<code>arm64_x86_64</code>&quot;, see function <a 
-    href="pygeodesy.interns-module.html#machine" 
+    href="pygeodesy.internals-module.html#machine" 
     class="link">pygeodesy.machine</a>).</p>
     <p>The tests also ran with Python 3.11.5 (and <a 
     href="https://PyPI.org/project/geographiclib" 
@@ -542,7 +542,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        24.05.08
+        24.05.15
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -771,9 +771,16 @@
     <li> <strong class="uidlink"><a href="pygeodesy.hausdorff-module.html">pygeodesy.hausdorff</a></strong>: <em class="summary">Hausdorff distances.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.heights-module.html">pygeodesy.heights</a></strong>: <em class="summary">Height interpolations at <code>LatLon</code> points from 
         <code>knots</code>.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.internals-module.html">pygeodesy.internals</a></strong>: <em class="summary">Mostly INTERNAL functions, except <a 
+        href="pygeodesy.internals-module.html#machine" 
+        class="link">machine</a>, <a 
+        href="pygeodesy.internals-module.html#print_" 
+        class="link">print_</a> and <a 
+        href="pygeodesy.internals-module.html#printf" 
+        class="link">printf</a>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.interns-module.html">pygeodesy.interns</a></strong>: <em class="summary">Single <code>str</code>ing constants, <code>intern</code>'ed across
         <code>pygeodesy</code> modules and function <a 
-        href="pygeodesy.interns-module.html#machine" 
+        href="pygeodesy.internals-module.html#machine" 
         class="link">pygeodesy.machine</a>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.iters-module.html">pygeodesy.iters</a></strong>: <em class="summary">Iterators with options.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.karney-module.html">pygeodesy.karney</a></strong>: <em class="summary">Wrapper around several <code>geomath.Math</code> functions from 
@@ -8153,7 +8160,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fd5106ff350&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fbf7883a650&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -8572,7 +8579,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#isCartesian" class="summary-sig-name">isCartesian</a>(<span class="summary-sig-arg">obj</span>,
         <span class="summary-sig-arg">ellipsoidal</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Is <b><code>obj</code></b> some <code>Cartesian</code>?</td>
+      Is <b><code>obj</code></b>ect some <code>Cartesian</code>?</td>
           <td align="right" valign="top">
             
             
@@ -8588,10 +8595,9 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="isDEPRECATED"></a><span class="summary-sig-name">isDEPRECATED</span>(<span class="summary-sig-arg">obj</span>)</span><br />
-      Return <code>True</code> if <code><b>obj</b></code> is a 
-      <code>DEPRECATED</code> class, method or function, <code>False</code>
-      if not or <code>None</code> if undetermined.</td>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#isDEPRECATED" class="summary-sig-name">isDEPRECATED</a>(<span class="summary-sig-arg">obj</span>)</span><br />
+      Is <b><code>obj</code></b>ect a <code>DEPRECATED</code> class, method
+      or function?</td>
           <td align="right" valign="top">
             
             
@@ -8626,7 +8632,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#isLatLon" class="summary-sig-name">isLatLon</a>(<span class="summary-sig-arg">obj</span>,
         <span class="summary-sig-arg">ellipsoidal</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Is <b><code>obj</code></b> some <code>LatLon</code>?</td>
+      Is <b><code>obj</code></b>ect some <code>LatLon</code>?</td>
           <td align="right" valign="top">
             
             
@@ -8661,7 +8667,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#isNvector" class="summary-sig-name">isNvector</a>(<span class="summary-sig-arg">obj</span>,
         <span class="summary-sig-arg">ellipsoidal</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Is <b><code>obj</code></b> some <code>Nvector</code>?</td>
+      Is <b><code>obj</code></b>ect some <code>Nvector</code>?</td>
           <td align="right" valign="top">
             
             
@@ -8756,7 +8762,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#isbool" class="summary-sig-name">isbool</a>(<span class="summary-sig-arg">obj</span>)</span><br />
-      Check whether an object is <code>bool</code>ean.</td>
+      Is <b><code>obj</code></b>ect a <code>bool</code>ean?</td>
           <td align="right" valign="top">
             
             
@@ -8772,9 +8778,9 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#isclass" class="summary-sig-name">isclass</a>(<span class="summary-sig-arg">obj</span>)</span><br />
-      Return <code>True</code> if <b><code>obj</code></b> is a 
-      <code>class</code> or <code>type</code>.</td>
+          <td><span class="summary-sig"><a name="isclass"></a><span class="summary-sig-name">isclass</span>(<span class="summary-sig-arg">obj</span>)</span><br />
+      Is <b><code>obj</code></b>ect a <code>Class</code> or 
+      <code>type</code>?</td>
           <td align="right" valign="top">
             
             
@@ -8851,9 +8857,10 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#iscomplex" class="summary-sig-name">iscomplex</a>(<span class="summary-sig-arg">obj</span>)</span><br />
-      Check whether an object is a <code>complex</code> or complex 
-      <code>str</code>.</td>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#iscomplex" class="summary-sig-name">iscomplex</a>(<span class="summary-sig-arg">obj</span>,
+        <span class="summary-sig-arg">both</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Is <b><code>obj</code></b>ect a <code>complex</code> or complex 
+      literal <code>str</code>?</td>
           <td align="right" valign="top">
             
             
@@ -8943,9 +8950,10 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#isfloat" class="summary-sig-name">isfloat</a>(<span class="summary-sig-arg">obj</span>)</span><br />
-      Check whether an object is a <code>float</code> or float 
-      <code>str</code>.</td>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#isfloat" class="summary-sig-name">isfloat</a>(<span class="summary-sig-arg">obj</span>,
+        <span class="summary-sig-arg">both</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Is <b><code>obj</code></b>ect a <code>float</code> or float literal 
+      <code>str</code>?</td>
           <td align="right" valign="top">
             
             
@@ -8962,8 +8970,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a name="isidentifier"></a><span class="summary-sig-name">isidentifier</span>(<span class="summary-sig-arg">obj</span>)</span><br />
-      Return <code>True</code> if <b><code>obj</code></b> is a Python 
-      identifier.</td>
+      Is <b><code>obj</code></b>ect a Python identifier?</td>
           <td align="right" valign="top">
             
             
@@ -8997,9 +9004,9 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#isinstanceof" class="summary-sig-name">isinstanceof</a>(<span class="summary-sig-arg">obj</span>,
-        <span class="summary-sig-arg">*classes</span>)</span><br />
-      Is <b><code>ob</code></b> an instance of one of the 
-      <code>classes</code>?</td>
+        <span class="summary-sig-arg">*Classes</span>)</span><br />
+      Is <b><code>obj</code></b>ect an instance of one of the 
+      <code>Classes</code>?</td>
           <td align="right" valign="top">
             
             
@@ -9017,8 +9024,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#isint" class="summary-sig-name">isint</a>(<span class="summary-sig-arg">obj</span>,
         <span class="summary-sig-arg">both</span>=<span class="summary-sig-default">False</span>)</span><br />
-      Check for <code>int</code> type or an integer <code>float</code> 
-      value.</td>
+      Is <b><code>obj</code></b>ect an <code>int</code> or integer 
+      <code>float</code> value?</td>
           <td align="right" valign="top">
             
             
@@ -9073,7 +9080,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#islistuple" class="summary-sig-name">islistuple</a>(<span class="summary-sig-arg">obj</span>,
         <span class="summary-sig-arg">minum</span>=<span class="summary-sig-default">0</span>)</span><br />
-      Check for list or tuple <code>type</code> with a minumal length.</td>
+      Is <b><code>obj</code></b>ect a <code>list</code> or 
+      <code>tuple</code> with non-zero length?</td>
           <td align="right" valign="top">
             
             
@@ -9291,8 +9299,10 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#isscalar" class="summary-sig-name">isscalar</a>(<span class="summary-sig-arg">obj</span>)</span><br />
-      Check for scalar types.</td>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#isscalar" class="summary-sig-name">isscalar</a>(<span class="summary-sig-arg">obj</span>,
+        <span class="summary-sig-arg">both</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Is <b><code>obj</code></b>ect an <code>int</code> or integer 
+      <code>float</code> value?</td>
           <td align="right" valign="top">
             
             
@@ -9310,7 +9320,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#issequence" class="summary-sig-name">issequence</a>(<span class="summary-sig-arg">obj</span>,
         <span class="summary-sig-arg">*excls</span>)</span><br />
-      Check for sequence types.</td>
+      Is <b><code>obj</code></b>ect some sequence type?</td>
           <td align="right" valign="top">
             
             
@@ -9327,7 +9337,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#isstr" class="summary-sig-name">isstr</a>(<span class="summary-sig-arg">obj</span>)</span><br />
-      Check for string types.</td>
+      Is <b><code>obj</code></b>ect some string type?</td>
           <td align="right" valign="top">
             
             
@@ -9345,7 +9355,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#issubclassof" class="summary-sig-name">issubclassof</a>(<span class="summary-sig-arg">Sub</span>,
         <span class="summary-sig-arg">*Supers</span>)</span><br />
-      Check whether a class is a sub-class of some other class(es).</td>
+      Is <b><code>Sub</code></b> a class and sub-class of some other 
+      class(es)?</td>
           <td align="right" valign="top">
             
             
@@ -9830,7 +9841,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#map1" class="summary-sig-name">map1</a>(<span class="summary-sig-arg">fun1</span>,
         <span class="summary-sig-arg">*xs</span>)</span><br />
-      Apply a single-argument function to each <b><code>xs</code></b> and 
+      Call a single-argument function to each <b><code>xs</code></b> and 
       return a <code>tuple</code> of results.</td>
           <td align="right" valign="top">
             
@@ -9849,8 +9860,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#map2" class="summary-sig-name">map2</a>(<span class="summary-sig-arg">fun</span>,
         <span class="summary-sig-arg">*xs</span>)</span><br />
-      Apply a function to arguments and return a <code>tuple</code> of 
-      results.</td>
+      Like Python's <b><code>map</code></b> but returning a 
+      <code>tuple</code> of results.</td>
           <td align="right" valign="top">
             
             
@@ -10739,7 +10750,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#print_" class="summary-sig-name">print_</a>(<span class="summary-sig-arg">*args</span>,
-        <span class="summary-sig-arg">**nl_nt_prefix_end_file_flush_sep</span>)</span><br />
+        <span class="summary-sig-arg">**nl_nt_prec_prefix__end_file_flush_sep_kwds</span>)</span><br />
       Python 3+ <code>print</code>-like formatting and printing.</td>
           <td align="right" valign="top">
             
@@ -10758,7 +10769,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#printf" class="summary-sig-name">printf</a>(<span class="summary-sig-arg">fmt</span>,
         <span class="summary-sig-arg">*args</span>,
-        <span class="summary-sig-arg">**nl_nt_prefix_end_file_flush_sep_kwds</span>)</span><br />
+        <span class="summary-sig-arg">**nl_nt_prec_prefix__end_file_flush_sep_kwds</span>)</span><br />
       <code>Printf-style</code> and Python 3+ <code>print</code>-like 
       formatting and printing.</td>
           <td align="right" valign="top">
@@ -12652,7 +12663,7 @@ ygeodesy'"><code class="variable-quote">'</code><code class="variable-string">/U
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'24.5.8'">'24.5.8'</code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'24.5.15'">'24.5.15'</code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -19155,13 +19166,15 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xs</code></strong> - Terms to be multiplied, an iterable, list, tuple, etc. 
-          (<code>scalar</code>s).</li>
-        <li><strong class="pname"><code>start</code></strong> - Initial term, also the value returned for an empty 
+        <li><strong class="pname"><code>xs</code></strong> - Iterable of values to be multiplied (each <code>scalar</code> or 
+          an <a href="pygeodesy.fsums.Fsum-class.html" 
+          class="link">Fsum</a>).</li>
+        <li><strong class="pname"><code>start</code></strong> - Initial value, also the value returned for an empty 
           <b><code>xs</code></b> (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The product (<code>float</code>).</dd>
+        <dd>The product (<code>float</code> or an <a 
+          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a>).</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         <a 
@@ -20265,7 +20278,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fd5106ff350&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fbf7883a650&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -21273,7 +21286,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
     </td>
   </tr></table>
   
-  <p>Is <b><code>obj</code></b> some <code>Cartesian</code>?</p>
+  <p>Is <b><code>obj</code></b>ect some <code>Cartesian</code>?</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -21284,10 +21297,32 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
           spherical <code>Cartesian type</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd><code>type(<b>obj</b></code> if <b><code>obj</code></b> is a 
-          <code>Cartesian</code> instance of the required type, 
-          <code>False</code> if a <code>Cartesian</code> of an other type 
-          or <code>None</code> otherwise.</dd>
+        <dd><code>type(<b>obj</b></code> if a <code>Cartesian</code> of the 
+          required type, <code>False</code> if a <code>Cartesian</code> of 
+          an other type or {None} otherwise.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="isDEPRECATED"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isDEPRECATED</span>&nbsp;(<span class="sig-arg">obj</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Is <b><code>obj</code></b>ect a <code>DEPRECATED</code> class, method 
+  or function?</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd><code>True</code> if <code>DEPRECATED</code>, {False} if not or 
+          <code>None</code> if undetermined.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -21334,7 +21369,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
     </td>
   </tr></table>
   
-  <p>Is <b><code>obj</code></b> some <code>LatLon</code>?</p>
+  <p>Is <b><code>obj</code></b>ect some <code>LatLon</code>?</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -21345,10 +21380,9 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
           <code>LatLon type</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd><code>type(<b>obj</b></code> if <b><code>obj</code></b> is a 
-          <code>LatLon</code> instance of the required type, 
-          <code>False</code> if a <code>LatLon</code> of an other type or 
-          {None} otherwise.</dd>
+        <dd><code>type(<b>obj</b></code> if a <code>LatLon</code> of the 
+          required type, <code>False</code> if a <code>LatLon</code> of an 
+          other type or {None} otherwise.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -21394,7 +21428,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
     </td>
   </tr></table>
   
-  <p>Is <b><code>obj</code></b> some <code>Nvector</code>?</p>
+  <p>Is <b><code>obj</code></b>ect some <code>Nvector</code>?</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -21405,10 +21439,9 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
           spherical <code>Nvector type</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd><code>type(<b>obj</b></code> if <b><code>obj</code></b> is an 
-          <code>Nvector</code> instance of the required type, 
-          <code>False</code> if an <code>Nvector</code> of an other type or
-          {None} otherwise.</dd>
+        <dd><code>type(<b>obj</b></code> if an <code>Nvector</code> of the 
+          required type, <code>False</code> if an <code>Nvector</code> of 
+          an other type or {None} otherwise.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -21562,40 +21595,17 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
     </td>
   </tr></table>
   
-  <p>Check whether an object is <code>bool</code>ean.</p>
+  <p>Is <b><code>obj</code></b>ect a <code>bool</code>ean?</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>obj</code></strong> - The object (any <code>type</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd><code>True</code> if <b><code>obj</code></b> is 
-          <code>bool</code>ean, <code>False</code> otherwise.</dd>
+        <dd><code>True</code> if <code>bool</code>ean, <code>False</code> 
+          otherwise.</dd>
   </dl>
 </td></tr></table>
-</div>
-<a name="isclass"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">isclass</span>&nbsp;(<span class="sig-arg">obj</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Return <code>True</code> if <b><code>obj</code></b> is a 
-  <code>class</code> or <code>type</code>.</p>
-  <dl class="fields">
-  </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        Python's <code>inspect.isclass</code>.
-      </p>
-</div></td></tr></table>
 </div>
 <a name="isclockwise"></a>
 <div>
@@ -21695,23 +21705,26 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">iscomplex</span>&nbsp;(<span class="sig-arg">obj</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">iscomplex</span>&nbsp;(<span class="sig-arg">obj</span>,
+        <span class="sig-arg">both</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Check whether an object is a <code>complex</code> or complex 
-  <code>str</code>.</p>
+  <p>Is <b><code>obj</code></b>ect a <code>complex</code> or complex 
+  literal <code>str</code>?</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>obj</code></strong> - The object (any <code>type</code>).</li>
+        <li><strong class="pname"><code>both</code></strong> - If <code>True</code>, check complex <code>str</code> 
+          (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd><code>True</code> if <b><code>obj</code></b> is 
-          <code>complex</code>, otherwise <code>False</code>.</dd>
+        <dd><code>True</code> if <code>complex</code>, <code>False</code> 
+          otherwise.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -21890,23 +21903,26 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">isfloat</span>&nbsp;(<span class="sig-arg">obj</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isfloat</span>&nbsp;(<span class="sig-arg">obj</span>,
+        <span class="sig-arg">both</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Check whether an object is a <code>float</code> or float 
-  <code>str</code>.</p>
+  <p>Is <b><code>obj</code></b>ect a <code>float</code> or float literal 
+  <code>str</code>?</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>obj</code></strong> - The object (any <code>type</code>).</li>
+        <li><strong class="pname"><code>both</code></strong> - If <code>True</code>, check float <code>str</code> 
+          (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd><code>True</code> if <b><code>obj</code></b> is a 
-          <code>float</code>, otherwise <code>False</code>.</dd>
+        <dd><code>True</code> if <code>float</code>, <code>False</code> 
+          otherwise.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -21918,25 +21934,24 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">isinstanceof</span>&nbsp;(<span class="sig-arg">obj</span>,
-        <span class="sig-arg">*classes</span>)</span>
+        <span class="sig-arg">*Classes</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Is <b><code>ob</code></b> an instance of one of the 
-  <code>classes</code>?</p>
+  <p>Is <b><code>obj</code></b>ect an instance of one of the 
+  <code>Classes</code>?</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>obj</code></strong> - The instance (any <code>type</code>).</li>
-        <li><strong class="pname"><code>classes</code></strong> - One or more classes (<code>class</code>).</li>
+        <li><strong class="pname"><code>obj</code></strong> - The object (any <code>type</code>).</li>
+        <li><strong class="pname"><code>Classes</code></strong> - One or more classes (<code>Class</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd><code>type(<b>obj</b></code> if <b><code>obj</code></b> is an 
-          instance of the <b><code>classes</code></b>, <code>None</code> 
-          otherwise.</dd>
+        <dd><code>type(<b>obj</b></code> if one of the 
+          <b><code>Classes</code></b>, <code>None</code> otherwise.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -21955,21 +21970,20 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
     </td>
   </tr></table>
   
-  <p>Check for <code>int</code> type or an integer <code>float</code> 
-  value.</p>
+  <p>Is <b><code>obj</code></b>ect an <code>int</code> or integer 
+  <code>float</code> value?</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>obj</code></strong> - The object (any <code>type</code>).</li>
-        <li><strong class="pname"><code>both</code></strong> - If <code>true</code>, check <code>float</code> and <a 
+        <li><strong class="pname"><code>both</code></strong> - If <code>True</code>, check <code>float</code> and <a 
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> type
           and value (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd><code>True</code> if <b><code>obj</code></b> is <code>int</code> 
-          or <i>integer</i> <code>float</code> or <a 
-          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a>, 
-          <code>False</code> otherwise.</dd>
+        <dd><code>True</code> if <code>int</code> or <i>integer</i> 
+          <code>float</code> or <a href="pygeodesy.fsums.Fsum-class.html" 
+          class="link">Fsum</a>, <code>False</code> otherwise.</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
         Both <code>isint(True)</code> and <code>isint(False)</code> return 
@@ -22024,7 +22038,8 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
     </td>
   </tr></table>
   
-  <p>Check for list or tuple <code>type</code> with a minumal length.</p>
+  <p>Is <b><code>obj</code></b>ect a <code>list</code> or 
+  <code>tuple</code> with non-zero length?</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -22032,9 +22047,9 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <li><strong class="pname"><code>minum</code></strong> - Minimal <code>len</code> required C({int}).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd><code>True</code> if <b><code>obj</code></b> is <code>list</code>
-          or <code>tuple</code> with <code>len</code> at least 
-          <b><code>minum</code></b>, <code>False</code> otherwise.</dd>
+        <dd><code>True</code> if a <code>list</code> or <code>tuple</code> 
+          with <code>len</code> at least <b><code>minum</code></b>, 
+          <code>False</code> otherwise.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -22316,8 +22331,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <li><strong class="pname"><code>x</code></strong> - Value (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd><code>True</code> if <b><code>x</code></b> is odd, 
-          <code>False</code> otherwise.</dd>
+        <dd><code>True</code> if odd, <code>False</code> otherwise.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -22364,22 +22378,28 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">isscalar</span>&nbsp;(<span class="sig-arg">obj</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isscalar</span>&nbsp;(<span class="sig-arg">obj</span>,
+        <span class="sig-arg">both</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Check for scalar types.</p>
+  <p>Is <b><code>obj</code></b>ect an <code>int</code> or integer 
+  <code>float</code> value?</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>obj</code></strong> - The object (any <code>type</code>).</li>
+        <li><strong class="pname"><code>both</code></strong> - If <code>True</code>, check <a 
+          href="pygeodesy.fsums.Fsum-class.html#residual" 
+          class="link">Fsum</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd><code>True</code> if <b><code>obj</code></b> is 
-          <code>scalar</code>, <code>False</code> otherwise.</dd>
+        <dd><code>True</code> if <code>int</code>, <code>float</code> or <a 
+          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> with
+          zero residual, <code>False</code> otherwise.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -22398,7 +22418,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
     </td>
   </tr></table>
   
-  <p>Check for sequence types.</p>
+  <p>Is <b><code>obj</code></b>ect some sequence type?</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -22406,8 +22426,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <li><strong class="pname"><code>excls</code></strong> - Classes to exclude (<code>type</code>), all positional.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd><code>True</code> if <b><code>obj</code></b> is a sequence, 
-          <code>False</code> otherwise.</dd>
+        <dd><code>True</code> if a sequence, <code>False</code> otherwise.</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
         Excluding <code>tuple</code> implies excluding 
@@ -22429,14 +22448,14 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
     </td>
   </tr></table>
   
-  <p>Check for string types.</p>
+  <p>Is <b><code>obj</code></b>ect some string type?</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>obj</code></strong> - The object (any <code>type</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd><code>True</code> if <b><code>obj</code></b> is <code>str</code>,
+        <dd><code>True</code> if a <code>str</code>, <code>bytes</code>, ...,
           <code>False</code> otherwise.</dd>
   </dl>
 </td></tr></table>
@@ -22456,18 +22475,18 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
     </td>
   </tr></table>
   
-  <p>Check whether a class is a sub-class of some other class(es).</p>
+  <p>Is <b><code>Sub</code></b> a class and sub-class of some other 
+  class(es)?</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>Sub</code></strong> - The sub-class (<code>class</code>).</li>
-        <li><strong class="pname"><code>Supers</code></strong> - One or more C(super) classes (<code>class</code>).</li>
+        <li><strong class="pname"><code>Sub</code></strong> - The sub-class (<code>Class</code>).</li>
+        <li><strong class="pname"><code>Supers</code></strong> - One or more C(super) classes (<code>Class</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd><code>True</code> if <b><code>Sub</code></b> is a sub-class of 
-          any <b><code>Supers</code></b>, <code>False</code> if not 
-          (<code>bool</code>) or <code>None</code> if 
-          <b><code>Sub</code></b> is not a class or if no 
+        <dd><code>True</code> if a sub-class of any 
+          <b><code>Supers</code></b>, <code>False</code> if not 
+          (<code>bool</code>) or <code>None</code> if not a class or if no 
           <b><code>Supers</code></b> are given or none of those are a 
           class.</dd>
   </dl>
@@ -22497,10 +22516,9 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>items_args</code></strong> - Optional positional argument(s) for method 
           <code><b>adict</b>.items(B*{items_args})</code>.</li>
-        <li><strong class="pname"><code>asorted_reverse</code></strong> - Use keyword argument <code><b>asorted</b>=False</code> for 
-          <i>alphabetical, case-sensitive</i> sorting and 
-          <code><b>reverse</b>=True</code> for sorting in 
-          <code>descending</code> order.</li>
+        <li><strong class="pname"><code>asorted_reverse</code></strong> - Use <code><b>asorted</b>=False</code> for <i>alphabetical, 
+          case-sensitive</i> sorting and <code><b>reverse</b>=True</code> 
+          for sorting in <code>descending</code> order.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -23488,7 +23506,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
     </td>
   </tr></table>
   
-  <p>Apply a single-argument function to each <b><code>xs</code></b> and 
+  <p>Call a single-argument function to each <b><code>xs</code></b> and 
   return a <code>tuple</code> of results.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
@@ -23516,8 +23534,8 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
     </td>
   </tr></table>
   
-  <p>Apply a function to arguments and return a <code>tuple</code> of 
-  results.</p>
+  <p>Like Python's <b><code>map</code></b> but returning a 
+  <code>tuple</code> of results.</p>
   <p>Unlike Python 2's built-in <code class="link">map</code>, Python 3+ 
   <code class="link">map</code> returns a <code class="link">map</code> 
   object, an iterator-like object which generates the results only once.  
@@ -23527,7 +23545,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>fun</code></strong> - Function (<code>callable</code>).</li>
-        <li><strong class="pname"><code>xs</code></strong> - Arguments (<code>list, tuple, ...</code>).</li>
+        <li><strong class="pname"><code>xs</code></strong> - Arguments (<code>all positional</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Function results (<code>tuple</code>).</dd>
@@ -25590,7 +25608,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">print_</span>&nbsp;(<span class="sig-arg">*args</span>,
-        <span class="sig-arg">**nl_nt_prefix_end_file_flush_sep</span>)</span>
+        <span class="sig-arg">**nl_nt_prec_prefix__end_file_flush_sep_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -25601,20 +25619,15 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>args</code></strong> - Arguments to be converted to <code>str</code> and joined by 
-          <b><code>sep</code></b> (any <code>type</code>, all positional).</li>
-        <li><strong class="pname"><code>nl_nt_prefix_end_file_flush_sep</code></strong> - Keyword arguments <code><b>nl</b>=0</code> for the number of 
-          leading blank lines (<code>int</code>), <code><b>nt</b>=0</code> 
-          the number of trailing blank lines (<code>int</code>), 
-          <code><b>prefix</b>=NN</code> to be inserted before the formatted
-          text (<code>str</code>) and Python 3+ <code>print</code> keyword 
-          arguments <code><b>end</b></code>, <code><b>sep</b></code>, 
-          <code><b>file</b></code> and <code><b>flush</b></code>.</li>
+        <li><strong class="pname"><code>args</code></strong> - Values to be converted to <code>str</code> and joined by 
+          <b><code>sep</code></b>, all positional.</li>
     </ul></dd>
-    <dt>Returns:</dt>
-        <dd>Number of bytes written.</dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.internals-module.html#printf" 
+        class="link">printf</a> for further details.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="printf"></a>
 <div>
@@ -25625,7 +25638,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">printf</span>&nbsp;(<span class="sig-arg">fmt</span>,
         <span class="sig-arg">*args</span>,
-        <span class="sig-arg">**nl_nt_prefix_end_file_flush_sep_kwds</span>)</span>
+        <span class="sig-arg">**nl_nt_prec_prefix__end_file_flush_sep_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -25643,17 +25656,18 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
           (<code>str</code>).</li>
         <li><strong class="pname"><code>args</code></strong> - Arguments to be formatted (any <code>type</code>, all 
           positional).</li>
-        <li><strong class="pname"><code>nl_nt_prefix_end_file_flush_sep_kwds</code></strong> - Keyword arguments <code><b>nl</b>=0</code> for the number of 
-          leading blank lines (<code>int</code>), <code><b>nt</b>=0</code> 
-          the number of trailing blank lines (<code>int</code>), 
-          <code><b>prefix</b>=NN</code> to be inserted before the formatted
-          text (<code>str</code>) and Python 3+ <code>print</code> keyword 
-          arguments <code><b>end</b></code>, <code><b>sep</b></code>, 
-          <code><b>file</b></code> and <code><b>flush</b></code>.  Any 
-          remaining <code><b>kwds</b></code> are <a 
-          href="https://Docs.Python.org/3/library/stdtypes.html#printf-style-string-formatting"
-          target="_top">printf-style</a> keyword arguments to be formatted,
-          <i>iff no <b><code>args</code></b> are present</i>.</li>
+        <li><strong class="pname"><code>nl_nt_prec_prefix__end_file_flush_sep_kwds</code></strong> - Optional keyword arguments <code><b>nl</b>=0</code> for the 
+          number of leading blank lines (<code>int</code>), 
+          <code><b>nt</b>=0</code> the number of trailing blank lines 
+          (<code>int</code>), <code><b>prefix</b>=NN</code> to be inserted 
+          before the formatted text (<code>str</code>) and Python 3+ 
+          <code>print</code> keyword arguments <code><b>end</b></code>, 
+          <code><b>sep</b></code>, <code><b>file</b></code> and 
+          <code><b>flush</b></code>. Any remaining <code><b>kwds</b></code>
+          are <code>printf-style</code> name-value pairs to be formatted, 
+          <i>iff no <b><code>args</code></b> are present</i> using 
+          <code><b>prec</b>=6</code> for the number of decimal digits 
+          (<code>int</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Number of bytes written.</dd>
@@ -30059,7 +30073,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed May  8 14:23:03 2024
+    Generated by Epydoc 3.0.1 on Tue May 14 19:38:25 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

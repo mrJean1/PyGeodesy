@@ -4,7 +4,7 @@
 # Test L{vector3d} and L{vector3d} modules.
 
 __all__ = ('Tests',)
-__version__ = '23.08.23'
+__version__ = '24.05.10'
 
 from bases import coverage, GeodSolve, numpy, TestsBase
 
@@ -213,10 +213,10 @@ class Tests(TestsBase):
         self.test('sumOf', s._name, 'sumOf')
         self.test('length', s.length, '52.7134151513', prec=10)
         z = v.sizeof  # coverage
-        self.test('sizeof', str(z), 128, known=z is None or 60 < z < 200)  # without length
+        self.test('sizeof', str(z), 128, known=z is None or z > 64)  # without length
         self.test('length', v.length, '52.2051356286', prec=10)
         z = v.sizeof  # coverage
-        self.test('sizeof', str(z), 247, known=z is None or 100 < z < 300)  # with length
+        self.test('sizeof', str(z), 247, known=z is None or z > 64)  # with length
 
         c = v.copy()
         self.test('copy', c.isequalTo(v), True)

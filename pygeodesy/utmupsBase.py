@@ -13,11 +13,12 @@ from pygeodesy.dms import degDMS, parseDMS2
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.errors import _or, ParseError, _parseX, _ValueError, \
                              _xkwds, _xkwds_get, _xkwds_not
+# from pygeodesy.internals import _under  # from .named
 from pygeodesy.interns import NN, _A_, _B_, _COMMA_, _Error_, \
                              _gamma_, _n_a_, _not_, _N_, _NS_, _PLUS_, \
-                             _scale_, _SPACE_, _Y_, _Z_, _under
+                             _scale_, _SPACE_, _Y_, _Z_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
-from pygeodesy.named import _NamedBase, nameof, _xnamed
+from pygeodesy.named import _NamedBase, nameof, _xnamed,  _under
 from pygeodesy.namedTuples import EasNor2Tuple, LatLonDatum5Tuple
 from pygeodesy.props import deprecated_method, property_doc_, _update_all, \
                             deprecated_property_RO, Property_RO, property_RO
@@ -26,7 +27,7 @@ from pygeodesy.units import Band, Easting, Northing, Scalar, Zone
 from pygeodesy.utily import _Wrap, wrap360
 
 __all__ = _ALL_LAZY.utmupsBase
-__version__ = '24.04.07'
+__version__ = '24.05.13'
 
 _UPS_BANDS = _A_, _B_, _Y_, _Z_  # UPS polar bands SE, SW, NE, NW
 # _UTM_BANDS = _MODS.utm._Bands

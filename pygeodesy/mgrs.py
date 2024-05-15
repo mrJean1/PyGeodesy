@@ -55,7 +55,7 @@ from pygeodesy.utm import toUtm8, _to3zBlat, Utm, _UTM_ZONE_MAX, _UTM_ZONE_MIN
 # from pygeodesy.utmupsBase import _UTM_ZONE_MAX, _UTM_ZONE_MIN  # from .utm
 
 __all__ = _ALL_LAZY.mgrs
-__version__ = '23.12.03'
+__version__ = '24.05.13'
 
 _AN_    = 'AN'  # default south pole grid tile and band B
 _AtoPx_ = _AtoZnoIO_.tillP
@@ -654,7 +654,8 @@ def _um100km2(m):
 if __name__ == '__main__':
 
     from pygeodesy.ellipsoidalVincenty import fabs, LatLon
-    from pygeodesy.lazily import _getenv, printf
+#   from pygeodesy.internals import printf  # from .lazily
+    from pygeodesy.lazily import _getenv,  printf
 
 #   from math import fabs  # from .ellipsoidalVincenty
     from os import access as _access, linesep as _NL, X_OK as _X_OK

@@ -28,11 +28,12 @@ from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.dms import degDMS, _neg, parseDMS2
 from pygeodesy.errors import RangeError, _ValueError
 from pygeodesy.fmath import hypot, hypot1, sqrt0
-from pygeodesy.interns import NN, _COMMASPACE_, _inside_, _N_, _pole_, \
-                             _range_, _S_, _scale0_, _SPACE_, _std_, \
-                             _to_, _UTM_, _under
-from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _getenv
-from pygeodesy.named import nameof, _xnamed
+# from pygeodesy.internals import _under  # from .named
+from pygeodesy.interns import NN, _COMMASPACE_, _inside_, _N_, \
+                             _pole_, _range_, _S_, _scale0_, \
+                             _SPACE_, _std_, _to_, _UTM_
+from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS,  _getenv
+from pygeodesy.named import nameof, _xnamed,  _under
 from pygeodesy.namedTuples import EasNor2Tuple, UtmUps5Tuple, \
                                   UtmUps8Tuple, UtmUpsLatLon5Tuple
 from pygeodesy.props import deprecated_method, property_doc_, \
@@ -48,7 +49,7 @@ from pygeodesy.utmupsBase import Fmt, _LLEB, _hemi, _parseUTMUPS5, _to4lldn, \
 from math import atan2, fabs, radians, tan
 
 __all__ = _ALL_LAZY.ups
-__version__ = '23.09.29'
+__version__ = '25.05.13'
 
 _BZ_UPS  = _getenv('PYGEODESY_UPS_POLES', _std_) == _std_
 _Falsing =  Meter(2000e3)  # false easting and northing (C{meter})

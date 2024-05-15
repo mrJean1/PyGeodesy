@@ -53,7 +53,7 @@ from pygeodesy.utily import degrees90, degrees180, sincostan3, truncate
 from math import cos, fabs, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.osgr
-__version__ = '23.12.03'
+__version__ = '24.05.13'
 
 _equivalent_ = 'equivalent'
 _OSGR_       = 'OSGR'
@@ -324,17 +324,19 @@ class Osgr(_NamedBase):
             r = NG.reverse(self)
 
         elif self._latlon is None:
+            _F = _Fsumf_
             e0 =     self.easting  - NG.eas0
             n0 = m = self.northing - NG.nor0
 
-            _M =  NG.Mabcd0
             a0 =  NG.a0
+            _M =  NG.Mabcd0
             a  =  NG.phi0
-            _A = _Fsumf_(a).fsum_
+            _a =  fabs
+            _A = _F(a).fsum_
             for self._iteration in range(1, _TRIPS):
                 a = _A(m / a0)
                 m = n0 - _M(a)  # meridional arc
-                if fabs(m) < eps:
+                if _a(m) < eps:
                     break
             else:  # PYCHOK no cover
                 t =  str(self)
@@ -354,14 +356,14 @@ class Osgr(_NamedBase):
             d2  = d**2
 
             a = (d2 * ta * (-1 +  # Horner-like
-                 d2 / 12 * (_Fsumf_( 5,  3 * ta2, -9 * ta2 * n2, n2) -
-                 d2 / 30 *  _Fsumf_(61, 90 * ta2, 45 * ta4)))).fsum_(a)
+                 d2 / 12 * (_F( 5,  3 * ta2, -9 * ta2 * n2, n2) -
+                 d2 / 30 *  _F(61, 90 * ta2, 45 * ta4)))).fsum_(a)
 
             b = (d  / ca * ( 1 -  # Horner-like
-                 d2 /  6 * (_Fsumf_(v_r,  2 * ta2) -
-                 d2 / 20 * (_Fsumf_( 5,  28 * ta2,   24 * ta4) +
-                 d2 / 42 *  _Fsumf_(61, 662 * ta2, 1320 * ta4,
-                                        720 * ta2 * ta4))))).fsum_(NG.lam0)
+                 d2 /  6 * (_F(v_r,  2 * ta2) -
+                 d2 / 20 * (_F( 5,  28 * ta2,   24 * ta4) +
+                 d2 / 42 *  _F(61, 662 * ta2, 1320 * ta4,
+                                   720 * ta2 * ta4))))).fsum_(NG.lam0)
 
             r = _LLEB(degrees90(a), degrees180(b), datum=self.datum, name=self.name)
             r._iteration = self._iteration  # only ellipsoidal LatLon
@@ -541,7 +543,7 @@ def parseOSGR(strOSGR, Osgr=Osgr, name=NN, **Osgr_kwds):
         if not p:
             raise ValueError
         g = s[0]
-        if p == 2 and isfloat(g):  # "easting,northing"
+        if p == 2 and isfloat(g, both=True):  # "easting,northing"
             e, n, m = _enstr2m3(*s, wide=_EN_WIDE + 1)
 
         else:
@@ -681,7 +683,7 @@ def toOsgr(latlon, lon=None, kTM=False, datum=_WGS84, Osgr=Osgr, name=NN,  # MCC
 
 if __name__ == '__main__':
 
-    from pygeodesy.lazily import printf
+    from pygeodesy import printf
     from random import random, seed
     from time import localtime
 

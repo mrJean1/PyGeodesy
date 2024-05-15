@@ -17,7 +17,7 @@ C{reverse-difference}, C{sum} and C{union}.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import isodd, issubclassof, map2, _xisscalar
+from pygeodesy.basics import isodd, issubclassof, map2, _xscalar
 from pygeodesy.constants import EPS, EPS2, INT0, _0_0, _0_5, _1_0
 from pygeodesy.errors import ClipError, _IsnotError, _TypeError, \
                             _ValueError, _xattr, _xkwds_get
@@ -42,7 +42,7 @@ from pygeodesy.utily import fabs, _unrollon, _Wrap
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.booleans
-__version__ = '24.02.06'
+__version__ = '24.05.10'
 
 _0_EPS =  EPS  # near-zero, positive
 _EPS_0 = -EPS  # near-zero, negative
@@ -330,7 +330,7 @@ class LatLonFHP(_LatLonBool):
         return self.x * other.x + self.y * other.y
 
     def __rmul__(self, other):  # scalar product
-        _xisscalar(other=other)
+        _xscalar(other=other)
         return self.__class__(self.y * other, self.x * other)
 
     def _e_x_str(self, t):  # PYCHOK no cover

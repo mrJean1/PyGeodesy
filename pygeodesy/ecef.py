@@ -86,7 +86,7 @@ from pygeodesy.utily import atan1, atan1d, atan2d, degrees90, degrees180, \
 from math import atan2, cos, degrees, fabs, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '24.05.04'
+__version__ = '24.05.10'
 
 _Ecef_    = 'Ecef'
 _prolate_ = 'prolate'
@@ -646,7 +646,7 @@ class EcefSudano(_EcefBase):
 
         _a  = fabs
         lat = atan1d(z, R * E.e21)
-        sa, ca = sincos2d(fabs(lat))
+        sa, ca = sincos2d(_a(lat))
         # Sudano's Eq (A-6) and (A-7) refactored/reduced,
         # replacing Rn from Eq (A-4) with n = E.a / ca:
         # N = ca**2 * ((z + E.e2 * n * sa) * ca - R * sa)
@@ -656,17 +656,18 @@ class EcefSudano(_EcefBase):
         #   = ca**2 * (E.e2 * E.a / E.e2s2(sa) - R / ca**2)
         # N / D = (z * ca + (E.e2 * E.a - R) * sa) /
         #         (E.e2 * E.a / E.e2s2(sa) - R / ca**2)
+        _E  = EPS_2
         tol = self.tolerance
         _S2 = Fsum(sa).fsum2f_
         _rt = sqrt
         for i in range(1, _TRIPS):
             ca2 = _1_0 - sa**2
-            if ca2 < EPS_2:  # PYCHOK no cover
+            if ca2 < _E:  # PYCHOK no cover
                 ca = _0_0
                 break
             ca = _rt(ca2)
             r = e / E.e2s2(sa) - R / ca2
-            if _a(r) < EPS_2:
+            if _a(r) < _E:
                 break
             lat = None
             sa, r = _S2(-z * ca / r, -d * sa / r)

@@ -17,10 +17,12 @@ from pygeodesy.errors import _AssertionError, IntersectionError, _IsnotError, \
 from pygeodesy.fmath import favg, fmean_
 from pygeodesy.fsums import Fmt, fsumf_
 from pygeodesy.formy import _isequalTo, opposing, _radical2
-from pygeodesy.interns import _antipodal_, _concentric_, _dunder_nameof, \
-                              _ellipsoidal_, _exceed_PI_radians_, _low_, \
-                              _near_, _SPACE_, _too_
-from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
+# from pygeodesy.internals import _dunder_nameof  # from .lazily
+from pygeodesy.interns import _antipodal_, _concentric_, _ellipsoidal_, \
+                              _exceed_PI_radians_, _low_, _near_, \
+                              _SPACE_, _too_
+from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, \
+                             _dunder_nameof
 from pygeodesy.namedTuples import Bearing2Tuple, Destination2Tuple, \
                                   Intersection3Tuple, NearestOn2Tuple, \
                                   NearestOn8Tuple, _LL4Tuple
@@ -34,7 +36,7 @@ from pygeodesy.utily import m2km, unroll180, _unrollon, _unrollon3, \
 from math import degrees, radians
 
 __all__ = _ALL_LAZY.ellipsoidalBaseDI
-__version__ = '24.02.14'
+__version__ = '24.05.13'
 
 _polar__  = 'polar?'
 _B2END    = _1_5  # _intersect3 bearing to pseudo-end point factor

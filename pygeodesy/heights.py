@@ -77,9 +77,9 @@ from pygeodesy.errors import _AssertionError, LenError, PointsError, \
 # from pygeodesy.formy import cosineAndoyerLambert, cosineForsytheAndoyerLambert, \
 #                             cosineLaw, equirectangular_, euclidean, flatLocal, \
 #                             flatPolar, haversine, thomas, vincentys  # _MODS
+# from pygeodesy.internals import _version2  # _MODS
 from pygeodesy.interns import NN, _COMMASPACE_, _cubic_, _insufficient_, _knots_, \
-                             _linear_, _NOTEQUAL_, _PLUS_, _scipy_, _SPACE_, \
-                             _STAR_, _version2
+                             _linear_, _NOTEQUAL_, _PLUS_, _scipy_, _SPACE_, _STAR_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, _FOR_DOCS
 from pygeodesy.named import _Named
 from pygeodesy.points import _distanceTo, LatLon_,  Fmt, radians, _Wrap
@@ -91,7 +91,7 @@ from pygeodesy.units import _isDegrees, Float_, Int_
 # from math import radians  # from .points
 
 __all__ = _ALL_LAZY.heights
-__version__ = '24.04.07'
+__version__ = '24.05.13'
 
 _error_     = 'error'
 _llis_      = 'llis'
@@ -332,7 +332,7 @@ class _HeightsBase(_HeightBase):  # in .geoids
     def _scipy_version(self, **n):
         '''Get the C{scipy} version as 2- or 3-tuple C{(major, minor, micro)}.
         '''
-        return _version2(self.scipy.version.version, **n)
+        return _MODS.internals._version2(self.scipy.version.version, **n)
 
     def _xyhs3(self, knots, **wrap):
         # convert knot C{LatLon}s to tuples or C{NumPy} arrays and C{SciPy} sphericals

@@ -34,7 +34,7 @@ from pygeodesy.units import Lat, Lon, Meter, Scalar, Str
 # from math import fabs  # from .karney
 
 __all__ = _ALL_LAZY.elevations
-__version__ = '23.05.26'
+__version__ = '24.05.13'
 
 try:
     from urllib2 import urlopen  # quote, urlcleanup
@@ -245,7 +245,7 @@ def geoidHeight2(lat, lon, model=0, timeout=2.0):
 
 if __name__ == '__main__':
 
-    from pygeodesy.lazily import printf
+    from pygeodesy import printf
     # <https://WikiPedia.org/wiki/Mount_Diablo>
     for f in (elevation2,     # (1173.79, '3DEP 1/3 arc-second')
               geoidHeight2):  # (-31.699, u'GEOID12B')

@@ -53,13 +53,13 @@ from pygeodesy.fmath import hypot, hypot1
 from pygeodesy.fsums import fsum1f_
 from pygeodesy.interns import NN, _COMMASPACE_, _singular_
 from pygeodesy.karney import _atan2d, _diff182, _fix90, _norm180, \
-                             _polynomial, _unsigned2,  _NamedBase
-from pygeodesy.lazily import _ALL_LAZY,  _pairs
-# from pygeodesy.named import _NamedBase  # from .karney
+                             _polynomial, _unsigned2
+# from pygeodesy.lazily import _ALL_LAZY  # from .named
+from pygeodesy.named import _NamedBase, pairs,  _ALL_LAZY
 from pygeodesy.namedTuples import Forward4Tuple, Reverse4Tuple
 from pygeodesy.props import property_doc_, Property, Property_RO, \
                            _update_all
-# from pygeodesy.streprs import pairs as _pairs  # from .lazily
+# from pygeodesy.streprs import pairs  # from .named
 from pygeodesy.units import Degrees, Scalar_, _1mm as _TOL_10  # PYCHOK used!
 from pygeodesy.utily import atan1d, _loneg, sincos2, sincos2d_
 
@@ -67,7 +67,7 @@ from cmath import polar
 from math import atan2, asinh, cos, cosh, degrees, fabs, sin, sinh, sqrt, tanh
 
 __all__ = _ALL_LAZY.ktm
-__version__ = '24.01.02'
+__version__ = '24.05.11'
 
 
 class KTMError(_ValueError):
@@ -419,7 +419,7 @@ class KTransverseMercator(_NamedBase):
         d = dict(ellipsoid=self.ellipsoid, k0=self.k0, TMorder=self.TMorder)
         if self.name:  # PYCHOK no cover
             d.update(name=self.name)
-        return _COMMASPACE_.join(_pairs(d, **kwds))
+        return _COMMASPACE_.join(pairs(d, **kwds))
 
 
 def _cma(a, b0, b1, Cn):
@@ -605,7 +605,7 @@ assert set(_AlpCoeffs.keys()) == set(_BetCoeffs.keys())
 
 if __name__ == '__main__':
 
-    from pygeodesy.interns import _usage
+    from pygeodesy.internals import _usage
     from sys import argv, exit as _exit
 
     _exit(_usage(*argv).replace('.ktm', '.etm -series'))

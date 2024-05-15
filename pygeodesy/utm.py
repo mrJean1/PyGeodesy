@@ -40,9 +40,10 @@ from pygeodesy.dms import degDMS, parseDMS2
 from pygeodesy.errors import MGRSError, RangeError, _ValueError, \
                             _xkwds_get
 from pygeodesy.fmath import fdot3, hypot, hypot1,  _operator
+# from pygeodesy.internals import _under  # from .utmupsBase
 from pygeodesy.interns import MISSING, NN, _by_, _COMMASPACE_, _N_, \
                              _NS_, _outside_, _range_, _S_, _scale0_, \
-                             _SPACE_, _UTM_, _V_, _X_, _zone_, _under
+                             _SPACE_, _UTM_, _V_, _X_, _zone_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 # from pygeodesy.named import _xnamed  # from .utmupsBase
 from pygeodesy.namedTuples import EasNor2Tuple, UtmUps5Tuple, \
@@ -54,9 +55,9 @@ from pygeodesy.units import Band, Int, Lat, Lon, Meter, Zone
 from pygeodesy.utily import atan1, degrees90, degrees180, sincos2
 from pygeodesy.utmupsBase import _hemi, _LLEB, _parseUTMUPS5, _to4lldn, \
                                  _to3zBhp, _to3zll, _UPS_LATS, _UPS_ZONE, \
-                                 _UTM_LAT_MAX, _UTM_ZONE_MAX, \
-                                 _UTM_LAT_MIN, _UTM_ZONE_MIN, \
-                                 _UTM_ZONE_OFF_MAX, UtmUpsBase, _xnamed
+                                 _UTM_LAT_MAX, _UTM_ZONE_MAX,  _under, \
+                                 _UTM_LAT_MIN, _UTM_ZONE_MIN,  _xnamed, \
+                                 _UTM_ZONE_OFF_MAX, UtmUpsBase
 
 from math import asinh, atanh, atan2, cos, cosh, degrees, fabs, \
                  radians, sin, sinh, tan, tanh

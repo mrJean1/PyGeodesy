@@ -9,12 +9,13 @@ L{pygeodesy.isnon0} and L{pygeodesy.remainder}.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import _0_0, _copysign, isbool, iscomplex, isint,  _ALL_LAZY
+from pygeodesy.basics import _copysign, isbool, iscomplex, isint,  _0_0
 from pygeodesy.errors import _xError, _xError2, _xkwds_get, _xkwds_item2
+# from pygeodesy.internals import _0_0  # from .basics
 from pygeodesy.interns import _INF_, _NAN_, _UNDER_
-# from pygeodesy.lazily import _ALL_LAZY  # from .basics
+# from pygeodesy.lazily import _ALL_LAZY  # from .unitsBase
 # from pygeodesy.streprs import Fmt  # from .unitsBase
-from pygeodesy.unitsBase import Float, Int, Radius,  Fmt
+from pygeodesy.unitsBase import Float, Int, Radius,  _ALL_LAZY, Fmt
 
 from math import fabs, isinf, isnan, pi as _PI, sqrt
 try:
@@ -23,7 +24,7 @@ except ImportError:  # Python 2-
     _inf, _nan = float(_INF_), float(_NAN_)
 
 __all__ = _ALL_LAZY.constants
-__version__ = '24.04.23'
+__version__ = '24.05.14'
 
 
 def _copysign_0_0(y):
@@ -355,8 +356,9 @@ def isint0(obj, both=False):
        @return: C{True} if B{C{obj}} is L{INT0}, C{int(0)} or
                 C{float(0)}, C{False} otherwise.
     '''
-    return (obj is INT0 or obj is int(0) or bool(both and
-       (not obj) and isint(obj, both=True))) and not isbool(obj)
+    return (obj is INT0 or obj is int(0) or
+            bool(both and (not obj) and isint(obj, both=True))) and \
+            not isbool(obj)
 
 
 def isnear0(x, eps0=EPS0):

@@ -9,10 +9,11 @@ from pygeodesy.constants import DIG
 from pygeodesy.datums import _earth_datum, _WGS84,  _EWGS84
 # from pygeodesy.ellipsoids import _EWGS84  # from .datums
 from pygeodesy.errors import _AssertionError, _xkwds_get, _xkwds_item2
-from pygeodesy.interns import NN, _0_, _BACKSLASH_, _COMMASPACE_, _enquote, \
+from pygeodesy.internals import _enquote, printf
+from pygeodesy.interns import NN, _0_, _BACKSLASH_, _COMMASPACE_, \
                              _EQUAL_, _Error_, _not_, _SPACE_, _UNUSED_
 from pygeodesy.karney import Caps, _CapsBase, GDict
-from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, printf, _unlazy
+from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _unlazy
 from pygeodesy.named import callername, notOverloaded
 from pygeodesy.props import Property, Property_RO, property_RO, _update_all
 from pygeodesy.streprs import Fmt, fstr, fstrzs, pairs, strs

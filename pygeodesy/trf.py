@@ -69,7 +69,7 @@ en/how-to-deal-with-etrs89-datum-and-time-dependent-transformation-parameters-45
 @var RefFrames.WGS84g1762: RefFrame(name='WGS84g1762', epoch=2005, datum=Datums.GRS80) .Xforms=(0, 0)
 '''
 
-from pygeodesy.basics import map1, neg, isidentifier, isstr, _xinstanceof, _xisscalar
+from pygeodesy.basics import map1, neg, isidentifier, isstr, _xinstanceof, _xscalar
 from pygeodesy.constants import _float as _F, _0_0s, _0_0, _0_001, _0_5, _1_0
 from pygeodesy.datums import Datums, _earth_datum, _equall, _GDA2020_, _Names7, \
                             _negastr, Transform, _WGS84,  _EWGS84, _operator
@@ -91,7 +91,7 @@ from math import ceil as _ceil, fabs
 # import operator as _operator  # from .datums
 
 __all__ = _ALL_LAZY.trf
-__version__ = '24.03.12'
+__version__ = '24.05.13'
 
 _EP0CH    =  Epoch(0, low=0)
 _Es       = {_EP0CH: _EP0CH}  # L{Epoch}s, deleted below
@@ -568,7 +568,7 @@ class TRFXform7Tuple(_NamedTuple):
         return _NamedTuple.__hash__(self)
 
     def __mul__(self, factor):
-        _xisscalar(factor=factor)
+        _xscalar(factor=factor)
         return type(self)((x * factor for x in self), name=_STAR_)  # .fsums._mul_op
 
     def __neg__(self):
@@ -1733,7 +1733,7 @@ if __name__ == '__main__':
     def _main():
         from pygeodesy.basics import _args_kwds_names
         from pygeodesy.interns import _COLONSPACE_,_COMMA_, _NL_, _NLATvar_, _vs_
-        from pygeodesy.lazily import printf
+        from pygeodesy import printf
         from time import localtime
 
         D = date2epoch.__name__

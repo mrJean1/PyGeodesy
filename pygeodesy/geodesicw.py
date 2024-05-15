@@ -20,8 +20,8 @@ from pygeodesy.datums import _earth_datum, _WGS84,  _EWGS84
 # from pygeodesy.ellipsoids import _EWGS84  # from .datums
 from pygeodesy.errors import IntersectionError, GeodesicError, _xkwds_pop2
 from pygeodesy.fsums import Fsum,  Fmt, unstr
-from pygeodesy.interns import NN, _DOT_, _dunder_nameof, _SPACE_, \
-                             _to_, _too_,_under
+from pygeodesy.internals import _dunder_nameof, _under
+from pygeodesy.interns import NN, _DOT_, _SPACE_, _to_, _too_
 from pygeodesy.karney import _atan2d, Caps, Direct9Tuple, GDict, \
                              _kWrapped, Inverse10Tuple
 from pygeodesy.latlonBase import LatLonBase as _LLB,  F_D, Radius_
@@ -37,7 +37,7 @@ from contextlib import contextmanager
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.geodesicw
-__version__ = '24.04.07'
+__version__ = '24.05.14'
 
 _plumb_ = 'plumb'
 _TRIPS  =  65
@@ -353,17 +353,17 @@ class _gWrapped(_kWrapped):
                    @arg radius: Radius of the circle (C{meter}, conventionally).
                    @kwarg tol: Convergence tolerance (C{scalar}).
 
-                   @return: 2-Tuple C{(P, Q)} with both intersections (representing a
-                            geodesic chord), each a L{GDict} from method L{Position}
-                            extended to 14 items by C{lon0, lat0, azi0, a02, s02, at}
-                            with the circle center C{lat0}, C{lon0}, azimuth C{azi0} at,
-                            distance C{a02} in C{degrees} and C{s02} in C{meter} along
-                            the geodesic from the circle center to the intersection
-                            C{lat2}, C{lon2} and the angle C{at} between the geodesic
-                            and this line at the intersection.  The I{geodesic} azimuth
-                            at the intersection is C{(at + azi2)}.  If this line is
-                            tangential to the circle, both intersections are the same
-                            L{GDict} instance.
+                   @return: 2-Tuple C{(P, Q)} with both intersections points (representing
+                            a geodesic chord), each a L{GDict} from method L{Position} and
+                            extended to 14 items C{lat1, lon1, azi1, lat2, lon2, azi2, a12,
+                            s12, lat0, lon0, azi0, a02, s02, at} with the circle center
+                            C{lat0}, C{lon0}, azimuth C{azi0} at the intersection, distance
+                            C{a02} in C{degrees} and C{s02} in C{meter} along the geodesic
+                            from the circle center to the intersection C{lat2, lon2} and
+                            the angle C{at} between the geodesic and this line at the
+                            intersection.  The I{geodesic} azimuth at the intersection is
+                            C{(at + azi2)}.  If this line is tangential to the circle, both
+                            intersections are the same L{GDict} instance.
 
                    @raise IntersectionError: The circle and this geodesic line do not
                                              intersect.

@@ -82,11 +82,12 @@ from pygeodesy.constants import EPS, INF, NAN, PI, PI_2, PI_4, \
                                _360_0, _over
 # from pygeodesy.errors import _ValueError  # from .fmath
 from pygeodesy.fmath import fdot, hypot1, zqrt,  _ValueError
-from pygeodesy.fsums import Fsum, _sum,  _ALL_LAZY
-from pygeodesy.interns import NN, _delta_, _DOT_, _dunder_nameof, _f_, \
-                             _invalid_, _invokation_, _negative_, _SPACE_
+from pygeodesy.fsums import Fsum, _sum
+# from pygeodesy.internals import _dunder_nameof  # from .lazily
+from pygeodesy.interns import NN, _delta_, _DOT_, _f_, _invalid_, \
+                             _invokation_, _negative_, _SPACE_
 from pygeodesy.karney import _K_2_0, _norm180, _signBit, _sincos2
-# from pygeodesy.lazily import _ALL_LAZY  # from .fsums
+from pygeodesy.lazily import _ALL_LAZY,  _dunder_nameof
 from pygeodesy.named import _Named, _NamedTuple,  Fmt, unstr
 from pygeodesy.props import _allPropertiesOf_n, Property_RO, _update_all
 # from pygeodesy.streprs import Fmt, unstr  # from .named
@@ -97,7 +98,7 @@ from math import asinh, atan, atan2, ceil, cosh, fabs, floor, \
                  radians, sin, sqrt, tanh
 
 __all__ = _ALL_LAZY.elliptic
-__version__ = '24.04.14'
+__version__ = '24.05.13'
 
 _TolRD  =  zqrt(EPS * 0.002)
 _TolRF  =  zqrt(EPS * 0.030)
@@ -402,10 +403,12 @@ class Elliptic(_Named):
         Phi = Fsum(phi)
         # first order correction
         phi = Phi.fsum_(self.eps * sin(phi * _2_0) / _N_2_0)
+        self._iteration = 0
         # For kp2 close to zero use asin(r / cE) or J. P. Boyd,
         # Applied Math. and Computation 218, 7005-7013 (2012)
         # <https://DOI.org/10.1016/j.amc.2011.12.021>
-        _Phi2, self._iteration = Phi.fsum2f_, 0  # aggregate
+        _Phi2 = Phi.fsum2f_  # aggregate
+        _abs  = fabs
         for i in range(1, _TRIPS):  # GEOGRAPHICLIB_PANIC
             sn, cn, dn = self._sncndn3(phi)
             if dn:
@@ -413,7 +416,7 @@ class Elliptic(_Named):
                 phi, d = _Phi2((r - sn) / dn)
             else:  # PYCHOK no cover
                 d = _0_0  # XXX continue?
-            if fabs(d) < _TolJAC:  # 3-4 trips
+            if _abs(d) < _TolJAC:  # 3-4 trips
                 _iterations(self, i)
                 break
         else:  # PYCHOK no cover

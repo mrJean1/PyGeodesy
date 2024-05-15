@@ -25,7 +25,7 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, \
 from functools import wraps as _wraps
 
 __all__ = _ALL_LAZY.props
-__version__ = '24.05.03'
+__version__ = '24.05.12'
 
 _class_       = 'class'
 _dont_use_    = _DEPRECATED_ + ", don't use."
@@ -48,11 +48,11 @@ def _allPropertiesOf(Clas_or_inst, *Bases, **excls):
         except AttributeError:
             raise
             S = ()  # not an inst
-    B   = Bases or _PropertyBase
-    _is = isinstance
+    B    = Bases or _PropertyBase
+    _isa = isinstance
     for C in S:
         for n, p in C.__dict__.items():
-            if _is(p, B) and p.name == n and n not in excls:
+            if _isa(p, B) and p.name == n and n not in excls:
                 yield p
 
 
@@ -252,9 +252,9 @@ class Property_RO(_PropertyBase):
                  <https://Docs.Python.org/3/library/functools.html#functools.cache>}
                  to I{cache} or I{memoize} the property value.
 
-           @see: Luciano Ramalho, "Fluent Python", page 636, O'Reilly, Example
-                 19-24, 2016 p. 636 or Example 22-28, 2022 p. 869+ and U{class
-                 Property<https://docs.Python.org/3/howto/descriptor.html>}.
+           @see: Luciano Ramalho, "Fluent Python", O'Reilly, Example 19-24, 2016
+                 p. 636 or Example 22-28, 2022 p. 870 and U{class Property
+                 <https://docs.Python.org/3/howto/descriptor.html>}.
         '''
         _fget = method if _FOR_DOCS else self._fget  # XXX force method.__doc__ to epydoc
         _PropertyBase.__init__(self, method, _fget, self._fset_error)

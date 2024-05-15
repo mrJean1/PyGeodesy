@@ -4,11 +4,11 @@
 # Test L{interns} module.
 
 __all__ = ('Tests',)
-__version__ = '24.04.26'
+__version__ = '24.05.13'
 
 from bases import ismacOS, sys, TestsBase
 
-from pygeodesy import clips, interns, machine, NN
+from pygeodesy import clips, internals, interns, machine, NN
 
 from os import getcwd
 # import sys  # from .bases
@@ -16,8 +16,6 @@ from os import getcwd
 _0to9_      =  interns._0to9_
 _AtoZnoIO_  =  interns._AtoZnoIO_
 _cwd        =  getcwd()
-_functions  = (interns._platform2,
-               interns._version2)
 _exceptions = (_0to9_, _AtoZnoIO_,
                interns._doesn_t_exist_,
                interns._exceed_PI_radians_,
@@ -50,7 +48,7 @@ class Tests(TestsBase):
                 if k:  # hide home dir
                     n = n.replace(_cwd, _DOT_)
                 n = _EQUALSPACED_(a, clips(n))
-                self.test(n, isinstance(i, (float, str)) or i in _functions, True, known=k)
+                self.test(n, isinstance(i, (float, str)), True, known=k)
                 # check the naming conventions
                 if isinstance(i, str) and not k:
                     a = a.strip(_UNDER_)
@@ -68,11 +66,11 @@ class Tests(TestsBase):
         m = machine()
         self.test('machine', m, m, nl=1)
         if ismacOS:  # coverage
-            i = interns._sysctl_uint('sysctl.proc_translated')
+            i = internals._sysctl_uint('sysctl.proc_translated')
             self.test('sysctl', i, i)  # known=i in (0, 1)
-            u, t = interns._usage('interns.py').split(_COLONSPACE_)
+            u, t = internals._usage('interns.py').split(_COLONSPACE_)
             self.test(u, t, t)
-            t = interns._version2(sys.version)
+            t = internals._version2(sys.version)
             self.test('version', t, tuple(sys.version_info[:2]))
 
 

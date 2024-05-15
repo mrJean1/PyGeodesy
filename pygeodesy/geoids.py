@@ -92,12 +92,12 @@ from pygeodesy.fmath import favg, Fdot, fdot, Fhorner, frange
 # from pygoedesy.formy import heightOrthometric  # _MODS
 from pygeodesy.heights import _as_llis2, _ascalar, _height_called, HeightError, \
                               _HeightsBase,  _ellipsoidal_datum, _Wrap
+# from pygeodesy.internals import _version2  # _MODS
 from pygeodesy.interns import MISSING, NN, _4_, _COLONSPACE_, _COMMASPACE_, \
                              _cubic_, _E_, _height_, _in_, _kind_, _knots_, \
                              _lat_, _linear_, _lon_, _mean_, _N_, _n_a_, \
-                             _not_, _numpy_, _on_, _outside_, _S_, _s_, \
-                             _scipy_, _SPACE_, _stdev_, _supported_, _tbd_, \
-                             _W_, _width_, _version2
+                             _not_, _numpy_, _on_, _outside_, _S_, _s_, _scipy_, \
+                             _SPACE_, _stdev_, _supported_, _tbd_, _W_, _width_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, _FOR_DOCS
 from pygeodesy.named import _Named, _NamedTuple
 # from pygeodesy.namedTuples import LatLon3Tuple  # _MODS
@@ -118,7 +118,7 @@ except ImportError:  # Python 3+
     from io import BytesIO as _BytesIO  # PYCHOK expected
 
 __all__ = _ALL_LAZY.geoids
-__version__ = '24.04.07'
+__version__ = '24.05.13'
 
 _assert_ = 'assert'
 _bHASH_  =  b'#'
@@ -1362,7 +1362,7 @@ class GeoidPGM(_GeoidBase):
         self._pgm = p = _PGM(g, pgm=egm_pgm, itemsize=self.u2B, sizeB=self.sizeB)
         if crop:
             g = p._cropped(g, abs(kind) + 1, *self._swne(crop))
-            if _version2(np.__version__) < (1, 9):
+            if _MODS.internals._version2(np.__version__) < (1, 9):
                 g = open(g.name, _rb_)  # reopen tempfile for numpy 1.8.0-
             self._cropped = True
         try:
@@ -1722,7 +1722,7 @@ __all__ += _ALL_DOCS(_GeoidBase)
 
 if __name__ == '__main__':
 
-    from pygeodesy.lazily import printf, _sys
+    from pygeodesy.internals import printf, _sys
 
     _crop     = ()
     _GeoidEGM = GeoidKarney

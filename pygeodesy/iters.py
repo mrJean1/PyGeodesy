@@ -9,11 +9,12 @@ the initial items, skipping of duplicate items and copying of the
 iterated items.
 '''
 
-from pygeodesy.basics import islistuple, issubclassof, \
-                             len2, map2, _passarg
+from pygeodesy.basics import islistuple, issubclassof, len2, \
+                             map2,  _passarg
 # from pygeodesy.constants import _1_0  # from .utily
 from pygeodesy.errors import _IndexError, LenError, PointsError, \
                              _TypeError, _ValueError
+# from pygeodesy.internals import _passarg  # from .basics
 from pygeodesy.interns import NN, _0_, _composite_, _few_, \
                              _latlon_, _points_, _too_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS

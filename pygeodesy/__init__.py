@@ -349,14 +349,14 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.}
 @var version: Normalized C{PyGeodesy} version (C{str}).
 '''
 
-import os.path as _pth
+import os.path as _os_path
 import sys as _sys
 
 _init__all__      =  True
 # <https://PyInstaller.ReadTheDocs.io/en/stable/runtime-information.html>
 _isfrozen         =  getattr(_sys, 'frozen', False)
-pygeodesy_abspath = _pth.dirname(_pth.abspath(__file__))  # _sys._MEIPASS + '/pygeodesy'
-_pygeodesy_       = __package__ or _pth.basename(pygeodesy_abspath)
+pygeodesy_abspath = _os_path.dirname(_os_path.abspath(__file__))  # _sys._MEIPASS + '/pygeodesy'
+_pygeodesy_       = __package__ or   _os_path.basename(pygeodesy_abspath)
 
 if _isfrozen:  # avoid lazy import
     _lazy_import2 = None
@@ -420,6 +420,7 @@ if _init__all__ and not _lazy_import2:  # import and set __all__
     import pygeodesy.geoids                as geoids                 # PYCHOK exported
     import pygeodesy.hausdorff             as hausdorff              # PYCHOK exported
     import pygeodesy.heights               as heights                # PYCHOK exported
+    import pygeodesy.internals             as internals              # PYCHOK exported
     import pygeodesy.interns               as interns                # PYCHOK exported
     import pygeodesy.iters                 as iters                  # PYCHOK exported
     import pygeodesy.karney                as karney                 # PYCHOK exported
@@ -504,6 +505,7 @@ if _init__all__ and not _lazy_import2:  # import and set __all__
     from pygeodesy.geoids                import *  # PYCHOK __all__
     from pygeodesy.hausdorff             import *  # PYCHOK __all__
     from pygeodesy.heights               import *  # PYCHOK __all__
+    from pygeodesy.internals             import *  # PYCHOK __all__
     from pygeodesy.interns               import *  # PYCHOK __all__
     from pygeodesy.iters                 import *  # PYCHOK __all__
     from pygeodesy.karney                import *  # PYCHOK __all__
@@ -544,8 +546,9 @@ if _init__all__ and not _lazy_import2:  # import and set __all__
     from pygeodesy.wgrs                  import Georef, WGRSError  # PYCHOK lazily
 
     def _all(globalocals):
-        from pygeodesy.interns import NN as _NN, _attribute_, _COMMASPACE_, _DOT_, \
-                                     _headof, _module_, _s_, _UNDER_  # PYCHOK expected
+        from pygeodesy.internals import _headof,  _DOT_  # PYCHOK expected
+        from pygeodesy.interns import NN as _NN, _attribute_, _COMMASPACE_, \
+                                     _module_, _s_, _UNDER_  # PYCHOK expected
         from pygeodesy.streprs import Fmt as _Fmt  # PYCHOK expected
         # collect all public module and attribute names and check
         # that modules are imported from this package, 'pygeodesy'
@@ -571,9 +574,9 @@ if _init__all__ and not _lazy_import2:  # import and set __all__
                 ns.extend(attrs)
 # XXX       if ps:  # check that mod is a _pygeodesy_ module
 # XXX           m = globalocals[mod]  # assert(m.__name__ == mod)
-# XXX           f = getattr(m, '__file__', _NN)
-# XXX           d = _pth.dirname(_pth.abspath(f)) if f else pygeodesy_abspath
-# XXX           p = getattr(m, '__package__', _NN) or _pygeodesy_
+# XXX           f = getattr(m, _dunder_file_, _NN)
+# XXX           d = _os_path.dirname(_os_path.abspath(f)) if f else pygeodesy_abspath
+# XXX           p = getattr(m, _dunder_package_, _NN) or _pygeodesy_
 # XXX           if p not in ps or d != pygeodesy_abspath:
 # XXX               t = '%s from %r' % (_DOT_(p, mod), f or p)
 # XXX               raise ImportError('foreign %s: %s' % (_module_, t))
@@ -584,12 +587,13 @@ else:
     __all__ = ()
     _init__all__ = False
 
-from pygeodesy.interns import _DOT_, _version2  # PYCHOK import
-__version__ = '24.05.08'
+from pygeodesy.internals import _version2,  _DOT_  # PYCHOK import
+# from pygeodesy.interns import _DOT_  # from .internals
+__version__ = '24.05.15'
 # see setup.py for similar logic
 version     = _DOT_(*_version2(__version__, n=3))
 
-del _DOT_, _lazy_import2, _pth, _sys, _version2
+del _DOT_, _lazy_import2, _os_path, _sys, _version2
 
 # **) MIT License
 #

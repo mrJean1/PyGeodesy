@@ -27,10 +27,10 @@ from pygeodesy.named import ADict, callername, _NamedBase,  pairs
 from pygeodesy.props import Property, Property_RO, property_RO
 # from pygeodesy.streprs import pairs  # from .named
 
-from math import fmod
+from math import fmod as _fmod
 
 __all__ = ()
-__version__ = '24.03.24'
+__version__ = '24.05.10'
 
 
 class GeodesicAreaExact(_NamedBase):
@@ -198,8 +198,8 @@ class GeodesicAreaExact(_NamedBase):
             # Since we only need the parity of the result we
             # can use std::remquo but this is buggy with g++
             # 4.8.3 and requires C++11.  So instead we do:
-            lon1 = fmod(  lon1, _720_0)  # r.lon1
-            lon2 = fmod(r.lon2, _720_0)
+            lon1 = _fmod(  lon1, _720_0)  # r.lon1
+            lon2 = _fmod(r.lon2, _720_0)
             # int(True) == 1, int(False) == 0
             r.set_(xing=int(lon2 > 360 or -360 < lon2 <= 0) -
                         int(lon1 > 360 or -360 < lon1 <= 0))

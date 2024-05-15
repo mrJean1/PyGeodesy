@@ -33,8 +33,9 @@ from pygeodesy.errors import IntersectionError, RhumbError, _xdatum, \
 from pygeodesy.fmath import euclid, favg, sqrt_a,  Fsum
 # from pygeodesy.formy import opposing  # _MODS
 # from pygeodesy.fsums import Fsum  # from .fmath
+from pygeodesy.internals import _dunder_nameof, _under
 from pygeodesy.interns import NN, _coincident_, _COMMASPACE_, _Dash, \
-                             _dunder_nameof, _parallel_, _too_, _under
+                             _parallel_, _too_
 from pygeodesy.karney import _atan2d, Caps, _CapsBase, _diff182, _fix90, \
                              _norm180, GDict
 # from pygeodesy.ktm import KTransverseMercator, _AlpCoeffs  # _MODS
@@ -51,7 +52,7 @@ from pygeodesy.vector3d import _intersect3d3, Vector3d  # in .Intersection below
 from math import cos, fabs
 
 __all__ = ()
-__version__ = '24.04.07'
+__version__ = '24.05.13'
 
 _anti_ = _Dash('anti')
 _rls   = []  # instances of C{RbumbLine...} to be updated

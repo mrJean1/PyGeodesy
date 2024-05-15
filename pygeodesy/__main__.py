@@ -5,7 +5,7 @@ u'''Print L{pygeodesy} version, etc. using C{python -m pygeodesy}.
 '''
 
 __all__ = ()
-__version__ = '23.11.24'
+__version__ = '24.05.13'
 
 from os.path import basename, dirname
 
@@ -16,10 +16,10 @@ def _main():  # PYCHOK no cover
         from pygeodesy import _isfrozen, pygeodesy_abspath, version
         from pygeodesy.basics import _xgeographiclib, _xnumpy, _xscipy
         from pygeodesy.constants import _floats
+        from pygeodesy.internals import printf, _Pythonarchine, _usage
         from pygeodesy.interns import _COMMASPACE_, _DEPRECATED_, _pygeodesy_abspath_, \
-                                      _pythonarchine, _SPACE_, _usage, _version_
-        from pygeodesy.lazily import _a_l_l_, _all_deprecates, _all_imports, \
-                                      isLazy, printf
+                                      _SPACE_, _version_
+        from pygeodesy.lazily import isLazy, _dunder_all_, _all_deprecates, _all_imports
         from pygeodesy.streprs import Fmt
 
         def _p(name_value):
@@ -30,7 +30,7 @@ def _main():  # PYCHOK no cover
                              ('isLazy',                       isLazy),
                              ('_isfrozen',                 _isfrozen),
                              ('_floats',                len(_floats)),
-                             (_a_l_l_,           len(_all_imports())),
+                             (_dunder_all_,      len(_all_imports())),
                              (_DEPRECATED_,   len(_all_deprecates())))]
 
         def _nv(_xpkg, v):
@@ -41,7 +41,7 @@ def _main():  # PYCHOK no cover
             if pkg is not None:
                 v.append(_SPACE_(pkg.__name__, pkg.__version__))
 
-        v = _pythonarchine()
+        v = _Pythonarchine()
         _nv(_xgeographiclib, v)
         _nv(_xnumpy, v)
         _nv(_xscipy, v)
@@ -50,8 +50,7 @@ def _main():  # PYCHOK no cover
         printf('%s%s (%s)', x, _COMMASPACE_.join(p), _COMMASPACE_.join(v))
 
     except ImportError:
-        from pygeodesy.interns import _usage
-        from pygeodesy.lazily import printf
+        from pygeodesy.internals import printf, _usage
         printf(_usage(__file__))
 
 

@@ -21,7 +21,7 @@ from pygeodesy.solveBase import _SolveBase, _SolveLineBase
 from pygeodesy.utily import _unrollon, _Wrap, wrap360
 
 __all__ = _ALL_LAZY.rhumb_solve
-__version__ = '24.02.21'
+__version__ = '24.04.13'
 
 
 class _RhumbSolveBase(_SolveBase):
@@ -356,7 +356,7 @@ __all__ += _ALL_DOCS(_RhumbSolveBase)
 
 if __name__ == '__main__':
 
-    from pygeodesy.lazily import printf
+    from pygeodesy import printf
     from sys import argv
 
     def rhumb_intercept(rS, lat1, lon1, lat2, lon2, azi2, s23):

@@ -4,7 +4,7 @@
 # Test L{deprecated} classes, functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '24.01.02'
+__version__ = '24.05.13'
 
 from bases import TestsBase
 
@@ -93,9 +93,10 @@ class Tests(TestsBase):
         self.test('utmZoneBand2', t, "(11, 'U')")
 
     def testDEPRECATED(self, *known):
+        # from pygeodesy.internals import _headof  # from .lazily
         # from pygeodesy.interns import _DOT_, _UNDER_  # from .lazily
         from pygeodesy.lazily import _ALL_MODS as _MODS, _ALL_DEPRECATED,  \
-                                     _attrof, _DOT_, _headof, _UNDER_
+                                     _attrof,  _DOT_, _headof, _UNDER_
 
         for m, t in _ALL_DEPRECATED.items():
             if _headof(m) == 'deprecated':

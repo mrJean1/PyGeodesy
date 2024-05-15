@@ -5,7 +5,7 @@ u'''Print L{geodesicx} version, etc. using C{python -m pygeodesy.geodesicx}.
 '''
 
 __all__ = ()
-__version__ = '23.06.19'
+__version__ = '24.05.13'
 
 
 def _C4stats(nC4=None):  # PYCHOK no cover
@@ -28,8 +28,8 @@ def _main():  # PYCHOK no cover
     try:
         from pygeodesy import geodesicx as _gx, GeodesicError, \
                               GeodesicSolve, printf, pygeodesy_abspath
-        from pygeodesy.interns import _COMMASPACE_, _DOT_, _pythonarchine, \
-                                      _SPACE_, _usage, _version_
+        from pygeodesy.internals import _Pythonarchine, _usage
+        from pygeodesy.interns import _COMMASPACE_, _DOT_, _SPACE_, _version_
         from pygeodesy.streprs import Fmt
 
         def _dot_attr(name, value):
@@ -41,7 +41,7 @@ def _main():  # PYCHOK no cover
         def _name_version(pkg):
             return _SPACE_(pkg.__name__, pkg.__version__)
 
-        v = _pythonarchine()
+        v = _Pythonarchine()
         try:
             import geographiclib
             v.append(_name_version(geographiclib))

@@ -19,28 +19,28 @@ del division
 from pygeodesy.errors import _AttributeError, _ImportError, _NotImplementedError, \
                              _TypeError, _TypesError, _ValueError, _xAssertionError, \
                              _xkwds_get
-from pygeodesy.interns import MISSING, NN, _1_, _by_, _COMMA_, _DOT_, _DEPRECATED_, \
-                             _ELLIPSIS4_, _enquote, _EQUAL_, _in_, _invalid_, _N_A_, \
-                             _not_, _not_scalar_, _odd_, _SPACE_, _UNDER_, _version_, \
-                             _version_info
+from pygeodesy.internals import _0_0, _enquote, _passarg, _version_info
+from pygeodesy.interns import MISSING, NN, _1_, _by_, _COLONSPACE_, _COMMA_, _DOT_, \
+                             _DEPRECATED_, _ELLIPSIS4_, _EQUAL_, _in_, _invalid_, \
+                             _N_A_, _not_, _not_scalar_, _odd_, _SPACE_, _UNDER_, \
+                             _version_
 # from pygeodesy.latlonBase import LatLonBase  # _MODS
-from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _FOR_DOCS, \
-                             _getenv, LazyImportError, _sys, _sys_version_info2
+from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _FOR_DOCS, _getenv, \
+                             LazyImportError, _sys_version_info2
 # from pygeodesy.named import classname, modulename  # _MODS
 # from pygeodesy.nvectorBase import NvectorBase  # _MODS
 # from pygeodesy.props import _update_all  # _MODS
+# from pygeodesy.streprs import Fmt  # _MODS
 
 from copy import copy as _copy, deepcopy as _deepcopy
 from math import copysign as _copysign
 import inspect as _inspect
 
 __all__ = _ALL_LAZY.basics
-__version__ = '24.05.08'
+__version__ = '24.05.14'
 
-_0_0                  =  0.0  # in .constants
 _below_               = 'below'
 _list_tuple_types     = (list, tuple)
-_list_tuple_set_types = (list, tuple, set)
 _PYGEODESY_XPACKAGES_ = 'PYGEODESY_XPACKAGES'
 _required_            = 'required'
 
@@ -51,7 +51,7 @@ except ImportError:
         _Ints = int, long  # int objects (C{tuple})
     except NameError:  # Python 3+
         _Ints = int,  # int objects (C{tuple})
-    _Scalars = _Ints + (float,)
+    _Scalars = (float,) + _Ints
 
 try:
     try:  # use C{from collections.abc import ...} in Python 3.9+
@@ -66,19 +66,6 @@ try:
 except ImportError:
     _Sequence = tuple  # immutable for .points._Basequence
     _Seqs     = list, _Sequence  # range for function len2 below
-
-
-def _passarg(arg):  # in .auxilats.auxLat
-    '''(INTERNAL) Helper, no-op.
-    '''
-    return arg
-
-
-def _passargs(*args):  # in .utily
-    '''(INTERNAL) Helper, no-op.
-    '''
-    return args
-
 
 try:
     _Bytes = unicode, bytearray  # PYCHOK expected
@@ -202,41 +189,28 @@ def int1s(x):
 
 
 def isbool(obj):
-    '''Check whether an object is C{bool}ean.
+    '''Is B{C{obj}}ect a C{bool}ean?
 
        @arg obj: The object (any C{type}).
 
-       @return: C{True} if B{C{obj}} is C{bool}ean,
-                C{False} otherwise.
+       @return: C{True} if C{bool}ean, C{False} otherwise.
     '''
     return isinstance(obj, bool)  # and (obj is False
 #                                     or obj is True)
 
 assert not (isbool(1) or isbool(0) or isbool(None))  # PYCHOK 2
 
-if _FOR_DOCS:  # XXX avoid epydoc Python 2.7 error
-
-    def isclass(obj):
-        '''Return C{True} if B{C{obj}} is a C{class} or C{type}.
-
-           @see: Python's C{inspect.isclass}.
-        '''
-        return _inspect.isclass(obj)
-else:
-    isclass = _inspect.isclass
-
 
 def isCartesian(obj, ellipsoidal=None):
-    '''Is B{C{obj}} some C{Cartesian}?
+    '''Is B{C{obj}}ect some C{Cartesian}?
 
        @arg obj: The object (any C{type}).
        @kwarg ellipsoidal: If C{None}, return the type of any C{Cartesian},
                            if C{True}, only an ellipsoidal C{Cartesian type}
                            or if C{False}, only a spherical C{Cartesian type}.
 
-       @return: C{type(B{obj}} if B{C{obj}} is a C{Cartesian} instance of
-                the required type, C{False} if a C{Cartesian} of an other
-                type or C{None} otherwise.
+       @return: C{type(B{obj}} if a C{Cartesian} of the required type, C{False}
+                if a C{Cartesian} of an other type or {None} otherwise.
     '''
     if ellipsoidal is not None:
         try:
@@ -246,42 +220,55 @@ def isCartesian(obj, ellipsoidal=None):
     return isinstanceof(obj, _MODS.cartesianBase.CartesianBase)
 
 
-def iscomplex(obj):
-    '''Check whether an object is a C{complex} or complex C{str}.
+if _FOR_DOCS:  # XXX avoid epydoc Python 2.7 error
+
+    def isclass(obj):
+        '''Is B{C{obj}}ect a C{Class} or C{type}?
+        '''
+        return _inspect.isclass(obj)
+else:
+    isclass = _inspect.isclass
+
+
+def iscomplex(obj, both=False):
+    '''Is B{C{obj}}ect a C{complex} or complex literal C{str}?
 
        @arg obj: The object (any C{type}).
+       @kwarg both: If C{True}, check complex C{str} (C{bool}).
 
-       @return: C{True} if B{C{obj}} is C{complex}, otherwise
-                C{False}.
+       @return: C{True} if C{complex}, C{False} otherwise.
     '''
-    try:  # hasattr('conjugate'), hasattr('real') and hasattr('imag')
-        return isinstance(obj,          complex) or (isstr(obj)
-           and isinstance(complex(obj), complex))  # numbers.Complex?
+    try:  # hasattr('conjugate', 'real' and 'imag')
+        return isinstance(obj, complex) or bool(both and isstr(obj) and
+               isinstance(complex(obj), complex))  # numbers.Complex?
     except (TypeError, ValueError):
         return False
 
 
 def isDEPRECATED(obj):
-    '''Return C{True} if C{B{obj}} is a C{DEPRECATED} class, method
-       or function, C{False} if not or C{None} if undetermined.
+    '''Is B{C{obj}}ect a C{DEPRECATED} class, method or function?
+
+       @return: C{True} if C{DEPRECATED}, {False} if not or
+                C{None} if undetermined.
     '''
-    try:  # XXX inspect.getdoc(obj)
-        return bool(obj.__doc__.lstrip().startswith(_DEPRECATED_))
+    try:  # XXX inspect.getdoc(obj) or obj.__doc__
+        doc = obj.__doc__.lstrip()
+        return bool(doc and doc.startswith(_DEPRECATED_))
     except AttributeError:
         return None
 
 
-def isfloat(obj):
-    '''Check whether an object is a C{float} or float C{str}.
+def isfloat(obj, both=False):
+    '''Is B{C{obj}}ect a C{float} or float literal C{str}?
 
        @arg obj: The object (any C{type}).
+       @kwarg both: If C{True}, check float C{str} (C{bool}).
 
-       @return: C{True} if B{C{obj}} is a C{float}, otherwise
-                C{False}.
+       @return: C{True} if C{float}, C{False} otherwise.
     '''
     try:
-        return isinstance(      obj,  float) or (isstr(obj)
-           and isinstance(float(obj), float))
+        return isinstance(obj, float) or bool(both and
+               isstr(obj) and isinstance(float(obj), float))
     except (TypeError, ValueError):
         return False
 
@@ -291,46 +278,58 @@ try:
 except AttributeError:  # Python 2-
 
     def isidentifier(obj):
-        '''Return C{True} if B{C{obj}} is a Python identifier.
+        '''Is B{C{obj}}ect a Python identifier?
         '''
         return bool(obj and isstr(obj)
                         and obj.replace(_UNDER_, NN).isalnum()
                         and not obj[:1].isdigit())
 
 
-def isinstanceof(obj, *classes):
-    '''Is B{C{ob}} an instance of one of the C{classes}?
+def isinstanceof(obj, *Classes):
+    '''Is B{C{obj}}ect an instance of one of the C{Classes}?
 
-       @arg obj: The instance (any C{type}).
-       @arg classes: One or more classes (C{class}).
+       @arg obj: The object (any C{type}).
+       @arg Classes: One or more classes (C{Class}).
 
-       @return: C{type(B{obj}} if B{C{obj}} is an instance
-                of the B{C{classes}}, C{None} otherwise.
+       @return: C{type(B{obj}} if one of the B{C{Classes}},
+                C{None} otherwise.
     '''
-    return type(obj) if isinstance(obj, classes) else None
+    return type(obj) if isinstance(obj, Classes) else None
 
 
 def isint(obj, both=False):
-    '''Check for C{int} type or an integer C{float} value.
+    '''Is B{C{obj}}ect an C{int} or integer C{float} value?
 
        @arg obj: The object (any C{type}).
-       @kwarg both: If C{true}, check C{float} and L{Fsum}
+       @kwarg both: If C{True}, check C{float} and L{Fsum}
                     type and value (C{bool}).
 
-       @return: C{True} if B{C{obj}} is C{int} or I{integer}
-                C{float} or L{Fsum}, C{False} otherwise.
+       @return: C{True} if C{int} or I{integer} C{float}
+                or L{Fsum}, C{False} otherwise.
 
        @note: Both C{isint(True)} and C{isint(False)} return
               C{False} (and no longer C{True}).
     '''
-    if isinstance(obj, _Ints) and not isbool(obj):
-        return True
+    if isinstance(obj, _Ints):
+        return not isbool(obj)
     elif both:  # and isinstance(obj, (float, Fsum))
         try:  # NOT , _Scalars) to include Fsum!
             return obj.is_integer()
         except AttributeError:
             pass  # XXX float(int(obj)) == obj?
     return False
+
+
+def isiterable(obj):
+    '''Is B{C{obj}}ect is C{iterable}?
+
+       @arg obj: The object (any C{type}).
+
+       @return: C{True} if C{iterable}, C{False} otherwise.
+    '''
+    # <https://PyPI.org/project/isiterable/>
+    return hasattr(obj, '__iter__') or \
+           hasattr(obj, '__getitem__')
 
 
 try:
@@ -344,16 +343,15 @@ except ImportError:
 
 
 def isLatLon(obj, ellipsoidal=None):
-    '''Is B{C{obj}} some C{LatLon}?
+    '''Is B{C{obj}}ect some C{LatLon}?
 
        @arg obj: The object (any C{type}).
        @kwarg ellipsoidal: If C{None}, return the type of any C{LatLon},
                            if C{True}, only an ellipsoidal C{LatLon type}
                            or if C{False}, only a spherical C{LatLon type}.
 
-       @return: C{type(B{obj}} if B{C{obj}} is a C{LatLon} instance of
-                the required type, C{False} if a C{LatLon} of an other
-                type or {None} otherwise.
+       @return: C{type(B{obj}} if a C{LatLon} of the required type, C{False}
+                if a C{LatLon} of an other type or {None} otherwise.
     '''
     if ellipsoidal is not None:
         try:
@@ -364,28 +362,27 @@ def isLatLon(obj, ellipsoidal=None):
 
 
 def islistuple(obj, minum=0):
-    '''Check for list or tuple C{type} with a minumal length.
+    '''Is B{C{obj}}ect a C{list} or C{tuple} with non-zero length?
 
        @arg obj: The object (any C{type}).
        @kwarg minum: Minimal C{len} required C({int}).
 
-       @return: C{True} if B{C{obj}} is C{list} or C{tuple} with
-                C{len} at least B{C{minum}}, C{False} otherwise.
+       @return: C{True} if a C{list} or C{tuple} with C{len} at
+                least B{C{minum}}, C{False} otherwise.
     '''
     return isinstance(obj, _list_tuple_types) and len(obj) >= minum
 
 
 def isNvector(obj, ellipsoidal=None):
-    '''Is B{C{obj}} some C{Nvector}?
+    '''Is B{C{obj}}ect some C{Nvector}?
 
        @arg obj: The object (any C{type}).
        @kwarg ellipsoidal: If C{None}, return the type of any C{Nvector},
                            if C{True}, only an ellipsoidal C{Nvector type}
                            or if C{False}, only a spherical C{Nvector type}.
 
-       @return: C{type(B{obj}} if B{C{obj}} is an C{Nvector} instance of
-                the required type, C{False} if an C{Nvector} of an other
-                type or {None} otherwise.
+       @return: C{type(B{obj}} if an C{Nvector} of the required type, C{False}
+                if an C{Nvector} of an other type or {None} otherwise.
     '''
     if ellipsoidal is not None:
         try:
@@ -400,55 +397,63 @@ def isodd(x):
 
        @arg x: Value (C{scalar}).
 
-       @return: C{True} if B{C{x}} is odd,
-                C{False} otherwise.
+       @return: C{True} if odd, C{False} otherwise.
     '''
     return bool(int(x) & 1)  # == bool(int(x) % 2)
 
 
-def isscalar(obj):
-    '''Check for scalar types.
+def isscalar(obj, both=False):
+    '''Is B{C{obj}}ect an C{int} or integer C{float} value?
 
        @arg obj: The object (any C{type}).
+       @kwarg both: If C{True}, check L{Fsum<Fsum.residual>}.
 
-       @return: C{True} if B{C{obj}} is C{scalar}, C{False} otherwise.
+       @return: C{True} if C{int}, C{float} or L{Fsum} with
+                zero residual, C{False} otherwise.
     '''
-    return isinstance(obj, _Scalars) and not isbool(obj)
+    if isinstance(obj, _Scalars):
+        return not isbool(obj)
+    elif both:  # and isinstance(obj, Fsum)
+        try:
+            return bool(obj.residual == 0)
+        except (AttributeError, TypeError):
+            pass  # XXX float(int(obj)) == obj?
+    return False
 
 
 def issequence(obj, *excls):
-    '''Check for sequence types.
+    '''Is B{C{obj}}ect some sequence type?
 
        @arg obj: The object (any C{type}).
        @arg excls: Classes to exclude (C{type}), all positional.
 
        @note: Excluding C{tuple} implies excluding C{namedtuple}.
 
-       @return: C{True} if B{C{obj}} is a sequence, C{False} otherwise.
+       @return: C{True} if a sequence, C{False} otherwise.
     '''
     return isinstance(obj, _Seqs) and not (excls and isinstance(obj, excls))
 
 
 def isstr(obj):
-    '''Check for string types.
+    '''Is B{C{obj}}ect some string type?
 
        @arg obj: The object (any C{type}).
 
-       @return: C{True} if B{C{obj}} is C{str}, C{False} otherwise.
+       @return: C{True} if a C{str}, C{bytes}, ...,
+                C{False} otherwise.
     '''
     return isinstance(obj, _Strs)
 
 
 def issubclassof(Sub, *Supers):
-    '''Check whether a class is a sub-class of some other class(es).
+    '''Is B{C{Sub}} a class and sub-class of some other class(es)?
 
-       @arg Sub: The sub-class (C{class}).
-       @arg Supers: One or more C(super) classes (C{class}).
+       @arg Sub: The sub-class (C{Class}).
+       @arg Supers: One or more C(super) classes (C{Class}).
 
-       @return: C{True} if B{C{Sub}} is a sub-class of any B{C{Supers}},
-                C{False} if not (C{bool}) or C{None} if B{C{Sub}} is not
-                a class or if no B{C{Supers}} are given or none of those
-                are a class.
+       @return: C{True} if a sub-class of any B{C{Supers}}, C{False}
+                if not (C{bool}) or C{None} if not a class or if no
+                B{C{Supers}} are given or none of those are a class.
     '''
     if isclass(Sub):
         t = tuple(S for S in Supers if isclass(S))
@@ -463,20 +468,19 @@ def itemsorted(adict, *items_args, **asorted_reverse):
 
        @arg items_args: Optional positional argument(s) for method
                         C{B{adict}.items(B*{items_args})}.
-       @kwarg asorted_reverse: Use keyword argument C{B{asorted}=False}
-                      for I{alphabetical, case-sensitive} sorting and
-                      C{B{reverse}=True} for sorting in C{descending}
-                      order.
+       @kwarg asorted_reverse: Use C{B{asorted}=False} for I{alphabetical,
+                      case-sensitive} sorting and C{B{reverse}=True} for
+                      sorting in C{descending} order.
     '''
-    def _ins(item):
-        return item[0].lower()
+    def _ins(item):  # functools.cmp_to_key
+        k, v = item
+        return k.lower()
 
-    def _key_rev(asorted=True, reverse=False):
-        return (_ins if asorted else None), reverse
+    def _reverse_key(asorted=True, reverse=False):
+        return dict(reverse=reverse, key=_ins if asorted else None)
 
-    key, rev = _key_rev(**asorted_reverse)
     items = adict.items(*items_args) if items_args else adict.items()
-    return sorted(items, reverse=rev, key=key)
+    return sorted(items, **_reverse_key(**asorted_reverse))
 
 
 def len2(items):
@@ -494,8 +498,8 @@ def len2(items):
 
 
 def map1(fun1, *xs):  # XXX map_
-    '''Apply a single-argument function to each B{C{xs}} and
-       return a C{tuple} of results.
+    '''Call a single-argument function to each B{C{xs}}
+       and return a C{tuple} of results.
 
        @arg fun1: 1-Arg function (C{callable}).
        @arg xs: Arguments (C{any positional}).
@@ -506,7 +510,7 @@ def map1(fun1, *xs):  # XXX map_
 
 
 def map2(fun, *xs):
-    '''Apply a function to arguments and return a C{tuple} of results.
+    '''Like Python's B{C{map}} but returning a C{tuple} of results.
 
        Unlike Python 2's built-in L{map}, Python 3+ L{map} returns a
        L{map} object, an iterator-like object which generates the
@@ -514,7 +518,7 @@ def map2(fun, *xs):
        maintains the Python 2 behavior.
 
        @arg fun: Function (C{callable}).
-       @arg xs: Arguments (C{list, tuple, ...}).
+       @arg xs: Arguments (C{all positional}).
 
        @return: Function results (C{tuple}).
     '''
@@ -531,8 +535,11 @@ def neg(x, neg0=None):
 
        @return: C{-B{x} if B{x} else 0.0, NEG0 or B{x}}.
     '''
-    return (-x) if x else (_0_0 if neg0 is None else (x if not neg0 else
-                          (_0_0 if signBit(x) else _MODS.constants.NEG0)))
+    return (-x) if x else (
+           _0_0 if neg0 is None else (
+             x  if not neg0 else (
+           _0_0 if signBit(x) else _MODS.constants.
+           NEG0)))  # PYCHOK indent
 
 
 def neg_(*xs):
@@ -587,46 +594,8 @@ def signOf(x):
     try:
         s = x.signOf()  # Fsum instance?
     except AttributeError:
-        s = _signOf(x, 0)
+        s =  _signOf(x, 0)
     return s
-
-
-def _sizeof(inst):
-    '''(INTERNAL) Recursively size an C{inst}ance.
-
-       @return: Instance' size in bytes (C{int}),
-                ignoring class attributes and
-                counting duplicates only once or
-                C{None}.
-
-       @note: With C{PyPy}, the size is always C{None}.
-    '''
-    try:
-        _zB = _sys.getsizeof
-        _zD = _zB(None)  # get some default
-    except TypeError:  # PyPy3.10
-        return None
-
-    def _zR(s, iterable):
-        z, _s = 0, s.add
-        for o in iterable:
-            i = id(o)
-            if i not in s:
-                _s(i)
-                z += _zB(o, _zD)
-                if isinstance(o, dict):
-                    z += _zR(s, o.keys())
-                    z += _zR(s, o.values())
-                elif isinstance(o, _list_tuple_set_types):
-                    z += _zR(s, o)
-                else:
-                    try:  # size instance' attr values only
-                        z += _zR(s, o.__dict__.values())
-                    except AttributeError:  # None, int, etc.
-                        pass
-        return z
-
-    return _zR(set(), (inst,))
 
 
 def splice(iterable, n=2, **fill):
@@ -778,21 +747,13 @@ def _xinstanceof(*Types, **names_values):
             raise _TypesError(n, v, *Types)
 
 
-def _xisscalar(**names_values):
-    '''(INTERNAL) Check all C{name=value} pairs to be C{scalar}.
-    '''
-    for n, v in names_values.items():
-        if not isscalar(v):
-            raise _TypeError(n, v, txt=_not_scalar_)
-
-
 def _xiterable(obj):
-    '''(INTERNAL) Raise C{TypeError} if C{obj} is not iterable.
+    '''(INTERNAL) Return C{obj} if iterable, otherwise raise C{TypeError}.
     '''
-    # https://PyPI.org/project/isiterable/
-    if not (hasattr(obj, '__iter__') or
-            hasattr(obj, '__getitem__')):
-        raise TypeError(_not_(_xiterable.__name__[2:]))
+    if isiterable(obj):
+        return obj
+    t = _not_(_xiterable.__name__[2:])
+    raise TypeError(_COLONSPACE_(t, obj))
 
 
 def _xnumpy(where, *required):
@@ -822,6 +783,14 @@ def _xpackage(_xpkg):
         x = _SPACE_(n, _in_, _PYGEODESY_XPACKAGES_)
         e = _enquote(_getenv(_PYGEODESY_XPACKAGES_, NN))
         raise ImportError(_EQUAL_(x, e))
+
+
+def _xscalar(**names_values):
+    '''(INTERNAL) Check all C{name=value} pairs to be C{scalar}.
+    '''
+    for n, v in names_values.items():
+        if not isscalar(v):
+            raise _TypeError(n, v, txt=_not_scalar_)
 
 
 def _xscipy(where, *required):
