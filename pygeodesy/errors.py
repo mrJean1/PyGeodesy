@@ -25,7 +25,7 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _getenv, _PYTHON_X_D
 from copy import copy as _copy
 
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')  _under
-__version__ = '24.05.13'
+__version__ = '24.05.15'
 
 _box_        = 'box'
 _limiterrors =  True  # in .formy

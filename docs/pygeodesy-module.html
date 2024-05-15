@@ -8160,7 +8160,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fbf7883a650&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fc8d04f0cd0&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -9045,6 +9045,41 @@
         <span class="summary-sig-arg">both</span>=<span class="summary-sig-default">False</span>)</span><br />
       Check for <a href="pygeodesy.constants-module.html#INT0" 
       class="link">INT0</a> or <code>int(0)</code> value.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#isiterable" class="summary-sig-name">isiterable</a>(<span class="summary-sig-arg">obj</span>)</span><br />
+      Is <b><code>obj</code></b>ect <code>iterable</code>?</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#isiterablen" class="summary-sig-name">isiterablen</a>(<span class="summary-sig-arg">obj</span>)</span><br />
+      Is <b><code>obj</code></b>ect <code>iterable</code> and has 
+      <code>len</code>gth?</td>
           <td align="right" valign="top">
             
             
@@ -20278,7 +20313,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fbf7883a650&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fc8d04f0cd0&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -22020,6 +22055,59 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
           href="pygeodesy.constants-module.html#INT0" 
           class="link">INT0</a>, <code>int(0)</code> or 
           <code>float(0)</code>, <code>False</code> otherwise.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="isiterable"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isiterable</span>&nbsp;(<span class="sig-arg">obj</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Is <b><code>obj</code></b>ect <code>iterable</code>?</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>obj</code></strong> - The object (any <code>type</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><code>True</code> if <code>iterable</code>, <code>False</code> 
+          otherwise.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="isiterablen"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isiterablen</span>&nbsp;(<span class="sig-arg">obj</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Is <b><code>obj</code></b>ect <code>iterable</code> and has 
+  <code>len</code>gth?</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>obj</code></strong> - The object (any <code>type</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><code>True</code> if <code>iterable</code> with 
+          <code>len</code>gth, <code>False</code> otherwise.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -30073,7 +30161,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue May 14 19:38:25 2024
+    Generated by Epydoc 3.0.1 on Wed May 15 16:10:02 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

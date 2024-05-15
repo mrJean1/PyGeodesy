@@ -204,8 +204,9 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                    'equidistant', 'gnomonic'),
                          basics=_i('clips', 'copysign0', 'copytype', 'halfs2',
                                    'int1s', 'isbool', 'isCartesian', 'isclass', 'iscomplex', 'isDEPRECATED', 'isfloat',
-                                   'isidentifier', 'isinstanceof', 'isint', 'iskeyword', 'isLatLon', 'islistuple',
-                                   'isNvector', 'isodd', 'isscalar', 'issequence', 'isstr', 'issubclassof', 'itemsorted',
+                                   'isidentifier', 'isinstanceof', 'isint', 'isiterable', 'isiterablen', 'iskeyword',
+                                   'isLatLon', 'islistuple', 'isNvector', 'isodd', 'isscalar', 'issequence', 'isstr',
+                                   'issubclassof', 'itemsorted',
                                    'len2', 'map1', 'map2', 'neg', 'neg_',
                                    'signBit', 'signOf', 'splice', 'str2ub', 'ub2str', 'unsigned0'),
                        booleans=_i('BooleanFHP', 'BooleanGH', 'LatLonFHP', 'LatLonGH',
@@ -499,7 +500,7 @@ class _ALL_MODS(_internals._ALL_MODS_Base):
 _internals._MODS = _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '24.05.14'
+__version__ = '24.05.15'
 
 
 def _ALL_OTHER(*objs):

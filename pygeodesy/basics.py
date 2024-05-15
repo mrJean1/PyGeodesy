@@ -20,10 +20,9 @@ from pygeodesy.errors import _AttributeError, _ImportError, _NotImplementedError
                              _TypeError, _TypesError, _ValueError, _xAssertionError, \
                              _xkwds_get
 from pygeodesy.internals import _0_0, _enquote, _passarg, _version_info
-from pygeodesy.interns import MISSING, NN, _1_, _by_, _COLONSPACE_, _COMMA_, _DOT_, \
-                             _DEPRECATED_, _ELLIPSIS4_, _EQUAL_, _in_, _invalid_, \
-                             _N_A_, _not_, _not_scalar_, _odd_, _SPACE_, _UNDER_, \
-                             _version_
+from pygeodesy.interns import MISSING, NN, _1_, _by_, _COMMA_, _DOT_, _DEPRECATED_, \
+                             _ELLIPSIS4_, _EQUAL_, _in_, _invalid_, _N_A_, _not_, \
+                             _not_scalar_, _odd_, _SPACE_, _UNDER_, _version_
 # from pygeodesy.latlonBase import LatLonBase  # _MODS
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _FOR_DOCS, _getenv, \
                              LazyImportError, _sys_version_info2
@@ -37,7 +36,7 @@ from math import copysign as _copysign
 import inspect as _inspect
 
 __all__ = _ALL_LAZY.basics
-__version__ = '24.05.14'
+__version__ = '24.05.15'
 
 _below_               = 'below'
 _list_tuple_types     = (list, tuple)
@@ -321,15 +320,24 @@ def isint(obj, both=False):
 
 
 def isiterable(obj):
-    '''Is B{C{obj}}ect is C{iterable}?
+    '''Is B{C{obj}}ect C{iterable}?
 
        @arg obj: The object (any C{type}).
 
        @return: C{True} if C{iterable}, C{False} otherwise.
     '''
     # <https://PyPI.org/project/isiterable/>
-    return hasattr(obj, '__iter__') or \
-           hasattr(obj, '__getitem__')
+    return hasattr(obj, '__iter__')  # map, range, set
+
+
+def isiterablen(obj):
+    '''Is B{C{obj}}ect C{iterable} and has C{len}gth?
+
+       @arg obj: The object (any C{type}).
+
+       @return: C{True} if C{iterable} with C{len}gth, C{False} otherwise.
+    '''
+    return hasattr(obj, '__len__') and hasattr(obj, '__getitem__')
 
 
 try:
@@ -638,9 +646,9 @@ def splice(iterable, n=2, **fill):
     if not isint(n):
         raise _TypeError(n=n)
 
-    t = iterable
+    t = _xiterablen(iterable)
     if not isinstance(t, _list_tuple_types):
-        t = tuple(t)  # force tuple, also for PyPy3
+        t = tuple(t)
 
     if n > 1:
         if fill:
@@ -648,12 +656,12 @@ def splice(iterable, n=2, **fill):
             if fill is not MISSING:
                 m = len(t) % n
                 if m > 0:  # same type fill
-                    t += type(t)((fill,) * (n - m))
+                    t = t + type(t)((fill,) * (n - m))
         for i in range(n):
             # XXX t[i::n] chokes PyChecker
             yield t[slice(i, None, n)]
     else:
-        yield t
+        yield t  # 1 slice, all
 
 
 def _splituple(strs, *sep_splits):  # in .mgrs, .osgr, .webmercator
@@ -750,10 +758,20 @@ def _xinstanceof(*Types, **names_values):
 def _xiterable(obj):
     '''(INTERNAL) Return C{obj} if iterable, otherwise raise C{TypeError}.
     '''
-    if isiterable(obj):
-        return obj
-    t = _not_(_xiterable.__name__[2:])
-    raise TypeError(_COLONSPACE_(t, obj))
+    return obj if isiterable(obj) else _xiterror(obj, _xiterable)  # PYCHOK None
+
+
+def _xiterablen(obj):
+    '''(INTERNAL) Return C{obj} if iterable with C{__len__}, otherwise raise C{TypeError}.
+    '''
+    return obj if isiterablen(obj) else _xiterror(obj, _xiterablen)  # PYCHOK None
+
+
+def _xiterror(obj, _xwhich):
+    '''(INTERNAL) Helper for C{_xinterable} and C{_xiterablen}.
+    '''
+    t = _not_(_xwhich.__name__[2:])  # _dunder_nameof
+    raise _TypeError(repr(obj), txt=t)
 
 
 def _xnumpy(where, *required):
@@ -778,7 +796,7 @@ def _xor(x, *xs):
 def _xpackage(_xpkg):
     '''(INTERNAL) Check dependency to be excluded.
     '''
-    n = _xpkg.__name__[2:]  # remove _x
+    n = _xpkg.__name__[2:]  # _dunder_nameof
     if n in _XPACKAGES:
         x = _SPACE_(n, _in_, _PYGEODESY_XPACKAGES_)
         e = _enquote(_getenv(_PYGEODESY_XPACKAGES_, NN))
@@ -829,7 +847,7 @@ def _xversion(package, where, *required, **name):
     if required:
         t = _version_info(package)
         if t[:len(required)] < required:
-            t = _SPACE_(package.__name__,
+            t = _SPACE_(package.__name__,  # _dunder_nameof
                        _version_, _DOT_(*t),
                        _below_, _DOT_(*required),
                        _req_d_by(where, **name))

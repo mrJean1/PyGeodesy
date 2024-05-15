@@ -5,7 +5,7 @@ u'''Print L{auxilats} version, etc. using C{python -m pygeodesy.auxilats}.
 '''
 
 __all__ = ()
-__version__ = '24.05.13'
+__version__ = '24.05.15'
 
 
 def _CXstats():  # PYCHOK no cover
@@ -23,12 +23,12 @@ def _CXstats():  # PYCHOK no cover
 
 def _main():  # PYCHOK no cover
 
-    import os.path as os_path
+    import os.path as _os_path
 
     try:
         from pygeodesy import auxilats, printf, pygeodesy_abspath
-        from pygeodesy.internals import _Pythonarchine, _usage
-        from pygeodesy.interns import _COMMASPACE_, _DOT_, _SPACE_, _version_
+        from pygeodesy.internals import _name_version, _Pythonarchine, _usage
+        from pygeodesy.interns import _COMMASPACE_, _DOT_, _version_
         from pygeodesy.streprs import Fmt
 
         def _dot_attr(name, value):
@@ -37,9 +37,6 @@ def _main():  # PYCHOK no cover
         s = tuple(sorted(_CXstats().items()))
         p = [_dot_attr(*t) for t in (((_version_, auxilats.__version__),) + s)]
 
-        def _name_version(pkg):
-            return _SPACE_(pkg.__name__, pkg.__version__)
-
         v = _Pythonarchine()
         try:
             import geographiclib
@@ -47,8 +44,8 @@ def _main():  # PYCHOK no cover
         except ImportError:
             pass
 
-        a = auxilats.__name__
-        x =  os_path.basename(pygeodesy_abspath)
+        a =  auxilats.__name__
+        x = _os_path.basename(pygeodesy_abspath)
         if not a.startswith(x):
             a = _DOT_(x, a)
         printf('%s%s (%s)', a, _COMMASPACE_.join(p), _COMMASPACE_.join(v))

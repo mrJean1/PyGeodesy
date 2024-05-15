@@ -2,7 +2,7 @@
 
 u'''Mostly INTERNAL functions, except L{machine}, L{print_} and L{printf}.
 '''
-# from pygeodesy.basics import iterable  # _MODS
+# from pygeodesy.basics import isiterablen  # _MODS
 # from pygeodesy.errors import _AttributeError, _error_init, _xError2  # _MODS
 from pygeodesy.interns import NN, _COLON_, _DOT_, _ELLIPSIS_, _EQUALSPACED_, \
                              _immutable_, _NL_, _pygeodesy_, _PyPy__, _python_, \
@@ -148,17 +148,18 @@ class _ALL_MODS_Base(object):
                 import distro  # <https://PyPI.org/project/distro>
                 _a = _MODS.streprs.anstr
                 v  = _a(distro.version())  # first
-                n  = _a(distro.id()).capitalize()  # .name()?
+                n  = _a(distro.id())  # .name()?
             except (AttributeError, ImportError):
                 pass  # v = str(_0_0)
+            n = n.capitalize()
         return n, v
 
     def nix_ver(self):  # PYCHOK no cover
         '''Mimick C{platform.xxx_ver} for C{*nix}.
         '''
         _, v = _MODS.nix2
-        _, m = _MODS.bits_machine2 if v else (NN, NN)
-        return v, (NN, NN, NN), m
+        t = _version2(v, n=3) if v else (NN, NN, NN)
+        return v, t, machine()
 
     @_Property_RO
     def osversion2(self):
@@ -327,6 +328,12 @@ def machine():
     return _MODS.bits_machine2[1]
 
 
+def _name_version(pkg):
+    '''(INTERNAL) Return C{pskg.__name__ + ' ' + .__version__}.
+    '''
+    return _SPACE_(pkg.__name__, pkg.__version__)
+
+
 def _osversion2(sep=NN):  # in .lazily, test/bases.versions
     '''(INTERNAL) Get the O/S name and release as C{2-list} or C{str}.
     '''
@@ -378,10 +385,10 @@ def printf(fmt, *args, **nl_nt_prec_prefix__end_file_flush_sep_kwds):
     try:
         if args:
             t = (fmt % args) if fmt else s.join(map(str, args))
-        elif kwds:  # PYCHOK no cover
+        elif kwds:
             t = (fmt % kwds) if fmt else s.join(
                 _MODS.streprs.pairs(kwds, prec=p))
-        else:  # PYCHOK no cover
+        else:
             t =  fmt
     except Exception as x:
         _E, s = _MODS.errors._xError2(x)
@@ -432,7 +439,7 @@ def _sizeof(obj):
     except TypeError:  # PyPy3.10
         return None
 
-    _isiterable = _MODS.basics.isiterable
+    _isiterablen = _MODS.basics.isiterablen
 
     def _zR(s, iterable):
         z, _s = 0, s.add
@@ -444,7 +451,7 @@ def _sizeof(obj):
                 if isinstance(o, dict):
                     z += _zR(s, o.keys())
                     z += _zR(s, o.values())
-                elif _isiterable(o):
+                elif _isiterablen(o):  # not map, ...
                     z += _zR(s, o)
                 else:
                     try:  # size instance' attr values only
@@ -479,7 +486,7 @@ def _tailof(name):
 
 
 def _under(name):  # PYCHOK in .datums, .auxilats, .ups, .utm, .utmupsBase, ...
-    '''(INTERNAL) Prefix C{name} with I{underscore}.
+    '''(INTERNAL) Prefix C{name} with an I{underscore}.
     '''
     return name if name.startswith(_UNDER_) else NN(_UNDER_, name)
 
@@ -492,8 +499,9 @@ def _usage(file_py, *args):  # in .etm
     b, x = _os_path.splitext(_os_path.basename(file_py))
     if x == '.py' and not _dunder_main(b):
         m = _DOT_(m or _pygeodesy_, b)
-    p = NN(_python_, _sys.version_info[0])
-    return NN('usage', _SPACE_(_COLON_, p, '-m', _enquote(m), *args))
+    p =  NN(_python_, _sys.version_info[0])
+    u = _COLON_(_dunder_nameof(_usage)[1:], NN)
+    return _SPACE_(u, p, '-m', _enquote(m), *args)
 
 
 def _version2(version, n=2):
@@ -528,17 +536,17 @@ def _version_ints(vs):
     return tuple(_ints(vs))
 
 
-__all__ = (machine.__name__, print_.__name__, printf.__name__)  # _dunder_nameof
-__version__ = '24.05.14'
+__all__ = (machine.__name__,
+           print_.__name__, printf.__name__)  # _dunder_nameof
+__version__ = '24.05.15'
 
 if _dunder_main(__name__):  # PYCHOK no cover
 
     from pygeodesy import _isfrozen, isLazy, version as vs
 
-    printf(_SPACE_(*([_pygeodesy_, vs] + _Pythonarchine()
-                                       + _osversion2()
-                                       + ['isfrozen', _isfrozen,
-                                          'isLazy',    isLazy])))
+    print_(_pygeodesy_, vs, *(_Pythonarchine() + _osversion2()
+                                               + ['isfrozen', _isfrozen,
+                                                  'isLazy',    isLazy]))
 
 # **) MIT License
 #

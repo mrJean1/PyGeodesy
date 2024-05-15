@@ -4,13 +4,13 @@
 # Test some of the L{basics}.
 
 __all__ = ('Tests',)
-__version__ = '23.03.27'
+__version__ = '24.05.15'
 
-from bases import TestsBase
+from bases import isPython2, TestsBase
 
 from pygeodesy import EPS, EPS0, INF, INT0, NAN, NEG0, NINF, clips, halfs2, \
-                      isclose, isfinite, isint, isint0, isneg0, isninf, isscalar, \
-                      map1, property_RO, remainder, splice
+                      isclose, isfinite, isint, isint0, isiterable, isiterablen, \
+                      isneg0, isninf, isscalar, map1, property_RO, remainder, splice
 from pygeodesy.basics import _xdup
 
 
@@ -131,7 +131,20 @@ class Tests(TestsBase):
             self.test('remainder%s' % ((a, b),), r, x)
 
         self.test('isclose', isclose(0, EPS0), True)
-        self.test('isclose', isclose(0, EPS), False)
+        self.test('isclose', isclose(0, EPS), False, nt=1)
+
+        def _t3(f, o, x):
+            n = '%s(%s)' % (f.__name__, o.__class__.__name__)
+            return n, f(o), x
+
+        for o, x, y in ((dict(),       True, True),
+                        (map(int, ()), True, isPython2),
+                        (list(),       True, True),
+                        (range(1),     True, True),
+                        (tuple(),      True, True),
+                        (set(),        True, False)):
+            self.test(*_t3(isiterable,  o, x))
+            self.test(*_t3(isiterablen, o, y))
 
 
 if __name__ == '__main__':

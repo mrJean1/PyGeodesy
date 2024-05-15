@@ -5,7 +5,7 @@ u'''Print L{pygeodesy} version, etc. using C{python -m pygeodesy}.
 '''
 
 __all__ = ()
-__version__ = '24.05.13'
+__version__ = '24.05.15'
 
 from os.path import basename, dirname
 
@@ -13,12 +13,12 @@ from os.path import basename, dirname
 def _main():  # PYCHOK no cover
 
     try:
-        from pygeodesy import _isfrozen, pygeodesy_abspath, version
+        from pygeodesy import _isfrozen, printf, pygeodesy_abspath, version
         from pygeodesy.basics import _xgeographiclib, _xnumpy, _xscipy
         from pygeodesy.constants import _floats
-        from pygeodesy.internals import printf, _Pythonarchine, _usage
+        from pygeodesy.internals import _name_version, _Pythonarchine, _usage
         from pygeodesy.interns import _COMMASPACE_, _DEPRECATED_, _pygeodesy_abspath_, \
-                                      _SPACE_, _version_
+                                      _version_
         from pygeodesy.lazily import isLazy, _dunder_all_, _all_deprecates, _all_imports
         from pygeodesy.streprs import Fmt
 
@@ -39,7 +39,7 @@ def _main():  # PYCHOK no cover
             except ImportError:
                 pkg = None
             if pkg is not None:
-                v.append(_SPACE_(pkg.__name__, pkg.__version__))
+                v.append(_name_version(pkg))
 
         v = _Pythonarchine()
         _nv(_xgeographiclib, v)

@@ -38,7 +38,7 @@ from pygeodesy.utily import atan1, atan1d, degrees360, sincos2, sincos2d, \
 from math import atan2, atanh, degrees, fabs, radians, sqrt
 
 __all__ = _ALL_LAZY.albers
-__version__ = '24.04.14'
+__version__ = '24.05.14'
 
 _k1_    = 'k1'
 _NUMIT  =   8  # XXX 4?
@@ -831,7 +831,7 @@ def _xlat(lat, f, where):
     '''(INTERNAL) check fixed C{lat}.
     '''
     if lat is not f and _Lat(lat=lat) != f:
-        t = unstr(where.__name__, lat=lat)
+        t = unstr(where, lat=lat)
         raise AlbersError(t, txt=_not_(f))
 
 

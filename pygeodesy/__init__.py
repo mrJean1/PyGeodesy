@@ -573,7 +573,7 @@ if _init__all__ and not _lazy_import2:  # import and set __all__
                     raise ImportError('missing %s%s: %s' % (_attribute_, s, t))
                 ns.extend(attrs)
 # XXX       if ps:  # check that mod is a _pygeodesy_ module
-# XXX           m = globalocals[mod]  # assert(m.__name__ == mod)
+# XXX           m = globalocals[mod]  # assert(_dunder_nameof(m) == mod)
 # XXX           f = getattr(m, _dunder_file_, _NN)
 # XXX           d = _os_path.dirname(_os_path.abspath(f)) if f else pygeodesy_abspath
 # XXX           p = getattr(m, _dunder_package_, _NN) or _pygeodesy_

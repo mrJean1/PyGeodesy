@@ -25,7 +25,7 @@ from pygeodesy.fmath import favg, hypot, hypot2
 # from pygeodesy.fsums import fsum1  # _MODS
 from pygeodesy.interns import NN, _BANG_, _clip_, _clipid_, _COMMASPACE_, \
                              _composite_, _DOT_, _e_, _ELLIPSIS_, _few_, \
-                             _height_, _lat_,_LatLon_, _lon_, _not_, \
+                             _height_, _lat_, _LatLon_, _lon_, _not_, \
                              _points_, _SPACE_, _too_, _X_, _x_, \
                              _B_, _d_, _R_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
@@ -42,7 +42,7 @@ from pygeodesy.utily import fabs, _unrollon, _Wrap
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.booleans
-__version__ = '24.05.10'
+__version__ = '24.05.15'
 
 _0_EPS =  EPS  # near-zero, positive
 _EPS_0 = -EPS  # near-zero, negative
