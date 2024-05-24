@@ -26,9 +26,9 @@ from pygeodesy.fmath import favg
 from pygeodesy.interns import NN, _COMMA_, _DOT_, _E_, _N_, _NE_, _NW_, \
                              _S_, _SE_, _SW_, _W_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _ALL_OTHER
-from pygeodesy.named import _NamedDict, _NamedTuple, nameof, _xnamed
-from pygeodesy.namedTuples import Bounds2Tuple, Bounds4Tuple, \
-                                  LatLon2Tuple, PhiLam2Tuple
+from pygeodesy.named import _name__, _NamedDict, _NamedTuple, nameof, _xnamed
+from pygeodesy.namedTuples import Bounds2Tuple, Bounds4Tuple, LatLon2Tuple, \
+                                  PhiLam2Tuple
 from pygeodesy.props import deprecated_function, deprecated_method, \
                             deprecated_property_RO, Property_RO, property_RO
 from pygeodesy.streprs import fstr
@@ -38,7 +38,7 @@ from pygeodesy.units import Degrees_, Int, Lat, Lon, Precision_, Str, \
 from math import fabs, ldexp, log10, radians
 
 __all__ = _ALL_LAZY.geohash
-__version__ = '23.12.18'
+__version__ = '24.05.23'
 
 
 class _GH(object):
@@ -71,34 +71,35 @@ class _GH(object):
     @Property_RO
     def Sizes(self):  # lat-, lon and radial size (in meter)
         # ... where radial = sqrt(latSize * lonWidth / PI)
-        return (_floatuple(20032e3, 20000e3, 11292815.096),  # 0
-                _floatuple( 5003e3,  5000e3,  2821794.075),  # 1
-                _floatuple(  650e3,  1225e3,   503442.397),  # 2
-                _floatuple(  156e3,   156e3,    88013.575),  # 3
-                _floatuple(  19500,   39100,    15578.683),  # 4
-                _floatuple(   4890,    4890,     2758.887),  # 5
-                _floatuple(    610,    1220,      486.710),  # 6
-                _floatuple(    153,     153,       86.321),  # 7
-                _floatuple(     19.1,    38.2,     15.239),  # 8
-                _floatuple(      4.77,    4.77,     2.691),  # 9
-                _floatuple(      0.596,   1.19,     0.475),  # 10
-                _floatuple(      0.149,   0.149,    0.084),  # 11
-                _floatuple(      0.0186,  0.0372,   0.015))  # 12  _MaxPrec
+        _t = _floatuple
+        return (_t(20032e3, 20000e3, 11292815.096),  # 0
+                _t( 5003e3,  5000e3,  2821794.075),  # 1
+                _t(  650e3,  1225e3,   503442.397),  # 2
+                _t(  156e3,   156e3,    88013.575),  # 3
+                _t(  19500,   39100,    15578.683),  # 4
+                _t(   4890,    4890,     2758.887),  # 5
+                _t(    610,    1220,      486.710),  # 6
+                _t(    153,     153,       86.321),  # 7
+                _t(     19.1,    38.2,     15.239),  # 8
+                _t(      4.77,    4.77,     2.691),  # 9
+                _t(      0.596,   1.19,     0.475),  # 10
+                _t(      0.149,   0.149,    0.084),  # 11
+                _t(      0.0186,  0.0372,   0.015))  # 12  _MaxPrec
 
 _GH      = _GH()  # PYCHOK singleton
 _MaxPrec =  12
 
 
-def _2bounds(LatLon, LatLon_kwds, s, w, n, e, name=NN):
+def _2bounds(LatLon, LatLon_kwds, s, w, n, e, **name):
     '''(INTERNAL) Return SW and NE bounds.
     '''
     if LatLon is None:
-        r = Bounds4Tuple(s, w, n, e, name=name)
+        r    =  Bounds4Tuple(s, w, n, e, **name)
     else:
-        sw = _xnamed(LatLon(s, w, **LatLon_kwds), name)
-        ne = _xnamed(LatLon(n, e, **LatLon_kwds), name)
-        r  =  Bounds2Tuple(sw, ne, name=name)
-    return r  # _xnamed(r, name)
+        kwds = _xkwds(LatLon_kwds, **name)
+        r    =  Bounds2Tuple(LatLon(s, w, **kwds),
+                             LatLon(n, e, **kwds), **name)
+    return r
 
 
 def _2center(bounds):
@@ -128,11 +129,11 @@ def _2geostr(geohash):
     '''
     try:
         if not (0 < len(geohash) <= _MaxPrec):
-            raise ValueError
+            raise ValueError()
         geostr = geohash.lower()
         for c in geostr:
             if c not in _GH.DecodedBase32:
-                raise ValueError
+                raise ValueError()
         return geostr
     except (AttributeError, TypeError, ValueError) as x:
         raise GeohashError(Geohash.__name__, geohash, cause=x)
@@ -142,7 +143,7 @@ class Geohash(Str):
     '''Geohash class, a named C{str}.
     '''
     # no str.__init__ in Python 3
-    def __new__(cls, cll, precision=None, name=NN):
+    def __new__(cls, cll, precision=None, **name):
         '''New L{Geohash} from an other L{Geohash} instance or C{str}
            or from a C{LatLon} instance or C{str}.
 
@@ -150,7 +151,7 @@ class Geohash(Str):
            @kwarg precision: Optional, the desired geohash length (C{int}
                              1..12), see function L{geohash.encode} for
                              some examples.
-           @kwarg name: Optional name (C{str}).
+           @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @return: New L{Geohash}.
 
@@ -177,7 +178,7 @@ class Geohash(Str):
             except AttributeError:
                 raise _xStrError(Geohash, cll=cll, Error=GeohashError)
 
-        self = Str.__new__(cls, gh, name=name or nameof(cll))
+        self = Str.__new__(cls, gh, name=_name__(name, _or_nameof=cll))
         self._latlon = ll
         return self
 
@@ -186,12 +187,12 @@ class Geohash(Str):
         '''DEPRECATED, use property C{philam}.'''
         return self.philam
 
-    def adjacent(self, direction, name=NN):
+    def adjacent(self, direction, **name):
         '''Determine the adjacent cell in the given compass direction.
 
            @arg direction: Compass direction ('N', 'S', 'E' or 'W').
-           @kwarg name: Optional name (C{str}), otherwise the name
-                        of this cell plus C{.D}irection.
+           @kwarg name: Optional C{B{name}=NN} (C{str}) otherwise this
+                        cell's name, either extended with C{.D}irection.
 
            @return: Geohash of adjacent cell (L{Geohash}).
 
@@ -215,7 +216,7 @@ class Geohash(Str):
         if p and (c in _GH.Borders[D][e]):
             p = Geohash(p).adjacent(D)
 
-        n = name or self.name
+        n = self._name__(name)
         if n:
             n = _DOT_(n, D)
         # append letter for direction to parent
@@ -242,7 +243,7 @@ class Geohash(Str):
         '''
         r = self._bounds
         return r if LatLon is None else \
-              _2bounds(LatLon, LatLon_kwds, *r, name=self.name)
+           _2bounds(LatLon, LatLon_kwds, *r, name=self.name)
 
     def _distanceTo(self, func_, other, **kwds):
         '''(INTERNAL) Helper for distances, see C{.formy._distanceTo*}.
@@ -532,21 +533,23 @@ def bounds(geohash, LatLon=None, **LatLon_kwds):
             i = _GH.DecodedBase32[c]
             for m in (16, 8, 4, 2, 1):
                 if d:  # longitude
-                    if i & m:
-                        w = _avg(w, e)
+                    a = _avg(w, e)
+                    if (i & m):
+                        w = a
                     else:
-                        e = _avg(w, e)
+                        e = a
                 else:  # latitude
-                    if i & m:
-                        s = _avg(s, n)
+                    a = _avg(s, n)
+                    if (i & m):
+                        s = a
                     else:
-                        n = _avg(s, n)
+                        n = a
                 d = not d
     except KeyError:
         raise GeohashError(geohash=geohash)
 
     return _2bounds(LatLon, LatLon_kwds, s, w, n, e,
-                                   name=nameof(geohash))
+                            name=nameof(geohash))  # _or_nameof=geohash
 
 
 def _bounds3(geohash):
@@ -598,7 +601,7 @@ def decode2(geohash, LatLon=None, **LatLon_kwds):
     '''
     t = map2(float, decode(geohash))
     r = LatLon2Tuple(t) if LatLon is None else LatLon(*t, **LatLon_kwds)  # *t
-    return _xnamed(r, decode2.__name__)
+    return _xnamed(r, name__=decode2)
 
 
 def decode_error(geohash):
@@ -636,19 +639,19 @@ def distance_(geohash1, geohash2):
 
 @deprecated_function
 def distance1(geohash1, geohash2):
-    '''DEPRECATED, used L{geohash.distance_}.'''
+    '''DEPRECATED, use L{geohash.distance_}.'''
     return distance_(geohash1, geohash2)
 
 
 @deprecated_function
 def distance2(geohash1, geohash2):
-    '''DEPRECATED, used L{geohash.equirectangular_}.'''
+    '''DEPRECATED, use L{geohash.equirectangular_}.'''
     return equirectangular_(geohash1, geohash2)
 
 
 @deprecated_function
 def distance3(geohash1, geohash2):
-    '''DEPRECATED, used L{geohash.haversine_}.'''
+    '''DEPRECATED, use L{geohash.haversine_}.'''
     return haversine_(geohash1, geohash2)
 
 

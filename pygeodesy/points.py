@@ -41,8 +41,8 @@ from pygeodesy.fmath import favg, fdot, hypot,  Fsum, fsum
 from pygeodesy.formy import _bearingTo2, equirectangular_,  _spherical_datum
 from pygeodesy.interns import NN, _colinear_, _COMMASPACE_, _composite_, \
                              _DEQUALSPACED_, _ELLIPSIS_, _EW_, _immutable_, \
-                             _near_, _no_, _not_, _NS_, _point_, _SPACE_, \
-                             _UNDER_, _valid_  # _lat_, _lon_
+                             _near_, _no_, _NS_, _point_, _SPACE_, _UNDER_, \
+                             _valid_  # _lat_, _lon_
 from pygeodesy.iters import LatLon2PsxyIter, PointsIter, points2
 from pygeodesy.latlonBase import LatLonBase, _latlonheight3, \
                                 _ALL_DOCS, _ALL_LAZY, _MODS
@@ -62,7 +62,7 @@ from pygeodesy.utily import atan2b, degrees90, degrees180, degrees2m, \
 from math import cos, fabs, fmod as _fmod, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '24.05.10'
+__version__ = '24.05.19'
 
 _ilat_  = 'ilat'
 _ilon_  = 'ilon'
@@ -92,7 +92,7 @@ class LatLon_(LatLonBase):  # XXX in heights._HeightBase.height
     # python3 -m timeit -s "from pygeodesy... import LatLonBase as LL" "LL(0, 0)" 2.14 usec
     # python3 -m timeit -s "from pygeodesy import LatLon_" "LatLon_(0, 0)" 216 nsec
 
-    def __init__(self, latlonh, lon=None, height=0, wrap=False, name=NN, datum=None):
+    def __init__(self, latlonh, lon=None, height=0, wrap=False, datum=None, **name):
         '''New L{LatLon_}.
 
            @note: The lat- and longitude values are taken I{as-given,
@@ -283,7 +283,7 @@ class _Basequence(_Sequence):  # immutable, on purpose
         '''
         for i in self._findall(point, start_end):
             return i
-        raise _IndexError(self._itemname, point, txt=_not_('found'))
+        raise _IndexError(self._itemname, point, txt_not_='found')
 
     @property_RO
     def isNumpy2(self):  # PYCHOK no cover
@@ -1156,7 +1156,7 @@ def fractional(points, fi, j=None, wrap=None, LatLon=None, Vector=None, **kwds):
     '''
     if LatLon and Vector:  # PYCHOK no cover
         kwds = _xkwds(kwds, fi=fi, LatLon=LatLon, Vector=Vector)
-        raise _TypeError(txt=fractional.__name__, **kwds)
+        raise _TypeError(txt__=fractional, **kwds)
     w = wrap if LatLon else False  # intermediateTo
     try:
         if not isscalar(fi) or fi < 0:
@@ -1168,7 +1168,7 @@ def fractional(points, fi, j=None, wrap=None, LatLon=None, Vector=None, **kwds):
         elif Vector:
             p = Vector(p.x, p.y, p.z, **kwds)
     except (IndexError, TypeError):
-        raise _IndexError(fi=fi, points=points, wrap=w, txt=fractional.__name__)
+        raise _IndexError(fi=fi, points=points, wrap=w, txt__=fractional)
     return p
 
 
@@ -1191,12 +1191,12 @@ def _fractional(points, fi, j, fin=None, wrap=None):  # in .frechet.py
         elif _isLatLon(p):  # backward compatible default
             p = LatLon2Tuple(favg(p.lat, q.lat, f=r),
                              favg(p.lon, q.lon, f=r),
-                             name=fractional.__name__)
+                             name__=fractional)
         else:  # assume p and q are cartesian or vectorial
             z = p.z if p.z is q.z else favg(p.z, q.z, f=r)
             p = Vector3Tuple(favg(p.x, q.x, f=r),
                              favg(p.y, q.y, f=r), z,
-                             name=fractional.__name__)
+                             name__=fractional)
     return p
 
 

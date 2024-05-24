@@ -112,8 +112,7 @@
         <span class="summary-sig-arg">a_earth</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
         <span class="summary-sig-arg">f</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">b</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>,
-        <span class="summary-sig-arg">**ALorder</span>)</span><br />
+        <span class="summary-sig-arg">**ALorder_name</span>)</span><br />
       New <a href="pygeodesy.auxilats.auxLat.AuxLat-class.html" 
       class="link">AuxLat</a> instance on an ellipsoid or datum.</td>
           <td align="right" valign="top">
@@ -228,7 +227,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.auxilats.auxLat.AuxLat-class.html#Geodetic" class="summary-sig-name">Geodetic</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">Phi</span>,
-        <span class="summary-sig-arg">**diff_name</span>)</span><br />
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Convert <i>Geographic</i> to <i>Geodetic</i> latitude.</td>
           <td align="right" valign="top">
             
@@ -349,6 +348,7 @@
       <code><a href="pygeodesy.named._Named-class.html#dup">dup</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#methodname">methodname</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#rename">rename</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#renamed">renamed</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#toRepr">toRepr</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#toStr">toStr</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#toStr2">toStr2</a></code>
@@ -515,8 +515,7 @@
         <span class="sig-arg">a_earth</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
         <span class="sig-arg">f</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">b</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>,
-        <span class="sig-arg">**ALorder</span>)</span>
+        <span class="sig-arg">**ALorder_name</span>)</span>
     <br /><em class="fname">(Constructor)</em>
   </h3>
   </td><td align="right" valign="top"
@@ -544,11 +543,11 @@
         <li><strong class="pname"><code>b</code></strong> - Optional polar radius, semi-axis (<code>meter</code>, same units 
           as <b><code>a_earth</code></b>), ignored if 
           <b><code>a_earth</code></b> is not scalar.</li>
-        <li><strong class="pname"><code>ALorder</code></strong> - Optional keyword arguments <b><code>ALorder</code></b> to set <a 
+        <li><strong class="pname"><code>ALorder_name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>) and 
+          optional keyword argument <code><b>ALorder</b>=6</code> for the 
+          order of this <a 
           href="pygeodesy.auxilats.auxLat.AuxLat-class.html" 
-          class="link">AuxLat</a>'s <code>order</code>, see property 
-          <code>ALorder</code>.</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
+          class="link">AuxLat</a>, see property <code>ALorder</code>.</li>
     </ul></dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
@@ -584,6 +583,8 @@
         <li><strong class="pname"><code>Phi</code></strong> - Geographic latitude (<a 
           href="pygeodesy.auxilats.auxAngle.AuxAngle-class.html" 
           class="link">AuxAngle</a>).</li>
+        <li><strong class="pname"><code>diff_name</code></strong> - Use <code><b>diff</b>=True</code> to set <code>diff</code> 
+          optional <code><b>name</b>=NN</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Parametric latitude, <code>Beta</code> (<a 
@@ -650,6 +651,8 @@
         <li><strong class="pname"><code>Phi</code></strong> - Geographic latitude (<a 
           href="pygeodesy.auxilats.auxAngle.AuxAngle-class.html" 
           class="link">AuxAngle</a>).</li>
+        <li><strong class="pname"><code>diff_name</code></strong> - Use <code><b>diff</b>=True</code> to set <code>diff</code> and an
+          optional <code><b>name</b>=NN</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Conformal latitude, <code>Chi</code> (<a 
@@ -681,6 +684,8 @@
         <li><strong class="pname"><code>Phi</code></strong> - Geographic latitude (<a 
           href="pygeodesy.auxilats.auxAngle.AuxAngle-class.html" 
           class="link">AuxAngle</a>).</li>
+        <li><strong class="pname"><code>diff_name</code></strong> - Use <code><b>diff</b>=True</code> to set <code>diff</code> and an
+          optional <code><b>name</b>=NN</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Geocentric latitude, <code>Phi</code> (<a 
@@ -698,7 +703,7 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">Geodetic</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">Phi</span>,
-        <span class="sig-arg">**diff_name</span>)</span>
+        <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -712,6 +717,7 @@
         <li><strong class="pname"><code>Phi</code></strong> - Geographic latitude (<a 
           href="pygeodesy.auxilats.auxAngle.AuxAngle-class.html" 
           class="link">AuxAngle</a>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Geodetic latitude, <code>Phi</code> (<a 
@@ -743,6 +749,8 @@
         <li><strong class="pname"><code>Phi</code></strong> - Geographic latitude (<a 
           href="pygeodesy.auxilats.auxAngle.AuxAngle-class.html" 
           class="link">AuxAngle</a>).</li>
+        <li><strong class="pname"><code>diff_name</code></strong> - Use <code><b>diff</b>=True</code> to set <code>diff</code> and an
+          optional <code><b>name</b>=NN</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Parametric latitude, <code>Beta</code> (<a 
@@ -774,6 +782,8 @@
         <li><strong class="pname"><code>Phi</code></strong> - Geographic latitude (<a 
           href="pygeodesy.auxilats.auxAngle.AuxAngle-class.html" 
           class="link">AuxAngle</a>).</li>
+        <li><strong class="pname"><code>diff_name</code></strong> - Use <code><b>diff</b>=True</code> to set <code>diff</code> and an
+          optional <code><b>name</b>=NN</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Parametric latitude, <code>Beta</code> (<a 
@@ -805,6 +815,8 @@
         <li><strong class="pname"><code>Phi</code></strong> - Geographic latitude (<a 
           href="pygeodesy.auxilats.auxAngle.AuxAngle-class.html" 
           class="link">AuxAngle</a>).</li>
+        <li><strong class="pname"><code>diff_name</code></strong> - Use <code><b>diff</b>=True</code> to set <code>diff</code> and an
+          optional <code><b>name</b>=NN</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Rectifying latitude, <code>Mu</code> (<a 
@@ -1085,7 +1097,7 @@ class="link">Ellipsoid</a>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed May 15 16:10:02 2024
+    Generated by Epydoc 3.0.1 on Fri May 24 16:58:41 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

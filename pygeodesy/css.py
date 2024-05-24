@@ -14,14 +14,14 @@ from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.errors import _ValueError, _xdatum, _xellipsoidal, \
                              _xattr, _xkwds
-from pygeodesy.interns import NN, _azimuth_, _COMMASPACE_, _easting_, \
-                             _lat_, _lon_, _m_, _name_, _northing_, \
-                             _reciprocal_, _SPACE_
+from pygeodesy.interns import _azimuth_, _COMMASPACE_, _easting_, \
+                              _lat_, _lon_, _m_, _name_, _northing_, \
+                              _reciprocal_, _SPACE_
 from pygeodesy.interns import _C_  # PYCHOK used!
 from pygeodesy.karney import _atan2d, _copysign, _diff182, _norm2, \
                              _norm180, _signBit, _sincos2d,  fabs
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
-from pygeodesy.named import _NamedBase, _NamedTuple, nameof
+from pygeodesy.named import _name2__, _NamedBase, _NamedTuple
 from pygeodesy.namedTuples import EasNor2Tuple, EasNor3Tuple, \
                                   LatLon2Tuple, LatLon4Tuple, _LL4Tuple
 from pygeodesy.props import deprecated_Property_RO, Property, \
@@ -33,7 +33,7 @@ from pygeodesy.units import Bearing, Degrees, Easting, Height, _heigHt, \
 # from math import fabs  # from .karney
 
 __all__ = _ALL_LAZY.css
-__version__ = '24.02.21'
+__version__ = '24.05.24'
 
 
 def _CS0(cs0):
@@ -65,19 +65,19 @@ class CassiniSoldner(_NamedBase):
     _meridian =  None
     _sb0      = _0_0
 
-    def __init__(self, lat0, lon0, datum=_WGS84, name=NN):
+    def __init__(self, lat0, lon0, datum=_WGS84, **name):
         '''New L{CassiniSoldner} projection.
 
            @arg lat0: Latitude of center point (C{degrees90}).
            @arg lon0: Longitude of center point (C{degrees180}).
            @kwarg datum: Optional datum or ellipsoid (L{Datum},
                          L{Ellipsoid}, L{Ellipsoid2} or L{a_f2Tuple}).
-           @kwarg name: Optional name (C{str}).
+           @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @raise CSSError: Invalid B{C{lat}} or B{C{lon}}.
         '''
         if datum not in (None, self._datum):
-            self._datum = _xellipsoidal(datum=_ellipsoidal_datum(datum, name=name))
+            self._datum = _xellipsoidal(datum=_ellipsoidal_datum(datum, **name))
         if name:
             self.name = name
 
@@ -125,13 +125,14 @@ class CassiniSoldner(_NamedBase):
 
     f = flattening
 
-    def forward(self, lat, lon, name=NN):
+    def forward(self, lat, lon, **name):
         '''Convert an (ellipsoidal) geodetic location to Cassini-Soldner
            easting and northing.
 
            @arg lat: Latitude of the location (C{degrees90}).
            @arg lon: Longitude of the location (C{degrees180}).
-           @kwarg name: Name inlieu of this projection's name (C{str}).
+           @kwarg name: Optional C{B{name}=NN} inlieu of this projection's
+                        name (C{str}).
 
            @return: An L{EasNor2Tuple}C{(easting, northing)}.
 
@@ -140,16 +141,17 @@ class CassiniSoldner(_NamedBase):
 
            @raise CSSError: Invalid B{C{lat}} or B{C{lon}}.
         '''
-        t = self.forward6(lat, lon, name=name)
+        t = self.forward6(lat, lon, **name)
         return EasNor2Tuple(t.easting, t.northing, name=t.name)
 
-    def forward4(self, lat, lon, name=NN):
+    def forward4(self, lat, lon, **name):
         '''Convert an (ellipsoidal) geodetic location to Cassini-Soldner
            easting and northing.
 
            @arg lat: Latitude of the location (C{degrees90}).
            @arg lon: Longitude of the location (C{degrees180}).
-           @kwarg name: Name inlieu of this projection's name (C{str}).
+           @kwarg name: Optional B{C{name}=NN} inlieu of this projection's
+                        name (C{str}).
 
            @return: An L{EasNorAziRk4Tuple}C{(easting, northing,
                     azimuth, reciprocal)}.
@@ -159,17 +161,18 @@ class CassiniSoldner(_NamedBase):
 
            @raise CSSError: Invalid B{C{lat}} or B{C{lon}}.
         '''
-        t = self.forward6(lat, lon, name=name)
+        t = self.forward6(lat, lon, **name)
         return EasNorAziRk4Tuple(t.easting, t.northing,
                                  t.azimuth, t.reciprocal, name=t.name)
 
-    def forward6(self, lat, lon, name=NN):
+    def forward6(self, lat, lon, **name):
         '''Convert an (ellipsoidal) geodetic location to Cassini-Soldner
            easting and northing.
 
            @arg lat: Latitude of the location (C{degrees90}).
            @arg lon: Longitude of the location (C{degrees180}).
-           @kwarg name: Name inlieu of this projection's name (C{str}).
+           @kwarg name: Optional B{C{name}=NN} inlieu of this projection's
+                        name (C{str}).
 
            @return: An L{EasNorAziRkEqu6Tuple}C{(easting, northing,
                     azimuth, reciprocal, equatorarc, equatorazimuth)}.
@@ -209,7 +212,7 @@ class CassiniSoldner(_NamedBase):
         n = self._meridian.ArcPosition(d, g.DISTANCE).s12
         # n = self._meridian._GenPosition(True, d, g.DISTANCE)[4]
         return EasNorAziRkEqu6Tuple(e, n, z, rk, p.a1, p.azi0,
-                                    name=name or self.name)
+                                             name=self._name__(name))
 
     @Property
     def geodesic(self):
@@ -309,20 +312,21 @@ class CassiniSoldner(_NamedBase):
         s, c = _sincos2d(m.lat1)  # == self.lat0 == self.LatitudeOrigin()
         self._sb0, self._cb0 = _norm2(s * g.f1, c)
 
-    def reverse(self, easting, northing, name=NN, LatLon=None, **LatLon_kwds):
+    def reverse(self, easting, northing, LatLon=None, **LatLon_kwds_name):
         '''Convert a Cassini-Soldner location to (ellipsoidal) geodetic
            lat- and longitude.
 
            @arg easting: Easting of the location (C{meter}).
            @arg northing: Northing of the location (C{meter}).
-           @kwarg name: Name inlieu of this projection's name (C{str}).
-           @kwarg LatLon: Optional, ellipsoidal class to return the
-                          geodetic location as (C{LatLon}) or C{None}.
-           @kwarg LatLon_kwds: Optional (C{LatLon}) keyword arguments,
-                               ignored if C{B{LatLon} is None}.
+           @kwarg LatLon: Optional, ellipsoidal class to return the geodetic
+                          location as (C{LatLon}) or C{None}.
+           @kwarg LatLon_kwds_name: Optional (C{LatLon}) keyword arguments,
+                              ignored if C{B{LatLon} is None} and optional
+                              C{B{name}=NN} inlieu of this this projection's
+                              name (C{str}).
 
-           @return: Geodetic location B{C{LatLon}} or if B{C{LatLon}}
-                    is C{None}, a L{LatLon2Tuple}C{(lat, lon)}.
+           @return: Geodetic location B{C{LatLon}} or if B{C{LatLon}} is C{None},
+                    a L{LatLon2Tuple}C{(lat, lon)}.
 
            @raise CSSError: Ellipsoidal mismatch of B{C{LatLon}} and this projection.
 
@@ -331,23 +335,25 @@ class CassiniSoldner(_NamedBase):
            @see: Method L{CassiniSoldner.reverse4}, L{CassiniSoldner.forward}.
                  L{CassiniSoldner.forward4} and L{CassiniSoldner.forward6}.
         '''
-        r = self.reverse4(easting, northing, name=name)
+        n, kwds = _name2__(LatLon_kwds_name, _or_nameof=self)
+        r = self.reverse4(easting, northing, name=n)
         if LatLon is None:
             r = LatLon2Tuple(r.lat, r.lon, name=r.name)  # PYCHOK expected
         else:
             _xsubclassof(_LLEB, LatLon=LatLon)
-            kwds = _xkwds(LatLon_kwds, datum=self.datum, name=r.name)
+            kwds = _xkwds(kwds, datum=self.datum, name=r.name)
             r = LatLon(r.lat, r.lon, **kwds)  # PYCHOK expected
             self._datumatch(r)
         return r
 
-    def reverse4(self, easting, northing, name=NN):
+    def reverse4(self, easting, northing, **name):
         '''Convert a Cassini-Soldner location to (ellipsoidal) geodetic
            lat- and longitude.
 
            @arg easting: Easting of the location (C{meter}).
            @arg northing: Northing of the location (C{meter}).
-           @kwarg name: Name inlieu of this projection's name (C{str}).
+           @kwarg name: Optional B{C{name}=NN} inlieu of this projection's
+                        name (C{str}).
 
            @return: A L{LatLonAziRk4Tuple}C{(lat, lon, azimuth, reciprocal)}.
 
@@ -361,7 +367,7 @@ class CassiniSoldner(_NamedBase):
         # include z azimuth of easting direction and rk reciprocal
         # of azimuthal northing scale (see C++ member Direct() 5/6
         # <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Geodesic.html>)
-        return LatLonAziRk4Tuple(r.lat2, r.lon2, z, r.M12, name=name or self.name)
+        return LatLonAziRk4Tuple(r.lat2, r.lon2, z, r.M12, name=self._name__(name))
 
     toLatLon = reverse  # XXX not reverse4
 
@@ -396,7 +402,7 @@ class Css(_NamedBase):
     _height   =  0     # height (C{meter})
     _northing = _0_0   # northing (C{float})
 
-    def __init__(self, e, n, h=0, cs0=None, name=NN):
+    def __init__(self, e, n, h=0, cs0=None, **name):
         '''New L{Css} Cassini-Soldner position.
 
            @arg e: Easting (C{meter}).
@@ -404,7 +410,7 @@ class Css(_NamedBase):
            @kwarg h: Optional height (C{meter}).
            @kwarg cs0: Optional, the Cassini-Soldner projection
                        (L{CassiniSoldner}).
-           @kwarg name: Optional name (C{str}).
+           @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @return: The Cassini-Soldner location (L{Css}).
 
@@ -447,20 +453,21 @@ class Css(_NamedBase):
             _update_all(self)
             self._cs0 = cs0
 
-#   def dup(self, name=NN, **e_n_h_cs0):  # PYCHOK signature
+#   def dup(self, **e_n_h_cs0_name):  # PYCHOK signature
 #       '''Duplicate this position with some attributes modified.
 #
-#          @kwarg e_n_h_cs0: Use keyword argument C{B{e}=...}, C{B{n}=...},
-#                            C{B{h}=...} and/or C{B{cs0}=...} to override
-#                            the current C{easting}, C{northing} C{height}
-#                            or C{cs0} projectio, respectively.
+#          @kwarg e_n_h_cs0_name: Use keyword argument C{B{e}=...},
+#                       C{B{n}=...}, C{B{h}=...} and/or C{B{cs0}=...}
+#                       to override the current C{easting}, C{northing}
+#                       C{height} or C{cs0} projectio, respectively and
+#                       an optional C{B{name}=NN} (C{str}).
 #       '''
 #       def _args_kwds(e=None, n=None, **kwds):
 #           return (e, n), kwds
 #
 #       kwds = _xkwds(e_n_h_cs0, e=self.easting, n=self.northing,
 #                                h=self.height, cs0=self.cs0,
-#                                name=name or self.name)
+#                                name=_name__(name, _or_nameof(self)))
 #       args, kwds = _args_kwds(**kwds)
 #       return self.__class__(*args, **kwds)  # .classof
 
@@ -596,7 +603,7 @@ class LatLonAziRk4Tuple(_NamedTuple):
     _Units_ = ( Lat_,  Lon_,  Bearing,   Scalar)
 
 
-def toCss(latlon, cs0=None, height=None, Css=Css, name=NN):
+def toCss(latlon, cs0=None, height=None, Css=Css, **name):
     '''Convert an (ellipsoidal) geodetic point to a Cassini-Soldner
        location.
 
@@ -605,8 +612,9 @@ def toCss(latlon, cs0=None, height=None, Css=Css, name=NN):
                    (L{CassiniSoldner}).
        @kwarg height: Optional height for the point, overriding the
                       default height (C{meter}).
-       @kwarg Css: Optional class to return the location (L{Css}) or C{None}.
-       @kwarg name: Optional B{C{Css}} name (C{str}).
+       @kwarg Css: Optional class to return the location (L{Css}) or
+                   C{None}.
+       @kwarg name: Optional B{C{Css}} C{B{name}=NN} (C{str}).
 
        @return: The Cassini-Soldner location (B{C{Css}}) or an
                 L{EasNor3Tuple}C{(easting, northing, height)}
@@ -627,7 +635,7 @@ def toCss(latlon, cs0=None, height=None, Css=Css, name=NN):
 
     c =  cs.forward4(latlon.lat, latlon.lon)
     h = _heigHt(latlon, height)
-    n =  name or nameof(latlon)
+    n =  latlon._name__(name)
 
     if Css is None:
         r = EasNor3Tuple(c.easting, c.northing, h, name=n)

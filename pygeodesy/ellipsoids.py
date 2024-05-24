@@ -76,12 +76,11 @@ from pygeodesy.fmath import cbrt, cbrt2, fdot, Fhorner, fpowers, hypot, hypot_, 
 from pygeodesy.interns import NN, _a_, _Airy1830_, _AiryModified_, _b_, _Bessel1841_, _beta_, \
                              _Clarke1866_, _Clarke1880IGN_, _DOT_, _f_, _GRS80_, _height_, \
                              _Intl1924_, _incompatible_, _invalid_, _Krassovski1940_, \
-                             _Krassowsky1940_, _meridional_, _lat_, _negative_, _not_, \
-                             _not_finite_, _prime_vertical_, _radius_, _Sphere_, _SPACE_, \
-                             _vs_, _WGS72_, _WGS84_
+                             _Krassowsky1940_, _lat_, _meridional_, _negative_, _not_finite_, \
+                             _prime_vertical_, _radius_, _Sphere_, _SPACE_, _vs_, _WGS72_, _WGS84_
 # from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS  # from .named
-from pygeodesy.named import _lazyNamedEnumItem as _lazy, _NamedEnum, _NamedEnumItem, \
-                            _NamedTuple, _Pass,  _ALL_LAZY, _MODS
+from pygeodesy.named import _lazyNamedEnumItem as _lazy, _name__, _name2__, _NamedEnum, \
+                                _NamedEnumItem, _NamedTuple, _Pass,  _ALL_LAZY,  _MODS
 from pygeodesy.namedTuples import Distance2Tuple, Vector3Tuple, Vector4Tuple
 from pygeodesy.props import deprecated_Property_RO, Property_RO, property_doc_, \
                             deprecated_property_RO, property_RO
@@ -93,7 +92,7 @@ from pygeodesy.utily import atan1, atan1d, atan2b, degrees90, m2radians, radians
 from math import asinh, atan, atanh, cos, degrees, exp, fabs, radians, sin, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '24.04.14'
+__version__ = '24.05.21'
 
 _f_0_0    = Float(f =_0_0)  # zero flattening
 _f__0_0   = Float(f_=_0_0)  # zero inverse flattening
@@ -136,7 +135,7 @@ class a_f2Tuple(_NamedTuple):
 
            @arg a: Equatorial radius (C{scalar} > 0).
            @arg f: Flattening (C{scalar} < 1, negative for I{prolate}).
-           @kwarg name: Optional name (C{str}).
+           @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @return: An L{a_f2Tuple}C{(a, f)} instance.
 
@@ -157,13 +156,15 @@ class a_f2Tuple(_NamedTuple):
         '''
         return a_f2b(self.a, self.f)  # PYCHOK .a and .f
 
-    def ellipsoid(self, name=NN):
+    def ellipsoid(self, **name):
         '''Return an L{Ellipsoid} for this 2-tuple C{(a, f)}.
+
+           @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @raise NameError: A registered C{ellipsoid} with the
                              same B{C{name}} already exists.
         '''
-        return Ellipsoid(self.a, f=self.f, name=name or self.name)  # PYCHOK .a and .f
+        return Ellipsoid(self.a, f=self.f, name=self._name__(name))  # PYCHOK .a and .f
 
     @Property_RO
     def f_(self):
@@ -215,7 +216,7 @@ class Ellipsoid(_NamedEnumItem):
     _KsOrder    =  8  # Krüger series order (4, 6 or 8)
     _rhumbsolve = NN  # means, use PYGEODESY_RHUMBSOLVE
 
-    def __init__(self, a, b=None, f_=None, f=None, name=NN):
+    def __init__(self, a, b=None, f_=None, f=None, **name):
         '''New L{Ellipsoid} from the I{equatorial} radius I{and} either
            the I{polar} radius or I{inverse flattening} or I{flattening}.
 
@@ -224,7 +225,7 @@ class Ellipsoid(_NamedEnumItem):
            @arg f_: Inverse flattening: M{a / (a - b)} (C{float} >>> 1.0).
            @arg f: Flattening: M{(a - b) / a} (C{scalar}, near zero for
                    spherical).
-           @kwarg name: Optional, unique name (C{str}).
+           @kwarg name: Optional, unique C{B{name}=NN} (C{str}).
 
            @raise NameError: Ellipsoid with the same B{C{name}} already exists.
 
@@ -234,7 +235,8 @@ class Ellipsoid(_NamedEnumItem):
            @note: M{abs(f_) > 1 / EPS} or M{abs(1 / f_) < EPS} is forced
                   to M{1 / f_ = 0}, spherical.
         '''
-        ff_ = f, f_  # assertion below
+        ff_ =  f, f_  # assertion below
+        n   = _name__(**name) if name else NN
         try:
             a = Radius_(a=a)  # low=EPS
             if not _isfinite(a):
@@ -268,7 +270,7 @@ class Ellipsoid(_NamedEnumItem):
 
         except (TypeError, ValueError) as x:
             d = _xkwds_not(None, b=b, f_=f_, f=f)
-            t =  instr(self, a=a, name=name, **d)
+            t =  instr(self, a=a, name=n, **d)
             raise _ValueError(t, cause=x)
 
         self._a  = a
@@ -276,7 +278,7 @@ class Ellipsoid(_NamedEnumItem):
         self._f  = f
         self._f_ = f_
 
-        self._register(Ellipsoids, name)
+        self._register(Ellipsoids, n)
 
         if f and f_:  # see .test/testEllipsoidal.py
             d = dict(eps=_TOL)
@@ -1023,7 +1025,7 @@ class Ellipsoid(_NamedEnumItem):
             g =  exact
             E = _xattr(g, ellipsoid=None)
             if not (E is self and isinstance(g, self._Geodesics)):
-                raise _ValueError(exact=g, ellipsoid=E, txt=_not_(self.name))
+                raise _ValueError(exact=g, ellipsoid=E, txt_not_=self.name)
         return g
 
     @property_RO
@@ -1102,7 +1104,7 @@ class Ellipsoid(_NamedEnumItem):
             v, d = _MODS.triaxials._hartzell2(pov, los, self._triaxial)
         except Exception as x:
             raise IntersectionError(pov=pov, los=los, cause=x)
-        return Vector4Tuple(v.x, v.y, v.z, d, name=self.hartzell4.__name__)
+        return Vector4Tuple(v.x, v.y, v.z, d, name__=self.hartzell4)
 
     @Property_RO
     def _hash(self):
@@ -1163,8 +1165,7 @@ class Ellipsoid(_NamedEnumItem):
             v = v.times(t)
             h = r * (_1_0 - t)
 
-        return Vector4Tuple(v.x, v.y, v.z, h, iteration=i,
-                            name=self.height4.__name__)
+        return Vector4Tuple(v.x, v.y, v.z, h, iteration=i, name__=self.height4)
 
     def _hubeny_2(self, phi2, phi1, lam21, scaled=True, squared=True):
         '''(INTERNAL) like function C{pygeodesy.flatLocal_}/C{pygeodesy.hubeny_},
@@ -1493,7 +1494,7 @@ class Ellipsoid(_NamedEnumItem):
             r =  exact
             E = _xattr(r, ellipsoid=None)
             if not (E is self and isinstance(r, self._Rhumbs)):
-                raise _ValueError(exact=r, ellipsosid=E, txt=_not_(self.name))
+                raise _ValueError(exact=r, ellipsosid=E, txt_not_=self.name)
         return r
 
     @property_RO
@@ -1807,34 +1808,37 @@ class Ellipsoid(_NamedEnumItem):
             (sqrt((_3_0 * self.a2_b2 + _1_0) * _0_25) * b) if a < b else a)
         return Radius(Rtriaxial=q)
 
-    def toEllipsoid2(self, name=NN):
+    def toEllipsoid2(self, **name):
         '''Get a copy of this ellipsoid as an L{Ellipsoid2}.
 
-           @kwarg name: Optional, unique name (C{str}).
+           @kwarg name: Optional, unique C{B{name}=NN} (C{str}).
 
            @see: Property C{a_f}.
         '''
-        return Ellipsoid2(self, None, name=name)
+        return Ellipsoid2(self, None, **name)
 
-    def toStr(self, prec=8, terse=0, name=NN, **unused):  # PYCHOK expected
+    def toStr(self, prec=8, terse=0, **name):  # PYCHOK expected
         '''Return this ellipsoid as a text string.
 
            @kwarg prec: Number of decimal digits, unstripped (C{int}).
            @kwarg terse: Limit the number of items (C{int}, 0...18).
-           @kwarg name: Override name (C{str}) or C{None} to exclude
-                        this ellipsoid's name.
+           @kwarg name: Optional C{B{name}=NN} (C{str}) or C{None} to
+                        exclude this ellipsoid's name.
 
            @return: This C{Ellipsoid}'s attributes (C{str}).
         '''
         E = Ellipsoid
-        t = E.a, E.b, E.f_, E.f, E.f2, E.n, E.e, E.e2, E.e21, E.e22, E.e32, \
+        t = E.a, E.b, E.f_, E.f,  E.f2, E.n, E.e,   E.e2, E.e21, E.e22, E.e32, \
             E.A, E.L, E.R1, E.R2, E.R3, E.Rbiaxial, E.Rtriaxial
         if terse:
             t = t[:terse]
-        return self._instr(name, prec, props=t)
+        n, _ = _name2__(**name)  # name=None
+        return self._instr(n, prec, props=t)
 
-    def toTriaxial(self, name=NN):
+    def toTriaxial(self, **name):
         '''Convert this ellipsoid to a L{Triaxial_}.
+
+           @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @return: A L{Triaxial_} or L{Triaxial} with the C{X} axis
                     pointing east and C{Z} pointing north.
@@ -1842,7 +1846,7 @@ class Ellipsoid(_NamedEnumItem):
            @see: Method L{Triaxial_.toEllipsoid}.
         '''
         T = self._triaxial
-        return T.copy(name=name) if name else T
+        return T.copy(**name) if name else T
 
     @property_RO
     def _triaxial(self):
@@ -1864,12 +1868,14 @@ class Ellipsoid(_NamedEnumItem):
 class Ellipsoid2(Ellipsoid):
     '''An L{Ellipsoid} specified by I{equatorial} radius and I{flattening}.
     '''
-    def __init__(self, a, f, name=NN):
+    def __init__(self, a, f=None, **name):
         '''New L{Ellipsoid2}.
 
-           @arg a: Equatorial radius, semi-axis (C{meter}).
-           @arg f: Flattening: (C{float} < 1.0, negative for I{prolate}).
-           @kwarg name: Optional, unique name (C{str}).
+           @arg a: Equatorial radius, semi-axis (C{meter}) or a previous
+                   L{Ellipsoid} instance.
+           @arg f: Flattening: (C{float} < 1.0, negative for I{prolate}),
+                   if B{C{a}} is in C{meter}.
+           @kwarg name: Optional, unique C{B{name}=NN} (C{str}).
 
            @raise NameError: Ellipsoid with that B{C{name}} already exists.
 
@@ -1880,9 +1886,9 @@ class Ellipsoid2(Ellipsoid):
         '''
         if f is None and isinstance(a, Ellipsoid):
             Ellipsoid.__init__(self, a.a,   f =a.f,
-                                     b=a.b, f_=a.f_, name=name)
+                                     b=a.b, f_=a.f_, **name)
         else:
-            Ellipsoid.__init__(self, a, f=f, name=name)
+            Ellipsoid.__init__(self, a, f=f, **name)
 
 
 def _spherical_a_b(a, b):

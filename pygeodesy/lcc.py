@@ -30,26 +30,25 @@ from pygeodesy.constants import EPS, EPS02, PI_2, _float as _F, _0_0, _0_5, \
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.errors import _IsnotError, _ValueError
-from pygeodesy.fmath import _ALL_LAZY, hypot
+from pygeodesy.fmath import hypot, _ALL_LAZY
 from pygeodesy.interns import NN, _COMMASPACE_, _ellipsoidal_, _GRS80_, _k0_, \
-                             _lat0_, _lon0_, _m_, _NAD83_, _NTF_, _SPACE_, _WGS84_, \
-                             _C_  # PYCHOK used!
+                             _lat0_, _lon0_, _m_, _NAD83_, _NTF_, _SPACE_, \
+                             _WGS84_,  _C_  # PYCHOK used!
 # from pygeodesy.lazily import _ALL_LAZY  # from .fmath
-from pygeodesy.named import _lazyNamedEnumItem as _lazy, _NamedBase, \
-                            _NamedEnum, _NamedEnumItem, nameof, _xnamed
+from pygeodesy.named import _lazyNamedEnumItem as _lazy, _name2__, _NamedBase, \
+                    _NamedEnum, _NamedEnumItem, _xnamed
 from pygeodesy.namedTuples import EasNor3Tuple, LatLonDatum3Tuple, \
                                   LatLon2Tuple, _LL4Tuple, PhiLam2Tuple
-from pygeodesy.props import deprecated_method, Property, Property_RO, \
-                           _update_all
+from pygeodesy.props import deprecated_method, Property, Property_RO, _update_all
 from pygeodesy.streprs import Fmt, _fstrENH2, _xzipairs
-from pygeodesy.units import Easting, Height, _heigHt,  Lam_, Northing, \
-                            Phi_, Scalar_
+from pygeodesy.units import Easting, Height, _heigHt,  Lam_, Northing, Phi_, \
+                            Scalar_
 from pygeodesy.utily import atan1, degrees90, degrees180, sincos2, tanPI_2_2
 
 from math import atan, fabs, log, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.lcc
-__version__ = '23.12.03'
+__version__ = '24.05.24'
 
 _E0_   = 'E0'
 _N0_   = 'N0'
@@ -83,7 +82,7 @@ class Conic(_NamedEnumItem):
     _r0  = _0_0  # precomputed rho0 (C{float})
 
     def __init__(self, latlon0, par1, par2=None, E0=0, N0=0,
-                       k0=1, opt3=0, name=NN, auth=NN):
+                       k0=1, opt3=0, auth=NN, **name):
         '''New Lambert conformal conic projection.
 
            @arg latlon0: Origin with (ellipsoidal) datum (C{LatLon}).
@@ -93,8 +92,8 @@ class Conic(_NamedEnumItem):
            @kwarg N0: Optional, false northing (C{meter}).
            @kwarg k0: Optional scale factor (C{scalar}).
            @kwarg opt3: Optional meridian (C{degrees180}).
-           @kwarg name: Optional name of the conic (C{str}).
            @kwarg auth: Optional authentication authority (C{str}).
+           @kwarg name: Optional C{B{name}=NN} for the conic (C{str}).
 
            @return: A Lambert projection (L{Conic}).
 
@@ -283,7 +282,7 @@ class Conic(_NamedEnumItem):
         '''Return this conic as a string.
 
            @kwarg prec: Number of (decimal) digits, unstripped (C{int}).
-           @kwarg name: Override name (C{str}) or C{None} to exclude
+           @kwarg name: Overriding name (C{str}) or C{None} to exclude
                         this conic's name.
 
            @return: Conic attributes (C{str}).
@@ -400,14 +399,14 @@ class Lcc(_NamedBase):
     _height   =  0     # height (C{meter})
     _northing = _0_0   # Northing (C{float})
 
-    def __init__(self, e, n, h=0, conic=Conics.WRF_Lb, name=NN):
+    def __init__(self, e, n, h=0, conic=Conics.WRF_Lb, **name):
         '''New L{Lcc} Lamber conformal conic position.
 
            @arg e: Easting (C{meter}).
            @arg n: Northing (C{meter}).
            @kwarg h: Optional height (C{meter}).
            @kwarg conic: Optional, the conic projection (L{Conic}).
-           @kwarg name: Optional name (C{str}).
+           @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @return: The Lambert location (L{Lcc}).
 
@@ -614,27 +613,27 @@ class Lcc(_NamedBase):
         return t if sep is None else sep.join(t)
 
 
-def toLcc(latlon, conic=Conics.WRF_Lb, height=None, Lcc=Lcc, name=NN,
-                                                  **Lcc_kwds):
+def toLcc(latlon, conic=Conics.WRF_Lb, height=None, Lcc=Lcc,
+                                             **name_Lcc_kwds):
     '''Convert an (ellipsoidal) geodetic point to a I{Lambert} location.
 
        @arg latlon: Ellipsoidal point (C{LatLon}).
        @kwarg conic: Optional Lambert projection to use (L{Conic}).
        @kwarg height: Optional height for the point, overriding the
                       default height (C{meter}).
-       @kwarg Lcc: Optional class to return the I{Lambert} location
-                   (L{Lcc}).
-       @kwarg name: Optional B{C{Lcc}} name (C{str}).
-       @kwarg Lcc_kwds: Optional, additional B{C{Lcc}} keyword
-                        arguments, ignored if B{C{Lcc}} is C{None}.
+       @kwarg Lcc: Class to return the I{Lambert} location (L{Lcc}).
+       @kwarg name_Lcc_kwds: Optional C{B{name}=NN} (C{str}) for the
+                   location and optional, additional B{C{Lcc}} keyword
+                   arguments, ignored if B{C{Lcc}} is C{None}.
 
        @return: The I{Lambert} location (L{Lcc}) or an
-                L{EasNor3Tuple}C{(easting, northing, height)}
-                if C{B{Lcc} is None}.
+                L{EasNor3Tuple}C{(easting, northing, height)} if
+                C{B{Lcc} is None}.
 
        @raise TypeError: If B{C{latlon}} is not ellipsoidal.
     '''
     _xinstanceof(_LLEB, latlon=latlon)
+    name, Lcc_kwds = _name2__(name_Lcc_kwds)
 
     a, b = latlon.philam
     c = conic.toDatum(latlon.datum)
@@ -649,7 +648,7 @@ def toLcc(latlon, conic=Conics.WRF_Lb, height=None, Lcc=Lcc, name=NN,
     h = _heigHt(latlon, height)
     r =  EasNor3Tuple(e, n, h) if Lcc is None else \
                   Lcc(e, n, h=h, conic=c, **Lcc_kwds)
-    return _xnamed(r, name or nameof(latlon))
+    return _xnamed(r, name) if name else r
 
 
 if __name__ == '__main__':

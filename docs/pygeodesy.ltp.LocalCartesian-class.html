@@ -113,8 +113,7 @@
         <span class="summary-sig-arg">lon0</span>=<span class="summary-sig-default">0</span>,
         <span class="summary-sig-arg">height0</span>=<span class="summary-sig-default">0</span>,
         <span class="summary-sig-arg">ecef</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>,
-        <span class="summary-sig-arg">**lon00</span>)</span><br />
+        <span class="summary-sig-arg">**lon00_name</span>)</span><br />
       New <a href="pygeodesy.ltp.LocalCartesian-class.html" 
       class="link">LocalCartesian</a> converter.</td>
           <td align="right" valign="top">
@@ -155,7 +154,7 @@
         <span class="summary-sig-arg">lon</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">0</span>,
         <span class="summary-sig-arg">M</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Convert <i>geodetic</i> <code>(lat, lon, height)</code> to 
       <i>local</i> cartesian <code>(x, y, z)</code>.</td>
           <td align="right" valign="top">
@@ -178,13 +177,10 @@
         <span class="summary-sig-arg">lon0</span>=<span class="summary-sig-default">0</span>,
         <span class="summary-sig-arg">height0</span>=<span class="summary-sig-default">0</span>,
         <span class="summary-sig-arg">ecef</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>,
-        <span class="summary-sig-arg">**lon00</span>)</span><br />
+        <span class="summary-sig-arg">**lon00_name</span>)</span><br />
       Reset this converter, see <a 
       href="pygeodesy.ltp.LocalCartesian-class.html#__init__" 
-      class="link">LocalCartesian.__init__</a> and <a 
-      href="pygeodesy.ltp.Ltp-class.html#__init__" 
-      class="link">Ltp.__init__</a> for more details.</td>
+      class="link">LocalCartesian.__init__</a> for more details.</td>
           <td align="right" valign="top">
             
             
@@ -205,8 +201,7 @@
         <span class="summary-sig-arg">y</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">z</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">M</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>,
-        <span class="summary-sig-arg">**lon00</span>)</span><br />
+        <span class="summary-sig-arg">**lon00_name</span>)</span><br />
       Convert <i>local</i> <code>(x, y, z)</code> to <i>geodetic</i> 
       <code>(lat, lon, height)</code>.</td>
           <td align="right" valign="top">
@@ -256,6 +251,7 @@
       <code><a href="pygeodesy.named._Named-class.html#dup">dup</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#methodname">methodname</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#rename">rename</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#renamed">renamed</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#toStr2">toStr2</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
@@ -400,8 +396,7 @@
         <span class="sig-arg">lon0</span>=<span class="sig-default">0</span>,
         <span class="sig-arg">height0</span>=<span class="sig-default">0</span>,
         <span class="sig-arg">ecef</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>,
-        <span class="sig-arg">**lon00</span>)</span>
+        <span class="sig-arg">**lon00_name</span>)</span>
     <br /><em class="fname">(Constructor)</em>
   </h3>
   </td><td align="right" valign="top"
@@ -433,10 +428,11 @@
         <li><strong class="pname"><code>ecef</code></strong> - An ECEF converter (<a href="pygeodesy.ecef.EcefKarney-class.html"
           class="link">EcefKarney</a> <i>only</i>) for <code>scalar</code> 
           <b><code>latlonh0</code></b>, ignored otherwise.</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
-        <li><strong class="pname"><code>lon00</code></strong> - An arbitrary, <i>polar</i> longitude (<code>degrees</code>), 
-          overriding the default <code><b>lon00</b>=<b>lon0</b></code>, see
-          method <code>reverse</code>.</li>
+        <li><strong class="pname"><code>lon00_name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>) and 
+          keyword argument <code><b>lon00</b>=<b>lon0</b></code> for the 
+          arbitrary <i>polar</i> longitude (<code>degrees</code>), see 
+          method <code>reverse</code> and property <code>lon00</code> for 
+          further details.</li>
     </ul></dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
@@ -510,7 +506,7 @@
         <span class="sig-arg">lon</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">height</span>=<span class="sig-default">0</span>,
         <span class="sig-arg">M</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -535,7 +531,7 @@
         <li><strong class="pname"><code>M</code></strong> - Optionally, return the <i>concatenated</i> rotation <a 
           href="pygeodesy.ecef.EcefMatrix-class.html" 
           class="link">EcefMatrix</a>, iff available (<code>bool</code>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.ltpTuples.Local9Tuple-class.html" 
@@ -577,8 +573,7 @@
         <span class="sig-arg">y</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">z</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">M</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>,
-        <span class="sig-arg">**lon00</span>)</span>
+        <span class="sig-arg">**lon00_name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -608,13 +603,14 @@
         <li><strong class="pname"><code>M</code></strong> - Optionally, return the <i>concatenated</i> rotation <a 
           href="pygeodesy.ecef.EcefMatrix-class.html" 
           class="link">EcefMatrix</a>, iff available (<code>bool</code>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
-        <li><strong class="pname"><code>lon00</code></strong> - An arbitrary, <i>polar</i> longitude (<code>degrees</code>), 
-          returned for local <code><b>x</b>=0</code> and 
-          <code><b>y</b>=0</code> at <i>polar</i> latitudes 
-          <code>abs(<b>lat0</b>) == 90</code>, overriding property 
-          <code>lon00</code> and default 
-          <code><b>lon00</b>=<b>lon0</b></code>.</li>
+        <li><strong class="pname"><code>lon00_name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>) and 
+          keyword argument <code><b>lon00</b>=<b>lon0</b></code> for the 
+          arbitrary <i>polar</i> longitude (<code>degrees</code>), 
+          overriding see the property <code><b>lon00</b>=<b>lon0</b></code>
+          value.  The <i>polar</i> longitude (<code>degrees</code>) is 
+          returned with <i>polar</i> latitudes <code>abs(<b>lat0</b>) == 
+          90</code> for local <code><b>x</b>=0</code> and 
+          <code><b>y</b>=0</code> locations.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>An <a href="pygeodesy.ltpTuples.Local9Tuple-class.html" 
@@ -942,7 +938,7 @@ class="link">LatLon3Tuple</a><code>(lat, lon, height)</code>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed May 15 16:10:05 2024
+    Generated by Epydoc 3.0.1 on Fri May 24 16:58:43 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

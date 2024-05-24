@@ -125,9 +125,8 @@
         <span class="summary-sig-arg">f</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">lon0</span>=<span class="summary-sig-default">0</span>,
         <span class="summary-sig-arg">k0</span>=<span class="summary-sig-default">0.9996</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">raiser</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">**TMorder</span>)</span><br />
+        <span class="summary-sig-arg">**TMorder_name</span>)</span><br />
       New <a href="pygeodesy.ktm.KTransverseMercator-class.html" 
       class="link">KTransverseMercator</a>.</td>
           <td align="right" valign="top">
@@ -149,7 +148,7 @@
         <span class="summary-sig-arg">lat</span>,
         <span class="summary-sig-arg">lon</span>,
         <span class="summary-sig-arg">lon0</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Forward projection, from geographic to transverse Mercator.</td>
           <td align="right" valign="top">
             
@@ -189,7 +188,7 @@
         <span class="summary-sig-arg">x</span>,
         <span class="summary-sig-arg">y</span>,
         <span class="summary-sig-arg">lon0</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Reverse projection, from transverse Mercator to geographic.</td>
           <td align="right" valign="top">
             
@@ -236,6 +235,7 @@
       <code><a href="pygeodesy.named._Named-class.html#dup">dup</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#methodname">methodname</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#rename">rename</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#renamed">renamed</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#toStr2">toStr2</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
@@ -387,9 +387,8 @@
         <span class="sig-arg">f</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">lon0</span>=<span class="sig-default">0</span>,
         <span class="sig-arg">k0</span>=<span class="sig-default">0.9996</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">raiser</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">**TMorder</span>)</span>
+        <span class="sig-arg">**TMorder_name</span>)</span>
     <br /><em class="fname">(Constructor)</em>
   </h3>
   </td><td align="right" valign="top"
@@ -417,12 +416,15 @@
           otherwise.</li>
         <li><strong class="pname"><code>lon0</code></strong> - The central meridian (<code>degrees180</code>).</li>
         <li><strong class="pname"><code>k0</code></strong> - Central scale factor (<code>scalar</code>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
         <li><strong class="pname"><code>raiser</code></strong> - If <code>True</code>, throw a <a 
           href="pygeodesy.ktm.KTMError-class.html" 
           class="link">KTMError</a> for <code>forward</code> singularities 
           (<code>bool</code>).</li>
-        <li><strong class="pname"><code>TMorder</code></strong> - Keyword argument <b><code>TMorder</code></b>, see property 
+        <li><strong class="pname"><code>TMorder_name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>) and 
+          optional keyword argument <code><b>TMorder</b>=6</code> for the 
+          order of this <a 
+          href="pygeodesy.ktm.KTransverseMercator-class.html" 
+          class="link">KTransverseMercator</a>, see property 
           <code>TMorder</code>.</li>
     </ul></dd>
     <dt>Raises:</dt>
@@ -447,7 +449,7 @@
         <span class="sig-arg">lat</span>,
         <span class="sig-arg">lon</span>,
         <span class="sig-arg">lon0</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -461,7 +463,7 @@
         <li><strong class="pname"><code>lat</code></strong> - Latitude of point (<code>degrees90</code>).</li>
         <li><strong class="pname"><code>lon</code></strong> - Longitude of point (<code>degrees180</code>).</li>
         <li><strong class="pname"><code>lon0</code></strong> - Central meridian of the projection (<code>degrees180</code>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><a href="pygeodesy.namedTuples.Forward4Tuple-class.html" 
@@ -524,7 +526,7 @@
         <span class="sig-arg">x</span>,
         <span class="sig-arg">y</span>,
         <span class="sig-arg">lon0</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -538,6 +540,7 @@
         <li><strong class="pname"><code>x</code></strong> - Easting of point (<code>meter</code>).</li>
         <li><strong class="pname"><code>y</code></strong> - Northing of point (<code>meter</code>).</li>
         <li><strong class="pname"><code>lon0</code></strong> - Central meridian of the projection (<code>degrees180</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><a href="pygeodesy.namedTuples.Reverse4Tuple-class.html" 
@@ -862,7 +865,7 @@ class="link">a_f2Tuple</a> or 2-tuple <code>(a, f)</code>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed May 15 16:10:04 2024
+    Generated by Epydoc 3.0.1 on Fri May 24 16:58:43 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

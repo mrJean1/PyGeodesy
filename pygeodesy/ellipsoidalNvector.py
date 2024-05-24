@@ -31,8 +31,7 @@ from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, \
                                      _TOL_M,  _Wrap
 from pygeodesy.errors import _IsnotError, _xkwds, _xkwds_pop2
 # from pygeodesy.fmath import fdot  # from .nvectorBase
-from pygeodesy.interns import NN, _Nv00_, _COMMASPACE_
-from pygeodesy.interns import _down_, _east_, _north_, _pole_  # PYCHOK used!
+from pygeodesy.interns import _Nv00_, _COMMASPACE_,  _pole_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _ALL_OTHER
 # from pygeodesy.ltp import Ltp  # _MODS
 from pygeodesy.ltpTuples import Aer as _Aer, Ned as _Ned, Ned4Tuple, \
@@ -49,15 +48,15 @@ from pygeodesy.units import Bearing, Distance, Height, Scalar
 # from math import fabs  # from .nvectorBase
 
 __all__ = _ALL_LAZY.ellipsoidalNvector
-__version__ = '24.02.18'
+__version__ = '24.05.19'
 
 
 class Ned(_Ned):
     '''DEPRECATED on 2024.02.04, use class L{pygeodesy.Ned}.'''
 
-    def __init__(self, north, east, down, name=NN):
+    def __init__(self, north, east, down, **name):
         deprecated_class(self.__class__)
-        _Ned.__init__(self, north, east, down, name=name)
+        _Ned.__init__(self, north, east, down, **name)
 
     @deprecated_method  # PYCHOK expected
     def toRepr(self, prec=None, fmt=Fmt.SQUARE, sep=_COMMASPACE_, **unused):
@@ -434,7 +433,7 @@ class Nvector(NvectorBase):
     '''
     _datum = _WGS84  # default datum (L{Datum})
 
-    def __init__(self, x_xyz, y=None, z=None, h=0, datum=None, ll=None, name=NN):
+    def __init__(self, x_xyz, y=None, z=None, h=0, datum=None, ll=None, **name):
         '''New n-vector normal to the earth's surface.
 
            @arg x_xyz: X component of vector (C{scalar}) or (3-D) vector
@@ -449,13 +448,13 @@ class Nvector(NvectorBase):
                          (L{Datum}, L{Ellipsoid}, L{Ellipsoid2} or
                          L{a_f2Tuple}).
            @kwarg ll: Optional, original latlon (C{LatLon}).
-           @kwarg name: Optional name (C{str}).
+           @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @raise TypeError: If B{C{datum}} is not a L{Datum}.
         '''
-        NvectorBase.__init__(self, x_xyz, y=y, z=z, h=h, ll=ll, name=name)
+        NvectorBase.__init__(self, x_xyz, y=y, z=z, h=h, ll=ll, **name)
         if datum not in (None, self._datum):
-            self._datum = _ellipsoidal_datum(datum, name=name)
+            self._datum = _ellipsoidal_datum(datum, **name)
 
     @Property_RO
     def datum(self):
@@ -550,7 +549,7 @@ def meanOf(points, datum=_WGS84, height=None, wrap=False,
     # geographic mean
     m = sumOf(p._N_vector for p in Ps.iterate(closed=False))
     kwds = _xkwds(LatLon_and_kwds, height=height, datum=datum,
-                                   LatLon=LatLon, name=meanOf.__name__)
+                                   LatLon=LatLon, name__=meanOf)
     return m.toLatLon(**kwds)
 
 
@@ -618,7 +617,7 @@ def sumOf(nvectors, Vector=Nvector, h=None, **Vector_kwds):
 
 
 @deprecated_function
-def toNed(distance, bearing, elevation, Ned=Ned, name=NN):
+def toNed(distance, bearing, elevation, Ned=Ned, **name):
     '''DEPRECATED, use L{pygeodesy.Aer}C{(bearing, elevation,
        distance).xyzLocal.toNed(B{Ned}, name=B{name})} or
        L{XyzLocal}C{(pygeodesy.Aer(bearing, elevation,
@@ -633,7 +632,7 @@ def toNed(distance, bearing, elevation, Ned=Ned, name=NN):
                        frame horizontal (C{degrees}).
        @kwarg Ned: Optional class to return the NED (C{Ned}) or
                    C{None}.
-       @kwarg name: Optional name (C{str}).
+       @kwarg name: Optional C{B{name}=NN} (C{str}).
 
        @return: An NED vector equivalent to this B{C{distance}},
                 B{C{bearing}} and B{C{elevation}} (DEPRECATED L{Ned})

@@ -137,8 +137,8 @@
         <span class="summary-sig-arg">lon</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">0</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>,
-        <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">None</span>)</span><br />
+        <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">**name</span>)</span><br />
       New <code>LatLon</code>.</td>
           <td align="right" valign="top">
             
@@ -1247,7 +1247,7 @@
           <td><span class="summary-sig"><a name="toDatum"></a><span class="summary-sig-name">toDatum</span>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">datum2</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">**name</span>)</span><br />
       <i>Must be overloaded</i>.</td>
           <td align="right" valign="top">
             
@@ -1326,7 +1326,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#toNormal" class="summary-sig-name">toNormal</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">deep</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Get this point <i>normalized</i> to <code>abs(lat) &lt;= 90</code> 
       and <code>abs(lon) &lt;= 180</code>.</td>
           <td align="right" valign="top">
@@ -1480,6 +1480,7 @@
       <code><a href="pygeodesy.named._Named-class.html#dup">dup</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#methodname">methodname</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#rename">rename</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#renamed">renamed</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#toStr2">toStr2</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
@@ -1756,8 +1757,8 @@
         <span class="sig-arg">lon</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">height</span>=<span class="sig-default">0</span>,
         <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>,
-        <span class="sig-arg">datum</span>=<span class="sig-default">None</span>)</span>
+        <span class="sig-arg">datum</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">**name</span>)</span>
     <br /><em class="fname">(Constructor)</em>
   </h3>
   </td><td align="right" valign="top"
@@ -1780,7 +1781,6 @@
         <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> 
           <b><code>lat</code></b> and <b><code>lon</code></b> 
           (<code>bool</code>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
         <li><strong class="pname"><code>datum</code></strong> - Optional datum (<a href="pygeodesy.datums.Datum-class.html" 
           class="link">Datum</a>, <a 
           href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
@@ -1790,6 +1790,7 @@
           href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
           class="link">a_f2Tuple</a> or <i>scalar</i> radius) or 
           <code>None</code>.</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>New instance (<code>LatLon</code>).</dd>
@@ -4211,7 +4212,7 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toNormal</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">deep</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -4225,11 +4226,11 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>deep</code></strong> - If <code>True</code> make a deep, otherwise a shallow copy 
           (<code>bool</code>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name of the copy (<code>str</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>A copy of this point, <i>normalized</i> and optionally renamed 
-          (<code>LatLon</code>).</dd>
+        <dd>A copy of this point, <i>normalized</i> (<code>LatLon</code>), 
+          optionally renamed.</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Property <a 
@@ -5080,7 +5081,7 @@ class="link">Vector4Tuple</a><code>(x, y, z, h)</code>)
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed May 15 16:10:04 2024
+    Generated by Epydoc 3.0.1 on Fri May 24 16:58:43 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

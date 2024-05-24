@@ -20,16 +20,16 @@ from pygeodesy.constants import EPS, INT0, _umod_360, _0_0, _0_01, _0_5, _1_0, \
 from pygeodesy.datums import _WGS84,  _xinstanceof
 from pygeodesy.ecef import _EcefBase, EcefKarney, _llhn4, _xyzn4
 from pygeodesy.errors import _NotImplementedError, _TypesError, _ValueError, \
-                             _xattr, _xkwds, _xkwds_get
+                             _xattr, _xkwds, _xkwds_get, _xkwds_pop2
 from pygeodesy.fmath import fabs, fdot, Fhorner
 from pygeodesy.fsums import _floor, _Fsumf_, fsumf_, fsum1f_
-from pygeodesy.interns import NN, _0_, _COMMASPACE_, _DOT_, _ecef_, _height_, \
-                             _invalid_, _lat0_, _lon0_, _ltp_, _M_, _name_, _too_
+from pygeodesy.interns import _0_, _COMMASPACE_, _DOT_, _ecef_, _height_, _M_, \
+                              _invalid_, _lat0_, _lon0_, _ltp_, _name_, _too_
 # from pygeodesy.lazily import _ALL_LAZY  # from vector3d
 from pygeodesy.ltpTuples import Attitude4Tuple, ChLVEN2Tuple, ChLV9Tuple, \
                                 ChLVYX2Tuple, Footprint5Tuple, Local9Tuple, \
                                 ChLVyx2Tuple, _XyzLocals4, _XyzLocals5, Xyz4Tuple
-from pygeodesy.named import _NamedBase, notOverloaded
+from pygeodesy.named import _name__, _NamedBase, notOverloaded
 from pygeodesy.namedTuples import LatLon3Tuple, LatLon4Tuple, Vector3Tuple
 from pygeodesy.props import Property, Property_RO, property_doc_, property_RO, \
                            _update_all
@@ -42,7 +42,7 @@ from pygeodesy.vector3d import _ALL_LAZY, Vector3d
 # from math import fabs, floor as _floor  # from .fmath, .fsums
 
 __all__ = _ALL_LAZY.ltp
-__version__ = '24.04.14'
+__version__ = '24.04.23'
 
 _height0_ = _height_ + _0_
 _narrow_  = 'narrow'
@@ -67,7 +67,7 @@ class Attitude(_NamedBase):
     _tilt = Degrees(tilt=_0_0)
     _yaw  = Bearing(yaw =_0_0)
 
-    def __init__(self, alt_attitude=INT0, tilt=INT0, yaw=INT0, roll=INT0, name=NN):
+    def __init__(self, alt_attitude=INT0, tilt=INT0, yaw=INT0, roll=INT0, **name):
         '''New L{Attitude}.
 
            @kwarg alt_attitude: An altitude (C{meter}) above earth or an attitude
@@ -79,7 +79,7 @@ class Attitude(_NamedBase):
                        (counter-clockwise rotation along and around the z- or Up axis).
            @kwarg roll: Roll, bank (C{degrees180}), positive to the right and down
                         (clockwise rotation along and around the y- or North axis).
-           @kwarg name: Optional name C{str}).
+           @kwarg name: Optional C{B{name}=NN} C{str}).
 
            @raise AttitudeError: Invalid B{C{alt_attitude}}, B{C{tilt}}, B{C{yaw}} or
                                  B{C{roll}}.
@@ -97,7 +97,7 @@ class Attitude(_NamedBase):
         for n, v in t.items():
             if v:
                 setattr(self, n, v)
-        n = name or t.name
+        n = _name__(name, _or_nameof=t)
         if n:
             self.name = n
 
@@ -214,7 +214,7 @@ class Attitude(_NamedBase):
         def _r2d(r):
             return fsumf_(_N_1_0, *r)
 
-        return Vector3d(*map(_r2d, self.matrix), name=tyr3d.__name__)
+        return Vector3d(*map(_r2d, self.matrix), name__=tyr3d)
 
     @property_doc_(' yaw/bearing/heading in compass C{degrees360}, clockwise from North.')
     def yaw(self):
@@ -247,12 +247,13 @@ class Frustum(_NamedBase):
     _tan_h_2 = _0_0   # tan(_h_2)
     _v_2     = _0_0   # half vfov in degrees
 
-    def __init__(self, hfov, vfov, ltp=None):
+    def __init__(self, hfov, vfov, ltp=None, **name):
         '''New L{Frustum}.
 
            @arg hfov: Horizontal field-of-view (C{degrees180}).
            @arg vfov: Vertical field-of-view (C{degrees180}).
            @kwarg ltp: Optional I{local tangent plane} (L{Ltp}).
+           @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @raise LocalError: Invalid B{C{hfov}} or B{C{vfov}}.
         '''
@@ -263,8 +264,10 @@ class Frustum(_NamedBase):
 
         if ltp:
             self._ltp = _xLtp(ltp)
+        if name:
+            self.name  # PYCHOK effect
 
-    def footprint5(self, alt_attitude, tilt=0, yaw=0, roll=0, z=_0_0, ltp=None):  # MCCABE 15
+    def footprint5(self, alt_attitude, tilt=0, yaw=0, roll=0, z=_0_0, ltp=None, **name):  # MCCABE 15
         '''Compute the center and corners of the intersection with (or projection
            to) the I{local tangent plane} (LTP).
 
@@ -280,6 +283,7 @@ class Frustum(_NamedBase):
            @kwarg z: Optional height of the footprint (C{meter}) above I{local tangent plane}.
            @kwarg ltp: The I{local tangent plane} (L{Ltp}), overriding this
                        frustum's C{ltp}.
+           @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @return: A L{Footprint5Tuple}C{(center, upperleft, upperight, loweright,
                     lowerleft)} with the C{center} and 4 corners, each an L{Xyz4Tuple}.
@@ -350,7 +354,7 @@ class Frustum(_NamedBase):
                         + _xy2(a, e + v, -h, -t, r)  # swapped
         # turn center and corners by yaw, clockwise
         p = self.ltp if ltp is None else ltp  # None OK
-        return Footprint5Tuple(_xyz5(b, xy5, z, p))  # *_xyz5
+        return Footprint5Tuple(_xyz5(b, xy5, z, p), **name)  # *_xyz5
 
     @Property_RO
     def hfov(self):
@@ -413,7 +417,7 @@ class LocalCartesian(_NamedBase):
     _t0     = None  # origin (..., lat0, lon0, height0, ...) L{Ecef9Tuple}
     _9Tuple = Local9Tuple
 
-    def __init__(self, latlonh0=INT0, lon0=INT0, height0=INT0, ecef=None, name=NN, **lon00):
+    def __init__(self, latlonh0=INT0, lon0=INT0, height0=INT0, ecef=None, **lon00_name):
         '''New L{LocalCartesian} converter.
 
            @kwarg latlonh0: The (geodetic) origin (C{LatLon}, L{LatLon4Tuple}, L{Ltp}
@@ -426,9 +430,10 @@ class LocalCartesian(_NamedBase):
                            surface and for C{scalar} B{C{latlonh0}}, ignored otherwise.
            @kwarg ecef: An ECEF converter (L{EcefKarney} I{only}) for C{scalar}
                         B{C{latlonh0}}, ignored otherwise.
-           @kwarg name: Optional name (C{str}).
-           @kwarg lon00: An arbitrary, I{polar} longitude (C{degrees}), overriding
-                         the default C{B{lon00}=B{lon0}}, see method C{reverse}.
+           @kwarg lon00_name: Optional C{B{name}=NN} (C{str}) and keyword argument
+                        C{B{lon00}=B{lon0}} for the arbitrary I{polar} longitude
+                        (C{degrees}), see method C{reverse} and property C{lon00}
+                        for further details.
 
            @raise LocalError: If B{C{latlonh0}} not C{LatLon}, L{LatLon4Tuple}, L{Ltp},
                               L{LocalCartesian} or L{Ecef9Tuple} or B{C{latlonh0}},
@@ -439,7 +444,7 @@ class LocalCartesian(_NamedBase):
            @note: If BC{latlonh0} is an L{Ltp} or L{LocalCartesian}, only C{lat0}, C{lon0},
                   C{height0} and I{polar} C{lon00} are copied, I{not} the ECEF converter.
         '''
-        self.reset(latlonh0, lon0=lon0, height0=height0, ecef=ecef, name=name, **lon00)
+        self.reset(latlonh0, lon0=lon0, height0=height0, ecef=ecef, **lon00_name)
 
     def __eq__(self, other):
         '''Compare this and an other instance.
@@ -495,7 +500,7 @@ class LocalCartesian(_NamedBase):
         '''
         return self.ecef.datum.ellipsoid
 
-    def forward(self, latlonh, lon=None, height=0, M=False, name=NN):
+    def forward(self, latlonh, lon=None, height=0, M=False, **name):
         '''Convert I{geodetic} C{(lat, lon, height)} to I{local} cartesian
            C{(x, y, z)}.
 
@@ -507,7 +512,7 @@ class LocalCartesian(_NamedBase):
                           to and above (or below) the ellipsoid's surface.
            @kwarg M: Optionally, return the I{concatenated} rotation L{EcefMatrix},
                      iff available (C{bool}).
-           @kwarg name: Optional name (C{str}).
+           @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @return: A L{Local9Tuple}C{(x, y, z, lat, lon, height, ltp, ecef, M)}
                     with I{local} C{x}, C{y}, C{z}, I{geodetic} C{(lat}, C{lon},
@@ -521,7 +526,7 @@ class LocalCartesian(_NamedBase):
                               C{scalar} for C{scalar} B{C{latlonh}} or invalid
                               or if B{C{height}} invalid.
         '''
-        lat, lon, h, n = _llhn4(latlonh, lon, height, Error=LocalError, name=name)
+        lat, lon, h, n = _llhn4(latlonh, lon, height, Error=LocalError, **name)
         t = self.ecef._forward(lat, lon, h, n, M=M)
         x, y, z = self.M.rotate(t.xyz, *self._t0_xyz)
         m = self.M.multiply(t.M) if M else None
@@ -586,19 +591,21 @@ class LocalCartesian(_NamedBase):
         '''
         return self._t0.M
 
-    def reset(self, latlonh0=INT0, lon0=INT0, height0=INT0, ecef=None, name=NN, **lon00):
-        '''Reset this converter, see L{LocalCartesian.__init__} and L{Ltp.__init__} for more details.
+    def reset(self, latlonh0=INT0, lon0=INT0, height0=INT0, ecef=None, **lon00_name):
+        '''Reset this converter, see L{LocalCartesian.__init__} for more details.
         '''
+        _, name = _xkwds_pop2(lon00_name, lon00=None)  # PYCHOK get **name
         if isinstance(latlonh0, LocalCartesian):
             if self._t0:
                 _update_all(self)
-            self._ecef  = latlonh0.ecef
-            self._lon00 = latlonh0.lon00
-            self._t0    = latlonh0._t0
-            n           = name or latlonh0.name
+            self._ecef  =  latlonh0.ecef
+            self._lon00 =  latlonh0.lon00
+            self._t0    =  latlonh0._t0
+            n           = _name__(name, _or_nameof=latlonh0)
         else:
+            n           = _name__(name, _or_nameof=self)
             lat0, lon0, height0, n = _llhn4(latlonh0, lon0, height0, suffix=_0_,
-                                            Error=LocalError, name=name or self.name)
+                                            Error=LocalError, name=n)
             if ecef:  # PYCHOK no cover
                 _xinstanceof(self._Ecef, ecef=ecef)
                 _update_all(self)
@@ -606,11 +613,11 @@ class LocalCartesian(_NamedBase):
             elif self._t0:
                 _update_all(self)
             self._t0 = self.ecef._forward(lat0, lon0, height0, n, M=True)
-            self.lon00 = _xattr(latlonh0, lon00=_xkwds_get(lon00, lon00=lon0))
+            self.lon00 = _xattr(latlonh0, lon00=_xkwds_get(lon00_name, lon00=lon0))
         if n:
             self.rename(n)
 
-    def reverse(self, xyz, y=None, z=None, M=False, name=NN, **lon00):
+    def reverse(self, xyz, y=None, z=None, M=False, **lon00_name):
         '''Convert I{local} C{(x, y, z)} to I{geodetic} C{(lat, lon, height)}.
 
            @arg xyz: A I{local} (L{XyzLocal}, L{Enu}, L{Ned}, L{Aer}, L{Local9Tuple}) or
@@ -619,10 +626,12 @@ class LocalCartesian(_NamedBase):
            @kwarg z: Local C{z} coordinate for C{scalar} B{C{xyz}} and B{C{y}} (C{meter}).
            @kwarg M: Optionally, return the I{concatenated} rotation L{EcefMatrix}, iff
                      available (C{bool}).
-           @kwarg name: Optional name (C{str}).
-           @kwarg lon00: An arbitrary, I{polar} longitude (C{degrees}), returned for local
-                         C{B{x}=0} and C{B{y}=0} at I{polar} latitudes C{abs(B{lat0}) == 90},
-                         overriding property C{lon00} and default C{B{lon00}=B{lon0}}.
+           @kwarg lon00_name: Optional C{B{name}=NN} (C{str}) and keyword argument
+                        C{B{lon00}=B{lon0}} for the arbitrary I{polar} longitude
+                        (C{degrees}), overriding see the property C{B{lon00}=B{lon0}}
+                        value.  The I{polar} longitude (C{degrees}) is returned with
+                        I{polar} latitudes C{abs(B{lat0}) == 90} for local C{B{x}=0}
+                        and C{B{y}=0} locations.
 
            @return: An L{Local9Tuple}C{(x, y, z, lat, lon, height, ltp, ecef, M)} with
                     I{local} C{x}, C{y}, C{z}, I{geodetic} C{lat}, C{lon}, C{height},
@@ -633,9 +642,10 @@ class LocalCartesian(_NamedBase):
            @raise LocalError: Invalid B{C{xyz}} or C{scalar} C{x} or B{C{y}} and/or B{C{z}}
                               not C{scalar} for C{scalar} B{C{xyz}}.
         '''
+        lon00, name =_xkwds_pop2(lon00_name, lon00=self.lon00)
         x, y, z, n = _xyzn4(xyz, y, z, _XyzLocals5, Error=LocalError, name=name)
         c = self.M.unrotate((x, y, z), *self._t0_xyz)
-        t = self.ecef.reverse(*c, M=M, lon00=_xkwds_get(lon00, lon00=self.lon00))
+        t = self.ecef.reverse(*c, M=M, lon00=lon00)
         m = self.M.multiply(t.M) if M else None
         return self._9Tuple(x, y, z, t.lat, t.lon, t.height, self, t, m, name=n or self.name)
 
@@ -661,7 +671,7 @@ class Ltp(LocalCartesian):
     '''
     _Ecef = _EcefBase
 
-    def __init__(self, latlonh0=INT0, lon0=INT0, height0=INT0, ecef=None, name=NN, **lon00):
+    def __init__(self, latlonh0=INT0, lon0=INT0, height0=INT0, ecef=None, **lon00_name):
         '''New C{Ltp}, see L{LocalCartesian.__init__} for more details.
 
            @kwarg ecef: Optional ECEF converter (L{EcefKarney}, L{EcefFarrell21},
@@ -669,10 +679,12 @@ class Ltp(LocalCartesian):
                         L{EcefYou} I{instance}), overriding the default
                         L{EcefKarney}C{(datum=Datums.WGS84)} for C{scalar}.
 
+           @see: Class L{LocalCartesian<LocalCartesian.__init__>} for further details.
+
            @raise TypeError: Invalid B{C{ecef}}.
         '''
         LocalCartesian.reset(self, latlonh0, lon0=lon0, height0=height0,
-                                             ecef=ecef, name=name, **lon00)
+                                             ecef=ecef, **lon00_name)
 
     @Property
     def ecef(self):
@@ -719,7 +731,7 @@ class _ChLV(object):
         # assert _args_kwds_names(ChLVe.reverse)[1:4] == t
         return t
 
-    def forward(self, latlonh, lon=None, height=0, M=None, name=NN):  # PYCHOK no cover
+    def forward(self, latlonh, lon=None, height=0, M=None, **name):  # PYCHOK no cover
         '''Convert WGS84 geodetic to I{Swiss} projection coordinates.  I{Must be overloaded}.
 
            @arg latlonh: Either a C{LatLon}, L{Ltp} or C{scalar} (geodetic) latitude (C{degrees}).
@@ -728,7 +740,7 @@ class _ChLV(object):
                           (C{meter}) for C{scalar} B{C{latlonh}} and B{C{lon}}.
            @kwarg M: If C{True}, return the I{concatenated} rotation L{EcefMatrix} iff available
                      for C{ChLV} only, C{None} otherwise (C{bool}).
-           @kwarg name: Optional name (C{str}).
+           @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @return: A L{ChLV9Tuple}C{(Y, X, h_, lat, lon, height, ltp, ecef, M)} with the unfalsed
                     I{Swiss Y, X} coordinates, I{Swiss h_} height, the given I{geodetic} C{lat},
@@ -738,7 +750,7 @@ class _ChLV(object):
 
            @raise LocalError: Invalid or non-C{scalar} B{C{latlonh}}, B{C{lon}} or B{C{height}}.
         '''
-        notOverloaded(self, latlonh, lon=lon, height=height, M=M, name=name)
+        notOverloaded(self, latlonh, lon=lon, height=height, M=M, **name)
 
     def reverse(self, enh_, n=None, h_=0, M=None, **name):  # PYCHOK no cover
         '''Convert I{Swiss} projection to WGS84 geodetic coordinates.
@@ -750,7 +762,7 @@ class _ChLV(object):
            @kwarg h_: I{Swiss h'} height for C{scalar} B{C{enh_}} and B{C{n}} (C{meter}).
            @kwarg M: If C{True}, return the I{concatenated} rotation L{EcefMatrix} iff available
                      for C{ChLV} only, C{None} otherwise (C{bool}).
-           @kwarg name: Optional name (C{str}).
+           @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @return: A L{ChLV9Tuple}C{(Y, X, h_, lat, lon, height, ltp, ecef, M)} with the unfalsed
                     I{Swiss Y, X} coordinates, I{Swiss h_} height, the given I{geodetic} C{lat},
@@ -848,24 +860,24 @@ class ChLV(_ChLV, Ltp):
         '''
         Ltp.__init__(self, latlonh0, **_xkwds(other_Ltp_kwds, ecef=None, name=ChLV.Bern.name))
 
-    def forward(self, latlonh, lon=None, height=0, M=None, name=NN):  # PYCHOK unused M
+    def forward(self, latlonh, lon=None, height=0, M=None, **name):  # PYCHOK unused M
         # overloaded for the _ChLV.forward.__doc__
-        return Ltp.forward(self, latlonh, lon=lon, height=height, M=M, name=name)
+        return Ltp.forward(self, latlonh, lon=lon, height=height, M=M, **name)
 
     def reverse(self, enh_, n=None, h_=0, M=None, **name):  # PYCHOK signature
         # overloaded for the _ChLV.reverse.__doc__
-        Y, X, h_, name = self._YXh_n4(enh_, n, h_, **name)
-        return Ltp.reverse(self, Y, X, h_, M=M, name=name)
+        Y, X, h_, n = self._YXh_n4(enh_, n, h_, **name)
+        return Ltp.reverse(self, Y, X, h_, M=M, name=n)
 
     @staticmethod
-    def false2(Y, X, LV95=True, name=NN):
+    def false2(Y, X, LV95=True, **name):
         '''Add the I{Swiss LV95} or I{LV03} falsing.
 
            @arg Y: Unfalsed I{Swiss Y} easting (C{meter}).
            @arg X: Unfalsed I{Swiss X} northing (C{meter}).
            @kwarg LV95: If C{True} add C{LV95} falsing, if C{False} add
                         C{LV03} falsing, otherwise leave unfalsed.
-           @kwarg name: Optional name (C{str}).
+           @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @return: A L{ChLVEN2Tuple}C{(E_LV95, N_LV95)} or a
                     L{ChLVyx2Tuple}C{(y_LV03, x_LV03)} with falsed B{C{Y}}
@@ -873,7 +885,7 @@ class ChLV(_ChLV, Ltp):
                     with B{C{Y}} and B{C{X}} as-is.
         '''
         e, n = t = _ChLV._falsing2(LV95)
-        return t.classof(e + Y, n + X, name=name)
+        return t.classof(e + Y, n + X, **name)
 
     @staticmethod
     def isLV03(e, n):
@@ -910,7 +922,7 @@ class ChLV(_ChLV, Ltp):
         return None
 
     @staticmethod
-    def unfalse2(e, n, LV95=None, name=NN):
+    def unfalse2(e, n, LV95=None, **name):
         '''Remove the I{Swiss LV95} or I{LV03} falsing.
 
            @arg e: Falsed I{Swiss E_LV95} or I{y_LV03} easting (C{meter}).
@@ -918,13 +930,13 @@ class ChLV(_ChLV, Ltp):
            @kwarg LV95: If C{True} remove I{LV95} falsing, if C{False} remove
                         I{LV03} falsing, otherwise use method C{isLV95(B{e},
                         B{n})}.
-           @kwarg name: Optional name (C{str}).
+           @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @return: A L{ChLVYX2Tuple}C{(Y, X)} with the unfalsed B{C{e}}
                     respectively B{C{n}}.
         '''
         Y, X = _ChLV._falsing2(ChLV.isLV95(e, n) if LV95 is None else LV95)
-        return ChLVYX2Tuple(e - Y, n - X, name=name)
+        return ChLVYX2Tuple(e - Y, n - X, **name)
 
 
 class ChLVa(_ChLV, LocalCartesian):
@@ -937,15 +949,15 @@ class ChLVa(_ChLV, LocalCartesian):
     def __init__(self, name=ChLV.Bern.name):
         '''New I{Approximate WGS84-Swiss} L{ChLVa} converter, centered at I{Bern, Ch}.
 
-           @kwarg name: Optional name (C{str}), overriding C{Bern.name}.
+           @kwarg name: Optional C{B{name}=Bern.name} (C{str}).
         '''
         LocalCartesian.__init__(self, latlonh0=ChLV.Bern, name=name)
 
-    def forward(self, latlonh, lon=None, height=0, M=None, name=NN):
+    def forward(self, latlonh, lon=None, height=0, M=None, **name):
         # overloaded for the _ChLV.forward.__doc__
-        lat, lon, h, name = _llhn4(latlonh, lon, height, name=name)
-        a,  b, h_ = _ChLV._llh2abh_3(lat, lon, h)
-        a2, b2    =  a**2, b**2
+        lat, lon, h, n = _llhn4(latlonh, lon, height, **name)
+        a,  b, h_      = _ChLV._llh2abh_3(lat, lon, h)
+        a2, b2         =  a**2, b**2
 
         Y = fsumf_( 72.37, 211455.93 * b,
                            -10938.51 * b * a,
@@ -956,13 +968,13 @@ class ChLVa(_ChLV, LocalCartesian):
                                76.63 * a2,
                              -194.56 * b2 * a,
                               119.79 * a2 * a)  # + 200_000
-        return self._ChLV9Tuple(True, M, name, Y, X, h_, lat, lon, h)
+        return self._ChLV9Tuple(True, M, n, Y, X, h_, lat, lon, h)
 
     def reverse(self, enh_, n=None, h_=0, M=None, **name):  # PYCHOK signature
         # overloaded for the _ChLV.reverse.__doc__
-        Y, X, h_, name = self._YXh_n4(enh_, n, h_, **name)
-        a, b, h      =  _ChLV._YXh_2abh3(Y, X, h_)
-        ab_d, a2, b2 =   ChLV._ab_d, a**2, b**2
+        Y, X, h_, n  =  self._YXh_n4(enh_, n, h_, **name)
+        a, b, h      = _ChLV._YXh_2abh3(Y, X, h_)
+        ab_d, a2, b2 =  ChLV._ab_d, a**2, b**2
 
         lat = _Fsumf_(16.9023892, 3.238272 * b,
                                  -0.270978 * a2,
@@ -973,7 +985,7 @@ class ChLVa(_ChLV, LocalCartesian):
                                   0.791484 * a * b,
                                   0.1306   * a * b2,
                                  -0.0436   * a * a2).fover(ab_d)
-        return self._ChLV9Tuple(False, M, name, Y, X, h_, lat, lon, h)
+        return self._ChLV9Tuple(False, M, n, Y, X, h_, lat, lon, h)
 
 
 class ChLVe(_ChLV, LocalCartesian):
@@ -995,15 +1007,15 @@ class ChLVe(_ChLV, LocalCartesian):
     def __init__(self, name=ChLV.Bern.name):
         '''New I{Approximate WGS84-Swiss} L{ChLVe} converter, centered at I{Bern, Ch}.
 
-           @kwarg name: Optional name (C{str}), overriding C{Bern.name}.
+           @kwarg name: Optional C{B{name}=Bern.name} (C{str}).
         '''
         LocalCartesian.__init__(self, latlonh0=ChLV.Bern, name=name)
 
-    def forward(self, latlonh, lon=None, height=0, M=None, name=NN, gamma=False):  # PYCHOK gamma
+    def forward(self, latlonh, lon=None, height=0, M=None, gamma=False, **name):  # PYCHOK gamma
         # overloaded for the _ChLV.forward.__doc__
-        lat, lon, h, name = _llhn4(latlonh, lon, height, name=name)
-        a, b, h_    = _ChLV._llh2abh_3(lat, lon, h)
-        ab_M, z, _H =  ChLV._ab_M, 0, Fhorner
+        lat, lon, h, n = _llhn4(latlonh, lon, height, **name)
+        a, b, h_       = _ChLV._llh2abh_3(lat, lon, h)
+        ab_M, z, _H    =  ChLV._ab_M, 0, Fhorner
 
         B1 = _H(a, 211428.533991, -10939.608605, -2.658213, -8.539078, -0.00345, -0.007992)
         B3 = _H(a,    -44.232717,      4.291740, -0.309883,  0.013924)
@@ -1016,7 +1028,7 @@ class ChLVe(_ChLV, LocalCartesian):
         B6 =          0.000488
         X  = _H(b, B0, z, B2, z, B4, z, B6).fover(ab_M)  # 1,000 Km!
 
-        t = self._ChLV9Tuple(True, M, name, Y, X, h_, lat, lon, h)
+        t = self._ChLV9Tuple(True, M, n, Y, X, h_, lat, lon, h)
         if gamma:
             U1 = _H(a, 2255515.207166, 2642.456961,  1.284180, 2.577486, 0.001165)
             U3 = _H(a,    -412.991934,   64.106344, -2.679566, 0.123833)
@@ -1025,11 +1037,11 @@ class ChLVe(_ChLV, LocalCartesian):
             t  =  t, g
         return t
 
-    def reverse(self, enh_, n=None, h_=0, M=None, name=NN, gamma=False):  # PYCHOK gamma
+    def reverse(self, enh_, n=None, h_=0, M=None, gamma=False, **name):  # PYCHOK gamma
         # overloaded for the _ChLV.reverse.__doc__
-        Y, X, h_, name = self._YXh_n4(enh_, n, h_, name=name)
-        a, b, h    = _ChLV._YXh_2abh3(Y, X, h_)
-        s_d, _H, z =  ChLV._s_d, Fhorner, 0
+        Y, X, h_, n =  self._YXh_n4(enh_, n, h_, **name)
+        a, b, h     = _ChLV._YXh_2abh3(Y, X, h_)
+        s_d, _H, z  =  ChLV._s_d, Fhorner, 0
 
         A0  = _H(b,  ChLV._sLat, 32386.4877666, -25.486822, -132.457771, 0.48747, 0.81305, -0.0069)
         A2  = _H(b, -2713.537919, -450.442705,  -75.53194,   -14.63049, -2.7604)
@@ -1043,7 +1055,7 @@ class ChLVe(_ChLV, LocalCartesian):
         lon = _H(a,  ChLV._sLon, A1, z, A3, z, A5).fover(s_d)
         #  == (ChLV._sLon + a * (A1 + a**2 * (A3 + a**2 * A5))) / s_d
 
-        t = self._ChLV9Tuple(False, M, name, Y, X, h_, lat, lon, h)
+        t = self._ChLV9Tuple(False, M, n, Y, X, h_, lat, lon, h)
         if gamma:
             U1 = _H(b, 106679.792202, 17876.57022, 4306.5241, 794.87772, 148.1545, 27.8725)
             U3 = _H(b,  -1435.508,     -794.8777,  -296.309,  -92.908)

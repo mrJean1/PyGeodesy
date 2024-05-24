@@ -43,16 +43,16 @@ from pygeodesy.constants import EPS, EPS0, EPS02, MANT_DIG, NAN, PI, _EPSqrt, \
                                _4_0, _6_0, _8_0, _16_0, _90_0, _180_0, _1000_0
 from pygeodesy.datums import _earth_datum, _WGS84,  _EWGS84
 # from pygeodesy.ellipsoids import _EWGS84  # from .datums
+from pygeodesy.errors import GeodesicError, _xkwds_pop2
 from pygeodesy.fmath import hypot as _hypot
 from pygeodesy.fsums import fsumf_, fsum1f_
 from pygeodesy.geodesicx.gxbases import _cosSeries, _GeodesicBase, \
                                         _sincos12, _sin1cos2, _xnC4
 from pygeodesy.geodesicx.gxline import _GeodesicLineExact, _TINY, _update_glXs
 from pygeodesy.interns import NN, _COMMASPACE_, _DOT_, _UNDER_
-from pygeodesy.karney import _around, _atan2d, Caps, _cbrt, _diff182, \
-                             _fix90, GDict, GeodesicError, _K_2_0, \
-                             _norm2, _norm180, _polynomial, _signBit, \
-                             _sincos2, _sincos2d, _sincos2de, _unsigned2
+from pygeodesy.karney import GDict, _around, _atan2d, Caps, _cbrt, _diff182, \
+                            _fix90, _K_2_0, _norm2, _norm180, _polynomial, \
+                            _signBit, _sincos2, _sincos2d, _sincos2de, _unsigned2
 from pygeodesy.lazily import _ALL_DOCS, _ALL_MODS as _MODS
 from pygeodesy.namedTuples import Destination3Tuple, Distance3Tuple
 from pygeodesy.props import deprecated_Property, Property, Property_RO, property_RO
@@ -62,7 +62,7 @@ from pygeodesy.utily import atan2d as _atan2d_reverse, _unrollon, _Wrap, wrap360
 from math import atan2, copysign, cos, degrees, fabs, radians, sqrt
 
 __all__ = ()
-__version__ = '24.02.21'
+__version__ = '24.05.20'
 
 _MAXIT1 = 20
 _MAXIT2 = 10 + _MAXIT1 + MANT_DIG  # MANT_DIG == C++ digits
@@ -134,8 +134,7 @@ class GeodesicExact(_GeodesicBase):
     _datum = _WGS84
     _nC4   =  30  # default C4order
 
-    def __init__(self, a_ellipsoid=_EWGS84, f=None, name=NN, C4order=None,
-                       C4Order=None):  # for backward compatibility
+    def __init__(self, a_ellipsoid=_EWGS84, f=None, C4order=None, **name_C4Order):  # for backward compatibility
         '''New L{GeodesicExact} instance.
 
            @arg a_ellipsoid: An ellipsoid (L{Ellipsoid}) or datum (L{Datum}) or
@@ -143,20 +142,25 @@ class GeodesicExact(_GeodesicBase):
                              conventionally in C{meter}), see B{C{f}}.
            @arg f: The flattening of the ellipsoid (C{scalar}) if B{C{a_ellipsoid}}
                    is specified as C{scalar}.
-           @kwarg name: Optional name (C{str}).
            @kwarg C4order: Optional series expansion order (C{int}), see property
                            L{C4order}, default C{30}.
-           @kwarg C4Order: DEPRECATED, use keyword argument B{C{C4order}}.
+           @kwarg name_C4Order: Optional C{B{name}=NN} (C{str}) and the DEPRECATED
+                                keyword argument C{C4Order}, use B{C{C4order}} instead.
 
            @raise GeodesicError: Invalid B{C{C4order}}.
         '''
-        _earth_datum(self, a_ellipsoid, f=f, name=name)
-        if name:
-            self.name = name
+        if name_C4Order:
+            C4Order, name = _xkwds_pop2(name_C4Order, C4Order=C4order)
+            if C4Order:  # for backward compatibility
+                self.C4order = C4Order
+            if name:
+                self.name = name
+        else:
+            name = {}  # name_C4Order
+
+        _earth_datum(self, a_ellipsoid, f=f, **name)
         if C4order:  # XXX private copy, always?
             self.C4order = C4order
-        elif C4Order:  # for backward compatibility
-            self.C4Order = C4Order
 
     @Property_RO
     def a(self):
@@ -184,7 +188,7 @@ class GeodesicExact(_GeodesicBase):
         '''
         return self._GDictDirect(lat1, lon1, azi1, True, a12, outmask)
 
-    def ArcDirectLine(self, lat1, lon1, azi1, a12, caps=Caps.ALL, name=NN):
+    def ArcDirectLine(self, lat1, lon1, azi1, a12, caps=Caps.ALL, **name):
         '''Define a L{GeodesicLineExact} in terms of the I{direct} geodesic problem and as arc length.
 
            @arg lat1: Latitude of the first point (C{degrees}).
@@ -196,6 +200,7 @@ class GeodesicExact(_GeodesicBase):
                         should possess, i.e., which quantities can be
                         returned by calls to L{GeodesicLineExact.Position}
                         and L{GeodesicLineExact.ArcPosition}.
+           @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @return: A L{GeodesicLineExact} instance.
 
@@ -208,15 +213,15 @@ class GeodesicExact(_GeodesicBase):
                  <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1GeodesicExact.html>} and
                  Python U{Geodesic.ArcDirectLine<https://GeographicLib.SourceForge.io/Python/doc/code.html>}.
         '''
-        return self._GenDirectLine(lat1, lon1, azi1, True, a12, caps, name=name)
+        return self._GenDirectLine(lat1, lon1, azi1, True, a12, caps, **name)
 
-    def Area(self, polyline=False, name=NN):
+    def Area(self, polyline=False, **name):
         '''Set up a L{GeodesicAreaExact} to compute area and
            perimeter of a polygon.
 
            @kwarg polyline: If C{True} perimeter only, otherwise
                             area and perimeter (C{bool}).
-           @kwarg name: Optional name (C{str}).
+           @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @return: A L{GeodesicAreaExact} instance.
 
@@ -224,7 +229,7 @@ class GeodesicExact(_GeodesicBase):
                   to the returned L{GeodesicAreaExact} instance.
         '''
         gaX = _MODS.geodesicx.GeodesicAreaExact(self, polyline=polyline,
-                                                      name=name or self.name)
+                                                      name=self._name__(name))
         if self.debug:
             gaX.verbose = True
         return gaX
@@ -362,7 +367,7 @@ class GeodesicExact(_GeodesicBase):
         '''
         return self.DirectLine(ll1.lat, ll1.lon, azi12, s12, **caps_name)
 
-    def DirectLine(self, lat1, lon1, azi1, s12, caps=Caps.STANDARD, name=NN):
+    def DirectLine(self, lat1, lon1, azi1, s12, caps=Caps.STANDARD, **name):
         '''Define a L{GeodesicLineExact} in terms of the I{direct} geodesic problem and as distance.
 
            @arg lat1: Latitude of the first point (C{degrees}).
@@ -373,6 +378,7 @@ class GeodesicExact(_GeodesicBase):
                         the capabilities the L{GeodesicLineExact} instance
                         should possess, i.e., which quantities can be
                         returned by calls to L{GeodesicLineExact.Position}.
+           @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @return: A L{GeodesicLineExact} instance.
 
@@ -385,7 +391,7 @@ class GeodesicExact(_GeodesicBase):
                  <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1GeodesicExact.html>} and
                  Python U{Geodesic.DirectLine<https://GeographicLib.SourceForge.io/Python/doc/code.html>}.
         '''
-        return self._GenDirectLine(lat1, lon1, azi1, False, s12, caps, name=name)
+        return self._GenDirectLine(lat1, lon1, azi1, False, s12, caps, **name)
 
     def _dn(self, sbet, cbet):  # in gxline._GeodesicLineExact.__init__
         '''(INTERNAL) Helper.
@@ -691,7 +697,7 @@ class GeodesicExact(_GeodesicBase):
                         eFk2=eF.k2, eFa2=eF.alpha2)
             p.update(r)  # r overrides p
             r = p.toGDict()
-        return self._iter2tion(r, p)
+        return self._iter2tion(r, **p)
 
     def _GenDirect(self, lat1, lon1, azi1, arcmode, s12_a12, outmask=Caps.STANDARD):
         '''(INTERNAL) The general I{Inverse} geodesic calculation.
@@ -702,7 +708,7 @@ class GeodesicExact(_GeodesicBase):
         r = self._GDictDirect(lat1, lon1, azi1, arcmode, s12_a12, outmask)
         return r.toDirect9Tuple()
 
-    def _GenDirectLine(self, lat1, lon1, azi1, arcmode, s12_a12, caps, name=NN):
+    def _GenDirectLine(self, lat1, lon1, azi1, arcmode, s12_a12, caps, **name):
         '''(INTERNAL) Helper for C{ArcDirectLine} and C{DirectLine}.
 
            @return: A L{GeodesicLineExact} instance.
@@ -712,7 +718,7 @@ class GeodesicExact(_GeodesicBase):
         s, c = _sincos2d(_around(azi1))
         C    =  caps if arcmode else (caps | Caps.DISTANCE_IN)
         return _GeodesicLineExact(self, lat1, lon1, azi1, C,
-                                  self._debug, s, c, name=name)._GenSet(arcmode, s12_a12)
+                                  self._debug, s, c, **name)._GenSet(arcmode, s12_a12)
 
     def _GenInverse(self, lat1, lon1, lat2, lon2, outmask=Caps.STANDARD):
         '''(INTERNAL) The general I{Inverse} geodesic calculation.
@@ -784,7 +790,7 @@ class GeodesicExact(_GeodesicBase):
             ll2 = _unrollon(ll1, _Wrap.point(ll2))
         return self.InverseLine(ll1.lat, ll1.lon, ll2.lat, ll2.lon, **caps_name)
 
-    def InverseLine(self, lat1, lon1, lat2, lon2, caps=Caps.STANDARD, name=NN):
+    def InverseLine(self, lat1, lon1, lat2, lon2, caps=Caps.STANDARD, **name):
         '''Define a L{GeodesicLineExact} in terms of the I{Inverse} geodesic problem.
 
            @arg lat1: Latitude of the first point (C{degrees}).
@@ -796,6 +802,7 @@ class GeodesicExact(_GeodesicBase):
                         should possess, i.e., which quantities can be
                         returned by calls to L{GeodesicLineExact.Position}
                         and L{GeodesicLineExact.ArcPosition}.
+           @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @return: A L{GeodesicLineExact} instance.
 
@@ -813,7 +820,7 @@ class GeodesicExact(_GeodesicBase):
         C  = (caps | Cs.DISTANCE) if (caps & (Cs.DISTANCE_IN & Cs._OUT_MASK)) else caps
         azi1 = _atan2d(r.salp1, r.calp1)
         return _GeodesicLineExact(self, lat1, lon1, azi1, C,  # ensure a12 is distance
-                                  self._debug, r.salp1, r.calp1, name=name)._GenSet(True, r.a12)
+                                  self._debug, r.salp1, r.calp1, **name)._GenSet(True, r.a12)
 
     def _InverseArea(self, _meridian, salp1, calp1,  # PYCHOK 9 args
                                       salp2, calp2,
@@ -1100,7 +1107,7 @@ class GeodesicExact(_GeodesicBase):
 
         return s12b, m12b, m0, M12, M21
 
-    def Line(self, lat1, lon1, azi1, caps=Caps.ALL, name=NN):
+    def Line(self, lat1, lon1, azi1, caps=Caps.ALL, **name):
         '''Set up a L{GeodesicLineExact} to compute several points
            on a single geodesic.
 
@@ -1112,6 +1119,7 @@ class GeodesicExact(_GeodesicBase):
                         should possess, i.e., which quantities can be
                         returnedby calls to L{GeodesicLineExact.Position}
                         and L{GeodesicLineExact.ArcPosition}.
+           @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @return: A L{GeodesicLineExact} instance.
 
@@ -1123,7 +1131,7 @@ class GeodesicExact(_GeodesicBase):
                  <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1GeodesicExact.html>}
                  and Python U{Geodesic.Line<https://GeographicLib.SourceForge.io/Python/doc/code.html>}.
         '''
-        return _GeodesicLineExact(self, lat1, lon1, azi1, caps, self._debug, name=name)
+        return _GeodesicLineExact(self, lat1, lon1, azi1, caps, self._debug, **name)
 
     @Property_RO
     def n(self):
@@ -1265,7 +1273,7 @@ class GeodesicLineExact(_GeodesicLineExact):
        geographiclib/geographiclib-python>}.
     '''
 
-    def __init__(self, geodesic, lat1, lon1, azi1, caps=Caps.STANDARD, name=NN):
+    def __init__(self, geodesic, lat1, lon1, azi1, caps=Caps.STANDARD, **name):
         '''New L{GeodesicLineExact} instance, allowing points to be found along
            a geodesic starting at C{(B{lat1}, B{lon1})} with azimuth B{C{azi1}}.
 
@@ -1278,15 +1286,15 @@ class GeodesicLineExact(_GeodesicLineExact):
                         should possess, i.e., which quantities can be
                         returned by calls to L{GeodesicLineExact.Position}
                         and L{GeodesicLineExact.ArcPosition}.
-           @kwarg name: Optional name (C{str}).
+           @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @raise TypeError: Invalid B{C{geodesic}}.
         '''
         _xinstanceof(GeodesicExact, geodesic=geodesic)
         if (caps & Caps.LINE_OFF):  # copy to avoid updates
-            geodesic = geodesic.copy(deep=False, name=NN(_UNDER_, geodesic.name))
+            geodesic = geodesic.copy(deep=False, name=_UNDER_(NN, geodesic.name))  # NOT _under!
 #           _update_all(geodesic)
-        _GeodesicLineExact.__init__(self, geodesic, lat1, lon1, azi1, caps, 0, name=name)
+        _GeodesicLineExact.__init__(self, geodesic, lat1, lon1, azi1, caps, 0, **name)
 
 
 def _Astroid(x, y):

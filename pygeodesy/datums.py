@@ -73,8 +73,7 @@ from pygeodesy.constants import R_M, _float as _F, _0_0, _1_0, _2_0, _8_0, _3600
 #                                          LatLonEllipsoidalBase as _LLEB  # MODS
 from pygeodesy.ellipsoids import a_f2Tuple, Ellipsoid, Ellipsoid2, Ellipsoids, _EWGS84, \
                                  Vector3Tuple
-from pygeodesy.errors import _IsnotError, _TypeError, _xattr, _xellipsoidall, _xkwds, \
-                             _xkwds_pop2
+from pygeodesy.errors import _IsnotError, _TypeError, _xellipsoidall, _xkwds, _xkwds_pop2
 from pygeodesy.fmath import fdot, fmean,  Fmt, _operator
 from pygeodesy.internals import _passarg, _under
 from pygeodesy.interns import NN, _a_, _Airy1830_, _AiryModified_, _BAR_, _Bessel1841_, \
@@ -84,7 +83,8 @@ from pygeodesy.interns import NN, _a_, _Airy1830_, _AiryModified_, _BAR_, _Besse
                              _PLUS_, _Sphere_, _spherical_, _transform_, _UNDER_, \
                              _WGS72_, _WGS84_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
-from pygeodesy.named import _NamedEnum, _NamedEnumItem, _lazyNamedEnumItem as _lazy
+from pygeodesy.named import _lazyNamedEnumItem as _lazy, _name__, _name2__, _NamedEnum, \
+                                _NamedEnumItem
 # from pygeodesy.namedTuples import Vector3Tuple  # from .ellipsoids
 from pygeodesy.props import Property_RO, property_RO
 # from pygeodesy.streprs import Fmt  # from .fmath
@@ -94,7 +94,7 @@ from pygeodesy.units import _isRadius, Radius_,  radians
 # import operator as _operator  # from .fmath
 
 __all__ = _ALL_LAZY.datums
-__version__ = '24.05.14'
+__version__ = '24.05.21'
 
 _a_ellipsoid_ = _UNDER_(_a_, _ellipsoid_)
 _BD72_        = 'BD72'
@@ -204,15 +204,15 @@ class Transform(_NamedEnumItem):
     def __neg__(self):
         return self.inverse()
 
-    def inverse(self, name=NN):
+    def inverse(self, **name):
         '''Return the inverse of this transform.
 
            @kwarg name: Optional, unique name (C{str}).
 
            @return: Inverse (L{Transform}), unregistered.
         '''
-        r = type(self)(**dict(self.items(inverse=True)))
-        n = name or _negastr(self.name)
+        r =  type(self)(**dict(self.items(inverse=True)))
+        n = _name__(**name) or _negastr(self.name)
         if n:
             r.name = n  # unregistered
         return r
@@ -248,16 +248,17 @@ class Transform(_NamedEnumItem):
         self.s  = s = (s1 - _1_0) / _S1_S
         return s
 
-    def toStr(self, prec=5, fmt=Fmt.g, name=NN, **unused):  # PYCHOK expected
+    def toStr(self, prec=5, fmt=Fmt.g, **name):  # PYCHOK expected
         '''Return this transform as a string.
 
            @kwarg prec: Number of (decimal) digits, unstripped (C{int}).
            @kwarg fmt: Optional C{float} format (C{letter}).
-           @kwarg name: Override name (C{str}) or C{None} to exclude
-                        this transform's name.
+           @kwarg name: Optional, override C{B{name}=NN} (C{str}) or
+                        C{None} to exclude this transform's name.
 
            @return: Transform attributes (C{str}).
         '''
+        name, _ = _name2__(**name)  # name=None
         return self._instr(name, prec, *_Names11, fmt=fmt)
 
     def transform(self, x, y, z, inverse=False, **Vector_and_kwds):
@@ -378,12 +379,12 @@ class Datum(_NamedEnumItem):
     _ellipsoid = Ellipsoids.WGS84  # default ellipsoid (L{Ellipsoid}, L{Ellipsoid2})
     _transform = Transforms.WGS84  # default transform (L{Transform})
 
-    def __init__(self, ellipsoid, transform=None, name=NN):
+    def __init__(self, ellipsoid, transform=None, **name):
         '''New L{Datum}.
 
            @arg ellipsoid: The ellipsoid (L{Ellipsoid} or L{Ellipsoid2}).
            @kwarg transform: Optional transform (L{Transform}).
-           @kwarg name: Optional, unique name (C{str}).
+           @kwarg name: Optional, unique C{B{name}=NN} (C{str}).
 
            @raise NameError: Datum with that B{C{name}} already exists.
 
@@ -397,7 +398,8 @@ class Datum(_NamedEnumItem):
         self._transform = transform or Datum._transform
         _xinstanceof(Transform, transform=self.transform)
 
-        self._register(Datums, name or self.transform.name or self.ellipsoid.name)
+        self._register(Datums, _name__(name) or self.transform.name
+                                             or self.ellipsoid.name)
 
     def __eq__(self, other):
         '''Compare this and an other datum.
@@ -474,15 +476,16 @@ class Datum(_NamedEnumItem):
         '''
         return self.ellipsoid.isSpherical
 
-    def toStr(self, sep=_COMMASPACE_, name=NN, **unused):  # PYCHOK expected
+    def toStr(self, sep=_COMMASPACE_, **name):  # PYCHOK expected
         '''Return this datum as a string.
 
            @kwarg sep: Separator to join (C{str}).
-           @kwarg name: Override name (C{str}) or C{None} to exclude
-                        this datum's name.
+           @kwarg name: Optional, override C{B{name}=NN} (C{str}) or
+                        C{None} to exclude this datum's name.
 
            @return: Datum attributes (C{str}).
         '''
+        name, _ = _name2__(**name)  # name=None
         t = [] if name is None else \
             [Fmt.EQUAL(name=repr(name or self.named))]
         for a in (_ellipsoid_, _transform_):
@@ -497,7 +500,7 @@ class Datum(_NamedEnumItem):
         return self._transform
 
 
-def _earth_datum(inst, a_earth, f=None, name=NN, raiser=_a_ellipsoid_):  # in .karney, .trf, ...
+def _earth_datum(inst, a_earth, f=None, raiser=_a_ellipsoid_, **name):  # in .karney, .trf, ...
     '''(INTERNAL) Set C{inst._datum} from C{(B{a_..}, B{f})} or C{B{.._ellipsoid}}
        (L{Ellipsoid}, L{Ellipsoid2}, L{Datum}, C{a_f2Tuple} or C{scalar} earth radius).
 
@@ -520,12 +523,12 @@ def _earth_datum(inst, a_earth, f=None, name=NN, raiser=_a_ellipsoid_):  # in .k
     inst._datum = D
 
 
-def _earth_ellipsoid(earth, *name_raiser):
+def _earth_ellipsoid(earth, **name_raiser):
     '''(INTERAL) Return the ellipsoid for the given C{earth} model.
     '''
     return Ellipsoids.Sphere if earth is  R_M else (
           _EWGS84            if earth is _EWGS84 or earth is _WGS84 else
-          _spherical_datum(earth, *name_raiser).ellipsoid)
+          _spherical_datum(earth, **name_raiser).ellipsoid)
 
 
 def _ED2(radius, name):
@@ -534,13 +537,13 @@ def _ED2(radius, name):
     D = Datums.Sphere
     E = D.ellipsoid
     if name or radius != E.a:  # != E.b
-        n = _under(name)
+        n = _under(_name__(name, _or_nameof=D))
         E =  Ellipsoid(radius, radius, name=n)
         D =  Datum(E, transform=Transforms.Identity, name=n)
     return E, D
 
 
-def _ellipsoidal_datum(earth, Error=TypeError, name=NN, raiser=NN):
+def _ellipsoidal_datum(earth, Error=TypeError, raiser=NN, **name):
     '''(INTERNAL) Create a L{Datum} from an L{Ellipsoid} or L{Ellipsoid2},
        C{a_f2Tuple}, 2-tuple or 2-list B{C{earth}} model.
 
@@ -563,29 +566,25 @@ def _ellipsoidal_datum(earth, Error=TypeError, name=NN, raiser=NN):
 def _EnD3(earth, name):
     '''(INTERNAL) Helper for C{_earth_datum} and C{_ellipsoidal_datum}.
     '''
-    D = None
+    D, n = None, _under(_name__(name, _or_nameof=earth))
     if isinstance(earth, (Ellipsoid, Ellipsoid2)):
-        E =  earth
-        n = _under(name or E.name)
+        E = earth
     elif isinstance(earth, Datum):
-        E =  earth.ellipsoid
-        n = _under(name or earth.name)
-        D =  earth
+        E = earth.ellipsoid
+        D = earth
     elif _isRadius(earth):
-        E, D = _ED2(Radius_(earth), name)
-        n =  E.name
+        E, D = _ED2(Radius_(earth), n)
+        n = E.name
     elif isinstance(earth, a_f2Tuple):
-        n = _under(name or earth.name)
-        E =  earth.ellipsoid(name=n)
+        E = earth.ellipsoid(name=n)
     elif islistuple(earth, minum=2):
-        E =  Ellipsoids.Sphere
+        E = Ellipsoids.Sphere
         a, f = earth[:2]
         if f or a != E.a:  # != E.b
-            n = _under(name or _xattr(earth, name=NN))
-            E =  Ellipsoid(a, f=f, name=n)
+            E = Ellipsoid(a, f=f, name=n)
         else:
-            n =  E.name
-            D =  Datums.Sphere
+            n = E.name
+            D = Datums.Sphere
     else:
         E, n = None, NN
     return E, n, D
@@ -624,16 +623,18 @@ def _negastr(name):  # in .trf
     return n.lstrip(p) if n.startswith(p) else NN(m, n)
 
 
-def _spherical_datum(earth, Error=TypeError, name=NN, raiser=NN):
+def _spherical_datum(earth, Error=TypeError, raiser=NN, **name):
     '''(INTERNAL) Create a L{Datum} from an L{Ellipsoid}, L{Ellipsoid2},
        C{a_f2Tuple}, 2-tuple, 2-list B{C{earth}} model or C{scalar} radius.
 
        @kwarg raiser: If not C{NN}, raise an B{C{Error}} if not spherical.
     '''
-    if _isRadius(earth):
+    if isinstance(earth, Datum):
+        D = earth
+    elif _isRadius(earth):
         _, D = _ED2(Radius_(earth, Error=Error), name)
     else:
-        D = _ellipsoidal_datum(earth, Error=Error, name=name)
+        D = _ellipsoidal_datum(earth, Error=Error, **name)
     if raiser and not D.isSpherical:
         raise _IsnotError(_spherical_, Error=Error, **{raiser: earth})
     return D
@@ -643,11 +644,11 @@ class Datums(_NamedEnum):
     '''(INTERNAL) L{Datum} registry, I{must} be a sub-class
        to accommodate the L{_LazyNamedEnumItem} properties.
     '''
-    def _Lazy(self, ellipsoid_name, transform_name, name=NN):
+    def _Lazy(self, ellipsoid_name, transform_name, **name):
         '''(INTERNAL) Instantiate the L{Datum}.
         '''
         return Datum(Ellipsoids.get(ellipsoid_name),
-                     Transforms.get(transform_name), name=name)
+                     Transforms.get(transform_name), **name)
 
 Datums = Datums(Datum)  # PYCHOK singleton
 '''Some pre-defined L{Datum}s, all I{lazily} instantiated.'''

@@ -4,41 +4,35 @@
 # Test L{interns} module.
 
 __all__ = ('Tests',)
-__version__ = '24.05.13'
+__version__ = '24.05.21'
 
 from bases import ismacOS, sys, TestsBase
 
 from pygeodesy import clips, internals, interns, machine, NN
-
+from pygeodesy.interns import _0to9_, _AtoZnoIO_, _COLONSPACE_, \
+                              _DUNDER_, _DOT_, _EQUALSPACED_, _UNDER_
 from os import getcwd
 # import sys  # from .bases
 
-_0to9_      =  interns._0to9_
-_AtoZnoIO_  =  interns._AtoZnoIO_
-_cwd        =  getcwd()
-_exceptions = (_0to9_, _AtoZnoIO_,
-               interns._doesn_t_exist_,
-               interns._exceed_PI_radians_,
-               interns._n_a_,
-               interns._NLATvar_,
-               interns._NLHASH_,
-               interns._not_finite_,
-               interns._not_scalar_,
-               interns._PyPy__,
-               interns._semi_circular_,
-               interns._utf_8_)
+_cwd          =  getcwd()
+_DUNDER_0to9_ =  NN(_DUNDER_, _0to9_)
+_exceptions   = (_0to9_, _AtoZnoIO_,
+                 interns._doesn_t_exist_,
+                 interns._dunder_name_,
+                 interns._exceed_PI_radians_,
+                 interns._n_a_,
+                 interns._NLATvar_,
+                 interns._NLHASH_,
+                 interns._not_finite_,
+                 interns._not_scalar_,
+                 interns._PyPy__,
+                 interns._semi_circular_,
+                 interns._utf_8_)
 
 
 class Tests(TestsBase):
 
     def testInterns(self):
-
-        _COLONSPACE_  = interns._COLONSPACE_
-        _DUNDER_      = interns._DUNDER_
-        _DOT_         = interns._DOT_
-        _DUNDER_0to9_ = NN(_DUNDER_, _0to9_)
-        _EQUALSPACED_ = interns._EQUALSPACED_
-        _UNDER_       = interns._UNDER_
 
         for a in sorted(dir(interns), key=str.lower):
             if a.startswith(_UNDER_) and a[-1:] in _DUNDER_0to9_:

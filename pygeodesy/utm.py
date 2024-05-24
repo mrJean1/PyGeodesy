@@ -35,17 +35,17 @@ and Henrik Seidel U{'Die Mathematik der Gauß-Krueger-Abbildung'
 
 from pygeodesy.basics import len2, map2, neg  # splice
 from pygeodesy.constants import EPS, EPS0, _K0_UTM, _0_0, _0_0001
-from pygeodesy.datums import _ellipsoidal_datum, _WGS84
+from pygeodesy.datums import _ellipsoidal_datum, _WGS84,  _under
 from pygeodesy.dms import degDMS, parseDMS2
 from pygeodesy.errors import MGRSError, RangeError, _ValueError, \
-                            _xkwds_get
+                            _xkwds_get, _xkwds_pop2
 from pygeodesy.fmath import fdot3, hypot, hypot1,  _operator
-# from pygeodesy.internals import _under  # from .utmupsBase
+# from pygeodesy.internals import _under  # from .datums
 from pygeodesy.interns import MISSING, NN, _by_, _COMMASPACE_, _N_, \
                              _NS_, _outside_, _range_, _S_, _scale0_, \
                              _SPACE_, _UTM_, _V_, _X_, _zone_
-from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
-# from pygeodesy.named import _xnamed  # from .utmupsBase
+# from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS  # from .named
+from pygeodesy.named import _name__, _name2__,  _ALL_LAZY, _MODS
 from pygeodesy.namedTuples import EasNor2Tuple, UtmUps5Tuple, \
                                   UtmUps8Tuple, UtmUpsLatLon5Tuple
 from pygeodesy.props import deprecated_method, property_doc_, \
@@ -55,8 +55,8 @@ from pygeodesy.units import Band, Int, Lat, Lon, Meter, Zone
 from pygeodesy.utily import atan1, degrees90, degrees180, sincos2
 from pygeodesy.utmupsBase import _hemi, _LLEB, _parseUTMUPS5, _to4lldn, \
                                  _to3zBhp, _to3zll, _UPS_LATS, _UPS_ZONE, \
-                                 _UTM_LAT_MAX, _UTM_ZONE_MAX,  _under, \
-                                 _UTM_LAT_MIN, _UTM_ZONE_MIN,  _xnamed, \
+                                 _UTM_LAT_MAX, _UTM_ZONE_MAX, \
+                                 _UTM_LAT_MIN, _UTM_ZONE_MIN, \
                                  _UTM_ZONE_OFF_MAX, UtmUpsBase
 
 from math import asinh, atanh, atan2, cos, cosh, degrees, fabs, \
@@ -64,7 +64,7 @@ from math import asinh, atanh, atan2, cos, cosh, degrees, fabs, \
 # import operator as _operator  # from .fmath
 
 __all__ = _ALL_LAZY.utm
-__version__ = '24.02.29'
+__version__ = '24.05.21'
 
 _Bands = 'CDEFGHJKLMNPQRSTUVWXX'  # UTM latitude bands C..X (no
 # I|O) 8° each, covering 80°S to 84°N and X repeated for 80-84°N
@@ -230,12 +230,13 @@ def _to4zBll(lat, lon, cmoff=True, strict=True, Error=RangeError):
     return Zone(z), (Band(B) if B else None), Lat(lat), Lon(lon)
 
 
-def _to7zBlldfn(latlon, lon, datum, falsed, name, zone, strict, Error, **cmoff):
+def _to7zBlldfn(latlon, lon, datum, falsed, zone, strict, Error, **name_cmoff):
     '''(INTERNAL) Determine 7-tuple (zone, band, lat, lon, datum,
         falsed, name) for methods L{toEtm8} and L{toUtm8}.
     '''
-    f = falsed and _xkwds_get(cmoff, cmoff=True)  # DEPRECATED
-    lat, lon, d, name = _to4lldn(latlon, lon, datum, name)
+    f, n = _xkwds_pop2(name_cmoff, cmoff=falsed)  # DEPRECATED
+    n    = _name__(**n)  # _UnexpectedError
+    lat, lon, d, n = _to4lldn(latlon, lon, datum, n)
     z, B, lat, lon = _to4zBll(lat, lon, cmoff=f, strict=strict)
     if zone:  # re-zone for ETM/UTM
         r, _, _ = _to3zBhp(zone, B)
@@ -245,7 +246,7 @@ def _to7zBlldfn(latlon, lon, datum, falsed, name, zone, strict, Error, **cmoff):
             if f:  # re-offset from central meridian
                 lon += _cmlon(z) - _cmlon(r)
             z = r
-    return z, B, lat, lon, d, f, name
+    return z, B, lat, lon, d, f, n
 
 
 class Utm(UtmUpsBase):
@@ -260,7 +261,7 @@ class Utm(UtmUpsBase):
 
     def __init__(self, zone=31, hemisphere=_N_, easting=166022,  # PYCHOK expected
                                 northing=0, band=NN, datum=_WGS84, falsed=True,
-                                gamma=None, scale=None, name=NN, **convergence):
+                                gamma=None, scale=None, **name_convergence):
         '''New L{Utm} UTM coordinate.
 
            @kwarg zone: Longitudinal UTM zone (C{int}, 1..60) or zone with/-out
@@ -277,8 +278,8 @@ class Utm(UtmUpsBase):
            @kwarg gamma: Optional meridian convergence, bearing off grid North,
                          clockwise from true North (C{degrees}) or C{None}.
            @kwarg scale: Optional grid scale factor (C{scalar}) or C{None}.
-           @kwarg name: Optional name (C{str}).
-           @kwarg convergence: DEPRECATED, use keyword argument C{B{gamma}=None}.
+           @kwarg name_convergence: Optional C{B{name}=NN} (C{str}) and DEPRECATED
+                       C{B{convergence}=None}, instead use C{B{gamma}=None}.
 
            @raise TypeError: Invalid or near-spherical B{C{datum}}.
 
@@ -286,8 +287,11 @@ class Utm(UtmUpsBase):
                             B{C{northing}}, B{C{band}}, B{C{convergence}} or
                             B{C{scale}}.
         '''
-        if name:
-            self.name = name
+        c = name_convergence
+        if c:
+            n, c = _name2__(**c)
+            if n:
+                self.name = n
 
         self._zone, B, _ = _to3zBlat(zone, band)
 
@@ -309,7 +313,7 @@ class Utm(UtmUpsBase):
 
         self._hemisphere = h
         UtmUpsBase.__init__(self, e, n, band=B, datum=datum, falsed=falsed,
-                                        gamma=gamma, scale=scale, **convergence)
+                                        gamma=gamma, scale=scale, **c)
 
     def __eq__(self, other):
         return isinstance(other, Utm) and other.zone       == self.zone \
@@ -325,7 +329,7 @@ class Utm(UtmUpsBase):
     def __str__(self):
         return self.toStr()
 
-    def _xcopy2(self, Xtm, name=NN):
+    def _xcopy2(self, Xtm, **name):
         '''(INTERNAL) Make copy as an B{C{Xtm}} instance.
 
            @arg Xtm: Class to return the copy (C{Xtm=Etm}, C{Xtm=Utm} or
@@ -333,7 +337,7 @@ class Utm(UtmUpsBase):
         '''
         return Xtm(self.zone, self.hemisphere, self.easting, self.northing,
                    band=self.band, datum=self.datum, falsed=self.falsed,
-                   gamma=self.gamma, scale=self.scale, name=name or self.name)
+                   gamma=self.gamma, scale=self.scale, name=self._name__(name))
 
     @property_doc_(''' the I{latitudinal} band.''')
     def band(self):
@@ -371,7 +375,7 @@ class Utm(UtmUpsBase):
                 n = _FalseNorthing
         return EasNor2Tuple(e, n)
 
-    def parse(self, strUTM, name=NN):
+    def parse(self, strUTM, **name):
         '''Parse a string to a similar L{Utm} instance.
 
            @arg strUTM: The UTM coordinate (C{str}),
@@ -386,7 +390,7 @@ class Utm(UtmUpsBase):
            @see: Functions L{pygeodesy.parseUPS5} and L{pygeodesy.parseUTMUPS5}.
         '''
         return parseUTM5(strUTM, datum=self.datum, Utm=self.classof,
-                                 name=name or self.name)
+                                 name=self._name__(name))
 
     @deprecated_method
     def parseUTM(self, strUTM):  # PYCHOK no cover
@@ -576,7 +580,7 @@ class Utm(UtmUpsBase):
         return self._zone
 
 
-def _parseUTM5(strUTM, datum, Xtm, falsed, Error=UTMError, name=NN):  # imported by .etm
+def _parseUTM5(strUTM, datum, Xtm, falsed, Error=UTMError, **name):  # imported by .etm
     '''(INTERNAL) Parse a string representing a UTM coordinate,
        consisting of C{"zone[band] hemisphere easting northing"},
        see L{pygeodesy.parseETM5} and L{parseUTM5}.
@@ -585,16 +589,11 @@ def _parseUTM5(strUTM, datum, Xtm, falsed, Error=UTMError, name=NN):  # imported
     if _UTM_ZONE_MIN > z or z > _UTM_ZONE_MAX or (B and B not in _Bands):
         raise Error(strUTM=strUTM, zone=z, band=B)
 
-    if Xtm is None:
-        r = UtmUps5Tuple(z, h, e, n, B, Error=Error, name=name)
-    else:
-        r = Xtm(z, h, e, n, band=B, datum=datum, falsed=falsed)
-        if name:
-            r = _xnamed(r, name, force=True)
-    return r
+    return UtmUps5Tuple(z, h, e, n, B, Error=Error, **name) if Xtm is None else \
+                    Xtm(z, h, e, n, band=B, datum=datum, falsed=falsed, **name)
 
 
-def parseUTM5(strUTM, datum=_WGS84, Utm=Utm, falsed=True, name=NN):
+def parseUTM5(strUTM, datum=_WGS84, Utm=Utm, falsed=True, **name):
     '''Parse a string representing a UTM coordinate, consisting
        of C{"zone[band] hemisphere easting northing"}.
 
@@ -615,28 +614,29 @@ def parseUTM5(strUTM, datum=_WGS84, Utm=Utm, falsed=True, name=NN):
 
        @raise TypeError: Invalid B{C{datum}}.
     '''
-    return _parseUTM5(strUTM, datum, Utm, falsed, name=name)
+    return _parseUTM5(strUTM, datum, Utm, falsed, **name)
 
 
 def toUtm8(latlon, lon=None, datum=None, Utm=Utm, falsed=True,
-                                         name=NN, strict=True,
-                                         zone=None, **cmoff):
+                             strict=True, zone=None, **name_cmoff):
     '''Convert a lat-/longitude point to a UTM coordinate.
 
        @arg latlon: Latitude (C{degrees}) or an (ellipsoidal)
                     geodetic C{LatLon} point.
-       @kwarg lon: Optional longitude (C{degrees}) or C{None}.
+       @kwarg lon: Optional longitude (C{degrees}), required
+                   if B{C{latlon}} is in C{degrees}.
        @kwarg datum: Optional datum for this UTM coordinate,
                      overriding B{C{latlon}}'s datum (L{Datum},
                      L{Ellipsoid}, L{Ellipsoid2} or L{a_f2Tuple}).
        @kwarg Utm: Optional class to return the UTM coordinate
                    (L{Utm}) or C{None}.
        @kwarg falsed: False both easting and northing (C{bool}).
-       @kwarg name: Optional B{C{Utm}} name (C{str}).
        @kwarg strict: Restrict B{C{lat}} to UTM ranges (C{bool}).
        @kwarg zone: Optional UTM zone to enforce (C{int} or C{str}).
-       @kwarg cmoff: DEPRECATED, use B{C{falsed}}.  Offset longitude
-                     from the zone's central meridian (C{bool}).
+       @kwarg name_cmoff: Optional B{C{Utm}} C{B{name}=NN} (C{str})
+                   and DEPRECATED C{B{cmoff}=True} to offset longitude
+                   from the zone's central meridian (C{bool}), instead
+                   use C{B{falsed}=True}.
 
        @return: The UTM coordinate (B{C{Utm}}) or if B{C{Utm}} is
                 C{None} or not B{C{falsed}}, a L{UtmUps8Tuple}C{(zone,
@@ -651,17 +651,17 @@ def toUtm8(latlon, lon=None, datum=None, Utm=Utm, falsed=True,
 
        @raise UTMError: Invalid B{C{zone}}.
 
-       @raise ValueError: If B{C{lon}} value is missing or if
-                          B{C{latlon}} is invalid.
+       @raise ValueError: If B{C{lon}} value is missing or B{C{latlon}}
+                          is invalid.
 
        @note: Implements Karney’s method, using 8-th order Krüger series,
               giving results accurate to 5 nm (or better) for distances
               up to 3,900 Km from the central meridian.
     '''
-    z, B, lat, lon, d, f, name = _to7zBlldfn(latlon, lon, datum,
-                                             falsed, name, zone,
-                                             strict, UTMError, **cmoff)
-    d = _ellipsoidal_datum(d, name=name)
+    z, B, lat, lon, d, f, n = _to7zBlldfn(latlon, lon, datum,
+                                          falsed, zone, strict,
+                                          UTMError, **name_cmoff)
+    d = _ellipsoidal_datum(d, name=n)
     E = d.ellipsoid
 
     a, b = radians(lat), radians(lon)
@@ -681,8 +681,8 @@ def toUtm8(latlon, lon=None, datum=None, Utm=Utm, falsed=True,
     A0 = E.A * getattr(Utm, _under(_scale0_), _K0_UTM)  # Utm is class or None
 
     K = _Kseries(E.AlphaKs, x, y)  # Krüger series
-    y = K.ys(y) * A0  # ξ
-    x = K.xs(x) * A0  # η
+    y =  K.ys(y) * A0  # ξ
+    x =  K.xs(x) * A0  # η
 
     # convergence: Karney 2011 Eq 23, 24
     p_ = K.ps(1)
@@ -692,21 +692,21 @@ def toUtm8(latlon, lon=None, datum=None, Utm=Utm, falsed=True,
     k  = E.e2s(sin(a)) * T12 / H * (A0 / E.a * hypot(p_, q_))
 
     return _toXtm8(Utm, z, lat, x, y,
-                        B, d, g, k, f, name, latlon, EPS)
+                        B, d, g, k, f, n, latlon, EPS)
 
 
 def _toXtm8(Xtm, z, lat, x, y, B, d, g, k, f,  # PYCHOK 13+ args
-                 name, latlon, eps, Error=UTMError):
+                 n, latlon, eps, Error=UTMError):
     '''(INTERNAL) Helper for methods L{toEtm8} and L{toUtm8}.
     '''
     h = _hemi(lat)
     if f:
         x, y = _false2(x, y, h)
     if Xtm is None:  # DEPRECATED
-        r = UtmUps8Tuple(z, h, x, y, B, d, g, k, Error=Error, name=name)
+        r = UtmUps8Tuple(z, h, x, y, B, d, g, k, Error=Error, name=n)
     else:
-        r = _xnamed(Xtm(z, h, x, y, band=B, datum=d, falsed=f,
-                                            gamma=g, scale=k), name)
+        r = Xtm(z, h, x, y, band=B, datum=d, falsed=f,
+                                    gamma=g, scale=k, name=n)
         if isinstance(latlon, _LLEB) and d is latlon.datum:  # see ups.toUtm8
             r._latlon5args(latlon, _toBand, f, eps)  # XXX weakref(latlon)?
             latlon._gamma = g
@@ -716,7 +716,7 @@ def _toXtm8(Xtm, z, lat, x, y, B, d, g, k, f,  # PYCHOK 13+ args
     return r
 
 
-def utmZoneBand5(lat, lon, cmoff=False, name=NN):
+def utmZoneBand5(lat, lon, cmoff=False, **name):
     '''Return the UTM zone number, Band letter, hemisphere and
        (clipped) lat- and longitude for a given location.
 
@@ -738,7 +738,7 @@ def utmZoneBand5(lat, lon, cmoff=False, name=NN):
     '''
     lat, lon = parseDMS2(lat, lon)
     z, B, lat, lon = _to4zBll(lat, lon, cmoff=cmoff)
-    return UtmUpsLatLon5Tuple(z, B, _hemi(lat), lat, lon, name=name)
+    return UtmUpsLatLon5Tuple(z, B, _hemi(lat), lat, lon, **name)
 
 # **) MIT License
 #

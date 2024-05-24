@@ -98,7 +98,7 @@ from math import asinh, atan, atan2, ceil, cosh, fabs, floor, \
                  radians, sin, sqrt, tanh
 
 __all__ = _ALL_LAZY.elliptic
-__version__ = '24.05.13'
+__version__ = '24.05.18'
 
 _TolRD  =  zqrt(EPS * 0.002)
 _TolRF  =  zqrt(EPS * 0.030)
@@ -139,10 +139,10 @@ class Elliptic(_Named):
 #   _k2      = 0
 #   _kp2     = 0
 
-    def __init__(self, k2=0, alpha2=0, kp2=None, alphap2=None, name=NN):
+    def __init__(self, k2=0, alpha2=0, kp2=None, alphap2=None, **name):
         '''Constructor, specifying the C{modulus} and C{parameter}.
 
-           @kwarg name: Optional name (C{str}).
+           @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @see: Method L{Elliptic.reset} for further details.
 
@@ -152,7 +152,6 @@ class Elliptic(_Named):
                   E(φ, k)} and C{H(φ, 0, k) = F(φ, k) - D(φ, k)}.
         '''
         self.reset(k2=k2, alpha2=alpha2, kp2=kp2, alphap2=alphap2)
-
         if name:
             self.name = name
 

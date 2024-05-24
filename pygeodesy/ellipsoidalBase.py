@@ -24,8 +24,9 @@ from pygeodesy.errors import _incompatible, _IsnotError, RangeError, _TypeError,
 # from pygeodesy.fmath import favg  # _MODS
 from pygeodesy.interns import NN, _COMMA_, _ellipsoidal_
 from pygeodesy.latlonBase import LatLonBase, _trilaterate5,  fabs, _Wrap
-from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
+# from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS  # from .named
 # from pygeodesy.lcc import toLcc  # _MODS
+from pygeodesy.named import _name1__,  _ALL_DOCS, _ALL_LAZY, _MODS
 # from pygeodesy.namedTuples import Vector3Tuple  # _MODS
 from pygeodesy.props import deprecated_method, deprecated_property_RO, \
                             Property_RO, property_doc_, property_RO, _update_all
@@ -36,7 +37,7 @@ from pygeodesy.units import Epoch, _isDegrees, Radius_, _1mm as _TOL_M
 # from math import fabs  # from .latlonBase
 
 __all__ = _ALL_LAZY.ellipsoidalBase
-__version__ = '24.04.07'
+__version__ = '24.05.21'
 
 
 class CartesianEllipsoidalBase(CartesianBase):
@@ -46,8 +47,8 @@ class CartesianEllipsoidalBase(CartesianBase):
     _epoch   =  None   # overriding .reframe.epoch (C{float})
     _reframe =  None   # reference frame (L{RefFrame})
 
-    def __init__(self, x_xyz, y=None, z=None, datum=None, reframe=None,
-                                              epoch=None, ll=None, name=NN):
+    def __init__(self, x_xyz, y=None, z=None, reframe=None, epoch=None,
+                                                       **datum_ll_name):
         '''New ellispoidal C{Cartesian...}.
 
            @kwarg reframe: Optional reference frame (L{RefFrame}).
@@ -61,9 +62,9 @@ class CartesianEllipsoidalBase(CartesianBase):
                              not a L{Datum}, B{C{reframe}} is not a L{RefFrame} or
                              B{C{epoch}} is not C{scalar} non-zero.
 
-           @see: Super-class L{CartesianBase<CartesianBase.__init__>} for more details.
+           @see: Class L{CartesianBase<CartesianBase.__init__>} for more details.
         '''
-        CartesianBase.__init__(self, x_xyz, y=y, z=z, datum=datum, ll=ll, name=name)
+        CartesianBase.__init__(self, x_xyz, y=y, z=z, **datum_ll_name)
         if reframe:
             self.reframe = reframe
             self.epoch = epoch
@@ -171,7 +172,7 @@ class CartesianEllipsoidalBase(CartesianBase):
             kwds = _xkwds(kwds, reframe=self.reframe, epoch=self.epoch)
         return CartesianBase.toLatLon(self, datum=datum, height=height, **kwds)
 
-    def toRefFrame(self, reframe2, reframe=None, epoch=None, epoch2=None, name=NN):
+    def toRefFrame(self, reframe2, reframe=None, epoch=None, epoch2=None, **name):
         '''Convert this point to an other reference frame and epoch.
 
            @arg reframe2: Reference frame to convert I{to} (L{RefFrame}).
@@ -181,7 +182,7 @@ class CartesianEllipsoidalBase(CartesianBase):
                          this point's C{epoch or B{reframe}.epoch}.
            @kwarg epoch2: Optional epoch to observe for the converted point (L{Epoch},
                           C{scalar} or C{str}), otherwise B{C{epoch}}.
-           @kwarg name: Optional name (C{str}), C{B{reframe2}.name} iff converted.
+           @kwarg name: Optional C{B{name}=NN} (C{str}), overriding C{B{reframe2}.name}.
 
            @return: The converted point (ellipsoidal C{Cartesian}) or if conversion
                     C{isunity}, this point or a copy of this point if the B{C{name}}
@@ -194,7 +195,7 @@ class CartesianEllipsoidalBase(CartesianBase):
            @raise TypeError: B{C{reframe2}} or B{C{reframe}} not a L{RefFrame}.
         '''
         return _MODS.trf._toRefFrame(self, reframe2, reframe=reframe, epoch=epoch,
-                                                      epoch2=epoch2, name=name)
+                                                     epoch2=epoch2, **name)
 
     @deprecated_method
     def toTransforms_(self, *transforms, **datum):  # PYCHOK no cover
@@ -217,8 +218,8 @@ class LatLonEllipsoidalBase(LatLonBase):
     _scale          =  None   # UTM/UPS scale factor (C{float})
     _toLLEB_args    = ()      # Etm/Utm/Ups._toLLEB arguments
 
-    def __init__(self, latlonh, lon=None, height=0, datum=None, reframe=None,
-                                          epoch=None, wrap=False, name=NN):
+    def __init__(self, latlonh, lon=None, height=0, datum=_WGS84, reframe=None,
+                                          epoch=None, wrap=False, **name):
         '''Create an ellipsoidal C{LatLon} point from the given lat-, longitude
            and height on the given datum, reference frame and epoch.
 
@@ -236,7 +237,7 @@ class LatLonEllipsoidalBase(LatLonBase):
                          if C{B{reframe}=None}.
            @kwarg wrap: If C{True}, wrap or I{normalize} B{C{lat}} and B{C{lon}}
                         (C{bool}).
-           @kwarg name: Optional name (C{str}).
+           @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @raise RangeError: Value of C{lat} or B{C{lon}} outside the valid
                               range and L{rangerrors} set to C{True}.
@@ -247,9 +248,9 @@ class LatLonEllipsoidalBase(LatLonBase):
 
            @raise UnitError: Invalid B{C{lat}}, B{C{lon}} or B{C{height}}.
         '''
-        LatLonBase.__init__(self, latlonh, lon=lon, height=height, wrap=wrap, name=name)
+        LatLonBase.__init__(self, latlonh, lon=lon, height=height, wrap=wrap, **name)
         if datum not in (None, self._datum, _EWGS84):
-            self.datum = _ellipsoidal_datum(datum, name=name)
+            self.datum = _ellipsoidal_datum(datum, name=self.name)
         if reframe:
             self.reframe = reframe
             self.epoch = epoch
@@ -736,7 +737,7 @@ class LatLonEllipsoidalBase(LatLonBase):
         return _MODS.osgr.toOsgr(self, kTM=True, name=self.name)  # datum=self.datum
 
     def parse(self, strllh, height=0, datum=None, epoch=None, reframe=None,
-                                        sep=_COMMA_, wrap=False, name=NN):
+                                        sep=_COMMA_, wrap=False, **name):
         '''Parse a string consisting of C{"lat, lon[, height]"},
            representing a similar, ellipsoidal C{LatLon} point.
 
@@ -753,7 +754,7 @@ class LatLonEllipsoidalBase(LatLonBase):
            @kwarg sep: Optional separator (C{str}).
            @kwarg wrap: If C{True}, wrap or I{normalize} the lat-
                         and longitude (C{bool}).
-           @kwarg name: Optional instance name (C{str}), overriding
+           @kwarg name: Optional C{B{name}=NN} (C{str}), overriding
                         this name.
 
            @return: The similar point (ellipsoidal C{LatLon}).
@@ -768,7 +769,7 @@ class LatLonEllipsoidalBase(LatLonBase):
             r.epoch = epoch
         if reframe not in (None, self.reframe):
             r.reframe = reframe
-        return self._xnamed(r, name=name, force=True) if name else r
+        return self._xnamed(r, force=True, **name) if name else r
 
     def _Radjust2(self, adjust, datum, meter_text2):
         '''(INTERNAL) Adjust an C{elevation} or C{geoidHeight} with
@@ -834,15 +835,15 @@ class LatLonEllipsoidalBase(LatLonBase):
            @see: Function L{pygeodesy.toCss}.
         '''
         return self._css if not toCss_kwds else _MODS.css.toCss(
-               self, **_xkwds(toCss_kwds, name=self.name))
+               self, **_name1__(toCss_kwds, _or_nameof=self))
 
-    def toDatum(self, datum2, height=None, name=NN):
+    def toDatum(self, datum2, height=None, **name):
         '''Convert this point to an other datum.
 
            @arg datum2: Datum to convert I{to} (L{Datum}).
            @kwarg height: Optional height, overriding the
                           converted height (C{meter}).
-           @kwarg name: Optional name (C{str}), iff converted.
+           @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @return: The converted point (ellipsoidal C{LatLon})
                     or a copy of this point if B{C{datum2}}
@@ -850,10 +851,10 @@ class LatLonEllipsoidalBase(LatLonBase):
 
            @raise TypeError: Invalid B{C{datum2}}.
         '''
-        n  =  name or self.name
+        n  =  self._name__(name)
         d2 = _ellipsoidal_datum(datum2, name=n)
         if self.datum == d2:
-            r = self.copy(name=name)
+            r = self.copy(name=n)
         else:
             kwds = _xkwds_not(None, LatLon=self.classof, name=n,
                                     epoch=self.epoch, reframe=self.reframe)
@@ -871,7 +872,7 @@ class LatLonEllipsoidalBase(LatLonBase):
            @see: Function L{pygeodesy.toEtm8}.
         '''
         return self._etm if not toEtm8_kwds else _MODS.etm.toEtm8(
-               self, **_xkwds(toEtm8_kwds, name=self.name))
+               self, **_name1__(toEtm8_kwds, _or_nameof=self))
 
     def toLcc(self, **toLcc_kwds):
         '''Convert this C{LatLon} point to a Lambert location.
@@ -883,7 +884,7 @@ class LatLonEllipsoidalBase(LatLonBase):
            @see: Function L{pygeodesy.toLcc}.
         '''
         return self._lcc if not toLcc_kwds else _MODS.lcc.toLcc(
-               self, **_xkwds(toLcc_kwds, name=self.name))
+               self, **_name1__(toLcc_kwds, _or_nameof=self))
 
     def toMgrs(self, center=False, pole=NN):
         '''Convert this C{LatLon} point to an MGRS coordinate.
@@ -918,7 +919,7 @@ class LatLonEllipsoidalBase(LatLonBase):
             r =  self._osgrTM if kTM else self._osgr
         return r
 
-    def toRefFrame(self, reframe2, reframe=None, epoch=None, epoch2=None, height=None, name=NN):
+    def toRefFrame(self, reframe2, reframe=None, epoch=None, epoch2=None, height=None, **name):
         '''Convert this point to an other reference frame and epoch.
 
            @arg reframe2: Reference frame to convert I{to} (L{RefFrame}).
@@ -929,7 +930,7 @@ class LatLonEllipsoidalBase(LatLonBase):
            @kwarg epoch2: Optional epoch to observe for the converted point (L{Epoch},
                           C{scalar} or C{str}), otherwise B{C{epoch}}.
            @kwarg height: Optional height, overriding the converted height (C{meter}).
-           @kwarg name: Optional name (C{str}), C{B{reframe2}.name} iff converted.
+           @kwarg name: Optional C{B{name}=NN} (C{str}), overriding C{B{reframe2}.name}.
 
            @return: The converted point (ellipsoidal C{LatLon}) or if conversion
                     C{isunity}, this point or a copy of this point if the B{C{name}}
@@ -942,7 +943,7 @@ class LatLonEllipsoidalBase(LatLonBase):
            @raise TypeError: B{C{reframe2}} or B{C{reframe}} not a L{RefFrame}.
         '''
         return _MODS.trf._toRefFrame(self, reframe2, reframe=reframe, epoch=epoch,
-                                           epoch2=epoch2, name=name, height=height)
+                                           epoch2=epoch2, height=height, **name)
 
     def toTransform(self, transform, inverse=False, datum=None, **LatLon_kwds):
         '''Apply a Helmert transform to this geodetic point.

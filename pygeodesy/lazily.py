@@ -30,7 +30,7 @@ and line number.
 from pygeodesy import internals as _internals, interns as _interns, \
                      _isfrozen  # DON'T _lazy_import2
 # from pygeodesy.errors import _error_init  # _ALL_MODS
-from pygeodesy.internals import _caller3, _dunder_nameof, _dunder_main, \
+from pygeodesy.internals import _caller3, _dunder_nameof, _dunder_ismain, \
                                 _headof, _osversion2, printf, _Pythonarchine, \
                                 _tailof
 from pygeodesy.interns import NN, _areaOf_, _attribute_, _by_, _COLONSPACE_, \
@@ -771,7 +771,7 @@ def _lazy_init2(pack):
     _unLazy0 = _unlazy or not isLazy  # pre-3.7 or w/o lazy import
 
     if isLazy < 1:  # not enabled
-        raise LazyImportError(_PYGEODESY_LAZY_IMPORT_, repr(z), txt=_not_(_enabled_))
+        raise LazyImportError(_PYGEODESY_LAZY_IMPORT_, repr(z), txt_not_=_enabled_)
     if _getenv('PYTHONVERBOSE', None):  # PYCHOK no cover
         isLazy += 1
 
@@ -805,7 +805,7 @@ def _lazy_module(name):  # overwritten by _lazy_import2
 #        update the package's C{__dict__} accordingly.
 #     '''
 #     sm = dict()
-#     if force and not _dunder_main(_dunder_name_):
+#     if force and not _dunder_ismain(_dunder_name_):
 #         nm = _tailof(_dunder_name_)
 #         _a = _ALL_MODS.getattr
 #         _m = _ALL_MODS.getmodule
@@ -827,7 +827,7 @@ def _lazy_module(name):  # overwritten by _lazy_import2
 
 # del _i, _i0
 
-if _dunder_main(__name__):  # PYCHOK no cover
+if _dunder_ismain(__name__):  # PYCHOK no cover
 
     from timeit import timeit
 

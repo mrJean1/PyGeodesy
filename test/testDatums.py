@@ -4,7 +4,7 @@
 # Test L{datums} and transforms.
 
 __all__ = ('Tests',)
-__version__ = '24.03.18'
+__version__ = '24.05.17'
 
 from bases import TestsBase
 
@@ -37,7 +37,7 @@ class Tests(TestsBase):
         self.test(d.name, d, D)
 
         T = Transforms.ED50
-        t = T.inverse().inverse("ED50_")
+        t = T.inverse().inverse(name="ED50_")
         self.test('ED50.inverse().inverse()', t == T, True)
 
         S = Datums.Sphere

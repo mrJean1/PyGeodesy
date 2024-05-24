@@ -87,19 +87,19 @@ from pygeodesy.constants import EPS, _float as _F, _0_0, _1_0, _180_0, _360_0
 # from pygeodesy.datums import _ellipsoidal_datum  # from .heights
 # from pygeodesy.dms import parseDMS2  # _MODS
 from pygeodesy.errors import _incompatible, LenError, RangeError, SciPyError, \
-                             _SciPyIssue
+                             _SciPyIssue, _xkwds_pop2
 from pygeodesy.fmath import favg, Fdot, fdot, Fhorner, frange
 # from pygoedesy.formy import heightOrthometric  # _MODS
 from pygeodesy.heights import _as_llis2, _ascalar, _height_called, HeightError, \
                               _HeightsBase,  _ellipsoidal_datum, _Wrap
 # from pygeodesy.internals import _version2  # _MODS
 from pygeodesy.interns import MISSING, NN, _4_, _COLONSPACE_, _COMMASPACE_, \
-                             _cubic_, _E_, _height_, _in_, _kind_, _knots_, \
-                             _lat_, _linear_, _lon_, _mean_, _N_, _n_a_, \
-                             _not_, _numpy_, _on_, _outside_, _S_, _s_, _scipy_, \
-                             _SPACE_, _stdev_, _supported_, _tbd_, _W_, _width_
+                             _cubic_, _E_, _height_, _in_, _kind_, _lat_, \
+                             _linear_, _lon_, _mean_, _N_, _n_a_, _numpy_, \
+                             _on_, _outside_, _S_, _s_, _scipy_, _SPACE_, \
+                             _stdev_, _tbd_, _W_, _width_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, _FOR_DOCS
-from pygeodesy.named import _Named, _NamedTuple
+from pygeodesy.named import _name__, _Named, _NamedTuple
 # from pygeodesy.namedTuples import LatLon3Tuple  # _MODS
 from pygeodesy.props import deprecated_method, Property_RO, property_RO
 from pygeodesy.streprs import attrs, Fmt, fstr, pairs
@@ -118,21 +118,21 @@ except ImportError:  # Python 3+
     from io import BytesIO as _BytesIO  # PYCHOK expected
 
 __all__ = _ALL_LAZY.geoids
-__version__ = '24.05.13'
+__version__ = '24.05.23'
 
 _assert_ = 'assert'
 _bHASH_  =  b'#'
 _endian_ = 'endian'
 _format_ = '%s %r'
 _header_ = 'header'
-# temporarily hold a single instance for each int value
-_intCs = {}
+_intCs   = {}  # cache int value
 _interp2d_ks = {-2: _linear_,
                 -3: _cubic_,
                 -5: 'quintic'}
 _lli_             = 'lli'
 _non_increasing_  = 'non-increasing'
 _rb_              = 'rb'
+_supported_       = 'supported'
 
 
 class _GeoidBase(_HeightsBase):
@@ -237,11 +237,11 @@ class _GeoidBase(_HeightsBase):
         '''Interpolate the geoid height for one or several locations.
 
            @arg llis: One or more locations (C{LatLon}s), all positional.
-           @kwarg wrap_H: Keyword arguments C{B{wrap}=False, B{H}=False}.
-                       If C{B{wrap} is True}, wrap or I{normalize} all
-                       B{C{llis}} locations (C{bool}).  If C{B{H} is True},
-                       return the I{orthometric} height instead of the
-                       I{geoid} height at each location (C{bool}).
+           @kwarg wrap_H: Keyword arguments C{B{wrap}=False} (C{bool}) and
+                       C{B{H}=False} (C{bool}).  If C{B{wrap} is True},
+                       wrap or I{normalize} all B{C{llis}} locations.  If
+                       C{B{H} is True}, return the I{orthometric} height
+                       instead of the I{geoid} height at each location.
 
            @return: A single interpolated geoid (or orthometric) height
                     (C{float}) or a list or tuple of interpolated geoid
@@ -679,7 +679,7 @@ class _GeoidBase(_HeightsBase):
                                         self.highest, self.lowest)) + \
             attrs( _mean_, _stdev_,           prec=prec, Nones=False) + \
             attrs((_kind_, 'smooth')[:s],     prec=prec, Nones=False) + \
-            attrs( 'cropped', 'dtype', _endian_, 'hits', _knots_, 'nBytes',
+            attrs( 'cropped', 'dtype', _endian_, 'hits', 'knots', 'nBytes',
                    'sizeB', _scipy_, _numpy_, prec=prec, Nones=False)
         return _COLONSPACE_(self, sep.join(t))
 
@@ -753,12 +753,11 @@ class GeoidG2012B(_GeoidBase):
        Use any of the binary C{le} (little endian) or C{be} (big endian)
        C{g2012b*.bin} grid files.
     '''
-    def __init__(self, g2012b_bin, crop=None, datum=None,  # NAD 83 Ellipsoid
-                                   kind=3, name=NN, smooth=0):
+    def __init__(self, g2012b_bin, datum=None,  # NAD 83 Ellipsoid
+                                   kind=3, smooth=0, **name_crop):
         '''New L{GeoidG2012B} interpolator.
 
            @arg g2012b_bin: A C{GEOID12B} grid file name (C{.bin}).
-           @kwarg crop: Optional crop box, not supported (C{None}).
            @kwarg datum: Optional grid datum (L{Datum}, L{Ellipsoid}, L{Ellipsoid2}
                          or L{a_f2Tuple}), default C{WGS84}.
            @kwarg kind: C{scipy.interpolate} order (C{int}), use 1..5 for
@@ -767,17 +766,18 @@ class GeoidG2012B(_GeoidBase):
                         -2 for U{interp2d linear<https://docs.SciPy.org/doc/scipy/
                         reference/generated/scipy.interpolate.interp2d.html>}, -3
                         for C{interp2d cubic} or -5 for C{interp2d quintic}.
-           @kwarg name: Optional geoid name (C{str}).
            @kwarg smooth: Smoothing factor for U{RectBivariateSpline
                           <https://docs.SciPy.org/doc/scipy/reference/generated/
                           scipy.interpolate.RectBivariateSpline.html>}
                           only (C{int}).
+           @kwarg name_crop: Optional geoid C{B{name}=NN} (C{str}) and UNSUPPORTED
+                       keyword argument C{B{crop}}, use C{B{crop}=None} to ignore.
 
            @raise GeoidError: G2012B grid file B{C{g2012b_bin}} issue or invalid
                               B{C{crop}}, B{C{kind}} or B{C{smooth}}.
 
-           @raise ImportError: Package C{numpy} or C{scipy} not found or
-                               not installed.
+           @raise ImportError: Package C{numpy} or C{scipy} not found or not
+                               installed.
 
            @raise LenError: Grid file B{C{g2012b_bin}} axis mismatch.
 
@@ -791,10 +791,11 @@ class GeoidG2012B(_GeoidBase):
            @note: C{scipy.interpolate.interp2d} has been C{DEPRECATED}, specify
                   C{B{kind}=1..5} for C{scipy.interpolate.RectBivariateSpline}.
         '''
+        crop, name = _xkwds_pop2(name_crop, crop=None)
         if crop is not None:
-            raise GeoidError(crop=crop, txt=_not_(_supported_))
+            raise GeoidError(crop=crop, txt_not_=_supported_)
 
-        g = self._open(g2012b_bin, datum, kind, name, smooth)
+        g = self._open(g2012b_bin, datum, kind, _name__(**name), smooth)
         _ = self.numpy  # import numpy for ._load and
 
         try:
@@ -953,7 +954,7 @@ class GeoidKarney(_GeoidBase):
     _yx_hits =  0  # cache hits
 
     def __init__(self, egm_pgm, crop=None, datum=None,  # WGS84
-                                kind=3, name=NN, smooth=None):
+                                kind=3, **name_smooth):
         '''New L{GeoidKarney} interpolator.
 
            @arg egm_pgm: An U{EGM geoid dataset<https://GeographicLib.SourceForge.io/
@@ -968,8 +969,8 @@ class GeoidKarney(_GeoidBase):
                          or L{a_f2Tuple}), default C{WGS84}.
            @kwarg kind: Interpolation order (C{int}), 2 for C{bilinear} or 3
                         for C{cubic}.
-           @kwarg name: Optional geoid name (C{str}).
-           @kwarg smooth: Smoothing factor, unsupported (C{None}).
+           @kwarg name_smooth: Optional geoid C{B{name}=NN} (C{str}) and UNSUPPORTED
+                       keyword argument C{B{smooth}}, use C{B{smooth}=None} to ignore.
 
            @raise GeoidError: EGM dataset B{C{egm_pgm}} issue or invalid
                               B{C{crop}}, B{C{kind}} or B{C{smooth}}.
@@ -982,15 +983,16 @@ class GeoidKarney(_GeoidBase):
                   by calling the C{close} method or by using this instance
                   in a C{with B{GeoidKarney}(...) as ...} context.
         '''
+        smooth, name = _xkwds_pop2(name_smooth, smooth=None)
         if smooth is not None:
-            raise GeoidError(smooth=smooth, txt=_not_(_supported_))
+            raise GeoidError(smooth=smooth, txt_not_=_supported_)
 
         if kind in (2,):
             self._evH = self._ev2H
         elif kind not in (3,):
             raise GeoidError(kind=kind)
 
-        self._egm = g =  self._open(egm_pgm, datum, kind, name, smooth)
+        self._egm = g =  self._open(egm_pgm, datum, kind, _name__(**name), None)
         self._pgm = p = _PGM(g, pgm=egm_pgm, itemsize=self.u2B, sizeB=self.sizeB)
 
         self._Rendian =  self._4endian.replace(_4_, str(p.nlon))
@@ -1302,7 +1304,7 @@ class GeoidPGM(_GeoidBase):
     _endian  = '>u2'
 
     def __init__(self, egm_pgm, crop=None, datum=None,  # WGS84
-                                kind=3, name=NN, smooth=0):
+                                kind=3, smooth=0, **name):
         '''New L{GeoidPGM} interpolator.
 
            @arg egm_pgm: An U{EGM geoid dataset<https://GeographicLib.SourceForge.io/
@@ -1319,11 +1321,11 @@ class GeoidPGM(_GeoidBase):
                         -2 for U{interp2d linear<https://docs.SciPy.org/doc/scipy/
                         reference/generated/scipy.interpolate.interp2d.html>}, -3
                         for C{interp2d cubic} or -5 for C{interp2d quintic}.
-           @kwarg name: Optional geoid name (C{str}).
            @kwarg smooth: Smoothing factor for U{RectBivariateSpline
                           <https://docs.SciPy.org/doc/scipy/reference/generated/
                           scipy.interpolate.RectBivariateSpline.html>}
                           only (C{int}).
+           @kwarg name: Optional geoid C{B{name}=NN} (C{str}).
 
            @raise GeoidError: EGM dataset B{C{egm_pgm}} issue or invalid B{C{crop}},
                               B{C{kind}} or B{C{smooth}}.
@@ -1337,7 +1339,7 @@ class GeoidPGM(_GeoidBase):
            @raise SciPyWarning: A C{RectBivariateSpline} or C{inter2d}
                                 warning as exception.
 
-           @raise TypeError: Invalid B{C{datum}}.
+           @raise TypeError: Invalid B{C{datum}} or unexpected argument.
 
            @note: C{scipy.interpolate.interp2d} has been C{DEPRECATED}, specify
                   C{B{kind}=1..5} for C{scipy.interpolate.RectBivariateSpline}.
@@ -1358,7 +1360,7 @@ class GeoidPGM(_GeoidBase):
         np = self.numpy
         self._u2B = np.dtype(self.endian).itemsize
 
-        g = self._open(egm_pgm, datum, kind, name, smooth)
+        g = self._open(egm_pgm, datum, kind, _name__(**name), smooth)
         self._pgm = p = _PGM(g, pgm=egm_pgm, itemsize=self.u2B, sizeB=self.sizeB)
         if crop:
             g = p._cropped(g, abs(kind) + 1, *self._swne(crop))

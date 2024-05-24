@@ -11,7 +11,7 @@ from pygeodesy.datums import _earth_datum, _WGS84,  _EWGS84
 from pygeodesy.errors import _AssertionError, _xkwds_get, _xkwds_item2
 from pygeodesy.internals import _enquote, printf
 from pygeodesy.interns import NN, _0_, _BACKSLASH_, _COMMASPACE_, \
-                             _EQUAL_, _Error_, _not_, _SPACE_, _UNUSED_
+                             _EQUAL_, _Error_, _SPACE_, _UNUSED_
 from pygeodesy.karney import Caps, _CapsBase, GDict
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _unlazy
 from pygeodesy.named import callername, notOverloaded
@@ -23,7 +23,7 @@ from pygeodesy.utily import unroll180,  wrap360  # PYCHOK shared
 from subprocess import PIPE as _PIPE, Popen as _Popen, STDOUT as _STDOUT
 
 __all__ = _ALL_LAZY.solveBase
-__version__ = '24.03.15'
+__version__ = '24.05.20'
 
 _ERROR_    = 'ERROR'
 _text_True =  dict() if _unlazy else dict(text=True)
@@ -106,7 +106,7 @@ class _SolveLineSolveBase(_CapsBase):
         if floats:
             v = map(float, v)
         r = GDict(_zip(n, v))  # strict=True
-        return self._iter2tion(r, r)
+        return self._iter2tion(r, **r)
 
     @property_RO
     def invokation(self):
@@ -137,7 +137,7 @@ class _SolveLineSolveBase(_CapsBase):
         s =  self.status
         if s:
             raise self._Error(cmd=_cmd_stdin_(c, i), status=s,
-                              txt=_not_(_0_))
+                              txt_not_=_0_)
         if self.verbose:  # PYCHOK no cover
             self._print(r)
         return r
@@ -221,7 +221,7 @@ class _SolveLineSolveBase(_CapsBase):
             _ = self.version  # test path and ...
             if self.status:  # ... return code
                 S_p = Solve_path or {self._Solve_name: _enquote(path)}
-                raise self._Error(status=self.status, txt=_not_(_0_), **S_p)
+                raise self._Error(status=self.status, txt_not_=_0_, **S_p)
             hold = path
         finally:  # restore in case of error
             if self._Solve_path != hold:

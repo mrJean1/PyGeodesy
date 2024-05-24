@@ -100,8 +100,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.cartesianBase.RadiusThetaPhi3Tuple-class.html#toCartesian" class="summary-sig-name">toCartesian</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>,
-        <span class="summary-sig-arg">**Cartesian_and_kwds</span>)</span><br />
+        <span class="summary-sig-arg">**name_Cartesian_and_kwds</span>)</span><br />
       Convert this <a 
       href="pygeodesy.cartesianBase.RadiusThetaPhi3Tuple-class.html" 
       class="link">RadiusThetaPhi3Tuple</a> to a cartesian <code>(x, y, 
@@ -122,7 +121,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.cartesianBase.RadiusThetaPhi3Tuple-class.html#toDegrees" class="summary-sig-name">toDegrees</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Convert this <a 
       href="pygeodesy.cartesianBase.RadiusThetaPhi3Tuple-class.html" 
       class="link">RadiusThetaPhi3Tuple</a>'s angles to <a 
@@ -143,7 +142,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.cartesianBase.RadiusThetaPhi3Tuple-class.html#toRadians" class="summary-sig-name">toRadians</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Convert this <a 
       href="pygeodesy.cartesianBase.RadiusThetaPhi3Tuple-class.html" 
       class="link">RadiusThetaPhi3Tuple</a>'s angles to <a 
@@ -204,6 +203,7 @@
       <code><a href="pygeodesy.named._Named-class.html#copy">copy</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#methodname">methodname</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#rename">rename</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#renamed">renamed</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#toStr2">toStr2</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
@@ -277,8 +277,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toCartesian</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>,
-        <span class="sig-arg">**Cartesian_and_kwds</span>)</span>
+        <span class="sig-arg">**name_Cartesian_and_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -292,8 +291,8 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>), overriding this name.</li>
-        <li><strong class="pname"><code>Cartesian_and_kwds</code></strong> - Optional <code><b>Cartesian</b>=None</code> class and additional 
+        <li><strong class="pname"><code>name_Cartesian_and_kwds</code></strong> - Optional <code><b>name</b>=NN</code>, overriding this name and 
+          optional class <code><b>Cartesian</b>=None</code> and additional 
           <code><b>Cartesian</b></code> keyword arguments.</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -319,7 +318,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toDegrees</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -352,7 +351,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toRadians</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -366,7 +365,8 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>), overriding this name.</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional, overriding <code><b>name</b>=NN</code> 
+          (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><a href="pygeodesy.cartesianBase.RadiusThetaPhi3Tuple-class.html"
@@ -409,7 +409,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed May 15 16:10:03 2024
+    Generated by Epydoc 3.0.1 on Fri May 24 16:58:41 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

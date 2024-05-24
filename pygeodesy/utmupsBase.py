@@ -11,14 +11,14 @@ from pygeodesy.constants import _float, _0_0, _0_5, _N_90_0, _180_0
 from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.dms import degDMS, parseDMS2
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
-from pygeodesy.errors import _or, ParseError, _parseX, _ValueError, \
-                             _xkwds, _xkwds_get, _xkwds_not
-# from pygeodesy.internals import _under  # from .named
+from pygeodesy.errors import _or, ParseError, _parseX, _UnexpectedError, \
+                             _ValueError, _xkwds, _xkwds_not, _xkwds_pop2
+# from pygeodesy.internals import _name__, _under  # from .named
 from pygeodesy.interns import NN, _A_, _B_, _COMMA_, _Error_, \
                              _gamma_, _n_a_, _not_, _N_, _NS_, _PLUS_, \
                              _scale_, _SPACE_, _Y_, _Z_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
-from pygeodesy.named import _NamedBase, nameof, _xnamed,  _under
+from pygeodesy.named import _NamedBase, _xnamed,  _name__, _under
 from pygeodesy.namedTuples import EasNor2Tuple, LatLonDatum5Tuple
 from pygeodesy.props import deprecated_method, property_doc_, _update_all, \
                             deprecated_property_RO, Property_RO, property_RO
@@ -27,7 +27,7 @@ from pygeodesy.units import Band, Easting, Northing, Scalar, Zone
 from pygeodesy.utily import _Wrap, wrap360
 
 __all__ = _ALL_LAZY.utmupsBase
-__version__ = '24.05.13'
+__version__ = '24.05.19'
 
 _UPS_BANDS = _A_, _B_, _Y_, _Z_  # UPS polar bands SE, SW, NE, NW
 # _UTM_BANDS = _MODS.utm._Bands
@@ -85,7 +85,7 @@ def _to4lldn(latlon, lon, datum, name, wrap=False):
         lat, lon = _Wrap.latlonDMS2(latlon, lon) if wrap else \
                           parseDMS2(latlon, lon)  # clipped
         d = datum or _WGS84
-    return lat, lon, d, (name or nameof(latlon))
+    return lat, lon, d, _name__(name, _or_nameof=latlon)
 
 
 def _to3zBhp(zone, band, hemipole=NN, Error=_ValueError):  # imported by .epsg, .ups, .utm, .utmups
@@ -186,7 +186,9 @@ class UtmUpsBase(_NamedBase):
             self._falsed = False
 
         if convergence:  # for backward compatibility
-            gamma = _xkwds_get(convergence, convergence=gamma)
+            gamma, kwds = _xkwds_pop2(convergence, convergence=gamma)
+            if kwds:
+                raise _UnexpectedError(**kwds)
         if gamma is not self._gamma:
             self._gamma = Scalar(gamma=gamma, Error=E)
         if scale is not self._scale:
@@ -207,7 +209,7 @@ class UtmUpsBase(_NamedBase):
 #               self._notOverloaded(callername=_under('Bands'))
             if band not in self._Bands:
                 t = _or(*sorted(set(map(repr, self._Bands))))
-                raise self._Error(band=band, txt=_not_(t))
+                raise self._Error(band=band, txt_not_=t)
             self._band = band
         elif self._band:  # reset
             self._band = NN

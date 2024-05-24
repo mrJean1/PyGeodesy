@@ -26,7 +26,7 @@ from pygeodesy.interns import MISSING, NN, _1_, _by_, _COMMA_, _DOT_, _DEPRECATE
 # from pygeodesy.latlonBase import LatLonBase  # _MODS
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _FOR_DOCS, _getenv, \
                              LazyImportError, _sys_version_info2
-# from pygeodesy.named import classname, modulename  # _MODS
+# from pygeodesy.named import classname, modulename, _name__  # _MODS
 # from pygeodesy.nvectorBase import NvectorBase  # _MODS
 # from pygeodesy.props import _update_all  # _MODS
 # from pygeodesy.streprs import Fmt  # _MODS
@@ -36,7 +36,7 @@ from math import copysign as _copysign
 import inspect as _inspect
 
 __all__ = _ALL_LAZY.basics
-__version__ = '24.05.15'
+__version__ = '24.05.21'
 
 _below_               = 'below'
 _list_tuple_types     = (list, tuple)
@@ -565,12 +565,14 @@ def _neg0(x):
     return _MODS.constants.NEG0 if x < 0 else _0_0
 
 
-def _req_d_by(where, name=NN):  # in .basics
+def _req_d_by(where, **name):
     '''(INTERNAL) Get the fully qualified name.
     '''
-    m = _MODS.named.modulename(where, prefixed=True)
-    if name:
-        m = _DOT_(m, name)
+    m = _MODS.named
+    n =  m._name__(**name)
+    m =  m.modulename(where, prefixed=True)
+    if n:
+        m = _DOT_(m, n)
     return _SPACE_(_required_, _by_, m)
 
 

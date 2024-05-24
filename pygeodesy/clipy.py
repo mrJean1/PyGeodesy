@@ -30,7 +30,7 @@ from pygeodesy.units import Bool, FIx, HeightX, Lat, Lon, Number_
 # from math import fabs  # from .fmath
 
 __all__ = _ALL_LAZY.clipy
-__version__ = '23.05.15'
+__version__ = '23.05.18'
 
 _fj_       = 'fj'
 _original_ = 'original'
@@ -284,7 +284,7 @@ def clipFHP4(points, corners, closed=False, inull=False, raiser=False, eps=EPS):
              L{clipGH4}.
     '''
     P = _MODS.booleans._CompositeFHP(points, kind=_points_, raiser=raiser,
-                                             name=clipFHP4.__name__, eps=eps)
+                                                   eps=eps, name__=clipFHP4)
     Q = _4corners(corners)
     return P._clip(Q, Union=False, Clas=ClipFHP4Tuple, closed=closed,
                                    inull=inull, raiser=P._raiser, eps=eps)
@@ -334,7 +334,7 @@ def clipGH4(points, corners, closed=False, inull=False, raiser=True, xtend=False
              and function L{clipFHP4}.
     '''
     S = _MODS.booleans._CompositeGH(points, raiser=raiser, xtend=xtend, eps=eps,
-                                            name=clipGH4.__name__, kind=_points_)
+                                            name__=clipGH4, kind=_points_)
     C = _4corners(corners)
     return S._clip(C, False, False, Clas=ClipGH4Tuple, closed=closed, inull=inull,
                                     raiser=S._raiser, xtend=S._xtend, eps=eps)

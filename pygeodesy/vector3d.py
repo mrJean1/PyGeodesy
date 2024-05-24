@@ -14,11 +14,11 @@ from pygeodesy.errors import IntersectionError, _ValueError, VectorError, \
 from pygeodesy.fmath import euclid, fabs, fdot, hypot, sqrt,  fsum1_
 # from pygeodesy.fsums import fsum1_  # from .fmath
 # from pygeodesy.formy import _radical2  # in _intersects2 below
-from pygeodesy.interns import NN, _COMMA_, _concentric_, _intersection_, \
-                             _near_, _negative_, _no_, _too_
+from pygeodesy.interns import _COMMA_, _concentric_, _intersection_, \
+                              _near_, _negative_, _no_, _too_
 from pygeodesy.iters import PointsIter,  Fmt
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
-from pygeodesy.named import _xnamed, _xotherError
+from pygeodesy.named import _name__, _name2__, _xnamed, _xotherError
 from pygeodesy.namedTuples import Intersection3Tuple, NearestOn2Tuple, \
                                   NearestOn6Tuple, Vector3Tuple  # Vector4Tuple
 # from pygeodesy.nvectorBase import _nsumOf  # _MODS
@@ -31,7 +31,7 @@ from pygeodesy.vector3dBase import Vector3dBase
 # from math import fabs, sqrt  # from .fmath
 
 __all__ = _ALL_LAZY.vector3d
-__version__ = '24.02.20'
+__version__ = '24.05.21'
 
 
 class Vector3d(Vector3dBase):
@@ -236,18 +236,18 @@ class Vector3d(Vector3dBase):
         '''
         return nearestOn6(self, points, closed=closed, useZ=useZ)  # Vector=self.classof
 
-    def parse(self, str3d, sep=_COMMA_, name=NN):
+    def parse(self, str3d, sep=_COMMA_, **name):
         '''Parse an C{"x, y, z"} string to a L{Vector3d} instance.
 
            @arg str3d: X, y and z string (C{str}), see function L{parse3d}.
            @kwarg sep: Optional separator (C{str}).
-           @kwarg name: Optional instance name (C{str}), overriding this name.
+           @kwarg name: Optional instance C{B{name}=NN} (C{str}), overriding this name.
 
            @return: The instance (L{Vector3d}).
 
            @raise VectorError: Invalid B{C{str3d}}.
         '''
-        return parse3d(str3d, sep=sep, Vector=self.classof, name=name or self.name)
+        return parse3d(str3d, sep=sep, Vector=self.classof, name=self._name__(name))
 
     def radii11(self, point2, point3):
         '''Return the radii of the C{Circum-}, C{In-}, I{Soddy} and C{Tangent}
@@ -677,16 +677,15 @@ def nearestOn(point, point1, point2, within=True, useZ=True, Vector=None, **Vect
     p1 = _otherV3d(useZ=useZ, point1=point1)
     p2 = _otherV3d(useZ=useZ, point2=point2)
 
-    n    =  nearestOn.__name__
     p, _ = _nearestOn2(p0, p1, p2, within=within)
     if Vector is not None:
-        p = Vector(p.x, p.y, **_xkwds(Vector_kwds, z=p.z, name=n))
+        p = Vector(p.x, p.y, **_xkwds(Vector_kwds, z=p.z, name__=nearestOn))
     elif p is p1:
         p = point1
     elif p is p2:
         p = point2
     else:  # ignore Vector_kwds
-        p = point.classof(p.x, p.y, _xkwds_get(Vector_kwds, z=p.z), name=n)
+        p = point.classof(p.x, p.y, _xkwds_get(Vector_kwds, z=p.z), name__=nearestOn)
     return p
 
 
@@ -765,8 +764,9 @@ def nearestOn6(point, points, closed=False, useZ=True, **Vector_and_kwds):  # ep
     return NearestOn6Tuple(v, sqrt(c2), f, j, s, e)
 
 
-def _nVc(v, clas=None, name=NN, Vector=None, **Vector_kwds):  # in .vector2d
+def _nVc(v, clas=None, Vector=None, **Vector_kwds_name):  # in .vector2d
     # return a named C{Vector} or C{clas} instance
+    name, Vector_kwds = _name2__(**Vector_kwds_name)
     if Vector is not None:
         v = Vector(v.x, v.y, v.z, **Vector_kwds)
     elif clas is not None:
@@ -810,7 +810,7 @@ def parse3d(str3d, sep=_COMMA_, Vector=Vector3d, **Vector_kwds):
     except (TypeError, ValueError) as x:
         raise VectorError(str3d=str3d, cause=x)
     return _xnamed((Vector3Tuple(v) if Vector is None else  # *v
-                    Vector(*v, **Vector_kwds)), parse3d.__name__)
+                    Vector(*v, **Vector_kwds)), name__=parse3d)  # .__name__
 
 
 def sumOf(vectors, Vector=Vector3d, **Vector_kwds):
@@ -831,9 +831,8 @@ def sumOf(vectors, Vector=Vector3d, **Vector_kwds):
     except (TypeError, ValueError) as x:
         raise VectorError(vectors=vectors, Vector=Vector, cause=x)
     x, y, z = t[:3]
-    n = sumOf.__name__
-    return Vector3Tuple(x, y, z, name=n) if Vector is None else \
-           Vector(x, y, z, **_xkwds(Vector_kwds, name=n))
+    return Vector3Tuple(x, y, z, name__=sumOf) if Vector is None else \
+           Vector(x, y, z, **_xkwds(Vector_kwds, name__=sumOf))  # .__name__
 
 
 def trilaterate2d2(x1, y1, radius1, x2, y2, radius2, x3, y3, radius3,
@@ -930,7 +929,7 @@ def trilaterate3d2(center1, radius1, center2, radius2, center3, radius3,
                          center3=center3, radius3=radius3)
 
 
-def _xyzhdn3(xyz, height, datum, ll):  # in .cartesianBase, .nvectorBase
+def _xyzhdn3(xyz, height, datum, ll, **name):  # in .cartesianBase, .nvectorBase
     '''(INTERNAL) Get a C{(h, d, name)} 3-tuple.
     '''
     h = height or _xattr(xyz, height=None) \
@@ -940,7 +939,7 @@ def _xyzhdn3(xyz, height, datum, ll):  # in .cartesianBase, .nvectorBase
     d = datum or _xattr(xyz, datum=None) \
               or _xattr(ll,  datum=None)
 
-    return h, d, _xattr(xyz, name=NN)
+    return h, d, _name__(name, _or_nameof=xyz)
 
 
 __all__ += _ALL_DOCS(intersections2, sumOf, Vector3dBase)

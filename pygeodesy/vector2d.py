@@ -30,7 +30,7 @@ from contextlib import contextmanager
 # from math import fabs, sqrt  # from .fmath
 
 __all__ = _ALL_LAZY.vector2d
-__version__ = '24.05.04'
+__version__ = '24.05.17'
 
 _cA_        = 'cA'
 _cB_        = 'cB'
@@ -282,11 +282,10 @@ def circum4_(*points, **useZ_Vector_and_kwds):
         C = map2(float, C)
         R = map2(float, R)  # empty if rk < 4 or n <= 4
 
-    n = circum4_.__name__
-    c = Vector3d(*C[:3], name=n)
-    r = Radius(sqrt(fsumf_(C[3], *c.x2y2z2)), name=n)
+    c = Vector3d(*C[:3], name__=circum4_)  # .__name__
+    r = Radius(sqrt(fsumf_(C[3], *c.x2y2z2)), name=c.name)
 
-    c = _nVc(c, **_xkwds(kwds, clas=ps[0].classof, name=n))
+    c = _nVc(c, **_xkwds(kwds, clas=ps[0].classof, name=c.name))
     return Circum4Tuple(r, c, rk, R)
 
 
@@ -416,8 +415,8 @@ class _numpy(object):  # see also .formy._idllmn6, .geodesicw._wargs, .latlonBas
                  <https://StackOverflow.com/questions/2992947>} and U{here
                  <https://StackOverflow.com/questions/5889142>}.
         '''
-        def _Error(txt=self.null_space2.__name__, **kwds):
-            return _AssertionError(txt=txt, **kwds)
+        def _Error(**kwds):
+            return _AssertionError(txt__=self.null_space2, **kwds)
 
         np = self.np
         A  = np.array(A)

@@ -4,9 +4,9 @@
 u'''Basic C{Float}, C{Int} and C{Str}ing units classes.
 '''
 
-from pygeodesy.errors import UnitError, _XError, _xkwds_item2
+from pygeodesy.errors import _UnexpectedError, UnitError, _XError
 from pygeodesy.interns import NN, _degrees_, _degrees2_, _invalid_, \
-                             _meter_, _radians_, _radians2_, \
+                             _meter_, MISSING, _radians_, _radians2_, \
                              _radius_, _UNDER_,  _std_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import modulename, _Named, property_doc_
@@ -14,7 +14,7 @@ from pygeodesy.named import modulename, _Named, property_doc_
 from pygeodesy.streprs import Fmt, fstr
 
 __all__ = _ALL_LAZY.unitsBase
-__version__ = '24.02.20'
+__version__ = '24.05.20'
 
 
 class _NamedUnit(_Named):
@@ -69,14 +69,14 @@ class Float(float, _NamedUnit):
            @kwarg Error: Optional error to raise, overriding the default
                          L{UnitError}.
            @kwarg name_arg: Optional C{name=arg} keyword argument, inlieu
-                            of B{C{name}} and B{C{arg}}.
+                            of separate B{C{arg}} and B{C{name}} ones.
 
            @returns: A C{Float} instance.
 
            @raise Error: Invalid B{C{arg}}.
         '''
         if name_arg:
-            name, arg = _xkwds_item2(name_arg)
+            name, arg = _arg_name_arg2(arg, **name_arg)
         try:
             self = float.__new__(cls, arg)
             if name:
@@ -146,15 +146,15 @@ class Int(int, _NamedUnit):
            @kwarg name: Optional instance name (C{str}).
            @kwarg Error: Optional error to raise, overriding the
                          default L{UnitError}.
-           @kwarg name_arg: Optional C{name=arg} keyword argument,
-                            inlieu of B{C{name}} and B{C{arg}}.
+           @kwarg name_arg: Optional C{name=arg} keyword argument, inlieu
+                            of separate B{C{arg}} and B{C{name}} ones.
 
            @returns: An C{Int} instance.
 
            @raise Error: Invalid B{C{arg}}.
         '''
         if name_arg:
-            name, arg = _xkwds_item2(name_arg)
+            name, arg = _arg_name_arg2(arg, **name_arg)
         try:
             self = int.__new__(cls, arg)
             if name:
@@ -223,8 +223,8 @@ class Str(str, _NamedUnit):
            @kwarg name: Optional instance name (C{str}).
            @kwarg Error: Optional error to raise, overriding the
                          default (C{ValueError}).
-           @kwarg name_arg: Optional C{name=arg} keyword argument,
-                            inlieu of B{C{name}} and B{C{arg}}.
+           @kwarg name_arg: Optional C{name=arg} keyword argument, inlieu
+                            of separate B{C{arg}} and B{C{name}} ones.
 
            @returns: A L{Str} instance.
 
@@ -233,7 +233,7 @@ class Str(str, _NamedUnit):
            @see: Callable, not-nameable class L{pygeodesy.Str_}.
         '''
         if name_arg:
-            name, arg = _xkwds_item2(name_arg)
+            name, arg = _arg_name_arg2(arg, **name_arg)
         try:
             self = str.__new__(cls, arg)
             if name:
@@ -322,6 +322,19 @@ def _Error(clas, arg, name, Error, txt=_invalid_, x=None):
             txt = str(x)  # i.e. if not overridden
     n = name if name else modulename(clas).lstrip(_UNDER_)
     return _XError(Error, n, arg, txt=txt, cause=x)
+
+
+def _arg_name_arg2(arg, name__=None, **name_arg):  # in .units
+    '''(INTERNAL) Get the 2-tuple C{(name, arg)}.
+    '''
+    if name__ is None:
+        t =  name_arg.popitem() if len(name_arg) == 1 else \
+            (MISSING, arg)
+    else:
+        t =  name__.__name__, arg
+    if name_arg:
+        raise _UnexpectedError(**name_arg)
+    return t
 
 
 __all__ += _ALL_DOCS(_NamedUnit)

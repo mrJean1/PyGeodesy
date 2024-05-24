@@ -15,10 +15,10 @@ from pygeodesy.basics import islistuple, issubclassof, len2, \
 from pygeodesy.errors import _IndexError, LenError, PointsError, \
                              _TypeError, _ValueError
 # from pygeodesy.internals import _passarg  # from .basics
-from pygeodesy.interns import NN, _0_, _composite_, _few_, \
-                             _latlon_, _points_, _too_
+from pygeodesy.interns import _0_, _composite_, _few_, _latlon_, \
+                              _points_, _too_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
-from pygeodesy.named import Fmt, _Named, property_RO
+from pygeodesy.named import _Named, property_RO,  Fmt
 from pygeodesy.namedTuples import Point3Tuple, Points2Tuple
 # from pygeodesy.props import property_RO  # from .named
 # from pygeodesy.streprs import Fmt  # from .named
@@ -26,7 +26,7 @@ from pygeodesy.units import Int, Radius
 from pygeodesy.utily import degrees2m, _Wrap,  _1_0
 
 __all__ = _ALL_LAZY.iters
-__version__ = '23.12.14'
+__version__ = '24.05.23'
 
 _items_        = 'items'
 _iterNumpy2len =  1  # adjustable for testing purposes
@@ -50,7 +50,7 @@ class _BaseIter(_Named):
     _prev   = _NOTHING
     _wrap   =  False
 
-    def __init__(self, items, loop=0, dedup=False, Error=None, name=NN):
+    def __init__(self, items, loop=0, dedup=False, Error=None, **name):
         '''New iterator over an iterable of B{C{items}}.
 
            @arg items: Iterable (any C{type}, except composites).
@@ -58,7 +58,7 @@ class _BaseIter(_Named):
                         iterate index (non-negative C{int}).
            @kwarg dedup: Skip duplicate items (C{bool}).
            @kwarg Error: Error to raise (L{LenError}).
-           @kwarg name: Optional name (C{str}).
+           @kwarg name: Optional C{B{name}="items"} (C{str}).
 
            @raise Error: Invalid B{C{items}} or sufficient number of B{C{items}}.
 
@@ -238,10 +238,11 @@ class _BaseIter(_Named):
 class PointsIter(_BaseIter):
     '''Iterator for C{points} with optional loop-back and copies.
     '''
-    _base  = None
-    _Error = PointsError
+    _base  =  None
+    _Error =  PointsError
+    _name  = _points_
 
-    def __init__(self, points, loop=0, base=None, dedup=False, wrap=False, name=NN):
+    def __init__(self, points, loop=0, base=None, dedup=False, wrap=False, **name):
         '''New L{PointsIter} iterator.
 
            @arg points: C{Iterable} or C{list}, C{sequence}, C{set}, C{tuple},
@@ -252,13 +253,13 @@ class PointsIter(_BaseIter):
            @kwarg dedup: Skip duplicate points (C{bool}).
            @kwarg wrap: If C{True}, wrap or I{normalize} the enum-/iterated
                         B{C{points}} (C{bool}).
-           @kwarg name: Optional name (C{str}).
+           @kwarg name: Optional C{B{name}="points"} (C{str}).
 
            @raise PointsError: Insufficient number of B{C{points}}.
 
            @raise TypeError: Some B{C{points}} are not B{C{base}}.
        '''
-        _BaseIter.__init__(self, points, loop=loop, dedup=dedup, name=name or _points_)
+        _BaseIter.__init__(self, points, loop=loop, dedup=dedup, **name)
 
         if base and not (isNumpy2(points) or isTuple2(points)):
             self._base = base
@@ -310,12 +311,13 @@ class PointsIter(_BaseIter):
 class LatLon2PsxyIter(PointsIter):
     '''Iterate and convert for C{points} with optional loop-back and copies.
     '''
-    _deg2m  = None
-    _radius = None  # keep degrees
-    _wrap   = True
+    _deg2m  =  None
+    _name   = _latlon_
+    _radius =  None  # keep degrees
+    _wrap   =  True
 
     def __init__(self, points, loop=0, base=None, wrap=True, radius=None,
-                                                  dedup=False, name=_latlon_):
+                                                  dedup=False, **name):
         '''New L{LatLon2PsxyIter} iterator.
 
            @note: The C{LatLon} latitude is considered the I{pseudo-y} and
@@ -331,13 +333,13 @@ class LatLon2PsxyIter(PointsIter):
            @kwarg radius: Mean earth radius (C{meter}) for conversion from
                           C{degrees} to C{meter} (or C{radians} if C{B{radius}=1}).
            @kwarg dedup: Skip duplicate points (C{bool}).
-           @kwarg name: Optional name (C{str}).
+           @kwarg name: Optional C{B{name}="latlon"} (C{str}).
 
            @raise PointsError: Insufficient number of B{C{points}}.
 
            @raise TypeError: Some B{C{points}} are not B{C{base}}-compatible.
         '''
-        PointsIter.__init__(self, points, loop=loop, base=base, dedup=dedup, name=name)
+        PointsIter.__init__(self, points, loop=loop, base=base, dedup=dedup, **name)
         if not wrap:
             self._wrap = False
         if radius:

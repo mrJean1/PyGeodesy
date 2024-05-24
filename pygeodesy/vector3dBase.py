@@ -15,8 +15,7 @@ from pygeodesy.constants import EPS, EPS0, INT0, PI, PI2, _copysignINF, \
                                _pos_self, _0_0, _1_0
 from pygeodesy.errors import CrossError, VectorError, _xcallable, _xError
 from pygeodesy.fmath import euclid_, fdot, hypot_, hypot2_
-from pygeodesy.interns import NN, _coincident_, _colinear_, \
-                             _COMMASPACE_, _xyz_
+from pygeodesy.interns import _coincident_, _colinear_, _COMMASPACE_, _xyz_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_DOCS, _ALL_MODS as _MODS, \
                              _sys_version_info2
 from pygeodesy.named import _NamedBase, _NotImplemented, _xother3
@@ -31,7 +30,7 @@ from pygeodesy.units import Float, Scalar
 from math import atan2, ceil, fabs, floor, trunc
 
 __all__ = _ALL_LAZY.vector3dBase
-__version__ = '24.05.10'
+__version__ = '24.05.19'
 
 
 class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
@@ -44,7 +43,7 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
 #   _y  = INT0  # Y component
 #   _z  = INT0  # Z component
 
-    def __init__(self, x_xyz, y=INT0, z=INT0, ll=None, name=NN):
+    def __init__(self, x_xyz, y=INT0, z=INT0, ll=None, **name):
         '''New L{Vector3d} or C{Vector3dBase} instance.
 
            The vector may be normalised or use x, y, z for position and
@@ -60,7 +59,7 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
            @kwarg z: Z component of vector (C{scalar}), ignored if B{C{x_xyz}}
                      is not C{scalar}, otherwise same units as B{C{x_xyz}}.
            @kwarg ll: Optional latlon reference (C{LatLon}).
-           @kwarg name: Optional name (C{str}).
+           @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @raise VectorError: Invalid B{C{x_xyz}}.
         '''

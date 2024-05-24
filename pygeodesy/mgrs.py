@@ -42,7 +42,7 @@ from pygeodesy.errors import _AssertionError, MGRSError, _parseX, \
                              _ValueError, _xkwds
 from pygeodesy.interns import NN, _0_, _A_, _AtoZnoIO_, _band_, _B_, \
                              _COMMASPACE_, _datum_, _easting_, _invalid_, \
-                             _northing_, _not_, _SPACE_, _W_, _Y_, _Z_, _zone_
+                             _northing_, _SPACE_, _W_, _Y_, _Z_, _zone_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _PYGEODESY_GEOCONVERT_
 from pygeodesy.named import _NamedBase, _NamedTuple, _Pass, _xnamed
 from pygeodesy.namedTuples import EasNor2Tuple, UtmUps5Tuple
@@ -55,7 +55,7 @@ from pygeodesy.utm import toUtm8, _to3zBlat, Utm, _UTM_ZONE_MAX, _UTM_ZONE_MIN
 # from pygeodesy.utmupsBase import _UTM_ZONE_MAX, _UTM_ZONE_MIN  # from .utm
 
 __all__ = _ALL_LAZY.mgrs
-__version__ = '24.05.13'
+__version__ = '24.05.24'
 
 _AN_    = 'AN'  # default south pole grid tile and band B
 _AtoPx_ = _AtoZnoIO_.tillP
@@ -357,7 +357,7 @@ class Mgrs(_NamedBase):
            @raise MGRSError: This MGRS is a I{non-polar} UTM reference.
         '''
         if self.isUTM:
-            raise MGRSError(zoneB=self.zoneB, txt=_not_(_polar_))
+            raise MGRSError(zoneB=self.zoneB, txt_not_=_polar_)
         return self._toUtmUps(Ups, center)
 
     def toUtm(self, Utm=Utm, center=False):

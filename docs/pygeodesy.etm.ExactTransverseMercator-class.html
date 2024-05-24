@@ -95,8 +95,8 @@
         <span class="summary-sig-arg">lon0</span>=<span class="summary-sig-default">0</span>,
         <span class="summary-sig-arg">k0</span>=<span class="summary-sig-default">0.9996</span>,
         <span class="summary-sig-arg">extendp</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>,
-        <span class="summary-sig-arg">raiser</span>=<span class="summary-sig-default">False</span>)</span><br />
+        <span class="summary-sig-arg">raiser</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">**name</span>)</span><br />
       New <a href="pygeodesy.etm.ExactTransverseMercator-class.html" 
       class="link">ExactTransverseMercator</a> projection.</td>
           <td align="right" valign="top">
@@ -118,7 +118,7 @@
         <span class="summary-sig-arg">lat</span>,
         <span class="summary-sig-arg">lon</span>,
         <span class="summary-sig-arg">lon0</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Forward projection, from geographic to transverse Mercator.</td>
           <td align="right" valign="top">
             
@@ -158,7 +158,7 @@
         <span class="summary-sig-arg">x</span>,
         <span class="summary-sig-arg">y</span>,
         <span class="summary-sig-arg">lon0</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Reverse projection, from Transverse Mercator to geographic.</td>
           <td align="right" valign="top">
             
@@ -206,6 +206,7 @@
       <code><a href="pygeodesy.named._Named-class.html#dup">dup</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#methodname">methodname</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#rename">rename</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#renamed">renamed</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#toStr2">toStr2</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
@@ -373,8 +374,8 @@
         <span class="sig-arg">lon0</span>=<span class="sig-default">0</span>,
         <span class="sig-arg">k0</span>=<span class="sig-default">0.9996</span>,
         <span class="sig-arg">extendp</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>,
-        <span class="sig-arg">raiser</span>=<span class="sig-default">False</span>)</span>
+        <span class="sig-arg">raiser</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">**name</span>)</span>
     <br /><em class="fname">(Constructor)</em>
   </h3>
   </td><td align="right" valign="top"
@@ -399,11 +400,12 @@
         <li><strong class="pname"><code>k0</code></strong> - Central scale factor (<code>float</code>).</li>
         <li><strong class="pname"><code>extendp</code></strong> - Use the <i>extended</i> domain (<code>bool</code>), 
           <i>standard</i> otherwise.</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name for the projection (<code>str</code>).</li>
         <li><strong class="pname"><code>raiser</code></strong> - If <code>True</code>, throw an <a 
           href="pygeodesy.etm.ETMError-class.html" 
           class="link">ETMError</a> for convergence failures 
           (<code>bool</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> for the projection 
+          (<code>str</code>).</li>
     </ul></dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
@@ -445,7 +447,7 @@
         <span class="sig-arg">lat</span>,
         <span class="sig-arg">lon</span>,
         <span class="sig-arg">lon0</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -460,7 +462,7 @@
         <li><strong class="pname"><code>lon</code></strong> - Longitude of point (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lon0</code></strong> - Central meridian (<code>degrees180</code>), overriding the 
           default if not <code>None</code>.</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><a href="pygeodesy.namedTuples.Forward4Tuple-class.html" 
@@ -522,7 +524,7 @@
         <span class="sig-arg">x</span>,
         <span class="sig-arg">y</span>,
         <span class="sig-arg">lon0</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -535,9 +537,9 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>x</code></strong> - Easting of point (<code>meters</code>).</li>
         <li><strong class="pname"><code>y</code></strong> - Northing of point (<code>meters</code>).</li>
-        <li><strong class="pname"><code>lon0</code></strong> - Central meridian (<code>degrees180</code>), overriding the 
-          default if not <code>None</code>.</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
+        <li><strong class="pname"><code>lon0</code></strong> - Optional central meridian (<code>degrees180</code>), overriding 
+          the default (<code>iff not None</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><a href="pygeodesy.namedTuples.Reverse4Tuple-class.html" 
@@ -921,7 +923,7 @@ convergence failures.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed May 15 16:10:03 2024
+    Generated by Epydoc 3.0.1 on Fri May 24 16:58:42 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

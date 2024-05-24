@@ -1180,7 +1180,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fsums.Fsum-class.html#copy" class="summary-sig-name">copy</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">deep</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Copy this instance, <code>shallow</code> or <b><code>deep</code></b>.</td>
           <td align="right" valign="top">
             
@@ -1260,7 +1260,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fsums.Fsum-class.html#fcopy" class="summary-sig-name">fcopy</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">deep</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Copy this instance, <code>shallow</code> or <b><code>deep</code></b>.</td>
           <td align="right" valign="top">
             
@@ -1553,7 +1553,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fsums.Fsum-class.html#fsum2" class="summary-sig-name">fsum2</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">xs</span>=<span class="summary-sig-default"><code class="variable-group">(</code><code class="variable-group">)</code></span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Add an iterable's items, summate and return the current precision 
       running sum <i>and</i> the <code>residual</code>.</td>
           <td align="right" valign="top">
@@ -1888,6 +1888,7 @@
       <code><a href="pygeodesy.named._Named-class.html#dup">dup</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#methodname">methodname</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#rename">rename</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#renamed">renamed</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#toStr2">toStr2</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
@@ -2034,15 +2035,16 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xs</code></strong> - No, one or more items to add (each <code>scalar</code> or an <a 
-          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
-          <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
+        <li><strong class="pname"><code>xs</code></strong> - No, one or more initial items to add (each <code>scalar</code> or
+          an <a href="pygeodesy.fsums.Fsum-class.html" 
+          class="link">Fsum</a> or <a 
+          href="pygeodesy.fsums.Fsum2Tuple-class.html" 
           class="link">Fsum2Tuple</a> instance), all positional.</li>
-        <li><strong class="pname"><code>name_RESIDUAL</code></strong> - Optional <code><b>name</b>=NN</code> for this <a 
-          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> and 
-          the <code><b>RESIDUAL</b>=0.0</code> threshold for <a 
+        <li><strong class="pname"><code>name_RESIDUAL</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>) for this 
+          <a href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> 
+          and the <code><b>RESIDUAL</b>=0.0</code> threshold for <a 
           href="pygeodesy.fsums.ResidualError-class.html" 
-          class="link">ResidualError</a>s.</li>
+          class="link">ResidualError</a>s (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Overrides:
         object.__init__
@@ -2180,10 +2182,10 @@
           class="link">Fsum</a>, <a 
           href="pygeodesy.fsums.Fsum2Tuple-class.html" 
           class="link">Fsum2Tuple</a> or <code>scalar</code> modulus.</li>
-        <li><strong class="pname"><code>raiser_RESIDUAL</code></strong> - Use <code><b>raiser</b>=False</code> (<code>bool</code>) to 
-          ignore <a href="pygeodesy.fsums.ResidualError-class.html" 
-          class="link">ResidualError</a>s and 
-          <code><b>RESIDUAL</b>=scalar</code> to override the <a 
+        <li><strong class="pname"><code>raiser_RESIDUAL</code></strong> - Use <code><b>raiser</b>=False</code> to ignore <a 
+          href="pygeodesy.fsums.ResidualError-class.html" 
+          class="link">ResidualError</a>s (<code>bool</code>) and 
+          <code><b>RESIDUAL</b>=scalar</code> to override the current <a 
           href="pygeodesy.fsums.Fsum-class.html#RESIDUAL" 
           class="link">RESIDUAL</a>.</li>
     </ul></dd>
@@ -2566,10 +2568,10 @@
         <li><strong class="pname"><code>mod</code></strong> - Optional modulus (<code>int</code> or <code>None</code>) for the 
           3-argument <code>pow(<b>self</b>, <b>other</b>, 
           <b>mod</b>)</code> version.</li>
-        <li><strong class="pname"><code>raiser_RESIDUAL</code></strong> - Use <code><b>raiser</b>=False</code> (<code>bool</code>) to 
-          ignore <a href="pygeodesy.fsums.ResidualError-class.html" 
-          class="link">ResidualError</a>s and 
-          <code><b>RESIDUAL</b>=scalar</code> to override the <a 
+        <li><strong class="pname"><code>raiser_RESIDUAL</code></strong> - Use <code><b>raiser</b>=False</code> to ignore <a 
+          href="pygeodesy.fsums.ResidualError-class.html" 
+          class="link">ResidualError</a>s (<code>bool</code>) and 
+          <code><b>RESIDUAL</b>=scalar</code> to override the current <a 
           href="pygeodesy.fsums.Fsum-class.html#RESIDUAL" 
           class="link">RESIDUAL</a>.</li>
     </ul></dd>
@@ -2671,10 +2673,10 @@
           class="link">Fsum</a>, <a 
           href="pygeodesy.fsums.Fsum2Tuple-class.html" 
           class="link">Fsum2Tuple</a> or <code>scalar</code> divisor.</li>
-        <li><strong class="pname"><code>raiser_RESIDUAL</code></strong> - Use <code><b>raiser</b>=False</code> (<code>bool</code>) to 
-          ignore <a href="pygeodesy.fsums.ResidualError-class.html" 
-          class="link">ResidualError</a>s and 
-          <code><b>RESIDUAL</b>=scalar</code> to override the <a 
+        <li><strong class="pname"><code>raiser_RESIDUAL</code></strong> - Use <code><b>raiser</b>=False</code> to ignore <a 
+          href="pygeodesy.fsums.ResidualError-class.html" 
+          class="link">ResidualError</a>s (<code>bool</code>) and 
+          <code><b>RESIDUAL</b>=scalar</code> to override the current <a 
           href="pygeodesy.fsums.Fsum-class.html#RESIDUAL" 
           class="link">RESIDUAL</a>.</li>
     </ul></dd>
@@ -3131,10 +3133,10 @@
           class="link">Fsum</a>, <a 
           href="pygeodesy.fsums.Fsum2Tuple-class.html" 
           class="link">Fsum2Tuple</a> or <code>scalar</code> divisor.</li>
-        <li><strong class="pname"><code>raiser_RESIDUAL</code></strong> - Use <code><b>raiser</b>=False</code> (<code>bool</code>) to 
-          ignore <a href="pygeodesy.fsums.ResidualError-class.html" 
-          class="link">ResidualError</a>s and 
-          <code><b>RESIDUAL</b>=scalar</code> to override the <a 
+        <li><strong class="pname"><code>raiser_RESIDUAL</code></strong> - Use <code><b>raiser</b>=False</code> to ignore <a 
+          href="pygeodesy.fsums.ResidualError-class.html" 
+          class="link">ResidualError</a>s (<code>bool</code>) and 
+          <code><b>RESIDUAL</b>=scalar</code> to override the current <a 
           href="pygeodesy.fsums.Fsum-class.html#RESIDUAL" 
           class="link">RESIDUAL</a>.</li>
     </ul></dd>
@@ -3205,10 +3207,10 @@
           class="link">Fsum</a>, <a 
           href="pygeodesy.fsums.Fsum2Tuple-class.html" 
           class="link">Fsum2Tuple</a> or <code>scalar</code> divisor.</li>
-        <li><strong class="pname"><code>raiser_RESIDUAL</code></strong> - Use <code><b>raiser</b>=False</code> (<code>bool</code>) to 
-          ignore <a href="pygeodesy.fsums.ResidualError-class.html" 
-          class="link">ResidualError</a>s and 
-          <code><b>RESIDUAL</b>=scalar</code> to override the <a 
+        <li><strong class="pname"><code>raiser_RESIDUAL</code></strong> - Use <code><b>raiser</b>=False</code> to ignore <a 
+          href="pygeodesy.fsums.ResidualError-class.html" 
+          class="link">ResidualError</a>s (<code>bool</code>) and 
+          <code><b>RESIDUAL</b>=scalar</code> to override the current <a 
           href="pygeodesy.fsums.Fsum-class.html#RESIDUAL" 
           class="link">RESIDUAL</a>.</li>
     </ul></dd>
@@ -3251,10 +3253,10 @@
           class="link">Fsum</a>, <a 
           href="pygeodesy.fsums.Fsum2Tuple-class.html" 
           class="link">Fsum2Tuple</a> or <code>scalar</code> divisor.</li>
-        <li><strong class="pname"><code>raiser_RESIDUAL</code></strong> - Use <code><b>raiser</b>=False</code> (<code>bool</code>) to 
-          ignore <a href="pygeodesy.fsums.ResidualError-class.html" 
-          class="link">ResidualError</a>s and 
-          <code><b>RESIDUAL</b>=scalar</code> to override the <a 
+        <li><strong class="pname"><code>raiser_RESIDUAL</code></strong> - Use <code><b>raiser</b>=False</code> to ignore <a 
+          href="pygeodesy.fsums.ResidualError-class.html" 
+          class="link">ResidualError</a>s (<code>bool</code>) and 
+          <code><b>RESIDUAL</b>=scalar</code> to override the current <a 
           href="pygeodesy.fsums.Fsum-class.html#RESIDUAL" 
           class="link">RESIDUAL</a>.</li>
     </ul></dd>
@@ -3392,7 +3394,7 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">copy</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">deep</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -3404,9 +3406,8 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>deep</code></strong> - If <code>True</code> make a deep, otherwise a shallow copy 
-          (<code>bool</code>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional, non-empty name (<code>str</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional, overriding <code><b>name</b>='&quot;copy&quot;</code> 
+          (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The copy (<a href="pygeodesy.fsums.Fsum-class.html" 
@@ -3446,10 +3447,10 @@
           class="link">Fsum</a>, <a 
           href="pygeodesy.fsums.Fsum2Tuple-class.html" 
           class="link">Fsum2Tuple</a> or <code>scalar</code> modulus.</li>
-        <li><strong class="pname"><code>raiser_RESIDUAL</code></strong> - Use <code><b>raiser</b>=False</code> (<code>bool</code>) to 
-          ignore <a href="pygeodesy.fsums.ResidualError-class.html" 
-          class="link">ResidualError</a>s and 
-          <code><b>RESIDUAL</b>=scalar</code> to override the <a 
+        <li><strong class="pname"><code>raiser_RESIDUAL</code></strong> - Use <code><b>raiser</b>=False</code> to ignore <a 
+          href="pygeodesy.fsums.ResidualError-class.html" 
+          class="link">ResidualError</a>s (<code>bool</code>) and 
+          <code><b>RESIDUAL</b>=scalar</code> to override the current <a 
           href="pygeodesy.fsums.Fsum-class.html#RESIDUAL" 
           class="link">RESIDUAL</a>.</li>
     </ul></dd>
@@ -3541,7 +3542,7 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">fcopy</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">deep</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -3553,9 +3554,8 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>deep</code></strong> - If <code>True</code> make a deep, otherwise a shallow copy 
-          (<code>bool</code>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional, non-empty name (<code>str</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional, overriding <code><b>name</b>='&quot;copy&quot;</code> 
+          (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The copy (<a href="pygeodesy.fsums.Fsum-class.html" 
@@ -3587,10 +3587,10 @@
           class="link">Fsum</a>, <a 
           href="pygeodesy.fsums.Fsum2Tuple-class.html" 
           class="link">Fsum2Tuple</a> or <code>scalar</code> divisor.</li>
-        <li><strong class="pname"><code>raiser_RESIDUAL</code></strong> - Use <code><b>raiser</b>=False</code> (<code>bool</code>) to 
-          ignore <a href="pygeodesy.fsums.ResidualError-class.html" 
-          class="link">ResidualError</a>s and 
-          <code><b>RESIDUAL</b>=scalar</code> to override the <a 
+        <li><strong class="pname"><code>raiser_RESIDUAL</code></strong> - Use <code><b>raiser</b>=False</code> to ignore <a 
+          href="pygeodesy.fsums.ResidualError-class.html" 
+          class="link">ResidualError</a>s (<code>bool</code>) and 
+          <code><b>RESIDUAL</b>=scalar</code> to override the current <a 
           href="pygeodesy.fsums.Fsum-class.html#RESIDUAL" 
           class="link">RESIDUAL</a>.</li>
     </ul></dd>
@@ -3642,10 +3642,10 @@
           class="link">Fsum</a>, <a 
           href="pygeodesy.fsums.Fsum2Tuple-class.html" 
           class="link">Fsum2Tuple</a> or <code>scalar</code> modulus.</li>
-        <li><strong class="pname"><code>raiser_RESIDUAL</code></strong> - Use <code><b>raiser</b>=False</code> (<code>bool</code>) to 
-          ignore <a href="pygeodesy.fsums.ResidualError-class.html" 
-          class="link">ResidualError</a>s and 
-          <code><b>RESIDUAL</b>=scalar</code> to override the <a 
+        <li><strong class="pname"><code>raiser_RESIDUAL</code></strong> - Use <code><b>raiser</b>=False</code> to ignore <a 
+          href="pygeodesy.fsums.ResidualError-class.html" 
+          class="link">ResidualError</a>s (<code>bool</code>) and 
+          <code><b>RESIDUAL</b>=scalar</code> to override the current <a 
           href="pygeodesy.fsums.Fsum-class.html#RESIDUAL" 
           class="link">RESIDUAL</a>.</li>
     </ul></dd>
@@ -3681,12 +3681,12 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>), overriding 
-          <code>&quot;fint&quot;</code>.</li>
-        <li><strong class="pname"><code>raiser_RESIDUAL</code></strong> - Use <code><b>raiser</b>=False</code> (<code>bool</code>) to 
-          ignore <a href="pygeodesy.fsums.ResidualError-class.html" 
-          class="link">ResidualError</a>s and 
-          <code><b>RESIDUAL</b>=scalar</code> to override the <a 
+        <li><strong class="pname"><code>name</code></strong> - Optional, overriding <code><b>name</b>=&quot;fint&quot;</code> 
+          (<code>str</code>).</li>
+        <li><strong class="pname"><code>raiser_RESIDUAL</code></strong> - Use <code><b>raiser</b>=False</code> to ignore <a 
+          href="pygeodesy.fsums.ResidualError-class.html" 
+          class="link">ResidualError</a>s (<code>bool</code>) and 
+          <code><b>RESIDUAL</b>=scalar</code> to override the current <a 
           href="pygeodesy.fsums.Fsum-class.html#RESIDUAL" 
           class="link">RESIDUAL</a>.</li>
     </ul></dd>
@@ -3800,10 +3800,10 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>over</code></strong> - An <a href="pygeodesy.fsums.Fsum-class.html" 
           class="link">Fsum</a> or <code>scalar</code> denominator.</li>
-        <li><strong class="pname"><code>raiser_RESIDUAL</code></strong> - Use <code><b>raiser</b>=False</code> (<code>bool</code>) to 
-          ignore <a href="pygeodesy.fsums.ResidualError-class.html" 
-          class="link">ResidualError</a>s and 
-          <code><b>RESIDUAL</b>=scalar</code> to override the <a 
+        <li><strong class="pname"><code>raiser_RESIDUAL</code></strong> - Use <code><b>raiser</b>=False</code> to ignore <a 
+          href="pygeodesy.fsums.ResidualError-class.html" 
+          class="link">ResidualError</a>s (<code>bool</code>) and 
+          <code><b>RESIDUAL</b>=scalar</code> to override the current <a 
           href="pygeodesy.fsums.Fsum-class.html#RESIDUAL" 
           class="link">RESIDUAL</a>.</li>
     </ul></dd>
@@ -3851,10 +3851,10 @@
         <li><strong class="pname"><code>mod</code></strong> - Optional modulus (<code>int</code> or <code>None</code>) for the 
           3-argument <code>pow(<b>self</b>, <b>other</b>, 
           <b>mod</b>)</code> version.</li>
-        <li><strong class="pname"><code>raiser_RESIDUAL</code></strong> - Use <code><b>raiser</b>=False</code> (<code>bool</code>) to 
-          ignore <a href="pygeodesy.fsums.ResidualError-class.html" 
-          class="link">ResidualError</a>s and 
-          <code><b>RESIDUAL</b>=scalar</code> to override the <a 
+        <li><strong class="pname"><code>raiser_RESIDUAL</code></strong> - Use <code><b>raiser</b>=False</code> to ignore <a 
+          href="pygeodesy.fsums.ResidualError-class.html" 
+          class="link">ResidualError</a>s (<code>bool</code>) and 
+          <code><b>RESIDUAL</b>=scalar</code> to override the current <a 
           href="pygeodesy.fsums.Fsum-class.html#RESIDUAL" 
           class="link">RESIDUAL</a>.</li>
     </ul></dd>
@@ -4118,7 +4118,7 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">fsum2</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">xs</span>=<span class="sig-default"><code class="variable-group">(</code><code class="variable-group">)</code></span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -4134,7 +4134,7 @@
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
           <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
           class="link">Fsum2Tuple</a> instance).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
@@ -4214,10 +4214,10 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>raiser_RESIDUAL</code></strong> - Use <code><b>raiser</b>=False</code> (<code>bool</code>) to 
-          ignore <a href="pygeodesy.fsums.ResidualError-class.html" 
-          class="link">ResidualError</a>s and 
-          <code><b>RESIDUAL</b>=scalar</code> to override the <a 
+        <li><strong class="pname"><code>raiser_RESIDUAL</code></strong> - Use <code><b>raiser</b>=False</code> to ignore <a 
+          href="pygeodesy.fsums.ResidualError-class.html" 
+          class="link">ResidualError</a>s (<code>bool</code>) and 
+          <code><b>RESIDUAL</b>=scalar</code> to override the current <a 
           href="pygeodesy.fsums.Fsum-class.html#RESIDUAL" 
           class="link">RESIDUAL</a>.</li>
     </ul></dd>
@@ -4321,12 +4321,12 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>raiser_RESIDUAL</code></strong> - Use <code><b>raiser</b>=False</code> (<code>bool</code>) to 
-          ignore <a href="pygeodesy.fsums.ResidualError-class.html" 
-          class="link">ResidualError</a>s and 
-          <code><b>RESIDUAL</b>=scalar</code> to override the <a 
+        <li><strong class="pname"><code>raiser_RESIDUAL</code></strong> - Use <code><b>raiser</b>=False</code> to ignore <a 
+          href="pygeodesy.fsums.ResidualError-class.html" 
+          class="link">ResidualError</a>s (<code>bool</code>) and 
+          <code><b>RESIDUAL</b>=scalar</code> to override the current <a 
           href="pygeodesy.fsums.Fsum-class.html#RESIDUAL" 
-          class="link">RESIDUAL</a> threshold.</li>
+          class="link">RESIDUAL</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><code>True</code> if this instance' non-zero residual 
@@ -4376,10 +4376,10 @@
         <li><strong class="pname"><code>mod</code></strong> - Optional modulus (<code>int</code> or <code>None</code>) for the 
           3-argument <code>pow(<b>self</b>, <b>other</b>, 
           <b>mod</b>)</code> version.</li>
-        <li><strong class="pname"><code>raiser_RESIDUAL</code></strong> - Use <code><b>raiser</b>=False</code> (<code>bool</code>) to 
-          ignore <a href="pygeodesy.fsums.ResidualError-class.html" 
-          class="link">ResidualError</a>s and 
-          <code><b>RESIDUAL</b>=scalar</code> to override the <a 
+        <li><strong class="pname"><code>raiser_RESIDUAL</code></strong> - Use <code><b>raiser</b>=False</code> to ignore <a 
+          href="pygeodesy.fsums.ResidualError-class.html" 
+          class="link">ResidualError</a>s (<code>bool</code>) and 
+          <code><b>RESIDUAL</b>=scalar</code> to override the current <a 
           href="pygeodesy.fsums.Fsum-class.html#RESIDUAL" 
           class="link">RESIDUAL</a>.</li>
     </ul></dd>
@@ -4514,10 +4514,10 @@
         <li><strong class="pname"><code>root</code></strong> - The order (<code>scalar</code> or <a 
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a>), 
           non-zero.</li>
-        <li><strong class="pname"><code>raiser_RESIDUAL</code></strong> - Use <code><b>raiser</b>=False</code> (<code>bool</code>) to 
-          ignore <a href="pygeodesy.fsums.ResidualError-class.html" 
-          class="link">ResidualError</a>s and 
-          <code><b>RESIDUAL</b>=scalar</code> to override the <a 
+        <li><strong class="pname"><code>raiser_RESIDUAL</code></strong> - Use <code><b>raiser</b>=False</code> to ignore <a 
+          href="pygeodesy.fsums.ResidualError-class.html" 
+          class="link">ResidualError</a>s (<code>bool</code>) and 
+          <code><b>RESIDUAL</b>=scalar</code> to override the current <a 
           href="pygeodesy.fsums.Fsum-class.html#RESIDUAL" 
           class="link">RESIDUAL</a>.</li>
     </ul></dd>
@@ -4940,7 +4940,7 @@ always).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed May 15 16:10:04 2024
+    Generated by Epydoc 3.0.1 on Fri May 24 16:58:42 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

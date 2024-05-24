@@ -13,14 +13,14 @@ by I{Charles Karney}.  See also U{Global Area Reference System
 <https://Earth-Info.NGA.mil/GandG/coordsys/grids/gars.html>}.
 '''
 
-# from pygeodesy.basics import isstr  # from .dms
+# from pygeodesy.basics import isstr  # from .named
 from pygeodesy.constants import _off90, _1_over, _0_5, \
                                 _1_0  # PYCHOK used!
-from pygeodesy.dms import parse3llh,   Fmt, isstr  # parseDMS2
+from pygeodesy.dms import parse3llh,   Fmt  # parseDMS2
 from pygeodesy.errors import _ValueError, _xkwds
 from pygeodesy.interns import NN, _0to9_, _AtoZnoIO_, _COMMA_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
-from pygeodesy.named import nameof, Property_RO
+from pygeodesy.named import _name__,  isstr, Property_RO
 from pygeodesy.namedTuples import LatLon2Tuple, LatLonPrec3Tuple
 # from pygeodesy.props import Property_RO  # from .named
 # from pygeodesy.streprs import Fmt  # from .dms
@@ -30,7 +30,7 @@ from pygeodesy.units import Int_, Lat, Lon, Precision_, Scalar_, \
 from math import floor
 
 __all__ = _ALL_LAZY.gars
-__version__ = '23.10.07'
+__version__ = '24.05.24'
 
 _Digits  = _0to9_
 _LatLen  =    2
@@ -112,7 +112,7 @@ class Garef(Str):
     '''Garef class, a named C{str}.
     '''
     # no str.__init__ in Python 3
-    def __new__(cls, cll, precision=1, name=NN):
+    def __new__(cls, cll, precision=1, **name):
         '''New L{Garef} from an other L{Garef} instance or garef
            C{str} or from a C{LatLon} instance or lat-/longitude C{str}.
 
@@ -121,7 +121,7 @@ class Garef(Str):
            @kwarg precision: Optional, the desired garef resolution
                              and length (C{int} 0..2), see function
                              L{gars.encode} for more details.
-           @kwarg name: Optional name (C{str}).
+           @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @return: New L{Garef}.
 
@@ -150,7 +150,7 @@ class Garef(Str):
             except AttributeError:
                 raise _xStrError(Garef, cll=cll)  # Error=GARSError
 
-        self = Str.__new__(cls, g, name=name or nameof(cll))
+        self = Str.__new__(cls, g, name=_name__(name, _or_nameof=cll))
         self._latlon    = ll
         self._precision = p
         return self
@@ -197,7 +197,7 @@ class Garef(Str):
               *self.latlon, **_xkwds(LatLon_kwds, name=self.name))
 
 
-def decode3(garef, center=True):
+def decode3(garef, center=True, **name):
     '''Decode a C{garef} to lat-, longitude and precision.
 
        @arg garef: To be decoded (L{Garef} or C{str}).
@@ -245,10 +245,11 @@ def decode3(garef, center=True):
         lon += _0_5
         lat += _0_5
 
+    n = _name__(name, _or_nameof=garef)
     r = _Resolutions[precision]  # == 1.0 / unit
     return LatLonPrec3Tuple(Lat(lat * r, Error=GARSError),
                             Lon(lon * r, Error=GARSError),
-                            precision, name=nameof(garef))
+                            precision, name=n)
 
 
 def encode(lat, lon, precision=1):  # MCCABE 14

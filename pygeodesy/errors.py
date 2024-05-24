@@ -14,20 +14,23 @@ C{PYGEODESY_EXCEPTION_CHAINING=std} or to any non-empty string.
 # from pygeodesy.basics import isint, isodd, issubclassof, itemsorted, _xinstanceof, _zip  # _MODS
 # from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, LatLonEllipsoidalBase  # _MODS
 # from pygeodesy import errors  # _MODS, _MODS.getattr
-# from pygeodesy.internals import _tailof  # from .lazily
+from pygeodesy.internals import _plural, _tailof
 from pygeodesy.interns import MISSING, NN, _a_, _an_, _and_, _clip_, _COLON_, _COLONSPACE_, \
                              _COMMASPACE_, _datum_, _ellipsoidal_, _incompatible_, _invalid_, \
-                             _len_, _not_, _or_, _SPACE_, _specified_, _UNDER_, _vs_, _with_
-from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _getenv, _PYTHON_X_DEV,  _tailof
+                             _keyword_, _len_, _not_, _or_, _SPACE_, _specified_, _UNDER_, \
+                             _vs_, _with_
+from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _getenv, _PYTHON_X_DEV
 # from pygeodesy.streprs import Fmt, unstr  # _MODS
 # from pygeodesy.vector3dBase import Vector3dBase  # _MODS
 
 from copy import copy as _copy
 
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')  _under
-__version__ = '24.05.15'
+__version__ = '24.05.19'
 
+_argument_   = 'argument'
 _box_        = 'box'
+_expected_   = 'expected'
 _limiterrors =  True  # in .formy
 _name_value_ =  repr('name=value')
 _rangerrors  =  True  # in .dms
@@ -140,6 +143,21 @@ def _TypesError(name, value, *Types, **kwds):
     # argument errors in _XError line ...E = Error(str(e))
     t = _not_(_an(_or(*(t.__name__ for t in Types))))
     return _TypeError(name, value, txt=t, **kwds)
+
+
+class _UnexpectedError(TypeError):  # note, a TypeError!
+    '''(INTERNAL) Format a C{TypeError} I{without exception chaining}.
+    '''
+    def __init__(self, *args, **kwds):
+        n = len(kwds)
+        if args:
+            a = _plural(_argument_, len(args))
+            n = _and(a, _plural(_keyword_, n)) if n else a
+        else:
+            n = _plural(_SPACE_(_keyword_, _argument_), n)
+        u = _MODS.streprs.unstr(_SPACE_(n, NN), *args, **kwds)
+        # _error_init(TypeError, self, (u,), txt_not_=_expected_)
+        TypeError.__init__(self, _SPACE_(u, _not_, _expected_))
 
 
 class _ValueError(ValueError):
@@ -375,8 +393,8 @@ def crosserrors(raiser=None):
     return t
 
 
-def _error_init(Error, inst, args, fmt_name_value='%s (%r)', txt=NN,
-                                   cause=None, **kwds):  # by .lazily
+def _error_init(Error, inst, args, fmt_name_value='%s (%r)', txt_not_=NN,
+                                   txt__=None, txt=NN, cause=None, **kwds):
     '''(INTERNAL) Format an error text and initialize an C{Error} instance.
 
        @arg Error: The error super-class (C{Exception}).
@@ -388,6 +406,8 @@ def _error_init(Error, inst, args, fmt_name_value='%s (%r)', txt=NN,
                   given as C{name=value} keyword arguments.
        @kwarg fmt_name_value: Format for (name, value) (C{str}).
        @kwarg txt: Optional explanation of the error (C{str}).
+       @kwarg txt__: Alternate C{B{txt}=B{txt__}.__name__}.
+       @kwarg txt_not_: Negative explanation C{B{txt}=_not_(B{txt_not_})}.
        @kwarg cause: Optional, caught error (L{Exception}), for
                      exception chaining (supported in Python 3+).
        @kwarg kwds: Additional C{B{name}=value} pairs, if any.
@@ -409,8 +429,10 @@ def _error_init(Error, inst, args, fmt_name_value='%s (%r)', txt=NN,
         t += _fmtuple(_MODS.basics.itemsorted(kwds))
     t = _or(*t) if t else _SPACE_(_name_value_, MISSING)
 
-    if txt is not None:
-        x =  str(txt) or (str(cause) if cause else _invalid_)
+    x = _not_(txt_not_) if txt_not_ else (txt if txt__ is None
+                                    else  txt__.__name__)
+    if x is not None:
+        x =  str(x) or (str(cause) if cause else _invalid_)
         C = _COMMASPACE_ if _COLON_ in t else _COLONSPACE_
         t =  C(t, x)
 #   else:  # LenError, _xzip, .dms, .heights, .vector2d
@@ -599,7 +621,7 @@ def _xcallable(**names_callables):
     '''
     for n, c in names_callables.items():
         if not callable(c):
-            raise _TypeError(n, c, txt=_not_(callable.__name__))
+            raise _TypeError(n, c, txt_not_=callable.__name__)  # txt__
 
 
 def _xdatum(datum1, datum2, Error=None):
@@ -625,7 +647,7 @@ def _xellipsoidal(**name_value):  # see _xellipsoidall elel
                     return v
             except AttributeError:
                 pass
-            raise _TypeError(n, v, txt=_not_(_ellipsoidal_))
+            raise _TypeError(n, v, txt_not_=_ellipsoidal_)
     raise _xAssertionError(_xellipsoidal, name_value)
 
 
@@ -716,7 +738,7 @@ except AttributeError:
 #         b = getattr(inst, n, None)
 #         if b is None:  # invalid bool attr
 #             t = _SPACE_(_EQUAL_(n, repr(v)), 'for', inst.__class__.__name__)  # XXX .classname
-#             raise _AttributeError(t, txt=_not_('applicable'))
+#             raise _AttributeError(t, txt_not_='applicable')
 #         if v in (False, True) and v != b:
 #             setattr(inst, NN(_UNDER_, n), v)
 
@@ -777,7 +799,7 @@ def _Xorder(_Coeffs, Error, **Xorder):  # in .auxLat, .ktm, .rhumb.bases, .rhumb
     if m in _Coeffs and _MODS.basics.isint(m):
         return m
     t = sorted(map(str, _Coeffs.keys()))
-    raise Error(X, m, txt=_not_(_or(*t)))
+    raise Error(X, m, txt_not_=_or(*t))
 
 # **) MIT License
 #

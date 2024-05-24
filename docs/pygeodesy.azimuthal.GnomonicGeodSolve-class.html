@@ -111,7 +111,7 @@
         <span class="summary-sig-arg">lat0</span>,
         <span class="summary-sig-arg">lon0</span>,
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">**name</span>)</span><br />
       New azimuthal <a 
       href="pygeodesy.azimuthal.GnomonicGeodSolve-class.html" 
       class="link">GnomonicGeodSolve</a> projection.</td>
@@ -133,8 +133,8 @@
           <td><span class="summary-sig"><a href="pygeodesy.azimuthal.GnomonicGeodSolve-class.html#forward" class="summary-sig-name">forward</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">lat</span>,
         <span class="summary-sig-arg">lon</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>,
-        <span class="summary-sig-arg">raiser</span>=<span class="summary-sig-default">True</span>)</span><br />
+        <span class="summary-sig-arg">raiser</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Convert an (ellipsoidal) geodetic location to azimuthal gnomonic 
       east- and northing.</td>
           <td align="right" valign="top">
@@ -155,9 +155,8 @@
           <td><span class="summary-sig"><a href="pygeodesy.azimuthal.GnomonicGeodSolve-class.html#reverse" class="summary-sig-name">reverse</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">x</span>,
         <span class="summary-sig-arg">y</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">**LatLon_kwds</span>)</span><br />
+        <span class="summary-sig-arg">**name_LatLon_kwds</span>)</span><br />
       Convert an azimuthal gnomonic location to (ellipsoidal) geodetic lat-
       and longitude.</td>
           <td align="right" valign="top">
@@ -191,6 +190,7 @@
       <code><a href="pygeodesy.named._Named-class.html#dup">dup</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#methodname">methodname</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#rename">rename</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#renamed">renamed</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#toStr2">toStr2</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
@@ -277,7 +277,7 @@
         <span class="sig-arg">lat0</span>,
         <span class="sig-arg">lon0</span>,
         <span class="sig-arg">datum</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">**name</span>)</span>
     <br /><em class="fname">(Constructor)</em>
   </h3>
   </td><td align="right" valign="top"
@@ -302,7 +302,8 @@
           href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
           class="link">a_f2Tuple</a>) or <i>scalar</i> earth radius 
           (<code>meter</code>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name for the projection (<code>str</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> for the projection 
+          (<code>str</code>).</li>
     </ul></dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
@@ -324,8 +325,8 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">forward</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">lat</span>,
         <span class="sig-arg">lon</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>,
-        <span class="sig-arg">raiser</span>=<span class="sig-default">True</span>)</span>
+        <span class="sig-arg">raiser</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -339,9 +340,10 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>lat</code></strong> - Latitude of the location (<code>degrees90</code>).</li>
         <li><strong class="pname"><code>lon</code></strong> - Longitude of the location (<code>degrees180</code>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name for the location (<code>str</code>).</li>
         <li><strong class="pname"><code>raiser</code></strong> - Do or don't throw an error (<code>bool</code>) if the location 
           lies over the horizon.</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> for the location 
+          (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>An <a href="pygeodesy.azimuthal.Azimuthal7Tuple-class.html" 
@@ -376,9 +378,8 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">reverse</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">x</span>,
         <span class="sig-arg">y</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">LatLon</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">**LatLon_kwds</span>)</span>
+        <span class="sig-arg">**name_LatLon_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -392,9 +393,9 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>x</code></strong> - Easting of the location (<code>meter</code>).</li>
         <li><strong class="pname"><code>y</code></strong> - Northing of the location (<code>meter</code>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name for the location (<code>str</code>).</li>
         <li><strong class="pname"><code>LatLon</code></strong> - Class to use (<code>LatLon</code>) or <code>None</code>.</li>
-        <li><strong class="pname"><code>LatLon_kwds</code></strong> - Optional, additional <b><code>LatLon</code></b> keyword 
+        <li><strong class="pname"><code>name_LatLon_kwds</code></strong> - Optional <code><b>name</b>=NN</code> for the location and 
+          optional, additional <b><code>LatLon</code></b> keyword 
           arguments, ignored if <code><b>LatLon</b> is None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -491,7 +492,7 @@ class="link">GeodesicSolve</a>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed May 15 16:10:03 2024
+    Generated by Epydoc 3.0.1 on Fri May 24 16:58:41 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -30,9 +30,9 @@ from pygeodesy.formy import antipode_, bearing_, _bearingTo2, excessAbc_, \
                             excessGirard_, excessLHuilier_, opposing_, _radical2, \
                             vincentys_
 from pygeodesy.interns import _1_, _2_, _coincident_, _composite_, _colinear_, \
-                              _concentric_, _convex_, _end_, _infinite_, _invalid_,\
-                              _line_, _near_, _not_, _null_, _parallel_, _point_, \
-                              _SPACE_, _too_
+                              _concentric_, _convex_, _end_, _infinite_, \
+                              _invalid_, _line_, _near_, _null_, _parallel_, \
+                              _point_, _SPACE_, _too_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _ALL_OTHER
 # from pygeodesy.nvectorBase import NvectorBase, sumOf  # _MODE
 from pygeodesy.namedTuples import LatLon2Tuple, LatLon3Tuple, NearestOn3Tuple, \
@@ -54,7 +54,7 @@ from pygeodesy.vector3d import sumOf, Vector3d
 from math import asin, atan2, cos, degrees, fabs, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '24.04.07'
+__version__ = '24.045.19'
 
 _PI_EPS4 = PI - EPS4
 if _PI_EPS4 >= PI:
@@ -494,7 +494,7 @@ class LatLon(LatLonSphericalBase):
                     s0 = s
                 else:
                     t = _Fmt.SQUARE(points=i)
-                    raise _ValueError(t, p2, wrap=wrap, txt=_not_(_convex_))
+                    raise _ValueError(t, p2, wrap=wrap, txt_not_=_convex_)
             gc1, v1 = gc, v2
 
         return True  # inside

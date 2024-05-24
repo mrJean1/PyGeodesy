@@ -73,7 +73,7 @@ from pygeodesy.interns import NN, _a_, _C_, _datum_, _ellipsoid_, _f_, _height_,
                              _lat_, _lon_, _M_, _name_, _singular_, _SPACE_, \
                              _x_, _xyz_, _y_, _z_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
-from pygeodesy.named import _NamedBase, _NamedTuple, _Pass, _xnamed
+from pygeodesy.named import _name__, _NamedBase, _NamedTuple, _Pass, _xnamed
 from pygeodesy.namedTuples import LatLon2Tuple, LatLon3Tuple, \
                                   PhiLam2Tuple, Vector3Tuple, Vector4Tuple
 from pygeodesy.props import deprecated_method, Property_RO, property_RO, property_doc_
@@ -86,7 +86,7 @@ from pygeodesy.utily import atan1, atan1d, atan2d, degrees90, degrees180, \
 from math import atan2, cos, degrees, fabs, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '24.05.10'
+__version__ = '24.05.21'
 
 _Ecef_    = 'Ecef'
 _prolate_ = 'prolate'
@@ -108,7 +108,7 @@ class _EcefBase(_NamedBase):
     _E     = _EWGS84
     _lon00 =  INT0  # arbitrary, "polar" lon for LocalCartesian, Ltp
 
-    def __init__(self, a_ellipsoid=_EWGS84, f=None, name=NN, lon00=INT0):
+    def __init__(self, a_ellipsoid=_EWGS84, f=None, lon00=INT0, **name):
         '''New C{Ecef*} converter.
 
            @arg a_ellipsoid: A (non-prolate) ellipsoid (L{Ellipsoid}, L{Ellipsoid2},
@@ -117,9 +117,9 @@ class _EcefBase(_NamedBase):
            @kwarg f: C{None} or the ellipsoid flattening (C{scalar}), required
                      for C{scalar} B{C{a_ellipsoid}}, C{B{f}=0} represents a
                      sphere, negative B{C{f}} a prolate ellipsoid.
-           @kwarg name: Optional name (C{str}).
            @kwarg lon00: An arbitrary, I{"polar"} longitude (C{degrees}), see the
-                         methods C{reverse}.
+                         C{reverse} method.
+           @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @raise EcefError: If B{C{a_ellipsoid}} not L{Ellipsoid}, L{Ellipsoid2},
                              L{Datum} or L{a_f2Tuple} or C{scalar} or B{C{f}} not
@@ -136,7 +136,7 @@ class _EcefBase(_NamedBase):
                 raise ValueError  # _invalid_
 
             if E not in (_EWGS84, _WGS84):
-                d = _ellipsoidal_datum(E, name=name)
+                d = _ellipsoidal_datum(E, **name)
                 E =  d.ellipsoid
                 if E.a < EPS or E.f > EPS1:
                     raise ValueError  # _invalid_
@@ -211,7 +211,7 @@ class _EcefBase(_NamedBase):
                                              0, m, self.datum,
                                              name=name or self.name)
 
-    def forward(self, latlonh, lon=None, height=0, M=False, name=NN):
+    def forward(self, latlonh, lon=None, height=0, M=False, **name):
         '''Convert from geodetic C{(lat, lon, height)} to geocentric C{(x, y, z)}.
 
            @arg latlonh: Either a C{LatLon}, an L{Ecef9Tuple} or C{scalar}
@@ -221,7 +221,7 @@ class _EcefBase(_NamedBase):
            @kwarg height: Optional height (C{meter}), vertically above (or below)
                           the surface of the ellipsoid.
            @kwarg M: Optionally, return the rotation L{EcefMatrix} (C{bool}).
-           @kwarg name: Optional name (C{str}).
+           @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @return: An L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M, datum)} with
                     geocentric C{(x, y, z)} coordinates for the given geodetic ones
@@ -235,10 +235,10 @@ class _EcefBase(_NamedBase):
            @note: Use method C{.forward_} to specify C{lat} and C{lon} in C{radians}
                   and avoid double angle conversions.
         '''
-        llhn = _llhn4(latlonh, lon, height, name=name)
+        llhn = _llhn4(latlonh, lon, height, **name)
         return self._forward(*llhn, M=M)
 
-    def forward_(self, phi, lam, height=0, M=False, name=NN):
+    def forward_(self, phi, lam, height=0, M=False, **name):
         '''Like method C{.forward} except with geodetic lat- and longitude given
            in I{radians}.
 
@@ -247,7 +247,7 @@ class _EcefBase(_NamedBase):
            @kwarg height: Optional height (C{meter}), vertically above (or below)
                           the surface of the ellipsoid.
            @kwarg M: Optionally, return the rotation L{EcefMatrix} (C{bool}).
-           @kwarg name: Optional name (C{str}).
+           @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @return: An L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M, datum)}
                     with C{lat} set to C{degrees90(B{phi})} and C{lon} to
@@ -255,8 +255,8 @@ class _EcefBase(_NamedBase):
 
            @raise EcefError: If B{C{phi}} or B{C{lam}} invalid or not C{scalar}.
         '''
-        try:  # like function C{_llhn4} above
-            plhn = Phi(phi), Lam(lam), Height(height), name
+        try:  # like function C{_llhn4} below
+            plhn = Phi(phi), Lam(lam), Height(height), _name__(name)
         except (TypeError, ValueError) as x:
             raise EcefError(phi=phi, lam=lam, height=height, cause=x)
         return self._forward(*plhn, M=M, _philam=True)
@@ -1272,25 +1272,24 @@ def _4Ecef(this, Ecef):  # in .datums.Datum.ecef, .ellipsoids.Ellipsoid.ecef
     return Ecef(this, name=this.name)
 
 
-def _llhn4(latlonh, lon, height, suffix=NN, Error=EcefError, name=NN):  # in .ltp
+def _llhn4(latlonh, lon, height, suffix=NN, Error=EcefError, **name):  # in .ltp
     '''(INTERNAL) Get a C{(lat, lon, h, name)} 4-tuple.
     '''
     try:
         lat, lon = latlonh.lat, latlonh.lon
         h = _xattr(latlonh, height=_xattr(latlonh, h=height))
-        n = _xattr(latlonh, name=NN)
+        n = _name__(name, _or_nameof=latlonh)  # == latlonh._name__(name)
     except AttributeError:
-        lat, h, n = latlonh, height, NN
+        lat, h, n = latlonh, height, _name__(**name)
 
     try:
-        llhn = Lat(lat), Lon(lon), Height(h), (name or n)
+        return Lat(lat), Lon(lon), Height(h), n
     except (TypeError, ValueError) as x:
         t = _lat_, _lon_, _height_
         if suffix:
             t = (_ + suffix for _ in t)
         d = dict(zip(t, (lat, lon, h)))
         raise Error(cause=x, **d)
-    return llhn
 
 
 def _xEcef(Ecef):  # PYCHOK .latlonBase
@@ -1302,22 +1301,22 @@ def _xEcef(Ecef):  # PYCHOK .latlonBase
 
 
 # kwd lon00 unused but will throw a TypeError if misspelled, etc.
-def _xyzn4(xyz, y, z, Types, Error=EcefError, name=NN,   # PYCHOK unused
-                     _xyz_y_z_names=_xyz_y_z, lon00=0):  # in .ltp
+def _xyzn4(xyz, y, z, Types, Error=EcefError, lon00=0,  # PYCHOK unused
+                     _xyz_y_z_names=_xyz_y_z, **name):  # in .ltp
     '''(INTERNAL) Get an C{(x, y, z, name)} 4-tuple.
     '''
     try:
+        n = _name__(name, _or_nameof=xyz)  # == xyz._name__(name)
         try:
-            t = xyz.x, xyz.y, xyz.z, _xattr(xyz, name=name)
+            t = xyz.x, xyz.y, xyz.z, n
             if not isinstance(xyz, Types):
                 raise _TypesError(_xyz_y_z_names[0], xyz, *Types)
         except AttributeError:
-            t = map1(float, xyz, y, z) + (name,)
-
+            t = map1(float, xyz, y, z) + (n,)
+        return t
     except (TypeError, ValueError) as x:
         d = dict(zip(_xyz_y_z_names, (xyz, y, z)))
         raise Error(cause=x, **d)
-    return t
 # assert _xyz_y_z == _MODS.basics._args_kwds_names(_xyzn4)[:3]
 
 

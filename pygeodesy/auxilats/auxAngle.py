@@ -14,16 +14,15 @@ under the MIT/X11 License.  For more information, see the U{GeographicLib
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.auxilats.auxily import Aux, _Aux2Greek,  AuxError
-from pygeodesy.basics import _xinstanceof,  _xkwds_get
+from pygeodesy.auxilats.auxily import Aux, _Aux2Greek
+from pygeodesy.basics import _xinstanceof
 from pygeodesy.constants import EPS, _INF_NAN_NINF, MAX, NAN, _0_0, _0_5, _1_0, \
                                _copysign_1_0, _over, _pos_self, isfinite, isnan
-# from pygeodesy.errors import AuxError, _xkwds_get  # from .auxily, .basics
+from pygeodesy.errors import AuxError, _UnexpectedError, _xkwds_pop2
 from pygeodesy.fmath import hypot,  unstr
-from pygeodesy.fsums import _add_op_, _iadd_op_, _isub_op_, _sub_op_,  _Named, NN
-# from pygeodesy.interns import NN  # from .fsums
-# from pygeodesy.named import _Named  # from .fsums
-from pygeodesy.lazily import _ALL_DOCS, _ALL_MODS as _MODS
+from pygeodesy.fsums import _add_op_, _iadd_op_, _isub_op_, _sub_op_
+from pygeodesy.named import _name2__, _Named,  _ALL_DOCS, _MODS
+# from pygeodesy.lazily import _ALL_DOCS, _ALL_MODS as _MODS  # from .named
 from pygeodesy.props import Property, Property_RO, property_RO, _update_all
 # from pygeodesy.streprs import unstr  # from .fmath
 from pygeodesy.units import Degrees, Radians
@@ -32,7 +31,7 @@ from pygeodesy.utily import atan2d, sincos2, sincos2d
 from math import asinh, atan2, copysign, degrees, fabs, radians, sinh
 
 __all__ = ()
-__version__ = '24.04.26'
+__version__ = '24.05.24'
 
 _0_INF_NAN_NINF = (0, _0_0) + _INF_NAN_NINF
 _MAX_2          =  MAX * _0_5  # PYCHOK used!
@@ -49,18 +48,18 @@ class AuxAngle(_Named):
     _y    = _0_0
     _x    = _1_0
 
-    def __init__(self, y_angle=_0_0, x=_1_0, name=NN, **aux):
+    def __init__(self, y_angle=_0_0, x=_1_0, **aux_name):
         '''New L{AuxAngle}.
 
            @kwarg y_angle: The Y component (C{scalar}, including C{INF}, C{NAN}
                            and C{NINF}) or a previous L{AuxAngle} instance.
            @kwarg x: The X component, ignored if C{B{y_angle}} is non-C{scalar}.
-           @kwarg name: Optional name (C{str}).
-           @kwarg aux: I{Auxiliary} kind (C{Aux.KIND}), ignored if B{C{y_angle}}
-                       is non-C{scalar}.
+           @kwarg aux_name: Optional C{B{name}=NN} (C{str}) and I{Auxiliary} kind
+                      (C{B{aux}=Aux.KIND}), ignored if B{C{y_angle}} is L{AuxAngle}.
 
            @raise AuxError: Invalid B{C{y_angle}}, B{C{x}} or B{C{aux}}.
         '''
+        name, aux = _name2__(**aux_name)
         try:
             yx = y_angle._yx
             if self._AUX is None:
@@ -70,11 +69,13 @@ class AuxAngle(_Named):
         except AttributeError:
             yx = y_angle, x
             if aux:
-                aux = _xkwds_get(aux, aux=self._AUX)
-                if self._AUX is not aux:
-                    if aux not in _AUXClass:
-                        raise AuxError(aux=aux)
-                    self._AUX = aux
+                a, kwds = _xkwds_pop2(aux, aux=self._AUX)
+                if kwds:
+                    raise _UnexpectedError(**kwds)
+                if a is not self._AUX:
+                    if a not in _AUXClass:
+                        raise AuxError(aux=a)
+                    self._AUX = a
         self._y, self._x = _yx2(yx)
         if name:
             self.name = name
@@ -428,16 +429,16 @@ class AuxBeta(AuxAngle):
     _AUX = Aux.BETA
 
     @staticmethod
-    def fromDegrees(deg, name=NN):
+    def fromDegrees(deg, **name):
         '''Get an L{AuxBeta} from degrees.
         '''
-        return AuxBeta(*sincos2d(deg), name=name)
+        return AuxBeta(*sincos2d(deg), **name)
 
     @staticmethod
-    def fromRadians(rad, name=NN):
+    def fromRadians(rad, **name):
         '''Get an L{AuxBeta} from radians.
         '''
-        return AuxBeta(*sincos2(rad), name=name)
+        return AuxBeta(*sincos2(rad), **name)
 
 
 class AuxChi(AuxAngle):
@@ -446,10 +447,10 @@ class AuxChi(AuxAngle):
     _AUX = Aux.CHI
 
     @staticmethod
-    def fromDegrees(deg, name=NN):
+    def fromDegrees(deg, **name):
         '''Get an L{AuxChi} from degrees.
         '''
-        return AuxChi(*sincos2d(deg), name=name)
+        return AuxChi(*sincos2d(deg), **name)
 
 
 class AuxMu(AuxAngle):
@@ -458,10 +459,10 @@ class AuxMu(AuxAngle):
     _AUX = Aux.MU
 
     @staticmethod
-    def fromDegrees(deg, name=NN):
+    def fromDegrees(deg, **name):
         '''Get an L{AuxMu} from degrees.
         '''
-        return AuxMu(*sincos2d(deg), name=name)
+        return AuxMu(*sincos2d(deg), **name)
 
 
 class AuxPhi(AuxAngle):
@@ -471,10 +472,10 @@ class AuxPhi(AuxAngle):
     _diff = _1_0  # see .auxLat._Newton
 
     @staticmethod
-    def fromDegrees(deg, name=NN):
+    def fromDegrees(deg, **name):
         '''Get an L{AuxPhi} from degrees.
         '''
-        return AuxPhi(*sincos2d(deg), name=name)
+        return AuxPhi(*sincos2d(deg), **name)
 
 
 class AuxTheta(AuxAngle):
@@ -483,10 +484,10 @@ class AuxTheta(AuxAngle):
     _AUX = Aux.THETA
 
     @staticmethod
-    def fromDegrees(deg, name=NN):
+    def fromDegrees(deg, **name):
         '''Get an L{AuxTheta} from degrees.
         '''
-        return AuxTheta(*sincos2d(deg), name=name)
+        return AuxTheta(*sincos2d(deg), **name)
 
 
 class AuxXi(AuxAngle):
@@ -495,10 +496,10 @@ class AuxXi(AuxAngle):
     _AUX = Aux.XI
 
     @staticmethod
-    def fromDegrees(deg, name=NN):
+    def fromDegrees(deg, **name):
         '''Get an L{AuxXi} from degrees.
         '''
-        return AuxXi(*sincos2d(deg), name=name)
+        return AuxXi(*sincos2d(deg), **name)
 
 
 _AUXClass = {Aux.BETA:  AuxBeta,

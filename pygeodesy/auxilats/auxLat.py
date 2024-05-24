@@ -22,16 +22,17 @@ from pygeodesy.basics import _reverange, _xinstanceof,  _passarg
 from pygeodesy.constants import INF, MAX_EXP, MIN_EXP, NAN, PI_2, PI_4, _EPSqrt, \
                                _0_0, _0_0s, _0_1, _0_25, _0_5, _1_0, _2_0, _3_0, \
                                _360_0, isfinite, isinf, isnan, _log2, _over
-from pygeodesy.datums import _ellipsoidal_datum, _WGS84,  Ellipsoid
+from pygeodesy.datums import _ellipsoidal_datum, _WGS84,  Ellipsoid, _name__
 # from pygeodesy.ellipsoids import Ellipsoid  # from .datums
 from pygeodesy.elliptic import Elliptic as _Ef
-from pygeodesy.errors import AuxError, _xkwds, _xkwds_get, _Xorder
+from pygeodesy.errors import AuxError, _xkwds_not, _xkwds_pop2, _Xorder
 # from pygeodesy.fmath import cbrt  # from .karney
 from pygeodesy.fsums import Fsum, _Fsumf_, _sum
-from pygeodesy.karney import _2cos2x, _polynomial,  _ALL_DOCS, cbrt, _MODS
 # from pygeodesy.internals import _passarg  # from .basics
-from pygeodesy.interns import NN, _DOT_, _UNDER_  # _earth_
+from pygeodesy.interns import NN, _DOT_, _not_scalar_, _UNDER_
+from pygeodesy.karney import _2cos2x, _polynomial,  _ALL_DOCS, cbrt, _MODS
 # from pygeodesy.lazily import _ALL_DOCS, _ALL_MODS as _MODS  # from .karney
+# from pygeodesy.named import _name__  # from .datums
 from pygeodesy.props import Property, Property_RO, _update_all
 from pygeodesy.units import _isDegrees, _isRadius, Degrees, Meter
 # from pygeodesy.utily import atan1  # from .auxily
@@ -45,7 +46,7 @@ except ImportError:  # Python 3.11-
         return pow(_2_0, x)
 
 __all__ = ()
-__version__ = '24.04.14'
+__version__ = '24.05.24'
 
 _TRIPS = 1024  # XXX 2 or 3?
 
@@ -67,7 +68,7 @@ class AuxLat(AuxAngle):
 #   _Lmax =  0       # overwritten below
     _mAL  =  6       # 4, 6 or 8 aka Lmax
 
-    def __init__(self, a_earth=_WGS84, f=None, b=None, name=NN, **ALorder):
+    def __init__(self, a_earth=_WGS84, f=None, b=None, **ALorder_name):
         '''New L{AuxLat} instance on an ellipsoid or datum.
 
            @arg a_earth: Equatorial radius, semi-axis (C{meter}) or an
@@ -78,28 +79,35 @@ class AuxLat(AuxAngle):
            @kwarg b: Optional polar radius, semi-axis (C{meter}, same
                      units as B{C{a_earth}}), ignored if B{C{a_earth}}
                      is not scalar.
-           @kwarg ALorder: Optional keyword arguments B{C{ALorder}} to
-                           set L{AuxLat}'s C{order}, see property
-                           C{ALorder}.
-           @kwarg name: Optional name (C{str}).
+           @kwarg ALorder_name: Optional C{B{name}=NN} (C{str}) and optional
+                          keyword argument C{B{ALorder}=6} for the order of
+                          this L{AuxLat}, see property C{ALorder}.
         '''
-        if a_earth is not _WGS84:
-            n = name or AuxLat.__name__
-            try:
+        if ALorder_name:
+            M = self._mAL
+            m, name = _xkwds_pop2(ALorder_name, ALorder=M)
+            if m != M:
+                self.ALorder = m
+        else:
+            name = NN
+        try:
+            if a_earth is not _WGS84:
+                n = _name__(name, name__=AuxLat)
                 if b is f is None:
                     E = _ellipsoidal_datum(a_earth, name=n).ellipsoid  # XXX raiser=_earth_
                 elif _isRadius(a_earth):
-                    E =  Ellipsoid(a_earth, f=f, b=b, name=_UNDER_(n))
+                    E =  Ellipsoid(a_earth, f=f, b=b, name=_UNDER_(NN, n))
                 else:
-                    raise ValueError()
-            except Exception as x:
-                raise AuxError(a_earth=a_earth, f=f, b=b, cause=x)
-            self._E = E
+                    raise ValueError(_not_scalar_)
+                self._E = E
+            elif not (b is f is None):
+                # _UnexpectedError into AuxError
+                name = _name__(name, **_xkwds_not(None, b=b, f=f))
 
-        if name:
-            self.name = name
-        if ALorder:
-            self.ALorder = _xkwds_get(ALorder, ALorder=AuxLat._mAL)
+            if name:
+                self.name = name
+        except Exception as x:
+            raise AuxError(a_earth=a_earth, f=f, b=b, cause=x)
 
     @Property_RO
     def a(self):
@@ -137,6 +145,8 @@ class AuxLat(AuxAngle):
         '''Convert I{Geographic} to I{Aunthalic} latitude.
 
            @arg Phi: Geographic latitude (L{AuxAngle}).
+           @kwarg diff_name: Use C{B{diff}=True} to set C{diff}
+                             optional C{B{name}=NN}.
 
            @return: Parametric latitude, C{Beta} (L{AuxAngle}).
         '''
@@ -144,15 +154,15 @@ class AuxLat(AuxAngle):
         # assert Phi._AUX == Aux.PHI
         tphi = fabs(Phi.tan)
         if isfinite(tphi) and tphi and self.f:
-            y, x = Phi._yx_normalized
-            q    = self._q
-            qv   = self._qf(tphi)
-            Dq2  = self._Dq(tphi)
+            y, x =  Phi._yx_normalized
+            q    =  self._q
+            qv   =  self._qf(tphi)
+            Dq2  =  self._Dq(tphi)
             Dq2 *= (q + qv) / (fabs(y) + _1_0)  # _Dq(-tphi)
-            Xi   = AuxXi(copysign(qv, Phi.y), x * sqrt(Dq2),
-                         name=_xkwds_get(diff_name, name=Phi.name))
+            d, n = _diff_name2(Phi, **diff_name)
+            Xi   =  AuxXi(copysign(qv, Phi.y), x * sqrt(Dq2), name=n)
 
-            if _xkwds_get(diff_name, diff=False):
+            if d:
                 if isnan(tphi):
                     d = self._e2m1_sq2
                 else:
@@ -247,6 +257,8 @@ class AuxLat(AuxAngle):
         '''Convert I{Geographic} to I{Conformal} latitude.
 
            @arg Phi: Geographic latitude (L{AuxAngle}).
+           @kwarg diff_name: Use C{B{diff}=True} to set C{diff}
+                             and an optional C{B{name}=NN}.
 
            @return: Conformal latitude, C{Chi} (L{AuxAngle}).
         '''
@@ -300,10 +312,10 @@ class AuxLat(AuxAngle):
             else:
                 tchi =  tphi * scsig - sig * scphi
 
-        n = _xkwds_get(diff_name, name=Phi.name)
-        Chi = AuxChi(tchi, name=n).copyquadrant(Phi)
+        d, n = _diff_name2(Phi, **diff_name)
+        Chi  =  AuxChi(tchi, name=n).copyquadrant(Phi)
 
-        if _xkwds_get(diff_name, diff=False):
+        if d:
             if isinf(tphi):  # PYCHOK np cover
                 d = self._conformal_diff
             else:
@@ -459,12 +471,13 @@ class AuxLat(AuxAngle):
         '''Convert I{Auxiliary} to I{Geographic} latitude.
 
            @arg Zeta: Auxiliary latitude (L{AuxAngle}).
+           @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @return: Geographic latitude, I{Phi} (L{AuxAngle}).
         '''
         _xinstanceof(AuxAngle, Zeta=Zeta)
         aux =  Zeta._AUX
-        n   = _xkwds_get(name, name=Zeta.name)
+        n   = _name__(name, _or_nameof=Zeta)
         f   =  self._fromAuxCase.get(aux, None)
         if f is None:
             Phi = AuxPhi(NAN, name=n)
@@ -493,27 +506,31 @@ class AuxLat(AuxAngle):
         '''Convert I{Geographic} to I{Geocentric} latitude.
 
            @arg Phi: Geographic latitude (L{AuxAngle}).
+           @kwarg diff_name: Use C{B{diff}=True} to set C{diff}
+                             and an optional C{B{name}=NN}.
 
            @return: Geocentric latitude, C{Phi} (L{AuxAngle}).
         '''
         _xinstanceof(AuxAngle, Phi=Phi)
         # assert Phi._AUX == Aux.PHI
-        Theta = AuxTheta(Phi.y * self._e2m1, Phi.x,
-                         name=_xkwds_get(diff_name, name=Phi.name))
-        if _xkwds_get(diff_name, diff=False):
+        d, n  = _diff_name2(Phi, **diff_name)
+        Theta =  AuxTheta(Phi.y * self._e2m1, Phi.x, name=n)
+        if d:
             Theta._diff = self._e2m1
         return Theta
 
-    def Geodetic(self, Phi, **diff_name):  # PYCHOK no cover
+    def Geodetic(self, Phi, **name):  # PYCHOK no cover
         '''Convert I{Geographic} to I{Geodetic} latitude.
 
            @arg Phi: Geographic latitude (L{AuxAngle}).
+           @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @return: Geodetic latitude, C{Phi} (L{AuxAngle}).
         '''
         _xinstanceof(AuxAngle, Phi=Phi)
         # assert Phi._AUX == Aux.PHI
-        return AuxPhi(Phi, name=_xkwds_get(diff_name, name=Phi.name))
+        _, n = _diff_name2(Phi, **name)
+        return AuxPhi(Phi, name=n)
 
     @Property_RO
     def _n(self):  # 3rd flattening
@@ -527,14 +544,16 @@ class AuxLat(AuxAngle):
         '''Convert I{Geographic} to I{Parametric} latitude.
 
            @arg Phi: Geographic latitude (L{AuxAngle}).
+           @kwarg diff_name: Use C{B{diff}=True} to set C{diff}
+                             and an optional C{B{name}=NN}.
 
            @return: Parametric latitude, C{Beta} (L{AuxAngle}).
         '''
         _xinstanceof(AuxAngle, Phi=Phi)
         # assert Phi._AUX == Aux.PHI
-        Beta = AuxBeta(Phi.y * self._fm1, Phi.x,
-                       name=_xkwds_get(diff_name, name=Phi.name))
-        if _xkwds_get(diff_name, diff=False):
+        d, n = _diff_name2(Phi, **diff_name)
+        Beta =  AuxBeta(Phi.y * self._fm1, Phi.x, name=n)
+        if d:
             Beta._diff = self._fm1
         return Beta
 
@@ -584,6 +603,8 @@ class AuxLat(AuxAngle):
         '''Convert I{Geographic} to I{Rectifying} latitude.
 
            @arg Phi: Geographic latitude (L{AuxAngle}).
+           @kwarg diff_name: Use C{B{diff}=True} to set C{diff}
+                             and an optional C{B{name}=NN}.
 
            @return: Rectifying latitude, C{Mu} (L{AuxAngle}).
         '''
@@ -625,11 +646,10 @@ class AuxLat(AuxAngle):
             mx = sin(mx / mr)  # XXX zero?
         else:  # zero Mu
             my, mx = _0_0, _1_0
-        n  = _xkwds_get(diff_name, name=Phi.name)
-        Mu =  AuxMu(my, mx,  # normalized
-                    name=n).copyquadrant(Phi)
-
-        if _xkwds_get(diff_name, diff=False):
+        d, n = _diff_name2(Phi, **diff_name)
+        Mu   =  AuxMu(my, mx,  # normalized
+                      name=n).copyquadrant(Phi)
+        if d:
             d, x = _0_0, Beta._x_normalized
             if x and mr:
                 if Mu.x and Phi.x and not isinf(Phi.tan):
@@ -650,7 +670,7 @@ class AuxLat(AuxAngle):
                     as the ellipsoid axes).
         '''
         r = self._Ef_fRG_a2b2_PI_4 if exact else self._RectifyingR
-        return Meter(r, name=self.RectifyingRadius.__name__)
+        return Meter(r, name__=self.RectifyingRadius)
 
     @Property_RO
     def _RectifyingR(self):
@@ -666,15 +686,17 @@ class AuxLat(AuxAngle):
 
            @arg auxout: I{Auxiliary} kind (C{Aux.KIND}).
            @arg Phi: Geographic latitude (L{AuxLat}).
+           @kwarg diff_name: Use C{B{diff}=True} to set C{diff}
+                             and an optional C{B{name}=NN}.
 
            @return: Auxiliary latitude, I{Eta} (L{AuxLat}).
         '''
         _xinstanceof(AuxAngle, Phi=Phi)
         # assert Phi._AUX == Aux.PHI
-        n = _xkwds_get(diff_name, name=Phi.name)
-        m = _toAuxCase.get(auxout, None)
+        d, n = _diff_name2(Phi, **diff_name)
+        m    = _toAuxCase.get(auxout, None)
         if m:  # callable
-            A = m(self, Phi, **_xkwds(diff_name, name=n))
+            A = m(self, Phi, diff=d, name=n)
         elif auxout == Aux.GEODETIC:  # == GEOGRAPHIC
             A = AuxPhi(Phi, name=n)
         else:  # auxout?
@@ -756,8 +778,15 @@ def _CXcoeffs(aL):  # PYCHOK in .auxilats.__main__
     return _coeffs
 
 
+def _diff_name2(Phi, diff=False, **name):
+    '''(INTERNAL) Get C{{Bdiff}=False} and C{B{name}=NN}.
+    '''
+    n = _name__(name, _or_nameof=Phi)  # if name else Phi.name
+    return diff, n
+
+
 def _Newton(tphi, Zeta, _toZeta, **name):
-    # Newton's method fro AuxLat._fromAux
+    # Newton's method from AuxLat._fromAux
     try:
         _lg2  = _log2
         _abs  =  fabs

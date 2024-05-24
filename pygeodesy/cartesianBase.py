@@ -21,10 +21,10 @@ from pygeodesy.errors import _IsnotError, _TypeError, _ValueError, \
 from pygeodesy.fmath import cbrt, hypot, hypot_, hypot2,  fabs, sqrt  # hypot
 # from pygeodesy.formy import _hartzell  # _MODS
 from pygeodesy.fsums import fsumf_,  Fmt
-from pygeodesy.interns import NN, _COMMASPACE_, _phi_  # _not_
+from pygeodesy.interns import _COMMASPACE_, _phi_
 from pygeodesy.interns import _ellipsoidal_, _spherical_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
-from pygeodesy.named import _NamedTuple, _Pass
+from pygeodesy.named import _name__, _name2__, _NamedTuple, _Pass
 from pygeodesy.namedTuples import LatLon4Tuple, Vector3Tuple, Vector4Tuple, \
                                   Bearing2Tuple  # PYCHOK .sphericalBase
 # from pygeodesy.nvectorBase import _N_vector  # _MODS
@@ -43,7 +43,7 @@ from pygeodesy.vector3d import Vector3d, _xyzhdn3
 # from math import atan2, degrees, fabs, radians, sqrt  # from .fmath, .utily
 
 __all__ = _ALL_LAZY.cartesianBase
-__version__ = '24.02.22'
+__version__ = '24.05.24'
 
 _r_     = 'r'
 _theta_ = 'theta'
@@ -55,7 +55,7 @@ class CartesianBase(Vector3d):
     _datum  = None  # L{Datum}, to be overriden
     _height = None  # height (L{Height}), set or approximated
 
-    def __init__(self, x_xyz, y=None, z=None, datum=None, ll=None, name=NN):
+    def __init__(self, x_xyz, y=None, z=None, datum=None, ll=None, **name):
         '''New C{Cartesian...}.
 
            @arg x_xyz: Cartesian X coordinate (C{scalar}) or a C{Cartesian},
@@ -67,15 +67,15 @@ class CartesianBase(Vector3d):
            @kwarg datum: Optional datum (L{Datum}, L{Ellipsoid}, L{Ellipsoid2}
                          or L{a_f2Tuple}).
            @kwarg ll: Optional, original latlon (C{LatLon}).
-           @kwarg name: Optional name (C{str}).
+           @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @raise TypeError: Non-scalar B{C{x_xyz}}, B{C{y}} or B{C{z}} coordinate
                              or B{C{x_xyz}} not a C{Cartesian}, L{Ecef9Tuple},
                              L{Vector3Tuple} or L{Vector4Tuple} or B{C{datum}} is
                              not a L{Datum}.
         '''
-        h, d, n = _xyzhdn3(x_xyz, None, datum, ll)
-        Vector3d.__init__(self, x_xyz, y=y, z=z, ll=ll, name=name or n)
+        h, d, n = _xyzhdn3(x_xyz, None, datum, ll, **name)
+        Vector3d.__init__(self, x_xyz, y=y, z=z, ll=ll, name=n)
         if h is not None:
             self._height = Height(h)
         if d is not None:
@@ -325,7 +325,7 @@ class CartesianBase(Vector3d):
         try:
             r = self.datum.ellipsoid.height4(self, normal=True)
         except (AttributeError, ValueError):  # no datum, null cartesian,
-            r = Vector4Tuple(self.x, self.y, self.z, 0, name=self.height4.__name__)
+            r = Vector4Tuple(self.x, self.y, self.z, 0, name__=self.height4)
         return r
 
     def height4(self, earth=None, normal=True, **Cartesian_and_kwds):
@@ -840,7 +840,7 @@ class CartesianBase(Vector3d):
         else:
             # if inverse and d != _WGS84:
             #     raise _ValueError(inverse=inverse, datum=d,
-            #                       txt=_not_(_WGS84.name))
+            #                       txt_not_=_WGS84.name)
             xyz = transform.transform(*self.xyz, inverse=inverse)
             c = self.dup(xyz=xyz, datum=datum or self.datum)
         return c
@@ -871,12 +871,12 @@ class RadiusThetaPhi3Tuple(_NamedTuple):
     _Names_ = (_r_,    _theta_, _phi_)
     _Units_ = ( Meter, _Pass,   _Pass)
 
-    def toCartesian(self, name=NN, **Cartesian_and_kwds):
+    def toCartesian(self, **name_Cartesian_and_kwds):
         '''Convert this L{RadiusThetaPhi3Tuple} to a cartesian C{(x, y, z)} vector.
 
-           @kwarg name: Optional name (C{str}), overriding this name.
-           @kwarg Cartesian_and_kwds: Optional C{B{Cartesian}=None} class and additional
-                            C{B{Cartesian}} keyword arguments.
+           @kwarg name_Cartesian_and_kwds: Optional C{B{name}=NN}, overriding this
+                       name and optional class C{B{Cartesian}=None} and additional
+                       C{B{Cartesian}} keyword arguments.
 
            @return: A C{B{Cartesian}(x, y, z)} instance or if no C{B{Cartesian}} keyword
                     argument is given, a L{Vector3Tuple}C{(x, y, z)} with C{x}, C{y}
@@ -886,9 +886,10 @@ class RadiusThetaPhi3Tuple(_NamedTuple):
         '''
         r, t, p =  self
         t, p, _ = _toRadians(self, t, p)
-        return rtp2xyz_(r, t, p, name=name or self.name, **Cartesian_and_kwds)
+        n, kwds = _name2__(name_Cartesian_and_kwds, _or_nameof=self)
+        return rtp2xyz_(r, t, p, name=n, **kwds)
 
-    def toDegrees(self, name=NN):
+    def toDegrees(self, **name):
         '''Convert this L{RadiusThetaPhi3Tuple}'s angles to L{Degrees}.
 
            @kwarg name: Optional name (C{str}), overriding this name.
@@ -899,20 +900,20 @@ class RadiusThetaPhi3Tuple(_NamedTuple):
         r, t, p =  self
         t, p, _ = _toDegrees(self, t, p)
         return _ or self.classof(r, Degrees(theta=t), Degrees(phi=p),
-                                    name=name or self.name)
+                                    name=_name__(name, _or_nameof=self))
 
-    def toRadians(self, name=NN):
+    def toRadians(self, **name):
         '''Convert this L{RadiusThetaPhi3Tuple}'s angles to L{Radians}.
 
-           @kwarg name: Optional name (C{str}), overriding this name.
+           @kwarg name: Optional, overriding C{B{name}=NN} (C{str}).
 
-           @return: L{RadiusThetaPhi3Tuple}C{(r, theta, phi)} with C{theta}
-                    and C{phi} both in L{Radians}.
+           @return: L{RadiusThetaPhi3Tuple}C{(r, theta, phi)} with
+                    C{theta} and C{phi} both in L{Radians}.
         '''
         r, t, p =  self
         t, p, _ = _toRadians(self, t, p)
         return _ or self.classof(r, Radians(theta=t), Radians(phi=p),
-                                    name=name or self.name)
+                                    name=_name__(name, _or_nameof=self))
 
 
 def rtp2xyz(r_rtp, *theta_phi, **name_Cartesian_and_kwds):
@@ -974,8 +975,9 @@ def rtp2xyz_(r_rtp, *theta_phi, **name_Cartesian_and_kwds):
         else:
             x = y = z = r
 
-        def _n_C_kwds3(name=NN, Cartesian=None, **kwds):
-            return name, Cartesian, kwds
+        def _n_C_kwds3(Cartesian=None, **name_kwds):
+            n, kwds = _name2__(**name_kwds)
+            return n, Cartesian, kwds
 
         n, C, kwds = _n_C_kwds3(**name_Cartesian_and_kwds)
         c = Vector3Tuple(x, y, z, name=n) if C is None else \

@@ -71,10 +71,10 @@ from pygeodesy.datums import _ellipsoidal_datum, _WGS84,  _EWGS84
 # from pygeodesy.ellipsoids import _EWGS84  # from .datums
 from pygeodesy.elliptic import _ALL_LAZY, Elliptic
 # from pygeodesy.errors import _incompatible  # from .named
-from pygeodesy.fmath import cbrt, hypot, hypot1, hypot2
-from pygeodesy.fsums import Fsum, fsum1f_
-from pygeodesy.interns import NN, _COMMASPACE_, _DASH_, _near_, _SPACE_, \
-                             _spherical_
+# from pygeodesy.fsums import Fsum  # from .fmath
+from pygeodesy.fmath import cbrt, hypot, hypot1, hypot2,  Fsum
+from pygeodesy.interns import _COMMASPACE_, _DASH_, _near_, _SPACE_, \
+                              _spherical_
 from pygeodesy.karney import _copyBit, _diff182, _fix90, _norm2, _norm180, \
                              _tand, _unsigned2
 # from pygeodesy.lazily import _ALL_LAZY  # from .elliptic
@@ -92,7 +92,7 @@ from pygeodesy.utm import _cmlon, _LLEB, _parseUTM5, _toBand, _toXtm8, \
 from math import asinh, atan2, degrees, radians, sinh, sqrt
 
 __all__ = _ALL_LAZY.etm
-__version__ = '24.05.13'
+__version__ = '24.05.24'
 
 _OVERFLOW = _1_EPS**2  # about 2e+31
 _TAYTOL   =  pow(EPS, 0.6)
@@ -157,13 +157,13 @@ class Etm(Utm):
         self._exactTM = exactTM
         self._scale0  = exactTM.k0
 
-    def parse(self, strETM, name=NN):
+    def parse(self, strETM, **name):
         '''Parse a string to a similar L{Etm} instance.
 
-           @arg strETM: The ETM coordinate (C{str}),
-                        see function L{parseETM5}.
-           @kwarg name: Optional instance name (C{str}),
-                        overriding this name.
+           @arg strETM: The ETM coordinate (C{str}), see function
+                        L{parseETM5}.
+           @kwarg name: Optional C{B{name}=NN} (C{str}), overriding
+                        this name.
 
            @return: The instance (L{Etm}).
 
@@ -173,7 +173,7 @@ class Etm(Utm):
                  and L{pygeodesy.parseUTMUPS5}.
         '''
         return parseETM5(strETM, datum=self.datum, Etm=self.classof,
-                                 name=name or self.name)
+                                 name=self._name__(name))
 
     @deprecated_method
     def parseETM(self, strETM):  # PYCHOK no cover
@@ -247,7 +247,7 @@ class ExactTransverseMercator(_NamedBase):
     _sigmaC    =  None        # most recent _sigmaInv04 case C{int}
     _zetaC     =  None        # most recent _zetaInv04 case C{int}
 
-    def __init__(self, datum=_WGS84, lon0=0, k0=_K0_UTM, extendp=False, name=NN, raiser=False):
+    def __init__(self, datum=_WGS84, lon0=0, k0=_K0_UTM, extendp=False, raiser=False, **name):
         '''New L{ExactTransverseMercator} projection.
 
            @kwarg datum: The I{non-spherical} datum or ellipsoid (L{Datum},
@@ -255,8 +255,8 @@ class ExactTransverseMercator(_NamedBase):
            @kwarg lon0: Central meridian, default (C{degrees180}).
            @kwarg k0: Central scale factor (C{float}).
            @kwarg extendp: Use the I{extended} domain (C{bool}), I{standard} otherwise.
-           @kwarg name: Optional name for the projection (C{str}).
            @kwarg raiser: If C{True}, throw an L{ETMError} for convergence failures (C{bool}).
+           @kwarg name: Optional C{B{name}=NN} for the projection (C{str}).
 
            @raise ETMError: Near-spherical B{C{datum}} or C{ellipsoid} or invalid B{C{lon0}}
                             or B{C{k0}}.
@@ -444,14 +444,14 @@ class ExactTransverseMercator(_NamedBase):
 
     f = flattening
 
-    def forward(self, lat, lon, lon0=None, name=NN):  # MCCABE 13
+    def forward(self, lat, lon, lon0=None, **name):  # MCCABE 13
         '''Forward projection, from geographic to transverse Mercator.
 
            @arg lat: Latitude of point (C{degrees}).
            @arg lon: Longitude of point (C{degrees}).
            @kwarg lon0: Central meridian (C{degrees180}), overriding
                         the default if not C{None}.
-           @kwarg name: Optional name (C{str}).
+           @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @return: L{Forward4Tuple}C{(easting, northing, gamma, scale)}.
 
@@ -500,7 +500,7 @@ class ExactTransverseMercator(_NamedBase):
         if _lon:
             x, g = neg_(x, g)
         return Forward4Tuple(x, y, g, k, iteration=self._iteration,
-                                         name=name or self.name)
+                                         name=self._name__(name))
 
     def _Inv03(self, psi, dlam, _3_mv_e):  # (xi, deta, _3_mv)
         '''(INTERNAL) Partial C{_zetaInv04} or C{_sigmaInv04}, Case 2
@@ -609,6 +609,7 @@ class ExactTransverseMercator(_NamedBase):
         _U_2  = Fsum(u).fsum2f_
         _V_2  = Fsum(v).fsum2f_
         # min iterations 2, max 6 or 7, mean 3.9 or 4.0
+        _hy2  = hypot2
         for i in range(1, _TRIPS):  # GEOGRAPHICLIB_PANIC
             sncndn6 =  self._sncndn6(u, v)
             du, dv  = _zetaDwd2(*sncndn6)
@@ -620,7 +621,7 @@ class ExactTransverseMercator(_NamedBase):
             if d2 < tol2:
                 r = False
                 break
-            d2 = hypot2(dU, dV)
+            d2 = _hy2(dU, dV)
 
         self._iteration = i
         if r:  # PYCHOK no cover
@@ -680,14 +681,14 @@ class ExactTransverseMercator(_NamedBase):
         self._mu = mu
         self._mv = mv
 
-    def reverse(self, x, y, lon0=None, name=NN):
+    def reverse(self, x, y, lon0=None, **name):
         '''Reverse projection, from Transverse Mercator to geographic.
 
            @arg x: Easting of point (C{meters}).
            @arg y: Northing of point (C{meters}).
-           @kwarg lon0: Central meridian (C{degrees180}), overriding
-                        the default if not C{None}.
-           @kwarg name: Optional name (C{str}).
+           @kwarg lon0: Optional central meridian (C{degrees180}),
+                        overriding the default (C{iff not None}).
+           @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @return: L{Reverse4Tuple}C{(lat, lon, gamma, scale)}.
 
@@ -730,9 +731,9 @@ class ExactTransverseMercator(_NamedBase):
             lon, g = neg_(lon, g)
         lat += self._lat0
         lon += self._lon0 if lon0 is None else _norm180(lon0)
-        return Reverse4Tuple(lat, _norm180(lon), g, k,  # _norm180(lat)
+        return Reverse4Tuple(lat, _norm180(lon), g, k,  # _fix90(lat)
                                    iteration=self._iteration,
-                                   name=name or self.name)
+                                   name=self._name__(name))
 
     def _scaled2(self, tau, d2, snu, cnu, dnu, snv, cnv, dnv):
         '''(INTERNAL) C{scaled}.
@@ -768,7 +769,7 @@ class ExactTransverseMercator(_NamedBase):
             #   = sqrt(mv + mv * tau**2 + mu) * sqrt(q2)
             k, q2 = _0_0, (mv * snv**2 + cnudnv**2)
             if q2 > 0:
-                k2 = fsum1f_(mu, mv, mv * tau**2)
+                k2 = (tau**2 + _1_0) * mv + mu
                 if k2 > 0:
                     k = sqrt(k2) * sqrt(q2 / d2) * self.k0
         else:
@@ -811,13 +812,14 @@ class ExactTransverseMercator(_NamedBase):
                                           real /*v*/, real snv, real cnv, real dnv,
                                           real &du, real &dv)}.
         '''
+        mu   = self._mu
         snuv = snu * snv
         # Reciprocal of 55.9: dw / ds = dn(w)^2/_mv,
         # expanding complex dn(w) using A+S 16.21.4
-        d = self._mv * (cnv**2 + self._mu * snuv**2)**2
-        r = cnv * dnu * dnv
-        i = cnu * snuv * self._mu
-        du = (r**2 - i**2) / d
+        d = (cnv**2 + snuv**2 * mu)**2 * self._mv
+        r =  cnv * dnu * dnv
+        i =  cnu * snuv * mu
+        du = (r**2 - i**2) / d  # (r + i) * (r - i) / d
         dv = neg(r * i * _2_0 / d)
         return du, dv
 
@@ -1030,7 +1032,7 @@ class ExactTransverseMercator(_NamedBase):
         return g_k  # or (g, k, lat, lon)
 
 
-def parseETM5(strUTM, datum=_WGS84, Etm=Etm, falsed=True, name=NN):
+def parseETM5(strUTM, datum=_WGS84, Etm=Etm, falsed=True, **name):
     '''Parse a string representing a UTM coordinate, consisting
        of C{"zone[band] hemisphere easting northing"}.
 
@@ -1040,7 +1042,7 @@ def parseETM5(strUTM, datum=_WGS84, Etm=Etm, falsed=True, name=NN):
        @kwarg Etm: Optional class to return the UTM coordinate
                    (L{Etm}) or C{None}.
        @kwarg falsed: Both easting and northing are C{falsed} (C{bool}).
-       @kwarg name: Optional B{C{Etm}} name (C{str}).
+       @kwarg name: Optional B{C{Etm}} C{B{name}=NN} (C{str}).
 
        @return: The UTM coordinate (B{C{Etm}}) or if B{C{Etm}} is
                 C{None}, a L{UtmUps5Tuple}C{(zone, hemipole, easting,
@@ -1051,29 +1053,31 @@ def parseETM5(strUTM, datum=_WGS84, Etm=Etm, falsed=True, name=NN):
 
        @raise TypeError: Invalid or near-spherical B{C{datum}}.
     '''
-    r = _parseUTM5(strUTM, datum, Etm, falsed, Error=ETMError, name=name)
+    r = _parseUTM5(strUTM, datum, Etm, falsed, Error=ETMError, **name)
     return r
 
 
 def toEtm8(latlon, lon=None, datum=None, Etm=Etm, falsed=True,
-                                         name=NN, strict=True,
-                                         zone=None, **cmoff):
+                                         strict=True, zone=None,
+                                         **name_cmoff):
     '''Convert a geodetic lat-/longitude to an ETM coordinate.
 
        @arg latlon: Latitude (C{degrees}) or an (ellipsoidal)
                     geodetic C{LatLon} instance.
-       @kwarg lon: Optional longitude (C{degrees}) or C{None}.
+       @kwarg lon: Optional longitude (C{degrees}), required
+                   if B{C{latlon}} is in C{degrees}.
        @kwarg datum: Optional datum for the ETM coordinate,
                      overriding B{C{latlon}}'s datum (L{Datum},
                      L{Ellipsoid}, L{Ellipsoid2} or L{a_f2Tuple}).
        @kwarg Etm: Optional class to return the ETM coordinate
                    (L{Etm}) or C{None}.
        @kwarg falsed: False both easting and northing (C{bool}).
-       @kwarg name: Optional B{C{Utm}} name (C{str}).
        @kwarg strict: Restrict B{C{lat}} to UTM ranges (C{bool}).
        @kwarg zone: Optional UTM zone to enforce (C{int} or C{str}).
-       @kwarg cmoff: DEPRECATED, use B{C{falsed}}.  Offset longitude
-                     from the zone's central meridian (C{bool}).
+       @kwarg name_cmoff: Optional B{C{Etm}} C{B{name}=NN} (C{str})
+                   and DEPRECATED C{B{cmoff}=True} to offset longitude
+                   from the zone's central meridian (C{bool}), instead
+                   use C{B{falsed}=True}.
 
        @return: The ETM coordinate as an B{C{Etm}} instance or a
                 L{UtmUps8Tuple}C{(zone, hemipole, easting, northing,
@@ -1097,24 +1101,25 @@ def toEtm8(latlon, lon=None, datum=None, Etm=Etm, falsed=True,
        @raise ValueError: The B{C{lon}} value is missing or B{C{latlon}}
                           is invalid.
     '''
-    z, B, lat, lon, d, f, name = _to7zBlldfn(latlon, lon, datum,
-                                             falsed, name, zone,
-                                             strict, ETMError, **cmoff)
+    z, B, lat, lon, d, f, n = _to7zBlldfn(latlon, lon, datum,
+                                          falsed, zone, strict,
+                                          ETMError, **name_cmoff)
     lon0 = _cmlon(z) if f else None
     x, y, g, k = d.exactTM.forward(lat, lon, lon0=lon0)
 
     return _toXtm8(Etm, z, lat, x, y, B, d, g, k, f,
-                        name, latlon, d.exactTM, Error=ETMError)
+                        n, latlon, d.exactTM, Error=ETMError)
 
 
 if __name__ == '__main__':  # MCCABE 13
 
-    from pygeodesy.internals import _usage
     from pygeodesy import fstr, KTransverseMercator, printf
+    from pygeodesy.internals import _usage
     from sys import argv, exit as _exit
 
     # mimick some of I{Karney}'s utility C{TransverseMercatorProj}
     _f = _r = _s = _t = False
+    _p = -6
     _as = argv[1:]
     while _as and _as[0].startswith(_DASH_):
         _a = _as.pop(0)
@@ -1124,16 +1129,19 @@ if __name__ == '__main__':  # MCCABE 13
             _f, _r = True, False
         elif '-reverse'.startswith(_a):
             _f, _r = False, True
+        elif '-precision'.startswith(_a):
+            _p = int(_as.pop(0))
         elif '-series'.startswith(_a):
             _s, _t = True, False
         elif _a == '-t':
             _s, _t = False, True
         elif '-help'.startswith(_a):
-            _exit(_usage(argv[0], '[-s | -t]',
+            _exit(_usage(argv[0], '[-s | -t ]',
+                                  '[-p[recision] <ndigits>',
                                   '[-f[orward] <lat> <lon>',
-                                  '| -r[everse] <easting> <northing>',
-                                  '| <lat> <lon>]',
-                                  '| -h[elp]'))
+                                  '|-r[everse] <easting> <northing>',
+                                  '|<lat> <lon>]',
+                                  '|-h[elp]'))
         else:
             _exit('%s: option %r not supported' % (_usage(*argv), _a))
     if len(_as) > 1:
@@ -1152,18 +1160,18 @@ if __name__ == '__main__':  # MCCABE 13
         t = tm.reverse(*f2)
     else:
         t = tm.forward(*f2)
-        printf('%s: %s', tm.classname, fstr(t, sep=_SPACE_))
+        printf('%s: %s', tm.classname, fstr(t, prec=_p, sep=_SPACE_))
         t = tm.reverse(t.easting, t.northing)
-    printf('%s: %s', tm.classname, fstr(t, sep=_SPACE_))
+    printf('%s: %s', tm.classname, fstr(t, prec=_p, sep=_SPACE_))
 
 
-# % python3 -m pygeodesy.etm 33.33 44.44
-# ExactTransverseMercator: 4276926.114804 4727193.767015 28.375537 1.233325
-# ExactTransverseMercator: 33.33 44.44 28.375537 1.233325
+# % python3 -m pygeodesy.etm -p 12 33.33 44.44
+# ExactTransverseMercator: 4276926.11480390653 4727193.767015309073 28.375536563148 1.233325101778
+# ExactTransverseMercator: 33.33 44.44 28.375536563148 1.233325101778
 
-# % python3 -m pygeodesy.etm -s 33.33 44.44
-# KTransverseMercator: 4276926.114804 4727193.767015 28.375537 1.233325
-# KTransverseMercator: 33.33 44.44 28.375537 1.233325
+# % python3 -m pygeodesy.etm -s -p 12 33.33 44.44
+# KTransverseMercator: 4276926.114803904667 4727193.767015310004 28.375536563148 1.233325101778
+# KTransverseMercator: 33.33 44.44 28.375536563148 1.233325101778
 
 # % echo 33.33 44.44 | .../bin/TransverseMercatorProj
 # 4276926.114804 4727193.767015 28.375536563148 1.233325101778

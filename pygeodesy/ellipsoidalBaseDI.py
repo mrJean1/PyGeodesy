@@ -17,7 +17,6 @@ from pygeodesy.errors import _AssertionError, IntersectionError, _IsnotError, \
 from pygeodesy.fmath import favg, fmean_
 from pygeodesy.fsums import Fmt, fsumf_
 from pygeodesy.formy import _isequalTo, opposing, _radical2
-# from pygeodesy.internals import _dunder_nameof  # from .lazily
 from pygeodesy.interns import _antipodal_, _concentric_, _ellipsoidal_, \
                               _exceed_PI_radians_, _low_, _near_, \
                               _SPACE_, _too_
@@ -36,7 +35,7 @@ from pygeodesy.utily import m2km, unroll180, _unrollon, _unrollon3, \
 from math import degrees, radians
 
 __all__ = _ALL_LAZY.ellipsoidalBaseDI
-__version__ = '24.05.13'
+__version__ = '24.05.19'
 
 _polar__  = 'polar?'
 _B2END    = _1_5  # _intersect3 bearing to pseudo-end point factor
@@ -400,12 +399,12 @@ class LatLonEllipsoidalBaseDI(LatLonEllipsoidalBase):
 
         f, j = _fi_j2(f, len(Ps))  # like .vector3d.nearestOn6
 
-        n = self.nearestOn8.__name__
+        n = self.nearestOn8.__name__  # _dunder_nameof
         c.rename(n)
         if s is not c:
             s = s.copy(name=n)
         if e is not c:
-            e = e.copy(name=n)
+            e = e.copy(name=n)  # name__=self.nearestOn8
         return NearestOn8Tuple(c, c3.distance, f, j, s, e, c3.initial, c3.final,
                                iteration=m)  # ._iteration for tests
 

@@ -19,12 +19,13 @@ from pygeodesy.errors import _AssertionError, _AttributeError, _incompatible, \
                              _IndexError, _IsnotError, _KeyError, LenError, \
                              _NameError, _NotImplementedError, _TypeError, \
                              _TypesError, UnitError, _ValueError, _xattr, _xkwds, \
-                             _xkwds_get, _xkwds_item2, _xkwds_pop2
+                             _xkwds_item2, _xkwds_pop2
 from pygeodesy.internals import _caller3, _dunder_nameof, _isPyPy, _sizeof, _under
 from pygeodesy.interns import MISSING, NN, _AT_, _COLON_, _COLONSPACE_, _COMMA_, \
-                             _COMMASPACE_, _doesn_t_exist_, _DOT_, _DUNDER_, _EQUAL_, \
-                             _exists_, _immutable_, _name_, _NL_, _NN_, _no_, \
-                             _other_, _s_, _SPACE_, _std_, _UNDER_, _valid_, _vs_
+                             _COMMASPACE_, _doesn_t_exist_, _DOT_, _DUNDER_, \
+                             _dunder_name_, _EQUAL_, _exists_, _immutable_, _name_, \
+                             _NL_, _NN_, _no_, _other_, _s_, _SPACE_, _std_, \
+                             _UNDER_, _valid_, _vs_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, _getenv
 from pygeodesy.props import _allPropertiesOf_n, deprecated_method, _hasProperty, \
                             _update_all, property_doc_, Property_RO, property_RO, \
@@ -32,7 +33,7 @@ from pygeodesy.props import _allPropertiesOf_n, deprecated_method, _hasProperty,
 from pygeodesy.streprs import attrs, Fmt, lrstrip, pairs, reprs, unstr
 
 __all__ = _ALL_LAZY.named
-__version__ = '24.05.13'
+__version__ = '24.05.21'
 
 _COMMANL_           = _COMMA_ + _NL_
 _COMMASPACEDOT_     = _COMMASPACE_ + _DOT_
@@ -49,28 +50,32 @@ _Units_             = '_Units_'
 _UP                 =  2
 
 
-def _xjoined_(prefix, name, enquote=True):
-    '''(INTERNAL) Join C{pref} and non-empty C{name}.
+def _xjoined_(prefix, name=NN, enquote=True, **name__of_name):
+    '''(INTERNAL) Join C{prefix} and non-empty C{name}.
     '''
+    if name__of_name:
+        name = _name__(name, **name__of_name)
     if name and prefix:
         if enquote:
             name = repr(name)
-        n = _SPACE_(prefix, name)
+        t = _SPACE_(prefix, name)
     else:
-        n =  prefix or name
-    return n
+        t =  prefix or name
+    return t
 
 
-def _xnamed(inst, name, force=False):
+def _xnamed(inst, name=NN, force=False, **name__of_name):
     '''(INTERNAL) Set the instance' C{.name = B{name}}.
 
        @arg inst: The instance (C{_Named}).
-       @arg name: The name (C{str}).
-       @kwarg force: Force name change (C{bool}).
+       @kwarg name: The name (C{str}).
+       @kwarg force: If C{True}, force rename (C{bool}).
 
-       @return: The B{C{inst}}, named if B{C{force}}d or
-                not named before.
+       @return: The B{C{inst}}, renamed if B{C{force}}d
+                or if not named before.
     '''
+    if name__of_name:
+        name = _name__(name, **name__of_name)
     if name and isinstance(inst, _Named):
         if not inst.name:
             inst.name = name
@@ -85,7 +90,7 @@ def _xother3(inst, other, name=_other_, up=1, **name_other):
     if name_other:  # and other is None
         name, other = _xkwds_item2(name_other)
     elif other and len(other) == 1:
-        other = other[0]
+        name, other = _name__(name), other[0]
     else:
         raise _AssertionError(name, other, txt=classname(inst, prefixed=True))
     return other, name, up
@@ -165,6 +170,7 @@ class ADict(dict):
            C{floats} formatted by function L{pygeodesy.fstr}.
         '''
         n = _xattr(self, name=NN) or self.__class__.__name__
+        print(1, n)
         return Fmt.PAREN(n, self._toT(_EQUAL_, **prec_fmt))
 
     def toStr(self, **prec_fmt):
@@ -259,18 +265,18 @@ class _Named(object):
         '''
         return _xnamed(self.__class__(*args, **kwds), self.name)
 
-    def copy(self, deep=False, name=NN):
+    def copy(self, deep=False, **name):
         '''Make a shallow or deep copy of this instance.
 
            @kwarg deep: If C{True} make a deep, otherwise
                         a shallow copy (C{bool}).
-           @kwarg name: Optional, non-empty name (C{str}).
+           @kwarg name: Optional, non-empty C{B{name}=NN} (C{str}).
 
            @return: The copy (C{This class}).
         '''
         c = _xcopy(self, deep=deep)
         if name:
-            c.rename(name)
+            _ = c.rename(name)
         return c
 
     def _DOT_(self, *names):
@@ -282,7 +288,8 @@ class _Named(object):
         '''Duplicate this instance, replacing some attributes.
 
            @kwarg deep: If C{True} duplicate deep, otherwise shallow.
-           @kwarg items: Attributes to be changed (C{any}).
+           @kwarg items: Attributes to be changed (C{any}), including
+                         optional C{B{name}} (C{str}).
 
            @return: The duplicate (C{This class}).
 
@@ -292,7 +299,7 @@ class _Named(object):
         m, items = _xkwds_pop2(items, name=n)
         d = _xdup(self, deep=deep, **items)
         if m != n:
-            d.rename(m)
+            d.rename(m)  # zap _Named_Property_ROs
 #       if items:
 #           _update_all(d)
         return d
@@ -341,11 +348,11 @@ class _Named(object):
 
     @name.setter  # PYCHOK setter!
     def name(self, name):
-        '''Set the name (C{str}).
+        '''Set the C{B{name}=NN} (C{str}).
 
            @raise NameError: Can't rename, use method L{rename}.
         '''
-        m, n = self._name, str(name)
+        m, n = self._name, _name__(name)
         if not m:
             self._name = n
         elif n != m:
@@ -360,6 +367,11 @@ class _Named(object):
         #   self.name = name or
         #  _Named.name.fset(self, name), but NOT
         #  _Named(self).name = name
+
+    def _name__(self, name):  # usually **name
+        '''(INTERNAL) Get the C{name} or this C{name}.
+        '''
+        return _name__(name, _or_nameof=self)  # nameof(self)
 
     @Property_RO
     def named(self):
@@ -408,11 +420,21 @@ class _Named(object):
 
            @return: The previous name (C{str}).
         '''
-        m, n = self._name, str(name)
+        m, n = self._name, _name__(name)
         if n != m:
             self._name = n
             _update_attrs(self, *_Named_Property_ROs)
         return m
+
+    def renamed(self, name):
+        '''Change the name.
+
+           @arg name: The new name (C{str}).
+
+           @return: This instance (C{str}).
+        '''
+        _ = self.rename(name)
+        return self
 
     @property_RO
     def sizeof(self):
@@ -443,16 +465,17 @@ class _Named(object):
 #       '''
 #       return _DOT_(self, unstr(which, *args, **kwds))
 
-    def _xnamed(self, inst, name=NN, force=False):
+    def _xnamed(self, inst, name=NN, **force):
         '''(INTERNAL) Set the instance' C{.name = self.name}.
 
            @arg inst: The instance (C{_Named}).
-           @kwarg name: Optional name, overriding C{self.name} (C{str}).
-           @kwarg force: Force name change (C{bool}).
+           @kwarg name: The name (C{str}).
+           @kwarg force: If C{True}, force rename (C{bool}).
 
-           @return: The B{C{inst}}, named if not named before.
+           @return: The B{C{inst}}, renamed if B{C{force}}d
+                    or if not named before.
         '''
-        return _xnamed(inst, name or self.name, force=force)
+        return _xnamed(inst, name, **force)
 
     def _xrenamed(self, inst):
         '''(INTERNAL) Rename the instance' C{.name = self.name}.
@@ -466,7 +489,7 @@ class _Named(object):
         if not isinstance(inst, _Named):
             raise _IsnotError(_valid_, inst=inst)
 
-        inst.rename(self.name)
+        _ = inst.rename(self.name)
         return inst
 
 _Named_Property_ROs = _allPropertiesOf_n(5, _Named, Property_RO)  # PYCHOK once
@@ -559,16 +582,17 @@ class _NamedBase(_Named):
 
 
 class _NamedDict(ADict, _Named):
-    '''(INTERNAL) Named C{dict} with key I{and} attribute
-       access to the items.
+    '''(INTERNAL) Named C{dict} with key I{and} attribute access
+       to the items.
     '''
     def __init__(self, *args, **kwds):
-        if args:  # args override kwds
+        if args:  # is args[0] a dict?
             if len(args) != 1:  # or not isinstance(args[0], dict)
+                kwds = _name1__(kwds)
                 t = unstr(self.classname, *args, **kwds)  # PYCHOK no cover
                 raise _ValueError(args=len(args), txt=t)
-            kwds = _xkwds(dict(args[0]), **kwds)
-        n, kwds = _xkwds_pop2(kwds, name=NN)
+            kwds = _xkwds(dict(args[0]), **kwds)  # args[0] overrides kwds
+        n, kwds = _name2__(**kwds)
         if n:
             _Named.name.fset(self, n)  # see _Named.name
         ADict.__init__(self, kwds)
@@ -640,7 +664,7 @@ class _NamedEnum(_NamedDict):
            @arg Classes: Additional, acceptable classes or C{type}s.
         '''
         self._item_Classes = (Class,) + Classes
-        n = _xkwds_get(name, name=NN) or NN(Class.__name__, _s_)
+        n = _name__(**name) or NN(Class.__name__, _s_)  # _dunder_nameof
         if n and _xvalid(n, underOK=True):
             _Named.name.fset(self, n)  # see _Named.name
 
@@ -881,9 +905,11 @@ class _NamedEnumItem(_NamedBase):
     def name(self, name):
         '''Set the name, unless already registered (C{str}).
         '''
+        name = _name__(name) or _NN_
         if self._enum:
-            raise _NameError(str(name), self, txt=_registered_)  # XXX _TypeError
-        self._name = str(name)
+            raise _NameError(name, self, txt=_registered_)  # XXX _TypeError
+        if name:
+            self._name = name
 
     def _register(self, enum, name):
         '''(INTERNAL) Add this item as B{C{enum.name}}.
@@ -891,6 +917,7 @@ class _NamedEnumItem(_NamedBase):
            @note: Don't register if name is empty or doesn't
                   start with a letter.
         '''
+        name = _name__(name)
         if name and _xvalid(name, underOK=True):
             self.name = name
             if name[:1].isalpha():  # '_...' not registered
@@ -1043,7 +1070,7 @@ class _NamedTuple(tuple, _Named):
 
     iteritems = items
 
-    def _kwdself(self, iteration=None, name=NN, **unused):
+    def _kwdself(self, iteration=None, **name):
         '''(INTERNAL) Set C{__new__} keyword arguments.
         '''
         if iteration is not None:
@@ -1144,7 +1171,8 @@ class _NamedTuple(tuple, _Named):
         if (issubclassof(xTuple, _NamedTuple) and
             (len(self._Names_) + len(items)) == len(xTuple._Names_) and
                  self._Names_ == xTuple._Names_[:len(self)]):
-            return xTuple(self + items, **_xkwds(name, name=self.name))  # *(self + items)
+            n = _name__(**name) or self.name
+            return xTuple(self + items, name=n)  # *(self + items)
         c = NN(self.classname,  repr(self._Names_))  # PYCHOK no cover
         x = NN(xTuple.__name__, repr(xTuple._Names_))  # PYCHOK no cover
         raise TypeError(_SPACE_(c, _vs_, x))
@@ -1232,9 +1260,9 @@ def modulename(clas, prefixed=None):  # in .basics._xversion
        @return: The B{C{class}}'s C{[module.]class} name (C{str}).
     '''
     try:
-        n = clas.__name__
+        n =  clas.__name__
     except AttributeError:
-        n = '__name__'  # _DUNDER_(NN, _name_, NN)
+        n = _dunder_name_
     if prefixed or (classnaming() if prefixed is None else False):
         try:
             m =  clas.__module__.rsplit(_DOT_, 1)
@@ -1242,6 +1270,62 @@ def modulename(clas, prefixed=None):  # in .basics._xversion
         except AttributeError:
             pass
     return n
+
+
+# def _name__(name=NN, name__=None, _or_nameof=None, **kwds):
+#     '''(INTERNAL) Get single keyword argument C{B{name}=NN|None}.
+#     '''
+#     if kwds:  # "unexpected keyword arguments ..."
+#         m = _MODS.errors
+#         raise m._UnexpectedError(**kwds)
+#     if name:  # is given
+#         n = _name__(**name) if isinstance(name, dict) else str(name)
+#     elif name__ is not None:
+#         n = getattr(name__, _dunder_name_, NN)  # _xattr(name__, __name__=NN)
+#     else:
+#         n = name  # NN or None or {} or any False type
+#     if _or_nameof is not None and not n:
+#         n = getattr(_or_nameof, _name_, NN) # _xattr(_or_nameof, name=NN)
+#     return n  # str or None or {}
+
+
+def _name__(name=NN, **kwds):
+    '''(INTERNAL) Get single keyword argument C{B{name}=NN|None}.
+    '''
+    if name or kwds:
+        name, kwds = _name2__(name, **kwds)
+        if kwds:  # "unexpected keyword arguments ..."
+            m = _MODS.errors
+            raise m._UnexpectedError(**kwds)
+    return name if name or name is None else NN
+
+
+def _name1__(kwds_name, _or_nameof=None):
+    '''(INTERNAL) Resolve and set the C{B{name}=NN}.
+    '''
+    if kwds_name:
+        n, kwds_name = _name2__(kwds_name, _or_nameof=_or_nameof)
+        if n:
+            kwds_name.update(name=n)
+    return kwds_name
+
+
+def _name2__(name=NN, name__=None, _or_nameof=None, **kwds):
+    '''(INTERNAL) Get the C{B{name}=NN|None} and other C{kwds}.
+    '''
+    if name:  # is given
+        if isinstance(name, dict):
+            kwds.update(name)  # kwds = _xkwds(kwds, **name)?
+            n, kwds = _name2__(**kwds)
+        else:
+            n = str(name)
+    elif name__ is not None:
+        n = getattr(name__, _dunder_name_, NN)  # _xattr(name__, __name__=NN)
+    else:
+        n = name if name is None else NN
+    if _or_nameof is not None and not n:
+        n = getattr(_or_nameof, _name_, NN)  # _xattr(_or_nameof, name=NN)
+    return n, kwds  # (str or None or {}), dict
 
 
 def nameof(inst):

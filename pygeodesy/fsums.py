@@ -28,15 +28,17 @@ from pygeodesy.basics import isbool, iscomplex, isint, isscalar, \
                             _enquote
 from pygeodesy.constants import INT0, _isfinite, NEG0, _pos_self, \
                                _0_0, _1_0, _N_1_0,  Float, Int
-from pygeodesy.errors import _OverflowError, _TypeError, _ValueError, \
-                             _xError, _xError2, _xkwds_get
+from pygeodesy.errors import _OverflowError, _TypeError, _UnexpectedError, \
+                             _ValueError, _xError, _xError2, _xkwds_get, \
+                             _xkwds_pop2
 # from pygeodesy.internals import _enquote  # from .basics
 from pygeodesy.interns import NN, _arg_, _COMMASPACE_, _DASH_, _DOT_, \
                              _EQUAL_, _from_, _LANGLE_, _NOTEQUAL_, \
                              _not_finite_, _PERCENT_, _PLUS_, \
                              _RANGLE_, _SLASH_, _SPACE_, _STAR_, _UNDER_
 from pygeodesy.lazily import _ALL_LAZY, _getenv, _sys_version_info2
-from pygeodesy.named import _Named, _NamedTuple, _NotImplemented
+from pygeodesy.named import _name__, _name2__, _Named, _NamedTuple, \
+                            _NotImplemented
 from pygeodesy.props import _allPropertiesOf_n, deprecated_property_RO, \
                              Property_RO, property_RO
 from pygeodesy.streprs import Fmt, fstr, unstr
@@ -45,7 +47,7 @@ from pygeodesy.streprs import Fmt, fstr, unstr
 from math import ceil as _ceil, fabs, floor as _floor  # PYCHOK used! .ltp
 
 __all__ = _ALL_LAZY.fsums
-__version__ = '24.05.13'
+__version__ = '24.05.24'
 
 _add_op_      = _PLUS_  # in .auxilats.auxAngle
 _eq_op_       = _EQUAL_ * 2  # _DEQUAL_
@@ -281,9 +283,15 @@ def _2sum(a, b):  # by .testFmath
     raise _OverflowError(u, txt=t)
 
 
-def _threshold(threshold):
-    '''(INTERNAL) Get the L{ResidualError}s threshold.
+def _threshold(threshold=_0_0, **kwds):
+    '''(INTERNAL) Get the L{ResidualError}s threshold,
+       optionally from single kwds C{B{RESIDUAL}=scalar}.
     '''
+    if kwds:
+        threshold, kwds = _xkwds_pop2(kwds, RESIDUAL=threshold)
+#       threshold = kwds.pop('RESIDUAL', threshold)
+        if kwds:
+            raise _UnexpectedError(**kwds)
     try:
         return _2finite(threshold)  # PYCHOK None
     except Exception as x:
@@ -320,21 +328,21 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
     def __init__(self, *xs, **name_RESIDUAL):
         '''New L{Fsum} for I{running} precision floating point summation.
 
-           @arg xs: No, one or more items to add (each C{scalar} or an L{Fsum}
-                    or L{Fsum2Tuple} instance), all positional.
-           @kwarg name_RESIDUAL: Optional C{B{name}=NN} for this L{Fsum} and
-                       the C{B{RESIDUAL}=0.0} threshold for L{ResidualError}s.
+           @arg xs: No, one or more initial items to add (each C{scalar} or
+                    an L{Fsum} or L{Fsum2Tuple} instance), all positional.
+           @kwarg name_RESIDUAL: Optional C{B{name}=NN} (C{str}) for this
+                       L{Fsum} and the C{B{RESIDUAL}=0.0} threshold for
+                       L{ResidualError}s (C{scalar}).
 
            @see: Methods L{Fsum.fadd} and L{Fsum.RESIDUAL}.
         '''
         if name_RESIDUAL:
-
-            def _n_R(name=NN, RESIDUAL=None):
-                return name, RESIDUAL
-
-            n, R = _n_R(**name_RESIDUAL)
-            if R is not None:
-                self.RESIDUAL(R)
+            n, kwds = _name2__(**name_RESIDUAL)
+            if kwds:
+                R =  Fsum._RESIDUAL
+                t = _threshold(R, **kwds)
+                if t != R:
+                    self._RESIDUAL = t
             if n:
                 self.name = n
 
@@ -391,9 +399,9 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
            in Python 2- and remainder C{mod} an L{Fsum} instance.
 
            @arg other: An L{Fsum}, L{Fsum2Tuple} or C{scalar} modulus.
-           @kwarg raiser_RESIDUAL: Use C{B{raiser}=False} (C{bool}) to
-                         ignore L{ResidualError}s and C{B{RESIDUAL}=scalar}
-                         to override the L{RESIDUAL<Fsum.RESIDUAL>}.
+           @kwarg raiser_RESIDUAL: Use C{B{raiser}=False} to ignore
+                         L{ResidualError}s (C{bool}) and C{B{RESIDUAL}=scalar}
+                         to override the current L{RESIDUAL<Fsum.RESIDUAL>}.
 
            @raise ResidualError: Non-zero, significant residual or invalid
                                  B{C{RESIDUAL}}.
@@ -543,9 +551,9 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
            @arg other: The exponent (C{scalar}, L{Fsum} or L{Fsum2Tuple}).
            @arg mod: Optional modulus (C{int} or C{None}) for the 3-argument
                      C{pow(B{self}, B{other}, B{mod})} version.
-           @kwarg raiser_RESIDUAL: Use C{B{raiser}=False} (C{bool}) to
-                         ignore L{ResidualError}s and C{B{RESIDUAL}=scalar}
-                         to override the L{RESIDUAL<Fsum.RESIDUAL>}.
+           @kwarg raiser_RESIDUAL: Use C{B{raiser}=False} to ignore
+                         L{ResidualError}s (C{bool}) and C{B{RESIDUAL}=scalar}
+                         to override the current L{RESIDUAL<Fsum.RESIDUAL>}.
 
            @return: This instance, updated (L{Fsum}).
 
@@ -601,9 +609,9 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
         '''Apply C{B{self} /= B{other}} to this instance.
 
            @arg other: An L{Fsum}, L{Fsum2Tuple} or C{scalar} divisor.
-           @kwarg raiser_RESIDUAL: Use C{B{raiser}=False} (C{bool}) to
-                         ignore L{ResidualError}s and C{B{RESIDUAL}=scalar}
-                         to override the L{RESIDUAL<Fsum.RESIDUAL>}.
+           @kwarg raiser_RESIDUAL: Use C{B{raiser}=False} to ignore
+                         L{ResidualError}s (C{bool}) and C{B{RESIDUAL}=scalar}
+                         to override the current L{RESIDUAL<Fsum.RESIDUAL>}.
 
            @return: This instance, updated (L{Fsum}).
 
@@ -785,9 +793,9 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
         '''Return C{B{self} / B{other}} as an L{Fsum}.
 
            @arg other: An L{Fsum}, L{Fsum2Tuple} or C{scalar} divisor.
-           @kwarg raiser_RESIDUAL: Use C{B{raiser}=False} (C{bool}) to
-                         ignore L{ResidualError}s and C{B{RESIDUAL}=scalar}
-                         to override the L{RESIDUAL<Fsum.RESIDUAL>}.
+           @kwarg raiser_RESIDUAL: Use C{B{raiser}=False} to ignore
+                         L{ResidualError}s (C{bool}) and C{B{RESIDUAL}=scalar}
+                         to override the current L{RESIDUAL<Fsum.RESIDUAL>}.
 
            @return: The quotient (L{Fsum}).
 
@@ -863,12 +871,15 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
             s = self.signOf()  # res=True
         return s
 
-    def copy(self, deep=False, name=NN):
+    def copy(self, deep=False, **name):
         '''Copy this instance, C{shallow} or B{C{deep}}.
+
+           @kwarg name: Optional, overriding C{B{name}='"copy"} (C{str}).
 
            @return: The copy (L{Fsum}).
          '''
-        f = _Named.copy(self, deep=deep, name=name)
+        n = _name__(name, name__=self.copy)
+        f = _Named.copy(self, deep=deep, name=n)
         if f._ps is self._ps:
             f._ps = list(self._ps)  # separate list
         if not deep:
@@ -879,7 +890,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
     def _copy_2(self, which, name=NN):
         '''(INTERNAL) Copy for I{dyadic} operators.
         '''
-        n =  name or which.__name__
+        n =  name or which.__name__  # _dunder_nameof
         # NOT .classof due to .Fdot(a, *b) args, etc.
         f = _Named.copy(self, deep=False, name=n)
         f._ps = list(self._ps)  # separate list
@@ -1091,7 +1102,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
             q -= 1
 #           t  = self.signOf()
 #           if t and t != s:
-#               raise self._Error(op, other, _AssertionError, txt=signOf.__name__)
+#               raise self._Error(op, other, _AssertionError, txt__=signOf)
         return DivMod2Tuple(q, self)  # q is C{int} in Python 3+, but C{float} in Python 2-
 
     def _finite(self, other, op=None):
@@ -1105,10 +1116,10 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
     def fint(self, name=NN, **raiser_RESIDUAL):
         '''Return this instance' current running sum as C{integer}.
 
-           @kwarg name: Optional name (C{str}), overriding C{"fint"}.
-           @kwarg raiser_RESIDUAL: Use C{B{raiser}=False} (C{bool}) to
-                         ignore L{ResidualError}s and C{B{RESIDUAL}=scalar}
-                         to override the L{RESIDUAL<Fsum.RESIDUAL>}.
+           @kwarg name: Optional, overriding C{B{name}="fint"} (C{str}).
+           @kwarg raiser_RESIDUAL: Use C{B{raiser}=False} to ignore
+                         L{ResidualError}s (C{bool}) and C{B{RESIDUAL}=scalar}
+                         to override the current L{RESIDUAL<Fsum.RESIDUAL>}.
 
            @return: The C{integer} sum (L{Fsum}) if this instance C{is_integer}
                     with a zero or insignificant I{integer} residual.
@@ -1124,8 +1135,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
             if R:
                 t = _stresidual(_integer_, r, **R)
                 raise ResidualError(_integer_, i, txt=t)
-        f = self._copy_2(self.fint, name=name)
-        return f._fset(i)
+        return _Psum_(i, name=_name__(name, name__=self.fint))
 
     def fint2(self, **name):
         '''Return this instance' current running sum as C{int} and the
@@ -1200,9 +1210,9 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
         '''Apply C{B{self} /= B{over}} and summate.
 
            @arg over: An L{Fsum} or C{scalar} denominator.
-           @kwarg raiser_RESIDUAL: Use C{B{raiser}=False} (C{bool}) to
-                         ignore L{ResidualError}s and C{B{RESIDUAL}=scalar}
-                         to override the L{RESIDUAL<Fsum.RESIDUAL>}.
+           @kwarg raiser_RESIDUAL: Use C{B{raiser}=False} to ignore
+                         L{ResidualError}s (C{bool}) and C{B{RESIDUAL}=scalar}
+                         to override the current L{RESIDUAL<Fsum.RESIDUAL>}.
 
            @return: Precision running sum (C{float}).
 
@@ -1399,13 +1409,13 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
         '''
         return Fsum2Tuple(self._facc_1(xs)._fprs2, **name)
 
-    def fsum2(self, xs=(), name=NN):
+    def fsum2(self, xs=(), **name):
         '''Add an iterable's items, summate and return the
            current precision running sum I{and} the C{residual}.
 
            @arg xs: Iterable of items to add (each item C{scalar}
                     or an L{Fsum} or L{Fsum2Tuple} instance).
-           @kwarg name: Optional name (C{str}).
+           @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @return: L{Fsum2Tuple}C{(fsum, residual)} with C{fsum} the
                     current precision running sum and C{residual}, the
@@ -1493,9 +1503,9 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
     def int_float(self, **raiser_RESIDUAL):
         '''Return this instance' current running sum as C{int} or C{float}.
 
-           @kwarg raiser_RESIDUAL: Use C{B{raiser}=False} (C{bool}) to
-                         ignore L{ResidualError}s and C{B{RESIDUAL}=scalar}
-                         to override the L{RESIDUAL<Fsum.RESIDUAL>}.
+           @kwarg raiser_RESIDUAL: Use C{B{raiser}=False} to ignore
+                         L{ResidualError}s (C{bool}) and C{B{RESIDUAL}=scalar}
+                         to override the current L{RESIDUAL<Fsum.RESIDUAL>}.
 
            @return: This C{integer} sum if this instance C{is_integer},
                     otherwise return the C{float} sum if the residual is
@@ -1550,9 +1560,9 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
         '''Is this instance' running sum C{scalar} without residual or with
            a residual I{ratio} not exceeding the RESIDUAL threshold?
 
-           @kwarg raiser_RESIDUAL: Use C{B{raiser}=False} (C{bool}) to ignore
-                         L{ResidualError}s and C{B{RESIDUAL}=scalar} to override
-                         the L{RESIDUAL<Fsum.RESIDUAL>} threshold.
+           @kwarg raiser_RESIDUAL: Use C{B{raiser}=False} to ignore
+                         L{ResidualError}s (C{bool}) and C{B{RESIDUAL}=scalar}
+                         to override the current L{RESIDUAL<Fsum.RESIDUAL>}.
 
            @return: C{True} if this instance' non-zero residual C{ratio} exceeds
                     the L{RESIDUAL<Fsum.RESIDUAL>} threshold (C{bool}).
@@ -1611,9 +1621,9 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
            @arg x: The exponent (C{scalar} or L{Fsum}).
            @arg mod: Optional modulus (C{int} or C{None}) for the 3-argument
                      C{pow(B{self}, B{other}, B{mod})} version.
-           @kwarg raiser_RESIDUAL: Use C{B{raiser}=False} (C{bool}) to
-                         ignore L{ResidualError}s and C{B{RESIDUAL}=scalar}
-                         to override the L{RESIDUAL<Fsum.RESIDUAL>}.
+           @kwarg raiser_RESIDUAL: Use C{B{raiser}=False} to ignore
+                         L{ResidualError}s (C{bool}) and C{B{RESIDUAL}=scalar}
+                         to override the current L{RESIDUAL<Fsum.RESIDUAL>}.
 
            @return: The C{pow(self, B{x})} or C{pow(self, B{x}, *B{mod})}
                     result (L{Fsum}).
@@ -1820,7 +1830,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
         if r and raiser:
             t = self._RESIDUAL
             if RESIDUAL:
-                t = _threshold(_xkwds_get(RESIDUAL, RESIDUAL=t))
+                t = _threshold(t, **RESIDUAL)
             if t < 0 or (s + r) != s:
                 q = (r / s) if s else s  # == 0.
                 if fabs(q) > fabs(t):
@@ -1895,9 +1905,9 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
         '''Return C{B{self}**(1 / B{root})} as L{Fsum}.
 
            @arg root: The order (C{scalar} or L{Fsum}), non-zero.
-           @kwarg raiser_RESIDUAL: Use C{B{raiser}=False} (C{bool}) to
-                         ignore L{ResidualError}s and C{B{RESIDUAL}=scalar}
-                         to override the L{RESIDUAL<Fsum.RESIDUAL>}.
+           @kwarg raiser_RESIDUAL: Use C{B{raiser}=False} to ignore
+                         L{ResidualError}s (C{bool}) and C{B{RESIDUAL}=scalar}
+                         to override the current L{RESIDUAL<Fsum.RESIDUAL>}.
 
            @return: The C{self ** (1 / B{root})} result (L{Fsum}).
 

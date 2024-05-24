@@ -113,11 +113,10 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.geoids.GeoidG2012B-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">g2012b_bin</span>,
-        <span class="summary-sig-arg">crop</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">kind</span>=<span class="summary-sig-default">3</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>,
-        <span class="summary-sig-arg">smooth</span>=<span class="summary-sig-default">0</span>)</span><br />
+        <span class="summary-sig-arg">smooth</span>=<span class="summary-sig-default">0</span>,
+        <span class="summary-sig-arg">**name_crop</span>)</span><br />
       New <a href="pygeodesy.geoids.GeoidG2012B-class.html" 
       class="link">GeoidG2012B</a> interpolator.</td>
           <td align="right" valign="top">
@@ -197,6 +196,7 @@
       <code><a href="pygeodesy.named._Named-class.html#dup">dup</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#methodname">methodname</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#rename">rename</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#renamed">renamed</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#toRepr">toRepr</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#toStr2">toStr2</a></code>
       </p>
@@ -286,11 +286,10 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">g2012b_bin</span>,
-        <span class="sig-arg">crop</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">datum</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">kind</span>=<span class="sig-default">3</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>,
-        <span class="sig-arg">smooth</span>=<span class="sig-default">0</span>)</span>
+        <span class="sig-arg">smooth</span>=<span class="sig-default">0</span>,
+        <span class="sig-arg">**name_crop</span>)</span>
     <br /><em class="fname">(Constructor)</em>
   </h3>
   </td><td align="right" valign="top"
@@ -304,7 +303,6 @@
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>g2012b_bin</code></strong> - A <code>GEOID12B</code> grid file name (<code>.bin</code>).</li>
-        <li><strong class="pname"><code>crop</code></strong> - Optional crop box, not supported (<code>None</code>).</li>
         <li><strong class="pname"><code>datum</code></strong> - Optional grid datum (<a href="pygeodesy.datums.Datum-class.html" 
           class="link">Datum</a>, <a 
           href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
@@ -320,10 +318,12 @@
           href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.interp2d.html"
           target="_top">interp2d linear</a>, -3 for <code>interp2d 
           cubic</code> or -5 for <code>interp2d quintic</code>.</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional geoid name (<code>str</code>).</li>
         <li><strong class="pname"><code>smooth</code></strong> - Smoothing factor for <a 
           href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.RectBivariateSpline.html"
           target="_top">RectBivariateSpline</a> only (<code>int</code>).</li>
+        <li><strong class="pname"><code>name_crop</code></strong> - Optional geoid <code><b>name</b>=NN</code> (<code>str</code>) and
+          UNSUPPORTED keyword argument <code><b>crop</b></code>, use 
+          <code><b>crop</b>=None</code> to ignore.</li>
     </ul></dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
@@ -371,12 +371,12 @@
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>llis</code></strong> - One or more locations (<code>LatLon</code>s), all positional.</li>
-        <li><strong class="pname"><code>wrap_H</code></strong> - Keyword arguments <code><b>wrap</b>=False, <b>H</b>=False</code>.
-          If <code><b>wrap</b> is True</code>, wrap or <i>normalize</i> all
-          <b><code>llis</code></b> locations (<code>bool</code>).  If 
+        <li><strong class="pname"><code>wrap_H</code></strong> - Keyword arguments <code><b>wrap</b>=False</code> 
+          (<code>bool</code>) and <code><b>H</b>=False</code> 
+          (<code>bool</code>).  If <code><b>wrap</b> is True</code>, wrap 
+          or <i>normalize</i> all <b><code>llis</code></b> locations.  If 
           <code><b>H</b> is True</code>, return the <i>orthometric</i> 
-          height instead of the <i>geoid</i> height at each location 
-          (<code>bool</code>).</li>
+          height instead of the <i>geoid</i> height at each location.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A single interpolated geoid (or orthometric) height 
@@ -490,7 +490,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed May 15 16:10:04 2024
+    Generated by Epydoc 3.0.1 on Fri May 24 16:58:42 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

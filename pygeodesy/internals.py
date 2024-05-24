@@ -3,11 +3,11 @@
 u'''Mostly INTERNAL functions, except L{machine}, L{print_} and L{printf}.
 '''
 # from pygeodesy.basics import isiterablen  # _MODS
-# from pygeodesy.errors import _AttributeError, _error_init, _xError2  # _MODS
+# from pygeodesy.errors import _AttributeError, _error_init, _UnexpectedError, _xError2  # _MODS
 from pygeodesy.interns import NN, _COLON_, _DOT_, _ELLIPSIS_, _EQUALSPACED_, \
                              _immutable_, _NL_, _pygeodesy_, _PyPy__, _python_, \
-                             _QUOTE1_, _QUOTE2_, _SPACE_, _UNDER_, _utf_8_
-from pygeodesy.interns import _COMMA_, _sys, _Python_  # PYCHOK used!
+                             _QUOTE1_, _QUOTE2_, _s_, _SPACE_, _sys, _UNDER_, _utf_8_
+from pygeodesy.interns import _COMMA_, _Python_  # PYCHOK used!
 # from pygeodesy.streprs import anstr, pairs, unstr  # _MODS
 
 import os as _os  # in .lazily, ...
@@ -222,7 +222,7 @@ def _caller3(up):  # in .lazily, .named
             f.f_lineno)  # line number
 
 
-def _dunder_main(name):
+def _dunder_ismain(name):
     '''(INTERNAL) Return C{name == '__main__'}.
     '''
     return name == '__main__'
@@ -351,6 +351,12 @@ def _passargs(*args):
     '''(INTERNAL) Helper, no-op.
     '''
     return args
+
+
+def _plural(noun, n):
+    '''(INTERNAL) Return C{noun}['s'] or C{NN}.
+    '''
+    return NN(noun, _s_) if n > 1 else (noun if n else NN)
 
 
 def print_(*args, **nl_nt_prec_prefix__end_file_flush_sep_kwds):  # PYCHOK no cover
@@ -497,7 +503,7 @@ def _usage(file_py, *args):  # in .etm
     m = _os_path.dirname(file_py).replace(_os.getcwd(), _ELLIPSIS_) \
                                  .replace(_os.sep, _DOT_).strip()
     b, x = _os_path.splitext(_os_path.basename(file_py))
-    if x == '.py' and not _dunder_main(b):
+    if x == '.py' and not _dunder_ismain(b):
         m = _DOT_(m or _pygeodesy_, b)
     p =  NN(_python_, _sys.version_info[0])
     u = _COLON_(_dunder_nameof(_usage)[1:], NN)
@@ -536,11 +542,10 @@ def _version_ints(vs):
     return tuple(_ints(vs))
 
 
-__all__ = (machine.__name__,
-           print_.__name__, printf.__name__)  # _dunder_nameof
-__version__ = '24.05.15'
+__all__ = tuple(map(_dunder_nameof, (machine, print_, printf)))
+__version__ = '24.05.21'
 
-if _dunder_main(__name__):  # PYCHOK no cover
+if _dunder_ismain(__name__):  # PYCHOK no cover
 
     from pygeodesy import _isfrozen, isLazy, version as vs
 

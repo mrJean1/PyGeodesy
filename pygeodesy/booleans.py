@@ -31,7 +31,8 @@ from pygeodesy.interns import NN, _BANG_, _clip_, _clipid_, _COMMASPACE_, \
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.latlonBase import LatLonBase, \
                                  LatLon2Tuple, Property_RO, property_RO
-from pygeodesy.named import Fmt, _Named, _NotImplemented, pairs, unstr
+from pygeodesy.named import _name__, _Named, _NotImplemented, \
+                             Fmt, pairs, unstr
 # from pygeodesy.namedTuples import LatLon2Tupe  # from .latlonBase
 # from pygeodesy.points import boundsOf  # _MODS
 # from pygeodesy.props import Property_RO, property_RO  # from .latlonBase
@@ -42,7 +43,7 @@ from pygeodesy.utily import fabs, _unrollon, _Wrap
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.booleans
-__version__ = '24.05.15'
+__version__ = '24.05.24'
 
 _0_EPS =  EPS  # near-zero, positive
 _EPS_0 = -EPS  # near-zero, negative
@@ -124,7 +125,7 @@ class _LatLonBool(_Named):
     _prev    = None       # link to the previous vertex
 
     def __init__(self, lat_ll, lon=None, height=0, clipid=INT0,
-                                           wrap=False, name=NN):
+                                           wrap=False, **name):
         '''New C{LatLon[FHP|GH]} from separate C{lat}, C{lon}, C{height}
            and C{clipid} scalars or from a previous C{LatLon[FHP|GH]},
            a C{Clip[FHP|GH]4Tuple} or some other C{LatLon} instance.
@@ -883,10 +884,10 @@ class _CompositeBase(_Named):
     _raiser =  False
     _xtend  =  False
 
-    def __init__(self, lls, name=NN, kind=NN, eps=EPS):
+    def __init__(self, lls, kind=NN, eps=EPS, **name):
         '''(INTERNAL) See L{BooleanFHP} and L{BooleanGH}.
         '''
-        n = name or _xattr(lls, name=NN)
+        n = _name__(name, _or_nameof=lls)
         if n:
             self.name = n
         if kind:
@@ -1801,7 +1802,7 @@ class BooleanFHP(_CompositeFHP, _BooleanBase):
     '''
     _kind = _boolean_
 
-    def __init__(self, lls, raiser=False, eps=EPS, name=NN):
+    def __init__(self, lls, raiser=False, eps=EPS, **name):
         '''New L{BooleanFHP} operand for I{boolean} operation.
 
            @arg lls: The polygon points and clips (iterable of L{LatLonFHP}s,
@@ -1811,8 +1812,7 @@ class BooleanFHP(_CompositeFHP, _BooleanBase):
                        units as the B{C{lls}} coordinates).
            @kwarg name: Optional name (C{str}).
         '''
-        _CompositeFHP.__init__(self, lls, raiser=raiser,
-                                          eps=eps, name=name)
+        _CompositeFHP.__init__(self, lls, raiser=raiser, eps=eps, **name)
 
     def __isub__(self, other):
         '''Not implemented.'''
@@ -1864,7 +1864,7 @@ class BooleanGH(_CompositeGH, _BooleanBase):
     '''
     _kind = _boolean_
 
-    def __init__(self, lls, raiser=True, xtend=False, eps=EPS, name=NN):
+    def __init__(self, lls, raiser=True, xtend=False, eps=EPS, **name):
         '''New L{BooleanFHP} operand for I{boolean} operation.
 
            @arg lls: The polygon points and clips (iterable of L{LatLonGH}s,
@@ -1876,8 +1876,7 @@ class BooleanGH(_CompositeGH, _BooleanBase):
                        units as the B{C{lls}} coordinates).
            @kwarg name: Optional name (C{str}).
         '''
-        _CompositeGH.__init__(self, lls, raiser=raiser, xtend=xtend,
-                                         eps=eps, name=name)
+        _CompositeGH.__init__(self, lls, raiser=raiser, xtend=xtend, eps=eps, **name)
 
     def _boolean(self, other, s_entry, c_entry, op):
         # One C{BooleanGH} operation.
@@ -1921,7 +1920,7 @@ def _alpha4(a):
 def _Cps(Cp, composites_points, where):
     # Yield composites and points as a C{Cp} composite.
     try:
-        kwds = dict(kind=_points_, name=where.__name__)
+        kwds = dict(kind=_points_, name__=where)
         for cp in composites_points:
             yield cp if isBoolean(cp) else Cp(cp, **kwds)
     except (AttributeError, ClipError, TypeError, ValueError) as x:

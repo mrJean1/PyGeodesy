@@ -63,7 +63,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        24.02.18
+        24.05.24
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -100,7 +100,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.formy-module.html#antipode" class="summary-sig-name">antipode</a>(<span class="summary-sig-arg">lat</span>,
         <span class="summary-sig-arg">lon</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Return the antipode, the point diametrically opposite to a given 
       point in <code>degrees</code>.</td>
           <td align="right" valign="top">
@@ -120,7 +120,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.formy-module.html#antipode_" class="summary-sig-name">antipode_</a>(<span class="summary-sig-arg">phi</span>,
         <span class="summary-sig-arg">lam</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Return the antipode, the point diametrically opposite to a given 
       point in <code>radians</code>.</td>
           <td align="right" valign="top">
@@ -777,8 +777,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.formy-module.html#hartzell" class="summary-sig-name">hartzell</a>(<span class="summary-sig-arg">pov</span>,
         <span class="summary-sig-arg">los</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">earth</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>,
-        <span class="summary-sig-arg">**LatLon_and_kwds</span>)</span><br />
+        <span class="summary-sig-arg">**name_LatLon_and_kwds</span>)</span><br />
       Compute the intersection of the earth's surface and a Line-Of-Sight 
       from a Point-Of-View in space.</td>
           <td align="right" valign="top">
@@ -1042,7 +1041,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.formy-module.html#latlon2n_xyz" class="summary-sig-name">latlon2n_xyz</a>(<span class="summary-sig-arg">lat</span>,
         <span class="summary-sig-arg">lon</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Convert lat-, longitude to <code>n-vector</code> (<i>normal</i> to 
       the earth's surface) X, Y and Z components.</td>
           <td align="right" valign="top">
@@ -1062,7 +1061,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.formy-module.html#normal" class="summary-sig-name">normal</a>(<span class="summary-sig-arg">lat</span>,
         <span class="summary-sig-arg">lon</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Normalize a lat- <i>and</i> longitude pair in <code>degrees</code>.</td>
           <td align="right" valign="top">
             
@@ -1081,7 +1080,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.formy-module.html#normal_" class="summary-sig-name">normal_</a>(<span class="summary-sig-arg">phi</span>,
         <span class="summary-sig-arg">lam</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Normalize a lat- <i>and</i> longitude pair in <code>radians</code>.</td>
           <td align="right" valign="top">
             
@@ -1101,7 +1100,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.formy-module.html#n_xyz2latlon" class="summary-sig-name">n_xyz2latlon</a>(<span class="summary-sig-arg">x</span>,
         <span class="summary-sig-arg">y</span>,
         <span class="summary-sig-arg">z</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Convert <code>n-vector</code> components to lat- and longitude in 
       <code>degrees</code>.</td>
           <td align="right" valign="top">
@@ -1122,7 +1121,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.formy-module.html#n_xyz2philam" class="summary-sig-name">n_xyz2philam</a>(<span class="summary-sig-arg">x</span>,
         <span class="summary-sig-arg">y</span>,
         <span class="summary-sig-arg">z</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Convert <code>n-vector</code> components to lat- and longitude in 
       <code>radians</code>.</td>
           <td align="right" valign="top">
@@ -1180,7 +1179,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.formy-module.html#philam2n_xyz" class="summary-sig-name">philam2n_xyz</a>(<span class="summary-sig-arg">phi</span>,
         <span class="summary-sig-arg">lam</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Convert lat-, longitude to <code>n-vector</code> (<i>normal</i> to 
       the earth's surface) X, Y and Z components.</td>
           <td align="right" valign="top">
@@ -1200,7 +1199,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.formy-module.html#radical2" class="summary-sig-name">radical2</a>(<span class="summary-sig-arg">distance</span>,
         <span class="summary-sig-arg">radius1</span>,
-        <span class="summary-sig-arg">radius2</span>)</span><br />
+        <span class="summary-sig-arg">radius2</span>,
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Compute the <i>radical ratio</i> and <i>radical line</i> of two <a 
       href="https://MathWorld.Wolfram.com/Circle-CircleIntersection.html" 
       target="_top">intersecting circles</a>.</td>
@@ -1339,7 +1339,7 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">antipode</span>&nbsp;(<span class="sig-arg">lat</span>,
         <span class="sig-arg">lon</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -1353,7 +1353,7 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>lat</code></strong> - Latitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lon</code></strong> - Longitude (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.namedTuples.LatLon2Tuple-class.html" 
@@ -1378,7 +1378,7 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">antipode_</span>&nbsp;(<span class="sig-arg">phi</span>,
         <span class="sig-arg">lam</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -1392,7 +1392,7 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>phi</code></strong> - Latitude (<code>radians</code>).</li>
         <li><strong class="pname"><code>lam</code></strong> - Longitude (<code>radians</code>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.namedTuples.PhiLam2Tuple-class.html" 
@@ -1473,8 +1473,8 @@
         <li><strong class="pname"><code>lam1</code></strong> - Start longitude (<code>radians</code>).</li>
         <li><strong class="pname"><code>phi2</code></strong> - End latitude (<code>radians</code>).</li>
         <li><strong class="pname"><code>lam2</code></strong> - End longitude (<code>radians</code>).</li>
-        <li><strong class="pname"><code>final</code></strong> - Return final bearing if <code>True</code>, initial otherwise 
-          (<code>bool</code>).</li>
+        <li><strong class="pname"><code>final</code></strong> - If <code>True</code>, return the final, otherwise the initial 
+          bearing (<code>bool</code>).</li>
         <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll 
           <b><code>phi2</code></b> and <b><code>lam2</code></b> 
           (<code>bool</code>).</li>
@@ -3135,8 +3135,7 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">hartzell</span>&nbsp;(<span class="sig-arg">pov</span>,
         <span class="sig-arg">los</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">earth</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>,
-        <span class="sig-arg">**LatLon_and_kwds</span>)</span>
+        <span class="sig-arg">**name_LatLon_and_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -3169,10 +3168,11 @@
           href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
           class="link">a_f2Tuple</a> or a <code>scalar</code> earth radius 
           in <code>meter</code>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
-        <li><strong class="pname"><code>LatLon_and_kwds</code></strong> - Optional <code><b>LatLon</b>=None</code> class to return the 
-          intersection plus additional <code>LatLon</code> keyword 
-          arguments, include <b><code>datum</code></b> if different from 
+        <li><strong class="pname"><code>name_LatLon_and_kwds</code></strong> - Optional, overriding 
+          <code><b>name</b>=&quot;hartzell&quot;</code> (<code>str</code>),
+          <code><b>LatLon</b>=None</code> class to return the intersection 
+          plus additional <code>LatLon</code> keyword arguments, include 
+          the <b><code>datum</code></b> if different from 
           <b><code>earth</code></b>.</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -3819,7 +3819,7 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">latlon2n_xyz</span>&nbsp;(<span class="sig-arg">lat</span>,
         <span class="sig-arg">lon</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -3833,7 +3833,7 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>lat</code></strong> - Latitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lon</code></strong> - Longitude (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
@@ -3858,7 +3858,7 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">normal</span>&nbsp;(<span class="sig-arg">lat</span>,
         <span class="sig-arg">lon</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -3872,7 +3872,8 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>lat</code></strong> - Latitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lon</code></strong> - Longitude (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional, overriding <code><b>name</b>=&quot;normal&quot;</code> 
+          (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><a href="pygeodesy.namedTuples.LatLon2Tuple-class.html" 
@@ -3897,7 +3898,7 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">normal_</span>&nbsp;(<span class="sig-arg">phi</span>,
         <span class="sig-arg">lam</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -3911,7 +3912,8 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>phi</code></strong> - Latitude (<code>radians</code>).</li>
         <li><strong class="pname"><code>lam</code></strong> - Longitude (<code>radians</code>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional, overriding <code><b>name</b>=&quot;normal_&quot;</code>
+          (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><a href="pygeodesy.namedTuples.PhiLam2Tuple-class.html" 
@@ -3937,7 +3939,7 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">n_xyz2latlon</span>&nbsp;(<span class="sig-arg">x</span>,
         <span class="sig-arg">y</span>,
         <span class="sig-arg">z</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -3952,7 +3954,7 @@
         <li><strong class="pname"><code>x</code></strong> - X component (<code>scalar</code>).</li>
         <li><strong class="pname"><code>y</code></strong> - Y component (<code>scalar</code>).</li>
         <li><strong class="pname"><code>z</code></strong> - Z component (<code>scalar</code>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.namedTuples.LatLon2Tuple-class.html" 
@@ -3974,7 +3976,7 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">n_xyz2philam</span>&nbsp;(<span class="sig-arg">x</span>,
         <span class="sig-arg">y</span>,
         <span class="sig-arg">z</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -3989,7 +3991,7 @@
         <li><strong class="pname"><code>x</code></strong> - X component (<code>scalar</code>).</li>
         <li><strong class="pname"><code>y</code></strong> - Y component (<code>scalar</code>).</li>
         <li><strong class="pname"><code>z</code></strong> - Z component (<code>scalar</code>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.namedTuples.PhiLam2Tuple-class.html" 
@@ -4082,7 +4084,7 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">philam2n_xyz</span>&nbsp;(<span class="sig-arg">phi</span>,
         <span class="sig-arg">lam</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -4121,7 +4123,8 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">radical2</span>&nbsp;(<span class="sig-arg">distance</span>,
         <span class="sig-arg">radius1</span>,
-        <span class="sig-arg">radius2</span>)</span>
+        <span class="sig-arg">radius2</span>,
+        <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -4140,6 +4143,7 @@
         <li><strong class="pname"><code>distance</code></strong> - Distance between the circle centers (<code>scalar</code>).</li>
         <li><strong class="pname"><code>radius1</code></strong> - Radius of the first circle (<code>scalar</code>).</li>
         <li><strong class="pname"><code>radius2</code></strong> - Radius of the second circle (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.formy.Radical2Tuple-class.html" 
@@ -4499,7 +4503,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed May 15 16:10:02 2024
+    Generated by Epydoc 3.0.1 on Fri May 24 16:58:40 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

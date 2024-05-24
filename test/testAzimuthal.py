@@ -4,7 +4,7 @@
 # Test L{azimuthal} projections and intersections2 functions.
 
 __all__ = ('Tests',)
-__version__ = '23.03.27'
+__version__ = '24.05.16'
 
 from bases import GeodSolve, geographiclib, TestsBase, RandomLatLon
 
@@ -44,7 +44,7 @@ class Tests(TestsBase):
 
         G = Azimuthal(51.4934, 0.0098, name='Greenwich')
         self.test(repr(G), G, G)
-        f = G.forward(P.lat0, P.lon0, P.name)
+        f = G.forward(P.lat0, P.lon0, name=P.name)
         self.test('forward', fstr(f[:6], prec=6), xs[5])
         r = G.reverse(f.x, f.y)
         self.test('reverse', fstr(r[:6], prec=6), xs[6])

@@ -18,9 +18,8 @@ from pygeodesy.errors import _TypeError, _TypesError, _xattr, \
                              _xkwds, _xkwds_item2
 from pygeodesy.fmath import hypot, hypot_
 from pygeodesy.interns import NN, _4_, _azimuth_, _center_, _COMMASPACE_, \
-                             _down_, _east_, _ecef_, _elevation_, _height_, \
-                             _lat_, _lon_, _ltp_, _M_, _north_, _not_, _up_, \
-                             _X_, _x_, _xyz_, _Y_, _y_, _z_
+                             _ecef_, _elevation_, _height_, _lat_, _lon_, \
+                             _ltp_, _M_, _up_, _X_, _x_, _xyz_, _Y_, _y_, _z_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _NamedBase, _NamedTuple, _Pass, _xnamed
 from pygeodesy.namedTuples import LatLon2Tuple, PhiLam2Tuple, Vector3Tuple
@@ -35,13 +34,16 @@ from pygeodesy.vector3d import Vector3d
 from math import cos, radians
 
 __all__ = _ALL_LAZY.ltpTuples
-__version__ = '24.04.07'
+__version__ = '24.05.24'
 
 _aer_        = 'aer'
 _alt_        = 'alt'
+_down_       = 'down'
+_east_       = 'east'
 _enu_        = 'enu'
 _h__         = 'h_'
 _ned_        = 'ned'
+_north_      = 'north'
 _local_      = 'local'
 _roll_       = 'roll'
 _slantrange_ = 'slantrange'
@@ -108,7 +110,7 @@ def _xyzLocal(*Types, **name_inst):
     try:
         return inst.xyzLocal
     except (AttributeError, TypeError):
-        raise _TypeError(n, inst, txt=_not_(_local_))
+        raise _TypeError(n, inst, txt_not_=_local_)
 
 
 class _NamedAerNed(_NamedBase):

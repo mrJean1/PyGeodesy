@@ -48,10 +48,10 @@ from pygeodesy.constants import INF, _K0_UTM, PI, PI_2, _0_0s, _0_0, \
                                _1_0, _90_0, _copysignINF
 from pygeodesy.datums import Datum, _spherical_datum, _WGS84,  _EWGS84
 # from pygeodesy.ellipsoids import _EWGS84  # from .datums
-from pygeodesy.errors import _ValueError, _xkwds_get, _Xorder
+from pygeodesy.errors import _ValueError, _xkwds_pop2, _Xorder
 from pygeodesy.fmath import hypot, hypot1
 from pygeodesy.fsums import fsum1f_
-from pygeodesy.interns import NN, _COMMASPACE_, _singular_
+from pygeodesy.interns import _COMMASPACE_, _singular_
 from pygeodesy.karney import _atan2d, _diff182, _fix90, _norm180, \
                              _polynomial, _unsigned2
 # from pygeodesy.lazily import _ALL_LAZY  # from .named
@@ -67,7 +67,7 @@ from cmath import polar
 from math import atan2, asinh, cos, cosh, degrees, fabs, sin, sinh, sqrt, tanh
 
 __all__ = _ALL_LAZY.ktm
-__version__ = '24.05.11'
+__version__ = '24.05.24'
 
 
 class KTMError(_ValueError):
@@ -115,24 +115,33 @@ class KTransverseMercator(_NamedBase):
     _mTM    =  6
     _raiser =  False   # throw Error
 
-    def __init__(self, a_earth=_EWGS84, f=None, lon0=0, k0=_K0_UTM, name=NN,
-                                                raiser=False, **TMorder):
+    def __init__(self, a_earth=_EWGS84, f=None, lon0=0, k0=_K0_UTM,
+                                   raiser=False, **TMorder_name):
         '''New L{KTransverseMercator}.
 
            @kwarg a_earth: This rhumb's earth (L{Ellipsoid}, L{Ellipsoid2},
                            L{a_f2Tuple}, L{Datum}, 2-tuple (C{a, f})) or the
                            equatorial radius (C{scalar}, C{meter}).
-           @kwarg f: The ellipsoid's flattening (C{scalar}), iff B{C{a_earth}} is
-                     a C{scalar}, ignored otherwise.
+           @kwarg f: The ellipsoid's flattening (C{scalar}), iff B{C{a_earth}}
+                     is a C{scalar}, ignored otherwise.
            @kwarg lon0: The central meridian (C{degrees180}).
            @kwarg k0: Central scale factor (C{scalar}).
-           @kwarg name: Optional name (C{str}).
            @kwarg raiser: If C{True}, throw a L{KTMError} for C{forward}
                           singularities (C{bool}).
-           @kwarg TMorder: Keyword argument B{C{TMorder}}, see property C{TMorder}.
+           @kwarg TMorder_name: Optional C{B{name}=NN} (C{str}) and optional
+                          keyword argument C{B{TMorder}=6} for the order of
+                          this L{KTransverseMercator}, see property C{TMorder}.
 
            @raise KTMError: Invalid B{C{a_earth}}, B{C{f}} or B{C{TMorder}}.
         '''
+        if TMorder_name:
+            M = self._mTM
+            m, name = _xkwds_pop2(TMorder_name, TMorder=M)
+            if m != M:
+                self.TMorder = m
+            if name:
+                self.name = name
+
         if f is not None:
             self.ellipsoid = a_earth, f
         elif a_earth in (_EWGS84, _WGS84, None):
@@ -141,14 +150,11 @@ class KTransverseMercator(_NamedBase):
             self.datum = a_earth
         else:
             self.ellipsoid = a_earth
+
         self.lon0 = lon0
         self.k0 = k0
-        if name:  # PYCHOK no cover
-            self.name = name
         if raiser:
             self.raiser = True
-        if TMorder:
-            self.TMorder = _xkwds_get(TMorder, TMorder=self._mTM)
 
     @Property_RO
     def _Alp(self):
@@ -215,13 +221,13 @@ class KTransverseMercator(_NamedBase):
 
     f = flattening
 
-    def forward(self, lat, lon, lon0=None, name=NN):
+    def forward(self, lat, lon, lon0=None, **name):
         '''Forward projection, from geographic to transverse Mercator.
 
            @arg lat: Latitude of point (C{degrees90}).
            @arg lon: Longitude of point (C{degrees180}).
            @arg lon0: Central meridian of the projection (C{degrees180}).
-           @kwarg name: Optional name (C{str}).
+           @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @return: L{Forward4Tuple}C{(easting, northing, gamma, scale)}
                     with C{easting} and C{northing} in C{meter}, unfalsed, the
@@ -272,7 +278,7 @@ class KTransverseMercator(_NamedBase):
             y, g = neg_(y, g)
         if _lon:
             x, g = neg_(x, g)
-        return Forward4Tuple(x, y, _norm180(g), k, name=name or self.name)
+        return Forward4Tuple(x, y, _norm180(g), k, name=self._name__(name))
 
     @property_doc_(''' the central scale factor (C{float}).''')
     def k0(self):
@@ -347,12 +353,13 @@ class KTransverseMercator(_NamedBase):
         self. lon0 =  lon0
         return t
 
-    def reverse(self, x, y, lon0=None, name=NN):
+    def reverse(self, x, y, lon0=None, **name):
         '''Reverse projection, from transverse Mercator to geographic.
 
            @arg x: Easting of point (C{meter}).
            @arg y: Northing of point (C{meter}).
            @arg lon0: Central meridian of the projection (C{degrees180}).
+           @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @return: L{Reverse4Tuple}C{(lat, lon, gamma, scale)} with
                     C{lat}- and C{lon}gitude in C{degrees}, I{unfalsed}.
@@ -394,7 +401,7 @@ class KTransverseMercator(_NamedBase):
         lat += self._lat0
         lon += self._lon0 if lon0 is None else _norm180(lon0)
         return Reverse4Tuple(lat, _norm180(lon), _norm180(g), k,
-                                   name=name or self.name)
+                                   name=self._name__(name))
 
     @Property
     def TMorder(self):

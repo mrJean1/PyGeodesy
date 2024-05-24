@@ -91,7 +91,7 @@ from math import ceil as _ceil, fabs
 # import operator as _operator  # from .datums
 
 __all__ = _ALL_LAZY.trf
-__version__ = '24.05.13'
+__version__ = '24.05.21'
 
 _EP0CH    =  Epoch(0, low=0)
 _Es       = {_EP0CH: _EP0CH}  # L{Epoch}s, deleted below
@@ -242,7 +242,7 @@ class RefFrame(_NamedEnumItem):
         return _toRefFrame(point, reframe2, reframe=self, **_xkwds(epoch_epoch2_name,
                                                name=_xattr(reframe2, name=self.name)))
 
-    def toStr(self, epoch=None, name=NN, **unused):  # PYCHOK expected
+    def toStr(self, epoch=None, name=NN, **unused):  # PYCHOK signature
         '''Return this reference frame as a string.
 
            @kwarg epoch: Override this reframe's epoch (C{scalar} or C{str}).
@@ -383,14 +383,14 @@ class TransformXform(Transform):
     def __hash__(self):
         return Transform.__hash__(self)
 
-    def inverse(self, name=NN):
+    def inverse(self, **name):
         '''Return the inverse of this transform.
 
-           @kwarg name: Optional, unique name (C{str}).
+           @kwarg name: Optional, unique C{B{name}=NN} (C{str}).
 
            @return: Inverse (L{TransformXform}), unregistered.
         '''
-        r = Transform.inverse(name=name)
+        r = Transform.inverse(self, **name)
         r._Xform = r.Xform.inverse()
         return r
 

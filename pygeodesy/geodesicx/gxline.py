@@ -39,12 +39,12 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 # from pygeodesy.basics import _xinstanceof  # _MODS
 from pygeodesy.constants import NAN, _EPSmin, _EPSqrt as _TOL, _0_0, \
                                _1_0, _180_0, _2__PI, _copysign_1_0
-from pygeodesy.errors import _xError, _xkwds_get
+from pygeodesy.errors import _xError,  _COMMASPACE_
 from pygeodesy.fsums import fsumf_, fsum1f_
 from pygeodesy.geodesicx.gxbases import _cosSeries, _GeodesicBase, \
                                         _sincos12, _sin1cos2
 # from pygeodesy.geodesicw import _Intersecant2  # _MODS
-from pygeodesy.interns import NN, _COMMASPACE_
+# from pygeodesy.interns import _COMMASPACE_  # from .errors
 from pygeodesy.lazily import _ALL_DOCS, _ALL_MODS as _MODS
 from pygeodesy.karney import _around, _atan2d, Caps, GDict, _fix90, \
                              _K_2_0, _norm2, _norm180, _sincos2, _sincos2d
@@ -55,7 +55,7 @@ from pygeodesy.utily import atan2d as _atan2d_reverse, sincos2
 from math import atan2, cos, degrees, fabs, floor, radians, sin
 
 __all__ = ()
-__version__ = '24.02.21'
+__version__ = '24.05.19'
 
 _glXs = []  # instances of C{[_]GeodesicLineExact} to be updated
 # underflow guard, we require _TINY * EPS > 0, _TINY + EPS == EPS
@@ -95,7 +95,7 @@ class _GeodesicLineExact(_GeodesicBase):
 #   _somg1 = _comg1 = NAN
 #   _ssig1 = _csig1 = NAN
 
-    def __init__(self, gX, lat1, lon1, azi1, caps, _debug, *salp1_calp1, **name):  # name=NN
+    def __init__(self, gX, lat1, lon1, azi1, caps, _debug, *salp1_calp1, **name):
         '''(INTERNAL) New C{[_]GeodesicLineExact} instance.
         '''
         _xGeodesicExact(gX=gX)
@@ -110,10 +110,8 @@ class _GeodesicLineExact(_GeodesicBase):
             # guard against salp0 underflow,
             # also -0 is converted to +0
             salp1, calp1 = _sincos2d(_around(azi1))
-        if name:  # *args, name=NN): Python3
-            name = _xkwds_get(name, name=NN)
-            if name:
-                self.name = name
+        if name:
+            self.name = name
 
         self._gX    = gX  # GeodesicExact only
         self._lat1  = lat1 = _fix90(lat1)

@@ -74,7 +74,7 @@ import pygeodesy.formy as _formy
 from pygeodesy.interns import NN, _i_, _j_, _units_
 # from pygeodesy.iters import points2  # from .points
 from pygeodesy.lazily import _ALL_LAZY, _FOR_DOCS
-from pygeodesy.named import _Named, _NamedTuple, _Pass
+from pygeodesy.named import _name2__, _Named, _NamedTuple, _Pass
 # from pygeodesy.namedTuples import PhiLam2Tuple  # from .points
 from pygeodesy.points import _distanceTo, points2 as _points2,  PhiLam2Tuple, radians
 from pygeodesy.props import Property_RO, property_doc_, property_RO
@@ -86,7 +86,7 @@ from pygeodesy.unitsBase import _Str_degrees, _Str_degrees2, _Str_meter, _Str_NN
 from random import Random
 
 __all__ = _ALL_LAZY.hausdorff
-__version__ = '24.04.07'
+__version__ = '24.05.23'
 
 
 class HausdorffError(PointsError):
@@ -106,29 +106,30 @@ class Hausdorff(_Named):
     _seed  =  None
     _units = _Str_NN  # XXX Str to _Pass and for backward compatibility
 
-    def __init__(self, point1s, seed=None, name=NN, units=NN, **kwds):
+    def __init__(self, point1s, seed=None, units=NN, **name__kwds):
         '''New C{Hausdorff...} calculator.
 
-           @arg point1s: Initial set of points, aka the C{model} or
-                         C{template} (C{LatLon}[], C{Numpy2LatLon}[],
-                         C{Tuple2LatLon}[] or C{other}[]).
-           @kwarg seed: Random sampling seed (C{any}) or C{None}, C{0}
-                        or C{False} for no U{random sampling<https://
-                        Publik.TUWien.ac.AT/files/PubDat_247739.pdf>}.
-           @kwarg name: Optional name for this interpolator (C{str}).
+           @arg point1s: Initial set of points, aka the C{model} or C{template}
+                         (C{LatLon}[], C{Numpy2LatLon}[], C{Tuple2LatLon}[] or
+                         C{other}[]).
+           @kwarg seed: Random sampling seed (C{any}) or C{None}, C{0} or C{False}
+                        for no U{random sampling<https://Publik.TUWien.ac.AT/files/
+                        PubDat_247739.pdf>}.
            @kwarg units: Optional, the distance units (C{Unit} or C{str}).
-           @kwarg kwds: Optional keyword argument for distance function,
-                        retrievable with property C{kwds}.
+           @kwarg name__kwds: Optional calculator/interpolator C{B{name}=NN} (C{str})
+                        and keyword arguments for the distance function, retrievable
+                        with property C{kwds}.
 
-           @raise HausdorffError: Insufficient number of B{C{point1s}}
-                                  or an invalid B{C{point1}}, B{C{seed}}
-                                  or B{C{units}}.
+           @raise HausdorffError: Insufficient number of B{C{point1s}} or an invalid
+                                  B{C{point1}}, B{C{seed}} or B{C{units}}.
         '''
+        name, kwds = _name2__(**name__kwds)  # name__=self.__class__
+        if name:
+            self.name = name
+
         _, self._model = self._points2(point1s)
         if seed:
             self.seed = seed
-        if name:
-            self.name = name
         if units:  # and not self.units:
             self.units = units
         if kwds:
@@ -341,17 +342,17 @@ class HausdorffCosineAndoyerLambert(_HausdorffMeterRadians):
     '''Compute the C{Hausdorff} distance based on the I{angular} distance
        in C{radians} from function L{pygeodesy.cosineAndoyerLambert}.
     '''
-    def __init__(self, point1s, seed=None, name=NN, **datum_wrap):
+    def __init__(self, point1s, **seed_name__datum_wrap):
         '''New L{HausdorffCosineAndoyerLambert} calculator.
 
-          @see: L{Hausdorff.__init__} for details about B{C{point1s}},
-                 B{C{seed}}, B{C{name}} and other exceptions.
+           @kwarg seed_name__datum_wrap: Optional C{B{seed}=None} and
+                             C{B{name}=NN} and keyword arguments for
+                             function L{pygeodesy.cosineAndoyerLambert}.
 
-           @kwarg datum_wrap: Optional keyword arguments for function
-                              L{pygeodesy.cosineAndoyerLambert}.
+           @see: L{Hausdorff.__init__} for details about B{C{point1s}},
+                 B{C{seed}}, B{C{name}} and other exceptions.
         '''
-        Hausdorff.__init__(self, point1s, seed=seed, name=name,
-                                        **datum_wrap)
+        Hausdorff.__init__(self, point1s, **seed_name__datum_wrap)
         self._func  = _formy.cosineAndoyerLambert
         self._func_ = _formy.cosineAndoyerLambert_
 
@@ -364,17 +365,17 @@ class HausdorffCosineForsytheAndoyerLambert(_HausdorffMeterRadians):
     '''Compute the C{Hausdorff} distance based on the I{angular} distance
        in C{radians} from function L{pygeodesy.cosineForsytheAndoyerLambert}.
     '''
-    def __init__(self, point1s, seed=None, name=NN, **datum_wrap):
+    def __init__(self, point1s, **seed_name__datum_wrap):
         '''New L{HausdorffCosineForsytheAndoyerLambert} calculator.
+
+           @kwarg seed_name__datum_wrap: Optional C{B{seed}=None} and
+                             C{B{name}=NN} and keyword arguments for function
+                             L{pygeodesy.cosineForsytheAndoyerLambert}.
 
            @see: L{Hausdorff.__init__} for details about B{C{point1s}},
                  B{C{seed}}, B{C{name}} and other exceptions.
-
-           @kwarg datum_wrap: Optional keyword arguments for function
-                              L{pygeodesy.cosineAndoyerLambert}.
         '''
-        Hausdorff.__init__(self, point1s, seed=seed, name=name,
-                                        **datum_wrap)
+        Hausdorff.__init__(self, point1s, **seed_name__datum_wrap)
         self._func  = _formy.cosineForsytheAndoyerLambert
         self._func_ = _formy.cosineForsytheAndoyerLambert_
 
@@ -389,17 +390,17 @@ class HausdorffCosineLaw(_HausdorffMeterRadians):
 
        @note: See note at function L{pygeodesy.vincentys_}.
     '''
-    def __init__(self, point1s, seed=None, name=NN, **radius_wrap):
+    def __init__(self, point1s, **seed_name__radius_wrap):
         '''New L{HausdorffCosineLaw} calculator.
 
-           @kwarg radius_wrap: Optional keyword arguments for function
-                               L{pygeodesy.cosineLaw}.
+           @kwarg seed_name__radius_wrap: Optional C{B{seed}=None} and
+                             C{B{name}=NN} and keyword arguments for
+                             function L{pygeodesy.cosineLaw}.
 
            @see: L{Hausdorff.__init__} for details about B{C{point1s}},
                  B{C{seed}}, B{C{name}} and other exceptions.
         '''
-        Hausdorff.__init__(self, point1s, seed=seed, name=name,
-                                        **radius_wrap)
+        Hausdorff.__init__(self, point1s, **seed_name__radius_wrap)
         self._func  = _formy.cosineLaw
         self._func_ = _formy.cosineLaw_
 
@@ -414,12 +415,12 @@ class HausdorffDistanceTo(Hausdorff):
     '''
     _units = _Str_meter
 
-    def __init__(self, point1s, seed=None, name=NN, **distanceTo_kwds):
+    def __init__(self, point1s, **seed_name__distanceTo_kwds):
         '''New L{HausdorffDistanceTo} calculator.
 
-           @kwarg distanceTo_kwds: Optional keyword arguments for each
-                                   B{C{point1s}}' C{LatLon.distanceTo}
-                                   method.
+           @kwarg seed_name__distanceTo_kwds: Optional C{B{seed}=None} and
+                             C{B{name}=NN} and keyword arguments for each
+                             B{C{point1s}}' C{LatLon.distanceTo} method.
 
            @see: L{Hausdorff.__init__} for details about B{C{point1s}},
                  B{C{seed}}, B{C{name}} and other exceptions.
@@ -428,8 +429,7 @@ class HausdorffDistanceTo(Hausdorff):
                   I{must} be instances of the same ellipsoidal or
                   spherical C{LatLon} class.
         '''
-        Hausdorff.__init__(self, point1s, seed=seed, name=name,
-                                        **distanceTo_kwds)
+        Hausdorff.__init__(self, point1s, **seed_name__distanceTo_kwds)
 
     if _FOR_DOCS:
         directed  = Hausdorff.directed
@@ -453,19 +453,19 @@ class HausdorffEquirectangular(Hausdorff):
     '''
     _units = _Str_degrees2
 
-    def __init__(self, point1s, seed=None, name=NN, **adjust_limit_wrap):
+    def __init__(self, point1s, **seed_name__adjust_limit_wrap):
         '''New L{HausdorffEquirectangular} calculator.
 
-           @kwarg adjust_limit_wrap: Optional keyword arguments for function
-                               L{pygeodesy.equirectangular_} I{with default}
-                               C{B{limit}=0} for I{backward compatibility}.
+           @kwarg seed_name__adjust_limit_wrap: Optional C{B{seed}=None} and
+                             C{B{name}=NN} and keyword arguments for function
+                             L{pygeodesy.equirectangular_} I{with default}
+                             C{B{limit}=0} for I{backward compatibility}.
 
            @see: L{Hausdorff.__init__} for details about B{C{point1s}},
                  B{C{seed}}, B{C{name}} and other exceptions.
         '''
-        adjust_limit_wrap = _xkwds(adjust_limit_wrap, limit=0)
-        Hausdorff.__init__(self, point1s, seed=seed, name=name,
-                                        **adjust_limit_wrap)
+        Hausdorff.__init__(self, point1s, **_xkwds(seed_name__adjust_limit_wrap,
+                                                   limit=0))
         self._func = _formy._equirectangular  # helper
 
     if _FOR_DOCS:
@@ -477,17 +477,17 @@ class HausdorffEuclidean(_HausdorffMeterRadians):
     '''Compute the C{Hausdorff} distance based on the C{Euclidean}
        distance in C{radians} from function L{pygeodesy.euclidean_}.
     '''
-    def __init__(self, point1s, seed=None, name=NN, **adjust_wrap):
+    def __init__(self, point1s, **seed_name__adjust_radius_wrap):
         '''New L{HausdorffEuclidean} calculator.
 
-           @kwarg adjust_radius_wrap: Optional keyword arguments for
-                                function L{pygeodesy.euclidean}.
+           @kwarg seed_name__adjust_radius_wrap: Optional C{B{seed}=None}
+                             and C{B{name}=NN} and keyword arguments for
+                             function L{pygeodesy.euclidean}.
 
            @see: L{Hausdorff.__init__} for details about B{C{point1s}},
                  B{C{seed}}, B{C{name}} and other exceptions.
         '''
-        Hausdorff.__init__(self, point1s, seed=seed, name=name,
-                                        **adjust_wrap)
+        Hausdorff.__init__(self, point1s, **seed_name__adjust_radius_wrap)
         self._func  = _formy.euclidean
         self._func_ = _formy.euclidean_
 
@@ -502,22 +502,22 @@ class HausdorffExact(Hausdorff):
     '''
     _units = _Str_degrees
 
-    def __init__(self, point1s, seed=None, name=NN, datum=None, **wrap):
+    def __init__(self, point1s, datum=None, **seed_name__wrap):
         '''New L{HausdorffKarney} calculator.
 
-           @kwarg datum: Datum to override the default C{Datums.WGS84} and
-                         first B{C{point1s}}' datum (L{Datum}, L{Ellipsoid},
-                         L{Ellipsoid2} or L{a_f2Tuple}).
-           @kwarg wrap: Optional keyword argument for method C{Inverse1}
-                        of class L{geodesicx.GeodesicExact}.
-
-           @see: L{Hausdorff.__init__} for details about B{C{point1s}},
-                 B{C{seed}}, B{C{name}} and other exceptions.
+           @kwarg datum: Datum to override the default C{Datums.WGS84} and first
+                         B{C{point1s}}' datum (L{Datum}, L{Ellipsoid}, L{Ellipsoid2}
+                         or L{a_f2Tuple}).
+           @kwarg seed_name__wrap: Optional C{B{seed}=None} and C{B{name}=NN} and
+                             keyword argument for method C{Inverse1} of class
+                             L{geodesicx.GeodesicExact}.
 
            @raise TypeError: Invalid B{C{datum}}.
+
+           @see: L{Hausdorff.__init__} for details about B{C{point1s}}, B{C{seed}},
+                 B{C{name}} and other exceptions.
         '''
-        Hausdorff.__init__(self, point1s, seed=seed, name=name,
-                                                   **wrap)
+        Hausdorff.__init__(self, point1s, **seed_name__wrap)
         self._datum_setter(datum)
         self._func = self.datum.ellipsoid.geodesicx.Inverse1  # note -x
 
@@ -532,19 +532,19 @@ class HausdorffFlatLocal(_HausdorffMeterRadians):
     '''
     _units = _Str_radians2
 
-    def __init__(self, point1s, seed=None, name=NN, **datum_scaled_wrap):
+    def __init__(self, point1s, **seed_name__datum_scaled_wrap):
         '''New L{HausdorffFlatLocal}/L{HausdorffHubeny} calculator.
 
-           @kwarg datum_scaled_wrap: Optional keyword arguments for
-                                     function L{pygeodesy.flatLocal}.
+           @kwarg seed_name__datum_scaled_wrap: Optional C{B{seed}=None} and
+                             C{B{name}=NN} and keyword arguments for function
+                             L{pygeodesy.flatLocal}.
 
            @see: L{Hausdorff.__init__} for details about B{C{point1s}},
                  B{C{seed}}, B{C{name}} and other exceptions.
 
            @note: The distance C{units} are C{radians squared}, not C{radians}.
         '''
-        Hausdorff.__init__(self, point1s, seed=seed, name=name,
-                                        **datum_scaled_wrap)
+        Hausdorff.__init__(self, point1s, **seed_name__datum_scaled_wrap)
         self._func  = _formy.flatLocal
         self._func_ =  self.datum.ellipsoid._hubeny_2
 
@@ -559,17 +559,17 @@ class HausdorffFlatPolar(_HausdorffMeterRadians):
     '''
     _wrap = False
 
-    def __init__(self, points, seed=None, name=NN, **radius_wrap):
+    def __init__(self, points, **seed_name__radius_wrap):
         '''New L{HausdorffFlatPolar} calculator.
 
-           @kwarg radius_wrap: Optional keyword arguments for function
-                               L{pygeodesy.flatPolar}.
+           @kwarg seed_name__radius_wrap: Optional C{B{seed}=None}
+                             and C{B{name}=NN} and keyword arguments
+                             for function L{pygeodesy.flatPolar}.
 
            @see: L{Hausdorff.__init__} for details about B{C{point1s}},
                  B{C{seed}}, B{C{name}} and other exceptions.
         '''
-        Hausdorff.__init__(self, points, seed=seed, name=name,
-                                       **radius_wrap)
+        Hausdorff.__init__(self, points, **seed_name__radius_wrap)
         self._func  = _formy.flatPolar
         self._func_ = _formy.flatPolar_
 
@@ -586,17 +586,17 @@ class HausdorffHaversine(_HausdorffMeterRadians):
     '''
     _wrap = False
 
-    def __init__(self, points, seed=None, name=NN, **radius_wrap):
+    def __init__(self, points, **seed_name__radius_wrap):
         '''New L{HausdorffHaversine} calculator.
 
-           @kwarg radius_wrap: Optional keyword arguments for function
-                               L{pygeodesy.haversine}.
+           @kwarg seed_name__radius_wrap: Optional C{B{seed}=None}
+                             and C{B{name}=NN} and keyword arguments
+                             for function L{pygeodesy.haversine}.
 
            @see: L{Hausdorff.__init__} for details about B{C{point1s}},
                  B{C{seed}}, B{C{name}} and other exceptions.
        '''
-        Hausdorff.__init__(self, points, seed=seed, name=name,
-                                       **radius_wrap)
+        Hausdorff.__init__(self, points, **seed_name__radius_wrap)
         self._func  = _formy.haversine
         self._func_ = _formy.haversine_
 
@@ -623,14 +623,15 @@ class HausdorffKarney(Hausdorff):
     '''
     _units = _Str_degrees
 
-    def __init__(self, point1s, datum=None, seed=None, name=NN, **wrap):
+    def __init__(self, point1s, datum=None, **seed_name__wrap):
         '''New L{HausdorffKarney} calculator.
 
            @kwarg datum: Datum to override the default C{Datums.WGS84} and
                          first B{C{knots}}' datum (L{Datum}, L{Ellipsoid},
                          L{Ellipsoid2} or L{a_f2Tuple}).
-           @kwarg wrap: Optional keyword argument for method C{Inverse1}
-                        of class L{geodesicw.Geodesic}.
+           @kwarg seed_name__wrap: Optional C{B{seed}=None} and C{B{name}=NN}
+                             and keyword arguments for method C{Inverse1} of
+                             class L{geodesicw.Geodesic}.
 
            @raise ImportError: Package U{geographiclib
                   <https://PyPI.org/project/geographiclib>} missing.
@@ -640,8 +641,7 @@ class HausdorffKarney(Hausdorff):
            @see: L{Hausdorff.__init__} for details about B{C{point1s}},
                  B{C{seed}}, B{C{name}} and other exceptions.
         '''
-        Hausdorff.__init__(self, point1s, seed=seed, name=name,
-                                        **wrap)
+        Hausdorff.__init__(self, point1s, **seed_name__wrap)
         self._datum_setter(datum)
         self._func = self.datum.ellipsoid.geodesic.Inverse1
 
@@ -650,17 +650,17 @@ class HausdorffThomas(_HausdorffMeterRadians):
     '''Compute the C{Hausdorff} distance based on the I{angular}
        distance in C{radians} from function L{pygeodesy.thomas_}.
     '''
-    def __init__(self, point1s, seed=None, name=NN, **datum_wrap):
+    def __init__(self, point1s, **seed_name__datum_wrap):
         '''New L{HausdorffThomas} calculator.
 
-           @kwarg datum_wrap: Optional keyword argument for function
-                              L{pygeodesy.thomas}.
+           @kwarg seed_name__datum_wrap: Optional C{B{seed}=None}
+                             and C{B{name}=NN} and keyword arguments
+                             for function L{pygeodesy.thomas}.
 
            @see: L{Hausdorff.__init__} for details about B{C{point1s}},
                  B{C{seed}}, B{C{name}} and other exceptions.
         '''
-        Hausdorff.__init__(self, point1s, seed=seed, name=name,
-                                        **datum_wrap)
+        Hausdorff.__init__(self, point1s, **seed_name__datum_wrap)
         self._func  = _formy.thomas
         self._func_ = _formy.thomas_
 
@@ -677,17 +677,17 @@ class HausdorffVincentys(_HausdorffMeterRadians):
     '''
     _wrap = False
 
-    def __init__(self, point1s, seed=None, name=NN, **radius_wrap):
+    def __init__(self, point1s, **seed_name__radius_wrap):
         '''New L{HausdorffVincentys} calculator.
 
-           @kwarg radius_wrap: Optional keyword arguments for function
-                               L{pygeodesy.vincentys}.
+           @kwarg seed_name__radius_wrap: Optional C{B{seed}=None}
+                             and C{B{name}=NN} and keyword arguments
+                             for function L{pygeodesy.vincentys}.
 
            @see: L{Hausdorff.__init__} for details about B{C{point1s}},
                  B{C{seed}}, B{C{name}} and other exceptions.
         '''
-        Hausdorff.__init__(self, point1s, seed=seed, name=name,
-                                        **radius_wrap)
+        Hausdorff.__init__(self, point1s, **seed_name__radius_wrap)
         self._func  = _formy.vincentys
         self._func_ = _formy.vincentys_
 

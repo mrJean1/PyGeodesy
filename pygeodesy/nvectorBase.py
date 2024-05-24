@@ -39,7 +39,7 @@ from pygeodesy.vector3d import Vector3d, _xyzhdn3
 from math import fabs, sqrt
 
 __all__ = _ALL_LAZY.nvectorBase
-__version__ = '24.05.13'
+__version__ = '24.05.18'
 
 
 class NvectorBase(Vector3d):  # XXX kept private
@@ -49,7 +49,7 @@ class NvectorBase(Vector3d):  # XXX kept private
     _h     = Height(h=0)  # height (C{meter})
     _H     = NN           # height prefix (C{str}), '↑' in JS version
 
-    def __init__(self, x_xyz, y=None, z=None, h=0, ll=None, datum=None, name=NN):
+    def __init__(self, x_xyz, y=None, z=None, h=0, ll=None, datum=None, **name):
         '''New n-vector normal to the earth's surface.
 
            @arg x_xyz: X component of vector (C{scalar}) or (3-D) vector
@@ -62,15 +62,15 @@ class NvectorBase(Vector3d):  # XXX kept private
            @kwarg h: Optional height above surface (C{meter}).
            @kwarg ll: Optional, original latlon (C{LatLon}).
            @kwarg datum: Optional, I{pass-thru} datum (L{Datum}).
-           @kwarg name: Optional name (C{str}).
+           @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @raise TypeError: Non-scalar B{C{x}}, B{C{y}} or B{C{z}}
                              coordinate or B{C{x}} not an C{Nvector},
                              L{Vector3Tuple} or L{Vector4Tuple} or
                              invalid B{C{datum}}.
         '''
-        h, d, n = _xyzhdn3(x_xyz, h, datum, ll)
-        Vector3d.__init__(self, x_xyz, y=y, z=z, ll=ll, name=name or n)
+        h, d, n = _xyzhdn3(x_xyz, h, datum, ll, **name)
+        Vector3d.__init__(self, x_xyz, y=y, z=z, ll=ll, name=n)
         if h:
             self.h = h
         if d is not None:
@@ -461,8 +461,8 @@ class LatLonNvectorBase(LatLonBase):
            @arg bearing1: Bearing at this point (compass C{degrees360}).
            @arg other: The other point (C{LatLon}).
            @arg bearing2: Bearing at the other point (compass C{degrees360}).
-           @kwarg height: Optional height at the triangulated point,
-                          overriding the mean height (C{meter}).
+           @kwarg height: Optional height at the triangulated point, overriding
+                          the mean height (C{meter}).
            @kwarg wrap: If C{True}, use this and the B{C{other}} point
                         I{normalized} (C{bool}).
 

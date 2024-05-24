@@ -12,8 +12,8 @@ from pygeodesy.errors import _or, _AttributeError, _IsnotError, _TypeError, \
 # from pygeodesy.internals import _dunder_nameof  # from .lazily
 from pygeodesy.interns import NN, _0_, _0to9_, MISSING, _BAR_, _COMMASPACE_, \
                              _DOT_, _E_, _ELLIPSIS_, _EQUAL_, _H_, _LR_PAIRS, \
-                             _N_, _name_, _not_, _not_scalar_, _PERCENT_, \
-                             _SPACE_, _STAR_, _UNDER_
+                             _N_, _name_, _not_scalar_, _PERCENT_, _SPACE_, \
+                             _STAR_, _UNDER_
 from pygeodesy.interns import _convergence_, _distant_, _e_, _eps_, _exceeds_, \
                               _EQUALSPACED_, _f_, _F_, _g_, _limit_, _no_, \
                               _tolerance_  # PYCHOK used!
@@ -22,7 +22,7 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS,  _dunder_nameof
 from math import fabs, log10 as _log10
 
 __all__ = _ALL_LAZY.streprs
-__version__ = '24.05.13'
+__version__ = '24.05.19'
 
 _at_        = 'at'         # PYCHOK used!
 _EN_PREC    =  6           # max MGRS/OSGR precision, 1 micrometer
@@ -499,11 +499,11 @@ def _streprs(prec, objs, fmt, ints, force, strepr):
             f = fmt.replace(_DOTSTAR_, Fmt.DOT(abs(prec)))
             _ = f % (_0_0,)
         except (TypeError, ValueError):
-            raise _ValueError(fmt=fmt, txt=_not_(repr(_DOTSTAR_)))
+            raise _ValueError(fmt=fmt, txt_not_=repr(_DOTSTAR_))
         fmt = f
 
     else:
-        raise _ValueError(fmt=fmt, txt=_not_(repr(_Fspec_)))
+        raise _ValueError(fmt=fmt, txt_not_=repr(_Fspec_))
 
     for i, o in enumerate(objs):
         if force or isinstance(o, float):

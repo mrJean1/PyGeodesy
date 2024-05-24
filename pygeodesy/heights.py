@@ -72,16 +72,16 @@ from pygeodesy.basics import isscalar, len2, map1, map2, _xnumpy, _xscipy
 from pygeodesy.constants import EPS, PI, PI2, _0_0, _90_0, _180_0
 from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.errors import _AssertionError, LenError, PointsError, \
-                             _SciPyIssue, _xattr, _xkwds, _xkwds_get
+                             _SciPyIssue, _xattr, _xkwds, _xkwds_get, _xkwds_item2
 # from pygeodesy.fmath import fidw  # _MODS
 # from pygeodesy.formy import cosineAndoyerLambert, cosineForsytheAndoyerLambert, \
 #                             cosineLaw, equirectangular_, euclidean, flatLocal, \
 #                             flatPolar, haversine, thomas, vincentys  # _MODS
 # from pygeodesy.internals import _version2  # _MODS
-from pygeodesy.interns import NN, _COMMASPACE_, _cubic_, _insufficient_, _knots_, \
-                             _linear_, _NOTEQUAL_, _PLUS_, _scipy_, _SPACE_, _STAR_
+from pygeodesy.interns import NN, _COMMASPACE_, _cubic_, _insufficient_, _linear_, \
+                             _NOTEQUAL_, _PLUS_, _scipy_, _SPACE_, _STAR_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, _FOR_DOCS
-from pygeodesy.named import _Named
+from pygeodesy.named import _name2__, _Named
 from pygeodesy.points import _distanceTo, LatLon_,  Fmt, radians, _Wrap
 from pygeodesy.props import Property_RO, property_RO
 # from pygeodesy.streprs import Fmt  # from .points
@@ -91,7 +91,7 @@ from pygeodesy.units import _isDegrees, Float_, Int_
 # from math import radians  # from .points
 
 __all__ = _ALL_LAZY.heights
-__version__ = '24.05.13'
+__version__ = '24.05.23'
 
 _error_     = 'error'
 _llis_      = 'llis'
@@ -179,9 +179,10 @@ def _ordedup(ts, lo=EPS, hi=PI2-EPS):
     return sorted(set(max(lo, min(hi, t)) for t in ts))  # list
 
 
-def _xyhs(lls, wrap=False, name=_llis_):
+def _xyhs(wrap=False, **name_lls):
     # map (lat, lon, h) to (x, y, h) in radians, offset
     # x as 0 <= lon <= PI2 and y as 0 <= lat <= PI
+    name, lls = _xkwds_item2(name_lls)
     _0, _90, _180 = _0_0, _90_0,    _180_0
     _m, _r,  _w   =  max,  radians, _Wrap._latlonop(wrap)
     try:
@@ -253,7 +254,7 @@ class _HeightsBase(_HeightBase):  # in .geoids
         atype = self.numpy.array
         wrap = _xkwds(wrap, wrap=self._wrap)
         _as, llis   = _as_llis2(llis)
-        xis, yis, _ =  zip(*_xyhs(llis, **wrap))  # PYCHOK yield
+        xis, yis, _ =  zip(*_xyhs(llis=llis, **wrap))  # PYCHOK yield
         return _as, atype(xis), atype(yis), llis
 
     def _ev(self, *args):  # PYCHOK no cover
@@ -334,12 +335,14 @@ class _HeightsBase(_HeightBase):  # in .geoids
         '''
         return _MODS.internals._version2(self.scipy.version.version, **n)
 
-    def _xyhs3(self, knots, **wrap):
+    def _xyhs3(self, knots, wrap=False, **name):
         # convert knot C{LatLon}s to tuples or C{NumPy} arrays and C{SciPy} sphericals
-        xs, ys, hs = zip(*_xyhs(knots, name=_knots_, **wrap))  # PYCHOK yield
+        xs, ys, hs = zip(*_xyhs(knots=knots, wrap=wrap))  # PYCHOK yield
         n = len(hs)
         if n < self.kmin:
             raise _insufficientError(self.kmin, knots=n)
+        if name:
+            self.name = name
         return map1(self.numpy.array, xs, ys, hs)
 
 
@@ -352,13 +355,14 @@ class HeightCubic(_HeightsBase):
     _kind     = _cubic_
     _kmin     =  16
 
-    def __init__(self, knots, name=NN, **wrap):
+    def __init__(self, knots, **name_wrap):
         '''New L{HeightCubic} interpolator.
 
            @arg knots: The points with known height (C{LatLon}s).
-           @kwarg name: Optional name for this height interpolator (C{str}).
-           @kwarg wrap: If C{True}, wrap or I{normalize} all B{C{knots}}
-                        and B{C{llis}} locations (C{bool}).
+           @kwarg name_wrap: Optional C{B{name}=NN} for this height interpolator
+                       (C{str}) and keyword argument C{b{wrap}=False} to wrap or
+                       I{normalize} all B{C{knots}} and B{C{llis}} locations iff
+                       C{True} (C{bool}).
 
            @raise HeightError: Insufficient number of B{C{knots}} or
                                invalid B{C{knot}}.
@@ -373,14 +377,11 @@ class HeightCubic(_HeightsBase):
         '''
         spi = self.scipy_interpolate
 
-        xs, ys, hs = self._xyhs3(knots, **wrap)
+        xs, ys, hs = self._xyhs3(knots, **name_wrap)
         try:  # SciPy.interpolate.interp2d kind 'linear' or 'cubic'
             self._interp2d = spi.interp2d(xs, ys, hs, kind=self._kind)
         except Exception as x:
             raise _SciPyIssue(x)
-
-        if name:
-            self.name = name
 
     def __call__(self, *llis, **wrap):
         '''Interpolate the height for one or several locations.
@@ -390,7 +391,7 @@ class HeightCubic(_HeightsBase):
            @raise SciPyWarning: A C{scipy.interpolate.interp2d} warning
                                 as exception.
 
-           @see: L{Here<_HeightsBase.__call__>} for other details.
+           @see: L{Here<_HeightsBase.__call__>} for further details.
         '''
         return _HeightsBase._eval(self, llis, **wrap)
 
@@ -407,7 +408,7 @@ class HeightCubic(_HeightsBase):
            @raise SciPyWarning: A C{scipy.interpolate.interp2d} warning
                                 as exception.
 
-           @see: L{Here<_HeightsBase.height>} for other details.
+           @see: L{Here<_HeightsBase.height>} for further details.
         '''
         return _height_called(self, lats, lons, **wrap)
 
@@ -420,12 +421,12 @@ class HeightLinear(HeightCubic):
     _kind = _linear_
     _kmin =  2
 
-    def __init__(self, knots, name=NN, **wrap):
+    def __init__(self, knots, **name_wrap):
         '''New L{HeightLinear} interpolator.
 
-           @see: L{Here<HeightCubic.__init__>} for details.
+           @see: L{Here<HeightCubic.__init__>} for all details.
         '''
-        HeightCubic.__init__(self, knots, name=name, **wrap)
+        HeightCubic.__init__(self, knots, **name_wrap)
 
     if _FOR_DOCS:
         __call__ = HeightCubic.__call__
@@ -439,23 +440,24 @@ class HeightLSQBiSpline(_HeightsBase):
     '''
     _kmin = 16  # k = 3, always
 
-    def __init__(self, knots, weight=None, name=NN, **wrap):
+    def __init__(self, knots, weight=None, **name_wrap):
         '''New L{HeightLSQBiSpline} interpolator.
 
            @arg knots: The points with known height (C{LatLon}s).
            @kwarg weight: Optional weight or weights for each B{C{knot}}
                           (C{scalar} or C{scalar}s).
-           @kwarg name: Optional name for this height interpolator (C{str}).
-           @kwarg wrap: If C{True}, wrap or I{normalize} all B{C{knots}}
-                        and B{C{llis}} locations (C{bool}).
+           @kwarg name_wrap: Optional C{B{name}=NN} for this height interpolator
+                       (C{str}) and keyword argument C{b{wrap}=False} to wrap or
+                       I{normalize} all B{C{knots}} and B{C{llis}} locations iff
+                       C{True} (C{bool}).
 
            @raise HeightError: Insufficient number of B{C{knots}} or
                                an invalid B{C{knot}} or B{C{weight}}.
 
            @raise LenError: Unequal number of B{C{knots}} and B{C{weight}}s.
 
-           @raise ImportError: Package C{numpy} or C{scipy} not found
-                               or not installed.
+           @raise ImportError: Package C{numpy} or C{scipy} not found or
+                               not installed.
 
            @raise SciPyError: A C{scipy} C{LSQSphereBivariateSpline} issue.
 
@@ -465,7 +467,7 @@ class HeightLSQBiSpline(_HeightsBase):
         np  = self.numpy
         spi = self.scipy_interpolate
 
-        xs, ys, hs = self._xyhs3(knots, **wrap)
+        xs, ys, hs = self._xyhs3(knots, **name_wrap)
         n = len(hs)
 
         w = weight
@@ -492,9 +494,6 @@ class HeightLSQBiSpline(_HeightsBase):
         except Exception as x:
             raise _SciPyIssue(x)
 
-        if name:
-            self.name = name
-
     def __call__(self, *llis, **wrap):
         '''Interpolate the height for one or several locations.
 
@@ -503,7 +502,7 @@ class HeightLSQBiSpline(_HeightsBase):
            @raise SciPyWarning: A C{scipy} C{LSQSphereBivariateSpline}
                                 warning as exception.
 
-           @see: L{Here<_HeightsBase.__call__>} for other details.
+           @see: L{Here<_HeightsBase.__call__>} for further details.
         '''
         return _HeightsBase._eval(self, llis, **wrap)
 
@@ -515,7 +514,7 @@ class HeightLSQBiSpline(_HeightsBase):
            @raise SciPyWarning: A C{scipy} C{LSQSphereBivariateSpline}
                                 warning as exception.
 
-           @see: L{Here<_HeightsBase.height>} for other details.
+           @see: L{Here<_HeightsBase.height>} for further details.
         '''
         return _height_called(self, lats, lons, **wrap)
 
@@ -527,21 +526,21 @@ class HeightSmoothBiSpline(_HeightsBase):
     '''
     _kmin = 16  # k = 3, always
 
-    def __init__(self, knots, s=4, name=NN, **wrap):
+    def __init__(self, knots, s=4, **name_wrap):
         '''New L{HeightSmoothBiSpline} interpolator.
 
            @arg knots: The points with known height (C{LatLon}s).
            @kwarg s: The spline smoothing factor (C{scalar}), default C{4}.
-           @kwarg name: Optional name for this height interpolator (C{str}).
-           @kwarg wrap: If C{True}, wrap or I{normalize} the B{C{knots}}
-                        and any called B{C{llis}} and height B{C{lats}}
-                        and B{C{lons}} locations (C{bool}).
+           @kwarg name_wrap: Optional C{B{name}=NN} for this height interpolator
+                       (C{str}) and keyword argument C{b{wrap}=False} to wrap or
+                       I{normalize} all B{C{knots}} and B{C{llis}} locations iff
+                       C{True} (C{bool}).
 
            @raise HeightError: Insufficient number of B{C{knots}} or
                                an invalid B{C{knot}} or B{C{s}}.
 
-           @raise ImportError: Package C{numpy} or C{scipy} not found
-                               or not installed.
+           @raise ImportError: Package C{numpy} or C{scipy} not found or not
+                               installed.
 
            @raise SciPyError: A C{scipy} C{SmoothSphereBivariateSpline} issue.
 
@@ -552,15 +551,12 @@ class HeightSmoothBiSpline(_HeightsBase):
 
         s = Float_(s, name=_smoothing_, Error=HeightError, low=4)
 
-        xs, ys, hs = self._xyhs3(knots, **wrap)
+        xs, ys, hs = self._xyhs3(knots, **name_wrap)
         try:
             self._ev = spi.SmoothSphereBivariateSpline(ys, xs, hs,
                                                        eps=EPS, s=s).ev
         except Exception as x:
             raise _SciPyIssue(x)
-
-        if name:
-            self.name = name
 
     def __call__(self, *llis, **wrap):
         '''Interpolate the height for one or several locations.
@@ -570,7 +566,7 @@ class HeightSmoothBiSpline(_HeightsBase):
            @raise SciPyWarning: A C{scipy} C{SmoothSphereBivariateSpline}
                                 warning as exception.
 
-           @see: L{Here<_HeightsBase.__call__>} for other details.
+           @see: L{Here<_HeightsBase.__call__>} for further details.
         '''
         return _HeightsBase._eval(self, llis, **wrap)
 
@@ -582,7 +578,7 @@ class HeightSmoothBiSpline(_HeightsBase):
            @raise SciPyWarning: A C{scipy} C{SmoothSphereBivariateSpline}
                                 warning as exception.
 
-           @see: L{Here<_HeightsBase.height>} for other details.
+           @see: L{Here<_HeightsBase.height>} for further details.
         '''
         return _height_called(self, lats, lons, **wrap)
 
@@ -603,20 +599,22 @@ class _HeightIDW(_HeightBase):
     _knots = ()     # knots list or tuple
     _kwds  = {}     # func_ options
 
-    def __init__(self, knots, beta=2, name=NN, **kwds):
+    def __init__(self, knots, beta=2, **name__kwds):
         '''New C{_HeightIDW*} interpolator.
 
            @arg knots: The points with known height (C{LatLon}s).
            @kwarg beta: Inverse distance power (C{int} 1, 2, or 3).
-           @kwarg name: Optional name for this height interpolator (C{str}).
-           @kwarg kwds: Optional keyword argument for distance function,
+           @kwarg name__kwds: Optional C{B{name}=NN} for this height interpolator
+                        (C{str}) and any keyword arguments for the distance function,
                         retrievable with property C{kwds}.
 
-           @raise HeightError: Insufficient number of B{C{knots}} or
-                               an invalid B{C{knot}} or B{C{beta}}.
+           @raise HeightError: Insufficient number of B{C{knots}} or an invalid
+                               B{C{knot}} or B{C{beta}}.
         '''
+        name, kwds = _name2__(**name__kwds)
         if name:
             self.name = name
+
         n, self._knots = len2(knots)
         if n < self.kmin:
             raise _insufficientError(self.kmin, knots=n)
@@ -637,17 +635,17 @@ class _HeightIDW(_HeightBase):
                                invalid B{C{lli}} or L{pygeodesy.fidw}
                                issue.
         '''
-        def _xy2(lls, wrap=False):
+        def _xy2(wrap=False):
             _w = _Wrap._latlonop(wrap)
             try:  # like _xyhs above, but degrees
-                for i, ll in enumerate(lls):
+                for i, ll in enumerate(llis):
                     yield _w(ll.lon, ll.lat)
-            except Exception as e:
+            except Exception as x:
                 i = Fmt.INDEX(llis=i)
-                raise HeightError(i, ll, cause=e)
+                raise HeightError(i, ll, cause=x)
 
         _as, llis = _as_llis2(llis)
-        return _as(map(self._hIDW, *zip(*_xy2(llis, **wrap))))
+        return _as(map(self._hIDW, *zip(*_xy2(**wrap))))
 
     @property_RO
     def adjust(self):
@@ -790,15 +788,16 @@ class HeightIDWcosineAndoyerLambert(_HeightIDW):
        and the I{angular} distance in C{radians} from function
        L{pygeodesy.cosineAndoyerLambert_}.
     '''
-    def __init__(self, knots, beta=2, name=NN, **datum_wrap):
+    def __init__(self, knots, beta=2, **name__datum_wrap):
         '''New L{HeightIDWcosineAndoyerLambert} interpolator.
 
-           @kwarg datum_wrap: Optional keyword arguments for function
-                              L{pygeodesy.cosineAndoyerLambert}.
+           @kwarg name__datum_wrap: Optional C{B{name}=NN} for this height
+                        interpolator (C{str}) and any keyword arguments for
+                        function L{pygeodesy.cosineAndoyerLambert}.
 
-           @see: L{Here<_HeightIDW.__init__>} for other details.
+           @see: L{Here<_HeightIDW.__init__>} for further details.
         '''
-        _HeightIDW.__init__(self, knots, beta=beta, name=name, **datum_wrap)
+        _HeightIDW.__init__(self, knots, beta=beta, **name__datum_wrap)
         self._func = self._formy.cosineAndoyerLambert
 
     if _FOR_DOCS:
@@ -812,15 +811,16 @@ class HeightIDWcosineForsytheAndoyerLambert(_HeightIDW):
        and the I{angular} distance in C{radians} from function
        L{pygeodesy.cosineForsytheAndoyerLambert_}.
     '''
-    def __init__(self, knots, beta=2, name=NN, **datum_wrap):
+    def __init__(self, knots, beta=2, **name__datum_wrap):
         '''New L{HeightIDWcosineForsytheAndoyerLambert} interpolator.
 
-           @kwarg datum_wrap: Optional keyword arguments for function
-                              L{pygeodesy.cosineForsytheAndoyerLambert}.
+           @kwarg name__datum_wrap: Optional C{B{name}=NN} for this height
+                        interpolator (C{str}) and any keyword arguments for
+                        function L{pygeodesy.cosineForsytheAndoyerLambert}.
 
-           @see: L{Here<_HeightIDW.__init__>} for other details.
+           @see: L{Here<_HeightIDW.__init__>} for further details.
         '''
-        _HeightIDW.__init__(self, knots, beta=beta, name=name, **datum_wrap)
+        _HeightIDW.__init__(self, knots, beta=beta, **name__datum_wrap)
         self._func = self._formy.cosineForsytheAndoyerLambert
 
     if _FOR_DOCS:
@@ -835,15 +835,16 @@ class HeightIDWcosineLaw(_HeightIDW):
 
        @note: See note at function L{pygeodesy.vincentys_}.
     '''
-    def __init__(self, knots, beta=2, name=NN, **radius_wrap):
+    def __init__(self, knots, beta=2, **name__radius_wrap):
         '''New L{HeightIDWcosineLaw} interpolator.
 
-           @kwarg radius_wrap: Optional keyword arguments for function
-                               L{pygeodesy.cosineLaw}.
+           @kwarg name__radius_wrap: Optional C{B{name}=NN} for this height
+                        interpolator (C{str}) and any keyword arguments for
+                        function L{pygeodesy.cosineLaw}.
 
-           @see: L{Here<_HeightIDW.__init__>} for other details.
+           @see: L{Here<_HeightIDW.__init__>} for further details.
         '''
-        _HeightIDW.__init__(self, knots, beta=beta, name=name, **radius_wrap)
+        _HeightIDW.__init__(self, knots, beta=beta, **name__radius_wrap)
         self._func = self._formy.cosineLaw
 
     if _FOR_DOCS:
@@ -857,21 +858,20 @@ class HeightIDWdistanceTo(_HeightIDW):
        and the distance from the points' C{LatLon.distanceTo} method,
        conventionally in C{meter}.
     '''
-    def __init__(self, knots, beta=2, name=NN, **distanceTo_kwds):
+    def __init__(self, knots, beta=2, **name__distanceTo_kwds):
         '''New L{HeightIDWdistanceTo} interpolator.
 
-           @kwarg distanceTo_kwds: Optional keyword arguments for the
-                                   B{C{knots}}' C{LatLon.distanceTo}
-                                   method.
+           @kwarg name__distanceTo_kwds: Optional C{B{name}=NN} for this
+                        height interpolator (C{str}) and keyword arguments
+                        for B{C{knots}}' method C{LatLon.distanceTo}.
 
-           @see: L{Here<_HeightIDW.__init__>} for other details.
+           @see: L{Here<_HeightIDW.__init__>} for further details.
 
            @note: All B{C{points}} I{must} be instances of the same
                   ellipsoidal or spherical C{LatLon} class, I{not
                   checked}.
         '''
-        _HeightIDW.__init__(self, knots, beta=beta, name=name,
-                                       **distanceTo_kwds)
+        _HeightIDW.__init__(self, knots, beta=beta, **name__distanceTo_kwds)
         ks0 = _distanceTo(HeightError, knots=self._knots)[0]
         # use knots[0] class and datum to create compatible points
         # in _height_called instead of class LatLon_ and datum None
@@ -900,16 +900,16 @@ class HeightIDWequirectangular(_HeightIDW):
        the I{angular} distance in C{radians squared} like function
        L{pygeodesy.equirectangular_}.
     '''
-    def __init__(self, knots, beta=2, name=NN, **adjust_limit_wrap):  # XXX beta=1
+    def __init__(self, knots, beta=2, **name__adjust_limit_wrap):  # XXX beta=1
         '''New L{HeightIDWequirectangular} interpolator.
 
-           @kwarg adjust_limit_wrap: Optional keyword arguments for
-                               function L{pygeodesy.equirectangular_}.
+           @kwarg name__adjust_limit_wrap: Optional C{B{name}=NN} for this
+                        height interpolator (C{str}) and keyword arguments
+                        for function L{pygeodesy.equirectangular_}.
 
-           @see: L{Here<_HeightIDW.__init__>} for other details.
+           @see: L{Here<_HeightIDW.__init__>} for further details.
         '''
-        _HeightIDW.__init__(self, knots, beta=beta, name=name,
-                                       **adjust_limit_wrap)
+        _HeightIDW.__init__(self, knots, beta=beta, **name__adjust_limit_wrap)
 
     def _distances(self, x, y):
         '''(INTERNAL) Yield distances to C{(x, y)}.
@@ -932,16 +932,16 @@ class HeightIDWeuclidean(_HeightIDW):
        <https://WikiPedia.org/wiki/Inverse_distance_weighting>} (IDW) and the
        I{angular} distance in C{radians} from function L{pygeodesy.euclidean_}.
     '''
-    def __init__(self, knots, beta=2, name=NN, **adjust_radius_wrap):
+    def __init__(self, knots, beta=2, **name__adjust_radius_wrap):
         '''New L{HeightIDWeuclidean} interpolator.
 
-           @kwarg adjust_radius_wrap: Optional keyword arguments for
-                                function L{pygeodesy.euclidean}.
+           @kwarg name__adjust_radius_wrap: Optional C{B{name}=NN} for this
+                        height interpolator (C{str}) and keyword arguments
+                        for function function L{pygeodesy.euclidean}.
 
-           @see: L{Here<_HeightIDW.__init__>} for other details.
+           @see: L{Here<_HeightIDW.__init__>} for further details.
         '''
-        _HeightIDW.__init__(self, knots, beta=beta, name=name,
-                                       **adjust_radius_wrap)
+        _HeightIDW.__init__(self, knots, beta=beta, **name__adjust_radius_wrap)
         self._func = self._formy.euclidean
 
     if _FOR_DOCS:
@@ -955,20 +955,21 @@ class HeightIDWexact(_HeightIDW):
        and the I{angular} distance in C{degrees} from method
        L{GeodesicExact.Inverse}.
     '''
-    def __init__(self, knots, beta=2, name=NN, datum=None, **wrap):
+    def __init__(self, knots, beta=2, datum=None, **name__wrap):
         '''New L{HeightIDWexact} interpolator.
 
            @kwarg datum: Datum to override the default C{Datums.WGS84} and
                          first B{C{knots}}' datum (L{Datum}, L{Ellipsoid},
                          L{Ellipsoid2} or L{a_f2Tuple}).
-           @kwarg wrap: Optional keyword argument for method C{Inverse1}
-                        of class L{geodesicx.GeodesicExact}.
+           @kwarg name__wrap: Optional C{B{name}=NN} for this height interpolator
+                        (C{str}) and a keyword argument for method C{Inverse1} of
+                        class L{geodesicx.GeodesicExact}.
 
            @raise TypeError: Invalid B{C{datum}}.
 
-           @see: L{Here<_HeightIDW.__init__>} for other details.
+           @see: L{Here<_HeightIDW.__init__>} for further details.
         '''
-        _HeightIDW.__init__(self, knots, beta=beta, name=name, **wrap)
+        _HeightIDW.__init__(self, knots, beta=beta, **name__wrap)
         self._datum_setter(datum)
         self._func = self.datum.ellipsoid.geodesicx.Inverse1
 
@@ -983,16 +984,17 @@ class HeightIDWflatLocal(_HeightIDW):
        and the I{angular} distance in C{radians squared} like function
        L{pygeodesy.flatLocal_}/L{pygeodesy.hubeny_}.
     '''
-    def __init__(self, knots, beta=2, name=NN, **datum_hypot_scaled_wrap):
+    def __init__(self, knots, beta=2, **name__datum_hypot_scaled_wrap):
         '''New L{HeightIDWflatLocal}/L{HeightIDWhubeny} interpolator.
 
-           @kwarg datum_hypot_scaled_wrap: Optional keyword arguments for
-                              function L{pygeodesy.flatLocal}.
+           @kwarg name__datum_hypot_scaled_wrap: Optional C{B{name}=NN}
+                        for this height interpolator (C{str}) and any
+                        keyword arguments for L{pygeodesy.flatLocal}.
 
-           @see: L{HeightIDW<_HeightIDW.__init__>} for other details.
+           @see: L{HeightIDW<_HeightIDW.__init__>} for further details.
         '''
-        _HeightIDW.__init__(self, knots, beta=beta, name=name,
-                                       **datum_hypot_scaled_wrap)
+        _HeightIDW.__init__(self, knots, beta=beta,
+                                       **name__datum_hypot_scaled_wrap)
         self._func = self._formy.flatLocal
 
     if _FOR_DOCS:
@@ -1006,15 +1008,16 @@ class HeightIDWflatPolar(_HeightIDW):
        and the I{angular} distance in C{radians} from function
        L{pygeodesy.flatPolar_}.
     '''
-    def __init__(self, knots, beta=2, name=NN, **radius_wrap):
+    def __init__(self, knots, beta=2, **name__radius_wrap):
         '''New L{HeightIDWflatPolar} interpolator.
 
-           @kwarg radius_wrap: Optional keyword arguments for function
-                               L{pygeodesy.flatPolar}.
+           @kwarg name__radius_wrap: Optional C{B{name}=NN} for this
+                        height interpolator (C{str}) and any keyword
+                        arguments for function L{pygeodesy.flatPolar}.
 
-           @see: L{Here<_HeightIDW.__init__>} for other details.
+           @see: L{Here<_HeightIDW.__init__>} for further details.
         '''
-        _HeightIDW.__init__(self, knots, beta=beta, name=name, **radius_wrap)
+        _HeightIDW.__init__(self, knots, beta=beta, **name__radius_wrap)
         self._func = self._formy.flatPolar
 
     if _FOR_DOCS:
@@ -1029,15 +1032,16 @@ class HeightIDWhaversine(_HeightIDW):
 
        @note: See note at function L{pygeodesy.vincentys_}.
     '''
-    def __init__(self, knots, beta=2, name=NN, **radius_wrap):
+    def __init__(self, knots, beta=2, **name__radius_wrap):
         '''New L{HeightIDWhaversine} interpolator.
 
-           @kwarg radius_wrap: Optional keyword arguments for function
-                               L{pygeodesy.haversine}.
+           @kwarg name__radius_wrap: Optional C{B{name}=NN} for this
+                        height interpolator (C{str}) and any keyword
+                        arguments for function L{pygeodesy.haversine}.
 
-           @see: L{Here<_HeightIDW.__init__>} for other details.
+           @see: L{Here<_HeightIDW.__init__>} for further details.
         '''
-        _HeightIDW.__init__(self, knots, beta=beta, name=name, **radius_wrap)
+        _HeightIDW.__init__(self, knots, beta=beta, **name__radius_wrap)
         self._func = self._formy.haversine
 
     if _FOR_DOCS:
@@ -1061,23 +1065,24 @@ class HeightIDWkarney(_HeightIDW):
        <https://geographiclib.sourceforge.io/Python/doc/code.html#
        geographiclib.geodesic.Geodesic.Inverse>}.
     '''
-    def __init__(self, knots, beta=2, name=NN, datum=None, **wrap):
+    def __init__(self, knots, beta=2, datum=None, **name__wrap):
         '''New L{HeightIDWkarney} interpolator.
 
            @kwarg datum: Datum to override the default C{Datums.WGS84} and
                          first B{C{knots}}' datum (L{Datum}, L{Ellipsoid},
                          L{Ellipsoid2} or L{a_f2Tuple}).
-           @kwarg wrap: Optional keyword argument for method C{Inverse1}
-                        of class L{geodesicw.Geodesic}.
+           @kwarg name__wrap: Optional C{B{name}=NN} for this height interpolator
+                        (C{str}) and a keyword argument for method C{Inverse1} of
+                        class L{geodesicw.Geodesic}.
 
            @raise ImportError: Package U{geographiclib
                   <https://PyPI.org/project/geographiclib>} missing.
 
            @raise TypeError: Invalid B{C{datum}}.
 
-           @see: L{Here<_HeightIDW.__init__>} for other details.
+           @see: L{Here<_HeightIDW.__init__>} for further details.
         '''
-        _HeightIDW.__init__(self, knots, beta=beta, name=name, **wrap)
+        _HeightIDW.__init__(self, knots, beta=beta, **name__wrap)
         self._datum_setter(datum)
         self._func = self.datum.ellipsoid.geodesic.Inverse1
 
@@ -1091,15 +1096,16 @@ class HeightIDWthomas(_HeightIDW):
        <https://WikiPedia.org/wiki/Inverse_distance_weighting>} (IDW) and the
        I{angular} distance in C{radians} from function L{pygeodesy.thomas_}.
     '''
-    def __init__(self, knots, beta=2, name=NN, **datum_wrap):
+    def __init__(self, knots, beta=2, **name__datum_wrap):
         '''New L{HeightIDWthomas} interpolator.
 
-           @kwarg datum_wrap: Optional keyword argument for function
-                              L{pygeodesy.thomas}.
+           @kwarg name__datum_wrap: Optional C{B{name}=NN} for this
+                        height interpolator (C{str}) and any keyword
+                        arguments for function L{pygeodesy.thomas}.
 
-           @see: L{Here<_HeightIDW.__init__>} for other details.
+           @see: L{Here<_HeightIDW.__init__>} for further details.
         '''
-        _HeightIDW.__init__(self, knots, beta=beta, name=name, **datum_wrap)
+        _HeightIDW.__init__(self, knots, beta=beta, **name__datum_wrap)
         self._func = self._formy.thomas
 
     if _FOR_DOCS:
@@ -1114,15 +1120,16 @@ class HeightIDWvincentys(_HeightIDW):
 
        @note: See note at function L{pygeodesy.vincentys_}.
     '''
-    def __init__(self, knots, beta=2, name=NN, **radius_wrap):
+    def __init__(self, knots, beta=2, **name__radius_wrap):
         '''New L{HeightIDWvincentys} interpolator.
 
-           @kwarg radius_wrap: Optional keyword arguments for function
-                               L{pygeodesy.vincentys}.
+           @kwarg name__radius_wrap: Optional C{B{name}=NN} for this
+                        height interpolator (C{str}) and any keyword
+                        arguments for function L{pygeodesy.vincentys}.
 
-           @see: L{Here<_HeightIDW.__init__>} for other details.
+           @see: L{Here<_HeightIDW.__init__>} for further details.
         '''
-        _HeightIDW.__init__(self, knots, beta=beta, name=name, **radius_wrap)
+        _HeightIDW.__init__(self, knots, beta=beta, **name__radius_wrap)
         self._func = self._formy.vincentys
 
     if _FOR_DOCS:

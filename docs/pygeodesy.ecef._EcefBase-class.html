@@ -106,8 +106,8 @@
           <td><span class="summary-sig"><a href="pygeodesy.ecef._EcefBase-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">a_ellipsoid</span>=<span class="summary-sig-default">Ellipsoid(name='WGS84', a=6378137, b=6356752.31424518, f_=298.<code class="variable-ellipsis">...</code></span>,
         <span class="summary-sig-arg">f</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>,
-        <span class="summary-sig-arg">lon00</span>=<span class="summary-sig-default">0</span>)</span><br />
+        <span class="summary-sig-arg">lon00</span>=<span class="summary-sig-default">0</span>,
+        <span class="summary-sig-arg">**name</span>)</span><br />
       New <code>Ecef*</code> converter.</td>
           <td align="right" valign="top">
             
@@ -147,7 +147,7 @@
         <span class="summary-sig-arg">lon</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">0</span>,
         <span class="summary-sig-arg">M</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Convert from geodetic <code>(lat, lon, height)</code> to geocentric 
       <code>(x, y, z)</code>.</td>
           <td align="right" valign="top">
@@ -170,7 +170,7 @@
         <span class="summary-sig-arg">lam</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">0</span>,
         <span class="summary-sig-arg">M</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Like method <code>.forward</code> except with geodetic lat- and 
       longitude given in <i>radians</i>.</td>
           <td align="right" valign="top">
@@ -241,6 +241,7 @@
       <code><a href="pygeodesy.named._Named-class.html#dup">dup</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#methodname">methodname</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#rename">rename</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#renamed">renamed</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#toStr2">toStr2</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
@@ -381,8 +382,8 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">a_ellipsoid</span>=<span class="sig-default">Ellipsoid(name='WGS84', a=6378137, b=6356752.31424518, f_=298.<code class="variable-ellipsis">...</code></span>,
         <span class="sig-arg">f</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>,
-        <span class="sig-arg">lon00</span>=<span class="sig-default">0</span>)</span>
+        <span class="sig-arg">lon00</span>=<span class="sig-default">0</span>,
+        <span class="sig-arg">**name</span>)</span>
     <br /><em class="fname">(Constructor)</em>
   </h3>
   </td><td align="right" valign="top"
@@ -408,9 +409,9 @@
           <b><code>a_ellipsoid</code></b>, <code><b>f</b>=0</code> 
           represents a sphere, negative <b><code>f</code></b> a prolate 
           ellipsoid.</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
         <li><strong class="pname"><code>lon00</code></strong> - An arbitrary, <i>&quot;polar&quot;</i> longitude 
-          (<code>degrees</code>), see the methods <code>reverse</code>.</li>
+          (<code>degrees</code>), see the <code>reverse</code> method.</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
     </ul></dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
@@ -471,7 +472,7 @@
         <span class="sig-arg">lon</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">height</span>=<span class="sig-default">0</span>,
         <span class="sig-arg">M</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -494,7 +495,7 @@
         <li><strong class="pname"><code>M</code></strong> - Optionally, return the rotation <a 
           href="pygeodesy.ecef.EcefMatrix-class.html" 
           class="link">EcefMatrix</a> (<code>bool</code>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>An <a href="pygeodesy.ecef.Ecef9Tuple-class.html" 
@@ -533,7 +534,7 @@
         <span class="sig-arg">lam</span>,
         <span class="sig-arg">height</span>=<span class="sig-default">0</span>,
         <span class="sig-arg">M</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -552,7 +553,7 @@
         <li><strong class="pname"><code>M</code></strong> - Optionally, return the rotation <a 
           href="pygeodesy.ecef.EcefMatrix-class.html" 
           class="link">EcefMatrix</a> (<code>bool</code>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>An <a href="pygeodesy.ecef.Ecef9Tuple-class.html" 
@@ -853,7 +854,7 @@ method <code>reverse</code>.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed May 15 16:10:03 2024
+    Generated by Epydoc 3.0.1 on Fri May 24 16:58:41 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

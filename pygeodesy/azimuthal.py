@@ -43,9 +43,8 @@ altitude in Earth radii<https://WikiPedia.org/wiki/Azimuthal_equidistant_project
 from __future__ import division as _; del _  # PYCHOK semicolon
 
 # from pygeodesy.basics import _xinstanceof  # from .ellipsoidalBase
-from pygeodesy.constants import EPS, EPS0, EPS1, NAN, isnon0, \
-                               _EPStol, _umod_360, _0_0, _0_1, \
-                               _0_5, _1_0, _N_1_0, _2_0
+from pygeodesy.constants import EPS, EPS0, EPS1, NAN, isnon0, _umod_360, \
+                               _EPStol, _0_0, _0_1, _0_5, _1_0, _N_1_0, _2_0
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB, \
                               _xinstanceof
 from pygeodesy.datums import _spherical_datum, _WGS84
@@ -53,12 +52,12 @@ from pygeodesy.errors import _ValueError, _xdatum, _xkwds
 from pygeodesy.fmath import euclid, hypot as _hypot,  Fsum
 # from pygeodesy.fsums import Fsum  # from .fmath
 # from pygeodesy.formy import antipode  # _MODS
-from pygeodesy.interns import NN, _azimuth_, _datum_, _lat_, _lon_, \
-                             _scale_, _SPACE_, _x_, _y_
+from pygeodesy.interns import _azimuth_, _datum_, _lat_, _lon_, _scale_, \
+                              _SPACE_, _x_, _y_
 from pygeodesy.karney import _norm180
 from pygeodesy.latlonBase import _MODS, LatLonBase as _LLB
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _FOR_DOCS  # ALL_MODS
-from pygeodesy.named import _NamedBase, _NamedTuple, _Pass
+from pygeodesy.named import _name__, _name2__, _NamedBase, _NamedTuple, _Pass
 from pygeodesy.namedTuples import LatLon2Tuple, LatLon4Tuple
 from pygeodesy.props import deprecated_Property_RO, Property_RO, \
                             property_doc_, _update_all
@@ -71,7 +70,7 @@ from pygeodesy.utily import asin1, atan1, atan2b, atan2d, sincos2, \
 from math import acos, atan2, degrees, fabs, sin, sqrt
 
 __all__ = _ALL_LAZY.azimuthal
-__version__ = '24.04.07'
+__version__ = '24.05.24'
 
 _EPS_K         = _EPStol * _0_1  # Karney's eps_ or _EPSmin * _0_1?
 _over_horizon_ = 'over horizon'
@@ -91,15 +90,15 @@ class _AzimuthalBase(_NamedBase):
     '''(INTERNAL) Base class for azimuthal projections.
 
        @see: I{Karney}'s C++ class U{AzimuthalEquidistant<https://GeographicLib.SourceForge.io/
-       C++/doc/classGeographicLib_1_1AzimuthalEquidistant.html>} and U{Gnomonic
-       <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Gnomonic.html>} or the
-       C{PyGeodesy} versions thereof L{EquidistantKarney} respectively L{GnomonicKarney}.
+             C++/doc/classGeographicLib_1_1AzimuthalEquidistant.html>} and U{Gnomonic
+             <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Gnomonic.html>} or
+             the C{PyGeodesy} versions thereof L{EquidistantKarney} respectively L{GnomonicKarney}.
     '''
     _datum   = _WGS84  # L{Datum}
     _latlon0 =  LatLon2Tuple(_0_0, _0_0)  # lat0, lon0 (L{LatLon2Tuple})
     _sc0     = _0_0, _1_0  # 2-Tuple C{sincos2d(lat0)}
 
-    def __init__(self, lat0, lon0, datum=None, name=NN):
+    def __init__(self, lat0, lon0, datum=None, **name):
         '''New azimuthal projection.
 
            @arg lat0: Latitude of the center point (C{degrees90}).
@@ -107,14 +106,14 @@ class _AzimuthalBase(_NamedBase):
            @kwarg datum: Optional datum or ellipsoid (L{Datum}, L{Ellipsoid},
                          L{Ellipsoid2} or L{a_f2Tuple}) or I{scalar} earth
                          radius (C{meter}).
-           @kwarg name: Optional name for the projection (C{str}).
+           @kwarg name: Optional C{B{name}=NN} for the projection (C{str}).
 
            @raise AzimuthalError: Invalid B{C{lat0}} or B{C{lon0}} or (spherical) B{C{datum}}.
 
            @raise TypeError: Invalid B{C{datum}}.
        '''
         if datum not in (None, self._datum):
-            self._datum = _spherical_datum(datum, name=name)
+            self._datum = _spherical_datum(datum, **name)
         if name:
             self.name = name
 
@@ -143,9 +142,9 @@ class _AzimuthalBase(_NamedBase):
 
     f = flattening
 
-    def forward(self, lat, lon, name=NN):  # PYCHOK no cover
+    def forward(self, lat, lon, **name):  # PYCHOK no cover
         '''I{Must be overloaded}.'''
-        self._notOverloaded(lat, lon, name=name)
+        self._notOverloaded(lat, lon, **name)
 
     def _forward(self, lat, lon, name, _k_t_2):
         '''(INTERNAL) Azimuthal (spherical) forward C{lat, lon} to C{x, y}.
@@ -164,7 +163,7 @@ class _AzimuthalBase(_NamedBase):
             e = n = z = _0_0
 
         t = Azimuthal7Tuple(e, n, lat, lon, z, k, self.datum,
-                                  name=name or self.name)
+                                       name=self._name__(name))
         return t
 
     def _forwards(self, *lls):
@@ -234,11 +233,11 @@ class _AzimuthalBase(_NamedBase):
                                      Lon_(lon0=lon0, Error=AzimuthalError))
         self._sc0     = sincos2d(self.lat0)
 
-    def reverse(self, x, y, name=NN, **LatLon_and_kwds):  # PYCHOK no cover
+    def reverse(self, x, y, LatLon=None, **name_LatLon_kwds):  # PYCHOK no cover
         '''I{Must be overloaded}.'''
-        self._notOverloaded(x, y, name=name, **LatLon_and_kwds)
+        self._notOverloaded(x, y, LatLon=LatLon, **name_LatLon_kwds)
 
-    def _reverse(self, x, y, name, _c, lea, LatLon=None, **LatLon_kwds):
+    def _reverse(self, x, y, _c, lea, LatLon, **name_LatLon_kwds):
         '''(INTERNAL) Azimuthal (spherical) reverse C{x, y} to C{lat, lon}.
         '''
         e, n, z, r = _enzh4(x, y)
@@ -262,10 +261,10 @@ class _AzimuthalBase(_NamedBase):
             lon = _norm180(self.lon0 + d)
 
         if LatLon is None:
-            t = Azimuthal7Tuple(e, n, lat, lon, z, k, self.datum,
-                                      name=name or self.name)
+            t, _ = _name2__(name_LatLon_kwds, _or_nameof=self)
+            t = Azimuthal7Tuple(e, n, lat, lon, z, k, self.datum, name=t)
         else:
-            t = self._toLatLon(lat, lon, LatLon, LatLon_kwds, name)
+            t = self._toLatLon(lat, lon, LatLon, name_LatLon_kwds)
         return t
 
     def _reverse2(self, x_t, *y):
@@ -276,11 +275,11 @@ class _AzimuthalBase(_NamedBase):
         d = euclid(t.lat - self.lat0, t.lon - self.lon0)  # degrees
         return t, d
 
-    def _toLatLon(self, lat, lon, LatLon, LatLon_kwds, name):
+    def _toLatLon(self, lat, lon, LatLon, name_LatLon_kwds):
         '''(INTERNAL) Check B{C{LatLon}} and return an instance.
         '''
-        kwds = _xkwds(LatLon_kwds, datum=self.datum)
-        r =  self._xnamed(LatLon(lat, lon, **kwds), name=name)  # handle .classof
+        kwds = _xkwds(name_LatLon_kwds, datum=self.datum, _or_nameof=self)
+        r =  LatLon(lat, lon, **kwds)  # handle .classof
         B = _LLEB if self.datum.isEllipsoidal else _LLB
         _xinstanceof(B, LatLon=r)
         return r
@@ -350,12 +349,12 @@ class Equidistant(_AzimuthalBase):
     if _FOR_DOCS:
         __init__ = _AzimuthalBase.__init__
 
-    def forward(self, lat, lon, name=NN):
+    def forward(self, lat, lon, **name):
         '''Convert a geodetic location to azimuthal equidistant east- and northing.
 
            @arg lat: Latitude of the location (C{degrees90}).
            @arg lon: Longitude of the location (C{degrees180}).
-           @kwarg name: Optional name for the location (C{str}).
+           @kwarg name: Optional C{B{name}=NN} for the location (C{str}).
 
            @return: An L{Azimuthal7Tuple}C{(x, y, lat, lon, azimuth, scale, datum)}
                     with easting C{x} and northing C{y} of point in C{meter} and C{lat}
@@ -380,15 +379,15 @@ class Equidistant(_AzimuthalBase):
 
         return self._forward(lat, lon, name, _k_t)
 
-    def reverse(self, x, y, name=NN, **LatLon_and_kwds):
+    def reverse(self, x, y, LatLon=None, **name_LatLon_kwds):
         '''Convert an azimuthal equidistant location to geodetic lat- and longitude.
 
            @arg x: Easting of the location (C{meter}).
            @arg y: Northing of the location (C{meter}).
-           @kwarg name: Optional name for the location (C{str}).
-           @kwarg LatLon_and_kwds: Optional, C{B{LatLon}=None} class to use and
-                                   additional B{C{LatLon}} keyword arguments,
-                                   ignored if C{B{LatLon} is None} or not given.
+           @kwarg LatLon: Class to use (C{LatLon}) or C{None}.
+           @kwarg name_LatLon_kwds: Optional C{B{name}=NN} forthe location and
+                              optional, additional B{C{LatLon}} keyword arguments,
+                              ignored if C{B{LatLon} is None}.
 
            @return: The geodetic (C{LatLon}) or if B{C{LatLon}} is C{None} an
                     L{Azimuthal7Tuple}C{(x, y, lat, lon, azimuth, scale, datum)}.
@@ -402,10 +401,10 @@ class Equidistant(_AzimuthalBase):
         def _c(c):
             return c if c > EPS else None
 
-        return self._reverse(x, y, name, _c, False, **LatLon_and_kwds)
+        return self._reverse(x, y, _c, False, LatLon, **name_LatLon_kwds)
 
 
-def equidistant(lat0, lon0, datum=_WGS84, exact=False, geodsolve=False, name=NN):
+def equidistant(lat0, lon0, datum=_WGS84, exact=False, geodsolve=False, **name):
     '''Return an L{EquidistantExact}, L{EquidistantGeodSolve} or (if I{Karney}'s
        U{geographiclib<https://PyPI.org/project/geographiclib>} package is
        installed) an L{EquidistantKarney}, otherwise an L{Equidistant} instance.
@@ -417,7 +416,7 @@ def equidistant(lat0, lon0, datum=_WGS84, exact=False, geodsolve=False, name=NN)
                      radius (C{meter}).
        @kwarg exact: Return an L{EquidistantExact} instance.
        @kwarg geodsolve: Return an L{EquidistantGeodSolve} instance.
-       @kwarg name: Optional name for the projection (C{str}).
+       @kwarg name: Optional C{B{name}=NN} for the projection (C{str}).
 
        @return: An L{EquidistantExact}, L{EquidistantGeodSolve},
                 L{EquidistantKarney} or L{Equidistant} instance.
@@ -433,10 +432,10 @@ def equidistant(lat0, lon0, datum=_WGS84, exact=False, geodsolve=False, name=NN)
     E = EquidistantExact if exact else (EquidistantGeodSolve if geodsolve else Equidistant)
     if E is Equidistant:
         try:
-            return EquidistantKarney(lat0, lon0, datum=datum, name=name)  # PYCHOK types
+            return EquidistantKarney(lat0, lon0, datum=datum, **name)  # PYCHOK types
         except ImportError:
             pass
-    return E(lat0, lon0, datum=datum, name=name)  # PYCHOK types
+    return E(lat0, lon0, datum=datum, **name)  # PYCHOK types
 
 
 class _AzimuthalGeodesic(_AzimuthalBase):
@@ -452,36 +451,37 @@ class _AzimuthalGeodesic(_AzimuthalBase):
         '''I{Must be overloaded}.'''
         self._notOverloaded()
 
-    def _7Tuple(self, e, n, r, M=None, name=NN):
+    def _7Tuple(self, e, n, r, name_LatLon_kwds, M=None):
         '''(INTERNAL) Return an C{Azimuthal7Tuple}.
         '''
-        s = M if M is not None else (  # reciprocal, azimuthal scale
-            (r.m12 / r.s12) if r.a12 > _EPS_K else _1_0)
+        s = M
+        if s is None:  # reciprocal, azimuthal scale
+            s = (r.m12 / r.s12) if r.a12 > _EPS_K else _1_0
         z = _umod_360(r.azi2)  # -180 <= r.azi2 < 180 ... 0 <= z < 360
-        return Azimuthal7Tuple(e, n, r.lat2, r.lon2, z, s, self.datum,
-                                     name=name or self.name)
+        t, _ = _name2__(name_LatLon_kwds, _or_nameof=self)
+        return Azimuthal7Tuple(e, n, r.lat2, r.lon2, z, s, self.datum, name=t)
 
 
 class _EquidistantBase(_AzimuthalGeodesic):
     '''(INTERNAL) Base for classes L{EquidistantExact}, L{EquidistantGeodSolve}
        and L{EquidistantKarney}.
     '''
-    def __init__(self, lat0, lon0, datum=_WGS84, name=NN):
+    def __init__(self, lat0, lon0, datum=_WGS84, **name):
         '''New azimuthal L{EquidistantExact}, L{EquidistantGeodSolve} or
            L{EquidistantKarney} projection.
         '''
-        _AzimuthalGeodesic.__init__(self, lat0, lon0, datum=datum, name=name)
+        _AzimuthalGeodesic.__init__(self, lat0, lon0, datum=datum, **name)
 
         g = self.geodesic
         # g.STANDARD = g.AZIMUTH | g.DISTANCE | g.LATITUDE | g.LONGITUDE
         self._mask = g.REDUCEDLENGTH | g.STANDARD  # | g.LONG_UNROLL
 
-    def forward(self, lat, lon, name=NN):
+    def forward(self, lat, lon, **name):
         '''Convert an (ellipsoidal) geodetic location to azimuthal equidistant east- and northing.
 
            @arg lat: Latitude of the location (C{degrees90}).
            @arg lon: Longitude of the location (C{degrees180}).
-           @kwarg name: Optional name for the location (C{str}).
+           @kwarg name: Optional C{B{name}=NN} for the location (C{str}).
 
            @return: An L{Azimuthal7Tuple}C{(x, y, lat, lon, azimuth, scale, datum)}
                     with easting C{x} and northing C{y} of point in C{meter} and C{lat}
@@ -497,17 +497,17 @@ class _EquidistantBase(_AzimuthalGeodesic):
         r = self.geodesic.Inverse(self.lat0, self.lon0,
                                   Lat_(lat), Lon_(lon), outmask=self._mask)
         x, y = sincos2d(r.azi1)
-        return self._7Tuple(x * r.s12, y * r.s12, r, name=name)
+        return self._7Tuple(x * r.s12, y * r.s12, r, _name__(name))
 
-    def reverse(self, x, y, name=NN, LatLon=None, **LatLon_kwds):  # PYCHOK signature
+    def reverse(self, x, y, LatLon=None, **name_LatLon_kwds):  # PYCHOK signature
         '''Convert an azimuthal equidistant location to (ellipsoidal) geodetic lat- and longitude.
 
            @arg x: Easting of the location (C{meter}).
            @arg y: Northing of the location (C{meter}).
-           @kwarg name: Optional name for the location (C{str}).
            @kwarg LatLon: Class to use (C{LatLon}) or C{None}.
-           @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
-                               arguments, ignored if C{B{LatLon} is None}.
+           @kwarg name_LatLon_kwds: Optional C{B{name}=NN} for the location and
+                              optional, additional B{C{LatLon}} keyword arguments,
+                              ignored if C{B{LatLon} is None}.
 
            @return: The geodetic (C{LatLon}) or if B{C{LatLon}} is C{None} an
                     L{Azimuthal7Tuple}C{(x, y, lat, lon, azimuth, scale, datum)}.
@@ -521,8 +521,8 @@ class _EquidistantBase(_AzimuthalGeodesic):
         e, n, z, s = _enzh4(x, y)
 
         r = self.geodesic.Direct(self.lat0, self.lon0, z, s, outmask=self._mask)
-        return self._7Tuple(e, n, r, name=name) if LatLon is None else \
-               self._toLatLon(r.lat2, r.lon2, LatLon, LatLon_kwds, name)
+        return self._7Tuple(e, n, r, name_LatLon_kwds) if LatLon is None else \
+               self._toLatLon(r.lat2, r.lon2, LatLon, name_LatLon_kwds)
 
 
 class EquidistantExact(_EquidistantBase):
@@ -540,7 +540,7 @@ class EquidistantExact(_EquidistantBase):
        of the projection, serve to specify completely the local affine transformation between
        geographic and projected coordinates.
     '''
-    def __init__(self, lat0, lon0, datum=_WGS84, name=NN):
+    def __init__(self, lat0, lon0, datum=_WGS84, **name):
         '''New azimuthal L{EquidistantExact} projection.
 
            @arg lat0: Latitude of center point (C{degrees90}).
@@ -548,11 +548,11 @@ class EquidistantExact(_EquidistantBase):
            @kwarg datum: Optional datum or ellipsoid (L{Datum}, L{Ellipsoid},
                          L{Ellipsoid2} or L{a_f2Tuple}) or I{scalar} earth
                          radius (C{meter}).
-           @kwarg name: Optional name for the projection (C{str}).
+           @kwarg name: Optional C{B{name}=NN} for the projection (C{str}).
 
            @raise AzimuthalError: Invalid B{C{lat0}} or B{C{lon0}} or B{C{datum}}.
         '''
-        _EquidistantBase.__init__(self, lat0, lon0, datum=datum, name=name)
+        _EquidistantBase.__init__(self, lat0, lon0, datum=datum, **name)
 
     if _FOR_DOCS:
         forward = _EquidistantBase.forward
@@ -573,7 +573,7 @@ class EquidistantGeodSolve(_EquidistantBase):
 
        @see: L{EquidistantExact} and module L{geodsolve}.
     '''
-    def __init__(self, lat0, lon0, datum=_WGS84, name=NN):
+    def __init__(self, lat0, lon0, datum=_WGS84, **name):
         '''New azimuthal L{EquidistantGeodSolve} projection.
 
            @arg lat0: Latitude of center point (C{degrees90}).
@@ -581,11 +581,11 @@ class EquidistantGeodSolve(_EquidistantBase):
            @kwarg datum: Optional datum or ellipsoid (L{Datum}, L{Ellipsoid},
                          L{Ellipsoid2} or L{a_f2Tuple}) or I{scalar} earth
                          radius (C{meter}).
-           @kwarg name: Optional name for the projection (C{str}).
+           @kwarg name: Optional C{B{name}=NN} for the projection (C{str}).
 
            @raise AzimuthalError: Invalid B{C{lat0}} or B{C{lon0}} or B{C{datum}}.
         '''
-        _EquidistantBase.__init__(self, lat0, lon0, datum=datum, name=name)
+        _EquidistantBase.__init__(self, lat0, lon0, datum=datum, **name)
 
     if _FOR_DOCS:
         forward = _EquidistantBase.forward
@@ -605,7 +605,7 @@ class EquidistantKarney(_EquidistantBase):
 
        @see: L{EquidistantExact}.
     '''
-    def __init__(self, lat0, lon0, datum=_WGS84, name=NN):
+    def __init__(self, lat0, lon0, datum=_WGS84, **name):
         '''New azimuthal L{EquidistantKarney} projection.
 
            @arg lat0: Latitude of center point (C{degrees90}).
@@ -613,14 +613,14 @@ class EquidistantKarney(_EquidistantBase):
            @kwarg datum: Optional datum or ellipsoid (L{Datum}, L{Ellipsoid},
                          L{Ellipsoid2} or L{a_f2Tuple}) or I{scalar} earth
                          radius (C{meter}).
-           @kwarg name: Optional name for the projection (C{str}).
+           @kwarg name: Optional C{B{name}=NN} for the projection (C{str}).
 
            @raise ImportError: Package U{geographiclib<https://PyPI.org/project/geographiclib>}
                                not installed or not found.
 
            @raise AzimuthalError: Invalid B{C{lat0}} or B{C{lon0}} or B{C{datum}}.
         '''
-        _EquidistantBase.__init__(self, lat0, lon0, datum=datum, name=name)
+        _EquidistantBase.__init__(self, lat0, lon0, datum=datum, **name)
 
     if _FOR_DOCS:
         forward = _EquidistantBase.forward
@@ -648,12 +648,12 @@ class Gnomonic(_AzimuthalBase):
     if _FOR_DOCS:
         __init__ = _AzimuthalBase.__init__
 
-    def forward(self, lat, lon, name=NN):
+    def forward(self, lat, lon, **name):
         '''Convert a geodetic location to azimuthal equidistant east- and northing.
 
            @arg lat: Latitude of the location (C{degrees90}).
            @arg lon: Longitude of the location (C{degrees180}).
-           @kwarg name: Optional name for the location (C{str}).
+           @kwarg name: Optional C{B{name}=NN} for the location (C{str}).
 
            @return: An L{Azimuthal7Tuple}C{(x, y, lat, lon, azimuth, scale, datum)}
                     with easting C{x} and northing C{y} of point in C{meter} and C{lat}
@@ -670,15 +670,15 @@ class Gnomonic(_AzimuthalBase):
 
         return self._forward(lat, lon, name, _k_t)
 
-    def reverse(self, x, y, name=NN, **LatLon_and_kwds):
+    def reverse(self, x, y, LatLon=None, **name_LatLon_kwds):
         '''Convert an azimuthal equidistant location to geodetic lat- and longitude.
 
            @arg x: Easting of the location (C{meter}).
            @arg y: Northing of the location (C{meter}).
-           @kwarg name: Optional name for the location (C{str}).
-           @kwarg LatLon_and_kwds: Optional, C{B{LatLon}=None} class to use and
-                                   additional B{C{LatLon}} keyword arguments,
-                                   ignored if C{B{LatLon} is None} or not given.
+           @kwarg LatLon: Class to use (C{LatLon}) or C{None}.
+           @kwarg name_LatLon_kwds: Optional C{B{name}=NN} for the location and
+                              optional, additional B{C{LatLon}} keyword arguments,
+                              ignored if C{B{LatLon} is None}.
 
            @return: The geodetic (C{LatLon}) or if B{C{LatLon}} is C{None} an
                     L{Azimuthal7Tuple}C{(x, y, lat, lon, azimuth, scale, datum)}.
@@ -692,10 +692,10 @@ class Gnomonic(_AzimuthalBase):
         def _c(c):
             return atan1(c) if c > EPS else None
 
-        return self._reverse(x, y, name, _c, False, **LatLon_and_kwds)
+        return self._reverse(x, y, _c, False, LatLon, **name_LatLon_kwds)
 
 
-def gnomonic(lat0, lon0, datum=_WGS84, exact=False, geodsolve=False, name=NN):
+def gnomonic(lat0, lon0, datum=_WGS84, exact=False, geodsolve=False, **name):
     '''Return a L{GnomonicExact} or (if I{Karney}'s U{geographiclib
        <https://PyPI.org/project/geographiclib>} package is installed)
        a L{GnomonicKarney}, otherwise a L{Gnomonic} instance.
@@ -707,7 +707,7 @@ def gnomonic(lat0, lon0, datum=_WGS84, exact=False, geodsolve=False, name=NN):
                      radius (C{meter}).
        @kwarg exact: Return a L{GnomonicExact} instance.
        @kwarg geodsolve: Return a L{GnomonicGeodSolve} instance.
-       @kwarg name: Optional name for the projection (C{str}).
+       @kwarg name: Optional C{B{name}=NN} for the projection (C{str}).
 
        @return: A L{GnomonicExact}, L{GnomonicGeodSolve},
                 L{GnomonicKarney} or L{Gnomonic} instance.
@@ -723,33 +723,33 @@ def gnomonic(lat0, lon0, datum=_WGS84, exact=False, geodsolve=False, name=NN):
     G = GnomonicExact if exact else (GnomonicGeodSolve if geodsolve else Gnomonic)
     if G is Gnomonic:
         try:
-            return GnomonicKarney(lat0, lon0, datum=datum, name=name)  # PYCHOK types
+            return GnomonicKarney(lat0, lon0, datum=datum, **name)  # PYCHOK types
         except ImportError:
             pass
-    return G(lat0, lon0, datum=datum, name=name)  # PYCHOK types
+    return G(lat0, lon0, datum=datum, **name)  # PYCHOK types
 
 
 class _GnomonicBase(_AzimuthalGeodesic):
     '''(INTERNAL) Base for classes L{GnomonicExact}, L{GnomonicGeodSolve}
        and L{GnomonicKarney}.
     '''
-    def __init__(self, lat0, lon0, datum=_WGS84, name=NN):
+    def __init__(self, lat0, lon0, datum=_WGS84, **name):
         '''New azimuthal L{GnomonicExact} or L{GnomonicKarney} projection.
         '''
-        _AzimuthalGeodesic.__init__(self, lat0, lon0, datum=datum, name=name)
+        _AzimuthalGeodesic.__init__(self, lat0, lon0, datum=datum, **name)
 
         g = self.geodesic
         self._mask = g.ALL  # | g.LONG_UNROLL
 
-    def forward(self, lat, lon, name=NN, raiser=True):  # PYCHOK signature
+    def forward(self, lat, lon, raiser=True, **name):  # PYCHOK signature
         '''Convert an (ellipsoidal) geodetic location to azimuthal gnomonic east-
            and northing.
 
            @arg lat: Latitude of the location (C{degrees90}).
            @arg lon: Longitude of the location (C{degrees180}).
-           @kwarg name: Optional name for the location (C{str}).
            @kwarg raiser: Do or don't throw an error (C{bool}) if
                           the location lies over the horizon.
+           @kwarg name: Optional C{B{name}=NN} for the location (C{str}).
 
            @return: An L{Azimuthal7Tuple}C{(x, y, lat, lon, azimuth, scale, datum)}
                     with easting C{x} and northing C{y} in C{meter} and C{lat} and
@@ -777,19 +777,19 @@ class _GnomonicBase(_AzimuthalGeodesic):
         else:  # PYCHOK no cover
             e = n = NAN
 
-        t = self._7Tuple(e, n, r, M=M, name=name)
+        t = self._7Tuple(e, n, r, _name__(name), M=M)
         t._iteraton = 0
         return t
 
-    def reverse(self, x, y, name=NN, LatLon=None, **LatLon_kwds):  # PYCHOK signature
+    def reverse(self, x, y, LatLon=None, **name_LatLon_kwds):  # PYCHOK signature
         '''Convert an azimuthal gnomonic location to (ellipsoidal) geodetic lat- and longitude.
 
            @arg x: Easting of the location (C{meter}).
            @arg y: Northing of the location (C{meter}).
-           @kwarg name: Optional name for the location (C{str}).
            @kwarg LatLon: Class to use (C{LatLon}) or C{None}.
-           @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
-                               arguments, ignored if C{B{LatLon} is None}.
+           @kwarg name_LatLon_kwds: Optional C{B{name}=NN} for the location and
+                              optional, additional B{C{LatLon}} keyword arguments,
+                              ignored if C{B{LatLon} is None}.
 
            @return: The geodetic (C{LatLon}) or if B{C{LatLon}} is C{None} an
                     L{Azimuthal7Tuple}C{(x, y, lat, lon, azimuth, scale, datum)}.
@@ -832,8 +832,8 @@ class _GnomonicBase(_AzimuthalGeodesic):
             raise AzimuthalError(Fmt.no_convergence(d, a),
                                  txt=unstr(self.reverse, x, y))
 
-        t = self._7Tuple(e, n, r, M=r.M12, name=name) if LatLon is None else \
-            self._toLatLon(r.lat2, r.lon2, LatLon, LatLon_kwds, name)
+        t = self._7Tuple(e, n, r, name_LatLon_kwds, M=r.M12) if LatLon is None else \
+            self._toLatLon(r.lat2, r.lon2, LatLon, name_LatLon_kwds)
         t._iteration = self._iteration = i
         return t
 
@@ -846,7 +846,7 @@ class GnomonicExact(_GnomonicBase):
        @see: I{Karney}'s U{Detailed Description<https://GeographicLib.SourceForge.io/C++/doc/
              classGeographicLib_1_1Gnomonic.html>}, especially the B{Warning}.
     '''
-    def __init__(self, lat0, lon0, datum=_WGS84, name=NN):
+    def __init__(self, lat0, lon0, datum=_WGS84, **name):
         '''New azimuthal L{GnomonicExact} projection.
 
            @arg lat0: Latitude of center point (C{degrees90}).
@@ -854,11 +854,11 @@ class GnomonicExact(_GnomonicBase):
            @kwarg datum: Optional datum or ellipsoid (L{Datum}, L{Ellipsoid},
                          L{Ellipsoid2} or L{a_f2Tuple}) or I{scalar} earth
                          radius (C{meter}).
-           @kwarg name: Optional name for the projection (C{str}).
+           @kwarg name: Optional C{B{name}=NN} for the projection (C{str}).
 
            @raise AzimuthalError: Invalid B{C{lat0}} or B{C{lon0}}.
         '''
-        _GnomonicBase.__init__(self, lat0, lon0, datum=datum, name=name)
+        _GnomonicBase.__init__(self, lat0, lon0, datum=datum, **name)
 
     if _FOR_DOCS:
         forward = _GnomonicBase.forward
@@ -879,7 +879,7 @@ class GnomonicGeodSolve(_GnomonicBase):
 
        @see: L{GnomonicExact} and module L{geodsolve}.
     '''
-    def __init__(self, lat0, lon0, datum=_WGS84, name=NN):
+    def __init__(self, lat0, lon0, datum=_WGS84, **name):
         '''New azimuthal L{GnomonicGeodSolve} projection.
 
            @arg lat0: Latitude of center point (C{degrees90}).
@@ -887,11 +887,11 @@ class GnomonicGeodSolve(_GnomonicBase):
            @kwarg datum: Optional datum or ellipsoid (L{Datum}, L{Ellipsoid},
                          L{Ellipsoid2} or L{a_f2Tuple}) or I{scalar} earth
                          radius (C{meter}).
-           @kwarg name: Optional name for the projection (C{str}).
+           @kwarg name: Optional C{B{name}=NN} for the projection (C{str}).
 
            @raise AzimuthalError: Invalid B{C{lat0}} or B{C{lon0}}.
         '''
-        _GnomonicBase.__init__(self, lat0, lon0, datum=datum, name=name)
+        _GnomonicBase.__init__(self, lat0, lon0, datum=datum, **name)
 
     if _FOR_DOCS:
         forward = _GnomonicBase.forward
@@ -911,7 +911,7 @@ class GnomonicKarney(_GnomonicBase):
 
        @see: L{GnomonicExact}.
     '''
-    def __init__(self, lat0, lon0, datum=_WGS84, name=NN):
+    def __init__(self, lat0, lon0, datum=_WGS84, **name):
         '''New azimuthal L{GnomonicKarney} projection.
 
            @arg lat0: Latitude of center point (C{degrees90}).
@@ -919,14 +919,14 @@ class GnomonicKarney(_GnomonicBase):
            @kwarg datum: Optional datum or ellipsoid (L{Datum}, L{Ellipsoid},
                          L{Ellipsoid2} or L{a_f2Tuple}) or I{scalar} earth
                          radius (C{meter}).
-           @kwarg name: Optional name for the projection (C{str}).
+           @kwarg name: Optional C{B{name}=NN} for the projection (C{str}).
 
            @raise ImportError: Package U{geographiclib<https://PyPI.org/project/geographiclib>}
                                not installed or not found.
 
            @raise AzimuthalError: Invalid B{C{lat0}} or B{C{lon0}}.
         '''
-        _GnomonicBase.__init__(self, lat0, lon0, datum=datum, name=name)
+        _GnomonicBase.__init__(self, lat0, lon0, datum=datum, **name)
 
     if _FOR_DOCS:
         forward = _GnomonicBase.forward
@@ -951,12 +951,12 @@ class LambertEqualArea(_AzimuthalBase):
     if _FOR_DOCS:
         __init__ = _AzimuthalBase.__init__
 
-    def forward(self, lat, lon, name=NN):
+    def forward(self, lat, lon, **name):
         '''Convert a geodetic location to azimuthal Lambert-equal-area east- and northing.
 
            @arg lat: Latitude of the location (C{degrees90}).
            @arg lon: Longitude of the location (C{degrees180}).
-           @kwarg name: Optional name for the location (C{str}).
+           @kwarg name: Optional C{B{name}=NN} for the location (C{str}).
 
            @return: An L{Azimuthal7Tuple}C{(x, y, lat, lon, azimuth, scale, datum)}
                     with easting C{x} and northing C{y} of point in C{meter} and C{lat}
@@ -974,15 +974,15 @@ class LambertEqualArea(_AzimuthalBase):
 
         return self._forward(lat, lon, name, _k_t)
 
-    def reverse(self, x, y, name=NN, **LatLon_and_kwds):
+    def reverse(self, x, y, LatLon=None, **name_LatLon_kwds):
         '''Convert an azimuthal Lambert-equal-area location to geodetic lat- and longitude.
 
            @arg x: Easting of the location (C{meter}).
            @arg y: Northing of the location (C{meter}).
-           @kwarg name: Optional name for the location (C{str}).
-           @kwarg LatLon_and_kwds: Optional, C{B{LatLon}=None} class to use and
-                                   additional B{C{LatLon}} keyword arguments,
-                                   ignored if C{B{LatLon} is None} or not given.
+           @kwarg LatLon: Class to use (C{LatLon}) or C{None}.
+           @kwarg name_LatLon_kwds: Optional C{B{name}=NN} for the location
+                              and optional, additional B{C{LatLon}} keyword
+                              arguments, ignored if C{B{LatLon} is None}.
 
            @return: The geodetic (C{LatLon}) or if B{C{LatLon}} is C{None} an
                     L{Azimuthal7Tuple}C{(x, y, lat, lon, azimuth, scale, datum)}.
@@ -997,7 +997,7 @@ class LambertEqualArea(_AzimuthalBase):
             c *= _0_5
             return (asin1(c) * _2_0) if c > EPS else None
 
-        return self._reverse(x, y, name, _c, True, **LatLon_and_kwds)
+        return self._reverse(x, y, _c, True, LatLon, **name_LatLon_kwds)
 
 
 class Orthographic(_AzimuthalBase):
@@ -1008,12 +1008,12 @@ class Orthographic(_AzimuthalBase):
     if _FOR_DOCS:
         __init__ = _AzimuthalBase.__init__
 
-    def forward(self, lat, lon, name=NN):
+    def forward(self, lat, lon, **name):
         '''Convert a geodetic location to azimuthal orthographic east- and northing.
 
            @arg lat: Latitude of the location (C{degrees90}).
            @arg lon: Longitude of the location (C{degrees180}).
-           @kwarg name: Optional name for the location (C{str}).
+           @kwarg name: Optional C{B{name}=NN} for the location (C{str}).
 
            @return: An L{Azimuthal7Tuple}C{(x, y, lat, lon, azimuth, scale, datum)}
                     with easting C{x} and northing C{y} of point in C{meter} and C{lat}
@@ -1028,15 +1028,15 @@ class Orthographic(_AzimuthalBase):
 
         return self._forward(lat, lon, name, _k_t)
 
-    def reverse(self, x, y, name=NN, **LatLon_and_kwds):
+    def reverse(self, x, y, LatLon=None, **name_LatLon_kwds):
         '''Convert an azimuthal orthographic location to geodetic lat- and longitude.
 
            @arg x: Easting of the location (C{meter}).
            @arg y: Northing of the location (C{meter}).
-           @kwarg name: Optional name for the location (C{str}).
-           @kwarg LatLon_and_kwds: Optional, C{B{LatLon}=None} class to use and
-                                   additional B{C{LatLon}} keyword arguments,
-                                   ignored if C{B{LatLon} is None} or not given.
+           @kwarg LatLon: Class to use (C{LatLon}) or C{None}.
+           @kwarg name_LatLon_kwds: Optional C{B{name}=NN} for the location and
+                              optional, additional B{C{LatLon}} keyword arguments,
+                              ignored if C{B{LatLon} is None}.
 
            @return: The geodetic (C{LatLon}) or if B{C{LatLon}} is C{None} an
                     L{Azimuthal7Tuple}C{(x, y, lat, lon, azimuth, scale, datum)}.
@@ -1050,7 +1050,7 @@ class Orthographic(_AzimuthalBase):
         def _c(c):
             return asin1(c) if c > EPS else None
 
-        return self._reverse(x, y, name, _c, False, **LatLon_and_kwds)
+        return self._reverse(x, y, _c, False, LatLon, **name_LatLon_kwds)
 
 
 class Stereographic(_AzimuthalBase):
@@ -1064,12 +1064,12 @@ class Stereographic(_AzimuthalBase):
     if _FOR_DOCS:
         __init__ = _AzimuthalBase.__init__
 
-    def forward(self, lat, lon, name=NN):
+    def forward(self, lat, lon, **name):
         '''Convert a geodetic location to azimuthal stereographic east- and northing.
 
            @arg lat: Latitude of the location (C{degrees90}).
            @arg lon: Longitude of the location (C{degrees180}).
-           @kwarg name: Optional name for the location (C{str}).
+           @kwarg name: Optional C{B{name}=NN} for the location (C{str}).
 
            @return: An L{Azimuthal7Tuple}C{(x, y, lat, lon, azimuth, scale, datum)}
                     with easting C{x} and northing C{y} of point in C{meter} and C{lat}
@@ -1097,33 +1097,32 @@ class Stereographic(_AzimuthalBase):
     def k0(self, factor):
         '''Set the central scale factor (C{scalar}).
         '''
-        n = Stereographic.k0.fget.__name__
+        n = Stereographic.k0.fget.__name__  # 'k0', name__=Stereographic.k0.fget
         self._k0  = Scalar_(factor, name=n, low=EPS, high=2)  # XXX high=1, 2, other?
         self._k02 = self._k0 * _2_0
 
-    def reverse(self, x, y, name=NN, **LatLon_and_kwds):
+    def reverse(self, x, y, LatLon=None, **name_LatLon_kwds):
         '''Convert an azimuthal stereographic location to geodetic lat- and longitude.
 
            @arg x: Easting of the location (C{meter}).
            @arg y: Northing of the location (C{meter}).
-           @kwarg name: Optional name for the location (C{str}).
-           @kwarg LatLon_and_kwds: Optional, C{B{LatLon}=None} class to use and
-                                   additional B{C{LatLon}} keyword arguments,
-                                   ignored if C{B{LatLon} is None} or not given.
+           @kwarg LatLon: Class to use (C{LatLon}) or C{None}.
+           @kwarg name_LatLon_kwds: Optional C{B{name}=NN} for the location and
+                              optional, additional B{C{LatLon}} keyword arguments,
+                              ignored if C{B{LatLon} is None}.
 
            @return: The geodetic (C{LatLon}) or if B{C{LatLon}} is C{None} an
                     L{Azimuthal7Tuple}C{(x, y, lat, lon, azimuth, scale, datum)}.
 
-           @note: The C{lat} will be in the range C{[-90..90] degrees} and C{lon}
-                  in the range C{[-180..180] degrees}.  The C{scale} of the
-                  projection is C{1} in I{radial} direction, C{azimuth} clockwise
-                  from true North and is C{1 / reciprocal} in the direction
-                  perpendicular to this.
+           @note: The C{lat} will be in range C{[-90..90] degrees}, C{lon} in range
+                  C{[-180..180] degrees} and C{azimuth} clockwise from true North.
+                  The C{scale} of the projection is C{1} in I{radial} direction and
+                  is C{1 / reciprocal} in the direction perpendicular to this.
         '''
         def _c(c):
             return (atan2(c, self._k02) * _2_0) if c > EPS else None
 
-        return self._reverse(x, y, name, _c, False, **LatLon_and_kwds)
+        return self._reverse(x, y, _c, False, LatLon, **name_LatLon_kwds)
 
 
 __all__ += _ALL_DOCS(_AzimuthalBase, _AzimuthalGeodesic, _EquidistantBase, _GnomonicBase)

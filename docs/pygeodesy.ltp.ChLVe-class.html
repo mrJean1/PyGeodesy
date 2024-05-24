@@ -146,8 +146,8 @@
         <span class="summary-sig-arg">lon</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">0</span>,
         <span class="summary-sig-arg">M</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>,
-        <span class="summary-sig-arg">gamma</span>=<span class="summary-sig-default">False</span>)</span><br />
+        <span class="summary-sig-arg">gamma</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Convert WGS84 geodetic to <i>Swiss</i> projection coordinates.</td>
           <td align="right" valign="top">
             
@@ -169,8 +169,8 @@
         <span class="summary-sig-arg">n</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">h_</span>=<span class="summary-sig-default">0</span>,
         <span class="summary-sig-arg">M</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>,
-        <span class="summary-sig-arg">gamma</span>=<span class="summary-sig-default">False</span>)</span><br />
+        <span class="summary-sig-arg">gamma</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Convert <i>Swiss</i> projection to WGS84 geodetic coordinates.</td>
           <td align="right" valign="top">
             
@@ -204,6 +204,7 @@
       <code><a href="pygeodesy.named._Named-class.html#dup">dup</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#methodname">methodname</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#rename">rename</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#renamed">renamed</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#toStr2">toStr2</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
@@ -290,8 +291,7 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>), overriding 
-          <code>Bern.name</code>.</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=Bern.name</code> (<code>str</code>).</li>
     </ul></dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
@@ -327,8 +327,8 @@
         <span class="sig-arg">lon</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">height</span>=<span class="sig-default">0</span>,
         <span class="sig-arg">M</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>,
-        <span class="sig-arg">gamma</span>=<span class="sig-default">False</span>)</span>
+        <span class="sig-arg">gamma</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -353,7 +353,7 @@
           href="pygeodesy.ecef.EcefMatrix-class.html" 
           class="link">EcefMatrix</a> iff available for <code>ChLV</code> 
           only, <code>None</code> otherwise (<code>bool</code>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.ltpTuples.ChLV9Tuple-class.html" 
@@ -391,8 +391,8 @@
         <span class="sig-arg">n</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">h_</span>=<span class="sig-default">0</span>,
         <span class="sig-arg">M</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>,
-        <span class="sig-arg">gamma</span>=<span class="sig-default">False</span>)</span>
+        <span class="sig-arg">gamma</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -418,7 +418,7 @@
           href="pygeodesy.ecef.EcefMatrix-class.html" 
           class="link">EcefMatrix</a> iff available for <code>ChLV</code> 
           only, <code>None</code> otherwise (<code>bool</code>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.ltpTuples.ChLV9Tuple-class.html" 
@@ -476,7 +476,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed May 15 16:10:05 2024
+    Generated by Epydoc 3.0.1 on Fri May 24 16:58:43 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -10,24 +10,23 @@ of the C{GeodSolve} executable.
 '''
 
 from pygeodesy.basics import _xinstanceof
-# from pygeodesy.errors import _xkwds  # from .karney
 # from pygeodesy.geodesicx import GeodesicAreaExact  # _MODS
-# from pygeodesy.internals import printf  # from .lazily
 from pygeodesy.interns import NN, _a12_, _azi1_, _azi2_, \
                              _lat1_, _lat2_, _lon1_, _lon2_, _m12_, \
                              _M12_, _M21_, _s12_, _S12_, _UNDER_
 from pygeodesy.interns import _UNUSED_, _not_  # PYCHOK used!
 from pygeodesy.karney import _Azi, Caps, _Deg, GeodesicError, _GTuple, \
-                             _Pass, _Lat, _Lon, _M, _M2, _sincos2d,  _xkwds
+                             _Pass, _Lat, _Lon, _M, _M2, _sincos2d
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, \
-                             _getenv, _PYGEODESY_GEODSOLVE_,  printf
+                             _getenv, _PYGEODESY_GEODSOLVE_
+from pygeodesy.named import _name1__
 from pygeodesy.namedTuples import Destination3Tuple, Distance3Tuple
 from pygeodesy.props import Property, Property_RO
 from pygeodesy.solveBase import _SolveBase, _SolveLineBase
 from pygeodesy.utily import _unrollon, _Wrap, wrap360
 
 __all__ = _ALL_LAZY.geodsolve
-__version__ = '24.05.13'
+__version__ = '24.05.23'
 
 
 class GeodSolve12Tuple(_GTuple):
@@ -117,21 +116,20 @@ class GeodesicSolve(_GeodesicSolveBase):
               executable for I{every} method call.
     '''
 
-    def Area(self, polyline=False, name=NN):
+    def Area(self, polyline=False, **name):
         '''Set up a L{GeodesicAreaExact} to compute area and
            perimeter of a polygon.
 
            @kwarg polyline: If C{True} perimeter only, otherwise
                             area and perimeter (C{bool}).
-           @kwarg name: Optional name (C{str}).
+           @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @return: A L{GeodesicAreaExact} instance.
 
            @note: The B{C{debug}} setting is passed as C{verbose}
                   to the returned L{GeodesicAreaExact} instance.
         '''
-        gaX = _MODS.geodesicx.GeodesicAreaExact(self, polyline=polyline,
-                                                      name=name or self.name)
+        gaX = _MODS.geodesicx.GeodesicAreaExact(self, polyline=polyline, **name)
         if self.verbose or self.debug:  # PYCHOK no cover
             gaX.verbose = True
         return gaX
@@ -160,9 +158,10 @@ class GeodesicSolve(_GeodesicSolveBase):
            @arg lat1: Latitude of the first point (C{degrees}).
            @arg lon1: Longitude of the first point (C{degrees}).
            @arg azi1: Azimuth at the first point (compass C{degrees}).
-           @kwarg caps_name: Bit-or'ed combination of L{Caps} values specifying
-                       the capabilities the L{GeodesicLineSolve} instance should
-                       possess, C{caps=Caps.ALL} always.
+           @kwarg caps_name: Optional C{B{name}=NN} (C{str}) and keyword
+                       argument C{B{caps}=Caps.ALL}, bit-or'ed combination
+                       of L{Caps} values specifying the capabilities the
+                       L{GeodesicLineSolve} instance should possess.
 
            @return: A L{GeodesicLineSolve} instance.
 
@@ -174,7 +173,7 @@ class GeodesicSolve(_GeodesicSolveBase):
                  <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1GeodesicExact.html>}
                  and Python U{Geodesic.Line<https://GeographicLib.SourceForge.io/Python/doc/code.html>}.
         '''
-        return GeodesicLineSolve(self, lat1, lon1, azi1, **_xkwds(caps_name, name=self.name))
+        return GeodesicLineSolve(self, lat1, lon1, azi1, **_name1__(caps_name, _or_nameof=self))
 
     Line = DirectLine
 
@@ -210,9 +209,10 @@ class GeodesicSolve(_GeodesicSolveBase):
            @arg lon1: Longitude of the first point (C{degrees}).
            @arg lat2: Latitude of the second point (C{degrees}).
            @arg lon2: Longitude of the second point (C{degrees}).
-           @kwarg caps_name: Bit-or'ed combination of L{Caps} values specifying
-                       the capabilities the L{GeodesicLineSolve} instance should
-                       possess, C{caps=Caps.ALL} always.
+           @kwarg caps_name: Optional C{B{name}=NN} (C{str}) and keyword
+                       argument C{B{caps}=Caps.ALL}, bit-or'ed combination
+                       of L{Caps} values specifying the capabilities the
+                       L{GeodesicLineSolve} instance should possess.
 
            @return: A L{GeodesicLineSolve} instance.
 
@@ -223,7 +223,7 @@ class GeodesicSolve(_GeodesicSolveBase):
                  Python U{Geodesic.InverseLine<https://GeographicLib.SourceForge.io/Python/doc/code.html>}.
         '''
         r = self.Inverse(lat1, lon1, lat2, lon2)
-        return GeodesicLineSolve(self, lat1, lon1, r.azi1, **_xkwds(caps_name, name=self.name))
+        return GeodesicLineSolve(self, lat1, lon1, r.azi1, **_name1__(caps_name, _or_nameof=self))
 
 
 class GeodesicLineSolve(_GeodesicSolveBase, _SolveLineBase):
@@ -238,7 +238,7 @@ class GeodesicLineSolve(_GeodesicSolveBase, _SolveLineBase):
               executable for I{every} method call.
     '''
 
-    def __init__(self, geodesic, lat1, lon1, azi1, caps=Caps.ALL, name=NN):
+    def __init__(self, geodesic, lat1, lon1, azi1, caps=Caps.ALL, **name):
         '''New L{GeodesicLineSolve} instance, allowing points to be found along
            a geodesic starting at C{(B{lat1}, B{lon1})} with azimuth B{C{azi1}}.
 
@@ -246,14 +246,14 @@ class GeodesicLineSolve(_GeodesicSolveBase, _SolveLineBase):
            @arg lat1: Latitude of the first point (C{degrees}).
            @arg lon1: Longitude of the first point (C{degrees}).
            @arg azi1: Azimuth at the first points (compass C{degrees}).
-           @kwarg caps: Bit-or'ed combination of L{Caps} values specifying
-                        the capabilities the L{GeodesicLineSolve} instance
-                        should possess, always C{Caps.ALL}.  Use C{Caps.LINE_OFF}
-                        if updates to the B{C{geodesic}} should I{not} be
-                        reflected in this L{GeodesicLineSolve} instance.
-           @kwarg name: Optional name (C{str}).
+           @kwarg caps: Bit-or'ed combination of L{Caps} values specifying the
+                        capabilities the L{GeodesicLineSolve} instance should possess,
+                        C{B{caps}=Caps.ALL} always.  Include C{Caps.LINE_OFF} if
+                        updates to the B{C{geodesic}} should I{not} be reflected in
+                        this L{GeodesicLineSolve} instance.
+           @kwarg name: Optional C{B{name}=NN} (C{str}).
 
-           @raise GeodesicError: Invalid path for the C{GeodSolve} executable or
+           @raise GeodesicError: Invalid path for the C{GeodSolve} executable
                                  or isn't the C{GeodSolve} executable, see
                                  property C{geodesic.GeodSolve}.
 
@@ -261,7 +261,7 @@ class GeodesicLineSolve(_GeodesicSolveBase, _SolveLineBase):
         '''
         _xinstanceof(GeodesicSolve, geodesic=geodesic)
         if (caps & Caps.LINE_OFF):  # copy to avoid updates
-            geodesic = geodesic.copy(deep=False, name=NN(_UNDER_, geodesic.name))
+            geodesic = geodesic.copy(deep=False, name=_UNDER_(NN, geodesic.name))  # NOT _under!
         _SolveLineBase.__init__(self, geodesic, lat1, lon1, caps, name, azi1=azi1)
         try:
             self.GeodSolve = geodesic.GeodSolve  # geodesic or copy of geodesic
@@ -338,6 +338,7 @@ __all__ += _ALL_DOCS(_GeodesicSolveBase)
 
 if __name__ == '__main__':
 
+    from pygeodesy import printf
     from sys import argv
 
     gS = GeodesicSolve(name='Test')

@@ -28,7 +28,7 @@ from pygeodesy.utmupsBase import _to3zBhp, _UPS_ZONE, _UTM_ZONE_MIN, \
                                  _UTM_ZONE_MAX, _UTMUPS_ZONE_INVALID
 
 __all__ = _ALL_LAZY.epsg
-__version__ = '22.09.24'
+__version__ = '24.05.18'
 
 # _EPSG_INVALID = _UTMUPS_ZONE_INVALID
 _EPSG_N_01 = 32601  # EPSG code for UTM zone 01 N
@@ -49,11 +49,12 @@ class Epsg(Int):
     _utmups     =  None
     _zone       = _UTMUPS_ZONE_INVALID
 
-    def __new__(cls, eisu, name=NN):
+    def __new__(cls, eisu, **name):
         '''New L{Epsg} (I{European Petroleum Survey Group}) code from a
            UTM/USP coordinate or other EPSG code.
 
            @arg eisu: Other code (L{Epsg}, C{int}, C{str}, L{Utm} or L{Ups}).
+           @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @return: New L{Epsg}.
 
@@ -88,7 +89,7 @@ class Epsg(Int):
                 self.name = u.name
 
         if name:
-            self.name = name
+            self.rename(name)
         return self
 
     def __repr__(self):

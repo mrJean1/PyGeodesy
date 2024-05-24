@@ -10,16 +10,15 @@ U{GeographicLib<https://GeographicLib.SourceForge.io>} documentation.
 
 from pygeodesy.basics import isodd,  _MODS
 from pygeodesy.constants import _0_0, _100_0
-from pygeodesy.errors import _or, _xkwds_item2,  _not_
+from pygeodesy.errors import _or, _xkwds_item2
 from pygeodesy.fmath import hypot as _hypot
-# from pygeodesy.interns import _not_  # from .errors
 from pygeodesy.karney import _CapsBase, GeodesicError, _2cos2x, _sum2_
 # from pygeodesy.lazily import _MODS, printf  # .basics, _MODS
 
 from math import ldexp as _ldexp
 
 __all__ = ()
-__version__ = '24.03.15'
+__version__ = '24.05.19'
 
 # valid C{nC4}s and C{C4order}s, see _xnC4 below
 _nC4s = {24: 2900, 27: 4032, 30: 5425}
@@ -127,7 +126,7 @@ def _xnC4(**name_nC4):
     '''
     n, nC4 = _xkwds_item2(name_nC4)
     if nC4 not in _nC4s or not isinstance(nC4, int):
-        raise GeodesicError(n, nC4, txt=_not_(_or(*map(str, _nC4s))))
+        raise GeodesicError(n, nC4, txt_not_=_or(*map(str, _nC4s)))
     return _nC4s[nC4]
 
 

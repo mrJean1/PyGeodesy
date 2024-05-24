@@ -24,7 +24,7 @@ from math import fabs, sqrt  # pow
 import operator as _operator  # in .datums, .trf, .utm
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '24.05.10'
+__version__ = '24.05.24'
 
 # sqrt(2) <https://WikiPedia.org/wiki/Square_root_of_2>
 _0_4142  =  0.41421356237309504880  # ... sqrt(2) - 1
@@ -39,12 +39,13 @@ class Fdot(Fsum):
         '''New L{Fdot} precision dot product M{sum(a[i] * b[i] for
            i=0..len(a)-1)}.
 
-           @arg a: Iterable of values (each C{scalar} or an L{Fsum} or
-                   L{Fsum2Tuple} instance).
-           @arg b: Other values (each C{scalar} or an L{Fsum} or L{Fsum2Tuple}
-                   instance), all positional.
-           @kwarg name_RESIDUAL: Optional C{B{name}=NN} and C{B{RESIDUAL}=0.0}
-                       threshold, see L{Fsum<Fsum.__init__>}.
+           @arg a: Iterable of values (each C{scalar} or an L{Fsum} or L{Fsum2Tuple}
+                   instance).
+           @arg b: Other values (each C{scalar} or an L{Fsum} or L{Fsum2Tuple} instance),
+                   all positional.
+           @kwarg name_RESIDUAL: Optional C{B{name}=NN} (C{str}) and the C{B{RESIDUAL}=0.0}
+                       threshold (C{scalar}) for raising L{ResidualError}s, see class
+                       L{Fsum<Fsum.__init__>}.
 
            @raise LenError: Unequal C{len(B{a})} and C{len(B{b})}.
 
@@ -68,10 +69,11 @@ class Fhorner(Fsum):
            i=0..len(cs)-1)}.
 
            @arg x: Polynomial argument (C{scalar} or an L{Fsum} or L{Fsum2Tuple}).
-           @arg cs: Polynomial coeffients (each C{scalar} or an L{Fsum} or
-                    L{Fsum2Tuple} instance), all positional.
-           @kwarg name_RESIDUAL: Optional C{B{name}=NN} and C{B{RESIDUAL}=0.0}
-                       threshold, see L{Fsum<Fsum.__init__>}.
+           @arg cs: Polynomial coeffients (each C{scalar} or an L{Fsum} or L{Fsum2Tuple}
+                    instance), all positional.
+           @kwarg name_RESIDUAL: Optional C{B{name}=NN} (C{str}) and the C{B{RESIDUAL}=0.0}
+                       threshold (C{scalar}) for raising L{ResidualError}s, see class
+                       L{Fsum<Fsum.__init__>}.
 
            @raise OverflowError: Partial C{2sum} overflow.
 
@@ -107,11 +109,12 @@ class Fhypot(Fsum):
         '''New L{Fhypot} hypotenuse of (the I{root} of) several components
            (raised to the power I{root}).
 
-           @arg xs: Components (each C{scalar} or an L{Fsum} or L{Fsum2Tuple}
-                    instance), all positional.
-           @kwarg root_name_RESIDUAL_raiser: Optional, exponent and C{B{root}=2}
-                       order, C{B{name}=NN}, C{B{RESIDUAL}=0.0} threshold and
-                       C{B{raiser}=True}, see class L{Fsum<Fsum.__init__>} and
+           @arg xs: Components (each C{scalar} or an L{Fsum} or L{Fsum2Tuple} instance),
+                    all positional.
+           @kwarg root_name_RESIDUAL_raiser: Optional, exponent and C{B{root}=2} order
+                       (C{scalar}), C{B{name}=NN} (C{str}), the C{B{RESIDUAL}=0.0}
+                       threshold (C{scalar}) and C{B{raiser}=True} (C{bool}) for
+                       raising L{ResidualError}s, see class L{Fsum<Fsum.__init__>} and
                        method L{root<Fsum.root>}.
         '''
         r = None  # _xkwds_pop2 error
@@ -134,10 +137,11 @@ class Fpolynomial(Fsum):
            M{sum(cs[i] * x**i for i=0..len(cs)-1)}.
 
            @arg x: Polynomial argument (C{scalar} or an L{Fsum} or L{Fsum2Tuple}).
-           @arg cs: Polynomial coeffients (each C{scalar} or an L{Fsum} or
-                    L{Fsum2Tuple} instance), all positional.
-           @kwarg name_RESIDUAL: Optional C{B{name}=NN} and C{B{RESIDUAL}=0.0}
-                       threshold, see L{Fsum<Fsum.__init__>}.
+           @arg cs: Polynomial coeffients (each C{scalar} or an L{Fsum} or L{Fsum2Tuple}
+                    instance), all positional.
+           @kwarg name_RESIDUAL: Optional C{B{name}=NN} (C{str}) and the C{B{RESIDUAL}=0.0}
+                       threshold (C{scalar}) for raising L{ResidualError}s, see class
+                       L{Fsum<Fsum.__init__>}.
 
            @raise OverflowError: Partial C{2sum} overflow.
 
@@ -162,11 +166,12 @@ class Fpowers(Fsum):
         '''New L{Fpowers} sum of (the I{power} of) several bases.
 
            @arg power: The exponent (C{scalar} or an L{Fsum} or L{Fsum2Tuple}).
-           @arg xs: One or more bases (each C{scalar} or an L{Fsum} or L{Fsum2Tuple}
-                    instance), all positional.
-           @kwarg name_RESIDUAL_raiser: Optional C{B{name}=NN}, C{B{RESIDUAL}=0.0}
-                       threshold and C{B{raiser}=True}, see L{Fsum<Fsum.__init__>}
-                       and L{fpow<Fsum.fpow>}.
+           @arg xs: One or more bases (each C{scalar} or an L{Fsum} or L{Fsum2Tuple} instance),
+                    all positional.
+           @kwarg name_RESIDUAL_raiser: Optional C{B{name}=NN} (C{str}), the C{B{RESIDUAL}=0.0}
+                       threshold (C{scalar}) and C{B{raiser}=True} (C{bool}) for raising
+                       L{ResidualError}s, see class L{Fsum<Fsum.__init__>} and method
+                       L{fpow<Fsum.fpow>}.
         '''
         try:
             raiser = _Fsum__init__(self, **name_RESIDUAL_raiser)
@@ -183,11 +188,12 @@ class Froot(Fsum):
         '''New L{Froot} root of a precision sum.
 
            @arg root: The order (C{scalar} or an L{Fsum} or L{Fsum2Tuple}), non-zero.
-           @arg xs: Items to summate (each a C{scalar} or an L{Fsum} or L{Fsum2Tuple}
-                    instance), all positional.
-           @kwarg name_RESIDUAL_raiser: Optional C{B{name}=NN}, C{B{RESIDUAL}=0.0}
-                       threshold and C{B{raiser}=True}, see L{Fsum<Fsum.__init__>}
-                       and L{fpow<Fsum.fpow>}.
+           @arg xs: Items to summate (each a C{scalar} or an L{Fsum} or L{Fsum2Tuple} instance),
+                    all positional.
+           @kwarg name_RESIDUAL_raiser: Optional C{B{name}=NN} (C{str}), the C{B{RESIDUAL}=0.0}
+                       threshold (C{scalar}) and C{B{raiser}=True} (C{bool}) for raising
+                       L{ResidualError}s, see class L{Fsum<Fsum.__init__>} and method
+                       L{fpow<Fsum.fpow>}.
         '''
         try:
             raiser = _Fsum__init__(self, **name_RESIDUAL_raiser)

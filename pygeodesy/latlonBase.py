@@ -53,7 +53,7 @@ from contextlib import contextmanager
 from math import asin, cos, degrees, fabs, radians
 
 __all__ = _ALL_LAZY.latlonBase
-__version__ = '24.04.07'
+__version__ = '24.05.18'
 
 
 class LatLonBase(_NamedBase):
@@ -66,7 +66,7 @@ class LatLonBase(_NamedBase):
     _lat    = 0     # latitude (C{degrees})
     _lon    = 0     # longitude (C{degrees})
 
-    def __init__(self, latlonh, lon=None, height=0, wrap=False, name=NN, datum=None):
+    def __init__(self, latlonh, lon=None, height=0, wrap=False, datum=None, **name):
         '''New C{LatLon}.
 
            @arg latlonh: Latitude (C{degrees} or DMS C{str} with N or S suffix) or
@@ -77,9 +77,9 @@ class LatLonBase(_NamedBase):
                           (C{meter}, conventionally).
            @kwarg wrap: If C{True}, wrap or I{normalize} B{C{lat}} and B{C{lon}}
                         (C{bool}).
-           @kwarg name: Optional name (C{str}).
            @kwarg datum: Optional datum (L{Datum}, L{Ellipsoid}, L{Ellipsoid2},
                          L{a_f2Tuple} or I{scalar} radius) or C{None}.
+           @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @return: New instance (C{LatLon}).
 
@@ -1418,13 +1418,14 @@ class LatLonBase(_NamedBase):
             for p in (p, c):
                 e = _xattr(p, Ecef=None)
                 if e not in (None, E):  # PYCHOK no cover
-                    n = Fmt.INDEX(_xkwds_item2(name_point)[0], i)
-                    raise _ValueError(n, e, txt=_incompatible(E.__name__))
+                    n, _ = _xkwds_item2(name_point)
+                    n = Fmt.INDEX(n, i)
+                    raise _ValueError(n, e, txt=_incompatible(E.__name__))  # txt__
         return c
 
-    def toDatum(self, datum2, height=None, name=NN):
+    def toDatum(self, datum2, height=None, **name):
         '''I{Must be overloaded}.'''
-        self._notOverloaded(datum2, height=height, name=name)
+        self._notOverloaded(datum2, height=height, **name)
 
     def toEcef(self, height=None, M=False):
         '''Convert this point to I{geocentric} coordinates, also known as
@@ -1476,16 +1477,16 @@ class LatLonBase(_NamedBase):
         return self._Ltp if Ecef in (None, self.Ecef) else self._ltp.Ltp(
                self, ecef=Ecef(self.datum), name=self.name)
 
-    def toNormal(self, deep=False, name=NN):
+    def toNormal(self, deep=False, **name):
         '''Get this point I{normalized} to C{abs(lat) <= 90}
            and C{abs(lon) <= 180}.
 
            @kwarg deep: If C{True} make a deep, otherwise a
                         shallow copy (C{bool}).
-           @kwarg name: Optional name of the copy (C{str}).
+           @kwarg name: Optional C{B{name}=NN} (C{str}).
 
-           @return: A copy of this point, I{normalized} and
-                    optionally renamed (C{LatLon}).
+           @return: A copy of this point, I{normalized} (C{LatLon}),
+                    optionally renamed.
 
            @see: Property L{isnormal}, method L{normal} and function
                  L{pygeodesy.normal}.

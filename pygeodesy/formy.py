@@ -19,11 +19,13 @@ from pygeodesy.errors import IntersectionError, LimitError, limiterrors, \
                             _xkwds, _xkwds_pop2
 from pygeodesy.fmath import euclid, hypot, hypot2, sqrt0
 from pygeodesy.fsums import fsumf_
-from pygeodesy.interns import NN, _delta_, _distant_, _inside_, _SPACE_, _too_
+# from pygeodesy.internals import _dunder_nameof  # from .named
+from pygeodesy.interns import _delta_, _distant_, _inside_, _SPACE_, _too_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
-from pygeodesy.named import _NamedTuple, _xnamed,  Fmt, unstr
-from pygeodesy.namedTuples import Bearing2Tuple, Distance4Tuple, Intersection3Tuple, \
-                                  LatLon2Tuple, PhiLam2Tuple, Vector3Tuple
+from pygeodesy.named import _name__, _name2__, _NamedTuple, _xnamed, \
+                            _dunder_nameof, Fmt, unstr
+from pygeodesy.namedTuples import Bearing2Tuple, Distance4Tuple, LatLon2Tuple, \
+                                  Intersection3Tuple, PhiLam2Tuple, Vector3Tuple
 # from pygeodesy.streprs import Fmt, unstr  # from .named
 # from pygeodesy.triaxials import _hartzell2  # _MODS
 from pygeodesy.units import _isHeight, _isRadius, Bearing, Degrees_, Distance, \
@@ -40,7 +42,7 @@ from contextlib import contextmanager
 from math import asin, atan, atan2, cos, degrees, fabs, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '24.02.18'
+__version__ = '24.05.24'
 
 _RADIANS2 = (PI / _180_0)**2  # degrees- to radians-squared
 _ratio_   = 'ratio'
@@ -59,36 +61,36 @@ def _anti2(a, b, n_2, n, n2):
     return float0_(r, b)
 
 
-def antipode(lat, lon, name=NN):
+def antipode(lat, lon, **name):
     '''Return the antipode, the point diametrically opposite
        to a given point in C{degrees}.
 
        @arg lat: Latitude (C{degrees}).
        @arg lon: Longitude (C{degrees}).
-       @kwarg name: Optional name (C{str}).
+       @kwarg name: Optional C{B{name}=NN} (C{str}).
 
        @return: A L{LatLon2Tuple}C{(lat, lon)}.
 
        @see: Functions L{antipode_} and L{normal} and U{Geosphere
              <https://CRAN.R-Project.org/web/packages/geosphere/geosphere.pdf>}.
     '''
-    return LatLon2Tuple(*_anti2(lat, lon, _90_0, _180_0, _360_0), name=name)
+    return LatLon2Tuple(*_anti2(lat, lon, _90_0, _180_0, _360_0), **name)
 
 
-def antipode_(phi, lam, name=NN):
+def antipode_(phi, lam, **name):
     '''Return the antipode, the point diametrically opposite
        to a given point in C{radians}.
 
        @arg phi: Latitude (C{radians}).
        @arg lam: Longitude (C{radians}).
-       @kwarg name: Optional name (C{str}).
+       @kwarg name: Optional C{B{name}=NN} (C{str}).
 
        @return: A L{PhiLam2Tuple}C{(phi, lam)}.
 
        @see: Functions L{antipode} and L{normal_} and U{Geosphere
              <https://CRAN.R-Project.org/web/packages/geosphere/geosphere.pdf>}.
     '''
-    return PhiLam2Tuple(*_anti2(phi, lam, PI_2, PI, PI2), name=name)
+    return PhiLam2Tuple(*_anti2(phi, lam, PI_2, PI, PI2), **name)
 
 
 def bearing(lat1, lon1, lat2, lon2, **final_wrap):
@@ -118,16 +120,17 @@ def bearing_(phi1, lam1, phi2, lam2, final=False, wrap=False):
        @arg lam1: Start longitude (C{radians}).
        @arg phi2: End latitude (C{radians}).
        @arg lam2: End longitude (C{radians}).
-       @kwarg final: Return final bearing if C{True}, initial otherwise (C{bool}).
-       @kwarg wrap: If C{True}, wrap or I{normalize} and unroll B{C{phi2}} and
-                    B{C{lam2}} (C{bool}).
+       @kwarg final: If C{True}, return the final, otherwise the initial
+                     bearing (C{bool}).
+       @kwarg wrap: If C{True}, wrap or I{normalize} and unroll B{C{phi2}}
+                    and B{C{lam2}} (C{bool}).
 
-       @return: Initial or final bearing (compass C{radiansPI2}) or zero if start
-                and end point coincide.
+       @return: Initial or final bearing (compass C{radiansPI2}) or zero if
+                start and end point coincide.
 
-       @see: U{Bearing<https://www.Movable-Type.co.UK/scripts/latlong.html>}, U{Course
-             between two points<https://www.EdWilliams.org/avform147.htm#Crs>} and
-             U{Bearing Between Two Points<https://web.Archive.org/web/20020630205931/
+       @see: U{Bearing<https://www.Movable-Type.co.UK/scripts/latlong.html>},
+             U{Course between two points<https://www.EdWilliams.org/avform147.htm#Crs>}
+             and U{Bearing Between Two Points<https://web.Archive.org/web/20020630205931/
              https://MathForum.org/library/drmath/view/55417.html>}.
     '''
     db, phi2, lam2 = _Wrap.philam3(lam1, phi2, lam2, wrap)
@@ -154,7 +157,7 @@ def _bearingTo2(p1, p2, wrap=False):  # for points.ispolar, sphericalTrigonometr
     t = p1.philam + p2.philam
     return Bearing2Tuple(degrees(bearing_(*t, final=False, wrap=wrap)),
                          degrees(bearing_(*t, final=True,  wrap=wrap)),
-                         name=_bearingTo2.__name__)
+                         name__=_bearingTo2)
 
 
 def compassAngle(lat1, lon1, lat2, lon2, adjust=True, wrap=False):
@@ -416,7 +419,7 @@ def _ellipsoidal(earth, where):
     return _EWGS84 if earth in (_WGS84, _EWGS84)   else (
              earth if isinstance(earth, Ellipsoid) else
             (earth if isinstance(earth, Datum)     else  # PYCHOK indent
-            _ellipsoidal_datum(earth, name=where.__name__)).ellipsoid)
+            _ellipsoidal_datum(earth, name__=where)).ellipsoid)
 
 
 def equirectangular(lat1, lon1, lat2, lon2, radius=R_M, **adjust_limit_wrap):
@@ -940,7 +943,7 @@ def _hartzell(pov, los, earth, **kwds):
     if earth is None:
         earth =  pov.datum
     else:
-        earth = _spherical_datum(earth, name=hartzell.__name__)
+        earth = _spherical_datum(earth, name__=hartzell)
         pov   =  pov.toDatum(earth)
     h = pov.height
     if h < 0:  # EPS0
@@ -949,26 +952,25 @@ def _hartzell(pov, los, earth, **kwds):
     return hartzell(pov, los=los, earth=earth, **kwds) if h > 0 else pov  # EPS0
 
 
-def hartzell(pov, los=False, earth=_WGS84, name=NN, **LatLon_and_kwds):
+def hartzell(pov, los=False, earth=_WGS84, **name_LatLon_and_kwds):
     '''Compute the intersection of the earth's surface and a Line-Of-Sight from
        a Point-Of-View in space.
 
        @arg pov: Point-Of-View outside the earth (C{LatLon}, C{Cartesian},
                  L{Ecef9Tuple} or L{Vector3d}).
        @kwarg los: Line-Of-Sight, I{direction} to earth (L{Los}, L{Vector3d}),
-                   C{True} for the I{normal, plumb} onto the surface or
-                   C{False} or C{None} to point to the center of the earth.
+                   C{True} for the I{normal, plumb} onto the surface or C{False}
+                   or C{None} to point to the center of the earth.
        @kwarg earth: The earth model (L{Datum}, L{Ellipsoid}, L{Ellipsoid2},
                      L{a_f2Tuple} or a C{scalar} earth radius in C{meter}).
-       @kwarg name: Optional name (C{str}).
-       @kwarg LatLon_and_kwds: Optional C{B{LatLon}=None} class to return the
-                               intersection plus additional C{LatLon} keyword
-                               arguments, include B{C{datum}} if different
-                               from B{C{earth}}.
+       @kwarg name_LatLon_and_kwds: Optional, overriding C{B{name}="hartzell"}
+                   (C{str}), C{B{LatLon}=None} class to return the intersection
+                   plus additional C{LatLon} keyword arguments, include the
+                   B{C{datum}} if different from B{C{earth}}.
 
-       @return: The intersection (L{Vector3d}, B{C{pov}}'s C{cartesian type} or
-                the given B{C{LatLon}} instance) with attribute C{heigth} set
-                to the distance to the B{C{pov}}.
+       @return: The intersection (L{Vector3d}, B{C{pov}}'s C{cartesian type} or the
+                given B{C{LatLon}} instance) with attribute C{heigth} set to the
+                distance to the B{C{pov}}.
 
        @raise IntersectionError: Invalid B{C{pov}} or B{C{pov}} inside the earth or
                                  invalid B{C{los}} or B{C{los}} points outside or
@@ -979,12 +981,12 @@ def hartzell(pov, los=False, earth=_WGS84, name=NN, **LatLon_and_kwds):
        @see: Class L{Los}, functions L{tyr3d} and L{hartzell4} and methods
              L{Ellipsoid.hartzell4} and any C{Cartesian.hartzell} and C{LatLon.hartzell}.
     '''
-    n = hartzell.__name__
-    D = earth if isinstance(earth, Datum) else _spherical_datum(earth, name=n)
+    D = _spherical_datum(earth, name__=hartzell)
+    n, LatLon_and_kwds = _name2__(name_LatLon_and_kwds, name__=hartzell)
     try:
         r, h, i = _MODS.triaxials._hartzell3(pov, los, D.ellipsoid._triaxial)
+        r = _xnamed(r, n)
 
-        r = _xnamed(r, name or n)
         C = _MODS.cartesianBase.CartesianBase
         if LatLon_and_kwds:
             c = C(r, datum=D, name=r.name)
@@ -994,7 +996,8 @@ def hartzell(pov, los=False, earth=_WGS84, name=NN, **LatLon_and_kwds):
         if i:
             r._iteration = i
     except Exception as x:
-        raise IntersectionError(pov=pov, los=los, earth=earth, cause=x, **LatLon_and_kwds)
+        raise IntersectionError(pov=pov, los=los, earth=earth, cause=x,
+                                                **LatLon_and_kwds)
     return r
 
 
@@ -1139,8 +1142,8 @@ class _idllmn6(object):  # see also .geodesicw._wargs, .latlonBase._toCartesian3
             if wrap:
                 _, lat2, lon2 = _Wrap.latlon3(lon1, lat2, lon2, wrap)
                 kwds = _xkwds(kwds, wrap=wrap)  # for _xError
-            m = small if small is _100km else Meter_(small=small)
-            n = (intersections2 if s else intersection2).__name__
+            m =  small if small is _100km else Meter_(small=small)
+            n = _dunder_nameof(intersections2 if s else intersection2)
             if datum is None or euclidean(lat1, lon1, lat2, lon2) < m:
                 d, m = None, _MODS.vector3d
                 _i   = m._intersects2 if s else m._intersect3d3
@@ -1398,13 +1401,13 @@ def isnormal_(phi, lam, eps=0):
     return (PI_2 - fabs(phi)) >= eps and (PI - fabs(lam)) >= eps
 
 
-def latlon2n_xyz(lat, lon, name=NN):
+def latlon2n_xyz(lat, lon, **name):
     '''Convert lat-, longitude to C{n-vector} (I{normal} to the
        earth's surface) X, Y and Z components.
 
        @arg lat: Latitude (C{degrees}).
        @arg lon: Longitude (C{degrees}).
-       @kwarg name: Optional name (C{str}).
+       @kwarg name: Optional C{B{name}=NN} (C{str}).
 
        @return: A L{Vector3Tuple}C{(x, y, z)}.
 
@@ -1429,12 +1432,12 @@ def _normal2(a, b, n_2, n, n2):
     return float0_(a, b)
 
 
-def normal(lat, lon, name=NN):
+def normal(lat, lon, **name):
     '''Normalize a lat- I{and} longitude pair in C{degrees}.
 
        @arg lat: Latitude (C{degrees}).
        @arg lon: Longitude (C{degrees}).
-       @kwarg name: Optional name (C{str}).
+       @kwarg name: Optional, overriding C{B{name}="normal"} (C{str}).
 
        @return: L{LatLon2Tuple}C{(lat, lon)} with C{abs(lat) <= 90}
                 and C{abs(lon) <= 180}.
@@ -1442,15 +1445,15 @@ def normal(lat, lon, name=NN):
        @see: Functions L{normal_} and L{isnormal}.
     '''
     return LatLon2Tuple(*_normal2(lat, lon, _90_0, _180_0, _360_0),
-                          name=name or normal.__name__)
+                          name=_name__(name, name__=normal))
 
 
-def normal_(phi, lam, name=NN):
+def normal_(phi, lam, **name):
     '''Normalize a lat- I{and} longitude pair in C{radians}.
 
        @arg phi: Latitude (C{radians}).
        @arg lam: Longitude (C{radians}).
-       @kwarg name: Optional name (C{str}).
+       @kwarg name: Optional, overriding C{B{name}="normal_"} (C{str}).
 
        @return: L{PhiLam2Tuple}C{(phi, lam)} with C{abs(phi) <= PI/2}
                 and C{abs(lam) <= PI}.
@@ -1458,45 +1461,45 @@ def normal_(phi, lam, name=NN):
        @see: Functions L{normal} and L{isnormal_}.
     '''
     return PhiLam2Tuple(*_normal2(phi, lam, PI_2, PI, PI2),
-                          name=name or normal_.__name__)
+                          name=_name__(name, name__=normal_))
 
 
-def _2n_xyz(name, sa, ca, sb, cb):
+def _2n_xyz(name, sa, ca, sb, cb):  # name always **name
     '''(INTERNAL) Helper for C{latlon2n_xyz} and C{philam2n_xyz}.
     '''
     # Kenneth Gade eqn 3, but using right-handed
     # vector x -> 0°E,0°N, y -> 90°E,0°N, z -> 90°N
-    return Vector3Tuple(ca * cb, ca * sb, sa, name=name)
+    return Vector3Tuple(ca * cb, ca * sb, sa, **name)
 
 
-def n_xyz2latlon(x, y, z, name=NN):
+def n_xyz2latlon(x, y, z, **name):
     '''Convert C{n-vector} components to lat- and longitude in C{degrees}.
 
        @arg x: X component (C{scalar}).
        @arg y: Y component (C{scalar}).
        @arg z: Z component (C{scalar}).
-       @kwarg name: Optional name (C{str}).
+       @kwarg name: Optional C{B{name}=NN} (C{str}).
 
        @return: A L{LatLon2Tuple}C{(lat, lon)}.
 
        @see: Function L{n_xyz2philam}.
     '''
-    return LatLon2Tuple(atan2d(z, hypot(x, y)), atan2d(y, x), name=name)
+    return LatLon2Tuple(atan2d(z, hypot(x, y)), atan2d(y, x), **name)
 
 
-def n_xyz2philam(x, y, z, name=NN):
+def n_xyz2philam(x, y, z, **name):
     '''Convert C{n-vector} components to lat- and longitude in C{radians}.
 
        @arg x: X component (C{scalar}).
        @arg y: Y component (C{scalar}).
        @arg z: Z component (C{scalar}).
-       @kwarg name: Optional name (C{str}).
+       @kwarg name: Optional C{B{name}=NN} (C{str}).
 
        @return: A L{PhiLam2Tuple}C{(phi, lam)}.
 
        @see: Function L{n_xyz2latlon}.
     '''
-    return PhiLam2Tuple(atan2(z, hypot(x, y)), atan2(y, x), name=name)
+    return PhiLam2Tuple(atan2(z, hypot(x, y)), atan2(y, x), **name)
 
 
 def _opposes(d, m, n, n2):
@@ -1539,7 +1542,7 @@ def opposing_(radians1, radians2, margin=PI_2):
     return _opposes(radians2 - radians1, m, PI, PI2)
 
 
-def philam2n_xyz(phi, lam, name=NN):
+def philam2n_xyz(phi, lam, **name):
     '''Convert lat-, longitude to C{n-vector} (I{normal} to the
        earth's surface) X, Y and Z components.
 
@@ -1557,14 +1560,15 @@ def philam2n_xyz(phi, lam, name=NN):
     return _2n_xyz(name, *sincos2_(phi, lam))
 
 
-def _radical2(d, r1, r2):  # in .ellipsoidalBaseDI, .sphericalTrigonometry, .vector3d
+def _radical2(d, r1, r2, **name):  # in .ellipsoidalBaseDI, .sphericalTrigonometry, .vector3d
     # (INTERNAL) See C{radical2} below
     # assert d > EPS0
-    r = fsumf_(_1_0, (r1 / d)**2, -(r2 / d)**2) * _0_5
-    return Radical2Tuple(max(_0_0, min(_1_0, r)), r * d)
+    r =  fsumf_(_1_0, (r1 / d)**2, -(r2 / d)**2) * _0_5
+    n = _name__(name, name__=radical2)
+    return Radical2Tuple(max(_0_0, min(_1_0, r)), r * d, name=n)
 
 
-def radical2(distance, radius1, radius2):
+def radical2(distance, radius1, radius2, **name):
     '''Compute the I{radical ratio} and I{radical line} of two
        U{intersecting circles<https://MathWorld.Wolfram.com/
        Circle-CircleIntersection.html>}.
@@ -1575,6 +1579,7 @@ def radical2(distance, radius1, radius2):
        @arg distance: Distance between the circle centers (C{scalar}).
        @arg radius1: Radius of the first circle (C{scalar}).
        @arg radius2: Radius of the second circle (C{scalar}).
+       @kwarg name: Optional C{B{name}=NN} (C{str}).
 
        @return: A L{Radical2Tuple}C{(ratio, xline)} where C{0.0 <=
                 ratio <= 1.0} and C{xline} is along the B{C{distance}}.
@@ -1594,8 +1599,8 @@ def radical2(distance, radius1, radius2):
     if d > (r1 + r2):
         raise IntersectionError(distance=d, radius1=r1, radius2=r2,
                                             txt=_too_(_distant_))
-    return _radical2(d, r1, r2) if d > EPS0 else \
-            Radical2Tuple(_0_5, _0_0)
+    return _radical2(d, r1, r2, **name) if d > EPS0 else \
+            Radical2Tuple(_0_5, _0_0, **name)
 
 
 class Radical2Tuple(_NamedTuple):

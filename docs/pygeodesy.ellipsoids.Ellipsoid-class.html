@@ -103,7 +103,7 @@
         <span class="summary-sig-arg">b</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">f_</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">f</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">**name</span>)</span><br />
       New <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
       class="link">Ellipsoid</a> from the <i>equatorial</i> radius 
       <i>and</i> either the <i>polar</i> radius or <i>inverse 
@@ -864,7 +864,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoids.Ellipsoid-class.html#toEllipsoid2" class="summary-sig-name">toEllipsoid2</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Get a copy of this ellipsoid as an <a 
       href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
       class="link">Ellipsoid2</a>.</td>
@@ -886,8 +886,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoids.Ellipsoid-class.html#toStr" class="summary-sig-name">toStr</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">8</span>,
         <span class="summary-sig-arg">terse</span>=<span class="summary-sig-default">0</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>,
-        <span class="summary-sig-arg">**unused</span>)</span><br />
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Return this ellipsoid as a text string.</td>
           <td align="right" valign="top">
             
@@ -905,7 +904,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoids.Ellipsoid-class.html#toTriaxial" class="summary-sig-name">toTriaxial</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Convert this ellipsoid to a <a 
       href="pygeodesy.triaxials.Triaxial_-class.html" 
       class="link">Triaxial_</a>.</td>
@@ -939,6 +938,7 @@
       <code><a href="pygeodesy.named._Named-class.html#dup">dup</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#methodname">methodname</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#rename">rename</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#renamed">renamed</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#toStr2">toStr2</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
@@ -1788,7 +1788,7 @@
         <span class="sig-arg">b</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">f_</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">f</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">**name</span>)</span>
     <br /><em class="fname">(Constructor)</em>
   </h3>
   </td><td align="right" valign="top"
@@ -1809,7 +1809,7 @@
           (<code>float</code> &gt;&gt;&gt; 1.0).</li>
         <li><strong class="pname"><code>f</code></strong> - Flattening: <i class="math">(a - b) / a</i> (<code>scalar</code>,
           near zero for spherical).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional, unique name (<code>str</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional, unique <code><b>name</b>=NN</code> (<code>str</code>).</li>
     </ul></dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
@@ -3329,7 +3329,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toEllipsoid2</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -3342,7 +3342,7 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>name</code></strong> - Optional, unique name (<code>str</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional, unique <code><b>name</b>=NN</code> (<code>str</code>).</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -3360,8 +3360,7 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toStr</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">prec</span>=<span class="sig-default">8</span>,
         <span class="sig-arg">terse</span>=<span class="sig-default">0</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>,
-        <span class="sig-arg">**unused</span>)</span>
+        <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -3374,8 +3373,8 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>prec</code></strong> - Number of decimal digits, unstripped (<code>int</code>).</li>
         <li><strong class="pname"><code>terse</code></strong> - Limit the number of items (<code>int</code>, 0...18).</li>
-        <li><strong class="pname"><code>name</code></strong> - Override name (<code>str</code>) or <code>None</code> to exclude 
-          this ellipsoid's name.</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>) or 
+          <code>None</code> to exclude this ellipsoid's name.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>This <code>Ellipsoid</code>'s attributes (<code>str</code>).</dd>
@@ -3393,7 +3392,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toTriaxial</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -3404,6 +3403,10 @@
   href="pygeodesy.triaxials.Triaxial_-class.html" 
   class="link">Triaxial_</a>.</p>
   <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
+    </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.triaxials.Triaxial_-class.html" 
           class="link">Triaxial_</a> or <a 
@@ -5868,7 +5871,7 @@ class="math">4 / 3 * PI * R3**3</i>.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed May 15 16:10:03 2024
+    Generated by Epydoc 3.0.1 on Fri May 24 16:58:42 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

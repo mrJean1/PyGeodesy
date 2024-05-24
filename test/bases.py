@@ -568,7 +568,7 @@ GeodSolve  = _getenv_path(lazily._PYGEODESY_GEODSOLVE_)
 RhumbSolve = _getenv_path(lazily._PYGEODESY_RHUMBSOLVE_)
 # versions()  # get versions once
 
-if internals._dunder_main(__name__):
+if internals._dunder_ismain(__name__):
 
     print(versions())
 

@@ -119,7 +119,7 @@
         <span class="summary-sig-arg">a_triaxial</span>,
         <span class="summary-sig-arg">b</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">c</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">**name</span>)</span><br />
       New <i>unordered</i> <a 
       href="pygeodesy.triaxials.Triaxial_-class.html" 
       class="link">Triaxial_</a>.</td>
@@ -177,7 +177,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.triaxials.Triaxial_-class.html#hartzell4" class="summary-sig-name">hartzell4</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">pov</span>,
         <span class="summary-sig-arg">los</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Compute the intersection of this triaxial's surface with a 
       Line-Of-Sight from a Point-Of-View in space.</td>
           <td align="right" valign="top">
@@ -200,7 +200,8 @@
         <span class="summary-sig-arg">y</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">z</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">normal</span>=<span class="summary-sig-default">True</span>,
-        <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">2.220446049250313e-16</span>)</span><br />
+        <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">2.220446049250313e-16</span>,
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Compute the projection on and the height above or below this 
       triaxial's surface.</td>
           <td align="right" valign="top">
@@ -262,7 +263,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.triaxials.Triaxial_-class.html#toEllipsoid" class="summary-sig-name">toEllipsoid</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Convert this triaxial to an <a 
       href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
       class="link">Ellipsoid</a>, provided 2 axes match.</td>
@@ -315,6 +316,7 @@
       <code><a href="pygeodesy.named._Named-class.html#dup">dup</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#methodname">methodname</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#rename">rename</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#renamed">renamed</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#toStr2">toStr2</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
@@ -469,7 +471,7 @@
         <span class="sig-arg">a_triaxial</span>,
         <span class="sig-arg">b</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">c</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">**name</span>)</span>
     <br /><em class="fname">(Constructor)</em>
   </h3>
   </td><td align="right" valign="top"
@@ -495,7 +497,7 @@
         <li><strong class="pname"><code>c</code></strong> - Small, <code>Z</code> semi-axis (<code>meter</code>, same units 
           as <b><code>a</code></b>), required if <code><b>a_triaxial</b> is
           scalar</code>, ignored otherwise.</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
     </ul></dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
@@ -571,7 +573,7 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">hartzell4</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">pov</span>,
         <span class="sig-arg">los</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -600,7 +602,8 @@
         <span class="sig-arg">y</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">z</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">normal</span>=<span class="sig-default">True</span>,
-        <span class="sig-arg">eps</span>=<span class="sig-default">2.220446049250313e-16</span>)</span>
+        <span class="sig-arg">eps</span>=<span class="sig-default">2.220446049250313e-16</span>,
+        <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -631,6 +634,8 @@
           center of this triaxial (<code>bool</code>).</li>
         <li><strong class="pname"><code>eps</code></strong> - Tolerance for root finding and validation (<code>scalar</code>), 
           use a negative value to skip validation.</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional, overriding <code><b>name</b>=&quot;heigh4&quot;</code> 
+          (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><a href="pygeodesy.namedTuples.Vector4Tuple-class.html" 
@@ -772,7 +777,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toEllipsoid</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -783,6 +788,11 @@
   href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
   class="link">Ellipsoid</a>, provided 2 axes match.</p>
   <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>name</code></strong> - Optional, overriding <code><b>name</b>=NN</code> 
+          (<code>str</code>)=.</li>
+    </ul></dd>
     <dt>Returns:</dt>
         <dd>An <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
           class="link">Ellipsoid</a> with north along this <code>Z</code> 
@@ -823,8 +833,9 @@
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>prec</code></strong> - Precision, number of decimal digits (0..9).</li>
-        <li><strong class="pname"><code>name</code></strong> - Override name (<code>str</code>) or <code>None</code> to exclude 
-          this triaxial's name.</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional, overriding <code><b>name</b>=NN</code> 
+          (<code>str</code>) or <code>None</code> to exclude this 
+          triaxial's name.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>This <code>Triaxial</code>'s attributes (<code>str</code>).</dd>
@@ -1132,7 +1143,7 @@ as <b><code>a</code></b>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed May 15 16:10:06 2024
+    Generated by Epydoc 3.0.1 on Fri May 24 16:58:44 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

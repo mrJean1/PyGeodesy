@@ -18,7 +18,7 @@ from pygeodesy.constants import EPS, NAN, _EPSqrt as _TOL, _0_5
 from pygeodesy.datums import _earth_datum, _WGS84,  _EWGS84
 # from pygeodesy.dms import F_D  # from .latlonBase
 # from pygeodesy.ellipsoids import _EWGS84  # from .datums
-from pygeodesy.errors import IntersectionError, GeodesicError, _xkwds_pop2
+from pygeodesy.errors import IntersectionError, GeodesicError
 from pygeodesy.fsums import Fsum,  Fmt, unstr
 from pygeodesy.internals import _dunder_nameof, _under
 from pygeodesy.interns import NN, _DOT_, _SPACE_, _to_, _too_
@@ -26,7 +26,7 @@ from pygeodesy.karney import _atan2d, Caps, Direct9Tuple, GDict, \
                              _kWrapped, Inverse10Tuple
 from pygeodesy.latlonBase import LatLonBase as _LLB,  F_D, Radius_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
-from pygeodesy.named import callername, classname
+from pygeodesy.named import callername, classname, _name1__, _name2__
 from pygeodesy.namedTuples import Destination3Tuple, Distance3Tuple
 from pygeodesy.props import Property, Property_RO, property_RO
 # from pygeodesy.streprs import Fmt, unstr  # from .fsums
@@ -37,7 +37,7 @@ from contextlib import contextmanager
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.geodesicw
-__version__ = '24.05.14'
+__version__ = '24.05.24'
 
 _plumb_ = 'plumb'
 _TRIPS  =  65
@@ -66,20 +66,21 @@ class _gWrapped(_kWrapped):
             LINE_OFF =  0  # in .azimuthal._GnomonicBase and .css.CassiniSoldner
             _name    =  NN
 
-            def __init__(self, a_ellipsoid=_EWGS84, f=None, name=NN):  # PYCHOK signature
+            def __init__(self, a_ellipsoid=_EWGS84, f=None, **name):  # PYCHOK signature
                 '''New I{wrapped} C{geodesic.Geodesic} instance.
 
                    @arg a_ellipsoid: The equatorial radius I{a} (C{meter}, conventionally),
                                      an ellipsoid (L{Ellipsoid}) or a datum (L{Datum}).
                    @arg f: The ellipsoid's flattening (C{scalar}), ignored if B{C{a_ellipsoid})
                            is not C{meter}.
-                   @kwarg name: Optional name (C{str}).
+                   @kwarg name: Optional C{B{name}=NN} (C{str}).
                 '''
-                _earth_datum(self, a_ellipsoid, f=f, name=name)  # raiser=NN
-                with _wargs(self, *self.ellipsoid.a_f, name=name) as args:
+                _earth_datum(self, a_ellipsoid, f=f, **name)  # raiser=NN
+                E = self.ellipsoid
+                with _wargs(self, *E.a_f, **name) as args:
                     _Geodesic.__init__(self, *args)
                 if name:
-                    self._name = str(name)
+                    self._name, _ = _name2__(name, _or_nameof=E)
 
             def ArcDirect(self, lat1, lon1, azi1, a12, outmask=Caps._STD):
                 '''Return the C{_Geodesic.ArcDirect} result as L{GDict}.
@@ -266,7 +267,7 @@ class _gWrapped(_kWrapped):
             _geodesic = None
             _name     = NN
 
-            def __init__(self, geodesic, lat1, lon1, azi1, **caps_name_):  # salp1=NAN, calp1=NAN, name=NN
+            def __init__(self, geodesic, lat1, lon1, azi1, **caps_name_):  # salp1=NAN, calp1=NAN
                 '''New I{wrapped} C{geodesicline.GeodesicLine} instance.
 
                    @arg geodesic: A I{wrapped} C{Geodesic} instance.
@@ -281,10 +282,10 @@ class _gWrapped(_kWrapped):
                 '''
                 _xinstanceof(_wrapped.Geodesic, geodesic=geodesic)
                 with _wargs(self, geodesic, lat1, lon1, azi1, **caps_name_) as args:
-                    name, caps_ = _xkwds_pop2(caps_name_, name=geodesic.name)
-                    _GeodesicLine.__init__(self, *args, **caps_)
+                    name, caps_ = _name2__(caps_name_, _or_nameof=geodesic)
+                    _GeodesicLine.__init__(self, *args, **caps_)  # XXX avoid updates?
                     if name:
-                        self._name = str(name)
+                        self._name = name
                 self._geodesic = geodesic
 
             @Property_RO
@@ -428,7 +429,7 @@ class _gWrapped(_kWrapped):
 _wrapped = _gWrapped()  # PYCHOK singleton, .ellipsoids, .test/base.py
 
 
-def Geodesic(a_ellipsoid, f=None, name=NN):
+def Geodesic(a_ellipsoid, f=None, **name):
     '''Return a I{wrapped} C{geodesic.Geodesic} instance from I{Karney}'s
        Python U{geographiclib<https://PyPI.org/project/geographiclib>},
        provide the latter is installed, otherwise an C{ImportError}.
@@ -437,9 +438,10 @@ def Geodesic(a_ellipsoid, f=None, name=NN):
               or the equatorial radius I{a} of the ellipsoid (C{meter}).
        @arg f: The flattening of the ellipsoid (C{scalar}), ignored if
                B{C{a_ellipsoid}}) is not specified as C{meter}.
-       @kwarg name: Optional ellipsoid name (C{str}), ignored like B{C{f}}.
+       @kwarg name: Optional ellipsoid C{B{name}=NN} (C{str}), ignored
+                    like B{C{f}}.
     '''
-    return _wrapped.Geodesic(a_ellipsoid, f=f, name=name)
+    return _wrapped.Geodesic(a_ellipsoid, f=f, **name)
 
 
 def GeodesicLine(geodesic, lat1, lon1, azi1, caps=Caps._STD_LINE):
@@ -479,8 +481,8 @@ class _wargs(object):  # see also .formy._idllmn6, .latlonBase._toCartesian3, .v
         try:
             yield args
         except Exception as x:
-            n = _DOT_(classname(inst), callername(up=2, underOK=True))
-            raise GeodesicError(unstr(n, *args, **kwds), cause=x)
+            u = _DOT_(classname(inst), callername(up=2, underOK=True))
+            raise GeodesicError(unstr(u, *args, **_name1__(kwds)), cause=x)
 
 _wargs = _wargs()  # PYCHOK singleton
 

@@ -12,7 +12,7 @@ from pygeodesy.constants import EPS, EPS1, PI, PI2, PI_2, _umod_360, _0_0, \
 from pygeodesy.dms import F__F, F__F_, S_NUL, S_SEP, parseDMS, parseRad, \
                          _toDMS, toDMS
 from pygeodesy.errors import _AssertionError, _IsnotError, TRFError, UnitError, \
-                             _xkwds, _xkwds_item2
+                             _xkwds
 from pygeodesy.interns import NN, _band_, _bearing_, _degrees_, _degrees2_, \
                              _distance_, _E_, _easting_, _epoch_, _EW_, _feet_, \
                              _height_, _lam_, _lat_, _LatLon_, _lon_, _meter_, \
@@ -23,13 +23,13 @@ from pygeodesy.interns import NN, _band_, _bearing_, _degrees_, _degrees2_, \
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, _getenv
 from pygeodesy.props import Property_RO
 # from pygeodesy.streprs import Fmt, fstr  # from .unitsBase
-from pygeodesy.unitsBase import _Error, Float, Fmt, fstr, Int, _NamedUnit, \
-                                 Radius, Str  # PYCHOK shared .namedTuples
+from pygeodesy.unitsBase import _Error, Float, Fmt, fstr, Int, _arg_name_arg2, \
+                                _NamedUnit, Radius, Str  # PYCHOK shared .namedTuples
 
 from math import degrees, radians
 
 __all__ = _ALL_LAZY.units
-__version__ = '24.05.10'
+__version__ = '24.05.20'
 
 _negative_falsed_ = 'negative, falsed'
 
@@ -46,15 +46,15 @@ class Float_(Float):
            @kwarg Error: Optional error to raise, overriding the default L{UnitError}.
            @kwarg low: Optional lower B{C{arg}} limit (C{float} or C{None}).
            @kwarg high: Optional upper B{C{arg}} limit (C{float} or C{None}).
-           @kwarg name_arg: Optional C{name=arg} keyword argument, inlieu of B{C{name}}
-                            and B{C{arg}}.
+           @kwarg name_arg: Optional C{name=arg} keyword argument, inlieu of separate
+                            B{C{arg}} and B{C{name}} ones.
 
            @returns: A C{Float_} instance.
 
            @raise Error: Invalid B{C{arg}} or B{C{arg}} below B{C{low}} or above B{C{high}}.
         '''
         if name_arg:
-            name, arg = _xkwds_item2(name_arg)
+            name, arg = _arg_name_arg2(arg, **name_arg)
         self = Float.__new__(cls, arg=arg, name=name, Error=Error)
         if (low is not None) and self < low:
             txt = Fmt.limit(below=Fmt.g(low, prec=6, ints=isinstance(self, Epoch)))
@@ -77,15 +77,15 @@ class Int_(Int):
            @kwarg Error: Optional error to raise, overriding the default C{UnitError}.
            @kwarg low: Optional lower B{C{arg}} limit (C{int} or C{None}).
            @kwarg high: Optional upper B{C{arg}} limit (C{int} or C{None}).
-           @kwarg name_arg: Optional C{name=arg} keyword argument, inlieu of B{C{name}}
-                            and B{C{arg}}.
+           @kwarg name_arg: Optional C{name=arg} keyword argument, inlieu of separate
+                            B{C{arg}} and B{C{name}} ones.
 
            @returns: An L{Int_} instance.
 
            @raise Error: Invalid B{C{arg}} or B{C{arg}} below B{C{low}} or above B{C{high}}.
         '''
         if name_arg:
-            name, arg = _xkwds_item2(name_arg)
+            name, arg = _arg_name_arg2(arg, **name_arg)
         self = Int.__new__(cls, arg=arg, name=name, Error=Error)
         if (low is not None) and self < low:
             txt = Fmt.limit(below=low)
@@ -118,7 +118,7 @@ class Bool(Int, _NamedUnit):
            @raise Error: Invalid B{C{arg}}.
         '''
         if name_arg:
-            name, arg = _xkwds_item2(name_arg)
+            name, arg = _arg_name_arg2(arg, **name_arg)
         try:
             b = bool(arg)
         except Exception as x:  # XXX not ... as x:
@@ -193,7 +193,7 @@ class Degrees(Float):
                          range and L{pygeodesy.rangerrors} set to C{True}.
         '''
         if name_arg:
-            name, arg = _xkwds_item2(name_arg)
+            name, arg = _arg_name_arg2(arg, **name_arg)
         try:
             d = Float.__new__(cls, parseDMS(arg, suffix=suffix, clip=clip),
                                                   Error=Error,  name=name)
@@ -253,15 +253,15 @@ class Degrees_(Degrees):
            @kwarg suffix: Optional, valid compass direction suffixes (C{NSEW}).
            @kwarg low: Optional lower B{C{arg}} limit (C{float} or C{None}).
            @kwarg high: Optional upper B{C{arg}} limit (C{float} or C{None}).
-           @kwarg name_arg: Optional C{name=arg} keyword argument, inlieu of B{C{name}}
-                            and B{C{arg}}.
+           @kwarg name_arg: Optional C{name=arg} keyword argument, inlieu of separate
+                            B{C{arg}} and B{C{name}} ones.
 
            @returns: A C{Degrees} instance.
 
            @raise Error: Invalid B{C{arg}} or B{C{arg}} below B{C{low}} or above B{C{high}}.
         '''
         if name_arg:
-            name, arg = _xkwds_item2(name_arg)
+            name, arg = _arg_name_arg2(arg, **name_arg)
         self = Degrees.__new__(cls, arg=arg, name=name, Error=Error, suffix=suffix, clip=0)
         if (low is not None) and self < low:
             txt = Fmt.limit(below=low)
@@ -295,8 +295,8 @@ class Radians(Float):
            @kwarg suffix: Optional, valid compass direction suffixes (C{NSEW}).
            @kwarg clip: Optional B{C{arg}} range B{C{-clip..+clip}} (C{radians} or C{0}
                         or C{None} for unclipped).
-           @kwarg name_arg: Optional C{name=arg} keyword argument, inlieu of B{C{name}}
-                            and B{C{arg}}.
+           @kwarg name_arg: Optional C{name=arg} keyword argument, inlieu of separate
+                            B{C{arg}} and B{C{name}} ones.
 
            @returns: A C{Radians} instance.
 
@@ -304,7 +304,7 @@ class Radians(Float):
                          range and L{pygeodesy.rangerrors} set to C{True}.
         '''
         if name_arg:
-            name, arg = _xkwds_item2(name_arg)
+            name, arg = _arg_name_arg2(arg, **name_arg)
         try:
             return Float.__new__(cls, parseRad(arg, suffix=suffix, clip=clip),
                                                      Error=Error,  name=name)
@@ -324,8 +324,8 @@ class Radians(Float):
     def toRepr(self, std=False, **prec_fmt_ints):  # PYCHOK prec=8, ...
         '''Return a representation of this C{Radians}.
 
-           @kwarg std: If C{True} return the standard C{repr},
-                       otherwise the named representation (C{bool}).
+           @kwarg std: If C{True} return the standard C{repr}, otherwise
+                       the named representation (C{bool}).
 
            @see: Methods L{Radians.toStr}, L{Float.toRepr} and function
                  L{pygeodesy.toDMS} for more documentation.
@@ -354,15 +354,15 @@ class Radians_(Radians):
            @kwarg suffix: Optional, valid compass direction suffixes (C{NSEW}).
            @kwarg low: Optional lower B{C{arg}} limit (C{float} or C{None}).
            @kwarg high: Optional upper B{C{arg}} limit (C{float} or C{None}).
-           @kwarg name_arg: Optional C{name=arg} keyword argument, inlieu of B{C{name}}
-                            and B{C{arg}}.
+           @kwarg name_arg: Optional C{name=arg} keyword argument, inlieu of separate
+                            B{C{arg}} and B{C{name}} ones.
 
            @returns: A C{Radians_} instance.
 
            @raise Error: Invalid B{C{arg}} or B{C{arg}} below B{C{low}} or above B{C{high}}.
         '''
         if name_arg:
-            name, arg = _xkwds_item2(name_arg)
+            name, arg = _arg_name_arg2(arg, **name_arg)
         self = Radians.__new__(cls, arg=arg, name=name, Error=Error, suffix=suffix, clip=0)
         if (low is not None) and self < low:
             txt = Fmt.limit(below=low)
@@ -392,7 +392,7 @@ class Bearing(Degrees):
         '''New L{Bearing} instance, see L{Degrees}.
         '''
         if name_arg:
-            name, arg = _xkwds_item2(name_arg)
+            name, arg = _arg_name_arg2(arg, **name_arg)
         d =  Degrees.__new__(cls, arg=arg, name=name, Error=Error, suffix=_N_, clip=clip)
         b = _umod_360(d)  # 0 <= b < 360
         return d if b == d else Degrees.__new__(cls, arg=b, name=name, Error=Error)
@@ -438,15 +438,15 @@ class Easting(Float):
            @kwarg Error: Optional error to raise, overriding the default L{UnitError}.
            @kwarg falsed: The B{C{arg}} value includes false origin (C{bool}).
            @kwarg high: Optional upper B{C{arg}} easting limit (C{scalar} or C{None}).
-           @kwarg name_arg: Optional C{name=arg} keyword argument, inlieu of B{C{name}}
-                            and B{C{arg}}.
+           @kwarg name_arg: Optional C{name=arg} keyword argument, inlieu of separate
+                            B{C{arg}} and B{C{name}} ones.
 
            @returns: An C{Easting} instance.
 
            @raise Error: Invalid B{C{arg}}, above B{C{high}} or negative, falsed B{C{arg}}.
         '''
         if name_arg:
-            name, arg = _xkwds_item2(name_arg)
+            name, arg = _arg_name_arg2(arg, **name_arg)
         self = Float.__new__(cls, arg=arg, name=name, Error=Error)
         if high and (self < 0 or self > high):  # like Veness
             raise _Error(cls, arg, name, Error)
@@ -465,7 +465,7 @@ class Epoch(Float_):  # in .ellipsoidalBase, .trf
         '''New L{Epoch} instance, see L{Float_}.
         '''
         if name_arg:
-            name, arg = _xkwds_item2(name_arg)
+            name, arg = _arg_name_arg2(arg, **name_arg)
         return arg if isinstance(arg, Epoch) else Float_.__new__(cls,
                arg=arg, name=name, Error=Error, low=low, high=high)
 
@@ -513,8 +513,8 @@ class FIx(Float_):
            @arg fi: The fractional index (C{float} or C{int}).
            @kwarg fin: Optional C{len}, the number of C{points}, the index
                        C{[n]} wrapped to C{[0]} (C{int} or C{None}).
-           @kwarg name_Error: Optional keyword argument C{B{name}=NN}
-                              and C{B{Error}=UnitError}.
+           @kwarg name_Error: Optional C{B{name}=NN} (C{str}) and keyword
+                       argument C{B{Error}=UnitError}.
 
            @return: The B{C{fi}} (named L{FIx}).
 
@@ -629,7 +629,7 @@ class Lam_(Lam):
         '''New L{Lam_} instance, see L{Lam} and L{Radians}.
         '''
         if name_arg:
-            name, arg = _xkwds_item2(name_arg)
+            name, arg = _arg_name_arg2(arg, **name_arg)
         d = Lam.__new__(cls, arg=arg, name=name, Error=Error, clip=clip)
         return Radians.__new__(cls, radians(d), name=name, Error=Error)
 
@@ -750,15 +750,15 @@ class Northing(Float):
            @kwarg Error: Optional error to raise, overriding the default L{UnitError}.
            @kwarg falsed: The B{C{arg}} value includes false origin (C{bool}).
            @kwarg high: Optional upper B{C{arg}} northing limit (C{scalar} or C{None}).
-           @kwarg name_arg: Optional C{name=arg} keyword argument, inlieu of B{C{name}}
-                            and B{C{arg}}.
+           @kwarg name_arg: Optional C{name=arg} keyword argument, inlieu of separate
+                            B{C{arg}} and B{C{name}} ones.
 
            @returns: A C{Northing} instance.
 
            @raise Error: Invalid B{C{arg}}, above B{C{high}} or negative, falsed B{C{arg}}.
         '''
         if name_arg:
-            name, arg = _xkwds_item2(name_arg)
+            name, arg = _arg_name_arg2(arg, **name_arg)
         self = Float.__new__(cls, arg=arg, name=name, Error=Error)
         if high and (self < 0 or self > high):
             raise _Error(cls, arg, name, Error)
@@ -792,7 +792,7 @@ class Phi_(Phi):
         '''New L{Phi_} instance, see L{Phi} and L{Radians}.
         '''
         if name_arg:
-            name, arg = _xkwds_item2(name_arg)
+            name, arg = _arg_name_arg2(arg, **name_arg)
         d = Phi.__new__(cls, arg=arg, name=name, Error=Error, clip=clip)
         return Radians.__new__(cls, arg=radians(d), name=name, Error=Error)
 

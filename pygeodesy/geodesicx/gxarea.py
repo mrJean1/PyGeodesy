@@ -19,10 +19,10 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import isodd, unsigned0
 from pygeodesy.constants import NAN, _0_0, _0_5, _720_0
-from pygeodesy.interns import NN, _COMMASPACE_
+# from pygeodesy.interns import _COMMASPACE_  # from .lazily
 from pygeodesy.karney import Area3Tuple, _diff182, GeodesicError, \
                             _norm180, _remainder, _sum2_
-from pygeodesy.lazily import _ALL_DOCS, printf
+from pygeodesy.lazily import _ALL_DOCS, printf,  _COMMASPACE_
 from pygeodesy.named import ADict, callername, _NamedBase,  pairs
 from pygeodesy.props import Property, Property_RO, property_RO
 # from pygeodesy.streprs import pairs  # from .named
@@ -30,7 +30,7 @@ from pygeodesy.props import Property, Property_RO, property_RO
 from math import fmod as _fmod
 
 __all__ = ()
-__version__ = '24.05.10'
+__version__ = '24.05.19'
 
 
 class GeodesicAreaExact(_NamedBase):
@@ -55,14 +55,14 @@ class GeodesicAreaExact(_NamedBase):
     _verbose =  False
     _xings   =  0
 
-    def __init__(self, geodesic, polyline=False, name=NN):
+    def __init__(self, geodesic, polyline=False, **name):
         '''New L{GeodesicAreaExact} instance.
 
            @arg geodesic: A geodesic (L{GeodesicExact}, I{wrapped}
                           C{Geodesic} or L{GeodesicSolve}).
            @kwarg polyline: If C{True}, compute the perimeter only,
                             otherwise area and perimeter (C{bool}).
-           @kwarg name: Optional name (C{str}).
+           @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @raise GeodesicError: Invalid B{C{geodesic}}.
         '''
@@ -408,18 +408,18 @@ class GeodesicAreaExact(_NamedBase):
 class PolygonArea(GeodesicAreaExact):
     '''For C{geographiclib} compatibility, sub-class of L{GeodesicAreaExact}.
     '''
-    def __init__(self, earth, polyline=False, name=NN):
+    def __init__(self, earth, polyline=False, **name):
         '''New L{PolygonArea} instance.
 
            @arg earth: A geodesic (L{GeodesicExact}, I{wrapped}
                        C{Geodesic} or L{GeodesicSolve}).
            @kwarg polyline: If C{True} perimeter only, otherwise
                             area and perimeter (C{bool}).
-           @kwarg name: Optional name (C{str}).
+           @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @raise GeodesicError: Invalid B{C{earth}}.
         '''
-        GeodesicAreaExact.__init__(self, earth, polyline=polyline, name=name)
+        GeodesicAreaExact.__init__(self, earth, polyline=polyline, **name)
 
 
 class _Accumulator(_NamedBase):
@@ -432,8 +432,11 @@ class _Accumulator(_NamedBase):
     _n =  0  # len()
     _s = _t = _0_0
 
-    def __init__(self, y=0, name=NN):
+    def __init__(self, y=0, **name):
         '''New L{_Accumulator}.
+
+           @kwarg y: Initial value (C{scalar}).
+           @kwarg name: Optional C{B{name}=NN} (C{str}).
         '''
         if isinstance(y, _Accumulator):
             self._s, self._t, self._n = y._s, y._t, 1

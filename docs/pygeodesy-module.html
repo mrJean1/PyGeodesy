@@ -542,7 +542,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        24.05.15
+        24.05.24
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -4871,7 +4871,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#Geodesic" class="summary-sig-name">Geodesic</a>(<span class="summary-sig-arg">a_ellipsoid</span>,
         <span class="summary-sig-arg">f</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Return a <i>wrapped</i> <code>geodesic.Geodesic</code> instance from 
       <i>Karney</i>'s Python <a 
       href="https://PyPI.org/project/geographiclib" 
@@ -5276,7 +5276,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#antipode" class="summary-sig-name">antipode</a>(<span class="summary-sig-arg">lat</span>,
         <span class="summary-sig-arg">lon</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Return the antipode, the point diametrically opposite to a given 
       point in <code>degrees</code>.</td>
           <td align="right" valign="top">
@@ -5296,7 +5296,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#antipode_" class="summary-sig-name">antipode_</a>(<span class="summary-sig-arg">phi</span>,
         <span class="summary-sig-arg">lam</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Return the antipode, the point diametrically opposite to a given 
       point in <code>radians</code>.</td>
           <td align="right" valign="top">
@@ -6749,7 +6749,7 @@
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
         <span class="summary-sig-arg">exact</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">geodsolve</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Return an <a href="pygeodesy.azimuthal.EquidistantExact-class.html" 
       class="link">EquidistantExact</a>, <a 
       href="pygeodesy.azimuthal.EquidistantGeodSolve-class.html" 
@@ -7997,7 +7997,7 @@
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
         <span class="summary-sig-arg">exact</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">geodsolve</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Return a <a href="pygeodesy.azimuthal.GnomonicExact-class.html" 
       class="link">GnomonicExact</a> or (if <i>Karney</i>'s <a 
       href="https://PyPI.org/project/geographiclib" 
@@ -8113,8 +8113,7 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#hartzell" class="summary-sig-name">hartzell</a>(<span class="summary-sig-arg">pov</span>,
         <span class="summary-sig-arg">los</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">earth</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>,
-        <span class="summary-sig-arg">**LatLon_and_kwds</span>)</span><br />
+        <span class="summary-sig-arg">**name_LatLon_and_kwds</span>)</span><br />
       Compute the intersection of the earth's surface and a Line-Of-Sight 
       from a Point-Of-View in space.</td>
           <td align="right" valign="top">
@@ -8135,7 +8134,7 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#hartzell4" class="summary-sig-name">hartzell4</a>(<span class="summary-sig-arg">pov</span>,
         <span class="summary-sig-arg">los</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">tri_biax</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Compute the intersection of a tri-/biaxial ellipsoid and a 
       Line-Of-Sight from a Point-Of-View outside.</td>
           <td align="right" valign="top">
@@ -8160,7 +8159,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fc8d04f0cd0&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fcd302acbd0&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -9504,7 +9503,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#latlon2n_xyz" class="summary-sig-name">latlon2n_xyz</a>(<span class="summary-sig-arg">lat</span>,
         <span class="summary-sig-arg">lon</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Convert lat-, longitude to <code>n-vector</code> (<i>normal</i> to 
       the earth's surface) X, Y and Z components.</td>
           <td align="right" valign="top">
@@ -10009,7 +10008,7 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#n_xyz2latlon" class="summary-sig-name">n_xyz2latlon</a>(<span class="summary-sig-arg">x</span>,
         <span class="summary-sig-arg">y</span>,
         <span class="summary-sig-arg">z</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Convert <code>n-vector</code> components to lat- and longitude in 
       <code>degrees</code>.</td>
           <td align="right" valign="top">
@@ -10030,7 +10029,7 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#n_xyz2philam" class="summary-sig-name">n_xyz2philam</a>(<span class="summary-sig-arg">x</span>,
         <span class="summary-sig-arg">y</span>,
         <span class="summary-sig-arg">z</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Convert <code>n-vector</code> components to lat- and longitude in 
       <code>radians</code>.</td>
           <td align="right" valign="top">
@@ -10230,7 +10229,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#normal" class="summary-sig-name">normal</a>(<span class="summary-sig-arg">lat</span>,
         <span class="summary-sig-arg">lon</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Normalize a lat- <i>and</i> longitude pair in <code>degrees</code>.</td>
           <td align="right" valign="top">
             
@@ -10249,7 +10248,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#normal_" class="summary-sig-name">normal_</a>(<span class="summary-sig-arg">phi</span>,
         <span class="summary-sig-arg">lam</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Normalize a lat- <i>and</i> longitude pair in <code>radians</code>.</td>
           <td align="right" valign="top">
             
@@ -10482,7 +10481,7 @@
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
         <span class="summary-sig-arg">Etm</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.etm.Etm'&gt;</span>,
         <span class="summary-sig-arg">falsed</span>=<span class="summary-sig-default">True</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Parse a string representing a UTM coordinate, consisting of 
       <code>&quot;zone[band] hemisphere easting northing&quot;</code>.</td>
           <td align="right" valign="top">
@@ -10590,7 +10589,7 @@
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
         <span class="summary-sig-arg">Utm</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.utm.Utm'&gt;</span>,
         <span class="summary-sig-arg">falsed</span>=<span class="summary-sig-default">True</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Parse a string representing a UTM coordinate, consisting of 
       <code>&quot;zone[band] hemisphere easting northing&quot;</code>.</td>
           <td align="right" valign="top">
@@ -10674,7 +10673,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#philam2n_xyz" class="summary-sig-name">philam2n_xyz</a>(<span class="summary-sig-arg">phi</span>,
         <span class="summary-sig-arg">lam</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Convert lat-, longitude to <code>n-vector</code> (<i>normal</i> to 
       the earth's surface) X, Y and Z components.</td>
           <td align="right" valign="top">
@@ -10954,7 +10953,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#radical2" class="summary-sig-name">radical2</a>(<span class="summary-sig-arg">distance</span>,
         <span class="summary-sig-arg">radius1</span>,
-        <span class="summary-sig-arg">radius2</span>)</span><br />
+        <span class="summary-sig-arg">radius2</span>,
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Compute the <i>radical ratio</i> and <i>radical line</i> of two <a 
       href="https://MathWorld.Wolfram.com/Circle-CircleIntersection.html" 
       target="_top">intersecting circles</a>.</td>
@@ -11678,7 +11678,7 @@
         <span class="summary-sig-arg">cs0</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">Css</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.css.Css'&gt;</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Convert an (ellipsoidal) geodetic point to a Cassini-Soldner 
       location.</td>
           <td align="right" valign="top">
@@ -11725,10 +11725,9 @@
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">Etm</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.etm.Etm'&gt;</span>,
         <span class="summary-sig-arg">falsed</span>=<span class="summary-sig-default">True</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">strict</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">zone</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">**cmoff</span>)</span><br />
+        <span class="summary-sig-arg">**name_cmoff</span>)</span><br />
       Convert a geodetic lat-/longitude to an ETM coordinate.</td>
           <td align="right" valign="top">
             
@@ -11749,8 +11748,7 @@
         <span class="summary-sig-arg">conic</span>=<span class="summary-sig-default">Conic(name='WRF_Lb', lat0=40, lon0=-97, par1=33, par2=45, E0=0<code class="variable-ellipsis">...</code></span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">Lcc</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.lcc.Lcc'&gt;</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>,
-        <span class="summary-sig-arg">**Lcc_kwds</span>)</span><br />
+        <span class="summary-sig-arg">**name_Lcc_kwds</span>)</span><br />
       Convert an (ellipsoidal) geodetic point to a <i>Lambert</i> location.</td>
           <td align="right" valign="top">
             
@@ -11839,10 +11837,9 @@
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">Utm</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.utm.Utm'&gt;</span>,
         <span class="summary-sig-arg">falsed</span>=<span class="summary-sig-default">True</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">strict</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">zone</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">**cmoff</span>)</span><br />
+        <span class="summary-sig-arg">**name_cmoff</span>)</span><br />
       Convert a lat-/longitude point to a UTM coordinate.</td>
           <td align="right" valign="top">
             
@@ -12318,7 +12315,7 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#utmZoneBand5" class="summary-sig-name">utmZoneBand5</a>(<span class="summary-sig-arg">lat</span>,
         <span class="summary-sig-arg">lon</span>,
         <span class="summary-sig-arg">cmoff</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Return the UTM zone number, Band letter, hemisphere and (clipped) 
       lat- and longitude for a given location.</td>
           <td align="right" valign="top">
@@ -12698,7 +12695,7 @@ ygeodesy'"><code class="variable-quote">'</code><code class="variable-string">/U
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'24.5.15'">'24.5.15'</code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'24.5.24'">'24.5.24'</code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -13516,7 +13513,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">Geodesic</span>&nbsp;(<span class="sig-arg">a_ellipsoid</span>,
         <span class="sig-arg">f</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -13538,8 +13535,8 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <li><strong class="pname"><code>f</code></strong> - The flattening of the ellipsoid (<code>scalar</code>), ignored if
           <b><code>a_ellipsoid</code></b>) is not specified as 
           <code>meter</code>.</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional ellipsoid name (<code>str</code>), ignored like 
-          <b><code>f</code></b>.</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional ellipsoid <code><b>name</b>=NN</code> 
+          (<code>str</code>), ignored like <b><code>f</code></b>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -14164,7 +14161,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">antipode</span>&nbsp;(<span class="sig-arg">lat</span>,
         <span class="sig-arg">lon</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -14178,7 +14175,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>lat</code></strong> - Latitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lon</code></strong> - Longitude (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.namedTuples.LatLon2Tuple-class.html" 
@@ -14203,7 +14200,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">antipode_</span>&nbsp;(<span class="sig-arg">phi</span>,
         <span class="sig-arg">lam</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -14217,7 +14214,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>phi</code></strong> - Latitude (<code>radians</code>).</li>
         <li><strong class="pname"><code>lam</code></strong> - Longitude (<code>radians</code>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.namedTuples.PhiLam2Tuple-class.html" 
@@ -14623,8 +14620,8 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <li><strong class="pname"><code>lam1</code></strong> - Start longitude (<code>radians</code>).</li>
         <li><strong class="pname"><code>phi2</code></strong> - End latitude (<code>radians</code>).</li>
         <li><strong class="pname"><code>lam2</code></strong> - End longitude (<code>radians</code>).</li>
-        <li><strong class="pname"><code>final</code></strong> - Return final bearing if <code>True</code>, initial otherwise 
-          (<code>bool</code>).</li>
+        <li><strong class="pname"><code>final</code></strong> - If <code>True</code>, return the final, otherwise the initial 
+          bearing (<code>bool</code>).</li>
         <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll 
           <b><code>phi2</code></b> and <b><code>lam2</code></b> 
           (<code>bool</code>).</li>
@@ -17287,7 +17284,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <span class="sig-arg">datum</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
         <span class="sig-arg">exact</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">geodsolve</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -17324,7 +17321,8 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <li><strong class="pname"><code>geodsolve</code></strong> - Return an <a 
           href="pygeodesy.azimuthal.EquidistantGeodSolve-class.html" 
           class="link">EquidistantGeodSolve</a> instance.</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name for the projection (<code>str</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> for the projection 
+          (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>An <a href="pygeodesy.azimuthal.EquidistantExact-class.html" 
@@ -19943,7 +19941,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <span class="sig-arg">datum</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
         <span class="sig-arg">exact</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">geodsolve</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -19977,7 +19975,8 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <li><strong class="pname"><code>geodsolve</code></strong> - Return a <a 
           href="pygeodesy.azimuthal.GnomonicGeodSolve-class.html" 
           class="link">GnomonicGeodSolve</a> instance.</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name for the projection (<code>str</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> for the projection 
+          (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.azimuthal.GnomonicExact-class.html" 
@@ -20146,8 +20145,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   <h3 class="epydoc"><span class="sig"><span class="sig-name">hartzell</span>&nbsp;(<span class="sig-arg">pov</span>,
         <span class="sig-arg">los</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">earth</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>,
-        <span class="sig-arg">**LatLon_and_kwds</span>)</span>
+        <span class="sig-arg">**name_LatLon_and_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -20180,10 +20178,11 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
           href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
           class="link">a_f2Tuple</a> or a <code>scalar</code> earth radius 
           in <code>meter</code>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
-        <li><strong class="pname"><code>LatLon_and_kwds</code></strong> - Optional <code><b>LatLon</b>=None</code> class to return the 
-          intersection plus additional <code>LatLon</code> keyword 
-          arguments, include <b><code>datum</code></b> if different from 
+        <li><strong class="pname"><code>name_LatLon_and_kwds</code></strong> - Optional, overriding 
+          <code><b>name</b>=&quot;hartzell&quot;</code> (<code>str</code>),
+          <code><b>LatLon</b>=None</code> class to return the intersection 
+          plus additional <code>LatLon</code> keyword arguments, include 
+          the <b><code>datum</code></b> if different from 
           <b><code>earth</code></b>.</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -20225,7 +20224,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   <h3 class="epydoc"><span class="sig"><span class="sig-name">hartzell4</span>&nbsp;(<span class="sig-arg">pov</span>,
         <span class="sig-arg">los</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">tri_biax</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -20265,7 +20264,9 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
           href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
           class="link">a_f2Tuple</a> or <code>scalar</code> radius, 
           conventionally in <code>meter</code>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional, overriding 
+          <code><b>name</b>=&quot;hartzell4&quot;</code> 
+          (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><a href="pygeodesy.namedTuples.Vector4Tuple-class.html" 
@@ -20313,7 +20314,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fc8d04f0cd0&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fcd302acbd0&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -22797,7 +22798,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">latlon2n_xyz</span>&nbsp;(<span class="sig-arg">lat</span>,
         <span class="sig-arg">lon</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -22811,7 +22812,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>lat</code></strong> - Latitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lon</code></strong> - Longitude (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
@@ -23854,7 +23855,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   <h3 class="epydoc"><span class="sig"><span class="sig-name">n_xyz2latlon</span>&nbsp;(<span class="sig-arg">x</span>,
         <span class="sig-arg">y</span>,
         <span class="sig-arg">z</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -23869,7 +23870,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <li><strong class="pname"><code>x</code></strong> - X component (<code>scalar</code>).</li>
         <li><strong class="pname"><code>y</code></strong> - Y component (<code>scalar</code>).</li>
         <li><strong class="pname"><code>z</code></strong> - Z component (<code>scalar</code>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.namedTuples.LatLon2Tuple-class.html" 
@@ -23891,7 +23892,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   <h3 class="epydoc"><span class="sig"><span class="sig-name">n_xyz2philam</span>&nbsp;(<span class="sig-arg">x</span>,
         <span class="sig-arg">y</span>,
         <span class="sig-arg">z</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -23906,7 +23907,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <li><strong class="pname"><code>x</code></strong> - X component (<code>scalar</code>).</li>
         <li><strong class="pname"><code>y</code></strong> - Y component (<code>scalar</code>).</li>
         <li><strong class="pname"><code>z</code></strong> - Z component (<code>scalar</code>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.namedTuples.PhiLam2Tuple-class.html" 
@@ -24328,7 +24329,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">normal</span>&nbsp;(<span class="sig-arg">lat</span>,
         <span class="sig-arg">lon</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -24342,7 +24343,8 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>lat</code></strong> - Latitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lon</code></strong> - Longitude (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional, overriding <code><b>name</b>=&quot;normal&quot;</code> 
+          (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><a href="pygeodesy.namedTuples.LatLon2Tuple-class.html" 
@@ -24367,7 +24369,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">normal_</span>&nbsp;(<span class="sig-arg">phi</span>,
         <span class="sig-arg">lam</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -24381,7 +24383,8 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>phi</code></strong> - Latitude (<code>radians</code>).</li>
         <li><strong class="pname"><code>lam</code></strong> - Longitude (<code>radians</code>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional, overriding <code><b>name</b>=&quot;normal_&quot;</code>
+          (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><a href="pygeodesy.namedTuples.PhiLam2Tuple-class.html" 
@@ -24942,7 +24945,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <span class="sig-arg">datum</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
         <span class="sig-arg">Etm</span>=<span class="sig-default">&lt;class 'pygeodesy.etm.Etm'&gt;</span>,
         <span class="sig-arg">falsed</span>=<span class="sig-default">True</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -24968,7 +24971,8 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
           <code>None</code>.</li>
         <li><strong class="pname"><code>falsed</code></strong> - Both easting and northing are <code>falsed</code> 
           (<code>bool</code>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional <b><code>Etm</code></b> name (<code>str</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <b><code>Etm</code></b> <code><b>name</b>=NN</code> 
+          (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The UTM coordinate (<b><code>Etm</code></b>) or if 
@@ -25175,7 +25179,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <span class="sig-arg">datum</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
         <span class="sig-arg">Utm</span>=<span class="sig-default">&lt;class 'pygeodesy.utm.Utm'&gt;</span>,
         <span class="sig-arg">falsed</span>=<span class="sig-default">True</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -25386,7 +25390,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">philam2n_xyz</span>&nbsp;(<span class="sig-arg">phi</span>,
         <span class="sig-arg">lam</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -25980,7 +25984,8 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">radical2</span>&nbsp;(<span class="sig-arg">distance</span>,
         <span class="sig-arg">radius1</span>,
-        <span class="sig-arg">radius2</span>)</span>
+        <span class="sig-arg">radius2</span>,
+        <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -25999,6 +26004,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <li><strong class="pname"><code>distance</code></strong> - Distance between the circle centers (<code>scalar</code>).</li>
         <li><strong class="pname"><code>radius1</code></strong> - Radius of the first circle (<code>scalar</code>).</li>
         <li><strong class="pname"><code>radius2</code></strong> - Radius of the second circle (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.formy.Radical2Tuple-class.html" 
@@ -27578,7 +27584,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <span class="sig-arg">cs0</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">Css</span>=<span class="sig-default">&lt;class 'pygeodesy.css.Css'&gt;</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -27601,7 +27607,8 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <li><strong class="pname"><code>Css</code></strong> - Optional class to return the location (<a 
           href="pygeodesy.css.Css-class.html" class="link">Css</a>) or 
           <code>None</code>.</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional <b><code>Css</code></b> name (<code>str</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <b><code>Css</code></b> <code><b>name</b>=NN</code> 
+          (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The Cassini-Soldner location (<b><code>Css</code></b>) or an <a 
@@ -27757,10 +27764,9 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <span class="sig-arg">datum</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">Etm</span>=<span class="sig-default">&lt;class 'pygeodesy.etm.Etm'&gt;</span>,
         <span class="sig-arg">falsed</span>=<span class="sig-default">True</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">strict</span>=<span class="sig-default">True</span>,
         <span class="sig-arg">zone</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">**cmoff</span>)</span>
+        <span class="sig-arg">**name_cmoff</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -27773,7 +27779,8 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>latlon</code></strong> - Latitude (<code>degrees</code>) or an (ellipsoidal) geodetic 
           <code>LatLon</code> instance.</li>
-        <li><strong class="pname"><code>lon</code></strong> - Optional longitude (<code>degrees</code>) or <code>None</code>.</li>
+        <li><strong class="pname"><code>lon</code></strong> - Optional longitude (<code>degrees</code>), required if 
+          <b><code>latlon</code></b> is in <code>degrees</code>.</li>
         <li><strong class="pname"><code>datum</code></strong> - Optional datum for the ETM coordinate, overriding 
           <b><code>latlon</code></b>'s datum (<a 
           href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>, 
@@ -27787,13 +27794,14 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
           href="pygeodesy.etm.Etm-class.html" class="link">Etm</a>) or 
           <code>None</code>.</li>
         <li><strong class="pname"><code>falsed</code></strong> - False both easting and northing (<code>bool</code>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional <b><code>Utm</code></b> name (<code>str</code>).</li>
         <li><strong class="pname"><code>strict</code></strong> - Restrict <b><code>lat</code></b> to UTM ranges 
           (<code>bool</code>).</li>
         <li><strong class="pname"><code>zone</code></strong> - Optional UTM zone to enforce (<code>int</code> or 
           <code>str</code>).</li>
-        <li><strong class="pname"><code>cmoff</code></strong> - DEPRECATED, use <b><code>falsed</code></b>.  Offset longitude 
-          from the zone's central meridian (<code>bool</code>).</li>
+        <li><strong class="pname"><code>name_cmoff</code></strong> - Optional <b><code>Etm</code></b> <code><b>name</b>=NN</code> 
+          (<code>str</code>) and DEPRECATED <code><b>cmoff</b>=True</code> 
+          to offset longitude from the zone's central meridian 
+          (<code>bool</code>), instead use <code><b>falsed</b>=True</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The ETM coordinate as an <b><code>Etm</code></b> instance or a <a
@@ -27831,8 +27839,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <span class="sig-arg">conic</span>=<span class="sig-default">Conic(name='WRF_Lb', lat0=40, lon0=-97, par1=33, par2=45, E0=0<code class="variable-ellipsis">...</code></span>,
         <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">Lcc</span>=<span class="sig-default">&lt;class 'pygeodesy.lcc.Lcc'&gt;</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>,
-        <span class="sig-arg">**Lcc_kwds</span>)</span>
+        <span class="sig-arg">**name_Lcc_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -27849,11 +27856,12 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
           href="pygeodesy.lcc.Conic-class.html" class="link">Conic</a>).</li>
         <li><strong class="pname"><a href=pygeodesy.heights-module.html><code>height</code></a></strong> - Optional height for the point, overriding the default height 
           (<code>meter</code>).</li>
-        <li><strong class="pname"><code>Lcc</code></strong> - Optional class to return the <i>Lambert</i> location (<a 
+        <li><strong class="pname"><code>Lcc</code></strong> - Class to return the <i>Lambert</i> location (<a 
           href="pygeodesy.lcc.Lcc-class.html" class="link">Lcc</a>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional <b><code>Lcc</code></b> name (<code>str</code>).</li>
-        <li><strong class="pname"><code>Lcc_kwds</code></strong> - Optional, additional <b><code>Lcc</code></b> keyword arguments, 
-          ignored if <b><code>Lcc</code></b> is <code>None</code>.</li>
+        <li><strong class="pname"><code>name_Lcc_kwds</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>) for the 
+          location and optional, additional <b><code>Lcc</code></b> keyword
+          arguments, ignored if <b><code>Lcc</code></b> is 
+          <code>None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The <i>Lambert</i> location (<a 
@@ -28076,10 +28084,9 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <span class="sig-arg">datum</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">Utm</span>=<span class="sig-default">&lt;class 'pygeodesy.utm.Utm'&gt;</span>,
         <span class="sig-arg">falsed</span>=<span class="sig-default">True</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">strict</span>=<span class="sig-default">True</span>,
         <span class="sig-arg">zone</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">**cmoff</span>)</span>
+        <span class="sig-arg">**name_cmoff</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -28092,7 +28099,8 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>latlon</code></strong> - Latitude (<code>degrees</code>) or an (ellipsoidal) geodetic 
           <code>LatLon</code> point.</li>
-        <li><strong class="pname"><code>lon</code></strong> - Optional longitude (<code>degrees</code>) or <code>None</code>.</li>
+        <li><strong class="pname"><code>lon</code></strong> - Optional longitude (<code>degrees</code>), required if 
+          <b><code>latlon</code></b> is in <code>degrees</code>.</li>
         <li><strong class="pname"><code>datum</code></strong> - Optional datum for this UTM coordinate, overriding 
           <b><code>latlon</code></b>'s datum (<a 
           href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>, 
@@ -28106,13 +28114,14 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
           href="pygeodesy.utm.Utm-class.html" class="link">Utm</a>) or 
           <code>None</code>.</li>
         <li><strong class="pname"><code>falsed</code></strong> - False both easting and northing (<code>bool</code>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional <b><code>Utm</code></b> name (<code>str</code>).</li>
         <li><strong class="pname"><code>strict</code></strong> - Restrict <b><code>lat</code></b> to UTM ranges 
           (<code>bool</code>).</li>
         <li><strong class="pname"><code>zone</code></strong> - Optional UTM zone to enforce (<code>int</code> or 
           <code>str</code>).</li>
-        <li><strong class="pname"><code>cmoff</code></strong> - DEPRECATED, use <b><code>falsed</code></b>.  Offset longitude 
-          from the zone's central meridian (<code>bool</code>).</li>
+        <li><strong class="pname"><code>name_cmoff</code></strong> - Optional <b><code>Utm</code></b> <code><b>name</b>=NN</code> 
+          (<code>str</code>) and DEPRECATED <code><b>cmoff</b>=True</code> 
+          to offset longitude from the zone's central meridian 
+          (<code>bool</code>), instead use <code><b>falsed</b>=True</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The UTM coordinate (<b><code>Utm</code></b>) or if 
@@ -28131,7 +28140,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>datum</code></b> or <b><code>latlon</code></b> not
         ellipsoidal.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.utm.UTMError-class.html">UTMError</a></strong></code> - Invalid <b><code>zone</code></b>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - If <b><code>lon</code></b> value is missing or if 
+        <li><code><strong class='fraise'>ValueError</strong></code> - If <b><code>lon</code></b> value is missing or 
         <b><code>latlon</code></b> is invalid.</li>
     </ul></dd>
   </dl>
@@ -29190,7 +29199,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   <h3 class="epydoc"><span class="sig"><span class="sig-name">utmZoneBand5</span>&nbsp;(<span class="sig-arg">lat</span>,
         <span class="sig-arg">lon</span>,
         <span class="sig-arg">cmoff</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -30161,7 +30170,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed May 15 16:10:02 2024
+    Generated by Epydoc 3.0.1 on Fri May 24 16:58:40 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

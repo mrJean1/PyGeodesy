@@ -142,7 +142,7 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 from pygeodesy.basics import _copysign, int1s, isint, itemsorted, neg, unsigned0, \
                              _xgeographiclib, _zip,  _version_info
 from pygeodesy.constants import NAN, _isfinite as _math_isfinite, _0_0, \
-                               _1_16th,  _1_0, _2_0, _180_0, _N_180_0, _360_0
+                               _1_16th, _1_0, _2_0, _180_0, _N_180_0, _360_0
 from pygeodesy.errors import GeodesicError, _ValueError, _xkwds, _xkwds_get
 from pygeodesy.fmath import cbrt, fremainder, norm2
 # from pygeodesy.internals import _version_info  # from .basics
@@ -159,7 +159,7 @@ from pygeodesy.utily import atan2d, sincos2d, tand, _unrollon,  fabs
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.karney
-__version__ = '24.05.13'
+__version__ = '24.05.20'
 
 _K_2_0      = _getenv('PYGEODESY_GEOGRAPHICLIB', _2_) == _2_
 _perimeter_ = 'perimeter'
@@ -168,7 +168,7 @@ _perimeter_ = 'perimeter'
 class _GTuple(_NamedTuple):  # in .testNamedTuples
     '''(INTERNAL) Helper.
     '''
-    def toGDict(self, **updates):
+    def toGDict(self, **updates):  # NO name=NN
         '''Convert this C{*Tuple} to a L{GDict}.
 
            @kwarg updates: Optional items to apply (C{nam=value} pairs)
@@ -359,12 +359,11 @@ class _CapsBase(_NamedBase):  # in .auxilats, .geodesicx.gxbases
         '''
         self._debug = Caps._DEBUG_ALL if debug else 0
 
-    def _iter2tion(self, r, s):
+    def _iter2tion(self, r, iter=None, **unused):
         '''(INTERNAL) Copy C{C{s}.iter} into C{B{r}._iteration}.
         '''
-        i = _xkwds_get(s, iter=None)
-        if i is not None:
-            self._iteration = r._iteration = i
+        if iter is not None:
+            self._iteration = r._iteration = iter
         return r
 
 
@@ -468,7 +467,7 @@ class Inverse10Tuple(_GTuple):
 
            @kwarg updates: Optional items to apply (C{nam=value} pairs)
         '''
-        return _GTuple.toGDict(self, azi1=atan2d(self.salp1, self.calp1),  # PYCHOK indent, namedTuple
+        return _GTuple.toGDict(self, azi1=atan2d(self.salp1, self.calp1),  # PYCHOK namedTuple
                                      azi2=atan2d(self.salp2, self.calp2),  # PYCHOK namedTuple
                                    **updates)  # PYCHOK indent
 
@@ -750,7 +749,10 @@ def _polynomial(x, cs, i, j):  # PYCHOK shared
 #       for c in cs[i+1:j]:
 #           s, t = _sum2_(s * x, t * x, c)
 #       return s  # + t
-    s, _ = _sum2_(cs[i], _0_0, x=x, *cs[i+1:j])
+    s  = cs[i]
+    i += 1
+    if x and i < j:
+        s, _ = _sum2_(s, _0_0, x=x, *cs[i:j])
     return s  # + t
 
 
@@ -843,11 +845,12 @@ def _sum2_(s, t, *vs, **x):
 
        @note: NOT "error-free", see C{pygeodesy.test/testKarney.py}.
     '''
-    x = _xkwds_get(x, x=0)
+    x = _xkwds_get(x, x=_1_0)
+    p =  x != _1_0
 
     _s2, _u0 = _sum2, unsigned0
     for v in vs:
-        if x:
+        if p:
             s *= x
             t *= x
         if v:
@@ -857,7 +860,7 @@ def _sum2_(s, t, *vs, **x):
                 if s:
                     t += u  # accumulate u into t
 #               elif t:  # s == 0 implies t == 0
-#                   raise _AssertionError(t=t, txt=_not_(_0_))
+#                   raise _AssertionError(t=t, txt_not_=_0_)
                 else:
                     s = _u0(u)  # result is u, t = 0
             else:

@@ -13,14 +13,15 @@ from pygeodesy.constants import _0_0, _1_0, _2_0, _3_0, _4_0, _6_0
 from pygeodesy.errors import _AssertionError, _ValueError, _xError
 from pygeodesy.fmath import Fsqrt,  Fmt
 from pygeodesy.fsums import _2finite, Fsum, _iadd_op_, _isFsumTuple
-from pygeodesy.interns import NN, _odd_, _SPACE_
+from pygeodesy.interns import _odd_, _SPACE_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
-from pygeodesy.named import _Named, _NotImplemented, property_RO
+from pygeodesy.named import _name__, _Named, _NotImplemented, \
+                             property_RO
 # from pygeodesy.props import property_RO  # from .named
 # from pygeodesy.streprs import Fmt  # from .fmath
 
 __all__ = _ALL_LAZY.fstats
-__version__ = '24.05.10'
+__version__ = '24.05.21'
 
 
 def _2Floats(**xs):
@@ -86,10 +87,14 @@ class _FstatsNamed(_Named):
         n = _SPACE_(self.classname, n) if n else self.classname
         return Fmt.SQUARE(n, len(self))
 
-    def copy(self, deep=False, name=NN):
+    def copy(self, deep=False, **name):
         '''Copy this instance, C{shallow} or B{C{deep}}.
+
+           @kwarg name: Optional, overriding C{B{name}="copy"} (C{str}).
+
+           @return: The copy instance.
         '''
-        n =  name or self.copy.__name__
+        n = _name__(name, name__=self.copy)
         f = _Named.copy(self, deep=deep, name=n)
         return self._copy(f, self)  # PYCHOK expected
 
@@ -234,12 +239,12 @@ class Fcook(_FstatsBase):
        @see: L{Fwelford} and U{Higher-order statistics<https://
              WikiPedia.org/wiki/Algorithms_for_calculating_variance>}.
     '''
-    def __init__(self, xs=None, name=NN):
+    def __init__(self, xs=None, **name):
         '''New L{Fcook} stats accumulator.
 
            @arg xs: Iterable of additional values (each C{scalar} or
                     an L{Fsum} or L{Fsum2Tuple} instance).
-           @kwarg name: Optional name (C{str}).
+           @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @see: Method L{Fcook.fadd}.
         '''
@@ -505,10 +510,12 @@ class Fcook(_FstatsBase):
                     S *= (n + 1) / (n - 1)
         return S
 
-    def toFwelford(self, name=NN):
-        '''Return an L{Fwelford} equivalent.
+    def toFwelford(self, **name):
+        '''Return a L{Fwelford} equivalent.
+
+           @kwarg name: Optional C{B{name}=NN} (C{str}).
         '''
-        f = Fwelford(name=name or self.name)
+        f = Fwelford(name=self._name__(name))
         f._Ms = self._M1.copy(), self._M2.copy()  # deep=False
         f._n  = self._n
         return f
@@ -520,12 +527,12 @@ class Fwelford(_FstatsBase):
 
        @see: U{Cook<https://www.JohnDCook.com/blog/standard_deviation/>} and L{Fcook}.
     '''
-    def __init__(self, xs=None, name=NN):
+    def __init__(self, xs=None, **name):
         '''New L{Fwelford} stats accumulator.
 
            @arg xs: Iterable of initial values (each C{scalar} or an
                     L{Fsum} or L{Fsum2Tuple} instance).
-           @kwarg name: Optional name (C{str}).
+           @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @see: Method L{Fwelford.fadd}.
         '''
@@ -619,7 +626,7 @@ class Flinear(_FstatsNamed):
        C{RunningRegression} computing the running slope, intercept
        and correlation of a linear regression.
     '''
-    def __init__(self, xs=None, ys=None, Fstats=Fwelford, name=NN):
+    def __init__(self, xs=None, ys=None, Fstats=Fwelford, **name):
         '''New L{Flinear} regression accumulator.
 
            @kwarg xs: Iterable of initial C{x} values (each C{scalar} or
@@ -628,7 +635,7 @@ class Flinear(_FstatsNamed):
                       an L{Fsum} or L{Fsum2Tuple} instance).
            @kwarg Fstats: Class for C{xs} and C{ys} values (L{Fcook} or
                           L{Fwelford}).
-           @kwarg name: Optional name (C{str}).
+           @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @raise TypeError: B{C{Fstats}} not L{Fcook} or L{Fwelford}.
 

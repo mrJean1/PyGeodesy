@@ -99,9 +99,8 @@
           <td><span class="summary-sig"><a href="pygeodesy.geodesicx.gx.GeodesicExact-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">a_ellipsoid</span>=<span class="summary-sig-default">Ellipsoid(name='WGS84', a=6378137, b=6356752.31424518, f_=298.<code class="variable-ellipsis">...</code></span>,
         <span class="summary-sig-arg">f</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">C4order</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">C4Order</span>=<span class="summary-sig-default">None</span>)</span><br />
+        <span class="summary-sig-arg">**name_C4Order</span>)</span><br />
       New <a href="pygeodesy.geodesicx.gx.GeodesicExact-class.html" 
       class="link">GeodesicExact</a> instance.</td>
           <td align="right" valign="top">
@@ -148,7 +147,7 @@
         <span class="summary-sig-arg">azi1</span>,
         <span class="summary-sig-arg">a12</span>,
         <span class="summary-sig-arg">caps</span>=<span class="summary-sig-default">32640</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Define a <a 
       href="pygeodesy.geodesicx.gx.GeodesicLineExact-class.html" 
       class="link">GeodesicLineExact</a> in terms of the <i>direct</i> 
@@ -170,7 +169,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.geodesicx.gx.GeodesicExact-class.html#Area" class="summary-sig-name">Area</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">polyline</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Set up a <a 
       href="pygeodesy.geodesicx.gxarea.GeodesicAreaExact-class.html" 
       class="link">GeodesicAreaExact</a> to compute area and perimeter of a
@@ -259,7 +258,7 @@
         <span class="summary-sig-arg">azi1</span>,
         <span class="summary-sig-arg">s12</span>,
         <span class="summary-sig-arg">caps</span>=<span class="summary-sig-default">3968</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Define a <a 
       href="pygeodesy.geodesicx.gx.GeodesicLineExact-class.html" 
       class="link">GeodesicLineExact</a> in terms of the <i>direct</i> 
@@ -352,7 +351,7 @@
         <span class="summary-sig-arg">lat2</span>,
         <span class="summary-sig-arg">lon2</span>,
         <span class="summary-sig-arg">caps</span>=<span class="summary-sig-default">3968</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Define a <a 
       href="pygeodesy.geodesicx.gx.GeodesicLineExact-class.html" 
       class="link">GeodesicLineExact</a> in terms of the <i>Inverse</i> 
@@ -377,7 +376,7 @@
         <span class="summary-sig-arg">lon1</span>,
         <span class="summary-sig-arg">azi1</span>,
         <span class="summary-sig-arg">caps</span>=<span class="summary-sig-default">32640</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Set up a <a 
       href="pygeodesy.geodesicx.gx.GeodesicLineExact-class.html" 
       class="link">GeodesicLineExact</a> to compute several points on a 
@@ -399,7 +398,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.geodesicx.gx.GeodesicExact-class.html#Polygon" class="summary-sig-name">Polygon</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">polyline</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Set up a <a 
       href="pygeodesy.geodesicx.gxarea.GeodesicAreaExact-class.html" 
       class="link">GeodesicAreaExact</a> to compute area and perimeter of a
@@ -454,6 +453,7 @@
       <code><a href="pygeodesy.named._Named-class.html#dup">dup</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#methodname">methodname</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#rename">rename</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#renamed">renamed</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#toStr2">toStr2</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
@@ -682,9 +682,8 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">a_ellipsoid</span>=<span class="sig-default">Ellipsoid(name='WGS84', a=6378137, b=6356752.31424518, f_=298.<code class="variable-ellipsis">...</code></span>,
         <span class="sig-arg">f</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">C4order</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">C4Order</span>=<span class="sig-default">None</span>)</span>
+        <span class="sig-arg">**name_C4Order</span>)</span>
     <br /><em class="fname">(Constructor)</em>
   </h3>
   </td><td align="right" valign="top"
@@ -705,11 +704,12 @@
         <li><strong class="pname"><code>f</code></strong> - The flattening of the ellipsoid (<code>scalar</code>) if 
           <b><code>a_ellipsoid</code></b> is specified as 
           <code>scalar</code>.</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
         <li><strong class="pname"><code>C4order</code></strong> - Optional series expansion order (<code>int</code>), see property 
           <a href="pygeodesy.geodesicx.gx.GeodesicExact-class.html#C4order"
           class="link">C4order</a>, default <code>30</code>.</li>
-        <li><strong class="pname"><code>C4Order</code></strong> - DEPRECATED, use keyword argument <b><code>C4order</code></b>.</li>
+        <li><strong class="pname"><code>name_C4Order</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>) and the 
+          DEPRECATED keyword argument <code>C4Order</code>, use 
+          <b><code>C4order</code></b> instead.</li>
     </ul></dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
@@ -782,7 +782,7 @@
         <span class="sig-arg">azi1</span>,
         <span class="sig-arg">a12</span>,
         <span class="sig-arg">caps</span>=<span class="sig-default">32640</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -808,6 +808,7 @@
           class="link">GeodesicLineExact.Position</a> and <a 
           href="pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#ArcPosition"
           class="link">GeodesicLineExact.ArcPosition</a>.</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.geodesicx.gx.GeodesicLineExact-class.html" 
@@ -844,7 +845,7 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">Area</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">polyline</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -860,7 +861,7 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>polyline</code></strong> - If <code>True</code> perimeter only, otherwise area and perimeter
           (<code>bool</code>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a 
@@ -990,7 +991,7 @@
         <span class="sig-arg">azi1</span>,
         <span class="sig-arg">s12</span>,
         <span class="sig-arg">caps</span>=<span class="sig-default">3968</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -1014,6 +1015,7 @@
           which quantities can be returned by calls to <a 
           href="pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#Position"
           class="link">GeodesicLineExact.Position</a>.</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.geodesicx.gx.GeodesicLineExact-class.html" 
@@ -1172,7 +1174,7 @@
         <span class="sig-arg">lat2</span>,
         <span class="sig-arg">lon2</span>,
         <span class="sig-arg">caps</span>=<span class="sig-default">3968</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -1197,6 +1199,7 @@
           class="link">GeodesicLineExact.Position</a> and <a 
           href="pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#ArcPosition"
           class="link">GeodesicLineExact.ArcPosition</a>.</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.geodesicx.gx.GeodesicLineExact-class.html" 
@@ -1236,7 +1239,7 @@
         <span class="sig-arg">lon1</span>,
         <span class="sig-arg">azi1</span>,
         <span class="sig-arg">caps</span>=<span class="sig-default">32640</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -1260,6 +1263,7 @@
           class="link">GeodesicLineExact.Position</a> and <a 
           href="pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#ArcPosition"
           class="link">GeodesicLineExact.ArcPosition</a>.</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.geodesicx.gx.GeodesicLineExact-class.html" 
@@ -1288,7 +1292,7 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">Polygon</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">polyline</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -1304,7 +1308,7 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>polyline</code></strong> - If <code>True</code> perimeter only, otherwise area and perimeter
           (<code>bool</code>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a 
@@ -1777,7 +1781,7 @@ b)</i>.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed May 15 16:10:04 2024
+    Generated by Epydoc 3.0.1 on Fri May 24 16:58:42 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -201,11 +201,10 @@ _distance_            = 'distance'           # PYCHOK OK
 _distant_     = _Prefix('distant')           # PYCHOK OK
 _doesn_t_exist_       = "doesn't exist"      # PYCHOK OK
 _DOT_            = Str_('.')                 # PYCHOK OK
-_down_                = 'down'               # PYCHOK OK
+_dunder_name_         = '__name__'           # PYCHOK _DUNDER_(NN, _name_, NN)
 _e_                   = 'e'                  # PYCHOK OK
 _E_                   = 'E'                  # PYCHOK OK
 _earth_               = 'earth'              # PYCHOK OK
-_east_                = 'east'               # PYCHOK OK
 _easting_             = 'easting'            # PYCHOK OK
 _ecef_                = 'ecef'               # PYCHOK OK
 _edge_                = 'edge'               # PYCHOK OK
@@ -259,8 +258,8 @@ _isclockwise_         = 'isclockwise'        # PYCHOK OK
 _ispolar_             = 'ispolar'            # PYCHOK OK
 _j_                   = 'j'                  # PYCHOK OK
 _k0_                  = 'k0'                 # PYCHOK OK
+_keyword_             = 'keyword'            # PYCHOK OK
 _kind_                = 'kind'               # PYCHOK OK
-_knots_               = 'knots'              # PYCHOK OK
 _Krassovski1940_      = 'Krassovski1940'     # PYCHOK OK
 _Krassowsky1940_      = 'Krassowsky1940'     # PYCHOK OK
 _LANGLE_              = '<'                  # PYCHOK OK
@@ -317,7 +316,6 @@ _NLHASH_         = Str_(_NL_ + '# ')         # PYCHOK OK
 # _NLNL_              = _DNL_                # PYCHOK OK
 _NN_                  = 'NN'                 # PYCHOK OK
 _no_          = _Prefix('no')                # PYCHOK OK
-_north_               = 'north'              # PYCHOK OK
 _northing_            = 'northing'           # PYCHOK OK
 _NorthPole_           = 'NorthPole'          # PYCHOK OK
 _not_         = _Prefix('not')               # PYCHOK OK
@@ -394,7 +392,6 @@ _STAR_           = Str_('*')                 # PYCHOK OK
 _start_               = 'start'              # PYCHOK OK
 _std_                 = 'std'                # PYCHOK OK
 _stdev_               = 'stdev'              # PYCHOK OK
-_supported_           = 'supported'          # PYCHOK OK
 _tbd_                 = 'tbd'                # PYCHOK OK
 _TILDE_               = '~'                  # PYCHOK OK
 _to_                  = 'to'                 # PYCHOK OK
@@ -450,7 +447,7 @@ _LR_PAIRS  = {_LANGLE_:  _RANGLE_,
 
 __all__ = (_NN_,  # NOT MISSING!
             Str_.__name__)  # classes
-__version__ = '24.05.13'
+__version__ = '24.05.21'
 
 if __name__ == '__main__':
 

@@ -136,7 +136,7 @@
         <span class="summary-sig-arg">lon</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">0</span>,
         <span class="summary-sig-arg">M</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Convert WGS84 geodetic to <i>Swiss</i> projection coordinates.</td>
           <td align="right" valign="top">
             
@@ -192,6 +192,7 @@
       <code><a href="pygeodesy.named._Named-class.html#dup">dup</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#methodname">methodname</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#rename">rename</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#renamed">renamed</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#toStr2">toStr2</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
@@ -226,7 +227,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.ltp.ChLV-class.html#false2" class="summary-sig-name">false2</a>(<span class="summary-sig-arg">Y</span>,
         <span class="summary-sig-arg">X</span>,
         <span class="summary-sig-arg">LV95</span>=<span class="summary-sig-default">True</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Add the <i>Swiss LV95</i> or <i>LV03</i> falsing.</td>
           <td align="right" valign="top">
             
@@ -285,7 +286,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.ltp.ChLV-class.html#unfalse2" class="summary-sig-name">unfalse2</a>(<span class="summary-sig-arg">e</span>,
         <span class="summary-sig-arg">n</span>,
         <span class="summary-sig-arg">LV95</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Remove the <i>Swiss LV95</i> or <i>LV03</i> falsing.</td>
           <td align="right" valign="top">
             
@@ -417,7 +418,7 @@
         <span class="sig-arg">lon</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">height</span>=<span class="sig-default">0</span>,
         <span class="sig-arg">M</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -442,7 +443,7 @@
           href="pygeodesy.ecef.EcefMatrix-class.html" 
           class="link">EcefMatrix</a> iff available for <code>ChLV</code> 
           only, <code>None</code> otherwise (<code>bool</code>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.ltpTuples.ChLV9Tuple-class.html" 
@@ -506,7 +507,7 @@
           href="pygeodesy.ecef.EcefMatrix-class.html" 
           class="link">EcefMatrix</a> iff available for <code>ChLV</code> 
           only, <code>None</code> otherwise (<code>bool</code>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.ltpTuples.ChLV9Tuple-class.html" 
@@ -542,7 +543,7 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">false2</span>&nbsp;(<span class="sig-arg">Y</span>,
         <span class="sig-arg">X</span>,
         <span class="sig-arg">LV95</span>=<span class="sig-default">True</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">**name</span>)</span>
     <br /><em class="fname">Static Method</em>
   </h3>
   </td><td align="right" valign="top"
@@ -559,7 +560,7 @@
         <li><strong class="pname"><code>LV95</code></strong> - If <code>True</code> add <code>LV95</code> falsing, if 
           <code>False</code> add <code>LV03</code> falsing, otherwise leave
           unfalsed.</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.ltpTuples.ChLVEN2Tuple-class.html" 
@@ -651,7 +652,7 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">unfalse2</span>&nbsp;(<span class="sig-arg">e</span>,
         <span class="sig-arg">n</span>,
         <span class="sig-arg">LV95</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">**name</span>)</span>
     <br /><em class="fname">Static Method</em>
   </h3>
   </td><td align="right" valign="top"
@@ -670,7 +671,7 @@
         <li><strong class="pname"><code>LV95</code></strong> - If <code>True</code> remove <i>LV95</i> falsing, if 
           <code>False</code> remove <i>LV03</i> falsing, otherwise use 
           method <code>isLV95(<b>e</b>, <b>n</b>)</code>.</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.ltpTuples.ChLVYX2Tuple-class.html" 
@@ -741,7 +742,7 @@ Bern(lat=46.952406, lon=7.439583, height=49.55, datum=Datum(name='WGS8<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed May 15 16:10:05 2024
+    Generated by Epydoc 3.0.1 on Fri May 24 16:58:43 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

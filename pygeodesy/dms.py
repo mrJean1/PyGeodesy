@@ -66,10 +66,11 @@ from pygeodesy.basics import copysign0, isLatLon, isodd, issequence, isstr, map2
 from pygeodesy.constants import _umod_360, _0_0, _0_5, _60_0, _360_0, _3600_0
 from pygeodesy.errors import ParseError, RangeError, _TypeError, _ValueError,\
                             _parseX, rangerrors, _xkwds, _xkwds_get
-from pygeodesy.interns import NN, _arg_, _COMMA_, _d_, _DASH_, _deg_, _degrees_, _DOT_, \
-                             _0_, _e_, _E_, _EW_, _f_, _F_, _g_, _MINUS_, _N_, _NE_, _NS_, \
-                             _NSEW_, _NW_, _of_, _PERCENTDOTSTAR_, _PLUS_, _PLUSMINUS_, \
-                             _QUOTE1_, _QUOTE2_, _radians_, _S_, _SE_, _SPACE_, _SW_, _W_
+from pygeodesy.interns import NN, _arg_, _COMMA_, _d_, _DASH_, _deg_, _degrees_, \
+                             _DOT_, _0_, _e_, _E_, _EW_, _f_, _F_, _g_, _keyword_, \
+                             _MINUS_, _N_, _NE_, _NS_, _NSEW_, _NW_, _of_, \
+                             _PERCENTDOTSTAR_, _PLUS_, _PLUSMINUS_, _QUOTE1_, \
+                             _QUOTE2_, _radians_, _S_, _SE_, _SPACE_, _SW_, _W_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _getenv
 # from pygeodesy.namedTuples import LatLon2Tuple  # _MODS
 # from pygeodesy.props import _throwarning  # _MODS
@@ -84,12 +85,11 @@ except ImportError:  # Python 3+
     from string import ascii_letters as _LETTERS
 
 __all__ = _ALL_LAZY.dms
-__version__ = '24.03.21'
+__version__ = '24.05.18'
 
 _beyond_      = 'beyond'
 _DDDMMSS_     = 'DDDMMSS'
 _deg_min_     = 'deg+min'
-_keyword_     = 'keyword'
 _SDIGITS_     = '-0123456789+'
 _sexagecimal_ = 'sexagecimal'
 _SEXAGECIMUL  =  1.e4  # sexagecimal C{D.MMSSss} into decimal C{DMMSS.ss}
