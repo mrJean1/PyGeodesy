@@ -86,7 +86,7 @@ from pygeodesy.unitsBase import _Str_degrees, _Str_degrees2, _Str_meter, _Str_NN
 from random import Random
 
 __all__ = _ALL_LAZY.hausdorff
-__version__ = '24.05.23'
+__version__ = '24.05.24'
 
 
 class HausdorffError(PointsError):
@@ -100,7 +100,7 @@ class Hausdorff(_Named):
        be overloaded.
     '''
     _datum = _WGS84
-    _func  =  None  # formy function
+    _func  =  None  # formy function/property
     _kwds  = {}     # func_ options
     _model = ()
     _seed  =  None
@@ -178,6 +178,15 @@ class Hausdorff(_Named):
         '''
         return self._func(point1.lat, point1.lon,
                           point2.lat, point2.lon, **self._kwds)
+
+    @property
+    def _func(self):
+        '''(INTERNAL) I{Must be overloaded}.'''
+        return _formy._Propy(self, 0, _func=None)
+
+    @_func.setter  # PYCHOK setter!
+    def _func(self, func):
+        _formy._Propy(self, 4, _func=func)
 
     def _hausdorff_(self, point2s, both, early, distance):
         _, ps2 = self._points2(point2s)
@@ -289,8 +298,7 @@ class HausdorffRadians(Hausdorff):
         symmetric = Hausdorff.symmetric
 
     def distance(self, point1, point2):  # PYCHOK no cover
-        '''Return the distance in C{radians} between B{C{point1}} and B{C{point2}}.
-           I{Must be overloaded}.'''
+        '''I{Must be overloaded}.'''
         self._notOverloaded(point1, point2)
 
     def point(self, point):
@@ -333,9 +341,14 @@ class _HausdorffMeterRadians(Hausdorff):
         '''
         return self._hausdorff_(point2s, True, early, _formy._radistance(self))
 
-    def _func_(self, *args, **kwds):  # PYCHOK no cover
+    @property
+    def _func_(self):
         '''(INTERNAL) I{Must be overloaded}.'''
-        self._notOverloaded(*args, **kwds)
+        return _formy._Propy(self, 0, _func_=None)
+
+    @_func_.setter  # PYCHOK setter!
+    def _func_(self, func):
+        _formy._Propy(self, 3,_func_=func)
 
 
 class HausdorffCosineAndoyerLambert(_HausdorffMeterRadians):

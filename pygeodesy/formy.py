@@ -18,15 +18,15 @@ from pygeodesy.errors import IntersectionError, LimitError, limiterrors, \
                             _TypeError, _ValueError, _xattr, _xError, \
                             _xkwds, _xkwds_pop2
 from pygeodesy.fmath import euclid, hypot, hypot2, sqrt0
-from pygeodesy.fsums import fsumf_
+from pygeodesy.fsums import fsumf_,  Fmt, unstr
 # from pygeodesy.internals import _dunder_nameof  # from .named
-from pygeodesy.interns import _delta_, _distant_, _inside_, _SPACE_, _too_
+from pygeodesy.interns import _delta_, _distant_, _inside_, _not_, _SPACE_, _too_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _name__, _name2__, _NamedTuple, _xnamed, \
-                            _dunder_nameof, Fmt, unstr
+                            _dunder_nameof
 from pygeodesy.namedTuples import Bearing2Tuple, Distance4Tuple, LatLon2Tuple, \
                                   Intersection3Tuple, PhiLam2Tuple, Vector3Tuple
-# from pygeodesy.streprs import Fmt, unstr  # from .named
+# from pygeodesy.streprs import Fmt, unstr  # from .fsums
 # from pygeodesy.triaxials import _hartzell2  # _MODS
 from pygeodesy.units import _isHeight, _isRadius, Bearing, Degrees_, Distance, \
                              Distance_, Height, Lam_, Lat, Lon, Meter_,  Phi_, \
@@ -1560,6 +1560,29 @@ def philam2n_xyz(phi, lam, **name):
     return _2n_xyz(name, *sincos2_(phi, lam))
 
 
+def _Propy(inst, nargs, **_prop_func):
+    '''(INTERNAL) Helper for the C{frechet.[-]Frechet**} and
+       C{hausdorff.[-]Hausdorff*} classes.
+    '''
+    _prop, func = _prop_func.popitem()  # _xkwds_item2(_func_func)
+    if func is None:  # getter
+        try:
+            return inst.__dict__[_prop]
+        except KeyError:
+            inst._notOverloaded(**inst.kwds)
+    else:  # setter
+        try:
+            if not callable(func):
+                raise TypeError(_not_(callable.__name__))
+            args = (0,) * nargs
+            _ = func(*args, **inst.kwds)
+        except Exception as x:
+            t = unstr(func, **inst.kwds)
+            raise _TypeError(t, cause=x)
+        inst.__dict__[_prop] = func
+#       return func
+
+
 def _radical2(d, r1, r2, **name):  # in .ellipsoidalBaseDI, .sphericalTrigonometry, .vector3d
     # (INTERNAL) See C{radical2} below
     # assert d > EPS0
@@ -1612,7 +1635,7 @@ class Radical2Tuple(_NamedTuple):
 
 
 def _radistance(inst):
-    '''(INTERNAL) Helper for the L{frechet._FrecherMeterRadians}
+    '''(INTERNAL) Helper for the L{frechet._FrechetMeterRadians}
        and L{hausdorff._HausdorffMeterRedians} classes.
     '''
     wrap_, kwds_ = _xkwds_pop2(inst._kwds, wrap=False)

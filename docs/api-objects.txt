@@ -1996,6 +1996,7 @@ pygeodesy.formy._dE	pygeodesy.formy-module.html#_dE
 pygeodesy.formy._xline_	pygeodesy.formy-module.html#_xline_
 pygeodesy.formy.atan2b	pygeodesy.utily-module.html#atan2b
 pygeodesy.formy._dS	pygeodesy.formy-module.html#_dS
+pygeodesy.formy._Propy	pygeodesy.formy-module.html#_Propy
 pygeodesy.formy.hubeny_	pygeodesy.formy-module.html#hubeny_
 pygeodesy.formy.isnormal	pygeodesy.formy-module.html#isnormal
 pygeodesy.formy.flatPolar_	pygeodesy.formy-module.html#flatPolar_

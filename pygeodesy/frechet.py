@@ -84,7 +84,8 @@ than the well-known C{Hausdorff} distance, see the L{hausdorff} module.
 # from pygeodesy.basics import isscalar  # from .points
 from pygeodesy.constants import EPS, EPS1, INF, NINF
 from pygeodesy.datums import _ellipsoidal_datum, _WGS84
-from pygeodesy.errors import PointsError, _xattr, _xcallable, _xkwds, _xkwds_get
+from pygeodesy.errors import PointsError, _xattr, _xcallable, _xkwds, \
+                            _xkwds_get
 import pygeodesy.formy as _formy
 from pygeodesy.interns import NN, _DOT_, _n_, _units_
 # from pygeodesy.iters import points2 as _points2  # from .points
@@ -102,7 +103,7 @@ from collections import defaultdict as _defaultdict
 # from math import radians  # from .points
 
 __all__ = _ALL_LAZY.frechet
-__version__ = '24.05.21'
+__version__ = '24.05.24'
 
 
 def _fraction(fraction, n):
@@ -128,7 +129,7 @@ class Frechet(_Named):
        be overloaded.
     '''
     _datum = _WGS84
-    _func  =  None  # formy function
+    _func  =  None  # formy function/property
     _f1    =  1
     _kwds  = {}     # func_ options
     _n1    =  0
@@ -247,9 +248,18 @@ class Frechet(_Named):
         '''
         self._f1 = _fraction(fraction, self._n1)
 
-    def _func(self, *args, **kwds):  # PYCHOK no cover
+#   def _func(self, *args, **kwds):  # PYCHOK no cover
+#       '''(INTERNAL) I{Must be overloaded}.'''
+#       self._notOverloaded(*args, **kwds)
+
+    @property
+    def _func(self):
         '''(INTERNAL) I{Must be overloaded}.'''
-        self._notOverloaded(*args, **kwds)
+        return _formy._Propy(self, 0, _func=None)
+
+    @_func.setter  # PYCHOK setter!
+    def _func(self, func):
+        _formy._Propy(self, 4, _func=func)
 
     @property_RO
     def kwds(self):
@@ -372,9 +382,14 @@ class _FrechetMeterRadians(Frechet):
         '''
         return self._discrete(point2s, fraction, _formy._radistance(self))
 
-    def _func_(self, *args, **kwds):  # PYCHOK no cover
+    @property
+    def _func_(self):
         '''(INTERNAL) I{Must be overloaded}.'''
-        self._notOverloaded(*args, **kwds)
+        return _formy._Propy(self, 0, _func_=None)
+
+    @_func_.setter  # PYCHOK setter!
+    def _func_(self, func):
+        _formy._Propy(self, 3, _func_=func)
 
 
 class FrechetCosineAndoyerLambert(_FrechetMeterRadians):
@@ -403,7 +418,7 @@ class FrechetCosineForsytheAndoyerLambert(_FrechetMeterRadians):
     '''Compute the C{Frechet} distance based on the I{angular} distance
        in C{radians} from function L{pygeodesy.cosineForsytheAndoyerLambert}.
     '''
-    def __init__(self, point1s, **fraction_name__datum_wrap_name):
+    def __init__(self, point1s, **fraction_name__datum_wrap):
         '''New L{FrechetCosineForsytheAndoyerLambert} calculator/interpolator.
 
            @kwarg fraction_name__datum_wrap: Optional C{B{fraction}=None} and
@@ -413,7 +428,7 @@ class FrechetCosineForsytheAndoyerLambert(_FrechetMeterRadians):
            @see: L{Frechet.__init__} for details about B{C{point1s}},
                  B{C{fraction}}, B{C{name}} and other exceptions.
         '''
-        Frechet.__init__(self, point1s, **fraction_name__datum_wrap_name)
+        Frechet.__init__(self, point1s, **fraction_name__datum_wrap)
         self._func  = _formy.cosineForsytheAndoyerLambert
         self._func_ = _formy.cosineForsytheAndoyerLambert_
 
