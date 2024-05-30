@@ -32,22 +32,22 @@ from pygeodesy.auxilats.auxAngle import AuxMu, AuxPhi,  hypot
 from pygeodesy.auxilats.auxDLat import AuxDLat, _DClenshaw
 # from pygeodesy.auxilats.auxDST import AuxDST  # _MODS
 from pygeodesy.auxilats.auxily import _Dlam, _Dp0Dpsi, _Ufloats
-from pygeodesy.basics import copysign0, _reverange,  _xkwds_get
+from pygeodesy.basics import copysign0, _reverange,  _xkwds_get1
 from pygeodesy.constants import EPS_2, MANT_DIG, PI4, isinf, \
                                _0_0, _4_0, _720_0, _log2, _over
-from pygeodesy.datums import _WGS84,  NN
-# from pygeodesy.errors import _xkwds_get  # from .basics
+# from pygeodesy.datums import _WGS84  # from .rhumb.bases
+# from pygeodesy.errors import _xkwds_get1  # from .basics
 from pygeodesy.karney import Caps, _polynomial
 # from pygeodesy.fmath import hypot  # from .auxilats.auxAngle
-# from pygeodesy.interns import NN  # from .datums
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
-# from pygeodesy.props import Property_RO  # from .rhumbBase
-from pygeodesy.rhumb.bases import RhumbBase, RhumbLineBase,  Property_RO
+# from pygeodesy.props import Property_RO  # from .rhumb.bases
+from pygeodesy.rhumb.bases import RhumbBase, RhumbLineBase, \
+                                  Property_RO, _WGS84
 
 from math import ceil as _ceil, fabs, radians
 
 __all__ = _ALL_LAZY.rhumb_aux_
-__version__ = '23.12.09'
+__version__ = '24.05.29'
 
 # DIGITS = (sizeof(real) * 8) bits
 #        = (ctypes.sizeof(ctypes.c_double(1.0)) * 8) bits
@@ -68,7 +68,7 @@ class RhumbAux(RhumbBase):
               installed, version 1.16 or later.
     '''
 
-    def __init__(self, a_earth=_WGS84, f=None, exact=True, name=NN, **TMorder):  # PYCHOK signature
+    def __init__(self, a_earth=_WGS84, f=None, exact=True, **TMorder_name):  # PYCHOK signature
         '''New C{RhumbAux}.
 
            @kwarg a_earth: This rhumb's earth model (L{Datum}, L{Ellipsoid},
@@ -79,18 +79,16 @@ class RhumbAux(RhumbBase):
            @kwarg exact: If C{True}, use the exact expressions for the I{Auxiliary
                          Latitudes}, otherwise use the I{Fourier} series expansion
                          (C{bool}), see also property C{exact}.
-           @kwarg name: Optional name (C{str}).
-           @kwarg TMorder: Optional keyword argument B{C{TMorder}}, see property
-                           C{TMorder}.
+           @kwarg TMorder_name: Optional C{B{name}=NN} (C{str}) and optional
+                          keyword argument C{B{TMorder}=6} for the order of
+                          the L{KTransverseMercator}, see property C{TMorder}.
 
            @raise ImportError: Package C{numpy} not found or not installed, only
                                required for area C{S12} when C{B{exact} is True}.
 
            @raise RhumbError: Invalid B{C{a_earth}}, B{C{f}} or B{C{TMorder}}.
         '''
-        RhumbBase.__init__(self, a_earth, f, exact, name)
-        if TMorder:
-            self.Tmorder = _xkwds_get(TMorder, TMorder=RhumbBase._mTM)
+        RhumbBase.__init__(self, a_earth, f, exact, TMorder_name)
 
     def areaux(self, **exact):
         '''Get this ellipsoid's B{C{exact}} surface area (C{meter} I{squared}).
@@ -110,7 +108,7 @@ class RhumbAux(RhumbBase):
            @see: U{The area of rhumb polygons<https://ArXiv.org/pdf/2303.03219.pdf>}
                  and method L{auxilats.AuxLat.AuthalicRadius2}.
         '''
-        x = _xkwds_get(exact, exact=self.exact)
+        x = _xkwds_get1(exact, exact=self.exact)
         a = (self._c2 * _720_0) if bool(x) is self.exact else (
              self._auxD.AuthalicRadius2(exact=x, f_max=self.f_max) * PI4)
         return a

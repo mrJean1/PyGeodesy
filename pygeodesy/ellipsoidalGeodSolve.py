@@ -24,7 +24,7 @@ from pygeodesy.points import _areaError, ispolar  # PYCHOK exported
 # from math import fabs  # from .karney
 
 __all__ = _ALL_LAZY.ellipsoidalGeodSolve
-__version__ = '24.02.21'
+__version__ = '24.05.25'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -76,7 +76,7 @@ class LatLon(LatLonEllipsoidalBaseDI):
            @kwarg Cartesian_datum_kwds: Optional L{Cartesian}, B{C{datum}}
                   and other keyword arguments, ignored if C{B{Cartesian} is None}.
                   Use C{B{Cartesian}=...} to override this L{Cartesian} class
-                  or set C{B{Cartesian} is None}.
+                  or set C{B{Cartesian}=None}.
 
            @return: The cartesian (ECEF) coordinates (L{Cartesian}) or if
                     B{C{Cartesian}} is C{None}, an L{Ecef9Tuple}C{(x, y, z,

@@ -207,8 +207,8 @@
         the given <b><code>limit</code></b> in functions <a 
         href="pygeodesy.formy-module.html#equirectangular" 
         class="link">pygeodesy.equirectangular</a>, <a 
-        href="pygeodesy.formy-module.html#equirectangular_" 
-        class="link">pygeodesy.equirectangular_</a>, 
+        href="pygeodesy.formy-module.html#equirectangular4" 
+        class="link">pygeodesy.equirectangular4</a>, 
         <code>nearestOn*</code> and <code>simplify*</code> or methods with 
         <code>limit</code> or <code>options</code> keyword arguments.</em>
     <ul>
@@ -759,8 +759,8 @@
       <em class="summary">Compute the <code>Hausdorff</code> distance based on the 
         <code>equirectangular</code> distance in <code>radians 
         squared</code> like function <a 
-        href="pygeodesy.formy-module.html#equirectangular_" 
-        class="link">pygeodesy.equirectangular_</a>.</em>
+        href="pygeodesy.formy-module.html#equirectangular" 
+        class="link">pygeodesy.equirectangular</a>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.hausdorff.HausdorffExact-class.html">pygeodesy.hausdorff.HausdorffExact</a></strong>:
       <em class="summary">Compute the <code>Hausdorff</code> distance based on the 
@@ -998,8 +998,8 @@
         href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
         target="_top">Inverse Distance Weighting</a> (IDW) and the 
         <i>angular</i> distance in <code>radians squared</code> like 
-        function <a href="pygeodesy.formy-module.html#equirectangular_" 
-        class="link">pygeodesy.equirectangular_</a>.</em>
+        function <a href="pygeodesy.formy-module.html#equirectangular4" 
+        class="link">pygeodesy.equirectangular4</a>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.heights.HeightIDWeuclidean-class.html">pygeodesy.heights.HeightIDWeuclidean</a></strong>:
       <em class="summary">Height interpolator using <a 
@@ -1272,13 +1272,6 @@
         initial and final bearing (azimuths) between two given points or 
         the destination point given a start point and an (initial) bearing.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html">pygeodesy.ellipsoidalVincenty.LatLon</a></strong>:
-      <em class="summary">New point on an (oblate) ellipsoidal earth model, using the 
-        formulae devised by <a 
-        href="https://WikiPedia.org/wiki/Vincenty's_formulae" 
-        target="_top"><i>Thaddeus Vincenty</i></a> (1975) to compute 
-        geodesic distances, bearings (azimuths), etc.</em>
-    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.LatLon-class.html">pygeodesy.ellipsoidalKarney.LatLon</a></strong>:
       <em class="summary">An ellipsoidal <a 
         href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
@@ -1289,6 +1282,13 @@
         href="https://PyPI.org/project/geographiclib" 
         target="_top">geographiclib</a> to compute geodesic distances, 
         bearings (azimuths), etc.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html">pygeodesy.ellipsoidalVincenty.LatLon</a></strong>:
+      <em class="summary">New point on an (oblate) ellipsoidal earth model, using the 
+        formulae devised by <a 
+        href="https://WikiPedia.org/wiki/Vincenty's_formulae" 
+        target="_top"><i>Thaddeus Vincenty</i></a> (1975) to compute 
+        geodesic distances, bearings (azimuths), etc.</em>
     </li>
     </ul>
     </li>
@@ -1440,14 +1440,6 @@
         href="pygeodesy.ellipsoidalGeodSolve.LatLon-class.html" 
         class="link">LatLon</a> points.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalNvector.Cartesian-class.html">pygeodesy.ellipsoidalNvector.Cartesian</a></strong>:
-      <em class="summary">Extended to convert geocentric, <a 
-        href="pygeodesy.ellipsoidalNvector.Cartesian-class.html" 
-        class="link">Cartesian</a> points to <code>Nvector</code> and 
-        n-vector-based, geodetic <a 
-        href="pygeodesy.ellipsoidalNvector.LatLon-class.html" 
-        class="link">LatLon</a>.</em>
-    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.Cartesian-class.html">pygeodesy.ellipsoidalKarney.Cartesian</a></strong>:
       <em class="summary">Extended to convert <code>Karney</code>-based <a 
         href="pygeodesy.ellipsoidalKarney.Cartesian-class.html" 
@@ -1460,6 +1452,14 @@
         href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html" 
         class="link">Cartesian</a> points to Vincenty-based, ellipsoidal, 
         geodetic <a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
+        class="link">LatLon</a>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalNvector.Cartesian-class.html">pygeodesy.ellipsoidalNvector.Cartesian</a></strong>:
+      <em class="summary">Extended to convert geocentric, <a 
+        href="pygeodesy.ellipsoidalNvector.Cartesian-class.html" 
+        class="link">Cartesian</a> points to <code>Nvector</code> and 
+        n-vector-based, geodetic <a 
+        href="pygeodesy.ellipsoidalNvector.LatLon-class.html" 
         class="link">LatLon</a>.</em>
     </li>
     </ul>
@@ -1493,14 +1493,14 @@
       <em class="summary">An n-vector is a position representation using a (unit) vector 
         normal to the earth ellipsoid.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.sphericalNvector.Nvector-class.html">pygeodesy.sphericalNvector.Nvector</a></strong>:
-      <em class="summary">An n-vector is a position representation using a (unit) vector 
-        normal to the earth's surface.</em>
-    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.deprecated.nvector.Nvector-class.html">pygeodesy.deprecated.nvector.Nvector</a></strong>:
       <em class="summary">DEPRECATED on 2021.05.20, see (INTERNAL) class <a 
         href="pygeodesy.nvectorBase.NvectorBase-class.html" 
         class="link">pygeodesy.nvectorBase.NvectorBase</a>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.sphericalNvector.Nvector-class.html">pygeodesy.sphericalNvector.Nvector</a></strong>:
+      <em class="summary">An n-vector is a position representation using a (unit) vector 
+        normal to the earth's surface.</em>
     </li>
     </ul>
     </li>
@@ -4190,7 +4190,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat May 25 11:36:53 2024
+    Generated by Epydoc 3.0.1 on Thu May 30 13:26:02 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

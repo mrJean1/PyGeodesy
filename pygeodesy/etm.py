@@ -92,19 +92,13 @@ from pygeodesy.utm import _cmlon, _LLEB, _parseUTM5, _toBand, _toXtm8, \
 from math import asinh, atan2, degrees, radians, sinh, sqrt
 
 __all__ = _ALL_LAZY.etm
-__version__ = '24.05.24'
+__version__ = '24.05.30'
 
 _OVERFLOW = _1_EPS**2  # about 2e+31
 _TAYTOL   =  pow(EPS, 0.6)
 _TAYTOL2  = _TAYTOL * _2_0
 _TOL_10   =  EPS * _0_1
 _TRIPS    =  21  # C++ 10
-
-
-def _overflow(x):
-    '''(INTERNAL) Like C{copysign0(OVERFLOW, B{x})}.
-    '''
-    return _copyBit(_OVERFLOW, x)
 
 
 class ETMError(UTMError):
@@ -217,9 +211,7 @@ class Etm(Utm):
         lat, lon, g, k = xTM.reverse(e, n, lon0=lon0)
 
         ll = _LLEB(lat, lon, datum=d, name=self.name)  # utm._LLEB
-        ll._gamma = g
-        ll._scale = k
-        self._latlon5args(ll, _toBand, unfalse, xTM)
+        self._latlon5args(ll, g, k, _toBand, unfalse, xTM)
 
     def toUtm(self):  # PYCHOK signature
         '''Copy this ETM to a UTM coordinate.
@@ -1032,6 +1024,12 @@ class ExactTransverseMercator(_NamedBase):
         return g_k  # or (g, k, lat, lon)
 
 
+def _overflow(x):
+    '''(INTERNAL) Like C{copysign0(OVERFLOW, B{x})}.
+    '''
+    return _copyBit(_OVERFLOW, x)
+
+
 def parseETM5(strUTM, datum=_WGS84, Etm=Etm, falsed=True, **name):
     '''Parse a string representing a UTM coordinate, consisting
        of C{"zone[band] hemisphere easting northing"}.
@@ -1058,8 +1056,7 @@ def parseETM5(strUTM, datum=_WGS84, Etm=Etm, falsed=True, **name):
 
 
 def toEtm8(latlon, lon=None, datum=None, Etm=Etm, falsed=True,
-                                         strict=True, zone=None,
-                                         **name_cmoff):
+                             strict=True, zone=None, **name_cmoff):
     '''Convert a geodetic lat-/longitude to an ETM coordinate.
 
        @arg latlon: Latitude (C{degrees}) or an (ellipsoidal)
@@ -1075,9 +1072,9 @@ def toEtm8(latlon, lon=None, datum=None, Etm=Etm, falsed=True,
        @kwarg strict: Restrict B{C{lat}} to UTM ranges (C{bool}).
        @kwarg zone: Optional UTM zone to enforce (C{int} or C{str}).
        @kwarg name_cmoff: Optional B{C{Etm}} C{B{name}=NN} (C{str})
-                   and DEPRECATED C{B{cmoff}=True} to offset longitude
-                   from the zone's central meridian (C{bool}), instead
-                   use C{B{falsed}=True}.
+                   and DEPRECATED keyword argument C{B{cmoff}=True}
+                   to offset the longitude from the zone's central
+                   meridian (C{bool}), use B{C{falsed}} instead.
 
        @return: The ETM coordinate as an B{C{Etm}} instance or a
                 L{UtmUps8Tuple}C{(zone, hemipole, easting, northing,

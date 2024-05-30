@@ -43,7 +43,7 @@ from pygeodesy.utily import fabs, _unrollon, _Wrap
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.booleans
-__version__ = '24.05.24'
+__version__ = '24.05.29'
 
 _0_EPS =  EPS  # near-zero, positive
 _EPS_0 = -EPS  # near-zero, negative
@@ -1009,9 +1009,9 @@ class _CompositeBase(_Named):
         '''
         self._eps = eps
 
-    def _10eps(self, **eps):
+    def _10eps(self, **eps_):
         # Get eps for _LatLonBool._2Abs
-        e = _xkwds_get(eps, eps=self._eps)
+        e = _xkwds_get(eps_, eps=self._eps)
         if e != EPS:
             e *= _10EPS / EPS
         else:

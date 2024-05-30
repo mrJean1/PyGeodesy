@@ -25,24 +25,25 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 from pygeodesy.basics import copysign0, neg
 from pygeodesy.constants import PI_2, _0_0s, _0_0, _0_5, _1_0, \
                                _2_0, _4_0, _720_0, _over, _1_over
-from pygeodesy.datums import _WGS84
+# from pygeodesy.datums import _WGS84  # from .rhumb.bases
 # from pygeodesy.deprecated import RhumbOrder2Tuple  # _MODS
-from pygeodesy.errors import RhumbError, _Xorder
+from pygeodesy.errors import RhumbError, _xkwds_pop2, _Xorder
 from pygeodesy.fmath import hypot, hypot1
 # from pygeodesy.fsums import fsum1f_  # _MODS
-# from pygeodesy.interns import NN  # from .farney
-from pygeodesy.karney import Caps,  NN
+# from pygeodesy.karney import Caps  # from .rhumb.bases
 from pygeodesy.ktm import KTransverseMercator, _Xs, \
                          _AlpCoeffs, _BetCoeffs  # PYCHOK used!
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
-from pygeodesy.props import deprecated_method, Property, Property_RO, property_RO
-from pygeodesy.rhumb.bases import RhumbBase, RhumbLineBase,  _update_all_rls
+from pygeodesy.props import deprecated_method, Property, Property_RO, \
+                            property_RO
+from pygeodesy.rhumb.bases import RhumbBase, RhumbLineBase, \
+                                  Caps, _update_all_rls, _WGS84
 from pygeodesy.utily import atan1, sincos2_
 
 from math import asinh, atan, cos, cosh, radians, sin, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.rhumb_ekx
-__version__ = '23.12.03'
+__version__ = '24.05.30'
 
 
 class Rhumb(RhumbBase):
@@ -54,7 +55,7 @@ class Rhumb(RhumbBase):
     '''
     _mRA = 6  # see .RAorder
 
-    def __init__(self, a_earth=_WGS84, f=None, exact=True, name=NN, **RA_TMorder):
+    def __init__(self, a_earth=_WGS84, f=None, exact=True, **RA_TMorder_name):
         '''New C{Rhumb}.
 
            @kwarg a_earth: This rhumb's earth model (L{Datum}, L{Ellipsoid},
@@ -67,15 +68,20 @@ class Rhumb(RhumbBase):
                          series expansion (C{bool} or C{None}), see also properties
                          C{exact} and C{TMorder}.
            @kwarg name: Optional name (C{str}).
-           @kwarg RA_TMorder: Optional keyword arguments B{C{RAorder}} and B{C{TMorder}}
-                              to set the respective C{order}, see properties C{RAorder}
-                              and C{TMorder} and method C{orders}.
+           @kwarg RA_TMorder_name: Optional C{B{name}=NN} (C{str}) and optional keyword
+                     arguments B{C{RAorder}=6} and B{C{TMorder}=6} to set the respective
+                     C{order}, see properties C{RAorder} and C{TMorder}.
 
-           @raise RhumbError: Invalid B{C{a_earth}}, B{C{f}} or B{C{RA_TMorder}}.
+           @raise RhumbError: Invalid B{C{a_earth}}, B{C{f}}, B{C{RAorder}} or B{C{TMorder}}.
         '''
-        RhumbBase.__init__(self, a_earth, f, exact, name)
-        if RA_TMorder:
-            self.orders(**RA_TMorder)
+        if RA_TMorder_name:
+            M = self._mRA
+            m, kwds = _xkwds_pop2(RA_TMorder_name, RAorder=M)
+            if m != M:
+                self.RAorder = m
+        else:
+            kwds = {}
+        RhumbBase.__init__(self, a_earth, f, exact, kwds)
 
     @Property_RO
     def _A2(self):  # Conformal2RectifyingCoeffs
@@ -184,7 +190,7 @@ class Rhumb(RhumbBase):
         return self.ellipsoid._Lpr  # degrees(._Lpd)
 
     @deprecated_method
-    def orders(self, RAorder=None, TMorder=None):  # PYCHOK no cover
+    def orders(self, RAorder=6, TMorder=6):  # PYCHOK no cover
         '''DEPRECATED, use properties C{RAorder} and/or C{TMorder}.
 
            Get and set the I{RAorder} and/or I{TMorder}.
@@ -198,9 +204,9 @@ class Rhumb(RhumbBase):
                     with the previous C{RAorder} and C{TMorder} setting.
         '''
         t = _MODS.deprecated.classes.RhumbOrder2Tuple(self.RAorder, self.TMorder)
-        if RAorder not in (None, t.RAorder):  # PYCHOK attr
+        if RAorder != t.RAorder:  # PYCHOK attr
             self.RAorder = RAorder
-        if TMorder not in (None, t.TMorder):  # PYCHOK attr
+        if TMorder != t.TMorder:  # PYCHOK attr
             self.TMorder = TMorder
         return t
 

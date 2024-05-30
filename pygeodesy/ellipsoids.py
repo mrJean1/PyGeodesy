@@ -80,11 +80,12 @@ from pygeodesy.interns import NN, _a_, _Airy1830_, _AiryModified_, _b_, _Bessel1
                              _prime_vertical_, _radius_, _Sphere_, _SPACE_, _vs_, _WGS72_, _WGS84_
 # from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS  # from .named
 from pygeodesy.named import _lazyNamedEnumItem as _lazy, _name__, _name2__, _NamedEnum, \
-                                _NamedEnumItem, _NamedTuple, _Pass,  _ALL_LAZY,  _MODS
+                                _NamedEnumItem, _NamedTuple, _Pass,  _ALL_LAZY, _MODS
 from pygeodesy.namedTuples import Distance2Tuple, Vector3Tuple, Vector4Tuple
 from pygeodesy.props import deprecated_Property_RO, Property_RO, property_doc_, \
                             deprecated_property_RO, property_RO
 from pygeodesy.streprs import Fmt, fstr, instr, strs, unstr
+# from pygeodesy.triaxials import _hartzell3  # _MODS
 from pygeodesy.units import Bearing_, Distance, Float, Float_, Height, Lam_, Lat, Meter, \
                             Meter2, Meter3, Phi, Phi_, Radius, Radius_, Scalar
 from pygeodesy.utily import atan1, atan1d, atan2b, degrees90, m2radians, radians2m, sincos2d
@@ -92,7 +93,7 @@ from pygeodesy.utily import atan1, atan1d, atan2b, degrees90, m2radians, radians
 from math import asinh, atan, atanh, cos, degrees, exp, fabs, radians, sin, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '24.05.21'
+__version__ = '24.05.28'
 
 _f_0_0    = Float(f =_0_0)  # zero flattening
 _f__0_0   = Float(f_=_0_0)  # zero inverse flattening
@@ -1101,7 +1102,7 @@ class Ellipsoid(_NamedEnumItem):
                  methods L{Ellipsoid.height4} and L{Triaxial.hartzell4}.
         '''
         try:
-            v, d = _MODS.triaxials._hartzell2(pov, los, self._triaxial)
+            v, d, _ = _MODS.triaxials._hartzell3(pov, los, self._triaxial)
         except Exception as x:
             raise IntersectionError(pov=pov, los=los, cause=x)
         return Vector4Tuple(v.x, v.y, v.z, d, name__=self.hartzell4)
@@ -1643,9 +1644,9 @@ class Ellipsoid(_NamedEnumItem):
             r = self.e2s2(sin(a))
             if r > EPS02:
                 n = self.a / sqrt(r)
-                m = n * self.e21 / r  # PYCHOK attr
+                m = n * self.e21 / r
             else:
-                m = n = _0_0  # PYCHOK attr
+                m = n = _0_0
         else:
             m = n = self.a
         if scaled and a:

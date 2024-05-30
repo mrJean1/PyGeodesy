@@ -17,7 +17,7 @@ from pygeodesy.constants import EPS, EPS0, INF, NAN, PI, PI2, PI_2, R_M, \
                                _N_180_0, _360_0, _400_0, _copysign_0_0, \
                                _float as _F, _isfinite, isnan, isnear0, \
                                _over, _umod_360, _umod_PI2
-from pygeodesy.errors import _ValueError, _xkwds, _xkwds_get,  _ALL_LAZY, _MODS
+from pygeodesy.errors import _ValueError, _xkwds, _xkwds_get1,  _ALL_LAZY, _MODS
 from pygeodesy.internals import _passargs  # , _MODS?
 from pygeodesy.interns import _edge_, _radians_, _semi_circular_, _SPACE_
 # from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS  # from .errors
@@ -27,7 +27,7 @@ from pygeodesy.units import Degrees, Degrees_, Feet, Float, Lam, Lam_, \
 from math import acos, asin, atan2, cos, degrees, fabs, radians, sin, tan  # pow
 
 __all__ = _ALL_LAZY.utily
-__version__ = '24.05.14'
+__version__ = '24.05.29'
 
 # read constant name "_M_Unit" as "meter per Unit"
 _M_CHAIN     = _F(  20.1168)     # yard2m(1) * 22
@@ -763,7 +763,7 @@ def sincos2d(deg, **adeg):
             q -= 1
         d = deg - q * _90_0
         if adeg:
-            t = _xkwds_get(adeg, adeg=_0_0)
+            t = _xkwds_get1(adeg, adeg=_0_0)
             d = _MODS.karney._around(d + t)
         t = _sin0cos2(q & 3, radians(d), deg)
     else:

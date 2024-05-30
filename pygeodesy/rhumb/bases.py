@@ -52,7 +52,7 @@ from pygeodesy.vector3d import _intersect3d3, Vector3d  # in .Intersection below
 from math import cos, fabs
 
 __all__ = ()
-__version__ = '24.05.13'
+__version__ = '24.05.29'
 
 _anti_ = _Dash('anti')
 _rls   = []  # instances of C{RbumbLine...} to be updated
@@ -95,10 +95,17 @@ class RhumbBase(_CapsBase):
     _f_max = _0_01
     _mTM   =  6  # see .TMorder
 
-    def __init__(self, a_earth, f, exact, name):
+    def __init__(self, a_earth, f, exact, TMorder_name):
         '''New C{RhumbAux} or C{Rhumb}.
         '''
-        _earth_datum(self, a_earth, f=f, name=name)
+        if TMorder_name:
+            M = self._mTM
+            m, name = _xkwds_pop2(TMorder_name, TMorder=M)
+            if m != M:
+                self.TMorder = m
+        else:
+            name = {}
+        _earth_datum(self, a_earth, f=f, **name)
         if not exact:
             self.exact = False
         if name:
@@ -425,13 +432,13 @@ class RhumbBase(_CapsBase):
 
     @Property
     def TMorder(self):
-        '''Get the I{Transverse Mercator} order (C{int}, 4, 5, 6, 7 or 8).
+        '''Get the L{KTransverseMercator} order (C{int}, 4, 5, 6, 7 or 8).
         '''
         return self._mTM
 
     @TMorder.setter  # PYCHOK setter!
     def TMorder(self, order):
-        '''Set the I{Transverse Mercator} order (C{int}, 4, 5, 6, 7 or 8).
+        '''Set the L{KTransverseMercator} order (C{int}, 4, 5, 6, 7 or 8).
 
            @note: Setting C{TMorder} turns property C{exact} off, but only
                   for L{Rhumb} instances.

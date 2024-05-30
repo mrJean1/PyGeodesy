@@ -38,7 +38,7 @@ from pygeodesy.errors import CrossError, crosserrors, _IndexError, \
                             _xattr, _xkwds, _xkwds_item2, _xkwds_pop2
 from pygeodesy.fmath import favg, fdot, hypot,  Fsum, fsum
 # from pygeodesy.fsums import Fsum, fsum  # from .fmath
-from pygeodesy.formy import _bearingTo2, equirectangular_,  _spherical_datum
+from pygeodesy.formy import _bearingTo2, equirectangular4,  _spherical_datum
 from pygeodesy.interns import NN, _colinear_, _COMMASPACE_, _composite_, \
                              _DEQUALSPACED_, _ELLIPSIS_, _EW_, _immutable_, \
                              _near_, _no_, _NS_, _point_, _SPACE_, _UNDER_, \
@@ -62,7 +62,7 @@ from pygeodesy.utily import atan2b, degrees90, degrees180, degrees2m, \
 from math import cos, fabs, fmod as _fmod, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '24.05.19'
+__version__ = '24.05.25'
 
 _ilat_  = 'ilat'
 _ilon_  = 'ilon'
@@ -1473,8 +1473,8 @@ def nearestOn5(point, points, closed=False, wrap=False, adjust=True,
        @kwarg closed: Optionally, close the path or polygon (C{bool}).
        @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the
                     B{C{points}} (C{bool}).
-       @kwarg adjust: See function L{pygeodesy.equirectangular_} (C{bool}).
-       @kwarg limit: See function L{pygeodesy.equirectangular_} (C{degrees}),
+       @kwarg adjust: See function L{pygeodesy.equirectangular4} (C{bool}).
+       @kwarg limit: See function L{pygeodesy.equirectangular4} (C{degrees}),
                      default C{9 degrees} is about C{1,000 Kmeter} (for mean
                      spherical earth radius L{R_KM}).
        @kwarg LatLon_and_kwds: Optional, C{B{LatLon}=None} class to use for
@@ -1490,24 +1490,24 @@ def nearestOn5(point, points, closed=False, wrap=False, adjust=True,
                 compass C{degrees}, like function L{pygeodesy.compassAngle}.
 
        @raise LimitError: Lat- and/or longitudinal delta exceeds the B{C{limit}},
-                          see function L{pygeodesy.equirectangular_}.
+                          see function L{pygeodesy.equirectangular4}.
 
        @raise PointsError: Insufficient number of B{C{points}}
 
        @raise TypeError: Some B{C{points}} are not C{LatLon}.
 
-       @note: Distances are I{approximated} by function L{pygeodesy.equirectangular_}.
+       @note: Distances are I{approximated} by function L{pygeodesy.equirectangular4}.
               For more accuracy use one of the C{LatLon.nearestOn6} methods.
 
        @see: Function L{pygeodesy.degrees2m}.
     '''
     def _d2yx4(p2, p1, u, alw):
         # w = wrap if (i < (n - 1) or not closed) else False
-        # equirectangular_ returns a Distance4Tuple(distance
+        # equirectangular4 returns a Distance4Tuple(distance
         # in degrees squared, delta lat, delta lon, p2.lon
         # unroll/wrap'd); the previous p2.lon unroll/wrap'd
         # is also applied to the next edge's p1.lon
-        return equirectangular_(p1.lat, p1.lon + u,
+        return equirectangular4(p1.lat, p1.lon + u,
                                 p2.lat, p2.lon, **alw)
 
     def _h(p):  # get height or default 0
@@ -1604,7 +1604,7 @@ def perimeterOf(points, closed=False, adjust=True, radius=R_M, wrap=True):
        @raise ValueError: Invalid B{C{radius}} or C{B{closed}=False} with
                           C{B{points}} a composite.
 
-       @note: This perimeter is based on the L{pygeodesy.equirectangular_}
+       @note: This perimeter is based on the L{pygeodesy.equirectangular4}
               distance approximation and is ill-suited for regions exceeding
               several hundred Km or Miles or with near-polar latitudes.
 
@@ -1618,7 +1618,7 @@ def perimeterOf(points, closed=False, adjust=True, radius=R_M, wrap=True):
             if w and c:
                 w = not Ps.looped
             # apply previous x2's unroll/wrap'd to new x1
-            _, dy, dx, u = equirectangular_(p1.y, p1.x + u,
+            _, dy, dx, u = equirectangular4(p1.y, p1.x + u,
                                             p2.y, p2.x,
                                             adjust=a, limit=None,
                                             wrap=w)  # PYCHOK non-seq

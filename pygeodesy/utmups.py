@@ -16,7 +16,7 @@ by I{Charles Karney}.
 '''
 # from pygeodesy.basics import map1  # from .namedTuples
 # from pygeodesy.datums import _WGS84  # from .utmupsBase
-from pygeodesy.errors import _IsnotError, RangeError, _ValueError, _xkwds_get
+from pygeodesy.errors import _IsnotError, RangeError, _ValueError, _xkwds_pop2
 from pygeodesy.interns import NN, _easting_, _MGRS_, _northing_, _NS_, \
                              _outside_, _range_, _SPACE_, _UPS_, _UTM_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
@@ -31,7 +31,7 @@ from pygeodesy.utmupsBase import Fmt, _to4lldn, _to3zBhp, _UPS_ZONE, \
                                 _UTMUPS_ZONE_MAX, _WGS84
 
 __all__ = _ALL_LAZY.utmups
-__version__ = '23.05.03'
+__version__ = '24.05.30'
 
 _MGRS_TILE = _100km  # in .mgrs.Mgrs.tile
 
@@ -73,7 +73,7 @@ class UTMUPSError(_ValueError):  # XXX (UTMError, UPSError)
     pass
 
 
-def parseUTMUPS5(strUTMUPS, datum=_WGS84, Utm=Utm, Ups=Ups, name=NN):
+def parseUTMUPS5(strUTMUPS, datum=_WGS84, Utm=Utm, Ups=Ups, **name):
     '''Parse a string representing a UTM or UPS coordinate, consisting
        of C{"zone[band] hemisphere/pole easting northing"}.
 
@@ -83,13 +83,13 @@ def parseUTMUPS5(strUTMUPS, datum=_WGS84, Utm=Utm, Ups=Ups, name=NN):
                    or C{None}.
        @kwarg Ups: Optional class to return the UPS coordinate (L{Ups})
                    or C{None}.
-       @kwarg name: Optional instance name (C{str}).
+       @kwarg name: Optional B{C{Utm}} or B{C{Ups}} C{B{name}=NN} (C{str}).
 
-       @return: The UTM or UPS instance (B{C{Utm}} or B{C{Ups}}) or
-                a L{UtmUps5Tuple}C{(zone, hemipole, easting, northing,
-                band)} if B{C{Utm}} respectively B{C{Ups}} or both are
-                C{None}.  The C{hemipole} is C{'N'|'S'}, the UTM hemisphere
-                or UPS pole, the UPS projection top/center.
+       @return: The UTM or UPS instance (B{C{Utm}} or B{C{Ups}}) or a
+                L{UtmUps5Tuple}C{(zone, hemipole, easting, northing, band)}
+                if B{C{Utm}} respectively B{C{Ups}} or both are C{None}.
+                The C{hemipole} is C{'N'|'S'}, the UTM hemisphere or UPS
+                pole, the UPS projection top/center.
 
        @raise UTMUPSError: Invalid B{C{strUTMUPS}}.
 
@@ -100,14 +100,13 @@ def parseUTMUPS5(strUTMUPS, datum=_WGS84, Utm=Utm, Ups=Ups, name=NN):
             u = parseUTM5(strUTMUPS, datum=datum, Utm=Utm, name=name)
         except UTMError:
             u = parseUPS5(strUTMUPS, datum=datum, Ups=Ups, name=name)
-        return u
-
     except (UTMError, UPSError) as x:
         raise UTMUPSError(strUTMUPS=strUTMUPS, cause=x)
+    return u
 
 
 def toUtmUps8(latlon, lon=None, datum=None, falsed=True, Utm=Utm, Ups=Ups,
-                                            pole=NN, name=NN, **cmoff):
+                                              pole=NN, **name_cmoff):
     '''Convert a lat-/longitude point to a UTM or UPS coordinate.
 
        @arg latlon: Latitude (C{degrees}) or an (ellipsoidal)
@@ -122,9 +121,10 @@ def toUtmUps8(latlon, lon=None, datum=None, falsed=True, Utm=Utm, Ups=Ups,
                    or C{None}.
        @kwarg pole: Optional top/center of UPS (stereographic)
                     projection (C{str}, C{'N[orth]'} or C{'S[outh]'}).
-       @kwarg name: Optional name (C{str}).
-       @kwarg cmoff: DEPRECATED, use B{C{falsed}}.  Offset longitude
-                     from zone's central meridian, for UTM only (C{bool}).
+       @kwarg name_cmoff: Optional B{C{Utm}} or B{C{Ups}} C{B{name}=NN}
+                   (C{str}) and DEPRECATED keyword argument C{B{cmoff}=True}
+                   to offset the longitude from the zone's central meridian
+                   (C{bool}), use B{C{falsed}} instead and I{for UTM only}.
 
        @return: The UTM or UPS coordinate (B{C{Utm}} respectively B{C{Ups}})
                 or a L{UtmUps8Tuple}C{(zone, hemipole, easting, northing,
@@ -144,19 +144,18 @@ def toUtmUps8(latlon, lon=None, datum=None, falsed=True, Utm=Utm, Ups=Ups,
 
        @see: Functions L{pygeodesy.toUtm8} and L{pygeodesy.toUps8}.
     '''
-    lat, lon, d, name = _to4lldn(latlon, lon, datum, name)
-    z, B, p, lat, lon = utmupsZoneBand5(lat, lon)
-
-    f = falsed and _xkwds_get(cmoff, cmoff=True)
+    f, name = _xkwds_pop2(name_cmoff, cmoff=falsed)
+    lat, lon, d, n = _to4lldn(latlon, lon, datum, name)
+    z, _, p, lat, lon = utmupsZoneBand5(lat, lon)
     if z == _UPS_ZONE:
-        u = toUps8(lat, lon, datum=d, falsed=f, Ups=Ups, name=name, pole=pole or p)
+        u = toUps8(lat, lon, datum=d, falsed=f, Ups=Ups, name=n, pole=pole or p)
     else:
-        u = toUtm8(lat, lon, datum=d, falsed=f, Utm=Utm, name=name)
+        u = toUtm8(lat, lon, datum=d, falsed=f, Utm=Utm, name=n)
     return u
 
 
 def UtmUps(zone, hemipole, easting, northing, band=NN, datum=_WGS84,
-                                              falsed=True, name=NN):
+                                              falsed=True, **name):
     '''Class-like function to create a UTM/UPS coordinate.
 
        @kwarg zone: The UTM zone with/-out I{longitudinal} Band or UPS zone C{0}
@@ -167,9 +166,10 @@ def UtmUps(zone, hemipole, easting, northing, band=NN, datum=_WGS84,
        @arg northing: Northing, see B{C{falsed}} (C{meter}).
        @kwarg band: Optional, UTM I{latitudinal} C{'C'|'D'|..|'W'|'X'} or UPS
                     I{polar} Band letter C{'A'|'B'|'Y'|'Z'} Band letter (C{str}).
-       @kwarg datum: Optional, the coordinate's datum (L{Datum}).
-       @kwarg falsed: Both B{C{easting}} and B{C{northing}} are falsed (C{bool}).
-       @kwarg name: Optional name (C{str}).
+       @kwarg datum: The coordinate's datum (L{Datum}).
+       @kwarg falsed: If C{True}, both B{C{easting}} and B{C{northing}} are
+                      falsed (C{bool}).
+       @kwarg name: Optional L{Utm} or L{Ups} C{B{name}=NN} (C{str}).
 
        @return: New UTM or UPS instance (L{Utm} or L{Ups}).
 
@@ -183,7 +183,7 @@ def UtmUps(zone, hemipole, easting, northing, band=NN, datum=_WGS84,
     z, B, hp = _to3zBhp(zone, band, hemipole=hemipole)
     U = Ups if z in (_UPS_ZONE, _UPS_ZONE_STR) else Utm
     return U(z, hp, easting, northing, band=B, datum=datum,
-                                       falsed=falsed, name=name)
+                                       falsed=falsed, **name)
 
 
 def utmupsValidate(coord, falsed=False, MGRS=False, Error=UTMUPSError):
@@ -253,10 +253,11 @@ def utmupsValidateOK(coord, falsed=False, ok=True):
     '''Check a UTM or UPS coordinate.
 
        @arg coord: The UTM or UPS coordinate (L{Utm}, L{Ups} or C{5+Tuple}).
-       @kwarg falsed: C{5+Tuple} easting and northing are falsed (C{bool}).
+       @kwarg falsed: Use C{B{falsed}=True} if the C{5+Tuple} easting and
+                      northing are falsed (C{bool}).
        @kwarg ok: Result to return if validation passed (B{C{ok}}).
 
-       @return: B{C{ok}} if validation passed, the L{UTMUPSError} otherwise.
+       @return: B{C{ok}} if validation passed, otherwise the L{UTMUPSError}.
 
        @see: Function L{utmupsValidate}.
     '''
@@ -267,20 +268,19 @@ def utmupsValidateOK(coord, falsed=False, ok=True):
         return x
 
 
-def utmupsZoneBand5(lat, lon, cmoff=False, name=NN):
+def utmupsZoneBand5(lat, lon, cmoff=False, **name):
     '''Return the UTM/UPS zone number, Band letter, hemisphere/pole
        and clipped lat- and longitude for a given location.
 
        @arg lat: Latitude in degrees (C{scalar} or C{str}).
        @arg lon: Longitude in degrees (C{scalar} or C{str}).
-       @kwarg cmoff: Offset longitude from the zone's central
-                     meridian, for UTM only (C{bool}).
-       @kwarg name: Optional name (C{str}).
+       @kwarg cmoff: If C{True}, offset longitude from the zone's central
+                     meridian, I{for UTM only} (C{bool}).
+       @kwarg name: Optional C{B{name}=NN} (C{str}).
 
-       @return: A L{UtmUpsLatLon5Tuple}C{(zone, band, hemipole,
-                lat, lon)} where C{hemipole} is C{'N'|'S'}, the
-                UTM hemisphere or UPS pole, the UPS projection
-                top/center.
+       @return: A L{UtmUpsLatLon5Tuple}C{(zone, band, hemipole, lat, lon)}
+                where C{hemipole} is C{'N'|'S'}, the UTM hemisphere or UPS
+                pole, the UPS projection top/center.
 
        @raise RangeError: If B{C{lat}} outside the valid UTM or UPS bands
                           or if B{C{lat}} or B{C{lon}} outside the valid
@@ -291,9 +291,9 @@ def utmupsZoneBand5(lat, lon, cmoff=False, name=NN):
        @see: Functions L{pygeodesy.utmZoneBand5} and L{pygeodesy.upsZoneBand5}.
     '''
     try:
-        return utmZoneBand5(lat, lon, cmoff=cmoff, name=name)
+        return utmZoneBand5(lat, lon, cmoff=cmoff, **name)
     except RangeError:
-        return upsZoneBand5(lat, lon, name=name)
+        return upsZoneBand5(lat, lon, **name)
 
 # **) MIT License
 #

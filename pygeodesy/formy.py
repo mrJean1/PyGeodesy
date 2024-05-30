@@ -8,7 +8,7 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 
 # from pygeodesy.cartesianBase import CartesianBase  # _MODS
 from pygeodesy.constants import EPS, EPS0, EPS1, PI, PI2, PI3, PI_2, R_M, \
-                               _umod_PI2, float0_, isnon0, remainder, \
+                               _0_0s, float0_, isnon0, remainder, _umod_PI2, \
                                _0_0, _0_125, _0_25, _0_5, _1_0, _2_0, _4_0, \
                                _32_0, _90_0, _180_0, _360_0
 from pygeodesy.datums import Datum, Ellipsoid, _ellipsoidal_datum, \
@@ -16,18 +16,18 @@ from pygeodesy.datums import Datum, Ellipsoid, _ellipsoidal_datum, \
 # from pygeodesy.ellipsoids import Ellipsoid, _EWGS84  # from .datums
 from pygeodesy.errors import IntersectionError, LimitError, limiterrors, \
                             _TypeError, _ValueError, _xattr, _xError, \
-                            _xkwds, _xkwds_pop2
+                            _xcallable,_xkwds, _xkwds_pop2
 from pygeodesy.fmath import euclid, hypot, hypot2, sqrt0
 from pygeodesy.fsums import fsumf_,  Fmt, unstr
 # from pygeodesy.internals import _dunder_nameof  # from .named
-from pygeodesy.interns import _delta_, _distant_, _inside_, _not_, _SPACE_, _too_
+from pygeodesy.interns import _delta_, _distant_, _inside_, _SPACE_, _too_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _name__, _name2__, _NamedTuple, _xnamed, \
                             _dunder_nameof
 from pygeodesy.namedTuples import Bearing2Tuple, Distance4Tuple, LatLon2Tuple, \
                                   Intersection3Tuple, PhiLam2Tuple, Vector3Tuple
 # from pygeodesy.streprs import Fmt, unstr  # from .fsums
-# from pygeodesy.triaxials import _hartzell2  # _MODS
+# from pygeodesy.triaxials import _hartzell3  # _MODS
 from pygeodesy.units import _isHeight, _isRadius, Bearing, Degrees_, Distance, \
                              Distance_, Height, Lam_, Lat, Lon, Meter_,  Phi_, \
                              Radians, Radians_, Radius, Radius_, Scalar, _100km
@@ -42,7 +42,7 @@ from contextlib import contextmanager
 from math import asin, atan, atan2, cos, degrees, fabs, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '24.05.24'
+__version__ = '24.05.28'
 
 _RADIANS2 = (PI / _180_0)**2  # degrees- to radians-squared
 _ratio_   = 'ratio'
@@ -232,8 +232,8 @@ def cosineAndoyerLambert_(phi2, phi1, lam21, datum=_WGS84):
        @raise TypeError: Invalid B{C{datum}}.
 
        @see: Functions L{cosineAndoyerLambert}, L{cosineForsytheAndoyerLambert_},
-             L{cosineLaw_}, L{equirectangular_}, L{euclidean_}, L{flatLocal_}/L{hubeny_},
-             L{flatPolar_}, L{haversine_}, L{thomas_} and L{vincentys_} and U{Geodesy-PHP
+             L{cosineLaw_}, L{euclidean_}, L{flatLocal_}/L{hubeny_}, L{flatPolar_},
+             L{haversine_}, L{thomas_} and L{vincentys_} and U{Geodesy-PHP
              <https://GitHub.com/jtejido/geodesy-php/blob/master/src/Geodesy/Distance/
              AndoyerLambert.php>}.
     '''
@@ -298,8 +298,8 @@ def cosineForsytheAndoyerLambert_(phi2, phi1, lam21, datum=_WGS84):
        @raise TypeError: Invalid B{C{datum}}.
 
        @see: Functions L{cosineForsytheAndoyerLambert}, L{cosineAndoyerLambert_},
-             L{cosineLaw_}, L{equirectangular_}, L{euclidean_}, L{flatLocal_}/L{hubeny_},
-             L{flatPolar_}, L{haversine_}, L{thomas_} and L{vincentys_} and U{Geodesy-PHP
+             L{cosineLaw_}, L{euclidean_}, L{flatLocal_}/L{hubeny_}, L{flatPolar_},
+             L{haversine_}, L{thomas_} and L{vincentys_} and U{Geodesy-PHP
              <https://GitHub.com/jtejido/geodesy-php/blob/master/src/Geodesy/
              Distance/ForsytheCorrection.php>}.
     '''
@@ -366,9 +366,9 @@ def cosineLaw_(phi2, phi1, lam21):
        @return: Angular distance (C{radians}).
 
        @see: Functions L{cosineLaw}, L{cosineAndoyerLambert_},
-             L{cosineForsytheAndoyerLambert_}, L{equirectangular_},
-             L{euclidean_}, L{flatLocal_}/L{hubeny_}, L{flatPolar_},
-             L{haversine_}, L{thomas_} and L{vincentys_}.
+             L{cosineForsytheAndoyerLambert_},  L{euclidean_},
+             L{flatLocal_}/L{hubeny_}, L{flatPolar_}, L{haversine_},
+             L{thomas_} and L{vincentys_}.
 
        @note: See note at function L{vincentys_}.
     '''
@@ -430,35 +430,31 @@ def equirectangular(lat1, lon1, lat2, lon2, radius=R_M, **adjust_limit_wrap):
        @arg lon1: Start longitude (C{degrees}).
        @arg lat2: End latitude (C{degrees}).
        @arg lon2: End longitude (C{degrees}).
-       @kwarg radius: Mean earth radius (C{meter}), datum (L{Datum})
-                      or ellipsoid (L{Ellipsoid}, L{Ellipsoid2} or
-                      L{a_f2Tuple}).
-       @kwarg adjust_limit_wrap: Optional keyword arguments for
-                     function L{equirectangular_}.
+       @kwarg radius: Mean earth radius (C{meter}), datum (L{Datum}) or ellipsoid
+                      (L{Ellipsoid}, L{Ellipsoid2} or L{a_f2Tuple}).
+       @kwarg adjust_limit_wrap: Optional keyword arguments for function L{equirectangular4}.
 
-       @return: Distance (C{meter}, same units as B{C{radius}} or
-                the ellipsoid or datum axes).
+       @return: Distance (C{meter}, same units as B{C{radius}} or the ellipsoid or datum axes).
 
        @raise TypeError: Invalid B{C{radius}}.
 
-       @see: Function L{equirectangular_} for more details, the
-             available B{C{options}}, errors, restrictions and other,
-             approximate or accurate distance functions.
+       @see: Function L{equirectangular4} for more details, the available B{C{options}},
+             errors, restrictions and other, approximate or accurate distance functions.
     '''
-    d = sqrt(equirectangular_(Lat(lat1=lat1), Lon(lon1=lon1),
+    d = sqrt(equirectangular4(Lat(lat1=lat1), Lon(lon1=lon1),
                               Lat(lat2=lat2), Lon(lon2=lon2),
                             **adjust_limit_wrap).distance2)  # PYCHOK 4 vs 2-3
     return degrees2m(d, radius=_mean_radius(radius, lat1, lat2))
 
 
 def _equirectangular(lat1, lon1, lat2, lon2, **adjust_limit_wrap):
-    '''(INTERNAL) Helper for the L{frechet._FrecherMeterRadians}
+    '''(INTERNAL) Helper for the L{frechet._FrechetMeterRadians}
        and L{hausdorff._HausdorffMeterRedians} classes.
     '''
-    return equirectangular_(lat1, lon1, lat2, lon2, **adjust_limit_wrap).distance2 * _RADIANS2
+    return equirectangular4(lat1, lon1, lat2, lon2, **adjust_limit_wrap).distance2 * _RADIANS2
 
 
-def equirectangular_(lat1, lon1, lat2, lon2, adjust=True, limit=45, wrap=False):
+def equirectangular4(lat1, lon1, lat2, lon2, adjust=True, limit=45, wrap=False):
     '''Compute the distance between two points using the U{Equirectangular Approximation
        / Projection<https://www.Movable-Type.co.UK/scripts/latlong.html#equirectangular>}.
 
@@ -469,15 +465,15 @@ def equirectangular_(lat1, lon1, lat2, lon2, adjust=True, limit=45, wrap=False):
        @arg lon1: Start longitude (C{degrees}).
        @arg lat2: End latitude (C{degrees}).
        @arg lon2: End longitude (C{degrees}).
-       @kwarg adjust: Adjust the wrapped, unrolled longitudinal delta
-                      by the cosine of the mean latitude (C{bool}).
-       @kwarg limit: Optional limit for lat- and longitudinal deltas
-                     (C{degrees}) or C{None} or C{0} for unlimited.
-       @kwarg wrap: If C{True}, wrap or I{normalize} and unroll B{C{lat2}}
-                    and B{C{lon2}} (C{bool}).
+       @kwarg adjust: Adjust the wrapped, unrolled longitudinal delta by the cosine
+                      of the mean latitude (C{bool}).
+       @kwarg limit: Optional limit for lat- and longitudinal deltas (C{degrees}) or
+                     C{None} or C{0} for unlimited.
+       @kwarg wrap: If C{True}, wrap or I{normalize} and unroll B{C{lat2}} and
+                    B{C{lon2}} (C{bool}).
 
-       @return: A L{Distance4Tuple}C{(distance2, delta_lat, delta_lon,
-                unroll_lon2)} in C{degrees squared}.
+       @return: A L{Distance4Tuple}C{(distance2, delta_lat, delta_lon, unroll_lon2)}
+                in C{degrees squared}.
 
        @raise LimitError: If the lat- and/or longitudinal delta exceeds the
                           B{C{-limit..limit}} range and L{pygeodesy.limiterrors}
@@ -498,7 +494,7 @@ def equirectangular_(lat1, lon1, lat2, lon2, adjust=True, limit=45, wrap=False):
         d = max(fabs(d_lat), fabs(d_lon))
         if d > limit:
             t = _SPACE_(_delta_, Fmt.PAREN_g(d), Fmt.exceeds_limit(limit))
-            s =  unstr(equirectangular_, lat1, lon1, lat2, lon2,
+            s =  unstr(equirectangular4, lat1, lon1, lat2, lon2,
                                          limit=limit, wrap=wrap)
             raise LimitError(s, txt=t)
 
@@ -551,9 +547,9 @@ def euclidean_(phi2, phi1, lam21, adjust=True):
        @return: Angular distance (C{radians}).
 
        @see: Functions L{euclid}, L{euclidean}, L{cosineAndoyerLambert_},
-             L{cosineForsytheAndoyerLambert_}, L{cosineLaw_}, L{equirectangular_},
-             L{flatLocal_}/L{hubeny_}, L{flatPolar_}, L{haversine_}, L{thomas_}
-             and L{vincentys_}.
+             L{cosineForsytheAndoyerLambert_}, L{cosineLaw_},
+             L{flatLocal_}/L{hubeny_}, L{flatPolar_}, L{haversine_},
+             L{thomas_} and L{vincentys_}.
     '''
     if adjust:
         lam21 *= _scale_rad(phi2, phi1)
@@ -866,8 +862,8 @@ def flatLocal_(phi2, phi1, lam21, datum=_WGS84, scaled=True):
 
        @see: Functions L{flatLocal} or L{hubeny}, L{cosineAndoyerLambert_},
              L{cosineForsytheAndoyerLambert_}, L{cosineLaw_}, L{flatPolar_},
-             L{equirectangular_}, L{euclidean_}, L{haversine_}, L{thomas_}
-             and L{vincentys_} and U{local, flat earth approximation
+             L{euclidean_}, L{haversine_}, L{thomas_} and L{vincentys_} and
+             U{local, flat earth approximation
              <https://www.EdWilliams.org/avform.htm#flat>}.
     '''
     E = _ellipsoidal(datum, flatLocal_)
@@ -920,8 +916,8 @@ def flatPolar_(phi2, phi1, lam21):
 
        @see: Functions L{flatPolar}, L{cosineAndoyerLambert_},
              L{cosineForsytheAndoyerLambert_}, L{cosineLaw_},
-             L{equirectangular_}, L{euclidean_}, L{flatLocal_}/L{hubeny_},
-             L{haversine_}, L{thomas_} and L{vincentys_}.
+             L{euclidean_}, L{flatLocal_}/L{hubeny_}, L{haversine_},
+             L{thomas_} and L{vincentys_}.
     '''
     a = fabs(PI_2 - phi1)  # co-latitude
     b = fabs(PI_2 - phi2)  # co-latitude
@@ -964,9 +960,9 @@ def hartzell(pov, los=False, earth=_WGS84, **name_LatLon_and_kwds):
        @kwarg earth: The earth model (L{Datum}, L{Ellipsoid}, L{Ellipsoid2},
                      L{a_f2Tuple} or a C{scalar} earth radius in C{meter}).
        @kwarg name_LatLon_and_kwds: Optional, overriding C{B{name}="hartzell"}
-                   (C{str}), C{B{LatLon}=None} class to return the intersection
+                   (C{str}), class C{B{LatLon}=None} to return the intersection
                    plus additional C{LatLon} keyword arguments, include the
-                   B{C{datum}} if different from B{C{earth}}.
+                   B{C{datum}} if different and to convert from B{C{earth}}.
 
        @return: The intersection (L{Vector3d}, B{C{pov}}'s C{cartesian type} or the
                 given B{C{LatLon}} instance) with attribute C{heigth} set to the
@@ -981,15 +977,14 @@ def hartzell(pov, los=False, earth=_WGS84, **name_LatLon_and_kwds):
        @see: Class L{Los}, functions L{tyr3d} and L{hartzell4} and methods
              L{Ellipsoid.hartzell4} and any C{Cartesian.hartzell} and C{LatLon.hartzell}.
     '''
-    D = _spherical_datum(earth, name__=hartzell)
     n, LatLon_and_kwds = _name2__(name_LatLon_and_kwds, name__=hartzell)
     try:
+        D = _spherical_datum(earth, name__=hartzell)
         r, h, i = _MODS.triaxials._hartzell3(pov, los, D.ellipsoid._triaxial)
-        r = _xnamed(r, n)
 
         C = _MODS.cartesianBase.CartesianBase
         if LatLon_and_kwds:
-            c = C(r, datum=D, name=r.name)
+            c = C(r, datum=D)
             r = c.toLatLon(**_xkwds(LatLon_and_kwds, height=h))
         elif isinstance(r, C):
             r.height = h
@@ -998,7 +993,7 @@ def hartzell(pov, los=False, earth=_WGS84, **name_LatLon_and_kwds):
     except Exception as x:
         raise IntersectionError(pov=pov, los=los, earth=earth, cause=x,
                                                 **LatLon_and_kwds)
-    return r
+    return _xnamed(r, n) if n else r
 
 
 def haversine(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
@@ -1045,8 +1040,8 @@ def haversine_(phi2, phi1, lam21):
 
        @see: Functions L{haversine}, L{cosineAndoyerLambert_},
              L{cosineForsytheAndoyerLambert_}, L{cosineLaw_},
-             L{equirectangular_}, L{euclidean_}, L{flatLocal_}/L{hubeny_},
-             L{flatPolar_}, L{thomas_} and L{vincentys_}.
+             L{euclidean_}, L{flatLocal_}/L{hubeny_}, L{flatPolar_},
+             L{thomas_} and L{vincentys_}.
 
        @note: See note at function L{vincentys_}.
     '''
@@ -1111,8 +1106,8 @@ def heightOrthometric(h_ll, N):
 
 
 def horizon(height, radius=R_M, refraction=False):
-    '''Determine the distance to the horizon from a given altitude
-       above the (spherical) earth.
+    '''Determine the distance to the horizon from a given altitude above the
+       (spherical) earth.
 
        @arg height: Altitude (C{meter} or same units as B{C{radius}}).
        @kwarg radius: Optional mean earth radius (C{meter}).
@@ -1560,27 +1555,18 @@ def philam2n_xyz(phi, lam, **name):
     return _2n_xyz(name, *sincos2_(phi, lam))
 
 
-def _Propy(inst, nargs, **_prop_func):
+def _Propy(func, nargs, kwds):
     '''(INTERNAL) Helper for the C{frechet.[-]Frechet**} and
        C{hausdorff.[-]Hausdorff*} classes.
     '''
-    _prop, func = _prop_func.popitem()  # _xkwds_item2(_func_func)
-    if func is None:  # getter
-        try:
-            return inst.__dict__[_prop]
-        except KeyError:
-            inst._notOverloaded(**inst.kwds)
-    else:  # setter
-        try:
-            if not callable(func):
-                raise TypeError(_not_(callable.__name__))
-            args = (0,) * nargs
-            _ = func(*args, **inst.kwds)
-        except Exception as x:
-            t = unstr(func, **inst.kwds)
-            raise _TypeError(t, cause=x)
-        inst.__dict__[_prop] = func
-#       return func
+    try:
+        _xcallable(distance=func)
+        # assert _args_kwds_count2(func)[0] == nargs + int(ismethod(func))
+        _ = func(*_0_0s(nargs), **kwds)
+    except Exception as x:
+        t = unstr(func, **kwds)
+        raise _TypeError(t, cause=x)
+    return func
 
 
 def _radical2(d, r1, r2, **name):  # in .ellipsoidalBaseDI, .sphericalTrigonometry, .vector3d
@@ -1723,8 +1709,8 @@ def thomas_(phi2, phi1, lam21, datum=_WGS84):
 
        @see: Functions L{thomas}, L{cosineAndoyerLambert_},
              L{cosineForsytheAndoyerLambert_}, L{cosineLaw_},
-             L{equirectangular_}, L{euclidean_}, L{flatLocal_}/L{hubeny_},
-             L{flatPolar_}, L{haversine_} and L{vincentys_} and U{Geodesy-PHP
+             L{euclidean_}, L{flatLocal_}/L{hubeny_}, L{flatPolar_},
+             L{haversine_} and L{vincentys_} and U{Geodesy-PHP
              <https://GitHub.com/jtejido/geodesy-php/blob/master/src/Geodesy/
              Distance/ThomasFormula.php>}.
     '''
@@ -1806,8 +1792,8 @@ def vincentys_(phi2, phi1, lam21):
 
        @see: Functions L{vincentys}, L{cosineAndoyerLambert_},
              L{cosineForsytheAndoyerLambert_}, L{cosineLaw_},
-             L{equirectangular_}, L{euclidean_}, L{flatLocal_}/L{hubeny_},
-             L{flatPolar_}, L{haversine_} and L{thomas_}.
+             L{euclidean_}, L{flatLocal_}/L{hubeny_}, L{flatPolar_},
+             L{haversine_} and L{thomas_}.
 
        @note: Functions L{vincentys_}, L{haversine_} and L{cosineLaw_}
               produce equivalent results, but L{vincentys_} is suitable

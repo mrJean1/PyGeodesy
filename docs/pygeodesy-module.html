@@ -289,7 +289,7 @@
     href="https://GeographicLib.SourceForge.io/C++/doc/utilities.html" 
     target="_top">GeodSolve</a> 2.2 and <a 
     href="https://GeographicLib.SourceForge.io/C++/doc/utilities.html" 
-    target="_top">RhumbSolve</a> 2.2), all on macOS 14.4.1 Sonoma and in 
+    target="_top">RhumbSolve</a> 2.2), all on macOS 14.5 Sonoma and in 
     64-bit only.</p>
     <p>All tests ran with and without <code>lazy import</code> for Python 3
     and with command line option <code>-W default</code> and env variable 
@@ -343,7 +343,7 @@
     href="https://software.Intel.com/en-us/distribution-for-python" 
     target="_top">Intel-Python</a> 3.5.3 (and <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.11.3) 
-    on macOS 14.0-3.1 Sonoma, 13.0-5.2 Ventura, 12.1-6 Monterey, 
+    on macOS 14.0-4.1 Sonoma, 13.0-5.2 Ventura, 12.1-6 Monterey, 
     11.0-5.2-6.1 Big Sur (aka 10.16), 10.15.3, 10.15.5-7 Catalina, 10.14 
     Mojave, 10.13.6 High Sierra and 10.12 Sierra, MacOS X 10.11 El Capitan 
     and/or MacOS X 10.10 Yosemite, with <a 
@@ -366,7 +366,7 @@
     href="https://PyPI.org/project/mccabe" target="_top">McCabe</a> using 
     Python 2.7.18 and with <a href="https://PyPI.org/project/flake8" 
     target="_top">Flake8</a> using Python 3.11.5, both in 64-bit on macOS 
-    14.4.1 Sonoma.</p>
+    14.5 Sonoma.</p>
     <p>For a summary of all <i>Karney</i>-based functionality in 
     <code>pygeodesy</code>, see module <a 
     href="https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.karney-module.html"
@@ -542,7 +542,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        24.05.24
+        24.06.01
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -939,7 +939,7 @@
     <li> <strong class="uidlink"><a href="pygeodesy.utm-module.html">pygeodesy.utm</a></strong>: <em class="summary"><i>Veness</i>' Universal Transverse Mercator (UTM) projection.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.utmups-module.html">pygeodesy.utmups</a></strong>: <em class="summary"><i>Karney</i>'s UTM and UPS utilities.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.utmupsBase-module.html">pygeodesy.utmupsBase</a></strong>: <em class="summary">(INTERNAL) Private class <code>UtmUpsBase</code>, functions and 
-        constants for <a href="pygeodesy.epsg-module.html" 
+        constants for modules <a href="pygeodesy.epsg-module.html" 
         class="link">epsg</a>, <a href="pygeodesy.etm-module.html" 
         class="link">etm</a>, <a href="pygeodesy.mgrs-module.html" 
         class="link">mgrs</a>, <a href="pygeodesy.ups-module.html" 
@@ -2909,8 +2909,8 @@
       Compute the <code>Hausdorff</code> distance based on the 
         <code>equirectangular</code> distance in <code>radians 
         squared</code> like function <a 
-        href="pygeodesy.formy-module.html#equirectangular_" 
-        class="link">pygeodesy.equirectangular_</a>.
+        href="pygeodesy.formy-module.html#equirectangular" 
+        class="link">pygeodesy.equirectangular</a>.
     </td>
   </tr>
 <tr>
@@ -3124,8 +3124,8 @@
         href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
         target="_top">Inverse Distance Weighting</a> (IDW) and the 
         <i>angular</i> distance in <code>radians squared</code> like 
-        function <a href="pygeodesy.formy-module.html#equirectangular_" 
-        class="link">pygeodesy.equirectangular_</a>.
+        function <a href="pygeodesy.formy-module.html#equirectangular4" 
+        class="link">pygeodesy.equirectangular4</a>.
     </td>
   </tr>
 <tr>
@@ -3643,8 +3643,8 @@
         the given <b><code>limit</code></b> in functions <a 
         href="pygeodesy.formy-module.html#equirectangular" 
         class="link">pygeodesy.equirectangular</a>, <a 
-        href="pygeodesy.formy-module.html#equirectangular_" 
-        class="link">pygeodesy.equirectangular_</a>, 
+        href="pygeodesy.formy-module.html#equirectangular4" 
+        class="link">pygeodesy.equirectangular4</a>, 
         <code>nearestOn*</code> and <code>simplify*</code> or methods with 
         <code>limit</code> or <code>options</code> keyword arguments.
     </td>
@@ -4997,7 +4997,7 @@
         <span class="summary-sig-arg">band</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
         <span class="summary-sig-arg">falsed</span>=<span class="summary-sig-default">True</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Class-like function to create a UTM/UPS coordinate.</td>
           <td align="right" valign="top">
             
@@ -6799,7 +6799,7 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#equirectangular_" class="summary-sig-name">equirectangular_</a>(<span class="summary-sig-arg">lat1</span>,
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#equirectangular4" class="summary-sig-name">equirectangular4</a>(<span class="summary-sig-arg">lat1</span>,
         <span class="summary-sig-arg">lon1</span>,
         <span class="summary-sig-arg">lat2</span>,
         <span class="summary-sig-arg">lon2</span>,
@@ -7283,7 +7283,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#fatan1" class="summary-sig-name">fatan1</a>(<span class="summary-sig-arg">x</span>)</span><br />
       Fast approximation of <code>atan(<b>x</b>)</code> for <code>0 &lt;= 
-      <b>x</b> &lt;= 1</code>, <i>unchecked</i>.</td>
+      <b>x</b> &lt; 1</code>, <i>unchecked</i>.</td>
           <td align="right" valign="top">
             
             
@@ -8159,7 +8159,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fe478b75650&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fb4202a2450&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -10564,7 +10564,7 @@
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
         <span class="summary-sig-arg">Ups</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.ups.Ups'&gt;</span>,
         <span class="summary-sig-arg">falsed</span>=<span class="summary-sig-default">True</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Parse a string representing a UPS coordinate, consisting of 
       <code>&quot;[zone][band] pole easting northing&quot;</code> where 
       <b><code>zone</code></b> is pseudo zone 
@@ -10611,7 +10611,7 @@
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
         <span class="summary-sig-arg">Utm</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.utm.Utm'&gt;</span>,
         <span class="summary-sig-arg">Ups</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.ups.Ups'&gt;</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Parse a string representing a UTM or UPS coordinate, consisting of 
       <code>&quot;zone[band] hemisphere/pole easting northing&quot;</code>.</td>
           <td align="right" valign="top">
@@ -11815,7 +11815,7 @@
         <span class="summary-sig-arg">pole</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">falsed</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">strict</span>=<span class="summary-sig-default">True</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Convert a lat-/longitude point to a UPS coordinate.</td>
           <td align="right" valign="top">
             
@@ -11863,8 +11863,7 @@
         <span class="summary-sig-arg">Utm</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.utm.Utm'&gt;</span>,
         <span class="summary-sig-arg">Ups</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.ups.Ups'&gt;</span>,
         <span class="summary-sig-arg">pole</span>=<span class="summary-sig-default">''</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>,
-        <span class="summary-sig-arg">**cmoff</span>)</span><br />
+        <span class="summary-sig-arg">**name_cmoff</span>)</span><br />
       Convert a lat-/longitude point to a UTM or UPS coordinate.</td>
           <td align="right" valign="top">
             
@@ -12294,7 +12293,7 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#upsZoneBand5" class="summary-sig-name">upsZoneBand5</a>(<span class="summary-sig-arg">lat</span>,
         <span class="summary-sig-arg">lon</span>,
         <span class="summary-sig-arg">strict</span>=<span class="summary-sig-default">True</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Return the UTM/UPS zone number, <i>polar</i> Band letter, pole and 
       clipped lat- and longitude for a given location.</td>
           <td align="right" valign="top">
@@ -12375,7 +12374,7 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#utmupsZoneBand5" class="summary-sig-name">utmupsZoneBand5</a>(<span class="summary-sig-arg">lat</span>,
         <span class="summary-sig-arg">lon</span>,
         <span class="summary-sig-arg">cmoff</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Return the UTM/UPS zone number, Band letter, hemisphere/pole and 
       clipped lat- and longitude for a given location.</td>
           <td align="right" valign="top">
@@ -12695,7 +12694,7 @@ ygeodesy'"><code class="variable-quote">'</code><code class="variable-string">/U
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'24.5.24'">'24.5.24'</code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'24.6.1'">'24.6.1'</code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -12813,15 +12812,7 @@ form=Transforms.WGS84)">Datums.OSGB36: Datum(name='OSGB36', ellipsoid=Ellipso<co
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy-module.html#Ellipsoids" class="summary-name">Ellipsoids</a> = <code title="Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
-8.771415, f_=0, f=0, f2=0, n=0, e=0, e2=0, e21=1, e22=0, e32=0, A=6371\
-008.771415, L=10007557.17611675, R1=6371008.771415, R2=6371008.771415,\
- R3=6371008.771415, Rbiaxial=6371008.771415, Rtriaxial=6371008.771415)\
-,
-Ellipsoids.GRS80: Ellipsoid(name='GRS80', a=6378137, b=6356752.3141403\
-5, f_=298.2572221, f=0.00335281, f2=0.00336409, n=0.00167922, e=0.0818\
-1919, e2=0.00669438, e21=0.99330562, e22=0.0067395, e32=0.00335843, A=\
-...">Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=637<code class="variable-ellipsis">...</code></code><br />
+        <a name="Ellipsoids"></a><span class="summary-name">Ellipsoids</span> = <code title="Ellipsoids(Ellipsoid)">Ellipsoids(Ellipsoid)</code><br />
       Registered, predefined ellipsoids (<code>enum-like</code>).
     </td>
   </tr>
@@ -13682,7 +13673,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <span class="sig-arg">band</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">datum</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
         <span class="sig-arg">falsed</span>=<span class="sig-default">True</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -13703,11 +13694,14 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <li><strong class="pname"><code>band</code></strong> - Optional, UTM <i>latitudinal</i> <code>'C'|'D'|..|'W'|'X'</code> 
           or UPS <i>polar</i> Band letter <code>'A'|'B'|'Y'|'Z'</code> Band
           letter (<code>str</code>).</li>
-        <li><strong class="pname"><code>datum</code></strong> - Optional, the coordinate's datum (<a 
+        <li><strong class="pname"><code>datum</code></strong> - The coordinate's datum (<a 
           href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>).</li>
-        <li><strong class="pname"><code>falsed</code></strong> - Both <b><code>easting</code></b> and <b><code>northing</code></b>
-          are falsed (<code>bool</code>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
+        <li><strong class="pname"><code>falsed</code></strong> - If <code>True</code>, both <b><code>easting</code></b> and 
+          <b><code>northing</code></b> are falsed (<code>bool</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <a href="pygeodesy.utm.Utm-class.html" 
+          class="link">Utm</a> or <a href="pygeodesy.ups.Ups-class.html" 
+          class="link">Ups</a> <code><b>name</b>=NN</code> 
+          (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>New UTM or UPS instance (<a href="pygeodesy.utm.Utm-class.html" 
@@ -16171,8 +16165,6 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         class="link">cosineForsytheAndoyerLambert_</a>, <a 
         href="pygeodesy.formy-module.html#cosineLaw_" 
         class="link">cosineLaw_</a>, <a 
-        href="pygeodesy.formy-module.html#equirectangular_" 
-        class="link">equirectangular_</a>, <a 
         href="pygeodesy.formy-module.html#euclidean_" 
         class="link">euclidean_</a>, <a 
         href="pygeodesy.formy-module.html#flatLocal_" 
@@ -16325,8 +16317,6 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         class="link">cosineAndoyerLambert_</a>, <a 
         href="pygeodesy.formy-module.html#cosineLaw_" 
         class="link">cosineLaw_</a>, <a 
-        href="pygeodesy.formy-module.html#equirectangular_" 
-        class="link">equirectangular_</a>, <a 
         href="pygeodesy.formy-module.html#euclidean_" 
         class="link">euclidean_</a>, <a 
         href="pygeodesy.formy-module.html#flatLocal_" 
@@ -16462,9 +16452,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         href="pygeodesy.formy-module.html#cosineAndoyerLambert_" 
         class="link">cosineAndoyerLambert_</a>, <a 
         href="pygeodesy.formy-module.html#cosineForsytheAndoyerLambert_" 
-        class="link">cosineForsytheAndoyerLambert_</a>, <a 
-        href="pygeodesy.formy-module.html#equirectangular_" 
-        class="link">equirectangular_</a>, <a 
+        class="link">cosineForsytheAndoyerLambert_</a>,  <a 
         href="pygeodesy.formy-module.html#euclidean_" 
         class="link">euclidean_</a>, <a 
         href="pygeodesy.formy-module.html#flatLocal_" 
@@ -17386,8 +17374,8 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
           href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
           class="link">a_f2Tuple</a>).</li>
         <li><strong class="pname"><code>adjust_limit_wrap</code></strong> - Optional keyword arguments for function <a 
-          href="pygeodesy.formy-module.html#equirectangular_" 
-          class="link">equirectangular_</a>.</li>
+          href="pygeodesy.formy-module.html#equirectangular4" 
+          class="link">equirectangular4</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Distance (<code>meter</code>, same units as 
@@ -17398,21 +17386,21 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Function <a href="pygeodesy.formy-module.html#equirectangular_" 
-        class="link">equirectangular_</a> for more details, the available 
+        Function <a href="pygeodesy.formy-module.html#equirectangular4" 
+        class="link">equirectangular4</a> for more details, the available 
         <b><code>options</code></b>, errors, restrictions and other, 
         approximate or accurate distance functions.
       </p>
 </div></td></tr></table>
 </div>
-<a name="equirectangular_"></a>
+<a name="equirectangular4"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">equirectangular_</span>&nbsp;(<span class="sig-arg">lat1</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">equirectangular4</span>&nbsp;(<span class="sig-arg">lat1</span>,
         <span class="sig-arg">lon1</span>,
         <span class="sig-arg">lat2</span>,
         <span class="sig-arg">lon2</span>,
@@ -17690,8 +17678,6 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         class="link">cosineForsytheAndoyerLambert_</a>, <a 
         href="pygeodesy.formy-module.html#cosineLaw_" 
         class="link">cosineLaw_</a>, <a 
-        href="pygeodesy.formy-module.html#equirectangular_" 
-        class="link">equirectangular_</a>, <a 
         href="pygeodesy.formy-module.html#flatLocal_" 
         class="link">flatLocal_</a>/<a 
         href="pygeodesy.formy-module.html#flatLocal_" 
@@ -18442,7 +18428,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   </tr></table>
   
   <p>Fast approximation of <code>atan(<b>x</b>)</code> for <code>0 &lt;= 
-  <b>x</b> &lt;= 1</code>, <i>unchecked</i>.</p>
+  <b>x</b> &lt; 1</code>, <i>unchecked</i>.</p>
   <dl class="fields">
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -18874,8 +18860,6 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         class="link">cosineLaw_</a>, <a 
         href="pygeodesy.formy-module.html#flatPolar_" 
         class="link">flatPolar_</a>, <a 
-        href="pygeodesy.formy-module.html#equirectangular_" 
-        class="link">equirectangular_</a>, <a 
         href="pygeodesy.formy-module.html#euclidean_" 
         class="link">euclidean_</a>, <a 
         href="pygeodesy.formy-module.html#haversine_" 
@@ -19002,8 +18986,6 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         class="link">cosineForsytheAndoyerLambert_</a>, <a 
         href="pygeodesy.formy-module.html#cosineLaw_" 
         class="link">cosineLaw_</a>, <a 
-        href="pygeodesy.formy-module.html#equirectangular_" 
-        class="link">equirectangular_</a>, <a 
         href="pygeodesy.formy-module.html#euclidean_" 
         class="link">euclidean_</a>, <a 
         href="pygeodesy.formy-module.html#flatLocal_" 
@@ -20180,9 +20162,9 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
           in <code>meter</code>).</li>
         <li><strong class="pname"><code>name_LatLon_and_kwds</code></strong> - Optional, overriding 
           <code><b>name</b>=&quot;hartzell&quot;</code> (<code>str</code>),
-          <code><b>LatLon</b>=None</code> class to return the intersection 
+          class <code><b>LatLon</b>=None</code> to return the intersection 
           plus additional <code>LatLon</code> keyword arguments, include 
-          the <b><code>datum</code></b> if different from 
+          the <b><code>datum</code></b> if different and to convert from 
           <b><code>earth</code></b>.</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -20314,7 +20296,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fe478b75650&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fb4202a2450&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -20492,8 +20474,6 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         class="link">cosineForsytheAndoyerLambert_</a>, <a 
         href="pygeodesy.formy-module.html#cosineLaw_" 
         class="link">cosineLaw_</a>, <a 
-        href="pygeodesy.formy-module.html#equirectangular_" 
-        class="link">equirectangular_</a>, <a 
         href="pygeodesy.formy-module.html#euclidean_" 
         class="link">euclidean_</a>, <a 
         href="pygeodesy.formy-module.html#flatLocal_" 
@@ -20831,8 +20811,6 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         class="link">cosineLaw_</a>, <a 
         href="pygeodesy.formy-module.html#flatPolar_" 
         class="link">flatPolar_</a>, <a 
-        href="pygeodesy.formy-module.html#equirectangular_" 
-        class="link">equirectangular_</a>, <a 
         href="pygeodesy.formy-module.html#euclidean_" 
         class="link">euclidean_</a>, <a 
         href="pygeodesy.formy-module.html#haversine_" 
@@ -24051,11 +24029,11 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
           <b><code>points</code></b> (<code>bool</code>).</li>
         <li><strong class="pname"><code>adjust</code></strong> - See function <a 
-          href="pygeodesy.formy-module.html#equirectangular_" 
-          class="link">pygeodesy.equirectangular_</a> (<code>bool</code>).</li>
+          href="pygeodesy.formy-module.html#equirectangular4" 
+          class="link">pygeodesy.equirectangular4</a> (<code>bool</code>).</li>
         <li><strong class="pname"><code>limit</code></strong> - See function <a 
-          href="pygeodesy.formy-module.html#equirectangular_" 
-          class="link">pygeodesy.equirectangular_</a> 
+          href="pygeodesy.formy-module.html#equirectangular4" 
+          class="link">pygeodesy.equirectangular4</a> 
           (<code>degrees</code>), default <code>9 degrees</code> is about 
           <code>1,000 Kmeter</code> (for mean spherical earth radius <a 
           href="pygeodesy-module.html#R_KM" class="link">R_KM</a>).</li>
@@ -24083,16 +24061,16 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds the 
         <b><code>limit</code></b>, see function <a 
-        href="pygeodesy.formy-module.html#equirectangular_" 
-        class="link">pygeodesy.equirectangular_</a>.</li>
+        href="pygeodesy.formy-module.html#equirectangular4" 
+        class="link">pygeodesy.equirectangular4</a>.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.errors.PointsError-class.html">PointsError</a></strong></code> - Insufficient number of <b><code>points</code></b></li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Some <b><code>points</code></b> are not <code>LatLon</code>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
         Distances are <i>approximated</i> by function <a 
-        href="pygeodesy.formy-module.html#equirectangular_" 
-        class="link">pygeodesy.equirectangular_</a>. For more accuracy use 
+        href="pygeodesy.formy-module.html#equirectangular4" 
+        class="link">pygeodesy.equirectangular4</a>. For more accuracy use 
         one of the <code>LatLon.nearestOn6</code> methods.
       </p>
       <p><strong>See Also:</strong>
@@ -25129,7 +25107,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <span class="sig-arg">datum</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
         <span class="sig-arg">Ups</span>=<span class="sig-default">&lt;class 'pygeodesy.ups.Ups'&gt;</span>,
         <span class="sig-arg">falsed</span>=<span class="sig-default">True</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -25150,9 +25128,10 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <li><strong class="pname"><code>Ups</code></strong> - Optional class to return the UPS coordinate (<a 
           href="pygeodesy.ups.Ups-class.html" class="link">Ups</a>) or 
           <code>None</code>.</li>
-        <li><strong class="pname"><code>falsed</code></strong> - Both <b><code>easting</code></b> and <b><code>northing</code></b>
-          are falsed (<code>bool</code>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional <b><code>Ups</code></b> name (<code>str</code>).</li>
+        <li><strong class="pname"><code>falsed</code></strong> - If <code>True</code>, both <b><code>easting</code></b> and 
+          <b><code>northing</code></b> are falsed (<code>bool</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <b><code>Ups</code></b> <code><b>name</b>=NN</code> 
+          (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The UPS coordinate (<b><code>Ups</code></b>) or a <a 
@@ -25203,8 +25182,10 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <li><strong class="pname"><code>Utm</code></strong> - Optional class to return the UTM coordinate (<a 
           href="pygeodesy.utm.Utm-class.html" class="link">Utm</a>) or 
           <code>None</code>.</li>
-        <li><strong class="pname"><code>falsed</code></strong> - Both easting and northing are falsed (<code>bool</code>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional <b><code>Utm</code></b> name (<code>str</code>).</li>
+        <li><strong class="pname"><code>falsed</code></strong> - Use <code><b>falsed</b>=True</code> if both easting and northing 
+          are falsed (<code>bool</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <b><code>Utm</code></b> <code><b>name</b>=NN</code> 
+          (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The UTM coordinate (<b><code>Utm</code></b>) or if 
@@ -25232,7 +25213,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <span class="sig-arg">datum</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
         <span class="sig-arg">Utm</span>=<span class="sig-default">&lt;class 'pygeodesy.utm.Utm'&gt;</span>,
         <span class="sig-arg">Ups</span>=<span class="sig-default">&lt;class 'pygeodesy.ups.Ups'&gt;</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -25253,7 +25234,8 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <li><strong class="pname"><code>Ups</code></strong> - Optional class to return the UPS coordinate (<a 
           href="pygeodesy.ups.Ups-class.html" class="link">Ups</a>) or 
           <code>None</code>.</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional instance name (<code>str</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <b><code>Utm</code></b> or <b><code>Ups</code></b> 
+          <code><b>name</b>=NN</code> (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The UTM or UPS instance (<b><code>Utm</code></b> or 
@@ -25261,7 +25243,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
           href="pygeodesy.namedTuples.UtmUps5Tuple-class.html" 
           class="link">UtmUps5Tuple</a><code>(zone, hemipole, easting, 
           northing, band)</code> if <b><code>Utm</code></b> respectively 
-          <b><code>Ups</code></b> or both are <code>None</code>.  The 
+          <b><code>Ups</code></b> or both are <code>None</code>. The 
           <code>hemipole</code> is <code>'N'|'S'</code>, the UTM hemisphere
           or UPS pole, the UPS projection top/center.</dd>
     <dt>Raises:</dt>
@@ -25367,8 +25349,8 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
         This perimeter is based on the <a 
-        href="pygeodesy.formy-module.html#equirectangular_" 
-        class="link">pygeodesy.equirectangular_</a> distance approximation 
+        href="pygeodesy.formy-module.html#equirectangular4" 
+        class="link">pygeodesy.equirectangular4</a> distance approximation 
         and is ill-suited for regions exceeding several hundred Km or Miles
         or with near-polar latitudes.
       </p>
@@ -26378,8 +26360,8 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <li><strong class="pname"><code>indices</code></strong> - If <code>True</code> return the simplified point indices instead 
           of the simplified points (<code>bool</code>).</li>
         <li><strong class="pname"><code>options</code></strong> - Optional keyword arguments passed thru to function <a 
-          href="pygeodesy.formy-module.html#equirectangular_" 
-          class="link">pygeodesy.equirectangular_</a>.</li>
+          href="pygeodesy.formy-module.html#equirectangular4" 
+          class="link">pygeodesy.equirectangular4</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Simplified points (<code>LatLon</code>[]).</dd>
@@ -26387,8 +26369,8 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds the 
         <b><code>limit</code></b>, see function <a 
-        href="pygeodesy.formy-module.html#equirectangular_" 
-        class="link">pygeodesy.equirectangular_</a>.</li>
+        href="pygeodesy.formy-module.html#equirectangular4" 
+        class="link">pygeodesy.equirectangular4</a>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Tolerance <b><code>distance</code></b> or 
         <b><code>radius</code></b> too small.</li>
     </ul></dd>
@@ -26434,8 +26416,8 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <li><strong class="pname"><code>indices</code></strong> - If <code>True</code> return the simplified point indices instead 
           of the simplified points (<code>bool</code>).</li>
         <li><strong class="pname"><code>options</code></strong> - Optional keyword arguments passed thru to function <a 
-          href="pygeodesy.formy-module.html#equirectangular_" 
-          class="link">pygeodesy.equirectangular_</a>.</li>
+          href="pygeodesy.formy-module.html#equirectangular4" 
+          class="link">pygeodesy.equirectangular4</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Simplified points (<code>LatLon</code>[]).</dd>
@@ -26443,8 +26425,8 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds the 
         <b><code>limit</code></b>, see function <a 
-        href="pygeodesy.formy-module.html#equirectangular_" 
-        class="link">pygeodesy.equirectangular_</a>.</li>
+        href="pygeodesy.formy-module.html#equirectangular4" 
+        class="link">pygeodesy.equirectangular4</a>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Tolerance <b><code>distance</code></b> or 
         <b><code>radius</code></b> too small.</li>
     </ul></dd>
@@ -26490,8 +26472,8 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <li><strong class="pname"><code>indices</code></strong> - If <code>True</code> return the simplified point indices instead 
           of the simplified points (<code>bool</code>).</li>
         <li><strong class="pname"><code>options</code></strong> - Optional keyword arguments passed thru to function <a 
-          href="pygeodesy.formy-module.html#equirectangular_" 
-          class="link">pygeodesy.equirectangular_</a>.</li>
+          href="pygeodesy.formy-module.html#equirectangular4" 
+          class="link">pygeodesy.equirectangular4</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Simplified points (<code>LatLon</code>[]).</dd>
@@ -26499,8 +26481,8 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds the 
         <b><code>limit</code></b>, see function <a 
-        href="pygeodesy.formy-module.html#equirectangular_" 
-        class="link">pygeodesy.equirectangular_</a>.</li>
+        href="pygeodesy.formy-module.html#equirectangular4" 
+        class="link">pygeodesy.equirectangular4</a>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Tolerance <b><code>distance</code></b> or 
         <b><code>radius</code></b> too small.</li>
     </ul></dd>
@@ -26542,8 +26524,8 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <li><strong class="pname"><code>indices</code></strong> - If <code>True</code> return the simplified point indices instead 
           of the simplified points (<code>bool</code>).</li>
         <li><strong class="pname"><code>options</code></strong> - Optional keyword arguments passed thru to function <a 
-          href="pygeodesy.formy-module.html#equirectangular_" 
-          class="link">pygeodesy.equirectangular_</a>.</li>
+          href="pygeodesy.formy-module.html#equirectangular4" 
+          class="link">pygeodesy.equirectangular4</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Simplified points (<code>LatLon</code>[]).</dd>
@@ -26551,8 +26533,8 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds the 
         <b><code>limit</code></b>, see function <a 
-        href="pygeodesy.formy-module.html#equirectangular_" 
-        class="link">pygeodesy.equirectangular_</a>.</li>
+        href="pygeodesy.formy-module.html#equirectangular4" 
+        class="link">pygeodesy.equirectangular4</a>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Tolerance <b><code>pipe</code></b> or <b><code>radius</code></b> 
         too small.</li>
     </ul></dd>
@@ -26598,8 +26580,8 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <li><strong class="pname"><code>indices</code></strong> - If <code>True</code> return the simplified point indices instead 
           of the simplified points (<code>bool</code>).</li>
         <li><strong class="pname"><code>options</code></strong> - Optional keyword arguments passed thru to function <a 
-          href="pygeodesy.formy-module.html#equirectangular_" 
-          class="link">pygeodesy.equirectangular_</a>.</li>
+          href="pygeodesy.formy-module.html#equirectangular4" 
+          class="link">pygeodesy.equirectangular4</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Simplified points (<code>LatLon</code>[]).</dd>
@@ -26609,8 +26591,8 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <b><code>points</code></b>.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.errors.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds the 
         <b><code>limit</code></b>, see function <a 
-        href="pygeodesy.formy-module.html#equirectangular_" 
-        class="link">pygeodesy.equirectangular_</a>.</li>
+        href="pygeodesy.formy-module.html#equirectangular4" 
+        class="link">pygeodesy.equirectangular4</a>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Tolerance <b><code>area</code></b> or <b><code>radius</code></b> 
         too small.</li>
     </ul></dd>
@@ -26656,8 +26638,8 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <li><strong class="pname"><code>indices</code></strong> - If <code>True</code> return the simplified point indices instead 
           of the simplified points (<code>bool</code>).</li>
         <li><strong class="pname"><code>options</code></strong> - Optional keyword arguments passed thru to function <a 
-          href="pygeodesy.formy-module.html#equirectangular_" 
-          class="link">pygeodesy.equirectangular_</a>.</li>
+          href="pygeodesy.formy-module.html#equirectangular4" 
+          class="link">pygeodesy.equirectangular4</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Simplified points (<code>LatLon</code>[]).</dd>
@@ -26667,8 +26649,8 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <b><code>points</code></b>.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.errors.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds the 
         <b><code>limit</code></b>, see function <a 
-        href="pygeodesy.formy-module.html#equirectangular_" 
-        class="link">pygeodesy.equirectangular_</a>.</li>
+        href="pygeodesy.formy-module.html#equirectangular4" 
+        class="link">pygeodesy.equirectangular4</a>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Tolerance <b><code>area</code></b> or <b><code>radius</code></b> 
         too small.</li>
     </ul></dd>
@@ -27449,8 +27431,6 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         class="link">cosineForsytheAndoyerLambert_</a>, <a 
         href="pygeodesy.formy-module.html#cosineLaw_" 
         class="link">cosineLaw_</a>, <a 
-        href="pygeodesy.formy-module.html#equirectangular_" 
-        class="link">equirectangular_</a>, <a 
         href="pygeodesy.formy-module.html#euclidean_" 
         class="link">euclidean_</a>, <a 
         href="pygeodesy.formy-module.html#flatLocal_" 
@@ -27799,9 +27779,10 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <li><strong class="pname"><code>zone</code></strong> - Optional UTM zone to enforce (<code>int</code> or 
           <code>str</code>).</li>
         <li><strong class="pname"><code>name_cmoff</code></strong> - Optional <b><code>Etm</code></b> <code><b>name</b>=NN</code> 
-          (<code>str</code>) and DEPRECATED <code><b>cmoff</b>=True</code> 
-          to offset longitude from the zone's central meridian 
-          (<code>bool</code>), instead use <code><b>falsed</b>=True</code>.</li>
+          (<code>str</code>) and DEPRECATED keyword argument 
+          <code><b>cmoff</b>=True</code> to offset the longitude from the 
+          zone's central meridian (<code>bool</code>), use 
+          <b><code>falsed</code></b> instead.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The ETM coordinate as an <b><code>Etm</code></b> instance or a <a
@@ -28010,7 +27991,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <span class="sig-arg">pole</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">falsed</span>=<span class="sig-default">True</span>,
         <span class="sig-arg">strict</span>=<span class="sig-default">True</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -28039,17 +28020,19 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <li><strong class="pname"><code>pole</code></strong> - Optional top/center of (stereographic) projection 
           (<code>str</code>, <code>'N[orth]'</code> or 
           <code>'S[outh]'</code>).</li>
-        <li><strong class="pname"><code>falsed</code></strong> - False both easting and northing (<code>bool</code>).</li>
+        <li><strong class="pname"><code>falsed</code></strong> - If <code>True</code>, false both easting and northing 
+          (<code>bool</code>).</li>
         <li><strong class="pname"><code>strict</code></strong> - Restrict <b><code>lat</code></b> to UPS ranges 
           (<code>bool</code>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional <b><code>Ups</code></b> name (<code>str</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <b><code>Ups</code></b> <code><b>name</b>=NN</code> 
+          (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The UPS coordinate (<b><code>Ups</code></b>) or a <a 
           href="pygeodesy.namedTuples.UtmUps8Tuple-class.html" 
           class="link">UtmUps8Tuple</a><code>(zone, hemipole, easting, 
           northing, band, datum, gamma, scale)</code> if 
-          <b><code>Ups</code></b> is <code>None</code>. The 
+          <b><code>Ups</code></b> is <code>None</code>.  The 
           <code>hemipole</code> is the <code>'N'|'S'</code> pole, the UPS 
           projection top/center.</dd>
     <dt>Raises:</dt>
@@ -28059,8 +28042,8 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <b><code>lon</code></b> outside the valid range and <a 
         href="pygeodesy.errors-module.html#rangerrors" 
         class="link">pygeodesy.rangerrors</a> set to <code>True</code>.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - If <b><code>latlon</code></b> is not ellipsoidal or 
-        <b><code>datum</code></b> invalid.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - If <b><code>latlon</code></b> is not ellipsoidal or if 
+        <b><code>datum</code></b> is invalid.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - If <b><code>lon</code></b> value is missing or if 
         <b><code>latlon</code></b> is invalid.</li>
     </ul></dd>
@@ -28120,8 +28103,8 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
           <code>str</code>).</li>
         <li><strong class="pname"><code>name_cmoff</code></strong> - Optional <b><code>Utm</code></b> <code><b>name</b>=NN</code> 
           (<code>str</code>) and DEPRECATED <code><b>cmoff</b>=True</code> 
-          to offset longitude from the zone's central meridian 
-          (<code>bool</code>), instead use <code><b>falsed</b>=True</code>.</li>
+          to offset the longitude from the zone's central meridian 
+          (<code>bool</code>), use <code><b>falsed</b></code> instead.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The UTM coordinate (<b><code>Utm</code></b>) or if 
@@ -28165,8 +28148,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <span class="sig-arg">Utm</span>=<span class="sig-default">&lt;class 'pygeodesy.utm.Utm'&gt;</span>,
         <span class="sig-arg">Ups</span>=<span class="sig-default">&lt;class 'pygeodesy.ups.Ups'&gt;</span>,
         <span class="sig-arg">pole</span>=<span class="sig-default">''</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>,
-        <span class="sig-arg">**cmoff</span>)</span>
+        <span class="sig-arg">**name_cmoff</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -28192,9 +28174,11 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <li><strong class="pname"><code>pole</code></strong> - Optional top/center of UPS (stereographic) projection 
           (<code>str</code>, <code>'N[orth]'</code> or 
           <code>'S[outh]'</code>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
-        <li><strong class="pname"><code>cmoff</code></strong> - DEPRECATED, use <b><code>falsed</code></b>.  Offset longitude 
-          from zone's central meridian, for UTM only (<code>bool</code>).</li>
+        <li><strong class="pname"><code>name_cmoff</code></strong> - Optional <b><code>Utm</code></b> or <b><code>Ups</code></b> 
+          <code><b>name</b>=NN</code> (<code>str</code>) and DEPRECATED 
+          keyword argument <code><b>cmoff</b>=True</code> to offset the 
+          longitude from the zone's central meridian (<code>bool</code>), 
+          use <b><code>falsed</code></b> instead and <i>for UTM only</i>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The UTM or UPS coordinate (<b><code>Utm</code></b> respectively 
@@ -29147,7 +29131,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   <h3 class="epydoc"><span class="sig"><span class="sig-name">upsZoneBand5</span>&nbsp;(<span class="sig-arg">lat</span>,
         <span class="sig-arg">lon</span>,
         <span class="sig-arg">strict</span>=<span class="sig-default">True</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -29163,7 +29147,8 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <li><strong class="pname"><code>lon</code></strong> - Longitude in degrees (<code>scalar</code> or <code>str</code>).</li>
         <li><strong class="pname"><code>strict</code></strong> - Restrict <b><code>lat</code></b> to UPS ranges 
           (<code>bool</code>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <b><code>Ups</code></b> <code><b>name</b>=NN</code> 
+          (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.namedTuples.UtmUpsLatLon5Tuple-class.html" 
@@ -29213,9 +29198,9 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>lat</code></strong> - Latitude in degrees (<code>scalar</code> or <code>str</code>).</li>
         <li><strong class="pname"><code>lon</code></strong> - Longitude in degrees (<code>scalar</code> or <code>str</code>).</li>
-        <li><strong class="pname"><code>cmoff</code></strong> - Offset longitude from the zone's central meridian 
-          (<code>bool</code>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
+        <li><strong class="pname"><code>cmoff</code></strong> - If <code>True</code>, offset longitude from the zone's central 
+          meridian (<code>bool</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.namedTuples.UtmUpsLatLon5Tuple-class.html" 
@@ -29301,14 +29286,14 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <li><strong class="pname"><code>coord</code></strong> - The UTM or UPS coordinate (<a href="pygeodesy.utm.Utm-class.html"
           class="link">Utm</a>, <a href="pygeodesy.ups.Ups-class.html" 
           class="link">Ups</a> or <code>5+Tuple</code>).</li>
-        <li><strong class="pname"><code>falsed</code></strong> - <code>5+Tuple</code> easting and northing are falsed 
-          (<code>bool</code>).</li>
+        <li><strong class="pname"><code>falsed</code></strong> - Use <code><b>falsed</b>=True</code> if the <code>5+Tuple</code> 
+          easting and northing are falsed (<code>bool</code>).</li>
         <li><strong class="pname"><code>ok</code></strong> - Result to return if validation passed (<b><code>ok</code></b>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd><b><code>ok</code></b> if validation passed, the <a 
+        <dd><b><code>ok</code></b> if validation passed, otherwise the <a 
           href="pygeodesy.utmups.UTMUPSError-class.html" 
-          class="link">UTMUPSError</a> otherwise.</dd>
+          class="link">UTMUPSError</a>.</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.utmups-module.html#utmupsValidate" 
@@ -29326,7 +29311,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   <h3 class="epydoc"><span class="sig"><span class="sig-name">utmupsZoneBand5</span>&nbsp;(<span class="sig-arg">lat</span>,
         <span class="sig-arg">lon</span>,
         <span class="sig-arg">cmoff</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -29340,9 +29325,9 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>lat</code></strong> - Latitude in degrees (<code>scalar</code> or <code>str</code>).</li>
         <li><strong class="pname"><code>lon</code></strong> - Longitude in degrees (<code>scalar</code> or <code>str</code>).</li>
-        <li><strong class="pname"><code>cmoff</code></strong> - Offset longitude from the zone's central meridian, for UTM only 
-          (<code>bool</code>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
+        <li><strong class="pname"><code>cmoff</code></strong> - If <code>True</code>, offset longitude from the zone's central 
+          meridian, <i>for UTM only</i> (<code>bool</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.namedTuples.UtmUpsLatLon5Tuple-class.html" 
@@ -29490,8 +29475,6 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         class="link">cosineForsytheAndoyerLambert_</a>, <a 
         href="pygeodesy.formy-module.html#cosineLaw_" 
         class="link">cosineLaw_</a>, <a 
-        href="pygeodesy.formy-module.html#equirectangular_" 
-        class="link">equirectangular_</a>, <a 
         href="pygeodesy.formy-module.html#euclidean_" 
         class="link">euclidean_</a>, <a 
         href="pygeodesy.formy-module.html#flatLocal_" 
@@ -30062,32 +30045,6 @@ form=Transforms.WGS84)
   </dl>
 </td></tr></table>
 </div>
-<a name="Ellipsoids"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">Ellipsoids</h3>
-  Registered, predefined ellipsoids (<code>enum-like</code>).
-  <dl class="fields">
-  </dl>
-  <dl class="fields">
-    <dt>Value:</dt>
-      <dd><table><tr><td><pre class="variable">
-Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-8.771415, f_=0, f=0, f2=0, n=0, e=0, e2=0, e21=1, e22=0, e32=0, A=6371<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-008.771415, L=10007557.17611675, R1=6371008.771415, R2=6371008.771415,<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
- R3=6371008.771415, Rbiaxial=6371008.771415, Rtriaxial=6371008.771415)<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-,
-Ellipsoids.GRS80: Ellipsoid(name='GRS80', a=6378137, b=6356752.3141403<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-5, f_=298.2572221, f=0.00335281, f2=0.00336409, n=0.00167922, e=0.0818<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-1919, e2=0.00669438, e21=0.99330562, e22=0.0067395, e32=0.00335843, A=<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-<code class="variable-ellipsis">...</code>
-</pre></td></tr></table>
-</dd>
-  </dl>
-</td></tr></table>
-</div>
 <a name="RefFrames"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -30170,7 +30127,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat May 25 11:36:53 2024
+    Generated by Epydoc 3.0.1 on Thu May 30 13:26:03 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

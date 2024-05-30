@@ -26,14 +26,14 @@ from pygeodesy.constants import EPS, EPS0, _EPSmin as _Tol90, \
                                 isnear90, _0_0, _0_5, _1_0, _2_0
 from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.dms import degDMS, _neg, parseDMS2
-from pygeodesy.errors import RangeError, _ValueError
+from pygeodesy.errors import RangeError, _ValueError, _xkwds_pop2
 from pygeodesy.fmath import hypot, hypot1, sqrt0
 # from pygeodesy.internals import _under  # from .named
 from pygeodesy.interns import NN, _COMMASPACE_, _inside_, _N_, \
                              _pole_, _range_, _S_, _scale0_, \
                              _SPACE_, _std_, _to_, _UTM_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS,  _getenv
-from pygeodesy.named import nameof, _xnamed,  _under
+from pygeodesy.named import nameof,  _under
 from pygeodesy.namedTuples import EasNor2Tuple, UtmUps5Tuple, \
                                   UtmUps8Tuple, UtmUpsLatLon5Tuple
 from pygeodesy.props import deprecated_method, property_doc_, \
@@ -49,24 +49,12 @@ from pygeodesy.utmupsBase import Fmt, _LLEB, _hemi, _parseUTMUPS5, _to4lldn, \
 from math import atan2, fabs, radians, tan
 
 __all__ = _ALL_LAZY.ups
-__version__ = '25.05.13'
+__version__ = '25.05.30'
 
 _BZ_UPS  = _getenv('PYGEODESY_UPS_POLES', _std_) == _std_
 _Falsing =  Meter(2000e3)  # false easting and northing (C{meter})
 _K0_UPS  =  Float(_K0_UPS= 0.994)  # scale factor at central meridian
 _K1_UPS  =  Float(_K1_UPS=_1_0)    # rescale point scale factor
-
-
-def _scale(E, rho, tau):
-    # compute the point scale factor, ala Karney
-    t = hypot1(tau)
-    return Float(scale=(rho / E.a) * t * sqrt0(E.e21 + E.e2 / t**2))
-
-
-def _toBand(lat, lon):  # see utm._toBand
-    '''(INTERNAL) Get the I{polar} Band letter for a (lat, lon).
-    '''
-    return _Bands[(0 if lat < 0 else 2) + (0 if -180 < lon < 0 else 1)]
 
 
 class UPSError(_ValueError):
@@ -88,7 +76,7 @@ class Ups(UtmUpsBase):
     def __init__(self, zone=0, pole=_N_, easting=_Falsing,  # PYCHOK expected
                                          northing=_Falsing, band=NN, datum=_WGS84,
                                          falsed=True, gamma=None, scale=None,
-                                         name=NN, **convergence):
+                                       **name_convergence):
         '''New L{Ups} UPS coordinate.
 
            @kwarg zone: UPS zone (C{int}, zero) or zone with/-out I{polar} Band
@@ -100,13 +88,13 @@ class Ups(UtmUpsBase):
            @kwarg band: Optional, I{polar} Band (C{str}, 'A'|'B'|'Y'|'Z').
            @kwarg datum: Optional, this coordinate's datum (L{Datum},
                          L{Ellipsoid}, L{Ellipsoid2} or L{a_f2Tuple}).
-           @kwarg falsed: If C{True}, both B{C{easting}} and B{C{northing}}
-                          are falsed (C{bool}).
-           @kwarg gamma: Optional, meridian convergence to save (C{degrees}).
-           @kwarg scale: Optional, computed scale factor k to save
-                         (C{scalar}).
-           @kwarg name: Optional name (C{str}).
-           @kwarg convergence: DEPRECATED, use keyword argument C{B{gamma}=None}.
+           @kwarg falsed: If C{True}, both B{C{easting}} and B{C{northing}} are
+                          falsed (C{bool}).
+           @kwarg gamma: Optional meridian convergence, bearing off grid North,
+                         clockwise from true North to save (C{degrees}) or C{None}.
+           @kwarg scale: Optional grid scale factor to save (C{scalar}) or C{None}.
+           @kwarg name_convergence: Optional C{B{name}=NN} (C{str}) and DEPRECATED
+                       keyword argument C{B{convergence}=None}, use B{C{gamma}}.
 
            @raise TypeError: Invalid B{C{datum}}.
 
@@ -114,18 +102,19 @@ class Ups(UtmUpsBase):
                             B{C{northing}}, B{C{band}}, B{C{convergence}}
                             or B{C{scale}}.
         '''
-        if name:
-            self.name = name
-
+        if name_convergence:
+            gamma, name = _xkwds_pop2(name_convergence, convergence=gamma)
+            if name:
+                self.name = name
         try:
-            z, B, p = _to3zBhp(zone, band, hemipole=pole)
+            z, B, self._pole = _to3zBhp(zone, band, hemipole=pole)
             if z != _UPS_ZONE or (B and (B not in _Bands)):
                 raise ValueError
         except (TypeError, ValueError) as x:
             raise UPSError(zone=zone, pole=pole, band=band, cause=x)
-        self._pole = p
+
         UtmUpsBase.__init__(self, easting, northing, band=B, datum=datum, falsed=falsed,
-                                                     gamma=gamma, scale=scale, **convergence)
+                                                             gamma=gamma, scale=scale)
 
     def __eq__(self, other):
         return isinstance(other, Ups) and other.zone     == self.zone \
@@ -250,9 +239,8 @@ class Ups(UtmUpsBase):
             b, g, a = atan2(x, y), -1, _neg(a)
         ll = _LLEB(a, degrees180(b), datum=self._datum, name=self.name)
 
-        ll._gamma =  b * g
-        ll._scale = _scale(E, r, t) if r > 0 else self.scale0
-        self._latlon5args(ll, _toBand, unfalse)
+        k  = _scale(E, r, t) if r > 0 else self.scale0
+        self._latlon5args(ll, g * b, k, _toBand, unfalse)
 
     def toRepr(self, prec=0, fmt=Fmt.SQUARE, sep=_COMMASPACE_, B=False, cs=False, **unused):  # PYCHOK expected
         '''Return a string representation of this UPS coordinate.
@@ -353,7 +341,7 @@ class _Ups_K1(Ups):
     _scale0 = _K1_UPS
 
 
-def parseUPS5(strUPS, datum=_WGS84, Ups=Ups, falsed=True, name=NN):
+def parseUPS5(strUPS, datum=_WGS84, Ups=Ups, falsed=True, **name):
     '''Parse a string representing a UPS coordinate, consisting of
        C{"[zone][band] pole easting northing"} where B{C{zone}} is
        pseudo zone C{"00"|"0"|""} and C{band} is C{'A'|'B'|'Y'|'Z'|''}.
@@ -362,8 +350,9 @@ def parseUPS5(strUPS, datum=_WGS84, Ups=Ups, falsed=True, name=NN):
        @kwarg datum: Optional datum to use (L{Datum}).
        @kwarg Ups: Optional class to return the UPS coordinate (L{Ups})
                    or C{None}.
-       @kwarg falsed: Both B{C{easting}} and B{C{northing}} are falsed (C{bool}).
-       @kwarg name: Optional B{C{Ups}} name (C{str}).
+       @kwarg falsed: If C{True}, both B{C{easting}} and B{C{northing}}
+                      are falsed (C{bool}).
+       @kwarg name: Optional B{C{Ups}} C{B{name}=NN} (C{str}).
 
        @return: The UPS coordinate (B{C{Ups}}) or a
                 L{UtmUps5Tuple}C{(zone, hemipole, easting, northing,
@@ -376,43 +365,54 @@ def parseUPS5(strUPS, datum=_WGS84, Ups=Ups, falsed=True, name=NN):
     if z != _UPS_ZONE or (B and B not in _Bands):
         raise UPSError(strUPS=strUPS, zone=z, band=B)
 
-    r = UtmUps5Tuple(z, p, e, n, B, Error=UPSError) if Ups is None \
-            else Ups(z, p, e, n, band=B, falsed=falsed, datum=datum)
-    return _xnamed(r, name)
+    r = UtmUps5Tuple(z, p, e, n, B, Error=UPSError, **name) if Ups is None \
+            else Ups(z, p, e, n, band=B, falsed=falsed, datum=datum, **name)
+    return r
+
+
+def _scale(E, rho, tau):
+    # compute the point scale factor, ala Karney
+    t = hypot1(tau)
+    return Float(scale=(rho / E.a) * t * sqrt0(E.e21 + E.e2 / t**2))
+
+
+def _toBand(lat, lon):  # see utm._toBand
+    '''(INTERNAL) Get the I{polar} Band letter for a (lat, lon).
+    '''
+    return _Bands[(0 if lat < 0 else 2) + (0 if -180 < lon < 0 else 1)]
 
 
 def toUps8(latlon, lon=None, datum=None, Ups=Ups, pole=NN,
-                             falsed=True, strict=True, name=NN):
+                             falsed=True, strict=True, **name):
     '''Convert a lat-/longitude point to a UPS coordinate.
 
-       @arg latlon: Latitude (C{degrees}) or an (ellipsoidal)
-                    geodetic C{LatLon} point.
+       @arg latlon: Latitude (C{degrees}) or an (ellipsoidal) geodetic
+                    C{LatLon} point.
        @kwarg lon: Optional longitude (C{degrees}) or C{None} if
                    B{C{latlon}} is a C{LatLon}.
-       @kwarg datum: Optional datum for this UPS coordinate,
-                     overriding B{C{latlon}}'s datum (C{Datum},
-                     L{Ellipsoid}, L{Ellipsoid2} or L{a_f2Tuple}).
-       @kwarg Ups: Optional class to return the UPS coordinate
-                   (L{Ups}) or C{None}.
+       @kwarg datum: Optional datum for this UPS coordinate, overriding
+                     B{C{latlon}}'s datum (C{Datum}, L{Ellipsoid},
+                     L{Ellipsoid2} or L{a_f2Tuple}).
+       @kwarg Ups: Optional class to return the UPS coordinate (L{Ups})
+                   or C{None}.
        @kwarg pole: Optional top/center of (stereographic) projection
                     (C{str}, C{'N[orth]'} or C{'S[outh]'}).
-       @kwarg falsed: False both easting and northing (C{bool}).
+       @kwarg falsed: If C{True}, false both easting and northing (C{bool}).
        @kwarg strict: Restrict B{C{lat}} to UPS ranges (C{bool}).
-       @kwarg name: Optional B{C{Ups}} name (C{str}).
+       @kwarg name: Optional B{C{Ups}} C{B{name}=NN} (C{str}).
 
-       @return: The UPS coordinate (B{C{Ups}}) or a
-                L{UtmUps8Tuple}C{(zone, hemipole, easting, northing,
-                band, datum, gamma, scale)} if B{C{Ups}} is C{None}.
-                The C{hemipole} is the C{'N'|'S'} pole, the UPS
-                projection top/center.
+       @return: The UPS coordinate (B{C{Ups}}) or a L{UtmUps8Tuple}C{(zone,
+                hemipole, easting, northing, band, datum, gamma, scale)} if
+                B{C{Ups}} is C{None}.  The C{hemipole} is the C{'N'|'S'}
+                pole, the UPS projection top/center.
 
        @raise RangeError: If B{C{strict}} and B{C{lat}} outside the valid
                           UPS bands or if B{C{lat}} or B{C{lon}} outside
                           the valid range and L{pygeodesy.rangerrors} set
                           to C{True}.
 
-       @raise TypeError: If B{C{latlon}} is not ellipsoidal or
-                         B{C{datum}} invalid.
+       @raise TypeError: If B{C{latlon}} is not ellipsoidal or if B{C{datum}}
+                         is invalid.
 
        @raise ValueError: If B{C{lon}} value is missing or if B{C{latlon}}
                           is invalid.
@@ -463,9 +463,7 @@ def toUps8(latlon, lon=None, datum=None, Ups=Ups, pole=NN,
         r = Ups(z, p, x, y, band=B, datum=d, falsed=falsed,
                                     gamma=g, scale=k, name=n)
         if isinstance(latlon, _LLEB) and d is latlon.datum:  # see utm._toXtm8
-            r._latlon5args(latlon, _toBand, falsed)  # XXX weakref(latlon)?
-            latlon._gamma = g
-            latlon._scale = k
+            r._latlon5args(latlon, g, k, _toBand, falsed)  # XXX weakref(latlon)?
         else:
             r._hemisphere = _hemi(lat)
             if not r._band:
@@ -473,18 +471,18 @@ def toUps8(latlon, lon=None, datum=None, Ups=Ups, pole=NN,
     return r
 
 
-def upsZoneBand5(lat, lon, strict=True, name=NN):
+def upsZoneBand5(lat, lon, strict=True, **name):
     '''Return the UTM/UPS zone number, I{polar} Band letter, pole and
        clipped lat- and longitude for a given location.
 
        @arg lat: Latitude in degrees (C{scalar} or C{str}).
        @arg lon: Longitude in degrees (C{scalar} or C{str}).
        @kwarg strict: Restrict B{C{lat}} to UPS ranges (C{bool}).
-       @kwarg name: Optional name (C{str}).
+       @kwarg name: Optional B{C{Ups}} C{B{name}=NN} (C{str}).
 
-       @return: A L{UtmUpsLatLon5Tuple}C{(zone, band, hemipole,
-                lat, lon)} where C{hemipole} is the C{'N'|'S'} pole,
-                the UPS projection top/center and C{lon} [-180..180).
+       @return: A L{UtmUpsLatLon5Tuple}C{(zone, band, hemipole, lat,
+                lon)} where C{hemipole} is the C{'N'|'S'} pole, the
+                UPS projection top/center and C{lon} [-180..180).
 
        @note: The C{lon} is set to C{0} if B{C{lat}} is C{-90} or
               C{90}, see env variable C{PYGEODESY_UPS_POLES} in
@@ -514,7 +512,7 @@ def upsZoneBand5(lat, lon, strict=True, name=NN):
 
     else:
         B, p = NN, _hemi(lat)
-    return UtmUpsLatLon5Tuple(z, B, p, lat, lon, Error=UPSError, name=name)
+    return UtmUpsLatLon5Tuple(z, B, p, lat, lon, Error=UPSError, **name)
 
 # **) MIT License
 #

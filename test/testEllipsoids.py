@@ -4,11 +4,11 @@
 # Test L{ellipsoids} module.
 
 __all__ = ('Tests',)
-__version__ = '24.03.18'
+__version__ = '24.05.28'
 
 from bases import TestsBase
 
-from pygeodesy import EcefKarney, Ellipsoid, Ellipsoid2, Ellipsoids, \
+from pygeodesy import EcefKarney, Ellipsoid, Ellipsoid2, Ellipsoids, Vector3d, \
                       a_b2f_, a_b2f2, a_b2n, a_f2Tuple, \
                       b_f2a, b_f_2a, circle4, e2f, ellipsoids, f_2f, fstr, \
                       hypot_, n2e2, n2f, PI_2, R_M, sincos2d
@@ -235,6 +235,11 @@ class Tests(TestsBase):
                 self.test(n + str(d), hypot_(t.radius, t.height), r, prec=6)
                 t = circle4(E, d)
                 self.test(n + str(d), hypot_(t.radius, t.height), r, prec=6)
+
+        p = Vector3d(10.1e6, 10.2e6, 10.3e6)  # 10+ km
+        h = Ellipsoids.WGS84.hartzell4
+        t = h(p).toStr()
+        self.test(h.__name__, t, t, nl=1)  # coverage
 
 
 if __name__ == '__main__':

@@ -58,7 +58,7 @@ plane} as opposed to I{geocentric} (ECEF) ones.
 '''
 
 from pygeodesy.basics import copysign0, isscalar, issubclassof, neg, map1, \
-                            _xinstanceof, _xsubclassof
+                            _xinstanceof, _xsubclassof  # _args_kwds_names
 from pygeodesy.constants import EPS, EPS0, EPS02, EPS1, EPS2, EPS_2, INT0, PI, PI_2, \
                                _0_0, _0_0001, _0_01, _0_5, _1_0, _1_0_1T, _N_1_0, \
                                _2_0, _N_2_0, _3_0, _4_0, _6_0, _60_0, _90_0, _N_90_0, \
@@ -86,7 +86,7 @@ from pygeodesy.utily import atan1, atan1d, atan2d, degrees90, degrees180, \
 from math import atan2, cos, degrees, fabs, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '24.05.21'
+__version__ = '24.05.25'
 
 _Ecef_    = 'Ecef'
 _prolate_ = 'prolate'
@@ -1317,7 +1317,7 @@ def _xyzn4(xyz, y, z, Types, Error=EcefError, lon00=0,  # PYCHOK unused
     except (TypeError, ValueError) as x:
         d = dict(zip(_xyz_y_z_names, (xyz, y, z)))
         raise Error(cause=x, **d)
-# assert _xyz_y_z == _MODS.basics._args_kwds_names(_xyzn4)[:3]
+# assert _xyz_y_z == _args_kwds_names(_xyzn4)[:3]
 
 
 _Ecefs = (EcefKarney, EcefSudano, EcefVeness, EcefYou,

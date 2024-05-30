@@ -26,7 +26,7 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _getenv, _PYTHON_X_D
 from copy import copy as _copy
 
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')  _under
-__version__ = '24.05.19'
+__version__ = '24.05.29'
 
 _argument_   = 'argument'
 _box_        = 'box'
@@ -252,7 +252,7 @@ class LenError(_ValueError):  # in .ecef, .fmath, .heights, .iters, .named
 class LimitError(_ValueError):
     '''Error raised for lat- or longitudinal values or deltas exceeding
        the given B{C{limit}} in functions L{pygeodesy.equirectangular},
-       L{pygeodesy.equirectangular_}, C{nearestOn*} and C{simplify*}
+       L{pygeodesy.equirectangular4}, C{nearestOn*} and C{simplify*}
        or methods with C{limit} or C{options} keyword arguments.
 
        @see: Subclass L{UnitError}.
@@ -748,8 +748,8 @@ def _xkwds_get(kwds, **name_default):
        C{default} if not present.
     '''
     if isinstance(kwds, dict) and len(name_default) == 1:
-        for n, d in name_default.items():
-            return kwds.get(n, d)
+        for n, v in name_default.items():
+            return kwds.get(n, v)
     raise _xAssertionError(_xkwds_get, kwds, **name_default)
 
 
@@ -759,8 +759,18 @@ def _xkwds_get_(kwds, **names_defaults):
     '''
     if not isinstance(kwds, dict):
         raise _xAssertionError(_xkwds_get_, kwds)
-    for n, d in _MODS.basics.itemsorted(names_defaults):
-        yield kwds.get(n, d)
+    for n, v in _MODS.basics.itemsorted(names_defaults):
+        yield kwds.get(n, v)
+
+
+def _xkwds_get1(kwds, **name_default):
+    '''(INTERNAL) Get one C{kwds} value by C{name} or the
+       C{default} if not present.
+    '''
+    v, kwds = _xkwds_pop2(kwds, **name_default)
+    if kwds:
+        raise _UnexpectedError(**kwds)
+    return v
 
 
 def _xkwds_item2(kwds):
@@ -784,11 +794,11 @@ def _xkwds_pop2(kwds, **name_default):
        reduced C{kwds} copy, otherwise the C{default} and original C{kwds}.
     '''
     if isinstance(kwds, dict) and len(name_default) == 1:
-        for n, d in name_default.items():
+        for n, v in name_default.items():
             if n in kwds:
                 kwds = _copy(kwds)
-                d = kwds.pop(n, d)
-            return d, kwds
+                v = kwds.pop(n, v)
+            return v, kwds
     raise _xAssertionError(_xkwds_pop2, kwds, **name_default)
 
 

@@ -10,7 +10,7 @@ L{pygeodesy.isnon0} and L{pygeodesy.remainder}.
 from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import _copysign, isbool, iscomplex, isint,  _0_0
-from pygeodesy.errors import _xError, _xError2, _xkwds_get, _xkwds_item2
+from pygeodesy.errors import _xError, _xError2, _xkwds_get1, _xkwds_item2
 # from pygeodesy.internals import _0_0  # from .basics
 from pygeodesy.interns import _INF_, _NAN_, _UNDER_
 # from pygeodesy.lazily import _ALL_LAZY  # from .unitsBase
@@ -24,7 +24,7 @@ except ImportError:  # Python 2-
     _inf, _nan = float(_INF_), float(_NAN_)
 
 __all__ = _ALL_LAZY.constants
-__version__ = '24.05.14'
+__version__ = '24.05.29'
 
 
 def _copysign_0_0(y):
@@ -73,7 +73,7 @@ def float_(*fs, **sets):  # sets=False
     '''
     fl = []
     _a =  fl.append
-    _f = _floats.setdefault if _xkwds_get(sets, sets=False) else \
+    _f = _floats.setdefault if _xkwds_get1(sets, sets=False) else \
          _floats.get
     try:
         for i, f in enumerate(fs):

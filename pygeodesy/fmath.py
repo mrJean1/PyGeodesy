@@ -12,7 +12,7 @@ from pygeodesy.constants import EPS0, EPS02, EPS1, NAN, PI, PI_2, PI_4, \
                                _0_0, _0_125, _1_6th, _0_25, _1_3rd, _0_5, _1_0, \
                                _N_1_0, _1_5, _copysign_0_0, _isfinite, remainder
 from pygeodesy.errors import _IsnotError, LenError, _TypeError, _ValueError, \
-                             _xError, _xkwds_get, _xkwds_pop2
+                             _xError, _xkwds_get1, _xkwds_pop2
 from pygeodesy.fsums import _2float, Fsum, fsum, fsum1_, _isFsumTuple, _1primed, \
                              Fmt, unstr
 from pygeodesy.interns import MISSING, _negative_, _not_scalar_
@@ -24,7 +24,7 @@ from math import fabs, sqrt  # pow
 import operator as _operator  # in .datums, .trf, .utm
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '24.05.24'
+__version__ = '24.05.29'
 
 # sqrt(2) <https://WikiPedia.org/wiki/Square_root_of_2>
 _0_4142  =  0.41421356237309504880  # ... sqrt(2) - 1
@@ -85,19 +85,7 @@ class Fhorner(Fsum):
         '''
         Fsum.__init__(self, **name_RESIDUAL)
         if cs:
-            if _isFsumTuple(x):
-                _mul = self._mul_Fsum
-            else:
-                _mul = self._mul_scalar
-                x = _2float(x=x)
-            op = Fhorner.__name__
-            if len(cs) > 1 and x:
-                for c in reversed(cs):
-                    self._fset_ps(_mul(x, op))
-                    self._fadd(c, op, up=False)
-                self._update()
-            else:  # x == 0
-                self._fadd(cs[0], op)
+            self._fhorner(x, cs, Fhorner.__name__)
         else:
             self._fset_ps(_0_0)
 
@@ -343,8 +331,9 @@ def facos1(x):
     if a < EPS0:
         r = PI_2
     elif a < EPS1:
-        H = Fhorner(-a, 1.5707288, 0.2121144, 0.0742610, 0.0187293)
-        r = float(H * sqrt(_1_0 - a))
+        H  = Fhorner(-a, 1.5707288, 0.2121144, 0.0742610, 0.0187293)
+        H *= Fsqrt(_1_0, -a)
+        r  = float(H)
         if x < 0:
             r = PI - r
     else:
@@ -376,7 +365,7 @@ def fatan(x):
 
 
 def fatan1(x):
-    '''Fast approximation of C{atan(B{x})} for C{0 <= B{x} <= 1}, I{unchecked}.
+    '''Fast approximation of C{atan(B{x})} for C{0 <= B{x} < 1}, I{unchecked}.
 
        @see: U{ShaderFastLibs.h<https://GitHub.com/michaldrobot/ShaderFastLibs/
              blob/master/ShaderFastMathLib.h>} and U{Efficient approximations
@@ -385,7 +374,7 @@ def fatan1(x):
              IEEE Signal Processing Magazine, 111, May 2006.
     '''
     # Eq (9): PI_4 * x - x * (abs(x) - 1) * (0.2447 + 0.0663 * abs(x)), for -1 < x < 1
-    #         PI_4 * x - (x**2 - x) * (0.2447 + 0.0663 * x), for 0 < x - 1
+    #         PI_4 * x - (x**2 - x) * (0.2447 + 0.0663 * x), for 0 < x < 1
     #         x * (1.0300981633974482 + x * (-0.1784 - x * 0.0663))
     H = Fhorner(x, _0_0, 1.0300981634, -0.1784, -0.0663)
     return float(H)
@@ -597,7 +586,7 @@ def fpolynomial(x, *cs, **over):
        @see: Class L{Fpolynomial} for further details.
     '''
     P =  Fpolynomial(x, *cs)
-    d = _xkwds_get(over, over=0) if over else 0
+    d = _xkwds_get1(over, over=0) if over else 0
     return P.fover(d) if d else float(P)
 
 

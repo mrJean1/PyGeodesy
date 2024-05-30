@@ -4,7 +4,7 @@
 # Test L{geohash} module.
 
 __all__ = ('Tests',)
-__version__ = '23.12.18'
+__version__ = '24.04.25'
 
 from bases import TestsBase
 
@@ -85,7 +85,7 @@ class Tests(TestsBase):
         self.test('decode2', geohash.decode2('u120fxw'), '(52.205, 0.1188)')
         self.test('decode_error', fstr(geohash.decode_error('u120fxw'), fmt='%.*e'), '6.866455e-04, 6.866455e-04')
         self.test('distance_', geohash.distance_('u120fxw', 'u120fxws0'), '486.710', prec=3)
-        self.test('distance2', geohash.equirectangular_('u120fxw', 'u120fxws0'), '3.374', prec=3)
+        self.test('distance2', geohash.equirectangular4('u120fxw', 'u120fxws0'), '3.374', prec=3)
         self.test('distance3', geohash.euclidean_('u120fxw', 'u120fxws0'),       '2.992', prec=3)
         self.test('distance4', geohash.haversine_('u120fxw', 'u120fxws0'),       '2.798', prec=3)
         self.test('distance5', geohash.vincentys_('u120fxw', 'u120fxws0'),       '2.798', prec=3)
@@ -112,7 +112,7 @@ class Tests(TestsBase):
         self.test('encode', geohash.encode(42.6, -5.6, precision=5), 'ezs42')
         self.test('decode', geohash.decode('ezs42'), "('42.605', '-5.603')")
         self.test('distance1', geohash.distance_('bcd3u', 'bc83n'), '503442.4', prec=1)  # 625441.
-        self.test('distance2', geohash.equirectangular_('bcd3u', 'bc83n'), '303317.6', prec=1)
+        self.test('distance2', geohash.equirectangular4('bcd3u', 'bc83n'), '303317.6', prec=1)
         self.test('distance3', geohash.euclidean_('bcd3u', 'bc83n'), '185425.4', prec=1)
         self.test('distance4', geohash.haversine_('bcd3u', 'bc83n'), '179940.1', prec=1)
         self.test('distance5', geohash.vincentys_('bcd3u', 'bc83n'), '179940.1', prec=1)

@@ -44,8 +44,7 @@ from pygeodesy.fmath import fdot3, hypot, hypot1,  _operator
 from pygeodesy.interns import MISSING, NN, _by_, _COMMASPACE_, _N_, \
                              _NS_, _outside_, _range_, _S_, _scale0_, \
                              _SPACE_, _UTM_, _V_, _X_, _zone_
-# from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS  # from .named
-from pygeodesy.named import _name__, _name2__,  _ALL_LAZY, _MODS
+from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.namedTuples import EasNor2Tuple, UtmUps5Tuple, \
                                   UtmUps8Tuple, UtmUpsLatLon5Tuple
 from pygeodesy.props import deprecated_method, property_doc_, \
@@ -64,7 +63,7 @@ from math import asinh, atanh, atan2, cos, cosh, degrees, fabs, \
 # import operator as _operator  # from .fmath
 
 __all__ = _ALL_LAZY.utm
-__version__ = '24.05.21'
+__version__ = '24.05.30'
 
 _Bands = 'CDEFGHJKLMNPQRSTUVWXX'  # UTM latitude bands C..X (no
 # I|O) 8° each, covering 80°S to 84°N and X repeated for 80-84°N
@@ -134,121 +133,6 @@ class _Kseries(object):
         return fdot3(self._pq, self._sy, self._shx, start=q0)
 
 
-def _cmlon(zone):
-    '''(INTERNAL) Central meridian longitude (C{degrees180}).
-    '''
-    return (zone * 6) - 183
-
-
-def _false2(e, n, h):
-    '''(INTERNAL) False easting and northing.
-    '''
-    # Karney, "Test data for the transverse Mercator projection (2009)"
-    # <https://GeographicLib.SourceForge.io/C++/doc/transversemercator.html>
-    # and <https://Zenodo.org/record/32470#.W4LEJS2ZON8>
-    e += _FalseEasting  # make e relative to central meridian
-    if h == _S_:
-        n += _FalseNorthing  # make n relative to equator
-    return e, n
-
-
-def _toBand(lat, *unused, **strict_Error):  # see ups._toBand
-    '''(INTERNAL) Get the I{latitudinal} Band (row) letter.
-    '''
-    if _UTM_LAT_MIN <= lat < _UTM_LAT_MAX:  # [-80, 84) like Veness
-        return _Bands[int(lat - _UTM_LAT_MIN) >> 3]
-    elif _xkwds_get(strict_Error, strict=True):
-        r = _range_(_UTM_LAT_MIN, _UTM_LAT_MAX, ropen=True)
-        t = _SPACE_(_outside_, _UTM_, _range_, r)
-        E = _xkwds_get(strict_Error, Error=RangeError)
-        raise E(lat=degDMS(lat), txt=t)
-    else:
-        return NN  # None
-
-
-def _to3zBlat(zone, band, Error=UTMError):  # in .mgrs
-    '''(INTERNAL) Check and return zone, Band and band latitude.
-
-       @arg zone: Zone number or string.
-       @arg band: Band letter.
-       @arg Error: Exception to raise (L{UTMError}).
-
-       @return: 3-Tuple (zone, Band, latitude).
-    '''
-    z, B, _ = _to3zBhp(zone, band, Error=Error)
-    if not (_UTM_ZONE_MIN <= z <= _UTM_ZONE_MAX or
-           (_UPS_ZONE == z and Error is MGRSError)):
-        raise Error(zone=zone)
-
-    b = None
-    if B:
-        if z == _UPS_ZONE:  # polar
-            try:
-                b = Lat(_UPS_LATS[B], name=_bandLat_)
-            except KeyError:
-                raise Error(band=band or B, zone=z)
-        else:  # UTM
-            b = _Bands.find(B)
-            if b < 0:
-                raise Error(band=band or B, zone=z)
-            b = Int((b << 3) - 80, name=_bandLat_)
-        B = Band(B)
-    elif Error is not UTMError:
-        raise Error(band=band, txt=MISSING)
-
-    return Zone(z), B, b
-
-
-def _to4zBll(lat, lon, cmoff=True, strict=True, Error=RangeError):
-    '''(INTERNAL) Return zone, Band and lat- and (central) longitude in degrees.
-
-       @arg lat: Latitude (C{degrees}).
-       @arg lon: Longitude (C{degrees}).
-       @kwarg cmoff: Offset B{C{lon}} from zone's central meridian.
-       @kwarg strict: Restrict B{C{lat}} to UTM ranges (C{bool}).
-       @kwarg Error: Error for out of UTM range B{C{lat}}s.
-
-       @return: 4-Tuple (zone, Band, lat, lon).
-    '''
-    z, lat, lon = _to3zll(lat, lon)  # in .utmupsBase
-
-    x = lon - _cmlon(z)  # z before Norway/Svalbard
-    if fabs(x) > _UTM_ZONE_OFF_MAX:
-        t = _SPACE_(_outside_, _UTM_, _zone_, str(z), _by_, degDMS(x, prec=6))
-        raise Error(lon=degDMS(lon), txt=t)
-
-    B = _toBand(lat, strict=strict, Error=Error)
-    if B == _X_:  # and 0 <= lon < 42: z = int(lon + 183) // 6 + 1
-        x = _SvalbardXzone.get(z, None)
-        if x:  # Svalbard/Spitsbergen archipelago
-            z += 1 if lon >= x else -1
-    elif B == _V_ and z == 31 and lon >= 3:
-        z += 1  # SouthWestern Norway
-
-    if cmoff:  # lon off central meridian
-        lon -= _cmlon(z)  # z after Norway/Svalbard
-    return Zone(z), (Band(B) if B else None), Lat(lat), Lon(lon)
-
-
-def _to7zBlldfn(latlon, lon, datum, falsed, zone, strict, Error, **name_cmoff):
-    '''(INTERNAL) Determine 7-tuple (zone, band, lat, lon, datum,
-        falsed, name) for methods L{toEtm8} and L{toUtm8}.
-    '''
-    f, n = _xkwds_pop2(name_cmoff, cmoff=falsed)  # DEPRECATED
-    n    = _name__(**n)  # _UnexpectedError
-    lat, lon, d, n = _to4lldn(latlon, lon, datum, n)
-    z, B, lat, lon = _to4zBll(lat, lon, cmoff=f, strict=strict)
-    if zone:  # re-zone for ETM/UTM
-        r, _, _ = _to3zBhp(zone, B)
-        if r != z:
-            if not _UTM_ZONE_MIN <= r <= _UTM_ZONE_MAX:
-                raise Error(zone=zone)
-            if f:  # re-offset from central meridian
-                lon += _cmlon(z) - _cmlon(r)
-            z = r
-    return z, B, lat, lon, d, f, n
-
-
 class Utm(UtmUpsBase):
     '''Universal Transverse Mercator (UTM) coordinate.
     '''
@@ -276,10 +160,10 @@ class Utm(UtmUpsBase):
            @kwarg falsed: If C{True}, both B{C{easting}} and B{C{northing}} are
                           falsed (C{bool}).
            @kwarg gamma: Optional meridian convergence, bearing off grid North,
-                         clockwise from true North (C{degrees}) or C{None}.
-           @kwarg scale: Optional grid scale factor (C{scalar}) or C{None}.
+                         clockwise from true North to save (C{degrees}) or C{None}.
+           @kwarg scale: Optional grid scale factor to save (C{scalar}) or C{None}.
            @kwarg name_convergence: Optional C{B{name}=NN} (C{str}) and DEPRECATED
-                       C{B{convergence}=None}, instead use C{B{gamma}=None}.
+                       keyword argument C{B{convergence}=None}, use B{C{gamma}}.
 
            @raise TypeError: Invalid or near-spherical B{C{datum}}.
 
@@ -287,17 +171,17 @@ class Utm(UtmUpsBase):
                             B{C{northing}}, B{C{band}}, B{C{convergence}} or
                             B{C{scale}}.
         '''
-        c = name_convergence
-        if c:
-            n, c = _name2__(**c)
-            if n:
-                self.name = n
+        if name_convergence:
+            gamma, name = _xkwds_pop2(name_convergence, convergence=gamma)
+            if name:
+                self.name = name
 
         self._zone, B, _ = _to3zBlat(zone, band)
 
         h = str(hemisphere)[:1].upper()
         if h not in _NS_:
             raise self._Error(hemisphere=hemisphere)
+        self._hemisphere = h
 
         e, n = easting, northing  # Easting(easting), ...
 #       if not falsed:
@@ -311,9 +195,8 @@ class Utm(UtmUpsBase):
 #       if 0 > n or n > _FalseNorthing:
 #           raise RangeError(northing=northing)
 
-        self._hemisphere = h
         UtmUpsBase.__init__(self, e, n, band=B, datum=datum, falsed=falsed,
-                                        gamma=gamma, scale=scale, **c)
+                                                gamma=gamma, scale=scale)
 
     def __eq__(self, other):
         return isinstance(other, Utm) and other.zone       == self.zone \
@@ -483,11 +366,12 @@ class Utm(UtmUpsBase):
         # gamma and scale: Karney 2011 Eq 26, 27 and 28
         p = neg(K.ps(-1))
         q =     K.qs(0)
-        s = hypot(p, q) * E.a / A0
-        ll._gamma = degrees(atan1(tan(y) * tanh(x)) + atan2(q, p))
-        ll._scale = (E.e2s(sin(a)) * hypot1(T) * H / s) if s else s  # INF?
+        g = degrees(atan1(tan(y) * tanh(x)) + atan2(q, p))
+        k = hypot(p, q) * E.a / A0
+        if k:
+            k = E.e2s(sin(a)) * hypot1(T) * H / k  # INF?
         ll._iteration = i
-        self._latlon5args(ll, _toBand, unfalse, eps)
+        self._latlon5args(ll, g, k, _toBand, unfalse, eps)
 
     def toRepr(self, prec=0, fmt=Fmt.SQUARE, sep=_COMMASPACE_, B=False, cs=False, **unused):  # PYCHOK expected
         '''Return a string representation of this UTM coordinate.
@@ -540,12 +424,13 @@ class Utm(UtmUpsBase):
                         (C{str}, 'N[orth]'|'S[outh]').
            @kwarg eps: Optional convergence limit, L{EPS} or above
                        (C{float}), see method L{Utm.toLatLon}.
-           @kwarg falsed: False both easting and northing (C{bool}).
+           @kwarg falsed: If C{True}, false both easting and northing
+                          (C{bool}).
 
            @return: The UPS coordinate (L{Ups}).
         '''
         u = self._ups
-        if u is None or u.pole != (pole or u.pole) or falsed != bool(u.falsed):
+        if u is None or u.pole != (pole or u.pole) or bool(falsed) != u.falsed:
             ll  =  self.toLatLon(LatLon=_LLEB, eps=eps, unfalse=True)
             ups = _MODS.ups
             self._ups = u = ups.toUps8(ll, Ups=ups.Ups, falsed=falsed,
@@ -558,7 +443,8 @@ class Utm(UtmUpsBase):
            @arg zone: New UTM zone (C{int}).
            @kwarg eps: Optional convergence limit, L{EPS} or above
                        (C{float}), see method L{Utm.toLatLon}.
-           @kwarg falsed: False both easting and northing (C{bool}).
+           @kwarg falsed: If C{True}, fFalse both easting and northing
+                          (C{bool}).
 
            @return: The UTM coordinate (L{Utm}).
         '''
@@ -566,7 +452,7 @@ class Utm(UtmUpsBase):
             return self.copy()
         elif zone:
             u = self._utm
-            if u is None or u.zone != zone or falsed != u.falsed:
+            if u is None or u.zone != zone or bool(falsed) != u.falsed:
                 ll = self.toLatLon(LatLon=_LLEB, eps=eps, unfalse=True)
                 self._utm = u = toUtm8(ll, Utm=self.classof, falsed=falsed,
                                            name=self.name, zone=zone)
@@ -580,6 +466,24 @@ class Utm(UtmUpsBase):
         return self._zone
 
 
+def _cmlon(zone):
+    '''(INTERNAL) Central meridian longitude (C{degrees180}).
+    '''
+    return (zone * 6) - 183
+
+
+def _false2(e, n, h):
+    '''(INTERNAL) False easting and northing.
+    '''
+    # Karney, "Test data for the transverse Mercator projection (2009)"
+    # <https://GeographicLib.SourceForge.io/C++/doc/transversemercator.html>
+    # and <https://Zenodo.org/record/32470#.W4LEJS2ZON8>
+    e += _FalseEasting  # make e relative to central meridian
+    if h == _S_:
+        n += _FalseNorthing  # make n relative to equator
+    return e, n
+
+
 def _parseUTM5(strUTM, datum, Xtm, falsed, Error=UTMError, **name):  # imported by .etm
     '''(INTERNAL) Parse a string representing a UTM coordinate,
        consisting of C{"zone[band] hemisphere easting northing"},
@@ -590,7 +494,7 @@ def _parseUTM5(strUTM, datum, Xtm, falsed, Error=UTMError, **name):  # imported 
         raise Error(strUTM=strUTM, zone=z, band=B)
 
     return UtmUps5Tuple(z, h, e, n, B, Error=Error, **name) if Xtm is None else \
-                    Xtm(z, h, e, n, band=B, datum=datum, falsed=falsed, **name)
+                    Xtm(z, h, e, n, band=B, datum=datum, falsed=bool(falsed), **name)
 
 
 def parseUTM5(strUTM, datum=_WGS84, Utm=Utm, falsed=True, **name):
@@ -602,8 +506,9 @@ def parseUTM5(strUTM, datum=_WGS84, Utm=Utm, falsed=True, **name):
                      L{Ellipsoid2} or L{a_f2Tuple}).
        @kwarg Utm: Optional class to return the UTM coordinate
                    (L{Utm}) or C{None}.
-       @kwarg falsed: Both easting and northing are falsed (C{bool}).
-       @kwarg name: Optional B{C{Utm}} name (C{str}).
+       @kwarg falsed: Use C{B{falsed}=True} if both easting and
+                      northing are falsed (C{bool}).
+       @kwarg name: Optional B{C{Utm}} C{B{name}=NN} (C{str}).
 
        @return: The UTM coordinate (B{C{Utm}}) or if B{C{Utm}}
                 is C{None}, a L{UtmUps5Tuple}C{(zone, hemipole,
@@ -633,10 +538,10 @@ def toUtm8(latlon, lon=None, datum=None, Utm=Utm, falsed=True,
        @kwarg falsed: False both easting and northing (C{bool}).
        @kwarg strict: Restrict B{C{lat}} to UTM ranges (C{bool}).
        @kwarg zone: Optional UTM zone to enforce (C{int} or C{str}).
-       @kwarg name_cmoff: Optional B{C{Utm}} C{B{name}=NN} (C{str})
-                   and DEPRECATED C{B{cmoff}=True} to offset longitude
-                   from the zone's central meridian (C{bool}), instead
-                   use C{B{falsed}=True}.
+       @kwarg name_cmoff: Optional B{C{Utm}} C{B{name}=NN} (C{str}) and
+                   DEPRECATED C{B{cmoff}=True} to offset the longitude
+                   from the zone's central meridian (C{bool}), use
+                   C{B{falsed}} instead.
 
        @return: The UTM coordinate (B{C{Utm}}) or if B{C{Utm}} is
                 C{None} or not B{C{falsed}}, a L{UtmUps8Tuple}C{(zone,
@@ -695,8 +600,22 @@ def toUtm8(latlon, lon=None, datum=None, Utm=Utm, falsed=True,
                         B, d, g, k, f, n, latlon, EPS)
 
 
+def _toBand(lat, *unused, **strict_Error):  # see ups._toBand
+    '''(INTERNAL) Get the I{latitudinal} Band (row) letter.
+    '''
+    if _UTM_LAT_MIN <= lat < _UTM_LAT_MAX:  # [-80, 84) like Veness
+        return _Bands[int(lat - _UTM_LAT_MIN) >> 3]
+    elif _xkwds_get(strict_Error, strict=True):
+        r = _range_(_UTM_LAT_MIN, _UTM_LAT_MAX, ropen=True)
+        t = _SPACE_(_outside_, _UTM_, _range_, r)
+        E = _xkwds_get(strict_Error, Error=RangeError)
+        raise E(lat=degDMS(lat), txt=t)
+    else:
+        return NN  # None
+
+
 def _toXtm8(Xtm, z, lat, x, y, B, d, g, k, f,  # PYCHOK 13+ args
-                 n, latlon, eps, Error=UTMError):
+                 n, latlon, eps_other, Error=UTMError):
     '''(INTERNAL) Helper for methods L{toEtm8} and L{toUtm8}.
     '''
     h = _hemi(lat)
@@ -708,12 +627,92 @@ def _toXtm8(Xtm, z, lat, x, y, B, d, g, k, f,  # PYCHOK 13+ args
         r = Xtm(z, h, x, y, band=B, datum=d, falsed=f,
                                     gamma=g, scale=k, name=n)
         if isinstance(latlon, _LLEB) and d is latlon.datum:  # see ups.toUtm8
-            r._latlon5args(latlon, _toBand, f, eps)  # XXX weakref(latlon)?
-            latlon._gamma = g
-            latlon._scale = k
+            r._latlon5args(latlon, g, k, _toBand, f, eps_other)  # XXX weakref(latlon)?
         elif not r._band:
             r._band = _toBand(lat)
     return r
+
+
+def _to3zBlat(zone, band, Error=UTMError):  # in .mgrs
+    '''(INTERNAL) Check and return zone, Band and band latitude.
+
+       @arg zone: Zone number or string.
+       @arg band: Band letter.
+       @arg Error: Exception to raise (L{UTMError}).
+
+       @return: 3-Tuple (zone, Band, latitude).
+    '''
+    z, B, _ = _to3zBhp(zone, band, Error=Error)
+    if not (_UTM_ZONE_MIN <= z <= _UTM_ZONE_MAX or
+           (_UPS_ZONE == z and Error is MGRSError)):
+        raise Error(zone=zone)
+
+    b = None
+    if B:
+        if z == _UPS_ZONE:  # polar
+            try:
+                b = Lat(_UPS_LATS[B], name=_bandLat_)
+            except KeyError:
+                raise Error(band=band or B, zone=z)
+        else:  # UTM
+            b = _Bands.find(B)
+            if b < 0:
+                raise Error(band=band or B, zone=z)
+            b = Int((b << 3) - 80, name=_bandLat_)
+        B = Band(B)
+    elif Error is not UTMError:
+        raise Error(band=band, txt=MISSING)
+
+    return Zone(z), B, b
+
+
+def _to4zBll(lat, lon, cmoff=True, strict=True, Error=RangeError):
+    '''(INTERNAL) Return zone, Band and lat- and (central) longitude in degrees.
+
+       @arg lat: Latitude (C{degrees}).
+       @arg lon: Longitude (C{degrees}).
+       @kwarg cmoff: If C{True}, offset B{C{lon}} from the zone's central meridian.
+       @kwarg strict: Restrict B{C{lat}} to the UTM ranges (C{bool}).
+       @kwarg Error: Error for out of UTM range B{C{lat}}s.
+
+       @return: 4-Tuple (zone, Band, lat, lon).
+    '''
+    z, lat, lon = _to3zll(lat, lon)  # in .utmupsBase
+
+    x = lon - _cmlon(z)  # z before Norway/Svalbard
+    if fabs(x) > _UTM_ZONE_OFF_MAX:
+        t = _SPACE_(_outside_, _UTM_, _zone_, str(z), _by_, degDMS(x, prec=6))
+        raise Error(lon=degDMS(lon), txt=t)
+
+    B = _toBand(lat, strict=strict, Error=Error)
+    if B == _X_:  # and 0 <= lon < 42: z = int(lon + 183) // 6 + 1
+        x = _SvalbardXzone.get(z, None)
+        if x:  # Svalbard/Spitsbergen archipelago
+            z += 1 if lon >= x else -1
+    elif B == _V_ and z == 31 and lon >= 3:
+        z += 1  # SouthWestern Norway
+
+    if cmoff:  # lon off central meridian
+        lon -= _cmlon(z)  # z I{after} Norway/Svalbard
+    return Zone(z), (Band(B) if B else None), Lat(lat), Lon(lon)
+
+
+def _to7zBlldfn(latlon, lon, datum, falsed, zone, strict, Error, **name_cmoff):
+    '''(INTERNAL) Determine 7-tuple (zone, band, lat, lon, datum,
+        falsed, name) for methods L{toEtm8} and L{toUtm8}.
+    '''
+    f, name = _xkwds_pop2(name_cmoff, cmoff=falsed)  # DEPRECATED
+    lat, lon, d, n = _to4lldn(latlon, lon, datum, name)
+    z, B, lat, lon = _to4zBll(lat, lon, cmoff=f, strict=strict)
+    if zone:  # re-zone for ETM/UTM
+        r, _, _ = _to3zBhp(zone, B)
+        if r != z:
+            if not _UTM_ZONE_MIN <= r <= _UTM_ZONE_MAX:
+                raise Error(zone=zone)
+            if f:  # re-offset from central meridian
+                lon += _cmlon(z) - _cmlon(r)
+            z = r
+    return z, B, lat, lon, d, f, n
 
 
 def utmZoneBand5(lat, lon, cmoff=False, **name):
@@ -722,13 +721,12 @@ def utmZoneBand5(lat, lon, cmoff=False, **name):
 
        @arg lat: Latitude in degrees (C{scalar} or C{str}).
        @arg lon: Longitude in degrees (C{scalar} or C{str}).
-       @kwarg cmoff: Offset longitude from the zone's central
+       @kwarg cmoff: If C{True}, offset longitude from the zone's central
                      meridian (C{bool}).
-       @kwarg name: Optional name (C{str}).
+       @kwarg name: Optional C{B{name}=NN} (C{str}).
 
-       @return: A L{UtmUpsLatLon5Tuple}C{(zone, band, hemipole,
-                lat, lon)} where C{hemipole} is the C{'N'|'S'}
-                UTM hemisphere.
+       @return: A L{UtmUpsLatLon5Tuple}C{(zone, band, hemipole, lat, lon)}
+                where C{hemipole} is the C{'N'|'S'} UTM hemisphere.
 
        @raise RangeError: If B{C{lat}} outside the valid UTM bands or if
                           B{C{lat}} or B{C{lon}} outside the valid range

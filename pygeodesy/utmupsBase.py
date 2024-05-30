@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 u'''(INTERNAL) Private class C{UtmUpsBase}, functions and constants
-for L{epsg}, L{etm}, L{mgrs}, L{ups} and L{utm}.
+for modules L{epsg}, L{etm}, L{mgrs}, L{ups} and L{utm}.
 '''
 
 from pygeodesy.basics import isint, isscalar, isstr, neg_, \
@@ -11,12 +11,12 @@ from pygeodesy.constants import _float, _0_0, _0_5, _N_90_0, _180_0
 from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.dms import degDMS, parseDMS2
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
-from pygeodesy.errors import _or, ParseError, _parseX, _UnexpectedError, \
-                             _ValueError, _xkwds, _xkwds_not, _xkwds_pop2
+from pygeodesy.errors import _or, ParseError, _parseX, _ValueError, \
+                             _xkwds, _xkwds_not
 # from pygeodesy.internals import _name__, _under  # from .named
 from pygeodesy.interns import NN, _A_, _B_, _COMMA_, _Error_, \
                              _gamma_, _n_a_, _not_, _N_, _NS_, _PLUS_, \
-                             _scale_, _SPACE_, _Y_, _Z_
+                             _S_, _scale_, _SPACE_, _Y_, _Z_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _NamedBase, _xnamed,  _name__, _under
 from pygeodesy.namedTuples import EasNor2Tuple, LatLonDatum5Tuple
@@ -27,7 +27,7 @@ from pygeodesy.units import Band, Easting, Northing, Scalar, Zone
 from pygeodesy.utily import _Wrap, wrap360
 
 __all__ = _ALL_LAZY.utmupsBase
-__version__ = '24.05.19'
+__version__ = '24.05.30'
 
 _UPS_BANDS = _A_, _B_, _Y_, _Z_  # UPS polar bands SE, SW, NE, NW
 # _UTM_BANDS = _MODS.utm._Bands
@@ -59,94 +59,6 @@ _UTMUPS_ZONE_MIN     = _UPS_ZONE      # PYCHOK for export too, by .units.py
 # _UTM                  = -2
 
 
-def _hemi(lat, N=0):  # imported by .ups, .utm
-    '''Return the hemisphere letter.
-
-       @arg lat: Latitude (C{degrees} or C{radians}).
-       @kwarg N: Minimal North latitude, C{0} or C{_N_}.
-
-       @return: C{'N'|'S'} for north-/southern hemisphere.
-    '''
-    return _NS_[int(lat < N)]
-
-
-def _to4lldn(latlon, lon, datum, name, wrap=False):
-    '''(INTERNAL) Return 4-tuple (C{lat, lon, datum, name}).
-    '''
-    try:
-        # if lon is not None:
-        #     raise AttributeError
-        lat, lon = float(latlon.lat), float(latlon.lon)
-        _xinstanceof(_LLEB, LatLonDatum5Tuple, latlon=latlon)
-        if wrap:
-            _Wrap.latlon(lat, lon)
-        d = datum or latlon.datum
-    except AttributeError:
-        lat, lon = _Wrap.latlonDMS2(latlon, lon) if wrap else \
-                          parseDMS2(latlon, lon)  # clipped
-        d = datum or _WGS84
-    return lat, lon, d, _name__(name, _or_nameof=latlon)
-
-
-def _to3zBhp(zone, band, hemipole=NN, Error=_ValueError):  # imported by .epsg, .ups, .utm, .utmups
-    '''Parse UTM/UPS zone, Band letter and hemisphere/pole letter.
-
-       @arg zone: Zone with/-out Band (C{scalar} or C{str}).
-       @kwarg band: Optional I{longitudinal/polar} Band letter (C{str}).
-       @kwarg hemipole: Optional hemisphere/pole letter (C{str}).
-       @kwarg Error: Optional error to raise, overriding the default
-                     C{ValueError}.
-
-       @return: 3-Tuple (C{zone, Band, hemisphere/pole}) as (C{int, str,
-                'N'|'S'}) where C{zone} is C{0} for UPS or C{1..60} for
-                UTM and C{Band} is C{'A'..'Z'} I{NOT} checked for valid
-                UTM/UPS bands.
-
-       @raise ValueError: Invalid B{C{zone}}, B{C{band}} or B{C{hemipole}}.
-    '''
-    try:
-        B, z = band, _UTMUPS_ZONE_INVALID
-        if isscalar(zone):
-            z = int(zone)
-        elif zone and isstr(zone):
-            if zone.isdigit():
-                z = int(zone)
-            elif len(zone) > 1:
-                B = zone[-1:]
-                z = int(zone[:-1])
-            elif zone.upper() in _UPS_BANDS:  # single letter
-                B =  zone
-                z = _UPS_ZONE
-
-        if _UTMUPS_ZONE_MIN <= z <= _UTMUPS_ZONE_MAX:
-            hp = hemipole[:1].upper()
-            if hp in _NS_ or not hp:
-                z = Zone(z)
-                B = Band(B.upper())
-                if B.isalpha():
-                    return z, B, (hp or _hemi(B, _N_))
-                elif not B:
-                    return z, B, hp
-
-        raise ValueError  # _invalid_
-    except (AttributeError, IndexError, TypeError, ValueError) as x:
-        raise Error(zone=zone, band=B, hemipole=hemipole, cause=x)
-
-
-def _to3zll(lat, lon):  # imported by .ups, .utm
-    '''Wrap lat- and longitude and determine UTM zone.
-
-       @arg lat: Latitude (C{degrees}).
-       @arg lon: Longitude (C{degrees}).
-
-       @return: 3-Tuple (C{zone, lat, lon}) as (C{int}, C{degrees90},
-                C{degrees180}) where C{zone} is C{1..60} for UTM.
-    '''
-    x = wrap360(lon + _180_0)  # use wrap360 to get ...
-    z = int(x) // 6 + 1  # ... longitudinal UTM zone [1, 60] and ...
-    return Zone(z), lat, (x - _180_0)  # ... -180 <= lon < 180
-
-
 class UtmUpsBase(_NamedBase):
     '''(INTERNAL) Base class for L{Utm} and L{Ups} coordinates.
     '''
@@ -166,7 +78,7 @@ class UtmUpsBase(_NamedBase):
     _utm        =  None   # cached toUtm (L{Utm})
 
     def __init__(self, easting, northing, band=NN, datum=None, falsed=True,
-                                          gamma=None, scale=None, **convergence):
+                                                   gamma=None, scale=None):
         '''(INTERNAL) New L{UtmUpsBase}.
         '''
         E = self._Error
@@ -185,10 +97,6 @@ class UtmUpsBase(_NamedBase):
         if not falsed:
             self._falsed = False
 
-        if convergence:  # for backward compatibility
-            gamma, kwds = _xkwds_pop2(convergence, convergence=gamma)
-            if kwds:
-                raise _UnexpectedError(**kwds)
         if gamma is not self._gamma:
             self._gamma = Scalar(gamma=gamma, Error=E)
         if scale is not self._scale:
@@ -272,7 +180,7 @@ class UtmUpsBase(_NamedBase):
 
     @Property_RO
     def falsed(self):
-        '''Get easting and northing falsed (C{bool}).
+        '''Are easting and northing falsed (C{bool})?
         '''
         return self._falsed
 
@@ -310,9 +218,11 @@ class UtmUpsBase(_NamedBase):
                                ll, _under(_gamma_), _under(_scale_))
         return _xnamed(r, ll.name)
 
-    def _latlon5args(self, ll, _toBand, unfalse, *other):
+    def _latlon5args(self, ll, g, k, _toBand, unfalse, *other):
         '''(INTERNAL) See C{._toLLEB} methods, functions C{ups.toUps8} and C{utm._toXtm8}
         '''
+        ll._gamma = g
+        ll._scale = k
         ll._toLLEB_args = (unfalse,) + other
         if unfalse:
             if not self._band:
@@ -418,17 +328,26 @@ class UtmUpsBase(_NamedBase):
         return t if sep is None else sep.join(t)
 
 
-def _lowerleft(utmups, center):  # by .ellipsoidalBase._lowerleft
+def _hemi(lat, N=0):  # in .ups, .utm
+    '''Return the hemisphere letter.
+
+       @arg lat: Latitude (C{degrees} or C{radians}).
+       @kwarg N: Minimal North latitude, C{0} or C{_N_}.
+
+       @return: C{'N'|'S'} for north-/southern hemisphere.
+    '''
+    return _S_ if lat < N else _N_
+
+
+def _lowerleft(utmups, center):  # in .ellipsoidalBase._lowerleft
     '''(INTERNAL) I{Un}-center a B{C{utmups}} to its C{lowerleft} by
        C{B{center} meter} or by a I{guess} if B{C{center}} is C{0}.
     '''
     if center:
         e = n = -center
     else:
-        c = 5  # center
-        for _ in range(3):
-            c *= 10  # 50, 500, 5000
-            t  = c * 2
+        for c in (50, 500, 5000):
+            t = c * 2
             e = int(utmups.easting  % t)
             n = int(utmups.northing % t)
             if (e == c and n in (c, c - 1)) or \
@@ -439,7 +358,7 @@ def _lowerleft(utmups, center):  # by .ellipsoidalBase._lowerleft
 
     r = _xkwds_not(None, datum=utmups.datum,
                          gamma=utmups.gamma,
-                         scale=utmups.scale)
+                         scale=utmups.scale, name=utmups.name)
     return utmups.classof(utmups.zone, utmups.hemisphere,
                           utmups.easting - e, utmups.northing - n,
                           band=utmups.band, falsed=utmups.falsed, **r)
@@ -489,10 +408,87 @@ def _parseUTMUPS5(strUTMUPS, UPS, Error=ParseError, band=NN, sep=_COMMA_):
                              strUTMUPS=strUTMUPS, Error=Error)
 
 
+def _to4lldn(latlon, lon, datum, name, wrap=False):
+    '''(INTERNAL) Return 4-tuple (C{lat, lon, datum, name}).
+    '''
+    try:
+        # if lon is not None:
+        #     raise AttributeError
+        lat, lon = float(latlon.lat), float(latlon.lon)
+        _xinstanceof(_LLEB, LatLonDatum5Tuple, latlon=latlon)
+        if wrap:
+            _Wrap.latlon(lat, lon)
+        d = datum or latlon.datum
+    except AttributeError:  # TypeError
+        lat, lon = _Wrap.latlonDMS2(latlon, lon) if wrap else \
+                          parseDMS2(latlon, lon)  # clipped
+        d = datum or _WGS84
+    return lat, lon, d, _name__(name, _or_nameof=latlon)
+
+
 def _toMgrs(utmups):
     '''(INTERNAL) Convert a L{Utm} or L{Ups} to an L{Mgrs} instance.
     '''
     return _MODS.mgrs.toMgrs(utmups, datum=utmups.datum, name=utmups.name)
+
+
+def _to3zBhp(zone, band, hemipole=NN, Error=_ValueError):  # in .epsg, .ups, .utm, .utmups
+    '''Parse UTM/UPS zone, Band letter and hemisphere/pole letter.
+
+       @arg zone: Zone with/-out Band (C{scalar} or C{str}).
+       @kwarg band: Optional I{longitudinal/polar} Band letter (C{str}).
+       @kwarg hemipole: Optional hemisphere/pole letter (C{str}).
+       @kwarg Error: Optional error to raise, overriding the default
+                     C{ValueError}.
+
+       @return: 3-Tuple (C{zone, Band, hemisphere/pole}) as (C{int, str,
+                'N'|'S'}) where C{zone} is C{0} for UPS or C{1..60} for
+                UTM and C{Band} is C{'A'..'Z'} I{NOT} checked for valid
+                UTM/UPS bands.
+
+       @raise ValueError: Invalid B{C{zone}}, B{C{band}} or B{C{hemipole}}.
+    '''
+    try:
+        B, z = band, _UTMUPS_ZONE_INVALID
+        if isscalar(zone):
+            z = int(zone)
+        elif zone and isstr(zone):
+            if zone.isdigit():
+                z = int(zone)
+            elif len(zone) > 1:
+                B = zone[-1:]
+                z = int(zone[:-1])
+            elif zone.upper() in _UPS_BANDS:  # single letter
+                B =  zone
+                z = _UPS_ZONE
+
+        if _UTMUPS_ZONE_MIN <= z <= _UTMUPS_ZONE_MAX:
+            hp = hemipole[:1].upper()
+            if hp in _NS_ or not hp:
+                z = Zone(z)
+                B = Band(B.upper())
+                if B.isalpha():
+                    return z, B, (hp or _hemi(B, _N_))
+                elif not B:
+                    return z, B, hp
+
+        raise ValueError  # _invalid_
+    except (AttributeError, IndexError, TypeError, ValueError) as x:
+        raise Error(zone=zone, band=B, hemipole=hemipole, cause=x)
+
+
+def _to3zll(lat, lon):  # in .ups, .utm
+    '''Wrap lat- and longitude and determine UTM zone.
+
+       @arg lat: Latitude (C{degrees}).
+       @arg lon: Longitude (C{degrees}).
+
+       @return: 3-Tuple (C{zone, lat, lon}) as (C{int}, C{degrees90},
+                C{degrees180}) where C{zone} is C{1..60} for UTM.
+    '''
+    x = wrap360(lon + _180_0)  # use wrap360 to get ...
+    z = int(x) // 6 + 1  # ... longitudinal UTM zone [1, 60] and ...
+    return Zone(z), lat, (x - _180_0)  # ... -180 <= lon < 180
 
 
 __all__ += _ALL_DOCS(UtmUpsBase)

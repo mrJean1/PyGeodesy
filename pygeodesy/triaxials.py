@@ -59,7 +59,7 @@ from pygeodesy.vector3d import _otherV3d, Vector3d,  _ALL_LAZY, _MODS
 from math import atan2, fabs, sqrt
 
 __all__ = _ALL_LAZY.triaxials
-__version__ = '24.05.21'
+__version__ = '24.05.28'
 
 _not_ordered_ = _not_('ordered')
 _omega_       = 'omega'
@@ -1158,7 +1158,7 @@ def _getitems(items, *indices):
     return type(items)(map(items.__getitem__, indices))
 
 
-def _hartzell3(pov, los, Tun):  # in .ellipsoids.hartzell4, .formy.hartzell
+def _hartzell3(pov, los, Tun):  # in .Ellipsoid.hartzell4, .formy.hartzell
     '''(INTERNAL) Hartzell's "Satellite Line-of-Sight Intersection ...",
        formula from a Point-Of-View to an I{un-/ordered} Triaxial.
     '''

@@ -31,7 +31,7 @@ from pygeodesy.utily import atan2d, sincos2, sincos2d
 from math import asinh, atan2, copysign, degrees, fabs, radians, sinh
 
 __all__ = ()
-__version__ = '24.05.24'
+__version__ = '24.05.25'
 
 _0_INF_NAN_NINF = (0, _0_0) + _INF_NAN_NINF
 _MAX_2          =  MAX * _0_5  # PYCHOK used!
@@ -48,18 +48,18 @@ class AuxAngle(_Named):
     _y    = _0_0
     _x    = _1_0
 
-    def __init__(self, y_angle=_0_0, x=_1_0, **aux_name):
+    def __init__(self, y_angle=_0_0, x=_1_0, **name_aux):
         '''New L{AuxAngle}.
 
            @kwarg y_angle: The Y component (C{scalar}, including C{INF}, C{NAN}
                            and C{NINF}) or a previous L{AuxAngle} instance.
            @kwarg x: The X component, ignored if C{B{y_angle}} is non-C{scalar}.
-           @kwarg aux_name: Optional C{B{name}=NN} (C{str}) and I{Auxiliary} kind
+           @kwarg name_aux: Optional C{B{name}=NN} (C{str}) and I{Auxiliary} kind
                       (C{B{aux}=Aux.KIND}), ignored if B{C{y_angle}} is L{AuxAngle}.
 
            @raise AuxError: Invalid B{C{y_angle}}, B{C{x}} or B{C{aux}}.
         '''
-        name, aux = _name2__(**aux_name)
+        name, aux = _name2__(**name_aux)
         try:
             yx = y_angle._yx
             if self._AUX is None:

@@ -170,7 +170,6 @@ class ADict(dict):
            C{floats} formatted by function L{pygeodesy.fstr}.
         '''
         n = _xattr(self, name=NN) or self.__class__.__name__
-        print(1, n)
         return Fmt.PAREN(n, self._toT(_EQUAL_, **prec_fmt))
 
     def toStr(self, **prec_fmt):

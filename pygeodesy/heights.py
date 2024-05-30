@@ -75,7 +75,7 @@ from pygeodesy.errors import _AssertionError, LenError, PointsError, \
                              _SciPyIssue, _xattr, _xkwds, _xkwds_get, _xkwds_item2
 # from pygeodesy.fmath import fidw  # _MODS
 # from pygeodesy.formy import cosineAndoyerLambert, cosineForsytheAndoyerLambert, \
-#                             cosineLaw, equirectangular_, euclidean, flatLocal, \
+#                             cosineLaw, equirectangular4, euclidean, flatLocal, \
 #                             flatPolar, haversine, thomas, vincentys  # _MODS
 # from pygeodesy.internals import _version2  # _MODS
 from pygeodesy.interns import NN, _COMMASPACE_, _cubic_, _insufficient_, _linear_, \
@@ -91,7 +91,7 @@ from pygeodesy.units import _isDegrees, Float_, Int_
 # from math import radians  # from .points
 
 __all__ = _ALL_LAZY.heights
-__version__ = '24.05.23'
+__version__ = '24.05.25'
 
 _error_     = 'error'
 _llis_      = 'llis'
@@ -898,14 +898,14 @@ class HeightIDWequirectangular(_HeightIDW):
     '''Height interpolator using U{Inverse Distance Weighting
        <https://WikiPedia.org/wiki/Inverse_distance_weighting>} (IDW) and
        the I{angular} distance in C{radians squared} like function
-       L{pygeodesy.equirectangular_}.
+       L{pygeodesy.equirectangular4}.
     '''
     def __init__(self, knots, beta=2, **name__adjust_limit_wrap):  # XXX beta=1
         '''New L{HeightIDWequirectangular} interpolator.
 
            @kwarg name__adjust_limit_wrap: Optional C{B{name}=NN} for this
                         height interpolator (C{str}) and keyword arguments
-                        for function L{pygeodesy.equirectangular_}.
+                        for function L{pygeodesy.equirectangular4}.
 
            @see: L{Here<_HeightIDW.__init__>} for further details.
         '''
@@ -914,7 +914,7 @@ class HeightIDWequirectangular(_HeightIDW):
     def _distances(self, x, y):
         '''(INTERNAL) Yield distances to C{(x, y)}.
         '''
-        _f, kwds = self._formy.equirectangular_, self._kwds
+        _f, kwds = self._formy.equirectangular4, self._kwds
         try:
             for i, k in enumerate(self._knots):
                 yield _f(y, x, k.lat, k.lon, **kwds).distance2

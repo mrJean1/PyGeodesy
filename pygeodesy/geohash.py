@@ -297,20 +297,20 @@ class Geohash(Str):
            using function L{pygeodesy.equirectangular}.
 
            @arg other: The other geohash (L{Geohash}, C{LatLon} or C{str}).
-           @kwarg radius: Mean earth radius, ellipsoid or datum
-                          (C{meter}, L{Ellipsoid}, L{Ellipsoid2},
-                          L{Datum} or L{a_f2Tuple}) or C{None}.
-           @kwarg adjust_limit_wrap: Optional keyword arguments for
-                               function L{pygeodesy.equirectangular_},
-                               overriding defaults C{B{adjust}=False,
-                               B{limit}=None} and C{B{wrap}=False}.
+           @kwarg radius: Mean earth radius, ellipsoid or datum (C{meter},
+                          L{Ellipsoid}, L{Ellipsoid2}, L{Datum} or
+                          L{a_f2Tuple}) or C{None}, see function
+                          L{pygeodesy.equirectangular}.
+           @kwarg adjust_limit_wrap: Optional keyword arguments for function
+                         L{pygeodesy.equirectangular4}, overriding defaults
+                         C{B{adjust}=False, B{limit}=None} and C{B{wrap}=False}.
 
            @return: Distance (C{meter}, same units as B{C{radius}} or the
                     ellipsoid or datum axes or C{radians I{squared}} if
                     B{C{radius}} is C{None} or C{0}).
 
-           @raise TypeError: The B{C{other}} is not a L{Geohash}, C{LatLon}
-                             or C{str} or invalid B{C{radius}}.
+           @raise TypeError: The B{C{other}} is not a L{Geohash}, C{LatLon} or
+                             C{str} or invalid B{C{radius}}.
 
            @see: U{Local, flat earth approximation
                  <https://www.EdWilliams.org/avform.htm#flat>}, functions
@@ -319,7 +319,7 @@ class Geohash(Str):
         kwds = _xkwds(adjust_limit_wrap, adjust=False, limit=None, wrap=False)
         m    =  self._formy
         return m.equirectangular( *lls, radius=radius, **kwds) if radius else \
-               m.equirectangular_(*lls, **kwds).distance2
+               m.equirectangular4(*lls, **kwds).distance2
 
     def euclideanTo(self, other, **radius_adjust_wrap):
         '''Approximate the distance between this and an other geohash using
@@ -645,8 +645,8 @@ def distance1(geohash1, geohash2):
 
 @deprecated_function
 def distance2(geohash1, geohash2):
-    '''DEPRECATED, use L{geohash.equirectangular_}.'''
-    return equirectangular_(geohash1, geohash2)
+    '''DEPRECATED, use L{geohash.equirectangular4}.'''
+    return equirectangular4(geohash1, geohash2)
 
 
 @deprecated_function
@@ -718,7 +718,7 @@ def encode(lat, lon, precision=None):
     return NN.join(gh)
 
 
-def equirectangular_(geohash1, geohash2, radius=R_M):
+def equirectangular4(geohash1, geohash2, radius=R_M):
     '''Approximate the distance between two geohashes using the
        L{pygeodesy.equirectangular} formula.
 
@@ -891,7 +891,7 @@ def vincentys_(geohash1, geohash2, **radius_wrap):
 
 __all__ += _ALL_OTHER(bounds,  # functions
                       decode, decode2, decode_error, distance_,
-                      encode, equirectangular_, euclidean_, haversine_,
+                      encode, equirectangular4, euclidean_, haversine_,
                       neighbors, precision, resolution2, sizes, vincentys_)
 
 # **) MIT License

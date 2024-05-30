@@ -54,7 +54,7 @@ from pygeodesy.vector3d import sumOf, Vector3d
 from math import asin, atan2, cos, degrees, fabs, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '24.045.19'
+__version__ = '24.05.25'
 
 _PI_EPS4 = PI - EPS4
 if _PI_EPS4 >= PI:
@@ -538,7 +538,7 @@ class LatLon(LatLonSphericalBase):
     def nearestOn(self, point1, point2, radius=R_M, **wrap_adjust_limit):
         '''Locate the point between two points closest to this point.
 
-           Distances are approximated by function L{pygeodesy.equirectangular_},
+           Distances are approximated by function L{pygeodesy.equirectangular4},
            subject to the supplied B{C{options}}.
 
            @arg point1: Start point (L{LatLon}).
@@ -546,12 +546,12 @@ class LatLon(LatLonSphericalBase):
            @kwarg radius: Mean earth radius (C{meter}).
            @kwarg wrap_adjust_limit: Optional keyword arguments for functions
                               L{sphericalTrigonometry.nearestOn3} and
-                              L{pygeodesy.equirectangular_},
+                              L{pygeodesy.equirectangular4},
 
            @return: Closest point on the great circle line (L{LatLon}).
 
            @raise LimitError: Lat- and/or longitudinal delta exceeds B{C{limit}},
-                              see function L{pygeodesy.equirectangular_}.
+                              see function L{pygeodesy.equirectangular4}.
 
            @raise NotImplementedError: Keyword argument C{B{within}=False}
                                        is not (yet) supported.
@@ -560,7 +560,7 @@ class LatLon(LatLonSphericalBase):
 
            @raise ValueError: Invalid B{C{radius}} or B{C{options}}.
 
-           @see: Functions L{pygeodesy.equirectangular_} and L{pygeodesy.nearestOn5}
+           @see: Functions L{pygeodesy.equirectangular4} and L{pygeodesy.nearestOn5}
                  and method L{sphericalTrigonometry.LatLon.nearestOn3}.
         '''
         # remove kwarg B{C{within}} if present
@@ -605,7 +605,7 @@ class LatLon(LatLonSphericalBase):
     def nearestOn3(self, points, closed=False, radius=R_M, **wrap_adjust_limit):
         '''Locate the point on a polygon closest to this point.
 
-           Distances are approximated by function L{pygeodesy.equirectangular_},
+           Distances are approximated by function L{pygeodesy.equirectangular4},
            subject to the supplied B{C{options}}.
 
            @arg points: The polygon points (L{LatLon}[]).
@@ -613,17 +613,17 @@ class LatLon(LatLonSphericalBase):
            @kwarg radius: Mean earth radius (C{meter}).
            @kwarg wrap_adjust_limit: Optional keyword arguments for function
                               L{sphericalTrigonometry.nearestOn3} and
-                              L{pygeodesy.equirectangular_},
+                              L{pygeodesy.equirectangular4},
 
            @return: A L{NearestOn3Tuple}C{(closest, distance, angle)} of the
-                    C{closest} point (L{LatLon}), the L{pygeodesy.equirectangular_}
+                    C{closest} point (L{LatLon}), the L{pygeodesy.equirectangular4}
                     C{distance} between this and the C{closest} point converted to
                     C{meter}, same units as B{C{radius}}.  The C{angle} from this
                     to the C{closest} point is in compass C{degrees360}, like
                     function L{pygeodesy.compassAngle}.
 
            @raise LimitError: Lat- and/or longitudinal delta exceeds B{C{limit}},
-                              see function L{pygeodesy.equirectangular_}.
+                              see function L{pygeodesy.equirectangular4}.
 
            @raise PointsError: Insufficient number of B{C{points}}.
 
@@ -631,7 +631,7 @@ class LatLon(LatLonSphericalBase):
 
            @raise ValueError: Invalid B{C{radius}} or B{C{options}}.
 
-           @see: Functions L{pygeodesy.compassAngle}, L{pygeodesy.equirectangular_}
+           @see: Functions L{pygeodesy.compassAngle}, L{pygeodesy.equirectangular4}
                  and L{pygeodesy.nearestOn5}.
         '''
         return nearestOn3(self, points, closed=closed, radius=radius,
@@ -1222,7 +1222,7 @@ def nearestOn3(point, points, closed=False, radius=R_M, wrap=False, adjust=True,
                                                         limit=9, **LatLon_and_kwds):
     '''Locate the point on a path or polygon closest to a reference point.
 
-       Distances are I{approximated} using function L{pygeodesy.equirectangular_},
+       Distances are I{approximated} using function L{pygeodesy.equirectangular4},
        subject to the supplied B{C{options}}.
 
        @arg point: The reference point (L{LatLon}).
@@ -1231,19 +1231,19 @@ def nearestOn3(point, points, closed=False, radius=R_M, wrap=False, adjust=True,
        @kwarg radius: Mean earth radius (C{meter}).
        @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the
                     B{C{points}} (C{bool}).
-       @kwarg adjust: See function L{pygeodesy.equirectangular_} (C{bool}).
-       @kwarg limit: See function L{pygeodesy.equirectangular_} (C{degrees}),
+       @kwarg adjust: See function L{pygeodesy.equirectangular4} (C{bool}).
+       @kwarg limit: See function L{pygeodesy.equirectangular4} (C{degrees}),
                      default C{9 degrees} is about C{1,000 Kmeter} (for mean
                      spherical earth radius L{R_KM}).
        @kwarg LatLon: Optional class to return the closest point (L{LatLon})
                       or C{None}.
        @kwarg options: Optional keyword arguments for function
-                       L{pygeodesy.equirectangular_}.
+                       L{pygeodesy.equirectangular4}.
 
        @return: A L{NearestOn3Tuple}C{(closest, distance, angle)} with the
                 C{closest} point as B{C{LatLon}} or L{LatLon3Tuple}C{(lat,
                 lon, height)} if B{C{LatLon}} is C{None}.  The C{distance}
-                is the L{pygeodesy.equirectangular_} distance between the
+                is the L{pygeodesy.equirectangular4} distance between the
                 C{closest} and the given B{C{point}} converted to C{meter},
                 same units as B{C{radius}}.  The C{angle} from the given
                 B{C{point}} to the C{closest} is in compass C{degrees360},
@@ -1251,7 +1251,7 @@ def nearestOn3(point, points, closed=False, radius=R_M, wrap=False, adjust=True,
                 the (interpolated) height at the C{closest} point.
 
        @raise LimitError: Lat- and/or longitudinal delta exceeds the B{C{limit}},
-                          see function L{pygeodesy.equirectangular_}.
+                          see function L{pygeodesy.equirectangular4}.
 
        @raise PointsError: Insufficient number of B{C{points}}.
 
@@ -1259,7 +1259,7 @@ def nearestOn3(point, points, closed=False, radius=R_M, wrap=False, adjust=True,
 
        @raise ValueError: Invalid B{C{radius}}.
 
-       @see: Functions L{pygeodesy.equirectangular_} and L{pygeodesy.nearestOn5}.
+       @see: Functions L{pygeodesy.equirectangular4} and L{pygeodesy.nearestOn5}.
     '''
     t = _nearestOn5(point, points, closed=closed, wrap=wrap,
                                    adjust=adjust, limit=limit)

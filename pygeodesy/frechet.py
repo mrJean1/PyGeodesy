@@ -94,7 +94,7 @@ from pygeodesy.named import _name2__, _Named, _NamedTuple, _Pass
 # from pygeodesy.namedTuples import PhiLam2Tuple  # from .points
 from pygeodesy.points import _distanceTo, _fractional,  isscalar, \
                               PhiLam2Tuple, points2 as _points2, radians
-from pygeodesy.props import property_doc_, property_RO
+from pygeodesy.props import Property, property_doc_, property_RO
 from pygeodesy.units import FIx, Float, Number_, _xUnit, _xUnits
 from pygeodesy.unitsBase import _Str_degrees, _Str_meter, _Str_NN, \
                                 _Str_radians, _Str_radians2
@@ -103,7 +103,7 @@ from collections import defaultdict as _defaultdict
 # from math import radians  # from .points
 
 __all__ = _ALL_LAZY.frechet
-__version__ = '24.05.24'
+__version__ = '24.05.26'
 
 
 def _fraction(fraction, n):
@@ -252,14 +252,14 @@ class Frechet(_Named):
 #       '''(INTERNAL) I{Must be overloaded}.'''
 #       self._notOverloaded(*args, **kwds)
 
-    @property
+    @Property
     def _func(self):
         '''(INTERNAL) I{Must be overloaded}.'''
-        return _formy._Propy(self, 0, _func=None)
+        self._notOverloaded(**self.kwds)
 
-    @_func.setter  # PYCHOK setter!
+    @_func.setter_  # PYCHOK setter_underscore!
     def _func(self, func):
-        _formy._Propy(self, 4, _func=func)
+        return _formy._Propy(func, 4, self.kwds)
 
     @property_RO
     def kwds(self):
@@ -382,14 +382,14 @@ class _FrechetMeterRadians(Frechet):
         '''
         return self._discrete(point2s, fraction, _formy._radistance(self))
 
-    @property
+    @Property
     def _func_(self):
         '''(INTERNAL) I{Must be overloaded}.'''
-        return _formy._Propy(self, 0, _func_=None)
+        self._notOverloaded(**self.kwds)
 
-    @_func_.setter  # PYCHOK setter!
+    @_func_.setter_  # PYCHOK setter_underscore!
     def _func_(self, func):
-        _formy._Propy(self, 3, _func_=func)
+        return _formy._Propy(func, 3, self.kwds)
 
 
 class FrechetCosineAndoyerLambert(_FrechetMeterRadians):
@@ -507,7 +507,7 @@ class FrechetEquirectangular(Frechet):
 
            @kwarg fraction_name__adjust_limit_wrap: Optional C{B{fraction}=None}
                                  and C{B{name}=NN} and keyword arguments for
-                                 function L{pygeodesy.equirectangular_} I{with
+                                 function L{pygeodesy.equirectangular} I{with
                                  default} C{B{limit}=0} for I{backward compatibility}.
 
            @see: L{Frechet.__init__} for details about B{C{point1s}}, B{C{fraction}},

@@ -4,7 +4,7 @@
 # Test L{fsums} module.
 
 __all__ = ('Tests',)
-__version__ = '24.05.10'
+__version__ = '24.05.27'
 
 from bases import endswith, isPython2, startswith, TestsBase
 
@@ -44,6 +44,11 @@ class Tests(TestsBase):
         self.test('Fsum', Fsum().fsum(t),  s, prec=-16)
         self.test('Fsum', float(Fsum(*t)), s, prec=-16, nt=1)
 
+        def _x(x, f):  # f.name and f.len into x
+            x = x.copy(name=f.name)
+            x._n = len(f)
+            return x
+
         for i, t in enumerate(frandoms(100)):
             f = Fsum(*t)
             s = f.fsum()
@@ -52,9 +57,9 @@ class Tests(TestsBase):
 
             q = f * f * f * f
             p = f.pow(4)
-            self.test('pow(4)', p, q, known=abs(p - q) < 1e-3)
+            self.test('pow(4)', p, _x(q, p), known=abs(p - q) < 1e-3)
             p = f.pow(1)
-            self.test('pow(1)', p, f, known=p == f)
+            self.test('pow(1)', p, _x(f, p), known=p == f)
             self.test('pow(0)', f.pow(0), 'Fsum[1] pow(1.0, 0)')
 
             i = f.ceil  # Python 2, ceil(f) != f.__ceil__
@@ -64,7 +69,7 @@ class Tests(TestsBase):
             n = len(t) // 2
             i, m = divmod(f, n)  # == f.__divmod__ in Python 2
             f -= (m + i * n)
-            self.test('divmod', f, '0.0', known=f == 0)
+            self.test('divmod', f, _x(Fsum(0), f), known=f == 0)
 
             r = f.residual
             self.test('residual', r, '0')

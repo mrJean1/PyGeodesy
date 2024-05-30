@@ -91,7 +91,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        25.05.13
+        25.05.30
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -137,7 +137,7 @@
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
         <span class="summary-sig-arg">Ups</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.ups.Ups'&gt;</span>,
         <span class="summary-sig-arg">falsed</span>=<span class="summary-sig-default">True</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Parse a string representing a UPS coordinate, consisting of 
       <code>&quot;[zone][band] pole easting northing&quot;</code> where 
       <b><code>zone</code></b> is pseudo zone 
@@ -165,7 +165,7 @@
         <span class="summary-sig-arg">pole</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">falsed</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">strict</span>=<span class="summary-sig-default">True</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Convert a lat-/longitude point to a UPS coordinate.</td>
           <td align="right" valign="top">
             
@@ -185,7 +185,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.ups-module.html#upsZoneBand5" class="summary-sig-name">upsZoneBand5</a>(<span class="summary-sig-arg">lat</span>,
         <span class="summary-sig-arg">lon</span>,
         <span class="summary-sig-arg">strict</span>=<span class="summary-sig-default">True</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Return the UTM/UPS zone number, <i>polar</i> Band letter, pole and 
       clipped lat- and longitude for a given location.</td>
           <td align="right" valign="top">
@@ -234,7 +234,7 @@
         <span class="sig-arg">datum</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
         <span class="sig-arg">Ups</span>=<span class="sig-default">&lt;class 'pygeodesy.ups.Ups'&gt;</span>,
         <span class="sig-arg">falsed</span>=<span class="sig-default">True</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -255,9 +255,10 @@
         <li><strong class="pname"><code>Ups</code></strong> - Optional class to return the UPS coordinate (<a 
           href="pygeodesy.ups.Ups-class.html" class="link">Ups</a>) or 
           <code>None</code>.</li>
-        <li><strong class="pname"><code>falsed</code></strong> - Both <b><code>easting</code></b> and <b><code>northing</code></b>
-          are falsed (<code>bool</code>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional <b><code>Ups</code></b> name (<code>str</code>).</li>
+        <li><strong class="pname"><code>falsed</code></strong> - If <code>True</code>, both <b><code>easting</code></b> and 
+          <b><code>northing</code></b> are falsed (<code>bool</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <b><code>Ups</code></b> <code><b>name</b>=NN</code> 
+          (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The UPS coordinate (<b><code>Ups</code></b>) or a <a 
@@ -287,7 +288,7 @@
         <span class="sig-arg">pole</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">falsed</span>=<span class="sig-default">True</span>,
         <span class="sig-arg">strict</span>=<span class="sig-default">True</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -316,17 +317,19 @@
         <li><strong class="pname"><code>pole</code></strong> - Optional top/center of (stereographic) projection 
           (<code>str</code>, <code>'N[orth]'</code> or 
           <code>'S[outh]'</code>).</li>
-        <li><strong class="pname"><code>falsed</code></strong> - False both easting and northing (<code>bool</code>).</li>
+        <li><strong class="pname"><code>falsed</code></strong> - If <code>True</code>, false both easting and northing 
+          (<code>bool</code>).</li>
         <li><strong class="pname"><code>strict</code></strong> - Restrict <b><code>lat</code></b> to UPS ranges 
           (<code>bool</code>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional <b><code>Ups</code></b> name (<code>str</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <b><code>Ups</code></b> <code><b>name</b>=NN</code> 
+          (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The UPS coordinate (<b><code>Ups</code></b>) or a <a 
           href="pygeodesy.namedTuples.UtmUps8Tuple-class.html" 
           class="link">UtmUps8Tuple</a><code>(zone, hemipole, easting, 
           northing, band, datum, gamma, scale)</code> if 
-          <b><code>Ups</code></b> is <code>None</code>. The 
+          <b><code>Ups</code></b> is <code>None</code>.  The 
           <code>hemipole</code> is the <code>'N'|'S'</code> pole, the UPS 
           projection top/center.</dd>
     <dt>Raises:</dt>
@@ -336,8 +339,8 @@
         <b><code>lon</code></b> outside the valid range and <a 
         href="pygeodesy.errors-module.html#rangerrors" 
         class="link">pygeodesy.rangerrors</a> set to <code>True</code>.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - If <b><code>latlon</code></b> is not ellipsoidal or 
-        <b><code>datum</code></b> invalid.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - If <b><code>latlon</code></b> is not ellipsoidal or if 
+        <b><code>datum</code></b> is invalid.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - If <b><code>lon</code></b> value is missing or if 
         <b><code>latlon</code></b> is invalid.</li>
     </ul></dd>
@@ -359,7 +362,7 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">upsZoneBand5</span>&nbsp;(<span class="sig-arg">lat</span>,
         <span class="sig-arg">lon</span>,
         <span class="sig-arg">strict</span>=<span class="sig-default">True</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -375,7 +378,8 @@
         <li><strong class="pname"><code>lon</code></strong> - Longitude in degrees (<code>scalar</code> or <code>str</code>).</li>
         <li><strong class="pname"><code>strict</code></strong> - Restrict <b><code>lat</code></b> to UPS ranges 
           (<code>bool</code>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <b><code>Ups</code></b> <code><b>name</b>=NN</code> 
+          (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.namedTuples.UtmUpsLatLon5Tuple-class.html" 
@@ -433,7 +437,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat May 25 11:36:54 2024
+    Generated by Epydoc 3.0.1 on Thu May 30 13:26:04 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

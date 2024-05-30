@@ -10,9 +10,9 @@ with command line option C{-X dev} or with one of the C{-W}
 choices, see callable L{DeprecationWarnings} below.
 '''
 
-from pygeodesy.basics import isclass as _isclass  # _MODS
+from pygeodesy.basics import isclass as _isclass
 from pygeodesy.errors import _AssertionError, _AttributeError, \
-                             _xkwds, _xkwds_get
+                             _xcallable, _xkwds, _xkwds_get
 from pygeodesy.interns import MISSING, NN, _an_, _COMMASPACE_, \
                              _DEPRECATED_, _DOT_, _EQUALSPACED_, \
                              _immutable_, _invalid_, _module_, _N_A_, \
@@ -25,7 +25,7 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, \
 from functools import wraps as _wraps
 
 __all__ = _ALL_LAZY.props
-__version__ = '24.05.12'
+__version__ = '24.05.26'
 
 _class_       = 'class'
 _dont_use_    = _DEPRECATED_ + ", don't use."
@@ -157,8 +157,7 @@ class _PropertyBase(property):
     '''
     def __init__(self, method, fget, fset, doc=NN):
 
-        if not callable(method):
-            self.getter(method)  # PYCHOK no cover
+        _xcallable(getter=method, fget=fget)
 
         self.method = method
         self.name   = method.__name__
@@ -288,20 +287,34 @@ class Property(Property_RO):
            @note: Setting a new property value always clears the previously I{cached}
                   or I{memoized} value I{after} invoking the B{C{method}}.
         '''
-        if not callable(method):
-            _PropertyBase.setter(self, method)  # PYCHOK no cover
+        def _fset(inst, val):
+            '''Set and I{cache}, I{memoize} the C{property} value.
+            '''
+            _ = method(inst, val)
+            self._update(inst)  # un-cache this item
 
+        return self._setters(method, _fset)
+
+    def setter_(self, method):
+        '''Make this C{Property} I{mutable}.
+
+           @arg method: The callable being decorated as this C{Property}'s C{setter}
+                        and returning the new property value to be I{cached} or
+                        I{memoized}.
+        '''
+        def _fset(inst, val):
+            '''Set and I{cache}, I{memoize} the C{property} value.
+            '''
+            val = method(inst, val)
+            inst.__dict__[self.name] = val
+
+        return self._setters(method, _fset)
+
+    def _setters(self, method, _fset):
+        _xcallable(setter=method, fset=_fset)
         if _FOR_DOCS:  # XXX force method.__doc__ into epydoc
             _PropertyBase.__init__(self, self.method, self.method, method)
-        else:
-
-            def _fset(inst, val):
-                '''Set and I{cache}, I{memoize} the C{property} value.
-                '''
-                method(inst, val)
-                self._update(inst)  # un-cache this item
-
-            # class Property <https://docs.Python.org/3/howto/descriptor.html>
+        else:  # class Property <https://docs.Python.org/3/howto/descriptor.html>
             _PropertyBase.__init__(self, self.method, self._fget, _fset)
         return self
 

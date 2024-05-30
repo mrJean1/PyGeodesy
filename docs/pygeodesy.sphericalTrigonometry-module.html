@@ -87,7 +87,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        24.045.19
+        24.05.25
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -378,7 +378,7 @@
         <span class="summary-sig-arg">latC</span>,
         <span class="summary-sig-arg">lonC</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>,
-        <span class="summary-sig-arg">excess</span>=<span class="summary-sig-default">&lt;function excessAbc_ at 0x7fe4785874d0&gt;</span>,
+        <span class="summary-sig-arg">excess</span>=<span class="summary-sig-default">&lt;function excessAbc_ at 0x7fb420139f50&gt;</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Compute the angles, sides, and area of a (spherical) triangle.</td>
           <td align="right" valign="top">
@@ -402,7 +402,7 @@
         <span class="summary-sig-arg">lamB</span>,
         <span class="summary-sig-arg">phiC</span>,
         <span class="summary-sig-arg">lamC</span>,
-        <span class="summary-sig-arg">excess</span>=<span class="summary-sig-default">&lt;function excessAbc_ at 0x7fe4785874d0&gt;</span>,
+        <span class="summary-sig-arg">excess</span>=<span class="summary-sig-default">&lt;function excessAbc_ at 0x7fb420139f50&gt;</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Compute the angles, sides, <i>spherical deficit</i> and <i>spherical 
       excess</i> of a (spherical) triangle.</td>
@@ -945,8 +945,8 @@
   <p>Locate the point on a path or polygon closest to a reference 
   point.</p>
   <p>Distances are <i>approximated</i> using function <a 
-  href="pygeodesy.formy-module.html#equirectangular_" 
-  class="link">pygeodesy.equirectangular_</a>, subject to the supplied 
+  href="pygeodesy.formy-module.html#equirectangular4" 
+  class="link">pygeodesy.equirectangular4</a>, subject to the supplied 
   <b><code>options</code></b>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
@@ -962,11 +962,11 @@
         <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
           <b><code>points</code></b> (<code>bool</code>).</li>
         <li><strong class="pname"><code>adjust</code></strong> - See function <a 
-          href="pygeodesy.formy-module.html#equirectangular_" 
-          class="link">pygeodesy.equirectangular_</a> (<code>bool</code>).</li>
+          href="pygeodesy.formy-module.html#equirectangular4" 
+          class="link">pygeodesy.equirectangular4</a> (<code>bool</code>).</li>
         <li><strong class="pname"><code>limit</code></strong> - See function <a 
-          href="pygeodesy.formy-module.html#equirectangular_" 
-          class="link">pygeodesy.equirectangular_</a> 
+          href="pygeodesy.formy-module.html#equirectangular4" 
+          class="link">pygeodesy.equirectangular4</a> 
           (<code>degrees</code>), default <code>9 degrees</code> is about 
           <code>1,000 Kmeter</code> (for mean spherical earth radius <a 
           href="pygeodesy-module.html#R_KM" class="link">R_KM</a>).</li>
@@ -974,8 +974,8 @@
           href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
           class="link">LatLon</a>) or <code>None</code>.</li>
         <li><strong class="pname"><code>options</code></strong> - Optional keyword arguments for function <a 
-          href="pygeodesy.formy-module.html#equirectangular_" 
-          class="link">pygeodesy.equirectangular_</a>.</li>
+          href="pygeodesy.formy-module.html#equirectangular4" 
+          class="link">pygeodesy.equirectangular4</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.namedTuples.NearestOn3Tuple-class.html" 
@@ -986,8 +986,8 @@
           class="link">LatLon3Tuple</a><code>(lat, lon, height)</code> if 
           <b><code>LatLon</code></b> is <code>None</code>.  The 
           <code>distance</code> is the <a 
-          href="pygeodesy.formy-module.html#equirectangular_" 
-          class="link">pygeodesy.equirectangular_</a> distance between the 
+          href="pygeodesy.formy-module.html#equirectangular4" 
+          class="link">pygeodesy.equirectangular4</a> distance between the 
           <code>closest</code> and the given <b><code>point</code></b> 
           converted to <code>meter</code>, same units as 
           <b><code>radius</code></b>.  The <code>angle</code> from the 
@@ -1000,16 +1000,16 @@
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds the 
         <b><code>limit</code></b>, see function <a 
-        href="pygeodesy.formy-module.html#equirectangular_" 
-        class="link">pygeodesy.equirectangular_</a>.</li>
+        href="pygeodesy.formy-module.html#equirectangular4" 
+        class="link">pygeodesy.equirectangular4</a>.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.errors.PointsError-class.html">PointsError</a></strong></code> - Insufficient number of <b><code>points</code></b>.</li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Some <b><code>points</code></b> are not <code>LatLon</code>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>radius</code></b>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Functions <a href="pygeodesy.formy-module.html#equirectangular_" 
-        class="link">pygeodesy.equirectangular_</a> and <a 
+        Functions <a href="pygeodesy.formy-module.html#equirectangular4" 
+        class="link">pygeodesy.equirectangular4</a> and <a 
         href="pygeodesy.points-module.html#nearestOn5" 
         class="link">pygeodesy.nearestOn5</a>.
       </p>
@@ -1093,7 +1093,7 @@
         <span class="sig-arg">latC</span>,
         <span class="sig-arg">lonC</span>,
         <span class="sig-arg">radius</span>=<span class="sig-default">6371008.771415</span>,
-        <span class="sig-arg">excess</span>=<span class="sig-default">&lt;function excessAbc_ at 0x7fe4785874d0&gt;</span>,
+        <span class="sig-arg">excess</span>=<span class="sig-default">&lt;function excessAbc_ at 0x7fb420139f50&gt;</span>,
         <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -1161,7 +1161,7 @@
         <span class="sig-arg">lamB</span>,
         <span class="sig-arg">phiC</span>,
         <span class="sig-arg">lamC</span>,
-        <span class="sig-arg">excess</span>=<span class="sig-default">&lt;function excessAbc_ at 0x7fe4785874d0&gt;</span>,
+        <span class="sig-arg">excess</span>=<span class="sig-default">&lt;function excessAbc_ at 0x7fb420139f50&gt;</span>,
         <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -1235,7 +1235,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat May 25 11:36:54 2024
+    Generated by Epydoc 3.0.1 on Thu May 30 13:26:04 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

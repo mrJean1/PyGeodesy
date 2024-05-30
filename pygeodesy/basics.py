@@ -18,7 +18,7 @@ del division
 # from pygeodesy.constants import isneg0, NEG0  # _MODS
 from pygeodesy.errors import _AttributeError, _ImportError, _NotImplementedError, \
                              _TypeError, _TypesError, _ValueError, _xAssertionError, \
-                             _xkwds_get
+                             _xkwds_get1
 from pygeodesy.internals import _0_0, _enquote, _passarg, _version_info
 from pygeodesy.interns import MISSING, NN, _1_, _by_, _COMMA_, _DOT_, _DEPRECATED_, \
                              _ELLIPSIS4_, _EQUAL_, _in_, _invalid_, _N_A_, _not_, \
@@ -36,7 +36,7 @@ from math import copysign as _copysign
 import inspect as _inspect
 
 __all__ = _ALL_LAZY.basics
-__version__ = '24.05.21'
+__version__ = '24.05.29'
 
 _below_               = 'below'
 _list_tuple_types     = (list, tuple)
@@ -111,9 +111,36 @@ except NameError:  # Python 3+
         return ub
 
 
-def _args_kwds_names(func):
+def _args_kwds_count2(func, exelf=True):
+    '''(INTERNAL) Get a C{func}'s args and kwds count as 2-tuple
+       C{(nargs, nkwds)}, including arg C{self} for methods.
+
+       @kwarg exelf: If C{True}, exclude C{self} in the C{args}
+                     of a method (C{bool}).
+    '''
+    try:
+        a = k = 0
+        for _, p in _inspect.signature(func).parameters.items():
+            if p.kind is p.POSITIONAL_OR_KEYWORD:
+                if p.default is p.empty:
+                    a += 1
+                else:
+                    k += 1
+    except AttributeError:  # .signature new Python 3+
+        s = _inspect.getargspec(func)
+        k = len(s.defaults or ())
+        a = len(s.args) - k
+    if exelf and a > 0 and _inspect.ismethod(func):
+        a -= 1
+    return a, k
+
+
+def _args_kwds_names(func, splast=False):
     '''(INTERNAL) Get a C{func}'s args and kwds names, including
        C{self} for methods.
+
+       @kwarg splast: If C{True}, split the last keyword argument
+                      at UNDERscores (C{bool}).
 
        @note: Python 2 may I{not} include the C{*args} nor the
               C{**kwds} names.
@@ -122,6 +149,13 @@ def _args_kwds_names(func):
         args_kwds = _inspect.signature(func).parameters.keys()
     except AttributeError:  # .signature new Python 3+
         args_kwds = _inspect.getargspec(func).args
+    if splast and args_kwds:
+        args_kwds = list(args_kwds)
+        t = args_kwds[-1:]
+        if t:
+            s = t[0].strip(_UNDER_).split(_UNDER_)
+            if len(s) > 1 or s != t:
+                args_kwds += s
     return tuple(args_kwds)
 
 
@@ -654,7 +688,7 @@ def splice(iterable, n=2, **fill):
 
     if n > 1:
         if fill:
-            fill = _xkwds_get(fill, fill=MISSING)
+            fill = _xkwds_get1(fill, fill=MISSING)
             if fill is not MISSING:
                 m = len(t) % n
                 if m > 0:  # same type fill
@@ -860,7 +894,7 @@ def _xversion(package, where, *required, **name):
 def _xzip(*args, **strict):  # PYCHOK no cover
     '''(INTERNAL) Standard C{zip(..., strict=True)}.
     '''
-    s = _xkwds_get(strict, strict=True)
+    s = _xkwds_get1(strict, strict=True)
     if s:
         if _zip is zip:  # < (3, 10)
             t = _MODS.streprs.unstr(_xzip, *args, strict=s)

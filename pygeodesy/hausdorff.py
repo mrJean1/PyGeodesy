@@ -77,7 +77,7 @@ from pygeodesy.lazily import _ALL_LAZY, _FOR_DOCS
 from pygeodesy.named import _name2__, _Named, _NamedTuple, _Pass
 # from pygeodesy.namedTuples import PhiLam2Tuple  # from .points
 from pygeodesy.points import _distanceTo, points2 as _points2,  PhiLam2Tuple, radians
-from pygeodesy.props import Property_RO, property_doc_, property_RO
+from pygeodesy.props import Property, Property_RO, property_doc_, property_RO
 from pygeodesy.units import Float, Number_, _xUnit, _xUnits
 from pygeodesy.unitsBase import _Str_degrees, _Str_degrees2, _Str_meter, _Str_NN, \
                                 _Str_radians, _Str_radians2
@@ -86,7 +86,7 @@ from pygeodesy.unitsBase import _Str_degrees, _Str_degrees2, _Str_meter, _Str_NN
 from random import Random
 
 __all__ = _ALL_LAZY.hausdorff
-__version__ = '24.05.24'
+__version__ = '24.05.26'
 
 
 class HausdorffError(PointsError):
@@ -179,14 +179,14 @@ class Hausdorff(_Named):
         return self._func(point1.lat, point1.lon,
                           point2.lat, point2.lon, **self._kwds)
 
-    @property
+    @Property
     def _func(self):
         '''(INTERNAL) I{Must be overloaded}.'''
-        return _formy._Propy(self, 0, _func=None)
+        self._notOverloaded(**self.kwds)
 
-    @_func.setter  # PYCHOK setter!
+    @_func.setter_  # PYCHOK setter_underscore!
     def _func(self, func):
-        _formy._Propy(self, 4, _func=func)
+        return _formy._Propy(func, 4, self.kwds)
 
     def _hausdorff_(self, point2s, both, early, distance):
         _, ps2 = self._points2(point2s)
@@ -341,14 +341,14 @@ class _HausdorffMeterRadians(Hausdorff):
         '''
         return self._hausdorff_(point2s, True, early, _formy._radistance(self))
 
-    @property
+    @Property
     def _func_(self):
         '''(INTERNAL) I{Must be overloaded}.'''
-        return _formy._Propy(self, 0, _func_=None)
+        self._notOverloaded(**self.kwds)
 
-    @_func_.setter  # PYCHOK setter!
+    @_func_.setter_  # PYCHOK setter_underscore!
     def _func_(self, func):
-        _formy._Propy(self, 3,_func_=func)
+        return _formy._Propy(func, 3, self.kwds)
 
 
 class HausdorffCosineAndoyerLambert(_HausdorffMeterRadians):
@@ -462,7 +462,7 @@ class HausdorffDistanceTo(Hausdorff):
 
 class HausdorffEquirectangular(Hausdorff):
     '''Compute the C{Hausdorff} distance based on the C{equirectangular} distance
-       in C{radians squared} like function L{pygeodesy.equirectangular_}.
+       in C{radians squared} like function L{pygeodesy.equirectangular}.
     '''
     _units = _Str_degrees2
 
@@ -471,7 +471,7 @@ class HausdorffEquirectangular(Hausdorff):
 
            @kwarg seed_name__adjust_limit_wrap: Optional C{B{seed}=None} and
                              C{B{name}=NN} and keyword arguments for function
-                             L{pygeodesy.equirectangular_} I{with default}
+                             L{pygeodesy.equirectangular} I{with default}
                              C{B{limit}=0} for I{backward compatibility}.
 
            @see: L{Hausdorff.__init__} for details about B{C{point1s}},

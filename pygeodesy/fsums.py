@@ -25,11 +25,11 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import isbool, iscomplex, isint, isscalar, \
                             _signOf, itemsorted, signOf, _xiterable, \
-                            _enquote
+                            _xiterablen,  _enquote
 from pygeodesy.constants import INT0, _isfinite, NEG0, _pos_self, \
                                _0_0, _1_0, _N_1_0,  Float, Int
 from pygeodesy.errors import _OverflowError, _TypeError, _UnexpectedError, \
-                             _ValueError, _xError, _xError2, _xkwds_get, \
+                             _ValueError, _xError, _xError2, _xkwds_get1, \
                              _xkwds_pop2
 # from pygeodesy.internals import _enquote  # from .basics
 from pygeodesy.interns import NN, _arg_, _COMMASPACE_, _DASH_, _DOT_, \
@@ -40,14 +40,14 @@ from pygeodesy.lazily import _ALL_LAZY, _getenv, _sys_version_info2
 from pygeodesy.named import _name__, _name2__, _Named, _NamedTuple, \
                             _NotImplemented
 from pygeodesy.props import _allPropertiesOf_n, deprecated_property_RO, \
-                             Property_RO, property_RO
+                             Property, Property_RO, property_RO
 from pygeodesy.streprs import Fmt, fstr, unstr
 # from pygeodesy.units import Float, Int  # from .constants
 
 from math import ceil as _ceil, fabs, floor as _floor  # PYCHOK used! .ltp
 
 __all__ = _ALL_LAZY.fsums
-__version__ = '24.05.24'
+__version__ = '24.05.29'
 
 _add_op_      = _PLUS_  # in .auxilats.auxAngle
 _eq_op_       = _EQUAL_ * 2  # _DEQUAL_
@@ -1105,6 +1105,26 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
 #               raise self._Error(op, other, _AssertionError, txt__=signOf)
         return DivMod2Tuple(q, self)  # q is C{int} in Python 3+, but C{float} in Python 2-
 
+    def _fhorner(self, x, cs, op):  # in .fmath
+        '''(INTERNAL) Add an L{Fhorner} evaluation of polynomial
+           M{sum(cs[i] * x**i for i=0..len(cs)-1)}.
+        '''
+        if _xiterablen(cs):
+            H = Fsum(name__=self._fhorner)
+            if _isFsumTuple(x):
+                _mul = H._mul_Fsum
+            else:
+                _mul = H._mul_scalar
+                x = _2float(x=x)
+            if len(cs) > 1 and x:
+                for c in reversed(cs):
+                    H._fset_ps(_mul(x, op))
+                    H._fadd(c, op, up=False)
+            else:  # x == 0
+                H = cs[0]
+            self._fadd(H, op)
+        return self
+
     def _finite(self, other, op=None):
         '''(INTERNAL) Return B{C{other}} if C{finite}.
         '''
@@ -1149,7 +1169,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
         '''
         return Fsum2Tuple(*self._fint2, **name)
 
-    @Property_RO
+    @Property
     def _fint2(self):  # see ._fset
         '''(INTERNAL) Get 2-tuple (C{int}, I{integer} residual).
         '''
@@ -1158,6 +1178,13 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
         n = len(self._ps)
         r = self._ps_1sum(i) if r and n > 1 else float(s - i)
         return i, (r or INT0)  # Fsum2Tuple?
+
+    @_fint2.setter_  # PYCHOK setter_underscore!
+    def _fint2(self, s):
+        '''(INTERNAL) Replace the C{_fint2} value.
+        '''
+        i = int(s)
+        return i, ((s - i) or INT0)
 
     @deprecated_property_RO
     def float_int(self):  # PYCHOK no cover
@@ -1243,7 +1270,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
             f = self._pow(other, other, op, **raiser_RESIDUAL)
         return self._fset(f)  # n=max(len(self), 1)
 
-    @Property_RO
+    @Property
     def _fprs(self):
         '''(INTERNAL) Get and cache this instance' precision
            running sum (C{float} or C{int}), ignoring C{residual}.
@@ -1254,7 +1281,13 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
         s, _ = self._fprs2
         return s  # ._fprs2.fsum
 
-    @Property_RO
+    @_fprs.setter_  # PYCHOK setter_underscore!
+    def _fprs(self, s):
+        '''(INTERNAL) Replace the C{_fprs} value.
+        '''
+        return s
+
+    @Property
     def _fprs2(self):
         '''(INTERNAL) Get and cache this instance' precision
            running sum and residual (L{Fsum2Tuple}).
@@ -1277,6 +1310,12 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
             ps[:] = s,
         # assert self._ps is ps
         return Fsum2Tuple(s, r)
+
+    @_fprs2.setter_  # PYCHOK setter_underscore!
+    def _fprs2(self, s_r):
+        '''(INTERNAL) Replace the C{_fprs2} value.
+        '''
+        return Fsum2Tuple(s_r)
 
     def fset_(self, *xs):
         '''Replace this instance' value with all positional items.
@@ -1310,27 +1349,22 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
             s = float(self._finite(other, **op)) if op else other
             self._ps[:] = s,
             self._n     = n or 1
-            if up:
-                i = int(s)  # see ._fint2
-                t = i, ((s - i) or INT0)
-                # Property_ROs _fint2, _fprs and _fprs2 can't be a Property:
-                # Property's _fset zaps the value just set by the @setter
-                self.__dict__.update(_fint2=t, _fprs=s, _fprs2=Fsum2Tuple(s, INT0))
+            if up:  # Property _fint2, _fprs and _fprs2 all have
+                # @.setter_underscore and NOT @.setter because the
+                # latter's _fset zaps the value set by @.setter
+                self._fint2 = s
+                self._fprs  = s
+                self._fprs2 = s, INT0
+                # assert self._fprs is s
         else:  # PYCHOK no cover
-            op = _xkwds_get(op, op=_fset_op_)
+            op = _xkwds_get1(op, op=_fset_op_)
             raise self._Error(op, other, _TypeError)
         return self
 
-    def _fset_ps(self, other, n=0):  # in .fmath
+    def _fset_ps(self, other):  # in .fmath
         '''(INTERNAL) Set partials from a known C{scalar}, L{Fsum} or L{Fsum2Tuple}.
         '''
-        if _isFsumTuple(other):
-            self._ps[:] = other._ps
-            self._n     = n or other._n
-        else:  # assert isscalar(other)
-            self._ps[:] = other,
-            self._n     = n or 1
-        return self
+        return self._fset(other, up=False)
 
     def fsub(self, xs=()):
         '''Subtract an iterable's items from this instance.
@@ -1765,7 +1799,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
         return self._pow_2_3(s, x, other, op, **raiser_RESIDUAL)
 
     def _ps_acc(self, ps, xs, up=True, **unused):
-        '''(INTERNAL) Accumulate C{xs} scalars into list C{ps}.
+        '''(INTERNAL) Accumulate C{xs} known scalars into list C{ps}.
         '''
         n   =  0
         _2s = _2sum
@@ -2192,7 +2226,7 @@ def fsum_(*xs, **floats):
 
        @see: Function L{fsum<fsums.fsum>} for further details.
     '''
-    return _fsum(xs if _xkwds_get(floats, floats=False) is True else
+    return _fsum(xs if _xkwds_get1(floats, floats=False) is True else
                 _2floats(xs, origin=1)) if xs else _0_0  # PYCHOK yield
 
 
@@ -2227,7 +2261,7 @@ def fsum1_(*xs, **floats):
 
        @see: Function L{fsum_<fsums.fsum_>} for further details.
     '''
-    return _fsum(_1primed(xs if _xkwds_get(floats, floats=False) is True else
+    return _fsum(_1primed(xs if _xkwds_get1(floats, floats=False) is True else
                          _2floats(xs, origin=1))) if xs else _0_0  # PYCHOK yield
 
 

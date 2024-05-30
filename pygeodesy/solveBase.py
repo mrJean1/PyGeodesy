@@ -8,7 +8,7 @@ from pygeodesy.basics import map2, ub2str, _zip
 from pygeodesy.constants import DIG
 from pygeodesy.datums import _earth_datum, _WGS84,  _EWGS84
 # from pygeodesy.ellipsoids import _EWGS84  # from .datums
-from pygeodesy.errors import _AssertionError, _xkwds_get, _xkwds_item2
+from pygeodesy.errors import _AssertionError, _xkwds_get1, _xkwds_item2
 from pygeodesy.internals import _enquote, printf
 from pygeodesy.interns import NN, _0_, _BACKSLASH_, _COMMASPACE_, \
                              _EQUAL_, _Error_, _SPACE_, _UNUSED_
@@ -23,7 +23,7 @@ from pygeodesy.utily import unroll180,  wrap360  # PYCHOK shared
 from subprocess import PIPE as _PIPE, Popen as _Popen, STDOUT as _STDOUT
 
 __all__ = _ALL_LAZY.solveBase
-__version__ = '24.05.20'
+__version__ = '24.05.29'
 
 _ERROR_    = 'ERROR'
 _text_True =  dict() if _unlazy else dict(text=True)
@@ -132,7 +132,7 @@ class _SolveLineSolveBase(_CapsBase):
            @note: The C{Solve} return code is in property L{status}.
         '''
         c = (self._Solve_path,) + map2(str, options)
-        i = _xkwds_get(stdin, stdin=None)
+        i = _xkwds_get1(stdin, stdin=None)
         r =  self._invoke(c, stdin=i)
         s =  self.status
         if s:
@@ -352,7 +352,7 @@ class _SolveBase(_SolveLineSolveBase):
         '''
         if arcmode:
             raise self._Error(arcmode=arcmode, txt=str(NotImplemented))
-        floats = _xkwds_get(floats, floats=True)
+        floats = _xkwds_get1(floats, floats=True)
         return self._GDictInvoke(self._cmdDirect, floats, self._Names_Direct,
                                                   lat, lon, azi, s12_a12)
 
@@ -360,7 +360,7 @@ class _SolveBase(_SolveLineSolveBase):
         '''(INTERNAL) Get C{_GenInverse}-like result as C{GDict}, but
            I{without} C{_SALPs_CALPs_}.
         '''
-        floats = _xkwds_get(floats, floats=True)
+        floats = _xkwds_get1(floats, floats=True)
         return self._GDictInvoke(self._cmdInverse, floats, self._Names_Inverse,
                                                    lat1, lon1, lat2, lon2)
 

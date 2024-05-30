@@ -43,7 +43,7 @@ list of simplified point I{indices} instead of the simplified points.
 The first and last index are always the first and last original index.
 
 Finally, any additional keyword arguments B{C{options}} to all functions
-are passed thru to function L{pygeodesy.equirectangular_} to specify the
+are passed thru to function L{pygeodesy.equirectangular4} to specify the
 distance approximation.
 
 To process C{NumPy} arrays containing rows of lat-, longitude and
@@ -77,7 +77,7 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 from pygeodesy.constants import EPS, R_M, _1_0
 from pygeodesy.errors import _AttributeError, _ValueError
 from pygeodesy.fmath import len2, sqrt0
-from pygeodesy.formy import equirectangular_
+from pygeodesy.formy import equirectangular4
 from pygeodesy.interns import _small_, _too_
 from pygeodesy.iters import isNumpy2, isTuple2
 # from pygeodesy.lazily import _ALL_LAZY  # from .units
@@ -86,7 +86,7 @@ from pygeodesy.units import _ALL_LAZY, _1mm, Radius_
 from math import degrees, fabs, radians
 
 __all__ = _ALL_LAZY.simplify
-__version__ = '23.03.22'
+__version__ = '24.05.25'
 
 
 # try:
@@ -240,7 +240,7 @@ class _Sy(object):
            and the (longitudinal) unrollment.
         '''
         p1, p2= self.pts[i], self.pts[j]
-        return equirectangular_(p1.lat, p1.lon,
+        return equirectangular4(p1.lat, p1.lon,
                                 p2.lat, p2.lon, **self.options)
 
     def h2t(self, i1, i0, i2):
@@ -386,12 +386,12 @@ def simplify1(points, distance=_1mm, radius=R_M, indices=False, **options):
        @kwarg indices: If C{True} return the simplified point indices
                        instead of the simplified points (C{bool}).
        @kwarg options: Optional keyword arguments passed thru to
-                       function L{pygeodesy.equirectangular_}.
+                       function L{pygeodesy.equirectangular4}.
 
        @return: Simplified points (C{LatLon}[]).
 
        @raise LimitError: Lat- and/or longitudinal delta exceeds the B{C{limit}},
-                          see function L{pygeodesy.equirectangular_}.
+                          see function L{pygeodesy.equirectangular4}.
 
        @raise ValueError: Tolerance B{C{distance}} or B{C{radius}} too small.
     '''
@@ -431,12 +431,12 @@ def simplifyRDP(points, distance=_1mm, radius=R_M, shortest=False,
        @kwarg indices: If C{True} return the simplified point indices
                        instead of the simplified points (C{bool}).
        @kwarg options: Optional keyword arguments passed thru to
-                       function L{pygeodesy.equirectangular_}.
+                       function L{pygeodesy.equirectangular4}.
 
        @return: Simplified points (C{LatLon}[]).
 
        @raise LimitError: Lat- and/or longitudinal delta exceeds the B{C{limit}},
-                          see function L{pygeodesy.equirectangular_}.
+                          see function L{pygeodesy.equirectangular4}.
 
        @raise ValueError: Tolerance B{C{distance}} or B{C{radius}} too small.
     '''
@@ -465,12 +465,12 @@ def simplifyRDPm(points, distance=_1mm, radius=R_M, shortest=False,
        @kwarg indices: If C{True} return the simplified point indices
                        instead of the simplified points (C{bool}).
        @kwarg options: Optional keyword arguments passed thru to
-                       function L{pygeodesy.equirectangular_}.
+                       function L{pygeodesy.equirectangular4}.
 
        @return: Simplified points (C{LatLon}[]).
 
        @raise LimitError: Lat- and/or longitudinal delta exceeds the B{C{limit}},
-                          see function L{pygeodesy.equirectangular_}.
+                          see function L{pygeodesy.equirectangular4}.
 
        @raise ValueError: Tolerance B{C{distance}} or B{C{radius}} too small.
     '''
@@ -496,12 +496,12 @@ def simplifyRW(points, pipe=_1mm, radius=R_M, shortest=False,
        @kwarg indices: If C{True} return the simplified point indices
                        instead of the simplified points (C{bool}).
        @kwarg options: Optional keyword arguments passed thru to
-                       function L{pygeodesy.equirectangular_}.
+                       function L{pygeodesy.equirectangular4}.
 
        @return: Simplified points (C{LatLon}[]).
 
        @raise LimitError: Lat- and/or longitudinal delta exceeds the B{C{limit}},
-                          see function L{pygeodesy.equirectangular_}.
+                          see function L{pygeodesy.equirectangular4}.
 
        @raise ValueError: Tolerance B{C{pipe}} or B{C{radius}} too small.
     '''
@@ -547,7 +547,7 @@ def simplifyVW(points, area=_1mm, radius=R_M, attr=None,
        @kwarg indices: If C{True} return the simplified point indices
                        instead of the simplified points (C{bool}).
        @kwarg options: Optional keyword arguments passed thru to
-                       function L{pygeodesy.equirectangular_}.
+                       function L{pygeodesy.equirectangular4}.
 
        @return: Simplified points (C{LatLon}[]).
 
@@ -555,7 +555,7 @@ def simplifyVW(points, area=_1mm, radius=R_M, attr=None,
                               B{C{points}}.
 
        @raise LimitError: Lat- and/or longitudinal delta exceeds the B{C{limit}},
-                          see function L{pygeodesy.equirectangular_}.
+                          see function L{pygeodesy.equirectangular4}.
 
        @raise ValueError: Tolerance B{C{area}} or B{C{radius}} too small.
     '''
@@ -603,7 +603,7 @@ def simplifyVWm(points, area=_1mm, radius=R_M, attr=None,
        @kwarg indices: If C{True} return the simplified point indices
                        instead of the simplified points (C{bool}).
        @kwarg options: Optional keyword arguments passed thru to
-                       function L{pygeodesy.equirectangular_}.
+                       function L{pygeodesy.equirectangular4}.
 
        @return: Simplified points (C{LatLon}[]).
 
@@ -611,7 +611,7 @@ def simplifyVWm(points, area=_1mm, radius=R_M, attr=None,
                               B{C{points}}.
 
        @raise LimitError: Lat- and/or longitudinal delta exceeds the B{C{limit}},
-                          see function L{pygeodesy.equirectangular_}.
+                          see function L{pygeodesy.equirectangular4}.
 
        @raise ValueError: Tolerance B{C{area}} or B{C{radius}} too small.
     '''

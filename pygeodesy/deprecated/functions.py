@@ -14,7 +14,7 @@ from pygeodesy.props import deprecated_function
 from pygeodesy.units import Number_, Scalar_
 
 __all__ = _ALL_DEPRECATED.deprecated_functions
-__version__ = '24.02.08'
+__version__ = '24.05.25'
 
 _WGS84 = _UTM = object()
 
@@ -110,12 +110,18 @@ def enStr2(easting, northing, prec, *extras):  # PYCHOK no cover
 
 
 @deprecated_function
+def equirectangular_(lat1, lon1, lat2, lon2, **options):  # PYCHOK no cover
+    '''DEPRECATED on 2024.05.25, use function L{pygeodesy.equirectangular4}.'''
+    return _MODS.formy.equirectangular4(lat1, lon1, lat2, lon2, **options)
+
+
+@deprecated_function
 def equirectangular3(lat1, lon1, lat2, lon2, **options):  # PYCHOK no cover
-    '''DEPRECATED, use function L{pygeodesy.equirectangular_}.
+    '''DEPRECATED, use function L{pygeodesy.equirectangular4}.
 
        @return: 3-Tuple C{(distance2, delta_lat, delta_lon)}.
     '''
-    return tuple(_MODS.formy.equirectangular_(lat1, lon1, lat2, lon2, **options)[:3])
+    return tuple(_MODS.formy.equirectangular4(lat1, lon1, lat2, lon2, **options)[:3])
 
 
 @deprecated_function

@@ -543,15 +543,15 @@ def _version_ints(vs):
 
 
 __all__ = tuple(map(_dunder_nameof, (machine, print_, printf)))
-__version__ = '24.05.21'
+__version__ = '24.05.25'
 
 if _dunder_ismain(__name__):  # PYCHOK no cover
 
     from pygeodesy import _isfrozen, isLazy, version as vs
 
     print_(_pygeodesy_, vs, *(_Pythonarchine() + _osversion2()
-                                               + ['isfrozen', _isfrozen,
-                                                  'isLazy',    isLazy]))
+                                               + ['_isfrozen', _isfrozen,
+                                                  'isLazy',     isLazy]))
 
 # **) MIT License
 #
