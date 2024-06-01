@@ -39,7 +39,7 @@ from pygeodesy.vector3d import Vector3d, _xyzhdn3
 from math import fabs, sqrt
 
 __all__ = _ALL_LAZY.nvectorBase
-__version__ = '24.05.18'
+__version__ = '24.05.31'
 
 
 class NvectorBase(Vector3d):  # XXX kept private
@@ -385,7 +385,7 @@ SouthPole = NvectorBase(0, 0, -1, name=_SouthPole_)  # South pole (C{Nvector})
 class _N_vector_(NvectorBase):
     '''(INTERNAL) Minimal, low-overhead C{n-vector}.
     '''
-    def __init__(self, x, y, z, h=0, name=NN):
+    def __init__(self, x, y, z, h=0, **name):
         self._x, self._y, self._z = x, y, z
         if h:
             self._h = h

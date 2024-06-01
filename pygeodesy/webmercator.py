@@ -22,11 +22,11 @@ from pygeodesy.basics import _splituple, _xinstanceof
 from pygeodesy.constants import PI_2, R_MA, _2_0
 from pygeodesy.datums import Datum, _spherical_datum
 from pygeodesy.dms import clipDegrees, parseDMS2
-from pygeodesy.errors import _parseX, _ValueError, _xattr, _xkwds
+from pygeodesy.errors import _parseX, _ValueError, _xattr, _xkwds, _xkwds_pop2
 from pygeodesy.interns import NN, _COMMASPACE_, _datum_, _earth_, _easting_, \
                              _northing_, _radius_, _SPACE_, _x_, _y_
 # from pygeodesy.lazily import _ALL_LAZY  from .named
-from pygeodesy.named import _NamedBase, _NamedTuple,  _ALL_LAZY
+from pygeodesy.named import _name2__, _NamedBase, _NamedTuple,  _ALL_LAZY
 from pygeodesy.namedTuples import LatLon2Tuple, LatLonDatum3Tuple, PhiLam2Tuple
 from pygeodesy.props import deprecated_method, Property_RO
 from pygeodesy.streprs import Fmt, strs, _xzipairs
@@ -36,7 +36,7 @@ from pygeodesy.utily import degrees90, degrees180
 from math import atan, atanh, exp, radians, sin, tanh
 
 __all__ = _ALL_LAZY.webmercator
-__version__ = '24.02.04'
+__version__ = '24.05.31'
 
 # _FalseEasting  = 0   # false Easting (C{meter})
 # _FalseNorthing = 0   # false Northing (C{meter})
@@ -66,32 +66,30 @@ class Wm(_NamedBase):
     _x      = 0     # Easting (C{meter})
     _y      = 0     # Northing (C{meter})
 
-    def __init__(self, x, y, earth=R_MA, name=NN, **radius):
+    def __init__(self, x, y, earth=R_MA, **name_radius):
         '''New L{Wm} Web Mercator (WM) coordinate.
 
            @arg x: Easting from central meridian (C{meter}).
            @arg y: Northing from equator (C{meter}).
-           @kwarg earth: Earth radius (C{meter}), datum or
-                         ellipsoid (L{Datum}, L{a_f2Tuple},
-                         L{Ellipsoid} or L{Ellipsoid2}).
-           @kwarg name: Optional name (C{str}).
-           @kwarg radius: DEPRECATED, use keyword argument B{C{earth}}.
+           @kwarg earth: Earth radius (C{meter}), datum or ellipsoid (L{Datum},
+                         L{a_f2Tuple}, L{Ellipsoid} or L{Ellipsoid2}).
+           @kwarg name_radius: Optional C{B{name}=NN} (C{str}) and DEPRECATED
+                       keyword argument C{B{radius}=earth}, use B{C{earth}}.
 
-           @note: WM is strictly defined for spherical and WGS84
-                  ellipsoidal earth models only.
+           @note: WM is strictly defined for spherical and WGS84 ellipsoidal
+                  earth models only.
 
            @raise WebMercatorError: Invalid B{C{x}}, B{C{y}} or B{C{radius}}.
         '''
         self._x = Easting( x=x, Error=WebMercatorError)
         self._y = Northing(y=y, Error=WebMercatorError)
 
-        R = radius.get(_radius_, earth)
-        if R not in Wm._earths:
-            self._datum = _datum(R, _radius_ if radius else _earth_)
-            self._radius = self.datum.ellipsoid.a
-
+        R, name = _xkwds_pop2(name_radius, radius=earth)
         if name:
             self.name = name
+        if R not in Wm._earths:
+            self._datum = _datum(R, _radius_ if _radius_ in name_radius else _earth_)
+            self._radius = self.datum.ellipsoid.a
 
     @Property_RO
     def datum(self):
@@ -143,20 +141,18 @@ class Wm(_NamedBase):
 
         return LatLon2Tuple(degrees90(y), degrees180(x), name=self.name)
 
-    def parse(self, strWM, name=NN):
+    def parse(self, strWM, **name):
         '''Parse a string to a similar L{Wm} instance.
 
-           @arg strWM: The WM coordinate (C{str}), see
-                       function L{parseWM}.
-           @kwarg name: Optional instance name (C{str}),
-                        overriding this name.
+           @arg strWM: The WM coordinate (C{str}), see function L{parseWM}.
+           @kwarg name: Optional C{B{name}=NN} (C{str}), overriding this name.
 
            @return: The similar instance (L{Wm}).
 
            @raise WebMercatorError: Invalid B{C{strWM}}.
         '''
         return parseWM(strWM, radius=self.radius, Wm=self.classof,
-                              name=name or self.name)
+                                name=self._name__(name))
 
     @deprecated_method
     def parseWM(self, strWM, name=NN):  # PYCHOK no cover
@@ -189,16 +185,14 @@ class Wm(_NamedBase):
            @kwarg LatLon: Ellipsoidal or sphperical C{LatLon} class to
                           return the geodetic point (C{LatLon}) or C{None}.
            @kwarg datum: Optional, datum (C{Datum}) overriding this WM's.
-           @kwarg LatLon_kwds: Optional, additional B{C{LatLon}}
-                               keyword arguments, ignored if
-                               C{B{LatLon} is None}.
+           @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
+                               arguments, ignored if C{B{LatLon} is None}.
 
-           @return: This WM coordinate as B{C{LatLon}} or if
-                    C{B{LatLon} is None} a L{LatLonDatum3Tuple}.
+           @return: This WM coordinate as B{C{LatLon}} or if C{B{LatLon}
+                    is None} a L{LatLonDatum3Tuple}.
 
-           @raise TypeError: If B{C{LatLon}} and B{C{datum}} are
-                             incompatible or if B{C{datum}} is
-                             invalid.
+           @raise TypeError: If B{C{datum}} is invalid or if B{C{LatLon}}
+                             and B{C{datum}} are incompatible.
         '''
         d = datum or self.datum
         _xinstanceof(Datum, datum=d)
@@ -278,7 +272,7 @@ def _datum(earth, name=_datum_):
         raise WebMercatorError(name, earth, cause=x)
 
 
-def parseWM(strWM, radius=R_MA, Wm=Wm, name=NN):
+def parseWM(strWM, radius=R_MA, Wm=Wm, **name):
     '''Parse a string C{"e n [r]"} representing a WM coordinate,
        consisting of easting, northing and an optional radius.
 
@@ -287,11 +281,10 @@ def parseWM(strWM, radius=R_MA, Wm=Wm, name=NN):
                       case B{C{strWM}} doesn't include C{r}.
        @kwarg Wm: Optional class to return the WM coordinate (L{Wm})
                   or C{None}.
-       @kwarg name: Optional name (C{str}).
+       @kwarg name: Optional C{B{name}=NN} (C{str}).
 
-       @return: The WM coordinate (B{C{Wm}}) or an
-                L{EasNorRadius3Tuple}C{(easting, northing, radius)}
-                if B{C{Wm}} is C{None}.
+       @return: The WM coordinate (B{C{Wm}}) or if B{C{Wm}} is C{None}
+                an L{EasNorRadius3Tuple}C{(easting, northing, radius)}.
 
        @raise WebMercatorError: Invalid B{C{strWM}}.
     '''
@@ -304,14 +297,14 @@ def parseWM(strWM, radius=R_MA, Wm=Wm, name=NN):
             raise ValueError
         x, y, R = map(float, w)
 
-        return EasNorRadius3Tuple(x, y, R, name=name) if Wm is None else \
-                               Wm(x, y, earth=R, name=name)
+        return EasNorRadius3Tuple(x, y, R, **name) if Wm is None else \
+                               Wm(x, y, earth=R, **name)
 
     return _parseX(_WM, strWM, radius, Wm, name,
                         strWM=strWM, Error=WebMercatorError)
 
 
-def toWm(latlon, lon=None, earth=R_MA, Wm=Wm, name=NN, **Wm_kwds):
+def toWm(latlon, lon=None, earth=R_MA, Wm=Wm, **name_Wm_kwds_radius):
     '''Convert a lat-/longitude point to a WM coordinate.
 
        @arg latlon: Latitude (C{degrees}) or an (ellipsoidal or
@@ -323,31 +316,30 @@ def toWm(latlon, lon=None, earth=R_MA, Wm=Wm, name=NN, **Wm_kwds):
                      datum if present.
        @kwarg Wm: Optional class to return the WM coordinate (L{Wm})
                   or C{None}.
-       @kwarg name: Optional name (C{str}).
-       @kwarg Wm_kwds: Optional, additional B{C{Wm}} keyword arguments,
-                       ignored if C{B{Wm} is None}.
+       @kwarg name_Wm_kwds_radius: Optional C{B{name}=NN} (C{str}),
+                   optional, additional B{C{Wm}} keyword arguments,
+                   ignored if C{B{Wm} is None} and DEPRECATED keyword
+                   argument C{B{radius}=earth}, use B{C{earth}}.
 
-       @return: The WM coordinate (B{C{Wm}}) or if B{C{Wm}} is C{None}
-                an L{EasNorRadius3Tuple}C{(easting, northing, radius)}.
+       @return: The WM coordinate (B{C{Wm}}) or if B{C{Wm}} is C{None} an
+                L{EasNorRadius3Tuple}C{(easting, northing, radius)}.
 
        @raise ValueError: If B{C{lon}} value is missing, if B{C{latlon}} is not
                           scalar, if B{C{latlon}} is beyond the valid WM range
                           and L{pygeodesy.rangerrors} is set to C{True} or if
                           B{C{earth}} is invalid.
     '''
-    if _radius_ in Wm_kwds:  # remove DEPRECATED, radius
-        d = _datum(Wm_kwds.pop(_radius_), _radius_)
-    else:
-        d = _datum(earth, _earth_)
+    name, kwds = _name2__(name_Wm_kwds_radius)
+    R, kwds = _xkwds_pop2(kwds, radius=earth)
+    d = _datum(R, _radius_ if _radius_ in name_Wm_kwds_radius else _earth_)
     try:
         y, x = latlon.lat, latlon.lon
         y =  clipDegrees(y, _LatLimit)
         d = _xattr(latlon, datum=d)
-        n =  name or _xattr(latlon, name=NN)
+        n =  latlon._name__(name)
     except AttributeError:
         y, x = parseDMS2(latlon, lon, clipLat=_LatLimit)
-        n = name
-
+        n =  name
     E = d.ellipsoid
     R = E.a
     s = sin(radians(y))
@@ -357,7 +349,7 @@ def toWm(latlon, lon=None, earth=R_MA, Wm=Wm, name=NN, **Wm_kwds):
     y *= R
     x  = R * radians(x)
     r  = EasNorRadius3Tuple(x, y, R, name=n) if Wm is None else \
-                         Wm(x, y, **_xkwds(Wm_kwds, earth=d, name=n))
+                         Wm(x, y, **_xkwds(kwds, earth=d, name=n))
     return r
 
 # **) MIT License

@@ -21,18 +21,18 @@ from pygeodesy.datums import Datums, _earth_ellipsoid, _spherical_datum
 from pygeodesy.errors import IntersectionError, _ValueError, \
                             _xattr, _xError
 from pygeodesy.fmath import favg, fdot, hypot, sqrt_a
-from pygeodesy.interns import NN, _COMMA_, _concentric_, _datum_, \
-                             _distant_, _exceed_PI_radians_, _name_, \
-                             _near_, _radius_, _too_
+from pygeodesy.interns import _COMMA_, _concentric_, _datum_, _distant_, \
+                              _exceed_PI_radians_, _name_, _near_, \
+                              _radius_, _too_
 from pygeodesy.latlonBase import LatLonBase,  _trilaterate5  # PYCHOK passed
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 # from pygeodesy.namedTuples import Bearing2Tuple  # from .cartesianBase
 from pygeodesy.nvectorBase import NvectorBase,  Fmt, _xattrs
-from pygeodesy.props import deprecated_method, property_doc_, \
-                            property_RO, _update_all
+from pygeodesy.props import deprecated_method, property_doc_, property_RO, \
+                           _update_all
 # from pygeodesy.streprs import Fmt, _xattrs  # from .nvectorBase
-from pygeodesy.units import _isRadius, Bearing, Bearing_, Radians_, \
-                             Radius, Radius_, Scalar_, _100km
+from pygeodesy.units import Bearing, Bearing_, _isRadius, Radians_, Radius, \
+                            Radius_, Scalar_, _100km
 from pygeodesy.utily import acos1, asin1, atan2b, atan2d, degrees90, \
                             degrees180, sincos2, sincos2d, _unrollon, \
                             tanPI_2_2, wrapPI
@@ -40,7 +40,7 @@ from pygeodesy.utily import acos1, asin1, atan2b, atan2d, degrees90, \
 from math import cos, fabs, log, sin, sqrt
 
 __all__ = _ALL_LAZY.sphericalBase
-__version__ = '23.12.18'
+__version__ = '24.05.31'
 
 
 class CartesianSphericalBase(CartesianBase):
@@ -117,7 +117,7 @@ class LatLonSphericalBase(LatLonBase):
     _datum       =  Datums.Sphere  # spherical L{Datum}
     _napieradius = _100km
 
-    def __init__(self, latlonh, lon=None, height=0, datum=None, wrap=False, name=NN):
+    def __init__(self, latlonh, lon=None, height=0, datum=None, wrap=False, **name):
         '''Create a spherical C{LatLon} point frome the given lat-, longitude and
            height on the given datum.
 
@@ -132,12 +132,12 @@ class LatLonSphericalBase(LatLonBase):
                          conventionally).
            @kwarg wrap: If C{True}, wrap or I{normalize} B{C{lat}} and B{C{lon}}
                         (C{bool}).
-           @kwarg name: Optional name (C{str}).
+           @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @raise TypeError: If B{C{latlonh}} is not a C{LatLon} or B{C{datum}} not
                              spherical.
         '''
-        LatLonBase.__init__(self, latlonh, lon=lon, height=height, wrap=wrap, name=name)
+        LatLonBase.__init__(self, latlonh, lon=lon, height=height, wrap=wrap, **name)
         if datum not in (None, self.datum):
             self.datum = datum
 
@@ -302,26 +302,22 @@ class LatLonSphericalBase(LatLonBase):
 #           raise _xError(x, this=self, point=point, other=other, **radius_exact_height_wrap)
 #       return p.midpointTo(q)
 
-    def parse(self, strllh, height=0, sep=_COMMA_, name=NN):
+    def parse(self, strllh, height=0, sep=_COMMA_, **name):
         '''Parse a string representing a similar, spherical C{LatLon}
            point, consisting of C{"lat, lon[, height]"}.
 
-           @arg strllh: Lat, lon and optional height (C{str}),
-                        see function L{pygeodesy.parse3llh}.
+           @arg strllh: Lat, lon and optional height (C{str}), see function
+                        L{pygeodesy.parse3llh}.
            @kwarg height: Optional, default height (C{meter}).
            @kwarg sep: Optional separator (C{str}).
-           @kwarg name: Optional instance name (C{str}),
-                        overriding this name.
+           @kwarg name: Optional C{B{name}=NN} (C{str}), overriding this name.
 
            @return: The similar point (spherical C{LatLon}).
 
            @raise ParseError: Invalid B{C{strllh}}.
         '''
-        t = _MODS.dms.parse3llh(strllh, height=height, sep=sep)
-        r =  self.classof(*t)
-        if name:
-            r.rename(name)
-        return r
+        llh = _MODS.dms.parse3llh(strllh, height=height, sep=sep)
+        return self.classof(*llh, **name)
 
     @property_RO
     def _radius(self):

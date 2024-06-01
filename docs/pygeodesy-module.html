@@ -1228,7 +1228,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ltp.Attitude-class.html" class="summary-name">Attitude</a><br />
-      The orientation of a plane or camera in space.
+      The pose of a plane or camera in space.
     </td>
   </tr>
 <tr>
@@ -8159,7 +8159,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fb4202a2450&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fc5e0be84d0&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -10502,7 +10502,7 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#parseMGRS" class="summary-sig-name">parseMGRS</a>(<span class="summary-sig-arg">strMGRS</span>,
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
         <span class="summary-sig-arg">Mgrs</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.mgrs.Mgrs'&gt;</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Parse a string representing a MGRS grid reference, consisting of 
       <code>&quot;[zone]Band, EN, easting, northing&quot;</code>.</td>
           <td align="right" valign="top">
@@ -10522,8 +10522,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#parseOSGR" class="summary-sig-name">parseOSGR</a>(<span class="summary-sig-arg">strOSGR</span>,
         <span class="summary-sig-arg">Osgr</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.osgr.Osgr'&gt;</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>,
-        <span class="summary-sig-arg">**Osgr_kwds</span>)</span><br />
+        <span class="summary-sig-arg">**name_Osgr_kwds</span>)</span><br />
       Parse a string representing an OS Grid Reference, consisting of 
       <code>&quot;[GD] easting northing&quot;</code>.</td>
           <td align="right" valign="top">
@@ -10632,7 +10631,7 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#parseWM" class="summary-sig-name">parseWM</a>(<span class="summary-sig-arg">strWM</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6378137.0</span>,
         <span class="summary-sig-arg">Wm</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.webmercator.Wm'&gt;</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Parse a string <code>&quot;e n [r]&quot;</code> representing a WM 
       coordinate, consisting of easting, northing and an optional radius.</td>
           <td align="right" valign="top">
@@ -11767,8 +11766,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#toMgrs" class="summary-sig-name">toMgrs</a>(<span class="summary-sig-arg">utmups</span>,
         <span class="summary-sig-arg">Mgrs</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.mgrs.Mgrs'&gt;</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>,
-        <span class="summary-sig-arg">**Mgrs_kwds</span>)</span><br />
+        <span class="summary-sig-arg">**name_Mgrs_kwds</span>)</span><br />
       Convert a UTM or UPS coordinate to an MGRS grid reference.</td>
           <td align="right" valign="top">
             
@@ -11790,8 +11788,7 @@
         <span class="summary-sig-arg">kTM</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
         <span class="summary-sig-arg">Osgr</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.osgr.Osgr'&gt;</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>,
-        <span class="summary-sig-arg">**prec_Osgr_kwds</span>)</span><br />
+        <span class="summary-sig-arg">**prec_name_Osgr_kwds</span>)</span><br />
       Convert a lat-/longitude point to an OSGR coordinate.</td>
           <td align="right" valign="top">
             
@@ -11884,8 +11881,7 @@
         <span class="summary-sig-arg">lon</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">earth</span>=<span class="summary-sig-default">6378137.0</span>,
         <span class="summary-sig-arg">Wm</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.webmercator.Wm'&gt;</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>,
-        <span class="summary-sig-arg">**Wm_kwds</span>)</span><br />
+        <span class="summary-sig-arg">**name_Wm_kwds_radius</span>)</span><br />
       Convert a lat-/longitude point to a WM coordinate.</td>
           <td align="right" valign="top">
             
@@ -12182,8 +12178,8 @@
         <span class="summary-sig-arg">yaw</span>=<span class="summary-sig-default">0</span>,
         <span class="summary-sig-arg">roll</span>=<span class="summary-sig-default">0</span>,
         <span class="summary-sig-arg">Vector</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.vector3d.Vector3d'&gt;</span>,
-        <span class="summary-sig-arg">**Vector_kwds</span>)</span><br />
-      Convert an attitude oriention into a (3-D) direction vector.</td>
+        <span class="summary-sig-arg">**name_Vector_kwds</span>)</span><br />
+      Convert an attitude pose into a (3-D) direction vector.</td>
           <td align="right" valign="top">
             
             
@@ -20296,7 +20292,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fb4202a2450&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fc5e0be84d0&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -24977,7 +24973,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   <h3 class="epydoc"><span class="sig"><span class="sig-name">parseMGRS</span>&nbsp;(<span class="sig-arg">strMGRS</span>,
         <span class="sig-arg">datum</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
         <span class="sig-arg">Mgrs</span>=<span class="sig-default">&lt;class 'pygeodesy.mgrs.Mgrs'&gt;</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -24995,7 +24991,8 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <li><strong class="pname"><code>Mgrs</code></strong> - Optional class to return the MGRS grid reference (<a 
           href="pygeodesy.mgrs.Mgrs-class.html" class="link">Mgrs</a>) or 
           <code>None</code>.</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional <b><code>Mgrs</code></b> name (<code>str</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <b><code>Mgrs</code></b> <code><b>name</b>=NN</code> 
+          (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The MGRS grid reference as <b><code>Mgrs</code></b> or if 
@@ -25019,8 +25016,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">parseOSGR</span>&nbsp;(<span class="sig-arg">strOSGR</span>,
         <span class="sig-arg">Osgr</span>=<span class="sig-default">&lt;class 'pygeodesy.osgr.Osgr'&gt;</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>,
-        <span class="sig-arg">**Osgr_kwds</span>)</span>
+        <span class="sig-arg">**name_Osgr_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -25040,8 +25036,8 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <li><strong class="pname"><code>Osgr</code></strong> - Optional class to return the OSGR coordinate (<a 
           href="pygeodesy.osgr.Osgr-class.html" class="link">Osgr</a>) or 
           <code>None</code>.</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional <b><code>Osgr</code></b> name (<code>str</code>).</li>
-        <li><strong class="pname"><code>Osgr_kwds</code></strong> - Optional, additional <b><code>Osgr</code></b> keyword arguments, 
+        <li><strong class="pname"><code>name_Osgr_kwds</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>) and 
+          optional, additional <b><code>Osgr</code></b> keyword arguments, 
           ignored if <code><b>Osgr</b> is None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -25269,7 +25265,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   <h3 class="epydoc"><span class="sig"><span class="sig-name">parseWM</span>&nbsp;(<span class="sig-arg">strWM</span>,
         <span class="sig-arg">radius</span>=<span class="sig-default">6378137.0</span>,
         <span class="sig-arg">Wm</span>=<span class="sig-default">&lt;class 'pygeodesy.webmercator.Wm'&gt;</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -25287,13 +25283,14 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <li><strong class="pname"><code>Wm</code></strong> - Optional class to return the WM coordinate (<a 
           href="pygeodesy.webmercator.Wm-class.html" class="link">Wm</a>) 
           or <code>None</code>.</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The WM coordinate (<b><code>Wm</code></b>) or an <a 
+        <dd>The WM coordinate (<b><code>Wm</code></b>) or if 
+          <b><code>Wm</code></b> is <code>None</code> an <a 
           href="pygeodesy.webmercator.EasNorRadius3Tuple-class.html" 
           class="link">EasNorRadius3Tuple</a><code>(easting, northing, 
-          radius)</code> if <b><code>Wm</code></b> is <code>None</code>.</dd>
+          radius)</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.webmercator.WebMercatorError-class.html">WebMercatorError</a></strong></code> - Invalid <b><code>strWM</code></b>.</li>
@@ -27866,8 +27863,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toMgrs</span>&nbsp;(<span class="sig-arg">utmups</span>,
         <span class="sig-arg">Mgrs</span>=<span class="sig-default">&lt;class 'pygeodesy.mgrs.Mgrs'&gt;</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>,
-        <span class="sig-arg">**Mgrs_kwds</span>)</span>
+        <span class="sig-arg">**name_Mgrs_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -27885,8 +27881,8 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <li><strong class="pname"><code>Mgrs</code></strong> - Optional class to return the MGRS grid reference (<a 
           href="pygeodesy.mgrs.Mgrs-class.html" class="link">Mgrs</a>) or 
           <code>None</code>.</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional <b><code>Mgrs</code></b> name (<code>str</code>).</li>
-        <li><strong class="pname"><code>Mgrs_kwds</code></strong> - Optional, additional <b><code>Mgrs</code></b> keyword arguments, 
+        <li><strong class="pname"><code>name_Mgrs_kwds</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>) and 
+          optional, additional <b><code>Mgrs</code></b> keyword arguments, 
           ignored if <code><b>Mgrs</b> is None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -27918,8 +27914,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <span class="sig-arg">kTM</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">datum</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
         <span class="sig-arg">Osgr</span>=<span class="sig-default">&lt;class 'pygeodesy.osgr.Osgr'&gt;</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>,
-        <span class="sig-arg">**prec_Osgr_kwds</span>)</span>
+        <span class="sig-arg">**prec_name_Osgr_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -27948,10 +27943,10 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <li><strong class="pname"><code>Osgr</code></strong> - Optional class to return the OSGR coordinate (<a 
           href="pygeodesy.osgr.Osgr-class.html" class="link">Osgr</a>) or 
           <code>None</code>.</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional <b><code>Osgr</code></b> name (<code>str</code>).</li>
-        <li><strong class="pname"><code>prec_Osgr_kwds</code></strong> - Optional <a href="pygeodesy.utily-module.html#truncate" 
+        <li><strong class="pname"><code>prec_name_Osgr_kwds</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>), optional
+          <a href="pygeodesy.utily-module.html#truncate" 
           class="link">truncate</a> precision 
-          <code><b>prec</b>=ndigits</code> and/or additional 
+          <code><b>prec</b>=ndigits</code> and additional 
           <b><code>Osgr</code></b> keyword arguments, ignored if 
           <code><b>Osgr</b> is None</code>.</li>
     </ul></dd>
@@ -28221,8 +28216,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <span class="sig-arg">lon</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">earth</span>=<span class="sig-default">6378137.0</span>,
         <span class="sig-arg">Wm</span>=<span class="sig-default">&lt;class 'pygeodesy.webmercator.Wm'&gt;</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>,
-        <span class="sig-arg">**Wm_kwds</span>)</span>
+        <span class="sig-arg">**name_Wm_kwds_radius</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -28248,9 +28242,11 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <li><strong class="pname"><code>Wm</code></strong> - Optional class to return the WM coordinate (<a 
           href="pygeodesy.webmercator.Wm-class.html" class="link">Wm</a>) 
           or <code>None</code>.</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
-        <li><strong class="pname"><code>Wm_kwds</code></strong> - Optional, additional <b><code>Wm</code></b> keyword arguments, 
-          ignored if <code><b>Wm</b> is None</code>.</li>
+        <li><strong class="pname"><code>name_Wm_kwds_radius</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>), 
+          optional, additional <b><code>Wm</code></b> keyword arguments, 
+          ignored if <code><b>Wm</b> is None</code> and DEPRECATED keyword 
+          argument <code><b>radius</b>=earth</code>, use 
+          <b><code>earth</code></b>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The WM coordinate (<b><code>Wm</code></b>) or if 
@@ -28963,14 +28959,14 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <span class="sig-arg">yaw</span>=<span class="sig-default">0</span>,
         <span class="sig-arg">roll</span>=<span class="sig-default">0</span>,
         <span class="sig-arg">Vector</span>=<span class="sig-default">&lt;class 'pygeodesy.vector3d.Vector3d'&gt;</span>,
-        <span class="sig-arg">**Vector_kwds</span>)</span>
+        <span class="sig-arg">**name_Vector_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Convert an attitude oriention into a (3-D) direction vector.</p>
+  <p>Convert an attitude pose into a (3-D) direction vector.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -28981,18 +28977,33 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
           z-axis).</li>
         <li><strong class="pname"><code>roll</code></strong> - Roll, bank (<code>degrees</code>), positive to the right and down
           (clockwise rotation along and around the y-axis).</li>
+        <li><strong class="pname"><code>Vector</code></strong> - Class to return the direction vector (<code>Cartesian</code>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a> or <code>Vector3Tuple</code>) or 
+          <code>None</code>.</li>
+        <li><strong class="pname"><code>name_Vector_kwds</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>) and 
+          optional, additional <b><code>Vector</code></b> keyword 
+          arguments, ignored if <code><b>Vector</b> is None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A named <b><code>Vector</code></b> instance or if 
           <b><code>Vector</code></b> is <code>None</code>, a named <a 
           href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
           class="link">Vector3Tuple</a><code>(x, y, z)</code>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.ltp.AttitudeError-class.html">AttitudeError</a></strong></code> - Invalid <b><code>tilt</code></b>, <b><code>yaw</code></b> or 
+        <b><code>roll</code></b>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>Vector</code></b> or 
+        <b><code>name_Vector_kwds</code></b>.</li>
+    </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         <a href="http://MSL.CS.UIUC.edu/planning/node102.html" 
         target="_top">Yaw, pitch, and roll rotations</a> and function <a 
         href="pygeodesy.formy-module.html#hartzell" 
-        class="link">pygeodesy.hartzell</a> argument <code>los</code>.
+        class="link">pygeodesy.hartzell</a> argument <code>los</code>, 
+        Line-Of-Sight.
       </p>
 </div></td></tr></table>
 </div>
@@ -30127,7 +30138,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu May 30 13:26:03 2024
+    Generated by Epydoc 3.0.1 on Sat Jun  1 11:09:31 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

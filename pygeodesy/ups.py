@@ -49,7 +49,7 @@ from pygeodesy.utmupsBase import Fmt, _LLEB, _hemi, _parseUTMUPS5, _to4lldn, \
 from math import atan2, fabs, radians, tan
 
 __all__ = _ALL_LAZY.ups
-__version__ = '25.05.30'
+__version__ = '25.05.31'
 
 _BZ_UPS  = _getenv('PYGEODESY_UPS_POLES', _std_) == _std_
 _Falsing =  Meter(2000e3)  # false easting and northing (C{meter})
@@ -150,13 +150,11 @@ class Ups(UtmUpsBase):
         f = _Falsing if self.falsed else 0
         return EasNor2Tuple(f, f)
 
-    def parse(self, strUPS, name=NN):
+    def parse(self, strUPS, **name):
         '''Parse a string to a similar L{Ups} instance.
 
-           @arg strUPS: The UPS coordinate (C{str}),
-                        see function L{parseUPS5}.
-           @kwarg name: Optional instance name (C{str}),
-                        overriding this name.
+           @arg strUPS: The UPS coordinate (C{str}), see function L{parseUPS5}.
+           @kwarg name: Optional C{B{name}=NN} (C{str}), overriding this name.
 
            @return: The similar instance (L{Ups}).
 
@@ -165,7 +163,7 @@ class Ups(UtmUpsBase):
            @see: Functions L{parseUTM5} and L{pygeodesy.parseUTMUPS5}.
         '''
         return parseUPS5(strUPS, datum=self.datum, Ups=self.classof,
-                                 name=name or self.name)
+                                  name=self._name__(name))
 
     @deprecated_method
     def parseUPS(self, strUPS):  # PYCHOK no cover

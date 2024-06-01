@@ -44,7 +44,7 @@ from pygeodesy.interns import NN, _0_, _A_, _AtoZnoIO_, _band_, _B_, \
                              _COMMASPACE_, _datum_, _easting_, _invalid_, \
                              _northing_, _SPACE_, _W_, _Y_, _Z_, _zone_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _PYGEODESY_GEOCONVERT_
-from pygeodesy.named import _NamedBase, _NamedTuple, _Pass, _xnamed
+from pygeodesy.named import _name2__, _NamedBase, _NamedTuple, _Pass
 from pygeodesy.namedTuples import EasNor2Tuple, UtmUps5Tuple
 from pygeodesy.props import deprecated_property_RO, property_RO, Property_RO
 from pygeodesy.streprs import enstr2, _enstr2m3, Fmt, _resolution10, _xzipairs
@@ -55,7 +55,7 @@ from pygeodesy.utm import toUtm8, _to3zBlat, Utm, _UTM_ZONE_MAX, _UTM_ZONE_MIN
 # from pygeodesy.utmupsBase import _UTM_ZONE_MAX, _UTM_ZONE_MIN  # from .utm
 
 __all__ = _ALL_LAZY.mgrs
-__version__ = '24.05.24'
+__version__ = '24.05.31'
 
 _AN_    = 'AN'  # default south pole grid tile and band B
 _AtoPx_ = _AtoZnoIO_.tillP
@@ -87,7 +87,7 @@ class Mgrs(_NamedBase):
     _zone       =  0      # longitudinal or polar zone (C{int}), 0..60
 
     def __init__(self, zone=0, EN=NN, easting=0, northing=0, band=NN,
-                               datum=_WGS84, resolution=0, name=NN):
+                               datum=_WGS84, resolution=0, **name):
         '''New L{Mgrs} Military grid reference.
 
            @arg zone: The 6° I{longitudinal} zone (C{int}), 1..60 covering
@@ -104,7 +104,7 @@ class Mgrs(_NamedBase):
            @kwarg datum: This reference's datum (L{Datum}, L{Ellipsoid},
                          L{Ellipsoid2} or L{a_f2Tuple}).
            @kwarg resolution: Optional resolution (C{meter}), C{0} for default.
-           @kwarg name: Optional name (C{str}).
+           @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @raise MGRSError: Invalid B{C{zone}}, B{C{EN}}, B{C{easting}},
                              B{C{northing}}, B{C{band}} or B{C{resolution}}.
@@ -235,20 +235,18 @@ class Mgrs(_NamedBase):
             toUps8(a, 0, datum=self.datum, Ups=None)
         return int(u.northing / _100km) * _100km
 
-    def parse(self, strMGRS, name=NN):
+    def parse(self, strMGRS, **name):
         '''Parse a string to a similar L{Mgrs} instance.
 
-           @arg strMGRS: The MGRS reference (C{str}),
-                         see function L{parseMGRS}.
-           @kwarg name: Optional instance name (C{str}),
-                        overriding this name.
+           @arg strMGRS: The MGRS reference (C{str}), see function L{parseMGRS}.
+           @kwarg name: Optional C{B{name}=NN} (C{str}), overriding this name.
 
            @return: The similar instance (L{Mgrs}).
 
            @raise MGRSError: Invalid B{C{strMGRS}}.
         '''
         return parseMGRS(strMGRS, datum=self.datum, Mgrs=self.classof,
-                                  name=name or self.name)
+                                                    name=self._name__(name))
 
     @property
     def resolution(self):
@@ -536,7 +534,7 @@ class _RE(object):
 _RE = _RE()  # PYCHOK singleton
 
 
-def parseMGRS(strMGRS, datum=_WGS84, Mgrs=Mgrs, name=NN):
+def parseMGRS(strMGRS, datum=_WGS84, Mgrs=Mgrs, **name):
     '''Parse a string representing a MGRS grid reference,
        consisting of C{"[zone]Band, EN, easting, northing"}.
 
@@ -544,7 +542,7 @@ def parseMGRS(strMGRS, datum=_WGS84, Mgrs=Mgrs, name=NN):
        @kwarg datum: Optional datum to use (L{Datum}).
        @kwarg Mgrs: Optional class to return the MGRS grid
                     reference (L{Mgrs}) or C{None}.
-       @kwarg name: Optional B{C{Mgrs}} name (C{str}).
+       @kwarg name: Optional B{C{Mgrs}} C{B{name}=NN} (C{str}).
 
        @return: The MGRS grid reference as B{C{Mgrs}} or if
                 C{B{Mgrs} is None} as an L{Mgrs4Tuple}C{(zone,
@@ -582,29 +580,29 @@ def parseMGRS(strMGRS, datum=_WGS84, Mgrs=Mgrs, name=NN):
         e, n, m = _enstr2m3(*m[2:])
 
         if Mgrs is None:
-            r = Mgrs4Tuple(zB, EN, e, n, name=name)
+            r = Mgrs4Tuple(zB, EN, e, n, **name)
             _ = r.toMgrs(resolution=m)  # validate
         else:
-            r = Mgrs(zB, EN, e, n, datum=datum, resolution=m, name=name)
+            r = Mgrs(zB, EN, e, n, datum=datum, resolution=m, **name)
         return r
 
     return _parseX(_MGRS, strMGRS, datum, Mgrs, name,
                           strMGRS=strMGRS, Error=MGRSError)
 
 
-def toMgrs(utmups, Mgrs=Mgrs, name=NN, **Mgrs_kwds):
+def toMgrs(utmups, Mgrs=Mgrs, **name_Mgrs_kwds):
     '''Convert a UTM or UPS coordinate to an MGRS grid reference.
 
        @arg utmups: A UTM or UPS coordinate (L{Utm}, L{Etm} or L{Ups}).
        @kwarg Mgrs: Optional class to return the MGRS grid reference
                     (L{Mgrs}) or C{None}.
-       @kwarg name: Optional B{C{Mgrs}} name (C{str}).
-       @kwarg Mgrs_kwds: Optional, additional B{C{Mgrs}} keyword
-                         arguments, ignored if C{B{Mgrs} is None}.
+       @kwarg name_Mgrs_kwds: Optional C{B{name}=NN} (C{str}) and
+                   optional, additional B{C{Mgrs}} keyword arguments,
+                   ignored if C{B{Mgrs} is None}.
 
-       @return: The MGRS grid reference as B{C{Mgrs}} or if
-                C{B{Mgrs} is None} as an L{Mgrs6Tuple}C{(zone,
-                EN, easting, northing, band, datum)}.
+       @return: The MGRS grid reference as B{C{Mgrs}} or if C{B{Mgrs}
+                is None} as an L{Mgrs6Tuple}C{(zone, EN, easting,
+                northing, band, datum)}.
 
        @raise MGRSError: Invalid B{C{utmups}}.
 
@@ -634,12 +632,14 @@ def toMgrs(utmups, Mgrs=Mgrs, name=NN, **Mgrs_kwds):
     except (IndexError, TypeError, ValueError) as x:
         raise MGRSError(B=B, E=E, N=N, utmups=utmups, cause=x)
 
+    t, kwds = _name2__(name_Mgrs_kwds, _or_nameof=utmups)
     if Mgrs is None:
-        r = Mgrs4Tuple(Fmt.zone(z), EN, e, n).to6Tuple(B, utmups.datum)
+        r = Mgrs4Tuple(Fmt.zone(z), EN, e, n, name=t) \
+             .to6Tuple(B, utmups.datum)
     else:
-        kwds = _xkwds(Mgrs_kwds, band=B, datum=utmups.datum)
+        kwds = _xkwds(kwds, band=B, datum=utmups.datum, name=t)
         r = Mgrs(z, EN, e, n, **kwds)
-    return _xnamed(r, name or utmups.name)
+    return r
 
 
 def _um100km2(m):

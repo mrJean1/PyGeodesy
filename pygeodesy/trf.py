@@ -80,8 +80,8 @@ from pygeodesy.interns import MISSING, NN, _AT_, _COMMASPACE_, _conversion_, \
                              _NAD83_, _no_, _PLUS_, _reframe_, _s_, _SPACE_, \
                              _STAR_, _to_, _vs_, _WGS84_, _x_, _intern as _i
 # from pygeodesy.lazily import _ALL_LAZY  # from .units
-from pygeodesy.named import ADict, classname, _lazyNamedEnumItem as _lazy, _Named, \
-                           _NamedEnum, _NamedEnumItem, _NamedTuple,  Fmt, unstr
+from pygeodesy.named import ADict, classname, _lazyNamedEnumItem as _lazy, _name2__, \
+                           _Named, _NamedEnum, _NamedEnumItem, _NamedTuple,  Fmt, unstr
 from pygeodesy.props import deprecated_method, property_doc_, Property_RO, property_RO
 # from pygeodesy.streprs import Fmt, unstr  # from .named
 from pygeodesy.units import Epoch, Float,  _ALL_LAZY
@@ -91,7 +91,7 @@ from math import ceil as _ceil, fabs
 # import operator as _operator  # from .datums
 
 __all__ = _ALL_LAZY.trf
-__version__ = '24.05.21'
+__version__ = '24.05.31'
 
 _EP0CH    =  Epoch(0, low=0)
 _Es       = {_EP0CH: _EP0CH}  # L{Epoch}s, deleted below
@@ -405,10 +405,11 @@ class TransformXform(Transform):
         n = name or (X.toStr() if X else NN)
         return Transform.rename(self, n)
 
-    def toRefFrame(self, point, name=NN):  # PYCHOK signature
+    def toRefFrame(self, point, **name):  # PYCHOK signature
         '''Convert an ellipsoidal point using this transform and Xform.
 
            @arg point: The point to convert (C{Cartesian} or C{LatLon}).
+           @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @return: A copy of the B{C{point}}, converted I{directly} to
                     this transform's Xform's C{refName2} and C{epoch}.
@@ -423,7 +424,7 @@ class TransformXform(Transform):
         if X:  # see _toRefFrame below
             p._reframe = X.reframe2
             p._epoch   = X.epoch
-        p.rename(name or self.name)
+        p.rename(self._name__(name))
         return p
 
     def toTransform(self, epoch1, **epoch2_inverse):
@@ -1043,7 +1044,7 @@ def _sumstr(name1, name2, p_):
 
 
 def _toRefFrame(point, reframe2, reframe=None, epoch=None,
-                       epoch2=None, name=NN, **LatLon_kwds):
+                       epoch2=None, **name_LatLon_kwds):
     '''(INTERNAL) Convert an ellipsoidal point to C{reframe2}
        and C{epoch2 or epoch or pont.epoch or reframe.epoch}.
     '''
@@ -1063,6 +1064,7 @@ def _toRefFrame(point, reframe2, reframe=None, epoch=None,
                            _to_, _AT_(reframe2.name, e2))
         raise TRFError(_no_(_conversion_), txt=t)
 
+    name, LatLon_kwds = _name2__(name_LatLon_kwds)
     if t0:  # is not ()
         if t0.isunity:
             p = point.dup()
@@ -1078,7 +1080,7 @@ def _toRefFrame(point, reframe2, reframe=None, epoch=None,
             p = point.toTransform(t0)
         p._reframe =  reframe2  # see TRFXform.toRefFrame above
         p._epoch   = _xattr(t0.Xform, epoch=e2)
-        p.rename(name or reframe2.name)
+        p.rename(reframe2._name__(name))
     else:
         p = point.dup(_reframe=reframe2,  # ditto
                       _epoch=e2, name=name) if name else point

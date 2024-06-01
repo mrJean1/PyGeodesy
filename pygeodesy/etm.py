@@ -92,7 +92,7 @@ from pygeodesy.utm import _cmlon, _LLEB, _parseUTM5, _toBand, _toXtm8, \
 from math import asinh, atan2, degrees, radians, sinh, sqrt
 
 __all__ = _ALL_LAZY.etm
-__version__ = '24.05.30'
+__version__ = '24.05.31'
 
 _OVERFLOW = _1_EPS**2  # about 2e+31
 _TAYTOL   =  pow(EPS, 0.6)
@@ -154,17 +154,15 @@ class Etm(Utm):
     def parse(self, strETM, **name):
         '''Parse a string to a similar L{Etm} instance.
 
-           @arg strETM: The ETM coordinate (C{str}), see function
-                        L{parseETM5}.
-           @kwarg name: Optional C{B{name}=NN} (C{str}), overriding
-                        this name.
+           @arg strETM: The ETM coordinate (C{str}), see function L{parseETM5}.
+           @kwarg name: Optional C{B{name}=NN} (C{str}), overriding this name.
 
            @return: The instance (L{Etm}).
 
            @raise ETMError: Invalid B{C{strETM}}.
 
-           @see: Function L{pygeodesy.parseUPS5}, L{pygeodesy.parseUTM5}
-                 and L{pygeodesy.parseUTMUPS5}.
+           @see: Function L{pygeodesy.parseUPS5}, L{pygeodesy.parseUTM5} and
+                 L{pygeodesy.parseUTMUPS5}.
         '''
         return parseETM5(strETM, datum=self.datum, Etm=self.classof,
                                  name=self._name__(name))

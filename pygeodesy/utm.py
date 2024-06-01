@@ -63,7 +63,7 @@ from math import asinh, atanh, atan2, cos, cosh, degrees, fabs, \
 # import operator as _operator  # from .fmath
 
 __all__ = _ALL_LAZY.utm
-__version__ = '24.05.30'
+__version__ = '24.05.31'
 
 _Bands = 'CDEFGHJKLMNPQRSTUVWXX'  # UTM latitude bands C..X (no
 # I|O) 8° each, covering 80°S to 84°N and X repeated for 80-84°N
@@ -261,10 +261,8 @@ class Utm(UtmUpsBase):
     def parse(self, strUTM, **name):
         '''Parse a string to a similar L{Utm} instance.
 
-           @arg strUTM: The UTM coordinate (C{str}),
-                        see function L{parseUTM5}.
-           @kwarg name: Optional instance name (C{str}),
-                        overriding this name.
+           @arg strUTM: The UTM coordinate (C{str}), see function L{parseUTM5}.
+           @kwarg name: Optional instance name (C{str}), overriding this name.
 
            @return: The similar instance (L{Utm}).
 

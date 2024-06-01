@@ -14,7 +14,7 @@ from pygeodesy.interns import NN, _0_, _BACKSLASH_, _COMMASPACE_, \
                              _EQUAL_, _Error_, _SPACE_, _UNUSED_
 from pygeodesy.karney import Caps, _CapsBase, GDict
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _unlazy
-from pygeodesy.named import callername, notOverloaded
+from pygeodesy.named import callername, _name2__, notOverloaded
 from pygeodesy.props import Property, Property_RO, property_RO, _update_all
 from pygeodesy.streprs import Fmt, fstr, fstrzs, pairs, strs
 from pygeodesy.units import Precision_
@@ -23,7 +23,7 @@ from pygeodesy.utily import unroll180,  wrap360  # PYCHOK shared
 from subprocess import PIPE as _PIPE, Popen as _Popen, STDOUT as _STDOUT
 
 __all__ = _ALL_LAZY.solveBase
-__version__ = '24.05.29'
+__version__ = '24.05.31'
 
 _ERROR_    = 'ERROR'
 _text_True =  dict() if _unlazy else dict(text=True)
@@ -275,7 +275,7 @@ class _SolveBase(_SolveLineSolveBase):
     '''
     _datum = _WGS84
 
-    def __init__(self, a_ellipsoid=_EWGS84, f=None, path=NN, name=NN):
+    def __init__(self, a_ellipsoid=_EWGS84, f=None, path=NN, **name):
         '''New C{Solve} instance.
 
            @arg a_ellipsoid: An ellipsoid (L{Ellipsoid}) or datum (L{Datum}) or
@@ -285,11 +285,11 @@ class _SolveBase(_SolveLineSolveBase):
                    is specified as C{scalar}.
            @kwarg path: Optionally, the (fully qualified) path to the C{GeodSolve}
                         or C{RhumbSolve} executable (C{filename}).
-           @kwarg name: Optional name (C{str}).
+           @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @raise TypeError: Invalid B{C{a_ellipsoid}} or B{C{f}}.
         '''
-        _earth_datum(self, a_ellipsoid, f=f, name=name)
+        _earth_datum(self, a_ellipsoid, f=f, **name)
         if name:
             self.name = name
         if path:
@@ -394,15 +394,15 @@ class _SolveLineBase(_SolveLineSolveBase):
 #   _lla1  = {}
     _solve =  None  # L{GeodesicSolve} or L{RhumbSolve} instance
 
-    def __init__(self, solve, lat1, lon1, caps, name, **azi):
+    def __init__(self, solve, lat1, lon1, caps, **azi_name):
+        name, azi = _name2__(azi_name, _or_nameof=solve)
+        if name:
+            self.name = name
+
         self._caps  = caps | Caps._LINE
         self._debug = solve._debug & Caps._DEBUG_ALL
         self._lla1  = GDict(lat1=lat1, lon1=lon1, **azi)
         self._solve = solve
-
-        n = name or solve.name
-        if n:
-            self.name = n
 
     @Property_RO
     def _cmdDistance(self):

@@ -13,7 +13,7 @@ and L{ChLVe} and L{Ltp}, L{ChLV}, L{LocalError}, L{Attitude} and L{Frustum}.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import _args_kwds_names, issubclassof, map1, map2   # .datums
+from pygeodesy.basics import _args_kwds_names, map1, map2, _xsubclassof   # .datums
 from pygeodesy.constants import EPS, INT0, _umod_360, _0_0, _0_01, _0_5, _1_0, \
                                _2_0, _60_0, _90_0, _100_0, _180_0, _3600_0, \
                                _N_1_0  # PYCHOK used!
@@ -29,7 +29,7 @@ from pygeodesy.interns import _0_, _COMMASPACE_, _DOT_, _ecef_, _height_, _M_, \
 from pygeodesy.ltpTuples import Attitude4Tuple, ChLVEN2Tuple, ChLV9Tuple, \
                                 ChLVYX2Tuple, Footprint5Tuple, Local9Tuple, \
                                 ChLVyx2Tuple, _XyzLocals4, _XyzLocals5, Xyz4Tuple
-from pygeodesy.named import _name__, _NamedBase, notOverloaded
+from pygeodesy.named import _name__, _name2__, _NamedBase, notOverloaded
 from pygeodesy.namedTuples import LatLon3Tuple, LatLon4Tuple, Vector3Tuple
 from pygeodesy.props import Property, Property_RO, property_doc_, property_RO, \
                            _update_all
@@ -42,25 +42,15 @@ from pygeodesy.vector3d import _ALL_LAZY, Vector3d
 # from math import fabs, floor as _floor  # from .fmath, .fsums
 
 __all__ = _ALL_LAZY.ltp
-__version__ = '24.04.23'
+__version__ = '24.05.31'
 
 _height0_ = _height_ + _0_
 _narrow_  = 'narrow'
 _wide_    = 'wide'
-_Xyz_     = 'Xyz'
-
-
-def _fov_2(**fov):
-    # Half a field-of-view angle in C{degrees}.
-    f = Degrees(Error=LocalError, **fov) * _0_5
-    if EPS < f < _90_0:
-        return f
-    t = _invalid_ if f < 0 else _too_(_wide_ if f > EPS else _narrow_)
-    raise LocalError(txt=t, **fov)
 
 
 class Attitude(_NamedBase):
-    '''The orientation of a plane or camera in space.
+    '''The pose of a plane or camera in space.
     '''
     _alt  = Meter(  alt =_0_0)
     _roll = Degrees(roll=_0_0)
@@ -70,9 +60,9 @@ class Attitude(_NamedBase):
     def __init__(self, alt_attitude=INT0, tilt=INT0, yaw=INT0, roll=INT0, **name):
         '''New L{Attitude}.
 
-           @kwarg alt_attitude: An altitude (C{meter}) above earth or an attitude
-                                (L{Attitude} or L{Attitude4Tuple}) with the
-                                C{B{alt}itude}, B{C{tilt}}, B{C{yaw}} and B{C{roll}}.
+           @kwarg alt_attitude: Altitude (C{meter}) above earth or previous attitude
+                      (L{Attitude} or L{Attitude4Tuple}) with the C{B{alt}itude},
+                      B{C{tilt}}, B{C{yaw}} and B{C{roll}}.
            @kwarg tilt: Pitch, elevation from horizontal (C{degrees180}), negative down
                         (clockwise rotation along and around the x- or East axis).
            @kwarg yaw: Bearing, heading (compass C{degrees360}), clockwise from North
@@ -149,22 +139,25 @@ class Attitude(_NamedBase):
 
     bank = roll
 
-    def rotate(self, x_xyz, y=None, z=None, Vector=None, **Vector_kwds):
+    def rotate(self, x_xyz, y=None, z=None, Vector=None, **name_Vector_kwds):
         '''Transform a (local) cartesian by this attitude's matrix.
 
-           @arg x_xyz: X component of vector (C{scalar}) or (3-D) vector
-                       (C{Cartesian}, L{Vector3d} or L{Vector3Tuple}).
+           @arg x_xyz: X component of vector (C{scalar}) or (3-D) vector (C{Cartesian},
+                       L{Vector3d} or L{Vector3Tuple}).
            @kwarg y: Y component of vector (C{scalar}), same units as B{C{x}}.
            @kwarg z: Z component of vector (C{scalar}), same units as B{C{x}}.
-           @kwarg Vector: Class to return transformed point (C{Cartesian},
-                          L{Vector3d} or C{Vector3Tuple}) or C{None}.
-           @kwarg Vector_kwds: Optional, additional B{C{Vector}} keyword arguments,
-                               ignored if C{B{Vector} is None}.
+           @kwarg Vector: Class to return transformed point (C{Cartesian}, L{Vector3d}
+                          or C{Vector3Tuple}) or C{None}.
+           @kwarg name_Vector_kwds: Optional C{B{name}=NN} (C{str}) and optional,
+                       additional B{C{Vector}} keyword arguments, ignored if
+                       C{B{Vector} is None}.
 
-           @return: A B{C{Vector}} instance or a L{Vector3Tuple}C{(x, y, z)} if
-                    C{B{Vector}=None}.
+           @return: A named B{C{Vector}} instance or if B{C{Vector}} is C{None},
+                    a named L{Vector3Tuple}C{(x, y, z)}.
 
            @raise AttitudeError: Invalid B{C{x_xyz}}, B{C{y}} or B{C{z}}.
+
+           @raise TypeError: Invalid B{C{Vector}} or B{C{name_Vector_kwds}}.
 
            @see: U{Yaw, pitch, and roll rotations<http://MSL.CS.UIUC.edu/planning/node102.html>}.
         '''
@@ -177,8 +170,9 @@ class Attitude(_NamedBase):
             raise AttitudeError(x_xyz=x_xyz, y=y, z=z, cause=x)
 
         x, y, z = (fdot(r, *xyz) for r in self.matrix)
-        return Vector3Tuple(x, y, z, name=self.name) if Vector is None else \
-                     Vector(x, y, z, **_xkwds(Vector_kwds, name=self.name))
+        n, kwds = _name2__(name_Vector_kwds, _or_nameof=self)
+        return Vector3Tuple(x, y, z, name=n) if Vector is None else \
+                     Vector(x, y, z, name=n, **kwds)
 
     @property_doc_(' tilt/pitch/elevation from horizontal in C{degrees180}, negative down.')
     def tilt(self):
@@ -469,29 +463,33 @@ class LocalCartesian(_NamedBase):
         '''
         return self._ecef
 
-    def _ecef2local(self, ecef, Xyz, Xyz_kwds):
+    def _ecef2local(self, ecef, Xyz, name_Xyz_kwds):
         '''(INTERNAL) Convert geocentric/geodetic to local, like I{forward}.
 
            @arg ecef: Geocentric (and geodetic) (L{Ecef9Tuple}).
            @arg Xyz: An L{XyzLocal}, L{Enu} or L{Ned} I{class} or C{None}.
-           @arg Xyz_kwds: B{C{Xyz}} keyword arguments, ignored if C{B{Xyz} is None}.
+           @arg name_Xyz_kwds: Optional C{B{name}=NN} (C{str}) and optional,
+                     additional B{C{Xyz}} keyword arguments, ignored if
+                     C{B{Xyz} is None}.
 
-           @return: An C{B{Xyz}(x, y, z, ltp, **B{Xyz_kwds}} instance or if
-                    C{B{Xyz} is None}, a L{Local9Tuple}C{(x, y, z, lat, lon,
+           @return: An C{B{Xyz}(x, y, z, ltp, **B{name_Xyz_kwds}} instance or
+                    if C{B{Xyz} is None}, a L{Local9Tuple}C{(x, y, z, lat, lon,
                     height, ltp, ecef, M)} with this C{ltp}, B{C{ecef}}
                     (L{Ecef9Tuple}) converted to this C{datum} and C{M=None},
                     always.
+
+           @raise TypeError: Invalid B{C{Xyz}} or B{C{name_Xyz_kwds}}.
         '''
         ltp = self
         if ecef.datum != ltp.datum:
             ecef = ecef.toDatum(ltp.datum)
-        x, y, z = self.M.rotate(ecef.xyz, *ltp._t0_xyz)
+        n, kwds = _name2__(name_Xyz_kwds, _or_nameof=ecef)
+        x, y, z =  self.M.rotate(ecef.xyz, *ltp._t0_xyz)
         r = Local9Tuple(x, y, z, ecef.lat, ecef.lon, ecef.height,
-                                 ltp, ecef, None, name=ecef.name)
+                                 ltp, ecef, None, name=n)
         if Xyz:
-            if not issubclassof(Xyz, *_XyzLocals4):  # Vector3d
-                raise _TypesError(_Xyz_, Xyz, *_XyzLocals4)
-            r = r.toXyz(Xyz=Xyz, **Xyz_kwds)
+            _xsubclassof(*_XyzLocals4, Xyz=Xyz)  # Vector3d
+            r = r.toXyz(Xyz=Xyz, name=n, **kwds)
         return r
 
     @Property_RO
@@ -554,7 +552,7 @@ class LocalCartesian(_NamedBase):
         '''(INTERNAL) Convert I{local} to geocentric/geodetic, like I{.reverse}.
 
            @arg local: Local (L{XyzLocal}, L{Enu}, L{Ned}, L{Aer} or L{Local9Tuple}).
-           @kwarg nine: Return 3- or 9-tuple (C{bool}).
+           @kwarg nine: If C{True}, return a 9-, otherwise a 3-tuple (C{bool}).
            @kwarg M: Include the rotation matrix (C{bool}).
 
            @return: A I{geocentric} 3-tuple C{(x, y, z)} or if C{B{nine}=True},
@@ -1065,8 +1063,17 @@ class ChLVe(_ChLV, LocalCartesian):
         return t
 
 
-def tyr3d(tilt=INT0, yaw=INT0, roll=INT0, Vector=Vector3d, **Vector_kwds):
-    '''Convert an attitude oriention into a (3-D) direction vector.
+def _fov_2(**fov):
+    # Half a field-of-view angle in C{degrees}.
+    f = Degrees(Error=LocalError, **fov) * _0_5
+    if EPS < f < _90_0:
+        return f
+    t = _invalid_ if f < 0 else _too_(_wide_ if f > EPS else _narrow_)
+    raise LocalError(txt=t, **fov)
+
+
+def tyr3d(tilt=INT0, yaw=INT0, roll=INT0, Vector=Vector3d, **name_Vector_kwds):
+    '''Convert an attitude pose into a (3-D) direction vector.
 
        @kwarg tilt: Pitch, elevation from horizontal (C{degrees}), negative down
                     (clockwise rotation along and around the x-axis).
@@ -1074,17 +1081,28 @@ def tyr3d(tilt=INT0, yaw=INT0, roll=INT0, Vector=Vector3d, **Vector_kwds):
                    (counter-clockwise rotation along and around the z-axis).
        @kwarg roll: Roll, bank (C{degrees}), positive to the right and down
                     (clockwise rotation along and around the y-axis).
+       @kwarg Vector: Class to return the direction vector (C{Cartesian},
+                      L{Vector3d} or C{Vector3Tuple}) or C{None}.
+       @kwarg name_Vector_kwds: Optional C{B{name}=NN} (C{str}) and optional,
+                   additional B{C{Vector}} keyword arguments, ignored if
+                   C{B{Vector} is None}.
 
        @return: A named B{C{Vector}} instance or if B{C{Vector}} is C{None},
                 a named L{Vector3Tuple}C{(x, y, z)}.
 
+       @raise AttitudeError: Invalid B{C{tilt}}, B{C{yaw}} or B{C{roll}}.
+
+       @raise TypeError: Invalid B{C{Vector}} or B{C{name_Vector_kwds}}.
+
        @see: U{Yaw, pitch, and roll rotations<http://MSL.CS.UIUC.edu/planning/node102.html>}
-             and function L{pygeodesy.hartzell} argument C{los}.
+             and function L{pygeodesy.hartzell} argument C{los}, Line-Of-Sight.
     '''
     d = Attitude4Tuple(_0_0, tilt, yaw, roll).tyr3d
-    return d if Vector is type(d) else (
-           Vector3Tuple(d.x, d.y, d.z, name=d.name) if Vector is None else
-                 Vector(d.x, d.y, d.z, **_xkwds(Vector_kwds, name=d.name)))  # PYCHOK indent
+    if Vector is not type(d):
+        n, kwds = _name2__(name_Vector_kwds, name__=tyr3d)
+        d = Vector3Tuple(d.x, d.y, d.z, name=n) if Vector is None else \
+                  Vector(d.x, d.y, d.z, name=n, **kwds)
+    return d
 
 
 def _xLtp(ltp, *dflt):

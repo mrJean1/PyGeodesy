@@ -21,7 +21,7 @@ from pygeodesy.solveBase import _SolveBase, _SolveLineBase
 from pygeodesy.utily import _unrollon, _Wrap, wrap360
 
 __all__ = _ALL_LAZY.rhumb_solve
-__version__ = '24.04.13'
+__version__ = '24.05.31'
 
 
 class _RhumbSolveBase(_SolveBase):
@@ -90,13 +90,13 @@ class RhumbSolve(_RhumbSolveBase):
        @note: This C{rhumb} is intended I{for testing purposes only}, it invokes the C{RhumbSolve}
               executable for I{every} method call.
     '''
-#   def Area(self, polyline=False, name=NN):
+#   def Area(self, polyline=False, **name):
 #       '''Set up a L{RhumbArea} to compute area and
 #          perimeter of a polygon.
 #
 #          @kwarg polyline: If C{True} perimeter only, otherwise
 #                           area and perimeter (C{bool}).
-#          @kwarg name: Optional name (C{str}).
+#          @kwarg name: Optional C{B{name}=NN} (C{str}).
 #
 #          @return: A L{RhumbArea} instance.
 #
@@ -104,7 +104,7 @@ class RhumbSolve(_RhumbSolveBase):
 #                 to the returned L{RhumbAreaExact} instance.
 #       '''
 #       rA = _MODS.rhumbs.rhumb*.RhumbArea(self, polyline=polyline,
-#                                                name=name or self.name)
+#                                          name=self._name__(name))
 #       if self.verbose or self.debug:  # PYCHOK no cover
 #           rA.verbose = True
 #       return rA
@@ -140,7 +140,7 @@ class RhumbSolve(_RhumbSolveBase):
         '''
         return self.DirectLine(ll1.lat, ll1.lon, azi12, **name_caps)
 
-    def DirectLine(self, lat1, lon1, azi1, caps=Caps.STANDARD, name=NN):
+    def DirectLine(self, lat1, lon1, azi1, caps=Caps.STANDARD, **name):
         '''Set up a L{RhumbLineSolve} in terms of the I{direct} rhumb
            problem to compute several points on a single rhumb line.
 
@@ -150,6 +150,7 @@ class RhumbSolve(_RhumbSolveBase):
            @kwarg caps: Bit-or'ed combination of L{Caps} values specifying
                         the capabilities the L{RhumbLineSolve} instance
                         should possess, always C{Caps.ALL}.
+           @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @return: A L{RhumbLineSolve} instance.
 
@@ -161,7 +162,7 @@ class RhumbSolve(_RhumbSolveBase):
                  <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1RhumbExact.html>}
                  and Python U{Rhumb.Line<https://GeographicLib.SourceForge.io/Python/doc/code.html>}.
         '''
-        return RhumbLineSolve(self, lat1, lon1, azi1, caps=caps, name=name or self.name)
+        return RhumbLineSolve(self, lat1, lon1, azi1, caps=caps, name=self._name__(name))
 
     def _GDictDirect(self, lat, lon, azi1, arcmode, s12_a12, *unused, **floats):  # PYCHOK signature
         '''(INTERNAL) Get C{_GenDirect}-like result as an 8-item C{GDict}.
@@ -206,7 +207,7 @@ class RhumbSolve(_RhumbSolveBase):
             ll2 = _unrollon(ll1, _Wrap.point(ll2))
         return self.InverseLine(ll1.lat, ll1.lon, ll2.lat, ll2.lon, **name_caps)
 
-    def InverseLine(self, lat1, lon1, lat2, lon2, caps=Caps.STANDARD, name=NN):
+    def InverseLine(self, lat1, lon1, lat2, lon2, caps=Caps.STANDARD, **name):
         '''Define a L{RhumbLineSolve} in terms of the I{inverse}
            rhumb problem.
 
@@ -215,6 +216,7 @@ class RhumbSolve(_RhumbSolveBase):
            @arg lat2: Latitude of the second point (C{degrees90}).
            @arg lon2: Longitude of the second point (C{degrees180}).
            @kwarg caps: Optional C{caps}, see L{RhumbLine} C{B{caps}}.
+           @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @return: A L{RhumbLineSolve} instance and invoke its method
                     L{RhumbLine.Position} to compute each point.
@@ -224,7 +226,7 @@ class RhumbSolve(_RhumbSolveBase):
         '''
         r = self.Inverse(lat1, lon1, lat2, lon2)  # outmask=Caps.AZIMUTH
         return RhumbLineSolve(self, lat1, lon1, r.azi12, caps=caps,
-                                    name=name or self.name)
+                                                name=self._name__(name))
 
     Line = DirectLine
 
@@ -239,7 +241,7 @@ class RhumbLineSolve(_RhumbSolveBase, _SolveLineBase):
        @note: This C{rhumb line} is intended I{for testing purposes only}, it invokes the C{RhumbSolve}
               executable for I{every} method call.
     '''
-    def __init__(self, rhumb, lat1, lon1, azi12, caps=Caps.STANDARD, name=NN):
+    def __init__(self, rhumb, lat1, lon1, azi12, caps=Caps.STANDARD, **name):
         '''New L{RhumbLineSolve} instance, allowing points to be found along
            a rhumb starting at C{(B{lat1}, B{lon1})} with azimuth B{C{azi12}}.
 
@@ -252,6 +254,7 @@ class RhumbLineSolve(_RhumbSolveBase, _SolveLineBase):
                         possess, always C{Caps.ALL}.  Use C{Caps.LINE_OFF}
                         if updates to the B{C{rhumb}} should I{not} be
                         reflected in this L{RhumbLineSolve} instance.
+           @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @kwarg name: Optional name (C{str}).
 
@@ -264,7 +267,7 @@ class RhumbLineSolve(_RhumbSolveBase, _SolveLineBase):
         _xinstanceof(RhumbSolve, rhumb=rhumb)
         if (caps & Caps.LINE_OFF):  # copy to avoid updates
             rhumb = rhumb.copy(deep=False, name=NN(_UNDER_, rhumb.name))
-        _SolveLineBase.__init__(self, rhumb, lat1, lon1, caps, name, azi12=azi12)
+        _SolveLineBase.__init__(self, rhumb, lat1, lon1, caps, azi12=azi12, **name)
         try:
             self.RhumbSolve = rhumb.RhumbSolve  # rhumb or copy of rhumb
         except RhumbError:

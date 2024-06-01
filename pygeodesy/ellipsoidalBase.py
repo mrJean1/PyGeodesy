@@ -37,7 +37,7 @@ from pygeodesy.units import Epoch, _isDegrees, Radius_, _1mm as _TOL_M
 # from math import fabs  # from .latlonBase
 
 __all__ = _ALL_LAZY.ellipsoidalBase
-__version__ = '24.05.21'
+__version__ = '24.05.31'
 
 
 class CartesianEllipsoidalBase(CartesianBase):
@@ -741,21 +741,19 @@ class LatLonEllipsoidalBase(LatLonBase):
         '''Parse a string consisting of C{"lat, lon[, height]"},
            representing a similar, ellipsoidal C{LatLon} point.
 
-           @arg strllh: Lat, lon and optional height (C{str}),
-                        see function L{pygeodesy.parse3llh}.
-           @kwarg height: Optional, default height (C{meter} or
-                          C{None}).
-           @kwarg datum: Optional datum (L{Datum}), overriding this
-                         datum I{without conversion}.
-           @kwarg epoch: Optional datum (L{Epoch}), overriding this
-                         epoch I{without conversion}.
-           @kwarg reframe: Optional datum (L{RefFrame}), overriding
-                           this reframe I{without conversion}.
+           @arg strllh: Lat, lon and optional height (C{str}), see function
+                        L{pygeodesy.parse3llh}.
+           @kwarg height: Optional, default height (C{meter} or C{None}).
+           @kwarg datum: Optional datum (L{Datum}), overriding this datum
+                         I{without conversion}.
+           @kwarg epoch: Optional datum (L{Epoch}), overriding this epoch
+                         I{without conversion}.
+           @kwarg reframe: Optional datum (L{RefFrame}), overriding this
+                           reframe I{without conversion}.
            @kwarg sep: Optional separator (C{str}).
-           @kwarg wrap: If C{True}, wrap or I{normalize} the lat-
-                        and longitude (C{bool}).
-           @kwarg name: Optional C{B{name}=NN} (C{str}), overriding
-                        this name.
+           @kwarg wrap: If C{True}, wrap or I{normalize} the lat- and
+                        longitude (C{bool}).
+           @kwarg name: Optional C{B{name}=NN} (C{str}), overriding this name.
 
            @return: The similar point (ellipsoidal C{LatLon}).
 
@@ -914,7 +912,8 @@ class LatLonEllipsoidalBase(LatLonBase):
            @see: Function L{pygeodesy.toOsgr}.
         '''
         if toOsgr_kwds:
-            r = _MODS.osgr.toOsgr(self, kTM=kTM, **_xkwds(toOsgr_kwds, name=self.name))
+            kwds = _name1__(toOsgr_kwds, _or_nameof=self)
+            r = _MODS.osgr.toOsgr(self, kTM=kTM, **kwds)
         else:
             r =  self._osgrTM if kTM else self._osgr
         return r

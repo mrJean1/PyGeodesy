@@ -29,7 +29,7 @@ from pygeodesy.lazily import _ALL_OTHER
 # no modules: auxAngle, auxDLat, auxDST, auxily, auxLat
 __all__ = _ALL_OTHER(Aux, AuxAngle, AuxDLat, AuxDST, AuxLat,
                      AuxBeta, AuxChi, AuxMu, AuxPhi, AuxTheta, AuxXi)
-__version__ = '24.05.24'
+__version__ = '24.05.31'
 
 # **) MIT License
 #

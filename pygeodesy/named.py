@@ -33,7 +33,7 @@ from pygeodesy.props import _allPropertiesOf_n, deprecated_method, _hasProperty,
 from pygeodesy.streprs import attrs, Fmt, lrstrip, pairs, reprs, unstr
 
 __all__ = _ALL_LAZY.named
-__version__ = '24.05.21'
+__version__ = '24.05.31'
 
 _COMMANL_           = _COMMA_ + _NL_
 _COMMASPACEDOT_     = _COMMASPACE_ + _DOT_
@@ -48,69 +48,6 @@ _std_NotImplemented = _getenv('PYGEODESY_NOTIMPLEMENTED', NN).lower() == _std_
 _such_              = 'such'
 _Units_             = '_Units_'
 _UP                 =  2
-
-
-def _xjoined_(prefix, name=NN, enquote=True, **name__of_name):
-    '''(INTERNAL) Join C{prefix} and non-empty C{name}.
-    '''
-    if name__of_name:
-        name = _name__(name, **name__of_name)
-    if name and prefix:
-        if enquote:
-            name = repr(name)
-        t = _SPACE_(prefix, name)
-    else:
-        t =  prefix or name
-    return t
-
-
-def _xnamed(inst, name=NN, force=False, **name__of_name):
-    '''(INTERNAL) Set the instance' C{.name = B{name}}.
-
-       @arg inst: The instance (C{_Named}).
-       @kwarg name: The name (C{str}).
-       @kwarg force: If C{True}, force rename (C{bool}).
-
-       @return: The B{C{inst}}, renamed if B{C{force}}d
-                or if not named before.
-    '''
-    if name__of_name:
-        name = _name__(name, **name__of_name)
-    if name and isinstance(inst, _Named):
-        if not inst.name:
-            inst.name = name
-        elif force:
-            inst.rename(name)
-    return inst
-
-
-def _xother3(inst, other, name=_other_, up=1, **name_other):
-    '''(INTERNAL) Get C{name} and C{up} for a named C{other}.
-    '''
-    if name_other:  # and other is None
-        name, other = _xkwds_item2(name_other)
-    elif other and len(other) == 1:
-        name, other = _name__(name), other[0]
-    else:
-        raise _AssertionError(name, other, txt=classname(inst, prefixed=True))
-    return other, name, up
-
-
-def _xotherError(inst, other, name=_other_, up=1):
-    '''(INTERNAL) Return a C{_TypeError} for an incompatible, named C{other}.
-    '''
-    n = _callname(name, classname(inst, prefixed=True), inst.name, up=up + 1)
-    return _TypeError(name, other, txt=_incompatible(n))
-
-
-def _xvalid(name, underOK=False):
-    '''(INTERNAL) Check valid attribute name C{name}.
-    '''
-    return bool(name and isstr(name)
-                     and name != _name_
-                     and (underOK or not name.startswith(_UNDER_))
-                     and (not iskeyword(name))
-                     and isidentifier(name))
 
 
 class ADict(dict):
@@ -1299,13 +1236,12 @@ def _name__(name=NN, **kwds):
     return name if name or name is None else NN
 
 
-def _name1__(kwds_name, _or_nameof=None):
+def _name1__(kwds_name, **name__or_nameof):
     '''(INTERNAL) Resolve and set the C{B{name}=NN}.
     '''
-    if kwds_name:
-        n, kwds_name = _name2__(kwds_name, _or_nameof=_or_nameof)
-        if n:
-            kwds_name.update(name=n)
+    if kwds_name or name__or_nameof:
+        n, kwds_name = _name2__(kwds_name, **name__or_nameof)
+        kwds_name.update(name=n)
     return kwds_name
 
 
@@ -1403,6 +1339,69 @@ def _Pass(arg, **unused):  # PYCHOK no cover
     '''(INTERNAL) I{Pass-thru} class for C{_NamedTuple._Units_}.
     '''
     return arg
+
+
+def _xjoined_(prefix, name=NN, enquote=True, **name__or_nameof):
+    '''(INTERNAL) Join C{prefix} and non-empty C{name}.
+    '''
+    if name__or_nameof:
+        name = _name__(name, **name__or_nameof)
+    if name and prefix:
+        if enquote:
+            name = repr(name)
+        t = _SPACE_(prefix, name)
+    else:
+        t =  prefix or name
+    return t
+
+
+def _xnamed(inst, name=NN, force=False, **name__or_nameof):
+    '''(INTERNAL) Set the instance' C{.name = B{name}}.
+
+       @arg inst: The instance (C{_Named}).
+       @kwarg name: The name (C{str}).
+       @kwarg force: If C{True}, force rename (C{bool}).
+
+       @return: The B{C{inst}}, renamed if B{C{force}}d
+                or if not named before.
+    '''
+    if name__or_nameof:
+        name = _name__(name, **name__or_nameof)
+    if name and isinstance(inst, _Named):
+        if not inst.name:
+            inst.name = name
+        elif force:
+            inst.rename(name)
+    return inst
+
+
+def _xother3(inst, other, name=_other_, up=1, **name_other):
+    '''(INTERNAL) Get C{name} and C{up} for a named C{other}.
+    '''
+    if name_other:  # and other is None
+        name, other = _xkwds_item2(name_other)
+    elif other and len(other) == 1:
+        name, other = _name__(name), other[0]
+    else:
+        raise _AssertionError(name, other, txt=classname(inst, prefixed=True))
+    return other, name, up
+
+
+def _xotherError(inst, other, name=_other_, up=1):
+    '''(INTERNAL) Return a C{_TypeError} for an incompatible, named C{other}.
+    '''
+    n = _callname(name, classname(inst, prefixed=True), inst.name, up=up + 1)
+    return _TypeError(name, other, txt=_incompatible(n))
+
+
+def _xvalid(name, underOK=False):
+    '''(INTERNAL) Check valid attribute name C{name}.
+    '''
+    return bool(name and isstr(name)
+                     and name != _name_
+                     and (underOK or not name.startswith(_UNDER_))
+                     and (not iskeyword(name))
+                     and isidentifier(name))
 
 
 __all__ += _ALL_DOCS(_Named,

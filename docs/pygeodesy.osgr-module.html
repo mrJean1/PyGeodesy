@@ -106,7 +106,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        24.05.13
+        24.05.31
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -154,8 +154,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.osgr-module.html#parseOSGR" class="summary-sig-name">parseOSGR</a>(<span class="summary-sig-arg">strOSGR</span>,
         <span class="summary-sig-arg">Osgr</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.osgr.Osgr'&gt;</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>,
-        <span class="summary-sig-arg">**Osgr_kwds</span>)</span><br />
+        <span class="summary-sig-arg">**name_Osgr_kwds</span>)</span><br />
       Parse a string representing an OS Grid Reference, consisting of 
       <code>&quot;[GD] easting northing&quot;</code>.</td>
           <td align="right" valign="top">
@@ -178,8 +177,7 @@
         <span class="summary-sig-arg">kTM</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
         <span class="summary-sig-arg">Osgr</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.osgr.Osgr'&gt;</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>,
-        <span class="summary-sig-arg">**prec_Osgr_kwds</span>)</span><br />
+        <span class="summary-sig-arg">**prec_name_Osgr_kwds</span>)</span><br />
       Convert a lat-/longitude point to an OSGR coordinate.</td>
           <td align="right" valign="top">
             
@@ -225,8 +223,7 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">parseOSGR</span>&nbsp;(<span class="sig-arg">strOSGR</span>,
         <span class="sig-arg">Osgr</span>=<span class="sig-default">&lt;class 'pygeodesy.osgr.Osgr'&gt;</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>,
-        <span class="sig-arg">**Osgr_kwds</span>)</span>
+        <span class="sig-arg">**name_Osgr_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -246,8 +243,8 @@
         <li><strong class="pname"><code>Osgr</code></strong> - Optional class to return the OSGR coordinate (<a 
           href="pygeodesy.osgr.Osgr-class.html" class="link">Osgr</a>) or 
           <code>None</code>.</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional <b><code>Osgr</code></b> name (<code>str</code>).</li>
-        <li><strong class="pname"><code>Osgr_kwds</code></strong> - Optional, additional <b><code>Osgr</code></b> keyword arguments, 
+        <li><strong class="pname"><code>name_Osgr_kwds</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>) and 
+          optional, additional <b><code>Osgr</code></b> keyword arguments, 
           ignored if <code><b>Osgr</b> is None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -274,8 +271,7 @@
         <span class="sig-arg">kTM</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">datum</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
         <span class="sig-arg">Osgr</span>=<span class="sig-default">&lt;class 'pygeodesy.osgr.Osgr'&gt;</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>,
-        <span class="sig-arg">**prec_Osgr_kwds</span>)</span>
+        <span class="sig-arg">**prec_name_Osgr_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -304,10 +300,10 @@
         <li><strong class="pname"><code>Osgr</code></strong> - Optional class to return the OSGR coordinate (<a 
           href="pygeodesy.osgr.Osgr-class.html" class="link">Osgr</a>) or 
           <code>None</code>.</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional <b><code>Osgr</code></b> name (<code>str</code>).</li>
-        <li><strong class="pname"><code>prec_Osgr_kwds</code></strong> - Optional <a href="pygeodesy.utily-module.html#truncate" 
+        <li><strong class="pname"><code>prec_name_Osgr_kwds</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>), optional
+          <a href="pygeodesy.utily-module.html#truncate" 
           class="link">truncate</a> precision 
-          <code><b>prec</b>=ndigits</code> and/or additional 
+          <code><b>prec</b>=ndigits</code> and additional 
           <b><code>Osgr</code></b> keyword arguments, ignored if 
           <code><b>Osgr</b> is None</code>.</li>
     </ul></dd>
@@ -365,7 +361,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu May 30 13:26:04 2024
+    Generated by Epydoc 3.0.1 on Sat Jun  1 11:09:31 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

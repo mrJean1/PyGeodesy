@@ -160,7 +160,7 @@ from pygeodesy.utily import atan2d, sincos2d, tand, _unrollon,  fabs
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.karney
-__version__ = '24.05.29'
+__version__ = '24.05.31'
 
 _K_2_0      = _getenv('PYGEODESY_GEOGRAPHICLIB', _2_) == _2_
 _perimeter_ = 'perimeter'
@@ -172,7 +172,7 @@ class _GTuple(_NamedTuple):  # in .testNamedTuples
     def toGDict(self, **updates):  # NO name=NN
         '''Convert this C{*Tuple} to a L{GDict}.
 
-           @kwarg updates: Optional items to apply (C{nam=value} pairs)
+           @kwarg updates: Optional items to apply (C{name=value} pairs)
         '''
         r = GDict(_zip(self._Names_, self))  # strict=True
         if updates:

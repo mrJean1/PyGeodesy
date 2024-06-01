@@ -19,9 +19,11 @@ from pygeodesy.errors import _TypeError, _TypesError, _xattr, \
 from pygeodesy.fmath import hypot, hypot_
 from pygeodesy.interns import NN, _4_, _azimuth_, _center_, _COMMASPACE_, \
                              _ecef_, _elevation_, _height_, _lat_, _lon_, \
-                             _ltp_, _M_, _up_, _X_, _x_, _xyz_, _Y_, _y_, _z_
+                             _ltp_, _M_, _name_, _up_, _X_, _x_, _xyz_, \
+                             _Y_, _y_, _z_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
-from pygeodesy.named import _NamedBase, _NamedTuple, _Pass, _xnamed
+from pygeodesy.named import _name__, _name1__, _name2__, _NamedBase, \
+                            _NamedTuple, _Pass, _xnamed
 from pygeodesy.namedTuples import LatLon2Tuple, PhiLam2Tuple, Vector3Tuple
 from pygeodesy.props import deprecated_method, deprecated_Property_RO, \
                             Property_RO, property_RO
@@ -34,7 +36,7 @@ from pygeodesy.vector3d import Vector3d
 from math import cos, radians
 
 __all__ = _ALL_LAZY.ltpTuples
-__version__ = '24.05.24'
+__version__ = '24.05.31'
 
 _aer_        = 'aer'
 _alt_        = 'alt'
@@ -124,56 +126,66 @@ class _NamedAerNed(_NamedBase):
         '''
         return self._ltp
 
-    def toAer(self, Aer=None, **Aer_kwds):
+    def toAer(self, Aer=None, **name_Aer_kwds):
         '''Get the I{local} I{Azimuth, Elevation, slant Range} (AER) components.
 
            @kwarg Aer: Class to return AER (L{Aer}) or C{None}.
-           @kwarg Aer_kwds: Optional, additional B{L{Aer}} keyword
-                            arguments, ignored if B{C{Aer}} is C{None}.
+           @kwarg name_Aer_kwds: Optional C{B{name}=NN} (C{str}) and
+                       optional, additional B{L{Aer}} keyword arguments,
+                       ignored if B{C{Aer}} is C{None}.
 
            @return: AER as an L{Aer} instance or if C{B{Aer} is None},
                     an L{Aer4Tuple}C{(azimuth, elevation, slantrange, ltp)}.
-        '''
-        return self.xyz4._toXyz(Aer, Aer_kwds)
 
-    def toEnu(self, Enu=None, **Enu_kwds):
+           @raise TypeError: Invalid B{C{Aer}} or B{C{name_Aer_kwds}}.
+        '''
+        return self.xyz4._toXyz(Aer, name_Aer_kwds)
+
+    def toEnu(self, Enu=None, **name_Enu_kwds):
         '''Get the I{local} I{East, North, Up} (ENU) components.
 
            @kwarg Enu: Class to return ENU (L{Enu}) or C{None}.
-           @kwarg Enu_kwds: Optional, additional B{L{Enu}} keyword
-                            arguments, ignored if C{B{Enu} is None}.
+           @kwarg name_Enu_kwds: Optional C{B{name}=NN} (C{str}) and
+                       optional, additional B{L{Enu}} keyword arguments,
+                       ignored if C{B{Enu} is None}.
 
            @return: ENU as an L{Enu} instance or if C{B{Enu} is None},
                     an L{Enu4Tuple}C{(east, north, up, ltp)}.
-        '''
-        return self.xyz4._toXyz(Enu, Enu_kwds)
 
-    def toNed(self, Ned=None, **Ned_kwds):
+           @raise TypeError: Invalid B{C{Enu}} or B{C{name_Enu_kwds}}.
+        '''
+        return self.xyz4._toXyz(Enu, name_Enu_kwds)
+
+    def toNed(self, Ned=None, **name_Ned_kwds):
         '''Get the I{local} I{North, East, Down} (NED) components.
 
            @kwarg Ned: Class to return NED (L{Ned}) or C{None}.
-           @kwarg Ned_kwds: Optional, additional B{L{Ned}} keyword
-                            arguments, ignored if B{C{Ned}} is C{None}.
+           @kwarg name_Ned_kwds: Optional C{B{name}=NN} (C{str}) and
+                       optional, additional B{L{Ned}} keyword arguments,
+                       ignored if B{C{Ned}} is C{None}.
 
            @return: NED as an L{Ned} instance or if C{B{Ned} is None},
                     an L{Ned4Tuple}C{(north, east, down, ltp)}.
-        '''
-        return self.xyz4._toXyz(Ned, Ned_kwds)
 
-    def toXyz(self, Xyz=None, **Xyz_kwds):
+           @raise TypeError: Invalid B{C{Ned}} or B{C{name_Ned_kwds}}.
+        '''
+        return self.xyz4._toXyz(Ned, name_Ned_kwds)
+
+    def toXyz(self, Xyz=None, **name_Xyz_kwds):
         '''Get the local I{X, Y, Z} (XYZ) components.
 
            @kwarg Xyz: Class to return XYZ (L{XyzLocal}, L{Enu},
                        L{Ned}, L{Aer}) or C{None}.
-           @kwarg Xyz_kwds: Optional, additional B{C{Xyz}} keyword
-                            arguments, ignored if C{B{Xyz} is None}.
+           @kwarg name_Xyz_kwds: Optional C{B{name}=NN} (C{str}) and
+                       optional, additional B{C{Xyz}} keyword arguments,
+                       ignored if C{B{Xyz} is None}.
 
            @return: XYZ as an B{C{Xyz}} instance or if C{B{Xyz} is None},
                     an L{Xyz4Tuple}C{(x, y, z, ltp)}.
 
-           @raise TypeError: Invalid B{C{Xyz}}.
+           @raise TypeError: Invalid B{C{Xyz}} or B{C{name_Xyz_kwds}}.
         '''
-        return self.xyz4._toXyz(Xyz, Xyz_kwds)
+        return self.xyz4._toXyz(Xyz, name_Xyz_kwds)
 
     @Property_RO
     def xyz(self):
@@ -202,7 +214,7 @@ class Aer(_NamedAerNed):
     _slantrange = _0_0   # distance (C{Meter})
     _toStr      = _aer_
 
-    def __init__(self, azimuth_aer, elevation=0, slantrange=0, ltp=None, name=NN):
+    def __init__(self, azimuth_aer, elevation=0, slantrange=0, ltp=None, **name):
         '''New L{Aer}.
 
            @arg azimuth_aer: Scalar azimuth, bearing from North (compass C{degrees})
@@ -216,7 +228,7 @@ class Aer(_NamedAerNed):
                               B{C{azimuth_aer}}.
            @kwarg ltp: The I{local tangent plane}, (geodetic) origin (L{Ltp},
                        L{LocalCartesian}).
-           @kwarg name: Optional name (C{str}).
+           @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @raise TypeError: Invalid B{C{azimuth_aer}} or B{C{ltp}}.
 
@@ -227,18 +239,18 @@ class Aer(_NamedAerNed):
             self._azimuth    = Bearing(azimuth=azimuth_aer)
             self._elevation  = Degrees_(elevation=elevation, low=_N_90_0, high=_90_0)
             self._slantrange = Meter_(slantrange=slantrange)
-            p, n = ltp, name
+            p, n = ltp, _name__(**name)
         else:  # PYCHOK no cover
             p = _xyzLocal(Aer, Aer4Tuple, Ned, azimuth_aer=azimuth_aer)
             aer = p.toAer() if p else azimuth_aer
             self._azimuth, self._elevation, self._slantrange = \
               aer.azimuth,   aer.elevation,   aer.slantrange
             p = _xattr(aer, ltp=ltp)
-            n =  name or _xattr(aer, name=name)
+            n =  aer._name__(name)
 
         if p:
             self._ltp = _MODS.ltp._xLtp(p)
-        if name:
+        if n:
             self.name = n
 
     @Property_RO
@@ -412,7 +424,7 @@ class Ned(_NamedAerNed):
     _north = _0_0   # north, XyzLocal.x (C{meter})
     _toStr = _ned_
 
-    def __init__(self, north_ned, east=0, down=0, ltp=None, name=NN):
+    def __init__(self, north_ned, east=0, down=0, ltp=None, **name):
         '''New L{Ned} vector.
 
            @arg north_ned: Scalar North component (C{meter}) or a previous
@@ -426,7 +438,7 @@ class Ned(_NamedAerNed):
                         scalar B{C{north_ned}}.
            @kwarg ltp: The I{local tangent plane}, (geodetic) origin (L{Ltp},
                        L{LocalCartesian}).
-           @kwarg name: Optional name (C{str}).
+           @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @raise TypeError: Invalid B{C{north_ned}} or B{C{ltp}}.
 
@@ -436,13 +448,13 @@ class Ned(_NamedAerNed):
             self._north = Meter(north=north_ned or _0_0)
             self._east  = Meter(east=east or _0_0)
             self._down  = Meter(down=down or _0_0)
-            p, n = ltp, name
+            p, n = ltp, _name__(**name)
         else:  # PYCHOK no cover
             p = _xyzLocal(Ned, Ned4Tuple, Aer, north_ned=north_ned)
             ned = p.toNed() if p else north_ned
             self._north, self._east, self._down = ned.north, ned.east, ned.down
             p = _xattr(ned, ltp=ltp)
-            n =  name or _xattr(ned, name=name)
+            n =  ned._name__(name)
 
         if p:
             self._ltp = _MODS.ltp._xLtp(p)
@@ -646,7 +658,7 @@ class XyzLocal(_Vector3d):
     '''
     _ltp = None  # local tangent plane (C{Ltp}), origin
 
-    def __init__(self, x_xyz, y=0, z=0, ltp=None, name=NN):
+    def __init__(self, x_xyz, y=0, z=0, ltp=None, **name):
         '''New L{XyzLocal}.
 
            @arg x_xyz: Scalar X component (C{meter}), C{positive east} or a
@@ -660,6 +672,7 @@ class XyzLocal(_Vector3d):
                      used with scalar B{C{x_xyz}}.
            @kwarg ltp: The I{local tangent plane}, (geodetic) origin (L{Ltp},
                        L{LocalCartesian}).
+           @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @raise TypeError: Invalid B{C{x_xyz}} or B{C{ltp}}.
 
@@ -669,12 +682,12 @@ class XyzLocal(_Vector3d):
             self._x = Meter(x=x_xyz or _0_0)
             self._y = Meter(y=y or _0_0)
             self._z = Meter(z=z or _0_0)
-            p, n = ltp, name
+            p, n = ltp, _name__(**name)
         else:
             xyz = _xyzLocal(XyzLocal, Xyz4Tuple, Local9Tuple, x_xyz=x_xyz) or x_xyz
             self._x, self._y, self._z = xyz.x, xyz.y, xyz.z
             p = _xattr(xyz, ltp=ltp)
-            n =  name or _xattr(xyz, name=NN)
+            n =  xyz._name__(name)
 
         if p:
             self._ltp = _MODS.ltp._xLtp(p)
@@ -707,8 +720,8 @@ class XyzLocal(_Vector3d):
 
            @return: New instance (C{self.__class__}).
         '''
-        kwds = _xkwds(kwds, ltp=self.ltp, name=self.name)
-        return self.__class__(*args, **kwds)
+        kwds = _name1__(kwds, _or_nameof=self)
+        return self.__class__(*args, **_xkwds(kwds, ltp=self.ltp))
 
     @Property_RO
     def down(self):
@@ -755,6 +768,14 @@ class XyzLocal(_Vector3d):
         '''
         return self._ltp
 
+    def _ltp_kwds_name3(self, ltp, kwds):
+        '''(INTERNAL) Helper for methods C{toCartesian} and C{toLatLon}.
+        '''
+        ltp  = _MODS.ltp._xLtp(ltp, self.ltp)
+        kwds = _name1__(kwds, _or_nameof=self)
+        kwds = _name1__(kwds, _or_nameof=ltp)
+        return ltp, kwds, kwds.get(_name_, NN)
+
     @Property_RO
     def ned4(self):
         '''Get the C{(north, east, down, ltp)} components (L{Ned4Tuple}).
@@ -773,124 +794,136 @@ class XyzLocal(_Vector3d):
         '''
         return self.aer4.slantrange
 
-    def toAer(self, Aer=None, **Aer_kwds):
+    def toAer(self, Aer=None, **name_Aer_kwds):
         '''Get the local I{Azimuth, Elevation, slantRange} components.
 
            @kwarg Aer: Class to return AER (L{Aer}) or C{None}.
-           @kwarg Aer_kwds: Optional, additional B{C{Aer}} keyword
-                            arguments, ignored if C{B{Aer} is None}.
+           @kwarg name_Aer_kwds: Optional C{B{name}=NN} (C{str}) and
+                       optional, additional B{C{Aer}} keyword arguments,
+                       ignored if C{B{Aer} is None}.
 
            @return: AER as an L{Aer} instance or if C{B{Aer} is None}, an
                     L{Aer4Tuple}C{(azimuth, elevation, slantrange, ltp)}.
 
-           @raise TypeError: Invalid B{C{Aer}}.
+           @raise TypeError: Invalid B{C{Aer}} or B{C{name_Aer_kwds}}.
         '''
-        return self.aer4._toAer(Aer, Aer_kwds)
+        return self.aer4._toAer(Aer, name_Aer_kwds)
 
-    def toCartesian(self, Cartesian=None, ltp=None, **Cartesian_kwds):
+    def toCartesian(self, Cartesian=None, ltp=None, **name_Cartesian_kwds):
         '''Get the geocentric C{(x, y, z)} (ECEF) coordinates of this local.
 
            @kwarg Cartesian: Optional class to return C{(x, y, z)} (C{Cartesian})
                              or C{None}.
            @kwarg ltp: Optional I{local tangent plane} (LTP) (L{Ltp}),
                        overriding this C{ltp}.
-           @kwarg Cartesian_kwds: Optional, additional B{C{Cartesian}} keyword
-                                  arguments, ignored if C{B{Cartesian} is None}.
+           @kwarg name_Cartesian_kwds: Optional C{B{name}=NN} (C{str}) and
+                       optional, additional B{C{Cartesian}} keyword arguments,
+                       ignored if C{B{Cartesian} is None}.
 
            @return: A B{C{Cartesian}} instance of if C{B{Cartesian} is None}, an
                     L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M, datum)}
                     with C{M=None}, always.
 
            @raise TypeError: Invalid B{C{ltp}}, B{C{Cartesian}} or
-                             B{C{Cartesian_kwds}} argument.
+                             B{C{name_Cartesian_kwds}}.
         '''
-        ltp = _MODS.ltp._xLtp(ltp, self.ltp)
+        ltp, kwds, n = self._ltp_kwds_name3(ltp, name_Cartesian_kwds)
         if Cartesian is None:
-            r = ltp._local2ecef(self, nine=True)
+            t =  ltp._local2ecef(self, nine=True)
+            r = _xnamed(t, n) if n else t
         else:
-            x, y, z = ltp._local2ecef(self)
-            kwds = _xkwds(Cartesian_kwds, datum=ltp.datum)
+            kwds    = _xkwds(kwds, datum=ltp.datum)
+            x, y, z =  ltp._local2ecef(self)
             r = Cartesian(x, y, z, **kwds)
-        return _xnamed(r, self.name or ltp.name)
+        return r
 
-    def toEnu(self, Enu=None, **Enu_kwds):
+    def toEnu(self, Enu=None, **name_Enu_kwds):
         '''Get the local I{East, North, Up} (ENU) components.
 
            @kwarg Enu: Class to return ENU (L{Enu}) or C{None}.
-           @kwarg Enu_kwds: Optional, additional B{C{Enu}} keyword
-                            arguments, ignored if C{B{Enu} is None}.
+           @kwarg name_Enu_kwds: Optional C{B{name}=NN} (C{str}) and
+                       optional, additional B{C{Enu}} keyword arguments,
+                       ignored if C{B{Enu} is None}.
 
            @return: ENU as an L{Enu} instance or if C{B{Enu} is None},
                     an L{Enu4Tuple}C{(east, north, up, ltp)}.
-        '''
-        return self.enu4._toEnu(Enu, Enu_kwds)
 
-    def toLatLon(self, LatLon=None, ltp=None, **LatLon_kwds):
+           @raise TypeError: Invalid B{C{Enu}} or B{C{name_Enu_kwds}}.
+        '''
+        return self.enu4._toEnu(Enu, name_Enu_kwds)
+
+    def toLatLon(self, LatLon=None, ltp=None, **name_LatLon_kwds):
         '''Get the geodetic C{(lat, lon, height)} coordinates if this local.
 
            @kwarg LatLon: Optional class to return C{(x, y, z)} (C{LatLon})
                           or C{None}.
            @kwarg ltp: Optional I{local tangent plane} (LTP) (L{Ltp}),
                        overriding this ENU/NED/AER/XYZ's LTP.
-           @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
-                               arguments, ignored if C{B{LatLon} is None}.
+           @kwarg name_LatLon_kwds: Optional C{B{name}=NN} (C{str}) and
+                       optional, additional B{C{LatLon}} keyword arguments,
+                       ignored if C{B{LatLon} is None}.
 
            @return: An B{C{LatLon}} instance of if C{B{LatLon} is None}, an
                     L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M,
                     datum)} with C{M=None}, always.
 
            @raise TypeError: Invalid B{C{ltp}}, B{C{LatLon}} or
-                             B{C{LatLon_kwds}} argument.
+                             B{C{name_LatLon_kwds}}.
         '''
-        ltp = _MODS.ltp._xLtp(ltp, self.ltp)
-        r = ltp._local2ecef(self, nine=True)
+        ltp, kwds, n = self._ltp_kwds_name3(ltp, name_LatLon_kwds)
+        t = ltp._local2ecef(self, nine=True)
         if LatLon is None:
-            r = _xnamed(r, self.name or ltp.name)
+            r = _xnamed(t, n) if n else t
         else:
-            kwds = _xkwds(LatLon_kwds, height=r.height, datum=r.datum,
-                                       name=self.name or ltp.name)
-            r = LatLon(r.lat, r.lon, **kwds)  # XXX ltp?
+            kwds = _xkwds(kwds, height=t.height, datum=t.datum)
+            r = LatLon(t.lat, t.lon, **kwds)  # XXX ltp?
         return r
 
-    def toLocal9Tuple(self, M=False, name=NN):
+    def toLocal9Tuple(self, M=False, **name):
         '''Get this local as a C{Local9Tuple}.
 
            @kwarg M: Optionally include the rotation matrix (C{bool}).
-           @kwarg name: Optional name (C{str}).
+           @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @return: L{Local9Tuple}C{(x, y, z, lat, lon, height, ltp,
                     ecef, M)} with C{ltp} this C{Ltp}, C{ecef} an
                     L{Ecef9Tuple} and C{M} L{EcefMatrix} or C{None}.
         '''
         ltp = self.ltp  # see C{self.toLatLon}
-        t = ltp._local2ecef(self, nine=True, M=M)
+        t   = ltp._local2ecef(self, nine=True, M=M)
         return Local9Tuple(self.x, self.y, self.z, t.lat, t.lon, t.height,
-                                           ltp, t, t.M, name=name or t.name)
+                                           ltp, t, t.M, name=t._name__(name))
 
-    def toNed(self, Ned=None, **Ned_kwds):
+    def toNed(self, Ned=None, **name_Ned_kwds):
         '''Get the local I{North, East, Down} (Ned) components.
 
            @kwarg Ned: Class to return NED (L{Ned}) or C{None}.
-           @kwarg Ned_kwds: Optional, additional B{C{Ned}} keyword
-                            arguments, ignored if C{B{Ned} is None}.
+           @kwarg name_Ned_kwds: Optional C{B{name}=NN} (C{str}) and
+                       optional, additional B{C{Ned}} keyword arguments,
+                       ignored if C{B{Ned} is None}.
 
            @return: NED as an L{Ned} instance or if C{B{Ned} is None},
                     an L{Ned4Tuple}C{(north, east, down, ltp)}.
-        '''
-        return self.ned4._toNed(Ned, Ned_kwds)
 
-    def toXyz(self, Xyz=None, **Xyz_kwds):
+           @raise TypeError: Invalid B{C{Ned}} or B{C{name_Ned_kwds}}.
+        '''
+        return self.ned4._toNed(Ned, name_Ned_kwds)
+
+    def toXyz(self, Xyz=None, **name_Xyz_kwds):
         '''Get the local I{X, Y, Z} (XYZ) components.
 
            @kwarg Xyz: Class to return XYZ (L{XyzLocal}, L{Enu},
                        L{Ned}, L{Aer}) or C{None}.
-           @kwarg Xyz_kwds: Optional, additional B{C{Xyz}} keyword
-                            arguments, ignored if C{B{Xyz} is None}.
+           @kwarg name_Xyz_kwds: Optional C{B{name}=NN} (C{str}) and
+                       optional, additional B{C{Xyz}} keyword arguments,
+                       ignored if C{B{Xyz} is None}.
 
            @return: XYZ as an B{C{Xyz}} instance or if C{B{Xyz} is None},
                     an L{Xyz4Tuple}C{(x, y, z, ltp)}.
+
+           @raise TypeError: Invalid B{C{Xyz}} or B{C{name_EXyz_kwds}}.
         '''
-        return self.xyz4._toXyz(Xyz, Xyz_kwds)
+        return self.xyz4._toXyz(Xyz, name_Xyz_kwds)
 
     @Property_RO
     def up(self):
@@ -944,10 +977,11 @@ class Xyz4Tuple(_NamedTuple):
     def _toXyz(self, Cls, Cls_kwds):
         '''(INTERNAL) Return C{Cls(..., **Cls_kwds)} instance.
         '''
+        kwds = _name1__(Cls_kwds, _or_nameof=self)
         if issubclassof(Cls, XyzLocal):
-            return Cls(*self, **_xkwds(Cls_kwds, name=self.name))
+            return  Cls(*self, **kwds)
         else:
-            return _4Tuple2Cls(self, Cls, Cls_kwds)
+            return _4Tuple2Cls(self, Cls, kwds)
 
     @Property_RO
     def xyzLocal(self):
@@ -964,7 +998,7 @@ class Enu(XyzLocal):
     '''
     _toStr = _enu_
 
-    def __init__(self, east_enu, north=0, up=0, ltp=None, name=NN):
+    def __init__(self, east_enu, north=0, up=0, ltp=None, **name):
         '''New L{Enu}.
 
            @arg east_enu: Scalar East component (C{meter}) or a previous
@@ -977,27 +1011,28 @@ class Enu(XyzLocal):
                       normal from the surface of the ellipsoid or sphere (C{meter}).
            @kwarg ltp: The I{local tangent plane}, (geodetic) origin (L{Ltp},
                        L{LocalCartesian}).
-           @kwarg name: Optional name (C{str}).
+           @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @raise TypeError: Invalid B{C{east_enu}} or B{C{ltp}}.
 
            @raise UnitError: Invalid B{C{east_enu}}, B{C{north}} or B{C{up}}.
         '''
-        XyzLocal.__init__(self, east_enu, north, up, ltp=ltp, name=name)
+        XyzLocal.__init__(self, east_enu, north, up, ltp=ltp, **name)
 
-    def toUvw(self, location, Uvw=None, **Uvw_kwds):
+    def toUvw(self, location, Uvw=None, **name_Uvw_kwds):
         '''Get the I{u, v, w} (UVW) components at a location.
 
            @arg location: The geodetic (C{LatLon}) or geocentric (C{Cartesian},
                           L{Vector3d}) location, like a Point-Of-View.
            @kwarg Uvw: Class to return UWV (L{Uvw}) or C{None}.
-           @kwarg Uvw_kwds: Optional, additional B{L{Uvw}} keyword
-                            arguments, ignored if C{B{Uvw} is None}.
+           @kwarg name_Uvw_kwds: Optional C{B{name}=NN} (C{str}) and optional,
+                       additional B{L{Uvw}} keyword arguments, ignored if
+                       C{B{Uvw} is None}.
 
            @return: UVW as a L{Uvw} instance or if C{B{Uvw} is None}, a
                     L{Uvw3Tuple}C{(u, v, w)}.
 
-           @raise TypeError: InvalidB{C{location}}.
+           @raise TypeError: Invalid B{C{location}} or B{C{name_Uvw_kwds}}.
 
            @see: Function U{lookAtSpheroid<https://PyPI.org/project/pymap3d>}.
         '''
@@ -1011,8 +1046,10 @@ class Enu(XyzLocal):
         U = cb * t - sb * e
         V = cb * e + sb * t
         W = ca * n + sa * u
-        return Uvw3Tuple(U, V, W, name=self.name) if Uvw is None else \
-               Uvw(      U, V, W, **_xkwds(Uvw_kwds, name=self.name))
+
+        n, kwds = _name2__(name_Uvw_kwds, _or_nameof=self)
+        return Uvw3Tuple(U, V, W, name=n) if Uvw is None else \
+               Uvw(      U, V, W, name=n, **kwds)
 
     @Property_RO
     def xyzLocal(self):
@@ -1030,10 +1067,11 @@ class Enu4Tuple(_NamedTuple):
     def _toEnu(self, Cls, Cls_kwds):
         '''(INTERNAL) Return C{Cls(..., **Cls_kwds)} instance.
         '''
+        kwds = _name1__(Cls_kwds, _or_nameof=self)
         if issubclassof(Cls, XyzLocal):
-            return Cls(*self, **_xkwds(Cls_kwds, name=self.name))
+            return  Cls(*self, **kwds)
         else:
-            return _4Tuple2Cls(self, Cls, Cls_kwds)
+            return _4Tuple2Cls(self, Cls, kwds)
 
     @Property_RO
     def xyzLocal(self):
@@ -1130,87 +1168,99 @@ class Local9Tuple(_NamedTuple):
         '''
         return self.xyzLocal.aer4.slantrange
 
-    def toAer(self, Aer=None, **Aer_kwds):
+    def toAer(self, Aer=None, **name_Aer_kwds):
         '''Get the I{local} I{Azimuth, Elevation, slant Range} (AER) components.
 
            @kwarg Aer: Class to return AER (L{Aer}) or C{None}.
-           @kwarg Aer_kwds: Optional, additional B{L{Aer}} keyword
-                            arguments, ignored if B{C{Aer}} is C{None}.
+           @kwarg name_Aer_kwds: Optional C{B{name}=NN} (C{str}) and optional,
+                       additional B{L{Aer}} keyword arguments, ignored if
+                       B{C{Aer}} is C{None}.
 
-           @return: AER as an L{Aer} instance or if C{B{Aer} is None},
-                    an L{Aer4Tuple}C{(azimuth, elevation, slantrange, ltp)}.
+           @return: AER as an L{Aer} instance or if C{B{Aer} is None}, an
+                    L{Aer4Tuple}C{(azimuth, elevation, slantrange, ltp)}.
+
+           @raise TypeError: Invalid B{C{Aer}} or B{C{name_Aer_kwds}}.
         '''
-        return self.xyzLocal.toAer(Aer=Aer, **Aer_kwds)
+        return self.xyzLocal.toAer(Aer=Aer, **name_Aer_kwds)
 
-    def toCartesian(self, Cartesian=None, **Cartesian_kwds):
+    def toCartesian(self, Cartesian=None, **name_Cartesian_kwds):
         '''Convert this I{local} to I{geocentric} C{(x, y, z)} (ECEF).
 
            @kwarg Cartesian: Optional class to return C{(x, y, z)} (C{Cartesian})
                              or C{None}.
-           @kwarg Cartesian_kwds: Optional, additional B{C{Cartesian}} keyword
-                                  arguments, ignored if C{B{Cartesian} is None}.
+           @kwarg name_Cartesian_kwds: Optional C{B{name}=NN} (C{str}) and optional,
+                       additional B{C{Cartesian}} keyword arguments, ignored if
+                       C{B{Cartesian} is None}.
 
-           @return: A C{B{Cartesian}(x, y, z, **B{Cartesian_kwds})} instance
-                    or a L{Vector4Tuple}C{(x, y, z, h)} if C{B{Cartesian} is None}.
+           @return: A C{B{Cartesian}(x, y, z, **B{Cartesian_kwds})} instance or
+                    if C{B{Cartesian} is None}, a L{Vector4Tuple}C{(x, y, z, h)} .
 
-           @raise TypeError: Invalid B{C{Cartesian}} or B{C{Cartesian_kwds}}
-                             argument.
+           @raise TypeError: Invalid B{C{Cartesian}} or B{C{name_Cartesian_kwds}}.
         '''
-        return self.ecef.toCartesian(Cartesian=Cartesian, **Cartesian_kwds)  # PYCHOK _Tuple
+        return self.ecef.toCartesian(Cartesian=Cartesian, **name_Cartesian_kwds)  # PYCHOK _Tuple
 
-    def toEnu(self, Enu=None, **Enu_kwds):
+    def toEnu(self, Enu=None, **name_Enu_kwds):
         '''Get the I{local} I{East, North, Up} (ENU) components.
 
            @kwarg Enu: Class to return ENU (L{Enu}) or C{None}.
-           @kwarg Enu_kwds: Optional, additional B{L{Enu}} keyword
-                            arguments, ignored if C{B{Enu} is None}.
+           @kwarg name_Enu_kwds: Optional C{B{name}=NN} (C{str}) and optional,
+                       additional B{L{Enu}} keyword arguments, ignored if
+                       C{B{Enu} is None}.
 
-           @return: ENU as an L{Enu} instance or if C{B{Enu} is None},
-                    an L{Enu4Tuple}C{(east, north, up, ltp)}.
+           @return: ENU as an L{Enu} instance or if C{B{Enu} is None}, an
+                    L{Enu4Tuple}C{(east, north, up, ltp)}.
+
+           @raise TypeError: Invalid B{C{Enu}} or B{C{name_Enu_kwds}}.
         '''
-        return self.xyzLocal.toEnu(Enu=Enu, **Enu_kwds)
+        return self.xyzLocal.toEnu(Enu=Enu, **name_Enu_kwds)
 
-    def toLatLon(self, LatLon=None, **LatLon_kwds):
+    def toLatLon(self, LatLon=None, **name_LatLon_kwds):
         '''Convert this I{local} to I{geodetic} C{(lat, lon, height)}.
 
            @kwarg LatLon: Optional class to return C{(lat, lon, height)}
                           (C{LatLon}) or C{None}.
-           @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
-                               arguments, ignored if C{B{LatLon} is None}.
+           @kwarg name_LatLon_kwds: Optional C{B{name}=NN} (C{str}) and optional,
+                       additional B{C{LatLon}} keyword arguments, ignored if
+                       C{B{LatLon} is None}.
 
            @return: An instance of C{B{LatLon}(lat, lon, **B{LatLon_kwds})}
                     or if C{B{LatLon} is None}, a L{LatLon3Tuple}C{(lat, lon,
                     height)} respectively L{LatLon4Tuple}C{(lat, lon, height,
                     datum)} depending on whether C{datum} is un-/specified.
 
-           @raise TypeError: Invalid B{C{LatLon}} or B{C{LatLon_kwds}}
-                             argument.
+           @raise TypeError: Invalid B{C{LatLon}} or B{C{name_LatLon_kwds}}.
         '''
-        return self.ecef.toLatLon(LatLon=LatLon, **LatLon_kwds)  # PYCHOK _Tuple
+        return self.ecef.toLatLon(LatLon=LatLon, **name_LatLon_kwds)  # PYCHOK _Tuple
 
-    def toNed(self, Ned=None, **Ned_kwds):
+    def toNed(self, Ned=None, **name_Ned_kwds):
         '''Get the I{local} I{North, East, Down} (NED) components.
 
            @kwarg Ned: Class to return NED (L{Ned}) or C{None}.
-           @kwarg Ned_kwds: Optional, additional B{L{Ned}} keyword
-                            arguments, ignored if B{C{Ned}} is C{None}.
+           @kwarg name_Ned_kwds: Optional C{B{name}=NN} (C{str}) and optional,
+                       additional B{L{Ned}} keyword arguments, ignored if
+                       B{C{Ned}} is C{None}.
 
-           @return: NED as an L{Ned} instance or if C{B{Ned} is None},
-                    an L{Ned4Tuple}C{(north, east, down, ltp)}.
+           @return: NED as an L{Ned} instance or if C{B{Ned} is None}, an
+                    L{Ned4Tuple}C{(north, east, down, ltp)}.
+
+           @raise TypeError: Invalid B{C{Ned}} or B{C{name_Ned_kwds}}.
         '''
-        return self.xyzLocal.toNed(Ned=Ned, **Ned_kwds)
+        return self.xyzLocal.toNed(Ned=Ned, **name_Ned_kwds)
 
-    def toXyz(self, Xyz=None, **Xyz_kwds):
+    def toXyz(self, Xyz=None, **name_Xyz_kwds):
         '''Get the I{local} I{X, Y, Z} (XYZ) components.
 
            @kwarg Xyz: Class to return XYZ (L{XyzLocal}) or C{None}.
-           @kwarg Xyz_kwds: Optional, additional B{C{Xyz}} keyword
-                            arguments, ignored if C{B{Xyz} is None}.
+           @kwarg name_Xyz_kwds: Optional C{B{name}=NN} (C{str}) and optional,
+                       additional B{C{Xyz}} keyword arguments, ignored if
+                       C{B{Xyz} is None}.
 
            @return: XYZ as an B{C{Xyz}} instance or if C{B{Xyz} is None},
                     an L{Xyz4Tuple}C{(x, y, z, ltp)}.
+
+           @raise TypeError: Invalid B{C{Xyz}} or B{C{name_Xyz_kwds}}.
         '''
-        return self.xyzLocal.toXyz(Xyz=Xyz, **Xyz_kwds)
+        return self.xyzLocal.toXyz(Xyz=Xyz, **name_Xyz_kwds)
 
     @Property_RO
     def up(self):
@@ -1240,34 +1290,35 @@ class Uvw(_Vector3d):
     '''
     _toStr = _uvw_
 
-    def __init__(self, u_uvw, v=0, w=0, name=NN):
+    def __init__(self, u_uvw, v=0, w=0, **name):
         '''New L{Uvw}.
 
            @arg u_uvw: Scalar U component (C{meter}) or a previous instance
                        (L{Uvw}, L{Uvw3Tuple}, L{Vector3d}).
            @kwarg v: V component (C{meter}) only used with scalar B{C{u_uvw}}.
            @kwarg w: W component (C{meter}) only used with scalar B{C{u_uvw}}.
-           @kwarg name: Optional name (C{str}).
+           @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @raise TypeError: Invalid B{C{east_enu}}.
 
            @raise UnitError: Invalid B{C{east_enu}}, B{C{v}} or B{C{w}}.
         '''
-        Vector3d.__init__(self, u_uvw, v, w, name=name)
+        Vector3d.__init__(self, u_uvw, v, w, **name)
 
-    def toEnu(self, location, Enu=Enu, **Enu_kwds):
+    def toEnu(self, location, Enu=Enu, **name_Enu_kwds):
         '''Get the I{East, North, Up} (ENU) components at a location.
 
            @arg location: The geodetic (C{LatLon}) or geocentric (C{Cartesian},
                           L{Vector3d}) location from where to cast the L{Los}.
            @kwarg Enu: Class to return ENU (L{Enu}) or C{None}.
-           @kwarg Enu_kwds: Optional, additional B{L{Enu}} keyword
-                            arguments, ignored if C{B{Enu} is None}.
+           @kwarg name_Enu_kwds: Optional C{B{name}=NN} (C{str}) and optional,
+                       additional B{L{Enu}} keyword arguments, ignored if
+                       C{B{Enu} is None}.
 
            @return: ENU as an L{Enu} instance or if C{B{Enu} is None}, an
                     L{Enu4Tuple}C{(east, north, up, ltp)} with C{ltp=None}.
 
-           @raise TypeError: InvalidB{C{location}}.
+           @raise TypeError: Invalid B{C{location}} or B{C{name_Enu_kwds}}.
 
            @see: Function U{lookAtSpheroid<https://PyPI.org/project/pymap3d>}.
         '''
@@ -1281,8 +1332,10 @@ class Uvw(_Vector3d):
         E = cb * v - sb * u
         N = ca * w - sa * t
         U = ca * t + sa * w
-        return Enu4Tuple(E, N, U, name=self.name) if Enu is None else \
-               Enu(      E, N, U, **_xkwds(Enu_kwds, name=self.name))
+
+        n, kwds = _name2__(name_Enu_kwds, _or_nameof=self)
+        return Enu4Tuple(E, N, U, name=n) if Enu is None else \
+               Enu(      E, N, U, name=n, **kwds)
 
     u = Vector3d.x
 
@@ -1307,7 +1360,7 @@ class Los(Aer):
     '''A Line-Of-Sight (LOS) from a C{LatLon} or C{Cartesian} location.
     '''
 
-    def __init__(self, azimuth_aer, elevation=0, name=NN):
+    def __init__(self, azimuth_aer, elevation=0, **name):
         '''New L{Los}.
 
            @arg azimuth_aer: Scalar azimuth, bearing from North (compass C{degrees})
@@ -1316,16 +1369,16 @@ class Los(Aer):
            @kwarg elevation: Scalar angle I{above} the horizon (C{degrees}, horizon
                              is 0, zenith +90, nadir -90), only used with scalar
                              B{C{azimuth_aer}}.
-           @kwarg name: Optional name (C{str}).
+           @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @raise TypeError: Invalid B{C{azimuth_aer}}.
 
            @raise UnitError: Invalid B{C{azimuth_aer}} or B{C{elevation}}.
         '''
         t = Aer(azimuth_aer, elevation)
-        Aer.__init__(self, t.azimuth, t.elevation, slantrange=_1_0, name=name)
+        Aer.__init__(self, t.azimuth, t.elevation, slantrange=_1_0, **name)
 
-    def toUvw(self, location, Uvw=Uvw, **Uvw_kwds):
+    def toUvw(self, location, Uvw=Uvw, **name_Uvw_kwds):
         '''Get this LOS' I{target} (UVW) components from a location.
 
            @arg location: The geodetic (C{LatLon}) or geocentric (C{Cartesian},
@@ -1333,14 +1386,14 @@ class Los(Aer):
 
            @see: Method L{Enu.toUvw} for further details.
         '''
-        return self.toEnu().toUvw(location, Uvw=Uvw, **Uvw_kwds)
+        return self.toEnu().toUvw(location, Uvw=Uvw, **name_Uvw_kwds)
 
-    def toEnu(self, Enu=Enu, **Enu_kwds):
+    def toEnu(self, Enu=Enu, **name_Enu_kwds):
         '''Get this LOS as I{East, North, Up} (ENU) components.
 
            @see: Method L{Aer.toEnu} for further details.
         '''
-        return Aer.toEnu(self, Enu=Enu, **Enu_kwds)
+        return Aer.toEnu(self, Enu=Enu, **name_Enu_kwds)
 
 
 class ChLV9Tuple(Local9Tuple):
@@ -1497,28 +1550,30 @@ class Footprint5Tuple(_NamedTuple):
     _Names_ = (_center_, 'upperleft', 'upperight', 'loweright', 'lowerleft')
     _Units_ = (_Pass,    _Pass,       _Pass,       _Pass,       _Pass)
 
-    def toLatLon5(self, ltp=None, LatLon=None, **LatLon_kwds):
+    def toLatLon5(self, ltp=None, LatLon=None, **name_LatLon_kwds):
         '''Convert this footprint's C{center} and 4 corners to I{geodetic}
            C{LatLon(lat, lon, height)}s or C{LatLon3-} or C{-4Tuple}s.
 
            @kwarg ltp: The I{local tangent plane} (L{Ltp}), overriding this
                        footprint's C{center} or C{frustrum} C{ltp}.
            @kwarg LatLon: Optional I{geodetic} class (C{LatLon}) or C{None}.
-           @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
-                               arguments, ignored if C{B{LatLon} is None}.
+           @kwarg name_LatLon_kwds: Optional C{B{name}=NN} (C{str}) and optional,
+                       additional B{C{LatLon}} keyword arguments, ignored if
+                       C{B{LatLon} is None}.
 
            @return: A L{Footprint5Tuple} of 5 C{B{LatLon}(lat, lon,
-                    **B{LatLon_kwds})} instances or if C{B{LatLon} is None},
+                    **B{name_LatLon_kwds})} instances or if C{B{LatLon} is None},
                     5 L{LatLon3Tuple}C{(lat, lon, height)}s respectively
                     5 L{LatLon4Tuple}C{(lat, lon, height, datum)}s depending
-                    on keyword argument C{datum} is un-/specified.
+                    on whether keyword argument C{datum} is un-/specified.
 
-           @raise TypeError: Invalid B{C{ltp}}, B{C{LatLon}} or B{C{LatLon_kwds}}.
+           @raise TypeError: Invalid B{C{ltp}}, B{C{LatLon}} or B{C{name_LatLon_kwds}}.
 
            @see: Methods L{XyzLocal.toLatLon} and L{Footprint5Tuple.xyzLocal5}.
         '''
-        kwds = _xkwds(LatLon_kwds, ltp=_MODS.ltp._xLtp(ltp, self.center.ltp),  # PYCHOK .center
-                                   LatLon=LatLon, name=self.name,)
+        ltp  = _MODS.ltp._xLtp(ltp, self.center.ltp)  # PYCHOK .center
+        kwds = _name1__(name_LatLon_kwds, _or_nameof=self)
+        kwds = _xkwds(kwds, ltp=ltp, LatLon=LatLon)
         return Footprint5Tuple(t.toLatLon(**kwds) for t in self.xyzLocal5())
 
     def xyzLocal5(self, ltp=None):

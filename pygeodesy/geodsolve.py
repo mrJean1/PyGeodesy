@@ -26,7 +26,7 @@ from pygeodesy.solveBase import _SolveBase, _SolveLineBase
 from pygeodesy.utily import _unrollon, _Wrap, wrap360
 
 __all__ = _ALL_LAZY.geodsolve
-__version__ = '24.05.23'
+__version__ = '24.05.31'
 
 
 class GeodSolve12Tuple(_GTuple):
@@ -262,7 +262,7 @@ class GeodesicLineSolve(_GeodesicSolveBase, _SolveLineBase):
         _xinstanceof(GeodesicSolve, geodesic=geodesic)
         if (caps & Caps.LINE_OFF):  # copy to avoid updates
             geodesic = geodesic.copy(deep=False, name=_UNDER_(NN, geodesic.name))  # NOT _under!
-        _SolveLineBase.__init__(self, geodesic, lat1, lon1, caps, name, azi1=azi1)
+        _SolveLineBase.__init__(self, geodesic, lat1, lon1, caps, azi1=azi1, **name)
         try:
             self.GeodSolve = geodesic.GeodSolve  # geodesic or copy of geodesic
         except GeodesicError:

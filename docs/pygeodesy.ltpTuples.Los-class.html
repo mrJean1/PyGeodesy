@@ -95,7 +95,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.ltpTuples.Los-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">azimuth_aer</span>,
         <span class="summary-sig-arg">elevation</span>=<span class="summary-sig-default">0</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">**name</span>)</span><br />
       New <a href="pygeodesy.ltpTuples.Los-class.html" 
       class="link">Los</a>.</td>
           <td align="right" valign="top">
@@ -116,7 +116,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.ltpTuples.Los-class.html#toUvw" class="summary-sig-name">toUvw</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">location</span>,
         <span class="summary-sig-arg">Uvw</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.ltpTuples.Uvw'&gt;</span>,
-        <span class="summary-sig-arg">**Uvw_kwds</span>)</span><br />
+        <span class="summary-sig-arg">**name_Uvw_kwds</span>)</span><br />
       Get this LOS' <i>target</i> (UVW) components from a location.</td>
           <td align="right" valign="top">
             
@@ -135,7 +135,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ltpTuples.Los-class.html#toEnu" class="summary-sig-name">toEnu</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">Enu</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.ltpTuples.Enu'&gt;</span>,
-        <span class="summary-sig-arg">**Enu_kwds</span>)</span><br />
+        <span class="summary-sig-arg">**name_Enu_kwds</span>)</span><br />
       Get this LOS as <i>East, North, Up</i> (ENU) components.</td>
           <td align="right" valign="top">
             
@@ -256,7 +256,7 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">azimuth_aer</span>,
         <span class="sig-arg">elevation</span>=<span class="sig-default">0</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">**name</span>)</span>
     <br /><em class="fname">(Constructor)</em>
   </h3>
   </td><td align="right" valign="top"
@@ -281,7 +281,7 @@
         <li><strong class="pname"><code>elevation</code></strong> - Scalar angle <i>above</i> the horizon (<code>degrees</code>, 
           horizon is 0, zenith +90, nadir -90), only used with scalar 
           <b><code>azimuth_aer</code></b>.</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
     </ul></dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
@@ -305,7 +305,7 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toUvw</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">location</span>,
         <span class="sig-arg">Uvw</span>=<span class="sig-default">&lt;class 'pygeodesy.ltpTuples.Uvw'&gt;</span>,
-        <span class="sig-arg">**Uvw_kwds</span>)</span>
+        <span class="sig-arg">**name_Uvw_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -338,7 +338,7 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toEnu</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">Enu</span>=<span class="sig-default">&lt;class 'pygeodesy.ltpTuples.Enu'&gt;</span>,
-        <span class="sig-arg">**Enu_kwds</span>)</span>
+        <span class="sig-arg">**name_Enu_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -351,7 +351,8 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>Enu</code></strong> - Class to return ENU (<a href="pygeodesy.ltpTuples.Enu-class.html"
           class="link">Enu</a>) or <code>None</code>.</li>
-        <li><strong class="pname"><code>Enu_kwds</code></strong> - Optional, additional <b><a 
+        <li><strong class="pname"><code>name_Enu_kwds</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>) and 
+          optional, additional <b><a 
           href="pygeodesy.ltpTuples.Enu-class.html" 
           class="link">Enu</a></b> keyword arguments, ignored if 
           <code><b>Enu</b> is None</code>.</li>
@@ -362,6 +363,11 @@
           None</code>, an <a 
           href="pygeodesy.ltpTuples.Enu4Tuple-class.html" 
           class="link">Enu4Tuple</a><code>(east, north, up, ltp)</code>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>Enu</code></b> or 
+        <b><code>name_Enu_kwds</code></b>.</li>
+    </ul></dd>
     <dt>Overrides:
         <a href="pygeodesy.ltpTuples._NamedAerNed-class.html#toEnu">_NamedAerNed.toEnu</a>
     </dt>
@@ -404,7 +410,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu May 30 13:26:06 2024
+    Generated by Epydoc 3.0.1 on Sat Jun  1 11:09:33 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

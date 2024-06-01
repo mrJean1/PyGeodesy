@@ -62,7 +62,7 @@ from pygeodesy.utily import atan2d as _atan2d_reverse, _unrollon, _Wrap, wrap360
 from math import atan2, copysign, cos, degrees, fabs, radians, sqrt
 
 __all__ = ()
-__version__ = '24.05.20'
+__version__ = '24.05.31'
 
 _MAXIT1 = 20
 _MAXIT2 = 10 + _MAXIT1 + MANT_DIG  # MANT_DIG == C++ digits
@@ -150,9 +150,7 @@ class GeodesicExact(_GeodesicBase):
            @raise GeodesicError: Invalid B{C{C4order}}.
         '''
         if name_C4Order:
-            C4Order, name = _xkwds_pop2(name_C4Order, C4Order=C4order)
-            if C4Order:  # for backward compatibility
-                self.C4order = C4Order
+            C4order, name = _xkwds_pop2(name_C4Order, C4Order=C4order)
             if name:
                 self.name = name
         else:
@@ -318,7 +316,7 @@ class GeodesicExact(_GeodesicBase):
         def _C4(nC4):
             i, n, cs = 0, self.n, _C4coeffs(nC4)
             _p = _polynomial
-            for r in range(nC4 + 1, 1, -1):
+            for r in range(nC4 + 1, 1, -1):  # _reverange
                 for j in range(1, r):
                     j = j + i  # (j - i - 1) order of polynomial
                     yield _p(n, cs, i, j) / cs[j]

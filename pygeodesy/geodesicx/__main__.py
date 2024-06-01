@@ -5,7 +5,7 @@ u'''Print L{geodesicx} version, etc. using C{python -m pygeodesy.geodesicx}.
 '''
 
 __all__ = ()
-__version__ = '24.05.13'
+__version__ = '24.05.31'
 
 
 def _C4stats(nC4=None):  # PYCHOK no cover
@@ -88,4 +88,4 @@ _main()
 # OTHER DEALINGS IN THE SOFTWARE.
 
 # % python3 -m pygeodesy.geodesicx
-# pygeodesy.geodesicx.version=21.05.30, .C4Order=None, .C4len=5425, .C4set=5107, .C4set100=94, .C4x=465 (Python 3.9.5, 64bit, geographiclib 1.52)
+# pygeodesy.geodesicx.version=24.05.31, .C4len=5425, .C4order=30, .C4set=5107, .C4set_len=94.1%, .C4x=465 (Python 3.12.3, 64bit, arm64, geographiclib 2.0)
