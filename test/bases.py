@@ -48,7 +48,7 @@ __all__ = ('coverage', 'GeodSolve', 'geographiclib',  # constants
            'numpy', 'PyGeodesy_dir', 'PythonX', 'scipy', 'test_dir',
            'RandomLatLon', 'TestsBase',  # classes
            'secs2str', 'tilde', 'type2str', 'versions')  # functions
-__version__ = '24.05.13'
+__version__ = '24.06.05'
 
 try:
     geographiclib = basics._xgeographiclib(basics, 1, 50)
@@ -236,7 +236,7 @@ class TestsBase(object):
         def _join(p, j, n):
             return (p + j + n) if p else n
 
-        for p in ('',) + interns._sub_packages:
+        for p in ('',) + interns._SUB_PACKAGES:
             m = _join(p, _SEP, '[_a-z]*.py')
             for n in sorted(glob(joined(PyGeodesy_dir, 'pygeodesy', m))):
                 m = _join(p, _DOT_, basename(n))

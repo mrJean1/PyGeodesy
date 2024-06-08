@@ -13,18 +13,20 @@ and L{ChLVe} and L{Ltp}, L{ChLV}, L{LocalError}, L{Attitude} and L{Frustum}.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import _args_kwds_names, map1, map2, _xsubclassof   # .datums
+from pygeodesy.basics import _args_kwds_names, map1, map2, _xinstanceof, \
+                             _xsubclassof   # .datums
 from pygeodesy.constants import EPS, INT0, _umod_360, _0_0, _0_01, _0_5, _1_0, \
                                _2_0, _60_0, _90_0, _100_0, _180_0, _3600_0, \
                                _N_1_0  # PYCHOK used!
-from pygeodesy.datums import _WGS84,  _xinstanceof
-from pygeodesy.ecef import _EcefBase, EcefKarney, _llhn4, _xyzn4
-from pygeodesy.errors import _NotImplementedError, _TypesError, _ValueError, \
-                             _xattr, _xkwds, _xkwds_get, _xkwds_pop2
+# from pygeodesy.datums import _WGS84  # from .ecef
+from pygeodesy.ecef import _EcefBase, EcefKarney, Ecef9Tuple, _llhn4, \
+                           _xyzn4,  _WGS84
+from pygeodesy.errors import _NotImplementedError, _ValueError, _xattr, \
+                             _xkwds, _xkwds_get, _xkwds_pop2
 from pygeodesy.fmath import fabs, fdot, Fhorner
 from pygeodesy.fsums import _floor, _Fsumf_, fsumf_, fsum1f_
 from pygeodesy.interns import _0_, _COMMASPACE_, _DOT_, _ecef_, _height_, _M_, \
-                              _invalid_, _lat0_, _lon0_, _ltp_, _name_, _too_
+                              _invalid_, _lat0_, _lon0_, _name_, _too_
 # from pygeodesy.lazily import _ALL_LAZY  # from vector3d
 from pygeodesy.ltpTuples import Attitude4Tuple, ChLVEN2Tuple, ChLV9Tuple, \
                                 ChLVYX2Tuple, Footprint5Tuple, Local9Tuple, \
@@ -42,7 +44,7 @@ from pygeodesy.vector3d import _ALL_LAZY, Vector3d
 # from math import fabs, floor as _floor  # from .fmath, .fsums
 
 __all__ = _ALL_LAZY.ltp
-__version__ = '24.05.31'
+__version__ = '24.06.07'
 
 _height0_ = _height_ + _0_
 _narrow_  = 'narrow'
@@ -480,6 +482,7 @@ class LocalCartesian(_NamedBase):
 
            @raise TypeError: Invalid B{C{Xyz}} or B{C{name_Xyz_kwds}}.
         '''
+        _xinstanceof(Ecef9Tuple, ecef=ecef)
         ltp = self
         if ecef.datum != ltp.datum:
             ecef = ecef.toDatum(ltp.datum)
@@ -557,8 +560,9 @@ class LocalCartesian(_NamedBase):
 
            @return: A I{geocentric} 3-tuple C{(x, y, z)} or if C{B{nine}=True},
                     an L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M, datum)},
-                    optionally including rotation matrix C{M} or C{None}.
+                    optionally including rotation matrix C{M} otherwise C{None}.
         '''
+        _xinstanceof(*_XyzLocals5, local=local)
         t = self.M.unrotate(local.xyz, *self._t0_xyz)
         if nine:
             t = self.ecef.reverse(*t, M=M)
@@ -1072,6 +1076,19 @@ def _fov_2(**fov):
     raise LocalError(txt=t, **fov)
 
 
+def _toLocal(inst, ltp, Xyz, Xyz_kwds):
+    '''(INTENRAL) Helper for C{CartesianBase.toLocal} and C{latLonBase.toLocal}.
+    '''
+    return _xLtp(ltp, inst._Ltp)._ecef2local(inst._ecef9, Xyz, Xyz_kwds)
+
+
+def _toLtp(inst, Ecef, ecef9, name):
+    '''(INTENRAL) Helper for C{CartesianBase.toLtp} and C{latLonBase.toLtp}.
+    '''
+    return inst._Ltp if Ecef in (None, inst.Ecef) and not name else \
+                 Ltp(ecef9, ecef=Ecef(inst.datum), name=inst._name__(name))
+
+
 def tyr3d(tilt=INT0, yaw=INT0, roll=INT0, Vector=Vector3d, **name_Vector_kwds):
     '''Convert an attitude pose into a (3-D) direction vector.
 
@@ -1097,22 +1114,25 @@ def tyr3d(tilt=INT0, yaw=INT0, roll=INT0, Vector=Vector3d, **name_Vector_kwds):
        @see: U{Yaw, pitch, and roll rotations<http://MSL.CS.UIUC.edu/planning/node102.html>}
              and function L{pygeodesy.hartzell} argument C{los}, Line-Of-Sight.
     '''
-    d = Attitude4Tuple(_0_0, tilt, yaw, roll).tyr3d
-    if Vector is not type(d):
+    v = Attitude4Tuple(_0_0, tilt, yaw, roll).tyr3d
+    if Vector is not type(v):
         n, kwds = _name2__(name_Vector_kwds, name__=tyr3d)
-        d = Vector3Tuple(d.x, d.y, d.z, name=n) if Vector is None else \
-                  Vector(d.x, d.y, d.z, name=n, **kwds)
-    return d
+        v = Vector3Tuple(v.x, v.y, v.z, name=n) if Vector is None else \
+                  Vector(v.x, v.y, v.z, name=n, **kwds)
+    elif name_Vector_kwds:
+        n, _ = _name2__(name_Vector_kwds)
+        if n:
+            v = v.copy(name=n)
+    return v
 
 
 def _xLtp(ltp, *dflt):
-    '''(INTERNAL) Validate B{C{ltp}}.
+    '''(INTERNAL) Validate B{C{ltp}} or ist B{C{dflt}}.
     '''
     if dflt and ltp is None:
         ltp = dflt[0]
-    if isinstance(ltp, (LocalCartesian, Ltp)):
-        return ltp
-    raise _TypesError(_ltp_, ltp, Ltp, LocalCartesian)
+    _xinstanceof(Ltp, LocalCartesian, ltp=ltp)
+    return ltp
 
 # **) MIT License
 #

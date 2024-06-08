@@ -10,8 +10,8 @@ except NameError:  # Python 3+
     _intern = _sys.intern
 
 _COMMASPACE_  = ', '  # overriden below
-_sub_packages = 'auxilats', 'deprecated', 'geodesicx', 'rhumb'  # PYCHOK in .lazily,
-# ... make._dist, MANIFEST, setup.setup, test.bases, test.testModules
+_SUB_PACKAGES = 'auxilats', 'deprecated', 'geodesicx', 'rhumb'  # PYCHOK in ...
+# ... .lazily, make._dist, MANIFEST, setup.setup, test.bases, .testModules
 
 
 class _Dash(str):
@@ -145,7 +145,6 @@ _and_                 = 'and'                # PYCHOK OK
 # _AND_               = _AMPERSAND_          # PYCHOK OK
 _angle_               = 'angle'              # PYCHOK OK
 _antipodal_           = 'antipodal'          # PYCHOK OK
-_areaOf_              = 'areaOf'             # PYCHOK OK
 _arg_                 = 'arg'                # PYCHOK OK
 # _ASTERISK_          = _STAR_               # PYCHOK OK
 _AT_             = Str_('@')                 # PYCHOK OK
@@ -214,7 +213,6 @@ _ELLIPSIS4_      = Str_('....')              # PYCHOK OK
 # _ELLIPSISPACED_ = Str_(' ... ')            # PYCHOK <https://www.ThePunctuationGuide.com/ellipses.html>
 _ellipsoid_           = 'ellipsoid'          # PYCHOK OK
 _ellipsoidal_         = 'ellipsoidal'        # PYCHOK OK
-_enabled_             = 'enabled'            # PYCHOK OK
 _encode_              = 'encode'             # PYCHOK OK
 _end_                 = 'end'                # PYCHOK OK
 _epoch_               = 'epoch'              # PYCHOK OK
@@ -254,8 +252,6 @@ _intersection_        = 'intersection'       # PYCHOK OK
 _Intl1924_            = 'Intl1924'           # PYCHOK OK
 _invalid_             = 'invalid'            # PYCHOK OK
 _invokation_          = 'invokation'         # PYCHOK OK
-_isclockwise_         = 'isclockwise'        # PYCHOK OK
-_ispolar_             = 'ispolar'            # PYCHOK OK
 _j_                   = 'j'                  # PYCHOK OK
 _k0_                  = 'k0'                 # PYCHOK OK
 _keyword_             = 'keyword'            # PYCHOK OK
@@ -317,7 +313,6 @@ _NLHASH_         = Str_(_NL_ + '# ')         # PYCHOK OK
 _NN_                  = 'NN'                 # PYCHOK OK
 _no_          = _Prefix('no')                # PYCHOK OK
 _northing_            = 'northing'           # PYCHOK OK
-_NorthPole_           = 'NorthPole'          # PYCHOK OK
 _not_         = _Prefix('not')               # PYCHOK OK
 _NOTEQUAL_            = _BANG_ + _EQUAL_     # PYCHOK OK
 _not_finite_          = 'not finite'         # PYCHOK _not_(_finite_), _infinite_
@@ -385,7 +380,6 @@ _SLASH_          = Str_('/')                 # PYCHOK OK
 _small_               = 'small'              # PYCHOK OK
 _Sphere_              = 'Sphere'             # PYCHOK OK
 _spherical_           = 'spherical'          # PYCHOK OK
-_SouthPole_           = 'SouthPole'          # PYCHOK OK
 _SPACE_          = Str_(' ')                 # PYCHOK OK
 _specified_           = 'specified'          # PYCHOK OK
 _STAR_           = Str_('*')                 # PYCHOK OK
@@ -447,7 +441,7 @@ _LR_PAIRS  = {_LANGLE_:  _RANGLE_,
 
 __all__ = (_NN_,  # NOT MISSING!
             Str_.__name__)  # classes
-__version__ = '24.05.21'
+__version__ = '24.06.05'
 
 if __name__ == '__main__':
 

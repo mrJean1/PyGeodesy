@@ -9,7 +9,7 @@ A pure Python implementation of vector-based functions by I{(C) Chris Veness
 '''
 
 from pygeodesy.basics import _copysign, islistuple, isscalar, map1, \
-                              map2, _zip
+                              map2, _signOf, _zip
 from pygeodesy.constants import EPS, EPS0, INT0, PI, PI2, _copysignINF, \
                                _float0, isnear0, isnear1, isneg0, \
                                _pos_self, _0_0, _1_0
@@ -30,7 +30,7 @@ from pygeodesy.units import Float, Scalar
 from math import atan2, ceil, fabs, floor, trunc
 
 __all__ = _ALL_LAZY.vector3dBase
-__version__ = '24.05.19'
+__version__ = '24.06.07'
 
 
 class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
@@ -107,9 +107,7 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
 
            @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
-        n = self.others(other).length
-        return -1 if self.length < n else (
-               +1 if self.length > n else 0)
+        return _signOf(self.length, self._other_cmp(other))
 
     cmp = __cmp__
 
@@ -156,7 +154,7 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
 
            @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
-        return self.length >= self.others(other).length
+        return self.length >= self._other_cmp(other)
 
 #   def __getitem__(self, key):
 #       '''Return C{item} at index or slice C{[B{key}]}.
@@ -172,7 +170,7 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
 
            @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
-        return self.length > self.others(other).length
+        return self.length > self._other_cmp(other)
 
     def __hash__(self):  # PYCHOK no cover
         '''Return this instance' C{hash}.
@@ -261,7 +259,7 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
 
            @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
-        return self.length <= self.others(other).length
+        return self.length <= self._other_cmp(other)
 
 #   def __len__(self):
 #       '''Return C{3}, always.
@@ -277,7 +275,7 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
 
            @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
-        return self.length < self.others(other).length
+        return self.length < self._other_cmp(other)
 
     def __matmul__(self, other):  # PYCHOK Python 3.5+
         '''Compute the cross product of this and an other vector, C{this @ B{other}}.
@@ -758,6 +756,11 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
         '''(INTERNAL) Get the (C{nvectorBase._N_vector_})
         '''
         return _MODS.nvectorBase._N_vector_(*self.xyz, name=self.name)
+
+    def _other_cmp(self, other):
+        '''(INTERNAL) Return the value for comparison.
+        '''
+        return other if isscalar(other) else self.others(other).length
 
     def others(self, *other, **name_other_up):
         '''Refined class comparison.

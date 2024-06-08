@@ -55,7 +55,7 @@ from pygeodesy.utm import toUtm8, _to3zBlat, Utm, _UTM_ZONE_MAX, _UTM_ZONE_MIN
 # from pygeodesy.utmupsBase import _UTM_ZONE_MAX, _UTM_ZONE_MIN  # from .utm
 
 __all__ = _ALL_LAZY.mgrs
-__version__ = '24.05.31'
+__version__ = '24.06.04'
 
 _AN_    = 'AN'  # default south pole grid tile and band B
 _AtoPx_ = _AtoZnoIO_.tillP
@@ -698,6 +698,33 @@ if __name__ == '__main__':
 
     p = e * 100.0 / n
     printf('%6s: %s errors (%.2f%%)', n, (e if e else 'no'), p)
+
+# % python3 -m pygeodesy.mgrs
+#  using: /opt/local/bin/GeoConvert -m ...
+#      0: lat -90 ... OK
+#    361: lat -89 ... OK
+#    722: lat -88 ... OK
+#   1083: lat -87 ... OK
+#   1444: lat -86 ... OK
+#   1805: lat -85 ... OK
+#   2166: lat -84 ... OK
+#   2527: lat -83 ... OK
+#   2888: lat -82 ... OK
+#   3249: lat -81 ... OK
+#   3610: lat -80 ... OK
+#  ...
+#  61370: lat 80 ... OK
+#  61731: lat 81 ... OK
+#  62092: lat 82 ... OK
+#  62453: lat 83 ... OK
+#  62814: lat 84 ... OK
+#  63175: lat 85 ... OK
+#  63536: lat 86 ... OK
+#  63897: lat 87 ... OK
+#  64258: lat 88 ... OK
+#  64619: lat 89 ... OK
+#  64980: lat 90 ... OK
+#  65341: no errors (0.00%)
 
 # **) MIT License
 #

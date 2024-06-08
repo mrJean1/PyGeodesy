@@ -13,7 +13,7 @@ L{ChLVYX2Tuple}, L{ChLVyx2Tuple} and L{Footprint5Tuple}.
 
 # from pygeodesy.basics import issubclassof  # from .units
 from pygeodesy.constants import _0_0, _1_0, _90_0, _N_90_0
-from pygeodesy.dms import F_D, toDMS
+# from pygeodesy.dms import F_D, toDMS  # _MODS
 from pygeodesy.errors import _TypeError, _TypesError, _xattr, \
                              _xkwds, _xkwds_item2
 from pygeodesy.fmath import hypot, hypot_
@@ -30,13 +30,13 @@ from pygeodesy.props import deprecated_method, deprecated_Property_RO, \
 from pygeodesy.streprs import Fmt, fstr, strs, _xzipairs
 from pygeodesy.units import Bearing, Degrees, Degrees_, Height, _isDegrees, \
                            _isMeter, Lat, Lon, Meter, Meter_,  issubclassof
-from pygeodesy.utily import atan2d, atan2b, sincos2_, sincos2d_
+from pygeodesy.utily import atan2d, atan2b, sincos2_, sincos2d_,  cos, radians
 from pygeodesy.vector3d import Vector3d
 
-from math import cos, radians
+# from math import cos, radians  # from .utily
 
 __all__ = _ALL_LAZY.ltpTuples
-__version__ = '24.05.31'
+__version__ = '24.06.08'
 
 _aer_        = 'aer'
 _alt_        = 'alt'
@@ -44,6 +44,7 @@ _down_       = 'down'
 _east_       = 'east'
 _enu_        = 'enu'
 _h__         = 'h_'
+_ltp         = _MODS.into(ltp=__name__)
 _ned_        = 'ned'
 _north_      = 'north'
 _local_      = 'local'
@@ -61,6 +62,20 @@ def _er2gr(e, r):
     return Meter_(groundrange=r * c)
 
 
+def _init(inst, abc, ltp, name):
+    '''(INTERNAL) Complete C{__init__}.
+    '''
+    if abc is None:
+        n = _name__(**name)
+    else:
+        n =  abc._name__(name)
+        ltp = _xattr(abc, ltp=ltp)
+    if ltp:
+        inst._ltp = _ltp._xLtp(ltp)
+    if n:
+        inst.name = n
+
+
 def _toStr2(inst, prec=None, fmt=Fmt.SQUARE, sep=_COMMASPACE_):
     '''(INTERNAL) Get attribute name and value strings, joined and bracketed.
     '''
@@ -72,25 +87,6 @@ def _toStr2(inst, prec=None, fmt=Fmt.SQUARE, sep=_COMMASPACE_):
         if fmt:
             t = fmt(t)
     return a, t
-
-
-def _4Tuple2Cls(inst, Cls, Cls_kwds):
-    '''(INTERNAL) Convert 4-Tuple to C{Cls} instance.
-    '''
-    if Cls is None:
-        return inst
-    elif issubclassof(Cls, Aer):
-        return inst.xyzLocal.toAer(Aer=Cls, **Cls_kwds)
-    elif issubclassof(Cls, Enu):  # PYCHOK no cover
-        return inst.xyzLocal.toEnu(Enu=Cls, **Cls_kwds)
-    elif issubclassof(Cls, Ned):
-        return inst.xyzLocal.toNed(Ned=Cls, **Cls_kwds)
-    elif issubclassof(Cls, XyzLocal):  # PYCHOK no cover
-        return inst.xyzLocal.toXyz(Xyz=Cls, **Cls_kwds)
-    elif Cls is Local9Tuple:  # PYCHOK no cover
-        return inst.xyzLocal.toLocal9Tuple(**Cls_kwds)
-    n = inst.__class__.__name__[:3]  # PYCHOK no cover
-    raise _TypesError(n, Cls, Aer, Enu, Ned, XyzLocal)
 
 
 def _xyz2aer4(inst):
@@ -115,10 +111,10 @@ def _xyzLocal(*Types, **name_inst):
         raise _TypeError(n, inst, txt_not_=_local_)
 
 
-class _NamedAerNed(_NamedBase):
+class _AbcBase(_NamedBase):
     '''(INTERNAL) Base class for classes C{Aer} and C{Ned}.
     '''
-    _ltp =  None  # local tangent plane (C{Ltp}), origin
+    _ltp = None  # local tangent plane (C{Ltp}), origin
 
     @Property_RO
     def ltp(self):
@@ -205,7 +201,42 @@ class _NamedAerNed(_NamedBase):
         return XyzLocal(self.xyz4, name=self.name)
 
 
-class Aer(_NamedAerNed):
+class _Abc4Tuple(_NamedTuple):
+    '''(INTERNAL) Base class for C{Aer4Tuple}, C{Enu4Tuple},
+        C{Ned4Tuple} and C{Xyz4Tuple}.
+    '''
+    def _2Cls(self, Abc, Cls, Cls_kwds):
+        '''(INTERNAL) Convert 4-Tuple to C{Cls} instance.
+        '''
+        kwds = _name1__(Cls_kwds, _or_nameof=self)
+        _is  =  issubclassof
+        if Cls is None:
+            n, _ = _name2__(Cls_kwds)
+            r = self.copy(name=n) if n else self
+        elif _is(Cls, Abc):
+            r = Cls(*self, **kwds)
+        elif _is(Cls, Aer):
+            r = self.xyzLocal.toAer(**_xkwds(kwds, Aer=Cls))
+        elif _is(Cls, Enu):  # PYCHOK no cover
+            r = self.xyzLocal.toEnu(**_xkwds(kwds, Enu=Cls))
+        elif _is(Cls, Ned):
+            r = self.xyzLocal.toNed(**_xkwds(kwds, Ned=Cls))
+        elif _is(Cls, XyzLocal):  # PYCHOK no cover
+            r = self.xyzLocal.toXyz(**_xkwds(kwds, Xyz=Cls))
+        elif Cls is Local9Tuple:  # PYCHOK no cover
+            r = self.xyzLocal.toLocal9Tuple(**kwds)
+        else:  # PYCHOK no cover
+            n = Abc.__name__[:3]
+            raise _TypesError(n, Cls, Aer, Enu, Ned, XyzLocal)
+        return r
+
+    @property_RO
+    def xyzLocal(self):  # PYCHOK no cover
+        '''I{Must be overloaded}.'''
+        self._notOverloaded()
+
+
+class Aer(_AbcBase):
     '''Local C{Azimuth-Elevation-Range} (AER) in a I{local tangent plane}.
     '''
     _azimuth    = _0_0   # bearing from North (C{degrees360})
@@ -236,22 +267,16 @@ class Aer(_NamedAerNed):
                              or B{C{slantrange}}.
         '''
         if _isDegrees(azimuth_aer):
-            self._azimuth    = Bearing(azimuth=azimuth_aer)
-            self._elevation  = Degrees_(elevation=elevation, low=_N_90_0, high=_90_0)
-            self._slantrange = Meter_(slantrange=slantrange)
-            p, n = ltp, _name__(**name)
+            aer =  None
+            t   = (Bearing(azimuth=azimuth_aer),
+                   Degrees_(elevation=elevation, low=_N_90_0, high=_90_0),
+                   Meter_(slantrange=slantrange), ltp)
         else:  # PYCHOK no cover
-            p = _xyzLocal(Aer, Aer4Tuple, Ned, azimuth_aer=azimuth_aer)
-            aer = p.toAer() if p else azimuth_aer
-            self._azimuth, self._elevation, self._slantrange = \
-              aer.azimuth,   aer.elevation,   aer.slantrange
-            p = _xattr(aer, ltp=ltp)
-            n =  aer._name__(name)
-
-        if p:
-            self._ltp = _MODS.ltp._xLtp(p)
-        if n:
-            self.name = n
+            p   = _xyzLocal(Aer, Aer4Tuple, Ned, azimuth_aer=azimuth_aer)
+            aer =  p.toAer() if p else azimuth_aer
+            t   =  aer.aer4
+        self._azimuth, self._elevation, self._slantrange, _ = t
+        _init(self, aer, ltp, name)
 
     @Property_RO
     def aer4(self):
@@ -311,8 +336,9 @@ class Aer(_NamedAerNed):
 
            @return: This AER as "[A:degrees360, E:degrees90, R:meter]" (C{str}).
         '''
-        t = (toDMS(self.azimuth,    form=F_D, prec=prec, ddd=0),
-             toDMS(self.elevation,  form=F_D, prec=prec, ddd=0),
+        m = _MODS.dms
+        t = (m.toDMS(self.azimuth,   form=m.F_D, prec=prec, ddd=0),
+             m.toDMS(self.elevation, form=m.F_D, prec=prec, ddd=0),
              fstr( self.slantrange, prec=3 if prec is None else prec))
         return _xzipairs(self._toStr.upper(), t, sep=sep, fmt=fmt)
 
@@ -364,7 +390,7 @@ class Aer(_NamedAerNed):
         return self.xyz4.z
 
 
-class Aer4Tuple(_NamedTuple):
+class Aer4Tuple(_Abc4Tuple):
     '''4-Tuple C{(azimuth, elevation, slantrange, ltp)},
        all in C{meter} except C{ltp}.
     '''
@@ -374,10 +400,7 @@ class Aer4Tuple(_NamedTuple):
     def _toAer(self, Cls, Cls_kwds):
         '''(INTERNAL) Return C{Cls(..., **Cls_kwds)} instance.
         '''
-        if issubclassof(Cls, Aer):
-            return Cls(*self, **_xkwds(Cls_kwds, name=self.name))
-        else:
-            return _4Tuple2Cls(self, Cls, Cls_kwds)
+        return self._2Cls(Aer, Cls, Cls_kwds)
 
     @Property_RO
     def groundrange(self):
@@ -410,10 +433,10 @@ class Attitude4Tuple(_NamedTuple):
     def tyr3d(self):
         '''Get this attitude's (3-D) directional vector (L{Vector3d}).
         '''
-        return _MODS.ltp.Attitude(self).tyr3d
+        return _ltp.Attitude(self).tyr3d
 
 
-class Ned(_NamedAerNed):
+class Ned(_AbcBase):
     '''Local C{North-Eeast-Down} (NED) location in a I{local tangent plane}.
 
        @see: L{Enu} and L{Ltp}.
@@ -445,21 +468,16 @@ class Ned(_NamedAerNed):
            @raise UnitError: Invalid B{C{north_ned}}, B{C{east}} or B{C{down}}.
         '''
         if _isMeter(north_ned):
-            self._north = Meter(north=north_ned or _0_0)
-            self._east  = Meter(east=east or _0_0)
-            self._down  = Meter(down=down or _0_0)
-            p, n = ltp, _name__(**name)
+            ned =  None
+            t   = (Meter(north=north_ned or _0_0),
+                   Meter(east=east or _0_0),
+                   Meter(down=down or _0_0), ltp)
         else:  # PYCHOK no cover
-            p = _xyzLocal(Ned, Ned4Tuple, Aer, north_ned=north_ned)
-            ned = p.toNed() if p else north_ned
-            self._north, self._east, self._down = ned.north, ned.east, ned.down
-            p = _xattr(ned, ltp=ltp)
-            n =  ned._name__(name)
-
-        if p:
-            self._ltp = _MODS.ltp._xLtp(p)
-        if n:
-            self.name = n
+            p   = _xyzLocal(Ned, Ned4Tuple, Aer, north_ned=north_ned)
+            ned =  p.toNed() if p else north_ned
+            t   =  ned.ned4
+        self._north, self._east, self._down, _ = t
+        _init(self, ned, ltp, name)
 
     @Property_RO
     def aer4(self):
@@ -597,7 +615,7 @@ class Ned(_NamedAerNed):
         return Meter(z=-self._down)  # negated
 
 
-class Ned4Tuple(_NamedTuple):
+class Ned4Tuple(_Abc4Tuple):
     '''4-Tuple C{(north, east, down, ltp)}, all in C{meter} except C{ltp}.
     '''
     _Names_ = (_north_, _east_, _down_, _ltp_)
@@ -606,10 +624,7 @@ class Ned4Tuple(_NamedTuple):
     def _toNed(self, Cls, Cls_kwds):
         '''(INTERNAL) Return C{Cls(..., **Cls_kwds)} instance.
         '''
-        if issubclassof(Cls, Ned):
-            return Cls(*self, **_xkwds(Cls_kwds, name=self.name))
-        else:
-            return _4Tuple2Cls(self, Cls, Cls_kwds)
+        return self._2Cls(Ned, Cls, Cls_kwds)
 
     @Property_RO
     def xyzLocal(self):
@@ -679,20 +694,15 @@ class XyzLocal(_Vector3d):
            @raise UnitError: Invalid scalar B{C{x_xyz}}, B{C{y}} or B{C{z}}.
         '''
         if _isMeter(x_xyz):
-            self._x = Meter(x=x_xyz or _0_0)
-            self._y = Meter(y=y or _0_0)
-            self._z = Meter(z=z or _0_0)
-            p, n = ltp, _name__(**name)
+            xyz =  None
+            t   = (Meter(x=x_xyz or _0_0),
+                   Meter(y=y or _0_0),
+                   Meter(z=z or _0_0), ltp)
         else:
             xyz = _xyzLocal(XyzLocal, Xyz4Tuple, Local9Tuple, x_xyz=x_xyz) or x_xyz
-            self._x, self._y, self._z = xyz.x, xyz.y, xyz.z
-            p = _xattr(xyz, ltp=ltp)
-            n =  xyz._name__(name)
-
-        if p:
-            self._ltp = _MODS.ltp._xLtp(p)
-        if n:
-            self.name = n
+            t   =  xyz.xyz4  # xyz.x, xyz.y, xyz.z, xyz.ltp
+        self._x, self._y, self._z, _ = t
+        _init(self, xyz, ltp, name)
 
     def __str__(self):
         return self.toStr()
@@ -771,7 +781,7 @@ class XyzLocal(_Vector3d):
     def _ltp_kwds_name3(self, ltp, kwds):
         '''(INTERNAL) Helper for methods C{toCartesian} and C{toLatLon}.
         '''
-        ltp  = _MODS.ltp._xLtp(ltp, self.ltp)
+        ltp  = _ltp._xLtp(ltp, self.ltp)
         kwds = _name1__(kwds, _or_nameof=self)
         kwds = _name1__(kwds, _or_nameof=ltp)
         return ltp, kwds, kwds.get(_name_, NN)
@@ -795,7 +805,7 @@ class XyzLocal(_Vector3d):
         return self.aer4.slantrange
 
     def toAer(self, Aer=None, **name_Aer_kwds):
-        '''Get the local I{Azimuth, Elevation, slantRange} components.
+        '''Get the local I{Azimuth, Elevation, slant Range} components.
 
            @kwarg Aer: Class to return AER (L{Aer}) or C{None}.
            @kwarg name_Aer_kwds: Optional C{B{name}=NN} (C{str}) and
@@ -832,9 +842,9 @@ class XyzLocal(_Vector3d):
             t =  ltp._local2ecef(self, nine=True)
             r = _xnamed(t, n) if n else t
         else:
-            kwds    = _xkwds(kwds, datum=ltp.datum)
-            x, y, z =  ltp._local2ecef(self)
-            r = Cartesian(x, y, z, **kwds)
+            kwds = _xkwds(kwds, datum=ltp.datum)
+            xyz  =  ltp._local2ecef(self)  # [:3]
+            r    =  Cartesian(*xyz, **kwds)
         return r
 
     def toEnu(self, Enu=None, **name_Enu_kwds):
@@ -876,7 +886,7 @@ class XyzLocal(_Vector3d):
             r = _xnamed(t, n) if n else t
         else:
             kwds = _xkwds(kwds, height=t.height, datum=t.datum)
-            r = LatLon(t.lat, t.lon, **kwds)  # XXX ltp?
+            r    =  LatLon(t.lat, t.lon, **kwds)  # XXX ltp?
         return r
 
     def toLocal9Tuple(self, M=False, **name):
@@ -891,8 +901,9 @@ class XyzLocal(_Vector3d):
         '''
         ltp = self.ltp  # see C{self.toLatLon}
         t   = ltp._local2ecef(self, nine=True, M=M)
-        return Local9Tuple(self.x, self.y, self.z, t.lat, t.lon, t.height,
-                                           ltp, t, t.M, name=t._name__(name))
+        return Local9Tuple(self.x, self.y, self.z,
+                           t.lat,  t.lon,  t.height,
+                           ltp, t, t.M, name=t._name__(name))
 
     def toNed(self, Ned=None, **name_Ned_kwds):
         '''Get the local I{North, East, Down} (Ned) components.
@@ -968,7 +979,7 @@ class XyzLocal(_Vector3d):
 #       return self._z
 
 
-class Xyz4Tuple(_NamedTuple):
+class Xyz4Tuple(_Abc4Tuple):
     '''4-Tuple C{(x, y, z, ltp)}, all in C{meter} except C{ltp}.
     '''
     _Names_ = (_x_,   _y_,   _z_,    _ltp_)
@@ -977,11 +988,13 @@ class Xyz4Tuple(_NamedTuple):
     def _toXyz(self, Cls, Cls_kwds):
         '''(INTERNAL) Return C{Cls(..., **Cls_kwds)} instance.
         '''
-        kwds = _name1__(Cls_kwds, _or_nameof=self)
-        if issubclassof(Cls, XyzLocal):
-            return  Cls(*self, **kwds)
-        else:
-            return _4Tuple2Cls(self, Cls, kwds)
+        return self._2Cls(XyzLocal, Cls, Cls_kwds)
+
+    @property_RO
+    def xyz4(self):
+        '''Get the C{(x, y, z, ltp)} components (L{Xyz4Tuple}).
+        '''
+        return self
 
     @Property_RO
     def xyzLocal(self):
@@ -1049,7 +1062,7 @@ class Enu(XyzLocal):
 
         n, kwds = _name2__(name_Uvw_kwds, _or_nameof=self)
         return Uvw3Tuple(U, V, W, name=n) if Uvw is None else \
-               Uvw(      U, V, W, name=n, **kwds)
+                     Uvw(U, V, W, name=n, **kwds)
 
     @Property_RO
     def xyzLocal(self):
@@ -1058,7 +1071,7 @@ class Enu(XyzLocal):
         return XyzLocal(*self.xyz4, name=self.name)
 
 
-class Enu4Tuple(_NamedTuple):
+class Enu4Tuple(_Abc4Tuple):
     '''4-Tuple C{(east, north, up, ltp)}, in C{meter} except C{ltp}.
     '''
     _Names_ = (_east_, _north_, _up_,   _ltp_)
@@ -1067,11 +1080,7 @@ class Enu4Tuple(_NamedTuple):
     def _toEnu(self, Cls, Cls_kwds):
         '''(INTERNAL) Return C{Cls(..., **Cls_kwds)} instance.
         '''
-        kwds = _name1__(Cls_kwds, _or_nameof=self)
-        if issubclassof(Cls, XyzLocal):
-            return  Cls(*self, **kwds)
-        else:
-            return _4Tuple2Cls(self, Cls, kwds)
+        return self._2Cls(Enu, Cls, Cls_kwds)
 
     @Property_RO
     def xyzLocal(self):
@@ -1335,7 +1344,7 @@ class Uvw(_Vector3d):
 
         n, kwds = _name2__(name_Enu_kwds, _or_nameof=self)
         return Enu4Tuple(E, N, U, name=n) if Enu is None else \
-               Enu(      E, N, U, name=n, **kwds)
+                     Enu(E, N, U, name=n, **kwds)
 
     u = Vector3d.x
 
@@ -1382,7 +1391,7 @@ class Los(Aer):
         '''Get this LOS' I{target} (UVW) components from a location.
 
            @arg location: The geodetic (C{LatLon}) or geocentric (C{Cartesian},
-                          L{Vector3d}) location from where to cast the L{Los}.
+                          L{Vector3d}) location from where to cast this LOS.
 
            @see: Method L{Enu.toUvw} for further details.
         '''
@@ -1414,7 +1423,7 @@ class ChLV9Tuple(Local9Tuple):
     def EN2_LV95(self):
         '''Get the I{falsed Swiss (E_LV95, N_LV95)} easting and northing (L{ChLVEN2Tuple}).
         '''
-        return ChLVEN2Tuple(*_MODS.ltp.ChLV.false2(self.Y, self.X, True), name=self.name)
+        return ChLVEN2Tuple(*_ltp.ChLV.false2(self.Y, self.X, True), name=self.name)
 
     @Property_RO
     def h_LV03(self):
@@ -1432,19 +1441,19 @@ class ChLV9Tuple(Local9Tuple):
     def isChLV(self):
         '''Is this a L{ChLV}-generated L{ChLV9Tuple}?.
         '''
-        return self.ltp.__class__ is _MODS.ltp.ChLV
+        return self.ltp.__class__ is _ltp.ChLV
 
     @property_RO
     def isChLVa(self):
         '''Is this a L{ChLVa}-generated L{ChLV9Tuple}?.
         '''
-        return self.ltp.__class__ is _MODS.ltp.ChLVa
+        return self.ltp.__class__ is _ltp.ChLVa
 
     @property_RO
     def isChLVe(self):
         '''Is this a L{ChLVe}-generated L{ChLV9Tuple}?.
         '''
-        return self.ltp.__class__ is _MODS.ltp.ChLVe
+        return self.ltp.__class__ is _ltp.ChLVe
 
     @Property_RO
     def N_LV95(self):
@@ -1486,7 +1495,7 @@ class ChLV9Tuple(Local9Tuple):
     def yx2_LV03(self):
         '''Get the B{falsed} I{Swiss (y_LV03, x_LV03)} easting and northing (L{ChLVyx2Tuple}).
         '''
-        return ChLVyx2Tuple(*_MODS.ltp.ChLV.false2(self.Y, self.X, False), name=self.name)
+        return ChLVyx2Tuple(*_ltp.ChLV.false2(self.Y, self.X, False), name=self.name)
 
     @Property_RO
     def z(self):
@@ -1507,7 +1516,7 @@ class ChLVYX2Tuple(_NamedTuple):
 
            @see: Function L{ChLV.false2} for more information.
         '''
-        return _MODS.ltp.ChLV.false2(*self, LV95=LV95, name=self.name)
+        return _ltp.ChLV.false2(*self, LV95=LV95, name=self.name)
 
 
 class ChLVEN2Tuple(_NamedTuple):
@@ -1522,7 +1531,7 @@ class ChLVEN2Tuple(_NamedTuple):
 
            @see: Function L{ChLV.unfalse2} for more information.
         '''
-        return _MODS.ltp.ChLV.unfalse2(*self, LV95=True, name=self.name)
+        return _ltp.ChLV.unfalse2(*self, LV95=True, name=self.name)
 
 
 class ChLVyx2Tuple(_NamedTuple):
@@ -1537,7 +1546,7 @@ class ChLVyx2Tuple(_NamedTuple):
 
            @see: Function L{ChLV.unfalse2} for more information.
         '''
-        return _MODS.ltp.ChLV.unfalse2(*self, LV95=False, name=self.name)
+        return _ltp.ChLV.unfalse2(*self, LV95=False, name=self.name)
 
 
 class Footprint5Tuple(_NamedTuple):
@@ -1571,7 +1580,7 @@ class Footprint5Tuple(_NamedTuple):
 
            @see: Methods L{XyzLocal.toLatLon} and L{Footprint5Tuple.xyzLocal5}.
         '''
-        ltp  = _MODS.ltp._xLtp(ltp, self.center.ltp)  # PYCHOK .center
+        ltp  = _ltp._xLtp(ltp, self.center.ltp)  # PYCHOK .center
         kwds = _name1__(name_LatLon_kwds, _or_nameof=self)
         kwds = _xkwds(kwds, ltp=ltp, LatLon=LatLon)
         return Footprint5Tuple(t.toLatLon(**kwds) for t in self.xyzLocal5())
@@ -1589,12 +1598,12 @@ class Footprint5Tuple(_NamedTuple):
         if ltp is None:
             p =  self
         else:
-            p = _MODS.ltp._xLtp(ltp)
+            p = _ltp._xLtp(ltp)
             p =  tuple(Xyz4Tuple(t.x, t.y, t.z, p) for t in self)
         return Footprint5Tuple(t.xyzLocal for t in p)
 
 
-__all__ += _ALL_DOCS(_NamedAerNed)
+__all__ += _ALL_DOCS(_AbcBase)
 
 # **) MIT License
 #

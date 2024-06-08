@@ -91,13 +91,15 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.booleans.LatLonFHP-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">lat_ll</span>,
-        <span class="summary-sig-arg">*lon_h_clipid</span>,
+        <span class="summary-sig-arg">lon</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">0</span>,
+        <span class="summary-sig-arg">clipid</span>=<span class="summary-sig-default">0</span>,
         <span class="summary-sig-arg">**wrap_name</span>)</span><br />
       New <code>LatLonFHP</code> from separate <code>lat</code>, 
       <code>lon</code>, <code>h</code>eight and <code>clipid</code> 
       scalars, or from a previous <a 
       href="pygeodesy.booleans.LatLonFHP-class.html" 
-      class="link">LatLonFHP</a>, a <a 
+      class="link">LatLonFHP</a>, <a 
       href="pygeodesy.clipy.ClipFHP4Tuple-class.html" 
       class="link">ClipFHP4Tuple</a> or some other <code>LatLon</code> 
       instance.</td>
@@ -187,7 +189,8 @@
           <td><span class="summary-sig"><a href="pygeodesy.booleans.LatLonFHP-class.html#isenclosedBy" class="summary-sig-name">isenclosedBy</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">*composites_points</span>,
         <span class="summary-sig-arg">**wrap</span>)</span><br />
-      Is this point inside one or more composites or polygons based the <a 
+      Is this point inside one or more composites or polygons based on the 
+      <a 
       href="https://www.ScienceDirect.com/science/article/pii/S0925772101000128"
       target="_top">winding number</a>?</td>
           <td align="right" valign="top">
@@ -294,7 +297,9 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">lat_ll</span>,
-        <span class="sig-arg">*lon_h_clipid</span>,
+        <span class="sig-arg">lon</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">height</span>=<span class="sig-default">0</span>,
+        <span class="sig-arg">clipid</span>=<span class="sig-default">0</span>,
         <span class="sig-arg">**wrap_name</span>)</span>
     <br /><em class="fname">(Constructor)</em>
   </h3>
@@ -306,32 +311,29 @@
   <p>New <code>LatLonFHP</code> from separate <code>lat</code>, 
   <code>lon</code>, <code>h</code>eight and <code>clipid</code> scalars, or
   from a previous <a href="pygeodesy.booleans.LatLonFHP-class.html" 
-  class="link">LatLonFHP</a>, a <a 
+  class="link">LatLonFHP</a>, <a 
   href="pygeodesy.clipy.ClipFHP4Tuple-class.html" 
   class="link">ClipFHP4Tuple</a> or some other <code>LatLon</code> 
   instance.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>lat_ll</code></strong> - Latitude (<code>scalar</code>) or a lat/longitude (<a 
+        <li><strong class="pname"><code>lat_ll</code></strong> - Latitude (<code>scalar</code>) or a lat-/longitude (<a 
           href="pygeodesy.booleans.LatLonFHP-class.html" 
-          class="link">LatLonFHP</a>, <code>LatLon</code> or <a 
+          class="link">LatLonFHP</a>, <a 
           href="pygeodesy.clipy.ClipFHP4Tuple-class.html" 
-          class="link">ClipFHP4Tuple</a>).</li>
-        <li><strong class="pname"><code>lon_h_clipid</code></strong> - Longitude (<code>scalar</code>), <code>h</code>eight and 
-          <code>clipid</code> iff <b><code>lat_ll</code></b> is scalar, 
-          ignored otherwise.</li>
-        <li><strong class="pname"><code>wrap_name</code></strong> - Keyword arguments <code><b>wrap</b>=False</code> and 
-          <code><b>name</b>=NN</code>.  If <code><b>wrap</b> is 
-          True</code>, wrap or <i>normalize</i> the lat- and longitude 
-          (<code>bool</code>).  Optional <b><code>name</code></b> 
-          (<code>str</code>).</li>
+          class="link">ClipFHP4Tuple</a> or some other 
+          <code>LatLon</code>).</li>
     </ul></dd>
     <dt>Overrides:
         object.__init__
     </dt>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a href="pygeodesy.booleans._LatLonBool-class.html#__init__" 
+        class="link">Here</a> for further details.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="isenclosedBy"></a>
 <div>
@@ -349,7 +351,8 @@
     </td>
   </tr></table>
   
-  <p>Is this point inside one or more composites or polygons based the <a 
+  <p>Is this point inside one or more composites or polygons based on the 
+  <a 
   href="https://www.ScienceDirect.com/science/article/pii/S0925772101000128"
   target="_top">winding number</a>?</p>
   <dl class="fields">
@@ -364,7 +367,8 @@
           class="link">LatLonFHP</a>, <a 
           href="pygeodesy.booleans.LatLonGH-class.html" 
           class="link">LatLonGH</a> or any <code>LatLon</code>).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
+        <li><strong class="pname"><code>wrap</code></strong> - Optional keyword argument <code><b>wrap</b>=False</code>, if 
+          <code>True</code>, wrap or <i>normalize</i> and unroll all 
           <code>points</code> (<code>bool</code>).</li>
     </ul></dd>
     <dt>Raises:</dt>
@@ -411,7 +415,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Jun  1 11:09:32 2024
+    Generated by Epydoc 3.0.1 on Sat Jun  8 15:58:41 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

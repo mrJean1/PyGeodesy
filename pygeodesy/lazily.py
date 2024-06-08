@@ -29,39 +29,33 @@ and line number.
 
 from pygeodesy import internals as _internals, interns as _interns, \
                      _isfrozen  # DON'T _lazy_import2
-# from pygeodesy.errors import _error_init  # _ALL_MODS
+# from pygeodesy.errors import _error_init, _xkwds_item2  # _ALL_MODS
 from pygeodesy.internals import _caller3, _dunder_nameof, _dunder_ismain, \
                                 _headof, _osversion2, printf, _Pythonarchine, \
-                                _tailof
-from pygeodesy.interns import NN, _areaOf_, _attribute_, _by_, _COLONSPACE_, \
-                             _COMMASPACE_, _doesn_t_exist_, _DOT_, _enabled_, \
-                             _EQUALSPACED_, _from_, _HASH_, _immutable_, \
-                             _isclockwise_, _ispolar_, _line_, _module_, \
-                             _no_, _NorthPole_, _not_, _or_, _pygeodesy_, \
-                             _pygeodesy_abspath_, _SouthPole_, \
-                             _SPACE_, _sub_packages, _sys, _UNDER_, _version_, \
+                                _tailof  # _Property_RO
+from pygeodesy.interns import NN, _attribute_, _by_, _COLONSPACE_, _COMMASPACE_, \
+                             _doesn_t_exist_, _DOT_, _EQUALSPACED_, _from_, \
+                             _HASH_, _immutable_, _line_, _module_, _no_, _not_, \
+                             _or_, _pygeodesy_abspath_, _pygeodesy_, _SPACE_, \
+                             _SUB_PACKAGES, _UNDER_, _version_,  _sys, \
                              _intern  # function
 # from pygeodesy.streprs import unstr  # _ALL_MODS
 
-from os import getenv as _getenv
 try:
     from importlib import import_module
 except ImportError as x:  # Python 2.6-
-    _str_x = str(x)
-
-    def import_module(name, *package):
-        t = _ALL_MODS.streprs.unstr(import_module, name, *package)
-        raise LazyImportError(t, txt=_str_x)
+    raise ImportError(_COLONSPACE_(_Pythonarchine(sep=_SPACE_), x))
+from os import getenv as _getenv
+# import sys as _sys  # from .interns
 
 __as__                  = ' as '
 _dunder_all_            = '__all__'  # in .__main__
-_dunder_package_        = '__package__'
+_enabled_               = 'enabled'
 _FOR_DOCS               = _getenv('PYGEODESY_FOR_DOCS', NN)  # for epydoc ...
-_from_DOT__             = _SPACE_(NN, _from_, _DOT_)
 _i0                     = ()  # PYCHOK empty tuple
 _init__all__            = _FOR_DOCS or _getenv('PYGEODESY_INIT__ALL__', _dunder_all_) == _dunder_all_  # PYCHOK exported
 _lazily_                = 'lazily'
-_lazily_imported__      = _SPACE_(_HASH_, _lazily_, 'imported', NN)
+_lazily_imported_       = _SPACE_(_HASH_, _lazily_, 'imported')
 _PYGEODESY_GEOCONVERT_  = 'PYGEODESY_GEOCONVERT'  # PYCHOK .mgrs, test.bases
 _PYGEODESY_GEODSOLVE_   = 'PYGEODESY_GEODSOLVE'   # PYCHOK .geodsolve, test.bases
 _PYGEODESY_LAZY_IMPORT_ = 'PYGEODESY_LAZY_IMPORT'
@@ -73,7 +67,7 @@ _unlazy = _unLazy0      = _isfrozen or _sys_version_info2 < (3, 7)  # PYCHOK mod
 _WARNINGS_X_DEV         = _getenv('PYGEODESY_WARNINGS', NN) and (
                           _PYTHON_X_DEV or bool(_sys.warnoptions))  # PYCHOK .props
 # @module_property[_RO?] <https://GitHub.com/jtushman/proxy_tools/>
-isLazy                  = None  # see @var isLazy in .__init__
+isLazy                  =  None  # see @var isLazy in .__init__
 
 
 class LazyAttributeError(AttributeError):
@@ -168,7 +162,7 @@ class _NamedEnum_RO(dict):
             for a in t:
                 a, _, as_ = a.partition(__as__)
                 if as_:  # import attr as attr_
-                    _a(as_, _DOT_(m, a, NN), *_sub_packages)
+                    _a(as_, _DOT_(m, a, NN), *_SUB_PACKAGES)
                 else:
                     _a(a, m)
         return _D
@@ -185,7 +179,7 @@ def _ALL_ATTRS(*attrs):
     '''
     t = ()
     for attr in attrs:
-        t += tuple(map(_attrof, attr))
+        t += tuple(map(_getattrof, attr))
     return t
 
 
@@ -290,7 +284,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                    'fsum', 'fsum_', 'fsumf_', 'fsum1', 'fsum1_', 'fsum1f_'),
                            gars=_i('Garef', 'GARSError'),
                       geodesicw=_i('Geodesic', 'GeodesicLine', 'Geodesic_WGS84'),
-                      geodesicx=_i('gx', 'gxarea', 'gxbases', 'gxline',  # modules, see _sub_packages
+                      geodesicx=_i('gx', 'gxarea', 'gxbases', 'gxline',  # modules
                                    'GeodesicAreaExact', 'GeodesicExact', 'GeodesicLineExact', 'PolygonArea'),
                       geodsolve=_i('GeodesicSolve', 'GeodesicLineSolve', 'GeodSolve12Tuple'),
                         geohash=_i('Geohash', 'GeohashError', 'Neighbors8Dict', 'Resolutions2Tuple'),
@@ -340,11 +334,11 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                    'Reverse4Tuple', 'Triangle7Tuple', 'Triangle8Tuple', 'Trilaterate5Tuple',
                                    'UtmUps2Tuple', 'UtmUps5Tuple', 'UtmUps8Tuple', 'UtmUpsLatLon5Tuple',
                                    'Vector2Tuple', 'Vector3Tuple', 'Vector4Tuple'),
-                    nvectorBase=_i(_NorthPole_, _SouthPole_),
+                    nvectorBase=_i('NorthPole', 'SouthPole'),
                            osgr=_i('Osgr', 'OSGRError', 'parseOSGR', 'toOsgr'),
                          points=_i('LatLon_', 'LatLon2psxy', 'Numpy2LatLon', 'Shape2Tuple', 'Tuple2LatLon',
-                                   _areaOf_, 'boundsOf', 'centroidOf', 'fractional',
-                                   _isclockwise_, 'isconvex', 'isconvex_', 'isenclosedBy', _ispolar_,
+                                   'areaOf', 'boundsOf', 'centroidOf', 'fractional',
+                                   'isclockwise', 'isconvex', 'isconvex_', 'isenclosedBy', 'ispolar',
                                    'luneOf', 'nearestOn5', 'perimeterOf', 'quadOf'),
                           props=_i('Property', 'Property_RO', 'property_RO', 'property_doc_',
                                    'deprecated_class', 'deprecated_function', 'deprecated_method',
@@ -432,7 +426,7 @@ _ALL_DEPRECATED = _NamedEnum_RO(_name='_ALL_DEPRECATED',
                    deprecated_nvector=_i('LatLonNvectorBase', 'Nvector', 'sumOf', 'NorthPole', 'SouthPole'),)
 
 
-class _ALL_MODS(_internals._ALL_MODS_Base):
+class _ALL_MODS(_internals._MODS_Base):
     '''(INTERNAL) Memoized import of any L{pygeodesy} module.
     '''
     def __getattr__(self, name):
@@ -474,7 +468,7 @@ class _ALL_MODS(_internals._ALL_MODS_Base):
         return v
 
     def getmodule(self, name, parent=_pygeodesy_):
-        '''Get a C{pygeodesy} module.
+        '''Get a C{pygeodesy} module or the C{__main__}.
 
            @arg name: Un/qualified module name (C{str}).
 
@@ -482,12 +476,36 @@ class _ALL_MODS(_internals._ALL_MODS_Base):
 
            @raise ImportError: Importing module B{C{name}} failed.
         '''
-        if _headof(name) != parent:
+        if _headof(name) != parent and not _dunder_ismain(name):
             name = _DOT_(parent, name)
         try:
             return _sys.modules[name]
         except KeyError:
-            return import_module(name, parent)
+            return _getmodule(name, parent)
+
+    def into(self, **mod_dunder_name_):
+        '''Lazily import module C{mod} into module C{_dunder_name_}
+           and set C{_dunder_name_._mod} to module C{mod}, I{once}.
+        '''
+        class _Into(object):
+
+            def __getattr__(unused, name):
+                mod, dun = self.errors._xkwds_item2(mod_dunder_name_)
+                _mod = _UNDER_(NN, mod)
+                d =  self.getmodule(dun)  # '__main__' OK
+                i = _getattribute(d, _mod, dun)
+                assert isinstance(i, _Into)
+                m =  self.getmodule(mod)
+                setattr(d, _mod, m)  # overwrite C{d._mod}
+                return getattr(m, name)
+
+        return _Into()
+
+#   @_Property_RO
+#   def _isBoolean(self):
+#       '''(INTERNAL) Get function C(.booleans.isBoolean}, I{once}.
+#       '''
+#       return self.booleans.isBoolean
 
     def items(self):  # no module named 'items'
         '''Yield the modules imported so far.
@@ -500,7 +518,7 @@ class _ALL_MODS(_internals._ALL_MODS_Base):
 _internals._MODS = _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '24.05.15'
+__version__ = '24.06.05'
 
 
 def _ALL_OTHER(*objs):
@@ -565,9 +583,32 @@ def _all_missing2(_all_):
             (_DOT_(_pygeodesy_, _dunder_all_), _diff(_alzy.keys(), _all_)))
 
 
-def _attrof(attr_as):  # .testDeprecated
+def _getattribute(m, name, mod=_pygeodesy_):
+    '''(INTERNAL) Get attr C{m.name}.
+    '''
+    try:
+        return getattr(m, name)
+    except AttributeError:
+        name = _DOT_(mod, name)
+        # <https://GitHub.com/mrJean1/PyGeodesy/issues/76>
+        raise LazyAttributeError(_no_(_attribute_), txt=name)
+
+
+def _getattrof(attr_as):  # .testDeprecated
+    '''(INTERNAL) Get the C{"as name"} or C{"name"} of a lazy entry.
+    '''
     a_, _, as_ = attr_as.partition(__as__)
     return as_ or a_.rstrip(_DOT_)
+
+
+def _getmodule(name, *parent):
+    '''(INTERNAL) Wrapper for C{import_module}.
+    '''
+    try:
+        return import_module(name, parent)
+    except ImportError:
+        # <https://GitHub.com/mrJean1/PyGeodesy/issues/76>
+        raise LazyImportError(_no_(_module_), txt=name)
 
 
 # def _lazy_attributes(_dunder_name_):
@@ -615,17 +656,19 @@ def _lazy_import2(pack):  # MCCABE 14
              U{PEP 562<https://www.Python.org/dev/peps/pep-0562>} and the
              U{new way<https://Snarky.Ca/lazy-importing-in-python-3-7/>}.
     '''
+    _DOT_    = _interns._DOT_
+    _SPACE_  = _interns._SPACE_
+
     if pack != _pygeodesy_ or _unlazy:  # Python 3.7+
         t = _no_(_DOT_(pack, _dunder_nameof(_lazy_import2)))  # PYCHOK no cover
         raise LazyImportError(t, txt=_Pythonarchine(sep=_SPACE_))
 
-    package, parent = _lazy_init2(pack)  # _pygeodesy_
-
-    subpacks   =  set((parent, NN) + tuple(
-                      _DOT_(parent, s) for s in _sub_packages))
-    MISSING    =  object()  # DON'T interns.MISSING!
-    imports    = _all_imports()
-    deprecates = _all_deprecates()
+    package, parent  = _lazy_init2(pack)  # _pygeodesy_
+    sub_packages     =  set((parent, NN) + tuple(
+                           _DOT_(parent, s) for s in _SUB_PACKAGES))
+    imports          = _all_imports()
+    deprecates       = _all_deprecates()
+    _dunder_package_ = '__package__'
 
     def __getattr__(name):  # __getattr__ only for Python 3.7+
         # only called once for each undefined pygeodesy attribute
@@ -638,21 +681,12 @@ def _lazy_import2(pack):  # MCCABE 14
                 mod, _, attr = mod[:-1].rpartition(_DOT_)
             else:  # from mod import name
                 attr = name
-            try:
-                t = _DOT_(pack, mod)
-                v =  import_module(t, parent)
-            except ImportError:
-                # <https://GitHub.com/mrJean1/PyGeodesy/issues/76>
-                raise LazyImportError(_no_(_module_), txt=t)
-            t = getattr(v, _dunder_package_, None)
-            if t not in subpacks:  # invalid module package
+            v = _getmodule(_DOT_(pack, mod), parent)
+            t =  getattr(v, _dunder_package_, None)
+            if t not in sub_packages:  # invalid module package
                 raise LazyImportError(_DOT_(mod, _dunder_package_), t)
-            if attr:  # get the attribute
-                v = getattr(v, attr, MISSING)
-                if v is MISSING:  # PYCHOK no cover
-                    t = _DOT_(mod, attr)
-                    # <https://GitHub.com/mrJean1/PyGeodesy/issues/76>
-                    raise LazyAttributeError(_no_(_attribute_), txt=t)
+            if attr:  # get mod.attr
+                v = _getattribute(v, attr, mod)
 
         elif name in (_dunder_all_,):  # XXX _dunder_dir_, _dunder_members_?
             v = _ALL_INIT + tuple(imports.keys())
@@ -663,9 +697,9 @@ def _lazy_import2(pack):  # MCCABE 14
 
         setattr(package, name, v)  # package.__dict__[name] = val
         if isLazy > 1:
-            t = NN(_lazily_imported__, _DOT_(parent, name))
+            t = _SPACE_(_lazily_imported_, _DOT_(parent, name))
             if mod and _tailof(mod) != name:
-                t = NN(t, _from_DOT__, mod)
+                t = _SPACE_(t, _from_, _DOT_(NN, mod))
             if isLazy > 2:
                 try:  # see C{_caller3}
                     _, f, s = _caller3(2)
@@ -826,6 +860,8 @@ def _lazy_module(name):  # overwritten by _lazy_import2
 
 
 # del _i, _i0
+
+# _ = _ALL_MODS.errors  # force import pygeodesy.errors
 
 if _dunder_ismain(__name__):  # PYCHOK no cover
 

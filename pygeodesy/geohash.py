@@ -30,7 +30,7 @@ from pygeodesy.named import _name__, _NamedDict, _NamedTuple, nameof, _xnamed
 from pygeodesy.namedTuples import Bounds2Tuple, Bounds4Tuple, LatLon2Tuple, \
                                   PhiLam2Tuple
 from pygeodesy.props import deprecated_function, deprecated_method, \
-                            deprecated_property_RO, Property_RO, property_RO
+                            deprecated_property_RO, Property_RO
 from pygeodesy.streprs import fstr
 from pygeodesy.units import Degrees_, Int, Lat, Lon, Precision_, Str, \
                            _xStrError
@@ -38,7 +38,9 @@ from pygeodesy.units import Degrees_, Int, Lat, Lon, Precision_, Str, \
 from math import fabs, ldexp, log10, radians
 
 __all__ = _ALL_LAZY.geohash
-__version__ = '24.05.23'
+__version__ = '24.06.04'
+
+_formy = _MODS.into(formy=__name__)
 
 
 class _GH(object):
@@ -317,9 +319,8 @@ class Geohash(Str):
         '''
         lls  =  self.latlon + _2Geohash(other).latlon
         kwds = _xkwds(adjust_limit_wrap, adjust=False, limit=None, wrap=False)
-        m    =  self._formy
-        return m.equirectangular( *lls, radius=radius, **kwds) if radius else \
-               m.equirectangular4(*lls, **kwds).distance2
+        return _formy.equirectangular( *lls, radius=radius, **kwds) if radius else \
+               _formy.equirectangular4(*lls, **kwds).distance2
 
     def euclideanTo(self, other, **radius_adjust_wrap):
         '''Approximate the distance between this and an other geohash using
@@ -335,14 +336,7 @@ class Geohash(Str):
            @raise TypeError: The B{C{other}} is not a L{Geohash}, C{LatLon}
                              or C{str} or invalid B{C{radius}}.
         '''
-        return self._distanceTo(self._formy.euclidean, other, **radius_adjust_wrap)
-
-    @property_RO
-    def _formy(self):
-        '''(INTERNAL) Get the C{.formy} module, I{once}.
-        '''
-        Geohash._formy = f = _MODS.formy  # overwrite property_RO
-        return f
+        return self._distanceTo(_formy.euclidean, other, **radius_adjust_wrap)
 
     def haversineTo(self, other, **radius_wrap):
         '''Compute the distance between this and an other geohash using
@@ -358,7 +352,7 @@ class Geohash(Str):
            @raise TypeError: The B{C{other}} is not a L{Geohash}, C{LatLon}
                              or C{str} or invalid B{C{radius}}.
         '''
-        return self._distanceTo(self._formy.haversine, other, **radius_wrap)
+        return self._distanceTo(_formy.haversine, other, **radius_wrap)
 
     @Property_RO
     def latlon(self):
@@ -431,7 +425,7 @@ class Geohash(Str):
            @raise TypeError: The B{C{other}} is not a L{Geohash}, C{LatLon}
                              or C{str} or invalid B{C{radius}}.
         '''
-        return self._distanceTo(self._formy.vincentys, other, **radius_wrap)
+        return self._distanceTo(_formy.vincentys, other, **radius_wrap)
 
     @Property_RO
     def N(self):

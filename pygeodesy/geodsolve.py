@@ -26,7 +26,7 @@ from pygeodesy.solveBase import _SolveBase, _SolveLineBase
 from pygeodesy.utily import _unrollon, _Wrap, wrap360
 
 __all__ = _ALL_LAZY.geodsolve
-__version__ = '24.05.31'
+__version__ = '24.06.04'
 
 
 class GeodSolve12Tuple(_GTuple):
@@ -59,11 +59,11 @@ class _GeodesicSolveBase(_SolveBase):
     def _cmdBasic(self):
         '''(INTERNAL) Get the basic C{GeodSolve} cmd (C{tuple}).
         '''
-        return (self.GeodSolve,) + self._b_option \
-                                 + self._e_option \
-                                 + self._E_option \
-                                 + self._p_option \
-                                 + self._u_option + ('-f',)
+        return (self.GeodSolve, '-f') + (self._b_option +
+                                         self._e_option +
+                                         self._E_option +
+                                         self._p_option +
+                                         self._u_option)
 
     @Property_RO
     def _E_option(self):
@@ -362,49 +362,47 @@ if __name__ == '__main__':
     p = glS.ArcPosition(49.475527)
     printf('ArcPosition: %s %r', p == r, p)
 
+
 # % python3 -m pygeodesy.geodsolve
 
-# version: /opt/local/bin/GeodSolve: GeographicLib version 1.51
+# version: /opt/local/bin/GeodSolve: GeographicLib version 2.2
 
-# version: /opt/local/bin/GeodSolve: GeographicLib version 1.51
-
-# Direct: GDict(M12=0.650911, M21=0.651229, S12=39735075134877.09375, a12=49.475527, azi1=51.0, azi2=107.189397, lat1=40.6, lat2=51.884565, lon1=-73.8, lon2=-1.141173, m12=4844148.703101, s12=5500000.0)
+# Direct: GDict(a12=49.475527, azi1=51.0, azi2=107.189397, lat1=40.6, lat2=51.884565, lon1=-73.8, lon2=-1.141173, m12=4844148.703101, M12=0.650911, M21=0.651229, s12=5500000.0, S12=39735075134877.09375)
 # Direct3: Destination3Tuple(lat=51.884565, lon=-1.141173, final=107.189397)
 
-# Inverse: GDict(M12=0.64473, M21=0.645046, S12=40041368848742.53125, a12=49.94131, azi1=51.198883, azi2=107.821777, lat1=40.6, lat2=51.6, lon1=-73.8, lon2=-0.5, m12=4877684.602706, s12=5551759.400319)
+# Inverse: GDict(a12=49.94131, azi1=51.198883, azi2=107.821777, lat1=40.6, lat2=51.6, lon1=-73.8, lon2=-0.5, m12=4877684.602706, M12=0.64473, M21=0.645046, s12=5551759.400319, S12=40041368848742.53125)
 # Inverse1: 49.94131021789904
 # Inverse3: Distance3Tuple(distance=5551759.400319, initial=51.198883, final=107.821777)
 
-# Position:    True  GDict(M12=0.650911, M21=0.651229, S12=39735075134877.09375, a12=49.475527, azi1=51.0, azi2=107.189397, lat1=40.6, lat2=51.884565, lon1=-73.8, lon2=-1.141173, m12=4844148.703101, s12=5500000.0)
-# ArcPosition: False GDict(M12=0.650911, M21=0.651229, S12=39735074737272.734375, a12=49.475527, azi1=51.0, azi2=107.189397, lat1=40.6, lat2=51.884565, lon1=-73.8, lon2=-1.141174, m12=4844148.669561, s12=5499999.948497)
+# Position:    True  GDict(a12=49.475527, azi1=51.0, azi2=107.189397, lat1=40.6, lat2=51.884565, lon1=-73.8, lon2=-1.141173, m12=4844148.703101, M12=0.650911, M21=0.651229, s12=5500000.0, S12=39735075134877.09375)
+# ArcPosition: False GDict(a12=49.475527, azi1=51.0, azi2=107.189397, lat1=40.6, lat2=51.884565, lon1=-73.8, lon2=-1.141174, m12=4844148.669561, M12=0.650911, M21=0.651229, s12=5499999.948497, S12=39735074737272.734375)
 
 
 # % python3 -m pygeodesy.geodsolve --verbose
 
 # GeodesicSolve 'Test' 1: /opt/local/bin/GeodSolve --version (invoke)
-# GeodesicSolve 'Test' 1: /opt/local/bin/GeodSolve: GeographicLib version 1.51 (0)
-# version: /opt/local/bin/GeodSolve: GeographicLib version 1.51
-# GeodesicSolve 'Test' 2: /opt/local/bin/GeodSolve -E -p 10 -f \ 40.600000000000001 -73.799999999999997 51.0 5500000.0 (Direct)
+# GeodesicSolve 'Test' 1: /opt/local/bin/GeodSolve: GeographicLib version 2.2 (0)
+# version: /opt/local/bin/GeodSolve: GeographicLib version 2.2
+# GeodesicSolve 'Test' 2: /opt/local/bin/GeodSolve -f -E -p 10 \ 40.600000000000001 -73.799999999999997 51.0 5500000.0 (Direct)
 # GeodesicSolve 'Test' 2: lat1=40.600000000000001, lon1=-73.799999999999997, azi1=51.0, lat2=51.884564505606761, lon2=-1.141172861200829, azi2=107.189397162605886, s12=5500000.0, a12=49.475527463251467, m12=4844148.703101486, M12=0.65091056699808603, M21=0.65122865892196558, S12=39735075134877.094 (0)
 
-# Direct: GDict(M12=0.650911, M21=0.651229, S12=39735075134877.09375, a12=49.475527, azi1=51.0, azi2=107.189397, lat1=40.6, lat2=51.884565, lon1=-73.8, lon2=-1.141173, m12=4844148.703101, s12=5500000.0)
-# GeodesicSolve 'Test' 3: /opt/local/bin/GeodSolve -E -p 10 -f \ 40.600000000000001 -73.799999999999997 51.0 5500000.0 (Direct3)
+# Direct: GDict(a12=49.475527, azi1=51.0, azi2=107.189397, lat1=40.6, lat2=51.884565, lon1=-73.8, lon2=-1.141173, m12=4844148.703101, M12=0.650911, M21=0.651229, s12=5500000.0, S12=39735075134877.09375)
+# GeodesicSolve 'Test' 3: /opt/local/bin/GeodSolve -f -E -p 10 \ 40.600000000000001 -73.799999999999997 51.0 5500000.0 (Direct3)
 # GeodesicSolve 'Test' 3: lat1=40.600000000000001, lon1=-73.799999999999997, azi1=51.0, lat2=51.884564505606761, lon2=-1.141172861200829, azi2=107.189397162605886, s12=5500000.0, a12=49.475527463251467, m12=4844148.703101486, M12=0.65091056699808603, M21=0.65122865892196558, S12=39735075134877.094 (0)
 # Direct3: Destination3Tuple(lat=51.884565, lon=-1.141173, final=107.189397)
-# GeodesicSolve 'Test' 4: /opt/local/bin/GeodSolve -E -p 10 -f -i \ 40.600000000000001 -73.799999999999997 51.600000000000001 -0.5 (Inverse)
+# GeodesicSolve 'Test' 4: /opt/local/bin/GeodSolve -f -E -p 10 -i \ 40.600000000000001 -73.799999999999997 51.600000000000001 -0.5 (Inverse)
 # GeodesicSolve 'Test' 4: lat1=40.600000000000001, lon1=-73.799999999999997, azi1=51.198882845579824, lat2=51.600000000000001, lon2=-0.5, azi2=107.821776735514248, s12=5551759.4003186841, a12=49.941310217899037, m12=4877684.6027061976, M12=0.64472969205948238, M21=0.64504567852134398, S12=40041368848742.531 (0)
 
-# Inverse: GDict(M12=0.64473, M21=0.645046, S12=40041368848742.53125, a12=49.94131, azi1=51.198883, azi2=107.821777, lat1=40.6, lat2=51.6, lon1=-73.8, lon2=-0.5, m12=4877684.602706, s12=5551759.400319)
-# GeodesicSolve 'Test' 5: /opt/local/bin/GeodSolve -E -p 10 -f -i \ 40.600000000000001 -73.799999999999997 51.600000000000001 -0.5 (Inverse1)
+# Inverse: GDict(a12=49.94131, azi1=51.198883, azi2=107.821777, lat1=40.6, lat2=51.6, lon1=-73.8, lon2=-0.5, m12=4877684.602706, M12=0.64473, M21=0.645046, s12=5551759.400319, S12=40041368848742.53125)
+# GeodesicSolve 'Test' 5: /opt/local/bin/GeodSolve -f -E -p 10 -i \ 40.600000000000001 -73.799999999999997 51.600000000000001 -0.5 (Inverse1)
 # GeodesicSolve 'Test' 5: lat1=40.600000000000001, lon1=-73.799999999999997, azi1=51.198882845579824, lat2=51.600000000000001, lon2=-0.5, azi2=107.821776735514248, s12=5551759.4003186841, a12=49.941310217899037, m12=4877684.6027061976, M12=0.64472969205948238, M21=0.64504567852134398, S12=40041368848742.531 (0)
 # Inverse1: 49.94131021789904
-# GeodesicSolve 'Test' 6: /opt/local/bin/GeodSolve -E -p 10 -f -i \ 40.600000000000001 -73.799999999999997 51.600000000000001 -0.5 (Inverse3)
+# GeodesicSolve 'Test' 6: /opt/local/bin/GeodSolve -f -E -p 10 -i \ 40.600000000000001 -73.799999999999997 51.600000000000001 -0.5 (Inverse3)
 # GeodesicSolve 'Test' 6: lat1=40.600000000000001, lon1=-73.799999999999997, azi1=51.198882845579824, lat2=51.600000000000001, lon2=-0.5, azi2=107.821776735514248, s12=5551759.4003186841, a12=49.941310217899037, m12=4877684.6027061976, M12=0.64472969205948238, M21=0.64504567852134398, S12=40041368848742.531 (0)
 # Inverse3: Distance3Tuple(distance=5551759.400319, initial=51.198883, final=107.821777)
 
-# Position:    True  GDict(M12=0.650911, M21=0.651229, S12=39735075134877.09375, a12=49.475527, azi1=51.0, azi2=107.189397, lat1=40.6, lat2=51.884565, lon1=-73.8, lon2=-1.141173, m12=4844148.703101, s12=5500000.0)
-# ArcPosition: False GDict(M12=0.650911, M21=0.651229, S12=39735074737272.734375, a12=49.475527, azi1=51.0, azi2=107.189397, lat1=40.6, lat2=51.884565, lon1=-73.8, lon2=-1.141174, m12=4844148.669561, s12=5499999.948497)
-
+# Position:    True  GDict(a12=49.475527, azi1=51.0, azi2=107.189397, lat1=40.6, lat2=51.884565, lon1=-73.8, lon2=-1.141173, m12=4844148.703101, M12=0.650911, M21=0.651229, s12=5500000.0, S12=39735075134877.09375)
+# ArcPosition: False GDict(a12=49.475527, azi1=51.0, azi2=107.189397, lat1=40.6, lat2=51.884565, lon1=-73.8, lon2=-1.141174, m12=4844148.669561, M12=0.650911, M21=0.651229, s12=5499999.948497, S12=39735074737272.734375)
 
 # **) MIT License
 #

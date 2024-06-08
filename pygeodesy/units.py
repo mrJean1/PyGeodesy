@@ -1,18 +1,16 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Various units, all sub-classes of C{Float}, C{Int} and
-C{Str} from basic C{float}, C{int} respectively C{str} to
-named units as L{Degrees}, L{Feet}, L{Meter}, L{Radians}, etc.
+u'''Various named units, all sub-classes of C{Float}, C{Int} or C{Str} from
+basic C{float}, C{int} respectively C{str} to named units as L{Degrees},
+L{Feet}, L{Meter}, L{Radians}, etc.
 '''
 
-from pygeodesy.basics import isinstanceof, isscalar, isstr, issubclassof, signOf
+from pygeodesy.basics import isscalar, isstr, issubclassof, signOf
 from pygeodesy.constants import EPS, EPS1, PI, PI2, PI_2, _umod_360, _0_0, \
                                _0_001,  _0_5, INT0  # PYCHOK for .mgrs, .namedTuples
-from pygeodesy.dms import F__F, F__F_, S_NUL, S_SEP, parseDMS, parseRad, \
-                         _toDMS, toDMS
-from pygeodesy.errors import _AssertionError, _IsnotError, TRFError, UnitError, \
-                             _xkwds
+from pygeodesy.dms import F__F, F__F_, S_NUL, S_SEP, parseDMS, parseRad, _toDMS
+from pygeodesy.errors import _AssertionError, _IsnotError, TRFError, UnitError
 from pygeodesy.interns import NN, _band_, _bearing_, _degrees_, _degrees2_, \
                              _distance_, _E_, _easting_, _epoch_, _EW_, _feet_, \
                              _height_, _lam_, _lat_, _LatLon_, _lon_, _meter_, \
@@ -29,7 +27,7 @@ from pygeodesy.unitsBase import _Error, Float, Fmt, fstr, Int, _arg_name_arg2, \
 from math import degrees, radians
 
 __all__ = _ALL_LAZY.units
-__version__ = '24.05.20'
+__version__ = '24.06.08'
 
 _negative_falsed_ = 'negative, falsed'
 
@@ -108,10 +106,9 @@ class Bool(Int, _NamedUnit):
            @kwarg cls: This class (C{Bool} or sub-class).
            @kwarg arg: The value (any C{type} convertable to C{bool}).
            @kwarg name: Optional instance name (C{str}).
-           @kwarg Error: Optional error to raise, overriding the default
-                         L{UnitError}.
-           @kwarg name_arg: Optional C{name=arg} keyword argument, inlieu
-                            of B{C{name}} and B{C{arg}}.
+           @kwarg Error: Optional error to raise, overriding the default L{UnitError}.
+           @kwarg name_arg: Optional C{name=arg} keyword argument, inlieu of separate
+                            B{C{name}} and B{C{arg}}.
 
            @returns: A L{Bool}, a C{bool}-like instance.
 
@@ -137,13 +134,11 @@ class Bool(Int, _NamedUnit):
     def toRepr(self, std=False, **unused):  # PYCHOK **unused
         '''Return a representation of this C{Bool}.
 
-           @kwarg std: Use the standard C{repr} or the named
-                       representation (C{bool}).
+           @kwarg std: Use the standard C{repr} or the named representation (C{bool}).
 
-           @note: Use C{env} variable C{PYGEODESY_BOOL_STD_REPR=std}
-                  prior to C{import pygeodesy} to get the standard
-                  C{repr} or set property C{std_repr=False} to always
-                  get the named C{toRepr} representation.
+           @note: Use C{env} variable C{PYGEODESY_BOOL_STD_REPR=std} prior to C{import
+                  pygeodesy} to get the standard C{repr} or set property C{std_repr=False}
+                  to always get the named C{toRepr} representation.
         '''
         r = repr(self._bool_True_or_False)
         return r if std else self._toRepr(r)
@@ -174,17 +169,16 @@ class Degrees(Float):
         '''New C{Degrees} instance, see L{Float}.
 
            @arg cls: This class (C{Degrees} or sub-class).
-           @kwarg arg: The value (any scalar C{type} convertable to C{float} or
-                       parsable by L{pygeodesy.parseDMS}).
+           @kwarg arg: The value (any scalar C{type} convertable to C{float} or parsable
+                       by L{pygeodesy.parseDMS}).
            @kwarg name: Optional instance name (C{str}).
-           @kwarg Error: Optional error to raise, overriding the default
-                         L{UnitError}.
+           @kwarg Error: Optional error to raise, overriding the default L{UnitError}.
            @kwarg suffix: Optional, valid compass direction suffixes (C{NSEW}).
-           @kwarg clip: Optional B{C{arg}} range B{C{-clip..+clip}}
-                        (C{degrees} or C{0} or C{None} for unclipped).
+           @kwarg clip: Optional B{C{arg}} range B{C{-clip..+clip}} (C{degrees} or C{0}
+                        or C{None} for unclipped).
            @kwarg wrap: Optionally adjust the B{C{arg}} value (L{pygeodesy.wrap90},
                         L{pygeodesy.wrap180} or L{pygeodesy.wrap360}).
-           @kwarg name_arg: Optional C{name=arg} keyword argument, inlieu of
+           @kwarg name_arg: Optional C{name=arg} keyword argument, inlieu of separate
                             B{C{name}} and B{C{arg}}.
 
            @returns: A C{Degrees} instance.
@@ -218,18 +212,18 @@ class Degrees(Float):
     def toRepr(self, std=False, **prec_fmt_ints):  # PYCHOK prec=8, ...
         '''Return a representation of this C{Degrees}.
 
-           @kwarg std: If C{True} return the standard C{repr},
-                       otherwise the named representation (C{bool}).
+           @kwarg std: If C{True} return the standard C{repr}, otherwise
+                       the named representation (C{bool}).
 
            @see: Methods L{Degrees.toStr}, L{Float.toRepr} and function
-                 L{pygeodesy.toDMS} for more documentation.
+                 L{pygeodesy.toDMS} for futher C{prec_fmt_ints} details.
         '''
         return Float.toRepr(self, std=std, **prec_fmt_ints)
 
     def toStr(self, prec=None, fmt=F__F_, ints=False, **s_D_M_S):  # PYCHOK prec=8, ...
         '''Return this C{Degrees} as standard C{str}.
 
-           @see: Function L{pygeodesy.toDMS} for keyword argument details.
+           @see: Function L{pygeodesy.toDMS} for futher details.
         '''
         if fmt.startswith(_PERCENT_):  # use regular formatting
             p = 8 if prec is None else prec
@@ -288,8 +282,8 @@ class Radians(Float):
         '''New C{Radians} instance, see L{Float}.
 
            @arg cls: This class (C{Radians} or sub-class).
-           @kwarg arg: The value (any C{type} convertable to C{float} or parsable
-                       by L{pygeodesy.parseRad}).
+           @kwarg arg: The value (any C{type} convertable to C{float} or parsable by
+                       L{pygeodesy.parseRad}).
            @kwarg name: Optional instance name (C{str}).
            @kwarg Error: Optional error to raise, overriding the default L{UnitError}.
            @kwarg suffix: Optional, valid compass direction suffixes (C{NSEW}).
@@ -547,7 +541,7 @@ class FIx(Float_):
            @arg points: The points (C{LatLon}[], L{Numpy2LatLon}[],
                         L{Tuple2LatLon}[] or C{other}[]).
            @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the
-                        B{C{points}} (C{bool})  C{None} for backward
+                        B{C{points}} (C{bool}) or C{None} for backward
                         compatible L{LatLon2Tuple} or B{C{LatLon}} with
                         I{averaged} lat- and longitudes.
            @kwarg LatLon: Optional class to return the I{intermediate},
@@ -695,10 +689,9 @@ class Meter(Float):
 
            @see: Method C{Str.toRepr} and property C{Str.std_repr}.
 
-           @note: Use C{env} variable C{PYGEODESY_METER_STD_REPR=std}
-                  prior to C{import pygeodesy} to get the standard
-                  C{repr} or set property C{std_repr=False} to always
-                  get the named C{toRepr} representation.
+           @note: Use C{env} variable C{PYGEODESY_METER_STD_REPR=std} prior to C{import
+                  pygeodesy} to get the standard C{repr} or set property C{std_repr=False}
+                  to always get the named C{toRepr} representation.
         '''
         return self.toRepr(std=self._std_repr)
 
@@ -873,31 +866,6 @@ def _isRadius(obj):
 def _isScalar(obj):
     # Check for pure scalar types.
     return isscalar(obj) and not isinstance(obj, _NamedUnit)
-
-
-def _toDegrees(s, *xs, **toDMS_kwds):
-    '''(INTERNAL) Convert C{xs} from C{Radians} to C{Degrees} or C{toDMS}.
-    '''
-    if toDMS_kwds:
-        toDMS_kwds = _xkwds(toDMS_kwds, ddd=1, pos=NN)
-
-    for x in xs:
-        if not isinstanceof(x, Degrees, Degrees_):
-            s = None
-            x = x.toDegrees()
-        yield toDMS(x, **toDMS_kwds) if toDMS_kwds else x
-    yield None if toDMS_kwds else s
-
-
-def _toRadians(s, *xs):
-    '''(INTERNAL) Convert C{xs} from C{Degrees} to C{Radians}.
-    '''
-    for x in xs:
-        if not isinstanceof(x, Radians, Radians_):
-            s = None
-            x = x.toRadians()
-        yield x
-    yield s
 
 
 def _xStrError(*Refs, **name_value_Error):

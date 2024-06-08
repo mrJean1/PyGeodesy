@@ -14,7 +14,7 @@ from pygeodesy.named import modulename, _Named, property_doc_
 from pygeodesy.streprs import Fmt, fstr
 
 __all__ = _ALL_LAZY.unitsBase
-__version__ = '24.05.20'
+__version__ = '24.06.05'
 
 
 class _NamedUnit(_Named):
@@ -107,7 +107,7 @@ class Float(float, _NamedUnit):
         # XXX the default number of decimals is 10-12 when using
         # float.__str__(self) with both python 3.8+ and 2.7-, but
         # float.__repr__(self) shows DIG decimals in python2.7!
-        # return super(Float, self).__repr__()  # see .test.testCss.py
+        # return super(Float, self).__repr__()  # see .testCss.py
         return float.__str__(self)  # always _std_str_
 
     def toRepr(self, std=False, **prec_fmt_ints):  # PYCHOK prec=8, ...

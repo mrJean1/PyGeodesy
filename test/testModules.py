@@ -4,7 +4,7 @@
 # Test modules and attributes.
 
 __all__ = ('Tests',)
-__version__ = '24.05.13'
+__version__ = '24.06.05'
 
 from bases import isPyPy, TestsBase, type2str
 from pygeodesy.internals import _headof, _tailof,  _DOT_
@@ -57,7 +57,7 @@ if __name__ == '__main__':
             # keyword.iskeyword.__module__ == None
             pygeodesy.iskeyword.__module__ = 'keyword'
 
-            from pygeodesy.interns import _sub_packages
+            from pygeodesy.interns import _SUB_PACKAGES
 
             # check module for public functions, etc.
             t.subtitle(pygeodesy, 'Public')
@@ -67,7 +67,7 @@ if __name__ == '__main__':
                 if m and m not in ('math', 'pygeodesy'):
                     n = a + type2str(pygeodesy, a)
                     t.test(n, m in  pys or
-                              m in _sub_packages or
+                              m in _SUB_PACKAGES or
                               a in ('freduce' , 'isclass', 'iskeyword'), True)
 
     else:

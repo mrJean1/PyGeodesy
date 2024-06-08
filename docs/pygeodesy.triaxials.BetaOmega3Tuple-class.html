@@ -61,19 +61,21 @@
 <!-- ==================== CLASS DESCRIPTION ==================== -->
 <h1 class="epydoc">Class BetaOmega3Tuple</h1><p class="nomargin-top"></p>
 <pre class="base-tree">
-   object --+            
-            |            
-        tuple --+        
-                |        
-   object --+   |        
-            |   |        
- <a href="pygeodesy.named._Named-class.html">named._Named</a> --+        
-                |        
-<a href="pygeodesy.named._NamedTuple-class.html">named._NamedTuple</a> --+    
-                    |    
-        _NamedTupleTo --+
-                        |
-                       <strong class="uidshort">BetaOmega3Tuple</strong>
+       object --+                
+                |                
+            tuple --+            
+                    |            
+       object --+   |            
+                |   |            
+     <a href="pygeodesy.named._Named-class.html">named._Named</a> --+            
+                    |            
+    <a href="pygeodesy.named._NamedTuple-class.html">named._NamedTuple</a> --+        
+                        |        
+namedTuples._NamedTupleTo --+    
+                            |    
+               _NamedTupleToX --+
+                                |
+                               <strong class="uidshort">BetaOmega3Tuple</strong>
 </pre>
 
 <hr />
@@ -100,6 +102,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.triaxials.BetaOmega3Tuple-class.html#toDegrees" class="summary-sig-name">toDegrees</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">**toDMS_kwds</span>)</span><br />
       Convert this <a href="pygeodesy.triaxials.BetaOmega3Tuple-class.html"
       class="link">BetaOmega3Tuple</a> to <a 
@@ -120,7 +123,8 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.triaxials.BetaOmega3Tuple-class.html#toRadians" class="summary-sig-name">toRadians</a>(<span class="summary-sig-arg">self</span>)</span><br />
+          <td><span class="summary-sig"><a href="pygeodesy.triaxials.BetaOmega3Tuple-class.html#toRadians" class="summary-sig-name">toRadians</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Convert this <a href="pygeodesy.triaxials.BetaOmega3Tuple-class.html"
       class="link">BetaOmega3Tuple</a> to <a 
       href="pygeodesy.units.Radians-class.html" class="link">Radians</a>.</td>
@@ -139,7 +143,8 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="to2Tuple"></a><span class="summary-sig-name">to2Tuple</span>(<span class="summary-sig-arg">self</span>)</span><br />
+          <td><span class="summary-sig"><a href="pygeodesy.triaxials.BetaOmega3Tuple-class.html#to2Tuple" class="summary-sig-name">to2Tuple</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Reduce this <a href="pygeodesy.triaxials.BetaOmega3Tuple-class.html" 
       class="link">BetaOmega3Tuple</a> to a <a 
       href="pygeodesy.triaxials.BetaOmega2Tuple-class.html" 
@@ -274,6 +279,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toDegrees</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">**toDMS_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -286,14 +292,18 @@
   href="pygeodesy.units.Degrees-class.html" class="link">Degrees</a> or 
   <code>toDMS</code>.</p>
   <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>), overriding this name.</li>
+    </ul></dd>
     <dt>Returns:</dt>
         <dd><a href="pygeodesy.triaxials.BetaOmega3Tuple-class.html" 
           class="link">BetaOmega3Tuple</a><code>(beta, omega, 
           height)</code> with <code>beta</code> and <code>omega</code> both
           in <a href="pygeodesy.units.Degrees-class.html" 
-          class="link">Degrees</a> or as a <a 
+          class="link">Degrees</a> or as <a 
           href="pygeodesy.dms-module.html#toDMS" class="link">toDMS</a> 
-          string provided some <b><code>toDMS_kwds</code></b> keyword 
+          strings provided some <b><code>toDMS_kwds</code></b> keyword 
           arguments are specified.</dd>
   </dl>
 </td></tr></table>
@@ -305,7 +315,8 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">toRadians</span>&nbsp;(<span class="sig-arg">self</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toRadians</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -316,12 +327,45 @@
   class="link">BetaOmega3Tuple</a> to <a 
   href="pygeodesy.units.Radians-class.html" class="link">Radians</a>.</p>
   <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>), 
+          overriding this name.</li>
+    </ul></dd>
     <dt>Returns:</dt>
         <dd><a href="pygeodesy.triaxials.BetaOmega3Tuple-class.html" 
           class="link">BetaOmega3Tuple</a><code>(beta, omega, 
           height)</code> with <code>beta</code> and <code>omega</code> both
           in <a href="pygeodesy.units.Radians-class.html" 
           class="link">Radians</a>.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="to2Tuple"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">to2Tuple</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">**name</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Reduce this <a href="pygeodesy.triaxials.BetaOmega3Tuple-class.html" 
+  class="link">BetaOmega3Tuple</a> to a <a 
+  href="pygeodesy.triaxials.BetaOmega2Tuple-class.html" 
+  class="link">BetaOmega2Tuple</a>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>), 
+          overriding this name.</li>
+    </ul></dd>
   </dl>
 </td></tr></table>
 </div>
@@ -357,7 +401,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Jun  1 11:09:34 2024
+    Generated by Epydoc 3.0.1 on Sat Jun  8 15:58:44 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -122,8 +122,7 @@
         <span class="summary-sig-arg">y</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">z</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">ll</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">**name</span>)</span><br />
+        <span class="summary-sig-arg">**ll_name</span>)</span><br />
       New <code>Cartesian...</code>.</td>
           <td align="right" valign="top">
             
@@ -236,7 +235,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.cartesianBase.CartesianBase-class.html#destinationXyz" class="summary-sig-name">destinationXyz</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">delta</span>,
         <span class="summary-sig-arg">Cartesian</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">**Cartesian_kwds</span>)</span><br />
+        <span class="summary-sig-arg">**name_Cartesian_kwds</span>)</span><br />
       Calculate the destination using a <i>local</i> delta from this 
       cartesian.</td>
           <td align="right" valign="top">
@@ -554,7 +553,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.cartesianBase.CartesianBase-class.html#toLtp" class="summary-sig-name">toLtp</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">Ecef</span>=<span class="summary-sig-default">None</span>)</span><br />
+        <span class="summary-sig-arg">Ecef</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Return the <i>local tangent plane</i> (LTP) for this cartesian.</td>
           <td align="right" valign="top">
             
@@ -574,7 +574,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.cartesianBase.CartesianBase-class.html#toNvector" class="summary-sig-name">toNvector</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">Nvector</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">**Nvector_kwds</span>)</span><br />
+        <span class="summary-sig-arg">**name_Nvector_kwds</span>)</span><br />
       Convert this cartesian to <code>n-vector</code> components, 
       <i>including height</i>.</td>
           <td align="right" valign="top">
@@ -1016,8 +1016,7 @@
         <span class="sig-arg">y</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">z</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">datum</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">ll</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">**name</span>)</span>
+        <span class="sig-arg">**ll_name</span>)</span>
     <br /><em class="fname">(Constructor)</em>
   </h3>
   </td><td align="right" valign="top"
@@ -1051,8 +1050,9 @@
           class="link">Ellipsoid2</a> or <a 
           href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
           class="link">a_f2Tuple</a>).</li>
-        <li><strong class="pname"><code>ll</code></strong> - Optional, original latlon (<code>LatLon</code>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
+        <li><strong class="pname"><code>ll_name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>) and 
+          optional, original latlon <code><b>ll</b>=None</code> 
+          (<code>LatLon</code>).</li>
     </ul></dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
@@ -1272,7 +1272,7 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">destinationXyz</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">delta</span>,
         <span class="sig-arg">Cartesian</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">**Cartesian_kwds</span>)</span>
+        <span class="sig-arg">**name_Cartesian_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -1293,7 +1293,8 @@
           class="link">Local9Tuple</a>).</li>
         <li><strong class="pname"><code>Cartesian</code></strong> - Optional (geocentric) class to return the destination or 
           <code>None</code>.</li>
-        <li><strong class="pname"><code>Cartesian_kwds</code></strong> - Optional, additional <b><code>Cartesian</code></b> keyword 
+        <li><strong class="pname"><code>name_Cartesian_kwds</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>) and 
+          optional, additional <b><code>Cartesian</code></b> keyword 
           arguments, ignored if <code><b>Cartesian</b> is None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -1306,7 +1307,8 @@
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>delta</code></b>, <b><code>Cartesian</code></b> or
-        <b><code>Cartesian_kwds</code></b>.</li>
+        <b><code>Cartesian_kwds</code></b> item or <code>datum</code> 
+        missing or incompatible.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -1983,11 +1985,11 @@
           ignored if <code><b>Xyz</b> is None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>An <b><code>Xyz</code></b> instance or if <code><b>Xyz</b> is 
-          None</code>, a <a 
+        <dd>An <b><code>Xyz</code></b> instance or a <a 
           href="pygeodesy.ltpTuples.Local9Tuple-class.html" 
           class="link">Local9Tuple</a><code>(x, y, z, lat, lon, height, 
-          ltp, ecef, M)</code> with <code>M=None</code> always.</dd>
+          ltp, ecef, M)</code> if <code><b>Xyz</b> is None</code> (with 
+          <code>M=None</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>ltp</code></b>.</li>
@@ -2003,7 +2005,8 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toLtp</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">Ecef</span>=<span class="sig-default">None</span>)</span>
+        <span class="sig-arg">Ecef</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -2020,6 +2023,7 @@
           href="pygeodesy.ecef.EcefYou-class.html" 
           class="link">EcefYou</a>), overriding this cartesian's 
           <code>Ecef</code>.</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -2034,7 +2038,7 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toNvector</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">Nvector</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">datum</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">**Nvector_kwds</span>)</span>
+        <span class="sig-arg">**name_Nvector_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -2056,7 +2060,8 @@
           class="link">Ellipsoid2</a> or <a 
           href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
           class="link">a_f2Tuple</a>) overriding this cartesian's datum.</li>
-        <li><strong class="pname"><code>Nvector_kwds</code></strong> - Optional, additional <b><code>Nvector</code></b> keyword 
+        <li><strong class="pname"><code>name_Nvector_kwds</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>) and 
+          optional, additional <b><code>Nvector</code></b> keyword 
           arguments, ignored if <code><b>Nvector</b> is None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -2066,8 +2071,8 @@
           <b><code>Nvector</code></b> is <code>None</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>Nvector</code></b>, 
-        <b><code>Nvector_kwds</code></b> or <b><code>datum</code></b>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>Nvector</code></b>, <b><code>datum</code></b> or 
+        <b><code>name_Nvector_kwds</code></b> item.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - <b><code>Cartesian</code></b> at origin.</li>
     </ul></dd>
   </dl>
@@ -2620,7 +2625,7 @@ class="link">CartesianSphericalBase</a>.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Jun  1 11:09:32 2024
+    Generated by Epydoc 3.0.1 on Sat Jun  8 15:58:41 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

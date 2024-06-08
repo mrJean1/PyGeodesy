@@ -542,7 +542,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        24.06.01
+        24.06.08
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -923,13 +923,12 @@
         class="link">Jacobi2Tuple</a> and <a 
         href="pygeodesy.triaxials.TriaxialError-class.html" 
         class="link">TriaxialError</a>.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.units-module.html">pygeodesy.units</a></strong>: <em class="summary">Various units, all sub-classes of <code>Float</code>, 
-        <code>Int</code> and <code>Str</code> from basic 
-        <code>float</code>, <code>int</code> respectively <code>str</code> 
-        to named units as <a href="pygeodesy.units.Degrees-class.html" 
-        class="link">Degrees</a>, <a href="pygeodesy.units.Feet-class.html"
-        class="link">Feet</a>, <a href="pygeodesy.units.Meter-class.html" 
-        class="link">Meter</a>, <a 
+    <li> <strong class="uidlink"><a href="pygeodesy.units-module.html">pygeodesy.units</a></strong>: <em class="summary">Various named units, all sub-classes of <code>Float</code>, 
+        <code>Int</code> or <code>Str</code> from basic <code>float</code>,
+        <code>int</code> respectively <code>str</code> to named units as <a
+        href="pygeodesy.units.Degrees-class.html" class="link">Degrees</a>,
+        <a href="pygeodesy.units.Feet-class.html" class="link">Feet</a>, <a
+        href="pygeodesy.units.Meter-class.html" class="link">Meter</a>, <a 
         href="pygeodesy.units.Radians-class.html" class="link">Radians</a>,
         etc.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.unitsBase-module.html">pygeodesy.unitsBase</a></strong>: <em class="summary">Basic <code>Float</code>, <code>Int</code> and <code>Str</code>ing 
@@ -8159,7 +8158,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fc5e0be84d0&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7ff260574f50&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -10783,7 +10782,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#print_" class="summary-sig-name">print_</a>(<span class="summary-sig-arg">*args</span>,
-        <span class="summary-sig-arg">**nl_nt_prec_prefix__end_file_flush_sep_kwds</span>)</span><br />
+        <span class="summary-sig-arg">**nl_nt_prec_prefix__end_file_flush_sep__kwds</span>)</span><br />
       Python 3+ <code>print</code>-like formatting and printing.</td>
           <td align="right" valign="top">
             
@@ -10802,7 +10801,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#printf" class="summary-sig-name">printf</a>(<span class="summary-sig-arg">fmt</span>,
         <span class="summary-sig-arg">*args</span>,
-        <span class="summary-sig-arg">**nl_nt_prec_prefix__end_file_flush_sep_kwds</span>)</span><br />
+        <span class="summary-sig-arg">**nl_nt_prec_prefix__end_file_flush_sep__kwds</span>)</span><br />
       <code>Printf-style</code> and Python 3+ <code>print</code>-like 
       formatting and printing.</td>
           <td align="right" valign="top">
@@ -11070,7 +11069,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#rtp2xyz" class="summary-sig-name">rtp2xyz</a>(<span class="summary-sig-arg">r_rtp</span>,
-        <span class="summary-sig-arg">*theta_phi</span>,
+        <span class="summary-sig-arg">theta</span>=<span class="summary-sig-default">0</span>,
+        <span class="summary-sig-arg">phi</span>=<span class="summary-sig-default">0</span>,
         <span class="summary-sig-arg">**name_Cartesian_and_kwds</span>)</span><br />
       Convert <i>spherical, polar</i> <code>(r, theta, phi)</code> to 
       cartesian <code>(x, y, z)</code> coordinates.</td>
@@ -11090,7 +11090,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#rtp2xyz_" class="summary-sig-name">rtp2xyz_</a>(<span class="summary-sig-arg">r_rtp</span>,
-        <span class="summary-sig-arg">*theta_phi</span>,
+        <span class="summary-sig-arg">theta</span>=<span class="summary-sig-default">0</span>,
+        <span class="summary-sig-arg">phi</span>=<span class="summary-sig-default">0</span>,
         <span class="summary-sig-arg">**name_Cartesian_and_kwds</span>)</span><br />
       Convert <i>spherical, polar</i> <code>(r, theta, phi)</code> to 
       cartesian <code>(x, y, z)</code> coordinates.</td>
@@ -12580,7 +12581,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#xyz2rtp" class="summary-sig-name">xyz2rtp</a>(<span class="summary-sig-arg">x_xyz</span>,
-        <span class="summary-sig-arg">*y_z</span>,
+        <span class="summary-sig-arg">y</span>=<span class="summary-sig-default">0</span>,
+        <span class="summary-sig-arg">z</span>=<span class="summary-sig-default">0</span>,
         <span class="summary-sig-arg">**name</span>)</span><br />
       Convert cartesian <code>(x, y, z)</code> to <i>spherical, polar</i> 
       <code>(r, theta, phi)</code> coordinates.</td>
@@ -12600,7 +12602,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#xyz2rtp_" class="summary-sig-name">xyz2rtp_</a>(<span class="summary-sig-arg">x_xyz</span>,
-        <span class="summary-sig-arg">*y_z</span>,
+        <span class="summary-sig-arg">y</span>=<span class="summary-sig-default">0</span>,
+        <span class="summary-sig-arg">z</span>=<span class="summary-sig-default">0</span>,
         <span class="summary-sig-arg">**name</span>)</span><br />
       Convert cartesian <code>(x, y, z)</code> to <i>spherical, polar</i> 
       <code>(r, theta, phi)</code> coordinates.</td>
@@ -12690,7 +12693,7 @@ ygeodesy'"><code class="variable-quote">'</code><code class="variable-string">/U
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'24.6.1'">'24.6.1'</code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'24.6.8'">'24.6.8'</code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -20292,7 +20295,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fc5e0be84d0&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7ff260574f50&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -21276,7 +21279,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
           href="pygeodesy.booleans.BooleanFHP-class.html" 
           class="link">BooleanFHP</a>, <a 
           href="pygeodesy.booleans.BooleanGH-class.html" 
-          class="link">BooleanGH</a> oe some other composite, 
+          class="link">BooleanGH</a> or some other composite, 
           <code>False</code> otherwise.</dd>
   </dl>
 </td></tr></table>
@@ -24035,7 +24038,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
           href="pygeodesy-module.html#R_KM" class="link">R_KM</a>).</li>
         <li><strong class="pname"><code>LatLon_and_kwds</code></strong> - Optional, <code><b>LatLon</b>=None</code> class to use for the 
           closest point and additional <a href=pygeodesy-LatLon-attributes-table.html><b><code>LatLon</code></b></a> keyword 
-          arguments, ignored if <code><b>LatLon</b>=None</code> or not 
+          arguments, ignored if <code><b>LatLon</b> is None</code> or not 
           given.</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -25679,7 +25682,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">print_</span>&nbsp;(<span class="sig-arg">*args</span>,
-        <span class="sig-arg">**nl_nt_prec_prefix__end_file_flush_sep_kwds</span>)</span>
+        <span class="sig-arg">**nl_nt_prec_prefix__end_file_flush_sep__kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -25709,7 +25712,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">printf</span>&nbsp;(<span class="sig-arg">fmt</span>,
         <span class="sig-arg">*args</span>,
-        <span class="sig-arg">**nl_nt_prec_prefix__end_file_flush_sep_kwds</span>)</span>
+        <span class="sig-arg">**nl_nt_prec_prefix__end_file_flush_sep__kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -25727,7 +25730,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
           (<code>str</code>).</li>
         <li><strong class="pname"><code>args</code></strong> - Arguments to be formatted (any <code>type</code>, all 
           positional).</li>
-        <li><strong class="pname"><code>nl_nt_prec_prefix__end_file_flush_sep_kwds</code></strong> - Optional keyword arguments <code><b>nl</b>=0</code> for the 
+        <li><strong class="pname"><code>nl_nt_prec_prefix__end_file_flush_sep__kwds</code></strong> - Optional keyword arguments <code><b>nl</b>=0</code> for the 
           number of leading blank lines (<code>int</code>), 
           <code><b>nt</b>=0</code> the number of trailing blank lines 
           (<code>int</code>), <code><b>prefix</b>=NN</code> to be inserted 
@@ -26179,7 +26182,8 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">rtp2xyz</span>&nbsp;(<span class="sig-arg">r_rtp</span>,
-        <span class="sig-arg">*theta_phi</span>,
+        <span class="sig-arg">theta</span>=<span class="sig-default">0</span>,
+        <span class="sig-arg">phi</span>=<span class="sig-default">0</span>,
         <span class="sig-arg">**name_Cartesian_and_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -26192,39 +26196,18 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>r_rtp</code></strong> - Radial distance (<code>scalar</code>, conventially 
-          <code>meter</code>) or a previous <a 
-          href="pygeodesy.cartesianBase.RadiusThetaPhi3Tuple-class.html" 
-          class="link">RadiusThetaPhi3Tuple</a> instance.</li>
-        <li><strong class="pname"><code>theta_phi</code></strong> - Inclination <b><code>theta</code></b> (<code>degrees</code> with 
-          respect to the positive z-axis) and azimuthal angle 
-          <b><code>phi</code></b> (<code>degrees</code>), ignored if 
-          <code><b>r_rtp</b></code> is a <a 
-          href="pygeodesy.cartesianBase.RadiusThetaPhi3Tuple-class.html" 
-          class="link">RadiusThetaPhi3Tuple</a>.</li>
-        <li><strong class="pname"><code>name_Cartesian_and_kwds</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>), a 
-          <code><b>Cartesian</b>=None</code> class to return the 
-          coordinates and additional <code><b>Cartesian</b></code> keyword 
-          arguments.</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>A <code><b>Cartesian</b>(x, y, z)</code> instance or if no 
-          <code><b>Cartesian</b></code> keyword argument is given a <a 
-          href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
-          class="link">Vector3Tuple</a><code>(x, y, z)</code>, with 
-          <code>x</code>, <code>y</code> and <code>z</code> in the same 
-          units as radius <code>r</code>, <code>meter</code> 
-          conventionally.</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>r_rtp</code></b>.</li>
+        <li><strong class="pname"><code>theta</code></strong> - Inclination <b><code>theta</code></b> (<code>degrees</code> with 
+          respect to the positive z-axis), required if 
+          <code><b>r_rtp</b></code> is <code>scalar</code>, ignored 
+          otherwise.</li>
+        <li><strong class="pname"><code>phi</code></strong> - Azimuthal angle <b><code>phi</code></b> (<code>degrees</code>), 
+          required if <code><b>r_rtp</b></code> is <code>scalar</code>, 
+          ignored otherwise.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Functions <a href="pygeodesy.cartesianBase-module.html#rtp2xyz_" 
-        class="link">rtp2xyz_</a> and <a 
-        href="pygeodesy.cartesianBase-module.html#xyz2rtp" 
-        class="link">xyz2rtp</a>.
+        Function <a href="pygeodesy.cartesianBase-module.html#rtp2xyz_" 
+        class="link">rtp2xyz_</a> for further details.
       </p>
 </div></td></tr></table>
 </div>
@@ -26236,7 +26219,8 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">rtp2xyz_</span>&nbsp;(<span class="sig-arg">r_rtp</span>,
-        <span class="sig-arg">*theta_phi</span>,
+        <span class="sig-arg">theta</span>=<span class="sig-default">0</span>,
+        <span class="sig-arg">phi</span>=<span class="sig-default">0</span>,
         <span class="sig-arg">**name_Cartesian_and_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -26253,16 +26237,17 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
           <code>meter</code>) or a previous <a 
           href="pygeodesy.cartesianBase.RadiusThetaPhi3Tuple-class.html" 
           class="link">RadiusThetaPhi3Tuple</a> instance.</li>
-        <li><strong class="pname"><code>theta_phi</code></strong> - Inclination <b><code>theta</code></b> (<code>radians</code> with 
-          respect to the positive z-axis) and azimuthal angle 
-          <b><code>phi</code></b> (<code>degrees</code>), ignored is 
-          <code><b>r_rtp</b></code> is a <a 
-          href="pygeodesy.cartesianBase.RadiusThetaPhi3Tuple-class.html" 
-          class="link">RadiusThetaPhi3Tuple</a>.</li>
+        <li><strong class="pname"><code>theta</code></strong> - Inclination <b><code>theta</code></b> (<code>radians</code> with 
+          respect to the positive z-axis), required if 
+          <code><b>r_rtp</b></code> is <code>scalar</code>, ignored 
+          otherwise.</li>
+        <li><strong class="pname"><code>phi</code></strong> - Azimuthal angle <b><code>phi</code></b> (<code>radians</code>), 
+          required if <code><b>r_rtp</b></code> is <code>scalar</code>, 
+          ignored otherwise.</li>
         <li><strong class="pname"><code>name_Cartesian_and_kwds</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>), a 
           <code><b>Cartesian</b>=None</code> class to return the 
-          coordinates and additional <code><b>Cartesian</b></code> keyword 
-          arguments.</li>
+          coordinates and optional, additional 
+          <code><b>Cartesian</b></code> keyword arguments.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <code><b>Cartesian</b>(x, y, z)</code> instance or if no 
@@ -26274,12 +26259,20 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
           conventionally.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>r_rtp</code></b> or <b><code>theta_phi</code></b>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>r_rtp</code></b>, <b><code>theta</code></b>, 
+        <b><code>phi</code></b> or 
+        <b><code>name_Cartesian_and_kwds</code></b> item.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         <a href="https://WikiPedia.org/wiki/Spherical_coordinate_system" 
-        target="_top">Physics convention</a> (ISO 80000-2:2019).
+        target="_top">Physics convention</a> (ISO 80000-2:2019), class <a 
+        href="pygeodesy.cartesianBase.RadiusThetaPhi3Tuple-class.html" 
+        class="link">RadiusThetaPhi3Tuple</a> and functions <a 
+        href="pygeodesy.cartesianBase-module.html#rtp2xyz" 
+        class="link">rtp2xyz</a> and <a 
+        href="pygeodesy.cartesianBase-module.html#xyz2rtp" 
+        class="link">xyz2rtp</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -29793,7 +29786,8 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">xyz2rtp</span>&nbsp;(<span class="sig-arg">x_xyz</span>,
-        <span class="sig-arg">*y_z</span>,
+        <span class="sig-arg">y</span>=<span class="sig-default">0</span>,
+        <span class="sig-arg">z</span>=<span class="sig-default">0</span>,
         <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -29813,9 +29807,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.cartesianBase-module.html#xyz2rtp_" 
-        class="link">xyz2rtp_</a> and class <a 
-        href="pygeodesy.cartesianBase.RadiusThetaPhi3Tuple-class.html" 
-        class="link">RadiusThetaPhi3Tuple</a>.
+        class="link">xyz2rtp_</a> for further details.
       </p>
 </div></td></tr></table>
 </div>
@@ -29827,7 +29819,8 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">xyz2rtp_</span>&nbsp;(<span class="sig-arg">x_xyz</span>,
-        <span class="sig-arg">*y_z</span>,
+        <span class="sig-arg">y</span>=<span class="sig-default">0</span>,
+        <span class="sig-arg">z</span>=<span class="sig-default">0</span>,
         <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -29852,8 +29845,12 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
           class="link">Vector4Tuple</a> or a <code>tuple</code> or 
           <code>list</code> of 3+ <code>scalar</code> items) if no 
           <code>y_z</code> specified.</li>
-        <li><strong class="pname"><code>y_z</code></strong> - Y and Z component (<code>scalar</code>s), ignored if 
-          <code>x_xyz</code> is not a <code>scalar</code>.</li>
+        <li><strong class="pname"><code>y</code></strong> - Y component (<code>scalar</code>), required if 
+          <code><b>x_xyz</b></code> is <code>scalar</code>, ignored 
+          otherwise.</li>
+        <li><strong class="pname"><code>z</code></strong> - Z component (<code>scalar</code>), required if 
+          <code><b>x_xyz</b></code> is <code>scalar</code>, ignored 
+          otherwise.</li>
         <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -29868,7 +29865,11 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         <a href="https://WikiPedia.org/wiki/Spherical_coordinate_system" 
-        target="_top">Physics convention</a> (ISO 80000-2:2019).
+        target="_top">Physics convention</a> (ISO 80000-2:2019), class <a 
+        href="pygeodesy.cartesianBase.RadiusThetaPhi3Tuple-class.html" 
+        class="link">RadiusThetaPhi3Tuple</a> and function <a 
+        href="pygeodesy.cartesianBase-module.html#xyz2rtp" 
+        class="link">xyz2rtp</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -30138,7 +30139,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Jun  1 11:09:31 2024
+    Generated by Epydoc 3.0.1 on Sat Jun  8 15:58:40 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

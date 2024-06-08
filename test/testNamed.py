@@ -4,11 +4,11 @@
 # Test L{named} module.
 
 __all__ = ('Tests',)
-__version__ = '24.03.17'
+__version__ = '24.06.02'
 
 from bases import endswith, TestsBase
-from pygeodesy import geohash, Datum, Datums, named, \
-                      namedTuples, nameof, NN, ub2str
+from pygeodesy import geohash, Datum, Datums, ltpTuples, \
+                      named, namedTuples, nameof, NN, ub2str
 
 from os import linesep
 
@@ -90,21 +90,23 @@ class Tests(TestsBase):
 
     def testNamedDicts(self):
         self.subtitle(named, 'ing %s ' % ('NamedDicts',))
-        self.testNamed_classes(named._NamedDict, _DICT, '_Keys_', self._NamedDicts)
+        self.testNamed_classes(_DICT, '_Keys_', self._NamedDicts,
+                                named._NamedDict)
 
     _NamedDicts = {}  # [<name>] = 'L{<name>}C{(...)}'
 
     def testNamedTuples(self):
         self.subtitle(namedTuples, 'ing %s ' % ('NamedTuples',))
-        self.testNamed_classes(named._NamedTuple, _TUPLE, '_Names_', self._NamedTuples)
+        self.testNamed_classes(_TUPLE, '_Names_', self._NamedTuples,
+                                named._NamedTuple, ltpTuples._Abc4Tuple)
 
     _NamedTuples = {}  # [<name>] = 'L{<name>}C{(...)}'
 
-    def testNamed_classes(self, _Nbase, _Nclass, _attr_, _Ndict):
+    def testNamed_classes(self, _Nclass, _attr_, _Ndict, *_Nbases):
         _n = -(1 + len(_Nclass))
-        for c in self.pygeodesy_classes(Base=_Nbase, deprecated=True):
+        for c in self.pygeodesy_classes(Base=_Nbases[0], deprecated=True):
             n = c.__name__
-            if c is not _Nbase and n[_n].isdigit():
+            if c not in _Nbases and n[_n].isdigit():
                 d = ' '.join(c.__doc__.strip().split())
                 if d.startswith(_DEP_D):
                     self.test(n, d, d)

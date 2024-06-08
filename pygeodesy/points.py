@@ -62,7 +62,7 @@ from pygeodesy.utily import atan2b, degrees90, degrees180, degrees2m, \
 from math import cos, fabs, fmod as _fmod, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '24.05.25'
+__version__ = '24.06.06'
 
 _ilat_  = 'ilat'
 _ilon_  = 'ilon'
@@ -1479,7 +1479,7 @@ def nearestOn5(point, points, closed=False, wrap=False, adjust=True,
                      spherical earth radius L{R_KM}).
        @kwarg LatLon_and_kwds: Optional, C{B{LatLon}=None} class to use for
                      the closest point and additional B{C{LatLon}} keyword
-                     arguments, ignored if C{B{LatLon}=None} or not given.
+                     arguments, ignored if C{B{LatLon} is None} or not given.
 
        @return: A L{NearestOn3Tuple}C{(closest, distance, angle)} with the
                 {closest} point (B{C{LatLon}}) or if C{B{LatLon} is None},

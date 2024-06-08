@@ -32,7 +32,7 @@ def _dunder_nameof(inst, *dflt):
 
 
 def _Property_RO(method):
-    '''(INTERNAL) Can't Irecursively import L{props.property_RO}.
+    '''(INTERNAL) Can't I{recursively} import L{props.property_RO}.
     '''
     name = _dunder_nameof(method)
 
@@ -53,7 +53,7 @@ def _Property_RO(method):
     return property(_get, _set, _del)
 
 
-class _ALL_MODS_Base(object):
+class _MODS_Base(object):
     '''(INTERNAL) Base-class for C{lazily._ALL_MODS}.
     '''
     def __delattr__(self, attr):  # PYCHOK no cover
@@ -207,7 +207,7 @@ class _ALL_MODS_Base(object):
         from pygeodesy import streprs  # DON'T _lazy_import2
         return streprs
 
-_MODS = _ALL_MODS_Base()  # PYCHOK overwritten by .lazily
+_MODS = _MODS_Base()  # PYCHOK overwritten by .lazily
 
 
 def _caller3(up):  # in .lazily, .named
@@ -217,8 +217,9 @@ def _caller3(up):  # in .lazily, .named
     # sys._getframe(1) ... 'importlib._bootstrap' line 1032,
     # may throw a ValueError('call stack not deep enough')
     f = _sys._getframe(up + 1)
-    return (f.f_code.co_name,  # caller name
-           _os_path.basename(f.f_code.co_filename),  # file name
+    c =  f.f_code
+    return (c.co_name,  # caller name
+           _os_path.basename(c.co_filename),  # file name .py
             f.f_lineno)  # line number
 
 
@@ -359,7 +360,7 @@ def _plural(noun, n):
     return NN(noun, _s_) if n > 1 else (noun if n else NN)
 
 
-def print_(*args, **nl_nt_prec_prefix__end_file_flush_sep_kwds):  # PYCHOK no cover
+def print_(*args, **nl_nt_prec_prefix__end_file_flush_sep__kwds):  # PYCHOK no cover
     '''Python 3+ C{print}-like formatting and printing.
 
        @arg args: Values to be converted to C{str} and joined by B{C{sep}},
@@ -367,16 +368,16 @@ def print_(*args, **nl_nt_prec_prefix__end_file_flush_sep_kwds):  # PYCHOK no co
 
        @see: Function L{printf} for further details.
     '''
-    return printf(NN, *args, **nl_nt_prec_prefix__end_file_flush_sep_kwds)
+    return printf(NN, *args, **nl_nt_prec_prefix__end_file_flush_sep__kwds)
 
 
-def printf(fmt, *args, **nl_nt_prec_prefix__end_file_flush_sep_kwds):
+def printf(fmt, *args, **nl_nt_prec_prefix__end_file_flush_sep__kwds):
     '''C{Printf-style} and Python 3+ C{print}-like formatting and printing.
 
        @arg fmt: U{Printf-style<https://Docs.Python.org/3/library/stdtypes.html#
                  printf-style-string-formatting>} format specification (C{str}).
        @arg args: Arguments to be formatted (any C{type}, all positional).
-       @kwarg nl_nt_prec_prefix__end_file_flush_sep_kwds: Optional keyword arguments
+       @kwarg nl_nt_prec_prefix__end_file_flush_sep__kwds: Optional keyword arguments
                  C{B{nl}=0} for the number of leading blank lines (C{int}), C{B{nt}=0}
                  the number of trailing blank lines (C{int}), C{B{prefix}=NN} to be
                  inserted before the formatted text (C{str}) and Python 3+ C{print}
@@ -387,7 +388,7 @@ def printf(fmt, *args, **nl_nt_prec_prefix__end_file_flush_sep_kwds):
 
        @return: Number of bytes written.
     '''
-    b, e, f, fl, p, s, kwds = _print7(**nl_nt_prec_prefix__end_file_flush_sep_kwds)
+    b, e, f, fl, p, s, kwds = _print7(**nl_nt_prec_prefix__end_file_flush_sep__kwds)
     try:
         if args:
             t = (fmt % args) if fmt else s.join(map(str, args))
@@ -399,7 +400,7 @@ def printf(fmt, *args, **nl_nt_prec_prefix__end_file_flush_sep_kwds):
     except Exception as x:
         _E, s = _MODS.errors._xError2(x)
         unstr = _MODS.streprs.unstr
-        t = unstr(printf, fmt, *args, **nl_nt_prec_prefix__end_file_flush_sep_kwds)
+        t = unstr(printf, fmt, *args, **nl_nt_prec_prefix__end_file_flush_sep__kwds)
         raise _E(s, txt=t, cause=x)
     try:
         n = f.write(NN(b, t, e))
@@ -543,7 +544,7 @@ def _version_ints(vs):
 
 
 __all__ = tuple(map(_dunder_nameof, (machine, print_, printf)))
-__version__ = '24.05.25'
+__version__ = '24.06.05'
 
 if _dunder_ismain(__name__):  # PYCHOK no cover
 

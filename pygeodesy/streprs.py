@@ -8,7 +8,7 @@ from pygeodesy.basics import isint, islistuple, isscalar, isstr, itemsorted, \
                             _zip, _0_0
 # from pygeodesy.constants import _0_0
 from pygeodesy.errors import _or, _AttributeError, _IsnotError, _TypeError, \
-                             _ValueError, _xkwds_get, _xkwds_item2, _xkwds_pop2
+                             _ValueError, _xkwds_get, _xkwds_item2
 # from pygeodesy.internals import _dunder_nameof  # from .lazily
 from pygeodesy.interns import NN, _0_, _0to9_, MISSING, _BAR_, _COMMASPACE_, \
                              _DOT_, _E_, _ELLIPSIS_, _EQUAL_, _H_, _LR_PAIRS, \
@@ -22,7 +22,7 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS,  _dunder_nameof
 from math import fabs, log10 as _log10
 
 __all__ = _ALL_LAZY.streprs
-__version__ = '24.05.19'
+__version__ = '24.06.04'
 
 _at_        = 'at'         # PYCHOK used!
 _EN_PREC    =  6           # max MGRS/OSGR precision, 1 micrometer
@@ -546,8 +546,10 @@ def unstr(where, *args, **kwds):
 
        @return: Representation (C{str}).
     '''
-    e, kwds = _xkwds_pop2(kwds, _ELLIPSIS=False)
-    g, kwds = _xkwds_pop2(kwds, _fmt=Fmt.g)
+    def _e_g_kwds3(_ELLIPSIS=False, _fmt=Fmt.g, **kwds):
+        return _ELLIPSIS, _fmt, kwds
+
+    e, g, kwds = _e_g_kwds3(**kwds)
     t = reprs(args, fmt=g) if args else ()
     if e:
         t += _ELLIPSIS_,

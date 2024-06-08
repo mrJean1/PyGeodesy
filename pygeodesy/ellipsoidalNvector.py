@@ -25,7 +25,7 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import issubclassof, map2, _xinstanceof
 from pygeodesy.datums import _earth_ellipsoid, _ellipsoidal_datum, _WGS84
-# from pygeodesy.dms import toDMS  # _MODS
+# from pygeodesy.dms import F_D, toDMS  # _MODS
 from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, \
                                      _nearestOn, LatLonEllipsoidalBase, \
                                      _TOL_M,  _Wrap
@@ -37,8 +37,8 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _ALL_OTHER
 from pygeodesy.ltpTuples import Aer as _Aer, Ned as _Ned, Ned4Tuple, \
                                 sincos2d_, _xnamed
 # from pygeodesy.named import _xnamed  # from .ltpTuples
-from pygeodesy.nvectorBase import fabs, fdot, NorthPole, LatLonNvectorBase, \
-                                  NvectorBase, sumOf as _sumOf
+from pygeodesy.nvectorBase import LatLonNvectorBase, NorthPole, NvectorBase, \
+                                  sumOf as _sumOf,  fabs, fdot
 from pygeodesy.props import deprecated_class, deprecated_function, \
                             deprecated_method, Property_RO, property_RO
 from pygeodesy.streprs import Fmt, fstr, _xzipairs
@@ -48,7 +48,7 @@ from pygeodesy.units import Bearing, Distance, Height, Scalar
 # from math import fabs  # from .nvectorBase
 
 __all__ = _ALL_LAZY.ellipsoidalNvector
-__version__ = '24.05.19'
+__version__ = '24.06.08'
 
 
 class Ned(_Ned):
@@ -70,10 +70,10 @@ class Ned(_Ned):
                     with length or slantrange C{L}, bearing or azimuth C{B}
                     and elevation C{E}.
         '''
-        dms = _MODS.dms
+        m = _MODS.dms
         t = (fstr(self.slantrange, prec=prec),
-             dms.toDMS(self.azimuth,   form=dms.F_D, prec=prec, ddd=0),
-             dms.toDMS(self.elevation, form=dms.F_D, prec=prec, ddd=0))
+             m.toDMS(self.azimuth,   form=m.F_D, prec=prec, ddd=0),
+             m.toDMS(self.elevation, form=m.F_D, prec=prec, ddd=0))
         return _xzipairs('LBE', t, sep=sep, fmt=fmt)
 
 

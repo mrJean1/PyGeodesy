@@ -76,7 +76,7 @@ from pygeodesy.errors import _AssertionError, LenError, PointsError, \
 # from pygeodesy.fmath import fidw  # _MODS
 # from pygeodesy.formy import cosineAndoyerLambert, cosineForsytheAndoyerLambert, \
 #                             cosineLaw, equirectangular4, euclidean, flatLocal, \
-#                             flatPolar, haversine, thomas, vincentys  # _MODS
+#                             flatPolar, haversine, thomas, vincentys  # _MODS.into
 # from pygeodesy.internals import _version2  # _MODS
 from pygeodesy.interns import NN, _COMMASPACE_, _cubic_, _insufficient_, _linear_, \
                              _NOTEQUAL_, _PLUS_, _scipy_, _SPACE_, _STAR_
@@ -91,9 +91,10 @@ from pygeodesy.units import _isDegrees, Float_, Int_
 # from math import radians  # from .points
 
 __all__ = _ALL_LAZY.heights
-__version__ = '24.05.25'
+__version__ = '24.06.03'
 
 _error_     = 'error'
+_formy      = _MODS.into(formy=__name__)
 _llis_      = 'llis'
 _smoothing_ = 'smoothing'
 
@@ -693,20 +694,6 @@ class _HeightIDW(_HeightBase):
             i = Fmt.INDEX(knots=i)
             raise HeightError(i, k, cause=e)
 
-    @property_RO
-    def _fmath(self):
-        '''(INTERNAL) Get module C{fmath}, I{once}.
-        '''
-        _HeightIDW._fmath = f = _MODS.fmath  # overwrite property_RO
-        return f
-
-    @property_RO
-    def _formy(self):
-        '''(INTERNAL) Get module C{formy}, I{once}.
-        '''
-        _HeightIDW._formy = f = _MODS.formy  # overwrite property_RO
-        return f
-
     def height(self, lats, lons, **wrap):
         '''Interpolate the height for one or several lat-/longitudes.
 
@@ -735,7 +722,7 @@ class _HeightIDW(_HeightBase):
         '''
         ds, hs = self._distances(x, y), self._heights
         try:
-            return self._fmath.fidw(hs, ds, beta=self.beta)
+            return _MODS.fmath.fidw(hs, ds, beta=self.beta)
         except (TypeError, ValueError) as e:
             raise HeightError(x=x, y=y, cause=e)
 
@@ -798,7 +785,7 @@ class HeightIDWcosineAndoyerLambert(_HeightIDW):
            @see: L{Here<_HeightIDW.__init__>} for further details.
         '''
         _HeightIDW.__init__(self, knots, beta=beta, **name__datum_wrap)
-        self._func = self._formy.cosineAndoyerLambert
+        self._func = _formy.cosineAndoyerLambert
 
     if _FOR_DOCS:
         __call__ = _HeightIDW.__call__
@@ -821,7 +808,7 @@ class HeightIDWcosineForsytheAndoyerLambert(_HeightIDW):
            @see: L{Here<_HeightIDW.__init__>} for further details.
         '''
         _HeightIDW.__init__(self, knots, beta=beta, **name__datum_wrap)
-        self._func = self._formy.cosineForsytheAndoyerLambert
+        self._func = _formy.cosineForsytheAndoyerLambert
 
     if _FOR_DOCS:
         __call__ = _HeightIDW.__call__
@@ -845,7 +832,7 @@ class HeightIDWcosineLaw(_HeightIDW):
            @see: L{Here<_HeightIDW.__init__>} for further details.
         '''
         _HeightIDW.__init__(self, knots, beta=beta, **name__radius_wrap)
-        self._func = self._formy.cosineLaw
+        self._func = _formy.cosineLaw
 
     if _FOR_DOCS:
         __call__ = _HeightIDW.__call__
@@ -914,7 +901,7 @@ class HeightIDWequirectangular(_HeightIDW):
     def _distances(self, x, y):
         '''(INTERNAL) Yield distances to C{(x, y)}.
         '''
-        _f, kwds = self._formy.equirectangular4, self._kwds
+        _f, kwds = _formy.equirectangular4, self._kwds
         try:
             for i, k in enumerate(self._knots):
                 yield _f(y, x, k.lat, k.lon, **kwds).distance2
@@ -942,7 +929,7 @@ class HeightIDWeuclidean(_HeightIDW):
            @see: L{Here<_HeightIDW.__init__>} for further details.
         '''
         _HeightIDW.__init__(self, knots, beta=beta, **name__adjust_radius_wrap)
-        self._func = self._formy.euclidean
+        self._func = _formy.euclidean
 
     if _FOR_DOCS:
         __call__ = _HeightIDW.__call__
@@ -995,7 +982,7 @@ class HeightIDWflatLocal(_HeightIDW):
         '''
         _HeightIDW.__init__(self, knots, beta=beta,
                                        **name__datum_hypot_scaled_wrap)
-        self._func = self._formy.flatLocal
+        self._func = _formy.flatLocal
 
     if _FOR_DOCS:
         __call__ = _HeightIDW.__call__
@@ -1018,7 +1005,7 @@ class HeightIDWflatPolar(_HeightIDW):
            @see: L{Here<_HeightIDW.__init__>} for further details.
         '''
         _HeightIDW.__init__(self, knots, beta=beta, **name__radius_wrap)
-        self._func = self._formy.flatPolar
+        self._func = _formy.flatPolar
 
     if _FOR_DOCS:
         __call__ = _HeightIDW.__call__
@@ -1042,7 +1029,7 @@ class HeightIDWhaversine(_HeightIDW):
            @see: L{Here<_HeightIDW.__init__>} for further details.
         '''
         _HeightIDW.__init__(self, knots, beta=beta, **name__radius_wrap)
-        self._func = self._formy.haversine
+        self._func = _formy.haversine
 
     if _FOR_DOCS:
         __call__ = _HeightIDW.__call__
@@ -1106,7 +1093,7 @@ class HeightIDWthomas(_HeightIDW):
            @see: L{Here<_HeightIDW.__init__>} for further details.
         '''
         _HeightIDW.__init__(self, knots, beta=beta, **name__datum_wrap)
-        self._func = self._formy.thomas
+        self._func = _formy.thomas
 
     if _FOR_DOCS:
         __call__ = _HeightIDW.__call__
@@ -1130,7 +1117,7 @@ class HeightIDWvincentys(_HeightIDW):
            @see: L{Here<_HeightIDW.__init__>} for further details.
         '''
         _HeightIDW.__init__(self, knots, beta=beta, **name__radius_wrap)
-        self._func = self._formy.vincentys
+        self._func = _formy.vincentys
 
     if _FOR_DOCS:
         __call__ = _HeightIDW.__call__

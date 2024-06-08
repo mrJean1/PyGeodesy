@@ -35,7 +35,6 @@ from pygeodesy.constants import EPS, EPS0, EPS02, EPS4, INT0, PI2, PI_3, PI4, \
                                _EPS2e4, float0_, isfinite, isnear1, _0_0, _0_5, \
                                _1_0, _N_1_0, _N_2_0,  _4_0  # PYCHOK used!
 from pygeodesy.datums import Datum, _spherical_datum, _WGS84,  Ellipsoid, _EWGS84, Fmt
-# from pygeodesy.dms import toDMS  # _MODS
 # from pygeodesy.ellipsoids import Ellipsoid, _EWGS84  # from .datums
 # from pygeodesy.elliptic import Elliptic  # _MODS
 # from pygeodesy.errors import _ValueError  # from .basics
@@ -47,38 +46,47 @@ from pygeodesy.interns import NN, _a_, _b_, _beta_, _c_, _distant_, _finite_, \
                              _spherical_, _too_, _x_, _y_
 # from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS  # from .vector3d
 from pygeodesy.named import _lazyNamedEnumItem as _lazy, _name__, _NamedEnum, \
-                                _NamedEnumItem, _NamedTuple, _Pass
-from pygeodesy.namedTuples import LatLon3Tuple, Vector3Tuple, Vector4Tuple
+                                _NamedEnumItem, _Pass
+from pygeodesy.namedTuples import LatLon3Tuple, _NamedTupleTo, Vector3Tuple, \
+                                  Vector4Tuple
 from pygeodesy.props import Property_RO, property_RO
 # from pygeodesy.streprs import Fmt  # from .datums
-from pygeodesy.units import Float, Height_, Meter, Meter2, Meter3, Radians, \
-                            Radius, Scalar_, _toDegrees, _toRadians
+from pygeodesy.units import Degrees, Float, Height_, Meter, Meter2, Meter3, \
+                            Radians, Radius, Scalar_
 from pygeodesy.utily import asin1, atan2d, km2m, m2km, SinCos2, sincos2d_
 from pygeodesy.vector3d import _otherV3d, Vector3d,  _ALL_LAZY, _MODS
 
 from math import atan2, fabs, sqrt
 
 __all__ = _ALL_LAZY.triaxials
-__version__ = '24.05.28'
+__version__ = '24.06.08'
 
 _not_ordered_ = _not_('ordered')
 _omega_       = 'omega'
 _TRIPS        =  269  # 48-55, Eberly 1074?
 
 
-class _NamedTupleTo(_NamedTuple):  # in .testNamedTuples, like .cartesianBase.RadiusThetaPhi3Tuple
-    '''(INTERNAL) Base for C{-.toDegrees}, C{-.toRadians}.
+class _NamedTupleToX(_NamedTupleTo):  # in .testNamedTuples
+    '''(INTERNAL) Base class for L{BetaOmega2Tuple},
+       L{BetaOmega3Tuple} and L{Jacobi2Tuple}.
     '''
-    def _toDegrees(self, a, b, *c, **toDMS_kwds):
-        a, b, _ = _toDegrees(self, a, b, **toDMS_kwds)
-        return _ or self.classof(a, b, *c, name=self.name)
+    def _toDegrees(self, name, **toDMS_kwds):
+        '''(INTERNAL) Convert C{self[0:2]} to L{Degrees} or C{toDMS}.
+        '''
+        return self._toX(_NamedTupleTo._Degrees3, name, *self, **toDMS_kwds)
 
-    def _toRadians(self, a, b, *c):
-        a, b, _ = _toRadians(self, a, b)
-        return _ or self.classof(a, b, *c, name=self.name)
+    def _toRadians(self, name):
+        '''(INTERNAL) Convert C{self[0:2]} to L{Radians}.
+        '''
+        return self._toX(_NamedTupleTo._Radians3, name, *self)
+
+    def _toX(self, _X, name, a, b, *c, **kwds):
+        a, b, r = _X(self, a, b, **kwds)
+        return r if r and not name else self.classof(a, b, *c,
+                              name=self._name__(name))
 
 
-class BetaOmega2Tuple(_NamedTupleTo):
+class BetaOmega2Tuple(_NamedTupleToX):
     '''2-Tuple C{(beta, omega)} with I{ellipsoidal} lat- and
        longitude C{beta} and C{omega} both in L{Radians} (or
        L{Degrees}).
@@ -86,27 +94,30 @@ class BetaOmega2Tuple(_NamedTupleTo):
     _Names_ = (_beta_, _omega_)
     _Units_ = (_Pass,  _Pass)
 
-    def toDegrees(self, **toDMS_kwds):
+    def toDegrees(self, name=NN, **toDMS_kwds):
         '''Convert this L{BetaOmega2Tuple} to L{Degrees} or C{toDMS}.
 
-           @return: L{BetaOmega2Tuple}C{(beta, omega)} with
-                    C{beta} and C{omega} both in L{Degrees}
-                    or as a L{toDMS} string provided some
-                    B{C{toDMS_kwds}} keyword arguments are
+           @kwarg name: Optional name (C{str}), overriding this name.
+
+           @return: L{BetaOmega2Tuple}C{(beta, omega)} with C{beta} and
+                    C{omega} both in L{Degrees} or as L{toDMS} strings
+                    provided some B{C{toDMS_kwds}} keyword arguments are
                     specified.
         '''
-        return _NamedTupleTo._toDegrees(self, *self, **toDMS_kwds)
+        return self._toDegrees(name, **toDMS_kwds)
 
-    def toRadians(self):
+    def toRadians(self, **name):
         '''Convert this L{BetaOmega2Tuple} to L{Radians}.
 
-           @return: L{BetaOmega2Tuple}C{(beta, omega)} with
-                    C{beta} and C{omega} both in L{Radians}.
+           @kwarg name: Optional C{B{name}=NN} (C{str}), overriding this name.
+
+           @return: L{BetaOmega2Tuple}C{(beta, omega)} with C{beta} and C{omega}
+                    both in L{Radians}.
         '''
-        return _NamedTupleTo._toRadians(self, *self)
+        return self._toRadians(name)
 
 
-class BetaOmega3Tuple(_NamedTupleTo):
+class BetaOmega3Tuple(_NamedTupleToX):
     '''3-Tuple C{(beta, omega, height)} with I{ellipsoidal} lat- and
        longitude C{beta} and C{omega} both in L{Radians} (or L{Degrees})
        and the C{height}, rather the (signed) I{distance} to the triaxial's
@@ -116,54 +127,62 @@ class BetaOmega3Tuple(_NamedTupleTo):
     _Names_ = BetaOmega2Tuple._Names_ + (_height_,)
     _Units_ = BetaOmega2Tuple._Units_ + ( Meter,)
 
-    def toDegrees(self, **toDMS_kwds):
+    def toDegrees(self, name=NN, **toDMS_kwds):
         '''Convert this L{BetaOmega3Tuple} to L{Degrees} or C{toDMS}.
 
+           @kwarg name: Optional name (C{str}), overriding this name.
+
            @return: L{BetaOmega3Tuple}C{(beta, omega, height)} with
-                    C{beta} and C{omega} both in L{Degrees} or as a
-                    L{toDMS} string provided some B{C{toDMS_kwds}}
+                    C{beta} and C{omega} both in L{Degrees} or as
+                    L{toDMS} strings provided some B{C{toDMS_kwds}}
                     keyword arguments are specified.
         '''
-        return _NamedTupleTo._toDegrees(self, *self, **toDMS_kwds)
+        return self._toDegrees(name, **toDMS_kwds)
 
-    def toRadians(self):
+    def toRadians(self, **name):
         '''Convert this L{BetaOmega3Tuple} to L{Radians}.
 
-           @return: L{BetaOmega3Tuple}C{(beta, omega, height)} with
-                    C{beta} and C{omega} both in L{Radians}.
-        '''
-        return _NamedTupleTo._toRadians(self, *self)
+           @kwarg name: Optional C{B{name}=NN} (C{str}), overriding this name.
 
-    def to2Tuple(self):
+           @return: L{BetaOmega3Tuple}C{(beta, omega, height)} with C{beta}
+                    and C{omega} both in L{Radians}.
+        '''
+        return self._toRadians(name)
+
+    def to2Tuple(self, **name):
         '''Reduce this L{BetaOmega3Tuple} to a L{BetaOmega2Tuple}.
+
+           @kwarg name: Optional C{B{name}=NN} (C{str}), overriding this name.
         '''
-        return BetaOmega2Tuple(*self[:2])
+        return BetaOmega2Tuple(*self[:2], name=self._name__(name))
 
 
-class Jacobi2Tuple(_NamedTupleTo):
+class Jacobi2Tuple(_NamedTupleToX):
     '''2-Tuple C{(x, y)} with a Jacobi Conformal C{x} and C{y}
        projection, both in L{Radians} (or L{Degrees}).
     '''
     _Names_ = (_x_,   _y_)
     _Units_ = (_Pass, _Pass)
 
-    def toDegrees(self, **toDMS_kwds):
+    def toDegrees(self, name=NN, **toDMS_kwds):
         '''Convert this L{Jacobi2Tuple} to L{Degrees} or C{toDMS}.
 
-           @return: L{Jacobi2Tuple}C{(x, y)} with C{x} and C{y}
-                    both in L{Degrees} or as a L{toDMS} string
-                    provided some B{C{toDMS_kwds}} keyword
-                    arguments are specified.
-        '''
-        return _NamedTupleTo._toDegrees(self, *self, **toDMS_kwds)
+           @kwarg name: Optional name (C{str}), overriding this name.
 
-    def toRadians(self):
+           @return: L{Jacobi2Tuple}C{(x, y)} with C{x} and C{y} both
+                    in L{Degrees} or as L{toDMS} strings provided some
+                    B{C{toDMS_kwds}} keyword arguments are specified.
+        '''
+        return self._toDegrees(name, **toDMS_kwds)
+
+    def toRadians(self, **name):
         '''Convert this L{Jacobi2Tuple} to L{Radians}.
 
-           @return: L{Jacobi2Tuple}C{(x, y)} with C{x}
-                    and C{y} both in L{Radians}.
+           @kwarg name: Optional C{B{name}=NN} (C{str}), overriding this name.
+
+           @return: L{Jacobi2Tuple}C{(x, y)} with C{x} and C{y} both in L{Radians}.
         '''
-        return _NamedTupleTo._toRadians(self, *self)
+        return self._toRadians(name)
 
 
 class Triaxial_(_NamedEnumItem):
@@ -894,8 +913,8 @@ class Triaxial(Triaxial_):
         s =  v.times_(self._1e2ac,  # == 1 - e_sub_x**2
                       self._1e2bc,  # == 1 - e_sub_y**2
                      _1_0)
-        t = self._reverseLatLon3(s, atan2d, v, self.forwardLatLon_)
-        return LatLon3Tuple(*t, **name)
+        a, b, h = self._reverseLatLon3(s, atan2d, v, self.forwardLatLon_)
+        return LatLon3Tuple(Degrees(lat=a), Degrees(lon=b), h, **name)
 
     def _reverseLatLon3(self, s, atan2_, v, forward_):
         '''(INTERNAL) Helper for C{.reverseBetOmg} and C{.reverseLatLon}.

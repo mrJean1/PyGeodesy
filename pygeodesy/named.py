@@ -14,18 +14,18 @@ standard Python C{namedtuple}s.
 '''
 
 from pygeodesy.basics import isclass, isidentifier, iskeyword, isstr, issubclassof, \
-                             itemsorted, len2, _xcopy, _xdup, _zip
+                             itemsorted, len2, _xcopy, _xdup, _xinstanceof, _zip
 from pygeodesy.errors import _AssertionError, _AttributeError, _incompatible, \
-                             _IndexError, _IsnotError, _KeyError, LenError, \
-                             _NameError, _NotImplementedError, _TypeError, \
-                             _TypesError, UnitError, _ValueError, _xattr, _xkwds, \
-                             _xkwds_item2, _xkwds_pop2
+                             _IndexError, _KeyError, LenError, _NameError, \
+                             _NotImplementedError, _TypeError, _TypesError, \
+                             _UnexpectedError, UnitError, _ValueError, \
+                             _xattr, _xkwds, _xkwds_item2, _xkwds_pop2
 from pygeodesy.internals import _caller3, _dunder_nameof, _isPyPy, _sizeof, _under
 from pygeodesy.interns import MISSING, NN, _AT_, _COLON_, _COLONSPACE_, _COMMA_, \
                              _COMMASPACE_, _doesn_t_exist_, _DOT_, _DUNDER_, \
                              _dunder_name_, _EQUAL_, _exists_, _immutable_, _name_, \
                              _NL_, _NN_, _no_, _other_, _s_, _SPACE_, _std_, \
-                             _UNDER_, _valid_, _vs_
+                             _UNDER_, _vs_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, _getenv
 from pygeodesy.props import _allPropertiesOf_n, deprecated_method, _hasProperty, \
                             _update_all, property_doc_, Property_RO, property_RO, \
@@ -33,7 +33,7 @@ from pygeodesy.props import _allPropertiesOf_n, deprecated_method, _hasProperty,
 from pygeodesy.streprs import attrs, Fmt, lrstrip, pairs, reprs, unstr
 
 __all__ = _ALL_LAZY.named
-__version__ = '24.05.31'
+__version__ = '24.06.08'
 
 _COMMANL_           = _COMMA_ + _NL_
 _COMMASPACEDOT_     = _COMMASPACE_ + _DOT_
@@ -309,6 +309,11 @@ class _Named(object):
         '''
         return _name__(name, _or_nameof=self)  # nameof(self)
 
+    def _name1__(self, kwds):
+        '''(INTERNAL) Resolve and set the C{B{name}=NN}.
+        '''
+        return _name1__(kwds, _or_nameof=self.name) if self.name else kwds
+
     @Property_RO
     def named(self):
         '''Get the name I{or} class name or C{""} (C{str}).
@@ -422,11 +427,8 @@ class _Named(object):
 
            @raise TypeError: Not C{isinstance(B{inst}, _Named)}.
         '''
-        if not isinstance(inst, _Named):
-            raise _IsnotError(_valid_, inst=inst)
-
-        _ = inst.rename(self.name)
-        return inst
+        _xinstanceof(_Named, inst=inst)  # assert
+        return inst.renamed(self.name)
 
 _Named_Property_ROs = _allPropertiesOf_n(5, _Named, Property_RO)  # PYCHOK once
 
@@ -716,12 +718,14 @@ class _NamedEnum(_NamedDict):
                 if not (n and isstr(n) and isidentifier(n)):
                     raise ValueError()
             except (AttributeError, ValueError, TypeError) as x:
-                raise _NameError(_DOT_(_item_, _name_), item, cause=x)
+                n = _DOT_(_item_, _name_)
+                raise _NameError(n, item, cause=x)
             if n in self:
                 t = _SPACE_(_item_, self._DOT_(n), _exists_)
                 raise _NameError(t, txt=repr(item))
-            if not isinstance(item, self._item_Classes):
-                raise _TypesError(self._DOT_(n), item, *self._item_Classes)
+            if not isinstance(item, self._item_Classes):  # _xinstanceof
+                n = self._DOT_(n)
+                raise _TypesError(n, item, *self._item_Classes)
             self[n] = item
         return n
 
@@ -843,7 +847,7 @@ class _NamedEnumItem(_NamedBase):
         '''
         name = _name__(name) or _NN_
         if self._enum:
-            raise _NameError(name, self, txt=_registered_)  # XXX _TypeError
+            raise _NameError(name, self, txt=_registered_)  # _TypeError
         if name:
             self._name = name
 
@@ -870,8 +874,8 @@ class _NamedEnumItem(_NamedBase):
         enum = self._enum
         if enum and self.name and self.name in enum:
             item = enum.unregister(self.name)
-            if item is not self:
-                t = _SPACE_(repr(item), _vs_, repr(self))  # PYCHOK no cover
+            if item is not self:  # PYCHOK no cover
+                t = _SPACE_(repr(item), _vs_, repr(self))
                 raise _AssertionError(t)
 
 
@@ -923,7 +927,11 @@ class _NamedTuple(tuple, _Named):
             raise LenError(self.__class__, args=n, _Names_=N)
 
         if iteration_name:
-            self._kwdself(**iteration_name)
+            i, name = _xkwds_pop2(iteration_name, iteration=None)
+            if i is not None:
+                self._iteration = i
+            if name:
+                self.name = name
         return self
 
     def __delattr__(self, name):
@@ -932,7 +940,8 @@ class _NamedTuple(tuple, _Named):
            @note: Items can not be deleted.
         '''
         if name in self._Names_:
-            raise _TypeError(_del_, _DOT_(self.classname, name), txt=_immutable_)
+            t = _SPACE_(_del_, self._DOT_(name))
+            raise _TypeError(t, txt=_immutable_)
         elif name in (_name_, _name):
             _Named.__setattr__(self, name, NN)  # XXX _Named.name.fset(self, NN)
         else:
@@ -943,10 +952,10 @@ class _NamedTuple(tuple, _Named):
         '''
         try:
             return tuple.__getitem__(self, self._Names_.index(name))
-        except IndexError:
-            raise _IndexError(_DOT_(self.classname, Fmt.ANGLE(_name_)), name)
+        except IndexError as x:
+            raise _IndexError(self._DOT_(name), cause=x)
         except ValueError:  # e.g. _iteration
-            return tuple.__getattribute__(self, name)
+            return tuple.__getattr__(self, name)  # __getattribute__
 
 #   def __getitem__(self, index):  # index, slice, etc.
 #       '''Get the item(s) at an B{C{index}} or slice.
@@ -965,7 +974,8 @@ class _NamedTuple(tuple, _Named):
         '''Set attribute or item B{C{name}} to B{C{value}}.
         '''
         if name in self._Names_:
-            raise _TypeError(_DOT_(self.classname, name), value, txt=_immutable_)
+            t = Fmt.EQUALSPACED(self._DOT_(name), repr(value))
+            raise _TypeError(t, txt=_immutable_)
         elif name in (_name_, _name):
             _Named.__setattr__(self, name, value)  # XXX _Named.name.fset(self, value)
         else:  # e.g. _iteration
@@ -975,6 +985,11 @@ class _NamedTuple(tuple, _Named):
         '''Default C{repr(self)}.
         '''
         return self.toStr()
+
+    def _DOT_(self, *names):
+        '''(INTERNAL) Period-join C{self.classname} and C{names}.
+        '''
+        return _DOT_(self.classname, *names)
 
     def dup(self, name=NN, **items):
         '''Duplicate this tuple replacing one or more items.
@@ -986,15 +1001,15 @@ class _NamedTuple(tuple, _Named):
 
            @raise NameError: Some B{C{items}} invalid.
         '''
-        tl = list(self)
+        t = list(self)
         if items:
             _ix = self._Names_.index
             try:
                 for n, v in items.items():
-                    tl[_ix(n)] = v
+                    t[_ix(n)] = v
             except ValueError:  # bad item name
-                raise _NameError(_DOT_(self.classname, n), v, this=self)
-        return self.classof(*tl, name=name or self.name)
+                raise _NameError(self._DOT_(n), v, this=self)
+        return self.classof(*t, name=name or self.name)
 
     def items(self):
         '''Yield the items, each as a C{(name, value)} pair (C{2-tuple}).
@@ -1005,14 +1020,6 @@ class _NamedTuple(tuple, _Named):
             yield n, v
 
     iteritems = items
-
-    def _kwdself(self, iteration=None, **name):
-        '''(INTERNAL) Set C{__new__} keyword arguments.
-        '''
-        if iteration is not None:
-            self._iteration = iteration
-        if name:
-            self.name = name
 
     def toRepr(self, prec=6, sep=_COMMASPACE_, fmt=Fmt.F, **unused):  # PYCHOK signature
         '''Return this C{Named-Tuple} items as C{name=value} string(s).
@@ -1083,21 +1090,21 @@ class _NamedTuple(tuple, _Named):
         '''
         ns = self._Names_
         if not (isinstance(ns, tuple) and len(ns) > 1):  # XXX > 0
-            raise _TypeError(_DOT_(self.classname, _Names_), ns)
+            raise _TypeError(self._DOT_(_Names_), ns)
         for i, n in enumerate(ns):
             if not _xvalid(n, underOK=underOK):
                 t = Fmt.SQUARE(_Names_=i)  # PYCHOK no cover
-                raise _ValueError(_DOT_(self.classname, t), n)
+                raise _ValueError(self._DOT_(t), n)
 
         us = self._Units_
         if not isinstance(us, tuple):
-            raise _TypeError(_DOT_(self.classname, _Units_), us)
+            raise _TypeError(self._DOT_(_Units_), us)
         if len(us) != len(ns):
             raise LenError(self.__class__, _Units_=len(us), _Names_=len(ns))
         for i, u in enumerate(us):
             if not (u is None or callable(u)):
                 t = Fmt.SQUARE(_Units_=i)  # PYCHOK no cover
-                raise _TypeError(_DOT_(self.classname, t), u)
+                raise _TypeError(self._DOT_(t), u)
 
         self.__class__._validated = True
 
@@ -1231,8 +1238,7 @@ def _name__(name=NN, **kwds):
     if name or kwds:
         name, kwds = _name2__(name, **kwds)
         if kwds:  # "unexpected keyword arguments ..."
-            m = _MODS.errors
-            raise m._UnexpectedError(**kwds)
+            raise _UnexpectedError(**kwds)
     return name if name or name is None else NN
 
 
@@ -1255,11 +1261,11 @@ def _name2__(name=NN, name__=None, _or_nameof=None, **kwds):
         else:
             n = str(name)
     elif name__ is not None:
-        n = getattr(name__, _dunder_name_, NN)  # _xattr(name__, __name__=NN)
+        n = _dunder_nameof(name__, NN)
     else:
         n = name if name is None else NN
     if _or_nameof is not None and not n:
-        n = getattr(_or_nameof, _name_, NN)  # _xattr(_or_nameof, name=NN)
+        n = _xattr(_or_nameof, name=NN)  # nameof
     return n, kwds  # (str or None or {}), dict
 
 

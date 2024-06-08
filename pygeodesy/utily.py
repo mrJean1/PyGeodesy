@@ -27,7 +27,7 @@ from pygeodesy.units import Degrees, Degrees_, Feet, Float, Lam, Lam_, \
 from math import acos, asin, atan2, cos, degrees, fabs, radians, sin, tan  # pow
 
 __all__ = _ALL_LAZY.utily
-__version__ = '24.05.29'
+__version__ = '24.06.03'
 
 # read constant name "_M_Unit" as "meter per Unit"
 _M_CHAIN     = _F(  20.1168)     # yard2m(1) * 22
@@ -1002,9 +1002,10 @@ class _Wrap(object):
     def normal(self, setting):
         '''Set L{normal} to C{True}, C{False} or C{None}.
         '''
-        t = {True: (_MODS.formy.normal, _MODS.formy.normal_),
-             False: (self.wraplatlon,    self.wraphilam),
-             None:  (_passargs,         _passargs)}.get(setting, ())
+        m = _MODS.formy
+        t = {True:  (m.normal,        m.normal_),
+             False: (self.wraplatlon, self.wraphilam),
+             None:  (_passargs,      _passargs)}.get(setting, ())
         if t:
             self.latlon, self.philam = t
             self._normal = setting

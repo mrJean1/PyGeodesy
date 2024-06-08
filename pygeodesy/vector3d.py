@@ -25,13 +25,15 @@ from pygeodesy.namedTuples import Intersection3Tuple, NearestOn2Tuple, \
 # from pygeodesy.streprs import Fmt  # from .iters
 from pygeodesy.units import _fi_j2, _isDegrees, Radius, Radius_
 from pygeodesy.utily import atan2b, sincos2d
-# from pygeodesy.vector2d import ....  # in .... below
+# import pygeodesy.vector2d as _vector2d  # _MODS.into
 from pygeodesy.vector3dBase import Vector3dBase
 
 # from math import fabs, sqrt  # from .fmath
 
 __all__ = _ALL_LAZY.vector3d
-__version__ = '24.05.21'
+__version__ = '24.06.06'
+
+_vector2d = _MODS.into(vector2d=__name__)
 
 
 class Vector3d(Vector3dBase):
@@ -87,7 +89,7 @@ class Vector3d(Vector3dBase):
                  Triangle<https://MathWorld.Wolfram.com/ContactTriangle.html>}.
         '''
         try:
-            return _MODS.vector2d._circin6(self, point2, point3, eps=eps, useZ=True)
+            return _vector2d._circin6(self, point2, point3, eps=eps, useZ=True)
         except (AssertionError, TypeError, ValueError) as x:
             raise _xError(x, point=self, point2=point2, point3=point3)
 
@@ -118,8 +120,8 @@ class Vector3d(Vector3dBase):
            @see: Function L{pygeodesy.circum3} and methods L{circum4_} and L{meeus2}.
         '''
         try:
-            return _MODS.vector2d._circum3(self, point2, point3, circum=circum,
-                                                 eps=eps, useZ=True, clas=self.classof)
+            return _vector2d._circum3(self, point2, point3, circum=circum,
+                                            eps=eps, useZ=True, clas=self.classof)
         except (AssertionError, TypeError, ValueError) as x:
             raise _xError(x, point=self, point2=point2, point3=point3, circum=circum)
 
@@ -143,7 +145,7 @@ class Vector3d(Vector3dBase):
 
            @see: Function L{pygeodesy.circum4_} and methods L{circum3} and L{meeus2}.
         '''
-        return _MODS.vector2d.circum4_(self, *points, useZ=True, Vector=self.classof)
+        return _vector2d.circum4_(self, *points, useZ=True, Vector=self.classof)
 
     def iscolinearWith(self, point1, point2, eps=EPS):
         '''Check whether this and two other (3-D) points are colinear.
@@ -163,7 +165,7 @@ class Vector3d(Vector3dBase):
            @see: Method L{nearestOn}.
         '''
         v = self if self.name else _otherV3d(NN_OK=False, this=self)
-        return _MODS.vector2d._iscolinearWith(v, point1, point2, eps=eps)
+        return _vector2d._iscolinearWith(v, point1, point2, eps=eps)
 
     def meeus2(self, point2, point3, circum=False):
         '''Return the radius and I{Meeus}' Type of the smallest circle I{through}
@@ -186,7 +188,7 @@ class Vector3d(Vector3dBase):
            @see: Function L{pygeodesy.meeus2} and methods L{circum3} and L{circum4_}.
         '''
         try:
-            return _MODS.vector2d._meeus2(self, point2, point3, circum, clas=self.classof)
+            return _vector2d._meeus2(self, point2, point3, circum, clas=self.classof)
         except (TypeError, ValueError) as x:
             raise _xError(x, point=self, point2=point2, point3=point3, circum=circum)
 
@@ -270,7 +272,7 @@ class Vector3d(Vector3dBase):
                  Circles<https://MathWorld.Wolfram.com/TangentCircles.html>}.
         '''
         try:
-            return _MODS.vector2d._radii11ABC(self, point2, point3, useZ=True)[0]
+            return _vector2d._radii11ABC(self, point2, point3, useZ=True)[0]
         except (TypeError, ValueError) as x:
             raise _xError(x, point=self, point2=point2, point3=point3)
 
@@ -299,7 +301,7 @@ class Vector3d(Vector3dBase):
 
            @see: Function L{pygeodesy.soddy4}.
         '''
-        return _MODS.vector2d.soddy4(self, point2, point3, eps=eps, useZ=True)
+        return _vector2d.soddy4(self, point2, point3, eps=eps, useZ=True)
 
     def trilaterate2d2(self, radius, center2, radius2, center3, radius3, eps=EPS4, z=INT0):
         '''Trilaterate this and two other circles, each given as a (2-D) center
@@ -335,10 +337,10 @@ class Vector3d(Vector3dBase):
             return v.x, v.y, r
 
         try:
-            return _MODS.vector2d._trilaterate2d2(*(_xyr3(radius,  center=self) +
-                                                    _xyr3(radius2, center2=center2) +
-                                                    _xyr3(radius3, center3=center3)),
-                                                     eps=eps, Vector=self.classof, z=z)
+            return _vector2d._trilaterate2d2(*(_xyr3(radius,  center=self) +
+                                               _xyr3(radius2, center2=center2) +
+                                               _xyr3(radius3, center3=center3)),
+                                               eps=eps, Vector=self.classof, z=z)
         except (AssertionError, TypeError, ValueError) as x:
             raise _xError(x, center=self,     radius=radius,
                              center2=center2, radius2=radius2,
@@ -386,10 +388,10 @@ class Vector3d(Vector3dBase):
         '''
         try:
             c1 = _otherV3d(center=self, NN_OK=False)
-            return _MODS.vector2d._trilaterate3d2(c1, Radius_(radius, low=eps),
-                                             center2, radius2,
-                                             center3, radius3,
-                                             eps=eps, clas=self.classof)
+            return _vector2d._trilaterate3d2(c1, Radius_(radius, low=eps),
+                                        center2, radius2,
+                                        center3, radius3,
+                                        eps=eps, clas=self.classof)
         except (AssertionError, TypeError, ValueError) as x:
             raise _xError(x, center=self,     radius=radius,
                              center2=center2, radius2=radius2,
@@ -643,7 +645,7 @@ def iscolinearWith(point, point1, point2, eps=EPS, useZ=True):
        @see: Function L{nearestOn}.
     '''
     p = _otherV3d(useZ=useZ, point=point)
-    return _MODS.vector2d._iscolinearWith(p, point1, point2, eps=eps, useZ=useZ)
+    return _vector2d._iscolinearWith(p, point1, point2, eps=eps, useZ=useZ)
 
 
 def nearestOn(point, point1, point2, within=True, useZ=True, Vector=None, **Vector_kwds):
@@ -869,9 +871,9 @@ def trilaterate2d2(x1, y1, radius1, x2, y2, radius2, x3, y3, radius3,
              <https://math.StackExchange.com/questions/884807>} and function
              L{pygeodesy.trilaterate3d2}.
     '''
-    return _MODS.vector2d._trilaterate2d2(x1, y1, radius1,
-                                          x2, y2, radius2,
-                                          x3, y3, radius3, eps=eps, **Vector_and_kwds)
+    return _vector2d._trilaterate2d2(x1, y1, radius1,
+                                     x2, y2, radius2,
+                                     x3, y3, radius3, eps=eps, **Vector_and_kwds)
 
 
 def trilaterate3d2(center1, radius1, center2, radius2, center3, radius3,
@@ -919,27 +921,23 @@ def trilaterate3d2(center1, radius1, center2, radius2, center3, radius3,
              288825016>} and function L{pygeodesy.trilaterate2d2}.
     '''
     try:
-        return _MODS.vector2d._trilaterate3d2(_otherV3d(center1=center1, NN_OK=False),
-                                               Radius_(radius1=radius1, low=eps),
-                                               center2, radius2, center3, radius3, eps=eps,
-                                               clas=center1.classof, **Vector_and_kwds)
+        return _vector2d._trilaterate3d2(_otherV3d(center1=center1, NN_OK=False),
+                                           Radius_(radius1=radius1, low=eps),
+                                           center2, radius2, center3, radius3, eps=eps,
+                                           clas=center1.classof, **Vector_and_kwds)
     except (AssertionError, TypeError, ValueError) as x:
         raise _xError(x, center1=center1, radius1=radius1,
                          center2=center2, radius2=radius2,
                          center3=center3, radius3=radius3)
 
 
-def _xyzhdn3(xyz, height, datum, ll, **name):  # in .cartesianBase, .nvectorBase
-    '''(INTERNAL) Get a C{(h, d, name)} 3-tuple.
+def _xyzhdlln4(xyz, height, datum, ll=None, **name):  # in .cartesianBase, .nvectorBase
+    '''(INTERNAL) Get a C{(h, d, ll, name)} 4-tuple.
     '''
-    h = height or _xattr(xyz, height=None) \
-               or _xattr(xyz, h=None) \
-               or _xattr(ll,  height=None)
-
-    d = datum or _xattr(xyz, datum=None) \
-              or _xattr(ll,  datum=None)
-
-    return h, d, _name__(name, _or_nameof=xyz)
+    _x = _xattr
+    h  =  height or _x(xyz, height=None) or _x(xyz, h=None) or _x(ll, height=None)
+    d  =  datum  or _x(xyz, datum=None)  or _x(ll,  datum=None)
+    return h, d, ll, _name__(name, _or_nameof=ll)
 
 
 __all__ += _ALL_DOCS(intersections2, sumOf, Vector3dBase)

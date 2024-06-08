@@ -40,7 +40,7 @@ from pygeodesy.utily import acos1, asin1, atan2b, atan2d, degrees90, \
 from math import cos, fabs, log, sin, sqrt
 
 __all__ = _ALL_LAZY.sphericalBase
-__version__ = '24.05.31'
+__version__ = '24.06.06'
 
 
 class CartesianSphericalBase(CartesianBase):
@@ -380,7 +380,8 @@ class LatLonSphericalBase(LatLonBase):
         '''DEPRECATED, use method C{.rhumbAzimuthTo}.'''
         return self.rhumbAzimuthTo(other, b360=True)  # [0..360)
 
-    def rhumbDestination(self, distance, azimuth, radius=R_M, height=None, exact=False):
+    def rhumbDestination(self, distance, azimuth, radius=R_M, height=None,
+                                                   exact=False, **name):
         '''Return the destination point having travelled the given distance from
            this point along a rhumb line (loxodrome) of the given azimuth.
 
@@ -393,6 +394,7 @@ class LatLonSphericalBase(LatLonBase):
            @kwarg height: Optional height, overriding the default height (C{meter}.
            @kwarg exact: If C{True}, use I{Elliptic, Krüger} L{Rhumb} (C{bool}),
                          default C{False} for backward compatibility.
+           @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @return: The destination point (spherical C{LatLon}).
 
@@ -401,7 +403,7 @@ class LatLonSphericalBase(LatLonBase):
         '''
         if exact:  # use series, always
             r = LatLonBase.rhumbDestination(self, distance, azimuth, exact=False,  # Krüger
-                                                  radius=radius, height=height)
+                                                  radius=radius, height=height, **name)
         else:  # radius=None from .rhumbMidpointTo
             if radius in (None, self._radius):
                 d, r = self.datum, radius
@@ -425,7 +427,7 @@ class LatLonSphericalBase(LatLonBase):
             b2 = b1 if isnear0(q) else (b1 + r * sb / q)
 
             h = self._heigHt(height)
-            r = self.classof(degrees90(a2), degrees180(b2), datum=d, height=h)
+            r = self.classof(degrees90(a2), degrees180(b2), datum=d, height=h, **name)
         return r
 
     def rhumbDistanceTo(self, other, radius=R_M, exact=False, wrap=False):
@@ -499,7 +501,7 @@ class LatLonSphericalBase(LatLonBase):
                                              height=height, wrap=wrap)
 
     def rhumbMidpointTo(self, other, height=None, radius=R_M, exact=False,
-                                                fraction=_0_5, wrap=False):
+                                                fraction=_0_5, **wrap_name):
         '''Return the (loxodromic) midpoint on the rhumb line between
            this and an other point.
 
@@ -511,8 +513,9 @@ class LatLonSphericalBase(LatLonBase):
                          default C{False} for backward compatibility.
            @kwarg fraction: Midpoint location from this point (C{scalar}), may
                             be negative if C{B{exact}=True}.
-           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the B{C{other}}
-                        point (C{bool}).
+           @kwarg wrap_name: Optional C{B{name}=NN} (C{str}) and optional keyword
+                       argument C{B{wrap}=False}, if C{True}, wrap or I{normalize}
+                       and unroll the B{C{other}} point (C{bool}).
 
            @return: The (mid)point at the given B{C{fraction}} along the rhumb
                     line (spherical C{LatLon}).
@@ -524,18 +527,21 @@ class LatLonSphericalBase(LatLonBase):
         if exact:  # use series, always
             r = LatLonBase.rhumbMidpointTo(self, other, exact=False,  # Krüger
                                                  radius=radius, height=height,
-                                                 fraction=fraction, wrap=wrap)
+                                                 fraction=fraction, **wrap_name)
         elif fraction is not _0_5:
             f = Scalar_(fraction=fraction)  # low=_0_0
-            r, db, dp = self._rhumbs3(other, wrap, r=True)  # radians
+            w, n      = self._wrap_name2(**wrap_name)
+            r, db, dp = self._rhumbs3(other, w, r=True)  # radians
             z = atan2b(db, dp)
             h = self._havg(other, f=f, h=height)
-            r = self.rhumbDestination(r * f, z, radius=None, height=h)
+            r = self.rhumbDestination(r * f, z, radius=None, height=h, name=n)
 
         else:  # for backward compatibility, unwrapped
+            _,  n  = self._wrap_name2(**wrap_name)
             # see <https://MathForum.org/library/drmath/view/51822.html>
             a1, b1 = self.philam
             a2, b2 = self.others(other).philam
+            _,  n  = self._wrap_name2(**wrap_name)
 
             if fabs(b2 - b1) > PI:
                 b1 += PI2  # crossing anti-meridian
@@ -557,7 +563,7 @@ class LatLonSphericalBase(LatLonBase):
             d = self.datum if radius in (None, self._radius) else \
                _spherical_datum(radius, name=self.name, raiser=_radius_)
             h = self._havg(other, h=height)
-            r = self.classof(degrees90(a3), degrees180(b3), datum=d, height=h)
+            r = self.classof(degrees90(a3), degrees180(b3), datum=d, height=h, name=n)
         return r
 
     @property_RO

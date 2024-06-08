@@ -20,7 +20,7 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 from pygeodesy.basics import isodd, issubclassof, map2, _xscalar
 from pygeodesy.constants import EPS, EPS2, INT0, _0_0, _0_5, _1_0
 from pygeodesy.errors import ClipError, _IsnotError, _TypeError, \
-                            _ValueError, _xattr, _xkwds_get
+                            _ValueError, _xattr, _xkwds_get, _xkwds_pop2
 from pygeodesy.fmath import favg, hypot, hypot2
 # from pygeodesy.fsums import fsum1  # _MODS
 from pygeodesy.interns import NN, _BANG_, _clip_, _clipid_, _COMMASPACE_, \
@@ -43,7 +43,7 @@ from pygeodesy.utily import fabs, _unrollon, _Wrap
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.booleans
-__version__ = '24.05.29'
+__version__ = '24.06.06'
 
 _0_EPS =  EPS  # near-zero, positive
 _EPS_0 = -EPS  # near-zero, negative
@@ -124,30 +124,28 @@ class _LatLonBool(_Named):
     _next    = None       # link to the next vertex
     _prev    = None       # link to the previous vertex
 
-    def __init__(self, lat_ll, lon=None, height=0, clipid=INT0,
-                                           wrap=False, **name):
-        '''New C{LatLon[FHP|GH]} from separate C{lat}, C{lon}, C{height}
-           and C{clipid} scalars or from a previous C{LatLon[FHP|GH]},
-           a C{Clip[FHP|GH]4Tuple} or some other C{LatLon} instance.
+    def __init__(self, lat_ll, lon=None, height=0, clipid=INT0, wrap=False, **name):
+        '''New C{LatLon[FHP|GH]} from separate C{lat}, C{lon}, C{height} and C{clipid}
+           scalars or from a previous C{LatLon[FHP|GH]}, C{Clip[FHP|GH]4Tuple} or some
+           other C{LatLon} instance.
 
-           @arg lat_ll: Latitude (C{scalar}) or a lat/longitude
-                        (C{LatLon[FHP|GH]}, aC{Clip[FHP|GH]4Tuple}
-                        or some other C{LatLon}).
-           @kwarg lon: Longitude (C{scalar}), iff B{C{lat_ll}} is
-                       scalar, ignored otherwise.
+           @arg lat_ll: Latitude (C{scalar}) or a lat-/longitude (C{LatLon[FHP|GH]},
+                        C{Clip[FHP|GH]4Tuple} or some other C{LatLon}).
+           @kwarg lon: Longitude (C{scalar}), iff B{C{lat_ll}} is scalar, ignored
+                       otherwise.
            @kwarg height: Height (C{scalar}), conventionally C{meter}.
            @kwarg clipid: Clip identifier (C{int}).
-           @kwarg wrap: If C{True}, wrap or I{normalize} B{C{lat}}
-                        and B{C{lon}} (C{bool}).
-           @kwarg name: Optional name (C{str}).
+           @kwarg wrap: If C{True}, wrap or I{normalize} B{C{lat}} and B{C{lon}} (C{bool}).
+           @kwarg name: Optional C{B{name}=NN} (C{str}).
         '''
+        h, name = _xkwds_pop2(name, h=height) if name else (height, name)
+
         if lon is None:
             y, x = lat_ll.lat, lat_ll.lon
-            h = _xattr(lat_ll, height=height)
+            h = _xattr(lat_ll, height=h)
             c = _xattr(lat_ll, clipid=clipid)
         else:
-            y, x = lat_ll, lon
-            h, c = height, clipid
+            y, x, c = lat_ll, lon, clipid
         self.y, self.x = _Wrap.latlon(y, x) if wrap else (y, x)
         # don't duplicate defaults
         if self._height != h:
@@ -301,22 +299,17 @@ class LatLonFHP(_LatLonBool):
     _2split = None  # or C{._Clip}
     _2xing  = False
 
-    def __init__(self, lat_ll, *lon_h_clipid, **wrap_name):
-        '''New C{LatLonFHP} from separate C{lat}, C{lon}, C{h}eight
-           and C{clipid} scalars, or from a previous L{LatLonFHP},
-           a L{ClipFHP4Tuple} or some other C{LatLon} instance.
+    def __init__(self, lat_ll, lon=None, height=0, clipid=INT0, **wrap_name):
+        '''New C{LatLonFHP} from separate C{lat}, C{lon}, C{h}eight and C{clipid}
+           scalars, or from a previous L{LatLonFHP}, L{ClipFHP4Tuple} or some other
+           C{LatLon} instance.
 
-           @arg lat_ll: Latitude (C{scalar}) or a lat/longitude
-                        (L{LatLonFHP}, C{LatLon} or L{ClipFHP4Tuple}).
-           @arg lon_h_clipid: Longitude (C{scalar}), C{h}eight and
-                              C{clipid} iff B{C{lat_ll}} is scalar,
-                              ignored otherwise.
-           @kwarg wrap_name: Keyword arguments C{B{wrap}=False} and
-                       C{B{name}=NN}.  If C{B{wrap} is True}, wrap
-                       or I{normalize} the lat- and longitude
-                       (C{bool}).  Optional B{C{name}} (C{str}).
-        '''
-        _LatLonBool.__init__(self, lat_ll, *lon_h_clipid, **wrap_name)
+           @arg lat_ll: Latitude (C{scalar}) or a lat-/longitude (L{LatLonFHP},
+                        L{ClipFHP4Tuple} or some other C{LatLon}).
+
+           @see: L{Here<_LatLonBool.__init__>} for further details.
+           '''
+        _LatLonBool.__init__(self, lat_ll, lon, height, clipid, **wrap_name)
 
     def __add__(self, other):
         _other(self, other)
@@ -364,15 +357,15 @@ class LatLonFHP(_LatLonBool):
 #       return d
 
     def isenclosedBy(self, *composites_points, **wrap):
-        '''Is this point inside one or more composites or polygons based
-           the U{winding number<https://www.ScienceDirect.com/science/
-           article/pii/S0925772101000128>}?
+        '''Is this point inside one or more composites or polygons based on
+           the U{winding number<https://www.ScienceDirect.com/science/article/
+           pii/S0925772101000128>}?
 
            @arg composites_points: Composites and/or iterables of points
                            (L{ClipFHP4Tuple}, L{ClipGH4Tuple}, L{LatLonFHP},
                            L{LatLonGH} or any C{LatLon}).
-           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the
-                        C{points} (C{bool}).
+           @kwarg wrap: Optional keyword argument C{B{wrap}=False}, if C{True},
+                        wrap or I{normalize} and unroll all C{points} (C{bool}).
 
            @raise ValueError: Some C{points} invalid.
 
@@ -462,22 +455,17 @@ class LatLonGH(_LatLonBool):
     '''
     _entry = None   # entry or exit iff intersection
 
-    def __init__(self, lat_ll, *lon_h_clipid, **wrap_name):
-        '''New C{LatLonGH} from separate C{lat}, C{lon}, C{h}eight
-           and C{clipid} scalars, or from a previous L{LatLonGH},
-           L{ClipGH4Tuple} or some other C{LatLon} instance.
+    def __init__(self, lat_ll, lon=None, height=0, clipid=INT0, **wrap_name):
+        '''New C{LatLonGH} from separate C{lat}, C{lon}, C{h}eight and C{clipid}
+           scalars, or from a previous L{LatLonGH}, L{ClipGH4Tuple} or some other
+           C{LatLon} instance.
 
-           @arg lat_ll: Latitude (C{scalar}) or a lat/longitude
-                        (L{LatLonGH}, C{LatLon} or L{ClipGH4Tuple}).
-           @arg lon_h_clipid: Longitude (C{scalar}), C{h}eight and
-                              C{clipid} iff B{C{lat_ll}} is scalar,
-                              ignored otherwise.
-           @kwarg wrap_name: Keyword arguments C{B{wrap}=False} and
-                       C{B{name}=NN}.  If C{B{wrap} is True}, wrap
-                       or I{normalize} the lat- and longitude
-                       (C{bool}).  Optional B{C{name}} (C{str}).
+           @arg lat_ll: Latitude (C{scalar}) or a lat-/longitude (L{LatLonGH},
+                        L{ClipGH4Tuple} or some other C{LatLon}).
+
+           @see: L{Here<_LatLonBool.__init__>} for further details.
         '''
-        _LatLonBool.__init__(self, lat_ll, *lon_h_clipid, **wrap_name)
+        _LatLonBool.__init__(self, lat_ll, lon, height, clipid, **wrap_name)
 
     def _check(self):
         # Check-mark this vertex and its link.
@@ -498,8 +486,8 @@ class LatLonGH(_LatLonBool):
            @arg composites_points: Composites and/or iterables of points
                            (L{ClipFHP4Tuple}, L{ClipGH4Tuple}, L{LatLonFHP},
                            L{LatLonGH} or any C{LatLon}).
-           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the
-                        C{points} (C{bool}).
+           @kwarg wrap: Optional keyword argument C{B{wrap}=False}, if C{True},
+                        wrap or I{normalize} and unroll all C{points} (C{bool}).
 
            @raise ValueError: Some B{C{points}} invalid.
         '''
@@ -667,7 +655,7 @@ class _Clip(_Named):
         return map2(float, _MODS.points.boundsOf(self, wrap=False))
 
     def _bltr4eps(self, eps):
-        # Get the ._bltr4 bounds tuple, oversized.
+        # Get the ._bltr4 bounds tuple, slightly oversized.
         if eps > 0:  # > EPS
             yb, xl, yt, xr = self._bltr4
             yb, yt = _low_high_eps2(yb, yt, eps)
@@ -806,8 +794,8 @@ class _Clip(_Named):
 
     def _noXings(self, Union):
         # Are all intersections non-CROSSINGs, -BOUNCINGs?
-        Ls = _L.BOUNCINGs if Union else _L.CROSSINGs
-        return all(v._label not in Ls for v in self._intersections())
+        Xings = _L.BOUNCINGs if Union else _L.CROSSINGs
+        return all(v._label not in Xings for v in self._intersections())
 
     def _OpenClipError(self, s, e):  # PYCHOK no cover
         # Return a C{CloseError} instance
@@ -1810,7 +1798,7 @@ class BooleanFHP(_CompositeFHP, _BooleanBase):
            @kwarg raiser: If C{True}, throw L{ClipError} exceptions (C{bool}).
            @kwarg esp: Tolerance for eliminating null edges (C{degrees}, same
                        units as the B{C{lls}} coordinates).
-           @kwarg name: Optional name (C{str}).
+           @kwarg name: Optional C{B{name}=NN} (C{str}).
         '''
         _CompositeFHP.__init__(self, lls, raiser=raiser, eps=eps, **name)
 
@@ -1874,7 +1862,7 @@ class BooleanGH(_CompositeGH, _BooleanBase):
                          attempt to handle the latter (C{bool}).
            @kwarg esp: Tolerance for eliminating null edges (C{degrees}, same
                        units as the B{C{lls}} coordinates).
-           @kwarg name: Optional name (C{str}).
+           @kwarg name: Optional C{B{name}=NN} (C{str}).
         '''
         _CompositeGH.__init__(self, lls, raiser=raiser, xtend=xtend, eps=eps, **name)
 
@@ -1937,9 +1925,8 @@ def isBoolean(obj):
 
        @arg obj: The object (any C{type}).
 
-       @return: C{True} if B{C{obj}} is L{BooleanFHP},
-                L{BooleanGH} oe some other composite,
-                C{False} otherwise.
+       @return: C{True} if B{C{obj}} is L{BooleanFHP}, L{BooleanGH}
+                or some other composite, C{False} otherwise.
     '''
     return isinstance(obj, _CompositeBase)
 

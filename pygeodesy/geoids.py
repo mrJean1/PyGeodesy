@@ -118,7 +118,7 @@ except ImportError:  # Python 3+
     from io import BytesIO as _BytesIO  # PYCHOK expected
 
 __all__ = _ALL_LAZY.geoids
-__version__ = '24.05.23'
+__version__ = '24.06.03'
 
 _assert_ = 'assert'
 _bHASH_  =  b'#'

@@ -1272,6 +1272,13 @@
         initial and final bearing (azimuths) between two given points or 
         the destination point given a start point and an (initial) bearing.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html">pygeodesy.ellipsoidalVincenty.LatLon</a></strong>:
+      <em class="summary">New point on an (oblate) ellipsoidal earth model, using the 
+        formulae devised by <a 
+        href="https://WikiPedia.org/wiki/Vincenty's_formulae" 
+        target="_top"><i>Thaddeus Vincenty</i></a> (1975) to compute 
+        geodesic distances, bearings (azimuths), etc.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.LatLon-class.html">pygeodesy.ellipsoidalKarney.LatLon</a></strong>:
       <em class="summary">An ellipsoidal <a 
         href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
@@ -1282,13 +1289,6 @@
         href="https://PyPI.org/project/geographiclib" 
         target="_top">geographiclib</a> to compute geodesic distances, 
         bearings (azimuths), etc.</em>
-    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html">pygeodesy.ellipsoidalVincenty.LatLon</a></strong>:
-      <em class="summary">New point on an (oblate) ellipsoidal earth model, using the 
-        formulae devised by <a 
-        href="https://WikiPedia.org/wiki/Vincenty's_formulae" 
-        target="_top"><i>Thaddeus Vincenty</i></a> (1975) to compute 
-        geodesic distances, bearings (azimuths), etc.</em>
     </li>
     </ul>
     </li>
@@ -1447,6 +1447,13 @@
         geodetic <a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
         class="link">LatLon</a>.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.Cartesian-class.html">pygeodesy.ellipsoidalKarney.Cartesian</a></strong>:
+      <em class="summary">Extended to convert <code>Karney</code>-based <a 
+        href="pygeodesy.ellipsoidalKarney.Cartesian-class.html" 
+        class="link">Cartesian</a> to <code>Karney</code>-based <a 
+        href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
+        class="link">LatLon</a> points.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalNvector.Cartesian-class.html">pygeodesy.ellipsoidalNvector.Cartesian</a></strong>:
       <em class="summary">Extended to convert geocentric, <a 
         href="pygeodesy.ellipsoidalNvector.Cartesian-class.html" 
@@ -1454,13 +1461,6 @@
         n-vector-based, geodetic <a 
         href="pygeodesy.ellipsoidalNvector.LatLon-class.html" 
         class="link">LatLon</a>.</em>
-    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.Cartesian-class.html">pygeodesy.ellipsoidalKarney.Cartesian</a></strong>:
-      <em class="summary">Extended to convert <code>Karney</code>-based <a 
-        href="pygeodesy.ellipsoidalKarney.Cartesian-class.html" 
-        class="link">Cartesian</a> to <code>Karney</code>-based <a 
-        href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
-        class="link">LatLon</a> points.</em>
     </li>
     </ul>
     </li>
@@ -1528,6 +1528,33 @@
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.webmercator.Wm-class.html">pygeodesy.webmercator.Wm</a></strong>:
       <em class="summary">Web Mercator (WM) coordinate.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ltpTuples._AbcBase-class.html">pygeodesy.ltpTuples._AbcBase</a></strong>:
+      <em class="summary">(INTERNAL) Base class for classes <code>Aer</code> and 
+        <code>Ned</code>.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.ltpTuples.Aer-class.html">pygeodesy.ltpTuples.Aer</a></strong>:
+      <em class="summary">Local <code>Azimuth-Elevation-Range</code> (AER) in a <i>local 
+        tangent plane</i>.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.ltpTuples.Los-class.html">pygeodesy.ltpTuples.Los</a></strong>:
+      <em class="summary">A Line-Of-Sight (LOS) from a <code>LatLon</code> or 
+        <code>Cartesian</code> location.</em>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ltpTuples.Ned-class.html">pygeodesy.ltpTuples.Ned</a></strong>:
+      <em class="summary">Local <code>North-Eeast-Down</code> (NED) location in a <i>local 
+        tangent plane</i>.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalNvector.Ned-class.html">pygeodesy.ellipsoidalNvector.Ned</a></strong>:
+      <em class="summary">DEPRECATED on 2024.02.04, use class <a 
+        href="pygeodesy.ltpTuples.Ned-class.html" 
+        class="link">pygeodesy.Ned</a>.</em>
+    </li>
+    </ul>
+    </li>
+    </ul>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.albers._AlbersBase-class.html">pygeodesy.albers._AlbersBase</a></strong>:
       <em class="summary">(INTERNAL) Base class for <code>AlbersEqualArea...</code> 
@@ -1764,9 +1791,9 @@
     </li>
     </ul>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.solveBase._SolveLineSolveBase-class.html">pygeodesy.solveBase._SolveLineSolveBase</a></strong>:
-      <em class="summary">(NTERNAL) Base class for <code>_Solve</code> and 
-        <code>_LineSolve</code>.</em>
+    <li> <strong class="uidlink"><a href="pygeodesy.solveBase._SolveCapsBase-class.html">pygeodesy.solveBase._SolveCapsBase</a></strong>:
+      <em class="summary">(NTERNAL) Base class for <code>_SolveBase</code> and 
+        <code>_LineSolveBase</code>.</em>
     <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.solveBase._SolveBase-class.html">pygeodesy.solveBase._SolveBase</a></strong>:
       <em class="summary">(NTERNAL) Base class for <code>_GeodesicSolveBase</code> and 
@@ -1907,33 +1934,6 @@
     </li>
     </ul>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ltpTuples._NamedAerNed-class.html">pygeodesy.ltpTuples._NamedAerNed</a></strong>:
-      <em class="summary">(INTERNAL) Base class for classes <code>Aer</code> and 
-        <code>Ned</code>.</em>
-    <ul>
-    <li> <strong class="uidlink"><a href="pygeodesy.ltpTuples.Aer-class.html">pygeodesy.ltpTuples.Aer</a></strong>:
-      <em class="summary">Local <code>Azimuth-Elevation-Range</code> (AER) in a <i>local 
-        tangent plane</i>.</em>
-    <ul>
-    <li> <strong class="uidlink"><a href="pygeodesy.ltpTuples.Los-class.html">pygeodesy.ltpTuples.Los</a></strong>:
-      <em class="summary">A Line-Of-Sight (LOS) from a <code>LatLon</code> or 
-        <code>Cartesian</code> location.</em>
-    </li>
-    </ul>
-    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ltpTuples.Ned-class.html">pygeodesy.ltpTuples.Ned</a></strong>:
-      <em class="summary">Local <code>North-Eeast-Down</code> (NED) location in a <i>local 
-        tangent plane</i>.</em>
-    <ul>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalNvector.Ned-class.html">pygeodesy.ellipsoidalNvector.Ned</a></strong>:
-      <em class="summary">DEPRECATED on 2024.02.04, use class <a 
-        href="pygeodesy.ltpTuples.Ned-class.html" 
-        class="link">pygeodesy.Ned</a>.</em>
-    </li>
-    </ul>
-    </li>
-    </ul>
-    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.named._NamedEnumItem-class.html">pygeodesy.named._NamedEnumItem</a></strong>:
       <em class="summary">(INTERNAL) Base class for items in a <code>_NamedEnum</code> 
         registery.</em>
@@ -2015,10 +2015,6 @@
       <em class="summary">(INTERNAL) Base for named <code>tuple</code>s with both index 
         <i>and</i> attribute name access to the items.</em>
     <ul>
-    <li> <strong class="uidlink"><a href="pygeodesy.ltpTuples.Aer4Tuple-class.html">pygeodesy.ltpTuples.Aer4Tuple</a></strong>:
-      <em class="summary">4-Tuple <code>(azimuth, elevation, slantrange, ltp)</code>, all in 
-        <code>meter</code> except <code>ltp</code>.</em>
-    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.albers.Albers7Tuple-class.html">pygeodesy.albers.Albers7Tuple</a></strong>:
       <em class="summary">7-Tuple <code>(x, y, lat, lon, gamma, scale, datum)</code>, in 
         <code>meter</code>, <code>meter</code>, <code>degrees90</code>, 
@@ -2254,10 +2250,6 @@
     <li> <strong class="uidlink"><a href="pygeodesy.elliptic.Elliptic3Tuple-class.html">pygeodesy.elliptic.Elliptic3Tuple</a></strong>:
       <em class="summary">3-Tuple <code>(sn, cn, dn)</code> all <code>scalar</code>.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ltpTuples.Enu4Tuple-class.html">pygeodesy.ltpTuples.Enu4Tuple</a></strong>:
-      <em class="summary">4-Tuple <code>(east, north, up, ltp)</code>, in <code>meter</code> 
-        except <code>ltp</code>.</em>
-    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ltpTuples.Footprint5Tuple-class.html">pygeodesy.ltpTuples.Footprint5Tuple</a></strong>:
       <em class="summary">5-Tuple <code>(center, upperleft, upperight, loweright, 
         lowerleft)</code> with the <code>center</code> and 4 corners of the
@@ -2444,10 +2436,6 @@
         reference respectively the <code>closest</code> point, both in 
         compass <code>degrees</code>.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ltpTuples.Ned4Tuple-class.html">pygeodesy.ltpTuples.Ned4Tuple</a></strong>:
-      <em class="summary">4-Tuple <code>(north, east, down, ltp)</code>, all in 
-        <code>meter</code> except <code>ltp</code>.</em>
-    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.PhiLam2Tuple-class.html">pygeodesy.namedTuples.PhiLam2Tuple</a></strong>:
       <em class="summary">2-Tuple <code>(phi, lam)</code> with latitude <code>phi</code> in 
         <code>radians[PI_2]</code> and longitude <code>lam</code> in 
@@ -2490,17 +2478,6 @@
         <code>a</code>, <code>b</code> and <code>c</code> and 
         semi-perimeter <code>s</code> of a triangle, all in 
         <code>meter</code> conventionally.</em>
-    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.cartesianBase.RadiusThetaPhi3Tuple-class.html">pygeodesy.cartesianBase.RadiusThetaPhi3Tuple</a></strong>:
-      <em class="summary">3-Tuple <code>(r, theta, phi)</code> with radial distance 
-        <code>r</code> in <code>meter</code>, inclination 
-        <code>theta</code> (with respect to the positive z-axis) and 
-        azimuthal angle <code>phi</code> in <a 
-        href="pygeodesy.units.Degrees-class.html" class="link">Degrees</a> 
-        <i>or</i> <a href="pygeodesy.units.Radians-class.html" 
-        class="link">Radians</a> representing a <a 
-        href="https://WikiPedia.org/wiki/Spherical_coordinate_system" 
-        target="_top">spherical, polar position</a>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.geohash.Resolutions2Tuple-class.html">pygeodesy.geohash.Resolutions2Tuple</a></strong>:
       <em class="summary">2-Tuple <code>(res1, res2)</code> with the primary 
@@ -2644,9 +2621,28 @@
       <em class="summary">4-Tuple <code>(x, y, z, h)</code> of (geocentric) components, all 
         in <code>meter</code> or the same <code>units</code>.</em>
     </li>
+    <li> <strong class="uidlink">pygeodesy.ltpTuples._Abc4Tuple</strong>:
+      <em class="summary">(INTERNAL) Base class for <code>Aer4Tuple</code>, 
+        <code>Enu4Tuple</code>, <code>Ned4Tuple</code> and 
+        <code>Xyz4Tuple</code>.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.ltpTuples.Aer4Tuple-class.html">pygeodesy.ltpTuples.Aer4Tuple</a></strong>:
+      <em class="summary">4-Tuple <code>(azimuth, elevation, slantrange, ltp)</code>, all in 
+        <code>meter</code> except <code>ltp</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ltpTuples.Enu4Tuple-class.html">pygeodesy.ltpTuples.Enu4Tuple</a></strong>:
+      <em class="summary">4-Tuple <code>(east, north, up, ltp)</code>, in <code>meter</code> 
+        except <code>ltp</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ltpTuples.Ned4Tuple-class.html">pygeodesy.ltpTuples.Ned4Tuple</a></strong>:
+      <em class="summary">4-Tuple <code>(north, east, down, ltp)</code>, all in 
+        <code>meter</code> except <code>ltp</code>.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ltpTuples.Xyz4Tuple-class.html">pygeodesy.ltpTuples.Xyz4Tuple</a></strong>:
       <em class="summary">4-Tuple <code>(x, y, z, ltp)</code>, all in <code>meter</code> 
         except <code>ltp</code>.</em>
+    </li>
+    </ul>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.deprecated.classes._Deprecated_NamedTuple-class.html">pygeodesy.deprecated.classes._Deprecated_NamedTuple</a></strong>:
       <em class="summary">DEPRECATED, <code>_NamedTuple</code> base.</em>
@@ -2768,9 +2764,29 @@
     </li>
     </ul>
     </li>
-    <li> <strong class="uidlink">pygeodesy.triaxials._NamedTupleTo</strong>:
+    <li> <strong class="uidlink">pygeodesy.namedTuples._NamedTupleTo</strong>:
       <em class="summary">(INTERNAL) Base for <code>-.toDegrees</code>, 
         <code>-.toRadians</code>.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.cartesianBase.RadiusThetaPhi3Tuple-class.html">pygeodesy.cartesianBase.RadiusThetaPhi3Tuple</a></strong>:
+      <em class="summary">3-Tuple <code>(r, theta, phi)</code> with radial distance 
+        <code>r</code> in <code>meter</code>, inclination 
+        <code>theta</code> (with respect to the positive z-axis) and 
+        azimuthal angle <code>phi</code> in <a 
+        href="pygeodesy.units.Degrees-class.html" class="link">Degrees</a> 
+        <i>or</i> <a href="pygeodesy.units.Radians-class.html" 
+        class="link">Radians</a> representing a <a 
+        href="https://WikiPedia.org/wiki/Spherical_coordinate_system" 
+        target="_top">spherical, polar position</a>.</em>
+    </li>
+    <li> <strong class="uidlink">pygeodesy.triaxials._NamedTupleToX</strong>:
+      <em class="summary">(INTERNAL) Base class for <a 
+        href="pygeodesy.triaxials.BetaOmega2Tuple-class.html" 
+        class="link">BetaOmega2Tuple</a>, <a 
+        href="pygeodesy.triaxials.BetaOmega3Tuple-class.html" 
+        class="link">BetaOmega3Tuple</a> and <a 
+        href="pygeodesy.triaxials.Jacobi2Tuple-class.html" 
+        class="link">Jacobi2Tuple</a>.</em>
     <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.triaxials.BetaOmega2Tuple-class.html">pygeodesy.triaxials.BetaOmega2Tuple</a></strong>:
       <em class="summary">2-Tuple <code>(beta, omega)</code> with <i>ellipsoidal</i> lat- and
@@ -2795,6 +2811,8 @@
         href="pygeodesy.units.Radians-class.html" class="link">Radians</a> 
         (or <a href="pygeodesy.units.Degrees-class.html" 
         class="link">Degrees</a>).</em>
+    </li>
+    </ul>
     </li>
     </ul>
     </li>
@@ -3355,10 +3373,6 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
       <em class="summary">(INTERNAL) Base for named <code>tuple</code>s with both index 
         <i>and</i> attribute name access to the items.</em>
     <ul>
-    <li> <strong class="uidlink"><a href="pygeodesy.ltpTuples.Aer4Tuple-class.html">pygeodesy.ltpTuples.Aer4Tuple</a></strong>:
-      <em class="summary">4-Tuple <code>(azimuth, elevation, slantrange, ltp)</code>, all in 
-        <code>meter</code> except <code>ltp</code>.</em>
-    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.albers.Albers7Tuple-class.html">pygeodesy.albers.Albers7Tuple</a></strong>:
       <em class="summary">7-Tuple <code>(x, y, lat, lon, gamma, scale, datum)</code>, in 
         <code>meter</code>, <code>meter</code>, <code>degrees90</code>, 
@@ -3594,10 +3608,6 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
     <li> <strong class="uidlink"><a href="pygeodesy.elliptic.Elliptic3Tuple-class.html">pygeodesy.elliptic.Elliptic3Tuple</a></strong>:
       <em class="summary">3-Tuple <code>(sn, cn, dn)</code> all <code>scalar</code>.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ltpTuples.Enu4Tuple-class.html">pygeodesy.ltpTuples.Enu4Tuple</a></strong>:
-      <em class="summary">4-Tuple <code>(east, north, up, ltp)</code>, in <code>meter</code> 
-        except <code>ltp</code>.</em>
-    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ltpTuples.Footprint5Tuple-class.html">pygeodesy.ltpTuples.Footprint5Tuple</a></strong>:
       <em class="summary">5-Tuple <code>(center, upperleft, upperight, loweright, 
         lowerleft)</code> with the <code>center</code> and 4 corners of the
@@ -3784,10 +3794,6 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
         reference respectively the <code>closest</code> point, both in 
         compass <code>degrees</code>.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ltpTuples.Ned4Tuple-class.html">pygeodesy.ltpTuples.Ned4Tuple</a></strong>:
-      <em class="summary">4-Tuple <code>(north, east, down, ltp)</code>, all in 
-        <code>meter</code> except <code>ltp</code>.</em>
-    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.PhiLam2Tuple-class.html">pygeodesy.namedTuples.PhiLam2Tuple</a></strong>:
       <em class="summary">2-Tuple <code>(phi, lam)</code> with latitude <code>phi</code> in 
         <code>radians[PI_2]</code> and longitude <code>lam</code> in 
@@ -3830,17 +3836,6 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
         <code>a</code>, <code>b</code> and <code>c</code> and 
         semi-perimeter <code>s</code> of a triangle, all in 
         <code>meter</code> conventionally.</em>
-    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.cartesianBase.RadiusThetaPhi3Tuple-class.html">pygeodesy.cartesianBase.RadiusThetaPhi3Tuple</a></strong>:
-      <em class="summary">3-Tuple <code>(r, theta, phi)</code> with radial distance 
-        <code>r</code> in <code>meter</code>, inclination 
-        <code>theta</code> (with respect to the positive z-axis) and 
-        azimuthal angle <code>phi</code> in <a 
-        href="pygeodesy.units.Degrees-class.html" class="link">Degrees</a> 
-        <i>or</i> <a href="pygeodesy.units.Radians-class.html" 
-        class="link">Radians</a> representing a <a 
-        href="https://WikiPedia.org/wiki/Spherical_coordinate_system" 
-        target="_top">spherical, polar position</a>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.geohash.Resolutions2Tuple-class.html">pygeodesy.geohash.Resolutions2Tuple</a></strong>:
       <em class="summary">2-Tuple <code>(res1, res2)</code> with the primary 
@@ -3984,9 +3979,28 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
       <em class="summary">4-Tuple <code>(x, y, z, h)</code> of (geocentric) components, all 
         in <code>meter</code> or the same <code>units</code>.</em>
     </li>
+    <li> <strong class="uidlink">pygeodesy.ltpTuples._Abc4Tuple</strong>:
+      <em class="summary">(INTERNAL) Base class for <code>Aer4Tuple</code>, 
+        <code>Enu4Tuple</code>, <code>Ned4Tuple</code> and 
+        <code>Xyz4Tuple</code>.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.ltpTuples.Aer4Tuple-class.html">pygeodesy.ltpTuples.Aer4Tuple</a></strong>:
+      <em class="summary">4-Tuple <code>(azimuth, elevation, slantrange, ltp)</code>, all in 
+        <code>meter</code> except <code>ltp</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ltpTuples.Enu4Tuple-class.html">pygeodesy.ltpTuples.Enu4Tuple</a></strong>:
+      <em class="summary">4-Tuple <code>(east, north, up, ltp)</code>, in <code>meter</code> 
+        except <code>ltp</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ltpTuples.Ned4Tuple-class.html">pygeodesy.ltpTuples.Ned4Tuple</a></strong>:
+      <em class="summary">4-Tuple <code>(north, east, down, ltp)</code>, all in 
+        <code>meter</code> except <code>ltp</code>.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ltpTuples.Xyz4Tuple-class.html">pygeodesy.ltpTuples.Xyz4Tuple</a></strong>:
       <em class="summary">4-Tuple <code>(x, y, z, ltp)</code>, all in <code>meter</code> 
         except <code>ltp</code>.</em>
+    </li>
+    </ul>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.deprecated.classes._Deprecated_NamedTuple-class.html">pygeodesy.deprecated.classes._Deprecated_NamedTuple</a></strong>:
       <em class="summary">DEPRECATED, <code>_NamedTuple</code> base.</em>
@@ -4108,9 +4122,29 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
     </li>
     </ul>
     </li>
-    <li> <strong class="uidlink">pygeodesy.triaxials._NamedTupleTo</strong>:
+    <li> <strong class="uidlink">pygeodesy.namedTuples._NamedTupleTo</strong>:
       <em class="summary">(INTERNAL) Base for <code>-.toDegrees</code>, 
         <code>-.toRadians</code>.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.cartesianBase.RadiusThetaPhi3Tuple-class.html">pygeodesy.cartesianBase.RadiusThetaPhi3Tuple</a></strong>:
+      <em class="summary">3-Tuple <code>(r, theta, phi)</code> with radial distance 
+        <code>r</code> in <code>meter</code>, inclination 
+        <code>theta</code> (with respect to the positive z-axis) and 
+        azimuthal angle <code>phi</code> in <a 
+        href="pygeodesy.units.Degrees-class.html" class="link">Degrees</a> 
+        <i>or</i> <a href="pygeodesy.units.Radians-class.html" 
+        class="link">Radians</a> representing a <a 
+        href="https://WikiPedia.org/wiki/Spherical_coordinate_system" 
+        target="_top">spherical, polar position</a>.</em>
+    </li>
+    <li> <strong class="uidlink">pygeodesy.triaxials._NamedTupleToX</strong>:
+      <em class="summary">(INTERNAL) Base class for <a 
+        href="pygeodesy.triaxials.BetaOmega2Tuple-class.html" 
+        class="link">BetaOmega2Tuple</a>, <a 
+        href="pygeodesy.triaxials.BetaOmega3Tuple-class.html" 
+        class="link">BetaOmega3Tuple</a> and <a 
+        href="pygeodesy.triaxials.Jacobi2Tuple-class.html" 
+        class="link">Jacobi2Tuple</a>.</em>
     <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.triaxials.BetaOmega2Tuple-class.html">pygeodesy.triaxials.BetaOmega2Tuple</a></strong>:
       <em class="summary">2-Tuple <code>(beta, omega)</code> with <i>ellipsoidal</i> lat- and
@@ -4135,6 +4169,8 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
         href="pygeodesy.units.Radians-class.html" class="link">Radians</a> 
         (or <a href="pygeodesy.units.Degrees-class.html" 
         class="link">Degrees</a>).</em>
+    </li>
+    </ul>
     </li>
     </ul>
     </li>
@@ -4190,7 +4226,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Jun  1 11:09:30 2024
+    Generated by Epydoc 3.0.1 on Sat Jun  8 15:58:39 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

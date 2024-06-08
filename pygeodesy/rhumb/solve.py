@@ -21,7 +21,7 @@ from pygeodesy.solveBase import _SolveBase, _SolveLineBase
 from pygeodesy.utily import _unrollon, _Wrap, wrap360
 
 __all__ = _ALL_LAZY.rhumb_solve
-__version__ = '24.05.31'
+__version__ = '24.06.04'
 
 
 class _RhumbSolveBase(_SolveBase):
@@ -37,9 +37,9 @@ class _RhumbSolveBase(_SolveBase):
     def _cmdBasic(self):
         '''(INTERNAL) Get the basic C{RhumbSolve} cmd (C{tuple}).
         '''
-        return (self.RhumbSolve,) + self._e_option \
-                                  + self._p_option \
-                                  + self._s_option
+        return (self.RhumbSolve,) + (self._e_option +
+                                     self._p_option +
+                                     self._s_option)
 
     @Property
     def RhumbSolve(self):
@@ -423,59 +423,6 @@ if __name__ == '__main__':
 #   p = rlS.ArcPosition(49.475527)
 #   printf('ArcPosition: %s %r', p == r, p)
 
-# % python3 -m pygeodesy.rhumb.solve
-
-# version: /opt/local/bin/RhumbSolve: GeographicLib version 1.51
-#
-# Direct: GDict(S12=44095641862956.148438, azi12=51, lat1=40.6, lat2=71.6889, lon1=-73.8, lon2=0.25552, s12=5500000.0)
-# Direct3: Destination3Tuple(lat=71.6889, lon=0.25552, final=51.0)
-#
-# Inverse: GDict(S12=37395209100030.367188, a12=51.929543, azi12=77.76839, lat1=40.6, lat2=51.6, lon1=-73.8, lon2=-0.5, s12=5771083.383328)
-# Inverse1: 51.92954250756195
-# Inverse3: Distance3Tuple(distance=5771083.383328, initial=77.76839, final=77.76839)
-#
-# Inverse: GDict(S12=-63760642939072.492188, a12=115.02062, azi12=-92.388888, lat1=40.6, lat2=35.8, lon1=-73.8, lon2=140.3, s12=12782581.067684)
-# Inverse1: 115.02061966879258
-# Inverse3: Distance3Tuple(distance=12782581.067684, initial=267.611112, final=267.611112)
-#
-# Position:    True  GDict(S12=44095641862956.148438, azi12=51, lat1=40.6, lat2=71.6889, lon1=-73.8, lon2=0.25552, s12=5500000.0)
-
-
-# % python3 -m pygeodesy.rhumb.solve --verbose
-
-# RhumbSolve 'Test' 1: /opt/local/bin/RhumbSolve --version (invoke)
-# RhumbSolve 'Test' 1: /opt/local/bin/RhumbSolve: GeographicLib version 1.51 (0)
-# version: /opt/local/bin/RhumbSolve: GeographicLib version 1.51
-# RhumbSolve 'Test' 2: /opt/local/bin/RhumbSolve -p 10 \ 40.600000000000001 -73.799999999999997 51.0 5500000.0 (Direct)
-# RhumbSolve 'Test' 2: lat2=71.688899882813047, lon2=0.255519824423445, S12=44095641862956.148 (0)
-
-# Direct: GDict(S12=44095641862956.148438, azi12=51, lat1=40.6, lat2=71.6889, lon1=-73.8, lon2=0.25552, s12=5500000.0)
-# RhumbSolve 'Test' 3: /opt/local/bin/RhumbSolve -p 10 \ 40.600000000000001 -73.799999999999997 51.0 5500000.0 (Direct3)
-# RhumbSolve 'Test' 3: lat2=71.688899882813047, lon2=0.255519824423445, S12=44095641862956.148 (0)
-# Direct3: Destination3Tuple(lat=71.6889, lon=0.25552, final=51.0)
-# RhumbSolve 'Test' 4: /opt/local/bin/RhumbSolve -p 10 -i \ 40.600000000000001 -73.799999999999997 51.600000000000001 -0.5 (Inverse)
-# RhumbSolve 'Test' 4: azi12=77.768389710255661, s12=5771083.3833280317, S12=37395209100030.367 (0)
-
-# Inverse: GDict(S12=37395209100030.367188, a12=51.929543, azi12=77.76839, lat1=40.6, lat2=51.6, lon1=-73.8, lon2=-0.5, s12=5771083.383328)
-# RhumbSolve 'Test' 5: /opt/local/bin/RhumbSolve -p 10 -i \ 40.600000000000001 -73.799999999999997 51.600000000000001 -0.5 (Inverse1)
-# RhumbSolve 'Test' 5: azi12=77.768389710255661, s12=5771083.3833280317, S12=37395209100030.367 (0)
-# Inverse1: 51.92954250756195
-# RhumbSolve 'Test' 6: /opt/local/bin/RhumbSolve -p 10 -i \ 40.600000000000001 -73.799999999999997 51.600000000000001 -0.5 (Inverse3)
-# RhumbSolve 'Test' 6: azi12=77.768389710255661, s12=5771083.3833280317, S12=37395209100030.367 (0)
-# Inverse3: Distance3Tuple(distance=5771083.383328, initial=77.76839, final=77.76839)
-# RhumbSolve 'Test' 7: /opt/local/bin/RhumbSolve -p 10 -i \ 40.600000000000001 -73.799999999999997 35.799999999999997 140.300000000000011 (Inverse)
-# RhumbSolve 'Test' 7: azi12=-92.388887981699639, s12=12782581.0676841792, S12=-63760642939072.492 (0)
-
-# Inverse: GDict(S12=-63760642939072.492188, a12=115.02062, azi12=-92.388888, lat1=40.6, lat2=35.8, lon1=-73.8, lon2=140.3, s12=12782581.067684)
-# RhumbSolve 'Test' 8: /opt/local/bin/RhumbSolve -p 10 -i \ 40.600000000000001 -73.799999999999997 35.799999999999997 140.300000000000011 (Inverse1)
-# RhumbSolve 'Test' 8: azi12=-92.388887981699639, s12=12782581.0676841792, S12=-63760642939072.492 (0)
-# Inverse1: 115.02061966879258
-# RhumbSolve 'Test' 9: /opt/local/bin/RhumbSolve -p 10 -i \ 40.600000000000001 -73.799999999999997 35.799999999999997 140.300000000000011 (Inverse3)
-# RhumbSolve 'Test' 9: azi12=-92.388887981699639, s12=12782581.0676841792, S12=-63760642939072.492 (0)
-# Inverse3: Distance3Tuple(distance=12782581.067684, initial=267.611112, final=267.611112)
-
-# Position:    True  GDict(S12=44095641862956.148438, azi12=51, lat1=40.6, lat2=71.6889, lon1=-73.8, lon2=0.25552, s12=5500000.0)
-
 
 # % python3 -m pygeodesy.rhumb.solve
 
@@ -485,11 +432,11 @@ if __name__ == '__main__':
 # Direct3: Destination3Tuple(lat=71.6889, lon=0.25552, final=51.0)
 
 # Inverse: GDict(a12=51.929543, azi12=77.76839, lat1=40.6, lat2=51.6, lon1=-73.8, lon2=-0.5, s12=5771083.383328, S12=37395209100030.390625)
-# Inverse1: 51.92954250756191
+# Inverse1: 51.929542507561905
 # Inverse3: Distance3Tuple(distance=5771083.383328, initial=77.76839, final=77.76839)
 
 # Inverse: GDict(a12=115.02062, azi12=-92.388888, lat1=40.6, lat2=35.8, lon1=-73.8, lon2=140.3, s12=12782581.067684, S12=-63760642939072.5)
-# Inverse1: 115.02061966879249
+# Inverse1: 115.02061966879248
 # Inverse3: Distance3Tuple(distance=12782581.067684, initial=267.611112, final=267.611112)
 
 # Position:    True  GDict(azi12=51, lat1=40.6, lat2=71.6889, lon1=-73.8, lon2=0.25552, s12=5500000.0, S12=44095641862956.109375)
@@ -513,7 +460,7 @@ if __name__ == '__main__':
 # Inverse: GDict(a12=51.929543, azi12=77.76839, lat1=40.6, lat2=51.6, lon1=-73.8, lon2=-0.5, s12=5771083.383328, S12=37395209100030.390625)
 # RhumbSolve 'Test' 5: /opt/local/bin/RhumbSolve -p 10 -i \ 40.600000000000001 -73.799999999999997 51.600000000000001 -0.5 (Inverse1)
 # RhumbSolve 'Test' 5: azi12=77.768389710255661, s12=5771083.383328028, S12=37395209100030.391 (0)
-# Inverse1: 51.92954250756191
+# Inverse1: 51.929542507561905
 # RhumbSolve 'Test' 6: /opt/local/bin/RhumbSolve -p 10 -i \ 40.600000000000001 -73.799999999999997 51.600000000000001 -0.5 (Inverse3)
 # RhumbSolve 'Test' 6: azi12=77.768389710255661, s12=5771083.383328028, S12=37395209100030.391 (0)
 # Inverse3: Distance3Tuple(distance=5771083.383328, initial=77.76839, final=77.76839)
@@ -523,7 +470,7 @@ if __name__ == '__main__':
 # Inverse: GDict(a12=115.02062, azi12=-92.388888, lat1=40.6, lat2=35.8, lon1=-73.8, lon2=140.3, s12=12782581.067684, S12=-63760642939072.5)
 # RhumbSolve 'Test' 8: /opt/local/bin/RhumbSolve -p 10 -i \ 40.600000000000001 -73.799999999999997 35.799999999999997 140.300000000000011 (Inverse1)
 # RhumbSolve 'Test' 8: azi12=-92.388887981699654, s12=12782581.0676841699, S12=-63760642939072.5 (0)
-# Inverse1: 115.02061966879249
+# Inverse1: 115.02061966879248
 # RhumbSolve 'Test' 9: /opt/local/bin/RhumbSolve -p 10 -i \ 40.600000000000001 -73.799999999999997 35.799999999999997 140.300000000000011 (Inverse3)
 # RhumbSolve 'Test' 9: azi12=-92.388887981699654, s12=12782581.0676841699, S12=-63760642939072.5 (0)
 # Inverse3: Distance3Tuple(distance=12782581.067684, initial=267.611112, final=267.611112)

@@ -22,8 +22,7 @@ from pygeodesy.formy import _isequalTo, n_xyz2latlon, n_xyz2philam, \
 # from pygeodesy.internals import _under  # from .named
 from pygeodesy.interns import NN, _1_, _2_, _3_, _bearing_, _coincident_, \
                              _COMMASPACE_, _distance_, _h_, _insufficient_, \
-                             _intersection_, _no_, _NorthPole_, _point_, \
-                             _pole_, _SPACE_, _SouthPole_
+                             _intersection_, _no_, _point_, _pole_, _SPACE_
 from pygeodesy.latlonBase import LatLonBase,  _ALL_DOCS, _ALL_LAZY, _MODS
 # from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS  # from .latlonBase
 from pygeodesy.named import _xother3,  _under
@@ -34,12 +33,12 @@ from pygeodesy.props import deprecated_method, Property_RO, property_doc_, \
 from pygeodesy.streprs import Fmt, hstr, unstr, _xattrs
 from pygeodesy.units import Bearing, Height, Radius_, Scalar
 from pygeodesy.utily import sincos2d, _unrollon, _unrollon3
-from pygeodesy.vector3d import Vector3d, _xyzhdn3
+from pygeodesy.vector3d import Vector3d, _xyzhdlln4
 
 from math import fabs, sqrt
 
 __all__ = _ALL_LAZY.nvectorBase
-__version__ = '24.05.31'
+__version__ = '24.06.06'
 
 
 class NvectorBase(Vector3d):  # XXX kept private
@@ -49,32 +48,30 @@ class NvectorBase(Vector3d):  # XXX kept private
     _h     = Height(h=0)  # height (C{meter})
     _H     = NN           # height prefix (C{str}), '↑' in JS version
 
-    def __init__(self, x_xyz, y=None, z=None, h=0, ll=None, datum=None, **name):
+    def __init__(self, x_xyz, y=None, z=None, h=0, datum=None, **ll_name):
         '''New n-vector normal to the earth's surface.
 
            @arg x_xyz: X component of vector (C{scalar}) or (3-D) vector
-                       (C{Nvector}, L{Vector3d}, L{Vector3Tuple} or
-                       L{Vector4Tuple}).
-           @kwarg y: Y component of vector (C{scalar}), ignored if B{C{x_xyz}}
-                     is not C{scalar}, otherwise same units as B{C{x_xyz}}.
-           @kwarg z: Z component of vector (C{scalar}), ignored if B{C{x_xyz}}
-                     is not C{scalar}, otherwise same units as B{C{x_xyz}}.
+                       (C{Nvector}, L{Vector3d}, L{Vector3Tuple} or L{Vector4Tuple}).
+           @kwarg y: Y component of vector (C{scalar}), ignored if B{C{x_xyz}} is not
+                     C{scalar}, otherwise same units as B{C{x_xyz}}.
+           @kwarg z: Z component of vector (C{scalar}), ignored if B{C{x_xyz}} is not
+                     C{scalar}, otherwise same units as B{C{x_xyz}}.
            @kwarg h: Optional height above surface (C{meter}).
-           @kwarg ll: Optional, original latlon (C{LatLon}).
            @kwarg datum: Optional, I{pass-thru} datum (L{Datum}).
-           @kwarg name: Optional C{B{name}=NN} (C{str}).
+           @kwarg ll_name: Optional C{B{name}=NN} (C{str}) and optional, original
+                           latlon C{B{ll}=None} (C{LatLon}).
 
-           @raise TypeError: Non-scalar B{C{x}}, B{C{y}} or B{C{z}}
-                             coordinate or B{C{x}} not an C{Nvector},
-                             L{Vector3Tuple} or L{Vector4Tuple} or
-                             invalid B{C{datum}}.
+           @raise TypeError: Non-scalar B{C{x}}, B{C{y}} or B{C{z}} coordinate or
+                             B{C{x_xyz}} not an C{Nvector}, L{Vector3Tuple} or
+                             L{Vector4Tuple} or invalid B{C{datum}}.
         '''
-        h, d, n = _xyzhdn3(x_xyz, h, datum, ll, **name)
+        h, d, ll, n = _xyzhdlln4(x_xyz, h, datum, **ll_name)
         Vector3d.__init__(self, x_xyz, y=y, z=z, ll=ll, name=n)
         if h:
             self.h = h
         if d is not None:
-            self._datum = _spherical_datum(d, name=self.name)  # pass-thru
+            self._datum = _spherical_datum(d, name=n)  # pass-thru
 
     @Property_RO
     def datum(self):
@@ -326,7 +323,7 @@ class NvectorBase(Vector3d):  # XXX kept private
             r = self.toCartesian(h=h, Cartesian=None, datum=d)
         else:
             kwds = _xkwds(LatLon_kwds, height=h, datum=d)
-            r = self._xnamed(LatLon(self.lat, self.lon, **kwds))
+            r = LatLon(self.lat, self.lon, **self._name1__(kwds))
         return r
 
     def toStr(self, prec=5, fmt=Fmt.PAREN, sep=_COMMASPACE_):  # PYCHOK expected
@@ -378,8 +375,8 @@ class NvectorBase(Vector3d):  # XXX kept private
         return self.xyz.to4Tuple(self.h)
 
 
-NorthPole = NvectorBase(0, 0, +1, name=_NorthPole_)  # North pole (C{Nvector})
-SouthPole = NvectorBase(0, 0, -1, name=_SouthPole_)  # South pole (C{Nvector})
+NorthPole = NvectorBase(0, 0, +1, name='NorthPole')  # North pole (C{Nvector})
+SouthPole = NvectorBase(0, 0, -1, name='SouthPole')  # South pole (C{Nvector})
 
 
 class _N_vector_(NvectorBase):

@@ -13,7 +13,7 @@ from pygeodesy.internals import _enquote, printf
 from pygeodesy.interns import NN, _0_, _BACKSLASH_, _COMMASPACE_, \
                              _EQUAL_, _Error_, _SPACE_, _UNUSED_
 from pygeodesy.karney import Caps, _CapsBase, GDict
-from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _unlazy
+from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _sys_version_info2
 from pygeodesy.named import callername, _name2__, notOverloaded
 from pygeodesy.props import Property, Property_RO, property_RO, _update_all
 from pygeodesy.streprs import Fmt, fstr, fstrzs, pairs, strs
@@ -23,34 +23,37 @@ from pygeodesy.utily import unroll180,  wrap360  # PYCHOK shared
 from subprocess import PIPE as _PIPE, Popen as _Popen, STDOUT as _STDOUT
 
 __all__ = _ALL_LAZY.solveBase
-__version__ = '24.05.31'
+__version__ = '24.06.05'
 
-_ERROR_    = 'ERROR'
-_text_True =  dict() if _unlazy else dict(text=True)
+_ERROR_     = 'ERROR'
+_Popen_kwds =  dict(creationflags=0,
+                  # executable=sys.executable, shell=True,
+                    stdin=_PIPE, stdout=_PIPE, stderr=_STDOUT)
+if _sys_version_info2 > (3, 6):
+    _Popen_kwds.update(text=True)
+del _PIPE, _STDOUT, _sys_version_info2  # _ALL_LAZY
 
 
 def _cmd_stdin_(cmd, stdin):  # PYCHOK no cover
     '''(INTERNAL) Cmd line, stdin and caller as sC{str}.
     '''
-    c = Fmt.PAREN(callername(up=3))
-    t = (c,) if stdin is None else (_BACKSLASH_, str(stdin), c)
-    return _SPACE_.join(cmd + t)
+    if stdin is not None:
+        cmd += _BACKSLASH_, str(stdin)
+    cmd += Fmt.PAREN(callername(up=3)),
+    return _SPACE_.join(cmd)
 
 
-def _popen2(cmd, stdin=None):  # in .mgrs, .test.base, .test.testMgrs
+def _popen2(cmd, stdin=None):  # in .mgrs, test.bases, .testMgrs
     '''(INTERNAL) Invoke C{B{cmd} tuple} and return C{exitcode}
        and all output to C{stdout/-err}.
     '''
-    p = _Popen(cmd, creationflags=0,
-                  # executable=sys.executable, shell=True,
-                    stdin=_PIPE, stdout=_PIPE, stderr=_STDOUT,
-                 **_text_True)  # PYCHOK kwArgs
-    r = p.communicate(stdin)[0]
+    p = _Popen(cmd, **_Popen_kwds)  # PYCHOK kwArgs
+    r =  p.communicate(stdin)[0]
     return p.returncode, ub2str(r).strip()
 
 
-class _SolveLineSolveBase(_CapsBase):
-    '''(NTERNAL) Base class for C{_Solve} and C{_LineSolve}.
+class _SolveCapsBase(_CapsBase):
+    '''(NTERNAL) Base class for C{_SolveBase} and C{_LineSolveBase}.
     '''
     _Error         =  None
     _Exact         =  True
@@ -131,7 +134,7 @@ class _SolveLineSolveBase(_CapsBase):
 
            @note: The C{Solve} return code is in property L{status}.
         '''
-        c = (self._Solve_path,) + map2(str, options)
+        c = (self._Solve_path,) + map2(str, options)  # map2(_enquote, options)
         i = _xkwds_get1(stdin, stdin=None)
         r =  self._invoke(c, stdin=i)
         s =  self.status
@@ -270,7 +273,7 @@ class _SolveLineSolveBase(_CapsBase):
         return self.invoke('--version')
 
 
-class _SolveBase(_SolveLineSolveBase):
+class _SolveBase(_SolveCapsBase):
     '''(NTERNAL) Base class for C{_GeodesicSolveBase} and C{_RhumbSolveBase}.
     '''
     _datum = _WGS84
@@ -387,7 +390,7 @@ class _SolveBase(_SolveLineSolveBase):
         return sep.join(pairs(d, prec=prec))
 
 
-class _SolveLineBase(_SolveLineSolveBase):
+class _SolveLineBase(_SolveCapsBase):
     '''(NTERNAL) Base class for C{GeodesicLineSolve} and C{RhumbLineSolve}.
     '''
 #   _caps  =  0
@@ -448,7 +451,7 @@ class _SolveLineBase(_SolveLineSolveBase):
         return sep.join(pairs(d, prec=prec))
 
 
-__all__ += _ALL_DOCS(_SolveBase, _SolveLineBase, _SolveLineSolveBase)
+__all__ += _ALL_DOCS(_SolveBase, _SolveLineBase, _SolveCapsBase)
 
 # **) MIT License
 #
