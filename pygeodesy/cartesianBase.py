@@ -43,7 +43,7 @@ from pygeodesy.vector3d import Vector3d, _xyzhdlln4
 # from math import atan2, degrees, fabs, radians, sqrt  # from .fmath, .utily
 
 __all__ = _ALL_LAZY.cartesianBase
-__version__ = '24.06.08'
+__version__ = '24.06.10'
 
 _r_     = 'r'
 _theta_ = 'theta'
@@ -202,11 +202,12 @@ class CartesianBase(Vector3d):
         if Cartesian is None:
             r = self._Ltp._local2ecef(delta, nine=True)
         else:
-            if not self.datum:
+            d = self.datum
+            if not d:
                 raise _TypeError(delta=delta, txt=_no_(_datum_))
-            d, kwds = _xkwds_get(kwds, datum=self.datum)
-            if _xattr(d, ellipsoid=None) != self.datum.ellipsoid:
-                raise _TypeError(datum=d, txt=str(self.datum))
+            t = _xkwds_get(kwds, datum=d)
+            if _xattr(t, ellipsoid=None) != d.ellipsoid:
+                raise _TypeError(datum=t, txt=str(d))
             c = self._Ltp._local2ecef(delta, nine=False)
             r = Cartesian(*c, **kwds)
         return r.renamed(n) if n else r
@@ -892,7 +893,7 @@ class RadiusThetaPhi3Tuple(_NamedTupleTo):
            @return: L{RadiusThetaPhi3Tuple}C{(r, theta, phi)} with C{theta}
                     and C{phi} both in L{Degrees}.
         '''
-        return self._toXU(_NamedTupleTo._Degrees3, Degrees, name)
+        return self._toX3U(_NamedTupleTo._Degrees3, Degrees, name)
 
     def toRadians(self, **name):
         '''Convert this L{RadiusThetaPhi3Tuple}'s angles to L{Radians}.
@@ -902,12 +903,19 @@ class RadiusThetaPhi3Tuple(_NamedTupleTo):
            @return: L{RadiusThetaPhi3Tuple}C{(r, theta, phi)} with C{theta}
                     and C{phi} both in L{Radians}.
         '''
-        return self._toXU(_NamedTupleTo._Radians3, Radians, name)
+        return self._toX3U(_NamedTupleTo._Radians3, Radians, name)
 
-    def _toXU(self, _X, U, name):
+    def _toU(self, U):
+        M = RadiusThetaPhi3Tuple._Units_[0]  # Meter
+        return self.reUnit(M, U, U).toUnits()
+
+    def _toX3U(self, _X3, U, name):
         r, t, p =  self
-        t, p, s = _X(self, t, p)
-        return s or self.classof(r, U(theta=t), U(phi=p), name=self._name__(name))
+        t, p, s = _X3(self, t, p)
+        if s is None or name:
+            n = self._name__(name)
+            s = self.classof(r, t, p, name=n)._toU(U)
+        return s
 
 
 def rtp2xyz(r_rtp, theta=0, phi=0, **name_Cartesian_and_kwds):
@@ -988,7 +996,7 @@ def _rtp3(where, U, *x_y_z, **name):
             p = degrees(p)
     else:
         t = p = _0_0
-    return RadiusThetaPhi3Tuple(r, U(theta=t), U(phi=p), **name)
+    return RadiusThetaPhi3Tuple(r, t, p, **name)._toU(U)
 
 
 def xyz2rtp(x_xyz, y=0, z=0, **name):

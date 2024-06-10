@@ -4,12 +4,12 @@
 # Test cartesians.
 
 __all__ = ('Tests',)
-__version__ = '24.01.14'
+__version__ = '24.06.09'
 
 from bases import GeodSolve, geographiclib, isPython35, TestsBase
 
 from pygeodesy import R_M, classname, Datums, degrees, fstr, Height, modulename, \
-                      rtp2xyz, xyz2rtp, RefFrames, Transforms  # PYCHOK expected
+                      rtp2xyz, xyz2rtp, RefFrames, Transforms, XyzLocal  # PYCHOK expected
 from pygeodesy.cartesianBase import CartesianBase, RadiusThetaPhi3Tuple
 from pygeodesy.ecef import Ecef9Tuple
 from pygeodesy.namedTuples import LatLon2Tuple, LatLon3Tuple, LatLon4Tuple, \
@@ -177,6 +177,12 @@ class Tests(TestsBase):
         self.test(r.toCartesian.__name__, t, t)
         t = repr(c.toRtp())  # coverage
         self.test(c.toRtp.__name__, t, t)
+
+        d = XyzLocal(0, 1, 2)
+        t = c.destinationXyz(d, name='Tuple').toRepr()
+        self.test(c.destinationXyz.__name__, t, t, nl=1)
+        t = c.destinationXyz(d, Cartesian=Cartesian, name='Cart').toRepr()
+        self.test(c.destinationXyz.__name__, t, t)
 
     def testReturnType(self, inst, clas, name):
         self.test(name, type(inst), clas)  # type(inst).__name__ == clas.__name__

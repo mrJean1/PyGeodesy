@@ -27,7 +27,7 @@ from pygeodesy.units import Band, Easting, Northing, Scalar, Zone
 from pygeodesy.utily import _Wrap, wrap360
 
 __all__ = _ALL_LAZY.utmupsBase
-__version__ = '24.05.30'
+__version__ = '24.06.09'
 
 _UPS_BANDS = _A_, _B_, _Y_, _Z_  # UPS polar bands SE, SW, NE, NW
 # _UTM_BANDS = _MODS.utm._Bands
@@ -472,7 +472,7 @@ def _to3zBhp(zone, band, hemipole=NN, Error=_ValueError):  # in .epsg, .ups, .ut
                 elif not B:
                     return z, B, hp
 
-        raise ValueError  # _invalid_
+        raise ValueError()  # _invalid_
     except (AttributeError, IndexError, TypeError, ValueError) as x:
         raise Error(zone=zone, band=B, hemipole=hemipole, cause=x)
 

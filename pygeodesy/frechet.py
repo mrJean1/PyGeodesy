@@ -103,7 +103,7 @@ from collections import defaultdict as _defaultdict
 # from math import radians  # from .points
 
 __all__ = _ALL_LAZY.frechet
-__version__ = '24.05.26'
+__version__ = '24.06.10'
 
 
 def _fraction(fraction, n):
@@ -842,12 +842,11 @@ class Frechet6Tuple(_NamedTuple):
     _Names_ = ('fd',  'fi1', 'fi2', 'r',     _n_,      _units_)
     _Units_ = (_Pass,  FIx,   FIx,   Number_, Number_, _Pass)
 
-    def toUnits(self, **Error):  # PYCHOK expected
+    def toUnits(self, **Error_name):  # PYCHOK expected
         '''Overloaded C{_NamedTuple.toUnits} for C{fd} units.
         '''
         U = _xUnit(self.units, Float)  # PYCHOK expected
-        self._Units_ = (U,) + Frechet6Tuple._Units_[1:]
-        return _NamedTuple.toUnits(self, **Error)
+        return _NamedTuple.toUnits(self.reUnit(U), **Error_name)  # PYCHOK self
 
 #   def __gt__(self, other):
 #       _xinstanceof(Frechet6Tuple, other=other)

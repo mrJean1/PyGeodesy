@@ -22,10 +22,10 @@ from pygeodesy.interns import NN, _1_, _2_, _a_, _A_, _area_, _angle_, _b_, _B_,
 # from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS  # from .errors
 from pygeodesy.named import _NamedTuple, _Pass
 from pygeodesy.props import deprecated_property_RO, property_RO
-from pygeodesy.units import Band, Bearing, Degrees, Degrees_, Degrees2, Easting, \
-                            FIx, Height, Int, Lam, Lat, Lon, Meter, Meter2, \
+from pygeodesy.units import Band, Bearing, Degrees, Degrees2, Easting, FIx, \
+                            Height, Int, Lam, Lat, Lon, Meter, Meter2, \
                             Northing, Number_, Phi, Precision_, Radians, \
-                            Radians_, Radius, Scalar, Str,  INT0
+                            Radius, Scalar, Str,  INT0
 
 __all__ = _ALL_LAZY.namedTuples
 __version__ = '24.06.08'
@@ -337,9 +337,8 @@ class _NamedTupleTo(_NamedTuple):  # in .testNamedTuples
         else:
             toDMS, s   =  None, self
         for x in xs:
-            if not isinstanceof(x, Degrees, Degrees_):
-                s = None
-                x = x.toDegrees()
+            if not isinstanceof(x, Degrees):
+                x, s = x.toDegrees(), None
             yield toDMS(x, **toDMS_kwds) if toDMS else x
         yield s
 
@@ -348,9 +347,8 @@ class _NamedTupleTo(_NamedTuple):  # in .testNamedTuples
         '''
         s = self
         for x in xs:
-            if not isinstanceof(x, Radians, Radians_):
-                s = None
-                x = x.toRadians()
+            if not isinstanceof(x, Radians):
+                x, s = x.toRadians(), None
             yield x
         yield s
 

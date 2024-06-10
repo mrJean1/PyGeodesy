@@ -26,7 +26,7 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _getenv, _PYTHON_X_D
 from copy import copy as _copy
 
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')  _under
-__version__ = '24.05.29'
+__version__ = '24.06.08'
 
 _argument_   = 'argument'
 _box_        = 'box'
@@ -43,7 +43,7 @@ try:
 
     if _PYTHON_X_DEV or _getenv('PYGEODESY_EXCEPTION_CHAINING', NN):  # == _std_
         _exception_chaining = True  # turned on, std
-        raise AttributeError  # allow exception chaining
+        raise AttributeError()  # allow exception chaining
 
     _exception_chaining = False  # turned off
 

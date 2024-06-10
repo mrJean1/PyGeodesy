@@ -38,7 +38,7 @@ from pygeodesy.units import Degrees_, Int, Lat, Lon, Precision_, Str, \
 from math import fabs, ldexp, log10, radians
 
 __all__ = _ALL_LAZY.geohash
-__version__ = '24.06.04'
+__version__ = '24.06.10'
 
 _formy = _MODS.into(formy=__name__)
 
@@ -797,18 +797,11 @@ def precision(res1, res2=None):
              <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Geohash.html>}.
     '''
     r = Degrees_(res1=res1, low=_0_0, Error=GeohashError)
-    if res2 is None:
-        t = r, r
-        for p in range(1, _MaxPrec):
-            if resolution2(p, None) <= t:
-                return p
-
-    else:
-        t = r, Degrees_(res2=res2, low=_0_0, Error=GeohashError)
-        for p in range(1, _MaxPrec):
-            if resolution2(p, p) <= t:
-                return p
-
+    N = res2 is None
+    t = r, (r if N else Degrees_(res2=res2, low=_0_0, Error=GeohashError))
+    for p in range(1, _MaxPrec):
+        if resolution2(p, (None if N else p)) <= t:
+            return p
     return _MaxPrec
 
 

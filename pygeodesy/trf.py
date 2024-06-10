@@ -91,7 +91,7 @@ from math import ceil as _ceil, fabs
 # import operator as _operator  # from .datums
 
 __all__ = _ALL_LAZY.trf
-__version__ = '24.05.31'
+__version__ = '24.06.09'
 
 _EP0CH    =  Epoch(0, low=0)
 _Es       = {_EP0CH: _EP0CH}  # L{Epoch}s, deleted below
@@ -253,7 +253,7 @@ class RefFrame(_NamedEnumItem):
         '''
         D = self.datum
         e = self.epoch if epoch is None else _Epoch(epoch)
-        t = (Fmt.EQUAL(name=repr(name or self.name)),
+        t = (Fmt.EQUAL(name=repr(self._name__(name))),
              Fmt.EQUAL(epoch=e),
              Fmt.EQUAL(datum=_DOT_(classname(D) + _s_, D.name)))
         return _COMMASPACE_.join(t[int(name is None):])
@@ -903,7 +903,7 @@ def date2epoch(year, month, day):
             e = y + float(sum(_mDays[:m]) + d) / _366_0
             return Epoch(e, low=0)
 
-        raise ValueError  # _invalid_
+        raise ValueError()  # _invalid_
     except (TRFError, TypeError, ValueError) as x:
         raise TRFError(year=year, month=month, day=day, cause=x)
 

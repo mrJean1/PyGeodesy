@@ -6,11 +6,12 @@ basic C{float}, C{int} respectively C{str} to named units as L{Degrees},
 L{Feet}, L{Meter}, L{Radians}, etc.
 '''
 
-from pygeodesy.basics import isscalar, isstr, issubclassof, signOf
+from pygeodesy.basics import isscalar, isstr, issubclassof, signOf, _xsubclassof
 from pygeodesy.constants import EPS, EPS1, PI, PI2, PI_2, _umod_360, _0_0, \
                                _0_001,  _0_5, INT0  # PYCHOK for .mgrs, .namedTuples
 from pygeodesy.dms import F__F, F__F_, S_NUL, S_SEP, parseDMS, parseRad, _toDMS
-from pygeodesy.errors import _AssertionError, _IsnotError, TRFError, UnitError
+from pygeodesy.errors import _AssertionError, _IsnotError, TRFError, UnitError, \
+                             _xattr
 from pygeodesy.interns import NN, _band_, _bearing_, _degrees_, _degrees2_, \
                              _distance_, _E_, _easting_, _epoch_, _EW_, _feet_, \
                              _height_, _lam_, _lat_, _LatLon_, _lon_, _meter_, \
@@ -27,7 +28,7 @@ from pygeodesy.unitsBase import _Error, Float, Fmt, fstr, Int, _arg_name_arg2, \
 from math import degrees, radians
 
 __all__ = _ALL_LAZY.units
-__version__ = '24.06.08'
+__version__ = '24.06.10'
 
 _negative_falsed_ = 'negative, falsed'
 
@@ -868,6 +869,15 @@ def _isScalar(obj):
     return isscalar(obj) and not isinstance(obj, _NamedUnit)
 
 
+def _toUnit(Unit, arg, name=NN, **Error):
+    '''(INTERNAL) Wrap C{arg} in a C{name}d C{Unit}.
+    '''
+    if not (issubclassof(Unit, _NamedUnit) and isinstance(arg, Unit) and
+           _xattr(arg, name=NN) == name):
+        arg = Unit(arg, name=name, **Error)
+    return arg
+
+
 def _xStrError(*Refs, **name_value_Error):
     '''(INTERNAL) Create a C{TypeError} for C{Garef}, C{Geohash}, C{Wgrs}.
     '''
@@ -878,8 +888,7 @@ def _xStrError(*Refs, **name_value_Error):
 def _xUnit(units, Base):  # in .frechet,  .hausdorff
     '''(INTERNAL) Get C{Unit} from C{Unit} or C{name}, ortherwise C{Base}.
     '''
-    if not issubclassof(Base, _NamedUnit):
-        raise _IsnotError(_NamedUnit.__name__, Base=Base)
+    _xsubclassof(_NamedUnit, Base=Base)
     U = globals().get(units.capitalize(), Base) if isstr(units) else (
                       units if issubclassof(units, Base) else Base)
     return U if issubclassof(U, Base) else Base
@@ -888,14 +897,12 @@ def _xUnit(units, Base):  # in .frechet,  .hausdorff
 def _xUnits(units, Base=_NamedUnit):  # in .frechet, .hausdorff
     '''(INTERNAL) Set property C{units} as C{Unit} or C{Str}.
     '''
-    if not issubclassof(Base, _NamedUnit):
-        raise _IsnotError(_NamedUnit.__name__, Base=Base)
-    elif issubclassof(units, Base):
+    _xsubclassof(_NamedUnit, Base=Base)
+    if issubclassof(units, Base):
         return units
     elif isstr(units):
         return Str(units, name=_units_)  # XXX Str to _Pass and for backward compatibility
-    else:
-        raise _IsnotError(Base.__name__, Str.__name__, str.__name__, units=units)
+    raise _IsnotError(*(_.__name__ for _ in (Base, Str, str)), units=units)
 
 
 def _std_repr(*Classes):

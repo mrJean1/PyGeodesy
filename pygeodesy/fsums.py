@@ -47,7 +47,7 @@ from pygeodesy.streprs import Fmt, fstr, unstr
 from math import ceil as _ceil, fabs, floor as _floor  # PYCHOK used! .ltp
 
 __all__ = _ALL_LAZY.fsums
-__version__ = '24.05.29'
+__version__ = '24.06.09'
 
 _add_op_      = _PLUS_  # in .auxilats.auxAngle
 _eq_op_       = _EQUAL_ * 2  # _DEQUAL_
@@ -2178,7 +2178,7 @@ try:
     # float.__getformat__('float')[:4] == 'IEEE'?)
     if _fsum((1, 1e101, 1, -1e101)) != 2:  # PYCHOK no cover
         del _fsum  # nope, remove _fsum ...
-        raise ImportError  # ... use _fsum below
+        raise ImportError()  # ... use _fsum below
 
     Fsum._math_fsum = _sum = _fsum  # PYCHOK exported
 except ImportError:

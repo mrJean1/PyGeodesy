@@ -13,8 +13,8 @@ standard Python C{namedtuple}s.
 @see: Module L{pygeodesy.namedTuples} for (most of) the C{Named-Tuples}.
 '''
 
-from pygeodesy.basics import isclass, isidentifier, iskeyword, isstr, issubclassof, \
-                             itemsorted, len2, _xcopy, _xdup, _xinstanceof, _zip
+from pygeodesy.basics import isidentifier, iskeyword, isstr, itemsorted, len2, \
+                            _xcopy, _xdup, _xinstanceof, _xsubclassof, _zip
 from pygeodesy.errors import _AssertionError, _AttributeError, _incompatible, \
                              _IndexError, _KeyError, LenError, _NameError, \
                              _NotImplementedError, _TypeError, _TypesError, \
@@ -31,9 +31,10 @@ from pygeodesy.props import _allPropertiesOf_n, deprecated_method, _hasProperty,
                             _update_all, property_doc_, Property_RO, property_RO, \
                             _update_attrs
 from pygeodesy.streprs import attrs, Fmt, lrstrip, pairs, reprs, unstr
+# from pygeodesy.units import _toUnit  # _MODS
 
 __all__ = _ALL_LAZY.named
-__version__ = '24.06.08'
+__version__ = '24.06.10'
 
 _COMMANL_           = _COMMA_ + _NL_
 _COMMASPACEDOT_     = _COMMASPACE_ + _DOT_
@@ -248,7 +249,7 @@ class _Named(object):
 
         fmt, props, kwds = _fmt_props_kwds(**fmt_props_kwds)
 
-        t = () if name is None else (Fmt.EQUAL(name=repr(name or self.name)),)
+        t = () if name is None else (Fmt.EQUAL(name=repr(self._name__(name))),)
         if attrs:
             t += pairs(((a, getattr(self, a)) for a in attrs),
                        prec=prec, ints=True, fmt=fmt)
@@ -1002,14 +1003,17 @@ class _NamedTuple(tuple, _Named):
            @raise NameError: Some B{C{items}} invalid.
         '''
         t = list(self)
+        U = self._Units_
         if items:
-            _ix = self._Names_.index
+            _ix =  self._Names_.index
+            _2U = _MODS.units._toUnit
             try:
                 for n, v in items.items():
-                    t[_ix(n)] = v
+                    i = _ix(n)
+                    t[i] = _2U(U[i], v, name=n)
             except ValueError:  # bad item name
                 raise _NameError(self._DOT_(n), v, this=self)
-        return self.classof(*t, name=name or self.name)
+        return self.classof(*t).reUnit(*U, name=name)
 
     def items(self):
         '''Yield the items, each as a C{(name, value)} pair (C{2-tuple}).
@@ -1020,6 +1024,24 @@ class _NamedTuple(tuple, _Named):
             yield n, v
 
     iteritems = items
+
+    def reUnit(self, *Units, **name):
+        '''Replace some of this C{Named-Tuple}'s C{Units}.
+
+           @arg Units: One or more C{Unit} classes, all positional.
+           @kwarg name: Optional C{B{name}=NN} (C{str}).
+
+           @return: This instance with updated C{Units}.
+
+           @note: This C{Named-Tuple}'s values are I{not updated}.
+        '''
+        U = self._Units_
+        n = min(len(U), len(Units))
+        if n:
+            R = Units + U[n:]
+            if R != U:
+                self._Units_ = R
+        return self.renamed(name) if name else self
 
     def toRepr(self, prec=6, sep=_COMMASPACE_, fmt=Fmt.F, **unused):  # PYCHOK signature
         '''Return this C{Named-Tuple} items as C{name=value} string(s).
@@ -1050,37 +1072,34 @@ class _NamedTuple(tuple, _Named):
         '''
         return Fmt.PAREN(sep.join(reprs(self, prec=prec, fmt=fmt)))
 
-    def toUnits(self, Error=UnitError):  # overloaded in .frechet, .hausdorff
+    def toUnits(self, Error=UnitError, **name):  # overloaded in .frechet, .hausdorff
         '''Return a copy of this C{Named-Tuple} with each item value wrapped
            as an instance of its L{units} class.
 
            @kwarg Error: Error to raise for L{units} issues (C{UnitError}).
+           @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @return: A duplicate of this C{Named-Tuple} (C{C{Named-Tuple}}).
 
            @raise Error: Invalid C{Named-Tuple} item or L{units} class.
         '''
-        t = (v for _, v in self.units(Error=Error))
-        return self.classof(*tuple(t))
+        t = tuple(v for _, v in self.units(Error=Error))
+        return self.classof(*t).reUnit(*self._Units_, **name)
 
-    def units(self, Error=UnitError):
-        '''Yield the items, each as a C{(name, value}) pair (C{2-tuple}) with
-           the value wrapped as an instance of its L{units} class.
+    def units(self, **Error):
+        '''Yield the items, each as a C{2-tuple (name, value}) with the
+           value wrapped as an instance of its L{units} class.
 
-           @kwarg Error: Error to raise for L{units} issues (C{UnitError}).
+           @kwarg Error: Optional C{B{Error}=UnitError} to raise for
+                         L{units} issues.
 
            @raise Error: Invalid C{Named-Tuple} item or L{units} class.
 
            @see: Method C{.items}.
         '''
+        _2U = _MODS.units._toUnit
         for n, v, U in _zip(self._Names_, self, self._Units_):  # strict=True
-            if not (v is None or U is None
-                              or (isclass(U) and
-                                  isinstance(v, U) and
-                                  hasattr(v, _name_) and
-                                  v.name == n)):  # PYCHOK indent
-                v = U(v, name=n, Error=Error)
-            yield n, v
+            yield n, _2U(U, v, name=n, **Error)
 
     iterunits = units
 
@@ -1111,14 +1130,14 @@ class _NamedTuple(tuple, _Named):
     def _xtend(self, xTuple, *items, **name):
         '''(INTERNAL) Extend this C{Named-Tuple} with C{items} to an other B{C{xTuple}}.
         '''
-        if (issubclassof(xTuple, _NamedTuple) and
-            (len(self._Names_) + len(items)) == len(xTuple._Names_) and
-                 self._Names_ == xTuple._Names_[:len(self)]):
-            n = _name__(**name) or self.name
-            return xTuple(self + items, name=n)  # *(self + items)
-        c = NN(self.classname,  repr(self._Names_))  # PYCHOK no cover
-        x = NN(xTuple.__name__, repr(xTuple._Names_))  # PYCHOK no cover
-        raise TypeError(_SPACE_(c, _vs_, x))
+        _xsubclassof(_NamedTuple, xTuple=xTuple)
+        if len(xTuple._Names_)       != (len(self._Names_) + len(items)) or \
+               xTuple._Names_[:len(self)] != self._Names_:  # PYCHOK no cover
+            c = NN(self.classname,  repr(self._Names_))
+            x = NN(xTuple.__name__, repr(xTuple._Names_))
+            raise TypeError(_SPACE_(c, _vs_, x))
+        t = self + items
+        return xTuple(t, name=self._name__(name))  # .reUnit(*self._Units_)
 
 
 def callername(up=1, dflt=NN, source=False, underOK=False):

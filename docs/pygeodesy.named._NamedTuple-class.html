@@ -264,11 +264,30 @@ object --+   |
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.named._NamedTuple-class.html#iterunits" class="summary-sig-name">iterunits</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">Error</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.errors.UnitError'&gt;</span>)</span><br />
-      Yield the items, each as a <code>(name, value</code>) pair 
-      (<code>2-tuple</code>) with the value wrapped as an instance of its 
-      <a href="pygeodesy.named._NamedTuple-class.html#units" 
+        <span class="summary-sig-arg">**Error</span>)</span><br />
+      Yield the items, each as a <code>2-tuple (name, value</code>) with 
+      the value wrapped as an instance of its <a 
+      href="pygeodesy.named._NamedTuple-class.html#units" 
       class="link">units</a> class.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.named._NamedTuple-class.html#reUnit" class="summary-sig-name">reUnit</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">*Units</span>,
+        <span class="summary-sig-arg">**name</span>)</span><br />
+      Replace some of this <code>Named-Tuple</code>'s <code>Units</code>.</td>
           <td align="right" valign="top">
             
             
@@ -328,7 +347,8 @@ object --+   |
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.named._NamedTuple-class.html#toUnits" class="summary-sig-name">toUnits</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">Error</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.errors.UnitError'&gt;</span>)</span><br />
+        <span class="summary-sig-arg">Error</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.errors.UnitError'&gt;</span>,
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Return a copy of this <code>Named-Tuple</code> with each item value 
       wrapped as an instance of its <a 
       href="pygeodesy.named._NamedTuple-class.html#units" 
@@ -349,10 +369,10 @@ object --+   |
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.named._NamedTuple-class.html#units" class="summary-sig-name">units</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">Error</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.errors.UnitError'&gt;</span>)</span><br />
-      Yield the items, each as a <code>(name, value</code>) pair 
-      (<code>2-tuple</code>) with the value wrapped as an instance of its 
-      <a href="pygeodesy.named._NamedTuple-class.html#units" 
+        <span class="summary-sig-arg">**Error</span>)</span><br />
+      Yield the items, each as a <code>2-tuple (name, value</code>) with 
+      the value wrapped as an instance of its <a 
+      href="pygeodesy.named._NamedTuple-class.html#units" 
       class="link">units</a> class.</td>
           <td align="right" valign="top">
             
@@ -732,23 +752,23 @@ object --+   |
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">iterunits</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">Error</span>=<span class="sig-default">&lt;class 'pygeodesy.errors.UnitError'&gt;</span>)</span>
+        <span class="sig-arg">**Error</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Yield the items, each as a <code>(name, value</code>) pair 
-  (<code>2-tuple</code>) with the value wrapped as an instance of its <a 
+  <p>Yield the items, each as a <code>2-tuple (name, value</code>) with the
+  value wrapped as an instance of its <a 
   href="pygeodesy.named._NamedTuple-class.html#units" 
   class="link">units</a> class.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>Error</code></strong> - Error to raise for <a 
+        <li><strong class="pname"><code>Error</code></strong> - Optional <code><b>Error</b>=UnitError</code> to raise for <a 
           href="pygeodesy.named._NamedTuple-class.html#units" 
-          class="link">units</a> issues (<code>UnitError</code>).</li>
+          class="link">units</a> issues.</li>
     </ul></dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
@@ -759,6 +779,38 @@ object --+   |
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Method <code>.items</code>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="reUnit"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">reUnit</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">*Units</span>,
+        <span class="sig-arg">**name</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Replace some of this <code>Named-Tuple</code>'s 
+  <code>Units</code>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>Units</code></strong> - One or more <code>Unit</code> classes, all positional.</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>This instance with updated <code>Units</code>.</dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        This <code>Named-Tuple</code>'s values are <i>not updated</i>.
       </p>
 </div></td></tr></table>
 </div>
@@ -845,7 +897,8 @@ object --+   |
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toUnits</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">Error</span>=<span class="sig-default">&lt;class 'pygeodesy.errors.UnitError'&gt;</span>)</span>
+        <span class="sig-arg">Error</span>=<span class="sig-default">&lt;class 'pygeodesy.errors.UnitError'&gt;</span>,
+        <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -862,6 +915,7 @@ object --+   |
         <li><strong class="pname"><code>Error</code></strong> - Error to raise for <a 
           href="pygeodesy.named._NamedTuple-class.html#units" 
           class="link">units</a> issues (<code>UnitError</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A duplicate of this <code>Named-Tuple</code> 
@@ -883,23 +937,23 @@ object --+   |
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">units</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">Error</span>=<span class="sig-default">&lt;class 'pygeodesy.errors.UnitError'&gt;</span>)</span>
+        <span class="sig-arg">**Error</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Yield the items, each as a <code>(name, value</code>) pair 
-  (<code>2-tuple</code>) with the value wrapped as an instance of its <a 
+  <p>Yield the items, each as a <code>2-tuple (name, value</code>) with the
+  value wrapped as an instance of its <a 
   href="pygeodesy.named._NamedTuple-class.html#units" 
   class="link">units</a> class.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>Error</code></strong> - Error to raise for <a 
+        <li><strong class="pname"><code>Error</code></strong> - Optional <code><b>Error</b>=UnitError</code> to raise for <a 
           href="pygeodesy.named._NamedTuple-class.html#units" 
-          class="link">units</a> issues (<code>UnitError</code>).</li>
+          class="link">units</a> issues.</li>
     </ul></dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
@@ -945,7 +999,7 @@ object --+   |
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Jun  8 15:58:43 2024
+    Generated by Epydoc 3.0.1 on Mon Jun 10 13:35:55 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

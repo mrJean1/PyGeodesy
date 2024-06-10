@@ -26,7 +26,7 @@ from pygeodesy.units import Int, Radius
 from pygeodesy.utily import degrees2m, _Wrap,  _1_0
 
 __all__ = _ALL_LAZY.iters
-__version__ = '24.05.23'
+__version__ = '24.06.09'
 
 _items_        = 'items'
 _iterNumpy2len =  1  # adjustable for testing purposes
@@ -83,7 +83,7 @@ class _BaseIter(_Named):
             try:
                 self._loop = tuple(self.next for _ in range(loop))
                 if self.loop != loop:
-                    raise RuntimeError  # force Error
+                    raise RuntimeError()  # force Error
             except (RuntimeError, StopIteration):
                 raise self._Error(self.name, self.loop, txt=_too_(_few_))
 

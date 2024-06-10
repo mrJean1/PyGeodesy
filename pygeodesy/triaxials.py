@@ -59,7 +59,7 @@ from pygeodesy.vector3d import _otherV3d, Vector3d,  _ALL_LAZY, _MODS
 from math import atan2, fabs, sqrt
 
 __all__ = _ALL_LAZY.triaxials
-__version__ = '24.06.08'
+__version__ = '24.06.09'
 
 _not_ordered_ = _not_('ordered')
 _omega_       = 'omega'
@@ -73,17 +73,19 @@ class _NamedTupleToX(_NamedTupleTo):  # in .testNamedTuples
     def _toDegrees(self, name, **toDMS_kwds):
         '''(INTERNAL) Convert C{self[0:2]} to L{Degrees} or C{toDMS}.
         '''
-        return self._toX(_NamedTupleTo._Degrees3, name, *self, **toDMS_kwds)
+        return self._toX3U(_NamedTupleTo._Degrees3, Degrees, name, *self, **toDMS_kwds)
 
     def _toRadians(self, name):
         '''(INTERNAL) Convert C{self[0:2]} to L{Radians}.
         '''
-        return self._toX(_NamedTupleTo._Radians3, name, *self)
+        return self._toX3U(_NamedTupleTo._Radians3, Radians, name, *self)
 
-    def _toX(self, _X, name, a, b, *c, **kwds):
-        a, b, r = _X(self, a, b, **kwds)
-        return r if r and not name else self.classof(a, b, *c,
-                              name=self._name__(name))
+    def _toX3U(self, _X3, U, name, a, b, *c, **kwds):
+        a, b, s = _X3(self, a, b, **kwds)
+        if s is None or name:
+            n = self._name__(name)
+            s = self.classof(a, b, *c, name=n).reUnit(U, U).toUnits()
+        return s
 
 
 class BetaOmega2Tuple(_NamedTupleToX):

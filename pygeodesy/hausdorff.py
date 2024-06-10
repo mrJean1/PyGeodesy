@@ -86,7 +86,7 @@ from pygeodesy.unitsBase import _Str_degrees, _Str_degrees2, _Str_meter, _Str_NN
 from random import Random
 
 __all__ = _ALL_LAZY.hausdorff
-__version__ = '24.05.26'
+__version__ = '24.06.08'
 
 
 class HausdorffError(PointsError):
@@ -819,14 +819,13 @@ class Hausdorff6Tuple(_NamedTuple):
     _Names_ = ('hd', _i_,     _j_,     'mn',     'md',  _units_)
     _Units_ = (_Pass, Number_, Number_, Number_, _Pass, _Pass)
 
-    def toUnits(self, **Error):  # PYCHOK expected
+    def toUnits(self, **Error_name):  # PYCHOK expected
         '''Overloaded C{_NamedTuple.toUnits} for C{hd} and C{md} units.
         '''
-        U = _xUnit(self.units, Float)  # PYCHOK expected
-        M = _Pass if self.md is None else U  # PYCHOK expected
-        self._Units_ = (U,) + Hausdorff6Tuple._Units_[1:4] \
-                     + (M,) + Hausdorff6Tuple._Units_[5:]
-        return _NamedTuple.toUnits(self, **Error)
+        u    = list(Hausdorff6Tuple._Units_)
+        u[0] = U = _xUnit(self.units, Float)  # PYCHOK expected
+        u[4] =     _Pass if self.md is None else U  # PYCHOK expected
+        return _NamedTuple.toUnits(self.reUnit(*u), **Error_name)  # PYCHOK self
 
 
 def randomrangenerator(seed):

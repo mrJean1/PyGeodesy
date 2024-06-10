@@ -86,7 +86,7 @@ from pygeodesy.utily import atan1, atan1d, atan2d, degrees90, degrees180, \
 from math import atan2, cos, degrees, fabs, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '24.05.31'
+__version__ = '24.06.09'
 
 _Ecef_    = 'Ecef'
 _prolate_ = 'prolate'
@@ -133,13 +133,13 @@ class _EcefBase(_NamedBase):
             elif _isRadius(E) and isscalar(f):
                 E = a_f2Tuple(E, f)
             else:
-                raise ValueError  # _invalid_
+                raise ValueError()  # _invalid_
 
             if E not in (_EWGS84, _WGS84):
                 d = _ellipsoidal_datum(E, **name)
                 E =  d.ellipsoid
                 if E.a < EPS or E.f > EPS1:
-                    raise ValueError  # _invalid_
+                    raise ValueError()  # _invalid_
                 self._datum = d
                 self._E     = E
 
@@ -299,14 +299,14 @@ class _EcefBase(_NamedBase):
         '''
         return self._xnamed(EcefMatrix(sa, ca, sb, cb))
 
-    def _polon(self, y, x, R, **name_lon00):
+    def _polon(self, y, x, R, **lon00_name):
         '''(INTERNAL) Handle I{"polar"} longitude.
         '''
-        return atan2d(y, x) if R else _xkwds_get(name_lon00, lon00=self.lon00)
+        return atan2d(y, x) if R else _xkwds_get(lon00_name, lon00=self.lon00)
 
-    def reverse(self, xyz, y=None, z=None, M=False, **name_lon00):  # PYCHOK no cover
+    def reverse(self, xyz, y=None, z=None, M=False, **lon00_name):  # PYCHOK no cover
         '''I{Must be overloaded}.'''
-        self._notOverloaded(xyz, y=y, z=z, M=M, **name_lon00)
+        self._notOverloaded(xyz, y=y, z=z, M=M, **lon00_name)
 
     def toStr(self, prec=9, **unused):  # PYCHOK signature
         '''Return this C{Ecef*} as a string.
@@ -324,7 +324,7 @@ class EcefFarrell21(_EcefBase):
        books?id=fW4foWASY6wC>}, page 29.
     '''
 
-    def reverse(self, xyz, y=None, z=None, M=None, **name_lon00):  # PYCHOK unused M
+    def reverse(self, xyz, y=None, z=None, M=None, **lon00_name):  # PYCHOK unused M
         '''Convert from geocentric C{(x, y, z)} to geodetic C{(lat, lon, height)} using
            I{Farrell}'s U{Table 2.1<https://Books.Google.com/books?id=fW4foWASY6wC>},
            page 29.
@@ -334,10 +334,9 @@ class EcefFarrell21(_EcefBase):
            @kwarg y: ECEF C{y} coordinate for C{scalar} B{C{xyz}} and B{C{z}} (C{meter}).
            @kwarg z: ECEF C{z} coordinate for C{scalar} B{C{xyz}} and B{C{y}} (C{meter}).
            @kwarg M: I{Ignored}, rotation matrix C{M} not available.
-           @kwarg name_lon00: Optional keyword arguments C{B{name}=NN} (C{str}) and
-                       I{"polar"} longitude C{B{lon00}=INT0} (C{degrees}), overriding
-                       the default and property C{lon00} setting and returned if
-                       C{B{x}=0} and C{B{y}=0}.
+           @kwarg lon00_name: Optional C{B{name}=NN} (C{str}) and optional keyword argument
+                       C{B{lon00}=INT0} (C{degrees}), an arbitrary I{"polar"} longitude
+                       returned if C{B{x}=0} and C{B{y}=0}, see property C{lon00}.
 
            @return: An L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M, datum)} with
                     geodetic coordinates C{(lat, lon, height)} for the given geocentric
@@ -350,7 +349,7 @@ class EcefFarrell21(_EcefBase):
 
            @see: L{EcefFarrell22} and L{EcefVeness}.
         '''
-        x, y, z, name = _xyzn4(xyz, y, z, self._Geocentrics, **name_lon00)
+        x, y, z, name = _xyzn4(xyz, y, z, self._Geocentrics, **lon00_name)
 
         E   = self.ellipsoid
         a   = E.a
@@ -382,7 +381,7 @@ class EcefFarrell21(_EcefBase):
 
             h   = hypot(r, z) * (_1_0 - v)
             lat = atan1d((e2_ * v + _1_0) * z, p)
-            lon = self._polon(y, x, p, **name_lon00)
+            lon = self._polon(y, x, p, **lon00_name)
             # note, phi and lam are swapped on page 29
 
         except (ValueError, ZeroDivisionError) as e:
@@ -399,7 +398,7 @@ class EcefFarrell22(_EcefBase):
        books?id=fW4foWASY6wC>}, page 30.
     '''
 
-    def reverse(self, xyz, y=None, z=None, M=None, **name_lon00):  # PYCHOK unused M
+    def reverse(self, xyz, y=None, z=None, M=None, **lon00_name):  # PYCHOK unused M
         '''Convert from geocentric C{(x, y, z)} to geodetic C{(lat, lon, height)} using
            I{Farrell}'s U{Table 2.2<https://Books.Google.com/books?id=fW4foWASY6wC>},
            page 30.
@@ -409,10 +408,9 @@ class EcefFarrell22(_EcefBase):
            @kwarg y: ECEF C{y} coordinate for C{scalar} B{C{xyz}} and B{C{z}} (C{meter}).
            @kwarg z: ECEF C{z} coordinate for C{scalar} B{C{xyz}} and B{C{y}} (C{meter}).
            @kwarg M: I{Ignored}, rotation matrix C{M} not available.
-           @kwarg name_lon00: Optional keyword arguments C{B{name}=NN} (C{str}) and
-                       I{"polar"} longitude C{B{lon00}=INT0} (C{degrees}), overriding
-                       the default and property C{lon00} setting and returned in case
-                       C{B{x}=0} and C{B{y}=0}.
+           @kwarg lon00_name: Optional C{B{name}=NN} (C{str}) and optional keyword argument
+                       C{B{lon00}=INT0} (C{degrees}), an arbitrary I{"polar"} longitude
+                       returned if C{B{x}=0} and C{B{y}=0}, see property C{lon00}.
 
            @return: An L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M, datum)} with
                     geodetic coordinates C{(lat, lon, height)} for the given geocentric
@@ -425,7 +423,7 @@ class EcefFarrell22(_EcefBase):
 
            @see: L{EcefFarrell21} and L{EcefVeness}.
         '''
-        x, y, z, name = _xyzn4(xyz, y, z, self._Geocentrics, **name_lon00)
+        x, y, z, name = _xyzn4(xyz, y, z, self._Geocentrics, **lon00_name)
 
         E = self.ellipsoid
         a = E.a
@@ -433,7 +431,7 @@ class EcefFarrell22(_EcefBase):
 
         try:  # see EcefVeness.reverse
             p   = hypot(x, y)
-            lon = self._polon(y, x, p, **name_lon00)
+            lon = self._polon(y, x, p, **lon00_name)
 
             s, c = sincos2(atan2(z * a, p * b))  # == _norm3
             lat  = atan1d(z + s**3 * b * E.e22,
@@ -473,7 +471,7 @@ class EcefKarney(_EcefBase):
         '''
         return self.equatoradius / EPS_2  # self.equatoradius * _2_EPS, 12M lighyears
 
-    def reverse(self, xyz, y=None, z=None, M=False, **name_lon00):
+    def reverse(self, xyz, y=None, z=None, M=False, **lon00_name):
         '''Convert from geocentric C{(x, y, z)} to geodetic C{(lat, lon, height)}.
 
            @arg xyz: A geocentric (C{Cartesian}, L{Ecef9Tuple}) or C{scalar} ECEF C{x}
@@ -481,10 +479,9 @@ class EcefKarney(_EcefBase):
            @kwarg y: ECEF C{y} coordinate for C{scalar} B{C{xyz}} and B{C{z}} (C{meter}).
            @kwarg z: ECEF C{z} coordinate for C{scalar} B{C{xyz}} and B{C{y}} (C{meter}).
            @kwarg M: Optionally, return the rotation L{EcefMatrix} (C{bool}).
-           @kwarg name_lon00: Optional keyword arguments C{B{name}=NN} (C{str}) and
-                       I{"polar"} longitude C{B{lon00}=INT0} (C{degrees}), overriding
-                       the default and property C{lon00} setting and returned in case
-                       C{B{x}=0} and C{B{y}=0}.
+           @kwarg lon00_name: Optional C{B{name}=NN} (C{str}) and optional keyword argument
+                       C{B{lon00}=INT0} (C{degrees}), an arbitrary I{"polar"} longitude
+                       returned if C{B{x}=0} and C{B{y}=0}, see property C{lon00}.
 
            @return: An L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M, datum)} with
                     geodetic coordinates C{(lat, lon, height)} for the given geocentric
@@ -508,7 +505,7 @@ class EcefKarney(_EcefBase):
             h = hypot(y, x)  # EPS0, EPS_2
             return (y / h, x / h, h) if h > 0 else (_0_0, _1_0, h)
 
-        x, y, z, name = _xyzn4(xyz, y, z, self._Geocentrics, **name_lon00)
+        x, y, z, name = _xyzn4(xyz, y, z, self._Geocentrics, **lon00_name)
 
         E = self.ellipsoid
         f = E.f
@@ -603,7 +600,7 @@ class EcefKarney(_EcefBase):
             C  = 4
 
         # lon00 <https://GitHub.com/mrJean1/PyGeodesy/issues/77>
-        lon = self._polon(sb, cb, R, **name_lon00)
+        lon = self._polon(sb, cb, R, **lon00_name)
         m   = self._Matrix(sa, ca, sb, cb) if M else None
         return Ecef9Tuple(x, y, z, atan1d(sa, ca), lon, h,
                                    C, m, self.datum, name=self._name__(name))
@@ -615,7 +612,7 @@ class EcefSudano(_EcefBase):
     '''
     _tol = EPS2
 
-    def reverse(self, xyz, y=None, z=None, M=None, **name_lon00):  # PYCHOK unused M
+    def reverse(self, xyz, y=None, z=None, M=None, **lon00_name):  # PYCHOK unused M
         '''Convert from geocentric C{(x, y, z)} to geodetic C{(lat, lon, height)} using
            I{Sudano}'s U{iterative method<https://www.ResearchGate.net/publication/3709199>}.
 
@@ -624,10 +621,9 @@ class EcefSudano(_EcefBase):
            @kwarg y: ECEF C{y} coordinate for C{scalar} B{C{xyz}} and B{C{z}} (C{meter}).
            @kwarg z: ECEF C{z} coordinate for C{scalar} B{C{xyz}} and B{C{y}} (C{meter}).
            @kwarg M: I{Ignored}, rotation matrix C{M} not available.
-           @kwarg name_lon00: Optional keyword arguments C{B{name}=NN} (C{str}) and
-                       I{"polar"} longitude C{B{lon00}=INT0} (C{degrees}), overriding
-                       the default and property C{lon00} setting and returned in case
-                       C{B{x}=0} and C{B{y}=0}.
+           @kwarg lon00_name: Optional C{B{name}=NN} (C{str}) and optional keyword argument
+                       C{B{lon00}=INT0} (C{degrees}), an arbitrary I{"polar"} longitude
+                       returned if C{B{x}=0} and C{B{y}=0}, see property C{lon00}.
 
            @return: An L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M, datum)} with geodetic
                     coordinates C{(lat, lon, height)} for the given geocentric ones C{(x, y, z)},
@@ -636,7 +632,7 @@ class EcefSudano(_EcefBase):
            @raise EcefError: Invalid B{C{xyz}} or C{scalar} C{x} or B{C{y}} and/or B{C{z}}
                              not C{scalar} for C{scalar} B{C{xyz}} or no convergence.
         '''
-        x, y, z, name = _xyzn4(xyz, y, z, self._Geocentrics, **name_lon00)
+        x, y, z, name = _xyzn4(xyz, y, z, self._Geocentrics, **lon00_name)
 
         E = self.ellipsoid
         e = E.e2 * E.a
@@ -678,7 +674,7 @@ class EcefSudano(_EcefBase):
 
         if lat is None:
             lat = copysign0(atan1d(_a(sa), ca), z)
-        lon = self._polon(y, x, R, **name_lon00)
+        lon = self._polon(y, x, R, **lon00_name)
 
         h = fsumf_(R * ca, _a(z * sa), -E.a * E.e2s(sa))  # use Veness'
         # because Sudano's Eq (7) doesn't produce the correct height
@@ -712,7 +708,7 @@ class EcefVeness(_EcefBase):
              between 3D Cartesian and ellipsoidal latitude, longitude and height coordinates}.
     '''
 
-    def reverse(self, xyz, y=None, z=None, M=None, **name_lon00):  # PYCHOK unused M
+    def reverse(self, xyz, y=None, z=None, M=None, **lon00_name):  # PYCHOK unused M
         '''Conversion from geocentric C{(x, y, z)} to geodetic C{(lat, lon, height)}
            transcoded from I{Chris Veness}' U{JavaScript<https://www.Movable-Type.co.UK/
            scripts/geodesy/docs/latlon-ellipsoidal.js.html>}.
@@ -726,10 +722,9 @@ class EcefVeness(_EcefBase):
            @kwarg y: ECEF C{y} coordinate for C{scalar} B{C{xyz}} and B{C{z}} (C{meter}).
            @kwarg z: ECEF C{z} coordinate for C{scalar} B{C{xyz}} and B{C{y}} (C{meter}).
            @kwarg M: I{Ignored}, rotation matrix C{M} not available.
-           @kwarg name_lon00: Optional keyword arguments C{B{name}=NN} (C{str}) and
-                       I{"polar"} longitude C{B{lon00}=INT0} (C{degrees}), overriding
-                       the default and property C{lon00} setting and returned in case
-                       C{B{x}=0} and C{B{y}=0}.
+           @kwarg lon00_name: Optional C{B{name}=NN} (C{str}) and optional keyword argument
+                       C{B{lon00}=INT0} (C{degrees}), an arbitrary I{"polar"} longitude
+                       returned if C{B{x}=0} and C{B{y}=0}, see property C{lon00}.
 
            @return: An L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M, datum)} with
                     geodetic coordinates C{(lat, lon, height)} for the given geocentric
@@ -747,7 +742,7 @@ class EcefVeness(_EcefBase):
                  system to latitude longitude and altitude}<https://www.ResearchGate.net/
                  publication/3709199>}.
         '''
-        x, y, z, name = _xyzn4(xyz, y, z, self._Geocentrics, **name_lon00)
+        x, y, z, name = _xyzn4(xyz, y, z, self._Geocentrics, **lon00_name)
 
         E = self.ellipsoid
         a = E.a
@@ -778,7 +773,7 @@ class EcefVeness(_EcefBase):
         else:  # polar lat, lon arbitrarily lon00
             C, lat, h = 3, (_N_90_0 if z < 0 else _90_0), (fabs(z) - E.b)
 
-        lon = self._polon(y, x, p, **name_lon00)
+        lon = self._polon(y, x, p, **lon00_name)
         return Ecef9Tuple(x, y, z, lat, lon, h,
                                    C, None, self.datum,  # M=None
                                    name=self._name__(name))
@@ -795,8 +790,8 @@ class EcefYou(_EcefBase):
              pages 1-18 and U{PyMap3D <https://PyPI.org/project/pymap3d>}.
     '''
 
-    def __init__(self, a_ellipsoid=_EWGS84, f=None, **name_lon00):  # PYCHOK signature
-        _EcefBase.__init__(self, a_ellipsoid, f=f, **name_lon00)  # inherited documentation
+    def __init__(self, a_ellipsoid=_EWGS84, f=None, **lon00_name):  # PYCHOK signature
+        _EcefBase.__init__(self, a_ellipsoid, f=f, **lon00_name)  # inherited documentation
         self._ee2 = EcefYou._ee2(self.ellipsoid)
 
     @staticmethod
@@ -806,7 +801,7 @@ class EcefYou(_EcefBase):
             raise EcefError(ellipsoid=E, txt=_prolate_)
         return sqrt0(e2), e2
 
-    def reverse(self, xyz, y=None, z=None, M=None, **name_lon00):  # PYCHOK unused M
+    def reverse(self, xyz, y=None, z=None, M=None, **lon00_name):  # PYCHOK unused M
         '''Convert geocentric C{(x, y, z)} to geodetic C{(lat, lon, height)}
            using I{Rey-Jer You}'s transformation.
 
@@ -815,10 +810,9 @@ class EcefYou(_EcefBase):
            @kwarg y: ECEF C{y} coordinate for C{scalar} B{C{xyz}} and B{C{z}} (C{meter}).
            @kwarg z: ECEF C{z} coordinate for C{scalar} B{C{xyz}} and B{C{y}} (C{meter}).
            @kwarg M: I{Ignored}, rotation matrix C{M} not available.
-           @kwarg name_lon00: Optional keyword arguments C{B{name}=NN} (C{str}) and
-                       I{"polar"} longitude C{B{lon00}=INT0} (C{degrees}), overriding
-                       the default and property C{lon00} setting and returned in case
-                       C{B{x}=0} and C{B{y}=0}.
+           @kwarg lon00_name: Optional C{B{name}=NN} (C{str}) and optional keyword argument
+                       C{B{lon00}=INT0} (C{degrees}), an arbitrary I{"polar"} longitude
+                       returned if C{B{x}=0} and C{B{y}=0}, see property C{lon00}.
 
            @return: An L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M, datum)} with
                     geodetic coordinates C{(lat, lon, height)} for the given geocentric
@@ -829,7 +823,7 @@ class EcefYou(_EcefBase):
                              B{C{z}} not C{scalar} for C{scalar} B{C{xyz}} or the
                              ellipsoid is I{prolate}.
         '''
-        x, y, z, name = _xyzn4(xyz, y, z, self._Geocentrics, **name_lon00)
+        x, y, z, name = _xyzn4(xyz, y, z, self._Geocentrics, **lon00_name)
 
         E = self.ellipsoid
         e, e2 = self._ee2
@@ -854,7 +848,7 @@ class EcefYou(_EcefBase):
             sB, cB = _copysign_1_0(z), _0_0
 
         lat = atan1d(E.a * sB, E.b * cB)  # atan(E.a_b * tan(B))
-        lon = self._polon(y, x, q, **name_lon00)
+        lon = self._polon(y, x, q, **lon00_name)
 
         h = hypot(z - E.b * sB, q - E.a * cB)
         if hypot2_(x, y, z * E.a_b) < E.a2:
@@ -898,7 +892,7 @@ class EcefMatrix(_NamedTuple):
             t += _more  # ... from .multiply
 
         elif max(map(fabs, t)) > _1_0:
-            raise EcefError(unstr(EcefMatrix.__name__, *t))
+            raise EcefError(unstr(EcefMatrix, *t))
 
         else:  # build matrix from the following quaternion operations
             #   qrot(lam, [0,0,1]) * qrot(phi, [0,-1,0]) * [1,1,1,1]/2
