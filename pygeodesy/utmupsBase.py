@@ -12,22 +12,22 @@ from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.dms import degDMS, parseDMS2
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.errors import _or, ParseError, _parseX, _ValueError, \
-                             _xkwds, _xkwds_not
+                             _xattrs, _xkwds, _xkwds_not
 # from pygeodesy.internals import _name__, _under  # from .named
 from pygeodesy.interns import NN, _A_, _B_, _COMMA_, _Error_, \
                              _gamma_, _n_a_, _not_, _N_, _NS_, _PLUS_, \
                              _S_, _scale_, _SPACE_, _Y_, _Z_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
-from pygeodesy.named import _NamedBase, _xnamed,  _name__, _under
+from pygeodesy.named import _name__, _NamedBase,  _under
 from pygeodesy.namedTuples import EasNor2Tuple, LatLonDatum5Tuple
 from pygeodesy.props import deprecated_method, property_doc_, _update_all, \
                             deprecated_property_RO, Property_RO, property_RO
-from pygeodesy.streprs import Fmt, fstr, _fstrENH2, _xattrs, _xzipairs
+from pygeodesy.streprs import Fmt, fstr, _fstrENH2, _xzipairs
 from pygeodesy.units import Band, Easting, Northing, Scalar, Zone
 from pygeodesy.utily import _Wrap, wrap360
 
 __all__ = _ALL_LAZY.utmupsBase
-__version__ = '24.06.09'
+__version__ = '24.06.12'
 
 _UPS_BANDS = _A_, _B_, _Y_, _Z_  # UPS polar bands SE, SW, NE, NW
 # _UTM_BANDS = _MODS.utm._Bands
@@ -210,13 +210,12 @@ class UtmUpsBase(_NamedBase):
         ll = self._latlon
         if LatLon is None:
             r = LatLonDatum5Tuple(ll.lat, ll.lon, ll.datum,
-                                  ll.gamma, ll.scale)
+                                  ll.gamma, ll.scale, name=ll.name)
         else:
             _xsubclassof(_LLEB, LatLon=LatLon)
-            kwds = _xkwds(LatLon_kwds, datum=ll.datum)
-            r = _xattrs(LatLon(ll.lat, ll.lon, **kwds),
-                               ll, _under(_gamma_), _under(_scale_))
-        return _xnamed(r, ll.name)
+            r =  LatLon(ll.lat, ll.lon, **_xkwds(LatLon_kwds, datum=ll.datum, name=ll.name))
+            r = _xattrs(r, ll, _under(_gamma_), _under(_scale_))
+        return r
 
     def _latlon5args(self, ll, g, k, _toBand, unfalse, *other):
         '''(INTERNAL) See C{._toLLEB} methods, functions C{ups.toUps8} and C{utm._toXtm8}

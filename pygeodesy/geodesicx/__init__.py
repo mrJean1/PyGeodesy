@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 u'''A pure Python version of I{Karney}'s C++ classes U{GeodesicExact
-<https://GeographicLib.SourceForge.io/C++/classGeographicLib_1_1GeodesicExact.html>}
+<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1GeodesicExact.html>}
 and U{GeodesicLineExact
 <https://geographiclib.sourceforge.io/C++/doc/classGeographicLib_1_1GeodesicLine.html>}.
 
@@ -13,8 +13,8 @@ and the background information at U{Geodesics on an ellipsoid of revolution
 
 Also, compare C{GeodesicExact} and C{GeodesicLineExact} to I{standard} classes C{Geodesic}
 respectively C{GeodesicLine} from I{Karney}'s Python implementation U{geographiclib
-<https://GeographicLib.SourceForge.io/C++/doc/other.html#python>}, see module
-L{pygeodesy.karney}.
+<https://GeographicLib.SourceForge.io/C++/doc/other.html#python>}, see modules
+L{pygeodesy.geodesicw} and L{pygeodesy.karney}.
 '''
 
 from pygeodesy.geodesicx.gx import GeodesicExact, GeodesicLineExact  # PYCHOK exported
@@ -23,7 +23,7 @@ from pygeodesy.karney import Caps, GeodesicError
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 
 __all__ = _ALL_LAZY.geodesicx + _ALL_DOCS(Caps, GeodesicError)
-__version__ = '24.05.31'
+__version__ = '24.06.19'
 
 # **) MIT License
 #

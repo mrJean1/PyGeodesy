@@ -41,14 +41,14 @@ from pygeodesy.namedTuples import EasNor3Tuple, LatLonDatum3Tuple, \
                                   LatLon2Tuple, _LL4Tuple, PhiLam2Tuple
 from pygeodesy.props import deprecated_method, Property, Property_RO, _update_all
 from pygeodesy.streprs import Fmt, _fstrENH2, _xzipairs
-from pygeodesy.units import Easting, Height, _heigHt,  Lam_, Northing, Phi_, \
+from pygeodesy.units import Easting, Height, _heigHt,  Lamd, Northing, Phid, \
                             Scalar_
 from pygeodesy.utily import atan1, degrees90, degrees180, sincos2, tanPI_2_2
 
 from math import atan, fabs, log, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.lcc
-__version__ = '24.06.09'
+__version__ = '24.06.24'
 
 _E0_   = 'E0'
 _N0_   = 'N0'
@@ -107,8 +107,8 @@ class Conic(_NamedEnumItem):
             _xinstanceof(_LLEB, latlon0=latlon0)
             self._phi0, self._lam0 = latlon0.philam
 
-            self._par1 = Phi_(par1=par1)
-            self._par2 = self._par1 if par2 is None else Phi_(par2=par2)
+            self._par1 = Phid(par1=par1)
+            self._par2 = self._par1 if par2 is None else Phid(par2=par2)
 
             if k0 != 1:
                 self._k0 = Scalar_(k0=k0)
@@ -117,7 +117,7 @@ class Conic(_NamedEnumItem):
             if N0:
                 self._N0 = Easting(N0=N0, falsed=True)
             if opt3:
-                self._opt3 = Lam_(opt3=opt3)
+                self._opt3 = Lamd(opt3=opt3)
 
             self.toDatum(latlon0.datum)._dup2(self)
             self._register(Conics, name)
@@ -278,20 +278,19 @@ class Conic(_NamedEnumItem):
 
         return c
 
-    def toStr(self, prec=8, name=NN, **unused):  # PYCHOK expected
+    def toStr(self, prec=8, **name):  # PYCHOK expected
         '''Return this conic as a string.
 
            @kwarg prec: Number of (decimal) digits, unstripped (C{int}).
-           @kwarg name: Overriding name (C{str}) or C{None} to exclude
-                        this conic's name.
+           @kwarg name: Overriding C{B{name}=NN} (C{str}) or C{None} to
+                        exclude this conic's name.
 
            @return: Conic attributes (C{str}).
         '''
-        a = [name, prec, _lat0_, _lon0_, _par1_, _par2_,
-                         _E0_, _N0_, _k0_, _SP_]
+        a = [_lat0_, _lon0_, _par1_, _par2_, _E0_, _N0_, _k0_, _SP_]
         if self._SP == 1:
             _ = a.pop(a.index(_par2_))
-        return self._instr(datum=self.datum, *a)
+        return self._instr(datum=self.datum, prec=prec, *a, **name)
 
     def _dup2(self, c):
         '''(INTERNAL) Copy this conic to C{c}.
@@ -537,22 +536,21 @@ class Lcc(_NamedBase):
     def toLatLon(self, LatLon=None, datum=None, height=None, **LatLon_kwds):
         '''Convert this L{Lcc} to an (ellipsoidal) geodetic point.
 
-           @kwarg LatLon: Optional, ellipsoidal class to return the
-                          geodetic point (C{LatLon}) or C{None}.
-           @kwarg datum: Optional datum to use, otherwise use this
-                         B{C{Lcc}}'s conic.datum (L{Datum}, L{Ellipsoid},
-                         L{Ellipsoid2} or L{a_f2Tuple}).
-           @kwarg height: Optional height for the point, overriding
-                          the default height (C{meter}).
-           @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
-                               arguments, ignored if C{B{LatLon} is None}.
+           @kwarg LatLon: Optional, ellipsoidal class to return the geodetic
+                          point (C{LatLon}) or C{None}.
+           @kwarg datum: Optional datum to use, otherwise use this B{C{Lcc}}'s
+                         conic.datum (L{Datum}, L{Ellipsoid}, L{Ellipsoid2} or
+                         L{a_f2Tuple}).
+           @kwarg height: Optional height for the point, overriding the default height
+                          (C{meter}).
+           @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword arguments,
+                               ignored if C{B{LatLon} is None}.
 
-           @return: The point (B{C{LatLon}}) or a
-                    L{LatLon4Tuple}C{(lat, lon, height, datum)}
-                    if B{C{LatLon}} is C{None}.
+           @return: The point (B{C{LatLon}}) or if C{B{LatLon} is None}, a
+                    L{LatLon4Tuple}C{(lat, lon, height, datum)}.
 
-           @raise TypeError: If B{C{LatLon}} or B{C{datum}} is
-                             not ellipsoidal or not valid.
+           @raise TypeError: If B{C{LatLon}} or B{C{datum}} is not ellipsoidal or
+                             not valid.
         '''
         if LatLon:
             _xsubclassof(_LLEB, LatLon=LatLon)
@@ -622,13 +620,12 @@ def toLcc(latlon, conic=Conics.WRF_Lb, height=None, Lcc=Lcc,
        @kwarg height: Optional height for the point, overriding the
                       default height (C{meter}).
        @kwarg Lcc: Class to return the I{Lambert} location (L{Lcc}).
-       @kwarg name_Lcc_kwds: Optional C{B{name}=NN} (C{str}) for the
-                   location and optional, additional B{C{Lcc}} keyword
-                   arguments, ignored if B{C{Lcc}} is C{None}.
+       @kwarg name_Lcc_kwds: Optional C{B{name}=NN} (C{str}) and optional,
+                   additional B{C{Lcc}} keyword arguments, ignored if
+                   B{C{Lcc} is None}.
 
-       @return: The I{Lambert} location (L{Lcc}) or an
-                L{EasNor3Tuple}C{(easting, northing, height)} if
-                C{B{Lcc} is None}.
+       @return: The I{Lambert} location (L{Lcc}) or if C{B{Lcc} is None},
+                an L{EasNor3Tuple}C{(easting, northing, height)}.
 
        @raise TypeError: If B{C{latlon}} is not ellipsoidal.
     '''

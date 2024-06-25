@@ -14,14 +14,14 @@ under the MIT/X11 License.  For more information, see the U{GeographicLib
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.auxilats.auxily import Aux, _Aux2Greek
-from pygeodesy.basics import _xinstanceof
+from pygeodesy.auxilats.auxily import Aux, _Aux2Greek,  AuxError
+from pygeodesy.basics import map1, map2, _xinstanceof
 from pygeodesy.constants import EPS, _INF_NAN_NINF, MAX, NAN, _0_0, _0_5, _1_0, \
                                _copysign_1_0, _over, _pos_self, isfinite, isnan
-from pygeodesy.errors import AuxError, _UnexpectedError, _xkwds_pop2
+# from pygeodesy.errors import AuxError  # from .auxilats.auxily
 from pygeodesy.fmath import hypot,  unstr
 from pygeodesy.fsums import _add_op_, _iadd_op_, _isub_op_, _sub_op_
-from pygeodesy.named import _name2__, _Named,  _ALL_DOCS, _MODS
+from pygeodesy.named import _Named,  _ALL_DOCS, _MODS
 # from pygeodesy.lazily import _ALL_DOCS, _ALL_MODS as _MODS  # from .named
 from pygeodesy.props import Property, Property_RO, property_RO, _update_all
 # from pygeodesy.streprs import unstr  # from .fmath
@@ -31,7 +31,7 @@ from pygeodesy.utily import atan2d, sincos2, sincos2d
 from math import asinh, atan2, copysign, degrees, fabs, radians, sinh
 
 __all__ = ()
-__version__ = '24.05.25'
+__version__ = '24.06.16'
 
 _0_INF_NAN_NINF = (0, _0_0) + _INF_NAN_NINF
 _MAX_2          =  MAX * _0_5  # PYCHOK used!
@@ -44,38 +44,37 @@ class AuxAngle(_Named):
     '''
     _AUX  =  None  # overloaded/-ridden
     _diff =  NAN   # default
-    _iter =  None  # like .Named._NamedBase
+    _iter =  None  # like ._NamedBase
     _y    = _0_0
     _x    = _1_0
 
-    def __init__(self, y_angle=_0_0, x=_1_0, **name_aux):
+    def __init__(self, y_angle=_0_0, x=_1_0, aux=None, **name):
         '''New L{AuxAngle}.
 
            @kwarg y_angle: The Y component (C{scalar}, including C{INF}, C{NAN}
                            and C{NINF}) or a previous L{AuxAngle} instance.
-           @kwarg x: The X component, ignored if C{B{y_angle}} is non-C{scalar}.
-           @kwarg name_aux: Optional C{B{name}=NN} (C{str}) and I{Auxiliary} kind
-                      (C{B{aux}=Aux.KIND}), ignored if B{C{y_angle}} is L{AuxAngle}.
+           @kwarg x: The X component, required if C{B{y_angle}} is C{scalar},
+                     ignored otherwise.
+           @kwarg aux: I{Auxiliary} kind (C{Aux.KIND}), like B{C{x}}.
+           @kwarg name: Optional C{B{name}=NN} see (C{str}).
 
            @raise AuxError: Invalid B{C{y_angle}}, B{C{x}} or B{C{aux}}.
         '''
-        name, aux = _name2__(**name_aux)
         try:
-            yx = y_angle._yx
-            if self._AUX is None:
-                self._AUX  = y_angle._AUX
-            if self._diff != y_angle._diff:
-                self._diff = y_angle._diff
-        except AttributeError:
-            yx = y_angle, x
-            if aux:
-                a, kwds = _xkwds_pop2(aux, aux=self._AUX)
-                if kwds:
-                    raise _UnexpectedError(**kwds)
-                if a is not self._AUX:
-                    if a not in _AUXClass:
-                        raise AuxError(aux=a)
-                    self._AUX = a
+            try:
+                yx  = y_angle._yx
+                aux = y_angle._AUX
+                if self._diff != y_angle._diff:
+                    self._diff = y_angle._diff
+            except AttributeError:
+                yx  = y_angle, x
+            if aux in _AUXClass:
+                if self._AUX != aux:
+                    self._AUX = aux
+            elif aux is not None:
+                raise ValueError()  # _invalid_
+        except Exception as X:
+            raise AuxError(y=y_angle, x=x, aux=aux, cause=X)
         self._y, self._x = _yx2(yx)
         if name:
             self.name = name
@@ -84,7 +83,7 @@ class AuxAngle(_Named):
         '''Return this angle's absolute value (L{AuxAngle}).
         '''
         a     = self._copy_2(self.__abs__)
-        a._yx = map(fabs, self._yx)
+        a._yx = map2(fabs, self._yx)
         return a
 
     def __add__(self, other):
@@ -230,28 +229,28 @@ class AuxAngle(_Named):
         return self._diff
 
     @staticmethod
-    def fromDegrees(deg, **name_aux):
+    def fromDegrees(deg, **aux_name):
         '''Get an L{AuxAngle} from degrees.
         '''
-        return _AuxClass(**name_aux)(*sincos2d(deg), **name_aux)
+        return _AuxClass(**aux_name)(*sincos2d(deg), **aux_name)
 
     @staticmethod
-    def fromLambertianDegrees(psi, **name_aux):
+    def fromLambertianDegrees(psi, **aux_name):
         '''Get an L{AuxAngle} from I{Lambertian} degrees.
         '''
-        return _AuxClass(**name_aux)(sinh(radians(psi)), **name_aux)
+        return _AuxClass(**aux_name)(sinh(radians(psi)), **aux_name)
 
     @staticmethod
-    def fromLambertianRadians(psi, **name_aux):
+    def fromLambertianRadians(psi, **aux_name):
         '''Get an L{AuxAngle} from I{Lambertian} radians.
         '''
-        return _AuxClass(**name_aux)(sinh(psi), **name_aux)
+        return _AuxClass(**aux_name)(sinh(psi), **aux_name)
 
     @staticmethod
-    def fromRadians(rad, **name_aux):
+    def fromRadians(rad, **aux_name):
         '''Get an L{AuxAngle} from radians.
         '''
-        return _AuxClass(**name_aux)(*sincos2(rad), **name_aux)
+        return _AuxClass(**aux_name)(*sincos2(rad), **aux_name)
 
     @Property_RO
     def iteration(self):
@@ -514,13 +513,15 @@ def _AuxClass(aux=None, **unused):  # PYCHOK C{classof(aux)}
 
 
 def _yx2(yx):
+    '''(INTERNAL) Validate 2-tuple C{(y, x)}.
+    '''
     try:
-        y, x = map(float, yx)
+        y, x = yx
+        y, x = map1(float, y, x)
         if y in _0_INF_NAN_NINF:
             x = _copysign_1_0(x)
-    except (TypeError, ValueError) as e:
-        y, x = yx
-        raise AuxError(y=y, x=x, cause=e)
+    except (TypeError, ValueError) as X:
+        raise AuxError(y=y, x=x, cause=X)
     return y, x
 
 

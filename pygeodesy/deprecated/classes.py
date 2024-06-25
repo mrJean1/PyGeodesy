@@ -19,10 +19,10 @@ from pygeodesy.namedTuples import Forward4Tuple as _Forward4Tuple, \
 from pygeodesy.props import deprecated_class, deprecated_method
 from pygeodesy.resections import TriAngle5Tuple as _TriAngle5Tuple
 from pygeodesy.trf import TRFXform7Tuple as _TRFXform7Tuple
-from pygeodesy.units import Bearing, Int, Lat, Lon, Meter
+from pygeodesy.units import Bearing, Int, Lamd, Lat, Lon, Meter, Phid
 
 __all__ = _ALL_DEPRECATED.deprecated_classes
-__version__ = '24.04.17'
+__version__ = '24.06.15'
 
 
 class _Deprecated_NamedTuple(_NamedTuple):
@@ -151,6 +151,13 @@ def HeightIDW3(knots, **kwds):  # PYCHOK no cover
     return HeightIDW3(knots, **kwds)
 
 
+class Lam_(Lamd):
+    '''DEPRECATED on 2024.06.15, use class L{Lamd}.'''
+    def __init__(self, *args, **kwds):  # PYCHOK signature
+        deprecated_class(self.__class__)
+        Lamd.__init__(self, *args, **kwds)
+
+
 class LatLonExact4Tuple(_Deprecated_NamedTuple):
     '''DEPRECATED, use class L{Reverse4Tuple}, item C{gamma} for C{convergence}.'''
     _Names_ = _reNames(_Reverse4Tuple._Names_, _gamma_, _convergence_)
@@ -161,6 +168,13 @@ class NearestOn4Tuple(_Deprecated_NamedTuple):  # PYCHOK no cover
     '''DEPRECATED on 2023.10.10, see methods L{RhumbLine.nearestOn4} and L{RhumbLineAux.nearestOn4}.'''
     _Names_ = (_lat_, _lon_, _distance_, 'normal')  # s12, azi02
     _Units_ = ( Lat,   Lon,   Meter,      Bearing)
+
+
+class Phi_(Phid):
+    '''DEPRECATED on 2024.06.15, use class L{Phid}.'''
+    def __init__(self, *args, **kwds):  # PYCHOK signature
+        deprecated_class(self.__class__)
+        Phid.__init__(self, *args, **kwds)
 
 
 class Ned3Tuple(_Deprecated_NamedTuple):  # was in .ellipsoidalNvector

@@ -49,7 +49,7 @@ from pygeodesy.utmupsBase import Fmt, _LLEB, _hemi, _parseUTMUPS5, _to4lldn, \
 from math import atan2, fabs, radians, tan
 
 __all__ = _ALL_LAZY.ups
-__version__ = '25.05.31'
+__version__ = '24.06.11'
 
 _BZ_UPS  = _getenv('PYGEODESY_UPS_POLES', _std_) == _std_
 _Falsing =  Meter(2000e3)  # false easting and northing (C{meter})
@@ -183,7 +183,7 @@ class Ups(UtmUpsBase):
            @arg scale0: UPS k0 scale at B{C{lat}} latitude (C{scalar}).
 
            @raise RangeError: If B{C{lat}} outside the valid range and
-                              L{pygeodesy.rangerrors} set to C{True}.
+                              L{rangerrors<pygeodesy.rangerrors>} is C{True}.
 
            @raise UPSError: Invalid B{C{scale}}.
         '''
@@ -206,8 +206,8 @@ class Ups(UtmUpsBase):
            @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
                                arguments, ignored if C{B{LatLon} is None}.
 
-           @return: This UPS coordinate (B{C{LatLon}}) or if B{C{LatLon}}
-                    is C{None}, a L{LatLonDatum5Tuple}C{(lat, lon, datum,
+           @return: This UPS coordinate (B{C{LatLon}}) or if C{B{LatLon}
+                    is None}, a L{LatLonDatum5Tuple}C{(lat, lon, datum,
                     gamma, scale)}.
 
            @raise TypeError: If B{C{LatLon}} is not ellipsoidal.
@@ -257,8 +257,8 @@ class Ups(UtmUpsBase):
            @return: This UPS as a string with C{00[Band] pole, easting,
                     northing, [convergence, scale]} as C{"[Z:00[Band],
                     P:N|S, E:meter, N:meter]"} plus C{", C:DMS, S:float"}
-                    if B{C{cs}} is C{True}, where C{[Band]} is present and
-                    C{'A'|'B'|'Y'|'Z'} only if B{C{B}} is C{True} and
+                    if C{B{cs} is True}, where C{[Band]} is present and
+                    C{'A'|'B'|'Y'|'Z'} only if C{B{B} is True} and
                     convergence C{DMS} is in I{either} degrees, minutes
                     I{or} seconds (C{str}).
 
@@ -352,10 +352,10 @@ def parseUPS5(strUPS, datum=_WGS84, Ups=Ups, falsed=True, **name):
                       are falsed (C{bool}).
        @kwarg name: Optional B{C{Ups}} C{B{name}=NN} (C{str}).
 
-       @return: The UPS coordinate (B{C{Ups}}) or a
-                L{UtmUps5Tuple}C{(zone, hemipole, easting, northing,
-                band)} if B{C{Ups}} is C{None}.  The C{hemipole} is
-                the C{'N'|'S'} pole, the UPS projection top/center.
+       @return: The UPS coordinate (B{C{Ups}}) or if C{B{Ups} is None}, a
+                L{UtmUps5Tuple}C{(zone, hemipole, easting, northing, band)}.
+                The C{hemipole} is the C{'N'|'S'} pole, the UPS projection
+                top/center.
 
        @raise UPSError: Invalid B{C{strUPS}}.
     '''
@@ -399,21 +399,18 @@ def toUps8(latlon, lon=None, datum=None, Ups=Ups, pole=NN,
        @kwarg strict: Restrict B{C{lat}} to UPS ranges (C{bool}).
        @kwarg name: Optional B{C{Ups}} C{B{name}=NN} (C{str}).
 
-       @return: The UPS coordinate (B{C{Ups}}) or a L{UtmUps8Tuple}C{(zone,
-                hemipole, easting, northing, band, datum, gamma, scale)} if
-                B{C{Ups}} is C{None}.  The C{hemipole} is the C{'N'|'S'}
+       @return: The UPS coordinate (B{C{Ups}}) or if C{B{Ups} is None}, a
+                L{UtmUps8Tuple}C{(zone, hemipole, easting, northing, band,
+                datum, gamma, scale)} where C{hemipole} is the C{'N'|'S'}
                 pole, the UPS projection top/center.
 
-       @raise RangeError: If B{C{strict}} and B{C{lat}} outside the valid
-                          UPS bands or if B{C{lat}} or B{C{lon}} outside
-                          the valid range and L{pygeodesy.rangerrors} set
-                          to C{True}.
+       @raise RangeError: If B{C{strict}} and B{C{lat}} outside the valid UPS bands
+                          or if B{C{lat}} or B{C{lon}} outside the valid range and
+                          L{rangerrors<pygeodesy.rangerrors>} is C{True}.
 
-       @raise TypeError: If B{C{latlon}} is not ellipsoidal or if B{C{datum}}
-                         is invalid.
+       @raise TypeError: If B{C{latlon}} is not ellipsoidal or if B{C{datum}} is invalid.
 
-       @raise ValueError: If B{C{lon}} value is missing or if B{C{latlon}}
-                          is invalid.
+       @raise ValueError: If B{C{lon}} value is missing or if B{C{latlon}} is invalid.
 
        @see: I{Karney}'s C++ class U{UPS
              <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1UPS.html>}.
@@ -478,18 +475,16 @@ def upsZoneBand5(lat, lon, strict=True, **name):
        @kwarg strict: Restrict B{C{lat}} to UPS ranges (C{bool}).
        @kwarg name: Optional B{C{Ups}} C{B{name}=NN} (C{str}).
 
-       @return: A L{UtmUpsLatLon5Tuple}C{(zone, band, hemipole, lat,
-                lon)} where C{hemipole} is the C{'N'|'S'} pole, the
-                UPS projection top/center and C{lon} [-180..180).
+       @return: A L{UtmUpsLatLon5Tuple}C{(zone, band, hemipole, lat, lon)}
+                where C{hemipole} is the C{'N'|'S'} pole, the UPS projection
+                top/center and C{lon} [-180..180).
 
-       @note: The C{lon} is set to C{0} if B{C{lat}} is C{-90} or
-              C{90}, see env variable C{PYGEODESY_UPS_POLES} in
-              module L{pygeodesy.ups}.
+       @note: The C{lon} is set to C{0} if B{C{lat}} is C{-90} or C{90}, see env
+              variable C{PYGEODESY_UPS_POLES} in module L{ups<pygeodesy.ups>}.
 
-       @raise RangeError: If B{C{strict}} and B{C{lat}} in the UTM
-                          and not the UPS range or if B{C{lat}} or
-                          B{C{lon}} outside the valid range and
-                          L{pygeodesy.rangerrors} set to C{True}.
+       @raise RangeError: If B{C{strict} is True} and B{C{lat}} within the UTM but not
+                          the UPS range or if B{C{lat}} or B{C{lon}} outside the valid
+                          range and L{rangerrors<pygeodesy.rangerrors>} is C{True}.
 
        @raise ValueError: Invalid B{C{lat}} or B{C{lon}}.
     '''

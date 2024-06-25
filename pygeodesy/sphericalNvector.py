@@ -61,7 +61,7 @@ from pygeodesy.utily import atan2, degrees360, fabs, sincos2, sincos2_, \
 # from math import atan2, fabs  # from utily
 
 __all__ = _ALL_LAZY.sphericalNvector
-__version__ = '24.04.07'
+__version__ = '24.06.11'
 
 _lines_ = 'lines'
 
@@ -226,7 +226,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            @return: Distance between this and the B{C{other}} point
                     (C{meter}, same units as B{C{radius}} or C{radians}
-                    if B{C{radius}} is C{None}).
+                    if C{B{radius} is None}).
 
            @raise TypeError: Invalid B{C{other}} point.
         '''
@@ -303,14 +303,14 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            to an other point.
 
            @arg other: The other point (L{LatLon}).
-           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll
-                        the B{C{other}} point (C{bool}).
+           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the
+                        B{C{other}} point (C{bool}).
 
            @return: Initial bearing (compass C{degrees360}).
 
            @raise Crosserror: This point coincides with the B{C{other}}
-                              point or the C{NorthPole}, provided
-                              L{pygeodesy.crosserrors} is C{True}.
+                              point or the C{NorthPole} and L{crosserrors
+                              <pygeodesy.crosserrors>} is C{True}.
 
            @raise TypeError: The B{C{other}} point is not L{LatLon}.
         '''
@@ -660,8 +660,8 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
                     the C{closest} point (L{LatLon}), the C{distance}
                     between this and the C{closest} point in C{meter},
                     same units as B{C{radius}} or in C{radians} if
-                    B{C{radius}} is C{None} and the C{angle} from this
-                    to the C{closest} point in compass C{degrees360}.
+                    C{B{radius} is None} and the C{angle} from this to
+                    the C{closest} point in compass C{degrees360}.
 
            @raise TypeError: Some B{C{points}} are not C{LatLon}.
 
@@ -707,7 +707,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
                                     Specify C{B{Nvector}=...} to override this C{Nvector}
                                     class or use C{B{Nvector}=None}.
 
-           @return: An C{Nvector} or if B{C{Nvector}} is C{None}, a L{Vector4Tuple}C{(x, y, z, h)}.
+           @return: An C{Nvector} or if C{B{Nvector} is None}, a L{Vector4Tuple}C{(x, y, z, h)}.
 
            @raise TypeError: Invalid C{Nvector} or other B{C{Nvector_and_kwds}} item.
         '''
@@ -810,8 +810,8 @@ def areaOf(points, radius=R_M, wrap=False):
        @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the
                     B{C{points}} (C{bool}).
 
-       @return: Polygon area (C{meter} I{squared} , same units as
-                B{C{radius}}, or C{radians} if B{C{radius}} is C{None}).
+       @return: Polygon area (C{meter} I{squared}, same units as
+                B{C{radius}}, or C{radians} if C{B{radius} is None}).
 
        @raise PointsError: Insufficient number of B{C{points}}.
 
@@ -1085,7 +1085,7 @@ def nearestOn3(point, points, closed=False, radius=R_M, height=None, wrap=False)
                 C{distance} and the C{angle} between the C{closest}
                 and the given B{C{point}}.  The C{distance} is in
                 C{meter}, same units as B{C{radius}} or in C{radians}
-                if B{C{radius}} is C{None}, the C{angle} is in compass
+                if C{B{radius} is None}, the C{angle} is in compass
                 C{degrees360}.
 
        @raise PointsError: Insufficient number of B{C{points}}.
@@ -1109,7 +1109,7 @@ def perimeterOf(points, closed=False, radius=R_M, wrap=False):
                     B{C{points}} (C{bool}).
 
        @return: Polygon perimeter (C{meter}, same units as B{C{radius}}
-                or C{radians} if B{C{radius}} is C{None}).
+                or C{radians} if C{B{radius} is None}).
 
        @raise PointsError: Insufficient number of B{C{points}}.
 

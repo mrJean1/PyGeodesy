@@ -885,8 +885,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoids.Ellipsoid-class.html#toStr" class="summary-sig-name">toStr</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">8</span>,
-        <span class="summary-sig-arg">terse</span>=<span class="summary-sig-default">0</span>,
-        <span class="summary-sig-arg">**name</span>)</span><br />
+        <span class="summary-sig-arg">terse</span>=<span class="summary-sig-default">4</span>,
+        <span class="summary-sig-arg">**sep_name</span>)</span><br />
       Return this ellipsoid as a text string.</td>
           <td align="right" valign="top">
             
@@ -2211,7 +2211,7 @@
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - Latitude <b><code>lat</code></b> outside valid range and <a 
         href="pygeodesy.errors-module.html#rangerrors" 
-        class="link">pygeodesy.rangerrors</a> set to <code>True</code>.</li>
+        class="link">rangerrors</a> is <code>True</code>.</li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>lat</code></b>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>lat</code></b>.</li>
     </ul></dd>
@@ -2258,7 +2258,7 @@
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - Latitude <b><code>lat</code></b> outside valid range and <a 
         href="pygeodesy.errors-module.html#rangerrors" 
-        class="link">pygeodesy.rangerrors</a> set to <code>True</code>.</li>
+        class="link">rangerrors</a> is <code>True</code>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>deg</code></b> or <b><code>lat</code></b>.</li>
     </ul></dd>
   </dl>
@@ -2749,7 +2749,7 @@
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - Latitude <b><code>lat</code></b> outside valid range and <a 
         href="pygeodesy.errors-module.html#rangerrors" 
-        class="link">pygeodesy.rangerrors</a> set to <code>True</code>.</li>
+        class="link">rangerrors</a> is <code>True</code>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>distance</code></b> or <b><code>lat</code></b>.</li>
     </ul></dd>
   </dl>
@@ -2786,7 +2786,7 @@
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - Latitude <b><code>lat</code></b> outside valid range and <a 
         href="pygeodesy.errors-module.html#rangerrors" 
-        class="link">pygeodesy.rangerrors</a> set to <code>True</code>.</li>
+        class="link">rangerrors</a> is <code>True</code>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>distance</code></b> or <b><code>lat</code></b>.</li>
     </ul></dd>
   </dl>
@@ -2824,7 +2824,7 @@
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - Latitude <b><code>lat</code></b> outside valid range and <a 
         href="pygeodesy.errors-module.html#rangerrors" 
-        class="link">pygeodesy.rangerrors</a> set to <code>True</code>.</li>
+        class="link">rangerrors</a> is <code>True</code>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>rad</code></b> or <b><code>lat</code></b>.</li>
     </ul></dd>
   </dl>
@@ -2931,7 +2931,7 @@
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - Latitude <b><code>lat</code></b> outside valid range and <a 
         href="pygeodesy.errors-module.html#rangerrors" 
-        class="link">pygeodesy.rangerrors</a> set to <code>True</code>.</li>
+        class="link">rangerrors</a> is <code>True</code>.</li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>lat</code></b>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>lat</code></b>.</li>
     </ul></dd>
@@ -3109,7 +3109,7 @@
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - Latitude <b><code>lat</code></b> outside valid range and <a 
         href="pygeodesy.errors-module.html#rangerrors" 
-        class="link">pygeodesy.rangerrors</a> set to <code>True</code>.</li>
+        class="link">rangerrors</a> is <code>True</code>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>lat</code></b> or <b><code>bearing</code></b>.</li>
     </ul></dd>
   </dl>
@@ -3359,8 +3359,8 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toStr</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">prec</span>=<span class="sig-default">8</span>,
-        <span class="sig-arg">terse</span>=<span class="sig-default">0</span>,
-        <span class="sig-arg">**name</span>)</span>
+        <span class="sig-arg">terse</span>=<span class="sig-default">4</span>,
+        <span class="sig-arg">**sep_name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -3372,9 +3372,12 @@
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>prec</code></strong> - Number of decimal digits, unstripped (<code>int</code>).</li>
-        <li><strong class="pname"><code>terse</code></strong> - Limit the number of items (<code>int</code>, 0...18).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>) or 
-          <code>None</code> to exclude this ellipsoid's name.</li>
+        <li><strong class="pname"><code>terse</code></strong> - Limit the number of items (<code>int</code>, 0...18), use 
+          <code><b>terse</b>=0</code> or <code>=None</code> for all.</li>
+        <li><strong class="pname"><code>sep_name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>) or 
+          <code>None</code> to exclude this ellipsoid's name and separator 
+          <code><b>sep</b>=&quot;, &quot;</code> to join the items 
+          (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>This <code>Ellipsoid</code>'s attributes (<code>str</code>).</dd>
@@ -5871,7 +5874,7 @@ class="math">4 / 3 * PI * R3**3</i>.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Jun 10 13:35:53 2024
+    Generated by Epydoc 3.0.1 on Mon Jun 24 20:35:09 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -284,8 +284,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.triaxials.Triaxial_-class.html#toStr" class="summary-sig-name">toStr</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">9</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>,
-        <span class="summary-sig-arg">**unused</span>)</span><br />
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Return this <code>Triaxial</code> as a string.</td>
           <td align="right" valign="top">
             
@@ -494,9 +493,8 @@
         <li><strong class="pname"><code>b</code></strong> - Middle, <code>Y</code> semi-axis (<code>meter</code>, same units 
           as <b><code>a</code></b>), required if <code><b>a_triaxial</b> is
           scalar</code>, ignored otherwise.</li>
-        <li><strong class="pname"><code>c</code></strong> - Small, <code>Z</code> semi-axis (<code>meter</code>, same units 
-          as <b><code>a</code></b>), required if <code><b>a_triaxial</b> is
-          scalar</code>, ignored otherwise.</li>
+        <li><strong class="pname"><code>c</code></strong> - Small, <code>Z</code> semi-axis (<code>meter</code>, 
+          <b><code>b</code></b>).</li>
         <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
     </ul></dd>
     <dt>Raises:</dt>
@@ -626,15 +624,15 @@
           href="pygeodesy.namedTuples.Vector4Tuple-class.html" 
           class="link">Vector4Tuple</a>).</li>
         <li><strong class="pname"><code>y</code></strong> - Y component (<code>scalar</code>), required if 
-          <b><code>x_xyz</code></b> if <code>scalar</code>.</li>
-        <li><strong class="pname"><code>z</code></strong> - Z component (<code>scalar</code>), required if 
-          <b><code>x_xyz</code></b> if <code>scalar</code>.</li>
+          <b><code>x_xyz</code></b> if <code>scalar</code>, ignored 
+          otherwise.</li>
+        <li><strong class="pname"><code>z</code></strong> - Z component (<code>scalar</code>), like <b><code>y</code></b>.</li>
         <li><strong class="pname"><code>normal</code></strong> - If <code>True</code> the projection is the <i>normal, plumb</i> 
           to the surface of, otherwise the <code>radial</code> line to the 
           center of this triaxial (<code>bool</code>).</li>
         <li><strong class="pname"><code>eps</code></strong> - Tolerance for root finding and validation (<code>scalar</code>), 
           use a negative value to skip validation.</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional, overriding <code><b>name</b>=&quot;heigh4&quot;</code> 
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=&quot;heigh4&quot;</code> 
           (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -693,9 +691,9 @@
           href="pygeodesy.namedTuples.Vector4Tuple-class.html" 
           class="link">Vector4Tuple</a>).</li>
         <li><strong class="pname"><code>y</code></strong> - Y component (<code>scalar</code>), required if 
-          <b><code>x_xyz</code></b> if <code>scalar</code>.</li>
-        <li><strong class="pname"><code>z</code></strong> - Z component (<code>scalar</code>), required if 
-          <b><code>x_xyz</code></b> if <code>scalar</code>.</li>
+          <b><code>x_xyz</code></b> if <code>scalar</code>, ignored 
+          otherwise.</li>
+        <li><strong class="pname"><code>z</code></strong> - Z component (<code>scalar</code>), like <b><code>y</code></b>.</li>
         <li><strong class="pname"><code>length</code></strong> - Optional length and in-/outward direction (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -748,9 +746,9 @@
           href="pygeodesy.namedTuples.Vector4Tuple-class.html" 
           class="link">Vector4Tuple</a>).</li>
         <li><strong class="pname"><code>y</code></strong> - Y component (<code>scalar</code>), required if 
-          <b><code>x_xyz</code></b> if <code>scalar</code>.</li>
-        <li><strong class="pname"><code>z</code></strong> - Z component (<code>scalar</code>), required if 
-          <b><code>x_xyz</code></b> if <code>scalar</code>.</li>
+          <b><code>x_xyz</code></b> if <code>scalar</code>, ignored 
+          otherwise.</li>
+        <li><strong class="pname"><code>z</code></strong> - Z component (<code>scalar</code>), like <b><code>y</code></b>.</li>
         <li><strong class="pname"><code>eps</code></strong> - Near-surface tolerance (<code>scalar</code>, distance 
           <i>squared</i>).</li>
     </ul></dd>
@@ -820,8 +818,7 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toStr</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">prec</span>=<span class="sig-default">9</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>,
-        <span class="sig-arg">**unused</span>)</span>
+        <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -1143,7 +1140,7 @@ as <b><code>a</code></b>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Jun 10 13:35:55 2024
+    Generated by Epydoc 3.0.1 on Mon Jun 24 20:35:11 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

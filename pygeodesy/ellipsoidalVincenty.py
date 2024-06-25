@@ -72,7 +72,7 @@ from pygeodesy.utily import atan2b, atan2d, sincos2, sincos2d, unroll180, wrap18
 from math import atan2, cos, degrees, fabs, radians, tan
 
 __all__ = _ALL_LAZY.ellipsoidalVincenty
-__version__ = '23.12.18'
+__version__ = '24.06.11'
 
 _antipodal_to_ = _SPACE_(_antipodal_, _to_)
 
@@ -102,7 +102,7 @@ class Cartesian(CartesianEllipsoidalBase):
                                    B{datum}=...} to override this L{LatLon}
                                    class or specify C{B{LatLon}=None}.
 
-           @return: The geodetic point (L{LatLon}) or if B{C{LatLon}} is C{None},
+           @return: The geodetic point (L{LatLon}) or if C{B{LatLon} is None},
                     an L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M, datum)}
                     with C{C} and C{M} if available.
 
@@ -175,20 +175,18 @@ class LatLon(LatLonEllipsoidalBaseDI):
         self._iterations = Number_(limit, name=_limit_, low=4, high=1000) + 1
 
     def toCartesian(self, **Cartesian_datum_kwds):  # PYCHOK Cartesian=Cartesian, datum=None
-        '''Convert this point to C{Vincenty}-based cartesian (ECEF)
-           coordinates.
+        '''Convert this point to C{Vincenty}-based cartesian (ECEF) coordinates.
 
            @kwarg Cartesian_datum_kwds: Optional L{Cartesian}, B{C{datum}} and other
                             keyword arguments, ignored if C{B{Cartesian}=None}.  Use
                             C{B{Cartesian}=...} to override this L{Cartesian} class
                             or specify C{B{Cartesian}=None}.
 
-           @return: The cartesian point (L{Cartesian}) or if B{C{Cartesian}}
-                    is C{None}, an L{Ecef9Tuple}C{(x, y, z, lat, lon, height,
-                    C, M, datum)} with C{C} and C{M} if available.
+           @return: The cartesian point (L{Cartesian}) or if C{B{Cartesian} is None},
+                    an L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M, datum)} with
+                    C{C} and C{M} if available.
 
-           @raise TypeError: Invalid B{C{Cartesian}}, B{C{datum}} or other
-                             B{C{Cartesian_datum_kwds}}.
+           @raise TypeError: Invalid B{C{Cartesian}}, B{C{datum}} or other B{C{Cartesian_datum_kwds}}.
         '''
         kwds = _xkwds(Cartesian_datum_kwds, Cartesian=Cartesian,
                                                 datum=self.datum)
@@ -199,12 +197,11 @@ class LatLon(LatLonEllipsoidalBaseDI):
 
            @raise TypeError: The B{C{other}} point is not L{LatLon}.
 
-           @raise ValueError: If this and the B{C{other}} point's L{Datum}
-                              ellipsoids are not compatible.
+           @raise ValueError: If this and the B{C{other}} point's L{Datum} ellipsoids are
+                              not compatible.
 
-           @raise VincentyError: Vincenty fails to converge for the current
-                                 L{LatLon.epsilon} and L{LatLon.iterations}
-                                 limits.
+           @raise VincentyError: Vincenty fails to converge for the current limits, see
+                                 L{epsilon<LatLon.epsilon>} and L{iterations<LatLon.iterations>}.
         '''
         E = self.ellipsoid()
         f = E.f

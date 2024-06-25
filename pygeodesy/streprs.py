@@ -7,8 +7,8 @@ u'''Floating point and other formatting utilities.
 from pygeodesy.basics import isint, islistuple, isscalar, isstr, itemsorted, \
                             _zip, _0_0
 # from pygeodesy.constants import _0_0
-from pygeodesy.errors import _or, _AttributeError, _IsnotError, _TypeError, \
-                             _ValueError, _xkwds_get, _xkwds_item2
+from pygeodesy.errors import _or, _IsnotError, _TypeError, _ValueError, \
+                             _xkwds_get, _xkwds_item2
 # from pygeodesy.internals import _dunder_nameof  # from .lazily
 from pygeodesy.interns import NN, _0_, _0to9_, MISSING, _BAR_, _COMMASPACE_, \
                              _DOT_, _E_, _ELLIPSIS_, _EQUAL_, _H_, _LR_PAIRS, \
@@ -22,7 +22,7 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS,  _dunder_nameof
 from math import fabs, log10 as _log10
 
 __all__ = _ALL_LAZY.streprs
-__version__ = '24.06.04'
+__version__ = '24.06.15'
 
 _at_        = 'at'         # PYCHOK used!
 _EN_PREC    =  6           # max MGRS/OSGR precision, 1 micrometer
@@ -141,7 +141,6 @@ class Fmt(object):
     ROPEN         = _Fmt('[%s)')  # right-open range [L, R)
 #   SPACE         = _Fmt(' %s')   # == _SPACE_(n, v)
     SQUARE        = _Fmt('[%s]')  # BRACKETS
-    sub_class     = _Sub('%s (sub-)class')
     TAG           =  ANGLE
     TAGEND        = _Fmt('</%s>')
     tolerance     = _Fmt(_tolerance_(_PAREN_g))
@@ -447,7 +446,7 @@ def pairs(items, prec=6, fmt=Fmt.F, ints=False, sep=_EQUAL_):
         # can't unzip empty items tuple, list, etc.
         n, v = _zip(*items) if items else ((), ())  # strict=True
     except (TypeError, ValueError):
-        raise _IsnotError(dict.__name__, '2-tuples', items=items)
+        raise _IsnotError(dict, '2-tuples', items=items)
     v = _streprs(prec, v, fmt, ints, False, repr)
     return tuple(sep.join(t) for t in _zip(map(str, n), v))  # strict=True
 
@@ -578,35 +577,6 @@ def _0wpF(*w_p_f):  # in .dms, .osgr
     '''(INTERNAL) Float deg, min, sec formatter'.
     '''
     return '%0*.*f' % w_p_f  # XXX was F
-
-
-def _xattrs(insto, other, *attrs):  # see .errors._xattr
-    '''(INTERNAL) Copy attribute values from B{C{other}} to B{C{insto}}.
-
-       @arg insto: Object to copy attribute values to (any C{type}).
-       @arg other: Object to copy attribute values from (any C{type}).
-       @arg attrs: One or more attribute names (C{str}s).
-
-       @return: Object B{C{insto}}, updated.
-
-       @raise AttributeError: An B{C{attrs}} doesn't exist
-                              or is not settable.
-    '''
-    def _getattr(o, a):
-        if hasattr(o, a):
-            return getattr(o, a)
-        try:
-            n = o._DOT_(a)
-        except AttributeError:
-            n = Fmt.DOT(a)
-        raise _AttributeError(o, name=n)
-
-    for a in attrs:
-        s = _getattr(other, a)
-        g = _getattr(insto, a)
-        if (g is None and s is not None) or g != s:
-            setattr(insto, a, s)  # not settable?
-    return insto
 
 
 def _xzipairs(names, values, sep=_COMMASPACE_, fmt=NN, pair_fmt=Fmt.COLON):

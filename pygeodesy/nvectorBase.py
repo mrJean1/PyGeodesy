@@ -14,7 +14,7 @@ and published under the same MIT Licence**, see U{Vector-based geodesy
 from pygeodesy.constants import EPS, EPS1, EPS_2, R_M, _2_0, _N_2_0
 # from pygeodesy.datums import _spherical_datum  # from .formy
 from pygeodesy.errors import IntersectionError, _ValueError, VectorError, \
-                            _xkwds, _xkwds_pop2
+                            _xattrs, _xkwds, _xkwds_pop2
 from pygeodesy.fmath import fdot, fidw, hypot_  # PYCHOK fdot shared
 from pygeodesy.fsums import Fsum, fsumf_
 from pygeodesy.formy import _isequalTo, n_xyz2latlon, n_xyz2philam, \
@@ -30,7 +30,7 @@ from pygeodesy.namedTuples import Trilaterate5Tuple, Vector3Tuple, \
                                   Vector4Tuple,  map1
 from pygeodesy.props import deprecated_method, Property_RO, property_doc_, \
                             property_RO, _update_all
-from pygeodesy.streprs import Fmt, hstr, unstr, _xattrs
+from pygeodesy.streprs import Fmt, hstr, unstr
 from pygeodesy.units import Bearing, Height, Radius_, Scalar
 from pygeodesy.utily import sincos2d, _unrollon, _unrollon3
 from pygeodesy.vector3d import Vector3d, _xyzhdlln4
@@ -38,7 +38,7 @@ from pygeodesy.vector3d import Vector3d, _xyzhdlln4
 from math import fabs, sqrt
 
 __all__ = _ALL_LAZY.nvectorBase
-__version__ = '24.06.06'
+__version__ = '24.06.12'
 
 
 class NvectorBase(Vector3d):  # XXX kept private
@@ -53,10 +53,9 @@ class NvectorBase(Vector3d):  # XXX kept private
 
            @arg x_xyz: X component of vector (C{scalar}) or (3-D) vector
                        (C{Nvector}, L{Vector3d}, L{Vector3Tuple} or L{Vector4Tuple}).
-           @kwarg y: Y component of vector (C{scalar}), ignored if B{C{x_xyz}} is not
-                     C{scalar}, otherwise same units as B{C{x_xyz}}.
-           @kwarg z: Z component of vector (C{scalar}), ignored if B{C{x_xyz}} is not
-                     C{scalar}, otherwise same units as B{C{x_xyz}}.
+           @kwarg y: Y component of vector (C{scalar}), required if B{C{x_xyz}} is
+                     C{scalar} and same units as B{C{x_xyz}}, ignored otherwise.
+           @kwarg z: Z component of vector (C{scalar}), like B{C{y}}.
            @kwarg h: Optional height above surface (C{meter}).
            @kwarg datum: Optional, I{pass-thru} datum (L{Datum}).
            @kwarg ll_name: Optional C{B{name}=NN} (C{str}) and optional, original
@@ -346,7 +345,7 @@ class NvectorBase(Vector3d):  # XXX kept private
     def toVector3d(self, norm=True):
         '''Convert this n-vector to a 3-D vector, I{ignoring height}.
 
-           @kwarg norm: Normalize the 3-D vector (C{bool}).
+           @kwarg norm: If C{True}, normalize the 3-D vector (C{bool}).
 
            @return: The (normalized) vector (L{Vector3d}).
         '''
@@ -366,7 +365,7 @@ class NvectorBase(Vector3d):  # XXX kept private
 
            @return: Normalized vector (C{Nvector}).
         '''
-        return _xattrs(Vector3d.unit(self, ll=ll), _under(_h_))
+        return _xattrs(Vector3d.unit(self, ll=ll), self, _under(_h_))
 
     @Property_RO
     def xyzh(self):
@@ -572,7 +571,7 @@ def sumOf(nvectors, Vector=None, h=None, **Vector_kwds):
                            arguments, ignored if C{B{Vector} is None}.
 
        @return: Vectorial sum (B{C{Vector}}) or a L{Vector4Tuple}C{(x, y,
-                z, h)} if B{C{Vector}} is C{None}.
+                z, h)} if C{B{Vector} is None}.
 
        @raise VectorError: No B{C{nvectors}}.
     '''

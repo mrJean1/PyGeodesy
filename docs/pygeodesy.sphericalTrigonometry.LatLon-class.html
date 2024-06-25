@@ -947,8 +947,7 @@
     <dt>Returns:</dt>
         <dd>Distance between this and the <b><code>other</code></b> point 
           (<code>meter</code>, same units as <b><code>radius</code></b> or 
-          <code>radians</code> if <b><code>radius</code></b> is 
-          <code>None</code>).</dd>
+          <code>radians</code> if <code><b>radius</b> is None</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>other</code></b> point is not <a 
@@ -1036,10 +1035,10 @@
         <dd>Initial bearing (compass <code>degrees360</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.CrossError-class.html">CrossError</a></strong></code> - If this and the <b><code>other</code></b> point coincide, provided 
-        both <b><code>raiser</code></b> is <code>True</code> and <a 
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.CrossError-class.html">CrossError</a></strong></code> - If this and the <b><code>other</code></b> point coincide and if 
+        <b><code>raiser</code></b> and <a 
         href="pygeodesy.errors-module.html#crosserrors" 
-        class="link">pygeodesy.crosserrors</a> is <code>True</code>.</li>
+        class="link">crosserrors</a> are both <code>True</code>.</li>
         <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>other</code></b> point is not <a 
         href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
         class="link">LatLon</a>.</li>
@@ -1555,9 +1554,8 @@
     <dt>Returns:</dt>
         <dd>The cartesian point (<a 
           href="pygeodesy.sphericalTrigonometry.Cartesian-class.html" 
-          class="link">Cartesian</a>) or if <b><code>Cartesian</code></b> 
-          is <code>None</code>, an <a 
-          href="pygeodesy.ecef.Ecef9Tuple-class.html" 
+          class="link">Cartesian</a>) or if <code><b>Cartesian</b> is 
+          None</code>, an <a href="pygeodesy.ecef.Ecef9Tuple-class.html" 
           class="link">Ecef9Tuple</a><code>(x, y, z, lat, lon, height, C, 
           M, datum)</code> with <code>C</code> and <code>M</code> if 
           available.</dd>
@@ -1603,15 +1601,14 @@
           href="pygeodesy.datums.Datum-class.html" class="link">Datum</a> 
           or <a href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
           class="link">a_f2Tuple</a>) or <code>None</code>.</li>
-        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
-          <b><code>otherB</code></b> and <b><code>otherC</code></b> points 
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll points 
+          <b><code>otherB</code></b> and <b><code>otherC</code></b> 
           (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><a href="pygeodesy.namedTuples.Triangle7Tuple-class.html" 
           class="link">Triangle7Tuple</a><code>(A, a, B, b, C, c, 
-          area)</code> or if <b><code>radius</code></b> is 
-          <code>None</code>, a <a 
+          area)</code> or if <b><code>radius</code> is None</b>, a <a 
           href="pygeodesy.namedTuples.Triangle8Tuple-class.html" 
           class="link">Triangle8Tuple</a><code>(A, a, B, b, C, c, D, 
           E)</code>.</dd>
@@ -1706,8 +1703,8 @@
           perimeter intersection of the circles (<code>bool</code>).</li>
         <li><strong class="pname"><code>eps</code></strong> - The required <i>minimal overlap</i> for 
           <code><b>area</b>=True</code> or the <i>intersection margin</i> 
-          for <code><b>area</b>=False</code> (<code>meter</code>, same 
-          units as <b><code>radius</code></b>).</li>
+          if <code><b>area</b>=False</code> (<code>meter</code>, same units
+          as <b><code>radius</code></b>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>, conventionally).</li>
         <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll 
           <b><code>point2</code></b> and <b><code>point3</code></b> 
@@ -1732,7 +1729,7 @@
           <code>max</code> represent the nearest respectively farthest 
           intersection margin.</p>
           <p>If <code><b>area</b>=True</code> and all 3 circles are 
-          concentric, <code>n = 0</code> and <code>minPoint</code> and 
+          concentric, <code>n=0</code> and <code>minPoint</code> and 
           <code>maxPoint</code> are both the <b><code>point#</code></b> 
           with the smallest <b><code>distance#</code></b> <code>min</code> 
           and <code>max</code> the largest 
@@ -1741,7 +1738,7 @@
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - Trilateration failed for the given <b><code>eps</code></b>, 
         insufficient overlap for <code><b>area</b>=True</code> or no 
-        intersection or all (near-)concentric for 
+        intersection or all (near-)concentric if 
         <code><b>area</b>=False</code>.</li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>point2</code></b> or <b><code>point3</code></b>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Coincident <b><code>point2</code></b> or <b><code>point3</code></b>
@@ -1784,7 +1781,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Jun 10 13:35:55 2024
+    Generated by Epydoc 3.0.1 on Mon Jun 24 20:35:11 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

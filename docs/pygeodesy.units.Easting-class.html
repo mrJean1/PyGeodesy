@@ -61,19 +61,21 @@
 <!-- ==================== CLASS DESCRIPTION ==================== -->
 <h1 class="epydoc">Class Easting</h1><p class="nomargin-top"></p>
 <pre class="base-tree">
-          object --+        
-                   |        
-               float --+    
-                       |    
-      object --+       |    
-               |       |    
-    <a href="pygeodesy.named._Named-class.html">named._Named</a> --+   |    
-                   |   |    
-<a href="pygeodesy.unitsBase._NamedUnit-class.html">unitsBase._NamedUnit</a> --+    
-                       |    
-         <a href="pygeodesy.unitsBase.Float-class.html">unitsBase.Float</a> --+
-                           |
-                          <strong class="uidshort">Easting</strong>
+          object --+            
+                   |            
+               float --+        
+                       |        
+      object --+       |        
+               |       |        
+    <a href="pygeodesy.named._Named-class.html">named._Named</a> --+   |        
+                   |   |        
+<a href="pygeodesy.unitsBase._NamedUnit-class.html">unitsBase._NamedUnit</a> --+        
+                       |        
+         <a href="pygeodesy.unitsBase.Float-class.html">unitsBase.Float</a> --+    
+                           |    
+                 _EasNorBase --+
+                               |
+                              <strong class="uidshort">Easting</strong>
 </pre>
 
 <hr />
@@ -184,12 +186,12 @@
           <td><span class="summary-sig"><a href="pygeodesy.units.Easting-class.html#__new__" class="summary-sig-name">__new__</a>(<span class="summary-sig-arg">cls</span>,
         <span class="summary-sig-arg">arg</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">easting</code><code class="variable-quote">'</code></span>,
-        <span class="summary-sig-arg">Error</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.errors.UnitError'&gt;</span>,
         <span class="summary-sig-arg">falsed</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">high</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">**name_arg</span>)</span><br />
-      New named <code>Easting</code> or <code>Easting of Point</code> 
-      instance.</td>
+        <span class="summary-sig-arg">**Error_name_arg</span>)</span><br />
+      New, named <code>Easting</code> or <code>Easting of Point</code>, see
+      <a href="pygeodesy.unitsBase.Float-class.html" 
+      class="link">Float</a>.</td>
           <td align="right" valign="top">
             
             
@@ -254,10 +256,9 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">__new__</span>&nbsp;(<span class="sig-arg">cls</span>,
         <span class="sig-arg">arg</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">easting</code><code class="variable-quote">'</code></span>,
-        <span class="sig-arg">Error</span>=<span class="sig-default">&lt;class 'pygeodesy.errors.UnitError'&gt;</span>,
         <span class="sig-arg">falsed</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">high</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">**name_arg</span>)</span>
+        <span class="sig-arg">**Error_name_arg</span>)</span>
     <br /><em class="fname">Static Method</em>
   </h3>
   </td><td align="right" valign="top"
@@ -265,28 +266,23 @@
     </td>
   </tr></table>
   
-  <p>New named <code>Easting</code> or <code>Easting of Point</code> 
-  instance.</p>
+  <p>New, named <code>Easting</code> or <code>Easting of Point</code>, see 
+  <a href="pygeodesy.unitsBase.Float-class.html" 
+  class="link">Float</a>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>cls</code></strong> - This class (<code>Easting</code> or sub-class).</li>
         <li><strong class="pname"><code>arg</code></strong> - The value (any <code>type</code> convertable to 
           <code>float</code>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional instance name (<code>str</code>).</li>
-        <li><strong class="pname"><code>Error</code></strong> - Optional error to raise, overriding the default <a 
-          href="pygeodesy.errors.UnitError-class.html" 
-          class="link">UnitError</a>.</li>
-        <li><strong class="pname"><code>falsed</code></strong> - The <b><code>arg</code></b> value includes false origin 
+        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
+        <li><strong class="pname"><code>falsed</code></strong> - If <code>True</code>, the <b><code>arg</code></b> value is falsed
           (<code>bool</code>).</li>
-        <li><strong class="pname"><code>high</code></strong> - Optional upper <b><code>arg</code></b> easting limit 
-          (<code>scalar</code> or <code>None</code>).</li>
-        <li><strong class="pname"><code>name_arg</code></strong> - Optional <code>name=arg</code> keyword argument, inlieu of 
-          separate <b><code>arg</code></b> and <b><code>name</code></b> 
-          ones.</li>
+        <li><strong class="pname"><code>high</code></strong> - Optional upper <b><code>arg</code></b> limit (<code>scalar</code>
+          or <code>None</code>).</li>
     </ul></dd>
     <dt>Returns: a new object with type S, a subtype of T</dt>
-        <dd>An <code>Easting</code> instance.</dd>
+        <dd>A named <code>Easting</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>Error</strong></code> - Invalid <b><code>arg</code></b>, above <b><code>high</code></b> or 
@@ -330,7 +326,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Jun 10 13:35:55 2024
+    Generated by Epydoc 3.0.1 on Mon Jun 24 20:35:11 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

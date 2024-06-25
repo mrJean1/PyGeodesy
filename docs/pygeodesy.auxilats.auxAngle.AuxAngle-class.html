@@ -97,7 +97,8 @@
           <td><span class="summary-sig"><a href="pygeodesy.auxilats.auxAngle.AuxAngle-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">y_angle</span>=<span class="summary-sig-default">0.0</span>,
         <span class="summary-sig-arg">x</span>=<span class="summary-sig-default">1.0</span>,
-        <span class="summary-sig-arg">**name_aux</span>)</span><br />
+        <span class="summary-sig-arg">aux</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">**name</span>)</span><br />
       New <a href="pygeodesy.auxilats.auxAngle.AuxAngle-class.html" 
       class="link">AuxAngle</a>.</td>
           <td align="right" valign="top">
@@ -526,7 +527,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a name="fromDegrees"></a><span class="summary-sig-name">fromDegrees</span>(<span class="summary-sig-arg">deg</span>,
-        <span class="summary-sig-arg">**name_aux</span>)</span><br />
+        <span class="summary-sig-arg">**aux_name</span>)</span><br />
       Get an <a href="pygeodesy.auxilats.auxAngle.AuxAngle-class.html" 
       class="link">AuxAngle</a> from degrees.</td>
           <td align="right" valign="top">
@@ -545,7 +546,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a name="fromLambertianDegrees"></a><span class="summary-sig-name">fromLambertianDegrees</span>(<span class="summary-sig-arg">psi</span>,
-        <span class="summary-sig-arg">**name_aux</span>)</span><br />
+        <span class="summary-sig-arg">**aux_name</span>)</span><br />
       Get an <a href="pygeodesy.auxilats.auxAngle.AuxAngle-class.html" 
       class="link">AuxAngle</a> from <i>Lambertian</i> degrees.</td>
           <td align="right" valign="top">
@@ -564,7 +565,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a name="fromLambertianRadians"></a><span class="summary-sig-name">fromLambertianRadians</span>(<span class="summary-sig-arg">psi</span>,
-        <span class="summary-sig-arg">**name_aux</span>)</span><br />
+        <span class="summary-sig-arg">**aux_name</span>)</span><br />
       Get an <a href="pygeodesy.auxilats.auxAngle.AuxAngle-class.html" 
       class="link">AuxAngle</a> from <i>Lambertian</i> radians.</td>
           <td align="right" valign="top">
@@ -583,7 +584,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a name="fromRadians"></a><span class="summary-sig-name">fromRadians</span>(<span class="summary-sig-arg">rad</span>,
-        <span class="summary-sig-arg">**name_aux</span>)</span><br />
+        <span class="summary-sig-arg">**aux_name</span>)</span><br />
       Get an <a href="pygeodesy.auxilats.auxAngle.AuxAngle-class.html" 
       class="link">AuxAngle</a> from radians.</td>
           <td align="right" valign="top">
@@ -728,7 +729,8 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">y_angle</span>=<span class="sig-default">0.0</span>,
         <span class="sig-arg">x</span>=<span class="sig-default">1.0</span>,
-        <span class="sig-arg">**name_aux</span>)</span>
+        <span class="sig-arg">aux</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">**name</span>)</span>
     <br /><em class="fname">(Constructor)</em>
   </h3>
   </td><td align="right" valign="top"
@@ -745,13 +747,11 @@
           <code>NAN</code> and <code>NINF</code>) or a previous <a 
           href="pygeodesy.auxilats.auxAngle.AuxAngle-class.html" 
           class="link">AuxAngle</a> instance.</li>
-        <li><strong class="pname"><code>x</code></strong> - The X component, ignored if <code><b>y_angle</b></code> is 
-          non-<code>scalar</code>.</li>
-        <li><strong class="pname"><code>name_aux</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>) and 
-          <i>Auxiliary</i> kind (<code><b>aux</b>=Aux.KIND</code>), ignored
-          if <b><code>y_angle</code></b> is <a 
-          href="pygeodesy.auxilats.auxAngle.AuxAngle-class.html" 
-          class="link">AuxAngle</a>.</li>
+        <li><strong class="pname"><code>x</code></strong> - The X component, required if <code><b>y_angle</b></code> is 
+          <code>scalar</code>, ignored otherwise.</li>
+        <li><strong class="pname"><code>aux</code></strong> - <i>Auxiliary</i> kind (<code>Aux.KIND</code>), like 
+          <b><code>x</code></b>.</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> see (<code>str</code>).</li>
     </ul></dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
@@ -1300,7 +1300,7 @@ class="link">Radians</a>.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Jun 10 13:35:52 2024
+    Generated by Epydoc 3.0.1 on Mon Jun 24 20:35:08 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

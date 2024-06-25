@@ -17,20 +17,19 @@ by I{Charles Karney}.  See also U{Global Area Reference System
 from pygeodesy.constants import _off90, _1_over, _0_5, \
                                 _1_0  # PYCHOK used!
 from pygeodesy.dms import parse3llh,   Fmt  # parseDMS2
-from pygeodesy.errors import _ValueError, _xkwds
+from pygeodesy.errors import _ValueError, _xkwds, _xStrError
 from pygeodesy.interns import NN, _0to9_, _AtoZnoIO_, _COMMA_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
 from pygeodesy.named import _name__,  isstr, Property_RO
 from pygeodesy.namedTuples import LatLon2Tuple, LatLonPrec3Tuple
 # from pygeodesy.props import Property_RO  # from .named
 # from pygeodesy.streprs import Fmt  # from .dms
-from pygeodesy.units import Int_, Lat, Lon, Precision_, Scalar_, \
-                            Str, _xStrError
+from pygeodesy.units import Int_, Lat, Lon, Precision_, Scalar_, Str
 
 from math import floor
 
 __all__ = _ALL_LAZY.gars
-__version__ = '24.05.24'
+__version__ = '24.06.15'
 
 _Digits  = _0to9_
 _LatLen  =    2

@@ -85,7 +85,7 @@ except ImportError:  # Python 3+
     from string import ascii_letters as _LETTERS
 
 __all__ = _ALL_LAZY.dms
-__version__ = '24.05.18'
+__version__ = '24.06.11'
 
 _beyond_      = 'beyond'
 _DDDMMSS_     = 'DDDMMSS'
@@ -293,8 +293,8 @@ def clipDegrees(deg, limit):
 
        @return: Clipped value (C{degrees}).
 
-       @raise RangeError: If B{C{deg}} outside the valid C{-/+B{limit}}
-                          range and L{pygeodesy.rangerrors} set to C{True}.
+       @raise RangeError: If B{C{deg}} outside the valid C{-/+B{limit}} range
+                          and L{rangerrors<pygeodesy.rangerrors>} is C{True}.
     '''
     return _clip(deg, limit, _degrees_) if limit and limit > 0 else deg
 
@@ -307,8 +307,8 @@ def clipRadians(rad, limit):
 
        @return: Clipped value (C{radians}).
 
-       @raise RangeError: If B{C{rad}} outside the valid C{-/+B{limit}}
-                          range and  L{pygeodesy.rangerrors} set to C{True}.
+       @raise RangeError: If B{C{rad}} outside the valid C{-/+B{limit}} range
+                          and L{rangerrors<pygeodesy.rangerrors>} is C{True}.
     '''
     return _clip(rad, limit, _radians_) if limit and limit > 0 else rad
 
@@ -456,17 +456,14 @@ def latlonDMS(lls, **m_form_prec_sep_s_D_M_S):
                 C{LatLon.toStr} and functions L{pygeodesy.latDMS} and
                 L{pygeodesy.lonDMS} for more details.
 
-       @return: A C{tuple} of C{str}s if B{C{lls}} is a list, sequence,
-                tuple, etc. of C{LatLon} instances or a single C{str}
-                if B{C{lls}} is a single C{LatLon}.
+       @return: A C{tuple} of C{str}s if B{C{lls}} is a list, sequence, tuple, etc.
+                of C{LatLon}s or a single C{str} if B{C{lls}} is a single C{LatLon}.
 
-       @see: Functions L{pygeodesy.latlonDMS_}, L{pygeodesy.latDMS},
-             L{pygeodesy.lonDMS} and L{pygeodesy.toDMS} and method
-             C{LatLon.toStr}.
+       @see: Functions L{pygeodesy.latlonDMS_}, L{pygeodesy.latDMS}, L{pygeodesy.lonDMS}
+             and L{pygeodesy.toDMS} and method C{LatLon.toStr}.
 
-       @note: Keyword argument C{B{sep}=None} to join a C{str}ing
-              from the returned C{tuple} has been I{DEPRECATED},
-              use C{B{sep}.join(B{latlonDMS_}(...))} instead.
+       @note: Keyword argument C{B{sep}=None} to join a C{str}ing from the returned C{tuple}
+              has been I{DEPRECATED}, use C{B{sep}.join(B{latlonDMS_}(...))} instead.
     '''
     sep, kwds = _latlonDMS_sep2(latlonDMS, **m_form_prec_sep_s_D_M_S)
     if isLatLon(lls):
@@ -610,7 +607,7 @@ def parseDDDMMSS(strDDDMMSS, suffix=_NSEW_, sep=S_SEP, clip=0, sexagecimal=False
                           B{C{suffix}} compass point.
 
        @raise RangeError: Value of B{C{strDDDMMSS}} outside the valid C{-/+B{clip}}
-                          range and L{pygeodesy.rangerrors} set to C{True}.
+                          range and L{rangerrors<pygeodesy.rangerrors>} is C{True}.
 
        @note: Type C{str} values "[D]DD", "[D]DDMM", "[D]DDMMSS" and "[D]DD.MMSS"
               for B{C{strDDDMMSS}} are parsed properly only if I{either} unsigned
@@ -746,14 +743,13 @@ def parseDMS(strDMS, suffix=_NSEW_, sep=S_SEP, clip=0, **s_D_M_S):  # MCCABE 14
 
        @raise ParseError: Invalid B{C{strDMS}} or B{C{clip}}.
 
-       @raise RangeError: Value of B{C{strDMS}} outside the valid C{-/+B{clip}}
-                          range and L{pygeodesy.rangerrors} set to C{True}.
+       @raise RangeError: Value of B{C{strDMS}} outside the valid C{-/+B{clip}} range
+                          and L{rangerrors<pygeodesy.rangerrors>} is C{True}.
 
-       @note: Unlike function L{parseDDDMMSS}, type C{float}, C{int} and other
-              non-C{str} B{C{strDMS}} values are considered decimal (and not
-              sexagecimal) degrees.  For example, C{int(1230)} is returned
-              as 1230.0 I{and not as 12.5} degrees and C{float(345)} as 345.0
-              I{and not as 3.75} degrees!
+       @note: Unlike function L{parseDDDMMSS}, type C{float}, C{int} and other non-C{str}
+              B{C{strDMS}} values are considered decimal (and not sexagecimal) degrees.
+              For example, C{int(1230)} is returned as 1230.0 I{and not as 12.5} degrees
+              and C{float(345)} as 345.0 I{and not as 3.75} degrees!
 
        @see: Functions L{pygeodesy.parseDDDMMSS}, L{pygeodesy.parseDMS2},
              L{pygeodesy.parse3llh} and L{pygeodesy.toDMS}.
@@ -780,7 +776,7 @@ def parseDMS2(strLat, strLon, sep=S_SEP, clipLat=90, clipLon=180, wrap=False, **
 
        @raise RangeError: Value of B{C{strLat}} or B{C{strLon}} outside the
                           valid C{-/+B{clipLat}} or C{-/+B{clipLon}} range
-                          and L{pygeodesy.rangerrors} set to C{True}.
+                          and L{rangerrors<pygeodesy.rangerrors>} is C{True}.
 
        @note: See the B{Notes} at function L{parseDMS}.
 
@@ -829,9 +825,9 @@ def parse3llh(strllh, height=0, sep=_COMMA_, clipLat=90, clipLon=180, wrap=False
        @return: A L{LatLon3Tuple}C{(lat, lon, height)} in C{degrees},
                 C{degrees} and C{float}.
 
-       @raise RangeError: Lat- or longitude value of B{C{strllh}} outside
-                          the valid C{-/+B{clipLat}} or C{-/+B{clipLon}}
-                          range and L{pygeodesy.rangerrors} set to C{True}.
+       @raise RangeError: Lat- or longitude value of B{C{strllh}} outside the
+                          valid C{-/+B{clipLat}} or C{-/+B{clipLon}} range
+                          and L{rangerrors<pygeodesy.rangerrors>} is C{True}.
 
        @raise ValueError: Invalid B{C{strllh}} or B{C{height}}.
 
@@ -870,7 +866,7 @@ def parseRad(strRad, suffix=_NSEW_, clip=0):
        @raise ParseError: Invalid B{C{strRad}} or B{C{clip}}.
 
        @raise RangeError: Value of B{C{strRad}} outside the valid C{-/+B{clip}}
-                          range and L{pygeodesy.rangerrors} set to C{True}.
+                          range and L{rangerrors<pygeodesy.rangerrors>} is C{True}.
     '''
     def _Rad(strRad, suffix, clip):
         try:

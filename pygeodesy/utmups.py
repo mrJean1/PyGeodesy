@@ -31,7 +31,7 @@ from pygeodesy.utmupsBase import Fmt, _to4lldn, _to3zBhp, _UPS_ZONE, \
                                 _UTMUPS_ZONE_MAX, _WGS84
 
 __all__ = _ALL_LAZY.utmups
-__version__ = '24.05.30'
+__version__ = '24.06.11'
 
 _MGRS_TILE = _100km  # in .mgrs.Mgrs.tile
 
@@ -111,32 +111,31 @@ def toUtmUps8(latlon, lon=None, datum=None, falsed=True, Utm=Utm, Ups=Ups,
 
        @arg latlon: Latitude (C{degrees}) or an (ellipsoidal)
                     geodetic C{LatLon} point.
-       @kwarg lon: Optional longitude (C{degrees}) or C{None}.
-       @kwarg datum: Optional datum to use this UTM coordinate,
-                     overriding B{C{latlon}}'s datum (C{Datum}).
-       @kwarg falsed: False both easting and northing (C{bool}).
-       @kwarg Utm: Optional class to return the UTM coordinate (L{Utm})
-                   or C{None}.
-       @kwarg Ups: Optional class to return the UPS coordinate (L{Ups})
-                   or C{None}.
-       @kwarg pole: Optional top/center of UPS (stereographic)
-                    projection (C{str}, C{'N[orth]'} or C{'S[outh]'}).
-       @kwarg name_cmoff: Optional B{C{Utm}} or B{C{Ups}} C{B{name}=NN}
-                   (C{str}) and DEPRECATED keyword argument C{B{cmoff}=True}
-                   to offset the longitude from the zone's central meridian
-                   (C{bool}), use B{C{falsed}} instead and I{for UTM only}.
+       @kwarg lon: Longitude (C{degrees}), required if B{C{latlon}} is C{degrees},
+                   ignored otherwise.
+       @kwarg datum: Optional datum to use this UTM coordinate, overriding the
+                     B{C{latlon}}'s datum (C{Datum}).
+       @kwarg falsed: If C{True}, false both easting and northing (C{bool}).
+       @kwarg Utm: Optional class to return the UTM coordinate (L{Utm}) or C{None}.
+       @kwarg Ups: Optional class to return the UPS coordinate (L{Ups}) or C{None}.
+       @kwarg pole: Optional top/center of UPS (stereographic) projection (C{str},
+                    C{'N[orth]'} or C{'S[outh]'}).
+       @kwarg name_cmoff: Optional C{B{name}=NN} (C{str}) and DEPRECATED keyword
+                   argument C{B{cmoff}=True} to offset the longitude from the zone's
+                   central meridian (C{bool}), use B{C{falsed}} instead and I{for
+                   UTM only}.
 
-       @return: The UTM or UPS coordinate (B{C{Utm}} respectively B{C{Ups}})
-                or a L{UtmUps8Tuple}C{(zone, hemipole, easting, northing,
-                band, datum, gamma, scale)} if B{C{Utm}} respectively
-                B{C{Ups}} is C{None} or B{C{cmoff}} is C{False}.
+       @return: The UTM or UPS coordinate (B{C{Utm}} respectively B{C{Ups}}) or a
+                L{UtmUps8Tuple}C{(zone, hemipole, easting, northing, band, datum,
+                gamma, scale)} if B{C{Utm}} respectively C{B{Ups} is None} or if
+                C{B{falsed} is False}.
 
-       @raise RangeError: If B{C{lat}} outside the valid UTM or UPS bands
-                          or if B{C{lat}} or B{C{lon}} outside the valid
-                          range and L{pygeodesy.rangerrors} set to C{True}.
+       @raise RangeError: If B{C{lat}} outside the valid UTM or UPS bands or if
+                          B{C{lat}} or B{C{lon}} outside the valid range and
+                          L{rangerrors<pygeodesy.rangerrors>} is C{True}.
 
-       @raise TypeError: If B{C{latlon}} is not ellipsoidal or B{C{lon}}
-                         value is missing of B{C{datum}} is invalid.
+       @raise TypeError: If B{C{latlon}} is not ellipsoidal or B{C{lon}} is missing
+                         or B{C{datum}} is invalid.
 
        @raise UTMUPSError: UTM or UPS validation failed.
 
@@ -154,21 +153,20 @@ def toUtmUps8(latlon, lon=None, datum=None, falsed=True, Utm=Utm, Ups=Ups,
     return u
 
 
-def UtmUps(zone, hemipole, easting, northing, band=NN, datum=_WGS84,
-                                              falsed=True, **name):
+def UtmUps(zone, hemipole, easting, northing, band=NN, datum=_WGS84, falsed=True, **name):
     '''Class-like function to create a UTM/UPS coordinate.
 
        @kwarg zone: The UTM zone with/-out I{longitudinal} Band or UPS zone C{0}
                     or C{"00"} with/-out I{polar} Band (C{str} or C{int}).
-       @kwarg hemipole: UTM hemisphere or UPS top/center of projection
-                        (C{str}, C{'N[orth]'} or C{'S[outh]'}).
+       @kwarg hemipole: UTM hemisphere or UPS top/center of projection (C{str},
+                        C{'N[orth]'} or C{'S[outh]'}).
        @arg easting: Easting, see B{C{falsed}} (C{meter}).
        @arg northing: Northing, see B{C{falsed}} (C{meter}).
        @kwarg band: Optional, UTM I{latitudinal} C{'C'|'D'|..|'W'|'X'} or UPS
                     I{polar} Band letter C{'A'|'B'|'Y'|'Z'} Band letter (C{str}).
        @kwarg datum: The coordinate's datum (L{Datum}).
-       @kwarg falsed: If C{True}, both B{C{easting}} and B{C{northing}} are
-                      falsed (C{bool}).
+       @kwarg falsed: If C{True}, both B{C{easting}} and B{C{northing}} are falsed
+                      (C{bool}).
        @kwarg name: Optional L{Utm} or L{Ups} C{B{name}=NN} (C{str}).
 
        @return: New UTM or UPS instance (L{Utm} or L{Ups}).
@@ -182,17 +180,16 @@ def UtmUps(zone, hemipole, easting, northing, band=NN, datum=_WGS84,
     '''
     z, B, hp = _to3zBhp(zone, band, hemipole=hemipole)
     U = Ups if z in (_UPS_ZONE, _UPS_ZONE_STR) else Utm
-    return U(z, hp, easting, northing, band=B, datum=datum,
-                                       falsed=falsed, **name)
+    return U(z, hp, easting, northing, band=B, datum=datum, falsed=falsed, **name)
 
 
 def utmupsValidate(coord, falsed=False, MGRS=False, Error=UTMUPSError):
     '''Check a UTM or UPS coordinate.
 
-       @arg coord: The UTM or UPS coordinate (L{Utm}, L{Etm}, L{Ups}
-                   or C{5+Tuple}).
-       @kwarg falsed: C{5+Tuple} easting and northing are falsed
-                      (C{bool}), ignored otherwise.
+       @arg coord: The UTM or UPS coordinate (L{Utm}, L{Etm}, L{Ups} or
+                   C{5+Tuple}).
+       @kwarg falsed: If C{True}, easting and northing are falsed in the
+                      C{B{coord} 5+Tuple} (C{bool}), ignored otherwise.
        @kwarg MGRS: Increase easting and northing ranges (C{bool}).
        @kwarg Error: Optional error to raise, overriding the default
                      (L{UTMUPSError}).
@@ -253,8 +250,8 @@ def utmupsValidateOK(coord, falsed=False, ok=True):
     '''Check a UTM or UPS coordinate.
 
        @arg coord: The UTM or UPS coordinate (L{Utm}, L{Ups} or C{5+Tuple}).
-       @kwarg falsed: Use C{B{falsed}=True} if the C{5+Tuple} easting and
-                      northing are falsed (C{bool}).
+       @kwarg falsed: If C{True}, easting and northing are falsed in the
+                      C{B{coord} 5+Tuple} (C{bool}), ignored otherwise.
        @kwarg ok: Result to return if validation passed (B{C{ok}}).
 
        @return: B{C{ok}} if validation passed, otherwise the L{UTMUPSError}.
@@ -263,9 +260,9 @@ def utmupsValidateOK(coord, falsed=False, ok=True):
     '''
     try:
         utmupsValidate(coord, falsed=falsed)
-        return ok
     except UTMUPSError as x:
         return x
+    return ok
 
 
 def utmupsZoneBand5(lat, lon, cmoff=False, **name):
@@ -280,11 +277,11 @@ def utmupsZoneBand5(lat, lon, cmoff=False, **name):
 
        @return: A L{UtmUpsLatLon5Tuple}C{(zone, band, hemipole, lat, lon)}
                 where C{hemipole} is C{'N'|'S'}, the UTM hemisphere or UPS
-                pole, the UPS projection top/center.
+                pole, projection top/center.
 
-       @raise RangeError: If B{C{lat}} outside the valid UTM or UPS bands
-                          or if B{C{lat}} or B{C{lon}} outside the valid
-                          range and L{pygeodesy.rangerrors} set to C{True}.
+       @raise RangeError: If B{C{lat}} outside the valid UTM or UPS bands or
+                          if B{C{lat}} or B{C{lon}} outside the valid range
+                          and L{rangerrors<pygeodesy.rangerrors>} is C{True}.
 
        @raise ValueError: Invalid B{C{lat}} or B{C{lon}}.
 

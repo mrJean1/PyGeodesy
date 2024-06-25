@@ -21,13 +21,13 @@ from pygeodesy.errors import _ValueError, _xkwds, _xkwds_get1,  _ALL_LAZY, _MODS
 from pygeodesy.internals import _passargs  # , _MODS?
 from pygeodesy.interns import _edge_, _radians_, _semi_circular_, _SPACE_
 # from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS  # from .errors
-from pygeodesy.units import Degrees, Degrees_, Feet, Float, Lam, Lam_, \
+from pygeodesy.units import Degrees, Degrees_, Feet, Float, Lam, Lamd, \
                             Meter, Meter2, Radians, Radians_
 
 from math import acos, asin, atan2, cos, degrees, fabs, radians, sin, tan  # pow
 
 __all__ = _ALL_LAZY.utily
-__version__ = '24.06.03'
+__version__ = '24.06.15'
 
 # read constant name "_M_Unit" as "meter per Unit"
 _M_CHAIN     = _F(  20.1168)     # yard2m(1) * 22
@@ -171,7 +171,7 @@ def circle4(earth, lat):
                 instance.
 
        @raise RangeError: Latitude B{C{lat}} outside valid range and
-                          L{pygeodesy.rangerrors} set to C{True}.
+                          L{rangerrors<pygeodesy.rangerrors>} is C{True}.
 
        @raise TypeError: Invalid B{C{earth}}.
 
@@ -308,7 +308,7 @@ def degrees2m(deg, radius=R_M, lat=0):
                 near-polar B{C{lat}}.
 
        @raise RangeError: Latitude B{C{lat}} outside valid range and
-                          L{pygeodesy.rangerrors} set to C{True}.
+                          L{rangerrors<pygeodesy.rangerrors>} is C{True}.
 
        @raise TypeError: Invalid B{C{radius}}.
 
@@ -317,7 +317,7 @@ def degrees2m(deg, radius=R_M, lat=0):
 
        @see: Function L{radians2m} and L{m2degrees}.
     '''
-    return _Radians2m(Lam_(deg=deg, clip=0), radius, lat)
+    return _Radians2m(Lamd(deg=deg, clip=0), radius, lat)
 
 
 def fathom2m(fathoms):
@@ -449,7 +449,7 @@ def m2degrees(distance, radius=R_M, lat=0):
        @return: Angle (C{degrees}) or C{INF} for near-polar B{C{lat}}.
 
        @raise RangeError: Latitude B{C{lat}} outside valid range and
-                          L{pygeodesy.rangerrors} set to C{True}.
+                          L{rangerrors<pygeodesy.rangerrors>} is C{True}.
 
        @raise TypeError: Invalid B{C{radius}}.
 
@@ -546,7 +546,7 @@ def m2radians(distance, radius=R_M, lat=0):
        @return: Angle (C{radians}) or C{INF} for near-polar B{C{lat}}.
 
        @raise RangeError: Latitude B{C{lat}} outside valid range and
-                          L{pygeodesy.rangerrors} set to C{True}.
+                          L{rangerrors<pygeodesy.rangerrors>} is C{True}.
 
        @raise TypeError: Invalid B{C{radius}}.
 
@@ -624,7 +624,7 @@ def radians2m(rad, radius=R_M, lat=0):
                 near-polar B{C{lat}}.
 
        @raise RangeError: Latitude B{C{lat}} outside valid range and
-                          L{pygeodesy.rangerrors} set to C{True}.
+                          L{rangerrors<pygeodesy.rangerrors>} is C{True}.
 
        @raise TypeError: Invalid B{C{radius}}.
 

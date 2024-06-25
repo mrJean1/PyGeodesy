@@ -34,7 +34,7 @@ from pygeodesy.units import Lat, Lon, Meter, Scalar, Str
 # from math import fabs  # from .karney
 
 __all__ = _ALL_LAZY.elevations
-__version__ = '24.05.13'
+__version__ = '24.06.11'
 
 try:
     from urllib2 import urlopen  # quote, urlcleanup
@@ -152,7 +152,7 @@ def elevation2(lat, lon, timeout=2.0):
 
        @raise ValueError: Invalid B{C{timeout}}.
 
-       @note: The returned C{elevation} is C{None} if B{C{lat}} or B{C{lon}} is
+       @note: The returned C{elevation is None} if B{C{lat}} or B{C{lon}} is
               invalid or outside the C{Conterminous US (CONUS)}, if conversion
               failed or if the query timed out.  The C{"error"} is the C{HTTP-,
               IO-, SSL-} or other C{-Error} as a string (C{str}).
@@ -208,8 +208,8 @@ def geoidHeight2(lat, lon, model=0, timeout=2.0):
 
        @raise ValueError: Invalid B{C{timeout}}.
 
-       @note: The returned C{height} is C{None} if B{C{lat}} or B{C{lon}}
-              is invalid or outside the C{Conterminous US (CONUS)}, if the
+       @note: The returned C{height is None} if B{C{lat}} or B{C{lon}} is
+              invalid or outside the C{Conterminous US (CONUS)}, if the
               B{C{model}} was invalid, if conversion failed or if the query
               timed out.  The C{"error"} is the C{HTTP-, IO-, SSL-, URL-}
               or other C{-Error} as a string (C{str}).

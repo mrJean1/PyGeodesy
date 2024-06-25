@@ -67,7 +67,7 @@ from cmath import polar
 from math import atan2, asinh, cos, cosh, degrees, fabs, sin, sinh, sqrt, tanh
 
 __all__ = _ALL_LAZY.ktm
-__version__ = '24.05.24'
+__version__ = '24.06.11'
 
 
 class KTMError(_ValueError):
@@ -119,18 +119,16 @@ class KTransverseMercator(_NamedBase):
                                    raiser=False, **TMorder_name):
         '''New L{KTransverseMercator}.
 
-           @kwarg a_earth: This rhumb's earth (L{Ellipsoid}, L{Ellipsoid2},
-                           L{a_f2Tuple}, L{Datum}, 2-tuple (C{a, f})) or the
-                           equatorial radius (C{scalar}, C{meter}).
-           @kwarg f: The ellipsoid's flattening (C{scalar}), iff B{C{a_earth}}
-                     is a C{scalar}, ignored otherwise.
+           @kwarg a_earth: This rhumb's earth (L{Ellipsoid}, L{Ellipsoid2}, L{a_f2Tuple},
+                           L{Datum}, 2-tuple (C{a, f})) or the equatorial radius (C{meter}).
+           @kwarg f: The ellipsoid's flattening (C{scalar}), required if B{C{a_earth}} is
+                     is C{meter}, ignored otherwise.
            @kwarg lon0: The central meridian (C{degrees180}).
            @kwarg k0: Central scale factor (C{scalar}).
-           @kwarg raiser: If C{True}, throw a L{KTMError} for C{forward}
-                          singularities (C{bool}).
-           @kwarg TMorder_name: Optional C{B{name}=NN} (C{str}) and optional
-                          keyword argument C{B{TMorder}=6} for the order of
-                          this L{KTransverseMercator}, see property C{TMorder}.
+           @kwarg raiser: If C{True}, throw a L{KTMError} for C{forward} singularities (C{bool}).
+           @kwarg TMorder_name: Optional C{B{name}=NN} (C{str}) and optional keyword argument
+                          C{B{TMorder}=6} for the order of this L{KTransverseMercator}, see
+                          property C{TMorder}.
 
            @raise KTMError: Invalid B{C{a_earth}}, B{C{f}} or B{C{TMorder}}.
         '''
@@ -229,14 +227,13 @@ class KTransverseMercator(_NamedBase):
            @arg lon0: Central meridian of the projection (C{degrees180}).
            @kwarg name: Optional C{B{name}=NN} (C{str}).
 
-           @return: L{Forward4Tuple}C{(easting, northing, gamma, scale)}
-                    with C{easting} and C{northing} in C{meter}, unfalsed, the
+           @return: L{Forward4Tuple}C{(easting, northing, gamma, scale)} with
+                    C{easting} and C{northing} in C{meter}, unfalsed, the
                     meridian convergence C{gamma} at point in C{degrees180}
                     and the C{scale} of projection at point C{scalar}.  Any
                     value may be C{NAN}, C{NINF} or C{INF} for singularities.
 
-           @raise KTMError: For singularities, iff property C{raiser} is
-                            C{True}.
+           @raise KTMError: For singularities, iff property C{raiser} is C{True}.
         '''
         lat, _lat = _unsigned2(_fix90(lat - self._lat0))
         lon, _    = _diff182((self.lon0 if lon0 is None else lon0), lon)
@@ -343,7 +340,7 @@ class KTransverseMercator(_NamedBase):
            @arg lat0: Latitude of the central parallel (C{degrees90}).
            @arg lon0: Longitude of the central parallel (C{degrees180}).
 
-           @return: 2-Tuple C{(lat0, lon0)} of the previous central
+           @return: 2-Tuple C{(lat0, lon0)} with the previous central
                     parallel and meridian.
 
            @raise KTMError: Invalid B{C{lat0}} or B{C{lon0}}.

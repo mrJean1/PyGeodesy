@@ -18,9 +18,8 @@ from pygeodesy.cartesianBase import CartesianBase  # PYCHOK used!
 from pygeodesy.datums import Datum, Datums, _earth_ellipsoid, _ellipsoidal_datum, \
                              Transform, _WGS84,  _EWGS84, _xinstanceof  # _spherical_datum
 # from pygeodesy.ellipsoids import _EWGS84  # from .datums
-from pygeodesy.errors import _incompatible, _IsnotError, RangeError, _TypeError, \
-                             _ValueError, _xattr, _xellipsoidal, _xError, _xkwds, \
-                             _xkwds_not
+from pygeodesy.errors import _IsnotError, RangeError, _TypeError, _xattr, _xellipsoidal, \
+                             _xellipsoids, _xError, _xkwds, _xkwds_not
 # from pygeodesy.fmath import favg  # _MODS
 from pygeodesy.interns import NN, _COMMA_, _ellipsoidal_
 from pygeodesy.latlonBase import LatLonBase, _trilaterate5,  fabs, _Wrap
@@ -36,7 +35,7 @@ from pygeodesy.units import Epoch, _isDegrees, Radius_, _1mm as _TOL_M
 # from math import fabs  # from .latlonBase
 
 __all__ = _ALL_LAZY.ellipsoidalBase
-__version__ = '24.06.06'
+__version__ = '24.06.24'
 
 
 class CartesianEllipsoidalBase(CartesianBase):
@@ -120,13 +119,13 @@ class CartesianEllipsoidalBase(CartesianBase):
            @kwarg Vector_kwds: Optional, additional B{C{Vector}} keyword arguments,
                                ignored if C{B{Vector} is None}.
 
-           @return: If B{C{sphere}} is C{True}, a 2-tuple of the C{center} and C{radius}
-                    of the intersection of the I{spheres}.  The C{radius} is C{0.0} for
+           @return: If C{B{sphere} is True}, a 2-tuple of the C{center} and C{radius} of
+                    the intersection of the I{spheres}.  The C{radius} is C{0.0} for
                     abutting spheres (and the C{center} is aka the I{radical center}).
 
-                    If B{C{sphere}} is C{False}, a 2-tuple with the two intersection
-                    points of the I{circles}.  For abutting circles, both points are
-                    the same instance, aka the I{radical center}.
+                    If C{B{sphere} is False}, a 2-tuple with the two intersection points
+                    of the I{circles}.  For abutting circles, both points are the same
+                    instance, aka the I{radical center}.
 
            @raise IntersectionError: Concentric, invalid or non-intersecting spheres or circles.
 
@@ -224,26 +223,25 @@ class LatLonEllipsoidalBase(LatLonBase):
 
            @arg latlonh: Latitude (C{degrees} or DMS C{str} with N or S suffix) or
                          a previous C{LatLon} instance provided C{B{lon}=None}.
-           @kwarg lon: Longitude (C{degrees} or DMS C{str} with E or W suffix) or
-                       C(None), indicating B{C{latlonh}} is a C{LatLon}.
-           @kwarg height: Optional height above (or below) the earth surface
-                          (C{meter}, same units as the datum's ellipsoid axes).
+           @kwarg lon: Longitude (C{degrees} or DMS C{str} with E or W suffix) or C(None),
+                       indicating B{C{latlonh}} is a C{LatLon}.
+           @kwarg height: Optional height above (or below) the earth surface (C{meter},
+                          same units as the datum's ellipsoid axes).
            @kwarg datum: Optional, ellipsoidal datum to use (L{Datum}, L{Ellipsoid},
                          L{Ellipsoid2} or L{a_f2Tuple}).
            @kwarg reframe: Optional reference frame (L{RefFrame}).
-           @kwarg epoch: Optional epoch to observe for B{C{reframe}} (C{scalar}),
-                         a non-zero, fractional calendar year; silently ignored
-                         if C{B{reframe}=None}.
-           @kwarg wrap: If C{True}, wrap or I{normalize} B{C{lat}} and B{C{lon}}
-                        (C{bool}).
+           @kwarg epoch: Optional epoch to observe for B{C{reframe}} (C{scalar}), a
+                         non-zero, fractional calendar year, but silently ignored if
+                         C{B{reframe}=None}.
+           @kwarg wrap: If C{True}, wrap or I{normalize} B{C{lat}} and B{C{lon}} (C{bool}).
            @kwarg name: Optional C{B{name}=NN} (C{str}).
 
-           @raise RangeError: Value of C{lat} or B{C{lon}} outside the valid
-                              range and L{rangerrors} set to C{True}.
+           @raise RangeError: Value of C{lat} or B{C{lon}} outside the valid range and
+                              L{rangerrors} set to C{True}.
 
-           @raise TypeError: If B{C{latlonh}} is not a C{LatLon}, B{C{datum}} is
-                             not a L{Datum}, B{C{reframe}} is not a L{RefFrame}
-                             or B{C{epoch}} is not C{scalar} non-zero.
+           @raise TypeError: If B{C{latlonh}} is not a C{LatLon}, B{C{datum}} is not a
+                             L{Datum}, B{C{reframe}} is not a L{RefFrame} or B{C{epoch}}
+                             is not C{scalar} non-zero.
 
            @raise UnitError: Invalid B{C{lat}}, B{C{lon}} or B{C{height}}.
         '''
@@ -300,8 +298,7 @@ class LatLonEllipsoidalBase(LatLonBase):
     def datum(self, datum):
         '''Set this point's datum I{without conversion} (L{Datum}).
 
-           @raise TypeError: The B{C{datum}} is not a L{Datum}
-                             or not ellipsoidal.
+           @raise TypeError: The B{C{datum}} is not a L{Datum} or not ellipsoidal.
         '''
         _xinstanceof(Datum, datum=datum)
         if not datum.isEllipsoidal:
@@ -410,9 +407,7 @@ class LatLonEllipsoidalBase(LatLonBase):
                 e = other.datum.ellipsoid
             except AttributeError:
                 e = E  # no datum, XXX assume equivalent?
-        if e != E:
-            raise _ValueError(e.named2, txt=_incompatible(E.named2))
-        return E
+        return _xellipsoids(E, e)
 
     @property_doc_(''' this point's observed or C{reframe} epoch (C{float}).''')
     def epoch(self):

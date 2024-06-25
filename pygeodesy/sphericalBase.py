@@ -19,7 +19,7 @@ from pygeodesy.constants import EPS, EPS0, PI, PI2, PI_2, R_M, \
                                _over, isnear0, isnon0
 from pygeodesy.datums import Datums, _earth_ellipsoid, _spherical_datum
 from pygeodesy.errors import IntersectionError, _ValueError, \
-                            _xattr, _xError
+                            _xattr, _xattrs, _xError
 from pygeodesy.fmath import favg, fdot, hypot, sqrt_a
 from pygeodesy.interns import _COMMA_, _concentric_, _datum_, _distant_, \
                               _exceed_PI_radians_, _name_, _near_, \
@@ -27,10 +27,10 @@ from pygeodesy.interns import _COMMA_, _concentric_, _datum_, _distant_, \
 from pygeodesy.latlonBase import LatLonBase,  _trilaterate5  # PYCHOK passed
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 # from pygeodesy.namedTuples import Bearing2Tuple  # from .cartesianBase
-from pygeodesy.nvectorBase import NvectorBase,  Fmt, _xattrs
+from pygeodesy.nvectorBase import NvectorBase,  Fmt
 from pygeodesy.props import deprecated_method, property_doc_, property_RO, \
                            _update_all
-# from pygeodesy.streprs import Fmt, _xattrs  # from .nvectorBase
+# from pygeodesy.streprs import Fmt  # from .nvectorBase
 from pygeodesy.units import Bearing, Bearing_, _isRadius, Radians_, Radius, \
                             Radius_, Scalar_, _100km
 from pygeodesy.utily import acos1, asin1, atan2b, atan2d, degrees90, \
@@ -40,7 +40,7 @@ from pygeodesy.utily import acos1, asin1, atan2b, atan2d, degrees90, \
 from math import cos, fabs, log, sin, sqrt
 
 __all__ = _ALL_LAZY.sphericalBase
-__version__ = '24.06.06'
+__version__ = '24.06.12'
 
 
 class CartesianSphericalBase(CartesianBase):
@@ -443,8 +443,8 @@ class LatLonSphericalBase(LatLonBase):
            @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the
                         B{C{other}} point (C{bool}).
 
-           @return: Distance (C{meter}, the same units as B{C{radius}}
-                    or C{radians} if B{C{radius}} is C{None}).
+           @return: Distance (C{meter}, the same units as B{C{radius}} or
+                    C{radians} if C{B{radius} is None}).
 
            @raise TypeError: The B{C{other}} point is incompatible.
 
@@ -576,12 +576,11 @@ class LatLonSphericalBase(LatLonBase):
         '''Convert this point to C{Nvector} components, I{including
            height}.
 
-           @kwarg Nvector_kwds: Optional, additional B{C{Nvector}}
-                                keyword arguments, ignored if
-                                C{B{Nvector} is None}.
+           @kwarg Nvector_kwds: Optional, additional B{C{Nvector}} keyword
+                                arguments, ignored if C{B{Nvector} is None}.
 
-           @return: An B{C{Nvector}} or a L{Vector4Tuple}C{(x, y, z, h)}
-                    if B{C{Nvector}} is C{None}.
+           @return: An B{C{Nvector}} or a L{Vector4Tuple}C{(x, y, z, h)} if
+                    B{C{Nvector} is None}.
 
            @raise TypeError: Invalid B{C{Nvector}} or B{C{Nvector_kwds}}.
         '''

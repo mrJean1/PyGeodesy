@@ -46,14 +46,14 @@ from pygeodesy.namedTuples import EasNor2Tuple, LatLon2Tuple, \
 from pygeodesy.props import Property_RO, property_RO
 from pygeodesy.streprs import _EN_WIDE, enstr2, _enstr2m3, Fmt, \
                               _resolution10, unstr, _xzipairs
-from pygeodesy.units import Easting, Lam_, Lat, Lon, Northing, \
-                            Phi_, Scalar, _10um, _100km
+from pygeodesy.units import Easting, Lamd, Lat, Lon, Northing, \
+                            Phid, Scalar, _10um, _100km
 from pygeodesy.utily import degrees90, degrees180, sincostan3, truncate
 
 from math import cos, fabs, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.osgr
-__version__ = '24.05.31'
+__version__ = '24.06.15'
 
 _equivalent_ = 'equivalent'
 _OSGR_       = 'OSGR'
@@ -108,7 +108,7 @@ class _NG(object):
 
     @Property_RO
     def lam0(self):  # True origin longitude C{radians}
-        return Lam_(self.lon0)
+        return Lamd(self.lon0)
 
     @Property_RO
     def lat0(self):  # True origin latitude, 49°N
@@ -160,7 +160,7 @@ class _NG(object):
 
     @Property_RO
     def phi0(self):  # True origin latitude C{radians}
-        return Phi_(self.lat0)
+        return Phid(self.lat0)
 
     def reverse(self, osgr):  # convert C{osgr} to (ellipsoidal} LatLon, as I{Karney}'s
         # U{Reverse<https://GeographicLib.SourceForge.io/C++/doc/OSGB_8hpp_source.html>}
@@ -296,7 +296,7 @@ class Osgr(_NamedBase):
            @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
                                arguments, ignored if C{B{LatLon} is None}.
 
-           @return: A B{C{LatLon}} instance or if B{C{LatLon}} is C{None}
+           @return: A B{C{LatLon}} instance or if C{B{LatLon} is None}
                     a L{LatLonDatum3Tuple}C{(lat, lon, datum)}.
 
            @note: While OS grid references are based on the OSGB36 datum,
@@ -520,8 +520,8 @@ def parseOSGR(strOSGR, Osgr=Osgr, **name_Osgr_kwds):
                    optional, additional B{C{Osgr}} keyword arguments,
                    ignored if C{B{Osgr} is None}.
 
-       @return: An (B{C{Osgr}}) instance or if B{C{Osgr}} is
-                C{None} an L{EasNor2Tuple}C{(easting, northing)}.
+       @return: An (B{C{Osgr}}) instance or if C{B{Osgr} is None}, an
+                L{EasNor2Tuple}C{(easting, northing)}.
 
        @raise OSGRError: Invalid B{C{strOSGR}}.
     '''
@@ -598,7 +598,7 @@ def toOsgr(latlon, lon=None, kTM=False, datum=_WGS84, Osgr=Osgr,  # MCCABE 14
                    and additional B{C{Osgr}} keyword arguments,
                    ignored if C{B{Osgr} is None}.
 
-       @return: An (B{C{Osgr}}) instance or if B{C{Osgr}} is C{None}
+       @return: An (B{C{Osgr}}) instance or if C{B{Osgr} is None}
                 an L{EasNor2Tuple}C{(easting, northing)}.
 
        @note: If L{isint}C{(B{prec})} both easting and northing are

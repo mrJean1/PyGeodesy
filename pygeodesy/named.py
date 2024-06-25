@@ -34,7 +34,7 @@ from pygeodesy.streprs import attrs, Fmt, lrstrip, pairs, reprs, unstr
 # from pygeodesy.units import _toUnit  # _MODS
 
 __all__ = _ALL_LAZY.named
-__version__ = '24.06.10'
+__version__ = '24.06.24'
 
 _COMMANL_           = _COMMA_ + _NL_
 _COMMASPACEDOT_     = _COMMASPACE_ + _DOT_
@@ -71,6 +71,15 @@ class ADict(dict):
         '''Default C{repr(self)}.
         '''
         return self.toRepr()
+
+    def __setattr__(self, name, value):
+        '''Set the value of a I{known} item by B{C{name}}.
+        '''
+        try:
+            if self[name] != value:
+                self[name] = value
+        except KeyError:
+            dict.__setattr__(self, name, value)
 
     def __str__(self):
         '''Default C{str(self)}.
@@ -241,15 +250,16 @@ class _Named(object):
 #           _update_all(d)
         return d
 
-    def _instr(self, name, prec, *attrs, **fmt_props_kwds):
-        '''(INTERNAL) Format, used by C{Conic}, C{Ellipsoid}, C{Transform}, C{Triaxial}.
+    def _instr(self, *attrs, **fmt_prec_props_sep_name__kwds):
+        '''(INTERNAL) Format, used by C{Conic}, C{Ellipsoid}, C{Geodesic...}, C{Transform}, C{Triaxial}.
         '''
-        def _fmt_props_kwds(fmt=Fmt.F, props=(), **kwds):
-            return fmt, props, kwds
+        def _fmt_prec_props_kwds(fmt=Fmt.F, prec=6, props=(), sep=_COMMASPACE_, **kwds):
+            return fmt, prec, props, sep, kwds
 
-        fmt, props, kwds = _fmt_props_kwds(**fmt_props_kwds)
+        name, kwds = _name2__(**fmt_prec_props_sep_name__kwds)
+        fmt, prec, props, sep, kwds = _fmt_prec_props_kwds(**kwds)
 
-        t = () if name is None else (Fmt.EQUAL(name=repr(self._name__(name))),)
+        t = () if name is None else (Fmt.EQUAL(name=repr(name or self.name)),)
         if attrs:
             t += pairs(((a, getattr(self, a)) for a in attrs),
                        prec=prec, ints=True, fmt=fmt)
@@ -258,7 +268,7 @@ class _Named(object):
                        prec=prec, ints=True)
         if kwds:
             t += pairs(kwds, prec=prec)
-        return _COMMASPACE_.join(t)
+        return sep.join(t) if sep else t
 
     @property_RO
     def iteration(self):  # see .karney.GDict
@@ -1090,8 +1100,7 @@ class _NamedTuple(tuple, _Named):
         '''Yield the items, each as a C{2-tuple (name, value}) with the
            value wrapped as an instance of its L{units} class.
 
-           @kwarg Error: Optional C{B{Error}=UnitError} to raise for
-                         L{units} issues.
+           @kwarg Error: Optional C{B{Error}=UnitError} to raise.
 
            @raise Error: Invalid C{Named-Tuple} item or L{units} class.
 

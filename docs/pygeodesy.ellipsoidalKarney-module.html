@@ -67,6 +67,8 @@
   class="link">Cartesian</a> classes and functions <a 
   href="pygeodesy.ellipsoidalKarney-module.html#areaOf" 
   class="link">areaOf</a>, <a 
+  href="pygeodesy.ellipsoidalKarney-module.html#intersection3" 
+  class="link">intersection3</a>, <a 
   href="pygeodesy.ellipsoidalKarney-module.html#intersections2" 
   class="link">intersections2</a>, <a 
   href="pygeodesy.ellipsoidalKarney-module.html#isclockwise" 
@@ -74,10 +76,10 @@
   href="pygeodesy.ellipsoidalKarney-module.html#nearestOn" 
   class="link">nearestOn</a> and <a 
   href="pygeodesy.ellipsoidalKarney-module.html#perimeterOf" 
-  class="link">perimeterOf</a>, all requiring <i>Charles Karney</i>'s <a 
+  class="link">perimeterOf</a>, requiring <i>Charles F.F. Karney</i>'s <a 
   href="https://PyPI.org/project/geographiclib" 
   target="_top">geographiclib</a> Python package to be installed.</p>
-  <p>Here's an example usage of <code>ellipsoidalKarney</code>:</p>
+  <p>A usage example of <code>ellipsoidalKarney</code>:</p>
 <pre class="py-doctest">
 <span class="py-prompt">&gt;&gt;&gt; </span><span class="py-keyword">from</span> pygeodesy.ellipsoidalKarney <span class="py-keyword">import</span> LatLon
 <span class="py-prompt">&gt;&gt;&gt; </span>Newport_RI = LatLon(41.49008, -71.312796)
@@ -96,7 +98,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        24.05.25
+        24.06.11
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -127,8 +129,8 @@
         href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
         class="link">LatLon</a> similar to <a 
         href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
-        class="link">ellipsoidalVincenty.LatLon</a> but using <i>Charles F.
-        F. Karney</i>'s Python <a 
+        class="link">ellipsoidalVincenty.LatLon</a> but using 
+        <i>Karney</i>'s Python <a 
         href="https://PyPI.org/project/geographiclib" 
         target="_top">geographiclib</a> to compute geodesic distances, 
         bearings (azimuths), etc.
@@ -192,7 +194,9 @@
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalKarney-module.html#areaOf" class="summary-sig-name">areaOf</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>)</span><br />
-      Compute the area of an (ellipsoidal) polygon or composite.</td>
+      Compute the area of an (ellipsoidal) polygon or composite using 
+      <i>Karney</i>'s <a href="https://PyPI.org/project/geographiclib" 
+      target="_top">geographiclib</a> package.</td>
           <td align="right" valign="top">
             
             
@@ -266,7 +270,9 @@
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalKarney-module.html#isclockwise" class="summary-sig-name">isclockwise</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>)</span><br />
-      Determine the direction of a path or polygon.</td>
+      Determine the direction of a path or polygon using <i>Karney</i>'s <a
+      href="https://PyPI.org/project/geographiclib" 
+      target="_top">geographiclib</a> package.</td>
           <td align="right" valign="top">
             
             
@@ -313,7 +319,9 @@
         <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>)</span><br />
-      Compute the perimeter of an (ellipsoidal) polygon or composite.</td>
+      Compute the perimeter of an (ellipsoidal) polygon or composite using 
+      <i>Karney</i>'s <a href="https://PyPI.org/project/geographiclib" 
+      target="_top">geographiclib</a> package.</td>
           <td align="right" valign="top">
             
             
@@ -454,7 +462,9 @@
     </td>
   </tr></table>
   
-  <p>Compute the area of an (ellipsoidal) polygon or composite.</p>
+  <p>Compute the area of an (ellipsoidal) polygon or composite using 
+  <i>Karney</i>'s <a href="https://PyPI.org/project/geographiclib" 
+  target="_top">geographiclib</a> package.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -485,22 +495,7 @@
         longitudes not supported.</li>
     </ul></dd>
   </dl>
-<div class="fields">      <strong>Notes:</strong>
-      <ul class="nomargin-top">
-        <li>
-        This function requires the <a 
-        href="https://PyPI.org/project/geographiclib" 
-        target="_top">geographiclib</a> package.
-        </li>
-        <li>
-        The <a 
-        href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1GeodesicExact.html#a3d7a9155e838a09a48dc14d0c3fac525"
-        target="_top">area of a polygon enclosing a pole</a> can be found 
-        by adding half the datum's ellipsoid surface area to the polygon's 
-        area.
-        </li>
-      </ul>
-      <p><strong>See Also:</strong>
+<div class="fields">      <p><strong>See Also:</strong>
         Functions <a href="pygeodesy.points-module.html#areaOf" 
         class="link">pygeodesy.areaOf</a>, <a 
         href="pygeodesy.ellipsoidalExact-module.html#areaOf" 
@@ -511,6 +506,13 @@
         class="link">sphericalNvector.areaOf</a> and <a 
         href="pygeodesy.sphericalTrigonometry-module.html#areaOf" 
         class="link">sphericalTrigonometry.areaOf</a>.
+      </p>
+      <p><strong>Note:</strong>
+        The <a 
+        href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1GeodesicExact.html#a3d7a9155e838a09a48dc14d0c3fac525"
+        target="_top">area of a polygon enclosing a pole</a> can be found 
+        by adding half the datum's ellipsoid surface area to the polygon's 
+        area.
       </p>
 </div></td></tr></table>
 </div>
@@ -712,7 +714,9 @@
     </td>
   </tr></table>
   
-  <p>Determine the direction of a path or polygon.</p>
+  <p>Determine the direction of a path or polygon using <i>Karney</i>'s <a 
+  href="https://PyPI.org/project/geographiclib" 
+  target="_top">geographiclib</a> package.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -734,12 +738,7 @@
         <li><code><strong class='fraise'>ValueError</strong></code> - The <b><code>points</code></b> enclose a pole or zero area.</li>
     </ul></dd>
   </dl>
-<div class="fields">      <p><strong>Note:</strong>
-        This function requires the <a 
-        href="https://PyPI.org/project/geographiclib" 
-        target="_top">geographiclib</a> package.
-      </p>
-      <p><strong>See Also:</strong>
+<div class="fields">      <p><strong>See Also:</strong>
         <a href="pygeodesy.points-module.html#isclockwise" 
         class="link">pygeodesy.isclockwise</a>.
       </p>
@@ -841,7 +840,9 @@
     </td>
   </tr></table>
   
-  <p>Compute the perimeter of an (ellipsoidal) polygon or composite.</p>
+  <p>Compute the perimeter of an (ellipsoidal) polygon or composite using 
+  <i>Karney</i>'s <a href="https://PyPI.org/project/geographiclib" 
+  target="_top">geographiclib</a> package.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -875,12 +876,7 @@
         <code><b>points</b></code> a composite.</li>
     </ul></dd>
   </dl>
-<div class="fields">      <p><strong>Note:</strong>
-        This function requires the <a 
-        href="https://PyPI.org/project/geographiclib" 
-        target="_top">geographiclib</a> package.
-      </p>
-      <p><strong>See Also:</strong>
+<div class="fields">      <p><strong>See Also:</strong>
         Functions <a href="pygeodesy.points-module.html#perimeterOf" 
         class="link">pygeodesy.perimeterOf</a>, <a 
         href="pygeodesy.ellipsoidalExact-module.html#perimeterOf" 
@@ -926,7 +922,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Jun 10 13:35:52 2024
+    Generated by Epydoc 3.0.1 on Mon Jun 24 20:35:07 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

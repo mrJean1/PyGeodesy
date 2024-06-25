@@ -37,30 +37,27 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 # - s and c prefixes mean sin and cos
 
 # from pygeodesy.basics import _xinstanceof  # _MODS
-from pygeodesy.constants import NAN, _EPSmin, _EPSqrt as _TOL, _0_0, \
-                               _1_0, _180_0, _2__PI, _copysign_1_0
-from pygeodesy.errors import _xError,  _COMMASPACE_
+from pygeodesy.constants import NAN, _EPSqrt as _TOL, _0_0, _1_0, \
+                               _180_0, _2__PI, _copysign_1_0
+# from pygeodesy.errors import _xError  # _MODS
 from pygeodesy.fsums import fsumf_, fsum1f_
 from pygeodesy.geodesicx.gxbases import _cosSeries, _GeodesicBase, \
-                                        _sincos12, _sin1cos2
+                                        _sincos12, _sin1cos2, \
+                                        _sinf1cos2d, _TINY
 # from pygeodesy.geodesicw import _Intersecant2  # _MODS
-# from pygeodesy.interns import _COMMASPACE_  # from .errors
 from pygeodesy.lazily import _ALL_DOCS, _ALL_MODS as _MODS
 from pygeodesy.karney import _around, _atan2d, Caps, GDict, _fix90, \
                              _K_2_0, _norm2, _norm180, _sincos2, _sincos2d
-from pygeodesy.props import Property_RO, _update_all
-# from pygeodesy.streprs import pairs  # _MODS
+from pygeodesy.named import Property_RO, _update_all
+# from pygeodesy.props import Property_RO, _update_all  # from .named
 from pygeodesy.utily import atan2d as _atan2d_reverse, sincos2
 
 from math import atan2, cos, degrees, fabs, floor, radians, sin
 
 __all__ = ()
-__version__ = '24.05.19'
+__version__ = '24.06.24'
 
 _glXs = []  # instances of C{[_]GeodesicLineExact} to be updated
-# underflow guard, we require _TINY * EPS > 0, _TINY + EPS == EPS
-_TINY = _EPSmin
-# assert (_TINY * EPS) > 0 and (_TINY + EPS) == EPS
 
 
 def _update_glXs(gX):  # see GeodesicExact.C4order and -._ef_reset_k2
@@ -122,7 +119,7 @@ class _GeodesicLineExact(_GeodesicBase):
         # allow lat, azimuth and unrolling of lon
         self._caps  = caps | Cs._LINE
 
-        sbet1, cbet1 = gX._sinf1cos2d(_around(lat1))
+        sbet1, cbet1 = _sinf1cos2d(_around(lat1), gX.f1)
         self._dn1 = gX._dn(sbet1, cbet1)
         # Evaluate alp0 from sin(alp1) * cos(bet1) = sin(alp0), with alp0
         # in [0, pi/2 - |bet1|].  Alt: calp0 = hypot(sbet1, calp1 * cbet1),
@@ -501,7 +498,7 @@ class _GeodesicLineExact(_GeodesicBase):
         try:
             return _MODS.geodesicw._Intersecant2(self, lat0, lon0, radius, tol=tol)
         except (TypeError, ValueError) as x:
-            raise _xError(x, lat0, lon0, radius, tol=_TOL)
+            raise _MODS.errors._xError(x, lat0, lon0, radius, tol=_TOL)
 
     @Property_RO
     def _H0e2_f1(self):
@@ -626,20 +623,17 @@ class _GeodesicLineExact(_GeodesicBase):
         # unnecessary because Einv inverts E
         # return -self._eF.deltaEinv(stau1, ctau1)
 
-    def toStr(self, prec=6, sep=_COMMASPACE_, **unused):  # PYCHOK signature
+    def toStr(self, **prec_sep_name):  # PYCHOK signature
         '''Return this C{GeodesicLineExact} as string.
 
-           @kwarg prec: The C{float} precision, number of decimal digits (0..9).
-                        Trailing zero decimals are stripped for B{C{prec}} values
-                        of 1 and above, but kept for negative B{C{prec}} values.
-           @kwarg sep: Separator to join (C{str}).
+           @see: L{Ellipsoid.toStr<pygeodesy.ellipsoids.Ellipsoid.toStr>}
+                 for further details.
 
            @return: C{GeodesicLineExact} (C{str}).
         '''
-        d = dict(geodesic=self.geodesic,
-                 lat1=self.lat1, lon1=self.lon1, azi1=self.azi1,
-                 a13=self.a13, s13=self.s13)
-        return sep.join(_MODS.streprs.pairs(d, prec=prec))
+        C = _GeodesicLineExact
+        t =  C.lat1, C.lon1, C.azi1, C.a13, C.s13, C.geodesic
+        return self._instr(props=t, **prec_sep_name)
 
 
 __all__ += _ALL_DOCS(_GeodesicLineExact)

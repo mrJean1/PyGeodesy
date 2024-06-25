@@ -14,7 +14,7 @@ from pygeodesy.props import deprecated_function
 from pygeodesy.units import Number_, Scalar_
 
 __all__ = _ALL_DEPRECATED.deprecated_functions
-__version__ = '24.05.25'
+__version__ = '24.06.11'
 
 _WGS84 = _UTM = object()
 
@@ -41,9 +41,8 @@ def atand(x):
 def bounds(points, wrap=True, LatLon=None):  # PYCHOK no cover
     '''DEPRECATED, use function L{pygeodesy.boundsOf}.
 
-       @return: 2-Tuple C{(latlonSW, latlonNE)} as B{C{LatLon}}
-                or 4-Tuple C{(latS, lonW, latN, lonE)} if
-                B{C{LatLon}} is C{None}.
+       @return: 2-Tuple C{(latlonSW, latlonNE)}, each a B{C{LatLon}} or
+                4-Tuple C{(latS, lonW, latN, lonE)} if C{B{LatLon} is None}.
     '''
     return tuple(_MODS.points.boundsOf(points, wrap=wrap, LatLon=LatLon))
 
@@ -253,7 +252,7 @@ def parseUTM(strUTM, datum=_WGS84, Utm=_UTM, name=NN):  # PYCHOK no cover
     '''DEPRECATED, use function L{parseUTM5}.
 
        @return: The UTM coordinate (B{L{Utm}}) or 4-tuple C{(zone,
-                hemisphere, easting, northing)} if B{C{Utm}} is C{None}.
+                hemisphere, easting, northing)} if C{B{Utm} is None}.
     '''
     d = _MODS.datums.Datums.WGS84 if datum is _WGS84 else datum  # PYCHOK shadows?
     U = _MODS.utm.Utm if Utm is _UTM else Utm
@@ -305,9 +304,8 @@ def tienstra(pointA, pointB, pointC, alpha, **beta_gamma_useZ_Clas_and_kwds):
 def toUtm(latlon, lon=None, datum=None, Utm=_UTM, cmoff=True, name=NN):  # PYCHOK no cover
     '''DEPRECATED, use function L{pygeodesy.toUtm8}.
 
-       @return: The UTM coordinate (B{C{Utm}}) or a 6-tuple C{(zone,
-                easting, northing, band, convergence, scale)} if
-                B{C{Utm}} is C{None} or B{C{cmoff}} is C{False}.
+       @return: The UTM coordinate (B{C{Utm}}) or a 6-tuple C{(zone, easting, northing,
+                band, convergence, scale)} if C{B{Utm} is None} or C{B{cmoff} is False}.
     '''
     U = _MODS.utm.Utm if Utm is _UTM else Utm
     r = _MODS.utm.toUtm8(latlon, lon=lon, datum=datum, Utm=U, name=name, falsed=cmoff)

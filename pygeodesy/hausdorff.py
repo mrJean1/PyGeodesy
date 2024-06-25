@@ -72,21 +72,20 @@ from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.errors import PointsError, _xattr, _xcallable, _xkwds, _xkwds_get
 import pygeodesy.formy as _formy
 from pygeodesy.interns import NN, _i_, _j_, _units_
-# from pygeodesy.iters import points2  # from .points
+# from pygeodesy.iters import points2 as _points  # from .points
 from pygeodesy.lazily import _ALL_LAZY, _FOR_DOCS
 from pygeodesy.named import _name2__, _Named, _NamedTuple, _Pass
 # from pygeodesy.namedTuples import PhiLam2Tuple  # from .points
-from pygeodesy.points import _distanceTo, points2 as _points2,  PhiLam2Tuple, radians
+from pygeodesy.points import _distanceTo,  PhiLam2Tuple, points2 as _points2, radians
 from pygeodesy.props import Property, Property_RO, property_doc_, property_RO
-from pygeodesy.units import Float, Number_, _xUnit, _xUnits
-from pygeodesy.unitsBase import _Str_degrees, _Str_degrees2, _Str_meter, _Str_NN, \
-                                _Str_radians, _Str_radians2
+from pygeodesy.units import Float, Number_
+from pygeodesy import unitsBase as _unitsBase  # _Str_..., _xUnit, _xUnits
 
 # from math import radians  # from .points
 from random import Random
 
 __all__ = _ALL_LAZY.hausdorff
-__version__ = '24.06.08'
+__version__ = '24.06.15'
 
 
 class HausdorffError(PointsError):
@@ -104,7 +103,7 @@ class Hausdorff(_Named):
     _kwds  = {}     # func_ options
     _model = ()
     _seed  =  None
-    _units = _Str_NN  # XXX Str to _Pass and for backward compatibility
+    _units = _unitsBase._Str_NN  # XXX Str to _Pass and for backward compatibility
 
     def __init__(self, point1s, seed=None, units=NN, **name__kwds):
         '''New C{Hausdorff...} calculator.
@@ -261,7 +260,7 @@ class Hausdorff(_Named):
 
            @raise TypeError: Invalid B{C{units}}.
         '''
-        self._units = _xUnits(units, Base=Float)
+        self._units = _unitsBase._xUnits(units, Base=Float)
 
     @Property_RO
     def wrap(self):
@@ -274,7 +273,7 @@ class HausdorffDegrees(Hausdorff):
     '''L{Hausdorff} base class for distances from C{LatLon}
        points in C{degrees}.
     '''
-    _units = _Str_degrees
+    _units = _unitsBase._Str_degrees
 
     if _FOR_DOCS:
         __init__  = Hausdorff.__init__
@@ -290,7 +289,7 @@ class HausdorffRadians(Hausdorff):
     '''L{Hausdorff} base class for distances from C{LatLon}
        points converted from C{degrees} to C{radians}.
     '''
-    _units = _Str_radians
+    _units = _unitsBase._Str_radians
 
     if _FOR_DOCS:
         __init__  = Hausdorff.__init__
@@ -318,8 +317,8 @@ class _HausdorffMeterRadians(Hausdorff):
        the optional keyword arguments supplied at instantiation
        of the C{Hausdorff*} sub-class.
     '''
-    _units  = _Str_meter
-    _units_ = _Str_radians
+    _units  = _unitsBase._Str_meter
+    _units_ = _unitsBase._Str_radians
 
     def directed(self, point2s, early=True):
         '''Overloaded method L{Hausdorff.directed} to determine
@@ -426,7 +425,7 @@ class HausdorffDistanceTo(Hausdorff):
     '''Compute the C{Hausdorff} distance based on the distance from the
        points' C{LatLon.distanceTo} method, conventionally in C{meter}.
     '''
-    _units = _Str_meter
+    _units = _unitsBase._Str_meter
 
     def __init__(self, point1s, **seed_name__distanceTo_kwds):
         '''New L{HausdorffDistanceTo} calculator.
@@ -464,7 +463,7 @@ class HausdorffEquirectangular(Hausdorff):
     '''Compute the C{Hausdorff} distance based on the C{equirectangular} distance
        in C{radians squared} like function L{pygeodesy.equirectangular}.
     '''
-    _units = _Str_degrees2
+    _units = _unitsBase._Str_degrees2
 
     def __init__(self, point1s, **seed_name__adjust_limit_wrap):
         '''New L{HausdorffEquirectangular} calculator.
@@ -513,7 +512,7 @@ class HausdorffExact(Hausdorff):
     '''Compute the C{Hausdorff} distance based on the I{angular}
        distance in C{degrees} from method L{GeodesicExact}C{.Inverse}.
     '''
-    _units = _Str_degrees
+    _units = _unitsBase._Str_degrees
 
     def __init__(self, point1s, datum=None, **seed_name__wrap):
         '''New L{HausdorffKarney} calculator.
@@ -543,7 +542,7 @@ class HausdorffFlatLocal(_HausdorffMeterRadians):
     '''Compute the C{Hausdorff} distance based on the I{angular} distance in
        C{radians squared} like function L{pygeodesy.flatLocal_}/L{pygeodesy.hubeny_}.
     '''
-    _units = _Str_radians2
+    _units = _unitsBase._Str_radians2
 
     def __init__(self, point1s, **seed_name__datum_scaled_wrap):
         '''New L{HausdorffFlatLocal}/L{HausdorffHubeny} calculator.
@@ -634,7 +633,7 @@ class HausdorffKarney(Hausdorff):
        <https://GeographicLib.SourceForge.io/Python/doc/code.html>}
        Inverse method.
     '''
-    _units = _Str_degrees
+    _units = _unitsBase._Str_degrees
 
     def __init__(self, point1s, datum=None, **seed_name__wrap):
         '''New L{HausdorffKarney} calculator.
@@ -823,7 +822,7 @@ class Hausdorff6Tuple(_NamedTuple):
         '''Overloaded C{_NamedTuple.toUnits} for C{hd} and C{md} units.
         '''
         u    = list(Hausdorff6Tuple._Units_)
-        u[0] = U = _xUnit(self.units, Float)  # PYCHOK expected
+        u[0] = U = _unitsBase._xUnit(self.units, Float)  # PYCHOK expected
         u[4] =     _Pass if self.md is None else U  # PYCHOK expected
         return _NamedTuple.toUnits(self.reUnit(*u), **Error_name)  # PYCHOK self
 

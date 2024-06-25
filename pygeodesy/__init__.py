@@ -145,7 +145,7 @@ Test coverage has been measured with U{coverage<https://PyPI.org/project/coverag
 
 PyPy 7.3.12 (Python 3.10.12), Python 3.11.5, 3.10.8 and 3.9.6 ran on Apple M1 Silicon (C{arm64}), I{natively}.
 Python 3.8.10 and 2.7.18 ran on Intel (C{x86_64}) or Intel I{emulation} ("C{arm64_x86_64}", see function
-L{pygeodesy.machine}).
+L{machine<pygeodesy.machine>}).
 
 The tests also ran with Python 3.11.5 (and U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0) on
 U{Debian 11<https://Cirrus-CI.com/github/mrJean1/PyGeodesy/master>} in 64-bit only and with Python 3.11.5,
@@ -192,34 +192,34 @@ Env variables
 
 The following environment variables are observed by C{PyGeodesy}:
 
- - C{PYGEODESY_EXCEPTION_CHAINING} - see module L{pygeodesy.errors}.
- - C{PYGEODESY_FMT_FORM} - see module L{pygeodesy.dms}.
- - C{PYGEODESY_FSUM_RESIDUAL} - see module L{pygeodesy.fsums} and class L{pygeodesy.Fsum}.
- - C{PYGEODESY_GEOCONVERT} - see module L{pygeodesy.mgrs}.
- - C{PYGEODESY_GEODSOLVE} - see module L{pygeodesy.geodsolve}.
- - C{PYGEODESY_LAZY_IMPORT} - see module L{pygeodesy.lazily} and variable L{pygeodesy.isLazy}.
- - C{PYGEODESY_NOTIMPLEMENTED} - __special__ methods return C{NotImplemented} if set to "std".
- - C{PYGEODESY_RHUMBSOLVE} - see module L{pygeodesy.rhumb.solve}.
- - C{PYGEODESY_UPS_POLES} - see modules L{pygeodesy.ups} and L{pygeodesy.mgrs}.
+ - C{PYGEODESY_EXCEPTION_CHAINING} - see module L{errors<pygeodesy.errors>}.
+ - C{PYGEODESY_FMT_FORM} - see module L{dms<pygeodesy.dms>}.
+ - C{PYGEODESY_FSUM_RESIDUAL} - see module L{fsums<pygeodesy.fsums>} and class L{Fsum<pygeodesy.Fsum>}.
+ - C{PYGEODESY_GEOCONVERT} - see module L{mgrs<pygeodesy.mgrs>}.
+ - C{PYGEODESY_GEODSOLVE} - see module L{geodsolve<pygeodesy.geodsolve>}.
+ - C{PYGEODESY_LAZY_IMPORT} - see module L{lazily<pygeodesy.lazily>} and variable L{isLazy<pygeodesy.isLazy>}.
+ - C{PYGEODESY_NOTIMPLEMENTED} - C{__special__} methods return C{NotImplemented} if set to "std".
+ - C{PYGEODESY_RHUMBSOLVE} - see module L{rhumb.solve<pygeodesy.rhumb.solve>}.
+ - C{PYGEODESY_UPS_POLES} - see modules L{ups<pygeodesy.ups>} and L{mgrs<pygeodesy.mgrs>}.
 
 and these to control standard or I{named} C{repr}esentations:
 
- - C{PYGEODESY_BEARING_STD_REPR} - see method L{pygeodesy.Bearing}C{.__repr__}.
- - C{PYGEODESY_BOOL_STD_REPR} - see method L{pygeodesy.Bool}C{.__repr__}.
- - C{PYGEODESY_DEGREES_STD_REPR} - see method L{pygeodesy.Degrees}C{.__repr__}.
- - C{PYGEODESY_FLOAT_STD_REPR} - see method L{pygeodesy.Float}C{.__repr__}.
- - C{PYGEODESY_INT_STD_REPR} - see method L{pygeodesy.Int}C{.__repr__}.
- - C{PYGEODESY_METER_STD_REPR} - see method L{pygeodesy.Meter}C{.__repr__}.
- - C{PYGEODESY_RADIANS_STD_REPR} - see method L{pygeodesy.Radians}C{.__repr__}.
- - C{PYGEODESY_STR_STD_REPR} - see method L{pygeodesy.Str}C{.__repr__}.
+ - C{PYGEODESY_BEARING_STD_REPR} - see method L{Bearing<pygeodesy.Bearing>}C{.__repr__}.
+ - C{PYGEODESY_BOOL_STD_REPR} - see method L{Bool<pygeodesy.Bool>}C{.__repr__}.
+ - C{PYGEODESY_DEGREES_STD_REPR} - see method L{Degrees<pygeodesy.Degrees>}C{.__repr__}.
+ - C{PYGEODESY_FLOAT_STD_REPR} - see method L{Float<pygeodesy.Float>}C{.__repr__}.
+ - C{PYGEODESY_INT_STD_REPR} - see method L{Int<pygeodesy.Int>}C{.__repr__}.
+ - C{PYGEODESY_METER_STD_REPR} - see method L{Meter<pygeodesy.Meter>}C{.__repr__}.
+ - C{PYGEODESY_RADIANS_STD_REPR} - see method L{Radians<pygeodesy.Radians>}C{.__repr__}.
+ - C{PYGEODESY_STR_STD_REPR} - see method L{Str<pygeodesy.Str>}C{.__repr__}.
 
 plus during development:
 
  - C{PYGEODESY_FOR_DOCS} - for extended documentation by C{epydoc}.
- - C{PYGEODESY_GEOGRAPHICLIB} - see module L{pygeodesy.karney}.
- - C{PYGEODESY_WARNINGS} - see module L{pygeodesy.props} and function L{pygeodesy.DeprecationWarnings}.
- - C{PYGEODESY_XPACKAGES} - see module L{pygeodesy.basics}.
- - C{PYTHONDEVMODE} - see modules L{pygeodesy.errors} and L{pygeodesy.props}.
+ - C{PYGEODESY_GEOGRAPHICLIB} - see module L{karney<pygeodesy.karney>}.
+ - C{PYGEODESY_WARNINGS} - see module L{props<pygeodesy.props>} and function L{DeprecationWarnings<pygeodesy.DeprecationWarnings>}.
+ - C{PYGEODESY_XPACKAGES} - see module L{basics<pygeodesy.basics>}.
+ - C{PYTHONDEVMODE} - see modules L{errors<pygeodesy.errors>} and L{props<pygeodesy.props>}.
 
 and:
 
@@ -233,8 +233,7 @@ and:
 License
 =======
 
-**) U{Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
-<https://OpenSource.org/licenses/MIT>}
+**) U{Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.<https://OpenSource.org/licenses/MIT>}
 
 C{Permission is hereby granted, free of charge, to any person obtaining a copy of this software
 and associated documentation files (the "Software"), to deal in the Software without restriction,
@@ -298,14 +297,14 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.}
 @var F_RAD__: Convert degrees to radians and format as signed "-/+RR" I{without} symbol, I{without} suffix (C{str}).
 
 @var DIG:      System's M{float decimal digits} = 15 (C{int}).
-@var INF:      Infinity (C{float}), see functions L{pygeodesy.isinf} and L{pygeodesy.isfinite} and C{NINF}.
-@var INT0:     C{int(0)}, missing Z-components, C{if B{z}=B{INT0}}, see functions L{pygeodesy.isint0}, L{pygeodesy.meeus2}
+@var INF:      Infinity (C{float}), see functions L{isinf<pygeodesy.isinf>} and L{isfinite<pygeodesy.isfinite>} and C{NINF}.
+@var INT0:     C{int(0)}, missing Z-components, C{if B{z}=B{INT0}}, see functions L{isint0<pygeodesy.isint0>}, L{meeus2<pygeodesy.meeus2>}
 @var MANT_DIG: System's M{float mantissa bits} = 53 (C{int}).
 @var MAX:      System's M{float max} ≈ 1.798e+308 (C{float}).
 @var MIN:      System's M{float min} ≈ 2.225e-308 (C{float}).
-@var NAN:      Not-A-Number (C{float}), see function L{pygeodesy.isnan}.
-@var NEG0:     Negative 0.0 (C{float}), see function L{pygeodesy.isneg0}.
-@var NINF:     Negative infinity (C{float}), see function L{pygeodesy.isninf} and C{INF}.
+@var NAN:      Not-A-Number (C{float}), see function L{isnan<pygeodesy.isnan>}.
+@var NEG0:     Negative 0.0 (C{float}), see function L{isneg0<pygeodesy.isneg0>}.
+@var NINF:     Negative infinity (C{float}), see function L{isninf<pygeodesy.isninf>} and C{INF}.
 @var NN:       Empty (C{str}), U{I{Nomen Nescio}<https://Wiktionary.org/wiki/N.N.>}.
 
 @var PI:    Constant M{math.pi} (C{float}).
@@ -331,9 +330,9 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.}
 @var S_DEG: Degrees symbol, default C{"°"}
 @var S_MIN: Minutes symbol, default C{"′"} aka I{PRIME}
 @var S_SEC: Seconds symbol, default C{"″"} aka I{DOUBLE_PRIME}
-@var S_RAD: Radians symbol, default C{""} aka L{pygeodesy.NN}
+@var S_RAD: Radians symbol, default C{""} aka L{NN<pygeodesy.NN>}
 @var S_DMS: If C{True} include, otherwise cancel all DMS symbols, default C{True}.
-@var S_SEP: Separator between C{deg°|min′|sec″|suffix}, default C{""} aka L{pygeodesy.NN}
+@var S_SEP: Separator between C{deg°|min′|sec″|suffix}, default C{""} aka L{NN<pygeodesy.NN>}
 
 @var Conics:     Registered, predefined conics (C{enum-like}).
 @var Datums:     Registered, predefined datums (C{enum-like}).
@@ -413,6 +412,7 @@ if _init__all__ and not _lazy_import2:  # import and set __all__
     import pygeodesy.fstats                as fstats                 # PYCHOK exported
     import pygeodesy.fsums                 as fsums                  # PYCHOK exported
     import pygeodesy.gars                  as gars                   # PYCHOK exported
+    import pygeodesy.geodesici             as geodesici              # PYCHOK exported
     import pygeodesy.geodesicw             as geodesicw              # PYCHOK exported
     import pygeodesy.geodesicx             as geodesicx              # PYCHOK exported
     import pygeodesy.geodsolve             as geodsolve              # PYCHOK exported
@@ -497,6 +497,7 @@ if _init__all__ and not _lazy_import2:  # import and set __all__
     from pygeodesy.fstats                import *  # PYCHOK __all__
     from pygeodesy.fsums                 import *  # PYCHOK __all__
     from pygeodesy.gars                  import Garef, GARSError  # PYCHOK lazily
+    from pygeodesy.geodesici             import *  # PYCHOK __all__
     from pygeodesy.geodesicw             import *  # PYCHOK __all__
     from pygeodesy.geodesicx             import *  # PYCHOK __all__
     from pygeodesy.geodsolve             import *  # PYCHOK __all__
@@ -589,7 +590,7 @@ else:
 
 from pygeodesy.internals import _version2,  _DOT_  # PYCHOK import
 # from pygeodesy.interns import _DOT_  # from .internals
-__version__ = '24.06.09'
+__version__ = '24.06.24'
 # see setup.py for similar logic
 version     = _DOT_(*_version2(__version__, n=3))
 

@@ -212,7 +212,7 @@ def _h(tx):
 
 
 def _sn(tx):
-    '''(INTERNAL) M{tx / sqrt(tx**2 + 1)}, converting tan to sin.
+    '''(INTERNAL) M{sin(x) = tan(x) / sqrt(tan(x)**2 + 1)}.
     '''
     if tx:
         tx = _copysign_1_0(tx) if isinf(tx) else (

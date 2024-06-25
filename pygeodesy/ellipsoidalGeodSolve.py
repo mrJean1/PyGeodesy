@@ -24,7 +24,7 @@ from pygeodesy.points import _areaError, ispolar  # PYCHOK exported
 # from math import fabs  # from .karney
 
 __all__ = _ALL_LAZY.ellipsoidalGeodSolve
-__version__ = '24.05.25'
+__version__ = '24.06.11'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -39,7 +39,7 @@ class Cartesian(CartesianEllipsoidalBase):
                                    B{datum}=...} to override this L{LatLon}
                                    class or specify C{B{LatLon}=None}.
 
-           @return: The geodetic point (L{LatLon}) or if B{C{LatLon}} is C{None},
+           @return: The geodetic point (L{LatLon}) or if C{B{LatLon} is None},
                     an L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M, datum)}
                     with C{C} and C{M} if available.
 
@@ -73,18 +73,15 @@ class LatLon(LatLonEllipsoidalBaseDI):
     def toCartesian(self, **Cartesian_datum_kwds):  # PYCHOK Cartesian=Cartesian, datum=None
         '''Convert this point to exact cartesian (ECEF) coordinates.
 
-           @kwarg Cartesian_datum_kwds: Optional L{Cartesian}, B{C{datum}}
-                  and other keyword arguments, ignored if C{B{Cartesian} is None}.
-                  Use C{B{Cartesian}=...} to override this L{Cartesian} class
-                  or set C{B{Cartesian}=None}.
+           @kwarg Cartesian_datum_kwds: Optional L{Cartesian}, B{C{datum}} and other keyword
+                  arguments, ignored if C{B{Cartesian} is None}.  Use C{B{Cartesian}=Class}
+                  to override this L{Cartesian} class or set C{B{Cartesian}=None}.
 
-           @return: The cartesian (ECEF) coordinates (L{Cartesian}) or if
-                    B{C{Cartesian}} is C{None}, an L{Ecef9Tuple}C{(x, y, z,
-                    lat, lon, height, C, M, datum)} with C{C} and C{M} if
-                    available.
+           @return: The cartesian (ECEF) coordinates (L{Cartesian}) or if C{B{Cartesian} is
+                    None}, an L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M, datum)} with
+                    C{C} and C{M} if available.
 
-           @raise TypeError: Invalid B{C{Cartesian}}, B{C{datum}} or other
-                             B{C{Cartesian_datum_kwds}}.
+           @raise TypeError: Invalid B{C{Cartesian}}, B{C{datum}} or other B{C{Cartesian_datum_kwds}}.
         '''
         kwds = _xkwds(Cartesian_datum_kwds, Cartesian=Cartesian, datum=self.datum)
         return LatLonEllipsoidalBaseDI.toCartesian(self, **kwds)
@@ -93,25 +90,20 @@ class LatLon(LatLonEllipsoidalBaseDI):
 def areaOf(points, datum=_WGS84, wrap=True):
     '''Compute the area of an (ellipsoidal) polygon or composite.
 
-       @arg points: The polygon points (L{LatLon}[], L{BooleanFHP} or
-                    L{BooleanGH}).
+       @arg points: The polygon points (L{LatLon}[], L{BooleanFHP} or L{BooleanGH}).
        @kwarg datum: Optional datum (L{Datum}).
-       @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the
-                    B{C{points}} (C{bool}).
+       @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the B{C{points}} (C{bool}).
 
-       @return: Area (C{meter}, same as units of the B{C{datum}}'s
-                ellipsoid axes, I{squared}).
+       @return: Area (C{meter}, same as units of the B{C{datum}}'s ellipsoid axes, I{squared}).
 
        @raise PointsError: Insufficient number of B{C{points}}.
 
        @raise TypeError: Some B{C{points}} are not L{LatLon}.
 
-       @raise ValueError: Invalid C{B{wrap}=False}, unwrapped, unrolled
-                          longitudes not supported.
+       @raise ValueError: Invalid C{B{wrap}=False}, unwrapped, unrolled longitudes not supported.
 
-       @see: Functions L{pygeodesy.areaOf}, L{ellipsoidalExact.areaOf},
-             L{ellipsoidalKarney.areaOf}, L{sphericalNvector.areaOf}
-             and L{sphericalTrigonometry.areaOf}.
+       @see: Functions L{pygeodesy.areaOf}, L{ellipsoidalExact.areaOf}, L{ellipsoidalKarney.areaOf},
+             L{sphericalNvector.areaOf} and L{sphericalTrigonometry.areaOf}.
     '''
     return fabs(_polygon(datum.ellipsoid.geodsolve, points, True, False, wrap))
 

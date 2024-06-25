@@ -43,7 +43,7 @@ from pygeodesy.utily import fabs, _unrollon, _Wrap
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.booleans
-__version__ = '24.06.06'
+__version__ = '24.06.15'
 
 _0_EPS =  EPS  # near-zero, positive
 _EPS_0 = -EPS  # near-zero, negative
@@ -131,8 +131,8 @@ class _LatLonBool(_Named):
 
            @arg lat_ll: Latitude (C{scalar}) or a lat-/longitude (C{LatLon[FHP|GH]},
                         C{Clip[FHP|GH]4Tuple} or some other C{LatLon}).
-           @kwarg lon: Longitude (C{scalar}), iff B{C{lat_ll}} is scalar, ignored
-                       otherwise.
+           @kwarg lon: Longitude (C{scalar}), required B{C{lat_ll}} is scalar,
+                       ignored otherwise.
            @kwarg height: Height (C{scalar}), conventionally C{meter}.
            @kwarg clipid: Clip identifier (C{int}).
            @kwarg wrap: If C{True}, wrap or I{normalize} B{C{lat}} and B{C{lon}} (C{bool}).
@@ -1961,7 +1961,7 @@ def _other(this, other):
     C = this.__class__
     if isinstance(other, C):
         return other
-    raise _IsnotError(C.__name__, other=other)
+    raise _IsnotError(C, other=other)
 
 
 def _outside(x1, x2, lo, hi):

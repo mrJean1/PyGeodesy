@@ -86,7 +86,7 @@ from pygeodesy.utily import atan1, atan1d, atan2d, degrees90, degrees180, \
 from math import atan2, cos, degrees, fabs, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '24.06.09'
+__version__ = '24.06.11'
 
 _Ecef_    = 'Ecef'
 _prolate_ = 'prolate'
@@ -949,7 +949,7 @@ class EcefMatrix(_NamedTuple):
 
            @return: The matrix product (L{EcefMatrix}).
 
-           @raise TypeError: If B{C{other}} is not L{EcefMatrix}.
+           @raise TypeError: If B{C{other}} is not an L{EcefMatrix}.
         '''
         _xinstanceof(EcefMatrix, other=other)
         # like LocalCartesian.MatrixMultiply, C{self.matrixTransposed3 X other.matrix3}
@@ -1185,7 +1185,7 @@ class Ecef9Tuple(_NamedTuple):
                                B{C{LatLon}} keyword arguments.
 
            @return: An instance of C{B{LatLon}(lat, lon, **B{LatLon_kwds})}
-                    or if B{C{LatLon}} is C{None}, a L{LatLon3Tuple}C{(lat, lon,
+                    or if C{B{LatLon} is None}, a L{LatLon3Tuple}C{(lat, lon,
                     height)} respectively L{LatLon4Tuple}C{(lat, lon, height,
                     datum)} depending on whether C{datum} is un-/specified.
 
@@ -1233,7 +1233,7 @@ class Ecef9Tuple(_NamedTuple):
                                arguments, ignored if C{B{Vector} is None}.
 
            @return: A C{Vector}C{(x, y, z, **Vector_kwds)} instance or a
-                    L{Vector3Tuple}C{(x, y, z)} if B{C{Vector}} is C{None}.
+                    L{Vector3Tuple}C{(x, y, z)} if C{B{Vector} is None}.
 
            @see: Propertes C{xyz} and C{xyzh}
         '''

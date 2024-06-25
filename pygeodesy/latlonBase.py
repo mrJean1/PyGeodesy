@@ -54,7 +54,7 @@ from contextlib import contextmanager
 from math import asin, cos, degrees, fabs, radians
 
 __all__ = _ALL_LAZY.latlonBase
-__version__ = '24.06.07'
+__version__ = '24.06.11'
 
 _formy = _MODS.into(formy=__name__)
 
@@ -143,17 +143,17 @@ class LatLonBase(_NamedBase):
            bounding box centered at this location.
 
            @arg wide: Longitudinal box width (C{meter}, same units as
-                      B{C{radius}} or C{degrees} if B{C{radius}} is C{None}).
+                      B{C{radius}} or C{degrees} if C{B{radius} is None}).
            @arg tall: Latitudinal box size (C{meter}, same units as
-                      B{C{radius}} or C{degrees} if B{C{radius}} is C{None}).
+                      B{C{radius}} or C{degrees} if C{B{radius} is None}).
            @kwarg radius: Mean earth radius (C{meter}) or C{None} if I{both}
                           B{C{wide}} and B{C{tall}} are in C{degrees}.
            @kwarg height: Height for C{latlonSW} and C{latlonNE} (C{meter}),
                           overriding the point's height.
            @kwarg name: Optional C{B{name}=NN} (C{str}).
 
-           @return: A L{Bounds2Tuple}C{(latlonSW, latlonNE)}, the
-                    lower-left and upper-right corner (C{LatLon}).
+           @return: A L{Bounds2Tuple}C{(latlonSW, latlonNE)}, the lower-left
+                    and upper-right corner (C{LatLon}).
 
            @see: U{https://www.Movable-Type.co.UK/scripts/latlong-db.html}
         '''
@@ -1396,13 +1396,12 @@ class LatLonBase(_NamedBase):
                           (C{meter}, conventionally).
            @kwarg Cartesian: Optional class to return the geocentric
                              coordinates (C{Cartesian}) or C{None}.
-           @kwarg Cartesian_kwds: Optional, additional B{C{Cartesian}}
-                                  keyword arguments, ignored if
-                                  C{B{Cartesian} is None}.
+           @kwarg Cartesian_kwds: Optional, additional B{C{Cartesian}} keyword
+                                  arguments, ignored if C{B{Cartesian} is None}.
 
-           @return: A B{C{Cartesian}} or if B{C{Cartesian}} is C{None},
-                    an L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M,
-                    datum)} with C{C=0} and C{M} if available.
+           @return: A B{C{Cartesian}} or if B{C{Cartesian} is None}, an
+                    L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M, datum)}
+                    with C{C=0} and C{M} if available.
 
            @raise TypeError: Invalid B{C{Cartesian}} or B{C{Cartesian_kwds}}.
 
@@ -1512,11 +1511,10 @@ class LatLonBase(_NamedBase):
                        additional B{C{Nvector}} keyword arguments, ignored if
                        C{B{Nvector} is None}.
 
-           @return: An B{C{Nvector}} or a L{Vector4Tuple}C{(x, y, z, h)} if
-                    B{C{Nvector}} is C{None}.
+           @return: An named B{C{Nvector}} or if C{B{Nvector} is None} a named
+                    L{Vector4Tuple}C{(x, y, z, h)}.
 
-           @raise TypeError: Invalid B{C{h}}, B{C{Nvector}} or
-                             B{C{name_Nvector_kwds}} item.
+           @raise TypeError: Invalid B{C{h}}, B{C{Nvector}} or B{C{name_Nvector_kwds}}.
 
            @see: Methods C{toCartesian}, C{toVector} and C{toVector3d}.
         '''
@@ -1548,7 +1546,7 @@ class LatLonBase(_NamedBase):
 
            @return: This point in the specified C{B{form}at}, etc. (C{str} or
                     a 2- or 3-tuple C{(lat_str, lon_str[, height_str])} if
-                    C{B{joined}=NN} or C{B{joined}=None}).
+                    B{C{joined}} is C{NN} or C{None}).
 
            @see: Function L{pygeodesy.latDMS} or L{pygeodesy.lonDMS} for more
                  details about keyword arguments C{B{form}at}, C{B{prec}ision},
@@ -1569,10 +1567,10 @@ class LatLonBase(_NamedBase):
            @kwarg Vector_kwds: Optional, additional B{C{Vector}} keyword
                                arguments, ignored if C{B{Vector} is None}.
 
-           @return: A named B{C{Vector}} or if B{C{Vector}} is C{None} a
+           @return: A named B{C{Vector}} or if C{B{Vector} is None} a
                     named L{Vector3Tuple}C{(x, y, z)}.
 
-           @raise TypeError: Invalid B{C{Vector}} or B{C{Vector_kwds}} item.
+           @raise TypeError: Invalid B{C{Vector}} or B{C{Vector_kwds}}.
 
            @see: Methods C{toCartesian}, C{toNvector} and C{toVector3d}.
         '''
@@ -1587,7 +1585,7 @@ class LatLonBase(_NamedBase):
 
            @return: Named, unit vector or vector (L{Vector3d}).
 
-           @raise TypeError: Invalid B{C{Vector3d_kwds}} item.
+           @raise TypeError: Invalid B{C{Vector3d_kwds}}.
 
            @see: Methods C{toCartesian}, C{toNvector} and C{toVector}.
         '''

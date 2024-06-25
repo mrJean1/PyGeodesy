@@ -32,7 +32,7 @@ class _Int(int):
 class Str_(str):
     '''Extended, I{callable} C{str} class, not nameable.
 
-       @see: Nameable and callable class L{pygeodesy.Str}.
+       @see: Nameable and callable class L{Str<pygeodesy.unitsBase.Str>}.
     '''
     def join_(self, *args):
         '''Join all positional B{C{args}} like C{self.join(B{args})}.
@@ -441,7 +441,7 @@ _LR_PAIRS  = {_LANGLE_:  _RANGLE_,
 
 __all__ = (_NN_,  # NOT MISSING!
             Str_.__name__)  # classes
-__version__ = '24.06.05'
+__version__ = '24.06.14'
 
 if __name__ == '__main__':
 

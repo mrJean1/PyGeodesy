@@ -4,17 +4,18 @@
 u'''Basic C{Float}, C{Int} and C{Str}ing units classes.
 '''
 
-from pygeodesy.errors import _UnexpectedError, UnitError, _XError
-from pygeodesy.interns import NN, _degrees_, _degrees2_, _invalid_, \
-                             _meter_, MISSING, _radians_, _radians2_, \
-                             _radius_, _UNDER_,  _std_  # PYCHOK used!
-from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
-from pygeodesy.named import modulename, _Named, property_doc_
+from pygeodesy.basics import isstr, issubclassof, _xsubclassof
+from pygeodesy.errors import _IsnotError, _UnexpectedError, UnitError, _XError
+from pygeodesy.interns import NN, _degrees_, _degrees2_, _invalid_, _meter_, \
+                             _radians_, _radians2_, _radius_, _UNDER_, _units_, \
+                             _std_  # PYCHOK used!
+from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
+from pygeodesy.named import modulename, _Named,  property_doc_
 # from pygeodesy.props import property_doc_  # from .named
 from pygeodesy.streprs import Fmt, fstr
 
 __all__ = _ALL_LAZY.unitsBase
-__version__ = '24.06.05'
+__version__ = '24.06.15'
 
 
 class _NamedUnit(_Named):
@@ -22,6 +23,56 @@ class _NamedUnit(_Named):
     '''
     _std_repr = True  # set below
     _units    = None
+
+    def __new__(cls, typ, arg, name, Error=UnitError, **name_arg):
+        '''(INTERNAL) Return a named C{typ.__new__(cls, arg)} instance.
+        '''
+        if name_arg:
+            name, arg = _NamedUnit._arg_name_arg2(arg, name, **name_arg)
+        try:  # assert typ in cls.__mro__
+            self = typ.__new__(cls, arg)
+            if name:
+                self.name = name
+        except Exception as x:
+            raise _NamedUnit._Error(cls, arg, name, Error, cause=x)
+        return self
+
+    @staticmethod
+    def _arg_name_arg2(arg, name=NN, name__=None, **name_arg):  # in .units
+        '''(INTERNAL) Get the 2-tuple C{(name, arg)}.
+        '''
+        if name_arg:
+            if len(name_arg) > 1:
+                raise _UnexpectedError(**name_arg)
+            for name, arg in name_arg.items():  # next(iter(.items()))
+                break
+        elif name:
+            pass
+        elif name__ is not None:
+            name = name__.__name__
+        return name, arg
+
+    @staticmethod  # PYCHOK unused suffix
+    def _Error(cls, arg, name, Error=UnitError, suffix=NN,  # unused
+                                txt=_invalid_, cause=None, **name_arg):
+        '''(INTERNAL) Return a C{_NamedUnit} error with explanation.
+
+           @returns: An B{C{Error}} instance.
+        '''
+        kwds, x = {}, cause
+        if x is not None:  # caught exception
+            if Error is UnitError:  # and isError(x)
+                Error = type(x)  # i.e. not overridden
+            if txt is _invalid_:
+                txt = str(x)  # i.e. not overridden
+            kwds.update(cause=x)
+        if name_arg:
+            try:
+                name, arg = _NamedUnit._arg_name_arg2(arg, name, **name_arg)
+            except Exception:  # ignore, same error?
+                kwds.update(name_arg)
+        n = name if name else modulename(cls).lstrip(_UNDER_)
+        return _XError(Error, n, arg, txt=txt, **kwds)
 
     @property_doc_(' standard C{repr} or named C{toRepr} representation.')
     def std_repr(self):
@@ -61,29 +112,20 @@ class Float(float, _NamedUnit):
     '''
     # _std_repr = True  # set below
 
-    def __new__(cls, arg=None, name=NN, Error=UnitError, **name_arg):
-        '''New C{Ffloat} instance.
+    def __new__(cls, arg=None, name=NN, **Error_name_arg):
+        '''New, named C{Ffloat}.
 
-           @kwarg arg: The value (any C{type} convertable to C{float}).
-           @kwarg name: Optional instance name (C{str}).
-           @kwarg Error: Optional error to raise, overriding the default
-                         L{UnitError}.
-           @kwarg name_arg: Optional C{name=arg} keyword argument, inlieu
-                            of separate B{C{arg}} and B{C{name}} ones.
+           @kwarg arg: The value (any C{type} acceptable to C{float}).
+           @kwarg name: Optional name (C{str}).
+           @kwarg Error_name_arg: Optional C{B{Error}=UnitError} to raise
+                        and optional C{name=arg} keyword argument, inlieu
+                        of separate B{C{arg}} and B{C{name}} ones.
 
-           @returns: A C{Float} instance.
+           @returns: A named C{Float}.
 
            @raise Error: Invalid B{C{arg}}.
         '''
-        if name_arg:
-            name, arg = _arg_name_arg2(arg, **name_arg)
-        try:
-            self = float.__new__(cls, arg)
-            if name:
-                _NamedUnit.name.fset(self, name)  # see _Named.name
-        except Exception as x:  # XXX not ... as x:
-            raise _Error(cls, arg, name, Error, x=x)
-        return self
+        return _NamedUnit.__new__(cls, float, arg, name, **Error_name_arg)
 
     def __repr__(self):  # to avoid MRO(float)
         '''Return a representation of this C{Float}.
@@ -100,10 +142,11 @@ class Float(float, _NamedUnit):
     def __str__(self):  # to avoid MRO(float)
         '''Return this C{Float} as standard C{str}.
         '''
-        # XXX must use super(Float, self)... since super()...
-        # only works for Python 3+ and float.__str__(self)
-        # invokes .__repr__(self); calling self.toRepr(std=True)
-        # super(Float, self).__repr__() mimicks this behavior
+        # must use super(Float, self)... since super()... only works
+        # for Python 3+ and float.__str__(self) invokes .__repr__(self);
+        # calling self.toRepr(std=True) super(Float, self).__repr__()
+        # mimicks this bhavior
+
         # XXX the default number of decimals is 10-12 when using
         # float.__str__(self) with both python 3.8+ and 2.7-, but
         # float.__repr__(self) shows DIG decimals in python2.7!
@@ -116,20 +159,19 @@ class Float(float, _NamedUnit):
            @kwarg std: If C{True} return the standard C{repr},
                        otherwise the named representation (C{bool}).
 
-           @see: Methods L{Float.__repr__}, L{Float.toStr} and function
-                 L{pygeodesy.fstr} for more documentation.
+           @see: Function L{fstr<pygeodesy.streprs.fstr>} and methods
+                 L{Float.__repr__}, L{Float.toStr} for further details.
         '''
-        # XXX must use super(Float, self)... since
-        # super()... only works for Python 3+
-        # return super(Float, self).__repr__() if std else \
+        # must use super(Float, self)... since super()... only works for
+        # Python 3+; return super(Float, self).__repr__() if std else \
         return float.__repr__(self) if std else \
                self._toRepr(self.toStr(**prec_fmt_ints))
 
     def toStr(self, prec=12, fmt=Fmt.g, ints=False):  # PYCHOK prec=8, ...
         '''Format this C{Float} as C{str}.
 
-           @see: Method L{Float.__repr__} and function L{pygeodesy.fstr}
-                 for more documentation.
+           @see: Function L{fstr<pygeodesy.streprs.fstr>} and method
+                 L{Float.__repr__} and for further information.
         '''
         return fstr(self, prec=prec, fmt=fmt, ints=ints)
 
@@ -139,29 +181,20 @@ class Int(int, _NamedUnit):
     '''
     # _std_repr = True  # set below
 
-    def __new__(cls, arg=None, name=NN, Error=UnitError, **name_arg):
-        '''New C{Int} instance.
+    def __new__(cls, arg=None, name=NN, **Error_name_arg):
+        '''New, named C{Int}.
 
-           @kwarg arg: The value (any C{type} convertable to C{float}).
-           @kwarg name: Optional instance name (C{str}).
-           @kwarg Error: Optional error to raise, overriding the
-                         default L{UnitError}.
-           @kwarg name_arg: Optional C{name=arg} keyword argument, inlieu
-                            of separate B{C{arg}} and B{C{name}} ones.
+           @kwarg arg: The value (any C{type} acceptable to C{int}).
+           @kwarg name: Optional name (C{str}).
+           @kwarg Error_name_arg: Optional C{B{Error}=UnitError} to raise
+                        and optional C{name=arg} keyword argument, inlieu
+                        of separate B{C{arg}} and B{C{name}} ones.
 
-           @returns: An C{Int} instance.
+           @returns: A named C{Int}.
 
            @raise Error: Invalid B{C{arg}}.
         '''
-        if name_arg:
-            name, arg = _arg_name_arg2(arg, **name_arg)
-        try:
-            self = int.__new__(cls, arg)
-            if name:
-                _NamedUnit.name.fset(self, name)  # see _Named.name
-        except Exception as x:  # XXX not ... as x:
-            raise _Error(cls, arg, name, Error, x=x)
-        return self
+        return _NamedUnit.__new__(cls, int, arg, name, **Error_name_arg)
 
     def __repr__(self):  # to avoid MRO(int)
         '''Return a representation of this named C{int}.
@@ -215,32 +248,23 @@ class Str(str, _NamedUnit):
     '''
     # _std_repr = True  # set below
 
-    def __new__(cls, arg=None, name=NN, Error=UnitError, **name_arg):
-        '''New  C{Str} instance.
+    def __new__(cls, arg=None, name=NN, **Error_name_arg):
+        '''New, named and callable C{Str}.
 
            @kwarg cls: This class (C{Str} or sub-class).
-           @kwarg arg: The value (any C{type} convertable to C{str}).
-           @kwarg name: Optional instance name (C{str}).
-           @kwarg Error: Optional error to raise, overriding the
-                         default (C{ValueError}).
-           @kwarg name_arg: Optional C{name=arg} keyword argument, inlieu
-                            of separate B{C{arg}} and B{C{name}} ones.
+           @kwarg arg: The value (any C{type} acceptable to C{str}).
+           @kwarg name: Optional name (C{str}).
+           @kwarg Error_name_arg: Optional C{B{Error}=UnitError} to raise
+                        and optional C{name=arg} keyword argument, inlieu
+                        of separate B{C{arg}} and B{C{name}} ones.
 
-           @returns: A L{Str} instance.
+           @returns: A named L{Str}.
 
            @raise Error: Invalid B{C{arg}}.
 
-           @see: Callable, not-nameable class L{pygeodesy.Str_}.
+           @see: Callable, not nameable class L{Str_<pygeodesy.interns.Str_>}.
         '''
-        if name_arg:
-            name, arg = _arg_name_arg2(arg, **name_arg)
-        try:
-            self = str.__new__(cls, arg)
-            if name:
-                _NamedUnit.name.fset(self, name)  # see _Named.name
-        except Exception as x:  # XXX not ... as x:
-            raise _Error(cls, arg, name, Error, x=x)
-        return self
+        return _NamedUnit.__new__(cls, str, arg, name, **Error_name_arg)
 
     def __repr__(self):
         '''Return a representation of this C{Str}.
@@ -279,18 +303,16 @@ class Str(str, _NamedUnit):
 
            @see: Method L{Str.__repr__} for more documentation.
         '''
-        # must use super(Str, self).. since
-        # super()... only works for Python 3+ and
-        # str.__repr__(self) fails with Python 3.8+
+        # must use super(Str, self)... since super()... only works
+        # for Python 3+ and str.__repr__(self) fails in Python 3.8+
         r = super(Str, self).__repr__()
         return r if std else self._toRepr(r)
 
     def toStr(self, **unused):  # PYCHOK **unused
         '''Return this C{Str} as standard C{str}.
         '''
-        # must use super(Str, self)... since
-        # super()... only works for Python 3+ and
-        # str.__str__(self) fails with Python 3.8+
+        # must use super(Str, self)... since super()... only works
+        # for Python 3+ and str.__repr__(self) fails in Python 3.8+
         return super(Str, self).__str__()
 
 
@@ -302,39 +324,25 @@ _Str_radians  = Str(_radians_)   # PYCHOK in .frechet, .hausdorff
 _Str_radians2 = Str(_radians2_)  # PYCHOK in .frechet, .hausdorff
 
 
-def _Error(clas, arg, name, Error, txt=_invalid_, x=None):
-    '''(INTERNAL) Return an error with explanation.
-
-       @arg clas: The C{units} class or sub-class.
-       @arg arg: The original C{unit} value.
-       @arg name: The instance name (C{str}).
-       @arg Error: The Error class to use (C{Excetion}).
-       @kwarg txt: An explanation of the error )C{str}).
-       @kwarg x: Caught exception, used for exception
-                 chaining (iff enabled in Python3+).
-
-       @returns: An B{C{Error}} instance.
+def _xUnit(units, Base):  # PYCHOK in .frechet,  .hausdorff
+    '''(INTERNAL) Get C{Unit} from C{units} or C{name}, ortherwise C{Base}.
     '''
-    if x is not None:  # caught exception, cause
-        if Error is UnitError:  # and isError(x)
-            Error = type(x)  # i.e. if not overridden
-        if txt is _invalid_:
-            txt = str(x)  # i.e. if not overridden
-    n = name if name else modulename(clas).lstrip(_UNDER_)
-    return _XError(Error, n, arg, txt=txt, cause=x)
+    _xsubclassof(_NamedUnit, Base=Base)
+    U = getattr(_MODS, units.capitalize(), Base) if isstr(units) else units
+    return U if issubclassof(U, Base) else Base
 
 
-def _arg_name_arg2(arg, name__=None, **name_arg):  # in .units
-    '''(INTERNAL) Get the 2-tuple C{(name, arg)}.
+def _xUnits(units, Base=_NamedUnit):  # in .frechet, .hausdorff
+    '''(INTERNAL) Set property C{units} as C{Unit} or C{Str}.
     '''
-    if name__ is None:
-        t =  name_arg.popitem() if len(name_arg) == 1 else \
-            (MISSING, arg)
+    _xsubclassof(_NamedUnit, Base=Base)
+    if issubclassof(units, Base):
+        U = units
+    elif isstr(units):
+        U = Str(units, name=_units_)  # XXX Str to _Pass and for backward compatibility
     else:
-        t =  name__.__name__, arg
-    if name_arg:
-        raise _UnexpectedError(**name_arg)
-    return t
+        raise _IsnotError(Base, Str, str, units=units)
+    return U
 
 
 __all__ += _ALL_DOCS(_NamedUnit)

@@ -30,13 +30,14 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _FOR_DOCS, _getenv, 
 # from pygeodesy.nvectorBase import NvectorBase  # _MODS
 # from pygeodesy.props import _update_all  # _MODS
 # from pygeodesy.streprs import Fmt  # _MODS
+# from pygeodesy.unitsBase import _NamedUnit, Str  # _MODS
 
 from copy import copy as _copy, deepcopy as _deepcopy
 from math import copysign as _copysign
 import inspect as _inspect
 
 __all__ = _ALL_LAZY.basics
-__version__ = '24.05.29'
+__version__ = '24.06.15'
 
 _below_               = 'below'
 _list_tuple_types     = (list, tuple)
@@ -192,6 +193,13 @@ def copytype(x, y):
        @return: C{type(B{y})(B{x})}.
     '''
     return type(y)(x if x else _0_0)
+
+
+def _enumereverse(iterable):
+    '''(INTERNAL) Reversed C{enumberate}.
+    '''
+    for j in _reverange(len(iterable)):
+        yield j, iterable[j]
 
 
 def halfs2(str2):

@@ -47,7 +47,7 @@ from pygeodesy.rhumb.bases import RhumbBase, RhumbLineBase, \
 from math import ceil as _ceil, fabs, radians
 
 __all__ = _ALL_LAZY.rhumb_aux_
-__version__ = '24.05.29'
+__version__ = '24.06.11'
 
 # DIGITS = (sizeof(real) * 8) bits
 #        = (ctypes.sizeof(ctypes.c_double(1.0)) * 8) bits
@@ -74,14 +74,14 @@ class RhumbAux(RhumbBase):
            @kwarg a_earth: This rhumb's earth model (L{Datum}, L{Ellipsoid},
                            L{Ellipsoid2}, L{a_f2Tuple}, 2-tuple C{(a, f)}) or
                            the (equatorial) radius (C{meter}, conventionally).
-           @kwarg f: The ellipsoid's flattening (C{scalar}), iff B{C{a_earth}} is
-                     C{scalar}, ignored otherwise.
+           @kwarg f: The ellipsoid's flattening (C{scalar}), required if B{C{a_earth}}
+                     is C{scalar}, ignored otherwise.
            @kwarg exact: If C{True}, use the exact expressions for the I{Auxiliary
                          Latitudes}, otherwise use the I{Fourier} series expansion
                          (C{bool}), see also property C{exact}.
            @kwarg TMorder_name: Optional C{B{name}=NN} (C{str}) and optional
-                          keyword argument C{B{TMorder}=6} for the order of
-                          the L{KTransverseMercator}, see property C{TMorder}.
+                          keyword argument C{B{TMorder}=6}, the order of the
+                          L{KTransverseMercator}, see property C{TMorder}.
 
            @raise ImportError: Package C{numpy} not found or not installed, only
                                required for area C{S12} when C{B{exact} is True}.

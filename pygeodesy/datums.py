@@ -94,7 +94,7 @@ from pygeodesy.units import _isRadius, Radius_,  radians
 # import operator as _operator  # from .fmath
 
 __all__ = _ALL_LAZY.datums
-__version__ = '24.05.21'
+__version__ = '24.06.24'
 
 _a_ellipsoid_ = _UNDER_(_a_, _ellipsoid_)
 _BD72_        = 'BD72'
@@ -248,18 +248,18 @@ class Transform(_NamedEnumItem):
         self.s  = s = (s1 - _1_0) / _S1_S
         return s
 
-    def toStr(self, prec=5, fmt=Fmt.g, **name):  # PYCHOK expected
+    def toStr(self, prec=5, fmt=Fmt.g, **sep_name):  # PYCHOK expected
         '''Return this transform as a string.
 
            @kwarg prec: Number of (decimal) digits, unstripped (C{int}).
            @kwarg fmt: Optional C{float} format (C{letter}).
-           @kwarg name: Optional, override C{B{name}=NN} (C{str}) or
-                        C{None} to exclude this transform's name.
+           @kwarg sep_name: Optional C{B{name}=NN} (C{str}) or C{None}
+                      to exclude this transform's name and separater
+                      C{B{sep}=", "} to join the items (C{str}).
 
            @return: Transform attributes (C{str}).
         '''
-        name, _ = _name2__(**name)  # name=None
-        return self._instr(name, prec, *_Names11, fmt=fmt)
+        return self._instr(*_Names11, fmt=fmt, prec=prec, **sep_name)
 
     def transform(self, x, y, z, inverse=False, **Vector_and_kwds):
         '''Transform a (cartesian) position, forward or inverse.

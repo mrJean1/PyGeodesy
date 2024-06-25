@@ -62,7 +62,7 @@ from pygeodesy.utily import atan2b, degrees90, degrees180, degrees2m, \
 from math import cos, fabs, fmod as _fmod, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '24.06.06'
+__version__ = '24.06.15'
 
 _ilat_  = 'ilat'
 _ilon_  = 'ilon'
@@ -391,7 +391,7 @@ class _Array2LatLon(_Basequence):  # immutable, on purpose
         # check the attr indices
         for n, (ai, i) in enumerate(ais):
             if not isint(i):
-                raise _IsnotError(int.__name__, **{ai: i})
+                raise _IsnotError(int, **{ai: i})
             i = int(i)
             if not 0 <= i < shape[1]:
                 raise _ValueError(ai, i)
@@ -959,8 +959,8 @@ def areaOf(points, adjust=True, radius=R_M, wrap=True):
                     the B{C{points}} (C{bool}).
 
        @return: Approximate area (I{square} C{meter}, same units as
-                B{C{radius}} or C{radians} I{squared} if B{C{radius}}
-                is C{None}).
+                B{C{radius}} or C{radians} I{squared} if C{B{radius}
+                is None}).
 
        @raise PointsError: Insufficient number of B{C{points}}
 
@@ -992,8 +992,8 @@ def boundsOf(points, wrap=False, LatLon=None):  # was=True
        @kwarg LatLon: Optional class to return the C{bounds}
                       corners (C{LatLon}) or C{None}.
 
-       @return: A L{Bounds2Tuple}C{(latlonSW, latlonNE)} as
-                B{C{LatLon}}s if B{C{LatLon}} is C{None} a
+       @return: A L{Bounds2Tuple}C{(latlonSW, latlonNE)}, each
+                a B{C{LatLon}} or if C{B{LatLon} is None}, a
                 L{Bounds4Tuple}C{(latS, lonW, latN, lonE)}.
 
        @raise PointsError: Insufficient number of B{C{points}}

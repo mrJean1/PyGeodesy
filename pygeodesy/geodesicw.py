@@ -37,7 +37,7 @@ from contextlib import contextmanager
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.geodesicw
-__version__ = '24.05.24'
+__version__ = '24.06.24'
 
 _plumb_ = 'plumb'
 _TRIPS  =  65
@@ -71,8 +71,8 @@ class _gWrapped(_kWrapped):
 
                    @arg a_ellipsoid: The equatorial radius I{a} (C{meter}, conventionally),
                                      an ellipsoid (L{Ellipsoid}) or a datum (L{Datum}).
-                   @arg f: The ellipsoid's flattening (C{scalar}), ignored if B{C{a_ellipsoid})
-                           is not C{meter}.
+                   @arg f: The ellipsoid's flattening (C{scalar}), required if B{C{a_ellipsoid})
+                           is C{meter}, ignored otherwise.
                    @kwarg name: Optional C{B{name}=NN} (C{str}).
                 '''
                 _earth_datum(self, a_ellipsoid, f=f, **name)  # raiser=NN
@@ -429,17 +429,16 @@ class _gWrapped(_kWrapped):
 _wrapped = _gWrapped()  # PYCHOK singleton, .ellipsoids, .test/base.py
 
 
-def Geodesic(a_ellipsoid, f=None, **name):
+def Geodesic(a_ellipsoid=_EWGS84, f=None, **name):
     '''Return a I{wrapped} C{geodesic.Geodesic} instance from I{Karney}'s
        Python U{geographiclib<https://PyPI.org/project/geographiclib>},
        provide the latter is installed, otherwise an C{ImportError}.
 
        @arg a_ellipsoid: An ellipsoid (L{Ellipsoid}) or datum (L{Datum})
               or the equatorial radius I{a} of the ellipsoid (C{meter}).
-       @arg f: The flattening of the ellipsoid (C{scalar}), ignored if
-               B{C{a_ellipsoid}}) is not specified as C{meter}.
-       @kwarg name: Optional ellipsoid C{B{name}=NN} (C{str}), ignored
-                    like B{C{f}}.
+       @arg f: The flattening of the ellipsoid (C{scalar}), required if
+               B{C{a_ellipsoid}}) is C{meter}, ignored otherwise.
+       @kwarg name: Optional C{B{name}=NN} (C{str}), ignored like B{C{f}}.
     '''
     return _wrapped.Geodesic(a_ellipsoid, f=f, **name)
 
@@ -453,11 +452,10 @@ def GeodesicLine(geodesic, lat1, lon1, azi1, caps=Caps._STD_LINE):
        @arg lat1: Latitude of the first points (C{degrees}).
        @arg lon1: Longitude of the first points (C{degrees}).
        @arg azi1: Azimuth at the first points (compass C{degrees360}).
-       @kwarg caps: Optional, bit-or'ed combination of L{Caps} values
-                    specifying the capabilities the C{GeodesicLine}
-                    instance should possess, i.e., which quantities can
-                    be returned by calls to C{GeodesicLine.Position}
-                    and C{GeodesicLine.ArcPosition}.
+       @kwarg caps: Optional, bit-or'ed combination of L{Caps} values specifying
+                    the capabilities the C{GeodesicLine} instance should possess,
+                    i.e., which quantities can be returned by methods
+                    C{GeodesicLine.Position} and C{GeodesicLine.ArcPosition}.
     '''
     return _wrapped.GeodesicLine(geodesic, lat1, lon1, azi1, caps=caps)
 

@@ -71,7 +71,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        24.06.08
+        24.06.24
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -114,13 +114,11 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.errors.GeodesicError-class.html" class="summary-name">GeodesicError</a><br />
-      Error raised for lack of convergence or other issues in <a 
-        href="pygeodesy.geodesicx-module.html" 
-        class="link">pygeodesy.geodesicx</a>, <a 
-        href="pygeodesy.geodesicw-module.html" 
-        class="link">pygeodesy.geodesicw</a> or <a 
-        href="pygeodesy.karney-module.html" 
-        class="link">pygeodesy.karney</a>.
+      Error raised for convergence or other issues in <a 
+        href="pygeodesy.geodesicx-module.html" class="link">geodesicx</a>, 
+        <a href="pygeodesy.geodesicw-module.html" 
+        class="link">geodesicw</a> or <a 
+        href="pygeodesy.karney-module.html" class="link">karney</a>.
     </td>
   </tr>
 <tr>
@@ -147,11 +145,11 @@
       Error raised for lat- or longitudinal values or deltas exceeding 
         the given <b><code>limit</code></b> in functions <a 
         href="pygeodesy.formy-module.html#equirectangular" 
-        class="link">pygeodesy.equirectangular</a>, <a 
+        class="link">equirectangular</a>, <a 
         href="pygeodesy.formy-module.html#equirectangular4" 
-        class="link">pygeodesy.equirectangular4</a>, 
-        <code>nearestOn*</code> and <code>simplify*</code> or methods with 
-        <code>limit</code> or <code>options</code> keyword arguments.
+        class="link">equirectangular4</a>, <code>nearestOn*</code> and 
+        <code>simplify*</code> or methods with <code>limit</code> or 
+        <code>options</code> keyword arguments.
     </td>
   </tr>
 <tr>
@@ -196,18 +194,17 @@
         <b><code>clip</code></b>, <b><code>clipLat</code></b>, 
         <b><code>clipLon</code></b> in functions <a 
         href="pygeodesy.dms-module.html#parse3llh" 
-        class="link">pygeodesy.parse3llh</a>, <a 
+        class="link">parse3llh</a>, <a 
         href="pygeodesy.dms-module.html#parseDMS" 
-        class="link">pygeodesy.parseDMS</a>, <a 
+        class="link">parseDMS</a>, <a 
         href="pygeodesy.dms-module.html#parseDMS2" 
-        class="link">pygeodesy.parseDMS2</a> and <a 
-        href="pygeodesy.dms-module.html#parseRad" 
-        class="link">pygeodesy.parseRad</a> or the given 
-        <b><code>limit</code></b> in functions <a 
+        class="link">parseDMS2</a> and <a 
+        href="pygeodesy.dms-module.html#parseRad" class="link">parseRad</a>
+        or the <b><code>limit</code></b> set with functions <a 
         href="pygeodesy.dms-module.html#clipDegrees" 
-        class="link">pygeodesy.clipDegrees</a> and <a 
+        class="link">clipDegrees</a> and <a 
         href="pygeodesy.dms-module.html#clipRadians" 
-        class="link">pygeodesy.clipRadians</a>.
+        class="link">clipRadians</a>.
     </td>
   </tr>
 <tr>
@@ -215,12 +212,12 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.errors.RhumbError-class.html" class="summary-name">RhumbError</a><br />
-      Error raised for a <a href="pygeodesy.rhumb.aux_-module.html" 
-        class="link" onclick="show_private();">pygeodesy.rhumb.aux_</a>, <a
+      Error raised for a rhumb <a href="pygeodesy.rhumb.aux_-module.html"
+        class="link" onclick="show_private();">aux_</a>, <a 
         href="pygeodesy.rhumb.ekx-module.html" class="link" 
-        onclick="show_private();">pygeodesy.rhumb.ekx</a> or <a 
+        onclick="show_private();">ekx</a> or <a 
         href="pygeodesy.rhumb.solve-module.html" class="link" 
-        onclick="show_private();">pygeodesy.rhumb.solve</a> issue.
+        onclick="show_private();">solve</a> issue.
     </td>
   </tr>
 <tr>
@@ -228,7 +225,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.errors.TriangleError-class.html" class="summary-name">TriangleError</a><br />
-      Error raised for triangle, inter- or resection issues.
+      Error raised for triangle, intersection or resection issues.
     </td>
   </tr>
 <tr>
@@ -458,8 +455,8 @@
         <dd>If <code><b>exc</b> is None</code>, return <code>True</code> if 
           exception chaining is enabled for PyGeodesy errors, 
           <code>False</code> if turned off and <code>None</code> if not 
-          available.  If <b><code>exc</code></b> is not <code>None</code>, 
-          return it's error <i>cause</i> or <code>None</code>.</dd>
+          available.  If <code><b>exc</b> is not None</code>, return it's 
+          error <i>cause</i> or <code>None</code> if there is none.</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
         To enable exception chaining for <code>pygeodesy</code> errors, set
@@ -588,7 +585,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Jun 10 13:35:52 2024
+    Generated by Epydoc 3.0.1 on Mon Jun 24 20:35:07 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

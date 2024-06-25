@@ -69,7 +69,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        24.04.17
+        24.06.15
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -182,6 +182,15 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.deprecated.classes.Lam_-class.html" class="summary-name">Lam_</a><br />
+      DEPRECATED on 2024.06.15, use class <a 
+        href="pygeodesy.units.Lamd-class.html" class="link">Lamd</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.deprecated.classes.LatLonExact4Tuple-class.html" class="summary-name">LatLonExact4Tuple</a><br />
       DEPRECATED, use class <a 
         href="pygeodesy.namedTuples.Reverse4Tuple-class.html" 
@@ -238,6 +247,15 @@
       DEPRECATED on 2021.05.20, see (INTERNAL) class <a 
         href="pygeodesy.nvectorBase.NvectorBase-class.html" 
         class="link">pygeodesy.nvectorBase.NvectorBase</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.deprecated.classes.Phi_-class.html" class="summary-name">Phi_</a><br />
+      DEPRECATED on 2024.06.15, use class <a 
+        href="pygeodesy.units.Phid-class.html" class="link">Phid</a>.
     </td>
   </tr>
 <tr>
@@ -1376,7 +1394,14 @@ form=Transforms.WGS84)">Datums.OSGB36: Datum(name='OSGB36', ellipsoid=Ellipso<co
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="Ellipsoids"></a><span class="summary-name">Ellipsoids</span> = <code title="Ellipsoids(Ellipsoid)">Ellipsoids(Ellipsoid)</code>
+        <a href="pygeodesy.deprecated-module.html#Ellipsoids" class="summary-name">Ellipsoids</a> = <code title="Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, f=0, f_=\
+0, b=6371008.771415),
+Ellipsoids.GRS80: Ellipsoid(name='GRS80', a=6378137, f=0.00335281, f_=\
+298.2572221, b=6356752.31414035),
+Ellipsoids.WGS84: Ellipsoid(name='WGS84', a=6378137, f=0.00335281, f_=\
+298.25722356, b=6356752.31424518),
+Ellipsoids.Airy1830: Ellipsoid(name='Airy1830', a=6377563.396, f=0.003\
+34085, f_=299.3249646, b=6356256.90923729)">Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=637<code class="variable-ellipsis">...</code></code>
     </td>
   </tr>
 <tr>
@@ -1585,9 +1610,9 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   class="link">pygeodesy.boundsOf</a>.</p>
   <dl class="fields">
     <dt>Returns:</dt>
-        <dd>2-Tuple <code>(latlonSW, latlonNE)</code> as 
+        <dd>2-Tuple <code>(latlonSW, latlonNE)</code>, each a 
           <b><code>LatLon</code></b> or 4-Tuple <code>(latS, lonW, latN, 
-          lonE)</code> if <b><code>LatLon</code></b> is <code>None</code>.</dd>
+          lonE)</code> if <code><b>LatLon</b> is None</code>.</dd>
     <dt>Decorators:</dt>
     <dd><ul class="nomargin-top">
         <li><code>@deprecated_function</code></li>
@@ -2346,8 +2371,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
     <dt>Returns:</dt>
         <dd>The UTM coordinate (<b><a href="pygeodesy.utm.Utm-class.html" 
           class="link">Utm</a></b>) or 4-tuple <code>(zone, hemisphere, 
-          easting, northing)</code> if <b><code>Utm</code></b> is 
-          <code>None</code>.</dd>
+          easting, northing)</code> if <code><b>Utm</b> is None</code>.</dd>
     <dt>Decorators:</dt>
     <dd><ul class="nomargin-top">
         <li><code>@deprecated_function</code></li>
@@ -2550,7 +2574,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <dd>Vectorial sum (<b><code>Vector</code></b>) or a <a 
           href="pygeodesy.namedTuples.Vector4Tuple-class.html" 
           class="link">Vector4Tuple</a><code>(x, y, z, h)</code> if 
-          <b><code>Vector</code></b> is <code>None</code>.</dd>
+          <code><b>Vector</b> is None</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.VectorError-class.html">VectorError</a></strong></code> - No <b><code>nvectors</code></b>.</li>
@@ -2612,8 +2636,8 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
     <dt>Returns:</dt>
         <dd>The UTM coordinate (<b><code>Utm</code></b>) or a 6-tuple 
           <code>(zone, easting, northing, band, convergence, scale)</code> 
-          if <b><code>Utm</code></b> is <code>None</code> or 
-          <b><code>cmoff</code></b> is <code>False</code>.</dd>
+          if <code><b>Utm</b> is None</code> or <code><b>cmoff</b> is 
+          False</code>.</dd>
     <dt>Decorators:</dt>
     <dd><ul class="nomargin-top">
         <li><code>@deprecated_function</code></li>
@@ -2767,6 +2791,31 @@ form=Transforms.WGS84)
   </dl>
 </td></tr></table>
 </div>
+<a name="Ellipsoids"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">Ellipsoids</h3>
+  
+  <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, f=0, f_=<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+0, b=6371008.771415),
+Ellipsoids.GRS80: Ellipsoid(name='GRS80', a=6378137, f=0.00335281, f_=<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+298.2572221, b=6356752.31414035),
+Ellipsoids.WGS84: Ellipsoid(name='WGS84', a=6378137, f=0.00335281, f_=<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+298.25722356, b=6356752.31424518),
+Ellipsoids.Airy1830: Ellipsoid(name='Airy1830', a=6377563.396, f=0.003<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+34085, f_=299.3249646, b=6356256.90923729)
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="Transforms"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -2823,7 +2872,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Jun 10 13:35:52 2024
+    Generated by Epydoc 3.0.1 on Mon Jun 24 20:35:07 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

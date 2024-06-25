@@ -26,7 +26,7 @@ from pygeodesy.elliptic import Elliptic as _Ef,  Fsum
 from math import atan2, cos, sin, sqrt
 
 __all__ = ()
-__version__ = '23.12.01'
+__version__ = '24.06.16'
 
 
 class AuxDLat(AuxLat):
@@ -138,7 +138,8 @@ class AuxDLat(AuxLat):
         txy = tx * ty
         if txy < 0 or (isinf(ty) and not tx):
             _a =  atan1
-            r  = _over(_a(fm1 * ty) - _a(fm1 * tx), _a(ty) - _a(tx))
+            r  = _a(fm1 * ty) - _a(fm1 * tx)
+            r  = _over(r, _a(ty) - _a(tx))
         elif tx == ty:  # includes tx = ty = inf
             if txy > 1:  # == tx**2
                 txy = _1_over(txy)

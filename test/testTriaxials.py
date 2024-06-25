@@ -4,7 +4,7 @@
 # Test L{triaxials} module.
 
 __all__ = ('Tests',)
-__version__ = '24.01.19'
+__version__ = '24.06.11'
 
 from bases import random, startswith, TestsBase
 
@@ -296,24 +296,25 @@ class Tests(TestsBase):
         t  = T.height4(a, b, c)
         t += t.iteration,
         x, y, z, d, i = t
-        f  = module._normalTo5
+        f  = module._plumbTo5
+        n  = f.__name__
         s  = f(a, b, c, T)  # ordered
         self.test(f.__name__, fstr(t, prec=3, ints=True), fstr(s, prec=3, ints=True))
         u  = f(a, c, b, Triaxial_(T.a, T.c, T.b))
         s  = x, z, y, d, i
-        self.test(f.__name__, fstr(u, prec=3, ints=True), fstr(s, prec=3, ints=True))
+        self.test(n, fstr(u, prec=3, ints=True), fstr(s, prec=3, ints=True))
         u  = f(b, a, c, Triaxial_(T.b, T.a, T.c))
         s  = y, x, z, d, i
-        self.test(f.__name__, fstr(u, prec=3, ints=True), fstr(s, prec=3, ints=True))
+        self.test(n, fstr(u, prec=3, ints=True), fstr(s, prec=3, ints=True))
         u  = f(b, c, a, Triaxial_(T.b, T.c, T.a))
         s  = y, z, x, d, i
-        self.test(f.__name__, fstr(u, prec=3, ints=True), fstr(s, prec=3, ints=True))
+        self.test(n, fstr(u, prec=3, ints=True), fstr(s, prec=3, ints=True))
         u  = f(c, a, b, Triaxial_(T.c, T.a, T.b))
         s  = z, x, y, d, i
-        self.test(f.__name__, fstr(u, prec=3, ints=True), fstr(s, prec=3, ints=True))
+        self.test(n, fstr(u, prec=3, ints=True), fstr(s, prec=3, ints=True))
         u  = f(c, b, a, Triaxial_(T.c, T.b, T.a))
         s  = z, y, x, d, i
-        self.test(f.__name__, fstr(u, prec=3, ints=True), fstr(s, prec=3, ints=True), nt=1)
+        self.test(n, fstr(u, prec=3, ints=True), fstr(s, prec=3, ints=True), nt=1)
 
 #       n = U.height4.__name__
         x, y, z, _s = U.a * 2, U.b * 2, U.c * 2, signBit

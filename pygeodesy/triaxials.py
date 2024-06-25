@@ -59,7 +59,7 @@ from pygeodesy.vector3d import _otherV3d, Vector3d,  _ALL_LAZY, _MODS
 from math import atan2, fabs, sqrt
 
 __all__ = _ALL_LAZY.triaxials
-__version__ = '24.06.09'
+__version__ = '24.06.24'
 
 _not_ordered_ = _not_('ordered')
 _omega_       = 'omega'
@@ -213,8 +213,7 @@ class Triaxial_(_NamedEnumItem):
                             C{meter}) or an other L{Triaxial} or L{Triaxial_} instance.
            @kwarg b: Middle, C{Y} semi-axis (C{meter}, same units as B{C{a}}), required
                      if C{B{a_triaxial} is scalar}, ignored otherwise.
-           @kwarg c: Small, C{Z} semi-axis (C{meter}, same units as B{C{a}}), required
-                     if C{B{a_triaxial} is scalar}, ignored otherwise.
+           @kwarg c: Small, C{Z} semi-axis (C{meter}, B{C{b}}).
            @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @raise TriaxialError: Invalid semi-axis or -axes.
@@ -381,13 +380,14 @@ class Triaxial_(_NamedEnumItem):
 
            @arg x_xyz: X component (C{scalar}) or a cartesian (C{Cartesian}, L{Ecef9Tuple},
                        L{Vector3d}, L{Vector3Tuple} or L{Vector4Tuple}).
-           @kwarg y: Y component (C{scalar}), required if B{C{x_xyz}} if C{scalar}.
-           @kwarg z: Z component (C{scalar}), required if B{C{x_xyz}} if C{scalar}.
+           @kwarg y: Y component (C{scalar}), required if B{C{x_xyz}} if C{scalar}, ignored
+                     otherwise.
+           @kwarg z: Z component (C{scalar}), like B{C{y}}.
            @kwarg normal: If C{True} the projection is the I{normal, plumb} to the surface of,
                           otherwise the C{radial} line to the center of this triaxial (C{bool}).
            @kwarg eps: Tolerance for root finding and validation (C{scalar}), use a negative
                        value to skip validation.
-           @kwarg name: Optional, overriding C{B{name}="heigh4"} (C{str}).
+           @kwarg name: Optional C{B{name}="heigh4"} (C{str}).
 
            @return: L{Vector4Tuple}C{(x, y, z, h)} with the cartesian coordinates C{x}, C{y}
                     and C{z} of the projection on or the intersection with and with the height
@@ -412,7 +412,7 @@ class Triaxial_(_NamedEnumItem):
             x, y, z = v.xyz
             try:
                 if normal:  # plumb to surface
-                    x, y, z, h, i = _normalTo5(x, y, z, self, eps=eps)
+                    x, y, z, h, i = _plumbTo5(x, y, z, self, eps=eps)
                 else:  # radial to center
                     x, y, z = self._radialTo3(z, hypot(x, y), y, x)
                     h = v.minus_(x, y, z).length
@@ -420,8 +420,8 @@ class Triaxial_(_NamedEnumItem):
                 raise TriaxialError(x=x, y=y, z=z, cause=e)
             if h > 0 and self.sideOf(v, eps=EPS0) < 0:
                 h = -h  # below the surface
-        return Vector4Tuple(x, y, z, h, iteration=i,
-                                        name=_name__(name, name__=self.height4))
+        n = _name__(name, name__=self.height4)
+        return Vector4Tuple(x, y, z, h, iteration=i, name=n)
 
     @Property_RO
     def isOrdered(self):
@@ -451,8 +451,9 @@ class Triaxial_(_NamedEnumItem):
 
            @arg x_xyz: X component (C{scalar}) or a cartesian (C{Cartesian},
                        L{Ecef9Tuple}, L{Vector3d}, L{Vector3Tuple} or L{Vector4Tuple}).
-           @kwarg y: Y component (C{scalar}), required if B{C{x_xyz}} if C{scalar}.
-           @kwarg z: Z component (C{scalar}), required if B{C{x_xyz}} if C{scalar}.
+           @kwarg y: Y component (C{scalar}), required if B{C{x_xyz}} if C{scalar}, ignored
+                     otherwise.
+           @kwarg z: Z component (C{scalar}), like B{C{y}}.
            @kwarg length: Optional length and in-/outward direction (C{scalar}).
 
            @return: A C{Vector3d(x_, y_, z_)} normalized to B{C{length}}, pointing
@@ -499,7 +500,7 @@ class Triaxial_(_NamedEnumItem):
 
     @Property_RO
     def _ordered4(self):
-        '''(INTERNAL) Helper for C{_hartzell3} and C{_normalTo5}.
+        '''(INTERNAL) Helper for C{_hartzell3} and C{_plumbTo5}.
         '''
         def _order2(reverse, a, b, c):
             '''(INTERNAL) Un-Order C{a}, C{b} and C{c}.
@@ -558,8 +559,9 @@ class Triaxial_(_NamedEnumItem):
 
            @arg x_xyz: X component (C{scalar}) or a cartesian (C{Cartesian},
                        L{Ecef9Tuple}, L{Vector3d}, L{Vector3Tuple} or L{Vector4Tuple}).
-           @kwarg y: Y component (C{scalar}), required if B{C{x_xyz}} if C{scalar}.
-           @kwarg z: Z component (C{scalar}), required if B{C{x_xyz}} if C{scalar}.
+           @kwarg y: Y component (C{scalar}), required if B{C{x_xyz}} if C{scalar},
+                     ignored otherwise.
+           @kwarg z: Z component (C{scalar}), like B{C{y}}.
            @kwarg eps: Near-surface tolerance (C{scalar}, distance I{squared}).
 
            @return: C{INT0} if C{(B{x}, B{y}, B{z})} is near this triaxial's surface
@@ -593,7 +595,7 @@ class Triaxial_(_NamedEnumItem):
             raise TriaxialError(a=a, b=b, c=c, txt=t)
         return Ellipsoid(a, b=b, name=self._name__(name))
 
-    def toStr(self, prec=9, name=NN, **unused):  # PYCHOK signature
+    def toStr(self, prec=9, **name):  # PYCHOK signature
         '''Return this C{Triaxial} as a string.
 
            @kwarg prec: Precision, number of decimal digits (0..9).
@@ -611,7 +613,7 @@ class Triaxial_(_NamedEnumItem):
         if isinstance(self, J):
             t += J.xyQ2,
         t += T.volume, T.area
-        return self._instr(name, prec, props=t, area_p=self.area_p())  # __name__
+        return self._instr(area_p=self.area_p(), prec=prec, props=t, **name)
 
     @Property_RO
     def volume(self):
@@ -635,14 +637,13 @@ class Triaxial(Triaxial_):
                             or an other L{Triaxial} or L{Triaxial_} instance.
            @kwarg b: Middle semi-axis (C{meter}, same units as B{C{a}}), required
                      if C{B{a_triaxial} is scalar}, ignored otherwise.
-           @kwarg c: Smallest semi-axis (C{meter}, same units as B{C{a}}), required
-                     if C{B{a_triaxial} is scalar}, ignored otherwise.
+           @kwarg c: Smallest semi-axis (C{meter}, like B{C{b}}).
            @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @note: The semi-axes must be ordered as C{B{a} >= B{b} >= B{c} > 0} and
                   must be ellipsoidal, C{B{a} > B{c}}.
 
-           @raise TriaxialError: Semi-axes not ordered, spherical or invalid.
+           @raise TriaxialError: Semi-axes unordered, spherical or invalid.
         '''
         Triaxial_.__init__(self, a_triaxial, b=b, c=c, **name)
 
@@ -740,8 +741,9 @@ class Triaxial(Triaxial_):
 
            @arg x_xyz: X component (C{scalar}) or a cartesian (C{Cartesian},
                        L{Ecef9Tuple}, L{Vector3d}, L{Vector3Tuple} or L{Vector4Tuple}).
-           @kwarg y: Y component (C{scalar}), required if B{C{x_xyz}} if C{scalar}.
-           @kwarg z: Z component (C{scalar}), required if B{C{x_xyz}} if C{scalar}.
+           @kwarg y: Y component (C{scalar}), required if B{C{x_xyz}} if C{scalar},
+                     ignored otherwise.
+           @kwarg z: Z component (C{scalar}), like B{C{y}}.
            @kwarg normal_eps_name: Optional keyword arguments C{B{normal}=True},
                          C{B{eps}=EPS} and overriding C{B{name}="height4"} (C{str}),
                          see method L{Triaxial.height4}.
@@ -845,8 +847,9 @@ class Triaxial(Triaxial_):
 
            @arg x_xyz: X component (C{scalar}) or a cartesian (C{Cartesian},
                        L{Ecef9Tuple}, L{Vector3d}, L{Vector3Tuple} or L{Vector4Tuple}).
-           @kwarg y: Y component (C{scalar}), required if B{C{x_xyz}} if C{scalar}.
-           @kwarg z: Z component (C{scalar}), required if B{C{x_xyz}} if C{scalar}.
+           @kwarg y: Y component (C{scalar}), required if B{C{x_xyz}} if C{scalar},
+                     ignored otherwise.
+           @kwarg z: Z component (C{scalar}), like B{C{y}}.
            @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @return: A L{BetaOmega3Tuple}C{(beta, omega, height)} with C{beta} and
@@ -866,8 +869,9 @@ class Triaxial(Triaxial_):
 
            @arg x_xyz: X component (C{scalar}) or a cartesian (C{Cartesian},
                        L{Ecef9Tuple}, L{Vector3d}, L{Vector3Tuple} or L{Vector4Tuple}).
-           @kwarg y: Y component (C{scalar}), required if B{C{x_xyz}} if C{scalar}.
-           @kwarg z: Z component (C{scalar}), required if B{C{x_xyz}} if C{scalar}.
+           @kwarg y: Y component (C{scalar}), required if B{C{x_xyz}} if C{scalar},
+                       ignored otherwise.
+           @kwarg z: Z component (C{scalar}), like B{C{y}}.
            @arg h: Height above or below this triaxial's surface (C{meter}, same units
                    as the axes).
            @kwarg normal: If C{True} the height is C{normal} to the surface, otherwise
@@ -899,8 +903,9 @@ class Triaxial(Triaxial_):
 
            @arg x_xyz: X component (C{scalar}) or a cartesian (C{Cartesian},
                        L{Ecef9Tuple}, L{Vector3d}, L{Vector3Tuple} or L{Vector4Tuple}).
-           @kwarg y: Y component (C{scalar}), required if B{C{x_xyz}} if C{scalar}.
-           @kwarg z: Z component (C{scalar}), required if B{C{x_xyz}} if C{scalar}.
+           @kwarg y: Y component (C{scalar}), required if B{C{x_xyz}} if C{scalar},
+                     ignored otherwise.
+           @kwarg z: Z component (C{scalar}), like B{C{y}}.
            @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @return: A L{LatLon3Tuple}C{(lat, lon, height)} with C{lat} and C{lon}
@@ -1192,7 +1197,7 @@ def _hartzell3(pov, los, Tun):  # in .Ellipsoid.hartzell4, .formy.hartzell
 
     p3 = _otherV3d(pov=pov.toCartesian() if isLatLon(pov) else pov)
     if los is True:  # normal
-        a, b, c, d, i = _normalTo5(p3.x, p3.y, p3.z, Tun)
+        a, b, c, d, i = _plumbTo5(p3.x, p3.y, p3.z, Tun)
         return type(p3)(a, b, c), d, i
 
     u3 = p3.negate() if los is False or los is None else _toUvwV3d(los, pov)
@@ -1286,15 +1291,22 @@ def _hypot21(x, y, z=0):
     return fsumf_(_1_0, x**2, y**2, (z**2 if z else _0_0), _N_2_0)
 
 
-def _normalTo4(x, y, a, b, eps=EPS):
+def _otherV3d_(x_xyz, y, z, **name):
+    '''(INTERNAL) Get a Vector3d from C{x_xyz}, C{y} and C{z}.
+    '''
+    return Vector3d(x_xyz, y, z, **name) if isscalar(x_xyz) else \
+          _otherV3d(x_xyz=x_xyz, **name)
+
+
+def _plumbTo4(x, y, a, b, eps=EPS):
     '''(INTERNAL) Nearest point on and distance to a 2-D ellipse, I{unordered}.
 
-       @see: Function C{pygeodesy.ellipsoids._normalTo3} and I{Eberly}'s U{Distance
+       @see: Function C{pygeodesy.ellipsoids._plumbTo3} and I{Eberly}'s U{Distance
              from a Point to ... an Ellipse ...<https://www.GeometricTools.com/
              Documentation/DistancePointEllipseEllipsoid.pdf>}.
     '''
     if b > a:
-        b, a, d, i = _normalTo4(y, x, b, a, eps=eps)
+        b, a, d, i = _plumbTo4(y, x, b, a, eps=eps)
         return a, b, d, i
 
     if not (b > 0 and isfinite(a)):
@@ -1339,7 +1351,7 @@ def _normalTo4(x, y, a, b, eps=EPS):
     return a, b, d, i
 
 
-def _normalTo5(x, y, z, Tun, eps=EPS):  # MCCABE 19
+def _plumbTo5(x, y, z, Tun, eps=EPS):  # MCCABE 19 in .testTriaxials
     '''(INTERNAL) Nearest point on and distance to an I{un-/ordered} triaxial.
 
        @see: I{Eberly}'s U{Distance from a Point to ... an Ellipsoid ...<https://
@@ -1348,7 +1360,7 @@ def _normalTo5(x, y, z, Tun, eps=EPS):  # MCCABE 19
     a, b, c, T = Tun._ordered4
     if Tun is not T:  # T is ordered, Tun isn't
         t = T._order3(x, y, z) + (T,)
-        a, b, c, d, i = _normalTo5(*t, eps=eps)
+        a, b, c, d, i = _plumbTo5(*t, eps=eps)
         return T._order3(a, b, c, reverse=True) + (d, i)
 
     if not (c > 0 and isfinite(a)):
@@ -1379,10 +1391,10 @@ def _normalTo5(x, y, z, Tun, eps=EPS):  # MCCABE 19
                     d = hypot_(x - a, y - b, z - c)
             else:  # x == 0
                 a          =  x  # 0
-                b, c, d, i = _normalTo4(y, z, b, c, eps=eps)
+                b, c, d, i = _plumbTo4(y, z, b, c, eps=eps)
         elif x:  # y == 0
             b          =  y  # 0
-            a, c, d, i = _normalTo4(x, z, a, c, eps=eps)
+            a, c, d, i = _plumbTo4(x, z, a, c, eps=eps)
         else:  # x == y == 0
             if z < 0:
                 c = -c
@@ -1407,7 +1419,7 @@ def _normalTo5(x, y, z, Tun, eps=EPS):  # MCCABE 19
                     t  = False
         if t:
             c          =  z  # signed-0
-            a, b, d, i = _normalTo4(x, y, a, b, eps=eps)
+            a, b, d, i = _plumbTo4(x, y, a, b, eps=eps)
 
     if val > 0:  # validate
         e = T.sideOf(a, b, c, eps=val)
@@ -1424,13 +1436,6 @@ def _normalTo5(x, y, z, Tun, eps=EPS):  # MCCABE 19
                     raise _ValueError(n=n, m=m,
                                     dot=e, eps=val)
     return a, b, c, d, i
-
-
-def _otherV3d_(x_xyz, y, z, **name):
-    '''(INTERNAL) Get a Vector3d from C{x_xyz}, C{y} and C{z}.
-    '''
-    return Vector3d(x_xyz, y, z, **name) if isscalar(x_xyz) else \
-          _otherV3d(x_xyz=x_xyz)
 
 
 def _rootXd(r, s, u, v, w, g, eps):

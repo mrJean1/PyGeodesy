@@ -43,7 +43,7 @@ from pygeodesy.utily import atan1, sincos2_
 from math import asinh, atan, cos, cosh, radians, sin, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.rhumb_ekx
-__version__ = '24.05.30'
+__version__ = '24.06.11'
 
 
 class Rhumb(RhumbBase):
@@ -61,13 +61,12 @@ class Rhumb(RhumbBase):
            @kwarg a_earth: This rhumb's earth model (L{Datum}, L{Ellipsoid},
                            L{Ellipsoid2}, L{a_f2Tuple}, 2-tuple C{(a, f)}) or
                            the (equatorial) radius (C{meter}, conventionally).
-           @kwarg f: The ellipsoid's flattening (C{scalar}), iff B{C{a_earth}} is
-                     C{scalar}, ignored otherwise.
+           @kwarg f: The ellipsoid's flattening (C{scalar}), required if B{C{a_earth}}
+                     is C{scalar}, ignored otherwise.
            @kwarg exact: If C{True}, use an addition theorem for elliptic integrals
                          to compute I{Divided differences}, otherwise use the I{Krüger}
                          series expansion (C{bool} or C{None}), see also properties
                          C{exact} and C{TMorder}.
-           @kwarg name: Optional name (C{str}).
            @kwarg RA_TMorder_name: Optional C{B{name}=NN} (C{str}) and optional keyword
                      arguments B{C{RAorder}=6} and B{C{TMorder}=6} to set the respective
                      C{order}, see properties C{RAorder} and C{TMorder}.

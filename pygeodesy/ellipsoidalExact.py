@@ -24,7 +24,7 @@ from pygeodesy.points import _areaError, ispolar  # PYCHOK exported
 # from math import fabs  # from .karney
 
 __all__ = _ALL_LAZY.ellipsoidalExact
-__version__ = '22.02.18'
+__version__ = '24.06.11'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -39,7 +39,7 @@ class Cartesian(CartesianEllipsoidalBase):
                              B{datum}=...} to override this L{LatLon} class
                              or specify C{B{LatLon}=None}.
 
-           @return: The geodetic point (L{LatLon}) or if B{C{LatLon}} is C{None},
+           @return: The geodetic point (L{LatLon}) or if C{B{LatLon} is None},
                     an L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M, datum)}
                     with C{C} and C{M} if available.
 
@@ -78,7 +78,7 @@ class LatLon(LatLonEllipsoidalBaseDI):
                             L{Cartesian} class or set C{B{Cartesian}=None}.
 
            @return: The cartesian (ECEF) coordinates as (L{Cartesian}) or if
-                    B{C{Cartesian}} is C{None}, an L{Ecef9Tuple}C{(x, y, z, lat,
+                    C{B{Cartesian} is None}, an L{Ecef9Tuple}C{(x, y, z, lat,
                     lon, height, C, M, datum)} with C{C} and C{M} if available.
 
            @raise TypeError: Invalid B{C{Cartesian}}, B{C{datum}} or other

@@ -9,19 +9,21 @@ U{GeographicLib<https://GeographicLib.SourceForge.io>} documentation.
 '''
 
 from pygeodesy.basics import isodd,  _MODS
-from pygeodesy.constants import _0_0, _100_0
+from pygeodesy.constants import _EPSmin as _TINY, _0_0, _100_0
 from pygeodesy.errors import _or, _xkwds_item2
 from pygeodesy.fmath import hypot as _hypot
-from pygeodesy.karney import _CapsBase, GeodesicError, _2cos2x, _sum2_
+from pygeodesy.karney import _CapsBase, GeodesicError, _2cos2x, \
+                             _norm2, _sincos2d, _sum2_
 # from pygeodesy.lazily import _MODS, printf  # .basics, _MODS
 
-from math import ldexp as _ldexp
+from math import fabs, ldexp as _ldexp
 
 __all__ = ()
-__version__ = '24.05.19'
+__version__ = '24.06.16'
 
 # valid C{nC4}s and C{C4order}s, see _xnC4 below
 _nC4s = {24: 2900, 27: 4032, 30: 5425}
+# assert (_TINY * EPS) > 0 and (_TINY + EPS) == EPS  # underflow guard
 
 
 class _GeodesicBase(_CapsBase):  # in .geodsolve
@@ -71,15 +73,15 @@ def _cosSeries(c4s, sx, cx):  # PYCHOK shared .geodesicx.gx and -.gxline
     y0  =  t0 = y1 = t1 = _0_0
     c4  =  list(c4s)
     _c4 =  c4.pop
-    _s2 = _sum2_
     if isodd(len(c4)):
         y0 = _c4()
+    _s2 = _sum2_
     while c4:
         # y1 = ar * y0 - y1 + c4.pop()
         # y0 = ar * y1 - y0 + c4.pop()
         y1, t1 = _s2(ar * y0, ar * t0, -y1, -t1, _c4())
         y0, t0 = _s2(ar * y1, ar * t1, -y0, -t0, _c4())
-    # s  = cx * (y0 - y1)
+    # s  = (y0 - y1) * cx
     s, _ = _s2(cx * y0, _0_0, cx * t0, -cx * y1, -cx * t1)
     return s
 
@@ -93,7 +95,7 @@ def _f2(hi, lo):  # in .geodesicx._C4_24, _27 and _30
     return _ldexp(_f(hi), 52) + _f(lo)
 
 
-def _sincos12(sin1, cos1, sin2, cos2, sineg0=False):  # PYCHOK shared
+def _sincos12(sin1, cos1, sin2, cos2, sineg0=False):
     '''(INTERNAL) Compute the sine and cosine of angle
        M{ang12 = atan2(sin2, cos2) - atan2(sin1, cos1)}.
 
@@ -111,7 +113,7 @@ def _sincos12(sin1, cos1, sin2, cos2, sineg0=False):  # PYCHOK shared
     return s, c
 
 
-def _sin1cos2(sin1, cos1, sin2, cos2):  # PYCHOK shared
+def _sin1cos2(sin1, cos1, sin2, cos2):
     '''(INTERNAL) Compute the C{sin1 * cos2} sine and its cosine.
 
        @return: 2-Tuple C{(sin1 * cos2, hypot(sin1 * sin2, cos1)}.
@@ -119,6 +121,16 @@ def _sin1cos2(sin1, cos1, sin2, cos2):  # PYCHOK shared
     s =        sin1 * cos2
     c = _hypot(sin1 * sin2, cos1)
     return s, c  # _norm2(s, c)
+
+
+def _sinf1cos2d(lat, f1):
+    '''(INTERNAL) See C{GeodesicExact} and C{_GeodesicLineExact}.
+    '''
+    sbet, cbet = _sincos2d(lat)
+    # ensure cbet1 = +epsilon at poles; doing the fix on beta means
+    # that sig12 will be <= 2*tiny for two points at the same pole
+    sbet, cbet = _norm2(sbet * f1, cbet)
+    return sbet, (cbet if fabs(cbet) > _TINY else _TINY)
 
 
 def _xnC4(**name_nC4):

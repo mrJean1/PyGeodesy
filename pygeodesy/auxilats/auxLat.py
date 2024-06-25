@@ -22,8 +22,9 @@ from pygeodesy.basics import _reverange, _xinstanceof,  _passarg
 from pygeodesy.constants import INF, MAX_EXP, MIN_EXP, NAN, PI_2, PI_4, _EPSqrt, \
                                _0_0, _0_0s, _0_1, _0_25, _0_5, _1_0, _2_0, _3_0, \
                                _360_0, isfinite, isinf, isnan, _log2, _over
-from pygeodesy.datums import _ellipsoidal_datum, _WGS84,  Ellipsoid, _name__
-# from pygeodesy.ellipsoids import Ellipsoid  # from .datums
+from pygeodesy.datums import _ellipsoidal_datum, _WGS84, \
+                              Ellipsoid, _name__, _EWGS84
+# from pygeodesy.ellipsoids import Ellipsoid, _EWGS84  # from .datums
 from pygeodesy.elliptic import Elliptic as _Ef
 from pygeodesy.errors import AuxError, _xkwds_not, _xkwds_pop2, _Xorder
 # from pygeodesy.fmath import cbrt  # from .karney
@@ -46,7 +47,7 @@ except ImportError:  # Python 3.11-
         return pow(_2_0, x)
 
 __all__ = ()
-__version__ = '24.05.24'
+__version__ = '24.06.16'
 
 _TRIPS = 1024  # XXX 2 or 3?
 
@@ -64,24 +65,21 @@ class AuxLat(AuxAngle):
              <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1AuxLatitude.html>}.
     '''
     _csc  =  dict()  # global coeffs cache: [aL][k], upto max(k) * (4 + 6 + 8) floats
-    _E    = _WGS84.ellipsoid
+    _E    = _EWGS84
 #   _Lmax =  0       # overwritten below
     _mAL  =  6       # 4, 6 or 8 aka Lmax
 
-    def __init__(self, a_earth=_WGS84, f=None, b=None, **ALorder_name):
+    def __init__(self, a_earth=_EWGS84, f=None, b=None, **ALorder_name):
         '''New L{AuxLat} instance on an ellipsoid or datum.
 
-           @arg a_earth: Equatorial radius, semi-axis (C{meter}) or an
-                         ellipsoid or datum (L{Datum}, L{Ellipsoid},
-                         L{Ellipsoid2} or L{a_f2Tuple}).
-           @kwarg f: Flattening: M{(a - b) / a} (C{float}, near zero for
-                     spherical), ignored if B{C{a_earth}} is not scalar.
-           @kwarg b: Optional polar radius, semi-axis (C{meter}, same
-                     units as B{C{a_earth}}), ignored if B{C{a_earth}}
-                     is not scalar.
-           @kwarg ALorder_name: Optional C{B{name}=NN} (C{str}) and optional
-                          keyword argument C{B{ALorder}=6} for the order of
-                          this L{AuxLat}, see property C{ALorder}.
+           @arg a_earth: Equatorial radius, semi-axis (C{meter}) or an ellipsoid or
+                         datum (L{Datum}, L{Ellipsoid}, L{Ellipsoid2} or L{a_f2Tuple}).
+           @kwarg f: Flattening: M{(a - b) / a} (C{float}, near zero for spherical),
+                     required if B{C{a_earth}} is C{scalar} and C{B{b}=None}.
+           @kwarg b: Optional polar radius, semi-axis (C{meter}, required if B{C{a_earth}}
+                     is C{scalar} and C{B{f}=None}.
+           @kwarg ALorder_name: Optional C{B{name}=NN} (C{str}) and optional order of
+                          this L{AuxLat} C{B{ALorder}=6}, see property C{ALorder}.
         '''
         if ALorder_name:
             M = self._mAL
@@ -91,7 +89,7 @@ class AuxLat(AuxAngle):
         else:
             name = NN
         try:
-            if a_earth is not _WGS84:
+            if a_earth not in (_EWGS84, _WGS84):
                 n = _name__(name, name__=AuxLat)
                 if b is f is None:
                     E = _ellipsoidal_datum(a_earth, name=n).ellipsoid  # XXX raiser=_earth_
@@ -101,7 +99,7 @@ class AuxLat(AuxAngle):
                     raise ValueError(_not_scalar_)
                 self._E = E
             elif not (b is f is None):
-                # _UnexpectedError into AuxError
+                # turn _UnexpectedError into AuxError
                 name = _name__(name, **_xkwds_not(None, b=b, f=f))
 
             if name:

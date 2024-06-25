@@ -16,22 +16,22 @@ also U{World Geographic Reference System
 from pygeodesy.constants import INT0, _float, _off90, _0_001, \
                                _0_5, _1_0, _2_0, _60_0, _1000_0
 from pygeodesy.dms import parse3llh  # parseDMS2
-from pygeodesy.errors import _ValueError, _xattr, _xkwds
+from pygeodesy.errors import _ValueError, _xattr, _xStrError
 from pygeodesy.interns import NN, _0to9_, _AtoZnoIO_, _COMMA_, \
                              _height_, _radius_, _SPACE_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
-from pygeodesy.named import nameof,  isstr, Property_RO
+from pygeodesy.named import _name2__, nameof,  isstr, Property_RO
 from pygeodesy.namedTuples import LatLon2Tuple, LatLonPrec3Tuple
 # from pygeodesy.props import Property_RO  # from .named
 from pygeodesy.streprs import Fmt, _0wd
 from pygeodesy.units import Height, Int, Lat, Lon, Precision_, \
-                            Radius, Scalar_, Str, _xStrError
+                            Radius, Scalar_, Str
 from pygeodesy.utily import ft2m, m2ft, m2NM
 
 from math import floor
 
 __all__ = _ALL_LAZY.wgrs
-__version__ = '23.06.12'
+__version__ = '24.06.15'
 
 _Base    =  10
 _BaseLen =  4
@@ -207,27 +207,25 @@ class Georef(Str):
         '''
         return self._decoded5.radius
 
-    def toLatLon(self, LatLon=None, height=None, **LatLon_kwds):
-        '''Return (the center of) this georef cell as an instance
-           of the supplied C{LatLon} class.
+    def toLatLon(self, LatLon=None, height=None, **name_LatLon_kwds):
+        '''Return (the center of) this georef cell as a C{LatLon}.
 
            @kwarg LatLon: Class to use (C{LatLon}) or C{None}.
-           @kwarg height: Optional height (C{meter}).
-           @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
-                               arguments, ignored if C{B{LatLon} is None}.
+           @kwarg height: Optional height (C{meter}), overriding this height.
+           @kwarg name_LatLon_kwds: Optional C{B{name}=NN} (C{str}) and optional,
+                       additional B{C{LatLon}} keyword arguments, ignored if
+                       C{B{LatLon} is None}.
 
-           @return: This georef location (B{C{LatLon}}) or if B{C{LatLon}}
-                    is C{None}, a L{LatLon3Tuple}C{(lat, lon, height)}.
+           @return: This georef location (B{C{LatLon}}) or if C{B{LatLon} is None},
+                    a L{LatLon3Tuple}C{(lat, lon, height)}.
 
-           @raise TypeError: Invalid B{C{LatLon}} or B{C{LatLon_kwds}}.
+           @raise TypeError: Invalid B{C{LatLon}} or B{C{name_LatLon_kwds}}.
         '''
-        if LatLon is None:
-            r = self.latlonheight if height is None else \
-                self.latlon.to3Tuple(height)
-        else:
-            h = (self.height or INT0) if height is None else height
-            r =  LatLon(*self.latlon, height=h, **_xkwds(LatLon_kwds, name=self.name))
-        return r
+        n, kwds = _name2__(name_LatLon_kwds, _or_nameof=self)
+        h = (self.height or INT0) if height is None else height  # _heigHt
+        r =  self.latlon.to3Tuple(h) if LatLon is None else LatLon(
+            *self.latlon, height=h, **kwds)
+        return r.renamed(n) if n else r
 
 
 def decode3(georef, center=True):

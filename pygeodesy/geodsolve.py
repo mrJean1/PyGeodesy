@@ -21,12 +21,12 @@ from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, \
                              _getenv, _PYGEODESY_GEODSOLVE_
 from pygeodesy.named import _name1__
 from pygeodesy.namedTuples import Destination3Tuple, Distance3Tuple
-from pygeodesy.props import Property, Property_RO
+from pygeodesy.props import Property, Property_RO, property_RO
 from pygeodesy.solveBase import _SolveBase, _SolveLineBase
 from pygeodesy.utily import _unrollon, _Wrap, wrap360
 
 __all__ = _ALL_LAZY.geodsolve
-__version__ = '24.06.04'
+__version__ = '24.06.24'
 
 
 class GeodSolve12Tuple(_GTuple):
@@ -268,7 +268,7 @@ class GeodesicLineSolve(_GeodesicSolveBase, _SolveLineBase):
         except GeodesicError:
             pass
 
-    def ArcPosition(self, a12, outmask=_UNUSED_):  # PYCHOK unused
+    def ArcPosition(self, a12, outmask=Caps.STANDARD):  # PYCHOK unused
         '''Find the position on the line given B{C{a12}}.
 
            @arg a12: Spherical arc length from the first point to the
@@ -277,7 +277,7 @@ class GeodesicLineSolve(_GeodesicSolveBase, _SolveLineBase):
            @return: A C{GDict} with 12 items C{lat1, lon1, azi1, lat2, lon2,
                     azi2, m12, a12, s12, M12, M21, S12}.
         '''
-        return self._GDictInvoke(self._cmdArc, True, self._Names_Direct, a12)
+        return self._GDictInvoke(self._cmdArc, True, self._Names_Direct, a12)._unCaps(outmask)
 
     @Property_RO
     def azi1(self):
@@ -301,6 +301,12 @@ class GeodesicLineSolve(_GeodesicSolveBase, _SolveLineBase):
         '''
         return self._cmdDistance + ('-a',)
 
+    @property_RO
+    def geodesic(self):
+        '''Get the geodesic (L{GeodesicSolve}).
+        '''
+        return self._solve  # see .solveBase._SolveLineBase
+
     def Intersecant2(self, lat0, lon0, radius, **kwds):  # PYCHOK no cover
         '''B{Not implemented}, throws a C{NotImplementedError} always.'''
         self._notImplemented(lat0, lon0, radius, **kwds)
@@ -309,7 +315,7 @@ class GeodesicLineSolve(_GeodesicSolveBase, _SolveLineBase):
         '''B{Not implemented}, throws a C{NotImplementedError} always.'''
         self._notImplemented(lat0, lon0, **kwds)
 
-    def Position(self, s12, outmask=_UNUSED_):  # PYCHOK unused
+    def Position(self, s12, outmask=Caps.STANDARD):
         '''Find the position on the line given B{C{s12}}.
 
            @arg s12: Distance from the first point to the second (C{meter}).
@@ -317,7 +323,7 @@ class GeodesicLineSolve(_GeodesicSolveBase, _SolveLineBase):
            @return: A C{GDict} with 12 items C{lat1, lon1, azi1, lat2, lon2,
                     azi2, m12, a12, s12, M12, M21, S12}, possibly C{a12=NAN}.
         '''
-        return self._GDictInvoke(self._cmdDistance, True, self._Names_Direct, s12)
+        return self._GDictInvoke(self._cmdDistance, True, self._Names_Direct, s12)._unCaps(outmask)
 
     def toStr(self, **prec_sep):  # PYCHOK signature
         '''Return this C{GeodesicLineSolve} as string.

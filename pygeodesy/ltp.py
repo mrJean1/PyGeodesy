@@ -44,7 +44,7 @@ from pygeodesy.vector3d import _ALL_LAZY, Vector3d
 # from math import fabs, floor as _floor  # from .fmath, .fsums
 
 __all__ = _ALL_LAZY.ltp
-__version__ = '24.06.07'
+__version__ = '24.06.11'
 
 _height0_ = _height_ + _0_
 _narrow_  = 'narrow'
@@ -154,7 +154,7 @@ class Attitude(_NamedBase):
                        additional B{C{Vector}} keyword arguments, ignored if
                        C{B{Vector} is None}.
 
-           @return: A named B{C{Vector}} instance or if B{C{Vector}} is C{None},
+           @return: A named B{C{Vector}} instance or if C{B{Vector} is None},
                     a named L{Vector3Tuple}C{(x, y, z)}.
 
            @raise AttitudeError: Invalid B{C{x_xyz}}, B{C{y}} or B{C{z}}.
@@ -419,13 +419,12 @@ class LocalCartesian(_NamedBase):
            @kwarg latlonh0: The (geodetic) origin (C{LatLon}, L{LatLon4Tuple}, L{Ltp}
                             L{LocalCartesian} or L{Ecef9Tuple}) or the C{scalar}
                             latitude of the (goedetic) origin (C{degrees}).
-           @kwarg lon0: Longitude of the (goedetic) origin (C{degrees}) for C{scalar}
-                        B{C{latlonh0}}, ignored otherwise.
+           @kwarg lon0: Longitude of the (goedetic) origin (C{degrees}), required if
+                        B{C{latlonh0}} is C{scalar}, ignored otherwise.
            @kwarg height0: Optional height (C{meter}, conventionally) at the (goedetic)
                            origin perpendicular to and above (or below) the ellipsoid's
-                           surface and for C{scalar} B{C{latlonh0}}, ignored otherwise.
-           @kwarg ecef: An ECEF converter (L{EcefKarney} I{only}) for C{scalar}
-                        B{C{latlonh0}}, ignored otherwise.
+                           surface, like B{C{lon0}}.
+           @kwarg ecef: An ECEF converter (L{EcefKarney} I{only}), like B{C{lon0}}.
            @kwarg lon00_name: Optional C{B{name}=NN} (C{str}) and keyword argument
                         C{B{lon00}=B{lon0}} for the arbitrary I{polar} longitude
                         (C{degrees}), see method C{reverse} and property C{lon00}
@@ -1104,7 +1103,7 @@ def tyr3d(tilt=INT0, yaw=INT0, roll=INT0, Vector=Vector3d, **name_Vector_kwds):
                    additional B{C{Vector}} keyword arguments, ignored if
                    C{B{Vector} is None}.
 
-       @return: A named B{C{Vector}} instance or if B{C{Vector}} is C{None},
+       @return: A named B{C{Vector}} instance or if C{B{Vector} is None},
                 a named L{Vector3Tuple}C{(x, y, z)}.
 
        @raise AttitudeError: Invalid B{C{tilt}}, B{C{yaw}} or B{C{roll}}.

@@ -36,7 +36,7 @@ from pygeodesy.utily import degrees90, degrees180
 from math import atan, atanh, exp, radians, sin, tanh
 
 __all__ = _ALL_LAZY.webmercator
-__version__ = '24.05.31'
+__version__ = '24.06.11'
 
 # _FalseEasting  = 0   # false Easting (C{meter})
 # _FalseNorthing = 0   # false Northing (C{meter})
@@ -283,8 +283,8 @@ def parseWM(strWM, radius=R_MA, Wm=Wm, **name):
                   or C{None}.
        @kwarg name: Optional C{B{name}=NN} (C{str}).
 
-       @return: The WM coordinate (B{C{Wm}}) or if B{C{Wm}} is C{None}
-                an L{EasNorRadius3Tuple}C{(easting, northing, radius)}.
+       @return: The WM coordinate (B{C{Wm}}) or if C{B{Wm} is None}, an
+                L{EasNorRadius3Tuple}C{(easting, northing, radius)}.
 
        @raise WebMercatorError: Invalid B{C{strWM}}.
     '''
@@ -307,27 +307,25 @@ def parseWM(strWM, radius=R_MA, Wm=Wm, **name):
 def toWm(latlon, lon=None, earth=R_MA, Wm=Wm, **name_Wm_kwds_radius):
     '''Convert a lat-/longitude point to a WM coordinate.
 
-       @arg latlon: Latitude (C{degrees}) or an (ellipsoidal or
-                    spherical) geodetic C{LatLon} point.
+       @arg latlon: Latitude (C{degrees}) or an (ellipsoidal or spherical)
+                    geodetic C{LatLon} point.
        @kwarg lon: Optional longitude (C{degrees} or C{None}).
-       @kwarg earth: Earth radius (C{meter}), datum or ellipsoid
-                     (L{Datum}, L{a_f2Tuple}, L{Ellipsoid} or
-                     L{Ellipsoid2}), overridden by B{C{latlon}}'s
-                     datum if present.
-       @kwarg Wm: Optional class to return the WM coordinate (L{Wm})
-                  or C{None}.
-       @kwarg name_Wm_kwds_radius: Optional C{B{name}=NN} (C{str}),
-                   optional, additional B{C{Wm}} keyword arguments,
-                   ignored if C{B{Wm} is None} and DEPRECATED keyword
-                   argument C{B{radius}=earth}, use B{C{earth}}.
+       @kwarg earth: Earth radius (C{meter}), datum or ellipsoid (L{Datum},
+                     L{a_f2Tuple}, L{Ellipsoid} or L{Ellipsoid2}), overridden
+                     by B{C{latlon}}'s datum if present.
+       @kwarg Wm: Optional class to return the WM coordinate (L{Wm}) or C{None}.
+       @kwarg name_Wm_kwds_radius: Optional C{B{name}=NN} (C{str}), optional,
+                   additional B{C{Wm}} keyword arguments, ignored if C{B{Wm} is
+                   None} and DEPRECATED keyword argument C{B{radius}=earth},
+                   use B{C{earth}}.
 
-       @return: The WM coordinate (B{C{Wm}}) or if B{C{Wm}} is C{None} an
+       @return: The WM coordinate (B{C{Wm}}) or if C{B{Wm} is None}, an
                 L{EasNorRadius3Tuple}C{(easting, northing, radius)}.
 
-       @raise ValueError: If B{C{lon}} value is missing, if B{C{latlon}} is not
-                          scalar, if B{C{latlon}} is beyond the valid WM range
-                          and L{pygeodesy.rangerrors} is set to C{True} or if
-                          B{C{earth}} is invalid.
+       @raise ValueError: If B{C{earth}} is invalid, if B{C{lon}} value is missing,
+                          if B{C{latlon}} is not scalar, or if B{C{latlon}} is beyond
+                          the valid WM range and L{rangerrrors<pygeodesy.rangerrors>}
+                          is C{True}.
     '''
     name, kwds = _name2__(name_Wm_kwds_radius)
     R, kwds = _xkwds_pop2(kwds, radius=earth)

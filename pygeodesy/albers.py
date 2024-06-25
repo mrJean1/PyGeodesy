@@ -38,7 +38,7 @@ from pygeodesy.utily import atan1, atan1d, degrees360, sincos2, sincos2d, \
 from math import atan2, atanh, degrees, fabs, radians, sqrt
 
 __all__ = _ALL_LAZY.albers
-__version__ = '24.05.21'
+__version__ = '24.06.11'
 
 _k1_    = 'k1'
 _NUMIT  =   8  # XXX 4?
@@ -354,7 +354,7 @@ class _AlbersBase(_NamedBase):
                               and optional, additional B{C{LatLon}} keyword
                               arguments, ignored if C{B{LatLon} is None}.
 
-           @return: The geodetic (C{LatLon}) or if B{C{LatLon}} is C{None} an
+           @return: The geodetic (C{LatLon}) or if C{B{LatLon} is None} an
                     L{Albers7Tuple}C{(x, y, lat, lon, gamma, scale, datum)}.
 
            @note: The origin latitude is returned by C{property lat0}.  No

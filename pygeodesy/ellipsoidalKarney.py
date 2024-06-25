@@ -3,13 +3,12 @@
 
 u'''Ellipsoidal, I{Karney}-based geodesy.
 
-Ellipsoidal geodetic (lat-/longitude) L{LatLon} and geocentric
-(ECEF) L{Cartesian} classes and functions L{areaOf}, L{intersections2},
-L{isclockwise}, L{nearestOn} and L{perimeterOf}, all requiring I{Charles
-Karney}'s U{geographiclib <https://PyPI.org/project/geographiclib>}
-Python package to be installed.
+Ellipsoidal geodetic (lat-/longitude) L{LatLon} and geocentric (ECEF) L{Cartesian}
+classes and functions L{areaOf}, L{intersection3}, L{intersections2}, L{isclockwise},
+L{nearestOn} and L{perimeterOf}, requiring I{Charles F.F. Karney}'s U{geographiclib
+<https://PyPI.org/project/geographiclib>} Python package to be installed.
 
-Here's an example usage of C{ellipsoidalKarney}:
+A usage example of C{ellipsoidalKarney}:
 
     >>> from pygeodesy.ellipsoidalKarney import LatLon
     >>> Newport_RI = LatLon(41.49008, -71.312796)
@@ -43,25 +42,23 @@ from pygeodesy.props import deprecated_method, Property_RO
 # from math import fabs  # from .karney
 
 __all__ = _ALL_LAZY.ellipsoidalKarney
-__version__ = '24.05.25'
+__version__ = '24.06.11'
 
 
 class Cartesian(CartesianEllipsoidalBase):
-    '''Extended to convert C{Karney}-based L{Cartesian} to
-       C{Karney}-based L{LatLon} points.
+    '''Extended to convert C{Karney}-based L{Cartesian} to C{Karney}-based L{LatLon} points.
     '''
 
     def toLatLon(self, **LatLon_and_kwds):  # PYCHOK LatLon=LatLon, datum=None
         '''Convert this cartesian point to a C{Karney}-based geodetic point.
 
-           @kwarg LatLon_and_kwds: Optional L{LatLon} and L{LatLon} keyword
-                                   arguments as C{datum}.  Use C{B{LatLon}=...,
-                                   B{datum}=...} to override this L{LatLon}
-                                   class or specify C{B{LatLon}=None}.
+           @kwarg LatLon_and_kwds: Optional L{LatLon} and L{LatLon} keyword arguments
+                         as C{datum}.  Use C{B{LatLon}=..., B{datum}=...} to override
+                         this L{LatLon} class or specify C{B{LatLon}=None}.
 
-           @return: The geodetic point (L{LatLon}) or if B{C{LatLon}} is C{None},
-                    an L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M, datum)}
-                    with C{C} and C{M} if available.
+           @return: The geodetic point (L{LatLon}) or if C{B{LatLon} is None}, an
+                    L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M, datum)} with C{C}
+                    and C{M} if available.
 
            @raise TypeError: Invalid B{C{LatLon_and_kwds}} argument.
         '''
@@ -70,13 +67,9 @@ class Cartesian(CartesianEllipsoidalBase):
 
 
 class LatLon(LatLonEllipsoidalBaseDI):
-    '''An ellipsoidal L{LatLon} similar to L{ellipsoidalVincenty.LatLon}
-       but using I{Charles F. F. Karney}'s Python U{geographiclib
-       <https://PyPI.org/project/geographiclib>} to compute geodesic
-       distances, bearings (azimuths), etc.
-
-       @note: This L{LatLon} class requires the U{geographiclib
-              <https://PyPI.org/project/geographiclib>} package.
+    '''An ellipsoidal L{LatLon} similar to L{ellipsoidalVincenty.LatLon} but using
+       I{Karney}'s Python U{geographiclib<https://PyPI.org/project/geographiclib>}
+       to compute geodesic distances, bearings (azimuths), etc.
     '''
 
     @deprecated_method
@@ -103,52 +96,41 @@ class LatLon(LatLonEllipsoidalBaseDI):
     def toCartesian(self, **Cartesian_datum_kwds):  # PYCHOK Cartesian=Cartesian, datum=None
         '''Convert this point to C{Karney}-based cartesian (ECEF) coordinates.
 
-           @kwarg Cartesian_datum_kwds: Optional L{Cartesian}, B{C{datum}}
-                  and other keyword arguments, ignored if C{B{Cartesian} is None}.
-                  Use C{B{Cartesian}=...} to override this L{Cartesian} class or
-                  set C{B{Cartesian}=None}.
+           @kwarg Cartesian_datum_kwds: Optional L{Cartesian}, B{C{datum}} and other keyword
+                  arguments, ignored if C{B{Cartesian} is None}.  Use C{B{Cartesian}=...} to
+                  override this L{Cartesian} class or set C{B{Cartesian}=None}.
 
-           @return: The cartesian (ECEF) coordinates (L{Cartesian}) or if
-                    B{C{Cartesian}} is C{None}, an L{Ecef9Tuple}C{(x, y, z,
-                    lat, lon, height, C, M, datum)} with C{C} and C{M} if
-                    available.
+           @return: The cartesian (ECEF) coordinates (L{Cartesian}) or if C{B{Cartesian} is
+                    None}, an L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M, datum)} with
+                    C{C} and C{M} if available.
 
-           @raise TypeError: Invalid B{C{Cartesian}}, B{C{datum}} or other
-                             B{C{Cartesian_datum_kwds}}.
+           @raise TypeError: Invalid B{C{Cartesian}}, B{C{datum}} or other B{C{Cartesian_datum_kwds}}.
         '''
         kwds = _xkwds(Cartesian_datum_kwds, Cartesian=Cartesian, datum=self.datum)
         return LatLonEllipsoidalBaseDI.toCartesian(self, **kwds)
 
 
 def areaOf(points, datum=_WGS84, wrap=True):
-    '''Compute the area of an (ellipsoidal) polygon or composite.
+    '''Compute the area of an (ellipsoidal) polygon or composite using I{Karney}'s
+       U{geographiclib<https://PyPI.org/project/geographiclib>} package.
 
-       @arg points: The polygon points (L{LatLon}[], L{BooleanFHP}
-                    or L{BooleanGH}).
+       @arg points: The polygon points (L{LatLon}[], L{BooleanFHP} or L{BooleanGH}).
        @kwarg datum: Optional datum (L{Datum}).
-       @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the
-                    B{C{points}} (C{bool}).
+       @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the B{C{points}} (C{bool}).
 
-       @return: Area (C{meter}, same as units of the B{C{datum}}'s
-                ellipsoid axes, I{squared}).
+       @return: Area (C{meter}, same as units of the B{C{datum}}'s ellipsoid axes, I{squared}).
 
-       @raise ImportError: Package U{geographiclib
-                           <https://PyPI.org/project/geographiclib>}
+       @raise ImportError: Package U{geographiclib<https://PyPI.org/project/geographiclib>}
                            not installed or not found.
 
        @raise PointsError: Insufficient number of B{C{points}}.
 
        @raise TypeError: Some B{C{points}} are not L{LatLon}.
 
-       @raise ValueError: Invalid C{B{wrap}=False}, unwrapped, unrolled
-                          longitudes not supported.
+       @raise ValueError: Invalid C{B{wrap}=False}, unwrapped, unrolled longitudes not supported.
 
-       @note: This function requires the U{geographiclib
-              <https://PyPI.org/project/geographiclib>} package.
-
-       @see: Functions L{pygeodesy.areaOf}, L{ellipsoidalExact.areaOf},
-             L{ellipsoidalGeodSolve.areaOf}, L{sphericalNvector.areaOf}
-             and L{sphericalTrigonometry.areaOf}.
+       @see: Functions L{pygeodesy.areaOf}, L{ellipsoidalExact.areaOf}, L{ellipsoidalGeodSolve.areaOf},
+             L{sphericalNvector.areaOf} and L{sphericalTrigonometry.areaOf}.
 
        @note: The U{area of a polygon enclosing a pole<https://GeographicLib.SourceForge.io/
               C++/doc/classGeographicLib_1_1GeodesicExact.html#a3d7a9155e838a09a48dc14d0c3fac525>}
@@ -259,7 +241,8 @@ def intersections2(center1, radius1, center2, radius2, height=None, wrap=False, 
 
 
 def isclockwise(points, datum=_WGS84, wrap=True):
-    '''Determine the direction of a path or polygon.
+    '''Determine the direction of a path or polygon using I{Karney}'s
+       U{geographiclib<https://PyPI.org/project/geographiclib>} package.
 
        @arg points: The path or polygon points (C{LatLon}[]).
        @kwarg datum: Optional datum (L{Datum}).
@@ -276,11 +259,7 @@ def isclockwise(points, datum=_WGS84, wrap=True):
 
        @raise TypeError: Some B{C{points}} are not C{LatLon}.
 
-       @raise ValueError: The B{C{points}} enclose a pole or zero
-                          area.
-
-       @note: This function requires the U{geographiclib
-              <https://PyPI.org/project/geographiclib>} package.
+       @raise ValueError: The B{C{points}} enclose a pole or zero area.
 
        @see: L{pygeodesy.isclockwise}.
     '''
@@ -340,7 +319,8 @@ def nearestOn(point, point1, point2, within=True, height=None, wrap=False,
 
 
 def perimeterOf(points, closed=False, datum=_WGS84, wrap=True):
-    '''Compute the perimeter of an (ellipsoidal) polygon or composite.
+    '''Compute the perimeter of an (ellipsoidal) polygon or composite using I{Karney}'s
+       U{geographiclib<https://PyPI.org/project/geographiclib>} package.
 
        @arg points: The polygon points (L{LatLon}[], L{BooleanFHP} or
                     L{BooleanGH}).
@@ -364,9 +344,6 @@ def perimeterOf(points, closed=False, datum=_WGS84, wrap=True):
        @raise ValueError: Invalid C{B{wrap}=False}, unwrapped, unrolled
                           longitudes not supported or C{B{closed}=False}
                           with C{B{points}} a composite.
-
-       @note: This function requires the U{geographiclib
-              <https://PyPI.org/project/geographiclib>} package.
 
        @see: Functions L{pygeodesy.perimeterOf}, L{ellipsoidalExact.perimeterOf},
              L{ellipsoidalGeodSolve.perimeterOf}, L{sphericalNvector.perimeterOf}

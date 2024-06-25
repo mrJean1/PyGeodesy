@@ -44,25 +44,26 @@ from pygeodesy.constants import EPS, EPS0, EPS02, MANT_DIG, NAN, PI, _EPSqrt, \
 from pygeodesy.datums import _earth_datum, _WGS84,  _EWGS84
 # from pygeodesy.ellipsoids import _EWGS84  # from .datums
 from pygeodesy.errors import GeodesicError, _xkwds_pop2
-from pygeodesy.fmath import hypot as _hypot
+from pygeodesy.fmath import hypot as _hypot,  Fmt
 from pygeodesy.fsums import fsumf_, fsum1f_
 from pygeodesy.geodesicx.gxbases import _cosSeries, _GeodesicBase, \
-                                        _sincos12, _sin1cos2, _xnC4
-from pygeodesy.geodesicx.gxline import _GeodesicLineExact, _TINY, _update_glXs
-from pygeodesy.interns import NN, _COMMASPACE_, _DOT_, _UNDER_
+                                        _sincos12, _sin1cos2, _sinf1cos2d, \
+                                        _TINY, _xnC4
+from pygeodesy.geodesicx.gxline import _GeodesicLineExact, _update_glXs
+from pygeodesy.interns import NN, _DOT_, _UNDER_
 from pygeodesy.karney import GDict, _around, _atan2d, Caps, _cbrt, _diff182, \
                             _fix90, _K_2_0, _norm2, _norm180, _polynomial, \
                             _signBit, _sincos2, _sincos2d, _sincos2de, _unsigned2
 from pygeodesy.lazily import _ALL_DOCS, _ALL_MODS as _MODS
 from pygeodesy.namedTuples import Destination3Tuple, Distance3Tuple
 from pygeodesy.props import deprecated_Property, Property, Property_RO, property_RO
-from pygeodesy.streprs import Fmt, pairs
+# from pygeodesy.streprs import Fmt  # from .fmath
 from pygeodesy.utily import atan2d as _atan2d_reverse, _unrollon, _Wrap, wrap360
 
 from math import atan2, copysign, cos, degrees, fabs, radians, sqrt
 
 __all__ = ()
-__version__ = '24.05.31'
+__version__ = '24.06.24'
 
 _MAXIT1 = 20
 _MAXIT2 = 10 + _MAXIT1 + MANT_DIG  # MANT_DIG == C++ digits
@@ -553,10 +554,10 @@ class GeodesicExact(_GeodesicBase):
         # to check, e.g., on verifying quadrants in atan2.  In addition,
         # this enforces some symmetries in the results returned.
 
-        # Initialize for the meridian.  No longitude calculation is
-        # done in this case to let the parameter default to 0.
-        sbet1, cbet1 = self._sinf1cos2d(lat1)
-        sbet2, cbet2 = self._sinf1cos2d(lat2)
+        # Initialize for the meridian.  No longitude calculation is done in
+        # this case to let the parameter default to 0.
+        sbet1, cbet1 = _sinf1cos2d(lat1, self.f1)
+        sbet2, cbet2 = _sinf1cos2d(lat2, self.f1)
         # If cbet1 < -sbet1, then cbet2 - cbet1 is a sensitive measure
         # of the |bet1| - |bet2|.  Alternatively (cbet1 >= -sbet1),
         # abs(sbet2) + sbet1 is a better measure.  This logic is used
@@ -1241,27 +1242,16 @@ class GeodesicExact(_GeodesicBase):
 
     Polygon = Area  # for C{geographiclib} compatibility
 
-    def _sinf1cos2d(self, lat):
-        '''(INTERNAL) Helper, also for C{_G_GeodesicLineExact}.
-        '''
-        sbet, cbet = _sincos2d(lat)
-        # ensure cbet1 = +epsilon at poles; doing the fix on beta means
-        # that sig12 will be <= 2*tiny for two points at the same pole
-        sbet, cbet = _norm2(sbet * self.f1, cbet)
-        return sbet, (cbet if fabs(cbet) > _TINY else _TINY)
-
-    def toStr(self, prec=6, sep=_COMMASPACE_, **unused):  # PYCHOK signature
+    def toStr(self, **prec_sep_name):  # PYCHOK signature
         '''Return this C{GeodesicExact} as string.
 
-           @kwarg prec: The C{float} precision, number of decimal digits (0..9).
-                        Trailing zero decimals are stripped for B{C{prec}} values
-                        of 1 and above, but kept for negative B{C{prec}} values.
-           @kwarg sep: Separator to join (C{str}).
+           @see: L{Ellipsoid.toStr<pygeodesy.ellipsoids.Ellipsoid.toStr>}
+                 for further details.
 
-           @return: Tuple items (C{str}).
+           @return: C{GeodesicExact} (C{str}).
         '''
-        d = dict(ellipsoid=self.ellipsoid, C4order=self.C4order)
-        return sep.join(pairs(d, prec=prec))
+        return self._instr(props=(GeodesicExact.ellipsoid,),
+                           C4order=self.C4order, **prec_sep_name)
 
 
 class GeodesicLineExact(_GeodesicLineExact):
@@ -1290,7 +1280,7 @@ class GeodesicLineExact(_GeodesicLineExact):
         '''
         _xinstanceof(GeodesicExact, geodesic=geodesic)
         if (caps & Caps.LINE_OFF):  # copy to avoid updates
-            geodesic = geodesic.copy(deep=False, name=_UNDER_(NN, geodesic.name))  # NOT _under!
+            geodesic = geodesic.copy(deep=False, name=_UNDER_(NN, geodesic.name))
 #           _update_all(geodesic)
         _GeodesicLineExact.__init__(self, geodesic, lat1, lon1, azi1, caps, 0, **name)
 

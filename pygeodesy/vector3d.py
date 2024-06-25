@@ -31,7 +31,7 @@ from pygeodesy.vector3dBase import Vector3dBase
 # from math import fabs, sqrt  # from .fmath
 
 __all__ = _ALL_LAZY.vector3d
-__version__ = '24.06.06'
+__version__ = '24.06.18'
 
 _vector2d = _MODS.into(vector2d=__name__)
 
@@ -475,7 +475,8 @@ def _intersect3d3(start1, end1, start2, end2, eps=EPS, useZ=False):  # MCCABE 16
     t  = cb.dot(ab)
     o1 = 0 if b1 else _outside(t, ab2, 1)
     v  = s1.plus(a.times(t / ab2))
-    o2 = 0 if b2 else _outside(v.minus(s2).dot(b), b.length2, 2)
+    t  = v.minus(s2).dot(b)
+    o2 = 0 if b2 else _outside(t, b.length2, 2)
     return v, o1, o2
 
 
@@ -541,16 +542,15 @@ def intersections2(center1, radius1, center2, radius2, sphere=True, **Vector_and
                                intersection points and optional, additional B{C{Vector}}
                                keyword arguments, otherwise B{C{center1}}'s (sub-)class.
 
-       @return: If B{C{sphere}} is C{True}, a 2-tuple of the C{center} and C{radius}
-                of the intersection of the I{spheres}.  The C{radius} is C{0.0} for
-                abutting spheres (and the C{center} is aka the I{radical center}).
+       @return: If C{B{sphere} is True}, a 2-tuple of the C{center} and C{radius} of the
+                intersection of the I{spheres}.  For abutting circles, C{radius} is C{0.0}
+                and C{center} is the I{radical center}.
 
-                If B{C{sphere}} is C{False}, a 2-tuple with the two intersection
-                points of the I{circles}.  For abutting circles, both points are
-                the same instance, aka the I{radical center}.
+                If C{B{sphere} is False}, a 2-tuple with the two intersection points of the
+                I{circles}.  For abutting circles, both points are the same instance, aka
+                the I{radical center}.
 
-       @raise IntersectionError: Concentric, invalid or non-intersecting spheres
-                                 or circles.
+       @raise IntersectionError: Concentric, invalid or non-intersecting spheres or circles.
 
        @raise TypeError: Invalid B{C{center1}} or B{C{center2}}.
 
@@ -637,8 +637,8 @@ def iscolinearWith(point, point1, point2, eps=EPS, useZ=True):
        @kwarg eps: Tolerance (C{scalar}), same units as C{x}, C{y} and C{z}.
        @kwarg useZ: If C{True}, use the Z components, otherwise force C{z=INT0} (C{bool}).
 
-       @return: C{True} if B{C{point}} is colinear B{C{point1}} and B{C{point2}},
-                        C{False} otherwise.
+       @return: C{True} if B{C{point}} is colinear B{C{point1}} and B{C{point2}}, C{False}
+                otherwise.
 
        @raise TypeError: Invalid B{C{point}}, B{C{point1}} or B{C{point2}}.
 
@@ -661,8 +661,8 @@ def nearestOn(point, point1, point2, within=True, useZ=True, Vector=None, **Vect
                       points, otherwise the closest point on the extended line
                       through both points (C{bool}).
        @kwarg useZ: If C{True}, use the Z components, otherwise force C{z=INT0} (C{bool}).
-       @kwarg Vector: Class to return closest point (C{Cartesian}, L{Vector3d}
-                      or C{Vector3Tuple}) or C{None}.
+       @kwarg Vector: Class to return closest point (C{Cartesian}, L{Vector3d} or
+                      C{Vector3Tuple}) or C{None}.
        @kwarg Vector_kwds: Optional, additional B{C{Vector}} keyword arguments,
                            ignored if C{B{Vector} is None}.
 
@@ -766,23 +766,22 @@ def nearestOn6(point, points, closed=False, useZ=True, **Vector_and_kwds):  # ep
     return NearestOn6Tuple(v, sqrt(c2), f, j, s, e)
 
 
-def _nVc(v, clas=None, Vector=None, **Vector_kwds_name):  # in .vector2d
+def _nVc(v, clas=None, Vector=None, **name_Vector_kwds):  # in .vector2d
     # return a named C{Vector} or C{clas} instance
-    name, Vector_kwds = _name2__(**Vector_kwds_name)
+    name, kwds = _name2__(**name_Vector_kwds)
     if Vector is not None:
-        v = Vector(v.x, v.y, v.z, **Vector_kwds)
+        v = Vector(v.x, v.y, v.z, **kwds)
     elif clas is not None:
         v = clas(v.x, v.y, v.z)  # ignore Vector_kwds
     return _xnamed(v, name) if name else v
 
 
-def _otherV3d(useZ=True, NN_OK=True, i=None, **name_v):
+def _otherV3d(useZ=True, NN_OK=True, i=None, **name_vector):
     # check named vector instance, return Vector3d
-    n, v = _xkwds_item2(name_v)
+    n, v = _xkwds_item2(name_vector)
+    n    =  Fmt.INDEX(n, i)
     if useZ and isinstance(v, Vector3dBase):
-        return v if NN_OK or v.name else v.copy(name=Fmt.INDEX(n, i))
-
-    n = Fmt.INDEX(n, i)
+        return v if NN_OK or v.name else v.copy(name=n)
     try:
         return Vector3d(v.x, v.y, (v.z if useZ else INT0), name=n)
     except AttributeError:  # no .x, .y or .z attr
@@ -799,7 +798,7 @@ def parse3d(str3d, sep=_COMMA_, Vector=Vector3d, **Vector_kwds):
        @kwarg Vector_kwds: Optional B{C{Vector}} keyword arguments,
                            ignored if C{B{Vector} is None}.
 
-       @return: A B{C{Vector}} instance or if B{C{Vector}} is C{None},
+       @return: A B{C{Vector}} instance or if C{B{Vector} is None},
                 a named L{Vector3Tuple}C{(x, y, z)}.
 
        @raise VectorError: Invalid B{C{str3d}}.
@@ -820,11 +819,11 @@ def sumOf(vectors, Vector=Vector3d, **Vector_kwds):
 
        @arg vectors: Vectors to be added (L{Vector3d}[]).
        @kwarg Vector: Optional class for the vectorial sum (L{Vector3d}).
-       @kwarg Vector_kwds: Optional B{C{Vector}} keyword arguments,
-                           ignored if C{B{Vector} is None}.
+       @kwarg Vector_kwds: Optional B{C{Vector}} keyword arguments, ignored
+                           if C{B{Vector} is None}.
 
-       @return: Vectorial sum as B{C{Vector}} or if B{C{Vector}} is
-                C{None}, a named L{Vector3Tuple}C{(x, y, z)}.
+       @return: Vectorial sum as B{C{Vector}} or if B{C{Vector} is None},
+                a named L{Vector3Tuple}C{(x, y, z)}.
 
        @raise VectorError: No B{C{vectors}}.
     '''

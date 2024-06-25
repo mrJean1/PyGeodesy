@@ -1,11 +1,11 @@
 
 # -*- coding: utf-8 -*-
 
-# Some basic C{geodsicx} vs C++ C{GeographicLib}, C{GeodSolve}
+# Some basic C{geodesicx} vs C++ C{GeographicLib}, C{GeodSolve}
 # and Python C{geographiclib} tests.
 
 __all__ = ('Tests',)
-__version__ = '23.07.12'
+__version__ = '24.06.24'
 
 from bases import _fLate, GeodSolve, geographiclib, isPython2, TestsBase
 
@@ -30,7 +30,7 @@ class Tests(TestsBase):
                 self.test(_DOT_(name, n), v, x, fmt=_G, known=k, nl=nl)
                 nl = 0
 
-    def testDirect(self, E, debug=False):
+    def testDirect(self, geodesicx, E, debug=False):
         self.subtitle(geodesicx, 'DirectX vs ...')
         # GeographicLib.GeodesicExact example, results from GeoSolve Direct
         rCpp = GDict(lat1=40.6, lon1=-73.799999999999997, azi1=51.0,
@@ -101,11 +101,11 @@ class Tests(TestsBase):
         self.test(gX.ArcDirectLine.__name__, s, s, nl=1)
         self.test('iteration', t.iteration, t.iteration)
 
-        t = GeodesicLineExact(gX, 40.6, -73.8, 51, caps=gX.ALL, name='Test')  # coverage
+        t = GeodesicLineExact(gX, 40.6, -73.8, 51, caps=gX.ALL)  # coverage
         self.test(GeodesicLineExact.__name__, t, gX.Line(40.6, -73.8, 51), nl=1)
         self.test('iteration', t.iteration, t.iteration)
 
-    def testInverse(self, E, debug=False):
+    def testInverse(self, geodesicx, E, debug=False):
         self.subtitle(geodesicx, 'InverseX vs ...')
         # GeographicLib.GeodesicExact example, results from instrumented GeoSolve Inverse
         rCpp = GDict(a=6378137, f=3.35281066474748e-03,
@@ -188,6 +188,38 @@ class Tests(TestsBase):
         t = str(gX.Inverse1(40.6, -73.8, 51.6, -0.5))  # coverage
         self.test(gX.Inverse1.__name__, t, t)
 
+    def testPlumbTo(self, geodesicx, E, debug=False):
+        self.subtitle(geodesicx, 'PlumbTo ...')
+        # see Baselga Moreno, S. & Martinez-Llario, J.C, "Intersection and point-to-line
+        # solutions for geodesics on the ellipsoid",  "3. Minimum point-to-line distance ..."
+        # <https://riunet.UPV.ES/bitstream/handle/10251/122902/Revised_Manuscript.pdf>
+        gX = E.geodesicx  # == geodesicx.GeodesicExact(E)
+        gX.debug = debug
+        g = gX.InverseLine(52, 5, 51.4, 6).PlumbTo(52, 5.5)
+        # {a02: 0.213783, a12: 0.222926, at: -270.0, azi0: -136.00267, azi1: 133.603738, azi2: 133.808744,
+        # lat0: 52, lat1: 52.0, lat2: 51.846089, lon0: 5.5, lon1: 5.0, lon2: 5.260428, s02: 23767.724184, s12: 24784.288415}
+        self.test('lat2',      g.lat2,   51.846089, prec=6)  # == 51°50′45.9212″N  51°50'45.9212"
+        self.test('lon2',      g.lon2,    5.260428, prec=6)  # ==  5°15′37.5426″E   5°15'37.5426"
+        self.test('s12',       g.s12, 24784.288415, prec=6)  # vs       Table 4  sAX 24,784.2886
+        self.test('at',        g.at,   -270.0, prec=6)
+        self.test('iteration', g.iteration, 6, known=True, nt=1)
+        g = gX.InverseLine(42, 29, 39, -77).PlumbTo(64, -22)
+        # {a02: 9.086172, a12: 35.341373, at: 270.0, azi0: 179.771122, azi1: -50.693753, azi2: -90.174696,
+        # lat0: 64, lat1: 42.0, lat2: 54.928531, lon0: -22, lon1: 29.0, lon2: -21.937291, s02: 1010585.998837, s12: 3928788.572003}
+        self.test('lat2',      g.lat2,     54.928531, prec=6)  # == 54°55′42.7116″N  54°55'42.7134"
+        self.test('lon2',      g.lon2,    -21.937291, prec=6)  # == 21°56′14.2476″W -21°56'14.2477"
+        self.test('s12',       g.s12, 3928788.572003, prec=6)  # vs    Table 5  sAX 3,928,857.7554
+        self.test('at',        g.at,      270.0, prec=6)
+        self.test('iteration', g.iteration, 27, known=True, nt=1)
+        g = gX.InverseLine(42, 29, -35, -70).PlumbTo(64, -22)  # 12,200 Km > 10K Km, too long!
+        # {a02: 35.339953, a12: 9.725372, at: 270.864557, azi0: 118.886127, azi1: -112.646672, azi2: -119.919402,
+        # lat0: 64, lat1: 42.0, lat2: 37.673899, lon0: -22, lon1: 29.0, lon2: 17.677028, s02: 3928936.714834, s12: 1080484.867328}
+        self.test('lat2',      g.lat2,     37.976217, prec=6, known=int(g.lat2)==37)  # == 37°58′34.3812″N  37°58'41.2236"
+        self.test('lon2',      g.lon2,     18.344820, prec=6, known=int(g.lon2)==18)  # == 18°20′41.3520″E  18°20'56.6279"
+        self.test('s12',       g.s12, 1012790.599291, prec=6, known=int(g.s12) ==1012790)  # vs    Table 6  sAX 1,012,443.9063
+        self.test('at',        g.at,      270.005437, prec=6, known=int(g.at)  ==270)
+        self.test('iteration', g.iteration, 128, known=True)
+
     def testPolygon(self, module, g, nC4=NN, K=False):
         self.subtitle(module, 'Polygon' + str(nC4))
 
@@ -230,9 +262,9 @@ if __name__ == '__main__':
 
     E = Ellipsoids.WGS84
 
-    t.testDirect(E, debug=_debug)
+    t.testDirect(geodesicx, E, debug=_debug)
 
-    t.testInverse(E, debug=_debug)
+    t.testInverse(geodesicx, E, debug=_debug)
 
     t.testPolygon(geodesicx, E.geodesicx, nC4=24)
     t.testPolygon(geodesicx, E.geodesicx, nC4=27)
@@ -243,6 +275,8 @@ if __name__ == '__main__':
 
     if geographiclib:
         t.testPolygon(geodesicw, E.geodesic, K=True)  # XXX geographiclib 1.49 issue?
+
+    t.testPlumbTo(geodesicx, E, debug=_debug)
 
     t.results()
     t.exit()

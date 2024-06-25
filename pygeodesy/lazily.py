@@ -283,6 +283,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                           fsums=_i('Fsum', 'DivMod2Tuple', 'Fsum2Tuple', 'ResidualError',
                                    'fsum', 'fsum_', 'fsumf_', 'fsum1', 'fsum1_', 'fsum1f_'),
                            gars=_i('Garef', 'GARSError'),
+                      geodesici=_i('Intersector', 'Intersector4Tuple', 'XDist'),
                       geodesicw=_i('Geodesic', 'GeodesicLine', 'Geodesic_WGS84'),
                       geodesicx=_i('gx', 'gxarea', 'gxbases', 'gxline',  # modules
                                    'GeodesicAreaExact', 'GeodesicExact', 'GeodesicLineExact', 'PolygonArea'),
@@ -367,9 +368,9 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                           units=_i('Band', 'Bearing', 'Bearing_', 'Bool',
                                    'Degrees', 'Degrees_', 'Degrees2', 'Distance', 'Distance_', 'Easting', 'Epoch',
                                    'Feet', 'FIx', 'Float_', 'Height', 'Height_', 'HeightX', 'Int_',
-                                   'Lam', 'Lam_', 'Lat', 'Lat_', 'Lon', 'Lon_',
+                                   'Lam', 'Lamd', 'Lat', 'Lat_', 'Lon', 'Lon_',
                                    'Meter', 'Meter_', 'Meter2', 'Meter3', 'Northing', 'Number_',
-                                   'Phi', 'Phi_', 'Precision_', 'Radians', 'Radians_', 'Radians2',
+                                   'Phi', 'Phid', 'Precision_', 'Radians', 'Radians_', 'Radians2',
                                    'Radius_', 'Scalar', 'Scalar_', 'Zone'),
                       unitsBase=_i('Float', 'Int', 'Radius', 'Str'),
                             ups=_i('Ups', 'UPSError', 'parseUPS5', 'toUps8', 'upsZoneBand5'),
@@ -406,13 +407,13 @@ _ALL_DEPRECATED = _NamedEnum_RO(_name='_ALL_DEPRECATED',
                      deprecated_bases=_i('LatLonHeightBase', 'points2'),
                    deprecated_classes=_i('ClipCS3Tuple', 'EasNorExact4Tuple', 'EcefCartesian', 'Fn_rt',
                                          'HeightIDW', 'HeightIDW2', 'HeightIDW3', 'Helmert7Tuple',
-                                         'LatLonExact4Tuple', 'NearestOn4Tuple', 'Ned3Tuple',
-                                         'RefFrameError', 'Rhumb7Tuple', 'RhumbOrder2Tuple',
+                                         'Lam_', 'LatLonExact4Tuple', 'NearestOn4Tuple', 'Ned3Tuple',
+                                         'Phi_', 'RefFrameError', 'Rhumb7Tuple', 'RhumbOrder2Tuple',
                                          'Transform7Tuple', 'TriAngle4Tuple', 'UtmUps4Tuple'),
                  deprecated_consterns=_i('EPS1_2', 'MANTIS', 'OK'),
                      deprecated_datum=_i('Curvature2Tuple', 'Datum',  'Ellipsoid',  'Transform',  # assert
                                                             'Datums', 'Ellipsoids', 'Transforms',
-                                         'R_M', 'R_MA', 'R_MB', 'R_KM', 'R_NM', 'R_SM', 'R_FM', 'R_VM'),
+                                         'R_FM', 'R_KM', 'R_M', 'R_MA', 'R_MB', 'R_NM', 'R_SM', 'R_VM'),
                  deprecated_functions=_i('anStr', 'areaof', 'atand', 'bounds',  # most of the DEPRECATED functions, except ...
                                          'clipCS3', 'clipDMS', 'clipStr', 'collins', 'copysign',  # ...  ellipsoidal, spherical flavors
                                          'decodeEPSG2', 'encodeEPSG', 'enStr2', 'equirectangular_', 'equirectangular3',
@@ -518,7 +519,7 @@ class _ALL_MODS(_internals._MODS_Base):
 _internals._MODS = _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '24.06.05'
+__version__ = '24.06.19'
 
 
 def _ALL_OTHER(*objs):

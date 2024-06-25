@@ -160,7 +160,7 @@ from pygeodesy.utily import atan2d, sincos2d, tand, _unrollon,  fabs
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.karney
-__version__ = '24.05.31'
+__version__ = '24.06.23'
 
 _K_2_0      = _getenv('PYGEODESY_GEOGRAPHICLIB', _2_) == _2_
 _perimeter_ = 'perimeter'
@@ -213,7 +213,7 @@ class Caps(object):  # PYCHOK
     EMPTY          =  0        # formerly aka NONE
     _CAP_1         =  1 << 0   # for goedesicw only
     _CAP_1p        =  1 << 1   # for goedesicw only
-#   _CAP_2         =  1 << 2
+    _CAP_2         =  1 << 2
     _CAP_3         =  1 << 3   # for goedesicw only
 #   _CAP_4         =  1 << 4
 #   _CAP_ALL       =  0x1F
@@ -232,8 +232,10 @@ class Caps(object):  # PYCHOK
 
     _DIRECT3       =  AZIMUTH  | LATITUDE | LONGITUDE | _CAP_3   # for goedesicw only
     _INVERSE3      =  AZIMUTH  | DISTANCE | _CAP_1   # for goedesicw only
-    _STD           =  STANDARD | _CAP_3   | _CAP_1   # for goedesicw only
-    _STD_LINE      = _STD      | _CAP_1p   # for goedesicw only
+    _STD           =  STANDARD | _CAP_3   | _CAP_1   # for goedesiciw only
+    _STD_LINE      = _STD      | _CAP_2   | _CAP_1p  # for goedesici/-w only
+
+    LINE_CAPS      = _STD_LINE | REDUCEDLENGTH | GEODESICSCALE  # .geodesici
 
     LINE_OFF       =  1 << 15  # Line without updates from parent geodesic or rhumb
     LONG_UNROLL    =  1 << 16  # unroll C{lon2} in .Direct and .Position
@@ -308,6 +310,10 @@ and C{ALL} - all of the above.
 
 C{STANDARD} = C{AZIMUTH | DISTANCE | DISTANCE_IN | LATITUDE | LONGITUDE}'''
 
+_KEY2Caps = dict(m12=Caps.REDUCEDLENGTH,  # see GDict._unCaps
+                 M12=Caps.GEODESICSCALE,
+                 M21=Caps.GEODESICSCALE, S12=Caps.AREA)
+
 
 class _CapsBase(_NamedBase):  # in .auxilats, .geodesicx.gxbases
     '''(INTERNAL) Base class for C{[_]Geodesic*Exact}.
@@ -320,11 +326,13 @@ class _CapsBase(_NamedBase):  # in .auxilats, .geodesicx.gxbases
     EMPTY         = Caps.EMPTY  # aka NONE
     GEODESICSCALE = Caps.GEODESICSCALE
     LATITUDE      = Caps.LATITUDE
+    LINE_CAPS     = Caps.LINE_CAPS
     LINE_OFF      = Caps.LINE_OFF
     LONGITUDE     = Caps.LONGITUDE
     LONG_UNROLL   = Caps.LONG_UNROLL
     REDUCEDLENGTH = Caps.REDUCEDLENGTH
     STANDARD      = Caps.STANDARD
+    _STD_LINE     = Caps._STD_LINE  # for geodesici
 
     _caps         = 0  # None
     _debug        = 0  # or Caps._DEBUG_...
@@ -452,6 +460,14 @@ class GDict(ADict):  # XXX _NamedDict
         _g = getattr
         t  = tuple(_g(self, n, dflt) for n in nTuple._Names_)
         return nTuple(t, iteration=self._iteration)
+
+    def _unCaps(self, outmask):  # in .geodsolve
+        '''(INTERNAL) Remove superfluous items.
+        '''
+        for k, m in _KEY2Caps.items():
+            if k in self and not (outmask & m):
+                self.pop(k)  # delattr(self, k)
+        return self
 
 
 class Inverse10Tuple(_GTuple):
@@ -882,7 +898,7 @@ def _unroll2(lon1, lon2, wrap=False):  # see .ellipsoidalBaseDI._intersects2
     '''Unroll B{C{lon2 - lon1}} like C{geodesic.Geodesic.Inverse}.
 
        @return: 2-Tuple C{(B{lon2} - B{lon1}, B{lon2})} with B{C{lon2}}
-                unrolled if B{C{wrap}} is C{True}, normalized otherwise.
+                unrolled if C{B{wrap} is True}, normalized otherwise.
     '''
     if wrap:
         d, t = _diff182(lon1, lon2)

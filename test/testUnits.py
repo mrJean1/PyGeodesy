@@ -4,15 +4,16 @@
 # Test L{units} module.
 
 __all__ = ('Tests',)
-__version__ = '23.03.29'
+__version__ = '23.06.15'
 
 from bases import TestsBase
 
 from pygeodesy import Band, Bearing, Bearing_, Bool, \
                       Epoch, Epsg, FIx, Garef, Geohash, Georef, \
-                      Int, Int_, Number_, Precision_, Lam_, Phi_, \
+                      Int, Int_, Number_, Precision_, Lamd, Phid, \
                       Str, Zone, Float, units
-_NamedUnit = units._NamedUnit
+_NamedUnit  = units._NamedUnit
+_EasNorBase = units._EasNorBase
 
 
 class Tests(TestsBase):
@@ -82,9 +83,9 @@ class Tests(TestsBase):
 
     def testUnits(self):
         for U in self.pygeodesy_classes_(_NamedUnit,
-                 Band, Bool, Bearing_, Epoch, Epsg, FIx, Garef,
-                 Geohash, Georef, Int, Int_, Number_, Precision_,
-                 Str, Lam_, Phi_, Zone, _NamedUnit):
+                 Band, Bool, Bearing_, _EasNorBase, Epoch, Epsg, FIx,
+                 Garef, Geohash, Georef, Int, Int_, Number_, Precision_,
+                 Str, Lamd, Phid, Zone, _NamedUnit):
             self.testUnit(U, 1.0)  # sample
 
         for U in (Band, Str):
@@ -103,8 +104,8 @@ class Tests(TestsBase):
         self.test(Bearing.__name__,  Bearing(361), 1.0, nl=1)
         self.test(Bearing_.__name__, Bearing_(361), 0.01745, fmt='%.5f')
 
-        self.test(Lam_.__name__, Lam_(361, clip=0), 6.3, fmt='%.2f', nl=1)
-        self.test(Phi_.__name__, Phi_(361, clip=0), 6.3, fmt='%.2f')
+        self.test(Lamd.__name__, Lamd(361, clip=0), 6.3, fmt='%.2f', nl=1)
+        self.test(Phid.__name__, Phid(361, clip=0), 6.3, fmt='%.2f')
 
         self.test(FIx.__name__, FIx(1),   Int(1), known=True, nl=1)
         self.test(FIx.__name__, FIx(1.5), Float(1.5),)

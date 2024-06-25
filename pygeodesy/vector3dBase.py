@@ -30,7 +30,7 @@ from pygeodesy.units import Float, Scalar
 from math import atan2, ceil, fabs, floor, trunc
 
 __all__ = _ALL_LAZY.vector3dBase
-__version__ = '24.06.07'
+__version__ = '24.06.11'
 
 
 class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
@@ -491,15 +491,14 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
         '''Compute the cross product of this and an other vector.
 
            @arg other: The other vector (L{Vector3d}).
-           @kwarg raiser: Optional, L{CrossError} label if raised (C{str},
-                          non-L{NN}).
-           @kwarg eps0: Near-zero tolerance (C{scalar}), same units as
-                        C{x}, C{y}, and C{z}.
+           @kwarg raiser: Optional, L{CrossError} label if raised (C{str}, non-L{NN}).
+           @kwarg eps0: Near-zero tolerance (C{scalar}), same units as C{x}, C{y} and
+                        C{z}.
 
            @return: Cross product (L{Vector3d}).
 
-           @raise CrossError: Zero or near-zero cross product and both
-                              B{C{raiser}} and L{pygeodesy.crosserrors} set.
+           @raise CrossError: Zero or near-zero cross product and if B{C{raiser}} and
+                              L{crosserrors<pygeodesy.crosserrors>} are both C{True}.
 
            @raise TypeError: Incompatible B{C{other}} C{type}.
         '''

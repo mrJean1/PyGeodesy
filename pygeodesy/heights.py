@@ -1,7 +1,7 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Height interpolations at C{LatLon} points from C{knots}.
+u'''Height interpolations at C{LatLon} points from known C{knots}.
 
 Classes L{HeightCubic}, L{HeightIDWcosineAndoyerLambert},
 L{HeightIDWcosineForsytheAndoyerLambert}, L{HeightIDWcosineLaw},
@@ -91,7 +91,7 @@ from pygeodesy.units import _isDegrees, Float_, Int_
 # from math import radians  # from .points
 
 __all__ = _ALL_LAZY.heights
-__version__ = '24.06.03'
+__version__ = '24.06.22'
 
 _error_     = 'error'
 _formy      = _MODS.into(formy=__name__)

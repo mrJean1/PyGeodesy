@@ -31,6 +31,12 @@ def _dunder_nameof(inst, *dflt):
     return dflt[0] if dflt else inst.__class__.__name__
 
 
+def _dunder_nameof_(*names__):  # in .errors._IsnotError
+    '''(INTERNAL) Yield the _dunder_nameof or name.
+    '''
+    return map(_dunder_nameof, names__, names__)
+
+
 def _Property_RO(method):
     '''(INTERNAL) Can't I{recursively} import L{props.property_RO}.
     '''

@@ -7,7 +7,7 @@ class C{LatLonEllipsoidalBaseDI} and functions.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import isLatLon, issubclassof, map2
+from pygeodesy.basics import isLatLon, _xsubclassof
 from pygeodesy.constants import EPS, MAX, PI, PI2, PI_4, isnear0, isnear1, \
                                _EPSqrt as _TOL, _0_0, _0_5, _1_5, _3_0
 # from pygeodesy.dms import F_DMS  # _MODS
@@ -20,8 +20,7 @@ from pygeodesy.formy import _isequalTo, opposing, _radical2
 from pygeodesy.interns import _antipodal_, _concentric_, _ellipsoidal_, \
                               _exceed_PI_radians_, _low_, _near_, \
                               _SPACE_, _too_
-from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, \
-                             _dunder_nameof
+from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.namedTuples import Bearing2Tuple, Destination2Tuple, \
                                   Intersection3Tuple, NearestOn2Tuple, \
                                   NearestOn8Tuple, _LL4Tuple
@@ -35,7 +34,7 @@ from pygeodesy.utily import m2km, unroll180, _unrollon, _unrollon3, \
 from math import degrees, radians
 
 __all__ = _ALL_LAZY.ellipsoidalBaseDI
-__version__ = '24.05.19'
+__version__ = '24.06.17'
 
 _polar__  = 'polar?'
 _B2END    = _1_5  # _intersect3 bearing to pseudo-end point factor
@@ -111,9 +110,8 @@ class LatLonEllipsoidalBaseDI(LatLonEllipsoidalBase):
     def _Direct(self, distance, bearing, LL, height):  # overloaded by I{Vincenty}
         '''(INTERNAL) I{Karney}'s C{Direct} method.
 
-           @return: A L{Destination2Tuple}C{(destination, final)} or
-                    a L{Destination3Tuple}C{(lat, lon, final)} if
-                    B{C{LL}} is C{None}.
+           @return: A L{Destination2Tuple}C{(destination, final)} or a
+                    L{Destination3Tuple}C{(lat, lon, final)} if C{B{LL} is None}.
         '''
         g = self.geodesic
         r = g.Direct3(self.lat, self.lon, bearing, distance)
@@ -337,17 +335,17 @@ class LatLonEllipsoidalBaseDI(LatLonEllipsoidalBase):
 
            @arg points: The path or polygon points (C{LatLon}[]).
            @kwarg closed: Optionally, close the polygon (C{bool}).
-           @kwarg height: Optional height, overriding the height of this and
-                          all other points (C{meter}, conventionally).  If
-                          B{C{height}} is C{None}, the height of each point
-                          is taken into account for distances.
-           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the
-                        B{C{points}} (C{bool}).
+           @kwarg height: Optional height, overriding the height of this and all
+                          other points (C{meter}, conventionally).  If C{B{height}
+                          is None}, each point's height is taken into account to
+                          compute distances.
+           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the B{C{points}}
+                        (C{bool}).
 
-           @return: A L{NearestOn8Tuple}C{(closest, distance, fi, j, start,
-                    end, initial, final)} with C{distance} in C{meter},
-                    conventionally and with the C{closest}, the C{start}
-                    the C{end} point each an instance of this C{LatLon}.
+           @return: A L{NearestOn8Tuple}C{(closest, distance, fi, j, start, end,
+                    initial, final)} with C{distance} in C{meter}, conventionally
+                    and with the C{closest}, the C{start} the C{end} point each
+                    an instance of this C{LatLon}.
 
            @raise PointsError: Insufficient number of B{C{points}}.
 
@@ -422,7 +420,7 @@ class LatLonEllipsoidalBaseDI(LatLonEllipsoidalBase):
                           conventionally) or C{None} for an interpolated height.
            @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the B{C{point}}
                         and/or B{C{other}} (C{bool}).
-           @kwarg tol: Convergence tolerance (C{scalar}).
+           @kwarg tol: Convergence tolerance (C{meter}).
 
            @return: The intersection point, an instance of this C{LatLon}.
 
@@ -572,10 +570,8 @@ def _Equidistant00(equidistant, p1):
     if equidistant is None or not callable(equidistant):
         equidistant = p1.Equidistant
     else:
-        Eqs = _MODS.azimuthal._Equidistants
-        if not issubclassof(equidistant, *Eqs):  # PYCHOK no cover
-            t = map2(_dunder_nameof, Eqs)
-            raise _IsnotError(*t, equidistant=equidistant)
+        _xsubclassof(*_MODS.azimuthal._Equidistants,
+                           equidistant=equidistant)
     return equidistant(0, 0, p1.datum)
 
 

@@ -47,7 +47,7 @@ from pygeodesy.streprs import Fmt, fstr, unstr
 from math import ceil as _ceil, fabs, floor as _floor  # PYCHOK used! .ltp
 
 __all__ = _ALL_LAZY.fsums
-__version__ = '24.06.09'
+__version__ = '24.06.11'
 
 _add_op_      = _PLUS_  # in .auxilats.auxAngle
 _eq_op_       = _EQUAL_ * 2  # _DEQUAL_
@@ -559,7 +559,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
 
            @note: If B{C{mod}} is given, the result will be an C{integer}
                   L{Fsum} in Python 3+ if this instance C{is_integer} or
-                  set to C{as_integer} and B{C{mod}} is given as C{None}.
+                  set to C{as_integer} and B{C{mod}} is given and C{None}.
 
            @raise OverflowError: Partial C{2sum} overflow.
 
@@ -1665,7 +1665,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
            @raise ResidualError: Non-zero, significant residual or invalid
                                  B{C{RESIDUAL}}.
 
-           @note: If B{C{mod}} is given as C{None}, the result will be an
+           @note: If B{C{mod}} is given and C{None}, the result will be an
                   C{integer} L{Fsum} provided this instance C{is_integer}
                   or set to C{integer} by an L{Fsum.fint} call.
 

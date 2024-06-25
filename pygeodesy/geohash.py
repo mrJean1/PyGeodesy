@@ -20,7 +20,7 @@ from pygeodesy.basics import isodd, isstr, map2
 from pygeodesy.constants import EPS, R_M, _floatuple, _0_0, _0_5, _180_0, \
                                _360_0,  _90_0, _N_90_0, _N_180_0  # PYCHOK used!
 from pygeodesy.dms import parse3llh  # parseDMS2
-from pygeodesy.errors import _ValueError, _xkwds
+from pygeodesy.errors import _ValueError, _xkwds, _xStrError
 from pygeodesy.fmath import favg
 # from pygeodesy import formy as _formy  # _MODS
 from pygeodesy.interns import NN, _COMMA_, _DOT_, _E_, _N_, _NE_, _NW_, \
@@ -32,13 +32,12 @@ from pygeodesy.namedTuples import Bounds2Tuple, Bounds4Tuple, LatLon2Tuple, \
 from pygeodesy.props import deprecated_function, deprecated_method, \
                             deprecated_property_RO, Property_RO
 from pygeodesy.streprs import fstr
-from pygeodesy.units import Degrees_, Int, Lat, Lon, Precision_, Str, \
-                           _xStrError
+from pygeodesy.units import Degrees_, Int, Lat, Lon, Precision_, Str
 
 from math import fabs, ldexp, log10, radians
 
 __all__ = _ALL_LAZY.geohash
-__version__ = '24.06.10'
+__version__ = '24.06.15'
 
 _formy = _MODS.into(formy=__name__)
 
@@ -237,7 +236,7 @@ class Geohash(Str):
            @kwarg LatLon: Optional class to return I{bounds} (C{LatLon})
                           or C{None}.
            @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
-                               arguments, ignored if B{C{LatLon}} is C{None}.
+                               arguments, ignored if C{B{LatLon} is None}.
 
            @return: A L{Bounds2Tuple}C{(latlonSW, latlonNE)} of B{C{LatLon}}s
                     or a L{Bounds4Tuple}C{(latS, lonW, latN, lonE)} if
@@ -300,16 +299,15 @@ class Geohash(Str):
 
            @arg other: The other geohash (L{Geohash}, C{LatLon} or C{str}).
            @kwarg radius: Mean earth radius, ellipsoid or datum (C{meter},
-                          L{Ellipsoid}, L{Ellipsoid2}, L{Datum} or
-                          L{a_f2Tuple}) or C{None}, see function
-                          L{pygeodesy.equirectangular}.
+                          L{Ellipsoid}, L{Ellipsoid2}, L{Datum} or L{a_f2Tuple})
+                          or C{None}, see function L{pygeodesy.equirectangular}.
            @kwarg adjust_limit_wrap: Optional keyword arguments for function
                          L{pygeodesy.equirectangular4}, overriding defaults
                          C{B{adjust}=False, B{limit}=None} and C{B{wrap}=False}.
 
-           @return: Distance (C{meter}, same units as B{C{radius}} or the
-                    ellipsoid or datum axes or C{radians I{squared}} if
-                    B{C{radius}} is C{None} or C{0}).
+           @return: Distance (C{meter}, same units as B{C{radius}} or the ellipsoid
+                    or datum axes or C{radians I{squared}} if B{C{radius} is None}
+                    or C{0}).
 
            @raise TypeError: The B{C{other}} is not a L{Geohash}, C{LatLon} or
                              C{str} or invalid B{C{radius}}.
@@ -398,13 +396,11 @@ class Geohash(Str):
            as an instance of the supplied C{LatLon} class.
 
            @arg LatLon: Class to use (C{LatLon}) or C{None}.
-           @kwarg LatLon_kwds: Optional, additional B{C{LatLon}}
-                               keyword arguments, ignored if
-                               C{B{LatLon} is None}.
+           @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
+                               arguments, ignored if C{B{LatLon} is None}.
 
-           @return: This geohash location (B{C{LatLon}}) or a
-                    L{LatLon2Tuple}C{(lat, lon)} if B{C{LatLon}}
-                    is C{None}.
+           @return: This geohash location (B{C{LatLon}}) or if C{B{LatLon}
+                    is None}, a L{LatLon2Tuple}C{(lat, lon)}.
 
            @raise TypeError: Invalid B{C{LatLon}} or B{C{LatLon_kwds}}.
         '''
@@ -500,19 +496,17 @@ _Neighbors8Defaults = dict(zip(Neighbors8Dict._Keys_, (None,) *
 def bounds(geohash, LatLon=None, **LatLon_kwds):
     '''Returns the lower-left SW and upper-right NE corners of a geohash.
 
-       @arg geohash: To be bound (L{Geohash}).
-       @kwarg LatLon: Optional class to return the bounds (C{LatLon})
-                      or C{None}.
-       @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
-                           arguments, ignored if C{B{LatLon} is None}.
+       @arg geohash: To be "bound" (L{Geohash}).
+       @kwarg LatLon: Optional class to return the bounds (C{LatLon}) or C{None}.
+       @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword arguments,
+                           ignored if C{B{LatLon} is None}.
 
-       @return: A L{Bounds2Tuple}C{(latlonSW, latlonNE)} of B{C{LatLon}}s
-                or if B{C{LatLon}} is C{None}, a L{Bounds4Tuple}C{(latS,
-                lonW, latN, lonE)}.
+       @return: A L{Bounds2Tuple}C{(latlonSW, latlonNE)}, each a B{C{LatLon}}
+                or if C{B{LatLon} is None}, a L{Bounds4Tuple}C{(latS, lonW,
+                latN, lonE)}.
 
-       @raise TypeError: The B{C{geohash}} is not a L{Geohash}, C{LatLon}
-                         or C{str} or invalid B{C{LatLon}} or invalid
-                         B{C{LatLon_kwds}}.
+       @raise TypeError: The B{C{geohash}} is not a L{Geohash}, C{LatLon} or
+                         C{str} or invalid B{C{LatLon}} or invalid B{C{LatLon_kwds}}.
 
        @raise GeohashError: Invalid or C{null} B{C{geohash}}.
     '''
@@ -847,14 +841,12 @@ def resolution2(prec1, prec2=None):
 def sizes(geohash):
     '''Return the lat- and longitudinal size of this L{Geohash} cell.
 
-       @arg geohash: Cell for which size are required (L{Geohash} or
-                     C{str}).
+       @arg geohash: Cell for which size are required (L{Geohash} or C{str}).
 
-       @return: A L{LatLon2Tuple}C{(lat, lon)} with the latitudinal
-                height and longitudinal width in (C{meter}).
+       @return: A L{LatLon2Tuple}C{(lat, lon)} with the latitudinal height and
+                longitudinal width in (C{meter}).
 
-       @raise TypeError: The B{C{geohash}} is not a L{Geohash},
-                         C{LatLon} or C{str}.
+       @raise TypeError: The B{C{geohash}} is not a L{Geohash}, C{LatLon} or C{str}.
     '''
     return _2Geohash(geohash).sizes
 

@@ -52,11 +52,11 @@ from pygeodesy.vector3d import _intersect3d3, Vector3d  # in .Intersection below
 from math import cos, fabs
 
 __all__ = ()
-__version__ = '24.05.29'
+__version__ = '24.06.18'
 
 _anti_ = _Dash('anti')
 _rls   = []  # instances of C{RbumbLine...} to be updated
-_TRIPS = 65  # .Intersection, .PlumbTo, 19+
+_TRIPS =  129  # .Intersection, .PlumbTo, 19+
 
 
 class _Lat(Lat):
@@ -716,7 +716,7 @@ class RhumbLineBase(_CapsBase):
                 t = _xTMr(v.x, v.y, lon0=p.lon)  # PYCHOK Reverse4Tuple
                 d = _diff(t.lon - p.lon, t.lat)  # PYCHOK t.lat + p.lat - p.lat
                 p = _LL2T(t.lat + p.lat, t.lon)  # PYCHOK t.lon + p.lon = lon0
-                if d < tol:  # 19 trips
+                if d < tol:  # 19+ trips
                     break
             else:
                 raise ValueError(Fmt.no_convergence(d, tol))
@@ -724,7 +724,7 @@ class RhumbLineBase(_CapsBase):
             P = GDict(lat1=self.lat1, lat2=p.lat, lat0=other.lat1,
                       lon1=self.lon1, lon2=p.lon, lon0=other.lon1,
                       name=_dunder_nameof(self.Intersection, self.name))
-            r = self.Inverse( p.lat, p.lon, outmask=Caps.DISTANCE)
+            r =  self.Inverse(p.lat, p.lon, outmask=Caps.DISTANCE)
             t = other.Inverse(p.lat, p.lon, outmask=Caps.DISTANCE)
             P.set_(azi12= self.azi12, a12=r.a12, s12=r.s12,
                    azi02=other.azi12, a02=t.a12, s02=t.s12,
@@ -824,9 +824,9 @@ class RhumbLineBase(_CapsBase):
            @kwarg exact: If C{None}, use a rhumb line perpendicular to this rhumb line,
                          otherwise use an I{exact} C{Geodesic...} from the given point
                          perpendicular to this rhumb line (C{bool} or C{Geodesic...}),
-                         see method L{Ellipsoid.geodesic_}.
-           @kwarg eps: Optional tolerance for L{pygeodesy.intersection3d3} (C{EPS}),
-                       used only if C{B{exact} is None}.
+                         see method L{geodesic_<pygeodesy.Ellipsoid.geodesic_>}.
+           @kwarg eps: Optional tolerance (C{EPS}), used only if C{B{exact} is None},
+                       see function L{intersection3d3<pygeodesy.intersection3d3>}.
            @kwarg est: Optionally, an initial estimate for the distance C{s12} of the
                        intersection I{along} this rhumb line (C{meter}), used only if
                        C{B{exact} is not None}.
@@ -849,11 +849,11 @@ class RhumbLineBase(_CapsBase):
                                <https://PyPI.org/project/geographiclib>}
                                package not found or not installed.
 
-           @raise IntersectionError: No convergence for this B{C{eps}} or no
-                                     intersection for some other reason.
+           @raise IntersectionError: No convergence for this B{C{eps}} or B{C{tol}} or
+                                     no intersection for some other reason.
 
-           @see: Methods C{distance2}, C{Intersecant2} and C{Intersection}
-                 and function L{pygeodesy.intersection3d3}.
+           @see: Methods C{distance2}, C{Intersecant2} and C{Intersection} and function
+                 L{intersection3d3<pygeodesy.intersection3d3>}.
         '''
         Cs, tol = Caps, Float_(tol=tol, low=EPS, high=None)
 
@@ -899,7 +899,7 @@ class RhumbLineBase(_CapsBase):
                        lat0=lat0, lon0=lon0, iteration=i, at=r.azi2 - self.azi12,
                        name=_dunder_nameof(self.PlumbTo, self.name))
             except Exception as x:  # Fsum(NAN) Value-, ZeroDivisionError
-                raise IntersectionError(lat0, lon0, tol=tol, exact=exact,
+                raise IntersectionError(lat0=lat0, lon0=lon0, tol=tol, exact=exact,
                                         eps=eps, est=est, iteration=i, cause=x)
 
         return P
@@ -907,29 +907,28 @@ class RhumbLineBase(_CapsBase):
     def Position(self, s12, outmask=Caps.LATITUDE_LONGITUDE):
         '''Compute a point at a given distance on this rhumb line.
 
-           @arg s12: The distance along this rhumb line from its origin to
-                     the point (C{meters}), can be negative.
-           @kwarg outmask: Bit-or'ed combination of L{Caps} values specifying
-                           the quantities to be returned.
+           @arg s12: The distance along this rhumb line from its origin to the point
+                     (C{meters}), can be negative.
+           @kwarg outmask: Bit-or'ed combination of L{Caps} values specifying the
+                           quantities to be returned.
 
-           @return: L{GDict} with 4 to 8 items C{azi12, a12, s12, S12, lat2,
-                    lat1, lon2, lon1} with latitude C{lat2} and longitude
-                    C{lon2} of the point in C{degrees}, the rhumb angle C{a12}
-                    in C{degrees} from the start point of and the area C{S12}
-                    under this rhumb line in C{meter} I{squared}.
+           @return: L{GDict} with 4 to 8 items C{azi12, a12, s12, S12, lat2, lat1,
+                    lon2, lon1} with latitude C{lat2} and longitude C{lon2} of the
+                    point in C{degrees}, the rhumb angle C{a12} in C{degrees} from
+                    the start point of and the area C{S12} under this rhumb line
+                    in C{meter} I{squared}.
 
-           @raise ImportError: Package C{numpy} not found or not installed,
-                               only required for L{RhumbLineAux} area C{S12}
-                               when C{B{exact} is True}.
+           @raise ImportError: Package C{numpy} not found or not installed, required
+                               only for L{RhumbLineAux} area C{S12} when C{B{exact}
+                               is True}.
 
-           @note: If B{C{s12}} is large enough that the rhumb line crosses a
-                  pole, the longitude of the second point is indeterminate and
-                  C{NAN} is returned for C{lon2} and area C{S12}.
+           @note: If B{C{s12}} is large enough that the rhumb line crosses a pole, the
+                  longitude of the second point is indeterminate and C{NAN} is returned
+                  for C{lon2} and area C{S12}.
 
-                  If the first point is a pole, the cosine of its latitude is
-                  taken to be C{sqrt(L{EPS})}.  This position is extremely
-                  close to the actual pole and allows the calculation to be
-                  carried out in finite terms.
+                  If the first point is a pole, the cosine of its latitude is taken to
+                  be C{sqrt(L{EPS})}.  This position is extremely close to the actual
+                  pole and allows the calculation to be carried out in finite terms.
         '''
         return self._Position(self.m2degrees(s12), s12, outmask)
 

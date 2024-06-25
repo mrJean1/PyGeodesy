@@ -63,7 +63,7 @@ from math import asinh, atanh, atan2, cos, cosh, degrees, fabs, \
 # import operator as _operator  # from .fmath
 
 __all__ = _ALL_LAZY.utm
-__version__ = '24.05.31'
+__version__ = '24.06.11'
 
 _Bands = 'CDEFGHJKLMNPQRSTUVWXX'  # UTM latitude bands C..X (no
 # I|O) 8° each, covering 80°S to 84°N and X repeated for 80-84°N
@@ -386,8 +386,8 @@ class Utm(UtmUpsBase):
                       the precison like B{C{prec}}).
 
            @return: This UTM as a string C{"[Z:09[band], H:N|S, E:meter,
-                    N:meter]"} plus C{", C:degrees, S:float"} if B{C{cs}} is
-                    C{True} (C{str}).
+                    N:meter]"} plus C{", C:degrees, S:float"} if C{B{cs}
+                    is True} (C{str}).
         '''
         return self._toRepr(fmt, B, cs, prec, sep)
 
@@ -411,7 +411,7 @@ class Utm(UtmUpsBase):
            @return: This UTM as a string with C{zone[band], hemisphere,
                     easting, northing, [convergence, scale]} in
                     C{"00 N|S meter meter"} plus C{" degrees float"} if
-                    B{C{cs}} is C{True} (C{str}).
+                    C{B{cs} is True} (C{str}).
         '''
         return self._toStr(self.hemisphere, B, cs, prec, sep)
 
@@ -502,16 +502,15 @@ def parseUTM5(strUTM, datum=_WGS84, Utm=Utm, falsed=True, **name):
        @arg strUTM: A UTM coordinate (C{str}).
        @kwarg datum: Optional datum to use (L{Datum}, L{Ellipsoid},
                      L{Ellipsoid2} or L{a_f2Tuple}).
-       @kwarg Utm: Optional class to return the UTM coordinate
-                   (L{Utm}) or C{None}.
-       @kwarg falsed: Use C{B{falsed}=True} if both easting and
-                      northing are falsed (C{bool}).
-       @kwarg name: Optional B{C{Utm}} C{B{name}=NN} (C{str}).
+       @kwarg Utm: Optional class to return the UTM coordinate (L{Utm})
+                   or C{None}.
+       @kwarg falsed: Use C{B{falsed}=False} if both easting and northing
+                      are I{not falsed} (C{bool}).
+       @kwarg name: Optional C{B{name}=NN} (C{str}).
 
-       @return: The UTM coordinate (B{C{Utm}}) or if B{C{Utm}}
-                is C{None}, a L{UtmUps5Tuple}C{(zone, hemipole,
-                easting, northing, band)}.  The C{hemipole} is
-                the C{'N'|'S'} hemisphere.
+       @return: The UTM coordinate (B{C{Utm}}) or if C{B{Utm} is None}, a
+                L{UtmUps5Tuple}C{(zone, hemipole, easting, northing, band)}.
+                The C{hemipole} is the C{'N'|'S'} hemisphere.
 
        @raise UTMError: Invalid B{C{strUTM}}.
 
@@ -526,40 +525,36 @@ def toUtm8(latlon, lon=None, datum=None, Utm=Utm, falsed=True,
 
        @arg latlon: Latitude (C{degrees}) or an (ellipsoidal)
                     geodetic C{LatLon} point.
-       @kwarg lon: Optional longitude (C{degrees}), required
-                   if B{C{latlon}} is in C{degrees}.
-       @kwarg datum: Optional datum for this UTM coordinate,
-                     overriding B{C{latlon}}'s datum (L{Datum},
-                     L{Ellipsoid}, L{Ellipsoid2} or L{a_f2Tuple}).
-       @kwarg Utm: Optional class to return the UTM coordinate
-                   (L{Utm}) or C{None}.
-       @kwarg falsed: False both easting and northing (C{bool}).
-       @kwarg strict: Restrict B{C{lat}} to UTM ranges (C{bool}).
+       @kwarg lon: Longitude (C{degrees}), required if B{C{latlon}} is
+                   C{degrees}, ignored otherwise.
+       @kwarg datum: Optional datum for this UTM coordinate, overriding
+                     B{C{latlon}}'s datum (L{Datum}, L{Ellipsoid}, L{Ellipsoid2}
+                     or L{a_f2Tuple}).
+       @kwarg Utm: Optional class to return the UTM coordinate (L{Utm}) or C{None}.
+       @kwarg falsed: If C{True}, false both easting and northing (C{bool}).
+       @kwarg strict: If C{True}, restrict B{C{lat}} to UTM ranges (C{bool}).
        @kwarg zone: Optional UTM zone to enforce (C{int} or C{str}).
-       @kwarg name_cmoff: Optional B{C{Utm}} C{B{name}=NN} (C{str}) and
-                   DEPRECATED C{B{cmoff}=True} to offset the longitude
-                   from the zone's central meridian (C{bool}), use
-                   C{B{falsed}} instead.
+       @kwarg name_cmoff: Optional C{B{name}=NN} (C{str}) and DEPRECATED keyword
+                   argument C{B{cmoff}=True} to offset the longitude from the zone's
+                   central meridian (C{bool}), use C{B{falsed}} instead.
 
-       @return: The UTM coordinate (B{C{Utm}}) or if B{C{Utm}} is
-                C{None} or not B{C{falsed}}, a L{UtmUps8Tuple}C{(zone,
-                hemipole, easting, northing, band, datum, gamma,
-                scale)}.  The C{hemipole} is the C{'N'|'S'} hemisphere.
+       @return: The UTM coordinate (B{C{Utm}}) or if C{B{Utm} is None} or C{B{falsed}
+                is False}, a L{UtmUps8Tuple}C{(zone, hemipole, easting, northing, band,
+                datum, gamma, scale)} where C{hemipole} is the C{'N'|'S'} hemisphere.
 
-       @raise RangeError: If B{C{lat}} outside the valid UTM bands or if
-                          B{C{lat}} or B{C{lon}} outside the valid range
-                          and L{pygeodesy.rangerrors} set to C{True}.
+       @raise RangeError: If B{C{lat}} outside the valid UTM bands or if B{C{lat}}
+                          or B{C{lon}} outside the valid range and L{rangerrors
+                          <pygeodesy.rangerrors>} is C{True}.
 
        @raise TypeError: Invalid B{C{datum}} or B{C{latlon}} not ellipsoidal.
 
        @raise UTMError: Invalid B{C{zone}}.
 
-       @raise ValueError: If B{C{lon}} value is missing or B{C{latlon}}
-                          is invalid.
+       @raise ValueError: If B{C{lon}} is missing or B{C{latlon}} is invalid.
 
-       @note: Implements Karney’s method, using 8-th order Krüger series,
-              giving results accurate to 5 nm (or better) for distances
-              up to 3,900 Km from the central meridian.
+       @note: Implements Karney’s method, using 8-th order Krüger series, giving
+              results accurate to 5 nm (or better) for distances up to 3,900 Km
+              from the central meridian.
     '''
     z, B, lat, lon, d, f, n = _to7zBlldfn(latlon, lon, datum,
                                           falsed, zone, strict,
@@ -727,8 +722,8 @@ def utmZoneBand5(lat, lon, cmoff=False, **name):
                 where C{hemipole} is the C{'N'|'S'} UTM hemisphere.
 
        @raise RangeError: If B{C{lat}} outside the valid UTM bands or if
-                          B{C{lat}} or B{C{lon}} outside the valid range
-                          and L{pygeodesy.rangerrors} set to C{True}.
+                          B{C{lat}} or B{C{lon}} outside the valid range and
+                          L{rangerrors<pygeodesy.rangerrors>} is C{True}.
 
        @raise ValueError: Invalid B{C{lat}} or B{C{lon}}.
     '''

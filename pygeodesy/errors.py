@@ -14,19 +14,20 @@ C{PYGEODESY_EXCEPTION_CHAINING=std} or to any non-empty string.
 # from pygeodesy.basics import isint, isodd, issubclassof, itemsorted, _xinstanceof, _zip  # _MODS
 # from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, LatLonEllipsoidalBase  # _MODS
 # from pygeodesy import errors  # _MODS, _MODS.getattr
-from pygeodesy.internals import _plural, _tailof
+from pygeodesy.internals import _dunder_nameof_, _plural, _tailof
 from pygeodesy.interns import MISSING, NN, _a_, _an_, _and_, _clip_, _COLON_, _COLONSPACE_, \
                              _COMMASPACE_, _datum_, _ellipsoidal_, _incompatible_, _invalid_, \
-                             _keyword_, _len_, _not_, _or_, _SPACE_, _specified_, _UNDER_, \
-                             _vs_, _with_
+                             _keyword_, _LatLon_, _len_, _not_, _or_, _SPACE_, _specified_, \
+                             _UNDER_, _vs_, _with_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _getenv, _PYTHON_X_DEV
-# from pygeodesy.streprs import Fmt, unstr  # _MODS
+# from pygeodesy import streprs as _streprs  # _MODS
+# from pygeodesy.unitsBase import Str  # _MODS
 # from pygeodesy.vector3dBase import Vector3dBase  # _MODS
 
 from copy import copy as _copy
 
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')  _under
-__version__ = '24.06.08'
+__version__ = '24.06.24'
 
 _argument_   = 'argument'
 _box_        = 'box'
@@ -35,6 +36,7 @@ _limiterrors =  True  # in .formy
 _name_value_ =  repr('name=value')
 _rangerrors  =  True  # in .dms
 _region_     = 'region'
+_streprs     = _MODS.into(streprs=__name__)
 _vs__        = _SPACE_(NN, _vs_, NN)
 
 try:
@@ -155,7 +157,7 @@ class _UnexpectedError(TypeError):  # note, a TypeError!
             n = _and(a, _plural(_keyword_, n)) if n else a
         else:
             n = _plural(_SPACE_(_keyword_, _argument_), n)
-        u = _MODS.streprs.unstr(_SPACE_(n, NN), *args, **kwds)
+        u = _streprs.unstr(_SPACE_(n, NN), *args, **kwds)
         # _error_init(TypeError, self, (u,), txt_not_=_expected_)
         TypeError.__init__(self, _SPACE_(u, _not_, _expected_))
 
@@ -208,8 +210,8 @@ class CrossError(_ValueError):
 
 
 class GeodesicError(_ValueError):
-    '''Error raised for lack of convergence or other issues in L{pygeodesy.geodesicx},
-       L{pygeodesy.geodesicw} or L{pygeodesy.karney}.
+    '''Error raised for convergence or other issues in L{geodesicx<pygeodesy.geodesicx>},
+       L{geodesicw<pygeodesy.geodesicw>} or L{karney<pygeodesy.karney>}.
     '''
     pass
 
@@ -243,17 +245,17 @@ class LenError(_ValueError):  # in .ecef, .fmath, .heights, .iters, .named
 
         ns, vs, txt, x = _ns_vs_txt_x(**lens_txt)
         ns = _COMMASPACE_.join(ns)
-        t  = _MODS.streprs.Fmt.PAREN(where.__name__, ns)
+        t  = _streprs.Fmt.PAREN(where.__name__, ns)
         vs = _vs__.join(map(str, vs))
         t  = _SPACE_(t, _len_, vs)
         _ValueError.__init__(self, t, txt=txt, cause=x)
 
 
 class LimitError(_ValueError):
-    '''Error raised for lat- or longitudinal values or deltas exceeding
-       the given B{C{limit}} in functions L{pygeodesy.equirectangular},
-       L{pygeodesy.equirectangular4}, C{nearestOn*} and C{simplify*}
-       or methods with C{limit} or C{options} keyword arguments.
+    '''Error raised for lat- or longitudinal values or deltas exceeding the given
+       B{C{limit}} in functions L{equirectangular<pygeodesy.equirectangular>},
+       L{equirectangular4<pygeodesy.equirectangular4>}, C{nearestOn*} and
+       C{simplify*} or methods with C{limit} or C{options} keyword arguments.
 
        @see: Subclass L{UnitError}.
     '''
@@ -285,26 +287,25 @@ class PointsError(_ValueError):  # in .clipy, .frechet, ...
 
 
 class RangeError(_ValueError):
-    '''Error raised for lat- or longitude values outside the B{C{clip}},
-       B{C{clipLat}}, B{C{clipLon}} in functions L{pygeodesy.parse3llh},
-       L{pygeodesy.parseDMS}, L{pygeodesy.parseDMS2} and L{pygeodesy.parseRad}
-       or the given B{C{limit}} in functions L{pygeodesy.clipDegrees} and
-       L{pygeodesy.clipRadians}.
+    '''Error raised for lat- or longitude values outside the B{C{clip}}, B{C{clipLat}},
+       B{C{clipLon}} in functions L{parse3llh<pygeodesy.dms.parse3llh>}, L{parseDMS<pygeodesy.dms.parseDMS>},
+       L{parseDMS2<pygeodesy.dms.parseDMS2>} and L{parseRad<pygeodesy.dms.parseRad>} or the B{C{limit}} set
+       with functions L{clipDegrees<pygeodesy.dms.clipDegrees>} and L{clipRadians<pygeodesy.dms.clipRadians>}.
 
-       @see: Function L{pygeodesy.rangerrors}.
+       @see: Function L{rangerrors<pygeodesy.errors.rangerrors>}.
     '''
     pass
 
 
 class RhumbError(_ValueError):
-    '''Error raised for a L{pygeodesy.rhumb.aux_}, L{pygeodesy.rhumb.ekx}
-       or L{pygeodesy.rhumb.solve} issue.
+    '''Error raised for a rhumb L{aux_<pygeodesy.rhumb.aux_>}, L{ekx<pygeodesy.rhumb.ekx>} or
+       L{solve<pygeodesy.rhumb.solve>} issue.
     '''
     pass
 
 
 class TriangleError(_ValueError):  # in .resections, .vector2d
-    '''Error raised for triangle, inter- or resection issues.
+    '''Error raised for triangle, intersection or resection issues.
     '''
     pass
 
@@ -330,15 +331,15 @@ class SciPyWarning(PointsError):
 
 
 class TRFError(_ValueError):  # in .ellipsoidalBase, .trf, .units
-    '''Terrestrial Reference Frame (TRF), L{Epoch}, L{RefFrame}
-       or L{RefFrame} conversion issue.
+    '''Terrestrial Reference Frame (TRF), L{Epoch}, L{RefFrame} or L{RefFrame}
+       conversion issue.
     '''
     pass
 
 
 class UnitError(LimitError):  # in .named, .units
-    '''Default exception for L{units} issues for a value exceeding the
-       C{low} or C{high} limit.
+    '''Default exception for L{units} issues for a value exceeding the C{low}
+       or C{high} limit.
     '''
     pass
 
@@ -460,8 +461,8 @@ def exception_chaining(exc=None):
        @return: If C{B{exc} is None}, return C{True} if exception
                 chaining is enabled for PyGeodesy errors, C{False}
                 if turned off and C{None} if not available.  If
-                B{C{exc}} is not C{None}, return it's error I{cause}
-                or C{None}.
+                C{B{exc} is not None}, return it's error I{cause}
+                or C{None} if there is none.
 
        @note: To enable exception chaining for C{pygeodesy} errors,
               set env var C{PYGEODESY_EXCEPTION_CHAINING} to any
@@ -511,23 +512,22 @@ def isError(exc):
           _X(exc) if isinstance(exc,  Exception) else None)
 
 
-def _IsnotError(*nouns, **name_value_Error_cause):  # name=value [, Error=TypeError, cause=None]
+def _IsnotError(*types__, **name_value_Error_cause):  # name=value [, Error=TypeError, cause=None]
     '''Create a C{TypeError} for an invalid C{name=value} type.
 
-       @arg nouns: One or more expected class or type names, usually nouns (C{str}).
+       @arg types__: One or more types or type names.
        @kwarg name_value_Error_cause: One C{B{name}=value} pair and optionally,
-                   keyword argument C{B{Error}=TypeError} to override the default
-                   and C{B{cause}=None} for exception chaining.
+                   keyword arguments C{B{Error}=TypeError} and C{B{cause}=None}
+                   for exception chaining.
 
        @return: A C{TypeError} or an B{C{Error}} instance.
     '''
-    def _n_v_E_x(cause=None, Error=TypeError, **name_value):
-        return _xkwds_item2(name_value) + (Error, cause)
+    x, kwds = _xkwds_pop2(name_value_Error_cause, cause=None)
+    E, kwds = _xkwds_pop2(kwds, Error=TypeError)
+    n, v    = _xkwds_item2(kwds)
 
-    n, v, E, x = _n_v_E_x(**name_value_Error_cause)
-
-    n = _MODS.streprs.Fmt.PARENSPACED(n, repr(v))
-    t = _not_(_an(_or(*nouns)) if nouns else _specified_)
+    n = _streprs.Fmt.PARENSPACED(n, repr(v))
+    t = _not_(_an(_or(*_dunder_nameof_(*types__))) if types__ else _specified_)
     return _XError(E, n, txt=t, cause=x)
 
 
@@ -553,14 +553,13 @@ def _or(*words):
     return _and_or(_or_, *words)
 
 
-def _parseX(parser, *args, **name_values_Error):  # name=value[, ..., Error=ParseError]
+def _parseX(parser, *args, **Error_name_values):  # name=value[, ..., Error=ParseError]
     '''(INTERNAL) Invoke a parser and handle exceptions.
 
-       @arg parser: The parser (C{callable}).
+       @arg parser: The parser (C{callable(*B{args}}).
        @arg args: Any B{C{parser}} arguments (any C{type}s).
-       @kwarg name_values_Error: Any C{B{name}=value} pairs and
-                   optionally, C{B{Error}=ParseError} keyword
-                   argument to override the default.
+       @kwarg Error_name_values: Optional C{B{Error}=ParseError}
+                    and number of C{B{name}=value} pairs.
 
        @return: Parser result.
 
@@ -570,7 +569,7 @@ def _parseX(parser, *args, **name_values_Error):  # name=value[, ..., Error=Pars
         return parser(*args)
     except Exception as x:
         E = type(x) if isError(x) else ParseError
-        E, kwds = _xkwds_pop2(name_values_Error, Error=E)
+        E, kwds = _xkwds_pop2(Error_name_values, Error=E)
         raise _XError(E, **_xkwds(kwds, cause=x))
 
 
@@ -603,17 +602,45 @@ def _xAssertionError(where, *args, **kwds):
     '''(INTERNAL) Embellish an C{AssertionError} with/-out exception chaining.
     '''
     x, kwds = _xkwds_pop2(kwds, cause=None)
-    w = _MODS.streprs.unstr(where, *args, **kwds)
+    w = _streprs.unstr(where, *args, **kwds)
     return _AssertionError(w, txt=None, cause=x)
 
 
-def _xattr(obj, **name_default):  # see .strerprs._xattrs
+def _xattr(obj, **name_default):
     '''(INTERNAL) Get an C{obj}'s attribute by C{name}.
     '''
     if len(name_default) == 1:
         for n, d in name_default.items():
             return getattr(obj, n, d)
     raise _xAssertionError(_xattr, obj, **name_default)
+
+
+def _xattrs(inst, other, *attrs):  # see .errors._xattr
+    '''(INTERNAL) Copy attribute values from B{C{other}} to B{C{inst}}.
+
+       @arg inst: Object to copy attribute values to (any C{type}).
+       @arg other: Object to copy attribute values from (any C{type}).
+       @arg attrs: One or more attribute names (C{str}s).
+
+       @return: Object B{C{inst}}, updated.
+
+       @raise AttributeError: An B{C{attrs}} doesn't exist or isn't settable.
+    '''
+    def _getattr(o, a):
+        if hasattr(o, a):
+            return getattr(o, a)
+        try:
+            n =  o._DOT_(a)
+        except AttributeError:
+            n = _streprs.Fmt.DOT(a)
+        raise _AttributeError(o, name=n)
+
+    for a in attrs:
+        s = _getattr(other, a)
+        g = _getattr(inst, a)
+        if (g is None and s is not None) or g != s:
+            setattr(inst, a, s)  # not settable?
+    return inst
 
 
 def _xcallable(**names_callables):
@@ -651,9 +678,9 @@ def _xellipsoidal(**name_value):  # see _xellipsoidall elel
     raise _xAssertionError(_xellipsoidal, name_value)
 
 
-def _xellipsoidall(point):  # see _xellipsoidal
+def _xellipsoidall(point):  # ... elel, see _xellipsoidal
     '''(INTERNAL) Check an ellipsoidal C{point}, return C{True}
-       if geodetic latlon or C{False} if cartesian.
+       if geodetic latlon, C{False} if cartesian or TypeError.
     '''
     m = _MODS.ellipsoidalBase
     ll = isinstance(point, m.LatLonEllipsoidalBase)
@@ -662,6 +689,14 @@ def _xellipsoidall(point):  # see _xellipsoidal
         b._xinstanceof(m.CartesianEllipsoidalBase,
                        m.LatLonEllipsoidalBase, point=point)
     return ll
+
+
+def _xellipsoids(E1, E2, Error=_ValueError):  # see .ellipsoidalBase
+    '''(INTERNAL) Check ellipsoid mis-match, E2 vs E1.
+    '''
+    if E2 != E1:
+        raise Error(E2.named2, txt=_incompatible(E1.named2))
+    return E1
 
 
 def _XError(Error, *args, **kwds):
@@ -710,6 +745,15 @@ _XErrors = (_AssertionError, _AttributeError,  # some isError's
 # map certain C{Exception} classes to the C{_Error}
 # _X2Error = {AssertionError:    _AssertionError, ...
 #             ZeroDivisionError: _ZeroDivisionError}
+
+
+def _xgeodesics(G1, G2, Error=_ValueError):  # see .geodesici
+    '''(INTERNAL) Check geodesics mis-match.
+    '''
+    if G1.ellipsoid != G2.ellipsoid:
+        raise Error(G1.named2, txt=_incompatible(G2.named2))
+    return G1
+
 
 try:
     _ = {}.__or__  # {} | {}  # Python 3.9+
@@ -810,6 +854,14 @@ def _Xorder(_Coeffs, Error, **Xorder):  # in .auxLat, .ktm, .rhumb.bases, .rhumb
         return m
     t = sorted(map(str, _Coeffs.keys()))
     raise Error(X, m, txt_not_=_or(*t))
+
+
+def _xStrError(*Refs, **name_value_Error):  # in .gars, .geohash, .wgrs
+    '''(INTERNAL) Create a C{TypeError} for C{Garef}, C{Geohash}, C{Wgrs}.
+    '''
+    S = _MODS.unitsBase.Str
+    r =  tuple(r.__name__ for r in Refs) + (S.__name__, _LatLon_, 'LatLon*Tuple')
+    return _IsnotError(*r, **name_value_Error)
 
 # **) MIT License
 #

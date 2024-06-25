@@ -435,14 +435,13 @@
         <li><strong class="pname"><code>b</code></strong> - Middle semi-axis (<code>meter</code>, same units as 
           <b><code>a</code></b>), required if <code><b>a_triaxial</b> is 
           scalar</code>, ignored otherwise.</li>
-        <li><strong class="pname"><code>c</code></strong> - Smallest semi-axis (<code>meter</code>, same units as 
-          <b><code>a</code></b>), required if <code><b>a_triaxial</b> is 
-          scalar</code>, ignored otherwise.</li>
+        <li><strong class="pname"><code>c</code></strong> - Smallest semi-axis (<code>meter</code>, like 
+          <b><code>b</code></b>).</li>
         <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
     </ul></dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.triaxials.TriaxialError-class.html">TriaxialError</a></strong></code> - Semi-axes not ordered, spherical or invalid.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.triaxials.TriaxialError-class.html">TriaxialError</a></strong></code> - Semi-axes unordered, spherical or invalid.</li>
     </ul></dd>
     <dt>Overrides:
         object.__init__
@@ -590,9 +589,9 @@
           href="pygeodesy.namedTuples.Vector4Tuple-class.html" 
           class="link">Vector4Tuple</a>).</li>
         <li><strong class="pname"><code>y</code></strong> - Y component (<code>scalar</code>), required if 
-          <b><code>x_xyz</code></b> if <code>scalar</code>.</li>
-        <li><strong class="pname"><code>z</code></strong> - Z component (<code>scalar</code>), required if 
-          <b><code>x_xyz</code></b> if <code>scalar</code>.</li>
+          <b><code>x_xyz</code></b> if <code>scalar</code>, ignored 
+          otherwise.</li>
+        <li><strong class="pname"><code>z</code></strong> - Z component (<code>scalar</code>), like <b><code>y</code></b>.</li>
         <li><strong class="pname"><code>normal_eps_name</code></strong> - Optional keyword arguments <code><b>normal</b>=True</code>, 
           <code><b>eps</b>=EPS</code> and overriding 
           <code><b>name</b>=&quot;height4&quot;</code> (<code>str</code>), 
@@ -733,9 +732,9 @@
           href="pygeodesy.namedTuples.Vector4Tuple-class.html" 
           class="link">Vector4Tuple</a>).</li>
         <li><strong class="pname"><code>y</code></strong> - Y component (<code>scalar</code>), required if 
-          <b><code>x_xyz</code></b> if <code>scalar</code>.</li>
-        <li><strong class="pname"><code>z</code></strong> - Z component (<code>scalar</code>), required if 
-          <b><code>x_xyz</code></b> if <code>scalar</code>.</li>
+          <b><code>x_xyz</code></b> if <code>scalar</code>, ignored 
+          otherwise.</li>
+        <li><strong class="pname"><code>z</code></strong> - Z component (<code>scalar</code>), like <b><code>y</code></b>.</li>
         <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -794,9 +793,9 @@
           href="pygeodesy.namedTuples.Vector4Tuple-class.html" 
           class="link">Vector4Tuple</a>).</li>
         <li><strong class="pname"><code>y</code></strong> - Y component (<code>scalar</code>), required if 
-          <b><code>x_xyz</code></b> if <code>scalar</code>.</li>
-        <li><strong class="pname"><code>z</code></strong> - Z component (<code>scalar</code>), required if 
-          <b><code>x_xyz</code></b> if <code>scalar</code>.</li>
+          <b><code>x_xyz</code></b> if <code>scalar</code>, ignored 
+          otherwise.</li>
+        <li><strong class="pname"><code>z</code></strong> - Z component (<code>scalar</code>), like <b><code>y</code></b>.</li>
         <li><strong class="pname"><code>h</code></strong> - Height above or below this triaxial's surface 
           (<code>meter</code>, same units as the axes).</li>
         <li><strong class="pname"><code>normal</code></strong> - If <code>True</code> the height is <code>normal</code> to the 
@@ -855,9 +854,9 @@
           href="pygeodesy.namedTuples.Vector4Tuple-class.html" 
           class="link">Vector4Tuple</a>).</li>
         <li><strong class="pname"><code>y</code></strong> - Y component (<code>scalar</code>), required if 
-          <b><code>x_xyz</code></b> if <code>scalar</code>.</li>
-        <li><strong class="pname"><code>z</code></strong> - Z component (<code>scalar</code>), required if 
-          <b><code>x_xyz</code></b> if <code>scalar</code>.</li>
+          <b><code>x_xyz</code></b> if <code>scalar</code>, ignored 
+          otherwise.</li>
+        <li><strong class="pname"><code>z</code></strong> - Z component (<code>scalar</code>), like <b><code>y</code></b>.</li>
         <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -948,7 +947,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Jun 10 13:35:55 2024
+    Generated by Epydoc 3.0.1 on Mon Jun 24 20:35:11 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

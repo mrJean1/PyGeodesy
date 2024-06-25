@@ -118,7 +118,7 @@ except ImportError:  # Python 3+
     from io import BytesIO as _BytesIO  # PYCHOK expected
 
 __all__ = _ALL_LAZY.geoids
-__version__ = '24.06.03'
+__version__ = '24.06.11'
 
 _assert_ = 'assert'
 _bHASH_  =  b'#'
@@ -323,10 +323,9 @@ class _GeoidBase(_HeightsBase):
            @kwarg LatLon: Optional class to return the location and height
                           (C{LatLon}) or C{None}.
 
-           @return: If B{C{LatLon}} is C{None}, a L{LatLon3Tuple}C{(lat,
-                    lon, height)} otherwise a B{C{LatLon}} instance
-                    with the lat-, longitude and geoid height of the
-                    center grid location.
+           @return: If C{B{LatLon} is None}, a L{LatLon3Tuple}C{(lat, lon,
+                    height)} otherwise a B{C{LatLon}} instance with the lat-,
+                    longitude and geoid height of the center grid location.
         '''
         return self._llh3LL(self._center, LatLon)
 
@@ -437,10 +436,9 @@ class _GeoidBase(_HeightsBase):
            @kwarg LatLon: Optional class to return the location and height
                           (C{LatLon}) or C{None}.
 
-           @return: If B{C{LatLon}} is C{None}, a L{LatLon3Tuple}C{(lat,
-                    lon, height)} otherwise a B{C{LatLon}} instance
-                    with the lat-, longitude and geoid height of the
-                    highest grid location.
+           @return: If C{B{LatLon} is None}, a L{LatLon3Tuple}C{(lat, lon,
+                    height)} otherwise a B{C{LatLon}} instance with the lat-,
+                    longitude and geoid height of the highest grid location.
         '''
         return self._llh3LL(self._highest, LatLon)
 
@@ -513,10 +511,9 @@ class _GeoidBase(_HeightsBase):
            @kwarg LatLon: Optional class to return the location
                           (C{LatLon}) and height or C{None}.
 
-           @return: If B{C{LatLon}} is C{None}, a L{LatLon3Tuple}C{(lat,
-                    lon, height)} otherwise a B{C{LatLon}} instance
-                    with the lat-, longitude and geoid height of the
-                    lower-left, SW grid corner.
+           @return: If C{B{LatLon} is None}, a L{LatLon3Tuple}C{(lat, lon, height)}
+                    otherwise a B{C{LatLon}} instance with the lat-, longitude and
+                    geoid height of the lower-left, SW grid corner.
         '''
         return self._llh3LL(self._lowerleft, LatLon)
 
@@ -532,10 +529,9 @@ class _GeoidBase(_HeightsBase):
            @kwarg LatLon: Optional class to return the location and height
                           (C{LatLon}) or C{None}.
 
-           @return: If B{C{LatLon}} is C{None}, a L{LatLon3Tuple}C{(lat,
-                    lon, height)} otherwise a B{C{LatLon}} instance
-                    with the lat-, longitude and geoid height of the
-                    lower-right, SE grid corner.
+           @return: If C{B{LatLon} is None}, a L{LatLon3Tuple}C{(lat, lon, height)}
+                    otherwise a B{C{LatLon}} instance with the lat-, longitude and
+                    geoid height of the lower-right, SE grid corner.
         '''
 
         return self._llh3LL(self._loweright, LatLon)
@@ -554,10 +550,9 @@ class _GeoidBase(_HeightsBase):
            @kwarg LatLon: Optional class to return the location and height
                           (C{LatLon}) or C{None}.
 
-           @return: If B{C{LatLon}} is C{None}, a L{LatLon3Tuple}C{(lat,
-                    lon, height)} otherwise a B{C{LatLon}} instance
-                    with the lat-, longitude and geoid height of the
-                    lowest grid location.
+           @return: If C{B{LatLon} is None}, a L{LatLon3Tuple}C{(lat, lon,
+                    height)} otherwise a B{C{LatLon}} instance with the lat-,
+                    longitude and geoid height of the lowest grid location.
         '''
         return self._llh3LL(self._lowest, LatLon)
 
@@ -701,10 +696,9 @@ class _GeoidBase(_HeightsBase):
            @kwarg LatLon: Optional class to return the location and height
                           (C{LatLon}) or C{None}.
 
-           @return: If B{C{LatLon}} is C{None}, a L{LatLon3Tuple}C{(lat,
-                    lon, height)} otherwise a B{C{LatLon}} instance
-                    with the lat-, longitude and geoid height of the
-                    upper-left, NW grid corner.
+           @return: If C{B{LatLon} is None}, a L{LatLon3Tuple}C{(lat, lon, height)}
+                    otherwise a B{C{LatLon}} instance with the lat-, longitude and
+                    geoid height of the upper-left, NW grid corner.
         '''
         return self._llh3LL(self._upperleft, LatLon)
 
@@ -720,10 +714,9 @@ class _GeoidBase(_HeightsBase):
            @kwarg LatLon: Optional class to return the location and height
                           (C{LatLon}) or C{None}.
 
-           @return: If B{C{LatLon}} is C{None}, a L{LatLon3Tuple}C{(lat,
-                    lon, height)} otherwise a B{C{LatLon}} instance
-                    with the lat-, longitude and geoid height of the
-                    upper-right, NE grid corner.
+           @return: If C{B{LatLon} is None}, a L{LatLon3Tuple}C{(lat, lon, height)}
+                    otherwise a B{C{LatLon}} instance with the lat-, longitude and
+                    geoid height of the upper-right, NE grid corner.
         '''
         return self._llh3LL(self._upperright, LatLon)
 
@@ -1169,10 +1162,9 @@ class GeoidKarney(_GeoidBase):
                           (C{LatLon}) or C{None}.
            @kwarg full: Search the full or limited latitude range (C{bool}).
 
-           @return: If B{C{LatLon}} is C{None}, a L{LatLon3Tuple}C{(lat,
-                    lon, height)} otherwise a B{C{LatLon}} instance
-                    with the lat-, longitude and geoid height at the
-                    highest grid location.
+           @return: If C{B{LatLon} is None}, a L{LatLon3Tuple}C{(lat, lon,
+                    height)} otherwise a B{C{LatLon}} instance with the lat-,
+                    longitude and geoid height of the highest grid location.
         '''
         llh = self._highest if full or self.cropped else self._highest_ltd
         return self._llh3LL(llh, LatLon)
@@ -1223,10 +1215,9 @@ class GeoidKarney(_GeoidBase):
                           (C{LatLon}) or C{None}.
            @kwarg full: Search the full or limited latitude range (C{bool}).
 
-           @return: If B{C{LatLon}} is C{None}, a L{LatLon3Tuple}C{(lat,
-                    lon, height)} otherwise a B{C{LatLon}} instance
-                    with the lat-, longitude and geoid height of the
-                    lowest grid location.
+           @return: If C{B{LatLon} is None}, a L{LatLon3Tuple}C{(lat, lon,
+                    height)} otherwise a B{C{LatLon}} instance with the lat-,
+                    longitude and geoid height of the lowest grid location.
         '''
         llh = self._lowest if full or self.cropped else self._lowest_ltd
         return self._llh3LL(llh, LatLon)

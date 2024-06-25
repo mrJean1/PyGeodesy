@@ -70,7 +70,7 @@ from pygeodesy.utily import asin1, atan1, atan2b, atan2d, sincos2, \
 from math import acos, atan2, degrees, fabs, sin, sqrt
 
 __all__ = _ALL_LAZY.azimuthal
-__version__ = '24.05.24'
+__version__ = '24.06.11'
 
 _EPS_K         = _EPStol * _0_1  # Karney's eps_ or _EPSmin * _0_1?
 _over_horizon_ = 'over horizon'
@@ -364,8 +364,8 @@ class Equidistant(_AzimuthalBase):
 
            @raise AzimuthalError: Invalid B{C{lat}} or B{C{lon}}.
 
-           @note: The C{scale} will be C{-1} if B{C{(lat, lon)}} is antipodal to
-                  the projection center C{(lat0, lon0)}.
+           @note: The C{scale} will be C{-1} if B{C{(lat, lon)}} is antipodal to the
+                  projection center C{(lat0, lon0)}.
         '''
         def _k_t(c):
             k = _N_1_0 if c < 0 else _1_0
@@ -389,7 +389,7 @@ class Equidistant(_AzimuthalBase):
                               optional, additional B{C{LatLon}} keyword arguments,
                               ignored if C{B{LatLon} is None}.
 
-           @return: The geodetic (C{LatLon}) or if B{C{LatLon}} is C{None} an
+           @return: The geodetic (C{LatLon}) or if C{B{LatLon} is None} an
                     L{Azimuthal7Tuple}C{(x, y, lat, lon, azimuth, scale, datum)}.
 
            @note: The C{lat} will be in the range C{[-90..90] degrees} and C{lon}
@@ -509,7 +509,7 @@ class _EquidistantBase(_AzimuthalGeodesic):
                               optional, additional B{C{LatLon}} keyword arguments,
                               ignored if C{B{LatLon} is None}.
 
-           @return: The geodetic (C{LatLon}) or if B{C{LatLon}} is C{None} an
+           @return: The geodetic (C{LatLon}) or if C{B{LatLon} is None} an
                     L{Azimuthal7Tuple}C{(x, y, lat, lon, azimuth, scale, datum)}.
 
            @note: The C{lat} will be in the range C{[-90..90] degrees} and C{lon}
@@ -680,7 +680,7 @@ class Gnomonic(_AzimuthalBase):
                               optional, additional B{C{LatLon}} keyword arguments,
                               ignored if C{B{LatLon} is None}.
 
-           @return: The geodetic (C{LatLon}) or if B{C{LatLon}} is C{None} an
+           @return: The geodetic (C{LatLon}) or if C{B{LatLon} is None} an
                     L{Azimuthal7Tuple}C{(x, y, lat, lon, azimuth, scale, datum)}.
 
            @note: The C{lat} will be in the range C{[-90..90] degrees} and C{lon}
@@ -791,7 +791,7 @@ class _GnomonicBase(_AzimuthalGeodesic):
                               optional, additional B{C{LatLon}} keyword arguments,
                               ignored if C{B{LatLon} is None}.
 
-           @return: The geodetic (C{LatLon}) or if B{C{LatLon}} is C{None} an
+           @return: The geodetic (C{LatLon}) or if C{B{LatLon} is None} an
                     L{Azimuthal7Tuple}C{(x, y, lat, lon, azimuth, scale, datum)}.
 
            @raise AzimuthalError: No convergence.
@@ -984,7 +984,7 @@ class LambertEqualArea(_AzimuthalBase):
                               and optional, additional B{C{LatLon}} keyword
                               arguments, ignored if C{B{LatLon} is None}.
 
-           @return: The geodetic (C{LatLon}) or if B{C{LatLon}} is C{None} an
+           @return: The geodetic (C{LatLon}) or if C{B{LatLon} is None} an
                     L{Azimuthal7Tuple}C{(x, y, lat, lon, azimuth, scale, datum)}.
 
            @note: The C{lat} will be in the range C{[-90..90] degrees} and C{lon}
@@ -1038,7 +1038,7 @@ class Orthographic(_AzimuthalBase):
                               optional, additional B{C{LatLon}} keyword arguments,
                               ignored if C{B{LatLon} is None}.
 
-           @return: The geodetic (C{LatLon}) or if B{C{LatLon}} is C{None} an
+           @return: The geodetic (C{LatLon}) or if C{B{LatLon} is None} an
                     L{Azimuthal7Tuple}C{(x, y, lat, lon, azimuth, scale, datum)}.
 
            @note: The C{lat} will be in the range C{[-90..90] degrees} and C{lon}
@@ -1111,7 +1111,7 @@ class Stereographic(_AzimuthalBase):
                               optional, additional B{C{LatLon}} keyword arguments,
                               ignored if C{B{LatLon} is None}.
 
-           @return: The geodetic (C{LatLon}) or if B{C{LatLon}} is C{None} an
+           @return: The geodetic (C{LatLon}) or if C{B{LatLon} is None} an
                     L{Azimuthal7Tuple}C{(x, y, lat, lon, azimuth, scale, datum)}.
 
            @note: The C{lat} will be in range C{[-90..90] degrees}, C{lon} in range

@@ -23,13 +23,13 @@ The Journal of Navigation (2010), vol 63, nr 3, pp 395-417.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import issubclassof, map2, _xinstanceof
+from pygeodesy.basics import issubclassof, map2, _xinstanceof, _xsubclassof
 from pygeodesy.datums import _earth_ellipsoid, _ellipsoidal_datum, _WGS84
 # from pygeodesy.dms import F_D, toDMS  # _MODS
 from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, \
                                      _nearestOn, LatLonEllipsoidalBase, \
                                      _TOL_M,  _Wrap
-from pygeodesy.errors import _IsnotError, _xkwds, _xkwds_pop2
+from pygeodesy.errors import _xkwds, _xkwds_pop2
 # from pygeodesy.fmath import fdot  # from .nvectorBase
 from pygeodesy.interns import _Nv00_, _COMMASPACE_,  _pole_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _ALL_OTHER
@@ -48,7 +48,7 @@ from pygeodesy.units import Bearing, Distance, Height, Scalar
 # from math import fabs  # from .nvectorBase
 
 __all__ = _ALL_LAZY.ellipsoidalNvector
-__version__ = '24.06.08'
+__version__ = '24.06.15'
 
 
 class Ned(_Ned):
@@ -95,9 +95,9 @@ class Cartesian(CartesianEllipsoidalBase):
                                    override this L{LatLon} class or specify
                                    C{B{LatLon} is None}.
 
-           @return: The geodetic point (L{LatLon}) or if B{C{LatLon}} is set
-                    to C{None}, an L{Ecef9Tuple}C{(x, y, z, lat, lon, height,
-                    C, M, datum)} with C{C} and C{M} if available.
+           @return: The geodetic point (L{LatLon}) or if C{B{LatLon} is None},
+                    an L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M, datum)}
+                    with C{C} and C{M} if available.
 
            @raise TypeError: Invalid B{C{LatLon_and_kwds}}.
         '''
@@ -112,8 +112,8 @@ class Cartesian(CartesianEllipsoidalBase):
                                     override this C{Nvector} class or specify
                                     C{B{Nvector} is None}.
 
-           @return: The C{n-vector} components (C{Nvector}) or if B{C{Nvector}}
-                    is set to C{None}, a L{Vector4Tuple}C{(x, y, z, h)}
+           @return: The C{n-vector} components (C{Nvector}) or if C{B{Nvector}
+                    is None}, a L{Vector4Tuple}C{(x, y, z, h)}.
 
            @raise TypeError: Invalid B{C{Nvector_and_kwds}}.
         '''
@@ -176,9 +176,9 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 
            @return: Delta from this to the other point (B{C{Ned}}).
 
-           @raise TypeError: The B{C{other}} point is not L{LatLon} or
-                             B{C{Ned}} is not L{pygeodesy.Ned} nor
-                             L{pygeodesy.Ned4Tuple} nor DEPRECATED L{Ned}.
+           @raise TypeError: The B{C{other}} point is not L{LatLon} or B{C{Ned}}
+                             is not an L{Ned4Tuple<pygeodesy.Ned4Tuple>} nor an
+                             L{Ned<pygeodesy.Ned>} nor a DEPRECATED L{Ned}.
 
            @raise ValueError: If ellipsoids are incompatible.
         '''
@@ -196,8 +196,8 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
         N, kwds = _xkwds_pop2(Ned_and_kwds, Ned=Ned)
         if issubclassof(N, Ned4Tuple):
             ned_ += _MODS.ltp.Ltp(self, ecef=self.Ecef(self.datum)),
-        elif not issubclassof(N, _Ned):
-            raise _IsnotError(Fmt.sub_class(_Ned, Ned4Tuple), Ned=N)
+        else:
+            _xsubclassof(_Ned, Ned4Tuple, Ned=N)
         return N(*ned_, **_xkwds(kwds, name=self.name))
 
 #     def destination(self, distance, bearing, radius=R_M, height=None):
@@ -223,7 +223,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #         y = gc.cross(v1).times(sin(r))  # component of v2 perpendicular to v1
 #
 #         v2 = x.plus(y).unit()
-#         return v2.toLatLon(height=self.height if height is C{None} else height)
+#         return v2.toLatLon(height=self._heigHt(height))
 
     def destinationNed(self, delta):
         '''Calculate the destination point using the supplied NED delta
@@ -234,8 +234,8 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 
            @return: Destination point (L{LatLon}).
 
-           @raise TypeError: If B{C{delta}} is not L{pygeodesy.Ned} or
-                             DEPRECATED L{Ned}.
+           @raise TypeError: If B{C{delta}} is not an L{Ned<pygeodesy.Ned>}
+                             or a DEPRECATED L{Ned}.
         '''
         _xinstanceof(_Ned, delta=delta)
 
@@ -391,9 +391,9 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
                                       to override this L{Cartesian} class or specify
                                       C{B{Cartesian}=None}.
 
-           @return: The geodetic point (L{Cartesian}) or if B{C{Cartesian}} is set
-                    to C{None}, an L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M,
-                    datum)} with C{C} and C{M} if available.
+           @return: The geodetic point (L{Cartesian}) or if C{B{Cartesian} is None},
+                    an L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M, datum)} with
+                    C{C} and C{M} if available.
 
            @raise TypeError: Invalid B{C{Cartesian}} or other B{C{Cartesian_and_kwds}}.
         '''
@@ -476,9 +476,9 @@ class Nvector(NvectorBase):
                                       to override this L{Cartesian} class or specify
                                       C{B{Cartesian} is None}.
 
-           @return: The cartesian point (L{Cartesian}) or if B{C{Cartesian}} is set
-                    to C{None}, an L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M,
-                    datum)} with C{C} and C{M} if available.
+           @return: The cartesian point (L{Cartesian}) or if C{B{Cartesian} is None},
+                    an L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M, datum)} with
+                    C{C} and C{M} if available.
 
            @raise TypeError: Invalid B{C{Cartesian_and_kwds}}.
         '''
@@ -494,9 +494,9 @@ class Nvector(NvectorBase):
                                    to override this L{LatLon} class or specify
                                    C{B{LatLon} is None}.
 
-           @return: The geodetic point (L{LatLon}) or if B{C{LatLon}} is set
-                    to C{None}, an L{Ecef9Tuple}C{(x, y, z, lat, lon, height,
-                    C, M, datum)} with C{C} and C{M} if available.
+           @return: The geodetic point (L{LatLon}) or if C{B{LatLon} is None},
+                    an L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M, datum)}
+                    with C{C} and C{M} if available.
 
            @raise TypeError: Invalid B{C{LatLon_and_kwds}}.
         '''
@@ -528,29 +528,23 @@ def meanOf(points, datum=_WGS84, height=None, wrap=False,
 
        @arg points: Points to be averaged (L{LatLon}[]).
        @kwarg datum: Optional datum to use (L{Datum}).
-       @kwarg height: Optional height at mean point, overriding
-                      the mean height (C{meter}).
-       @kwarg wrap: If C{True}, wrap or I{normalize} B{C{points}}
-                    (C{bool}).
-       @kwarg LatLon_and_kwds: Optional B{C{LatLon}} class to return
-                     the mean points and overriding this L{LatLon}
-                     (or C{None}) and additional B{C{LatLon}}
-                     keyword arguments, ignored if C{B{LatLon}
-                     is None}.
+       @kwarg height: Optional height at mean point, overriding the mean
+                      height (C{meter}).
+       @kwarg wrap: If C{True}, wrap or I{normalize} B{C{points}} (C{bool}).
+       @kwarg LatLon_and_kwds: Optional B{C{LatLon}} class to return the mean
+                     points (or C{None}) and additional B{C{LatLon}} keyword
+                     arguments, ignored if C{B{LatLon} is None}.
 
-       @return: Geographic mean point and mean height (B{C{LatLon}})
-                or if B{C{LatLon}} is C{None}, an L{Ecef9Tuple}C{(x,
-                y, z, lat, lon, height, C, M, datum)} with C{C} and
-                C{M} if available.
+       @return: Geographic mean point and height (B{C{LatLon}}) or if C{B{LatLon}
+                is None}, an L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M,
+                datum)} with C{C} and C{M} if available.
 
        @raise ValueError: Insufficient number of B{C{points}}.
     '''
     Ps = _Nvll.PointsIter(points, wrap=wrap)
-    # geographic mean
-    m = sumOf(p._N_vector for p in Ps.iterate(closed=False))
-    kwds = _xkwds(LatLon_and_kwds, height=height, datum=datum,
-                                   LatLon=LatLon, name__=meanOf)
-    return m.toLatLon(**kwds)
+    n  =  sumOf(p._N_vector for p in Ps.iterate(closed=False))
+    return n.toLatLon(**_xkwds(LatLon_and_kwds, height=height, datum=datum,
+                                                LatLon=LatLon, name__=meanOf))
 
 
 def nearestOn(point, point1, point2, within=True, height=None, wrap=False,

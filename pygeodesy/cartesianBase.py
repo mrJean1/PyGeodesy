@@ -43,7 +43,7 @@ from pygeodesy.vector3d import Vector3d, _xyzhdlln4
 # from math import atan2, degrees, fabs, radians, sqrt  # from .fmath, .utily
 
 __all__ = _ALL_LAZY.cartesianBase
-__version__ = '24.06.10'
+__version__ = '24.06.11'
 
 _r_     = 'r'
 _theta_ = 'theta'
@@ -62,8 +62,7 @@ class CartesianBase(Vector3d):
                        L{Ecef9Tuple}, L{Vector3Tuple} or L{Vector4Tuple}.
            @kwarg y: Cartesian Y coordinate (C{scalar}), ignored if B{C{x_xyz}}
                      is not C{scalar}, otherwise same units as B{C{x_xyz}}.
-           @kwarg z: Cartesian Z coordinate (C{scalar}), ignored if B{C{x_xyz}}
-                     is not C{scalar}, otherwise same units as B{C{x_xyz}}.
+           @kwarg z: Cartesian Z coordinate (C{scalar}), like B{C{y}}.
            @kwarg datum: Optional datum (L{Datum}, L{Ellipsoid}, L{Ellipsoid2}
                          or L{a_f2Tuple}).
            @kwarg ll_name: Optional C{B{name}=NN} (C{str}) and optional, original
@@ -711,15 +710,15 @@ class CartesianBase(Vector3d):
            @kwarg datum: Optional datum (L{Datum}, L{Ellipsoid}, L{Ellipsoid2}
                          or L{a_f2Tuple}).
            @kwarg height: Optional height, overriding the converted height
-                          (C{meter}), iff B{C{LatLon}} is not C{None}.
+                          (C{meter}), only if C{B{LatLon} is not None}.
            @kwarg LatLon: Optional class to return the geodetic point
                           (C{LatLon}) or C{None}.
            @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
                                arguments, ignored if C{B{LatLon} is None}.
 
-           @return: The geodetic point (B{C{LatLon}}) or if B{C{LatLon}}
-                    is C{None}, an L{Ecef9Tuple}C{(x, y, z, lat, lon,
-                    height, C, M, datum)} with C{C} and C{M} if available.
+           @return: The geodetic point (B{C{LatLon}}) or if C{B{LatLon}
+                    is None}, an L{Ecef9Tuple}C{(x, y, z, lat, lon, height,
+                    C, M, datum)} with C{C} and C{M} if available.
 
            @raise TypeError: Invalid B{C{datum}} or B{C{LatLon_kwds}}.
         '''
@@ -775,7 +774,7 @@ class CartesianBase(Vector3d):
                        C{B{Nvector} is None}.
 
            @return: An B{C{Nvector}} or a L{Vector4Tuple}C{(x, y, z, h)} if
-                    B{C{Nvector}} is C{None}.
+                    C{B{Nvector} is None}.
 
            @raise TypeError: Invalid B{C{Nvector}}, B{C{datum}} or
                              B{C{name_Nvector_kwds}} item.
@@ -851,7 +850,7 @@ class CartesianBase(Vector3d):
                                arguments, ignored if C{B{Vector} is None}.
 
            @return: A B{C{Vector}} or a L{Vector3Tuple}C{(x, y, z)} if
-                    B{C{Vector}} is C{None}.
+                    C{B{Vector} is None}.
 
            @raise TypeError: Invalid B{C{Vector}} or B{C{Vector_kwds}}.
         '''
@@ -923,8 +922,7 @@ def rtp2xyz(r_rtp, theta=0, phi=0, **name_Cartesian_and_kwds):
 
        @arg theta: Inclination B{C{theta}} (C{degrees} with respect to the positive z-axis),
                    required if C{B{r_rtp}} is C{scalar}, ignored otherwise.
-       @arg phi: Azimuthal angle B{C{phi}} (C{degrees}), required if C{B{r_rtp}} is C{scalar},
-                 ignored otherwise.
+       @arg phi: Azimuthal angle B{C{phi}} (C{degrees}), like B{C{theta}}.
 
        @see: Function L{rtp2xyz_} for further details.
     '''
@@ -942,8 +940,7 @@ def rtp2xyz_(r_rtp, theta=0, phi=0, **name_Cartesian_and_kwds):
                    L{RadiusThetaPhi3Tuple} instance.
        @arg theta: Inclination B{C{theta}} (C{radians} with respect to the positive z-axis),
                    required if C{B{r_rtp}} is C{scalar}, ignored otherwise.
-       @arg phi: Azimuthal angle B{C{phi}} (C{radians}), required if C{B{r_rtp}} is C{scalar},
-                 ignored otherwise.
+       @arg phi: Azimuthal angle B{C{phi}} (C{radians}), like B{C{theta}}.
        @kwarg name_Cartesian_and_kwds: Optional C{B{name}=NN} (C{str}), a C{B{Cartesian}=None}
                    class to return the coordinates and optional, additional C{B{Cartesian}}
                    keyword arguments.
@@ -1017,7 +1014,7 @@ def xyz2rtp_(x_xyz, y=0, z=0, **name):
                    C{Nvector}, L{Vector3d}, L{Vector3Tuple}, L{Vector4Tuple} or a C{tuple} or
                    C{list} of 3+ C{scalar} items) if no C{y_z} specified.
        @arg y: Y component (C{scalar}), required if C{B{x_xyz}} is C{scalar}, ignored otherwise.
-       @arg z: Z component (C{scalar}), required if C{B{x_xyz}} is C{scalar}, ignored otherwise.
+       @arg z: Z component (C{scalar}), like B{C{y}}.
        @kwarg name: Optional C{B{name}=NN} (C{str}).
 
        @return: L{RadiusThetaPhi3Tuple}C{(r, theta, phi)} with radial distance C{r} (C{meter},

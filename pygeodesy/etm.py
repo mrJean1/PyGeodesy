@@ -92,7 +92,7 @@ from pygeodesy.utm import _cmlon, _LLEB, _parseUTM5, _toBand, _toXtm8, \
 from math import asinh, atan2, degrees, radians, sinh, sqrt
 
 __all__ = _ALL_LAZY.etm
-__version__ = '24.05.31'
+__version__ = '24.06.11'
 
 _OVERFLOW = _1_EPS**2  # about 2e+31
 _TAYTOL   =  pow(EPS, 0.6)
@@ -176,18 +176,15 @@ class Etm(Utm):
     def toLatLon(self, LatLon=None, unfalse=True, **unused):  # PYCHOK expected
         '''Convert this ETM coordinate to an (ellipsoidal) geodetic point.
 
-           @kwarg LatLon: Optional, ellipsoidal class to return the geodetic
-                          point (C{LatLon}) or C{None}.
-           @kwarg unfalse: Unfalse B{C{easting}} and B{C{northing}} if
-                           C{falsed} (C{bool}).
+           @kwarg LatLon: Optional, ellipsoidal class to return the geodetic point
+                          (C{LatLon}) or C{None}.
+           @kwarg unfalse: Unfalse B{C{easting}} and B{C{northing}} if C{falsed} (C{bool}).
 
-           @return: This ETM coordinate as (B{C{LatLon}}) or a
-                    L{LatLonDatum5Tuple}C{(lat, lon, datum, gamma,
-                    scale)} if B{C{LatLon}} is C{None}.
+           @return: This ETM coordinate as (B{C{LatLon}}) or if C{B{LatLon} is None},
+                    a L{LatLonDatum5Tuple}C{(lat, lon, datum, gamma, scale)}.
 
-           @raise ETMError: This ETM coordinate's C{exacTM} and this C{datum}
-                            incompatible or no convergence transforming to
-                            lat- and longitude.
+           @raise ETMError: This ETM coordinate's C{exacTM} and this C{datum} are not
+                            compatible or no convergence transforming to lat-/longitude.
 
            @raise TypeError: Invalid or non-ellipsoidal B{C{LatLon}}.
         '''
@@ -1040,10 +1037,9 @@ def parseETM5(strUTM, datum=_WGS84, Etm=Etm, falsed=True, **name):
        @kwarg falsed: Both easting and northing are C{falsed} (C{bool}).
        @kwarg name: Optional B{C{Etm}} C{B{name}=NN} (C{str}).
 
-       @return: The UTM coordinate (B{C{Etm}}) or if B{C{Etm}} is
-                C{None}, a L{UtmUps5Tuple}C{(zone, hemipole, easting,
-                northing, band)}.  The C{hemipole} is the hemisphere
-                C{'N'|'S'}.
+       @return: The UTM coordinate (B{C{Etm}}) or if C{B{Etm} is None}, a
+                L{UtmUps5Tuple}C{(zone, hemipole, easting, northing, band)}
+                with C{hemipole} is the hemisphere C{'N'|'S'}.
 
        @raise ETMError: Invalid B{C{strUTM}}.
 
@@ -1057,44 +1053,36 @@ def toEtm8(latlon, lon=None, datum=None, Etm=Etm, falsed=True,
                              strict=True, zone=None, **name_cmoff):
     '''Convert a geodetic lat-/longitude to an ETM coordinate.
 
-       @arg latlon: Latitude (C{degrees}) or an (ellipsoidal)
-                    geodetic C{LatLon} instance.
-       @kwarg lon: Optional longitude (C{degrees}), required
-                   if B{C{latlon}} is in C{degrees}.
-       @kwarg datum: Optional datum for the ETM coordinate,
-                     overriding B{C{latlon}}'s datum (L{Datum},
-                     L{Ellipsoid}, L{Ellipsoid2} or L{a_f2Tuple}).
-       @kwarg Etm: Optional class to return the ETM coordinate
-                   (L{Etm}) or C{None}.
+       @arg latlon: Latitude (C{degrees}) or an (ellipsoidal) geodetic
+                    C{LatLon} instance.
+       @kwarg lon: Optional longitude (C{degrees}), required if B{C{latlon}}
+                   is C{degrees}, ignored otherwise.
+       @kwarg datum: Optional datum for the ETM coordinate, overriding
+                     B{C{latlon}}'s datum (L{Datum}, L{Ellipsoid},
+                     L{Ellipsoid2} or L{a_f2Tuple}).
+       @kwarg Etm: Optional class to return the ETM coordinate (L{Etm}) or C{None}.
        @kwarg falsed: False both easting and northing (C{bool}).
        @kwarg strict: Restrict B{C{lat}} to UTM ranges (C{bool}).
        @kwarg zone: Optional UTM zone to enforce (C{int} or C{str}).
-       @kwarg name_cmoff: Optional B{C{Etm}} C{B{name}=NN} (C{str})
-                   and DEPRECATED keyword argument C{B{cmoff}=True}
-                   to offset the longitude from the zone's central
-                   meridian (C{bool}), use B{C{falsed}} instead.
+       @kwarg name_cmoff: Optional B{C{Etm}} C{B{name}=NN} (C{str}) and DEPRECATED
+                   keyword argument C{B{cmoff}=True} to offset the longitude from
+                   the zone's central meridian (C{bool}), use B{C{falsed}} instead.
 
-       @return: The ETM coordinate as an B{C{Etm}} instance or a
-                L{UtmUps8Tuple}C{(zone, hemipole, easting, northing,
-                band, datum, gamma, scale)} if B{C{Etm}} is C{None}
-                or not B{C{falsed}}.  The C{hemipole} is the C{'N'|'S'}
-                hemisphere.
+       @return: The ETM coordinate as B{C{Etm}} or if C{B{Etm} is None} or not B{C{falsed}},
+                a L{UtmUps8Tuple}C{(zone, hemipole, easting, northing, band, datum, gamma,
+                scale)}.  The C{hemipole} is the C{'N'|'S'} hemisphere.
 
-       @raise ETMError: No convergence transforming to ETM easting
-                        and northing.
+       @raise ETMError: No convergence transforming to ETM easting and northing.
 
-       @raise ETMError: Invalid B{C{zone}} or near-spherical or
-                        incompatible B{C{datum}} or C{ellipsoid}.
+       @raise ETMError: Invalid B{C{zone}} or near-spherical or incompatible B{C{datum}}
+                        or C{ellipsoid}.
 
-       @raise RangeError: If B{C{lat}} outside the valid UTM bands or
-                          if B{C{lat}} or B{C{lon}} outside the valid
-                          range and L{pygeodesy.rangerrors} set to C{True}.
+       @raise RangeError: If B{C{lat}} outside the valid UTM bands or if B{C{lat}} or B{C{lon}}
+                          outside the valid range and L{rangerrors<pygeodesy.rangerrors>} is C{True}.
 
-       @raise TypeError: Invalid or near-spherical B{C{datum}} or
-                         B{C{latlon}} not ellipsoidal.
+       @raise TypeError: Invalid or near-spherical B{C{datum}} or B{C{latlon}} not ellipsoidal.
 
-       @raise ValueError: The B{C{lon}} value is missing or B{C{latlon}}
-                          is invalid.
+       @raise ValueError: The B{C{lon}} value is missing or B{C{latlon}} is invalid.
     '''
     z, B, lat, lon, d, f, n = _to7zBlldfn(latlon, lon, datum,
                                           falsed, zone, strict,

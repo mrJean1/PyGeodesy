@@ -44,8 +44,8 @@ from pygeodesy.sphericalBase import _m2radians, CartesianSphericalBase, \
                                     _intersecant2, LatLonSphericalBase, \
                                     _rads3, _radians2m, _trilaterate5
 # from pygeodesy.streprs import Fmt as _Fmt  # from .points XXX shadowed
-from pygeodesy.units import Bearing_, Height, _isDegrees, _isRadius, Lam_, \
-                              Phi_, Radius_, Scalar
+from pygeodesy.units import Bearing_, Height, _isDegrees, _isRadius, Lamd, \
+                              Phid, Radius_, Scalar
 from pygeodesy.utily import acos1, asin1, atan1d, atan2d, degrees90, degrees180, \
                             degrees2m, m2radians, radiansPI2, sincos2_, tan_2, \
                             unrollPI, _unrollon, _unrollon3, _Wrap, wrap180, wrapPI
@@ -54,7 +54,7 @@ from pygeodesy.vector3d import sumOf, Vector3d
 from math import asin, atan2, cos, degrees, fabs, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '24.05.25'
+__version__ = '24.06.21'
 
 _PI_EPS4 = PI - EPS4
 if _PI_EPS4 >= PI:
@@ -73,7 +73,7 @@ class Cartesian(CartesianSphericalBase):
                                    arguments.  Use C{B{LatLon}=...} to override
                                    this L{LatLon} class or specify C{B{LatLon}=None}.
 
-           @return: The geodetic point (L{LatLon}) or if B{C{LatLon}} is C{None},
+           @return: The geodetic point (L{LatLon}) or if C{B{LatLon} is None},
                     an L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M, datum)}
                     with C{C} and C{M} if available.
 
@@ -236,7 +236,7 @@ class LatLon(LatLonSphericalBase):
 
            @return: Distance between this and the B{C{other}} point
                     (C{meter}, same units as B{C{radius}} or
-                    C{radians} if B{C{radius}} is C{None}).
+                    C{radians} if C{B{radius} is None}).
 
            @raise TypeError: The B{C{other}} point is not L{LatLon}.
 
@@ -288,9 +288,9 @@ class LatLon(LatLonSphericalBase):
 
            @return: Initial bearing (compass C{degrees360}).
 
-           @raise CrossError: If this and the B{C{other}} point coincide,
-                              provided both B{C{raiser}} is C{True} and
-                              L{pygeodesy.crosserrors} is C{True}.
+           @raise CrossError: If this and the B{C{other}} point coincide
+                              and if B{C{raiser}} and L{crosserrors
+                              <pygeodesy.crosserrors>} are both C{True}.
 
            @raise TypeError: The B{C{other}} point is not L{LatLon}.
         '''
@@ -638,19 +638,16 @@ class LatLon(LatLonSphericalBase):
                                 LatLon=self.classof, **wrap_adjust_limit)
 
     def toCartesian(self, **Cartesian_datum_kwds):  # PYCHOK Cartesian=Cartesian, datum=None
-        '''Convert this point to C{Karney}-based cartesian (ECEF)
-           coordinates.
+        '''Convert this point to C{Karney}-based cartesian (ECEF) coordinates.
 
-           @kwarg Cartesian_datum_kwds: Optional L{Cartesian}, B{C{datum}}
-                                        and other keyword arguments, ignored
-                                        if C{B{Cartesian} is None}.  Use
-                                        C{B{Cartesian}=...} to override
-                                        this L{Cartesian} class or specify
-                                        C{B{Cartesian}=None}.
+           @kwarg Cartesian_datum_kwds: Optional L{Cartesian}, B{C{datum}} and other
+                                        keyword arguments, ignored if C{B{Cartesian} is
+                                        None}.  Use C{B{Cartesian}=...} to override this
+                                        L{Cartesian} class or specify C{B{Cartesian}=None}.
 
-           @return: The cartesian point (L{Cartesian}) or if B{C{Cartesian}}
-                    is C{None}, an L{Ecef9Tuple}C{(x, y, z, lat, lon, height,
-                    C, M, datum)} with C{C} and C{M} if available.
+           @return: The cartesian point (L{Cartesian}) or if C{B{Cartesian} is None},
+                    an L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M, datum)} with C{C}
+                    and C{M} if available.
 
            @raise TypeError: Invalid B{C{Cartesian_datum_kwds}} argument.
         '''
@@ -662,15 +659,13 @@ class LatLon(LatLonSphericalBase):
 
            @arg otherB: Second triangle point (C{LatLon}).
            @arg otherC: Third triangle point (C{LatLon}).
-           @kwarg radius: Mean earth radius, ellipsoid or datum
-                          (C{meter}, L{Ellipsoid}, L{Ellipsoid2},
-                          L{Datum} or L{a_f2Tuple}) or C{None}.
-           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the
-                        B{C{otherB}} and B{C{otherC}} points (C{bool}).
+           @kwarg radius: Mean earth radius, ellipsoid or datum (C{meter}, L{Ellipsoid},
+                          L{Ellipsoid2}, L{Datum} or L{a_f2Tuple}) or C{None}.
+           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll points B{C{otherB}}
+                        and B{C{otherC}} (C{bool}).
 
-           @return: L{Triangle7Tuple}C{(A, a, B, b, C, c, area)} or if
-                    B{C{radius}} is C{None}, a L{Triangle8Tuple}C{(A,
-                    a, B, b, C, c, D, E)}.
+           @return: L{Triangle7Tuple}C{(A, a, B, b, C, c, area)} or if B{C{radius} is
+                    None}, a L{Triangle8Tuple}C{(A, a, B, b, C, c, D, E)}.
 
            @see: Function L{triangle7} and U{Spherical trigonometry
                  <https://WikiPedia.org/wiki/Spherical_trigonometry>}.
@@ -703,49 +698,45 @@ class LatLon(LatLonSphericalBase):
 
     def trilaterate5(self, distance1, point2, distance2, point3, distance3,
                            area=True, eps=EPS1, radius=R_M, wrap=False):
-        '''Trilaterate three points by I{area overlap} or I{perimeter
-           intersection} of three corresponding circles.
+        '''Trilaterate three points by I{area overlap} or I{perimeter intersection}
+           of three corresponding circles.
 
-           @arg distance1: Distance to this point (C{meter}, same units
-                           as B{C{radius}}).
+           @arg distance1: Distance to this point (C{meter}, same units as B{C{radius}}).
            @arg point2: Second center point (C{LatLon}).
-           @arg distance2: Distance to point2 (C{meter}, same units as
-                           B{C{radius}}).
+           @arg distance2: Distance to point2 (C{meter}, same units as B{C{radius}}).
            @arg point3: Third center point (C{LatLon}).
-           @arg distance3: Distance to point3 (C{meter}, same units as
-                           B{C{radius}}).
-           @kwarg area: If C{True} compute the area overlap, otherwise the
-                        perimeter intersection of the circles (C{bool}).
-           @kwarg eps: The required I{minimal overlap} for C{B{area}=True}
-                       or the I{intersection margin} for C{B{area}=False}
-                       (C{meter}, same units as B{C{radius}}).
+           @arg distance3: Distance to point3 (C{meter}, same units as B{C{radius}}).
+           @kwarg area: If C{True} compute the area overlap, otherwise the perimeter
+                        intersection of the circles (C{bool}).
+           @kwarg eps: The required I{minimal overlap} for C{B{area}=True} or the
+                       I{intersection margin} if C{B{area}=False} (C{meter}, same
+                       units as B{C{radius}}).
            @kwarg radius: Mean earth radius (C{meter}, conventionally).
-           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll
-                        B{C{point2}} and B{C{point3}} (C{bool}).
+           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll B{C{point2}} and
+                        B{C{point3}} (C{bool}).
 
-           @return: A L{Trilaterate5Tuple}C{(min, minPoint, max, maxPoint, n)}
-                    with C{min} and C{max} in C{meter}, same units as B{C{eps}},
-                    the corresponding trilaterated points C{minPoint} and
-                    C{maxPoint} as I{spherical} C{LatLon} and C{n}, the number
-                    of trilatered points found for the given B{C{eps}}.
+           @return: A L{Trilaterate5Tuple}C{(min, minPoint, max, maxPoint, n)} with
+                    C{min} and C{max} in C{meter}, same units as B{C{eps}}, the
+                    corresponding trilaterated points C{minPoint} and C{maxPoint}
+                    as I{spherical} C{LatLon} and C{n}, the number of trilatered
+                    points found for the given B{C{eps}}.
 
-                    If only a single trilaterated point is found, C{min I{is}
-                    max}, C{minPoint I{is} maxPoint} and C{n = 1}.
+                    If only a single trilaterated point is found, C{min I{is} max},
+                    C{minPoint I{is} maxPoint} and C{n = 1}.
 
-                    For C{B{area}=True}, C{min} and C{max} are the smallest
-                    respectively largest I{radial} overlap found.
+                    For C{B{area}=True}, C{min} and C{max} are the smallest respectively
+                    largest I{radial} overlap found.
 
-                    For C{B{area}=False}, C{min} and C{max} represent the
-                    nearest respectively farthest intersection margin.
+                    For C{B{area}=False}, C{min} and C{max} represent the nearest
+                    respectively farthest intersection margin.
 
-                    If C{B{area}=True} and all 3 circles are concentric, C{n =
-                    0} and C{minPoint} and C{maxPoint} are both the B{C{point#}}
-                    with the smallest B{C{distance#}} C{min} and C{max} the
-                    largest B{C{distance#}}.
+                    If C{B{area}=True} and all 3 circles are concentric, C{n=0} and
+                    C{minPoint} and C{maxPoint} are both the B{C{point#}} with the
+                    smallest B{C{distance#}} C{min} and C{max} the largest B{C{distance#}}.
 
            @raise IntersectionError: Trilateration failed for the given B{C{eps}},
                                      insufficient overlap for C{B{area}=True} or
-                                     no intersection or all (near-)concentric for
+                                     no intersection or all (near-)concentric if
                                      C{B{area}=False}.
 
            @raise TypeError: Invalid B{C{point2}} or B{C{point3}}.
@@ -776,7 +767,7 @@ def areaOf(points, radius=R_M, wrap=False):  # was=True
                     (C{bool}).
 
        @return: Polygon area (C{meter} I{quared}, same units as B{C{radius}}
-                or C{radians} if B{C{radius}} is C{None}).
+                or C{radians} if C{B{radius} is None}).
 
        @raise PointsError: Insufficient number of B{C{points}}.
 
@@ -1173,18 +1164,15 @@ def meanOf(points, height=None, wrap=False, LatLon=LatLon, **LatLon_kwds):
     '''Compute the I{geographic} mean of several points.
 
        @arg points: Points to be averaged (L{LatLon}[]).
-       @kwarg height: Optional height at mean point, overriding the mean
-                      height (C{meter}).
-       @kwarg wrap: If C{True}, wrap or I{normalize} the B{C{points}}
-                    (C{bool}).
-       @kwarg LatLon: Optional class to return the mean point (L{LatLon})
-                      or C{None}.
-       @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
-                           arguments, ignored if C{B{LatLon} is None}.
+       @kwarg height: Optional height at mean point, overriding the mean height
+                      (C{meter}).
+       @kwarg wrap: If C{True}, wrap or I{normalize} the B{C{points}} (C{bool}).
+       @kwarg LatLon: Optional class to return the mean point (L{LatLon}) or C{None}.
+       @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword arguments,
+                           ignored if C{B{LatLon} is None}.
 
-       @return: The geographic mean and height (B{C{LatLon}}) or a
-                L{LatLon3Tuple}C{(lat, lon, height)} if B{C{LatLon}}
-                is C{None}.
+       @return: The geographic mean and height (B{C{LatLon}}) or if C{B{LatLon}
+                is None}, a L{LatLon3Tuple}C{(lat, lon, height)}.
 
        @raise TypeError: Some B{C{points}} are not L{LatLon}.
 
@@ -1210,7 +1198,7 @@ def nearestOn2(point, points, **closed_radius_LatLon_options):  # PYCHOK no cove
                 point (L{LatLon}) on the polygon and the C{distance}
                 between the C{closest} and the given B{C{point}}.  The
                 C{closest} is a B{C{LatLon}} or a L{LatLon2Tuple}C{(lat,
-                lon)} if B{C{LatLon}} is C{None} ...
+                lon)} if C{B{LatLon} is None} ...
     '''
     ll, d, _ = nearestOn3(point, points, **closed_radius_LatLon_options)  # PYCHOK 3-tuple
     if _xkwds_get(closed_radius_LatLon_options, LatLon=LatLon) is None:
@@ -1222,8 +1210,8 @@ def nearestOn3(point, points, closed=False, radius=R_M, wrap=False, adjust=True,
                                                         limit=9, **LatLon_and_kwds):
     '''Locate the point on a path or polygon closest to a reference point.
 
-       Distances are I{approximated} using function L{pygeodesy.equirectangular4},
-       subject to the supplied B{C{options}}.
+       Distances are I{approximated} using function L{equirectangular4
+       <pygeodesy.equirectangular4>}, subject to the supplied B{C{options}}.
 
        @arg point: The reference point (L{LatLon}).
        @arg points: The path or polygon points (L{LatLon}[]).
@@ -1231,27 +1219,27 @@ def nearestOn3(point, points, closed=False, radius=R_M, wrap=False, adjust=True,
        @kwarg radius: Mean earth radius (C{meter}).
        @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the
                     B{C{points}} (C{bool}).
-       @kwarg adjust: See function L{pygeodesy.equirectangular4} (C{bool}).
-       @kwarg limit: See function L{pygeodesy.equirectangular4} (C{degrees}),
-                     default C{9 degrees} is about C{1,000 Kmeter} (for mean
-                     spherical earth radius L{R_KM}).
-       @kwarg LatLon: Optional class to return the closest point (L{LatLon})
-                      or C{None}.
-       @kwarg options: Optional keyword arguments for function
-                       L{pygeodesy.equirectangular4}.
+       @kwarg adjust: See function L{equirectangular4<pygeodesy.equirectangular4>}
+                      (C{bool}).
+       @kwarg limit: See function L{equirectangular4<pygeodesy.equirectangular4>}
+                     (C{degrees}), default C{9 degrees} is about C{1,000 Km} (for
+                     (mean spherical earth radius L{R_KM}).
+       @kwarg LatLon_and_kwds: Optional class C{B{LatLon}=L{LatLon}} to return the
+                     closest point and optional, additional C{B{LatLon}} keyword
+                     arguments or specify C{B{LatLon}=None}.
 
        @return: A L{NearestOn3Tuple}C{(closest, distance, angle)} with the
                 C{closest} point as B{C{LatLon}} or L{LatLon3Tuple}C{(lat,
-                lon, height)} if B{C{LatLon}} is C{None}.  The C{distance}
-                is the L{pygeodesy.equirectangular4} distance between the
-                C{closest} and the given B{C{point}} converted to C{meter},
-                same units as B{C{radius}}.  The C{angle} from the given
-                B{C{point}} to the C{closest} is in compass C{degrees360},
-                like function L{pygeodesy.compassAngle}.  The C{height} is
-                the (interpolated) height at the C{closest} point.
+                lon, height)} if C{B{LatLon} is None}.  The C{distance} is
+                the L{equirectangular4<pygeodesy.equirectangular4>} distance
+                between the C{closest} and the given B{C{point}} converted to
+                C{meter}, same units as B{C{radius}}.  The C{angle} from the
+                given B{C{point}} to the C{closest} is in compass C{degrees360},
+                like function L{compassAngle<pygeodesy.compassAngle>}.  The
+                C{height} is the (interpolated) height at the C{closest} point.
 
        @raise LimitError: Lat- and/or longitudinal delta exceeds the B{C{limit}},
-                          see function L{pygeodesy.equirectangular4}.
+                          see function L{equirectangular4<pygeodesy.equirectangular4>}.
 
        @raise PointsError: Insufficient number of B{C{points}}.
 
@@ -1259,7 +1247,8 @@ def nearestOn3(point, points, closed=False, radius=R_M, wrap=False, adjust=True,
 
        @raise ValueError: Invalid B{C{radius}}.
 
-       @see: Functions L{pygeodesy.equirectangular4} and L{pygeodesy.nearestOn5}.
+       @see: Functions L{equirectangular4<pygeodesy.equirectangular4>} and
+             L{nearestOn5<pygeodesy.nearestOn5>}.
     '''
     t = _nearestOn5(point, points, closed=closed, wrap=wrap,
                                    adjust=adjust, limit=limit)
@@ -1285,7 +1274,7 @@ def perimeterOf(points, closed=False, radius=R_M, wrap=True):
                     B{C{points}} (C{bool}).
 
        @return: Polygon perimeter (C{meter}, same units as B{C{radius}}
-                or C{radians} if B{C{radius}} is C{None}).
+                or C{radians} if C{B{radius} is None}).
 
        @raise PointsError: Insufficient number of B{C{points}}.
 
@@ -1294,7 +1283,7 @@ def perimeterOf(points, closed=False, radius=R_M, wrap=True):
        @raise ValueError: Invalid B{C{radius}} or C{B{closed}=False} with
                           C{B{points}} a composite.
 
-       @note: Distances are based on function L{pygeodesy.vincentys_}.
+       @note: Distances are based on function L{vincentys_<pygeodesy.vincentys_>}.
 
        @see: Functions L{perimeterOf<pygeodesy.perimeterOf>},
              L{sphericalNvector.perimeterOf} and L{ellipsoidalKarney.perimeterOf}.
@@ -1333,7 +1322,7 @@ def triangle7(latA, lonA, latB, lonB, latC, lonC, radius=R_M,
                       or C{None}.
        @kwarg excess: I{Spherical excess} callable (L{excessAbc_},
                       L{excessGirard_} or L{excessLHuilier_}).
-       @kwarg wrap: If C{True}, wrap and L{pygeodesy.unroll180}
+       @kwarg wrap: If C{True}, wrap and L{unroll180<pygeodesy.unroll180>}
                     longitudes (C{bool}).
 
        @return: A L{Triangle7Tuple}C{(A, a, B, b, C, c, area)} with
@@ -1345,9 +1334,9 @@ def triangle7(latA, lonA, latB, lonB, latC, lonC, radius=R_M,
                 C{radians} with the I{spherical excess} C{E} as the
                 C{unit area} in C{radians}.
     '''
-    t = triangle8_(Phi_(latA=latA), Lam_(lonA=lonA),
-                   Phi_(latB=latB), Lam_(lonB=lonB),
-                   Phi_(latC=latC), Lam_(lonC=lonC),
+    t = triangle8_(Phid(latA=latA), Lamd(lonA=lonA),
+                   Phid(latB=latB), Lamd(lonB=lonB),
+                   Phid(latC=latC), Lamd(lonC=lonC),
                    excess=excess, wrap=wrap)
     return _t7Tuple(t, radius)
 
@@ -1365,7 +1354,7 @@ def triangle8_(phiA, lamA, phiB, lamB, phiC, lamC, excess=excessAbc_,
        @arg lamC: Third corner longitude (C{radians}).
        @kwarg excess: I{Spherical excess} callable (L{excessAbc_},
                       L{excessGirard_} or L{excessLHuilier_}).
-       @kwarg wrap: If C{True}, L{pygeodesy.unrollPI} the
+       @kwarg wrap: If C{True}, L{unrollPI<pygeodesy.unrollPI>} the
                     longitudinal deltas (C{bool}).
 
        @return: A L{Triangle8Tuple}C{(A, a, B, b, C, c, D, E)} with
