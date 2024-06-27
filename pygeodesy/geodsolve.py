@@ -10,13 +10,15 @@ of the C{GeodSolve} executable.
 '''
 
 from pygeodesy.basics import _xinstanceof
+# from pygeodesy.constants import NAN, _0_0 # from .karney
 # from pygeodesy.geodesicx import GeodesicAreaExact  # _MODS
 from pygeodesy.interns import NN, _a12_, _azi1_, _azi2_, \
                              _lat1_, _lat2_, _lon1_, _lon2_, _m12_, \
                              _M12_, _M21_, _s12_, _S12_, _UNDER_
 from pygeodesy.interns import _UNUSED_, _not_  # PYCHOK used!
 from pygeodesy.karney import _Azi, Caps, _Deg, GeodesicError, _GTuple, \
-                             _Pass, _Lat, _Lon, _M, _M2, _sincos2d
+                             _Pass, _Lat, _Lon, _M, _M2, _sincos2d, \
+                             _0_0, NAN
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, \
                              _getenv, _PYGEODESY_GEODSOLVE_
 from pygeodesy.named import _name1__
@@ -26,14 +28,14 @@ from pygeodesy.solveBase import _SolveBase, _SolveLineBase
 from pygeodesy.utily import _unrollon, _Wrap, wrap360
 
 __all__ = _ALL_LAZY.geodsolve
-__version__ = '24.06.24'
+__version__ = '24.06.26'
 
 
 class GeodSolve12Tuple(_GTuple):
     '''12-Tuple C{(lat1, lon1, azi1, lat2, lon2, azi2, s12, a12, m12, M12, M21, S12)} with
        angles C{lat1}, C{lon1}, C{azi1}, C{lat2}, C{lon2} and C{azi2} and arc C{a12} all in
        C{degrees}, initial C{azi1} and final C{azi2} forward azimuths, distance C{s12} and
-       reduced length C{m12} in C{meter}, area C{S12} in C{meter} I{squared}  and geodesic
+       reduced length C{m12} in C{meter}, area C{S12} in C{meter} I{squared} and geodesic
        scale factors C{M12} and C{M21}, both C{scalar}, see U{GeodSolve
        <https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html>}.
     '''
@@ -222,8 +224,11 @@ class GeodesicSolve(_GeodesicSolveBase):
                  <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1GeodesicExact.html>} and
                  Python U{Geodesic.InverseLine<https://GeographicLib.SourceForge.io/Python/doc/code.html>}.
         '''
-        r = self.Inverse(lat1, lon1, lat2, lon2)
-        return GeodesicLineSolve(self, lat1, lon1, r.azi1, **_name1__(caps_name, _or_nameof=self))
+        r  = self.Inverse(lat1, lon1, lat2, lon2)
+        gl = GeodesicLineSolve(self, lat1, lon1, r.azi1, **_name1__(caps_name, _or_nameof=self))
+        gl._a13 = r.a12  # gl.SetArc(r.a12)
+        gl._s13 = r.s12  # gl.SetDistance(r.s12)
+        return gl
 
 
 class GeodesicLineSolve(_GeodesicSolveBase, _SolveLineBase):
@@ -237,6 +242,8 @@ class GeodesicLineSolve(_GeodesicSolveBase, _SolveLineBase):
        @note: This C{geodesic} is intended I{for testing purposes only}, it invokes the C{GeodSolve}
               executable for I{every} method call.
     '''
+    _a13 = \
+    _s13 = NAN  # see GeodesicSolve._InverseLine
 
     def __init__(self, geodesic, lat1, lon1, azi1, caps=Caps.ALL, **name):
         '''New L{GeodesicLineSolve} instance, allowing points to be found along
@@ -267,6 +274,21 @@ class GeodesicLineSolve(_GeodesicSolveBase, _SolveLineBase):
             self.GeodSolve = geodesic.GeodSolve  # geodesic or copy of geodesic
         except GeodesicError:
             pass
+
+    @Property_RO
+    def a13(self):
+        '''Get the arc length to reference point 3 (C{degrees}).
+
+           @see: Methods L{Arc} and L{SetArc}.
+        '''
+        return self._a13
+
+    def Arc(self):
+        '''Return the arc length to reference point 3 (C{degrees} or C{NAN}).
+
+           @see: Method L{SetArc} and property L{a13}.
+        '''
+        return self.a13
 
     def ArcPosition(self, a12, outmask=Caps.STANDARD):  # PYCHOK unused
         '''Find the position on the line given B{C{a12}}.
@@ -301,6 +323,11 @@ class GeodesicLineSolve(_GeodesicSolveBase, _SolveLineBase):
         '''
         return self._cmdDistance + ('-a',)
 
+    def Distance(self):
+        '''Return the distance to reference point 3 (C{meter} or C{NAN}).
+        '''
+        return self.s13
+
     @property_RO
     def geodesic(self):
         '''Get the geodesic (L{GeodesicSolve}).
@@ -324,6 +351,43 @@ class GeodesicLineSolve(_GeodesicSolveBase, _SolveLineBase):
                     azi2, m12, a12, s12, M12, M21, S12}, possibly C{a12=NAN}.
         '''
         return self._GDictInvoke(self._cmdDistance, True, self._Names_Direct, s12)._unCaps(outmask)
+
+    @Property_RO
+    def s13(self):
+        '''Get the distance to reference point 3 (C{meter} or C{NAN}).
+
+           @see: Methods L{Distance} and L{SetDistance}.
+        '''
+        return self._s13
+
+    def SetArc(self, a13):
+        '''Set reference point 3 in terms relative to the first point.
+
+           @arg a13: Spherical arc length from the first to the reference
+                     point (C{degrees}).
+
+           @return: The distance C{s13} (C{meter}) between the first and
+                    the reference point or C{NAN}.
+        '''
+        if self._a13 != a13:
+            self._a13 = a13
+            self._s13 = self.ArcPosition(a13, outmask=Caps.DISTANCE).s12  # if a13 else _0_0
+#           _update_all(self)
+        return self._s13
+
+    def SetDistance(self, s13):
+        '''Set reference point 3 in terms relative to the first point.
+
+           @arg s13: Distance from the first to the reference point (C{meter}).
+
+           @return: The arc length C{a13} (C{degrees}) between the first
+                    and the reference point or C{NAN}.
+        '''
+        if self._s13 != s13:
+            self._s13 = s13
+            self._a13 = self.Position(s13, outmask=Caps.DISTANCE).a12 if s13 else _0_0
+#           _update_all(self)
+        return self._a13  # NAN for GeodesicLineExact without Cap.DISTANCE_IN
 
     def toStr(self, **prec_sep):  # PYCHOK signature
         '''Return this C{GeodesicLineSolve} as string.

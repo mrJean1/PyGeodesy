@@ -20,28 +20,29 @@ on the ellipsoid<https://riunet.UPV.ES/bitstream/handle/10251/122902/Revised_Man
 # make sure int/int division yields float quotient
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import _copy, _enumereverse, _xinstanceof
+from pygeodesy.basics import _copy, _enumereverse, map1, \
+                             _xinstanceof, _xor
 from pygeodesy.constants import EPS, INF, INT0, PI, PI2, PI_4, _0_0, \
                                _0_5, _1_0, _1_5, _2_0, _3_0, _90_0
-from pygeodesy.ellipsoids import _EWGS84
+from pygeodesy.ellipsoids import _EWGS84,  Fmt
 from pygeodesy.errors import GeodesicError, IntersectionError, \
                             _xgeodesics, _xkwds_get
 from pygeodesy.fmath import euclid, favg, fdot
 from pygeodesy.fsums import Fsum, fsum1_,  _ceil
-from pygeodesy.interns import _A_, _B_, _c_, _too_
+from pygeodesy.interns import _A_, _B_, _c_, _SPACE_, _too_
 from pygeodesy.karney import Caps, _diff182, _sincos2de
 from pygeodesy.lazily import _ALL_LAZY  # _ALL_MODS as _MODS
-from pygeodesy.named import ADict, _NamedBase, _NamedTuple,  Fmt
+from pygeodesy.named import ADict, _NamedBase, _NamedTuple
 from pygeodesy.namedTuples import Int, Meter, _Pass
 from pygeodesy.props import Property_RO, property_RO
-# from pygeodesy.streprs import Fmt  # from .named
+# from pygeodesy.streprs import Fmt  # from .ellipsoids
 # from pygeodesy.units import Int, Meter  # from .namedTuples
 from pygeodesy.utily import sincos2,  atan2, fabs
 
 # from math import atan2, ceil as _ceil, fabs  # .fsums, .utily
 
 __all__ = _ALL_LAZY.geodesici
-__version__ = '24.06.24'
+__version__ = '24.06.26'
 
 _0t     =  0,  # int
 _1_1t   = -1, +1
@@ -62,7 +63,7 @@ class XDist(ADict):
        C{sX0} in C{meter} and the coincidence indicator C{c}, an C{int},
        +1 for parallel, -1 for anti-parallel, 0 otherwise.
     '''
-#   Delta = _EWGS84.R2 * PI * _EPSr5  # equality margin, ~15 Km
+    _Delta = EPS  # default margin, see C{Intersector._Delto}
 
     def __init__(self, sA=0, sB=0, c=0, sX0=INT0):
         '''New L{XDist}.
@@ -81,17 +82,16 @@ class XDist(ADict):
         return X
 
     def __eq__(self, other):
-        # _xinstanceof(XDist, other=other)
-        return self is other or self.L1(other) < EPS  # <= self.Delta
+        return not self.__ne__(other)
 
     def __iadd__(self, other):
-        if isinstance(other, tuple) and len(other) == 2:
+        if isinstance(other, tuple):  # and len(other) == 2:
             a, b = other
         else:
-            _xinstanceof(XDist, other=other)
-            a = other.sA  # PYCHOK sA
-            b = other.sB  # PYCHOK sB
-            if other.c:   # PYCHOK c
+            # _xinstanceof(XDist, other=other)
+            a = other.sA
+            b = other.sB
+            if other.c:
                 self.c = other.c
         self.sA += a  # PYCHOK sA
         self.sB += b  # PYCHOK sB
@@ -107,16 +107,16 @@ class XDist(ADict):
                 self.sB < other.sB) and self != other)  # PYCHOK sB
 
     def __ne__(self, other):
-        return not self.__eq__(other)
+        # _xinstanceof(XDist, other=other)
+        return self is not other and self.L1(other) > self._Delta
 
     def _fixCoincident(self, X, *c0):
         # modify C{X} to the mid-point if X is anti-/parallel
         c = c0[0] if c0 else X.c
         if c:
-            X  = _copy(X)
-            s  = (self.sA - X.sA  +  # PYCHOK sA
-                 (self.sB - X.sB) * c) * _0_5  # PYCHOK sB
-            X +=  s, (s * c)
+            s = (self.sA - X.sA  +  # PYCHOK sA
+                (self.sB - X.sB) * c) * _0_5  # PYCHOK sB
+            X = X + (s, (s * c))  # NOT +=
         return X
 
     def L1(self, other=None):
@@ -129,28 +129,34 @@ class XDist(ADict):
             b -= other.sB
         return _L1(a, b)
 
-    def _nD1(self, n, D1):
-        C = XDist
-        return self + (C._1A[n] * D1,
-                       C._1B[n] * D1)
+    def _nD1(self, D1):
+        # yield the C{Closest} starts
+        D_ = 0, D1, -D1
+        for a, b in zip((0, 1, -1, 0,  0),
+                        (0, 0,  0, 1, -1)):
+            yield self + (D_[a], D_[b])
 
-    _1A = (0, 1, -1, 0,  0)
-    _1B = (0, 0,  0, 1, -1)
-
-    def _nD2(self, n, D2):
-        C = XDist
-        return C(C._2A[n] * D2,
-                 C._2B[n] * D2)
-
-    _2A = (-1, -1,  1, 1, -2, 0, 2,  0)
-    _2B = (-1,  1, -1, 1,  0, 2, 0, -2)
+    def _nD2(self, D2):
+        # yield the C{Next} starts
+        D22 = D2 * _2_0
+        D_  = 0, D2, D22, -D22, -D2
+        for a, b in zip((-1, -1,  1, 1, -2, 0, 2,  0),
+                        (-1,  1, -1, 1,  0, 2, 0, -2)):
+            yield self + (D_[a], D_[b])
 
     def _nmD3(self, n, m, D3):
+        # yield the C{All} starts
         for i in range(n, m, 2):
             for j in range(n, m, 2):
                 if i or j:
                     yield self + ((i + j) * D3,
                                   (i - j) * D3)
+
+    def _skip(self, S_, T1_Delta):
+        # remove starts from C{S_} near this C{XDist}
+        for j, S in _enumereverse(S_):
+            if S.L1(self) < T1_Delta:
+                S_.pop(j)
 
 _X000 = XDist()  # PYCHOK origin
 _XINF = XDist(INF)
@@ -203,13 +209,15 @@ class Intersector(_NamedBase):
         d1 = t2 * _0_5
         d2 = t3 / _1_5
         d3 = t4 - self.Delta
-        if not (d1 < d3 and d2 < d3 and d2 < (t1 * _2_0)):
+        t2 = t1 * _2_0
+        if not (d1 < d3 and d2 < d3 and d2 < t2):
             t = Fmt.PARENSPACED(_too_('eccentric'), E.e)
             raise GeodesicError(ellipsoid=E.toStr(terse=2), txt=t)
         self._D1 = d1  # tile spacing for Closest
         self._D2 = d2  # tile spacing for Next
         self._D3 = d3  # tile spacing for All
         self._T1 = t1  # min distance between intersects
+        self._T2 = t2
 #       self._T5 = t5
 
     @Property_RO
@@ -236,52 +244,53 @@ class Intersector(_NamedBase):
            @raise IntersectionError: No convergence.
         '''
         self._xLines(glA, glB)
-        D, _D = self.Delta, self._RPI
+        D, _D = self.Delta, self._C_2
         xMax  = sMax + D
         m     = int(_ceil(xMax / self._D3))  # m x m tiles
         d3    = xMax / m
-        T1d3D = self._T1d3Delta(d3)
+        T2d3D = self._T2d3Delta(d3)
         _X0fx = X0._fixCoincident
 
         c0 =  0
-        c_ = _List(D)  # closest coincident
-        x_ = _List(D)  # intersections found
-        s_ =  list(X0._nmD3(1 - m, m, d3 * _0_5))
+        C_ = _List(D)  # closest coincident
+        X_ = _List(D)  # intersections found
+        S_ =  list(X0._nmD3(1 - m, m, d3 * _0_5))
         # assert len(s_) + 1 == m * m + (m - 1) % 2
-        while s_:
-            Q, i = self._Basic2(glA, glB, s_.pop(0))
-            if Q in x_ or (c0 and _X0fx(Q) in c_):
+        while S_:
+            Q, i = self._Basic2(glA, glB, S_.pop(0))
+            if Q in X_:
                 continue
             # assert Q.c == c0 or not c0
-            a, c0 = len(x_), Q.c
+            a, c0 = len(X_), Q.c
             if c0:  # coincident intersection
-                Q, _ = c_.add(_X0fx(Q))
+                Q = _X0fx(Q)
+                if Q in C_:
+                    continue
+                C_.add(Q)
                 # elimate all existing intersections
                 # on this line (which didn't set c0)
-                for j, X in _enumereverse(x_):
+                for j, X in _enumereverse(X_):
                     if _X0fx(X, c0).L1(Q) <= D:  # X' == Q
-                        x_.pop(j)
+                        X_.pop(j)
 
-                a, s0 = len(x_), Q.sA
-                m_M_M = self._m12_M12_M21_3(glA, s0)
+                a, s0 = len(X_), Q.sA
+                m_M_M = self._m12_M12_M21(glA, s0)
                 _cjD  = self._conjDist
                 for s in (-_D, _D):
                     s += s0
                     sa = 0
                     while True:
                         sa = _cjD(glA, s + sa, *m_M_M) - s0
-                        X  = Q + (sa, (sa * c0))
+                        X  = Q + (sa, sa * c0)
                         i += 1
-                        if x_.add(X, X0.L1(X), i) > xMax:
+                        if X_.add(X, X0.L1(X), i) > xMax:
                             break
 
-            x_.add(Q, X0.L1(Q), i + 1)
-            for X in x_[a:]:  # added Xs
-                for j, S in _enumereverse(s_):
-                    if X.L1(S) < T1d3D:
-                        s_.pop(j)
+            X_.add(Q, X0.L1(Q), i + 1)
+            for X in X_[a:]:  # added Xs
+                X._skip(S_, T2d3D)
 
-        return x_.sortrim(X0, sMax)  # generator!
+        return X_.sortrim(X0, sMax)  # generator!
 
     def All4(self, glA, glB, X0=_X000, aMax=0, sMax=_CWGS84):
         '''Find all intersection of two geodesic lines up to a limit.
@@ -303,17 +312,22 @@ class Intersector(_NamedBase):
                 if fabs(aA) > aMax or fabs(aB) > aMax:
                     break
 
-    def _Basic2(self, glA, glB, X, i=0):
+    def _Basic2(self, glA, glB, S, i=0):
         '''(INTERNAL) Get a basic solution.
         '''
-        _S, _T = self._Spherical, self._Tol
-        for x in range(_TRIPS):
-            S = _S(glA, glB, X)
+        X = _copy(S)
+        for _ in range(_TRIPS):
+            S  = self._Spherical(glA, glB, X)
             X += S
             i += 1
-            if X.c or S.L1() <= _T:  # or isnan
-                return X.set_(iteration=x), i
-        raise IntersectionError(Fmt.no_convergence(S.L1(), _T))
+            if X.c or S.L1() <= self._Tol:  # or isnan
+                return self._Delto(X), i
+
+        raise IntersectionError(Fmt.no_convergence(S.L1(), self._Tol))
+
+    @Property_RO
+    def _C_2(self):  # normalizer, semi-circumference, C++ _d
+        return self.R * PI  # ~20K Km WGS84
 
     def Closest(self, glA, glB, X0=_X000):
         '''Find the closest intersection of two geodesic lines.
@@ -330,26 +344,21 @@ class Intersector(_NamedBase):
            @raise IntersectionError: No convergence.
         '''
         self._xLines(glA, glB)
-        i,  d,  Q     = 1, INF, X0  # best so far
-        D1, T1, T1D2D = self._D1, self._T1, self._T1D2Delta
-        sk, K         = set(), len(XDist._1A)
-        for n in (n for n in range(K) if n not in sk):
-            X    = X0._nD1(n, D1)
-            X, i = self._Basic2(glA, glB, X, i)
+        d, Q, S_, i = INF, X0, list(X0._nD1(self._D1)), 1
+        while S_:
+            X, i = self._Basic2(glA, glB, S_.pop(0), i)
             X    = X0._fixCoincident(X)
             if X.L1(Q) > self.Delta:  # X != Q
                 d0 = X.L1(X0)
-                if d0 < T1:
+                if d0 < self._T1:
                     Q, d = X, d0
                     break
-                if d0 < d or not n:
+                if d0 < d or Q is X0:
                     Q, d = X, d0
                     i += 1
-                for m in range(n + 1, K):
-                    if m not in sk and \
-                       X.L1(X0._nD1(m, D1)) < T1D2D:
-                        sk.add(m)
-        return None if Q is X0 else Q.set_(sX0=d0, iteration=i)
+                X._skip(S_, self._T2D1Delta)
+
+        return None if Q is X0 else Q.set_(sX0=d, iteration=i)
 
     def Closest4(self, glA, glB, X0=_X000):
         '''Find the closest intersection of two geodesic lines.
@@ -368,10 +377,9 @@ class Intersector(_NamedBase):
         #     solve for M23 = 0 using dM23 / ds3 = - (1 - M23 * M32) / m23
         # else:
         #     solve for m23 = 0 using dm23 / ds3 = M32
-        _1,    _T = _1_0,  self._Tol
-        _abs, _S2 =  fabs, Fsum(s).fsum2_
+        _S2, _abs, _1 = Fsum(s).fsum2_, fabs, _1_0
         for _ in range(_TRIPS):
-            m13, M13, M31 = self._m12_M12_M21_3(gl, s)
+            m13, M13, M31 = self._m12_M12_M21(gl, s)
             # see "Algorithms for geodesics", eqs. 31, 32, 33.
             m23 = m13 * M12
             M32 = M31 * M12
@@ -388,13 +396,13 @@ class Intersector(_NamedBase):
             else:
                 d = -m23 / M32
             s, d = _S2(d)
-            if _abs(d) <= _T:
+            if _abs(d) <= self._Tol:
                 break
         return s
 
     def _conjDist5(self, azi):
         gl   = self._Line(azi1=azi)
-        s    = self._conjDist(gl, self._RPI)
+        s    = self._conjDist(gl, self._C_2)
         X, _ = self._Basic2(gl, gl, XDist(s * _0_5, -s * _1_5))
         return s, (X.L1() - s * _2_0), azi, X.sA, X.sB
 
@@ -402,7 +410,12 @@ class Intersector(_NamedBase):
     def Delta(self):
         '''Get the equality and tiling margin (C{meter}).
         '''
-        return self._RPI * _EPSr5  # ~15 Km WGS84
+        return self._C_2 * _EPSr5  # ~15 Km WGS84
+
+    def _Delto(self, X):
+        # copy Delta into X, overriding X's default
+        X._Delta = self.Delta  # NOT X.set_(self.Delta)
+        return X
 
     @Property_RO
     def ellipsoid(self):
@@ -423,7 +436,7 @@ class Intersector(_NamedBase):
     flattening = f
 
     @Property_RO
-    def _faPI_2(self):
+    def _faPI_4(self):
         return (self.f + _2_0) * self.a * PI_4
 
     @property_RO
@@ -479,7 +492,7 @@ class Intersector(_NamedBase):
     def _Line(self, lat1=0, lon1=0, azi1=0):
         return self._g.Line(lat1, lon1, azi1, caps=Caps.LINE_CAPS)
 
-    def _m12_M12_M21_3(self, gl, s):
+    def _m12_M12_M21(self, gl, s):
         P = gl.Position(s, outmask=Caps._REDUCEDLENGTH_GEODESICSCALE)
         return P.m12, P.M12, P.M21
 
@@ -518,24 +531,24 @@ class Intersector(_NamedBase):
         X = self.Next(glA, glB, eps=eps)
         return X if X is None else self._In4T(glA, glB, X, X)
 
-    def Next4s(self, glA, glB, X0=_X000, aMax=1801, sMax=0, avg=False, **delta):
+    def Next4s(self, glA, glB, X0=_X000, aMax=1801, sMax=0, avg=False, **Delta):
         '''Yield C{Next} intersections up to a maximal (angular) distance.
 
            @kwarg aMax: Upper limit for the angular distance (C{degrees}).
            @kwarg sMax: Upper limit for the distance (C{meter}).
            @kwarg avg: If C{True}, set the next intersection lat- and longitude
                        to the mid-point of the previous ones (C{bool}).
-           @kwarg delta: Optional, threshold C{B{delta}=Delta} for the
-                         incremental distance (C{meter}).
+           @kwarg Delta: Optional, margin overrding this margin (C{meter}), see
+                         prpoerty L{Delta<Intersector.Delta>}.
 
-           @return: Yield an L{Intersector4Tuple}C{(A, B, sAB, c)} for
-                    each intersection found.
+           @return: Yield an L{Intersector4Tuple}C{(A, B, sAB, c)} for every
+                    intersection found.
 
            @see: Methods L{Next4} for further details.
         '''
         X = self.Closest(glA, glB, X0=X0)
         if X is not None:
-            d = _xkwds_get(delta, delta=self.Delta) * _2_0
+            D = _xkwds_get(Delta, Delta=self.Delta)
             S,  _L, _abs = X, self._Line, fabs
             while True:
                 A, B, _, _ = r = self._In4T(glA, glB, S, X)
@@ -550,48 +563,43 @@ class Intersector(_NamedBase):
                     lonA = lonB = favg(lonA, lonB)
                 X = self._Next(_L(latA, lonA, A.azi2),
                                _L(latB, lonB, B.azi2))
-                if X is None or X.L1() < d:
+                if X is None or X.L1() < D:
                     break
                 S += X.sA, X.sB
 
     def _Next(self, glA, glB):
         '''(INTERNAL) Find the next intersection.
         '''
-        i, X0, Q, d  = 1, _X000, _XINF, INF
-        D, D2, T1D2D = self._RPI, self._D2, self._T1D2Delta
-        sk, K        = set(), len(XDist._2A)
-        for n in (n for n in range(K) if n not in sk):
-            X    = X0._nD2(n, D2)
-            X, i = self._Basic2(glA, glB, X, i)
+        D, i, X0 =  self._C_2, 1, _X000
+        Q, d, S_ = _XINF, INF, list(X0._nD2(self._D2))
+        while S_:
+            X, i = self._Basic2(glA, glB, S_.pop(0), i)
             X    = X0._fixCoincident(X)
             c, z = X.c, (X.L1(X0) <= self.Delta)  # X == X0
             if z:
-                if not c:  # next n
+                if not c:  # next S
                     continue
                 for s in (-D, 0, D):
                     s =  self._conjDist(glA, s, semi=False)
                     t = _L1(s, s * c)
-                    if t < d:
+                    if t < d or Q is _XINF:
                         Q, d = XDist(s, s * c, c), t
                         i += 1
+                self._Delto(Q)
             else:
                 t = X.L1()
-                if t < d:
+                if t < d or Q is _XINF:
                     Q, d = X, t
                     i += 1
-            n += 1
+
             for s in ((_1_1t if z else _1_0_1t)
                              if c else _0t):
-                if c and s:
-                    s *= D2
-                    T  = XDist(s, s * c)
-                    T += X
-                else:
-                    T  = X
-                for m in range(n, K):
-                    if m not in sk and \
-                       T.L1(X0._nD2(m, D2)) < T1D2D:
-                        sk.add(m)
+                T = X
+                if s and c:
+                    s *= self._D2
+                    T  = T + (s, s * c)  # NOT +=
+                T._skip(S_, self._T2D2Delta)
+
         return None if Q is _XINF else Q.set_(sX0=d, iteration=i)
 
     def _obliqDist4(self):
@@ -614,7 +622,7 @@ class Intersector(_NamedBase):
                     if not dsx:
                         break
         else:
-            sx, sAx, sBx = self._RPI, _0_5, -_1_5
+            sx, sAx, sBx = self._C_2, _0_5, -_1_5
         return sx, zx, sAx, sBx
 
     def _polarB3(self, lats=False):  # PYCHOK no cover
@@ -646,12 +654,12 @@ class Intersector(_NamedBase):
                 _, lat = _pD2(latx, lat2=True)
             sx += sx
         else:
-            sx  = self._RPI
+            sx  = self._C_2
         return sx, latx, lat
 
     def _polarDist2(self, lat1, lat2=False):
         gl = self._Line(lat1=lat1)
-        s  = self._conjDist(gl, self._faPI_2, semi=True)
+        s  = self._conjDist(gl, self._faPI_4, semi=True)
         if lat2:
             lat1 = gl.Position(s, outmask=Caps.LATITUDE).lat2
         return s, lat1
@@ -665,17 +673,13 @@ class Intersector(_NamedBase):
         '''
         return self.ellipsoid.R2
 
-    @Property_RO
-    def _RPI(self):  # normalizer, semi-perimeter, C++ _d
-        return self.R * PI  # ~20K Km WGS84
-
-    def _Spherical(self, glA, glB, T):
+    def _Spherical(self, glA, glB, S):
         '''(INTERNAL) Get solution based from a spherical triangle.
         '''
         # threshold for coincident geodesics and intersections;
         # this corresponds to about 4.3 nm on WGS84.
-        A = self._Position(glA, T.sA)
-        B = self._Position(glB, T.sB)
+        A = self._Position(glA, S.sA)
+        B = self._Position(glB, S.sB)
         D = self._Inverse(A, B)
 
         # a = interior angle at A, b = exterior angle at B
@@ -689,7 +693,7 @@ class Intersector(_NamedBase):
         sb, cb = _sincos2de(b, db)
 
         e, z, _abs = _EPS3, D.s12, fabs
-        if _abs(z) <= self._EPS3R:
+        if _abs(z) <= self._EPS3R:  # XXX z <= ...?
             sA = sB = 0  # at intersection
             c  = 1 if _abs(sa - sb) <= e and _abs(ca - cb) <= e else (
                 -1 if _abs(sa + sb) <= e and _abs(ca + cb) <= e else 0)
@@ -708,18 +712,22 @@ class Intersector(_NamedBase):
             sA = atan2(sb * sz,  sb * ca * cz - cb * sa) * self.R
             sB = atan2(sa * sz, -sa * cb * cz + ca * sb) * self.R
             c  = 0
-        return XDist(sA, sB, c)
+        return XDist(sA, sB, c)  # no ._Delto
 
     @Property_RO
-    def _T1D2Delta(self):
-        return self._T1 * _2_0 - self._D2 - self.Delta
+    def _T2D1Delta(self):
+        return self._T2d3Delta(self._D1)
 
-    def _T1d3Delta(self, d3):
-        return self._T1 * _2_0 - d3 - self.Delta
+    @Property_RO
+    def _T2D2Delta(self):
+        return self._T2d3Delta(self._D2)
+
+    def _T2d3Delta(self, d3):
+        return self._T2 - d3 - self.Delta
 
     @Property_RO
     def _Tol(self):  # convergence tolerance
-        return self._RPI * pow(EPS, 0.75)  # _0_75
+        return self._C_2 * pow(EPS, 0.75)  # _0_75
 
     def toStr(self, **prec_sep_name):  # PYCHOK signature
         '''Return this C{Intersector} as string.
@@ -733,13 +741,18 @@ class Intersector(_NamedBase):
 
     def _xLines(self, glA, glB):
         # check two geodesic lines vs this geodesic
-        _xinstanceof(*self._GeodesicLines, glA=glA, glB=glB)
-        C, g = Caps.LINE_CAPS, self.geodesic
-        for gl in (glA, glB):
-            _xgeodesics(gl.geodesic, g, Error=GeodesicError)
-            c = gl.caps & C
-            if c != C:
-                raise GeodesicError(caps=c, LINE_CAPS=C)  # _invalid_
+        C, gls = Caps.LINE_CAPS, dict(glA=glA, glB=glB)
+        _xinstanceof(*self._GeodesicLines, **gls)
+        for n, gl in gls.items():
+            try:
+                _xgeodesics(gl.geodesic, self.geodesic)
+                c = gl.caps & C
+                if c != C:  # not gl.caps_(C)
+                    c, C, x = map1(bin, c, C, _xor(c, C))
+                    x = _SPACE_(_xor.__name__, repr(x))[1:]
+                    raise GeodesicError(caps=c, LINE_CAPS=C, txt=x)
+            except Exception as x:
+                raise GeodesicError(n, gl, cause=x)
 
 
 class Intersector4Tuple(_NamedTuple):
@@ -760,26 +773,26 @@ class Intersector4Tuple(_NamedTuple):
 
 class _List(list):
 
-    Delta = 0  # equality margin
+    _Delta = 0  # equality margin
 
     def __init__(self, Delta):
-        self.Delta = Delta
+        self._Delta = Delta
 #       list.__init__(self)
 
     def __contains__(self, other):
         # handle C{if X in this: ...}
-        a, b   = other.sA, other.sB
-        D, _D1 = self.Delta, _L1
+        a,  b  = other.sA, other.sB
+        D, _D1 = self._Delta, _L1
         for X in self:
             if _D1(X.sA - a, X.sB - b) <= D:
                 return True
         return False
 
-    def add(self, X, *L1_i):
+    def add(self, X, *d0_i):
         # append an item, updated
-        if L1_i:
-            d, i = L1_i
-            X.set_(sX0=d, iteration=i)
+        if d0_i:
+            d0, i = d0_i
+            X.set_(sX0=d0, iteration=i)
         self.append(X)
         return X.sX0
 
