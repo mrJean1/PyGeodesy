@@ -1,0 +1,827 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>pygeodesy.ellipsoidalGeodSolve</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="pygeodesy-module.html">Package&nbsp;pygeodesy</a> ::
+        Module&nbsp;ellipsoidalGeodSolve
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="pygeodesy.ellipsoidalGeodSolve-module.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== MODULE DESCRIPTION ==================== -->
+<h1 class="epydoc">Module ellipsoidalGeodSolve</h1><p class="nomargin-top"></p>
+<p>Exact ellipsoidal geodesy, intended <i>for testing purposes 
+  only</i>.</p>
+  <p>Ellipsoidal geodetic (lat-/longitude) <a 
+  href="pygeodesy.ellipsoidalGeodSolve.LatLon-class.html" 
+  class="link">LatLon</a> and geocentric (ECEF) <a 
+  href="pygeodesy.ellipsoidalGeodSolve.Cartesian-class.html" 
+  class="link">Cartesian</a> classes and functions <a 
+  href="pygeodesy.ellipsoidalGeodSolve-module.html#areaOf" 
+  class="link">areaOf</a>, <a 
+  href="pygeodesy.ellipsoidalGeodSolve-module.html#intersections2" 
+  class="link">intersections2</a>, <a 
+  href="pygeodesy.ellipsoidalGeodSolve-module.html#isclockwise" 
+  class="link">isclockwise</a>, <a 
+  href="pygeodesy.ellipsoidalGeodSolve-module.html#nearestOn" 
+  class="link">nearestOn</a> and <a 
+  href="pygeodesy.ellipsoidalGeodSolve-module.html#perimeterOf" 
+  class="link">perimeterOf</a> based on module <a 
+  href="pygeodesy.geodsolve-module.html" class="link">geodsolve</a>, a 
+  wrapper invoking <i>Karney</i>'s <a 
+  href="https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html" 
+  target="_top">GeodSolve</a> utility.</p>
+
+<hr />
+<div class="fields">      <p><strong>Version:</strong>
+        24.06.11
+      </p>
+</div><!-- ==================== CLASSES ==================== -->
+<a name="section-Classes"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Classes</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ellipsoidalGeodSolve.Cartesian-class.html" class="summary-name">Cartesian</a><br />
+      Extended to convert exact <a 
+        href="pygeodesy.ellipsoidalGeodSolve.Cartesian-class.html" 
+        class="link">Cartesian</a> to exact <a 
+        href="pygeodesy.ellipsoidalGeodSolve.LatLon-class.html" 
+        class="link">LatLon</a> points.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ellipsoidalGeodSolve.LatLon-class.html" class="summary-name">LatLon</a><br />
+      An ellipsoidal <a 
+        href="pygeodesy.ellipsoidalGeodSolve.LatLon-class.html" 
+        class="link">LatLon</a> like <a 
+        href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
+        class="link">ellipsoidalKarney.LatLon</a> but using (exact) 
+        geodesic <i>wrapper</i> <a 
+        href="pygeodesy.geodsolve.GeodesicSolve-class.html" 
+        class="link">GeodesicSolve</a> to compute the geodesic distance, 
+        initial and final bearing (azimuths) between two given points or 
+        the destination point given a start point and an (initial) bearing.
+    </td>
+  </tr>
+</table>
+<!-- ==================== FUNCTIONS ==================== -->
+<a name="section-Functions"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Functions</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalGeodSolve-module.html#ispolar" class="summary-sig-name">ispolar</a>(<span class="summary-sig-arg">points</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Check whether a polygon encloses a pole.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalGeodSolve-module.html#areaOf" class="summary-sig-name">areaOf</a>(<span class="summary-sig-arg">points</span>,
+        <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>)</span><br />
+      Compute the area of an (ellipsoidal) polygon or composite.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalGeodSolve-module.html#intersection3" class="summary-sig-name">intersection3</a>(<span class="summary-sig-arg">start1</span>,
+        <span class="summary-sig-arg">end1</span>,
+        <span class="summary-sig-arg">start2</span>,
+        <span class="summary-sig-arg">end2</span>,
+        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">equidistant</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">tol</span>=<span class="summary-sig-default">0.001</span>,
+        <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.ellipsoidalGeodSolve.LatLon'&gt;</span>,
+        <span class="summary-sig-arg">**LatLon_kwds</span>)</span><br />
+      <i>Iteratively</i> compute the intersection point of two lines, each 
+      defined by two (ellipsoidal) points or by an (ellipsoidal) start 
+      point and an (initial) bearing from North.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalGeodSolve-module.html#intersections2" class="summary-sig-name">intersections2</a>(<span class="summary-sig-arg">center1</span>,
+        <span class="summary-sig-arg">radius1</span>,
+        <span class="summary-sig-arg">center2</span>,
+        <span class="summary-sig-arg">radius2</span>,
+        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">equidistant</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">tol</span>=<span class="summary-sig-default">0.001</span>,
+        <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.ellipsoidalGeodSolve.LatLon'&gt;</span>,
+        <span class="summary-sig-arg">**LatLon_kwds</span>)</span><br />
+      <i>Iteratively</i> compute the intersection points of two circles, 
+      each defined by an (ellipsoidal) center point and a radius.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalGeodSolve-module.html#isclockwise" class="summary-sig-name">isclockwise</a>(<span class="summary-sig-arg">points</span>,
+        <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>)</span><br />
+      Determine the direction of a path or polygon.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalGeodSolve-module.html#nearestOn" class="summary-sig-name">nearestOn</a>(<span class="summary-sig-arg">point</span>,
+        <span class="summary-sig-arg">point1</span>,
+        <span class="summary-sig-arg">point2</span>,
+        <span class="summary-sig-arg">within</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">equidistant</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">tol</span>=<span class="summary-sig-default">0.001</span>,
+        <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.ellipsoidalGeodSolve.LatLon'&gt;</span>,
+        <span class="summary-sig-arg">**LatLon_kwds</span>)</span><br />
+      <i>Iteratively</i> locate the closest point on the geodesic between 
+      two other (ellipsoidal) points.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalGeodSolve-module.html#perimeterOf" class="summary-sig-name">perimeterOf</a>(<span class="summary-sig-arg">points</span>,
+        <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>)</span><br />
+      Compute the perimeter of an (ellipsoidal) polygon or composite.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+</table>
+<!-- ==================== VARIABLES ==================== -->
+<a name="section-Variables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Variables</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="__all__"></a><span class="summary-name">__all__</span> = <code title="_ALL_LAZY.ellipsoidalGeodSolve">_ALL_LAZY.ellipsoidalGeodSolve</code>
+    </td>
+  </tr>
+</table>
+<!-- ==================== FUNCTION DETAILS ==================== -->
+<a name="section-FunctionDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Function Details</span></td>
+</tr>
+</table>
+<a name="ispolar"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">ispolar</span>&nbsp;(<span class="sig-arg">points</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Check whether a polygon encloses a pole.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>points</code></strong> - The polygon points (<code>LatLon</code>[]).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
+          <b><code>points</code></b> (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><code>True</code> if the polygon encloses a pole, 
+          <code>False</code> otherwise.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.PointsError-class.html">PointsError</a></strong></code> - Insufficient number of <b><code>points</code></b></li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some <b><code>points</code></b> are not <code>LatLon</code> or 
+        don't have <code>bearingTo2</code>, <code>initialBearingTo</code> 
+        and <code>finalBearingTo</code> methods.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="areaOf"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">areaOf</span>&nbsp;(<span class="sig-arg">points</span>,
+        <span class="sig-arg">datum</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">True</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the area of an (ellipsoidal) polygon or composite.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>points</code></strong> - The polygon points (<a 
+          href="pygeodesy.ellipsoidalGeodSolve.LatLon-class.html" 
+          class="link">LatLon</a>[], <a 
+          href="pygeodesy.booleans.BooleanFHP-class.html" 
+          class="link">BooleanFHP</a> or <a 
+          href="pygeodesy.booleans.BooleanGH-class.html" 
+          class="link">BooleanGH</a>).</li>
+        <li><strong class="pname"><code>datum</code></strong> - Optional datum (<a href="pygeodesy.datums.Datum-class.html" 
+          class="link">Datum</a>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
+          <b><code>points</code></b> (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Area (<code>meter</code>, same as units of the 
+          <b><code>datum</code></b>'s ellipsoid axes, <i>squared</i>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.PointsError-class.html">PointsError</a></strong></code> - Insufficient number of <b><code>points</code></b>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some <b><code>points</code></b> are not <a 
+        href="pygeodesy.ellipsoidalGeodSolve.LatLon-class.html" 
+        class="link">LatLon</a>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <code><b>wrap</b>=False</code>, unwrapped, unrolled 
+        longitudes not supported.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Functions <a href="pygeodesy.points-module.html#areaOf" 
+        class="link">pygeodesy.areaOf</a>, <a 
+        href="pygeodesy.ellipsoidalExact-module.html#areaOf" 
+        class="link">ellipsoidalExact.areaOf</a>, <a 
+        href="pygeodesy.ellipsoidalKarney-module.html#areaOf" 
+        class="link">ellipsoidalKarney.areaOf</a>, <a 
+        href="pygeodesy.sphericalNvector-module.html#areaOf" 
+        class="link">sphericalNvector.areaOf</a> and <a 
+        href="pygeodesy.sphericalTrigonometry-module.html#areaOf" 
+        class="link">sphericalTrigonometry.areaOf</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="intersection3"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">intersection3</span>&nbsp;(<span class="sig-arg">start1</span>,
+        <span class="sig-arg">end1</span>,
+        <span class="sig-arg">start2</span>,
+        <span class="sig-arg">end2</span>,
+        <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">equidistant</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">tol</span>=<span class="sig-default">0.001</span>,
+        <span class="sig-arg">LatLon</span>=<span class="sig-default">&lt;class 'pygeodesy.ellipsoidalGeodSolve.LatLon'&gt;</span>,
+        <span class="sig-arg">**LatLon_kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p><i>Iteratively</i> compute the intersection point of two lines, each 
+  defined by two (ellipsoidal) points or by an (ellipsoidal) start point 
+  and an (initial) bearing from North.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>start1</code></strong> - Start point of the first line (<a 
+          href="pygeodesy.ellipsoidalGeodSolve.LatLon-class.html" 
+          class="link">LatLon</a>).</li>
+        <li><strong class="pname"><code>end1</code></strong> - End point of the first line (<a 
+          href="pygeodesy.ellipsoidalGeodSolve.LatLon-class.html" 
+          class="link">LatLon</a>) or the initial bearing at the first 
+          point (compass <code>degrees360</code>).</li>
+        <li><strong class="pname"><code>start2</code></strong> - Start point of the second line (<a 
+          href="pygeodesy.ellipsoidalGeodSolve.LatLon-class.html" 
+          class="link">LatLon</a>).</li>
+        <li><strong class="pname"><code>end2</code></strong> - End point of the second line (<a 
+          href="pygeodesy.ellipsoidalGeodSolve.LatLon-class.html" 
+          class="link">LatLon</a>) or the initial bearing at the second 
+          point (compass <code>degrees360</code>).</li>
+        <li><strong class="pname"><code>height</code></strong> - Optional height at the intersection (<code>meter</code>, 
+          conventionally) or <code>None</code> for the mean height.</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
+          <b><code>start2</code></b> and <b><code>end*</code></b> points 
+          (<code>bool</code>).</li>
+        <li><strong class="pname"><code>equidistant</code></strong> - An azimuthal equidistant projection (<i>class</i> or function <a 
+          href="pygeodesy.azimuthal-module.html#equidistant" 
+          class="link">pygeodesy.equidistant</a>) or <code>None</code> for 
+          the preferred <code><b>start1</b>.Equidistant</code>.</li>
+        <li><strong class="pname"><code>tol</code></strong> - Tolerance for convergence and for skew line distance and length 
+          (<code>meter</code>, conventionally).</li>
+        <li><strong class="pname"><code>LatLon</code></strong> - Optional class to return the intersection points (<a 
+          href="pygeodesy.ellipsoidalGeodSolve.LatLon-class.html" 
+          class="link">LatLon</a>) or <code>None</code>.</li>
+        <li><strong class="pname"><code>LatLon_kwds</code></strong> - Optional, additional <b><code>LatLon</code></b> keyword 
+          arguments, ignored if <code><b>LatLon</b> is None</code>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>An <a href="pygeodesy.namedTuples.Intersection3Tuple-class.html" 
+          class="link">Intersection3Tuple</a><code>(point, outside1, 
+          outside2)</code> with <code>point</code> a 
+          <b><code>LatLon</code></b> or if <code><b>LatLon</b> is 
+          None</code>, a <a 
+          href="pygeodesy.namedTuples.LatLon4Tuple-class.html" 
+          class="link">LatLon4Tuple</a><code>(lat, lon, height, 
+          datum)</code>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - Skew, colinear, parallel or otherwise non-intersecting lines or no 
+        convergence for the given <b><code>tol</code></b>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid or non-ellipsoidal <b><code>start1</code></b>, 
+        <b><code>end1</code></b>, <b><code>start2</code></b> or 
+        <b><code>end2</code></b> or invalid 
+        <b><code>equidistant</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        For each line specified with an initial bearing, a pseudo-end point
+        is computed as the <code>destination</code> along that bearing at 
+        about 1.5 times the distance from the start point to an initial 
+        gu-/estimate of the intersection point (and between 1/8 and 3/8 of 
+        the authalic earth perimeter).
+      </p>
+      <p><strong>See Also:</strong>
+        <a 
+        href="https://GIS.StackExchange.com/questions/48937/calculating-intersection-of-two-circles"
+        target="_top">The <b>ellipsoidal</b> case</a> and <a 
+        href="https://ArXiv.org/pdf/1102.1215.pdf" target="_top">Karney's 
+        paper</a>, pp 20-21, section <b>14. MARITIME BOUNDARIES</b> for 
+        more details about the iteration algorithm.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="intersections2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">intersections2</span>&nbsp;(<span class="sig-arg">center1</span>,
+        <span class="sig-arg">radius1</span>,
+        <span class="sig-arg">center2</span>,
+        <span class="sig-arg">radius2</span>,
+        <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">equidistant</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">tol</span>=<span class="sig-default">0.001</span>,
+        <span class="sig-arg">LatLon</span>=<span class="sig-default">&lt;class 'pygeodesy.ellipsoidalGeodSolve.LatLon'&gt;</span>,
+        <span class="sig-arg">**LatLon_kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p><i>Iteratively</i> compute the intersection points of two circles, 
+  each defined by an (ellipsoidal) center point and a radius.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>center1</code></strong> - Center of the first circle (<a 
+          href="pygeodesy.ellipsoidalGeodSolve.LatLon-class.html" 
+          class="link">LatLon</a>).</li>
+        <li><strong class="pname"><code>radius1</code></strong> - Radius of the first circle (<code>meter</code>, conventionally).</li>
+        <li><strong class="pname"><code>center2</code></strong> - Center of the second circle (<a 
+          href="pygeodesy.ellipsoidalGeodSolve.LatLon-class.html" 
+          class="link">LatLon</a>).</li>
+        <li><strong class="pname"><code>radius2</code></strong> - Radius of the second circle (<code>meter</code>, same units as 
+          <b><code>radius1</code></b>).</li>
+        <li><strong class="pname"><code>height</code></strong> - Optional height for the intersection points (<code>meter</code>, 
+          conventionally) or <code>None</code> for the <i>&quot;radical 
+          height&quot;</i> at the <i>radical line</i> between both centers.</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll 
+          <b><code>center2</code></b> (<code>bool</code>).</li>
+        <li><strong class="pname"><code>equidistant</code></strong> - An azimuthal equidistant projection (<i>class</i> or function <a 
+          href="pygeodesy.azimuthal-module.html#equidistant" 
+          class="link">pygeodesy.equidistant</a>) or <code>None</code> for 
+          the preferred <code><b>center1</b>.Equidistant</code>.</li>
+        <li><strong class="pname"><code>tol</code></strong> - Convergence tolerance (<code>meter</code>, same units as 
+          <b><code>radius1</code></b> and <b><code>radius2</code></b>).</li>
+        <li><strong class="pname"><code>LatLon</code></strong> - Optional class to return the intersection points (<a 
+          href="pygeodesy.ellipsoidalGeodSolve.LatLon-class.html" 
+          class="link">LatLon</a>) or <code>None</code>.</li>
+        <li><strong class="pname"><code>LatLon_kwds</code></strong> - Optional, additional <b><code>LatLon</code></b> keyword 
+          arguments, ignored if <code><b>LatLon</b> is None</code>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>2-Tuple of the intersection points, each a 
+          <b><code>LatLon</code></b> instance or <a 
+          href="pygeodesy.namedTuples.LatLon4Tuple-class.html" 
+          class="link">LatLon4Tuple</a><code>(lat, lon, height, 
+          datum)</code> if <code><b>LatLon</b> is None</code>.  For 
+          abutting circles, both points are the same instance, aka the 
+          <i>radical center</i>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - Concentric, antipodal, invalid or non-intersecting circles or no 
+        convergence for the <b><code>tol</code></b>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid or non-ellipsoidal <b><code>center1</code></b> or 
+        <b><code>center2</code></b> or invalid 
+        <b><code>equidistant</code></b>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.UnitError-class.html">UnitError</a></strong></code> - Invalid <b><code>radius1</code></b>, <b><code>radius2</code></b> or
+        <b><code>height</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a 
+        href="https://GIS.StackExchange.com/questions/48937/calculating-intersection-of-two-circles"
+        target="_top">The <b>ellipsoidal</b> case</a>, <a 
+        href="https://ArXiv.org/pdf/1102.1215.pdf" target="_top">Karney's 
+        paper</a>, pp 20-21, section <b>14. MARITIME BOUNDARIES</b>, <a 
+        href="https://MathWorld.Wolfram.com/Circle-CircleIntersection.html"
+        target="_top">Circle-Circle</a> and <a 
+        href="https://MathWorld.Wolfram.com/Sphere-SphereIntersection.html"
+        target="_top">Sphere-Sphere</a> intersections.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="isclockwise"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isclockwise</span>&nbsp;(<span class="sig-arg">points</span>,
+        <span class="sig-arg">datum</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">True</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Determine the direction of a path or polygon.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>points</code></strong> - The path or polygon points (<code>LatLon</code>[]).</li>
+        <li><strong class="pname"><code>datum</code></strong> - Optional datum (<a href="pygeodesy.datums.Datum-class.html" 
+          class="link">Datum</a>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
+          <b><code>points</code></b> (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><code>True</code> if <b><code>points</code></b> are clockwise, 
+          <code>False</code> otherwise.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.PointsError-class.html">PointsError</a></strong></code> - Insufficient number of <b><code>points</code></b>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some <b><code>points</code></b> are not <code>LatLon</code>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - The <b><code>points</code></b> enclose a pole or zero area.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a href="pygeodesy.points-module.html#isclockwise" 
+        class="link">pygeodesy.isclockwise</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="nearestOn"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">nearestOn</span>&nbsp;(<span class="sig-arg">point</span>,
+        <span class="sig-arg">point1</span>,
+        <span class="sig-arg">point2</span>,
+        <span class="sig-arg">within</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">equidistant</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">tol</span>=<span class="sig-default">0.001</span>,
+        <span class="sig-arg">LatLon</span>=<span class="sig-default">&lt;class 'pygeodesy.ellipsoidalGeodSolve.LatLon'&gt;</span>,
+        <span class="sig-arg">**LatLon_kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p><i>Iteratively</i> locate the closest point on the geodesic between 
+  two other (ellipsoidal) points.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>point</code></strong> - Reference point (<code>LatLon</code>).</li>
+        <li><strong class="pname"><code>point1</code></strong> - Start point of the geodesic (<code>LatLon</code>).</li>
+        <li><strong class="pname"><code>point2</code></strong> - End point of the geodesic (<code>LatLon</code>).</li>
+        <li><strong class="pname"><code>within</code></strong> - If <code>True</code> return the closest point <i>between</i> 
+          <b><code>point1</code></b> and <b><code>point2</code></b>, 
+          otherwise the closest point elsewhere on the geodesic 
+          (<code>bool</code>).</li>
+        <li><strong class="pname"><code>height</code></strong> - Optional height for the closest point (<code>meter</code>, 
+          conventionally) or <code>None</code> or <code>False</code> for 
+          the interpolated height.  If <code>False</code>, the closest 
+          takes the heights of the points into account.</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll both 
+          <b><code>point1</code></b> and <b><code>point2</code></b> 
+          (<code>bool</code>).</li>
+        <li><strong class="pname"><code>equidistant</code></strong> - An azimuthal equidistant projection (<i>class</i> or function <a 
+          href="pygeodesy.azimuthal-module.html#equidistant" 
+          class="link">pygeodesy.equidistant</a>) or <code>None</code> for 
+          the preferred <code><b>point</b>.Equidistant</code>.</li>
+        <li><strong class="pname"><code>tol</code></strong> - Convergence tolerance (<code>meter</code>).</li>
+        <li><strong class="pname"><code>LatLon</code></strong> - Optional class to return the closest point (<a 
+          href="pygeodesy.ellipsoidalGeodSolve.LatLon-class.html" 
+          class="link">LatLon</a>) or <code>None</code>.</li>
+        <li><strong class="pname"><code>LatLon_kwds</code></strong> - Optional, additional <b><code>LatLon</code></b> keyword 
+          arguments, ignored if <code><b>LatLon</b> is None</code>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Closest point, a <b><code>LatLon</code></b> instance or if 
+          <code><b>LatLon</b> is None</code>, a <a 
+          href="pygeodesy.namedTuples.LatLon4Tuple-class.html" 
+          class="link">LatLon4Tuple</a><code>(lat, lon, height, 
+          datum)</code>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid or non-ellipsoidal <b><code>point</code></b>, 
+        <b><code>point1</code></b> or <b><code>point2</code></b> or invalid
+        <b><code>equidistant</code></b>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - No convergence for the <b><code>tol</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a 
+        href="https://GIS.StackExchange.com/questions/48937/calculating-intersection-of-two-circles"
+        target="_top">The <b>ellipsoidal</b> case</a> and <a 
+        href="https://ArXiv.org/pdf/1102.1215.pdf" target="_top">Karney's 
+        paper</a>, pp 20-21, section <b>14. MARITIME BOUNDARIES</b> for 
+        more details about the iteration algorithm.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="perimeterOf"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">perimeterOf</span>&nbsp;(<span class="sig-arg">points</span>,
+        <span class="sig-arg">closed</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">datum</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">True</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the perimeter of an (ellipsoidal) polygon or composite.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>points</code></strong> - The polygon points (<a 
+          href="pygeodesy.ellipsoidalGeodSolve.LatLon-class.html" 
+          class="link">LatLon</a>[], <a 
+          href="pygeodesy.booleans.BooleanFHP-class.html" 
+          class="link">BooleanFHP</a> or <a 
+          href="pygeodesy.booleans.BooleanGH-class.html" 
+          class="link">BooleanGH</a>).</li>
+        <li><strong class="pname"><code>closed</code></strong> - Optionally, close the polygon (<code>bool</code>).</li>
+        <li><strong class="pname"><code>datum</code></strong> - Optional datum (<a href="pygeodesy.datums.Datum-class.html" 
+          class="link">Datum</a>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
+          <b><code>points</code></b> (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Perimeter (<code>meter</code>, same as units of the 
+          <b><code>datum</code></b>'s ellipsoid axes).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.PointsError-class.html">PointsError</a></strong></code> - Insufficient number of <b><code>points</code></b>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some <b><code>points</code></b> are not <a 
+        href="pygeodesy.ellipsoidalGeodSolve.LatLon-class.html" 
+        class="link">LatLon</a>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <code><b>wrap</b>=False</code>, unwrapped, unrolled 
+        longitudes not supported or <code><b>closed</b>=False</code> with 
+        <code><b>points</b></code> a composite.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Functions <a href="pygeodesy.points-module.html#perimeterOf" 
+        class="link">pygeodesy.perimeterOf</a>, <a 
+        href="pygeodesy.ellipsoidalExact-module.html#perimeterOf" 
+        class="link">ellipsoidalExact.perimeterOf</a>, <a 
+        href="pygeodesy.ellipsoidalKarney-module.html#perimeterOf" 
+        class="link">ellipsoidalKarney.perimeterOf</a>, <a 
+        href="pygeodesy.sphericalNvector-module.html#perimeterOf" 
+        class="link">sphericalNvector.perimeterOf</a> and <a 
+        href="pygeodesy.sphericalTrigonometry-module.html#perimeterOf" 
+        class="link">sphericalTrigonometry.perimeterOf</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Thu Jun 27 19:44:13 2024
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

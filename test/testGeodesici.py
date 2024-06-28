@@ -4,7 +4,7 @@
 # Some basic C{geodesici} class C{Intersector} tests.
 
 __all__ = ('Tests',)
-__version__ = '24.06.24'
+__version__ = '24.06.27'
 
 from bases import GeodSolve, geographiclib, TestsBase
 
@@ -18,7 +18,7 @@ _xpected = _xdict.setdefault
 class Tests(TestsBase):
 
     def test_(self, name, v, **kwds):
-        t = ('%9g' % (v,)) if isinstance(v, float) else str(v)
+        t = ('%9g' % (v,)).strip() if isinstance(v, float) else str(v)
         x = _xpected(name, t)
         TestsBase.test(self, name, t, x, known=True, **kwds)
 
@@ -43,23 +43,23 @@ class Tests(TestsBase):
         self.test('Intersector', I, I)
 
         # <https://GeographicLib.sourceforge.io/C++/doc/classGeographicLib_1_1Intersect.html>
-        a = I.Line( 0,  0,  45)
-        b = I.Line(45, 10, 135)
+        a = I.Line( 0.0,  0.0,  45.0)
+        b = I.Line(45.0, 10.0, 135.0)
         self.testItems('Closest.1',  I.Closest( a, b))
-        self.testItems('Closest4.1', I.Closest4(a, b))
+        self.testItems('Closest5.1', I.Closest5(a, b))
 
-        self.testEnumerate('Next4s', I.Next4s(a, b))
+        self.testEnumerate('Next5s', I.Next5s(a, b))
 
         # <https://GeographicLib.sourceforge.io/C++/doc/IntersectTool.1.html>
-        a = I.Line(50, -4, -147.7)
-        b = I.Line( 0,  0,   90)
+        a = I.Line(50.0, -4.0, -147.7)
+        b = I.Line( 0.0,  0.0,   90.0)
         self.testItems('Closest.2',  I.Closest( a, b))
-        self.testItems('Closest4.2', I.Closest4(a, b))
+        self.testItems('Closest5.2', I.Closest5(a, b))
 
-        a = I.Line(50,  -4, -147.7)
-        b = I.Line( 0, 180,    0)
+        a = I.Line(50.0,  -4.0, -147.7)
+        b = I.Line( 0.0, 180.0,    0.0)
         self.testEnumerate('All',  I.All( a, b))
-        self.testEnumerate('All4', I.All4(a, b))
+        self.testEnumerate('All5', I.All5(a, b))
 
 
 if __name__ == '__main__':

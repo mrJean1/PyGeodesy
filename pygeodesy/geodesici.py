@@ -8,8 +8,8 @@ geodesic lines.
 Only C++ member functions C{All}, C{Closest} and C{All} have been transcoded into Python as methods
 L{Intersector.All}, L{Intersector.Closest} and L{Intersector.Next} producing 4-item L{XDist}s.
 
-Adjacent methods L{Intersector.All4}, L{Intersector.Closest4}, L{Intersector.Next4} and
-L{Intersector.Next4s} return or yield L{Intersector4Tuple}s with the lat-, longitude, azimuth of
+Adjacent methods L{Intersector.All5}, L{Intersector.Closest5}, L{Intersector.Next5} and
+L{Intersector.Next5s} return or yield L{Intersector5Tuple}s with the lat-, longitude, azimuth of
 each intersection as a C{Position} L{GDict} on each geodesic line.
 
 For more details, see the C++ U{GeographicLib<https://GeographicLib.SourceForge.io/C++/doc/index.html>}
@@ -33,16 +33,16 @@ from pygeodesy.interns import _A_, _B_, _c_, _SPACE_, _too_
 from pygeodesy.karney import Caps, _diff182, _sincos2de
 from pygeodesy.lazily import _ALL_LAZY  # _ALL_MODS as _MODS
 from pygeodesy.named import ADict, _NamedBase, _NamedTuple
-from pygeodesy.namedTuples import Int, Meter, _Pass
-from pygeodesy.props import Property_RO, property_RO
+from pygeodesy.namedTuples import Degrees, Int, Meter, _Pass
+from pygeodesy.props import Property, Property_RO, property_RO
 # from pygeodesy.streprs import Fmt  # from .ellipsoids
-# from pygeodesy.units import Int, Meter  # from .namedTuples
+# from pygeodesy.units import Degrees, Int, Meter  # from .namedTuples
 from pygeodesy.utily import sincos2,  atan2, fabs
 
 # from math import atan2, ceil as _ceil, fabs  # .fsums, .utily
 
 __all__ = _ALL_LAZY.geodesici
-__version__ = '24.06.26'
+__version__ = '24.06.27'
 
 _0t     =  0,  # int
 _1_1t   = -1, +1
@@ -50,7 +50,6 @@ _1_0_1t = -1, 0, +1
 _EPS3   =  EPS * _3_0
 _EPSr5  =  pow(EPS, 0.2)  # PYCHOK used!
 _TRIPS  =  128
-_CWGS84 =  max(_EWGS84.a, _EWGS84.b) * PI2  # circumference
 
 
 def _L1(a, b):
@@ -111,12 +110,12 @@ class XDist(ADict):
         return self is not other and self.L1(other) > self._Delta
 
     def _fixCoincident(self, X, *c0):
-        # modify C{X} to the mid-point if X is anti-/parallel
+        # return the mid-point if C{X} is anti-/parallel
         c = c0[0] if c0 else X.c
         if c:
             s = (self.sA - X.sA  +  # PYCHOK sA
                 (self.sB - X.sB) * c) * _0_5  # PYCHOK sB
-            X = X + (s, (s * c))  # NOT +=
+            X = X + (s, s * c)  # NOT +=
         return X
 
     def L1(self, other=None):
@@ -171,11 +170,11 @@ class Intersector(_NamedBase):
        @see: I{Karney}'s C++ class U{Intersect<https://GeographicLib.sourceforge.io/
              C++/doc/classGeographicLib_1_1Intersect.html#details>} for more details.
     '''
-    # _D1 =  0
-    # _D2 =  0
-    # _g  =  None
-    # _T1 =  0
-    # +T5 =  0
+    # _D1 = 0
+    # _D2 = 0
+    # _g  = None
+    # _T1 = 0
+    # _T5 = 0
 
     def __init__(self, geodesic, **name):
         '''New L{Intersector}.
@@ -199,7 +198,7 @@ class Intersector(_NamedBase):
 
         t1 = E.b * PI  # min distance between intersects
         t2 = self._polarDist2(_90_0)[0] * _2_0  # furthest closest intersect
-        t5 = self._Invers12(_90_0) * _2_0  # longest shortest geodesic
+        t5 = self._Inversa12(_90_0)[0] * _2_0  # longest shortest geodesic
         if self.f > 0:
             t3 = self._obliqDist4()[0]
             t4 = t1
@@ -228,13 +227,14 @@ class Intersector(_NamedBase):
 
     equatoradius = a  # = Requatorial
 
-    def All(self, glA, glB, X0=_X000, sMax=_CWGS84):
+    def All(self, glA, glB, X0=_X000, **sMax):
         '''Find all intersection of two geodesic lines up to a limit.
 
            @arg glA: A geodesic line (L{Line<Intersector.Line>}).
            @arg glB: An other geodesic line (L{Line<Intersector.Line>}).
            @kwarg X0: Optional offsets along the geodesic lines (L{XDist}).
-           @kwarg sMax: Upper limit for the distance (C{meter}).
+           @kwarg sMax: Optional, upper limit C{B{sMax}=2*PI*R} for the
+                        distance (C{meter}).
 
            @return: Yield an L{XDist} for each intersection found.
 
@@ -244,6 +244,10 @@ class Intersector(_NamedBase):
            @raise IntersectionError: No convergence.
         '''
         self._xLines(glA, glB)
+        sMax = _xkwds_get(sMax, sMax=self.R * PI2)
+        if sMax < _EPS3:
+            sMax = _EPS3  # raise GeodesicError(sMax=sMax)
+
         D, _D = self.Delta, self._C_2
         xMax  = sMax + D
         m     = int(_ceil(xMax / self._D3))  # m x m tiles
@@ -266,7 +270,7 @@ class Intersector(_NamedBase):
                 Q = _X0fx(Q)
                 if Q in C_:
                     continue
-                C_.add(Q)
+                C_.addend(Q)
                 # elimate all existing intersections
                 # on this line (which didn't set c0)
                 for j, X in _enumereverse(X_):
@@ -274,41 +278,42 @@ class Intersector(_NamedBase):
                         X_.pop(j)
 
                 a, s0 = len(X_), Q.sA
-                m_M_M = self._m12_M12_M21(glA, s0)
+                args  = self._m12_M12_M21(glA, s0)
                 _cjD  = self._conjDist
                 for s in (-_D, _D):
                     s += s0
                     sa = 0
                     while True:
-                        sa = _cjD(glA, s + sa, *m_M_M) - s0
+                        sa = _cjD(glA, s + sa, *args) - s0
                         X  = Q + (sa, sa * c0)
                         i += 1
-                        if X_.add(X, X0.L1(X), i) > xMax:
+                        if X_.addend(X, X0.L1(X), i) > xMax:
                             break
 
-            X_.add(Q, X0.L1(Q), i + 1)
-            for X in X_[a:]:  # added Xs
+            X_.addend(Q, X0.L1(Q), i + 1)
+            for X in X_[a:]:  # addended Xs
                 X._skip(S_, T2d3D)
 
         return X_.sortrim(X0, sMax)  # generator!
 
-    def All4(self, glA, glB, X0=_X000, aMax=0, sMax=_CWGS84):
+    def All5(self, glA, glB, X0=_X000, aMax=0, **sMax):
         '''Find all intersection of two geodesic lines up to a limit.
 
-           @kwarg aMax: Upper limit for the angular distance (C{degrees}).
+           @kwarg aMax: Upper limit for the angular distance (C{degrees})
+                        or C{None} or C{0} for unlimited.
 
-           @return: Yield an L{Intersector4Tuple}C{(A, B, sAB, c)} for
-                    each intersection found.
+           @return: Yield an L{Intersector5Tuple}C{(A, B, sAB, aAB, c)}
+                    for each intersection found.
 
            @see: Methods L{All} for further details.
         '''
         aA = aB = _0_0
-        for X in self.All(glA, glB, X0=X0, sMax=sMax):
-            X = self._In4T(glA, glB, X, X)
-            yield X
+        for X in self.All(glA, glB, X0=X0, **sMax):
+            r = self._In5T(glA, glB, X, X)
+            yield r
             if aMax:
-                aA += X.A.a12
-                aB += X.B.a12
+                aA += r.A.a12
+                aB += r.B.a12
                 if fabs(aA) > aMax or fabs(aB) > aMax:
                     break
 
@@ -344,32 +349,31 @@ class Intersector(_NamedBase):
            @raise IntersectionError: No convergence.
         '''
         self._xLines(glA, glB)
-        d, Q, S_, i = INF, X0, list(X0._nD1(self._D1)), 1
+        Q, d, S_, i = X0, INF, list(X0._nD1(self._D1)), 0
         while S_:
             X, i = self._Basic2(glA, glB, S_.pop(0), i)
             X    = X0._fixCoincident(X)
             if X.L1(Q) > self.Delta:  # X != Q
                 d0 = X.L1(X0)
                 if d0 < self._T1:
-                    Q, d = X, d0
+                    Q, d, q = X, d0, i
                     break
                 if d0 < d or Q is X0:
-                    Q, d = X, d0
-                    i += 1
+                    Q, d, q = X, d0, i
                 X._skip(S_, self._T2D1Delta)
 
-        return None if Q is X0 else Q.set_(sX0=d, iteration=i)
+        return None if Q is X0 else Q.set_(sX0=d, iteration=q)
 
-    def Closest4(self, glA, glB, X0=_X000):
+    def Closest5(self, glA, glB, X0=_X000):
         '''Find the closest intersection of two geodesic lines.
 
-           @return: An L{Intersector4Tuple}C{(A, B, sAB, c)} or
-                    C{None} if none found.
+           @return: An L{Intersector5Tuple}C{(A, B, sAB, aAB, c)}
+                    or C{None} if none found.
 
            @see: Method L{Closest} for further details.
         '''
         X = self.Closest(glA, glB, X0=X0)
-        return X if X is None else self._In4T(glA, glB, X, X)
+        return X if X is None else self._In5T(glA, glB, X, X)
 
     def _conjDist(self, gl, s, m12=0, M12=1, M21=1, semi=False):
         # Find semi-/conjugate point relative to s0 which is close to s1.
@@ -399,6 +403,23 @@ class Intersector(_NamedBase):
             if _abs(d) <= self._Tol:
                 break
         return s
+
+    _gl3 = None
+
+    @Property
+    def _conjDist3s(self):
+        gl, self._gl3, _D = self._gl3, None, self._C_2
+        return tuple(self._conjDist(gl, s) for s in (-_D, 0, _D))
+
+    @_conjDist3s.setter  # PYCHOK setter!
+    def _conjDist3(self, gl):
+        # _XLines(gl, gl)
+        self._gl3 = gl
+
+    def _conjDist3Tt_(self, c, X0=_X000):
+        for s in self._conjDist3s:
+            T = XDist(s, s * c, c)
+            yield self._Delto(T), T.L1(X0)
 
     def _conjDist5(self, azi):
         gl   = self._Line(azi1=azi)
@@ -451,20 +472,21 @@ class Intersector(_NamedBase):
         '''
         return type(self._Line()),
 
-    def _In4T(self, glA, glB, S, X):
-        # Return an intersection as C{Intersector4Tuple}.
-        A = self._Position(glA, S.sA)
-        B = self._Position(glB, S.sB)
-        s = self._Invers12(A, B)
-        r = Intersector4Tuple(A, B, s, X.c, iteration=X.iteration)
+    def _In5T(self, glA, glB, S, X):
+        # Return an intersection as C{Intersector5Tuple}.
+        A = self._Position(glA, S.sA, S.sX0)
+        B = self._Position(glB, S.sB, S.sX0)
+        s, a = self._Inversa12(A, B)
+        r = Intersector5Tuple(A, B, s, a, X.c, iteration=X.iteration)
         return r
 
-    def _Invers12(self, A, B=None):
+    def _Inversa12(self, A, B=None):
         lls = (0, 0, A, 0) if B is None else (A.lat2, A.lon2,
                                               B.lat2, B.lon2)
-        return self._g.Inverse(*lls, outmask=Caps.DISTANCE).s12
+        r = self._g.Inverse(*lls, outmask=Caps.DISTANCE)
+        return r.s12, r.a12  # .a12 always in r
 
-    def _Inverse(self, A, B):  # Caps.STANDARD
+    def _Inverse(self, A, B):  # caps=Caps.STANDARD
         return self._g.Inverse(A.lat2, A.lon2, B.lat2, B.lon2)
 
     def Line(self, lat1, lon1, azi_lat2, *lon2, **name):
@@ -496,62 +518,65 @@ class Intersector(_NamedBase):
         P = gl.Position(s, outmask=Caps._REDUCEDLENGTH_GEODESICSCALE)
         return P.m12, P.M12, P.M21
 
-    def Next(self, glA, glB, eps=_EPS3):
+    def Next(self, glA, glB, **eps):
         '''Yield the next intersection of two I{intersecting} geodesic lines.
 
            @arg glA: A geodesic line (L{Line<Intersector.Line>}).
            @arg glB: An other geodesic line (L{Line<Intersector.Line>}).
-           @kwarg eps: Equality margin (C{degrees}).
+           @kwarg eps: Optional equality margin C{B{eps}=Delta} (C{degrees}).
 
            @return: The intersection (L{XDist}) or C{None} if none found.
 
            @raise GeodesicError: Geodesic line B{C{glA}} or B{C{glB}}
                                  invalid, incompatible, ill-configured or
-                                 do not have near-equal C{(lat1, lon1)}.
+                                 C{(lat1, lon1)} not B{C{eps}}-equal.
 
            @raise IntersectionError: No convergence.
 
            @note: Offset C{X0} is implicit, zeros.
         '''
         self._xLines(glA, glB)
-        a = glA.lat1 - glB.lat1
-        b = glA.lon1 - glB.lon1
-        if fabs(a) > eps or fabs(b) > eps:
-            raise GeodesicError(lat1=a, lon1=b, eps=eps)
+        e = _xkwds_get(eps, eps=self.Delta)
+        a =  glA.lat1 - glB.lat1
+        b =  glA.lon1 - glB.lon1
+        if fabs(a) > e or fabs(b) > e:
+            raise GeodesicError(lat1=a, lon1=b, eps=e)
         return self._Next(glA, glB)
 
-    def Next4(self, glA, glB, eps=_EPS3):
+    def Next5(self, glA, glB, eps=_EPS3):
         '''Yield the next intersection of two I{intersecting} geodesic lines.
 
-           @return: An L{Intersector4Tuple}C{(A, B, sAB, c)} or C{None} if
-                    none found.
+           @return: An L{Intersector5Tuple}C{(A, B, sAB, aAB, c)} or C{None}
+                    if none found.
 
            @see: Method L{Next} for further details.
         '''
         X = self.Next(glA, glB, eps=eps)
-        return X if X is None else self._In4T(glA, glB, X, X)
+        return X if X is None else self._In5T(glA, glB, X, X)
 
-    def Next4s(self, glA, glB, X0=_X000, aMax=1801, sMax=0, avg=False, **Delta):
+    def Next5s(self, glA, glB, X0=_X000, aMax=1801, sMax=0, avg=False, **Delta):
         '''Yield C{Next} intersections up to a maximal (angular) distance.
 
-           @kwarg aMax: Upper limit for the angular distance (C{degrees}).
-           @kwarg sMax: Upper limit for the distance (C{meter}).
+           @kwarg aMax: Upper limit for the angular distance (C{degrees}) or
+                        C{None} or C{0} for unlimited.
+           @kwarg sMax: Upper limit for the distance (C{meter}) or C{None} or
+                        C{0} for unlimited.
            @kwarg avg: If C{True}, set the next intersection lat- and longitude
                        to the mid-point of the previous ones (C{bool}).
            @kwarg Delta: Optional, margin overrding this margin (C{meter}), see
                          prpoerty L{Delta<Intersector.Delta>}.
 
-           @return: Yield an L{Intersector4Tuple}C{(A, B, sAB, c)} for every
-                    intersection found.
+           @return: Yield an L{Intersector5Tuple}C{(A, B, sAB, aAB, c)} for
+                    every intersection found.
 
-           @see: Methods L{Next4} for further details.
+           @see: Methods L{Next5} for further details.
         '''
         X = self.Closest(glA, glB, X0=X0)
         if X is not None:
             D = _xkwds_get(Delta, Delta=self.Delta)
             S,  _L, _abs = X, self._Line, fabs
             while True:
-                A, B, _, _ = r = self._In4T(glA, glB, S, X)
+                A, B, _, _, _ = r = self._In5T(glA, glB, S, X)
                 yield r
                 if (aMax and (_abs(A.a12) > aMax or _abs(B.a12) > aMax)) or \
                    (sMax and (_abs(A.s12) > sMax or _abs(B.s12) > sMax)):
@@ -566,41 +591,39 @@ class Intersector(_NamedBase):
                 if X is None or X.L1() < D:
                     break
                 S += X.sA, X.sB
+                S.set_(sX0=X.sX0 + S.sX0)
 
     def _Next(self, glA, glB):
         '''(INTERNAL) Find the next intersection.
         '''
-        D, i, X0 =  self._C_2, 1, _X000
-        Q, d, S_ = _XINF, INF, list(X0._nD2(self._D2))
+        X0, self._conjDist3s = _X000, glA
+        Q, d, S_, i = _XINF, INF, list(X0._nD2(self._D2)), 0
         while S_:
             X, i = self._Basic2(glA, glB, S_.pop(0), i)
             X    = X0._fixCoincident(X)
-            c, z = X.c, (X.L1(X0) <= self.Delta)  # X == X0
+            t    = X.L1(X0)  # == X.L1()
+            c, z = X.c, (t <= self.Delta)  # X == X0
             if z:
-                if not c:  # next S
+                if not c:
                     continue
-                for s in (-D, 0, D):
-                    s =  self._conjDist(glA, s, semi=False)
-                    t = _L1(s, s * c)
-                    if t < d or Q is _XINF:
-                        Q, d = XDist(s, s * c, c), t
-                        i += 1
-                self._Delto(Q)
+                Tt_ = self._conjDist3Tt_(c, X0)
             else:
-                t = X.L1()
+                Tt_ = (X, t),
+
+            for T, t in Tt_:
                 if t < d or Q is _XINF:
-                    Q, d = X, t
-                    i += 1
+                    Q, d, q = T, t, i
+                i += 1
 
             for s in ((_1_1t if z else _1_0_1t)
                              if c else _0t):
                 T = X
                 if s and c:
                     s *= self._D2
-                    T  = T + (s, s * c)  # NOT +=
+                    T  = X + (s, s * c)  # NOT +=
                 T._skip(S_, self._T2D2Delta)
 
-        return None if Q is _XINF else Q.set_(sX0=d, iteration=i)
+        return None if Q is _XINF else Q.set_(sX0=d, iteration=q)
 
     def _obliqDist4(self):
         zx = 45.0
@@ -638,11 +661,11 @@ class Intersector(_NamedBase):
             prolate  =  self.f < 0
             # solve for ds(lat) / dlat = 0 with a quadratic fit
             for _ in range(_TRIPS):
-                v = (lat1 - lat0), (lat0 - lat2), (lat2 - lat1)
-                d = _d(v, s2, s1, s0) * _2_0
+                t = (lat1 - lat0), (lat0 - lat2), (lat2 - lat1)
+                d = _d(t, s2, s1, s0) * _2_0
                 if not d:  # or isnan(d)
                     break
-                lat = _d(v, (lat1 + lat0) * s2,
+                lat = _d(t, (lat1 + lat0) * s2,
                             (lat0 + lat2) * s1,
                             (lat2 + lat1) * s0) / d
                 s0, lat0 =  s1, lat1
@@ -664,8 +687,13 @@ class Intersector(_NamedBase):
             lat1 = gl.Position(s, outmask=Caps.LATITUDE).lat2
         return s, lat1
 
-    def _Position(self, gl, s):
-        return gl.Position(s, outmask=Caps._STD_LINE)
+    def _Position(self, gl, s, *sX0):
+        P = gl.Position(s, outmask=Caps._STD_LINE)
+        if sX0:
+            X = gl.Position(*sX0, outmask=Caps._STD_LINE)
+            P.set_(lat0=X.lat2, lon0=X.lon2,
+                   azi0=X.azi2, s10=X.s12, a10=X.a12)
+        return P
 
     @Property_RO
     def R(self):
@@ -676,15 +704,13 @@ class Intersector(_NamedBase):
     def _Spherical(self, glA, glB, S):
         '''(INTERNAL) Get solution based from a spherical triangle.
         '''
-        # threshold for coincident geodesics and intersections;
-        # this corresponds to about 4.3 nm on WGS84.
+        # threshold for coincident geodesics/intersections ~4.3 nm WGS84.
         A = self._Position(glA, S.sA)
         B = self._Position(glB, S.sB)
         D = self._Inverse(A, B)
 
-        # a = interior angle at A, b = exterior angle at B
-        a, da = _diff182(A.azi2, D.azi1)
-        b, db = _diff182(B.azi2, D.azi2)
+        a, da = _diff182(A.azi2, D.azi1)  # interior angle at A
+        b, db = _diff182(B.azi2, D.azi2)  # exterior angle at B
         c, dc = _diff182(a, b)
         if fsum1_(dc, db, -da, c) < 0:  # inverted triangle
             a, da = -a, -da
@@ -693,21 +719,21 @@ class Intersector(_NamedBase):
         sb, cb = _sincos2de(b, db)
 
         e, z, _abs = _EPS3, D.s12, fabs
-        if _abs(z) <= self._EPS3R:  # XXX z <= ...?
+        if _abs(z) <= self._EPS3R:  # XXX z <= ...
             sA = sB = 0  # at intersection
             c  = 1 if _abs(sa - sb) <= e and _abs(ca - cb) <= e else (
                 -1 if _abs(sa + sb) <= e and _abs(ca + cb) <= e else 0)
         elif _abs(sa) <= e and _abs(sb) <= e:  # coincident
-            sA =  ca * z * _0_5  # choose midpoint
+            sA =  ca * z * _0_5  # choose mid-point
             sB = -cb * z * _0_5
             c  =  1 if (ca * cb) > 0 else -1
-            # alt1: A =  ca * z; B = 0
-            # alt2: B = -cb * z; A = 0
+            # alt1: sA =  ca * z; sB = 0
+            # alt2: sB = -cb * z; sA = 0
         else:  # general case
             sz, cz = sincos2(z / self.R)
             # [SKIP: Divide args by |sz| to avoid possible underflow
             # in {sa, sb} * sz; this is probably not necessary].
-            # Definitely need to treat sz < 0 (z > pi*R) correctly in
+            # Definitely need to treat sz < 0 (z > PI*R) correctly in
             # order to avoid some convergence failures in _Basic2.
             sA = atan2(sb * sz,  sb * ca * cz - cb * sa) * self.R
             sB = atan2(sa * sz, -sa * cb * cz + ca * sb) * self.R
@@ -755,20 +781,21 @@ class Intersector(_NamedBase):
                 raise GeodesicError(n, gl, cause=x)
 
 
-class Intersector4Tuple(_NamedTuple):
-    '''4-Tuple C{(A, B, sAB, c)} with C{A} and C{B} the C{Position}
+class Intersector5Tuple(_NamedTuple):
+    '''5-Tuple C{(A, B, sAB, aAB, c)} with C{A} and C{B} the C{Position}
        of the intersection on each geodesic line, the distance C{sAB}
-       between C{A} and C{B} in C{meter} and the coincidence indicator
-       C{c} (C{int}), see L{XDist}.
+       between C{A} and C{B} in C{meter}, angular distance C{aAB} in
+       C{degrees} and coincidence indicator C{c} (C{int}), see L{XDist}.
 
        @note: C{A} and C{B} are each a C{GeodesicLine...Position} for
-              C{outmask=Caps.STANDARD} with the intersection location
-              in C{lat2}, C{lon2}, azimuth in C{azi2}, the distance
-              C{s12} in C{meter} and the angular distance C{a12} in
-              C{degrees}.
+              C{outmask=Caps.STANDARD} with the intersection location in
+              C{lat2}, C{lon2}, azimuth in C{azi2}, the distance C{s12}
+              in C{meter} and angular distance C{a12} in C{degrees} and
+              extended with the C{X0} offset location in C{lat0}, C{lon0},
+              C{azi0}, C{s10} and C{a10}.
     '''
-    _Names_ = (_A_,   _B_,  'sAB', _c_)
-    _Units_ = (_Pass, _Pass, Meter, Int)
+    _Names_ = (_A_,   _B_,  'sAB', 'aAB', _c_)
+    _Units_ = (_Pass, _Pass, Meter, Degrees, Int)
 
 
 class _List(list):
@@ -788,7 +815,7 @@ class _List(list):
                 return True
         return False
 
-    def add(self, X, *d0_i):
+    def addend(self, X, *d0_i):
         # append an item, updated
         if d0_i:
             d0, i = d0_i
@@ -827,16 +854,16 @@ if __name__ == '__main__':
     a = I.Line( 0,  0,  45)
     b = I.Line(45, 10, 135)
     printf('Closest: %r', I.Closest(a, b))
-    printf('Closest4: %r', I.Closest4(a, b), nt=1)
+    printf('Closest5: %r', I.Closest5(a, b), nt=1)
 
-    for i, t in enumerate(I.Next4s(a, b)):
-        printf('Next4s %s: %r (%s)', i, t, t.iteration)
+    for i, t in enumerate(I.Next5s(a, b)):
+        printf('Next5s %s: %r (%s)', i, t, t.iteration)
 
     # <https://GeographicLib.sourceforge.io/C++/doc/IntersectTool.1.html>
     a = I.Line(50, -4, -147.7)
     b = I.Line( 0,  0,   90)
     printf('Closest: %r', I.Closest(a, b), nl=1)
-    printf('Closest4: %r', I.Closest4(a, b), nt=1)
+    printf('Closest5: %r', I.Closest5(a, b), nt=1)
 
     a = I.Line(50,  -4, -147.7)
     b = I.Line( 0, 180,    0)
@@ -845,8 +872,8 @@ if __name__ == '__main__':
         if i > 9:
             break
     printf('')
-    for i, t in enumerate(I.All4(a, b)):
-        printf('All4 %s: %r (%s)', i, t, t.iteration)
+    for i, t in enumerate(I.All5(a, b)):
+        printf('All5 %s: %r (%s)', i, t, t.iteration)
         if i > 9:
             break
 
@@ -857,7 +884,7 @@ if __name__ == '__main__':
     a = I.Line(50, -4, -147.7)
     b = I.Line( 0,  0,   90)
     printf('Closest: %r', I.Closest(a, b), nl=1)
-    printf('Closest4: %r', I.Closest4(a, b))
+    printf('Closest5: %r', I.Closest5(a, b))
 
 # **) MIT License
 #

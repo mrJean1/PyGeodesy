@@ -1,0 +1,959 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>pygeodesy.trf</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="pygeodesy-module.html">Package&nbsp;pygeodesy</a> ::
+        Module&nbsp;trf
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="pygeodesy.trf-module.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== MODULE DESCRIPTION ==================== -->
+<h1 class="epydoc">Module trf</h1><p class="nomargin-top"></p>
+<p><i>Veness</i>' Terrestrial Reference Frames (TRF).</p>
+  <p>Classes <a href="pygeodesy.trf.RefFrame-class.html" 
+  class="link">RefFrame</a>, registry <a 
+  href="pygeodesy.trf-module.html#RefFrames" class="link">RefFrames</a> and
+  <a href="pygeodesy.errors.TRFError-class.html" 
+  class="link">TRFError</a>.</p>
+  <p>Transcoded from <i>Chris Veness'</i> (C) 2006-2022 JavaScript 
+  originals <a 
+  href="https://GitHub.com/ChrisVeness/geodesy/blob/master/latlon-ellipsoidal-referenceframe.js"
+  target="_top">latlon-ellipsoidal-referenceframe.js</a> and <a 
+  href="https://GitHub.com/ChrisVeness/geodesy/blob/master/latlon-ellipsoidal-referenceframe-txparams.js"
+  target="_top">latlon-ellipsoidal-referenceframe-txparams.js</a>.</p>
+  <p>Following is a copy of the comments in <i>Veness</i>' <a 
+  href="https://GitHub.com/ChrisVeness/geodesy/blob/master/latlon-ellipsoidal-referenceframe.js"
+  target="_top">latlon-ellipsoidal-referenceframe.js</a>.</p>
+  <p>Modern geodetic reference frames: a latitude/longitude point defines a
+  geographic location on, above or below the earth&#8217;s surface, measured in 
+  degrees from the equator and the <a 
+  href="https://WikiPedia.org/wiki/IERS_Reference_Meridian" 
+  target="_top">International Reference Meridian</a> (IRM) and metres above
+  the ellipsoid within a given <i>Terrestrial Reference Frame</i> at a 
+  given <i>epoch</i>.</p>
+  <p>This is scratching the surface of complexities involved in high 
+  precision geodesy, but may be of interest and/or value to those with less
+  demanding requirements.  More information <a 
+  href="https://www.Movable-Type.co.UK/scripts/geodesy-library.html" 
+  target="_top">here</a> and <a 
+  href="https://www.Movable-Type.co.UK/scripts/geodesy-library.html#latlon-ellipsoidal-referenceframe"
+  target="_top">here</a>.</p>
+  <p>Note that <i>ITRF solutions</i> do not directly use an ellipsoid, but 
+  are specified by Cartesian coordinates.  The GRS80 ellipsoid is 
+  recommended for transformations to geographical coordinates.</p>
+  <p>Note WGS84(G730/G873/G1150) are coincident with ITRF at 10-centimetre 
+  level, see also <a href="ftp://ITRF.ENSG.IGN.Fr/pub/itrf/WGS84.TXT" 
+  target="_top">here</a>.  WGS84(G1674) and ITRF20014 / ITRF2008 
+  <i>&quot;are likely to agree at the centimeter level&quot;</i>, see also 
+  <a 
+  href="https://Confluence.QPS.NL/qinsy/en/how-to-deal-with-etrs89-datum-and-time-dependent-transformation-parameters-45353274.html"
+  target="_top">QPS/Qinsy</a>.</p>
+
+<hr />
+<div class="fields">      <p><strong>Version:</strong>
+        24.06.09
+      </p>
+</div><!-- ==================== CLASSES ==================== -->
+<a name="section-Classes"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Classes</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.trf.RefFrame-class.html" class="summary-name">RefFrame</a><br />
+      Terrestrial Reference Frame (TRF) parameters.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.trf.TransformXform-class.html" class="summary-name">TransformXform</a><br />
+      Helmert transformation, extended with an <code>Xform</code> TRF 
+        converter.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.trf.TRFXform7Tuple-class.html" class="summary-name">TRFXform7Tuple</a><br />
+      7-Tuple <code>(tx, ty, tz, s, sx, sy, sz)</code> of conversion 
+        parameters with translations <code>tx</code>, <code>ty</code> and 
+        <code>tz</code> in <code>milli-meter</code>, scale <code>s</code> 
+        in <code>ppB</code> and rotations <code>sx</code>, <code>sy</code> 
+        and <code>sz</code> in <code>milli-arc-seconds</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.trf.TRFXform-class.html" class="summary-name">TRFXform</a><br />
+      A Terrestrial Reference Frame (TRF) converter between two reference
+        frames observed at an <code>epoch</code>.
+    </td>
+  </tr>
+</table>
+<!-- ==================== FUNCTIONS ==================== -->
+<a name="section-Functions"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Functions</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.trf-module.html#date2epoch" class="summary-sig-name">date2epoch</a>(<span class="summary-sig-arg">year</span>,
+        <span class="summary-sig-arg">month</span>,
+        <span class="summary-sig-arg">day</span>)</span><br />
+      Return the <code>epoch</code> for a calendar day.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.trf-module.html#epoch2date" class="summary-sig-name">epoch2date</a>(<span class="summary-sig-arg">epoch</span>)</span><br />
+      Return the date for a reference frame <code>epoch</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.trf-module.html#trfTransform0" class="summary-sig-name">trfTransform0</a>(<span class="summary-sig-arg">reframe</span>,
+        <span class="summary-sig-arg">reframe2</span>,
+        <span class="summary-sig-arg">epoch</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">epoch2</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">indirect</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">inverse</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">exhaust</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Get a Helmert transform to convert one <code>reframe</code> observed 
+      at <code>epoch</code> to an other <code>reframe2</code> at observed 
+      at <code>epoch2 or epoch</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.trf-module.html#trfTransforms" class="summary-sig-name">trfTransforms</a>(<span class="summary-sig-arg">reframe</span>,
+        <span class="summary-sig-arg">reframe2</span>,
+        <span class="summary-sig-arg">epoch</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">epoch2</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">indirect</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">inverse</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">exhaust</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Yield all Helmert transform to convert one <code>reframe</code> 
+      observed at <code>epoch</code> to an other <code>reframe2</code> at 
+      observed at <code>epoch2 or epoch</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.trf-module.html#trfXform" class="summary-sig-name">trfXform</a>(<span class="summary-sig-arg">reframe1</span>,
+        <span class="summary-sig-arg">reframe2</span>,
+        <span class="summary-sig-arg">epoch</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">xform</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">rates</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">raiser</span>=<span class="summary-sig-default">True</span>)</span><br />
+      Define a new Terrestrial Reference Frame (TRF) converter or get an 
+      existing one.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+</table>
+<!-- ==================== VARIABLES ==================== -->
+<a name="section-Variables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Variables</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="__all__"></a><span class="summary-name">__all__</span> = <code title="_ALL_LAZY.trf">_ALL_LAZY.trf</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.trf-module.html#RefFrames" class="summary-name">RefFrames</a> = <code title="RefFrames.ETRF89: RefFrame(name='ETRF89', epoch=1989, datum=Datums.GRS\
+80),
+RefFrames.NAD83cors96: RefFrame(name='NAD83cors96', epoch=1997, datum=\
+Datums.GRS80),
+RefFrames.GDA2020: RefFrame(name='GDA2020', epoch=2020, datum=Datums.G\
+RS80),
+RefFrames.ETRF92: RefFrame(name='ETRF92', epoch=1992, datum=Datums.GRS\
+80),
+...">RefFrames.ETRF89: RefFrame(name='ETRF89', epoch=19<code class="variable-ellipsis">...</code></code><br />
+      Some pre-defined <a href="pygeodesy.trf.RefFrame-class.html" 
+      class="link">RefFrame</a>s, all <i>lazily</i> instantiated.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="RefFrames.ETRF2000"></a><span class="summary-name">RefFrames.ETRF2000</span><br />
+      RefFrame(name='ETRF2000', epoch=2005, datum=Datums.GRS80) .Xforms=(0,
+      -14)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="RefFrames.ETRF2005"></a><span class="summary-name">RefFrames.ETRF2005</span><br />
+      RefFrame(name='ETRF2005', epoch=2005, datum=Datums.GRS80) .Xforms=(0,
+      -1)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="RefFrames.ETRF2008"></a><span class="summary-name">RefFrames.ETRF2008</span><br />
+      RefFrame(name='ETRF2008', epoch=2008, datum=Datums.GRS80) .Xforms=(0,
+      0)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="RefFrames.ETRF2014"></a><span class="summary-name">RefFrames.ETRF2014</span><br />
+      RefFrame(name='ETRF2014', epoch=2014, datum=Datums.GRS80) .Xforms=(0,
+      -14)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="RefFrames.ETRF2020"></a><span class="summary-name">RefFrames.ETRF2020</span><br />
+      RefFrame(name='ETRF2020', epoch=2020, datum=Datums.GRS80) .Xforms=(0,
+      -14)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="RefFrames.ETRF88"></a><span class="summary-name">RefFrames.ETRF88</span><br />
+      RefFrame(name='ETRF88', epoch=1988, datum=Datums.GRS80) .Xforms=(0, 
+      0)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="RefFrames.ETRF89"></a><span class="summary-name">RefFrames.ETRF89</span><br />
+      RefFrame(name='ETRF89', epoch=1989, datum=Datums.GRS80) .Xforms=(0, 
+      -1)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="RefFrames.ETRF90"></a><span class="summary-name">RefFrames.ETRF90</span><br />
+      RefFrame(name='ETRF90', epoch=1990, datum=Datums.GRS80) .Xforms=(0, 
+      -1)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="RefFrames.ETRF91"></a><span class="summary-name">RefFrames.ETRF91</span><br />
+      RefFrame(name='ETRF91', epoch=1991, datum=Datums.GRS80) .Xforms=(0, 
+      -1)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="RefFrames.ETRF92"></a><span class="summary-name">RefFrames.ETRF92</span><br />
+      RefFrame(name='ETRF92', epoch=1992, datum=Datums.GRS80) .Xforms=(0, 
+      -1)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="RefFrames.ETRF93"></a><span class="summary-name">RefFrames.ETRF93</span><br />
+      RefFrame(name='ETRF93', epoch=1993, datum=Datums.GRS80) .Xforms=(0, 
+      -1)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="RefFrames.ETRF94"></a><span class="summary-name">RefFrames.ETRF94</span><br />
+      RefFrame(name='ETRF94', epoch=1994, datum=Datums.GRS80) .Xforms=(0, 
+      -1)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="RefFrames.ETRF96"></a><span class="summary-name">RefFrames.ETRF96</span><br />
+      RefFrame(name='ETRF96', epoch=1996, datum=Datums.GRS80) .Xforms=(0, 
+      -1)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="RefFrames.ETRF97"></a><span class="summary-name">RefFrames.ETRF97</span><br />
+      RefFrame(name='ETRF97', epoch=1997, datum=Datums.GRS80) .Xforms=(0, 
+      -1)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="RefFrames.GDA2020"></a><span class="summary-name">RefFrames.GDA2020</span><br />
+      RefFrame(name='GDA2020', epoch=2020, datum=Datums.GRS80) .Xforms=(0, 
+      -4)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="RefFrames.GDA94"></a><span class="summary-name">RefFrames.GDA94</span><br />
+      RefFrame(name='GDA94', epoch=1994, datum=Datums.GRS80) .Xforms=(0, 
+      -3)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="RefFrames.ITRF2000"></a><span class="summary-name">RefFrames.ITRF2000</span><br />
+      RefFrame(name='ITRF2000', epoch=1997, datum=Datums.GRS80) 
+      .Xforms=(15, -5)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="RefFrames.ITRF2005"></a><span class="summary-name">RefFrames.ITRF2005</span><br />
+      RefFrame(name='ITRF2005', epoch=2000, datum=Datums.GRS80) .Xforms=(8,
+      -3)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="RefFrames.ITRF2008"></a><span class="summary-name">RefFrames.ITRF2008</span><br />
+      RefFrame(name='ITRF2008', epoch=2005, datum=Datums.GRS80) 
+      .Xforms=(17, -2)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="RefFrames.ITRF2014"></a><span class="summary-name">RefFrames.ITRF2014</span><br />
+      RefFrame(name='ITRF2014', epoch=2010, datum=Datums.GRS80) 
+      .Xforms=(16, -1)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="RefFrames.ITRF2020"></a><span class="summary-name">RefFrames.ITRF2020</span><br />
+      RefFrame(name='ITRF2020', epoch=2015, datum=Datums.GRS80) 
+      .Xforms=(16, 0)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="RefFrames.ITRF88"></a><span class="summary-name">RefFrames.ITRF88</span><br />
+      RefFrame(name='ITRF88', epoch=1988, datum=Datums.GRS80) .Xforms=(3, 
+      -4)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="RefFrames.ITRF89"></a><span class="summary-name">RefFrames.ITRF89</span><br />
+      RefFrame(name='ITRF89', epoch=1989, datum=Datums.GRS80) .Xforms=(4, 
+      -4)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="RefFrames.ITRF90"></a><span class="summary-name">RefFrames.ITRF90</span><br />
+      RefFrame(name='ITRF90', epoch=1988, datum=Datums.GRS80) .Xforms=(6, 
+      -4)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="RefFrames.ITRF91"></a><span class="summary-name">RefFrames.ITRF91</span><br />
+      RefFrame(name='ITRF91', epoch=1988, datum=Datums.GRS80) .Xforms=(4, 
+      -4)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="RefFrames.ITRF92"></a><span class="summary-name">RefFrames.ITRF92</span><br />
+      RefFrame(name='ITRF92', epoch=1988, datum=Datums.GRS80) .Xforms=(4, 
+      -4)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="RefFrames.ITRF93"></a><span class="summary-name">RefFrames.ITRF93</span><br />
+      RefFrame(name='ITRF93', epoch=1988, datum=Datums.GRS80) .Xforms=(4, 
+      -4)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="RefFrames.ITRF94"></a><span class="summary-name">RefFrames.ITRF94</span><br />
+      RefFrame(name='ITRF94', epoch=1993, datum=Datums.GRS80) .Xforms=(4, 
+      -4)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="RefFrames.ITRF96"></a><span class="summary-name">RefFrames.ITRF96</span><br />
+      RefFrame(name='ITRF96', epoch=1997, datum=Datums.GRS80) .Xforms=(5, 
+      -5)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="RefFrames.ITRF97"></a><span class="summary-name">RefFrames.ITRF97</span><br />
+      RefFrame(name='ITRF97', epoch=1997, datum=Datums.GRS80) .Xforms=(5, 
+      -4)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="RefFrames.NAD83"></a><span class="summary-name">RefFrames.NAD83</span><br />
+      RefFrame(name='NAD83', epoch=1997, datum=Datums.GRS80) .Xforms=(0, 
+      -6)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="RefFrames.NAD83cors96"></a><span class="summary-name">RefFrames.NAD83cors96</span><br />
+      RefFrame(name='NAD83cors96', epoch=1997, datum=Datums.GRS80) 
+      .Xforms=(1, 0)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="RefFrames.WGS84"></a><span class="summary-name">RefFrames.WGS84</span><br />
+      RefFrame(name='WGS84', epoch=1984, datum=Datums.GRS80) .Xforms=(0, 
+      -1)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="RefFrames.WGS84g1150"></a><span class="summary-name">RefFrames.WGS84g1150</span><br />
+      RefFrame(name='WGS84g1150', epoch=2001, datum=Datums.GRS80) 
+      .Xforms=(1, 0)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="RefFrames.WGS84g1674"></a><span class="summary-name">RefFrames.WGS84g1674</span><br />
+      RefFrame(name='WGS84g1674', epoch=2005, datum=Datums.GRS80) 
+      .Xforms=(0, 0)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="RefFrames.WGS84g1762"></a><span class="summary-name">RefFrames.WGS84g1762</span><br />
+      RefFrame(name='WGS84g1762', epoch=2005, datum=Datums.GRS80) 
+      .Xforms=(0, 0)
+    </td>
+  </tr>
+</table>
+<!-- ==================== FUNCTION DETAILS ==================== -->
+<a name="section-FunctionDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Function Details</span></td>
+</tr>
+</table>
+<a name="date2epoch"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">date2epoch</span>&nbsp;(<span class="sig-arg">year</span>,
+        <span class="sig-arg">month</span>,
+        <span class="sig-arg">day</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the <code>epoch</code> for a calendar day.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>year</code></strong> - Year of the date (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>month</code></strong> - Month in the <b><code>year</code></b> (<code>scalar</code>, 
+          1..12).</li>
+        <li><strong class="pname"><code>day</code></strong> - Day in the <b><code>month</code></b> (<code>scalar</code>, 
+          1..31).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Epoch, the fractional year (<code>float</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.TRFError-class.html">TRFError</a></strong></code> - Invalid <b><code>year</code></b>, <b><code>month</code></b> or 
+        <b><code>day</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        Any <b><code>year</code></b> is considered a leap year, i.e. having
+        29 days in February.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="epoch2date"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">epoch2date</span>&nbsp;(<span class="sig-arg">epoch</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the date for a reference frame <code>epoch</code>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>epoch</code></strong> - Fractional year (<code>scalar</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>3-Tuple <code>(year, month, day)</code>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.TRFError-class.html">TRFError</a></strong></code> - Invalid <b><code>epoch</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        Any <b><code>year</code></b> is considered a leap year, i.e. having
+        29 days in February.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="trfTransform0"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">trfTransform0</span>&nbsp;(<span class="sig-arg">reframe</span>,
+        <span class="sig-arg">reframe2</span>,
+        <span class="sig-arg">epoch</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">epoch2</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">indirect</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">inverse</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">exhaust</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Get a Helmert transform to convert one <code>reframe</code> observed 
+  at <code>epoch</code> to an other <code>reframe2</code> at observed at 
+  <code>epoch2 or epoch</code>.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>A <a href="pygeodesy.trf.TransformXform-class.html" 
+          class="link">TransformXform</a> instance, a <code>0-tuple</code> 
+          for <i>unity, identity</i> or <code>None</code> if no conversion 
+          exists.</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.trf-module.html#trfTransforms" 
+        class="link">trfTransforms</a> for futher details.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="trfTransforms"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">trfTransforms</span>&nbsp;(<span class="sig-arg">reframe</span>,
+        <span class="sig-arg">reframe2</span>,
+        <span class="sig-arg">epoch</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">epoch2</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">indirect</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">inverse</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">exhaust</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Yield all Helmert transform to convert one <code>reframe</code> 
+  observed at <code>epoch</code> to an other <code>reframe2</code> at 
+  observed at <code>epoch2 or epoch</code>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>reframe</code></strong> - The frame to convert <i>from</i> (<a 
+          href="pygeodesy.trf.RefFrame-class.html" 
+          class="link">RefFrame</a> or <code>str</code>).</li>
+        <li><strong class="pname"><code>reframe2</code></strong> - The frame to convert <i>to</i> (<a 
+          href="pygeodesy.trf.RefFrame-class.html" 
+          class="link">RefFrame</a> or <code>str</code>).</li>
+        <li><strong class="pname"><code>epoch</code></strong> - Epoch to observe <i>from</i> (<a 
+          href="pygeodesy.units.Epoch-class.html" class="link">Epoch</a>, 
+          <code>scalar</code> or <code>str</code>), otherwise 
+          <code><b>reframe</b></code>'s <code>epoch</code>.</li>
+        <li><strong class="pname"><code>epoch2</code></strong> - Optional epoch to observe <i>to</i> (<a 
+          href="pygeodesy.units.Epoch-class.html" class="link">Epoch</a>, 
+          <code>scalar</code> or <code>str</code>), otherwise 
+          <b><code>epoch</code></b>.</li>
+        <li><strong class="pname"><code>indirect</code></strong> - If <code>True</code>, include transforms via <i>one</i> 
+          intermediate reframe, otherwise only <i>direct</i> 
+          <b><code>reframe</code></b> to <b><code>reframe2</code></b> 
+          transforms (<code>bool</code>).</li>
+        <li><strong class="pname"><code>inverse</code></strong> - If <code>True</code>, include inverse, otherwise only forward 
+          transforms (<code>bool</code>).</li>
+        <li><strong class="pname"><code>exhaust</code></strong> - If <code>True</code>, exhaustively generate all transforms, 
+          forward and inverse and via any number of intermediate reframes 
+          (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A <a href="pygeodesy.trf.TransformXform-class.html" 
+          class="link">TransformXform</a> instance for each available 
+          conversion, without duplicates.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.TRFError-class.html">TRFError</a></strong></code> - Invalid <b><code>reframe</code></b>, <b><code>reframe2</code></b>, 
+        <b><code>epoch</code></b> or <b><code>epoch2</code></b>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>reframe</code></b> or 
+        <b><code>reframe2</code></b>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="trfXform"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">trfXform</span>&nbsp;(<span class="sig-arg">reframe1</span>,
+        <span class="sig-arg">reframe2</span>,
+        <span class="sig-arg">epoch</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">xform</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">rates</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">raiser</span>=<span class="sig-default">True</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Define a new Terrestrial Reference Frame (TRF) converter or get an 
+  existing one.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>reframe1</code></strong> - Source frame (<a href="pygeodesy.trf.RefFrame-class.html" 
+          class="link">RefFrame</a> or <code>str</code>), converting 
+          <i>from</i>.</li>
+        <li><strong class="pname"><code>reframe2</code></strong> - Destination frame (<a href="pygeodesy.trf.RefFrame-class.html" 
+          class="link">RefFrame</a> or <code>str</code>), converting 
+          <i>to</i>.</li>
+        <li><strong class="pname"><code>epoch</code></strong> - Epoch, a fractional year (<a 
+          href="pygeodesy.units.Epoch-class.html" class="link">Epoch</a>, 
+          <code>scalar</code> or <code>str</code>) or <code>None</code> for
+          <code><b>reframe2</b></code>'s epoch.</li>
+        <li><strong class="pname"><code>xform</code></strong> - <i>Transform</i> parameters (<a 
+          href="pygeodesy.trf.TRFXform7Tuple-class.html" 
+          class="link">TRFXform7Tuple</a>).</li>
+        <li><strong class="pname"><code>rates</code></strong> - <i>Rate</i> parameters (<a 
+          href="pygeodesy.trf.TRFXform7Tuple-class.html" 
+          class="link">TRFXform7Tuple</a>), as <b><code>xform</code></b>, 
+          but in <code>units-per-year</code>.</li>
+        <li><strong class="pname"><code>raiser</code></strong> - If <code>False</code>, do not raise an error if the converter 
+          exists, replace it (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The new TRF converter (<a 
+          href="pygeodesy.trf.TRFXform-class.html" 
+          class="link">TRFXform</a>) or if no <b><code>epoch</code></b>, 
+          <b><code>xform</code></b> and <b><code>rates</code></b> are 
+          given, return the existing one (<a 
+          href="pygeodesy.trf.TRFXform-class.html" 
+          class="link">TRFXform</a>) or <code>None</code> if not available.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.TRFError-class.html">TRFError</a></strong></code> - Invalid <b><code>reframe1</code></b>, <b><code>reframe2</code></b>,
+        <b><code>epoch</code></b>, <b><code>xform</code></b> or 
+        <b><code>rates</code></b> or the TRF converter already exists.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== VARIABLES DETAILS ==================== -->
+<a name="section-VariablesDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Variables Details</span></td>
+</tr>
+</table>
+<a name="RefFrames"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">RefFrames</h3>
+  <p>Some pre-defined <a href="pygeodesy.trf.RefFrame-class.html" 
+  class="link">RefFrame</a>s, all <i>lazily</i> instantiated.</p>
+  <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+RefFrames.ETRF89: RefFrame(name='ETRF89', epoch=1989, datum=Datums.GRS<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+80),
+RefFrames.NAD83cors96: RefFrame(name='NAD83cors96', epoch=1997, datum=<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+Datums.GRS80),
+RefFrames.GDA2020: RefFrame(name='GDA2020', epoch=2020, datum=Datums.G<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+RS80),
+RefFrames.ETRF92: RefFrame(name='ETRF92', epoch=1992, datum=Datums.GRS<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+80),
+<code class="variable-ellipsis">...</code>
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Thu Jun 27 19:44:13 2024
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

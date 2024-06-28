@@ -1,0 +1,969 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>pygeodesy.triaxials.Triaxial</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="pygeodesy-module.html">Package&nbsp;pygeodesy</a> ::
+        <a href="pygeodesy.triaxials-module.html">Module&nbsp;triaxials</a> ::
+        Class&nbsp;Triaxial
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="pygeodesy.triaxials.Triaxial-class.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS DESCRIPTION ==================== -->
+<h1 class="epydoc">Class Triaxial</h1><p class="nomargin-top"></p>
+<pre class="base-tree">
+  object --+                
+           |                
+<a href="pygeodesy.named._Named-class.html">named._Named</a> --+            
+               |            
+<a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a> --+        
+                   |        
+<a href="pygeodesy.named._NamedEnumItem-class.html">named._NamedEnumItem</a> --+    
+                       |    
+               <a href="pygeodesy.triaxials.Triaxial_-class.html">Triaxial_</a> --+
+                           |
+                          <strong class="uidshort">Triaxial</strong>
+</pre>
+
+<dl><dt>Known Subclasses:</dt>
+<dd>
+      <ul class="subclass-list">
+<li><a href="pygeodesy.triaxials.JacobiConformal-class.html">JacobiConformal</a></li>  </ul>
+</dd></dl>
+
+<hr />
+<p><i>Ordered</i> triaxial ellipsoid.</p>
+
+<hr />
+<div class="fields">      <p><strong>See Also:</strong>
+        <a href="pygeodesy.triaxials.Triaxial_-class.html" 
+        class="link">Triaxial_</a> for more information.
+      </p>
+</div><!-- ==================== INSTANCE METHODS ==================== -->
+<a name="section-InstanceMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Instance Methods</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.triaxials.Triaxial-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">a_triaxial</span>,
+        <span class="summary-sig-arg">b</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">c</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">**name</span>)</span><br />
+      New <i>ordered</i> <a href="pygeodesy.triaxials.Triaxial-class.html" 
+      class="link">Triaxial</a>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.triaxials.Triaxial-class.html#forwardBetaOmega" class="summary-sig-name">forwardBetaOmega</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">beta</span>,
+        <span class="summary-sig-arg">omega</span>,
+        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">0</span>,
+        <span class="summary-sig-arg">**name</span>)</span><br />
+      Convert <i>ellipsoidal</i> lat- and longitude <code>beta</code>, 
+      <code>omega</code> and height to cartesian.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.triaxials.Triaxial-class.html#forwardBetaOmega_" class="summary-sig-name">forwardBetaOmega_</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">sbeta</span>,
+        <span class="summary-sig-arg">cbeta</span>,
+        <span class="summary-sig-arg">somega</span>,
+        <span class="summary-sig-arg">comega</span>,
+        <span class="summary-sig-arg">**name</span>)</span><br />
+      Convert <i>ellipsoidal</i> lat- and longitude <code>beta</code> and 
+      <code>omega</code> to cartesian coordinates <i>on the triaxial's 
+      surface</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.triaxials.Triaxial-class.html#forwardCartesian" class="summary-sig-name">forwardCartesian</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">x_xyz</span>,
+        <span class="summary-sig-arg">y</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">z</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">**normal_eps_name</span>)</span><br />
+      Project a cartesian on this triaxial.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.triaxials.Triaxial-class.html#forwardLatLon" class="summary-sig-name">forwardLatLon</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">lat</span>,
+        <span class="summary-sig-arg">lon</span>,
+        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">0</span>,
+        <span class="summary-sig-arg">**name</span>)</span><br />
+      Convert <i>geodetic</i> lat-, longitude and heigth to cartesian.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.triaxials.Triaxial-class.html#forwardLatLon_" class="summary-sig-name">forwardLatLon_</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">slat</span>,
+        <span class="summary-sig-arg">clat</span>,
+        <span class="summary-sig-arg">slon</span>,
+        <span class="summary-sig-arg">clon</span>,
+        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">0</span>,
+        <span class="summary-sig-arg">**name</span>)</span><br />
+      Convert <i>geodetic</i> lat-, longitude and heigth to cartesian.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.triaxials.Triaxial-class.html#reverseBetaOmega" class="summary-sig-name">reverseBetaOmega</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">x_xyz</span>,
+        <span class="summary-sig-arg">y</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">z</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">**name</span>)</span><br />
+      Convert cartesian to <i>ellipsoidal</i> lat- and longitude, 
+      <code>beta</code>, <code>omega</code> and height.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.triaxials.Triaxial-class.html#reverseCartesian" class="summary-sig-name">reverseCartesian</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">x_xyz</span>,
+        <span class="summary-sig-arg">y</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">z</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">h</span>=<span class="summary-sig-default">0</span>,
+        <span class="summary-sig-arg">normal</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">4.440892098500626e-12</span>,
+        <span class="summary-sig-arg">**name</span>)</span><br />
+      &quot;Unproject&quot; a cartesian on to a cartesion <i>off</i> this 
+      triaxial's surface.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.triaxials.Triaxial-class.html#reverseLatLon" class="summary-sig-name">reverseLatLon</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">x_xyz</span>,
+        <span class="summary-sig-arg">y</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">z</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">**name</span>)</span><br />
+      Convert cartesian to <i>geodetic</i> lat-, longitude and height.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.triaxials.Triaxial_-class.html">Triaxial_</a></code></b>:
+      <code><a href="pygeodesy.triaxials.Triaxial_-class.html#__str__">__str__</a></code>,
+      <code><a href="pygeodesy.triaxials.Triaxial_-class.html#area_p">area_p</a></code>,
+      <code><a href="pygeodesy.triaxials.Triaxial_-class.html#hartzell4">hartzell4</a></code>,
+      <code><a href="pygeodesy.triaxials.Triaxial_-class.html#height4">height4</a></code>,
+      <code><a href="pygeodesy.triaxials.Triaxial_-class.html#normal3d">normal3d</a></code>,
+      <code><a href="pygeodesy.triaxials.Triaxial_-class.html#sideOf">sideOf</a></code>,
+      <code><a href="pygeodesy.triaxials.Triaxial_-class.html#toEllipsoid">toEllipsoid</a></code>,
+      <code><a href="pygeodesy.triaxials.Triaxial_-class.html#toStr">toStr</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._NamedEnumItem-class.html">named._NamedEnumItem</a></code></b>:
+      <code><a href="pygeodesy.named._NamedEnumItem-class.html#unregister">unregister</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a></code></b>:
+      <code><a href="pygeodesy.named._NamedBase-class.html#__repr__">__repr__</a></code>,
+      <code><a href="pygeodesy.named._NamedBase-class.html#others">others</a></code>,
+      <code><a href="pygeodesy.named._NamedBase-class.html#toRepr">toRepr</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
+      <code><a href="pygeodesy.named._Named-class.html#__imatmul__">__imatmul__</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#__matmul__">__matmul__</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#__rmatmul__">__rmatmul__</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#attrs">attrs</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#classof">classof</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#copy">copy</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#dup">dup</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#methodname">methodname</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#rename">rename</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#renamed">renamed</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#toStr2">toStr2</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__delattr__</code>,
+      <code>__format__</code>,
+      <code>__getattribute__</code>,
+      <code>__hash__</code>,
+      <code>__new__</code>,
+      <code>__reduce__</code>,
+      <code>__reduce_ex__</code>,
+      <code>__setattr__</code>,
+      <code>__sizeof__</code>,
+      <code>__subclasshook__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== PROPERTIES ==================== -->
+<a name="section-Properties"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Properties</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.triaxials.Triaxial-class.html#area" class="summary-name">area</a><br />
+      Get the surface area (<code>meter</code> <i>squared</i>).
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.triaxials.Triaxial_-class.html">Triaxial_</a></code></b>:
+      <code><a href="pygeodesy.triaxials.Triaxial_-class.html#a">a</a></code>,
+      <code><a href="pygeodesy.triaxials.Triaxial_-class.html#b">b</a></code>,
+      <code><a href="pygeodesy.triaxials.Triaxial_-class.html#c">c</a></code>,
+      <code><a href="pygeodesy.triaxials.Triaxial_-class.html#e2ab">e2ab</a></code>,
+      <code><a href="pygeodesy.triaxials.Triaxial_-class.html#e2ac">e2ac</a></code>,
+      <code><a href="pygeodesy.triaxials.Triaxial_-class.html#e2bc">e2bc</a></code>,
+      <code><a href="pygeodesy.triaxials.Triaxial_-class.html#isOrdered">isOrdered</a></code>,
+      <code><a href="pygeodesy.triaxials.Triaxial_-class.html#isSpherical">isSpherical</a></code>,
+      <code><a href="pygeodesy.triaxials.Triaxial_-class.html#volume">volume</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._NamedEnumItem-class.html">named._NamedEnumItem</a></code></b>:
+      <code><a href="pygeodesy.named._NamedEnumItem-class.html#name">name</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
+      <code><a href="pygeodesy.named._Named-class.html#classname">classname</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#classnaming">classnaming</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#iteration">iteration</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#named">named</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#named2">named2</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#named3">named3</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#named4">named4</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#sizeof">sizeof</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__class__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== METHOD DETAILS ==================== -->
+<a name="section-MethodDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Method Details</span></td>
+</tr>
+</table>
+<a name="__init__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">a_triaxial</span>,
+        <span class="sig-arg">b</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">c</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">**name</span>)</span>
+    <br /><em class="fname">(Constructor)</em>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>New <i>ordered</i> <a href="pygeodesy.triaxials.Triaxial-class.html" 
+  class="link">Triaxial</a>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>a_triaxial</code></strong> - Largest semi-axis (<code>scalar</code>, conventionally in 
+          <code>meter</code>) or an other <a 
+          href="pygeodesy.triaxials.Triaxial-class.html" 
+          class="link">Triaxial</a> or <a 
+          href="pygeodesy.triaxials.Triaxial_-class.html" 
+          class="link">Triaxial_</a> instance.</li>
+        <li><strong class="pname"><code>b</code></strong> - Middle semi-axis (<code>meter</code>, same units as 
+          <b><code>a</code></b>), required if <code><b>a_triaxial</b> is 
+          scalar</code>, ignored otherwise.</li>
+        <li><strong class="pname"><code>c</code></strong> - Smallest semi-axis (<code>meter</code>, like 
+          <b><code>b</code></b>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
+    </ul></dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.triaxials.TriaxialError-class.html">TriaxialError</a></strong></code> - Semi-axes unordered, spherical or invalid.</li>
+    </ul></dd>
+    <dt>Overrides:
+        object.__init__
+    </dt>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        The semi-axes must be ordered as <code><b>a</b> &gt;= <b>b</b> 
+        &gt;= <b>c</b> &gt; 0</code> and must be ellipsoidal, 
+        <code><b>a</b> &gt; <b>c</b></code>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="forwardBetaOmega"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">forwardBetaOmega</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">beta</span>,
+        <span class="sig-arg">omega</span>,
+        <span class="sig-arg">height</span>=<span class="sig-default">0</span>,
+        <span class="sig-arg">**name</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert <i>ellipsoidal</i> lat- and longitude <code>beta</code>, 
+  <code>omega</code> and height to cartesian.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>beta</code></strong> - Ellipsoidal latitude (<code>radians</code> or <a 
+          href="pygeodesy.units.Degrees-class.html" 
+          class="link">Degrees</a>).</li>
+        <li><strong class="pname"><code>omega</code></strong> - Ellipsoidal longitude (<code>radians</code> or <a 
+          href="pygeodesy.units.Degrees-class.html" 
+          class="link">Degrees</a>).</li>
+        <li><strong class="pname"><code>height</code></strong> - Height above or below the ellipsoid's surface 
+          (<code>meter</code>, same units as this triaxial's 
+          <code>a</code>, <code>b</code> and <code>c</code> semi-axes).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A <a href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
+          class="link">Vector3Tuple</a><code>(x, y, z)</code>.</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Method <a 
+        href="pygeodesy.triaxials.Triaxial-class.html#reverseBetaOmega" 
+        class="link">Triaxial.reverseBetaOmega</a> and <a 
+        href="https://www.Topo.Auth.GR/wp-content/uploads/sites/111/2021/12/09_Panou.pdf"
+        target="_top">Expressions (23-25)</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="forwardBetaOmega_"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">forwardBetaOmega_</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">sbeta</span>,
+        <span class="sig-arg">cbeta</span>,
+        <span class="sig-arg">somega</span>,
+        <span class="sig-arg">comega</span>,
+        <span class="sig-arg">**name</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert <i>ellipsoidal</i> lat- and longitude <code>beta</code> and 
+  <code>omega</code> to cartesian coordinates <i>on the triaxial's 
+  surface</i>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>sbeta</code></strong> - Ellipsoidal latitude <code>sin(beta)</code> 
+          (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>cbeta</code></strong> - Ellipsoidal latitude <code>cos(beta)</code> 
+          (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>somega</code></strong> - Ellipsoidal longitude <code>sin(omega)</code> 
+          (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>comega</code></strong> - Ellipsoidal longitude <code>cos(omega)</code> 
+          (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A <a href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
+          class="link">Vector3Tuple</a><code>(x, y, z)</code> on the 
+          surface.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.triaxials.TriaxialError-class.html">TriaxialError</a></strong></code> - This triaxial is near-spherical.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Method <a 
+        href="pygeodesy.triaxials.Triaxial-class.html#reverseBetaOmega" 
+        class="link">Triaxial.reverseBetaOmega</a>, <a 
+        href="https://WikiPedia.org/wiki/Geodesics_on_an_ellipsoid#Triaxial_ellipsoid_coordinate_system"
+        target="_top">Triaxial ellipsoid coordinate system</a> and <a 
+        href="https://www.Topo.Auth.GR/wp-content/uploads/sites/111/2021/12/09_Panou.pdf"
+        target="_top">expressions (23-25)</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="forwardCartesian"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">forwardCartesian</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">x_xyz</span>,
+        <span class="sig-arg">y</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">z</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">**normal_eps_name</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Project a cartesian on this triaxial.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>x_xyz</code></strong> - X component (<code>scalar</code>) or a cartesian 
+          (<code>Cartesian</code>, <a 
+          href="pygeodesy.ecef.Ecef9Tuple-class.html" 
+          class="link">Ecef9Tuple</a>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <a 
+          href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
+          class="link">Vector3Tuple</a> or <a 
+          href="pygeodesy.namedTuples.Vector4Tuple-class.html" 
+          class="link">Vector4Tuple</a>).</li>
+        <li><strong class="pname"><code>y</code></strong> - Y component (<code>scalar</code>), required if 
+          <b><code>x_xyz</code></b> if <code>scalar</code>, ignored 
+          otherwise.</li>
+        <li><strong class="pname"><code>z</code></strong> - Z component (<code>scalar</code>), like <b><code>y</code></b>.</li>
+        <li><strong class="pname"><code>normal_eps_name</code></strong> - Optional keyword arguments <code><b>normal</b>=True</code>, 
+          <code><b>eps</b>=EPS</code> and overriding 
+          <code><b>name</b>=&quot;height4&quot;</code> (<code>str</code>), 
+          see method <a 
+          href="pygeodesy.triaxials.Triaxial_-class.html#height4" 
+          class="link">Triaxial.height4</a>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Method <a href="pygeodesy.triaxials.Triaxial_-class.html#height4" 
+        class="link">Triaxial.height4</a> for further information and 
+        method <a 
+        href="pygeodesy.triaxials.Triaxial-class.html#reverseCartesian" 
+        class="link">Triaxial.reverseCartesian</a> to reverse the 
+        projection.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="forwardLatLon"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">forwardLatLon</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">lat</span>,
+        <span class="sig-arg">lon</span>,
+        <span class="sig-arg">height</span>=<span class="sig-default">0</span>,
+        <span class="sig-arg">**name</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert <i>geodetic</i> lat-, longitude and heigth to cartesian.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>lat</code></strong> - Geodetic latitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lon</code></strong> - Geodetic longitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>height</code></strong> - Height above the ellipsoid (<code>meter</code>, same units as 
+          this triaxial's <code>a</code>, <code>b</code> and <code>c</code>
+          axes).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A <a href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
+          class="link">Vector3Tuple</a><code>(x, y, z)</code>.</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Method <a 
+        href="pygeodesy.triaxials.Triaxial-class.html#reverseLatLon" 
+        class="link">Triaxial.reverseLatLon</a> and <a 
+        href="https://www.Topo.Auth.GR/wp-content/uploads/sites/111/2021/12/09_Panou.pdf"
+        target="_top">Expressions (9-11)</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="forwardLatLon_"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">forwardLatLon_</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">slat</span>,
+        <span class="sig-arg">clat</span>,
+        <span class="sig-arg">slon</span>,
+        <span class="sig-arg">clon</span>,
+        <span class="sig-arg">height</span>=<span class="sig-default">0</span>,
+        <span class="sig-arg">**name</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert <i>geodetic</i> lat-, longitude and heigth to cartesian.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>slat</code></strong> - Geodetic latitude <code>sin(lat)</code> (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>clat</code></strong> - Geodetic latitude <code>cos(lat)</code> (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>slon</code></strong> - Geodetic longitude <code>sin(lon)</code> (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>clon</code></strong> - Geodetic longitude <code>cos(lon)</code> (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>height</code></strong> - Height above the ellipsoid (<code>meter</code>, same units as 
+          this triaxial's axes <code>a</code>, <code>b</code> and 
+          <code>c</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A <a href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
+          class="link">Vector3Tuple</a><code>(x, y, z)</code>.</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Method <a 
+        href="pygeodesy.triaxials.Triaxial-class.html#reverseLatLon" 
+        class="link">Triaxial.reverseLatLon</a> and <a 
+        href="https://www.Topo.Auth.GR/wp-content/uploads/sites/111/2021/12/09_Panou.pdf"
+        target="_top">Expressions (9-11)</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="reverseBetaOmega"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">reverseBetaOmega</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">x_xyz</span>,
+        <span class="sig-arg">y</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">z</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">**name</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert cartesian to <i>ellipsoidal</i> lat- and longitude, 
+  <code>beta</code>, <code>omega</code> and height.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>x_xyz</code></strong> - X component (<code>scalar</code>) or a cartesian 
+          (<code>Cartesian</code>, <a 
+          href="pygeodesy.ecef.Ecef9Tuple-class.html" 
+          class="link">Ecef9Tuple</a>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <a 
+          href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
+          class="link">Vector3Tuple</a> or <a 
+          href="pygeodesy.namedTuples.Vector4Tuple-class.html" 
+          class="link">Vector4Tuple</a>).</li>
+        <li><strong class="pname"><code>y</code></strong> - Y component (<code>scalar</code>), required if 
+          <b><code>x_xyz</code></b> if <code>scalar</code>, ignored 
+          otherwise.</li>
+        <li><strong class="pname"><code>z</code></strong> - Z component (<code>scalar</code>), like <b><code>y</code></b>.</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A <a href="pygeodesy.triaxials.BetaOmega3Tuple-class.html" 
+          class="link">BetaOmega3Tuple</a><code>(beta, omega, 
+          height)</code> with <code>beta</code> and <code>omega</code> in 
+          <a href="pygeodesy.units.Radians-class.html" 
+          class="link">Radians</a> and (radial) <code>height</code> in 
+          <code>meter</code>, same units as this triaxial's axes.</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Methods <a 
+        href="pygeodesy.triaxials.Triaxial-class.html#forwardBetaOmega" 
+        class="link">Triaxial.forwardBetaOmega</a> and <a 
+        href="pygeodesy.triaxials.Triaxial-class.html#forwardBetaOmega_" 
+        class="link">Triaxial.forwardBetaOmega_</a> and <a 
+        href="https://www.Topo.Auth.GR/wp-content/uploads/sites/111/2021/12/09_Panou.pdf"
+        target="_top">Expressions (21-22)</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="reverseCartesian"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">reverseCartesian</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">x_xyz</span>,
+        <span class="sig-arg">y</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">z</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">h</span>=<span class="sig-default">0</span>,
+        <span class="sig-arg">normal</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">eps</span>=<span class="sig-default">4.440892098500626e-12</span>,
+        <span class="sig-arg">**name</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>&quot;Unproject&quot; a cartesian on to a cartesion <i>off</i> this 
+  triaxial's surface.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>x_xyz</code></strong> - X component (<code>scalar</code>) or a cartesian 
+          (<code>Cartesian</code>, <a 
+          href="pygeodesy.ecef.Ecef9Tuple-class.html" 
+          class="link">Ecef9Tuple</a>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <a 
+          href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
+          class="link">Vector3Tuple</a> or <a 
+          href="pygeodesy.namedTuples.Vector4Tuple-class.html" 
+          class="link">Vector4Tuple</a>).</li>
+        <li><strong class="pname"><code>y</code></strong> - Y component (<code>scalar</code>), required if 
+          <b><code>x_xyz</code></b> if <code>scalar</code>, ignored 
+          otherwise.</li>
+        <li><strong class="pname"><code>z</code></strong> - Z component (<code>scalar</code>), like <b><code>y</code></b>.</li>
+        <li><strong class="pname"><code>h</code></strong> - Height above or below this triaxial's surface 
+          (<code>meter</code>, same units as the axes).</li>
+        <li><strong class="pname"><code>normal</code></strong> - If <code>True</code> the height is <code>normal</code> to the 
+          surface, otherwise <code>radially</code> to the center of this 
+          triaxial (<code>bool</code>).</li>
+        <li><strong class="pname"><code>eps</code></strong> - Tolerance for surface test (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A <a href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
+          class="link">Vector3Tuple</a><code>(x, y, z)</code>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TrialError</strong></code> - Cartesian <code>(x, y, z)</code> not on this triaxial's surface.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Methods <a 
+        href="pygeodesy.triaxials.Triaxial-class.html#forwardCartesian" 
+        class="link">Triaxial.forwardCartesian</a> and <a 
+        href="pygeodesy.triaxials.Triaxial_-class.html#height4" 
+        class="link">Triaxial.height4</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="reverseLatLon"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">reverseLatLon</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">x_xyz</span>,
+        <span class="sig-arg">y</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">z</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">**name</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert cartesian to <i>geodetic</i> lat-, longitude and height.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>x_xyz</code></strong> - X component (<code>scalar</code>) or a cartesian 
+          (<code>Cartesian</code>, <a 
+          href="pygeodesy.ecef.Ecef9Tuple-class.html" 
+          class="link">Ecef9Tuple</a>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <a 
+          href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
+          class="link">Vector3Tuple</a> or <a 
+          href="pygeodesy.namedTuples.Vector4Tuple-class.html" 
+          class="link">Vector4Tuple</a>).</li>
+        <li><strong class="pname"><code>y</code></strong> - Y component (<code>scalar</code>), required if 
+          <b><code>x_xyz</code></b> if <code>scalar</code>, ignored 
+          otherwise.</li>
+        <li><strong class="pname"><code>z</code></strong> - Z component (<code>scalar</code>), like <b><code>y</code></b>.</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A <a href="pygeodesy.namedTuples.LatLon3Tuple-class.html" 
+          class="link">LatLon3Tuple</a><code>(lat, lon, height)</code> with
+          <code>lat</code> and <code>lon</code> in <code>degrees</code> and
+          (radial) <code>height</code> in <code>meter</code>, same units as
+          this triaxial's axes.</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Methods <a 
+        href="pygeodesy.triaxials.Triaxial-class.html#forwardLatLon" 
+        class="link">Triaxial.forwardLatLon</a> and <a 
+        href="pygeodesy.triaxials.Triaxial-class.html#forwardLatLon_" 
+        class="link">Triaxial.forwardLatLon_</a> and <a 
+        href="https://www.Topo.Auth.GR/wp-content/uploads/sites/111/2021/12/09_Panou.pdf"
+        target="_top">Expressions (4-5)</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<br />
+<!-- ==================== PROPERTY DETAILS ==================== -->
+<a name="section-PropertyDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Property Details</span></td>
+</tr>
+</table>
+<a name="area"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">area</h3>
+  <p>Get the surface area (<code>meter</code> <i>squared</i>).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">area(<span class="summary-sig-arg">self</span>)</span>
+        - Get the surface area (<code>meter</code> <i>squared</i>).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a href="https://WikiPedia.org/wiki/Ellipsoid#Surface_area" 
+        target="_top">Surface area</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Thu Jun 27 19:44:16 2024
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

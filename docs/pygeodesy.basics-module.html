@@ -1,0 +1,1755 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>pygeodesy.basics</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="pygeodesy-module.html">Package&nbsp;pygeodesy</a> ::
+        Module&nbsp;basics
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="pygeodesy.basics-module.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== MODULE DESCRIPTION ==================== -->
+<h1 class="epydoc">Module basics</h1><p class="nomargin-top"></p>
+<p>Some, basic definitions, functions and dependencies.</p>
+  <p>Use env variable <code>PYGEODESY_XPACKAGES</code> to avoid import of 
+  dependencies <code>geographiclib</code>, <code>numpy</code> and/or 
+  <code>scipy</code>.  Set <code>PYGEODESY_XPACKAGES</code> to a 
+  comma-separated list of package names to be excluded from import.</p>
+
+<hr />
+<div class="fields">      <p><strong>Version:</strong>
+        24.06.15
+      </p>
+</div><!-- ==================== FUNCTIONS ==================== -->
+<a name="section-Functions"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Functions</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="str2ub"></a><span class="summary-sig-name">str2ub</span>(<span class="summary-sig-arg">arg</span>)</span><br />
+      (INTERNAL) Helper, no-op.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="ub2str"></a><span class="summary-sig-name">ub2str</span>(<span class="summary-sig-arg">arg</span>)</span><br />
+      (INTERNAL) Helper, no-op.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.basics-module.html#clips" class="summary-sig-name">clips</a>(<span class="summary-sig-arg">sb</span>,
+        <span class="summary-sig-arg">limit</span>=<span class="summary-sig-default">50</span>,
+        <span class="summary-sig-arg">white</span>=<span class="summary-sig-default">''</span>)</span><br />
+      Clip a string to the given length limit.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.basics-module.html#copysign0" class="summary-sig-name">copysign0</a>(<span class="summary-sig-arg">x</span>,
+        <span class="summary-sig-arg">y</span>)</span><br />
+      Like <code>math.copysign(x, y)</code> except <code>zero</code>, 
+      <i>unsigned</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.basics-module.html#copytype" class="summary-sig-name">copytype</a>(<span class="summary-sig-arg">x</span>,
+        <span class="summary-sig-arg">y</span>)</span><br />
+      Return the value of <b>x</b> as <code>type</code> of <code>y</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.basics-module.html#halfs2" class="summary-sig-name">halfs2</a>(<span class="summary-sig-arg">str2</span>)</span><br />
+      Split a string in 2 halfs.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.basics-module.html#int1s" class="summary-sig-name">int1s</a>(<span class="summary-sig-arg">x</span>)</span><br />
+      Count the number of 1-bits in an <code>int</code>, <i>unsigned</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.basics-module.html#isbool" class="summary-sig-name">isbool</a>(<span class="summary-sig-arg">obj</span>)</span><br />
+      Is <b><code>obj</code></b>ect a <code>bool</code>ean?</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.basics-module.html#isCartesian" class="summary-sig-name">isCartesian</a>(<span class="summary-sig-arg">obj</span>,
+        <span class="summary-sig-arg">ellipsoidal</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Is <b><code>obj</code></b>ect some <code>Cartesian</code>?</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="isclass"></a><span class="summary-sig-name">isclass</span>(<span class="summary-sig-arg">obj</span>)</span><br />
+      Is <b><code>obj</code></b>ect a <code>Class</code> or 
+      <code>type</code>?</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.basics-module.html#iscomplex" class="summary-sig-name">iscomplex</a>(<span class="summary-sig-arg">obj</span>,
+        <span class="summary-sig-arg">both</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Is <b><code>obj</code></b>ect a <code>complex</code> or complex 
+      literal <code>str</code>?</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.basics-module.html#isDEPRECATED" class="summary-sig-name">isDEPRECATED</a>(<span class="summary-sig-arg">obj</span>)</span><br />
+      Is <b><code>obj</code></b>ect a <code>DEPRECATED</code> class, method
+      or function?</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.basics-module.html#isfloat" class="summary-sig-name">isfloat</a>(<span class="summary-sig-arg">obj</span>,
+        <span class="summary-sig-arg">both</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Is <b><code>obj</code></b>ect a <code>float</code> or float literal 
+      <code>str</code>?</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="isidentifier"></a><span class="summary-sig-name">isidentifier</span>(<span class="summary-sig-arg">obj</span>)</span><br />
+      Is <b><code>obj</code></b>ect a Python identifier?</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.basics-module.html#isinstanceof" class="summary-sig-name">isinstanceof</a>(<span class="summary-sig-arg">obj</span>,
+        <span class="summary-sig-arg">*Classes</span>)</span><br />
+      Is <b><code>obj</code></b>ect an instance of one of the 
+      <code>Classes</code>?</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.basics-module.html#isint" class="summary-sig-name">isint</a>(<span class="summary-sig-arg">obj</span>,
+        <span class="summary-sig-arg">both</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Is <b><code>obj</code></b>ect an <code>int</code> or integer 
+      <code>float</code> value?</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.basics-module.html#isiterable" class="summary-sig-name">isiterable</a>(<span class="summary-sig-arg">obj</span>)</span><br />
+      Is <b><code>obj</code></b>ect <code>iterable</code>?</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.basics-module.html#isiterablen" class="summary-sig-name">isiterablen</a>(<span class="summary-sig-arg">obj</span>)</span><br />
+      Is <b><code>obj</code></b>ect <code>iterable</code> and has 
+      <code>len</code>gth?</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="iskeyword"></a><span class="summary-sig-name">iskeyword</span>(<span class="summary-sig-arg">x</span>,
+        <span class="summary-sig-arg">y</span>)</span><br />
+      y in x.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.basics-module.html#isLatLon" class="summary-sig-name">isLatLon</a>(<span class="summary-sig-arg">obj</span>,
+        <span class="summary-sig-arg">ellipsoidal</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Is <b><code>obj</code></b>ect some <code>LatLon</code>?</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.basics-module.html#islistuple" class="summary-sig-name">islistuple</a>(<span class="summary-sig-arg">obj</span>,
+        <span class="summary-sig-arg">minum</span>=<span class="summary-sig-default">0</span>)</span><br />
+      Is <b><code>obj</code></b>ect a <code>list</code> or 
+      <code>tuple</code> with non-zero length?</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.basics-module.html#isNvector" class="summary-sig-name">isNvector</a>(<span class="summary-sig-arg">obj</span>,
+        <span class="summary-sig-arg">ellipsoidal</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Is <b><code>obj</code></b>ect some <code>Nvector</code>?</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.basics-module.html#isodd" class="summary-sig-name">isodd</a>(<span class="summary-sig-arg">x</span>)</span><br />
+      Is <b><code>x</code></b> odd?</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.basics-module.html#isscalar" class="summary-sig-name">isscalar</a>(<span class="summary-sig-arg">obj</span>,
+        <span class="summary-sig-arg">both</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Is <b><code>obj</code></b>ect an <code>int</code> or integer 
+      <code>float</code> value?</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.basics-module.html#issequence" class="summary-sig-name">issequence</a>(<span class="summary-sig-arg">obj</span>,
+        <span class="summary-sig-arg">*excls</span>)</span><br />
+      Is <b><code>obj</code></b>ect some sequence type?</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.basics-module.html#isstr" class="summary-sig-name">isstr</a>(<span class="summary-sig-arg">obj</span>)</span><br />
+      Is <b><code>obj</code></b>ect some string type?</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.basics-module.html#issubclassof" class="summary-sig-name">issubclassof</a>(<span class="summary-sig-arg">Sub</span>,
+        <span class="summary-sig-arg">*Supers</span>)</span><br />
+      Is <b><code>Sub</code></b> a class and sub-class of some other 
+      class(es)?</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.basics-module.html#itemsorted" class="summary-sig-name">itemsorted</a>(<span class="summary-sig-arg">adict</span>,
+        <span class="summary-sig-arg">*items_args</span>,
+        <span class="summary-sig-arg">**asorted_reverse</span>)</span><br />
+      Return the items of <code><b>adict</b></code> sorted 
+      <i>alphabetically, case-insensitively</i> and in <i>ascending</i> 
+      order.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.basics-module.html#len2" class="summary-sig-name">len2</a>(<span class="summary-sig-arg">items</span>)</span><br />
+      Make built-in function <code class="link">len</code> work for 
+      generators, iterators, etc.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.basics-module.html#map1" class="summary-sig-name">map1</a>(<span class="summary-sig-arg">fun1</span>,
+        <span class="summary-sig-arg">*xs</span>)</span><br />
+      Call a single-argument function to each <b><code>xs</code></b> and 
+      return a <code>tuple</code> of results.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.basics-module.html#map2" class="summary-sig-name">map2</a>(<span class="summary-sig-arg">fun</span>,
+        <span class="summary-sig-arg">*xs</span>)</span><br />
+      Like Python's <b><code>map</code></b> but returning a 
+      <code>tuple</code> of results.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.basics-module.html#neg" class="summary-sig-name">neg</a>(<span class="summary-sig-arg">x</span>,
+        <span class="summary-sig-arg">neg0</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Negate <code>x</code> and optionally, negate <code>0.0</code> and 
+      <code>-0.0</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.basics-module.html#neg_" class="summary-sig-name">neg_</a>(<span class="summary-sig-arg">*xs</span>)</span><br />
+      Negate all <code>xs</code> with <a 
+      href="pygeodesy.basics-module.html#neg" class="link">neg</a>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.basics-module.html#signBit" class="summary-sig-name">signBit</a>(<span class="summary-sig-arg">x</span>)</span><br />
+      Return <code>signbit(<b>x</b>)</code>, like C++.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.basics-module.html#signOf" class="summary-sig-name">signOf</a>(<span class="summary-sig-arg">x</span>)</span><br />
+      Return sign of <code>x</code> as <code>int</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.basics-module.html#splice" class="summary-sig-name">splice</a>(<span class="summary-sig-arg">iterable</span>,
+        <span class="summary-sig-arg">n</span>=<span class="summary-sig-default">2</span>,
+        <span class="summary-sig-arg">**fill</span>)</span><br />
+      Split an iterable into <code>n</code> slices.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.basics-module.html#unsigned0" class="summary-sig-name">unsigned0</a>(<span class="summary-sig-arg">x</span>)</span><br />
+      Unsign if <code>0.0</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+</table>
+<!-- ==================== VARIABLES ==================== -->
+<a name="section-Variables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Variables</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="__all__"></a><span class="summary-name">__all__</span> = <code title="_ALL_LAZY.basics">_ALL_LAZY.basics</code>
+    </td>
+  </tr>
+</table>
+<!-- ==================== FUNCTION DETAILS ==================== -->
+<a name="section-FunctionDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Function Details</span></td>
+</tr>
+</table>
+<a name="clips"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">clips</span>&nbsp;(<span class="sig-arg">sb</span>,
+        <span class="sig-arg">limit</span>=<span class="sig-default">50</span>,
+        <span class="sig-arg">white</span>=<span class="sig-default">''</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Clip a string to the given length limit.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>sb</code></strong> - String (<code>str</code> or <code>bytes</code>).</li>
+        <li><strong class="pname"><code>limit</code></strong> - Length limit (<code>int</code>).</li>
+        <li><strong class="pname"><code>white</code></strong> - Optionally, replace all whitespace (<code>str</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The clipped or unclipped <b><code>sb</code></b>.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="copysign0"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">copysign0</span>&nbsp;(<span class="sig-arg">x</span>,
+        <span class="sig-arg">y</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Like <code>math.copysign(x, y)</code> except <code>zero</code>, 
+  <i>unsigned</i>.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd><code>math.copysign(<b>x</b>, <b>y</b>)</code> if 
+          <b><code>x</code></b> else <code>type(<b>x</b>)(0)</code>.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="copytype"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">copytype</span>&nbsp;(<span class="sig-arg">x</span>,
+        <span class="sig-arg">y</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the value of <b>x</b> as <code>type</code> of 
+  <code>y</code>.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd><code>type(<b>y</b>)(<b>x</b>)</code>.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="halfs2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">halfs2</span>&nbsp;(<span class="sig-arg">str2</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Split a string in 2 halfs.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>str2</code></strong> - String to split (<code>str</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>2-Tuple <code>(_1st, _2nd)</code> half (<code>str</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Zero or odd <code>len(<b>str2</b>)</code>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="int1s"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">int1s</span>&nbsp;(<span class="sig-arg">x</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Count the number of 1-bits in an <code>int</code>, 
+  <i>unsigned</i>.</p>
+  <dl class="fields">
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        <code>int1s(-<b>x</b>) == int1s(abs(<b>x</b>))</code>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="isbool"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isbool</span>&nbsp;(<span class="sig-arg">obj</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Is <b><code>obj</code></b>ect a <code>bool</code>ean?</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>obj</code></strong> - The object (any <code>type</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><code>True</code> if <code>bool</code>ean, <code>False</code> 
+          otherwise.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="isCartesian"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isCartesian</span>&nbsp;(<span class="sig-arg">obj</span>,
+        <span class="sig-arg">ellipsoidal</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Is <b><code>obj</code></b>ect some <code>Cartesian</code>?</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>obj</code></strong> - The object (any <code>type</code>).</li>
+        <li><strong class="pname"><code>ellipsoidal</code></strong> - If <code>None</code>, return the type of any 
+          <code>Cartesian</code>, if <code>True</code>, only an ellipsoidal
+          <code>Cartesian type</code> or if <code>False</code>, only a 
+          spherical <code>Cartesian type</code>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><code>type(<b>obj</b></code> if a <code>Cartesian</code> of the 
+          required type, <code>False</code> if a <code>Cartesian</code> of 
+          an other type or {None} otherwise.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="iscomplex"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">iscomplex</span>&nbsp;(<span class="sig-arg">obj</span>,
+        <span class="sig-arg">both</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Is <b><code>obj</code></b>ect a <code>complex</code> or complex 
+  literal <code>str</code>?</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>obj</code></strong> - The object (any <code>type</code>).</li>
+        <li><strong class="pname"><code>both</code></strong> - If <code>True</code>, check complex <code>str</code> 
+          (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><code>True</code> if <code>complex</code>, <code>False</code> 
+          otherwise.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="isDEPRECATED"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isDEPRECATED</span>&nbsp;(<span class="sig-arg">obj</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Is <b><code>obj</code></b>ect a <code>DEPRECATED</code> class, method 
+  or function?</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd><code>True</code> if <code>DEPRECATED</code>, {False} if not or 
+          <code>None</code> if undetermined.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="isfloat"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isfloat</span>&nbsp;(<span class="sig-arg">obj</span>,
+        <span class="sig-arg">both</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Is <b><code>obj</code></b>ect a <code>float</code> or float literal 
+  <code>str</code>?</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>obj</code></strong> - The object (any <code>type</code>).</li>
+        <li><strong class="pname"><code>both</code></strong> - If <code>True</code>, check float <code>str</code> 
+          (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><code>True</code> if <code>float</code>, <code>False</code> 
+          otherwise.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="isinstanceof"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isinstanceof</span>&nbsp;(<span class="sig-arg">obj</span>,
+        <span class="sig-arg">*Classes</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Is <b><code>obj</code></b>ect an instance of one of the 
+  <code>Classes</code>?</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>obj</code></strong> - The object (any <code>type</code>).</li>
+        <li><strong class="pname"><code>Classes</code></strong> - One or more classes (<code>Class</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><code>type(<b>obj</b></code> if one of the 
+          <b><code>Classes</code></b>, <code>None</code> otherwise.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="isint"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isint</span>&nbsp;(<span class="sig-arg">obj</span>,
+        <span class="sig-arg">both</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Is <b><code>obj</code></b>ect an <code>int</code> or integer 
+  <code>float</code> value?</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>obj</code></strong> - The object (any <code>type</code>).</li>
+        <li><strong class="pname"><code>both</code></strong> - If <code>True</code>, check <code>float</code> and <a 
+          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> type
+          and value (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><code>True</code> if <code>int</code> or <i>integer</i> 
+          <code>float</code> or <a href="pygeodesy.fsums.Fsum-class.html" 
+          class="link">Fsum</a>, <code>False</code> otherwise.</dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        Both <code>isint(True)</code> and <code>isint(False)</code> return 
+        <code>False</code> (and no longer <code>True</code>).
+      </p>
+</div></td></tr></table>
+</div>
+<a name="isiterable"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isiterable</span>&nbsp;(<span class="sig-arg">obj</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Is <b><code>obj</code></b>ect <code>iterable</code>?</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>obj</code></strong> - The object (any <code>type</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><code>True</code> if <code>iterable</code>, <code>False</code> 
+          otherwise.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="isiterablen"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isiterablen</span>&nbsp;(<span class="sig-arg">obj</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Is <b><code>obj</code></b>ect <code>iterable</code> and has 
+  <code>len</code>gth?</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>obj</code></strong> - The object (any <code>type</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><code>True</code> if <code>iterable</code> with 
+          <code>len</code>gth, <code>False</code> otherwise.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="isLatLon"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isLatLon</span>&nbsp;(<span class="sig-arg">obj</span>,
+        <span class="sig-arg">ellipsoidal</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Is <b><code>obj</code></b>ect some <code>LatLon</code>?</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>obj</code></strong> - The object (any <code>type</code>).</li>
+        <li><strong class="pname"><code>ellipsoidal</code></strong> - If <code>None</code>, return the type of any <code>LatLon</code>,
+          if <code>True</code>, only an ellipsoidal <code>LatLon 
+          type</code> or if <code>False</code>, only a spherical 
+          <code>LatLon type</code>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><code>type(<b>obj</b></code> if a <code>LatLon</code> of the 
+          required type, <code>False</code> if a <code>LatLon</code> of an 
+          other type or {None} otherwise.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="islistuple"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">islistuple</span>&nbsp;(<span class="sig-arg">obj</span>,
+        <span class="sig-arg">minum</span>=<span class="sig-default">0</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Is <b><code>obj</code></b>ect a <code>list</code> or 
+  <code>tuple</code> with non-zero length?</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>obj</code></strong> - The object (any <code>type</code>).</li>
+        <li><strong class="pname"><code>minum</code></strong> - Minimal <code>len</code> required C({int}).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><code>True</code> if a <code>list</code> or <code>tuple</code> 
+          with <code>len</code> at least <b><code>minum</code></b>, 
+          <code>False</code> otherwise.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="isNvector"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isNvector</span>&nbsp;(<span class="sig-arg">obj</span>,
+        <span class="sig-arg">ellipsoidal</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Is <b><code>obj</code></b>ect some <code>Nvector</code>?</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>obj</code></strong> - The object (any <code>type</code>).</li>
+        <li><strong class="pname"><code>ellipsoidal</code></strong> - If <code>None</code>, return the type of any 
+          <code>Nvector</code>, if <code>True</code>, only an ellipsoidal 
+          <code>Nvector type</code> or if <code>False</code>, only a 
+          spherical <code>Nvector type</code>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><code>type(<b>obj</b></code> if an <code>Nvector</code> of the 
+          required type, <code>False</code> if an <code>Nvector</code> of 
+          an other type or {None} otherwise.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="isodd"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isodd</span>&nbsp;(<span class="sig-arg">x</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Is <b><code>x</code></b> odd?</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>x</code></strong> - Value (<code>scalar</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><code>True</code> if odd, <code>False</code> otherwise.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="isscalar"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isscalar</span>&nbsp;(<span class="sig-arg">obj</span>,
+        <span class="sig-arg">both</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Is <b><code>obj</code></b>ect an <code>int</code> or integer 
+  <code>float</code> value?</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>obj</code></strong> - The object (any <code>type</code>).</li>
+        <li><strong class="pname"><code>both</code></strong> - If <code>True</code>, check <a 
+          href="pygeodesy.fsums.Fsum-class.html#residual" 
+          class="link">Fsum</a>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><code>True</code> if <code>int</code>, <code>float</code> or <a 
+          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> with
+          zero residual, <code>False</code> otherwise.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="issequence"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">issequence</span>&nbsp;(<span class="sig-arg">obj</span>,
+        <span class="sig-arg">*excls</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Is <b><code>obj</code></b>ect some sequence type?</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>obj</code></strong> - The object (any <code>type</code>).</li>
+        <li><strong class="pname"><code>excls</code></strong> - Classes to exclude (<code>type</code>), all positional.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><code>True</code> if a sequence, <code>False</code> otherwise.</dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        Excluding <code>tuple</code> implies excluding 
+        <code>namedtuple</code>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="isstr"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isstr</span>&nbsp;(<span class="sig-arg">obj</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Is <b><code>obj</code></b>ect some string type?</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>obj</code></strong> - The object (any <code>type</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><code>True</code> if a <code>str</code>, <code>bytes</code>, ...,
+          <code>False</code> otherwise.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="issubclassof"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">issubclassof</span>&nbsp;(<span class="sig-arg">Sub</span>,
+        <span class="sig-arg">*Supers</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Is <b><code>Sub</code></b> a class and sub-class of some other 
+  class(es)?</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>Sub</code></strong> - The sub-class (<code>Class</code>).</li>
+        <li><strong class="pname"><code>Supers</code></strong> - One or more C(super) classes (<code>Class</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><code>True</code> if a sub-class of any 
+          <b><code>Supers</code></b>, <code>False</code> if not 
+          (<code>bool</code>) or <code>None</code> if not a class or if no 
+          <b><code>Supers</code></b> are given or none of those are a 
+          class.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="itemsorted"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">itemsorted</span>&nbsp;(<span class="sig-arg">adict</span>,
+        <span class="sig-arg">*items_args</span>,
+        <span class="sig-arg">**asorted_reverse</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the items of <code><b>adict</b></code> sorted 
+  <i>alphabetically, case-insensitively</i> and in <i>ascending</i> 
+  order.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>items_args</code></strong> - Optional positional argument(s) for method 
+          <code><b>adict</b>.items(B*{items_args})</code>.</li>
+        <li><strong class="pname"><code>asorted_reverse</code></strong> - Use <code><b>asorted</b>=False</code> for <i>alphabetical, 
+          case-sensitive</i> sorting and <code><b>reverse</b>=True</code> 
+          for sorting in <code>descending</code> order.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="len2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">len2</span>&nbsp;(<span class="sig-arg">items</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Make built-in function <code class="link">len</code> work for 
+  generators, iterators, etc. since those can only be started exactly 
+  once.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>items</code></strong> - Generator, iterator, list, range, tuple, etc.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>2-Tuple <code>(n, items)</code> of the number of items 
+          (<code>int</code>) and the items (<code>list</code> or 
+          <code>tuple</code>).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="map1"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">map1</span>&nbsp;(<span class="sig-arg">fun1</span>,
+        <span class="sig-arg">*xs</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Call a single-argument function to each <b><code>xs</code></b> and 
+  return a <code>tuple</code> of results.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>fun1</code></strong> - 1-Arg function (<code>callable</code>).</li>
+        <li><strong class="pname"><code>xs</code></strong> - Arguments (<code>any positional</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Function results (<code>tuple</code>).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="map2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">map2</span>&nbsp;(<span class="sig-arg">fun</span>,
+        <span class="sig-arg">*xs</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Like Python's <b><code>map</code></b> but returning a 
+  <code>tuple</code> of results.</p>
+  <p>Unlike Python 2's built-in <code class="link">map</code>, Python 3+ 
+  <code class="link">map</code> returns a <code class="link">map</code> 
+  object, an iterator-like object which generates the results only once.  
+  Converting the <code class="link">map</code> object to a tuple maintains 
+  the Python 2 behavior.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>fun</code></strong> - Function (<code>callable</code>).</li>
+        <li><strong class="pname"><code>xs</code></strong> - Arguments (<code>all positional</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Function results (<code>tuple</code>).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="neg"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">neg</span>&nbsp;(<span class="sig-arg">x</span>,
+        <span class="sig-arg">neg0</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Negate <code>x</code> and optionally, negate <code>0.0</code> and 
+  <code>-0.0</code>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>neg0</code></strong> - Defines the return value for zero <code><b>x</b></code>: if 
+          <code>None</code> return <code>0.0</code>, if <code>True</code> 
+          return <code>NEG0 if <b>x</b>=0.0</code> and <code>0.0 if 
+          <b>x</b>=NEG0</code> or if <code>False</code> return 
+          <code><b>x</b></code> <i>as-is</i> (<code>bool</code> or 
+          <code>None</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><code>-<b>x</b> if <b>x</b> else 0.0, NEG0 or <b>x</b></code>.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="neg_"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">neg_</span>&nbsp;(<span class="sig-arg">*xs</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Negate all <code>xs</code> with <a 
+  href="pygeodesy.basics-module.html#neg" class="link">neg</a>.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>A <code>map(neg, <b>xs</b>)</code>.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="signBit"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">signBit</span>&nbsp;(<span class="sig-arg">x</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return <code>signbit(<b>x</b>)</code>, like C++.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd><code>True</code> if <code><b>x</b> &lt; 0</code> or 
+          <code>NEG0</code> (<code>bool</code>).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="signOf"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">signOf</span>&nbsp;(<span class="sig-arg">x</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return sign of <code>x</code> as <code>int</code>.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>-1, 0 or +1 (<code>int</code>).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="splice"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">splice</span>&nbsp;(<span class="sig-arg">iterable</span>,
+        <span class="sig-arg">n</span>=<span class="sig-default">2</span>,
+        <span class="sig-arg">**fill</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Split an iterable into <code>n</code> slices.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>iterable</code></strong> - Items to be spliced (<code>list</code>, <code>tuple</code>, ...).</li>
+        <li><strong class="pname"><code>n</code></strong> - Number of slices to generate (<code>int</code>).</li>
+        <li><strong class="pname"><code>fill</code></strong> - Optional fill value for missing items.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A generator for each of <b><code>n</code></b> slices, <i 
+          class="math">iterable[i::n] for i=0..n</i>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>n</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        Each generated slice is a <code>tuple</code> or a 
+        <code>list</code>, the latter only if the 
+        <b><code>iterable</code></b> is a <code>list</code>.
+      </p>
+      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span><span class="py-keyword">from</span> pygeodesy <span class="py-keyword">import</span> splice</pre>
+<pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>a, b = splice(range(10))
+<span class="py-prompt">&gt;&gt;&gt; </span>a, b
+<span class="py-output">((0, 2, 4, 6, 8), (1, 3, 5, 7, 9))</span></pre>
+<pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>a, b, c = splice(range(10), n=3)
+<span class="py-prompt">&gt;&gt;&gt; </span>a, b, c
+<span class="py-output">((0, 3, 6, 9), (1, 4, 7), (2, 5, 8))</span></pre>
+<pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>a, b, c = splice(range(10), n=3, fill=-1)
+<span class="py-prompt">&gt;&gt;&gt; </span>a, b, c
+<span class="py-output">((0, 3, 6, 9), (1, 4, 7, -1), (2, 5, 8, -1))</span></pre>
+<pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>tuple(splice(list(range(9)), n=5))
+<span class="py-output">([0, 5], [1, 6], [2, 7], [3, 8], [4])</span></pre>
+<pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>splice(range(9), n=1)
+<span class="py-output">&lt;generator object splice at 0x0...&gt;</span></pre>
+      </p>
+</div></td></tr></table>
+</div>
+<a name="unsigned0"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">unsigned0</span>&nbsp;(<span class="sig-arg">x</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Unsign if <code>0.0</code>.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd><code><b>x</b></code> if <b><code>x</code></b> else 
+          <code>0.0</code>.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Thu Jun 27 19:44:13 2024
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

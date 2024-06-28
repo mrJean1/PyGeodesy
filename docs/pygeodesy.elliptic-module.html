@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>pygeodesy.elliptic</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="pygeodesy-module.html">Package&nbsp;pygeodesy</a> ::
+        Module&nbsp;elliptic
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="pygeodesy.elliptic-module.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== MODULE DESCRIPTION ==================== -->
+<h1 class="epydoc">Module elliptic</h1><p class="nomargin-top"></p>
+<p><i>Karney</i>'s elliptic functions and integrals.</p>
+  <p>Class <a href="pygeodesy.elliptic.Elliptic-class.html" 
+  class="link">Elliptic</a> transcoded from <i>Charles Karney</i>'s C++ 
+  class <a 
+  href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1EllipticFunction.html"
+  target="_top">EllipticFunction</a> to pure Python, including symmetric 
+  integrals <a href="pygeodesy.elliptic.Elliptic-class.html#fRC" 
+  class="link">Elliptic.fRC</a>, <a 
+  href="pygeodesy.elliptic.Elliptic-class.html#fRD" 
+  class="link">Elliptic.fRD</a>, <a 
+  href="pygeodesy.elliptic.Elliptic-class.html#fRF" 
+  class="link">Elliptic.fRF</a>, <a 
+  href="pygeodesy.elliptic.Elliptic-class.html#fRG" 
+  class="link">Elliptic.fRG</a> and <a 
+  href="pygeodesy.elliptic.Elliptic-class.html#fRJ" 
+  class="link">Elliptic.fRJ</a> as <code>static methods</code>.</p>
+  <p>Python method names follow the C++ member functions, 
+  <i>except</i>:</p>
+  <ul>
+    <li>
+      member functions <i>without arguments</i> are mapped to Python 
+      properties prefixed with <code>&quot;c&quot;</code>, for example 
+      <code>E()</code> is property <code>cE</code>,
+    </li>
+    <li>
+      member functions with 1 or 3 arguments are renamed to Python methods 
+      starting with an <code>&quot;f&quot;</code>, example 
+      <code>E(psi)</code> to <code>fE(psi)</code> and <code>E(sn, cn, 
+      dn)</code> to <code>fE(sn, cn, dn)</code>,
+    </li>
+    <li>
+      other Python method names conventionally start with a lower-case 
+      letter or an underscore if private.
+    </li>
+  </ul>
+  <p>Following is a copy of <i>Karney</i>'s <a 
+  href="https://GeographicLib.SourceForge.io/C++/doc/EllipticFunction_8hpp_source.html"
+  target="_top">EllipticFunction.hpp</a> file <code>Header</code>.</p>
+  <p>Copyright (C) <a href="mailto:Karney@Alum.MIT.edu" 
+  target="_top">Charles Karney</a> (2008-2023) and licensed under the 
+  MIT/X11 License.  For more information, see the <a 
+  href="https://GeographicLib.SourceForge.io" 
+  target="_top">GeographicLib</a> documentation.</p>
+  <p><b>Elliptic integrals and functions.</b></p>
+  <p>This provides the elliptic functions and integrals needed for 
+  <code>Ellipsoid</code>, <code>GeodesicExact</code>, and 
+  <code>TransverseMercatorExact</code>.  Two categories of function are 
+  provided:</p>
+  <ul>
+    <li>
+      functions to compute <a href="https://DLMF.NIST.gov/19.16.i" 
+      target="_top">symmetric elliptic integrals</a>
+    </li>
+    <li>
+      methods to compute <a href="https://DLMF.NIST.gov/19.2.ii" 
+      target="_top">Legrendre's elliptic integrals</a> and <a 
+      href="https://DLMF.NIST.gov/22.2" target="_top">Jacobi elliptic 
+      functions</a>.
+    </li>
+  </ul>
+  <p>In the latter case, an object is constructed giving the modulus 
+  <code>k</code> (and optionally the parameter <code>alpha</code>).  The 
+  modulus (and parameter) are always passed as squares which allows 
+  <code>k</code> to be pure imaginary.  (Confusingly, Abramowitz and Stegun
+  call <code>m = k**2</code> the &quot;parameter&quot; and <code>n = 
+  alpha**2</code> the &quot;characteristic&quot;.)</p>
+  <p>In geodesic applications, it is convenient to separate the incomplete 
+  integrals into secular and periodic components, e.g.</p>
+  <p><i><code>E(phi, k) = (2 E(k) / pi) [ phi + delta E(phi, k) 
+  ]</code></i></p>
+  <p>where <i><code>delta E(phi, k)</code></i> is an odd periodic function 
+  with period <i><code>pi</code></i>.</p>
+  <p>The computation of the elliptic integrals uses the algorithms given in
+  <a href="https://DOI.org/10.1007/BF02198293" target="_top">B. C. Carlson,
+  Computation of real or complex elliptic integrals</a> (also available <a 
+  href="https://ArXiv.org/pdf/math/9409227.pdf" target="_top">here</a>), 
+  Numerical Algorithms 10, 13--26 (1995) with the additional optimizations 
+  given <a href="https://DLMF.NIST.gov/19.36.i" target="_top">here</a>.</p>
+  <p>The computation of the Jacobi elliptic functions uses the algorithm 
+  given in <a href="https://DOI.org/10.1007/BF01397975" target="_top">R. 
+  Bulirsch, Numerical Calculation of Elliptic Integrals and Elliptic 
+  Functions</a>, Numerische Mathematik 7, 78--90 (1965).</p>
+  <p>The notation follows <a href="https://DLMF.NIST.gov" 
+  target="_top">NIST Digital Library of Mathematical Functions</a> chapters
+  <a href="https://DLMF.NIST.gov/19" target="_top">19</a> and <a 
+  href="https://DLMF.NIST.gov/22" target="_top">22</a>.</p>
+
+<hr />
+<div class="fields">      <p><strong>Version:</strong>
+        24.05.18
+      </p>
+</div><!-- ==================== CLASSES ==================== -->
+<a name="section-Classes"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Classes</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.elliptic.Elliptic-class.html" class="summary-name">Elliptic</a><br />
+      Elliptic integrals and functions.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.elliptic.EllipticError-class.html" class="summary-name">EllipticError</a><br />
+      Elliptic function, integral, convergence or other <a 
+        href="pygeodesy.elliptic.Elliptic-class.html" 
+        class="link">Elliptic</a> issue.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.elliptic.Elliptic3Tuple-class.html" class="summary-name">Elliptic3Tuple</a><br />
+      3-Tuple <code>(sn, cn, dn)</code> all <code>scalar</code>.
+    </td>
+  </tr>
+</table>
+<!-- ==================== VARIABLES ==================== -->
+<a name="section-Variables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Variables</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="__all__"></a><span class="summary-name">__all__</span> = <code title="_ALL_LAZY.elliptic">_ALL_LAZY.elliptic</code>
+    </td>
+  </tr>
+</table>
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Thu Jun 27 19:44:13 2024
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

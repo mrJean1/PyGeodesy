@@ -160,7 +160,7 @@ from pygeodesy.utily import atan2d, sincos2d, tand, _unrollon,  fabs
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.karney
-__version__ = '24.06.23'
+__version__ = '24.06.27'
 
 _K_2_0      = _getenv('PYGEODESY_GEOGRAPHICLIB', _2_) == _2_
 _perimeter_ = 'perimeter'
@@ -232,10 +232,10 @@ class Caps(object):  # PYCHOK
 
     _DIRECT3       =  AZIMUTH  | LATITUDE | LONGITUDE | _CAP_3   # for goedesicw only
     _INVERSE3      =  AZIMUTH  | DISTANCE | _CAP_1   # for goedesicw only
-    _STD           =  STANDARD | _CAP_3   | _CAP_1   # for goedesiciw only
-    _STD_LINE      = _STD      | _CAP_2   | _CAP_1p  # for goedesici/-w only
+    _STD           =  STANDARD | _CAP_3   | _CAP_1   # for goedesicw only
+    _STD_LINE      = _STD      | _CAP_2   | _CAP_1p  # for goedesici and -w
 
-    LINE_CAPS      = _STD_LINE | REDUCEDLENGTH | GEODESICSCALE  # .geodesici
+    LINE_CAPS      = _STD_LINE | REDUCEDLENGTH | GEODESICSCALE  # .geodesici only
 
     LINE_OFF       =  1 << 15  # Line without updates from parent geodesic or rhumb
     LONG_UNROLL    =  1 << 16  # unroll C{lon2} in .Direct and .Position

@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>pygeodesy.ltp</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="pygeodesy-module.html">Package&nbsp;pygeodesy</a> ::
+        Module&nbsp;ltp
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="pygeodesy.ltp-module.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== MODULE DESCRIPTION ==================== -->
+<h1 class="epydoc">Module ltp</h1><p class="nomargin-top"></p>
+<p><i>Local Tangent Plane</i> (LTP) and <i>local</i> cartesian 
+  coordinates.</p>
+  <p><i>Local cartesian</i> and <i>local tangent plane</i> classes <a 
+  href="pygeodesy.ltp.LocalCartesian-class.html" 
+  class="link">LocalCartesian</a>, approximations <a 
+  href="pygeodesy.ltp.ChLVa-class.html" class="link">ChLVa</a> and <a 
+  href="pygeodesy.ltp.ChLVe-class.html" class="link">ChLVe</a> and <a 
+  href="pygeodesy.ltp.Ltp-class.html" class="link">Ltp</a>, <a 
+  href="pygeodesy.ltp.ChLV-class.html" class="link">ChLV</a>, <a 
+  href="pygeodesy.ltp.LocalError-class.html" class="link">LocalError</a>, 
+  <a href="pygeodesy.ltp.Attitude-class.html" class="link">Attitude</a> and
+  <a href="pygeodesy.ltp.Frustum-class.html" class="link">Frustum</a>.</p>
+
+<hr />
+<div class="fields">      <p><strong>See Also:</strong>
+        <a 
+        href="https://WikiPedia.org/wiki/Local_tangent_plane_coordinates" 
+        target="_top">Local tangent plane coordinates</a> and class <a 
+        href="pygeodesy.ltp.LocalCartesian-class.html" 
+        class="link">LocalCartesian</a>, transcoded from <i>Charles 
+        Karney</i>'s C++ class<a 
+        href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1LocalCartesian.html"
+        target="_top">LocalCartesian</a>.
+      </p>
+      <p><strong>Version:</strong>
+        24.06.11
+      </p>
+</div><!-- ==================== CLASSES ==================== -->
+<a name="section-Classes"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Classes</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ltp.Attitude-class.html" class="summary-name">Attitude</a><br />
+      The pose of a plane or camera in space.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ltp.AttitudeError-class.html" class="summary-name">AttitudeError</a><br />
+      An <a href="pygeodesy.ltp.Attitude-class.html" 
+        class="link">Attitude</a> or <a 
+        href="pygeodesy.ltpTuples.Attitude4Tuple-class.html" 
+        class="link">Attitude4Tuple</a> issue.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ltp.Frustum-class.html" class="summary-name">Frustum</a><br />
+      A rectangular pyramid, typically representing a camera's 
+        <i>field-of-view</i> (fov) and the intersection with (or projection
+        to) a <i>local tangent plane</i>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ltp.LocalError-class.html" class="summary-name">LocalError</a><br />
+      A <a href="pygeodesy.ltp.LocalCartesian-class.html" 
+        class="link">LocalCartesian</a> or <a 
+        href="pygeodesy.ltp.Ltp-class.html" class="link">Ltp</a> related 
+        issue.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ltp.LocalCartesian-class.html" class="summary-name">LocalCartesian</a><br />
+      Conversion between geodetic <code>(lat, lon, height)</code> and 
+        <i>local cartesian</i> <code>(x, y, z)</code> coordinates with 
+        <i>geodetic</i> origin <code>(lat0, lon0, height0)</code>, 
+        transcoded from <i>Karney</i>'s C++ class <a 
+        href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1LocalCartesian.html"
+        target="_top">LocalCartesian</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ltp.Ltp-class.html" class="summary-name">Ltp</a><br />
+      A <i>local tangent plan</i> (LTP), a sub-class of 
+        <code>LocalCartesian</code> with (re-)configurable ECEF converter.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ltp.ChLV-class.html" class="summary-name">ChLV</a><br />
+      Conversion between <i>WGS84 geodetic</i> and <i>Swiss</i> 
+        projection coordinates using <a 
+        href="pygeodesy.ecef.EcefKarney-class.html" 
+        class="link">pygeodesy.EcefKarney</a>'s Earth-Centered, Earth-Fixed
+        (ECEF) methods.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ltp.ChLVa-class.html" class="summary-name">ChLVa</a><br />
+      Conversion between <i>WGS84 geodetic</i> and <i>Swiss</i> 
+        projection coordinates using the <a 
+        href="https://www.SwissTopo.admin.CH/en/maps-data-online/calculation-services.html"
+        target="_top">Approximate</a> formulas, page 13.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ltp.ChLVe-class.html" class="summary-name">ChLVe</a><br />
+      Conversion between <i>WGS84 geodetic</i> and <i>Swiss</i> 
+        projection coordinates using the <a 
+        href="https://www.SwissTopo.admin.CH/en/maps-data-online/calculation-services.html"
+        target="_top">Ellipsoidal approximate</a> formulas, pp 10-11 and <a
+        
+        href="https://eMuseum.GGGS.CH/literatur-lv/liste-Dateien/1967_Bolliger_a.pdf"
+        target="_top">Bolliger, J.</a> pp 148-151 (also <a 
+        href="https://eMuseum.GGGS.CH/literatur-lv/liste.htm" 
+        target="_top">GGGS</a>).
+    </td>
+  </tr>
+</table>
+<!-- ==================== FUNCTIONS ==================== -->
+<a name="section-Functions"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Functions</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ltp-module.html#tyr3d" class="summary-sig-name">tyr3d</a>(<span class="summary-sig-arg">tilt</span>=<span class="summary-sig-default">0</span>,
+        <span class="summary-sig-arg">yaw</span>=<span class="summary-sig-default">0</span>,
+        <span class="summary-sig-arg">roll</span>=<span class="summary-sig-default">0</span>,
+        <span class="summary-sig-arg">Vector</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.vector3d.Vector3d'&gt;</span>,
+        <span class="summary-sig-arg">**name_Vector_kwds</span>)</span><br />
+      Convert an attitude pose into a (3-D) direction vector.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+</table>
+<!-- ==================== VARIABLES ==================== -->
+<a name="section-Variables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Variables</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="__all__"></a><span class="summary-name">__all__</span> = <code title="_ALL_LAZY.ltp">_ALL_LAZY.ltp</code>
+    </td>
+  </tr>
+</table>
+<!-- ==================== FUNCTION DETAILS ==================== -->
+<a name="section-FunctionDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Function Details</span></td>
+</tr>
+</table>
+<a name="tyr3d"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">tyr3d</span>&nbsp;(<span class="sig-arg">tilt</span>=<span class="sig-default">0</span>,
+        <span class="sig-arg">yaw</span>=<span class="sig-default">0</span>,
+        <span class="sig-arg">roll</span>=<span class="sig-default">0</span>,
+        <span class="sig-arg">Vector</span>=<span class="sig-default">&lt;class 'pygeodesy.vector3d.Vector3d'&gt;</span>,
+        <span class="sig-arg">**name_Vector_kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert an attitude pose into a (3-D) direction vector.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>tilt</code></strong> - Pitch, elevation from horizontal (<code>degrees</code>), negative
+          down (clockwise rotation along and around the x-axis).</li>
+        <li><strong class="pname"><code>yaw</code></strong> - Bearing, heading (compass <code>degrees360</code>), clockwise 
+          from North (counter-clockwise rotation along and around the 
+          z-axis).</li>
+        <li><strong class="pname"><code>roll</code></strong> - Roll, bank (<code>degrees</code>), positive to the right and down
+          (clockwise rotation along and around the y-axis).</li>
+        <li><strong class="pname"><code>Vector</code></strong> - Class to return the direction vector (<code>Cartesian</code>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a> or <code>Vector3Tuple</code>) or 
+          <code>None</code>.</li>
+        <li><strong class="pname"><code>name_Vector_kwds</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>) and 
+          optional, additional <b><code>Vector</code></b> keyword 
+          arguments, ignored if <code><b>Vector</b> is None</code>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A named <b><code>Vector</code></b> instance or if 
+          <code><b>Vector</b> is None</code>, a named <a 
+          href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
+          class="link">Vector3Tuple</a><code>(x, y, z)</code>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.ltp.AttitudeError-class.html">AttitudeError</a></strong></code> - Invalid <b><code>tilt</code></b>, <b><code>yaw</code></b> or 
+        <b><code>roll</code></b>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>Vector</code></b> or 
+        <b><code>name_Vector_kwds</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a href="http://MSL.CS.UIUC.edu/planning/node102.html" 
+        target="_top">Yaw, pitch, and roll rotations</a> and function <a 
+        href="pygeodesy.formy-module.html#hartzell" 
+        class="link">pygeodesy.hartzell</a> argument <code>los</code>, 
+        Line-Of-Sight.
+      </p>
+</div></td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Thu Jun 27 19:44:13 2024
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

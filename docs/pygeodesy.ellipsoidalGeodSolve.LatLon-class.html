@@ -1,0 +1,545 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>pygeodesy.ellipsoidalGeodSolve.LatLon</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="pygeodesy-module.html">Package&nbsp;pygeodesy</a> ::
+        <a href="pygeodesy.ellipsoidalGeodSolve-module.html">Module&nbsp;ellipsoidalGeodSolve</a> ::
+        Class&nbsp;LatLon
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="pygeodesy.ellipsoidalGeodSolve.LatLon-class.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS DESCRIPTION ==================== -->
+<h1 class="epydoc">Class LatLon</h1><p class="nomargin-top"></p>
+<pre class="base-tree">
+               object --+                    
+                        |                    
+             <a href="pygeodesy.named._Named-class.html">named._Named</a> --+                
+                            |                
+             <a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a> --+            
+                                |            
+            <a href="pygeodesy.latlonBase.LatLonBase-class.html">latlonBase.LatLonBase</a> --+        
+                                    |        
+<a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html">ellipsoidalBase.LatLonEllipsoidalBase</a> --+    
+                                        |    
+<a href="pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI-class.html">ellipsoidalBaseDI.LatLonEllipsoidalBaseDI</a> --+
+                                            |
+                                           <strong class="uidshort">LatLon</strong>
+</pre>
+
+<hr />
+<p>An ellipsoidal <a 
+  href="pygeodesy.ellipsoidalGeodSolve.LatLon-class.html" 
+  class="link">LatLon</a> like <a 
+  href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
+  class="link">ellipsoidalKarney.LatLon</a> but using (exact) geodesic 
+  <i>wrapper</i> <a href="pygeodesy.geodsolve.GeodesicSolve-class.html" 
+  class="link">GeodesicSolve</a> to compute the geodesic distance, initial 
+  and final bearing (azimuths) between two given points or the destination 
+  point given a start point and an (initial) bearing.</p>
+
+<!-- ==================== INSTANCE METHODS ==================== -->
+<a name="section-InstanceMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Instance Methods</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalGeodSolve.LatLon-class.html#toCartesian" class="summary-sig-name">toCartesian</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">**Cartesian_datum_kwds</span>)</span><br />
+      Convert this point to exact cartesian (ECEF) coordinates.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI-class.html">ellipsoidalBaseDI.LatLonEllipsoidalBaseDI</a></code></b>:
+      <code><a href="pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI-class.html#bearingTo2">bearingTo2</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI-class.html#destination">destination</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI-class.html#destination2">destination2</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI-class.html#distanceTo">distanceTo</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI-class.html#distanceTo3">distanceTo3</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI-class.html#finalBearingOn">finalBearingOn</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI-class.html#finalBearingTo">finalBearingTo</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI-class.html#initialBearingTo">initialBearingTo</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI-class.html#intermediateTo">intermediateTo</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI-class.html#intersecant2">intersecant2</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI-class.html#nearestOn8">nearestOn8</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI-class.html#plumbTo">plumbTo</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html">ellipsoidalBase.LatLonEllipsoidalBase</a></code></b>:
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#__init__">__init__</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#antipode">antipode</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#convertDatum">convertDatum</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#convertRefFrame">convertRefFrame</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#distanceTo2">distanceTo2</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#elevation2">elevation2</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#ellipsoid">ellipsoid</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#ellipsoids">ellipsoids</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#geoidHeight2">geoidHeight2</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#intersection3">intersection3</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#intersections2">intersections2</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#isenclosedBy">isenclosedBy</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#midpointTo">midpointTo</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#nearestOn">nearestOn</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#parse">parse</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#to3xyz">to3xyz</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toCss">toCss</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toDatum">toDatum</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toEtm">toEtm</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toLcc">toLcc</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toMgrs">toMgrs</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toOsgr">toOsgr</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toRefFrame">toRefFrame</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toTransform">toTransform</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toUps">toUps</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toUtm">toUtm</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toUtmUps">toUtmUps</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#triangulate">triangulate</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#trilaterate5">trilaterate5</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.latlonBase.LatLonBase-class.html">latlonBase.LatLonBase</a></code></b>:
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#PointsIter">PointsIter</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#__eq__">__eq__</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#__ne__">__ne__</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#__str__">__str__</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#bounds">bounds</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#boundsOf">boundsOf</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#chordTo">chordTo</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#circin6">circin6</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#circum3">circum3</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#circum4_">circum4_</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#compassAngle">compassAngle</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#compassAngleTo">compassAngleTo</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#cosineAndoyerLambertTo">cosineAndoyerLambertTo</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#cosineForsytheAndoyerLambertTo">cosineForsytheAndoyerLambertTo</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#cosineLawTo">cosineLawTo</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#destinationXyz">destinationXyz</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#equals">equals</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#equals3">equals3</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#equirectangularTo">equirectangularTo</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#euclideanTo">euclideanTo</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#flatLocalTo">flatLocalTo</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#flatPolarTo">flatPolarTo</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#hartzell">hartzell</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#haversineTo">haversineTo</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#height4">height4</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#heightStr">heightStr</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#hubenyTo">hubenyTo</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#isantipode">isantipode</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#isantipodeTo">isantipodeTo</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#isequalTo">isequalTo</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#isequalTo3">isequalTo3</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#latlon2">latlon2</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#latlon2round">latlon2round</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#latlon_">latlon_</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#nearestOn6">nearestOn6</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#nearestTo">nearestTo</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#normal">normal</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#philam2">philam2</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#points">points</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#points2">points2</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#radii11">radii11</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#rhumbAzimuthTo">rhumbAzimuthTo</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#rhumbDestination">rhumbDestination</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#rhumbDistanceTo">rhumbDistanceTo</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#rhumbIntersecant2">rhumbIntersecant2</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#rhumbLine">rhumbLine</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#rhumbMidpointTo">rhumbMidpointTo</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#thomasTo">thomasTo</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#to2ab">to2ab</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#to3llh">to3llh</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#toEcef">toEcef</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#toLocal">toLocal</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#toLtp">toLtp</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#toNormal">toNormal</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#toNvector">toNvector</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#toStr">toStr</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#toVector">toVector</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#toVector3d">toVector3d</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#toWm">toWm</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#vincentysTo">vincentysTo</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a></code></b>:
+      <code><a href="pygeodesy.named._NamedBase-class.html#__repr__">__repr__</a></code>,
+      <code><a href="pygeodesy.named._NamedBase-class.html#others">others</a></code>,
+      <code><a href="pygeodesy.named._NamedBase-class.html#toRepr">toRepr</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
+      <code><a href="pygeodesy.named._Named-class.html#__imatmul__">__imatmul__</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#__matmul__">__matmul__</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#__rmatmul__">__rmatmul__</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#attrs">attrs</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#classof">classof</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#copy">copy</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#dup">dup</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#methodname">methodname</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#rename">rename</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#renamed">renamed</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#toStr2">toStr2</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__delattr__</code>,
+      <code>__format__</code>,
+      <code>__getattribute__</code>,
+      <code>__hash__</code>,
+      <code>__new__</code>,
+      <code>__reduce__</code>,
+      <code>__reduce_ex__</code>,
+      <code>__setattr__</code>,
+      <code>__sizeof__</code>,
+      <code>__subclasshook__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== PROPERTIES ==================== -->
+<a name="section-Properties"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Properties</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ellipsoidalGeodSolve.LatLon-class.html#Equidistant" class="summary-name">Equidistant</a><br />
+      Get the prefered azimuthal equidistant projection <i>class</i> (<a 
+      href="pygeodesy.azimuthal.EquidistantGeodSolve-class.html" 
+      class="link">EquidistantGeodSolve</a>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ellipsoidalGeodSolve.LatLon-class.html#geodesicx" class="summary-name">geodesicx</a><br />
+      Get this <code>LatLon</code>'s (exact) geodesic (<a 
+      href="pygeodesy.geodsolve.GeodesicSolve-class.html" 
+      class="link">GeodesicSolve</a>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ellipsoidalGeodSolve.LatLon-class.html#geodesic" class="summary-name">geodesic</a><br />
+      Get this <code>LatLon</code>'s (exact) geodesic (<a 
+      href="pygeodesy.geodsolve.GeodesicSolve-class.html" 
+      class="link">GeodesicSolve</a>).
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html">ellipsoidalBase.LatLonEllipsoidalBase</a></code></b>:
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#convergence">convergence</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#datum">datum</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#ellipsoidalLatLon">ellipsoidalLatLon</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#epoch">epoch</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#gamma">gamma</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#iteration">iteration</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#reframe">reframe</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#scale">scale</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.latlonBase.LatLonBase-class.html">latlonBase.LatLonBase</a></code></b>:
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#Ecef">Ecef</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#clipid">clipid</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#height">height</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#isEllipsoidal">isEllipsoidal</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#isSpherical">isSpherical</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#isnormal">isnormal</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#lam">lam</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#lat">lat</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#latlon">latlon</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#latlonheight">latlonheight</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#lon">lon</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#phi">phi</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#philam">philam</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#philamheight">philamheight</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#sphericalLatLon">sphericalLatLon</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#xyz">xyz</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#xyzh">xyzh</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
+      <code><a href="pygeodesy.named._Named-class.html#classname">classname</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#classnaming">classnaming</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#name">name</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#named">named</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#named2">named2</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#named3">named3</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#named4">named4</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#sizeof">sizeof</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__class__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== METHOD DETAILS ==================== -->
+<a name="section-MethodDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Method Details</span></td>
+</tr>
+</table>
+<a name="toCartesian"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toCartesian</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">**Cartesian_datum_kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert this point to exact cartesian (ECEF) coordinates.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>Cartesian_datum_kwds</code></strong> - Optional <a 
+          href="pygeodesy.ellipsoidalGeodSolve.Cartesian-class.html" 
+          class="link">Cartesian</a>, <b><code>datum</code></b> and other 
+          keyword arguments, ignored if <code><b>Cartesian</b> is 
+          None</code>.  Use <code><b>Cartesian</b>=Class</code> to override
+          this <a 
+          href="pygeodesy.ellipsoidalGeodSolve.Cartesian-class.html" 
+          class="link">Cartesian</a> class or set 
+          <code><b>Cartesian</b>=None</code>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The cartesian (ECEF) coordinates (<a 
+          href="pygeodesy.ellipsoidalGeodSolve.Cartesian-class.html" 
+          class="link">Cartesian</a>) or if <code><b>Cartesian</b> is 
+          None</code>, an <a href="pygeodesy.ecef.Ecef9Tuple-class.html" 
+          class="link">Ecef9Tuple</a><code>(x, y, z, lat, lon, height, C, 
+          M, datum)</code> with <code>C</code> and <code>M</code> if 
+          available.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>Cartesian</code></b>, <b><code>datum</code></b> or
+        other <b><code>Cartesian_datum_kwds</code></b>.</li>
+    </ul></dd>
+    <dt>Overrides:
+        <a href="pygeodesy.latlonBase.LatLonBase-class.html#toCartesian">latlonBase.LatLonBase.toCartesian</a>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== PROPERTY DETAILS ==================== -->
+<a name="section-PropertyDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Property Details</span></td>
+</tr>
+</table>
+<a name="Equidistant"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">Equidistant</h3>
+  <p>Get the prefered azimuthal equidistant projection <i>class</i> (<a 
+  href="pygeodesy.azimuthal.EquidistantGeodSolve-class.html" 
+  class="link">EquidistantGeodSolve</a>).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">Equidistant(<span class="summary-sig-arg">self</span>)</span>
+        - Get the prefered azimuthal equidistant projection <i>class</i> (<a 
+href="pygeodesy.azimuthal.EquidistantGeodSolve-class.html" 
+class="link">EquidistantGeodSolve</a>).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="geodesicx"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">geodesicx</h3>
+  <p>Get this <code>LatLon</code>'s (exact) geodesic (<a 
+  href="pygeodesy.geodsolve.GeodesicSolve-class.html" 
+  class="link">GeodesicSolve</a>).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">geodesicx(<span class="summary-sig-arg">self</span>)</span>
+        - Get this <code>LatLon</code>'s (exact) geodesic (<a 
+href="pygeodesy.geodsolve.GeodesicSolve-class.html" 
+class="link">GeodesicSolve</a>).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="geodesic"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">geodesic</h3>
+  <p>Get this <code>LatLon</code>'s (exact) geodesic (<a 
+  href="pygeodesy.geodsolve.GeodesicSolve-class.html" 
+  class="link">GeodesicSolve</a>).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">geodesicx(<span class="summary-sig-arg">self</span>)</span>
+        - Get this <code>LatLon</code>'s (exact) geodesic (<a 
+href="pygeodesy.geodsolve.GeodesicSolve-class.html" 
+class="link">GeodesicSolve</a>).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Thu Jun 27 19:44:14 2024
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

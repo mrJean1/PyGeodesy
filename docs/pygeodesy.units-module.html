@@ -1,0 +1,528 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>pygeodesy.units</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="pygeodesy-module.html">Package&nbsp;pygeodesy</a> ::
+        Module&nbsp;units
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="pygeodesy.units-module.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== MODULE DESCRIPTION ==================== -->
+<h1 class="epydoc">Module units</h1><p class="nomargin-top"></p>
+<p>Various named units, all sub-classes of <code>Float</code>, 
+  <code>Int</code> or <code>Str</code> from basic <code>float</code>, 
+  <code>int</code> respectively <code>str</code> to named units as <a 
+  href="pygeodesy.units.Degrees-class.html" class="link">Degrees</a>, <a 
+  href="pygeodesy.units.Feet-class.html" class="link">Feet</a>, <a 
+  href="pygeodesy.units.Meter-class.html" class="link">Meter</a>, <a 
+  href="pygeodesy.units.Radians-class.html" class="link">Radians</a>, 
+  etc.</p>
+
+<hr />
+<div class="fields">      <p><strong>Version:</strong>
+        24.06.15
+      </p>
+</div><!-- ==================== CLASSES ==================== -->
+<a name="section-Classes"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Classes</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.unitsBase._NamedUnit-class.html" class="summary-name">_NamedUnit</a><br />
+      (INTERNAL) Base class for <code>units</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.units.Float_-class.html" class="summary-name">Float_</a><br />
+      Named <code>float</code> with optional <code>low</code> and 
+        <code>high</code> limit.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.units.Int_-class.html" class="summary-name">Int_</a><br />
+      Named <code>int</code> with optional limits <code>low</code> and 
+        <code>high</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.units.Bool-class.html" class="summary-name">Bool</a><br />
+      Named <code>bool</code>, a sub-class of <code>int</code> like 
+        Python's <code>bool</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.units.Band-class.html" class="summary-name">Band</a><br />
+      Named <code>str</code> representing a UTM/UPS band letter, 
+        unchecked.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.units.Degrees-class.html" class="summary-name">Degrees</a><br />
+      Named <code>float</code> representing a coordinate in 
+        <code>degrees</code>, optionally clipped.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.units.Degrees_-class.html" class="summary-name">Degrees_</a><br />
+      Named <code>Degrees</code> representing a coordinate in 
+        <code>degrees</code> with optional limits <code>low</code> and 
+        <code>high</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.units.Degrees2-class.html" class="summary-name">Degrees2</a><br />
+      Named <code>float</code> representing a distance in <code>degrees 
+        squared</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.units.Radians-class.html" class="summary-name">Radians</a><br />
+      Named <code>float</code> representing a coordinate in 
+        <code>radians</code>, optionally clipped.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.units.Radians_-class.html" class="summary-name">Radians_</a><br />
+      Named <code>float</code> representing a coordinate in 
+        <code>radians</code> with optional limits <code>low</code> and 
+        <code>high</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.units.Radians2-class.html" class="summary-name">Radians2</a><br />
+      Named <code>float</code> representing a distance in <code>radians 
+        squared</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.units.Bearing-class.html" class="summary-name">Bearing</a><br />
+      Named <code>float</code> representing a bearing in compass 
+        <code>degrees</code> from (true) North.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.units.Bearing_-class.html" class="summary-name">Bearing_</a><br />
+      Named <code>float</code> representing a bearing in 
+        <code>radians</code> from compass <code>degrees</code> from (true) 
+        North.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.units.Distance-class.html" class="summary-name">Distance</a><br />
+      Named <code>float</code> representing a distance, conventionally in
+        <code>meter</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.units.Distance_-class.html" class="summary-name">Distance_</a><br />
+      Named <code>float</code> with optional <code>low</code> and 
+        <code>high</code> limits representing a distance, conventionally in
+        <code>meter</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.units.Easting-class.html" class="summary-name">Easting</a><br />
+      Named <code>float</code> representing an easting, conventionally in
+        <code>meter</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.units.Epoch-class.html" class="summary-name">Epoch</a><br />
+      Named <code>epoch</code> with optional <code>low</code> and 
+        <code>high</code> limits representing a fractional calendar year.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.units.Feet-class.html" class="summary-name">Feet</a><br />
+      Named <code>float</code> representing a distance or length in 
+        <code>feet</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.units.FIx-class.html" class="summary-name">FIx</a><br />
+      A named <i>Fractional Index</i>, an <code>int</code> or 
+        <code>float</code> index into a <code>list</code> or 
+        <code>tuple</code> of <code>points</code>, typically.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.units.Height-class.html" class="summary-name">Height</a><br />
+      Named <code>float</code> representing a height, conventionally in 
+        <code>meter</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.units.Height_-class.html" class="summary-name">Height_</a><br />
+      Named <code>float</code> with optional <code>low</code> and 
+        <code>high</code> limits representing a height, conventionally in 
+        <code>meter</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.units.HeightX-class.html" class="summary-name">HeightX</a><br />
+      Like <a href="pygeodesy.units.Height-class.html" 
+        class="link">Height</a>, used to distinguish the interpolated 
+        height from an original <a href="pygeodesy.units.Height-class.html"
+        class="link">Height</a> at a clip intersection.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.units.Lam-class.html" class="summary-name">Lam</a><br />
+      Named <code>float</code> representing a longitude in 
+        <code>radians</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.units.Lamd-class.html" class="summary-name">Lamd</a><br />
+      Named <code>float</code> representing a longitude in 
+        <code>radians</code> converted from <code>degrees</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.units.Lat-class.html" class="summary-name">Lat</a><br />
+      Named <code>float</code> representing a latitude in 
+        <code>degrees</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.units.Lat_-class.html" class="summary-name">Lat_</a><br />
+      Named <code>float</code> representing a latitude in 
+        <code>degrees</code> within limits <code>low</code> and 
+        <code>high</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.units.Lon-class.html" class="summary-name">Lon</a><br />
+      Named <code>float</code> representing a longitude in 
+        <code>degrees</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.units.Lon_-class.html" class="summary-name">Lon_</a><br />
+      Named <code>float</code> representing a longitude in 
+        <code>degrees</code> within limits <code>low</code> and 
+        <code>high</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.units.Meter-class.html" class="summary-name">Meter</a><br />
+      Named <code>float</code> representing a distance or length in 
+        <code>meter</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.units.Meter_-class.html" class="summary-name">Meter_</a><br />
+      Named <code>float</code> representing a distance or length in 
+        <code>meter</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.units.Meter2-class.html" class="summary-name">Meter2</a><br />
+      Named <code>float</code> representing an area in <code>meter 
+        squared</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.units.Meter3-class.html" class="summary-name">Meter3</a><br />
+      Named <code>float</code> representing a volume in <code>meter 
+        cubed</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.units.Northing-class.html" class="summary-name">Northing</a><br />
+      Named <code>float</code> representing a northing, conventionally in
+        <code>meter</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.units.Number_-class.html" class="summary-name">Number_</a><br />
+      Named <code>int</code> representing a non-negative number.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.units.Phi-class.html" class="summary-name">Phi</a><br />
+      Named <code>float</code> representing a latitude in 
+        <code>radians</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.units.Phid-class.html" class="summary-name">Phid</a><br />
+      Named <code>float</code> representing a latitude in 
+        <code>radians</code> converted from <code>degrees</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.units.Precision_-class.html" class="summary-name">Precision_</a><br />
+      Named <code>int</code> with optional <code>low</code> and 
+        <code>high</code> limits representing a precision.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.units.Radius_-class.html" class="summary-name">Radius_</a><br />
+      Named <code>float</code> with optional <code>low</code> and 
+        <code>high</code> limits representing a radius, conventionally in 
+        <code>meter</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.units.Scalar-class.html" class="summary-name">Scalar</a><br />
+      Named <code>float</code> representing a factor, fraction, scale, 
+        etc.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.units.Scalar_-class.html" class="summary-name">Scalar_</a><br />
+      Named <code>float</code> with optional <code>low</code> and 
+        <code>high</code> limits representing a factor, fraction, scale, 
+        etc.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.units.Zone-class.html" class="summary-name">Zone</a><br />
+      Named <code>int</code> representing a UTM/UPS zone number.
+    </td>
+  </tr>
+</table>
+<!-- ==================== VARIABLES ==================== -->
+<a name="section-Variables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Variables</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="__all__"></a><span class="summary-name">__all__</span> = <code title="_ALL_LAZY.units">_ALL_LAZY.units</code>
+    </td>
+  </tr>
+</table>
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Thu Jun 27 19:44:13 2024
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

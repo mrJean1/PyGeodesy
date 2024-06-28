@@ -1,0 +1,1200 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="pygeodesy-module.html">Package&nbsp;pygeodesy</a> ::
+        <a href="pygeodesy.ellipsoidalBaseDI-module.html">Module&nbsp;ellipsoidalBaseDI</a> ::
+        Class&nbsp;LatLonEllipsoidalBaseDI
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI-class.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS DESCRIPTION ==================== -->
+<h1 class="epydoc">Class LatLonEllipsoidalBaseDI</h1><p class="nomargin-top"></p>
+<pre class="base-tree">
+               object --+                
+                        |                
+             <a href="pygeodesy.named._Named-class.html">named._Named</a> --+            
+                            |            
+             <a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a> --+        
+                                |        
+            <a href="pygeodesy.latlonBase.LatLonBase-class.html">latlonBase.LatLonBase</a> --+    
+                                    |    
+<a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html">ellipsoidalBase.LatLonEllipsoidalBase</a> --+
+                                        |
+                                       <strong class="uidshort">LatLonEllipsoidalBaseDI</strong>
+</pre>
+
+<dl><dt>Known Subclasses:</dt>
+<dd>
+      <ul class="subclass-list">
+<li><a href="pygeodesy.ellipsoidalExact.LatLon-class.html">ellipsoidalExact.LatLon</a></li><li>, <a href="pygeodesy.ellipsoidalGeodSolve.LatLon-class.html">ellipsoidalGeodSolve.LatLon</a></li><li>, <a href="pygeodesy.ellipsoidalKarney.LatLon-class.html">ellipsoidalKarney.LatLon</a></li><li>, <a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html">ellipsoidalVincenty.LatLon</a></li>  </ul>
+</dd></dl>
+
+<hr />
+<p>(INTERNAL) Base class for <code>ellipsoidal*.LatLon</code> classes 
+  with <i>overloaded</i> <code>Direct</code> and <code>Inverse</code> 
+  methods.</p>
+
+<!-- ==================== INSTANCE METHODS ==================== -->
+<a name="section-InstanceMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Instance Methods</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI-class.html#bearingTo2" class="summary-sig-name">bearingTo2</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Compute the initial and final bearing (forward and reverse azimuth) 
+      from this to an other point, using this <code>Inverse</code> method.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI-class.html#destination" class="summary-sig-name">destination</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">distance</span>,
+        <span class="summary-sig-arg">bearing</span>,
+        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Compute the destination point after having travelled for the given 
+      distance from this point along a geodesic given by an initial 
+      bearing, using this <code>Direct</code> method.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI-class.html#destination2" class="summary-sig-name">destination2</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">distance</span>,
+        <span class="summary-sig-arg">bearing</span>,
+        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Compute the destination point and the final bearing (reverse azimuth)
+      after having travelled for the given distance from this point along a
+      geodesic given by an initial bearing, using this <code>Direct</code> 
+      method.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI-class.html#distanceTo" class="summary-sig-name">distanceTo</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">**unused</span>)</span><br />
+      Compute the distance between this and an other point along a 
+      geodesic, using this <code>Inverse</code> method.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI-class.html#distanceTo3" class="summary-sig-name">distanceTo3</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Compute the distance, the initial and final bearing along a geodesic 
+      between this and an other point, using this <code>Inverse</code> 
+      method.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI-class.html#finalBearingOn" class="summary-sig-name">finalBearingOn</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">distance</span>,
+        <span class="summary-sig-arg">bearing</span>)</span><br />
+      Compute the final bearing (reverse azimuth) after having travelled 
+      for the given distance along a geodesic given by an initial bearing 
+      from this point, using this <code>Direct</code> method.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI-class.html#finalBearingTo" class="summary-sig-name">finalBearingTo</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Compute the final bearing (reverse azimuth) after having travelled 
+      along a geodesic from this point to an other point, using this 
+      <code>Inverse</code> method.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI-class.html#initialBearingTo" class="summary-sig-name">initialBearingTo</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Compute the initial bearing (forward azimuth) to travel along a 
+      geodesic from this point to an other point, using this 
+      <code>Inverse</code> method.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI-class.html#intermediateTo" class="summary-sig-name">intermediateTo</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>,
+        <span class="summary-sig-arg">fraction</span>,
+        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Return the point at given fraction along the geodesic between this 
+      and an other point, using this <code>Direct</code> and 
+      <code>Inverse</code> methods.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI-class.html#intersecant2" class="summary-sig-name">intersecant2</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">circle</span>,
+        <span class="summary-sig-arg">point</span>,
+        <span class="summary-sig-arg">other</span>,
+        <span class="summary-sig-arg">exact</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">tol</span>=<span class="summary-sig-default">1.4901161193847656e-08</span>)</span><br />
+      Compute the intersections of a circle and a geodesic (line) given as 
+      two points or as a point and bearing.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI-class.html#nearestOn8" class="summary-sig-name">nearestOn8</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">points</span>,
+        <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">equidistant</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">tol</span>=<span class="summary-sig-default">0.001</span>)</span><br />
+      <i>Iteratively</i> locate the point on a path or polygon closest to 
+      this point.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI-class.html#plumbTo" class="summary-sig-name">plumbTo</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">point</span>,
+        <span class="summary-sig-arg">other</span>,
+        <span class="summary-sig-arg">exact</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">tol</span>=<span class="summary-sig-default">1.4901161193847656e-08</span>)</span><br />
+      Compute the <i>perpendicular</i> intersection of a geodesic (line) 
+      with a geodesic from this point.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html">ellipsoidalBase.LatLonEllipsoidalBase</a></code></b>:
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#__init__">__init__</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#antipode">antipode</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#convertDatum">convertDatum</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#convertRefFrame">convertRefFrame</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#distanceTo2">distanceTo2</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#elevation2">elevation2</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#ellipsoid">ellipsoid</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#ellipsoids">ellipsoids</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#geoidHeight2">geoidHeight2</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#intersection3">intersection3</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#intersections2">intersections2</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#isenclosedBy">isenclosedBy</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#midpointTo">midpointTo</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#nearestOn">nearestOn</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#parse">parse</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#to3xyz">to3xyz</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toCartesian">toCartesian</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toCss">toCss</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toDatum">toDatum</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toEtm">toEtm</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toLcc">toLcc</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toMgrs">toMgrs</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toOsgr">toOsgr</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toRefFrame">toRefFrame</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toTransform">toTransform</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toUps">toUps</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toUtm">toUtm</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toUtmUps">toUtmUps</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#triangulate">triangulate</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#trilaterate5">trilaterate5</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.latlonBase.LatLonBase-class.html">latlonBase.LatLonBase</a></code></b>:
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#PointsIter">PointsIter</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#__eq__">__eq__</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#__ne__">__ne__</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#__str__">__str__</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#bounds">bounds</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#boundsOf">boundsOf</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#chordTo">chordTo</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#circin6">circin6</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#circum3">circum3</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#circum4_">circum4_</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#compassAngle">compassAngle</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#compassAngleTo">compassAngleTo</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#cosineAndoyerLambertTo">cosineAndoyerLambertTo</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#cosineForsytheAndoyerLambertTo">cosineForsytheAndoyerLambertTo</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#cosineLawTo">cosineLawTo</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#destinationXyz">destinationXyz</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#equals">equals</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#equals3">equals3</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#equirectangularTo">equirectangularTo</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#euclideanTo">euclideanTo</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#flatLocalTo">flatLocalTo</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#flatPolarTo">flatPolarTo</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#hartzell">hartzell</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#haversineTo">haversineTo</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#height4">height4</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#heightStr">heightStr</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#hubenyTo">hubenyTo</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#isantipode">isantipode</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#isantipodeTo">isantipodeTo</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#isequalTo">isequalTo</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#isequalTo3">isequalTo3</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#latlon2">latlon2</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#latlon2round">latlon2round</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#latlon_">latlon_</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#nearestOn6">nearestOn6</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#nearestTo">nearestTo</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#normal">normal</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#philam2">philam2</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#points">points</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#points2">points2</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#radii11">radii11</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#rhumbAzimuthTo">rhumbAzimuthTo</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#rhumbDestination">rhumbDestination</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#rhumbDistanceTo">rhumbDistanceTo</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#rhumbIntersecant2">rhumbIntersecant2</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#rhumbLine">rhumbLine</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#rhumbMidpointTo">rhumbMidpointTo</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#thomasTo">thomasTo</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#to2ab">to2ab</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#to3llh">to3llh</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#toEcef">toEcef</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#toLocal">toLocal</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#toLtp">toLtp</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#toNormal">toNormal</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#toNvector">toNvector</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#toStr">toStr</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#toVector">toVector</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#toVector3d">toVector3d</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#toWm">toWm</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#vincentysTo">vincentysTo</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a></code></b>:
+      <code><a href="pygeodesy.named._NamedBase-class.html#__repr__">__repr__</a></code>,
+      <code><a href="pygeodesy.named._NamedBase-class.html#others">others</a></code>,
+      <code><a href="pygeodesy.named._NamedBase-class.html#toRepr">toRepr</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
+      <code><a href="pygeodesy.named._Named-class.html#__imatmul__">__imatmul__</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#__matmul__">__matmul__</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#__rmatmul__">__rmatmul__</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#attrs">attrs</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#classof">classof</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#copy">copy</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#dup">dup</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#methodname">methodname</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#rename">rename</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#renamed">renamed</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#toStr2">toStr2</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__delattr__</code>,
+      <code>__format__</code>,
+      <code>__getattribute__</code>,
+      <code>__hash__</code>,
+      <code>__new__</code>,
+      <code>__reduce__</code>,
+      <code>__reduce_ex__</code>,
+      <code>__setattr__</code>,
+      <code>__sizeof__</code>,
+      <code>__subclasshook__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== PROPERTIES ==================== -->
+<a name="section-Properties"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Properties</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI-class.html#geodesic" class="summary-name">geodesic</a><br />
+      N/A, invalid (<code>None</code> <i>always</i>).
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html">ellipsoidalBase.LatLonEllipsoidalBase</a></code></b>:
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#Equidistant">Equidistant</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#convergence">convergence</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#datum">datum</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#ellipsoidalLatLon">ellipsoidalLatLon</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#epoch">epoch</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#gamma">gamma</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#iteration">iteration</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#reframe">reframe</a></code>,
+      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#scale">scale</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.latlonBase.LatLonBase-class.html">latlonBase.LatLonBase</a></code></b>:
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#Ecef">Ecef</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#clipid">clipid</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#height">height</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#isEllipsoidal">isEllipsoidal</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#isSpherical">isSpherical</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#isnormal">isnormal</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#lam">lam</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#lat">lat</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#latlon">latlon</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#latlonheight">latlonheight</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#lon">lon</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#phi">phi</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#philam">philam</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#philamheight">philamheight</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#sphericalLatLon">sphericalLatLon</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#xyz">xyz</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#xyzh">xyzh</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
+      <code><a href="pygeodesy.named._Named-class.html#classname">classname</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#classnaming">classnaming</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#name">name</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#named">named</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#named2">named2</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#named3">named3</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#named4">named4</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#sizeof">sizeof</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__class__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== METHOD DETAILS ==================== -->
+<a name="section-MethodDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Method Details</span></td>
+</tr>
+</table>
+<a name="bearingTo2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">bearingTo2</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">other</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the initial and final bearing (forward and reverse azimuth) 
+  from this to an other point, using this <code>Inverse</code> method.  See
+  methods <a 
+  href="pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI-class.html#initialBearingTo"
+  class="link">initialBearingTo</a> and <a 
+  href="pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI-class.html#finalBearingTo"
+  class="link">finalBearingTo</a> for more details.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>other</code></strong> - The other point (<code>LatLon</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
+          <b><code>other</code></b> point (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A <a href="pygeodesy.namedTuples.Bearing2Tuple-class.html" 
+          class="link">Bearing2Tuple</a><code>(initial, final)</code>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>other</code></b> point is not <code>LatLon</code>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - If this and the <b><code>other</code></b> point's <a 
+        href="pygeodesy.datums.Datum-class.html" class="link">Datum</a> 
+        ellipsoids are not compatible.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="destination"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">destination</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">distance</span>,
+        <span class="sig-arg">bearing</span>,
+        <span class="sig-arg">height</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the destination point after having travelled for the given 
+  distance from this point along a geodesic given by an initial bearing, 
+  using this <code>Direct</code> method.  See method <a 
+  href="pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI-class.html#destination2"
+  class="link">destination2</a> for more details.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>distance</code></strong> - Distance (<code>meter</code>).</li>
+        <li><strong class="pname"><code>bearing</code></strong> - Initial bearing in (compass <code>degrees360</code>).</li>
+        <li><strong class="pname"><code>height</code></strong> - Optional height, overriding the default height 
+          (<code>meter</code>, same units as <code>distance</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The destination point (<code>LatLon</code>).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="destination2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">destination2</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">distance</span>,
+        <span class="sig-arg">bearing</span>,
+        <span class="sig-arg">height</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the destination point and the final bearing (reverse azimuth) 
+  after having travelled for the given distance from this point along a 
+  geodesic given by an initial bearing, using this <code>Direct</code> 
+  method.</p>
+  <p>The distance must be in the same units as this point's datum axes, 
+  conventionally <code>meter</code>.  The distance is measured on the 
+  surface of the ellipsoid, ignoring this point's height.</p>
+  <p>The initial and final bearing (forward and reverse azimuth) are in 
+  compass <code>degrees360</code>.</p>
+  <p>The destination point's height and datum are set to this point's 
+  height and datum, unless the former is overridden.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>distance</code></strong> - Distance (<code>meter</code>).</li>
+        <li><strong class="pname"><code>bearing</code></strong> - Initial bearing (compass <code>degrees360</code>).</li>
+        <li><strong class="pname"><code>height</code></strong> - Optional height, overriding the default height 
+          (<code>meter</code>, same units as <code>distance</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A <a href="pygeodesy.namedTuples.Destination2Tuple-class.html" 
+          class="link">Destination2Tuple</a><code>(destination, 
+          final)</code>.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="distanceTo"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">distanceTo</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">other</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">**unused</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the distance between this and an other point along a geodesic,
+  using this <code>Inverse</code> method. See method <a 
+  href="pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI-class.html#distanceTo3"
+  class="link">distanceTo3</a> for more details.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>other</code></strong> - The other point (<code>LatLon</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
+          <b><code>other</code></b> point (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Distance (<code>meter</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>other</code></b> point is not <code>LatLon</code>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - If this and the <b><code>other</code></b> point's <a 
+        href="pygeodesy.datums.Datum-class.html" class="link">Datum</a> 
+        ellipsoids are not compatible.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="distanceTo3"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">distanceTo3</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">other</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the distance, the initial and final bearing along a geodesic 
+  between this and an other point, using this <code>Inverse</code> 
+  method.</p>
+  <p>The distance is in the same units as this point's datum axes, 
+  conventionally meter.  The distance is measured on the surface of the 
+  ellipsoid, ignoring this point's height.</p>
+  <p>The initial and final bearing (forward and reverse azimuth) are in 
+  compass <code>degrees360</code> from North.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>other</code></strong> - Destination point (<code>LatLon</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
+          <b><code>other</code></b> point (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A <a href="pygeodesy.namedTuples.Distance3Tuple-class.html" 
+          class="link">Distance3Tuple</a><code>(distance, initial, 
+          final)</code>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>other</code></b> point is not <code>LatLon</code>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - If this and the <b><code>other</code></b> point's <a 
+        href="pygeodesy.datums.Datum-class.html" class="link">Datum</a> 
+        ellipsoids are not compatible.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="finalBearingOn"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">finalBearingOn</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">distance</span>,
+        <span class="sig-arg">bearing</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the final bearing (reverse azimuth) after having travelled for
+  the given distance along a geodesic given by an initial bearing from this
+  point, using this <code>Direct</code> method.  See method <a 
+  href="pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI-class.html#destination2"
+  class="link">destination2</a> for more details.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>distance</code></strong> - Distance (<code>meter</code>).</li>
+        <li><strong class="pname"><code>bearing</code></strong> - Initial bearing (compass <code>degrees360</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Final bearing (compass <code>degrees360</code>).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="finalBearingTo"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">finalBearingTo</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">other</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the final bearing (reverse azimuth) after having travelled 
+  along a geodesic from this point to an other point, using this 
+  <code>Inverse</code> method.  See method <a 
+  href="pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI-class.html#distanceTo3"
+  class="link">distanceTo3</a> for more details.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>other</code></strong> - The other point (<code>LatLon</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
+          <b><code>other</code></b> point (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Final bearing (compass <code>degrees360</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>other</code></b> point is not <code>LatLon</code>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - If this and the <b><code>other</code></b> point's <a 
+        href="pygeodesy.datums.Datum-class.html" class="link">Datum</a> 
+        ellipsoids are not compatible.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="initialBearingTo"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">initialBearingTo</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">other</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the initial bearing (forward azimuth) to travel along a 
+  geodesic from this point to an other point, using this 
+  <code>Inverse</code> method.  See method <a 
+  href="pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI-class.html#distanceTo3"
+  class="link">distanceTo3</a> for more details.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>other</code></strong> - The other point (<code>LatLon</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
+          <b><code>other</code></b> point (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Initial bearing (compass <code>degrees360</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>other</code></b> point is not <code>LatLon</code>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - If this and the <b><code>other</code></b> point's <a 
+        href="pygeodesy.datums.Datum-class.html" class="link">Datum</a> 
+        ellipsoids are not compatible.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="intermediateTo"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">intermediateTo</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">other</span>,
+        <span class="sig-arg">fraction</span>,
+        <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the point at given fraction along the geodesic between this and
+  an other point, using this <code>Direct</code> and <code>Inverse</code> 
+  methods.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>other</code></strong> - The other point (<code>LatLon</code>).</li>
+        <li><strong class="pname"><code>fraction</code></strong> - Fraction between both points (<code>scalar</code>, 0.0 at this 
+          and 1.0 at the other point.</li>
+        <li><strong class="pname"><code>height</code></strong> - Optional height, overriding the fractional height 
+          (<code>meter</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
+          <b><code>other</code></b> point (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Intermediate point (<code>LatLon</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>other</code></b> point is not <code>LatLon</code>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.UnitError-class.html">UnitError</a></strong></code> - Invalid <b><code>fraction</code></b> or <b><code>height</code></b>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - If this and the <b><code>other</code></b> point's <a 
+        href="pygeodesy.datums.Datum-class.html" class="link">Datum</a> 
+        ellipsoids are not compatible.</li>
+    </ul></dd>
+    <dt>Overrides:
+        <a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#intermediateTo">ellipsoidalBase.LatLonEllipsoidalBase.intermediateTo</a>
+    </dt>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Methods <a 
+        href="pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI-class.html#distanceTo3"
+        class="link">distanceTo3</a>, <a 
+        href="pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI-class.html#destination"
+        class="link">destination</a>, <code>midpointTo</code> and 
+        <code>rhumbMidpointTo</code>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="intersecant2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">intersecant2</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">circle</span>,
+        <span class="sig-arg">point</span>,
+        <span class="sig-arg">other</span>,
+        <span class="sig-arg">exact</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">tol</span>=<span class="sig-default">1.4901161193847656e-08</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the intersections of a circle and a geodesic (line) given as 
+  two points or as a point and bearing.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>circle</code></strong> - Radius of the circle centered at this location 
+          (<code>meter</code>, conventionally) or a point on the circle 
+          (this <code>LatLon</code>).</li>
+        <li><strong class="pname"><code>point</code></strong> - A location on the geodesic (this <code>LatLon</code>).</li>
+        <li><strong class="pname"><code>other</code></strong> - An other point on the geodesic (this <code>LatLon</code>) or the 
+          (forward) bearing at the <b><code>point</code></b> (compass 
+          <code>degrees</code>).</li>
+        <li><strong class="pname"><code>exact</code></strong> - Exact <code>geodesic...</code> to use (<code>bool</code> or 
+          <code>Geodesic...</code>), see method <a 
+          href="pygeodesy.ellipsoids.Ellipsoid-class.html#geodesic_" 
+          class="link">Ellipsoid.geodesic_</a>.</li>
+        <li><strong class="pname"><code>height</code></strong> - Optional height for the intersection points (<code>meter</code>, 
+          conventionally) or <code>None</code> for interpolated heights.</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
+          <b><code>point</code></b>, <b><code>circle</code></b> and/or 
+          <b><code>other</code></b> (<code>bool</code>).</li>
+        <li><strong class="pname"><code>tol</code></strong> - Convergence tolerance (<code>scalar</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>2-Tuple of the intersection points (representing a geodesic 
+          chord), each an instance of this <code>LatLon</code>.  Both 
+          points are the same instance if the geodesic (line) is tangential
+          to the circle.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - The circle and geodesic do not intersect.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - If <b><code>point</code></b> is not this <code>LatLon</code> or 
+        <b><code>circle</code></b> or <b><code>other</code></b> invalid.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.UnitError-class.html">UnitError</a></strong></code> - Invalid <b><code>circle</code></b>, <b><code>other</code></b>, 
+        <b><code>exact</code></b> or <b><code>height</code></b>.</li>
+    </ul></dd>
+    <dt>Overrides:
+        <a href="pygeodesy.latlonBase.LatLonBase-class.html#intersecant2">latlonBase.LatLonBase.intersecant2</a>
+    </dt>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Method <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#rhumbIntersecant2"
+        class="link">rhumbIntersecant2</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="nearestOn8"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">nearestOn8</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">points</span>,
+        <span class="sig-arg">closed</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">equidistant</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">tol</span>=<span class="sig-default">0.001</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p><i>Iteratively</i> locate the point on a path or polygon closest to 
+  this point.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>points</code></strong> - The path or polygon points (<code>LatLon</code>[]).</li>
+        <li><strong class="pname"><code>closed</code></strong> - Optionally, close the polygon (<code>bool</code>).</li>
+        <li><strong class="pname"><code>height</code></strong> - Optional height, overriding the height of this and all other 
+          points (<code>meter</code>, conventionally).  If 
+          <code><b>height</b> is None</code>, each point's height is taken 
+          into account to compute distances.</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
+          <b><code>points</code></b> (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A <a href="pygeodesy.namedTuples.NearestOn8Tuple-class.html" 
+          class="link">NearestOn8Tuple</a><code>(closest, distance, fi, j, 
+          start, end, initial, final)</code> with <code>distance</code> in 
+          <code>meter</code>, conventionally and with the 
+          <code>closest</code>, the <code>start</code> the <code>end</code>
+          point each an instance of this <code>LatLon</code>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.PointsError-class.html">PointsError</a></strong></code> - Insufficient number of <b><code>points</code></b>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some <b><code>points</code></b> or <b><code>equidistant</code></b> 
+        invalid.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Some <b><code>points</code></b>' datum or ellipsoid incompatible or
+        no convergence for the given <b><code>tol</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.vector3d-module.html#nearestOn6" 
+        class="link">pygeodesy.nearestOn6</a> and method 
+        <code>nearestOn6</code>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="plumbTo"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">plumbTo</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">point</span>,
+        <span class="sig-arg">other</span>,
+        <span class="sig-arg">exact</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">tol</span>=<span class="sig-default">1.4901161193847656e-08</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the <i>perpendicular</i> intersection of a geodesic (line) 
+  with a geodesic from this point.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>point</code></strong> - A location (<code>LatLon</code>) on the geodesic (line).</li>
+        <li><strong class="pname"><code>other</code></strong> - An other point (<code>LatLon</code>) on the geodesic (line) or 
+          the (forward) bearing at the <b><code>point</code></b> (compass 
+          <code>degrees</code>).</li>
+        <li><strong class="pname"><code>exact</code></strong> - Exact <code>geodesic...</code> to use (<code>bool</code> or 
+          <code>Geodesic...</code>), see method <a 
+          href="pygeodesy.ellipsoids.Ellipsoid-class.html#geodesic_" 
+          class="link">Ellipsoid.geodesic_</a>.</li>
+        <li><strong class="pname"><code>height</code></strong> - Optional height for the intersection point (<code>meter</code>, 
+          conventionally) or <code>None</code> for an interpolated height.</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
+          <b><code>point</code></b> and/or <b><code>other</code></b> 
+          (<code>bool</code>).</li>
+        <li><strong class="pname"><code>tol</code></strong> - Convergence tolerance (<code>meter</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The intersection point, an instance of this <code>LatLon</code>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - If <b><code>point</code></b> or <b><code>other</code></b> not this 
+        <code>LatLon</code>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.UnitError-class.html">UnitError</a></strong></code> - Invalid <b><code>other</code></b>, <b><code>exact</code></b> or 
+        <b><code>height</code></b>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== PROPERTY DETAILS ==================== -->
+<a name="section-PropertyDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Property Details</span></td>
+</tr>
+</table>
+<a name="geodesic"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">geodesic</h3>
+  <p>N/A, invalid (<code>None</code> <i>always</i>).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">geodesic(<span class="summary-sig-arg">self</span>)</span>
+        - N/A, invalid (<code>None</code> <i>always</i>).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Thu Jun 27 19:44:14 2024
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

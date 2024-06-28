@@ -1,0 +1,1292 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>pygeodesy.vector3d.Vector3d</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="pygeodesy-module.html">Package&nbsp;pygeodesy</a> ::
+        <a href="pygeodesy.vector3d-module.html">Module&nbsp;vector3d</a> ::
+        Class&nbsp;Vector3d
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="pygeodesy.vector3d.Vector3d-class.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS DESCRIPTION ==================== -->
+<h1 class="epydoc">Class Vector3d</h1><p class="nomargin-top"></p>
+<pre class="base-tree">
+       object --+            
+                |            
+     <a href="pygeodesy.named._Named-class.html">named._Named</a> --+        
+                    |        
+     <a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a> --+    
+                        |    
+<a href="pygeodesy.vector3dBase.Vector3dBase-class.html">vector3dBase.Vector3dBase</a> --+
+                            |
+                           <strong class="uidshort">Vector3d</strong>
+</pre>
+
+<dl><dt>Known Subclasses:</dt>
+<dd>
+      <ul class="subclass-list">
+<li class="private">ltpTuples._Vector3d</li><li>, <a href="pygeodesy.cartesianBase.CartesianBase-class.html">cartesianBase.CartesianBase</a></li><li>, <a href="pygeodesy.nvectorBase.NvectorBase-class.html">nvectorBase.NvectorBase</a></li>  </ul>
+</dd></dl>
+
+<hr />
+<p>Extended 3-D vector.</p>
+  <p>In a geodesy context, these may be used to represent:</p>
+  <ul>
+    <li>
+      n-vector, the normal to a point on the earth's surface
+    </li>
+    <li>
+      Earth-Centered, Earth-Fixed (ECEF) cartesian (== spherical n-vector)
+    </li>
+    <li>
+      great circle normal to the vector
+    </li>
+    <li>
+      motion vector on the earth's surface
+    </li>
+    <li>
+      etc.
+    </li>
+  </ul>
+
+<!-- ==================== INSTANCE METHODS ==================== -->
+<a name="section-InstanceMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Instance Methods</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.vector3d.Vector3d-class.html#bearing" class="summary-sig-name">bearing</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">useZ</span>=<span class="summary-sig-default">True</span>)</span><br />
+      Get this vector's &quot;bearing&quot;, the angle off the +Z axis, 
+      clockwise.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.vector3d.Vector3d-class.html#circin6" class="summary-sig-name">circin6</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">point2</span>,
+        <span class="summary-sig-arg">point3</span>,
+        <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">8.881784197001252e-16</span>)</span><br />
+      Return the radius and center of the <i>inscribed</i> aka <i>In- 
+      circle</i> of a (3-D) triangle formed by this and two other points.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.vector3d.Vector3d-class.html#circum3" class="summary-sig-name">circum3</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">point2</span>,
+        <span class="summary-sig-arg">point3</span>,
+        <span class="summary-sig-arg">circum</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">8.881784197001252e-16</span>)</span><br />
+      Return the radius and center of the smallest circle <i>through</i> or
+      <i>containing</i> this and two other (3-D) points.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.vector3d.Vector3d-class.html#circum4_" class="summary-sig-name">circum4_</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">*points</span>)</span><br />
+      Best-fit a sphere through this and two or more other (3-D) points.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.vector3d.Vector3d-class.html#iscolinearWith" class="summary-sig-name">iscolinearWith</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">point1</span>,
+        <span class="summary-sig-arg">point2</span>,
+        <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">2.220446049250313e-16</span>)</span><br />
+      Check whether this and two other (3-D) points are colinear.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.vector3d.Vector3d-class.html#meeus2" class="summary-sig-name">meeus2</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">point2</span>,
+        <span class="summary-sig-arg">point3</span>,
+        <span class="summary-sig-arg">circum</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Return the radius and <i>Meeus</i>' Type of the smallest circle 
+      <i>through</i> or <i>containing</i> this and two other (3-D) points.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.vector3d.Vector3d-class.html#nearestOn" class="summary-sig-name">nearestOn</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">point1</span>,
+        <span class="summary-sig-arg">point2</span>,
+        <span class="summary-sig-arg">within</span>=<span class="summary-sig-default">True</span>)</span><br />
+      Locate the point between two points closest to this point.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.vector3d.Vector3d-class.html#nearestOn6" class="summary-sig-name">nearestOn6</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">points</span>,
+        <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">useZ</span>=<span class="summary-sig-default">True</span>)</span><br />
+      Locate the point on a path or polygon closest to this point.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.vector3d.Vector3d-class.html#parse" class="summary-sig-name">parse</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">str3d</span>,
+        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default">','</span>,
+        <span class="summary-sig-arg">**name</span>)</span><br />
+      Parse an <code>&quot;x, y, z&quot;</code> string to a <a 
+      href="pygeodesy.vector3d.Vector3d-class.html" 
+      class="link">Vector3d</a> instance.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.vector3d.Vector3d-class.html#radii11" class="summary-sig-name">radii11</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">point2</span>,
+        <span class="summary-sig-arg">point3</span>)</span><br />
+      Return the radii of the <code>Circum-</code>, <code>In-</code>, 
+      <i>Soddy</i> and <code>Tangent</code> circles of a (3-D) triangle.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.vector3d.Vector3d-class.html#soddy4" class="summary-sig-name">soddy4</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">point2</span>,
+        <span class="summary-sig-arg">point3</span>,
+        <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">8.881784197001252e-16</span>)</span><br />
+      Return the radius and center of the <code>inner</code> <i>Soddy</i> 
+      circle of a (3-D) triangle.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.vector3d.Vector3d-class.html#trilaterate2d2" class="summary-sig-name">trilaterate2d2</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">radius</span>,
+        <span class="summary-sig-arg">center2</span>,
+        <span class="summary-sig-arg">radius2</span>,
+        <span class="summary-sig-arg">center3</span>,
+        <span class="summary-sig-arg">radius3</span>,
+        <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">8.881784197001252e-16</span>,
+        <span class="summary-sig-arg">z</span>=<span class="summary-sig-default">0</span>)</span><br />
+      Trilaterate this and two other circles, each given as a (2-D) center 
+      and a radius.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.vector3d.Vector3d-class.html#trilaterate3d2" class="summary-sig-name">trilaterate3d2</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">radius</span>,
+        <span class="summary-sig-arg">center2</span>,
+        <span class="summary-sig-arg">radius2</span>,
+        <span class="summary-sig-arg">center3</span>,
+        <span class="summary-sig-arg">radius3</span>,
+        <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">8.881784197001252e-16</span>)</span><br />
+      Trilaterate this and two other spheres, each given as a (3-D) center 
+      and a radius.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html">vector3dBase.Vector3dBase</a></code></b>:
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__abs__">__abs__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__add__">__add__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__bool__">__bool__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__ceil__">__ceil__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__cmp__">__cmp__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__div__">__div__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__divmod__">__divmod__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__eq__">__eq__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__float__">__float__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__floor__">__floor__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__floordiv__">__floordiv__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__format__">__format__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__ge__">__ge__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__gt__">__gt__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__hash__">__hash__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__iadd__">__iadd__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__idiv__">__idiv__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__ifloordiv__">__ifloordiv__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__imatmul__">__imatmul__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__imod__">__imod__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__imul__">__imul__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__init__">__init__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__int__">__int__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__ipow__">__ipow__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__isub__">__isub__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__itruediv__">__itruediv__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__le__">__le__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__long__">__long__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__lt__">__lt__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__matmul__">__matmul__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__mod__">__mod__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__mul__">__mul__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__ne__">__ne__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__neg__">__neg__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__nonzero__">__nonzero__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__pos__">__pos__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__pow__">__pow__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__radd__">__radd__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__rdiv__">__rdiv__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__rdivmod__">__rdivmod__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__rfloordiv__">__rfloordiv__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__rmatmul__">__rmatmul__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__rmod__">__rmod__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__rmul__">__rmul__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__round__">__round__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__rpow__">__rpow__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__rsub__">__rsub__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__rtruediv__">__rtruediv__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__sub__">__sub__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__truediv__">__truediv__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__trunc__">__trunc__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#angleTo">angleTo</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#apply">apply</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#cmp">cmp</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#cross">cross</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#dividedBy">dividedBy</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#dot">dot</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#equals">equals</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#equirectangular">equirectangular</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#intermediateTo">intermediateTo</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#isconjugateTo">isconjugateTo</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#isequalTo">isequalTo</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#minus">minus</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#minus_">minus_</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#negate">negate</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#others">others</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#plus">plus</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#plus_">plus_</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#rotate">rotate</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#rotateAround">rotateAround</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#sum">sum</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#times">times</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#times_">times_</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#to3xyz">to3xyz</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#toStr">toStr</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#unit">unit</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a></code></b>:
+      <code><a href="pygeodesy.named._NamedBase-class.html#__repr__">__repr__</a></code>,
+      <code><a href="pygeodesy.named._NamedBase-class.html#__str__">__str__</a></code>,
+      <code><a href="pygeodesy.named._NamedBase-class.html#toRepr">toRepr</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
+      <code><a href="pygeodesy.named._Named-class.html#attrs">attrs</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#classof">classof</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#copy">copy</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#dup">dup</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#methodname">methodname</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#rename">rename</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#renamed">renamed</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#toStr2">toStr2</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__delattr__</code>,
+      <code>__getattribute__</code>,
+      <code>__new__</code>,
+      <code>__reduce__</code>,
+      <code>__reduce_ex__</code>,
+      <code>__setattr__</code>,
+      <code>__sizeof__</code>,
+      <code>__subclasshook__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== PROPERTIES ==================== -->
+<a name="section-Properties"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Properties</span></td>
+</tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html">vector3dBase.Vector3dBase</a></code></b>:
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#crosserrors">crosserrors</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#euclid">euclid</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#homogeneous">homogeneous</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#length">length</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#length2">length2</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#x">x</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#x2y2z2">x2y2z2</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#xyz">xyz</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#y">y</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#z">z</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
+      <code><a href="pygeodesy.named._Named-class.html#classname">classname</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#classnaming">classnaming</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#iteration">iteration</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#name">name</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#named">named</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#named2">named2</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#named3">named3</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#named4">named4</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#sizeof">sizeof</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__class__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== METHOD DETAILS ==================== -->
+<a name="section-MethodDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Method Details</span></td>
+</tr>
+</table>
+<a name="bearing"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">bearing</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">useZ</span>=<span class="sig-default">True</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Get this vector's &quot;bearing&quot;, the angle off the +Z axis, 
+  clockwise.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>useZ</code></strong> - If <code>True</code>, use the Z component, otherwise ignore the Z
+          component and consider the +Y as the +Z axis.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Bearing (compass <code>degrees</code>).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="circin6"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">circin6</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">point2</span>,
+        <span class="sig-arg">point3</span>,
+        <span class="sig-arg">eps</span>=<span class="sig-default">8.881784197001252e-16</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the radius and center of the <i>inscribed</i> aka <i>In- 
+  circle</i> of a (3-D) triangle formed by this and two other points.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>point2</code></strong> - Second point (<code>Cartesian</code>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code>, 
+          <code>Vector4Tuple</code> or <code>Vector2Tuple</code> if 
+          <code><b>useZ</b>=False</code>).</li>
+        <li><strong class="pname"><code>point3</code></strong> - Third point (<code>Cartesian</code>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code>, 
+          <code>Vector4Tuple</code> or <code>Vector2Tuple</code> if 
+          <code><b>useZ</b>=False</code>).</li>
+        <li><strong class="pname"><code>eps</code></strong> - Tolerance for function <a 
+          href="pygeodesy.vector3d-module.html#trilaterate3d2" 
+          class="link">pygeodesy.trilaterate3d2</a> if <code><b>useZ</b> is
+          True</code> otherwise <a 
+          href="pygeodesy.vector3d-module.html#trilaterate2d2" 
+          class="link">pygeodesy.trilaterate2d2</a>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><a href="pygeodesy.vector2d.Circin6Tuple-class.html" 
+          class="link">Circin6Tuple</a><code>(radius, center, deltas, cA, 
+          cB, cC)</code>.  The <code>center</code> and contact points 
+          <code>cA</code>, <code>cB</code> and <code>cC</code>, each an 
+          instance of this (sub-)class, are co-planar with this and the two
+          given points.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ImportError</strong></code> - Package <code>numpy</code> not found, not installed or older than 
+        version 1.10.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - Near-coincident or -colinear points or a trilateration or 
+        <code>numpy</code> issue.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>point2</code></b> or <b><code>point3</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.vector2d-module.html#circin6" 
+        class="link">pygeodesy.circin6</a>, <a 
+        href="https://MathWorld.Wolfram.com/Incircle.html" 
+        target="_top">Incircle</a> and <a 
+        href="https://MathWorld.Wolfram.com/ContactTriangle.html" 
+        target="_top">Contact Triangle</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="circum3"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">circum3</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">point2</span>,
+        <span class="sig-arg">point3</span>,
+        <span class="sig-arg">circum</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">eps</span>=<span class="sig-default">8.881784197001252e-16</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the radius and center of the smallest circle <i>through</i> or 
+  <i>containing</i> this and two other (3-D) points.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>point2</code></strong> - Second point (<code>Cartesian</code>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code> or 
+          <code>Vector4Tuple</code>).</li>
+        <li><strong class="pname"><code>point3</code></strong> - Third point (<code>Cartesian</code>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code> or 
+          <code>Vector4Tuple</code>).</li>
+        <li><strong class="pname"><code>circum</code></strong> - If <code>True</code> return the <code>circumradius</code> and 
+          <code>circumcenter</code>, always, ignoring the <i>Meeus</i>' 
+          Type I case (<code>bool</code>).</li>
+        <li><strong class="pname"><code>eps</code></strong> - Tolerance passed to function <a 
+          href="pygeodesy.vector3d-module.html#trilaterate3d2" 
+          class="link">pygeodesy.trilaterate3d2</a>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A <a href="pygeodesy.vector2d.Circum3Tuple-class.html" 
+          class="link">Circum3Tuple</a><code>(radius, center, 
+          deltas)</code>.  The <code>center</code>, an instance of this 
+          (sub-)class, is co-planar with this and the two given points.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ImportError</strong></code> - Package <code>numpy</code> not found, not installed or older than 
+        version 1.10.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - Near-concentric, -coincident or -colinear points or a trilateration
+        or <code>numpy</code> issue.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>point2</code></b> or <b><code>point3</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.vector2d-module.html#circum3" 
+        class="link">pygeodesy.circum3</a> and methods <a 
+        href="pygeodesy.vector3d.Vector3d-class.html#circum4_" 
+        class="link">circum4_</a> and <a 
+        href="pygeodesy.vector3d.Vector3d-class.html#meeus2" 
+        class="link">meeus2</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="circum4_"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">circum4_</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">*points</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Best-fit a sphere through this and two or more other (3-D) points.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>points</code></strong> - Other points (each a <code>Cartesian</code>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code> or 
+          <code>Vector4Tuple</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><a href="pygeodesy.vector2d.Circum4Tuple-class.html" 
+          class="link">Circum4Tuple</a><code>(radius, center, rank, 
+          residuals)</code> with <code>center</code> an instance if this 
+          (sub-)class.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ImportError</strong></code> - Package <code>numpy</code> not found, not installed or older than 
+        version 1.10.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.NumPyError-class.html">NumPyError</a></strong></code> - Some <code>numpy</code> issue.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.PointsError-class.html">PointsError</a></strong></code> - Too few <b><code>points</code></b>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - One of the <b><code>points</code></b> invalid.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.vector2d-module.html#circum4_" 
+        class="link">pygeodesy.circum4_</a> and methods <a 
+        href="pygeodesy.vector3d.Vector3d-class.html#circum3" 
+        class="link">circum3</a> and <a 
+        href="pygeodesy.vector3d.Vector3d-class.html#meeus2" 
+        class="link">meeus2</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="iscolinearWith"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">iscolinearWith</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">point1</span>,
+        <span class="sig-arg">point2</span>,
+        <span class="sig-arg">eps</span>=<span class="sig-default">2.220446049250313e-16</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Check whether this and two other (3-D) points are colinear.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>point1</code></strong> - One point (<code>Cartesian</code>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code> or 
+          <code>Vector4Tuple</code>).</li>
+        <li><strong class="pname"><code>point2</code></strong> - An other point (<code>Cartesian</code>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code> or 
+          <code>Vector4Tuple</code>).</li>
+        <li><strong class="pname"><code>eps</code></strong> - Tolerance (<code>scalar</code>), same units as <code>x</code>, 
+          <code>y</code>, and <code>z</code>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><code>True</code> if this point is colinear with 
+          <b><code>point1</code></b> and <b><code>point2</code></b>, 
+          <code>False</code> otherwise.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>point1</code></b> or <b><code>point2</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Method <a href="pygeodesy.vector3d.Vector3d-class.html#nearestOn" 
+        class="link">nearestOn</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="meeus2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">meeus2</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">point2</span>,
+        <span class="sig-arg">point3</span>,
+        <span class="sig-arg">circum</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the radius and <i>Meeus</i>' Type of the smallest circle 
+  <i>through</i> or <i>containing</i> this and two other (3-D) points.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>point2</code></strong> - Second point (<code>Cartesian</code>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code> or 
+          <code>Vector4Tuple</code>).</li>
+        <li><strong class="pname"><code>point3</code></strong> - Third point (<code>Cartesian</code>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code> or 
+          <code>Vector4Tuple</code>).</li>
+        <li><strong class="pname"><code>circum</code></strong> - If <code>True</code> return the <code>circumradius</code> and 
+          <code>circumcenter</code> always, overriding <i>Meeus</i>' Type 
+          II case (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><a href="pygeodesy.vector2d.Meeus2Tuple-class.html" 
+          class="link">Meeus2Tuple</a><code>(radius, Type)</code>, with 
+          <code>Type</code> the <code>circumcenter</code> iff 
+          <code><b>circum</b>=True</code>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - Coincident or colinear points, iff <code><b>circum</b>=True</code>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>point2</code></b> or <b><code>point3</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.vector2d-module.html#meeus2" 
+        class="link">pygeodesy.meeus2</a> and methods <a 
+        href="pygeodesy.vector3d.Vector3d-class.html#circum3" 
+        class="link">circum3</a> and <a 
+        href="pygeodesy.vector3d.Vector3d-class.html#circum4_" 
+        class="link">circum4_</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="nearestOn"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">nearestOn</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">point1</span>,
+        <span class="sig-arg">point2</span>,
+        <span class="sig-arg">within</span>=<span class="sig-default">True</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Locate the point between two points closest to this point.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>point1</code></strong> - Start point (<code>Cartesian</code>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code> or 
+          <code>Vector4Tuple</code>).</li>
+        <li><strong class="pname"><code>point2</code></strong> - End point (<code>Cartesian</code>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code> or 
+          <code>Vector4Tuple</code>).</li>
+        <li><strong class="pname"><code>within</code></strong> - If <code>True</code> return the closest point between the given 
+          points, otherwise the closest point on the extended line through 
+          both points (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Closest point, either <b><code>point1</code></b> or 
+          <b><code>point2</code></b> or an instance of this (sub-)class.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>point1</code></b> or <b><code>point2</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Method <a 
+        href="pygeodesy.sphericalTrigonometry.LatLon-class.html#nearestOn3"
+        class="link">sphericalTrigonometry.LatLon.nearestOn3</a> and <a 
+        href="https://MathWorld.Wolfram.com/Point-LineDistance3-Dimensional.html"
+        target="_top">3-D Point-Line Distance</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="nearestOn6"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">nearestOn6</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">points</span>,
+        <span class="sig-arg">closed</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">useZ</span>=<span class="sig-default">True</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Locate the point on a path or polygon closest to this point.</p>
+  <p>The closest point is either on and within the extent of a polygon edge
+  or the nearest of that edge's end points.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>points</code></strong> - The path or polygon points (<code>Cartesian</code>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code> or 
+          <code>Vector4Tuple</code>[]).</li>
+        <li><strong class="pname"><code>closed</code></strong> - Optionally, close the path or polygon (<code>bool</code>).</li>
+        <li><strong class="pname"><code>useZ</code></strong> - If <code>True</code>, use the Z components, otherwise force 
+          <code>z=INT0</code> (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A <a href="pygeodesy.namedTuples.NearestOn6Tuple-class.html" 
+          class="link">NearestOn6Tuple</a><code>(closest, distance, fi, j, 
+          start, end)</code> with the <code>closest</code>, the 
+          <code>start</code> and the <code>end</code> point each an 
+          instance of this point's (sub-)class.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.PointsError-class.html">PointsError</a></strong></code> - Insufficient number of <b><code>points</code></b></li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Non-cartesian <b><code>points</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        Distances measured with method <a 
+        href="pygeodesy.vector3dBase.Vector3dBase-class.html#equirectangular"
+        class="link">Vector3d.equirectangular</a>.
+      </p>
+      <p><strong>See Also:</strong>
+        Function <a 
+        href="pygeodesy.vector3d.Vector3d-class.html#nearestOn6" 
+        class="link">nearestOn6</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="parse"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">parse</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">str3d</span>,
+        <span class="sig-arg">sep</span>=<span class="sig-default">','</span>,
+        <span class="sig-arg">**name</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Parse an <code>&quot;x, y, z&quot;</code> string to a <a 
+  href="pygeodesy.vector3d.Vector3d-class.html" class="link">Vector3d</a> 
+  instance.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>str3d</code></strong> - X, y and z string (<code>str</code>), see function <a 
+          href="pygeodesy.vector3d-module.html#parse3d" 
+          class="link">parse3d</a>.</li>
+        <li><strong class="pname"><code>sep</code></strong> - Optional separator (<code>str</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional instance <code><b>name</b>=NN</code> (<code>str</code>),
+          overriding this name.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The instance (<a href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.VectorError-class.html">VectorError</a></strong></code> - Invalid <b><code>str3d</code></b>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="radii11"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">radii11</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">point2</span>,
+        <span class="sig-arg">point3</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the radii of the <code>Circum-</code>, <code>In-</code>, 
+  <i>Soddy</i> and <code>Tangent</code> circles of a (3-D) triangle.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>point2</code></strong> - Second point (<code>Cartesian</code>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code>, 
+          <code>Vector4Tuple</code> or <code>Vector2Tuple</code> if 
+          <code><b>useZ</b>=False</code>).</li>
+        <li><strong class="pname"><code>point3</code></strong> - Third point (<code>Cartesian</code>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code>, 
+          <code>Vector4Tuple</code> or <code>Vector2Tuple</code> if 
+          <code><b>useZ</b>=False</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><a href="pygeodesy.vector2d.Radii11Tuple-class.html" 
+          class="link">Radii11Tuple</a><code>(rA, rB, rC, cR, rIn, riS, 
+          roS, a, b, c, s)</code>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.TriangleError-class.html">TriangleError</a></strong></code> - Near-coincident or -colinear points.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>point2</code></b> or <b><code>point3</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.vector2d-module.html#radii11" 
+        class="link">pygeodesy.radii11</a>, <a 
+        href="https://MathWorld.Wolfram.com/Incircle.html" 
+        target="_top">Incircle</a>, <a 
+        href="https://MathWorld.Wolfram.com/SoddyCircles.html" 
+        target="_top">Soddy Circles</a> and <a 
+        href="https://MathWorld.Wolfram.com/TangentCircles.html" 
+        target="_top">Tangent Circles</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="soddy4"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">soddy4</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">point2</span>,
+        <span class="sig-arg">point3</span>,
+        <span class="sig-arg">eps</span>=<span class="sig-default">8.881784197001252e-16</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the radius and center of the <code>inner</code> <i>Soddy</i> 
+  circle of a (3-D) triangle.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>point2</code></strong> - Second point (<code>Cartesian</code>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code>, 
+          <code>Vector4Tuple</code> or <code>Vector2Tuple</code> if 
+          <code><b>useZ</b>=False</code>).</li>
+        <li><strong class="pname"><code>point3</code></strong> - Third point (<code>Cartesian</code>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code>, 
+          <code>Vector4Tuple</code> or <code>Vector2Tuple</code> if 
+          <code><b>useZ</b>=False</code>).</li>
+        <li><strong class="pname"><code>eps</code></strong> - Tolerance for function <a 
+          href="pygeodesy.vector3d-module.html#trilaterate3d2" 
+          class="link">pygeodesy.trilaterate3d2</a> if <code><b>useZ</b> is
+          True</code> otherwise <a 
+          href="pygeodesy.vector3d-module.html#trilaterate2d2" 
+          class="link">pygeodesy.trilaterate2d2</a>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><a href="pygeodesy.vector2d.Soddy4Tuple-class.html" 
+          class="link">Soddy4Tuple</a><code>(radius, center, deltas, 
+          outer)</code>.  The <code>center</code>, an instance of 
+          <b><code>point1</code></b>'s (sub-)class, is co-planar with the 
+          three given points.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ImportError</strong></code> - Package <code>numpy</code> not found, not installed or older than 
+        version 1.10.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - Near-coincident or -colinear points or a trilateration or 
+        <code>numpy</code> issue.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>point2</code></b> or <b><code>point3</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.vector2d-module.html#soddy4" 
+        class="link">pygeodesy.soddy4</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="trilaterate2d2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">trilaterate2d2</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">radius</span>,
+        <span class="sig-arg">center2</span>,
+        <span class="sig-arg">radius2</span>,
+        <span class="sig-arg">center3</span>,
+        <span class="sig-arg">radius3</span>,
+        <span class="sig-arg">eps</span>=<span class="sig-default">8.881784197001252e-16</span>,
+        <span class="sig-arg">z</span>=<span class="sig-default">0</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Trilaterate this and two other circles, each given as a (2-D) center 
+  and a radius.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>radius</code></strong> - Radius of this circle (same <code>units</code> as this 
+          <code>x</code> and <code>y</code>.</li>
+        <li><strong class="pname"><code>center2</code></strong> - Center of the 2nd circle (<code>Cartesian</code>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector2Tuple</code>, 
+          <code>Vector3Tuple</code> or <code>Vector4Tuple</code>).</li>
+        <li><strong class="pname"><code>radius2</code></strong> - Radius of this circle (same <code>units</code> as this 
+          <code>x</code> and <code>y</code>.</li>
+        <li><strong class="pname"><code>center3</code></strong> - Center of the 3rd circle (<code>Cartesian</code>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector2Tuple</code>, 
+          <code>Vector3Tuple</code> or <code>Vector4Tuple</code>).</li>
+        <li><strong class="pname"><code>radius3</code></strong> - Radius of the 3rd circle (same <code>units</code> as this 
+          <code>x</code> and <code>y</code>.</li>
+        <li><strong class="pname"><code>eps</code></strong> - Tolerance to check the trilaterated point <i>delta</i> on all 3 
+          circles (<code>scalar</code>) or <code>None</code> for no 
+          checking.</li>
+        <li><strong class="pname"><code>z</code></strong> - Optional Z component of the trilaterated point 
+          (<code>scalar</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Trilaterated point, an instance of this (sub-)class with 
+          <code>z=<b>z</b></code>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - No intersection, near-concentric or -colinear centers, 
+        trilateration failed some other way or the trilaterated point is 
+        off one circle by more than <b><code>eps</code></b>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>center2</code></b> or <b><code>center3</code></b>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.UnitError-class.html">UnitError</a></strong></code> - Invalid <b><code>radius1</code></b>, <b><code>radius2</code></b> or
+        <b><code>radius3</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.vector3d-module.html#trilaterate2d2" 
+        class="link">pygeodesy.trilaterate2d2</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="trilaterate3d2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">trilaterate3d2</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">radius</span>,
+        <span class="sig-arg">center2</span>,
+        <span class="sig-arg">radius2</span>,
+        <span class="sig-arg">center3</span>,
+        <span class="sig-arg">radius3</span>,
+        <span class="sig-arg">eps</span>=<span class="sig-default">8.881784197001252e-16</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Trilaterate this and two other spheres, each given as a (3-D) center 
+  and a radius.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>radius</code></strong> - Radius of this sphere (same <code>units</code> as this 
+          <code>x</code>, <code>y</code> and <code>z</code>).</li>
+        <li><strong class="pname"><code>center2</code></strong> - Center of the 2nd sphere (<code>Cartesian</code>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code> or 
+          <code>Vector4Tuple</code>).</li>
+        <li><strong class="pname"><code>radius2</code></strong> - Radius of this sphere (same <code>units</code> as this 
+          <code>x</code>, <code>y</code> and <code>z</code>).</li>
+        <li><strong class="pname"><code>center3</code></strong> - Center of the 3rd sphere (<code>Cartesian</code>, , <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code> or 
+          <code>Vector4Tuple</code>).</li>
+        <li><strong class="pname"><code>radius3</code></strong> - Radius of the 3rd sphere (same <code>units</code> as this 
+          <code>x</code>, <code>y</code> and <code>z</code>).</li>
+        <li><strong class="pname"><code>eps</code></strong> - Pertubation tolerance (<code>scalar</code>), same units as 
+          <code>x</code>, <code>y</code> and <code>z</code> or 
+          <code>None</code> for no pertubations.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>2-Tuple with two trilaterated points, each an instance of this 
+          (sub-)class.  Both points are the same instance if all three 
+          spheres intersect or abut in a single point.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ImportError</strong></code> - Package <code>numpy</code> not found, not installed or older than 
+        version 1.10.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - Near-concentric, -colinear, too distant or non-intersecting spheres
+        or <code>numpy</code> issue.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.NumPyError-class.html">NumPyError</a></strong></code> - Some <code>numpy</code> issue.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>center2</code></b> or <b><code>center3</code></b>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.UnitError-class.html">UnitError</a></strong></code> - Invalid <b><code>radius</code></b>, <b><code>radius2</code></b> or 
+        <b><code>radius3</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        Package <a href="https://PyPI.org/project/numpy" 
+        target="_top">numpy</a> is required, version 1.10 or later.
+      </p>
+      <p><strong>See Also:</strong>
+        Norrdine, A. <a 
+        href="https://www.ResearchGate.net/publication/275027725" 
+        target="_top"><i>An Algebraic Solution to the Multilateration 
+        Problem</i></a> and <a 
+        href="https://www.ResearchGate.net/publication/288825016" 
+        target="_top"><i>implementation</i></a>.
+      </p>
+</div></td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Thu Jun 27 19:44:17 2024
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

@@ -1,0 +1,459 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>pygeodesy.ups</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="pygeodesy-module.html">Package&nbsp;pygeodesy</a> ::
+        Module&nbsp;ups
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="pygeodesy.ups-module.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== MODULE DESCRIPTION ==================== -->
+<h1 class="epydoc">Module ups</h1><p class="nomargin-top"></p>
+<p><i>Karney</i>'s Universal Polar Stereographic (UPS) projection.</p>
+  <p>Classes <a href="pygeodesy.ups.Ups-class.html" class="link">Ups</a> 
+  and <a href="pygeodesy.ups.UPSError-class.html" class="link">UPSError</a>
+  and functions <a href="pygeodesy.ups-module.html#parseUPS5" 
+  class="link">parseUPS5</a>, <a href="pygeodesy.ups-module.html#toUps8" 
+  class="link">toUps8</a> and <a 
+  href="pygeodesy.ups-module.html#upsZoneBand5" 
+  class="link">upsZoneBand5</a>.</p>
+  <p>A pure Python implementation, partially transcoded from 
+  <i>Karney</i>'s C++ class <a 
+  href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1PolarStereographic.html"
+  target="_top">PolarStereographic</a>.</p>
+  <p>The <a 
+  href="https://WikiPedia.org/wiki/Universal_polar_stereographic_coordinate_system"
+  target="_top">UPS</a> system is used in conjuction with <a 
+  href="https://WikiPedia.org/wiki/Universal_Transverse_Mercator_coordinate_system"
+  target="_top">UTM</a> for locations on the polar regions of the earth.  
+  UPS covers areas south of 79.5&#176;S and north of 83.5&#176;N, slightly 
+  overlapping the UTM range from 80&#176;S to 84&#176;N by 30' at each end.</p>
+  <p>Env variable <code>PYGEODESY_UPS_POLES</code> determines the UPS zones
+  <i>at</i> latitude 90&#176;S and 90&#176;N.  By default, the encoding follows 
+  <i>Karney</i>'s and <a 
+  href="https://Web.Archive.org/web/20161226192038/http://earth-info.nga.mil/GandG/publications/tm8358.1/pdf/TM8358_1.pdf"
+  target="_top">Appendix B-3 of DMA TM8358.1</a>, using only zones 
+  <code>'B'</code> respectively <code>'Z'</code> and digraph 
+  <code>'AN'</code>.  If <code>PYGEODESY_UPS_POLES</code> is set to 
+  anything other than <code>&quot;std&quot;</code>, zones <code>'A'</code> 
+  and <code>'Y'</code> are used for negative, west longitudes <i>at</i> 
+  latitude 90&#176;S respectively 90&#176;N (for backward compatibility).</p>
+
+<hr />
+<div class="fields">      <p><strong>Version:</strong>
+        24.06.11
+      </p>
+</div><!-- ==================== CLASSES ==================== -->
+<a name="section-Classes"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Classes</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ups.UPSError-class.html" class="summary-name">UPSError</a><br />
+      Universal Polar Stereographic (UPS) parse or other <a 
+        href="pygeodesy.ups.Ups-class.html" class="link">Ups</a> issue.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ups.Ups-class.html" class="summary-name">Ups</a><br />
+      Universal Polar Stereographic (UPS) coordinate.
+    </td>
+  </tr>
+</table>
+<!-- ==================== FUNCTIONS ==================== -->
+<a name="section-Functions"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Functions</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ups-module.html#parseUPS5" class="summary-sig-name">parseUPS5</a>(<span class="summary-sig-arg">strUPS</span>,
+        <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
+        <span class="summary-sig-arg">Ups</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.ups.Ups'&gt;</span>,
+        <span class="summary-sig-arg">falsed</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">**name</span>)</span><br />
+      Parse a string representing a UPS coordinate, consisting of 
+      <code>&quot;[zone][band] pole easting northing&quot;</code> where 
+      <b><code>zone</code></b> is pseudo zone 
+      <code>&quot;00&quot;|&quot;0&quot;|&quot;&quot;</code> and 
+      <code>band</code> is <code>'A'|'B'|'Y'|'Z'|''</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ups-module.html#toUps8" class="summary-sig-name">toUps8</a>(<span class="summary-sig-arg">latlon</span>,
+        <span class="summary-sig-arg">lon</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">Ups</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.ups.Ups'&gt;</span>,
+        <span class="summary-sig-arg">pole</span>=<span class="summary-sig-default">''</span>,
+        <span class="summary-sig-arg">falsed</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">strict</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">**name</span>)</span><br />
+      Convert a lat-/longitude point to a UPS coordinate.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ups-module.html#upsZoneBand5" class="summary-sig-name">upsZoneBand5</a>(<span class="summary-sig-arg">lat</span>,
+        <span class="summary-sig-arg">lon</span>,
+        <span class="summary-sig-arg">strict</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">**name</span>)</span><br />
+      Return the UTM/UPS zone number, <i>polar</i> Band letter, pole and 
+      clipped lat- and longitude for a given location.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+</table>
+<!-- ==================== VARIABLES ==================== -->
+<a name="section-Variables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Variables</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="__all__"></a><span class="summary-name">__all__</span> = <code title="_ALL_LAZY.ups">_ALL_LAZY.ups</code>
+    </td>
+  </tr>
+</table>
+<!-- ==================== FUNCTION DETAILS ==================== -->
+<a name="section-FunctionDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Function Details</span></td>
+</tr>
+</table>
+<a name="parseUPS5"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">parseUPS5</span>&nbsp;(<span class="sig-arg">strUPS</span>,
+        <span class="sig-arg">datum</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
+        <span class="sig-arg">Ups</span>=<span class="sig-default">&lt;class 'pygeodesy.ups.Ups'&gt;</span>,
+        <span class="sig-arg">falsed</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">**name</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Parse a string representing a UPS coordinate, consisting of 
+  <code>&quot;[zone][band] pole easting northing&quot;</code> where 
+  <b><code>zone</code></b> is pseudo zone 
+  <code>&quot;00&quot;|&quot;0&quot;|&quot;&quot;</code> and 
+  <code>band</code> is <code>'A'|'B'|'Y'|'Z'|''</code>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>strUPS</code></strong> - A UPS coordinate (<code>str</code>).</li>
+        <li><strong class="pname"><code>datum</code></strong> - Optional datum to use (<a 
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>).</li>
+        <li><strong class="pname"><code>Ups</code></strong> - Optional class to return the UPS coordinate (<a 
+          href="pygeodesy.ups.Ups-class.html" class="link">Ups</a>) or 
+          <code>None</code>.</li>
+        <li><strong class="pname"><code>falsed</code></strong> - If <code>True</code>, both <b><code>easting</code></b> and 
+          <b><code>northing</code></b> are falsed (<code>bool</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <b><code>Ups</code></b> <code><b>name</b>=NN</code> 
+          (<code>str</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The UPS coordinate (<b><code>Ups</code></b>) or if 
+          <code><b>Ups</b> is None</code>, a <a 
+          href="pygeodesy.namedTuples.UtmUps5Tuple-class.html" 
+          class="link">UtmUps5Tuple</a><code>(zone, hemipole, easting, 
+          northing, band)</code>. The <code>hemipole</code> is the 
+          <code>'N'|'S'</code> pole, the UPS projection top/center.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.ups.UPSError-class.html">UPSError</a></strong></code> - Invalid <b><code>strUPS</code></b>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="toUps8"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toUps8</span>&nbsp;(<span class="sig-arg">latlon</span>,
+        <span class="sig-arg">lon</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">datum</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">Ups</span>=<span class="sig-default">&lt;class 'pygeodesy.ups.Ups'&gt;</span>,
+        <span class="sig-arg">pole</span>=<span class="sig-default">''</span>,
+        <span class="sig-arg">falsed</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">strict</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">**name</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert a lat-/longitude point to a UPS coordinate.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>latlon</code></strong> - Latitude (<code>degrees</code>) or an (ellipsoidal) geodetic 
+          <code>LatLon</code> point.</li>
+        <li><strong class="pname"><code>lon</code></strong> - Optional longitude (<code>degrees</code>) or <code>None</code> if
+          <b><code>latlon</code></b> is a <code>LatLon</code>.</li>
+        <li><strong class="pname"><code>datum</code></strong> - Optional datum for this UPS coordinate, overriding 
+          <b><code>latlon</code></b>'s datum (<code>Datum</code>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+          class="link">Ellipsoid</a>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
+          class="link">Ellipsoid2</a> or <a 
+          href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
+          class="link">a_f2Tuple</a>).</li>
+        <li><strong class="pname"><code>Ups</code></strong> - Optional class to return the UPS coordinate (<a 
+          href="pygeodesy.ups.Ups-class.html" class="link">Ups</a>) or 
+          <code>None</code>.</li>
+        <li><strong class="pname"><code>pole</code></strong> - Optional top/center of (stereographic) projection 
+          (<code>str</code>, <code>'N[orth]'</code> or 
+          <code>'S[outh]'</code>).</li>
+        <li><strong class="pname"><code>falsed</code></strong> - If <code>True</code>, false both easting and northing 
+          (<code>bool</code>).</li>
+        <li><strong class="pname"><code>strict</code></strong> - Restrict <b><code>lat</code></b> to UPS ranges 
+          (<code>bool</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <b><code>Ups</code></b> <code><b>name</b>=NN</code> 
+          (<code>str</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The UPS coordinate (<b><code>Ups</code></b>) or if 
+          <code><b>Ups</b> is None</code>, a <a 
+          href="pygeodesy.namedTuples.UtmUps8Tuple-class.html" 
+          class="link">UtmUps8Tuple</a><code>(zone, hemipole, easting, 
+          northing, band, datum, gamma, scale)</code> where 
+          <code>hemipole</code> is the <code>'N'|'S'</code> pole, the UPS 
+          projection top/center.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - If <b><code>strict</code></b> and <b><code>lat</code></b> outside 
+        the valid UPS bands or if <b><code>lat</code></b> or 
+        <b><code>lon</code></b> outside the valid range and <a 
+        href="pygeodesy.errors-module.html#rangerrors" 
+        class="link">rangerrors</a> is <code>True</code>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - If <b><code>latlon</code></b> is not ellipsoidal or if 
+        <b><code>datum</code></b> is invalid.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - If <b><code>lon</code></b> value is missing or if 
+        <b><code>latlon</code></b> is invalid.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <i>Karney</i>'s C++ class <a 
+        href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1UPS.html"
+        target="_top">UPS</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="upsZoneBand5"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">upsZoneBand5</span>&nbsp;(<span class="sig-arg">lat</span>,
+        <span class="sig-arg">lon</span>,
+        <span class="sig-arg">strict</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">**name</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the UTM/UPS zone number, <i>polar</i> Band letter, pole and 
+  clipped lat- and longitude for a given location.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>lat</code></strong> - Latitude in degrees (<code>scalar</code> or <code>str</code>).</li>
+        <li><strong class="pname"><code>lon</code></strong> - Longitude in degrees (<code>scalar</code> or <code>str</code>).</li>
+        <li><strong class="pname"><code>strict</code></strong> - Restrict <b><code>lat</code></b> to UPS ranges 
+          (<code>bool</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <b><code>Ups</code></b> <code><b>name</b>=NN</code> 
+          (<code>str</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A <a href="pygeodesy.namedTuples.UtmUpsLatLon5Tuple-class.html" 
+          class="link">UtmUpsLatLon5Tuple</a><code>(zone, band, hemipole, 
+          lat, lon)</code> where <code>hemipole</code> is the 
+          <code>'N'|'S'</code> pole, the UPS projection top/center and 
+          <code>lon</code> [-180..180).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - If <b><code>strict</code> is True</b> and <b><code>lat</code></b> 
+        within the UTM but not the UPS range or if <b><code>lat</code></b> 
+        or <b><code>lon</code></b> outside the valid range and <a 
+        href="pygeodesy.errors-module.html#rangerrors" 
+        class="link">rangerrors</a> is <code>True</code>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>lat</code></b> or <b><code>lon</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        The <code>lon</code> is set to <code>0</code> if 
+        <b><code>lat</code></b> is <code>-90</code> or <code>90</code>, see
+        env variable <code>PYGEODESY_UPS_POLES</code> in module <a 
+        href="pygeodesy.ups-module.html" class="link">ups</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Thu Jun 27 19:44:13 2024
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

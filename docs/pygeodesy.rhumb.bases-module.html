@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>pygeodesy.rhumb.bases</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="pygeodesy-module.html">Package&nbsp;pygeodesy</a> ::
+        <a href="pygeodesy.rhumb-module.html">Package&nbsp;rhumb</a> ::
+        Module&nbsp;bases
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="pygeodesy.rhumb.bases-module.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== MODULE DESCRIPTION ==================== -->
+<h1 class="epydoc">Module bases</h1><p class="nomargin-top"></p>
+<p>(INTERNAL) base classes <code>RhumbBase</code> and 
+  <code>RhumbLineBase</code>, pure Python version of <i>Karney</i>'s C++ 
+  classes <a 
+  href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Rhumb.html"
+  target="_top">Rhumb</a> and <a 
+  href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1RhumbLine.html"
+  target="_top">RhumbLine</a> from <i>GeographicLib versions 2.0</i> and 
+  <i>2.2</i> and <i>Karney</i>'s C++ example <a 
+  href="https://SourceForge.net/p/geographiclib/discussion/1026620/thread/2ddc295e/"
+  target="_top">Rhumb intersect</a>.</p>
+  <p>Class <a href="pygeodesy.rhumb.bases.RhumbLineBase-class.html" 
+  class="link">RhumbLineBase</a> has been enhanced with methods 
+  <code>Intersecant2</code>, <code>Intersection</code> and 
+  <code>PlumbTo</code> to iteratively find the intersection of a rhumb line
+  and a circle or an other rhumb line, respectively a perpendicular 
+  geodesic or other rhumb line.</p>
+  <p>For more details, see the C++ <a 
+  href="https://GeographicLib.SourceForge.io/C++/doc/index.html" 
+  target="_top">GeographicLib</a> documentation, especially the <a 
+  href="https://GeographicLib.SourceForge.io/C++/doc/annotated.html" 
+  target="_top">Class List</a>, the background information on <a 
+  href="https://GeographicLib.SourceForge.io/C++/doc/rhumb.html" 
+  target="_top">Rhumb lines</a>, the utily <a 
+  href="https://GeographicLib.SourceForge.io/C++/doc/RhumbSolve.1.html" 
+  target="_top">RhumbSolve</a> and <a 
+  href="https://GeographicLib.SourceForge.io/cgi-bin/RhumbSolve" 
+  target="_top">Online rhumb line calculations</a>.</p>
+  <p>Copyright (C) <a href="mailto:Karney@Alum.MIT.edu" 
+  target="_top">Charles Karney</a> (2014-2023) and licensed under the 
+  MIT/X11 License.  For more information, see the <a 
+  href="https://GeographicLib.SourceForge.io" 
+  target="_top">GeographicLib</a> documentation.</p>
+
+<hr />
+<div class="fields">      <p><strong>Version:</strong>
+        24.06.18
+      </p>
+</div><!-- ==================== CLASSES ==================== -->
+<a name="section-Classes"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Classes</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.rhumb.bases.RhumbBase-class.html" class="summary-name">RhumbBase</a><br />
+      (INTERNAL) Base class for <code>rhumb.aux_.RhumbAux</code> and 
+        <code>rhumb.ekx.Rhumb</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.rhumb.bases.RhumbLineBase-class.html" class="summary-name">RhumbLineBase</a><br />
+      (INTERNAL) Base class for <code>rhumb.aux_.RhumbLineAux</code> and 
+        <code>rhumb.ekx.RhumbLine</code>.
+    </td>
+  </tr>
+</table>
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Thu Jun 27 19:44:13 2024
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

@@ -1,0 +1,627 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>pygeodesy.hausdorff</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="pygeodesy-module.html">Package&nbsp;pygeodesy</a> ::
+        Module&nbsp;hausdorff
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="pygeodesy.hausdorff-module.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== MODULE DESCRIPTION ==================== -->
+<h1 class="epydoc">Module hausdorff</h1><p class="nomargin-top"></p>
+<p>Hausdorff distances.</p>
+  <p>Classes <a href="pygeodesy.hausdorff.Hausdorff-class.html" 
+  class="link">Hausdorff</a>, <a 
+  href="pygeodesy.hausdorff.HausdorffDegrees-class.html" 
+  class="link">HausdorffDegrees</a>, <a 
+  href="pygeodesy.hausdorff.HausdorffRadians-class.html" 
+  class="link">HausdorffRadians</a>, <a 
+  href="pygeodesy.hausdorff.HausdorffCosineAndoyerLambert-class.html" 
+  class="link">HausdorffCosineAndoyerLambert</a>, <a 
+  href="pygeodesy.hausdorff.HausdorffCosineForsytheAndoyerLambert-class.html"
+  class="link">HausdorffCosineForsytheAndoyerLambert</a>, <a 
+  href="pygeodesy.hausdorff.HausdorffCosineLaw-class.html" 
+  class="link">HausdorffCosineLaw</a>, <a 
+  href="pygeodesy.hausdorff.HausdorffDistanceTo-class.html" 
+  class="link">HausdorffDistanceTo</a>, <a 
+  href="pygeodesy.hausdorff.HausdorffEquirectangular-class.html" 
+  class="link">HausdorffEquirectangular</a>, <a 
+  href="pygeodesy.hausdorff.HausdorffEuclidean-class.html" 
+  class="link">HausdorffEuclidean</a>, <a 
+  href="pygeodesy.hausdorff.HausdorffFlatLocal-class.html" 
+  class="link">HausdorffFlatLocal</a>, <a 
+  href="pygeodesy.hausdorff.HausdorffFlatPolar-class.html" 
+  class="link">HausdorffFlatPolar</a>, <a 
+  href="pygeodesy.hausdorff.HausdorffHaversine-class.html" 
+  class="link">HausdorffHaversine</a>, <a 
+  href="pygeodesy.hausdorff.HausdorffHubeny-class.html" 
+  class="link">HausdorffHubeny</a>, <a 
+  href="pygeodesy.hausdorff.HausdorffKarney-class.html" 
+  class="link">HausdorffKarney</a>, <a 
+  href="pygeodesy.hausdorff.HausdorffThomas-class.html" 
+  class="link">HausdorffThomas</a> and <a 
+  href="pygeodesy.hausdorff.HausdorffVincentys-class.html" 
+  class="link">HausdorffVincentys</a> to compute <a 
+  href="https://WikiPedia.org/wiki/Hausdorff_distance" 
+  target="_top">Hausdorff</a> distances between two sets of 
+  <code>LatLon</code>, <code>NumPy</code>, <code>tuples</code> or other 
+  types of points.</p>
+  <p>Only <a href="pygeodesy.hausdorff.HausdorffDistanceTo-class.html" 
+  class="link">HausdorffDistanceTo</a> -iff used with <a 
+  href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
+  class="link">ellipsoidalKarney.LatLon</a> points- and <a 
+  href="pygeodesy.hausdorff.HausdorffKarney-class.html" 
+  class="link">HausdorffKarney</a> requires installation of <i>Charles 
+  Karney</i>'s <a href="https://PyPI.org/project/geographiclib" 
+  target="_top">geographiclib</a>.</p>
+  <p>Typical usage is as follows.  First, create a <code>Hausdorff</code> 
+  calculator from a given set of <code>LatLon</code> points, called the 
+  <code>model</code> or <code>template</code> points.</p>
+  <p><code>h = HausdorffXyz(point1s, ...)</code></p>
+  <p>Get the <code>directed</code> or <code>symmetric</code> Hausdorff 
+  distance to a second set of <code>LatLon</code> points, named the 
+  <code>target</code> points, by using</p>
+  <p><code>t6 = h.directed(point2s)</code></p>
+  <p>respectively</p>
+  <p><code>t6 = h.symmetric(point2s)</code>.</p>
+  <p>Or, use function <code>hausdorff_</code> with a proper 
+  <code>distance</code> function and optionally a <code>point</code> 
+  function passed as keyword arguments as follows</p>
+  <p><code>t6 = hausdorff_(point1s, point2s, ..., distance=..., 
+  point=...)</code>.</p>
+  <p>In all cases, the returned result <code>t6</code> is a <a 
+  href="pygeodesy.hausdorff.Hausdorff6Tuple-class.html" 
+  class="link">Hausdorff6Tuple</a>.</p>
+  <p>For <code>(lat, lon, ...)</code> points in a <code>NumPy</code> array 
+  or plain <code>tuples</code>, wrap the points in a <a 
+  href="pygeodesy.points.Numpy2LatLon-class.html" 
+  class="link">Numpy2LatLon</a> respectively <a 
+  href="pygeodesy.points.Tuple2LatLon-class.html" 
+  class="link">Tuple2LatLon</a> instance, more details in the documentation
+  thereof.</p>
+  <p>For other points, create a <a 
+  href="pygeodesy.hausdorff.Hausdorff-class.html" 
+  class="link">Hausdorff</a> sub-class with the appropriate 
+  <code>distance</code> method overloading <a 
+  href="pygeodesy.hausdorff.Hausdorff-class.html#distance" 
+  class="link">Hausdorff.distance</a> and optionally a <code>point</code> 
+  method overriding <a 
+  href="pygeodesy.hausdorff.Hausdorff-class.html#point" 
+  class="link">Hausdorff.point</a> as the next example.</p>
+<pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span><span class="py-keyword">from</span> pygeodesy <span class="py-keyword">import</span> Hausdorff, hypot_
+<span class="py-prompt">&gt;&gt;&gt;</span>
+<span class="py-prompt">&gt;&gt;&gt; </span><span class="py-keyword">class</span> <span class="py-defname">H3D</span>(Hausdorff):
+<span class="py-prompt">&gt;&gt;&gt; </span>    <span class="py-string">&quot;&quot;</span>&quot;Custom Hausdorff example.
+<span class="py-prompt">&gt;&gt;&gt; </span>    <span class="py-string">&quot;&quot;</span>&quot;
+<span class="py-prompt">&gt;&gt;&gt; </span>    <span class="py-keyword">def</span> <span class="py-defname">distance</span>(self, p1, p2):
+<span class="py-prompt">&gt;&gt;&gt; </span>        return hypot_(p1.x - p2.x, p1.y - p2.y, p1.z - p2.z)
+<span class="py-prompt">&gt;&gt;&gt;</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>h3D = H3D(xyz1, ..., units=<span class="py-string">&quot;...&quot;</span>)
+<span class="py-prompt">&gt;&gt;&gt; </span>d6 = h3D.directed(xyz2)</pre>
+  <p>Transcribed from the original SciPy <a 
+  href="https://GitHub.com/scipy/scipy/blob/master/scipy/spatial/_hausdorff.pyx"
+  target="_top">Directed Hausdorff Code</a> version 0.19.0, Copyright (C) 
+  Tyler Reddy, Richard Gowers, and Max Linke, 2016, distributed under the 
+  same BSD license as SciPy, including <code>early breaking</code> and 
+  <code>random sampling</code> as in <a 
+  href="https://Publik.TUWien.ac.AT/files/PubDat_247739.pdf" 
+  target="_top">Abdel Aziz Taha, Allan Hanbury &quot;An Efficient Algorithm
+  for Calculating the Exact Hausdorff Distance&quot;</a>, IEEE Trans. 
+  Pattern Analysis Machine Intelligence (PAMI), vol 37, no 11, pp 
+  2153-2163, Nov 2015.</p>
+
+<hr />
+<div class="fields">      <p><strong>Version:</strong>
+        24.06.15
+      </p>
+</div><!-- ==================== CLASSES ==================== -->
+<a name="section-Classes"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Classes</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.hausdorff.HausdorffError-class.html" class="summary-name">HausdorffError</a><br />
+      Hausdorff issue.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.hausdorff.Hausdorff-class.html" class="summary-name">Hausdorff</a><br />
+      Hausdorff base class, requires method <a 
+        href="pygeodesy.hausdorff.Hausdorff-class.html#distance" 
+        class="link">Hausdorff.distance</a> to be overloaded.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.hausdorff.HausdorffDegrees-class.html" class="summary-name">HausdorffDegrees</a><br />
+      <a href="pygeodesy.hausdorff.Hausdorff-class.html" 
+        class="link">Hausdorff</a> base class for distances from 
+        <code>LatLon</code> points in <code>degrees</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.hausdorff.HausdorffRadians-class.html" class="summary-name">HausdorffRadians</a><br />
+      <a href="pygeodesy.hausdorff.Hausdorff-class.html" 
+        class="link">Hausdorff</a> base class for distances from 
+        <code>LatLon</code> points converted from <code>degrees</code> to 
+        <code>radians</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.hausdorff.HausdorffCosineAndoyerLambert-class.html" class="summary-name">HausdorffCosineAndoyerLambert</a><br />
+      Compute the <code>Hausdorff</code> distance based on the 
+        <i>angular</i> distance in <code>radians</code> from function <a 
+        href="pygeodesy.formy-module.html#cosineAndoyerLambert" 
+        class="link">pygeodesy.cosineAndoyerLambert</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.hausdorff.HausdorffCosineForsytheAndoyerLambert-class.html" class="summary-name">HausdorffCosineForsytheAndoyerLambert</a><br />
+      Compute the <code>Hausdorff</code> distance based on the 
+        <i>angular</i> distance in <code>radians</code> from function <a 
+        href="pygeodesy.formy-module.html#cosineForsytheAndoyerLambert" 
+        class="link">pygeodesy.cosineForsytheAndoyerLambert</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.hausdorff.HausdorffCosineLaw-class.html" class="summary-name">HausdorffCosineLaw</a><br />
+      Compute the <code>Hausdorff</code> distance based on the 
+        <i>angular</i> distance in <code>radians</code> from function <a 
+        href="pygeodesy.formy-module.html#cosineLaw_" 
+        class="link">pygeodesy.cosineLaw_</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.hausdorff.HausdorffDistanceTo-class.html" class="summary-name">HausdorffDistanceTo</a><br />
+      Compute the <code>Hausdorff</code> distance based on the distance 
+        from the points' <code>LatLon.distanceTo</code> method, 
+        conventionally in <code>meter</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.hausdorff.HausdorffEquirectangular-class.html" class="summary-name">HausdorffEquirectangular</a><br />
+      Compute the <code>Hausdorff</code> distance based on the 
+        <code>equirectangular</code> distance in <code>radians 
+        squared</code> like function <a 
+        href="pygeodesy.formy-module.html#equirectangular" 
+        class="link">pygeodesy.equirectangular</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.hausdorff.HausdorffEuclidean-class.html" class="summary-name">HausdorffEuclidean</a><br />
+      Compute the <code>Hausdorff</code> distance based on the 
+        <code>Euclidean</code> distance in <code>radians</code> from 
+        function <a href="pygeodesy.formy-module.html#euclidean_" 
+        class="link">pygeodesy.euclidean_</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.hausdorff.HausdorffExact-class.html" class="summary-name">HausdorffExact</a><br />
+      Compute the <code>Hausdorff</code> distance based on the 
+        <i>angular</i> distance in <code>degrees</code> from method <a 
+        href="pygeodesy.geodesicx.gx.GeodesicExact-class.html" 
+        class="link">GeodesicExact</a><code>.Inverse</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.hausdorff.HausdorffFlatLocal-class.html" class="summary-name">HausdorffFlatLocal</a><br />
+      Compute the <code>Hausdorff</code> distance based on the 
+        <i>angular</i> distance in <code>radians squared</code> like 
+        function <a href="pygeodesy.formy-module.html#flatLocal_" 
+        class="link">pygeodesy.flatLocal_</a>/<a 
+        href="pygeodesy.formy-module.html#flatLocal_" 
+        class="link">pygeodesy.hubeny_</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.hausdorff.HausdorffFlatPolar-class.html" class="summary-name">HausdorffFlatPolar</a><br />
+      Compute the <code>Hausdorff</code> distance based on the 
+        <i>angular</i> distance in <code>radians</code> from function <a 
+        href="pygeodesy.formy-module.html#flatPolar_" 
+        class="link">pygeodesy.flatPolar_</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.hausdorff.HausdorffHaversine-class.html" class="summary-name">HausdorffHaversine</a><br />
+      Compute the <code>Hausdorff</code> distance based on the 
+        <i>angular</i> distance in <code>radians</code> from function <a 
+        href="pygeodesy.formy-module.html#haversine_" 
+        class="link">pygeodesy.haversine_</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.hausdorff.HausdorffHubeny-class.html" class="summary-name">HausdorffHubeny</a><br />
+      Compute the <code>Hausdorff</code> distance based on the 
+        <i>angular</i> distance in <code>radians squared</code> like 
+        function <a href="pygeodesy.formy-module.html#flatLocal_" 
+        class="link">pygeodesy.flatLocal_</a>/<a 
+        href="pygeodesy.formy-module.html#flatLocal_" 
+        class="link">pygeodesy.hubeny_</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.hausdorff.HausdorffKarney-class.html" class="summary-name">HausdorffKarney</a><br />
+      Compute the <code>Hausdorff</code> distance based on the 
+        <i>angular</i> distance in <code>degrees</code> from 
+        <i>Karney</i>'s <a href="https://PyPI.org/project/geographiclib" 
+        target="_top">geographiclib</a> <a 
+        href="https://GeographicLib.SourceForge.io/Python/doc/code.html" 
+        target="_top">Geodesic</a> Inverse method.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.hausdorff.HausdorffThomas-class.html" class="summary-name">HausdorffThomas</a><br />
+      Compute the <code>Hausdorff</code> distance based on the 
+        <i>angular</i> distance in <code>radians</code> from function <a 
+        href="pygeodesy.formy-module.html#thomas_" 
+        class="link">pygeodesy.thomas_</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.hausdorff.HausdorffVincentys-class.html" class="summary-name">HausdorffVincentys</a><br />
+      Compute the <code>Hausdorff</code> distance based on the 
+        <i>angular</i> distance in <code>radians</code> from function <a 
+        href="pygeodesy.formy-module.html#vincentys_" 
+        class="link">pygeodesy.vincentys_</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.hausdorff.Hausdorff6Tuple-class.html" class="summary-name">Hausdorff6Tuple</a><br />
+      6-Tuple <code>(hd, i, j, mn, md, units)</code> with the <a 
+        href="https://WikiPedia.org/wiki/Hausdorff_distance" 
+        target="_top">Hausdorff</a> distance <code>hd</code>, indices 
+        <code>i</code> and <code>j</code>, the total count <code>mn</code>,
+        the <code><i>mean</i> Hausdorff</code> distance <code>md</code> and
+        the class or name of both distance <code>units</code>.
+    </td>
+  </tr>
+</table>
+<!-- ==================== FUNCTIONS ==================== -->
+<a name="section-Functions"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Functions</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.hausdorff-module.html#hausdorff_" class="summary-sig-name">hausdorff_</a>(<span class="summary-sig-arg">model</span>,
+        <span class="summary-sig-arg">target</span>,
+        <span class="summary-sig-arg">both</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">early</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
+        <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7ff6d0533f50&gt;</span>)</span><br />
+      Compute the <code>directed</code> or <code>symmetric</code> <a 
+      href="https://WikiPedia.org/wiki/Hausdorff_distance" 
+      target="_top">Hausdorff</a> distance between 2 sets of points with or
+      without <a href="https://Publik.TUWien.ac.AT/files/PubDat_247739.pdf"
+      target="_top">early breaking</a> and <a 
+      href="https://Publik.TUWien.ac.AT/files/PubDat_247739.pdf" 
+      target="_top">random sampling</a>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.hausdorff-module.html#randomrangenerator" class="summary-sig-name">randomrangenerator</a>(<span class="summary-sig-arg">seed</span>)</span><br />
+      Return a <code>seed</code>ed random range function generator.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+</table>
+<!-- ==================== VARIABLES ==================== -->
+<a name="section-Variables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Variables</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="__all__"></a><span class="summary-name">__all__</span> = <code title="_ALL_LAZY.hausdorff">_ALL_LAZY.hausdorff</code>
+    </td>
+  </tr>
+</table>
+<!-- ==================== FUNCTION DETAILS ==================== -->
+<a name="section-FunctionDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Function Details</span></td>
+</tr>
+</table>
+<a name="hausdorff_"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">hausdorff_</span>&nbsp;(<span class="sig-arg">model</span>,
+        <span class="sig-arg">target</span>,
+        <span class="sig-arg">both</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">early</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
+        <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7ff6d0533f50&gt;</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the <code>directed</code> or <code>symmetric</code> <a 
+  href="https://WikiPedia.org/wiki/Hausdorff_distance" 
+  target="_top">Hausdorff</a> distance between 2 sets of points with or 
+  without <a href="https://Publik.TUWien.ac.AT/files/PubDat_247739.pdf" 
+  target="_top">early breaking</a> and <a 
+  href="https://Publik.TUWien.ac.AT/files/PubDat_247739.pdf" 
+  target="_top">random sampling</a>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>model</code></strong> - First set of points (<code>LatLon</code>[], 
+          <code>Numpy2LatLon</code>[], <code>Tuple2LatLon</code>[] or 
+          <code>other</code>[]).</li>
+        <li><strong class="pname"><code>target</code></strong> - Second set of points (<code>LatLon</code>[], 
+          <code>Numpy2LatLon</code>[], <code>Tuple2LatLon</code>[] or 
+          <code>other</code>[]).</li>
+        <li><strong class="pname"><code>both</code></strong> - Return the <code>directed</code> (forward only) or the 
+          <code>symmetric</code> (combined forward and reverse) 
+          <code>Hausdorff</code> distance (<code>bool</code>).</li>
+        <li><strong class="pname"><code>early</code></strong> - Enable or disable <a 
+          href="https://Publik.TUWien.ac.AT/files/PubDat_247739.pdf" 
+          target="_top">early breaking</a> (<code>bool</code>).</li>
+        <li><strong class="pname"><code>seed</code></strong> - Random sampling seed (<code>any</code>) or <code>None</code>, 
+          <code>0</code> or <code>False</code> for no <a 
+          href="https://Publik.TUWien.ac.AT/files/PubDat_247739.pdf" 
+          target="_top">random sampling</a>.</li>
+        <li><strong class="pname"><code>units</code></strong> - Optional, the distance units (<code>Unit</code> or 
+          <code>str</code>).</li>
+        <li><strong class="pname"><code>distance</code></strong> - Callable returning the distance between a 
+          <b><code>model</code></b> and <b><code>target</code></b> point 
+          (signature <code>(point1, point2)</code>).</li>
+        <li><strong class="pname"><code>point</code></strong> - Callable returning the <b><code>model</code></b> or 
+          <b><code>target</code></b> point suitable for 
+          <b><code>distance</code></b> (signature <code>(point)</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A <a href="pygeodesy.hausdorff.Hausdorff6Tuple-class.html" 
+          class="link">Hausdorff6Tuple</a><code>(hd, i, j, mn, md, 
+          units)</code>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.hausdorff.HausdorffError-class.html">HausdorffError</a></strong></code> - Insufficient number of <b><code>model</code></b> or 
+        <b><code>target</code></b> points.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - If <b><code>distance</code></b> or <b><code>point</code></b> is not
+        callable.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="randomrangenerator"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">randomrangenerator</span>&nbsp;(<span class="sig-arg">seed</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return a <code>seed</code>ed random range function generator.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>seed</code></strong> - Initial, internal Random state (<code>hashable</code> or 
+          <code>None</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A function to generate random ranges.</dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        Random with <code><b>seed</b> is None</code> seeds from the current
+        time or from a platform-specific randomness source, if available.
+      </p>
+      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>rrange = randomrangenerator(<span class="py-string">'R'</span>)
+<span class="py-prompt">&gt;&gt;&gt; </span><span class="py-keyword">for</span> r <span class="py-keyword">in</span> rrange(n):
+<span class="py-prompt">&gt;&gt;&gt; </span>   ...  <span class="py-comment"># r is random in 0..n-1</span></pre>
+      </p>
+</div></td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Thu Jun 27 19:44:13 2024
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

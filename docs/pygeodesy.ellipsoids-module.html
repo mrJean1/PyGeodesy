@@ -1,0 +1,1982 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>pygeodesy.ellipsoids</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="pygeodesy-module.html">Package&nbsp;pygeodesy</a> ::
+        Module&nbsp;ellipsoids
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="pygeodesy.ellipsoids-module.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== MODULE DESCRIPTION ==================== -->
+<h1 class="epydoc">Module ellipsoids</h1><p class="nomargin-top"></p>
+<p>Ellipsoidal and spherical earth models.</p>
+  <p>Classes <a href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
+  class="link">a_f2Tuple</a>, <a 
+  href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+  class="link">Ellipsoid</a> and <a 
+  href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
+  class="link">Ellipsoid2</a>, an <a 
+  href="pygeodesy.ellipsoids-module.html#Ellipsoids" 
+  class="link">Ellipsoids</a> registry and 2 dozen functions to convert 
+  <i>equatorial</i> radius, <i>polar</i> radius, <i>eccentricities</i>, 
+  <i>flattenings</i> and <i>inverse flattening</i>.</p>
+  <p>See module <a href="pygeodesy.datums-module.html" 
+  class="link">datums</a> for <a href="pygeodesy.datums.Datum-class.html" 
+  class="link">Datum</a> and <a 
+  href="pygeodesy.datums.Transform-class.html" class="link">Transform</a> 
+  information and other details.</p>
+  <p>Following is the list of predefined <a 
+  href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+  class="link">Ellipsoid</a>s, all instantiated lazily.</p>
+
+<hr />
+<div class="fields">      <p><strong>Version:</strong>
+        24.06.24
+      </p>
+</div><!-- ==================== CLASSES ==================== -->
+<a name="section-Classes"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Classes</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ellipsoids.a_f2Tuple-class.html" class="summary-name">a_f2Tuple</a><br />
+      2-Tuple <code>(a, f)</code> specifying an ellipsoid by 
+        <i>equatorial</i> radius <code>a</code> in <code>meter</code> and 
+        scalar <i>flattening</i> <code>f</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ellipsoids.Circle4Tuple-class.html" class="summary-name">Circle4Tuple</a><br />
+      4-Tuple <code>(radius, height, lat, beta)</code> of the 
+        <code>radius</code> and <code>height</code>, both conventionally in
+        <code>meter</code> of a parallel <i>circle of latitude</i> at 
+        (geodetic) latitude <code>lat</code> and the <i>parametric (or 
+        reduced) auxiliary latitude</i> <code>beta</code>, both in 
+        <code>degrees90</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ellipsoids.Curvature2Tuple-class.html" class="summary-name">Curvature2Tuple</a><br />
+      2-Tuple <code>(meridional, prime_vertical)</code> of radii of 
+        curvature, both in <code>meter</code>, conventionally.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" class="summary-name">Ellipsoid</a><br />
+      Ellipsoid with <i>equatorial</i> and <i>polar</i> radii, 
+        <i>flattening</i>, <i>inverse flattening</i> and other, often used,
+        <i>cached</i> attributes, supporting <i>oblate</i> and 
+        <i>prolate</i> ellipsoidal and <i>spherical</i> earth models.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ellipsoids.Ellipsoid2-class.html" class="summary-name">Ellipsoid2</a><br />
+      An <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+        class="link">Ellipsoid</a> specified by <i>equatorial</i> radius 
+        and <i>flattening</i>.
+    </td>
+  </tr>
+</table>
+<!-- ==================== FUNCTIONS ==================== -->
+<a name="section-Functions"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Functions</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoids-module.html#a_b2e" class="summary-sig-name">a_b2e</a>(<span class="summary-sig-arg">a</span>,
+        <span class="summary-sig-arg">b</span>)</span><br />
+      Return <code>e</code>, the <i>1st eccentricity</i> for a given 
+      <i>equatorial</i> and <i>polar</i> radius.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoids-module.html#a_b2e2" class="summary-sig-name">a_b2e2</a>(<span class="summary-sig-arg">a</span>,
+        <span class="summary-sig-arg">b</span>)</span><br />
+      Return <code>e2</code>, the <i>1st eccentricity squared</i> for a 
+      given <i>equatorial</i> and <i>polar</i> radius.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoids-module.html#a_b2e22" class="summary-sig-name">a_b2e22</a>(<span class="summary-sig-arg">a</span>,
+        <span class="summary-sig-arg">b</span>)</span><br />
+      Return <code>e22</code>, the <i>2nd eccentricity squared</i> for a 
+      given <i>equatorial</i> and <i>polar</i> radius.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoids-module.html#a_b2e32" class="summary-sig-name">a_b2e32</a>(<span class="summary-sig-arg">a</span>,
+        <span class="summary-sig-arg">b</span>)</span><br />
+      Return <code>e32</code>, the <i>3rd eccentricity squared</i> for a 
+      given <i>equatorial</i> and <i>polar</i> radius.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoids-module.html#a_b2f" class="summary-sig-name">a_b2f</a>(<span class="summary-sig-arg">a</span>,
+        <span class="summary-sig-arg">b</span>)</span><br />
+      Return <code>f</code>, the <i>flattening</i> for a given 
+      <i>equatorial</i> and <i>polar</i> radius.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoids-module.html#a_b2f_" class="summary-sig-name">a_b2f_</a>(<span class="summary-sig-arg">a</span>,
+        <span class="summary-sig-arg">b</span>)</span><br />
+      Return <code>f_</code>, the <i>inverse flattening</i> for a given 
+      <i>equatorial</i> and <i>polar</i> radius.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoids-module.html#a_b2f2" class="summary-sig-name">a_b2f2</a>(<span class="summary-sig-arg">a</span>,
+        <span class="summary-sig-arg">b</span>)</span><br />
+      Return <code>f2</code>, the <i>2nd flattening</i> for a given 
+      <i>equatorial</i> and <i>polar</i> radius.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoids-module.html#a_b2n" class="summary-sig-name">a_b2n</a>(<span class="summary-sig-arg">a</span>,
+        <span class="summary-sig-arg">b</span>)</span><br />
+      Return <code>n</code>, the <i>3rd flattening</i> for a given 
+      <i>equatorial</i> and <i>polar</i> radius.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoids-module.html#a_f2b" class="summary-sig-name">a_f2b</a>(<span class="summary-sig-arg">a</span>,
+        <span class="summary-sig-arg">f</span>)</span><br />
+      Return <code>b</code>, the <i>polar</i> radius for a given 
+      <i>equatorial</i> radius and <i>flattening</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoids-module.html#a_f_2b" class="summary-sig-name">a_f_2b</a>(<span class="summary-sig-arg">a</span>,
+        <span class="summary-sig-arg">f_</span>)</span><br />
+      Return <code>b</code>, the <i>polar</i> radius for a given 
+      <i>equatorial</i> radius and <i>inverse flattening</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoids-module.html#b_f2a" class="summary-sig-name">b_f2a</a>(<span class="summary-sig-arg">b</span>,
+        <span class="summary-sig-arg">f</span>)</span><br />
+      Return <code>a</code>, the <i>equatorial</i> radius for a given 
+      <i>polar</i> radius and <i>flattening</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoids-module.html#b_f_2a" class="summary-sig-name">b_f_2a</a>(<span class="summary-sig-arg">b</span>,
+        <span class="summary-sig-arg">f_</span>)</span><br />
+      Return <code>a</code>, the <i>equatorial</i> radius for a given 
+      <i>polar</i> radius and <i>inverse flattening</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoids-module.html#e2f" class="summary-sig-name">e2f</a>(<span class="summary-sig-arg">e</span>)</span><br />
+      Return <code>f</code>, the <i>flattening</i> for a given <i>1st 
+      eccentricity</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoids-module.html#e22f" class="summary-sig-name">e22f</a>(<span class="summary-sig-arg">e2</span>)</span><br />
+      Return <code>f</code>, the <i>flattening</i> for a given <i>1st 
+      eccentricity squared</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoids-module.html#f2e2" class="summary-sig-name">f2e2</a>(<span class="summary-sig-arg">f</span>)</span><br />
+      Return <code>e2</code>, the <i>1st eccentricity squared</i> for a 
+      given <i>flattening</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoids-module.html#f2e22" class="summary-sig-name">f2e22</a>(<span class="summary-sig-arg">f</span>)</span><br />
+      Return <code>e22</code>, the <i>2nd eccentricity squared</i> for a 
+      given <i>flattening</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoids-module.html#f2e32" class="summary-sig-name">f2e32</a>(<span class="summary-sig-arg">f</span>)</span><br />
+      Return <code>e32</code>, the <i>3rd eccentricity squared</i> for a 
+      given <i>flattening</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoids-module.html#f_2f" class="summary-sig-name">f_2f</a>(<span class="summary-sig-arg">f_</span>)</span><br />
+      Return <code>f</code>, the <i>flattening</i> for a given <i>inverse 
+      flattening</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoids-module.html#f2f_" class="summary-sig-name">f2f_</a>(<span class="summary-sig-arg">f</span>)</span><br />
+      Return <code>f_</code>, the <i>inverse flattening</i> for a given 
+      <i>flattening</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoids-module.html#f2f2" class="summary-sig-name">f2f2</a>(<span class="summary-sig-arg">f</span>)</span><br />
+      Return <code>f2</code>, the <i>2nd flattening</i> for a given 
+      <i>flattening</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoids-module.html#f2n" class="summary-sig-name">f2n</a>(<span class="summary-sig-arg">f</span>)</span><br />
+      Return <code>n</code>, the <i>3rd flattening</i> for a given 
+      <i>flattening</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoids-module.html#n2e2" class="summary-sig-name">n2e2</a>(<span class="summary-sig-arg">n</span>)</span><br />
+      Return <code>e2</code>, the <i>1st eccentricity squared</i> for a 
+      given <i>3rd flattening</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoids-module.html#n2f" class="summary-sig-name">n2f</a>(<span class="summary-sig-arg">n</span>)</span><br />
+      Return <code>f</code>, the <i>flattening</i> for a given <i>3rd 
+      flattening</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoids-module.html#n2f_" class="summary-sig-name">n2f_</a>(<span class="summary-sig-arg">n</span>)</span><br />
+      Return <code>f_</code>, the <i>inverse flattening</i> for a given 
+      <i>3rd flattening</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+</table>
+<!-- ==================== VARIABLES ==================== -->
+<a name="section-Variables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Variables</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="__all__"></a><span class="summary-name">__all__</span> = <code title="_ALL_LAZY.ellipsoids">_ALL_LAZY.ellipsoids</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ellipsoids-module.html#Ellipsoids" class="summary-name">Ellipsoids</a> = <code title="Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, f=0, f_=\
+0, b=6371008.771415),
+Ellipsoids.GRS80: Ellipsoid(name='GRS80', a=6378137, f=0.00335281, f_=\
+298.2572221, b=6356752.31414035),
+Ellipsoids.WGS84: Ellipsoid(name='WGS84', a=6378137, f=0.00335281, f_=\
+298.25722356, b=6356752.31424518),
+Ellipsoids.Airy1830: Ellipsoid(name='Airy1830', a=6377563.396, f=0.003\
+34085, f_=299.3249646, b=6356256.90923729)">Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=637<code class="variable-ellipsis">...</code></code><br />
+      Some pre-defined <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+      class="link">Ellipsoid</a>s, all <i>lazily</i> instantiated.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Ellipsoids.ATS1977"></a><span class="summary-name">Ellipsoids.ATS1977</span><br />
+      Ellipsoid(name='ATS1977', a=6378135, f=0.00335281, f_=298.257, 
+      b=6356750.30492159)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Ellipsoids.Airy1830"></a><span class="summary-name">Ellipsoids.Airy1830</span><br />
+      Ellipsoid(name='Airy1830', a=6377563.396, f=0.00334085, 
+      f_=299.3249646, b=6356256.90923729)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Ellipsoids.AiryModified"></a><span class="summary-name">Ellipsoids.AiryModified</span><br />
+      Ellipsoid(name='AiryModified', a=6377340.189, f=0.00334085, 
+      f_=299.3249646, b=6356034.44793853)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Ellipsoids.Australia1966"></a><span class="summary-name">Ellipsoids.Australia1966</span><br />
+      Ellipsoid(name='Australia1966', a=6378160, f=0.00335289, f_=298.25, 
+      b=6356774.71919531)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Ellipsoids.Bessel1841"></a><span class="summary-name">Ellipsoids.Bessel1841</span><br />
+      Ellipsoid(name='Bessel1841', a=6377397.155, f=0.00334277, 
+      f_=299.1528128, b=6356078.962818)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Ellipsoids.BesselModified"></a><span class="summary-name">Ellipsoids.BesselModified</span><br />
+      Ellipsoid(name='BesselModified', a=6377492.018, f=0.00334277, 
+      f_=299.1528128, b=6356173.5087127)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Ellipsoids.CGCS2000"></a><span class="summary-name">Ellipsoids.CGCS2000</span><br />
+      Ellipsoid(name='CGCS2000', a=6378137, f=0.00335281, f_=298.2572221, 
+      b=6356752.31414036)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Ellipsoids.CPM1799"></a><span class="summary-name">Ellipsoids.CPM1799</span><br />
+      Ellipsoid(name='CPM1799', a=6375738.7, f=0.00299052, f_=334.39, 
+      b=6356671.92557493)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Ellipsoids.Clarke1866"></a><span class="summary-name">Ellipsoids.Clarke1866</span><br />
+      Ellipsoid(name='Clarke1866', a=6378206.4, f=0.00339008, 
+      f_=294.97869821, b=6356583.8)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Ellipsoids.Clarke1880"></a><span class="summary-name">Ellipsoids.Clarke1880</span><br />
+      Ellipsoid(name='Clarke1880', a=6378249.145, f=0.00340756, f_=293.465,
+      b=6356514.86954978)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Ellipsoids.Clarke1880IGN"></a><span class="summary-name">Ellipsoids.Clarke1880IGN</span><br />
+      Ellipsoid(name='Clarke1880IGN', a=6378249.2, f=0.00340755, 
+      f_=293.46602129, b=6356515)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Ellipsoids.Clarke1880Mod"></a><span class="summary-name">Ellipsoids.Clarke1880Mod</span><br />
+      Ellipsoid(name='Clarke1880Mod', a=6378249.145, f=0.00340755, 
+      f_=293.46630766, b=6356514.96639549)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Ellipsoids.Delambre1810"></a><span class="summary-name">Ellipsoids.Delambre1810</span><br />
+      Ellipsoid(name='Delambre1810', a=6376428, f=0.00321027, f_=311.5, 
+      b=6355957.92616372)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Ellipsoids.Engelis1985"></a><span class="summary-name">Ellipsoids.Engelis1985</span><br />
+      Ellipsoid(name='Engelis1985', a=6378136.05, f=0.00335282, 
+      f_=298.2566, b=6356751.32272154)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Ellipsoids.Everest1969"></a><span class="summary-name">Ellipsoids.Everest1969</span><br />
+      Ellipsoid(name='Everest1969', a=6377295.664, f=0.00332445, 
+      f_=300.8017, b=6356094.667915)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Ellipsoids.Everest1975"></a><span class="summary-name">Ellipsoids.Everest1975</span><br />
+      Ellipsoid(name='Everest1975', a=6377299.151, f=0.00332445, 
+      f_=300.8017255, b=6356098.14512013)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Ellipsoids.Fisher1968"></a><span class="summary-name">Ellipsoids.Fisher1968</span><br />
+      Ellipsoid(name='Fisher1968', a=6378150, f=0.00335233, f_=298.3, 
+      b=6356768.33724438)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Ellipsoids.GEM10C"></a><span class="summary-name">Ellipsoids.GEM10C</span><br />
+      Ellipsoid(name='GEM10C', a=6378137, f=0.00335281, f_=298.2572236, 
+      b=6356752.31424783)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Ellipsoids.GPES"></a><span class="summary-name">Ellipsoids.GPES</span><br />
+      Ellipsoid(name='GPES', a=6378135, f=0, f_=0, b=6378135)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Ellipsoids.GRS67"></a><span class="summary-name">Ellipsoids.GRS67</span><br />
+      Ellipsoid(name='GRS67', a=6378160, f=0.00335292, f_=298.24716743, 
+      b=6356774.51609071)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Ellipsoids.GRS80"></a><span class="summary-name">Ellipsoids.GRS80</span><br />
+      Ellipsoid(name='GRS80', a=6378137, f=0.00335281, f_=298.2572221, 
+      b=6356752.31414035)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Ellipsoids.Helmert1906"></a><span class="summary-name">Ellipsoids.Helmert1906</span><br />
+      Ellipsoid(name='Helmert1906', a=6378200, f=0.00335233, f_=298.3, 
+      b=6356818.16962789)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Ellipsoids.IAU76"></a><span class="summary-name">Ellipsoids.IAU76</span><br />
+      Ellipsoid(name='IAU76', a=6378140, f=0.00335281, f_=298.257, 
+      b=6356755.28815753)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Ellipsoids.IERS1989"></a><span class="summary-name">Ellipsoids.IERS1989</span><br />
+      Ellipsoid(name='IERS1989', a=6378136, f=0.00335281, f_=298.257, 
+      b=6356751.30156878)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Ellipsoids.IERS1992TOPEX"></a><span class="summary-name">Ellipsoids.IERS1992TOPEX</span><br />
+      Ellipsoid(name='IERS1992TOPEX', a=6378136.3, f=0.00335281, 
+      f_=298.25722356, b=6356751.61659215)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Ellipsoids.IERS2003"></a><span class="summary-name">Ellipsoids.IERS2003</span><br />
+      Ellipsoid(name='IERS2003', a=6378136.6, f=0.00335282, f_=298.25642, 
+      b=6356751.85797165)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Ellipsoids.Intl1924"></a><span class="summary-name">Ellipsoids.Intl1924</span><br />
+      Ellipsoid(name='Intl1924', a=6378388, f=0.003367, f_=297, 
+      b=6356911.94612795)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Ellipsoids.Intl1967"></a><span class="summary-name">Ellipsoids.Intl1967</span><br />
+      Ellipsoid(name='Intl1967', a=6378157.5, f=0.0033529, f_=298.24961539,
+      b=6356772.2)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Ellipsoids.Krassovski1940"></a><span class="summary-name">Ellipsoids.Krassovski1940</span><br />
+      Ellipsoid(name='Krassovski1940', a=6378245, f=0.00335233, f_=298.3, 
+      b=6356863.01877305)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Ellipsoids.Krassowsky1940"></a><span class="summary-name">Ellipsoids.Krassowsky1940</span><br />
+      Ellipsoid(name='Krassowsky1940', a=6378245, f=0.00335233, f_=298.3, 
+      b=6356863.01877305)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Ellipsoids.Maupertuis1738"></a><span class="summary-name">Ellipsoids.Maupertuis1738</span><br />
+      Ellipsoid(name='Maupertuis1738', a=6397300, f=0.0052356, f_=191, 
+      b=6363806.28272251)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Ellipsoids.Mercury1960"></a><span class="summary-name">Ellipsoids.Mercury1960</span><br />
+      Ellipsoid(name='Mercury1960', a=6378166, f=0.00335233, f_=298.3, 
+      b=6356784.28360711)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Ellipsoids.Mercury1968Mod"></a><span class="summary-name">Ellipsoids.Mercury1968Mod</span><br />
+      Ellipsoid(name='Mercury1968Mod', a=6378150, f=0.00335233, f_=298.3, 
+      b=6356768.33724438)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Ellipsoids.NWL1965"></a><span class="summary-name">Ellipsoids.NWL1965</span><br />
+      Ellipsoid(name='NWL1965', a=6378145, f=0.00335289, f_=298.25, 
+      b=6356759.76948868)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Ellipsoids.OSU86F"></a><span class="summary-name">Ellipsoids.OSU86F</span><br />
+      Ellipsoid(name='OSU86F', a=6378136.2, f=0.00335281, f_=298.2572236, 
+      b=6356751.51693008)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Ellipsoids.OSU91A"></a><span class="summary-name">Ellipsoids.OSU91A</span><br />
+      Ellipsoid(name='OSU91A', a=6378136.3, f=0.00335281, f_=298.2572236, 
+      b=6356751.6165948)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Ellipsoids.PZ90"></a><span class="summary-name">Ellipsoids.PZ90</span><br />
+      Ellipsoid(name='PZ90', a=6378136, f=0.0033528, f_=298.2578393, 
+      b=6356751.36174571)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Ellipsoids.Plessis1817"></a><span class="summary-name">Ellipsoids.Plessis1817</span><br />
+      Ellipsoid(name='Plessis1817', a=6376523, f=0.00324002, f_=308.64, 
+      b=6355862.93325557)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Ellipsoids.SGS85"></a><span class="summary-name">Ellipsoids.SGS85</span><br />
+      Ellipsoid(name='SGS85', a=6378136, f=0.00335281, f_=298.257, 
+      b=6356751.30156878)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Ellipsoids.SoAmerican1969"></a><span class="summary-name">Ellipsoids.SoAmerican1969</span><br />
+      Ellipsoid(name='SoAmerican1969', a=6378160, f=0.00335289, f_=298.25, 
+      b=6356774.71919531)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Ellipsoids.Sphere"></a><span class="summary-name">Ellipsoids.Sphere</span><br />
+      Ellipsoid(name='Sphere', a=6371008.771415, f=0, f_=0, 
+      b=6371008.771415)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Ellipsoids.SphereAuthalic"></a><span class="summary-name">Ellipsoids.SphereAuthalic</span><br />
+      Ellipsoid(name='SphereAuthalic', a=6371000, f=0, f_=0, b=6371000)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Ellipsoids.SpherePopular"></a><span class="summary-name">Ellipsoids.SpherePopular</span><br />
+      Ellipsoid(name='SpherePopular', a=6378137, f=0, f_=0, b=6378137)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Ellipsoids.Struve1860"></a><span class="summary-name">Ellipsoids.Struve1860</span><br />
+      Ellipsoid(name='Struve1860', a=6378298.3, f=0.00339294, f_=294.73, 
+      b=6356657.14266956)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Ellipsoids.WGS60"></a><span class="summary-name">Ellipsoids.WGS60</span><br />
+      Ellipsoid(name='WGS60', a=6378165, f=0.00335233, f_=298.3, 
+      b=6356783.28695944)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Ellipsoids.WGS66"></a><span class="summary-name">Ellipsoids.WGS66</span><br />
+      Ellipsoid(name='WGS66', a=6378145, f=0.00335289, f_=298.25, 
+      b=6356759.76948868)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Ellipsoids.WGS72"></a><span class="summary-name">Ellipsoids.WGS72</span><br />
+      Ellipsoid(name='WGS72', a=6378135, f=0.00335278, f_=298.26, 
+      b=6356750.52001609)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Ellipsoids.WGS84"></a><span class="summary-name">Ellipsoids.WGS84</span><br />
+      Ellipsoid(name='WGS84', a=6378137, f=0.00335281, f_=298.25722356, 
+      b=6356752.31424518)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Ellipsoids.WGS84_NGS"></a><span class="summary-name">Ellipsoids.WGS84_NGS</span><br />
+      Ellipsoid(name='WGS84_NGS', a=6378137, f=0.00335281, f_=298.2572221, 
+      b=6356752.31414035)
+    </td>
+  </tr>
+</table>
+<!-- ==================== FUNCTION DETAILS ==================== -->
+<a name="section-FunctionDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Function Details</span></td>
+</tr>
+</table>
+<a name="a_b2e"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">a_b2e</span>&nbsp;(<span class="sig-arg">a</span>,
+        <span class="sig-arg">b</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return <code>e</code>, the <i>1st eccentricity</i> for a given 
+  <i>equatorial</i> and <i>polar</i> radius.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>a</code></strong> - Equatorial radius (<code>scalar</code> &gt; 0).</li>
+        <li><strong class="pname"><code>b</code></strong> - Polar radius (<code>scalar</code> &gt; 0).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The <i>unsigned</i>, (1st) eccentricity (<code>float</code> or 
+          <code>0</code>), <i class="math">sqrt(1 - (b / a)**2)</i>.</dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        The result is always <i>non-negative</i> and <code>0</code> for 
+        <i>near-spherical</i> ellipsoids.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="a_b2e2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">a_b2e2</span>&nbsp;(<span class="sig-arg">a</span>,
+        <span class="sig-arg">b</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return <code>e2</code>, the <i>1st eccentricity squared</i> for a 
+  given <i>equatorial</i> and <i>polar</i> radius.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>a</code></strong> - Equatorial radius (<code>scalar</code> &gt; 0).</li>
+        <li><strong class="pname"><code>b</code></strong> - Polar radius (<code>scalar</code> &gt; 0).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The <i>signed</i>, (1st) eccentricity <i>squared</i> 
+          (<code>float</code> or <code>0</code>), <i class="math">1 - (b / 
+          a)**2</i>.</dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        The result is positive for <i>oblate</i>, negative for 
+        <i>prolate</i> or <code>0</code> for <i>near-spherical</i> 
+        ellipsoids.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="a_b2e22"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">a_b2e22</span>&nbsp;(<span class="sig-arg">a</span>,
+        <span class="sig-arg">b</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return <code>e22</code>, the <i>2nd eccentricity squared</i> for a 
+  given <i>equatorial</i> and <i>polar</i> radius.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>a</code></strong> - Equatorial radius (<code>scalar</code> &gt; 0).</li>
+        <li><strong class="pname"><code>b</code></strong> - Polar radius (<code>scalar</code> &gt; 0).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The <i>signed</i>, 2nd eccentricity <i>squared</i> 
+          (<code>float</code> or <code>0</code>), <i class="math">(a / 
+          b)**2 - 1</i>.</dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        The result is positive for <i>oblate</i>, negative for 
+        <i>prolate</i> or <code>0</code> for <i>near-spherical</i> 
+        ellipsoids.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="a_b2e32"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">a_b2e32</span>&nbsp;(<span class="sig-arg">a</span>,
+        <span class="sig-arg">b</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return <code>e32</code>, the <i>3rd eccentricity squared</i> for a 
+  given <i>equatorial</i> and <i>polar</i> radius.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>a</code></strong> - Equatorial radius (<code>scalar</code> &gt; 0).</li>
+        <li><strong class="pname"><code>b</code></strong> - Polar radius (<code>scalar</code> &gt; 0).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The <i>signed</i>, 3rd eccentricity <i>squared</i> 
+          (<code>float</code> or <code>0</code>), <i class="math">(a**2 - 
+          b**2) / (a**2 + b**2)</i>.</dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        The result is positive for <i>oblate</i>, negative for 
+        <i>prolate</i> or <code>0</code> for <i>near-spherical</i> 
+        ellipsoids.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="a_b2f"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">a_b2f</span>&nbsp;(<span class="sig-arg">a</span>,
+        <span class="sig-arg">b</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return <code>f</code>, the <i>flattening</i> for a given 
+  <i>equatorial</i> and <i>polar</i> radius.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>a</code></strong> - Equatorial radius (<code>scalar</code> &gt; 0).</li>
+        <li><strong class="pname"><code>b</code></strong> - Polar radius (<code>scalar</code> &gt; 0).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The flattening (<code>scalar</code> or <code>0</code>), <i 
+          class="math">(a - b) / a</i>.</dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        The result is positive for <i>oblate</i>, negative for 
+        <i>prolate</i> or <code>0</code> for <i>near-spherical</i> 
+        ellipsoids.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="a_b2f_"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">a_b2f_</span>&nbsp;(<span class="sig-arg">a</span>,
+        <span class="sig-arg">b</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return <code>f_</code>, the <i>inverse flattening</i> for a given 
+  <i>equatorial</i> and <i>polar</i> radius.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>a</code></strong> - Equatorial radius (<code>scalar</code> &gt; 0).</li>
+        <li><strong class="pname"><code>b</code></strong> - Polar radius (<code>scalar</code> &gt; 0).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The inverse flattening (<code>scalar</code> or <code>0</code>), 
+          <i class="math">a / (a - b)</i>.</dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        The result is positive for <i>oblate</i>, negative for 
+        <i>prolate</i> or <code>0</code> for <i>near-spherical</i> 
+        ellipsoids.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="a_b2f2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">a_b2f2</span>&nbsp;(<span class="sig-arg">a</span>,
+        <span class="sig-arg">b</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return <code>f2</code>, the <i>2nd flattening</i> for a given 
+  <i>equatorial</i> and <i>polar</i> radius.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>a</code></strong> - Equatorial radius (<code>scalar</code> &gt; 0).</li>
+        <li><strong class="pname"><code>b</code></strong> - Polar radius (<code>scalar</code> &gt; 0).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The <i>signed</i>, 2nd flattening (<code>scalar</code> or 
+          <code>0</code>), <i class="math">(a - b) / b</i>.</dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        The result is positive for <i>oblate</i>, negative for 
+        <i>prolate</i> or <code>0</code> for <i>near-spherical</i> 
+        ellipsoids.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="a_b2n"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">a_b2n</span>&nbsp;(<span class="sig-arg">a</span>,
+        <span class="sig-arg">b</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return <code>n</code>, the <i>3rd flattening</i> for a given 
+  <i>equatorial</i> and <i>polar</i> radius.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>a</code></strong> - Equatorial radius (<code>scalar</code> &gt; 0).</li>
+        <li><strong class="pname"><code>b</code></strong> - Polar radius (<code>scalar</code> &gt; 0).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The <i>signed</i>, 3rd flattening (<code>scalar</code> or 
+          <code>0</code>), <i class="math">(a - b) / (a + b)</i>.</dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        The result is positive for <i>oblate</i>, negative for 
+        <i>prolate</i> or <code>0</code> for <i>near-spherical</i> 
+        ellipsoids.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="a_f2b"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">a_f2b</span>&nbsp;(<span class="sig-arg">a</span>,
+        <span class="sig-arg">f</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return <code>b</code>, the <i>polar</i> radius for a given 
+  <i>equatorial</i> radius and <i>flattening</i>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>a</code></strong> - Equatorial radius (<code>scalar</code> &gt; 0).</li>
+        <li><strong class="pname"><code>f</code></strong> - Flattening (<code>scalar</code> &lt; 1, negative for 
+          <i>prolate</i>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The polar radius (<code>float</code>), <i class="math">a * (1 - 
+          f)</i>.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="a_f_2b"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">a_f_2b</span>&nbsp;(<span class="sig-arg">a</span>,
+        <span class="sig-arg">f_</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return <code>b</code>, the <i>polar</i> radius for a given 
+  <i>equatorial</i> radius and <i>inverse flattening</i>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>a</code></strong> - Equatorial radius (<code>scalar</code> &gt; 0).</li>
+        <li><strong class="pname"><code>f_</code></strong> - Inverse flattening (<code>scalar</code> &gt;&gt;&gt; 1).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The polar radius (<code>float</code>), <i class="math">a * (f_ - 
+          1) / f_</i>.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="b_f2a"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">b_f2a</span>&nbsp;(<span class="sig-arg">b</span>,
+        <span class="sig-arg">f</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return <code>a</code>, the <i>equatorial</i> radius for a given 
+  <i>polar</i> radius and <i>flattening</i>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>b</code></strong> - Polar radius (<code>scalar</code> &gt; 0).</li>
+        <li><strong class="pname"><code>f</code></strong> - Flattening (<code>scalar</code> &lt; 1, negative for 
+          <i>prolate</i>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The equatorial radius (<code>float</code>), <i class="math">b / 
+          (1 - f)</i>.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="b_f_2a"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">b_f_2a</span>&nbsp;(<span class="sig-arg">b</span>,
+        <span class="sig-arg">f_</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return <code>a</code>, the <i>equatorial</i> radius for a given 
+  <i>polar</i> radius and <i>inverse flattening</i>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>b</code></strong> - Polar radius (<code>scalar</code> &gt; 0).</li>
+        <li><strong class="pname"><code>f_</code></strong> - Inverse flattening (<code>scalar</code> &gt;&gt;&gt; 1).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The equatorial radius (<code>float</code>), <i class="math">b * 
+          f_ / (f_ - 1)</i>.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="e2f"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">e2f</span>&nbsp;(<span class="sig-arg">e</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return <code>f</code>, the <i>flattening</i> for a given <i>1st 
+  eccentricity</i>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>e</code></strong> - The (1st) eccentricity (0 &lt;= <code>float</code> &lt; 1)</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The flattening (<code>scalar</code> or <code>0</code>).</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.ellipsoids-module.html#e22f" 
+        class="link">e22f</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="e22f"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">e22f</span>&nbsp;(<span class="sig-arg">e2</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return <code>f</code>, the <i>flattening</i> for a given <i>1st 
+  eccentricity squared</i>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>e2</code></strong> - The (1st) eccentricity <i>squared</i>, <i>signed</i> (NINF &lt; 
+          <code>float</code> &lt; 1)</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The flattening (<code>float</code> or <code>0</code>), <i 
+          class="math">e2 / (sqrt(e2 - 1) + 1)</i>.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="f2e2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">f2e2</span>&nbsp;(<span class="sig-arg">f</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return <code>e2</code>, the <i>1st eccentricity squared</i> for a 
+  given <i>flattening</i>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>f</code></strong> - Flattening (<code>scalar</code> &lt; 1, negative for 
+          <i>prolate</i>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The <i>signed</i>, (1st) eccentricity <i>squared</i> 
+          (<code>float</code> &lt; 1), <i class="math">f * (2 - f)</i>.</dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        The result is positive for <i>oblate</i>, negative for 
+        <i>prolate</i> or <code>0</code> for <i>near-spherical</i> 
+        ellipsoids.
+      </p>
+      <p><strong>See Also:</strong>
+        <a 
+        href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Ellipsoid.html"
+        target="_top">Eccentricity conversions</a> and <a 
+        href="https://WikiPedia.org/wiki/Flattening" 
+        target="_top">Flattening</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="f2e22"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">f2e22</span>&nbsp;(<span class="sig-arg">f</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return <code>e22</code>, the <i>2nd eccentricity squared</i> for a 
+  given <i>flattening</i>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>f</code></strong> - Flattening (<code>scalar</code> &lt; 1, negative for 
+          <i>prolate</i>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The <i>signed</i>, 2nd eccentricity <i>squared</i> 
+          (<code>float</code> &gt; -1 or <code>INF</code>), <i 
+          class="math">f * (2 - f) / (1 - f)**2</i>.</dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        The result is positive for <i>oblate</i>, negative for 
+        <i>prolate</i> or <code>0</code> for near-spherical ellipsoids.
+      </p>
+      <p><strong>See Also:</strong>
+        <a 
+        href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Ellipsoid.html"
+        target="_top">Eccentricity conversions</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="f2e32"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">f2e32</span>&nbsp;(<span class="sig-arg">f</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return <code>e32</code>, the <i>3rd eccentricity squared</i> for a 
+  given <i>flattening</i>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>f</code></strong> - Flattening (<code>scalar</code> &lt; 1, negative for 
+          <i>prolate</i>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The <i>signed</i>, 3rd eccentricity <i>squared</i> 
+          (<code>float</code>), <i class="math">f * (2 - f) / (1 + (1 - 
+          f)**2)</i>.</dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        The result is positive for <i>oblate</i>, negative for 
+        <i>prolate</i> or <code>0</code> for <i>near-spherical</i> 
+        ellipsoids.
+      </p>
+      <p><strong>See Also:</strong>
+        <a 
+        href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Ellipsoid.html"
+        target="_top">Eccentricity conversions</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="f_2f"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">f_2f</span>&nbsp;(<span class="sig-arg">f_</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return <code>f</code>, the <i>flattening</i> for a given <i>inverse 
+  flattening</i>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>f_</code></strong> - Inverse flattening (<code>scalar</code> &gt;&gt;&gt; 1).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The flattening (<code>scalar</code> or <code>0</code>), <i 
+          class="math">1 / f_</i>.</dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        The result is positive for <i>oblate</i>, negative for 
+        <i>prolate</i> or <code>0</code> for <i>near-spherical</i> 
+        ellipsoids.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="f2f_"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">f2f_</span>&nbsp;(<span class="sig-arg">f</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return <code>f_</code>, the <i>inverse flattening</i> for a given 
+  <i>flattening</i>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>f</code></strong> - Flattening (<code>scalar</code> &lt; 1, negative for 
+          <i>prolate</i>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The inverse flattening (<code>scalar</code> or <code>0</code>), 
+          <i class="math">1 / f</i>.</dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        The result is positive for <i>oblate</i>, negative for 
+        <i>prolate</i> or <code>0</code> for <i>near-spherical</i> 
+        ellipsoids.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="f2f2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">f2f2</span>&nbsp;(<span class="sig-arg">f</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return <code>f2</code>, the <i>2nd flattening</i> for a given 
+  <i>flattening</i>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>f</code></strong> - Flattening (<code>scalar</code> &lt; 1, negative for 
+          <i>prolate</i>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The <i>signed</i>, 2nd flattening (<code>scalar</code> or 
+          <code>INF</code>), <i class="math">f / (1 - f)</i>.</dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        The result is positive for <i>oblate</i>, negative for 
+        <i>prolate</i> or <code>0</code> for <i>near-spherical</i> 
+        ellipsoids.
+      </p>
+      <p><strong>See Also:</strong>
+        <a 
+        href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Ellipsoid.html"
+        target="_top">Eccentricity conversions</a> and <a 
+        href="https://WikiPedia.org/wiki/Flattening" 
+        target="_top">Flattening</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="f2n"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">f2n</span>&nbsp;(<span class="sig-arg">f</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return <code>n</code>, the <i>3rd flattening</i> for a given 
+  <i>flattening</i>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>f</code></strong> - Flattening (<code>scalar</code> &lt; 1, negative for 
+          <i>prolate</i>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The <i>signed</i>, 3rd flattening (-1 &lt;= <code>float</code> 
+          &lt; 1), <i class="math">f / (2 - f)</i>.</dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        The result is positive for <i>oblate</i>, negative for 
+        <i>prolate</i> or <code>0</code> for <i>near-spherical</i> 
+        ellipsoids.
+      </p>
+      <p><strong>See Also:</strong>
+        <a 
+        href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Ellipsoid.html"
+        target="_top">Eccentricity conversions</a> and <a 
+        href="https://WikiPedia.org/wiki/Flattening" 
+        target="_top">Flattening</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="n2e2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">n2e2</span>&nbsp;(<span class="sig-arg">n</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return <code>e2</code>, the <i>1st eccentricity squared</i> for a 
+  given <i>3rd flattening</i>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>n</code></strong> - The 3rd flattening (-1 &lt;= <code>scalar</code> &lt; 1).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The <i>signed</i>, (1st) eccentricity <i>squared</i> 
+          (<code>float</code> or NINF), <i class="math">4 * n / (1 + 
+          n)**2</i>.</dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        The result is positive for <i>oblate</i>, negative for 
+        <i>prolate</i> or <code>0</code> for <i>near-spherical</i> 
+        ellipsoids.
+      </p>
+      <p><strong>See Also:</strong>
+        <a href="https://WikiPedia.org/wiki/Flattening" 
+        target="_top">Flattening</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="n2f"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">n2f</span>&nbsp;(<span class="sig-arg">n</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return <code>f</code>, the <i>flattening</i> for a given <i>3rd 
+  flattening</i>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>n</code></strong> - The 3rd flattening (-1 &lt;= <code>scalar</code> &lt; 1).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The flattening (<code>scalar</code> or NINF), <i class="math">2 *
+          n / (1 + n)</i>.</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a 
+        href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Ellipsoid.html"
+        target="_top">Eccentricity conversions</a> and <a 
+        href="https://WikiPedia.org/wiki/Flattening" 
+        target="_top">Flattening</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="n2f_"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">n2f_</span>&nbsp;(<span class="sig-arg">n</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return <code>f_</code>, the <i>inverse flattening</i> for a given 
+  <i>3rd flattening</i>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>n</code></strong> - The 3rd flattening (-1 &lt;= <code>scalar</code> &lt; 1).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The inverse flattening (<code>scalar</code> or <code>0</code>), 
+          <i class="math">1 / f</i>.</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a href="pygeodesy.ellipsoids-module.html#n2f" class="link">n2f</a>
+        and <a href="pygeodesy.ellipsoids-module.html#f2f_" 
+        class="link">f2f_</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<br />
+<!-- ==================== VARIABLES DETAILS ==================== -->
+<a name="section-VariablesDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Variables Details</span></td>
+</tr>
+</table>
+<a name="Ellipsoids"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">Ellipsoids</h3>
+  <p>Some pre-defined <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+  class="link">Ellipsoid</a>s, all <i>lazily</i> instantiated.</p>
+  <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, f=0, f_=<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+0, b=6371008.771415),
+Ellipsoids.GRS80: Ellipsoid(name='GRS80', a=6378137, f=0.00335281, f_=<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+298.2572221, b=6356752.31414035),
+Ellipsoids.WGS84: Ellipsoid(name='WGS84', a=6378137, f=0.00335281, f_=<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+298.25722356, b=6356752.31424518),
+Ellipsoids.Airy1830: Ellipsoid(name='Airy1830', a=6377563.396, f=0.003<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+34085, f_=299.3249646, b=6356256.90923729)
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Thu Jun 27 19:44:13 2024
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

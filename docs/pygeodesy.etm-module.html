@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>pygeodesy.etm</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="pygeodesy-module.html">Package&nbsp;pygeodesy</a> ::
+        Module&nbsp;etm
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="pygeodesy.etm-module.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== MODULE DESCRIPTION ==================== -->
+<h1 class="epydoc">Module etm</h1><p class="nomargin-top"></p>
+<p>A pure Python version of <i>Karney</i>'s <code>Exact Transverse 
+  Mercator</code> (ETM) projection.</p>
+  <p>Classes <a href="pygeodesy.etm.Etm-class.html" class="link">Etm</a>, 
+  <a href="pygeodesy.etm.ETMError-class.html" class="link">ETMError</a> and
+  <a href="pygeodesy.etm.ExactTransverseMercator-class.html" 
+  class="link">ExactTransverseMercator</a>, transcoded from <i>Karney</i>'s
+  C++ class <a 
+  href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1TransverseMercatorExact.html"
+  target="_top">TransverseMercatorExact</a>, abbreviated as 
+  <code>TMExact</code> below.</p>
+  <p>Class <a href="pygeodesy.etm.ExactTransverseMercator-class.html" 
+  class="link">ExactTransverseMercator</a> provides <code>Exact Transverse 
+  Mercator</code> projections while instances of class <a 
+  href="pygeodesy.etm.Etm-class.html" class="link">Etm</a> represent ETM 
+  <code>(easting, northing)</code> locations.  See also <i>Karney</i>'s 
+  utility <a 
+  href="https://GeographicLib.SourceForge.io/C++/doc/TransverseMercatorProj.1.html"
+  target="_top">TransverseMercatorProj</a> and use <code>&quot;python[3] -m
+  pygeodesy.etm ...&quot;</code> to compare the results.</p>
+  <p>Following is a copy of <i>Karney</i>'s <a 
+  href="https://GeographicLib.SourceForge.io/C++/doc/TransverseMercatorExact_8hpp_source.html"
+  target="_top">TransverseMercatorExact.hpp</a> file 
+  <code>Header</code>.</p>
+  <p>Copyright (C) <a href="mailto:Karney@Alum.MIT.edu" 
+  target="_top">Charles Karney</a> (2008-2023) and licensed under the 
+  MIT/X11 License.  For more information, see the <a 
+  href="https://GeographicLib.SourceForge.io" 
+  target="_top">GeographicLib</a> documentation.</p>
+  <p>The method entails using the <a 
+  href="https://WikiPedia.org/wiki/Transverse_Mercator_projection" 
+  target="_top">Thompson Transverse Mercator</a> as an intermediate 
+  projection.  The projections from the intermediate coordinates to 
+  <code>phi, lam</code> and <code>x, y</code> are given by elliptic 
+  functions.  The inverse of these projections are found by Newton's method
+  with a suitable starting guess.</p>
+  <p>The relevant section of L.P. Lee's paper <a 
+  href="https://DOI.org/10.3138/X687-1574-4325-WM62" 
+  target="_top">Conformal Projections Based On Jacobian Elliptic 
+  Functions</a> in part V, pp 67-101.  The C++ implementation and notation 
+  closely follow Lee, with the following exceptions:</p>
+<pre class="literalblock">
+ Lee   here   Description
+
+ x/a   xi     Northing (unit Earth)
+
+ y/a   eta    Easting (unit Earth)
+
+ s/a   sigma  xi + i * eta
+
+ y     x      Easting
+
+ x     y      Northing
+
+ k     e      Eccentricity
+
+ k^2   mu     Elliptic function parameter
+
+ k'^2  mv     Elliptic function complementary parameter
+
+ m     k      Scale
+
+ zeta  zeta   Complex longitude = Mercator = chi in paper
+
+ s     sigma  Complex GK = zeta in paper
+</pre>
+  <p>Minor alterations have been made in some of Lee's expressions in an 
+  attempt to control round-off.  For example, <code>atanh(sin(phi))</code> 
+  is replaced by <code>asinh(tan(phi))</code> which maintains accuracy near
+  <code>phi = pi/2</code>.  Such changes are noted in the code.</p>
+
+<hr />
+<div class="fields">      <p><strong>Version:</strong>
+        24.06.11
+      </p>
+</div><!-- ==================== CLASSES ==================== -->
+<a name="section-Classes"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Classes</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.etm.ETMError-class.html" class="summary-name">ETMError</a><br />
+      Exact Transverse Mercator (ETM) parse, projection or other <a 
+        href="pygeodesy.etm.Etm-class.html" class="link">Etm</a> issue or 
+        <a href="pygeodesy.etm.ExactTransverseMercator-class.html" 
+        class="link">ExactTransverseMercator</a> conversion failure.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.etm.Etm-class.html" class="summary-name">Etm</a><br />
+      Exact Transverse Mercator (ETM) coordinate, a sub-class of <a 
+        href="pygeodesy.utm.Utm-class.html" class="link">Utm</a>, a 
+        Universal Transverse Mercator (UTM) coordinate using the <a 
+        href="pygeodesy.etm.ExactTransverseMercator-class.html" 
+        class="link">ExactTransverseMercator</a> projection for highest 
+        accuracy.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.etm.ExactTransverseMercator-class.html" class="summary-name">ExactTransverseMercator</a><br />
+      Pure Python version of Karney's C++ class <a 
+        href="https://GeographicLib.SourceForge.io/C++/doc/TransverseMercatorExact_8cpp_source.html"
+        target="_top">TransverseMercatorExact</a>, a numerically exact 
+        transverse Mercator projection, further referred to as 
+        <code>TMExact</code>.
+    </td>
+  </tr>
+</table>
+<!-- ==================== FUNCTIONS ==================== -->
+<a name="section-Functions"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Functions</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.etm-module.html#parseETM5" class="summary-sig-name">parseETM5</a>(<span class="summary-sig-arg">strUTM</span>,
+        <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
+        <span class="summary-sig-arg">Etm</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.etm.Etm'&gt;</span>,
+        <span class="summary-sig-arg">falsed</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">**name</span>)</span><br />
+      Parse a string representing a UTM coordinate, consisting of 
+      <code>&quot;zone[band] hemisphere easting northing&quot;</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.etm-module.html#toEtm8" class="summary-sig-name">toEtm8</a>(<span class="summary-sig-arg">latlon</span>,
+        <span class="summary-sig-arg">lon</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">Etm</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.etm.Etm'&gt;</span>,
+        <span class="summary-sig-arg">falsed</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">strict</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">zone</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">**name_cmoff</span>)</span><br />
+      Convert a geodetic lat-/longitude to an ETM coordinate.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+</table>
+<!-- ==================== VARIABLES ==================== -->
+<a name="section-Variables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Variables</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="__all__"></a><span class="summary-name">__all__</span> = <code title="_ALL_LAZY.etm">_ALL_LAZY.etm</code>
+    </td>
+  </tr>
+</table>
+<!-- ==================== FUNCTION DETAILS ==================== -->
+<a name="section-FunctionDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Function Details</span></td>
+</tr>
+</table>
+<a name="parseETM5"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">parseETM5</span>&nbsp;(<span class="sig-arg">strUTM</span>,
+        <span class="sig-arg">datum</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
+        <span class="sig-arg">Etm</span>=<span class="sig-default">&lt;class 'pygeodesy.etm.Etm'&gt;</span>,
+        <span class="sig-arg">falsed</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">**name</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Parse a string representing a UTM coordinate, consisting of 
+  <code>&quot;zone[band] hemisphere easting northing&quot;</code>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>strUTM</code></strong> - A UTM coordinate (<code>str</code>).</li>
+        <li><strong class="pname"><code>datum</code></strong> - Optional datum to use (<a 
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>, 
+          <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+          class="link">Ellipsoid</a>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
+          class="link">Ellipsoid2</a> or <a 
+          href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
+          class="link">a_f2Tuple</a>).</li>
+        <li><strong class="pname"><code>Etm</code></strong> - Optional class to return the UTM coordinate (<a 
+          href="pygeodesy.etm.Etm-class.html" class="link">Etm</a>) or 
+          <code>None</code>.</li>
+        <li><strong class="pname"><code>falsed</code></strong> - Both easting and northing are <code>falsed</code> 
+          (<code>bool</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <b><code>Etm</code></b> <code><b>name</b>=NN</code> 
+          (<code>str</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The UTM coordinate (<b><code>Etm</code></b>) or if 
+          <code><b>Etm</b> is None</code>, a <a 
+          href="pygeodesy.namedTuples.UtmUps5Tuple-class.html" 
+          class="link">UtmUps5Tuple</a><code>(zone, hemipole, easting, 
+          northing, band)</code> with <code>hemipole</code> is the 
+          hemisphere <code>'N'|'S'</code>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.etm.ETMError-class.html">ETMError</a></strong></code> - Invalid <b><code>strUTM</code></b>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid or near-spherical <b><code>datum</code></b>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="toEtm8"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toEtm8</span>&nbsp;(<span class="sig-arg">latlon</span>,
+        <span class="sig-arg">lon</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">datum</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">Etm</span>=<span class="sig-default">&lt;class 'pygeodesy.etm.Etm'&gt;</span>,
+        <span class="sig-arg">falsed</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">strict</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">zone</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">**name_cmoff</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert a geodetic lat-/longitude to an ETM coordinate.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>latlon</code></strong> - Latitude (<code>degrees</code>) or an (ellipsoidal) geodetic 
+          <code>LatLon</code> instance.</li>
+        <li><strong class="pname"><code>lon</code></strong> - Optional longitude (<code>degrees</code>), required if 
+          <b><code>latlon</code></b> is <code>degrees</code>, ignored 
+          otherwise.</li>
+        <li><strong class="pname"><code>datum</code></strong> - Optional datum for the ETM coordinate, overriding 
+          <b><code>latlon</code></b>'s datum (<a 
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>, 
+          <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+          class="link">Ellipsoid</a>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
+          class="link">Ellipsoid2</a> or <a 
+          href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
+          class="link">a_f2Tuple</a>).</li>
+        <li><strong class="pname"><code>Etm</code></strong> - Optional class to return the ETM coordinate (<a 
+          href="pygeodesy.etm.Etm-class.html" class="link">Etm</a>) or 
+          <code>None</code>.</li>
+        <li><strong class="pname"><code>falsed</code></strong> - False both easting and northing (<code>bool</code>).</li>
+        <li><strong class="pname"><code>strict</code></strong> - Restrict <b><code>lat</code></b> to UTM ranges 
+          (<code>bool</code>).</li>
+        <li><strong class="pname"><code>zone</code></strong> - Optional UTM zone to enforce (<code>int</code> or 
+          <code>str</code>).</li>
+        <li><strong class="pname"><code>name_cmoff</code></strong> - Optional <b><code>Etm</code></b> <code><b>name</b>=NN</code> 
+          (<code>str</code>) and DEPRECATED keyword argument 
+          <code><b>cmoff</b>=True</code> to offset the longitude from the 
+          zone's central meridian (<code>bool</code>), use 
+          <b><code>falsed</code></b> instead.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The ETM coordinate as <b><code>Etm</code></b> or if 
+          <code><b>Etm</b> is None</code> or not 
+          <b><code>falsed</code></b>, a <a 
+          href="pygeodesy.namedTuples.UtmUps8Tuple-class.html" 
+          class="link">UtmUps8Tuple</a><code>(zone, hemipole, easting, 
+          northing, band, datum, gamma, scale)</code>.  The 
+          <code>hemipole</code> is the <code>'N'|'S'</code> hemisphere.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.etm.ETMError-class.html">ETMError</a></strong></code> - No convergence transforming to ETM easting and northing.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.etm.ETMError-class.html">ETMError</a></strong></code> - Invalid <b><code>zone</code></b> or near-spherical or incompatible 
+        <b><code>datum</code></b> or <code>ellipsoid</code>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - If <b><code>lat</code></b> outside the valid UTM bands or if 
+        <b><code>lat</code></b> or <b><code>lon</code></b> outside the 
+        valid range and <a href="pygeodesy.errors-module.html#rangerrors" 
+        class="link">rangerrors</a> is <code>True</code>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid or near-spherical <b><code>datum</code></b> or 
+        <b><code>latlon</code></b> not ellipsoidal.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - The <b><code>lon</code></b> value is missing or 
+        <b><code>latlon</code></b> is invalid.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Thu Jun 27 19:44:13 2024
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

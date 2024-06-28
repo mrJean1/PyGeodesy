@@ -1,0 +1,455 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>pygeodesy.geoids</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="pygeodesy-module.html">Package&nbsp;pygeodesy</a> ::
+        Module&nbsp;geoids
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="pygeodesy.geoids-module.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== MODULE DESCRIPTION ==================== -->
+<h1 class="epydoc">Module geoids</h1><p class="nomargin-top"></p>
+<p>Geoid models and geoid height interpolations.</p>
+  <p>Classes <a href="pygeodesy.geoids.GeoidG2012B-class.html" 
+  class="link">GeoidG2012B</a>, <a 
+  href="pygeodesy.geoids.GeoidKarney-class.html" 
+  class="link">GeoidKarney</a> and <a 
+  href="pygeodesy.geoids.GeoidPGM-class.html" class="link">GeoidPGM</a> to 
+  interpolate the height of various <a 
+  href="https://WikiPedia.org/wiki/Geoid" target="_top">geoid</a>s at 
+  <code>LatLon</code> locations or separate lat-/longitudes using different
+  interpolation methods and <code>geoid</code> model files.</p>
+  <p><a href="pygeodesy.geoids.GeoidKarney-class.html" 
+  class="link">GeoidKarney</a> is a transcoding of <i>Charles Karney</i>'s 
+  C++ class <a 
+  href="https://GeographicLib.SourceForge.io/C++/doc/geoid.html" 
+  target="_top">Geoid</a> to pure Python. The <a 
+  href="pygeodesy.geoids.GeoidG2012B-class.html" 
+  class="link">GeoidG2012B</a> and <a 
+  href="pygeodesy.geoids.GeoidPGM-class.html" class="link">GeoidPGM</a> 
+  interpolators both depend on <a href="https://SciPy.org" 
+  target="_top">scipy</a> and <a href="https://PyPI.org/project/numpy" 
+  target="_top">numpy</a> and require those packages to be installed.</p>
+  <p>In addition, each geoid interpolator needs <code>grid knots</code> 
+  (down)loaded from a <code>geoid</code> model file, <i>specific to the 
+  interpolator</i>, more details below and in the documentation of the 
+  interpolator class.  For each interpolator, there are several 
+  interpolation choices, like <i>linear</i>, <i>cubic</i>, etc.</p>
+  <h1 class="heading">Typical usage</h1>
+    <ol start="1">
+      <li>
+        Choose one of the interpolator classes <a 
+        href="pygeodesy.geoids.GeoidG2012B-class.html" 
+        class="link">GeoidG2012B</a>, <a 
+        href="pygeodesy.geoids.GeoidKarney-class.html" 
+        class="link">GeoidKarney</a> or <a 
+        href="pygeodesy.geoids.GeoidPGM-class.html" 
+        class="link">GeoidPGM</a> and download a <code>geoid</code> model 
+        file, containing locations with known heights also referred to as 
+        the <code>grid knots</code>.  See the documentation of the 
+        interpolator class for references to available <code>grid</code> 
+        models.
+        <p><code>&gt;&gt;&gt; from pygeodesy import GeoidG2012B  # or 
+        -Karney or -PGM as GeoidXyz</code></p>
+      </li>
+      <li>
+        Instantiate an interpolator with the <code>geoid</code> model file 
+        and use keyword arguments to select different interpolation options
+        <p><code>&gt;&gt;&gt; ginterpolator = GeoidXyz(geoid_model_file, 
+        **options)</code></p>
+      </li>
+      <li>
+        Get the interpolated geoid height of other <code>LatLon</code> 
+        location(s) with
+        <p><code>&gt;&gt;&gt; ll = LatLon(1, 2, ...)</code></p>
+        <p><code>&gt;&gt;&gt; h = ginterpolator(ll)</code></p>
+        <p>or</p>
+        <p><code>&gt;&gt;&gt; h0, h1, h2, ... = ginterpolator(ll0, ll1, 
+        ll2, ...)</code></p>
+        <p>or a list, tuple, generator, etc. of <code>LatLon</code>s</p>
+        <p><code>&gt;&gt;&gt; hs = ginterpolator(lls)</code></p>
+      </li>
+      <li>
+        For separate lat- and longitudes invoke the <code>.height</code> 
+        method as
+        <p><code>&gt;&gt;&gt; h = ginterpolator.height(lat, lon)</code></p>
+        <p>or as 2 lists, 2 tuples, etc.</p>
+        <p><code>&gt;&gt;&gt; hs = ginterpolator.height(lats, 
+        lons)</code></p>
+      </li>
+      <li>
+        An example is in <a 
+        href="https://GitHub.com/mrJean1/PyGeodesy/issues/64" 
+        target="_top">issue #64</a>, courtesy of SBFRF.
+      </li>
+    </ol>
+
+<hr />
+<div class="fields">      <strong>Notes:</strong>
+      <ul class="nomargin-top">
+        <li>
+        Classes <a href="pygeodesy.geoids.GeoidG2012B-class.html" 
+        class="link">GeoidG2012B</a> and <a 
+        href="pygeodesy.geoids.GeoidPGM-class.html" 
+        class="link">GeoidPGM</a> require both <a 
+        href="https://PyPI.org/project/numpy" target="_top">numpy</a> and 
+        <a href="https://PyPI.org/project/scipy" target="_top">scipy</a> to
+        be installed.
+        </li>
+        <li>
+        Errors from <code>scipy</code> are raised as <a 
+        href="pygeodesy.errors.SciPyError-class.html" 
+        class="link">SciPyError</a>s.  Warnings issued by 
+        <code>scipy</code> can be thrown as <a 
+        href="pygeodesy.errors.SciPyWarning-class.html" 
+        class="link">SciPyWarning</a> exceptions, provided Python 
+        <code>warnings</code> are filtered accordingly, see <a 
+        href="pygeodesy.errors.SciPyWarning-class.html" 
+        class="link">SciPyWarning</a>.
+        </li>
+      </ul>
+      <p><strong>See Also:</strong>
+        <i>Karney</i>'s <a 
+        href="https://GeographicLib.SourceForge.io/C++/doc/index.html" 
+        target="_top">GeographicLib</a>, <a 
+        href="https://GeographicLib.SourceForge.io/C++/doc/geoid.html" 
+        target="_top">Geoid height</a> and <a 
+        href="https://GeographicLib.SourceForge.io/C++/doc/geoid.html#geoidinst"
+        target="_top">Installing the Geoid datasets</a>, <a 
+        href="https://docs.SciPy.org/doc/scipy/reference/interpolate.html" 
+        target="_top">SciPy</a> interpolation <a 
+        href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.RectBivariateSpline.html"
+        target="_top">RectBivariateSpline</a> and <a 
+        href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.interp2d.html"
+        target="_top">interp2d</a>, functions <a 
+        href="pygeodesy.elevations-module.html#elevation2" 
+        class="link">elevations.elevation2</a> and <a 
+        href="pygeodesy.elevations-module.html#geoidHeight2" 
+        class="link">elevations.geoidHeight2</a>, <a 
+        href="https://www.YouTube.com/watch?v=dX6a6kCk3Po" 
+        target="_top"><i>Ellispoid vs Orthometric Elevations</i></a> and <a
+        
+        href="https://Wiki.ROS.org/mavros#mavros.2FPlugins.Avoiding_Pitfalls_Related_to_Ellipsoid_Height_and_Height_Above_Mean_Sea_Level"
+        target="_top"><i>Pitfalls Related to Ellipsoid Height and Height 
+        Above Mean Sea Level (AMSL)</i></a>.
+      </p>
+      <p><strong>Version:</strong>
+        24.06.11
+      </p>
+</div><!-- ==================== CLASSES ==================== -->
+<a name="section-Classes"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Classes</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.geoids._GeoidBase-class.html" class="summary-name">_GeoidBase</a><br />
+      (INTERNAL) Base class for <code>Geoid...</code>s.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.geoids.GeoidError-class.html" class="summary-name">GeoidError</a><br />
+      Geoid interpolator <code>Geoid...</code> or interpolation issue.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.geoids.GeoidG2012B-class.html" class="summary-name">GeoidG2012B</a><br />
+      Geoid height interpolator for <a 
+        href="https://www.NGS.NOAA.gov/GEOID/GEOID12B/" 
+        target="_top">GEOID12B Model</a> grids <a 
+        href="https://www.NGS.NOAA.gov/GEOID/GEOID12B/GEOID12B_CONUS.shtml"
+        target="_top">CONUS</a>, <a 
+        href="https://www.NGS.NOAA.gov/GEOID/GEOID12B/GEOID12B_AK.shtml" 
+        target="_top">Alaska</a>, <a 
+        href="https://www.NGS.NOAA.gov/GEOID/GEOID12B/GEOID12B_HI.shtml" 
+        target="_top">Hawaii</a>, <a 
+        href="https://www.NGS.NOAA.gov/GEOID/GEOID12B/GEOID12B_GMNI.shtml" 
+        target="_top">Guam and Northern Mariana Islands</a>, <a 
+        href="https://www.NGS.NOAA.gov/GEOID/GEOID12B/GEOID12B_PRVI.shtml" 
+        target="_top">Puerto Rico and U.S. Virgin Islands</a> and <a 
+        href="https://www.NGS.NOAA.gov/GEOID/GEOID12B/GEOID12B_AS.shtml" 
+        target="_top">American Samoa</a> based on <code>SciPy</code> <a 
+        href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.RectBivariateSpline.html"
+        target="_top">RectBivariateSpline</a> or <a 
+        href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.interp2d.html"
+        target="_top">interp2d</a> interpolation.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.geoids.GeoidHeight5Tuple-class.html" class="summary-name">GeoidHeight5Tuple</a><br />
+      5-Tuple <code>(lat, lon, egm84, egm96, egm2008)</code> for <a 
+        href="https://SourceForge.net/projects/geographiclib/files/testdata/"
+        target="_top">GeoidHeights.dat</a> tests with the heights for 3 
+        different EGM grids at <code>degrees90</code> and 
+        <code>degrees180</code> degrees (after converting <code>lon</code> 
+        from original <code>0 &lt;= EasterLon &lt;= 360</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.geoids.GeoidKarney-class.html" class="summary-name">GeoidKarney</a><br />
+      Geoid height interpolator for <i>Karney</i>'s <a 
+        href="https://GeographicLib.SourceForge.io/C++/doc/geoid.html" 
+        target="_top">GeographicLib Earth Gravitational Model (EGM)</a> 
+        geoid <a 
+        href="https://GeographicLib.SourceForge.io/C++/doc/geoid.html#geoidinst"
+        target="_top">egm*.pgm</a> datasets using bilinear or <a 
+        href="https://dl.ACM.org/citation.cfm?id=368443" 
+        target="_top">cubic</a> interpolation and <a 
+        href="https://GeographicLib.SourceForge.io/C++/doc/geoid.html#geoidcache"
+        target="_top">caching</a> in pure Python, transcoded from 
+        <i>Karney</i>'s <a 
+        href="https://GeographicLib.SourceForge.io/C++/doc/geoid.html#geoidinterp"
+        target="_top">C++ class Geoid</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.geoids.GeoidPGM-class.html" class="summary-name">GeoidPGM</a><br />
+      Geoid height interpolator for <i>Karney</i>'s <a 
+        href="https://GeographicLib.SourceForge.io/C++/doc/geoid.html" 
+        target="_top">GeographicLib Earth Gravitational Model (EGM)</a> 
+        geoid <a 
+        href="https://GeographicLib.SourceForge.io/C++/doc/geoid.html#geoidinst"
+        target="_top">egm*.pgm</a> datasets but based on <code>SciPy</code>
+        <a 
+        href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.RectBivariateSpline.html"
+        target="_top">RectBivariateSpline</a> or <a 
+        href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.interp2d.html"
+        target="_top">interp2d</a> interpolation.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.geoids.PGMError-class.html" class="summary-name">PGMError</a><br />
+      Issue parsing or cropping an <code>egm*.pgm</code> geoid dataset.
+    </td>
+  </tr>
+</table>
+<!-- ==================== FUNCTIONS ==================== -->
+<a name="section-Functions"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Functions</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.geoids-module.html#egmGeoidHeights" class="summary-sig-name">egmGeoidHeights</a>(<span class="summary-sig-arg">GeoidHeights_dat</span>)</span><br />
+      Generate geoid <a 
+      href="https://GeographicLib.SourceForge.io/C++/doc/geoid.html#geoidinst"
+      target="_top">egm*.pgm</a> height tests from <a 
+      href="https://SourceForge.net/projects/geographiclib/files/testdata/"
+      target="_top">GeoidHeights.dat</a> <a 
+      href="https://GeographicLib.SourceForge.io/C++/doc/geoid.html#testgeoid"
+      target="_top">Test data for Geoids</a>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+</table>
+<!-- ==================== VARIABLES ==================== -->
+<a name="section-Variables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Variables</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="__all__"></a><span class="summary-name">__all__</span> = <code title="_ALL_LAZY.geoids">_ALL_LAZY.geoids</code>
+    </td>
+  </tr>
+</table>
+<!-- ==================== FUNCTION DETAILS ==================== -->
+<a name="section-FunctionDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Function Details</span></td>
+</tr>
+</table>
+<a name="egmGeoidHeights"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">egmGeoidHeights</span>&nbsp;(<span class="sig-arg">GeoidHeights_dat</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Generate geoid <a 
+  href="https://GeographicLib.SourceForge.io/C++/doc/geoid.html#geoidinst" 
+  target="_top">egm*.pgm</a> height tests from <a 
+  href="https://SourceForge.net/projects/geographiclib/files/testdata/" 
+  target="_top">GeoidHeights.dat</a> <a 
+  href="https://GeographicLib.SourceForge.io/C++/doc/geoid.html#testgeoid" 
+  target="_top">Test data for Geoids</a>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>GeoidHeights_dat</code></strong> - The un-gz-ed <code>GeoidHeights.dat</code> file (<code>str</code>
+          or <code>file</code> handle).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>For each test, yield a <a 
+          href="pygeodesy.geoids.GeoidHeight5Tuple-class.html" 
+          class="link">GeoidHeight5Tuple</a><code>(lat, lon, egm84, egm96, 
+          egm2008)</code>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.geoids.GeoidError-class.html">GeoidError</a></strong></code> - Invalid <b><code>GeoidHeights_dat</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        Function <a href="pygeodesy.geoids-module.html#egmGeoidHeights" 
+        class="link">egmGeoidHeights</a> is used to test the geoids <a 
+        href="pygeodesy.geoids.GeoidKarney-class.html" 
+        class="link">GeoidKarney</a> and <a 
+        href="pygeodesy.geoids.GeoidPGM-class.html" 
+        class="link">GeoidPGM</a>, see PyGeodesy module 
+        <code>test/testGeoids.py</code>.
+      </p>
+</div></td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Thu Jun 27 19:44:13 2024
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

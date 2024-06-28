@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>pygeodesy.geodesicx.gx.GeodesicLineExact</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="pygeodesy-module.html">Package&nbsp;pygeodesy</a> ::
+        <a href="pygeodesy.geodesicx-module.html">Package&nbsp;geodesicx</a> ::
+        <a href="pygeodesy.geodesicx.gx-module.html">Module&nbsp;gx</a> ::
+        Class&nbsp;GeodesicLineExact
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="pygeodesy.geodesicx.gx.GeodesicLineExact-class.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS DESCRIPTION ==================== -->
+<h1 class="epydoc">Class GeodesicLineExact</h1><p class="nomargin-top"></p>
+<pre class="base-tree">
+  object --+                    
+           |                    
+<a href="pygeodesy.named._Named-class.html">named._Named</a> --+                
+               |                
+<a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a> --+            
+                   |            
+    <a href="pygeodesy.karney._CapsBase-class.html">karney._CapsBase</a> --+        
+                       |        
+   gxbases._GeodesicBase --+    
+                           |    
+   <a href="pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html">gxline._GeodesicLineExact</a> --+
+                               |
+                              <strong class="uidshort">GeodesicLineExact</strong>
+</pre>
+
+<hr />
+<p>A pure Python version of <i>Karney</i>'s C++ class <a 
+  href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1GeodesicLineExact.html"
+  target="_top">GeodesicLineExact</a>, modeled after <i>Karney</i>'s Python
+  class <a href="https://GitHub.com/geographiclib/geographiclib-python" 
+  target="_top">geodesicline.GeodesicLine</a>.</p>
+
+<!-- ==================== INSTANCE METHODS ==================== -->
+<a name="section-InstanceMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Instance Methods</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.geodesicx.gx.GeodesicLineExact-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">geodesic</span>,
+        <span class="summary-sig-arg">lat1</span>,
+        <span class="summary-sig-arg">lon1</span>,
+        <span class="summary-sig-arg">azi1</span>,
+        <span class="summary-sig-arg">caps</span>=<span class="summary-sig-default">3968</span>,
+        <span class="summary-sig-arg">**name</span>)</span><br />
+      New <a href="pygeodesy.geodesicx.gx.GeodesicLineExact-class.html" 
+      class="link">GeodesicLineExact</a> instance, allowing points to be 
+      found along a geodesic starting at <code>(<b>lat1</b>, 
+      <b>lon1</b>)</code> with azimuth <b><code>azi1</code></b>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html">gxline._GeodesicLineExact</a></code></b>:
+      <code><a href="pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#Arc">Arc</a></code>,
+      <code><a href="pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#ArcPosition">ArcPosition</a></code>,
+      <code><a href="pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#Distance">Distance</a></code>,
+      <code><a href="pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#Intersecant2">Intersecant2</a></code>,
+      <code><a href="pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#PlumbTo">PlumbTo</a></code>,
+      <code><a href="pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#Position">Position</a></code>,
+      <code><a href="pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#SetArc">SetArc</a></code>,
+      <code><a href="pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#SetDistance">SetDistance</a></code>,
+      <code><a href="pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#__del__">__del__</a></code>,
+      <code><a href="pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#toStr">toStr</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.karney._CapsBase-class.html">karney._CapsBase</a></code></b>:
+      <code><a href="pygeodesy.karney._CapsBase-class.html#caps_">caps_</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a></code></b>:
+      <code><a href="pygeodesy.named._NamedBase-class.html#__repr__">__repr__</a></code>,
+      <code><a href="pygeodesy.named._NamedBase-class.html#__str__">__str__</a></code>,
+      <code><a href="pygeodesy.named._NamedBase-class.html#others">others</a></code>,
+      <code><a href="pygeodesy.named._NamedBase-class.html#toRepr">toRepr</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
+      <code><a href="pygeodesy.named._Named-class.html#__imatmul__">__imatmul__</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#__matmul__">__matmul__</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#__rmatmul__">__rmatmul__</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#attrs">attrs</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#classof">classof</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#copy">copy</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#dup">dup</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#methodname">methodname</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#rename">rename</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#renamed">renamed</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#toStr2">toStr2</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__delattr__</code>,
+      <code>__format__</code>,
+      <code>__getattribute__</code>,
+      <code>__hash__</code>,
+      <code>__new__</code>,
+      <code>__reduce__</code>,
+      <code>__reduce_ex__</code>,
+      <code>__setattr__</code>,
+      <code>__sizeof__</code>,
+      <code>__subclasshook__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS VARIABLES ==================== -->
+<a name="section-ClassVariables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Class Variables</span></td>
+</tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.karney._CapsBase-class.html">karney._CapsBase</a></code></b>:
+      <code><a href="pygeodesy.karney._CapsBase-class.html#ALL">ALL</a></code>,
+      <code><a href="pygeodesy.karney._CapsBase-class.html#AREA">AREA</a></code>,
+      <code><a href="pygeodesy.karney._CapsBase-class.html#AZIMUTH">AZIMUTH</a></code>,
+      <code><a href="pygeodesy.karney._CapsBase-class.html#DISTANCE">DISTANCE</a></code>,
+      <code><a href="pygeodesy.karney._CapsBase-class.html#DISTANCE_IN">DISTANCE_IN</a></code>,
+      <code><a href="pygeodesy.karney._CapsBase-class.html#EMPTY">EMPTY</a></code>,
+      <code><a href="pygeodesy.karney._CapsBase-class.html#GEODESICSCALE">GEODESICSCALE</a></code>,
+      <code><a href="pygeodesy.karney._CapsBase-class.html#LATITUDE">LATITUDE</a></code>,
+      <code><a href="pygeodesy.karney._CapsBase-class.html#LINE_CAPS">LINE_CAPS</a></code>,
+      <code><a href="pygeodesy.karney._CapsBase-class.html#LINE_OFF">LINE_OFF</a></code>,
+      <code><a href="pygeodesy.karney._CapsBase-class.html#LONGITUDE">LONGITUDE</a></code>,
+      <code><a href="pygeodesy.karney._CapsBase-class.html#LONG_UNROLL">LONG_UNROLL</a></code>,
+      <code><a href="pygeodesy.karney._CapsBase-class.html#REDUCEDLENGTH">REDUCEDLENGTH</a></code>,
+      <code><a href="pygeodesy.karney._CapsBase-class.html#STANDARD">STANDARD</a></code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== PROPERTIES ==================== -->
+<a name="section-Properties"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Properties</span></td>
+</tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html">gxline._GeodesicLineExact</a></code></b>:
+      <code><a href="pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#a1">a1</a></code>,
+      <code><a href="pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#a13">a13</a></code>,
+      <code><a href="pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#azi0">azi0</a></code>,
+      <code><a href="pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#azi0_sincos2">azi0_sincos2</a></code>,
+      <code><a href="pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#azi1">azi1</a></code>,
+      <code><a href="pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#azi1_sincos2">azi1_sincos2</a></code>,
+      <code><a href="pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#equatorarc">equatorarc</a></code>,
+      <code><a href="pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#equatorazimuth">equatorazimuth</a></code>,
+      <code><a href="pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#geodesic">geodesic</a></code>,
+      <code><a href="pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#lat1">lat1</a></code>,
+      <code><a href="pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#lon1">lon1</a></code>,
+      <code><a href="pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#s13">s13</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.karney._CapsBase-class.html">karney._CapsBase</a></code></b>:
+      <code><a href="pygeodesy.karney._CapsBase-class.html#caps">caps</a></code>,
+      <code><a href="pygeodesy.karney._CapsBase-class.html#debug">debug</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
+      <code><a href="pygeodesy.named._Named-class.html#classname">classname</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#classnaming">classnaming</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#iteration">iteration</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#name">name</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#named">named</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#named2">named2</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#named3">named3</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#named4">named4</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#sizeof">sizeof</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__class__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== METHOD DETAILS ==================== -->
+<a name="section-MethodDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Method Details</span></td>
+</tr>
+</table>
+<a name="__init__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">geodesic</span>,
+        <span class="sig-arg">lat1</span>,
+        <span class="sig-arg">lon1</span>,
+        <span class="sig-arg">azi1</span>,
+        <span class="sig-arg">caps</span>=<span class="sig-default">3968</span>,
+        <span class="sig-arg">**name</span>)</span>
+    <br /><em class="fname">(Constructor)</em>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>New <a href="pygeodesy.geodesicx.gx.GeodesicLineExact-class.html" 
+  class="link">GeodesicLineExact</a> instance, allowing points to be found 
+  along a geodesic starting at <code>(<b>lat1</b>, <b>lon1</b>)</code> with
+  azimuth <b><code>azi1</code></b>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>geodesic</code></strong> - The geodesic to use (<a 
+          href="pygeodesy.geodesicx.gx.GeodesicExact-class.html" 
+          class="link">GeodesicExact</a>).</li>
+        <li><strong class="pname"><code>lat1</code></strong> - Latitude of the first point (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lon1</code></strong> - Longitude of the first point (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>azi1</code></strong> - Azimuth at the first points (compass <code>degrees</code>).</li>
+        <li><strong class="pname"><code>caps</code></strong> - Bit-or'ed combination of Caps values specifying the capabilities 
+          the <a href="pygeodesy.geodesicx.gx.GeodesicLineExact-class.html"
+          class="link">GeodesicLineExact</a> instance should possess, i.e.,
+          which quantities can be returned by calls to <a 
+          href="pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#Position"
+          class="link">GeodesicLineExact.Position</a> and <a 
+          href="pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#ArcPosition"
+          class="link">GeodesicLineExact.ArcPosition</a>.</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
+    </ul></dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>geodesic</code></b>.</li>
+    </ul></dd>
+    <dt>Overrides:
+        object.__init__
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Thu Jun 27 19:44:15 2024
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

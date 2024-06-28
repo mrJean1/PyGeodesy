@@ -1,0 +1,895 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>pygeodesy.ellipsoidalBase.CartesianEllipsoidalBase</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="pygeodesy-module.html">Package&nbsp;pygeodesy</a> ::
+        <a href="pygeodesy.ellipsoidalBase-module.html">Module&nbsp;ellipsoidalBase</a> ::
+        Class&nbsp;CartesianEllipsoidalBase
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="pygeodesy.ellipsoidalBase.CartesianEllipsoidalBase-class.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS DESCRIPTION ==================== -->
+<h1 class="epydoc">Class CartesianEllipsoidalBase</h1><p class="nomargin-top"></p>
+<pre class="base-tree">
+       object --+                    
+                |                    
+     <a href="pygeodesy.named._Named-class.html">named._Named</a> --+                
+                    |                
+     <a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a> --+            
+                        |            
+<a href="pygeodesy.vector3dBase.Vector3dBase-class.html">vector3dBase.Vector3dBase</a> --+        
+                            |        
+            <a href="pygeodesy.vector3d.Vector3d-class.html">vector3d.Vector3d</a> --+    
+                                |    
+      <a href="pygeodesy.cartesianBase.CartesianBase-class.html">cartesianBase.CartesianBase</a> --+
+                                    |
+                                   <strong class="uidshort">CartesianEllipsoidalBase</strong>
+</pre>
+
+<dl><dt>Known Subclasses:</dt>
+<dd>
+      <ul class="subclass-list">
+<li><a href="pygeodesy.ellipsoidalExact.Cartesian-class.html">ellipsoidalExact.Cartesian</a></li><li>, <a href="pygeodesy.ellipsoidalGeodSolve.Cartesian-class.html">ellipsoidalGeodSolve.Cartesian</a></li><li>, <a href="pygeodesy.ellipsoidalKarney.Cartesian-class.html">ellipsoidalKarney.Cartesian</a></li><li>, <a href="pygeodesy.ellipsoidalNvector.Cartesian-class.html">ellipsoidalNvector.Cartesian</a></li><li>, <a href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html">ellipsoidalVincenty.Cartesian</a></li>  </ul>
+</dd></dl>
+
+<hr />
+<p>(INTERNAL) Base class for ellipsoidal <code>Cartesian</code>s.</p>
+
+<!-- ==================== INSTANCE METHODS ==================== -->
+<a name="section-InstanceMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Instance Methods</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalBase.CartesianEllipsoidalBase-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">x_xyz</span>,
+        <span class="summary-sig-arg">y</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">z</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">reframe</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">epoch</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">**datum_ll_name</span>)</span><br />
+      New ellispoidal <code>Cartesian...</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalBase.CartesianEllipsoidalBase-class.html#convertRefFrame" class="summary-sig-name">convertRefFrame</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">reframe2</span>,
+        <span class="summary-sig-arg">reframe</span>,
+        <span class="summary-sig-arg">epoch</span>=<span class="summary-sig-default">None</span>)</span><br />
+      DEPRECATED, use method <a 
+      href="pygeodesy.ellipsoidalBase.CartesianEllipsoidalBase-class.html#toRefFrame"
+      class="link">toRefFrame</a>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalBase.CartesianEllipsoidalBase-class.html#intersections2" class="summary-sig-name">intersections2</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">radius</span>,
+        <span class="summary-sig-arg">center2</span>,
+        <span class="summary-sig-arg">radius2</span>,
+        <span class="summary-sig-arg">sphere</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">Vector</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">**Vector_kwds</span>)</span><br />
+      Compute the intersection of two spheres or circles, each defined by a
+      cartesian center point and a radius.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalBase.CartesianEllipsoidalBase-class.html#toLatLon" class="summary-sig-name">toLatLon</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">**LatLon_and_kwds</span>)</span><br />
+      Convert this cartesian to a <i>geodetic</i> (lat-/longitude) point.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalBase.CartesianEllipsoidalBase-class.html#toRefFrame" class="summary-sig-name">toRefFrame</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">reframe2</span>,
+        <span class="summary-sig-arg">reframe</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">epoch</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">epoch2</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">**name</span>)</span><br />
+      Convert this point to an other reference frame and epoch.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalBase.CartesianEllipsoidalBase-class.html#toTransforms_" class="summary-sig-name">toTransforms_</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">*transforms</span>,
+        <span class="summary-sig-arg">**datum</span>)</span><br />
+      DEPRECATED on 2024.02.14, use method <code>toTransform</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html">cartesianBase.CartesianBase</a></code></b>:
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#Roc2">Roc2</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#cassini">cassini</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#collins">collins</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#collins5">collins5</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#convertDatum">convertDatum</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#destinationXyz">destinationXyz</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#hartzell">hartzell</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#height3">height3</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#height4">height4</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#pierlot">pierlot</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#pierlotx">pierlotx</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#tienstra">tienstra</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#tienstra7">tienstra7</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#to2ab">to2ab</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#to2ll">to2ll</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#to3llh">to3llh</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#toDatum">toDatum</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#toEcef">toEcef</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#toLocal">toLocal</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#toLtp">toLtp</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#toNvector">toNvector</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#toRtp">toRtp</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#toStr">toStr</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#toTransform">toTransform</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#toVector">toVector</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.vector3d.Vector3d-class.html">vector3d.Vector3d</a></code></b>:
+      <code><a href="pygeodesy.vector3d.Vector3d-class.html#bearing">bearing</a></code>,
+      <code><a href="pygeodesy.vector3d.Vector3d-class.html#circin6">circin6</a></code>,
+      <code><a href="pygeodesy.vector3d.Vector3d-class.html#circum3">circum3</a></code>,
+      <code><a href="pygeodesy.vector3d.Vector3d-class.html#circum4_">circum4_</a></code>,
+      <code><a href="pygeodesy.vector3d.Vector3d-class.html#iscolinearWith">iscolinearWith</a></code>,
+      <code><a href="pygeodesy.vector3d.Vector3d-class.html#meeus2">meeus2</a></code>,
+      <code><a href="pygeodesy.vector3d.Vector3d-class.html#nearestOn">nearestOn</a></code>,
+      <code><a href="pygeodesy.vector3d.Vector3d-class.html#nearestOn6">nearestOn6</a></code>,
+      <code><a href="pygeodesy.vector3d.Vector3d-class.html#parse">parse</a></code>,
+      <code><a href="pygeodesy.vector3d.Vector3d-class.html#radii11">radii11</a></code>,
+      <code><a href="pygeodesy.vector3d.Vector3d-class.html#soddy4">soddy4</a></code>,
+      <code><a href="pygeodesy.vector3d.Vector3d-class.html#trilaterate2d2">trilaterate2d2</a></code>,
+      <code><a href="pygeodesy.vector3d.Vector3d-class.html#trilaterate3d2">trilaterate3d2</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html">vector3dBase.Vector3dBase</a></code></b>:
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__abs__">__abs__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__add__">__add__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__bool__">__bool__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__ceil__">__ceil__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__cmp__">__cmp__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__div__">__div__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__divmod__">__divmod__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__eq__">__eq__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__float__">__float__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__floor__">__floor__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__floordiv__">__floordiv__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__format__">__format__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__ge__">__ge__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__gt__">__gt__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__hash__">__hash__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__iadd__">__iadd__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__idiv__">__idiv__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__ifloordiv__">__ifloordiv__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__imatmul__">__imatmul__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__imod__">__imod__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__imul__">__imul__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__int__">__int__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__ipow__">__ipow__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__isub__">__isub__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__itruediv__">__itruediv__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__le__">__le__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__long__">__long__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__lt__">__lt__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__matmul__">__matmul__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__mod__">__mod__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__mul__">__mul__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__ne__">__ne__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__neg__">__neg__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__nonzero__">__nonzero__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__pos__">__pos__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__pow__">__pow__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__radd__">__radd__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__rdiv__">__rdiv__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__rdivmod__">__rdivmod__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__rfloordiv__">__rfloordiv__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__rmatmul__">__rmatmul__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__rmod__">__rmod__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__rmul__">__rmul__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__round__">__round__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__rpow__">__rpow__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__rsub__">__rsub__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__rtruediv__">__rtruediv__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__sub__">__sub__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__truediv__">__truediv__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__trunc__">__trunc__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#angleTo">angleTo</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#apply">apply</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#cmp">cmp</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#cross">cross</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#dividedBy">dividedBy</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#dot">dot</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#equals">equals</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#equirectangular">equirectangular</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#intermediateTo">intermediateTo</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#isconjugateTo">isconjugateTo</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#isequalTo">isequalTo</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#minus">minus</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#minus_">minus_</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#negate">negate</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#others">others</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#plus">plus</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#plus_">plus_</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#rotate">rotate</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#rotateAround">rotateAround</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#sum">sum</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#times">times</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#times_">times_</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#to3xyz">to3xyz</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#unit">unit</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a></code></b>:
+      <code><a href="pygeodesy.named._NamedBase-class.html#__repr__">__repr__</a></code>,
+      <code><a href="pygeodesy.named._NamedBase-class.html#__str__">__str__</a></code>,
+      <code><a href="pygeodesy.named._NamedBase-class.html#toRepr">toRepr</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
+      <code><a href="pygeodesy.named._Named-class.html#attrs">attrs</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#classof">classof</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#copy">copy</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#dup">dup</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#methodname">methodname</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#rename">rename</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#renamed">renamed</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#toStr2">toStr2</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__delattr__</code>,
+      <code>__getattribute__</code>,
+      <code>__new__</code>,
+      <code>__reduce__</code>,
+      <code>__reduce_ex__</code>,
+      <code>__setattr__</code>,
+      <code>__sizeof__</code>,
+      <code>__subclasshook__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== PROPERTIES ==================== -->
+<a name="section-Properties"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Properties</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ellipsoidalBase.CartesianEllipsoidalBase-class.html#ellipsoidalCartesian" class="summary-name">ellipsoidalCartesian</a><br />
+      Get this <code>Cartesian</code>'s ellipsoidal class.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ellipsoidalBase.CartesianEllipsoidalBase-class.html#epoch" class="summary-name">epoch</a><br />
+      Class <code>property</code> with retrievable name.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ellipsoidalBase.CartesianEllipsoidalBase-class.html#reframe" class="summary-name">reframe</a><br />
+      Class <code>property</code> with retrievable name.
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html">cartesianBase.CartesianBase</a></code></b>:
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#Ecef">Ecef</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#datum">datum</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#height">height</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#isEllipsoidal">isEllipsoidal</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#isSpherical">isSpherical</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#latlon">latlon</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#latlonheight">latlonheight</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#latlonheightdatum">latlonheightdatum</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#philam">philam</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#philamheight">philamheight</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#philamheightdatum">philamheightdatum</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#sphericalCartesian">sphericalCartesian</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html">vector3dBase.Vector3dBase</a></code></b>:
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#crosserrors">crosserrors</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#euclid">euclid</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#homogeneous">homogeneous</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#length">length</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#length2">length2</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#x">x</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#x2y2z2">x2y2z2</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#xyz">xyz</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#y">y</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#z">z</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
+      <code><a href="pygeodesy.named._Named-class.html#classname">classname</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#classnaming">classnaming</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#iteration">iteration</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#name">name</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#named">named</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#named2">named2</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#named3">named3</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#named4">named4</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#sizeof">sizeof</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__class__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== METHOD DETAILS ==================== -->
+<a name="section-MethodDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Method Details</span></td>
+</tr>
+</table>
+<a name="__init__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">x_xyz</span>,
+        <span class="sig-arg">y</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">z</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">reframe</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">epoch</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">**datum_ll_name</span>)</span>
+    <br /><em class="fname">(Constructor)</em>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>New ellispoidal <code>Cartesian...</code>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>reframe</code></strong> - Optional reference frame (<a 
+          href="pygeodesy.trf.RefFrame-class.html" 
+          class="link">RefFrame</a>).</li>
+        <li><strong class="pname"><code>epoch</code></strong> - Optional epoch to observe for <b><code>reframe</code></b> 
+          (<code>scalar</code>), a non-zero, fractional calendar year; 
+          silently ignored if <code><b>reframe</b>=None</code>.</li>
+    </ul></dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <b><code>x_xyz</code></b>, <b><code>y</code></b> or 
+        <b><code>z</code></b> coordinate or <b><code>x_xyz</code></b> not a
+        <code>Cartesian</code> <a 
+        href="pygeodesy.ecef.Ecef9Tuple-class.html" 
+        class="link">Ecef9Tuple</a>, <a 
+        href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
+        class="link">Vector3Tuple</a> or <a 
+        href="pygeodesy.namedTuples.Vector4Tuple-class.html" 
+        class="link">Vector4Tuple</a> or <b><code>datum</code></b> is not a
+        <a href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>,
+        <b><code>reframe</code></b> is not a <a 
+        href="pygeodesy.trf.RefFrame-class.html" class="link">RefFrame</a> 
+        or <b><code>epoch</code></b> is not <code>scalar</code> non-zero.</li>
+    </ul></dd>
+    <dt>Overrides:
+        object.__init__
+    </dt>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Class <a 
+        href="pygeodesy.cartesianBase.CartesianBase-class.html#__init__" 
+        class="link">CartesianBase</a> for more details.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="convertRefFrame"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">convertRefFrame</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">reframe2</span>,
+        <span class="sig-arg">reframe</span>,
+        <span class="sig-arg">epoch</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>DEPRECATED, use method <a 
+  href="pygeodesy.ellipsoidalBase.CartesianEllipsoidalBase-class.html#toRefFrame"
+  class="link">toRefFrame</a>.</p>
+  <dl class="fields">
+    <dt>Decorators:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code>@deprecated_method</code></li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="intersections2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">intersections2</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">radius</span>,
+        <span class="sig-arg">center2</span>,
+        <span class="sig-arg">radius2</span>,
+        <span class="sig-arg">sphere</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">Vector</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">**Vector_kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the intersection of two spheres or circles, each defined by a 
+  cartesian center point and a radius.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>radius</code></strong> - Radius of this sphere or circle (same units as this point's 
+          coordinates).</li>
+        <li><strong class="pname"><code>center2</code></strong> - Center of the second sphere or circle (<code>Cartesian</code>, <a
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code> or 
+          <code>Vector4Tuple</code>).</li>
+        <li><strong class="pname"><code>radius2</code></strong> - Radius of the second sphere or circle (same units as this and the
+          <b><code>other</code></b> point's coordinates).</li>
+        <li><strong class="pname"><code>sphere</code></strong> - If <code>True</code> compute the center and radius of the 
+          intersection of two <i>spheres</i>.  If <code>False</code>, 
+          ignore the <code>z</code>-component and compute the intersection 
+          of two <i>circles</i> (<code>bool</code>).</li>
+        <li><strong class="pname"><code>Vector</code></strong> - Class to return intersections (<code>Cartesian</code>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a> or <code>Vector3Tuple</code>) or 
+          <code>None</code> for an instance of this (sub-)class.</li>
+        <li><strong class="pname"><code>Vector_kwds</code></strong> - Optional, additional <b><code>Vector</code></b> keyword 
+          arguments, ignored if <code><b>Vector</b> is None</code>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>If <code><b>sphere</b> is True</code>, a 2-tuple of the 
+          <code>center</code> and <code>radius</code> of the intersection 
+          of the <i>spheres</i>.  The <code>radius</code> is 
+          <code>0.0</code> for abutting spheres (and the 
+          <code>center</code> is aka the <i>radical center</i>).
+          <p>If <code><b>sphere</b> is False</code>, a 2-tuple with the two
+          intersection points of the <i>circles</i>.  For abutting circles,
+          both points are the same instance, aka the <i>radical 
+          center</i>.</p></dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - Concentric, invalid or non-intersecting spheres or circles.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>center2</code></b>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.UnitError-class.html">UnitError</a></strong></code> - Invalid <b><code>radius</code></b> or <b><code>radius2</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a 
+        href="https://MathWorld.Wolfram.com/Sphere-SphereIntersection.html"
+        target="_top">Sphere-Sphere</a>, <a 
+        href="https://MathWorld.Wolfram.com/Circle-CircleIntersection.html"
+        target="_top">Circle-Circle</a> Intersection and function <a 
+        href="pygeodesy.formy-module.html#radical2" 
+        class="link">pygeodesy.radical2</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="toLatLon"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toLatLon</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">datum</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">**LatLon_and_kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert this cartesian to a <i>geodetic</i> (lat-/longitude) 
+  point.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>datum</code></strong> - Optional datum (<a href="pygeodesy.datums.Datum-class.html" 
+          class="link">Datum</a>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+          class="link">Ellipsoid</a>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
+          class="link">Ellipsoid2</a> or <a 
+          href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
+          class="link">a_f2Tuple</a>).</li>
+        <li><strong class="pname"><code>height</code></strong> - Optional height, overriding the converted height 
+          (<code>meter</code>), only if <code><b>LatLon</b> is not 
+          None</code>.</li>
+        <li><strong class="pname"><code>LatLon</code></strong> - Optional class to return the geodetic point (<code>LatLon</code>)
+          or <code>None</code>.</li>
+        <li><strong class="pname"><code>LatLon_kwds</code></strong> - Optional, additional <b><code>LatLon</code></b> keyword 
+          arguments, ignored if <code><b>LatLon</b> is None</code>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The geodetic point (<b><code>LatLon</code></b>) or if 
+          <code><b>LatLon</b> is None</code>, an <a 
+          href="pygeodesy.ecef.Ecef9Tuple-class.html" 
+          class="link">Ecef9Tuple</a><code>(x, y, z, lat, lon, height, C, 
+          M, datum)</code> with <code>C</code> and <code>M</code> if 
+          available.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>datum</code></b> or 
+        <b><code>LatLon_kwds</code></b>.</li>
+    </ul></dd>
+    <dt>Overrides:
+        <a href="pygeodesy.cartesianBase.CartesianBase-class.html#toLatLon">cartesianBase.CartesianBase.toLatLon</a>
+    </dt>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Method <a 
+        href="pygeodesy.cartesianBase.CartesianBase-class.html#toLatLon" 
+        class="link">toLatLon</a> for further details.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="toRefFrame"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toRefFrame</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">reframe2</span>,
+        <span class="sig-arg">reframe</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">epoch</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">epoch2</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">**name</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert this point to an other reference frame and epoch.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>reframe2</code></strong> - Reference frame to convert <i>to</i> (<a 
+          href="pygeodesy.trf.RefFrame-class.html" 
+          class="link">RefFrame</a>).</li>
+        <li><strong class="pname"><code>reframe</code></strong> - Optional reference frame to convert <i>from</i> (<a 
+          href="pygeodesy.trf.RefFrame-class.html" 
+          class="link">RefFrame</a>), overriding this point's reference 
+          frame.</li>
+        <li><strong class="pname"><code>epoch</code></strong> - Optional epoch (<a href="pygeodesy.units.Epoch-class.html" 
+          class="link">Epoch</a>, <code>scalar</code> or <code>str</code>),
+          overriding this point's <code>epoch or 
+          <b>reframe</b>.epoch</code>.</li>
+        <li><strong class="pname"><code>epoch2</code></strong> - Optional epoch to observe for the converted point (<a 
+          href="pygeodesy.units.Epoch-class.html" class="link">Epoch</a>, 
+          <code>scalar</code> or <code>str</code>), otherwise 
+          <b><code>epoch</code></b>.</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>), 
+          overriding <code><b>reframe2</b>.name</code>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The converted point (ellipsoidal <code>Cartesian</code>) or if 
+          conversion <code>isunity</code>, this point or a copy of this 
+          point if the <b><code>name</code></b> is non-empty.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.TRFError-class.html">TRFError</a></strong></code> - This point's <code>reframe</code> is not defined, invalid 
+        <b><code>epoch</code></b> or <b><code>epoch2</code></b> or 
+        conversion from this point's <code>reframe</code> to 
+        <b><code>reframe2</code></b> is not available.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - <b><code>reframe2</code></b> or <b><code>reframe</code></b> not a 
+        <a href="pygeodesy.trf.RefFrame-class.html" 
+        class="link">RefFrame</a>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="toTransforms_"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toTransforms_</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">*transforms</span>,
+        <span class="sig-arg">**datum</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>DEPRECATED on 2024.02.14, use method <code>toTransform</code>.</p>
+  <dl class="fields">
+    <dt>Decorators:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code>@deprecated_method</code></li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== PROPERTY DETAILS ==================== -->
+<a name="section-PropertyDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Property Details</span></td>
+</tr>
+</table>
+<a name="ellipsoidalCartesian"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">ellipsoidalCartesian</h3>
+  <p>Get this <code>Cartesian</code>'s ellipsoidal class.</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">ellipsoidalCartesian(<span class="summary-sig-arg">self</span>)</span>
+        - Get this <code>Cartesian</code>'s ellipsoidal class.
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="epoch"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">epoch</h3>
+  <p>Class <code>property</code> with retrievable name.</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">epoch(<span class="summary-sig-arg">self</span>)</span>
+        - Get this cartesian's observed or <code>reframe</code> epoch 
+(<code>Epoch</code>) or <code>None</code>.
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">epoch(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">epoch</span>)</span>
+        - Set or clear this cartesian's observed epoch, a fractional calendar year 
+(<a href="pygeodesy.units.Epoch-class.html" class="link">Epoch</a>, 
+<code>scalar</code> or <code>str</code>) or <code>None</code>.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="reframe"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">reframe</h3>
+  <p>Class <code>property</code> with retrievable name.</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">reframe(<span class="summary-sig-arg">self</span>)</span>
+        - Get this cartesian's reference frame (<a 
+href="pygeodesy.trf.RefFrame-class.html" class="link">RefFrame</a>) or 
+<code>None</code>.
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">reframe(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">reframe</span>)</span>
+        - Set or clear this cartesian's reference frame (<a 
+href="pygeodesy.trf.RefFrame-class.html" class="link">RefFrame</a>) or 
+<code>None</code>.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Thu Jun 27 19:44:14 2024
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

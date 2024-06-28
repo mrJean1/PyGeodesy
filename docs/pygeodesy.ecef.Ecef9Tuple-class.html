@@ -1,0 +1,1180 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>pygeodesy.ecef.Ecef9Tuple</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="pygeodesy-module.html">Package&nbsp;pygeodesy</a> ::
+        <a href="pygeodesy.ecef-module.html">Module&nbsp;ecef</a> ::
+        Class&nbsp;Ecef9Tuple
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="pygeodesy.ecef.Ecef9Tuple-class.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS DESCRIPTION ==================== -->
+<h1 class="epydoc">Class Ecef9Tuple</h1><p class="nomargin-top"></p>
+<pre class="base-tree">
+   object --+        
+            |        
+        tuple --+    
+                |    
+   object --+   |    
+            |   |    
+ <a href="pygeodesy.named._Named-class.html">named._Named</a> --+    
+                |    
+<a href="pygeodesy.named._NamedTuple-class.html">named._NamedTuple</a> --+
+                    |
+                   <strong class="uidshort">Ecef9Tuple</strong>
+</pre>
+
+<hr />
+<p>9-Tuple <code>(x, y, z, lat, lon, height, C, M, datum)</code> with 
+  <i>geocentric</i> <code>x</code>, <code>y</code> and <code>z</code> plus 
+  <i>geodetic</i> <code>lat</code>, <code>lon</code> and 
+  <code>height</code>, case <code>C</code> (see the 
+  <code>Ecef*.reverse</code> methods) and optionally, the rotation matrix 
+  <code>M</code> (<a href="pygeodesy.ecef.EcefMatrix-class.html" 
+  class="link">EcefMatrix</a>) and <code>datum</code>, with 
+  <code>lat</code> and <code>lon</code> in <code>degrees</code> and 
+  <code>x</code>, <code>y</code>, <code>z</code> and <code>height</code> in
+  <code>meter</code>, conventionally.</p>
+
+<!-- ==================== INSTANCE METHODS ==================== -->
+<a name="section-InstanceMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Instance Methods</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ecef.Ecef9Tuple-class.html#convertDatum" class="summary-sig-name">convertDatum</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">datum2</span>)</span><br />
+      DEPRECATED, use method <a 
+      href="pygeodesy.ecef.Ecef9Tuple-class.html#toDatum" 
+      class="link">toDatum</a>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ecef.Ecef9Tuple-class.html#toCartesian" class="summary-sig-name">toCartesian</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">Cartesian</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">**Cartesian_kwds</span>)</span><br />
+      Return the geocentric <code>(x, y, z)</code> coordinates as an 
+      ellipsoidal or spherical <code>Cartesian</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ecef.Ecef9Tuple-class.html#toDatum" class="summary-sig-name">toDatum</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">datum2</span>,
+        <span class="summary-sig-arg">**name</span>)</span><br />
+      Convert this <code>Ecef9Tuple</code> to an other datum.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ecef.Ecef9Tuple-class.html#toLatLon" class="summary-sig-name">toLatLon</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">**LatLon_kwds</span>)</span><br />
+      Return the geodetic <code>(lat, lon, height[, datum])</code> 
+      coordinates.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ecef.Ecef9Tuple-class.html#toLocal" class="summary-sig-name">toLocal</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ltp</span>,
+        <span class="summary-sig-arg">Xyz</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">**Xyz_kwds</span>)</span><br />
+      Convert this geocentric to <i>local</i> <code>x</code>, 
+      <code>y</code> and <code>z</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ecef.Ecef9Tuple-class.html#toVector" class="summary-sig-name">toVector</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">Vector</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">**Vector_kwds</span>)</span><br />
+      Return the geocentric <code>(x, y, z)</code> coordinates as vector.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._NamedTuple-class.html">named._NamedTuple</a></code></b>:
+      <code><a href="pygeodesy.named._NamedTuple-class.html#__delattr__">__delattr__</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#__getattr__">__getattr__</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#__hash__">__hash__</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#__repr__">__repr__</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#__setattr__">__setattr__</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#__str__">__str__</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#dup">dup</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#items">items</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#iteritems">iteritems</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#iterunits">iterunits</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#reUnit">reUnit</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#toRepr">toRepr</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#toStr">toStr</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#toUnits">toUnits</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#units">units</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>tuple</code></b>:
+      <code>__add__</code>,
+      <code>__contains__</code>,
+      <code>__eq__</code>,
+      <code>__ge__</code>,
+      <code>__getattribute__</code>,
+      <code>__getitem__</code>,
+      <code>__getnewargs__</code>,
+      <code>__getslice__</code>,
+      <code>__gt__</code>,
+      <code>__iter__</code>,
+      <code>__le__</code>,
+      <code>__len__</code>,
+      <code>__lt__</code>,
+      <code>__mul__</code>,
+      <code>__ne__</code>,
+      <code>__rmul__</code>,
+      <code>count</code>,
+      <code>index</code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
+      <code><a href="pygeodesy.named._Named-class.html#__imatmul__">__imatmul__</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#__matmul__">__matmul__</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#__rmatmul__">__rmatmul__</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#attrs">attrs</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#classof">classof</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#copy">copy</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#methodname">methodname</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#rename">rename</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#renamed">renamed</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#toStr2">toStr2</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__format__</code>,
+      <code>__init__</code>,
+      <code>__reduce__</code>,
+      <code>__reduce_ex__</code>,
+      <code>__sizeof__</code>,
+      <code>__subclasshook__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== STATIC METHODS ==================== -->
+<a name="section-StaticMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Static Methods</span></td>
+</tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._NamedTuple-class.html">named._NamedTuple</a></code></b>:
+      <code><a href="pygeodesy.named._NamedTuple-class.html#__new__">__new__</a></code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== PROPERTIES ==================== -->
+<a name="section-Properties"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Properties</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ecef.Ecef9Tuple-class.html#lam" class="summary-name">lam</a><br />
+      Get the longitude in <code>radians</code> (<code>float</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ecef.Ecef9Tuple-class.html#lamVermeille" class="summary-name">lamVermeille</a><br />
+      Get the longitude in <code>radians</code> <i 
+      class="math">[-PI*3/2..+PI*3/2]</i> after <a 
+      href="https://Search.ProQuest.com/docview/639493848" 
+      target="_top">Vermeille</a> (2004), page 95.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ecef.Ecef9Tuple-class.html#latlon" class="summary-name">latlon</a><br />
+      Get the lat-, longitude in <code>degrees</code> (<a 
+      href="pygeodesy.namedTuples.LatLon2Tuple-class.html" 
+      class="link">LatLon2Tuple</a><code>(lat, lon)</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ecef.Ecef9Tuple-class.html#latlonheight" class="summary-name">latlonheight</a><br />
+      Get the lat-, longitude in <code>degrees</code> and height (<a 
+      href="pygeodesy.namedTuples.LatLon3Tuple-class.html" 
+      class="link">LatLon3Tuple</a><code>(lat, lon, height)</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ecef.Ecef9Tuple-class.html#latlonheightdatum" class="summary-name">latlonheightdatum</a><br />
+      Get the lat-, longitude in <code>degrees</code> with height and datum
+      (<a href="pygeodesy.namedTuples.LatLon4Tuple-class.html" 
+      class="link">LatLon4Tuple</a><code>(lat, lon, height, datum)</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ecef.Ecef9Tuple-class.html#latlonVermeille" class="summary-name">latlonVermeille</a><br />
+      Get the latitude and <i>Vermeille</i> longitude in <code>degrees 
+      [-225..+225]</code> (<a 
+      href="pygeodesy.namedTuples.LatLon2Tuple-class.html" 
+      class="link">LatLon2Tuple</a><code>(lat, lon)</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ecef.Ecef9Tuple-class.html#lonVermeille" class="summary-name">lonVermeille</a><br />
+      Get the longitude in <code>degrees [-225..+225]</code> after <a 
+      href="https://Search.ProQuest.com/docview/639493848" 
+      target="_top">Vermeille</a> (2004), p 95.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ecef.Ecef9Tuple-class.html#phi" class="summary-name">phi</a><br />
+      Get the latitude in <code>radians</code> (<code>float</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ecef.Ecef9Tuple-class.html#philam" class="summary-name">philam</a><br />
+      Get the lat-, longitude in <code>radians</code> (<a 
+      href="pygeodesy.namedTuples.PhiLam2Tuple-class.html" 
+      class="link">PhiLam2Tuple</a><code>(phi, lam)</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ecef.Ecef9Tuple-class.html#philamheight" class="summary-name">philamheight</a><br />
+      Get the lat-, longitude in <code>radians</code> and height (<a 
+      href="pygeodesy.namedTuples.PhiLam3Tuple-class.html" 
+      class="link">PhiLam3Tuple</a><code>(phi, lam, height)</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ecef.Ecef9Tuple-class.html#philamheightdatum" class="summary-name">philamheightdatum</a><br />
+      Get the lat-, longitude in <code>radians</code> with height and datum
+      (<a href="pygeodesy.namedTuples.PhiLam4Tuple-class.html" 
+      class="link">PhiLam4Tuple</a><code>(phi, lam, height, datum)</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ecef.Ecef9Tuple-class.html#philamVermeille" class="summary-name">philamVermeille</a><br />
+      Get the latitude and <i>Vermeille</i> longitude in <code>radians 
+      [-PI*3/2..+PI*3/2]</code> (<a 
+      href="pygeodesy.namedTuples.PhiLam2Tuple-class.html" 
+      class="link">PhiLam2Tuple</a><code>(phi, lam)</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ecef.Ecef9Tuple-class.html#xyz" class="summary-name">xyz</a><br />
+      Get the geocentric <code>(x, y, z)</code> coordinates (<a 
+      href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
+      class="link">Vector3Tuple</a><code>(x, y, z)</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ecef.Ecef9Tuple-class.html#xyzh" class="summary-name">xyzh</a><br />
+      Get the geocentric <code>(x, y, z)</code> coordinates and 
+      <code>height</code> (<a 
+      href="pygeodesy.namedTuples.Vector4Tuple-class.html" 
+      class="link">Vector4Tuple</a><code>(x, y, z, h)</code>)
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
+      <code><a href="pygeodesy.named._Named-class.html#classname">classname</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#classnaming">classnaming</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#iteration">iteration</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#name">name</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#named">named</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#named2">named2</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#named3">named3</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#named4">named4</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#sizeof">sizeof</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__class__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== METHOD DETAILS ==================== -->
+<a name="section-MethodDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Method Details</span></td>
+</tr>
+</table>
+<a name="convertDatum"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">convertDatum</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">datum2</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>DEPRECATED, use method <a 
+  href="pygeodesy.ecef.Ecef9Tuple-class.html#toDatum" 
+  class="link">toDatum</a>.</p>
+  <dl class="fields">
+    <dt>Decorators:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code>@deprecated_method</code></li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="toCartesian"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toCartesian</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">Cartesian</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">**Cartesian_kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the geocentric <code>(x, y, z)</code> coordinates as an 
+  ellipsoidal or spherical <code>Cartesian</code>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>Cartesian</code></strong> - Optional class to return <code>(x, y, z)</code> (<a 
+          href="pygeodesy.ellipsoidalKarney.Cartesian-class.html" 
+          class="link">ellipsoidalKarney.Cartesian</a>, <a 
+          href="pygeodesy.ellipsoidalNvector.Cartesian-class.html" 
+          class="link">ellipsoidalNvector.Cartesian</a>, <a 
+          href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html" 
+          class="link">ellipsoidalVincenty.Cartesian</a>, <a 
+          href="pygeodesy.sphericalNvector.Cartesian-class.html" 
+          class="link">sphericalNvector.Cartesian</a> or <a 
+          href="pygeodesy.sphericalTrigonometry.Cartesian-class.html" 
+          class="link">sphericalTrigonometry.Cartesian</a>) or 
+          <code>None</code>.</li>
+        <li><strong class="pname"><code>Cartesian_kwds</code></strong> - Optional, additional <b><code>Cartesian</code></b> keyword 
+          arguments, ignored if <code><b>Cartesian</b> is None</code>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A <code><b>Cartesian</b>(x, y, z, **<b>Cartesian_kwds</b>)</code>
+          instance or a <a 
+          href="pygeodesy.namedTuples.Vector4Tuple-class.html" 
+          class="link">Vector4Tuple</a><code>(x, y, z, h)</code> if 
+          <code><b>Cartesian</b> is None</code>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>Cartesian</code></b> or 
+        <b><code>Cartesian_kwds</code></b>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="toDatum"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toDatum</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">datum2</span>,
+        <span class="sig-arg">**name</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert this <code>Ecef9Tuple</code> to an other datum.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>datum2</code></strong> - Datum to convert <i>to</i> (<a 
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The converted 9-Tuple (<code>Ecef9Tuple</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>datum2</code></b> is not a <a 
+        href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="toLatLon"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toLatLon</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">LatLon</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">**LatLon_kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the geodetic <code>(lat, lon, height[, datum])</code> 
+  coordinates.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>LatLon</code></strong> - Optional class to return <code>(lat, lon, height[, datum])</code>
+          or <code>None</code>.</li>
+        <li><strong class="pname"><code>LatLon_kwds</code></strong> - Optional <b><code>height</code></b>, <b><code>datum</code></b> 
+          and other <b><code>LatLon</code></b> keyword arguments.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>An instance of <code><b>LatLon</b>(lat, lon, 
+          **<b>LatLon_kwds</b>)</code> or if <code><b>LatLon</b> is 
+          None</code>, a <a 
+          href="pygeodesy.namedTuples.LatLon3Tuple-class.html" 
+          class="link">LatLon3Tuple</a><code>(lat, lon, height)</code> 
+          respectively <a 
+          href="pygeodesy.namedTuples.LatLon4Tuple-class.html" 
+          class="link">LatLon4Tuple</a><code>(lat, lon, height, 
+          datum)</code> depending on whether <code>datum</code> is 
+          un-/specified.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>LatLon</code></b> or 
+        <b><code>LatLon_kwds</code></b>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="toLocal"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toLocal</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">ltp</span>,
+        <span class="sig-arg">Xyz</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">**Xyz_kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert this geocentric to <i>local</i> <code>x</code>, <code>y</code>
+  and <code>z</code>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>ltp</code></strong> - The <i>local tangent plane</i> (LTP) to use (<a 
+          href="pygeodesy.ltp.Ltp-class.html" class="link">Ltp</a>).</li>
+        <li><strong class="pname"><code>Xyz</code></strong> - Optional class to return <code>x</code>, <code>y</code> and 
+          <code>z</code> (<a href="pygeodesy.ltpTuples.XyzLocal-class.html"
+          class="link">XyzLocal</a>, <a 
+          href="pygeodesy.ltpTuples.Enu-class.html" class="link">Enu</a>, 
+          <a href="pygeodesy.ltpTuples.Ned-class.html" 
+          class="link">Ned</a>) or <code>None</code>.</li>
+        <li><strong class="pname"><code>Xyz_kwds</code></strong> - Optional, additional <b><code>Xyz</code></b> keyword arguments, 
+          ignored if <code><b>Xyz</b> is None</code>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>An <b><code>Xyz</code></b> instance or if <code><b>Xyz</b> is 
+          None</code>, a <a 
+          href="pygeodesy.ltpTuples.Local9Tuple-class.html" 
+          class="link">Local9Tuple</a><code>(x, y, z, lat, lon, height, 
+          ltp, ecef, M)</code> with <code>M=None</code>, always.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>ltp</code></b>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="toVector"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toVector</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">Vector</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">**Vector_kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the geocentric <code>(x, y, z)</code> coordinates as 
+  vector.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>Vector</code></strong> - Optional vector class to return <code>(x, y, z)</code> or 
+          <code>None</code>.</li>
+        <li><strong class="pname"><code>Vector_kwds</code></strong> - Optional, additional <b><code>Vector</code></b> keyword 
+          arguments, ignored if <code><b>Vector</b> is None</code>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A <code>Vector</code><code>(x, y, z, **Vector_kwds)</code> 
+          instance or a <a 
+          href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
+          class="link">Vector3Tuple</a><code>(x, y, z)</code> if 
+          <code><b>Vector</b> is None</code>.</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Propertes <code>xyz</code> and <code>xyzh</code>
+      </p>
+</div></td></tr></table>
+</div>
+<br />
+<!-- ==================== PROPERTY DETAILS ==================== -->
+<a name="section-PropertyDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Property Details</span></td>
+</tr>
+</table>
+<a name="lam"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">lam</h3>
+  <p>Get the longitude in <code>radians</code> (<code>float</code>).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">lam(<span class="summary-sig-arg">self</span>)</span>
+        - Get the longitude in <code>radians</code> (<code>float</code>).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="lamVermeille"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">lamVermeille</h3>
+  <p>Get the longitude in <code>radians</code> <i 
+  class="math">[-PI*3/2..+PI*3/2]</i> after <a 
+  href="https://Search.ProQuest.com/docview/639493848" 
+  target="_top">Vermeille</a> (2004), page 95.</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">lamVermeille(<span class="summary-sig-arg">self</span>)</span>
+        - Get the longitude in <code>radians</code> <i 
+class="math">[-PI*3/2..+PI*3/2]</i> after <a 
+href="https://Search.ProQuest.com/docview/639493848" 
+target="_top">Vermeille</a> (2004), page 95.
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a 
+        href="https://GeographicLib.SourceForge.io/C++/doc/geocentric.html"
+        target="_top">Karney</a>, <a 
+        href="https://Search.ProQuest.com/docview/847292978" 
+        target="_top">Vermeille</a> 2011, pp 112-113, 116 and <a 
+        href="https://Search.ProQuest.com/docview/872827242" 
+        target="_top">Featherstone, et.al.</a>, page 7.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="latlon"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">latlon</h3>
+  <p>Get the lat-, longitude in <code>degrees</code> (<a 
+  href="pygeodesy.namedTuples.LatLon2Tuple-class.html" 
+  class="link">LatLon2Tuple</a><code>(lat, lon)</code>).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">latlon(<span class="summary-sig-arg">self</span>)</span>
+        - Get the lat-, longitude in <code>degrees</code> (<a 
+href="pygeodesy.namedTuples.LatLon2Tuple-class.html" 
+class="link">LatLon2Tuple</a><code>(lat, lon)</code>).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="latlonheight"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">latlonheight</h3>
+  <p>Get the lat-, longitude in <code>degrees</code> and height (<a 
+  href="pygeodesy.namedTuples.LatLon3Tuple-class.html" 
+  class="link">LatLon3Tuple</a><code>(lat, lon, height)</code>).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">latlonheight(<span class="summary-sig-arg">self</span>)</span>
+        - Get the lat-, longitude in <code>degrees</code> and height (<a 
+href="pygeodesy.namedTuples.LatLon3Tuple-class.html" 
+class="link">LatLon3Tuple</a><code>(lat, lon, height)</code>).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="latlonheightdatum"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">latlonheightdatum</h3>
+  <p>Get the lat-, longitude in <code>degrees</code> with height and datum 
+  (<a href="pygeodesy.namedTuples.LatLon4Tuple-class.html" 
+  class="link">LatLon4Tuple</a><code>(lat, lon, height, datum)</code>).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">latlonheightdatum(<span class="summary-sig-arg">self</span>)</span>
+        - Get the lat-, longitude in <code>degrees</code> with height and datum (<a 
+href="pygeodesy.namedTuples.LatLon4Tuple-class.html" 
+class="link">LatLon4Tuple</a><code>(lat, lon, height, datum)</code>).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="latlonVermeille"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">latlonVermeille</h3>
+  <p>Get the latitude and <i>Vermeille</i> longitude in <code>degrees 
+  [-225..+225]</code> (<a 
+  href="pygeodesy.namedTuples.LatLon2Tuple-class.html" 
+  class="link">LatLon2Tuple</a><code>(lat, lon)</code>).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">latlonVermeille(<span class="summary-sig-arg">self</span>)</span>
+        - Get the latitude and <i>Vermeille</i> longitude in <code>degrees 
+[-225..+225]</code> (<a 
+href="pygeodesy.namedTuples.LatLon2Tuple-class.html" 
+class="link">LatLon2Tuple</a><code>(lat, lon)</code>).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Property <code>lonVermeille</code>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="lonVermeille"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">lonVermeille</h3>
+  <p>Get the longitude in <code>degrees [-225..+225]</code> after <a 
+  href="https://Search.ProQuest.com/docview/639493848" 
+  target="_top">Vermeille</a> (2004), p 95.</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">lonVermeille(<span class="summary-sig-arg">self</span>)</span>
+        - Get the longitude in <code>degrees [-225..+225]</code> after <a 
+href="https://Search.ProQuest.com/docview/639493848" 
+target="_top">Vermeille</a> (2004), p 95.
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Property <code>lamVermeille</code>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="phi"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">phi</h3>
+  <p>Get the latitude in <code>radians</code> (<code>float</code>).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">phi(<span class="summary-sig-arg">self</span>)</span>
+        - Get the latitude in <code>radians</code> (<code>float</code>).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="philam"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">philam</h3>
+  <p>Get the lat-, longitude in <code>radians</code> (<a 
+  href="pygeodesy.namedTuples.PhiLam2Tuple-class.html" 
+  class="link">PhiLam2Tuple</a><code>(phi, lam)</code>).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">philam(<span class="summary-sig-arg">self</span>)</span>
+        - Get the lat-, longitude in <code>radians</code> (<a 
+href="pygeodesy.namedTuples.PhiLam2Tuple-class.html" 
+class="link">PhiLam2Tuple</a><code>(phi, lam)</code>).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="philamheight"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">philamheight</h3>
+  <p>Get the lat-, longitude in <code>radians</code> and height (<a 
+  href="pygeodesy.namedTuples.PhiLam3Tuple-class.html" 
+  class="link">PhiLam3Tuple</a><code>(phi, lam, height)</code>).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">philamheight(<span class="summary-sig-arg">self</span>)</span>
+        - Get the lat-, longitude in <code>radians</code> and height (<a 
+href="pygeodesy.namedTuples.PhiLam3Tuple-class.html" 
+class="link">PhiLam3Tuple</a><code>(phi, lam, height)</code>).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="philamheightdatum"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">philamheightdatum</h3>
+  <p>Get the lat-, longitude in <code>radians</code> with height and datum 
+  (<a href="pygeodesy.namedTuples.PhiLam4Tuple-class.html" 
+  class="link">PhiLam4Tuple</a><code>(phi, lam, height, datum)</code>).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">philamheightdatum(<span class="summary-sig-arg">self</span>)</span>
+        - Get the lat-, longitude in <code>radians</code> with height and datum (<a 
+href="pygeodesy.namedTuples.PhiLam4Tuple-class.html" 
+class="link">PhiLam4Tuple</a><code>(phi, lam, height, datum)</code>).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="philamVermeille"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">philamVermeille</h3>
+  <p>Get the latitude and <i>Vermeille</i> longitude in <code>radians 
+  [-PI*3/2..+PI*3/2]</code> (<a 
+  href="pygeodesy.namedTuples.PhiLam2Tuple-class.html" 
+  class="link">PhiLam2Tuple</a><code>(phi, lam)</code>).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">philamVermeille(<span class="summary-sig-arg">self</span>)</span>
+        - Get the latitude and <i>Vermeille</i> longitude in <code>radians 
+[-PI*3/2..+PI*3/2]</code> (<a 
+href="pygeodesy.namedTuples.PhiLam2Tuple-class.html" 
+class="link">PhiLam2Tuple</a><code>(phi, lam)</code>).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Property <code>lamVermeille</code>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="xyz"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">xyz</h3>
+  <p>Get the geocentric <code>(x, y, z)</code> coordinates (<a 
+  href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
+  class="link">Vector3Tuple</a><code>(x, y, z)</code>).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">xyz(<span class="summary-sig-arg">self</span>)</span>
+        - Get the geocentric <code>(x, y, z)</code> coordinates (<a 
+href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
+class="link">Vector3Tuple</a><code>(x, y, z)</code>).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="xyzh"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">xyzh</h3>
+  <p>Get the geocentric <code>(x, y, z)</code> coordinates and 
+  <code>height</code> (<a 
+  href="pygeodesy.namedTuples.Vector4Tuple-class.html" 
+  class="link">Vector4Tuple</a><code>(x, y, z, h)</code>)</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">xyzh(<span class="summary-sig-arg">self</span>)</span>
+        - Get the geocentric <code>(x, y, z)</code> coordinates and 
+<code>height</code> (<a 
+href="pygeodesy.namedTuples.Vector4Tuple-class.html" 
+class="link">Vector4Tuple</a><code>(x, y, z, h)</code>)
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Thu Jun 27 19:44:14 2024
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

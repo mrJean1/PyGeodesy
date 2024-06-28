@@ -1,0 +1,521 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>pygeodesy.heights</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="pygeodesy-module.html">Package&nbsp;pygeodesy</a> ::
+        Module&nbsp;heights
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="pygeodesy.heights-module.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== MODULE DESCRIPTION ==================== -->
+<h1 class="epydoc">Module heights</h1><p class="nomargin-top"></p>
+<p>Height interpolations at <code>LatLon</code> points from known 
+  <code>knots</code>.</p>
+  <p>Classes <a href="pygeodesy.heights.HeightCubic-class.html" 
+  class="link">HeightCubic</a>, <a 
+  href="pygeodesy.heights.HeightIDWcosineAndoyerLambert-class.html" 
+  class="link">HeightIDWcosineAndoyerLambert</a>, <a 
+  href="pygeodesy.heights.HeightIDWcosineForsytheAndoyerLambert-class.html"
+  class="link">HeightIDWcosineForsytheAndoyerLambert</a>, <a 
+  href="pygeodesy.heights.HeightIDWcosineLaw-class.html" 
+  class="link">HeightIDWcosineLaw</a>, <a 
+  href="pygeodesy.heights.HeightIDWdistanceTo-class.html" 
+  class="link">HeightIDWdistanceTo</a>, <a 
+  href="pygeodesy.heights.HeightIDWequirectangular-class.html" 
+  class="link">HeightIDWequirectangular</a>, <a 
+  href="pygeodesy.heights.HeightIDWeuclidean-class.html" 
+  class="link">HeightIDWeuclidean</a>, <a 
+  href="pygeodesy.heights.HeightIDWflatLocal-class.html" 
+  class="link">HeightIDWflatLocal</a>, <a 
+  href="pygeodesy.heights.HeightIDWflatPolar-class.html" 
+  class="link">HeightIDWflatPolar</a>, <a 
+  href="pygeodesy.heights.HeightIDWhaversine-class.html" 
+  class="link">HeightIDWhaversine</a>, <a 
+  href="pygeodesy.heights.HeightIDWhubeny-class.html" 
+  class="link">HeightIDWhubeny</a>, <a 
+  href="pygeodesy.heights.HeightIDWkarney-class.html" 
+  class="link">HeightIDWkarney</a>, <a 
+  href="pygeodesy.heights.HeightIDWthomas-class.html" 
+  class="link">HeightIDWthomas</a>, <a 
+  href="pygeodesy.heights.HeightIDWvincentys-class.html" 
+  class="link">HeightIDWvincentys</a>, <a 
+  href="pygeodesy.heights.HeightLinear-class.html" 
+  class="link">HeightLinear</a>, <a 
+  href="pygeodesy.heights.HeightLSQBiSpline-class.html" 
+  class="link">HeightLSQBiSpline</a> and <a 
+  href="pygeodesy.heights.HeightSmoothBiSpline-class.html" 
+  class="link">HeightSmoothBiSpline</a> to interpolate the height of 
+  <code>LatLon</code> locations or separate lat-/longitudes from a set of 
+  <code>LatLon</code> points with <i>known heights</i>.</p>
+  <h1 class="heading">Typical usage</h1>
+    <ol start="1">
+      <li>
+        Get or create a set of <code>LatLon</code> points with <i>known 
+        heights</i>, called <code>knots</code>.  The <code>knots</code> do 
+        not need to be ordered in any particular way.
+        <p><code>&gt;&gt;&gt; ...</code></p>
+      </li>
+      <li>
+        Select one of the <code>Height</code> classes for height 
+        interpolation
+        <p><code>&gt;&gt;&gt; from pygeodesy import HeightCubic  # or other
+        Height... as HeightXyz</code></p>
+      </li>
+      <li>
+        Instantiate a height interpolator with the <code>knots</code> and 
+        use keyword arguments to select different interpolation options
+        <p><code>&gt;&gt;&gt; hinterpolator = HeightXyz(knots, 
+        **options)</code></p>
+      </li>
+      <li>
+        Get the interpolated height of other <code>LatLon</code> 
+        location(s) with
+        <p><code>&gt;&gt;&gt; ll = LatLon(1, 2, ...)</code></p>
+        <p><code>&gt;&gt;&gt; h = hinterpolator(ll)</code></p>
+        <p>or</p>
+        <p><code>&gt;&gt;&gt; h0, h1, h2, ... = hinterpolator(ll0, ll1, 
+        ll2, ...)</code></p>
+        <p>or a list, tuple, generator, etc. of <code>LatLon</code>s</p>
+        <p><code>&gt;&gt;&gt; hs = hinterpolator(lls)</code></p>
+      </li>
+      <li>
+        For separate lat- and longitudes invoke the <code>.height</code> 
+        method
+        <p><code>&gt;&gt;&gt; h = hinterpolator.height(lat, lon)</code></p>
+        <p>or as 2 lists, 2 tuples, etc.</p>
+        <p><code>&gt;&gt;&gt; hs = hinterpolator.height(lats, 
+        lons)</code></p>
+      </li>
+    </ol>
+
+<hr />
+<div class="fields">      <strong>Notes:</strong>
+      <ul class="nomargin-top">
+        <li>
+        Classes <a href="pygeodesy.heights.HeightCubic-class.html" 
+        class="link">HeightCubic</a> and <a 
+        href="pygeodesy.heights.HeightLinear-class.html" 
+        class="link">HeightLinear</a> require package <a 
+        href="https://PyPI.org/project/numpy" target="_top">numpy</a>, 
+        classes <a href="pygeodesy.heights.HeightLSQBiSpline-class.html" 
+        class="link">HeightLSQBiSpline</a> and <a 
+        href="pygeodesy.heights.HeightSmoothBiSpline-class.html" 
+        class="link">HeightSmoothBiSpline</a> require package <a 
+        href="https://SciPy.org" target="_top">scipy</a>. Classes <a 
+        href="pygeodesy.heights.HeightIDWkarney-class.html" 
+        class="link">HeightIDWkarney</a> and <a 
+        href="pygeodesy.heights.HeightIDWdistanceTo-class.html" 
+        class="link">HeightIDWdistanceTo</a> -if used with <a 
+        href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
+        class="link">ellipsoidalKarney.LatLon</a> points- require 
+        <i>Karney</i>'s <a href="https://PyPI.org/project/geographiclib" 
+        target="_top">geographiclib</a> to be installed.
+        </li>
+        <li>
+        Errors from <code>scipy</code> are raised as <a 
+        href="pygeodesy.errors.SciPyError-class.html" 
+        class="link">SciPyError</a>s.  Warnings issued by 
+        <code>scipy</code> can be thrown as <a 
+        href="pygeodesy.errors.SciPyWarning-class.html" 
+        class="link">SciPyWarning</a> exceptions, provided Python 
+        <code>warnings</code> are filtered accordingly, see <a 
+        href="pygeodesy.errors.SciPyWarning-class.html" 
+        class="link">SciPyWarning</a>.
+        </li>
+      </ul>
+      <p><strong>See Also:</strong>
+        <a 
+        href="https://docs.SciPy.org/doc/scipy/reference/interpolate.html" 
+        target="_top">SciPy</a> Interpolation.
+      </p>
+      <p><strong>Version:</strong>
+        24.06.22
+      </p>
+</div><!-- ==================== CLASSES ==================== -->
+<a name="section-Classes"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Classes</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.heights.HeightError-class.html" class="summary-name">HeightError</a><br />
+      Height interpolator <code>Height...</code> or interpolation issue.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.heights._HeightBase-class.html" class="summary-name">_HeightBase</a><br />
+      (INTERNAL) Interpolator base class.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.heights._HeightsBase-class.html" class="summary-name">_HeightsBase</a><br />
+      (INTERNAL) Interpolator base class.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.heights.HeightCubic-class.html" class="summary-name">HeightCubic</a><br />
+      Height interpolator based on <code>SciPy</code> <a 
+        href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.interp2d.html"
+        target="_top">interp2d</a> <code>kind='cubic'</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.heights.HeightLinear-class.html" class="summary-name">HeightLinear</a><br />
+      Height interpolator based on <code>SciPy</code> <a 
+        href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.interp2d.html"
+        target="_top">interp2d</a> <code>kind='linear'</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.heights.HeightLSQBiSpline-class.html" class="summary-name">HeightLSQBiSpline</a><br />
+      Height interpolator using <code>SciPy</code> <a 
+        href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.LSQSphereBivariateSpline.html"
+        target="_top">LSQSphereBivariateSpline</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.heights.HeightSmoothBiSpline-class.html" class="summary-name">HeightSmoothBiSpline</a><br />
+      Height interpolator using <code>SciPy</code> <a 
+        href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.SmoothSphereBivariateSpline.html"
+        target="_top">SmoothSphereBivariateSpline</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.heights._HeightIDW-class.html" class="summary-name">_HeightIDW</a><br />
+      (INTERNAL) Base class for <a 
+        href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
+        target="_top">Inverse Distance Weighting</a> (IDW) height 
+        interpolators.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.heights.HeightIDWcosineAndoyerLambert-class.html" class="summary-name">HeightIDWcosineAndoyerLambert</a><br />
+      Height interpolator using <a 
+        href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
+        target="_top">Inverse Distance Weighting</a> (IDW) and the 
+        <i>angular</i> distance in <code>radians</code> from function <a 
+        href="pygeodesy.formy-module.html#cosineAndoyerLambert_" 
+        class="link">pygeodesy.cosineAndoyerLambert_</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.heights.HeightIDWcosineForsytheAndoyerLambert-class.html" class="summary-name">HeightIDWcosineForsytheAndoyerLambert</a><br />
+      Height interpolator using <a 
+        href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
+        target="_top">Inverse Distance Weighting</a> (IDW) and the 
+        <i>angular</i> distance in <code>radians</code> from function <a 
+        href="pygeodesy.formy-module.html#cosineForsytheAndoyerLambert_" 
+        class="link">pygeodesy.cosineForsytheAndoyerLambert_</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.heights.HeightIDWcosineLaw-class.html" class="summary-name">HeightIDWcosineLaw</a><br />
+      Height interpolator using <a 
+        href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
+        target="_top">Inverse Distance Weighting</a> (IDW) and the 
+        <i>angular</i> distance in <code>radians</code> from function <a 
+        href="pygeodesy.formy-module.html#cosineLaw_" 
+        class="link">pygeodesy.cosineLaw_</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.heights.HeightIDWdistanceTo-class.html" class="summary-name">HeightIDWdistanceTo</a><br />
+      Height interpolator using <a 
+        href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
+        target="_top">Inverse Distance Weighting</a> (IDW) and the distance
+        from the points' <code>LatLon.distanceTo</code> method, 
+        conventionally in <code>meter</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.heights.HeightIDWequirectangular-class.html" class="summary-name">HeightIDWequirectangular</a><br />
+      Height interpolator using <a 
+        href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
+        target="_top">Inverse Distance Weighting</a> (IDW) and the 
+        <i>angular</i> distance in <code>radians squared</code> like 
+        function <a href="pygeodesy.formy-module.html#equirectangular4" 
+        class="link">pygeodesy.equirectangular4</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.heights.HeightIDWeuclidean-class.html" class="summary-name">HeightIDWeuclidean</a><br />
+      Height interpolator using <a 
+        href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
+        target="_top">Inverse Distance Weighting</a> (IDW) and the 
+        <i>angular</i> distance in <code>radians</code> from function <a 
+        href="pygeodesy.formy-module.html#euclidean_" 
+        class="link">pygeodesy.euclidean_</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.heights.HeightIDWexact-class.html" class="summary-name">HeightIDWexact</a><br />
+      Height interpolator using <a 
+        href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
+        target="_top">Inverse Distance Weighting</a> (IDW) and the 
+        <i>angular</i> distance in <code>degrees</code> from method <a 
+        href="pygeodesy.geodesicx.gx.GeodesicExact-class.html#Inverse" 
+        class="link">GeodesicExact.Inverse</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.heights.HeightIDWflatLocal-class.html" class="summary-name">HeightIDWflatLocal</a><br />
+      Height interpolator using <a 
+        href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
+        target="_top">Inverse Distance Weighting</a> (IDW) and the 
+        <i>angular</i> distance in <code>radians squared</code> like 
+        function <a href="pygeodesy.formy-module.html#flatLocal_" 
+        class="link">pygeodesy.flatLocal_</a>/<a 
+        href="pygeodesy.formy-module.html#flatLocal_" 
+        class="link">pygeodesy.hubeny_</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.heights.HeightIDWflatPolar-class.html" class="summary-name">HeightIDWflatPolar</a><br />
+      Height interpolator using <a 
+        href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
+        target="_top">Inverse Distance Weighting</a> (IDW) and the 
+        <i>angular</i> distance in <code>radians</code> from function <a 
+        href="pygeodesy.formy-module.html#flatPolar_" 
+        class="link">pygeodesy.flatPolar_</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.heights.HeightIDWhaversine-class.html" class="summary-name">HeightIDWhaversine</a><br />
+      Height interpolator using <a 
+        href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
+        target="_top">Inverse Distance Weighting</a> (IDW) and the 
+        <i>angular</i> distance in <code>radians</code> from function <a 
+        href="pygeodesy.formy-module.html#haversine_" 
+        class="link">pygeodesy.haversine_</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.heights.HeightIDWhubeny-class.html" class="summary-name">HeightIDWhubeny</a><br />
+      Height interpolator using <a 
+        href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
+        target="_top">Inverse Distance Weighting</a> (IDW) and the 
+        <i>angular</i> distance in <code>radians squared</code> like 
+        function <a href="pygeodesy.formy-module.html#flatLocal_" 
+        class="link">pygeodesy.flatLocal_</a>/<a 
+        href="pygeodesy.formy-module.html#flatLocal_" 
+        class="link">pygeodesy.hubeny_</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.heights.HeightIDWkarney-class.html" class="summary-name">HeightIDWkarney</a><br />
+      Height interpolator using <a 
+        href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
+        target="_top">Inverse Distance Weighting</a> (IDW) and the 
+        <i>angular</i> distance in <code>degrees</code> from 
+        <i>Karney</i>'s <a href="https://PyPI.org/project/geographiclib" 
+        target="_top">geographiclib</a> method <a 
+        href="https://geographiclib.sourceforge.io/Python/doc/code.html#geographiclib.geodesic.Geodesic.Inverse"
+        target="_top">Geodesic.Inverse</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.heights.HeightIDWthomas-class.html" class="summary-name">HeightIDWthomas</a><br />
+      Height interpolator using <a 
+        href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
+        target="_top">Inverse Distance Weighting</a> (IDW) and the 
+        <i>angular</i> distance in <code>radians</code> from function <a 
+        href="pygeodesy.formy-module.html#thomas_" 
+        class="link">pygeodesy.thomas_</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.heights.HeightIDWvincentys-class.html" class="summary-name">HeightIDWvincentys</a><br />
+      Height interpolator using <a 
+        href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
+        target="_top">Inverse Distance Weighting</a> (IDW) and the 
+        <i>angular</i> distance in <code>radians</code> from function <a 
+        href="pygeodesy.formy-module.html#vincentys_" 
+        class="link">pygeodesy.vincentys_</a>.
+    </td>
+  </tr>
+</table>
+<!-- ==================== VARIABLES ==================== -->
+<a name="section-Variables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Variables</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="__all__"></a><span class="summary-name">__all__</span> = <code title="_ALL_LAZY.heights">_ALL_LAZY.heights</code>
+    </td>
+  </tr>
+</table>
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Thu Jun 27 19:44:13 2024
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>
