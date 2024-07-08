@@ -37,7 +37,7 @@ from math import copysign as _copysign
 import inspect as _inspect
 
 __all__ = _ALL_LAZY.basics
-__version__ = '24.06.15'
+__version__ = '24.07.06'
 
 _below_               = 'below'
 _list_tuple_types     = (list, tuple)
@@ -160,19 +160,23 @@ def _args_kwds_names(func, splast=False):
     return tuple(args_kwds)
 
 
-def clips(sb, limit=50, white=NN):
+def clips(sb, limit=50, white=NN, length=False):
     '''Clip a string to the given length limit.
 
        @arg sb: String (C{str} or C{bytes}).
        @kwarg limit: Length limit (C{int}).
        @kwarg white: Optionally, replace all whitespace (C{str}).
+       @kwarg len: IF C{True} append the original I{[length]} (C{bool}).
 
        @return: The clipped or unclipped B{C{sb}}.
     '''
-    T = type(sb)
-    if len(sb) > limit > 8:
+    T, n = type(sb), len(sb)
+    if n > limit > 8:
         h  = limit // 2
         sb = T(_ELLIPSIS4_).join((sb[:h], sb[-h:]))
+        if length:
+            n  = _MODS.streprs.Fmt.SQUARE(n)
+            sb =  T(NN).join((sb, n))
     if white:  # replace whitespace
         sb = T(white).join(sb.split())
     return sb

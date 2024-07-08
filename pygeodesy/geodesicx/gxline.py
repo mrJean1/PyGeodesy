@@ -38,8 +38,8 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 
 # from pygeodesy.basics import _xinstanceof  # _MODS
 from pygeodesy.constants import NAN, _EPSqrt as _TOL, _0_0, _1_0, \
-                               _180_0, _2__PI, _copysign_1_0
-# from pygeodesy.errors import _xError  # _MODS
+                               _180_0, _2__PI, _copysign_1_0, isfinite
+from pygeodesy.errors import _xError, _xkwds_pop2
 from pygeodesy.fsums import fsumf_, fsum1f_
 from pygeodesy.geodesicx.gxbases import _cosSeries, _GeodesicBase, \
                                         _sincos12, _sin1cos2, \
@@ -55,7 +55,7 @@ from pygeodesy.utily import atan2d as _atan2d_reverse, sincos2
 from math import atan2, cos, degrees, fabs, floor, radians, sin
 
 __all__ = ()
-__version__ = '24.06.24'
+__version__ = '24.06.28'
 
 _glXs = []  # instances of C{[_]GeodesicLineExact} to be updated
 
@@ -92,23 +92,18 @@ class _GeodesicLineExact(_GeodesicBase):
 #   _somg1 = _comg1 = NAN
 #   _ssig1 = _csig1 = NAN
 
-    def __init__(self, gX, lat1, lon1, azi1, caps, _debug, *salp1_calp1, **name):
+    def __init__(self, gX, lat1, lon1, azi1, caps, **name_):
         '''(INTERNAL) New C{[_]GeodesicLineExact} instance.
         '''
-        _xGeodesicExact(gX=gX)
-        Cs = Caps
-        if _debug:  # PYCHOK no cover
-            self._debug |= _debug & Cs._DEBUG_ALL
-            # _CapsBase.debug._update(self)
-        if salp1_calp1:
-            salp1, calp1 = salp1_calp1
-        else:
+#       _xGeodesicExact(gX=gX)
+        if azi1 is None:  # see GeodesicExact.InverseLine
+            (salp1, calp1), name_ = _xkwds_pop2(name_, _s_calp1=(_0_0, _1_0))
+            azi1 = _atan2d(salp1, calp1)
+        else:  # guard against salp0 underflow, convert -0 to +0
             azi1 = _norm180(azi1)
-            # guard against salp0 underflow,
-            # also -0 is converted to +0
             salp1, calp1 = _sincos2d(_around(azi1))
-        if name:
-            self.name = name
+        if name_:
+            self.name = name_
 
         self._gX    = gX  # GeodesicExact only
         self._lat1  = lat1 = _fix90(lat1)
@@ -117,7 +112,7 @@ class _GeodesicLineExact(_GeodesicBase):
         self._salp1 = salp1
         self._calp1 = calp1
         # allow lat, azimuth and unrolling of lon
-        self._caps  = caps | Cs._LINE
+        self._caps  = caps | Caps._LINE
 
         sbet1, cbet1 = _sinf1cos2d(_around(lat1), gX.f1)
         self._dn1 = gX._dn(sbet1, cbet1)
@@ -142,11 +137,11 @@ class _GeodesicLineExact(_GeodesicBase):
         self._ssig1, self._csig1 = _norm2(sbet1, c)  # sig1 in (-pi, pi]
         # _norm2(somg1, comg1)  # no need to normalize!
         # _norm2(schi1?, cchi1)  # no need to normalize!
-        if not (caps & Cs.LINE_OFF):
+        if not (caps & Caps.LINE_OFF):
             _glXs.append(self)
         # no need to pre-compute other attrs based on _Caps.X.  All are
-        # Property_RO's, computed once and cached/memoized until reset
-        # when C4order is changed or Elliptic function reset is invoked.
+        # Property_RO's, computed once and cached/memoized until reset when
+        # arc, distance, C4order is changed or Elliptic function is reset.
 
     def __del__(self):  # XXX use weakref?
         if _glXs:  # may be empty or None
@@ -295,22 +290,18 @@ class _GeodesicLineExact(_GeodesicBase):
                     C{lon1}, C{azi1} and arc length C{a12} always included,
                     except when C{a12=NAN}.
         '''
-
-        r = GDict(a12=NAN, s12=NAN)  # note both a12 and s12, always
-        if not (arcmode or self._caps_DISTANCE_IN):  # PYCHOK no cover
-            return r  # Uninitialized or impossible distance requested
-
         Cs = Caps
-        if self._debug:  # PYCHOK no cover
-            outmask |= self._debug & Cs._DEBUG_DIRECT_LINE
-        outmask &= self._caps & Cs._OUT_MASK
-
+        if outmask:
+            outmask &= self._caps & Cs._OUT_MASK
         eF = self._eF
         gX = self.geodesic  # ._gX
+        r  = GDict(a12=NAN, s12=NAN)  # both a12 and s12, always
 
-        if arcmode:
-            # s12_a12 is spherical arc length
-            E2 = _0_0
+        if not isfinite(s12_a12):
+            # E2 = sig12 = ssig12 = csig12 = NAN
+            return r._toNAN(outmask)
+        elif arcmode:  # s12_a12 is (spherical) arc length
+            r.set_(a12=s12_a12)
             sig12 = radians(s12_a12)
             if _K_2_0:
                 ssig12, csig12 = sincos2(sig12)  # utily, no NEG0
@@ -319,31 +310,25 @@ class _GeodesicLineExact(_GeodesicBase):
                 a -= floor(a / _180_0) * _180_0  # 0 <= 0 < 180
                 ssig12 = _0_0 if a ==  0 else sin(sig12)
                 csig12 = _0_0 if a == 90 else cos(sig12)
-        else:  # s12_a12 is distance
+            E2 = _0_0
+        elif self._caps_DISTANCE_IN:  # s12_a12 is distance
             t = s12_a12 / self._E0b
             s, c = _sincos2(t)  # tau12
             # tau2 = tau1 + tau12
             E2 = -eF.deltaEinv(*_sincos12(-s, c, *self._stau1_ctau1))
             sig12 = fsum1f_(self._E1, -E2, t)  # == t - (E2 - E1)
             ssig12, csig12 = _sincos2(sig12)
-
-        salp0, calp0 = self._salp0, self._calp0
-        ssig1, csig1 = self._ssig1, self._csig1
+            r.set_(a12=degrees(sig12))
+        else:  # uninitialized or impossible distance requested
+            return r
 
         # sig2 = sig1 + sig12
-        ssig2, csig2 = _sincos12(-ssig12, csig12, ssig1, csig1)
-        dn2 = eF.fDelta(ssig2, csig2)
-        # sin(bet2) = cos(alp0) * sin(sig2) and
-        #    cbet2  = hypot(salp0, calp0 * csig2).  Alt:
-        #    cbet2  = hypot(csig2, salp0 * ssig2)
-        sbet2, cbet2 = _sin1cos2(calp0, salp0, csig2, ssig2)
-        if cbet2 == 0:  # salp0 = 0, csig2 = 0, break degeneracy
-            cbet2 = csig2 = _TINY
-        # tan(alp0) = cos(sig2) * tan(alp2)
-        salp2 = salp0
-        calp2 = calp0 * csig2  # no need to normalize
+        ssig1, csig1 =      self._ssig1, self._csig1
+        ssig2, csig2 = t = _sincos12(-ssig12, csig12, ssig1, csig1)
+        dn2 = eF.fDelta(*t)
 
-        if (outmask & Cs.DISTANCE):
+        if (outmask &  Cs.DISTANCE):
+            outmask ^= Cs.DISTANCE
             if arcmode:  # or f_0_01
                 E2 = eF.deltaE(ssig2, csig2, dn2)
                 # AB1 = _E0 * (E2 - _E1)
@@ -355,9 +340,33 @@ class _GeodesicLineExact(_GeodesicBase):
                 s12 = s12_a12
             r.set_(s12=s12)
 
+        if not outmask:  # all done, see ._GenSet
+            return r
+
+        if self._debug:  # PYCHOK no cover
+            outmask |= self._debug & Cs._DEBUG_DIRECT_LINE
+
         if (outmask & Cs._DEBUG_DIRECT_LINE):  # PYCHOK no cover
             r.set_(sig12=sig12, dn2=dn2, b=gX.b, e2=gX.e2, f1=gX.f1,
                    E0b=self._E0b, E1=self._E1, E2=E2, eFk2=eF.k2, eFa2=eF.alpha2)
+
+        # sin(bet2) = cos(alp0) * sin(sig2) and
+        #    cbet2  = hypot(salp0, calp0 * csig2).  Alt:
+        #    cbet2  = hypot(csig2, salp0 * ssig2)
+        salp0, calp0 =  self._salp0, self._calp0
+        sbet2, cbet2 = _sin1cos2(calp0, salp0, csig2, ssig2)
+        if cbet2 == 0:  # salp0 = 0, csig2 = 0, break degeneracy
+            cbet2 = csig2 = _TINY
+        # tan(alp0) = cos(sig2) * tan(alp2)
+        salp2 = salp0
+        calp2 = calp0 * csig2  # no need to normalize
+
+        if (outmask & Cs.AZIMUTH):
+            r.set_(azi2=_atan2d_reverse(salp2, calp2,
+                                reverse=outmask & Cs.REVERSE2))
+
+        if (outmask & Cs.LATITUDE):
+            r.set_(lat2=_atan2d(sbet2, gX.f1 * cbet2))
 
         if (outmask & Cs.LONGITUDE):
             schi1 = self._somg1
@@ -372,7 +381,7 @@ class _GeodesicLineExact(_GeodesicBase):
                 tchi2 = t * schi2
                 chi12 = t * fsum1f_(_a(ssig1, csig1), -_a(ssig2, csig2),
                                     _a(tchi2, cchi2), -_a(tchi1, cchi1), sig12)
-                lon2 = self.lon1 + degrees(chi12 - lam12)
+                lon2  = self.lon1 + degrees(chi12 - lam12)
             else:
                 chi12 = atan2(*_sincos12(schi1, cchi1, schi2, cchi2))
                 lon2 = _norm180(self._lon1_norm180 + _norm180(degrees(chi12 - lam12)))
@@ -380,12 +389,6 @@ class _GeodesicLineExact(_GeodesicBase):
             if (outmask & Cs._DEBUG_DIRECT_LINE):  # PYCHOK no cover
                 r.set_(ssig2=ssig2, chi12=chi12, H0e2_f1=self._H0e2_f1,
                        csig2=csig2, lam12=lam12, H1=self._H1)
-
-        if (outmask & Cs.LATITUDE):
-            r.set_(lat2=_atan2d(sbet2, gX.f1 * cbet2))
-
-        if (outmask & Cs.AZIMUTH):
-            r.set_(azi2=_atan2d_reverse(salp2, calp2, reverse=outmask & Cs.REVERSE2))
 
         if (outmask & Cs._REDUCEDLENGTH_GEODESICSCALE):
             dn1 = self._dn1
@@ -438,10 +441,9 @@ class _GeodesicLineExact(_GeodesicBase):
             S12 += gX.c2 * atan2(salp12, calp12)
             r.set_(S12=S12)
 
-        r.set_(a12=s12_a12 if arcmode else degrees(sig12),
+        r.set_(azi1=_norm180(self.azi1),
                lat1=self.lat1,  # == _fix90(lat1)
-               lon1=self.lon1 if (outmask & Cs.LONG_UNROLL) else self._lon1_norm180,
-               azi1=_norm180(self.azi1))
+               lon1=self.lon1 if (outmask & Cs.LONG_UNROLL) else self._lon1_norm180)
         return r
 
     def _GenPosition(self, arcmode, s12_a12, outmask):
@@ -453,14 +455,24 @@ class _GeodesicLineExact(_GeodesicBase):
         r = self._GDictPosition(arcmode, s12_a12, outmask)
         return r.toDirect9Tuple()
 
-    def _GenSet(self, arcmode, s13_a13):
+    def _GenSet(self, debug, s12=None, a12=None, **unused):
         '''(INTERNAL) Aka C++ C{GenSetDistance}.
         '''
-        if arcmode:
-            self.SetArc(s13_a13)
-        else:
-            self.SetDistance(s13_a13)
-        return self  # for gx.GeodesicExact.InverseLine and -._GenDirectLine
+        Cs = Caps
+        if debug:  # PYCHOK no cover
+            self._debug |= debug & Cs._DEBUG_ALL
+            # _CapsBase.debug._update(self)
+        if s12 is None:
+            if a12 is None:  # see GeodesicExact.Line
+                return self
+            s12 = self._GDictPosition(True,  a12, outmask=Cs.DISTANCE).s12 if a12 else _0_0
+        elif a12 is None:
+            a12 = self._GDictPosition(False, s12,                   0).a12 if s12 else _0_0
+        self._s13   = s12
+        self._a13   = a12
+        self._caps |= Cs.DISTANCE | Cs.DISTANCE_IN
+        # _update_all(self)  # new, from GeodesicExact.*Line
+        return self
 
     @Property_RO
     def geodesic(self):
@@ -498,7 +510,7 @@ class _GeodesicLineExact(_GeodesicBase):
         try:
             return _MODS.geodesicw._Intersecant2(self, lat0, lon0, radius, tol=tol)
         except (TypeError, ValueError) as x:
-            raise _MODS.errors._xError(x, lat0, lon0, radius, tol=_TOL)
+            raise _xError(x, lat0, lon0, radius, tol=_TOL)
 
     @Property_RO
     def _H0e2_f1(self):
@@ -594,8 +606,7 @@ class _GeodesicLineExact(_GeodesicBase):
                     the reference point or C{NAN}.
         '''
         if self._a13 != a13:
-            self._a13 = a13
-            self._s13 = self._GDictPosition(True, a13, Caps.DISTANCE).s12  # if a13 else _0_0
+            self._GenSet(0, a12=a13)
             _update_all(self)
         return self._s13
 
@@ -608,10 +619,9 @@ class _GeodesicLineExact(_GeodesicBase):
                     and the reference point or C{NAN}.
         '''
         if self._s13 != s13:
-            self._s13 = s13
-            self._a13 = self._GDictPosition(False, s13, 0).a12 if s13 else _0_0
+            self._GenSet(0, s12=s13)
             _update_all(self)
-        return self._a13  # NAN for GeodesicLineExact without Cap.DISTANCE_IN
+        return self._a13
 
     @Property_RO
     def _stau1_ctau1(self):
@@ -632,7 +642,7 @@ class _GeodesicLineExact(_GeodesicBase):
            @return: C{GeodesicLineExact} (C{str}).
         '''
         C = _GeodesicLineExact
-        t =  C.lat1, C.lon1, C.azi1, C.a13, C.s13, C.geodesic
+        t =  C.lat1, C.lon1, C.azi1, C.a13, C.s13, C.caps, C.geodesic
         return self._instr(props=t, **prec_sep_name)
 
 

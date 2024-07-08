@@ -4,7 +4,7 @@
 # Test ellipsoidals earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '24.02.10'
+__version__ = '24.07.07'
 
 from bases import coverage, GeodSolve, geographiclib, isPython35, isPython39, RandomLatLon
 from testLatLon import Tests as _TestsLL
@@ -709,7 +709,7 @@ class Tests(_TestsLL, _TestsV):
         # radius equal to length of square side, expecting
         # the other 2 as the intersections ... but the
         # longitudes are farther and farther out
-        for d in range(5, 66, 5):
+        for d in range(5, (11 if coverage else 66), 5):
             p = LL(d, -d)
             q = LL(-d, d)
             r = radians(2 * d) * R_M
@@ -731,7 +731,7 @@ class Tests(_TestsLL, _TestsV):
         r = R()
         s = latlonDMS(r, form=F_D) + ' Random +/- 45'
         self.test(n, s, s)
-        for _ in range(12):
+        for _ in range(2 if coverage else 12):
             p, q = R(), R()
             try:  # see .testSpherical
                 i1, i2 = m.intersections2(p, p.distanceTo(r),

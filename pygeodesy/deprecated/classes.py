@@ -9,10 +9,10 @@ from pygeodesy.constants import NAN, _float
 from pygeodesy.interns import NN, _a12_, _area_, _band_, _convergence_, \
                              _distance_, _gamma_, _i_, _lat_, _lon_, _ltp_
 from pygeodesy.deprecated.consterns import _Deprecated_Str
-from pygeodesy.karney import _GTuple, Rhumb8Tuple as _Rhumb8Tuple
+from pygeodesy.karney import _GTuple, Rhumb8Tuple as _Rhumb8Tuple,  ADict
 from pygeodesy.lazily import _ALL_DEPRECATED, _ALL_DOCS, _ALL_MODS as _MODS
 from pygeodesy.ltpTuples import Ned4Tuple as _Ned4Tuple
-# from pygeodesy.named import _NamedTuple  # from .namedTuples
+# from pygeodesy.named import ADict, _NamedTuple  # from .karney, .namedTuples
 from pygeodesy.namedTuples import Forward4Tuple as _Forward4Tuple, \
                                   Reverse4Tuple as _Reverse4Tuple, \
                                   UtmUps5Tuple  as _UtmUps5Tuple,  _NamedTuple
@@ -22,7 +22,7 @@ from pygeodesy.trf import TRFXform7Tuple as _TRFXform7Tuple
 from pygeodesy.units import Bearing, Int, Lamd, Lat, Lon, Meter, Phid
 
 __all__ = _ALL_DEPRECATED.deprecated_classes
-__version__ = '24.06.15'
+__version__ = '24.07.02'
 
 
 class _Deprecated_NamedTuple(_NamedTuple):
@@ -262,6 +262,13 @@ class UtmUps4Tuple(_Deprecated_NamedTuple):  # PYCHOK no cover
     assert _UtmUps5Tuple._Names_.index(_band_) == 4
     _Names_ =                      _UtmUps5Tuple._Names_[ :4]  # band
     _Units_ = (_Deprecated_Str,) + _UtmUps5Tuple._Units_[1:4]
+
+
+class XDist(ADict):
+    '''DEPRECATED on 2024.07.02, use class L{XDict}.'''
+    def __init__(self, *args, **kwds):  # PYCHOK signature
+        deprecated_class(self.__class__)
+        ADict.__init__(self, *args, **kwds)
 
 
 __all__ += _ALL_DOCS(_Deprecated_NamedTuple)

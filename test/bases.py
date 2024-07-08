@@ -48,7 +48,7 @@ __all__ = ('coverage', 'GeodSolve', 'geographiclib',  # constants
            'numpy', 'PyGeodesy_dir', 'PythonX', 'scipy', 'test_dir',
            'RandomLatLon', 'TestsBase',  # classes
            'secs2str', 'tilde', 'type2str', 'versions')  # functions
-__version__ = '24.06.05'
+__version__ = '24.07.03'
 
 try:
     geographiclib = basics._xgeographiclib(basics, 1, 50)
@@ -289,7 +289,7 @@ class TestsBase(object):
         t = (basename(module.__name__), module.__version__) + pairs(kwds.items())
         self.printf('test%s(%s)', testing, ', '.join(t), nl=1)
 
-    def test(self, name, value, expect, **kwds):
+    def test(self, name, value, expect, error=0, **kwds):
         '''Compare a test value with the expected result.
         '''
         if self._time:
@@ -312,6 +312,8 @@ class TestsBase(object):
             else:  # failed before
                 self.known += 1
                 f = ', KNOWN'
+            if error:
+                f = '%s (%g)' % (f, error)
             f = '  FAILED%s, expected %s' % (f, expect)
 
         self.total += 1  # tests
@@ -543,7 +545,7 @@ def versions():
             if _wrapped.Math:
                 vs += 'Math', ('_K_2_0' if _K_2_0 else '_K_1_0')
 
-        for t in (GeoConvert, GeodSolve, RhumbSolve):
+        for t in (GeoConvert, GeodSolve, IntersectTool, RhumbSolve):
             vs += _name_version2(t)
 
         t, r = internals._osversion2()
@@ -563,9 +565,10 @@ def versions():
     return vs
 
 
-GeoConvert = _getenv_path(lazily._PYGEODESY_GEOCONVERT_)
-GeodSolve  = _getenv_path(lazily._PYGEODESY_GEODSOLVE_)
-RhumbSolve = _getenv_path(lazily._PYGEODESY_RHUMBSOLVE_)
+GeoConvert    = _getenv_path(lazily._PYGEODESY_GEOCONVERT_)
+GeodSolve     = _getenv_path(lazily._PYGEODESY_GEODSOLVE_)
+IntersectTool = _getenv_path(lazily._PYGEODESY_INTERSECTTOOL_)
+RhumbSolve    = _getenv_path(lazily._PYGEODESY_RHUMBSOLVE_)
 # versions()  # get versions once
 
 if internals._dunder_ismain(__name__):

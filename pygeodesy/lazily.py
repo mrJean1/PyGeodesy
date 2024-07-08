@@ -48,26 +48,27 @@ except ImportError as x:  # Python 2.6-
 from os import getenv as _getenv
 # import sys as _sys  # from .interns
 
-__as__                  = ' as '
-_dunder_all_            = '__all__'  # in .__main__
-_enabled_               = 'enabled'
-_FOR_DOCS               = _getenv('PYGEODESY_FOR_DOCS', NN)  # for epydoc ...
-_i0                     = ()  # PYCHOK empty tuple
-_init__all__            = _FOR_DOCS or _getenv('PYGEODESY_INIT__ALL__', _dunder_all_) == _dunder_all_  # PYCHOK exported
-_lazily_                = 'lazily'
-_lazily_imported_       = _SPACE_(_HASH_, _lazily_, 'imported')
-_PYGEODESY_GEOCONVERT_  = 'PYGEODESY_GEOCONVERT'  # PYCHOK .mgrs, test.bases
-_PYGEODESY_GEODSOLVE_   = 'PYGEODESY_GEODSOLVE'   # PYCHOK .geodsolve, test.bases
-_PYGEODESY_LAZY_IMPORT_ = 'PYGEODESY_LAZY_IMPORT'
-_PYGEODESY_RHUMBSOLVE_  = 'PYGEODESY_RHUMBSOLVE'  # PYCHOK .rhumb.solve, test.bases
-_PYTHON_X_DEV           =  getattr(_sys, '_xoptions', {}).get('dev',  # Python 3.2+
+__as__                    = ' as '
+_dunder_all_              = '__all__'  # in .__main__
+_enabled_                 = 'enabled'
+_FOR_DOCS                 = _getenv('PYGEODESY_FOR_DOCS', NN)  # for epydoc ...
+_i0                       = ()  # PYCHOK empty tuple
+_init__all__              = _FOR_DOCS or _getenv('PYGEODESY_INIT__ALL__', _dunder_all_) == _dunder_all_  # PYCHOK exported
+_lazily_                  = 'lazily'
+_lazily_imported_         = _SPACE_(_HASH_, _lazily_, 'imported')
+_PYGEODESY_GEOCONVERT_    = 'PYGEODESY_GEOCONVERT'  # PYCHOK .mgrs, test.bases
+_PYGEODESY_GEODSOLVE_     = 'PYGEODESY_GEODSOLVE'   # PYCHOK .geodsolve, test.bases
+_PYGEODESY_INTERSECTTOOL_ = 'PYGEODESY_INTERSECTTOOL'  # PYCHOK .intersectool, test.bases
+_PYGEODESY_LAZY_IMPORT_   = 'PYGEODESY_LAZY_IMPORT'
+_PYGEODESY_RHUMBSOLVE_    = 'PYGEODESY_RHUMBSOLVE'  # PYCHOK .rhumb.solve, test.bases
+_PYTHON_X_DEV             =  getattr(_sys, '_xoptions', {}).get('dev',  # Python 3.2+
                           _getenv('PYTHONDEVMODE', NN))  # PYCHOK exported
-_sys_version_info2      = _sys.version_info[:2]  # in .basics, .fmath, ...
-_unlazy = _unLazy0      = _isfrozen or _sys_version_info2 < (3, 7)  # PYCHOK mod.__getattr__ 3.7+
-_WARNINGS_X_DEV         = _getenv('PYGEODESY_WARNINGS', NN) and (
-                          _PYTHON_X_DEV or bool(_sys.warnoptions))  # PYCHOK .props
+_sys_version_info2        = _sys.version_info[:2]  # in .basics, .fmath, ...
+_unlazy = _unLazy0        = _isfrozen or _sys_version_info2 < (3, 7)  # PYCHOK mod.__getattr__ 3.7+
+_WARNINGS_X_DEV           = _getenv('PYGEODESY_WARNINGS', NN) and (
+                            _PYTHON_X_DEV or bool(_sys.warnoptions))  # PYCHOK .props
 # @module_property[_RO?] <https://GitHub.com/jtushman/proxy_tools/>
-isLazy                  =  None  # see @var isLazy in .__init__
+isLazy                    =  None  # see @var isLazy in .__init__
 
 
 class LazyAttributeError(AttributeError):
@@ -283,7 +284,8 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                           fsums=_i('Fsum', 'DivMod2Tuple', 'Fsum2Tuple', 'ResidualError',
                                    'fsum', 'fsum_', 'fsumf_', 'fsum1', 'fsum1_', 'fsum1f_'),
                            gars=_i('Garef', 'GARSError'),
-                      geodesici=_i('Intersector', 'Intersector5Tuple', 'XDist'),
+                      geodesici=_i('Intersectool', 'Intersectool5Tuple',
+                                   'Intersector',  'Intersector5Tuple',  'XDict'),
                       geodesicw=_i('Geodesic', 'GeodesicLine', 'Geodesic_WGS84'),
                       geodesicx=_i('gx', 'gxarea', 'gxbases', 'gxline',  # modules
                                    'GeodesicAreaExact', 'GeodesicExact', 'GeodesicLineExact', 'PolygonArea'),
@@ -409,7 +411,7 @@ _ALL_DEPRECATED = _NamedEnum_RO(_name='_ALL_DEPRECATED',
                                          'HeightIDW', 'HeightIDW2', 'HeightIDW3', 'Helmert7Tuple',
                                          'Lam_', 'LatLonExact4Tuple', 'NearestOn4Tuple', 'Ned3Tuple',
                                          'Phi_', 'RefFrameError', 'Rhumb7Tuple', 'RhumbOrder2Tuple',
-                                         'Transform7Tuple', 'TriAngle4Tuple', 'UtmUps4Tuple'),
+                                         'Transform7Tuple', 'TriAngle4Tuple', 'UtmUps4Tuple', 'XDist'),
                  deprecated_consterns=_i('EPS1_2', 'MANTIS', 'OK'),
                      deprecated_datum=_i('Curvature2Tuple', 'Datum',  'Ellipsoid',  'Transform',  # assert
                                                             'Datums', 'Ellipsoids', 'Transforms',
@@ -519,7 +521,7 @@ class _ALL_MODS(_internals._MODS_Base):
 _internals._MODS = _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '24.06.19'
+__version__ = '24.07.02'
 
 
 def _ALL_OTHER(*objs):

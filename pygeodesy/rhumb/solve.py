@@ -17,21 +17,21 @@ from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, _getenv, 
                              _PYGEODESY_RHUMBSOLVE_
 from pygeodesy.namedTuples import Destination3Tuple, Distance3Tuple
 from pygeodesy.props import deprecated_method, Property, Property_RO
-from pygeodesy.solveBase import _SolveBase, _SolveLineBase
+from pygeodesy.solveBase import _SolveGDictBase, _SolveGDictLineBase
 from pygeodesy.utily import _unrollon, _Wrap, wrap360
 
 __all__ = _ALL_LAZY.rhumb_solve
-__version__ = '24.06.04'
+__version__ = '24.06.28'
 
 
-class _RhumbSolveBase(_SolveBase):
+class _RhumbSolveBase(_SolveGDictBase):
     '''(INTERNAL) Base class for L{RhumbSolve} and L{RhumbLineSolve}.
     '''
     _Error         =  RhumbError
     _Names_Direct  = _lat2_, _lon2_, _S12_
     _Names_Inverse = _azi12_, _s12_, _S12_
-    _Solve_name    = 'RhumbSolve'
-    _Solve_path    = _getenv(_PYGEODESY_RHUMBSOLVE_, _PYGEODESY_RHUMBSOLVE_)
+    _Xable_name    = 'RhumbSolve'
+    _Xable_path    = _getenv(_PYGEODESY_RHUMBSOLVE_, _PYGEODESY_RHUMBSOLVE_)
 
     @Property_RO
     def _cmdBasic(self):
@@ -46,7 +46,7 @@ class _RhumbSolveBase(_SolveBase):
         '''Get the U{RhumbSolve<https://GeographicLib.SourceForge.io/C++/doc/RhumbSolve.1.html>}
            executable (C{filename}).
         '''
-        return self._Solve_path
+        return self._Xable_path
 
     @RhumbSolve.setter  # PYCHOK setter!
     def RhumbSolve(self, path):
@@ -56,7 +56,7 @@ class _RhumbSolveBase(_SolveBase):
            @raise RhumbError: Invalid B{C{path}}, B{C{path}} doesn't exist or isn't
                               the C{RhumbSolve} executable.
         '''
-        self._setSolve(path)
+        self._setXable(path)
 
     @Property_RO
     def _s_option(self):  # == not -E for GeodSolve
@@ -65,11 +65,11 @@ class _RhumbSolveBase(_SolveBase):
     def toStr(self, **prec_sep):  # PYCHOK signature
         '''Return this C{RhumbSolve} as string.
 
-           @kwarg prec_sep: Keyword argumens C{B{prec}=6} and C{B{sep}=', '}
+           @kwarg prec_sep: Keyword argumens C{B{prec}=6} and C{B{sep}=", "}
                       for the C{float} C{prec}ision, number of decimal digits
                       (0..9) and the C{sep}arator string to join.  Trailing
-                      zero decimals are stripped for B{C{prec}} values of
-                      1 and above, but kept for negative B{C{prec}} values.
+                      zero decimals are stripped for B{C{prec}} values of 1
+                      and above, but kept for negative B{C{prec}} values.
 
            @return: RhumbSolve items (C{str}).
         '''
@@ -173,8 +173,7 @@ class RhumbSolve(_RhumbSolveBase):
         return r
 
     def _GDictInverse(self, lat1, lon1, lat2, lon2, *unused, **floats):  # PYCHOK signature
-        '''(INTERNAL) Get C{_GenInverse}-like result as an 8-item C{GDict}, but
-           I{without} C{_SALPs_CALPs_}.
+        '''(INTERNAL) Get C{_GenInverse}-like result as an 8-item C{GDict}, but I{without} C{_S_CALPs_}.
         '''
         i = _RhumbSolveBase._GDictInverse(self, lat1, lon1, lat2, lon2, **floats)
         a = _over(float(i.s12), self._mpd)  # for .Inverse1
@@ -231,7 +230,7 @@ class RhumbSolve(_RhumbSolveBase):
     Line = DirectLine
 
 
-class RhumbLineSolve(_RhumbSolveBase, _SolveLineBase):
+class RhumbLineSolve(_RhumbSolveBase, _SolveGDictLineBase):
     '''Wrapper to invoke I{Karney}'s U{RhumbSolve<https://GeographicLib.SourceForge.io/C++/doc/RhumbSolve.1.html>}
        like a class, similar to L{pygeodesy.RhumbLine} and L{pygeodesy.RhumbLineAux}.
 
@@ -267,7 +266,7 @@ class RhumbLineSolve(_RhumbSolveBase, _SolveLineBase):
         _xinstanceof(RhumbSolve, rhumb=rhumb)
         if (caps & Caps.LINE_OFF):  # copy to avoid updates
             rhumb = rhumb.copy(deep=False, name=NN(_UNDER_, rhumb.name))
-        _SolveLineBase.__init__(self, rhumb, lat1, lon1, caps, azi12=azi12, **name)
+        _SolveGDictLineBase.__init__(self, rhumb, lat1, lon1, caps, azi12=azi12, **name)
         try:
             self.RhumbSolve = rhumb.RhumbSolve  # rhumb or copy of rhumb
         except RhumbError:
@@ -283,7 +282,7 @@ class RhumbLineSolve(_RhumbSolveBase, _SolveLineBase):
 #                   azi12, a12, s12, S12}.
 #       '''
 #       s = a12 * self._mpd
-#       a = self._GDictInvoke(self._cmdArc, True, self._Names_Direct, s)
+#       a = self._GDictInvoke(self._cmdArc, self._Names_Direct, s)
 #       r = GDict(a12=a12, s12=s, **self._lla1)
 #       r.updated(a)
 #       return r
@@ -318,7 +317,7 @@ class RhumbLineSolve(_RhumbSolveBase, _SolveLineBase):
            @return: A L{GDict} with 7 items C{lat1, lon1, lat2, lon2,
                     azi12, s12, S12}.
         '''
-        d = self._GDictInvoke(self._cmdDistance, True, self._Names_Direct, s12)
+        d = self._GDictInvoke(self._cmdDistance, self._Names_Direct, s12)
         r = GDict(s12=s12, **self._lla1)  # a12=_over(s12, self._mpd)
         r.update(d)
         return r
@@ -326,16 +325,16 @@ class RhumbLineSolve(_RhumbSolveBase, _SolveLineBase):
     def toStr(self, **prec_sep):  # PYCHOK signature
         '''Return this C{RhumbLineSolve} as string.
 
-           @kwarg prec_sep: Keyword argumens C{B{prec}=6} and C{B{sep}=', '}
+           @kwarg prec_sep: Keyword argumens C{B{prec}=6} and C{B{sep}=", "}
                       for the C{float} C{prec}ision, number of decimal digits
                       (0..9) and the C{sep}arator string to join.  Trailing
-                      zero decimals are stripped for B{C{prec}} values of
-                      1 and above, but kept for negative B{C{prec}} values.
+                      zero decimals are stripped for B{C{prec}} values of 1
+                      and above, but kept for negative B{C{prec}} values.
 
            @return: RhumbLineSolve items (C{str}).
         '''
-        return _SolveLineBase._toStr(self, azi12=self.azi12, rhumb=self._solve,
-                                           RhumbSolve=self.RhumbSolve, **prec_sep)
+        return _SolveGDictLineBase._toStr(self, azi12=self.azi12, rhumb=self._solve,
+                                                RhumbSolve=self.RhumbSolve, **prec_sep)
 
 
 class RhumbSolve7Tuple(Rhumb8Tuple):
@@ -396,7 +395,7 @@ if __name__ == '__main__':
     rS.verbose = '--verbose' in argv  # or '-v' in argv
 
     if rS.RhumbSolve in (_PYGEODESY_RHUMBSOLVE_, None):  # not set
-        rS.RhumbSolve = '/opt/local/bin/RhumbSolve'  # '/opt/local/Cellar/geographiclib/2.2/bin/RhumbSolve'  # HomeBrew
+        rS.RhumbSolve = '/opt/local/bin/RhumbSolve'  # '/opt/local/Cellar/geographiclib/2.3/bin/RhumbSolve'  # HomeBrew
     printf('version: %s', rS.version)
 
     if len(argv) > 6:  # 60 0 30 0 45 1e6

@@ -4,11 +4,12 @@
 u'''(INTERNAL) Private base classes for L{pygeodesy.geodsolve} and L{pygeodesy.rhumb.solve}.
 '''
 
-from pygeodesy.basics import map2, ub2str, _zip
+from pygeodesy.basics import clips, map2, ub2str, _zip
 from pygeodesy.constants import DIG
 from pygeodesy.datums import _earth_datum, _WGS84,  _EWGS84
 # from pygeodesy.ellipsoids import _EWGS84  # from .datums
-from pygeodesy.errors import _AssertionError, _xkwds_get1, _xkwds_item2
+from pygeodesy.errors import _AssertionError, _xkwds_get, _xkwds_get1, \
+                             _xkwds_item2
 from pygeodesy.internals import _enquote, printf
 from pygeodesy.interns import NN, _0_, _BACKSLASH_, _COMMASPACE_, \
                              _EQUAL_, _Error_, _SPACE_, _UNUSED_
@@ -23,7 +24,7 @@ from pygeodesy.utily import unroll180,  wrap360  # PYCHOK shared
 from subprocess import PIPE as _PIPE, Popen as _Popen, STDOUT as _STDOUT
 
 __all__ = _ALL_LAZY.solveBase
-__version__ = '24.06.05'
+__version__ = '24.07.06'
 
 _ERROR_     = 'ERROR'
 _Popen_kwds =  dict(creationflags=0,
@@ -43,35 +44,93 @@ def _cmd_stdin_(cmd, stdin):  # PYCHOK no cover
     return _SPACE_.join(cmd)
 
 
+# def _float_int(r):
+#     '''(INTERNAL) Convert result into C{float} or C{int}.
+#     '''
+#     f = float(r)
+#     i = int(f)
+#     return i if float(i) == f else f  # PYCHOK inconsistent
+
+
 def _popen2(cmd, stdin=None):  # in .mgrs, test.bases, .testMgrs
     '''(INTERNAL) Invoke C{B{cmd} tuple} and return C{exitcode}
-       and all output to C{stdout/-err}.
+       and all output from C{stdout/-err}.
     '''
     p = _Popen(cmd, **_Popen_kwds)  # PYCHOK kwArgs
-    r =  p.communicate(stdin)[0]
+    r =  p.communicate(stdin)[0]  # stdout + NL + stderr
     return p.returncode, ub2str(r).strip()
 
 
 class _SolveCapsBase(_CapsBase):
     '''(NTERNAL) Base class for C{_SolveBase} and C{_LineSolveBase}.
     '''
-    _Error         =  None
-    _Exact         =  True
-    _invokation    =  0
-    _Names_Direct  = \
-    _Names_Inverse = ()
-    _prec          =  Precision_(prec=DIG)
-    _reverse2      =  False
-    _Solve_name    =  NN  # executable basename
-    _Solve_path    =  NN  # executable path
-    _status        =  None
-    _unroll        =  False
-    _verbose       =  False
+    _datum      = _WGS84
+    _Error      =  None
+    _Exact      =  True
+    _invokation =  0
+    _linelimit  =  0
+    _prec       =  Precision_(prec=DIG)
+    _Xable_name =  NN  # executable basename
+    _Xable_path =  NN  # executable path
+    _status     =  None
+    _verbose    =  False
+
+    @Property_RO
+    def a(self):
+        '''Get the I{equatorial} radius, semi-axis (C{meter}).
+        '''
+        return self.ellipsoid.a
 
     @property_RO
     def _cmdBasic(self):  # PYCHOK no cover
         '''(INTERNAL) I{Must be overloaded}.'''
         notOverloaded(self, underOK=True)
+
+    @property_RO
+    def datum(self):
+        '''Get the datum (C{Datum}).
+        '''
+        return self._datum
+
+    def _Dict(self, Dict, n, v, floats=True, **unused):
+        if self.verbose:  # PYCHOK no cover
+            self._print(_COMMASPACE_.join(map(Fmt.EQUAL, n, map(fstrzs, v))))
+        if floats:
+            v = map(float, v)  # _float_int, see Intersectool._XDistInvoke
+        return Dict(_zip(n, v))  # strict=True
+
+    def _DictInvoke2(self, cmd, Names, Dict, *args, **floats_R):
+        '''(INTERNAL) Invoke C{Solve}, return results as C{Dict}.
+        '''
+        N = len(Names)
+        if N < 1:
+            raise _AssertionError(cmd=cmd, Names=Names)
+        i = fstr(args, prec=DIG, fmt=Fmt.F, sep=_SPACE_) if args else None  # NOT Fmt.G!
+        t = self._invoke(cmd, stdin=i, **floats_R).lstrip().split()  # 12-/+ tuple
+        if _xkwds_get(floats_R, _R=None):  # == '-R' in cmd
+            return self._Dicts(Dict, Names, t, **floats_R), True
+        elif len(t) > N:  # PYCHOK no cover
+            # unzip instrumented name=value pairs to names and values
+            n, v = _zip(*(p.split(_EQUAL_) for p in t[:-N]))  # strict=True
+            v += tuple(t[-N:])
+            n += Names
+        else:
+            n, v = Names, t
+        r = self._Dict(Dict, n, t, **floats_R)
+        return self._iter2tion(r, **r), None
+
+    def _Dicts(self, Dict, Names, t, **floats_R):
+        i, N = 0, len(Names)
+        for x in range(0, len(t), N):
+            if t[x] == 'nan':
+                break
+            X = self._Dict(Dict, Names, t[x:x + N], **floats_R)
+            yield X.set_(iteration=i)
+            i += 1
+
+    @Property_RO
+    def _E_option(self):
+        return ('-E',) if self.Exact else ()
 
     @property
     def Exact(self):
@@ -89,27 +148,28 @@ class _SolveCapsBase(_CapsBase):
             _update_all(self)
             self._Exact = Exact
 
-    def _GDictInvoke(self, cmd, floats, Names, *args):
-        '''(INTERNAL) Invoke C{Solve}, return results as C{GDict}.
+    @Property_RO
+    def ellipsoid(self):
+        '''Get the ellipsoid (C{Ellipsoid}).
         '''
-        N = len(Names)
-        if N < 1:
-            raise _AssertionError(cmd=cmd, Names=Names)
-        i = fstr(args, prec=DIG, fmt=Fmt.F, sep=_SPACE_) if args else None  # not Fmt.G!
-        t = self._invoke(cmd, stdin=i).lstrip().split()  # 12-/+ tuple
-        if len(t) > N:  # PYCHOK no cover
-            # unzip instrumented name=value pairs to names and values
-            n, v = _zip(*(p.split(_EQUAL_) for p in t[:-N]))  # strict=True
-            v += tuple(t[-N:])
-            n += Names
-        else:
-            n, v = Names, t
-        if self.verbose:  # PYCHOK no cover
-            self._print(_COMMASPACE_.join(map(Fmt.EQUAL, n, map(fstrzs, v))))
-        if floats:
-            v = map(float, v)
-        r = GDict(_zip(n, v))  # strict=True
-        return self._iter2tion(r, **r)
+        return self.datum.ellipsoid
+
+    @Property_RO
+    def _e_option(self):
+        E = self.ellipsoid
+        if E is _EWGS84:
+            return ()  # default
+        a, f = strs(E.a_f, fmt=Fmt.F, prec=DIG + 3)  # not .G!
+        return ('-e', a, f)
+
+    @Property_RO
+    def flattening(self):
+        '''Get the C{ellipsoid}'s I{flattening} (C{scalar}), M{(a - b) / a},
+           C{0} for spherical, negative for prolate.
+        '''
+        return self.ellipsoid.f
+
+    f = flattening
 
     @property_RO
     def invokation(self):
@@ -134,7 +194,7 @@ class _SolveCapsBase(_CapsBase):
 
            @note: The C{Solve} return code is in property L{status}.
         '''
-        c = (self._Solve_path,) + map2(str, options)  # map2(_enquote, options)
+        c = (self._Xable_path,) + map2(str, options)  # map2(_enquote, options)
         i = _xkwds_get1(stdin, stdin=None)
         r =  self._invoke(c, stdin=i)
         s =  self.status
@@ -145,7 +205,7 @@ class _SolveCapsBase(_CapsBase):
             self._print(r)
         return r
 
-    def _invoke(self, cmd, stdin=None):
+    def _invoke(self, cmd, stdin=None, **unused):  # _R=None
         '''(INTERNAL) Invoke the C{Solve} executable, with the
            given B{C{cmd}} line and optional input to B{C{stdin}}.
         '''
@@ -161,7 +221,23 @@ class _SolveCapsBase(_CapsBase):
         except (IOError, OSError, TypeError, ValueError) as x:
             raise self._Error(cmd=t or _cmd_stdin_(cmd, stdin), cause=x)
         self._status = s
+        if self.verbose:  # and _R is None:  # PYCHOK no cover
+            self._print(repr(r))
         return r
+
+    def linelimit(self, *limit):
+        '''Set and get the print line length limit.
+
+           @arg limit: New line limit (C{int}) or C{0}
+                       or C{None} for unlimited.
+
+           @return: Teh previous limit (C{int}).
+        '''
+        n = self._linelimit
+        if limit:
+            m = int(limit[0] or 0)
+            self._linelimit = max(80, m) if m > 0 else (n if m < 0 else 0)
+        return n
 
     @Property_RO
     def _mpd(self):  # meter per degree
@@ -194,42 +270,29 @@ class _SolveCapsBase(_CapsBase):
     def _print(self, line):  # PYCHOK no cover
         '''(INTERNAL) Print a status line.
         '''
+        if self._linelimit:
+            line =  clips(line, limit=self._linelimit, length=True)
         if self.status is not None:
             line = _SPACE_(line, Fmt.PAREN(self.status))
-        printf('%s %d: %s', self.named2, self.invokation, line)
+        printf('%s@%d: %s', self.named2, self.invokation, line)
 
-    @Property
-    def reverse2(self):
-        '''Get the C{azi2} direction (C{bool}).
-        '''
-        return self._reverse2
-
-    @reverse2.setter  # PYCHOK setter!
-    def reverse2(self, reverse2):
-        '''Set the direction for C{azi2} (C{bool}), if C{True} reverse C{azi2}.
-        '''
-        reverse2 = bool(reverse2)
-        if self._reverse2 != reverse2:
-            _update_all(self)
-            self._reverse2 = reverse2
-
-    def _setSolve(self, path, **Solve_path):
+    def _setXable(self, path, **Xable_path):
         '''(INTERNAL) Set the executable C{path}.
         '''
-        hold = self._Solve_path
+        hold = self._Xable_path
         if hold != path:
             _update_all(self)
-            self._Solve_path = path
+            self._Xable_path = path
         try:
             _ = self.version  # test path and ...
             if self.status:  # ... return code
-                S_p = Solve_path or {self._Solve_name: _enquote(path)}
+                S_p = Xable_path or {self._Xable_name: _enquote(path)}
                 raise self._Error(status=self.status, txt_not_=_0_, **S_p)
             hold = path
         finally:  # restore in case of error
-            if self._Solve_path != hold:
+            if self._Xable_path != hold:
                 _update_all(self)
-                self._Solve_path = hold
+                self._Xable_path = hold
 
     @property_RO
     def status(self):
@@ -237,21 +300,6 @@ class _SolveCapsBase(_CapsBase):
            or C{None}.
         '''
         return self._status
-
-    @Property
-    def unroll(self):
-        '''Get the C{lon2} unroll'ing (C{bool}).
-        '''
-        return self._unroll
-
-    @unroll.setter  # PYCHOK setter!
-    def unroll(self, unroll):
-        '''Set unroll'ing for C{lon2} (C{bool}), if C{True} unroll C{lon2}, otherwise don't.
-        '''
-        unroll = bool(unroll)
-        if self._unroll != unroll:
-            _update_all(self)
-            self._unroll = unroll
 
     @property
     def verbose(self):
@@ -274,9 +322,47 @@ class _SolveCapsBase(_CapsBase):
 
 
 class _SolveBase(_SolveCapsBase):
+    '''(INTERNAL) Base class for C{_SolveBase} and C{_SolveLineBase}.
+    '''
+    _Names_Direct  = \
+    _Names_Inverse = ()
+    _reverse2      =  False
+    _unroll        =  False
+
+    @Property
+    def reverse2(self):
+        '''Get the C{azi2} direction (C{bool}).
+        '''
+        return self._reverse2
+
+    @reverse2.setter  # PYCHOK setter!
+    def reverse2(self, reverse2):
+        '''Set the direction for C{azi2} (C{bool}), if C{True} reverse C{azi2}.
+        '''
+        reverse2 = bool(reverse2)
+        if self._reverse2 != reverse2:
+            _update_all(self)
+            self._reverse2 = reverse2
+
+    @Property
+    def unroll(self):
+        '''Get the C{lon2} unroll'ing (C{bool}).
+        '''
+        return self._unroll
+
+    @unroll.setter  # PYCHOK setter!
+    def unroll(self, unroll):
+        '''Set unroll'ing for C{lon2} (C{bool}), if C{True} unroll C{lon2}, otherwise don't.
+        '''
+        unroll = bool(unroll)
+        if self._unroll != unroll:
+            _update_all(self)
+            self._unroll = unroll
+
+
+class _SolveGDictBase(_SolveBase):
     '''(NTERNAL) Base class for C{_GeodesicSolveBase} and C{_RhumbSolveBase}.
     '''
-    _datum = _WGS84
 
     def __init__(self, a_ellipsoid=_EWGS84, f=None, path=NN, **name):
         '''New C{Solve} instance.
@@ -296,13 +382,7 @@ class _SolveBase(_SolveCapsBase):
         if name:
             self.name = name
         if path:
-            self._setSolve(path)
-
-    @Property_RO
-    def a(self):
-        '''Get the I{equatorial} radius, semi-axis (C{meter}).
-        '''
-        return self.ellipsoid.a
+            self._setXable(path)
 
     @Property_RO
     def _cmdDirect(self):
@@ -316,56 +396,29 @@ class _SolveBase(_SolveCapsBase):
         '''
         return self._cmdBasic + ('-i',)
 
-    @property_RO
-    def datum(self):
-        '''Get the datum (C{Datum}).
-        '''
-        return self._datum
-
     def Direct(self, lat1, lon1, azi1, s12, outmask=_UNUSED_):  # PYCHOK unused
         '''Return the C{Direct} result.
         '''
         return self._GDictDirect(lat1, lon1, azi1, False, s12)
-
-    @Property_RO
-    def ellipsoid(self):
-        '''Get the ellipsoid (C{Ellipsoid}).
-        '''
-        return self.datum.ellipsoid
-
-    @Property_RO
-    def _e_option(self):
-        E = self.ellipsoid
-        if E is _EWGS84:
-            return ()  # default
-        a, f = strs(E.a_f, fmt=Fmt.F, prec=DIG + 3)  # not .G!
-        return ('-e', a, f)
-
-    @Property_RO
-    def flattening(self):
-        '''Get the C{ellipsoid}'s I{flattening} (C{scalar}), M{(a - b) / a},
-           C{0} for spherical, negative for prolate.
-        '''
-        return self.ellipsoid.f
-
-    f = flattening
 
     def _GDictDirect(self, lat, lon, azi, arcmode, s12_a12, outmask=_UNUSED_, **floats):  # PYCHOK for .geodesicx.gxarea
         '''(INTERNAL) Get C{_GenDirect}-like result as C{GDict}.
         '''
         if arcmode:
             raise self._Error(arcmode=arcmode, txt=str(NotImplemented))
-        floats = _xkwds_get1(floats, floats=True)
-        return self._GDictInvoke(self._cmdDirect, floats, self._Names_Direct,
-                                                  lat, lon, azi, s12_a12)
+        return self._GDictInvoke(self._cmdDirect, self._Names_Direct,
+                                                  lat, lon, azi, s12_a12, **floats)
 
     def _GDictInverse(self, lat1, lon1, lat2, lon2, outmask=_UNUSED_, **floats):  # PYCHOK for .geodesicx.gxarea
-        '''(INTERNAL) Get C{_GenInverse}-like result as C{GDict}, but
-           I{without} C{_SALPs_CALPs_}.
+        '''(INTERNAL) Get C{_GenInverse}-like result as C{GDict}, but I{without} C{_S_CALPs_}.
         '''
-        floats = _xkwds_get1(floats, floats=True)
-        return self._GDictInvoke(self._cmdInverse, floats, self._Names_Inverse,
-                                                   lat1, lon1, lat2, lon2)
+        return self._GDictInvoke(self._cmdInverse, self._Names_Inverse,
+                                                   lat1, lon1, lat2, lon2, **floats)
+
+    def _GDictInvoke(self, cmd,  Names, *args, **floats):
+        '''(INTERNAL) Invoke C{Solve}, return results as C{Dict}.
+        '''
+        return self._DictInvoke2(cmd, Names, GDict, *args, **floats)[0]  # _R
 
     def Inverse(self, lat1, lon1, lat2, lon2, outmask=_UNUSED_):  # PYCHOK unused
         '''Return the C{Inverse} result.
@@ -390,7 +443,7 @@ class _SolveBase(_SolveCapsBase):
         return sep.join(pairs(d, prec=prec))
 
 
-class _SolveLineBase(_SolveCapsBase):
+class _SolveGDictLineBase(_SolveGDictBase):
     '''(NTERNAL) Base class for C{GeodesicLineSolve} and C{RhumbLineSolve}.
     '''
 #   _caps  =  0
@@ -451,7 +504,7 @@ class _SolveLineBase(_SolveCapsBase):
         return sep.join(pairs(d, prec=prec))
 
 
-__all__ += _ALL_DOCS(_SolveBase, _SolveLineBase, _SolveCapsBase)
+__all__ += _ALL_DOCS(_SolveBase, _SolveCapsBase, _SolveGDictBase, _SolveGDictLineBase)
 
 # **) MIT License
 #

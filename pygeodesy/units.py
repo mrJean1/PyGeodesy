@@ -27,7 +27,7 @@ from pygeodesy.unitsBase import Float, Int, _NamedUnit, Radius, Str,  Fmt, fstr
 from math import degrees, radians
 
 __all__ = _ALL_LAZY.units
-__version__ = '24.06.15'
+__version__ = '24.06.29'
 
 
 class Float_(Float):
@@ -781,10 +781,10 @@ class Zone(Int):
         return Int_.__new__(cls, arg=arg, name=name, **Error_name_arg)
 
 
-_Scalars =  Float, Float_, Scalar, Scalar_
-_Degrees = (Bearing, Bearing_, Degrees, Degrees_) + _Scalars
-_Meters  = (Distance, Distance_, Meter, Meter_) + _Scalars
-_Radians = (Radians, Radians_) + _Scalars  # PYCHOK unused
+_ScalarU =  Float, Float_, Scalar, Scalar_
+_Degrees = (Bearing, Bearing_, Degrees, Degrees_) + _ScalarU
+_Meters  = (Distance, Distance_, Meter, Meter_) + _ScalarU
+_Radians = (Radians, Radians_) + _ScalarU  # PYCHOK unused
 _Radii   = _Meters + (Radius, Radius_)
 
 

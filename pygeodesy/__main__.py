@@ -5,7 +5,7 @@ u'''Print L{pygeodesy} version, etc. using C{python -m pygeodesy}.
 '''
 
 __all__ = ()
-__version__ = '24.05.15'
+__version__ = '24.07.07'
 
 from os.path import basename, dirname
 
@@ -42,6 +42,11 @@ def _main():  # PYCHOK no cover
                 v.append(_name_version(pkg))
 
         v = _Pythonarchine()
+        try:
+            import coverage as pkg
+            v.append(_name_version(pkg))
+        except ImportError:
+            pass
         _nv(_xgeographiclib, v)
         _nv(_xnumpy, v)
         _nv(_xscipy, v)

@@ -61,33 +61,39 @@
 <!-- ==================== CLASS DESCRIPTION ==================== -->
 <h1 class="epydoc">Class GeodesicLineSolve</h1><p class="nomargin-top"></p>
 <pre class="base-tree">
-  object --+                        
-           |                        
-<a href="pygeodesy.named._Named-class.html">named._Named</a> --+                    
-               |                    
-<a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a> --+                
-                   |                
-    <a href="pygeodesy.karney._CapsBase-class.html">karney._CapsBase</a> --+            
-                       |            
-<a href="pygeodesy.solveBase._SolveCapsBase-class.html">solveBase._SolveCapsBase</a> --+        
-                           |        
-        <a href="pygeodesy.solveBase._SolveBase-class.html">solveBase._SolveBase</a> --+    
-                               |    
-              <a href="pygeodesy.geodsolve._GeodesicSolveBase-class.html">_GeodesicSolveBase</a> --+
-                                   |
-      object --+                   |
-               |                   |
-    <a href="pygeodesy.named._Named-class.html">named._Named</a> --+               |
-                   |               |
-    <a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a> --+           |
-                       |           |
-        <a href="pygeodesy.karney._CapsBase-class.html">karney._CapsBase</a> --+       |
-                           |       |
-    <a href="pygeodesy.solveBase._SolveCapsBase-class.html">solveBase._SolveCapsBase</a> --+   |
-                               |   |
-        <a href="pygeodesy.solveBase._SolveLineBase-class.html">solveBase._SolveLineBase</a> --+
-                                   |
-                                  <strong class="uidshort">GeodesicLineSolve</strong>
+  object --+                            
+           |                            
+<a href="pygeodesy.named._Named-class.html">named._Named</a> --+                        
+               |                        
+<a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a> --+                    
+                   |                    
+    <a href="pygeodesy.karney._CapsBase-class.html">karney._CapsBase</a> --+                
+                       |                
+<a href="pygeodesy.solveBase._SolveCapsBase-class.html">solveBase._SolveCapsBase</a> --+            
+                           |            
+        <a href="pygeodesy.solveBase._SolveBase-class.html">solveBase._SolveBase</a> --+        
+                               |        
+       <a href="pygeodesy.solveBase._SolveGDictBase-class.html">solveBase._SolveGDictBase</a> --+    
+                                   |    
+                  <a href="pygeodesy.geodsolve._GeodesicSolveBase-class.html">_GeodesicSolveBase</a> --+
+                                       |
+  object --+                           |
+           |                           |
+<a href="pygeodesy.named._Named-class.html">named._Named</a> --+                       |
+               |                       |
+<a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a> --+                   |
+                   |                   |
+    <a href="pygeodesy.karney._CapsBase-class.html">karney._CapsBase</a> --+               |
+                       |               |
+<a href="pygeodesy.solveBase._SolveCapsBase-class.html">solveBase._SolveCapsBase</a> --+           |
+                           |           |
+        <a href="pygeodesy.solveBase._SolveBase-class.html">solveBase._SolveBase</a> --+       |
+                               |       |
+       <a href="pygeodesy.solveBase._SolveGDictBase-class.html">solveBase._SolveGDictBase</a> --+   |
+                                   |   |
+       <a href="pygeodesy.solveBase._SolveGDictLineBase-class.html">solveBase._SolveGDictLineBase</a> --+
+                                       |
+                                      <strong class="uidshort">GeodesicLineSolve</strong>
 </pre>
 
 <hr />
@@ -319,13 +325,14 @@
   </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.solveBase._SolveBase-class.html">solveBase._SolveBase</a></code></b>:
-      <code><a href="pygeodesy.solveBase._SolveBase-class.html#Direct">Direct</a></code>,
-      <code><a href="pygeodesy.solveBase._SolveBase-class.html#Inverse">Inverse</a></code>,
-      <code><a href="pygeodesy.solveBase._SolveBase-class.html#Inverse1">Inverse1</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.solveBase._SolveGDictBase-class.html">solveBase._SolveGDictBase</a></code></b>:
+      <code><a href="pygeodesy.solveBase._SolveGDictBase-class.html#Direct">Direct</a></code>,
+      <code><a href="pygeodesy.solveBase._SolveGDictBase-class.html#Inverse">Inverse</a></code>,
+      <code><a href="pygeodesy.solveBase._SolveGDictBase-class.html#Inverse1">Inverse1</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.solveBase._SolveCapsBase-class.html">solveBase._SolveCapsBase</a></code></b>:
-      <code><a href="pygeodesy.solveBase._SolveCapsBase-class.html#invoke">invoke</a></code>
+      <code><a href="pygeodesy.solveBase._SolveCapsBase-class.html#invoke">invoke</a></code>,
+      <code><a href="pygeodesy.solveBase._SolveCapsBase-class.html#linelimit">linelimit</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.karney._CapsBase-class.html">karney._CapsBase</a></code></b>:
       <code><a href="pygeodesy.karney._CapsBase-class.html#caps_">caps_</a></code>
@@ -467,24 +474,24 @@
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.geodsolve._GeodesicSolveBase-class.html">_GeodesicSolveBase</a></code></b>:
       <code><a href="pygeodesy.geodsolve._GeodesicSolveBase-class.html#GeodSolve">GeodSolve</a></code>
       </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.solveBase._SolveBase-class.html">solveBase._SolveBase</a></code></b>:
-      <code><a href="pygeodesy.solveBase._SolveBase-class.html#a">a</a></code>,
-      <code><a href="pygeodesy.solveBase._SolveBase-class.html#datum">datum</a></code>,
-      <code><a href="pygeodesy.solveBase._SolveBase-class.html#ellipsoid">ellipsoid</a></code>,
-      <code><a href="pygeodesy.solveBase._SolveBase-class.html#f">f</a></code>,
-      <code><a href="pygeodesy.solveBase._SolveBase-class.html#flattening">flattening</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.solveBase._SolveGDictLineBase-class.html">solveBase._SolveGDictLineBase</a></code></b>:
+      <code><a href="pygeodesy.solveBase._SolveGDictLineBase-class.html#datum">datum</a></code>,
+      <code><a href="pygeodesy.solveBase._SolveGDictLineBase-class.html#ellipsoid">ellipsoid</a></code>,
+      <code><a href="pygeodesy.solveBase._SolveGDictLineBase-class.html#lat1">lat1</a></code>,
+      <code><a href="pygeodesy.solveBase._SolveGDictLineBase-class.html#lon1">lon1</a></code>
       </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.solveBase._SolveLineBase-class.html">solveBase._SolveLineBase</a></code></b>:
-      <code><a href="pygeodesy.solveBase._SolveLineBase-class.html#lat1">lat1</a></code>,
-      <code><a href="pygeodesy.solveBase._SolveLineBase-class.html#lon1">lon1</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.solveBase._SolveBase-class.html">solveBase._SolveBase</a></code></b>:
+      <code><a href="pygeodesy.solveBase._SolveBase-class.html#reverse2">reverse2</a></code>,
+      <code><a href="pygeodesy.solveBase._SolveBase-class.html#unroll">unroll</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.solveBase._SolveCapsBase-class.html">solveBase._SolveCapsBase</a></code></b>:
       <code><a href="pygeodesy.solveBase._SolveCapsBase-class.html#Exact">Exact</a></code>,
+      <code><a href="pygeodesy.solveBase._SolveCapsBase-class.html#a">a</a></code>,
+      <code><a href="pygeodesy.solveBase._SolveCapsBase-class.html#f">f</a></code>,
+      <code><a href="pygeodesy.solveBase._SolveCapsBase-class.html#flattening">flattening</a></code>,
       <code><a href="pygeodesy.solveBase._SolveCapsBase-class.html#invokation">invokation</a></code>,
       <code><a href="pygeodesy.solveBase._SolveCapsBase-class.html#prec">prec</a></code>,
-      <code><a href="pygeodesy.solveBase._SolveCapsBase-class.html#reverse2">reverse2</a></code>,
       <code><a href="pygeodesy.solveBase._SolveCapsBase-class.html#status">status</a></code>,
-      <code><a href="pygeodesy.solveBase._SolveCapsBase-class.html#unroll">unroll</a></code>,
       <code><a href="pygeodesy.solveBase._SolveCapsBase-class.html#verbose">verbose</a></code>,
       <code><a href="pygeodesy.solveBase._SolveCapsBase-class.html#version">version</a></code>
       </p>
@@ -736,7 +743,7 @@
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>prec_sep</code></strong> - Keyword argumens <code><b>prec</b>=6</code> and 
-          <code><b>sep</b>=', '</code> for the <code>float</code> 
+          <code><b>sep</b>=&quot;, &quot;</code> for the <code>float</code>
           <code>prec</code>ision, number of decimal digits (0..9) and the 
           <code>sep</code>arator string to join.  Trailing zero decimals 
           are stripped for <b><code>prec</code></b> values of 1 and above, 
@@ -983,7 +990,7 @@ class="link">GeodesicSolve</a>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Jun 27 19:44:15 2024
+    Generated by Epydoc 3.0.1 on Sun Jul  7 21:19:26 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

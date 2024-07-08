@@ -10,48 +10,31 @@ of the C{GeodSolve} executable.
 '''
 
 from pygeodesy.basics import _xinstanceof
-# from pygeodesy.constants import NAN, _0_0 # from .karney
+# from pygeodesy.constants import NAN, _0_0  # from .karney
 # from pygeodesy.geodesicx import GeodesicAreaExact  # _MODS
-from pygeodesy.interns import NN, _a12_, _azi1_, _azi2_, \
-                             _lat1_, _lat2_, _lon1_, _lon2_, _m12_, \
-                             _M12_, _M21_, _s12_, _S12_, _UNDER_
-from pygeodesy.interns import _UNUSED_, _not_  # PYCHOK used!
-from pygeodesy.karney import _Azi, Caps, _Deg, GeodesicError, _GTuple, \
-                             _Pass, _Lat, _Lon, _M, _M2, _sincos2d, \
-                             _0_0, NAN
+# from pygeodesy.interns import NN, _UNDER_  # from .karney
+from pygeodesy.karney import Caps, GeodesicError, GeodSolve12Tuple, \
+                            _sincos2d,  _0_0, NAN, NN, _UNDER_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, \
                              _getenv, _PYGEODESY_GEODSOLVE_
 from pygeodesy.named import _name1__
 from pygeodesy.namedTuples import Destination3Tuple, Distance3Tuple
 from pygeodesy.props import Property, Property_RO, property_RO
-from pygeodesy.solveBase import _SolveBase, _SolveLineBase
+from pygeodesy.solveBase import _SolveGDictBase, _SolveGDictLineBase
 from pygeodesy.utily import _unrollon, _Wrap, wrap360
 
 __all__ = _ALL_LAZY.geodsolve
-__version__ = '24.06.26'
+__version__ = '24.06.28'
 
 
-class GeodSolve12Tuple(_GTuple):
-    '''12-Tuple C{(lat1, lon1, azi1, lat2, lon2, azi2, s12, a12, m12, M12, M21, S12)} with
-       angles C{lat1}, C{lon1}, C{azi1}, C{lat2}, C{lon2} and C{azi2} and arc C{a12} all in
-       C{degrees}, initial C{azi1} and final C{azi2} forward azimuths, distance C{s12} and
-       reduced length C{m12} in C{meter}, area C{S12} in C{meter} I{squared} and geodesic
-       scale factors C{M12} and C{M21}, both C{scalar}, see U{GeodSolve
-       <https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html>}.
-    '''
-    # from GeodSolve --help option -f ... lat1 lon1 azi1 lat2 lon2 azi2 s12 a12 m12 M12 M21 S12
-    _Names_ = (_lat1_, _lon1_, _azi1_, _lat2_, _lon2_, _azi2_, _s12_, _a12_, _m12_, _M12_, _M21_, _S12_)
-    _Units_ = (_Lat,   _Lon,   _Azi,   _Lat,   _Lon,   _Azi,   _M,    _Deg,  _Pass, _Pass, _Pass, _M2)
-
-
-class _GeodesicSolveBase(_SolveBase):
+class _GeodesicSolveBase(_SolveGDictBase):
     '''(INTERNAL) Base class for L{GeodesicSolve} and L{GeodesicLineSolve}.
     '''
     _Error         =  GeodesicError
     _Names_Direct  = \
     _Names_Inverse =  GeodSolve12Tuple._Names_
-    _Solve_name    = 'GeodSolve'
-    _Solve_path    = _getenv(_PYGEODESY_GEODSOLVE_, _PYGEODESY_GEODSOLVE_)
+    _Xable_name    = 'GeodSolve'
+    _Xable_path    = _getenv(_PYGEODESY_GEODSOLVE_, _PYGEODESY_GEODSOLVE_)
 
     @Property_RO
     def _b_option(self):
@@ -67,16 +50,12 @@ class _GeodesicSolveBase(_SolveBase):
                                          self._p_option +
                                          self._u_option)
 
-    @Property_RO
-    def _E_option(self):
-        return ('-E',) if self.Exact else ()
-
     @Property
     def GeodSolve(self):
         '''Get the U{GeodSolve<https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html>}
            executable (C{filename}).
         '''
-        return self._Solve_path
+        return self._Xable_path
 
     @GeodSolve.setter  # PYCHOK setter!
     def GeodSolve(self, path):
@@ -86,20 +65,20 @@ class _GeodesicSolveBase(_SolveBase):
            @raise GeodesicError: Invalid B{C{path}}, B{C{path}} doesn't exist or
                                  isn't the C{GeodSolve} executable.
         '''
-        self._setSolve(path)
+        self._setXable(path)
 
     def toStr(self, **prec_sep):  # PYCHOK signature
         '''Return this C{GeodesicSolve} as string.
 
-           @kwarg prec_sep: Keyword argumens C{B{prec}=6} and C{B{sep}=', '}
-                      for the C{float} C{prec}ision, number of decimal digits
-                      (0..9) and the C{sep}arator string to join.  Trailing
-                      zero decimals are stripped for B{C{prec}} values of
-                      1 and above, but kept for negative B{C{prec}} values.
+           @kwarg prec_sep: Keyword argumens C{B{prec}=6} and C{B{sep}=", "}
+                       for the C{float} C{prec}ision, number of decimal digits
+                       (0..9) and the C{sep}arator string to join.  Trailing
+                       zero decimals are stripped for B{C{prec}} values of 1
+                       and above, but kept for negative B{C{prec}} values.
 
            @return: GeodesicSolve items (C{str}).
         '''
-        return _SolveBase._toStr(self, GeodSolve=self.GeodSolve, **prec_sep)
+        return _SolveGDictBase._toStr(self, GeodSolve=self.GeodSolve, **prec_sep)
 
     @Property_RO
     def _u_option(self):
@@ -119,11 +98,11 @@ class GeodesicSolve(_GeodesicSolveBase):
     '''
 
     def Area(self, polyline=False, **name):
-        '''Set up a L{GeodesicAreaExact} to compute area and
-           perimeter of a polygon.
+        '''Set up a L{GeodesicAreaExact} to compute area and perimeter
+           of a polygon.
 
-           @kwarg polyline: If C{True} perimeter only, otherwise
-                            area and perimeter (C{bool}).
+           @kwarg polyline: If C{True} perimeter only, otherwise area
+                            and perimeter (C{bool}).
            @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @return: A L{GeodesicAreaExact} instance.
@@ -139,8 +118,8 @@ class GeodesicSolve(_GeodesicSolveBase):
     Polygon = Area  # for C{geographiclib} compatibility
 
     def Direct3(self, lat1, lon1, azi1, s12):  # PYCHOK outmask
-        '''Return the destination lat, lon and reverse azimuth
-           (final bearing) in C{degrees}.
+        '''Return the destination lat, lon and reverse azimuth (final bearing)
+           in C{degrees}.
 
            @return: L{Destination3Tuple}C{(lat, lon, final)}.
         '''
@@ -231,7 +210,7 @@ class GeodesicSolve(_GeodesicSolveBase):
         return gl
 
 
-class GeodesicLineSolve(_GeodesicSolveBase, _SolveLineBase):
+class GeodesicLineSolve(_GeodesicSolveBase, _SolveGDictLineBase):
     '''Wrapper to invoke I{Karney}'s U{GeodSolve<https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html>}
        as an C{Exact} version of I{Karney}'s Python class U{GeodesicLine<https://GeographicLib.SourceForge.io/C++/doc/
        python/code.html#geographiclib.geodesicline.GeodesicLine>}.
@@ -269,7 +248,7 @@ class GeodesicLineSolve(_GeodesicSolveBase, _SolveLineBase):
         _xinstanceof(GeodesicSolve, geodesic=geodesic)
         if (caps & Caps.LINE_OFF):  # copy to avoid updates
             geodesic = geodesic.copy(deep=False, name=_UNDER_(NN, geodesic.name))  # NOT _under!
-        _SolveLineBase.__init__(self, geodesic, lat1, lon1, caps, azi1=azi1, **name)
+        _SolveGDictLineBase.__init__(self, geodesic, lat1, lon1, caps, azi1=azi1, **name)
         try:
             self.GeodSolve = geodesic.GeodSolve  # geodesic or copy of geodesic
         except GeodesicError:
@@ -299,7 +278,7 @@ class GeodesicLineSolve(_GeodesicSolveBase, _SolveLineBase):
            @return: A C{GDict} with 12 items C{lat1, lon1, azi1, lat2, lon2,
                     azi2, m12, a12, s12, M12, M21, S12}.
         '''
-        return self._GDictInvoke(self._cmdArc, True, self._Names_Direct, a12)._unCaps(outmask)
+        return self._GDictInvoke(self._cmdArc, self._Names_Direct, a12)._unCaps(outmask)
 
     @Property_RO
     def azi1(self):
@@ -350,7 +329,7 @@ class GeodesicLineSolve(_GeodesicSolveBase, _SolveLineBase):
            @return: A C{GDict} with 12 items C{lat1, lon1, azi1, lat2, lon2,
                     azi2, m12, a12, s12, M12, M21, S12}, possibly C{a12=NAN}.
         '''
-        return self._GDictInvoke(self._cmdDistance, True, self._Names_Direct, s12)._unCaps(outmask)
+        return self._GDictInvoke(self._cmdDistance, self._Names_Direct, s12)._unCaps(outmask)
 
     @Property_RO
     def s13(self):
@@ -392,16 +371,16 @@ class GeodesicLineSolve(_GeodesicSolveBase, _SolveLineBase):
     def toStr(self, **prec_sep):  # PYCHOK signature
         '''Return this C{GeodesicLineSolve} as string.
 
-           @kwarg prec_sep: Keyword argumens C{B{prec}=6} and C{B{sep}=', '}
-                      for the C{float} C{prec}ision, number of decimal digits
-                      (0..9) and the C{sep}arator string to join.  Trailing
-                      zero decimals are stripped for B{C{prec}} values of
-                      1 and above, but kept for negative B{C{prec}} values.
+           @kwarg prec_sep: Keyword argumens C{B{prec}=6} and C{B{sep}=", "}
+                       for the C{float} C{prec}ision, number of decimal digits
+                       (0..9) and the C{sep}arator string to join.  Trailing
+                       zero decimals are stripped for B{C{prec}} values of 1
+                       and above, but kept for negative B{C{prec}} values.
 
            @return: GeodesicLineSolve items (C{str}).
         '''
-        return _SolveLineBase._toStr(self, azi1=self.azi1, geodesic=self._solve,
-                                           GeodSolve=self.GeodSolve, **prec_sep)
+        return _SolveGDictLineBase._toStr(self, azi1=self.azi1, geodesic=self._solve,
+                                                GeodSolve=self.GeodSolve, **prec_sep)
 
 
 __all__ += _ALL_DOCS(_GeodesicSolveBase)
@@ -415,7 +394,7 @@ if __name__ == '__main__':
     gS.verbose = '--verbose' in argv  # or '-v' in argv
 
     if gS.GeodSolve in (_PYGEODESY_GEODSOLVE_, None):  # not set
-        gS.GeodSolve = '/opt/local/bin/GeodSolve'  # '/opt/local/Cellar/geographiclib/1.51/bin/GeodSolve'  # HomeBrew
+        gS.GeodSolve = '/opt/local/bin/GeodSolve'  # '/opt/local/Cellar/geographiclib/2.3/bin/GeodSolve'  # HomeBrew
     printf('version: %s', gS.version)
 
     r = gS.Direct(40.6, -73.8, 51, 5.5e6)

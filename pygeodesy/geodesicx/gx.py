@@ -63,7 +63,7 @@ from pygeodesy.utily import atan2d as _atan2d_reverse, _unrollon, _Wrap, wrap360
 from math import atan2, copysign, cos, degrees, fabs, radians, sqrt
 
 __all__ = ()
-__version__ = '24.06.24'
+__version__ = '24.06.28'
 
 _MAXIT1 = 20
 _MAXIT2 = 10 + _MAXIT1 + MANT_DIG  # MANT_DIG == C++ digits
@@ -212,7 +212,7 @@ class GeodesicExact(_GeodesicBase):
                  <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1GeodesicExact.html>} and
                  Python U{Geodesic.ArcDirectLine<https://GeographicLib.SourceForge.io/Python/doc/code.html>}.
         '''
-        return self._GenDirectLine(lat1, lon1, azi1, True, a12, caps, **name)
+        return GeodesicLineExact(self, lat1, lon1, azi1, caps=caps, **name)._GenSet(self._debug, a12=a12)
 
     def Area(self, polyline=False, **name):
         '''Set up a L{GeodesicAreaExact} to compute area and
@@ -390,7 +390,7 @@ class GeodesicExact(_GeodesicBase):
                  <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1GeodesicExact.html>} and
                  Python U{Geodesic.DirectLine<https://GeographicLib.SourceForge.io/Python/doc/code.html>}.
         '''
-        return self._GenDirectLine(lat1, lon1, azi1, False, s12, caps, **name)
+        return GeodesicLineExact(self, lat1, lon1, azi1, caps=caps, **name)._GenSet(self._debug, s12=s12)
 
     def _dn(self, sbet, cbet):  # in gxline._GeodesicLineExact.__init__
         '''(INTERNAL) Helper.
@@ -497,7 +497,7 @@ class GeodesicExact(_GeodesicBase):
         Cs = Caps
         if self._debug:  # PYCHOK no cover
             outmask |= Cs._DEBUG_INVERSE & self._debug
-        outmask &= Cs._OUT_MASK  # incl. _SALPs_CALPs and _DEBUG_
+        outmask &= Cs._OUT_MASK  # incl. _S_CALPs_ and _DEBUG_
         # compute longitude difference carefully (with _diff182):
         # result is in [-180, +180] but -180 is only for west-going
         # geodesics, +180 is for east-going and meridional geodesics
@@ -671,7 +671,7 @@ class GeodesicExact(_GeodesicBase):
                 S12 = -S12
             r.set_(S12=unsigned0(S12))
 
-        if (outmask & (Cs.AZIMUTH | Cs._SALPs_CALPs)):
+        if (outmask & (Cs.AZIMUTH | Cs._S_CALPs_)):
             if swap_:
                 salp1, salp2 = salp2, salp1
                 calp1, calp2 = calp2, calp1
@@ -683,7 +683,7 @@ class GeodesicExact(_GeodesicBase):
             if (outmask & Cs.AZIMUTH):
                 r.set_(azi1=_atan2d(salp1, calp1),
                        azi2=_atan2d_reverse(salp2, calp2, reverse=outmask & Cs.REVERSE2))
-            if (outmask & Cs._SALPs_CALPs):
+            if (outmask & Cs._S_CALPs_):
                 r.set_(salp1=salp1, calp1=calp1,
                        salp2=salp2, calp2=calp2)
 
@@ -707,25 +707,13 @@ class GeodesicExact(_GeodesicBase):
         r = self._GDictDirect(lat1, lon1, azi1, arcmode, s12_a12, outmask)
         return r.toDirect9Tuple()
 
-    def _GenDirectLine(self, lat1, lon1, azi1, arcmode, s12_a12, caps, **name):
-        '''(INTERNAL) Helper for C{ArcDirectLine} and C{DirectLine}.
-
-           @return: A L{GeodesicLineExact} instance.
-        '''
-        azi1 = _norm180(azi1)
-        # guard against underflow in salp0.  Also -0 is converted to +0.
-        s, c = _sincos2d(_around(azi1))
-        C    =  caps if arcmode else (caps | Caps.DISTANCE_IN)
-        return _GeodesicLineExact(self, lat1, lon1, azi1, C,
-                                  self._debug, s, c, **name)._GenSet(arcmode, s12_a12)
-
     def _GenInverse(self, lat1, lon1, lat2, lon2, outmask=Caps.STANDARD):
         '''(INTERNAL) The general I{Inverse} geodesic calculation.
 
            @return: L{Inverse10Tuple}C{(a12, s12, salp1, calp1, salp2, calp2,
                                              m12,   M12,   M21,   S12)}.
         '''
-        r = self._GDictInverse(lat1, lon1, lat2, lon2, outmask | Caps._SALPs_CALPs)
+        r = self._GDictInverse(lat1, lon1, lat2, lon2, outmask | Caps._S_CALPs_)
         return r.toInverse10Tuple()
 
     def _Inverse(self, ll1, ll2, wrap, **outmask):
@@ -815,11 +803,9 @@ class GeodesicExact(_GeodesicBase):
                  Python U{Geodesic.InverseLine<https://GeographicLib.SourceForge.io/Python/doc/code.html>}.
         '''
         Cs = Caps
-        r  = self._GDictInverse(lat1, lon1, lat2, lon2, Cs._SALPs_CALPs)  # No need for AZIMUTH
-        C  = (caps | Cs.DISTANCE) if (caps & (Cs.DISTANCE_IN & Cs._OUT_MASK)) else caps
-        azi1 = _atan2d(r.salp1, r.calp1)
-        return _GeodesicLineExact(self, lat1, lon1, azi1, C,  # ensure a12 is distance
-                                  self._debug, r.salp1, r.calp1, **name)._GenSet(True, r.a12)
+        r  = self._GDictInverse(lat1, lon1, lat2, lon2, Cs.DISTANCE | Cs._S_CALPs_)  # No need for AZIMUTH
+        return GeodesicLineExact(self, lat1, lon1, None, caps=caps, _s_calp1=(r.salp1, r.calp1),
+                                                       **name)._GenSet(self._debug, **r)
 
     def _InverseArea(self, _meridian, salp1, calp1,  # PYCHOK 9 args
                                       salp2, calp2,
@@ -1130,7 +1116,7 @@ class GeodesicExact(_GeodesicBase):
                  <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1GeodesicExact.html>}
                  and Python U{Geodesic.Line<https://GeographicLib.SourceForge.io/Python/doc/code.html>}.
         '''
-        return _GeodesicLineExact(self, lat1, lon1, azi1, caps, self._debug, **name)
+        return GeodesicLineExact(self, lat1, lon1, azi1, caps=caps, **name)._GenSet(self._debug)
 
     @Property_RO
     def n(self):
@@ -1250,8 +1236,8 @@ class GeodesicExact(_GeodesicBase):
 
            @return: C{GeodesicExact} (C{str}).
         '''
-        return self._instr(props=(GeodesicExact.ellipsoid,),
-                           C4order=self.C4order, **prec_sep_name)
+        t = GeodesicExact.caps, GeodesicExact.ellipsoid
+        return self._instr(props=t, C4order=self.C4order, **prec_sep_name)
 
 
 class GeodesicLineExact(_GeodesicLineExact):
@@ -1282,7 +1268,7 @@ class GeodesicLineExact(_GeodesicLineExact):
         if (caps & Caps.LINE_OFF):  # copy to avoid updates
             geodesic = geodesic.copy(deep=False, name=_UNDER_(NN, geodesic.name))
 #           _update_all(geodesic)
-        _GeodesicLineExact.__init__(self, geodesic, lat1, lon1, azi1, caps, 0, **name)
+        _GeodesicLineExact.__init__(self, geodesic, lat1, lon1, azi1, caps, **name)
 
 
 def _Astroid(x, y):

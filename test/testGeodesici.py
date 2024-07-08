@@ -1,26 +1,50 @@
 
 # -*- coding: utf-8 -*-
 
-# Some basic C{geodesici} class C{Intersector} tests.
+# Some C{geodesici} tests for classes C{Intersectool} and C{Intersector}.
 
 __all__ = ('Tests',)
-__version__ = '24.06.27'
+__version__ = '24.07.03'
 
-from bases import GeodSolve, geographiclib, TestsBase
+from bases import GeodSolve, geographiclib, IntersectTool, TestsBase
 
-from pygeodesy import geodesici, Intersector
+from pygeodesy import geodesici, Intersectool, Intersector
 from pygeodesy.interns import _DOT_
 
-_xdict   = {}  # GeodesicExact results
-_xpected = _xdict.setdefault
+
+def _re(v, x):  # rel error
+    e = 0 if v is None or x is None else abs(v - x)  # None iteration
+    if e:
+        m = max(abs(v), abs(x))
+        if m:
+            e = min(e, m, e / m)
+    return e
 
 
 class Tests(TestsBase):
 
-    def test_(self, name, v, **kwds):
+    _Xdict2 = dict()
+    _knowns = set(('aAB', 'sAB', 'sX0', 'sB', 'iteration', 'latB'))
+
+    def test_(self, name, v, **nl):
         t = ('%9g' % (v,)).strip() if isinstance(v, float) else str(v)
-        x = _xpected(name, t)
-        TestsBase.test(self, name, t, x, known=True, **kwds)
+        X, x = self._Xdict2.setdefault(name, (v, t))
+        if isinstance(X, dict):
+            TestsBase.test(self, name, t, x, known=True, **nl)
+            if t != x:
+                if len(v) > len(X):
+                    X, v = v, X
+                for n, v in v.items():
+                    x =  X.get(n, v)
+                    e = _re(v, x)
+                    if e > 1e-12:
+                        n = _DOT_(name, n)
+                        TestsBase.test(self, n, v, x, error=e, known=n.endswith('X'))  # .a1X, .latX, .s1X
+        else:
+            e, n = _re(v,  X), name.split(_DOT_)[-1]  # tailof
+            TestsBase.test(self, name, t, x, error=e, known=(e < 9e-9  # max(e) 6e-16
+                                                         or (n in self._knowns)
+                                                         or _re(v, -X) < 1e-12), **nl)
 
     def testEnumerate(self, name, y):
         for i, t in enumerate(y):
@@ -36,30 +60,56 @@ class Tests(TestsBase):
             self.test_(_DOT_(name, n), v, nl=nl)
             nl = 0
 
-    def testIntersector(self, G):
+    def testIntersector(self, G, T=Intersector, **_C):
         self.subtitle(geodesici, G.__name__)
 
-        I = Intersector(G(), name='Test')  # PYCHOK I
-        self.test('Intersector', I, I)
+        I = T(G(), name='Test')  # PYCHOK I
+        self.test(I.__class__.__name__, I, I)
 
         # <https://GeographicLib.sourceforge.io/C++/doc/classGeographicLib_1_1Intersect.html>
         a = I.Line( 0.0,  0.0,  45.0)
         b = I.Line(45.0, 10.0, 135.0)
-        self.testItems('Closest.1',  I.Closest( a, b))
+        self.testItems('Closest.1',  I.Closest( a, b, **_C))
         self.testItems('Closest5.1', I.Closest5(a, b))
-
-        self.testEnumerate('Next5s', I.Next5s(a, b))
 
         # <https://GeographicLib.sourceforge.io/C++/doc/IntersectTool.1.html>
         a = I.Line(50.0, -4.0, -147.7)
         b = I.Line( 0.0,  0.0,   90.0)
-        self.testItems('Closest.2',  I.Closest( a, b))
+        self.testItems('Closest.2',  I.Closest( a, b, **_C))
         self.testItems('Closest5.2', I.Closest5(a, b))
 
         a = I.Line(50.0,  -4.0, -147.7)
         b = I.Line( 0.0, 180.0,    0.0)
-        self.testEnumerate('All',  I.All( a, b))
+        self.testEnumerate('All',  I.All( a, b, **_C))
         self.testEnumerate('All5', I.All5(a, b))
+
+        a = I.Line( 0.0,  0.0,  10.0, 10.0)
+        b = I.Line(50.0, -4.0, -50.0, -4.0)
+        self.testItems('Middle',  I.Middle(a, b, **_C))
+        self.testItems('Middle5', I.Middle5(a, b))
+
+        # % echo 0 0 10 10 50 -4 -50 -4 | IntersectTool -i -p 0 -C
+        # -631414 5988887 0 -3
+        # -4.05187 -4.00000 -4.05187 -4.00000 0
+        self.testItems('Segment', I.Segment(a, b, **_C))
+        self.testItems('Segment5', I.Segment5(a, b))
+
+        # % echo 50N 4W 147.7W 0 0 90 | IntersectTool -e 6371e3 0 -c -p 0 -C
+        # 6077191 -3318019 0
+        # -0.00000 -29.83966 -0.00000 -29.83966 0
+        S = T(G(6371e3, 0.0), name='Test')  # PYCHOK I
+        a = S.Line(50.0, -4.0, -147.7)
+        b = S.Line( 0.0,  0.0,   90.0)
+        self.testItems('Sphere.Closest', S.Closest(a, b, **_C))
+        self.testItems('Sphere.Closest5', S.Closest5(a, b))
+
+        try:
+            n = I.invokation
+            self.test('invokations', n, n, nl=1)
+        except AttributeError:
+            pass
+        n = len(self._Xdict2)  # not a test
+        self.test('_Xdict2', n, n, nl=1)
 
 
 if __name__ == '__main__':
@@ -68,18 +118,21 @@ if __name__ == '__main__':
 
     t = Tests(__file__, __version__, geodesici)
 
-    if GeodSolve:  # first, to populate _xdict, ...
-        from pygeodesy.geodsolve import GeodesicSolve
-        t.testIntersector(GeodesicSolve)
+    for _C in (False, True):
+        t._Xdict2 = dict()
 
-    t.testIntersector(GeodesicExact)  # ... otherwise
+        if IntersectTool:  # first, to populate _xdict, ...
+            t.testIntersector(GeodesicExact, T=Intersectool, _C=_C)
 
-    if geographiclib:
-        from pygeodesy.geodesicw import Geodesic
-        t.testIntersector(Geodesic)
+        if GeodSolve:  # ... or ...
+            from pygeodesy.geodsolve import GeodesicSolve
+            t.testIntersector(GeodesicSolve, _C=_C)
 
-    n = len(_xdict)  # not a test
-    t.test('_xdict', n, n, nl=1)
+        t.testIntersector(GeodesicExact)  # ... otherwise
+
+        if geographiclib:
+            from pygeodesy.geodesicw import Geodesic
+            t.testIntersector(Geodesic, _C=_C)
 
     t.results()
     t.exit()

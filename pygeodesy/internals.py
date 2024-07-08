@@ -4,9 +4,9 @@ u'''Mostly INTERNAL functions, except L{machine}, L{print_} and L{printf}.
 '''
 # from pygeodesy.basics import isiterablen  # _MODS
 # from pygeodesy.errors import _AttributeError, _error_init, _UnexpectedError, _xError2  # _MODS
-from pygeodesy.interns import NN, _COLON_, _DOT_, _ELLIPSIS_, _EQUALSPACED_, \
-                             _immutable_, _NL_, _pygeodesy_, _PyPy__, _python_, \
-                             _QUOTE1_, _QUOTE2_, _s_, _SPACE_, _sys, _UNDER_, _utf_8_
+from pygeodesy.interns import NN, _BAR_, _COLON_, _DASH_, _DOT_, _ELLIPSIS_, _EQUALSPACED_, \
+                             _immutable_, _NL_, _pygeodesy_, _PyPy__, _python_, _QUOTE1_, \
+                             _QUOTE2_, _s_, _SPACE_, _sys, _UNDER_, _utf_8_
 from pygeodesy.interns import _COMMA_, _Python_  # PYCHOK used!
 # from pygeodesy.streprs import anstr, pairs, unstr  # _MODS
 
@@ -360,10 +360,10 @@ def _passargs(*args):
     return args
 
 
-def _plural(noun, n):
+def _plural(noun, n, nn=NN):
     '''(INTERNAL) Return C{noun}['s'] or C{NN}.
     '''
-    return NN(noun, _s_) if n > 1 else (noun if n else NN)
+    return NN(noun, _s_) if n > 1 else (noun if n else nn)
 
 
 def print_(*args, **nl_nt_prec_prefix__end_file_flush_sep__kwds):  # PYCHOK no cover
@@ -504,9 +504,30 @@ def _under(name):  # PYCHOK in .datums, .auxilats, .ups, .utm, .utmupsBase, ...
     return name if name.startswith(_UNDER_) else NN(_UNDER_, name)
 
 
-def _usage(file_py, *args):  # in .etm
+def _usage(file_py, *args, **opts_help):  # in .etm, .geodesici
     '''(INTERNAL) Build "usage: python -m ..." cmd line for module B{C{file_py}}.
     '''
+    if opts_help:
+
+        def _help(alts=(), help=NN, **unused):
+            if alts and help:
+                h = NN(help, _SPACE_).lstrip(_DASH_)
+                for a in alts:
+                    if a.startswith(h):
+                        return NN(_DASH_, a),
+
+        def _opts(opts=NN, alts=(), **unused):
+            # opts='T--v-C-R meter-c|i|n|o'
+            d, fmt = NN, _MODS.streprs.Fmt.SQUARE
+            for o in (opts + _BAR_(*alts)).split(_DASH_):
+                if o:
+                    yield fmt(NN(d, _DASH_, o.replace(_BAR_, ' | -')))
+                    d =  NN
+                else:
+                    d = _DASH_
+
+        args = _help(**opts_help) or (tuple(_opts(**opts_help)) + args)
+
     m = _os_path.dirname(file_py).replace(_os.getcwd(), _ELLIPSIS_) \
                                  .replace(_os.sep, _DOT_).strip()
     b, x = _os_path.splitext(_os_path.basename(file_py))
@@ -550,7 +571,7 @@ def _version_ints(vs):
 
 
 __all__ = tuple(map(_dunder_nameof, (machine, print_, printf)))
-__version__ = '24.06.05'
+__version__ = '24.07.04'
 
 if _dunder_ismain(__name__):  # PYCHOK no cover
 

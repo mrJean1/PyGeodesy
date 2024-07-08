@@ -236,6 +236,13 @@
     <code>PYGEODESY_GEODSOLVE</code> or with property <a 
     href="pygeodesy.ellipsoids.Ellipsoid-class.html#geodsolve" 
     class="link">Ellipsoid.geodsolve</a>.</p>
+    <p>Class <a href="pygeodesy.geodesici.Intersectool-class.html" 
+    class="link">Intersectool</a> and module <a 
+    href="pygeodesy.geodesici-module.html" class="link">geodesici</a> need 
+    <i>Karney</i>'s C++ utility <a 
+    href="https://GeographicLib.SourceForge.io/C++/doc/IntersectTool.1.html"
+    target="_top">IntersectTool</a> to be executable and set with env 
+    variable <code>PYGEODESY_INTERSECTTOOL</code>.</p>
     <p>To compare <code>MGRS</code> results from modules <a 
     href="pygeodesy.mgrs-module.html" class="link">mgrs</a> and 
     <code>testMgrs</code> with <i>Karney</i>'s C++ utility <a 
@@ -404,6 +411,10 @@
         href="pygeodesy.geodsolve-module.html" class="link">geodsolve</a>.
       </li>
       <li>
+        <code>PYGEODESY_INTERSECTTOOL</code> - see modules <a 
+        href="pygeodesy.geodesici-module.html" class="link">geodesici</a>.
+      </li>
+      <li>
         <code>PYGEODESY_LAZY_IMPORT</code> - see module <a 
         href="pygeodesy.lazily-module.html" class="link">lazily</a> and 
         variable <a href="pygeodesy-module.html#isLazy" 
@@ -534,7 +545,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        24.06.24
+        24.07.07
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -716,11 +727,14 @@
         <i>running</i> summation based on, respectively similar to Python's
         <code>math.fsum</code>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.gars-module.html">pygeodesy.gars</a></strong>: <em class="summary"><i>Global Area Reference System</i> (GARS) en-/decoding.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.geodesici-module.html">pygeodesy.geodesici</a></strong>: <em class="summary">Class <a href="pygeodesy.geodesici.Intersector-class.html" 
-        class="link">Intersector</a>, a pure Python version of parts of 
+    <li> <strong class="uidlink"><a href="pygeodesy.geodesici-module.html">pygeodesy.geodesici</a></strong>: <em class="summary">Classes <a href="pygeodesy.geodesici.Intersectool-class.html" 
+        class="link">Intersectool</a> and <a 
+        href="pygeodesy.geodesici.Intersector-class.html" 
+        class="link">Intersector</a>, a pure Python version of 
         <i>Karney</i>'s C++ class <a 
         href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Intersect.html"
-        target="_top">Intersect</a> to intersect geodesic lines.</em>    </li>
+        target="_top">Intersect</a> to find the intersections of two 
+        geodesic lines or line segments.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.geodesicw-module.html">pygeodesy.geodesicw</a></strong>: <em class="summary">Wrapper around Python classes <code>geodesic.Geodesic</code> and 
         <code>geodesicline.GeodesicLine</code> from <i>Karney</i>'s Python 
         package <a href="https://PyPI.org/project/geographiclib" 
@@ -2577,7 +2591,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.geodsolve.GeodSolve12Tuple-class.html" class="summary-name">GeodSolve12Tuple</a><br />
+        <a href="pygeodesy.karney.GeodSolve12Tuple-class.html" class="summary-name">GeodSolve12Tuple</a><br />
       12-Tuple <code>(lat1, lon1, azi1, lat2, lon2, azi2, s12, a12, m12, 
         M12, M21, S12)</code> with angles <code>lat1</code>, 
         <code>lon1</code>, <code>azi1</code>, <code>lat2</code>, 
@@ -3337,6 +3351,32 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.geodesici.Intersectool-class.html" class="summary-name">Intersectool</a><br />
+      Wrapper to invoke <i>Karney</i>'s utility <a 
+        href="https://GeographicLib.SourceForge.io/C++/doc/IntersectTool.1.html"
+        target="_top">IntersectTool</a> similar to class <a 
+        href="pygeodesy.geodesici.Intersector-class.html" 
+        class="link">Intersector</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.geodesici.Intersectool5Tuple-class.html" class="summary-name">Intersectool5Tuple</a><br />
+      5-Tuple <code>(A, B, sAB, aAB, c)</code> with <code>A</code> and 
+        <code>B</code> the <code>Position</code> of the intersection on 
+        each geodesic line, the distance <code>sAB</code> between 
+        <code>A</code> and <code>B</code> in <code>meter</code>, the 
+        angular distance <code>aAB</code> in <code>degrees</code> and 
+        coincidence indicator <code>c</code> (<code>int</code>), see <a 
+        href="pygeodesy.geodesici.XDict-class.html" class="link">XDict</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.geodesici.Intersector-class.html" class="summary-name">Intersector</a><br />
       Finder of intersections between two goedesic lines, each an 
         instance of <a 
@@ -3359,7 +3399,7 @@
         <code>A</code> and <code>B</code> in <code>meter</code>, angular 
         distance <code>aAB</code> in <code>degrees</code> and coincidence 
         indicator <code>c</code> (<code>int</code>), see <a 
-        href="pygeodesy.geodesici.XDist-class.html" class="link">XDist</a>.
+        href="pygeodesy.geodesici.XDict-class.html" class="link">XDict</a>.
     </td>
   </tr>
 <tr>
@@ -4836,18 +4876,17 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.geodesici.XDist-class.html" class="summary-name">XDist</a><br />
-      4-Item result from <a 
-        href="pygeodesy.geodesici.Intersector-class.html#All" 
-        class="link">Intersector.All</a>, <a 
-        href="pygeodesy.geodesici.Intersector-class.html#Closest" 
-        class="link">Intersector.Closest</a> and <a 
-        href="pygeodesy.geodesici.Intersector-class.html#Next" 
-        class="link">Intersector.Next</a> with the intersection offsets 
-        <code>sA</code>, <code>sB</code> and <code>sX0</code> in 
-        <code>meter</code> and the coincidence indicator <code>c</code>, an
-        <code>int</code>, +1 for parallel, -1 for anti-parallel, 0 
-        otherwise.
+        <a href="pygeodesy.geodesici.XDict-class.html" class="summary-name">XDict</a><br />
+      4+Item result from <a 
+        href="pygeodesy.geodesici.Intersectool-class.html" 
+        class="link">Intersectool</a> and <a 
+        href="pygeodesy.geodesici.Intersector-class.html" 
+        class="link">Intersector</a> methods <code>All</code>, 
+        <code>Closest</code>, <code>Next</code> and <code>Segment</code> 
+        with the intersection offsets <code>sA</code>, <code>sB</code> and 
+        <code>sX0</code> in <code>meter</code> and the coincidence 
+        indicator <code>c</code>, an <code>int</code>, +1 for parallel, -1 
+        for anti-parallel or 0 otherwise.
     </td>
   </tr>
 <tr>
@@ -6051,7 +6090,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#clips" class="summary-sig-name">clips</a>(<span class="summary-sig-arg">sb</span>,
         <span class="summary-sig-arg">limit</span>=<span class="summary-sig-default">50</span>,
-        <span class="summary-sig-arg">white</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">white</span>=<span class="summary-sig-default">''</span>,
+        <span class="summary-sig-arg">length</span>=<span class="summary-sig-default">False</span>)</span><br />
       Clip a string to the given length limit.</td>
           <td align="right" valign="top">
             
@@ -8199,7 +8239,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7ff6d0533f50&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fbab8ab37d0&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -12734,7 +12774,7 @@ ygeodesy'"><code class="variable-quote">'</code><code class="variable-string">/U
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'24.6.24'">'24.6.24'</code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'24.7.7'">'24.7.7'</code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -15740,7 +15780,8 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">clips</span>&nbsp;(<span class="sig-arg">sb</span>,
         <span class="sig-arg">limit</span>=<span class="sig-default">50</span>,
-        <span class="sig-arg">white</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">white</span>=<span class="sig-default">''</span>,
+        <span class="sig-arg">length</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -15754,6 +15795,8 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <li><strong class="pname"><code>sb</code></strong> - String (<code>str</code> or <code>bytes</code>).</li>
         <li><strong class="pname"><code>limit</code></strong> - Length limit (<code>int</code>).</li>
         <li><strong class="pname"><code>white</code></strong> - Optionally, replace all whitespace (<code>str</code>).</li>
+        <li><strong class="pname"><code>len</code></strong> - IF <code>True</code> append the original <i>[length]</i> 
+          (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The clipped or unclipped <b><code>sb</code></b>.</dd>
@@ -20338,7 +20381,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7ff6d0533f50&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fbab8ab37d0&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -30209,7 +30252,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Jun 27 19:44:12 2024
+    Generated by Epydoc 3.0.1 on Sun Jul  7 21:19:24 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

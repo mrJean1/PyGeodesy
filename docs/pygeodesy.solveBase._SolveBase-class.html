@@ -77,12 +77,12 @@
 <dl><dt>Known Subclasses:</dt>
 <dd>
       <ul class="subclass-list">
-<li><a href="pygeodesy.geodsolve._GeodesicSolveBase-class.html">geodsolve._GeodesicSolveBase</a></li><li>, <a href="pygeodesy.rhumb.solve._RhumbSolveBase-class.html">rhumb.solve._RhumbSolveBase</a></li>  </ul>
+<li><a href="pygeodesy.solveBase._SolveGDictBase-class.html">_SolveGDictBase</a></li>  </ul>
 </dd></dl>
 
 <hr />
-<p>(NTERNAL) Base class for <code>_GeodesicSolveBase</code> and 
-  <code>_RhumbSolveBase</code>.</p>
+<p>(INTERNAL) Base class for <code>_SolveBase</code> and 
+  <code>_SolveLineBase</code>.</p>
 
 <!-- ==================== INSTANCE METHODS ==================== -->
 <a name="section-InstanceMethods"></a>
@@ -92,98 +92,11 @@
   <td align="left" colspan="2" class="table-header">
     <span class="table-header">Instance Methods</span></td>
 </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a name="Direct"></a><span class="summary-sig-name">Direct</span>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">lat1</span>,
-        <span class="summary-sig-arg">lon1</span>,
-        <span class="summary-sig-arg">azi1</span>,
-        <span class="summary-sig-arg">s12</span>,
-        <span class="summary-sig-arg">outmask</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">UNUSED</code><code class="variable-quote">'</code></span>)</span><br />
-      Return the <code>Direct</code> result.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a name="Inverse"></a><span class="summary-sig-name">Inverse</span>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">lat1</span>,
-        <span class="summary-sig-arg">lon1</span>,
-        <span class="summary-sig-arg">lat2</span>,
-        <span class="summary-sig-arg">lon2</span>,
-        <span class="summary-sig-arg">outmask</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">UNUSED</code><code class="variable-quote">'</code></span>)</span><br />
-      Return the <code>Inverse</code> result.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a name="Inverse1"></a><span class="summary-sig-name">Inverse1</span>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">lat1</span>,
-        <span class="summary-sig-arg">lon1</span>,
-        <span class="summary-sig-arg">lat2</span>,
-        <span class="summary-sig-arg">lon2</span>,
-        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
-      Return the non-negative, <i>angular</i> distance in 
-      <code>degrees</code>.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.solveBase._SolveBase-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">a_ellipsoid</span>=<span class="summary-sig-default">Ellipsoid(name='WGS84', a=6378137, f=0.00335281, f_=298.257223<code class="variable-ellipsis">...</code></span>,
-        <span class="summary-sig-arg">f</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">path</span>=<span class="summary-sig-default">''</span>,
-        <span class="summary-sig-arg">**name</span>)</span><br />
-      New <code>Solve</code> instance.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
   <tr>
     <td colspan="2" class="summary">
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.solveBase._SolveCapsBase-class.html">_SolveCapsBase</a></code></b>:
-      <code><a href="pygeodesy.solveBase._SolveCapsBase-class.html#invoke">invoke</a></code>
+      <code><a href="pygeodesy.solveBase._SolveCapsBase-class.html#invoke">invoke</a></code>,
+      <code><a href="pygeodesy.solveBase._SolveCapsBase-class.html#linelimit">linelimit</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.karney._CapsBase-class.html">karney._CapsBase</a></code></b>:
       <code><a href="pygeodesy.karney._CapsBase-class.html#caps_">caps_</a></code>
@@ -213,6 +126,7 @@
       <code>__format__</code>,
       <code>__getattribute__</code>,
       <code>__hash__</code>,
+      <code>__init__</code>,
       <code>__new__</code>,
       <code>__reduce__</code>,
       <code>__reduce_ex__</code>,
@@ -264,55 +178,30 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.solveBase._SolveBase-class.html#a" class="summary-name">a</a><br />
-      Get the <i>equatorial</i> radius, semi-axis (<code>meter</code>).
+        <a href="pygeodesy.solveBase._SolveBase-class.html#reverse2" class="summary-name">reverse2</a><br />
+      Get the <code>azi2</code> direction (<code>bool</code>).
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.solveBase._SolveBase-class.html#datum" class="summary-name">datum</a><br />
-      Get the datum (<code>Datum</code>).
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.solveBase._SolveBase-class.html#ellipsoid" class="summary-name">ellipsoid</a><br />
-      Get the ellipsoid (<code>Ellipsoid</code>).
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.solveBase._SolveBase-class.html#f" class="summary-name">f</a><br />
-      Get the <code>ellipsoid</code>'s <i>flattening</i> 
-      (<code>scalar</code>), <i class="math">(a - b) / a</i>, 
-      <code>0</code> for spherical, negative for prolate.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.solveBase._SolveBase-class.html#flattening" class="summary-name">flattening</a><br />
-      Get the <code>ellipsoid</code>'s <i>flattening</i> 
-      (<code>scalar</code>), <i class="math">(a - b) / a</i>, 
-      <code>0</code> for spherical, negative for prolate.
+        <a href="pygeodesy.solveBase._SolveBase-class.html#unroll" class="summary-name">unroll</a><br />
+      Get the <code>lon2</code> unroll'ing (<code>bool</code>).
     </td>
   </tr>
   <tr>
     <td colspan="2" class="summary">
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.solveBase._SolveCapsBase-class.html">_SolveCapsBase</a></code></b>:
       <code><a href="pygeodesy.solveBase._SolveCapsBase-class.html#Exact">Exact</a></code>,
+      <code><a href="pygeodesy.solveBase._SolveCapsBase-class.html#a">a</a></code>,
+      <code><a href="pygeodesy.solveBase._SolveCapsBase-class.html#datum">datum</a></code>,
+      <code><a href="pygeodesy.solveBase._SolveCapsBase-class.html#ellipsoid">ellipsoid</a></code>,
+      <code><a href="pygeodesy.solveBase._SolveCapsBase-class.html#f">f</a></code>,
+      <code><a href="pygeodesy.solveBase._SolveCapsBase-class.html#flattening">flattening</a></code>,
       <code><a href="pygeodesy.solveBase._SolveCapsBase-class.html#invokation">invokation</a></code>,
       <code><a href="pygeodesy.solveBase._SolveCapsBase-class.html#prec">prec</a></code>,
-      <code><a href="pygeodesy.solveBase._SolveCapsBase-class.html#reverse2">reverse2</a></code>,
       <code><a href="pygeodesy.solveBase._SolveCapsBase-class.html#status">status</a></code>,
-      <code><a href="pygeodesy.solveBase._SolveCapsBase-class.html#unroll">unroll</a></code>,
       <code><a href="pygeodesy.solveBase._SolveCapsBase-class.html#verbose">verbose</a></code>,
       <code><a href="pygeodesy.solveBase._SolveCapsBase-class.html#version">version</a></code>
       </p>
@@ -337,62 +226,6 @@
     </td>
   </tr>
 </table>
-<!-- ==================== METHOD DETAILS ==================== -->
-<a name="section-MethodDetails"></a>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr bgcolor="#70b0f0" class="table-header">
-  <td align="left" colspan="2" class="table-header">
-    <span class="table-header">Method Details</span></td>
-</tr>
-</table>
-<a name="__init__"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">a_ellipsoid</span>=<span class="sig-default">Ellipsoid(name='WGS84', a=6378137, f=0.00335281, f_=298.257223<code class="variable-ellipsis">...</code></span>,
-        <span class="sig-arg">f</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">path</span>=<span class="sig-default">''</span>,
-        <span class="sig-arg">**name</span>)</span>
-    <br /><em class="fname">(Constructor)</em>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>New <code>Solve</code> instance.</p>
-  <dl class="fields">
-    <dt>Arguments:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>a_ellipsoid</code></strong> - An ellipsoid (<a href="pygeodesy.ellipsoids.Ellipsoid-class.html"
-          class="link">Ellipsoid</a>) or datum (<a 
-          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>) 
-          or the equatorial radius of the ellipsoid (<code>scalar</code>, 
-          conventionally in <code>meter</code>), see <b><code>f</code></b>.</li>
-        <li><strong class="pname"><code>f</code></strong> - The flattening of the ellipsoid (<code>scalar</code>) if 
-          <b><code>a_ellipsoid</code></b> is specified as 
-          <code>scalar</code>.</li>
-        <li><strong class="pname"><code>path</code></strong> - Optionally, the (fully qualified) path to the 
-          <code>GeodSolve</code> or <code>RhumbSolve</code> executable 
-          (<code>filename</code>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
-    </ul></dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>a_ellipsoid</code></b> or <b><code>f</code></b>.</li>
-    </ul></dd>
-    <dt>Overrides:
-        object.__init__
-    </dt>
-  </dl>
-</td></tr></table>
-</div>
-<br />
 <!-- ==================== PROPERTY DETAILS ==================== -->
 <a name="section-PropertyDetails"></a>
 <table class="details" border="1" cellpadding="3"
@@ -402,22 +235,23 @@
     <span class="table-header">Property Details</span></td>
 </tr>
 </table>
-<a name="a"></a>
+<a name="reverse2"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
-  <h3 class="epydoc">a</h3>
-  <p>Get the <i>equatorial</i> radius, semi-axis (<code>meter</code>).</p>
+  <h3 class="epydoc">reverse2</h3>
+  <p>Get the <code>azi2</code> direction (<code>bool</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">a(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>equatorial</i> radius, semi-axis (<code>meter</code>).
+    <dd class="value"><span class="summary-sig">reverse2(<span class="summary-sig-arg">self</span>)</span>
+        - Get the <code>azi2</code> direction (<code>bool</code>).
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">val</span>)</span>
-        - Throws an <code>AttributeError</code>, always.
+    <dd class="value"><span class="summary-sig">reverse2(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">reverse2</span>)</span>
+        - Set the direction for <code>azi2</code> (<code>bool</code>), if 
+<code>True</code> reverse <code>azi2</code>.
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
@@ -426,102 +260,23 @@
   </dl>
 </td></tr></table>
 </div>
-<a name="datum"></a>
+<a name="unroll"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
-  <h3 class="epydoc">datum</h3>
-  <p>Get the datum (<code>Datum</code>).</p>
+  <h3 class="epydoc">unroll</h3>
+  <p>Get the <code>lon2</code> unroll'ing (<code>bool</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">datum(<span class="summary-sig-arg">self</span>)</span>
-        - Get the datum (<code>Datum</code>).
+    <dd class="value"><span class="summary-sig">unroll(<span class="summary-sig-arg">self</span>)</span>
+        - Get the <code>lon2</code> unroll'ing (<code>bool</code>).
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">val</span>)</span>
-        - Throws an <code>AttributeError</code>, always.
-    </dd>
-    <dt>Delete Method:</dt>
-    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
-        - Zap the <i>cached/memoized</i> <code>property</code> value.
-    </dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="ellipsoid"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">ellipsoid</h3>
-  <p>Get the ellipsoid (<code>Ellipsoid</code>).</p>
-  <dl class="fields">
-    <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">ellipsoid(<span class="summary-sig-arg">self</span>)</span>
-        - Get the ellipsoid (<code>Ellipsoid</code>).
-    </dd>
-    <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">val</span>)</span>
-        - Throws an <code>AttributeError</code>, always.
-    </dd>
-    <dt>Delete Method:</dt>
-    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
-        - Zap the <i>cached/memoized</i> <code>property</code> value.
-    </dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="f"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">f</h3>
-  <p>Get the <code>ellipsoid</code>'s <i>flattening</i> 
-  (<code>scalar</code>), <i class="math">(a - b) / a</i>, <code>0</code> 
-  for spherical, negative for prolate.</p>
-  <dl class="fields">
-    <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">flattening(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <code>ellipsoid</code>'s <i>flattening</i> (<code>scalar</code>), 
-<i class="math">(a - b) / a</i>, <code>0</code> for spherical, negative for
-prolate.
-    </dd>
-    <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">val</span>)</span>
-        - Throws an <code>AttributeError</code>, always.
-    </dd>
-    <dt>Delete Method:</dt>
-    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
-        - Zap the <i>cached/memoized</i> <code>property</code> value.
-    </dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="flattening"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">flattening</h3>
-  <p>Get the <code>ellipsoid</code>'s <i>flattening</i> 
-  (<code>scalar</code>), <i class="math">(a - b) / a</i>, <code>0</code> 
-  for spherical, negative for prolate.</p>
-  <dl class="fields">
-    <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">flattening(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <code>ellipsoid</code>'s <i>flattening</i> (<code>scalar</code>), 
-<i class="math">(a - b) / a</i>, <code>0</code> for spherical, negative for
-prolate.
-    </dd>
-    <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">val</span>)</span>
-        - Throws an <code>AttributeError</code>, always.
+    <dd class="value"><span class="summary-sig">unroll(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">unroll</span>)</span>
+        - Set unroll'ing for <code>lon2</code> (<code>bool</code>), if 
+<code>True</code> unroll <code>lon2</code>, otherwise don't.
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
@@ -562,7 +317,7 @@ prolate.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Jun 27 19:44:16 2024
+    Generated by Epydoc 3.0.1 on Sun Jul  7 21:19:27 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

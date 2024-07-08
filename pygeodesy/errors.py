@@ -27,7 +27,7 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _getenv, _PYTHON_X_D
 from copy import copy as _copy
 
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')  _under
-__version__ = '24.06.24'
+__version__ = '24.07.07'
 
 _argument_   = 'argument'
 _box_        = 'box'
@@ -825,6 +825,15 @@ def _xkwds_item2(kwds):
         for item in kwds.items():
             return item
     raise _xAssertionError(_xkwds_item2, kwds)
+
+
+def _xkwds_kwds(kwds, **names_defaults):
+    '''(INTERNAL) Return a C{dict} of C{named_defaults} items replaced with C{kwds}.
+    '''
+    if not isinstance(kwds, dict):
+        raise _xAssertionError(_xkwds_get_, kwds)
+    _g = kwds.get
+    return dict((n, _g(n, v)) for n, v in names_defaults.items())
 
 
 def _xkwds_not(*args, **kwds):

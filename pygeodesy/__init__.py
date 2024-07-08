@@ -101,6 +101,11 @@ and L{GnomonicGeodSolve} depend on I{Karney}'s C++ utility U{GeodSolve
 <https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html>} to be executable and set with
 env variable C{PYGEODESY_GEODSOLVE} or with property L{Ellipsoid.geodsolve}.
 
+Class L{Intersectool} and module L{geodesici} need I{Karney}'s C++ utility U{IntersectTool
+<https://GeographicLib.SourceForge.io/C++/doc/IntersectTool.1.html>} to be executable and set with
+env variable C{PYGEODESY_INTERSECTTOOL}.
+
+
 To compare C{MGRS} results from modules L{mgrs} and C{testMgrs} with I{Karney}'s C++ utility
 U{GeoConvert<https://GeographicLib.SourceForge.io/C++/doc/GeoConvert.1.html>}, the latter must
 be executable and set with env variable C{PYGEODESY_GEOCONVERT}.
@@ -197,6 +202,7 @@ The following environment variables are observed by C{PyGeodesy}:
  - C{PYGEODESY_FSUM_RESIDUAL} - see module L{fsums<pygeodesy.fsums>} and class L{Fsum<pygeodesy.Fsum>}.
  - C{PYGEODESY_GEOCONVERT} - see module L{mgrs<pygeodesy.mgrs>}.
  - C{PYGEODESY_GEODSOLVE} - see module L{geodsolve<pygeodesy.geodsolve>}.
+ - C{PYGEODESY_INTERSECTTOOL} - see modules L{geodesici<pygeodesy.geodesici>}.
  - C{PYGEODESY_LAZY_IMPORT} - see module L{lazily<pygeodesy.lazily>} and variable L{isLazy<pygeodesy.isLazy>}.
  - C{PYGEODESY_NOTIMPLEMENTED} - C{__special__} methods return C{NotImplemented} if set to "std".
  - C{PYGEODESY_RHUMBSOLVE} - see module L{rhumb.solve<pygeodesy.rhumb.solve>}.
@@ -590,7 +596,7 @@ else:
 
 from pygeodesy.internals import _version2,  _DOT_  # PYCHOK import
 # from pygeodesy.interns import _DOT_  # from .internals
-__version__ = '24.06.24'
+__version__ = '24.07.07'
 # see setup.py for similar logic
 version     = _DOT_(*_version2(__version__, n=3))
 

@@ -61,13 +61,15 @@
 <!-- ==================== CLASS DESCRIPTION ==================== -->
 <h1 class="epydoc">Class Intersector</h1><p class="nomargin-top"></p>
 <pre class="base-tree">
-  object --+        
-           |        
-<a href="pygeodesy.named._Named-class.html">named._Named</a> --+    
-               |    
-<a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a> --+
-                   |
-                  <strong class="uidshort">Intersector</strong>
+  object --+            
+           |            
+<a href="pygeodesy.named._Named-class.html">named._Named</a> --+        
+               |        
+<a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a> --+    
+                   |    
+      _IntersectBase --+
+                       |
+                      <strong class="uidshort">Intersector</strong>
 </pre>
 
 <hr />
@@ -122,9 +124,10 @@
           <td><span class="summary-sig"><a href="pygeodesy.geodesici.Intersector-class.html#All" class="summary-sig-name">All</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">glA</span>,
         <span class="summary-sig-arg">glB</span>,
-        <span class="summary-sig-arg">X0</span>=<span class="summary-sig-default">XDist(c=0, sA=0, sB=0, sX0=0)</span>,
-        <span class="summary-sig-arg">**sMax</span>)</span><br />
-      Find all intersection of two geodesic lines up to a limit.</td>
+        <span class="summary-sig-arg">X0</span>=<span class="summary-sig-default">XDict(c=0, sA=0.0, sB=0.0, sX0=0.0)</span>,
+        <span class="summary-sig-arg">aMaX0</span>=<span class="summary-sig-default">0</span>,
+        <span class="summary-sig-arg">**sMaX0_C</span>)</span><br />
+      Yield all intersection of two geodesic lines up to a limit.</td>
           <td align="right" valign="top">
             
             
@@ -143,10 +146,9 @@
           <td><span class="summary-sig"><a href="pygeodesy.geodesici.Intersector-class.html#All5" class="summary-sig-name">All5</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">glA</span>,
         <span class="summary-sig-arg">glB</span>,
-        <span class="summary-sig-arg">X0</span>=<span class="summary-sig-default">XDist(c=0, sA=0, sB=0, sX0=0)</span>,
-        <span class="summary-sig-arg">aMax</span>=<span class="summary-sig-default">0</span>,
-        <span class="summary-sig-arg">**sMax</span>)</span><br />
-      Find all intersection of two geodesic lines up to a limit.</td>
+        <span class="summary-sig-arg">X0</span>=<span class="summary-sig-default">XDict(c=0, sA=0.0, sB=0.0, sX0=0.0)</span>,
+        <span class="summary-sig-arg">**aMaX0_sMaX0_C</span>)</span><br />
+      Yield all intersection of two geodesic lines up to a limit.</td>
           <td align="right" valign="top">
             
             
@@ -165,7 +167,8 @@
           <td><span class="summary-sig"><a href="pygeodesy.geodesici.Intersector-class.html#Closest" class="summary-sig-name">Closest</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">glA</span>,
         <span class="summary-sig-arg">glB</span>,
-        <span class="summary-sig-arg">X0</span>=<span class="summary-sig-default">XDist(c=0, sA=0, sB=0, sX0=0)</span>)</span><br />
+        <span class="summary-sig-arg">X0</span>=<span class="summary-sig-default">XDict(c=0, sA=0.0, sB=0.0, sX0=0.0)</span>,
+        <span class="summary-sig-arg">**_C</span>)</span><br />
       Find the closest intersection of two geodesic lines.</td>
           <td align="right" valign="top">
             
@@ -185,7 +188,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.geodesici.Intersector-class.html#Closest5" class="summary-sig-name">Closest5</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">glA</span>,
         <span class="summary-sig-arg">glB</span>,
-        <span class="summary-sig-arg">X0</span>=<span class="summary-sig-default">XDist(c=0, sA=0, sB=0, sX0=0)</span>)</span><br />
+        <span class="summary-sig-arg">X0</span>=<span class="summary-sig-default">XDict(c=0, sA=0.0, sB=0.0, sX0=0.0)</span>)</span><br />
       Find the closest intersection of two geodesic lines.</td>
           <td align="right" valign="top">
             
@@ -205,7 +208,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.geodesici.Intersector-class.html#Line" class="summary-sig-name">Line</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">lat1</span>,
         <span class="summary-sig-arg">lon1</span>,
-        <span class="summary-sig-arg">azi_lat2</span>,
+        <span class="summary-sig-arg">azi1_lat2</span>,
         <span class="summary-sig-arg">*lon2</span>,
         <span class="summary-sig-arg">**name</span>)</span><br />
       Return a geodesic line from this <code>Intersector</code>'s geodesic,
@@ -226,10 +229,52 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.geodesici.Intersector-class.html#Middle" class="summary-sig-name">Middle</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">glA</span>,
+        <span class="summary-sig-arg">glB</span>,
+        <span class="summary-sig-arg">raiser</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">**_C</span>)</span><br />
+      Get the mid-points on two geodesic line segments.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.geodesici.Intersector-class.html#Middle5" class="summary-sig-name">Middle5</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">glA</span>,
+        <span class="summary-sig-arg">glB</span>,
+        <span class="summary-sig-arg">**raiser</span>)</span><br />
+      Get the mid-points on two geodesic line segments.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.geodesici.Intersector-class.html#Next" class="summary-sig-name">Next</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">glA</span>,
         <span class="summary-sig-arg">glB</span>,
-        <span class="summary-sig-arg">**eps</span>)</span><br />
+        <span class="summary-sig-arg">eps1</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">**_C</span>)</span><br />
       Yield the next intersection of two <i>intersecting</i> geodesic 
       lines.</td>
           <td align="right" valign="top">
@@ -250,7 +295,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.geodesici.Intersector-class.html#Next5" class="summary-sig-name">Next5</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">glA</span>,
         <span class="summary-sig-arg">glB</span>,
-        <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">6.66133814775e-16</span>)</span><br />
+        <span class="summary-sig-arg">**eps1</span>)</span><br />
       Yield the next intersection of two <i>intersecting</i> geodesic 
       lines.</td>
           <td align="right" valign="top">
@@ -268,16 +313,33 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.geodesici.Intersector-class.html#Next5s" class="summary-sig-name">Next5s</a>(<span class="summary-sig-arg">self</span>,
+          <td><span class="summary-sig"><a href="pygeodesy.geodesici.Intersector-class.html#Segment" class="summary-sig-name">Segment</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">glA</span>,
         <span class="summary-sig-arg">glB</span>,
-        <span class="summary-sig-arg">X0</span>=<span class="summary-sig-default">XDist(c=0, sA=0, sB=0, sX0=0)</span>,
-        <span class="summary-sig-arg">aMax</span>=<span class="summary-sig-default">1801</span>,
-        <span class="summary-sig-arg">sMax</span>=<span class="summary-sig-default">0</span>,
-        <span class="summary-sig-arg">avg</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">**Delta</span>)</span><br />
-      Yield <code>Next</code> intersections up to a maximal (angular) 
-      distance.</td>
+        <span class="summary-sig-arg">proven</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">raiser</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">**_C</span>)</span><br />
+      Find the intersection between two geodesic line segments.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.geodesici.Intersector-class.html#Segment5" class="summary-sig-name">Segment5</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">glA</span>,
+        <span class="summary-sig-arg">glB</span>,
+        <span class="summary-sig-arg">**proven_raiser</span>)</span><br />
+      Find the intersection between two geodesic line segments.</td>
           <td align="right" valign="top">
             
             
@@ -307,6 +369,9 @@
   </tr>
   <tr>
     <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>_IntersectBase</code></b>:
+      <code>Next5s</code>
+      </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a></code></b>:
       <code><a href="pygeodesy.named._NamedBase-class.html#__repr__">__repr__</a></code>,
       <code><a href="pygeodesy.named._NamedBase-class.html#__str__">__str__</a></code>,
@@ -353,70 +418,22 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.geodesici.Intersector-class.html#a" class="summary-name">a</a><br />
-      Get the <i>equatorial</i> radius, semi-axis (<code>meter</code>).
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.geodesici.Intersector-class.html#equatoradius" class="summary-name">equatoradius</a><br />
-      Get the <i>equatorial</i> radius, semi-axis (<code>meter</code>).
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
         <a href="pygeodesy.geodesici.Intersector-class.html#Delta" class="summary-name">Delta</a><br />
       Get the equality and tiling margin (<code>meter</code>).
     </td>
   </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.geodesici.Intersector-class.html#ellipsoid" class="summary-name">ellipsoid</a><br />
-      Get the <code>geodesic</code>'s ellipsoid (<code>Ellipsoid</code>).
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.geodesici.Intersector-class.html#f" class="summary-name">f</a><br />
-      Get the <i>flattening</i> (<code>scalar</code>), <code>0</code> for 
-      spherical, negative for prolate.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.geodesici.Intersector-class.html#flattening" class="summary-name">flattening</a><br />
-      Get the <i>flattening</i> (<code>scalar</code>), <code>0</code> for 
-      spherical, negative for prolate.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.geodesici.Intersector-class.html#geodesic" class="summary-name">geodesic</a><br />
-      Get the <code>geodesic</code> (<code>Geodesic...</code>).
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.geodesici.Intersector-class.html#R" class="summary-name">R</a><br />
-      Get the <i>authalic</i> earth radius (<code>meter</code>).
-    </td>
-  </tr>
   <tr>
     <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>_IntersectBase</code></b>:
+      <code>R</code>,
+      <code>a</code>,
+      <code>datum</code>,
+      <code>ellipsoid</code>,
+      <code>equatoradius</code>,
+      <code>f</code>,
+      <code>flattening</code>,
+      <code>geodesic</code>
+      </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
       <code><a href="pygeodesy.named._Named-class.html#classname">classname</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#classnaming">classnaming</a></code>,
@@ -500,15 +517,16 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">All</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">glA</span>,
         <span class="sig-arg">glB</span>,
-        <span class="sig-arg">X0</span>=<span class="sig-default">XDist(c=0, sA=0, sB=0, sX0=0)</span>,
-        <span class="sig-arg">**sMax</span>)</span>
+        <span class="sig-arg">X0</span>=<span class="sig-default">XDict(c=0, sA=0.0, sB=0.0, sX0=0.0)</span>,
+        <span class="sig-arg">aMaX0</span>=<span class="sig-default">0</span>,
+        <span class="sig-arg">**sMaX0_C</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Find all intersection of two geodesic lines up to a limit.</p>
+  <p>Yield all intersection of two geodesic lines up to a limit.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -518,15 +536,22 @@
         <li><strong class="pname"><code>glB</code></strong> - An other geodesic line (<a 
           href="pygeodesy.geodesici.Intersector-class.html#Line" 
           class="link">Line</a>).</li>
-        <li><strong class="pname"><code>X0</code></strong> - Optional offsets along the geodesic lines (<a 
-          href="pygeodesy.geodesici.XDist-class.html" 
-          class="link">XDist</a>).</li>
-        <li><strong class="pname"><code>sMax</code></strong> - Optional, upper limit <code><b>sMax</b>=2*PI*R</code> for the 
-          distance (<code>meter</code>).</li>
+        <li><strong class="pname"><code>X0</code></strong> - Optional <i>origin</i> for <i>L1-distances</i> (<a 
+          href="pygeodesy.geodesici.XDict-class.html" 
+          class="link">XDict</a>).</li>
+        <li><strong class="pname"><code>aMaX0</code></strong> - Upper limit for the <i>angular L1-distance</i> 
+          (<code>degrees</code>) or <code>None</code> or <code>0</code> for
+          unlimited.</li>
+        <li><strong class="pname"><code>sMaX0_C</code></strong> - Optional, upper limit <code><b>sMaX0</b>=2*PI*R</code> for the 
+          <i>L1-distance</i> to <b><code>X0</code></b> (<code>meter</code>)
+          and option <code><b>_C</b>=False</code> to include the 
+          intersection lat-/ longitudes <code>latA</code>, 
+          <code>lonA</code>, <code>latB</code>, <code>lonB</code> and 
+          distances <code>sAB</code> and <code>aSB</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Yield an <a href="pygeodesy.geodesici.XDist-class.html" 
-          class="link">XDist</a> for each intersection found.</dd>
+        <dd>Yield an <a href="pygeodesy.geodesici.XDict-class.html" 
+          class="link">XDict</a> for each intersection found.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.GeodesicError-class.html">GeodesicError</a></strong></code> - Geodesic line <b><code>glA</code></b> or <b><code>glB</code></b> 
@@ -546,22 +571,16 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">All5</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">glA</span>,
         <span class="sig-arg">glB</span>,
-        <span class="sig-arg">X0</span>=<span class="sig-default">XDist(c=0, sA=0, sB=0, sX0=0)</span>,
-        <span class="sig-arg">aMax</span>=<span class="sig-default">0</span>,
-        <span class="sig-arg">**sMax</span>)</span>
+        <span class="sig-arg">X0</span>=<span class="sig-default">XDict(c=0, sA=0.0, sB=0.0, sX0=0.0)</span>,
+        <span class="sig-arg">**aMaX0_sMaX0_C</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Find all intersection of two geodesic lines up to a limit.</p>
+  <p>Yield all intersection of two geodesic lines up to a limit.</p>
   <dl class="fields">
-    <dt>Arguments:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>aMax</code></strong> - Upper limit for the angular distance (<code>degrees</code>) or 
-          <code>None</code> or <code>0</code> for unlimited.</li>
-    </ul></dd>
     <dt>Returns:</dt>
         <dd>Yield an <a 
           href="pygeodesy.geodesici.Intersector5Tuple-class.html" 
@@ -584,7 +603,8 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">Closest</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">glA</span>,
         <span class="sig-arg">glB</span>,
-        <span class="sig-arg">X0</span>=<span class="sig-default">XDist(c=0, sA=0, sB=0, sX0=0)</span>)</span>
+        <span class="sig-arg">X0</span>=<span class="sig-default">XDict(c=0, sA=0.0, sB=0.0, sX0=0.0)</span>,
+        <span class="sig-arg">**_C</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -601,13 +621,17 @@
         <li><strong class="pname"><code>glB</code></strong> - An other geodesic line (<a 
           href="pygeodesy.geodesici.Intersector-class.html#Line" 
           class="link">Line</a>).</li>
-        <li><strong class="pname"><code>X0</code></strong> - Optional offsets along the geodesic lines (<a 
-          href="pygeodesy.geodesici.XDist-class.html" 
-          class="link">XDist</a>).</li>
+        <li><strong class="pname"><code>X0</code></strong> - Optional <i>origin</i> for <i>L1-closeness</i> (<a 
+          href="pygeodesy.geodesici.XDict-class.html" 
+          class="link">XDict</a>).</li>
+        <li><strong class="pname"><code>_C</code></strong> - If <code>True</code>, include the lat-/longitudes 
+          <code>latA</code>, <code>lonA</code>, <code>latB</code>, 
+          <code>lonB</code> oon and distances <code>sAB</code> and 
+          <code>aSB</code> between the intersections.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The intersection (<a href="pygeodesy.geodesici.XDist-class.html" 
-          class="link">XDist</a>) or <code>None</code> if none found.</dd>
+        <dd>The intersection (<a href="pygeodesy.geodesici.XDict-class.html" 
+          class="link">XDict</a>) or <code>None</code> if none found.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.GeodesicError-class.html">GeodesicError</a></strong></code> - Geodesic line <b><code>glA</code></b> or <b><code>glB</code></b> 
@@ -627,7 +651,7 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">Closest5</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">glA</span>,
         <span class="sig-arg">glB</span>,
-        <span class="sig-arg">X0</span>=<span class="sig-default">XDist(c=0, sA=0, sB=0, sX0=0)</span>)</span>
+        <span class="sig-arg">X0</span>=<span class="sig-default">XDict(c=0, sA=0.0, sB=0.0, sX0=0.0)</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -657,7 +681,7 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">Line</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">lat1</span>,
         <span class="sig-arg">lon1</span>,
-        <span class="sig-arg">azi_lat2</span>,
+        <span class="sig-arg">azi1_lat2</span>,
         <span class="sig-arg">*lon2</span>,
         <span class="sig-arg">**name</span>)</span>
   </h3>
@@ -674,7 +698,7 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>lat1</code></strong> - Latitude of the first point (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lon1</code></strong> - Longitude of the first point (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>azi_lat2</code></strong> - Azimuth at the first point (compass <code>degrees</code>) if no 
+        <li><strong class="pname"><code>azi1_lat2</code></strong> - Azimuth at the first point (compass <code>degrees</code>) if no 
           <b><code>lon2</code></b> argument is given, otherwise the 
           latitude of the second point (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lon2</code></strong> - If given, the longitude of the second point 
@@ -682,14 +706,93 @@
         <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>A line (from <a 
-          href="pygeodesy.geodesici.Intersector-class.html#geodesic" 
-          class="link">geodesic</a><code>.Line</code> or 
-          <code>-.InverseLine</code>), properly configured for <a 
-          href="pygeodesy.geodesici.Intersector-class.html" 
-          class="link">Intersector</a>.</dd>
+        <dd>A line (from geodesic<code>.Line</code> or 
+          <code>.InverseLine</code> method) with <code>LINE_CAPS</code>.</dd>
   </dl>
 </td></tr></table>
+</div>
+<a name="Middle"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">Middle</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">glA</span>,
+        <span class="sig-arg">glB</span>,
+        <span class="sig-arg">raiser</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">**_C</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Get the mid-points on two geodesic line segments.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>glA</code></strong> - A geodesic line (<a 
+          href="pygeodesy.geodesici.Intersector-class.html#Line" 
+          class="link">Line</a>, 4-<code>args</code>).</li>
+        <li><strong class="pname"><code>glB</code></strong> - An other geodesic line (<a 
+          href="pygeodesy.geodesici.Intersector-class.html#Line" 
+          class="link">Line</a>, 4-<code>args</code>).</li>
+        <li><strong class="pname"><code>raiser</code></strong> - If <code>True</code>, check that <b><code>glA</code></b> and 
+          <b><code>glB</code></b> are a 4-<code>args</code> <a 
+          href="pygeodesy.geodesici.Intersector-class.html#Line" 
+          class="link">Line</a> or <code>InverseLine</code> 
+          (<code>bool</code>).</li>
+        <li><strong class="pname"><code>_C</code></strong> - If <code>True</code>, include the lat-/longitudes 
+          <code>latA</code>, <code>lonA</code>, <code>latB</code>, 
+          <code>lonB</code> of and distances <code>sAB</code> and 
+          <code>aSB</code> between the mid_points.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The mid-point on each segment (<a 
+          href="pygeodesy.geodesici.XDict-class.html" 
+          class="link">XDict</a>), <code>sA</code> and <code>sB</code> and 
+          indicators <code>kA</code>, <code>kB</code> and <code>k</code> 
+          all <code>INT0</code>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.GeodesicError-class.html">GeodesicError</a></strong></code> - Geodesic line <b><code>glA</code></b> or <b><code>glB</code></b> 
+        invalid, incompatible, ill-configured or not an 
+        <code>InverseLine</code> or 4-<code>args Line</code>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="Middle5"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">Middle5</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">glA</span>,
+        <span class="sig-arg">glB</span>,
+        <span class="sig-arg">**raiser</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Get the mid-points on two geodesic line segments.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>An <a href="pygeodesy.geodesici.Intersector5Tuple-class.html" 
+          class="link">Intersector5Tuple</a><code>(A, B, sAB, aAB, 
+          c)</code> or <code>None</code> if none found.</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Method <a href="pygeodesy.geodesici.Intersector-class.html#Middle" 
+        class="link">Middle</a> for further details.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="Next"></a>
 <div>
@@ -701,7 +804,8 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">Next</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">glA</span>,
         <span class="sig-arg">glB</span>,
-        <span class="sig-arg">**eps</span>)</span>
+        <span class="sig-arg">eps1</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">**_C</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -719,17 +823,24 @@
         <li><strong class="pname"><code>glB</code></strong> - An other geodesic line (<a 
           href="pygeodesy.geodesici.Intersector-class.html#Line" 
           class="link">Line</a>).</li>
-        <li><strong class="pname"><code>eps</code></strong> - Optional equality margin <code><b>eps</b>=Delta</code> 
-          (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>eps1</code></strong> - Optional margin for the <a 
+          href="pygeodesy.fmath-module.html#euclid" 
+          class="link">euclid</a>ean distance between the <code>(lat1, 
+          lon1)</code> points of both lines (<code>degrees</code>) or 
+          <code>0</code> or <code>None</code> for unlimited.</li>
+        <li><strong class="pname"><code>_C</code></strong> - If <code>True</code>, include the lat-/longitudes 
+          <code>latA</code>, <code>lonA</code>, <code>latB</code>, 
+          <code>lonB</code> of and distances <code>sAB</code> and 
+          <code>aSB</code> between the intersections.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The intersection (<a href="pygeodesy.geodesici.XDist-class.html" 
-          class="link">XDist</a>) or <code>None</code> if none found.</dd>
+        <dd>The intersection (<a href="pygeodesy.geodesici.XDict-class.html" 
+          class="link">XDict</a>) or <code>None</code> if none found.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.GeodesicError-class.html">GeodesicError</a></strong></code> - Geodesic line <b><code>glA</code></b> or <b><code>glB</code></b> 
         invalid, incompatible, ill-configured or <code>(lat1, lon1)</code> 
-        not <b><code>eps</code></b>-equal.</li>
+        not <b><code>eps1</code></b>-equal.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - No convergence.</li>
     </ul></dd>
   </dl>
@@ -748,7 +859,7 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">Next5</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">glA</span>,
         <span class="sig-arg">glB</span>,
-        <span class="sig-arg">eps</span>=<span class="sig-default">6.66133814775e-16</span>)</span>
+        <span class="sig-arg">**eps1</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -769,53 +880,92 @@
       </p>
 </div></td></tr></table>
 </div>
-<a name="Next5s"></a>
+<a name="Segment"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">Next5s</span>&nbsp;(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">Segment</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">glA</span>,
         <span class="sig-arg">glB</span>,
-        <span class="sig-arg">X0</span>=<span class="sig-default">XDist(c=0, sA=0, sB=0, sX0=0)</span>,
-        <span class="sig-arg">aMax</span>=<span class="sig-default">1801</span>,
-        <span class="sig-arg">sMax</span>=<span class="sig-default">0</span>,
-        <span class="sig-arg">avg</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">**Delta</span>)</span>
+        <span class="sig-arg">proven</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">raiser</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">**_C</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Yield <code>Next</code> intersections up to a maximal (angular) 
-  distance.</p>
+  <p>Find the intersection between two geodesic line segments.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>aMax</code></strong> - Upper limit for the angular distance (<code>degrees</code>) or 
-          <code>None</code> or <code>0</code> for unlimited.</li>
-        <li><strong class="pname"><code>sMax</code></strong> - Upper limit for the distance (<code>meter</code>) or 
-          <code>None</code> or <code>0</code> for unlimited.</li>
-        <li><strong class="pname"><code>avg</code></strong> - If <code>True</code>, set the next intersection lat- and 
-          longitude to the mid-point of the previous ones 
+        <li><strong class="pname"><code>proven</code></strong> - Conjecture is that whenever two geodesic line segments intersect,
+          the intersection is the one closest to the mid-points of 
+          segments. If so, use <code><b>proven</b>=True</code>, otherwise 
+          find intersections on the segments and specify 
+          <code><b>proven</b>=None</code> to return the first or 
+          <code><b>proven</b>=False</code> the closest (<code>bool</code>).</li>
+        <li><strong class="pname"><code>raiser</code></strong> - If <code>True</code>, check that <b><code>glA</code></b> and 
+          <b><code>glB</code></b> are an 4-<code>args</code> <a 
+          href="pygeodesy.geodesici.Intersector-class.html#Line" 
+          class="link">Line</a> or <code>InverseLine</code> 
           (<code>bool</code>).</li>
-        <li><strong class="pname"><code>Delta</code></strong> - Optional, margin overrding this margin (<code>meter</code>), see 
-          prpoerty <a 
-          href="pygeodesy.geodesici.Intersector-class.html#Delta" 
-          class="link">Delta</a>.</li>
+        <li><strong class="pname"><code>_C</code></strong> - If <code>True</code>, include the lat-/longitudes 
+          <code>latA</code>, <code>lonA</code>, <code>latB</code>, 
+          <code>lonB</code> of and distances <code>sAB</code> and 
+          <code>aSB</code> between the intersections.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Yield an <a 
-          href="pygeodesy.geodesici.Intersector5Tuple-class.html" 
-          class="link">Intersector5Tuple</a><code>(A, B, sAB, aAB, 
-          c)</code> for every intersection found.</dd>
+        <dd>The intersection of the segments (<a 
+          href="pygeodesy.geodesici.XDict-class.html" 
+          class="link">XDict</a>) with indicators <code>kA</code>, 
+          <code>kB</code> and <code>k</code> set or if no intersection is 
+          found, <code>None</code>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.GeodesicError-class.html">GeodesicError</a></strong></code> - Geodesic line <b><code>glA</code></b> or <b><code>glB</code></b> 
+        invalid, incompatible, ill-configured or not an 
+        <code>InverseLine</code> or 4-<code>args Line</code>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - No convergence.</li>
+    </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Methods <a href="pygeodesy.geodesici.Intersector-class.html#Next5" 
-        class="link">Next5</a> for further details.
+        Method <a href="pygeodesy.geodesici.Intersector-class.html#Middle" 
+        class="link">Middle</a> for further details.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="Segment5"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">Segment5</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">glA</span>,
+        <span class="sig-arg">glB</span>,
+        <span class="sig-arg">**proven_raiser</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Find the intersection between two geodesic line segments.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>An <a href="pygeodesy.geodesici.Intersector5Tuple-class.html" 
+          class="link">Intersector5Tuple</a><code>(A, B, sAB, aAB, 
+          c)</code> or <code>None</code> if none found.</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Method <a href="pygeodesy.geodesici.Intersector-class.html#Segment"
+        class="link">Segment</a> for further details.
       </p>
 </div></td></tr></table>
 </div>
@@ -858,54 +1008,6 @@
     <span class="table-header">Property Details</span></td>
 </tr>
 </table>
-<a name="a"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">a</h3>
-  <p>Get the <i>equatorial</i> radius, semi-axis (<code>meter</code>).</p>
-  <dl class="fields">
-    <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">a(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>equatorial</i> radius, semi-axis (<code>meter</code>).
-    </dd>
-    <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">val</span>)</span>
-        - Throws an <code>AttributeError</code>, always.
-    </dd>
-    <dt>Delete Method:</dt>
-    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
-        - Zap the <i>cached/memoized</i> <code>property</code> value.
-    </dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="equatoradius"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">equatoradius</h3>
-  <p>Get the <i>equatorial</i> radius, semi-axis (<code>meter</code>).</p>
-  <dl class="fields">
-    <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">a(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>equatorial</i> radius, semi-axis (<code>meter</code>).
-    </dd>
-    <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">val</span>)</span>
-        - Throws an <code>AttributeError</code>, always.
-    </dd>
-    <dt>Delete Method:</dt>
-    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
-        - Zap the <i>cached/memoized</i> <code>property</code> value.
-    </dd>
-  </dl>
-</td></tr></table>
-</div>
 <a name="Delta"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -917,131 +1019,6 @@
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">Delta(<span class="summary-sig-arg">self</span>)</span>
         - Get the equality and tiling margin (<code>meter</code>).
-    </dd>
-    <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">val</span>)</span>
-        - Throws an <code>AttributeError</code>, always.
-    </dd>
-    <dt>Delete Method:</dt>
-    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
-        - Zap the <i>cached/memoized</i> <code>property</code> value.
-    </dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="ellipsoid"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">ellipsoid</h3>
-  <p>Get the <code>geodesic</code>'s ellipsoid 
-  (<code>Ellipsoid</code>).</p>
-  <dl class="fields">
-    <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">ellipsoid(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <code>geodesic</code>'s ellipsoid (<code>Ellipsoid</code>).
-    </dd>
-    <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">val</span>)</span>
-        - Throws an <code>AttributeError</code>, always.
-    </dd>
-    <dt>Delete Method:</dt>
-    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
-        - Zap the <i>cached/memoized</i> <code>property</code> value.
-    </dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="f"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">f</h3>
-  <p>Get the <i>flattening</i> (<code>scalar</code>), <code>0</code> for 
-  spherical, negative for prolate.</p>
-  <dl class="fields">
-    <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">f(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>flattening</i> (<code>scalar</code>), <code>0</code> for 
-spherical, negative for prolate.
-    </dd>
-    <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">val</span>)</span>
-        - Throws an <code>AttributeError</code>, always.
-    </dd>
-    <dt>Delete Method:</dt>
-    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
-        - Zap the <i>cached/memoized</i> <code>property</code> value.
-    </dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="flattening"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">flattening</h3>
-  <p>Get the <i>flattening</i> (<code>scalar</code>), <code>0</code> for 
-  spherical, negative for prolate.</p>
-  <dl class="fields">
-    <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">f(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>flattening</i> (<code>scalar</code>), <code>0</code> for 
-spherical, negative for prolate.
-    </dd>
-    <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">val</span>)</span>
-        - Throws an <code>AttributeError</code>, always.
-    </dd>
-    <dt>Delete Method:</dt>
-    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
-        - Zap the <i>cached/memoized</i> <code>property</code> value.
-    </dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="geodesic"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">geodesic</h3>
-  <p>Get the <code>geodesic</code> (<code>Geodesic...</code>).</p>
-  <dl class="fields">
-    <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">geodesic(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <code>geodesic</code> (<code>Geodesic...</code>).
-    </dd>
-    <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">val</span>)</span>
-        - Throws an <code>AttributeError</code>, always.
-    </dd>
-    <dt>Delete Method:</dt>
-    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
-        - Zap the <i>cached/memoized</i> <code>property</code> value.
-    </dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="R"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">R</h3>
-  <p>Get the <i>authalic</i> earth radius (<code>meter</code>).</p>
-  <dl class="fields">
-    <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">R(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>authalic</i> earth radius (<code>meter</code>).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -1087,7 +1064,7 @@ spherical, negative for prolate.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Jun 27 19:44:15 2024
+    Generated by Epydoc 3.0.1 on Sun Jul  7 21:19:26 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

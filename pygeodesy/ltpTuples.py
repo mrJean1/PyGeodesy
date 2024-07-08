@@ -36,7 +36,7 @@ from pygeodesy.vector3d import Vector3d
 # from math import cos, radians  # from .utily
 
 __all__ = _ALL_LAZY.ltpTuples
-__version__ = '24.06.15'
+__version__ = '24.06.28'
 
 _aer_        = 'aer'
 _alt_        = 'alt'
@@ -349,7 +349,7 @@ class Aer(_AbcBase):
                                 number of (decimal) digits, unstripped
                                 (C{int}), C{B{fmt}='[]'} the enclosing
                                 backets format (C{str}) and separator
-                                C{B{sep}=', '} to join (C{str}).
+                                C{B{sep}=", "} to join (C{str}).
 
            @return: This AER as "[degrees360, degrees90, meter]" (C{str}).
         '''
@@ -572,7 +572,7 @@ class Ned(_AbcBase):
                                 number of (decimal) digits, unstripped
                                 (C{int}), C{B{fmt}='[]'} the enclosing
                                 backets format (C{str}) and separator
-                                C{B{sep}=', '} to join (C{str}).
+                                C{B{sep}=", "} to join (C{str}).
 
            @return: This NED as "[meter, meter, meter]" (C{str}).
         '''
@@ -659,7 +659,7 @@ class _Vector3d(Vector3d):
                                 number of (decimal) digits, unstripped
                                 (C{int}), C{B{fmt}='[]'} the enclosing
                                 backets format (C{str}) and separator
-                                C{B{sep}=', '} to join (C{str}).
+                                C{B{sep}=", "} to join (C{str}).
 
            @return: This XYZ as "[meter, meter, meter]" (C{str}).
         '''

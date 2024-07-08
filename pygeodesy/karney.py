@@ -146,10 +146,10 @@ from pygeodesy.constants import NAN, _isfinite as _math_isfinite, _0_0, \
 from pygeodesy.errors import GeodesicError, _ValueError, _xkwds, _xkwds_get1
 from pygeodesy.fmath import cbrt, fremainder, norm2
 # from pygeodesy.internals import _version_info  # from .basics
-from pygeodesy.interns import _2_, _a12_, _area_, _azi2_, _azi12_, _composite_, \
-                              _lat1_, _lat2_, _lon1_, _lon2_, _m12_, _M12_, \
-                              _M21_, _number_, _s12_, _S12_, _UNDER_, \
-                              _BAR_, NN  # PYCHOK used!
+from pygeodesy.interns import _2_, _a12_, _area_, _azi1_, _azi2_, _azi12_, \
+                              _composite_, _lat1_, _lat2_, _lon1_, _lon2_, \
+                              _m12_, _M12_, _M21_, _number_, _s12_, _S12_, \
+                              _UNDER_, _BAR_, NN  # PYCHOK used!
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, _getenv
 from pygeodesy.named import ADict, _NamedBase, _NamedTuple, notImplemented, _Pass
 from pygeodesy.props import deprecated_method, Property_RO
@@ -160,7 +160,7 @@ from pygeodesy.utily import atan2d, sincos2d, tand, _unrollon,  fabs
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.karney
-__version__ = '24.06.27'
+__version__ = '24.07.04'
 
 _K_2_0      = _getenv('PYGEODESY_GEOGRAPHICLIB', _2_) == _2_
 _perimeter_ = 'perimeter'
@@ -211,10 +211,10 @@ class Caps(object):  # PYCHOK
     '''(INTERNAL) Overriden by C{Caps} below.
     '''
     EMPTY          =  0        # formerly aka NONE
-    _CAP_1         =  1 << 0   # for goedesicw only
-    _CAP_1p        =  1 << 1   # for goedesicw only
+    _CAP_1         =  1 << 0   # for goedesici/-w
+    _CAP_1p        =  1 << 1   # for goedesici/-w
     _CAP_2         =  1 << 2
-    _CAP_3         =  1 << 3   # for goedesicw only
+    _CAP_3         =  1 << 3   # for goedesici/-w
 #   _CAP_4         =  1 << 4
 #   _CAP_ALL       =  0x1F
 #   _CAP_MASK      = _CAP_ALL
@@ -233,7 +233,7 @@ class Caps(object):  # PYCHOK
     _DIRECT3       =  AZIMUTH  | LATITUDE | LONGITUDE | _CAP_3   # for goedesicw only
     _INVERSE3      =  AZIMUTH  | DISTANCE | _CAP_1   # for goedesicw only
     _STD           =  STANDARD | _CAP_3   | _CAP_1   # for goedesicw only
-    _STD_LINE      = _STD      | _CAP_2   | _CAP_1p  # for goedesici and -w
+    _STD_LINE      = _STD      | _CAP_2   | _CAP_1p  # for goedesici/-w
 
     LINE_CAPS      = _STD_LINE | REDUCEDLENGTH | GEODESICSCALE  # .geodesici only
 
@@ -248,14 +248,14 @@ class Caps(object):  # PYCHOK
     AZIMUTH_DISTANCE_AREA      = AZIMUTH | DISTANCE | AREA
 
     _ANGLE_ONLY    =  1 << 18  # angular distance C{a12} only
-    _SALPs_CALPs   =  1 << 19  # (INTERNAL) GeodesicExact._GenInverse
+    _S_CALPs_      =  1 << 19  # (INTERNAL) GeodesicExact._GenInverse
 
     _DEBUG_AREA    =  1 << 20  # (INTERNAL) include Line details
     _DEBUG_DIRECT  =  1 << 21  # (INTERNAL) include Direct details
     _DEBUG_INVERSE =  1 << 22  # (INTERNAL) include Inverse details
     _DEBUG_LINE    =  1 << 23  # (INTERNAL) include Line details
     _DEBUG_ALL     = _DEBUG_AREA | _DEBUG_DIRECT | _DEBUG_INVERSE | \
-                     _DEBUG_LINE | _ANGLE_ONLY | _SALPs_CALPs
+                     _DEBUG_LINE | _ANGLE_ONLY | _S_CALPs_
 
     _OUT_ALL       =  ALL
     _OUT_MASK      =  ALL | LONG_UNROLL | REVERSE2 | _DEBUG_ALL
@@ -273,7 +273,7 @@ class Caps(object):  # PYCHOK
         s = []
         for c, C in itemsorted(self.__class__.__dict__):
             if isint(C) and (Csk & C) and int1s(C) == 1 \
-                        and (C in (Caps.REVERSE2, Caps._SALPs_CALPs)
+                        and (C in (Caps.REVERSE2, Caps._S_CALPs_)
                                or c.replace(_UNDER_, NN).isupper()):
                 s.append(c)
         return sep.join(s) if sep else tuple(s)
@@ -310,9 +310,14 @@ and C{ALL} - all of the above.
 
 C{STANDARD} = C{AZIMUTH | DISTANCE | DISTANCE_IN | LATITUDE | LONGITUDE}'''
 
-_KEY2Caps = dict(m12=Caps.REDUCEDLENGTH,  # see GDict._unCaps
-                 M12=Caps.GEODESICSCALE,
-                 M21=Caps.GEODESICSCALE, S12=Caps.AREA)
+_KEY2Caps = dict(azi2=Caps.AZIMUTH,  # see GDict._unCaps
+                 lat2=Caps.LATITUDE,
+                 lon2=Caps.LONGITUDE,
+                 m12 =Caps.REDUCEDLENGTH,
+                 M12 =Caps.GEODESICSCALE,
+                 M21 =Caps.GEODESICSCALE,
+                 s12 =Caps.DISTANCE,
+                 S12 =Caps.AREA)
 
 
 class _CapsBase(_NamedBase):  # in .auxilats, .geodesicx.gxbases
@@ -426,6 +431,12 @@ class GDict(ADict):  # XXX _NamedDict
         '''
         return self._toTuple(Inverse10Tuple, dflt)
 
+    def _toNAN(self, outmask):  # .GeodesicLineExact._GenPosition
+        '''(INTERNAL) Convert this C{GDict} to all C{NAN}s.
+        '''
+        d = dict((n, NAN) for n in GeodSolve12Tuple._Names_)
+        return self.set_(**d)._unCaps(outmask)
+
     @deprecated_method
     def toRhumb7Tuple(self, dflt=NAN):  # PYCHOK no cover
         '''DEPRECATED on 23.12.07, use method C{toRhumb8Tuple}.
@@ -461,6 +472,18 @@ class GDict(ADict):  # XXX _NamedDict
         t  = tuple(_g(self, n, dflt) for n in nTuple._Names_)
         return nTuple(t, iteration=self._iteration)
 
+    def _2X(self, gl):  # .Intesectool, .Intersector
+        '''(INTERNAL) Rename attr tail from C{-2} to C{-X}.
+        '''
+        X = GDict(self)
+        for n in (_lat2_, _lon2_, _azi2_, _s12_, _a12_):
+            if n in X:
+                X[n[:-1] + 'X'] = X.pop(n)
+            v = getattr(gl, n, X)
+            if v is not X:
+                X[n] = v
+        return X
+
     def _unCaps(self, outmask):  # in .geodsolve
         '''(INTERNAL) Remove superfluous items.
         '''
@@ -468,6 +491,19 @@ class GDict(ADict):  # XXX _NamedDict
             if k in self and not (outmask & m):
                 self.pop(k)  # delattr(self, k)
         return self
+
+
+class GeodSolve12Tuple(_GTuple):
+    '''12-Tuple C{(lat1, lon1, azi1, lat2, lon2, azi2, s12, a12, m12, M12, M21, S12)} with
+       angles C{lat1}, C{lon1}, C{azi1}, C{lat2}, C{lon2} and C{azi2} and arc C{a12} all in
+       C{degrees}, initial C{azi1} and final C{azi2} forward azimuths, distance C{s12} and
+       reduced length C{m12} in C{meter}, area C{S12} in C{meter} I{squared} and geodesic
+       scale factors C{M12} and C{M21}, both C{scalar}, see U{GeodSolve
+       <https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html>}.
+    '''
+    # from GeodSolve --help option -f ... lat1 lon1 azi1 lat2 lon2 azi2 s12 a12 m12 M12 M21 S12
+    _Names_ = (_lat1_, _lon1_, _azi1_, _lat2_, _lon2_, _azi2_, _s12_, _a12_, _m12_, _M12_, _M21_, _S12_)
+    _Units_ = (_Lat,   _Lon,   _Azi,   _Lat,   _Lon,   _Azi,   _M,    _Deg,  _Pass, _Pass, _Pass, _M2)
 
 
 class Inverse10Tuple(_GTuple):
