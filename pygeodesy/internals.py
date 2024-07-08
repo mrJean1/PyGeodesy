@@ -528,14 +528,20 @@ def _usage(file_py, *args, **opts_help):  # in .etm, .geodesici
 
         args = _help(**opts_help) or (tuple(_opts(**opts_help)) + args)
 
-    m = _os_path.dirname(file_py).replace(_os.getcwd(), _ELLIPSIS_) \
-                                 .replace(_os.sep, _DOT_).strip()
-    b, x = _os_path.splitext(_os_path.basename(file_py))
+    u = _COLON_(_dunder_nameof(_usage)[1:], NN)
+    return _SPACE_(u, *_usage_argv(file_py, *args))
+
+
+def _usage_argv(argv0, *args):
+    '''(INTERNAL) Return 3-tuple C{(python, '-m', module, *args)}.
+    '''
+    m = _os_path.dirname(argv0).replace(_os.getcwd(), _ELLIPSIS_) \
+                               .replace(_os.sep, _DOT_).strip()
+    b, x = _os_path.splitext(_os_path.basename(argv0))
     if x == '.py' and not _dunder_ismain(b):
         m = _DOT_(m or _pygeodesy_, b)
-    p =  NN(_python_, _sys.version_info[0])
-    u = _COLON_(_dunder_nameof(_usage)[1:], NN)
-    return _SPACE_(u, p, '-m', _enquote(m), *args)
+    p = NN(_python_, _sys.version_info[0])
+    return (p, '-m', _enquote(m)) + args
 
 
 def _version2(version, n=2):

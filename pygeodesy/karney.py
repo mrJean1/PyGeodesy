@@ -160,7 +160,7 @@ from pygeodesy.utily import atan2d, sincos2d, tand, _unrollon,  fabs
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.karney
-__version__ = '24.07.04'
+__version__ = '24.07.07'
 
 _K_2_0      = _getenv('PYGEODESY_GEOGRAPHICLIB', _2_) == _2_
 _perimeter_ = 'perimeter'
@@ -477,10 +477,10 @@ class GDict(ADict):  # XXX _NamedDict
         '''
         X = GDict(self)
         for n in (_lat2_, _lon2_, _azi2_, _s12_, _a12_):
-            if n in X:
+            if n in X:  # X._X = X._2
                 X[n[:-1] + 'X'] = X.pop(n)
             v = getattr(gl, n, X)
-            if v is not X:
+            if v is not X:  # X._2 = gl._2
                 X[n] = v
         return X
 

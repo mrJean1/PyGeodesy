@@ -2231,6 +2231,7 @@ pygeodesy.gars._MaxPrec	pygeodesy.gars-module.html#_MaxPrec
 pygeodesy.gars.resolution	pygeodesy.gars-module.html#resolution
 pygeodesy.geodesici	pygeodesy.geodesici-module.html
 pygeodesy.geodesici._xgeodesics	pygeodesy.errors-module.html#_xgeodesics
+pygeodesy.geodesici._sX0_	pygeodesy.geodesici-module.html#_sX0_
 pygeodesy.geodesici._sAB_	pygeodesy.geodesici-module.html#_sAB_
 pygeodesy.geodesici._c__	pygeodesy.geodesici-module.html#_c__
 pygeodesy.geodesici._o__	pygeodesy.geodesici-module.html#_o__
@@ -2254,7 +2255,6 @@ pygeodesy.geodesici.pairs	pygeodesy.streprs-module.html#pairs
 pygeodesy.geodesici._enumereverse	pygeodesy.basics-module.html#_enumereverse
 pygeodesy.geodesici._0t	pygeodesy.geodesici-module.html#_0t
 pygeodesy.geodesici._xkwds_kwds	pygeodesy.errors-module.html#_xkwds_kwds
-pygeodesy.geodesici._sX0_	pygeodesy.geodesici-module.html#_sX0_
 pygeodesy.geodesici._xkwds_get	pygeodesy.errors-module.html#_xkwds_get
 pygeodesy.geodesici._1_1t	pygeodesy.geodesici-module.html#_1_1t
 pygeodesy.geodesici._EPS3	pygeodesy.geodesici-module.html#_EPS3
@@ -2570,6 +2570,7 @@ pygeodesy.internals._utf_8_	pygeodesy.internals-module.html#_utf_8_
 pygeodesy.internals._NL_	pygeodesy.internals-module.html#_NL_
 pygeodesy.internals._s_	pygeodesy.internals-module.html#_s_
 pygeodesy.internals._BAR_	pygeodesy.internals-module.html#_BAR_
+pygeodesy.internals._usage_argv	pygeodesy.internals-module.html#_usage_argv
 pygeodesy.internals.printf	pygeodesy.internals-module.html#printf
 pygeodesy.internals._passarg	pygeodesy.internals-module.html#_passarg
 pygeodesy.internals._sizeof	pygeodesy.internals-module.html#_sizeof
@@ -17337,7 +17338,7 @@ pygeodesy.named._Named._xrenamed	pygeodesy.named._Named-class.html#_xrenamed
 pygeodesy.geodesici.Intersectool._Xable_path	pygeodesy.geodesici.Intersectool-class.html#_Xable_path
 pygeodesy.karney._CapsBase.AZIMUTH	pygeodesy.karney._CapsBase-class.html#AZIMUTH
 pygeodesy.named._Named.__rmatmul__	pygeodesy.named._Named-class.html#__rmatmul__
-pygeodesy.solveBase._SolveCapsBase.linelimit	pygeodesy.solveBase._SolveCapsBase-class.html#linelimit
+pygeodesy.solveBase._SolveCapsBase._prec2stdin	pygeodesy.solveBase._SolveCapsBase-class.html#_prec2stdin
 pygeodesy.named._Named._instr	pygeodesy.named._Named-class.html#_instr
 pygeodesy.named._Named.named3	pygeodesy.named._Named-class.html#named3
 pygeodesy.karney._CapsBase.DISTANCE	pygeodesy.karney._CapsBase-class.html#DISTANCE
@@ -17353,9 +17354,10 @@ pygeodesy.named._Named.classname	pygeodesy.named._Named-class.html#classname
 pygeodesy.solveBase._SolveCapsBase._p_option	pygeodesy.solveBase._SolveCapsBase-class.html#_p_option
 pygeodesy.geodesici.Intersectool._linelimit	pygeodesy.geodesici.Intersectool-class.html#_linelimit
 pygeodesy.geodesici.Intersectool._XDictInvoke	pygeodesy.geodesici.Intersectool-class.html#_XDictInvoke
+pygeodesy.solveBase._SolveCapsBase.linelimit	pygeodesy.solveBase._SolveCapsBase-class.html#linelimit
 pygeodesy.geodesici.Intersectool._C_option	pygeodesy.geodesici.Intersectool-class.html#_C_option
 pygeodesy.solveBase._SolveCapsBase.prec	pygeodesy.solveBase._SolveCapsBase-class.html#prec
-pygeodesy.karney._CapsBase.GEODESICSCALE	pygeodesy.karney._CapsBase-class.html#GEODESICSCALE
+pygeodesy.geodesici.Intersectool._cmdBasic	pygeodesy.geodesici.Intersectool-class.html#_cmdBasic
 pygeodesy.solveBase._SolveCapsBase._DictInvoke2	pygeodesy.solveBase._SolveCapsBase-class.html#_DictInvoke2
 pygeodesy.named._Named.dup	pygeodesy.named._Named-class.html#dup
 pygeodesy.solveBase._SolveCapsBase._status	pygeodesy.solveBase._SolveCapsBase-class.html#_status
@@ -17380,7 +17382,7 @@ pygeodesy.named._Named.rename	pygeodesy.named._Named-class.html#rename
 pygeodesy.named._NamedBase._update	pygeodesy.named._NamedBase-class.html#_update
 pygeodesy.geodesici.Intersectool._Xable_name	pygeodesy.geodesici.Intersectool-class.html#_Xable_name
 pygeodesy.karney._CapsBase._STD_LINE	pygeodesy.karney._CapsBase-class.html#_STD_LINE
-pygeodesy.geodesici.Intersectool._cmdBasic	pygeodesy.geodesici.Intersectool-class.html#_cmdBasic
+pygeodesy.karney._CapsBase.GEODESICSCALE	pygeodesy.karney._CapsBase-class.html#GEODESICSCALE
 pygeodesy.geodesici.Intersectool._R_option	pygeodesy.geodesici.Intersectool-class.html#_R_option
 pygeodesy.solveBase._SolveCapsBase._print	pygeodesy.solveBase._SolveCapsBase-class.html#_print
 pygeodesy.geodesici.Intersectool.Middle5	pygeodesy.geodesici.Intersectool-class.html#Middle5
@@ -17532,7 +17534,6 @@ pygeodesy.geodesici.Intersector._In5T	pygeodesy.geodesici.Intersector-class.html
 pygeodesy.geodesici.Intersector.All	pygeodesy.geodesici.Intersector-class.html#All
 pygeodesy.geodesici.Intersector.Middle	pygeodesy.geodesici.Intersector-class.html#Middle
 pygeodesy.geodesici.Intersector._Tol	pygeodesy.geodesici.Intersector-class.html#_Tol
-pygeodesy.geodesici.Intersector._C_2	pygeodesy.geodesici.Intersector-class.html#_C_2
 pygeodesy.geodesici.Intersector5Tuple	pygeodesy.geodesici.Intersector5Tuple-class.html
 pygeodesy.named._NamedTuple.toRepr	pygeodesy.named._NamedTuple-class.html#toRepr
 pygeodesy.named._Named.rename	pygeodesy.named._Named-class.html#rename
@@ -18132,7 +18133,7 @@ pygeodesy.named._Named._xrenamed	pygeodesy.named._Named-class.html#_xrenamed
 pygeodesy.geodsolve._GeodesicSolveBase._Xable_path	pygeodesy.geodsolve._GeodesicSolveBase-class.html#_Xable_path
 pygeodesy.karney._CapsBase.AZIMUTH	pygeodesy.karney._CapsBase-class.html#AZIMUTH
 pygeodesy.named._Named.__rmatmul__	pygeodesy.named._Named-class.html#__rmatmul__
-pygeodesy.solveBase._SolveCapsBase.linelimit	pygeodesy.solveBase._SolveCapsBase-class.html#linelimit
+pygeodesy.solveBase._SolveCapsBase._prec2stdin	pygeodesy.solveBase._SolveCapsBase-class.html#_prec2stdin
 pygeodesy.solveBase._SolveGDictBase._GDictDirect	pygeodesy.solveBase._SolveGDictBase-class.html#_GDictDirect
 pygeodesy.named._Named._instr	pygeodesy.named._Named-class.html#_instr
 pygeodesy.named._Named.named3	pygeodesy.named._Named-class.html#named3
@@ -18152,6 +18153,7 @@ pygeodesy.solveBase._SolveCapsBase._p_option	pygeodesy.solveBase._SolveCapsBase-
 pygeodesy.solveBase._SolveCapsBase._linelimit	pygeodesy.solveBase._SolveCapsBase-class.html#_linelimit
 pygeodesy.geodsolve.GeodesicLineSolve.SetArc	pygeodesy.geodsolve.GeodesicLineSolve-class.html#SetArc
 pygeodesy.solveBase._SolveBase.reverse2	pygeodesy.solveBase._SolveBase-class.html#reverse2
+pygeodesy.solveBase._SolveCapsBase.linelimit	pygeodesy.solveBase._SolveCapsBase-class.html#linelimit
 pygeodesy.karney._CapsBase.AREA	pygeodesy.karney._CapsBase-class.html#AREA
 pygeodesy.solveBase._SolveCapsBase.prec	pygeodesy.solveBase._SolveCapsBase-class.html#prec
 pygeodesy.geodsolve._GeodesicSolveBase._cmdBasic	pygeodesy.geodsolve._GeodesicSolveBase-class.html#_cmdBasic
@@ -18233,7 +18235,7 @@ pygeodesy.karney._CapsBase.LONGITUDE	pygeodesy.karney._CapsBase-class.html#LONGI
 pygeodesy.karney._CapsBase.caps	pygeodesy.karney._CapsBase-class.html#caps
 pygeodesy.geodsolve.GeodesicSolve._InverseLine	pygeodesy.geodsolve.GeodesicSolve-class.html#_InverseLine
 pygeodesy.named._Named._name1__	pygeodesy.named._Named-class.html#_name1__
-pygeodesy.geodsolve.GeodesicSolve.Line	pygeodesy.geodsolve.GeodesicSolve-class.html#Line
+pygeodesy.solveBase._SolveCapsBase._setXable	pygeodesy.solveBase._SolveCapsBase-class.html#_setXable
 pygeodesy.named._Named.methodname	pygeodesy.named._Named-class.html#methodname
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.karney._CapsBase._iter2tion	pygeodesy.karney._CapsBase-class.html#_iter2tion
@@ -18252,7 +18254,7 @@ pygeodesy.solveBase._SolveCapsBase.version	pygeodesy.solveBase._SolveCapsBase-cl
 pygeodesy.solveBase._SolveCapsBase.flattening	pygeodesy.solveBase._SolveCapsBase-class.html#flattening
 pygeodesy.geodsolve.GeodesicSolve.Direct3	pygeodesy.geodsolve.GeodesicSolve-class.html#Direct3
 pygeodesy.solveBase._SolveBase._reverse2	pygeodesy.solveBase._SolveBase-class.html#_reverse2
-pygeodesy.solveBase._SolveCapsBase._setXable	pygeodesy.solveBase._SolveCapsBase-class.html#_setXable
+pygeodesy.geodsolve.GeodesicSolve.Line	pygeodesy.geodsolve.GeodesicSolve-class.html#Line
 pygeodesy.solveBase._SolveCapsBase._mpd	pygeodesy.solveBase._SolveCapsBase-class.html#_mpd
 pygeodesy.geodsolve.GeodesicSolve._Inverse	pygeodesy.geodsolve.GeodesicSolve-class.html#_Inverse
 pygeodesy.solveBase._SolveGDictBase._GDictInvoke	pygeodesy.solveBase._SolveGDictBase-class.html#_GDictInvoke
@@ -18260,7 +18262,7 @@ pygeodesy.named._Named._xrenamed	pygeodesy.named._Named-class.html#_xrenamed
 pygeodesy.geodsolve._GeodesicSolveBase._Xable_path	pygeodesy.geodsolve._GeodesicSolveBase-class.html#_Xable_path
 pygeodesy.karney._CapsBase.AZIMUTH	pygeodesy.karney._CapsBase-class.html#AZIMUTH
 pygeodesy.named._Named.__rmatmul__	pygeodesy.named._Named-class.html#__rmatmul__
-pygeodesy.solveBase._SolveCapsBase.linelimit	pygeodesy.solveBase._SolveCapsBase-class.html#linelimit
+pygeodesy.solveBase._SolveCapsBase._prec2stdin	pygeodesy.solveBase._SolveCapsBase-class.html#_prec2stdin
 pygeodesy.solveBase._SolveGDictBase._GDictDirect	pygeodesy.solveBase._SolveGDictBase-class.html#_GDictDirect
 pygeodesy.named._Named._instr	pygeodesy.named._Named-class.html#_instr
 pygeodesy.named._Named.named3	pygeodesy.named._Named-class.html#named3
@@ -18279,6 +18281,7 @@ pygeodesy.named._Named.classname	pygeodesy.named._Named-class.html#classname
 pygeodesy.solveBase._SolveCapsBase._p_option	pygeodesy.solveBase._SolveCapsBase-class.html#_p_option
 pygeodesy.solveBase._SolveCapsBase._linelimit	pygeodesy.solveBase._SolveCapsBase-class.html#_linelimit
 pygeodesy.solveBase._SolveBase.reverse2	pygeodesy.solveBase._SolveBase-class.html#reverse2
+pygeodesy.solveBase._SolveCapsBase.linelimit	pygeodesy.solveBase._SolveCapsBase-class.html#linelimit
 pygeodesy.karney._CapsBase.AREA	pygeodesy.karney._CapsBase-class.html#AREA
 pygeodesy.solveBase._SolveCapsBase.prec	pygeodesy.solveBase._SolveCapsBase-class.html#prec
 pygeodesy.geodsolve._GeodesicSolveBase._cmdBasic	pygeodesy.geodsolve._GeodesicSolveBase-class.html#_cmdBasic
@@ -18377,7 +18380,7 @@ pygeodesy.named._Named._xrenamed	pygeodesy.named._Named-class.html#_xrenamed
 pygeodesy.geodsolve._GeodesicSolveBase._Xable_path	pygeodesy.geodsolve._GeodesicSolveBase-class.html#_Xable_path
 pygeodesy.karney._CapsBase.AZIMUTH	pygeodesy.karney._CapsBase-class.html#AZIMUTH
 pygeodesy.named._Named.__rmatmul__	pygeodesy.named._Named-class.html#__rmatmul__
-pygeodesy.solveBase._SolveCapsBase.linelimit	pygeodesy.solveBase._SolveCapsBase-class.html#linelimit
+pygeodesy.solveBase._SolveCapsBase._prec2stdin	pygeodesy.solveBase._SolveCapsBase-class.html#_prec2stdin
 pygeodesy.solveBase._SolveGDictBase._GDictDirect	pygeodesy.solveBase._SolveGDictBase-class.html#_GDictDirect
 pygeodesy.named._Named._instr	pygeodesy.named._Named-class.html#_instr
 pygeodesy.named._Named.named3	pygeodesy.named._Named-class.html#named3
@@ -18395,6 +18398,7 @@ pygeodesy.named._Named.classname	pygeodesy.named._Named-class.html#classname
 pygeodesy.solveBase._SolveCapsBase._p_option	pygeodesy.solveBase._SolveCapsBase-class.html#_p_option
 pygeodesy.solveBase._SolveCapsBase._linelimit	pygeodesy.solveBase._SolveCapsBase-class.html#_linelimit
 pygeodesy.solveBase._SolveBase.reverse2	pygeodesy.solveBase._SolveBase-class.html#reverse2
+pygeodesy.solveBase._SolveCapsBase.linelimit	pygeodesy.solveBase._SolveCapsBase-class.html#linelimit
 pygeodesy.karney._CapsBase.AREA	pygeodesy.karney._CapsBase-class.html#AREA
 pygeodesy.solveBase._SolveCapsBase.prec	pygeodesy.solveBase._SolveCapsBase-class.html#prec
 pygeodesy.geodsolve._GeodesicSolveBase._cmdBasic	pygeodesy.geodsolve._GeodesicSolveBase-class.html#_cmdBasic
@@ -28403,7 +28407,7 @@ pygeodesy.named._Named._xrenamed	pygeodesy.named._Named-class.html#_xrenamed
 pygeodesy.rhumb.solve._RhumbSolveBase._Xable_path	pygeodesy.rhumb.solve._RhumbSolveBase-class.html#_Xable_path
 pygeodesy.karney._CapsBase.AZIMUTH	pygeodesy.karney._CapsBase-class.html#AZIMUTH
 pygeodesy.named._Named.__rmatmul__	pygeodesy.named._Named-class.html#__rmatmul__
-pygeodesy.solveBase._SolveCapsBase.linelimit	pygeodesy.solveBase._SolveCapsBase-class.html#linelimit
+pygeodesy.solveBase._SolveCapsBase._prec2stdin	pygeodesy.solveBase._SolveCapsBase-class.html#_prec2stdin
 pygeodesy.solveBase._SolveGDictBase._GDictDirect	pygeodesy.solveBase._SolveGDictBase-class.html#_GDictDirect
 pygeodesy.named._Named._instr	pygeodesy.named._Named-class.html#_instr
 pygeodesy.named._Named.named3	pygeodesy.named._Named-class.html#named3
@@ -28422,6 +28426,7 @@ pygeodesy.rhumb.solve.RhumbLineSolve.azi12_sincos2	pygeodesy.rhumb.solve.RhumbLi
 pygeodesy.solveBase._SolveCapsBase._p_option	pygeodesy.solveBase._SolveCapsBase-class.html#_p_option
 pygeodesy.solveBase._SolveCapsBase._linelimit	pygeodesy.solveBase._SolveCapsBase-class.html#_linelimit
 pygeodesy.solveBase._SolveBase.reverse2	pygeodesy.solveBase._SolveBase-class.html#reverse2
+pygeodesy.solveBase._SolveCapsBase.linelimit	pygeodesy.solveBase._SolveCapsBase-class.html#linelimit
 pygeodesy.karney._CapsBase.AREA	pygeodesy.karney._CapsBase-class.html#AREA
 pygeodesy.solveBase._SolveCapsBase.prec	pygeodesy.solveBase._SolveCapsBase-class.html#prec
 pygeodesy.rhumb.solve._RhumbSolveBase._cmdBasic	pygeodesy.rhumb.solve._RhumbSolveBase-class.html#_cmdBasic
@@ -28522,7 +28527,7 @@ pygeodesy.named._Named._xrenamed	pygeodesy.named._Named-class.html#_xrenamed
 pygeodesy.rhumb.solve._RhumbSolveBase._Xable_path	pygeodesy.rhumb.solve._RhumbSolveBase-class.html#_Xable_path
 pygeodesy.karney._CapsBase.AZIMUTH	pygeodesy.karney._CapsBase-class.html#AZIMUTH
 pygeodesy.named._Named.__rmatmul__	pygeodesy.named._Named-class.html#__rmatmul__
-pygeodesy.solveBase._SolveCapsBase.linelimit	pygeodesy.solveBase._SolveCapsBase-class.html#linelimit
+pygeodesy.solveBase._SolveCapsBase._prec2stdin	pygeodesy.solveBase._SolveCapsBase-class.html#_prec2stdin
 pygeodesy.rhumb.solve.RhumbSolve._GDictDirect	pygeodesy.rhumb.solve.RhumbSolve-class.html#_GDictDirect
 pygeodesy.named._Named._instr	pygeodesy.named._Named-class.html#_instr
 pygeodesy.named._Named.named3	pygeodesy.named._Named-class.html#named3
@@ -28542,6 +28547,7 @@ pygeodesy.named._Named.classname	pygeodesy.named._Named-class.html#classname
 pygeodesy.solveBase._SolveCapsBase._p_option	pygeodesy.solveBase._SolveCapsBase-class.html#_p_option
 pygeodesy.solveBase._SolveCapsBase._linelimit	pygeodesy.solveBase._SolveCapsBase-class.html#_linelimit
 pygeodesy.solveBase._SolveBase.reverse2	pygeodesy.solveBase._SolveBase-class.html#reverse2
+pygeodesy.solveBase._SolveCapsBase.linelimit	pygeodesy.solveBase._SolveCapsBase-class.html#linelimit
 pygeodesy.karney._CapsBase.AREA	pygeodesy.karney._CapsBase-class.html#AREA
 pygeodesy.solveBase._SolveCapsBase.prec	pygeodesy.solveBase._SolveCapsBase-class.html#prec
 pygeodesy.karney._CapsBase.GEODESICSCALE	pygeodesy.karney._CapsBase-class.html#GEODESICSCALE
@@ -28695,7 +28701,7 @@ pygeodesy.named._Named._xrenamed	pygeodesy.named._Named-class.html#_xrenamed
 pygeodesy.rhumb.solve._RhumbSolveBase._Xable_path	pygeodesy.rhumb.solve._RhumbSolveBase-class.html#_Xable_path
 pygeodesy.karney._CapsBase.AZIMUTH	pygeodesy.karney._CapsBase-class.html#AZIMUTH
 pygeodesy.named._Named.__rmatmul__	pygeodesy.named._Named-class.html#__rmatmul__
-pygeodesy.solveBase._SolveCapsBase.linelimit	pygeodesy.solveBase._SolveCapsBase-class.html#linelimit
+pygeodesy.solveBase._SolveCapsBase._prec2stdin	pygeodesy.solveBase._SolveCapsBase-class.html#_prec2stdin
 pygeodesy.solveBase._SolveGDictBase._GDictDirect	pygeodesy.solveBase._SolveGDictBase-class.html#_GDictDirect
 pygeodesy.named._Named._instr	pygeodesy.named._Named-class.html#_instr
 pygeodesy.named._Named.named3	pygeodesy.named._Named-class.html#named3
@@ -28714,6 +28720,7 @@ pygeodesy.named._Named.classname	pygeodesy.named._Named-class.html#classname
 pygeodesy.solveBase._SolveCapsBase._p_option	pygeodesy.solveBase._SolveCapsBase-class.html#_p_option
 pygeodesy.solveBase._SolveCapsBase._linelimit	pygeodesy.solveBase._SolveCapsBase-class.html#_linelimit
 pygeodesy.solveBase._SolveBase.reverse2	pygeodesy.solveBase._SolveBase-class.html#reverse2
+pygeodesy.solveBase._SolveCapsBase.linelimit	pygeodesy.solveBase._SolveCapsBase-class.html#linelimit
 pygeodesy.karney._CapsBase.AREA	pygeodesy.karney._CapsBase-class.html#AREA
 pygeodesy.solveBase._SolveCapsBase.prec	pygeodesy.solveBase._SolveCapsBase-class.html#prec
 pygeodesy.karney._CapsBase.GEODESICSCALE	pygeodesy.karney._CapsBase-class.html#GEODESICSCALE
@@ -28802,7 +28809,7 @@ pygeodesy.named._Named._xrenamed	pygeodesy.named._Named-class.html#_xrenamed
 pygeodesy.solveBase._SolveCapsBase._Xable_path	pygeodesy.solveBase._SolveCapsBase-class.html#_Xable_path
 pygeodesy.named._NamedBase.others	pygeodesy.named._NamedBase-class.html#others
 pygeodesy.named._Named.__rmatmul__	pygeodesy.named._Named-class.html#__rmatmul__
-pygeodesy.solveBase._SolveCapsBase.linelimit	pygeodesy.solveBase._SolveCapsBase-class.html#linelimit
+pygeodesy.solveBase._SolveCapsBase._prec2stdin	pygeodesy.solveBase._SolveCapsBase-class.html#_prec2stdin
 pygeodesy.named._Named._instr	pygeodesy.named._Named-class.html#_instr
 pygeodesy.named._Named.named3	pygeodesy.named._Named-class.html#named3
 pygeodesy.karney._CapsBase.DISTANCE	pygeodesy.karney._CapsBase-class.html#DISTANCE
@@ -28819,6 +28826,7 @@ pygeodesy.named._Named.classname	pygeodesy.named._Named-class.html#classname
 pygeodesy.solveBase._SolveCapsBase._p_option	pygeodesy.solveBase._SolveCapsBase-class.html#_p_option
 pygeodesy.solveBase._SolveCapsBase._linelimit	pygeodesy.solveBase._SolveCapsBase-class.html#_linelimit
 pygeodesy.solveBase._SolveBase.reverse2	pygeodesy.solveBase._SolveBase-class.html#reverse2
+pygeodesy.solveBase._SolveCapsBase.linelimit	pygeodesy.solveBase._SolveCapsBase-class.html#linelimit
 pygeodesy.karney._CapsBase.AREA	pygeodesy.karney._CapsBase-class.html#AREA
 pygeodesy.solveBase._SolveCapsBase.prec	pygeodesy.solveBase._SolveCapsBase-class.html#prec
 pygeodesy.karney._CapsBase.GEODESICSCALE	pygeodesy.karney._CapsBase-class.html#GEODESICSCALE
@@ -28913,6 +28921,7 @@ pygeodesy.karney._CapsBase.AZIMUTH	pygeodesy.karney._CapsBase-class.html#AZIMUTH
 pygeodesy.named._Named.classname	pygeodesy.named._Named-class.html#classname
 pygeodesy.solveBase._SolveCapsBase._p_option	pygeodesy.solveBase._SolveCapsBase-class.html#_p_option
 pygeodesy.solveBase._SolveCapsBase._linelimit	pygeodesy.solveBase._SolveCapsBase-class.html#_linelimit
+pygeodesy.solveBase._SolveCapsBase._prec2stdin	pygeodesy.solveBase._SolveCapsBase-class.html#_prec2stdin
 pygeodesy.karney._CapsBase.AREA	pygeodesy.karney._CapsBase-class.html#AREA
 pygeodesy.solveBase._SolveCapsBase.prec	pygeodesy.solveBase._SolveCapsBase-class.html#prec
 pygeodesy.karney._CapsBase.GEODESICSCALE	pygeodesy.karney._CapsBase-class.html#GEODESICSCALE
@@ -28998,7 +29007,7 @@ pygeodesy.named._Named._xrenamed	pygeodesy.named._Named-class.html#_xrenamed
 pygeodesy.solveBase._SolveCapsBase._Xable_path	pygeodesy.solveBase._SolveCapsBase-class.html#_Xable_path
 pygeodesy.named._NamedBase.others	pygeodesy.named._NamedBase-class.html#others
 pygeodesy.named._Named.__rmatmul__	pygeodesy.named._Named-class.html#__rmatmul__
-pygeodesy.solveBase._SolveCapsBase.linelimit	pygeodesy.solveBase._SolveCapsBase-class.html#linelimit
+pygeodesy.solveBase._SolveCapsBase._prec2stdin	pygeodesy.solveBase._SolveCapsBase-class.html#_prec2stdin
 pygeodesy.solveBase._SolveGDictBase._GDictDirect	pygeodesy.solveBase._SolveGDictBase-class.html#_GDictDirect
 pygeodesy.named._Named._instr	pygeodesy.named._Named-class.html#_instr
 pygeodesy.named._Named.named3	pygeodesy.named._Named-class.html#named3
@@ -29016,6 +29025,7 @@ pygeodesy.named._Named.classname	pygeodesy.named._Named-class.html#classname
 pygeodesy.solveBase._SolveCapsBase._p_option	pygeodesy.solveBase._SolveCapsBase-class.html#_p_option
 pygeodesy.solveBase._SolveCapsBase._linelimit	pygeodesy.solveBase._SolveCapsBase-class.html#_linelimit
 pygeodesy.solveBase._SolveBase.reverse2	pygeodesy.solveBase._SolveBase-class.html#reverse2
+pygeodesy.solveBase._SolveCapsBase.linelimit	pygeodesy.solveBase._SolveCapsBase-class.html#linelimit
 pygeodesy.karney._CapsBase.AREA	pygeodesy.karney._CapsBase-class.html#AREA
 pygeodesy.solveBase._SolveCapsBase.prec	pygeodesy.solveBase._SolveCapsBase-class.html#prec
 pygeodesy.karney._CapsBase.GEODESICSCALE	pygeodesy.karney._CapsBase-class.html#GEODESICSCALE
@@ -29109,7 +29119,7 @@ pygeodesy.named._Named._xrenamed	pygeodesy.named._Named-class.html#_xrenamed
 pygeodesy.solveBase._SolveCapsBase._Xable_path	pygeodesy.solveBase._SolveCapsBase-class.html#_Xable_path
 pygeodesy.named._NamedBase.others	pygeodesy.named._NamedBase-class.html#others
 pygeodesy.named._Named.__rmatmul__	pygeodesy.named._Named-class.html#__rmatmul__
-pygeodesy.solveBase._SolveCapsBase.linelimit	pygeodesy.solveBase._SolveCapsBase-class.html#linelimit
+pygeodesy.solveBase._SolveCapsBase._prec2stdin	pygeodesy.solveBase._SolveCapsBase-class.html#_prec2stdin
 pygeodesy.solveBase._SolveGDictBase._GDictDirect	pygeodesy.solveBase._SolveGDictBase-class.html#_GDictDirect
 pygeodesy.named._Named._instr	pygeodesy.named._Named-class.html#_instr
 pygeodesy.named._Named.named3	pygeodesy.named._Named-class.html#named3
@@ -29127,6 +29137,7 @@ pygeodesy.named._Named.classname	pygeodesy.named._Named-class.html#classname
 pygeodesy.solveBase._SolveCapsBase._p_option	pygeodesy.solveBase._SolveCapsBase-class.html#_p_option
 pygeodesy.solveBase._SolveCapsBase._linelimit	pygeodesy.solveBase._SolveCapsBase-class.html#_linelimit
 pygeodesy.solveBase._SolveBase.reverse2	pygeodesy.solveBase._SolveBase-class.html#reverse2
+pygeodesy.solveBase._SolveCapsBase.linelimit	pygeodesy.solveBase._SolveCapsBase-class.html#linelimit
 pygeodesy.karney._CapsBase.AREA	pygeodesy.karney._CapsBase-class.html#AREA
 pygeodesy.solveBase._SolveCapsBase.prec	pygeodesy.solveBase._SolveCapsBase-class.html#prec
 pygeodesy.karney._CapsBase.GEODESICSCALE	pygeodesy.karney._CapsBase-class.html#GEODESICSCALE

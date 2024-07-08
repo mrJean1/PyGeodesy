@@ -24,7 +24,7 @@ from pygeodesy.utily import unroll180,  wrap360  # PYCHOK shared
 from subprocess import PIPE as _PIPE, Popen as _Popen, STDOUT as _STDOUT
 
 __all__ = _ALL_LAZY.solveBase
-__version__ = '24.07.06'
+__version__ = '24.07.08'
 
 _ERROR_     = 'ERROR'
 _Popen_kwds =  dict(creationflags=0,
@@ -70,6 +70,7 @@ class _SolveCapsBase(_CapsBase):
     _invokation =  0
     _linelimit  =  0
     _prec       =  Precision_(prec=DIG)
+    _prec2stdin =  DIG
     _Xable_name =  NN  # executable basename
     _Xable_path =  NN  # executable path
     _status     =  None
@@ -99,14 +100,14 @@ class _SolveCapsBase(_CapsBase):
             v = map(float, v)  # _float_int, see Intersectool._XDistInvoke
         return Dict(_zip(n, v))  # strict=True
 
-    def _DictInvoke2(self, cmd, Names, Dict, *args, **floats_R):
+    def _DictInvoke2(self, cmd, Names, Dict, args, **floats_R):
         '''(INTERNAL) Invoke C{Solve}, return results as C{Dict}.
         '''
         N = len(Names)
         if N < 1:
             raise _AssertionError(cmd=cmd, Names=Names)
-        i = fstr(args, prec=DIG, fmt=Fmt.F, sep=_SPACE_) if args else None  # NOT Fmt.G!
-        t = self._invoke(cmd, stdin=i, **floats_R).lstrip().split()  # 12-/+ tuple
+        i = fstr(args, prec=self._prec2stdin, fmt=Fmt.F, sep=_SPACE_) if args else None  # NOT Fmt.G!
+        t = self._invoke(cmd, stdin=i, **floats_R).lstrip().split()  # 12-/++ tuple
         if _xkwds_get(floats_R, _R=None):  # == '-R' in cmd
             return self._Dicts(Dict, Names, t, **floats_R), True
         elif len(t) > N:  # PYCHOK no cover
@@ -418,7 +419,7 @@ class _SolveGDictBase(_SolveBase):
     def _GDictInvoke(self, cmd,  Names, *args, **floats):
         '''(INTERNAL) Invoke C{Solve}, return results as C{Dict}.
         '''
-        return self._DictInvoke2(cmd, Names, GDict, *args, **floats)[0]  # _R
+        return self._DictInvoke2(cmd, Names, GDict, args, **floats)[0]  # _R
 
     def Inverse(self, lat1, lon1, lat2, lon2, outmask=_UNUSED_):  # PYCHOK unused
         '''Return the C{Inverse} result.
