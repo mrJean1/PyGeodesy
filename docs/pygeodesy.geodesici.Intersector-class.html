@@ -124,7 +124,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.geodesici.Intersector-class.html#All" class="summary-sig-name">All</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">glA</span>,
         <span class="summary-sig-arg">glB</span>,
-        <span class="summary-sig-arg">X0</span>=<span class="summary-sig-default">XDict(c=0, sA=0.0, sB=0.0, sX0=0.0)</span>,
+        <span class="summary-sig-arg">X0</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">aMaX0</span>=<span class="summary-sig-default">0</span>,
         <span class="summary-sig-arg">**sMaX0_C</span>)</span><br />
       Yield all intersection of two geodesic lines up to a limit.</td>
@@ -254,7 +254,7 @@
         <span class="summary-sig-arg">glA</span>,
         <span class="summary-sig-arg">glB</span>,
         <span class="summary-sig-arg">**raiser</span>)</span><br />
-      Get the mid-points on two geodesic line segments.</td>
+      Get the mid-points of two geodesic line segments and distances.</td>
           <td align="right" valign="top">
             
             
@@ -517,7 +517,7 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">All</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">glA</span>,
         <span class="sig-arg">glB</span>,
-        <span class="sig-arg">X0</span>=<span class="sig-default">XDict(c=0, sA=0.0, sB=0.0, sX0=0.0)</span>,
+        <span class="sig-arg">X0</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">aMaX0</span>=<span class="sig-default">0</span>,
         <span class="sig-arg">**sMaX0_C</span>)</span>
   </h3>
@@ -538,7 +538,13 @@
           class="link">Line</a>).</li>
         <li><strong class="pname"><code>X0</code></strong> - Optional <i>origin</i> for <i>L1-distances</i> (<a 
           href="pygeodesy.geodesici.XDict-class.html" 
-          class="link">XDict</a>).</li>
+          class="link">XDict</a>) or <code>None</code> for the <a 
+          href="pygeodesy.geodesici.Intersector-class.html#Middle" 
+          class="link">Middle</a> of both lines if both are a 
+          4-<code>args</code> <a 
+          href="pygeodesy.geodesici.Intersector-class.html#Line" 
+          class="link">Line</a> or <code>InverseLine</code>, otherwise 
+          <code>XDiff_(0, 0)</code>.</li>
         <li><strong class="pname"><code>aMaX0</code></strong> - Upper limit for the <i>angular L1-distance</i> 
           (<code>degrees</code>) or <code>None</code> or <code>0</code> for
           unlimited.</li>
@@ -746,20 +752,19 @@
           (<code>bool</code>).</li>
         <li><strong class="pname"><code>_C</code></strong> - If <code>True</code>, include the lat-/longitudes 
           <code>latA</code>, <code>lonA</code>, <code>latB</code>, 
-          <code>lonB</code> of and distances <code>sAB</code> and 
-          <code>aSB</code> between the mid_points.</li>
+          <code>lonB</code> of the mid-points and half-lengths 
+          <code>sA</code> and <code>sB</code> in <code>meter</code> of the 
+          respective line segments.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The mid-point on each segment (<a 
+        <dd>The mid-point and half-length of each segment (<a 
           href="pygeodesy.geodesici.XDict-class.html" 
-          class="link">XDict</a>), <code>sA</code> and <code>sB</code> and 
-          indicators <code>kA</code>, <code>kB</code> and <code>k</code> 
-          all <code>INT0</code>.</dd>
+          class="link">XDict</a>), <b><code>_C</code></b> above.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.GeodesicError-class.html">GeodesicError</a></strong></code> - Geodesic line <b><code>glA</code></b> or <b><code>glB</code></b> 
-        invalid, incompatible, ill-configured or not an 
-        <code>InverseLine</code> or 4-<code>args Line</code>.</li>
+        invalid, incompatible, ill-configured or not a 4-<code>args 
+        Line</code> or other <code>InverseLine</code>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -781,12 +786,11 @@
     </td>
   </tr></table>
   
-  <p>Get the mid-points on two geodesic line segments.</p>
+  <p>Get the mid-points of two geodesic line segments and distances.</p>
   <dl class="fields">
     <dt>Returns:</dt>
-        <dd>An <a href="pygeodesy.geodesici.Intersector5Tuple-class.html" 
-          class="link">Intersector5Tuple</a><code>(A, B, sAB, aAB, 
-          c)</code> or <code>None</code> if none found.</dd>
+        <dd>A <a href="pygeodesy.geodesici.Middle5Tuple-class.html" 
+          class="link">Middle5Tuple</a><code>(A, B, sMM, aMM, c)</code>.</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Method <a href="pygeodesy.geodesici.Intersector-class.html#Middle" 
@@ -1064,7 +1068,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Jul  8 16:04:50 2024
+    Generated by Epydoc 3.0.1 on Wed Jul 10 09:25:46 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

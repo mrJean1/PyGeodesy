@@ -284,7 +284,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                           fsums=_i('Fsum', 'DivMod2Tuple', 'Fsum2Tuple', 'ResidualError',
                                    'fsum', 'fsum_', 'fsumf_', 'fsum1', 'fsum1_', 'fsum1f_'),
                            gars=_i('Garef', 'GARSError'),
-                      geodesici=_i('Intersectool', 'Intersectool5Tuple',
+                      geodesici=_i('Intersectool', 'Intersectool5Tuple', 'Middle5Tuple',
                                    'Intersector',  'Intersector5Tuple',  'XDict'),
                       geodesicw=_i('Geodesic', 'GeodesicLine', 'Geodesic_WGS84'),
                       geodesicx=_i('gx', 'gxarea', 'gxbases', 'gxline',  # modules
@@ -521,7 +521,7 @@ class _ALL_MODS(_internals._MODS_Base):
 _internals._MODS = _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '24.07.02'
+__version__ = '24.07.09'
 
 
 def _ALL_OTHER(*objs):

@@ -12,9 +12,9 @@ of the C{GeodSolve} executable.
 from pygeodesy.basics import _xinstanceof
 # from pygeodesy.constants import NAN, _0_0  # from .karney
 # from pygeodesy.geodesicx import GeodesicAreaExact  # _MODS
-# from pygeodesy.interns import NN, _UNDER_  # from .karney
+from pygeodesy.interns import NN, _UNDER_
 from pygeodesy.karney import Caps, GeodesicError, GeodSolve12Tuple, \
-                            _sincos2d,  _0_0, NAN, NN, _UNDER_
+                            _llz2line, _sincos2d,  _0_0, NAN
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, \
                              _getenv, _PYGEODESY_GEODSOLVE_
 from pygeodesy.named import _name1__
@@ -24,7 +24,7 @@ from pygeodesy.solveBase import _SolveGDictBase, _SolveGDictLineBase
 from pygeodesy.utily import _unrollon, _Wrap, wrap360
 
 __all__ = _ALL_LAZY.geodsolve
-__version__ = '24.06.28'
+__version__ = '24.07.09'
 
 
 class _GeodesicSolveBase(_SolveGDictBase):
@@ -207,7 +207,7 @@ class GeodesicSolve(_GeodesicSolveBase):
         gl = GeodesicLineSolve(self, lat1, lon1, r.azi1, **_name1__(caps_name, _or_nameof=self))
         gl._a13 = r.a12  # gl.SetArc(r.a12)
         gl._s13 = r.s12  # gl.SetDistance(r.s12)
-        return gl
+        return _llz2line(gl, lat2=lat2, lon2=lon2, azi2=r.azi2)
 
 
 class GeodesicLineSolve(_GeodesicSolveBase, _SolveGDictLineBase):

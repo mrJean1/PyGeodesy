@@ -4,7 +4,7 @@
 # Some C{geodesici} tests for classes C{Intersectool} and C{Intersector}.
 
 __all__ = ('Tests',)
-__version__ = '24.07.03'
+__version__ = '24.07.09'
 
 from bases import GeodSolve, geographiclib, IntersectTool, TestsBase
 
@@ -24,7 +24,8 @@ def _re(v, x):  # rel error
 class Tests(TestsBase):
 
     _Xdict2 = dict()
-    _knowns = set(('aAB', 'sAB', 'sX0', 'sB', 'iteration', 'latB'))
+    _known1 = set(('a1M', 's1M', 's12', 'latM', 'lonX'))
+    _known2 = set(('aMM', 'sMM', 'sX0', 'sB', 'iteration', 'latB'))
 
     def test_(self, name, v, **nl):
         t = ('%9g' % (v,)).strip() if isinstance(v, float) else str(v)
@@ -38,12 +39,12 @@ class Tests(TestsBase):
                     x =  X.get(n, v)
                     e = _re(v, x)
                     if e > 1e-12:
-                        n = _DOT_(name, n)
-                        TestsBase.test(self, n, v, x, error=e, known=n.endswith('X'))  # .a1X, .latX, .s1X
+                        m = _DOT_(name, n)
+                        TestsBase.test(self, m, v, x, error=e, known=n in self._known1)
         else:
             e, n = _re(v,  X), name.split(_DOT_)[-1]  # tailof
             TestsBase.test(self, name, t, x, error=e, known=(e < 9e-9  # max(e) 6e-16
-                                                         or (n in self._knowns)
+                                                         or (n in self._known2)
                                                          or _re(v, -X) < 1e-12), **nl)
 
     def testEnumerate(self, name, y):

@@ -47,7 +47,8 @@ from pygeodesy.geodesicx.gxbases import _cosSeries, _GeodesicBase, \
 # from pygeodesy.geodesicw import _Intersecant2  # _MODS
 from pygeodesy.lazily import _ALL_DOCS, _ALL_MODS as _MODS
 from pygeodesy.karney import _around, _atan2d, Caps, GDict, _fix90, \
-                             _K_2_0, _norm2, _norm180, _sincos2, _sincos2d
+                             _K_2_0, _llz2line, _norm2, _norm180, \
+                             _sincos2, _sincos2d
 from pygeodesy.named import Property_RO, _update_all
 # from pygeodesy.props import Property_RO, _update_all  # from .named
 from pygeodesy.utily import atan2d as _atan2d_reverse, sincos2
@@ -55,7 +56,7 @@ from pygeodesy.utily import atan2d as _atan2d_reverse, sincos2
 from math import atan2, cos, degrees, fabs, floor, radians, sin
 
 __all__ = ()
-__version__ = '24.06.28'
+__version__ = '24.07.09'
 
 _glXs = []  # instances of C{[_]GeodesicLineExact} to be updated
 
@@ -455,7 +456,7 @@ class _GeodesicLineExact(_GeodesicBase):
         r = self._GDictPosition(arcmode, s12_a12, outmask)
         return r.toDirect9Tuple()
 
-    def _GenSet(self, debug, s12=None, a12=None, **unused):
+    def _GenSet(self, debug, s12=None, a12=None, **llz2):
         '''(INTERNAL) Aka C++ C{GenSetDistance}.
         '''
         Cs = Caps
@@ -472,7 +473,7 @@ class _GeodesicLineExact(_GeodesicBase):
         self._a13   = a12
         self._caps |= Cs.DISTANCE | Cs.DISTANCE_IN
         # _update_all(self)  # new, from GeodesicExact.*Line
-        return self
+        return _llz2line(self, **llz2)
 
     @Property_RO
     def geodesic(self):

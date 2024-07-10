@@ -23,7 +23,7 @@ from pygeodesy.fsums import Fsum,  Fmt, unstr
 from pygeodesy.internals import _dunder_nameof, _under
 from pygeodesy.interns import NN, _DOT_, _SPACE_, _to_, _too_
 from pygeodesy.karney import _atan2d, Caps, Direct9Tuple, GDict, \
-                             _kWrapped, Inverse10Tuple
+                              Inverse10Tuple, _kWrapped, _llz2line
 from pygeodesy.latlonBase import LatLonBase as _LLB,  F_D, Radius_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import callername, classname, _name1__, _name2__
@@ -37,7 +37,7 @@ from contextlib import contextmanager
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.geodesicw
-__version__ = '24.06.24'
+__version__ = '24.07.09'
 
 _plumb_ = 'plumb'
 _TRIPS  =  65
@@ -220,7 +220,9 @@ class _gWrapped(_kWrapped):
                 '''
                 with _wargs(self, lat1, lon1, lat2, lon2, caps, **name) as args:
                     t = _Geodesic.InverseLine(self, *args)
-                return self._Line13(t, **name)
+                gl = self._Line13(t, **name)
+                p2 = gl.Position(gl.s13, outmask=Caps.AZIMUTH)
+                return _llz2line(gl, lat2=lat2, lon2=lon2, azi2=p2.azi2)
 
             def Line(self, lat1, lon1, azi1, caps=Caps._STD_LINE, **name):
                 '''Set up a I{wrapped} C{GeodesicLine} to compute several points

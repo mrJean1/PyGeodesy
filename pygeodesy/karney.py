@@ -143,13 +143,14 @@ from pygeodesy.basics import _copysign, int1s, isint, itemsorted, neg, unsigned0
                              _xgeographiclib, _zip,  _version_info
 from pygeodesy.constants import NAN, _isfinite as _math_isfinite, _0_0, \
                                _1_16th, _1_0, _2_0, _180_0, _N_180_0, _360_0
-from pygeodesy.errors import GeodesicError, _ValueError, _xkwds, _xkwds_get1
+from pygeodesy.errors import GeodesicError, _ValueError, _xkwds, _xkwds_get1, \
+                            _xkwds_kwds, _xkwds_not
 from pygeodesy.fmath import cbrt, fremainder, norm2
 # from pygeodesy.internals import _version_info  # from .basics
-from pygeodesy.interns import _2_, _a12_, _area_, _azi1_, _azi2_, _azi12_, \
-                              _composite_, _lat1_, _lat2_, _lon1_, _lon2_, \
-                              _m12_, _M12_, _M21_, _number_, _s12_, _S12_, \
-                              _UNDER_, _BAR_, NN  # PYCHOK used!
+from pygeodesy.interns import NN, _2_, _a12_, _area_, _azi1_, _azi2_, _azi12_, \
+                             _composite_, _lat1_, _lat2_, _lon1_, _lon2_, \
+                             _m12_, _M12_, _M21_, _number_, _s12_, _S12_, \
+                             _UNDER_, _X_,  _BAR_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, _getenv
 from pygeodesy.named import ADict, _NamedBase, _NamedTuple, notImplemented, _Pass
 from pygeodesy.props import deprecated_method, Property_RO
@@ -160,7 +161,7 @@ from pygeodesy.utily import atan2d, sincos2d, tand, _unrollon,  fabs
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.karney
-__version__ = '24.07.07'
+__version__ = '24.07.09'
 
 _K_2_0      = _getenv('PYGEODESY_GEOGRAPHICLIB', _2_) == _2_
 _perimeter_ = 'perimeter'
@@ -472,13 +473,13 @@ class GDict(ADict):  # XXX _NamedDict
         t  = tuple(_g(self, n, dflt) for n in nTuple._Names_)
         return nTuple(t, iteration=self._iteration)
 
-    def _2X(self, gl):  # .Intesectool, .Intersector
-        '''(INTERNAL) Rename attr tail from C{-2} to C{-X}.
+    def _2X(self, gl, _2X=_X_):  # .Intesectool, .Intersector
+        '''(INTERNAL) Rename attr tail from C{-2} to C{-X} or C{-M}.
         '''
         X = GDict(self)
         for n in (_lat2_, _lon2_, _azi2_, _s12_, _a12_):
             if n in X:  # X._X = X._2
-                X[n[:-1] + 'X'] = X.pop(n)
+                X[n[:-1] + _2X] = X.pop(n)
             v = getattr(gl, n, X)
             if v is not X:  # X._2 = gl._2
                 X[n] = v
@@ -721,6 +722,16 @@ def _isfinite(x):  # mimick geomath.Math.isfinite
         return _wrapped.Math.isfinite(x)
     except AttributeError:
         return _math_isfinite(x)  # and fabs(x) <= _MAX
+
+
+def _llz2line(line, **llz2):
+    '''(INTERNAL) Set C{line.lat2, .lon2, .azi2} from C{llz2}.
+    '''
+    if llz2:
+        llz2 = _xkwds_not(None, **_xkwds_kwds(llz2, lat2=None, lon2=None, azi2=None))
+        if llz2:
+            line.__dict__.update(llz2)
+    return line
 
 
 def _norm2(x, y):  # mimick geomath.Math.norm

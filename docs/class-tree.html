@@ -1437,6 +1437,13 @@
         href="pygeodesy.ellipsoidalGeodSolve.LatLon-class.html" 
         class="link">LatLon</a> points.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html">pygeodesy.ellipsoidalVincenty.Cartesian</a></strong>:
+      <em class="summary">Extended to convert geocentric, <a 
+        href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html" 
+        class="link">Cartesian</a> points to Vincenty-based, ellipsoidal, 
+        geodetic <a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
+        class="link">LatLon</a>.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalNvector.Cartesian-class.html">pygeodesy.ellipsoidalNvector.Cartesian</a></strong>:
       <em class="summary">Extended to convert geocentric, <a 
         href="pygeodesy.ellipsoidalNvector.Cartesian-class.html" 
@@ -1451,13 +1458,6 @@
         class="link">Cartesian</a> to <code>Karney</code>-based <a 
         href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
         class="link">LatLon</a> points.</em>
-    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html">pygeodesy.ellipsoidalVincenty.Cartesian</a></strong>:
-      <em class="summary">Extended to convert geocentric, <a 
-        href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html" 
-        class="link">Cartesian</a> points to Vincenty-based, ellipsoidal, 
-        geodetic <a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
-        class="link">LatLon</a>.</em>
     </li>
     </ul>
     </li>
@@ -2354,7 +2354,7 @@
         angular distance <code>aAB</code> in <code>degrees</code> and 
         coincidence indicator <code>c</code> (<code>int</code>), see <a 
         href="pygeodesy.geodesici.XDict-class.html" class="link">XDict</a>.</em>
-    </li>
+    <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.geodesici.Intersector5Tuple-class.html">pygeodesy.geodesici.Intersector5Tuple</a></strong>:
       <em class="summary">5-Tuple <code>(A, B, sAB, aAB, c)</code> with <code>A</code> and 
         <code>B</code> the <code>Position</code> of the intersection on 
@@ -2363,6 +2363,18 @@
         distance <code>aAB</code> in <code>degrees</code> and coincidence 
         indicator <code>c</code> (<code>int</code>), see <a 
         href="pygeodesy.geodesici.XDict-class.html" class="link">XDict</a>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.geodesici.Middle5Tuple-class.html">pygeodesy.geodesici.Middle5Tuple</a></strong>:
+      <em class="summary">5-Tuple <code>(A, B, sMM, aMM, c)</code> with <code>A</code> and 
+        <code>B</code> the <i>line segments</i> including the mid-point 
+        location in <code>latM</code>, <code>lonM</code>, distance 
+        <code>s1M</code> in <code>meter</code> and angular distance 
+        <code>a1M</code> in <code>degrees</code>, the distance between both
+        mid-points <code>sMM</code> in <code>meter</code> and angular 
+        distance <code>aMM</code> in <code>degrees</code> and coincidence 
+        indicator <code>c</code> (<code>int</code>).</em>
+    </li>
+    </ul>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.LatLon2Tuple-class.html">pygeodesy.namedTuples.LatLon2Tuple</a></strong>:
       <em class="summary">2-Tuple <code>(lat, lon)</code> in <code>degrees90</code> and 
@@ -3786,7 +3798,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
         angular distance <code>aAB</code> in <code>degrees</code> and 
         coincidence indicator <code>c</code> (<code>int</code>), see <a 
         href="pygeodesy.geodesici.XDict-class.html" class="link">XDict</a>.</em>
-    </li>
+    <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.geodesici.Intersector5Tuple-class.html">pygeodesy.geodesici.Intersector5Tuple</a></strong>:
       <em class="summary">5-Tuple <code>(A, B, sAB, aAB, c)</code> with <code>A</code> and 
         <code>B</code> the <code>Position</code> of the intersection on 
@@ -3795,6 +3807,18 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
         distance <code>aAB</code> in <code>degrees</code> and coincidence 
         indicator <code>c</code> (<code>int</code>), see <a 
         href="pygeodesy.geodesici.XDict-class.html" class="link">XDict</a>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.geodesici.Middle5Tuple-class.html">pygeodesy.geodesici.Middle5Tuple</a></strong>:
+      <em class="summary">5-Tuple <code>(A, B, sMM, aMM, c)</code> with <code>A</code> and 
+        <code>B</code> the <i>line segments</i> including the mid-point 
+        location in <code>latM</code>, <code>lonM</code>, distance 
+        <code>s1M</code> in <code>meter</code> and angular distance 
+        <code>a1M</code> in <code>degrees</code>, the distance between both
+        mid-points <code>sMM</code> in <code>meter</code> and angular 
+        distance <code>aMM</code> in <code>degrees</code> and coincidence 
+        indicator <code>c</code> (<code>int</code>).</em>
+    </li>
+    </ul>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.LatLon2Tuple-class.html">pygeodesy.namedTuples.LatLon2Tuple</a></strong>:
       <em class="summary">2-Tuple <code>(lat, lon)</code> in <code>degrees90</code> and 
@@ -4354,7 +4378,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Jul  8 16:04:48 2024
+    Generated by Epydoc 3.0.1 on Wed Jul 10 09:25:43 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

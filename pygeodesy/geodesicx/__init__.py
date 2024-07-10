@@ -23,7 +23,7 @@ from pygeodesy.karney import Caps, GeodesicError
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 
 __all__ = _ALL_LAZY.geodesicx + _ALL_DOCS(Caps, GeodesicError)
-__version__ = '24.06.28'
+__version__ = '24.07.09'
 
 # **) MIT License
 #

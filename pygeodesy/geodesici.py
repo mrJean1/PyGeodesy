@@ -28,15 +28,17 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 from pygeodesy.basics import _copy, _enumereverse, map1, \
                              _xinstanceof, _xor
 from pygeodesy.constants import EPS, INF, INT0, PI, PI2, PI_4, \
-                               _0_0, _0_5, _1_0, _1_5, _2_0, \
-                               _3_0, _90_0, isfinite
+                               _0_0, _0_5, _1_0, _1_5, _2_0, _3_0, \
+                               _90_0, isfinite
 from pygeodesy.ellipsoids import _EWGS84,  Fmt, unstr
-from pygeodesy.errors import GeodesicError, IntersectionError, \
+from pygeodesy.errors import GeodesicError, IntersectionError, _an, \
                             _xgeodesics, _xkwds_get, _xkwds_kwds
+# from pygeodesy.errors import exception_chaining  # _MODS
 from pygeodesy.fmath import euclid, fdot
 from pygeodesy.fsums import Fsum, fsum1_,  _ceil
 from pygeodesy.interns import NN, _A_, _B_, _c_, _COMMASPACE_, \
-                             _HASH_, _not_, _SPACE_, _too_
+                             _HASH_, _M_, _not_, _SPACE_, _too_
+from pygeodesy.interns import _m_  # PYCHOK used!
 from pygeodesy.karney import Caps, _diff182, GDict, _sincos2de
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, \
                              _getenv, _PYGEODESY_INTERSECTTOOL_
@@ -53,7 +55,7 @@ from pygeodesy.utily import sincos2,  atan2, fabs, radians
 # from math import atan2, ceil as _ceil, fabs, radians  # .fsums, .utily
 
 __all__ = _ALL_LAZY.geodesici
-__version__ = '24.07.08'
+__version__ = '24.07.09'
 
 _0t     =  0,  # int
 _1_1t   = -1, +1
@@ -140,9 +142,9 @@ class XDict(ADict):
                 if _L1(x - a, y - b) >= T2:
                     yield XDict_(x, y)
 
-    def _fixCoincident(self, X, *c0):
+    def _fixCoincident(self, X, c0=0):
         # return the mid-point if C{X} is anti-/parallel
-        c = c0[0] if c0 else X.c
+        c = c0 or X.c
         if c:
             s = (self.sA - X.sA  +  # PYCHOK sA
                 (self.sB - X.sB) * c) * _0_5  # PYCHOK sB
@@ -212,11 +214,12 @@ class XDict(ADict):
                         (-1,  1, -1, 1,  0, 2, 0, -2)):
             yield self + (D_[a], D_[b])
 
-    def _nmD3(self, n, m, D3):
+    def _nmD3(self, n, m, D3):  # d3 / 2
         # yield the C{All} starts
+        yield self
         for i in range(n, m, 2):
             for j in range(n, m, 2):
-                if i or j:
+                if i or j:  # skip self
                     yield self + ((i + j) * D3,
                                   (i - j) * D3)
 
@@ -264,7 +267,7 @@ class _IntersectBase(_NamedBase):
     equatoradius = a  # = Requatorial
 
     @Property_RO
-    def _cHalf(self):  # normalizer, semi-circumference, C++ _d
+    def _cHalf(self):  # normalizer, semi-circumference
         return self.R * PI  # ~20K Km WGS84
 
     @Property_RO
@@ -488,7 +491,7 @@ class Intersectool(_IntersectBase, _SolveCapsBase):
         '''
         return _i__,  # latA1 lonA1 latA2 lonA2  latB1 lonB1 latB2 lonB2
 
-    def _In5T(self, glA, glB, S, X, k2=False):
+    def _In5T(self, glA, glB, S, X, k2=False, **_2X):
         A = GDict(glA).set_(lat2=X.latA, lon2=X.lonA, s12=S.sA)
         B = GDict(glB).set_(lat2=X.latB, lon2=X.lonB, s12=S.sB)
         if k2:
@@ -498,7 +501,8 @@ class Intersectool(_IntersectBase, _SolveCapsBase):
         sAB  = _xkwds_get(X, sAB=s)
         if a and s and s != sAB:
             a *= sAB / s  # adjust a
-        return Intersectool5Tuple(A._2X(glA), B._2X(glB), sAB, a, X.c)
+        return Intersectool5Tuple(A._2X(glA, **_2X),
+                                  B._2X(glB, **_2X), sAB, a, X.c)
 
     @Property
     def IntersectTool(self):
@@ -539,14 +543,14 @@ class Intersectool(_IntersectBase, _SolveCapsBase):
 
            @return: An L{XDict}.
         '''
-        _, _, X = self._middle3(glA, glB, **_C)
+        X, _, _, _, _ = self._middle5(glA, glB, **_C)
         return X
 
-    def _middle3(self, glA, glB, _C=False, **unused):
+    def _middle5(self, glA, glB, _C=False, **unused):
         # return intersections C{A} and C{B} and the
         # center C{X0} of rectangle [sA, sB]
 
-        def _sm3(**gl):
+        def _smi4(**gl):
             try:
                 n, gl = gl.popitem()
                 il = self._g.InverseLine(gl.lat1, gl.lon1, gl.lat2, gl.lon2)
@@ -554,25 +558,26 @@ class Intersectool(_IntersectBase, _SolveCapsBase):
                 raise GeodesicError(n, gl, cause=x)
             s = il.s13
             m = s * _0_5
-            return s, m, (il.Position(m, outmask=Caps._STD_LINE) if _C else None)
+            return s, m, il, (il.Position(m, outmask=Caps._STD_LINE) if _C else None)
 
-        sA, mA, A = _sm3(glA=glA)
-        sB, mB, B = _sm3(glB=glB)
+        sA, mA, iA, A = _smi4(glA=glA)
+        sB, mB, iB, B = _smi4(glB=glB)
         X = XDict_(mA, mB)  # center
         _ = X._outSide(sA, sB)
         if _C:  # _Names_ABs
             s, a = self._Inversa12(A, B)
-            X.set_(latA=A.lat2, lonA=A.lon2, aAB=a,  # assert sA == mA == A.s12
-                   latB=B.lat2, lonB=B.lon2, sAB=s)  # assert sB == mB == B.s12
-        return A, B, X
+            X.set_(latA=A.lat2, lonA=A.lon2, aMM=a,  # assert sA == A.s12
+                   latB=B.lat2, lonB=B.lon2, sMM=s)  # assert sB == B.s12
+        return X, A, iA, B, iB
 
     def Middle5(self, glA, glB, **unused):
-        '''Get the mid-points on two geodesic line segments.
+        '''Get the mid-points on two geodesic line segments and their distance.
 
-           @return: An L{Intersectool5Tuple}.
+           @return: A L{Middle5Tuple}.
         '''
-        A, B, X = self._middle3(glA, glB, _C=True)
-        return self._In5T(A, B, X, X, k2=True)
+        X, A, iA, B, iB = self._middle5(glA, glB, _C=True)
+        A, B,  s, a, c  = self._In5T(A, B, X, X, _2X=_M_)
+        return Middle5Tuple(_llz2G(A, glA, iA), _llz2G(B, glB, iB), s, a, c)
 
     @Property_RO
     def _n_alt(self):
@@ -713,27 +718,27 @@ class Intersector(_IntersectBase):
             t4 = t1
         else:  # PYCHOK no cover
             t1, t2, t3 = t2, t1, t5
-            t4 = self._polarB3()[0]
-        d1 = t2 * _0_5  # ~E.L
-        d2 = t3 / _1_5
-        d3 = t4 - self.Delta
-        t2 = t1 * _2_0
+            t4,  _,  _ = self._polarB3()
+
+        self._D1 = d1 = t2 * _0_5  # ~E.L tile spacing for Closest
+        self._D2 = d2 = t3 / _1_5  # tile spacing for Next
+        self._D3 = d3 = t4 - self.Delta  # tile spacing for All
+        self._T1 = t1  # min distance between intersects
+        self._T2 = t2 = t1 * _2_0
+#       self._T5 = t5  # not used
         if not (d1 < d3 and d2 < d3 and d2 < t2):
             t = Fmt.PARENSPACED(_too_('eccentric'), E.e)
             raise GeodesicError(ellipsoid=E.toStr(terse=2), txt=t)
-        self._D1 = d1  # tile spacing for Closest
-        self._D2 = d2  # tile spacing for Next
-        self._D3 = d3  # tile spacing for All
-        self._T1 = t1  # min distance between intersects
-        self._T2 = t2
-#       self._T5 = t5
 
-    def All(self, glA, glB, X0=_X000, aMaX0=0, **sMaX0_C):
+    def All(self, glA, glB, X0=None, aMaX0=0, **sMaX0_C):  # MCCABE 13
         '''Yield all intersection of two geodesic lines up to a limit.
 
            @arg glA: A geodesic line (L{Line<Intersector.Line>}).
            @arg glB: An other geodesic line (L{Line<Intersector.Line>}).
-           @kwarg X0: Optional I{origin} for I{L1-distances} (L{XDict}).
+           @kwarg X0: Optional I{origin} for I{L1-distances} (L{XDict}) or
+                      C{None} for the L{Middle<Intersector.Middle>} of both
+                      lines if both are a 4-C{args} L{Line<Intersector.Line>}
+                      or C{InverseLine}, otherwise C{XDiff_(0, 0)}.
            @kwarg aMaX0: Upper limit for the I{angular L1-distance}
                          (C{degrees}) or C{None} or C{0} for unlimited.
            @kwarg sMaX0_C: Optional, upper limit C{B{sMaX0}=2*PI*R} for the
@@ -750,33 +755,37 @@ class Intersector(_IntersectBase):
            @raise IntersectionError: No convergence.
         '''
         self._xLines(glA, glB)
+        if X0 is None:
+            try:  # determine X0
+                X0, _, _ = self._middle3(glA, glB, True)
+            except GeodesicError:  # no .Distance
+                X0 = _X000
         sMaX0, _C = self._sMaX0_C2(aMaX0, **sMaX0_C)
 
-        D, _D = self.Delta, self._cHalf
+        D, _D = self.Delta, self._cHalf  # C++ _d
         xMaX0 = sMaX0 + D
         m     = int(_ceil(xMaX0 / self._D3))  # m x m tiles
         d3    = xMaX0 / m
         T2d3D = self._T2d3Delta(d3)
-        _X0fx = X0._fixCoincident
 
-        c0 =  0
         C_ = _List(D)  # closest coincident
         X_ = _List(D)  # intersections found
+        c0 =  0
         S_ =  list(X0._nmD3(1 - m, m, d3 * _0_5))
-        # assert len(s_) + 1 == m * m + (m - 1) % 2
+        # assert len(S_) == m * m + (m - 1) % 2
         while S_:
             Q, i = self._Basic2(glA, glB, S_.pop(0))
             if Q in X_:
                 continue
-            # assert Q.c == c0 or not c0
-            a, c0 = len(X_), Q.c
-            if c0:  # coincident intersection # PYCHOK no cover
-                Q = _X0fx(Q)
-                if Q in C_:
+            if Q.c:  # coincident intersection # PYCHOK no cover
+                _X0fx =  X0._fixCoincident
+                Q     = _X0fx(Q)  # Q = Q'
+                if c0 and Q in C_:
                     continue
                 C_.addend(Q)
                 # elimate all existing intersections
                 # on this line (which didn't set c0)
+                c0 = Q.c
                 for j, X in _enumereverse(X_):
                     if _X0fx(X, c0).L1(Q) <= D:  # X' == Q
                         X_.pop(j)
@@ -788,11 +797,16 @@ class Intersector(_IntersectBase):
                     s += s0
                     sa = 0
                     while True:
+                        i += 1
                         sa = _cjD(glA, s + sa, *args) - s0
                         X  = Q + (sa, sa * c0)
-                        i += 1
                         if X_.addend(X, X0.L1(X), i) > xMaX0:
                             break
+
+            elif c0 and Q in C_:  # Q.c == 0
+                continue
+            else:
+                a = len(X_)
 
             X_.addend(Q, X0.L1(Q), i + 1)
             for X in X_[a:]:  # addended Xs
@@ -824,14 +838,18 @@ class Intersector(_IntersectBase):
 
         raise IntersectionError(Fmt.no_convergence(S.L1(), self._Tol))
 
-    def _C(self, X, glA, glB, _C=False):
+    def _C(self, X, glA, glB, _C=False, _AB=True):
         # add the C{_C} items to C{X}, if requested.
         if _C:
             A = self._Position(glA, X.sA)
             B = self._Position(glB, X.sB)
             s, a = self._Inversa12(A, B)
-            X.set_(latA=A.lat2, lonA=A.lon2, aAB=a,
-                   latB=B.lat2, lonB=B.lon2, sAB=s)
+            X.set_(latA=A.lat2, lonA=A.lon2,
+                   latB=B.lat2, lonB=B.lon2)
+            if _AB:
+                X.set_(sAB=s, aAB=a)
+            else:
+                X.set_(sMM=s, aMM=a)
         return X
 
     def Closest(self, glA, glB, X0=_X000, **_C):
@@ -955,7 +973,7 @@ class Intersector(_IntersectBase):
         '''
         return type(self._Line()),
 
-    def _In5T(self, glA, glB, S, X, k2=False):
+    def _In5T(self, glA, glB, S, X, k2=False, **_2X):
         # Return an intersection as C{Intersector5Tuple}.
         A = self._Position(glA, S.sA)
         B = self._Position(glB, S.sB)
@@ -963,7 +981,8 @@ class Intersector(_IntersectBase):
             A.set_(k2=X.kA)
             B.set_(k2=X.kB)
         s, a = self._Inversa12(A, B)
-        return Intersector5Tuple(A._2X(glA), B._2X(glB), s, a, X.c, iteration=X.iteration)
+        return Intersector5Tuple(A._2X(glA, **_2X),
+                                 B._2X(glB, **_2X), s, a, X.c, iteration=X.iteration)
 
     def _Inverse(self, A, B):  # caps=Caps.STANDARD
         return self._g.Inverse(A.lat2, A.lon2, B.lat2, B.lon2)
@@ -1002,39 +1021,39 @@ class Intersector(_IntersectBase):
                           4-C{args} L{Line<Intersector.Line>} or C{InverseLine}
                           (C{bool}).
            @kwarg _C: If C{True}, include the lat-/longitudes C{latA}, C{lonA},
-                      C{latB}, C{lonB} of and distances C{sAB} and C{aSB} between
-                      the mid_points.
+                      C{latB}, C{lonB} of the mid-points and half-lengths C{sA}
+                      and C{sB} in C{meter} of the respective line segments.
 
-           @return: The mid-point on each segment (L{XDict}), C{sA} and C{sB}
-                    and indicators C{kA}, C{kB} and C{k} all C{INT0}.
+           @return: The mid-point and half-length of each segment (L{XDict}),
+                    B{C{_C}} above.
 
            @raise GeodesicError: Geodesic line B{C{glA}} or B{C{glB}} invalid,
-                                 incompatible, ill-configured or not an
-                                 C{InverseLine} or 4-C{args Line}.
+                                 incompatible, ill-configured or not a 4-C{args
+                                 Line} or other C{InverseLine}.
         '''
-        sA, sB, X = self._middle3(glA, glB, raiser)
-        _ = X._outSide(sA, sB)
-        return self._C(X, glA, glB, **_C)
+        M, _, _ = self._middle3(glA, glB, raiser)
+        # _ = X._outSide(sA, sB)
+        return self._C(M, glA, glB, _AB=False, **_C) if _C else M
 
-    def _middle3(self, glA, glB, raiser):
+    def _middle3(self, glA, glB, raiser):  # in .All
         # return segment length C{sA} and C{sB} and the
         # center C{X0} of rectangle [sA, sB]
         self._xLines(glA, glB, s13=raiser)  # need .Distance
         sA = glA.Distance()
         sB = glB.Distance()
         X  = XDict_(sA * _0_5, sB * _0_5)  # center
-        return sA, sB, self._Delto(X)
+        return self._Delto(X), sA, sB
 
     def Middle5(self, glA, glB, **raiser):
-        '''Get the mid-points on two geodesic line segments.
+        '''Get the mid-points of two geodesic line segments and distances.
 
-           @return: An L{Intersector5Tuple}C{(A, B, sAB, aAB, c)}
-                    or C{None} if none found.
+           @return: A L{Middle5Tuple}C{(A, B, sMM, aMM, c)}.
 
            @see: Method L{Middle} for further details.
         '''
-        T = self.Middle(glA, glB, **raiser)
-        return T if T is None else self._In5T(glA, glB, T, T, k2=True)
+        M = self.Middle(glA, glB, _C=True, **raiser)
+        A, B, s, a, c = self._In5T(glA, glB, M, M, _2X=_M_)
+        return Middle5Tuple(_llz2G(A, glA, glA), _llz2G(B, glB, glB), s, a, c)
 
     def _m12_M12_M21(self, gl, s):
         P = gl.Position(s, outmask=Caps._REDUCEDLENGTH_GEODESICSCALE)
@@ -1200,7 +1219,7 @@ class Intersector(_IntersectBase):
 
            @see: Method L{Middle<Intersector.Middle>} for further details.
         '''
-        sA, sB, X0 = self._middle3(glA, glB, raiser)
+        X0, sA, sB = self._middle3(glA, glB, raiser)
         Q = self.Closest(glA, glB, X0)  # to X0
         if Q is not None:
             if Q.c:  # anti-/parallel
@@ -1268,8 +1287,8 @@ class Intersector(_IntersectBase):
             # in {sa, sb} * sz; this is probably not necessary].
             # Definitely need to treat sz < 0 (z > PI*R) correctly in
             # order to avoid some convergence failures in _Basic2.
-            sA = atan2(sb * sz,  sb * ca * cz - cb * sa) * self.R
-            sB = atan2(sa * sz, -sa * cb * cz + ca * sb) * self.R
+            sA = atan2(sb * sz,  sb * ca * cz - sa * cb) * self.R
+            sB = atan2(sa * sz, -sa * cb * cz + sb * ca) * self.R
             c  = 0
         return XDict_(sA, sB, c)  # no ._Delto
 
@@ -1306,7 +1325,8 @@ class Intersector(_IntersectBase):
             try:
                 _xgeodesics(gl.geodesic, self.geodesic)
                 if s13 and not isfinite(gl.s13):  # or not gl.caps & Caps.DISTANCE_IN
-                    raise TypeError(_not_('InverseLine'))
+                    t = gl.geodesic.InverseLine.__name__
+                    raise TypeError(_not_(_an(t)))
                 c = gl.caps & C
                 if c != C:  # not gl.caps_(C)
                     c, C, x = map1(bin, c, C, _xor(c, C))
@@ -1325,14 +1345,15 @@ class Intersectool5Tuple(_NamedTuple):
        @note: C{A} and C{B} are each a C{GDict} with C{lat1}, C{lon1} and
               C{azi1} or C{lat2}, C{lon2} from the geodesic line C{glA}
               respectively C{glB} and the intersection location in C{latX},
-              C{lonX}, the distance C{s1X} in C{meter} and the segment
-              indicator C{kX}.  See L{XDict} for more details.
+              C{lonX}, distance C{s1X} in C{meter} and angular distance
+              C{a1M} in C{degrees} and the segment indicator C{kX}.  See
+              L{XDict} for more details.
     '''
     _Names_ = (_A_,   _B_,  _sAB_, 'aAB', _c_)
     _Units_ = (_Pass, _Pass, Meter, Degrees, Int)
 
 
-class Intersector5Tuple(_NamedTuple):
+class Intersector5Tuple(Intersectool5Tuple):
     '''5-Tuple C{(A, B, sAB, aAB, c)} with C{A} and C{B} the C{Position}
        of the intersection on each geodesic line, the distance C{sAB}
        between C{A} and C{B} in C{meter}, angular distance C{aAB} in
@@ -1345,7 +1366,17 @@ class Intersector5Tuple(_NamedTuple):
               segment indicator C{kX}.  See L{XDict} for more details.
     '''
     _Names_ = Intersectool5Tuple._Names_
-    _Units_ = Intersectool5Tuple._Units_
+
+
+class Middle5Tuple(Intersectool5Tuple):
+    '''5-Tuple C{(A, B, sMM, aMM, c)} with C{A} and C{B} the I{line segments}
+       including the mid-point location in C{latM}, C{lonM}, distance C{s1M}
+       in C{meter} and angular distance C{a1M} in C{degrees}, the distance
+       between both mid-points C{sMM} in C{meter} and angular distance C{aMM}
+       in C{degrees} and coincidence indicator C{c} (C{int}).  See L{XDict}
+       for more details.
+    '''
+    _Names_ = (_A_, _B_, 'sMM', 'aMM', _c_)
 
 
 class _List(list):
@@ -1385,7 +1416,16 @@ class _List(list):
 
 
 def _L1(a, b):
+    '''(INTERNAL) Return the I{L1} distance.
+    '''
     return fabs(a) + fabs(b)
+
+
+def _llz2G(G, gl, il):
+    '''(INTERNAL) Set C{InverseLine} attrs in C{G}, a C{GDict}.
+    '''
+    return G.set_(lat1=gl.lat1, lon1=gl.lon1, azi1=il.azi1, a12=il.a13,  # .Arc()
+                  lat2=gl.lat2, lon2=gl.lon2, azi2=il.azi2, s12=il.s13)  # .Distance()
 
 
 if __name__ == '__main__':  # MCCABE 14
@@ -1412,6 +1452,8 @@ if __name__ == '__main__':  # MCCABE 14
             return dict(opts='-Verbose|V--version|v--help|h--Tool|T--Check|C-R meter-',
                         alts=((_c_ + llz2),
                               (_i_ + ll4),
+                              (_m_ + ll4),
+                              (_M_ + ll4),
                               (_n_ + llz  + ' aziB'),
                               ('o' + llz2 + ' x0 y0')),
                         help=_h if isinstance(_h, str) else NN)
@@ -1422,20 +1464,25 @@ if __name__ == '__main__':  # MCCABE 14
         _isopt = re.compile('^[-]+[a-z]*$', flags=re.IGNORECASE).match
 
         I  =  Intersector(GeodesicExact())  # PYCHOK I
-        M  =  m = _R = None
-        _T = _V = _h = False
+        M  =  m = _R =  None
+        _T = _V = _h = _C = False
 
-        kwds = {}
         while args and _isopt(args[0]):
             arg = args.pop(0)
             if arg == _C__ or _starts('--Check', arg):
-                kwds.update(_C=True)
+                _C = True
             elif arg == _c__:
                 M, m = I.Closest, 6  # latA lonA aziA  latB lonB aziB
             elif arg == '-h' or _starts('--help', arg):
                 _h = args[0] if args and _isopt(args[0]) else True
             elif arg == _i__:
                 M, m = I.Segment, 8  # latA1 lonA1  latA2 lonA2  latB1 lonB1  latB2 lonB2
+            elif arg == '-m':
+                M, m = I.Middle,  8  # latA1 lonA1  latA2 lonA2  latB1 lonB1  latB2 lonB2
+                _R = None
+            elif arg == '-M':
+                M, m = I.Middle5, 8  # latA1 lonA1  latA2 lonA2  latB1 lonB1  latB2 lonB2
+                _R = _C = None
             elif arg == _n__:
                 M, m = I.Next, 4  # latA lonA aziA  aziB
             elif arg == _o__:
@@ -1469,6 +1516,7 @@ if __name__ == '__main__':  # MCCABE 14
                 raise ValueError('%s, need %s' % (n, m))
             args[:] = args[:m]
 
+            kwds = dict(_C=True) if _C else {}
             if M == I.Next:  # -n
                 # get latA lonA aziA latA lonA aziB
                 args[3:] = args[:2] + args[3:4]
@@ -1491,7 +1539,7 @@ if __name__ == '__main__':  # MCCABE 14
                 printf(unstr(X, glA, glB, **kwds))
 
             X = M(glA, glB, **kwds)
-            if X is None or isinstance(X, XDict):
+            if X is None or isinstance(X, (XDict, tuple)):
                 printf(_COLONSPACE_(m, repr(X)))
             else:
                 for i, X in enumerate(X):
@@ -1512,6 +1560,8 @@ if __name__ == '__main__':  # MCCABE 14
                       '# % echo 0 0  10 10  50 -4  50S 4W | IntersectTool -i  -p 0  -C',
                       '# -631414 5988887 0 -3',
                       '# -4.05187 -4.00000 -4.05187 -4.00000 0',
+                      '-C -m 0 0  10 10  50 -4  50S 4W',
+                      '-M 0 0  10 10  50 -4  50S 4W',
                       '-i 0 0  10 10  50 -4  50S 4W',
                       '-T -i 0 0  10 10  50 -4  50S 4W',
                       '-C -i 0 0  10 10  50 -4  50S 4W',
@@ -1533,7 +1583,7 @@ if __name__ == '__main__':  # MCCABE 14
     except Exception as x:
         x = _SPACE_(x, NN, _HASH_, *argv)
         printf(x, file=stderr, nl=1)
-        if '-V' in x:
+        if '-V' in x or _MODS.errors.exception_chaining():
             raise
         exit(1)
 
@@ -1542,8 +1592,10 @@ if __name__ == '__main__':  # MCCABE 14
 # usage: python3 -m ....pygeodesy.geodesici [--Verbose | -V] [--version | -v] [--help | -h] [--Tool | -T] [--Check | -C] [-R meter]
 #                                           [-c latA lonA aziA latB lonB aziB |
 #                                            -i latA1 lonA1 latA2 lonA2 latB1 lonB1 latB2 lonB2 |
+#                                            -m latA1 lonA1 latA2 lonA2 latB1 lonB1 latB2 lonB2 |
+#                                            -M latA1 lonA1 latA2 lonA2 latB1 lonB1 latB2 lonB2 |
 #                                            -n latA lonA aziA aziB |
-#                                            -o latA lonA aziA latB lonB aziB x0 y0]  (* must be first)
+#                                            -o latA lonA aziA latB lonB aziB x0 y0]
 
 # % python3 -m ....pygeodesy.geodesici -h -n
 #
@@ -1567,6 +1619,12 @@ if __name__ == '__main__':  # MCCABE 14
 # % echo 0 0  10 10  50 -4  50S 4W | IntersectTool -i  -p 0  -C
 # -631414 5988887 0 -3
 # -4.05187 -4.00000 -4.05187 -4.00000 0
+
+# % python3 -m ....pygeodesy.geodesici -C -m 0 0  10 10  50 -4  50S 4W
+# Intersector.Middle: XDict(aMM=10.262308, c=0, latA=5.019509, latB=0.036282, lonA=4.961883, lonB=-4.0, sA=782554.549609, sB=5536835.161499, sMM=1138574.546746, sX0=0.0)
+
+# % python3 -m ....pygeodesy.geodesici -M 0 0  10 10  50 -4  50S 4W
+# Intersector.Middle5: Middle5Tuple(A=GDict(a12=14.106434, a1M=7.053396, azi1=44.75191, azi2=45.629037, aziM=44.969535, lat1=0.0, lat2=10.0, latM=5.019509, lon1=0.0, lon2=10.0, lonM=4.961883, s12=1565109.099218, s1M=782554.549609), B=GDict(a12=99.810444, a1M=49.869061, azi1=180.0, azi2=180.0, aziM=180.0, lat1=50.0, lat2=-50.0, latM=0.036282, lon1=-4.0, lon2=-4.0, lonM=-4.0, s12=11073670.322999, s1M=5536835.161499), sMM=1138574.546746, aMM=10.262308, c=0)
 
 # % python3 -m ....pygeodesy.geodesici -i 0 0  10 10  50 -4  50S 4W
 # Intersector.Segment: XDict(c=0, k=-3, kA=-1, kB=0, sA=-631414.26877, sB=5988887.278435, sX0=1866020.935315)
@@ -1603,13 +1661,14 @@ if __name__ == '__main__':  # MCCABE 14
 # Intersectool.All[3]: XDict(c=0, latA=-0.0, latB=0.0, lonA=150.046964, lonB=150.046964, sA=-13941907.021445, sAB=0.0, sB=-23371865.025835, sX0=37313772.047279)
 
 # % python3 -m ....pygeodesy.geodesici -R 4e7 -i 0 0  10 10  50 -4  -50 -4
-# Intersector.All[0]: XDict(c=0, sA=19422725.117572, sB=-14062417.105648, sX0=33485142.223219)
-# Intersector.All[1]: XDict(c=0, sA=-631414.26877, sB=-34018975.638816, sX0=34650389.907586)
-# Intersector.All[2]: XDict(c=0, sA=-20685483.402118, sB=-13967745.723654, sX0=34653229.125772)
+# Intersector.All[0]: XDict(c=0, sA=-631414.26877, sB=5988887.278435, sX0=1866020.935315)
+# Intersector.All[1]: XDict(c=0, sA=19422725.117572, sB=-14062417.105648, sX0=38239422.83511)
+# Intersector.All[2]: XDict(c=0, sA=19422725.117572, sB=25945445.811603, sX0=39048781.218067)
+# Intersector.All[3]: XDict(c=0, sA=39476927.464575, sB=5894074.699478, sX0=39051612.452944)
 
 # % env PYGEODESY_INTERSECTTOOL=... python3 -m ....pygeodesy.geodesici -T -R 4e7 -i 0 0  10 10  50 -4  -50 -4
-# Intersectool.All[0]: XDict(c=0, sA=-631414.26877, sB=5988887.278435, sX0=1862009.05513)  # XXX missing above?
-# Intersectool.All[1]: XDict(c=0, sA=19422725.117572, sB=-14062417.105648, sX0=38243434.715295)  XXX error above?
+# Intersectool.All[0]: XDict(c=0, sA=-631414.26877, sB=5988887.278435, sX0=1862009.05513)
+# Intersectool.All[1]: XDict(c=0, sA=19422725.117572, sB=-14062417.105648, sX0=38243434.715295)
 # Intersectool.All[2]: XDict(c=0, sA=19422725.117572, sB=25945445.811603, sX0=39044769.337882)
 # Intersectool.All[3]: XDict(c=0, sA=39476927.464575, sB=5894074.699478, sX0=39047600.57276)
 

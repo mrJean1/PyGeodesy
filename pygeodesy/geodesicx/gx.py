@@ -63,7 +63,7 @@ from pygeodesy.utily import atan2d as _atan2d_reverse, _unrollon, _Wrap, wrap360
 from math import atan2, copysign, cos, degrees, fabs, radians, sqrt
 
 __all__ = ()
-__version__ = '24.06.28'
+__version__ = '24.07.09'
 
 _MAXIT1 = 20
 _MAXIT2 = 10 + _MAXIT1 + MANT_DIG  # MANT_DIG == C++ digits
@@ -505,8 +505,10 @@ class GeodesicExact(_GeodesicBase):
         # see C{result} from geographiclib.geodesic.Inverse
         if (outmask & Cs.LONG_UNROLL):  # == (lon1 + lon12) + lon12s
             r = GDict(lon1=lon1, lon2=fsumf_(lon1, lon12, lon12s))
-        else:
+        elif (outmask & Cs.LONGITUDE):
             r = GDict(lon1=_norm180(lon1), lon2=_norm180(lon2))
+        else:
+            r = GDict()
         if _K_2_0:  # GeographicLib 2.0
             # make longitude difference positive
             lon12, lon_ = _unsigned2(lon12)
@@ -535,7 +537,8 @@ class GeodesicExact(_GeodesicBase):
         # If really close to the equator, treat as on equator.
         lat1 = _around(_fix90(lat1))
         lat2 = _around(_fix90(lat2))
-        r.set_(lat1=lat1, lat2=lat2)
+        if (outmask & Cs.LATITUDE):
+            r.set_(lat1=lat1, lat2=lat2)
         # Swap points so that point with higher (abs) latitude is
         # point 1.  If one latitude is a NAN, then it becomes lat1.
         swap_ = fabs(lat1) < fabs(lat2) or isnan(lat2)
@@ -803,9 +806,9 @@ class GeodesicExact(_GeodesicBase):
                  Python U{Geodesic.InverseLine<https://GeographicLib.SourceForge.io/Python/doc/code.html>}.
         '''
         Cs = Caps
-        r  = self._GDictInverse(lat1, lon1, lat2, lon2, Cs.DISTANCE | Cs._S_CALPs_)  # No need for AZIMUTH
+        r  = self._GDictInverse(lat1, lon1, lat2, lon2, Cs.AZIMUTH | Cs.DISTANCE | Cs._S_CALPs_)
         return GeodesicLineExact(self, lat1, lon1, None, caps=caps, _s_calp1=(r.salp1, r.calp1),
-                                                       **name)._GenSet(self._debug, **r)
+                               **name)._GenSet(self._debug, lat2=lat2, lon2=lon2, **r)
 
     def _InverseArea(self, _meridian, salp1, calp1,  # PYCHOK 9 args
                                       salp2, calp2,
