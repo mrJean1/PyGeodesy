@@ -63,7 +63,7 @@ from pygeodesy.utily import atan2d as _atan2d_reverse, _unrollon, _Wrap, wrap360
 from math import atan2, copysign, cos, degrees, fabs, radians, sqrt
 
 __all__ = ()
-__version__ = '24.07.09'
+__version__ = '24.07.11'
 
 _MAXIT1 = 20
 _MAXIT2 = 10 + _MAXIT1 + MANT_DIG  # MANT_DIG == C++ digits
@@ -497,7 +497,7 @@ class GeodesicExact(_GeodesicBase):
         Cs = Caps
         if self._debug:  # PYCHOK no cover
             outmask |= Cs._DEBUG_INVERSE & self._debug
-        outmask &= Cs._OUT_MASK  # incl. _S_CALPs_ and _DEBUG_
+        outmask &= Cs._OUT_MASK  # incl. _SALP_CALPs_ and _DEBUG_
         # compute longitude difference carefully (with _diff182):
         # result is in [-180, +180] but -180 is only for west-going
         # geodesics, +180 is for east-going and meridional geodesics
@@ -674,7 +674,7 @@ class GeodesicExact(_GeodesicBase):
                 S12 = -S12
             r.set_(S12=unsigned0(S12))
 
-        if (outmask & (Cs.AZIMUTH | Cs._S_CALPs_)):
+        if (outmask & (Cs.AZIMUTH | Cs._SALP_CALPs_)):
             if swap_:
                 salp1, salp2 = salp2, salp1
                 calp1, calp2 = calp2, calp1
@@ -686,7 +686,7 @@ class GeodesicExact(_GeodesicBase):
             if (outmask & Cs.AZIMUTH):
                 r.set_(azi1=_atan2d(salp1, calp1),
                        azi2=_atan2d_reverse(salp2, calp2, reverse=outmask & Cs.REVERSE2))
-            if (outmask & Cs._S_CALPs_):
+            if (outmask & Cs._SALP_CALPs_):
                 r.set_(salp1=salp1, calp1=calp1,
                        salp2=salp2, calp2=calp2)
 
@@ -716,7 +716,7 @@ class GeodesicExact(_GeodesicBase):
            @return: L{Inverse10Tuple}C{(a12, s12, salp1, calp1, salp2, calp2,
                                              m12,   M12,   M21,   S12)}.
         '''
-        r = self._GDictInverse(lat1, lon1, lat2, lon2, outmask | Caps._S_CALPs_)
+        r = self._GDictInverse(lat1, lon1, lat2, lon2, outmask | Caps._SALP_CALPs_)
         return r.toInverse10Tuple()
 
     def _Inverse(self, ll1, ll2, wrap, **outmask):
@@ -761,7 +761,7 @@ class GeodesicExact(_GeodesicBase):
         # and .HeightIDWkarney._distances
         if wrap:
             _, lat2, lon2 = _Wrap.latlon3(lat1, lat2, lon2, True)  # _Geodesic.LONG_UNROLL
-        return fabs(self._GDictInverse(lat1, lon1, lat2, lon2, Caps._ANGLE_ONLY).a12)
+        return fabs(self._GDictInverse(lat1, lon1, lat2, lon2, Caps.EMPTY).a12)  # a12 always
 
     def Inverse3(self, lat1, lon1, lat2, lon2):  # PYCHOK outmask
         '''Return the distance in C{meter} and the forward and
@@ -806,9 +806,9 @@ class GeodesicExact(_GeodesicBase):
                  Python U{Geodesic.InverseLine<https://GeographicLib.SourceForge.io/Python/doc/code.html>}.
         '''
         Cs = Caps
-        r  = self._GDictInverse(lat1, lon1, lat2, lon2, Cs.AZIMUTH | Cs.DISTANCE | Cs._S_CALPs_)
+        r  = self._GDictInverse(lat1, lon1, lat2, lon2, caps | Cs._SALP_CALPs_)
         return GeodesicLineExact(self, lat1, lon1, None, caps=caps, _s_calp1=(r.salp1, r.calp1),
-                               **name)._GenSet(self._debug, lat2=lat2, lon2=lon2, **r)
+                                                            **name)._GenSet(self._debug, **r)
 
     def _InverseArea(self, _meridian, salp1, calp1,  # PYCHOK 9 args
                                       salp2, calp2,

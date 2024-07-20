@@ -1490,14 +1490,14 @@
       <em class="summary">An n-vector is a position representation using a (unit) vector 
         normal to the earth ellipsoid.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.sphericalNvector.Nvector-class.html">pygeodesy.sphericalNvector.Nvector</a></strong>:
-      <em class="summary">An n-vector is a position representation using a (unit) vector 
-        normal to the earth's surface.</em>
-    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.deprecated.nvector.Nvector-class.html">pygeodesy.deprecated.nvector.Nvector</a></strong>:
       <em class="summary">DEPRECATED on 2021.05.20, see (INTERNAL) class <a 
         href="pygeodesy.nvectorBase.NvectorBase-class.html" 
         class="link">pygeodesy.nvectorBase.NvectorBase</a>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.sphericalNvector.Nvector-class.html">pygeodesy.sphericalNvector.Nvector</a></strong>:
+      <em class="summary">An n-vector is a position representation using a (unit) vector 
+        normal to the earth's surface.</em>
     </li>
     </ul>
     </li>
@@ -1731,7 +1731,9 @@
     </ul>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.karney._CapsBase-class.html">pygeodesy.karney._CapsBase</a></strong>:
-      <em class="summary">(INTERNAL) Base class for <code>[_]Geodesic*Exact</code>.</em>
+      <em class="summary">(INTERNAL) Base class for <code>Geodesic*</code>, 
+        <code>Geodesic*Exact</code>, <code>Intersectool</code> and 
+        <code>Rhumb*Base</code>.</em>
     <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.rhumb.bases.RhumbBase-class.html">pygeodesy.rhumb.bases.RhumbBase</a></strong>:
       <em class="summary">(INTERNAL) Base class for <code>rhumb.aux_.RhumbAux</code> and 
@@ -1963,7 +1965,7 @@
         instance of <a 
         href="pygeodesy.geodesicx.gx.GeodesicLineExact-class.html" 
         class="link">GeodesicLineExact</a>, wrapped <a 
-        href="pygeodesy.geodesicw-module.html#GeodesicLine" 
+        href="pygeodesy.geodesicw.GeodesicLine-class.html" 
         class="link">GeodesicLine</a> or <a 
         href="pygeodesy.geodsolve.GeodesicLineSolve-class.html" 
         class="link">GeodesicLineSolve</a>.</em>
@@ -2338,6 +2340,21 @@
         <code>i</code> and <code>j</code>, the total count <code>mn</code>,
         the <code><i>mean</i> Hausdorff</code> distance <code>md</code> and
         the class or name of both distance <code>units</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.geodesici.Intersect7Tuple-class.html">pygeodesy.geodesici.Intersect7Tuple</a></strong>:
+      <em class="summary">7-Tuple <code>(A, B, sAB, aAB, c, kA, kB)</code> with 
+        <code>A</code> and <code>B</code> each a <code>LatLon</code> or <a 
+        href="pygeodesy.namedTuples.LatLon4Tuple-class.html" 
+        class="link">LatLon4Tuple</a><code>(lat, lon, height, datum)</code>
+        of the intersection on each geodesic line, the distance 
+        <code>sAB</code> in in <code>meter</code> and angular distance 
+        <code>aAB</code> in <code>degrees</code> between <code>A</code> and
+        <code>B</code>, coincidence indicator <code>c</code> and segment 
+        indicators <code>kA</code> and <code>kB</code> all 
+        <code>int</code>, see <a 
+        href="pygeodesy.geodesici.XDict-class.html" class="link">XDict</a> 
+        and method <a href="https://_IntersectBase.intersect7s" 
+        target="_top">intersect7s</a>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.Intersection3Tuple-class.html">pygeodesy.namedTuples.Intersection3Tuple</a></strong>:
       <em class="summary">3-Tuple <code>(point, outside1, outside2)</code> of an intersection
@@ -3142,6 +3159,30 @@
     </li>
     </ul>
     </li>
+    <li> <strong class="uidlink">pygeodesy.karney._kWrapped</strong>:
+      <em class="summary">'(INTERNAL) Wrapper for some of <i>Karney</i>'s <a 
+        href="https://PyPI.org/project/geographiclib" 
+        target="_top">geographiclib</a> classes.</em>
+    <ul>
+    <li> <strong class="uidlink">pygeodesy.geodesicw._gWrapped</strong>:
+      <em class="summary">'(INTERNAL) Wrapper for some of <i>Karney</i>'s <a 
+        href="https://PyPI.org/project/geographiclib" 
+        target="_top">geographiclib</a> classes.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.geodesicw.Geodesic-class.html">pygeodesy.geodesicw.Geodesic</a></strong>:
+      <em class="summary"><i>Wrapper</i> around <i>Karney</i>'s class <a 
+        href="https://geographiclib.sourceforge.io/Python/doc/code.html" 
+        target="_top">geographiclib.geodesic.Geodesic</a>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.geodesicw.GeodesicLine-class.html">pygeodesy.geodesicw.GeodesicLine</a></strong>:
+      <em class="summary"><i>Wrapper</i> around <i>Karney</i>'s class <a 
+        href="https://geographiclib.sourceforge.io/Python/doc/code.html" 
+        target="_top">geographiclib.geodesicline.GeodesicLine</a>.</em>
+    </li>
+    </ul>
+    </li>
+    </ul>
+    </li>
     <li> <strong class="uidlink">basestring</strong>:
       <em class="summary">Type basestring cannot be instantiated; it is the base for str and 
         unicode.</em>
@@ -3479,6 +3520,14 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
     </li>
     </ul>
     </li>
+    <li> <strong class="uidlink">pygeodesy.props._property_RO___</strong>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.props.property_ROnce-class.html">pygeodesy.props.property_ROnce</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.props.property_ROver-class.html">pygeodesy.props.property_ROver</a></strong>
+    </li>
+    </ul>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.props.property_RO-class.html">pygeodesy.props.property_RO</a></strong>
     <ul>
     </ul>
@@ -3782,6 +3831,21 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
         <code>i</code> and <code>j</code>, the total count <code>mn</code>,
         the <code><i>mean</i> Hausdorff</code> distance <code>md</code> and
         the class or name of both distance <code>units</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.geodesici.Intersect7Tuple-class.html">pygeodesy.geodesici.Intersect7Tuple</a></strong>:
+      <em class="summary">7-Tuple <code>(A, B, sAB, aAB, c, kA, kB)</code> with 
+        <code>A</code> and <code>B</code> each a <code>LatLon</code> or <a 
+        href="pygeodesy.namedTuples.LatLon4Tuple-class.html" 
+        class="link">LatLon4Tuple</a><code>(lat, lon, height, datum)</code>
+        of the intersection on each geodesic line, the distance 
+        <code>sAB</code> in in <code>meter</code> and angular distance 
+        <code>aAB</code> in <code>degrees</code> between <code>A</code> and
+        <code>B</code>, coincidence indicator <code>c</code> and segment 
+        indicators <code>kA</code> and <code>kB</code> all 
+        <code>int</code>, see <a 
+        href="pygeodesy.geodesici.XDict-class.html" class="link">XDict</a> 
+        and method <a href="https://_IntersectBase.intersect7s" 
+        target="_top">intersect7s</a>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.Intersection3Tuple-class.html">pygeodesy.namedTuples.Intersection3Tuple</a></strong>:
       <em class="summary">3-Tuple <code>(point, outside1, outside2)</code> of an intersection
@@ -4378,7 +4442,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Jul 10 09:25:43 2024
+    Generated by Epydoc 3.0.1 on Sat Jul 20 12:01:57 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

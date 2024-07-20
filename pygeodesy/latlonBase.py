@@ -41,7 +41,7 @@ from pygeodesy.namedTuples import Bounds2Tuple, LatLon2Tuple, PhiLam2Tuple, \
                                   Trilaterate5Tuple
 # from pygeodesy.nvectorBase import _N_vector_  # _MODS
 from pygeodesy.props import deprecated_method, Property, Property_RO, \
-                            property_RO, _update_all
+                            property_RO, property_ROnce, _update_all
 # from pygeodesy.streprs import Fmt, hstr  # from .named, _MODS
 from pygeodesy.units import _isDegrees, _isRadius, Distance_, Lat, Lon, \
                              Height, Radius, Radius_, Scalar, Scalar_
@@ -54,7 +54,7 @@ from contextlib import contextmanager
 from math import asin, cos, degrees, fabs, radians
 
 __all__ = _ALL_LAZY.latlonBase
-__version__ = '24.06.11'
+__version__ = '24.07.12'
 
 _formy = _MODS.into(formy=__name__)
 
@@ -475,12 +475,11 @@ class LatLonBase(_NamedBase):
         r = func_(phi2, self.phi, lam21, datum=D)
         return r * (D.ellipsoid.a if radius is None else radius)
 
-    @property_RO
+    @property_ROnce
     def Ecef(self):
         '''Get the ECEF I{class} (L{EcefKarney}), I{once}.
         '''
-        LatLonBase.Ecef = E = _MODS.ecef.EcefKarney  # overwrite property_RO
-        return E
+        return _MODS.ecef.EcefKarney
 
     @Property_RO
     def _Ecef_forward(self):

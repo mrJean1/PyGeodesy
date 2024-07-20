@@ -29,7 +29,7 @@ from pygeodesy.named import _xother3,  _under
 from pygeodesy.namedTuples import Trilaterate5Tuple, Vector3Tuple, \
                                   Vector4Tuple,  map1
 from pygeodesy.props import deprecated_method, Property_RO, property_doc_, \
-                            property_RO, _update_all
+                            property_RO, property_ROnce, _update_all
 from pygeodesy.streprs import Fmt, hstr, unstr
 from pygeodesy.units import Bearing, Height, Radius_, Scalar
 from pygeodesy.utily import sincos2d, _unrollon, _unrollon3
@@ -38,7 +38,7 @@ from pygeodesy.vector3d import Vector3d, _xyzhdlln4
 from math import fabs, sqrt
 
 __all__ = _ALL_LAZY.nvectorBase
-__version__ = '24.06.12'
+__version__ = '24.07.12'
 
 
 class NvectorBase(Vector3d):  # XXX kept private
@@ -78,12 +78,11 @@ class NvectorBase(Vector3d):  # XXX kept private
         '''
         return self._datum
 
-    @property_RO
+    @property_ROnce
     def Ecef(self):
         '''Get the ECEF I{class} (L{EcefKarney}), I{once}.
         '''
-        NvectorBase.Ecef = E = _MODS.ecef.EcefKarney  # overwrite property_RO
-        return E
+        return _MODS.ecef.EcefKarney
 
     @property_RO
     def ellipsoidalNvector(self):

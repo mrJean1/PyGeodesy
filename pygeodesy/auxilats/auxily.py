@@ -19,7 +19,7 @@ from pygeodesy.constants import INF, NAN, isinf, isnan, _0_0, _0_5, \
 from pygeodesy.errors import AuxError,  NN
 from pygeodesy.fmath import hypot1 as _sc, hypot2_
 # from pygeodesy.interns import NN  # from .errors
-from pygeodesy.karney import ADict, _ALL_DOCS, _MODS  # PYCHOK used!
+from pygeodesy.karney import ADict,  _ALL_DOCS, _MODS  # PYCHOK used!
 # from pygeodesy.lazily import _ALL_DOCS, _ALL_MODS as _MODS  # from .karney
 # from pygeodesy.named import ADict  # from .karney
 from pygeodesy.utily import atan1
@@ -27,7 +27,7 @@ from pygeodesy.utily import atan1
 from math import asinh, copysign
 
 __all__ = ()
-__version__ = '24.03.20'
+__version__ = '24.07.12'
 
 
 class Aux(object):

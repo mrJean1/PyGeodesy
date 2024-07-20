@@ -93,15 +93,14 @@ from pygeodesy.fmath import favg, Fdot, fdot, Fhorner, frange
 from pygeodesy.heights import _as_llis2, _ascalar, _height_called, HeightError, \
                               _HeightsBase,  _ellipsoidal_datum, _Wrap
 # from pygeodesy.internals import _version2  # _MODS
-from pygeodesy.interns import MISSING, NN, _4_, _COLONSPACE_, _COMMASPACE_, \
-                             _cubic_, _E_, _height_, _in_, _kind_, _lat_, \
-                             _linear_, _lon_, _mean_, _N_, _n_a_, _numpy_, \
-                             _on_, _outside_, _S_, _s_, _scipy_, _SPACE_, \
-                             _stdev_, _tbd_, _W_, _width_
+from pygeodesy.interns import MISSING, NN, _4_, _COLONSPACE_, _COMMASPACE_, _cubic_, \
+                             _E_, _height_, _in_, _kind_, _lat_, _linear_, _lon_, \
+                             _mean_, _N_, _n_a_, _numpy_, _on_, _outside_, _S_, _s_, \
+                             _scipy_, _SPACE_, _stdev_, _tbd_, _W_, _width_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, _FOR_DOCS
 from pygeodesy.named import _name__, _Named, _NamedTuple
 # from pygeodesy.namedTuples import LatLon3Tuple  # _MODS
-from pygeodesy.props import deprecated_method, Property_RO, property_RO
+from pygeodesy.props import deprecated_method, Property_RO, property_RO, property_ROver
 from pygeodesy.streprs import attrs, Fmt, fstr, pairs
 from pygeodesy.units import Height, Int_, Lat, Lon
 # from pygeodesy.utily import _Wrap  # from .heights
@@ -118,7 +117,7 @@ except ImportError:  # Python 3+
     from io import BytesIO as _BytesIO  # PYCHOK expected
 
 __all__ = _ALL_LAZY.geoids
-__version__ = '24.06.11'
+__version__ = '24.07.12'
 
 _assert_ = 'assert'
 _bHASH_  =  b'#'
@@ -473,12 +472,11 @@ class _GeoidBase(_HeightsBase):
         '''(INTERNAL) I{Must be overloaded}.'''
         self._notOverloaded(lat, lon)
 
-    @property_RO
+    @property_ROver
     def _LL3T(self):
         '''(INTERNAL) Get L{LatLon3Tuple}, I{once}.
         '''
-        _GeoidBase._LL3T = T = _MODS.namedTuples.LatLon3Tuple  # overwrite poperty_RO
-        return T
+        return _MODS.namedTuples.LatLon3Tuple  # overwrite property_ROver
 
     def _llh3(self, lat, lon):
         return self._LL3T(lat, lon, self._hGeoid(lat, lon), name=self.name)

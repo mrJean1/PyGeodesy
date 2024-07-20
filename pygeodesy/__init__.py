@@ -7,24 +7,22 @@ methods for geodetic (lat-/longitude), geocentric (U{ECEF<https://WikiPedia.org/
 cartesian) and certain U{triaxial ellipsoidal<https://GeographicLib.SourceForge.io/1.44/triaxial.html>}
 coordinates.
 
-Transcoded from U{JavaScript originals<https://GitHub.com/ChrisVeness/geodesy>} by I{Chris Veness
-(C) 2005-2022} and from several U{C++ classes<https://GeographicLib.SourceForge.io/C++/doc/annotated.html>}
-by I{Charles F. F. Karney (C) 2008-2023} and published under the same U{MIT License
-<https://OpenSource.org/licenses/MIT>}**.
+Transcoded from U{JavaScript originals<https://GitHub.com/ChrisVeness/geodesy>} by I{Chris Veness (C) 2005-2022}
+and from several U{C++ classes<https://GeographicLib.SourceForge.io/C++/doc/annotated.html>} by I{Charles F. F.
+Karney (C) 2008-2023} and published under the same U{MIT License<https://OpenSource.org/licenses/MIT>}**.
 
-There are four modules for ellipsoidal earth models, C{ellipsoidalExact}, C{-Karney},
-C{-Vincenty} and C{-Nvector} and two for spherical ones, C{sphericalTrigonometry}
-and C{-Nvector}.  Each module provides a geodetic B{C{LatLon}} and a geocentric
-B{C{Cartesian}} class with methods and functions to compute distance, surface area,
-perimeter, initial and final bearing, intermediate and nearest points, circle intersections
-and secants, path intersections, U{3-point resections<https://WikiPedia.org/wiki/
-Position_resection_and_intersection>}, rhumb and rhumb lines, triangulation, trilateration
-(by intersection, by overlap and in 3d), conversions and unrolling, among other things.  For
-more information and further details see the U{documentation<https://mrJean1.GitHub.io/PyGeodesy>},
-the descriptions of U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>},
-U{Vincenty<https://www.Movable-Type.co.UK/scripts/latlong-vincenty.html>} and U{Vector-based
-<https://www.Movable-Type.co.UK/scripts/latlong-vectors.html>} geodesy, the original U{JavaScript
-source<https://GitHub.com/ChrisVeness/geodesy>} or U{docs<https://www.Movable-Type.co.UK/scripts/geodesy/docs>}
+There are four modules for ellipsoidal earth models, C{ellipsoidalExact}, C{-Karney}, C{-Vincenty} and C{-Nvector}
+and two for spherical ones, C{sphericalTrigonometry} and C{-Nvector}.  Each module provides a geodetic B{C{LatLon}}
+and a geocentric B{C{Cartesian}} class with methods and functions to compute distance, surface area, perimeter,
+forward and reverse azimuth, initial and final bearing, intermediate and nearest points, intersections of geodesic,
+great circle and rhumb lines, circle intersections and secants, U{3-point resections
+<https://WikiPedia.org/wiki/Position_resection_and_intersection>}, triangulation, trilateration (by intersection,
+by overlap and in 3d), conversions and unrolling, among other things.  For more information and further details see
+the U{documentation<https://mrJean1.GitHub.io/PyGeodesy>}, the descriptions of U{Latitude/Longitude
+<https://www.Movable-Type.co.UK/scripts/latlong.html>}, U{Vincenty
+<https://www.Movable-Type.co.UK/scripts/latlong-vincenty.html>} and U{Vector-based
+<https://www.Movable-Type.co.UK/scripts/latlong-vectors.html>} geodesy, the original U{JavaScript source
+<https://GitHub.com/ChrisVeness/geodesy>} or U{docs<https://www.Movable-Type.co.UK/scripts/geodesy/docs>}
 and I{Karney}'s Python U{geographiclib<https://PyPI.org/project/geographiclib>} and U{C++ GeographicLib
 <https://GeographicLib.SourceForge.io/C++/doc/index.html>}.
 
@@ -126,41 +124,44 @@ C{epydoc --html --no-private --no-source --name=PyGeodesy --url=... -v pygeodesy
 Tests
 =====
 
-The tests ran with Python 3.12.3 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0,
-Python 3.11.5 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0, U{numpy
-<https://PyPI.org/project/numpy>} 1.24.2 and U{scipy<https://PyPI.org/project/scipy>} 1.10.1), Python
-3.10.8 (with U{geographiclib <https://PyPI.org/project/geographiclib>} 2.0, U{numpy
-<https://PyPI.org/project/numpy>} 1.23.3, U{scipy<https://PyPI.org/project/scipy>} 1.9.1, U{GeoConvert
-<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.2, U{GeodSolve
-<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.2 and U{RhumbSolve
-<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.2), Python 3.9.6 and Python 2.7.18 (with
-U{geographiclib<https://PyPI.org/project/geographiclib>} 1.50, U{numpy<https://PyPI.org/project/numpy>}
-1.16.6, U{scipy<https://PyPI.org/project/scipy>} 1.2.2, U{GeoConvert
-<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.2, U{GeodSolve
-<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.2 and U{RhumbSolve
-<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.2), all on macOS 14.5 Sonoma and
-in 64-bit only.
+The tests ran with Python 3.13.0b3, Python 3.12.4 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0,
+U{GeodSolve<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.3,
+U{IntersectTool<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.3 and
+U{RhumbSolve<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.3),
+Python 3.11.5 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0,
+U{numpy<https://PyPI.org/project/numpy>} 1.24.2 and U{scipy<https://PyPI.org/project/scipy>} 1.10.1),
+Python 3.10.8 (with U{geographiclib <https://PyPI.org/project/geographiclib>} 2.0,
+U{numpy<https://PyPI.org/project/numpy>} 1.23.3, U{scipy<https://PyPI.org/project/scipy>} 1.9.1,
+U{GeoConvert<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.3,
+U{GeodSolve<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.3) and
+Python 2.7.18 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 1.50,
+U{numpy<https://PyPI.org/project/numpy>} 1.16.6, U{scipy<https://PyPI.org/project/scipy>} 1.2.2,
+U{GeoConvert<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.3,
+U{GeodSolve<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.3,
+U{IntersectTool<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.3 and
+U{RhumbSolve<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.3), all in 64-bit on macOS 14.5 Sonoma.
 
 All tests ran with and without C{lazy import} for Python 3 and with command line option C{-W default} and
 env variable C{PYGEODESY_WARNINGS=on} for all Python versions.  The results of those tests are included in
 the distribution files.
 
-Test coverage has been measured with U{coverage<https://PyPI.org/project/coverage>} 7.2.2 using only Python
+Test coverage has been measured with U{coverage<https://PyPI.org/project/coverage>} 7.6.0 using Python 3.12.4,
 3.11.5 and 3.10.8.  The complete coverage report in HTML and a PDF summary are included in the distribution files.
 
-PyPy 7.3.12 (Python 3.10.12), Python 3.11.5, 3.10.8 and 3.9.6 ran on Apple M1 Silicon (C{arm64}), I{natively}.
-Python 3.8.10 and 2.7.18 ran on Intel (C{x86_64}) or Intel I{emulation} ("C{arm64_x86_64}", see function
-L{machine<pygeodesy.machine>}).
+Python 3.13.0b3, 3.12.4, 3.11.5 and 3.10.8 run on Apple M1 Silicon (C{arm64}), I{natively}.  Python 2.7.18 runs on
+Intel (C{x86_64}) or Intel I{emulation} ("C{arm64_x86_64}", see function L{machine<pygeodesy.machine>}).
 
-The tests also ran with Python 3.11.5 (and U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0) on
-U{Debian 11<https://Cirrus-CI.com/github/mrJean1/PyGeodesy/master>} in 64-bit only and with Python 3.11.5,
-3.10.10 and 2.7.18 (all with U{geographiclib<https://PyPI.org/project/geographiclib>} 1.52) on U{Windows 10
-<https://CI.AppVeyor.com/project/mrJean1/pygeodesy>} in 64- and/or 32-bit.
+The tests also ran with Python 3.12.4 (and U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0) on U{Debian
+12<https://Cirrus-CI.com/github/mrJean1/PyGeodesy/master>} in 64-bit only, with Python 3.12.3 (and
+U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0) on U{Windows
+2019Server<https://CI.AppVeyor.com/project/mrJean1/pygeodesy>} in 64-bit only and with Python 2.7.18 (and
+U{geographiclib<https://PyPI.org/project/geographiclib>} 1.52) on U{Windows
+10<https://CI.AppVeyor.com/project/mrJean1/pygeodesy>} in 64- and 32-bit.
 
 A single-File and single-Directory application with C{pygeodesy} has been bundled using U{PyInstaller
 <https://PyPI.org/project/pyinstaller>} 3.4 and 64-bit Python 3.7.3 on macOS 10.13.6 High Sierra.
 
-Previously, the tests were run with Python 3.12.0-2, 3.11.2-4, 3.10.1-7, 3.9.1, 3.8.7, 3.7.1, 2.7.15, U{PyPy
+Previously, the tests were run with Python 3.12.0-3, 3.11.2-4, 3.10.1-7, 3.9.6, 3.9.1, 3.8.7, 3.7.1, 2.7.15, U{PyPy
 <https://PyPy.org>} 7.3.12 (Python 3.10.12), 7.3.1 (Python 3.6.9) and U{PyPy<https://PyPy.org>} 7.1.1 (Python
 2.7.13) (and U{geographiclib <https://PyPI.org/project/geographiclib>} 1.52, U{numpy<https://PyPI.org/project/numpy>}
 1.16.3, 1.16.4, 1.16.6, 1.19.0, 1.19.4, 1.19.5 or 1.22.4 and U{scipy<https://PyPI.org/project/scipy>} 1.2.1, 1.4.1,
@@ -202,7 +203,7 @@ The following environment variables are observed by C{PyGeodesy}:
  - C{PYGEODESY_FSUM_RESIDUAL} - see module L{fsums<pygeodesy.fsums>} and class L{Fsum<pygeodesy.Fsum>}.
  - C{PYGEODESY_GEOCONVERT} - see module L{mgrs<pygeodesy.mgrs>}.
  - C{PYGEODESY_GEODSOLVE} - see module L{geodsolve<pygeodesy.geodsolve>}.
- - C{PYGEODESY_INTERSECTTOOL} - see modules L{geodesici<pygeodesy.geodesici>}.
+ - C{PYGEODESY_INTERSECTTOOL} - see module L{geodesici<pygeodesy.geodesici>}.
  - C{PYGEODESY_LAZY_IMPORT} - see module L{lazily<pygeodesy.lazily>} and variable L{isLazy<pygeodesy.isLazy>}.
  - C{PYGEODESY_NOTIMPLEMENTED} - C{__special__} methods return C{NotImplemented} if set to "std".
  - C{PYGEODESY_RHUMBSOLVE} - see module L{rhumb.solve<pygeodesy.rhumb.solve>}.
@@ -370,10 +371,9 @@ else:
     __path__ = [pygeodesy_abspath]
     try:  # ... make this import work, ...
         import pygeodesy.lazily as _
-    except ImportError:  # ... if it doesn't, extend
-        # _sys.path to include this very directory such
-        # that all public and private sub-modules can
-        # be imported (and checked by PyChecker, etc.)
+    except ImportError:  # ... if it doesn't, extend _sys.path to include
+        # this very directory such that all public and private sub-modules
+        # can be imported (by epydoc, checked by PyChecker, etc.)
         _sys.path.insert(0, pygeodesy_abspath)  # XXX __path__[0]
 
     try:  # lazily requires Python 3.7+, see lazily.__doc__
@@ -596,7 +596,7 @@ else:
 
 from pygeodesy.internals import _version2,  _DOT_  # PYCHOK import
 # from pygeodesy.interns import _DOT_  # from .internals
-__version__ = '24.07.07'
+__version__ = '24.07.24'
 # see setup.py for similar logic
 version     = _DOT_(*_version2(__version__, n=3))
 

@@ -83,7 +83,7 @@ from pygeodesy.named import _lazyNamedEnumItem as _lazy, _name__, _NamedEnum, \
                                 _NamedEnumItem, _NamedTuple, _Pass,  _ALL_LAZY, _MODS
 from pygeodesy.namedTuples import Distance2Tuple, Vector3Tuple, Vector4Tuple
 from pygeodesy.props import deprecated_Property_RO, Property_RO, property_doc_, \
-                            deprecated_property_RO, property_RO
+                            deprecated_property_RO, property_RO, property_ROver
 from pygeodesy.streprs import Fmt, fstr, instr, strs, unstr
 # from pygeodesy.triaxials import _hartzell3  # _MODS
 from pygeodesy.units import Bearing_, Distance, Float, Float_, Height, Lamd, Lat, Meter, \
@@ -93,7 +93,7 @@ from pygeodesy.utily import atan1, atan1d, atan2b, degrees90, m2radians, radians
 from math import asinh, atan, atanh, cos, degrees, exp, fabs, radians, sin, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '24.06.24'
+__version__ = '24.07.16'
 
 _f_0_0    = Float(f =_0_0)  # zero flattening
 _f__0_0   = Float(f_=_0_0)  # zero inverse flattening
@@ -1029,17 +1029,18 @@ class Ellipsoid(_NamedEnumItem):
                 raise _ValueError(exact=g, ellipsoid=E, txt_not_=self.name)
         return g
 
-    @property_RO
+    @property_ROver
     def _Geodesics(self):
         '''(INTERNAL) Get all C{Geodesic...} classes, I{once}.
         '''
+        t = (_MODS.geodesicx.GeodesicExact,
+             _MODS.geodsolve.GeodesicSolve)
         try:
-            t = _MODS.geodesicw._wrapped.Geodesic,
+            t += (_MODS.geodesicw.Geodesic,
+                  _MODS.geodesicw._wrapped.Geodesic)
         except ImportError:
-            t = ()
-        Ellipsoid._Geodesics = t = (_MODS.geodesicx.GeodesicExact,  # overwrite property_RO
-                                    _MODS.geodsolve.GeodesicSolve) + t
-        return t
+            pass
+        return t  # overwrite propertyROver
 
     @property_RO
     def geodesicw(self):
@@ -1517,14 +1518,13 @@ class Ellipsoid(_NamedEnumItem):
         #     raise _IsnotError(_ellipsoidal_, ellipsoid=self)
         return _MODS.rhumb.ekx.Rhumb(self, name=self.name)
 
-    @property_RO
+    @property_ROver
     def _Rhumbs(self):
         '''(INTERNAL) Get all C{Rhumb...} classes, I{once}.
         '''
         p = _MODS.rhumb
-        Ellipsoid._Rhumbs = t = (p.aux_.RhumbAux,  # overwrite property_RO
-                                 p.ekx.Rhumb, p.solve.RhumbSolve)
-        return t
+        return (p.aux_.RhumbAux,  # overwrite propertyROver
+                p.ekx.Rhumb, p.solve.RhumbSolve)
 
     @property
     def rhumbsolve(self):

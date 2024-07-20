@@ -33,8 +33,8 @@ from pygeodesy.ltpTuples import Attitude4Tuple, ChLVEN2Tuple, ChLV9Tuple, \
                                 ChLVyx2Tuple, _XyzLocals4, _XyzLocals5, Xyz4Tuple
 from pygeodesy.named import _name__, _name2__, _NamedBase, notOverloaded
 from pygeodesy.namedTuples import LatLon3Tuple, LatLon4Tuple, Vector3Tuple
-from pygeodesy.props import Property, Property_RO, property_doc_, property_RO, \
-                           _update_all
+from pygeodesy.props import Property, Property_RO, property_doc_, \
+                            property_ROver, _update_all
 from pygeodesy.streprs import Fmt, strs, unstr
 from pygeodesy.units import Bearing, Degrees, _isHeight, Meter
 from pygeodesy.utily import cotd, _loneg, sincos2d, sincos2d_, tand, tand_, \
@@ -44,7 +44,7 @@ from pygeodesy.vector3d import _ALL_LAZY, Vector3d
 # from math import fabs, floor as _floor  # from .fmath, .fsums
 
 __all__ = _ALL_LAZY.ltp
-__version__ = '24.06.11'
+__version__ = '24.07.12'
 
 _height0_ = _height_ + _0_
 _narrow_  = 'narrow'
@@ -722,15 +722,15 @@ class _ChLV(object):
         t = Y_X_h_lat_lon_h + (self, self._t0, None)  # PYCHOK _t0
         return ChLV9Tuple(t, name=name)
 
-    @property_RO
+    @property_ROver
     def _enh_n_h(self):
         '''(INTERNAL) Get C{ChLV*.reverse} args[1:4] names, I{once}.
         '''
-        _ChLV._enh_n_h = t = _args_kwds_names(_ChLV.reverse)[1:4]  # overwrite property_RO
+        t = _args_kwds_names(_ChLV.reverse)[1:4]
         # assert _args_kwds_names( ChLV.reverse)[1:4] == t
         # assert _args_kwds_names(ChLVa.reverse)[1:4] == t
         # assert _args_kwds_names(ChLVe.reverse)[1:4] == t
-        return t
+        return t  # overwrite propertyROver
 
     def forward(self, latlonh, lon=None, height=0, M=None, **name):  # PYCHOK no cover
         '''Convert WGS84 geodetic to I{Swiss} projection coordinates.  I{Must be overloaded}.

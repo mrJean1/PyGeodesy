@@ -1,16 +1,15 @@
 
 # -*- coding: utf-8 -*-
 
-# The setuptools script to build, test and install a PyGeodesy
-# distribution.
+# The setuptools script to build, test and install a PyGeodesy distribution.
 
-# Tested with 64-bit Python 3.11.0, 3.10.1-5, 3.9.6, 3.8.10,
-# 3.7.0, 3.6.4-5, 3.5.3, 2.7,13 and 2.6.9 on macOS 10.12 Sierra,
-# 10.1 High Sierra, 10.15.5-7 Catalina, 11.0-2 (10.16) Big Sur,
-# 12.0-4 (10.16) Monterey and 13.0.1 Ventura on Intel (x86_64),
-# Intel emulation ("arm64_x86_64") and/or Apple-Silicon M1 native
-# (arm64) and with Pythonista 3.1 and 3.2 on iOS 10.3, 11.0, 11.1
-# and 11.3-4 and on iPhone 15.5.
+# Tested with 64-bit Python 3.12.0-4, 3.11.0, 3.10.1-5, 3.9.6, 3.8.10,
+# 3.7.0, 3.6.4-5, 3.5.3, 2.7,13 and 2.6.9 on macOS 10.12 Sierra, 10.1
+# High Sierra, 10.15.5-7 Catalina, 11.0-2 (10.16) Big Sur, 12.0-4 (10.16)
+# Monterey, 13.0.1 Ventura and 14.005 Sonoma on Intel (x86_64), Intel
+# emulation ("arm64_x86_64") and/or Apple-Silicon M1 native (arm64) and
+# with Pythonista 3.1 and 3.2 on iOS 10.3, 11.0, 11.1 and 11.3-4 and
+# on iPhone 15.5.
 
 # python setup.py sdist --formats=gztar,bztar,zip  # ztar,tar
 # python setup.py bdist_wheel --universal  # XXX
@@ -27,7 +26,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '24.05.28'
+__version__ = '24.07.14'
 
 
 def _c2(*names):
@@ -72,7 +71,7 @@ _KeyWords = ('AER', 'Albers', 'altitude', 'Andoyer', 'annulus', 'antipode', 'are
              'Hartzell', 'Hausdorff', 'Haversine', 'heading', 'height', 'Heron',
              'Hodgman', 'horizon', 'Hormann', 'Hubeny',
              'IDW', 'incenter', 'incirle', 'infix_@_operator', 'inradius', 'intermediate', 'interpolate',
-             'intersect', 'intersection', 'intersection3d', 'intersections',
+             'intersect', 'intersection', 'intersection3d', 'intersections', 'IntersectTool',
              'Inverse-Distance-Weighting', 'Isometric', 'ITRF',
              'Jacobi', 'Jacobi-Conformal', 'Jarque-Bera', 'Jekel',
              'Karney', 'Krueger', 'Krüger', 'kurtosis',

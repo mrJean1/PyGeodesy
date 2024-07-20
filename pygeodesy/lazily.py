@@ -284,8 +284,8 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                           fsums=_i('Fsum', 'DivMod2Tuple', 'Fsum2Tuple', 'ResidualError',
                                    'fsum', 'fsum_', 'fsumf_', 'fsum1', 'fsum1_', 'fsum1f_'),
                            gars=_i('Garef', 'GARSError'),
-                      geodesici=_i('Intersectool', 'Intersectool5Tuple', 'Middle5Tuple',
-                                   'Intersector',  'Intersector5Tuple',  'XDict'),
+                      geodesici=_i('Intersectool', 'Intersectool5Tuple', 'Intersect7Tuple',
+                                   'Intersector',  'Intersector5Tuple',  'Middle5Tuple', 'XDict'),
                       geodesicw=_i('Geodesic', 'GeodesicLine', 'Geodesic_WGS84'),
                       geodesicx=_i('gx', 'gxarea', 'gxbases', 'gxline',  # modules
                                    'GeodesicAreaExact', 'GeodesicExact', 'GeodesicLineExact', 'PolygonArea'),
@@ -343,7 +343,8 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                    'areaOf', 'boundsOf', 'centroidOf', 'fractional',
                                    'isclockwise', 'isconvex', 'isconvex_', 'isenclosedBy', 'ispolar',
                                    'luneOf', 'nearestOn5', 'perimeterOf', 'quadOf'),
-                          props=_i('Property', 'Property_RO', 'property_RO', 'property_doc_',
+                          props=_i('Property', 'Property_RO', 'property_doc_',
+                                   'property_RO', 'property_ROnce', 'property_ROver',
                                    'deprecated_class', 'deprecated_function', 'deprecated_method',
                                    'deprecated_Property_RO', 'deprecated_property_RO', 'DeprecationWarnings'),
                      resections=_i('Collins5Tuple', 'ResectionError', 'Survey3Tuple', 'Tienstra7Tuple',
@@ -521,7 +522,7 @@ class _ALL_MODS(_internals._MODS_Base):
 _internals._MODS = _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '24.07.09'
+__version__ = '24.07.18'
 
 
 def _ALL_OTHER(*objs):

@@ -23,7 +23,8 @@ from pygeodesy.fmath import hypot,  unstr
 from pygeodesy.fsums import _add_op_, _iadd_op_, _isub_op_, _sub_op_
 from pygeodesy.named import _Named,  _ALL_DOCS, _MODS
 # from pygeodesy.lazily import _ALL_DOCS, _ALL_MODS as _MODS  # from .named
-from pygeodesy.props import Property, Property_RO, property_RO, _update_all
+from pygeodesy.props import Property, Property_RO, property_RO, property_ROver, \
+                           _update_all
 # from pygeodesy.streprs import unstr  # from .fmath
 from pygeodesy.units import Degrees, Radians
 from pygeodesy.utily import atan2d, sincos2, sincos2d
@@ -31,7 +32,7 @@ from pygeodesy.utily import atan2d, sincos2, sincos2d
 from math import asinh, atan2, copysign, degrees, fabs, radians, sinh
 
 __all__ = ()
-__version__ = '24.06.16'
+__version__ = '24.07.12'
 
 _0_INF_NAN_NINF = (0, _0_0) + _INF_NAN_NINF
 _MAX_2          =  MAX * _0_5  # PYCHOK used!
@@ -273,12 +274,11 @@ class AuxAngle(_Named):
         y, x = self._yx_normalized
         return self.classof(y, x, name=self.name, aux=self._AUX)
 
-    @property_RO
+    @property_ROver
     def _RhumbAux(self):
         '''(INTERNAL) Import the L{RhumbAux} class, I{once}.
         '''
-        AuxAngle._RhumbAux = R = _MODS.rhumb.aux_.RhumbAux  # overwrite property_RO
-        return R
+        return _MODS.rhumb.aux_.RhumbAux  # overwrite propertyROver
 
     @Property_RO
     def tan(self):

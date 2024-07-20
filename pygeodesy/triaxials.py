@@ -49,7 +49,7 @@ from pygeodesy.named import _lazyNamedEnumItem as _lazy, _name__, _NamedEnum, \
                                 _NamedEnumItem, _Pass
 from pygeodesy.namedTuples import LatLon3Tuple, _NamedTupleTo, Vector3Tuple, \
                                   Vector4Tuple
-from pygeodesy.props import Property_RO, property_RO
+from pygeodesy.props import Property_RO, property_ROver
 # from pygeodesy.streprs import Fmt  # from .datums
 from pygeodesy.units import Degrees, Float, Height_, Meter, Meter2, Meter3, \
                             Radians, Radius, Scalar_
@@ -59,7 +59,7 @@ from pygeodesy.vector3d import _otherV3d, Vector3d,  _ALL_LAZY, _MODS
 from math import atan2, fabs, sqrt
 
 __all__ = _ALL_LAZY.triaxials
-__version__ = '24.06.24'
+__version__ = '24.07.12'
 
 _not_ordered_ = _not_('ordered')
 _omega_       = 'omega'
@@ -360,12 +360,11 @@ class Triaxial_(_NamedEnumItem):
 
     _1e2bc = _c2_b2  # C{1 - e2bc} == C{(c/b)**2}
 
-    @property_RO
+    @property_ROver
     def _Elliptic(self):
         '''(INTERNAL) Get class L{Elliptic}, I{once}.
         '''
-        Triaxial_._Elliptic = E = _MODS.elliptic.Elliptic  # overwrite property_RO
-        return E
+        return _MODS.elliptic.Elliptic  # overwrite propertyROver
 
     def hartzell4(self, pov, los=False, **name):
         '''Compute the intersection of this triaxial's surface with a Line-Of-Sight

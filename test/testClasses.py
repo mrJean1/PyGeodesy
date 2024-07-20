@@ -6,17 +6,22 @@
 # classes, like LatLon.
 
 __all__ = ('Tests',)
-__version__ = '23.03.27'
+__version__ = '23.07.12'
 
 from bases import GeodSolve, TestsBase, type2str
 
-from pygeodesy import itemsorted, Property, Property_RO, property_RO, \
+from pygeodesy import itemsorted, Geodesic, GeodesicLine, \
+                      Property, Property_RO, \
+                      property_RO, property_ROnce, property_ROver, \
                       SciPyWarning, Str_
 
 from inspect import isclass
 from os.path import basename
 
-_No_Copy_OK = set((Property, Property_RO, property_RO, SciPyWarning, Str_))
+_No_Copy_OK = set((Geodesic, GeodesicLine,  # fail in python2
+                   Property, Property_RO,
+                   property_RO, property_ROnce, property_ROver,
+                   SciPyWarning, Str_))
 
 
 class Tests(TestsBase):

@@ -21,7 +21,7 @@ from pygeodesy.solveBase import _SolveGDictBase, _SolveGDictLineBase
 from pygeodesy.utily import _unrollon, _Wrap, wrap360
 
 __all__ = _ALL_LAZY.rhumb_solve
-__version__ = '24.06.28'
+__version__ = '24.07.11'
 
 
 class _RhumbSolveBase(_SolveGDictBase):
@@ -173,7 +173,7 @@ class RhumbSolve(_RhumbSolveBase):
         return r
 
     def _GDictInverse(self, lat1, lon1, lat2, lon2, *unused, **floats):  # PYCHOK signature
-        '''(INTERNAL) Get C{_GenInverse}-like result as an 8-item C{GDict}, but I{without} C{_S_CALPs_}.
+        '''(INTERNAL) Get C{_GenInverse}-like result as an 8-item C{GDict}, but I{without} C{_SALP_CALPs_}.
         '''
         i = _RhumbSolveBase._GDictInverse(self, lat1, lon1, lat2, lon2, **floats)
         a = _over(float(i.s12), self._mpd)  # for .Inverse1

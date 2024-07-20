@@ -34,7 +34,7 @@ from pygeodesy.streprs import attrs, Fmt, lrstrip, pairs, reprs, unstr
 # from pygeodesy.units import _toUnit  # _MODS
 
 __all__ = _ALL_LAZY.named
-__version__ = '24.06.24'
+__version__ = '24.07.12'
 
 _COMMANL_           = _COMMA_ + _NL_
 _COMMASPACEDOT_     = _COMMASPACE_ + _DOT_
@@ -1231,9 +1231,9 @@ def modulename(clas, prefixed=None):  # in .basics._xversion
        @return: The B{C{class}}'s C{[module.]class} name (C{str}).
     '''
     try:
-        n =  clas.__name__
+        n = clas.__name__
     except AttributeError:
-        n = _dunder_name_
+        n = clas if isstr(clas) else _dunder_name_
     if prefixed or (classnaming() if prefixed is None else False):
         try:
             m =  clas.__module__.rsplit(_DOT_, 1)

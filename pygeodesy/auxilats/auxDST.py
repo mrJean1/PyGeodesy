@@ -18,13 +18,13 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 from pygeodesy.auxilats.auxily import _Dm
 from pygeodesy.basics import isodd, neg, _reverange, _xnumpy
 from pygeodesy.constants import PI_2, PI_4, isfinite, _0_0, _0_5, _naninf
-from pygeodesy.fsums import Fsum,  property_RO
+from pygeodesy.fsums import Fsum as _Fsum
 from pygeodesy.karney import _2cos2x,  _ALL_DOCS
 # from pygeodesy.lazily import _ALL_DOCS  # from .karney
-# from pygeodesy.props import property_RO  # from .fsums
+from pygeodesy.props import property_RO, property_ROver
 
 __all__ = ()
-__version__ = '23.12.02'
+__version__ = '24.07.12'
 
 
 class AuxDST(object):
@@ -60,7 +60,7 @@ class AuxDST(object):
         '''
         a = -_2cos2x(cosx, sinx)
         if isfinite(a):
-            Y0, Y1 = Fsum(), Fsum()
+            Y0, Y1 = _Fsum(), _Fsum()
             n  = _len_N(F, *N)
             Fn =  list(F[:n])
             _F =  Fn.pop
@@ -74,12 +74,11 @@ class AuxDST(object):
             r = _naninf(-a)
         return r
 
-    @property_RO
+    @property_ROver
     def _fft_numpy(self):
         '''(INTERNAL) Get the C{numpy.fft} module, I{once}.
         '''
-        AuxDST._fft_numpy = fft = _xnumpy(AuxDST, 1, 16).fft  # overwrite property_RO
-        return fft
+        return _xnumpy(AuxDST, 1, 16).fft  # overwrite propertyROver
 
     def _fft_real(self, data):
         '''(INTERNAL) NumPy's I{kissfft}-like C{transform_real} function,
@@ -160,7 +159,7 @@ class AuxDST(object):
         '''
         a = _2cos2x(cosx - sinx, cosx + sinx)
         if isfinite(a):
-            Y0, Y1 = Fsum(), Fsum()
+            Y0, Y1 = _Fsum(), _Fsum()
             for r in _reverscaled(F, *N):
                 Y1 -= Y0 * a + r
                 Y1, Y0 = Y0, -Y1
@@ -192,8 +191,8 @@ class AuxDST(object):
         # -2 * sin(y - x) * sin(y + x) -> 0
         s = -_2cos2x(siny * cosx, cosy * sinx)
         if isfinite(c) and isfinite(s):
-            Y0, Y1 = Fsum(), Fsum()
-            Z0, Z1 = Fsum(), Fsum()
+            Y0, Y1 = _Fsum(), _Fsum()
+            Z0, Z1 = _Fsum(), _Fsum()
             for r in _reverscaled(F, *N):
                 Y1 -= Y0 * c + Z0 * s + r
                 Z1 -= Y0 * s + Z0 * c

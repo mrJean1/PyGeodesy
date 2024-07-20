@@ -4,9 +4,9 @@
 # Test L{karney} module and wrappers.
 
 __all__ = ('Tests',)
-__version__ = '23.09.22'
+__version__ = '23.07.11'
 
-from bases import endswith, GeodSolve, geographiclib, TestsBase
+from bases import endswith, GeodSolve, geographiclib, startswith, TestsBase
 
 from pygeodesy import karney, LatLon_, NEG0, unroll180, wrap180
 from pygeodesy.constants import _0_0, _360_0
@@ -47,7 +47,8 @@ class Tests(TestsBase):
 
     def testDelta(self, n, x, v, e=1e-10, prec=15):
         w = _360_0 if _signOf(v) != _signOf(x) else _0_0  # wrap
-        self.test(n, v, x, prec=prec, known=abs((v - x + w) * 100.0 / x) < e)
+        w =  abs((v - x + w) * 100.0 / x)
+        self.test(n, v, x, prec=prec, error=w, known=w < e)
 
     def testDirect(self, g, module):
         self.subtitle(module, 'Direct')
@@ -128,15 +129,16 @@ class Tests(TestsBase):
         g = G(1, 0)  # .WGS84
         for n in ('EMPTY', 'LATITUDE', 'LONGITUDE', 'AZIMUTH',
                   'DISTANCE', 'STANDARD', 'DISTANCE_IN',
-                  'REDUCEDLENGTH', 'GEODESICSCALE', 'AREA',
-                  'ALL', 'LONG_UNROLL'):
+                  'REDUCEDLENGTH', 'GEODESICSCALE', 'AREA'):  # 'ALL', 'LONG_UNROLL'
             m = getattr(g, n)
-            self.test('Geodesic.' + n, m, m)
-        self.test('Geodesic.ALL', hex(g.ALL), hex(g.EMPTY | g.LATITUDE | g.LONGITUDE | g.AZIMUTH|
+            self.test('Geodesic.' + n, bin(m & g.ALL), bin(m))
+        self.test('Geodesic.ALL', bin(g.ALL), bin(g.EMPTY | g.LATITUDE | g.LONGITUDE | g.AZIMUTH|
                                                   g.DISTANCE | g.STANDARD | g.DISTANCE_IN |
                                                   g.REDUCEDLENGTH | g.GEODESICSCALE | g.AREA))
         Cs = karney.Caps
-        self.test(Cs.toStr.__name__, Cs.toStr(g.ALL), 'AREA|AZIMUTH|DISTANCE|DISTANCE_IN|GEODESICSCALE|LATITUDE|LONGITUDE|REDUCEDLENGTH', known=endswith)
+        n, m = Cs.__class__.__name__, Cs.toStr(g.ALL)
+        self.test(n, m, 'ALL|AREA|AZIMUTH|', known=startswith)
+        self.test(n, m, '|LONGITUDE|REDUCEDLENGTH|STANDARD', known=endswith)
 
     def testMath(self):
         self.subtitle(karney, 'Math')
@@ -202,6 +204,8 @@ if __name__ == '__main__':
         from pygeodesy import ellipsoidalKarney
         g = geodesicw.Geodesic_WGS84()
         t.test('Geodesic', isinstance(g, geodesicw._wrapped.Geodesic), True)
+        t.test('Geodesic', isinstance(g, geodesicw.Geodesic), True)
+#       t.test('WGS84.a',           g.a, geodesicw._wrapped.Geodesic.WGS84.a)
         t.testDirect(g, geodesicw)
         t.testInverse(g, geodesicw)
         t.testInverseLine(g, geodesicw)

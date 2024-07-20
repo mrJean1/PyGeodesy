@@ -47,7 +47,7 @@ from pygeodesy.geodesicx.gxbases import _cosSeries, _GeodesicBase, \
 # from pygeodesy.geodesicw import _Intersecant2  # _MODS
 from pygeodesy.lazily import _ALL_DOCS, _ALL_MODS as _MODS
 from pygeodesy.karney import _around, _atan2d, Caps, GDict, _fix90, \
-                             _K_2_0, _llz2line, _norm2, _norm180, \
+                             _K_2_0, _llz2gl, _norm2, _norm180, \
                              _sincos2, _sincos2d
 from pygeodesy.named import Property_RO, _update_all
 # from pygeodesy.props import Property_RO, _update_all  # from .named
@@ -56,7 +56,7 @@ from pygeodesy.utily import atan2d as _atan2d_reverse, sincos2
 from math import atan2, cos, degrees, fabs, floor, radians, sin
 
 __all__ = ()
-__version__ = '24.07.09'
+__version__ = '24.07.12'
 
 _glXs = []  # instances of C{[_]GeodesicLineExact} to be updated
 
@@ -113,7 +113,7 @@ class _GeodesicLineExact(_GeodesicBase):
         self._salp1 = salp1
         self._calp1 = calp1
         # allow lat, azimuth and unrolling of lon
-        self._caps  = caps | Caps._LINE
+        self._caps  = caps | Caps._AZIMUTH_LATITUDE_LONG_UNROLL
 
         sbet1, cbet1 = _sinf1cos2d(_around(lat1), gX.f1)
         self._dn1 = gX._dn(sbet1, cbet1)
@@ -140,7 +140,7 @@ class _GeodesicLineExact(_GeodesicBase):
         # _norm2(schi1?, cchi1)  # no need to normalize!
         if not (caps & Caps.LINE_OFF):
             _glXs.append(self)
-        # no need to pre-compute other attrs based on _Caps.X.  All are
+        # no need to pre-compute other attrs for (caps & Caps.X).  All are
         # Property_RO's, computed once and cached/memoized until reset when
         # arc, distance, C4order is changed or Elliptic function is reset.
 
@@ -473,7 +473,7 @@ class _GeodesicLineExact(_GeodesicBase):
         self._a13   = a12
         self._caps |= Cs.DISTANCE | Cs.DISTANCE_IN
         # _update_all(self)  # new, from GeodesicExact.*Line
-        return _llz2line(self, **llz2)
+        return _llz2gl(self, **llz2)
 
     @Property_RO
     def geodesic(self):

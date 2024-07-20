@@ -76,7 +76,7 @@ from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _name__, _name1__, _NamedBase, _NamedTuple, _Pass, _xnamed
 from pygeodesy.namedTuples import LatLon2Tuple, LatLon3Tuple, \
                                   PhiLam2Tuple, Vector3Tuple, Vector4Tuple
-from pygeodesy.props import deprecated_method, Property_RO, property_RO, property_doc_
+from pygeodesy.props import deprecated_method, Property_RO, property_ROver, property_doc_
 # from pygeodesy.streprs import Fmt, unstr  # from .fsums
 from pygeodesy.units import _isRadius, Degrees, Height, Int, Lam, Lat, Lon, Meter, \
                              Phi, Scalar, Scalar_
@@ -86,7 +86,7 @@ from pygeodesy.utily import atan1, atan1d, atan2d, degrees90, degrees180, \
 from math import atan2, cos, degrees, fabs, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '24.06.11'
+__version__ = '24.06.12'
 
 _Ecef_    = 'Ecef'
 _prolate_ = 'prolate'
@@ -261,13 +261,12 @@ class _EcefBase(_NamedBase):
             raise EcefError(phi=phi, lam=lam, height=height, cause=x)
         return self._forward(*plhn, M=M, _philam=True)
 
-    @property_RO
+    @property_ROver
     def _Geocentrics(self):
         '''(INTERNAL) Get the valid geocentric classes. I{once}.
         '''
-        _EcefBase._Geocentrics = t = (Ecef9Tuple,    # overwrite property_RO
-                                     _MODS.cartesianBase.CartesianBase)
-        return t
+        return (Ecef9Tuple,  # overwrite property_ROver
+               _MODS.cartesianBase.CartesianBase)
 
     @Property_RO
     def _isYou(self):
@@ -1028,12 +1027,11 @@ class Ecef9Tuple(_NamedTuple):
     _Names_ = (_x_,   _y_,   _z_,   _lat_, _lon_, _height_, _C_,  _M_,   _datum_)
     _Units_ = ( Meter, Meter, Meter, Lat,   Lon,   Height,   Int, _Pass, _Pass)
 
-    @property_RO
+    @property_ROver
     def _CartesianBase(self):
         '''(INTERNAL) Get class C{CartesianBase}, I{once}.
         '''
-        Ecef9Tuple._CartesianBase = C = _MODS.cartesianBase.CartesianBase  # overwrite property_RO
-        return C
+        return _MODS.cartesianBase.CartesianBase  # overwrite property_ROver
 
     @deprecated_method
     def convertDatum(self, datum2):  # for backward compatibility

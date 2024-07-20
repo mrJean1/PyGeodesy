@@ -8,8 +8,8 @@ that package is installed.
 The I{wrapped} class methods return a L{GDict} instance offering access to the C{dict} items
 either by C{key} or by C{attribute} name.
 
-With env variable C{PYGEODESY_GEOGRAPHICLIB} left undefined or set to C{"2"}, this module,
-L{pygeodesy.geodesicx} and L{pygeodesy.karney} will use U{GeographicLib 2.0
+With env variable C{PYGEODESY_GEOGRAPHICLIB} left undefined or set to C{"2"}, this module and modules
+L{pygeodesy.geodesici}, L{pygeodesy.geodesicx} and L{pygeodesy.karney} will use U{GeographicLib 2.0
 <https://GeographicLib.SourceForge.io/C++/doc/>} transcoding, otherwise C{1.52} or older.
 '''
 
@@ -18,17 +18,19 @@ from pygeodesy.constants import EPS, NAN, _EPSqrt as _TOL, _0_5
 from pygeodesy.datums import _earth_datum, _WGS84,  _EWGS84
 # from pygeodesy.dms import F_D  # from .latlonBase
 # from pygeodesy.ellipsoids import _EWGS84  # from .datums
-from pygeodesy.errors import IntersectionError, GeodesicError
+from pygeodesy.errors import _AssertionError, GeodesicError, \
+                              IntersectionError
 from pygeodesy.fsums import Fsum,  Fmt, unstr
 from pygeodesy.internals import _dunder_nameof, _under
 from pygeodesy.interns import NN, _DOT_, _SPACE_, _to_, _too_
 from pygeodesy.karney import _atan2d, Caps, Direct9Tuple, GDict, \
-                              Inverse10Tuple, _kWrapped, _llz2line
+                              Inverse10Tuple, _kWrapped
 from pygeodesy.latlonBase import LatLonBase as _LLB,  F_D, Radius_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import callername, classname, _name1__, _name2__
 from pygeodesy.namedTuples import Destination3Tuple, Distance3Tuple
-from pygeodesy.props import Property, Property_RO, property_RO
+from pygeodesy.props import Property, Property_RO, property_RO, \
+                            property_ROver
 # from pygeodesy.streprs import Fmt, unstr  # from .fsums
 # from pygeodesy.units import Radius_  # from .latlonBase
 from pygeodesy.utily import _unrollon, _Wrap, wrap360,  fabs  # PYCHOK used!
@@ -37,7 +39,7 @@ from contextlib import contextmanager
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.geodesicw
-__version__ = '24.07.09'
+__version__ = '24.07.12'
 
 _plumb_ = 'plumb'
 _TRIPS  =  65
@@ -48,14 +50,24 @@ class _gWrapped(_kWrapped):
         <https://PyPI.org/project/geographiclib>} classes.
     '''
 
-    @Property_RO  # MCCABE 24
+    @property_ROver  # MCCABE 24
     def Geodesic(self):
         '''Get the I{wrapped} C{geodesic.Geodesic} class from I{Karney}'s Python
            U{geographiclib<https://GitHub.com/geographiclib/geographiclib-python>},
            provided the latter is installed.
         '''
         _Geodesic = self.geographiclib.Geodesic
-        # assert Caps._STD == _Geodesic.STANDARD
+        if not (Caps.LATITUDE      == _Geodesic.LATITUDE and
+                Caps.LONGITUDE     == _Geodesic.LONGITUDE and
+                Caps.AZIMUTH       == _Geodesic.AZIMUTH and
+                Caps.DISTANCE      == _Geodesic.DISTANCE and
+                Caps.DISTANCE_IN   == _Geodesic.DISTANCE_IN and
+                Caps.REDUCEDLENGTH == _Geodesic.REDUCEDLENGTH and
+                Caps.GEODESICSCALE == _Geodesic.GEODESICSCALE and
+                Caps.AREA          == _Geodesic.AREA and
+                Caps.ALL           == _Geodesic.ALL):
+            raise _AssertionError(Caps=bin(Caps.ALL),
+                                  Geodesic=bin(_Geodesic.ALL))
 
         class Geodesic(_Geodesic):
             '''I{Wrapper} for I{Karney}'s Python U{geodesic.Geodesic
@@ -220,9 +232,7 @@ class _gWrapped(_kWrapped):
                 '''
                 with _wargs(self, lat1, lon1, lat2, lon2, caps, **name) as args:
                     t = _Geodesic.InverseLine(self, *args)
-                gl = self._Line13(t, **name)
-                p2 = gl.Position(gl.s13, outmask=Caps.AZIMUTH)
-                return _llz2line(gl, lat2=lat2, lon2=lon2, azi2=p2.azi2)
+                return self._Line13(t, **name)
 
             def Line(self, lat1, lon1, azi1, caps=Caps._STD_LINE, **name):
                 '''Set up a I{wrapped} C{GeodesicLine} to compute several points
@@ -247,14 +257,16 @@ class _gWrapped(_kWrapped):
 
 #           Polygon = _Geodesic.Polygon
 
+            WGS84 = None  # _EWGS84.geodesicw recusion
+
         # Geodesic.ArcDirect.__doc__   = _Geodesic.ArcDirect.__doc__
         # Geodesic.Direct.__doc__      = _Geodesic.Direct.__doc__
         # Geodesic.Inverse.__doc__     = _Geodesic.Inverse.__doc__
         # Geodesic.InverseLine.__doc__ = _Geodesic.InverseLinr.__doc__
         # Geodesic.Line.__doc__        = _Geodesic.Line.__doc__
-        return Geodesic
+        return Geodesic  # overwrite property_ROver
 
-    @Property_RO  # MCCABE 16
+    @property_ROver  # MCCABE 16
     def GeodesicLine(self):
         '''Get the I{wrapped} C{geodesicline.GeodesicLine} class from I{Karney}'s
            Python U{geographiclib<https://GitHub.com/geographiclib/geographiclib-python>},
@@ -418,48 +430,61 @@ class _gWrapped(_kWrapped):
 
         # GeodesicLine.ArcPosition.__doc__ = _GeodesicLine.ArcPosition.__doc__
         # GeodesicLine.Position.__doc__    = _GeodesicLine.Position.__doc__
-        return GeodesicLine
+        return GeodesicLine  # overwrite property_ROver
 
-    @Property_RO
+    @property_ROver
     def Geodesic_WGS84(self):
         '''Get the I{wrapped} C{Geodesic(WGS84)} singleton, provided the
            U{geographiclib<https://PyPI.org/project/geographiclib>} package
            is installed, otherwise an C{ImportError}.
         '''
-        return _EWGS84.geodesic
+        return _EWGS84.geodesicw  # overwrite property_ROver
 
 _wrapped = _gWrapped()  # PYCHOK singleton, .ellipsoids, .test/base.py
 
 
-def Geodesic(a_ellipsoid=_EWGS84, f=None, **name):
-    '''Return a I{wrapped} C{geodesic.Geodesic} instance from I{Karney}'s
-       Python U{geographiclib<https://PyPI.org/project/geographiclib>},
-       provide the latter is installed, otherwise an C{ImportError}.
-
-       @arg a_ellipsoid: An ellipsoid (L{Ellipsoid}) or datum (L{Datum})
-              or the equatorial radius I{a} of the ellipsoid (C{meter}).
-       @arg f: The flattening of the ellipsoid (C{scalar}), required if
-               B{C{a_ellipsoid}}) is C{meter}, ignored otherwise.
-       @kwarg name: Optional C{B{name}=NN} (C{str}), ignored like B{C{f}}.
+class Geodesic(_gWrapped):  # overwritten by 1st instance
+    '''I{Wrapper} around I{Karney}'s class U{geographiclib.geodesic.Geodesic
+       <https://geographiclib.sourceforge.io/Python/doc/code.html>}.
     '''
-    return _wrapped.Geodesic(a_ellipsoid, f=f, **name)
+    def __new__(unused, a_ellipsoid=_EWGS84, f=None, **name):
+        '''Return a I{wrapped} C{geodesic.Geodesic} instance from I{Karney}'s
+           Python U{geographiclib<https://PyPI.org/project/geographiclib>},
+           provide the latter is installed, otherwise an C{ImportError}.
+
+           @arg a_ellipsoid: An ellipsoid (L{Ellipsoid}) or datum (L{Datum})
+                  or the equatorial radius I{a} of the ellipsoid (C{meter}).
+           @arg f: The flattening of the ellipsoid (C{scalar}), required if
+                   B{C{a_ellipsoid}}) is C{meter}, ignored otherwise.
+           @kwarg name: Optional C{B{name}=NN} (C{str}).
+        '''
+        g = _wrapped.Geodesic(a_ellipsoid, f=f, **name)
+        _MODS.geodesicw.Geodesic = g.__class__  # overwrite class
+        return g
 
 
-def GeodesicLine(geodesic, lat1, lon1, azi1, caps=Caps._STD_LINE):
-    '''Return a I{wrapped} C{geodesicline.GeodesicLine} instance from I{Karney}'s
-       Python U{geographiclib<https://PyPI.org/project/geographiclib>}, provided
-       the latter is installed, otherwise an C{ImportError}.
-
-       @arg geodesic: A I{wrapped} L{Geodesic} instance.
-       @arg lat1: Latitude of the first points (C{degrees}).
-       @arg lon1: Longitude of the first points (C{degrees}).
-       @arg azi1: Azimuth at the first points (compass C{degrees360}).
-       @kwarg caps: Optional, bit-or'ed combination of L{Caps} values specifying
-                    the capabilities the C{GeodesicLine} instance should possess,
-                    i.e., which quantities can be returned by methods
-                    C{GeodesicLine.Position} and C{GeodesicLine.ArcPosition}.
+class GeodesicLine(_gWrapped):  # overwritten by 1st instance
+    '''I{Wrapper} around I{Karney}'s class U{geographiclib.geodesicline.GeodesicLine
+       <https://geographiclib.sourceforge.io/Python/doc/code.html>}.
     '''
-    return _wrapped.GeodesicLine(geodesic, lat1, lon1, azi1, caps=caps)
+    def __new__(unused, geodesic, lat1, lon1, azi1, caps=Caps._STD_LINE, **name):
+        '''Return a I{wrapped} C{geodesicline.GeodesicLine} instance from I{Karney}'s
+           Python U{geographiclib<https://PyPI.org/project/geographiclib>}, provided
+           the latter is installed, otherwise an C{ImportError}.
+
+           @arg geodesic: A I{wrapped} L{Geodesic} instance.
+           @arg lat1: Latitude of the first points (C{degrees}).
+           @arg lon1: Longitude of the first points (C{degrees}).
+           @arg azi1: Azimuth at the first points (compass C{degrees360}).
+           @kwarg caps: Optional, bit-or'ed combination of L{Caps} values specifying
+                        the capabilities the C{GeodesicLine} instance should possess,
+                        i.e., which quantities can be returned by methods
+                        C{GeodesicLine.Position} and C{GeodesicLine.ArcPosition}.
+           @kwarg name: Optional C{B{name}=NN} (C{str}).
+        '''
+        gl = _wrapped.GeodesicLine(geodesic, lat1, lon1, azi1, caps=caps, **name)
+        _MODS.geodesicw.GeodesicLine = gl.__class__  # overwrite class
+        return gl
 
 
 def Geodesic_WGS84():
@@ -471,7 +496,7 @@ def Geodesic_WGS84():
 
 
 class _wargs(object):  # see also .formy._idllmn6, .latlonBase._toCartesian3, .vector2d._numpy
-    '''(INTERNAL) C{geographiclib} caller and exception mapper.
+    '''(INTERNAL) C{geographiclib} arguments and exception handler.
     '''
     @contextmanager  # <https://www.Python.org/dev/peps/pep-0343/> Examples
     def __call__(self, inst, *args, **kwds):
@@ -555,7 +580,7 @@ def _Intersecant2(gl, lat0, lon0, radius, tol=_TOL, form=F_D):  # MCCABE in LatL
 
 def _PlumbTo(gl, lat0, lon0, est=None, tol=_TOL):
     # (INTERNAL) Return the I{perpendicular} intersection of
-    # a geodesic from C{(lat0, lon0)} and a geodesic (line).
+    # a geodesic line C{gl} and geodesic from C{(lat0, lon0)}.
     pl = _MODS.rhumb.bases._PseudoRhumbLine(gl)
     return pl.PlumbTo(lat0, lon0, exact=gl.geodesic,
                                   est=est, tol=tol)

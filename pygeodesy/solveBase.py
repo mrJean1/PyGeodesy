@@ -11,8 +11,9 @@ from pygeodesy.datums import _earth_datum, _WGS84,  _EWGS84
 from pygeodesy.errors import _AssertionError, _xkwds_get, _xkwds_get1, \
                              _xkwds_item2
 from pygeodesy.internals import _enquote, printf
-from pygeodesy.interns import NN, _0_, _BACKSLASH_, _COMMASPACE_, \
-                             _EQUAL_, _Error_, _SPACE_, _UNUSED_
+from pygeodesy.interns import NN, _0_, _AT_,_BACKSLASH_, _COLONSPACE_, \
+                             _COMMASPACE_, _EQUAL_, _Error_, _SPACE_, \
+                             _UNUSED_
 from pygeodesy.karney import Caps, _CapsBase, GDict
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _sys_version_info2
 from pygeodesy.named import callername, _name2__, notOverloaded
@@ -24,7 +25,7 @@ from pygeodesy.utily import unroll180,  wrap360  # PYCHOK shared
 from subprocess import PIPE as _PIPE, Popen as _Popen, STDOUT as _STDOUT
 
 __all__ = _ALL_LAZY.solveBase
-__version__ = '24.07.08'
+__version__ = '24.07.11'
 
 _ERROR_     = 'ERROR'
 _Popen_kwds =  dict(creationflags=0,
@@ -54,7 +55,7 @@ def _cmd_stdin_(cmd, stdin):  # PYCHOK no cover
 
 def _popen2(cmd, stdin=None):  # in .mgrs, test.bases, .testMgrs
     '''(INTERNAL) Invoke C{B{cmd} tuple} and return C{exitcode}
-       and all output from C{stdout/-err}.
+       and all output from C{stdout/-err}, I{stripped}.
     '''
     p = _Popen(cmd, **_Popen_kwds)  # PYCHOK kwArgs
     r =  p.communicate(stdin)[0]  # stdout + NL + stderr
@@ -67,6 +68,7 @@ class _SolveCapsBase(_CapsBase):
     _datum      = _WGS84
     _Error      =  None
     _Exact      =  True
+    _invokat    = _AT_
     _invokation =  0
     _linelimit  =  0
     _prec       =  Precision_(prec=DIG)
@@ -100,7 +102,7 @@ class _SolveCapsBase(_CapsBase):
             v = map(float, v)  # _float_int, see Intersectool._XDistInvoke
         return Dict(_zip(n, v))  # strict=True
 
-    def _DictInvoke2(self, cmd, Names, Dict, args, **floats_R):
+    def _DictInvoke2(self, cmd, args, Names, Dict, **floats_R):
         '''(INTERNAL) Invoke C{Solve}, return results as C{Dict}.
         '''
         N = len(Names)
@@ -172,6 +174,16 @@ class _SolveCapsBase(_CapsBase):
 
     f = flattening
 
+    def invokat(self, *prefix):
+        '''Get and set the invokation number C{"@"} prefix (C{str}).
+
+           @return: Previous prefix (C{str}).
+        '''
+        p = self._invokat
+        if prefix:
+            set._invokat = str(prefix[0])
+        return p
+
     @property_RO
     def invokation(self):
         '''Get the most recent C{Solve} invokation number (C{int}).
@@ -223,7 +235,7 @@ class _SolveCapsBase(_CapsBase):
             raise self._Error(cmd=t or _cmd_stdin_(cmd, stdin), cause=x)
         self._status = s
         if self.verbose:  # and _R is None:  # PYCHOK no cover
-            self._print(repr(r))
+            self._print(repr(r), 'stdout/-err')
         return r
 
     def linelimit(self, *limit):
@@ -268,14 +280,16 @@ class _SolveCapsBase(_CapsBase):
             _update_all(self)
             self._prec = prec
 
-    def _print(self, line):  # PYCHOK no cover
+    def _print(self, line, *suffix):  # PYCHOK no cover
         '''(INTERNAL) Print a status line.
         '''
         if self._linelimit:
             line =  clips(line, limit=self._linelimit, length=True)
         if self.status is not None:
-            line = _SPACE_(line, Fmt.PAREN(self.status))
-        printf('%s@%d: %s', self.named2, self.invokation, line)
+            s    = _COMMASPACE_(self.status, *suffix)
+            line = _SPACE_(line, Fmt.PAREN(s))
+        p = NN(self.named2, self._invokat, self.invokation)
+        printf(_COLONSPACE_(p, line))
 
     def _setXable(self, path, **Xable_path):
         '''(INTERNAL) Set the executable C{path}.
@@ -411,7 +425,7 @@ class _SolveGDictBase(_SolveBase):
                                                   lat, lon, azi, s12_a12, **floats)
 
     def _GDictInverse(self, lat1, lon1, lat2, lon2, outmask=_UNUSED_, **floats):  # PYCHOK for .geodesicx.gxarea
-        '''(INTERNAL) Get C{_GenInverse}-like result as C{GDict}, but I{without} C{_S_CALPs_}.
+        '''(INTERNAL) Get C{_GenInverse}-like result as C{GDict}, but I{without} C{_SALP_CALPs_}.
         '''
         return self._GDictInvoke(self._cmdInverse, self._Names_Inverse,
                                                    lat1, lon1, lat2, lon2, **floats)
@@ -419,7 +433,7 @@ class _SolveGDictBase(_SolveBase):
     def _GDictInvoke(self, cmd,  Names, *args, **floats):
         '''(INTERNAL) Invoke C{Solve}, return results as C{Dict}.
         '''
-        return self._DictInvoke2(cmd, Names, GDict, args, **floats)[0]  # _R
+        return self._DictInvoke2(cmd, args, Names, GDict, **floats)[0]  # _R
 
     def Inverse(self, lat1, lon1, lat2, lon2, outmask=_UNUSED_):  # PYCHOK unused
         '''Return the C{Inverse} result.
@@ -456,7 +470,7 @@ class _SolveGDictLineBase(_SolveGDictBase):
         if name:
             self.name = name
 
-        self._caps  = caps | Caps._LINE
+        self._caps  = caps | Caps._AZIMUTH_LATITUDE_LONG_UNROLL
         self._debug = solve._debug & Caps._DEBUG_ALL
         self._lla1  = GDict(lat1=lat1, lon1=lon1, **azi)
         self._solve = solve

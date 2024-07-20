@@ -62,35 +62,39 @@
 <p>Classes <a href="pygeodesy.geodesici.Intersectool-class.html" 
   class="link">Intersectool</a> and <a 
   href="pygeodesy.geodesici.Intersector-class.html" 
-  class="link">Intersector</a>, a pure Python version of <i>Karney</i>'s 
+  class="link">Intersector</a> to find the intersections of two geodesic 
+  lines or line segments.</p>
+  <p>Class <a href="pygeodesy.geodesici.Intersector-class.html" 
+  class="link">Intersector</a> is a pure Python version of <i>Karney</i>'s 
   C++ class <a 
   href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Intersect.html"
-  target="_top">Intersect</a> to find the intersections of two geodesic 
-  lines or line segments.</p>
-  <p><a href="pygeodesy.geodesici.Intersectool-class.html" 
-  class="link">Intersectool</a> and <a 
-  href="pygeodesy.geodesici.Intersector-class.html" 
-  class="link">Intersector</a> methods <code>All</code>, 
-  <code>Closest</code>, <code>Next</code> and <code>Segment</code> 
-  produce</p>
-  <p><a href="pygeodesy.geodesici.XDict-class.html" class="link">XDict</a> 
-  instances with 4 or more items.  Adjacent methods <code>All5</code>, 
-  <code>Closest5</code>, <code>Next5</code> and <code>Segment</code> return
-  or yield <a href="pygeodesy.geodesici.Intersectool5Tuple-class.html" 
-  class="link">Intersectool5Tuple</a> or <a 
-  href="pygeodesy.geodesici.Intersector5Tuple-class.html" 
-  class="link">Intersector5Tuple</a>s with the lat-, longitude azimuth of 
-  each intersection as an extended or <code>Position</code>-like <a 
-  href="pygeodesy.karney.GDict-class.html" class="link">GDict</a>.</p>
+  target="_top">Intersect</a>.</p>
   <p>Class <a href="pygeodesy.geodesici.Intersectool-class.html" 
   class="link">Intersectool</a> is a wrapper to invoke <i>Karney</i>'s <a 
   href="https://GeographicLib.SourceForge.io/C++/doc/IntersectTool.1.html" 
-  target="_top">IntersectTool</a> utility like class <a 
-  href="pygeodesy.geodesici.Intersector-class.html" 
-  class="link">Intersector</a>, but intended <i>for testing purposes 
-  only</i>.</p>
+  target="_top">IntersectTool</a> utility, but intended <i>for testing 
+  purposes only</i>.</p>
   <p>Set env variable <code>PYGEODESY_INTERSECTTOOL</code> to the (fully 
-  qualified) path of the <code>IntersectTool</code> executable.</p>
+  qualified) path of the <code>IntersectTool</code> executable.  For usage 
+  and some examples run <code>&quot;env 
+  PYGEODESY_INTERSECTTOOL=&lt;IntersectTool-path&gt; python3 -m 
+  pygeodesy.geodesici --help&quot;</code>.</p>
+  <p>Both <a href="pygeodesy.geodesici.Intersectool-class.html" 
+  class="link">Intersectool</a> and <a 
+  href="pygeodesy.geodesici.Intersector-class.html" 
+  class="link">Intersector</a> provide methods <code>All</code>, 
+  <code>Closest</code>, <code>Next</code> and <code>Segment</code> and 
+  produce <a href="pygeodesy.geodesici.XDict-class.html" 
+  class="link">XDict</a> instances with 4 or more items.  Adjacent methods 
+  <code>All5</code>, <code>Closest5</code>, <code>Next5</code> and 
+  <code>Segment</code> return or yield <a 
+  href="pygeodesy.geodesici.Intersectool5Tuple-class.html" 
+  class="link">Intersectool5Tuple</a> or <a 
+  href="pygeodesy.geodesici.Intersector5Tuple-class.html" 
+  class="link">Intersector5Tuple</a>s with the lat-, longitude and azimuth 
+  of each intersection as an extended, geodesic <code>Position</code>-like 
+  <a href="pygeodesy.karney.GDict-class.html" class="link">GDict</a> 
+  instance.</p>
   <p>For more details, see the C++ <a 
   href="https://GeographicLib.SourceForge.io/C++/doc/index.html" 
   target="_top">GeographicLib</a> documentation, <i>Charles F.F. 
@@ -103,7 +107,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        24.07.09
+        24.07.19
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -151,10 +155,30 @@
         instance of <a 
         href="pygeodesy.geodesicx.gx.GeodesicLineExact-class.html" 
         class="link">GeodesicLineExact</a>, wrapped <a 
-        href="pygeodesy.geodesicw-module.html#GeodesicLine" 
+        href="pygeodesy.geodesicw.GeodesicLine-class.html" 
         class="link">GeodesicLine</a> or <a 
         href="pygeodesy.geodsolve.GeodesicLineSolve-class.html" 
         class="link">GeodesicLineSolve</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.geodesici.Intersect7Tuple-class.html" class="summary-name">Intersect7Tuple</a><br />
+      7-Tuple <code>(A, B, sAB, aAB, c, kA, kB)</code> with 
+        <code>A</code> and <code>B</code> each a <code>LatLon</code> or <a 
+        href="pygeodesy.namedTuples.LatLon4Tuple-class.html" 
+        class="link">LatLon4Tuple</a><code>(lat, lon, height, datum)</code>
+        of the intersection on each geodesic line, the distance 
+        <code>sAB</code> in in <code>meter</code> and angular distance 
+        <code>aAB</code> in <code>degrees</code> between <code>A</code> and
+        <code>B</code>, coincidence indicator <code>c</code> and segment 
+        indicators <code>kA</code> and <code>kB</code> all 
+        <code>int</code>, see <a 
+        href="pygeodesy.geodesici.XDict-class.html" class="link">XDict</a> 
+        and method <a href="https://_IntersectBase.intersect7s" 
+        target="_top">intersect7s</a>.
     </td>
   </tr>
 <tr>
@@ -248,7 +272,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Jul 10 09:25:44 2024
+    Generated by Epydoc 3.0.1 on Sat Jul 20 12:01:58 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

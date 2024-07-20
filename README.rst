@@ -13,13 +13,13 @@ classes`_ by *Charles F.F. Karney (C) 2008-2023* and published under the same `M
 
 There are four modules for ellipsoidal earth models, *ellipsoidalExact*, *-Karney*, *-Vincenty*
 and *-Nvector* and two for spherical ones, *sphericalTrigonometry* and *-Nvector*.  Each module
-provides a geodetic LatLon_ and a geocentric Cartesian_ class with methods and functions to
-compute distance, surface area, perimeter, initial and final bearing, intermediate and nearest
-points, circle intersections and secants, path intersections, `3-point resections`_, rhumb and
-rhumb lines, triangulation, trilateration (by intersection, by overlap and in 3d), conversions
-and unrolling, among other things.  For more information and further details see the documentation_,
-the descriptions of `Latitude/Longitude`_, Vincenty_ and `Vector-based`_ geodesy, the original
-`JavaScript source`_ or docs_ and *Karney*\'s Python geographiclib_ and `C++ GeographicLib`_.
+provides a geodetic LatLon_ and a geocentric Cartesian_ class with methods and functions to compute
+distance, surface area, perimeter, forward and reverse azimuth, initial and final bearing, intermediate
+and nearest points, intersections of geodesic, great circle and rhumb lines, circle intersections and
+secants, `3-point resections`_, triangulation, trilateration (by intersection, by overlap and in
+3d), conversions and unrolling, among other things.  For more information and further details see the
+documentation_, the descriptions of `Latitude/Longitude`_, Vincenty_ and `Vector-based`_ geodesy, the
+original `JavaScript source`_ or docs_ and *Karney*\'s Python geographiclib_ and `C++ GeographicLib`_.
 
 Also included are modules for conversions to and from `Cassini-Soldner`_, ECEF_ (Earth-Centered,
 Earth-Fixed cartesian), UTM_ (Universal Transverse Mercator and Exact_), UPS_ (Universal Polar
@@ -87,30 +87,30 @@ line: ``epydoc --html --no-private --no-source --name=PyGeodesy --url=... -v pyg
 Tests
 =====
 
-The tests ran with Python 3.12.3 (with geographiclib_ 2.0), 3.11.5 (with geographiclib_ 2.0, numpy_
-1.24.2 and scipy_ 1.10.1), Python 3.10.8 (with geographiclib_ 2.0, numpy_ 1.23.3, scipy_ 1.9.1,
-GeoConvert_ 2.2, GeodSolve_ 2.2 and RhumbSolve_ 2.2), Python 3.9.6 and Python 2.7.18 (with geographiclib_
-1.50, numpy_ 1.16.6, scipy_ 1.2.2, GeoConvert_ 2.2, GeodSolve_ 2.2 and RhumbSolve_ 2.2), all on macOS
-14.5 Sonoma and in 64-bit only.
+The tests ran with Python 3.13.0b3, 3.12.4 (with geographiclib_ 2.0, GeodSolve_ 2.3, IntersectTool_ 2.3
+and RhumbSolve_ 2.3), 3.11.5 (with geographiclib_ 2.0, numpy_ 1.24.2 and scipy_ 1.10.1), Python 3.10.8
+(with geographiclib_ 2.0, numpy_ 1.23.3, scipy_ 1.9.1, GeoConvert_ 2.3, GeodSolve_ 2.3), Python 3.9.6
+and Python 2.7.18 (with geographiclib_ 1.50, numpy_ 1.16.6, scipy_ 1.2.2, GeoConvert_ 2.3, GeodSolve_
+2.3, IntersectTool_ 2.3 and RhumbSolve_ 2.3), all on macOS 14.5 Sonoma in 64-bit.
 
 All tests ran with and without ``lazy import`` for Python 3 and with command line option ``-W default``
 and env variable ``PYGEODESY_WARNINGS=on`` for all Python versions.  The results of those tests are
 included in the distribution files.
 
-PyPy_ 7.3.12 (Python 3.10.12), Python 3.11.5, 3.10.8 and 3.9.6 run on Apple M1 Silicon (``arm64``),
-*natively*.  Python 3.8.10 and 2.7.18 run on Intel (``x86_64``) or Intel *emulation* (\"``arm64_x86_64``\",
-see function `pygeodesy.machine`_).
+Python 3.13.0b3, 3.12.4, 3.11.5 and 3.10.8 run on Apple M1 Silicon (``arm64``), *natively*.  Python 2.7.18
+runs on Intel (``x86_64``) or Intel *emulation* (\"``arm64_x86_64``\", see function `pygeodesy.machine`_).
 
-Test coverage has been measured with coverage_ 7.2.2 using only Python 3.11.5 and 3.10.8.  The complete
+Test coverage has been measured with coverage_ 7.6.0 using Python 3.12.4, 3.11.5 and 3.10.8.  The complete
 coverage report in HTML and a PDF summary are included in the distribution files.
 
-The tests also ran with Python 3.11.5 (and geographiclib_ 2.0) on `Debian 11`_ in 64-bit only and with
-Python 3.11.5, 3.10.10 and 2.7.18 (all with geographiclib_ 1.52) on `Windows 10`_ in 64- and/or 32-bit.
+The tests also ran with Python 3.12.4 (and geographiclib_ 2.0) on `Debian 12`_ in 64-bit only and with
+Python 3.12.3 (and geographiclib_ 2.0) on `Windows 2019Server`_ in 64-bit only and with Python 2.7.18
+(and with geographiclib_ 1.52) on `Windows 10`_ in 64- and 32-bit.
 
 A single-File and single-Directory application with ``pygeodesy`` has been bundled using PyInstaller_
 3.4 and 64-bit Python 3.7.4 and 3.7.3 on macOS 10.13.6 High Sierra.
 
-Previously, the tests were run with Python 3.12.0-2, 3.11.2-4, 3.10.1-7, 3.9.1, 3.8.7, 3.7.1, 2.7.15, PyPy_
+Previously, the tests were run with Python 3.12.0-3, 3.11.2-4, 3.10.1-7, 3.9.1, 3.8.7, 3.7.1, 2.7.15, PyPy_
 7.3.12 (Python 3.10.12), 7.3.1 (Python 3.6.9) and PyPy_ 7.1.1 (Python 2.7.13) (and geographiclib_ 1.52,
 numpy_ 1.16.3, 1.16.4, 1.16.6, 1.19.0, 1.19.4, 1.19.5 or 1.22.4 and scipy_ 1.2.1, 1.4.1, 1.5.2 or 1.8.1)
 on `Ubuntu 16.04`_, with Python 3.10.0-1, 3.9.0-5, 3.8.0-6, 3.7.2-6, 3.7.0, 3.6.2-5, 3.5.3, 2.7.13-17,
@@ -131,7 +131,7 @@ and McCabe_ using Python 2.7.18 and with Flake8_ using Python 3.11.5, both in 64
 
 For a summary of all *Karney*-based functionality in ``pygeodesy``, see module karney_.
 
-*Last updated: July 07, 2024.*
+*Last updated: July 24, 2024.*
 
 License
 =======
@@ -177,7 +177,7 @@ DEALINGS IN THE SOFTWARE.
 .. _checked: https://GitHub.com/ActiveState/code/tree/master/recipes/Python/546532_PyChecker_postprocessor
 .. _Cohen-Sutherland: https://WikiPedia.org/wiki/Cohen-Sutherland_algorithm
 .. _coverage: https://PyPI.org/project/coverage
-.. _Debian 11: https://Cirrus-CI.com/github/mrJean1/PyGeodesy/master
+.. _Debian 12: https://Cirrus-CI.com/github/mrJean1/PyGeodesy/master
 .. _distribution files: https://GitHub.com/mrJean1/PyGeodesy/tree/master/dist
 .. _docs: https://www.Movable-Type.co.UK/scripts/geodesy/docs
 .. _documentation: https://mrJean1.GitHub.io/PyGeodesy
@@ -203,6 +203,7 @@ DEALINGS IN THE SOFTWARE.
 .. _Height: https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.heights-module.html
 .. _Intel-Python: https://software.Intel.com/en-us/distribution-for-python
 .. _interpolate: https://docs.SciPy.org/doc/scipy/reference/interpolate.html
+.. _IntersectTool: https://GeographicLib.SourceForge.io/C++/doc/utilities.html
 .. _JavaScript originals: https://GitHub.com/ChrisVeness/geodesy
 .. _JavaScript source: https://GitHub.com/ChrisVeness/geodesy
 .. _John P. Snyder: https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf
@@ -243,3 +244,4 @@ DEALINGS IN THE SOFTWARE.
 .. _Visvalingam-Whyatt: https://hydra.Hull.ac.UK/resources/hull:8338
 .. _Web Mercator: https://WikiPedia.org/wiki/Web_Mercator
 .. _Windows 10: https://CI.AppVeyor.com/project/mrJean1/pygeodesy
+.. _Windows 2019Server: https://CI.AppVeyor.com/project/mrJean1/pygeodesy

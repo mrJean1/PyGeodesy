@@ -63,23 +63,20 @@
   <i>Karney</i>'s Python package <a 
   href="https://PyPI.org/project/geographiclib" 
   target="_top">geographiclib</a>, provided that package is installed.</p>
-  <p>The <i>wrapped</i> class methods return a <a 
-  href="pygeodesy.karney.GDict-class.html" class="link">GDict</a> instance 
-  offering access to the <code>dict</code> items either by <code>key</code>
-  or by <code>attribute</code> name. All methods of the <i>wrapped</i> <a 
-  href="pygeodesy.geodesicw-module.html#Geodesic" class="link">Geodesic</a>
-  and <a href="pygeodesy.geodesicw-module.html#GeodesicLine" 
+  <p>Methods of the <i>wrapped</i> <a 
+  href="pygeodesy.geodesicw.Geodesic-class.html" class="link">Geodesic</a> 
+  and <a href="pygeodesy.geodesicw.GeodesicLine-class.html" 
   class="link">GeodesicLine</a> classes return a <a 
   href="pygeodesy.karney.GDict-class.html" class="link">GDict</a> instance 
   offering access to the <code>dict</code> items either by <code>key</code>
   or by <code>attribute</code> name.</p>
   <p>With env variable <code>PYGEODESY_GEOGRAPHICLIB</code> left undefined 
   or set to <code>&quot;2&quot;</code>, modules <a 
-  href="pygeodesy.geodesicx-module.html" class="link">geodesicx</a>, <a 
-  href="pygeodesy.geodesicw-module.html" class="link">geodesicw</a> and 
+  href="pygeodesy.geodesicw-module.html" class="link">geodesicw</a>, <a 
+  href="pygeodesy.geodesicx-module.html" class="link">geodesicx</a> and 
   this module will use <a 
   href="https://GeographicLib.SourceForge.io/C++/doc/" 
-  target="_top">GeographicLib 2.0</a> and newer transcoding, otherwise 
+  target="_top">GeographicLib 2.0+</a> and newer transcoding, otherwise 
   <code>1.52</code> or older.</p>
   <h1 class="heading">Karney-based functionality</h1>
     <ol start="1">
@@ -156,9 +153,9 @@
             target="_top">TransverseMercatorExact</a>
           </li>
           <li>
-            <a href="pygeodesy.geodesicw-module.html#Geodesic" 
+            <a href="pygeodesy.geodesicw.Geodesic-class.html" 
             class="link">Geodesic</a>, <a 
-            href="pygeodesy.geodesicw-module.html#GeodesicLine" 
+            href="pygeodesy.geodesicw.GeodesicLine-class.html" 
             class="link">GeodesicLine</a> -- <i>wrapped</i> <a 
             href="https://PyPI.org/project/geographiclib" 
             target="_top">geodesic.Geodesic</a>, <i>wrapped</i> <a 
@@ -207,9 +204,15 @@
             target="_top">Gnomonic</a>
           </li>
           <li>
+            <a href="pygeodesy.geodesici.Intersector-class.html" 
+            class="link">Intersector</a> -- <a 
+            href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Intersect.html"
+            target="_top">Intersect</a> from <i>GeographicLib 2.3+</i>
+          </li>
+          <li>
             <a href="pygeodesy.triaxials.JacobiConformal-class.html" 
             class="link">JacobiConformal</a> -- <a 
-            href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1JacobiConformal.html#details"
+            href="https://geographiclib.sourceforge.io/C++/doc/classGeographicLib_1_1experimental_1_1JacobiConformal.html"
             target="_top">JacobiConformal</a>
           </li>
           <li>
@@ -305,6 +308,8 @@
             class="link">ellipsoidalGeodSolve</a>, <a 
             href="pygeodesy.ellipsoidalKarney-module.html" 
             class="link">ellipsoidalKarney</a>, <a 
+            href="pygeodesy.geodesici-module.html" 
+            class="link">geodesici</a>, <a 
             href="pygeodesy.geodsolve-module.html" 
             class="link">geodsolve</a>, <a 
             href="pygeodesy.karney-module.html" class="link">karney</a>, <a
@@ -325,15 +330,18 @@
             href="pygeodesy.azimuthal.GnomonicKarney-class.html" 
             class="link">GnomonicKarney</a>, <a 
             href="pygeodesy.heights.HeightIDWkarney-class.html" 
-            class="link">HeightIDWkarney</a>
+            class="link">HeightIDWkarney</a>, <a 
+            href="pygeodesy.geodesici.Intersectool-class.html" 
+            class="link">Intersectool</a>
           </li>
         </ul>
         <p>are or use <i>wrappers</i> around <i>Karney</i>'s Python <a 
         href="https://PyPI.org/project/geographiclib" 
-        target="_top">geographiclib</a> <code>geodesic</code>, C++ utility 
-        <a 
+        target="_top">geographiclib</a> or C++ utility <a 
         href="https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html"
-        target="_top">GeodSolve</a> or C++ utility <a 
+        target="_top">GeodSolve</a>, <a 
+        href="https://GeographicLib.SourceForge.io/C++/doc/IntersectTool.1.html"
+        target="_top">IntersectTool</a> or <a 
         href="https://GeographicLib.SourceForge.io/C++/doc/RhumbSolve.1.html"
         target="_top">RhumbSolve</a>.</p>
       </li>
@@ -445,7 +453,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        24.07.09
+        24.07.16
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -471,7 +479,9 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.karney._CapsBase-class.html" class="summary-name">_CapsBase</a><br />
-      (INTERNAL) Base class for <code>[_]Geodesic*Exact</code>.
+      (INTERNAL) Base class for <code>Geodesic*</code>, 
+        <code>Geodesic*Exact</code>, <code>Intersectool</code> and 
+        <code>Rhumb*Base</code>.
     </td>
   </tr>
 <tr>
@@ -572,7 +582,8 @@
   <p><code>AREA</code> - compute area <code>S12</code>,</p>
   <p><code>AZIMUTH</code> - include azimuths <code>azi1</code> and 
   <code>azi2</code>,</p>
-  <p><code>DISTANCE</code> - compute distance <code>s12</code>,</p>
+  <p><code>DISTANCE</code> - compute distance <code>s12</code> and angular 
+  distance <code>a12</code>,</p>
   <p><code>DISTANCE_IN</code> - allow distance <code>s12</code> in 
   <code>.Direct</code>,</p>
   <p><code>EMPTY</code> - nothing, formerly aka <code>NONE</code>,</p>
@@ -633,7 +644,7 @@ Caps()
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Jul 10 09:25:44 2024
+    Generated by Epydoc 3.0.1 on Sat Jul 20 12:01:58 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

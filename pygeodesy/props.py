@@ -251,9 +251,9 @@ class Property_RO(_PropertyBase):
                  <https://Docs.Python.org/3/library/functools.html#functools.cache>}
                  to I{cache} or I{memoize} the property value.
 
-           @see: Luciano Ramalho, "Fluent Python", O'Reilly, Example 19-24, 2016
-                 p. 636 or Example 22-28, 2022 p. 870 and U{class Property
-                 <https://docs.Python.org/3/howto/descriptor.html>}.
+           @see: Luciano Ramalho, "Fluent Python", O'Reilly, 2016 p. 636
+                 Example 19-24 or 2022 p. 870 Example 22-28 and U{class
+                 Property<https://docs.Python.org/3/howto/descriptor.html>}.
         '''
         _fget = method if _FOR_DOCS else self._fget  # XXX force method.__doc__ to epydoc
         _PropertyBase.__init__(self, method, _fget, self._fset_error)
@@ -355,6 +355,56 @@ class property_RO(_PropertyBase):
                 inst.__dict__.pop(uname)
 
 
+class _property_RO___(_PropertyBase):
+    # No __doc__ on purpose
+
+    def __init__(self, method, doc=NN):  # PYCHOK expected
+        '''New C{property_ROnce} or C{property_Rover}, holding a single value as
+           class attribute for all instances of that class and overwriting C{self},
+           the C{property_Rover} instance in the 1st invokation.
+
+           @see: L{property_RO} for further details.
+        '''
+        _PropertyBase.__init__(self, method, self._fget, self._fset_error, doc=doc)
+
+    def _update(self, *unused):  # PYCHOK signature
+        '''(INTERNAL) No-op, ignore updates.
+        '''
+        pass
+
+
+class property_ROnce(_property_RO___):
+    # No __doc__ on purpose
+
+    def _fget(self, inst):
+        '''Get the C{property} value, only I{once} and memoize/cache it.
+        '''
+        try:
+            val = self._val
+        except AttributeError:
+            val = self._val = self.method(inst)
+        return val
+
+
+class property_ROver(_property_RO___):
+    # No __doc__ on purpose
+
+    def _fget(self, inst):
+        '''Get the C{property} value I{once} and overwrite C{self}, this C{property} instance.
+        '''
+        val = self.method(inst)
+        n   = self.name
+        I   = inst.__class__  # PYCHOK I
+        for C in I.__mro__:
+            if getattr(C, n, None) is self:
+                setattr(C, n, val)  # overwrite property_ROver
+                break
+        else:
+            n = _DOT_(I.__name__, n)
+            raise _AssertionError(_EQUALSPACED_(n, val))
+        return val
+
+
 class _NamedProperty(property):
     '''Class C{property} with retrievable name.
     '''
@@ -372,16 +422,18 @@ def property_doc_(doc):
 
        @example:
 
-        >>> @property_doc_("documentation text.")
-        >>> def name(self):
-        >>>     ...
+        >>>class Clas(object):
         >>>
-        >>> @name.setter
-        >>> def name(self, value):
-        >>>     ...
+        >>>     @property_doc_("documentation text.")
+        >>>     def name(self):
+        >>>         ...
+        >>>
+        >>>     @name.setter
+        >>>     def name(self, value):
+        >>>         ...
     '''
-    # See Luciano Ramalho, "Fluent Python", O'Reilly, Example 7-23,
-    # 2016 p. 212+, 2022 p. 331+, Example 9-22 and <https://
+    # See Luciano Ramalho, "Fluent Python", O'Reilly, 2016 p. 212+
+    # Example 7-23 or 2022 p. 331+ Example 9-22 and <https://
     # Python-3-Patterns-Idioms-Test.ReadTheDocs.io/en/latest/PythonDecorators.html>
 
     def _documented_property(method):
@@ -396,8 +448,8 @@ def property_doc_(doc):
 def _deprecated(call, kind, qual_d):
     '''(INTERNAL) Decorator for DEPRECATED functions, methods, etc.
 
-       @see: Brett Slatkin, "Effective Python", page 105, 2nd ed,
-             Addison-Wesley, 2019.
+       @see: Brett Slatkin, "Effective Python", 2019 page 105, 2nd
+             ed, Addison-Wesley.
     '''
     doc = _docof(call)
 

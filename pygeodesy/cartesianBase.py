@@ -28,8 +28,8 @@ from pygeodesy.named import _name2__, _Pass
 from pygeodesy.namedTuples import LatLon4Tuple, _NamedTupleTo , Vector3Tuple, \
                                   Vector4Tuple,  Bearing2Tuple  # PYCHOK .sphericalBase
 # from pygeodesy.nvectorBase import _N_vector  # _MODS
-from pygeodesy.props import deprecated_method, Property, Property_RO, \
-                            property_doc_, property_RO, _update_all
+from pygeodesy.props import deprecated_method, Property, Property_RO, property_doc_, \
+                            property_RO, property_ROnce, _update_all
 # from pygeodesy,resections import cassini, collins5, pierlot, pierlotx, \
 #                                  tienstra7  # _MODS
 # from pygeodesy.streprs import Fmt  # from .fsums
@@ -43,7 +43,7 @@ from pygeodesy.vector3d import Vector3d, _xyzhdlln4
 # from math import atan2, degrees, fabs, radians, sqrt  # from .fmath, .utily
 
 __all__ = _ALL_LAZY.cartesianBase
-__version__ = '24.06.11'
+__version__ = '24.07.12'
 
 _r_     = 'r'
 _theta_ = 'theta'
@@ -211,12 +211,11 @@ class CartesianBase(Vector3d):
             r = Cartesian(*c, **kwds)
         return r.renamed(n) if n else r
 
-    @property_RO
+    @property_ROnce
     def Ecef(self):
         '''Get the ECEF I{class} (L{EcefKarney}), I{once}.
         '''
-        CartesianBase.Ecef = E = _MODS.ecef.EcefKarney  # overwrite property_RO
-        return E
+        return _MODS.ecef.EcefKarney
 
     @Property_RO
     def _ecef9(self):

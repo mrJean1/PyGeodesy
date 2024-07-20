@@ -273,11 +273,17 @@ def _stresidual(prefix, residual, R=0, **mod_ratio):
 def _2sum(a, b):  # by .testFmath
     '''(INTERNAL) Return C{a + b} as 2-tuple (sum, residual).
     '''
+    # Neumaier, A. U{Rundungsfehleranalyse einiger Verfahren zur Summation endlicher
+    # Summen<https://OnlineLibrary.Wiley.com/doi/epdf/10.1002/zamm.19740540106>},
+    # 1974, Zeitschrift für Angewandte Mathmatik und Mechanik, vol 51, nr 1, p 39-51
+    # <https://StackOverflow.com/questions/78633770/can-neumaier-summation-be-sped-up>
     s = a + b
     if _isfinite(s):
         if fabs(a) < fabs(b):
-            b, a = a, b
-        return s, (b - (s - a))
+            r = (b - s) + a
+        else:
+            r = (a - s) + b
+        return s, r
     u = unstr(_2sum, a, b)
     t = Fmt.PARENSPACED(_not_finite_, s)
     raise _OverflowError(u, txt=t)
@@ -1909,10 +1915,10 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
 
            @raise ResidualError: Invalid B{C{threshold}}.
 
-           @note: L{ResidualError}s may be thrown if the non-zero I{ratio}
-                  C{residual / fsum} exceeds the given B{C{threshold}} and
-                  if the C{residual} is non-zero and I{significant} vs the
-                  C{fsum}, i.e. C{(fsum + residual) != fsum} and if optional
+           @note: L{ResidualError}s may be thrown if (1) the non-zero I{ratio}
+                  C{residual / fsum} exceeds the given B{C{threshold}} and (2)
+                  the C{residual} is non-zero and (3) I{significant} vs the
+                  C{fsum}, i.e. C{(fsum + residual) != fsum} and (4) optional
                   keyword argument C{raiser=False} is missing.  Specify a
                   negative B{C{threshold}} for only non-zero C{residual}
                   testing without I{significant}.
