@@ -40,7 +40,7 @@ from pygeodesy.fsums import Fsum, fsum1_,  _ceil
 from pygeodesy.interns import NN, _A_, _B_, _c_, _COMMASPACE_, \
                              _HASH_, _M_, _not_, _SPACE_, _too_
 from pygeodesy.karney import Caps, _diff182, GDict, _sincos2de
-from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, \
+from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, \
                              _getenv, _PYGEODESY_INTERSECTTOOL_
 from pygeodesy.named import ADict, _NamedBase, _NamedTuple, _Pass
 # from pygeodesy.namedTuples import _LL4Tuple  # _MODS
@@ -56,14 +56,13 @@ from pygeodesy.utily import sincos2,  atan2, fabs, radians
 # from math import atan2, ceil as _ceil, fabs, radians  # .fsums, .utily
 
 __all__ = _ALL_LAZY.geodesici
-__version__ = '24.07.19'
+__version__ = '24.07.21'
 
 _0t     =  0,  # int
 _1_1t   = -1, +1
 _1_0_1t = -1, 0, +1
 _aAB_   = 'aAB'
 _c__    = '-c'  # PYCHOK used!
-_C__    = '-C'  # PYCHOK used!
 _cWGS84 = _EWGS84.a * PI2  # outer circumference
 _EPS3   =  EPS * _3_0
 _EPSr5  =  pow(EPS, 0.2)  # PYCHOK used! 7.4e-4 or ~3"
@@ -326,16 +325,16 @@ class _IntersectBase(_NamedBase):
 #                   setattr(il, n, v)
         return G
 
-    def intersect7s(self, start1, end1, start2, end2, X0=_X000, aMaX0=0, sMaX0=_cWGS84,
+    def intersect7(self, start1, end1, start2, end2, X0=_X000, aMaX0=0, sMaX0=_cWGS84,
                                                                **LatLon_and_kwds):
         '''Yield the intersection points of two lines, each defined by two (ellipsoidal)
            points or by an (ellipsoidal) start point and an azimuth from North.
 
-           @arg start1: Start point of the first line (L{LatLon}).
-           @arg end1: End point of the first line (L{LatLon}) or the azimuth at the
+           @arg start1: Start point of the first line (C{LatLon}).
+           @arg end1: End point of the first line (C{LatLon}) or the azimuth at the
                       B{C{start1}} point (compass C{degrees360}).
-           @arg start2: Start point of the second line (L{LatLon}).
-           @arg end2: End point of the second line (L{LatLon}) or the azimuth at the
+           @arg start2: Start point of the second line (C{LatLon}).
+           @arg end2: End point of the second line (C{LatLon}) or the azimuth at the
                       B{C{start2}} point (compass C{degrees360}).
            @kwarg X0: Optional I{origin} for I{L1-distances} (L{XDict}) or C{None} for
                       the L{Middle<Intersector.Middle>}, otherwise C{XDiff_(0, 0)}.
@@ -425,7 +424,7 @@ class _IntersectBase(_NamedBase):
 
     @deprecated_method
     def Next5s(self, glA, glB, X0=_X000, aMax=1801, sMax=0, **unused):  # PYCHOK no cover
-        '''DEPRECATED on 2024.07.02, use method L{All5}.'''
+        '''DEPRECATED on 2024.07.02, use method C{All5}.'''
         return self.All5(glA, glB, X0=X0, aMaX0=aMax, sMaX0=sMax)  # PYCHOK attr
 
     @Property_RO
@@ -444,7 +443,7 @@ class _IntersectBase(_NamedBase):
         s  = _g(sMaX0_C, _R=s)
         if s < _EPS3:
             s = _EPS3  # raise GeodesicError(sMaX0=s)
-        return s, _xkwds_get(sMaX0_C, _C=False)
+        return s, _g(sMaX0_C, _C=False)
 
     def _xNext(self, glA, glB, eps1, **eps_C):  # PYCHOK no cover
         eps1 = _xkwds_get(eps_C, eps=eps1)  # eps for backward compatibility
@@ -452,7 +451,7 @@ class _IntersectBase(_NamedBase):
             a = glA.lat1 - glB.lat1
             b = glA.lon1 - glB.lon1
             if euclid(a, b) > eps1:
-                raise GeodesicError(lat=a, lon=b, eps1=eps1)
+                raise GeodesicError(lat_=a, lon_=b, eps1=eps1)
         return _xkwds_kwds(eps_C, _C=False)
 
 
@@ -468,7 +467,7 @@ class Intersectool(_IntersectBase, _SolveCapsBase):
               the C{IntersectTool} executable for I{every} method call.
     '''
     _c_alt       = _c__,  # Closest latA lonA aziA  latB lonB aziB
-    _C_option    = _C__,
+    _C_option    = '-C',
     _Error       =  GeodesicError
     _i_alt       = _i__,  # Segment latA1 lonA1 latA2 lonA2  latB1 lonB1 latB2 lonB2
     _linelimit   =  1200  # line printer width X 10
@@ -1437,8 +1436,8 @@ class Intersect7Tuple(_NamedTuple):
        the intersection on each geodesic line, the distance C{sAB} in
        in C{meter} and angular distance C{aAB} in C{degrees} between
        C{A} and C{B}, coincidence indicator C{c} and segment indicators
-       C{kA} and C{kB} all C{int}, see L{XDict} and method U{intersect7s
-       <_IntersectBase.intersect7s>}.
+       C{kA} and C{kB} all C{int}, see L{XDict} and method U{intersect7
+       <_IntersectBase.intersect7>}.
     '''
     _Names_ = (_A_,   _B_,  _sAB_, _aAB_,   _c_, 'kA', 'kB')
     _Units_ = (_Pass, _Pass, Meter, Degrees, Int, Int,  Int)
@@ -1529,16 +1528,18 @@ def _L1(a, b):
     return fabs(a) + fabs(b)
 
 
+__all__ += _ALL_DOCS(_IntersectBase)
+
 if __name__ == '__main__':  # MCCABE 14
 
     from pygeodesy import printf
-    __help_   = '--help'
+    __help_ = '--help'
 
     def _main(args):
 
         from pygeodesy import GeodesicExact
         from pygeodesy.internals import _plural, _usage
-        from pygeodesy.interns import _COLONSPACE_, _DASH_, _DOT_, _EQUAL_, \
+        from pygeodesy.interns import _COLONSPACE_, _DOT_, _EQUAL_, \
                                       _i_, _m_, _n_, _version_, _X_
         import re
 
@@ -1559,8 +1560,8 @@ if __name__ == '__main__':  # MCCABE 14
                               ('o' + llz2 + ' x0 y0')),
                         help=_h if isinstance(_h, str) else NN)
 
-        def _starts(opt, arg, n=0):
-            return opt.startswith(arg) and len(arg.lstrip(_DASH_)) > n
+        def _starts(Opt, arg):
+            return arg == Opt[1:3] or (len(arg) > 2 and Opt.startswith(arg))
 
         _isopt = re.compile('^[-]+[a-z]*$', flags=re.IGNORECASE).match
 
@@ -1570,11 +1571,11 @@ if __name__ == '__main__':  # MCCABE 14
 
         while args and _isopt(args[0]):
             arg = args.pop(0)
-            if arg == _C__ or _starts('--Check', arg):
-                _C = True
-            elif arg == _c__:
+            if arg == _c__:
                 M, m = I.Closest, 6  # latA lonA aziA  latB lonB aziB
-            elif arg == '-h' or _starts(__help_, arg):
+            elif _starts('--Check', arg):
+                _C = True
+            elif _starts(__help_, arg):
                 _h = args[0] if args and _isopt(args[0]) else True
             elif arg == _i__:
                 M, m = I.Segment, 8  # latA1 lonA1  latA2 lonA2  latB1 lonB1  latB2 lonB2
@@ -1587,7 +1588,7 @@ if __name__ == '__main__':  # MCCABE 14
                 M, m = I.Closest, 8  # latA lonA aziA  latB lonB aziB  x0 y0
             elif arg == _R__ and args:
                 _R = args.pop(0)
-            elif arg == '-T' or _starts('--Tool', arg):
+            elif _starts('--Tool', arg):
                 I = Intersectool()  # PYCHOK I
                 if _V:
                     I.verbose = True
@@ -1596,11 +1597,11 @@ if __name__ == '__main__':  # MCCABE 14
                 elif _V:
                     _ = I.version
                 M, _T = None, True
-            elif arg == '-V' or _starts('--Verbose', arg):
+            elif _starts('--Verbose', arg):
                 _V = True
                 if _T:
                     I.verbose = True
-            elif arg == '-v' or _starts('--version', arg):
+            elif _starts('--version', arg):
                 printf(_COLONSPACE_(*((_version_, I.version) if _T else
                                       (__version__, repr(I)))))
             else:

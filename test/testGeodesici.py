@@ -4,7 +4,7 @@
 # Some C{geodesici} tests for classes C{Intersectool} and C{Intersector}.
 
 __all__ = ('Tests',)
-__version__ = '24.07.18'
+__version__ = '24.07.21'
 
 from bases import GeodSolve, geographiclib, IntersectTool, TestsBase
 
@@ -108,9 +108,9 @@ class Tests(TestsBase):
         self.testItems('Segment', I.Segment(a, b, **_C))
         self.testItems('Segment5', I.Segment5(a, b))
 
-        self.testEnumerate('intersect7s', I.intersect7s(LatLon_( 0,  0), LatLon_( 10, 10),
-                                                        LatLon_(50, -4), LatLon_(-50, -4),
-                                                        LatLon=_LL))
+        self.testEnumerate('intersect7s', I.intersect7(LatLon_( 0,  0), LatLon_( 10, 10),
+                                                       LatLon_(50, -4), LatLon_(-50, -4),
+                                                       LatLon=_LL))
 
         # % echo 50N 4W 147.7W 0 0 90 | IntersectTool -e 6371e3 0 -c -p 0 -C
         # 6077191 -3318019 0
