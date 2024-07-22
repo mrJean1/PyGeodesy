@@ -56,7 +56,7 @@ from pygeodesy.utily import sincos2,  atan2, fabs, radians
 # from math import atan2, ceil as _ceil, fabs, radians  # .fsums, .utily
 
 __all__ = _ALL_LAZY.geodesici
-__version__ = '24.07.21'
+__version__ = '24.07.22'
 
 _0t     =  0,  # int
 _1_1t   = -1, +1
@@ -95,9 +95,9 @@ class XDict(ADict):
        between the intersection and the I{origin} C{X0}.
 
        If present, distance C{sAB} and angular distance C{aAB} represent
-       the difference between the intersection points on geodesic lines
+       the difference between the intersection point on geodesic lines
        C{glA} and C{glB} in C{meter} respectively C{degrees}, typically
-       below C{5e-9 meter} or C{5 nm} and C{5e-14 degrees} or C{1 ns}.
+       below C{5e-9 meter} or C{5 nm} and C{5e-14 degrees} or C{1 n"}.
 
        For segments, indicators C{kA} and C{kB} are C{0} if the segments
        intersect or C{-1} or C{+1} if the intersection is I{before} the

@@ -25,7 +25,7 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, \
 from functools import wraps as _wraps
 
 __all__ = _ALL_LAZY.props
-__version__ = '24.05.26'
+__version__ = '24.07.22'
 
 _class_       = 'class'
 _dont_use_    = _DEPRECATED_ + ", don't use."
@@ -48,11 +48,12 @@ def _allPropertiesOf(Clas_or_inst, *Bases, **excls):
         except AttributeError:
             raise
             S = ()  # not an inst
-    B    = Bases or _PropertyBase
-    _isa = isinstance
+    B =  Bases or _PropertyBase
+    P = _property_RO___
     for C in S:
         for n, p in C.__dict__.items():
-            if _isa(p, B) and p.name == n and n not in excls:
+            if isinstance(p, B) and p.name == n and not (
+               isinstance(p, P) or n in excls):
                 yield p
 
 
@@ -366,6 +367,11 @@ class _property_RO___(_PropertyBase):
            @see: L{property_RO} for further details.
         '''
         _PropertyBase.__init__(self, method, self._fget, self._fset_error, doc=doc)
+
+    def _fdel(self, unused):  # PYCHOK no cover
+        '''Silently ignored, always.
+        '''
+        pass
 
     def _update(self, *unused):  # PYCHOK signature
         '''(INTERNAL) No-op, ignore updates.
