@@ -25,7 +25,7 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, \
 from functools import wraps as _wraps
 
 __all__ = _ALL_LAZY.props
-__version__ = '24.07.22'
+__version__ = '24.07.23'
 
 _class_       = 'class'
 _dont_use_    = _DEPRECATED_ + ", don't use."
@@ -360,9 +360,9 @@ class _property_RO___(_PropertyBase):
     # No __doc__ on purpose
 
     def __init__(self, method, doc=NN):  # PYCHOK expected
-        '''New C{property_ROnce} or C{property_Rover}, holding a single value as
+        '''New C{property_ROnce} or C{property_ROver}, holding a singleton value as
            class attribute for all instances of that class and overwriting C{self},
-           the C{property_Rover} instance in the 1st invokation.
+           the C{property_ROver} instance in the 1st invokation.
 
            @see: L{property_RO} for further details.
         '''
@@ -386,10 +386,10 @@ class property_ROnce(_property_RO___):
         '''Get the C{property} value, only I{once} and memoize/cache it.
         '''
         try:
-            val = self._val
+            v = self._val
         except AttributeError:
-            val = self._val = self.method(inst)
-        return val
+            v = self._val = self.method(inst)
+        return v
 
 
 class property_ROver(_property_RO___):
@@ -398,17 +398,17 @@ class property_ROver(_property_RO___):
     def _fget(self, inst):
         '''Get the C{property} value I{once} and overwrite C{self}, this C{property} instance.
         '''
-        val = self.method(inst)
-        n   = self.name
-        I   = inst.__class__  # PYCHOK I
-        for C in I.__mro__:
-            if getattr(C, n, None) is self:
-                setattr(C, n, val)  # overwrite property_ROver
+        v = self.method(inst)
+        n = self.name
+        C = inst.__class__
+        for c in C.__mro__:  # [:-1]
+            if getattr(c, n, None) is self:
+                setattr(c, n, v)  # overwrite property_ROver
                 break
         else:
-            n = _DOT_(I.__name__, n)
-            raise _AssertionError(_EQUALSPACED_(n, val))
-        return val
+            n = _DOT_(C.__name__, n)
+            raise _AssertionError(_EQUALSPACED_(n, v))
+        return v
 
 
 class _NamedProperty(property):

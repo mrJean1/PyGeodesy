@@ -124,7 +124,7 @@ C{epydoc --html --no-private --no-source --name=PyGeodesy --url=... -v pygeodesy
 Tests
 =====
 
-The tests ran with Python 3.13.0b3, Python 3.12.4 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0,
+The tests ran with Python 3.13.0b4, Python 3.12.4 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0,
 U{GeodSolve<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.3,
 U{IntersectTool<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.3 and
 U{RhumbSolve<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.3),
@@ -148,7 +148,7 @@ the distribution files.
 Test coverage has been measured with U{coverage<https://PyPI.org/project/coverage>} 7.6.0 using Python 3.12.4,
 3.11.5 and 3.10.8.  The complete coverage report in HTML and a PDF summary are included in the distribution files.
 
-Python 3.13.0b3, 3.12.4, 3.11.5 and 3.10.8 run on Apple M1 Silicon (C{arm64}), I{natively}.  Python 2.7.18 runs on
+Python 3.13.0b4, 3.12.4, 3.11.5 and 3.10.8 run on Apple M1 Silicon (C{arm64}), I{natively}.  Python 2.7.18 runs on
 Intel (C{x86_64}) or Intel I{emulation} ("C{arm64_x86_64}", see function L{machine<pygeodesy.machine>}).
 
 The tests also ran with Python 3.12.4 (and U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0) on U{Debian
