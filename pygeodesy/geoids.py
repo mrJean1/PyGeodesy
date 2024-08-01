@@ -117,7 +117,7 @@ except ImportError:  # Python 3+
     from io import BytesIO as _BytesIO  # PYCHOK expected
 
 __all__ = _ALL_LAZY.geoids
-__version__ = '24.07.12'
+__version__ = '24.07.25'
 
 _assert_ = 'assert'
 _bHASH_  =  b'#'
@@ -287,7 +287,7 @@ class _GeoidBase(_HeightsBase):
 
     def _called(self, llis, scipy, wrap=False, H=False):
         # handle __call__
-        _H = _MODS.formy.heightOrthometric if H else None
+        _H = self._heightOrthometric if H else None
         _as, llis = _as_llis2(llis, Error=GeoidError)
         hs, _w    =  [], _Wrap._latlonop(wrap)
         _a, _h    =  hs.append, self._hGeoid
@@ -415,6 +415,10 @@ class _GeoidBase(_HeightsBase):
                                 exception.
         '''
         return _height_called(self, lats, lons, Error=GeoidError, **wrap)
+
+    @property_ROver
+    def _heightOrthometric(self):
+        return _MODS.formy.heightOrthometric  # overwrite property_ROver
 
     def _hGeoid(self, lat, lon):
         out = self.outside(lat, lon)

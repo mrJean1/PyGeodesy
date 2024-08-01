@@ -31,8 +31,7 @@ from pygeodesy import internals as _internals, interns as _interns, \
                      _isfrozen  # DON'T _lazy_import2
 # from pygeodesy.errors import _error_init, _xkwds_item2  # _ALL_MODS
 from pygeodesy.internals import _caller3, _dunder_nameof, _dunder_ismain, \
-                                _headof, _osversion2, printf, _Pythonarchine, \
-                                _tailof  # _Property_RO
+                                _headof, printf, _Pythonarchine, _tailof  # _Property_RO
 from pygeodesy.interns import NN, _attribute_, _by_, _COLONSPACE_, _COMMASPACE_, \
                              _doesn_t_exist_, _DOT_, _EQUALSPACED_, _from_, \
                              _HASH_, _immutable_, _line_, _module_, _no_, _not_, \
@@ -290,7 +289,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                       geodesicx=_i('gx', 'gxarea', 'gxbases', 'gxline',  # modules
                                    'GeodesicAreaExact', 'GeodesicExact', 'GeodesicLineExact', 'PolygonArea'),
                       geodsolve=_i('GeodesicSolve', 'GeodesicLineSolve', 'GeodSolve12Tuple'),
-                        geohash=_i('Geohash', 'GeohashError', 'Neighbors8Dict', 'Resolutions2Tuple'),
+                        geohash=_i('Geohash', 'Geohashed', 'GeohashError', 'Neighbors8Dict', 'Resolutions2Tuple', 'Sizes3Tuple'),
                          geoids=_i('GeoidError', 'GeoidG2012B', 'GeoidKarney', 'GeoidPGM', 'egmGeoidHeights',
                                    'PGMError', 'GeoidHeight5Tuple'),
                       hausdorff=_i('Hausdorff', 'HausdorffDegrees', 'HausdorffError', 'HausdorffRadians',
@@ -368,7 +367,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                       triaxials=_i('BetaOmega2Tuple', 'BetaOmega3Tuple', 'Jacobi2Tuple',
                                    'JacobiConformal', 'JacobiConformalSpherical',
                                    'Triaxial', 'Triaxial_', 'TriaxialError', 'Triaxials', 'hartzell4'),
-                          units=_i('Band', 'Bearing', 'Bearing_', 'Bool',
+                          units=_i('Azimuth', 'Band', 'Bearing', 'Bearing_', 'Bool',
                                    'Degrees', 'Degrees_', 'Degrees2', 'Distance', 'Distance_', 'Easting', 'Epoch',
                                    'Feet', 'FIx', 'Float_', 'Height', 'Height_', 'HeightX', 'Int_',
                                    'Lam', 'Lamd', 'Lat', 'Lat_', 'Lon', 'Lon_',
@@ -522,7 +521,7 @@ class _ALL_MODS(_internals._MODS_Base):
 _internals._MODS = _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '24.07.18'
+__version__ = '24.08.01'
 
 
 def _ALL_OTHER(*objs):
@@ -862,13 +861,13 @@ def _lazy_module(name):  # overwritten by _lazy_import2
 #
 #     return _ALL_OTHER(*sm.values())
 
-
 # del _i, _i0
 
 # _ = _ALL_MODS.errors  # force import pygeodesy.errors
 
 if _dunder_ismain(__name__):  # PYCHOK no cover
 
+    from pygeodesy.internals import _versions
     from timeit import timeit
 
     def t1():
@@ -882,22 +881,24 @@ if _dunder_ismain(__name__):  # PYCHOK no cover
 
     t1 = timeit(t1, number=1000000)
     t2 = timeit(t2, number=1000000)
-    v = _SPACE_.join(_Pythonarchine() + _osversion2())
-    printf('%.6f import vs %.6f _ALL_MODS: %.2fX, %s', t1, t2, t1 / t2, v)
+    printf('%.6f import vs %.6f _ALL_MODS: %.2fX, %s', t1, t2, t1 / t2, _versions())
 
 #   del t1, t2, timeit, v
 
-# python3.12 -W ignore -m pygeodesy.lazily
-# 0.145177 import vs 0.075402 _ALL_MODS: 1.93X, Python 3.12.3 64bit arm64 macOS 14.4.1
+# % python3.13 -W ignore -m pygeodesy.lazily
+# 0.102670 import vs 0.076113 _ALL_MODS: 1.35X, pygeodesy 24.8.4 Python 3.13.0b4 64bit arm64 macOS 14.5
 
-# python3.11 -W ignore -m pygeodesy.lazily
-# 0.381723 import vs 0.251589 _ALL_MODS: 1.52X, Python 3.11.5 64bit arm64 macOS 14.4.1
+# % python3.12 -W ignore -m pygeodesy.lazily
+# 0.132801 import vs 0.079125 _ALL_MODS: 1.68X, pygeodesy 24.8.4 Python 3.12.4 64bit arm64 macOS 14.5
 
-# python3.10 -W ignore -m pygeodesy.lazily
-# 0.378293 import vs 0.266507 _ALL_MODS: 1.42X, Python 3.10.8 64bit arm64 macOS 14.4.1
+# % python3.11 -W ignore -m pygeodesy.lazily
+# 0.381723 import vs 0.251589 _ALL_MODS: 1.52X, pygeodesy 24.8.4 Python 3.11.5 64bit arm64 macOS 14.4.1
 
-# python2 -m pygeodesy.lazily
-# 1.213805 import vs 0.474075 _ALL_MODS: 2.56X, Python 2.7.18 64bit arm64_x86_64 macOS 10.16
+# % python3.8 -W ignore -m pygeodesy.lazily
+# 0.570353 import vs 0.382842 _ALL_MODS: 1.49X, pygeodesy 24.8.4 Python 3.8.10 64bit arm64_x86_64 macOS 10.16
+
+# % python2 -m pygeodesy.lazily
+# 1.213805 import vs 0.474075 _ALL_MODS: 2.56X, pygeodesy 24.8.4 Python 2.7.18 64bit arm64_x86_64 macOS 10.16
 
 # **) MIT License
 #

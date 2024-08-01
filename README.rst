@@ -71,6 +71,9 @@ Modules ``ellipsoidalGeodSolve`` and ``geodsolve`` and ``azimuthal`` classes ``E
 and ``GnomonicGeodSolve`` depend on *Karney*\'s C++ utility GeodSolve_ to be executable and set with
 env variable ``PYGEODESY_GEODSOLVE`` or with property ``Ellipsoid.geodsolve``.
 
+Class ``Intersectool`` in module ``geodesici`` needs *Karney*\'s C++ utility IntersectTool_ to be
+executable and set with env variable ``PYGEODESY_INTERSECTTOOL``.
+
 To compare ``MGRS`` results from modules ``mgrs`` and ``testMgrs`` with *Karney*\'s C++ utility
 GeoConvert_, the latter must be executable and set with env variable ``PYGEODESY_GEOCONVERT``.
 
@@ -131,7 +134,7 @@ and McCabe_ using Python 2.7.18 and with Flake8_ using Python 3.11.5, both in 64
 
 For a summary of all *Karney*-based functionality in ``pygeodesy``, see module karney_.
 
-*Last updated: July 24, 2024.*
+*Last updated: Aug 04, 2024.*
 
 License
 =======

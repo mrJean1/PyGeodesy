@@ -24,7 +24,7 @@ from pygeodesy.karney import _2cos2x,  _ALL_DOCS
 from pygeodesy.props import property_RO, property_ROver
 
 __all__ = ()
-__version__ = '24.07.12'
+__version__ = '24.07.25'
 
 
 class AuxDST(object):
@@ -78,7 +78,7 @@ class AuxDST(object):
     def _fft_numpy(self):
         '''(INTERNAL) Get the C{numpy.fft} module, I{once}.
         '''
-        return _xnumpy(AuxDST, 1, 16).fft  # overwrite propertyROver
+        return _xnumpy(AuxDST, 1, 16).fft  # overwrite property_ROver
 
     def _fft_real(self, data):
         '''(INTERNAL) NumPy's I{kissfft}-like C{transform_real} function,

@@ -93,7 +93,7 @@ from pygeodesy.utily import atan1, atan1d, atan2b, degrees90, m2radians, radians
 from math import asinh, atan, atanh, cos, degrees, exp, fabs, radians, sin, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '24.07.16'
+__version__ = '24.07.25'
 
 _f_0_0    = Float(f =_0_0)  # zero flattening
 _f__0_0   = Float(f_=_0_0)  # zero inverse flattening
@@ -1040,7 +1040,7 @@ class Ellipsoid(_NamedEnumItem):
                   _MODS.geodesicw._wrapped.Geodesic)
         except ImportError:
             pass
-        return t  # overwrite propertyROver
+        return t  # overwrite property_ROver
 
     @property_RO
     def geodesicw(self):
@@ -1523,7 +1523,7 @@ class Ellipsoid(_NamedEnumItem):
         '''(INTERNAL) Get all C{Rhumb...} classes, I{once}.
         '''
         p = _MODS.rhumb
-        return (p.aux_.RhumbAux,  # overwrite propertyROver
+        return (p.aux_.RhumbAux,  # overwrite property_ROver
                 p.ekx.Rhumb, p.solve.RhumbSolve)
 
     @property

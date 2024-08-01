@@ -44,7 +44,7 @@ from pygeodesy.vector3d import _ALL_LAZY, Vector3d
 # from math import fabs, floor as _floor  # from .fmath, .fsums
 
 __all__ = _ALL_LAZY.ltp
-__version__ = '24.07.12'
+__version__ = '24.07.25'
 
 _height0_ = _height_ + _0_
 _narrow_  = 'narrow'
@@ -730,7 +730,7 @@ class _ChLV(object):
         # assert _args_kwds_names( ChLV.reverse)[1:4] == t
         # assert _args_kwds_names(ChLVa.reverse)[1:4] == t
         # assert _args_kwds_names(ChLVe.reverse)[1:4] == t
-        return t  # overwrite propertyROver
+        return t  # overwrite property_ROver
 
     def forward(self, latlonh, lon=None, height=0, M=None, **name):  # PYCHOK no cover
         '''Convert WGS84 geodetic to I{Swiss} projection coordinates.  I{Must be overloaded}.

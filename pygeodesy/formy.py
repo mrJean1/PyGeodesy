@@ -42,7 +42,7 @@ from contextlib import contextmanager
 from math import asin, atan, atan2, cos, degrees, fabs, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '24.06.15'
+__version__ = '24.07.29'
 
 _RADIANS2 = (PI / _180_0)**2  # degrees- to radians-squared
 _ratio_   = 'ratio'
@@ -962,7 +962,7 @@ def hartzell(pov, los=False, earth=_WGS84, **name_LatLon_and_kwds):
                    B{C{datum}} if different and to convert from B{C{earth}}.
 
        @return: The intersection (L{Vector3d}, B{C{pov}}'s C{cartesian type} or the
-                given B{C{LatLon}} instance) with attribute C{heigth} set to the
+                given B{C{LatLon}} instance) with attribute C{height} set to the
                 distance to the B{C{pov}}.
 
        @raise IntersectionError: Invalid B{C{pov}} or B{C{pov}} inside the earth or

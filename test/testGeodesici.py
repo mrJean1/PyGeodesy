@@ -4,7 +4,7 @@
 # Some C{geodesici} tests for classes C{Intersectool} and C{Intersector}.
 
 __all__ = ('Tests',)
-__version__ = '24.07.21'
+__version__ = '24.07.28'
 
 from bases import GeodSolve, geographiclib, IntersectTool, TestsBase
 
@@ -37,7 +37,7 @@ def _re(v, x):  # rel error
 class Tests(TestsBase):
 
     _Xdict2 = dict()
-    _known1 = set(('a1M', 's1M', 's12', 'latM', 'lonX'))
+    _known1 = set(('a1M', 's1M', 's12', 'latM', 'lonX', 'azi1'))
     _known2 = set(('aMM', 'sMM', 'sX0', 'sB', 'iteration', 'latB', 'A', 'B'))
 
     def test_(self, name, v, **nl):

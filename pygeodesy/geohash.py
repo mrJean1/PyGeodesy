@@ -1,94 +1,61 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Geohash en-/decoding.
+u'''I{Gustavo Niemeyer}’s Geohash en-, decoding and caching.
 
 Classes L{Geohash} and L{GeohashError} and several functions to encode,
-decode and inspect I{geohashes}.
+decode and inspect I{geohashes} and optional L{Geohashed} caches.
 
-Transcoded from JavaScript originals by I{(C) Chris Veness 2011-2015}
-and published under the same MIT Licence**, see U{Geohashes
-<https://www.Movable-Type.co.UK/scripts/geohash.html>}.
+Transcoded from JavaScript originals by I{(C) Chris Veness 2011-2015} and
+published under the same MIT Licence**, see
+U{Geohashes<https://www.Movable-Type.co.UK/scripts/geohash.html>}.
 
-See also U{Geohash<https://WikiPedia.org/wiki/Geohash>}, U{Geohash
-<https://GitHub.com/vinsci/geohash>}, U{PyGeohash
-<https://PyPI.org/project/pygeohash>} and U{Geohash-Javascript
-<https://GitHub.com/DaveTroy/geohash-js>}.
+@see: U{Geohash<https://WikiPedia.org/wiki/Geohash>},
+      U{Geohash<https://GitHub.com/vinsci/geohash>},
+      U{PyGeohash<https://PyPI.org/project/pygeohash>} and
+      U{Geohash-Javascript<https://GitHub.com/DaveTroy/geohash-js>}.
 '''
 
 from pygeodesy.basics import isodd, isstr, map2
-from pygeodesy.constants import EPS, R_M, _floatuple, _0_0, _0_5, _180_0, \
-                               _360_0,  _90_0, _N_90_0, _N_180_0  # PYCHOK used!
-from pygeodesy.dms import parse3llh  # parseDMS2
+from pygeodesy.constants import EPS, R_M, _0_0, _0_5, _180_0, _360_0, \
+                               _90_0, _N_90_0, _N_180_0  # PYCHOK used!
+# from pygeodesy.dms import parse3llh  # _MODS
 from pygeodesy.errors import _ValueError, _xkwds, _xStrError
-from pygeodesy.fmath import favg
 # from pygeodesy import formy as _formy  # _MODS
-from pygeodesy.interns import NN, _COMMA_, _DOT_, _E_, _N_, _NE_, _NW_, \
-                             _S_, _SE_, _SW_, _W_
-from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _ALL_OTHER
+from pygeodesy.interns import NN, _COMMA_, _DOT_, _E_, _height_, _N_, _NE_, \
+                             _NW_, _radius_, _S_, _SE_, _SW_, _W_, _width_
+from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _name__, _NamedDict, _NamedTuple, nameof, _xnamed
 from pygeodesy.namedTuples import Bounds2Tuple, Bounds4Tuple, LatLon2Tuple, \
                                   PhiLam2Tuple
 from pygeodesy.props import deprecated_function, deprecated_method, \
-                            deprecated_property_RO, Property_RO
-from pygeodesy.streprs import fstr
-from pygeodesy.units import Degrees_, Int, Lat, Lon, Precision_, Str
+                            deprecated_property_RO, Property_RO, \
+                            property_RO, property_ROver
+# from pygeodesy.streprs import Fmt, fstr  # _MODS
+from pygeodesy.units import Degrees_, Int, Lat, Lon, Meter, Precision_, Str
 
 from math import fabs, ldexp, log10, radians
 
 __all__ = _ALL_LAZY.geohash
-__version__ = '24.06.15'
+__version__ = '24.08.01'
 
-_formy = _MODS.into(formy=__name__)
-
-
-class _GH(object):
-    '''(INTERNAL) Lazily defined constants.
-    '''
-    def _4d(self, n, e, s, w):  # helper
-        return dict(N=(n, e), S=(s, w),
-                    E=(e, n), W=(w, s))
-
-    @Property_RO
-    def Borders(self):
-        return self._4d('prxz', 'bcfguvyz', '028b', '0145hjnp')
-
-    Bounds4 = (_N_90_0, _N_180_0, _90_0, _180_0)
-
-    @Property_RO
-    def DecodedBase32(self):  # inverse GeohashBase32 map
-        return dict((c, i) for i, c in enumerate(self.GeohashBase32))
-
-    # Geohash-specific base32 map
-    GeohashBase32 = '0123456789bcdefghjkmnpqrstuvwxyz'  # no a, i, j and o
-
-    @Property_RO
-    def Neighbors(self):
-        return self._4d('p0r21436x8zb9dcf5h7kjnmqesgutwvy',
-                        'bc01fg45238967deuvhjyznpkmstqrwx',
-                        '14365h7k9dcfesgujnmqp0r2twvyx8zb',
-                        '238967debc01fg45kmstqrwxuvhjyznp')
-
-    @Property_RO
-    def Sizes(self):  # lat-, lon and radial size (in meter)
-        # ... where radial = sqrt(latSize * lonWidth / PI)
-        _t = _floatuple
-        return (_t(20032e3, 20000e3, 11292815.096),  # 0
-                _t( 5003e3,  5000e3,  2821794.075),  # 1
-                _t(  650e3,  1225e3,   503442.397),  # 2
-                _t(  156e3,   156e3,    88013.575),  # 3
-                _t(  19500,   39100,    15578.683),  # 4
-                _t(   4890,    4890,     2758.887),  # 5
-                _t(    610,    1220,      486.710),  # 6
-                _t(    153,     153,       86.321),  # 7
-                _t(     19.1,    38.2,     15.239),  # 8
-                _t(      4.77,    4.77,     2.691),  # 9
-                _t(      0.596,   1.19,     0.475),  # 10
-                _t(      0.149,   0.149,    0.084),  # 11
-                _t(      0.0186,  0.0372,   0.015))  # 12  _MaxPrec
-
-_GH      = _GH()  # PYCHOK singleton
+_formy   = _MODS.into(formy=__name__)
+_MASK5   =  16, 8, 4, 2, 1  # PYCHOK used!
 _MaxPrec =  12
+
+
+def _2avg(a, b):
+    '''(INTERNAL) Bisect C{a} to C{b}.
+    '''
+    return (a + b) * _0_5  # favg
+
+
+def _2avg_ndigits2(a, b):
+    '''(INTERNAL) Return 2-tuple C{(_2avg, ndigits)}.
+    '''
+    # round to near centre without excessive
+    # precision to ⌊2-log10(Δ°)⌋ ndigits
+    return _2avg(a, b), int(2 - log10(a - b))
 
 
 def _2bounds(LatLon, LatLon_kwds, s, w, n, e, **name):
@@ -106,8 +73,14 @@ def _2bounds(LatLon, LatLon_kwds, s, w, n, e, **name):
 def _2center(bounds):
     '''(INTERNAL) Return the C{bounds} center.
     '''
-    return (favg(bounds.latN, bounds.latS),
-            favg(bounds.lonE, bounds.lonW))
+    return (_2avg(bounds.latN, bounds.latS),
+            _2avg(bounds.lonE, bounds.lonW))
+
+
+def _2dab(d, a, b):
+    '''(INTERNAL) Get delta from rounded.
+    '''
+    return fabs(d - round(*_2avg_ndigits2(a, b)))
 
 
 def _2fll(lat, lon, *unused):
@@ -125,19 +98,147 @@ def _2Geohash(geohash):
                          Geohash(geohash)
 
 
-def _2geostr(geohash):
-    '''(INTERNAL) Check a geohash string.
+def _2latlon(s, w, n, e, fstr=None):
+    '''(INTERNAL) Get the center C{lat, lon}, rounded.
     '''
-    try:
-        if not (0 < len(geohash) <= _MaxPrec):
-            raise ValueError()
-        geostr = geohash.lower()
-        for c in geostr:
-            if c not in _GH.DecodedBase32:
-                raise ValueError()
-        return geostr
-    except (AttributeError, TypeError, ValueError) as x:
-        raise GeohashError(Geohash.__name__, geohash, cause=x)
+    lat, a = _2avg_ndigits2(n, s)
+    lon, b = _2avg_ndigits2(e, w)
+    return (fstr(lat, prec=a), fstr(lon, prec=b)) if fstr else \
+           (round(lat, a),     round(lon, b))
+
+
+def _2Precision(p):
+    '''(INTERNAL) Get a valid C{Precision}.
+    '''
+    return Precision_(p, Error=GeohashError, low=1, high=_MaxPrec)
+
+
+class _GH(object):
+    '''(INTERNAL) Lazily defined constants.
+    '''
+    def _4d(self, s, w, n, e):  # helper
+        return dict(S=(s, w), W=(w, s),
+                    N=(n, e), E=(e, n))
+
+    @property_ROver
+    def Borders(self):
+        return self._4d('028b', '0145hjnp', 'prxz', 'bcfguvyz')
+
+    @property_ROver
+    def DecodeB32(self):  # inverse EncodeB32 map
+        return dict((c, i) for i, c in enumerate(self.EncodeB32))
+
+    def decode2(self, geohash):
+        '''Decode C{geohash} to C{(lat, lon)}.
+        '''
+        swne = self.swne4(geohash)
+        return _2latlon(*swne)
+
+    # Geohash base32 map: no a, i, l and o
+    EncodeB32 = '0123456789bcdefghjkmnpqrstuvwxyz'
+
+    def encode(self, *lat_lon_prec_eps):
+        '''Encode C{lat, lon} to C{prec}ision or C{eps}.
+        '''
+        def _encodes(lat, lon, prec, eps=0):
+            s, w, n, e = self.SWNE4
+            E, d, _avg = self.EncodeB32, True, _2avg
+            for _ in range(prec):
+                i = 0
+                for _ in range(5):  # len(_MASK5)
+                    i += i
+                    if d:  # bisect longitude
+                        a = _avg(e, w)
+                        if lon < a:
+                            e  = a
+                        else:
+                            w  = a
+                            i += 1
+                    else:  # bisect latitude
+                        a = _avg(n, s)
+                        if lat < a:
+                            n  = a
+                        else:
+                            s  = a
+                            i += 1
+                    d = not d
+                yield E[i]
+                if eps > 0:  # infer prec
+                    if _2dab(lon, e, w) < eps and \
+                       _2dab(lat, n, s) < eps:
+                        break
+
+        return NN.join(_encodes(*lat_lon_prec_eps))
+
+    @property_ROver
+    def _LatLon2Tuple(self):
+
+        class _LatLon2Tuple(_NamedTuple):
+            '''DEPRECATED on 2024.07.28, C{(lat, lon)} in B{C{meter}}, use L{Sizes3Tuple}.'''
+            _Names_ = LatLon2Tuple._Names_
+            _Units_ = Meter, Meter
+
+        return _LatLon2Tuple
+
+    @property_ROver
+    def Neighbors(self):
+        return self._4d('14365h7k9dcfesgujnmqp0r2twvyx8zb',
+                        '238967debc01fg45kmstqrwxuvhjyznp',
+                        'p0r21436x8zb9dcf5h7kjnmqesgutwvy',
+                        'bc01fg45238967deuvhjyznpkmstqrwx')
+
+    @property_ROver
+    def Sizes(self):  # height, width and radius (in meter)
+        # where radius = sqrt(height * width / PI), the
+        # radius of a circle with area (height * width)
+        T = Sizes3Tuple
+        return (T(20000e3, 20032e3, 11292815.096),  # 0
+                T( 5000e3,  5003e3,  2821794.075),  # 1
+                T(  650e3,  1225e3,   503442.397),  # 2
+                T(  156e3,   156e3,    88013.575),  # 3
+                T(  19500,   39100,    15578.683),  # 4
+                T(   4890,    4890,     2758.887),  # 5
+                T(    610,    1220,      486.710),  # 6
+                T(    153,     153,       86.321),  # 7
+                T(     19.1,    38.2,     15.239),  # 8
+                T(      4.77,    4.77,     2.691),  # 9
+                T(      0.596,   1.19,     0.475),  # 10
+                T(      0.149,   0.149,    0.084),  # 11
+                T(      0.0186,  0.0372,   0.015))  # 12  _MaxPrec
+
+    SWNE4 = (_N_90_0, _N_180_0, _90_0, _180_0)
+
+    def swne4(self, geohash, mask5=_MASK5):
+        '''Decode C{geohash} into 4-tuple C{(s, w, n, e)}.
+        '''
+        nc = len(geohash) if isstr(geohash) else 0
+        if not (0 < nc <= _MaxPrec):
+            raise GeohashError(geohash=geohash, len=nc)
+        s, w, n, e = self.SWNE4
+        D, d, _avg = self.DecodeB32, True, _2avg
+        try:
+            for j, c in enumerate(geohash.lower()):
+                i = D[c]
+                for m in mask5:
+                    if d:  # longitude
+                        a = _avg(e, w)
+                        if (i & m):
+                            w = a
+                        else:
+                            e = a
+                    else:  # latitude
+                        a = _avg(n, s)
+                        if (i & m):
+                            s = a
+                        else:
+                            n = a
+                    d = not d
+        except KeyError:
+            c = _MODS.streprs.Fmt.INDEX(repr(c), j)
+            raise GeohashError(geohash=geohash, len=nc, txt=c)
+        return s, w, n, e
+
+_GH = _GH()  # PYCHOK singleton
 
 
 class Geohash(Str):
@@ -150,8 +251,7 @@ class Geohash(Str):
 
            @arg cll: Cell or location (L{Geohash}, C{LatLon} or C{str}).
            @kwarg precision: Optional, the desired geohash length (C{int}
-                             1..12), see function L{geohash.encode} for
-                             some examples.
+                             1..12).
            @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @return: New L{Geohash}.
@@ -163,14 +263,15 @@ class Geohash(Str):
         ll = None
 
         if isinstance(cll, Geohash):
-            gh = _2geostr(str(cll))
+            gh = str(cll)
 
-        elif isstr(cll):
+        elif isstr(cll):  # "lat, lon" or "geohash"
             if _COMMA_ in cll:
-                ll = _2fll(*parse3llh(cll))
+                ll = _2fll(*_MODS.dms.parse3llh(cll))  # parseDMS2
                 gh =  encode(*ll, precision=precision)
             else:
-                gh = _2geostr(cll)
+                gh =  cll.lower()
+                _  = _GH.swne4(gh, mask5=())  # validate
 
         else:  # assume LatLon
             try:
@@ -221,7 +322,7 @@ class Geohash(Str):
         if n:
             n = _DOT_(n, D)
         # append letter for direction to parent
-        return Geohash(p + _GH.GeohashBase32[i], name=n)
+        return Geohash(p + _GH.EncodeB32[i], name=n)
 
     @Property_RO
     def _bounds(self):
@@ -270,7 +371,7 @@ class Geohash(Str):
             for n in range(n):
                 if self[n] != other[n]:
                     break
-        return _GH.Sizes[n][2]
+        return _GH.Sizes[n].radius
 
     @deprecated_method
     def distance1To(self, other):  # PYCHOK no cover
@@ -382,14 +483,20 @@ class Geohash(Str):
         '''
         return len(self)
 
-    @Property_RO
+    @deprecated_property_RO
     def sizes(self):
-        '''Get the lat- and longitudinal size of this cell as
-           a L{LatLon2Tuple}C{(lat, lon)} in (C{meter}).
+        '''DEPRECATED on 2024.07.28, use property C{Geohash.sizes3}.'''
+        t = self.sizes3
+        return _GH._LatLon2Tuple(t.height, t.width, name=t.name)
+
+    @Property_RO
+    def sizes3(self):
+        '''Get the lat-, longitudinal and radial size of this cell as
+           a L{Sizes3Tuple}C{(height, width, radius)}, all C{meter}.
         '''
         z = _GH.Sizes
         n =  min(len(z) - 1, max(self.precision, 1))
-        return LatLon2Tuple(z[n][:2], name=self.name)  # *z XXX Height, Width?
+        return Sizes3Tuple(z[n], name=self.name)
 
     def toLatLon(self, LatLon=None, **LatLon_kwds):
         '''Return (the approximate center of) this geohash cell
@@ -424,28 +531,16 @@ class Geohash(Str):
         return self._distanceTo(_formy.vincentys, other, **radius_wrap)
 
     @Property_RO
-    def N(self):
-        '''Get the cell North of this (L{Geohash}).
-        '''
-        return self.adjacent(_N_)
-
-    @Property_RO
-    def S(self):
-        '''Get the cell South of this (L{Geohash}).
-        '''
-        return self.adjacent(_S_)
-
-    @Property_RO
     def E(self):
         '''Get the cell East of this (L{Geohash}).
         '''
         return self.adjacent(_E_)
 
     @Property_RO
-    def W(self):
-        '''Get the cell West of this (L{Geohash}).
+    def N(self):
+        '''Get the cell North of this (L{Geohash}).
         '''
-        return self.adjacent(_W_)
+        return self.adjacent(_N_)
 
     @Property_RO
     def NE(self):
@@ -460,6 +555,12 @@ class Geohash(Str):
         return self.N.W
 
     @Property_RO
+    def S(self):
+        '''Get the cell South of this (L{Geohash}).
+        '''
+        return self.adjacent(_S_)
+
+    @Property_RO
     def SE(self):
         '''Get the cell SouthEast of this (L{Geohash}).
         '''
@@ -470,6 +571,124 @@ class Geohash(Str):
         '''Get the cell SouthWest of this (L{Geohash}).
         '''
         return self.S.W
+
+    @Property_RO
+    def W(self):
+        '''Get the cell West of this (L{Geohash}).
+        '''
+        return self.adjacent(_W_)
+
+
+class Geohashed(object):
+    '''A cache of en- and decoded geohashes of one precision.
+    '''
+    _nn = None,  # 1-tuple
+
+    def __init__(self, precision, ndigits=None):
+        '''New L{Geohashed} cache.
+
+           @arg precision: The geohash encoded length (C{int}, 1..12).
+           @kwarg ndigits: Optional number of digits to round C{lat}
+                           and C{lon} to cache keys (C{int}, typically
+                           C{B{ndigits}=B{precision}}) or C{None} for
+                           no rounding.
+        '''
+        self._p = _2Precision(precision)
+        if ndigits is None:
+            self._ab2 = self._ab2float
+        else:
+            self._ab2 = self._ab2round
+            n         = Int(ndigits=ndigits)
+            self._nn  = n, n
+        self.clear()
+
+    def __len__(self):
+        '''Return the number of I{unigue} geohashes (C{int}).
+        '''
+        d = self._d
+        d = set(d.keys())
+        n = len(d)
+        for e in self._e.values():
+            e  = set(e.values())
+            n += len(e - d)
+        return n
+
+    def _ab2(self, *ll):  # overwritten
+        '''(INTERNAL) Make encoded keys C{a, b}.
+        '''
+        return ll
+
+    def _ab2float(self, *ll):
+        '''(INTERNAL) Make encoded keys C{a, b}.
+        '''
+        return map(float, ll)
+
+    def _ab2round(self, *ll):
+        '''(INTERNAL) Make encoded keys C{a, b}.
+        '''
+        return map(round, ll, self._nn)
+
+    def clear(self):
+        '''Clear the C{en-} and C{decoded} cache.
+        '''
+        self._e = {}
+        self._d = {}
+
+    def decoded(self, geohash, encoded=False):
+        '''Get and cache the C{(lat, lon)} for C{geohash}, see L{decode<pygeodesy.geohash.decode>}.
+
+           @kwarg encoded: If C{True}, cache the result as C{encoded}.
+
+           @return: The C{(lat, lon}) pair for C{geohash}.
+        '''
+        try:
+            ll = self._d[geohash]
+        except KeyError:
+            self._d[geohash] = ll = _GH.decode2(geohash)
+        if encoded:
+            a, b = self._ab2(*ll)
+            try:
+                _ = self._e[b][a]
+            except KeyError:
+                self._e.setdefault(b, {})[a] = geohash
+        return ll
+
+    def encoded(self, lat, lon, decoded=False):
+        '''Get and cache the C{geohash} for C{(lat, lon)}, see L{encode<pygeodesy.geohash.encode>}.
+
+           @kwarg decoded: If C{True}, cache the result as C{decoded}.
+
+           @return: The C{geohash} for pair C{(lat, lon}).
+        '''
+        lat, lon = ll = _2fll(lat, lon)
+        a, b = self._ab2(*ll)
+        try:
+            gh = self._e[b][a]
+        except KeyError:
+            gh = _GH.encode(lat, lon, self._p, 0)
+            self._e.setdefault(b, {})[a] = gh
+        if decoded and gh not in self._d:
+            self._d[gh] = ll
+        return gh
+
+    @property_RO
+    def len2(self):
+        '''Return 2-tuple C{(lencoded, ldecoded)} with the C{len}gths of the
+           C{en-} and C{decoded} cache.
+        '''
+        return sum(len(e) for e in self._e.values()), len(self._d)
+
+    @Property_RO
+    def ndigits(self):
+        '''Get the rounding (C{int} or C{None}).
+        '''
+        return self._nn[0]
+
+    @Property_RO
+    def precision(self):
+        '''Get the C{precision} (C{int}).
+        '''
+        return self._p
 
 
 class GeohashError(_ValueError):
@@ -493,6 +712,34 @@ _Neighbors8Defaults = dict(zip(Neighbors8Dict._Keys_, (None,) *
                            len(Neighbors8Dict._Keys_)))  # XXX frozendict
 
 
+class Resolutions2Tuple(_NamedTuple):
+    '''2-Tuple C{(res1, res2)} with the primary I{(longitudinal)} and
+       secondary I{(latitudinal)} resolution, both in C{degrees}.
+    '''
+    _Names_ = ('res1',   'res2')
+    _Units_ = ( Degrees_, Degrees_)
+
+    @property_RO
+    def lat(self):
+        '''Get the secondary, latitudinal resolution (C{degrees}).
+        '''
+        return self[1]
+
+    @property_RO
+    def lon(self):
+        '''Get the primary, longitudinal resolution (C{degrees}).
+        '''
+        return self[0]
+
+
+class Sizes3Tuple(_NamedTuple):
+    '''3-Tuple C{(height, width, radius)} with latitudinal C{height},
+       longitudinal C{width} and area C{radius}, all in C{meter}.
+    '''
+    _Names_ = (_height_, _width_, _radius_)
+    _Units_ = ( Meter,    Meter,   Meter)
+
+
 def bounds(geohash, LatLon=None, **LatLon_kwds):
     '''Returns the lower-left SW and upper-right NE corners of a geohash.
 
@@ -510,41 +757,9 @@ def bounds(geohash, LatLon=None, **LatLon_kwds):
 
        @raise GeohashError: Invalid or C{null} B{C{geohash}}.
     '''
-    gh = _2Geohash(geohash)
-    if len(gh) < 1:
-        raise GeohashError(geohash=geohash)
-
-    s, w, n, e = _GH.Bounds4
-    try:
-        d, _avg = True, favg
-        for c in gh.lower():
-            i = _GH.DecodedBase32[c]
-            for m in (16, 8, 4, 2, 1):
-                if d:  # longitude
-                    a = _avg(w, e)
-                    if (i & m):
-                        w = a
-                    else:
-                        e = a
-                else:  # latitude
-                    a = _avg(s, n)
-                    if (i & m):
-                        s = a
-                    else:
-                        n = a
-                d = not d
-    except KeyError:
-        raise GeohashError(geohash=geohash)
-
-    return _2bounds(LatLon, LatLon_kwds, s, w, n, e,
+    swne = _GH.swne4(geohash)
+    return _2bounds(LatLon, LatLon_kwds, *swne,
                             name=nameof(geohash))  # _or_nameof=geohash
-
-
-def _bounds3(geohash):
-    '''(INTERNAL) Return 3-tuple C{(bounds, height, width)}.
-    '''
-    b = bounds(geohash)
-    return b, (b.latN - b.latS), (b.lonE - b.lonW)
 
 
 def decode(geohash):
@@ -560,13 +775,10 @@ def decode(geohash):
 
        @raise GeohashError: Invalid or null B{C{geohash}}.
     '''
-    b, h, w  = _bounds3(geohash)
-    lat, lon = _2center(b)
-
     # round to near centre without excessive precision to
     # ⌊2-log10(Δ°)⌋ decimal places, strip trailing zeros
-    return (fstr(lat, prec=int(2 - log10(h))),
-            fstr(lon, prec=int(2 - log10(w))))  # strs!
+    swne = _GH.swne4(geohash)
+    return _2latlon(*swne, fstr=_MODS.streprs.fstr)
 
 
 def decode2(geohash, LatLon=None, **LatLon_kwds):
@@ -587,14 +799,20 @@ def decode2(geohash, LatLon=None, **LatLon_kwds):
 
        @raise GeohashError: Invalid or null B{C{geohash}}.
     '''
-    t = map2(float, decode(geohash))
-    r = LatLon2Tuple(t) if LatLon is None else LatLon(*t, **LatLon_kwds)  # *t
+    ll = _GH.decode2(geohash)
+    r  =  LatLon2Tuple(ll) if LatLon is None else \
+          LatLon(     *ll,  **LatLon_kwds)
     return _xnamed(r, name__=decode2)
 
 
+@deprecated_function
 def decode_error(geohash):
-    '''Return the relative lat-/longitude decoding errors for
-       this geohash.
+    '''DEPRECATED on 2024.07.28, use L{geohash.decode_error2}.'''
+    return decode_error2(geohash)
+
+
+def decode_error2(geohash):
+    '''Return the lat- and longitude decoding error for a geohash.
 
        @arg geohash: To be decoded (L{Geohash}).
 
@@ -606,9 +824,9 @@ def decode_error(geohash):
 
        @raise GeohashError: Invalid or null B{C{geohash}}.
     '''
-    _, h, w = _bounds3(geohash)
-    return LatLon2Tuple(h * _0_5,  # Height error
-                        w * _0_5)  # Width error
+    s, w, n, e = _GH.swne4(geohash)
+    return LatLon2Tuple((n - s) * _0_5,  # lat error
+                        (e - w) * _0_5)  # lon error
 
 
 def distance_(geohash1, geohash2):
@@ -643,15 +861,16 @@ def distance3(geohash1, geohash2):
     return haversine_(geohash1, geohash2)
 
 
-def encode(lat, lon, precision=None):
+def encode(lat, lon, precision=None, eps=EPS):
     '''Encode a lat-/longitude as a C{geohash}, either to the specified
-       precision or if not provided, to an automatically evaluated
-       precision.
+       precision or if not provided, to an inferred precision.
 
        @arg lat: Latitude (C{degrees}).
        @arg lon: Longitude (C{degrees}).
        @kwarg precision: Optional, the desired geohash length (C{int}
-                         1..12).
+                         1..12) or C{None} or C{0} for inferred.
+       @kwarg eps: Optional inference tolerance (C{degrees}), ignored
+                   if B{C{precision}} is not C{None} or C{0}.
 
        @return: The C{geohash} (C{str}).
 
@@ -659,51 +878,11 @@ def encode(lat, lon, precision=None):
     '''
     lat, lon = _2fll(lat, lon)
 
-    if precision is None:
-        # Infer precision by refining geohash until
-        # it matches precision of supplied lat/lon.
-        for p in range(1, _MaxPrec + 1):
-            gh = encode(lat, lon, p)
-            ll = map2(float, decode(gh))
-            if fabs(lat - ll[0]) < EPS and \
-               fabs(lon - ll[1]) < EPS:
-                return gh
-        p = _MaxPrec
-    else:
-        p = Precision_(precision, Error=GeohashError, low=1, high=_MaxPrec)
-
-    b = i = 0
-    d, gh = True, []
-    s, w, n, e = _GH.Bounds4
-
-    _avg = favg
-    while p > 0:
-        i += i
-        if d:  # bisect longitude
-            m = _avg(e, w)
-            if lon < m:
-                e = m
-            else:
-                w = m
-                i += 1
-        else:  # bisect latitude
-            m = _avg(n, s)
-            if lat < m:
-                n = m
-            else:
-                s = m
-                i += 1
-        d = not d
-
-        b += 1
-        if b == 5:
-            # 5 bits gives a character:
-            # append it and start over
-            gh.append(_GH.GeohashBase32[i])
-            b  = i = 0
-            p -= 1
-
-    return NN.join(gh)
+    if precision:
+        p, e = _2Precision(precision), 0
+    else:  # infer precision by refining geohash
+        p, e = _MaxPrec, max(eps, EPS)
+    return _GH.encode(lat, lon, p, e)
 
 
 def equirectangular4(geohash1, geohash2, radius=R_M):
@@ -799,14 +978,6 @@ def precision(res1, res2=None):
     return _MaxPrec
 
 
-class Resolutions2Tuple(_NamedTuple):
-    '''2-Tuple C{(res1, res2)} with the primary I{(longitudinal)} and
-       secondary I{(latitudinal)} resolution, both in C{degrees}.
-    '''
-    _Names_ = ('res1',   'res2')
-    _Units_ = ( Degrees_, Degrees_)
-
-
 def resolution2(prec1, prec2=None):
     '''Determine the (geographic) resolutions of given L{Geohash}
        precisions.
@@ -817,8 +988,8 @@ def resolution2(prec1, prec2=None):
                      (C{int} 1..12).
 
        @return: L{Resolutions2Tuple}C{(res1, res2)} with the
-                (geographic) resolutions C{degrees}, where C{res2}
-                B{C{is}} C{res1} if no B{C{prec2}} is given.
+                (geographic) resolutions C{degrees}, where C{res2
+                B{is} res1} if no B{C{prec2}} is given.
 
        @raise GeohashError: Invalid B{C{prec1}} or B{C{prec2}}.
 
@@ -838,17 +1009,23 @@ def resolution2(prec1, prec2=None):
     return Resolutions2Tuple(res1, res2)
 
 
+@deprecated_function
 def sizes(geohash):
-    '''Return the lat- and longitudinal size of this L{Geohash} cell.
+    '''DEPRECATED on 2024.07.28, use function L{pygeodesy.geohash.sizes3}.'''
+    t = sizes3(geohash)
+    return _GH._LatLon2Tuple(t.height, t.width, name=t.name)
+
+
+def sizes3(geohash):
+    '''Return the lat-, longitudinal and radial size of this L{Geohash} cell.
 
        @arg geohash: Cell for which size are required (L{Geohash} or C{str}).
 
-       @return: A L{LatLon2Tuple}C{(lat, lon)} with the latitudinal height and
-                longitudinal width in (C{meter}).
+       @return: A L{Sizes3Tuple}C{(height, width, radius)}, all C{meter}.
 
        @raise TypeError: The B{C{geohash}} is not a L{Geohash}, C{LatLon} or C{str}.
     '''
-    return _2Geohash(geohash).sizes
+    return _2Geohash(geohash).sizes3
 
 
 def vincentys_(geohash1, geohash2, **radius_wrap):
@@ -868,10 +1045,38 @@ def vincentys_(geohash1, geohash2, **radius_wrap):
     return _2Geohash(geohash1).vincentysTo(geohash2, **radius_wrap)
 
 
-__all__ += _ALL_OTHER(bounds,  # functions
-                      decode, decode2, decode_error, distance_,
-                      encode, equirectangular4, euclidean_, haversine_,
-                      neighbors, precision, resolution2, sizes, vincentys_)
+__all__ += _ALL_DOCS(bounds,  # functions
+                     decode, decode2, decode_error2, distance_,
+                     encode, equirectangular4, euclidean_, haversine_,
+                     neighbors, precision, resolution2, sizes3, vincentys_,
+                     decode_error, sizes)  # DEPRECATED
+
+if __name__ == '__main__':
+
+    from pygeodesy.internals import printf, _versions
+    from timeit import timeit
+
+    for f, p in (('encode', _MaxPrec), ('infer', None)):
+
+        def _t(prec=p):
+            i = 0
+            for lat in range(-90, 90, 3):
+                for lon in range(-180, 180, 7):
+                    _ = encode(lat, lon, prec)
+                    i += 1
+            return i
+
+        i = _t()  # prime
+        n =  10
+        t =  timeit(_t, number=n) / (i * n)
+        printf('%s %.3f usec, %s', f, t * 1e6, _versions())
+
+# % python3.12 -m pygeodesy.geohash
+# encode 9.666 usec, pygeodesy 24.8.4 Python 3.13.0b4 64bit arm64 macOS 14.5
+# infer 13.735 usec, pygeodesy 24.8.4 Python 3.13.0b4 64bit arm64 macOS 14.5
+# or about 6.88 and 79.75 times faster than pygeodesy 24.7.24 and older:
+# encode 66.524 usec, pygeodesy 24.7.24 Python 3.12.4 64bit arm64 macOS 14.5
+# infer 1095.386 usec, pygeodesy 24.7.24 Python 3.12.4 64bit arm64 macOS 14.5
 
 # **) MIT License
 #

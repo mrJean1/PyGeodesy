@@ -11,11 +11,11 @@ from pygeodesy.constants import EPS, EPS1, PI, PI2, PI_2, _umod_360, _0_0, \
                                _0_001,  _0_5, INT0  # PYCHOK for .mgrs, .namedTuples
 from pygeodesy.dms import F__F, F__F_, S_NUL, S_SEP, parseDMS, parseRad, _toDMS
 from pygeodesy.errors import _AssertionError, TRFError, UnitError, _xattr, _xcallable
-from pygeodesy.interns import NN, _band_, _bearing_, _COMMASPACE_, _degrees_, \
-                             _degrees2_, _distance_, _E_, _easting_, _epoch_, _EW_, \
-                             _feet_, _height_, _lam_, _lat_, _LatLon_, _lon_, \
-                             _meter_, _meter2_, _N_, _negative_, _northing_, _NS_, \
-                             _NSEW_, _number_, _PERCENT_, _phi_, _precision_, \
+from pygeodesy.interns import NN, _azimuth_, _band_, _bearing_, _COMMASPACE_, \
+                             _degrees_, _degrees2_, _distance_, _E_, _easting_, \
+                             _epoch_, _EW_, _feet_, _height_, _lam_, _lat_, _LatLon_, \
+                             _lon_, _meter_, _meter2_, _N_, _negative_, _northing_, \
+                             _NS_, _NSEW_, _number_, _PERCENT_, _phi_, _precision_, \
                              _radians_, _radians2_, _radius_, _S_, _scalar_, \
                              _units_, _W_, _zone_,  _std_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, _getenv
@@ -27,7 +27,7 @@ from pygeodesy.unitsBase import Float, Int, _NamedUnit, Radius, Str,  Fmt, fstr
 from math import degrees, radians
 
 __all__ = _ALL_LAZY.units
-__version__ = '24.06.29'
+__version__ = '24.07.29'
 
 
 class Float_(Float):
@@ -339,18 +339,35 @@ class Radians2(Float_):
         return Float_.__new__(cls, arg=arg, name=name, low=_0_0, **Error_name_arg)
 
 
+def _Degrees_new(cls, **arg_name_suffix_clip_Error_name_arg):
+    d =  Degrees.__new__(cls, **arg_name_suffix_clip_Error_name_arg)
+    b = _umod_360(d)  # 0 <= b < 360
+    return d if b == d else Degrees.__new__(cls, arg=b, name=d.name)
+
+
+class Azimuth(Degrees):
+    '''Named C{float} representing an azimuth in compass C{degrees} from (true) North.
+    '''
+    _ddd_ =  1
+    _suf_ = _W_, S_NUL, _E_  # no zero suffix
+
+    def __new__(cls, arg=None, name=_azimuth_, **clip_Error_name_arg):
+        '''New, named L{Azimuth} with optional suffix 'E' for clockwise or 'W' for
+           anti-clockwise, see L{Degrees}.
+        '''
+        return _Degrees_new(cls, arg=arg, name=name, suffix=_EW_, **clip_Error_name_arg)
+
+
 class Bearing(Degrees):
     '''Named C{float} representing a bearing in compass C{degrees} from (true) North.
     '''
     _ddd_ =  1
     _suf_ = _N_ * 3  # always suffix N
 
-    def __new__(cls, arg=None, name=_bearing_, clip=0, **Error_name_arg):
+    def __new__(cls, arg=None, name=_bearing_, **clip_Error_name_arg):
         '''New, named L{Bearing}, see L{Degrees}.
         '''
-        d =  Degrees.__new__(cls, arg=arg, name=name, suffix=_N_, clip=clip, **Error_name_arg)
-        b = _umod_360(d)  # 0 <= b < 360
-        return d if b == d else Degrees.__new__(cls, arg=b, name=d.name)
+        return _Degrees_new(cls, arg=arg, name=name, suffix=_N_, **clip_Error_name_arg)
 
 
 class Bearing_(Radians):
@@ -782,7 +799,7 @@ class Zone(Int):
 
 
 _ScalarU =  Float, Float_, Scalar, Scalar_
-_Degrees = (Bearing, Bearing_, Degrees, Degrees_) + _ScalarU
+_Degrees = (Azimuth, Bearing, Bearing_, Degrees, Degrees_) + _ScalarU
 _Meters  = (Distance, Distance_, Meter, Meter_) + _ScalarU
 _Radians = (Radians, Radians_) + _ScalarU  # PYCHOK unused
 _Radii   = _Meters + (Radius, Radius_)
@@ -794,7 +811,7 @@ def _isDegrees(obj):
 
 
 def _isHeight(obj):
-    # Check for valid heigth types.
+    # Check for valid height types.
     return isinstance(obj, _Meters) or _isScalar(obj)
 
 
@@ -847,7 +864,7 @@ def _std_repr(*Classes):
             if _getenv(env, _std_).lower() != _std_:
                 C._std_repr = False
 
-_std_repr(Bearing, Bool, Degrees, Float, Int, Meter, Radians, Str)  # PYCHOK expected
+_std_repr(Azimuth, Bearing, Bool, Degrees, Float, Int, Meter, Radians, Str)  # PYCHOK expected
 del _std_repr
 
 __all__ += _ALL_DOCS(_NamedUnit)

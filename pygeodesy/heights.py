@@ -69,7 +69,7 @@ C{>>> hs = hinterpolator.height(lats, lons)}
 from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import isscalar, len2, map1, map2, _xnumpy, _xscipy
-from pygeodesy.constants import EPS, PI, PI2, _0_0, _90_0, _180_0
+from pygeodesy.constants import EPS, PI, PI_2, PI2, _0_0, _90_0, _180_0
 from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.errors import _AssertionError, LenError, PointsError, \
                              _SciPyIssue, _xattr, _xkwds, _xkwds_get, _xkwds_item2
@@ -83,7 +83,7 @@ from pygeodesy.interns import NN, _COMMASPACE_, _cubic_, _insufficient_, _linear
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, _FOR_DOCS
 from pygeodesy.named import _name2__, _Named
 from pygeodesy.points import _distanceTo, LatLon_,  Fmt, radians, _Wrap
-from pygeodesy.props import Property_RO, property_RO
+from pygeodesy.props import Property_RO, property_RO, property_ROver
 # from pygeodesy.streprs import Fmt  # from .points
 from pygeodesy.units import _isDegrees, Float_, Int_
 # from pygeodesy.utily import _Wrap  # from .points
@@ -91,7 +91,7 @@ from pygeodesy.units import _isDegrees, Float_, Int_
 # from math import radians  # from .points
 
 __all__ = _ALL_LAZY.heights
-__version__ = '24.06.22'
+__version__ = '24.07.25'
 
 _error_     = 'error'
 _formy      = _MODS.into(formy=__name__)
@@ -169,14 +169,13 @@ def _insufficientError(need, Error=HeightError, **name_value):  # PYCHOK no cove
     return Error(txt=t, **name_value)
 
 
-def _ordedup(ts, lo=EPS, hi=PI2-EPS):
+def _orderedup(ts, lo=EPS, hi=PI2-EPS):
     # clip, order and remove duplicates
-    # p, ks = 0, []
+    # p = 0
     # for k in sorted(max(lo, min(hi, t)) for t in ts):
     #     if k > p:
-    #         ks.append(k)
+    #         yield k
     #         p = k
-    # return ks
     return sorted(set(max(lo, min(hi, t)) for t in ts))  # list
 
 
@@ -227,8 +226,6 @@ class _HeightBase(_Named):  # in .geoids
 class _HeightsBase(_HeightBase):  # in .geoids
     '''(INTERNAL) Interpolator base class.
     '''
-    _np_sp = None  # (numpy, scipy)
-
     def __call__(self, *llis, **wrap):  # PYCHOK no cover
         '''Interpolate the height for one or several locations.  I{Must be overloaded}.
 
@@ -290,46 +287,37 @@ class _HeightsBase(_HeightBase):  # in .geoids
         '''
         self._notOverloaded(lats, lons, **wrap)
 
-    def _np_sp2(self, throwarnings=False):
+    def _np_sp2(self, throwarnings=False):  # PYCHOK no cover
         '''(INTERNAL) Import C{numpy} and C{scipy}, once.
         '''
-        t = _HeightsBase._np_sp
-        if not t:
-            # raise SciPyWarnings, but not if
-            # scipy has already been imported
-            if throwarnings:  # PYCHOK no cover
-                import sys
-                if _scipy_ not in sys.modules:
-                    import warnings
-                    warnings.filterwarnings(_error_)
+        # raise SciPyWarnings, but not if
+        # scipy has already been imported
+        if throwarnings:  # PYCHOK no cover
+            import sys
+            if _scipy_ not in sys.modules:
+                import warnings
+                warnings.filterwarnings(_error_)
+        return self.numpy, self.scipy
 
-            sp = _xscipy(self.__class__, 1, 2)
-            np = _xnumpy(self.__class__, 1, 9)
-
-            _HeightsBase._np_sp = t = np, sp
-        return t
-
-    @Property_RO
+    @property_ROver
     def numpy(self):
         '''Get the C{numpy} module or C{None}.
         '''
-        np, _ = self._np_sp2()
-        return np
+        return _xnumpy(self.__class__, 1, 9)  # overwrite property_ROver
 
-    @Property_RO
+    @property_ROver
     def scipy(self):
         '''Get the C{scipy} module or C{None}.
         '''
-        _, sp = self._np_sp2()
-        return sp
+        return _xscipy(self.__class__, 1, 2)  # overwrite property_ROver
 
-    @Property_RO
+    @property_ROver
     def scipy_interpolate(self):
         '''Get the C{scipy.interpolate} module or C{None}.
         '''
         _ = self.scipy
         import scipy.interpolate as spi  # scipy 1.2.2
-        return spi
+        return spi  # overwrite property_ROver
 
     def _scipy_version(self, **n):
         '''Get the C{scipy} version as 2- or 3-tuple C{(major, minor, micro)}.
@@ -441,19 +429,20 @@ class HeightLSQBiSpline(_HeightsBase):
     '''
     _kmin = 16  # k = 3, always
 
-    def __init__(self, knots, weight=None, **name_wrap):
+    def __init__(self, knots, weight=None, low=1e-4, **name_wrap):
         '''New L{HeightLSQBiSpline} interpolator.
 
            @arg knots: The points with known height (C{LatLon}s).
            @kwarg weight: Optional weight or weights for each B{C{knot}}
                           (C{scalar} or C{scalar}s).
+           @kwarg low: Optional lower bound for I{ordered knots} (C{radians}).
            @kwarg name_wrap: Optional C{B{name}=NN} for this height interpolator
                        (C{str}) and keyword argument C{b{wrap}=False} to wrap or
                        I{normalize} all B{C{knots}} and B{C{llis}} locations iff
                        C{True} (C{bool}).
 
-           @raise HeightError: Insufficient number of B{C{knots}} or
-                               an invalid B{C{knot}} or B{C{weight}}.
+           @raise HeightError: Insufficient number of B{C{knots}} or an invalid
+                               B{C{knot}},  B{C{weight}} or B{C{eps}}.
 
            @raise LenError: Unequal number of B{C{knots}} and B{C{weight}}s.
 
@@ -487,9 +476,10 @@ class HeightLSQBiSpline(_HeightsBase):
                 w = Fmt.INDEX(weight=w.index(m))
                 raise HeightError(w, m)
         try:
-            T = 1.0e-4  # like SciPy example
-            ps = np.array(_ordedup(xs, T, PI2 - T))
-            ts = np.array(_ordedup(ys, T, PI  - T))
+            if not EPS < low < (PI_2 - EPS):  # 1e-4 like SciPy example
+                raise HeightError(low=low)
+            ps = np.array(_orderedup(xs, low, PI2 - low))
+            ts = np.array(_orderedup(ys, low, PI  - low))
             self._ev = spi.LSQSphereBivariateSpline(ys, xs, hs,
                                                     ts, ps, eps=EPS, w=w).ev
         except Exception as x:

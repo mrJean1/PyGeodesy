@@ -49,14 +49,14 @@ from pygeodesy.props import deprecated_method, Property, \
 from pygeodesy.solveBase import _SolveCapsBase,  pairs
 # from pygeodesy.streprs import pairs  # from .solveBase
 # from pygeodesy.streprs import Fmt, unstr  # from .ellipsoids
-from pygeodesy.units import Degrees, Float, Int, _isDegrees, \
-                            Lat, Lon, Meter, Meter_
+from pygeodesy.units import Azimuth as Azi, Degrees, Float, Int, \
+                           _isDegrees,  Lat, Lon, Meter, Meter_
 from pygeodesy.utily import sincos2,  atan2, fabs, radians
 
 # from math import atan2, ceil as _ceil, fabs, radians  # .fsums, .utily
 
 __all__ = _ALL_LAZY.geodesici
-__version__ = '24.07.22'
+__version__ = '24.07.25'
 
 _0t     =  0,  # int
 _1_1t   = -1, +1
@@ -75,12 +75,6 @@ _R__    = '-R'
 _sAB_   = 'sAB'
 _sX0_   = 'sX0'
 _TRIPS  =  128
-
-
-class Azi(Degrees):
-    '''(INTERNAL) Azimuth C{Unit}.
-    '''
-    pass
 
 
 class XDict(ADict):
@@ -597,7 +591,7 @@ class Intersectool(_IntersectBase, _SolveCapsBase):
     def _GeodesicExact(self):
         '''Get the I{class} L{GeodesicExact}, I{once}.
         '''
-        return _MODS.geodesicx.GeodesicExact  # overwrite propertyROver
+        return _MODS.geodesicx.GeodesicExact  # overwrite property_ROver
 
     def _In5T(self, glA, glB, S, X, k2=False, **_2X):
         A = GDict(glA).set_(lat2=X.latA, lon2=X.lonA, s12=S.sA)

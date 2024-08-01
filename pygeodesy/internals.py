@@ -213,6 +213,13 @@ class _MODS_Base(object):
         from pygeodesy import streprs  # DON'T _lazy_import2
         return streprs
 
+    @_Property_RO
+    def version(self):
+        '''Get pygeodesy version, I{once}.
+        '''
+        from pygeodesy import version
+        return version
+
 _MODS = _MODS_Base()  # PYCHOK overwritten by .lazily
 
 
@@ -430,7 +437,7 @@ def _print7(nl=0, nt=0, prec=6, prefix=NN, sep=_SPACE_, file=_sys.stdout,
 
 
 def _Pythonarchine(sep=NN):  # in .lazily, test/bases.py versions
-    '''(INTERNAL) Get PyPy and Python versions, bit and machine as C{3- or 4-list} or C{str}.
+    '''(INTERNAL) Get PyPy and Python versions, bits and machine as C{3- or 4-list} or C{str}.
     '''
     l3 = _MODS.Pythonarchine
     return sep.join(l3) if sep else l3  # 3- or 4-list
@@ -576,16 +583,22 @@ def _version_ints(vs):
     return tuple(_ints(vs))
 
 
+def _versions(sep=_SPACE_):
+    '''(INTERNAL) Get pygeodesy, PyPy and Python versions, bits, machine and OS as C{7- or 8-list} or C{str}.
+    '''
+    l7 = [_pygeodesy_, _MODS.version] + _Pythonarchine() + _osversion2()
+    return sep.join(l7) if sep else l7  # 5- or 6-list
+
+
 __all__ = tuple(map(_dunder_nameof, (machine, print_, printf)))
-__version__ = '24.07.04'
+__version__ = '24.08.01'
 
 if _dunder_ismain(__name__):  # PYCHOK no cover
 
-    from pygeodesy import _isfrozen, isLazy, version as vs
+    from pygeodesy import _isfrozen, isLazy
 
-    print_(_pygeodesy_, vs, *(_Pythonarchine() + _osversion2()
-                                               + ['_isfrozen', _isfrozen,
-                                                  'isLazy',     isLazy]))
+    print_(*(_versions(sep=NN) + ['_isfrozen', _isfrozen,
+                                  'isLazy',     isLazy]))
 
 # **) MIT License
 #

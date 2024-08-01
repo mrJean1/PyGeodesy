@@ -59,26 +59,31 @@
 </table>
 <!-- ==================== MODULE DESCRIPTION ==================== -->
 <h1 class="epydoc">Module geohash</h1><p class="nomargin-top"></p>
-<p>Geohash en-/decoding.</p>
+<p><i>Gustavo Niemeyer</i>&#8217;s Geohash en-, decoding and caching.</p>
   <p>Classes <a href="pygeodesy.geohash.Geohash-class.html" 
   class="link">Geohash</a> and <a 
   href="pygeodesy.geohash.GeohashError-class.html" 
   class="link">GeohashError</a> and several functions to encode, decode and
-  inspect <i>geohashes</i>.</p>
+  inspect <i>geohashes</i> and optional <a 
+  href="pygeodesy.geohash.Geohashed-class.html" class="link">Geohashed</a> 
+  caches.</p>
   <p>Transcoded from JavaScript originals by <i>(C) Chris Veness 
   2011-2015</i> and published under the same MIT Licence**, see <a 
   href="https://www.Movable-Type.co.UK/scripts/geohash.html" 
   target="_top">Geohashes</a>.</p>
-  <p>See also <a href="https://WikiPedia.org/wiki/Geohash" 
-  target="_top">Geohash</a>, <a href="https://GitHub.com/vinsci/geohash" 
-  target="_top">Geohash</a>, <a href="https://PyPI.org/project/pygeohash" 
-  target="_top">PyGeohash</a> and <a 
-  href="https://GitHub.com/DaveTroy/geohash-js" 
-  target="_top">Geohash-Javascript</a>.</p>
 
 <hr />
-<div class="fields">      <p><strong>Version:</strong>
-        24.06.15
+<div class="fields">      <p><strong>See Also:</strong>
+        <a href="https://WikiPedia.org/wiki/Geohash" 
+        target="_top">Geohash</a>, <a 
+        href="https://GitHub.com/vinsci/geohash" target="_top">Geohash</a>,
+        <a href="https://PyPI.org/project/pygeohash" 
+        target="_top">PyGeohash</a> and <a 
+        href="https://GitHub.com/DaveTroy/geohash-js" 
+        target="_top">Geohash-Javascript</a>.
+      </p>
+      <p><strong>Version:</strong>
+        24.08.01
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -94,6 +99,14 @@
     </td><td class="summary">
         <a href="pygeodesy.geohash.Geohash-class.html" class="summary-name">Geohash</a><br />
       Geohash class, a named <code>str</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.geohash.Geohashed-class.html" class="summary-name">Geohashed</a><br />
+      A cache of en- and decoded geohashes of one precision.
     </td>
   </tr>
 <tr>
@@ -125,6 +138,16 @@
       2-Tuple <code>(res1, res2)</code> with the primary 
         <i>(longitudinal)</i> and secondary <i>(latitudinal)</i> 
         resolution, both in <code>degrees</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.geohash.Sizes3Tuple-class.html" class="summary-name">Sizes3Tuple</a><br />
+      3-Tuple <code>(height, width, radius)</code> with latitudinal 
+        <code>height</code>, longitudinal <code>width</code> and area 
+        <code>radius</code>, all in <code>meter</code>.
     </td>
   </tr>
 </table>
@@ -200,7 +223,26 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.geohash-module.html#decode_error" class="summary-sig-name">decode_error</a>(<span class="summary-sig-arg">geohash</span>)</span><br />
-      Return the relative lat-/longitude decoding errors for this geohash.</td>
+      DEPRECATED on 2024.07.28, use <a 
+      href="pygeodesy.geohash-module.html#decode_error2" 
+      class="link">geohash.decode_error2</a>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.geohash-module.html#decode_error2" class="summary-sig-name">decode_error2</a>(<span class="summary-sig-arg">geohash</span>)</span><br />
+      Return the lat- and longitude decoding error for a geohash.</td>
           <td align="right" valign="top">
             
             
@@ -236,10 +278,10 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.geohash-module.html#encode" class="summary-sig-name">encode</a>(<span class="summary-sig-arg">lat</span>,
         <span class="summary-sig-arg">lon</span>,
-        <span class="summary-sig-arg">precision</span>=<span class="summary-sig-default">None</span>)</span><br />
+        <span class="summary-sig-arg">precision</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">2.220446049250313e-16</span>)</span><br />
       Encode a lat-/longitude as a <code>geohash</code>, either to the 
-      specified precision or if not provided, to an automatically evaluated
-      precision.</td>
+      specified precision or if not provided, to an inferred precision.</td>
           <td align="right" valign="top">
             
             
@@ -377,7 +419,26 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.geohash-module.html#sizes" class="summary-sig-name">sizes</a>(<span class="summary-sig-arg">geohash</span>)</span><br />
-      Return the lat- and longitudinal size of this <a 
+      DEPRECATED on 2024.07.28, use function <a 
+      href="pygeodesy.geohash-module.html#sizes3" 
+      class="link">pygeodesy.geohash.sizes3</a>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.geohash-module.html#sizes3" class="summary-sig-name">sizes3</a>(<span class="summary-sig-arg">geohash</span>)</span><br />
+      Return the lat-, longitudinal and radial size of this <a 
       href="pygeodesy.geohash.Geohash-class.html" class="link">Geohash</a> 
       cell.</td>
           <td align="right" valign="top">
@@ -575,8 +636,32 @@
     </td>
   </tr></table>
   
-  <p>Return the relative lat-/longitude decoding errors for this 
-  geohash.</p>
+  <p>DEPRECATED on 2024.07.28, use <a 
+  href="pygeodesy.geohash-module.html#decode_error2" 
+  class="link">geohash.decode_error2</a>.</p>
+  <dl class="fields">
+    <dt>Decorators:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code>@deprecated_function</code></li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="decode_error2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">decode_error2</span>&nbsp;(<span class="sig-arg">geohash</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the lat- and longitude decoding error for a geohash.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -643,7 +728,8 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">encode</span>&nbsp;(<span class="sig-arg">lat</span>,
         <span class="sig-arg">lon</span>,
-        <span class="sig-arg">precision</span>=<span class="sig-default">None</span>)</span>
+        <span class="sig-arg">precision</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">eps</span>=<span class="sig-default">2.220446049250313e-16</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -651,14 +737,17 @@
   </tr></table>
   
   <p>Encode a lat-/longitude as a <code>geohash</code>, either to the 
-  specified precision or if not provided, to an automatically evaluated 
-  precision.</p>
+  specified precision or if not provided, to an inferred precision.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>lat</code></strong> - Latitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lon</code></strong> - Longitude (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>precision</code></strong> - Optional, the desired geohash length (<code>int</code> 1..12).</li>
+        <li><strong class="pname"><code>precision</code></strong> - Optional, the desired geohash length (<code>int</code> 1..12) or 
+          <code>None</code> or <code>0</code> for inferred.</li>
+        <li><strong class="pname"><code>eps</code></strong> - Optional inference tolerance (<code>degrees</code>), ignored if 
+          <b><code>precision</code></b> is not <code>None</code> or 
+          <code>0</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The <code>geohash</code> (<code>str</code>).</dd>
@@ -914,8 +1003,8 @@
         <dd><a href="pygeodesy.geohash.Resolutions2Tuple-class.html" 
           class="link">Resolutions2Tuple</a><code>(res1, res2)</code> with 
           the (geographic) resolutions <code>degrees</code>, where 
-          <code>res2</code> <b><code>is</code></b> <code>res1</code> if no 
-          <b><code>prec2</code></b> is given.</dd>
+          <code>res2 <b>is</b> res1</code> if no <b><code>prec2</code></b> 
+          is given.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.geohash.GeohashError-class.html">GeohashError</a></strong></code> - Invalid <b><code>prec1</code></b> or <b><code>prec2</code></b>.</li>
@@ -942,7 +1031,32 @@
     </td>
   </tr></table>
   
-  <p>Return the lat- and longitudinal size of this <a 
+  <p>DEPRECATED on 2024.07.28, use function <a 
+  href="pygeodesy.geohash-module.html#sizes3" 
+  class="link">pygeodesy.geohash.sizes3</a>.</p>
+  <dl class="fields">
+    <dt>Decorators:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code>@deprecated_function</code></li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="sizes3"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">sizes3</span>&nbsp;(<span class="sig-arg">geohash</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the lat-, longitudinal and radial size of this <a 
   href="pygeodesy.geohash.Geohash-class.html" class="link">Geohash</a> 
   cell.</p>
   <dl class="fields">
@@ -953,10 +1067,9 @@
           class="link">Geohash</a> or <code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>A <a href="pygeodesy.namedTuples.LatLon2Tuple-class.html" 
-          class="link">LatLon2Tuple</a><code>(lat, lon)</code> with the 
-          latitudinal height and longitudinal width in 
-          (<code>meter</code>).</dd>
+        <dd>A <a href="pygeodesy.geohash.Sizes3Tuple-class.html" 
+          class="link">Sizes3Tuple</a><code>(height, width, radius)</code>,
+          all <code>meter</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>geohash</code></b> is not a <a 
@@ -1042,7 +1155,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Jul 23 11:25:45 2024
+    Generated by Epydoc 3.0.1 on Thu Aug  1 12:30:44 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -27,13 +27,13 @@ from pygeodesy.namedTuples import EasNor2Tuple, EasNor3Tuple, \
 from pygeodesy.props import deprecated_Property_RO, Property, \
                                        Property_RO, _update_all
 from pygeodesy.streprs import Fmt, _fstrENH2, _fstrLL0, _xzipairs
-from pygeodesy.units import Bearing, Degrees, Easting, Height, _heigHt, \
+from pygeodesy.units import Azimuth, Degrees, Easting, Height, _heigHt, \
                             Lat_, Lon_, Northing, Scalar
 
 # from math import fabs  # from .karney
 
 __all__ = _ALL_LAZY.css
-__version__ = '24.06.11'
+__version__ = '24.07.25'
 
 
 def _CS0(cs0):
@@ -578,7 +578,7 @@ class EasNorAziRk4Tuple(_NamedTuple):
        C{reciprocal} of azimuthal northing scale, both in C{degrees}.
     '''
     _Names_ = (_easting_, _northing_, _azimuth_, _reciprocal_)
-    _Units_ = ( Easting,   Northing,   Bearing,   Scalar)
+    _Units_ = ( Easting,   Northing,   Azimuth,   Scalar)
 
 
 class EasNorAziRkEqu6Tuple(_NamedTuple):
@@ -589,7 +589,7 @@ class EasNorAziRkEqu6Tuple(_NamedTuple):
        C{equatorarc} and C{equatorazimuth}, all in C{degrees}.
     '''
     _Names_ = EasNorAziRk4Tuple._Names_ + ('equatorarc', 'equatorazimuth')
-    _Units_ = EasNorAziRk4Tuple._Units_ + ( Degrees,      Bearing)
+    _Units_ = EasNorAziRk4Tuple._Units_ + ( Degrees,      Azimuth)
 
 
 class LatLonAziRk4Tuple(_NamedTuple):
@@ -598,7 +598,7 @@ class LatLonAziRk4Tuple(_NamedTuple):
        C{reciprocal} the reciprocal of azimuthal northing scale.
     '''
     _Names_ = (_lat_, _lon_, _azimuth_, _reciprocal_)
-    _Units_ = ( Lat_,  Lon_,  Bearing,   Scalar)
+    _Units_ = ( Lat_,  Lon_,  Azimuth,   Scalar)
 
 
 def toCss(latlon, cs0=None, height=None, Css=Css, **name):

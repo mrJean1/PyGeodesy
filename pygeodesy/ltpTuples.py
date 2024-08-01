@@ -28,15 +28,15 @@ from pygeodesy.namedTuples import LatLon2Tuple, PhiLam2Tuple, Vector3Tuple
 from pygeodesy.props import deprecated_method, deprecated_Property_RO, \
                             Property_RO, property_RO
 from pygeodesy.streprs import Fmt, fstr, strs, _xzipairs
-from pygeodesy.units import Bearing, Degrees, Degrees_, Height, _isDegrees, \
-                           _isMeter, Lat, Lon, Meter, Meter_
+from pygeodesy.units import Azimuth, Bearing, Degrees, Degrees_, Height, \
+                           _isDegrees, _isMeter, Lat, Lon, Meter, Meter_
 from pygeodesy.utily import atan2d, atan2b, sincos2_, sincos2d_,  cos, radians
 from pygeodesy.vector3d import Vector3d
 
 # from math import cos, radians  # from .utily
 
 __all__ = _ALL_LAZY.ltpTuples
-__version__ = '24.06.28'
+__version__ = '24.07.25'
 
 _aer_        = 'aer'
 _alt_        = 'alt'
@@ -93,7 +93,7 @@ def _xyz2aer4(inst):
     '''(INTERNAL) Convert C{(x, y, z}) to C{(A, E, R)}.
     '''
     x, y, z, _ = inst.xyz4
-    A = Bearing(azimuth=atan2b(x, y))
+    A = Azimuth(atan2b(x, y))
     E = Degrees(elevation=atan2d(z, hypot(x, y)))
     R = Meter(slantrange=hypot_(x, y, z))
     return Aer4Tuple(A, E, R, inst.ltp, name=inst.name)
@@ -268,7 +268,7 @@ class Aer(_AbcBase):
         '''
         if _isDegrees(azimuth_aer):
             aer =  None
-            t   = (Bearing(azimuth=azimuth_aer),
+            t   = (Azimuth(azimuth_aer),
                    Degrees_(elevation=elevation, low=_N_90_0, high=_90_0),
                    Meter_(slantrange=slantrange), ltp)
         else:  # PYCHOK no cover
@@ -421,7 +421,7 @@ class Attitude4Tuple(_NamedTuple):
        the attitude of a plane or camera.
     '''
     _Names_ = (_alt_, _tilt_,  _yaw_,   _roll_)
-    _Units_ = ( Meter, Bearing, Degrees, Degrees)
+    _Units_ = ( Meter, Degrees, Bearing, Degrees)
 
     @Property_RO
     def atyr(self):

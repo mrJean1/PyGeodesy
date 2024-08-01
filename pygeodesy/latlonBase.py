@@ -54,7 +54,7 @@ from contextlib import contextmanager
 from math import asin, cos, degrees, fabs, radians
 
 __all__ = _ALL_LAZY.latlonBase
-__version__ = '24.07.12'
+__version__ = '24.07.29'
 
 _formy = _MODS.into(formy=__name__)
 
@@ -1534,7 +1534,7 @@ class LatLonBase(_NamedBase):
 
            @kwarg form: The lat-/longitude C{B{form}at} to use (C{str}), see
                         functions L{pygeodesy.latDMS} or L{pygeodesy.lonDMS}.
-           @kwarg joined: Separator to join the lat-, longitude and heigth
+           @kwarg joined: Separator to join the lat-, longitude and height
                           strings (C{str} or C{None} or C{NN} for non-joined).
            @kwarg m: Optional unit of the height (C{str}), use C{None} to
                      exclude height from the returned string.

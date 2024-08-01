@@ -99,10 +99,9 @@ and L{GnomonicGeodSolve} depend on I{Karney}'s C++ utility U{GeodSolve
 <https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html>} to be executable and set with
 env variable C{PYGEODESY_GEODSOLVE} or with property L{Ellipsoid.geodsolve}.
 
-Class L{Intersectool} and module L{geodesici} need I{Karney}'s C++ utility U{IntersectTool
+Class L{Intersectool} in module L{geodesici} needs I{Karney}'s C++ utility U{IntersectTool
 <https://GeographicLib.SourceForge.io/C++/doc/IntersectTool.1.html>} to be executable and set with
 env variable C{PYGEODESY_INTERSECTTOOL}.
-
 
 To compare C{MGRS} results from modules L{mgrs} and C{testMgrs} with I{Karney}'s C++ utility
 U{GeoConvert<https://GeographicLib.SourceForge.io/C++/doc/GeoConvert.1.html>}, the latter must
@@ -211,6 +210,7 @@ The following environment variables are observed by C{PyGeodesy}:
 
 and these to control standard or I{named} C{repr}esentations:
 
+ - C{PYGEODESY_AZIMUTH_STD_REPR} - see method L{Azimuth<pygeodesy.Azimuth>}C{.__repr__}.
  - C{PYGEODESY_BEARING_STD_REPR} - see method L{Bearing<pygeodesy.Bearing>}C{.__repr__}.
  - C{PYGEODESY_BOOL_STD_REPR} - see method L{Bool<pygeodesy.Bool>}C{.__repr__}.
  - C{PYGEODESY_DEGREES_STD_REPR} - see method L{Degrees<pygeodesy.Degrees>}C{.__repr__}.
@@ -507,8 +507,7 @@ if _init__all__ and not _lazy_import2:  # import and set __all__
     from pygeodesy.geodesicw             import *  # PYCHOK __all__
     from pygeodesy.geodesicx             import *  # PYCHOK __all__
     from pygeodesy.geodsolve             import *  # PYCHOK __all__
-    from pygeodesy.geohash               import Geohash, GeohashError, \
-                                                Neighbors8Dict, Resolutions2Tuple  # PYCHOK lazily
+    from pygeodesy.geohash               import *  # PYCHOK __all__
     from pygeodesy.geoids                import *  # PYCHOK __all__
     from pygeodesy.hausdorff             import *  # PYCHOK __all__
     from pygeodesy.heights               import *  # PYCHOK __all__
@@ -596,7 +595,7 @@ else:
 
 from pygeodesy.internals import _version2,  _DOT_  # PYCHOK import
 # from pygeodesy.interns import _DOT_  # from .internals
-__version__ = '24.07.24'
+__version__ = '24.08.04'
 # see setup.py for similar logic
 version     = _DOT_(*_version2(__version__, n=3))
 

@@ -572,30 +572,18 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.geohash.Geohash-class.html#sizes" class="summary-name">sizes</a><br />
-      Get the lat- and longitudinal size of this cell as a <a 
-      href="pygeodesy.namedTuples.LatLon2Tuple-class.html" 
-      class="link">LatLon2Tuple</a><code>(lat, lon)</code> in 
-      (<code>meter</code>).
+      DEPRECATED on 2024.07.28, use property <code>Geohash.sizes3</code>.
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.geohash.Geohash-class.html#N" class="summary-name">N</a><br />
-      Get the cell North of this (<a 
-      href="pygeodesy.geohash.Geohash-class.html" 
-      class="link">Geohash</a>).
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.geohash.Geohash-class.html#S" class="summary-name">S</a><br />
-      Get the cell South of this (<a 
-      href="pygeodesy.geohash.Geohash-class.html" 
-      class="link">Geohash</a>).
+        <a href="pygeodesy.geohash.Geohash-class.html#sizes3" class="summary-name">sizes3</a><br />
+      Get the lat-, longitudinal and radial size of this cell as a <a 
+      href="pygeodesy.geohash.Sizes3Tuple-class.html" 
+      class="link">Sizes3Tuple</a><code>(height, width, radius)</code>, all
+      <code>meter</code>.
     </td>
   </tr>
 <tr>
@@ -612,8 +600,8 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.geohash.Geohash-class.html#W" class="summary-name">W</a><br />
-      Get the cell West of this (<a 
+        <a href="pygeodesy.geohash.Geohash-class.html#N" class="summary-name">N</a><br />
+      Get the cell North of this (<a 
       href="pygeodesy.geohash.Geohash-class.html" 
       class="link">Geohash</a>).
     </td>
@@ -642,6 +630,16 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.geohash.Geohash-class.html#S" class="summary-name">S</a><br />
+      Get the cell South of this (<a 
+      href="pygeodesy.geohash.Geohash-class.html" 
+      class="link">Geohash</a>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.geohash.Geohash-class.html#SE" class="summary-name">SE</a><br />
       Get the cell SouthEast of this (<a 
       href="pygeodesy.geohash.Geohash-class.html" 
@@ -654,6 +652,16 @@
     </td><td class="summary">
         <a href="pygeodesy.geohash.Geohash-class.html#SW" class="summary-name">SW</a><br />
       Get the cell SouthWest of this (<a 
+      href="pygeodesy.geohash.Geohash-class.html" 
+      class="link">Geohash</a>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.geohash.Geohash-class.html#W" class="summary-name">W</a><br />
+      Get the cell West of this (<a 
       href="pygeodesy.geohash.Geohash-class.html" 
       class="link">Geohash</a>).
     </td>
@@ -719,9 +727,7 @@
         <li><strong class="pname"><code>cll</code></strong> - Cell or location (<a href="pygeodesy.geohash.Geohash-class.html" 
           class="link">Geohash</a>, <code>LatLon</code> or 
           <code>str</code>).</li>
-        <li><strong class="pname"><code>precision</code></strong> - Optional, the desired geohash length (<code>int</code> 1..12), 
-          see function <a href="pygeodesy.geohash-module.html#encode" 
-          class="link">geohash.encode</a> for some examples.</li>
+        <li><strong class="pname"><code>precision</code></strong> - Optional, the desired geohash length (<code>int</code> 1..12).</li>
         <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns: a new object with type S, a subtype of T</dt>
@@ -1047,7 +1053,7 @@
           href="pygeodesy.formy-module.html#equirectangular" 
           class="link">pygeodesy.equirectangular</a>.</li>
         <li><strong class="pname"><code>adjust_limit_wrap</code></strong> - Optional keyword arguments for function <a 
-          href="pygeodesy.formy-module.html#equirectangular4" 
+          href="pygeodesy.geohash-module.html#equirectangular4" 
           class="link">pygeodesy.equirectangular4</a>, overriding defaults 
           <code><b>adjust</b>=False, <b>limit</b>=None</code> and 
           <code><b>wrap</b>=False</code>.</li>
@@ -1390,17 +1396,12 @@ class="link">PhiLam2Tuple</a><code>(phi, lam)</code> in
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">sizes</h3>
-  <p>Get the lat- and longitudinal size of this cell as a <a 
-  href="pygeodesy.namedTuples.LatLon2Tuple-class.html" 
-  class="link">LatLon2Tuple</a><code>(lat, lon)</code> in 
-  (<code>meter</code>).</p>
+  <p>DEPRECATED on 2024.07.28, use property 
+  <code>Geohash.sizes3</code>.</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">sizes(<span class="summary-sig-arg">self</span>)</span>
-        - Get the lat- and longitudinal size of this cell as a <a 
-href="pygeodesy.namedTuples.LatLon2Tuple-class.html" 
-class="link">LatLon2Tuple</a><code>(lat, lon)</code> in 
-(<code>meter</code>).
+        - DEPRECATED on 2024.07.28, use property <code>Geohash.sizes3</code>.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -1414,47 +1415,23 @@ class="link">LatLon2Tuple</a><code>(lat, lon)</code> in
   </dl>
 </td></tr></table>
 </div>
-<a name="N"></a>
+<a name="sizes3"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
-  <h3 class="epydoc">N</h3>
-  <p>Get the cell North of this (<a 
-  href="pygeodesy.geohash.Geohash-class.html" 
-  class="link">Geohash</a>).</p>
+  <h3 class="epydoc">sizes3</h3>
+  <p>Get the lat-, longitudinal and radial size of this cell as a <a 
+  href="pygeodesy.geohash.Sizes3Tuple-class.html" 
+  class="link">Sizes3Tuple</a><code>(height, width, radius)</code>, all 
+  <code>meter</code>.</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">N(<span class="summary-sig-arg">self</span>)</span>
-        - Get the cell North of this (<a href="pygeodesy.geohash.Geohash-class.html" 
-class="link">Geohash</a>).
-    </dd>
-    <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">val</span>)</span>
-        - Throws an <code>AttributeError</code>, always.
-    </dd>
-    <dt>Delete Method:</dt>
-    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
-        - Zap the <i>cached/memoized</i> <code>property</code> value.
-    </dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="S"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">S</h3>
-  <p>Get the cell South of this (<a 
-  href="pygeodesy.geohash.Geohash-class.html" 
-  class="link">Geohash</a>).</p>
-  <dl class="fields">
-    <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">S(<span class="summary-sig-arg">self</span>)</span>
-        - Get the cell South of this (<a href="pygeodesy.geohash.Geohash-class.html" 
-class="link">Geohash</a>).
+    <dd class="value"><span class="summary-sig">sizes3(<span class="summary-sig-arg">self</span>)</span>
+        - Get the lat-, longitudinal and radial size of this cell as a <a 
+href="pygeodesy.geohash.Sizes3Tuple-class.html" 
+class="link">Sizes3Tuple</a><code>(height, width, radius)</code>, all 
+<code>meter</code>.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -1495,19 +1472,19 @@ class="link">Geohash</a>).
   </dl>
 </td></tr></table>
 </div>
-<a name="W"></a>
+<a name="N"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
-  <h3 class="epydoc">W</h3>
-  <p>Get the cell West of this (<a 
+  <h3 class="epydoc">N</h3>
+  <p>Get the cell North of this (<a 
   href="pygeodesy.geohash.Geohash-class.html" 
   class="link">Geohash</a>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">W(<span class="summary-sig-arg">self</span>)</span>
-        - Get the cell West of this (<a href="pygeodesy.geohash.Geohash-class.html" 
+    <dd class="value"><span class="summary-sig">N(<span class="summary-sig-arg">self</span>)</span>
+        - Get the cell North of this (<a href="pygeodesy.geohash.Geohash-class.html" 
 class="link">Geohash</a>).
     </dd>
     <dt>Set method:</dt>
@@ -1576,6 +1553,33 @@ href="pygeodesy.geohash.Geohash-class.html" class="link">Geohash</a>).
   </dl>
 </td></tr></table>
 </div>
+<a name="S"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">S</h3>
+  <p>Get the cell South of this (<a 
+  href="pygeodesy.geohash.Geohash-class.html" 
+  class="link">Geohash</a>).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">S(<span class="summary-sig-arg">self</span>)</span>
+        - Get the cell South of this (<a href="pygeodesy.geohash.Geohash-class.html" 
+class="link">Geohash</a>).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="SE"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1630,6 +1634,33 @@ href="pygeodesy.geohash.Geohash-class.html" class="link">Geohash</a>).
   </dl>
 </td></tr></table>
 </div>
+<a name="W"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">W</h3>
+  <p>Get the cell West of this (<a 
+  href="pygeodesy.geohash.Geohash-class.html" 
+  class="link">Geohash</a>).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">W(<span class="summary-sig-arg">self</span>)</span>
+        - Get the cell West of this (<a href="pygeodesy.geohash.Geohash-class.html" 
+class="link">Geohash</a>).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
 <br />
 <!-- ==================== NAVIGATION BAR ==================== -->
 <table class="navbar" border="0" width="100%" cellpadding="0"
@@ -1662,7 +1693,7 @@ href="pygeodesy.geohash.Geohash-class.html" class="link">Geohash</a>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Jul 23 11:25:47 2024
+    Generated by Epydoc 3.0.1 on Thu Aug  1 12:30:46 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -48,7 +48,7 @@ __all__ = ('coverage', 'GeodSolve', 'geographiclib',  # constants
            'numpy', 'PyGeodesy_dir', 'PythonX', 'scipy', 'test_dir',
            'RandomLatLon', 'TestsBase',  # classes
            'secs2str', 'tilde', 'type2str', 'versions')  # functions
-__version__ = '24.07.03'
+__version__ = '24.08.01'
 
 try:
     geographiclib = basics._xgeographiclib(basics, 1, 50)
@@ -528,7 +528,7 @@ def type2str(obj, attr, **renamed):
 
 
 def versions():
-    '''Get pygeodesy, Python versions, bits, machine, OS name,
+    '''Get pygeodesy, Python versions, bits, machine, OS,
        env variables and packages.
     '''
     vs = TestsBase._versions

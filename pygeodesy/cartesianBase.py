@@ -43,7 +43,7 @@ from pygeodesy.vector3d import Vector3d, _xyzhdlln4
 # from math import atan2, degrees, fabs, radians, sqrt  # from .fmath, .utily
 
 __all__ = _ALL_LAZY.cartesianBase
-__version__ = '24.07.12'
+__version__ = '24.07.29'
 
 _r_     = 'r'
 _theta_ = 'theta'
@@ -300,7 +300,7 @@ class CartesianBase(Vector3d):
                     coordinates I{at height} in C{meter}, conventionally.
 
            @note: This cartesian's coordinates are returned if B{C{earth}} and this
-                  datum or B{C{heigth}} and/or this height are C{None} or undefined.
+                  datum or B{C{height}} and/or this height are C{None} or undefined.
 
            @note: Include keyword argument C{B{datum}=None} if class B{C{Cartesian}}
                   does not accept a B{C{datum}} keyword agument.

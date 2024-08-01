@@ -155,14 +155,14 @@ from pygeodesy.interns import NN, _2_, _a12_, _area_, _azi1_, _azi2_, _azi12_, \
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, _getenv
 from pygeodesy.named import ADict, _NamedBase, _NamedTuple, notImplemented, _Pass
 from pygeodesy.props import deprecated_method, Property_RO, property_ROnce
-from pygeodesy.units import Bearing as _Azi, Degrees as _Deg, Lat, Lon, \
+from pygeodesy.units import Azimuth as _Azi, Degrees as _Deg, Lat, Lon, \
                             Meter as _M, Meter2 as _M2, Number_
 from pygeodesy.utily import atan2d, sincos2d, tand, _unrollon,  fabs
 
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.karney
-__version__ = '24.07.16'
+__version__ = '24.07.25'
 
 _K_2_0      = _getenv('PYGEODESY_GEOGRAPHICLIB', _2_) == _2_
 _perimeter_ = 'perimeter'

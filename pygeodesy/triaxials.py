@@ -59,7 +59,7 @@ from pygeodesy.vector3d import _otherV3d, Vector3d,  _ALL_LAZY, _MODS
 from math import atan2, fabs, sqrt
 
 __all__ = _ALL_LAZY.triaxials
-__version__ = '24.07.12'
+__version__ = '24.07.29'
 
 _not_ordered_ = _not_('ordered')
 _omega_       = 'omega'
@@ -364,7 +364,7 @@ class Triaxial_(_NamedEnumItem):
     def _Elliptic(self):
         '''(INTERNAL) Get class L{Elliptic}, I{once}.
         '''
-        return _MODS.elliptic.Elliptic  # overwrite propertyROver
+        return _MODS.elliptic.Elliptic  # overwrite property_ROver
 
     def hartzell4(self, pov, los=False, **name):
         '''Compute the intersection of this triaxial's surface with a Line-Of-Sight
@@ -753,7 +753,7 @@ class Triaxial(Triaxial_):
         return self.height4(x_xyz, y, z, **normal_eps_name)
 
     def forwardLatLon(self, lat, lon, height=0, **name):
-        '''Convert I{geodetic} lat-, longitude and heigth to cartesian.
+        '''Convert I{geodetic} lat-, longitude and height to cartesian.
 
            @arg lat: Geodetic latitude (C{degrees}).
            @arg lon: Geodetic longitude (C{degrees}).
@@ -769,7 +769,7 @@ class Triaxial(Triaxial_):
         return self._forwardLatLon3(height, name, *sincos2d_(lat, lon))
 
     def forwardLatLon_(self, slat, clat, slon, clon, height=0, **name):
-        '''Convert I{geodetic} lat-, longitude and heigth to cartesian.
+        '''Convert I{geodetic} lat-, longitude and height to cartesian.
 
            @arg slat: Geodetic latitude C{sin(lat)} (C{scalar}).
            @arg clat: Geodetic latitude C{cos(lat)} (C{scalar}).

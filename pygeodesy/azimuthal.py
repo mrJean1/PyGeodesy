@@ -62,7 +62,7 @@ from pygeodesy.namedTuples import LatLon2Tuple, LatLon4Tuple
 from pygeodesy.props import deprecated_Property_RO, Property_RO, \
                             property_doc_, _update_all
 from pygeodesy.streprs import Fmt, _fstrLL0, unstr
-from pygeodesy.units import Bearing, Easting, Lat_, Lon_, Northing, \
+from pygeodesy.units import Azimuth, Easting, Lat_, Lon_, Northing, \
                             Scalar, Scalar_
 from pygeodesy.utily import asin1, atan1, atan2b, atan2d, sincos2, \
                             sincos2d, sincos2d_
@@ -70,7 +70,7 @@ from pygeodesy.utily import asin1, atan1, atan2b, atan2d, sincos2, \
 from math import acos, atan2, degrees, fabs, sin, sqrt
 
 __all__ = _ALL_LAZY.azimuthal
-__version__ = '24.06.11'
+__version__ = '24.07.25'
 
 _EPS_K         = _EPStol * _0_1  # Karney's eps_ or _EPSmin * _0_1?
 _over_horizon_ = 'over horizon'
@@ -323,7 +323,7 @@ class Azimuthal7Tuple(_NamedTuple):
        C{1} or C{-1} in the L{Equidistant} case.
     '''
     _Names_ = (_x_,     _y_,      _lat_, _lon_, _azimuth_, _scale_, _datum_)
-    _Units_ = ( Easting, Northing, Lat_,  Lon_,  Bearing,   Scalar, _Pass)
+    _Units_ = ( Easting, Northing, Lat_,  Lon_,  Azimuth,   Scalar, _Pass)
 
     def antipodal(self, azimuth=None):
         '''Return this tuple with the antipodal C{lat} and C{lon}.
@@ -332,7 +332,7 @@ class Azimuthal7Tuple(_NamedTuple):
                            (C{compass degrees360}).
         '''
         a = _MODS.formy.antipode(self.lat, self.lon)  # PYCHOK named
-        z = self.azimuth if azimuth is None else Bearing(azimuth=azimuth)  # PYCHOK named
+        z = self.azimuth if azimuth is None else Azimuth(azimuth)  # PYCHOK named
         return _NamedTuple.dup(self, lat=a.lat, lon=a.lon, azimuth=z)
 
 

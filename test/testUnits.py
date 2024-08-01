@@ -4,11 +4,11 @@
 # Test L{units} module.
 
 __all__ = ('Tests',)
-__version__ = '23.06.15'
+__version__ = '24.07.25'
 
 from bases import TestsBase
 
-from pygeodesy import Band, Bearing, Bearing_, Bool, \
+from pygeodesy import Azimuth, Band, Bearing, Bearing_, Bool, \
                       Epoch, Epsg, FIx, Garef, Geohash, Georef, \
                       Int, Int_, Number_, Precision_, Lamd, Phid, \
                       Str, Zone, Float, units
@@ -83,8 +83,8 @@ class Tests(TestsBase):
 
     def testUnits(self):
         for U in self.pygeodesy_classes_(_NamedUnit,
-                 Band, Bool, Bearing_, _EasNorBase, Epoch, Epsg, FIx,
-                 Garef, Geohash, Georef, Int, Int_, Number_, Precision_,
+                 Azimuth, Band, Bool, Bearing_, _EasNorBase, Epoch, Epsg,
+                 FIx, Garef, Geohash, Georef, Int, Int_, Number_, Precision_,
                  Str, Lamd, Phid, Zone, _NamedUnit):
             self.testUnit(U, 1.0)  # sample
 
@@ -101,6 +101,8 @@ class Tests(TestsBase):
             self.testUnit(U, 1901, known=True)
 
         self.subtitle(units)  # courtesy of JaapZee at Gmail
+        self.test(Azimuth.__name__,  Azimuth(361), 1.0, nl=1)
+
         self.test(Bearing.__name__,  Bearing(361), 1.0, nl=1)
         self.test(Bearing_.__name__, Bearing_(361), 0.01745, fmt='%.5f')
 
