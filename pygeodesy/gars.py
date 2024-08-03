@@ -3,33 +3,33 @@
 
 u'''I{Global Area Reference System} (GARS) en-/decoding.
 
-Classes L{Garef} and L{GARSError} and several functions to encode,
-decode and inspect I{Global Area Reference System} (GARS) references.
+Class L{Garef} and several functions to encode, decode and inspect
+GARS references.
 
-Transcoded from C++ class U{GARS
-<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1GARS.html>}
-by I{Charles Karney}.  See also U{Global Area Reference System
-<https://WikiPedia.org/wiki/Global_Area_Reference_System>} and U{NGA (GARS)
-<https://Earth-Info.NGA.mil/GandG/coordsys/grids/gars.html>}.
+Transcoded from I{Charles Karney}'s C++ class U{GARS
+<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1GARS.html>}.
+
+@see: U{Global Area Reference System
+      <https://WikiPedia.org/wiki/Global_Area_Reference_System>} and U{NGA
+      (GARS)<https://Earth-Info.NGA.mil/GandG/coordsys/grids/gars.html>}.
 '''
 
 # from pygeodesy.basics import isstr  # from .named
 from pygeodesy.constants import _off90, _1_over, _0_5, \
                                 _1_0  # PYCHOK used!
-from pygeodesy.dms import parse3llh,   Fmt  # parseDMS2
 from pygeodesy.errors import _ValueError, _xkwds, _xStrError
-from pygeodesy.interns import NN, _0to9_, _AtoZnoIO_, _COMMA_
+from pygeodesy.interns import NN, _0to9_, _AtoZnoIO_, _COMMA_, _SPACE_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
-from pygeodesy.named import _name__,  isstr, Property_RO
+from pygeodesy.named import _name__,  Fmt, isstr, Property_RO
 from pygeodesy.namedTuples import LatLon2Tuple, LatLonPrec3Tuple
 # from pygeodesy.props import Property_RO  # from .named
-# from pygeodesy.streprs import Fmt  # from .dms
+# from pygeodesy.streprs import Fmt  # from .named
 from pygeodesy.units import Int_, Lat, Lon, Precision_, Scalar_, Str
 
 from math import floor
 
 __all__ = _ALL_LAZY.gars
-__version__ = '24.06.15'
+__version__ = '24.08.02'
 
 _Digits  = _0to9_
 _LatLen  =    2
@@ -88,7 +88,7 @@ def _2garstr2(garef):
         if n < _MinLen or n > _MaxLen \
                        or garstr[:3] == 'INV' \
                        or not garstr.isalnum():
-            raise ValueError
+            raise ValueError()
         return garstr, _2Precision(n - _MinLen)
 
     except (AttributeError, TypeError, ValueError) as x:
@@ -111,45 +111,45 @@ class Garef(Str):
     '''Garef class, a named C{str}.
     '''
     # no str.__init__ in Python 3
-    def __new__(cls, cll, precision=1, **name):
-        '''New L{Garef} from an other L{Garef} instance or garef
-           C{str} or from a C{LatLon} instance or lat-/longitude C{str}.
+    def __new__(cls, lat_gll, lon=None, precision=1, **name):
+        '''New L{Garef} from an other L{Garef} instance or garef C{str}
+           or from a lat- and longitude.
 
-           @arg cll: Cell or location (L{Garef} or C{str}, C{LatLon}
-                     or C{str}).
-           @kwarg precision: Optional, the desired garef resolution
-                             and length (C{int} 0..2), see function
-                             L{gars.encode} for more details.
+           @arg lat_gll: Latitude (C{degrees90}), a garef (L{Garef},
+                         C{str}) or a location (C{LatLon}, C{LatLon*Tuple}).
+           @kwarg lon: Logitude (C{degrees180)}, required if B{C{lat_gll}}
+                       is C{degrees90}, ignored otherwise.
+           @kwarg precision: The desired garef resolution and length (C{int}
+                             0..2), see L{encode<pygeodesy.gars.encode>}.
            @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @return: New L{Garef}.
 
-           @raise RangeError: Invalid B{C{cll}} lat- or longitude.
+           @raise GARSError: INValid B{C{lat_gll}}.
 
-           @raise TypeError: Invalid B{C{cll}}.
+           @raise RangeError: Invalid B{C{lat_gll}} or B{C{lon}}.
 
-           @raise GARSError: INValid or non-alphanumeric B{C{cll}}.
+           @raise TypeError: Invalid B{C{lat_gll}} or B{C{lon}}.
         '''
-        ll = p = None
+        if lon is None:
+            if isinstance(lat_gll, Garef):
+                g, ll, p = str(lat_gll), lat_gll.latlon, lat_gll.precision
+            elif isstr(lat_gll):
+                ll = lat_gll.replace(_COMMA_, _SPACE_).split()
+                if len(ll) > 1:
+                    g, ll, p = _encode3(ll[0], ll[1], precision)
+                else:
+                    g, ll =  lat_gll.upper(), None
+                    _, p  = _2garstr2(g)  # validate
+            else:  # assume LatLon
+                try:
+                    g, ll, p = _encode3(lat_gll.lat, lat_gll.lon, precision)
+                except AttributeError:
+                    raise _xStrError(Garef, gll=lat_gll, Error=GARSError)
+        else:
+            g, ll, p = _encode3(lat_gll, lon, precision)
 
-        if isinstance(cll, Garef):
-            g, p = _2garstr2(str(cll))
-
-        elif isstr(cll):
-            if _COMMA_ in cll:
-                ll = _2fll(*parse3llh(cll))
-                g  =  encode(*ll, precision=precision)  # PYCHOK false
-            else:
-                g = cll.upper()
-
-        else:  # assume LatLon
-            try:
-                ll = _2fll(cll.lat, cll.lon)
-                g  =  encode(*ll, precision=precision)  # PYCHOK false
-            except AttributeError:
-                raise _xStrError(Garef, cll=cll)  # Error=GARSError
-
-        self = Str.__new__(cls, g, name=_name__(name, _or_nameof=cll))
+        self = Str.__new__(cls, g, name=_name__(name, _or_nameof=lat_gll))
         self._latlon    = ll
         self._precision = p
         return self
@@ -251,7 +251,7 @@ def decode3(garef, center=True, **name):
                             precision, name=n)
 
 
-def encode(lat, lon, precision=1):  # MCCABE 14
+def encode(lat, lon, precision=1):
     '''Encode a lat-/longitude as a C{garef} of the given precision.
 
        @arg lat: Latitude (C{degrees}).
@@ -269,6 +269,13 @@ def encode(lat, lon, precision=1):  # MCCABE 14
               resolution is B{30′} for B{C{precision}} 0, B{15′} for 1
               and B{5′} for 2, respectively.
     '''
+    g, _, _ = _encode3(lat, lon, precision)
+    return g
+
+
+def _encode3(lat, lon, precision):  # MCCABE 14
+    '''Return 3-tuple C{(garef, (lat, lon), p)}.
+    '''
     def _digit(x, y, m):
         return _Digits[m * (m - y - 1) + x + 1],
 
@@ -282,12 +289,12 @@ def encode(lat, lon, precision=1):  # MCCABE 14
     p = _2Precision(precision)
 
     lat, lon = _2fll(lat, lon)
-    lat = _off90(lat)
 
-    ix, x = _2divmod2(lon, _LonOrig_M4)
-    iy, y = _2divmod2(lat, _LatOrig_M4)
+    ix, x = _2divmod2(       lon,  _LonOrig_M4)
+    iy, y = _2divmod2(_off90(lat), _LatOrig_M4)
 
-    g = _str(_Digits, ix + 1, _LonLen) + _str(_Letters, iy, _LatLen)
+    g = _str(_Digits,  ix + 1, _LonLen) + \
+        _str(_Letters, iy,     _LatLen)
     if p > 0:
         ix, x = divmod(x, _M3)
         iy, y = divmod(y, _M3)
@@ -295,7 +302,7 @@ def encode(lat, lon, precision=1):  # MCCABE 14
         if p > 1:
             g += _digit(x, y, _M3)
 
-    return NN.join(g)
+    return NN.join(g), (lat, lon), p
 
 
 def precision(res):

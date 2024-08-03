@@ -24,10 +24,10 @@ from pygeodesy.props import Property_RO
 # from pygeodesy.streprs import Fmt, fstr  # from .unitsBase
 from pygeodesy.unitsBase import Float, Int, _NamedUnit, Radius, Str,  Fmt, fstr
 
-from math import degrees, radians
+from math import degrees, isnan, radians
 
 __all__ = _ALL_LAZY.units
-__version__ = '24.07.29'
+__version__ = '24.08.02'
 
 
 class Float_(Float):
@@ -840,13 +840,13 @@ def _toUnit(Unit, arg, name=NN, **Error):
 
 
 def _xlimits(arg, low, high, g=False):
-    '''(INTERNAL) Check C{low <= unit <= high}.
+    '''(INTERNAL) Check C{low <= arg <= high}.
     '''
-    if (low is not None) and arg < low:
+    if (low is not None) and (arg < low or isnan(arg)):
         if g:
             low = Fmt.g(low, prec=6, ints=isinstance(arg, Epoch))
         t = Fmt.limit(below=low)
-    elif (high is not None) and arg > high:
+    elif (high is not None) and (arg > high or isnan(arg)):
         if g:
             high = Fmt.g(high, prec=6, ints=isinstance(arg, Epoch))
         t = Fmt.limit(above=high)

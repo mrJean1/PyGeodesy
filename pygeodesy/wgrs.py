@@ -1,21 +1,22 @@
 
 # -*- coding: utf-8 -*-
 
-u'''World Geographic Reference System (WGRS) en-/decoding.
+u'''World Geographic Reference System (WGRS) en-/decoding, aka GEOREF.
 
-Classes L{Georef} and L{WGRSError} and several functions to encode,
-decode and inspect WGRS references.
+Class L{Georef} and several functions to encode, decode and inspect
+WGRS (or GEOREF) references.
 
 Transcoded from I{Charles Karney}'s C++ class U{Georef
 <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Georef.html>},
-but with modified C{precision} and extended with C{height} and C{radius}.  See
-also U{World Geographic Reference System
-<https://WikiPedia.org/wiki/World_Geographic_Reference_System>}.
+but with modified C{precision} and extended with C{height} and C{radius}.
+
+@see: U{World Geographic Reference System
+      <https://WikiPedia.org/wiki/World_Geographic_Reference_System>}.
 '''
 # from pygeodesy.basics import isstr  # from .named
 from pygeodesy.constants import INT0, _float, _off90, _0_001, \
                                _0_5, _1_0, _2_0, _60_0, _1000_0
-from pygeodesy.dms import parse3llh  # parseDMS2
+from pygeodesy.dms import parse3llh
 from pygeodesy.errors import _ValueError, _xattr, _xStrError
 from pygeodesy.interns import NN, _0to9_, _AtoZnoIO_, _COMMA_, \
                              _height_, _radius_, _SPACE_
@@ -31,13 +32,12 @@ from pygeodesy.utily import ft2m, m2ft, m2NM
 from math import floor
 
 __all__ = _ALL_LAZY.wgrs
-__version__ = '24.06.15'
+__version__ = '24.08.02'
 
 _Base    =  10
 _BaseLen =  4
 _DegChar = _AtoZnoIO_.tillQ
 _Digits  = _0to9_
-_Height_ =  Height.__name__
 _INV_    = 'INV'  # INValid
 _LatOrig = -90
 _LatTile = _AtoZnoIO_.tillM
@@ -45,7 +45,6 @@ _LonOrig = -180
 _LonTile = _AtoZnoIO_
 _60B     =  60000000000  # == 60_000_000_000 == 60e9
 _MaxPrec =  11
-_Radius_ =  Radius.__name__
 _Tile    =  15  # tile size in degrees
 
 _MaxLen  = _BaseLen + 2 * _MaxPrec
@@ -68,15 +67,15 @@ def _divmod3(x, _Orig_60B):
     return xt, xd, x
 
 
-def _fllh3(lat, lon, height=None):
-    '''(INTERNAL) Convert lat, lon, height.
+def _2fll(lat, lon):
+    '''(INTERNAL) Convert lat, lon.
     '''
     # lat, lon = parseDMS2(lat, lon)
     return (Lat(lat, Error=WGRSError),
-            Lon(lon, Error=WGRSError), height)
+            Lon(lon, Error=WGRSError))
 
 
-def _geostr2(georef):
+def _2geostr2(georef):
     '''(INTERNAL) Check a georef string.
     '''
     try:
@@ -85,14 +84,14 @@ def _geostr2(georef):
         if o or n < _MinLen or n > _MaxLen \
              or geostr[:3] == _INV_ \
              or not geostr.isalnum():
-            raise ValueError
-        return geostr, _Precision(p - 1)
+            raise ValueError()
+        return geostr, _2Precision(p - 1)
 
     except (AttributeError, TypeError, ValueError) as x:
         raise WGRSError(Georef.__name__, georef, cause=x)
 
 
-def _Precision(precision):
+def _2Precision(precision):
     '''(INTERNAL) Return a L{Precision_} instance.
     '''
     return Precision_(precision, Error=WGRSError, low=0, high=_MaxPrec)
@@ -108,48 +107,51 @@ class Georef(Str):
     '''Georef class, a named C{str}.
     '''
     # no str.__init__ in Python 3
-    def __new__(cls, cll, precision=3, name=NN):
+    def __new__(cls, lat_gll, lon=None, height=None, precision=3, name=NN):
         '''New L{Georef} from an other L{Georef} instance or georef
            C{str} or from a C{LatLon} instance or lat-/longitude C{str}.
 
-           @arg cll: Cell or location (L{Georef} or C{str}, C{LatLon}
-                     or C{str}).
-           @kwarg precision: Optional, the desired georef resolution
-                             and length (C{int} 0..11), see function
-                             L{wgrs.encode} for more details.
+           @arg lat_gll: Latitude (C{degrees90}), a georef (L{Georef},
+                         C{str}) or a location (C{LatLon}, C{LatLon*Tuple}).
+           @kwarg lon: Logitude (C{degrees180)}, required if B{C{lat_gll}}
+                       is C{degrees90}, ignored otherwise.
+           @kwarg height: Optional height in C{meter}, used if B{C{lat_gll}}
+                          is a location.
+           @kwarg precision: The desired georef resolution and length (C{int}
+                             0..11), see L{encode<pygeodesy.wgrs.encode>}.
            @kwarg name: Optional name (C{str}).
 
            @return: New L{Georef}.
 
-           @raise RangeError: Invalid B{C{cll}} lat- or longitude.
+           @raise RangeError: Invalid B{C{lat_gll}} or B{C{lon}}.
 
-           @raise TypeError: Invalid B{C{cll}}.
+           @raise TypeError: Invalid B{C{lat_gll}} or B{C{lon}}.
 
-           @raise WGRSError: INValid or non-alphanumeric B{C{cll}}.
+           @raise WGRSError: INValid B{C{lat_gll}}.
         '''
-        ll = p = None
+        if lon is None:
+            if isinstance(lat_gll, Georef):
+                g, ll, p = str(lat_gll), lat_gll.latlon, lat_gll.precision
+            elif isstr(lat_gll):
+                if _COMMA_ in lat_gll or _SPACE_ in lat_gll:
+                    lat, lon, h = parse3llh(lat_gll, height=height)
+                    g, ll, p = _encode3(lat, lon, precision, h=h)
+                else:
+                    g, ll = lat_gll.upper(), None
+                    try:
+                        _, p = _2geostr2(g)  # validate
+                    except WGRSError:  # R00H00?
+                        p = None  # = decode5(g).precision?
+            else:  # assume LatLon
+                try:
+                    g, ll, p = _encode3(lat_gll.lat, lat_gll.lon, precision,
+                                        h=_xattr(lat_gll, height=height))
+                except AttributeError:
+                    raise _xStrError(Georef, gll=lat_gll)  # Error=WGRSError
+        else:
+            g, ll, p = _encode3(lat_gll, lon, precision, h=height)
 
-        if isinstance(cll, Georef):
-            g, p = _geostr2(str(cll))
-
-        elif isstr(cll):
-            if _COMMA_ in cll:
-                lat, lon, h = _fllh3(*parse3llh(cll, height=None))
-                g  = encode(lat, lon, precision=precision, height=h)  # PYCHOK false
-                ll = lat, lon  # original lat, lon
-            else:
-                g = cll.upper()
-
-        else:  # assume LatLon
-            try:
-                lat, lon, h = _fllh3(cll.lat, cll.lon)
-            except AttributeError:
-                raise _xStrError(Georef, cll=cll)  # Error=WGRSError
-            h  = _xattr(cll, height=h)
-            g  =  encode(lat, lon, precision=precision, height=h)  # PYCHOK false
-            ll =  lat, lon  # original lat, lon
-
-        self = Str.__new__(cls, g, name=name or nameof(cll))
+        self = Str.__new__(cls, g, name=name or nameof(lat_gll))
         self._latlon    = ll
         self._precision = p
         return self
@@ -255,7 +257,7 @@ def decode3(georef, center=True):
             raise _Error(i)
         return k
 
-    g, precision = _geostr2(georef)
+    g, precision = _2geostr2(georef)
     lon = _index(_LonTile, g, 0) + _LonOrig_Tile
     lat = _index(_LatTile, g, 1) + _LatOrig_Tile
 
@@ -288,30 +290,29 @@ def decode5(georef, center=True):
        @kwarg center: If C{True} the center, otherwise the south-west,
                       lower-left corner (C{bool}).
 
-       @return: A L{LatLonPrec5Tuple}C{(lat, lon,
-                precision, height, radius)} where C{height} and/or
-                C{radius} are C{None} if missing.
+       @return: A L{LatLonPrec5Tuple}C{(lat, lon, precision, height, radius)}
+                where C{height} and/or C{radius} are C{None} if missing.
 
-       @raise WGRSError: Invalid B{C{georef}}, INValid, non-alphanumeric
-                         or odd length B{C{georef}}.
+       @raise WGRSError: Invalid B{C{georef}}.
     '''
-    def _h2m(kft, name):
-        return Height(ft2m(kft * _1000_0), name=name, Error=WGRSError)
+    def _h2m(kft, g_n):
+        return Height(ft2m(kft * _1000_0), name=g_n, Error=WGRSError)
 
-    def _r2m(NM, name):
-        return Radius(NM / m2NM(1), name=name, Error=WGRSError)
+    def _r2m(NM, g_n):
+        return Radius(NM / m2NM(1), name=g_n, Error=WGRSError)
 
-    def _split2(g, name, _2m):
-        i = max(g.find(name[0]), g.rfind(name[0]))
+    def _split2(g, Unit, _2m):
+        n = Unit.__name__
+        i = max(g.find(n[0]), g.rfind(n[0]))
         if i > _BaseLen:
-            return g[:i], _2m(int(g[i+1:]), _SPACE_(georef, name))
+            return g[:i], _2m(int(g[i+1:]), _SPACE_(georef, n))
         else:
             return g, None
 
     g = Str(georef, Error=WGRSError)
 
-    g, h = _split2(g, _Height_, _h2m)  # H is last
-    g, r = _split2(g, _Radius_, _r2m)  # R before H
+    g, h = _split2(g, Height, _h2m)  # H is last
+    g, r = _split2(g, Radius, _r2m)  # R before H
 
     return decode3(g, center=center).to5Tuple(h, r)
 
@@ -345,30 +346,39 @@ def encode(lat, lon, precision=3, height=None, radius=None):  # MCCABE 14
         f = Scalar_(m, name=name, Error=WGRSError)
         return NN(name[0].upper(), int(m2_(f * K) + _0_5))
 
-    p = _Precision(precision)
-
-    lat, lon, _ = _fllh3(lat, lon)
-    lat = _off90(lat)
-
-    xt, xd, x = _divmod3(lon, _LonOrig_60B)
-    yt, yd, y = _divmod3(lat, _LatOrig_60B)
-
-    g = _LonTile[xt], _LatTile[yt]
-    if p > 0:
-        g += _DegChar[xd], _DegChar[yd]
-        p -= 1
-        if p > 0:
-            d =  pow(_Base, _MaxPrec - p)
-            x = _0wd(p, x // d)
-            y = _0wd(p, y // d)
-            g += x, y
-
+    g, _, _ = _encode3(lat, lon, precision)
     if radius is not None:  # R before H
-        g += _option(_radius_, radius, m2NM, _1_0),
+        g += _option(_radius_, radius, m2NM, _1_0)
     if height is not None:  # H is last
-        g += _option(_height_, height, m2ft, _0_001),
+        g += _option(_height_, height, m2ft, _0_001)
+    return g
 
-    return NN.join(g)  # XXX Georef(''.join(g))
+
+def _encode3(lat, lon, precision, h=None):
+    '''Return 3-tuple C{(georef, (lat, lon), p)}.
+    '''
+    p = _2Precision(precision)
+
+    lat, lon = _2fll(lat, lon)
+
+    if h is None:
+        xt, xd, x = _divmod3(       lon,  _LonOrig_60B)
+        yt, yd, y = _divmod3(_off90(lat), _LatOrig_60B)
+
+        g = _LonTile[xt], _LatTile[yt]
+        if p > 0:
+            g += _DegChar[xd], _DegChar[yd]
+            p -= 1
+            if p > 0:
+                d =  pow(_Base, _MaxPrec - p)
+                x = _0wd(p, x // d)
+                y = _0wd(p, y // d)
+                g += x, y
+        g = NN.join(g)
+    else:
+        g = encode(lat, lon, precision=p, height=h)
+
+    return g, (lat, lon), p  # XXX Georef(''.join(g))
 
 
 def precision(res):

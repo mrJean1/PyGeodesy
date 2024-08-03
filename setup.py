@@ -26,7 +26,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '24.07.14'
+__version__ = '24.08.02'
 
 
 def _c2(*names):
@@ -66,7 +66,7 @@ _KeyWords = ('AER', 'Albers', 'altitude', 'Andoyer', 'annulus', 'antipode', 'are
              'footprint', 'Forster', 'Forster-Hormann-Popa', 'Forsythe', 'FOV',
              'fractional', 'Frechet', 'Fréchet', 'frustum', 'Fsum',
              'GARS', 'geocentric', 'GeoConvert', 'GeodesicExact', 'geodesy', 'geodetic', 'GeodSolve', 'GeodTest',
-             'geographiclib', 'geohash', 'geoid', 'geoidHeight', 'GeoidHeights',
+             'geographiclib', 'Geohash', 'geoid', 'geoidHeight', 'GeoidHeights',
              'georef', 'Girard', 'gnomonic', 'gons', 'grades', 'gradians', 'Greiner', 'Greiner-Hormann',
              'Hartzell', 'Hausdorff', 'Haversine', 'heading', 'height', 'Heron',
              'Hodgman', 'horizon', 'Hormann', 'Hubeny',
@@ -80,7 +80,7 @@ _KeyWords = ('AER', 'Albers', 'altitude', 'Andoyer', 'annulus', 'antipode', 'are
              'LocalCartesian', 'local-tangent-plane', 'local-x-y-z', 'longitude', 'LOS', 'loxodrome',
              'lstsq', 'LTP', 'lune', 'LV03', 'LV95',
              'mean', 'memoize', 'memoized', 'Mercator', 'Meeus', 'MGRS',
-             'nearest', 'NED', 'normalize', 'Norrdine', 'north-east-down', 'numpy', 'n-vector', 'Nvector',
+             'nearest', 'NED', 'Niemeyer', 'normalize', 'Norrdine', 'north-east-down', 'numpy', 'n-vector', 'Nvector',
              'oblate', 'omega', 'orthographic', 'orthometric-height', 'OSGB', 'OSGR', 'overlap',
              'parallel', 'parallel-of-latitude', 'Parametric', 'path-intersection',
              'perimeter', 'Peucker', 'Pierlot', 'pitch', 'plumb', 'Point-Of-View', 'polar', 'Popa', 'POV',
@@ -137,9 +137,9 @@ setup(name='PyGeodesy',
                    _c2('Programming Language', 'Python', '2.7'),
 #                  _c2('Programming Language', 'Python', '3.5'),
 #                  _c2('Programming Language', 'Python', '3.6'),
-                   _c2('Programming Language', 'Python', '3.7'),
-                   _c2('Programming Language', 'Python', '3.8'),
-                   _c2('Programming Language', 'Python', '3.9'),
+#                  _c2('Programming Language', 'Python', '3.7'),
+#                  _c2('Programming Language', 'Python', '3.8'),
+#                  _c2('Programming Language', 'Python', '3.9'),
                    _c2('Programming Language', 'Python', '3.10'),
                    _c2('Programming Language', 'Python', '3.11'),
                    _c2('Programming Language', 'Python', '3.12'),
