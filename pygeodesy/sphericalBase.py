@@ -40,7 +40,7 @@ from pygeodesy.utily import acos1, asin1, atan2b, atan2d, degrees90, \
 from math import cos, fabs, log, sin, sqrt
 
 __all__ = _ALL_LAZY.sphericalBase
-__version__ = '24.06.12'
+__version__ = '24.08,13'
 
 
 class CartesianSphericalBase(CartesianBase):
@@ -210,7 +210,7 @@ class LatLonSphericalBase(LatLonBase):
                        B{C{point}} I{of} the (great circle) line (compass
                        C{degrees}).
            @kwarg radius: Mean earth radius (C{meter}, conventionally).
-           @kwarg exact: If C{True} use the I{exact} rhumb methods for azimuth,
+           @kwarg exact: If C{True}, use the I{exact} rhumb methods for azimuth,
                          destination and distance, if C{False} use the basic
                          rhumb methods (C{bool}) or if C{None} use the I{great
                          circle} methods.
@@ -474,7 +474,7 @@ class LatLonSphericalBase(LatLonBase):
            @arg other: An other point (this I{on} C{LatLon}) or the azimuth I{of}
                        (compass C{degrees}) the rhumb line.
            @kwarg radius: Mean earth radius (C{meter}, conventionally).
-           @kwarg exact: If C{True} use the I{exact} rhumb methods for azimuth,
+           @kwarg exact: If C{True}, use the I{exact} rhumb methods for azimuth,
                          destination and distance, if C{False} use the basic
                          rhumb methods (C{bool}) or if C{None} use the I{great
                          circle} methods.

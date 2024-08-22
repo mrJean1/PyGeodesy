@@ -28,7 +28,7 @@ from pygeodesy.units import Band, Bearing, Degrees, Degrees2, Easting, FIx, \
                             Radius, Scalar, Str,  INT0
 
 __all__ = _ALL_LAZY.namedTuples
-__version__ = '24.06.08'
+__version__ = '24.08.18'
 
 # __DUNDER gets mangled in class
 _closest_     = 'closest'
@@ -676,6 +676,12 @@ class Vector3Tuple(_NamedTuple):
         '''
         return self
 
+    @property_RO
+    def xyz3(self):
+        '''Get X, Y and Z components as C{3-tuple}.
+        '''
+        return tuple(self)
+
 
 class Vector4Tuple(_NamedTuple):  # .nvector.py
     '''4-Tuple C{(x, y, z, h)} of (geocentric) components, all
@@ -696,6 +702,13 @@ class Vector4Tuple(_NamedTuple):  # .nvector.py
         '''Get X, Y and Z components (L{Vector3Tuple}).
         '''
         return Vector3Tuple(*self[:3])
+
+    @property_RO
+    def xyz3(self):
+        '''Get X, Y and Z components as C{3-tuple}.
+        '''
+        return tuple(self[:3])
+
 
 # **) MIT License
 #

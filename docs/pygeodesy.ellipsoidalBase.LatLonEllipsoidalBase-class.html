@@ -942,6 +942,7 @@
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#philamheight">philamheight</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#sphericalLatLon">sphericalLatLon</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#xyz">xyz</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#xyz3">xyz3</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#xyzh">xyzh</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
@@ -1433,7 +1434,7 @@
         is computed as the <code>destination</code> along that bearing at 
         about 1.5 times the distance from the start point to an initial 
         gu-/estimate of the intersection point (and between 1/8 and 3/8 of 
-        the authalic earth perimeter).
+        the <code>authalic</code> earth perimeter).
       </p>
       <p><strong>See Also:</strong>
         <i>Karney's</i> <a 
@@ -1643,7 +1644,7 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>point1</code></strong> - Start point (<code>LatLon</code>).</li>
         <li><strong class="pname"><code>point2</code></strong> - End point (<code>LatLon</code>).</li>
-        <li><strong class="pname"><code>within</code></strong> - If <code>True</code> return the closest point <i>between</i> 
+        <li><strong class="pname"><code>within</code></strong> - If <code>True</code>, return the closest point <i>between</i> 
           <b><code>point1</code></b> and <b><code>point2</code></b>, 
           otherwise the closest point elsewhere on the geodesic 
           (<code>bool</code>).</li>
@@ -1727,7 +1728,8 @@
         <li><strong class="pname"><code>epoch</code></strong> - Optional datum (<a href="pygeodesy.units.Epoch-class.html" 
           class="link">Epoch</a>), overriding this epoch <i>without 
           conversion</i>.</li>
-        <li><strong class="pname"><code>reframe</code></strong> - Optional datum (<a href="pygeodesy.trf.RefFrame-class.html" 
+        <li><strong class="pname"><code>reframe</code></strong> - Optional reference frame (<a 
+          href="pygeodesy.trf.RefFrame-class.html" 
           class="link">RefFrame</a>), overriding this reframe <i>without 
           conversion</i>.</li>
         <li><strong class="pname"><code>sep</code></strong> - Optional separator (<code>str</code>).</li>
@@ -2024,7 +2026,7 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>kTM</code></strong> - If <code>True</code> use <i>Karney</i>'s Kr&#252;ger method from 
+        <li><strong class="pname"><code>kTM</code></strong> - If <code>True</code>, use <i>Karney</i>'s Kr&#252;ger method from 
           module <a href="pygeodesy.ktm-module.html" class="link">ktm</a>, 
           otherwise <i>Ordinance Survery</i>'s recommended formulation 
           (<code>bool</code>).</li>
@@ -2282,11 +2284,12 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>bearing1</code></strong> - Bearing at this point (compass <code>degrees360</code>).</li>
         <li><strong class="pname"><code>other</code></strong> - Start point of the other line (<code>LatLon</code>).</li>
-        <li><strong class="pname"><code>bearing2</code></strong> - Bearing at the other point (compass <code>degrees360</code>).</li>
+        <li><strong class="pname"><code>bearing2</code></strong> - Bearing at the <b><code>other</code></b> point (compass 
+          <code>degrees360</code>).</li>
         <li><strong class="pname"><code>height_wrap_tol</code></strong> - Optional keyword arguments <code><b>height</b>=None</code>, 
           <code><b>wrap</b>=False</code> and <code><b>tol</b></code>, see 
           method <a 
-          href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#intersection3"
+          href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html"
           class="link">intersection3</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -2294,7 +2297,7 @@
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Method <a 
-        href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#intersection3"
+        href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html" 
         class="link">intersection3</a> for further details.
       </p>
 </div></td></tr></table>
@@ -2334,7 +2337,7 @@
         <li><strong class="pname"><code>point3</code></strong> - Third center point (<code>LatLon</code>).</li>
         <li><strong class="pname"><code>distance3</code></strong> - Distance to point3 (<code>meter</code>, same units as 
           <b><code>eps</code></b>).</li>
-        <li><strong class="pname"><code>area</code></strong> - If <code>True</code> compute the area overlap, otherwise the 
+        <li><strong class="pname"><code>area</code></strong> - If <code>True</code>, compute the area overlap, otherwise the 
           perimeter intersection of the circles (<code>bool</code>).</li>
         <li><strong class="pname"><code>eps</code></strong> - The required <i>minimal overlap</i> for 
           <code><b>area</b>=True</code> or the <i>intersection margin</i> 
@@ -2355,7 +2358,7 @@
           given <b><code>eps</code></b>.
           <p>If only a single trilaterated point is found, <code>min 
           <i>is</i> max</code>, <code>minPoint <i>is</i> maxPoint</code> 
-          and <code>n = 1</code>.</p>
+          and <code>n=1</code>.</p>
           <p>For <code><b>area</b>=True</code>, <code>min</code> and 
           <code>max</code> are the smallest respectively largest 
           <i>radial</i> overlap found.</p>
@@ -2671,7 +2674,7 @@ href="pygeodesy.ups.Ups-class.html" class="link">Ups</a>.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Aug  2 17:42:00 2024
+    Generated by Epydoc 3.0.1 on Thu Aug 22 16:26:58 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

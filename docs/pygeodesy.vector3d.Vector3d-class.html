@@ -436,13 +436,17 @@
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__trunc__">__trunc__</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#angleTo">angleTo</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#apply">apply</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#bools">bools</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#cmp">cmp</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#cross">cross</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#dividedBy">dividedBy</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#dot">dot</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#equals">equals</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#equirectangular">equirectangular</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#fabs">fabs</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#floats">floats</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#intermediateTo">intermediateTo</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#ints">ints</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#isconjugateTo">isconjugateTo</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#isequalTo">isequalTo</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#minus">minus</a></code>,
@@ -507,6 +511,7 @@
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#x">x</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#x2y2z2">x2y2z2</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#xyz">xyz</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#xyz3">xyz3</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#y">y</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#z">z</a></code>
       </p>
@@ -600,7 +605,7 @@
           href="pygeodesy.vector3d-module.html#trilaterate3d2" 
           class="link">pygeodesy.trilaterate3d2</a> if <code><b>useZ</b> is
           True</code> otherwise <a 
-          href="pygeodesy.vector3d-module.html#trilaterate2d2" 
+          href="pygeodesy.vector2d-module.html#trilaterate2d2" 
           class="link">pygeodesy.trilaterate2d2</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -660,7 +665,7 @@
           href="pygeodesy.vector3d.Vector3d-class.html" 
           class="link">Vector3d</a>, <code>Vector3Tuple</code> or 
           <code>Vector4Tuple</code>).</li>
-        <li><strong class="pname"><code>circum</code></strong> - If <code>True</code> return the <code>circumradius</code> and 
+        <li><strong class="pname"><code>circum</code></strong> - If <code>True</code>, return the <code>circumradius</code> and 
           <code>circumcenter</code>, always, ignoring the <i>Meeus</i>' 
           Type I case (<code>bool</code>).</li>
         <li><strong class="pname"><code>eps</code></strong> - Tolerance passed to function <a 
@@ -816,7 +821,7 @@
           href="pygeodesy.vector3d.Vector3d-class.html" 
           class="link">Vector3d</a>, <code>Vector3Tuple</code> or 
           <code>Vector4Tuple</code>).</li>
-        <li><strong class="pname"><code>circum</code></strong> - If <code>True</code> return the <code>circumradius</code> and 
+        <li><strong class="pname"><code>circum</code></strong> - If <code>True</code>, return the <code>circumradius</code> and 
           <code>circumcenter</code> always, overriding <i>Meeus</i>' Type 
           II case (<code>bool</code>).</li>
     </ul></dd>
@@ -870,7 +875,7 @@
           href="pygeodesy.vector3d.Vector3d-class.html" 
           class="link">Vector3d</a>, <code>Vector3Tuple</code> or 
           <code>Vector4Tuple</code>).</li>
-        <li><strong class="pname"><code>within</code></strong> - If <code>True</code> return the closest point between the given 
+        <li><strong class="pname"><code>within</code></strong> - If <code>True</code>, return the closest point between the given 
           points, otherwise the closest point on the extended line through 
           both points (<code>bool</code>).</li>
     </ul></dd>
@@ -1076,7 +1081,7 @@
           href="pygeodesy.vector3d-module.html#trilaterate3d2" 
           class="link">pygeodesy.trilaterate3d2</a> if <code><b>useZ</b> is
           True</code> otherwise <a 
-          href="pygeodesy.vector3d-module.html#trilaterate2d2" 
+          href="pygeodesy.vector2d-module.html#trilaterate2d2" 
           class="link">pygeodesy.trilaterate2d2</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -1160,7 +1165,7 @@
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Function <a href="pygeodesy.vector3d-module.html#trilaterate2d2" 
+        Function <a href="pygeodesy.vector2d-module.html#trilaterate2d2" 
         class="link">pygeodesy.trilaterate2d2</a>.
       </p>
 </div></td></tr></table>
@@ -1270,7 +1275,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Aug  2 17:42:03 2024
+    Generated by Epydoc 3.0.1 on Thu Aug 22 16:27:01 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

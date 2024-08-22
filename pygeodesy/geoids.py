@@ -63,21 +63,21 @@ courtesy of SBFRF.
        <https://PyPI.org/project/numpy>} and U{scipy<https://PyPI.org/project/scipy>}
        to be installed.
 
-@note: Errors from C{scipy} are raised as L{SciPyError}s.  Warnings issued by
-       C{scipy} can be thrown as L{SciPyWarning} exceptions, provided Python
-       C{warnings} are filtered accordingly, see L{SciPyWarning}.
+@note: Errors from C{scipy} are raised as L{SciPyError}s.  Warnings issued by C{scipy} can
+       be thrown as L{SciPyWarning} exceptions, provided Python C{warnings} are filtered
+       accordingly, see L{SciPyWarning}.
 
 @see: I{Karney}'s U{GeographicLib<https://GeographicLib.SourceForge.io/C++/doc/index.html>},
       U{Geoid height<https://GeographicLib.SourceForge.io/C++/doc/geoid.html>} and U{Installing
       the Geoid datasets<https://GeographicLib.SourceForge.io/C++/doc/geoid.html#geoidinst>},
       U{SciPy<https://docs.SciPy.org/doc/scipy/reference/interpolate.html>} interpolation
-      U{RectBivariateSpline<https://docs.SciPy.org/doc/scipy/reference/generated/scipy.
-      interpolate.RectBivariateSpline.html>} and U{interp2d<https://docs.SciPy.org/doc/scipy/
-      reference/generated/scipy.interpolate.interp2d.html>}, functions L{elevations.elevation2}
-      and L{elevations.geoidHeight2}, U{I{Ellispoid vs Orthometric Elevations}<https://
-      www.YouTube.com/watch?v=dX6a6kCk3Po>} and U{I{Pitfalls Related to Ellipsoid Height
-      and Height Above Mean Sea Level (AMSL)}<https://Wiki.ROS.org/mavros#mavros.2FPlugins.
-      Avoiding_Pitfalls_Related_to_Ellipsoid_Height_and_Height_Above_Mean_Sea_Level>}.
+      U{RectBivariateSpline<https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.
+      RectBivariateSpline.html>}, U{bisplrep/-ev<https://docs.scipy.org/doc/scipy/reference/generated/
+      scipy.interpolate.bisplrep.html>} and U{interp2d<https://docs.SciPy.org/doc/scipy/reference/
+      generated/scipy.interpolate.interp2d.html>}, functions L{elevations.elevation2} and
+      L{elevations.geoidHeight2}, U{I{Ellispoid vs Orthometric Elevations}<https://www.YouTube.com/
+      watch?v=dX6a6kCk3Po>} and U{6.22.1 Avoiding Pitfalls Related to Ellipsoid Height and Height
+      Above Mean Sea Level<https://Wiki.ROS.org/mavros>}.
 '''
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
@@ -86,21 +86,21 @@ from pygeodesy.basics import len2, map1, isodd, ub2str as _ub2str
 from pygeodesy.constants import EPS, _float as _F, _0_0, _1_0, _180_0, _360_0
 # from pygeodesy.datums import _ellipsoidal_datum  # from .heights
 # from pygeodesy.dms import parseDMS2  # _MODS
-from pygeodesy.errors import _incompatible, LenError, RangeError, SciPyError, \
-                             _SciPyIssue, _xkwds_pop2
+from pygeodesy.errors import _incompatible, LenError, RangeError, _SciPyIssue, \
+                             _xkwds_pop2
 from pygeodesy.fmath import favg, Fdot, fdot, Fhorner, frange
 # from pygoedesy.formy import heightOrthometric  # _MODS
-from pygeodesy.heights import _as_llis2, _ascalar, _height_called, HeightError, \
-                              _HeightsBase,  _ellipsoidal_datum, _Wrap
+from pygeodesy.heights import _as_llis2, _ascalar, HeightError, _HeightsBase, \
+                              _ellipsoidal_datum, _Wrap
 # from pygeodesy.internals import _version2  # _MODS
-from pygeodesy.interns import MISSING, NN, _4_, _COLONSPACE_, _COMMASPACE_, _cubic_, \
-                             _E_, _height_, _in_, _kind_, _lat_, _linear_, _lon_, \
-                             _mean_, _N_, _n_a_, _numpy_, _on_, _outside_, _S_, _s_, \
-                             _scipy_, _SPACE_, _stdev_, _tbd_, _W_, _width_
+from pygeodesy.interns import NN, _COLONSPACE_, _COMMASPACE_, _E_, _height_, \
+                             _in_, _kind_, _lat_, _lon_, _mean_, _N_, _n_a_, \
+                             _numpy_, _on_, _outside_, _S_, _s_, _scipy_, \
+                             _SPACE_, _stdev_, _tbd_, _W_, _width_, _4_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, _FOR_DOCS
 from pygeodesy.named import _name__, _Named, _NamedTuple
 # from pygeodesy.namedTuples import LatLon3Tuple  # _MODS
-from pygeodesy.props import deprecated_method, Property_RO, property_RO, property_ROver
+from pygeodesy.props import Property_RO, property_RO, property_ROver
 from pygeodesy.streprs import attrs, Fmt, fstr, pairs
 from pygeodesy.units import Height, Int_, Lat, Lon
 # from pygeodesy.utily import _Wrap  # from .heights
@@ -117,33 +117,37 @@ except ImportError:  # Python 3+
     from io import BytesIO as _BytesIO  # PYCHOK expected
 
 __all__ = _ALL_LAZY.geoids
-__version__ = '24.07.25'
+__version__ = '24.08.22'
 
-_assert_ = 'assert'
-_bHASH_  =  b'#'
-_endian_ = 'endian'
-_format_ = '%s %r'
-_header_ = 'header'
-_intCs   = {}  # cache int value
-_interp2d_ks = {-2: _linear_,
-                -3: _cubic_,
-                -5: 'quintic'}
-_lli_             = 'lli'
-_non_increasing_  = 'non-increasing'
-_rb_              = 'rb'
-_supported_       = 'supported'
+_assert_         = 'assert'
+_bHASH_          =  b'#'
+_endian_         = 'endian'
+_format_         = '%s %r'
+_header_         = 'header'
+_intCs           = {}  # cache int value
+_lli_            = 'lli'
+_non_increasing_ = 'non-increasing'
+_rb_             = 'rb'
+_supported_      = 'supported'
+
+
+class GeoidError(HeightError):
+    '''Geoid interpolator C{Geoid...} or interpolation issue.
+    '''
+    pass
 
 
 class _GeoidBase(_HeightsBase):
     '''(INTERNAL) Base class for C{Geoid...}s.
     '''
+    _center   =  None   # (lat, lon, height)
     _cropped  =  None
 #   _datum    = _WGS84  # from _HeightsBase
     _egm      =  None   # open C{egm*.pgm} geoid file
     _endian   = _tbd_
+    _Error    =  GeoidError  # in ._HeightsBase._as_lls
     _geoid    = _n_a_
     _hs_y_x   =  None   # numpy 2darray, row-major order
-    _interp2d =  None   # interp2d interpolation
     _kind     =  3      # order for interp2d, RectBivariateSpline
 #   _kmin     =  2      # min number of knots
     _knots    =  0      # nlat * nlon
@@ -155,6 +159,7 @@ class _GeoidBase(_HeightsBase):
     _smooth   =  0      # used only for RectBivariateSpline
     _stdev    =  None   # fixed in GeoidKarney
     _u2B      =  0      # np.itemsize or undefined
+    _yx_hits  =  None   # cache hits, ala Karney
 
     _lat_d  = _0_0  # increment, +tive
     _lat_lo = _0_0  # lower lat, south
@@ -165,32 +170,13 @@ class _GeoidBase(_HeightsBase):
     _lon_of = _0_0  # forward lon offset
     _lon_og = _0_0  # reverse lon offset
 
-    _center  = None  # (lat, lon, height)
-    _yx_hits = None  # cache hits, ala Karney
-
     def __init__(self, hs, p):
-        '''(INTERNAL) Set up the grid axes, the C{SciPy} interpolator
-           and several internal geoid attributes.
+        '''(INTERNAL) Set up the grid axes, the C{SciPy} interpolator and
+           several internal geoid attributes.
 
            @arg hs: Grid knots with known height (C{numpy 2darray}).
-           @arg p: The C{slat, wlon, nlat, nlon, dlat, dlon} and
-                   other geoid parameters (C{INTERNAL}).
-
-           @raise GeoidError: Incompatible grid B{C{hs}} shape or
-                              invalid B{C{kind}}.
-
-           @raise LenError: Mismatch grid B{C{hs}} axis.
-
-           @raise SciPyError: A C{scipy.interpolate.inter2d} or
-                              C{-.RectBivariateSpline} issue.
-
-           @raise SciPyWarning: A C{scipy.interpolate.inter2d} or
-                                C{-.RectBivariateSpline} warning as
-                                exception.
-
-           @note: C{scipy.interpolate.interp2d} has been C{DEPRECATED},
-                  specify keyword argument C{B{kind}=1..5} to use
-                  C{scipy.interpolate.RectBivariateSpline}.
+           @arg p: The C{slat, wlon, nlat, nlon, dlat, dlon} and other
+                   geoid parameters (C{INTERNAL}).
         '''
         spi = self.scipy_interpolate
         # for 2d scipy.interpolate.interp2d(xs, ys, hs, ...) and
@@ -209,12 +195,9 @@ class _GeoidBase(_HeightsBase):
         # with rows (90..-90) reversed and columns (0..360) wrapped
         # to Easten longitude, 0 <= east < 180 and 180 <= west < 360
         k = self.kind
-        if k in _interp2d_ks:  # .interp2d DEPRECATED since scipy 1.10
-            if self._scipy_version() < (1, 10):
-                self._interp2d = spi.interp2d(xs, ys, hs, kind=_interp2d_ks[k])
-            else:  # call and overwrite the DEPRECATED .interp2d
-                self._interp2d = self._interp2d(xs, ys, hs, k)
-        elif 1 <= k <= 5:
+        if k in self._k2interp2d:
+            _HeightsBase._spline2d(self, xs, ys, hs, kind=k)
+        elif 1 <= k <= 5:  # XXX order ys and xs, see HeightLSQBiSpline
             self._ev = spi.RectBivariateSpline(ys, xs, hs, bbox=bb, ky=k, kx=k,
                                                            s=self._smooth).ev
         else:
@@ -246,23 +229,19 @@ class _GeoidBase(_HeightsBase):
                     (C{float}) or a list or tuple of interpolated geoid
                     (or orthometric) heights (C{float}s).
 
-           @raise GeoidError: Insufficient number of B{C{llis}}, an
-                              invalid B{C{lli}} or the C{egm*.pgm}
-                              geoid file is closed.
+           @raise GeoidError: Insufficient number of B{C{llis}}, an invalid
+                              B{C{lli}} or the C{egm*.pgm} geoid file is closed.
 
-           @raise RangeError: An B{C{lli}} is outside this geoid's lat-
-                              or longitude range.
+           @raise RangeError: An B{C{lli}} is outside this geoid's lat- or
+                              longitude range.
 
-           @raise SciPyError: A C{scipy.interpolate.inter2d} or
-                              C{-.RectBivariateSpline} issue.
+           @raise SciPyError: A C{scipy} issue.
 
-           @raise SciPyWarning: A C{scipy.interpolate.inter2d} or
-                                C{-.RectBivariateSpline} warning as
-                                exception.
+           @raise SciPyWarning: A C{scipy} warning as exception.
 
-           @note: To obtain I{orthometric} heights, each B{C{llis}}
-                  location must have an ellipsoid C{height} or C{h}
-                  attribute, otherwise C{height=0} is used.
+           @note: To obtain I{orthometric} heights, each B{C{llis}} location
+                  must have an ellipsoid C{height} or C{h} attribute, otherwise
+                  C{height=0} is used.
 
            @see: Function L{pygeodesy.heightOrthometric}.
         '''
@@ -285,7 +264,7 @@ class _GeoidBase(_HeightsBase):
     def __str__(self):
         return Fmt.PAREN(self.classname, repr(self.name))
 
-    def _called(self, llis, scipy, wrap=False, H=False):
+    def _called(self, llis, iscipy, wrap=False, H=False):
         # handle __call__
         _H = self._heightOrthometric if H else None
         _as, llis = _as_llis2(llis, Error=GeoidError)
@@ -304,7 +283,7 @@ class _GeoidBase(_HeightsBase):
             lli = fstr((lli.lat, lli.lon), strepr=repr)
             raise type(x)(t, lli, wrap=wrap, H=H, cause=x)
         except Exception as x:
-            if scipy and self.scipy:
+            if iscipy and self.scipy:
                 raise _SciPyIssue(x)
             else:
                 raise
@@ -361,11 +340,8 @@ class _GeoidBase(_HeightsBase):
         '''
         return self._endian
 
-    def _ev(self, y, x):  # PYCHOK expected
-        # only used for .interpolate.interp2d, but
-        # overwritten for .RectBivariateSpline,
-        # note (y, x) must be flipped!
-        return self._interp2d(x, y)
+    def _ev(self, y, x):  # PYCHOK overwritten with .RectBivariateSpline.ev
+        return self._ev2d(x, y)  # (y, x) flipped!
 
     def _gaxis2(self, lo, d, n, name):
         # build grid axis, hi = lo + (n - 1) * d
@@ -407,14 +383,12 @@ class _GeoidBase(_HeightsBase):
            @raise RangeError: A B{C{lat}} or B{C{lon}} is outside this
                               geoid's lat- or longitude range.
 
-           @raise SciPyError: A C{scipy.interpolate.inter2d} or
-                              C{-.RectBivariateSpline} issue.
+           @raise SciPyError: A C{scipy} issue.
 
-           @raise SciPyWarning: A C{scipy.interpolate.inter2d} or
-                                C{-.RectBivariateSpline} warning as
-                                exception.
+           @raise SciPyWarning: A C{scipy} warning as exception.
         '''
-        return _height_called(self, lats, lons, Error=GeoidError, **wrap)
+        lls = self._as_lls(lats, lons)
+        return self(lls, **wrap)  # __call__(ll) or __call__(lls)
 
     @property_ROver
     def _heightOrthometric(self):
@@ -450,15 +424,6 @@ class _GeoidBase(_HeightsBase):
         '''Get the number of cache hits (C{int} or C{None}).
         '''
         return self._yx_hits
-
-    @deprecated_method
-    def _interp2d(self, xs, ys, hs=(), k=0):  # overwritten in .__init__ above
-        '''DEPRECATED on 23.01.06, use keyword argument C{B{kind}=1..5}.'''
-        # assert k in _interp2d_ks  # and len(hs) == len(xs) == len(ys)
-        try:
-            return self.scipy_interpolate.interp2d(xs, ys, hs, kind=_interp2d_ks[k])
-        except AttributeError as x:
-            raise SciPyError(interp2d=MISSING, kind=k, cause=x)
 
     @Property_RO
     def kind(self):
@@ -723,12 +688,6 @@ class _GeoidBase(_HeightsBase):
         return self._llh3LL(self._upperright, LatLon)
 
 
-class GeoidError(HeightError):
-    '''Geoid interpolator C{Geoid...} or interpolation issue.
-    '''
-    pass
-
-
 class GeoidG2012B(_GeoidBase):
     '''Geoid height interpolator for U{GEOID12B Model
        <https://www.NGS.NOAA.gov/GEOID/GEOID12B/>} grids U{CONUS
@@ -740,10 +699,11 @@ class GeoidG2012B(_GeoidBase):
        U{Puerto Rico and U.S. Virgin Islands
        <https://www.NGS.NOAA.gov/GEOID/GEOID12B/GEOID12B_PRVI.shtml>} and
        U{American Samoa<https://www.NGS.NOAA.gov/GEOID/GEOID12B/GEOID12B_AS.shtml>}
-       based on C{SciPy} U{RectBivariateSpline<https://docs.SciPy.org/doc/
-       scipy/reference/generated/scipy.interpolate.RectBivariateSpline.html>}
-       or U{interp2d<https://docs.SciPy.org/doc/scipy/reference/generated/
-       scipy.interpolate.interp2d.html>} interpolation.
+       based on C{SciPy} U{RectBivariateSpline<https://docs.SciPy.org/doc/scipy/
+       reference/generated/scipy.interpolate.RectBivariateSpline.html>}, U{interp2d
+       <https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate
+       .interp2d.html>} or U{bisplrep/-ev<https://docs.scipy.org/doc/scipy/reference/
+       generated/scipy.interpolate.bisplrep.html>} interpolation.
 
        Use any of the binary C{le} (little endian) or C{be} (big endian)
        C{g2012b*.bin} grid files.
@@ -753,38 +713,34 @@ class GeoidG2012B(_GeoidBase):
         '''New L{GeoidG2012B} interpolator.
 
            @arg g2012b_bin: A C{GEOID12B} grid file name (C{.bin}).
-           @kwarg datum: Optional grid datum (L{Datum}, L{Ellipsoid}, L{Ellipsoid2}
-                         or L{a_f2Tuple}), default C{WGS84}.
-           @kwarg kind: C{scipy.interpolate} order (C{int}), use 1..5 for
-                        U{RectBivariateSpline<https://docs.SciPy.org/doc/scipy/
-                        reference/generated/scipy.interpolate.RectBivariateSpline.html>},
-                        -2 for U{interp2d linear<https://docs.SciPy.org/doc/scipy/
-                        reference/generated/scipy.interpolate.interp2d.html>}, -3
-                        for C{interp2d cubic} or -5 for C{interp2d quintic}.
-           @kwarg smooth: Smoothing factor for U{RectBivariateSpline
-                          <https://docs.SciPy.org/doc/scipy/reference/generated/
-                          scipy.interpolate.RectBivariateSpline.html>}
-                          only (C{int}).
-           @kwarg name_crop: Optional geoid C{B{name}=NN} (C{str}) and UNSUPPORTED
-                       keyword argument C{B{crop}}, use C{B{crop}=None} to ignore.
+           @kwarg datum: Optional grid datum (L{Datum}, L{Ellipsoid}, L{Ellipsoid2} or
+                         L{a_f2Tuple}), default C{WGS84}.
+           @kwarg kind: C{scipy.interpolate} order (C{int}), use 1..5 for U{RectBivariateSpline
+                        <https://docs.SciPy.org/doc/scipy/ reference/generated/scipy.interpolate.
+                        RectBivariateSpline.html>} or -1, -3 or -5 for U{bisplrep/-ev<https://
+                        docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.bisplrep.html>}
+                        or U{interp2d<https://docs.SciPy.org/doc/scipy/reference/generated/scipy.
+                        interpolate.interp2d.html>} C{linear}, C{cubic} respectively C{quintic}.
+           @kwarg smooth: Smoothing factor for C{B{kind}=1..5} only (C{int}).
+           @kwarg name_crop: Optional geoid C{B{name}=NN} (C{str}) and UNSUPPORTED keyword argument
+                       C{B{crop}=None}.
 
-           @raise GeoidError: G2012B grid file B{C{g2012b_bin}} issue or invalid
-                              B{C{crop}}, B{C{kind}} or B{C{smooth}}.
+           @raise GeoidError: Invalid B{C{crop}}, B{C{kind}} or B{C{smooth}} or a G2012B grid file
+                              B{C{g2012b_bin}} issue.
 
-           @raise ImportError: Package C{numpy} or C{scipy} not found or not
-                               installed.
+           @raise ImportError: Package C{numpy} or C{scipy} not found or not installed.
 
            @raise LenError: Grid file B{C{g2012b_bin}} axis mismatch.
 
-           @raise SciPyError: A C{RectBivariateSpline} or C{inter2d} issue.
+           @raise SciPyError: A C{scipy} issue.
 
-           @raise SciPyWarning: A C{RectBivariateSpline} or C{inter2d}
-                                warning as exception.
+           @raise SciPyWarning: A C{scipy} warning as exception.
 
            @raise TypeError: Invalid B{C{datum}}.
 
-           @note: C{scipy.interpolate.interp2d} has been C{DEPRECATED}, specify
-                  C{B{kind}=1..5} for C{scipy.interpolate.RectBivariateSpline}.
+           @note: C{scipy.interpolate.interp2d} has been C{DEPRECATED}, specify C{B{kind}=-1,
+                  -3 or -5} for C{scipy.interpolate.bisplrep/-ev} or use C{B{kind}=1..5} for
+                  C{scipy.interpolate.RectBivariateSpline} or update C{scipy}.
         '''
         crop, name = _xkwds_pop2(name_crop, crop=None)
         if crop is not None:
@@ -956,27 +912,25 @@ class GeoidKarney(_GeoidBase):
                          C++/doc/geoid.html#geoidinst>} file name (C{egm*.pgm}), see
                          note below.
            @kwarg crop: Optional box to limit geoid locations, a 4-tuple (C{south,
-                        west, north, east}), 2-tuple (C{(south, west), (north,
-                        east)}) or 2, in C{degrees90} lat- and C{degrees180}
-                        longitudes or a 2-tuple (C{LatLonSW, LatLonNE}) of
-                        C{LatLon} instances.
-           @kwarg datum: Optional grid datum (C{Datum}, L{Ellipsoid}, L{Ellipsoid2}
-                         or L{a_f2Tuple}), default C{WGS84}.
-           @kwarg kind: Interpolation order (C{int}), 2 for C{bilinear} or 3
-                        for C{cubic}.
+                        west, north, east}), 2-tuple (C{(south, west), (north, east)})
+                        or 2, in C{degrees90} lat- and C{degrees180} longitudes or
+                        a 2-tuple (C{LatLonSW, LatLonNE}) of C{LatLon} instances.
+           @kwarg datum: Optional grid datum (C{Datum}, L{Ellipsoid}, L{Ellipsoid2} or
+                         L{a_f2Tuple}), default C{WGS84}.
+           @kwarg kind: Interpolation order (C{int}), 2 for C{bilinear} or 3 for C{cubic}.
            @kwarg name_smooth: Optional geoid C{B{name}=NN} (C{str}) and UNSUPPORTED
                        keyword argument C{B{smooth}}, use C{B{smooth}=None} to ignore.
 
-           @raise GeoidError: EGM dataset B{C{egm_pgm}} issue or invalid
-                              B{C{crop}}, B{C{kind}} or B{C{smooth}}.
+           @raise GeoidError: EGM dataset B{C{egm_pgm}} issue or invalid B{C{crop}},
+                              B{C{kind}} or B{C{smooth}}.
 
            @raise TypeError: Invalid B{C{datum}}.
 
            @see: Class L{GeoidPGM} and function L{egmGeoidHeights}.
 
-           @note: Geoid file B{C{egm_pgm}} remains open and must be closed
-                  by calling the C{close} method or by using this instance
-                  in a C{with B{GeoidKarney}(...) as ...} context.
+           @note: Geoid file B{C{egm_pgm}} remains open and I{must be closed} by calling
+                  method C{close} method or by using a C{with B{GeoidKarney}(...) as ...}
+                  context.
         '''
         smooth, name = _xkwds_pop2(name_smooth, smooth=None)
         if smooth is not None:
@@ -1015,16 +969,15 @@ class GeoidKarney(_GeoidBase):
                     (C{float}) or a list or tuple of interpolated geoid
                     (or orthometric) heights (C{float}s).
 
-           @raise GeoidError: Insufficient number of B{C{llis}}, an
-                              invalid B{C{lli}} or the C{egm*.pgm}
-                              geoid file is closed.
+           @raise GeoidError: Insufficient number of B{C{llis}}, an invalid
+                              B{C{lli}} or the C{egm*.pgm} geoid file is closed.
 
-           @raise RangeError: An B{C{lli}} is outside this geoid's lat-
-                              or longitude range.
+           @raise RangeError: An B{C{lli}} is outside this geoid's lat- or
+                              longitude range.
 
-           @note: To obtain I{orthometric} heights, each B{C{llis}}
-                  location must have an ellipsoid C{height} or C{h}
-                  attribute, otherwise C{height=0} is used.
+           @note: To obtain I{orthometric} heights, each B{C{llis}} location
+                  must have an ellipsoid C{height} or C{h} attribute, otherwise
+                  C{height=0} is used.
 
            @see: Function L{pygeodesy.heightOrthometric}.
         '''
@@ -1149,7 +1102,8 @@ class GeoidKarney(_GeoidBase):
            @raise RangeError: A B{C{lat}} or B{C{lon}} is outside this
                               geoid's lat- or longitude range.
         '''
-        return _height_called(self, lats, lons, Error=GeoidError, **wrap)
+        lls = self._as_lls(lats, lons)
+        return self(lls, **wrap)  # __call__(ll) or __call__(lls)
 
     @Property_RO
     def _highest_ltd(self):
@@ -1273,25 +1227,21 @@ class GeoidKarney(_GeoidBase):
 
 class GeoidPGM(_GeoidBase):
     '''Geoid height interpolator for I{Karney}'s U{GeographicLib Earth
-       Gravitational Model (EGM)<https://GeographicLib.SourceForge.io/C++/doc/
-       geoid.html>} geoid U{egm*.pgm<https://GeographicLib.SourceForge.io/
-       C++/doc/geoid.html#geoidinst>} datasets but based on C{SciPy}
-       U{RectBivariateSpline<https://docs.SciPy.org/doc/scipy/reference/
-       generated/scipy.interpolate.RectBivariateSpline.html>} or
-       U{interp2d<https://docs.SciPy.org/doc/scipy/reference/generated/
-       scipy.interpolate.interp2d.html>} interpolation.
+       Gravitational Model (EGM)<https://GeographicLib.SourceForge.io/C++/doc/geoid.html>}
+       geoid U{egm*.pgm<https://GeographicLib.SourceForge.io/C++/doc/geoid.html#geoidinst>}
+       datasets but based on C{SciPy} U{RectBivariateSpline<https://docs.SciPy.org/doc/scipy/
+       reference/generated/scipy.interpolate.RectBivariateSpline.html>}, U{bisplrep/-ev
+       <https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.bisplrep.html>}
+       or U{interp2d<https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.
+       interp2d.html>} interpolation.
 
-       Use any of the U{egm84-, egm96- or egm2008-*.pgm
-       <https://GeographicLib.SourceForge.io/C++/doc/geoid.html#geoidinst>}
-       datasets.  However, unless cropped, an entire C{egm*.pgm} dataset
-       is loaded into the C{SciPy} U{RectBivariateSpline<https://docs.SciPy.org/
-       doc/scipy/reference/generated/scipy.interpolate.RectBivariateSpline.html>}
-       or U{interp2d<https://docs.SciPy.org/doc/scipy/reference/generated/
-       scipy.interpolate.interp2d.html>} interpolator and converted from
-       2-byte C{int} to 8-byte C{dtype float64}.  Therefore, internal memory
-       usage is 4x the U{egm*.pgm<https://GeographicLib.SourceForge.io/C++/doc/
-       geoid.html#geoidinst>} file size and may exceed the available memory,
-       especially with 32-bit Python, see properties C{.nBytes} and C{.sizeB}.
+       Use any of the U{egm84-, egm96- or egm2008-*.pgm <https://GeographicLib.SourceForge.io/
+       C++/doc/geoid.html#geoidinst>} datasets.  However, unless cropped, an entire C{egm*.pgm}
+       dataset is loaded into the C{SciPy} interpolator and converted from 2-byte C{int} to
+       8-byte C{dtype float64}.  Therefore, internal memory usage is 4x the U{egm*.pgm
+       <https://GeographicLib.SourceForge.io/C++/doc/geoid.html#geoidinst>} file size and may
+       exceed the available memory, especially with 32-bit Python, see properties C{.nBytes}
+       and C{.sizeB}.
     '''
     _cropped =  False
     _endian  = '>u2'
@@ -1304,48 +1254,45 @@ class GeoidPGM(_GeoidBase):
                          C++/doc/geoid.html#geoidinst>} file name (C{egm*.pgm}).
            @kwarg crop: Optional box to crop B{C{egm_pgm}}, a 4-tuple (C{south, west,
                         north, east}) or 2-tuple (C{(south, west), (north, east)}),
-                        in C{degrees90} lat- and C{degrees180} longitudes or a
-                        2-tuple (C{LatLonSW, LatLonNE}) of C{LatLon} instances.
-           @kwarg datum: Optional grid datum (L{Datum}, L{Ellipsoid}, L{Ellipsoid2}
-                         or L{a_f2Tuple}), default C{WGS84}.
-           @kwarg kind: C{scipy.interpolate} order (C{int}), use 1..5 for
-                        U{RectBivariateSpline<https://docs.SciPy.org/doc/scipy/
-                        reference/generated/scipy.interpolate.RectBivariateSpline.html>},
-                        -2 for U{interp2d linear<https://docs.SciPy.org/doc/scipy/
-                        reference/generated/scipy.interpolate.interp2d.html>}, -3
-                        for C{interp2d cubic} or -5 for C{interp2d quintic}.
-           @kwarg smooth: Smoothing factor for U{RectBivariateSpline
-                          <https://docs.SciPy.org/doc/scipy/reference/generated/
-                          scipy.interpolate.RectBivariateSpline.html>}
-                          only (C{int}).
+                        in C{degrees90} lat- and C{degrees180} longitudes or a 2-tuple
+                        (C{LatLonSW, LatLonNE}) of C{LatLon} instances.
+           @kwarg datum: Optional grid datum (L{Datum}, L{Ellipsoid}, L{Ellipsoid2} or
+                         L{a_f2Tuple}), default C{WGS84}.
+           @kwarg kind: C{scipy.interpolate} order (C{int}), use 1..5 for U{RectBivariateSpline
+                        <https://docs.SciPy.org/doc/scipy/ reference/generated/scipy.interpolate.
+                        RectBivariateSpline.html>} or -1, -3 or -5 for U{bisplrep/-ev<https://
+                        docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.bisplrep.html>}
+                        or U{interp2d<https://docs.SciPy.org/doc/scipy/reference/generated/scipy.
+                        interpolate.interp2d.html>} C{linear}, C{cubic} respectively C{quintic}.
+           @kwarg smooth: Smoothing factor for C{B{kind}=1..5} only (C{int}).
            @kwarg name: Optional geoid C{B{name}=NN} (C{str}).
 
-           @raise GeoidError: EGM dataset B{C{egm_pgm}} issue or invalid B{C{crop}},
-                              B{C{kind}} or B{C{smooth}}.
+           @raise GeoidError: EGM dataset B{C{egm_pgm}} issue or invalid B{C{crop}}, B{C{kind}}
+                              or B{C{smooth}}.
 
            @raise ImportError: Package C{numpy} or C{scipy} not found or not installed.
 
            @raise LenError: EGM dataset B{C{egm_pgm}} axis mismatch.
 
-           @raise SciPyError: A C{RectBivariateSpline} or C{inter2d} issue.
+           @raise SciPyError: A C{RectBivariateSpline}, C{bisplrep/-ev} or C{inter2d} issue.
 
-           @raise SciPyWarning: A C{RectBivariateSpline} or C{inter2d}
+           @raise SciPyWarning: A C{RectBivariateSpline}, C{bisplrep/-ev} or C{inter2d}
                                 warning as exception.
 
            @raise TypeError: Invalid B{C{datum}} or unexpected argument.
 
-           @note: C{scipy.interpolate.interp2d} has been C{DEPRECATED}, specify
-                  C{B{kind}=1..5} for C{scipy.interpolate.RectBivariateSpline}.
+           @note: C{scipy.interpolate.interp2d} has been C{DEPRECATED}, specify C{B{kind}=-1,
+                  -3 or -5} for C{scipy.interpolate.bisplrep/-ev} or use C{B{kind}=1..5} for
+                  C{scipy.interpolate.RectBivariateSpline} or .
 
-           @note: The U{GeographicLib egm*.pgm<https://GeographicLib.SourceForge.io/
-                  C++/doc/geoid.html#geoidinst>} file sizes are based on a 2-byte
-                  C{int} height converted to 8-byte C{dtype float64} for C{scipy}
-                  interpolators.  Therefore, internal memory usage is 4 times the
-                  C{egm*.pgm} file size and may exceed the available memory,
-                  especially with 32-bit Python.  To reduce memory usage, set
-                  keyword argument B{C{crop}} to the region of interest.  For example
-                  C{B{crop}=(20, -125, 50, -65)} covers the U{conterminous US<https://
-                  www.NGS.NOAA.gov/GEOID/GEOID12B/maps/GEOID12B_CONUS_grids.png>}
+           @note: The U{GeographicLib egm*.pgm<https://GeographicLib.SourceForge.io/C++/doc/
+                  geoid.html#geoidinst>} file sizes are based on a 2-byte C{int} height
+                  converted to 8-byte C{dtype float64} for C{scipy} interpolators.  Therefore,
+                  internal memory usage is 4 times the C{egm*.pgm} file size and may exceed
+                  the available memory, especially with 32-bit Python.  To reduce memory
+                  usage, set keyword argument B{C{crop}} to the region of interest.  For
+                  example C{B{crop}=(20, -125, 50, -65)} covers the U{conterminous US
+                  <https://www.NGS.NOAA.gov/GEOID/GEOID12B/maps/GEOID12B_CONUS_grids.png>}
                   (CONUS), less than 3% of the entire C{egm2008-1.pgm} dataset.
 
            @see: Class L{GeoidKarney} and function L{egmGeoidHeights}.

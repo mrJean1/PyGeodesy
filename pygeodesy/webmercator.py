@@ -36,7 +36,7 @@ from pygeodesy.utily import degrees90, degrees180
 from math import atan, atanh, exp, radians, sin, tanh
 
 __all__ = _ALL_LAZY.webmercator
-__version__ = '24.06.11'
+__version__ = '24.08.13'
 
 # _FalseEasting  = 0   # false Easting (C{meter})
 # _FalseNorthing = 0   # false Northing (C{meter})
@@ -207,7 +207,7 @@ class Wm(_NamedBase):
            @kwarg prec: Number of (decimal) digits, unstripped (C{int}).
            @kwarg fmt: Enclosing backets format (C{str}).
            @kwarg sep: Optional separator between name:value pairs (C{str}).
-           @kwarg radius: If C{True} include the radius (C{bool}) or
+           @kwarg radius: If C{True}, include the radius (C{bool}) or
                           C{scalar} to override this WM's radius.
 
            @return: This WM as "[x:meter, y:meter]" (C{str}) or as "[x:meter,
@@ -227,7 +227,7 @@ class Wm(_NamedBase):
            @kwarg fmt: Optional C{float} format (C{letter}).
            @kwarg sep: Optional separator to join (C{str}) or C{None}
                        to return an unjoined C{tuple} of C{str}s.
-           @kwarg radius: If C{True} include the radius (C{bool}) or
+           @kwarg radius: If C{True}, include the radius (C{bool}) or
                           C{scalar} to override this WM's radius.
 
            @return: This WM as "meter meter" (C{str}) or as "meter meter

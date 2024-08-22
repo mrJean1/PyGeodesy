@@ -48,7 +48,7 @@ __all__ = ('coverage', 'GeodSolve', 'geographiclib',  # constants
            'numpy', 'PyGeodesy_dir', 'PythonX', 'scipy', 'test_dir',
            'RandomLatLon', 'TestsBase',  # classes
            'secs2str', 'tilde', 'type2str', 'versions')  # functions
-__version__ = '24.08.01'
+__version__ = '24.08.21'
 
 try:
     geographiclib = basics._xgeographiclib(basics, 1, 50)
@@ -536,7 +536,7 @@ def versions():
 
         vs =  internals._Pythonarchine(sep=_SPACE_)
         vs = 'PyGeodesy', PyGeodesy_version, vs
-        for t in (coverage, numpy, scipy, geographiclib):
+        for t in (coverage, geographiclib, numpy, scipy):
             if t:
                 vs += t.__name__, t.__version__
 
@@ -572,20 +572,23 @@ RhumbSolve    = _getenv_path(lazily._PYGEODESY_RHUMBSOLVE_)
 # versions()  # get versions once
 
 if internals._dunder_ismain(__name__):
-
+    try:
+        import coverage  # PYCHOK re-imported
+    except ImportError:
+        pass
     print(versions())
 
 # python3.12 -m test.bases
-# PyGeodesy 24.5.12 Python 3.12.3 64bit arm64 geographiclib 2.0 Math _K_2_0 macOS 14.4.1 isLazy 1 -W ignore
+# PyGeodesy 24.8.24 Python 3.12.5 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 Math _K_2_0 macOS 14.6.1 isLazy 1
 
 # python3.11 -m test.bases
-# PyGeodesy 24.5.12 Python 3.11.5 64bit arm64 numpy 1.24.2 scipy 1.10.1 geographiclib 2.0 Math _K_2_0 macOS 14.4.1 isLazy 1 -W ignore
+# PyGeodesy 24.5.12 Python 3.11.5 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 1.24.2 scipy 1.10.1 Math _K_2_0 macOS 14.4.1 isLazy 1 -W ignore
 
 # python3.10 -m test.bases
-# PyGeodesy 24.5.12 Python 3.10.8 64bit arm64 numpy 1.23.3 scipy 1.9.1 geographiclib 2.0 Math _K_2_0 macOS 14.4.1 isLazy 1 -W ignore
+# PyGeodesy 24.5.12 Python 3.10.8 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 1.23.3 scipy 1.9.1 Math _K_2_0 macOS 14.4.1 isLazy 1 -W ignore
 
 # python2 -m test.bases
-# PyGeodesy 24.5.12 Python 2.7.18 64bit arm64_x86_64 numpy 1.16.6 scipy 1.2.2 geographiclib 1.50 macOS 10.16
+# PyGeodesy 24.5.12 Python 2.7.18 64bit arm64_x86_64 coverage 5.5 geographiclib 1.50 numpy 1.16.6 scipy 1.2.2 macOS 10.16
 
 # **) MIT License
 #

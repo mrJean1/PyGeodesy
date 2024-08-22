@@ -17,7 +17,7 @@ including coverage of UPS as zone C{0}.
 from pygeodesy.basics import isint, isstr, _xinstanceof
 from pygeodesy.errors import _ValueError
 from pygeodesy.interns import NN, _N_, _NS_, _S_, _SPACE_
-from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
+from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.namedTuples import UtmUps2Tuple
 from pygeodesy.props import Property_RO
 from pygeodesy.streprs import Fmt
@@ -28,7 +28,7 @@ from pygeodesy.utmupsBase import _to3zBhp, _UPS_ZONE, _UTM_ZONE_MIN, \
                                  _UTM_ZONE_MAX, _UTMUPS_ZONE_INVALID
 
 __all__ = _ALL_LAZY.epsg
-__version__ = '24.05.18'
+__version__ = '24.08.05'
 
 # _EPSG_INVALID = _UTMUPS_ZONE_INVALID
 _EPSG_N_01 = 32601  # EPSG code for UTM zone 01 N
@@ -219,7 +219,7 @@ def encode(zone, hemipole=NN, band=NN):
     return e
 
 
-__all__ += _ALL_OTHER(decode2, encode)
+__all__ += _ALL_DOCS(decode2, encode)
 
 # **) MIT License
 #

@@ -43,7 +43,7 @@ from pygeodesy.vector3d import Vector3d, _xyzhdlln4
 # from math import atan2, degrees, fabs, radians, sqrt  # from .fmath, .utily
 
 __all__ = _ALL_LAZY.cartesianBase
-__version__ = '24.07.29'
+__version__ = '24.08.18'
 
 _r_     = 'r'
 _theta_ = 'theta'
@@ -342,9 +342,9 @@ class CartesianBase(Vector3d):
                          I{overriding} this datum (L{Datum}, L{Ellipsoid},
                          L{Ellipsoid2}, L{a_f2Tuple}, L{Triaxial}, L{Triaxial_},
                          L{JacobiConformal} or C{meter}, conventionally).
-           @kwarg normal: If C{True} the projection is the nearest point on the
+           @kwarg normal: If C{True}, the projection is the nearest point on the
                           ellipsoid's surface, otherwise the intersection of the
-                          radial line to the ellipsoid's center and the surface.
+                          radial line to the ellipsoid's center and surface C{bool}).
            @kwarg Cartesian_and_kwds: Optional C{B{Cartesian}=None} class to return
                             the I{projection} and additional B{C{Cartesian}} keyword
                             arguments.
@@ -437,7 +437,7 @@ class CartesianBase(Vector3d):
         # <https://GitHub.com/pbrod/nvector>/src/nvector/core.py>
         # _equation23 and <https://www.NavLab.net/nvector>
         E = datum.ellipsoid
-        x, y, z = self.xyz
+        x, y, z = self.xyz3
 
         # Kenneth Gade eqn 23
         p = hypot2(x, y) * E.a2_
@@ -836,7 +836,7 @@ class CartesianBase(Vector3d):
             # if inverse and d != _WGS84:
             #     raise _ValueError(inverse=inverse, datum=d,
             #                       txt_not_=_WGS84.name)
-            xyz = transform.transform(*self.xyz, inverse=inverse)
+            xyz = transform.transform(*self.xyz3, inverse=inverse)
             c = self.dup(xyz=xyz, datum=datum or self.datum)
         return c
 

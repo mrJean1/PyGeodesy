@@ -4,14 +4,14 @@
 # Test L{triaxials} module.
 
 __all__ = ('Tests',)
-__version__ = '24.06.11'
+__version__ = '24.08.19'
 
-from bases import random, startswith, TestsBase
+from bases import numpy, random, startswith, TestsBase
 
 from pygeodesy import EPS4, F_DEG_, F_DMS, PI_2, PI_4, Ellipsoids, fstr, \
                       JacobiConformal, JacobiConformalSpherical, Los, \
-                      map1, map2, signBit, sincos2d_, Triaxial, \
-                      Triaxial_, Triaxials, triaxials, Vector3d
+                      map1, map2, signBit, sincos2d_, Triaxial, Triaxial_, \
+                      Triaxials, triaxials, triaxum5, Vector3d
 from math import radians
 
 
@@ -371,6 +371,18 @@ class Tests(TestsBase):
         for t in Triaxials.values(all=True):
             self.test(t.name, t, getattr(Triaxials, t.name))
 
+    def testTriaxum5(self):
+        # <https://Jekel.me/2020/Least-Squares-Ellipsoid-Fit/>
+        ps, v = [], Vector3d(1.2, 0.2, 0.9)
+        for d in range(0, 180, 9):
+            su, cu, sv, cv = sincos2d_(d, d * 0.5)
+            ps.append(v.times_(cu * sv, su * sv, cv))
+        n = triaxum5.__name__
+        t = triaxum5(ps, useZ=True)
+        self.test(n, t, '(1.2, 0.2, 0.9, 3, ', known=startswith, nl=1)
+        t = triaxum5(ps, useZ=False)
+        self.test(n, t, '(1.244625, 0.145582, 0.0, 2, ', known=startswith)
+
 
 if __name__ == '__main__':
 
@@ -381,5 +393,9 @@ if __name__ == '__main__':
     t.testJacobiConformal(triaxials)
     t.testJacobiConformalSpherical(triaxials)
     t.testTriaxial(triaxials)
+    if numpy:
+        t.testTriaxum5()
+    else:
+        t.skip(triaxum5.__name__, 2)
     t.results()
     t.exit()

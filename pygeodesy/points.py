@@ -62,7 +62,7 @@ from pygeodesy.utily import atan2b, degrees90, degrees180, degrees2m, \
 from math import cos, fabs, fmod as _fmod, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '24.06.15'
+__version__ = '24.08.13'
 
 _ilat_  = 'ilat'
 _ilon_  = 'ilon'
@@ -217,7 +217,7 @@ class _Basequence(_Sequence):  # immutable, on purpose
     def copy(self, deep=False):  # PYCHOK no cover
         '''Make a shallow or deep copy of this instance.
 
-           @kwarg deep: If C{True} make a deep, otherwise a
+           @kwarg deep: If C{True}, make a deep, otherwise a
                         shallow copy (C{bool}).
 
            @return: The copy (C{This class}).

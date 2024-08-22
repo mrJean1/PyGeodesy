@@ -63,7 +63,7 @@ from pygeodesy.utily import atan2d as _atan2d_reverse, _unrollon, _Wrap, wrap360
 from math import atan2, copysign, cos, degrees, fabs, radians, sqrt
 
 __all__ = ()
-__version__ = '24.07.11'
+__version__ = '24.08.13'
 
 _MAXIT1 = 20
 _MAXIT2 = 10 + _MAXIT1 + MANT_DIG  # MANT_DIG == C++ digits
@@ -218,8 +218,8 @@ class GeodesicExact(_GeodesicBase):
         '''Set up a L{GeodesicAreaExact} to compute area and
            perimeter of a polygon.
 
-           @kwarg polyline: If C{True} perimeter only, otherwise
-                            area and perimeter (C{bool}).
+           @kwarg polyline: If C{True}, compute the perimeter only, otherwise
+                            the perimeter and area (C{bool}).
            @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @return: A L{GeodesicAreaExact} instance.

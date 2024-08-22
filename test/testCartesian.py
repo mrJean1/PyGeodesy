@@ -4,7 +4,7 @@
 # Test cartesians.
 
 __all__ = ('Tests',)
-__version__ = '24.06.09'
+__version__ = '24.08.18'
 
 from bases import GeodSolve, geographiclib, isPython35, TestsBase
 
@@ -119,6 +119,7 @@ class Tests(TestsBase):
             self.testReturnType(c.toLatLon(),        Ecef9Tuple if B else LatLon, 'toLatLon')
             self.testReturnType(c.toNvector(),       Vector4Tuple if B else Nvector, 'toNvector')
             self.testReturnType(c.xyz,               Vector3Tuple, 'xyz')
+            self.testReturnType(c.xyz3,              tuple, 'xyz3')
             c = CartesianBase(c)  # PYCHOK attribute
 
         if hasattr(Cartesian, 'intersections2'):

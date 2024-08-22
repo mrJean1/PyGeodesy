@@ -17,7 +17,7 @@ and a geocentric B{C{Cartesian}} class with methods and functions to compute dis
 forward and reverse azimuth, initial and final bearing, intermediate and nearest points, intersections of geodesic,
 great circle and rhumb lines, circle intersections and secants, U{3-point resections
 <https://WikiPedia.org/wiki/Position_resection_and_intersection>}, triangulation, trilateration (by intersection,
-by overlap and in 3d), conversions and unrolling, among other things.  For more information and further details see
+by overlap and in 3-D), conversions and unrolling, among other things.  For more information and further details see
 the U{documentation<https://mrJean1.GitHub.io/PyGeodesy>}, the descriptions of U{Latitude/Longitude
 <https://www.Movable-Type.co.UK/scripts/latlong.html>}, U{Vincenty
 <https://www.Movable-Type.co.UK/scripts/latlong-vincenty.html>} and U{Vector-based
@@ -41,12 +41,11 @@ Frames) and modules to encode and decode U{EPSG<https://EPSG.org>}, U{Geohashes
 <https://WikiPedia.org/wiki/World_Geographic_Reference_System>} and U{Garefs (GARS)
 <https://WikiPedia.org/wiki/Global_Area_Reference_System>}.
 
-Other modules provide U{Albers equal-area<https://GeographicLib.SourceForge.io/
-C++/doc/classGeographicLib_1_1AlbersEqualArea.html>} projections, U{equidistant
-<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1AzimuthalEquidistant.html>}
-and other I{azimuthal} projections, Lambert I{conformal conic} projections and
-positions, functions to clip paths or polygons of C{LatLon} points using the
-U{Cohen-Sutherland<https://WikiPedia.org/wiki/Cohen-Sutherland_algorithm>},
+Other modules provide U{Albers equal-area
+<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1AlbersEqualArea.html>} projections, U{equidistant
+<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1AzimuthalEquidistant.html>} and other I{azimuthal}
+projections, Lambert I{conformal conic} projections and positions, functions to clip paths or polygons of C{LatLon}
+points using the U{Cohen-Sutherland<https://WikiPedia.org/wiki/Cohen-Sutherland_algorithm>},
 U{Forster-Hormann-Popa<https://www.ScienceDirect.com/science/article/pii/S259014861930007X>},
 U{Greiner-Hormann<http://www.inf.USI.CH/hormann/papers/Greiner.1998.ECO.pdf>},
 U{Liang-Barsky<https://www.CS.Helsinki.FI/group/goa/viewing/leikkaus/intro.html>} and
@@ -123,7 +122,8 @@ C{epydoc --html --no-private --no-source --name=PyGeodesy --url=... -v pygeodesy
 Tests
 =====
 
-The tests ran with Python 3.13.0b4, Python 3.12.4 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0,
+The tests ran with Python 3.13.0rc1, Python 3.12.5 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0,
+U{numpy<https://PyPI.org/project/numpy>} 2.1.0, U{scipy<https://PyPI.org/project/scipy>} 1.14.1,
 U{GeodSolve<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.3,
 U{IntersectTool<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.3 and
 U{RhumbSolve<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.3),
@@ -138,19 +138,19 @@ U{numpy<https://PyPI.org/project/numpy>} 1.16.6, U{scipy<https://PyPI.org/projec
 U{GeoConvert<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.3,
 U{GeodSolve<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.3,
 U{IntersectTool<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.3 and
-U{RhumbSolve<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.3), all in 64-bit on macOS 14.5 Sonoma.
+U{RhumbSolve<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.3), all in 64-bit on macOS 14.6.1 Sonoma.
 
 All tests ran with and without C{lazy import} for Python 3 and with command line option C{-W default} and
 env variable C{PYGEODESY_WARNINGS=on} for all Python versions.  The results of those tests are included in
 the distribution files.
 
-Test coverage has been measured with U{coverage<https://PyPI.org/project/coverage>} 7.6.0 using Python 3.12.4,
+Test coverage has been measured with U{coverage<https://PyPI.org/project/coverage>} 7.6.0 using Python 3.12.5,
 3.11.5 and 3.10.8.  The complete coverage report in HTML and a PDF summary are included in the distribution files.
 
-Python 3.13.0b4, 3.12.4, 3.11.5 and 3.10.8 run on Apple M1 Silicon (C{arm64}), I{natively}.  Python 2.7.18 runs on
+Python 3.13.0rc1, 3.12.5, 3.11.5 and 3.10.8 run on Apple M1 Silicon (C{arm64}), I{natively}.  Python 2.7.18 runs on
 Intel (C{x86_64}) or Intel I{emulation} ("C{arm64_x86_64}", see function L{machine<pygeodesy.machine>}).
 
-The tests also ran with Python 3.12.4 (and U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0) on U{Debian
+The tests also ran with Python 3.12.5 (and U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0) on U{Debian
 12<https://Cirrus-CI.com/github/mrJean1/PyGeodesy/master>} in 64-bit only, with Python 3.12.3 (and
 U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0) on U{Windows
 2019Server<https://CI.AppVeyor.com/project/mrJean1/pygeodesy>} in 64-bit only and with Python 2.7.18 (and
@@ -160,7 +160,7 @@ U{geographiclib<https://PyPI.org/project/geographiclib>} 1.52) on U{Windows
 A single-File and single-Directory application with C{pygeodesy} has been bundled using U{PyInstaller
 <https://PyPI.org/project/pyinstaller>} 3.4 and 64-bit Python 3.7.3 on macOS 10.13.6 High Sierra.
 
-Previously, the tests were run with Python 3.12.0-3, 3.11.2-4, 3.10.1-7, 3.9.6, 3.9.1, 3.8.7, 3.7.1, 2.7.15, U{PyPy
+Previously, the tests were run with Python 3.12.0-4, 3.11.2-4, 3.10.1-7, 3.9.6, 3.9.1, 3.8.7, 3.7.1, 2.7.15, U{PyPy
 <https://PyPy.org>} 7.3.12 (Python 3.10.12), 7.3.1 (Python 3.6.9) and U{PyPy<https://PyPy.org>} 7.1.1 (Python
 2.7.13) (and U{geographiclib <https://PyPI.org/project/geographiclib>} 1.52, U{numpy<https://PyPI.org/project/numpy>}
 1.16.3, 1.16.4, 1.16.6, 1.19.0, 1.19.4, 1.19.5 or 1.22.4 and U{scipy<https://PyPI.org/project/scipy>} 1.2.1, 1.4.1,
@@ -169,7 +169,7 @@ Previously, the tests were run with Python 3.12.0-3, 3.11.2-4, 3.10.1-7, 3.9.6, 
 1.16.5, 1.16.2, 1.15.2, 1.14.0, 1.13.1, 1.8.0rc1 or 1.6.2 and U{scipy<https://PyPI.org/project/scipy>} 1.5.0), U{PyPy
 <https://PyPy.org>} 7.3.0 (Python 2.7.13 and 3.6.9), U{PyPy<https://PyPy.org>} 6.0.0 (Python 2.7.13 and 3.5.3)
 and U{Intel-Python<https://software.Intel.com/en-us/distribution-for-python>} 3.5.3 (and U{numpy
-<https://PyPI.org/project/numpy>} 1.11.3) on macOS 14.0-4.1 Sonoma, 13.0-5.2 Ventura, 12.1-6 Monterey, 11.0-5.2-6.1
+<https://PyPI.org/project/numpy>} 1.11.3) on macOS 14.0-5 Sonoma, 13.0-5.2 Ventura, 12.1-6 Monterey, 11.0-5.2-6.1
 Big Sur (aka 10.16), 10.15.3, 10.15.5-7 Catalina, 10.14 Mojave, 10.13.6 High Sierra and 10.12 Sierra, MacOS X
 10.11 El Capitan and/or MacOS X 10.10 Yosemite, with U{Pythonista<https://OMZ-Software.com/pythonista>}3.2 (with
 geographiclib 1.50 or 1.49 and numpy 1.8.0) on iOS 14.4.2, 11.4.1, 12.0-3 on iPad4, iPhone6, iPhone10 and/or
@@ -184,7 +184,7 @@ All Python source code has been statically U{checked<https://GitHub.com/ActiveSt
 Python/546532_PyChecker_postprocessor>} with U{PyChecker<https://PyPI.org/project/pychecker>}, U{PyFlakes
 <https://PyPI.org/project/pyflakes>}, U{PyCodeStyle<https://PyPI.org/project/pycodestyle>} (formerly Pep8) and
 U{McCabe<https://PyPI.org/project/mccabe>} using Python 2.7.18 and with U{Flake8<https://PyPI.org/project/flake8>}
-using Python 3.11.5, both in 64-bit on macOS 14.5 Sonoma.
+using Python 3.11.5, both in 64-bit on macOS 14.6.1 Sonoma.
 
 For a summary of all I{Karney}-based functionality in C{pygeodesy}, see module U{karney
 <https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.karney-module.html>}.
@@ -338,7 +338,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.}
 @var S_MIN: Minutes symbol, default C{"′"} aka I{PRIME}
 @var S_SEC: Seconds symbol, default C{"″"} aka I{DOUBLE_PRIME}
 @var S_RAD: Radians symbol, default C{""} aka L{NN<pygeodesy.NN>}
-@var S_DMS: If C{True} include, otherwise cancel all DMS symbols, default C{True}.
+@var S_DMS: If C{True}, include, otherwise cancel all DMS symbols, default C{True}.
 @var S_SEP: Separator between C{deg°|min′|sec″|suffix}, default C{""} aka L{NN<pygeodesy.NN>}
 
 @var Conics:     Registered, predefined conics (C{enum-like}).
@@ -491,10 +491,10 @@ if _init__all__ and not _lazy_import2:  # import and set __all__
 #   from pygeodesy.ellipsoidalGeodSolve  import *  # PYCHOK __(_)__
 #   from pygeodesy.ellipsoidalKarney     import *  # PYCHOK __(_)__
 #   from pygeodesy.ellipsoidalNvector    import *  # PYCHOK __(_)__
-    from pygeodesy.ellipsoidalVincenty   import VincentyError  # PYCHOK lazily
+    from pygeodesy.ellipsoidalVincenty   import *  # PYCHOK __(_)__
     from pygeodesy.ellipsoids            import *  # PYCHOK __all__
     from pygeodesy.elliptic              import *  # PYCHOK __all__
-    from pygeodesy.epsg                  import Epsg, EPSGError  # PYCHOK lazily
+    from pygeodesy.epsg                  import *  # PYCHOK __all__
     from pygeodesy.etm                   import *  # PYCHOK __all__
     from pygeodesy.errors                import *  # PYCHOK __all__
     from pygeodesy.fmath                 import *  # PYCHOK __all__
@@ -502,7 +502,7 @@ if _init__all__ and not _lazy_import2:  # import and set __all__
     from pygeodesy.frechet               import *  # PYCHOK __all__
     from pygeodesy.fstats                import *  # PYCHOK __all__
     from pygeodesy.fsums                 import *  # PYCHOK __all__
-    from pygeodesy.gars                  import Garef, GARSError  # PYCHOK lazily
+    from pygeodesy.gars                  import *  # PYCHOK __all__
     from pygeodesy.geodesici             import *  # PYCHOK __all__
     from pygeodesy.geodesicw             import *  # PYCHOK __all__
     from pygeodesy.geodesicx             import *  # PYCHOK __all__
@@ -549,7 +549,7 @@ if _init__all__ and not _lazy_import2:  # import and set __all__
     from pygeodesy.vector3d              import *  # PYCHOK __all__
     from pygeodesy.vector3dBase          import *  # PYCHOK __(_)__ INTERNAL
     from pygeodesy.webmercator           import *  # PYCHOK __all__
-    from pygeodesy.wgrs                  import Georef, WGRSError  # PYCHOK lazily
+    from pygeodesy.wgrs                  import *  # PYCHOK __all__
 
     def _all(globalocals):
         from pygeodesy.internals import _headof,  _DOT_  # PYCHOK expected
@@ -595,7 +595,7 @@ else:
 
 from pygeodesy.internals import _version2,  _DOT_  # PYCHOK import
 # from pygeodesy.interns import _DOT_  # from .internals
-__version__ = '24.08.04'
+__version__ = '24.08.24'
 # see setup.py for similar logic
 version     = _DOT_(*_version2(__version__, n=3))
 

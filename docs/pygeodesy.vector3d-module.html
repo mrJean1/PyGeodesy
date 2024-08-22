@@ -67,15 +67,13 @@
   href="pygeodesy.vector3d-module.html#intersections2" 
   class="link">intersections2</a>, <a 
   href="pygeodesy.vector3d-module.html#parse3d" class="link">parse3d</a>, 
-  <a href="pygeodesy.vector3d-module.html#sumOf" class="link">sumOf</a>, <a
-  href="pygeodesy.vector3d-module.html#trilaterate2d2" 
-  class="link">trilaterate2d2</a> and <a 
-  href="pygeodesy.vector3d-module.html#trilaterate3d2" 
+  <a href="pygeodesy.vector3d-module.html#sumOf" class="link">sumOf</a> and
+  <a href="pygeodesy.vector3d-module.html#trilaterate3d2" 
   class="link">trilaterate3d2</a>.</p>
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        24.06.18
+        24.08.18
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -268,33 +266,6 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.vector3d-module.html#trilaterate2d2" class="summary-sig-name">trilaterate2d2</a>(<span class="summary-sig-arg">x1</span>,
-        <span class="summary-sig-arg">y1</span>,
-        <span class="summary-sig-arg">radius1</span>,
-        <span class="summary-sig-arg">x2</span>,
-        <span class="summary-sig-arg">y2</span>,
-        <span class="summary-sig-arg">radius2</span>,
-        <span class="summary-sig-arg">x3</span>,
-        <span class="summary-sig-arg">y3</span>,
-        <span class="summary-sig-arg">radius3</span>,
-        <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">**Vector_and_kwds</span>)</span><br />
-      Trilaterate three circles, each given as a (2-D) center and a radius.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.vector3d-module.html#trilaterate3d2" class="summary-sig-name">trilaterate3d2</a>(<span class="summary-sig-arg">center1</span>,
         <span class="summary-sig-arg">radius1</span>,
         <span class="summary-sig-arg">center2</span>,
@@ -454,7 +425,7 @@
         <li><strong class="pname"><code>radius2</code></strong> - Radius of the second sphere or circle (same units as the 
           <b><code>center1</code></b> and <b><code>center2</code></b> 
           coordinates).</li>
-        <li><strong class="pname"><code>sphere</code></strong> - If <code>True</code> compute the center and radius of the 
+        <li><strong class="pname"><code>sphere</code></strong> - If <code>True</code>, compute the center and radius of the 
           intersection of two spheres.  If <code>False</code>, ignore the 
           <code>z</code>-component and compute the intersection of two 
           circles (<code>bool</code>).</li>
@@ -579,7 +550,7 @@
           href="pygeodesy.vector3d.Vector3d-class.html" 
           class="link">Vector3d</a>, <code>Vector3Tuple</code> or 
           <code>Vector4Tuple</code>).</li>
-        <li><strong class="pname"><code>within</code></strong> - If <code>True</code> return the closest point between both given 
+        <li><strong class="pname"><code>within</code></strong> - If <code>True</code>, return the closest point between both given
           points, otherwise the closest point on the extended line through 
           both points (<code>bool</code>).</li>
         <li><strong class="pname"><code>useZ</code></strong> - If <code>True</code>, use the Z components, otherwise force 
@@ -762,85 +733,6 @@
   </dl>
 </td></tr></table>
 </div>
-<a name="trilaterate2d2"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">trilaterate2d2</span>&nbsp;(<span class="sig-arg">x1</span>,
-        <span class="sig-arg">y1</span>,
-        <span class="sig-arg">radius1</span>,
-        <span class="sig-arg">x2</span>,
-        <span class="sig-arg">y2</span>,
-        <span class="sig-arg">radius2</span>,
-        <span class="sig-arg">x3</span>,
-        <span class="sig-arg">y3</span>,
-        <span class="sig-arg">radius3</span>,
-        <span class="sig-arg">eps</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">**Vector_and_kwds</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Trilaterate three circles, each given as a (2-D) center and a 
-  radius.</p>
-  <dl class="fields">
-    <dt>Arguments:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>x1</code></strong> - Center <code>x</code> coordinate of the 1st circle 
-          (<code>scalar</code>).</li>
-        <li><strong class="pname"><code>y1</code></strong> - Center <code>y</code> coordinate of the 1st circle 
-          (<code>scalar</code>).</li>
-        <li><strong class="pname"><code>radius1</code></strong> - Radius of the 1st circle (<code>scalar</code>).</li>
-        <li><strong class="pname"><code>x2</code></strong> - Center <code>x</code> coordinate of the 2nd circle 
-          (<code>scalar</code>).</li>
-        <li><strong class="pname"><code>y2</code></strong> - Center <code>y</code> coordinate of the 2nd circle 
-          (<code>scalar</code>).</li>
-        <li><strong class="pname"><code>radius2</code></strong> - Radius of the 2nd circle (<code>scalar</code>).</li>
-        <li><strong class="pname"><code>x3</code></strong> - Center <code>x</code> coordinate of the 3rd circle 
-          (<code>scalar</code>).</li>
-        <li><strong class="pname"><code>y3</code></strong> - Center <code>y</code> coordinate of the 3rd circle 
-          (<code>scalar</code>).</li>
-        <li><strong class="pname"><code>radius3</code></strong> - Radius of the 3rd circle (<code>scalar</code>).</li>
-        <li><strong class="pname"><code>eps</code></strong> - Tolerance to check the trilaterated point <i>delta</i> on all 3 
-          circles (<code>scalar</code>) or <code>None</code> for no 
-          checking.</li>
-        <li><strong class="pname"><code>Vector_and_kwds</code></strong> - Optional class <code><b>Vector</b>=None</code> to return the 
-          trilateration and optional, additional <b><code>Vector</code></b>
-          keyword arguments, otherwise (<a 
-          href="pygeodesy.vector3d.Vector3d-class.html" 
-          class="link">Vector3d</a>).</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>Trilaterated point as <code><b>Vector</b>(x, y, 
-          **<b>Vector_kwds</b>)</code> or <a 
-          href="pygeodesy.namedTuples.Vector2Tuple-class.html" 
-          class="link">Vector2Tuple</a><code>(x, y)</code> if 
-          <code><b>Vector</b> is None</code>..</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - No intersection, near-concentric or -colinear centers, 
-        trilateration failed some other way or the trilaterated point is 
-        off one circle by more than <b><code>eps</code></b>.</li>
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.UnitError-class.html">UnitError</a></strong></code> - Invalid <b><code>radius1</code></b>, <b><code>radius2</code></b> or
-        <b><code>radius3</code></b>.</li>
-    </ul></dd>
-  </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        <a href="https://GitHub.com/mrJean1/PyGeodesy/issues/49" 
-        target="_top">Issue #49</a>, <a 
-        href="https://math.StackExchange.com/questions/884807" 
-        target="_top">Find X location using 3 known (X,Y) location using 
-        trilateration</a> and function <a 
-        href="pygeodesy.vector3d-module.html#trilaterate3d2" 
-        class="link">pygeodesy.trilaterate3d2</a>.
-      </p>
-</div></td></tr></table>
-</div>
 <a name="trilaterate3d2"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -890,7 +782,7 @@
           <code>None</code> for no pertubations.</li>
         <li><strong class="pname"><code>Vector_and_kwds</code></strong> - Optional class <code><b>Vector</b>=None</code> to return the 
           trilateration and optional, additional <b><code>Vector</code></b>
-          keyword arguments, otherwise <b><code>center1</code></b>'s 
+          keyword arguments, otherwise the <b><code>center1</code></b>'s 
           (sub-)class.</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -917,7 +809,7 @@
         Problem</i></a>, the <a 
         href="https://www.ResearchGate.net/publication/288825016" 
         target="_top"><i>implementation</i></a> and function <a 
-        href="pygeodesy.vector3d-module.html#trilaterate2d2" 
+        href="pygeodesy.vector2d-module.html#trilaterate2d2" 
         class="link">pygeodesy.trilaterate2d2</a>.
       </p>
 </div></td></tr></table>
@@ -954,7 +846,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Aug  2 17:42:00 2024
+    Generated by Epydoc 3.0.1 on Thu Aug 22 16:26:58 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

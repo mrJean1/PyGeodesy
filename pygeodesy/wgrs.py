@@ -3,8 +3,8 @@
 
 u'''World Geographic Reference System (WGRS) en-/decoding, aka GEOREF.
 
-Class L{Georef} and several functions to encode, decode and inspect
-WGRS (or GEOREF) references.
+Class L{Georef} and several functions to encode, decode and inspect WGRS
+(or GEOREF) references.
 
 Transcoded from I{Charles Karney}'s C++ class U{Georef
 <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Georef.html>},
@@ -19,8 +19,8 @@ from pygeodesy.constants import INT0, _float, _off90, _0_001, \
 from pygeodesy.dms import parse3llh
 from pygeodesy.errors import _ValueError, _xattr, _xStrError
 from pygeodesy.interns import NN, _0to9_, _AtoZnoIO_, _COMMA_, \
-                             _height_, _radius_, _SPACE_
-from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
+                             _height_, _INV_, _radius_, _SPACE_
+from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import _name2__, nameof,  isstr, Property_RO
 from pygeodesy.namedTuples import LatLon2Tuple, LatLonPrec3Tuple
 # from pygeodesy.props import Property_RO  # from .named
@@ -32,13 +32,12 @@ from pygeodesy.utily import ft2m, m2ft, m2NM
 from math import floor
 
 __all__ = _ALL_LAZY.wgrs
-__version__ = '24.08.02'
+__version__ = '24.08.15'
 
 _Base    =  10
 _BaseLen =  4
 _DegChar = _AtoZnoIO_.tillQ
 _Digits  = _0to9_
-_INV_    = 'INV'  # INValid
 _LatOrig = -90
 _LatTile = _AtoZnoIO_.tillM
 _LonOrig = -180
@@ -79,13 +78,12 @@ def _2geostr2(georef):
     '''(INTERNAL) Check a georef string.
     '''
     try:
-        n, geostr = len(georef), georef.upper()
+        n, g = len(georef), georef.upper()
         p, o = divmod(n, 2)
         if o or n < _MinLen or n > _MaxLen \
-             or geostr[:3] == _INV_ \
-             or not geostr.isalnum():
+             or g.startswith(_INV_) or not g.isalnum():
             raise ValueError()
-        return geostr, _2Precision(p - 1)
+        return g, _2Precision(p - 1)
 
     except (AttributeError, TypeError, ValueError) as x:
         raise WGRSError(Georef.__name__, georef, cause=x)
@@ -234,8 +232,8 @@ def decode3(georef, center=True):
     '''Decode a C{georef} to lat-, longitude and precision.
 
        @arg georef: To be decoded (L{Georef} or C{str}).
-       @kwarg center: If C{True} the center, otherwise the south-west,
-                      lower-left corner (C{bool}).
+       @kwarg center: If C{True}, use the georef's center, otherwise
+                      the south-west, lower-left corner (C{bool}).
 
        @return: A L{LatLonPrec3Tuple}C{(lat, lon, precision)}.
 
@@ -287,8 +285,8 @@ def decode5(georef, center=True):
     '''Decode a C{georef} to lat-, longitude, precision, height and radius.
 
        @arg georef: To be decoded (L{Georef} or C{str}).
-       @kwarg center: If C{True} the center, otherwise the south-west,
-                      lower-left corner (C{bool}).
+       @kwarg center: If C{True}, use the georef's center, otherwise the
+                      south-west, lower-left corner (C{bool}).
 
        @return: A L{LatLonPrec5Tuple}C{(lat, lon, precision, height, radius)}
                 where C{height} and/or C{radius} are C{None} if missing.
@@ -335,12 +333,11 @@ def encode(lat, lon, precision=3, height=None, radius=None):  # MCCABE 14
 
        @raise WGRSError: Invalid B{C{precision}}, B{C{height}} or B{C{radius}}.
 
-       @note: The B{C{precision}} value differs from U{Georef<https://
+       @note: The B{C{precision}} value differs from I{Karney}'s U{Georef<https://
               GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Georef.html>}.
-              The C{georef} length is M{2 * (precision + 1)} and the
-              C{georef} resolution is I{15°} for B{C{precision}} 0, I{1°}
-              for 1, I{1′} for 2, I{0.1′} for 3, I{0.01′} for 4, ...
-              M{10**(2 - precision)}.
+              The C{georef} length is M{2 * (precision + 1)} and the C{georef}
+              resolution is I{15°} for B{C{precision}} 0:, I{1°} for 1, I{1′} for 2,
+              I{0.1′} for 3, I{0.01′} for 4, ... up to I{10**(2 - precision)′}.
     '''
     def _option(name, m, m2_, K):
         f = Scalar_(m, name=name, Error=WGRSError)
@@ -413,7 +410,8 @@ def resolution(prec):
     '''
     p = Int(prec=prec, Error=WGRSError)
     if p > 1:
-        r = _1_0 / (_60_0 * pow(_Base, min(p, _MaxPrec) - 1))
+        p =  min(p, _MaxPrec) - 1
+        r = _1_0 / (pow(_Base, p) * _60_0)
     elif p < 1:
         r = _float_Tile
     else:
@@ -421,8 +419,8 @@ def resolution(prec):
     return r
 
 
-__all__ += _ALL_OTHER(decode3, decode5,  # functions
-                      encode, precision, resolution)
+__all__ += _ALL_DOCS(decode3, decode5,  # functions
+                     encode, precision, resolution)
 
 # **) MIT License
 #

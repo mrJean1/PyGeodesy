@@ -35,7 +35,7 @@ from pygeodesy.units import Epoch, _isDegrees, Radius_, _1mm as _TOL_M
 # from math import fabs  # from .latlonBase
 
 __all__ = _ALL_LAZY.ellipsoidalBase
-__version__ = '24.06.24'
+__version__ = '24.08.14'
 
 
 class CartesianEllipsoidalBase(CartesianBase):
@@ -111,7 +111,7 @@ class CartesianEllipsoidalBase(CartesianBase):
                          C{Vector3Tuple} or C{Vector4Tuple}).
            @arg radius2: Radius of the second sphere or circle (same units as this and
                          the B{C{other}} point's coordinates).
-           @kwarg sphere: If C{True} compute the center and radius of the intersection
+           @kwarg sphere: If C{True}, compute the center and radius of the intersection
                           of two I{spheres}.  If C{False}, ignore the C{z}-component and
                           compute the intersection of two I{circles} (C{bool}).
            @kwarg Vector: Class to return intersections (C{Cartesian}, L{Vector3d} or
@@ -527,7 +527,7 @@ class LatLonEllipsoidalBase(LatLonBase):
                   point is computed as the C{destination} along that bearing at
                   about 1.5 times the distance from the start point to an initial
                   gu-/estimate of the intersection point (and between 1/8 and 3/8
-                  of the authalic earth perimeter).
+                  of the C{authalic} earth perimeter).
 
            @see: I{Karney's} U{intersect.cpp<https://SourceForge.net/p/geographiclib/
                  discussion/1026621/thread/21aaff9f/>}, U{The B{ellipsoidal} case<https://
@@ -659,7 +659,7 @@ class LatLonEllipsoidalBase(LatLonBase):
 
            @arg point1: Start point (C{LatLon}).
            @arg point2: End point (C{LatLon}).
-           @kwarg within: If C{True} return the closest point I{between}
+           @kwarg within: If C{True}, return the closest point I{between}
                           B{C{point1}} and B{C{point2}}, otherwise the
                           closest point elsewhere on the geodesic (C{bool}).
            @kwarg height: Optional height for the closest point (C{meter},
@@ -714,8 +714,8 @@ class LatLonEllipsoidalBase(LatLonBase):
                          I{without conversion}.
            @kwarg epoch: Optional datum (L{Epoch}), overriding this epoch
                          I{without conversion}.
-           @kwarg reframe: Optional datum (L{RefFrame}), overriding this
-                           reframe I{without conversion}.
+           @kwarg reframe: Optional reference frame (L{RefFrame}), overriding
+                           this reframe I{without conversion}.
            @kwarg sep: Optional separator (C{str}).
            @kwarg wrap: If C{True}, wrap or I{normalize} the lat- and
                         longitude (C{bool}).
@@ -726,7 +726,8 @@ class LatLonEllipsoidalBase(LatLonBase):
            @raise ParseError: Invalid B{C{strllh}}.
         '''
         a, b, h = _MODS.dms.parse3llh(strllh, height=height, sep=sep, wrap=wrap)
-        r = self.classof(a, b, height=h, datum=self.datum)
+        r = self.classof(a, b, height=h, datum=self.datum, epoch=self.epoch,
+                                                         reframe=self.reframe)
         if datum not in (None, self.datum):
             r.datum = datum
         if epoch not in (None, self.epoch):
@@ -865,7 +866,7 @@ class LatLonEllipsoidalBase(LatLonBase):
     def toOsgr(self, kTM=False, **toOsgr_kwds):
         '''Convert this C{LatLon} point to an OSGR coordinate.
 
-           @kwarg kTM: If C{True} use I{Karney}'s Krüger method from module
+           @kwarg kTM: If C{True}, use I{Karney}'s Krüger method from module
                        L{ktm}, otherwise I{Ordinance Survery}'s recommended
                        formulation (C{bool}).
            @kwarg toOsgr_kwds: Optional L{pygeodesy.toOsgr} keyword arguments.
@@ -1008,13 +1009,15 @@ class LatLonEllipsoidalBase(LatLonBase):
 
            @arg bearing1: Bearing at this point (compass C{degrees360}).
            @arg other: Start point of the other line (C{LatLon}).
-           @arg bearing2: Bearing at the other point (compass C{degrees360}).
+           @arg bearing2: Bearing at the B{C{other}} point (compass C{degrees360}).
            @kwarg height_wrap_tol: Optional keyword arguments C{B{height}=None},
-                         C{B{wrap}=False} and C{B{tol}}, see method L{intersection3}.
+                         C{B{wrap}=False} and C{B{tol}}, see method L{intersection3
+                         <pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase>}.
 
            @return: Triangulated point (C{LatLon}).
 
-           @see: Method L{intersection3} for further details.
+           @see: Method L{intersection3<pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase>}
+                 for further details.
         '''
         if _isDegrees(bearing1) and _isDegrees(bearing2):
             r = self.intersection3(bearing1, other, bearing2, **height_wrap_tol)
@@ -1034,13 +1037,13 @@ class LatLonEllipsoidalBase(LatLonBase):
            @arg point3: Third center point (C{LatLon}).
            @arg distance3: Distance to point3 (C{meter}, same units as
                            B{C{eps}}).
-           @kwarg area: If C{True} compute the area overlap, otherwise the
+           @kwarg area: If C{True}, compute the area overlap, otherwise the
                         perimeter intersection of the circles (C{bool}).
            @kwarg eps: The required I{minimal overlap} for C{B{area}=True}
                        or the I{intersection margin} for C{B{area}=False}
                        (C{meter}, conventionally).
-           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll
-                        B{C{point2}} and B{C{point3}} (C{bool}).
+           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll B{C{point2}}
+                        and B{C{point3}} (C{bool}).
 
            @return: A L{Trilaterate5Tuple}C{(min, minPoint, max, maxPoint, n)}
                     with C{min} and C{max} in C{meter}, same units as B{C{eps}},
@@ -1049,7 +1052,7 @@ class LatLonEllipsoidalBase(LatLonBase):
                     of trilatered points found for the given B{C{eps}}.
 
                     If only a single trilaterated point is found, C{min I{is}
-                    max}, C{minPoint I{is} maxPoint} and C{n = 1}.
+                    max}, C{minPoint I{is} maxPoint} and C{n=1}.
 
                     For C{B{area}=True}, C{min} and C{max} are the smallest
                     respectively largest I{radial} overlap found.

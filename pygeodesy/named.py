@@ -34,7 +34,7 @@ from pygeodesy.streprs import attrs, Fmt, lrstrip, pairs, reprs, unstr
 # from pygeodesy.units import _toUnit  # _MODS
 
 __all__ = _ALL_LAZY.named
-__version__ = '24.07.12'
+__version__ = '24.08.13'
 
 _COMMANL_           = _COMMA_ + _NL_
 _COMMASPACEDOT_     = _COMMASPACE_ + _DOT_
@@ -214,8 +214,8 @@ class _Named(object):
     def copy(self, deep=False, **name):
         '''Make a shallow or deep copy of this instance.
 
-           @kwarg deep: If C{True} make a deep, otherwise
-                        a shallow copy (C{bool}).
+           @kwarg deep: If C{True}, make a deep, otherwise a shallow
+                        copy (C{bool}).
            @kwarg name: Optional, non-empty C{B{name}=NN} (C{str}).
 
            @return: The copy (C{This class}).
@@ -233,7 +233,8 @@ class _Named(object):
     def dup(self, deep=False, **items):
         '''Duplicate this instance, replacing some attributes.
 
-           @kwarg deep: If C{True} duplicate deep, otherwise shallow.
+           @kwarg deep: If C{True}, duplicate deep, otherwise shallow
+                        (C{bool}).
            @kwarg items: Attributes to be changed (C{any}), including
                          optional C{B{name}} (C{str}).
 

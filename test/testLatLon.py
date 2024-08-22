@@ -4,7 +4,7 @@
 # Test C{LatLon}.
 
 __all__ = ('Tests',)
-__version__ = '23.12.03'
+__version__ = '24.08.18'
 
 from bases import GeodSolve, geographiclib, isPyPy, isPython2, \
                   startswith, TestsBase
@@ -442,6 +442,7 @@ class Tests(TestsBase):
 #       self.testReturnType(p.to3llh(0),            LatLon3Tuple, 'to3llh')
 #       self.testReturnType(p.to3xyz(),             Vector3Tuple, 'to3xyz')
         self.testReturnType(p.xyz,                  Vector3Tuple, 'xyz')
+        self.testReturnType(p.xyz3,                 tuple, 'xyz3')
         self.testReturnType(p.xyzh,                 Vector4Tuple, 'xyzh')
 
         self.testReturnType(p.compassAngleTo(q),    float, 'compassAngleTo')

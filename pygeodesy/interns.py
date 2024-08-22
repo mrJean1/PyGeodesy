@@ -184,7 +184,6 @@ _concentric_          = 'concentric'         # PYCHOK OK
 _convergence_ = _Prefix('convergence')       # PYCHOK OK
 _conversion_          = 'conversion'         # PYCHOK OK
 _convex_              = 'convex'             # PYCHOK OK
-_cubic_               = 'cubic'              # PYCHOK OK
 _d_                   = 'd'                  # PYCHOK OK
 _D_                   = 'D'                  # PYCHOK OK
 _DASH_           = Str_('-')                 # PYCHOK == _MINUS_
@@ -250,6 +249,7 @@ _inside_              = 'inside'             # PYCHOK OK
 _insufficient_        = 'insufficient'       # PYCHOK OK
 _intersection_        = 'intersection'       # PYCHOK OK
 _Intl1924_            = 'Intl1924'           # PYCHOK OK
+_INV_                 = 'INV'                # PYCHOK INValid
 _invalid_             = 'invalid'            # PYCHOK OK
 _invokation_          = 'invokation'         # PYCHOK OK
 _j_                   = 'j'                  # PYCHOK OK
@@ -270,7 +270,6 @@ _LCURLY_              = '{'                  # PYCHOK LBRACE
 _len_                 = 'len'                # PYCHOK OK
 _limit_               = 'limit'              # PYCHOK OK
 _line_                = 'line'               # PYCHOK OK
-_linear_              = 'linear'             # PYCHOK OK
 _LPAREN_              = '('                  # PYCHOK OK
 _lon_                 = 'lon'                # PYCHOK OK
 _lon0_                = 'lon0'               # PYCHOK OK
@@ -441,7 +440,7 @@ _LR_PAIRS  = {_LANGLE_:  _RANGLE_,
 
 __all__ = (_NN_,  # NOT MISSING!
             Str_.__name__)  # classes
-__version__ = '24.06.14'
+__version__ = '24.08.22'
 
 if __name__ == '__main__':
 

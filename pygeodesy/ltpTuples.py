@@ -36,7 +36,7 @@ from pygeodesy.vector3d import Vector3d
 # from math import cos, radians  # from .utily
 
 __all__ = _ALL_LAZY.ltpTuples
-__version__ = '24.07.25'
+__version__ = '24.08.18'
 
 _aer_        = 'aer'
 _alt_        = 'alt'
@@ -188,6 +188,12 @@ class _AbcBase(_NamedBase):
         '''Get the I{local} C{(X, Y, Z)} coordinates (L{Vector3Tuple}C{(x, y, z)}).
         '''
         return Vector3Tuple(self.x, self.y, self.z, name=self.name)  # like Ecef9Tuple.xyz, Local6tuple.xyz
+
+    @property_RO
+    def xyz3(self):
+        '''Get the I{local} C{(X, Y, Z)} coordinates as C{3-tuple}.
+        '''
+        return tuple(self.xyz)
 
     @property_RO
     def xyz4(self):  # PYCHOK no cover

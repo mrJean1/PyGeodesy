@@ -37,7 +37,7 @@ from math import copysign as _copysign
 import inspect as _inspect
 
 __all__ = _ALL_LAZY.basics
-__version__ = '24.07.06'
+__version__ = '24.08.13'
 
 _below_               = 'below'
 _list_tuple_types     = (list, tuple)
@@ -733,7 +733,7 @@ def _xcopy(obj, deep=False):
     '''(INTERNAL) Copy an object, shallow or deep.
 
        @arg obj: The object to copy (any C{type}).
-       @kwarg deep: If C{True} make a deep, otherwise
+       @kwarg deep: If C{True}, make a deep, otherwise
                     a shallow copy (C{bool}).
 
        @return: The copy of B{C{obj}}.
@@ -745,7 +745,7 @@ def _xdup(obj, deep=False, **items):
     '''(INTERNAL) Duplicate an object, replacing some attributes.
 
        @arg obj: The object to copy (any C{type}).
-       @kwarg deep: If C{True} copy deep, otherwise shallow.
+       @kwarg deep: If C{True}, copy deep, otherwise shallow (C{bool}).
        @kwarg items: Attributes to be changed (C{any}).
 
        @return: A duplicate of B{C{obj}} with modified

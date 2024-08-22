@@ -17,14 +17,14 @@ from pygeodesy.interns import _INF_, _NAN_, _UNDER_
 # from pygeodesy.streprs import Fmt  # from .unitsBase
 from pygeodesy.unitsBase import Float, Int, Radius,  _ALL_LAZY, Fmt
 
-from math import fabs, isinf, isnan, pi as _PI, sqrt
+from math import fabs, isinf, isnan, pi as _pi, sqrt
 try:
     from math import inf as _inf, nan as _nan  # PYCHOK Python 3+
 except ImportError:  # Python 2-
     _inf, _nan = float(_INF_), float(_NAN_)
 
 __all__ = _ALL_LAZY.constants
-__version__ = '24.05.29'
+__version__ = '24.08.18'
 
 
 def _copysign_0_0(y):
@@ -242,7 +242,7 @@ _EPStol  = _Float(_EPStol =_EPSqrt * _0_1)  # PYCHOK = 1.49011611938e5-09 == sqr
 _89_999_ = _Float(_89_999_= EPS1 * _90_0)   # just below 90.0
 # <https://Numbers.Computation.Free.FR/Constants/Miscellaneous/digits.html>
 _1__90   = _Float(_1__90  =_1_0 / _90_0)    # PYCHOK = 0.011_111_111_111_111_111_111_111_111_111_111_111_111_111_111_11111
-_2__PI   = _Float(_2__PI  =_2_0 / _PI)      # PYCHOK = 0.636_619_772_367_581_343_075_535_053_490_057_448_137_838_582_96182
+_2__PI   = _Float(_2__PI  =_2_0 / _pi)      # PYCHOK = 0.636_619_772_367_581_343_075_535_053_490_057_448_137_838_582_96182
 
 _1_16th  = _Float(_1_16th =_1_0 / _16_0)  # PYCHOK in .ellipsoids, .karney
 _1_64th  = _Float(_1_64th =_1_0 /  64)    # PYCHOK in .elliptic, pow(2.0, -6)
@@ -261,14 +261,14 @@ NAN   =  Float(NAN =_nan)    # PYCHOK Not-A-Number, see function L{isnan}, NOT _
 NEG0  =  Float(NEG0=_N_0_0)  # PYCHOK NEGative 0.0, see function L{isneg0}, NOT _Float!
 NINF  =  Float(NINF=-INF)    # PYCHOK Negative INFinity, NOT _Float!
 
-PI    = _Float(PI   =_PI)         # 3.1415_9265_3589_7932_3846_2643_3832_795
-PI2   = _Float(PI2  =_PI * _2_0)  # PYCHOK Two PI, M{PI * 2} aka I{Tau}
-PI_2  = _Float(PI_2 =_PI / _2_0)  # PYCHOK Half PI, M{PI / 2}
-PI3   = _Float(PI3  =_PI * _3_0)  # PYCHOK Three PI, M{PI * 3}
-PI3_2 = _Float(PI3_2=_PI * _1_5)  # PYCHOK PI and a half, M{PI * 3 / 2}
-PI_3  = _Float(PI_3 =_PI / _3_0)  # PYCHOK One third PI, M{PI / 3}
-PI4   = _Float(PI4  =_PI * _4_0)  # PYCHOK Four PI, M{PI * 4}
-PI_4  = _Float(PI_4 =_PI / _4_0)  # PYCHOK Quarter PI, M{PI / 4}
+PI    = _Float(PI   =_pi)         # 3.1415_9265_3589_7932_3846_2643_3832_795
+PI2   = _Float(PI2  =_pi * _2_0)  # PYCHOK Two PI, M{PI * 2} aka I{Tau}
+PI_2  = _Float(PI_2 =_pi / _2_0)  # PYCHOK Half PI, M{PI / 2}
+PI3   = _Float(PI3  =_pi * _3_0)  # PYCHOK Three PI, M{PI * 3}
+PI3_2 = _Float(PI3_2=_pi * _1_5)  # PYCHOK PI and a half, M{PI * 3 / 2}
+PI_3  = _Float(PI_3 =_pi / _3_0)  # PYCHOK One third PI, M{PI / 3}
+PI4   = _Float(PI4  =_pi * _4_0)  # PYCHOK Four PI, M{PI * 4}
+PI_4  = _Float(PI_4 =_pi / _4_0)  # PYCHOK Quarter PI, M{PI / 4}
 
 R_MA  = _Radius(R_MA=6378137.0)       # PYCHOK equatorial earth radius (C{meter}), WGS84, EPSG:3785
 R_MB  = _Radius(R_MB=6356752.3)       # PYCHOK polar earth radius (C{meter}), WGS84, EPSG:3785

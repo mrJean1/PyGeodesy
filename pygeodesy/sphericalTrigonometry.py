@@ -54,7 +54,7 @@ from pygeodesy.vector3d import sumOf, Vector3d
 from math import asin, atan2, cos, degrees, fabs, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '24.06.21'
+__version__ = '24.08.13'
 
 _PI_EPS4 = PI - EPS4
 if _PI_EPS4 >= PI:
@@ -706,7 +706,7 @@ class LatLon(LatLonSphericalBase):
            @arg distance2: Distance to point2 (C{meter}, same units as B{C{radius}}).
            @arg point3: Third center point (C{LatLon}).
            @arg distance3: Distance to point3 (C{meter}, same units as B{C{radius}}).
-           @kwarg area: If C{True} compute the area overlap, otherwise the perimeter
+           @kwarg area: If C{True}, compute the area overlap, otherwise the perimeter
                         intersection of the circles (C{bool}).
            @kwarg eps: The required I{minimal overlap} for C{B{area}=True} or the
                        I{intersection margin} if C{B{area}=False} (C{meter}, same

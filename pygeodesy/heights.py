@@ -78,8 +78,8 @@ from pygeodesy.errors import _AssertionError, LenError, PointsError, \
 #                             cosineLaw, equirectangular4, euclidean, flatLocal, \
 #                             flatPolar, haversine, thomas, vincentys  # _MODS.into
 # from pygeodesy.internals import _version2  # _MODS
-from pygeodesy.interns import NN, _COMMASPACE_, _cubic_, _insufficient_, _linear_, \
-                             _NOTEQUAL_, _PLUS_, _scipy_, _SPACE_, _STAR_
+from pygeodesy.interns import NN, _COMMASPACE_, _insufficient_, _NOTEQUAL_, \
+                             _PLUS_, _scipy_, _SPACE_, _STAR_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, _FOR_DOCS
 from pygeodesy.named import _name2__, _Named
 from pygeodesy.points import _distanceTo, LatLon_,  Fmt, radians, _Wrap
@@ -91,12 +91,12 @@ from pygeodesy.units import _isDegrees, Float_, Int_
 # from math import radians  # from .points
 
 __all__ = _ALL_LAZY.heights
-__version__ = '24.07.25'
+__version__ = '24.08.22'
 
-_error_     = 'error'
-_formy      = _MODS.into(formy=__name__)
-_llis_      = 'llis'
-_smoothing_ = 'smoothing'
+_error_  = 'error'
+_formy   = _MODS.into(formy=__name__)
+_linear_ = 'linear'
+_llis_   = 'llis'
 
 
 class HeightError(PointsError):
@@ -144,26 +144,11 @@ def _as_llis2(llis, m=1, Error=HeightError):  # in .geoids
         _as = _atuple  # return tuple of interpolated heights
 
     if n < m:
-        raise _insufficientError(m, Error=Error, llis=n)
+        raise _InsufficientError(m, Error=Error, llis=n)
     return _as, llis
 
 
-def _height_called(inst, lats, lons, Error=HeightError, **wrap):  # in .geoids
-    LLis, d = inst._LLis, inst.datum
-    if _isDegrees(lats) and _isDegrees(lons):
-        llis = LLis(lats, lons, datum=d)
-    else:
-        n, lats = len2(lats)
-        m, lons = len2(lons)
-        if n != m:
-            # format a LenError, but raise an Error
-            e = LenError(inst.__class__, lats=n, lons=m, txt=None)
-            raise e if Error is LenError else Error(str(e))
-        llis = [LLis(*t, datum=d) for t in zip(lats, lons)]
-    return inst(llis, **wrap)  # __call__(lli) or __call__(llis)
-
-
-def _insufficientError(need, Error=HeightError, **name_value):  # PYCHOK no cover
+def _InsufficientError(need, Error=HeightError, **name_value):  # PYCHOK no cover
     # create an insufficient Error instance
     t = _COMMASPACE_(_insufficient_, str(need) + _PLUS_)
     return Error(txt=t, **name_value)
@@ -171,25 +156,19 @@ def _insufficientError(need, Error=HeightError, **name_value):  # PYCHOK no cove
 
 def _orderedup(ts, lo=EPS, hi=PI2-EPS):
     # clip, order and remove duplicates
-    # p = 0
-    # for k in sorted(max(lo, min(hi, t)) for t in ts):
-    #     if k > p:
-    #         yield k
-    #         p = k
     return sorted(set(max(lo, min(hi, t)) for t in ts))  # list
 
 
-def _xyhs(wrap=False, **name_lls):
+def _xyhs(wrap=False, _lat=_90_0, _lon=_180_0, **name_lls):
     # map (lat, lon, h) to (x, y, h) in radians, offset
     # x as 0 <= lon <= PI2 and y as 0 <= lat <= PI
     name, lls = _xkwds_item2(name_lls)
-    _0, _90, _180 = _0_0, _90_0,    _180_0
-    _m, _r,  _w   =  max,  radians, _Wrap._latlonop(wrap)
+    _r,  _w   =  radians, _Wrap._latlonop(wrap)
     try:
         for i, ll in enumerate(lls):
             y, x = _w(ll.lat, ll.lon)
-            yield _m(_0, _r(x + _180)), \
-                  _m(_0, _r(y +  _90)), ll.height
+            yield max(_0_0, _r(x + _lon)), \
+                  max(_0_0, _r(y + _lat)), ll.height
     except Exception as e:
         i = Fmt.INDEX(name, i)
         raise HeightError(i, ll, cause=e)
@@ -199,10 +178,25 @@ class _HeightBase(_Named):  # in .geoids
     '''(INTERNAL) Interpolator base class.
     '''
     _datum = _WGS84    # default
+    _Error =  HeightError
+
     _kmin  =  2        # min number of knots
     _LLis  =  LatLon_  # ._height class
     _np_sp =  None     # (numpy, scipy)
     _wrap  =  None     # wrap knots and llis
+
+    def _as_lls(self, lats, lons):  # in .geoids
+        LLis, d = self._LLis, self.datum
+        if _isDegrees(lats) and _isDegrees(lons):
+            llis = LLis(lats, lons, datum=d)
+        else:
+            n, lats = len2(lats)
+            m, lons = len2(lons)
+            if n != m:  # format a LenError, but raise self._Error
+                e = LenError(self.__class__, lats=n, lons=m, txt=None)
+                raise self._Error(str(e))
+            llis = [LLis(*t, datum=d) for t in zip(lats, lons)]
+        return llis
 
     @property_RO
     def datum(self):
@@ -226,6 +220,11 @@ class _HeightBase(_Named):  # in .geoids
 class _HeightsBase(_HeightBase):  # in .geoids
     '''(INTERNAL) Interpolator base class.
     '''
+    _k2interp2d = {-1: _linear_,  # in .geoids._GeoidBase.__init__
+                   -2: _linear_,  # for backward compatibility
+                   -3: 'cubic',
+                   -5: 'quintic'}
+
     def __call__(self, *llis, **wrap):  # PYCHOK no cover
         '''Interpolate the height for one or several locations.  I{Must be overloaded}.
 
@@ -259,7 +258,9 @@ class _HeightsBase(_HeightBase):  # in .geoids
         '''(INTERNAL) I{Must be overloaded}.'''
         self._notOverloaded(*args)
 
-    def _eval(self, llis, **wrap):  # XXX single arg, not *args
+    _ev2d = _ev  # I{Must be overloaded}
+
+    def _evalls(self, llis, **wrap):  # XXX single arg, not *args
         _as, xis, yis, _ = self._as_xyllis4(llis, **wrap)
         try:  # SciPy .ev signature: y first, then x!
             return _as(self._ev(yis, xis))
@@ -285,7 +286,8 @@ class _HeightsBase(_HeightBase):  # in .geoids
 
            @raise SciPyWarning: A C{scipy} warning as exception.
         '''
-        self._notOverloaded(lats, lons, **wrap)
+        lls = self._as_lls(lats, lons)
+        return self(lls, **wrap)  # __call__(ll) or __call__(lls)
 
     def _np_sp2(self, throwarnings=False):  # PYCHOK no cover
         '''(INTERNAL) Import C{numpy} and C{scipy}, once.
@@ -324,12 +326,37 @@ class _HeightsBase(_HeightBase):  # in .geoids
         '''
         return _MODS.internals._version2(self.scipy.version.version, **n)
 
+    def _spline2d(self, xs, ys, hs, kind=-3):
+        '''Create a C{scipy.interpolate.interp2d} or C{-.bisplrep/-ev}
+           interpolator up to respectively since C{SciPy} 1.14.
+        '''
+        try:
+            spi = self.scipy_interpolate
+            if self._scipy_version() < (1, 14) and kind in self._k2interp2d:
+                # SciPy.interpolate.interp2d kind 'linear', 'cubic' or 'quintic'
+                # DEPRECATED since scipy 1.10, removed altogether in 1.14
+                _ev2d = spi.interp2d(xs, ys, hs, kind=self._k2interp2d[kind])
+
+            else:  # <https://scipy.GitHub.io/devdocs/tutorial/interpolate/interp_transition_guide.html>
+                k   = Int_(kind=abs(kind), low=1, high=5)
+                # note, spi.RectBivariateSpline requires strictly ordered xs and ys
+                # like spi.LSQSphereBivariateSpline?
+                r   = spi.bisplrep(xs, ys, hs.T, kx=k, ky=k)
+                _ev = spi.bisplev
+
+                def _ev2d(x, y, rep=r):
+                    return _ev(x, y, rep)  # .T not necessary
+
+            self._ev2d = _ev2d
+        except Exception as x:
+            raise _SciPyIssue(x)
+
     def _xyhs3(self, knots, wrap=False, **name):
         # convert knot C{LatLon}s to tuples or C{NumPy} arrays and C{SciPy} sphericals
         xs, ys, hs = zip(*_xyhs(knots=knots, wrap=wrap))  # PYCHOK yield
         n = len(hs)
         if n < self.kmin:
-            raise _insufficientError(self.kmin, knots=n)
+            raise _InsufficientError(self.kmin, knots=n)
         if name:
             self.name = name
         return map1(self.numpy.array, xs, ys, hs)
@@ -338,76 +365,51 @@ class _HeightsBase(_HeightBase):  # in .geoids
 class HeightCubic(_HeightsBase):
     '''Height interpolator based on C{SciPy} U{interp2d<https://docs.SciPy.org/
        doc/scipy/reference/generated/scipy.interpolate.interp2d.html>}
-       C{kind='cubic'}.
+       C{kind='cubic'} or U{bisplrep/-ev<https://docs.SciPy.org/doc/scipy/
+       reference/generated/scipy.interpolate.interp2d.html>} C{kx=ky=3}.
     '''
-    _interp2d =  None
-    _kind     = _cubic_
-    _kmin     =  16
+    _kind = -3
+    _kmin =  16
 
     def __init__(self, knots, **name_wrap):
         '''New L{HeightCubic} interpolator.
 
            @arg knots: The points with known height (C{LatLon}s).
-           @kwarg name_wrap: Optional C{B{name}=NN} for this height interpolator
-                       (C{str}) and keyword argument C{b{wrap}=False} to wrap or
-                       I{normalize} all B{C{knots}} and B{C{llis}} locations iff
-                       C{True} (C{bool}).
+           @kwarg name_wrap: Optional C{B{name}=NN} for this height interpolator (C{str})
+                       and keyword argument C{b{wrap}=False} to wrap or I{normalize} all
+                       B{C{knots}} and B{C{llis}} locations iff C{True} (C{bool}).
 
-           @raise HeightError: Insufficient number of B{C{knots}} or
-                               invalid B{C{knot}}.
+           @raise HeightError: Insufficient number of B{C{knots}} or invalid B{C{knot}}.
 
-           @raise ImportError: Package C{numpy} or C{scipy} not found
-                               or not installed.
+           @raise ImportError: Package C{numpy} or C{scipy} not found or not installed.
 
-           @raise SciPyError: A C{scipy.interpolate.interp2d} issue.
+           @raise SciPyError: A C{scipy} issue.
 
-           @raise SciPyWarning: A C{scipy.interpolate.interp2d} warning
-                                as exception.
+           @raise SciPyWarning: A C{scipy} warning as exception.
         '''
-        spi = self.scipy_interpolate
-
-        xs, ys, hs = self._xyhs3(knots, **name_wrap)
-        try:  # SciPy.interpolate.interp2d kind 'linear' or 'cubic'
-            self._interp2d = spi.interp2d(xs, ys, hs, kind=self._kind)
-        except Exception as x:
-            raise _SciPyIssue(x)
+        xs_yx_hs = self._xyhs3(knots, **name_wrap)
+        _HeightsBase._spline2d(self, *xs_yx_hs, kind=self._kind)
 
     def __call__(self, *llis, **wrap):
         '''Interpolate the height for one or several locations.
 
-           @raise SciPyError: A C{scipy.interpolate.interp2d} issue.
-
-           @raise SciPyWarning: A C{scipy.interpolate.interp2d} warning
-                                as exception.
-
            @see: L{Here<_HeightsBase.__call__>} for further details.
         '''
-        return _HeightsBase._eval(self, llis, **wrap)
+        return self._evalls(llis, **wrap)
 
     def _ev(self, yis, xis):  # PYCHOK expected
         # to make SciPy .interp2d signature(x, y), single (x, y)
         # match SciPy .ev signature(ys, xs), flipped multiples
-        return map(self._interp2d, xis, yis)
-
-    def height(self, lats, lons, **wrap):
-        '''Interpolate the height for one or several lat-/longitudes.
-
-           @raise SciPyError: A C{scipy.interpolate.interp2d} issue.
-
-           @raise SciPyWarning: A C{scipy.interpolate.interp2d} warning
-                                as exception.
-
-           @see: L{Here<_HeightsBase.height>} for further details.
-        '''
-        return _height_called(self, lats, lons, **wrap)
+        return map(self._ev2d, xis, yis)
 
 
 class HeightLinear(HeightCubic):
     '''Height interpolator based on C{SciPy} U{interp2d<https://docs.SciPy.org/
        doc/scipy/reference/generated/scipy.interpolate.interp2d.html>}
-       C{kind='linear'}.
+       C{kind='linear'} or U{bisplrep/-ev<https://docs.SciPy.org/doc/scipy/
+       reference/generated/scipy.interpolate.interp2d.html>} C{kx=ky=1}.
     '''
-    _kind = _linear_
+    _kind = -1
     _kmin =  2
 
     def __init__(self, knots, **name_wrap):
@@ -446,13 +448,12 @@ class HeightLSQBiSpline(_HeightsBase):
 
            @raise LenError: Unequal number of B{C{knots}} and B{C{weight}}s.
 
-           @raise ImportError: Package C{numpy} or C{scipy} not found or
-                               not installed.
+           @raise ImportError: Package C{numpy} or C{scipy} not found or not
+                               installed.
 
-           @raise SciPyError: A C{scipy} C{LSQSphereBivariateSpline} issue.
+           @raise SciPyError: A C{scipy} issue.
 
-           @raise SciPyWarning: A C{scipy} C{LSQSphereBivariateSpline}
-                                warning as exception.
+           @raise SciPyWarning: A C{scipy} warning as exception.
         '''
         np  = self.numpy
         spi = self.scipy_interpolate
@@ -465,7 +466,7 @@ class HeightLSQBiSpline(_HeightsBase):
             w = float(w)
             if w <= 0:
                 raise HeightError(weight=w)
-            w = [w] * n
+            w = (w,) * n
         elif w is not None:
             m, w = len2(w)
             if m != n:
@@ -488,26 +489,9 @@ class HeightLSQBiSpline(_HeightsBase):
     def __call__(self, *llis, **wrap):
         '''Interpolate the height for one or several locations.
 
-           @raise SciPyError: A C{scipy} C{LSQSphereBivariateSpline} issue.
-
-           @raise SciPyWarning: A C{scipy} C{LSQSphereBivariateSpline}
-                                warning as exception.
-
            @see: L{Here<_HeightsBase.__call__>} for further details.
         '''
-        return _HeightsBase._eval(self, llis, **wrap)
-
-    def height(self, lats, lons, **wrap):
-        '''Interpolate the height for one or several lat-/longitudes.
-
-           @raise SciPyError: A C{scipy} C{LSQSphereBivariateSpline} issue.
-
-           @raise SciPyWarning: A C{scipy} C{LSQSphereBivariateSpline}
-                                warning as exception.
-
-           @see: L{Here<_HeightsBase.height>} for further details.
-        '''
-        return _height_called(self, lats, lons, **wrap)
+        return self._evalls(llis, **wrap)
 
 
 class HeightSmoothBiSpline(_HeightsBase):
@@ -527,20 +511,19 @@ class HeightSmoothBiSpline(_HeightsBase):
                        I{normalize} all B{C{knots}} and B{C{llis}} locations iff
                        C{True} (C{bool}).
 
-           @raise HeightError: Insufficient number of B{C{knots}} or
-                               an invalid B{C{knot}} or B{C{s}}.
+           @raise HeightError: Insufficient number of B{C{knots}} or an invalid
+                               B{C{knot}} or B{C{s}}.
 
            @raise ImportError: Package C{numpy} or C{scipy} not found or not
                                installed.
 
-           @raise SciPyError: A C{scipy} C{SmoothSphereBivariateSpline} issue.
+           @raise SciPyError: A C{scipy} issue.
 
-           @raise SciPyWarning: A C{scipy} C{SmoothSphereBivariateSpline}
-                                warning as exception.
+           @raise SciPyWarning: A C{scipy} warning as exception.
         '''
         spi = self.scipy_interpolate
 
-        s = Float_(s, name=_smoothing_, Error=HeightError, low=4)
+        s = Float_(smoothing=s, Error=HeightError, low=4)
 
         xs, ys, hs = self._xyhs3(knots, **name_wrap)
         try:
@@ -552,26 +535,9 @@ class HeightSmoothBiSpline(_HeightsBase):
     def __call__(self, *llis, **wrap):
         '''Interpolate the height for one or several locations.
 
-           @raise SciPyError: A C{scipy} C{SmoothSphereBivariateSpline} issue.
-
-           @raise SciPyWarning: A C{scipy} C{SmoothSphereBivariateSpline}
-                                warning as exception.
-
            @see: L{Here<_HeightsBase.__call__>} for further details.
         '''
-        return _HeightsBase._eval(self, llis, **wrap)
-
-    def height(self, lats, lons, **wrap):
-        '''Interpolate the height for one or several lat-/longitudes.
-
-           @raise SciPyError: A C{scipy} C{SmoothSphereBivariateSpline} issue.
-
-           @raise SciPyWarning: A C{scipy} C{SmoothSphereBivariateSpline}
-                                warning as exception.
-
-           @see: L{Here<_HeightsBase.height>} for further details.
-        '''
-        return _height_called(self, lats, lons, **wrap)
+        return self._evalls(llis, **wrap)
 
 
 class _HeightIDW(_HeightBase):
@@ -608,7 +574,7 @@ class _HeightIDW(_HeightBase):
 
         n, self._knots = len2(knots)
         if n < self.kmin:
-            raise _insufficientError(self.kmin, knots=n)
+            raise _InsufficientError(self.kmin, knots=n)
         self.beta  = beta
         self._kwds = kwds or {}
 
@@ -684,6 +650,16 @@ class _HeightIDW(_HeightBase):
             i = Fmt.INDEX(knots=i)
             raise HeightError(i, k, cause=e)
 
+    def _distancesTo(self, _To):
+        '''(INTERNAL) Yield distances C{_To}.
+        '''
+        try:
+            for i, k in enumerate(self._knots):
+                yield _To(k)
+        except Exception as e:
+            i = Fmt.INDEX(knots=i)
+            raise HeightError(i, k, cause=e)
+
     def height(self, lats, lons, **wrap):
         '''Interpolate the height for one or several lat-/longitudes.
 
@@ -698,7 +674,8 @@ class _HeightIDW(_HeightBase):
            @raise HeightError: Insufficient or non-matching number of B{C{lats}}
                                and B{C{lons}} or a L{pygeodesy.fidw} issue.
         '''
-        return _height_called(self, lats, lons, **wrap)
+        lls = self._as_lls(lats, lons)
+        return self(lls, **wrap)  # __call__(ll) or __call__(lls)
 
     @Property_RO
     def _heights(self):
@@ -851,7 +828,7 @@ class HeightIDWdistanceTo(_HeightIDW):
         _HeightIDW.__init__(self, knots, beta=beta, **name__distanceTo_kwds)
         ks0 = _distanceTo(HeightError, knots=self._knots)[0]
         # use knots[0] class and datum to create compatible points
-        # in _height_called instead of class LatLon_ and datum None
+        # in ._as_lls instead of class LatLon_ and datum None
         self._datum = ks0.datum
         self._LLis  = ks0.classof  # type(ks0)
 
@@ -859,12 +836,11 @@ class HeightIDWdistanceTo(_HeightIDW):
         '''(INTERNAL) Yield distances to C{(x, y)}.
         '''
         kwds, ll = self._kwds, self._LLis(y, x)
-        try:
-            for i, k in enumerate(self._knots):
-                yield k.distanceTo(ll, **kwds)
-        except Exception as e:
-            i = Fmt.INDEX(knots=i)
-            raise HeightError(i, k, cause=e)
+
+        def _To(k):
+            return k.distanceTo(ll, **kwds)
+
+        return self._distancesTo(_To)
 
     if _FOR_DOCS:
         __call__ = _HeightIDW.__call__
@@ -892,12 +868,11 @@ class HeightIDWequirectangular(_HeightIDW):
         '''(INTERNAL) Yield distances to C{(x, y)}.
         '''
         _f, kwds = _formy.equirectangular4, self._kwds
-        try:
-            for i, k in enumerate(self._knots):
-                yield _f(y, x, k.lat, k.lon, **kwds).distance2
-        except Exception as e:
-            i = Fmt.INDEX(knots=i)
-            raise HeightError(i, k, cause=e)
+
+        def _To(k):
+            return _f(y, x, k.lat, k.lon, **kwds).distance2
+
+        return self._distancesTo(_To)
 
     if _FOR_DOCS:
         __call__ = _HeightIDW.__call__
@@ -1114,7 +1089,7 @@ class HeightIDWvincentys(_HeightIDW):
         height   = _HeightIDW.height
 
 
-__all__ += _ALL_DOCS(_HeightBase, _HeightIDW, _HeightsBase)
+__all__ += _ALL_DOCS(_HeightBase, _HeightsBase, _HeightIDW)
 
 # **) MIT License
 #

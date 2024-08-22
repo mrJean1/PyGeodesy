@@ -24,7 +24,7 @@ from pygeodesy.points import _areaError, ispolar  # PYCHOK exported
 # from math import fabs  # from .karney
 
 __all__ = _ALL_LAZY.ellipsoidalExact
-__version__ = '24.06.11'
+__version__ = '24.08.13'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -252,7 +252,7 @@ def nearestOn(point, point1, point2, within=True, height=None, wrap=False,
        @arg point: Reference point (C{LatLon}).
        @arg point1: Start point of the geodesic (C{LatLon}).
        @arg point2: End point of the geodesic (C{LatLon}).
-       @kwarg within: If C{True} return the closest point I{between}
+       @kwarg within: If C{True}, return the closest point I{between}
                       B{C{point1}} and B{C{point2}}, otherwise the
                       closest point elsewhere on the geodesic (C{bool}).
        @kwarg height: Optional height for the closest point (C{meter},

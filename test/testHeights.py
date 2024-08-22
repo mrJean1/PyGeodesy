@@ -39,12 +39,12 @@ def _kwdstr(kwds):
 
 class Tests(TestsBase):
 
-    def testHeight(self, H, kts, lli, expected, lats, lons, **kwds):
+    def testHeight(self, H, kts, lli, expected, lats, lons, known=False, **kwds):
         interpolator = H(kts, **kwds)
         self.testCopy(interpolator)
         self.testHeightError(interpolator)
         h = interpolator(lli)
-        self.test(H.__name__, h, expected, fmt='%.9f')
+        self.test(H.__name__, h, expected, fmt='%.9f', known=known)
         self.test(H.__name__+'(float)', type(h), float)
         h2 = interpolator.height(lli.lat, lli.lon)
         self.test(H.__name__+'(latlon)', h2 == h, True)
@@ -199,7 +199,7 @@ class Tests(TestsBase):
                 self.testHeight(HeightIDWkarney,      kts, lli, '2.402157442', lats, lons)  # datum=Datums.Sphere
             self.testHeight(HeightIDWthomas,          kts, lli, '2.401661653', lats, lons)  # 2.402157442
             self.testHeight(HeightIDWvincentys,       kts, lli, '2.402157442', lats, lons)
-            self.testHeight(HeightLinear,             kts, lli, '3.000000000', lats, lons)
+            self.testHeight(HeightLinear,             kts, lli, '2.294914622', lats, lons, known=True)  # 3.000000000
             self.testHeight(HeightLSQBiSpline,        kts, lli, '6.419251669', lats, lons)
             try:  # SciPy 1.9.0 issue
                 self.testHeight(HeightLSQBiSpline,    kts, lli, '6.419251669', lats, lons, weight=2)  # coverage

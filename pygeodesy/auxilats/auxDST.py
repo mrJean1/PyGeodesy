@@ -24,7 +24,7 @@ from pygeodesy.karney import _2cos2x,  _ALL_DOCS
 from pygeodesy.props import property_RO, property_ROver
 
 __all__ = ()
-__version__ = '24.07.25'
+__version__ = '24.08.13'
 
 
 class AuxDST(object):
@@ -92,7 +92,7 @@ class AuxDST(object):
 
            @arg data: Elements DST-III[0:N+1] or DST-IV[0:N] (C{float}[])
                       with DST_III[0] = 0.
-           @arg cIV: If C{True} DST-IV, otherwise DST-III.
+           @arg cIV: If C{True}, DST-IV, otherwise DST-III.
 
            @return: FFTransforms (C{float}[0:N]).
         '''

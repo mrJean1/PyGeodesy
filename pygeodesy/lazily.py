@@ -395,10 +395,10 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                          utmups=_i('UtmUps', 'UTMUPSError', 'parseUTMUPS5', 'toUtmUps8',
                                    'utmupsValidate', 'utmupsValidateOK', 'utmupsZoneBand5'),
                      utmupsBase=_i(),  # module only
-                       vector2d=_i('Circin6Tuple', 'Circum3Tuple', 'Circum4Tuple', 'Meeus2Tuple', 'Radii11Tuple', 'Soddy4Tuple',
-                                   'circin6', 'circum3', 'circum4_', 'meeus2', 'radii11', 'soddy4'),
+                       vector2d=_i('Circin6Tuple', 'Circum3Tuple', 'Circum4Tuple', 'Meeus2Tuple', 'Radii11Tuple', 'Soddy4Tuple', 'Triaxum5Tuple',
+                                   'circin6', 'circum3', 'circum4', 'circum4_', 'meeus2', 'radii11', 'soddy4', 'triaxum5', 'trilaterate2d2'),
                        vector3d=_i('Vector3d', 'intersection3d3', 'iscolinearWith', 'nearestOn', 'nearestOn6', 'parse3d',
-                                   'trilaterate2d2', 'trilaterate3d2'),
+                                   'trilaterate3d2'),
                    vector3dBase=_i(),  # module only
                     webmercator=_i('Wm', 'WebMercatorError', 'parseWM', 'toWm', 'EasNorRadius3Tuple'),
                            wgrs=_i('Georef', 'WGRSError'),)
@@ -416,8 +416,8 @@ _ALL_DEPRECATED = _NamedEnum_RO(_name='_ALL_DEPRECATED',
                      deprecated_datum=_i('Curvature2Tuple', 'Datum',  'Ellipsoid',  'Transform',  # assert
                                                             'Datums', 'Ellipsoids', 'Transforms',
                                          'R_FM', 'R_KM', 'R_M', 'R_MA', 'R_MB', 'R_NM', 'R_SM', 'R_VM'),
-                 deprecated_functions=_i('anStr', 'areaof', 'atand', 'bounds',  # most of the DEPRECATED functions, except ...
-                                         'clipCS3', 'clipDMS', 'clipStr', 'collins', 'copysign',  # ...  ellipsoidal, spherical flavors
+                 deprecated_functions=_i('anStr', 'areaof', 'atand', 'bounds',  # most of the DEPRECATED functions, except ellipsoidal ...
+                                         'clipCS3', 'clipDMS', 'clipStr', 'collins', 'copysign',  # ... and spherical flavors
                                          'decodeEPSG2', 'encodeEPSG', 'enStr2', 'equirectangular_', 'equirectangular3',
                                          'excessAbc', 'excessGirard', 'excessLHuilier',
                                          'false2f', 'falsed2f', 'float0', 'fStr', 'fStrzs', 'hypot3',
@@ -521,7 +521,7 @@ class _ALL_MODS(_internals._MODS_Base):
 _internals._MODS = _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '24.08.01'
+__version__ = '24.08.18'
 
 
 def _ALL_OTHER(*objs):

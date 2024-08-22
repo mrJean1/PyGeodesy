@@ -47,7 +47,7 @@ from pygeodesy.streprs import Fmt, fstr, unstr
 from math import ceil as _ceil, fabs, floor as _floor  # PYCHOK used! .ltp
 
 __all__ = _ALL_LAZY.fsums
-__version__ = '24.06.11'
+__version__ = '24.08.13'
 
 _add_op_      = _PLUS_  # in .auxilats.auxAngle
 _eq_op_       = _EQUAL_ * 2  # _DEQUAL_
@@ -1970,8 +1970,8 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
     def signOf(self, res=True):
         '''Determine the sign of this instance.
 
-           @kwarg res: If C{True} consider, otherwise
-                       ignore the residual (C{bool}).
+           @kwarg res: If C{True}, consider, otherwise ignore
+                       the residual (C{bool}).
 
            @return: The sign (C{int}, -1, 0 or +1).
         '''
@@ -1992,7 +1992,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
     def toStr(self, lenc=True, **prec_sep_fmt):  # PYCHOK signature
         '''Return this C{Fsum} instance as string.
 
-           @kwarg lenc: If C{True} include the current C{[len]} of this
+           @kwarg lenc: If C{True}, include the current C{[len]} of this
                         L{Fsum} enclosed in I{[brackets]} (C{bool}).
            @kwarg prec_sep_fmt: Optional keyword arguments for method
                        L{Fsum2Tuple.toStr}.

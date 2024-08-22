@@ -27,7 +27,7 @@ from pygeodesy.units import Band, Easting, Northing, Scalar, Zone
 from pygeodesy.utily import _Wrap, wrap360
 
 __all__ = _ALL_LAZY.utmupsBase
-__version__ = '24.06.12'
+__version__ = '24.08.13'
 
 _UPS_BANDS = _A_, _B_, _Y_, _Z_  # UPS polar bands SE, SW, NE, NW
 # _UTM_BANDS = _MODS.utm._Bands
@@ -157,8 +157,8 @@ class UtmUpsBase(_NamedBase):
     def eastingnorthing2(self, falsed=True):
         '''Return easting and northing, falsed or unfalsed.
 
-           @kwarg falsed: If C{True} return easting and northing falsed
-                          (C{bool}), otherwise unfalsed.
+           @kwarg falsed: If C{True}, return easting and northing falsed,
+                          otherwise unfalsed (C{bool}).
 
            @return: An L{EasNor2Tuple}C{(easting, northing)} in C{meter}.
         '''

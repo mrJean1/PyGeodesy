@@ -84,7 +84,7 @@
   geodesic, great circle and rhumb lines, circle intersections and secants,
   <a href="https://WikiPedia.org/wiki/Position_resection_and_intersection" 
   target="_top">3-point resections</a>, triangulation, trilateration (by 
-  intersection, by overlap and in 3d), conversions and unrolling, among 
+  intersection, by overlap and in 3-D), conversions and unrolling, among 
   other things.  For more information and further details see the <a 
   href="https://mrJean1.GitHub.io/PyGeodesy" 
   target="_top">documentation</a>, the descriptions of <a 
@@ -269,10 +269,12 @@
     command line: <code>epydoc --html --no-private --no-source 
     --name=PyGeodesy --url=... -v pygeodesy</code>).</p>
   <h1 class="heading">Tests</h1>
-    <p>The tests ran with Python 3.13.0b4, Python 3.12.4 (with <a 
+    <p>The tests ran with Python 3.13.0rc1, Python 3.12.5 (with <a 
     href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 2.0, <a 
-    href="https://GeographicLib.SourceForge.io/C++/doc/utilities.html" 
+    href="https://PyPI.org/project/numpy" target="_top">numpy</a> 2.1.0, <a
+    href="https://PyPI.org/project/scipy" target="_top">scipy</a> 1.14.1, 
+    <a href="https://GeographicLib.SourceForge.io/C++/doc/utilities.html" 
     target="_top">GeodSolve</a> 2.3, <a 
     href="https://GeographicLib.SourceForge.io/C++/doc/utilities.html" 
     target="_top">IntersectTool</a> 2.3 and <a 
@@ -302,7 +304,7 @@
     href="https://GeographicLib.SourceForge.io/C++/doc/utilities.html" 
     target="_top">IntersectTool</a> 2.3 and <a 
     href="https://GeographicLib.SourceForge.io/C++/doc/utilities.html" 
-    target="_top">RhumbSolve</a> 2.3), all in 64-bit on macOS 14.5 
+    target="_top">RhumbSolve</a> 2.3), all in 64-bit on macOS 14.6.1 
     Sonoma.</p>
     <p>All tests ran with and without <code>lazy import</code> for Python 3
     and with command line option <code>-W default</code> and env variable 
@@ -310,16 +312,16 @@
     results of those tests are included in the distribution files.</p>
     <p>Test coverage has been measured with <a 
     href="https://PyPI.org/project/coverage" target="_top">coverage</a> 
-    7.6.0 using Python 3.12.4, 3.11.5 and 3.10.8.  The complete coverage 
+    7.6.0 using Python 3.12.5, 3.11.5 and 3.10.8.  The complete coverage 
     report in HTML and a PDF summary are included in the distribution 
     files.</p>
-    <p>Python 3.13.0b4, 3.12.4, 3.11.5 and 3.10.8 run on Apple M1 Silicon 
+    <p>Python 3.13.0rc1, 3.12.5, 3.11.5 and 3.10.8 run on Apple M1 Silicon 
     (<code>arm64</code>), <i>natively</i>.  Python 2.7.18 runs on Intel 
     (<code>x86_64</code>) or Intel <i>emulation</i> 
     (&quot;<code>arm64_x86_64</code>&quot;, see function <a 
     href="pygeodesy.internals-module.html#machine" 
     class="link">machine</a>).</p>
-    <p>The tests also ran with Python 3.12.4 (and <a 
+    <p>The tests also ran with Python 3.12.5 (and <a 
     href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 2.0) on <a 
     href="https://Cirrus-CI.com/github/mrJean1/PyGeodesy/master" 
@@ -337,7 +339,7 @@
     href="https://PyPI.org/project/pyinstaller" 
     target="_top">PyInstaller</a> 3.4 and 64-bit Python 3.7.3 on macOS 
     10.13.6 High Sierra.</p>
-    <p>Previously, the tests were run with Python 3.12.0-3, 3.11.2-4, 
+    <p>Previously, the tests were run with Python 3.12.0-4, 3.11.2-4, 
     3.10.1-7, 3.9.6, 3.9.1, 3.8.7, 3.7.1, 2.7.15, <a 
     href="https://PyPy.org" target="_top">PyPy</a> 7.3.12 (Python 3.10.12),
     7.3.1 (Python 3.6.9) and <a href="https://PyPy.org" 
@@ -360,11 +362,10 @@
     href="https://software.Intel.com/en-us/distribution-for-python" 
     target="_top">Intel-Python</a> 3.5.3 (and <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.11.3) 
-    on macOS 14.0-4.1 Sonoma, 13.0-5.2 Ventura, 12.1-6 Monterey, 
-    11.0-5.2-6.1 Big Sur (aka 10.16), 10.15.3, 10.15.5-7 Catalina, 10.14 
-    Mojave, 10.13.6 High Sierra and 10.12 Sierra, MacOS X 10.11 El Capitan 
-    and/or MacOS X 10.10 Yosemite, with <a 
-    href="https://OMZ-Software.com/pythonista" 
+    on macOS 14.0-5 Sonoma, 13.0-5.2 Ventura, 12.1-6 Monterey, 11.0-5.2-6.1
+    Big Sur (aka 10.16), 10.15.3, 10.15.5-7 Catalina, 10.14 Mojave, 10.13.6
+    High Sierra and 10.12 Sierra, MacOS X 10.11 El Capitan and/or MacOS X 
+    10.10 Yosemite, with <a href="https://OMZ-Software.com/pythonista" 
     target="_top">Pythonista</a>3.2 (with geographiclib 1.50 or 1.49 and 
     numpy 1.8.0) on iOS 14.4.2, 11.4.1, 12.0-3 on iPad4, iPhone6, iPhone10 
     and/or iPhone12, with <a href="https://OMZ-Software.com/pythonista" 
@@ -383,7 +384,7 @@
     href="https://PyPI.org/project/mccabe" target="_top">McCabe</a> using 
     Python 2.7.18 and with <a href="https://PyPI.org/project/flake8" 
     target="_top">Flake8</a> using Python 3.11.5, both in 64-bit on macOS 
-    14.5 Sonoma.</p>
+    14.6.1 Sonoma.</p>
     <p>For a summary of all <i>Karney</i>-based functionality in 
     <code>pygeodesy</code>, see module <a 
     href="https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.karney-module.html"
@@ -560,7 +561,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        24.08.04
+        24.08.24
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -983,9 +984,11 @@
         href="pygeodesy.vector3d-module.html#nearestOn" 
         class="link">nearestOn</a>, <a 
         href="pygeodesy.vector2d-module.html#radii11" 
-        class="link">radii11</a> and <a 
+        class="link">radii11</a>, <a 
         href="pygeodesy.vector2d-module.html#soddy4" 
-        class="link">soddy4</a>.</em>    </li>
+        class="link">soddy4</a> and <a 
+        href="pygeodesy.vector2d-module.html#trilaterate2d2" 
+        class="link">trilaterate2d2</a>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.vector3d-module.html">pygeodesy.vector3d</a></strong>: <em class="summary">Extended 3-D vector class <a 
         href="pygeodesy.vector3d.Vector3d-class.html" 
         class="link">Vector3d</a> and functions.</em>    </li>
@@ -1005,70 +1008,6 @@
   <td align="left" colspan="2" class="table-header">
     <span class="table-header">Classes</span></td>
 </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.ellipsoidalVincenty.VincentyError-class.html" class="summary-name">VincentyError</a><br />
-      Error raised by <i>Vincenty</i>'s <code>Direct</code> and 
-        <code>Inverse</code> methods for coincident points or lack of 
-        convergence.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.epsg.Epsg-class.html" class="summary-name">Epsg</a><br />
-      <a href="https://EPSG.org" target="_top">EPSG</a> class, a named 
-        <code>int</code>.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.epsg.EPSGError-class.html" class="summary-name">EPSGError</a><br />
-      EPSG encode, decode or other <a 
-        href="pygeodesy.epsg.Epsg-class.html" class="link">Epsg</a> issue.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.gars.Garef-class.html" class="summary-name">Garef</a><br />
-      Garef class, a named <code>str</code>.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.gars.GARSError-class.html" class="summary-name">GARSError</a><br />
-      Global Area Reference System (GARS) encode, decode or other <a 
-        href="pygeodesy.gars.Garef-class.html" class="link">Garef</a> 
-        issue.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.wgrs.Georef-class.html" class="summary-name">Georef</a><br />
-      Georef class, a named <code>str</code>.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.wgrs.WGRSError-class.html" class="summary-name">WGRSError</a><br />
-      World Geographic Reference System (WGRS) encode, decode or other <a
-        href="pygeodesy.wgrs.Georef-class.html" class="link">Georef</a> 
-        issue.
-    </td>
-  </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
@@ -1828,6 +1767,15 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.epsg.EPSGError-class.html" class="summary-name">EPSGError</a><br />
+      EPSG encode, decode or other <a 
+        href="pygeodesy.epsg.Epsg-class.html" class="link">Epsg</a> issue.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.etm.ETMError-class.html" class="summary-name">ETMError</a><br />
       Exact Transverse Mercator (ETM) parse, projection or other <a 
         href="pygeodesy.etm.Etm-class.html" class="link">Etm</a> issue or 
@@ -2081,6 +2029,15 @@
         <a href="pygeodesy.units.Epoch-class.html" class="summary-name">Epoch</a><br />
       Named <code>epoch</code> with optional <code>low</code> and 
         <code>high</code> limits representing a fractional calendar year.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.epsg.Epsg-class.html" class="summary-name">Epsg</a><br />
+      <a href="https://EPSG.org" target="_top">EPSG</a> class, a named 
+        <code>int</code>.
     </td>
   </tr>
 <tr>
@@ -2566,9 +2523,27 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.gars.GARSError-class.html" class="summary-name">GARSError</a><br />
+      Global Area Reference System (GARS) encode, decode or other <a 
+        href="pygeodesy.gars.Garef-class.html" class="link">Garef</a> 
+        issue.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.karney.GDict-class.html" class="summary-name">GDict</a><br />
       A <code>dict</code> with both <code>key</code> <i>and</i> 
         <code>attribute</code> access to the <code>dict</code> items.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.gars.Garef-class.html" class="summary-name">Garef</a><br />
+      Garef class, a named <code>str</code>.
     </td>
   </tr>
 <tr>
@@ -2740,9 +2715,11 @@
         href="https://www.NGS.NOAA.gov/GEOID/GEOID12B/GEOID12B_AS.shtml" 
         target="_top">American Samoa</a> based on <code>SciPy</code> <a 
         href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.RectBivariateSpline.html"
-        target="_top">RectBivariateSpline</a> or <a 
+        target="_top">RectBivariateSpline</a>, <a 
         href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.interp2d.html"
-        target="_top">interp2d</a> interpolation.
+        target="_top">interp2d</a> or <a 
+        href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.bisplrep.html"
+        target="_top">bisplrep/-ev</a> interpolation.
     </td>
   </tr>
 <tr>
@@ -2801,9 +2778,19 @@
         target="_top">egm*.pgm</a> datasets but based on <code>SciPy</code>
         <a 
         href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.RectBivariateSpline.html"
-        target="_top">RectBivariateSpline</a> or <a 
+        target="_top">RectBivariateSpline</a>, <a 
+        href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.bisplrep.html"
+        target="_top">bisplrep/-ev</a> or <a 
         href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.interp2d.html"
         target="_top">interp2d</a> interpolation.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.wgrs.Georef-class.html" class="summary-name">Georef</a><br />
+      Georef class, a named <code>str</code>.
     </td>
   </tr>
 <tr>
@@ -3091,7 +3078,9 @@
         <a href="pygeodesy.heights.HeightCubic-class.html" class="summary-name">HeightCubic</a><br />
       Height interpolator based on <code>SciPy</code> <a 
         href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.interp2d.html"
-        target="_top">interp2d</a> <code>kind='cubic'</code>.
+        target="_top">interp2d</a> <code>kind='cubic'</code> or <a 
+        href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.interp2d.html"
+        target="_top">bisplrep/-ev</a> <code>kx=ky=3</code>.
     </td>
   </tr>
 <tr>
@@ -3306,7 +3295,9 @@
         <a href="pygeodesy.heights.HeightLinear-class.html" class="summary-name">HeightLinear</a><br />
       Height interpolator based on <code>SciPy</code> <a 
         href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.interp2d.html"
-        target="_top">interp2d</a> <code>kind='linear'</code>.
+        target="_top">interp2d</a> <code>kind='linear'</code> or <a 
+        href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.interp2d.html"
+        target="_top">bisplrep/-ev</a> <code>kx=ky=1</code>.
     </td>
   </tr>
 <tr>
@@ -4759,6 +4750,20 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.vector2d.Triaxum5Tuple-class.html" class="summary-name">Triaxum5Tuple</a><br />
+      5-Tuple <code>(a, b, c, rank, residuals)</code> with the 
+        (unordered) triaxial radii <code>a</code>, <code>b</code> and 
+        <code>c</code> of an ellipsoid <i>least-squares</i> fitted through 
+        given points and the <code>rank</code> and <code>residuals</code> 
+        -if any- from <a 
+        href="https://NumPy.org/doc/stable/reference/generated/numpy.linalg.lstsq.html"
+        target="_top">numpy.linalg.lstsq</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.namedTuples.Trilaterate5Tuple-class.html" class="summary-name">Trilaterate5Tuple</a><br />
       5-Tuple <code>(min, minPoint, max, maxPoint, n)</code> with 
         <code>min</code> and <code>max</code> in <code>meter</code>, the 
@@ -4948,6 +4953,26 @@
       <a href="pygeodesy.vector3d.Vector3d-class.html" 
         class="link">Vector3d</a>, <code>Cartesian*</code> or 
         <code>*Nvector</code> issues.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ellipsoidalVincenty.VincentyError-class.html" class="summary-name">VincentyError</a><br />
+      Error raised by <i>Vincenty</i>'s <code>Direct</code> and 
+        <code>Inverse</code> methods for coincident points or lack of 
+        convergence.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.wgrs.WGRSError-class.html" class="summary-name">WGRSError</a><br />
+      World Geographic Reference System (WGRS) encode, decode or other <a
+        href="pygeodesy.wgrs.Georef-class.html" class="link">Georef</a> 
+        issue.
     </td>
   </tr>
 <tr>
@@ -5917,9 +5942,28 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#circum4" class="summary-sig-name">circum4</a>(<span class="summary-sig-arg">points</span>,
+        <span class="summary-sig-arg">useZ</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">**Vector_and_kwds</span>)</span><br />
+      Best-fit a sphere through three or more (3-D) points.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#circum4_" class="summary-sig-name">circum4_</a>(<span class="summary-sig-arg">*points</span>,
         <span class="summary-sig-arg">**useZ_Vector_and_kwds</span>)</span><br />
-      Best-fit a sphere through three or more (3-D) points.</td>
+      Best-fit a sphere through three or more (3-D) positional points.</td>
           <td align="right" valign="top">
             
             
@@ -8297,7 +8341,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f7c384ad1d0&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fb7e019fa50&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -10901,11 +10945,10 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#precision" class="summary-sig-name">precision</a>(<span class="summary-sig-arg">res1</span>,
-        <span class="summary-sig-arg">res2</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Determine the <a href="pygeodesy.geohash.Geohash-class.html" 
-      class="link">Geohash</a> precisions to meet a or both given 
-      (geographic) resolutions.</td>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#precision" class="summary-sig-name">precision</a>(<span class="summary-sig-arg">res</span>)</span><br />
+      Determine the <a href="pygeodesy.wgrs.Georef-class.html" 
+      class="link">Georef</a> precision to meet a required (geographic) 
+      resolution.</td>
           <td align="right" valign="top">
             
             
@@ -12246,6 +12289,24 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#triaxum5" class="summary-sig-name">triaxum5</a>(<span class="summary-sig-arg">points</span>,
+        <span class="summary-sig-arg">useZ</span>=<span class="summary-sig-default">True</span>)</span><br />
+      Best-fit a triaxial ellipsoid through three or more (3-D) points.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#trilaterate2d2" class="summary-sig-name">trilaterate2d2</a>(<span class="summary-sig-arg">x1</span>,
         <span class="summary-sig-arg">y1</span>,
         <span class="summary-sig-arg">radius1</span>,
@@ -12833,7 +12894,7 @@ ygeodesy'"><code class="variable-quote">'</code><code class="variable-string">/U
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'24.8.4'">'24.8.4'</code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'24.8.24'">'24.8.24'</code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -13547,7 +13608,7 @@ RefFrames.ETRF92: RefFrame(name='ETRF92', epoch=1992, datum=Datums.GRS\
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="S_DMS"></a><span class="summary-name">S_DMS</span> = <code title="True">True</code><br />
-      If <code>True</code> include, otherwise cancel all DMS symbols, 
+      If <code>True</code>, include, otherwise cancel all DMS symbols, 
       default <code>True</code>.
     </td>
   </tr>
@@ -15089,7 +15150,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
           href="pygeodesy.vector3d-module.html#trilaterate3d2" 
           class="link">pygeodesy.trilaterate3d2</a> if <code><b>useZ</b> is
           True</code> else <a 
-          href="pygeodesy.vector3d-module.html#trilaterate2d2" 
+          href="pygeodesy.vector2d-module.html#trilaterate2d2" 
           class="link">pygeodesy.trilaterate2d2</a>.</li>
         <li><strong class="pname"><code>useZ</code></strong> - If <code>True</code>, use the Z components, otherwise force 
           <code>z=INT0</code> (<code>bool</code>).</li>
@@ -15203,14 +15264,14 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
           href="pygeodesy.vector3d.Vector3d-class.html" 
           class="link">Vector3d</a>, <code>Vector3Tuple</code> or 
           <code>Vector4Tuple</code>).</li>
-        <li><strong class="pname"><code>circum</code></strong> - If <code>True</code> return the <code>circumradius</code> and 
+        <li><strong class="pname"><code>circum</code></strong> - If <code>True</code>, return the <code>circumradius</code> and 
           <code>circumcenter</code> always, ignoring the <i>Meeus</i>' Type
           I case (<code>bool</code>).</li>
         <li><strong class="pname"><code>eps</code></strong> - Tolerance for function <a 
           href="pygeodesy.vector3d-module.html#trilaterate3d2" 
           class="link">pygeodesy.trilaterate3d2</a> if <code><b>useZ</b> is
           True</code> else <a 
-          href="pygeodesy.vector3d-module.html#trilaterate2d2" 
+          href="pygeodesy.vector2d-module.html#trilaterate2d2" 
           class="link">pygeodesy.trilaterate2d2</a>.</li>
         <li><strong class="pname"><code>useZ</code></strong> - If <code>True</code>, use the Z components, otherwise force 
           <code>z=INT0</code> (<code>bool</code>).</li>
@@ -15246,15 +15307,16 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
       </p>
 </div></td></tr></table>
 </div>
-<a name="circum4_"></a>
+<a name="circum4"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">circum4_</span>&nbsp;(<span class="sig-arg">*points</span>,
-        <span class="sig-arg">**useZ_Vector_and_kwds</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">circum4</span>&nbsp;(<span class="sig-arg">points</span>,
+        <span class="sig-arg">useZ</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">**Vector_and_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -15265,16 +15327,16 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - The points (each a <code>Cartesian</code>, <a 
+        <li><strong class="pname"><code>points</code></strong> - Iterable of points (each a <code>Cartesian</code>, <a 
           href="pygeodesy.vector3d.Vector3d-class.html" 
-          class="link">Vector3d</a>, <code>Vector3Tuple</code>, or 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code> or 
           <code>Vector4Tuple</code>).</li>
-        <li><strong class="pname"><code>useZ_Vector_and_kwds</code></strong> - Keyword arguments <code><b>useZ</b>=True</code> 
-          (<code>bool</code>) to use the Z components, otherwise force all 
-          <code>z=INT0</code>, class <code><b>Vector</b>=None</code> to 
-          return the center point with optionally, additional 
-          n<b><code>Vector</code></b> keyword arguments, otherwise the 
-          first <b><code>points</code></b>' (sub-)class is used.</li>
+        <li><strong class="pname"><code>useZ</code></strong> - If <code>True</code>, use the points' Z component, otherwise 
+          force <code>z=INT0</code> (<code>bool</code>).</li>
+        <li><strong class="pname"><code>Vector_and_kwds</code></strong> - Optional class <code><b>Vector</b>=None</code> to return the 
+          center point and optional, additional <b><code>Vector</code></b> 
+          keyword arguments, otherwise the first 
+          <b><code>points</code></b>' (sub-)class is used.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><a href="pygeodesy.vector2d.Circum4Tuple-class.html" 
@@ -15295,15 +15357,50 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         Functions <a href="pygeodesy.vector2d-module.html#circum3" 
         class="link">pygeodesy.circum3</a> and <a 
         href="pygeodesy.vector2d-module.html#meeus2" 
-        class="link">pygeodesy.meeus2</a>, Jekel, Charles F. <a 
+        class="link">pygeodesy.meeus2</a>, <i>Charles Jekel</i>'s <a 
         href="https://Jekel.me/2015/Least-Squares-Sphere-Fit/" 
-        target="_top"><i>Least Squares Sphere Fit</i></a> Sep 13, 2015, <a 
+        target="_top">&quot;Least Squares Sphere Fit&quot;</a>, <a 
         href="https://hdl.handle.net/10019.1/98627" target="_top">Appendix 
         A</a>, <a 
         href="https://NumPy.org/doc/stable/reference/generated/numpy.linalg.lstsq.html"
         target="_top">numpy.linalg.lstsq</a> and <a 
         href="https://www.sci.Utah.EDU/~balling/FEtools/doc_files/LeastSquaresFitting.pdf"
         target="_top">Eberly 6</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="circum4_"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">circum4_</span>&nbsp;(<span class="sig-arg">*points</span>,
+        <span class="sig-arg">**useZ_Vector_and_kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Best-fit a sphere through three or more (3-D) positional points.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>points</code></strong> - The points (each a <code>Cartesian</code>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code> or 
+          <code>Vector4Tuple</code>), all positional.</li>
+        <li><strong class="pname"><code>useZ_Vector_and_kwds</code></strong> - Keyword arguments <code><b>useZ</b>=True</code> and 
+          <code><b>Vector</b>=None</code>, see function <a 
+          href="pygeodesy.vector2d-module.html#circum4" 
+          class="link">circum4</a>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.vector2d-module.html#circum4" 
+        class="link">circum4</a> for further details.
       </p>
 </div></td></tr></table>
 </div>
@@ -19554,9 +19651,9 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
           <code>repr</code>, <code>str</code>) or <code>None</code> to 
           raise a TypeError and used only if <code><b>force</b> is not 
           True</code>.</li>
-        <li><strong class="pname"><code>force</code></strong> - If <code>True</code> format all <b><code>floats</code></b> using 
+        <li><strong class="pname"><code>force</code></strong> - If <code>True</code>, format all <b><code>floats</code></b> using
           <b><code>fmt</code></b>, otherwise use <b><code>strepr</code></b>
-          for non-<code>floats</code>.</li>
+          for non-<code>floats</code> (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The <code>sep.join(strs(floats, ...)</code> joined 
@@ -20240,9 +20337,10 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <li><strong class="pname"><code>los</code></strong> - Line-Of-Sight, <i>direction</i> to the tri-/biaxial (<a 
           href="pygeodesy.ltpTuples.Los-class.html" class="link">Los</a>, 
           <a href="pygeodesy.vector3d.Vector3d-class.html" 
-          class="link">Vector3d</a>), <code>True</code> for the <i>normal, 
-          plumb</i> onto the surface or <code>False</code> or 
-          <code>None</code> to point to the center of the tri-/biaxial.</li>
+          class="link">Vector3d</a>), or <code>True</code> for the 
+          <i>normal, perpendicular, plumb</i> to the surface of the 
+          tri-/biaxial or <code>False</code> or <code>None</code> to point 
+          to its center.</li>
         <li><strong class="pname"><code>tri_biax</code></strong> - A triaxial (<a href="pygeodesy.triaxials.Triaxial-class.html" 
           class="link">Triaxial</a>, <a 
           href="pygeodesy.triaxials.Triaxial_-class.html" 
@@ -20258,11 +20356,10 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
           href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
           class="link">Ellipsoid2</a>, <a 
           href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
-          class="link">a_f2Tuple</a> or <code>scalar</code> radius, 
-          conventionally in <code>meter</code>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional, overriding 
-          <code><b>name</b>=&quot;hartzell4&quot;</code> 
-          (<code>str</code>).</li>
+          class="link">a_f2Tuple</a>) or spherical earth radius 
+          (<code>scalar</code>, conventionally in <code>meter</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>), overriding 
+          <code><b>name</b>=&quot;hartzell4&quot;</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><a href="pygeodesy.namedTuples.Vector4Tuple-class.html" 
@@ -20310,7 +20407,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f7c384ad1d0&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fb7e019fa50&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -21220,7 +21317,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <li><strong class="pname"><code>radius2</code></strong> - Radius of the second sphere or circle (same units as the 
           <b><code>center1</code></b> and <b><code>center2</code></b> 
           coordinates).</li>
-        <li><strong class="pname"><code>sphere</code></strong> - If <code>True</code> compute the center and radius of the 
+        <li><strong class="pname"><code>sphere</code></strong> - If <code>True</code>, compute the center and radius of the 
           intersection of two spheres.  If <code>False</code>, ignore the 
           <code>z</code>-component and compute the intersection of two 
           circles (<code>bool</code>).</li>
@@ -23657,7 +23754,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
           class="link">Vector3d</a>, <code>Vector3Tuple</code>, 
           <code>Vector4Tuple</code> or <code>Vector2Tuple</code> if 
           <code><b>useZ</b>=False</code>).</li>
-        <li><strong class="pname"><code>circum</code></strong> - If <code>True</code> return the <code>circumradius</code> and 
+        <li><strong class="pname"><code>circum</code></strong> - If <code>True</code>, return the <code>circumradius</code> and 
           <code>circumcenter</code> always, overriding <i>Meeus</i>' Type 
           II case (<code>bool</code>).</li>
         <li><strong class="pname"><code>useZ</code></strong> - If <code>True</code>, use the Z components, otherwise force 
@@ -23960,7 +24057,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
           href="pygeodesy.vector3d.Vector3d-class.html" 
           class="link">Vector3d</a>, <code>Vector3Tuple</code> or 
           <code>Vector4Tuple</code>).</li>
-        <li><strong class="pname"><code>within</code></strong> - If <code>True</code> return the closest point between both given 
+        <li><strong class="pname"><code>within</code></strong> - If <code>True</code>, return the closest point between both given
           points, otherwise the closest point on the extended line through 
           both points (<code>bool</code>).</li>
         <li><strong class="pname"><code>useZ</code></strong> - If <code>True</code>, use the Z components, otherwise force 
@@ -25634,38 +25731,33 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">precision</span>&nbsp;(<span class="sig-arg">res1</span>,
-        <span class="sig-arg">res2</span>=<span class="sig-default">None</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">precision</span>&nbsp;(<span class="sig-arg">res</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Determine the <a href="pygeodesy.geohash.Geohash-class.html" 
-  class="link">Geohash</a> precisions to meet a or both given (geographic) 
-  resolutions.</p>
+  <p>Determine the <a href="pygeodesy.wgrs.Georef-class.html" 
+  class="link">Georef</a> precision to meet a required (geographic) 
+  resolution.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>res1</code></strong> - The required primary <i>(longitudinal)</i> resolution 
-          (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>res2</code></strong> - Optional, required secondary <i>(latitudinal)</i> resolution 
-          (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>res</code></strong> - The required resolution (<code>degrees</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The <a href="pygeodesy.geohash.Geohash-class.html" 
-          class="link">Geohash</a> precision or length (<code>int</code>, 
-          1..12).</dd>
+        <dd>The <a href="pygeodesy.wgrs.Georef-class.html" 
+          class="link">Georef</a> precision (<code>int</code> 0..11).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.geohash.GeohashError-class.html">GeohashError</a></strong></code> - Invalid <b><code>res1</code></b> or <b><code>res2</code></b>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>res</code></b>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        C++ class <a 
-        href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Geohash.html"
-        target="_top">Geohash</a>.
+        Function <a href="pygeodesy.wgrs-module.html#encode" 
+        class="link">wgrs.encode</a> for more <code>precision</code> 
+        details.
       </p>
 </div></td></tr></table>
 </div>
@@ -26337,7 +26429,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <li><strong class="pname"><code>distance</code></strong> - Tolerance (<code>meter</code>, same units as 
           <b><code>radius</code></b>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>).</li>
-        <li><strong class="pname"><code>indices</code></strong> - If <code>True</code> return the simplified point indices instead 
+        <li><strong class="pname"><code>indices</code></strong> - If <code>True</code>, return the simplified point indices instead
           of the simplified points (<code>bool</code>).</li>
         <li><strong class="pname"><code>options</code></strong> - Optional keyword arguments passed thru to function <a 
           href="pygeodesy.geohash-module.html#equirectangular4" 
@@ -26391,9 +26483,9 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <li><strong class="pname"><code>distance</code></strong> - Tolerance (<code>meter</code>, same units as 
           <b><code>radius</code></b>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>).</li>
-        <li><strong class="pname"><code>shortest</code></strong> - If <code>True</code> use the <i>shortest</i> otherwise the 
+        <li><strong class="pname"><code>shortest</code></strong> - If <code>True</code>, use the <i>shortest</i> otherwise the 
           <i>perpendicular</i> distance (<code>bool</code>).</li>
-        <li><strong class="pname"><code>indices</code></strong> - If <code>True</code> return the simplified point indices instead 
+        <li><strong class="pname"><code>indices</code></strong> - If <code>True</code>, return the simplified point indices instead
           of the simplified points (<code>bool</code>).</li>
         <li><strong class="pname"><code>options</code></strong> - Optional keyword arguments passed thru to function <a 
           href="pygeodesy.geohash-module.html#equirectangular4" 
@@ -26447,9 +26539,9 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <li><strong class="pname"><code>distance</code></strong> - Tolerance (<code>meter</code>, same units as 
           <b><code>radius</code></b>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>).</li>
-        <li><strong class="pname"><code>shortest</code></strong> - If <code>True</code> use the <i>shortest</i> otherwise the 
+        <li><strong class="pname"><code>shortest</code></strong> - If <code>True</code>, use the <i>shortest</i> otherwise the 
           <i>perpendicular</i> distance (<code>bool</code>).</li>
-        <li><strong class="pname"><code>indices</code></strong> - If <code>True</code> return the simplified point indices instead 
+        <li><strong class="pname"><code>indices</code></strong> - If <code>True</code>, return the simplified point indices instead
           of the simplified points (<code>bool</code>).</li>
         <li><strong class="pname"><code>options</code></strong> - Optional keyword arguments passed thru to function <a 
           href="pygeodesy.geohash-module.html#equirectangular4" 
@@ -26499,9 +26591,9 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <li><strong class="pname"><code>pipe</code></strong> - Pipe radius, half-width (<code>meter</code>, same units as 
           <b><code>radius</code></b>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>).</li>
-        <li><strong class="pname"><code>shortest</code></strong> - If <code>True</code> use the <i>shortest</i> otherwise the 
+        <li><strong class="pname"><code>shortest</code></strong> - If <code>True</code>, use the <i>shortest</i> otherwise the 
           <i>perpendicular</i> distance (<code>bool</code>).</li>
-        <li><strong class="pname"><code>indices</code></strong> - If <code>True</code> return the simplified point indices instead 
+        <li><strong class="pname"><code>indices</code></strong> - If <code>True</code>, return the simplified point indices instead
           of the simplified points (<code>bool</code>).</li>
         <li><strong class="pname"><code>options</code></strong> - Optional keyword arguments passed thru to function <a 
           href="pygeodesy.geohash-module.html#equirectangular4" 
@@ -26557,7 +26649,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>).</li>
         <li><strong class="pname"><code>attr</code></strong> - Optional, points attribute to save the area value 
           (<code>str</code>).</li>
-        <li><strong class="pname"><code>indices</code></strong> - If <code>True</code> return the simplified point indices instead 
+        <li><strong class="pname"><code>indices</code></strong> - If <code>True</code>, return the simplified point indices instead
           of the simplified points (<code>bool</code>).</li>
         <li><strong class="pname"><code>options</code></strong> - Optional keyword arguments passed thru to function <a 
           href="pygeodesy.geohash-module.html#equirectangular4" 
@@ -26615,7 +26707,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>).</li>
         <li><strong class="pname"><code>attr</code></strong> - Optional, points attribute to save the area value 
           (<code>str</code>).</li>
-        <li><strong class="pname"><code>indices</code></strong> - If <code>True</code> return the simplified point indices instead 
+        <li><strong class="pname"><code>indices</code></strong> - If <code>True</code>, return the simplified point indices instead
           of the simplified points (<code>bool</code>).</li>
         <li><strong class="pname"><code>options</code></strong> - Optional keyword arguments passed thru to function <a 
           href="pygeodesy.geohash-module.html#equirectangular4" 
@@ -26906,7 +26998,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
           href="pygeodesy.vector3d-module.html#trilaterate3d2" 
           class="link">pygeodesy.trilaterate3d2</a> if <code><b>useZ</b> is
           True</code> otherwise <a 
-          href="pygeodesy.vector3d-module.html#trilaterate2d2" 
+          href="pygeodesy.vector2d-module.html#trilaterate2d2" 
           class="link">pygeodesy.trilaterate2d2</a>.</li>
         <li><strong class="pname"><code>useZ</code></strong> - If <code>True</code>, use the Z components, otherwise force 
           <code>z=INT0</code> (<code>bool</code>).</li>
@@ -27913,7 +28005,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <li><strong class="pname"><code>latlon</code></strong> - Latitude (<code>degrees</code>) or an (ellipsoidal) geodetic 
           <code>LatLon</code> point.</li>
         <li><strong class="pname"><code>lon</code></strong> - Optional longitude in degrees (scalar or <code>None</code>).</li>
-        <li><strong class="pname"><code>kTM</code></strong> - If <code>True</code> use <i>Karney</i>'s Kr&#252;ger method from 
+        <li><strong class="pname"><code>kTM</code></strong> - If <code>True</code>, use <i>Karney</i>'s Kr&#252;ger method from 
           module <a href="pygeodesy.ktm-module.html" class="link">ktm</a>, 
           otherwise use the Ordnance Survey formulation 
           (<code>bool</code>).</li>
@@ -28746,6 +28838,56 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
       </p>
 </div></td></tr></table>
 </div>
+<a name="triaxum5"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">triaxum5</span>&nbsp;(<span class="sig-arg">points</span>,
+        <span class="sig-arg">useZ</span>=<span class="sig-default">True</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Best-fit a triaxial ellipsoid through three or more (3-D) points.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>points</code></strong> - Iterable of points (each a <code>Cartesian</code>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code> or 
+          <code>Vector4Tuple</code>).</li>
+        <li><strong class="pname"><code>useZ</code></strong> - If <code>True</code>, use the points' Z component, otherwise 
+          force <code>z=INT0</code> (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><a href="pygeodesy.vector2d.Triaxum5Tuple-class.html" 
+          class="link">Triaxum5Tuple</a><code>(a, b, c, rank, 
+          residuals)</code> with the unordered triaxial radii 
+          <code>a</code>, <code>b</code> and <code>c</code> in 
+          <code>meter</code>, same units as the points' coordinates.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ImportError</strong></code> - Package <code>numpy</code> not found, not installed or older than 
+        version 1.10.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.NumPyError-class.html">NumPyError</a></strong></code> - Some <code>numpy</code> issue.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.PointsError-class.html">PointsError</a></strong></code> - Too few <b><code>points</code></b>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - One of the <b><code>points</code></b> is invalid.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <i>Charles Jekel</i>'s <a 
+        href="https://Jekel.me/2020/Least-Squares-Ellipsoid-Fit/" 
+        target="_top">&quot;Least Squares Ellipsoid Fit&quot;</a> and <a 
+        href="https://NumPy.org/doc/stable/reference/generated/numpy.linalg.lstsq.html"
+        target="_top">numpy.linalg.lstsq</a>.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="trilaterate2d2"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -28795,16 +28937,14 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
           checking.</li>
         <li><strong class="pname"><code>Vector_and_kwds</code></strong> - Optional class <code><b>Vector</b>=None</code> to return the 
           trilateration and optional, additional <b><code>Vector</code></b>
-          keyword arguments, otherwise (<a 
-          href="pygeodesy.vector3d.Vector3d-class.html" 
-          class="link">Vector3d</a>).</li>
+          keyword arguments).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Trilaterated point as <code><b>Vector</b>(x, y, 
           **<b>Vector_kwds</b>)</code> or <a 
           href="pygeodesy.namedTuples.Vector2Tuple-class.html" 
           class="link">Vector2Tuple</a><code>(x, y)</code> if 
-          <code><b>Vector</b> is None</code>..</dd>
+          <code><b>Vector</b> is None</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - No intersection, near-concentric or -colinear centers, 
@@ -28874,7 +29014,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
           <code>None</code> for no pertubations.</li>
         <li><strong class="pname"><code>Vector_and_kwds</code></strong> - Optional class <code><b>Vector</b>=None</code> to return the 
           trilateration and optional, additional <b><code>Vector</code></b>
-          keyword arguments, otherwise <b><code>center1</code></b>'s 
+          keyword arguments, otherwise the <b><code>center1</code></b>'s 
           (sub-)class.</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -28901,7 +29041,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         Problem</i></a>, the <a 
         href="https://www.ResearchGate.net/publication/288825016" 
         target="_top"><i>implementation</i></a> and function <a 
-        href="pygeodesy.vector3d-module.html#trilaterate2d2" 
+        href="pygeodesy.vector2d-module.html#trilaterate2d2" 
         class="link">pygeodesy.trilaterate2d2</a>.
       </p>
 </div></td></tr></table>
@@ -30131,7 +30271,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Aug  2 17:41:59 2024
+    Generated by Epydoc 3.0.1 on Thu Aug 22 16:26:57 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

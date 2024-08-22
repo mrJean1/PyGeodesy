@@ -24,7 +24,7 @@ from pygeodesy.solveBase import _SolveGDictBase, _SolveGDictLineBase
 from pygeodesy.utily import _unrollon, _Wrap, wrap360
 
 __all__ = _ALL_LAZY.geodsolve
-__version__ = '24.07.11'
+__version__ = '24.08.13'
 
 
 class _GeodesicSolveBase(_SolveGDictBase):
@@ -101,8 +101,8 @@ class GeodesicSolve(_GeodesicSolveBase):
         '''Set up a L{GeodesicAreaExact} to compute area and perimeter
            of a polygon.
 
-           @kwarg polyline: If C{True} perimeter only, otherwise area
-                            and perimeter (C{bool}).
+           @kwarg polyline: If C{True}, compute the perimeter only, otherwise
+                            perimeter and area (C{bool}).
            @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @return: A L{GeodesicAreaExact} instance.

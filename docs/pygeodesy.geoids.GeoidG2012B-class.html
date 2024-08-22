@@ -91,9 +91,11 @@
   href="https://www.NGS.NOAA.gov/GEOID/GEOID12B/GEOID12B_AS.shtml" 
   target="_top">American Samoa</a> based on <code>SciPy</code> <a 
   href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.RectBivariateSpline.html"
-  target="_top">RectBivariateSpline</a> or <a 
+  target="_top">RectBivariateSpline</a>, <a 
   href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.interp2d.html"
-  target="_top">interp2d</a> interpolation.</p>
+  target="_top">interp2d</a> or <a 
+  href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.bisplrep.html"
+  target="_top">bisplrep/-ev</a> interpolation.</p>
   <p>Use any of the binary <code>le</code> (little endian) or 
   <code>be</code> (big endian) <code>g2012b*.bin</code> grid files.</p>
 
@@ -314,28 +316,27 @@
         <li><strong class="pname"><code>kind</code></strong> - <code>scipy.interpolate</code> order (<code>int</code>), use 1..5
           for <a 
           href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.RectBivariateSpline.html"
-          target="_top">RectBivariateSpline</a>, -2 for <a 
+          target="_top">RectBivariateSpline</a> or -1, -3 or -5 for <a 
+          href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.bisplrep.html"
+          target="_top">bisplrep/-ev</a> or <a 
           href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.interp2d.html"
-          target="_top">interp2d linear</a>, -3 for <code>interp2d 
-          cubic</code> or -5 for <code>interp2d quintic</code>.</li>
-        <li><strong class="pname"><code>smooth</code></strong> - Smoothing factor for <a 
-          href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.RectBivariateSpline.html"
-          target="_top">RectBivariateSpline</a> only (<code>int</code>).</li>
+          target="_top">interp2d</a> <code>linear</code>, 
+          <code>cubic</code> respectively <code>quintic</code>.</li>
+        <li><strong class="pname"><code>smooth</code></strong> - Smoothing factor for <code><b>kind</b>=1..5</code> only 
+          (<code>int</code>).</li>
         <li><strong class="pname"><code>name_crop</code></strong> - Optional geoid <code><b>name</b>=NN</code> (<code>str</code>) and
-          UNSUPPORTED keyword argument <code><b>crop</b></code>, use 
-          <code><b>crop</b>=None</code> to ignore.</li>
+          UNSUPPORTED keyword argument <code><b>crop</b>=None</code>.</li>
     </ul></dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.geoids.GeoidError-class.html">GeoidError</a></strong></code> - G2012B grid file <b><code>g2012b_bin</code></b> issue or invalid 
-        <b><code>crop</code></b>, <b><code>kind</code></b> or 
-        <b><code>smooth</code></b>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.geoids.GeoidError-class.html">GeoidError</a></strong></code> - Invalid <b><code>crop</code></b>, <b><code>kind</code></b> or 
+        <b><code>smooth</code></b> or a G2012B grid file 
+        <b><code>g2012b_bin</code></b> issue.</li>
         <li><code><strong class='fraise'>ImportError</strong></code> - Package <code>numpy</code> or <code>scipy</code> not found or not 
         installed.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.errors.LenError-class.html">LenError</a></strong></code> - Grid file <b><code>g2012b_bin</code></b> axis mismatch.</li>
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.SciPyError-class.html">SciPyError</a></strong></code> - A <code>RectBivariateSpline</code> or <code>inter2d</code> issue.</li>
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.SciPyWarning-class.html">SciPyWarning</a></strong></code> - A <code>RectBivariateSpline</code> or <code>inter2d</code> warning 
-        as exception.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.SciPyError-class.html">SciPyError</a></strong></code> - A <code>scipy</code> issue.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.SciPyWarning-class.html">SciPyWarning</a></strong></code> - A <code>scipy</code> warning as exception.</li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>datum</code></b>.</li>
     </ul></dd>
     <dt>Overrides:
@@ -344,8 +345,11 @@
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
         <code>scipy.interpolate.interp2d</code> has been 
-        <code>DEPRECATED</code>, specify <code><b>kind</b>=1..5</code> for 
-        <code>scipy.interpolate.RectBivariateSpline</code>.
+        <code>DEPRECATED</code>, specify <code><b>kind</b>=-1, -3 or 
+        -5</code> for <code>scipy.interpolate.bisplrep/-ev</code> or use 
+        <code><b>kind</b>=1..5</code> for 
+        <code>scipy.interpolate.RectBivariateSpline</code> or update 
+        <code>scipy</code>.
       </p>
 </div></td></tr></table>
 </div>
@@ -389,10 +393,8 @@
         closed.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - An <b><code>lli</code></b> is outside this geoid's lat- or 
         longitude range.</li>
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.SciPyError-class.html">SciPyError</a></strong></code> - A <code>scipy.interpolate.inter2d</code> or 
-        <code>-.RectBivariateSpline</code> issue.</li>
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.SciPyWarning-class.html">SciPyWarning</a></strong></code> - A <code>scipy.interpolate.inter2d</code> or 
-        <code>-.RectBivariateSpline</code> warning as exception.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.SciPyError-class.html">SciPyError</a></strong></code> - A <code>scipy</code> issue.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.SciPyWarning-class.html">SciPyWarning</a></strong></code> - A <code>scipy</code> warning as exception.</li>
     </ul></dd>
     <dt>Overrides:
         <a href="pygeodesy.heights._HeightsBase-class.html#__call__">heights._HeightsBase.__call__</a>
@@ -447,10 +449,8 @@
         <b><code>lons</code></b>.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - A <b><code>lat</code></b> or <b><code>lon</code></b> is outside 
         this geoid's lat- or longitude range.</li>
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.SciPyError-class.html">SciPyError</a></strong></code> - A <code>scipy.interpolate.inter2d</code> or 
-        <code>-.RectBivariateSpline</code> issue.</li>
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.SciPyWarning-class.html">SciPyWarning</a></strong></code> - A <code>scipy.interpolate.inter2d</code> or 
-        <code>-.RectBivariateSpline</code> warning as exception.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.SciPyError-class.html">SciPyError</a></strong></code> - A <code>scipy</code> issue.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.SciPyWarning-class.html">SciPyWarning</a></strong></code> - A <code>scipy</code> warning as exception.</li>
     </ul></dd>
     <dt>Overrides:
         <a href="pygeodesy.heights._HeightsBase-class.html#height">heights._HeightsBase.height</a>
@@ -490,7 +490,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Aug  2 17:42:01 2024
+    Generated by Epydoc 3.0.1 on Thu Aug 22 16:26:59 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

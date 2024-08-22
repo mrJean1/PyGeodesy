@@ -18,8 +18,9 @@ Transcoded from I{Charles Karney}'s C++ class U{GARS
 from pygeodesy.constants import _off90, _1_over, _0_5, \
                                 _1_0  # PYCHOK used!
 from pygeodesy.errors import _ValueError, _xkwds, _xStrError
-from pygeodesy.interns import NN, _0to9_, _AtoZnoIO_, _COMMA_, _SPACE_
-from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
+from pygeodesy.interns import NN, _0to9_, _AtoZnoIO_, _COMMA_, \
+                             _INV_, _SPACE_
+from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import _name__,  Fmt, isstr, Property_RO
 from pygeodesy.namedTuples import LatLon2Tuple, LatLonPrec3Tuple
 # from pygeodesy.props import Property_RO  # from .named
@@ -29,7 +30,7 @@ from pygeodesy.units import Int_, Lat, Lon, Precision_, Scalar_, Str
 from math import floor
 
 __all__ = _ALL_LAZY.gars
-__version__ = '24.08.02'
+__version__ = '24.08.13'
 
 _Digits  = _0to9_
 _LatLen  =    2
@@ -86,7 +87,7 @@ def _2garstr2(garef):
     try:
         n, garstr = len(garef), garef.upper()
         if n < _MinLen or n > _MaxLen \
-                       or garstr[:3] == 'INV' \
+                       or garstr.startswith(_INV_) \
                        or not garstr.isalnum():
             raise ValueError()
         return garstr, _2Precision(n - _MinLen)
@@ -200,8 +201,8 @@ def decode3(garef, center=True, **name):
     '''Decode a C{garef} to lat-, longitude and precision.
 
        @arg garef: To be decoded (L{Garef} or C{str}).
-       @kwarg center: If C{True} the center, otherwise the south-west,
-                      lower-left corner (C{bool}).
+       @kwarg center: If C{True}, use the garef's center, otherwise
+                      the south-west, lower-left corner (C{bool}).
 
        @return: A L{LatLonPrec3Tuple}C{(lat, lon, precision)}.
 
@@ -339,8 +340,8 @@ def resolution(prec):
     return _Resolutions[max(0, min(p, _MaxPrec))]
 
 
-__all__ += _ALL_OTHER(decode3,  # functions
-                      encode, precision, resolution)
+__all__ += _ALL_DOCS(decode3,  # functions
+                     encode, precision, resolution)
 
 # **) MIT License
 #

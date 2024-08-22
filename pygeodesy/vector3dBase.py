@@ -8,11 +8,11 @@ A pure Python implementation of vector-based functions by I{(C) Chris Veness
 <https://www.Movable-Type.co.UK/scripts/latlong-vectors.html>}.
 '''
 
-from pygeodesy.basics import _copysign, islistuple, isscalar, map1, \
-                              map2, _signOf, _zip
+from pygeodesy.basics import _copysign, islistuple, isscalar, map1, map2, \
+                             _signOf, _zip
 from pygeodesy.constants import EPS, EPS0, INT0, PI, PI2, _copysignINF, \
                                _float0, isnear0, isnear1, isneg0, \
-                               _pos_self, _0_0, _1_0
+                               _pos_self, _1_0
 from pygeodesy.errors import CrossError, VectorError, _xcallable, _xError
 from pygeodesy.fmath import euclid_, fdot, hypot_, hypot2_
 from pygeodesy.interns import _coincident_, _colinear_, _COMMASPACE_, _xyz_
@@ -24,13 +24,12 @@ from pygeodesy.props import deprecated_method, Property, Property_RO, \
                             property_doc_, property_RO, _update_all
 from pygeodesy.streprs import Fmt, strs, unstr
 from pygeodesy.units import Float, Scalar
-# from pygeodesy.utily import sincos2  # _MODS
+from pygeodesy.utily import sincos2,  atan2, fabs
 
-# from builtints import hash, int, isinstance, map, max, round, type, zip
-from math import atan2, ceil, fabs, floor, trunc
+from math import ceil as _ceil, floor as _floor, trunc as _trunc
 
 __all__ = _ALL_LAZY.vector3dBase
-__version__ = '24.06.11'
+__version__ = '24.08.18'
 
 
 class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
@@ -61,7 +60,7 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
            @kwarg ll: Optional latlon reference (C{LatLon}).
            @kwarg name: Optional C{B{name}=NN} (C{str}).
 
-           @raise VectorError: Invalid B{C{x_xyz}}.
+           @raise VectorError: Invalid B{C{x_xyz}}, B{C{y}} or B{C{z}}.
         '''
         self._x, \
         self._y, \
@@ -90,6 +89,8 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
 
     def __bool__(self):  # PYCHOK PyChecker
         '''Is this vector non-zero?
+
+           @see: Method C{bools}.
         '''
         return bool(self.x or self.y or self.z)
 
@@ -98,7 +99,7 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
 
            @return: Ceil-ed (L{Vector3d}).
         '''
-        return self._mapped(ceil)
+        return self._mapped(_ceil)
 
     def __cmp__(self, other):  # Python 2-
         '''Compare this and an other vector (L{Vector3d}).
@@ -127,15 +128,15 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
         return self.isequalTo(other, eps=EPS0)
 
     def __float__(self):  # PYCHOK no cover
-        '''Not implemented.'''
-        return _NotImplemented(self)
+        '''Not implemented, see method C{float}.'''
+        return _NotImplemented(self)  # must return C{float}
 
     def __floor__(self):  # PYCHOK no cover
         '''Return a vector with the C{floor} of these components.
 
            @return: Floor-ed (L{Vector3d}).
         '''
-        return self._mapped(floor)
+        return self._mapped(_floor)
 
     def __floordiv__(self, other):  # PYCHOK no cover
         '''Not implemented.'''
@@ -215,13 +216,8 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
         return self._xyz(self.times(scalar))
 
     def __int__(self):  # PYCHOK no cover
-        '''Return a vector with the C{int} of these components.
-
-           @return: Int-ed (L{Vector3d}).
-        '''
-        v = self.classof(_0_0)
-        v._x, v._y, v._z = map2(int, self.xyz)
-        return v
+        '''Not implemented, see method C{ints}.'''
+        return _NotImplemented(self)  # must return C{int}
 
     def __ipow__(self, other, *mod):  # PYCHOK no cover
         '''Not implemented.'''
@@ -239,7 +235,7 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
 #   def __iter__(self):
 #       '''Return an C{iter}ator over this vector's components.
 #       '''
-#       return iter(self.xyz)
+#       return iter(self.xyz3)
 
     def __itruediv__(self, scalar):
         '''Divide this vector by a scalar I{in-place}, C{this /= B{scalar}}.
@@ -315,9 +311,9 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
     def __neg__(self):
         '''Return the opposite of this vector.
 
-           @return: This instance negated (L{Vector3d})
+           @return: A negated copy (L{Vector3d})
         '''
-        return self.classof(-self.x, -self.y, -self.z)
+        return self.negate()
 
     def __pos__(self):  # PYCHOK no cover
         '''Return this vector I{as-is} or a copy.
@@ -370,7 +366,7 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
            @return: Rounded (L{Vector3d}).
         '''
         # <https://docs.Python.org/3.12/reference/datamodel.html?#object.__round__>
-        return self.classof(*(round(_, *ndigits) for _ in self.xyz))
+        return self.classof(*(round(_, *ndigits) for _ in self.xyz3))
 
     def __rpow__(self, other, *mod):  # PYCHOK no cover
         '''Not implemented.'''
@@ -423,7 +419,7 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
 
            @return: Trunc-ed (L{Vector3d}).
         '''
-        return self._mapped(trunc)
+        return self._mapped(_trunc)
 
     if _sys_version_info2 < (3, 0):  # PYCHOK no cover
         # <https://docs.Python.org/2/library/operator.html#mapping-operators-to-functions>
@@ -484,8 +480,13 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
             _f2 = fun2
 
         xyz = _xyz3(self.apply, other_x, *y_z)
-        xyz = (_f2(a, b) for a, b in _zip(self.xyz, xyz))  # strict=True
+        xyz = (_f2(a, b) for a, b in _zip(self.xyz3, xyz))  # strict=True
         return self.classof(*xyz)
+
+    def bools(self):
+        '''Return the vector with C{bool} components.
+        '''
+        return self._mapped(bool)
 
     def cross(self, other, raiser=None, eps0=EPS):  # raiser=NN
         '''Compute the cross product of this and an other vector.
@@ -502,11 +503,11 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
 
            @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
-        X, Y, Z = self.others(other).xyz
-        x, y, z = self.xyz
-        xyz = ((y * Z - Y * z),
-               (z * X - Z * x),
-               (x * Y - X * y))
+        X, Y, Z = self.others(other).xyz3
+        x, y, z = self.xyz3
+        xyz = ((y * Z - z * Y),
+               (z * X - x * Z),
+               (x * Y - y * X))
 
         if raiser and self.crosserrors and eps0 > 0 \
                   and max(map(fabs, xyz)) < eps0:
@@ -516,7 +517,7 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
             t = _coincident_ if t else _colinear_
             raise CrossError(raiser, s, other=r, txt=t)
 
-        return self.classof(*xyz)
+        return self.classof(*xyz)  # name__=self.cross
 
     @property_doc_('''raise or ignore L{CrossError} exceptions (C{bool}).''')
     def crosserrors(self):
@@ -556,8 +557,8 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
 
            @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
-        return self.length2 if other is self else \
-               fdot(self.xyz, *self.others(other).xyz)
+        return self.length2 if other is self else fdot(
+               self.xyz3, *self.others(other).xyz3)
 
     @deprecated_method
     def equals(self, other, units=False):  # PYCHOK no cover
@@ -572,21 +573,31 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
            @see: Properties C{length} and C{length2} and function
                  L{pygeodesy.euclid_}.
         '''
-        return Float(euclid=euclid_(self.x, self.y, self.z))
+        return Float(euclid=euclid_(*self.xyz3))
 
     def equirectangular(self, other):
-        '''I{Approximate} the different between this and an other vector.
+        '''I{Approximate} the difference between this and an other vector.
 
            @arg other: Vector to subtract (C{Vector3dBase}).
 
-           @return: The lenght I{squared} of the difference (C{Float}).
+           @return: The length I{squared} of the difference (C{Float}).
 
            @raise TypeError: Incompatible B{C{other}} C{type}.
 
            @see: Property C{length2}.
         '''
         d = self.minus(other)
-        return Float(equirectangular=hypot2_(d.x, d.y, d.z))
+        return Float(equirectangular=hypot2_(*d.xyz3))
+
+    def fabs(self):
+        '''Return the vector with C{fabs} components.
+        '''
+        return self._mapped(fabs)
+
+    def floats(self):
+        '''Return the vector with C{float} components.
+        '''
+        return self._mapped(_float0)
 
     @Property
     def _fromll(self):
@@ -604,7 +615,7 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
     def homogeneous(self):
         '''Get this vector's homogeneous representation (L{Vector3d}).
         '''
-        x, y, z = self.xyz
+        x, y, z = self.xyz3
         if z:
             x =  x / z  # /= chokes PyChecker
             y =  y / z
@@ -639,6 +650,11 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
                 r = self.plus(r.minus(self)._times(f))
         return r
 
+    def ints(self):
+        '''Return the vector with C{int} components.
+        '''
+        return self._mapped(int)
+
     def isconjugateTo(self, other, minum=1, eps=EPS):
         '''Determine whether this and an other vector are conjugates.
 
@@ -657,7 +673,7 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
         '''
         self.others(other)
         n = 0
-        for a, b in zip(self.xyz, other.xyz):
+        for a, b in zip(self.xyz3, other.xyz3):
             if fabs(a + b) < eps and ((a < 0 and b > 0) or
                                       (a > 0 and b < 0)):
                 n += 1  # conjugate
@@ -685,7 +701,7 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
             d = self.unit().minus(other.unit())
         else:
             d = self.minus(other)
-        return max(map(fabs, d.xyz)) < eps
+        return max(map(fabs, d.xyz3)) < eps
 
     @Property_RO
     def length(self):  # __dict__ value overwritten by Property_RO C{_united}
@@ -704,9 +720,9 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
         return Float(length2=hypot2_(self.x, self.y, self.z))
 
     def _mapped(self, func):
-        '''(INTERNAL) Map these components.
+        '''(INTERNAL) Apply C{func} to all components.
         '''
-        return self.classof(*map2(func, self.xyz))
+        return self.classof(*map2(func, self.xyz3))
 
     def minus(self, other):
         '''Subtract an other vector from this vector.
@@ -717,8 +733,7 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
 
            @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
-        xyz = self.others(other).xyz
-        return self._minus(*xyz)
+        return self._minus(*self.others(other).xyz3)
 
     def _minus(self, x, y, z):
         '''(INTERNAL) Helper for methods C{.minus} and C{.minus_}.
@@ -742,19 +757,17 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
         return self._minus(*_xyz3(self.minus_, other_x, *y_z))
 
     def negate(self):
-        '''Return this vector in opposite direction.
+        '''Return the opposite of this vector.
 
-           @return: New, opposite vector (L{Vector3d}).
+           @return: A negated copy (L{Vector3d})
         '''
         return self.classof(-self.x, -self.y, -self.z)
-
-    __neg__ = negate  # PYCHOK no cover
 
     @Property_RO
     def _N_vector(self):
         '''(INTERNAL) Get the (C{nvectorBase._N_vector_})
         '''
-        return _MODS.nvectorBase._N_vector_(*self.xyz, name=self.name)
+        return _MODS.nvectorBase._N_vector_(*self.xyz3, name=self.name)
 
     def _other_cmp(self, other):
         '''(INTERNAL) Return the value for comparison.
@@ -786,8 +799,7 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
 
            @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
-        xyz = self.others(other).xyz
-        return self._plus(*xyz)
+        return self._plus(*self.others(other).xyz3)
 
     sum = plus  # alternate name
 
@@ -825,21 +837,21 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
                  U{Quaternion-derived rotation matrix<https://WikiPedia.org/wiki/
                  Quaternions_and_spatial_rotation#Quaternion-derived_rotation_matrix>}.
         '''
-        s, c = _MODS.utily.sincos2(theta)  # rotation angle
+        s, c = sincos2(theta)  # rotation angle
         d = _1_0 - c
         if d or s:
             p = self.unit().xyz  # point being rotated
             r = self.others(axis=axis).unit()  # axis being rotated around
 
-            ax, ay, az = r.xyz  # quaternion-derived rotation matrix
-            bx, by, bz = r.times(d).xyz
-            sx, sy, sz = r.times(s).xyz
+            ax, ay, az = r.xyz3  # quaternion-derived rotation matrix
+            bx, by, bz = r.times(d).xyz3
+            sx, sy, sz = r.times(s).xyz3
 
             x = fdot(p, ax * bx + c,  ax * by - sz, ax * bz + sy)
             y = fdot(p, ay * bx + sz, ay * by + c,  ay * bz - sx)
             z = fdot(p, az * bx - sy, az * by + sx, az * bz + c)
         else:  # unrotated
-            x, y, z = self.xyz
+            x, y, z = self.xyz3
         return self.classof(x, y, z)
 
     @deprecated_method
@@ -911,7 +923,7 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
 
            @return: Vector as "(x, y, z)" (C{str}).
         '''
-        t = sep.join(strs(self.xyz, prec=prec))
+        t = sep.join(strs(self.xyz3, prec=prec))
         return (fmt % (t,)) if fmt else t
 
     def unit(self, ll=None):
@@ -960,7 +972,7 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
     def xyz(self):
         '''Get the X, Y and Z components (L{Vector3Tuple}C{(x, y, z)}).
         '''
-        return _MODS.namedTuples.Vector3Tuple(self.x, self.y, self.z, name=self.name)
+        return _MODS.namedTuples.Vector3Tuple(*self.xyz3, name=self.name)
 
     @xyz.setter  # PYCHOK setter!
     def xyz(self, xyz):
@@ -976,6 +988,12 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
         _update_all(self, needed=3)
         self._x, self._y, self._z = _xyz3(_xyz_, x_xyz, *y_z)
         return self
+
+    @property_RO
+    def xyz3(self):
+        '''Get the X, Y and Z components as C{3-tuple}.
+        '''
+        return self.x, self.y, self.z
 
     @property_RO
     def x2y2z2(self):
@@ -1015,15 +1033,15 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
 
 
 def _xyz3(where, x_xyz, *y_z):  # in .cartesianBase._rtp3
-    '''(INTERNAL) Helper for C{Vector3dBase.__init__}, C{-.apply}, C{-.times_} and C{-._xyz}.
+    '''(INTERNAL) Get , Y and Z as 3-tuple C{(x, y, z)}.
     '''
     try:
-        x_y_z = map1(_float0, x_xyz, *y_z) if y_z else (  # islistuple for VectorXTuple
-                map2(_float0, x_xyz[:3]) if islistuple(x_xyz, minum=3) else
-                x_xyz.xyz)
+        xyz3 = map1(_float0, x_xyz, *y_z) if y_z else (  # islistuple for Vector*Tuple
+               map2(_float0, x_xyz[:3]) if islistuple(x_xyz, minum=3) else
+               x_xyz.xyz)  # .xyz3
     except (AttributeError, TypeError, ValueError) as x:
         raise _xError(x, unstr(where, x_xyz, *y_z))
-    return x_y_z
+    return xyz3
 
 
 __all__ += _ALL_DOCS(Vector3dBase)

@@ -59,7 +59,7 @@ from pygeodesy.errors import _and, _ValueError, _xkwds
 from pygeodesy.fmath import Fpolynomial, hypot, hypot1
 from pygeodesy.interns import _ambiguous_, _antipodal_, _COLONSPACE_, \
                               _to_, _SPACE_,  _limit_  # PYCHOK used!
-from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, _ALL_OTHER
+from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.namedTuples import Destination2Tuple, Destination3Tuple, \
                                   Distance3Tuple
 from pygeodesy.points import Fmt, ispolar  # PYCHOK exported
@@ -72,7 +72,7 @@ from pygeodesy.utily import atan2b, atan2d, sincos2, sincos2d, unroll180, wrap18
 from math import atan2, cos, degrees, fabs, radians, tan
 
 __all__ = _ALL_LAZY.ellipsoidalVincenty
-__version__ = '24.06.11'
+__version__ = '24.08.13'
 
 _antipodal_to_ = _SPACE_(_antipodal_, _to_)
 
@@ -510,7 +510,7 @@ def nearestOn(point, point1, point2, within=True, height=None, wrap=False,
        @arg point: Reference point (C{LatLon}).
        @arg point1: Start point of the geodesic (C{LatLon}).
        @arg point2: End point of the geodesic (C{LatLon}).
-       @kwarg within: If C{True} return the closest point I{between}
+       @kwarg within: If C{True}, return the closest point I{between}
                       B{C{point1}} and B{C{point2}}, otherwise the
                       closest point elsewhere on the geodesic (C{bool}).
        @kwarg height: Optional height for the closest point (C{meter},
@@ -560,9 +560,10 @@ def perimeterOf(points, **closed_datum_wrap):
         return _MODS.ellipsoidalExact.perimeterOf(points, **closed_datum_wrap)
 
 
-__all__ += _ALL_OTHER(Cartesian, LatLon, intersecant2,  # from .ellipsoidalBaseDI
-                      intersection3, intersections2, ispolar,  # from .points
-                      nearestOn) + _ALL_DOCS(areaOf, perimeterOf)  # deprecated
+__all__ += _ALL_DOCS(Cartesian, LatLon, intersecant2,  # from .ellipsoidalBaseDI
+                     intersection3, intersections2, ispolar,  # from .points
+                     nearestOn,
+                     areaOf, perimeterOf)  # DEPRECATED
 
 # **) MIT License
 #

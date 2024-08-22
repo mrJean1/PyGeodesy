@@ -44,7 +44,7 @@ from pygeodesy.vector3d import _ALL_LAZY, Vector3d
 # from math import fabs, floor as _floor  # from .fmath, .fsums
 
 __all__ = _ALL_LAZY.ltp
-__version__ = '24.07.25'
+__version__ = '24.08.18'
 
 _height0_ = _height_ + _0_
 _narrow_  = 'narrow'
@@ -165,7 +165,7 @@ class Attitude(_NamedBase):
         '''
         try:
             try:
-                xyz = map2(float, x_xyz.xyz)
+                xyz = map2(float, x_xyz.xyz3)
             except AttributeError:
                 xyz = map1(float, x_xyz, y, z)
         except (TypeError, ValueError) as x:
@@ -876,7 +876,7 @@ class ChLV(_ChLV, Ltp):
 
            @arg Y: Unfalsed I{Swiss Y} easting (C{meter}).
            @arg X: Unfalsed I{Swiss X} northing (C{meter}).
-           @kwarg LV95: If C{True} add C{LV95} falsing, if C{False} add
+           @kwarg LV95: If C{True}, add C{LV95} falsing, if C{False} add
                         C{LV03} falsing, otherwise leave unfalsed.
            @kwarg name: Optional C{B{name}=NN} (C{str}).
 
@@ -928,9 +928,8 @@ class ChLV(_ChLV, Ltp):
 
            @arg e: Falsed I{Swiss E_LV95} or I{y_LV03} easting (C{meter}).
            @arg n: Falsed I{Swiss N_LV95} or I{x_LV03} northing (C{meter}).
-           @kwarg LV95: If C{True} remove I{LV95} falsing, if C{False} remove
-                        I{LV03} falsing, otherwise use method C{isLV95(B{e},
-                        B{n})}.
+           @kwarg LV95: If C{True}, remove I{LV95} falsing, if C{False} remove
+                        I{LV03} falsing, otherwise use method C{isLV95(B{e}, B{n})}.
            @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @return: A L{ChLVYX2Tuple}C{(Y, X)} with the unfalsed B{C{e}}

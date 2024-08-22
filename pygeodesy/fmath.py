@@ -24,7 +24,7 @@ from math import fabs, sqrt  # pow
 import operator as _operator  # in .datums, .trf, .utm
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '24.05.29'
+__version__ = '24.08.15'
 
 # sqrt(2) <https://WikiPedia.org/wiki/Square_root_of_2>
 _0_4142  =  0.41421356237309504880  # ... sqrt(2) - 1
@@ -886,6 +886,7 @@ def norm2(x, y):
               or zero norm.
     '''
     try:
+        h = None
         h = hypot(x, y)
         if h:
             x, y = (x / h), (y / h)

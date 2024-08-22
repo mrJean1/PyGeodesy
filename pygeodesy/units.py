@@ -27,7 +27,7 @@ from pygeodesy.unitsBase import Float, Int, _NamedUnit, Radius, Str,  Fmt, fstr
 from math import degrees, isnan, radians
 
 __all__ = _ALL_LAZY.units
-__version__ = '24.08.02'
+__version__ = '24.08.13'
 
 
 class Float_(Float):
@@ -193,7 +193,7 @@ class Degrees(Float):
     def toRepr(self, std=False, **prec_fmt_ints):  # PYCHOK prec=8, ...
         '''Return a representation of this C{Degrees}.
 
-           @kwarg std: If C{True} return the standard C{repr}, otherwise
+           @kwarg std: If C{True}, return the standard C{repr}, otherwise
                        the named representation (C{bool}).
 
            @see: Methods L{Degrees.toStr}, L{Float.toRepr} and function
@@ -290,7 +290,7 @@ class Radians(Float):
     def toRepr(self, std=False, **prec_fmt_ints):  # PYCHOK prec=8, ...
         '''Return a representation of this C{Radians}.
 
-           @kwarg std: If C{True} return the standard C{repr}, otherwise
+           @kwarg std: If C{True}, return the standard C{repr}, otherwise
                        the named representation (C{bool}).
 
            @see: Methods L{Radians.toStr}, L{Float.toRepr} and function

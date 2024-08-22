@@ -53,7 +53,7 @@ from pygeodesy.utily import degrees90, degrees180, sincostan3, truncate
 from math import cos, fabs, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.osgr
-__version__ = '24.06.15'
+__version__ = '24.08.13'
 
 _equivalent_ = 'equivalent'
 _OSGR_       = 'OSGR'
@@ -289,9 +289,9 @@ class Osgr(_NamedBase):
            @kwarg datum: Optional datum to convert to (L{Datum},
                          L{Ellipsoid}, L{Ellipsoid2}, L{Ellipsoid2}
                          or L{a_f2Tuple}).
-           @kwarg kTM: If C{True} use I{Karney}'s Krüger method from
-                       module L{ktm}, otherwise use the Ordnance
-                       Survey formulation (C{bool}).
+           @kwarg kTM: If C{True}, use I{Karney}'s Krüger method from
+                       module L{ktm}, otherwise use the Ordnance Survey
+                       formulation (C{bool}).
            @kwarg eps: Tolerance for OS convergence (C{meter}).
            @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
                                arguments, ignored if C{B{LatLon} is None}.
@@ -585,9 +585,9 @@ def toOsgr(latlon, lon=None, kTM=False, datum=_WGS84, Osgr=Osgr,  # MCCABE 14
        @arg latlon: Latitude (C{degrees}) or an (ellipsoidal) geodetic
                     C{LatLon} point.
        @kwarg lon: Optional longitude in degrees (scalar or C{None}).
-       @kwarg kTM: If C{True} use I{Karney}'s Krüger method from
-                   module L{ktm}, otherwise use the Ordnance
-                   Survey formulation (C{bool}).
+       @kwarg kTM: If C{True}, use I{Karney}'s Krüger method from
+                   module L{ktm}, otherwise use the Ordnance Survey
+                   formulation (C{bool}).
        @kwarg datum: Optional datum to convert B{C{lat, lon}} from
                      (L{Datum}, L{Ellipsoid}, L{Ellipsoid2} or
                      L{a_f2Tuple}).

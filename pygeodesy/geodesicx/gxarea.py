@@ -30,7 +30,7 @@ from pygeodesy.props import Property, Property_RO, property_RO
 from math import fmod as _fmod
 
 __all__ = ()
-__version__ = '24.05.19'
+__version__ = '24.08.13'
 
 
 class GeodesicAreaExact(_NamedBase):
@@ -413,8 +413,8 @@ class PolygonArea(GeodesicAreaExact):
 
            @arg earth: A geodesic (L{GeodesicExact}, I{wrapped}
                        C{Geodesic} or L{GeodesicSolve}).
-           @kwarg polyline: If C{True} perimeter only, otherwise
-                            area and perimeter (C{bool}).
+           @kwarg polyline: If C{True}, compute the perimeter only, otherwise
+                            perimeter and area (C{bool}).
            @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @raise GeodesicError: Invalid B{C{earth}}.

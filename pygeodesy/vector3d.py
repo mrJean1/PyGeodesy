@@ -3,8 +3,8 @@
 
 u'''Extended 3-D vector class L{Vector3d} and functions.
 
-Function L{intersection3d3}, L{intersections2}, L{parse3d}, L{sumOf},
-L{trilaterate2d2} and L{trilaterate3d2}.
+Function L{intersection3d3}, L{intersections2}, L{parse3d}, L{sumOf} and
+L{trilaterate3d2}.
 '''
 
 from pygeodesy.constants import EPS, EPS0, EPS1, EPS4, INT0, isnear0, \
@@ -31,7 +31,7 @@ from pygeodesy.vector3dBase import Vector3dBase
 # from math import fabs, sqrt  # from .fmath
 
 __all__ = _ALL_LAZY.vector3d
-__version__ = '24.06.18'
+__version__ = '24.08.18'
 
 _vector2d = _MODS.into(vector2d=__name__)
 
@@ -101,7 +101,7 @@ class Vector3d(Vector3dBase):
                         or C{Vector4Tuple}).
            @arg point3: Third point (C{Cartesian}, L{Vector3d}, C{Vector3Tuple}
                         or C{Vector4Tuple}).
-           @kwarg circum: If C{True} return the C{circumradius} and C{circumcenter},
+           @kwarg circum: If C{True}, return the C{circumradius} and C{circumcenter},
                           always, ignoring the I{Meeus}' Type I case (C{bool}).
            @kwarg eps: Tolerance passed to function L{pygeodesy.trilaterate3d2}.
 
@@ -175,7 +175,7 @@ class Vector3d(Vector3dBase):
                         or C{Vector4Tuple}).
            @arg point3: Third point (C{Cartesian}, L{Vector3d}, C{Vector3Tuple}
                         or C{Vector4Tuple}).
-           @kwarg circum: If C{True} return the C{circumradius} and C{circumcenter}
+           @kwarg circum: If C{True}, return the C{circumradius} and C{circumcenter}
                           always, overriding I{Meeus}' Type II case (C{bool}).
 
            @return: L{Meeus2Tuple}C{(radius, Type)}, with C{Type} the C{circumcenter}
@@ -199,7 +199,7 @@ class Vector3d(Vector3dBase):
                         C{Vector4Tuple}).
            @arg point2: End point (C{Cartesian}, L{Vector3d}, C{Vector3Tuple} or
                         C{Vector4Tuple}).
-           @kwarg within: If C{True} return the closest point between the given
+           @kwarg within: If C{True}, return the closest point between the given
                           points, otherwise the closest point on the extended
                           line through both points (C{bool}).
 
@@ -406,7 +406,7 @@ def _intersect3d3(start1, end1, start2, end2, eps=EPS, useZ=False):  # MCCABE 16
         # Get the C{s1'} and C{e1'} corners of a right-angle
         # triangle with the hypotenuse thru C{s1} at bearing
         # C{b1} and the right angle at C{s2}
-        dx, dy, d = s2.minus(s1).xyz
+        dx, dy, d = s2.minus(s1).xyz3
         if useZ and not isnear0(d):  # not supported
             raise IntersectionError(useZ=d, bearing=b1)
         s, c = sincos2d(b1)
@@ -535,7 +535,7 @@ def intersections2(center1, radius1, center2, radius2, sphere=True, **Vector_and
                      C{Vector3Tuple} or C{Vector4Tuple}).
        @arg radius2: Radius of the second sphere or circle (same units as the
                      B{C{center1}} and B{C{center2}} coordinates).
-       @kwarg sphere: If C{True} compute the center and radius of the intersection of
+       @kwarg sphere: If C{True}, compute the center and radius of the intersection of
                       two spheres.  If C{False}, ignore the C{z}-component and compute
                       the intersection of two circles (C{bool}).
        @kwarg Vector_and_kwds: Optional class C{B{Vector}=None} to return the
@@ -657,7 +657,7 @@ def nearestOn(point, point1, point2, within=True, useZ=True, Vector=None, **Vect
                                  C{Vector4Tuple}).
        @arg point2: End point (C{Cartesian}, L{Vector3d}, C{Vector3Tuple} or
                                C{Vector4Tuple}).
-       @kwarg within: If C{True} return the closest point between both given
+       @kwarg within: If C{True}, return the closest point between both given
                       points, otherwise the closest point on the extended line
                       through both points (C{bool}).
        @kwarg useZ: If C{True}, use the Z components, otherwise force C{z=INT0} (C{bool}).
@@ -836,45 +836,6 @@ def sumOf(vectors, Vector=Vector3d, **Vector_kwds):
            Vector(x, y, z, **_xkwds(Vector_kwds, name__=sumOf))  # .__name__
 
 
-def trilaterate2d2(x1, y1, radius1, x2, y2, radius2, x3, y3, radius3,
-                                    eps=None, **Vector_and_kwds):
-    '''Trilaterate three circles, each given as a (2-D) center and a radius.
-
-       @arg x1: Center C{x} coordinate of the 1st circle (C{scalar}).
-       @arg y1: Center C{y} coordinate of the 1st circle (C{scalar}).
-       @arg radius1: Radius of the 1st circle (C{scalar}).
-       @arg x2: Center C{x} coordinate of the 2nd circle (C{scalar}).
-       @arg y2: Center C{y} coordinate of the 2nd circle (C{scalar}).
-       @arg radius2: Radius of the 2nd circle (C{scalar}).
-       @arg x3: Center C{x} coordinate of the 3rd circle (C{scalar}).
-       @arg y3: Center C{y} coordinate of the 3rd circle (C{scalar}).
-       @arg radius3: Radius of the 3rd circle (C{scalar}).
-       @kwarg eps: Tolerance to check the trilaterated point I{delta} on all
-                   3 circles (C{scalar}) or C{None} for no checking.
-       @kwarg Vector_and_kwds: Optional class C{B{Vector}=None} to return the
-                               trilateration and optional, additional B{C{Vector}}
-                               keyword arguments, otherwise (L{Vector3d}).
-
-       @return: Trilaterated point as C{B{Vector}(x, y, **B{Vector_kwds})}
-                or L{Vector2Tuple}C{(x, y)} if C{B{Vector} is None}..
-
-       @raise IntersectionError: No intersection, near-concentric or -colinear
-                                 centers, trilateration failed some other way
-                                 or the trilaterated point is off one circle
-                                 by more than B{C{eps}}.
-
-       @raise UnitError: Invalid B{C{radius1}}, B{C{radius2}} or B{C{radius3}}.
-
-       @see: U{Issue #49<https://GitHub.com/mrJean1/PyGeodesy/issues/49>},
-             U{Find X location using 3 known (X,Y) location using trilateration
-             <https://math.StackExchange.com/questions/884807>} and function
-             L{pygeodesy.trilaterate3d2}.
-    '''
-    return _vector2d._trilaterate2d2(x1, y1, radius1,
-                                     x2, y2, radius2,
-                                     x3, y3, radius3, eps=eps, **Vector_and_kwds)
-
-
 def trilaterate3d2(center1, radius1, center2, radius2, center3, radius3,
                                      eps=EPS, **Vector_and_kwds):
     '''Trilaterate three spheres, each given as a (3-D) center and a radius.
@@ -893,10 +854,10 @@ def trilaterate3d2(center1, radius1, center2, radius2, center3, radius3,
                      and C{z}).
        @kwarg eps: Pertubation tolerance (C{scalar}), same units as C{x},
                    C{y} and C{z} or C{None} for no pertubations.
-       @kwarg Vector_and_kwds: Optional class C{B{Vector}=None} to return the
-                               trilateration and optional, additional B{C{Vector}}
-                               keyword arguments, otherwise B{C{center1}}'s
-                               (sub-)class.
+       @kwarg Vector_and_kwds: Optional class C{B{Vector}=None} to return
+                               the trilateration and optional, additional
+                               B{C{Vector}} keyword arguments, otherwise
+                               the B{C{center1}}'s (sub-)class.
 
        @return: 2-Tuple with two trilaterated points, each a B{C{Vector}}
                 instance.  Both points are the same instance if all three

@@ -24,7 +24,7 @@ from pygeodesy.errors import _ValueError, _xkwds, _xStrError
 # from pygeodesy import formy as _formy  # _MODS
 from pygeodesy.interns import NN, _COMMA_, _DOT_, _E_, _height_, _N_, _NE_, \
                              _NW_, _radius_, _S_, _SE_, _SPACE_, _SW_, _W_, \
-                             _width_
+                             _width_  # _INV_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _name__, _NamedDict, _NamedTuple, nameof, _xnamed
 from pygeodesy.namedTuples import Bounds2Tuple, Bounds4Tuple, LatLon2Tuple, \
@@ -38,7 +38,7 @@ from pygeodesy.units import Degrees_, Int, Lat_, Lon_, Meter, Precision_, Str
 from math import fabs, ldexp, log10, radians
 
 __all__ = _ALL_LAZY.geohash
-__version__ = '24.08.02'
+__version__ = '24.08.05'
 
 _formy   = _MODS.into(formy=__name__)
 _MASK5   =  16, 8, 4, 2, 1  # PYCHOK used!
@@ -118,8 +118,8 @@ def _2res(res, **prec):
     '''(INTERNAL) Get the C{res}olution for a C{prec}ision.
     '''
     p = max(min(Int(Error=GeohashError, **prec), _MaxPrec), 0) * 5
-    p = (p - p // 2) if res > _180_0 else (p // 2)
-    return ldexp(res, -p) if p else res
+    x = (p - p // 2) if res > _180_0 else (p // 2)
+    return ldexp(res, -x) if x else res  # ldexp == res / float(1 << x)
 
 
 class _GH(object):
@@ -231,7 +231,7 @@ class _GH(object):
         '''Decode C{geohash} into 4-tuple C{(s, w, n, e)}.
         '''
         nc = len(geohash) if isstr(geohash) else 0
-        if not (0 < nc <= _MaxPrec):
+        if not (0 < nc <= _MaxPrec):  # or geohash.startswith(_INV_)
             raise GeohashError(geohash=geohash, len=nc)
         s, w, n, e = self.SWNE4
         D, d, _mid = self.DecodeB32, True, _2mid
@@ -507,6 +507,13 @@ class Geohash(Str):
         '''
         return len(self)
 
+    @Property_RO
+    def resolution2(self):
+        '''Get the I{lon-} and I{latitudinal} resolution of this cell
+           in a L{Resolutions2Tuple}C{(res1, res2)}, both in C{degrees}.
+        '''
+        return resolution2(self.precision, self.precision)
+
     @deprecated_property_RO
     def sizes(self):
         '''DEPRECATED on 2024.07.28, use property C{Geohash.sizes3}.'''
@@ -515,11 +522,11 @@ class Geohash(Str):
 
     @Property_RO
     def sizes3(self):
-        '''Get the lat-, longitudinal and radial size of this cell as
-           a L{Sizes3Tuple}C{(height, width, radius)}, all C{meter}.
+        '''Get the lat-, longitudinal and radial size of this cell in
+           a L{Sizes3Tuple}C{(height, width, radius)}, all in C{meter}.
         '''
         z = _GH.Sizes
-        n =  min(len(z) - 1, max(self.precision, 1))
+        n =  min(max(self.precision, 1), len(z) - 1)
         return Sizes3Tuple(z[n], name=self.name)
 
     def toLatLon(self, LatLon=None, **LatLon_kwds):
@@ -650,7 +657,7 @@ class Geohashed(object):
     def _ab2round(self, *ll):
         '''(INTERNAL) Make encoded keys C{a, b}.
         '''
-        return map(round, ll, self._nn)
+        return map(round, ll, self._nn)  # strict=True
 
     def clear(self):
         '''Clear the C{en-} and C{decoded} cache.
@@ -1007,8 +1014,8 @@ def resolution2(prec1, prec2=None):
                      (C{int} 1..12).
 
        @return: L{Resolutions2Tuple}C{(res1, res2)} with the
-                (geographic) resolutions C{degrees}, where C{res2
-                B{is} res1} if no B{C{prec2}} is given.
+                (geographic) resolutions in C{degrees}, where
+                C{res2 B{is} res1} if no B{C{prec2}} is given.
 
        @raise GeohashError: Invalid B{C{prec1}} or B{C{prec2}}.
 

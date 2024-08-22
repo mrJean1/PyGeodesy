@@ -34,7 +34,7 @@ from pygeodesy.vector3d import _otherV3d, Vector3d
 from math import cos, atan2, degrees, fabs, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.resections
-__version__ = '24.04.14'
+__version__ = '24.08.18'
 
 _concyclic_ = 'concyclic'
 _PA_        = 'PA'
@@ -356,8 +356,8 @@ def pierlot(point1, point2, point3, alpha12, alpha23, useZ=False, eps=EPS,
 def _pierlot3(B1, B2, B3, a12, a23, useZ, cot):
     '''(INTERNAL) Shared L{pierlot} and L{pierlotx}.
     '''
-    x1_, y1_, _ = B1.minus(B2).xyz
-    x3_, y3_, _ = B3.minus(B2).xyz
+    x1_, y1_, _ = B1.minus(B2).xyz3
+    x3_, y3_, _ = B3.minus(B2).xyz3
 
     s12, c12, s23, c23 = sincos2d_(a12, a23)
     # cot31 = (1 - cot12 * cot23) / (cot12 + cot32)
@@ -402,7 +402,7 @@ def _pierlot3(B1, B2, B3, a12, a23, useZ, cot):
         x, y = _pierlotxy2(B2, -K, Y12_23, X12_23, (X31_23 * Y12_23 -
                                                     X12_23 * Y31_23))
     else:
-        x, y, _ = B2.xyz
+        x, y, _ = B2.xyz3
     return x, y, _zidw(x, y, useZ, B1, B2, B3)
 
 
@@ -484,8 +484,8 @@ def _pierlotx3(a_z_Bs, useZ, cot, Cs):
         Cs(4)
         return _pierlot3(B1, B2, B3, a12, a23, useZ, cot)
 
-    x1_, y1_, _ = B1.minus(B3).xyz
-    x2_, y2_, _ = B2.minus(B3).xyz
+    x1_, y1_, _ = B1.minus(B3).xyz3
+    x2_, y2_, _ = B2.minus(B3).xyz3
 
     K = _Fsumf_(y1_ * x2_, -x1_ * y2_)
     if K:
@@ -508,7 +508,7 @@ def _pierlotx3(a_z_Bs, useZ, cot, Cs):
         x, y = _pierlotxy2(B3, K, Y31_23, X31_23, (X31_23 * _Fsumf_(x2_, -x1_) +
                                                    Y31_23 * _Fsumf_(y2_, -y1_)))
     else:
-        x, y, _ = B3.xyz
+        x, y, _ = B3.xyz3
     return x, y, _zidw(x, y, useZ, B1, B2, B3)
 
 

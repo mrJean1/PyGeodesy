@@ -15,7 +15,7 @@ from pygeodesy.named import modulename, _Named,  property_doc_
 from pygeodesy.streprs import Fmt, fstr
 
 __all__ = _ALL_LAZY.unitsBase
-__version__ = '24.06.15'
+__version__ = '24.08.13'
 
 
 class _NamedUnit(_Named):
@@ -156,7 +156,7 @@ class Float(float, _NamedUnit):
     def toRepr(self, std=False, **prec_fmt_ints):  # PYCHOK prec=8, ...
         '''Return a representation of this C{Float}.
 
-           @kwarg std: If C{True} return the standard C{repr},
+           @kwarg std: If C{True}, return the standard C{repr},
                        otherwise the named representation (C{bool}).
 
            @see: Function L{fstr<pygeodesy.streprs.fstr>} and methods
@@ -216,7 +216,7 @@ class Int(int, _NamedUnit):
     def toRepr(self, std=False, **unused):  # PYCHOK **unused
         '''Return a representation of this C{Int}.
 
-           @kwarg std: If C{True} return the standard C{repr},
+           @kwarg std: If C{True}, return the standard C{repr},
                        otherwise the named representation (C{bool}).
 
            @see: Method L{Int.__repr__} for more documentation.
@@ -298,7 +298,7 @@ class Str(str, _NamedUnit):
     def toRepr(self, std=False, **unused):  # PYCHOK **unused
         '''Return a representation of this C{Str}.
 
-           @kwarg std: If C{True} return the standard C{repr},
+           @kwarg std: If C{True}, return the standard C{repr},
                        otherwise the named representation (C{bool}).
 
            @see: Method L{Str.__repr__} for more documentation.

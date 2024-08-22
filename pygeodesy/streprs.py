@@ -22,7 +22,7 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS,  _dunder_nameof
 from math import fabs, log10 as _log10
 
 __all__ = _ALL_LAZY.streprs
-__version__ = '24.06.15'
+__version__ = '24.08.13'
 
 _at_        = 'at'         # PYCHOK used!
 _EN_PREC    =  6           # max MGRS/OSGR precision, 1 micrometer
@@ -310,8 +310,8 @@ def fstr(floats, prec=6, fmt=Fmt.F, ints=False, sep=_COMMASPACE_, strepr=None, f
        @kwarg strepr: Optional callable to format non-C{floats} (typically
                       C{repr}, C{str}) or C{None} to raise a TypeError and used
                       only if C{B{force} is not True}.
-       @kwarg force: If C{True} format all B{C{floats}} using B{C{fmt}},
-                     otherwise use B{C{strepr}} for non-C{floats}.
+       @kwarg force: If C{True}, format all B{C{floats}} using B{C{fmt}},
+                     otherwise use B{C{strepr}} for non-C{floats} (C{bool}).
 
        @return: The C{sep.join(strs(floats, ...)} joined (C{str}) or single
                 C{strs((floats,), ...)} (C{str}) if B{C{floats}} is C{scalar}.

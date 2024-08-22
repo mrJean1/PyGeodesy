@@ -86,7 +86,7 @@ from pygeodesy.units import _ALL_LAZY, _1mm, Radius_
 from math import degrees, fabs, radians
 
 __all__ = _ALL_LAZY.simplify
-__version__ = '24.05.25'
+__version__ = '24.08.13'
 
 
 # try:
@@ -383,7 +383,7 @@ def simplify1(points, distance=_1mm, radius=R_M, indices=False, **options):
        @arg points: Path points (C{LatLon}[]).
        @kwarg distance: Tolerance (C{meter}, same units as B{C{radius}}).
        @kwarg radius: Mean earth radius (C{meter}).
-       @kwarg indices: If C{True} return the simplified point indices
+       @kwarg indices: If C{True}, return the simplified point indices
                        instead of the simplified points (C{bool}).
        @kwarg options: Optional keyword arguments passed thru to
                        function L{pygeodesy.equirectangular4}.
@@ -426,9 +426,9 @@ def simplifyRDP(points, distance=_1mm, radius=R_M, shortest=False,
        @arg points: Path points (C{LatLon}[]).
        @kwarg distance: Tolerance (C{meter}, same units as B{C{radius}}).
        @kwarg radius: Mean earth radius (C{meter}).
-       @kwarg shortest: If C{True} use the I{shortest} otherwise the
+       @kwarg shortest: If C{True}, use the I{shortest} otherwise the
                         I{perpendicular} distance (C{bool}).
-       @kwarg indices: If C{True} return the simplified point indices
+       @kwarg indices: If C{True}, return the simplified point indices
                        instead of the simplified points (C{bool}).
        @kwarg options: Optional keyword arguments passed thru to
                        function L{pygeodesy.equirectangular4}.
@@ -460,9 +460,9 @@ def simplifyRDPm(points, distance=_1mm, radius=R_M, shortest=False,
        @arg points: Path points (C{LatLon}[]).
        @kwarg distance: Tolerance (C{meter}, same units as B{C{radius}}).
        @kwarg radius: Mean earth radius (C{meter}).
-       @kwarg shortest: If C{True} use the I{shortest} otherwise the
+       @kwarg shortest: If C{True}, use the I{shortest} otherwise the
                         I{perpendicular} distance (C{bool}).
-       @kwarg indices: If C{True} return the simplified point indices
+       @kwarg indices: If C{True}, return the simplified point indices
                        instead of the simplified points (C{bool}).
        @kwarg options: Optional keyword arguments passed thru to
                        function L{pygeodesy.equirectangular4}.
@@ -491,9 +491,9 @@ def simplifyRW(points, pipe=_1mm, radius=R_M, shortest=False,
        @kwarg pipe: Pipe radius, half-width (C{meter}, same units as
                     B{C{radius}}).
        @kwarg radius: Mean earth radius (C{meter}).
-       @kwarg shortest: If C{True} use the I{shortest} otherwise the
+       @kwarg shortest: If C{True}, use the I{shortest} otherwise the
                         I{perpendicular} distance (C{bool}).
-       @kwarg indices: If C{True} return the simplified point indices
+       @kwarg indices: If C{True}, return the simplified point indices
                        instead of the simplified points (C{bool}).
        @kwarg options: Optional keyword arguments passed thru to
                        function L{pygeodesy.equirectangular4}.
@@ -544,7 +544,7 @@ def simplifyVW(points, area=_1mm, radius=R_M, attr=None,
        @kwarg radius: Mean earth radius (C{meter}).
        @kwarg attr: Optional, points attribute to save the area value
                     (C{str}).
-       @kwarg indices: If C{True} return the simplified point indices
+       @kwarg indices: If C{True}, return the simplified point indices
                        instead of the simplified points (C{bool}).
        @kwarg options: Optional keyword arguments passed thru to
                        function L{pygeodesy.equirectangular4}.
@@ -600,7 +600,7 @@ def simplifyVWm(points, area=_1mm, radius=R_M, attr=None,
        @kwarg radius: Mean earth radius (C{meter}).
        @kwarg attr: Optional, points attribute to save the area value
                     (C{str}).
-       @kwarg indices: If C{True} return the simplified point indices
+       @kwarg indices: If C{True}, return the simplified point indices
                        instead of the simplified points (C{bool}).
        @kwarg options: Optional keyword arguments passed thru to
                        function L{pygeodesy.equirectangular4}.

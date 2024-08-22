@@ -1089,12 +1089,16 @@
     <li> <strong class="uidlink"><a href="pygeodesy.heights.HeightCubic-class.html">pygeodesy.heights.HeightCubic</a></strong>:
       <em class="summary">Height interpolator based on <code>SciPy</code> <a 
         href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.interp2d.html"
-        target="_top">interp2d</a> <code>kind='cubic'</code>.</em>
+        target="_top">interp2d</a> <code>kind='cubic'</code> or <a 
+        href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.interp2d.html"
+        target="_top">bisplrep/-ev</a> <code>kx=ky=3</code>.</em>
     <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.heights.HeightLinear-class.html">pygeodesy.heights.HeightLinear</a></strong>:
       <em class="summary">Height interpolator based on <code>SciPy</code> <a 
         href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.interp2d.html"
-        target="_top">interp2d</a> <code>kind='linear'</code>.</em>
+        target="_top">interp2d</a> <code>kind='linear'</code> or <a 
+        href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.interp2d.html"
+        target="_top">bisplrep/-ev</a> <code>kx=ky=1</code>.</em>
     </li>
     </ul>
     </li>
@@ -1128,9 +1132,11 @@
         href="https://www.NGS.NOAA.gov/GEOID/GEOID12B/GEOID12B_AS.shtml" 
         target="_top">American Samoa</a> based on <code>SciPy</code> <a 
         href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.RectBivariateSpline.html"
-        target="_top">RectBivariateSpline</a> or <a 
+        target="_top">RectBivariateSpline</a>, <a 
         href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.interp2d.html"
-        target="_top">interp2d</a> interpolation.</em>
+        target="_top">interp2d</a> or <a 
+        href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.bisplrep.html"
+        target="_top">bisplrep/-ev</a> interpolation.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.geoids.GeoidKarney-class.html">pygeodesy.geoids.GeoidKarney</a></strong>:
       <em class="summary">Geoid height interpolator for <i>Karney</i>'s <a 
@@ -1156,7 +1162,9 @@
         target="_top">egm*.pgm</a> datasets but based on <code>SciPy</code>
         <a 
         href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.RectBivariateSpline.html"
-        target="_top">RectBivariateSpline</a> or <a 
+        target="_top">RectBivariateSpline</a>, <a 
+        href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.bisplrep.html"
+        target="_top">bisplrep/-ev</a> or <a 
         href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.interp2d.html"
         target="_top">interp2d</a> interpolation.</em>
     </li>
@@ -1272,6 +1280,13 @@
         initial and final bearing (azimuths) between two given points or 
         the destination point given a start point and an (initial) bearing.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html">pygeodesy.ellipsoidalVincenty.LatLon</a></strong>:
+      <em class="summary">New point on an (oblate) ellipsoidal earth model, using the 
+        formulae devised by <a 
+        href="https://WikiPedia.org/wiki/Vincenty's_formulae" 
+        target="_top"><i>Thaddeus Vincenty</i></a> (1975) to compute 
+        geodesic distances, bearings (azimuths), etc.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.LatLon-class.html">pygeodesy.ellipsoidalKarney.LatLon</a></strong>:
       <em class="summary">An ellipsoidal <a 
         href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
@@ -1282,13 +1297,6 @@
         href="https://PyPI.org/project/geographiclib" 
         target="_top">geographiclib</a> to compute geodesic distances, 
         bearings (azimuths), etc.</em>
-    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html">pygeodesy.ellipsoidalVincenty.LatLon</a></strong>:
-      <em class="summary">New point on an (oblate) ellipsoidal earth model, using the 
-        formulae devised by <a 
-        href="https://WikiPedia.org/wiki/Vincenty's_formulae" 
-        target="_top"><i>Thaddeus Vincenty</i></a> (1975) to compute 
-        geodesic distances, bearings (azimuths), etc.</em>
     </li>
     </ul>
     </li>
@@ -1440,12 +1448,11 @@
         href="pygeodesy.ellipsoidalGeodSolve.LatLon-class.html" 
         class="link">LatLon</a> points.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalNvector.Cartesian-class.html">pygeodesy.ellipsoidalNvector.Cartesian</a></strong>:
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html">pygeodesy.ellipsoidalVincenty.Cartesian</a></strong>:
       <em class="summary">Extended to convert geocentric, <a 
-        href="pygeodesy.ellipsoidalNvector.Cartesian-class.html" 
-        class="link">Cartesian</a> points to <code>Nvector</code> and 
-        n-vector-based, geodetic <a 
-        href="pygeodesy.ellipsoidalNvector.LatLon-class.html" 
+        href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html" 
+        class="link">Cartesian</a> points to Vincenty-based, ellipsoidal, 
+        geodetic <a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
         class="link">LatLon</a>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.Cartesian-class.html">pygeodesy.ellipsoidalKarney.Cartesian</a></strong>:
@@ -1455,11 +1462,12 @@
         href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
         class="link">LatLon</a> points.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html">pygeodesy.ellipsoidalVincenty.Cartesian</a></strong>:
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalNvector.Cartesian-class.html">pygeodesy.ellipsoidalNvector.Cartesian</a></strong>:
       <em class="summary">Extended to convert geocentric, <a 
-        href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html" 
-        class="link">Cartesian</a> points to Vincenty-based, ellipsoidal, 
-        geodetic <a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
+        href="pygeodesy.ellipsoidalNvector.Cartesian-class.html" 
+        class="link">Cartesian</a> points to <code>Nvector</code> and 
+        n-vector-based, geodetic <a 
+        href="pygeodesy.ellipsoidalNvector.LatLon-class.html" 
         class="link">LatLon</a>.</em>
     </li>
     </ul>
@@ -2649,6 +2657,15 @@
         deficit</i> <code>D</code> and the <i>spherical excess</i> 
         <code>E</code> of a (spherical) triangle, all in 
         <code>radians</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.vector2d.Triaxum5Tuple-class.html">pygeodesy.vector2d.Triaxum5Tuple</a></strong>:
+      <em class="summary">5-Tuple <code>(a, b, c, rank, residuals)</code> with the 
+        (unordered) triaxial radii <code>a</code>, <code>b</code> and 
+        <code>c</code> of an ellipsoid <i>least-squares</i> fitted through 
+        given points and the <code>rank</code> and <code>residuals</code> 
+        -if any- from <a 
+        href="https://NumPy.org/doc/stable/reference/generated/numpy.linalg.lstsq.html"
+        target="_top">numpy.linalg.lstsq</a>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.Trilaterate5Tuple-class.html">pygeodesy.namedTuples.Trilaterate5Tuple</a></strong>:
       <em class="summary">5-Tuple <code>(min, minPoint, max, maxPoint, n)</code> with 
@@ -4154,6 +4171,15 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
         <code>E</code> of a (spherical) triangle, all in 
         <code>radians</code>.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.vector2d.Triaxum5Tuple-class.html">pygeodesy.vector2d.Triaxum5Tuple</a></strong>:
+      <em class="summary">5-Tuple <code>(a, b, c, rank, residuals)</code> with the 
+        (unordered) triaxial radii <code>a</code>, <code>b</code> and 
+        <code>c</code> of an ellipsoid <i>least-squares</i> fitted through 
+        given points and the <code>rank</code> and <code>residuals</code> 
+        -if any- from <a 
+        href="https://NumPy.org/doc/stable/reference/generated/numpy.linalg.lstsq.html"
+        target="_top">numpy.linalg.lstsq</a>.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.Trilaterate5Tuple-class.html">pygeodesy.namedTuples.Trilaterate5Tuple</a></strong>:
       <em class="summary">5-Tuple <code>(min, minPoint, max, maxPoint, n)</code> with 
         <code>min</code> and <code>max</code> in <code>meter</code>, the 
@@ -4463,7 +4489,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Aug  2 17:41:58 2024
+    Generated by Epydoc 3.0.1 on Thu Aug 22 16:26:56 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

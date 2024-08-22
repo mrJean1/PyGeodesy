@@ -54,7 +54,7 @@ from contextlib import contextmanager
 from math import asin, cos, degrees, fabs, radians
 
 __all__ = _ALL_LAZY.latlonBase
-__version__ = '24.07.29'
+__version__ = '24.08.18'
 
 _formy = _MODS.into(formy=__name__)
 
@@ -247,7 +247,7 @@ class LatLonBase(_NamedBase):
 
            @arg point2: Second point (C{LatLon}).
            @arg point3: Third point (C{LatLon}).
-           @kwarg circum: If C{True} return the C{circumradius} and C{circumcenter},
+           @kwarg circum: If C{True}, return the C{circumradius} and C{circumcenter},
                           always, ignoring the I{Meeus}' Type I case (C{bool}).
            @kwarg eps: Tolerance for function L{pygeodesy.trilaterate3d2}.
            @kwarg wrap_name: Optional C{B{name}=NN} (C{str}) and optional keyword
@@ -699,9 +699,9 @@ class LatLonBase(_NamedBase):
                          I{overriding} this datum (L{Datum}, L{Ellipsoid},
                          L{Ellipsoid2}, L{a_f2Tuple}, L{Triaxial}, L{Triaxial_},
                          L{JacobiConformal} or C{meter}, conventionally).
-           @kwarg normal: If C{True} the projection is the normal to this
-                          ellipsoid's surface, otherwise the intersection of the
-                          I{radial} line to this ellipsoid's center (C{bool}).
+           @kwarg normal: If C{True}, the projection is the normal to this ellipsoid's
+                          surface, otherwise the intersection of the I{radial} line to
+                          this ellipsoid's center (C{bool}).
            @kwarg LatLon: Optional class to return the projection, height and
                           datum (C{LatLon}) or C{None}.
            @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword arguments,
@@ -1483,8 +1483,8 @@ class LatLonBase(_NamedBase):
         '''Get this point I{normalized} to C{abs(lat) <= 90}
            and C{abs(lon) <= 180}.
 
-           @kwarg deep: If C{True} make a deep, otherwise a
-                        shallow copy (C{bool}).
+           @kwarg deep: If C{True}, make a deep, otherwise a shallow
+                        copy (C{bool}).
            @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @return: A copy of this point, I{normalized} (C{LatLon}),
@@ -1649,6 +1649,12 @@ class LatLonBase(_NamedBase):
         '''Get the I{geocentric} C{(x, y, z)} coordinates (L{Vector3Tuple}C{(x, y, z)})
         '''
         return self._ecef9.xyz
+
+    @property_RO
+    def xyz3(self):
+        '''Get the I{geocentric} C{(x, y, z)} coordinates as C{3-tuple}.
+        '''
+        return tuple(self.xyz)
 
     @Property_RO
     def xyzh(self):

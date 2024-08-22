@@ -125,28 +125,11 @@
       
     </td>
   </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.heights.HeightSmoothBiSpline-class.html#height" class="summary-sig-name">height</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">lats</span>,
-        <span class="summary-sig-arg">lons</span>,
-        <span class="summary-sig-arg">**wrap</span>)</span><br />
-      Interpolate the height for one or several lat-/longitudes.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
   <tr>
     <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.heights._HeightsBase-class.html">_HeightsBase</a></code></b>:
+      <code><a href="pygeodesy.heights._HeightsBase-class.html#height">height</a></code>
+      </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
       <code><a href="pygeodesy.named._Named-class.html#__imatmul__">__imatmul__</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#__matmul__">__matmul__</a></code>,
@@ -263,10 +246,8 @@
         <b><code>knot</code></b> or <b><code>s</code></b>.</li>
         <li><code><strong class='fraise'>ImportError</strong></code> - Package <code>numpy</code> or <code>scipy</code> not found or not 
         installed.</li>
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.SciPyError-class.html">SciPyError</a></strong></code> - A <code>scipy</code> <code>SmoothSphereBivariateSpline</code> 
-        issue.</li>
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.SciPyWarning-class.html">SciPyWarning</a></strong></code> - A <code>scipy</code> <code>SmoothSphereBivariateSpline</code> 
-        warning as exception.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.SciPyError-class.html">SciPyError</a></strong></code> - A <code>scipy</code> issue.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.SciPyWarning-class.html">SciPyWarning</a></strong></code> - A <code>scipy</code> warning as exception.</li>
     </ul></dd>
     <dt>Overrides:
         object.__init__
@@ -305,10 +286,10 @@
           tuple of interpolated heights (<code>float</code>s).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.SciPyError-class.html">SciPyError</a></strong></code> - A <code>scipy</code> <code>SmoothSphereBivariateSpline</code> 
-        issue.</li>
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.SciPyWarning-class.html">SciPyWarning</a></strong></code> - A <code>scipy</code> <code>SmoothSphereBivariateSpline</code> 
-        warning as exception.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.heights.HeightError-class.html">HeightError</a></strong></code> - Insufficient number of <b><code>llis</code></b> or an invalid 
+        <b><code>lli</code></b>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.SciPyError-class.html">SciPyError</a></strong></code> - A <code>scipy</code> issue.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.SciPyWarning-class.html">SciPyWarning</a></strong></code> - A <code>scipy</code> warning as exception.</li>
     </ul></dd>
     <dt>Overrides:
         <a href="pygeodesy.heights._HeightsBase-class.html#__call__">_HeightsBase.__call__</a>
@@ -316,56 +297,6 @@
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         <a href="pygeodesy.heights._HeightsBase-class.html#__call__" 
-        class="link">Here</a> for further details.
-      </p>
-</div></td></tr></table>
-</div>
-<a name="height"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">height</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">lats</span>,
-        <span class="sig-arg">lons</span>,
-        <span class="sig-arg">**wrap</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Interpolate the height for one or several lat-/longitudes.</p>
-  <dl class="fields">
-    <dt>Arguments:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>lats</code></strong> - Latitude or latitudes (<code>degrees</code> or 
-          <code>degrees</code>s).</li>
-        <li><strong class="pname"><code>lons</code></strong> - Longitude or longitudes (<code>degrees</code> or 
-          <code>degrees</code>s).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> all 
-          <b><code>lats</code></b> and <b><code>lons</code></b> locationts 
-          (<code>bool</code>), overriding the <b><code>knots</code></b>  
-          setting.</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>A single interpolated height (<code>float</code>) or a list of 
-          interpolated heights (<code>float</code>s).</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.SciPyError-class.html">SciPyError</a></strong></code> - A <code>scipy</code> <code>SmoothSphereBivariateSpline</code> 
-        issue.</li>
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.SciPyWarning-class.html">SciPyWarning</a></strong></code> - A <code>scipy</code> <code>SmoothSphereBivariateSpline</code> 
-        warning as exception.</li>
-    </ul></dd>
-    <dt>Overrides:
-        <a href="pygeodesy.heights._HeightsBase-class.html#height">_HeightsBase.height</a>
-    </dt>
-  </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        <a href="pygeodesy.heights._HeightsBase-class.html#height" 
         class="link">Here</a> for further details.
       </p>
 </div></td></tr></table>
@@ -402,7 +333,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Aug  2 17:42:02 2024
+    Generated by Epydoc 3.0.1 on Thu Aug 22 16:27:00 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
