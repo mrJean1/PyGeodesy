@@ -90,7 +90,7 @@ from pygeodesy.errors import _incompatible, LenError, RangeError, _SciPyIssue, \
                              _xkwds_pop2
 from pygeodesy.fmath import favg, Fdot, fdot, Fhorner, frange
 # from pygoedesy.formy import heightOrthometric  # _MODS
-from pygeodesy.heights import _as_llis2, _ascalar, HeightError, _HeightsBase, \
+from pygeodesy.heights import _as_llis2, _ascalar, _HeightBase, HeightError, \
                               _ellipsoidal_datum, _Wrap
 # from pygeodesy.internals import _version2  # _MODS
 from pygeodesy.interns import NN, _COLONSPACE_, _COMMASPACE_, _E_, _height_, \
@@ -117,10 +117,10 @@ except ImportError:  # Python 3+
     from io import BytesIO as _BytesIO  # PYCHOK expected
 
 __all__ = _ALL_LAZY.geoids
-__version__ = '24.08.22'
+__version__ = '24.08.23'
 
 _assert_         = 'assert'
-_bHASH_          =  b'#'
+_bHASH_          = b'#'
 _endian_         = 'endian'
 _format_         = '%s %r'
 _header_         = 'header'
@@ -137,22 +137,21 @@ class GeoidError(HeightError):
     pass
 
 
-class _GeoidBase(_HeightsBase):
+class _GeoidBase(_HeightBase):
     '''(INTERNAL) Base class for C{Geoid...}s.
     '''
     _center   =  None   # (lat, lon, height)
     _cropped  =  None
-#   _datum    = _WGS84  # from _HeightsBase
+#   _datum    = _WGS84  # from _HeightBase
     _egm      =  None   # open C{egm*.pgm} geoid file
     _endian   = _tbd_
-    _Error    =  GeoidError  # in ._HeightsBase._as_lls
+    _Error    =  GeoidError  # in ._HeightBase._as_lls
     _geoid    = _n_a_
     _hs_y_x   =  None   # numpy 2darray, row-major order
     _kind     =  3      # order for interp2d, RectBivariateSpline
 #   _kmin     =  2      # min number of knots
     _knots    =  0      # nlat * nlon
     _mean     =  None   # fixed in GeoidKarney
-#   _name     =  NN     # _Named
     _nBytes   =  0      # numpy size in bytes, float64
     _pgm      =  None   # PGM attributes, C{_PGM} or C{None}
     _sizeB    =  0      # geoid file size in bytes
@@ -195,25 +194,25 @@ class _GeoidBase(_HeightsBase):
         # with rows (90..-90) reversed and columns (0..360) wrapped
         # to Easten longitude, 0 <= east < 180 and 180 <= west < 360
         k = self.kind
-        if k in self._k2interp2d:
-            _HeightsBase._spline2d(self, xs, ys, hs, kind=k)
-        elif 1 <= k <= 5:  # XXX order ys and xs, see HeightLSQBiSpline
+        if k in self._k2interp2d:  # see _HeightBase
+            self._interp2d(xs, ys, hs, kind=k)
+        else:  # XXX order ys and xs, see HeightLSQBiSpline
+            k = self._kxky(k)
             self._ev = spi.RectBivariateSpline(ys, xs, hs, bbox=bb, ky=k, kx=k,
                                                            s=self._smooth).ev
-        else:
-            raise GeoidError(kind=k)
-
         self._hs_y_x = hs  # numpy 2darray, row-major
         self._nBytes = hs.nbytes  # numpy size in bytes
         self._knots  = p.knots  # grid knots
-        self._lon_of = float(p.flon)  # forward offset
-        self._lon_og = float(p.glon)  # reverse offset
-        # shrink the box by 1 unit on every side
-        # bb += self._lat_d, -self._lat_d, self._lon_d, -self._lon_d
-        self._lat_lo = float(bb[0])
-        self._lat_hi = float(bb[1])
-        self._lon_lo = float(bb[2] - p.glon)
-        self._lon_hi = float(bb[3] - p.glon)
+        self._lon_of =        float(p.flon)  # forward offset
+        self._lon_og = glon = float(p.glon)  # reverse offset
+        # shrink the bounding box by 1 unit on every side:
+        # +self._lat_d, -self._lat_d, +self._lon_d, -self._lon_d
+        self._lat_lo, \
+        self._lat_hi, \
+        self._lon_lo, \
+        self._lon_hi  = map(float, bb)
+        self._lon_lo -= glon
+        self._lon_hi -= glon
 
     def __call__(self, *llis, **wrap_H):
         '''Interpolate the geoid height for one or several locations.
@@ -276,7 +275,6 @@ class _GeoidBase(_HeightsBase):
                 # orthometric or geoid height
                 _a(_H(lli, N) if _H else N)
             return _as(hs)
-
         except (GeoidError, RangeError) as x:
             # XXX avoid str(LatLon()) degree symbols
             t = _lli_ if _as is _ascalar else Fmt.INDEX(llis=i)
@@ -284,7 +282,7 @@ class _GeoidBase(_HeightsBase):
             raise type(x)(t, lli, wrap=wrap, H=H, cause=x)
         except Exception as x:
             if iscipy and self.scipy:
-                raise _SciPyIssue(x)
+                raise _SciPyIssue(x, self._ev_name)
             else:
                 raise
 
@@ -341,6 +339,7 @@ class _GeoidBase(_HeightsBase):
         return self._endian
 
     def _ev(self, y, x):  # PYCHOK overwritten with .RectBivariateSpline.ev
+        # see methods _HeightBase._ev and -._interp2d
         return self._ev2d(x, y)  # (y, x) flipped!
 
     def _gaxis2(self, lo, d, n, name):
@@ -535,7 +534,7 @@ class _GeoidBase(_HeightsBase):
     def name(self):
         '''Get the name of this geoid (C{str}).
         '''
-        return _HeightsBase.name.fget(self) or self._geoid  # recursion
+        return _HeightBase.name.fget(self) or self._geoid  # recursion
 
     @Property_RO
     def nBytes(self):
@@ -556,7 +555,7 @@ class _GeoidBase(_HeightsBase):
             self._datum = _ellipsoidal_datum(datum, name=name)
         self._kind = int(kind)
         if name:
-            _HeightsBase.name.fset(self, name)  # rename
+            _HeightBase.name.fset(self, name)  # rename
         if smooth:
             self._smooth = Int_(smooth=smooth, Error=GeoidError, low=0)
 
@@ -1029,6 +1028,8 @@ class GeoidKarney(_GeoidBase):
         H *= self._pgm.Scale   # H.fmul(self._pgm.Scale)
         H += self._pgm.Offset  # H.fadd(self._pgm.Offset)
         return H.fsum()
+
+    _ev2d = _ev  # for _HeightBase._ev_name
 
     def _ev2H(self, fy, fx, *yx):
         # compute the bilinear 4-tuple and interpolate raw H

@@ -61,17 +61,19 @@
 <!-- ==================== CLASS DESCRIPTION ==================== -->
 <h1 class="epydoc">Class _HeightBase</h1><p class="nomargin-top"></p>
 <pre class="base-tree">
-  object --+    
-           |    
-<a href="pygeodesy.named._Named-class.html">named._Named</a> --+
-               |
-              <strong class="uidshort">_HeightBase</strong>
+  object --+        
+           |        
+<a href="pygeodesy.named._Named-class.html">named._Named</a> --+    
+               |    
+    <a href="pygeodesy.heights._HeightNamed-class.html">_HeightNamed</a> --+
+                   |
+                  <strong class="uidshort">_HeightBase</strong>
 </pre>
 
 <dl><dt>Known Subclasses:</dt>
 <dd>
       <ul class="subclass-list">
-<li><a href="pygeodesy.heights._HeightsBase-class.html">_HeightsBase</a></li><li>, <a href="pygeodesy.heights._HeightIDW-class.html">_HeightIDW</a></li>  </ul>
+<li><a href="pygeodesy.geoids._GeoidBase-class.html">geoids._GeoidBase</a></li><li>, <a href="pygeodesy.heights.HeightCubic-class.html">HeightCubic</a></li><li>, <a href="pygeodesy.heights.HeightLSQBiSpline-class.html">HeightLSQBiSpline</a></li><li>, <a href="pygeodesy.heights.HeightSmoothBiSpline-class.html">HeightSmoothBiSpline</a></li>  </ul>
 </dd></dl>
 
 <hr />
@@ -85,6 +87,45 @@
   <td align="left" colspan="2" class="table-header">
     <span class="table-header">Instance Methods</span></td>
 </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.heights._HeightBase-class.html#__call__" class="summary-sig-name">__call__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">*llis</span>,
+        <span class="summary-sig-arg">**wrap</span>)</span><br />
+      Interpolate the height for one or several locations.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.heights._HeightBase-class.html#height" class="summary-sig-name">height</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">lats</span>,
+        <span class="summary-sig-arg">lons</span>,
+        <span class="summary-sig-arg">**wrap</span>)</span><br />
+      Interpolate the height for one or several lat-/longitudes.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
   <tr>
     <td colspan="2" class="summary">
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
@@ -132,30 +173,33 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.heights._HeightBase-class.html#datum" class="summary-name">datum</a><br />
-      Get the <code>datum</code> setting or the default (<a 
-      href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>).
+        <a href="pygeodesy.heights._HeightBase-class.html#numpy" class="summary-name">numpy</a><br />
+      Get the <code>numpy</code> module or <code>None</code>.
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.heights._HeightBase-class.html#kmin" class="summary-name">kmin</a><br />
-      Get the minimum number of knots (<code>int</code>).
+        <a href="pygeodesy.heights._HeightBase-class.html#scipy" class="summary-name">scipy</a><br />
+      Get the <code>scipy</code> module or <code>None</code>.
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.heights._HeightBase-class.html#wrap" class="summary-name">wrap</a><br />
-      Get the <code>wrap</code> setting (<code>bool</code>) or 
-      <code>None</code>.
+        <a href="pygeodesy.heights._HeightBase-class.html#scipy_interpolate" class="summary-name">scipy_interpolate</a><br />
+      Get the <code>scipy.interpolate</code> module or <code>None</code>.
     </td>
   </tr>
   <tr>
     <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.heights._HeightNamed-class.html">_HeightNamed</a></code></b>:
+      <code><a href="pygeodesy.heights._HeightNamed-class.html#datum">datum</a></code>,
+      <code><a href="pygeodesy.heights._HeightNamed-class.html#kmin">kmin</a></code>,
+      <code><a href="pygeodesy.heights._HeightNamed-class.html#wrap">wrap</a></code>
+      </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
       <code><a href="pygeodesy.named._Named-class.html#classname">classname</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#classnaming">classnaming</a></code>,
@@ -173,6 +217,100 @@
     </td>
   </tr>
 </table>
+<!-- ==================== METHOD DETAILS ==================== -->
+<a name="section-MethodDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Method Details</span></td>
+</tr>
+</table>
+<a name="__call__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__call__</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">*llis</span>,
+        <span class="sig-arg">**wrap</span>)</span>
+    <br /><em class="fname">(Call operator)</em>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Interpolate the height for one or several locations.  <i>Must be 
+  overloaded</i>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>llis</code></strong> - One or more locations (<code>LatLon</code>s), all positional.</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> all 
+          <b><code>llis</code></b> locations (<code>bool</code>), 
+          overriding the <b><code>knots</code></b> setting.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A single interpolated height (<code>float</code>) or a list or 
+          tuple of interpolated heights (<code>float</code>s).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.heights.HeightError-class.html">HeightError</a></strong></code> - Insufficient number of <b><code>llis</code></b> or an invalid 
+        <b><code>lli</code></b>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.SciPyError-class.html">SciPyError</a></strong></code> - A <code>scipy</code> issue.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.SciPyWarning-class.html">SciPyWarning</a></strong></code> - A <code>scipy</code> warning as exception.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="height"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">height</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">lats</span>,
+        <span class="sig-arg">lons</span>,
+        <span class="sig-arg">**wrap</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Interpolate the height for one or several lat-/longitudes.  <i>Must be
+  overloaded</i>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>lats</code></strong> - Latitude or latitudes (<code>degrees</code> or 
+          <code>degrees</code>s).</li>
+        <li><strong class="pname"><code>lons</code></strong> - Longitude or longitudes (<code>degrees</code> or 
+          <code>degrees</code>s).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> all 
+          <b><code>lats</code></b> and <b><code>lons</code></b> locationts 
+          (<code>bool</code>), overriding the <b><code>knots</code></b>  
+          setting.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A single interpolated height (<code>float</code>) or a list of 
+          interpolated heights (<code>float</code>s).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.heights.HeightError-class.html">HeightError</a></strong></code> - Insufficient or non-matching number of <b><code>lats</code></b> and
+        <b><code>lons</code></b>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.SciPyError-class.html">SciPyError</a></strong></code> - A <code>scipy</code> issue.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.SciPyWarning-class.html">SciPyWarning</a></strong></code> - A <code>scipy</code> warning as exception.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
 <!-- ==================== PROPERTY DETAILS ==================== -->
 <a name="section-PropertyDetails"></a>
 <table class="details" border="1" cellpadding="3"
@@ -182,19 +320,18 @@
     <span class="table-header">Property Details</span></td>
 </tr>
 </table>
-<a name="datum"></a>
+<a name="numpy"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
-  <h3 class="epydoc">datum</h3>
-  <p>Get the <code>datum</code> setting or the default (<a 
-  href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>).</p>
+  <h3 class="epydoc">numpy</h3>
+  <p>Get the <code>numpy</code> module or <code>None</code>.</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">datum(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <code>datum</code> setting or the default (<a 
-href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get the <code>property</code> value <i>once</i> and overwrite 
+<code>self</code>, this <code>property</code> instance.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -202,23 +339,24 @@ href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>).
         - Throws an <code>AttributeError</code>, always.
     </dd>
     <dt>Delete Method:</dt>
-    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
-        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">unused</span>)</span>
+        - Silently ignored, always.
     </dd>
   </dl>
 </td></tr></table>
 </div>
-<a name="kmin"></a>
+<a name="scipy"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
-  <h3 class="epydoc">kmin</h3>
-  <p>Get the minimum number of knots (<code>int</code>).</p>
+  <h3 class="epydoc">scipy</h3>
+  <p>Get the <code>scipy</code> module or <code>None</code>.</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">kmin(<span class="summary-sig-arg">self</span>)</span>
-        - Get the minimum number of knots (<code>int</code>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get the <code>property</code> value <i>once</i> and overwrite 
+<code>self</code>, this <code>property</code> instance.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -226,24 +364,25 @@ href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>).
         - Throws an <code>AttributeError</code>, always.
     </dd>
     <dt>Delete Method:</dt>
-    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
-        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">unused</span>)</span>
+        - Silently ignored, always.
     </dd>
   </dl>
 </td></tr></table>
 </div>
-<a name="wrap"></a>
+<a name="scipy_interpolate"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
-  <h3 class="epydoc">wrap</h3>
-  <p>Get the <code>wrap</code> setting (<code>bool</code>) or 
+  <h3 class="epydoc">scipy_interpolate</h3>
+  <p>Get the <code>scipy.interpolate</code> module or 
   <code>None</code>.</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">wrap(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <code>wrap</code> setting (<code>bool</code>) or <code>None</code>.
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get the <code>property</code> value <i>once</i> and overwrite 
+<code>self</code>, this <code>property</code> instance.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -251,8 +390,8 @@ href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>).
         - Throws an <code>AttributeError</code>, always.
     </dd>
     <dt>Delete Method:</dt>
-    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
-        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">unused</span>)</span>
+        - Silently ignored, always.
     </dd>
   </dl>
 </td></tr></table>
@@ -289,7 +428,7 @@ href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Aug 22 16:27:00 2024
+    Generated by Epydoc 3.0.1 on Fri Aug 23 17:18:09 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

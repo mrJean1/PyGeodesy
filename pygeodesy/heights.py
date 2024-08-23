@@ -91,7 +91,7 @@ from pygeodesy.units import _isDegrees, Float_, Int_
 # from math import radians  # from .points
 
 __all__ = _ALL_LAZY.heights
-__version__ = '24.08.22'
+__version__ = '24.08.23'
 
 _error_  = 'error'
 _formy   = _MODS.into(formy=__name__)
@@ -174,13 +174,13 @@ def _xyhs(wrap=False, _lat=_90_0, _lon=_180_0, **name_lls):
         raise HeightError(i, ll, cause=e)
 
 
-class _HeightBase(_Named):  # in .geoids
+class _HeightNamed(_Named):  # in .geoids
     '''(INTERNAL) Interpolator base class.
     '''
     _datum = _WGS84    # default
     _Error =  HeightError
-
     _kmin  =  2        # min number of knots
+
     _LLis  =  LatLon_  # ._height class
     _np_sp =  None     # (numpy, scipy)
     _wrap  =  None     # wrap knots and llis
@@ -217,7 +217,7 @@ class _HeightBase(_Named):  # in .geoids
         return self._wrap
 
 
-class _HeightsBase(_HeightBase):  # in .geoids
+class _HeightBase(_HeightNamed):  # in .geoids
     '''(INTERNAL) Interpolator base class.
     '''
     _k2interp2d = {-1: _linear_,  # in .geoids._GeoidBase.__init__
@@ -258,14 +258,29 @@ class _HeightsBase(_HeightBase):  # in .geoids
         '''(INTERNAL) I{Must be overloaded}.'''
         self._notOverloaded(*args)
 
-    _ev2d = _ev  # I{Must be overloaded}
-
     def _evalls(self, llis, **wrap):  # XXX single arg, not *args
         _as, xis, yis, _ = self._as_xyllis4(llis, **wrap)
         try:  # SciPy .ev signature: y first, then x!
             return _as(self._ev(yis, xis))
         except Exception as x:
-            raise _SciPyIssue(x)
+            raise _SciPyIssue(x, self._ev_name)
+
+    def _ev2d(self, x, y):  # PYCHOK no cover
+        '''(INTERNAL) I{Must be overloaded}.'''
+        self._notOverloaded(x, y)
+
+    @property_RO
+    def _ev_name(self):
+        '''(INTERNAL) Get the name of the C{.ev} method.
+        '''
+        _ev = str(self._ev)
+        if _scipy_ not in _ev:
+            _ev = str(self._ev2d)
+        # '<scipy.interpolate._interpolate.interp2d object at ...>
+        # '<function _HeightBase._interp2d.<locals>._bisplev at ...>
+        # '<bound method BivariateSpline.ev of ... object at ...>
+        _ev = _ev[1:].split(None, 4)
+        return Fmt.PAREN(_ev['sfb'.index(_ev[0][0])])
 
     def height(self, lats, lons, **wrap):  # PYCHOK no cover
         '''Interpolate the height for one or several lat-/longitudes.  I{Must be overloaded}.
@@ -288,6 +303,33 @@ class _HeightsBase(_HeightBase):  # in .geoids
         '''
         lls = self._as_lls(lats, lons)
         return self(lls, **wrap)  # __call__(ll) or __call__(lls)
+
+    def _interp2d(self, xs, ys, hs, kind=-3):
+        '''Create a C{scipy.interpolate.interp2d} or C{-.bisplrep/-ev}
+           interpolator before, respectively since C{SciPy} version 1.14.
+        '''
+        try:
+            spi = self.scipy_interpolate
+            if self._scipy_version() < (1, 14) and kind in self._k2interp2d:
+                # SciPy.interpolate.interp2d kind 'linear', 'cubic' or 'quintic'
+                # DEPRECATED since scipy 1.10, removed altogether in 1.14
+                self._ev2d = spi.interp2d(xs, ys, hs, kind=self._k2interp2d[kind])
+
+            else:  # <https://scipy.GitHub.io/devdocs/tutorial/interpolate/interp_transition_guide.html>
+                k = self._kxky(abs(kind))
+                # spi.RectBivariateSpline needs strictly ordered xs and ys
+                r = spi.bisplrep(xs, ys, hs.T, kx=k, ky=k)
+
+                def _bisplev(x, y):
+                    return spi.bisplev(x, y, r)  # .T
+
+                self._ev2d = _bisplev
+
+        except Exception as x:
+            raise _SciPyIssue(x)
+
+    def _kxky(self, kind):
+        return Int_(kind=kind, low=1, high=5, Error=self._Error)
 
     def _np_sp2(self, throwarnings=False):  # PYCHOK no cover
         '''(INTERNAL) Import C{numpy} and C{scipy}, once.
@@ -326,31 +368,6 @@ class _HeightsBase(_HeightBase):  # in .geoids
         '''
         return _MODS.internals._version2(self.scipy.version.version, **n)
 
-    def _spline2d(self, xs, ys, hs, kind=-3):
-        '''Create a C{scipy.interpolate.interp2d} or C{-.bisplrep/-ev}
-           interpolator up to respectively since C{SciPy} 1.14.
-        '''
-        try:
-            spi = self.scipy_interpolate
-            if self._scipy_version() < (1, 14) and kind in self._k2interp2d:
-                # SciPy.interpolate.interp2d kind 'linear', 'cubic' or 'quintic'
-                # DEPRECATED since scipy 1.10, removed altogether in 1.14
-                _ev2d = spi.interp2d(xs, ys, hs, kind=self._k2interp2d[kind])
-
-            else:  # <https://scipy.GitHub.io/devdocs/tutorial/interpolate/interp_transition_guide.html>
-                k   = Int_(kind=abs(kind), low=1, high=5)
-                # note, spi.RectBivariateSpline requires strictly ordered xs and ys
-                # like spi.LSQSphereBivariateSpline?
-                r   = spi.bisplrep(xs, ys, hs.T, kx=k, ky=k)
-                _ev = spi.bisplev
-
-                def _ev2d(x, y, rep=r):
-                    return _ev(x, y, rep)  # .T not necessary
-
-            self._ev2d = _ev2d
-        except Exception as x:
-            raise _SciPyIssue(x)
-
     def _xyhs3(self, knots, wrap=False, **name):
         # convert knot C{LatLon}s to tuples or C{NumPy} arrays and C{SciPy} sphericals
         xs, ys, hs = zip(*_xyhs(knots=knots, wrap=wrap))  # PYCHOK yield
@@ -362,7 +379,7 @@ class _HeightsBase(_HeightBase):  # in .geoids
         return map1(self.numpy.array, xs, ys, hs)
 
 
-class HeightCubic(_HeightsBase):
+class HeightCubic(_HeightBase):
     '''Height interpolator based on C{SciPy} U{interp2d<https://docs.SciPy.org/
        doc/scipy/reference/generated/scipy.interpolate.interp2d.html>}
        C{kind='cubic'} or U{bisplrep/-ev<https://docs.SciPy.org/doc/scipy/
@@ -388,17 +405,17 @@ class HeightCubic(_HeightsBase):
            @raise SciPyWarning: A C{scipy} warning as exception.
         '''
         xs_yx_hs = self._xyhs3(knots, **name_wrap)
-        _HeightsBase._spline2d(self, *xs_yx_hs, kind=self._kind)
+        self._interp2d(*xs_yx_hs, kind=self._kind)
 
     def __call__(self, *llis, **wrap):
         '''Interpolate the height for one or several locations.
 
-           @see: L{Here<_HeightsBase.__call__>} for further details.
+           @see: L{Here<_HeightBase.__call__>} for further details.
         '''
         return self._evalls(llis, **wrap)
 
-    def _ev(self, yis, xis):  # PYCHOK expected
-        # to make SciPy .interp2d signature(x, y), single (x, y)
+    def _ev(self, yis, xis):  # PYCHOK overwritten with .RectBivariateSpline.ev
+        # to make SciPy .interp2d single (x, y) signature
         # match SciPy .ev signature(ys, xs), flipped multiples
         return map(self._ev2d, xis, yis)
 
@@ -424,7 +441,7 @@ class HeightLinear(HeightCubic):
         height   = HeightCubic.height
 
 
-class HeightLSQBiSpline(_HeightsBase):
+class HeightLSQBiSpline(_HeightBase):
     '''Height interpolator using C{SciPy} U{LSQSphereBivariateSpline
        <https://docs.SciPy.org/doc/scipy/reference/generated/scipy.
        interpolate.LSQSphereBivariateSpline.html>}.
@@ -489,12 +506,12 @@ class HeightLSQBiSpline(_HeightsBase):
     def __call__(self, *llis, **wrap):
         '''Interpolate the height for one or several locations.
 
-           @see: L{Here<_HeightsBase.__call__>} for further details.
+           @see: L{Here<_HeightBase.__call__>} for further details.
         '''
         return self._evalls(llis, **wrap)
 
 
-class HeightSmoothBiSpline(_HeightsBase):
+class HeightSmoothBiSpline(_HeightBase):
     '''Height interpolator using C{SciPy} U{SmoothSphereBivariateSpline
        <https://docs.SciPy.org/doc/scipy/reference/generated/scipy.
        interpolate.SmoothSphereBivariateSpline.html>}.
@@ -535,12 +552,12 @@ class HeightSmoothBiSpline(_HeightsBase):
     def __call__(self, *llis, **wrap):
         '''Interpolate the height for one or several locations.
 
-           @see: L{Here<_HeightsBase.__call__>} for further details.
+           @see: L{Here<_HeightBase.__call__>} for further details.
         '''
         return self._evalls(llis, **wrap)
 
 
-class _HeightIDW(_HeightBase):
+class _HeightIDW(_HeightNamed):
     '''(INTERNAL) Base class for U{Inverse Distance Weighting
        <https://WikiPedia.org/wiki/Inverse_distance_weighting>} (IDW) height
        interpolators.
@@ -1089,7 +1106,7 @@ class HeightIDWvincentys(_HeightIDW):
         height   = _HeightIDW.height
 
 
-__all__ += _ALL_DOCS(_HeightBase, _HeightsBase, _HeightIDW)
+__all__ += _ALL_DOCS(_HeightBase, _HeightIDW, _HeightNamed)
 
 # **) MIT License
 #
