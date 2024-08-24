@@ -91,7 +91,7 @@ from pygeodesy.units import _isDegrees, Float_, Int_
 # from math import radians  # from .points
 
 __all__ = _ALL_LAZY.heights
-__version__ = '24.08.23'
+__version__ = '24.08.24'
 
 _error_  = 'error'
 _formy   = _MODS.into(formy=__name__)
@@ -326,7 +326,7 @@ class _HeightBase(_HeightNamed):  # in .geoids
                 self._ev2d = _bisplev
 
         except Exception as x:
-            raise _SciPyIssue(x)
+            raise _SciPyIssue(x, self._ev_name)
 
     def _kxky(self, kind):
         return Int_(kind=kind, low=1, high=5, Error=self._Error)
@@ -501,7 +501,7 @@ class HeightLSQBiSpline(_HeightBase):
             self._ev = spi.LSQSphereBivariateSpline(ys, xs, hs,
                                                     ts, ps, eps=EPS, w=w).ev
         except Exception as x:
-            raise _SciPyIssue(x)
+            raise _SciPyIssue(x, self._ev_name)
 
     def __call__(self, *llis, **wrap):
         '''Interpolate the height for one or several locations.
@@ -547,7 +547,7 @@ class HeightSmoothBiSpline(_HeightBase):
             self._ev = spi.SmoothSphereBivariateSpline(ys, xs, hs,
                                                        eps=EPS, s=s).ev
         except Exception as x:
-            raise _SciPyIssue(x)
+            raise _SciPyIssue(x, self._ev_name)
 
     def __call__(self, *llis, **wrap):
         '''Interpolate the height for one or several locations.

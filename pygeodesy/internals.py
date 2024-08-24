@@ -18,6 +18,7 @@ _0_0      =  0.0  # PYCHOK in .basics, .constants
 _arm64_   = 'arm64'
 _iOS_     = 'iOS'
 _macOS_   = 'macOS'
+_SIsecs   = 'fs', 'ps', 'ns', 'us', 'ms', 'sec'  # reversed
 _Windows_ = 'Windows'
 
 
@@ -443,6 +444,25 @@ def _Pythonarchine(sep=NN):  # in .lazily, test/bases.py versions
     return sep.join(l3) if sep else l3  # 3- or 4-list
 
 
+def _secs2str(secs):  # in .geoids, ../test/bases.py
+    '''Convert a time in C{secs} to C{str}.
+    '''
+    if secs < _MODS.constants._100_0:
+        unit = len(_SIsecs) - 1
+        while 0 < secs < 1 and unit > 0:
+            secs *= 1e3  # _1000_0
+            unit -= 1
+        t = '%.3f %s' % (secs, _SIsecs[unit])
+    else:
+        m, s = divmod(secs, 60)
+        if m < 60:
+            t = '%d:%06.3f' % (int(m), s)
+        else:
+            h, m = divmod(int(m), 60)
+            t = '%d:%02d:%06.3f' % (h, m, s)
+    return t
+
+
 def _sizeof(obj):
     '''(INTERNAL) Recursively size an C{obj}ect.
 
@@ -591,7 +611,7 @@ def _versions(sep=_SPACE_):
 
 
 __all__ = tuple(map(_dunder_nameof, (machine, print_, printf)))
-__version__ = '24.08.01'
+__version__ = '24.08.24'
 
 if _dunder_ismain(__name__):  # PYCHOK no cover
 

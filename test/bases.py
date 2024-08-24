@@ -35,9 +35,9 @@ from pygeodesy import anstr, basics, clips, DeprecationWarnings, internals, inte
                       isint, isLazy, issubclassof, iterNumpy2over, LazyImportError, \
                       lazily, map2, NN, normDMS, pairs, printf, property_RO, \
                       version as PyGeodesy_version  # PYCHOK expected
+from pygeodesy.internals import _secs2str as secs2str
 
 _DOT_     = interns._DOT_
-_SIsecs   = 'fs', 'ps', 'ns', 'us', 'ms', 'sec'  # reversed
 _skipped_ = 'skipped'  # in .run
 _SPACE_   = interns._SPACE_
 _TILDE_   = interns._TILDE_
@@ -48,7 +48,7 @@ __all__ = ('coverage', 'GeodSolve', 'geographiclib',  # constants
            'numpy', 'PyGeodesy_dir', 'PythonX', 'scipy', 'test_dir',
            'RandomLatLon', 'TestsBase',  # classes
            'secs2str', 'tilde', 'type2str', 'versions')  # functions
-__version__ = '24.08.21'
+__version__ = '24.08.24'
 
 try:
     geographiclib = basics._xgeographiclib(basics, 1, 50)
@@ -465,25 +465,6 @@ def prefix2(prev):  # in .run
     p = '%7.3f ' % ((t - prev),)
     p = p.replace('  0.', '   .')
     return p, t
-
-
-def secs2str(secs):
-    '''Convert a seconds value to string.
-    '''
-    if secs < 100:
-        unit = len(_SIsecs) - 1
-        while 0 < secs < 1 and unit > 0:
-            secs *= 1000.0
-            unit -= 1
-        t = '%.3f %s' % (secs, _SIsecs[unit])
-    else:
-        m, s = divmod(secs, 60)
-        if m < 60:
-            t = '%d:%06.3f' % (int(m), s)
-        else:
-            h, m = divmod(int(m), 60)
-            t = '%d:%02d:%06.3f' % (h, m, s)
-    return t
 
 
 def tilde(path):

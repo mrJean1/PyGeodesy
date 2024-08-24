@@ -7,9 +7,9 @@ methods for geodetic (lat-/longitude), geocentric (U{ECEF<https://WikiPedia.org/
 cartesian) and certain U{triaxial ellipsoidal<https://GeographicLib.SourceForge.io/1.44/triaxial.html>}
 coordinates.
 
-Transcoded from U{JavaScript originals<https://GitHub.com/ChrisVeness/geodesy>} by I{Chris Veness (C) 2005-2022}
+Transcoded from U{JavaScript originals<https://GitHub.com/ChrisVeness/geodesy>} by I{Chris Veness (C) 2005-2024}
 and from several U{C++ classes<https://GeographicLib.SourceForge.io/C++/doc/annotated.html>} by I{Charles F. F.
-Karney (C) 2008-2023} and published under the same U{MIT License<https://OpenSource.org/licenses/MIT>}**.
+Karney (C) 2008-2024} and published under the same U{MIT License<https://OpenSource.org/licenses/MIT>}**.
 
 There are four modules for ellipsoidal earth models, C{ellipsoidalExact}, C{-Karney}, C{-Vincenty} and C{-Nvector}
 and two for spherical ones, C{sphericalTrigonometry} and C{-Nvector}.  Each module provides a geodetic B{C{LatLon}}
