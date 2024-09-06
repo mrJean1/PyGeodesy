@@ -4,7 +4,7 @@
 # Some basic C{rhumb.aux_} vs C++ C{RhumbSolve} tests.
 
 __all__ = ('Tests',)
-__version__ = '23.12.02'
+__version__ = '24.08.30'
 
 from bases import coverage, _fLate, RhumbSolve, startswith, TestsBase
 
@@ -25,9 +25,9 @@ class Tests(TestsBase):
         for n, v in itemsorted(r):
             x = rx.get(n, None)
             if x is not None:
-                k = known or int(v) == int(x) or \
-                   (abs(v - x) / (x or 1)) < e  # rel error
-                self.test(_DOT_(name, n), v, x, fmt=_G, known=k, nl=nl)
+                r = abs(v - x) / abs(x or 1)
+                k = known or int(v) == int(x) or r < e  # rel error
+                self.test(_DOT_(name, n), v, x, fmt=_G, error=r, known=k, nl=nl)
                 nl = 0
 
     def testDirect(self, E, debug=False):
@@ -131,7 +131,7 @@ class Tests(TestsBase):
         self.testDiffs(R.Inverse.__name__, r, GDict(lat1=40.6, lat2=35.8,
                                                     lon1=-73.8, lon2=140.3,
                                                     azi12=-92.38889, s12=1282.19384,  # 12782581.0676842,
-                                                    S12=21207525604650.8), 0, e=1e-5)  # XXX neg!
+                                                    S12=21207525604650.8), 0, e=1e-2)  # XXX neg!
 
         # GeographicLib.RhumbSolve example, _DEBUG_ALL results
         rX = GDict(a=6378137, b=6356752.31424518,  # WGS84

@@ -34,7 +34,7 @@ from pygeodesy.streprs import attrs, Fmt, lrstrip, pairs, reprs, unstr
 # from pygeodesy.units import _toUnit  # _MODS
 
 __all__ = _ALL_LAZY.named
-__version__ = '24.08.13'
+__version__ = '24.09.02'
 
 _COMMANL_           = _COMMA_ + _NL_
 _COMMASPACEDOT_     = _COMMASPACE_ + _DOT_
@@ -889,6 +889,9 @@ class _NamedEnumItem(_NamedBase):
             if item is not self:  # PYCHOK no cover
                 t = _SPACE_(repr(item), _vs_, repr(self))
                 raise _AssertionError(t)
+
+
+# from pygeodesy.props import _NamedProperty
 
 
 class _NamedTuple(tuple, _Named):

@@ -43,7 +43,7 @@ from pygeodesy.errors import _AssertionError, MGRSError, _parseX, \
 from pygeodesy.interns import NN, _0_, _A_, _AtoZnoIO_, _band_, _B_, \
                              _COMMASPACE_, _datum_, _easting_, _invalid_, \
                              _northing_, _SPACE_, _W_, _Y_, _Z_, _zone_
-from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _PYGEODESY_GEOCONVERT_
+from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _name2__, _NamedBase, _NamedTuple, _Pass
 from pygeodesy.namedTuples import EasNor2Tuple, UtmUps5Tuple
 from pygeodesy.props import deprecated_property_RO, property_RO, Property_RO
@@ -55,7 +55,7 @@ from pygeodesy.utm import toUtm8, _to3zBlat, Utm, _UTM_ZONE_MAX, _UTM_ZONE_MIN
 # from pygeodesy.utmupsBase import _UTM_ZONE_MAX, _UTM_ZONE_MIN  # from .utm
 
 __all__ = _ALL_LAZY.mgrs
-__version__ = '24.06.11'
+__version__ = '24.09.04'
 
 _AN_    = 'AN'  # default south pole grid tile and band B
 _AtoPx_ = _AtoZnoIO_.tillP
@@ -652,51 +652,56 @@ def _um100km2(m):
 
 if __name__ == '__main__':
 
-    from pygeodesy.ellipsoidalVincenty import fabs, LatLon
-#   from pygeodesy.internals import printf  # from .lazily
-    from pygeodesy.lazily import _getenv,  printf
+    def _main():
 
-#   from math import fabs  # from .ellipsoidalVincenty
-    from os import access as _access, linesep as _NL, X_OK as _X_OK
+        from pygeodesy.ellipsoidalVincenty import fabs, LatLon
+        from pygeodesy.internals import _fper, printf
+        from pygeodesy.lazily import _getenv, _PYGEODESY_GEOCONVERT_
 
-    # <https://GeographicLib.sourceforge.io/C++/doc/GeoConvert.1.html>
-    _GeoConvert = _getenv(_PYGEODESY_GEOCONVERT_, '/opt/local/bin/GeoConvert')
-    if _access(_GeoConvert, _X_OK):
-        GC_m = _GeoConvert, '-m'  # -m converts latlon to MGRS
-        printf(' using: %s ...', _SPACE_.join(GC_m))
-        from pygeodesy.solveBase import _popen2
-    else:
-        GC_m = _popen2 = None
+#       from math import fabs  # from .ellipsoidalVincenty
+        from os import access as _access, linesep as _NL, X_OK as _X_OK
 
-    e = n = 0
-    try:
-        for lat in range(-90, 91, 1):
-            printf('%6s: lat %s ...', n, lat, end=NN, flush=True)
-            nl = _NL
-            for lon in range(-180, 181, 1):
-                m = LatLon(lat, lon).toMgrs()
-                if _popen2:
-                    t = '%s %s' % (lat, lon)
-                    g = _popen2(GC_m, stdin=t)[1]
-                    t =  m.toStr()  # sep=NN
-                    if t != g:
+        # <https://GeographicLib.sourceforge.io/C++/doc/GeoConvert.1.html>
+        _GeoConvert = _getenv(_PYGEODESY_GEOCONVERT_, '/opt/local/bin/GeoConvert')
+        if _access(_GeoConvert, _X_OK):
+            GC_m = _GeoConvert, '-m'  # -m converts latlon to MGRS
+            printf(' using: %s ...', _SPACE_.join(GC_m))
+            from pygeodesy.solveBase import _popen2
+        else:
+            GC_m = _popen2 = None
+
+        e = n = 0
+        try:
+            for lat in range(-90, 91, 1):
+                printf('%6s: lat %s ...', n, lat, end=NN, flush=True)
+                nl = _NL
+                for lon in range(-180, 181, 1):
+                    m = LatLon(lat, lon).toMgrs()
+                    if _popen2:
+                        t = '%s %s' % (lat, lon)
+                        g = _popen2(GC_m, stdin=t)[1]
+                        t =  m.toStr()  # sep=NN
+                        if t != g:
+                            e += 1
+                            printf('%s%6s: %s: %r vs %r (lon %s)', nl, -e, m, t, g, lon)
+                            nl = NN
+                    t = m.toLatLon(LatLon=LatLon)
+                    d = max(fabs(t.lat - lat), fabs(t.lon - lon))
+                    if d > 1e-9 and -90 < lat < 90 and -180 < lon < 180:
                         e += 1
-                        printf('%s%6s: %s: %r vs %r (lon %s)', nl, -e, m, t, g, lon)
+                        printf('%s%6s: %s: %s vs %s %.6e', nl, -e, m, t.latlon,
+                                                          (float(lat), float(lon)), d)
                         nl = NN
-                t = m.toLatLon(LatLon=LatLon)
-                d = max(fabs(t.lat - lat), fabs(t.lon - lon))
-                if d > 1e-9 and -90 < lat < 90 and -180 < lon < 180:
-                    e += 1
-                    printf('%s%6s: %s: %s vs %s %.6e', nl, -e, m, t.latlon, (float(lat), float(lon)), d)
-                    nl = NN
-                n += 1
-            if nl:
-                printf(' OK')
-    except KeyboardInterrupt:
-        printf(nl)
+                    n += 1
+                if nl:
+                    printf(' OK')
+        except KeyboardInterrupt:
+            printf(nl)
 
-    p = e * 100.0 / n
-    printf('%6s: %s errors (%.2f%%)', n, (e if e else 'no'), p)
+        printf('%6s: %s errors (%s)', n, (e if e else 'no'), _fper(e, n, prec=2))
+
+    _main()
+
 
 # % python3 -m pygeodesy.mgrs
 #  using: /opt/local/bin/GeoConvert -m ...

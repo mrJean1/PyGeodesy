@@ -5,57 +5,49 @@ u'''Print L{auxilats} version, etc. using C{python -m pygeodesy.auxilats}.
 '''
 
 __all__ = ()
-__version__ = '24.05.31'
+__version__ = '24.09.04'
 
 
-def _CXstats():  # PYCHOK no cover
-    '''(INTERNAL) Get the C{CP} stats.
-    '''
-    from pygeodesy.auxilats import Aux, AuxLat, auxLat
-    from pygeodesy.datums import _WGS84
-
-    A  = AuxLat(_WGS84)
-    ax = A._coeffs(Aux.XI, Aux.CHI)
-    Cx = auxLat._CXcoeffs(A.ALorder)
-    pc = '%.1f%%' % (Cx.u * 100.0 / Cx.n)
-    return dict(ALorder=A.ALorder, CXlen=Cx.n, CXset=Cx.u, CXset_len=pc, CXx=len(ax))
-
-
-def _main():  # PYCHOK no cover
-
-    import os.path as _os_path
+def _main(**ALorder):  # PYCHOK no cover
 
     try:
-        from pygeodesy import auxilats, printf, pygeodesy_abspath
-        from pygeodesy.internals import _name_version, _Pythonarchine, _usage
-        from pygeodesy.interns import _COMMASPACE_, _DOT_, _version_
-        from pygeodesy.streprs import Fmt
+        from pygeodesy import auxilats
+        from pygeodesy.internals import _fper, _name_version, \
+                                         printf, _versions
+        from pygeodesy.interns import _COMMASPACE_, _EQUAL_
 
-        def _dot_attr(name, value):
-            return Fmt.DOT(Fmt.EQUAL(name, value))
-
-        s = tuple(sorted(_CXstats().items()))
-        p = [_dot_attr(*t) for t in (((_version_, auxilats.__version__),) + s)]
-
-        v = _Pythonarchine()
+        A  = auxilats.AuxLat(**ALorder)
+        Cx = A._CXcoeffs  # PropertyRO: Adict of _Rdicts
+        b, n, u, z = Cx.bnuz4()
+        p = dict(ALorder=A.ALorder,CXb=b, CXb_z=_fper(b, z),
+                            CXn=n, CXu=u, CXu_n=_fper(u, n))
+        p = list(_EQUAL_(*t) for t in p.items())
         try:
             import geographiclib
-            v.append(_name_version(geographiclib))
+            p.append(_name_version(geographiclib))
         except ImportError:
             pass
 
-        a =  auxilats.__name__
-        x = _os_path.basename(pygeodesy_abspath)
-        if not a.startswith(x):
-            a = _DOT_(x, a)
-        printf('%s%s (%s)', a, _COMMASPACE_.join(p), _COMMASPACE_.join(v))
+        a = _name_version(auxilats)
+        printf('%s: %s (%s)', a, _COMMASPACE_(*p), _versions())
 
     except ImportError:
-        raise
-        printf(_usage(__file__))
+        from pygeodesy.internals import _usage
+        print(_usage(__file__))
 
 
-_main()
+from sys import argv  # .internals._isPyChecker
+_main(ALorder=int(argv[1])) if len(argv) == 2 and argv[1].isdigit() else _main()
+
+# % python3.12 -m pygeodesy.auxilats 8
+# pygeodesy.auxilats 24.09.04: ALorder=8, CXb=20310, CXb_z=71.5%, CXn=888, CXu=780, CXu_n=87.8%, geographiclib 2.0 (pygeodesy 24.9.9 Python 3.12.5 64bit arm64 macOS 14.6.1)
+
+# % python3.12 -m pygeodesy.auxilats 6
+# pygeodesy.auxilats 24.09.04: ALorder=6, CXb=11099, CXb_z=64.1%, CXn=522, CXu=448, CXu_n=85.8%, geographiclib 2.0 (pygeodesy 24.9.9 Python 3.12.5 64bit arm64 macOS 14.6.1)
+
+# % python3.12 -m pygeodesy.auxilats 4
+# pygeodesy.auxilats 24.09.04: ALorder=4, CXb=5367, CXb_z=58.8%, CXn=252, CXu=203, CXu_n=80.6%, geographiclib 2.0 (pygeodesy 24.9.9 Python 3.12.5 64bit arm64 macOS 14.6.1)
+
 
 # **) MIT License
 #

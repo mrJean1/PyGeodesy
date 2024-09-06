@@ -33,7 +33,7 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 from pygeodesy.basics import isLatLon, isscalar, _ValueError
 from pygeodesy.constants import EPS, EPS0, EPS02, EPS4, INT0, PI2, PI_3, PI4, \
                                _EPS2e4, float0_, isfinite, isnear1, _over, \
-                               _0_0, _0_5, _1_0, _N_1_0,  _4_0  # PYCHOK used!
+                               _0_0, _0_5, _1_0, _N_1_0, _64_0,  _4_0  # PYCHOK used!
 from pygeodesy.datums import Datum, _spherical_datum, _WGS84,  Ellipsoid, _EWGS84, Fmt
 # from pygeodesy.ellipsoids import Ellipsoid, _EWGS84  # from .datums
 # from pygeodesy.elliptic import Elliptic  # _MODS
@@ -59,7 +59,7 @@ from pygeodesy.vector3d import _otherV3d, Vector3d,  _ALL_LAZY, _MODS
 from math import atan2, fabs, sqrt
 
 __all__ = _ALL_LAZY.triaxials
-__version__ = '24.08.18'
+__version__ = '24.08.26'
 
 _not_ordered_ = _not_('ordered')
 _omega_       = 'omega'
@@ -1157,7 +1157,7 @@ Triaxials = Triaxials(Triaxial, Triaxial_)  # PYCHOK singleton
 # <https://link.Springer.com/article/10.1007/s00190-022-01650-9>
 _abc84_35 = (_EWGS84.a + 35), (_EWGS84.a - 35), _EWGS84.b
 Triaxials._assert(                 # a (Km)       b (Km)     c (Km)     planet
-    Amalthea  = _lazy('Amalthea',  125.0,        73.0,      64.0),    # Jupiter
+    Amalthea  = _lazy('Amalthea',  125.0,        73.0,     _64_0),    # Jupiter
     Ariel     = _lazy('Ariel',     581.1,       577.9,     577.7),    # Uranus
     Earth     = _lazy('Earth',    6378.173435, 6378.1039, 6356.7544),
     Enceladus = _lazy('Enceladus', 256.6,       251.4,     248.3),    # Saturn

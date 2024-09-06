@@ -8,18 +8,17 @@ and licensed under the MIT/X11 License.  For more information, see the
 U{GeographicLib<https://GeographicLib.SourceForge.io>} documentation.
 '''
 
-from pygeodesy.basics import isodd,  _MODS
-from pygeodesy.constants import _EPSmin as _TINY, _0_0, _100_0
+from pygeodesy.basics import isodd
+from pygeodesy.constants import _EPSmin as _TINY, _0_0
 from pygeodesy.errors import _or, _xkwds_item2
 from pygeodesy.fmath import hypot as _hypot
 from pygeodesy.karney import _CapsBase, GeodesicError, _2cos2x, \
-                             _norm2, _sincos2d, _sum2_
-# from pygeodesy.lazily import _MODS, printf  # .basics, _MODS
+                             _norm2, _sincos2d, _sum3
 
 from math import fabs, ldexp as _ldexp
 
 __all__ = ()
-__version__ = '24.06.16'
+__version__ = '24.09.05'
 
 # valid C{nC4}s and C{C4order}s, see _xnC4 below
 _nC4s = {24: 2900, 27: 4032, 30: 5425}
@@ -53,16 +52,16 @@ class _Gfloats(dict):
         self.nC4 = nC4
 
     def __call__(self, fs):
-        '''Return a tuple of "uniquified" floats.
+        '''Return a C{numpy.array} or C{tuple} of C{float}s.
         '''
         self.n += len(fs)
-        _f = self.setdefault
+        try:  # numpy for less overhead
+            from numpy import array
+            return array(fs, dtype=float)
+        except ImportError:
+            pass
+        _f = self.setdefault  # avoid duplicates
         return tuple(_f(f, f) for f in map(float, fs))  # PYCHOK as attr
-
-    def prints(self):
-        n, u = self.n, len(self.keys())
-        d = (n - u) * _100_0 / n
-        _MODS.lazily.printf('_CX_%d: n=%d, u=%d, d=%.1f%%', self.nC4, n, u, d)  # XXX
 
 
 def _cosSeries(c4s, sx, cx):  # PYCHOK shared .geodesicx.gx and -.gxline
@@ -75,14 +74,13 @@ def _cosSeries(c4s, sx, cx):  # PYCHOK shared .geodesicx.gx and -.gxline
     _c4 =  c4.pop
     if isodd(len(c4)):
         y0 = _c4()
-    _s2 = _sum2_
     while c4:
         # y1 = ar * y0 - y1 + c4.pop()
         # y0 = ar * y1 - y0 + c4.pop()
-        y1, t1 = _s2(ar * y0, ar * t0, -y1, -t1, _c4())
-        y0, t0 = _s2(ar * y1, ar * t1, -y0, -t0, _c4())
+        y1, t1, _ = _sum3(ar * y0, ar * t0, -y1, -t1, _c4())
+        y0, t0, _ = _sum3(ar * y1, ar * t1, -y0, -t0, _c4())
     # s  = (y0 - y1) * cx
-    s, _ = _s2(cx * y0, _0_0, cx * t0, -cx * y1, -cx * t1)
+    s, _, _ = _sum3(cx * y0, _0_0, cx * t0, -cx * y1, -cx * t1)
     return s
 
 

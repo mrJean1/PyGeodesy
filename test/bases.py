@@ -35,7 +35,8 @@ from pygeodesy import anstr, basics, clips, DeprecationWarnings, internals, inte
                       isint, isLazy, issubclassof, iterNumpy2over, LazyImportError, \
                       lazily, map2, NN, normDMS, pairs, printf, property_RO, \
                       version as PyGeodesy_version  # PYCHOK expected
-from pygeodesy.internals import _secs2str as secs2str
+from pygeodesy.internals import _Math_K_2, _name_binary, _name_version, \
+                                _secs2str as secs2str
 
 _DOT_     = interns._DOT_
 _skipped_ = 'skipped'  # in .run
@@ -48,7 +49,7 @@ __all__ = ('coverage', 'GeodSolve', 'geographiclib',  # constants
            'numpy', 'PyGeodesy_dir', 'PythonX', 'scipy', 'test_dir',
            'RandomLatLon', 'TestsBase',  # classes
            'secs2str', 'tilde', 'type2str', 'versions')  # functions
-__version__ = '24.08.24'
+__version__ = '24.08.31'
 
 try:
     geographiclib = basics._xgeographiclib(basics, 1, 50)
@@ -325,6 +326,16 @@ class TestsBase(object):
         if self._time:  # undo _prefix change
             self.__dict__.pop('_prefix')
 
+    def test_tol(self, name, value, expect, tol=1e-12, **kwds):
+        e = 0 if value is None or expect is None else abs(value - expect)  # None iteration
+        if e:
+            m = max(abs(value), abs(expect))
+            if m:
+                e = min(e, m, e / m)
+            return self.test(name, value, expect, error=e, known=e < tol, **kwds)
+        else:
+            return self.test(name, value, expect,          known=True, **kwds)
+
     def test__(self, fmt, *args, **kwds):
         '''Print subtotal test line.
         '''
@@ -445,19 +456,6 @@ except (AttributeError, ImportError):
         return (NN, (NN, NN, NN), NN)
 
 
-def _name_version2(path):
-    '''(INTERNAL) Get the C{(name, version)} of an executable.
-    '''
-    if path:
-        from pygeodesy.solveBase import _popen2
-        try:
-            _, r = _popen2((path, '--version'))
-            return basename(path), r.split()[-1]
-        except (IndexError, IOError, OSError):
-            pass
-    return ()
-
-
 def prefix2(prev):  # in .run
     '''Get time prefix and time stamp.
     '''
@@ -518,16 +516,15 @@ def versions():
         vs =  internals._Pythonarchine(sep=_SPACE_)
         vs = 'PyGeodesy', PyGeodesy_version, vs
         for t in (coverage, geographiclib, numpy, scipy):
-            if t:
-                vs += t.__name__, t.__version__
+            if t:  # .internals._name_version
+                vs += _name_version(t),
 
         if geographiclib:
-            from pygeodesy.karney import _K_2_0, _wrapped
-            if _wrapped.Math:
-                vs += 'Math', ('_K_2_0' if _K_2_0 else '_K_1_0')
+            vs += _Math_K_2(),
 
         for t in (GeoConvert, GeodSolve, IntersectTool, RhumbSolve):
-            vs += _name_version2(t)
+            if t:
+                vs += _name_binary(t),
 
         t, r = internals._osversion2()
         if r:

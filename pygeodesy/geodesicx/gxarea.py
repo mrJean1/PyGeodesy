@@ -21,7 +21,7 @@ from pygeodesy.basics import isodd, unsigned0
 from pygeodesy.constants import NAN, _0_0, _0_5, _720_0
 # from pygeodesy.interns import _COMMASPACE_  # from .lazily
 from pygeodesy.karney import Area3Tuple, _diff182, GeodesicError, \
-                            _norm180, _remainder, _sum2_
+                            _norm180, _remainder, _sum3
 from pygeodesy.lazily import _ALL_DOCS, printf,  _COMMASPACE_
 from pygeodesy.named import ADict, callername, _NamedBase,  pairs
 from pygeodesy.props import Property, Property_RO, property_RO
@@ -30,7 +30,7 @@ from pygeodesy.props import Property, Property_RO, property_RO
 from math import fmod as _fmod
 
 __all__ = ()
-__version__ = '24.08.13'
+__version__ = '24.09.04'
 
 
 class GeodesicAreaExact(_NamedBase):
@@ -451,7 +451,7 @@ class _Accumulator(_NamedBase):
            @return: Current C{sum}.
         '''
         self._n += 1
-        self._s, self._t = _sum2_(self._s, self._t, y)
+        self._s, self._t, _ = _sum3(self._s, self._t, y)
         return self._s  # current .Sum()
 
     def Negate(self):

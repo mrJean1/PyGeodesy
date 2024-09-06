@@ -10,7 +10,9 @@ C{attribute} name.
 
 With env variable C{PYGEODESY_GEOGRAPHICLIB} left undefined or set to C{"2"}, modules L{geodesicw},
 L{geodesicx} and this module will use U{GeographicLib 2.0+<https://GeographicLib.SourceForge.io/C++/doc/>}
-and newer transcoding, otherwise C{1.52} or older.
+and newer transcoding, otherwise C{1.52} or older.  Set C{PYGEODESY_GEOGRAPHICLIB=2.4} to default to the
+C{Jacobi amplitude} instead of C{Bulirsch}' function in methods L{ExactTransverseMercator.forward
+<pygeodesy.ExactTransverseMercator.forward>} and L{reverse <pygeodesy.ExactTransverseMercator.reverse>}.
 
 Karney-based functionality
 ==========================
@@ -145,7 +147,7 @@ from pygeodesy.basics import _copysign, isint, neg, unsigned0, _xgeographiclib, 
                              _zip,  _version_info
 from pygeodesy.constants import NAN, _isfinite as _math_isfinite, _0_0, \
                                _1_16th, _1_0, _2_0, _180_0, _N_180_0, _360_0
-from pygeodesy.errors import GeodesicError, _ValueError, _xkwds, _xkwds_get1
+from pygeodesy.errors import GeodesicError, _ValueError, _xkwds
 from pygeodesy.fmath import cbrt, fremainder, norm2
 # from pygeodesy.internals import _version_info  # from .basics
 from pygeodesy.interns import NN, _2_, _a12_, _area_, _azi1_, _azi2_, _azi12_, \
@@ -154,7 +156,8 @@ from pygeodesy.interns import NN, _2_, _a12_, _area_, _azi1_, _azi2_, _azi12_, \
                              _UNDER_, _X_,  _BAR_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, _getenv
 from pygeodesy.named import ADict, _NamedBase, _NamedTuple, notImplemented, _Pass
-from pygeodesy.props import deprecated_method, Property_RO, property_ROnce
+from pygeodesy.props import deprecated_method, Property_RO, property_RO, \
+                                               property_ROnce
 from pygeodesy.units import Azimuth as _Azi, Degrees as _Deg, Lat, Lon, \
                             Meter as _M, Meter2 as _M2, Number_
 from pygeodesy.utily import atan2d, sincos2d, tand, _unrollon,  fabs
@@ -162,9 +165,11 @@ from pygeodesy.utily import atan2d, sincos2d, tand, _unrollon,  fabs
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.karney
-__version__ = '24.07.25'
+__version__ = '24.09.06'
 
-_K_2_0      = _getenv('PYGEODESY_GEOGRAPHICLIB', _2_) == _2_
+_K_2        = _getenv('PYGEODESY_GEOGRAPHICLIB', _2_)
+_K_2_4      = _K_2 == '2.4'
+_K_2_0      = _K_2 == _2_ or _K_2_4
 _perimeter_ = 'perimeter'
 
 
@@ -569,6 +574,11 @@ class _kWrapped(object):  # in .geodesicw
             M = None
         return M
 
+    @property_RO
+    def Math_K_2(self):
+        return ('_K_2_4' if _K_2_4 else
+               ('_K_2_0' if _K_2_0 else '_K_1_0')) if self.Math else NN
+
 _wrapped = _kWrapped()  # PYCHOK singleton, .datum, .test/base.py
 
 
@@ -807,23 +817,18 @@ def _polygon(geodesic, points, closed, line, wrap):
 
 def _polynomial(x, cs, i, j):  # PYCHOK shared
     '''(INTERNAL) Like C++ C{GeographicLib.Math.hpp.polyval} but with a
-       different signature and cascaded summation as C{karney._sum2_}.
+       different signature and cascaded summation from C{karney._sum3}.
 
        @return: M{sum(cs[k] * x**(j - k - 1) for k in range(i, j)}
     '''
     # assert 0 <= i <= j <= len(cs)
-#   try:
-#       return _wrapped.Math.polyval(j - i - 1, cs, i, x)
-#   except AttributeError:
-#       s, t = cs[i], _0_0
-#       for c in cs[i+1:j]:
-#           s, t = _sum2_(s * x, t * x, c)
-#       return s  # + t
-    s  = cs[i]
-    i += 1
-    if x and i < j:
-        s, _ = _sum2_(s, _0_0, x=x, *cs[i:j])
-    return s  # + t
+    try:
+        return _wrapped.Math.polyval(j - i - 1, cs, i, x)
+    except AttributeError:
+        s, t = cs[i], _0_0
+        for i in range(i + 1, j):
+            s, t, _ = _sum3(s * x, t * x, cs[i])
+        return s  # + t
 
 
 def _remainder(x, y):
@@ -899,43 +904,39 @@ def _sum2(u, v):  # mimick geomath.Math.sum, actually sum2
         #   t = -t
         # else:
         t = (u - r) + (v - t)
+        # assert fabs(s) >= fabs(t)
         return s, t
 
 
-def _sum2_(s, t, *vs, **x):
-    '''Accumulate any B{C{vs}} into a previous C{_sum2(s, t)}.
+def _sum3(s, t, *xs):
+    '''Accumulate any B{C{xs}} into a previous C{_sum2(s, t)}.
 
-       @kwarg x: Optional polynomial C{B{x}=1} (C{scalar}).
-
-       @return: 2-Tuple C{(B{s} + B{t} + sum(B{vs}), residual)}.
+       @return: 3-Tuple C{(s, t, n)} where C{s} is the sum of B{s}, B{t} and all
+                B{xs}, C{t} the residual and C{n} the number of zero C{xs}.
 
        @see: I{Karney's} C++ U{Accumulator<https://GeographicLib.SourceForge.io/
              C++/doc/Accumulator_8hpp_source.html>} comments for more details and
              function C{_sum2} above.
 
-       @note: NOT "error-free", see C{pygeodesy.test/testKarney.py}.
+       @note: Not "error-free", see C{pygeodesy.test/testKarney.py}.
     '''
-    x = _xkwds_get1(x, x=_1_0)
-    p =  x != _1_0
-
-    _s2, _u0 = _sum2, unsigned0
-    for v in vs:
-        if p:
-            s *= x
-            t *= x
-        if v:
-            t, u = _s2(t, v)  # start at the least-
+    n = 0
+    for x in xs:
+        if x:
+            t, r = _sum2(t, x)  # start at the least-
             if s:
-                s, t = _s2(s, t)  # significant end
+                s, t = _sum2(s, t)  # -significant end
                 if s:
-                    t += u  # accumulate u into t
-#               elif t:  # s == 0 implies t == 0
-#                   raise _AssertionError(t=t, txt_not_=_0_)
+                    t += r  # accumulate r into t
                 else:
-                    s = _u0(u)  # result is u, t = 0
+                    # assert t == 0  # s == 0 implies t == 0
+                    s = unsigned0(r)  # result is r, t = 0
             else:
-                s, t = _u0(t), u
-    return s, t
+                s, t = unsigned0(t), r
+        else:
+            n += 1
+    # assert fabs(s) >= fabs(t)
+    return s, t, n
 
 
 def _tand(x):
@@ -955,7 +956,7 @@ def _unroll2(lon1, lon2, wrap=False):  # see .ellipsoidalBaseDI._intersects2
     '''
     if wrap:
         d, t = _diff182(lon1, lon2)
-        lon2, _ = _sum2_(d, t, lon1)  # (lon1 + d) + t
+        lon2, _, _ = _sum3(d, t, lon1)  # (lon1 + d) + t
     else:
         lon2 = _norm180(lon2)
     return (lon2 - lon1), lon2

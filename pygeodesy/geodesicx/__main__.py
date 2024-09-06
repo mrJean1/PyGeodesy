@@ -5,65 +5,63 @@ u'''Print L{geodesicx} version, etc. using C{python -m pygeodesy.geodesicx}.
 '''
 
 __all__ = ()
-__version__ = '24.05.31'
+__version__ = '24.09.05'
 
 
-def _C4stats(nC4=None):  # PYCHOK no cover
-    '''(INTERNAL) Get the C{C4} stats.
-    '''
-    from pygeodesy import GeodesicExact, geodesicx
-
-    gX = GeodesicExact(C4order=nC4)
-    cs = geodesicx.gx._C4coeffs(gX.C4order)
-    ss = set(cs)  # without duplicates
-    pc = '%.1f%%' % (len(ss) * 100.0 / len(cs))
-    cx = gX._C4x
-    return dict(C4order=gX.C4order, C4len=len(cs), C4set=len(ss), C4set_len=pc, C4x=len(cx))
-
-
-def _main():  # PYCHOK no cover
-
-    import os.path as os_path
+def _main(**C4order):  # PYCHOK no cover
 
     try:
-        from pygeodesy import geodesicx as _gx, GeodesicError, \
-                              GeodesicSolve, printf, pygeodesy_abspath
-        from pygeodesy.internals import _Pythonarchine, _usage
-        from pygeodesy.interns import _COMMASPACE_, _DOT_, _SPACE_, _version_
-        from pygeodesy.streprs import Fmt
+        from pygeodesy import GeodesicExact, geodesicx
+        from pygeodesy.internals import _fper, _name_version, \
+                                         printf, _sizeof, _versions
+        from pygeodesy.interns import _COMMASPACE_, _EQUAL_
+        try:
+            import numpy
+        except ImportError:
+            numpy = None
 
-        def _dot_attr(name, value):
-            return Fmt.DOT(Fmt.EQUAL(name, value))
-
-        s = tuple(sorted(_C4stats().items()))
-        p = [_dot_attr(*t) for t in (((_version_, _gx.__version__),) + s)]
-
-        def _name_version(pkg):
-            return _SPACE_(pkg.__name__, pkg.__version__)
-
-        v = _Pythonarchine()
+        gX = GeodesicExact(**C4order)
+        cs = geodesicx.gx._C4coeffs(gX.C4order)
+        n  = len(cs)
+        u  = n         if numpy else len(set(cs))
+        z  = cs.nbytes if numpy else _sizeof(cs)
+        p  = dict(C4order=gX.C4order, C4n=n, C4u=u,
+                  C4u_n=_fper(u, n), C4x=len(gX._C4x),
+                  C4t=type(cs).__name__, C4z=z)
+        p  = list(_EQUAL_(*t) for t in p.items())
+        if numpy:
+            p.append(_name_version(numpy))
         try:
             import geographiclib
-            v.append(_name_version(geographiclib))
+            p.append(_name_version(geographiclib))
         except ImportError:
             pass
-        try:
-            g = GeodesicSolve()
-            v.append(g.version)
-        except GeodesicError:
-            pass
 
-        g = _gx.__name__
-        x =  os_path.basename(pygeodesy_abspath)
-        if not g.startswith(x):
-            g = _DOT_(x, g)
-        printf('%s%s (%s)', g, _COMMASPACE_.join(p), _COMMASPACE_.join(v))
+        g = _name_version(geodesicx)
+        printf('%s: %s (%s)', g, _COMMASPACE_.join(p), _versions())
 
     except ImportError:
-        printf(_usage(__file__))
+        from pygeodesy.internals import _usage
+        print(_usage(__file__))
 
 
-_main()
+from sys import argv  # .internals._isPyChecker
+_main(C4order=int(argv[1])) if len(argv) == 2 and argv[1].isdigit() else _main()
+
+# % python3.13 -m pygeodesy.geodesicx 30
+# pygeodesy.geodesicx 24.09.04: C4order=30, C4n=5425, C4u=5107, C4u_n=94.1%, C4x=465, C4t=tuple, C4z=166008 (pygeodesy 24.9.6 Python 3.13.0rc1 64bit arm64 macOS 14.6.1)
+# % python3.12 -m pygeodesy.geodesicx 30
+# pygeodesy.geodesicx 24.09.04: C4order=30, C4n=5425, C4u=5425, C4u_n=100.0%, C4x=465, C4t=ndarray, C4z=43400, numpy 2.1.0, geographiclib 2.0 (pygeodesy 24.9.6 Python 3.12.5 64bit arm64 macOS 14.6.1)
+
+# % python3.13 -m pygeodesy.geodesicx 27
+# pygeodesy.geodesicx 24.09.04: C4order=27, C4n=4032, C4u=3764, C4u_n=93.4%, C4x=378, C4t=tuple, C4z=122632 (pygeodesy 24.9.6 Python 3.13.0rc1 64bit arm64 macOS 14.6.1)
+# % python3.12 -m pygeodesy.geodesicx 27
+# pygeodesy.geodesicx 24.09.04: C4order=27, C4n=4032, C4u=4032, C4u_n=100.0%, C4x=378, C4t=ndarray, C4z=32256, numpy 2.1.0, geographiclib 2.0 (pygeodesy 24.9.6 Python 3.12.5 64bit arm64 macOS 14.6.1)
+
+# % python3.13 -m pygeodesy.geodesicx 24
+# pygeodesy.geodesicx 24.09.04: C4order=24, C4n=2900, C4u=2708, C4u_n=93.4%, C4x=300, C4t=tuple, C4z=88232 (pygeodesy 24.9.6 Python 3.13.0rc1 64bit arm64 macOS 14.6.1)
+# % python3.12 -m pygeodesy.geodesicx 24
+# pygeodesy.geodesicx 24.09.04: C4order=24, C4n=2900, C4u=2900, C4u_n=100.0%, C4x=300, C4t=ndarray, C4z=23200, numpy 2.1.0, geographiclib 2.0 (pygeodesy 24.9.6 Python 3.12.5 64bit arm64 macOS 14.6.1)
 
 # **) MIT License
 #

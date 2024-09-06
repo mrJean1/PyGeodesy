@@ -24,7 +24,7 @@ except ImportError:  # Python 2-
     _inf, _nan = float(_INF_), float(_NAN_)
 
 __all__ = _ALL_LAZY.constants
-__version__ = '24.08.18'
+__version__ = '24.08.26'
 
 
 def _copysign_0_0(y):
@@ -100,7 +100,7 @@ def float0_(*xs):
         yield float(x) if x else _0_0
 
 
-def _float0(f):  # in .resections, .vector3dBase, ...
+def _float0(f):  # in .auxilats.auxily, .resections, .vector3dBase, ...
     '''(INTERNAL) Return C{float(B{f})} or C{INT0}.
     '''
     if f:
@@ -181,6 +181,7 @@ _10_0    = _float(  10)       # PYCHOK expected
 _16_0    = _float(  16)       # PYCHOK expected
 _32_0    = _float(  32)       # PYCHOK expected
 _60_0    = _float(  60)       # PYCHOK expected
+_64_0    = _float(  64)       # PYCHOK expected
 _90_0    = _float(  90)       # PYCHOK expected
 _100_0   = _float( 100)       # PYCHOK expected
 _180_0   = _float( 180)       # PYCHOK expected
@@ -224,30 +225,30 @@ except ImportError:  # PYCHOK no cover
     MIN_EXP  =  Int(MIN_EXP   =_log2(MIN))  # -307 base 10
 #   RADIX    =  Int(Radix     =2)           # base
 
-EPS0     = _Float( EPS0   = EPS**2)         # PYCHOK near-/non-zero comparison 4.930381e-32, or EPS or EPS_2
-EPS02    = _Float( EPS02  = EPS**4)         # PYCHOK near-zero-squared comparison 2.430865e-63
-EPS_2    = _Float( EPS_2  = EPS / _2_0)     # PYCHOK ≈ 1.110223024625e-16
-EPS1     = _Float( EPS1   =_1_0 - EPS)      # PYCHOK ≈ 0.9999999999999998
-EPS2     = _Float( EPS2   = EPS * _2_0)     # PYCHOK ≈ 4.440892098501e-16
-EPS4     = _Float( EPS4   = EPS * _4_0)     # PYCHOK ≈ 8.881784197001e-16
-# _1EPS  = _Float(_1EPS   =_1_0 + EPS)      # PYCHOK ≈ 1.0000000000000002
-_1_EPS   = _Float(_1_EPS  =_1_0 / EPS)      # PYCHOK = 4503599627370496.0
-# _2_EPS = _Float(_2_EPS  =_2_0 / EPS)      # PYCHOK = 9007199254740992.0
-_EPS2e4  = _Float(_EPS2e4 = EPS2 * 1.e4)    # PYCHOK ≈ 4.440892098501e-12
-_EPS4e8  = _Float(_EPS4e8 = EPS4 * 1.e8)    # PYCHOK ≈ 8.881784197001e-08
-_EPSmin  = _Float(_EPSmin = sqrt(MIN))      # PYCHOK = 1.49166814624e-154
-_EPSqrt  = _Float(_EPSqrt = sqrt(EPS))      # PYCHOK = 1.49011611938e5-08
-_EPStol  = _Float(_EPStol =_EPSqrt * _0_1)  # PYCHOK = 1.49011611938e5-09 == sqrt(EPS * _0_01)
+EPS0     = _Float( EPS0  = EPS**2)          # PYCHOK near-/non-zero comparison 4.930381e-32, or EPS or EPS_2
+EPS02    = _Float( EPS02 = EPS**4)          # PYCHOK near-zero-squared comparison 2.430865e-63
+EPS_2    = _Float( EPS_2 = EPS / _2_0)      # PYCHOK ≈ 1.110223024625e-16
+EPS1     = _Float( EPS1  =_1_0 - EPS)       # PYCHOK ≈ 0.9999999999999998
+EPS2     = _Float( EPS2  = EPS * _2_0)      # PYCHOK ≈ 4.440892098501e-16
+EPS4     = _Float( EPS4  = EPS * _4_0)      # PYCHOK ≈ 8.881784197001e-16
+# _1EPS  = _Float(_1EPS  =_1_0 + EPS)       # PYCHOK ≈ 1.0000000000000002
+_1_EPS   = _Float(_1_EPS =_1_0 / EPS)       # PYCHOK = 4503599627370496.0
+# _2_EPS = _Float(_2_EPS =_2_0 / EPS)       # PYCHOK = 9007199254740992.0
+_EPS2e4  = _Float(_EPS2e4= EPS2 * 1.e4)     # PYCHOK ≈ 4.440892098501e-12
+_EPS4e8  = _Float(_EPS4e8= EPS4 * 1.e8)     # PYCHOK ≈ 8.881784197001e-08
+_EPSjam  = _Float(_EPSjam= pow(EPS, 0.75))  # PYCHOK = 1.818989403546e-12
+_EPSmin  = _Float(_EPSmin= sqrt(MIN))       # PYCHOK = 1.49166814624e-154
+_EPSqrt  = _Float(_EPSqrt= sqrt(EPS))       # PYCHOK = 1.49011611938e5-08
+_EPStol  = _Float(_EPStol=_EPSqrt * _0_1)   # PYCHOK = 1.49011611938e5-09 == sqrt(EPS * _0_01)
 
-_89_999_ = _Float(_89_999_= EPS1 * _90_0)   # just below 90.0
+_89_999  = _Float(_89_999=_90_0 * EPS1)  # just below 90.0
 # <https://Numbers.Computation.Free.FR/Constants/Miscellaneous/digits.html>
-_1__90   = _Float(_1__90  =_1_0 / _90_0)    # PYCHOK = 0.011_111_111_111_111_111_111_111_111_111_111_111_111_111_111_11111
-_2__PI   = _Float(_2__PI  =_2_0 / _pi)      # PYCHOK = 0.636_619_772_367_581_343_075_535_053_490_057_448_137_838_582_96182
+_1__90   = _Float(_1__90 =_1_0 / _90_0)  # PYCHOK = 0.011_111_111_111_111_111_111_111_111_111_111_111_111_111_111_11111
+_2__PI   = _Float(_2__PI =_2_0 / _pi)    # PYCHOK = 0.636_619_772_367_581_343_075_535_053_490_057_448_137_838_582_96182
 
-_1_16th  = _Float(_1_16th =_1_0 / _16_0)  # PYCHOK in .ellipsoids, .karney
-_1_64th  = _Float(_1_64th =_1_0 /  64)    # PYCHOK in .elliptic, pow(2.0, -6)
-_1_3rd   = _Float(_1_3rd  =_1_0 /  _3_0)  # PYCHOK in .fmath
-_1_6th   = _Float(_1_6th  =_1_0 /  _6_0)  # PYCHOK in .fmath
+_1_16th  = _Float(_1_16th=_1_0 / _16_0)  # PYCHOK in .ellipsoids, .karney
+_1_3rd   = _Float(_1_3rd =_1_0 /  _3_0)  # PYCHOK in .fmath
+_1_6th   = _Float(_1_6th =_1_0 /  _6_0)  # PYCHOK in .fmath
 
 _K0_UTM  = _Float(_K0_UTM = 0.9996)  # PYCHOK in .etm, .ktm, .utm, UTM scale at central meridian
 # sqrt(2) <https://WikiPedia.org/wiki/Square_root_of_2>
@@ -441,7 +442,7 @@ def isnon0(x, eps0=EPS0):
 def _off90(lat):
     '''(INTERNAL) Off 90.0 for .gars and .wgrs.
     '''
-    return max(min(lat, _89_999_), -_89_999_)
+    return max(min(lat, _89_999), -_89_999)
 
 
 try:

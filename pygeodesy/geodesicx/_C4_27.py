@@ -13,7 +13,7 @@ U{GeographicLib<https://GeographicLib.SourceForge.io>} documentation.
 from pygeodesy.geodesicx.gxbases import _Gfloats, _f, _f2
 
 __all__ = ()
-__version__ = '23.08.19'
+__version__ = '24.09.04'
 
 _g = _Gfloats(27)
 _coeffs_27 = _g((  # GEOGRAPHICLIB_GEODESICEXACT_ORDER == 27
@@ -2368,8 +2368,6 @@ _coeffs_27 = _g((  # GEOGRAPHICLIB_GEODESICEXACT_ORDER == 27
     # C4[26], coeff of eps^26, polynomial in n of order 0
     _f(1 << 48), _f2(2126, 0x8c0e9e949456f),  # PYCHOK exported
 ))  # 4032 / 3764
-if __name__ == '__main__':
-    _g.prints()
 del _g, _Gfloats, _f, _f2
 
 # **) MIT License

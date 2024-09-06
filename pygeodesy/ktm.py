@@ -67,7 +67,7 @@ from cmath import polar
 from math import atan2, asinh, cos, cosh, degrees, fabs, sin, sinh, sqrt, tanh
 
 __all__ = _ALL_LAZY.ktm
-__version__ = '24.07.16'
+__version__ = '24.08.31'
 
 
 class KTMError(_ValueError):
@@ -505,11 +505,11 @@ def _Xs(_Coeffs, m, E, RA=False):  # in .rhumb.ekx
         # constant, it cancels when evaluating a definite
         # integral.  Don't bother computing it, it is unused
         # in C{_Cyxgk4} above and C{rhumb.ekx._sincosSeries}.
-        _X, _p = X.append, _polynomial
-        i = (m + 2) if RA else 0
+        i  = (m + 2) if RA else 0
+        _p = _polynomial
         for r in _reverange(m):  # [m-1 ... 0]
             j = i + r + 1
-            _X(_p(n, Cs, i, j) * n_ / Cs[j])
+            X.append(_p(n, Cs, i, j) * n_ / Cs[j])
             i = j + 1
             n_ *= n
         X =  tuple(X)

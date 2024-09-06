@@ -65,7 +65,8 @@ in U{B. C. Carlson, Computation of real or complex elliptic integrals
 The computation of the Jacobi elliptic functions uses the algorithm
 given in U{R. Bulirsch, Numerical Calculation of Elliptic Integrals
 and Elliptic Functions<https://DOI.org/10.1007/BF01397975>},
-Numerische Mathematik 7, 78--90 (1965).
+Numerische Mathematik 7, 78--90 (1965) or optionally the C{Jacobi
+amplitude} in method L{Elliptic.sncndn<pygeodesy.Elliptic.sncndn>}.
 
 The notation follows U{NIST Digital Library of Mathematical Functions
 <https://DLMF.NIST.gov>} chapters U{19<https://DLMF.NIST.gov/19>} and
@@ -75,13 +76,13 @@ U{22<https://DLMF.NIST.gov/22>}.
 from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import copysign0, map2, neg, neg_
-from pygeodesy.constants import EPS, INF, NAN, PI, PI_2, PI_4, \
-                               _EPStol as _TolJAC, _0_0, _1_64th, \
-                               _0_25, _0_5, _1_0, _2_0, _N_2_0, \
-                               _3_0, _4_0, _6_0, _8_0, _180_0, \
-                               _360_0, _over
+from pygeodesy.constants import EPS, INF, NAN, PI, PI_2, PI_4, _0_0, \
+                               _0_25, _0_5, _1_0, _2_0, _N_2_0, _3_0, \
+                               _4_0, _6_0, _8_0, _64_0, _180_0, _360_0, \
+                               _EPStol as _TolJAC, _over, \
+                               _EPSjam as _TolJAM  # PYCHOK used!
 # from pygeodesy.errors import _ValueError  # from .fmath
-from pygeodesy.fmath import fdot, hypot1, zqrt,  _ValueError
+from pygeodesy.fmath import favg, hypot1, zqrt,  _ValueError
 from pygeodesy.fsums import Fsum, _sum
 # from pygeodesy.internals import _dunder_nameof  # from .lazily
 from pygeodesy.interns import NN, _delta_, _DOT_, _f_, _invalid_, \
@@ -94,16 +95,16 @@ from pygeodesy.props import _allPropertiesOf_n, Property_RO, _update_all
 from pygeodesy.units import Scalar, Scalar_
 # from pygeodesy.utily import sincos2 as _sincos2  # from .karney
 
-from math import asinh, atan, atan2, ceil, cosh, fabs, floor, \
-                 radians, sin, sqrt, tanh
+from math import asin, asinh, atan, atan2, ceil, cosh, fabs, floor, \
+                 radians, sin, sinh, sqrt, tan, tanh
 
 __all__ = _ALL_LAZY.elliptic
-__version__ = '24.05.18'
+__version__ = '24.09.06'
 
 _TolRD  =  zqrt(EPS * 0.002)
 _TolRF  =  zqrt(EPS * 0.030)
 _TolRG0 = _TolJAC   * 2.7
-_TRIPS  =  21  # Max depth, 7 might be sufficient
+_TRIPS  =  25  # Max depth, 6-7 might be sufficient
 
 
 class _Cs(object):
@@ -125,6 +126,19 @@ class _Dsum(list):
     def __iadd__(self, x):
         list.append(self, x)
         return self
+
+
+class _Dadd(_Dsum):
+    '''(INTERNAL) Deferred C{Fsum} for C{_List.amrs4}.
+    '''
+    def __init__(self, mul):
+        self._mul = mul
+
+    def __add__(self, x):
+        self += x
+        r = self(self._mul)
+        _ = self.pop()
+        return r  # Fsum or float
 
 
 class Elliptic(_Named):
@@ -407,7 +421,6 @@ class Elliptic(_Named):
         # Applied Math. and Computation 218, 7005-7013 (2012)
         # <https://DOI.org/10.1016/j.amc.2011.12.021>
         _Phi2 = Phi.fsum2f_  # aggregate
-        _abs  = fabs
         for i in range(1, _TRIPS):  # GEOGRAPHICLIB_PANIC
             sn, cn, dn = self._sncndn3(phi)
             if dn:
@@ -415,7 +428,7 @@ class Elliptic(_Named):
                 phi, d = _Phi2((r - sn) / dn)
             else:  # PYCHOK no cover
                 d = _0_0  # XXX continue?
-            if _abs(d) < _TolJAC:  # 3-4 trips
+            if fabs(d) < _TolJAC:  # 3-4 trips
                 _iterations(self, i)
                 break
         else:  # PYCHOK no cover
@@ -505,7 +518,8 @@ class Elliptic(_Named):
             return ei
 
         return self._fXf(phi_or_sn, cn, dn, self.cE,
-                                            self.deltaE, _fE)
+                                            self.deltaE, _fE,
+                         k2_0=self.k2==0)
 
     def fEd(self, deg):
         '''The incomplete integral of the second kind with
@@ -561,7 +575,8 @@ class Elliptic(_Named):
             return r
 
         return self._fXf(phi_or_sn, cn, dn, self.cK,
-                                            self.deltaF, _fF)
+                                            self.deltaF, _fF,
+                         k2_0=self.k2==0, kp2_0=self.kp2==0)
 
     def fG(self, phi_or_sn, cn=None, dn=None):
         '''Legendre's geodesic longitude integral in terms of
@@ -648,12 +663,16 @@ class Elliptic(_Named):
 
         return self._fXf(phi_or_sn, cn, dn, cX, deltaX, _fX)
 
-    def _fXf(self, phi_or_sn, cn, dn, cX, deltaX, fX):
+    def _fXf(self, phi_or_sn, cn, dn, cX, deltaX, fX, k2_0=False, kp2_0=False):
         '''(INTERNAL) Helper for C{.fD}, C{.fE}, C{.fF} and C{._fXa}.
         '''
         self._iteration = 0  # aggregate
         phi = sn = phi_or_sn
         if cn is dn is None:  # fX(phi) call
+            if k2_0:  # C++ version 2.4
+                return phi
+            elif kp2_0:
+                return asinh(tan(phi))
             sn, cn, dn = self._sncndn3(phi)
             if fabs(phi) >= PI:
                 return (deltaX(sn, cn, dn) + phi) * cX / PI_2
@@ -667,6 +686,51 @@ class Elliptic(_Named):
         else:
             xi = fX(sn, cn, dn) if cn > 0 else cX
         return copysign0(xi, sn)
+
+    def _jam(self, x):
+        '''Jacobi amplitude function.
+
+           @return: C{phi} (C{float}).
+        '''
+        # implements DLMF Sec 22.20(ii), see also U{Sala
+        # (1989)<https://doi.org/10.1137/0520100>}, Sec 5
+        if self.k2:
+            if self.kp2:
+                r, ac = self._jamac2
+                x    *= r  # phi
+                for a, c in ac:
+                    p = x
+                    x = favg(asin(c * sin(x) / a), x)
+                if self.k2 < 0:  # Sala Eq. 5.8
+                    x = p - x
+            else:  # PYCHOK no cover
+                x = atan(sinh(x))  # gd(x)
+        return x
+
+    @Property_RO
+    def _jamac2(self):
+        '''(INTERNAL) Get Jacobi amplitude 2-tuple C{(r, ac)}.
+        '''
+        a = r = _1_0
+        b, c = self.kp2, self.k2
+        # assert b and c
+        if c < 0:  # Sala Eq. 5.8
+            r  =  sqrt(b)
+            b  = _1_0 / b
+#           c *=  b  # unused
+        ac = []  # [(a, sqrt(c))] unused
+        for i in range(1, _TRIPS):  # GEOGRAPHICLIB_PANIC
+            b = sqrt(a * b)
+            c = favg(a, -b)
+            a = favg(a,  b)  # == PI_2 / K
+            ac.append((a, c))
+            if c <= (a * _TolJAM):  # 7 trips, quadratic
+                _iterations(self, i)
+                break
+        else:  # PYCHOK no cover
+            raise _convergenceError(c / a, _TolJAM)
+        r *= a * float(1 << i)  # 2**i == 2**len(ac)
+        return r, tuple(reversed(ac))
 
     @Property_RO
     def k2(self):
@@ -723,38 +787,46 @@ class Elliptic(_Named):
         # Pi(alpha2, 1) = inf
         # G( alpha2, 1) = H(alpha2, 1) = RC(1, alphap2)
 
-    def sncndn(self, x):
-        '''The Jacobi elliptic function.
+    def sncndn(self, x, jam=False):
+        '''The Jacobi amplitude and elliptic function.
 
            @arg x: The argument (C{float}).
+           @kwarg jam: If C{True}, use the Jacobi amplitude otherwise the
+                       Bulirsch' function (C{bool}).
 
-           @return: An L{Elliptic3Tuple}C{(sn, cn, dn)} with
-                    C{*n(B{x}, k)}.
+           @return: An L{Elliptic3Tuple}C{(sn, cn, dn)} with C{*n(B{x}, k)}.
 
            @raise EllipticError: No convergence.
         '''
         self._iteration = 0  # reset
-        try:  # Bulirsch's sncndn routine, p 89.
+        try:
             if self.kp2:
-                c, d, cd, mn = self._sncndn4
-                dn = _1_0
-                sn, cn = _sincos2(x * cd)
-                if sn:
-                    a  = cn / sn
-                    c *= a
-                    for m, n in reversed(mn):
-                        a *= c
-                        c *= dn
-                        dn = (n + a) / (m + a)
-                        a  =  c / m
-                    a  = _1_0 / hypot1(c)
-                    sn =  neg(a) if _signBit(sn) else a
-                    cn =  c * sn
-                    if d and _signBit(self.kp2):
-                        cn, dn = dn, cn
-                        sn = sn / d  # /= chokes PyChecker
+                if jam:  # Jacobi amplitude, C++ version 2.4
+                    sn, cn, dn = self._sncndn3(self._jam(x))
+
+                else:  # Bulirsch's sncndn routine, p 89 of
+                    # Numerische Mathematik 7, 78-90 (1965).
+                    # Implements DLMF Eqs 22.17.2 - 22.17.4,
+                    # but only good for .k2 > 1 or .kp2 < 0
+                    c, d, cd, mn = self._sncndn4
+                    dn = _1_0
+                    sn, cn = _sincos2(x * cd)
+                    if sn:
+                        a  = cn / sn
+                        c *= a
+                        for m, n in mn:
+                            a *= c
+                            c *= dn
+                            dn = (n + a) / (m + a)
+                            a  =  c / m
+                        a  = _1_0 / hypot1(c)
+                        sn =  neg(a) if _signBit(sn) else a
+                        cn =  sn * c
+                        if d:  # and _signBit(self.kp2):  # implied
+                            cn, dn = dn, cn
+                            sn = sn / d  # /= chokes PyChecker
             else:
-                sn = tanh(x)
+                sn = tanh(x)  # accurate for large abs(x)
                 cn = dn = _1_0 / cosh(x)
 
         except Exception as e:
@@ -763,7 +835,7 @@ class Elliptic(_Named):
         return Elliptic3Tuple(sn, cn, dn, iteration=self._iteration)
 
     def _sncndn3(self, phi):
-        '''(INTERNAL) Helper for C{.fEinv} and C{._fXf}.
+        '''(INTERNAL) Helper for C{.fEinv}, C{._fXf} and C{.sncndn}.
         '''
         sn, cn = _sincos2(phi)
         return sn, cn, self.fDelta(sn, cn)
@@ -772,29 +844,27 @@ class Elliptic(_Named):
     def _sncndn4(self):
         '''(INTERNAL) Get Bulirsch' 4-tuple C{(c, d, cd, mn)}.
         '''
-        # Bulirsch's sncndn routine, p 89.
-        d, mc = 0, self.kp2
-        if _signBit(mc):
-            d  = _1_0 - mc
-            mc =  neg(mc / d)
-            d  =  sqrt(d)
-
-        mn, a = [], _1_0
+        d, b = 0, self.kp2
+        if _signBit(b):
+            d = _1_0 - b
+            b =  neg(b / d)
+            d =  sqrt(d)
+        ab, a = [], _1_0
         for i in range(1, _TRIPS):  # GEOGRAPHICLIB_PANIC
-            mc = sqrt(mc)
-            mn.append((a, mc))
-            c = (a + mc) * _0_5
-            r =  fabs(mc -  a)
-            t = _TolJAC  *  a
-            if r <= t:  # 6 trips, quadratic
+            b = sqrt(b)
+            ab.append((a, b))
+            c = favg(a,  b)
+            r = fabs(a - b)
+            if r <= (a * _TolJAC):  # 6 trips, quadratic
                 _iterations(self, i)
                 break
-            mc *= a
-            a   = c
+            t  = a
+            b *= a
+            a  = c
         else:  # PYCHOK no cover
-            raise _convergenceError(r, t)
+            raise _convergenceError(r / t, _TolJAC)
         cd = (c * d) if d else c
-        return c, d, cd, mn
+        return c, d, cd, tuple(reversed(ab))
 
     @staticmethod
     def fRC(x, y):
@@ -882,7 +952,7 @@ class Elliptic(_Named):
             raise _ellipticError(Elliptic._RFRD, x, y, z, m, cause=e)
         return float(R)
 
-_allPropertiesOf_n(15, Elliptic)  #  # PYCHOK assert, see Elliptic.reset
+_allPropertiesOf_n(16, Elliptic)  #  # PYCHOK assert, see Elliptic.reset
 
 
 class EllipticError(_ValueError):
@@ -901,25 +971,18 @@ class Elliptic3Tuple(_NamedTuple):
 class _List(list):
     '''(INTERNAL) Helper for C{_RD}, C{_RF3} and C{_RJ}.
     '''
-    _a0   = None
-#   _xyzp = ()
+    _a0 = None
 
     def __init__(self, *xyzp):  # x, y, z [, p]
         list.__init__(self, xyzp)
-        self._xyzp = xyzp
 
     def a0(self, n):
         '''Compute the initial C{a}.
         '''
-        t = tuple(self)
-        m = n - len(t)
-        if m > 0:
-            t += t[-1:] * m
-        try:
-            a = Fsum(*t).fover(n)
-        except ValueError:  # Fsum(NAN) exception
-            a = _sum(t) / n
-        self._a0 = a
+        A = _Dsum(self)
+        while len(A) < n:
+            A += A[-1]
+        self._a0 = a = float(A(_1_0 / n))
         return a
 
     def amrs4(self, inst, y, Tol):
@@ -929,20 +992,22 @@ class _List(list):
         L = self
         a = L.a0(5 if y else 3)
         m = 1
-        t = max(fabs(a - _) for _ in L) / Tol
+        t = max(fabs(a - _) for _ in L) / Tol  # thresh
         for i in range(_TRIPS):
             d = fabs(a * m)
             if d > t:  # 3-6 trips
                 _iterations(inst, i)
                 break
             s = map2(sqrt, L)  # sqrt(x), srqt(y), sqrt(z) [, sqrt(p)]
-            try:
-                r = fdot(s[:3], s[1], s[2], s[0])  # sqrt(x) * sqrt(y) + ...
-            except ValueError:  # Fsum(NAN) exception
-                r = _sum(s[i] * s[(i + 1) % 3] for i in range(3))
-            L[:] = ((r + _) * _0_25 for _ in L)
-            a    =  (r + a) * _0_25
+            # Deferred fdot(s[:3], s[1], s[2], s[0]) + ...
+            Q = _Dadd(_0_25)
+            Q += s[0] * s[1]
+            Q += s[1] * s[2]
+            Q += s[2] * s[0]
+            L[:] = (float(Q + _) for _ in L)
+            a    =  float(Q + a)
             if y:  # yield only if used
+                r = _sum(Q)  # fdot
                 yield a, m, r, s  # L[2] is next z
             m *= 4
         else:  # PYCHOK no cover
@@ -967,14 +1032,15 @@ def _ab2(inst, x, y):
         b, a = a, b
     for i in range(_TRIPS):
         yield a, b  # xi, yi
-        d =  fabs(a - b)
-        t = _TolRG0 * a
-        if d <= t:  # 3-4 trips
+        d = fabs(a - b)
+        if d <= (a * _TolRG0):  # 3-4 trips
             _iterations(inst, i)
             break
-        a, b = ((a + b) * _0_5), sqrt(a * b)
+        t = a
+        a = favg(t,  b)
+        b = sqrt(t * b)
     else:  # PYCHOK no cover
-        raise _convergenceError(d, t)
+        raise _convergenceError(d / t, _TolRG0)
 
 
 def _convergenceError(d, tol, **thresh):
@@ -1083,10 +1149,10 @@ def _RD(inst, x, y, z, *over):
     z  = (x + y) / _3_0
     z2 =  z**2
     return _Horner(S(_1_0), sqrt(a) * a * m,
-                   xy        - _6_0 * z2,
-                  (xy * _3_0 - _8_0 * z2) * z,
-                  (xy - z2)  * _3_0 * z2,
-                   xy * z2 * z, *over)  # Fsum
+                  (xy        - z2 * _6_0),
+                  (xy * _3_0 - z2 * _8_0) * z,
+                  (xy -  z2) * z2 * _3_0,
+                  (xy *  z2  * z), *over)  # Fsum
 
 
 def _rF2(inst, x, y):  # 2-arg version, z=0
@@ -1160,7 +1226,7 @@ def _RJ(inst, x, y, z, p, *over):
             if d:
                 if n:
                     rc = _rC(inst, _1_0, n / d**2 + _1_0)
-                    n *= _1_64th  # /= chokes PyChecker
+                    n  =  n / _64_0  # /= chokes PyChecker
                 else:
                     rc = _1_0  # == _rC(None, _1_0, _1_0)
                 S += rc / (d * m)

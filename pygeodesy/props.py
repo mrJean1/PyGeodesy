@@ -25,12 +25,11 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, \
 from functools import wraps as _wraps
 
 __all__ = _ALL_LAZY.props
-__version__ = '24.07.23'
+__version__ = '24.09.02'
 
 _class_       = 'class'
 _dont_use_    = _DEPRECATED_ + ", don't use."
 _function_    = 'function'
-_get_and_set_ = 'get and set'
 _has_been_    = 'has been'  # PYCHOK used!
 _method_      = 'method'
 _not_an_inst_ = _not_(_an_, 'instance')
@@ -396,7 +395,9 @@ class property_ROver(_property_RO___):
     # No __doc__ on purpose
 
     def _fget(self, inst):
-        '''Get the C{property} value I{once} and overwrite C{self}, this C{property} instance.
+        '''Get the C{property} value I{once} and overwrite C{self},
+           this C{property} instance in the (super-)class of C{self}
+           where this property is define as a L{property_ROver}.
         '''
         v = self.method(inst)
         n = self.name
@@ -411,8 +412,8 @@ class property_ROver(_property_RO___):
         return v
 
 
-class _NamedProperty(property):
-    '''Class C{property} with retrievable name.
+class _NamedProperty(property):  # in .named
+    '''Class C{property} with a C{.name} attribute.
     '''
     @Property_RO
     def name(self):
@@ -445,7 +446,7 @@ def property_doc_(doc):
     def _documented_property(method):
         '''(INTERNAL) Return the documented C{property}.
         '''
-        t = _get_and_set_ if doc.startswith(_SPACE_) else NN
+        t = 'get and set' if doc.startswith(_SPACE_) else NN
         return _NamedProperty(method, None, None, NN('Property to ', t, doc))
 
     return _documented_property

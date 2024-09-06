@@ -24,10 +24,10 @@ from pygeodesy.errors import ClipError, _IsnotError, _TypeError, \
 from pygeodesy.fmath import favg, hypot, hypot2
 # from pygeodesy.fsums import fsum1  # _MODS
 from pygeodesy.interns import NN, _BANG_, _clip_, _clipid_, _COMMASPACE_, \
-                             _composite_, _DOT_, _e_, _ELLIPSIS_, _few_, \
-                             _height_, _lat_, _LatLon_, _lon_, _not_, \
-                             _points_, _SPACE_, _too_, _X_, _x_, \
-                             _B_, _d_, _R_  # PYCHOK used!
+                             _composite_, _DOT_, _duplicate_, _e_, \
+                             _ELLIPSIS_, _few_, _height_, _lat_, _LatLon_, \
+                             _lon_, _not_, _points_, _SPACE_, _too_, _X_, \
+                             _x_,  _B_, _d_, _R_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.latlonBase import LatLonBase, \
                                  LatLon2Tuple, Property_RO, property_RO
@@ -43,7 +43,7 @@ from pygeodesy.utily import fabs, _unrollon, _Wrap
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.booleans
-__version__ = '24.06.15'
+__version__ = '24.08.30'
 
 _0_EPS =  EPS  # near-zero, positive
 _EPS_0 = -EPS  # near-zero, negative
@@ -51,12 +51,11 @@ _1_EPS = _1_0 + EPS   # near-one, over
 _EPS_1 = _1_0 - EPS   # near-one, under
 _10EPS =  EPS * 10    # see ._2Abs, ._10eps
 
-_alpha_     = 'alpha'
-_boolean_   = 'boolean'
-_case_      = 'case'
-_corners_   = 'corners'
-_duplicate_ = 'duplicate'
-_open_      = 'open'
+_alpha_   = 'alpha'
+_boolean_ = 'boolean'
+_case_    = 'case'
+_corners_ = 'corners'
+_open_    = 'open'
 
 
 def _Enum(txt, enum):  # PYCHOK unused

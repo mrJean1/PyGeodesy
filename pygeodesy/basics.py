@@ -37,7 +37,7 @@ from math import copysign as _copysign
 import inspect as _inspect
 
 __all__ = _ALL_LAZY.basics
-__version__ = '24.08.13'
+__version__ = '24.09.02'
 
 _below_               = 'below'
 _list_tuple_types     = (list, tuple)
@@ -68,8 +68,8 @@ except ImportError:
     _Seqs     = list, _Sequence  # range for function len2 below
 
 try:
-    _Bytes = unicode, bytearray  # PYCHOK expected
-    _Strs  = basestring, str  # XXX , bytes
+    _Bytes = unicode, bytearray  # PYCHOK in .internals
+    _Strs  = basestring, str  # XXX str == bytes
     str2ub = ub2str = _passarg  # avoids UnicodeDecodeError
 
     def _Xstr(exc):  # PYCHOK no cover
@@ -93,7 +93,7 @@ try:
 except NameError:  # Python 3+
     from pygeodesy.interns import _utf_8_
 
-    _Bytes = bytes, bytearray
+    _Bytes = bytes, bytearray  # in .internals
     _Strs  = str,  # tuple
     _Xstr  = str
 
@@ -166,7 +166,7 @@ def clips(sb, limit=50, white=NN, length=False):
        @arg sb: String (C{str} or C{bytes}).
        @kwarg limit: Length limit (C{int}).
        @kwarg white: Optionally, replace all whitespace (C{str}).
-       @kwarg len: IF C{True} append the original I{[length]} (C{bool}).
+       @kwarg length: If C{True}, append the original I{[length]} (C{bool}).
 
        @return: The clipped or unclipped B{C{sb}}.
     '''
@@ -739,6 +739,17 @@ def _xcopy(obj, deep=False):
        @return: The copy of B{C{obj}}.
     '''
     return _deepcopy(obj) if deep else _copy(obj)
+
+
+def _xcoverage(where, *required):
+    '''(INTERNAL) Import C{coverage} and check required version.
+    '''
+    try:
+        _xpackage(_xcoverage)
+        import coverage
+    except ImportError as x:
+        raise _xImportError(x, where)
+    return _xversion(coverage, where, *required)
 
 
 def _xdup(obj, deep=False, **items):

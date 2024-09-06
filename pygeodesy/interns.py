@@ -200,6 +200,7 @@ _distant_     = _Prefix('distant')           # PYCHOK OK
 _doesn_t_exist_       = "doesn't exist"      # PYCHOK OK
 _DOT_            = Str_('.')                 # PYCHOK OK
 _dunder_name_         = '__name__'           # PYCHOK _DUNDER_(NN, _name_, NN)
+_duplicate_           = 'duplicate'          # PYCHOK OK
 _e_                   = 'e'                  # PYCHOK OK
 _E_                   = 'E'                  # PYCHOK OK
 _earth_               = 'earth'              # PYCHOK OK
@@ -347,7 +348,7 @@ _Python_     = _Python_('Python')            # PYCHOK singleton
 _python_              = 'python'             # PYCHOK OK
 _QUOTE1_              = "'"                  # PYCHOK OK
 _QUOTE2_              = '"'                  # PYCHOK OK
-# _QUOTE3_            = "'''"                # PYCHOK OK
+_QUOTE3_              = "'''"                # PYCHOK OK
 # _QUOTE6_            = '"""'                # PYCHOK OK
 _R_                   = 'R'                  # PYCHOK OK
 _radians_             = 'radians'            # PYCHOK OK
@@ -440,7 +441,7 @@ _LR_PAIRS  = {_LANGLE_:  _RANGLE_,
 
 __all__ = (_NN_,  # NOT MISSING!
             Str_.__name__)  # classes
-__version__ = '24.08.22'
+__version__ = '24.08.30'
 
 if __name__ == '__main__':
 

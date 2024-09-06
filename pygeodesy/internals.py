@@ -208,6 +208,13 @@ class _MODS_Base(object):
         return l3
 
     @_Property_RO
+    def _Str_Bytes(self):
+        '''Get all C{str} and C{bytes} types.
+        '''
+        import pygeodesy.basics as m
+        return m._Strs + m._Bytes  # + (range, map)
+
+    @_Property_RO
     def streprs(self):
         '''Get module C{pygeodesy.streprs}, I{once}.
         '''
@@ -254,6 +261,12 @@ def _enquote(strs, quote=_QUOTE2_, white=NN):  # in .basics, .solveBase
     return strs
 
 
+def _fper(p, q, per=100.0, prec=1):
+    '''Format a percentage C{B{p} * B{per} / B{q}} (C{str}).
+    '''
+    return '%.*f%%' % (prec, (float(p) * per / float(q)))
+
+
 def _headof(name):
     '''(INTERNAL) Get the head name of qualified C{name} or the C{name}.
     '''
@@ -290,6 +303,13 @@ def _isNix():  # in test/bases.py
     '''(INTERNAL) Is this a C{Linux} distro? (C{str} or L{NN})
     '''
     return _MODS.nix2[0]
+
+
+def _isPyChecker():
+    '''(INTERNAL) Is C{PyChecker} running? (C{bool}).
+    '''
+    # .../pychecker/checker.py --limit 0 --stdlib pygeodesy/<mod>/<name>.py
+    return _sys.argv[0].endswith('/pychecker/checker.py')
 
 
 def _isPyPy():  # in test/bases.py
@@ -343,10 +363,28 @@ def machine():
     return _MODS.bits_machine2[1]
 
 
+def _Math_K_2():
+    '''(INTERNAL) Return the I{Karney} Math setting.
+    '''
+    return _MODS.karney._wrapped.Math_K_2
+
+
 def _name_version(pkg):
     '''(INTERNAL) Return C{pskg.__name__ + ' ' + .__version__}.
     '''
     return _SPACE_(pkg.__name__, pkg.__version__)
+
+
+def _name_binary(path):
+    '''(INTERNAL) Return C{(basename + ' ' + version)} of an executable.
+    '''
+    if path:
+        try:
+            _, r = _MODS.solveBase._popen2((path, '--version'))
+            return _SPACE_(_os_path.basename(path), r.split()[-1])
+        except (IndexError, IOError, OSError):
+            pass
+    return NN
 
 
 def _osversion2(sep=NN):  # in .lazily, test/bases.versions
@@ -463,15 +501,17 @@ def _secs2str(secs):  # in .geoids, ../test/bases.py
     return t
 
 
-def _sizeof(obj):
+def _sizeof(obj, deep=True):
     '''(INTERNAL) Recursively size an C{obj}ect.
 
-       @return: The C{obj} size in bytes (C{int}),
-                ignoring class attributes and
-                counting duplicates only once or
-                C{None}.
+       @kwarg deep: If C{True}, include the size of all
+                    C{.__dict__.values()} (C{bool}).
 
-       @note: With C{PyPy}, the size is always C{None}.
+       @return: The C{obj} size in bytes (C{int}), ignoring
+                class attributes and counting instances only
+                once or C{None}.
+
+       @note: With C{PyPy}, the returned size is always C{None}.
     '''
     try:
         _zB = _sys.getsizeof
@@ -491,9 +531,10 @@ def _sizeof(obj):
                 if isinstance(o, dict):
                     z += _zR(s, o.keys())
                     z += _zR(s, o.values())
-                elif _isiterablen(o):  # not map, ...
+                elif _isiterablen(o) and not \
+                      isinstance(o, _MODS._Str_Bytes):
                     z += _zR(s, o)
-                else:
+                elif deep:
                     try:  # size instance' attr values only
                         z += _zR(s, o.__dict__.values())
                     except AttributeError:  # None, int, etc.
@@ -611,7 +652,7 @@ def _versions(sep=_SPACE_):
 
 
 __all__ = tuple(map(_dunder_nameof, (machine, print_, printf)))
-__version__ = '24.08.24'
+__version__ = '24.09.04'
 
 if _dunder_ismain(__name__):  # PYCHOK no cover
 

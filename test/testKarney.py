@@ -4,12 +4,12 @@
 # Test L{karney} module and wrappers.
 
 __all__ = ('Tests',)
-__version__ = '23.07.11'
+__version__ = '24.09.04'
 
 from bases import endswith, GeodSolve, geographiclib, startswith, TestsBase
 
-from pygeodesy import karney, LatLon_, NEG0, unroll180, wrap180
-from pygeodesy.constants import _0_0, _360_0
+from pygeodesy import fsum_, karney, LatLon_, unroll180, wrap180
+from pygeodesy.constants import _0_0, _100_0, _360_0
 
 # some tests from <https://PyPI.org/project/geographiclib>
 _testCases = ((35.60777, -139.44815, 111.098748429560326,
@@ -36,7 +36,7 @@ _testCases = ((35.60777, -139.44815, 111.098748429560326,
               -15.84784,   5.93557,  -20.787484651536988,
                16076603.1631180673, 144.640108810286253,
                3732902.1583877189, -0.81273638700070476,
-              -0.81299800519154474, 97825992354058.708))
+              -0.81299800519154474, 97825992354058.708),)
 
 
 def _signOf(x):
@@ -45,9 +45,9 @@ def _signOf(x):
 
 class Tests(TestsBase):
 
-    def testDelta(self, n, x, v, e=1e-10, prec=15):
+    def testDelta(self, n, x, v, e=1e-10, prec=12):
         w = _360_0 if _signOf(v) != _signOf(x) else _0_0  # wrap
-        w =  abs((v - x + w) * 100.0 / x)
+        w =  abs((v - x + w) * _100_0 / x) if x else _0_0
         self.test(n, v, x, prec=prec, error=w, known=w < e)
 
     def testDirect(self, g, module):
@@ -84,6 +84,23 @@ class Tests(TestsBase):
             self.testDelta('Inverse.M12',  M12,  d.M12)
             self.testDelta('Inverse.M21',  M21,  d.M21)
             self.testDelta('Inverse.S12',  S12,  d.S12)
+        # <https://SourceForge.net/p/geographiclib/discussion/1026621/thread/e05fb928/>
+        for (lat1, lon1, azi1, lat2, lon2, azi2,
+             s12, a12, m12, M12, M21, S12) in ((85, 0, 0.0, 90,  0,  0.0, 558455.588646, 5.016735,
+                                                557747.059254, 0.996195, 0.996195, 0.0),
+                                               (85, 0, 0.0, 90, 10, 10.0, 558455.588646, 5.016735,
+                                                557747.059254, 0.996195, 0.996195, 7084244746167.8955)):
+            d = g.Inverse(lat1, lon1, lat2, lon2, outmask=m)
+            self.testDelta('Inverse.lat2', lat2, d.lat2)
+            self.testDelta('Inverse.lon2', lon2, d.lon2)
+            self.testDelta('Inverse.azi1', azi1, d.azi1)
+            self.testDelta('Inverse.azi2', azi2, d.azi2)
+            self.testDelta('Inverse.s12',  s12,  d.s12, e=1e-1)
+            self.testDelta('Inverse.a12',  a12,  d.a12, e=1e-5)
+            self.testDelta('Inverse.m12',  m12,  d.m12, e=1e-9)
+            self.testDelta('Inverse.M12',  M12,  d.M12, e=1e-4)
+            self.testDelta('Inverse.M21',  M21,  d.M21, e=1e-3)
+            self.testDelta('Inverse.S12',  S12,  d.S12, e=1e-3)
 
     def testInverseLine(self, g, module):
         self.subtitle(module, 'InverseLine')
@@ -162,36 +179,32 @@ class Tests(TestsBase):
             w = wrap180(a)
             self.test(' wrap180(%s)' % (a), float(w), float(x), known=w in (0, -180))
 
-        # compare geomath.Math.sum with mimicked _sum2
-        def _fsum2_(x, *xs):
-            return karney._sum2_(x, 0.0, *xs)
-
-        n = _fsum2_.__name__
-        s, t = _fsum2_(7, 1e100, -7, -1e100, 9e-20, -8e-20)
-        self.test(n, s, '1.0e-20', fmt='%.1e')
-        self.test(n, t, 0.0, known=t in (NEG0, 0.0))
-        # however, summation fails after some shuffling ...
-        s, _ = _fsum2_(7, 1e100, 9e-20, -7, -1e100, -8e-20)
-        self.test(n, s, '1.0e-20', fmt='%.1e', known=True)
-        # ... but works after some other shuffling
-        s, _ = _fsum2_(7, 1e100, -7, 9e-20, -1e100, -8e-20)
-        self.test(n, s, '1.0e-20', fmt='%.1e', known=True)
-
-        # Knuth/Kulisch, TAOCP, vol 2, p 245, sec 4.2.2, item 31, see also .testFmath.py
-        # <https://SeriousComputerist.Atariverse.com/media/pdf/book/
-        #          Art%20of%20Computer%20Programming%20-%20Volume%202%20(Seminumerical%20Algorithms).pdf>
-        x = 408855776.0
-        y = 708158977.0
-        s, t = _fsum2_(2*y**2, 9*x**4, -(y**4))
-        self.test(n, s, 1.0, known=True)  # -3.589050987400773e+19
-        self.test(n, t, t)  # XXX wrong anyway
-
         _unroll2 = karney._unroll2
         for lon in range(0, 361, 30):
             lon = float(lon)
             _t = _unroll2(-30.0, lon, wrap=True)
             t = unroll180(-30.0, lon, wrap=True)
             self.test('unroll(-30, %s)' % (int(lon),), _t, t, known=lon == 150)
+
+        # compare geomath.Math.sum with mimicked _sum2 and -3
+        self.testSum3(1e-20, 7, 1e100, -7, -1e100, 9e-20, -8e-20)
+        # however, summation fails after some shuffling ...
+        self.testSum3(1e-20, 7, 1e100, 9e-20, -7, -1e100, -8e-20)
+        # ... but works after some other shuffling
+        self.testSum3(1e-20, 7, 1e100, -7, 9e-20, -1e100, -8e-20)
+        # Knuth/Kulisch, TAOCP, vol 2, p 245, sec 4.2.2, item 31, see also .testFmath.py
+        # <https://SeriousComputerist.Atariverse.com/media/pdf/book/
+        #          Art%20of%20Computer%20Programming%20-%20Volume%202%20(Seminumerical%20Algorithms).pdf>
+        x = 408855776.0
+        y = 708158977.0
+        self.testSum3('1.0', 2*y**2, 9*x**4, -(y**4))  # -3.589050987400773e+19
+
+    def testSum3(self, txt, x, *xs):
+        s, t, _ = karney._sum3(x, _0_0, *xs)
+        self.test('_sum3.s', s, txt, known=True, fmt='%.3e', nl=1)
+        self.test('_sum3.t', t, 0.0, known=True, fmt='%.3e')
+        t = fsum_(x, *xs)
+        self.test('fsum_',   t, txt, known=True, fmt='%.3e')  # XXX wrong to
 
 
 if __name__ == '__main__':

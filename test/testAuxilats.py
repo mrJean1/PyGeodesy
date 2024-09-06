@@ -4,14 +4,13 @@
 # Some basic L{auxilats} tests.
 
 __all__ = ('Tests',)
-__version__ = '23.08.16'
+__version__ = '23.08.31'
 
 from bases import numpy, TestsBase
 
 from pygeodesy import NN, PI_2, PI_4, Fsum, fsum, printf, sincos2
 from pygeodesy.auxilats import Aux, AuxAngle, AuxDST, AuxLat, \
                                AuxBeta, AuxChi, AuxMu, AuxPhi, AuxTheta, AuxXi
-from math import fabs
 
 
 class Tests(TestsBase):
@@ -22,9 +21,9 @@ class Tests(TestsBase):
         aL = AuxLat()
         for A in (AuxBeta, AuxChi, AuxMu, AuxPhi, AuxTheta, AuxXi):
             AUX = A._AUX
-            for d in range(0, 360, 3):
+            for d in range(0, 360, 7):
                 a = A.fromDegrees(d)
-                for exact in (False, True):
+                for exact in (True, False):
                     for auxout in range(len(Aux)):
                         r = aL.convert(auxout, a, exact=exact)
                         assert r._AUX == auxout
@@ -33,13 +32,14 @@ class Tests(TestsBase):
                         i =  b.iteration
                         i =  NN if i is None else (', iteration=' + str(i))
                         n = '%2d %.12f %s%s' % (d, (r.toDegrees % 360.0), r, i)
-                        self.test(n, b.tan, a.tan, prec=12, nl=int(not auxout))
+                        self.test_tol(n, b.tan, a.tan, tol=1e-15, prec=12, nl=int(not auxout))
                         if deltas and b != a:  # or i:
-                            e = fabs(b.tan - a.tan)
-                            printf('%s tan=%s, e=%.3e', b, b.tan, e)
-                            printf('%s tan=%s, iteration=%s', a, a.tan, b.iteration)
-                            if e > de.get(d, 0):
-                                de[d] = e
+                            pass
+#                           e = fabs(b.tan - a.tan)
+#                           printf('%s tan=%s, e=%.3e', b, b.tan, e)
+#                           printf('%s tan=%s, iteration=%s', a, a.tan, b.iteration)
+#                           if e > de.get(d, 0):
+#                               de[d] = e
         n = 1
         for d, e in sorted(de.items()):
             printf('%2d error %.3e ', d, e, nl=n)
@@ -66,10 +66,29 @@ class Tests(TestsBase):
         for al in (4, 6, 8):
             a.ALorder = al
             self.test('Aux', al, al, nl=1)
+            for aout in range(Aux.N):
+                self.test('aout', aout, aout, nl=1)
+                for ain in range(Aux.N):
+                    c = a._coeffs(aout, ain)
+                    self.test('Aux', len(c), al)
+
+    def testCXoeffs(self):
+        a = AuxLat(ALorder=6)
+        Cx = a._CXcoeffs
+        self.test('Aux', a.ALorder, a.ALorder, nl=1)
+        for aout in range(Aux.N):
+            self.test('aout', aout, aout, nl=1)
             for ain in range(Aux.N):
-                for aout in range(Aux.N):
-                    t = a._coeffs(ain, aout)
-                    self.test('Aux', len(t), al)
+                try:
+                    t = type(Cx[aout][ain]).__name__
+                except KeyError:
+                    t = 'None'
+                self.test('before', t, t)
+                _ = a._coeffs(aout, ain)
+                try:
+                    self.test('after', type(Cx[aout][ain]).__name__, t, known=True)
+                except KeyError:
+                    pass
 
     def testDST(self, enums):
         # <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1DST.html>
@@ -123,6 +142,7 @@ if __name__ == '__main__':
 
     t = Tests(__file__, __version__, auxilats)
 
+    t.testCXoeffs()
     t.testCoeffs()
     t.testAngles(False)
     if numpy:

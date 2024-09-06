@@ -28,8 +28,9 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 from pygeodesy.basics import _copy, _enumereverse, map1, \
                              _xinstanceof, _xor
 from pygeodesy.constants import EPS, INF, INT0, PI, PI2, PI_4, \
-                               _0_0, _0_5, _1_0, _1_5, _2_0, _3_0, \
-                               _90_0, isfinite
+                               _0_0, _0_5, _1_0, _1_5, _2_0, \
+                               _3_0, _64_0, _90_0, isfinite, \
+                               _EPSjam  # PYCHOK used!
 from pygeodesy.ellipsoids import _EWGS84,  Fmt, unstr
 from pygeodesy.errors import GeodesicError, IntersectionError, _an, \
                             _xgeodesics, _xkwds_get, _xkwds_kwds, \
@@ -56,7 +57,7 @@ from pygeodesy.utily import sincos2,  atan2, fabs, radians
 # from math import atan2, ceil as _ceil, fabs, radians  # .fsums, .utily
 
 __all__ = _ALL_LAZY.geodesici
-__version__ = '24.07.25'
+__version__ = '24.08.28'
 
 _0t     =  0,  # int
 _1_1t   = -1, +1
@@ -1237,7 +1238,7 @@ class Intersector(_IntersectBase):
         return sx, zx, sAx, sBx
 
     def _polarB3(self, lats=False):  # PYCHOK no cover
-        latx =  64.0
+        latx = _64_0
         lat  = _90_0 - latx
         if self.f:
             _d, _pD2 =  fdot, self._polarDist2
@@ -1393,7 +1394,7 @@ class Intersector(_IntersectBase):
 
     @Property_RO
     def _Tol(self):  # convergence tolerance
-        return self._cHalf * pow(EPS, 0.75)  # _0_75
+        return self._cHalf * _EPSjam
 
     def toStr(self, **prec_sep_name):  # PYCHOK signature
         '''Return this C{Intersector} as string.

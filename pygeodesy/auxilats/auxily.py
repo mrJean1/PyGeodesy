@@ -14,25 +14,25 @@ under the MIT/X11 License.  For more information, see the U{GeographicLib
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.constants import INF, NAN, isinf, isnan, _0_0, _0_5, \
-                               _1_0, _copysign_1_0, _over, _1_over
-from pygeodesy.errors import AuxError,  NN
+# from pygeodesy import auxilats  # _MODS
+from pygeodesy.constants import INF, NAN, isinf, isnan, _0_0, _0_5, _1_0, \
+                               _copysign_1_0, _over, _1_over
+from pygeodesy.errors import AuxError
 from pygeodesy.fmath import hypot1 as _sc, hypot2_
-# from pygeodesy.interns import NN  # from .errors
-from pygeodesy.karney import ADict,  _ALL_DOCS, _MODS  # PYCHOK used!
-# from pygeodesy.lazily import _ALL_DOCS, _ALL_MODS as _MODS  # from .karney
-# from pygeodesy.named import ADict  # from .karney
+from pygeodesy.interns import NN,  _DOT_, _UNDER_  # PYCHOK used!
+from pygeodesy.lazily import _ALL_DOCS,  _ALL_MODS as _MODS  # PYCHOK used!
 from pygeodesy.utily import atan1
 
 from math import asinh, copysign
 
 __all__ = ()
-__version__ = '24.07.12'
+__version__ = '24.09.03'
 
 
 class Aux(object):
     '''Enum-style Aux names.
     '''
+    _coeffs    = {}
     GEOGRAPHIC = PHI   = GEODETIC = 0
     PARAMETRIC = BETA  = REDUCED  = 1
     GEOCENTRIC = THETA = 2  # all ...
@@ -44,10 +44,25 @@ class Aux(object):
 
     def __index__(self, aux):
         # throws KeyError, not IndexError
-        return _MODS.auxilats.auxLat._Aux2Greek[aux]
+        return _Aux2Greek[aux]
 
     def __len__(self):
         return Aux.N
+
+    def _CXcoeffs(self, aL):  # in .auxLat.AuxLat._CXcoeffs
+        '''(INTERNAL) Get the C{_CX_4._coeffs_4}, C{_CX_6._coeffs_6}
+           or C{_CS_8._coeffs_8} coefficients, once.
+        '''
+        try:
+            _coeffs = Aux._coeffs[aL]
+        except KeyError:
+            try:  # from pygeodesy.auxilats._CX_x import _coeffs_x as _coeffs
+                _CX_x   = _DOT_(_MODS.auxilats.__name__, _UNDER_('_CX', aL))
+                _coeffs = _MODS.getattr(_CX_x, _UNDER_('_coeffs', aL))
+            except (AttributeError, ImportError, KeyError, TypeError) as x:
+                raise AuxError(ALorder=aL, cause=x)
+            Aux._coeffs[aL] = _coeffs._validate(aL, Aux.len(aL))
+        return _coeffs
 
     def _1d(self, auxout, auxin):
         '''Get the 1-d index into N^2 coeffs.
@@ -55,7 +70,7 @@ class Aux(object):
         N = Aux.N
         if 0 <= auxout < N and 0 <= auxin < N:
             return N * auxout + auxin
-        raise AuxError(auxout=auxout, auxin=auxin, N=N)  # == AssertionError
+        raise AuxError(auxout=auxout, auxin=auxin, N=N)
 
     def Greek(self, aux):
         '''Get an angle's name (C{str}).
@@ -65,9 +80,9 @@ class Aux(object):
     def len(self, ALorder):  # PYCHOK no cover
         aL = ALorder  # aka Lmax
         mu = Aux.MU * (Aux.MU + 1)
-        ns = Aux.N2 -  Aux.N
-        return (mu * (aL * (aL + 3) - 2 * (aL // 2)) // 4 +
-               (ns - mu) * (aL * (aL + 1)) // 2)
+        nu = Aux.N2 -  Aux.N - mu
+        return (mu * (aL * (aL + 3) - (aL // 2) * 2) // 4 +
+                nu * (aL * (aL + 1)) // 2)
 
     def power(self, auxout, auxin):
         '''Get the C{convert} exponent (C{int} or C{None}).
@@ -83,19 +98,11 @@ Aux = Aux()  # PYCHOK singleton
 _Aux2Greek = {Aux.AUTHALIC:   'Xi',
               Aux.CONFORMAL:  'Chi',
               Aux.GEOCENTRIC: 'Theta',
-              Aux.GEODETIC:   'Phi',  # == .GEOGRAPHIC
-              Aux.PARAMETRIC: 'Beta',
+              Aux.GEODETIC:   'Phi',   # == .GEOGRAPHIC
+              Aux.PARAMETRIC: 'Beta',  # == .REDUCED
               Aux.RECTIFYING: 'Mu'}
 _Greek2Aux = dict(map(reversed, _Aux2Greek.items()))  # PYCHOK exported
 # _Greek2Aux.update((_g.upper(), _x) for _g, _x in _Greek2Aux.items())
-
-
-class _Coeffs(ADict):
-    '''(INTERNAL) With C{items keys} string-ified.
-    '''
-    def items(self):
-        for n, v in ADict.items(self):
-            yield str(n), v
 
 
 def _Dasinh(x, y):
@@ -218,33 +225,6 @@ def _sn(tx):
         tx = _copysign_1_0(tx) if isinf(tx) else (
                            NAN if isnan(tx) else (tx / _sc(tx)))
     return tx  # preserve signed-0
-
-
-class _Ufloats(dict):  # in .auxilats.auxily
-    '''(INTERNAL) "Uniquify" floats.
-    '''
-    n = 0  # total number of floats
-
-    def __call__(self, *fs):
-        '''Return a tuple of "uniquified" floats.
-        '''
-        self.n += len(fs)
-        _f = self.setdefault
-        return tuple(_f(f, f) for f in map(float, fs))  # PYCHOK as attr
-
-    def _Coeffs(self, ALorder, coeffs):
-        '''Return C{coeffs} (C{_Coeffs}, I{embellished}).
-        '''
-#       if True:
-#           n = 0
-#           for d in coeffs.values():
-#               n += sum(d.values())
-#           assert n == self.n
-        Cx = _Coeffs(coeffs)
-        Cx.set_(ALorder=ALorder,  # used in .auxilats.__main__
-                n=self.n,   # total number of floats
-                u=len(self.keys()))  # unique floats
-        return Cx
 
 
 __all__ += _ALL_DOCS(Aux.__class__)

@@ -47,7 +47,7 @@ from pygeodesy.streprs import Fmt, fstr, unstr
 from math import ceil as _ceil, fabs, floor as _floor  # PYCHOK used! .ltp
 
 __all__ = _ALL_LAZY.fsums
-__version__ = '24.08.13'
+__version__ = '24.08.30'
 
 _add_op_      = _PLUS_  # in .auxilats.auxAngle
 _eq_op_       = _EQUAL_ * 2  # _DEQUAL_
@@ -467,7 +467,9 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
     def __hash__(self):  # PYCHOK no cover
         '''Return this instance' C{hash}.
         '''
-        return hash(self._ps)  # XXX id(self)?
+        # @see: U{Notes for type implementors<https://docs.Python.org/
+        #       3/library/numbers.html#numbers.Rational>}
+        return hash(self.partials)  # tuple.__hash__()
 
     def __iadd__(self, other):
         '''Apply C{B{self} += B{other}} to this instance.

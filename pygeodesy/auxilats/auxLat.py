@@ -17,11 +17,12 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.auxilats.auxAngle import AuxAngle, AuxBeta, AuxChi, _AuxClass, \
                                         AuxMu, AuxPhi, AuxTheta, AuxXi
-from pygeodesy.auxilats.auxily import Aux, _sc, _sn, _Ufloats,  atan1
+from pygeodesy.auxilats.auxily import Aux, _sc, _sn,  atan1
+from pygeodesy.auxilats._CX_Rs import _Rdict, _Rtuple
 from pygeodesy.basics import _reverange, _xinstanceof,  _passarg
 from pygeodesy.constants import INF, MAX_EXP, MIN_EXP, NAN, PI_2, PI_4, _EPSqrt, \
-                               _0_0, _0_0s, _0_1, _0_25, _0_5, _1_0, _2_0, _3_0, \
-                               _360_0, isfinite, isinf, isnan, _log2, _over
+                               _0_0, _0_0s, _0_1, _0_5, _1_0, _2_0, _3_0, _360_0, \
+                               _log2, _over, isfinite, isinf, isnan
 from pygeodesy.datums import _ellipsoidal_datum, _WGS84, \
                               Ellipsoid, _name__, _EWGS84
 # from pygeodesy.ellipsoids import Ellipsoid, _EWGS84  # from .datums
@@ -30,9 +31,9 @@ from pygeodesy.errors import AuxError, _xkwds_not, _xkwds_pop2, _Xorder
 # from pygeodesy.fmath import cbrt  # from .karney
 from pygeodesy.fsums import Fsum, _Fsumf_, _sum
 # from pygeodesy.internals import _passarg  # from .basics
-from pygeodesy.interns import NN, _DOT_, _not_scalar_, _UNDER_
-from pygeodesy.karney import _2cos2x, _polynomial,  _ALL_DOCS, cbrt, _MODS
-# from pygeodesy.lazily import _ALL_DOCS, _ALL_MODS as _MODS  # from .karney
+from pygeodesy.interns import NN, _not_scalar_, _UNDER_
+from pygeodesy.karney import _2cos2x, _polynomial,  _ALL_DOCS, cbrt
+# from pygeodesy.lazily import _ALL_DOCS  # from .karney
 # from pygeodesy.named import _name__  # from .datums
 from pygeodesy.props import Property, Property_RO, _update_all
 from pygeodesy.units import _isDegrees, _isRadius, Degrees, Meter
@@ -47,7 +48,7 @@ except ImportError:  # Python 3.11-
         return pow(_2_0, x)
 
 __all__ = ()
-__version__ = '24.06.16'
+__version__ = '24.09.03'
 
 _TRIPS = 1024  # XXX 2 or 3?
 
@@ -222,9 +223,8 @@ class AuxLat(AuxAngle):
         except KeyError:
             pass
 
-        Cx = _CXcoeffs(aL)
         try:
-            Cx = Cx[auxout][auxin]
+            Cx = self._CXcoeffs[auxout][auxin]  # _Rtuple!
         except KeyError as x:
             raise AuxError(auxout=auxout, auxin=auxin, cause=x)
 
@@ -238,13 +238,12 @@ class AuxLat(AuxAngle):
         else:
             _m = _reverange  # PYCHOK expected
 
-        i  = 0
+        i  =  0
         cs = []
-        _c =  cs.append
         _p = _polynomial
         for m in _m(aL):
             j  = i + m + 1  # order m = j - i - 1
-            _c(_p(x, Cx, i, j) * d)
+            cs.append(_p(x, Cx, i, j) * d)
             d *= n
             i  = j
         # assert i == len(Cx) and len(cs) == aL
@@ -377,6 +376,12 @@ class AuxLat(AuxAngle):
             return Degrees(d, name=Aux.Greek(auxout))
 
         raise AuxError(auxout=auxout, Zeta_d=Zeta_d, exact=exact)
+
+    @Property_RO
+    def _CXcoeffs(self):  # in .auxilats.__main__, .testAuxilats
+        '''(INTERNAL) Get the C{CX_4}, C{_6} or C{_8} coefficients.
+        '''
+        return Aux._CXcoeffs(self.ALorder)
 
     def _Dq(self, tphi):
         # I{Divided Difference} of (q(1) - q(sphi)) / (1 - sphi).
@@ -763,19 +768,6 @@ def _Clenshaw(sinp, Zeta, cs, K):
     return x
 
 
-def _CXcoeffs(aL):  # PYCHOK in .auxilats.__main__
-    '''(INTERNAL) Get the C{CX_4}, C{_6} or C{_8} coefficients.
-    '''
-    try:  # from pygeodesy.auxilats._CX_x import _coeffs_x as _coeffs
-        _CX_x   = _DOT_(_MODS.auxilats.__name__, _UNDER_('_CX', aL))
-        _coeffs = _MODS.getattr(_CX_x, _UNDER_('_coeffs', aL))
-    except (AttributeError, ImportError, KeyError, TypeError) as x:
-        raise AuxError(ALorder=aL, cause=x)
-    # assert _coeffs.ALorder == aL
-    # assert _coeffs.n == Aux.len(aL)
-    return _coeffs
-
-
 def _diff_name2(Phi, diff=False, **name):
     '''(INTERNAL) Get C{{Bdiff}=False} and C{B{name}=NN}.
     '''
@@ -836,17 +828,17 @@ def _Newton(tphi, Zeta, _toZeta, **name):
     return Phi
 
 
-_f, _u =  float, _Ufloats()
-_1__f3 = -1 / _f(3)  # XXX +1 / _f(3)
-_AR2Coeffs = {4: _u(4  / _f(315),   4 / _f(105),  4 / _f(15),  _1__f3),
-              6: _u(4  / _f(1287),  4 / _f(693),  4 / _f(315),  4 / _f(105),
-                    4  / _f(15),   _1__f3),
-              8: _u(4  / _f(3315),  4 / _f(2145), 4 / _f(1287), 4 / _f(693),
-                    4  / _f(315),   4 / _f(105),  4 / _f(15),  _1__f3)}
-_RRCoeffs  = {4: _u(1  / _f(64),   _0_25),
-              6: _u(1  / _f(256),   1 / _f(64),  _0_25),
-              8: _u(25 / _f(16384), 1 / _f(256),  1 / _f(64),  _0_25)}  # PYCHOK used!
-del _f, _u, _Ufloats, _1__f3
+_AR2Coeffs = _Rdict(18,
+    _Rtuple(4, 4, '4/315,  4/105,  4/15,  -1/3'),
+    _Rtuple(6, 6, '4/1287, 4/693,  4/15,   4/105, 4/315, -1/3'),
+    _Rtuple(8, 8, '4/3315, 4/2145, 4/1287, 4/693, 4/315,  4/105, 4/15, -1/3'))
+
+_RRCoeffs = _Rdict(9,
+    _Rtuple(4, 2,  '1/64,    1/4'),
+    _Rtuple(6, 3,  '1/256,   1/64,  1/4'),
+    _Rtuple(8, 4, '25/16384, 1/256, 1/64, 1/4'))  # PYCHOK used!
+
+del _Rdict, _Rtuple
 # assert set(_AR2Coeffs.keys()) == set(_RRCoeffs.keys())
 
 # AuxLat._Lmax = max(_AR2Coeffs.keys())  # == max(ALorder)
