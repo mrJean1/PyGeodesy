@@ -121,14 +121,16 @@ class Tests(TestsBase):
         self.test('RG(2,  3,  4)',     RG(2,  3,  4),     '1.7255030280692', fmt='%.13f')
         self.test('RG(0,  0.0796, 4)', RG(0,  0.0796, 4), '1.0284758090288', fmt='%.13f', nt=1)  # E(0.99)?
 
-        for j in (True, False):
-            e.reset(0, 0)
-            self.test('reset', len(e.__dict__), 4)  # len(_k2, _kp2, _alpha2, _alphap2)
+        e.reset(0, 0)
+        self.test('reset', len(e.__dict__), 4, nt=1)  # len(_k2, _kp2, _alpha2, _alphap2)
 
+        for j in (True, False):
+            e = Elliptic(0.1)  # assert e.k2 and e.kp2
             n = 'sncndn(x, jam=%s)' % (j,)
             self.test(n, fstr(e.sncndn(0, jam=j), prec=9), '0.0, 1.0, 1.0')
             t = fstr(e.sncndn(PI_2, jam=j), prec=9)
-            self.test(n, t, '1.0, 0.0, 1.0', known=t == '1.0, -0.0, 1.0')
+            self.test(n, t, '0.998602459, 0.052850065, 0.948830497' if j else
+                            '0.999219618, 0.0394988, 0.948765522', known=t[:4] == '0.99')
             e.reset(1, 1)
             self.test(n, fstr(e.sncndn(   0, jam=j), prec=9), '0.0, 1.0, 1.0')
             self.test(n, fstr(e.sncndn(PI_2, jam=j), prec=9), '0.917152336, 0.398536815, 0.398536815')
