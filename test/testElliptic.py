@@ -4,7 +4,7 @@
 # Test L{elliptic} Python implementation.
 
 __all__ = ('Tests',)
-__version__ = '23.08.31'
+__version__ = '23.09.06'
 
 from bases import endswith, TestsBase
 
@@ -14,7 +14,7 @@ from pygeodesy import elliptic, Elliptic, EllipticError, Elliptic3Tuple, \
 
 class Tests(TestsBase):
 
-    def testElliptic(self):
+    def testElliptic(self):  # MCCABE 13
 
         RC = Elliptic.fRC
         RD = Elliptic.fRD
@@ -119,18 +119,20 @@ class Tests(TestsBase):
 
         self.test('RG(0, 16, 16)',     RG(0, 16, 16),     '3.1415926535898', fmt='%.13f', nl=1)  # PI
         self.test('RG(2,  3,  4)',     RG(2,  3,  4),     '1.7255030280692', fmt='%.13f')
-        self.test('RG(0,  0.0796, 4)', RG(0,  0.0796, 4), '1.0284758090288', fmt='%.13f')  # E(0.99)?
+        self.test('RG(0,  0.0796, 4)', RG(0,  0.0796, 4), '1.0284758090288', fmt='%.13f', nt=1)  # E(0.99)?
 
-        e.reset(0, 0)
-        self.test('reset', len(e.__dict__), 4, nl=1)  # len(_k2, _kp2, _alpha2, _alphap2)
+        for j in (True, False):
+            e.reset(0, 0)
+            self.test('reset', len(e.__dict__), 4)  # len(_k2, _kp2, _alpha2, _alphap2)
 
-        self.test('sncndn(x)', fstr(e.sncndn(0), prec=9),     '0.0, 1.0, 1.0')
-        t = fstr(e.sncndn(PI_2), prec=9)
-        self.test('sncndn(x)', t, '1.0, 0.0, 1.0', known=t == '1.0, -0.0, 1.0')
-        e.reset(1, 1)
-        self.test('sncndn(x)', fstr(e.sncndn(0), prec=9),     '0.0, 1.0, 1.0')
-        self.test('sncndn(x)', fstr(e.sncndn(PI_2), prec=9),  '0.917152336, 0.398536815, 0.398536815')
-        self.test('sncndn(x)', type(e.sncndn(PI_4)), Elliptic3Tuple, nt=1)
+            n = 'sncndn(x, jam=%s)' % (j,)
+            self.test(n, fstr(e.sncndn(0, jam=j), prec=9), '0.0, 1.0, 1.0')
+            t = fstr(e.sncndn(PI_2, jam=j), prec=9)
+            self.test(n, t, '1.0, 0.0, 1.0', known=t == '1.0, -0.0, 1.0')
+            e.reset(1, 1)
+            self.test(n, fstr(e.sncndn(   0, jam=j), prec=9), '0.0, 1.0, 1.0')
+            self.test(n, fstr(e.sncndn(PI_2, jam=j), prec=9), '0.917152336, 0.398536815, 0.398536815')
+            self.test(n, type(e.sncndn(PI_4, jam=j)), Elliptic3Tuple, nt=1)
 
         self.testCopy(e)
 

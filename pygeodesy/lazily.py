@@ -486,6 +486,11 @@ class _ALL_MODS(_internals._MODS_Base):
         except KeyError:
             return _getmodule(name, parent)
 
+    def imported(self, name):
+        '''Return module or package C{name} if already imported.
+        '''
+        return _sys.modules.get(name, None)
+
     def into(self, **mod_dunder_name_):
         '''Lazily import module C{mod} into module C{_dunder_name_}
            and set C{_dunder_name_._mod} to module C{mod}, I{once}.
@@ -521,7 +526,7 @@ class _ALL_MODS(_internals._MODS_Base):
 _internals._MODS = _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '24.08.18'
+__version__ = '24.09.06'
 
 
 def _ALL_OTHER(*objs):

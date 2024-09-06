@@ -5,7 +5,7 @@ u'''Print L{geodesicx} version, etc. using C{python -m pygeodesy.geodesicx}.
 '''
 
 __all__ = ()
-__version__ = '24.09.05'
+__version__ = '24.09.06'
 
 
 def _main(**C4order):  # PYCHOK no cover
@@ -49,19 +49,19 @@ from sys import argv  # .internals._isPyChecker
 _main(C4order=int(argv[1])) if len(argv) == 2 and argv[1].isdigit() else _main()
 
 # % python3.13 -m pygeodesy.geodesicx 30
-# pygeodesy.geodesicx 24.09.04: C4order=30, C4n=5425, C4u=5107, C4u_n=94.1%, C4x=465, C4t=tuple, C4z=166008 (pygeodesy 24.9.6 Python 3.13.0rc1 64bit arm64 macOS 14.6.1)
+# pygeodesy.geodesicx 24.09.06: C4order=30, C4n=5425, C4u=5107, C4u_n=94.1%, C4x=465, C4t=tuple, C4z=166008 (pygeodesy 24.9.6 Python 3.13.0rc1 64bit arm64 macOS 14.6.1)
 # % python3.12 -m pygeodesy.geodesicx 30
-# pygeodesy.geodesicx 24.09.04: C4order=30, C4n=5425, C4u=5425, C4u_n=100.0%, C4x=465, C4t=ndarray, C4z=43400, numpy 2.1.0, geographiclib 2.0 (pygeodesy 24.9.6 Python 3.12.5 64bit arm64 macOS 14.6.1)
+# pygeodesy.geodesicx 24.09.06: C4order=30, C4n=5425, C4u=5425, C4u_n=100.0%, C4x=465, C4t=ndarray, C4z=43400, numpy 2.1.0, geographiclib 2.0 (pygeodesy 24.9.6 Python 3.12.5 64bit arm64 macOS 14.6.1)
 
 # % python3.13 -m pygeodesy.geodesicx 27
-# pygeodesy.geodesicx 24.09.04: C4order=27, C4n=4032, C4u=3764, C4u_n=93.4%, C4x=378, C4t=tuple, C4z=122632 (pygeodesy 24.9.6 Python 3.13.0rc1 64bit arm64 macOS 14.6.1)
+# pygeodesy.geodesicx 24.09.06: C4order=27, C4n=4032, C4u=3764, C4u_n=93.4%, C4x=378, C4t=tuple, C4z=122632 (pygeodesy 24.9.6 Python 3.13.0rc1 64bit arm64 macOS 14.6.1)
 # % python3.12 -m pygeodesy.geodesicx 27
-# pygeodesy.geodesicx 24.09.04: C4order=27, C4n=4032, C4u=4032, C4u_n=100.0%, C4x=378, C4t=ndarray, C4z=32256, numpy 2.1.0, geographiclib 2.0 (pygeodesy 24.9.6 Python 3.12.5 64bit arm64 macOS 14.6.1)
+# pygeodesy.geodesicx 24.09.06: C4order=27, C4n=4032, C4u=4032, C4u_n=100.0%, C4x=378, C4t=ndarray, C4z=32256, numpy 2.1.0, geographiclib 2.0 (pygeodesy 24.9.6 Python 3.12.5 64bit arm64 macOS 14.6.1)
 
 # % python3.13 -m pygeodesy.geodesicx 24
-# pygeodesy.geodesicx 24.09.04: C4order=24, C4n=2900, C4u=2708, C4u_n=93.4%, C4x=300, C4t=tuple, C4z=88232 (pygeodesy 24.9.6 Python 3.13.0rc1 64bit arm64 macOS 14.6.1)
+# pygeodesy.geodesicx 24.09.06: C4order=24, C4n=2900, C4u=2708, C4u_n=93.4%, C4x=300, C4t=tuple, C4z=88232 (pygeodesy 24.9.6 Python 3.13.0rc1 64bit arm64 macOS 14.6.1)
 # % python3.12 -m pygeodesy.geodesicx 24
-# pygeodesy.geodesicx 24.09.04: C4order=24, C4n=2900, C4u=2900, C4u_n=100.0%, C4x=300, C4t=ndarray, C4z=23200, numpy 2.1.0, geographiclib 2.0 (pygeodesy 24.9.6 Python 3.12.5 64bit arm64 macOS 14.6.1)
+# pygeodesy.geodesicx 24.09.06: C4order=24, C4n=2900, C4u=2900, C4u_n=100.0%, C4x=300, C4t=ndarray, C4z=23200, numpy 2.1.0, geographiclib 2.0 (pygeodesy 24.9.6 Python 3.12.5 64bit arm64 macOS 14.6.1)
 
 # **) MIT License
 #

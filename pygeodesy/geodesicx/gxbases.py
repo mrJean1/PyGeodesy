@@ -8,17 +8,19 @@ and licensed under the MIT/X11 License.  For more information, see the
 U{GeographicLib<https://GeographicLib.SourceForge.io>} documentation.
 '''
 
-from pygeodesy.basics import isodd
+from pygeodesy.basics import isodd,  _MODS
 from pygeodesy.constants import _EPSmin as _TINY, _0_0
 from pygeodesy.errors import _or, _xkwds_item2
 from pygeodesy.fmath import hypot as _hypot
+# from pygeodesy.interns import _numpy_  # _MODS
 from pygeodesy.karney import _CapsBase, GeodesicError, _2cos2x, \
                              _norm2, _sincos2d, _sum3
+# from pygeodesy.lazily import _ALL_MODS as _MODS  # from .basics
 
 from math import fabs, ldexp as _ldexp
 
 __all__ = ()
-__version__ = '24.09.05'
+__version__ = '24.09.06'
 
 # valid C{nC4}s and C{C4order}s, see _xnC4 below
 _nC4s = {24: 2900, 27: 4032, 30: 5425}
@@ -43,7 +45,7 @@ class _GeodesicBase(_CapsBase):  # in .geodsolve
 
 
 class _Gfloats(dict):
-    '''(INTERNAL) Uniquify floats.
+    '''(INTERNAL) Numpy or "Unique" floats.
     '''
     n   = 0  # total number of floats
     nC4 = 0
@@ -54,14 +56,14 @@ class _Gfloats(dict):
     def __call__(self, fs):
         '''Return a C{numpy.array} or C{tuple} of C{float}s.
         '''
+        np = _MODS.imported(_MODS.interns._numpy_)
+        if np:  # use numpy, already imported
+            cs = np.array(fs, dtype=float)
+        else:
+            _f = self.setdefault  # avoid duplicates
+            cs = tuple(_f(f, f) for f in map(float, fs))  # PYCHOK as attr
         self.n += len(fs)
-        try:  # numpy for less overhead
-            from numpy import array
-            return array(fs, dtype=float)
-        except ImportError:
-            pass
-        _f = self.setdefault  # avoid duplicates
-        return tuple(_f(f, f) for f in map(float, fs))  # PYCHOK as attr
+        return cs
 
 
 def _cosSeries(c4s, sx, cx):  # PYCHOK shared .geodesicx.gx and -.gxline
