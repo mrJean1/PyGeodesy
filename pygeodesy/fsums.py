@@ -140,7 +140,7 @@ def _2floats(xs, origin=0, _X=_X_ps, _x=float):
 try:  # MCCABE 14
     from math import fma as _fma
 
-    def _2products(x, ys):
+    def _2products(x, ys, **unused):
         # TwoProductFMA U{Algorithm 3.5
         # <https://www.TUHH.De/ti3/paper/rump/OgRuOi05.pdf>}
         for y in ys:
@@ -164,32 +164,37 @@ except ImportError:  # Python 3.12-
         # 6.3658604845404625
 
         def _as_n_d(x):
-            try:  # int.as_integer_ratio since 3.8
-                return x.as_integer_ratio()
-            except AttributeError:
-                return float(x), 1
+            try:
+                if _isfinite(x):
+                    # int.as_integer_ratio since 3.8
+                    return x.as_integer_ratio()
+            except (AttributeError, OverflowError, TypeError, ValueError):
+                pass
+            return float(x), 1
 
         (na, da), (nb, db), (nc, dc) = map(_as_n_d, a_b_c)
         n = na * nb * dc + da * db * nc
         d = da * db * dc
         return float(n / d)
 
-    def _2products(x, y3s):  # PYCHOK redef
+    def _2products(x, y3s, two=False):  # PYCHOK redef
         # TwoProduct U{Algorithm 3.3
         # <https://www.TUHH.De/ti3/paper/rump/OgRuOi05.pdf>}
         _, a, b = _2split3(x)
         for y, c, d in y3s:
             y *= x
             yield y
-#           t = b * d − (((y − a * c) − b * c) − a * d)
-#             = b * d + (a * d - ((y − a * c) − b * c))
-#             = b * d + (a * d + (b * c - (y − a * c)))
-#             = b * d + (a * d + (b * c + (a * c - y)))
-            yield a * c - y
-            yield b * c
-            if d:
-                yield a * d
-                yield b * d
+            if two:
+                yield b * d - (((y - a * c) - b * c) - a * d)
+#                   = b * d + (a * d - ((y - a * c) - b * c))
+#                   = b * d + (a * d + (b * c - (y - a * c)))
+#                   = b * d + (a * d + (b * c + (a * c - y)))
+            else:
+                yield a * c - y
+                yield b * c
+                if d:
+                    yield a * d
+                    yield b * d
 
     _2FACTOR = pow(2, (MANT_DIG + 1) // 2) + 1
 
