@@ -4,11 +4,11 @@
 # Test L{fsums} module.
 
 __all__ = ('Tests',)
-__version__ = '24.07.04'
+__version__ = '24.09.10'
 
 from bases import endswith, isPython2, startswith, TestsBase
 
-from pygeodesy import EPS, Fsum, Fsum2Tuple, NN, ResidualError, \
+from pygeodesy import EPS, Fsum, Fsum2product, Fsum2Tuple, NN, ResidualError, \
                       frandoms, fsum, fsum_, fsums
 
 from math import ceil, floor
@@ -18,7 +18,7 @@ _dot0 = '.0' if isPython2 else NN
 
 class Tests(TestsBase):
 
-    def testFsums(self):  # MCCABE 26
+    def testFsums(self, Fsum):  # MCCABE 26
 
         # U{Neumaier<https://WikiPedia.org/wiki/Kahan_summation_algorithm>}
         t = 1, 1e101, 1, -1e101
@@ -403,6 +403,8 @@ class Tests(TestsBase):
 if __name__ == '__main__':
 
     t = Tests(__file__, __version__, fsums)
-    t.testFsums()
+    t.testFsums(Fsum)
+    if not Fsum().f2product():
+        t.testFsums(Fsum2product)
     t.results()
     t.exit()

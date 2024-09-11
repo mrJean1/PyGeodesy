@@ -4,6 +4,11 @@
 u'''Class L{Fsum} for precision floating point summation and I{running}
 summation based on, respectively similar to Python's C{math.fsum}.
 
+Class L{Fsum} also supports accurate multiplication for Python 3.13 and
+later, but as an option for older Python versions.  For more details, see
+method L{f2product<Fsum.f2product>}, class L{Fsum2product} and U{Accurate
+Sum and Dot Product<https://www.TUHH.De/ti3/paper/rump/OgRuOi05.pdf>}.
+
 Generally, an L{Fsum} instance is considered a C{float} plus a small or zero
 C{residual} value, see property L{Fsum.residual}.  However, there are several
 C{integer} L{Fsum} cases, for example the result of C{ceil}, C{floor},
@@ -25,13 +30,13 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import isbool, iscomplex, isint, isscalar, \
                             _signOf, itemsorted, signOf, _xiterable, \
-                            _xiterablen,  _enquote
-from pygeodesy.constants import INT0, _isfinite, NEG0, _pos_self, \
+                            _xiterablen
+from pygeodesy.constants import INT0, _isfinite, MANT_DIG, NEG0, _pos_self, \
                                _0_0, _1_0, _N_1_0,  Float, Int
 from pygeodesy.errors import _OverflowError, _TypeError, _UnexpectedError, \
                              _ValueError, _xError, _xError2, _xkwds_get1, \
                              _xkwds_pop2
-# from pygeodesy.internals import _enquote  # from .basics
+from pygeodesy.internals import _enquote, _passarg
 from pygeodesy.interns import NN, _arg_, _COMMASPACE_, _DASH_, _DOT_, \
                              _EQUAL_, _from_, _LANGLE_, _NOTEQUAL_, \
                              _not_finite_, _PERCENT_, _PLUS_, \
@@ -47,7 +52,7 @@ from pygeodesy.streprs import Fmt, fstr, unstr
 from math import ceil as _ceil, fabs, floor as _floor  # PYCHOK used! .ltp
 
 __all__ = _ALL_LAZY.fsums
-__version__ = '24.08.30'
+__version__ = '24.09.10'
 
 _add_op_      = _PLUS_  # in .auxilats.auxAngle
 _eq_op_       = _EQUAL_ * 2  # _DEQUAL_
@@ -130,6 +135,76 @@ def _2floats(xs, origin=0, _X=_X_ps, _x=float):
     except Exception as X:
         raise _xError(X, xs=xs) if x is _X else \
               _xError(X, Fmt.INDEX(xs=i), x)
+
+
+try:  # MCCABE 14
+    from math import fma as _fma
+
+    def _2products(x, ys):
+        # TwoProductFMA U{Algorithm 3.5
+        # <https://www.TUHH.De/ti3/paper/rump/OgRuOi05.pdf>}
+        for y in ys:
+            f = x * y
+            yield  f
+            yield _fma(x, y, -f)
+
+    _2split3s = _passarg  # NOP
+
+except ImportError:  # Python 3.12-
+
+    def _fma(*a_b_c):  # in .fmath
+        # mimick C{math.fma} from Python 3.13+
+        # <https://MomentsInGraphics.De/FMA.html>
+        # >>> a = 1.00000011920929
+        # >>> b = 53400708
+        # >>> c = -b
+        # >>> _fma(a, b, c)
+        # 6.365860485903399
+        # >>> (a * b) + c
+        # 6.3658604845404625
+
+        def _as_n_d(x):
+            try:  # int.as_integer_ratio since 3.8
+                return x.as_integer_ratio()
+            except AttributeError:
+                return float(x), 1
+
+        (na, da), (nb, db), (nc, dc) = map(_as_n_d, a_b_c)
+        n = na * nb * dc + da * db * nc
+        d = da * db * dc
+        return float(n / d)
+
+    def _2products(x, y3s):  # PYCHOK redef
+        # TwoProduct U{Algorithm 3.3
+        # <https://www.TUHH.De/ti3/paper/rump/OgRuOi05.pdf>}
+        _, a, b = _2split3(x)
+        for y, c, d in y3s:
+            y *= x
+            yield y
+#           t = b * d − (((y − a * c) − b * c) − a * d)
+#             = b * d + (a * d - ((y − a * c) − b * c))
+#             = b * d + (a * d + (b * c - (y − a * c)))
+#             = b * d + (a * d + (b * c + (a * c - y)))
+            yield a * c - y
+            yield b * c
+            if d:
+                yield a * d
+                yield b * d
+
+    _2FACTOR = pow(2, (MANT_DIG + 1) // 2) + 1
+
+    def _2split3(x):
+        # Split U{Algorithm 3.2
+        # <ttps://www.TUHH.De/ti3/paper/rump/OgRuOi05.pdf>}
+        a  = c = x * _2FACTOR
+        a -= c - x
+        b  = x - a
+        return x, a, b
+
+    def _2split3s(xs):  # PYCHOK redef
+        return map(_2split3, xs)
+
+del MANT_DIG
 
 
 def _Fsumf_(*xs):  # floats=True, in .auxLat, ...
@@ -325,6 +400,8 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
              file I{Modules/mathmodule.c} and the issue log U{Full precision summation
              <https://Bugs.Python.org/issue2819>}.
     '''
+    _f2product = _2split3s is _passarg  # True for 3.13+
+    _math_fma  = _fma if _f2product else None
     _math_fsum =  None
     _n         =  0
 #   _ps        = []  # partial sums
@@ -892,6 +969,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
             f._ps = list(self._ps)  # separate list
         if not deep:
             f._n = 1
+        # assert f._f2product == self._f2product
         # assert f._Fsum is f
         return f
 
@@ -903,6 +981,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
         f = _Named.copy(self, deep=False, name=n)
         f._ps = list(self._ps)  # separate list
         # assert f._n == self._n
+        # assert f._f2product == self._f2product
         # assert f._Fsum is f
         return f
 
@@ -1113,9 +1192,10 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
 #               raise self._Error(op, other, _AssertionError, txt__=signOf)
         return DivMod2Tuple(q, self)  # q is C{int} in Python 3+, but C{float} in Python 2-
 
-    def _fhorner(self, x, cs, op):  # in .fmath
+    def _fhorner(self, x, cs, op, incx=True):  # in .fmath
         '''(INTERNAL) Add an L{Fhorner} evaluation of polynomial
-           M{sum(cs[i] * x**i for i=0..len(cs)-1)}.
+           C{sum(cs[i] * B{x}**i for i=0..len(cs)-1) if B{incx}
+           else sum(... i=len(cs)-1..0)}.
         '''
         if _xiterablen(cs):
             H = Fsum(name__=self._fhorner)
@@ -1125,11 +1205,11 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
                 _mul = H._mul_scalar
                 x = _2float(x=x)
             if len(cs) > 1 and x:
-                for c in reversed(cs):
+                for c in (reversed(cs) if incx else cs):
                     H._fset_ps(_mul(x, op))
                     H._fadd(c, op, up=False)
             else:  # x == 0
-                H = cs[0]
+                H = cs[0] if cs else _0_0
             self._fadd(H, op)
         return self
 
@@ -1224,6 +1304,38 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
         q = self._ftruediv(other, op, **raiser_RESIDUAL)  # == self
         return self._fset(q.floor)  # floor(q)
 
+    def fma(self, other1, other2):  #
+        '''Fused-multiply-add C{self *= B{other1}; self += B{other2}}.
+
+           @arg other1: A C{scalar}, an L{Fsum} or L{Fsum2Tuple} instance.
+           @arg other2: A C{scalar}, an L{Fsum} or L{Fsum2Tuple} instance.
+
+           @note: Uses C{math.fma} in Python 3.13+, provided C{self},
+                  B{C{other1}} and B{C{other2}} are all C{scalar}.
+        '''
+        if len(self._ps) == 1 and isscalar(other1, both=True) \
+                              and isscalar(other2, both=True):
+            p = _fma(self._ps[0], other1, other2)
+            self._ps[:] = self._finite(p, self.fma.__name__),
+            if other2:
+                self._n += 1
+        else:
+            self._f2mul(self.fma.__name__, other1)
+            self += other2
+        return self
+
+#   def _fma_scalar(self, op, x, *ys):  # in .karney
+#       '''(INTERNAL) Apply C{self.fma(B{x}, B{y}) for B{y} in B{ys}}
+#           for scalar C{x} and C{y}s.
+#       '''
+#       ps = self._ps
+#       if ps and ys:
+#           for y in ys:
+#               ps[:] = self._ps_acc(list(y), _2products(x, _2split3s(ps)))
+#           for p in (ps if op else()):
+#               self._finite(p, op)
+#       return self
+
     fmul = __imul__
 
     def _fmul(self, other, op):
@@ -1234,12 +1346,37 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
                 f = self._mul_Fsum(other, op)
             elif len(other._ps) != 1:  # and len(self._ps) == 1
                 f = other._mul_scalar(self._ps[0], op)
+            elif self._f2product:  # len(other._ps) == 1
+                f = self._mul_scalar(other._ps[0], op)
             else:  # len(other._ps) == len(self._ps) == 1
                 f = self._finite(self._ps[0] * other._ps[0])
         else:
             s = self._scalar(other, op)
             f = self._mul_scalar(s, op)
         return self._fset(f)  # n=len(self) + 1
+
+    def f2mul(self, *others):
+        '''Apply C{B{self} *= B{other} for B{other} in B{others}} where each B{other}
+           is C{scalar}, an L{Fsum} or L{Fsum2Tuple} applying accurate multiplication
+           as if L{f2product<Fsum.f2product>}C{=True}.
+
+           @see: U{Equations 2.3<https://www.TUHH.De/ti3/paper/rump/OzOgRuOi06.pdf>}
+        '''
+        return self._f2mul(self.f2mul.__name__, *others)
+
+    def _f2mul(self, op, *others):
+        '''(INTERNAL) See method C{f2mul}.
+        '''
+        P  = _Psum(self._ps)
+        ps =  P._ps
+        if ps and others:
+            for p in self._ps_other(op, *others):
+                pfs   = _2products(p, _2split3s(ps))
+                ps[:] =  P._ps_acc([], pfs, up=False)
+            for p in ps:
+                self._finite(p, op)
+            self._fset(P, op=op)
+        return self
 
     def fover(self, over, **raiser_RESIDUAL):
         '''Apply C{B{self} /= B{over}} and summate.
@@ -1277,6 +1414,24 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
         else:  # pow(self, other)
             f = self._pow(other, other, op, **raiser_RESIDUAL)
         return self._fset(f)  # n=max(len(self), 1)
+
+    def f2product(self, *two):
+        '''Turn this instance' accurate I{TwoProduct} multiplication or or off.
+
+           @arg two: If C{True}, turn I{TwoProduct} on, if C{False} off or if
+                     C{None} or if omitted, keep the current setting.
+
+           @return: The previous C{f2product} setting (C{bool}).
+
+           @see: On Python 3.13 and later I{TwoProduct} is based on I{TwoProductFMA}
+                 U{Algorithm 3.5<https://www.TUHH.De/ti3/paper/rump/OgRuOi05.pdf>}
+                 otherwise on the slower I{TwoProduct} and I{Split} U{Algorithms
+                 3.3 and 3.2<https://www.TUHH.De/ti3/paper/rump/OgRuOi05.pdf>}.
+        '''
+        t = self._f2product
+        if two and two[0] is not None:
+            self._f2product = bool(two[0])
+        return t
 
     @Property
     def _fprs(self):
@@ -1836,10 +1991,16 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
         def _pfs(ps, fs):
             if len(ps) < len(fs):
                 ps, fs = fs, ps
+            if self._f2product:
+                ps   =  tuple(_2split3s(ps))
+                _xys = _2products
+            else:
+                def _xys(x, ys):
+                    return (x * y for y in ys)
+
             _fin = _isfinite
             for f in fs:
-                for p in ps:
-                    p *= f
+                for p in _xys(f, ps):
                     yield p if _fin(p) else self._finite(p, op)
 
         return Fsum()._facc_scalar(_pfs(self._ps, factors), up=False)
@@ -1850,6 +2011,16 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
         '''
         for p in self._ps:
             yield -p
+
+    def _ps_other(self, op, *others):
+        '''(INTERNAL) Yield the partials of all C{other}s.
+        '''
+        for other in others:
+            if _isFsumTuple(other):
+                for p in other._ps:
+                    yield p
+            else:
+                yield self._scalar(other, op)
 
     def _ps_1sum(self, *less):
         '''(INTERNAL) Return the partials sum, 1-primed C{less} some scalars.
@@ -2034,6 +2205,15 @@ def _Float_Int(arg, **name_Error):
     '''
     U = Int if isint(arg) else Float
     return U(arg, **name_Error)
+
+
+def Fsum2product(*xs, **name_RESIDUAL):
+    '''Return an L{Fsum} with L{f2product<Fsum.f2product>} accurate
+       multiplication I{turned on}.
+    '''
+    F = Fsum(*xs, **name_RESIDUAL)
+    F.f2product(True)
+    return F
 
 
 class DivMod2Tuple(_NamedTuple):

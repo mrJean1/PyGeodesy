@@ -4,13 +4,13 @@
 # Test L{fmath} module.
 
 __all__ = ('Tests',)
-__version__ = '24.04.28'
+__version__ = '24.09.09'
 
-from bases import endswith, isWindows, startswith, TestsBase
+from bases import endswith, isPython2, isWindows, startswith, TestsBase
 
 from pygeodesy import EPS, Fcbrt, Fhypot, INF, Fpowers, Froot, Fsqrt, Fsum, \
                       bqrt, cbrt, cbrt2, euclid_, Ellipsoids, facos1, fasin1, \
-                      fatan, fatan1, fatan2, fhorner, fmath, fpolynomial, \
+                      fatan, fatan1, fatan2, fhorner, fma, fmath, fpolynomial, \
                       fpowers, frandoms, fsum_, hypot, hypot_, hypot2_, norm_, \
                       signOf, sqrt3, sqrt_a, zcrt, zqrt
 
@@ -55,7 +55,7 @@ class Tests(TestsBase):
         self.test('fpowers', p[3], 2**9, nt=1)
 
         def _Ak(Ah, A):
-            r = abs(Ah - A) / A
+            r = abs(Ah - A) / (A or 1)
             return r < 3e-16
 
         for _, E in Ellipsoids.items(all=True, asorted=True):
@@ -188,6 +188,14 @@ class Tests(TestsBase):
                 self.test(Fpowers.__name__ + n, float(Fpowers(3, F, *t)),            c,       fmt='%.9g')
                 self.test(Fsqrt.__name__   + n, float(Fsqrt(  F, *t, RESIDUAL=EPS)), sqrt(s), fmt='%.9g')
                 self.test(Fcbrt.__name__   + n, float(Fcbrt(  F, *t, RESIDUAL=EPS)), cbrt(s), fmt='%.9g')
+
+        t = fma(0.0015626218982622226, -2.417031778248417e-06, 2.4416218889444793e-05)
+        self.test('fma', t, '2.4412441982659e-05', fmt='%.13e', nl=1)
+        a = 1.00000011920929
+        b = 53400708
+        t = fma(a, b, -b)  # <https://MomentsInGraphics.De/FMA.html>
+        self.test('fma', t, '6.3658604859034', fmt='%.13f', known=isPython2 or isWindows)
+        self.test('abc', (a * b) - b, '6.3658604859034', known=True)
 
 
 if __name__ == '__main__':

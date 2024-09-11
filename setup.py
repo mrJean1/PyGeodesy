@@ -26,7 +26,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '24.08.02'
+__version__ = '24.09.09'
 
 
 def _c2(*names):
@@ -51,7 +51,7 @@ def _version():
 
 _KeyWords = ('AER', 'Albers', 'altitude', 'Andoyer', 'annulus', 'antipode', 'area', 'attitude',
              'Authalic', 'auxiliary', 'azimuth', 'azimuthal', 'azimuth-elevation-range',
-             'bearing', 'bank', 'Barsky', 'Barth', 'beta', 'boolean',
+             'bearing', 'bank', 'Barsky', 'Barth', 'beta', 'bi-quadratic', 'boolean',
              'cached', 'Cagnoli', 'cartesian', 'Cassini', 'Cassini-Soldner', 'chord',
              'circle-intersections', 'circumcenter', 'circumcircle', 'circumradius',
              'clip', 'Cohen', 'Cohen-Sutherland', 'Collins', 'composite',
@@ -86,23 +86,23 @@ _KeyWords = ('AER', 'Albers', 'altitude', 'Andoyer', 'annulus', 'antipode', 'are
              'perimeter', 'Peucker', 'Pierlot', 'pitch', 'plumb', 'Point-Of-View', 'polar', 'Popa', 'POV',
              'precision-cubic-root', 'precision-hypotenuse', 'precision-powers',
              'precision-running-summation', 'precision-square-root', 'precision-summation',
-             'prolate', 'Pseudo-Mercator', 'PyGeodesy', 'PyInstaller', 'PyPy',
+             'prolate', 'Pseudo-Mercator', 'PyGeodesy', 'PyInstaller', 'PyPy', 'quartic',
              'radical', 'radii', 'radius', 'Ramer', 'Ramer-Douglas-Peucker', 'Rectifying',
              'Reduced', 'resect', 'resection', 'Rey-Jer', 'Reumann', 'Reumann-Witkam', 'rhumb', 'RhumbSolve',
              'running-linear-regression', 'running-statistics', 'running-stats', 'running-summation',
              'scipy', 'secant', 'semi-perimeter', 'sexagecimal', 'simplify', 'skewness',
              'Snellius', 'Snellius-Pothenot', 'Snyder', 'Soddy', 'Soddy-circles', 'Soldner',
              'sphere', 'sphere-intersections', 'spherical-deficit', 'spherical-excess', 'spherical-triangle',
-             'standard-deviation', 'stereographic', 'Sudano', 'surface-area', 'Sutherland', 'Sutherland-Hodgman',
-             'tangent-circles', 'Terrestrial-Reference-Frame', 'Thomas', 'Tienstra',
+             'squared-quartic', 'standard-deviation', 'stereographic', 'Sudano', 'surface-area', 'Sutherland',
+             'Sutherland-Hodgman', 'tangent-circles', 'Terrestrial-Reference-Frame', 'Thomas', 'Tienstra',
              'tilt', 'TMcoords', 'TMExact', 'toise', 'transverse', 'TransverseMercatorExact', 'TRF',
              'triangle', 'triangulate', 'triaxial', 'triaxial-ellipsoid',
-             'trigonometry', 'trilaterate', 'trilaterate-2d', 'trilaterate-3d',
+             'trigonometry', 'trilaterate', 'trilaterate-2d', 'trilaterate-3d', 'TwoProduct', 'TwoSum',
              'umbilic-point', 'unit', 'unroll', 'UPS', 'UTM', 'UTM/UPS',
              'variance', 'velocities', 'Veness', 'Vermeille', 'viewing-frustum', 'Vincenty',
              'Visvalingam', 'Visvalingam-Whyatt', 'volume', ' volumetric',
              'Web-Mercator', 'Welford', 'WGRS', 'WGS', 'Whyatt', 'Wildberger', 'Witkam', 'winding-number',
-             'XYZ', 'yaw', 'You')
+             'XYZ', 'yaw', 'You', 'zenzi-cubic', 'zenzi-quartic')
 
 setup(name='PyGeodesy',
       packages=['pygeodesy', 'pygeodesy.auxilats', 'pygeodesy.deprecated', 'pygeodesy.geodesicx', 'pygeodesy.rhumb'],

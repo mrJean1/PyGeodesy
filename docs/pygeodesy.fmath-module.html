@@ -63,7 +63,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        24.08.15
+        24.09.09
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -338,7 +338,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#favg" class="summary-sig-name">favg</a>(<span class="summary-sig-arg">a</span>,
         <span class="summary-sig-arg">b</span>,
         <span class="summary-sig-arg">f</span>=<span class="summary-sig-default">0.5</span>)</span><br />
-      Return the precision average of two values.</td>
+      Return the precise average of two values.</td>
           <td align="right" valign="top">
             
             
@@ -357,7 +357,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#fdot" class="summary-sig-name">fdot</a>(<span class="summary-sig-arg">a</span>,
         <span class="summary-sig-arg">*b</span>)</span><br />
       Return the precision dot product <i class="math">sum(a[i] * b[i] for 
-      i=0..len(a))</i>.</td>
+      ni=0..len(a))</i>.</td>
           <td align="right" valign="top">
             
             
@@ -395,9 +395,12 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#fhorner" class="summary-sig-name">fhorner</a>(<span class="summary-sig-arg">x</span>,
-        <span class="summary-sig-arg">*cs</span>)</span><br />
-      Evaluate the polynomial <i class="math">sum(cs[i] * x**i for 
-      i=0..len(cs)-1)</i> using the Horner form.</td>
+        <span class="summary-sig-arg">*cs</span>,
+        <span class="summary-sig-arg">**incx</span>)</span><br />
+      Evaluate a polynomial using the Horner form <i class="math">sum(cs[i]
+      * x**i for i=0..n)</i> or if <code><b>incx</b>=False</code> for 
+      decreasing exponent <i class="math">sum(... i=n..0)</i> where <code>n
+      = len(cs) - 1</code>.</td>
           <td align="right" valign="top">
             
             
@@ -419,6 +422,26 @@
       Interpolate using <a 
       href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
       target="_top">Inverse Distance Weighting</a> (IDW).</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#fma" class="summary-sig-name">fma</a>(<span class="summary-sig-arg">x</span>,
+        <span class="summary-sig-arg">y</span>,
+        <span class="summary-sig-arg">z</span>)</span><br />
+      Fused-multiply-add, as <code>math.fma(x, y, z)</code> from Python 
+      3.13+.</td>
           <td align="right" valign="top">
             
             
@@ -709,7 +732,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#norm_" class="summary-sig-name">norm_</a>(<span class="summary-sig-arg">*xs</span>)</span><br />
-      Normalize all n-dimensional vector components.</td>
+      Normalize the components of an n-dimensional vector.</td>
           <td align="right" valign="top">
             
             
@@ -858,7 +881,7 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>x</code></strong> - Value (<code>scalar</code> or an <a 
+        <li><strong class="pname"><code>x</code></strong> - Value (<code>scalar</code>, an <a 
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
           <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
           class="link">Fsum2Tuple</a>).</li>
@@ -898,7 +921,7 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>x</code></strong> - Value (<code>scalar</code> or an <a 
+        <li><strong class="pname"><code>x</code></strong> - Value (<code>scalar</code>, an <a 
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
           <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
           class="link">Fsum2Tuple</a>).</li>
@@ -933,7 +956,7 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>x</code></strong> - Value (<code>scalar</code> or an <a 
+        <li><strong class="pname"><code>x</code></strong> - Value (<code>scalar</code>, an <a 
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
           <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
           class="link">Fsum2Tuple</a>).</li>
@@ -970,12 +993,14 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>x</code></strong> - X component (<code>scalar</code> or <a 
-          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> 
-          instance).</li>
-        <li><strong class="pname"><code>y</code></strong> - Y component (<code>scalar</code> or <a 
-          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> 
-          instance).</li>
+        <li><strong class="pname"><code>x</code></strong> - X component (<code>scalar</code>, an <a 
+          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
+          <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
+          class="link">Fsum2Tuple</a>).</li>
+        <li><strong class="pname"><code>y</code></strong> - Y component (<code>scalar</code>, an <a 
+          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
+          <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
+          class="link">Fsum2Tuple</a>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Appoximate norm (<code>float</code> or <a 
@@ -1007,9 +1032,10 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xs</code></strong> - X arguments (each <code>scalar</code> or an <a 
-          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> 
-          instance), all positional.</li>
+        <li><strong class="pname"><code>xs</code></strong> - X arguments (each <code>scalar</code>, an <a 
+          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
+          <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
+          class="link">Fsum2Tuple</a>), all positional.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Appoximate norm (<code>float</code> or <a 
@@ -1140,15 +1166,15 @@
     </td>
   </tr></table>
   
-  <p>Return the precision average of two values.</p>
+  <p>Return the precise average of two values.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>a</code></strong> - One (<code>scalar</code> or an <a 
+        <li><strong class="pname"><code>a</code></strong> - One (<code>scalar</code>, an <a 
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
           <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
           class="link">Fsum2Tuple</a>).</li>
-        <li><strong class="pname"><code>b</code></strong> - Other (<code>scalar</code> or an <a 
+        <li><strong class="pname"><code>b</code></strong> - Other (<code>scalar</code>, an <a 
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
           <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
           class="link">Fsum2Tuple</a>).</li>
@@ -1175,12 +1201,18 @@
   </tr></table>
   
   <p>Return the precision dot product <i class="math">sum(a[i] * b[i] for 
-  i=0..len(a))</i>.</p>
+  ni=0..len(a))</i>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>a</code></strong> - Iterable of values (each <code>scalar</code>).</li>
-        <li><strong class="pname"><code>b</code></strong> - Other values (each <code>scalar</code>), all positional.</li>
+        <li><strong class="pname"><code>a</code></strong> - Iterable of values (each <code>scalar</code>, an <a 
+          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
+          <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
+          class="link">Fsum2Tuple</a>).</li>
+        <li><strong class="pname"><code>b</code></strong> - Other values (each <code>scalar</code>, an <a 
+          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
+          <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
+          class="link">Fsum2Tuple</a>), all positional.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Dot product (<code>float</code>).</dd>
@@ -1219,19 +1251,19 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xs</code></strong> - Iterable (each <code>scalar</code> or an <a 
+        <li><strong class="pname"><code>xs</code></strong> - Iterable (each <code>scalar</code>, an <a 
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
           <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
-          class="link">Fsum2Tuple</a> instance).</li>
-        <li><strong class="pname"><code>ys</code></strong> - Iterable (each <code>scalar</code> or an <a 
+          class="link">Fsum2Tuple</a>).</li>
+        <li><strong class="pname"><code>ys</code></strong> - Iterable (each <code>scalar</code>, an <a 
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
           <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
-          class="link">Fsum2Tuple</a> instance).</li>
-        <li><strong class="pname"><code>zs</code></strong> - Iterable (each <code>scalar</code> or an <a 
+          class="link">Fsum2Tuple</a>).</li>
+        <li><strong class="pname"><code>zs</code></strong> - Iterable (each <code>scalar</code>, an <a 
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
           <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
-          class="link">Fsum2Tuple</a> instance).</li>
-        <li><strong class="pname"><code>start</code></strong> - Optional bias (<code>scalar</code> or an <a 
+          class="link">Fsum2Tuple</a>).</li>
+        <li><strong class="pname"><code>start</code></strong> - Optional bias (<code>scalar</code>, an <a 
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
           <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
           class="link">Fsum2Tuple</a>).</li>
@@ -1255,15 +1287,18 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">fhorner</span>&nbsp;(<span class="sig-arg">x</span>,
-        <span class="sig-arg">*cs</span>)</span>
+        <span class="sig-arg">*cs</span>,
+        <span class="sig-arg">**incx</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Evaluate the polynomial <i class="math">sum(cs[i] * x**i for 
-  i=0..len(cs)-1)</i> using the Horner form.</p>
+  <p>Evaluate a polynomial using the Horner form <i class="math">sum(cs[i] 
+  * x**i for i=0..n)</i> or if <code><b>incx</b>=False</code> for 
+  decreasing exponent <i class="math">sum(... i=n..0)</i> where <code>n = 
+  len(cs) - 1</code>.</p>
   <dl class="fields">
     <dt>Returns:</dt>
         <dd>Horner sum (<code>float</code>).</dd>
@@ -1296,14 +1331,14 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xs</code></strong> - Known values (each <code>scalar</code> or an <a 
+        <li><strong class="pname"><code>xs</code></strong> - Known values (each <code>scalar</code>, an <a 
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
           <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
-          class="link">Fsum2Tuple</a> instance).</li>
-        <li><strong class="pname"><code>ds</code></strong> - Non-negative distances (each <code>scalar</code> or an <a 
+          class="link">Fsum2Tuple</a>).</li>
+        <li><strong class="pname"><code>ds</code></strong> - Non-negative distances (each <code>scalar</code>, an <a 
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
           <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
-          class="link">Fsum2Tuple</a> instance).</li>
+          class="link">Fsum2Tuple</a>).</li>
         <li><strong class="pname"><code>beta</code></strong> - Inverse distance power (<code>int</code>, 0, 1, 2, or 3).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -1324,6 +1359,46 @@
       </p>
 </div></td></tr></table>
 </div>
+<a name="fma"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">fma</span>&nbsp;(<span class="sig-arg">x</span>,
+        <span class="sig-arg">y</span>,
+        <span class="sig-arg">z</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Fused-multiply-add, as <code>math.fma(x, y, z)</code> from Python 
+  3.13+.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>x</code></strong> - A <code>scalar</code>, an <a 
+          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
+          <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
+          class="link">Fsum2Tuple</a> instance.</li>
+        <li><strong class="pname"><code>y</code></strong> - A <code>scalar</code>, an <a 
+          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
+          <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
+          class="link">Fsum2Tuple</a> instance.</li>
+        <li><strong class="pname"><code>z</code></strong> - A <code>scalar</code>, an <a 
+          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
+          <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
+          class="link">Fsum2Tuple</a> instance.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><code>(x * y) + z</code> (<code>float</code> or an <a 
+          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a>).</dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="fmean"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1342,9 +1417,10 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xs</code></strong> - Values (<code>scalar</code> or <a 
-          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> 
-          instances).</li>
+        <li><strong class="pname"><code>xs</code></strong> - Values (each <code>scalar</code>, or <a 
+          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
+          <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
+          class="link">Fsum2Tuple</a>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Mean value (<code>float</code>).</dd>
@@ -1431,7 +1507,7 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>x</code></strong> - Value (<code>scalar</code> or an <a 
+        <li><strong class="pname"><code>x</code></strong> - Value (<code>scalar</code>, an <a 
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
           <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
           class="link">Fsum2Tuple</a>).</li>
@@ -1471,9 +1547,10 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xs</code></strong> - Iterable of values to be multiplied (each <code>scalar</code> or 
-          an <a href="pygeodesy.fsums.Fsum-class.html" 
-          class="link">Fsum</a>).</li>
+        <li><strong class="pname"><code>xs</code></strong> - Iterable of values to be multiplied (each <code>scalar</code>, an
+          <a href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> 
+          or <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
+          class="link">Fsum2Tuple</a>).</li>
         <li><strong class="pname"><code>start</code></strong> - Initial value, also the value returned for an empty 
           <b><code>xs</code></b> (<code>scalar</code>).</li>
     </ul></dd>
@@ -1710,11 +1787,11 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>x</code></strong> - X (<code>scalar</code> or <a 
+        <li><strong class="pname"><code>x</code></strong> - X (<code>scalar</code>, an <a 
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
           <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
           class="link">Fsum2Tuple</a>).</li>
-        <li><strong class="pname"><code>y</code></strong> - Y (<code>scalar</code> or <a 
+        <li><strong class="pname"><code>y</code></strong> - Y (<code>scalar</code>, an <a 
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
           <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
           class="link">Fsum2Tuple</a>).</li>
@@ -1743,10 +1820,10 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xs</code></strong> - Components (each <code>scalar</code> or an <a 
+        <li><strong class="pname"><code>xs</code></strong> - Components (each <code>scalar</code>, an <a 
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
           <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
-          class="link">Fsum2Tuple</a> instance), all positional.</li>
+          class="link">Fsum2Tuple</a>), all positional.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Squared norm (<code>float</code>).</dd>
@@ -1803,11 +1880,14 @@
     </td>
   </tr></table>
   
-  <p>Normalize all n-dimensional vector components.</p>
+  <p>Normalize the components of an n-dimensional vector.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xs</code></strong> - Components (<code>scalar</code>s), all positional.</li>
+        <li><strong class="pname"><code>xs</code></strong> - Components (each <code>scalar</code>, an <a 
+          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
+          <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
+          class="link">Fsum2Tuple</a>), all positional.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Yield each component, normalized.</dd>
@@ -1838,7 +1918,7 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>x</code></strong> - Value (<code>scalar</code> or an <a 
+        <li><strong class="pname"><code>x</code></strong> - Value (<code>scalar</code>, an <a 
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
           <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
           class="link">Fsum2Tuple</a>).</li>
@@ -1879,7 +1959,7 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>x</code></strong> - Value (<code>scalar</code> or an <a 
+        <li><strong class="pname"><code>x</code></strong> - Value (<code>scalar</code>, an <a 
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
           <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
           class="link">Fsum2Tuple</a>).</li>
@@ -1960,7 +2040,7 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>x</code></strong> - Value (<code>scalar</code> or an <a 
+        <li><strong class="pname"><code>x</code></strong> - Value (<code>scalar</code>, an <a 
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
           <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
           class="link">Fsum2Tuple</a>).</li>
@@ -2001,7 +2081,7 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>x</code></strong> - Value (<code>scalar</code> or an <a 
+        <li><strong class="pname"><code>x</code></strong> - Value (<code>scalar</code>, an <a 
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
           <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
           class="link">Fsum2Tuple</a>).</li>
@@ -2054,7 +2134,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Sep  6 14:33:32 2024
+    Generated by Epydoc 3.0.1 on Wed Sep 11 11:21:52 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

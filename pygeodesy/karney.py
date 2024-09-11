@@ -148,7 +148,7 @@ from pygeodesy.basics import _copysign, isint, neg, unsigned0, _xgeographiclib, 
 from pygeodesy.constants import NAN, _isfinite as _math_isfinite, _0_0, \
                                _1_16th, _1_0, _2_0, _180_0, _N_180_0, _360_0
 from pygeodesy.errors import GeodesicError, _ValueError, _xkwds
-from pygeodesy.fmath import cbrt, fremainder, norm2
+from pygeodesy.fmath import cbrt, fremainder, norm2  # Fhorner, Fsum
 # from pygeodesy.internals import _version_info  # from .basics
 from pygeodesy.interns import NN, _2_, _a12_, _area_, _azi1_, _azi2_, _azi12_, \
                              _composite_, _lat1_, _lat2_, _lon1_, _lon2_, \
@@ -165,11 +165,11 @@ from pygeodesy.utily import atan2d, sincos2d, tand, _unrollon,  fabs
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.karney
-__version__ = '24.09.06'
+__version__ = '24.09.10'
 
-_K_2        = _getenv('PYGEODESY_GEOGRAPHICLIB', _2_)
-_K_2_4      = _K_2 == '2.4'
-_K_2_0      = _K_2 == _2_ or _K_2_4
+_K_2_0      = _getenv('PYGEODESY_GEOGRAPHICLIB', _2_)
+_K_2_4      = _K_2_0 == '2.4'
+_K_2_0      = _K_2_0 == _2_ or _K_2_4
 _perimeter_ = 'perimeter'
 
 
@@ -290,7 +290,7 @@ class Caps(object):
 
 Caps = Caps()  # PYCHOK singleton
 '''I{Enum}-style masks to be bit-C{or}'ed to specify geodesic or
-rhumb capabilities (C{caps}) and expected results (C{outmask}).
+rhumb capabilities (C{caps}) and results (C{outmask}).
 
 C{AREA} - compute area C{S12},
 
@@ -815,20 +815,44 @@ def _polygon(geodesic, points, closed, line, wrap):
     return gP.Compute(False, True)[1 if line else 2]
 
 
+try:
+    from math import fma as _fma  # since 3.13
+
+    def _poly_fma(x, s, *cs):
+        for c in cs:
+            s = _fma(s, x, c)
+        return s
+
+except ImportError:  # Python 3.12-
+
+    def _poly_fma(x, s, *cs):  # PYCHOK redef
+        t = _0_0
+        for c in cs:
+            s, t, _ = _sum3(s * x, t * x, c)
+        return s + t
+
+#   def _poly_fma(x, *cs):
+#       S = Fhorner(x, *cs, incx=False)
+#       return float(S)
+
+#   def _poly_fma(x, s, *cs):  # scalar x, s, cs
+#       S = Fsum(s)._fma_scalar(None, x, *cs)
+#       return float(S)
+
 def _polynomial(x, cs, i, j):  # PYCHOK shared
     '''(INTERNAL) Like C++ C{GeographicLib.Math.hpp.polyval} but with a
-       different signature and cascaded summation from C{karney._sum3}.
+       signature and cascaded summation different from C{karney._sum3}.
 
-       @return: M{sum(cs[k] * x**(j - k - 1) for k in range(i, j)}
+       @return: M{sum(x**(j - k - 1) * cs[k] for k in range(i, j)}
     '''
-    # assert 0 <= i <= j <= len(cs)
-    try:
-        return _wrapped.Math.polyval(j - i - 1, cs, i, x)
-    except AttributeError:
-        s, t = cs[i], _0_0
-        for i in range(i + 1, j):
-            s, t, _ = _sum3(s * x, t * x, cs[i])
-        return s  # + t
+    if (i + 1) < j <= len(cs):  # load _Rtuple._tuple
+        try:
+            r = _wrapped.Math.polyval(j - i - 1, cs, i, x)
+        except AttributeError:
+            r = _poly_fma(x, *cs[i:j])
+    else:
+        r = cs[i]
+    return float(r)
 
 
 def _remainder(x, y):
@@ -880,30 +904,27 @@ def _sincos2de(deg, t):
         return sincos2d(deg, adeg=t)
 
 
-def _sum2(u, v):  # mimick geomath.Math.sum, actually sum2
+def _sum2(a, b):  # mimick geomath.Math.sum, actually sum2
     '''Error-free summation like C{geomath.Math.sum}.
 
-       @return: 2-Tuple C{(B{u} + B{v}, residual)}.
+       @return: 2-Tuple C{(B{a} + B{b}, residual)}.
 
-       @note: The C{residual} can be the same as B{C{u}} or B{C{v}}.
+       @note: The C{residual} can be the same as B{C{a}} or B{C{b}}.
 
-       @see: U{Algorithm 3.1<https://www.TUHH.De/ti3/paper/rump/OgRuOi05.pdf>}.
+       @see: U{TwoSum<https://accurate-algorithms.readthedocs.io/en/latest/ch04summation.html>}
+             and I{Knuth}'s U{Algorithm 3.1<https://www.TUHH.De/ti3/paper/rump/OgRuOi05.pdf>}.
     '''
     try:
-        return _wrapped.Math.sum(u, v)
+        return _wrapped.Math.sum(a, b)
     except AttributeError:
-        s = u + v
-        r = s - v
-        t = s - r
         # if Algorithm_3_1:
-        #   t = (u - t) + (v + r)
+        s = a + b
+        r = s - b
+        t = s - r
         # elif C_CPP:  # Math::sum C/C++
-        #   r -= u
-        #   t -= v
-        #   t += r
-        #   t = -t
+        #   r -= a; t -= b; t += r; t = -t
         # else:
-        t = (u - r) + (v - t)
+        t = (a - r) + (b - t)
         # assert fabs(s) >= fabs(t)
         return s, t
 
@@ -920,7 +941,7 @@ def _sum3(s, t, *xs):
 
        @note: Not "error-free", see C{pygeodesy.test/testKarney.py}.
     '''
-    n = 0
+    z = 0
     for x in xs:
         if x:
             t, r = _sum2(t, x)  # start at the least-
@@ -934,9 +955,9 @@ def _sum3(s, t, *xs):
             else:
                 s, t = unsigned0(t), r
         else:
-            n += 1
+            z += 1
     # assert fabs(s) >= fabs(t)
-    return s, t, n
+    return s, t, z
 
 
 def _tand(x):
@@ -956,7 +977,8 @@ def _unroll2(lon1, lon2, wrap=False):  # see .ellipsoidalBaseDI._intersects2
     '''
     if wrap:
         d, t = _diff182(lon1, lon2)
-        lon2, _, _ = _sum3(d, t, lon1)  # (lon1 + d) + t
+        lon2, t, _ = _sum3(d, t, lon1)  # (lon1 + d) + t
+        lon2 += t
     else:
         lon2 = _norm180(lon2)
     return (lon2 - lon1), lon2

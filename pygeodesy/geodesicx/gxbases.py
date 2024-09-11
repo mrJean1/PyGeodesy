@@ -20,7 +20,7 @@ from pygeodesy.karney import _CapsBase, GeodesicError, _2cos2x, \
 from math import fabs, ldexp as _ldexp
 
 __all__ = ()
-__version__ = '24.09.06'
+__version__ = '24.09.07'
 
 # valid C{nC4}s and C{C4order}s, see _xnC4 below
 _nC4s = {24: 2900, 27: 4032, 30: 5425}
@@ -79,11 +79,25 @@ def _cosSeries(c4s, sx, cx):  # PYCHOK shared .geodesicx.gx and -.gxline
     while c4:
         # y1 = ar * y0 - y1 + c4.pop()
         # y0 = ar * y1 - y0 + c4.pop()
-        y1, t1, _ = _sum3(ar * y0, ar * t0, -y1, -t1, _c4())
-        y0, t0, _ = _sum3(ar * y1, ar * t1, -y0, -t0, _c4())
+        y1, t1, _ = _sum3(-y1, -t1, ar * y0, ar * t0, _c4())
+        y0, t0, _ = _sum3(-y0, -t0, ar * y1, ar * t1, _c4())
     # s  = (y0 - y1) * cx
-    s, _, _ = _sum3(cx * y0, _0_0, cx * t0, -cx * y1, -cx * t1)
-    return s
+    s, t, _ = _sum3(cx * y0, _0_0, cx * t0, -cx * y1, -cx * t1)
+    return s + t
+
+#   Y0, Y1 = Fsum(), Fsum()
+#   ar  = _2cos2x(cx, sx)
+#   c4  =  list(c4s)
+#   _c4 =  c4.pop
+#   if isodd(len(c4)):
+#       Y0 += _c4()
+#   while c4:
+#       # y1 = ar * y0 - y1 + c4.pop()
+#       # y0 = ar * y1 - y0 + c4.pop()
+#       Y1 = Y0 * ar - Y1 + _c4()
+#       Y0 = Y1 * ar - Y0 + _c4()
+#   # s  = (y0 - y1) * cx
+#   return float((Y0 - Y1) * cx)
 
 
 _f = float  # in _f2 and .geodesicx._C4_24, _27 and _30

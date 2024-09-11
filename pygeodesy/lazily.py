@@ -255,7 +255,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                           fmath=_i('Fdot', 'Fhorner', 'Fhypot', 'Fpolynomial', 'Fpowers', 'Fcbrt', 'Froot', 'Fsqrt',
                                    'bqrt', 'cbrt', 'cbrt2', 'euclid', 'euclid_',
                                    'facos1', 'fasin1', 'fatan', 'fatan1', 'fatan2', 'favg',
-                                   'fdot', 'fdot3', 'fmean', 'fmean_', 'fhorner', 'fidw', 'fpolynomial',
+                                   'fdot', 'fdot3', 'fma', 'fmean', 'fmean_', 'fhorner', 'fidw', 'fpolynomial',
                                    'fpowers', 'fprod', 'frandoms', 'frange', 'freduce', 'fremainder',
                                    'hypot', 'hypot_', 'hypot1', 'hypot2', 'hypot2_',
                                    'norm2', 'norm_', 'sqrt0', 'sqrt3', 'sqrt_a', 'zcrt', 'zqrt'),
@@ -280,7 +280,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                    'FrechetVincentys', 'Frechet6Tuple',
                                    'frechet_'),
                          fstats=_i('Fcook', 'Flinear', 'Fwelford'),
-                          fsums=_i('Fsum', 'DivMod2Tuple', 'Fsum2Tuple', 'ResidualError',
+                          fsums=_i('Fsum', 'Fsum2product', 'DivMod2Tuple', 'Fsum2Tuple', 'ResidualError',
                                    'fsum', 'fsum_', 'fsumf_', 'fsum1', 'fsum1_', 'fsum1f_'),
                            gars=_i('Garef', 'GARSError'),
                       geodesici=_i('Intersectool', 'Intersectool5Tuple', 'Intersect7Tuple',
@@ -526,7 +526,7 @@ class _ALL_MODS(_internals._MODS_Base):
 _internals._MODS = _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '24.09.06'
+__version__ = '24.09.09'
 
 
 def _ALL_OTHER(*objs):
