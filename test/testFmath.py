@@ -4,15 +4,15 @@
 # Test L{fmath} module.
 
 __all__ = ('Tests',)
-__version__ = '24.09.09'
+__version__ = '24.09.14'
 
 from bases import endswith, isPython2, isWindows, startswith, TestsBase
 
 from pygeodesy import EPS, Fcbrt, Fhypot, INF, Fpowers, Froot, Fsqrt, Fsum, \
                       bqrt, cbrt, cbrt2, euclid_, Ellipsoids, facos1, fasin1, \
-                      fatan, fatan1, fatan2, fhorner, fma, fmath, fpolynomial, \
-                      fpowers, frandoms, fsum_, hypot, hypot_, hypot2_, norm_, \
-                      signOf, sqrt3, sqrt_a, zcrt, zqrt
+                      fatan, fatan1, fatan2, fhorner, fma, fmath, f2mul_, \
+                      fpolynomial, fpowers, frandoms, fsum_, hypot, hypot_, \
+                      hypot2_, isinf, norm_, signOf, sqrt3, sqrt_a, zcrt, zqrt
 
 from math import acos, asin, atan, atan2, sqrt
 from sys import version_info as _version_info
@@ -194,8 +194,15 @@ class Tests(TestsBase):
         a = 1.00000011920929
         b = 53400708
         t = fma(a, b, -b)  # <https://MomentsInGraphics.De/FMA.html>
-        self.test('fma', t, '6.3658604859034', fmt='%.13f', known=isPython2 or isWindows)
-        self.test('abc', (a * b) - b, '6.3658604859034', known=True)
+        self.test('fma', t, '6.365860485903399', known=isPython2 or isWindows)
+        self.test('abc', (a * b) - b, t, known=True)
+
+        t = f2mul_(2., 3, 4)
+        self.test('f2mul_', t, 24.0, nl=1)
+        t = f2mul_(2, 3, INF)
+        self.test('f2mul_', t, INF, known=isinf(t))
+        t = f2mul_(INF, 3, INF)
+        self.test('f2mul_', t, INF, known=isinf(t))
 
 
 if __name__ == '__main__':

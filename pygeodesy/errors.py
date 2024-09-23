@@ -27,7 +27,7 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _getenv, _PYTHON_X_D
 from copy import copy as _copy
 
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')  _under
-__version__ = '24.07.07'
+__version__ = '24.09.19'
 
 _argument_   = 'argument'
 _box_        = 'box'
@@ -759,14 +759,16 @@ try:
     _ = {}.__or__  # {} | {}  # Python 3.9+
 
     def _xkwds(kwds, **dflts):
-        '''(INTERNAL) Update C{dflts} with specified C{kwds}.
+        '''(INTERNAL) Update C{dflts} with specified C{kwds},
+           i.e. C{copy(kwds).update(dflts)}.
         '''
-        return (dflts | kwds) if kwds else dflts
+        return ((dflts | kwds) if kwds else dflts) if dflts else kwds
 
 except AttributeError:
 
     def _xkwds(kwds, **dflts):  # PYCHOK expected
-        '''(INTERNAL) Update C{dflts} with specified C{kwds}.
+        '''(INTERNAL) Update C{dflts} with specified C{kwds},
+           i.e. C{copy(kwds).update(dflts)}.
         '''
         d = dflts
         if kwds:
@@ -785,6 +787,20 @@ except AttributeError:
 #             raise _AttributeError(t, txt_not_='applicable')
 #         if v in (False, True) and v != b:
 #             setattr(inst, NN(_UNDER_, n), v)
+
+
+def _xkwds_from(orig, *args, **kwds):
+    '''(INTERNAL) Return the items from C{orig} with the keys
+       from C{kwds} and a value not in C{args} and C{kwds}.
+    '''
+    def _items(orig, args, items):
+        for n, m in items:
+            if n in orig:  # n in (orig.keys() & kwds.keys())
+                t = orig[n]
+                if t is not m and t not in args:
+                    yield n, t
+
+    return _items(orig, args, kwds.items())
 
 
 def _xkwds_get(kwds, **name_default):
@@ -809,7 +825,8 @@ def _xkwds_get_(kwds, **names_defaults):
 
 def _xkwds_get1(kwds, **name_default):
     '''(INTERNAL) Get one C{kwds} value by C{name} or the
-       C{default} if not present.
+       C{default} if not present.  Raise an C{_UnexpectedError}
+       with any remaining keyword arguments.
     '''
     v, kwds = _xkwds_pop2(kwds, **name_default)
     if kwds:
@@ -840,6 +857,16 @@ def _xkwds_not(*args, **kwds):
     '''(INTERNAL) Return C{kwds} with a value not in C{args}.
     '''
     return dict((n, v) for n, v in kwds.items() if v not in args)
+
+
+def _xkwds_pop(kwds, **name_default):
+    '''(INTERNAL) Pop an item by C{name} from C{kwds} and
+       return its value, otherwise return the C{default}.
+    '''
+    if isinstance(kwds, dict) and len(name_default) == 1:
+        for n, v in name_default.items():
+            return kwds.pop(n, v)
+    raise _xAssertionError(_xkwds_pop, kwds, **name_default)
 
 
 def _xkwds_pop2(kwds, **name_default):

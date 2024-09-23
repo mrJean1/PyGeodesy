@@ -165,7 +165,7 @@ from pygeodesy.utily import atan2d, sincos2d, tand, _unrollon,  fabs
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.karney
-__version__ = '24.09.10'
+__version__ = '24.09.13'
 
 _K_2_0      = _getenv('PYGEODESY_GEOGRAPHICLIB', _2_)
 _K_2_4      = _K_2_0 == '2.4'
@@ -833,10 +833,6 @@ except ImportError:  # Python 3.12-
 
 #   def _poly_fma(x, *cs):
 #       S = Fhorner(x, *cs, incx=False)
-#       return float(S)
-
-#   def _poly_fma(x, s, *cs):  # scalar x, s, cs
-#       S = Fsum(s)._fma_scalar(None, x, *cs)
 #       return float(S)
 
 def _polynomial(x, cs, i, j):  # PYCHOK shared

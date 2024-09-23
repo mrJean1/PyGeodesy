@@ -10,11 +10,11 @@ from pygeodesy.basics import _copysign, copysign0, isbool, isint, isscalar, \
                               len2, map1, _xiterable
 from pygeodesy.constants import EPS0, EPS02, EPS1, NAN, PI, PI_2, PI_4, \
                                _0_0, _0_125, _1_6th, _0_25, _1_3rd, _0_5, _1_0, \
-                               _N_1_0, _1_5, _copysign_0_0, _isfinite, remainder
+                               _N_1_0, _1_5, _copysign_0_0, isfinite, remainder
 from pygeodesy.errors import _IsnotError, LenError, _TypeError, _ValueError, \
                              _xError, _xkwds_get1, _xkwds_pop2
-from pygeodesy.fsums import _2float, Fsum, fsum, fsum1_, _isFsumTuple, _1primed, \
-                            Fmt, unstr
+from pygeodesy.fsums import _2float, Fsum, fsum, fsum1_, _isFsumTuple, \
+                            _1primed, _Psum_,  Fmt, unstr
 from pygeodesy.interns import MISSING, _negative_, _not_scalar_
 from pygeodesy.lazily import _ALL_LAZY, _sys_version_info2
 # from pygeodesy.streprs import Fmt, unstr  # from .fsums
@@ -24,7 +24,7 @@ from math import fabs, sqrt  # pow
 import operator as _operator  # in .datums, .trf, .utm
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '24.09.09'
+__version__ = '24.09.19'
 
 # sqrt(2) - 1 <https://WikiPedia.org/wiki/Square_root_of_2>
 _0_4142  =  0.41421356237309504880  # ... ~ 3730904090310553 / 9007199254740992
@@ -431,8 +431,9 @@ def fdot(a, *b):
 
        @raise LenError: Unequal C{len(B{a})} and C{len(B{b})}.
 
-       @see: Class L{Fdot} and U{Algorithm 5.10 B{DotK}
-             <https://www.TUHH.De/ti3/paper/rump/OgRuOi05.pdf>}.
+       @see: Class L{Fdot}, U{Algorithm 5.10 B{DotK}
+             <https://www.TUHH.De/ti3/paper/rump/OgRuOi05.pdf>} and function
+             C{math.sumprod} in Python 3.12 and later.
     '''
     return fsum(_map_mul(a, b, fdot))
 
@@ -544,16 +545,20 @@ def fidw(xs, ds, beta=2):
     return x
 
 
-def fma(x, y, z):
-    '''Fused-multiply-add, as C{math.fma(x, y, z)} from Python 3.13+.
+def fma(x, y, z, **raiser):
+    '''Fused-multiply-add, using C{math.fma(x, y, z)} from Python 3.13+
+       or an equivalent implementation.
 
-       @arg x: A C{scalar}, an L{Fsum} or L{Fsum2Tuple} instance.
-       @arg y: A C{scalar}, an L{Fsum} or L{Fsum2Tuple} instance.
-       @arg z: A C{scalar}, an L{Fsum} or L{Fsum2Tuple} instance.
+       @arg x: Multiplicand (C{scalar}, an L{Fsum} or L{Fsum2Tuple}).
+       @arg y: Multiplier (C{scalar}, an L{Fsum} or L{Fsum2Tuple}).
+       @arg z: Addend (C{scalar}, an L{Fsum} or L{Fsum2Tuple}).
+       @kwarg raiser: Keyword argument C{B{raiser}=False}, if C{True},
+                      throw an exception, otherwise pass any non-finite
+                      result (C{bool}).
 
-       @return: C{(x * y) + z} (C{float} or an L{Fsum}).
+       @return: C{(x * y) + z} (L{Fsum} or C{float}).
     '''
-    return Fsum(x).fma(y, z).as_iscalar
+    return _Psum_(x).fma(y, z, raiser=raiser).as_iscalar
 
 
 def fmean(xs):
@@ -579,6 +584,22 @@ def fmean_(*xs):
        @see: Function L{fmean} for further details.
     '''
     return fmean(xs)
+
+
+def f2mul_(x, *ys, **raiser):
+    '''Cascaded, accurate multiplication C{B{x} * B{y} * B{y} ...} for all B{C{ys}}.
+
+       @arg x: Multiplicand (C{scalar}, an L{Fsum} or L{Fsum2Tuple}).
+       @arg ys: Multipliers (each C{scalar}, an L{Fsum} or L{Fsum2Tuple}), all
+                positional.
+       @kwarg raiser: Keyword argument C{B{raiser}=False}, if C{True}, throw an
+                      exception, otherwise pass any non-finite result (C{bool}).
+
+       @return: The cascaded I{TwoProduct} (L{Fsum}, C{float} or C{int}).
+
+       @see: U{Equations 2.3<https://www.TUHH.De/ti3/paper/rump/OzOgRuOi06.pdf>}
+    '''
+    return _Psum_(x).f2mul_(*ys, **raiser).as_iscalar
 
 
 def fpolynomial(x, *cs, **over):
@@ -615,7 +636,7 @@ def fpowers(x, n, alts=0):
     elif n < 1:
         raise _ValueError(n=n)
 
-    p  = x if isint(x) or _isFsumTuple(x) else _2float(x=x)
+    p  = x if isscalar(x) or _isFsumTuple(x) else _2float(x=x)
     ps = tuple(_powers(p, n))
 
     if alts > 0:  # x**2, x**4, ...
@@ -752,7 +773,7 @@ def fremainder(x, y):
     # On Windows 32-bit with python 2.7, math.fmod(-0.0, 360)
     # == +0.0.  This fixes this bug.  See also Math::AngNormalize
     # in the C++ library, Math.sincosd has a similar fix.
-    if _isfinite(x):
+    if isfinite(x):
         try:
             r = remainder(x, y) if x else x
         except Exception as e:

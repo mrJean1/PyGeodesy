@@ -90,7 +90,7 @@ line: ``epydoc --html --no-private --no-source --name=PyGeodesy --url=... -v pyg
 Tests
 =====
 
-The tests ran with Python 3.13.0rc1, 3.12.5 (with geographiclib_ 2.0, numpy_ 2.1.0, scipy_ 1.14.1,
+The tests ran with Python 3.13.0rc2, 3.12.6 (with geographiclib_ 2.0, numpy_ 2.1.0, scipy_ 1.14.1,
 GeodSolve_ 2.3, IntersectTool_ 2.3 and RhumbSolve_ 2.3), 3.11.5 (with geographiclib_ 2.0, numpy_
 1.24.2 and scipy_ 1.10.1), Python 3.10.8 (with geographiclib_ 2.0, numpy_ 1.23.3, scipy_ 1.9.1,
 GeoConvert_ 2.3, GeodSolve_ 2.3), Python 3.9.6 and Python 2.7.18 (with geographiclib_ 1.50, numpy_
@@ -101,13 +101,13 @@ All tests ran with and without ``lazy import`` for Python 3 and with command lin
 and env variable ``PYGEODESY_WARNINGS=on`` for all Python versions.  The results of those tests are
 included in the distribution files.
 
-Python 3.13.0rc1, 3.12.5, 3.11.5 and 3.10.8 run on Apple M1 Silicon (``arm64``), *natively*.  Python 2.7.18
+Python 3.13.0rc2, 3.12.6, 3.11.5 and 3.10.8 run on Apple M1 Silicon (``arm64``), *natively*.  Python 2.7.18
 runs on Intel (``x86_64``) or Intel *emulation* (\"``arm64_x86_64``\", see function `pygeodesy.machine`_).
 
-Test coverage has been measured with coverage_ 7.6.0 using Python 3.12.5, 3.11.5 and 3.10.8.  The complete
+Test coverage has been measured with coverage_ 7.6.0 using Python 3.12.6, 3.11.5 and 3.10.8.  The complete
 coverage report in HTML and a PDF summary are included in the distribution files.
 
-The tests also ran with Python 3.12.5 (and geographiclib_ 2.0) on `Debian 12`_ in 64-bit only and with
+The tests also ran with Python 3.12.6 (and geographiclib_ 2.0) on `Debian 12`_ in 64-bit only and with
 Python 3.12.3 (and geographiclib_ 2.0) on `Windows 2019Server`_ in 64-bit only and with Python 2.7.18
 (and with geographiclib_ 1.52) on `Windows 10`_ in 64- and 32-bit.
 
@@ -135,7 +135,7 @@ and McCabe_ using Python 2.7.18 and with Flake8_ using Python 3.11.5, both in 64
 
 For a summary of all *Karney*-based functionality in ``pygeodesy``, see module karney_.
 
-*Last updated: Sep 09, 2024.*
+*Last updated: Sep 24, 2024.*
 
 License
 =======

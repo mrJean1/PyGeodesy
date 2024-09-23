@@ -15,22 +15,22 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 # from pygeodesy.basics import len2  # from .fmath
 from pygeodesy.constants import EPS, _0_0, _1_0
 from pygeodesy.errors import _AssertionError, ClipError, PointsError
-from pygeodesy.fmath import fabs, len2
-from pygeodesy.fsums import fsumf_, Property_RO
+from pygeodesy.fmath import fabs, len2,  Fsum
+# from pygeodesy.fsums import Fsum  # from .fmath
 from pygeodesy.interns import NN, _clipid_, _convex_, _DOT_, _end_, _few_, \
                              _fi_, _height_, _i_, _invalid_, _j_, _lat_, \
                              _lon_, _near_, _not_, _points_, _start_, _too_
 from pygeodesy.iters import _imdex2, points2
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
-from pygeodesy.named import _Named, _NamedTuple, _Pass
+from pygeodesy.named import _Named, _NamedTuple, _Pass,  Property_RO
 from pygeodesy.points import areaOf, boundsOf, isconvex_, LatLon_
-# from pygeodesy.props import Property_RO  # from .fsums
+# from pygeodesy.props import Property_RO  # from .named
 from pygeodesy.units import Bool, FIx, HeightX, Lat, Lon, Number_
 
 # from math import fabs  # from .fmath
 
 __all__ = _ALL_LAZY.clipy
-__version__ = '23.05.18'
+__version__ = '23.09.20'
 
 _fj_       = 'fj'
 _original_ = 'original'
@@ -576,10 +576,10 @@ class _SH(_Named):
         x, dx = p1.lon, self._dx
         fy = float(p2.lat - y)
         fx = float(p2.lon - x)
-        d  = fy * dx - fx * dy
+        d  = fy * dx - fx * dy  # fdot((fx, fy), dx, -dy)
         if fabs(d) < EPS:  # PYCHOK no cover
             raise _AssertionError(self._DOT_(self.intersect.__name__))
-        d  = fsumf_(self._xy, -y * dx, x * dy) / d
+        d  = Fsum(self._xy, -y * dx, x * dy).fover(d)
         y += d * fy
         x += d * fx
         return _SHlli(y, x, p1.classof, edge)

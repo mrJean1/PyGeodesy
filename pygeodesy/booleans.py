@@ -43,7 +43,7 @@ from pygeodesy.utily import fabs, _unrollon, _Wrap
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.booleans
-__version__ = '24.08.30'
+__version__ = '24.09.15'
 
 _0_EPS =  EPS  # near-zero, positive
 _EPS_0 = -EPS  # near-zero, negative
@@ -1187,7 +1187,7 @@ class _CompositeFHP(_CompositeBase):
             n, b = v, v._label
             if b in L.RIGHT_LEFT_ON:  # next chain
                 while True:
-                    n._label = None  # n.__dict__.pop('_label')
+                    n._label = None  # _xkwds_pop(n.__dict__, _label=None)
                     n = n._next
                     if n is v or n._label is not L.ON_ON:  # n._label and ...
                         break

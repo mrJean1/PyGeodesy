@@ -122,7 +122,7 @@ C{epydoc --html --no-private --no-source --name=PyGeodesy --url=... -v pygeodesy
 Tests
 =====
 
-The tests ran with Python 3.13.0rc1, Python 3.12.5 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0,
+The tests ran with Python 3.13.0rc2, Python 3.12.6 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0,
 U{numpy<https://PyPI.org/project/numpy>} 2.1.0, U{scipy<https://PyPI.org/project/scipy>} 1.14.1,
 U{GeodSolve<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.3,
 U{IntersectTool<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.3 and
@@ -144,13 +144,13 @@ All tests ran with and without C{lazy import} for Python 3 and with command line
 env variable C{PYGEODESY_WARNINGS=on} for all Python versions.  The results of those tests are included in
 the distribution files.
 
-Test coverage has been measured with U{coverage<https://PyPI.org/project/coverage>} 7.6.0 using Python 3.12.5,
+Test coverage has been measured with U{coverage<https://PyPI.org/project/coverage>} 7.6.0 using Python 3.12.6,
 3.11.5 and 3.10.8.  The complete coverage report in HTML and a PDF summary are included in the distribution files.
 
-Python 3.13.0rc1, 3.12.5, 3.11.5 and 3.10.8 run on Apple M1 Silicon (C{arm64}), I{natively}.  Python 2.7.18 runs on
+Python 3.13.0rc2, 3.12.6, 3.11.5 and 3.10.8 run on Apple M1 Silicon (C{arm64}), I{natively}.  Python 2.7.18 runs on
 Intel (C{x86_64}) or Intel I{emulation} ("C{arm64_x86_64}", see function L{machine<pygeodesy.machine>}).
 
-The tests also ran with Python 3.12.5 (and U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0) on U{Debian
+The tests also ran with Python 3.12.6 (and U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0) on U{Debian
 12<https://Cirrus-CI.com/github/mrJean1/PyGeodesy/master>} in 64-bit only, with Python 3.12.3 (and
 U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0) on U{Windows
 2019Server<https://CI.AppVeyor.com/project/mrJean1/pygeodesy>} in 64-bit only and with Python 2.7.18 (and
@@ -199,6 +199,8 @@ The following environment variables are observed by C{PyGeodesy}:
 
  - C{PYGEODESY_EXCEPTION_CHAINING} - see module L{errors<pygeodesy.errors>}.
  - C{PYGEODESY_FMT_FORM} - see module L{dms<pygeodesy.dms>}.
+ - C{PYGEODESY_FSUM_F2PRODUCT} - see module L{fsums<pygeodesy.fsums>} and method L{f2product<pygeodesy.Fsum.f2product>}.
+ - C{PYGEODESY_FSUM_NONFINITES} - see module L{fsums<pygeodesy.fsums>} and function L{nonfiniterrors<pygeodesy.nonfiniterrors>}.
  - C{PYGEODESY_FSUM_RESIDUAL} - see module L{fsums<pygeodesy.fsums>} and class L{Fsum<pygeodesy.Fsum>}.
  - C{PYGEODESY_GEOCONVERT} - see module L{mgrs<pygeodesy.mgrs>}.
  - C{PYGEODESY_GEODSOLVE} - see module L{geodsolve<pygeodesy.geodsolve>}.
@@ -595,7 +597,7 @@ else:
 
 from pygeodesy.internals import _version2,  _DOT_  # PYCHOK import
 # from pygeodesy.interns import _DOT_  # from .internals
-__version__ = '24.09.09'
+__version__ = '24.09.24'
 # see setup.py for similar logic
 version     = _DOT_(*_version2(__version__, n=3))
 

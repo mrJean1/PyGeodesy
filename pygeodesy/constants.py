@@ -13,9 +13,9 @@ from pygeodesy.basics import _copysign, isbool, iscomplex, isint,  _0_0
 from pygeodesy.errors import _xError, _xError2, _xkwds_get1, _xkwds_item2
 # from pygeodesy.internals import _0_0  # from .basics
 from pygeodesy.interns import _INF_, _NAN_, _UNDER_
-# from pygeodesy.lazily import _ALL_LAZY  # from .unitsBase
+from pygeodesy.lazily import _ALL_MODS as _MODS, _ALL_LAZY
 # from pygeodesy.streprs import Fmt  # from .unitsBase
-from pygeodesy.unitsBase import Float, Int, Radius,  _ALL_LAZY, Fmt
+from pygeodesy.unitsBase import Float, Int, Radius,  Fmt
 
 from math import fabs, isinf, isnan, pi as _pi, sqrt
 try:
@@ -24,7 +24,7 @@ except ImportError:  # Python 2-
     _inf, _nan = float(_INF_), float(_NAN_)
 
 __all__ = _ALL_LAZY.constants
-__version__ = '24.08.26'
+__version__ = '24.09.12'
 
 
 def _copysign_0_0(y):
@@ -324,16 +324,17 @@ try:
     from math import isfinite as _isfinite  # in .ellipsoids, ...
 except ImportError:  # Python 3.1-
 
-    def _isfinite(x):
+    def _isfinite(x):  # PYCHOK not self?
         '''Mimick Python 3.2+ C{math.isfinite}.
         '''
         return not (isinf(x) or isnan(x))
 
 
 def isfinite(obj):
-    '''Check a finite C{scalar} or C{complex} value.
+    '''Check a finite C{scalar}, C{complex}, ... value.
 
-       @arg obj: Value (C{scalar} or C{complex}).
+       @arg obj: Value (C{scalar}, C{complex}, an L{Fsum} or
+                        L{Fsum2Tuple}).
 
        @return: C{False} if B{C{obj}} is C{INF}, C{NINF}
                 or C{NAN}, C{True} otherwise.
@@ -344,7 +345,9 @@ def isfinite(obj):
         return (obj not in _INF_NAN_NINF) and _isfinite(obj)
     except Exception as x:
         if iscomplex(obj):  # _isfinite(complex) thows TypeError
-            return isfinite(obj.real) and isfinite(obj.imag)
+            return _isfinite(obj.real) and _isfinite(obj.imag)
+        if _MODS.fsums._isFsumTuple(obj):  # OverflowError
+            return _isfinite(float(obj))  # sum(obj._ps)
         raise _xError(x, Fmt.PAREN(isfinite.__name__, obj))
 
 

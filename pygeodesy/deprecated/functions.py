@@ -14,7 +14,7 @@ from pygeodesy.props import deprecated_function
 from pygeodesy.units import Number_, Scalar_
 
 __all__ = _ALL_DEPRECATED.deprecated_functions
-__version__ = '24.06.11'
+__version__ = '24.09.19'
 
 _WGS84 = _UTM = object()
 
@@ -191,6 +191,14 @@ def fStr(floats, prec=6, fmt=_MODS.streprs.Fmt.f, ints=False, sep=_COMMASPACE_):
 def fStrzs(floatstr):  # PYCHOK no cover
     '''DEPRECATED, use function L{pygeodesy.fstrzs}.'''
     return _MODS.streprs.fstrzs(floatstr)
+
+
+@deprecated_function
+def Fsum2product(*xs, **kwds):
+    '''DEPRECATED on 2024.09.19, use L{Fsum}C{(*B{xs}, B{f2product}=True, ...)}.'''
+    F = _MODS.fsums.Fsum(**kwds)
+    _ = F.f2product(True)
+    return F._facc_args(xs, up=False) if xs else F
 
 
 @deprecated_function

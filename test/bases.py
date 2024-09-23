@@ -49,7 +49,7 @@ __all__ = ('coverage', 'GeodSolve', 'geographiclib',  # constants
            'numpy', 'PyGeodesy_dir', 'PythonX', 'scipy', 'test_dir',
            'RandomLatLon', 'TestsBase',  # classes
            'secs2str', 'tilde', 'type2str', 'versions')  # functions
-__version__ = '24.08.31'
+__version__ = '24.09.15'
 
 try:
     geographiclib = basics._xgeographiclib(basics, 1, 50)
@@ -324,7 +324,7 @@ class TestsBase(object):
             raise TestError('test %d %s', self.total, name)
 
         if self._time:  # undo _prefix change
-            self.__dict__.pop('_prefix')
+            self.__dict__.pop('_prefix')  # _xkwds_pop(self.__dict__, _prefix=None)
 
     def test_tol(self, name, value, expect, tol=1e-12, **kwds):
         e = 0 if value is None or expect is None else abs(value - expect)  # None iteration

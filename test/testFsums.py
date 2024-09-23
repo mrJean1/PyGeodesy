@@ -4,12 +4,13 @@
 # Test L{fsums} module.
 
 __all__ = ('Tests',)
-__version__ = '24.09.10'
+__version__ = '24.09.21'
 
 from bases import endswith, isPython2, startswith, TestsBase
 
-from pygeodesy import EPS, Fsum, Fsum2product, Fsum2Tuple, NN, ResidualError, \
-                      frandoms, fsum, fsum_, fsums
+from pygeodesy import EPS, INF, NAN, Fsum, Fsum2product, Fsum2Tuple, \
+                      NN, ResidualError, f2product, frandoms, fsum, \
+                      fsum_, fsums, isfinite, nonfiniterrors
 
 from math import ceil, floor
 
@@ -137,6 +138,10 @@ class Tests(TestsBase):
             self.test('_2sum', fsums._2sum(1e308, 1e803), OverflowError.__name__)
         except OverflowError as x:
             self.test('_2sum', repr(x), repr(x))
+        try:
+            self.test('F("nan")', Fsum("nan"), TypeError.__name__)
+        except Exception as X:
+            self.test('F("nan")', repr(X), TypeError.__name__, known=startswith)
         try:
             self.test('F(None)', Fsum(None).fsum(), TypeError.__name__)
         except Exception as X:
@@ -325,6 +330,16 @@ class Tests(TestsBase):
                                              else 'Fsum[1] fint(-2, 0)'))
         self.test('fint2', t.fint2(), ('(-3, 0' if isPython2 else '(-2, -1'), known=startswith)
 
+        t = f.f2mul_(-2, 2)
+        self.test('f2mul_', t, '(12.0, ...', known=int(t) == 11)
+        t = f.f2mul_(INF)
+        self.test('f2mul_', t, 'NINF', known=not isfinite(t))
+        t = f.f2mul_(3, NAN)
+        self.test('f2mul_', t, 'NAN', known=not isfinite(t))
+        f.nonfinites(True)
+        f += NAN
+        self.test('+= NAN', f, NAN, known=not isfinite(f))
+
         f = Fsum(3) // 1
         try:
             t = pow(f, 3, 4)
@@ -399,12 +414,29 @@ class Tests(TestsBase):
         self.test('T._ps_neg', list(t._ps_neg), '[-1.0', known=startswith)
         self.test('T.signOf',  t.signOf(), '1')
 
+        f = Fsum()
+        t = f2product(), f.f2product()
+        self.test('f2product', t, t, nl=1)
+        t = nonfiniterrors(), f.nonfinites()
+        self.test('nonfinite*', t, t)
+        f.f2product(None)
+        f.nonfinites(None)
+        t = f.f2product(), f.nonfinites()
+        self.test('Nones', t, (None, None))
+
 
 if __name__ == '__main__':
 
+    from sys import version_info
+
     t = Tests(__file__, __version__, fsums)
-    t.testFsums(Fsum)
-    if not Fsum().f2product():
+    if version_info[:2] == (3, 12):  # isPython312
+        f2 = f2product(True)
+        nf = nonfiniterrors(False)
         t.testFsums(Fsum2product)
+        t.test('True', f2product(f2), True, nl=1)
+        t.test('False', nonfiniterrors(nf), False)
+    else:
+        t.testFsums(Fsum)
     t.results()
     t.exit()

@@ -1,13 +1,16 @@
 
 # python -m coverage html --rcfile=testcoverage.rc --title="..."
-# __version__ = '23.11.28'
+# __version__ = '24.09.21'
+
+[run]
+branch = True
 
 [report]
 exclude_lines =
     pragma: no cover
     no cover
     PYCHOK no cover
-    except\s
+    except (?!ImportError)
     \sraise\s
     if False:
     if __name__ == .__main__.:

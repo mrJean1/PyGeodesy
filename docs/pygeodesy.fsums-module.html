@@ -60,31 +60,44 @@
 <!-- ==================== MODULE DESCRIPTION ==================== -->
 <h1 class="epydoc">Module fsums</h1><p class="nomargin-top"></p>
 <p>Class <a href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> 
-  for precision floating point summation and <i>running</i> summation based
-  on, respectively similar to Python's <code>math.fsum</code>.</p>
+  for precision floating point summation similar to Python's 
+  <code>math.fsum</code> but also providing <i>running</i> summation.</p>
   <p>Class <a href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> 
-  also supports accurate multiplication for Python 3.13 and later, but as 
-  an option for older Python versions.  For more details, see method <a 
-  href="pygeodesy.fsums.Fsum-class.html#f2product" 
-  class="link">f2product</a>, class <a 
-  href="pygeodesy.fsums-module.html#Fsum2product" 
-  class="link">Fsum2product</a> and <a 
-  href="https://www.TUHH.De/ti3/paper/rump/OgRuOi05.pdf" 
-  target="_top">Accurate Sum and Dot Product</a>.</p>
+  also supports accurate <i>TwoProduct</i> multiplication as an option for 
+  Python 3.12 and older and by default for Python 3.13 and newer. Set env 
+  variable <code>PYGEODESY_FSUM_F2PRODUCT</code> to any non-empty or 
+  non-zero string or use function <code>pygeodesy.f2product(True)</code> to
+  enable accurate <i>TwoProduct</i> multiplication.</p>
   <p>Generally, an <a href="pygeodesy.fsums.Fsum-class.html" 
   class="link">Fsum</a> instance is considered a <code>float</code> plus a 
-  small or zero <code>residual</code> value, see property <a 
-  href="pygeodesy.fsums.Fsum-class.html#residual" 
-  class="link">Fsum.residual</a>.  However, there are several 
-  <code>integer</code> <a href="pygeodesy.fsums.Fsum-class.html" 
-  class="link">Fsum</a> cases, for example the result of <code>ceil</code>,
-  <code>floor</code>, <code>Fsum.__floordiv__</code> and methods <a 
-  href="pygeodesy.fsums.Fsum-class.html#fint" class="link">Fsum.fint</a> 
-  and <a href="pygeodesy.fsums.Fsum-class.html#fint2" 
-  class="link">Fsum.fint2</a>.</p>
-  <p>Also, <a href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> 
-  methods <a href="pygeodesy.fsums.Fsum-class.html#pow" 
-  class="link">Fsum.pow</a>, <a 
+  small or zero <code>residue</code> aka <code>residual</code> value, see 
+  property <a href="pygeodesy.fsums.Fsum-class.html#residual" 
+  class="link">Fsum.residual</a>.</p>
+  <p>Set env variable <code>PYGEODESY_FSUM_RESIDUAL</code> to a 
+  <code>float</code> string greater than <code>&quot;0.0&quot;</code> as 
+  the threshold to throw a <a 
+  href="pygeodesy.fsums.ResidualError-class.html" 
+  class="link">ResidualError</a> for a division, power or root operation of
+  an <a href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> with a
+  <code>residual</code> <i>ratio</i> exceeding the threshold.  See methods 
+  <a href="pygeodesy.fsums.Fsum-class.html#RESIDUAL" 
+  class="link">Fsum.RESIDUAL</a>, <a 
+  href="pygeodesy.fsums.Fsum-class.html#pow" class="link">Fsum.pow</a>, <a 
+  href="pygeodesy.fsums.Fsum-class.html#__ipow__" 
+  class="link">Fsum.__ipow__</a> and <a 
+  href="pygeodesy.fsums.Fsum-class.html#__itruediv__" 
+  class="link">Fsum.__itruediv__</a>.</p>
+  <p>There are several <code>integer</code> <a 
+  href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> cases, for 
+  example the result from functions <code>ceil</code>, <code>floor</code>, 
+  <code>Fsum.__floordiv__</code> and methods <a 
+  href="pygeodesy.fsums.Fsum-class.html#fint" class="link">Fsum.fint</a>, 
+  <a href="pygeodesy.fsums.Fsum-class.html#fint2" 
+  class="link">Fsum.fint2</a> and <a 
+  href="pygeodesy.fsums.Fsum-class.html#is_integer" 
+  class="link">Fsum.is_integer</a>.  Also, <a 
+  href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> methods <a 
+  href="pygeodesy.fsums.Fsum-class.html#pow" class="link">Fsum.pow</a>, <a 
   href="pygeodesy.fsums.Fsum-class.html#__ipow__" 
   class="link">Fsum.__ipow__</a>, <a 
   href="pygeodesy.fsums.Fsum-class.html#__pow__" 
@@ -93,28 +106,21 @@
   class="link">Fsum.__rpow__</a> return a (very long) <code>int</code> if 
   invoked with optional argument <code>mod</code> set to <code>None</code>.
   The <code>residual</code> of an <code>integer</code> <a 
-  href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> may be 
-  between <code>-1.0</code> and <code>+1.0</code>, including 
-  <code>INT0</code> if considered to be <i>exact</i>.</p>
-  <p>Set env variable <code>PYGEODESY_FSUM_RESIDUAL</code> to a 
-  <code>float</code> string greater than <code>&quot;0.0&quot;</code> as 
-  the threshold to throw a <a 
-  href="pygeodesy.fsums.ResidualError-class.html" 
-  class="link">ResidualError</a> for a division, power or root operation of
-  an <a href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> 
-  instance with a <code>residual</code> <i>ratio</i> exceeding the 
-  threshold.  See methods <a 
-  href="pygeodesy.fsums.Fsum-class.html#RESIDUAL" 
-  class="link">Fsum.RESIDUAL</a>, <a 
-  href="pygeodesy.fsums.Fsum-class.html#pow" class="link">Fsum.pow</a>, <a 
-  href="pygeodesy.fsums.Fsum-class.html#__ipow__" 
-  class="link">Fsum.__ipow__</a> and <a 
-  href="pygeodesy.fsums.Fsum-class.html#__itruediv__" 
-  class="link">Fsum.__itruediv__</a>.</p>
+  href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> is between 
+  <code>-1.0</code> and <code>+1.0</code> and will be <code>INT0</code> if 
+  that is considered to be <i>exact</i>.</p>
+  <p>Set env variable <code>PYGEODESY_FSUM_NONFINITES</code> to 
+  <code>&quot;std&quot;</code> or use function 
+  <code>pygeodesy.nonfiniterrors(False)</code> to allow <i>non-finite</i> 
+  <code>float</code>s like <code>inf</code>, <code>INF</code>, 
+  <code>NINF</code>, <code>nan</code> and <code>NAN</code> and to ignore 
+  <code>OverflowError</code> respectively <code>ValueError</code> 
+  exceptions.  However, in that case <i>non-finite</i> results may differ 
+  from Python's <code>math.fsum</code> results.</p>
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        24.09.10
+        24.09.22
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -129,7 +135,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.fsums.Fsum-class.html" class="summary-name">Fsum</a><br />
-      Precision floating point summation and <i>running</i> summation.
+      Precision floating point summation, <i>running</i> summation and 
+        accurate multiplication.
     </td>
   </tr>
 <tr>
@@ -179,12 +186,29 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="Fsum2product"></a><span class="summary-sig-name">Fsum2product</span>(<span class="summary-sig-arg">*xs</span>,
-        <span class="summary-sig-arg">**name_RESIDUAL</span>)</span><br />
-      Return an <a href="pygeodesy.fsums.Fsum-class.html" 
-      class="link">Fsum</a> with <a 
-      href="pygeodesy.fsums.Fsum-class.html#f2product" 
-      class="link">f2product</a> accurate multiplication <i>turned on</i>.</td>
+          <td><span class="summary-sig"><a href="pygeodesy.fsums-module.html#f2product" class="summary-sig-name">f2product</a>(<span class="summary-sig-arg">*two</span>)</span><br />
+      Turn accurate <i>TwoProduct</i> multiplication on or off.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.fsums-module.html#nonfiniterrors" class="summary-sig-name">nonfiniterrors</a>(<span class="summary-sig-arg">*raiser</span>)</span><br />
+      Throw <code>OverflowError</code> and <code>ValueError</code> 
+      exceptions for or handle <i>non-finite</i> <code>float</code>s as 
+      <code>inf</code>, <code>INF</code>, <code>NINF</code>, 
+      <code>nan</code> and <code>NAN</code> in summations and 
+      multiplications.</td>
           <td align="right" valign="top">
             
             
@@ -202,7 +226,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fsums-module.html#fsum" class="summary-sig-name">fsum</a>(<span class="summary-sig-arg">xs</span>,
         <span class="summary-sig-arg">floats</span>=<span class="summary-sig-default">False</span>)</span><br />
-      Precision floating point summation based on/like Python's 
+      Precision floating point summation from or like Python's 
       <code>math.fsum</code>.</td>
           <td align="right" valign="top">
             
@@ -238,8 +262,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fsums-module.html#fsumf_" class="summary-sig-name">fsumf_</a>(<span class="summary-sig-arg">*xs</span>)</span><br />
-      Precision floating point summation iff <i>all</i> 
-      <code><b>xs</b></code> items are <i>known to be scalar</i>.</td>
+      Precision floating point summation taking all <code><b>xs</b></code> 
+      items <i>as-is</i>.</td>
           <td align="right" valign="top">
             
             
@@ -292,8 +316,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fsums-module.html#fsum1f_" class="summary-sig-name">fsum1f_</a>(<span class="summary-sig-arg">*xs</span>)</span><br />
-      Precision floating point summation iff <i>all</i> 
-      <code><b>xs</b></code> items are <i>known to be scalar</i>.</td>
+      Precision floating point summation, 1-primed and take all 
+      <code><b>xs</b></code> items <i>as-is</i>.</td>
           <td align="right" valign="top">
             
             
@@ -329,6 +353,76 @@
     <span class="table-header">Function Details</span></td>
 </tr>
 </table>
+<a name="f2product"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">f2product</span>&nbsp;(<span class="sig-arg">*two</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Turn accurate <i>TwoProduct</i> multiplication on or off.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>two</code></strong> - If <code>True</code>, turn <i>TwoProduct</i> on, if 
+          <code>False</code> off or if <code>None</code> or omitted, keep 
+          the current setting.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The previous setting (<code>bool</code>).</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <i>TwoProduct</i> multiplication is based on the 
+        <i>TwoProductFMA</i> <a 
+        href="https://www.TUHH.De/ti3/paper/rump/OgRuOi05.pdf" 
+        target="_top">Algorithm 3.5</a> using function 
+        <code>math.fma</code> from Python 3.13 and later or an equivalent, 
+        slower implementation when not available.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="nonfiniterrors"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">nonfiniterrors</span>&nbsp;(<span class="sig-arg">*raiser</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Throw <code>OverflowError</code> and <code>ValueError</code> 
+  exceptions for or handle <i>non-finite</i> <code>float</code>s as 
+  <code>inf</code>, <code>INF</code>, <code>NINF</code>, <code>nan</code> 
+  and <code>NAN</code> in summations and multiplications.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>raiser</code></strong> - If <code>True</code>, throw exceptions, if <code>False</code> 
+          handle <i>non-finites</i> or if <code>None</code> or omitted, 
+          leave the setting unchanged.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Previous setting (<code>bool</code>).</dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        <code>inf</code>, <code>INF</code> and <code>NINF</code> throw an 
+        <code>OverflowError</code>, <code>nan</code> and <code>NAN</code> a
+        <code>ValueError</code>.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="fsum"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -344,39 +438,45 @@
     </td>
   </tr></table>
   
-  <p>Precision floating point summation based on/like Python's 
+  <p>Precision floating point summation from or like Python's 
   <code>math.fsum</code>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xs</code></strong> - Iterable of items to add (each <code>scalar</code> or an <a 
+        <li><strong class="pname"><code>xs</code></strong> - Iterable of items to add (each <code>scalar</code>, an <a 
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
           <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
-          class="link">Fsum2Tuple</a> instance).</li>
-        <li><strong class="pname"><code>floats</code></strong> - Use <code><b>floats</b>=True</code> iff <i>all</i> 
-          <b><code>xs</code></b> items are <i>known to be scalar</i> 
-          (<code>bool</code>).</li>
+          class="link">Fsum2Tuple</a>).</li>
+        <li><strong class="pname"><code>floats</code></strong> - Use <code><b>floats</b>=True</code> to take all 
+          <b><code>xs</code></b> items <i>as-is</i> including 
+          <i>non-finites</i>, unravel <a 
+          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a>s and
+          <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
+          class="link">Fsum2Tuple</a>s and avoid <i>non-finite</i> 
+          exceptions, overruling the global setting of <a 
+          href="pygeodesy.fsums-module.html#nonfiniterrors" 
+          class="link">nonfiniterrors</a> (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Precision <code>fsum</code> (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>OverflowError</strong></code> - Partial <code>2sum</code> overflow.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <b><code>xs</code></b> item.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid or non-finite <b><code>xs</code></b> item.</li>
+        <li><code><strong class='fraise'>OverflowError</strong></code> - Infinite <b><code>xs</code></b> item or intermediate 
+        <code>math.fsum</code> overflow.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>xs</code></b> item.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid or <code>NAN</code> <b><code>xs</code></b> item.</li>
     </ul></dd>
   </dl>
-<div class="fields">      <p><strong>Note:</strong>
-        Exception and <i>non-finite</i> handling may differ if not based on
-        Python's <code>math.fsum</code>.
-      </p>
-      <p><strong>See Also:</strong>
-        Class <a href="pygeodesy.fsums.Fsum-class.html" 
-        class="link">Fsum</a> and methods <a 
-        href="pygeodesy.fsums.Fsum-class.html#fsum" 
-        class="link">Fsum.fsum</a> and <a 
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.fsums-module.html#nonfiniterrors" 
+        class="link">nonfiniterrors</a>, class <a 
+        href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> and 
+        methods <a href="pygeodesy.fsums.Fsum-class.html#fsum" 
+        class="link">Fsum.fsum</a>, <a 
         href="pygeodesy.fsums.Fsum-class.html#fadd" 
-        class="link">Fsum.fadd</a>.
+        class="link">Fsum.fadd</a> and <a 
+        href="pygeodesy.fsums.Fsum-class.html#fadd_" 
+        class="link">Fsum.fadd_</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -399,13 +499,12 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xs</code></strong> - Items to add (each <code>scalar</code> or an <a 
+        <li><strong class="pname"><code>xs</code></strong> - Items to add (each <code>scalar</code>, an <a 
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
           <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
-          class="link">Fsum2Tuple</a> instance), all positional.</li>
-        <li><strong class="pname"><code>floats</code></strong> - Use <code><b>floats</b>=True</code> iff <i>all</i> 
-          <b><code>xs</code></b> items are <i>known to be scalar</i> 
-          (<code>bool</code>).</li>
+          class="link">Fsum2Tuple</a>), all positional.</li>
+        <li><strong class="pname"><code>floats</code></strong> - Use <code><b>floats</b>=True</code> to take <i>all</i> 
+          <b><code>xs</code></b> items <i>as-is</i> (<code>bool</code>).</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -428,9 +527,16 @@
     </td>
   </tr></table>
   
-  <p>Precision floating point summation iff <i>all</i> 
-  <code><b>xs</b></code> items are <i>known to be scalar</i>.</p>
+  <p>Precision floating point summation taking all <code><b>xs</b></code> 
+  items <i>as-is</i>.</p>
   <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>xs</code></strong> - Items to add (each <code>scalar</code>, an <a 
+          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
+          <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
+          class="link">Fsum2Tuple</a>), all positional.</li>
+    </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.fsums-module.html#fsum_" 
@@ -457,13 +563,12 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xs</code></strong> - Iterable of items to add (each <code>scalar</code> or an <a 
+        <li><strong class="pname"><code>xs</code></strong> - Iterable of items to add (each <code>scalar</code>, an <a 
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
           <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
-          class="link">Fsum2Tuple</a> instance).</li>
-        <li><strong class="pname"><code>floats</code></strong> - Use <code><b>floats</b>=True</code> iff <i>all</i> 
-          <b><code>xs</code></b> items are <i>known to be scalar</i> 
-          (<code>bool</code>).</li>
+          class="link">Fsum2Tuple</a>).</li>
+        <li><strong class="pname"><code>floats</code></strong> - Use <code><b>floats</b>=True</code> to take all 
+          <b><code>xs</code></b> items <i>as-is</i> (<code>bool</code>).</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -492,13 +597,12 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xs</code></strong> - Items to add (each <code>scalar</code> or an <a 
+        <li><strong class="pname"><code>xs</code></strong> - Items to add (each <code>scalar</code>, an <a 
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
           <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
-          class="link">Fsum2Tuple</a> instance), all positional.</li>
-        <li><strong class="pname"><code>floats</code></strong> - Use <code><b>floats</b>=True</code> iff <i>all</i> 
-          <b><code>xs</code></b> items are <i>known to be scalar</i> 
-          (<code>bool</code>).</li>
+          class="link">Fsum2Tuple</a>), all positional.</li>
+        <li><strong class="pname"><code>floats</code></strong> - Use <code><b>floats</b>=True</code> to take all 
+          <b><code>xs</code></b> items <i>as-is</i> (<code>bool</code>).</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -521,8 +625,8 @@
     </td>
   </tr></table>
   
-  <p>Precision floating point summation iff <i>all</i> 
-  <code><b>xs</b></code> items are <i>known to be scalar</i>.</p>
+  <p>Precision floating point summation, 1-primed and take all 
+  <code><b>xs</b></code> items <i>as-is</i>.</p>
   <dl class="fields">
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -563,7 +667,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Sep 11 15:06:18 2024
+    Generated by Epydoc 3.0.1 on Sun Sep 22 15:05:06 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
