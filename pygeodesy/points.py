@@ -62,7 +62,7 @@ from pygeodesy.utily import atan2b, degrees90, degrees180, degrees2m, \
 from math import cos, fabs, fmod as _fmod, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '24.08.13'
+__version__ = '24.09.23'
 
 _ilat_  = 'ilat'
 _ilon_  = 'ilon'
@@ -1430,7 +1430,7 @@ def ispolar(points, wrap=False):
 
     # summation of course deltas around pole is 0° rather than normally ±360°
     # <https://blog.Element84.com/determining-if-a-spherical-polygon-contains-a-pole.html>
-    s = fsum(_cds(points, wrap), floats=True)
+    s = fsum(_cds(points, wrap))
     # XXX fix (intermittant) edge crossing pole - eg (85,90), (85,0), (85,-90)
     return fabs(s) < 90  # "zero-ish"
 
@@ -1631,7 +1631,7 @@ def perimeterOf(points, closed=False, adjust=True, radius=R_M, wrap=True):
         d = points._sum1(perimeterOf, closed=True, adjust=adjust,
                                       radius=radius, wrap=wrap)
     else:
-        d = fsum(_degs(points, closed, adjust, wrap), floats=True)
+        d = fsum(_degs(points, closed, adjust, wrap))
     return degrees2m(d, radius=radius)
 
 

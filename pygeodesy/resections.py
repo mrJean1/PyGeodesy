@@ -34,7 +34,7 @@ from pygeodesy.vector3d import _otherV3d, Vector3d
 from math import cos, atan2, degrees, fabs, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.resections
-__version__ = '24.08.18'
+__version__ = '24.09.23'
 
 _concyclic_ = 'concyclic'
 _PA_        = 'PA'
@@ -664,7 +664,7 @@ def tienstra7(pointA, pointB, pointC, alpha, beta=None, gamma=None,
         dB = _deg_ks(_triAngle(a, c, b), sb, ks, _B_)
         dC = _deg_ks(_triAngle(a, b, c), sc, ks, _C_)
 
-        k = fsum1(ks, floats=True)
+        k = fsum1(ks)
         if isnear0(k):
             raise ValueError(Fmt.EQUAL(K=k))
         x =  Fdot(ks, A.x, B.x, C.x).fover(k)

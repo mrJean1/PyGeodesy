@@ -10,9 +10,10 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 from pygeodesy.basics import isscalar, isodd, _xinstanceof, \
                             _xiterable, _xsubclassof, _zip
 from pygeodesy.constants import _0_0, _1_0, _2_0, _3_0, _4_0, _6_0
-from pygeodesy.errors import _AssertionError, _ValueError, _xError
+from pygeodesy.errors import _ValueError, _xError, _xkwds_item2
 from pygeodesy.fmath import Fsqrt,  Fmt
-from pygeodesy.fsums import _2finite, Fsum, _iadd_op_, _isFsumTuple
+from pygeodesy.fsums import _2finite, Fsum, _iadd_op_, \
+                            _isFsumTuple, _xsError
 from pygeodesy.interns import _odd_, _SPACE_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import _name__, _Named, _NotImplemented, \
@@ -21,24 +22,19 @@ from pygeodesy.named import _name__, _Named, _NotImplemented, \
 # from pygeodesy.streprs import Fmt  # from .fmath
 
 __all__ = _ALL_LAZY.fstats
-__version__ = '24.05.21'
+__version__ = '24.09.23'
 
 
 def _2Floats(**xs):
-    '''(INTERNAL) Yield each value as C{float} or L{Fsum}.
+    '''(INTERNAL) Yield all C{xs} as C{float} or L{Fsum}.
     '''
+    name, xs = _xkwds_item2(xs)
     try:
-        name, xs = xs.popitem()
-    except Exception as X:
-        raise _AssertionError(xs=xs, cause=X)
-
-    try:
-        i = None
+        i, x = None, xs
         for i, x in enumerate(_xiterable(xs)):  # don't unravel Fsums
             yield x._Fsum if _isFsumTuple(x) else _2finite(x)
     except Exception as X:
-        raise _xError(X, name, xs) if i is None else \
-              _xError(X, Fmt.INDEX(name, i), x)
+        raise _xsError(X, xs, i, x, name)
 
 
 def _sampled(n, sample):

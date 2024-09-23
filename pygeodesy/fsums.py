@@ -44,7 +44,7 @@ from pygeodesy.constants import INF, INT0, NEG0, NINF, _0_0, _1_0, \
 from pygeodesy.errors import _AssertionError, _OverflowError, _TypeError, \
                              _ValueError, _xError, _xError2, _xkwds_get, \
                              _xkwds, _xkwds_get1, _xkwds_not, _xkwds_pop
-from pygeodesy.internals import _enquote  # _passarg as _2split3s
+from pygeodesy.internals import _enquote, _passarg  # as _2split3s
 from pygeodesy.interns import NN, _arg_, _COMMASPACE_, _DOT_, _from_, \
                              _not_finite_, _SPACE_, _std_, _UNDER_
 from pygeodesy.lazily import _ALL_LAZY, _getenv, _sys_version_info2
@@ -60,7 +60,7 @@ from math import fabs, isinf, isnan, \
                  ceil as _ceil, floor as _floor  # PYCHOK used! .ltp
 
 __all__ = _ALL_LAZY.fsums
-__version__ = '24.09.22'
+__version__ = '24.09.23'
 
 from pygeodesy.interns import (
   _PLUS_     as _add_op_,  # in .auxilats.auxAngle
@@ -87,21 +87,11 @@ _significant_ = 'significant'
 _threshold_   = 'threshold'
 
 
-def _2Error(x, *args):
-    '''(INTERNAL) Throw a C{not-finite} exception.
-    '''
-    E = _NonfiniteError(x)
-    t =  Fmt.PARENSPACED(_not_finite_, x)
-    if args:  # in _fma, _2sum
-        return E(txt=t, *args)
-    raise E(t, txt=None)
-
-
 def _2finite(x):  # in .fstats
     '''(INTERNAL) return C{float(x)} if finite.
     '''
-    f = float(x)
-    return f if _isfinite(f) else _2Error(f)
+    return (float(x) if _isfinite(x)  # and isscalar(x)
+            else _nfError(x))
 
 
 def _2float(index=None, _isfine=_isfinite, **name_value):  # in .fmath, .fstats
@@ -110,7 +100,7 @@ def _2float(index=None, _isfine=_isfinite, **name_value):  # in .fmath, .fstats
     n, v = name_value.popitem()  # _xkwds_item2(name_value)
     try:
         f = float(v)
-        return f if _isfine(f) else _2Error(f)
+        return f if _isfine(f) else _nfError(f)
     except Exception as X:
         raise _xError(X, Fmt.INDEX(n, index), v)
 
@@ -131,7 +121,7 @@ def _2floats(xs, origin=0, _X=_X_ps, _x=float, _isfine=_isfinite):
                     yield p
             else:
                 f = _x(x)
-                yield f if _isfine(f) else _2Error(f)
+                yield f if _isfine(f) else _nfError(f)
             i += 1
     except Exception as X:
         raise _xsError(X, xs, i, x)
@@ -158,7 +148,7 @@ except ImportError:  # Python 3.12-
             r = float(n / d)
         except OverflowError:  # "integer division result too large ..."
             r = NINF if (_signOf(n, 0) * _signOf(d, 0)) < 0 else INF
-            raise _2Error(r, unstr(_fma, *a_b_c))  # "overflow in fma"
+            raise _nfError(r, unstr(_fma, *a_b_c))  # "overflow in fma"
 
         if not _isfinite(r):  # like Python 3.13+ I{Modules/mathmodule.c}:
             # raise an exception for a NAN result from non-NAN C{a_b_c}s
@@ -169,7 +159,7 @@ except ImportError:  # Python 3.12-
             else:
                 _is = _isfinite
             if all(map(_is, a_b_c)):
-                raise _2Error(r, unstr(_fma, *a_b_c))
+                raise _nfError(r, unstr(_fma, *a_b_c))
         return r
 
     def _2n_d(x):
@@ -209,13 +199,13 @@ def f2product(*two):
     return t
 
 
-def _Fsumf_(*xs):  # floats=True, in .auxLat, .ltp, ...
+def _Fsumf_(*xs):  # in .auxLat, .ltp, ...
     '''(INTERNAL) An C{Fsum} of I{known scalars}.
     '''
     return Fsum()._facc_scalar(xs, up=False)
 
 
-def _Fsum1f_(*xs):  # floats=True, in .albers
+def _Fsum1f_(*xs):  # in .albers
     '''(INTERNAL) An C{Fsum} of I{known scalars}, 1-primed.
     '''
     return Fsum()._facc_scalar(_1primed(xs), up=False)
@@ -239,7 +229,7 @@ def _isFsum(x):  # in .fmath
     return isinstance(x, Fsum)
 
 
-def _isFsumTuple(x):  # in .basics, .constants, .fmath
+def _isFsumTuple(x):  # in .basics, .constants, .fmath, .fstats
     '''(INTERNAL) Is C{x} an C{Fsum} or C{Fsum2Tuple} instance?
     '''
     return isinstance(x, _Fsum_Fsum2Tuple_types)
@@ -249,6 +239,16 @@ def _isOK(unused):
     '''(INTERNAL) Helper for C{nonfiniterrors} and C{Fsum.nonfinites}.
     '''
     return True
+
+
+def _nfError(x, *args):
+    '''(INTERNAL) Throw a C{not-finite} exception.
+    '''
+    E = _NonfiniteError(x)
+    t =  Fmt.PARENSPACED(_not_finite_, x)
+    if args:  # in _fma, _2sum
+        return E(txt=t, *args)
+    raise E(t, txt=None)
 
 
 def nonfiniterrors(*raiser):
@@ -442,7 +442,7 @@ def _2sum(a, b, _isfine=_isfinite):  # in .testFmath
         r = 0
     else:  # non-finite and not OK
         t = unstr(_2sum, a, b)
-        raise _2Error(s, t)
+        raise _nfError(s, t)
     return s, r
 
 
@@ -458,7 +458,7 @@ def _threshold(threshold=_0_0, **kwds):
         raise ResidualError(threshold=threshold, cause=x)
 
 
-class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
+class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats, ...
     '''Precision floating point summation, I{running} summation and accurate multiplication.
 
        Unlike Python's C{math.fsum}, this class accumulates values and provides intermediate,
@@ -2218,7 +2218,12 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
     def _ps_other(self, op, *others):
         '''(INTERNAL) Yield all C{other}s as C{scalar}.
         '''
-        return _xfloats(others, op, _x=self._scalar)
+        for other in others:
+            if _isFsumTuple(other):
+                for p in other._ps:
+                    yield p
+            else:
+                yield self._scalar(other, op)
 
     def _ps_1sum(self, *less):
         '''(INTERNAL) Return the partials sum, 1-primed C{less} some scalars.
@@ -2570,14 +2575,16 @@ except ImportError:
         return float(F._facc(xs, up=False))
 
 
-def fsum(xs, floats=False):
-    '''Precision floating point summation from or like Python's C{math.fsum}.
+def fsum(xs, nonfinites=None, **floats):
+    '''Precision floating point summation from Python's C{math.fsum}.
 
        @arg xs: Iterable of items to add (each C{scalar}, an L{Fsum} or L{Fsum2Tuple}).
-       @kwarg floats: Use C{B{floats}=True} to take all B{C{xs}} items I{as-is}
-                      including I{non-finites}, unravel L{Fsum}s and L{Fsum2Tuple}s
-                      and avoid I{non-finite} exceptions, overruling the global setting
-                      of L{nonfiniterrors} (C{bool}).
+       @kwarg nonfinites: Use C{B{nonfinites}=True} if I{non-finites} are C{OK}, if
+                          C{False} I{non-finites} raise an Overflow-/ValueError or if
+                          C{None}, apply C{B{nonfinites}=not }L{nonfiniterrors()}
+                          (C{bool} or C{None}).
+       @kwarg floats: DEPRECATED keyword argument C{B{floats}=False} (C{bool}),
+                      instead use C{B{nonfinites}}.
 
        @return: Precision C{fsum} (C{float}).
 
@@ -2587,106 +2594,95 @@ def fsum(xs, floats=False):
 
        @raise ValueError: Invalid or C{NAN} B{C{xs}} item.
 
-       @see: Function L{nonfiniterrors}, class L{Fsum} and methods L{Fsum.fsum},
-             L{Fsum.fadd} and L{Fsum.fadd_}.
+       @see: Function L{nonfiniterrors}, class L{Fsum} and methods L{Fsum.nonfinites},
+             L{Fsum.fsum}, L{Fsum.fadd} and L{Fsum.fadd_}.
     '''
-    return _xsum(fsum, xs, floats=floats) if xs else _0_0
+    return _xsum(fsum, xs, nonfinites=nonfinites, **floats) if xs else _0_0
 
 
-def fsum_(*xs, **floats):
+def fsum_(*xs, **nonfinites):
     '''Precision floating point summation of all positional items.
 
-       @arg xs: Items to add (each C{scalar}, an L{Fsum} or L{Fsum2Tuple}),
-                all positional.
-       @kwarg floats: Use C{B{floats}=True} to take I{all} B{C{xs}} items
-                      I{as-is} (C{bool}).
+       @arg xs: Items to add (each C{scalar}, an L{Fsum} or L{Fsum2Tuple}), all positional.
+       @kwarg nonfinites: Use C{B{nonfinites}=True} if I{non-finites} are C{OK} (C{bool}).
 
        @see: Function L{fsum<fsums.fsum>} for further details.
     '''
-    return _xsum(fsum_, xs, origin=1, **floats) if xs else _0_0
+    return _xsum(fsum_, xs, origin=1, **nonfinites) if xs else _0_0
 
 
 def fsumf_(*xs):
-    '''Precision floating point summation taking all C{B{xs}} items I{as-is}.
+    '''Precision floating point summation of all positional items with I{non-finites} C{OK}.
 
        @arg xs: Items to add (each C{scalar}, an L{Fsum} or L{Fsum2Tuple}),
                 all positional.
 
        @see: Function L{fsum_<fsums.fsum_>} for further details.
     '''
-    return _xsum(fsumf_, xs, origin=1, floats=True) if xs else _0_0
+    return _xsum(fsumf_, xs, nonfinites=True, origin=1) if xs else _0_0
 
 
-def fsum1(xs, floats=False):
+def fsum1(xs, **nonfinites):
     '''Precision floating point summation, 1-primed.
 
        @arg xs: Iterable of items to add (each C{scalar}, an L{Fsum} or L{Fsum2Tuple}).
-       @kwarg floats: Use C{B{floats}=True} to take all B{C{xs}} items I{as-is} (C{bool}).
+       @kwarg nonfinites: Use C{B{nonfinites}=True} if I{non-finites} are C{OK} (C{bool}).
 
        @see: Function L{fsum<fsums.fsum>} for further details.
     '''
-    return _xsum(fsum1, xs, primed=1, floats=floats) if xs else _0_0
+    return _xsum(fsum1, xs, primed=1, **nonfinites) if xs else _0_0
 
 
-def fsum1_(*xs, **floats):
-    '''Precision floating point summation, 1-primed of all positional items.
+def fsum1_(*xs, **nonfinites):
+    '''Precision floating point summation of all positional items, 1-primed.
 
        @arg xs: Items to add (each C{scalar}, an L{Fsum} or L{Fsum2Tuple}), all positional.
-       @kwarg floats: Use C{B{floats}=True} to take all B{C{xs}} items I{as-is} (C{bool}).
+       @kwarg nonfinites: Use C{B{nonfinites}=True} if I{non-finites} are C{OK} (C{bool}).
 
        @see: Function L{fsum_<fsums.fsum_>} for further details.
     '''
-    return _xsum(fsum1_, xs, origin=1, primed=1, **floats) if xs else _0_0
+    return _xsum(fsum1_, xs, origin=1, primed=1, **nonfinites) if xs else _0_0
 
 
 def fsum1f_(*xs):
-    '''Precision floating point summation, 1-primed and take all C{B{xs}} items I{as-is}.
+    '''Precision floating point summation of all positional items, 1-primed and
+       with I{non-finites} C{OK}.
 
        @see: Function L{fsum_<fsums.fsum_>} for further details.
     '''
-    return _xsum(fsum1f_, xs, primed=1, floats=True) if xs else _0_0
+    return _xsum(fsum1f_, xs, nonfinites=True, primed=1) if xs else _0_0
 
 
-def _xfinite(x, unused):
-    '''(INTERNAL) Check a I{finite} C{scalar}.
-    '''
-    return (x if _isfinite(x)  # and isscalar(x)
-            else _2Error(x))
-
-
-def _xfloats(xs, op, _x=None, i_x=[]):  # in Fsum._ps_other
-    '''(INTERNAL) Yield all C{xs} as C{scalar} or unraveled C{partials}.
+def _xs(xs, _x, i_x):
+    '''(INTERNAL) Yield all C{xs} as C{scalar}.
     '''
     for i, x in enumerate(xs):
-        if i_x:
-            i_x[:] = i, x
+        i_x[:] = i, x
         if _isFsumTuple(x):
-            for p in x._ps:
-                yield _x(p, op)
+            for p in map(_x, x._ps):
+                yield p
         else:
-            yield _x(x, op)
+            yield _x(x)
 
 
-def _xsError(X, xs, i, x):  # in _2floats
+def _xsError(X, xs, i, x, *n):  # in _2floats, ._fstats
     '''(INTERNAL) Error for C{xs} or C{x}, item C{xs[i]}.
     '''
-    return _xError(X, xs=xs) if x is xs else \
-           _xError(X, Fmt.INDEX(xs=i), x)
+    return ((_xError(X, n[0], xs) if n else
+             _xError(X, xs=xs))   if x is xs else
+             _xError(X, Fmt.INDEX(xs=i), x))
 
 
-def _xOK(x, unused):
-    '''(INTERNAL) Pass C{scalar}.
-    '''
-    return x
-
-
-def _xsum(which, xs, floats=False, origin=0, primed=0):
+def _xsum(which, xs, nonfinites=None, origin=0, primed=0, **floats):
     '''(INTERNAL) Precision summation of C{xs} with conditions.
     '''
     i_x = [0, xs]
-    _x  = _xOK if floats or not nonfiniterrors() else _xfinite
-    fs  = _xfloats(xs, which.__name__, _x=_x, i_x=i_x)
     try:
+        if nonfinites is None:
+            nonfinites = not nonfiniterrors()
+        elif floats:
+            nonfinites = _xkwds_get(floats, floats=nonfinites)
+        fs = _xs(xs, (_passarg if nonfinites else _2finite), i_x)
         return _fsum(_1primed(fs) if primed else fs)
     except (OverflowError, TypeError, ValueError) as X:
         i, x = i_x

@@ -61,7 +61,7 @@ from pygeodesy.utily import atan2, degrees360, fabs, sincos2, sincos2_, \
 # from math import atan2, fabs  # from utily
 
 __all__ = _ALL_LAZY.sphericalNvector
-__version__ = '24.06.11'
+__version__ = '24.09.23'
 
 _lines_ = 'lines'
 
@@ -491,7 +491,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         # an exterior point will sum to 0°.  On a sphere, enclosed
         # point angles will sum to less than 360° (due to spherical
         # excess), exterior point angles will be small but non-zero.
-        s = fsum(_subtangles(points, wrap), floats=True)  # normal vector
+        s = fsum(_subtangles(points, wrap))  # normal vector
         # XXX are winding number optimisations equally applicable to
         # spherical surface?
         return fabs(s) > PI
@@ -846,7 +846,7 @@ def areaOf(points, radius=R_M, wrap=False):
         # angle between edges is π−α or π+α, where α is angle between
         # great-circle vectors; so sum α, then take n·π − |Σα| (cannot
         # use Σ(π−|α|) as concave polygons would fail)
-        s = fsum(_interangles(points, wrap), floats=True)
+        s = fsum(_interangles(points, wrap))
         # using Girard’s theorem: A = [Σθᵢ − (n−2)·π]·R²
         # (PI2 - abs(s) == (n*PI - abs(s)) - (n-2)*PI)
         r = fabs(PI2 - fabs(s))
@@ -1138,7 +1138,7 @@ def perimeterOf(points, closed=False, radius=R_M, wrap=False):
             notImplemented(None, closed=closed, points=_composite_)
         r = points._sum2(LatLon, perimeterOf, closed=True, radius=None, wrap=wrap)
     else:
-        r = fsum(_rads(points, closed, wrap), floats=True)
+        r = fsum(_rads(points, closed, wrap))
     return r if radius is None else (Radius(radius) * r)
 
 

@@ -54,7 +54,7 @@ from pygeodesy.vector3d import sumOf, Vector3d
 from math import asin, atan2, cos, degrees, fabs, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '24.08.13'
+__version__ = '24.09.23'
 
 _PI_EPS4 = PI - EPS4
 if _PI_EPS4 >= PI:
@@ -1302,7 +1302,7 @@ def perimeterOf(points, closed=False, radius=R_M, wrap=True):
             raise _ValueError(closed=closed, points=_composite_)
         r = points._sum2(LatLon, perimeterOf, closed=True, radius=radius, wrap=wrap)
     else:
-        r = fsum(_rads(points, closed, wrap), floats=True)
+        r = fsum(_rads(points, closed, wrap))
     return _radians2m(r, radius)
 
 

@@ -120,7 +120,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        24.09.22
+        24.09.23
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -225,8 +225,9 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fsums-module.html#fsum" class="summary-sig-name">fsum</a>(<span class="summary-sig-arg">xs</span>,
-        <span class="summary-sig-arg">floats</span>=<span class="summary-sig-default">False</span>)</span><br />
-      Precision floating point summation from or like Python's 
+        <span class="summary-sig-arg">nonfinites</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">**floats</span>)</span><br />
+      Precision floating point summation from Python's 
       <code>math.fsum</code>.</td>
           <td align="right" valign="top">
             
@@ -244,7 +245,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fsums-module.html#fsum_" class="summary-sig-name">fsum_</a>(<span class="summary-sig-arg">*xs</span>,
-        <span class="summary-sig-arg">**floats</span>)</span><br />
+        <span class="summary-sig-arg">**nonfinites</span>)</span><br />
       Precision floating point summation of all positional items.</td>
           <td align="right" valign="top">
             
@@ -262,8 +263,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fsums-module.html#fsumf_" class="summary-sig-name">fsumf_</a>(<span class="summary-sig-arg">*xs</span>)</span><br />
-      Precision floating point summation taking all <code><b>xs</b></code> 
-      items <i>as-is</i>.</td>
+      Precision floating point summation of all positional items with 
+      <i>non-finites</i> <code>OK</code>.</td>
           <td align="right" valign="top">
             
             
@@ -280,7 +281,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fsums-module.html#fsum1" class="summary-sig-name">fsum1</a>(<span class="summary-sig-arg">xs</span>,
-        <span class="summary-sig-arg">floats</span>=<span class="summary-sig-default">False</span>)</span><br />
+        <span class="summary-sig-arg">**nonfinites</span>)</span><br />
       Precision floating point summation, 1-primed.</td>
           <td align="right" valign="top">
             
@@ -298,8 +299,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fsums-module.html#fsum1_" class="summary-sig-name">fsum1_</a>(<span class="summary-sig-arg">*xs</span>,
-        <span class="summary-sig-arg">**floats</span>)</span><br />
-      Precision floating point summation, 1-primed of all positional items.</td>
+        <span class="summary-sig-arg">**nonfinites</span>)</span><br />
+      Precision floating point summation of all positional items, 1-primed.</td>
           <td align="right" valign="top">
             
             
@@ -316,8 +317,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fsums-module.html#fsum1f_" class="summary-sig-name">fsum1f_</a>(<span class="summary-sig-arg">*xs</span>)</span><br />
-      Precision floating point summation, 1-primed and take all 
-      <code><b>xs</b></code> items <i>as-is</i>.</td>
+      Precision floating point summation of all positional items, 1-primed 
+      and with <i>non-finites</i> <code>OK</code>.</td>
           <td align="right" valign="top">
             
             
@@ -431,14 +432,15 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">fsum</span>&nbsp;(<span class="sig-arg">xs</span>,
-        <span class="sig-arg">floats</span>=<span class="sig-default">False</span>)</span>
+        <span class="sig-arg">nonfinites</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">**floats</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Precision floating point summation from or like Python's 
+  <p>Precision floating point summation from Python's 
   <code>math.fsum</code>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
@@ -447,15 +449,15 @@
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
           <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
           class="link">Fsum2Tuple</a>).</li>
-        <li><strong class="pname"><code>floats</code></strong> - Use <code><b>floats</b>=True</code> to take all 
-          <b><code>xs</code></b> items <i>as-is</i> including 
-          <i>non-finites</i>, unravel <a 
-          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a>s and
-          <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
-          class="link">Fsum2Tuple</a>s and avoid <i>non-finite</i> 
-          exceptions, overruling the global setting of <a 
+        <li><strong class="pname"><code>nonfinites</code></strong> - Use <code><b>nonfinites</b>=True</code> if <i>non-finites</i> are
+          <code>OK</code>, if <code>False</code> <i>non-finites</i> raise 
+          an Overflow-/ValueError or if <code>None</code>, apply 
+          <code><b>nonfinites</b>=not </code><a 
           href="pygeodesy.fsums-module.html#nonfiniterrors" 
-          class="link">nonfiniterrors</a> (<code>bool</code>).</li>
+          class="link">nonfiniterrors()</a> (<code>bool</code> or 
+          <code>None</code>).</li>
+        <li><strong class="pname"><code>floats</code></strong> - DEPRECATED keyword argument <code><b>floats</b>=False</code> 
+          (<code>bool</code>), instead use <code><b>nonfinites</b></code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Precision <code>fsum</code> (<code>float</code>).</dd>
@@ -471,7 +473,9 @@
         Function <a href="pygeodesy.fsums-module.html#nonfiniterrors" 
         class="link">nonfiniterrors</a>, class <a 
         href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> and 
-        methods <a href="pygeodesy.fsums.Fsum-class.html#fsum" 
+        methods <a href="pygeodesy.fsums.Fsum-class.html#nonfinites" 
+        class="link">Fsum.nonfinites</a>, <a 
+        href="pygeodesy.fsums.Fsum-class.html#fsum" 
         class="link">Fsum.fsum</a>, <a 
         href="pygeodesy.fsums.Fsum-class.html#fadd" 
         class="link">Fsum.fadd</a> and <a 
@@ -488,7 +492,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">fsum_</span>&nbsp;(<span class="sig-arg">*xs</span>,
-        <span class="sig-arg">**floats</span>)</span>
+        <span class="sig-arg">**nonfinites</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -503,8 +507,8 @@
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
           <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
           class="link">Fsum2Tuple</a>), all positional.</li>
-        <li><strong class="pname"><code>floats</code></strong> - Use <code><b>floats</b>=True</code> to take <i>all</i> 
-          <b><code>xs</code></b> items <i>as-is</i> (<code>bool</code>).</li>
+        <li><strong class="pname"><code>nonfinites</code></strong> - Use <code><b>nonfinites</b>=True</code> if <i>non-finites</i> are
+          <code>OK</code> (<code>bool</code>).</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -527,8 +531,8 @@
     </td>
   </tr></table>
   
-  <p>Precision floating point summation taking all <code><b>xs</b></code> 
-  items <i>as-is</i>.</p>
+  <p>Precision floating point summation of all positional items with 
+  <i>non-finites</i> <code>OK</code>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -552,7 +556,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">fsum1</span>&nbsp;(<span class="sig-arg">xs</span>,
-        <span class="sig-arg">floats</span>=<span class="sig-default">False</span>)</span>
+        <span class="sig-arg">**nonfinites</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -567,8 +571,8 @@
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
           <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
           class="link">Fsum2Tuple</a>).</li>
-        <li><strong class="pname"><code>floats</code></strong> - Use <code><b>floats</b>=True</code> to take all 
-          <b><code>xs</code></b> items <i>as-is</i> (<code>bool</code>).</li>
+        <li><strong class="pname"><code>nonfinites</code></strong> - Use <code><b>nonfinites</b>=True</code> if <i>non-finites</i> are
+          <code>OK</code> (<code>bool</code>).</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -585,15 +589,15 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">fsum1_</span>&nbsp;(<span class="sig-arg">*xs</span>,
-        <span class="sig-arg">**floats</span>)</span>
+        <span class="sig-arg">**nonfinites</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Precision floating point summation, 1-primed of all positional 
-  items.</p>
+  <p>Precision floating point summation of all positional items, 
+  1-primed.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -601,8 +605,8 @@
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
           <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
           class="link">Fsum2Tuple</a>), all positional.</li>
-        <li><strong class="pname"><code>floats</code></strong> - Use <code><b>floats</b>=True</code> to take all 
-          <b><code>xs</code></b> items <i>as-is</i> (<code>bool</code>).</li>
+        <li><strong class="pname"><code>nonfinites</code></strong> - Use <code><b>nonfinites</b>=True</code> if <i>non-finites</i> are
+          <code>OK</code> (<code>bool</code>).</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -625,8 +629,8 @@
     </td>
   </tr></table>
   
-  <p>Precision floating point summation, 1-primed and take all 
-  <code><b>xs</b></code> items <i>as-is</i>.</p>
+  <p>Precision floating point summation of all positional items, 1-primed 
+  and with <i>non-finites</i> <code>OK</code>.</p>
   <dl class="fields">
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -667,7 +671,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Sep 22 15:05:06 2024
+    Generated by Epydoc 3.0.1 on Mon Sep 23 16:07:13 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
