@@ -2,13 +2,16 @@
 # -*- coding: utf-8 -*-
 
 u'''Class L{Fsum} for precision floating point summation similar to
-Python's C{math.fsum} but also providing I{running} summation.
+Python's C{math.fsum} enhanced with I{running} summation and as an
+option, accurate I{TwoProduct} multiplication.
 
-Class L{Fsum} also supports accurate I{TwoProduct} multiplication as an
-option for Python 3.12 and older and by default for Python 3.13 and newer.
-Set env variable C{PYGEODESY_FSUM_F2PRODUCT} to any non-empty or non-zero
-string or use function C{pygeodesy.f2product(True)} to enable accurate
-I{TwoProduct} multiplication.
+Accurate multiplication is based on the C{math.fma} function for
+Python 3.13 and newer or one of two equivalent C{fma} implementations
+for Python 3.12 and older.  To enable accurate multiplication, set
+env variable C{PYGEODESY_FSUM_F2PRODUCT} to C{"std"} or any non-empty
+string or invoke function C{pygeodesy.f2product(True)} or set.  With
+C{"std"} the C{fma} implemention follows the C{math.fma} function,
+otherwise the C{PyGeodesy 24.09.09} release.
 
 Generally, an L{Fsum} instance is considered a C{float} plus a small or
 zero C{residue} aka C{residual} value, see property L{Fsum.residual}.
@@ -39,12 +42,13 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 from pygeodesy.basics import isbool, iscomplex, isint, isscalar, \
                             _signOf, itemsorted, signOf, _xiterable, \
                             _xiterablen
-from pygeodesy.constants import INF, INT0, NEG0, NINF, _0_0, _1_0, \
-                               _N_1_0, _isfinite, _pos_self,  Float, Int
+from pygeodesy.constants import INF, INT0, MANT_DIG, NEG0, NINF, _0_0, \
+                               _1_0, _N_1_0, _isfinite, _pos_self, \
+                               Float, Int
 from pygeodesy.errors import _AssertionError, _OverflowError, _TypeError, \
                              _ValueError, _xError, _xError2, _xkwds_get, \
                              _xkwds, _xkwds_get1, _xkwds_not, _xkwds_pop
-from pygeodesy.internals import _enquote, _passarg  # as _2split3s
+from pygeodesy.internals import _enquote, _passarg
 from pygeodesy.interns import NN, _arg_, _COMMASPACE_, _DOT_, _from_, \
                              _not_finite_, _SPACE_, _std_, _UNDER_
 from pygeodesy.lazily import _ALL_LAZY, _getenv, _sys_version_info2
@@ -60,7 +64,7 @@ from math import fabs, isinf, isnan, \
                  ceil as _ceil, floor as _floor  # PYCHOK used! .ltp
 
 __all__ = _ALL_LAZY.fsums
-__version__ = '24.09.23'
+__version__ = '24.09.24'
 
 from pygeodesy.interns import (
   _PLUS_     as _add_op_,  # in .auxilats.auxAngle
@@ -76,14 +80,18 @@ from pygeodesy.interns import (
 _eq_op_       = _fset_op_ * 2  # _DEQUAL_
 _floordiv_op_ = _truediv_op_ * 2  # _DSLASH_
 _divmod_op_   = _floordiv_op_ + _mod_op_
+_F2PRODUCT    = _getenv('PYGEODESY_FSUM_F2PRODUCT', NN)
 _ge_op_       = _gt_op_ + _fset_op_
 _iadd_op_     = _add_op_ + _fset_op_  # in .auxilats.auxAngle, .fstats
 _integer_     = 'integer'
 _isub_op_     = _sub_op_ + _fset_op_  # in .auxilats.auxAngle
 _le_op_       = _lt_op_ + _fset_op_
+_NONFINITES   = _getenv('PYGEODESY_FSUM_NONFINITES', NN) == _std_
 _non_zero_    = 'non-zero'
 _pow_op_      = _mul_op_ * 2  # _DSTAR_
+_RESIDUAL_0_0 = _getenv('PYGEODESY_FSUM_RESIDUAL', _0_0)
 _significant_ = 'significant'
+_2split3s     = _passarg
 _threshold_   = 'threshold'
 
 
@@ -127,32 +135,55 @@ def _2floats(xs, origin=0, _X=_X_ps, _x=float, _isfine=_isfinite):
         raise _xsError(X, xs, i, x)
 
 
-try:  # MCCABE 13
+try:  # MCCABE 17
     from math import fma as _fma
 except ImportError:  # Python 3.12-
 
-    # def _fma(a, b, c):
-    #   # mimick C{math.fma} from Python 3.13+,
-    #   # the same accuracy, but ~14x slower
-    #   b3s = _2split3(b),
-    #   return fsumf_(c, *_2products(a, b3s))  # two=True
+    if _F2PRODUCT == _std_:
+        _2FACTOR = pow(2, (MANT_DIG + 1) // 2) + 1
 
-    def _fma(*a_b_c):
-        # mimick C{math.fma} from Python 3.13+,
-        # the same accuracy, but ~14x slower
-        (na, da), (nb, db), (nc, dc) = map(_2n_d, a_b_c)
-        n  = na * nb * dc
-        n += da * db * nc
-        d  = da * db * dc
-        try:
-            r = float(n / d)
-        except OverflowError:  # "integer division result too large ..."
-            r = NINF if (_signOf(n, 0) * _signOf(d, 0)) < 0 else INF
-            raise _nfError(r, unstr(_fma, *a_b_c))  # "overflow in fma"
+        def _fma(a, b, c):
+            # mimick C{math.fma} from Python 3.13+,
+            # the same accuracy, but ~13x slower
+            b3s = _2split3(b),
+            r   =  fsumf_(c, *_2products(a, b3s))  # two=True
+            return _fma_r(r, a, b, c)
 
-        if not _isfinite(r):  # like Python 3.13+ I{Modules/mathmodule.c}:
-            # raise an exception for a NAN result from non-NAN C{a_b_c}s
-            # or for a non-NAN result from all finite C{a_b_c}s.
+        def _2split3(x):
+            # Split U{Algorithm 3.2
+            # <https://www.TUHH.De/ti3/paper/rump/OgRuOi05.pdf>}
+            a  = c = x * _2FACTOR
+            a -= c - x
+            b  = x - a
+            return x, a, b
+
+        def _2split3s(xs):  # overwrites
+            return tuple(map(_2split3, xs))
+
+    else:
+        def _fma(*a_b_c):  # PYCHOK no cover
+            # mimick C{math.fma} from Python 3.13+,
+            # the same accuracy, but ~14x slower
+            (na, da), (nb, db), (nc, dc) = map(_2n_d, a_b_c)
+            n  = na * nb * dc
+            n += da * db * nc
+            d  = da * db * dc
+            try:
+                r = float(n / d)
+            except OverflowError:  # "integer division result too large ..."
+                r = NINF if (_signOf(n, 0) * _signOf(d, 0)) < 0 else INF
+            return _fma_r(r, *a_b_c)  # "overflow in fma"
+
+        def _2n_d(x):
+            try:  # int.as_integer_ratio in 3.8+
+                return  x.as_integer_ratio()
+            except (AttributeError, OverflowError, TypeError, ValueError):
+                return (x if isint(x) else float(x)), 1
+
+    def _fma_r(r, *a_b_c):  # like Python 3.13+ I{Modules/mathmodule.c}:
+        # raise an exception for a NAN result from non-NAN C{a_b_c}s
+        # or for a non-NAN result from all finite C{a_b_c}s.
+        if not _isfinite(r):
             if isnan(r):
                 def _is(x):
                     return not isnan(x)
@@ -162,22 +193,38 @@ except ImportError:  # Python 3.12-
                 raise _nfError(r, unstr(_fma, *a_b_c))
         return r
 
-    def _2n_d(x):
-        try:  # int.as_integer_ratio in 3.8+
-            return  x.as_integer_ratio()
-        except (AttributeError, OverflowError, TypeError, ValueError):
-            return (x if isint(x) else float(x)), 1
+if _2split3s is _passarg:  # math._fma or _fma(*a_b_c)
 
-    # <https://MomentsInGraphics.De/FMA.html>
-    # >>> a = 1.00000011920929
-    # >>> b = 53400708
-    # >>> c = -b
-    # >>> (a * b) + c
-    # 6.3658604845404625
-    # >>> math.fma(a, b, c)  # 3.13
-    # 6.365860485903399
-    # >>> fsums._fma(a, b, c)  # 3.12
-    # 6.365860485903399
+    def _2products(x, ys, **unused):
+        # TwoProductFMA U{Algorithm 3.5
+        # <https://www.TUHH.De/ti3/paper/rump/OgRuOi05.pdf>}
+        for y in ys:
+            f = x * y
+            yield  f
+            yield _fma(x, y, -f)
+
+else:  # in _std_ _fma(a, b, c)
+
+    def _2products(x, y3s, two=False):  # PYCHOK redef
+        # TwoProduct U{Algorithm 3.3
+        # <https://www.TUHH.De/ti3/paper/rump/OgRuOi05.pdf>}
+        # also in Python 3.13+ C{Modules/marhmodule.c} under
+        # #ifndef UNRELIABLE_FMA ... #else ... #endif
+        _, a, b = _2split3(x)
+        for y, c, d in y3s:
+            y *= x
+            yield y
+            if two:  # or not a:
+                yield b * d - (((y - a * c) - b * c) - a * d)
+                #   = b * d + (a * d - ((y - a * c) - b * c))
+                #   = b * d + (a * d + (b * c - (y - a * c)))
+                #   = b * d + (a * d + (b * c + (a * c - y)))
+            else:
+                yield a * c - y
+                yield b * c
+                if d:
+                    yield a * d
+                    yield b * d
 
 
 def f2product(*two):
@@ -241,6 +288,20 @@ def _isOK(unused):
     return True
 
 
+def _isOK_or_finite(x, _isfine=_isfinite):
+    '''(INTERNAL) Is C{x} finite or is I{non-finite} OK?.
+    '''
+    # assert _isfine in (_isOK, _isfinite)
+    return _isfine(x)
+
+
+def _isOK_or_finite_f(_isfine=_isfinite):
+    '''(INTERNAL) Return the C{_isfine} function.
+    '''
+    # assert _isfine in (_isOK, _isfinite)
+    return _isfine
+
+
 def _nfError(x, *args):
     '''(INTERNAL) Throw a C{not-finite} exception.
     '''
@@ -286,36 +347,6 @@ def _1primed(xs):  # in .fmath
     for x in xs:
         yield x
     yield _N_1_0
-
-
-def _2products(x, ys, **unused):
-    # TwoProductFMA U{Algorithm 3.5
-    # <https://www.TUHH.De/ti3/paper/rump/OgRuOi05.pdf>}
-    for y in ys:
-        f = x * y
-        yield  f
-        yield _fma(x, y, -f)
-
-# def _2products(x, y3s, two=False):
-#   # TwoProduct U{Algorithm 3.3
-#   # <https://www.TUHH.De/ti3/paper/rump/OgRuOi05.pdf>}
-#   # also in Python 3.13+ C{Modules/marhmodule.c} under
-#   # #ifndef UNRELIABLE_FMA ... #else ... #endif
-#   _, a, b = _2split3(x)
-#   for y, c, d in y3s:
-#       y *= x
-#       yield y
-#       if two or not a:
-#           yield b * d - (((y - a * c) - b * c) - a * d)
-#           #   = b * d + (a * d - ((y - a * c) - b * c))
-#           #   = b * d + (a * d + (b * c - (y - a * c)))
-#           #   = b * d + (a * d + (b * c + (a * c - y)))
-#       else:
-#           yield a * c - y
-#           yield b * c
-#           if d:
-#               yield a * d
-#               yield b * d
 
 
 def _psum(ps, **_isfine):  # PYCHOK used!
@@ -374,22 +405,6 @@ def _2scalar2(other):
         if isint(s, both=True):
             s = int(s)
     return s, r
-
-
-# from pygeodesy.constants import MANT_DIG
-# _2FACTOR = pow(2, (MANT_DIG + 1) // 2) + 1
-# del MANT_DIG
-
-# def _2split3(x):
-#     # Split U{Algorithm 3.2
-#     # <https://www.TUHH.De/ti3/paper/rump/OgRuOi05.pdf>}
-#     a  = c = x * _2FACTOR
-#     a -= c - x
-#     b  = x - a
-#     return x, a, b
-
-# def _2split3s(xs):  # PYCHOK redef
-#     return tuple(map(_2split3, xs))
 
 
 def _s_r(s, r):
@@ -487,13 +502,12 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
        @see: Module L{fsums<pygeodesy.fsums>} for env variables C{PYGEODESY_FSUM_F2PRODUCT},
              C{PYGEODESY_FSUM_NONFINITES} and C{PYGEODESY_FSUM_RESIDUAL}.
     '''
-    _f2product = _sys_version_info2 > (3, 12) or bool(
-                 _getenv('PYGEODESY_FSUM_F2PRODUCT', NN))
+    _f2product = _sys_version_info2 > (3, 12) or bool(_F2PRODUCT)
     _isfine    = {}  # == _isfinite
     _n         =  0
 #   _ps        = []  # partial sums
 #   _ps_max    =  0  # max(Fsum._ps_max, len(Fsum._ps))
-    _RESIDUAL  = _threshold(_getenv('PYGEODESY_FSUM_RESIDUAL', _0_0))
+    _RESIDUAL  = _threshold(_RESIDUAL_0_0)
 
     def __init__(self, *xs, **name_f2product_nonfinites_RESIDUAL):
         '''New L{Fsum}.
@@ -1293,7 +1307,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
     def _finite(self, other, op=None):
         '''(INTERNAL) Return B{C{other}} if C{finite}.
         '''
-        if self._isOK_or_finite(other):
+        if _isOK_or_finite(other, **self._isfine):
             return other
         E = _NonfiniteError(other)
         raise self._Error(op, other, E, txt=_not_finite_)
@@ -1411,7 +1425,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
                 op = self.fma.__name__  # INF, NAN, NINF
                 f =  self._mul_reduce(op, f, other1)
                 f = _sum(self._ps_other(op, f, other2))
-                if raiser and not self._isOK_or_finite(f):
+                if raiser and not _isOK_or_finite(f, **self._isfine):
                     self._ErrorX(X, op, f)
         else:
             f  = self._f2mul(self.fma, other1, raiser=raiser)
@@ -1472,7 +1486,8 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
                     f._update()
                 except (OverflowError, TypeError, ValueError) as X:
                     r = self._mul_reduce(op, _sum(ps), *others)  # INF, NAN, NINF
-                    if _xkwds_get1(raiser, raiser=False) and not self._isOK_or_finite(r):
+                    if (not _isOK_or_finite(r, **self._isfine)) and \
+                       _xkwds_get1(raiser, raiser=False):
                         self._ErrorX(X, op, r)
                     f._fset(r)
         return f
@@ -1856,11 +1871,12 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
         '''
         return self.residual is INT0
 
-    @Property_RO
-    def _isOK_or_finite(self):
-        '''(INTERNAL) See methods C{_finite} and C{nonfinites}.
+    def is_finite(self):  # in .constants
+        '''Is this instance C{finite}? (C{bool}).
+
+           @see: Function L{isfinite<pygeodesy.isfinite>}.
         '''
-        return _xkwds_get1(self._isfine, _isfine=_isfinite)
+        return _isfinite(_sum(self._ps))  # _sum(self)
 
     def is_integer(self):
         '''Is this instance' running sum C{integer}? (C{bool}).
@@ -1874,9 +1890,10 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
         '''Is accurate L{f2product} multiplication based on Python's C{math.fma}?
 
            @return: C{True} if accurate multiplication uses C{math.fma}, C{False}
-                    otherwise.
+                    an C{fma} implementation as C{math.fma} or C{None}, a previous
+                    C{PyGeodesy} implementation.
         '''
-        return _fma.__module__ is fabs.__module__
+        return (_fma.__module__ is fabs.__module__ or None) if _2split3s is _passarg else False
 
     def is_math_fsum(self):
         '''Are the summation functions L{fsum}, L{fsum_}, L{fsumf_}, L{fsum1},
@@ -1970,7 +1987,6 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
             k = _xkwds_pop(self.__dict__, _isfine=None)
             if OK[0] is not None:
                 self._isfine = _ks[bool(OK[0])]
-            Fsum._isOK_or_finite._update(self)
         else:  # getattrof(self, _isfine=None)
             k = _xkwds_get(self.__dict__, _isfine=None)
         # dict(map(reversed, _ks.items())).get(k, None)
@@ -2165,7 +2181,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
         _2s = _2sum
         _fi =  self._isfine
         for x in (tuple(xs) if xs is ps else xs):
-            # assert isscalar(x) and self._isOK_or_finite(x)
+            # assert isscalar(x) and _isOK_or_finite(x, **self._isfine)
             if x:
                 i = 0
                 for p in ps:
@@ -2194,13 +2210,13 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
             if len(ps) < len(fs):
                 ps, fs = fs, ps
             if self._f2product:
-                # ps = _2split3s(ps)
+                ps   = _2split3s(ps)
                 _fps = _2products
             else:
                 def _fps(f, ps):
                     return (f * p for p in ps)
 
-            _isfine = self._isOK_or_finite
+            _isfine = _isOK_or_finite_f(**self._isfine)
             for f in fs:
                 for p in _fps(f, ps):
                     yield p if _isfine(p) else self._finite(p, op)
@@ -2400,9 +2416,9 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
 #           Fsum._fprs2._update(self)
         return self  # for .fset_
 
-_ROs = _allPropertiesOf_n(4, Fsum, Property_RO)  # PYCHOK see Fsum._update
+_ROs = _allPropertiesOf_n(3, Fsum, Property_RO)  # PYCHOK see Fsum._update
 
-if _getenv('PYGEODESY_FSUM_NONFINITES', NN) == _std_:  # PYCHOK no cover
+if _NONFINITES:  # PYCHOK no cover
     _ = nonfiniterrors(False)
 
 
@@ -2503,6 +2519,13 @@ class Fsum2Tuple(_NamedTuple):  # in .fstats
         '''Is this L{Fsum2Tuple} considered to be exact? (C{bool}).
         '''
         return self._Fsum.is_exact()
+
+    def is_finite(self):  # in .constants
+        '''Is this L{Fsum2Tuple} C{finite}? (C{bool}).
+
+           @see: Function L{isfinite<pygeodesy.isfinite>}.
+        '''
+        return self._Fsum.is_finite()
 
     def is_integer(self):
         '''Is this L{Fsum2Tuple} C{integer}? (C{bool}).
@@ -2679,7 +2702,7 @@ def _xsum(which, xs, nonfinites=None, origin=0, primed=0, **floats):
     i_x = [0, xs]
     try:
         if nonfinites is None:
-            nonfinites = not nonfiniterrors()
+            nonfinites =  not nonfiniterrors()
         elif floats:
             nonfinites = _xkwds_get(floats, floats=nonfinites)
         fs = _xs(xs, (_passarg if nonfinites else _2finite), i_x)
@@ -2694,7 +2717,8 @@ def _xsum(which, xs, nonfinites=None, origin=0, primed=0, **floats):
 
 # delete all decorators, etc.
 del _allPropertiesOf_n, deprecated_method, deprecated_property_RO, \
-     Property, Property_RO, property_RO, _ALL_LAZY
+     Property, Property_RO, property_RO, _ALL_LAZY, _F2PRODUCT, \
+     MANT_DIG, _NONFINITES, _RESIDUAL_0_0, _getenv, _std_
 
 if __name__ == '__main__':
 

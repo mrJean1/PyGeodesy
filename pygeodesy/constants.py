@@ -24,7 +24,7 @@ except ImportError:  # Python 2-
     _inf, _nan = float(_INF_), float(_NAN_)
 
 __all__ = _ALL_LAZY.constants
-__version__ = '24.09.12'
+__version__ = '24.09.24'
 
 
 def _copysign_0_0(y):
@@ -321,6 +321,15 @@ def isclose(a, b, rel_tol=1e-12, abs_tol=EPS0):
 
 
 try:
+    from cmath import isfinite as _iscfinite
+except ImportError:  # Python 3.1-
+
+    def _iscfinite(x):  # PYCHOK not self?
+        '''Mimick Python 3.2+ C{cmath.isfinite}.
+        '''
+        return _isfinite(x.real) and _isfinite(x.imag)
+
+try:
     from math import isfinite as _isfinite  # in .ellipsoids, ...
 except ImportError:  # Python 3.1-
 
@@ -345,9 +354,9 @@ def isfinite(obj):
         return (obj not in _INF_NAN_NINF) and _isfinite(obj)
     except Exception as x:
         if iscomplex(obj):  # _isfinite(complex) thows TypeError
-            return _isfinite(obj.real) and _isfinite(obj.imag)
+            return _iscfinite(obj)
         if _MODS.fsums._isFsumTuple(obj):  # OverflowError
-            return _isfinite(float(obj))  # sum(obj._ps)
+            return obj.is_finite()
         raise _xError(x, Fmt.PAREN(isfinite.__name__, obj))
 
 
