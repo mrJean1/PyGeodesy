@@ -2173,7 +2173,6 @@ pygeodesy.fsums.isbool	pygeodesy.basics-module.html#isbool
 pygeodesy.fsums._stresidual	pygeodesy.fsums-module.html#_stresidual
 pygeodesy.fsums._2halfeven	pygeodesy.fsums-module.html#_2halfeven
 pygeodesy.fsums._isfinite	pygeodesy.constants-module.html#_isfinite
-pygeodesy.fsums._fma_r	pygeodesy.fsums-module.html#_fma_r
 pygeodesy.fsums._threshold_	pygeodesy.fsums-module.html#_threshold_
 pygeodesy.fsums._xsError	pygeodesy.fsums-module.html#_xsError
 pygeodesy.fsums._ROs	pygeodesy.fsums-module.html#_ROs
@@ -2185,6 +2184,7 @@ pygeodesy.fsums.fsum	pygeodesy.fsums-module.html#fsum
 pygeodesy.fsums._2finite	pygeodesy.fsums-module.html#_2finite
 pygeodesy.fsums._Psum	pygeodesy.fsums-module.html#_Psum
 pygeodesy.fsums._xkwds_get1	pygeodesy.errors-module.html#_xkwds_get1
+pygeodesy.fsums._fmaX	pygeodesy.fsums-module.html#_fmaX
 pygeodesy.fsums._isOK	pygeodesy.fsums-module.html#_isOK
 pygeodesy.fsums.nonfiniterrors	pygeodesy.fsums-module.html#nonfiniterrors
 pygeodesy.fsums._2scalar2	pygeodesy.fsums-module.html#_2scalar2

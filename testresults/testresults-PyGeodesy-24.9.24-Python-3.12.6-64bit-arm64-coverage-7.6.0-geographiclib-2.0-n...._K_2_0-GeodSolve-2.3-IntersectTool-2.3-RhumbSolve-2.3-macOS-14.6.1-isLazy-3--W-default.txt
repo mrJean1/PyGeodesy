@@ -125,7 +125,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testAlbers.py
     test 82 error: slat1 (-0.5) or slat2 (0.5): negative
 # lazily imported pygeodesy.solveBase by internals.py line 383
 
-    9 of 82 testAlbers.py tests (11.0%) FAILED, ALL KNOWN (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 991.161 ms
+    9 of 82 testAlbers.py tests (11.0%) FAILED, ALL KNOWN (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 1.007 sec
 
 running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testAuxilats.py
 # lazily imported pygeodesy.anstr from .streprs by bases.py line 34
@@ -4769,7 +4769,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testAuxilats.py
     test 3964 Tg/sum: -182.807444594653
 # lazily imported pygeodesy.solveBase by internals.py line 383
 
-    30 of 3964 testAuxilats.py tests (0.8%) FAILED, ALL KNOWN (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 21.135 sec
+    30 of 3964 testAuxilats.py tests (0.8%) FAILED, ALL KNOWN (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 21.255 sec
 
 running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testAzimuthal.py
 ./pygeodesy/azimuthal.py:636: DeprecationWarning: Property_RO L{pygeodesy.ellipsoids.Ellipsoid.geodesic} has been DEPRECATED, use property C{geodesicw}.
@@ -5166,7 +5166,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testAzimuthal.py
     test 330 radius: 1.0
     test 331 NANing: (NAN, NAN, 0.0, 0.0, 0.0, 1.0, None)
 
-    14 of 331 testAzimuthal.py tests (4.2%) FAILED, incl. 8 KNOWN plus 6 DeprecationWarnings (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 74.563 sec
+    14 of 331 testAzimuthal.py tests (4.2%) FAILED, incl. 8 KNOWN plus 6 DeprecationWarnings (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 75.735 sec
 
 running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testBasics.py
 # lazily imported pygeodesy.anstr from .streprs by bases.py line 34
@@ -5353,7 +5353,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testBasics.py
 # lazily imported pygeodesy.karney by internals.py line 369
 # lazily imported pygeodesy.solveBase by internals.py line 383
 
-    all 129 testBasics.py tests passed (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 1.373 ms
+    all 129 testBasics.py tests passed (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 1.374 ms
 
 running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testBooleans.py
 ./test/testBooleans.py:50: DeprecationWarning: function L{pygeodesy.ellipsoidalVincenty.areaOf} has been DEPRECATED, use function L{ellipsoidalExact.areaOf} or L{ellipsoidalKarney.areaOf}.
@@ -5537,7 +5537,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testBooleans.py
     test 112 toLatLon[-3:]: ((lat=10.0, lon=0.0, height=1.0, clipid=1), (lat=3.0, lon=5.0, height=2.0, clipid=1), (lat=10.0, lon=10.0, height=3.0, clipid=1))
 # lazily imported pygeodesy.solveBase by internals.py line 383
 
-    16 of 112 testBooleans.py tests (14.3%) FAILED, incl. 16 DeprecationWarnings (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 5.012 sec
+    16 of 112 testBooleans.py tests (14.3%) FAILED, incl. 16 DeprecationWarnings (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 5.050 sec
 
 running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testCartesian.py
 ./pygeodesy/basics.py:578: DeprecationWarning: Conversion of an array with ndim > 0 to a scalar is deprecated, and will error in future. Ensure you extract a single element from your array before performing this operation. (Deprecated NumPy 1.25.)
@@ -6143,7 +6143,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testCartesian.py
     test 513 destinationXyz: Cartesian(9.553, 19.107, 32.001)
 # lazily imported pygeodesy.solveBase by internals.py line 383
 
-    37 of 513 testCartesian.py tests (7.2%) FAILED, incl. 22 KNOWN plus 15 DeprecationWarnings (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 98.076 ms
+    37 of 513 testCartesian.py tests (7.2%) FAILED, incl. 22 KNOWN plus 15 DeprecationWarnings (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 97.194 ms
 
 running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testClasses.py
 # lazily imported pygeodesy.anstr from .streprs by bases.py line 34
@@ -6676,7 +6676,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testClasses.py
     testCopyAttr(24.07.29)
 # lazily imported pygeodesy.solveBase by internals.py line 383
 
-    all 477 testClasses.py tests passed (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 8.876 ms
+    all 477 testClasses.py tests passed (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 9.032 ms
 
 running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testClipy.py
 # lazily imported pygeodesy.anstr from .streprs by bases.py line 34
@@ -7586,7 +7586,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testClipy.py
 # lazily imported pygeodesy.karney by internals.py line 369
 # lazily imported pygeodesy.solveBase by internals.py line 383
 
-    all 852 testClipy.py tests passed (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 267.622 ms
+    all 852 testClipy.py tests passed (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 268.906 ms
 
 running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testConstants.py
 # lazily imported pygeodesy.anstr from .streprs by bases.py line 34
@@ -7986,7 +7986,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testConstants.py
 # lazily imported pygeodesy.karney by internals.py line 369
 # lazily imported pygeodesy.solveBase by internals.py line 383
 
-    10 of 295 testConstants.py tests (3.4%) FAILED, ALL KNOWN (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 2.762 ms
+    10 of 295 testConstants.py tests (3.4%) FAILED, ALL KNOWN (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 2.734 ms
 
 running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testCss.py
 # lazily imported pygeodesy.anstr from .streprs by bases.py line 34
@@ -8077,7 +8077,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testCss.py
     test 55 forward6: (39142.269011, -229679.266845, 90.401497, 0.999981, 90.352206, 41.257592)
 # lazily imported pygeodesy.solveBase by internals.py line 383
 
-    3 of 55 testCss.py tests (5.5%) FAILED, ALL KNOWN (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 10.165 ms
+    3 of 55 testCss.py tests (5.5%) FAILED, ALL KNOWN (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 10.215 ms
 
 running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testDatums.py
 # lazily imported pygeodesy.anstr from .streprs by bases.py line 34
@@ -8190,7 +8190,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testDatums.py
 # lazily imported pygeodesy.karney by internals.py line 369
 # lazily imported pygeodesy.solveBase by internals.py line 383
 
-    all 64 testDatums.py tests passed (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 7.440 ms
+    all 64 testDatums.py tests passed (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 7.347 ms
 
 running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testDeprecated.py
 ./pygeodesy/deprecated/classes.py:121: DeprecationWarning: class L{pygeodesy.deprecated.classes.HeightIDW} has been DEPRECATED, use class L{HeightIDWeuclidean}.
@@ -8382,7 +8382,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testDeprecated.py
     test 94 isDEPRECATED('rhumbsolve'): True
     test 95 isDEPRECATED('rhumbx'): True
 
-    78 of 95 testDeprecated.py tests (82.1%) FAILED, incl. 78 DeprecationWarnings (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 56.073 ms
+    78 of 95 testDeprecated.py tests (82.1%) FAILED, incl. 78 DeprecationWarnings (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 55.957 ms
 
 running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testDms.py
 # lazily imported pygeodesy.anstr from .streprs by bases.py line 34
@@ -8671,7 +8671,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testDms.py
 # lazily imported pygeodesy.karney by internals.py line 369
 # lazily imported pygeodesy.solveBase by internals.py line 383
 
-    all 233 testDms.py tests passed (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 4.537 ms
+    all 233 testDms.py tests passed (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 4.407 ms
 
 running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testEcef.py
 # lazily imported pygeodesy.anstr from .streprs by bases.py line 34
@@ -9414,7 +9414,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testEcef.py
     test 687 Ecef: <class 'pygeodesy.ecef.EcefKarney'>
 # lazily imported pygeodesy.solveBase by internals.py line 383
 
-    74 of 687 testEcef.py tests (10.8%) FAILED, ALL KNOWN (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 42.723 ms
+    74 of 687 testEcef.py tests (10.8%) FAILED, ALL KNOWN (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 42.749 ms
 
 running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testElevations.py
 # lazily imported pygeodesy.anstr from .streprs by bases.py line 34
@@ -9435,8 +9435,8 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testElevations.py
 # lazily imported pygeodesy.Datums from .datums by testElevations.py line 11
 # lazily imported pygeodesy.geoidHeight2 from .elevations by testElevations.py line 11
 
-    testing testElevations.py 23.08.23 isLazy=3
-# lazily imported pygeodesy.ellipsoidalVincenty by testElevations.py line 78
+    testing testElevations.py 25.09.25 isLazy=3
+# lazily imported pygeodesy.ellipsoidalVincenty by testElevations.py line 79
     test 1 elevation2: elevation2(37.8816, -121.9142): <HTTPError 301: 'Move Permanently'>  FAILED, KNOWN, expected 1173.79
     test 2 geoidHeight2: -31.699
     test 3 elevation2: elevation2(37.8816, -121.9142): <HTTPError 301: 'Move Permanently'>  FAILED, KNOWN, expected 1173.79
@@ -9444,7 +9444,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testElevations.py
     test 5 elevation2: elevation2(42.354117, -71.069351): <HTTPError 301: 'Move Permanently'>  FAILED, KNOWN, expected 2.03
     test 6 geodHeight2: -27.773
     test 7 elevation2: elevation2(41.499498, -81.695391): <HTTPError 301: 'Move Permanently'>  FAILED, KNOWN, expected 199.18
-    test 8 geodHeight2: -34.337  FAILED, KNOWN, expected -27.077
+    test 8 geodHeight2: -34.337  FAILED, KNOWN (0.268124), expected -27.077
     test 9 elevation2: elevation2(41.49008, -71.312796): <HTTPError 301: 'Move Permanently'>  FAILED, KNOWN, expected 8.52
     test 10 geodHeight2: -30.000
     test 11 elevation2: elevation2(40.779147, -73.96808): <HTTPError 301: 'Move Permanently'>  FAILED, KNOWN, expected 32.79
@@ -9460,7 +9460,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testElevations.py
     test 21 elevation2: elevation2(42.354117, -71.069351): <HTTPError 301: 'Move Permanently'>  FAILED, KNOWN, expected 2.03
     test 22 geodHeight2: -27.773
     test 23 elevation2: elevation2(41.499498, -81.695391): <HTTPError 301: 'Move Permanently'>  FAILED, KNOWN, expected 199.18
-    test 24 geodHeight2: -34.337  FAILED, KNOWN, expected -27.077
+    test 24 geodHeight2: -34.337  FAILED, KNOWN (0.268124), expected -27.077
     test 25 elevation2: elevation2(41.49008, -71.312796): <HTTPError 301: 'Move Permanently'>  FAILED, KNOWN, expected 8.52
     test 26 geodHeight2: -30.000
     test 27 elevation2: elevation2(40.779147, -73.96808): <HTTPError 301: 'Move Permanently'>  FAILED, KNOWN, expected 32.79
@@ -9472,7 +9472,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testElevations.py
 # lazily imported pygeodesy.karney by internals.py line 369
 # lazily imported pygeodesy.solveBase by internals.py line 383
 
-    22 of 32 testElevations.py tests (68.8%) FAILED, ALL KNOWN (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 10.678 sec
+    22 of 32 testElevations.py tests (68.8%) FAILED, ALL KNOWN (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 10.778 sec
 
 running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testEllipsoidal.py
 <string>:1: DeprecationWarning: method L{pygeodesy.trf.RefFrame.__matmul__} has been DEPRECATED on 2024.02.16, use method C{B{point}.toRefFrame}.
@@ -11966,7 +11966,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testEllipsoidal.py
     test 2249 isclockwise: True
     test 2250 perimeterCO: 2099102.485159  FAILED, KNOWN, expected 2098430.887891
 
-    890 of 2250 testEllipsoidal.py tests (39.6%) FAILED, incl. 142 KNOWN plus 748 DeprecationWarnings, 64 skipped (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 12:09.822
+    890 of 2250 testEllipsoidal.py tests (39.6%) FAILED, incl. 142 KNOWN plus 748 DeprecationWarnings, 64 skipped (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 12:15.684
 
 running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testEllipsoidalGeodTest.py
 ./pygeodesy/ellipsoidalKarney.py:94: DeprecationWarning: Property_RO L{pygeodesy.ellipsoids.Ellipsoid.geodesic} has been DEPRECATED, use property C{geodesicw}.
@@ -16498,7 +16498,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testEllipsoidalGeo
     test 4501 WGS84.KsOrder: 8
 # lazily imported pygeodesy.solveBase by internals.py line 383
 
-    546 of 4501 testEllipsoidalGeodTest.py tests (12.1%) FAILED, incl. 46 KNOWN plus 500 DeprecationWarnings (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 20.382 sec
+    546 of 4501 testEllipsoidalGeodTest.py tests (12.1%) FAILED, incl. 46 KNOWN plus 500 DeprecationWarnings (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 20.428 sec
 
 running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testEllipsoids.py
 # lazily imported pygeodesy.anstr from .streprs by bases.py line 34
@@ -16622,7 +16622,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testEllipsoids.py
     test 77 rocPrimeVertical: 6388838.29
     test 78 rocPrimeVertical: 6399593.626
 
-    test<function Ellipsoid.__init__ at 0x102b7d080>(pygeodesy.ellipsoids, 24.07.25)
+    test<function Ellipsoid.__init__ at 0x102459080>(pygeodesy.ellipsoids, 24.07.25)
     test 79 a, b, None: 2.0
     test 80 a, None, f_: 500.0
 
@@ -17987,7 +17987,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testEllipsoids.py
     test 1307 hartzell4: (3642031.283571, 3678090.99925, 3714150.714929, 11296639.666827)
 # lazily imported pygeodesy.solveBase by internals.py line 383
 
-    77 of 1307 testEllipsoids.py tests (5.9%) FAILED, ALL KNOWN (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 185.708 ms
+    77 of 1307 testEllipsoids.py tests (5.9%) FAILED, ALL KNOWN (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 186.339 ms
 
 running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testElliptic.py
 # lazily imported pygeodesy.anstr from .streprs by bases.py line 34
@@ -18295,7 +18295,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testElliptic.py
     test 263 _ellipticError: invokation Elliptic._ellipticError(None): invokation Elliptic.testElliptic(None): test
 # lazily imported pygeodesy.solveBase by internals.py line 383
 
-    all 263 testElliptic.py tests passed (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 980.969 ms
+    all 263 testElliptic.py tests passed (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 989.232 ms
 
 running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testEpsg.py
 # lazily imported pygeodesy.anstr from .streprs by bases.py line 34
@@ -18720,7 +18720,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testEpsg.py
 # lazily imported pygeodesy.karney by internals.py line 369
 # lazily imported pygeodesy.solveBase by internals.py line 383
 
-    all 398 testEpsg.py tests passed (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 1.285 sec
+    all 398 testEpsg.py tests passed (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 1.304 sec
 
 running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testErrors.py
 # lazily imported pygeodesy.anstr from .streprs by bases.py line 34
@@ -18881,7 +18881,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testErrors.py
     test 104 _xkwds_pop: _xkwds_pop2({}, n1='d1', n2='d2')
 # lazily imported pygeodesy.solveBase by internals.py line 383
 
-    all 104 testErrors.py tests passed (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 1.492 ms
+    all 104 testErrors.py tests passed (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 1.491 ms
 
 running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testEtm.py
 # lazily imported pygeodesy.anstr from .streprs by bases.py line 34
@@ -19025,7 +19025,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testEtm.py
     test 102 name: parse
 # lazily imported pygeodesy.solveBase by internals.py line 383
 
-    1 of 102 testEtm.py tests (1.0%) FAILED, ALL KNOWN (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 524.715 ms
+    1 of 102 testEtm.py tests (1.0%) FAILED, ALL KNOWN (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 530.175 ms
 
 running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testEtmTMcoords.py
 # lazily imported pygeodesy.anstr from .streprs by bases.py line 34
@@ -20602,7 +20602,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testEtmTMcoords.py
     test 1548 WGS84.KsOrder: 8
 # lazily imported pygeodesy.solveBase by internals.py line 383
 
-    all 1548 testEtmTMcoords.py tests passed, 1 skipped (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 9.910 sec
+    all 1548 testEtmTMcoords.py tests passed, 1 skipped (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 10.059 sec
 
 running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testExactTMcoords.py
 # lazily imported pygeodesy.anstr from .streprs by bases.py line 34
@@ -22179,7 +22179,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testExactTMcoords.
     test 1548 WGS84.KsOrder: 8
 # lazily imported pygeodesy.solveBase by internals.py line 383
 
-    all 1548 testExactTMcoords.py tests passed, 1 skipped (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 9.827 sec
+    all 1548 testExactTMcoords.py tests passed, 1 skipped (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 9.928 sec
 
 running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testFmath.py
 # lazily imported pygeodesy.anstr from .streprs by bases.py line 34
@@ -22689,7 +22689,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testFmath.py
     test 370 Fhypot: Fhypot[1] (1.41421, 0)
     test 371 Fhypot: Fhypot[1] (-0.5, 0)
     test 372 Fhypot: Fhypot[1] (-0.333333, 0)
-    test 373 Fhypot: fmath.Fhypot(<Fsum[1] (-1, 0) at 0x1068df830>, -1, root=0): 1.0 / 0: float division by zero
+    test 373 Fhypot: fmath.Fhypot(<Fsum[1] (-1, 0) at 0x106dabb60>, -1, root=0): 1.0 / 0: float division by zero
 
     test 374 Fsqrt: Fsqrt[1] (3.0, 0)
     test 375 Fsqrt: Fcbrt[1] (3.0, 0)
@@ -22697,8 +22697,8 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testFmath.py
     test 377 Fsqrt: Fsqrt[1] (1.41421, 0)
     test 378 Froot: Froot[1] (0.5, 0)
     test 379 Froot: Froot[1] (0.5, 0)
-    test 380 Fsqrt: fmath.Fsqrt(<Fsum[1] (-1, 0) at 0x106392b10>, -1, root=2): -2.0 root Fsum[1] (0.5, 0): complex (8.659560562354934e-17+1.4142135623730951j) from 2-arg pow(-2, 0.5)
-    test 381 Fsqrt: fmath.Froot(<Fsum[1] (-1, 0) at 0x106392b10>, -1, root=0): 1.0 / 0: float division by zero
+    test 380 Fsqrt: fmath.Fsqrt(<Fsum[1] (-1, 0) at 0x106dabb60>, -1, root=2): -2.0 root Fsum[1] (0.5, 0): complex (8.659560562354934e-17+1.4142135623730951j) from 2-arg pow(-2, 0.5)
+    test 381 Fsqrt: fmath.Froot(<Fsum[1] (-1, 0) at 0x106dabb60>, -1, root=0): 1.0 / 0: float division by zero
     test 382 Froot: Froot[1] (-0.25, 0)
 
     test 383 Fhypot1: 3.74165739e+100
@@ -22736,7 +22736,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testFmath.py
 # lazily imported pygeodesy.karney by internals.py line 369
 # lazily imported pygeodesy.solveBase by internals.py line 383
 
-    72 of 408 testFmath.py tests (17.6%) FAILED, ALL KNOWN (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 554.197 ms
+    72 of 408 testFmath.py tests (17.6%) FAILED, ALL KNOWN (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 564.625 ms
 
 running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testFormy.py
 ./pygeodesy/formy.py:1153: DeprecationWarning: Property_RO L{pygeodesy.ellipsoids.Ellipsoid.geodesic} has been DEPRECATED, use property C{geodesicw}.
@@ -22872,7 +22872,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testFormy.py
     test 59 flatLocal1 (0.14%): 298425.999  FAILED, KNOWN, expected 298009.404
     test 60 flatPolar1 (8.67%): 323841.582  FAILED, KNOWN, expected 298009.404
     test 61 thomas1 (0.13%): 298396.261  FAILED, KNOWN, expected 298009.404
-    test 62 hubeny1: <function flatLocal at 0x1025ce5c0>
+    test 62 hubeny1: <function flatLocal at 0x102fc25c0>
 
     test 63 haversine2 (0.00%): 98164.988
     test 64 vincentys2 (0.00%): 98164.988
@@ -22885,7 +22885,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testFormy.py
     test 71 flatLocal2 (0.10%): 98071.693  FAILED, KNOWN, expected 98164.988
     test 72 flatPolar2 (0.57%): 98725.040  FAILED, KNOWN, expected 98164.988
     test 73 thomas2 (0.10%): 98071.535  FAILED, KNOWN, expected 98164.988
-    test 74 hubeny2: <function flatLocal at 0x1025ce5c0>
+    test 74 hubeny2: <function flatLocal at 0x102fc25c0>
 
     test 75 haversine3 (0.00%): 651816.987
     test 76 vincentys3 (0.00%): 651816.987
@@ -22898,7 +22898,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testFormy.py
     test 83 flatLocal3 (0.29%): 653681.559  FAILED, KNOWN, expected 651816.987
     test 84 flatPolar3 (13.00%): 736534.840  FAILED, KNOWN, expected 651816.987
     test 85 thomas3 (0.25%): 653456.933  FAILED, KNOWN, expected 651816.987
-    test 86 hubeny3: <function flatLocal at 0x1025ce5c0>
+    test 86 hubeny3: <function flatLocal at 0x102fc25c0>
 
     test 87 haversine4 (0.00%): 4084985.780
     test 88 vincentys4 (0.00%): 4084985.780
@@ -22911,7 +22911,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testFormy.py
     test 95 flatLocal4 (1.51%): 4146513.247  FAILED, KNOWN, expected 4084985.780
     test 96 flatPolar4 (12.31%): 4587896.452  FAILED, KNOWN, expected 4084985.780
     test 97 thomas4 (0.24%): 4094958.301  FAILED, KNOWN, expected 4084985.780
-    test 98 hubeny4: <function flatLocal at 0x1025ce5c0>
+    test 98 hubeny4: <function flatLocal at 0x102fc25c0>
 
     test 99 haversine5 (0.00%): 9670051.606
     test 100 vincentys5 (0.00%): 9670051.606
@@ -22924,7 +22924,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testFormy.py
     test 107 flatLocal5 (8.03%): 10446503.342  FAILED, KNOWN, expected 9670051.606
     test 108 flatPolar5 (55.59%): 15045906.074  FAILED, KNOWN, expected 9670051.606
     test 109 thomas5 (0.21%): 9690767.767  FAILED, KNOWN, expected 9670051.606
-    test 110 hubeny5: <function flatLocal at 0x1025ce5c0>
+    test 110 hubeny5: <function flatLocal at 0x102fc25c0>
 
     test 111 haversine6 (0.00%): 10496496.577
     test 112 vincentys6 (0.00%): 10496496.577
@@ -22937,7 +22937,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testFormy.py
     test 119 flatLocal6 (3.07%): 10818798.605  FAILED, KNOWN, expected 10496496.577
     test 120 flatPolar6 (23.87%): 13002288.857  FAILED, KNOWN, expected 10496496.577
     test 121 thomas6 (0.18%): 10477316.498  FAILED, KNOWN, expected 10496496.577
-    test 122 hubeny6: <function flatLocal at 0x1025ce5c0>
+    test 122 hubeny6: <function flatLocal at 0x102fc25c0>
 
     test 123 haversine7 (0.00%): 8998396.669
     test 124 vincentys7 (0.00%): 8998396.669
@@ -22950,7 +22950,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testFormy.py
     test 131 flatLocal7 (1.71%): 9151831.117  FAILED, KNOWN, expected 8998396.669
     test 132 flatPolar7 (17.56%): 10578638.162  FAILED, KNOWN, expected 8998396.669
     test 133 thomas7 (0.27%): 8974216.867  FAILED, KNOWN, expected 8998396.669
-    test 134 hubeny7: <function flatLocal at 0x1025ce5c0>
+    test 134 hubeny7: <function flatLocal at 0x102fc25c0>
 
     test 135 haversine8 (0.00%): 6906867.946
     test 136 vincentys8 (0.00%): 6906867.946
@@ -22963,7 +22963,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testFormy.py
     test 143 flatLocal8 (1.04%): 6978905.097  FAILED, KNOWN, expected 6906867.946
     test 144 flatPolar8 (23.23%): 8511564.321  FAILED, KNOWN, expected 6906867.946
     test 145 thomas8 (0.13%): 6916087.828  FAILED, KNOWN, expected 6906867.946
-    test 146 hubeny8: <function flatLocal at 0x1025ce5c0>
+    test 146 hubeny8: <function flatLocal at 0x102fc25c0>
 
     test 147 haversine9 (0.01%): 8045325.213  FAILED, KNOWN, expected 8044806.076
     test 148 vincentys9 (0.01%): 8045325.213  FAILED, KNOWN, expected 8044806.076
@@ -22972,7 +22972,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testFormy.py
     test 151 cosineLaw9 (0.01%): 8045325.213  FAILED, KNOWN, expected 8044806.076
     test 152 flatLocal9 (15.21%): 9268128.573  FAILED, KNOWN, expected 8044806.076
     test 153 thomas9 (0.07%): 8050370.796  FAILED, KNOWN, expected 8044806.076
-    test 154 hubeny9: <function flatLocal at 0x1025ce5c0>
+    test 154 hubeny9: <function flatLocal at 0x102fc25c0>
 
     test 155 intersection2: pygeodesy.formy
     test 156 intersection2(None): (25.980762, 15.0)  FAILED, KNOWN, expected (24.284126, 15.0)
@@ -23020,7 +23020,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testFormy.py
     test 189 heightOrthometric: 1.0
 # lazily imported pygeodesy.solveBase by internals.py line 383
 
-    143 of 189 testFormy.py tests (75.7%) FAILED, incl. 71 KNOWN plus 72 DeprecationWarnings (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 124.235 ms
+    143 of 189 testFormy.py tests (75.7%) FAILED, incl. 71 KNOWN plus 72 DeprecationWarnings (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 124.984 ms
 
 running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testFrechet.py
 ./pygeodesy/frechet.py:682: DeprecationWarning: Property_RO L{pygeodesy.ellipsoids.Ellipsoid.geodesic} has been DEPRECATED, use property C{geodesicw}.
@@ -23155,7 +23155,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testFrechet.py
     test 81 [fi2]: LatLon_(41.0°S, 071.0°W)
 # lazily imported pygeodesy.solveBase by internals.py line 383
 
-    96 of 81 testFrechet.py tests (118.5%) FAILED, incl. 5 KNOWN plus 91 DeprecationWarnings (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 21.667 sec
+    96 of 81 testFrechet.py tests (118.5%) FAILED, incl. 5 KNOWN plus 91 DeprecationWarnings (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 21.630 sec
 
 running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testFrozen.py
 # lazily imported pygeodesy.anstr from .streprs by bases.py line 34
@@ -23181,7 +23181,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testFrozen.py
 # lazily imported pygeodesy.karney by internals.py line 369
 # lazily imported pygeodesy.solveBase by internals.py line 383
 
-    all 4 testFrozen.py tests passed (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 283.699 ms
+    all 4 testFrozen.py tests passed (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 282.035 ms
 
 running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testFstats.py
 # lazily imported pygeodesy.anstr from .streprs by bases.py line 34
@@ -23268,7 +23268,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testFstats.py
 # lazily imported pygeodesy.karney by internals.py line 369
 # lazily imported pygeodesy.solveBase by internals.py line 383
 
-    1 of 52 testFstats.py tests (1.9%) FAILED, ALL KNOWN (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 4.267 sec
+    1 of 52 testFstats.py tests (1.9%) FAILED, ALL KNOWN (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 4.333 sec
 
 running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testFsums.py
 ./test/testFsums.py:30: DeprecationWarning: function L{pygeodesy.deprecated.functions.Fsum2product} has been DEPRECATED on 2024.09.19, use L{Fsum}C{(*B{xs}, B{f2product}=True, ...)}.
@@ -24906,10 +24906,10 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testFsums.py
     test 1424 ceil : 3
     test 1425 floor: 2
 
-    test 1426 divmod : (2, <Fsum[2] __divmod__(0.0, 0) at 0x1027b5cd0>)
-    test 1427 divmod : (2, <Fsum[2] __divmod__(0.0, 0) at 0x1027b5d00>)
-    test 1428 rdivmod : (0, <Fsum[1] __rdivmod__(2, 0) at 0x1027b4aa0>)
-    test 1429 divmod : (-2, <Fsum[2] __divmod__(1.0, 0) at 0x1027b48c0>)
+    test 1426 divmod : (2, <Fsum[2] __divmod__(0.0, 0) at 0x103041a30>)
+    test 1427 divmod : (2, <Fsum[2] __divmod__(0.0, 0) at 0x103041d60>)
+    test 1428 rdivmod : (0, <Fsum[1] __rdivmod__(2, 0) at 0x103040d10>)
+    test 1429 divmod : (-2, <Fsum[2] __divmod__(1.0, 0) at 0x103040e00>)
     test 1430 imod: Fsum[2] __imod__(0.0, 0)
     test 1431 mod : Fsum[2] __mod__(0.0, 0)
     test 1432 rmod: Fsum[1] __rmod__(2, 0)
@@ -25043,7 +25043,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testFsums.py
     test 1547 False: False
 # lazily imported pygeodesy.solveBase by internals.py line 383
 
-    571 of 1547 testFsums.py tests (36.9%) FAILED, incl. 121 KNOWN plus 450 DeprecationWarnings (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 3.850 sec
+    571 of 1547 testFsums.py tests (36.9%) FAILED, incl. 121 KNOWN plus 450 DeprecationWarnings (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 3.915 sec
 
 running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testGars.py
 # lazily imported pygeodesy.anstr from .streprs by bases.py line 34
@@ -25097,7 +25097,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testGars.py
 # lazily imported pygeodesy.karney by internals.py line 369
 # lazily imported pygeodesy.solveBase by internals.py line 383
 
-    3 of 26 testGars.py tests (11.5%) FAILED, ALL KNOWN (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 1.168 ms
+    3 of 26 testGars.py tests (11.5%) FAILED, ALL KNOWN (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 1.147 ms
 
 running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testGeodesici.py
 # lazily imported pygeodesy.anstr from .streprs by bases.py line 34
@@ -25599,7 +25599,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testGeodesici.py
     test 396 _Xdict2: 127
 
     testGeodesic(pygeodesy.geodesici, 24.08.28)
-    test 397 Intersector: name='', geodesic=<pygeodesy.geodesicw._gWrapped.Geodesic.<locals>.Geodesic object at 0x102bcdc10>
+    test 397 Intersector: name='', geodesic=<pygeodesy.geodesicw._gWrapped.Geodesic.<locals>.Geodesic object at 0x1029459a0>
 
     test 398 Closest.1.sA: 4.2253e+06
     test 399 Closest.1.sB: 2.70933e+06
@@ -26337,7 +26337,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testGeodesici.py
     test 1033 _Xdict2: 183
 
     testGeodesic(pygeodesy.geodesici, 24.08.28)
-    test 1034 Intersector: name='', geodesic=<pygeodesy.geodesicw._gWrapped.Geodesic.<locals>.Geodesic object at 0x101a8ad20>
+    test 1034 Intersector: name='', geodesic=<pygeodesy.geodesicw._gWrapped.Geodesic.<locals>.Geodesic object at 0x101802960>
 
     test 1035 Closest.1.sA: 4.2253e+06
     test 1036 Closest.1.sB: 2.70933e+06
@@ -26552,7 +26552,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testGeodesici.py
 
     test 1224 _Xdict2: 183
 
-    416 of 1224 testGeodesici.py tests (34.0%) FAILED, ALL KNOWN (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 19.768 sec
+    416 of 1224 testGeodesici.py tests (34.0%) FAILED, ALL KNOWN (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 19.949 sec
 
 running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testGeodesicx.py
 ./test/testGeodesicx.py:49: DeprecationWarning: Property_RO L{pygeodesy.ellipsoids.Ellipsoid.geodesic} has been DEPRECATED, use property C{geodesicw}.
@@ -27236,7 +27236,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testGeodesicx.py
     test 578 at: 270.005449  FAILED, KNOWN, expected 270.005437
     test 579 iteration: 128
 
-    88 of 579 testGeodesicx.py tests (15.2%) FAILED, incl. 85 KNOWN plus 3 DeprecationWarnings (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 44.264 sec
+    88 of 579 testGeodesicx.py tests (15.2%) FAILED, incl. 85 KNOWN plus 3 DeprecationWarnings (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 44.712 sec
 
 running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testGeohash.py
 ./test/testGeohash.py:38: DeprecationWarning: function L{pygeodesy.geohash.decode_error} has been DEPRECATED on 2024.07.28, use L{geohash.decode_error2}.
@@ -27478,7 +27478,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testGeohash.py
 # lazily imported pygeodesy.karney by internals.py line 369
 # lazily imported pygeodesy.solveBase by internals.py line 383
 
-    7 of 198 testGeohash.py tests (3.5%) FAILED, incl. 2 KNOWN plus 5 DeprecationWarnings (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 13.536 ms
+    7 of 198 testGeohash.py tests (3.5%) FAILED, incl. 2 KNOWN plus 5 DeprecationWarnings (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 13.498 ms
 
 running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testGeoids.py
 # lazily imported pygeodesy.anstr from .streprs by bases.py line 34
@@ -29660,7 +29660,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testGeoids.py
 # lazily imported pygeodesy.karney by internals.py line 369
 # lazily imported pygeodesy.solveBase by internals.py line 383
 
-    1385 of 2129 testGeoids.py tests (65.1%) FAILED, ALL KNOWN (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 2:39.740
+    1385 of 2129 testGeoids.py tests (65.1%) FAILED, ALL KNOWN (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 2:41.747
 
 running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testGreatCircle.py
 # lazily imported pygeodesy.anstr from .streprs by bases.py line 34
@@ -29754,7 +29754,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testGreatCircle.py
 # lazily imported pygeodesy.karney by internals.py line 369
 # lazily imported pygeodesy.solveBase by internals.py line 383
 
-    10 of 60 testGreatCircle.py tests (16.7%) FAILED, ALL KNOWN (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 16.418 ms
+    10 of 60 testGreatCircle.py tests (16.7%) FAILED, ALL KNOWN (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 16.415 ms
 
 running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testHausdorff.py
 ./pygeodesy/hausdorff.py:658: DeprecationWarning: Property_RO L{pygeodesy.ellipsoids.Ellipsoid.geodesic} has been DEPRECATED, use property C{geodesicw}.
@@ -30011,7 +30011,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testHausdorff.py
     test 204 HausdorffDistanceTo.copy(): (<class 'pygeodesy.hausdorff.HausdorffDistanceTo'>, True)
 # lazily imported pygeodesy.solveBase by internals.py line 383
 
-    156 of 204 testHausdorff.py tests (76.5%) FAILED, incl. 2 KNOWN plus 154 DeprecationWarnings (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 80.019 sec
+    156 of 204 testHausdorff.py tests (76.5%) FAILED, incl. 2 KNOWN plus 154 DeprecationWarnings (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 78.863 sec
 
 running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testHeights.py
 # lazily imported pygeodesy.anstr from .streprs by bases.py line 34
@@ -31412,7 +31412,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testHeights.py
 
 # lazily imported pygeodesy.solveBase by internals.py line 383
 
-    9 of 1335 testHeights.py tests (0.7%) FAILED, incl. 9 DeprecationWarnings (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 10.693 sec
+    9 of 1335 testHeights.py tests (0.7%) FAILED, incl. 9 DeprecationWarnings (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 10.647 sec
 
 running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testInterns.py
 # lazily imported pygeodesy.anstr from .streprs by bases.py line 34
@@ -31449,7 +31449,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testInterns.py
     test 15 __cached__ = './pygeodesy/__pycache__/interns.cpython-312.pyc': True
     test 16 __doc__ = "Single C{str}ing constan.... L{pygeodesy.machine}.\n": True
     test 17 __file__ = './pygeodesy/interns.py': True
-    test 18 __loader__ = <_frozen_importlib_extern....er object at 0x1013c5e20>: False  FAILED, KNOWN, expected True
+    test 18 __loader__ = <_frozen_importlib_extern....er object at 0x10133a000>: False  FAILED, KNOWN, expected True
     test 19 __name__ = 'pygeodesy.interns': True
     test 20 __package__ = 'pygeodesy': True
     test 21 __spec__ = ModuleSpec(name='pygeodes....'./pygeodesy/interns.py'): False  FAILED, KNOWN, expected True
@@ -32047,7 +32047,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testInterns.py
 # lazily imported pygeodesy.karney by internals.py line 369
 # lazily imported pygeodesy.solveBase by internals.py line 383
 
-    61 of 606 testInterns.py tests (10.1%) FAILED, ALL KNOWN (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 11.819 ms
+    61 of 606 testInterns.py tests (10.1%) FAILED, ALL KNOWN (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 12.495 ms
 
 running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testIters.py
 # lazily imported pygeodesy.anstr from .streprs by bases.py line 34
@@ -32087,7 +32087,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testIters.py
 # lazily imported pygeodesy.karney by internals.py line 369
 # lazily imported pygeodesy.solveBase by internals.py line 383
 
-    all 15 testIters.py tests passed (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 7.551 ms
+    all 15 testIters.py tests passed (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 7.630 ms
 
 running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testKarney.py
 ./pygeodesy/ellipsoidalKarney.py:139: DeprecationWarning: Property_RO L{pygeodesy.ellipsoids.Ellipsoid.geodesic} has been DEPRECATED, use property C{geodesicw}.
@@ -32669,7 +32669,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testKarney.py
     test 510 _sum3.t: 1.003e+18  FAILED, KNOWN, expected 0.000e+00
     test 511 fsum_: -3.589e+19  FAILED, KNOWN, expected 1.0
 
-    151 of 511 testKarney.py tests (29.5%) FAILED, incl. 149 KNOWN plus 2 DeprecationWarnings (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 7.472 sec
+    151 of 511 testKarney.py tests (29.5%) FAILED, incl. 149 KNOWN plus 2 DeprecationWarnings (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 7.559 sec
 
 running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testKtm.py
 # lazily imported pygeodesy.anstr from .streprs by bases.py line 34
@@ -33441,7 +33441,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testKtm.py
     test 738 reverse: 30.244228, 60.169664, 41.479185, 1.510346
 # lazily imported pygeodesy.solveBase by internals.py line 383
 
-    3 of 738 testKtm.py tests (0.4%) FAILED, ALL KNOWN (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 4.335 sec
+    3 of 738 testKtm.py tests (0.4%) FAILED, ALL KNOWN (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 4.358 sec
 
 running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testLatLon.py
 ./pygeodesy/basics.py:578: DeprecationWarning: Conversion of an array with ndim > 0 to a scalar is deprecated, and will error in future. Ensure you extract a single element from your array before performing this operation. (Deprecated NumPy 1.25.)
@@ -35030,7 +35030,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testLatLon.py
 
     test 1483 area cw/ccw: 1.0
 
-    313 of 1483 testLatLon.py tests (21.1%) FAILED, incl. 125 KNOWN plus 188 DeprecationWarnings (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 27.368 sec
+    313 of 1483 testLatLon.py tests (21.1%) FAILED, incl. 125 KNOWN plus 188 DeprecationWarnings (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 27.610 sec
 
 running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testLatLonBase.py
 # lazily imported pygeodesy.anstr from .streprs by bases.py line 34
@@ -35714,7 +35714,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testLatLonBase.py
     test 614 rhumbMidpointo-2.0: 50.898038°N, 002.48782°E
 # lazily imported pygeodesy.solveBase by internals.py line 383
 
-    all 614 testLatLonBase.py tests passed (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 1.704 sec
+    all 614 testLatLonBase.py tests passed (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 1.713 sec
 
 running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testLazily.py
 # lazily imported pygeodesy.anstr from .streprs by bases.py line 34
@@ -35763,7 +35763,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testLazily.py
 # lazily imported pygeodesy.karney by internals.py line 369
 # lazily imported pygeodesy.solveBase by internals.py line 383
 
-    all 24 testLazily.py tests passed (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 163.798 ms
+    all 24 testLazily.py tests passed (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 164.166 ms
 
 running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testLcc.py
 # lazily imported pygeodesy.anstr from .streprs by bases.py line 34
@@ -36182,7 +36182,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testLcc.py
 # lazily imported pygeodesy.karney by internals.py line 369
 # lazily imported pygeodesy.solveBase by internals.py line 383
 
-    all 270 testLcc.py tests passed (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 33.537 ms
+    all 270 testLcc.py tests passed (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 33.447 ms
 
 running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testLtp.py
 ./pygeodesy/deprecated/classes.py:67: DeprecationWarning: class L{pygeodesy.deprecated.classes.EcefCartesian_} has been DEPRECATED, use class L{LocalCartesian} or L{Ltp}.
@@ -36966,7 +36966,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testLtp.py
     test 643 Monte Generoso:  0.000786 m
 # lazily imported pygeodesy.solveBase by internals.py line 383
 
-    102 of 643 testLtp.py tests (15.9%) FAILED, incl. 90 KNOWN plus 12 DeprecationWarnings (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 390.750 ms
+    102 of 643 testLtp.py tests (15.9%) FAILED, incl. 90 KNOWN plus 12 DeprecationWarnings (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 383.839 ms
 
 running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testLtpTuples.py
 # lazily imported pygeodesy.anstr from .streprs by bases.py line 34
@@ -37161,7 +37161,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testLtpTuples.py
     test 156 Los: [E:0.5, N:0.5, U:-0.707]
 # lazily imported pygeodesy.solveBase by internals.py line 383
 
-    all 156 testLtpTuples.py tests passed (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 32.245 ms
+    all 156 testLtpTuples.py tests passed (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 30.185 ms
 
 running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testMgrs.py
 ./test/testMgrs.py:88: DeprecationWarning: property_RO L{pygeodesy.mgrs.Mgrs.en100k} has been DEPRECATED, use property C{EN}.
@@ -37291,7 +37291,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testMgrs.py
 # lazily imported pygeodesy.karney by internals.py line 369
 # lazily imported pygeodesy.solveBase by internals.py line 383
 
-    4 of 86 testMgrs.py tests (4.7%) FAILED, incl. 4 DeprecationWarnings (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 101.153 ms
+    4 of 86 testMgrs.py tests (4.7%) FAILED, incl. 4 DeprecationWarnings (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 101.100 ms
 
 running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testModules.py
 # lazily imported pygeodesy.anstr from .streprs by bases.py line 34
@@ -37315,7 +37315,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testModules.py
 # lazily imported pygeodesy.karney by internals.py line 369
 # lazily imported pygeodesy.solveBase by internals.py line 383
 
-    all testModules.py tests passed, 2805 skipped (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 20.981 us
+    all testModules.py tests passed, 2805 skipped (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 24.080 us
 
 running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testNamed.py
 # lazily imported pygeodesy.anstr from .streprs by bases.py line 34
@@ -37354,7 +37354,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testNamed.py
     test 10 _Named 'Test': Test
     test 11 _Named 'Test': Test
     test 12 _Named 'Test': _Named 'Test'
-    test 13 _Named 'Test': <_Named 'Test' at 0x103206960>  FAILED, KNOWN, expected _Named 'Test'
+    test 13 _Named 'Test': <_Named 'Test' at 0x10544aa20>  FAILED, KNOWN, expected _Named 'Test'
     test 14 _Named 'Test': ''
 
     testing _NamedBase() (pygeodesy.named, 24.09.02)
@@ -38044,8 +38044,8 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testNamed.py
     testing fstats.py (pygeodesy.named, 24.09.02)
 
     testing fsums.py (pygeodesy.named, 24.09.02)
-    test 584 fsums.py:1339: L{Fsum2Tuple}C{(fsum, residual)}
-    test 585 fsums.py:1757: L{Fsum2Tuple}C{(fsum, residual)}
+    test 584 fsums.py:1338: L{Fsum2Tuple}C{(fsum, residual)}
+    test 585 fsums.py:1756: L{Fsum2Tuple}C{(fsum, residual)}
 
     testing gars.py (pygeodesy.named, 24.09.02)
     test 586 gars.py:207: L{LatLonPrec3Tuple}C{(lat, lon, precision)}
@@ -38707,7 +38707,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testNamed.py
 
     test 1062 nameof: KsOrder
 
-    10 of 1062 testNamed.py tests (0.9%) FAILED, ALL KNOWN (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 112.615 ms
+    10 of 1062 testNamed.py tests (0.9%) FAILED, ALL KNOWN (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 114.473 ms
 
 running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testNamedTuples.py
 # lazily imported pygeodesy.anstr from .streprs by bases.py line 34
@@ -39679,7 +39679,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testNamedTuples.py
     test 910 pygeodesy.rhumb.solve.RhumbSolve7Tuple._validated: True
     test 911 pygeodesy.named._NamedTuple._validated: False
 
-    all 911 testNamedTuples.py tests passed (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 85.498 ms
+    all 911 testNamedTuples.py tests passed (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 85.961 ms
 
 running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testNavlabExamples.py
 ./pygeodesy/ellipsoidalNvector.py:58: DeprecationWarning: class L{pygeodesy.ellipsoidalNvector.Ned} has been DEPRECATED on 2024.02.04, use class L{pygeodesy.Ned}.
@@ -39793,7 +39793,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testNavlabExamples
     test 38 length: 116809.178
     test 39 toVector3d: (-86126.6, -78901.1, -1104.1)
 
-    20 of 39 testNavlabExamples.py tests (51.3%) FAILED, incl. 2 KNOWN plus 18 DeprecationWarnings (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 84.781 ms
+    20 of 39 testNavlabExamples.py tests (51.3%) FAILED, incl. 2 KNOWN plus 18 DeprecationWarnings (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 85.445 ms
 
 running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testOsgr.py
 ./test/testOsgr.py:25: DeprecationWarning: method L{pygeodesy.ellipsoidalNvector.LatLon.convertDatum} has been DEPRECATED, use method L{toDatum}.
@@ -40418,7 +40418,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testOsgr.py
     test 524 toLatLon: 52.0N, 000.12W
     test 525 toLatLon: 52.0N, 000.12W
 
-    17 of 525 testOsgr.py tests (3.2%) FAILED, incl. 6 KNOWN plus 11 DeprecationWarnings (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 334.743 ms
+    17 of 525 testOsgr.py tests (3.2%) FAILED, incl. 6 KNOWN plus 11 DeprecationWarnings (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 334.222 ms
 
 running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testPoints.py
 # lazily imported pygeodesy.anstr from .streprs by bases.py line 34
@@ -41228,7 +41228,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testPoints.py
 # lazily imported pygeodesy.geodsolve by ellipsoids.py line 1073
     test 732 luneOf: 1.27516405431022e+14
 
-    67 of 732 testPoints.py tests (9.2%) FAILED, incl. 21 KNOWN plus 46 DeprecationWarnings (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 6.255 sec
+    67 of 732 testPoints.py tests (9.2%) FAILED, incl. 21 KNOWN plus 46 DeprecationWarnings (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 6.243 sec
 
 running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testProps.py
 # lazily imported pygeodesy.anstr from .streprs by bases.py line 34
@@ -41300,7 +41300,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testProps.py
 # lazily imported pygeodesy.karney by internals.py line 369
 # lazily imported pygeodesy.solveBase by internals.py line 383
 
-    all 42 testProps.py tests passed (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 756.979 us
+    all 42 testProps.py tests passed (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 744.104 us
 
 running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testResections.py
 ./test/testResections.py:40: DeprecationWarning: method L{__main__.Cartesian_.collins} has been DEPRECATED, use method L{collins5}.
@@ -41432,7 +41432,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testResections.py
     test 53 triSide2: (2.0, 3.141593)
 # lazily imported pygeodesy.solveBase by internals.py line 383
 
-    17 of 53 testResections.py tests (32.1%) FAILED, incl. 1 KNOWN plus 16 DeprecationWarnings (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 32.375 ms
+    17 of 53 testResections.py tests (32.1%) FAILED, incl. 1 KNOWN plus 16 DeprecationWarnings (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 32.406 ms
 
 running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testRhumb_aux_.py
 # lazily imported pygeodesy.anstr from .streprs by bases.py line 34
@@ -42001,7 +42001,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testRhumb_aux_.py
     test 456 unroll: True
     test 457 verbose: True
 
-    163 of 457 testRhumb_aux_.py tests (35.7%) FAILED, incl. 142 KNOWN plus 21 DeprecationWarnings (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 16.505 sec
+    163 of 457 testRhumb_aux_.py tests (35.7%) FAILED, incl. 142 KNOWN plus 21 DeprecationWarnings (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 16.561 sec
 
 running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testRhumb_ekx.py
 ./test/testRhumb_ekx.py:37: DeprecationWarning: property_RO L{pygeodesy.ellipsoids.Ellipsoid.rhumbx} has been DEPRECATED on 2023.11.28, use property C{rhumbekx}.
@@ -42587,7 +42587,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testRhumb_ekx.py
     test 458 unroll: True
     test 459 verbose: True
 
-    171 of 459 testRhumb_ekx.py tests (37.3%) FAILED, incl. 142 KNOWN plus 29 DeprecationWarnings (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 12.820 sec
+    171 of 459 testRhumb_ekx.py tests (37.3%) FAILED, incl. 142 KNOWN plus 29 DeprecationWarnings (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 12.947 sec
 
 running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testRoutes.py
 ./test/testRoutes.py:17103: DeprecationWarning: function L{pygeodesy.ellipsoidalVincenty.areaOf} has been DEPRECATED, use function L{ellipsoidalExact.areaOf} or L{ellipsoidalKarney.areaOf}.
@@ -42718,7 +42718,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testRoutes.py
     test 90 isclockwise('_JFK_LHR2', adjust=False, wrap=True): 0.000
 # lazily imported pygeodesy.solveBase by internals.py line 383
 
-    77 of 90 testRoutes.py tests (85.6%) FAILED, incl. 21 KNOWN plus 56 DeprecationWarnings (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 11.454 sec
+    77 of 90 testRoutes.py tests (85.6%) FAILED, incl. 21 KNOWN plus 56 DeprecationWarnings (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 11.420 sec
 
 running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testSimplify.py
 # lazily imported pygeodesy.anstr from .streprs by bases.py line 34
@@ -42754,86 +42754,86 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testSimplify.py
 # lazily imported pygeodesy.unstr from .streprs by testRoutes.py line 13
 
     testing testSimplify.py 23.03.27 (module pygeodesy.simplify 24.08.13) isLazy=3
-    test 1 simplify1(16614, adjust=True) 1m (200.218 ms): 16597
-    test 2 simplifyRW(16614, adjust=True, shortest=False, indices=True) 1m (162.794 ms): 7095
-    test 3 simplifyRW(16614, adjust=True, shortest=False) 1m (163.154 ms): 7095
-    test 4 simplifyRW(16614, adjust=True, shortest=True) 1m (238.406 ms): 8302
-    test 5 simplifyVWm(16614, adjust=True, indices=True) 1m (342.744 ms): 16328
-    test 6 simplifyVWm(16614, adjust=True) 1m (340.195 ms): 16328
-    test 7 simplifyVWm(16614, adjust=False) 1m (320.747 ms): 16373
-    test 8 simplifyRDPm(16614, adjust=True, shortest=False) 1m (330.694 ms): 15864
-    test 9 simplifyRDPm(16614, adjust=True, shortest=True) 1m (332.462 ms): 15867
-    test 10 simplifyRDPgr(16614, adjust=True, shortest=True, modified=True) 1m (201.752 ms): 15867
-    test 11 simplifyRDPm(16614, adjust=False, shortest=False) 1m (312.458 ms): 15869
-    test 12 simplifyRDPfw(16614, adjust=False, shortest=False, modified=True) 1m (107.293 ms): 15869
-    test 13 simplifyRDP(16614, adjust=True, shortest=True, indices=True) 1m (2.494 sec): 10960
-    test 14 simplifyRDP(16614, adjust=True, shortest=True) 1m (2.527 sec): 10960
-    test 15 simplifyRDPgr(16614, adjust=True, shortest=True, modified=False) 1m (2.021 sec): 10960
-    test 16 simplifyRDP(16614, adjust=False, shortest=False, indices=True) 1m (2.305 sec): 11248
-    test 17 simplifyRDP(16614, adjust=False, shortest=False) 1m (2.305 sec): 11248
-    test 18 simplifyRDPfw(16614, adjust=False, shortest=False, modified=False) 1m (800.818 ms): 11248
-    test 19 simplifyVW(1661, adjust=True) 1m (41.260 ms): 1641
-    test 20 simplifyVW(1661, adjust=False) 1m (35.885 ms): 1646
-    test 21 simplifyRDP(1661, adjust=True, shortest=False) 1m (189.665 ms): 1231
-    test 22 simplifyRDP(1661, adjust=True, shortest=True) 1m (194.848 ms): 1231
-    test 23 simplifyRDPgr(1661, adjust=True, shortest=True) 1m (160.249 ms): 1231
-    test 24 simplifyRDP(1661, adjust=False, shortest=False) 1m (184.274 ms): 1267
-    test 25 simplifyRDPfw(1661, adjust=False, shortest=False) 1m (62.742 ms): 1267
-    test 26 simplifyRDPgr(1661, adjust=False, shortest=True) 1m (112.049 ms): 1267
-    test 27 simplifyVW(69, adjust=False) 1m (1.687 ms): 69
-    test 28 simplifyRDP(69, adjust=False, shortest=False) 1m (3.990 ms): 50
-    test 29 simplifyRDPfw(69, adjust=False, shortest=False) 1m (1.392 ms): 50
-    test 30 simplifyRDPgr(69, adjust=False, shortest=True) 1m (2.409 ms): 50
-    test 31 simplifyRDPgr(69, adjust=True, shortest=True) 1m (3.255 ms): 45
-    test 32 simplifyRDP(5, adjust=False, shortest=True) 1m (126.839 us): 5
-    test 33 simplifyVW(5, adjust=False, attr='name') 30m (311.136 us): 5
+    test 1 simplify1(16614, adjust=True) 1m (200.810 ms): 16597
+    test 2 simplifyRW(16614, adjust=True, shortest=False, indices=True) 1m (161.303 ms): 7095
+    test 3 simplifyRW(16614, adjust=True, shortest=False) 1m (161.062 ms): 7095
+    test 4 simplifyRW(16614, adjust=True, shortest=True) 1m (236.760 ms): 8302
+    test 5 simplifyVWm(16614, adjust=True, indices=True) 1m (340.929 ms): 16328
+    test 6 simplifyVWm(16614, adjust=True) 1m (337.490 ms): 16328
+    test 7 simplifyVWm(16614, adjust=False) 1m (318.270 ms): 16373
+    test 8 simplifyRDPm(16614, adjust=True, shortest=False) 1m (327.173 ms): 15864
+    test 9 simplifyRDPm(16614, adjust=True, shortest=True) 1m (330.042 ms): 15867
+    test 10 simplifyRDPgr(16614, adjust=True, shortest=True, modified=True) 1m (199.422 ms): 15867
+    test 11 simplifyRDPm(16614, adjust=False, shortest=False) 1m (310.382 ms): 15869
+    test 12 simplifyRDPfw(16614, adjust=False, shortest=False, modified=True) 1m (107.327 ms): 15869
+    test 13 simplifyRDP(16614, adjust=True, shortest=True, indices=True) 1m (2.470 sec): 10960
+    test 14 simplifyRDP(16614, adjust=True, shortest=True) 1m (2.463 sec): 10960
+    test 15 simplifyRDPgr(16614, adjust=True, shortest=True, modified=False) 1m (2.004 sec): 10960
+    test 16 simplifyRDP(16614, adjust=False, shortest=False, indices=True) 1m (2.289 sec): 11248
+    test 17 simplifyRDP(16614, adjust=False, shortest=False) 1m (2.287 sec): 11248
+    test 18 simplifyRDPfw(16614, adjust=False, shortest=False, modified=False) 1m (796.927 ms): 11248
+    test 19 simplifyVW(1661, adjust=True) 1m (41.937 ms): 1641
+    test 20 simplifyVW(1661, adjust=False) 1m (35.700 ms): 1646
+    test 21 simplifyRDP(1661, adjust=True, shortest=False) 1m (187.772 ms): 1231
+    test 22 simplifyRDP(1661, adjust=True, shortest=True) 1m (189.216 ms): 1231
+    test 23 simplifyRDPgr(1661, adjust=True, shortest=True) 1m (152.818 ms): 1231
+    test 24 simplifyRDP(1661, adjust=False, shortest=False) 1m (176.460 ms): 1267
+    test 25 simplifyRDPfw(1661, adjust=False, shortest=False) 1m (61.724 ms): 1267
+    test 26 simplifyRDPgr(1661, adjust=False, shortest=True) 1m (111.297 ms): 1267
+    test 27 simplifyVW(69, adjust=False) 1m (1.682 ms): 69
+    test 28 simplifyRDP(69, adjust=False, shortest=False) 1m (3.956 ms): 50
+    test 29 simplifyRDPfw(69, adjust=False, shortest=False) 1m (1.377 ms): 50
+    test 30 simplifyRDPgr(69, adjust=False, shortest=True) 1m (2.381 ms): 50
+    test 31 simplifyRDPgr(69, adjust=True, shortest=True) 1m (3.262 ms): 45
+    test 32 simplifyRDP(5, adjust=False, shortest=True) 1m (123.262 us): 5
+    test 33 simplifyVW(5, adjust=False, attr='name') 30m (326.157 us): 5
     test 34 numpy.__version__: 2.1.0
-    test 35 simplify1(69, adjust=False) 1m (1.431 ms): 69
+    test 35 simplify1(69, adjust=False) 1m (1.449 ms): 69
     test 36 simplify1(69, adjust=False) result: <class 'numpy.ndarray'>
-    test 37 simplifyRW(69, adjust=False) 1m (1.375 ms): 33
+    test 37 simplifyRW(69, adjust=False) 1m (1.388 ms): 33
     test 38 simplifyRW(69, adjust=False) result: <class 'numpy.ndarray'>
-    test 39 simplifyRDP(69, adjust=False) 1m (8.411 ms): 50
+    test 39 simplifyRDP(69, adjust=False) 1m (8.390 ms): 50
     test 40 simplifyRDP(69, adjust=False) result: <class 'numpy.ndarray'>
-    test 41 simplifyRDPm(69, adjust=False) 1m (2.667 ms): 67
+    test 41 simplifyRDPm(69, adjust=False) 1m (2.659 ms): 67
     test 42 simplifyRDPm(69, adjust=False) result: <class 'numpy.ndarray'>
-    test 43 simplifyRDPfw(69, adjust=False) 1m (5.701 ms): 50
-    test 44 simplifyRDPgr(69, adjust=False) 1m (10.355 ms): 50
-    test 45 simplifyVW(69, adjust=False) 1m (2.703 ms): 69
+    test 43 simplifyRDPfw(69, adjust=False) 1m (5.660 ms): 50
+    test 44 simplifyRDPgr(69, adjust=False) 1m (10.291 ms): 50
+    test 45 simplifyVW(69, adjust=False) 1m (2.679 ms): 69
     test 46 simplifyVW(69, adjust=False) result: <class 'numpy.ndarray'>
-    test 47 simplifyVWm(69, adjust=False) 1m (2.685 ms): 69
+    test 47 simplifyVWm(69, adjust=False) 1m (2.686 ms): 69
     test 48 simplifyVWm(69, adjust=False) result: <class 'numpy.ndarray'>
-    test 49 simplify1(69, adjust=True) 1m (1.412 ms): 69
+    test 49 simplify1(69, adjust=True) 1m (1.401 ms): 69
     test 50 simplify1(69, adjust=True) result: <class 'numpy.ndarray'>
-    test 51 simplifyRW(69, adjust=True) 1m (1.407 ms): 31
+    test 51 simplifyRW(69, adjust=True) 1m (1.392 ms): 31
     test 52 simplifyRW(69, adjust=True) result: <class 'numpy.ndarray'>
-    test 53 simplifyRDP(69, adjust=True) 1m (8.604 ms): 45
+    test 53 simplifyRDP(69, adjust=True) 1m (8.510 ms): 45
     test 54 simplifyRDP(69, adjust=True) result: <class 'numpy.ndarray'>
-    test 55 simplifyRDPm(69, adjust=True) 1m (2.745 ms): 67
+    test 55 simplifyRDPm(69, adjust=True) 1m (2.716 ms): 67
     test 56 simplifyRDPm(69, adjust=True) result: <class 'numpy.ndarray'>
-    test 57 simplifyRDPfw(69, adjust=True) 1m (6.150 ms): 45
-    test 58 simplifyRDPgr(69, adjust=True) 1m (11.180 ms): 45
-    test 59 simplifyVW(69, adjust=True) 1m (2.768 ms): 69
+    test 57 simplifyRDPfw(69, adjust=True) 1m (6.096 ms): 45
+    test 58 simplifyRDPgr(69, adjust=True) 1m (11.154 ms): 45
+    test 59 simplifyVW(69, adjust=True) 1m (2.743 ms): 69
     test 60 simplifyVW(69, adjust=True) result: <class 'numpy.ndarray'>
-    test 61 simplifyVWm(69, adjust=True) 1m (2.747 ms): 69
+    test 61 simplifyVWm(69, adjust=True) 1m (2.726 ms): 69
     test 62 simplifyVWm(69, adjust=True) result: <class 'numpy.ndarray'>
-    test 63 simplify1(69, adjust=False, indices=True) 1m (1.269 ms): 69
+    test 63 simplify1(69, adjust=False, indices=True) 1m (1.258 ms): 69
     test 64 simplify1(69, adjust=False, indices=True) result: <class 'list'>
-    test 65 simplifyRW(69, adjust=False, indices=True) 1m (1.312 ms): 33
+    test 65 simplifyRW(69, adjust=False, indices=True) 1m (1.303 ms): 33
     test 66 simplifyRW(69, adjust=False, indices=True) result: <class 'list'>
-    test 67 simplifyRDP(69, adjust=False, indices=True) 1m (8.297 ms): 50
+    test 67 simplifyRDP(69, adjust=False, indices=True) 1m (8.247 ms): 50
     test 68 simplifyRDP(69, adjust=False, indices=True) result: <class 'list'>
-    test 69 simplifyRDPm(69, adjust=False, indices=True) 1m (2.558 ms): 67
+    test 69 simplifyRDPm(69, adjust=False, indices=True) 1m (2.548 ms): 67
     test 70 simplifyRDPm(69, adjust=False, indices=True) result: <class 'list'>
-    test 71 simplifyRDPfw(69, adjust=True, indices=True) 1m (6.053 ms): 45
-    test 72 simplifyRDPgr(69, adjust=True, indices=True) 1m (11.087 ms): 45
-    test 73 simplifyVW(69, adjust=False, indices=True) 1m (2.631 ms): 69
+    test 71 simplifyRDPfw(69, adjust=True, indices=True) 1m (6.014 ms): 45
+    test 72 simplifyRDPgr(69, adjust=True, indices=True) 1m (11.031 ms): 45
+    test 73 simplifyVW(69, adjust=False, indices=True) 1m (2.613 ms): 69
     test 74 simplifyVW(69, adjust=False, indices=True) result: <class 'list'>
-    test 75 simplifyVWm(69, adjust=False, indices=True) 1m (2.569 ms): 69
+    test 75 simplifyVWm(69, adjust=False, indices=True) 1m (2.558 ms): 69
     test 76 simplifyVWm(69, adjust=False, indices=True) result: <class 'list'>
 # lazily imported pygeodesy.karney by internals.py line 369
 # lazily imported pygeodesy.solveBase by internals.py line 383
 
-    all 76 testSimplify.py tests passed (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 16.611 sec
+    all 76 testSimplify.py tests passed (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 16.422 sec
 
 running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testSpherical.py
 ./pygeodesy/basics.py:578: DeprecationWarning: Conversion of an array with ndim > 0 to a scalar is deprecated, and will error in future. Ensure you extract a single element from your array before performing this operation. (Deprecated NumPy 1.25.)
@@ -43849,7 +43849,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testSpherical.py
     test 889 intermediateTo: 50.5363°N, 001.2746°E, +150.00m
 # lazily imported pygeodesy.solveBase by internals.py line 383
 
-    126 of 889 testSpherical.py tests (14.2%) FAILED, incl. 124 KNOWN plus 2 DeprecationWarnings (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 400.738 ms
+    126 of 889 testSpherical.py tests (14.2%) FAILED, incl. 124 KNOWN plus 2 DeprecationWarnings (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 402.390 ms
 
 running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testStreprs.py
 # lazily imported pygeodesy.anstr from .streprs by bases.py line 34
@@ -43944,7 +43944,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testStreprs.py
 # lazily imported pygeodesy.karney by internals.py line 369
 # lazily imported pygeodesy.solveBase by internals.py line 383
 
-    all 65 testStreprs.py tests passed (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 1.040 ms
+    all 65 testStreprs.py tests passed (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 1.032 ms
 
 running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testTMcoords.py
 # lazily imported pygeodesy.anstr from .streprs by bases.py line 34
@@ -45631,7 +45631,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testTrf.py
     test 1384 Epoch (2021.001): (2021, 1, 1)  FAILED, KNOWN, expected (2020, 13, 1)
 # lazily imported pygeodesy.solveBase by internals.py line 383
 
-    367 of 1384 testTrf.py tests (26.5%) FAILED, incl. 357 KNOWN plus 10 DeprecationWarnings (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 888.824 ms
+    367 of 1384 testTrf.py tests (26.5%) FAILED, incl. 357 KNOWN plus 10 DeprecationWarnings (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 889.584 ms
 
 running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testTriaxials.py
 # lazily imported pygeodesy.anstr from .streprs by bases.py line 34
@@ -46148,7 +46148,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testTriaxials.py
     test 420 triaxum5: (1.244625, 0.145582, 0.0, 2, ())
 # lazily imported pygeodesy.solveBase by internals.py line 383
 
-    15 of 420 testTriaxials.py tests (3.6%) FAILED, ALL KNOWN (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 480.777 ms
+    15 of 420 testTriaxials.py tests (3.6%) FAILED, ALL KNOWN (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 480.855 ms
 
 running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testUnits.py
 # lazily imported pygeodesy.anstr from .streprs by bases.py line 34
@@ -47526,7 +47526,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testUnits.py
     test 1199 Join_d: 'c-a-l-l'
     test 1200 Join_d: Join_d ('c-a-l-l')
 
-    51 of 1200 testUnits.py tests (4.2%) FAILED, ALL KNOWN (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 80.248 ms
+    51 of 1200 testUnits.py tests (4.2%) FAILED, ALL KNOWN (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 80.285 ms
 
 running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testUps.py
 # lazily imported pygeodesy.anstr from .streprs by bases.py line 34
@@ -47633,7 +47633,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testUps.py
 # lazily imported pygeodesy.karney by internals.py line 369
 # lazily imported pygeodesy.solveBase by internals.py line 383
 
-    2 of 74 testUps.py tests (2.7%) FAILED, ALL KNOWN (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 103.605 ms
+    2 of 74 testUps.py tests (2.7%) FAILED, ALL KNOWN (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 104.074 ms
 
 running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testUtily.py
 # lazily imported pygeodesy.anstr from .streprs by bases.py line 34
@@ -47904,7 +47904,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testUtily.py
 # lazily imported pygeodesy.karney by internals.py line 369
 # lazily imported pygeodesy.solveBase by internals.py line 383
 
-    8 of 164 testUtily.py tests (4.9%) FAILED, ALL KNOWN (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 14.922 ms
+    8 of 164 testUtily.py tests (4.9%) FAILED, ALL KNOWN (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 14.989 ms
 
 running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testUtm.py
 # lazily imported pygeodesy.anstr from .streprs by bases.py line 34
@@ -48034,7 +48034,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testUtm.py
     test 98 E.N.: (280000.0, 5653000.0)
 # lazily imported pygeodesy.solveBase by internals.py line 383
 
-    2 of 98 testUtm.py tests (2.0%) FAILED, ALL KNOWN (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 285.267 ms
+    2 of 98 testUtm.py tests (2.0%) FAILED, ALL KNOWN (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 284.454 ms
 
 running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testUtmTMcoords.py
 # lazily imported pygeodesy.anstr from .streprs by bases.py line 34
@@ -49467,7 +49467,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testUtmTMcoords.py
 # lazily imported pygeodesy.karney by internals.py line 369
 # lazily imported pygeodesy.solveBase by internals.py line 383
 
-    23 of 1332 testUtmTMcoords.py tests (1.7%) FAILED, ALL KNOWN, 37 skipped (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 2.166 sec
+    23 of 1332 testUtmTMcoords.py tests (1.7%) FAILED, ALL KNOWN, 37 skipped (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 2.158 sec
 
 running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testUtmUps.py
 # lazily imported pygeodesy.anstr from .streprs by bases.py line 34
@@ -49594,7 +49594,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testUtmUps.py
 # lazily imported pygeodesy.karney by internals.py line 369
 # lazily imported pygeodesy.solveBase by internals.py line 383
 
-    4 of 97 testUtmUps.py tests (4.1%) FAILED, ALL KNOWN (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 80.011 ms
+    4 of 97 testUtmUps.py tests (4.1%) FAILED, ALL KNOWN (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 80.526 ms
 
 running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testUtmUpsTMcoords.py
 # lazily imported pygeodesy.anstr from .streprs by bases.py line 34
@@ -51031,7 +51031,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testUtmUpsTMcoords
 # lazily imported pygeodesy.karney by internals.py line 369
 # lazily imported pygeodesy.solveBase by internals.py line 383
 
-    24 of 1335 testUtmUpsTMcoords.py tests (1.8%) FAILED, ALL KNOWN, 37 skipped (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 2.180 sec
+    24 of 1335 testUtmUpsTMcoords.py tests (1.8%) FAILED, ALL KNOWN, 37 skipped (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 2.175 sec
 
 running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testVectorial.py
 ./pygeodesy/ellipsoidalBase.py:432: DeprecationWarning: Property_RO L{pygeodesy.ellipsoids.Ellipsoid.geodesic} has been DEPRECATED, use property C{geodesicw}.
@@ -51749,7 +51749,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testVectorial.py
     test 599 max error: 2.3317285650e-13
 # lazily imported pygeodesy.solveBase by internals.py line 383
 
-    46 of 599 testVectorial.py tests (7.7%) FAILED, incl. 13 KNOWN plus 33 DeprecationWarnings (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 419.706 ms
+    46 of 599 testVectorial.py tests (7.7%) FAILED, incl. 13 KNOWN plus 33 DeprecationWarnings (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 419.668 ms
 
 running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testWebMercator.py
 # lazily imported pygeodesy.anstr from .streprs by bases.py line 34
@@ -51857,7 +51857,7 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testWebMercator.py
 # lazily imported pygeodesy.karney by internals.py line 369
 # lazily imported pygeodesy.solveBase by internals.py line 383
 
-    all 72 testWebMercator.py tests passed (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 4.564 ms
+    all 72 testWebMercator.py tests passed (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 4.583 ms
 
 running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testWgrs.py
 # lazily imported pygeodesy.anstr from .streprs by bases.py line 34
@@ -51957,6 +51957,6 @@ running /usr/local/bin/p....n3.12 -W default ~/PyGeodesy/test/testWgrs.py
 # lazily imported pygeodesy.karney by internals.py line 369
 # lazily imported pygeodesy.solveBase by internals.py line 383
 
-    2 of 72 testWgrs.py tests (2.8%) FAILED, ALL KNOWN (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 3.438 ms
+    2 of 72 testWgrs.py tests (2.8%) FAILED, ALL KNOWN (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W  default) 3.476 ms
 
-test/run.py /usr/local/bin/p....n3.12 -W default: all 45448 tests OK (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W default) 22:38.357 (33.458 tps)
+test/run.py /usr/local/bin/p....n3.12 -W default: all 45448 tests OK (PyGeodesy 24.9.24 Python 3.12.6 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 _K_2_0 GeodSolve 2.3 IntersectTool 2.3 RhumbSolve 2.3 macOS 14.6.1 isLazy 3 -W default) 22:47.703 (33.229 tps)
