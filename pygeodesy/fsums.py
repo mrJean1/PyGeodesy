@@ -1481,7 +1481,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
             if ps:
                 try:
                     for p in self._ps_other(op, *others):
-                        pfs   = _2products(p, ps)  # _2split3s(ps)
+                        pfs   = _2products(p, _2split3s(ps))
                         ps[:] =  f._ps_acc([], pfs, up=False)
                     f._update()
                 except (OverflowError, TypeError, ValueError) as X:
