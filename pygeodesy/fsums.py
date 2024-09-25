@@ -64,7 +64,7 @@ from math import fabs, isinf, isnan, \
                  ceil as _ceil, floor as _floor  # PYCHOK used! .ltp
 
 __all__ = _ALL_LAZY.fsums
-__version__ = '24.09.24'
+__version__ = '24.09.25'
 
 from pygeodesy.interns import (
   _PLUS_     as _add_op_,  # in .auxilats.auxAngle
@@ -295,13 +295,6 @@ def _isOK_or_finite(x, _isfine=_isfinite):
     return _isfine(x)
 
 
-def _isOK_or_finite_f(_isfine=_isfinite):
-    '''(INTERNAL) Return the C{_isfine} function.
-    '''
-    # assert _isfine in (_isOK, _isfinite)
-    return _isfine
-
-
 def _nfError(x, *args):
     '''(INTERNAL) Throw a C{not-finite} exception.
     '''
@@ -451,8 +444,9 @@ def _2sum(a, b, _isfine=_isfinite):  # in .testFmath
     s = a + b
     if _isfinite(s):
         if fabs(a) < fabs(b):
-            a, b = b, a
-        r = (a - s) + b
+            r = (b - s) + a
+        else:
+            r = (a - s) + b
     elif _isfine(s):
         r = 0
     else:  # non-finite and not OK
@@ -1358,22 +1352,30 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
             i =  int(s)
             r = (self._ps_1sum(i) if len(self._ps) > 1 else
                  float(s - i)) or INT0
-        except (OverflowError, ValueError):
-            i = _sum(self._ps)  # INF, NAN, NINF
-            r = _0_0
+        except (OverflowError, ValueError) as X:
+            r = 0  # INF, NAN, NINF
+            i = self._fintX(X, sum(self._ps))
         return i, r  # Fsum2Tuple?
 
-    @_fint2.setter_  # PYCHOK setter_underscore!
+    @_fint2.setter_  # PYCHOK setter_UNDERscore!
     def _fint2(self, s):  # in _fset
         '''(INTERNAL) Replace the C{_fint2} value.
         '''
         try:
             i =  int(s)
             r = (s - i) or INT0
-        except (OverflowError, ValueError):
-            i = float(s)  # INF, NAN, NINF
-            r = 0
+        except (OverflowError, ValueError) as X:
+            r = 0  # INF, NAN, NINF
+            i = self._fintX(X, float(s))
         return i, r  # like _fint2.getter
+
+    def _fintX(self, X, i):  # PYCHOK X
+        '''(INTERNAL) Handle I{non-finite} C{int}.
+        '''
+        # "cannot convert float infinity to integer"
+        return i  # ignore such Overflow-/ValueErrors
+        # op = int.__name__
+        # return self._nonfiniteX(X, op, i)
 
     @deprecated_property_RO
     def float_int(self):  # PYCHOK no cover
@@ -1425,8 +1427,8 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
                 op = self.fma.__name__  # INF, NAN, NINF
                 f =  self._mul_reduce(op, f, other1)
                 f = _sum(self._ps_other(op, f, other2))
-                if raiser and not _isOK_or_finite(f, **self._isfine):
-                    self._ErrorX(X, op, f)
+                if raiser:
+                    f = self._nonfiniteX(X, op, f)
         else:
             f  = self._f2mul(self.fma, other1, raiser=raiser)
             f += other2
@@ -1486,9 +1488,8 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
                     f._update()
                 except (OverflowError, TypeError, ValueError) as X:
                     r = self._mul_reduce(op, _sum(ps), *others)  # INF, NAN, NINF
-                    if (not _isOK_or_finite(r, **self._isfine)) and \
-                       _xkwds_get1(raiser, raiser=False):
-                        self._ErrorX(X, op, r)
+                    if _xkwds_get1(raiser, raiser=False):
+                        r = self._nonfiniteX(X, op, r)
                     f._fset(r)
         return f
 
@@ -1592,8 +1593,10 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
             else:  # len(ps) == 0
                 s, r = _0_0, INT0
                 ps[:] = s,
-        except (OverflowError, ValueError):
-            s, r = _sum(ps), INT0  # INF, NAN, NINF
+        except (OverflowError, ValueError) as X:
+            op = _sum.__name__  # INF, NAN, NINF
+            s =  self._nonfiniteX(X, op, _sum(self._ps))
+            r = _0_0
         # assert self._ps is ps
         return Fsum2Tuple(s, r)
 
@@ -1997,6 +2000,13 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
     _nonfinites_isfine_kwds = {True:  dict(_isfine=_isOK),
                                False: dict(_isfine=_isfinite)}
 
+    def _nonfiniteX(self, X, op, f):
+        '''(INTERNAL) Handle a I{non-finite} exception.
+        '''
+        if not _isOK_or_finite(f, **self._isfine):
+            raise self._ErrorX(X, op, f)
+        return f
+
     def _optionals(self, f2product=None, nonfinites=None, **name_RESIDUAL):
         '''(INTERNAL) Re/set options from keyword arguments.
         '''
@@ -2206,7 +2216,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
         '''(INTERNAL) Multiply this instance' C{partials} with
            each scalar C{factor} and accumulate into an C{Fsum}.
         '''
-        def _psfs(ps, fs):
+        def _psfs(ps, fs, _isfine=_isfinite):
             if len(ps) < len(fs):
                 ps, fs = fs, ps
             if self._f2product:
@@ -2216,13 +2226,13 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
                 def _fps(f, ps):
                     return (f * p for p in ps)
 
-            _isfine = _isOK_or_finite_f(**self._isfine)
             for f in fs:
                 for p in _fps(f, ps):
                     yield p if _isfine(p) else self._finite(p, op)
 
-        F = self._Fsum_as(name=op)  # assert F._ps is not self._ps
-        return F._facc_scalar(_psfs(self._ps, factors), up=False)
+        F  =  self._Fsum_as(name=op)  # assert F._ps is not self._ps
+        _s = _psfs(self._ps, factors, **self._isfine)
+        return F._facc_scalar(_s, up=False)
 
     @property_RO
     def _ps_neg(self):
