@@ -34,7 +34,7 @@ from pygeodesy.utily import m2km, unroll180, _unrollon, _unrollon3, \
 from math import degrees, radians
 
 __all__ = _ALL_LAZY.ellipsoidalBaseDI
-__version__ = '24.06.17'
+__version__ = '24.09.26'
 
 _polar__  = 'polar?'
 _B2END    = _1_5  # _intersect3 bearing to pseudo-end point factor
@@ -365,7 +365,7 @@ class LatLonEllipsoidalBaseDI(LatLonEllipsoidalBase):
             c3 = _d3(c, wrap=wrap)  # XXX wrap=False?
 
         except (TypeError, ValueError) as x:
-            raise _xError(x, Fmt.SQUARE(points=0), p1, this=self, tol=tol,
+            raise _xError(x, Fmt.INDEX(points=0), p1, this=self, tol=tol,
                              closed=closed, height=height, wrap=wrap)
 
         # get the azimuthal equidistant projection, once
@@ -391,8 +391,8 @@ class LatLonEllipsoidalBaseDI(LatLonEllipsoidalBase):
                 p1, i = p2, j
 
         except (TypeError, ValueError) as x:
-            raise _xError(x, Fmt.SQUARE(points=i), p1,
-                             Fmt.SQUARE(points=j), p2, this=self, tol=tol,
+            raise _xError(x, Fmt.INDEX(points=i), p1,
+                             Fmt.INDEX(points=j), p2, this=self, tol=tol,
                              closed=closed, height=height, wrap=wrap)
 
         f, j = _fi_j2(f, len(Ps))  # like .vector3d.nearestOn6

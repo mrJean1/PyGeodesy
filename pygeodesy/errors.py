@@ -27,7 +27,7 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _getenv, _PYTHON_X_D
 from copy import copy as _copy
 
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')  _under
-__version__ = '24.09.19'
+__version__ = '24.09.26'
 
 _argument_   = 'argument'
 _box_        = 'box'
@@ -890,6 +890,14 @@ def _Xorder(_Coeffs, Error, **Xorder):  # in .auxLat, .ktm, .rhumb.bases, .rhumb
         return m
     t = sorted(map(str, _Coeffs.keys()))
     raise Error(X, m, txt_not_=_or(*t))
+
+
+def _xsError(X, xs, i, x, *n, **kwds):  # in .fmath, ._fstats, .fsums
+    '''(INTERNAL) Error for C{xs} or C{x}, item C{xs[i]}.
+    '''
+    return ((_xError(X, n[0], xs, **kwds) if n else
+             _xError(X, xs=xs, **kwds))   if x is xs else
+             _xError(X, _streprs.Fmt.INDEX(xs=i), x, **kwds))
 
 
 def _xStrError(*Refs, **name_value_Error):  # in .gars, .geohash, .wgrs

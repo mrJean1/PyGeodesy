@@ -47,7 +47,8 @@ from pygeodesy.constants import INF, INT0, MANT_DIG, NEG0, NINF, _0_0, \
                                Float, Int
 from pygeodesy.errors import _AssertionError, _OverflowError, _TypeError, \
                              _ValueError, _xError, _xError2, _xkwds_get, \
-                             _xkwds, _xkwds_get1, _xkwds_not, _xkwds_pop
+                             _xkwds, _xkwds_get1, _xkwds_not, _xkwds_pop, \
+                             _xsError
 from pygeodesy.internals import _enquote, _passarg
 from pygeodesy.interns import NN, _arg_, _COMMASPACE_, _DOT_, _from_, \
                              _not_finite_, _SPACE_, _std_, _UNDER_
@@ -64,7 +65,7 @@ from math import fabs, isinf, isnan, \
                  ceil as _ceil, floor as _floor  # PYCHOK used! .ltp
 
 __all__ = _ALL_LAZY.fsums
-__version__ = '24.09.25'
+__version__ = '24.09.27'
 
 from pygeodesy.interns import (
   _PLUS_     as _add_op_,  # in .auxilats.auxAngle
@@ -86,7 +87,8 @@ _iadd_op_     = _add_op_ + _fset_op_  # in .auxilats.auxAngle, .fstats
 _integer_     = 'integer'
 _isub_op_     = _sub_op_ + _fset_op_  # in .auxilats.auxAngle
 _le_op_       = _lt_op_ + _fset_op_
-_NONFINITES   = _getenv('PYGEODESY_FSUM_NONFINITES', NN) == _std_
+_NONFINITEr   = _0_0
+_NONFINITES   = _getenv('PYGEODESY_FSUM_NONFINITES', NN)
 _non_zero_    = 'non-zero'
 _pow_op_      = _mul_op_ * 2  # _DSTAR_
 _RESIDUAL_0_0 = _getenv('PYGEODESY_FSUM_RESIDUAL', _0_0)
@@ -137,7 +139,7 @@ def _2floats(xs, origin=0, _X=_X_ps, _x=float, _isfine=_isfinite):
 
 try:  # MCCABE 17
     from math import fma as _fma
-except ImportError:  # Python 3.12-
+except  ImportError:  # PYCHOK DSPACE! Python 3.12-
 
     if _F2PRODUCT == _std_:
         _2FACTOR = pow(2, (MANT_DIG + 1) // 2) + 1
@@ -147,7 +149,7 @@ except ImportError:  # Python 3.12-
             # the same accuracy, but ~13x slower
             b3s = _2split3(b),
             r   =  fsumf_(c, *_2products(a, b3s))  # two=True
-            return _fma_r(r, a, b, c)
+            return r if _isfinite(r) else _fmaX(r, a, b, c)
 
         def _2split3(x):
             # Split U{Algorithm 3.2
@@ -172,7 +174,7 @@ except ImportError:  # Python 3.12-
                 r = float(n / d)
             except OverflowError:  # "integer division result too large ..."
                 r = NINF if (_signOf(n, 0) * _signOf(d, 0)) < 0 else INF
-            return _fma_r(r, *a_b_c)  # "overflow in fma"
+            return r if _isfinite(r) else _fmaX(r, *a_b_c)  # "overflow in fma"
 
         def _2n_d(x):
             try:  # int.as_integer_ratio in 3.8+
@@ -180,17 +182,16 @@ except ImportError:  # Python 3.12-
             except (AttributeError, OverflowError, TypeError, ValueError):
                 return (x if isint(x) else float(x)), 1
 
-    def _fma_r(r, *a_b_c):  # like Python 3.13+ I{Modules/mathmodule.c}:
-        # raise an exception for a NAN result from non-NAN C{a_b_c}s
-        # or for a non-NAN result from all finite C{a_b_c}s.
-        if not _isfinite(r):
-            if isnan(r):
-                def _is(x):
-                    return not isnan(x)
-            else:
-                _is = _isfinite
-            if all(map(_is, a_b_c)):
-                raise _nfError(r, unstr(_fma, *a_b_c))
+    def _fmaX(r, *a_b_c):  # like Python 3.13+ I{Modules/mathmodule.c}:
+        # raise a ValueError for a NAN result from non-NAN C{a_b_c}s or
+        # OverflowError for a non-NAN result from all finite C{a_b_c}s.
+        if isnan(r):
+            def _is(x):
+                return not isnan(x)
+        else:
+            _is = _isfinite
+        if all(map(_is, a_b_c)):
+            raise _nfError(r, unstr(_fma, *a_b_c))
         return r
 
 if _2split3s is _passarg:  # math._fma or _fma(*a_b_c)
@@ -214,17 +215,20 @@ else:  # in _std_ _fma(a, b, c)
         for y, c, d in y3s:
             y *= x
             yield y
-            if two:  # or not a:
+            if two:
                 yield b * d - (((y - a * c) - b * c) - a * d)
                 #   = b * d + (a * d - ((y - a * c) - b * c))
                 #   = b * d + (a * d + (b * c - (y - a * c)))
                 #   = b * d + (a * d + (b * c + (a * c - y)))
-            else:
+            elif a:
                 yield a * c - y
                 yield b * c
                 if d:
                     yield a * d
                     yield b * d
+            else:
+                yield b * c - y
+                yield b * d
 
 
 def f2product(*two):
@@ -249,13 +253,13 @@ def f2product(*two):
 def _Fsumf_(*xs):  # in .auxLat, .ltp, ...
     '''(INTERNAL) An C{Fsum} of I{known scalars}.
     '''
-    return Fsum()._facc_scalar(xs, up=False)
+    return Fsum()._facc_scalar_f(xs, up=False)
 
 
 def _Fsum1f_(*xs):  # in .albers
     '''(INTERNAL) An C{Fsum} of I{known scalars}, 1-primed.
     '''
-    return Fsum()._facc_scalar(_1primed(xs), up=False)
+    return Fsum()._facc_scalar_f(_1primed(xs), up=False)
 
 
 def _2halfeven(s, r, p):
@@ -293,6 +297,15 @@ def _isOK_or_finite(x, _isfine=_isfinite):
     '''
     # assert _isfine in (_isOK, _isfinite)
     return _isfine(x)
+
+
+def _ixError(X, xs, i, x, origin=0, prefix=NN):
+    '''(INTERNAL) Error for C{xs} or C{x}, item C{xs[i]}.
+    '''
+    t = _xsError(X, xs, i + origin, x)
+    if prefix:
+        t = _COMMASPACE_(prefix, t)
+    return _xError(X, t, txt=None)
 
 
 def _nfError(x, *args):
@@ -361,7 +374,7 @@ def _psum(ps, **_isfine):  # PYCHOK used!
         elif not _isfinite(s):  # non-finite OK
             i = 0  # collapse ps
             if ps:
-                s += _sum(ps)  # _fsum(ps)
+                s += sum(ps)
         ps[i:] = s,
     return s
 
@@ -448,9 +461,9 @@ def _2sum(a, b, _isfine=_isfinite):  # in .testFmath
         else:
             r = (a - s) + b
     elif _isfine(s):
-        r = 0
+        r = _NONFINITEr
     else:  # non-finite and not OK
-        t = unstr(_2sum, a, b)
+        t =  unstr(_2sum, a, b)
         raise _nfError(s, t)
     return s, r
 
@@ -500,7 +513,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
     _isfine    = {}  # == _isfinite
     _n         =  0
 #   _ps        = []  # partial sums
-#   _ps_max    =  0  # max(Fsum._ps_max, len(Fsum._ps))
+#   _ps_max    =  0  # max(Fsum._ps_max, len(Fsum._ps))  # 41
     _RESIDUAL  = _threshold(_RESIDUAL_0_0)
 
     def __init__(self, *xs, **name_f2product_nonfinites_RESIDUAL):
@@ -1092,7 +1105,9 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
     def _Error(self, op, other, Error, **txt_cause):
         '''(INTERNAL) Format an B{C{Error}} for C{{self} B{op} B{other}}.
         '''
-        return Error(_SPACE_(self.as_iscalar, op, other), **txt_cause)
+        # self.as_iscalar causes RecursionError for ._fprs2 errors
+        s = _Psum(self._ps, nonfinites=True, name=self.name)
+        return Error(_SPACE_(s.as_iscalar, op, other), **txt_cause)
 
     def _ErrorX(self, X, op, other, *mod):
         '''(INTERNAL) Format the caught exception C{X}.
@@ -1114,9 +1129,9 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
         '''
         if xs:
             kwds  = _xkwds(self._isfine, **origin_X_x)
-            _xs   = _2floats(xs, **kwds)  # PYCHOK yield
+            fs    = _2floats(xs, **kwds)  # PYCHOK yield
             ps    =  self._ps
-            ps[:] =  self._ps_acc(list(ps), _xs, up=up)
+            ps[:] =  self._ps_acc(list(ps), fs, up=up)
         return self
 
     def _facc_args(self, xs, **up):
@@ -1190,6 +1205,17 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
         '''
         if xs:
             _ = self._ps_acc(self._ps, xs, **up)
+        return self
+
+    def _facc_scalar_f(self, xs, **origin):
+        '''(INTERNAL) Accumulate all C{xs} I{known to be scalar}.
+        '''
+        i_x = [0, xs]
+        try:
+            nf = self.nonfinites() or not nonfiniterrors()
+            _  = self._ps_acc(self._ps, _xs(xs, i_x, nf))
+        except Exception as X:
+            raise _ixError(X, xs, *i_x, **origin)
         return self
 
 #   def _facc_up(self, up=True):
@@ -1353,8 +1379,8 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
             r = (self._ps_1sum(i) if len(self._ps) > 1 else
                  float(s - i)) or INT0
         except (OverflowError, ValueError) as X:
-            r = 0  # INF, NAN, NINF
-            i = self._fintX(X, sum(self._ps))
+            r = _NONFINITEr  # INF, NAN, NINF
+            i =  self._fintX(X, sum(self._ps))
         return i, r  # Fsum2Tuple?
 
     @_fint2.setter_  # PYCHOK setter_UNDERscore!
@@ -1365,8 +1391,8 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
             i =  int(s)
             r = (s - i) or INT0
         except (OverflowError, ValueError) as X:
-            r = 0  # INF, NAN, NINF
-            i = self._fintX(X, float(s))
+            r = _NONFINITEr  # INF, NAN, NINF
+            i =  self._fintX(X, float(s))
         return i, r  # like _fint2.getter
 
     def _fintX(self, X, i):  # PYCHOK X
@@ -1424,9 +1450,9 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
             try:
                 f = _fma(f, other1, other2)
             except (OverflowError, TypeError, ValueError) as X:  # from math.fma
-                op = self.fma.__name__  # INF, NAN, NINF
-                f =  self._mul_reduce(op, f, other1)
-                f = _sum(self._ps_other(op, f, other2))
+                op =self.fma.__name__  # INF, NAN, NINF
+                f = self._mul_reduce(op, f, other1)
+                f = sum(self._ps_other(op, f, other2))
                 if raiser:
                     f = self._nonfiniteX(X, op, f)
         else:
@@ -1487,7 +1513,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
                         ps[:] =  f._ps_acc([], pfs, up=False)
                     f._update()
                 except (OverflowError, TypeError, ValueError) as X:
-                    r = self._mul_reduce(op, _sum(ps), *others)  # INF, NAN, NINF
+                    r = self._mul_reduce(op, sum(ps), *others)  # INF, NAN, NINF
                     if _xkwds_get1(raiser, raiser=False):
                         r = self._nonfiniteX(X, op, r)
                     f._fset(r)
@@ -1565,7 +1591,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
         s, _ = self._fprs2
         return s  # ._fprs2.fsum
 
-    @_fprs.setter_  # PYCHOK setter_underscore!
+    @_fprs.setter_  # PYCHOK setter_UNDERscore!
     def _fprs(self, s):
         '''(INTERNAL) Replace the C{_fprs} value.
         '''
@@ -1577,30 +1603,36 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
            running sum and residual (L{Fsum2Tuple}).
         '''
         ps = self._ps
+        n  = len(ps)
         try:
-            n = len(ps) - 2
-            if n > 0:  # len(ps) > 2
+            if n > 2:
                 s = _psum(ps, **self._isfine)
-                n =  len(ps) - 2
-                if n > 0:
+                if not _isfinite(s):
+                    ps[:] = s,  # collapse ps
+                    return Fsum2Tuple(s, _NONFINITEr)
+                n = len(ps)
+#               Fsum._ps_max = max(Fsum._ps_max, n)
+                if n > 2:
                     r = self._ps_1sum(s)
                     return Fsum2Tuple(*_s_r(s, r))
-            if n == 0:  # len(ps) == 2
+            if n > 1:  # len(ps) == 2
                 s, r  = _s_r(*_2sum(*ps, **self._isfine))
                 ps[:] = (r, s) if r else (s,)
             elif ps:  # len(ps) == 1
-                s, r = ps[0], INT0
+                s = ps[0]
+                r = INT0 if _isfinite(s) else _NONFINITEr
             else:  # len(ps) == 0
                 s, r = _0_0, INT0
                 ps[:] = s,
         except (OverflowError, ValueError) as X:
-            op = _sum.__name__  # INF, NAN, NINF
-            s =  self._nonfiniteX(X, op, _sum(self._ps))
-            r = _0_0
+            op = sum.__name__  # INF, NAN, NINF
+            ps[:] = sum(ps),  # collapse ps
+            s =  self._nonfiniteX(X, op, ps[0])
+            r = _NONFINITEr
         # assert self._ps is ps
         return Fsum2Tuple(s, r)
 
-    @_fprs2.setter_  # PYCHOK setter_underscore!
+    @_fprs2.setter_  # PYCHOK setter_UNDERscore!
     def _fprs2(self, s_r):
         '''(INTERNAL) Replace the C{_fprs2} value.
         '''
@@ -1617,8 +1649,8 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
 
            @see: Method L{Fsum.fadd} for further details.
         '''
-        return self._fset(xs[0], op=_fset_op_) if len(xs) == 1 else \
-               self._fset(_0_0)._facc_args(xs)
+        f = self._Fsum_as(*xs)
+        return self._fset(f, up=False, op=_fset_op_)
 
     def _fset(self, other, n=0, up=True, **op):
         '''(INTERNAL) Overwrite this instance with an other or a C{scalar}.
@@ -1743,7 +1775,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
             kwds.update(name_f2product_nonfinites_RESIDUAL)
         F = Fsum(**kwds)
         # assert all(v == self.__dict__[n] for n, v in F.__dict__.items())
-        return F._fset(xs[0]) if len(xs) == 1 else (
+        return F._fset(xs[0], op=_fset_op_) if len(xs) == 1 else (
                F._facc(xs, up=False) if xs else F)
 
     def fsum2(self, xs=(), **name):
@@ -1789,24 +1821,24 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
             if _isfinite(s):  # _fsum(_1primed((s, -p, r, -q))
                 d, r = _2sum(s - p, r - q, _isfine=_isOK)
                 r, _ = _s_r(d, r)
-            return s, (r if _isfinite(r) else _0_0)
+            return s, (r if _isfinite(r) else _NONFINITEr)
         else:
             return p, _0_0
 
     def fsumf_(self, *xs):
         '''Like method L{Fsum.fsum_} iff I{all} C{B{xs}} are I{known to be scalar}.
         '''
-        return self._facc_scalar(xs)._fprs
+        return self._facc_scalar_f(xs, origin=1)._fprs
 
     def Fsumf_(self, *xs):
         '''Like method L{Fsum.Fsum_} iff I{all} C{B{xs}} are I{known to be scalar}.
         '''
-        return self._facc_scalar(xs)._copy_2(self.Fsumf_)
+        return self._facc_scalar_f(xs, origin=1)._copy_2(self.Fsumf_)
 
     def fsum2f_(self, *xs):
         '''Like method L{Fsum.fsum2_} iff I{all} C{B{xs}} are I{known to be scalar}.
         '''
-        return self._fsum2(xs, self._facc_scalar, origin=1)
+        return self._fsum2(xs, self._facc_scalar_f, origin=1)
 
 #   ftruediv = __itruediv__   # for naming consistency?
 
@@ -1879,7 +1911,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
 
            @see: Function L{isfinite<pygeodesy.isfinite>}.
         '''
-        return _isfinite(_sum(self._ps))  # _sum(self)
+        return _isfinite(sum(self._ps))  # == sum(self)
 
     def is_integer(self):
         '''Is this instance' running sum C{integer}? (C{bool}).
@@ -1990,6 +2022,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
             k = _xkwds_pop(self.__dict__, _isfine=None)
             if OK[0] is not None:
                 self._isfine = _ks[bool(OK[0])]
+            self._update()
         else:  # getattrof(self, _isfine=None)
             k = _xkwds_get(self.__dict__, _isfine=None)
         # dict(map(reversed, _ks.items())).get(k, None)
@@ -2204,7 +2237,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
         if n:
             self._n += n
 #           if _fi:  # collapse ps if non-finite
-#               x = _sum(ps)
+#               x = sum(ps)
 #               if not _isfinite(x):
 #                   ps[:] = x,
             # Fsum._ps_max = max(Fsum._ps_max, len(ps))
@@ -2231,8 +2264,8 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
                     yield p if _isfine(p) else self._finite(p, op)
 
         F  =  self._Fsum_as(name=op)  # assert F._ps is not self._ps
-        _s = _psfs(self._ps, factors, **self._isfine)
-        return F._facc_scalar(_s, up=False)
+        fs = _psfs(self._ps, factors, **self._isfine)
+        return F._facc_scalar(fs, up=False)
 
     @property_RO
     def _ps_neg(self):
@@ -2428,12 +2461,12 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
 
 _ROs = _allPropertiesOf_n(3, Fsum, Property_RO)  # PYCHOK see Fsum._update
 
-if _NONFINITES:  # PYCHOK no cover
+if _NONFINITES == _std_:  # PYCHOK no cover
     _ = nonfiniterrors(False)
 
 
 def _Float_Int(arg, **name_Error):
-    '''(INTERNAL) Unit of L{Fsum2Tuple} items.
+    '''(INTERNAL) L{DivMod2Tuple}, L{Fsum2Tuple} Unit.
     '''
     U = Int if isint(arg) else Float
     return U(arg, **name_Error)
@@ -2604,7 +2637,7 @@ except ImportError:
     def _fsum(xs):
         '''(INTERNAL) Precision summation, Python 2.5-.
         '''
-        F = Fsum(name=_fsum.name, nonfinites=True)
+        F = Fsum(name=_fsum.name, f2product=False, nonfinites=True)
         return float(F._facc(xs, up=False))
 
 
@@ -2616,8 +2649,8 @@ def fsum(xs, nonfinites=None, **floats):
                           C{False} I{non-finites} raise an Overflow-/ValueError or if
                           C{None}, apply C{B{nonfinites}=not }L{nonfiniterrors()}
                           (C{bool} or C{None}).
-       @kwarg floats: DEPRECATED keyword argument C{B{floats}=False} (C{bool}),
-                      instead use C{B{nonfinites}}.
+       @kwarg floats: DEPRECATED keyword argument C{B{floats}=False} (C{bool}), use
+                      keyword argument C{B{nonfinites}=False} instead.
 
        @return: Precision C{fsum} (C{float}).
 
@@ -2686,9 +2719,10 @@ def fsum1f_(*xs):
     return _xsum(fsum1f_, xs, nonfinites=True, primed=1) if xs else _0_0
 
 
-def _xs(xs, _x, i_x):
+def _xs(xs, i_x, nfOK):  # in Fsum._facc_scalar_f
     '''(INTERNAL) Yield all C{xs} as C{scalar}.
     '''
+    _x = _passarg if nfOK else _2finite
     for i, x in enumerate(xs):
         i_x[:] = i, x
         if _isFsumTuple(x):
@@ -2698,31 +2732,21 @@ def _xs(xs, _x, i_x):
             yield _x(x)
 
 
-def _xsError(X, xs, i, x, *n):  # in _2floats, ._fstats
-    '''(INTERNAL) Error for C{xs} or C{x}, item C{xs[i]}.
-    '''
-    return ((_xError(X, n[0], xs) if n else
-             _xError(X, xs=xs))   if x is xs else
-             _xError(X, Fmt.INDEX(xs=i), x))
-
-
 def _xsum(which, xs, nonfinites=None, origin=0, primed=0, **floats):
     '''(INTERNAL) Precision summation of C{xs} with conditions.
     '''
     i_x = [0, xs]
     try:
-        if nonfinites is None:
+        if floats:  # for backward compatibility
+            nonfinites = _xkwds_get1(floats, floats=nonfinites)
+        elif nonfinites is None:
             nonfinites =  not nonfiniterrors()
-        elif floats:
-            nonfinites = _xkwds_get(floats, floats=nonfinites)
-        fs = _xs(xs, (_passarg if nonfinites else _2finite), i_x)
+        fs = _xs(xs, i_x, nonfinites)
         return _fsum(_1primed(fs) if primed else fs)
     except (OverflowError, TypeError, ValueError) as X:
-        i, x = i_x
-        i +=  origin - (1 if primed else 0)
-        t  = _xsError(X, xs, i, x)
-        t  = _COMMASPACE_(unstr(which), t)
-        raise _xError(X, t, txt=None)
+        origin -= 1 if primed else 0
+        i_x    += [origin, unstr(which)]
+        raise _ixError(X, xs, *i_x)
 
 
 # delete all decorators, etc.

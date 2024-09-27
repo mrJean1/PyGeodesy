@@ -12,7 +12,7 @@ from pygeodesy.constants import EPS0, EPS02, EPS1, NAN, PI, PI_2, PI_4, \
                                _0_0, _0_125, _1_6th, _0_25, _1_3rd, _0_5, _1_0, \
                                _N_1_0, _1_5, _copysign_0_0, isfinite, remainder
 from pygeodesy.errors import _IsnotError, LenError, _TypeError, _ValueError, \
-                             _xError, _xkwds_get1, _xkwds_pop2
+                             _xError, _xkwds_get1, _xkwds_pop2, _xsError
 from pygeodesy.fsums import _2float, Fsum, fsum, fsum1_, _isFsumTuple, \
                             _1primed, _Psum_,  Fmt, unstr
 from pygeodesy.interns import MISSING, _negative_, _not_scalar_
@@ -24,7 +24,7 @@ from math import fabs, sqrt  # pow
 import operator as _operator  # in .datums, .trf, .utm
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '24.09.19'
+__version__ = '24.09.26'
 
 # sqrt(2) - 1 <https://WikiPedia.org/wiki/Square_root_of_2>
 _0_4142  =  0.41421356237309504880  # ... ~ 3730904090310553 / 9007199254740992
@@ -937,13 +937,14 @@ def norm_(*xs):
               or zero norm.
     '''
     try:
-        i  = x = h = None
+        i  = h = None
+        x  = xs
         h  = hypot_(*xs)
         _h = (_1_0 / h) if h else _0_0
         for i, x in enumerate(xs):
             yield x * _h
     except Exception as X:
-        raise _xError(X, Fmt.SQUARE(xs=i), x, h=h)
+        raise _xsError(X, xs, i, x, h=h)
 
 
 def _powers(x, n):

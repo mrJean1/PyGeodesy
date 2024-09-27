@@ -6,6 +6,7 @@ u'''Formulary of basic geodesy functions and approximations.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
+# from pygeodesy.basics import W_args_kwds_count2
 # from pygeodesy.cartesianBase import CartesianBase  # _MODS
 from pygeodesy.constants import EPS, EPS0, EPS1, PI, PI2, PI3, PI_2, R_M, \
                                _0_0s, float0_, isnon0, remainder, _umod_PI2, \
@@ -42,7 +43,7 @@ from contextlib import contextmanager
 from math import asin, atan, atan2, cos, degrees, fabs, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '24.07.29'
+__version__ = '24.09.27'
 
 _RADIANS2 = (PI / _180_0)**2  # degrees- to radians-squared
 _ratio_   = 'ratio'

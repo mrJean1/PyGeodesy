@@ -4,7 +4,7 @@
 # Test L{fsums} module.
 
 __all__ = ('Tests',)
-__version__ = '24.09.21'
+__version__ = '24.09.26'
 
 from bases import endswith, isPython2, startswith, TestsBase
 
@@ -339,6 +339,8 @@ class Tests(TestsBase):
         f.nonfinites(True)
         f += NAN
         self.test('+= NAN', f, NAN, known=not isfinite(f))
+        f.nonfinites(False)
+        self.test('-= NAN', f, NAN, known=not isfinite(f))
 
         f = Fsum(3) // 1
         try:
@@ -423,6 +425,9 @@ class Tests(TestsBase):
         f.nonfinites(None)
         t = f.f2product(), f.nonfinites()
         self.test('Nones', t, (None, None))
+
+#       t = Fsum._ps_max
+#       self.test('_ps_max', t, t, nl=1)
 
 
 if __name__ == '__main__':

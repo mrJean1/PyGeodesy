@@ -38,7 +38,7 @@ from math import copysign as _copysign
 import inspect as _inspect
 
 __all__ = _ALL_LAZY.basics
-__version__ = '24.09.12'
+__version__ = '24.09.27'
 
 _below_               = 'below'
 _list_tuple_types     = (list, tuple)
@@ -120,7 +120,7 @@ def _args_kwds_count2(func, exelf=True):
        @kwarg exelf: If C{True}, exclude C{self} in the C{args}
                      of a method (C{bool}).
     '''
-    try:
+    try:  # PYCHOK no cover
         a = k = 0
         for _, p in _inspect.signature(func).parameters.items():
             if p.kind is p.POSITIONAL_OR_KEYWORD:
@@ -151,7 +151,7 @@ def _args_kwds_names(func, splast=False):
         args_kwds = _inspect.signature(func).parameters.keys()
     except AttributeError:  # .signature new Python 3+
         args_kwds = _inspect.getargspec(func).args
-    if splast and args_kwds:
+    if splast and args_kwds:  # PYCHOK no cover
         args_kwds = list(args_kwds)
         t = args_kwds[-1:]
         if t:

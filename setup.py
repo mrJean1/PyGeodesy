@@ -26,7 +26,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '24.09.09'
+__version__ = '24.09.27'
 
 
 def _c2(*names):
@@ -80,7 +80,7 @@ _KeyWords = ('AER', 'Albers', 'altitude', 'Andoyer', 'annulus', 'antipode', 'are
              'LocalCartesian', 'local-tangent-plane', 'local-x-y-z', 'longitude', 'LOS', 'loxodrome',
              'lstsq', 'LTP', 'lune', 'LV03', 'LV95',
              'mean', 'memoize', 'memoized', 'Mercator', 'Meeus', 'MGRS',
-             'nearest', 'NED', 'Niemeyer', 'normalize', 'Norrdine', 'north-east-down', 'numpy', 'n-vector', 'Nvector',
+             'nearest', 'NED', 'Niemeyer', 'non-finite', 'normalize', 'Norrdine', 'north-east-down', 'numpy', 'n-vector', 'Nvector',
              'oblate', 'omega', 'orthographic', 'orthometric-height', 'OSGB', 'OSGR', 'overlap',
              'parallel', 'parallel-of-latitude', 'Parametric', 'path-intersection',
              'perimeter', 'Peucker', 'Pierlot', 'pitch', 'plumb', 'Point-Of-View', 'polar', 'Popa', 'POV',
