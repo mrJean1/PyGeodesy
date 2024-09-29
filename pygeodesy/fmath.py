@@ -546,7 +546,7 @@ def fidw(xs, ds, beta=2):
 
 
 def fma(x, y, z, **raiser):
-    '''Fused-multiply-add, using C{math.fma(x, y, z)} from Python 3.13+
+    '''Fused-multiply-add, using C{math.fma(x, y, z)} in Python 3.13+
        or an equivalent implementation.
 
        @arg x: Multiplicand (C{scalar}, an L{Fsum} or L{Fsum2Tuple}).
