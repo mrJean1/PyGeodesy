@@ -13,7 +13,7 @@ from pygeodesy.constants import _0_0, _1_0, _2_0, _3_0, _4_0, _6_0
 from pygeodesy.errors import _ValueError, _xError, _xkwds_item2, \
                              _xsError
 from pygeodesy.fmath import Fsqrt,  Fmt
-from pygeodesy.fsums import _2finite, Fsum, _iadd_op_, _isFsumTuple
+from pygeodesy.fsums import _2finite, Fsum, _iadd_op_, _isFsum_2Tuple
 from pygeodesy.interns import _odd_, _SPACE_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import _name__, _Named, _NotImplemented, \
@@ -22,7 +22,7 @@ from pygeodesy.named import _name__, _Named, _NotImplemented, \
 # from pygeodesy.streprs import Fmt  # from .fmath
 
 __all__ = _ALL_LAZY.fstats
-__version__ = '24.09.29'
+__version__ = '24.09.28'
 
 
 def _2Floats(**xs):
@@ -32,7 +32,7 @@ def _2Floats(**xs):
     try:
         i, x = None, xs
         for i, x in enumerate(_xiterable(xs)):  # don't unravel Fsums
-            yield x._Fsum if _isFsumTuple(x) else _2finite(x)
+            yield x._Fsum if _isFsum_2Tuple(x) else _2finite(x)
     except Exception as X:
         raise _xsError(X, xs, i, x, name)
 
@@ -186,7 +186,7 @@ class _FstatsBase(_FstatsNamed):
         '''(INTERNAL) Add one or several values.
         '''
         try:
-            if _isFsumTuple(other):
+            if _isFsum_2Tuple(other):
                 self.fadd_(other._Fsum)
             elif isscalar(other):
                 self.fadd_(_2finite(other))

@@ -22,7 +22,7 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS,  _dunder_nameof
 from math import fabs, log10 as _log10
 
 __all__ = _ALL_LAZY.streprs
-__version__ = '24.08.13'
+__version__ = '24.09.28'
 
 _at_        = 'at'         # PYCHOK used!
 _EN_PREC    =  6           # max MGRS/OSGR precision, 1 micrometer
@@ -535,26 +535,33 @@ def strs(objs, prec=6, fmt=Fmt.F, ints=False):
     return tuple(_streprs(prec, objs, fmt, ints, False, str)) if objs else ()
 
 
-def unstr(where, *args, **kwds):
+def unstr(where, *args, **kwds_):
     '''Return the string representation of an invokation.
 
        @arg where: Class, function, method (C{type}) or name (C{str}).
        @arg args: Optional positional arguments.
-       @kwarg kwds: Optional keyword arguments, except C{B{_fmt}=Fmt.g}
-                    and C{B{_ELLIPSIS}=False}.
+       @kwarg kwds_: Optional keyword arguments, except C{B{_Cdot}=None},
+                     C{B{_ELLIPSIS}=False} and C{B{_fmt}=Fmt.g}.
 
        @return: Representation (C{str}).
     '''
-    def _e_g_kwds3(_ELLIPSIS=False, _fmt=Fmt.g, **kwds):
-        return _ELLIPSIS, _fmt, kwds
+    def _C_e_g_kwds3(_Cdot=None, _ELLIPSIS=False, _fmt=Fmt.g, **kwds):
+        return _Cdot, _ELLIPSIS, _fmt, kwds
 
-    e, g, kwds = _e_g_kwds3(**kwds)
+    C, e, g, kwds = _C_e_g_kwds3(**kwds_)
     t = reprs(args, fmt=g) if args else ()
     if e:
         t += _ELLIPSIS_,
     if kwds:
         t += pairs(itemsorted(kwds), fmt=g)
     n = where if isstr(where) else _dunder_nameof(where)  # _NN_
+    if C and hasattr(C, n):
+        try:  # bound method of class C?
+            where = where.__func__
+        except AttributeError:
+            pass  # method of C?
+        if getattr(C, n, None) is where:
+            n = _DOT_(_dunder_nameof(C), n)
     return Fmt.PAREN(n, _COMMASPACE_.join(t))
 
 

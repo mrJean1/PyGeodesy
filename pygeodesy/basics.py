@@ -19,7 +19,7 @@ del division
 from pygeodesy.errors import _AttributeError, _ImportError, _NotImplementedError, \
                              _TypeError, _TypesError, _ValueError, _xAssertionError, \
                              _xkwds_get1
-# from pygeodesy.fsums import _isFsumTuple  # _MODS
+# from pygeodesy.fsums import _isFsum_2Tuple  # _MODS
 from pygeodesy.internals import _0_0, _enquote, _passarg, _version_info
 from pygeodesy.interns import MISSING, NN, _1_, _by_, _COMMA_, _DOT_, _DEPRECATED_, \
                              _ELLIPSIS4_, _EQUAL_, _in_, _invalid_, _N_A_, _not_, \
@@ -38,7 +38,7 @@ from math import copysign as _copysign
 import inspect as _inspect
 
 __all__ = _ALL_LAZY.basics
-__version__ = '24.09.27'
+__version__ = '24.09.28'
 
 _below_               = 'below'
 _list_tuple_types     = (list, tuple)
@@ -469,7 +469,7 @@ def isscalar(obj, both=False):
     '''
     if isinstance(obj, _Scalars):
         return not isbool(obj)  # exclude bool
-    elif both and _MODS.fsums._isFsumTuple(obj):
+    elif both and _MODS.fsums._isFsum_2Tuple(obj):
         return bool(obj.residual == 0)
     return False
 

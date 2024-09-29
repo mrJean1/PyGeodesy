@@ -13,7 +13,7 @@ from pygeodesy.constants import EPS0, EPS02, EPS1, NAN, PI, PI_2, PI_4, \
                                _N_1_0, _1_5, _copysign_0_0, isfinite, remainder
 from pygeodesy.errors import _IsnotError, LenError, _TypeError, _ValueError, \
                              _xError, _xkwds_get1, _xkwds_pop2, _xsError
-from pygeodesy.fsums import _2float, Fsum, fsum, fsum1_, _isFsumTuple, \
+from pygeodesy.fsums import _2float, Fsum, fsum, fsum1_, _isFsum_2Tuple, \
                             _1primed, _Psum_,  Fmt, unstr
 from pygeodesy.interns import MISSING, _negative_, _not_scalar_
 from pygeodesy.lazily import _ALL_LAZY, _sys_version_info2
@@ -24,7 +24,7 @@ from math import fabs, sqrt  # pow
 import operator as _operator  # in .datums, .trf, .utm
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '24.09.26'
+__version__ = '24.09.28'
 
 # sqrt(2) - 1 <https://WikiPedia.org/wiki/Square_root_of_2>
 _0_4142  =  0.41421356237309504880  # ... ~ 3730904090310553 / 9007199254740992
@@ -262,7 +262,7 @@ def cbrt(x):
 
        @see: Functions L{cbrt2} and L{sqrt3}.
     '''
-    if _isFsumTuple(x):
+    if _isFsum_2Tuple(x):
         r = abs(x).fpow(_1_3rd)
         if x.signOf() < 0:
             r = -r
@@ -280,7 +280,7 @@ def cbrt2(x):  # PYCHOK attr
 
        @see: Functions L{cbrt} and L{sqrt3}.
     '''
-    return abs(x).fpow(_2_3rd) if _isFsumTuple(x) else _cbrt(x**2)
+    return abs(x).fpow(_2_3rd) if _isFsum_2Tuple(x) else _cbrt(x**2)
 
 
 def euclid(x, y):
@@ -636,7 +636,7 @@ def fpowers(x, n, alts=0):
     elif n < 1:
         raise _ValueError(n=n)
 
-    p  = x if isscalar(x) or _isFsumTuple(x) else _2float(x=x)
+    p  = x if isscalar(x) or _isFsum_2Tuple(x) else _2float(x=x)
     ps = tuple(_powers(p, n))
 
     if alts > 0:  # x**2, x**4, ...
@@ -839,7 +839,7 @@ def hypot1(x):
 
        @return: Norm (C{float}).
     '''
-    if _isFsumTuple(x):
+    if _isFsum_2Tuple(x):
         h = float(Fhypot(_1_0, x)) if x else _1_0
     else:
         h = hypot(_1_0, x) if x else _1_0

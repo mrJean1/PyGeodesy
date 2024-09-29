@@ -43,7 +43,7 @@ from pygeodesy.utily import fabs, _unrollon, _Wrap
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.booleans
-__version__ = '24.09.23'
+__version__ = '24.09.28'
 
 _0_EPS =  EPS  # near-zero, positive
 _EPS_0 = -EPS  # near-zero, negative
@@ -1614,9 +1614,8 @@ class _EdgeGH(object):
         return a, fabs(d)
 
     def _Error(self, n, *args, **kwds):  # PYCHOK no cover
-        t =  unstr(_EdgeGH.__name__, self._s1, self._s2)
-        t = _DOT_(t, _EdgeGH._intersect4.__name__)
-        t =  unstr(t, *args, **kwds)
+        t = _DOT_(unstr(_EdgeGH, self._s1, self._s2),
+                  unstr(_EdgeGH._intersect4, *args, **kwds))
         return ClipError(_case_, n, txt=t)
 
     @Property_RO
