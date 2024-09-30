@@ -24,7 +24,7 @@ from math import fabs, sqrt  # pow
 import operator as _operator  # in .datums, .trf, .utm
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '24.09.28'
+__version__ = '24.09.29'
 
 # sqrt(2) - 1 <https://WikiPedia.org/wiki/Square_root_of_2>
 _0_4142  =  0.41421356237309504880  # ... ~ 3730904090310553 / 9007199254740992
@@ -545,20 +545,20 @@ def fidw(xs, ds, beta=2):
     return x
 
 
-def fma(x, y, z, **raiser):
+def fma(x, y, z, **nonfinites):
     '''Fused-multiply-add, using C{math.fma(x, y, z)} in Python 3.13+
        or an equivalent implementation.
 
        @arg x: Multiplicand (C{scalar}, an L{Fsum} or L{Fsum2Tuple}).
        @arg y: Multiplier (C{scalar}, an L{Fsum} or L{Fsum2Tuple}).
        @arg z: Addend (C{scalar}, an L{Fsum} or L{Fsum2Tuple}).
-       @kwarg raiser: Keyword argument C{B{raiser}=False}, if C{True},
-                      throw an exception, otherwise pass any non-finite
-                      result (C{bool}).
+       @kwarg nonfinites: Use C{B{nonfinites}=True} or C{=False}, to
+                          override global L{nonfiniterrors} setting
+                          (C{bool}), see L{Fsum<Fsum.__init__>},
 
        @return: C{(x * y) + z} (L{Fsum} or C{float}).
     '''
-    return _Psum_(x).fma(y, z, raiser=raiser).as_iscalar
+    return _Psum_(x).fma(y, z, **nonfinites).as_iscalar
 
 
 def fmean(xs):

@@ -96,13 +96,13 @@
         <li>
         Handling of <i>non-finites</i> as <code>inf</code>, 
         <code>INF</code>, <code>NINF</code>, <code>nan</code> and 
-        <code>NAN</code> is determined globally by function <a 
+        <code>NAN</code> is determined by function <a 
         href="pygeodesy.fsums-module.html#nonfiniterrors" 
-        class="link">nonfiniterrors</a> and by method <a 
+        class="link">nonfiniterrors</a> for the default and by method <a 
         href="pygeodesy.fsums.Fsum-class.html#nonfinites" 
         class="link">nonfinites</a> for individual <code>Fsum</code> 
-        instances, overruling the global setting.  By default and for 
-        backward compatibility, <i>non-finites</i> raise exceptions.
+        instances, overruling the default.  For backward compatibility, 
+        <i>non-finites</i> raise exceptions by default.
         </li>
       </ul>
       <dl><dt>See Also:</dt>
@@ -1389,7 +1389,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.fsums.Fsum-class.html#fma" class="summary-sig-name">fma</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other1</span>,
         <span class="summary-sig-arg">other2</span>,
-        <span class="summary-sig-arg">raiser</span>=<span class="summary-sig-default">False</span>)</span><br />
+        <span class="summary-sig-arg">**nonfinites</span>)</span><br />
       Fused-multiply-add <code>self *= <b>other1</b>; self += 
       <b>other2</b></code>.</td>
           <td align="right" valign="top">
@@ -1448,7 +1448,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fsums.Fsum-class.html#f2mul_" class="summary-sig-name">f2mul_</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">*others</span>,
-        <span class="summary-sig-arg">**raiser</span>)</span><br />
+        <span class="summary-sig-arg">**nonfinites</span>)</span><br />
       Return <code><b>self</b> * <b>other</b> * <b>other</b> ...</code> for
       all <b><code>others</code></b> using cascaded, accurate 
       multiplication like with <a 
@@ -1512,9 +1512,8 @@
         <span class="summary-sig-arg">*two</span>)</span><br />
       Get and set accurate <i>TwoProduct</i> multiplication for this <a 
       href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a>, 
-      <i>overriding the global setting</i> from function <a 
-      href="pygeodesy.fsums-module.html#f2product" 
-      class="link">f2product</a>.</td>
+      overriding the <a href="pygeodesy.fsums.Fsum-class.html#f2product" 
+      class="link">f2product</a> default.</td>
           <td align="right" valign="top">
             
             
@@ -1915,10 +1914,9 @@
       <code>INF</code>, <code>NINF</code>, <code>nan</code> and 
       <code>NAN</code> for this <a href="pygeodesy.fsums.Fsum-class.html" 
       class="link">Fsum</a> or throw <code>OverflowError</code> 
-      respectively <code>ValueError</code> exceptions, <i>overriding the 
-      global setting</i> from function <a 
+      respectively <code>ValueError</code> exceptions, overriding the <a 
       href="pygeodesy.fsums-module.html#nonfiniterrors" 
-      class="link">nonfiniterrors</a>.</td>
+      class="link">nonfiniterrors</a> default.</td>
           <td align="right" valign="top">
             
             
@@ -2142,6 +2140,16 @@
         <a href="pygeodesy.fsums.Fsum-class.html#imag" class="summary-name">imag</a><br />
       Get the <code>imaginary</code> part of this instance 
       (<code>0.0</code>, always).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.fsums.Fsum-class.html#nonfinitesOK" class="summary-name">nonfinitesOK</a><br />
+      Are <i>non-finites</i> <code>OK</code> for this <a 
+      href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or by 
+      default? (<code>bool</code>).
     </td>
   </tr>
 <tr>
@@ -3949,7 +3957,7 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">fma</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">other1</span>,
         <span class="sig-arg">other2</span>,
-        <span class="sig-arg">raiser</span>=<span class="sig-default">False</span>)</span>
+        <span class="sig-arg">**nonfinites</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -3969,8 +3977,11 @@
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
           <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
           class="link">Fsum2Tuple</a>).</li>
-        <li><strong class="pname"><code>raiser</code></strong> - If <code>True</code>, throw an exception, otherwise pass the 
-          <i>non-finite</i> result (<code>bool</code>).</li>
+        <li><strong class="pname"><code>nonfinites</code></strong> - Use <code><b>nonfinites</b>=True</code> or <code>False</code>, to
+          override <a href="pygeodesy.fsums.Fsum-class.html#nonfinites" 
+          class="link">nonfinites</a> and <a 
+          href="pygeodesy.fsums-module.html#nonfiniterrors" 
+          class="link">nonfiniterrors</a> default (<code>bool</code>).</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -4047,7 +4058,7 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">f2mul_</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">*others</span>,
-        <span class="sig-arg">**raiser</span>)</span>
+        <span class="sig-arg">**nonfinites</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -4065,9 +4076,12 @@
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
           <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
           class="link">Fsum2Tuple</a>), all positional.</li>
-        <li><strong class="pname"><code>raiser</code></strong> - Keyword argument <code><b>raiser</b>=False</code>, if 
-          <code>True</code>, throw an exception, otherwise pass the 
-          <i>non-finite</i> result (<code>bool</code>).</li>
+        <li><strong class="pname"><code>nonfinites</code></strong> - Use <code><b>nonfinites</b>=True</code> or <code>False</code>, to
+          override both <a 
+          href="pygeodesy.fsums.Fsum-class.html#nonfinites" 
+          class="link">nonfinites</a> and the <a 
+          href="pygeodesy.fsums-module.html#nonfiniterrors" 
+          class="link">nonfiniterrors</a> default (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The cascaded <i>TwoProduct</i> (<a 
@@ -4209,10 +4223,9 @@
   </tr></table>
   
   <p>Get and set accurate <i>TwoProduct</i> multiplication for this <a 
-  href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a>, 
-  <i>overriding the global setting</i> from function <a 
-  href="pygeodesy.fsums-module.html#f2product" 
-  class="link">f2product</a>.</p>
+  href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a>, overriding 
+  the <a href="pygeodesy.fsums.Fsum-class.html#f2product" 
+  class="link">f2product</a> default.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -4765,9 +4778,9 @@
   <code>INF</code>, <code>NINF</code>, <code>nan</code> and 
   <code>NAN</code> for this <a href="pygeodesy.fsums.Fsum-class.html" 
   class="link">Fsum</a> or throw <code>OverflowError</code> respectively 
-  <code>ValueError</code> exceptions, <i>overriding the global setting</i> 
-  from function <a href="pygeodesy.fsums-module.html#nonfiniterrors" 
-  class="link">nonfiniterrors</a>.</p>
+  <code>ValueError</code> exceptions, overriding the <a 
+  href="pygeodesy.fsums-module.html#nonfiniterrors" 
+  class="link">nonfiniterrors</a> default.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -4785,9 +4798,12 @@
         class="link">nonfiniterrors</a>.
       </p>
       <p><strong>Note:</strong>
-        Use <code>f.nonfinites() or not nonfiniterrors()</code> to 
-        determine whether <a href="pygeodesy.fsums.Fsum-class.html" 
-        class="link">Fsum</a> <code>f</code> handles <i>non-finites</i>.
+        Use property <a href="pygeodesy.fsums.Fsum-class.html#nonfinitesOK"
+        class="link">nonfinitesOK</a> to determine whether 
+        <i>non-finites</i> are <code>OK</code> for this <a 
+        href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> and by
+        the <a href="pygeodesy.fsums-module.html#nonfiniterrors" 
+        class="link">nonfiniterrors</a> default.
       </p>
 </div></td></tr></table>
 </div>
@@ -5248,6 +5264,34 @@ always).
       </p>
 </div></td></tr></table>
 </div>
+<a name="nonfinitesOK"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">nonfinitesOK</h3>
+  <p>Are <i>non-finites</i> <code>OK</code> for this <a 
+  href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or by 
+  default? (<code>bool</code>).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">nonfinitesOK(<span class="summary-sig-arg">self</span>)</span>
+        - Are <i>non-finites</i> <code>OK</code> for this <a 
+href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or by default?
+(<code>bool</code>).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="partials"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -5385,7 +5429,7 @@ running sum <code>fsum</code>.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Sep 29 17:20:08 2024
+    Generated by Epydoc 3.0.1 on Mon Sep 30 14:45:23 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

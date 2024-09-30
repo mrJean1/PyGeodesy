@@ -4,7 +4,7 @@
 # Test L{fsums} module.
 
 __all__ = ('Tests',)
-__version__ = '24.09.26'
+__version__ = '24.09.29'
 
 from bases import endswith, isPython2, startswith, TestsBase
 
@@ -332,9 +332,9 @@ class Tests(TestsBase):
 
         t = f.f2mul_(-2, 2)
         self.test('f2mul_', t, '(12.0, ...', known=int(t) == 11)
-        t = f.f2mul_(INF)
+        t = f.f2mul_(INF, nonfinites=True)
         self.test('f2mul_', t, 'NINF', known=not isfinite(t))
-        t = f.f2mul_(3, NAN)
+        t = f.f2mul_(3, NAN, nonfinites=True)
         self.test('f2mul_', t, 'NAN', known=not isfinite(t))
         f.nonfinites(True)
         f += NAN

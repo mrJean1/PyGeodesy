@@ -500,10 +500,10 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
               i.e. any C{type} having method C{__float__}.
 
        @note: Handling of I{non-finites} as C{inf}, C{INF}, C{NINF}, C{nan} and C{NAN} is
-              determined globally by function L{nonfiniterrors<fsums.nonfiniterrors>} and
-              by method L{nonfinites<Fsum.nonfinites>} for individual C{Fsum} instances,
-              overruling the global setting.  By default and for backward compatibility,
-              I{non-finites} raise exceptions.
+              determined by function L{nonfiniterrors<fsums.nonfiniterrors>} for the default
+              and by method L{nonfinites<Fsum.nonfinites>} for individual C{Fsum} instances,
+              overruling the default.  For backward compatibility, I{non-finites} raise
+              exceptions by default.
 
        @see: U{Hettinger<https://GitHub.com/ActiveState/code/tree/master/recipes/Python/
              393090_Binary_floating_point_summatiaccurate_full/recipe-393090.py>},
@@ -1220,7 +1220,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
         '''
         i_x = [0, xs]
         try:
-            nf = self.nonfinites() or not nonfiniterrors()
+            nf = self.nonfinitesOK
             return self._facc_scalar(_xs(xs, i_x, nf))
         except (OverflowError, TypeError, ValueError) as X:
             raise _ixError(X, xs, *i_x, **origin_which)
@@ -1440,30 +1440,32 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
         q = self._ftruediv(other, op, **raiser_RESIDUAL)  # == self
         return self._fset(q.floor)  # floor(q)
 
-    def fma(self, other1, other2, raiser=False):  # in .fmath.fma
+    def fma(self, other1, other2, **nonfinites):  # in .fmath.fma
         '''Fused-multiply-add C{self *= B{other1}; self += B{other2}}.
 
            @arg other1: Multiplier (C{scalar}, an L{Fsum} or L{Fsum2Tuple}).
            @arg other2: Addend (C{scalar}, an L{Fsum} or L{Fsum2Tuple}).
-           @kwarg raiser: If C{True}, throw an exception, otherwise pass
-                          the I{non-finite} result (C{bool}).
+           @kwarg nonfinites: Use C{B{nonfinites}=True} or C{False}, to
+                              override L{nonfinites<Fsum.nonfinites>} and
+                              L{nonfiniterrors} default (C{bool}).
         '''
         op  = self.fma.__name__
         _fs = self._ps_other
         try:
             s, r = self._fprs2
             if r:
-                f  =  self._f2mul(self.fma, other1, raiser=raiser)
+                f  =  self._f2mul(self.fma, other1, **nonfinites)
                 f +=  other2
             else:
                 fs = _2split3s(_fs(op, other1))
                 fs = _2products(s, fs, *_fs(op, other2))
                 f  = _Psum(self._ps_acc([], fs, up=False), name=op)
-        except (OverflowError, TypeError, ValueError) as X:  # from math.fma
+        except TypeError as X:
+            raise self._ErrorX(X, op, (other1, other2))
+        except (OverflowError, ValueError) as X:  # from math.fma
             f = self._mul_reduce(op, s, other1)  # INF, NAN, NINF
             f = sum(_fs(op, f, other2))
-            if raiser or isinstance(X, TypeError):
-                f = self._nonfiniteX(X, op, f)
+            f = self._nonfiniteX(X, op, f, **nonfinites)
         return self._fset(f)
 
     fmul = __imul__
@@ -1490,39 +1492,41 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
         '''DEPRECATED on 2024.09.13, use method L{f2mul_<Fsum.f2mul_>}.'''
         return self._fset(self.f2mul_(*others, **raiser))
 
-    def f2mul_(self, *others, **raiser):  # in .fmath.f2mul
+    def f2mul_(self, *others, **nonfinites):  # in .fmath.f2mul
         '''Return C{B{self} * B{other} * B{other} ...} for all B{C{others}} using cascaded,
            accurate multiplication like with L{f2product<Fsum.f2product>} set to C{True}.
 
            @arg others: Multipliers (each C{scalar}, an L{Fsum} or L{Fsum2Tuple}), all
                         positional.
-           @kwarg raiser: Keyword argument C{B{raiser}=False}, if C{True}, throw an exception,
-                          otherwise pass the I{non-finite} result (C{bool}).
+           @kwarg nonfinites: Use C{B{nonfinites}=True} or C{False}, to override both
+                              L{nonfinites<Fsum.nonfinites>} and the L{nonfiniterrors}
+                              default (C{bool}).
 
            @return: The cascaded I{TwoProduct} (L{Fsum} or C{float}).
 
            @see: U{Equations 2.3<https://www.TUHH.De/ti3/paper/rump/OzOgRuOi06.pdf>}
         '''
-        return self._f2mul(self.f2mul_, *others, **raiser)
+        return self._f2mul(self.f2mul_, *others, **nonfinites)
 
-    def _f2mul(self, where, *others, **raiser):
+    def _f2mul(self, where, *others, **nonfinites_raiser):
         '''(INTERNAL) See methods C{fma} and C{f2mul_}.
         '''
-        f = self._copy_2(where)
-        if others:
+        f  = self._copy_2(where)
+        ps = f._ps
+        if ps and others:
             op = where.__name__
-            ps = f._ps
-            if ps:
-                try:
-                    for p in self._ps_other(op, *others):
+            try:
+                for other in others:  # to pinpoint errors
+                    for p in self._ps_other(op, other):
                         pfs   = _2products(p, _2split3s(ps))
                         ps[:] =  f._ps_acc([], pfs, up=False)
-                    f._update()
-                except (OverflowError, TypeError, ValueError) as X:
-                    r = self._mul_reduce(op, sum(ps), *others)  # INF, NAN, NINF
-                    if isinstance(X, TypeError) or _xkwds_get1(raiser, raiser=False):
-                        r = self._nonfiniteX(X, op, r)
-                    f._fset(r)
+                f._update()
+            except TypeError as X:
+                raise self._ErrorX(X, op, other)
+            except (OverflowError, ValueError) as X:
+                r = self._mul_reduce(op, sum(ps), other)  # INF, NAN, NINF
+                r = self._nonfiniteX(X, op, r, **nonfinites_raiser)
+                f._fset(r)
         return f
 
     def fover(self, over, **raiser_RESIDUAL):
@@ -1564,8 +1568,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
 
     def f2product(self, *two):
         '''Get and set accurate I{TwoProduct} multiplication for this
-           L{Fsum}, I{overriding the global setting} from function
-           L{f2product<fsums.f2product>}.
+           L{Fsum}, overriding the L{f2product} default.
 
            @arg two: If omitted, leave the override unchanged, if C{True},
                      turn I{TwoProduct} on, if C{False} off, if C{None}e
@@ -2011,8 +2014,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
     def nonfinites(self, *OK):
         '''Handle I{non-finite} C{float}s as C{inf}, C{INF}, C{NINF}, C{nan}
            and C{NAN} for this L{Fsum} or throw C{OverflowError} respectively
-           C{ValueError} exceptions, I{overriding the global setting} from
-           function L{nonfiniterrors<fsums.nonfiniterrors>}.
+           C{ValueError} exceptions, overriding the L{nonfiniterrors} default.
 
            @arg OK: If omitted, leave the override unchanged, if C{True},
                     I{non-finites} are C{OK}, if C{False} throw exceptions
@@ -2022,8 +2024,9 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
 
            @see: Function L{nonfiniterrors<fsums.nonfiniterrors>}.
 
-           @note: Use C{f.nonfinites() or not nonfiniterrors()} to determine
-                  whether L{Fsum} C{f} handles I{non-finites}.
+           @note: Use property L{nonfinitesOK<Fsum.nonfinitesOK>} to determine
+                  whether I{non-finites} are C{OK} for this L{Fsum} and by the
+                  L{nonfiniterrors} default.
         '''
         _ks = Fsum._nonfinites_isfine_kwds
         if OK:  # delattrof(self, _isfine=None)
@@ -2041,10 +2044,21 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
     _nonfinites_isfine_kwds = {True:  dict(_isfine=_isOK),
                                False: dict(_isfine=_isfinite)}
 
-    def _nonfiniteX(self, X, op, f):
+    @property_RO
+    def nonfinitesOK(self):
+        '''Are I{non-finites} C{OK} for this L{Fsum} or by default? (C{bool}).
+        '''
+        nf = self.nonfinites()
+        if nf is None:
+            nf = not nonfiniterrors()
+        return nf
+
+    def _nonfiniteX(self, X, op, f, nonfinites=None, raiser=None):
         '''(INTERNAL) Handle a I{non-finite} exception.
         '''
-        if not _isOK_or_finite(f, **self._isfine):
+        if nonfinites is None:
+            nonfinites = _isOK_or_finite(f, **self._isfine) if raiser is None else (not raiser)
+        if not nonfinites:
             raise self._ErrorX(X, op, f)
         return f
 
@@ -2657,8 +2671,7 @@ def fsum(xs, nonfinites=None, **floats):
        @arg xs: Iterable of items to add (each C{scalar}, an L{Fsum} or L{Fsum2Tuple}).
        @kwarg nonfinites: Use C{B{nonfinites}=True} if I{non-finites} are C{OK}, if
                           C{False} I{non-finites} raise an Overflow-/ValueError or if
-                          C{None}, apply C{B{nonfinites}=not }L{nonfiniterrors()}
-                          (C{bool} or C{None}).
+                          C{None}, L{nonfiniterrors} applies (C{bool} or C{None}).
        @kwarg floats: DEPRECATED keyword argument C{B{floats}=False} (C{bool}), use
                       keyword argument C{B{nonfinites}=False} instead.
 

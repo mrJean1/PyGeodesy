@@ -4,7 +4,7 @@
 # Test L{fmath} module.
 
 __all__ = ('Tests',)
-__version__ = '24.09.14'
+__version__ = '24.09.29'
 
 from bases import endswith, isPython2, isWindows, startswith, TestsBase
 
@@ -199,9 +199,9 @@ class Tests(TestsBase):
 
         t = f2mul_(2., 3, 4)
         self.test('f2mul_', t, 24.0, nl=1)
-        t = f2mul_(2, 3, INF)
+        t = f2mul_(2, 3, INF, nonfinites=True)
         self.test('f2mul_', t, INF, known=isinf(t))
-        t = f2mul_(INF, 3, INF)
+        t = f2mul_(INF, 3, INF, nonfinites=True)
         self.test('f2mul_', t, INF, known=isinf(t))
 
 
