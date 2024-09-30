@@ -553,8 +553,8 @@ def fma(x, y, z, **nonfinites):
        @arg y: Multiplier (C{scalar}, an L{Fsum} or L{Fsum2Tuple}).
        @arg z: Addend (C{scalar}, an L{Fsum} or L{Fsum2Tuple}).
        @kwarg nonfinites: Use C{B{nonfinites}=True} or C{=False}, to
-                          override global L{nonfiniterrors} setting
-                          (C{bool}), see L{Fsum<Fsum.__init__>},
+                          override default L{nonfiniterrors} (C{bool}),
+                          see L{Fsum<Fsum.__init__>},
 
        @return: C{(x * y) + z} (L{Fsum} or C{float}).
     '''
@@ -586,20 +586,20 @@ def fmean_(*xs):
     return fmean(xs)
 
 
-def f2mul_(x, *ys, **raiser):
+def f2mul_(x, *ys, **nonfinites):
     '''Cascaded, accurate multiplication C{B{x} * B{y} * B{y} ...} for all B{C{ys}}.
 
        @arg x: Multiplicand (C{scalar}, an L{Fsum} or L{Fsum2Tuple}).
        @arg ys: Multipliers (each C{scalar}, an L{Fsum} or L{Fsum2Tuple}), all
                 positional.
-       @kwarg raiser: Keyword argument C{B{raiser}=False}, if C{True}, throw an
-                      exception, otherwise pass any non-finite result (C{bool}).
+       @kwarg nonfinites: Use C{B{nonfinites}=True} or C{=False}, to override default
+                          L{nonfiniterrors} (C{bool}), see L{Fsum<Fsum.__init__>}.
 
        @return: The cascaded I{TwoProduct} (L{Fsum}, C{float} or C{int}).
 
        @see: U{Equations 2.3<https://www.TUHH.De/ti3/paper/rump/OzOgRuOi06.pdf>}
     '''
-    return _Psum_(x).f2mul_(*ys, **raiser).as_iscalar
+    return _Psum_(x).f2mul_(*ys, **nonfinites).as_iscalar
 
 
 def fpolynomial(x, *cs, **over):
