@@ -1,3 +1,4 @@
+
 # -*- coding: utf-8 -*-
 
 u'''Mostly INTERNAL functions, except L{machine}, L{print_} and L{printf}.

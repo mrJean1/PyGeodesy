@@ -10,11 +10,11 @@ from pygeodesy.basics import _copysign, copysign0, isbool, isint, isscalar, \
                               len2, map1, _xiterable
 from pygeodesy.constants import EPS0, EPS02, EPS1, NAN, PI, PI_2, PI_4, \
                                _0_0, _0_125, _1_6th, _0_25, _1_3rd, _0_5, _1_0, \
-                               _N_1_0, _1_5, _copysign_0_0, isfinite, remainder
+                               _1_5, _copysign_0_0, isfinite, remainder
 from pygeodesy.errors import _IsnotError, LenError, _TypeError, _ValueError, \
-                             _xError, _xkwds_get1, _xkwds_pop2, _xsError
-from pygeodesy.fsums import _2float, Fsum, fsum, fsum1_, _isFsum_2Tuple, \
-                            _1primed, _Psum_,  Fmt, unstr
+                             _xError, _xkwds_pop2, _xsError
+from pygeodesy.fsums import _2float, Fsum, fsum, _isFsum_2Tuple, _1primed, \
+                             Fmt, unstr
 from pygeodesy.interns import MISSING, _negative_, _not_scalar_
 from pygeodesy.lazily import _ALL_LAZY, _sys_version_info2
 # from pygeodesy.streprs import Fmt, unstr  # from .fsums
@@ -24,7 +24,7 @@ from math import fabs, sqrt  # pow
 import operator as _operator  # in .datums, .trf, .utm
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '24.09.29'
+__version__ = '24.10.04'
 
 # sqrt(2) - 1 <https://WikiPedia.org/wiki/Square_root_of_2>
 _0_4142  =  0.41421356237309504880  # ... ~ 3730904090310553 / 9007199254740992
@@ -35,14 +35,15 @@ _h_lt_b_ = 'abs(h) < abs(b)'
 class Fdot(Fsum):
     '''Precision dot product.
     '''
-    def __init__(self, a, *b, **name_RESIDUAL):
+    def __init__(self, a, *b, **start_name_f2product_nonfinites_RESIDUAL):
         '''New L{Fdot} precision dot product M{sum(a[i] * b[i] for i=0..len(a)-1)}.
 
            @arg a: Iterable of values (each C{scalar}, an L{Fsum} or L{Fsum2Tuple}).
-           @arg b: Other values (each C{scalar}, an L{Fsum} or L{Fsum2Tuple}), all positional.
-           @kwarg name_RESIDUAL: Optional C{B{name}=NN} (C{str}) and the C{B{RESIDUAL}=0.0}
-                       threshold (C{scalar}) for raising L{ResidualError}s, see class
-                       L{Fsum<Fsum.__init__>}.
+           @arg b: Other values (each C{scalar}, an L{Fsum} or L{Fsum2Tuple}), all
+                   positional.
+           @kwarg start_name_f2product_nonfinites_RESIDUAL: Optional bias C{B{start}=0}
+                        (C{scalar}, an L{Fsum} or L{Fsum2Tuple}), C{B{name}=NN} (C{str})
+                        and other settings, see class L{Fsum<Fsum.__init__>}.
 
            @raise LenError: Unequal C{len(B{a})} and C{len(B{b})}.
 
@@ -54,25 +55,37 @@ class Fdot(Fsum):
 
            @see: Function L{fdot} and method L{Fsum.fadd}.
         '''
-        Fsum.__init__(self, **name_RESIDUAL)
-        self.fadd(_map_mul(a, b, Fdot))
+        s, kwds = _xkwds_pop2(start_name_f2product_nonfinites_RESIDUAL, start=_0_0)
+        Fsum.__init__(self, **kwds)
+        self(s)
+
+        n = len(b)
+        if len(a) != n:  # PYCHOK no cover
+            raise LenError(Fdot, a=len(a), b=n)
+        self._faddot(n, a, b, **kwds)
+
+    def _faddot(self, n, xs, ys, **kwds):
+        if n > 0:
+            _f = Fsum(**kwds)
+            r = (_f(x).fmul(y) for x, y in zip(xs, ys))  # PYCHOK attr?
+            self.fadd(_1primed(r) if n < 4 else r)  # PYCHOK attr?
+        return self
 
 
 class Fhorner(Fsum):
     '''Precision polynomial evaluation using the Horner form.
     '''
-    def __init__(self, x, *cs, **incx_name_RESIDUAL):
-        '''New L{Fhorner} evaluation of polynomial M{sum(cs[i] * x**i for i=0..n)} if
-           C{B{incx}=False} for decreasing exponent M{sum(... i=n..0)} where C{n =
-           len(cs) - 1}.
+    def __init__(self, x, *cs, **incx_name_f2product_nonfinites_RESIDUAL):
+        '''New L{Fhorner} form evaluation of polynomial M{sum(cs[i] * x**i for
+           i=0..n)} with in- or decreasing exponent M{sum(... i=n..0)}, where C{n
+           = len(cs) - 1}.
 
            @arg x: Polynomial argument (C{scalar}, an L{Fsum} or L{Fsum2Tuple}).
            @arg cs: Polynomial coeffients (each C{scalar}, an L{Fsum} or L{Fsum2Tuple}),
                     all positional.
-           @kwarg incx_name_RESIDUAL: Optional C{B{name}=NN} (C{str}), C{B{incx}=True}
-                       for in-/decreasing exponents (C{bool}) and the C{B{RESIDUAL}=0.0}
-                       threshold (C{scalar}) for raising L{ResidualError}s, see class
-                       L{Fsum<Fsum.__init__>}.
+           @kwarg incx_name_f2product_nonfinites_RESIDUAL: Optional C{B{name}=NN} (C{str}),
+                       C{B{incx}=True} for in-/decreasing exponents (C{bool}) and other
+                       settings, see class L{Fsum<Fsum.__init__>}.
 
            @raise OverflowError: Partial C{2sum} overflow.
 
@@ -82,54 +95,52 @@ class Fhorner(Fsum):
 
            @see: Function L{fhorner} and methods L{Fsum.fadd} and L{Fsum.fmul}.
         '''
-        incx, name_RESIDUAL = _xkwds_pop2(incx_name_RESIDUAL, incx=True)
-        Fsum.__init__(self, **name_RESIDUAL)
-        if cs:
-            self._fhorner(x, cs, Fhorner.__name__, incx=incx)
-        else:
-            self._fset_ps(_0_0)
+        incx, kwds = _xkwds_pop2(incx_name_f2product_nonfinites_RESIDUAL, incx=True)
+        Fsum.__init__(self, **kwds)
+        self._fhorner(x, cs, Fhorner, incx=incx)
 
 
 class Fhypot(Fsum):
     '''Precision summation and hypotenuse, default C{root=2}.
     '''
-    def __init__(self, *xs, **root_name_RESIDUAL_raiser):
+    def __init__(self, *xs, **root_name_f2product_nonfinites_RESIDUAL_raiser):
         '''New L{Fhypot} hypotenuse of (the I{root} of) several components (raised
            to the power I{root}).
 
            @arg xs: Components (each C{scalar}, an L{Fsum} or L{Fsum2Tuple}), all
                     positional.
-           @kwarg root_name_RESIDUAL_raiser: Optional, exponent and C{B{root}=2} order
-                       (C{scalar}), C{B{name}=NN} (C{str}), the C{B{RESIDUAL}=0.0}
-                       threshold (C{scalar}) and C{B{raiser}=True} (C{bool}) for
-                       raising L{ResidualError}s, see class L{Fsum<Fsum.__init__>} and
-                       method L{root<Fsum.root>}.
+           @kwarg root_name_f2product_nonfinites_RESIDUAL_raiser: Optional, exponent
+                       and C{B{root}=2} order (C{scalar}), C{B{name}=NN} (C{str}),
+                       C{B{raiser}=True} (C{bool}) for raising L{ResidualError}s and
+                       other settings, see class L{Fsum<Fsum.__init__>} and method
+                       L{root<Fsum.root>}.
         '''
         r = None  # _xkwds_pop2 error
         try:
-            r, kwds = _xkwds_pop2(root_name_RESIDUAL_raiser, root=2)
+            r, kwds = _xkwds_pop2(root_name_f2product_nonfinites_RESIDUAL_raiser, root=2)
             r, kwds = _xkwds_pop2(kwds, power=r)  # for backward compatibility
-            raiser  = _Fsum__init__(self, **kwds)
+            t, kwds = _xkwds_pop2(kwds, raiser=True)
+            Fsum.__init__(self, **kwds)
+            self(_0_0)
             if xs:
-                self._facc_power(r, xs, Fhypot, **raiser)
-            self._fset(self.root(r, **raiser))
+                self._facc_power(r, xs, Fhypot, raiser=t)
+            self._fset(self.root(r, raiser=t))
         except Exception as X:
             raise self._ErrorXs(X, xs, root=r)
 
 
-class Fpolynomial(Fsum):
+class Fpolynomial(Fdot):
     '''Precision polynomial evaluation.
     '''
-    def __init__(self, x, *cs, **name_RESIDUAL):
+    def __init__(self, x, *cs, **name_f2product_nonfinites_RESIDUAL):
         '''New L{Fpolynomial} evaluation of the polynomial M{sum(cs[i] * x**i for
            i=0..len(cs)-1)}.
 
            @arg x: Polynomial argument (C{scalar}, an L{Fsum} or L{Fsum2Tuple}).
            @arg cs: Polynomial coeffients (each C{scalar}, an L{Fsum} or L{Fsum2Tuple}),
                     all positional.
-           @kwarg name_RESIDUAL: Optional C{B{name}=NN} (C{str}) and the C{B{RESIDUAL}=0.0}
-                       threshold (C{scalar}) for raising L{ResidualError}s, see class
-                       L{Fsum<Fsum.__init__>}.
+           @kwarg name_f2product_nonfinites_RESIDUAL: Optional C{B{name}=NN} (C{str})
+                       and other settings, see class L{Fsum<Fsum.__init__>}.
 
            @raise OverflowError: Partial C{2sum} overflow.
 
@@ -139,32 +150,34 @@ class Fpolynomial(Fsum):
 
            @see: Class L{Fhorner}, function L{fpolynomial} and method L{Fsum.fadd}.
         '''
-        Fsum.__init__(self, *cs[:1], **name_RESIDUAL)
+        Fsum.__init__(self, *cs[:1], **name_f2product_nonfinites_RESIDUAL)
         n = len(cs) - 1
         if n > 0:
-            self.fadd(_1map_mul(cs[1:], _powers(x, n)))
+            self._faddot(n, cs[1:], _powers(x, n), **name_f2product_nonfinites_RESIDUAL)
         elif n < 0:
-            self._fset_ps(_0_0)
+            self(_0_0)
 
 
 class Fpowers(Fsum):
     '''Precision summation of powers, optimized for C{power=2, 3 and 4}.
     '''
-    def __init__(self, power, *xs, **name_RESIDUAL_raiser):
+    def __init__(self, power, *xs, **name_f2product_nonfinites_RESIDUAL_raiser):
         '''New L{Fpowers} sum of (the I{power} of) several bases.
 
            @arg power: The exponent (C{scalar}, an L{Fsum} or L{Fsum2Tuple}).
            @arg xs: One or more bases (each C{scalar}, an L{Fsum} or L{Fsum2Tuple}), all
                     positional.
-           @kwarg name_RESIDUAL_raiser: Optional C{B{name}=NN} (C{str}), the C{B{RESIDUAL}=0.0}
-                       threshold (C{scalar}) and C{B{raiser}=True} (C{bool}) for raising
-                       L{ResidualError}s, see class L{Fsum<Fsum.__init__>} and method
+           @kwarg name_f2product_nonfinites_RESIDUAL_raiser: Optional C{B{name}=NN}
+                       (C{str}), C{B{raiser}=True} (C{bool}) for raising L{ResidualError}s
+                       and other settings, see class L{Fsum<Fsum.__init__>} and method
                        L{fpow<Fsum.fpow>}.
         '''
         try:
-            raiser = _Fsum__init__(self, **name_RESIDUAL_raiser)
+            t, kwds = _xkwds_pop2(name_f2product_nonfinites_RESIDUAL_raiser, raiser=True)
+            Fsum.__init__(self, **kwds)
+            self(_0_0)
             if xs:
-                self._facc_power(power, xs, Fpowers, **raiser)  # x**0 == 1
+                self._facc_power(power, xs, Fpowers, raiser=t)  # x**0 == 1
         except Exception as X:
             raise self._ErrorXs(X, xs, power=power)
 
@@ -172,22 +185,24 @@ class Fpowers(Fsum):
 class Froot(Fsum):
     '''The root of a precision summation.
     '''
-    def __init__(self, root, *xs, **name_RESIDUAL_raiser):
+    def __init__(self, root, *xs, **name_f2product_nonfinites_RESIDUAL_raiser):
         '''New L{Froot} root of a precision sum.
 
            @arg root: The order (C{scalar}, an L{Fsum} or L{Fsum2Tuple}), non-zero.
            @arg xs: Items to summate (each a C{scalar}, an L{Fsum} or L{Fsum2Tuple}), all
                     positional.
-           @kwarg name_RESIDUAL_raiser: Optional C{B{name}=NN} (C{str}), the C{B{RESIDUAL}=0.0}
-                       threshold (C{scalar}) and C{B{raiser}=True} (C{bool}) for raising
-                       L{ResidualError}s, see class L{Fsum<Fsum.__init__>} and method
+           @kwarg name_f2product_nonfinites_RESIDUAL_raiser: Optional C{B{name}=NN}
+                       (C{str}), C{B{raiser}=True} (C{bool}) for raising L{ResidualError}s
+                       and other settings, see class L{Fsum<Fsum.__init__>} and method
                        L{fpow<Fsum.fpow>}.
         '''
         try:
-            raiser = _Fsum__init__(self, **name_RESIDUAL_raiser)
+            raiser, kwds = _xkwds_pop2(name_f2product_nonfinites_RESIDUAL_raiser, raiser=True)
+            Fsum.__init__(self, **kwds)
+            self(_0_0)
             if xs:
                 self.fadd(xs)
-            self._fset(self.root(root, **raiser))
+            self(self.root(root, raiser=raiser))
         except Exception as X:
             raise self._ErrorXs(X, xs, root=root)
 
@@ -195,31 +210,23 @@ class Froot(Fsum):
 class Fcbrt(Froot):
     '''Cubic root of a precision summation.
     '''
-    def __init__(self, *xs, **name_RESIDUAL_raiser):
+    def __init__(self, *xs, **name_f2product_nonfinites_RESIDUAL_raiser):
         '''New L{Fcbrt} cubic root of a precision sum.
 
-           @see: Class L{Froot} for further details.
+           @see: Class L{Froot<Froot.__init__>} for further details.
         '''
-        Froot.__init__(self, 3, *xs, **name_RESIDUAL_raiser)
+        Froot.__init__(self, 3, *xs, **name_f2product_nonfinites_RESIDUAL_raiser)
 
 
 class Fsqrt(Froot):
     '''Square root of a precision summation.
     '''
-    def __init__(self, *xs, **name_RESIDUAL_raiser):
+    def __init__(self, *xs, **name_f2product_nonfinites_RESIDUAL_raiser):
         '''New L{Fsqrt} square root of a precision sum.
 
-           @see: Class L{Froot} for further details.
+           @see: Class L{Froot<Froot.__init__>} for further details.
         '''
-        Froot.__init__(self, 2, *xs, **name_RESIDUAL_raiser)
-
-
-def _Fsum__init__(inst, raiser=MISSING, **name_RESIDUAL):
-    '''(INTERNAL) Init an C{F...} instance above.
-    '''
-    Fsum.__init__(inst, **name_RESIDUAL)  # PYCHOK self
-    inst._fset_ps(_0_0)
-    return {} if raiser is MISSING else dict(raiser=raiser)
+        Froot.__init__(self, 2, *xs, **name_f2product_nonfinites_RESIDUAL_raiser)
 
 
 def bqrt(x):
@@ -297,7 +304,7 @@ def euclid(x, y):
     x, y = abs(x), abs(y)  # NOT fabs!
     if y > x:
         x, y = y, x
-    return x + y * _0_4142  # XXX * _0_5 before 20.10.02
+    return x + y * _0_4142  # * _0_5 before 20.10.02
 
 
 def euclid_(*xs):
@@ -322,7 +329,7 @@ def euclid_(*xs):
 
 
 def facos1(x):
-    '''Fast approximation of L{pygeodesy.acos1}C{(B{x})}.
+    '''Fast approximation of L{pygeodesy.acos1}C{(B{x})}, scalar.
 
        @see: U{ShaderFastLibs.h<https://GitHub.com/michaldrobot/
              ShaderFastLibs/blob/master/ShaderFastMathLib.h>}.
@@ -331,9 +338,8 @@ def facos1(x):
     if a < EPS0:
         r = PI_2
     elif a < EPS1:
-        H  = Fhorner(-a, 1.5707288, 0.2121144, 0.0742610, 0.0187293)
-        H *= Fsqrt(_1_0, -a)
-        r  = float(H)
+        r = _fast(-a, 1.5707288, 0.2121144, 0.0742610, 0.0187293)
+        r *= sqrt(_1_0 - a)
         if x < 0:
             r = PI - r
     else:
@@ -342,15 +348,24 @@ def facos1(x):
 
 
 def fasin1(x):  # PYCHOK no cover
-    '''Fast approximation of L{pygeodesy.asin1}C{(B{x})}.
+    '''Fast approximation of L{pygeodesy.asin1}C{(B{x})}, scalar.
 
        @see: L{facos1}.
     '''
     return PI_2 - facos1(x)
 
 
+def _fast(x, *cs):
+    '''(INTERNAL) Horner form for C{facos1} and C{fatan1}.
+    '''
+    h = 0
+    for c in reversed(cs):
+        h = _fma(x, h, c) if h else c
+    return h
+
+
 def fatan(x):
-    '''Fast approximation of C{atan(B{x})}.
+    '''Fast approximation of C{atan(B{x})}, scalar.
     '''
     a = fabs(x)
     if a < _1_0:
@@ -374,14 +389,13 @@ def fatan1(x):
              IEEE Signal Processing Magazine, 111, May 2006.
     '''
     # Eq (9): PI_4 * x - x * (abs(x) - 1) * (0.2447 + 0.0663 * abs(x)), for -1 < x < 1
-    #         PI_4 * x - (x**2 - x) * (0.2447 + 0.0663 * x), for 0 < x < 1
-    #         x * (1.0300981633974482 + x * (-0.1784 - x * 0.0663))
-    H = Fhorner(x, _0_0, 1.0300981634, -0.1784, -0.0663)
-    return float(H)
+    #      == PI_4 * x - (x**2 - x) * (0.2447 + 0.0663 * x), for 0 < x < 1
+    #      == x * (1.0300981633974482 + x * (-0.1784 - x * 0.0663))
+    return _fast(x, _0_0, 1.0300981634, -0.1784, -0.0663)
 
 
 def fatan2(y, x):
-    '''Fast approximation of C{atan2(B{y}, B{x})}.
+    '''Fast approximation of C{atan2(B{y}, B{x})}, scalar.
 
        @see: U{fastApproximateAtan(x, y)<https://GitHub.com/CesiumGS/cesium/blob/
              master/Source/Shaders/Builtin/Functions/fastApproximateAtan.glsl>}
@@ -403,29 +417,28 @@ def fatan2(y, x):
     return r
 
 
-def favg(a, b, f=_0_5):
+def favg(a, b, f=_0_5, nonfinites=True):
     '''Return the precise average of two values.
 
        @arg a: One (C{scalar}, an L{Fsum} or L{Fsum2Tuple}).
        @arg b: Other (C{scalar}, an L{Fsum} or L{Fsum2Tuple}).
        @kwarg f: Optional fraction (C{float}).
+       @kwarg nonfinites: Optional setting, see function L{fma}.
 
        @return: M{a + f * (b - a)} (C{float}).
     '''
-#      @raise ValueError: Fraction out of range.
-#   '''
-#   if not 0 <= f <= 1:  # XXX restrict fraction?
-#       raise _ValueError(fraction=f)
-    # a + f * (b - a) == a * (1 - f) + b * f
-    return fsum1_(a, a * (-f), b * f)
+    F = fma(f, (b - a), a, nonfinites=nonfinites)
+    return float(F)
 
 
-def fdot(a, *b):
+def fdot(a, *b, **start):
     '''Return the precision dot product M{sum(a[i] * b[i] for ni=0..len(a))}.
 
        @arg a: Iterable of values (each C{scalar}, an L{Fsum} or L{Fsum2Tuple}).
        @arg b: Other values (each C{scalar}, an L{Fsum} or L{Fsum2Tuple}), all
                positional.
+       @kwarg start: Optional bias C{B{start}=0} (C{scalar}, an L{Fsum} or
+                     L{Fsum2Tuple}).
 
        @return: Dot product (C{float}).
 
@@ -435,7 +448,8 @@ def fdot(a, *b):
              <https://www.TUHH.De/ti3/paper/rump/OgRuOi05.pdf>} and function
              C{math.sumprod} in Python 3.12 and later.
     '''
-    return fsum(_map_mul(a, b, fdot))
+    D = Fdot(a, nonfinites=True, *b, **start)
+    return float(D)
 
 
 def fdot3(xs, ys, zs, start=0):
@@ -450,34 +464,26 @@ def fdot3(xs, ys, zs, start=0):
        @return: Dot product (C{float}).
 
        @raise LenError: Unequal C{len(B{xs})}, C{len(B{ys})} and/or C{len(B{zs})}.
-
-       @raise OverflowError: Partial C{2sum} overflow.
     '''
-    def _mul3(xs, ys, zs, s, p):
-        if s:
-            yield s
-        if p:
-            yield _1_0
-        for x, y, z in zip(xs, ys, zs):
-            yield (Fsum(x) * y) * z
-        if p:
-            yield _N_1_0
-
     n = len(xs)
     if not n == len(ys) == len(zs):
         raise LenError(fdot3, xs=n, ys=len(ys), zs=len(zs))
 
-    return fsum(_mul3(xs, ys, zs, start, n < 4))
+    D  = Fdot((), nonfinites=True, start=start)
+    _f = Fsum(nonfinites=True)  # f2product=True
+    r  = (_f(x).f2mul_(y, z) for x, y, z in zip(xs, ys, zs))
+    D  = D.fadd(_1primed(r) if n < 4 else r)
+    return float(D)
 
 
 def fhorner(x, *cs, **incx):
-    '''Evaluate a polynomial using the Horner form M{sum(cs[i] * x**i
-       for i=0..n)} or if C{B{incx}=False} for decreasing exponent
-       M{sum(... i=n..0)} where C{n = len(cs) - 1}.
+    '''Horner form evaluation of polynomial M{sum(cs[i] * x**i for
+       i=0..n)} with in- or decreasing exponent M{sum(... i=n..0)},
+       where C{n = len(cs) - 1}.
 
        @return: Horner sum (C{float}).
 
-       @see: Class L{Fhorner} for further details.
+       @see: Class L{Fhorner<Fhorner.__init__>} for further details.
     '''
     H = Fhorner(x, *cs, **incx)
     return float(H)
@@ -508,12 +514,10 @@ def fidw(xs, ds, beta=2):
         b = -Int_(beta=beta, low=0, high=3)
         if b < 0:
             try:  # weighted
-                _F =  Fsum
-                W  = _F()
-                X  = _F()
+                _d, W, X = (Fsum() for _ in range(3))
                 for i, d in enumerate(_xiterable(ds)):
-                    x = xs[i]
-                    D = _F(d)
+                    x =  xs[i]
+                    D = _d(d)
                     if D < EPS0:
                         if D < 0:
                             raise ValueError(_negative_)
@@ -530,7 +534,8 @@ def fidw(xs, ds, beta=2):
                 i += 1  # len(xs) < i < len(ds)
             except Exception as X:
                 _I = Fmt.INDEX
-                raise _xError(X, _I(xs=i), x, _I(ds=i), d)
+                raise _xError(X, _I(xs=i), x,
+                                 _I(ds=i), d)
         else:  # b == 0
             x = fsum(xs) / n  # fmean(xs)
             i = n
@@ -545,20 +550,35 @@ def fidw(xs, ds, beta=2):
     return x
 
 
-def fma(x, y, z, **nonfinites):
+try:
+    from math import fma as _fma
+except  ImportError:  # PYCHOK DSPACE!
+
+    def _fma(x, y, z):  # no need for accuracy
+        return x * y + z
+
+
+def fma(x, y, z, **nonfinites):  # **raiser
     '''Fused-multiply-add, using C{math.fma(x, y, z)} in Python 3.13+
        or an equivalent implementation.
 
        @arg x: Multiplicand (C{scalar}, an L{Fsum} or L{Fsum2Tuple}).
        @arg y: Multiplier (C{scalar}, an L{Fsum} or L{Fsum2Tuple}).
        @arg z: Addend (C{scalar}, an L{Fsum} or L{Fsum2Tuple}).
-       @kwarg nonfinites: Use C{B{nonfinites}=True} or C{=False}, to
-                          override default L{nonfiniterrors} (C{bool}),
-                          see L{Fsum<Fsum.__init__>},
+       @kwarg nonfinites: Use C{B{nonfinites}=True} or C{=False},
+                          to override default L{nonfiniterrors}
+                          (C{bool}), see method L{Fsum.fma}.
 
-       @return: C{(x * y) + z} (L{Fsum} or C{float}).
+       @return: C{(x * y) + z} (C{float} or L{Fsum}).
     '''
-    return _Psum_(x).fma(y, z, **nonfinites).as_iscalar
+    F, raiser = _Fm2(x, **nonfinites)
+    return F.fma(y, z, **raiser).as_iscalar
+
+
+def _Fm2(x, nonfinites=None, **raiser):
+    '''(INTERNAL) Handle C{fma} and C{f2mul} DEPRECATED C{raiser=False}.
+    '''
+    return Fsum(x, nonfinites=nonfinites), raiser
 
 
 def fmean(xs):
@@ -575,50 +595,51 @@ def fmean(xs):
     n, xs = len2(xs)
     if n < 1:
         raise LenError(fmean, xs=xs)
-    return Fsum(*xs).fover(n) if n > 1 else _2float(index=0, xs=xs[0])
+    M = Fsum(*xs, nonfinites=True)
+    return M.fover(n) if n > 1 else float(M)
 
 
-def fmean_(*xs):
+def fmean_(*xs, **nonfinites):
     '''Compute the accurate mean M{sum(xs) / len(xs)}.
 
        @see: Function L{fmean} for further details.
     '''
-    return fmean(xs)
+    return fmean(xs, **nonfinites)
 
 
-def f2mul_(x, *ys, **nonfinites):
+def f2mul_(x, *ys, **nonfinites):  # **raiser
     '''Cascaded, accurate multiplication C{B{x} * B{y} * B{y} ...} for all B{C{ys}}.
 
        @arg x: Multiplicand (C{scalar}, an L{Fsum} or L{Fsum2Tuple}).
        @arg ys: Multipliers (each C{scalar}, an L{Fsum} or L{Fsum2Tuple}), all
                 positional.
        @kwarg nonfinites: Use C{B{nonfinites}=True} or C{=False}, to override default
-                          L{nonfiniterrors} (C{bool}), see L{Fsum<Fsum.__init__>}.
+                          L{nonfiniterrors} (C{bool}), see method L{Fsum.f2mul_}.
 
-       @return: The cascaded I{TwoProduct} (L{Fsum}, C{float} or C{int}).
+       @return: The cascaded I{TwoProduct} (C{float}, C{int} or L{Fsum}).
 
        @see: U{Equations 2.3<https://www.TUHH.De/ti3/paper/rump/OzOgRuOi06.pdf>}
     '''
-    return _Psum_(x).f2mul_(*ys, **nonfinites).as_iscalar
+    F, raiser = _Fm2(x, **nonfinites)
+    return F.f2mul_(*ys, **raiser).as_iscalar
 
 
-def fpolynomial(x, *cs, **over):
-    '''Evaluate the polynomial M{sum(cs[i] * x**i for i=0..len(cs))
-       [/ over]}.
+def fpolynomial(x, *cs, **over_f2product_nonfinites):
+    '''Evaluate the polynomial M{sum(cs[i] * x**i for i=0..len(cs)) [/ over]}.
 
-       @kwarg over: Optional final, I{non-zero} divisor (C{scalar}).
+       @kwarg over_f2product_nonfinites: Optional final divisor C{B{over}=None}
+                   (I{non-zero} C{scalar}) and other settings, see class
+                   L{Fpolynomial<Fpolynomial.__init__>}.
 
-       @return: Polynomial value (C{float}).
-
-       @see: Class L{Fpolynomial} for further details.
+       @return: Polynomial value (C{float} or L{Fpolynomial}).
     '''
-    P =  Fpolynomial(x, *cs)
-    d = _xkwds_get1(over, over=0) if over else 0
+    d, kwds = _xkwds_pop2(over_f2product_nonfinites, over=0)
+    P = Fpolynomial(x, *cs, **kwds)
     return P.fover(d) if d else float(P)
 
 
 def fpowers(x, n, alts=0):
-    '''Return a series of powers M{[x**i for i=1..n]}.
+    '''Return a series of powers M{[x**i for i=1..n]}, note I{1..!}
 
        @arg x: Value (C{scalar}, an L{Fsum} or L{Fsum2Tuple}).
        @arg n: Highest exponent (C{int}).
@@ -658,7 +679,7 @@ except ImportError:
            @kwarg start: Initial value, also the value returned
                          for an empty B{C{xs}} (C{scalar}).
 
-           @return: The product (C{float} or an L{Fsum}).
+           @return: The product (C{float} or L{Fsum}).
 
            @see: U{NumPy.prod<https://docs.SciPy.org/doc/
                  numpy/reference/generated/numpy.prod.html>}.
@@ -808,7 +829,7 @@ if _sys_version_info2 < (3, 8):  # PYCHOK no cover
                   computed as M{hypot_(*((c1 - c2) for c1, c2 in zip(p1, p2)))},
                   provided I{p1} and I{p2} have the same, non-zero length I{n}.
         '''
-        return float(Fhypot(*xs, raiser=False))
+        return float(_Hypot(*xs))
 
 elif _sys_version_info2 < (3, 10):
     # In Python 3.8 and 3.9 C{math.hypot} is inaccurate, see
@@ -824,7 +845,7 @@ elif _sys_version_info2 < (3, 10):
 
            @return: C{sqrt(B{x}**2 + B{y}**2)} (C{float}).
         '''
-        return float(Fhypot(x, y, raiser=False))
+        return float(_Hypot(x, y))
 
     from math import hypot as hypot_  # PYCHOK in Python 3.8 and 3.9
 else:
@@ -832,17 +853,26 @@ else:
     hypot_ = hypot
 
 
+def _Hypot(*xs):
+    '''(INTERNAL) Substitute for inaccurate C{math.hypot}.
+    '''
+    return Fhypot(*xs, nonfinites=True, raiser=False)  # f2product=True
+
+
 def hypot1(x):
     '''Compute the norm M{sqrt(1 + x**2)}.
 
        @arg x: Argument (C{scalar} or L{Fsum} or L{Fsum2Tuple}).
 
-       @return: Norm (C{float}).
+       @return: Norm (C{float} or L{Fhypot}).
     '''
-    if _isFsum_2Tuple(x):
-        h = float(Fhypot(_1_0, x)) if x else _1_0
-    else:
-        h = hypot(_1_0, x) if x else _1_0
+    h = _1_0
+    if x:
+        if _isFsum_2Tuple(x):
+            h = _Hypot(h, x)
+            h =  float(h)
+        else:
+            h =  hypot(h, x)
     return h
 
 
@@ -857,14 +887,10 @@ def hypot2(x, y):
     x, y = map1(abs, x, y)  # NOT fabs!
     if y > x:
         x, y = y, x
-    if x:
-        h2 = x**2
-        if y:
-            h2 *= (y / x)**2 + _1_0
-        h2 =  float(h2)
-    else:
-        h2 = _0_0
-    return h2
+    h2 = x**2
+    if h2 and y:
+        h2 *= (y / x)**2 + _1_0
+    return float(h2)
 
 
 def hypot2_(*xs):
@@ -878,27 +904,12 @@ def hypot2_(*xs):
        @see: Class L{Fpowers} for further details.
     '''
     h2 = float(max(map(abs, xs))) if xs else _0_0
-    if h2:
+    if h2:  # and isfinite(h2)
         _h = _1_0 / h2
-        h2 =  Fpowers(2, *((x * _h) for x in xs))
-        h2 =  h2.fover(_h**2)
+        xs = ((x * _h) for x in xs)
+        H2 =  Fpowers(2, *xs, nonfinites=True)  # f2product=True
+        h2 =  H2.fover(_h**2)
     return h2
-
-
-def _map_mul(xs, ys, where):
-    '''(INTERNAL) Yield each B{C{x * y}}.
-    '''
-    n = len(ys)
-    if len(xs) != n:  # PYCHOK no cover
-        raise LenError(where, xs=len(xs), ys=n)
-    return _1map_mul(xs, ys) if n < 4 else map(
-           _operator.mul, map(Fsum, xs), ys)
-
-
-def _1map_mul(xs, ys):
-    '''(INTERNAL) Yield each B{C{x * y}}, 1-primed.
-    '''
-    return _1primed(map(_operator.mul, map(Fsum, xs), ys))
 
 
 def norm2(x, y):
@@ -961,7 +972,8 @@ def _root(x, p, where):
     '''
     try:
         if x > 0:
-            return Fsum(x).fpow(p).as_iscalar
+            r = Fsum(f2product=True, nonfinites=True)(x)
+            return r.fpow(p).as_iscalar
         elif x < 0:
             raise ValueError(_negative_)
     except Exception as X:

@@ -22,25 +22,25 @@ from pygeodesy.named import _name__, _Named, _NotImplemented, \
 # from pygeodesy.streprs import Fmt  # from .fmath
 
 __all__ = _ALL_LAZY.fstats
-__version__ = '24.09.28'
-
-
-def _2Floats(**xs):
-    '''(INTERNAL) Yield all C{xs} as C{float} or L{Fsum}.
-    '''
-    name, xs = _xkwds_item2(xs)
-    try:
-        i, x = None, xs
-        for i, x in enumerate(_xiterable(xs)):  # don't unravel Fsums
-            yield x._Fsum if _isFsum_2Tuple(x) else _2finite(x)
-    except Exception as X:
-        raise _xsError(X, xs, i, x, name)
+__version__ = '24.10.06'
 
 
 def _sampled(n, sample):
     '''(INTERNAL) Return the sample or the entire count.
     '''
     return (n - 1) if sample and n > 0 else n
+
+
+def _Xs(**name_xs):
+    '''(INTERNAL) Yield all C{xs} as C{float} or L{Fsum}.
+    '''
+    name, xs = _xkwds_item2(name_xs)
+    try:
+        i, x = None, xs
+        for i, x in enumerate(xs):  # don't unravel Fsums
+            yield x._Fsum if _isFsum_2Tuple(x) else x
+    except Exception as X:
+        raise _xsError(X, xs, i, x, name)
 
 
 class _FstatsNamed(_Named):
@@ -330,7 +330,7 @@ class Fcook(_FstatsBase):
         n = self._n
         if xs:
             M1, M2, M3, M4 = self._Ms
-            for x in _2Floats(xs=xs):  # PYCHOK yield
+            for x in _Xs(xs=xs):  # PYCHOK yield
                 n1 = n
                 n += 1
                 D  = x - M1
@@ -606,7 +606,7 @@ class Fwelford(_FstatsBase):
         n = self._n
         if xs:
             M, S = self._Ms
-            for x in _2Floats(xs=xs):  # PYCHOK yield
+            for x in _Xs(xs=xs):  # PYCHOK yield
                 n += 1
                 D  = x - M
                 M += D / n
@@ -724,7 +724,7 @@ class Flinear(_FstatsNamed):
             S = self._S
             X = self._X
             Y = self._Y
-            for x, y in _zip(_2Floats(xs=xs), _2Floats(ys=ys)):  # PYCHOK strict=True
+            for x, y in _zip(_Xs(xs=xs), _Xs(ys=ys)):  # PYCHOK strict=True
                 n1 = n
                 n += 1
                 if n1 > 0:

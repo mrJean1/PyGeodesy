@@ -71,7 +71,7 @@
 <dl><dt>Known Subclasses:</dt>
 <dd>
       <ul class="subclass-list">
-<li><a href="pygeodesy.fmath.Froot-class.html">fmath.Froot</a></li><li>, <a href="pygeodesy.fmath.Fdot-class.html">fmath.Fdot</a></li><li>, <a href="pygeodesy.fmath.Fhorner-class.html">fmath.Fhorner</a></li><li>, <a href="pygeodesy.fmath.Fhypot-class.html">fmath.Fhypot</a></li><li>, <a href="pygeodesy.fmath.Fpolynomial-class.html">fmath.Fpolynomial</a></li><li>, <a href="pygeodesy.fmath.Fpowers-class.html">fmath.Fpowers</a></li>  </ul>
+<li><a href="pygeodesy.fmath.Froot-class.html">fmath.Froot</a></li><li>, <a href="pygeodesy.fmath.Fdot-class.html">fmath.Fdot</a></li><li>, <a href="pygeodesy.fmath.Fhorner-class.html">fmath.Fhorner</a></li><li>, <a href="pygeodesy.fmath.Fhypot-class.html">fmath.Fhypot</a></li><li>, <a href="pygeodesy.fmath.Fpowers-class.html">fmath.Fpowers</a></li>  </ul>
 </dd></dl>
 
 <hr />
@@ -200,6 +200,26 @@
           <td><span class="summary-sig"><a name="__bool__"></a><span class="summary-sig-name">__bool__</span>(<span class="summary-sig-arg">self</span>)</span><br />
       Return <code>bool(<b>self</b>)</code>, <code>True</code> iff 
       <code>residual</code> is zero.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="__call__"></a><span class="summary-sig-name">__call__</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>,
+        <span class="summary-sig-arg">**up</span>)</span><br />
+      Reset this <code>Fsum</code> to <code>other</code>, default 
+      <code><b>up</b>=True</code>.</td>
           <td align="right" valign="top">
             
             
@@ -3689,10 +3709,10 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xs</code></strong> - Iterable of items to add (each <code>scalar</code> or an <a 
+        <li><strong class="pname"><code>xs</code></strong> - Iterable of items to add (each <code>scalar</code>, an <a 
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
           <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
-          class="link">Fsum2Tuple</a> instance).</li>
+          class="link">Fsum2Tuple</a>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>This instance (<a href="pygeodesy.fsums.Fsum-class.html" 
@@ -3725,10 +3745,10 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xs</code></strong> - Values to add (each <code>scalar</code> or an <a 
+        <li><strong class="pname"><code>xs</code></strong> - Values to add (each <code>scalar</code>, an <a 
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
           <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
-          class="link">Fsum2Tuple</a> instance), all positional.</li>
+          class="link">Fsum2Tuple</a>), all positional.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -4352,10 +4372,10 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xs</code></strong> - Iterable of items to add (each item <code>scalar</code> or an <a 
+        <li><strong class="pname"><code>xs</code></strong> - Iterable of items to add (each item <code>scalar</code>, an <a 
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
           <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
-          class="link">Fsum2Tuple</a> instance).</li>
+          class="link">Fsum2Tuple</a>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Precision running sum (<code>float</code> or <code>int</code>).</dd>
@@ -4389,10 +4409,10 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xs</code></strong> - Items to add (each <code>scalar</code> or an <a 
+        <li><strong class="pname"><code>xs</code></strong> - Items to add (each <code>scalar</code>, an <a 
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
           <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
-          class="link">Fsum2Tuple</a> instance), all positional.</li>
+          class="link">Fsum2Tuple</a>), all positional.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Precision running sum (<code>float</code> or <code>int</code>).</dd>
@@ -4490,10 +4510,10 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xs</code></strong> - Iterable of items to add (each item <code>scalar</code> or an <a 
+        <li><strong class="pname"><code>xs</code></strong> - Iterable of items to add (each item <code>scalar</code>, an <a 
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
           <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
-          class="link">Fsum2Tuple</a> instance).</li>
+          class="link">Fsum2Tuple</a>).</li>
         <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -4534,10 +4554,10 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xs</code></strong> - Values to add (each <code>scalar</code> or an <a 
+        <li><strong class="pname"><code>xs</code></strong> - Values to add (each <code>scalar</code>, an <a 
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
           <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
-          class="link">Fsum2Tuple</a> instance), all positional.</li>
+          class="link">Fsum2Tuple</a>), all positional.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>2Tuple <code>(fsum, delta)</code> with the current, precision 
@@ -5429,7 +5449,7 @@ running sum <code>fsum</code>.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Sep 30 16:16:10 2024
+    Generated by Epydoc 3.0.1 on Mon Oct  7 09:05:12 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

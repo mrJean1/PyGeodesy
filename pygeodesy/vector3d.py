@@ -11,9 +11,9 @@ from pygeodesy.constants import EPS, EPS0, EPS1, EPS4, INT0, isnear0, \
                                _0_0, _1_0
 from pygeodesy.errors import IntersectionError, _ValueError, VectorError, \
                             _xattr, _xError, _xkwds, _xkwds_get, _xkwds_item2
-from pygeodesy.fmath import euclid, fabs, fdot, hypot, sqrt,  fsum1_
-# from pygeodesy.fsums import fsum1_  # from .fmath
-# from pygeodesy.formy import _radical2  # in _intersects2 below
+from pygeodesy.fmath import euclid, fabs, fdot, hypot, sqrt
+# from pygeodesy.fsums import fsum1_  # from _MODS
+# from pygeodesy.formy import _radical2  # _MODS
 from pygeodesy.interns import _COMMA_, _concentric_, _intersection_, \
                               _near_, _negative_, _no_, _too_
 from pygeodesy.iters import PointsIter,  Fmt
@@ -31,7 +31,7 @@ from pygeodesy.vector3dBase import Vector3dBase
 # from math import fabs, sqrt  # from .fmath
 
 __all__ = _ALL_LAZY.vector3d
-__version__ = '24.08.18'
+__version__ = '24.10.01'
 
 _vector2d = _MODS.into(vector2d=__name__)
 
@@ -595,7 +595,7 @@ def _intersects2(center1, r1, center2, r2, sphere=True, too_d=None,  # in Cartes
     if d < max(r2 - r1, EPS):
         raise IntersectionError(_near_(_concentric_))  # XXX ConcentricError?
 
-    o = fsum1_(-d, r1, r2)  # overlap == -(d - (r1 + r2))
+    o = _MODS.fsums.fsum1_(-d, r1, r2)  # overlap == -(d - (r1 + r2))
     # compute intersections with c1 at (0, 0) and c2 at (d, 0), like
     # <https://MathWorld.Wolfram.com/Circle-CircleIntersection.html>
     if o > EPS:  # overlapping, r1, r2 == R, r

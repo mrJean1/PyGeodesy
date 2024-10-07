@@ -573,7 +573,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        24.09.29
+        24.10.06
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -7468,7 +7468,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#facos1" class="summary-sig-name">facos1</a>(<span class="summary-sig-arg">x</span>)</span><br />
       Fast approximation of <a href="pygeodesy.utily-module.html#acos1" 
-      class="link">pygeodesy.acos1</a><code>(<b>x</b>)</code>.</td>
+      class="link">pygeodesy.acos1</a><code>(<b>x</b>)</code>, scalar.</td>
           <td align="right" valign="top">
             
             
@@ -7486,7 +7486,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#fasin1" class="summary-sig-name">fasin1</a>(<span class="summary-sig-arg">x</span>)</span><br />
       Fast approximation of <a href="pygeodesy.utily-module.html#asin1" 
-      class="link">pygeodesy.asin1</a><code>(<b>x</b>)</code>.</td>
+      class="link">pygeodesy.asin1</a><code>(<b>x</b>)</code>, scalar.</td>
           <td align="right" valign="top">
             
             
@@ -7503,7 +7503,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a name="fatan"></a><span class="summary-sig-name">fatan</span>(<span class="summary-sig-arg">x</span>)</span><br />
-      Fast approximation of <code>atan(<b>x</b>)</code>.</td>
+      Fast approximation of <code>atan(<b>x</b>)</code>, scalar.</td>
           <td align="right" valign="top">
             
             
@@ -7539,7 +7539,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#fatan2" class="summary-sig-name">fatan2</a>(<span class="summary-sig-arg">y</span>,
         <span class="summary-sig-arg">x</span>)</span><br />
-      Fast approximation of <code>atan2(<b>y</b>, <b>x</b>)</code>.</td>
+      Fast approximation of <code>atan2(<b>y</b>, <b>x</b>)</code>, scalar.</td>
           <td align="right" valign="top">
             
             
@@ -7574,7 +7574,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#favg" class="summary-sig-name">favg</a>(<span class="summary-sig-arg">a</span>,
         <span class="summary-sig-arg">b</span>,
-        <span class="summary-sig-arg">f</span>=<span class="summary-sig-default">0.5</span>)</span><br />
+        <span class="summary-sig-arg">f</span>=<span class="summary-sig-default">0.5</span>,
+        <span class="summary-sig-arg">nonfinites</span>=<span class="summary-sig-default">True</span>)</span><br />
       Return the precise average of two values.</td>
           <td align="right" valign="top">
             
@@ -7592,7 +7593,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#fdot" class="summary-sig-name">fdot</a>(<span class="summary-sig-arg">a</span>,
-        <span class="summary-sig-arg">*b</span>)</span><br />
+        <span class="summary-sig-arg">*b</span>,
+        <span class="summary-sig-arg">**start</span>)</span><br />
       Return the precision dot product <i class="math">sum(a[i] * b[i] for 
       ni=0..len(a))</i>.</td>
           <td align="right" valign="top">
@@ -7634,10 +7636,9 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#fhorner" class="summary-sig-name">fhorner</a>(<span class="summary-sig-arg">x</span>,
         <span class="summary-sig-arg">*cs</span>,
         <span class="summary-sig-arg">**incx</span>)</span><br />
-      Evaluate a polynomial using the Horner form <i class="math">sum(cs[i]
-      * x**i for i=0..n)</i> or if <code><b>incx</b>=False</code> for 
-      decreasing exponent <i class="math">sum(... i=n..0)</i> where <code>n
-      = len(cs) - 1</code>.</td>
+      Horner form evaluation of polynomial <i class="math">sum(cs[i] * x**i
+      for i=0..n)</i> with in- or decreasing exponent <i 
+      class="math">sum(... i=n..0)</i>, where <code>n = len(cs) - 1</code>.</td>
           <td align="right" valign="top">
             
             
@@ -7847,7 +7848,8 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#fmean_" class="summary-sig-name">fmean_</a>(<span class="summary-sig-arg">*xs</span>)</span><br />
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#fmean_" class="summary-sig-name">fmean_</a>(<span class="summary-sig-arg">*xs</span>,
+        <span class="summary-sig-arg">**nonfinites</span>)</span><br />
       Compute the accurate mean <i class="math">sum(xs) / len(xs)</i>.</td>
           <td align="right" valign="top">
             
@@ -7866,7 +7868,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#fpolynomial" class="summary-sig-name">fpolynomial</a>(<span class="summary-sig-arg">x</span>,
         <span class="summary-sig-arg">*cs</span>,
-        <span class="summary-sig-arg">**over</span>)</span><br />
+        <span class="summary-sig-arg">**over_f2product_nonfinites</span>)</span><br />
       Evaluate the polynomial <i class="math">sum(cs[i] * x**i for 
       i=0..len(cs)) [/ over]</i>.</td>
           <td align="right" valign="top">
@@ -7887,7 +7889,8 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#fpowers" class="summary-sig-name">fpowers</a>(<span class="summary-sig-arg">x</span>,
         <span class="summary-sig-arg">n</span>,
         <span class="summary-sig-arg">alts</span>=<span class="summary-sig-default">0</span>)</span><br />
-      Return a series of powers <i class="math">[x**i for i=1..n]</i>.</td>
+      Return a series of powers <i class="math">[x**i for i=1..n]</i>, note
+      <i>1..!</i></td>
           <td align="right" valign="top">
             
             
@@ -8422,7 +8425,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7ff268743a50&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fad702cb250&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -12996,7 +12999,7 @@ ygeodesy'"><code class="variable-quote">'</code><code class="variable-string">/U
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'24.9.29'">'24.9.29'</code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'24.10.6'">'24.10.6'</code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -18540,14 +18543,14 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <li><strong class="pname"><code>nonfinites</code></strong> - Use <code><b>nonfinites</b>=True</code> or <code>=False</code>, 
           to override default <a 
           href="pygeodesy.fsums-module.html#nonfiniterrors" 
-          class="link">nonfiniterrors</a> (<code>bool</code>), see <a 
-          href="pygeodesy.fsums.Fsum-class.html#__init__" 
-          class="link">Fsum</a>.</li>
+          class="link">nonfiniterrors</a> (<code>bool</code>), see method 
+          <a href="pygeodesy.fsums.Fsum-class.html#f2mul_" 
+          class="link">Fsum.f2mul_</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The cascaded <i>TwoProduct</i> (<a 
-          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a>, 
-          <code>float</code> or <code>int</code>).</dd>
+        <dd>The cascaded <i>TwoProduct</i> (<code>float</code>, 
+          <code>int</code> or <a href="pygeodesy.fsums.Fsum-class.html" 
+          class="link">Fsum</a>).</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         <a href="https://www.TUHH.De/ti3/paper/rump/OzOgRuOi06.pdf" 
@@ -18677,7 +18680,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   </tr></table>
   
   <p>Fast approximation of <a href="pygeodesy.utily-module.html#acos1" 
-  class="link">pygeodesy.acos1</a><code>(<b>x</b>)</code>.</p>
+  class="link">pygeodesy.acos1</a><code>(<b>x</b>)</code>, scalar.</p>
   <dl class="fields">
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -18702,7 +18705,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   </tr></table>
   
   <p>Fast approximation of <a href="pygeodesy.utily-module.html#asin1" 
-  class="link">pygeodesy.asin1</a><code>(<b>x</b>)</code>.</p>
+  class="link">pygeodesy.asin1</a><code>(<b>x</b>)</code>, scalar.</p>
   <dl class="fields">
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -18754,7 +18757,8 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
     </td>
   </tr></table>
   
-  <p>Fast approximation of <code>atan2(<b>y</b>, <b>x</b>)</code>.</p>
+  <p>Fast approximation of <code>atan2(<b>y</b>, <b>x</b>)</code>, 
+  scalar.</p>
   <dl class="fields">
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -18810,7 +18814,8 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">favg</span>&nbsp;(<span class="sig-arg">a</span>,
         <span class="sig-arg">b</span>,
-        <span class="sig-arg">f</span>=<span class="sig-default">0.5</span>)</span>
+        <span class="sig-arg">f</span>=<span class="sig-default">0.5</span>,
+        <span class="sig-arg">nonfinites</span>=<span class="sig-default">True</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -18830,6 +18835,8 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
           <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
           class="link">Fsum2Tuple</a>).</li>
         <li><strong class="pname"><code>f</code></strong> - Optional fraction (<code>float</code>).</li>
+        <li><strong class="pname"><code>nonfinites</code></strong> - Optional setting, see function <a 
+          href="pygeodesy.fmath-module.html#fma" class="link">fma</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><i class="math">a + f * (b - a)</i> (<code>float</code>).</dd>
@@ -18844,7 +18851,8 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">fdot</span>&nbsp;(<span class="sig-arg">a</span>,
-        <span class="sig-arg">*b</span>)</span>
+        <span class="sig-arg">*b</span>,
+        <span class="sig-arg">**start</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -18864,6 +18872,11 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
           <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
           class="link">Fsum2Tuple</a>), all positional.</li>
+        <li><strong class="pname"><code>start</code></strong> - Optional bias <code><b>start</b>=0</code> (<code>scalar</code>, 
+          an <a href="pygeodesy.fsums.Fsum-class.html" 
+          class="link">Fsum</a> or <a 
+          href="pygeodesy.fsums.Fsum2Tuple-class.html" 
+          class="link">Fsum2Tuple</a>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Dot product (<code>float</code>).</dd>
@@ -18926,7 +18939,6 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.LenError-class.html">LenError</a></strong></code> - Unequal <code>len(<b>xs</b>)</code>, <code>len(<b>ys</b>)</code> 
         and/or <code>len(<b>zs</b>)</code>.</li>
-        <li><code><strong class='fraise'>OverflowError</strong></code> - Partial <code>2sum</code> overflow.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -18947,16 +18959,15 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
     </td>
   </tr></table>
   
-  <p>Evaluate a polynomial using the Horner form <i class="math">sum(cs[i] 
-  * x**i for i=0..n)</i> or if <code><b>incx</b>=False</code> for 
-  decreasing exponent <i class="math">sum(... i=n..0)</i> where <code>n = 
-  len(cs) - 1</code>.</p>
+  <p>Horner form evaluation of polynomial <i class="math">sum(cs[i] * x**i 
+  for i=0..n)</i> with in- or decreasing exponent <i class="math">sum(... 
+  i=n..0)</i>, where <code>n = len(cs) - 1</code>.</p>
   <dl class="fields">
     <dt>Returns:</dt>
         <dd>Horner sum (<code>float</code>).</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Class <a href="pygeodesy.fmath.Fhorner-class.html" 
+        Class <a href="pygeodesy.fmath.Fhorner-class.html#__init__" 
         class="link">Fhorner</a> for further details.
       </p>
 </div></td></tr></table>
@@ -19379,14 +19390,13 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <li><strong class="pname"><code>nonfinites</code></strong> - Use <code><b>nonfinites</b>=True</code> or <code>=False</code>, 
           to override default <a 
           href="pygeodesy.fsums-module.html#nonfiniterrors" 
-          class="link">nonfiniterrors</a> (<code>bool</code>), see <a 
-          href="pygeodesy.fsums.Fsum-class.html#__init__" 
-          class="link">Fsum</a>,</li>
+          class="link">nonfiniterrors</a> (<code>bool</code>), see method 
+          <a href="pygeodesy.fsums.Fsum-class.html#fma" 
+          class="link">Fsum.fma</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd><code>(x * y) + z</code> (<a 
-          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
-          <code>float</code>).</dd>
+        <dd><code>(x * y) + z</code> (<code>float</code> or <a 
+          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a>).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -19430,7 +19440,8 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">fmean_</span>&nbsp;(<span class="sig-arg">*xs</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">fmean_</span>&nbsp;(<span class="sig-arg">*xs</span>,
+        <span class="sig-arg">**nonfinites</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -19455,7 +19466,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">fpolynomial</span>&nbsp;(<span class="sig-arg">x</span>,
         <span class="sig-arg">*cs</span>,
-        <span class="sig-arg">**over</span>)</span>
+        <span class="sig-arg">**over_f2product_nonfinites</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -19467,16 +19478,17 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>over</code></strong> - Optional final, <i>non-zero</i> divisor (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>over_f2product_nonfinites</code></strong> - Optional final divisor <code><b>over</b>=None</code> 
+          (<i>non-zero</i> <code>scalar</code>) and other settings, see 
+          class <a href="pygeodesy.fmath.Fpolynomial-class.html#__init__" 
+          class="link">Fpolynomial</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Polynomial value (<code>float</code>).</dd>
+        <dd>Polynomial value (<code>float</code> or <a 
+          href="pygeodesy.fmath.Fpolynomial-class.html" 
+          class="link">Fpolynomial</a>).</dd>
   </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        Class <a href="pygeodesy.fmath.Fpolynomial-class.html" 
-        class="link">Fpolynomial</a> for further details.
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="fpowers"></a>
 <div>
@@ -19494,7 +19506,8 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
     </td>
   </tr></table>
   
-  <p>Return a series of powers <i class="math">[x**i for i=1..n]</i>.</p>
+  <p>Return a series of powers <i class="math">[x**i for i=1..n]</i>, note 
+  <i>1..!</i></p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -19546,7 +19559,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
           <b><code>xs</code></b> (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The product (<code>float</code> or an <a 
+        <dd>The product (<code>float</code> or <a 
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a>).</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -20667,7 +20680,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7ff268743a50&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fad702cb250&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -21204,7 +21217,9 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
           class="link">Fsum2Tuple</a>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Norm (<code>float</code>).</dd>
+        <dd>Norm (<code>float</code> or <a 
+          href="pygeodesy.fmath.Fhypot-class.html" 
+          class="link">Fhypot</a>).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -30576,7 +30591,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Sep 30 16:16:08 2024
+    Generated by Epydoc 3.0.1 on Mon Oct  7 09:05:10 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

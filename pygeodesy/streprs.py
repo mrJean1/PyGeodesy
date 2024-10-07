@@ -22,7 +22,7 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS,  _dunder_nameof
 from math import fabs, log10 as _log10
 
 __all__ = _ALL_LAZY.streprs
-__version__ = '24.09.28'
+__version__ = '24.10.04'
 
 _at_        = 'at'         # PYCHOK used!
 _EN_PREC    =  6           # max MGRS/OSGR precision, 1 micrometer
@@ -545,13 +545,16 @@ def unstr(where, *args, **kwds_):
 
        @return: Representation (C{str}).
     '''
-    def _C_e_g_kwds3(_Cdot=None, _ELLIPSIS=False, _fmt=Fmt.g, **kwds):
+    def _C_e_g_kwds3(_Cdot=None, _ELLIPSIS=0, _fmt=Fmt.g, **kwds):
         return _Cdot, _ELLIPSIS, _fmt, kwds
 
     C, e, g, kwds = _C_e_g_kwds3(**kwds_)
-    t = reprs(args, fmt=g) if args else ()
-    if e:
+    if e and len(args) > (e + 1):
+        t  =  reprs(args[:e], fmt=g)
         t += _ELLIPSIS_,
+        t +=  reprs(args[-1:], fmt=g)
+    else:
+        t  =  reprs(args, fmt=g) if args else ()
     if kwds:
         t += pairs(itemsorted(kwds), fmt=g)
     n = where if isstr(where) else _dunder_nameof(where)  # _NN_

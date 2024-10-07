@@ -16,9 +16,9 @@ C{PYGEODESY_EXCEPTION_CHAINING=std} or to any non-empty string.
 # from pygeodesy import errors  # _MODS, _MODS.getattr
 from pygeodesy.internals import _dunder_nameof_, _plural, _tailof
 from pygeodesy.interns import MISSING, NN, _a_, _an_, _and_, _clip_, _COLON_, _COLONSPACE_, \
-                             _COMMASPACE_, _datum_, _ellipsoidal_, _incompatible_, _invalid_, \
-                             _keyword_, _LatLon_, _len_, _not_, _or_, _SPACE_, _specified_, \
-                             _UNDER_, _vs_, _with_
+                             _COMMASPACE_, _datum_, _ELLIPSIS_, _ellipsoidal_, _incompatible_, \
+                             _invalid_, _keyword_, _LatLon_, _len_, _not_, _or_, _SPACE_, \
+                             _specified_, _UNDER_, _vs_, _with_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _getenv, _PYTHON_X_DEV
 # from pygeodesy import streprs as _streprs  # _MODS
 # from pygeodesy.unitsBase import Str  # _MODS
@@ -27,7 +27,7 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _getenv, _PYTHON_X_D
 from copy import copy as _copy
 
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')  _under
-__version__ = '24.09.26'
+__version__ = '24.10.01'
 
 _argument_   = 'argument'
 _box_        = 'box'
@@ -895,8 +895,13 @@ def _Xorder(_Coeffs, Error, **Xorder):  # in .auxLat, .ktm, .rhumb.bases, .rhumb
 def _xsError(X, xs, i, x, *n, **kwds):  # in .fmath, ._fstats, .fsums
     '''(INTERNAL) Error for C{xs} or C{x}, item C{xs[i]}.
     '''
-    return ((_xError(X, n[0], xs, **kwds) if n else
-             _xError(X, xs=xs, **kwds))   if x is xs else
+    def _xs(*xs):
+        if len(xs) > 4:
+            xs = xs[:3] + (_ELLIPSIS_,) + xs[-1:]
+        return xs
+
+    return ((_xError(X, n[0], _xs(*xs), **kwds) if n else
+             _xError(X, xs=_xs(*xs), **kwds))   if x is xs else
              _xError(X, _streprs.Fmt.INDEX(xs=i), x, **kwds))
 
 
