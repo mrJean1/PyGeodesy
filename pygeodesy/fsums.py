@@ -247,7 +247,7 @@ def _Fsumf_(*xs):  # in .auxLat, .ltp, ...
 def _Fsum1f_(*xs):  # in .albers
     '''(INTERNAL) An C{Fsum(xs)}, all C{scalar}, an L{Fsum} or L{Fsum2Tuple}, 1-primed.
     '''
-    return Fsum()._facc_scalarf(_1primed(xs), up=False)
+    return Fsum()._facc_scalarf(_1primed(xs), origin=-1, up=False)
 
 
 def _halfeven(s, r, p):
@@ -285,15 +285,6 @@ def _isOK_or_finite(x, _isfine=_isfinite):
     '''
     # assert _isfine in (_isOK, _isfinite)
     return _isfine(x)  # C{bool}
-
-
-def _ixError(X, xs, i, x, origin=0, which=None, **_Cdot):
-    '''(INTERNAL) Error for C{xs} or C{x}, item C{xs[i]}.
-    '''
-    t = _xsError(X, xs, i + origin, x)
-    if which:
-        t = _COMMASPACE_(unstr(which, **_Cdot), t)
-    return _xError(X, t, txt=None)
 
 
 def _nfError(x, *args):
@@ -1135,21 +1126,16 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
         u = unstr(self.named3, *xs, _ELLIPSIS=4, **kwds)
         return E(u, txt=t, cause=X)
 
-    def _facc(self, xs, up=True, origin=0, **_X_x):
+    def _facc(self, xs, up=True, **_X_x_origin):
         '''(INTERNAL) Accumulate more C{scalar}s or L{Fsum}s.
         '''
         if xs:
-            i_x = [0, xs]
-            try:
-                kwds = self._isfine
-                if _X_x:
-                    kwds = _xkwds(_X_x, **kwds)
-                fs    = _xs(xs, i_x, **kwds)
-                ps    =  self._ps
-                ps[:] =  self._ps_acc(list(ps), fs, up=up)
-            except Exception as X:
-                i_x  += [origin]
-                raise _ixError(X, xs, *i_x)
+            kwds = self._isfine
+            if _X_x_origin:
+                kwds = _xkwds(_X_x_origin, **kwds)
+            fs    = _xs(xs, **kwds)  # PYCHOK yield
+            ps    =  self._ps
+            ps[:] =  self._ps_acc(list(ps), fs, up=up)
         return self
 
     def _facc_args(self, xs, **up):
@@ -1224,17 +1210,14 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
         '''
         return self._facc_scalar(xs, **up)
 
-    def _facc_scalarf(self, xs, **origin_which):
+    def _facc_scalarf(self, xs, up=True, **origin_which):
         '''(INTERNAL) Accumulate all C{xs}, each C{scalar}, an L{Fsum} or
            L{Fsum2Tuple}, like function C{_xsum}.
         '''
-        i_x = [0, xs]
-        try:
-            fs = _xs(xs, i_x, **_x_isfine(self.nonfinitesOK))
-            return self._facc_scalar(fs)
-        except (OverflowError, TypeError, ValueError) as X:
-            kwds = dict(_Cdot=self.__class__, **origin_which)
-            raise _ixError(X, xs, *i_x, **kwds)
+        _C =  self.__class__
+        fs = _xs(xs, **_x_isfine(self.nonfinitesOK, _Cdot=_C,
+                               **origin_which))  # PYCHOK yield
+        return self._facc_scalar(fs, up=up)
 
 #   def _facc_up(self, up=True):
 #       '''(INTERNAL) Update the C{partials}, by removing
@@ -2758,43 +2741,48 @@ def fsum1f_(*xs):
     return _xsum(fsum1f_, xs, nonfinites=True, primed=1) if xs else _0_0
 
 
-def _x_isfine(nfOK):  # get the C{_x} and C{_isfine} handlers.
-    return dict(_x=     (_passarg if nfOK else _2finite),
-                _isfine=(_isOK    if nfOK else _isfinite))  # PYCHOK kwds
+def _x_isfine(nfOK, **kwds):  # get the C{_x} and C{_isfine} handlers.
+    _x_kwds = dict(_x=     (_passarg if nfOK else _2finite),
+                   _isfine=(_isOK    if nfOK else _isfinite))  # PYCHOK kwds
+    _x_kwds.update(kwds)
+    return _x_kwds
 
 
 def _X_ps(X):  # default C{_X} handler
     return X._ps  # lambda X: X._ps
 
 
-def _xs(xs, i_x, _X=_X_ps, _x=float, _isfine=_isfinite):  # defaults for Fsum._facc
-    '''(INTERNAL) Yield each C{xs} as a C{float}.
+def _xs(xs, _X=_X_ps, _x=float, _isfine=_isfinite,  # defaults for Fsum._facc
+                        origin=0, which=None, **_Cdot):
+    '''(INTERNAL) Yield each C{xs} item as 1 or more C{float}s.
     '''
-    for i, x in enumerate(_xiterable(xs)):
-        i_x[:] = i, x
-        if isinstance(x, _Fsum_2Tuple_types):
-            for p in _X(x):
-                yield p if _isfine(p) else _nfError(p)
-        else:
-            x = _x(x)
-            yield x if _isfine(x) else _nfError(x)
+    i, x = 0, xs
+    try:
+        for i, x in enumerate(_xiterable(xs)):
+            if isinstance(x, _Fsum_2Tuple_types):
+                for p in _X(x):
+                    yield p if _isfine(p) else _nfError(p)
+            else:
+                f = _x(x)
+                yield f if _isfine(f) else _nfError(f)
+
+    except (OverflowError, TypeError, ValueError) as X:
+        t = _xsError(X, xs, i + origin, x)
+        if which:  # prefix invokation
+            w =  unstr(which, *xs, _ELLIPSIS=4, **_Cdot)
+            t = _COMMASPACE_(w, t)
+        raise _xError(X, t, txt=None)
 
 
-def _xsum(which, xs, nonfinites=None, origin=0, primed=0, **floats):
+def _xsum(which, xs, nonfinites=None, primed=0, **floats):  # origin=0
     '''(INTERNAL) Precision summation of C{xs} with conditions.
     '''
-    i_x = [0, xs]
-    try:
-        if floats:  # for backward compatibility
-            nonfinites = _xkwds_get1(floats, floats=nonfinites)
-        elif nonfinites is None:
-            nonfinites =  not nonfiniterrors()
-        fs = _xs(xs, i_x, **_x_isfine(nonfinites))
-        return _fsum(_1primed(fs) if primed else fs)
-    except (OverflowError, TypeError, ValueError) as X:
-        origin -= 1 if primed else 0
-        i_x    += [origin, which]
-        raise _ixError(X, xs, *i_x)
+    if floats:  # for backward compatibility
+        nonfinites = _xkwds_get1(floats, floats=nonfinites)
+    elif nonfinites is None:
+        nonfinites =  not nonfiniterrors()
+    fs = _xs(xs, **_x_isfine(nonfinites, which=which))
+    return _fsum(_1primed(fs) if primed else fs)
 
 
 # delete all decorators, etc.

@@ -2155,7 +2155,6 @@ pygeodesy.fsums._2FACTOR	pygeodesy.fsums-module.html#_2FACTOR
 pygeodesy.fsums._threshold	pygeodesy.fsums-module.html#_threshold
 pygeodesy.fsums._NonfiniteError	pygeodesy.fsums-module.html#_NonfiniteError
 pygeodesy.fsums._nfError	pygeodesy.fsums-module.html#_nfError
-pygeodesy.fsums._ixError	pygeodesy.fsums-module.html#_ixError
 pygeodesy.fsums.itemsorted	pygeodesy.basics-module.html#itemsorted
 pygeodesy.fsums._divmod_op_	pygeodesy.fsums-module.html#_divmod_op_
 pygeodesy.fsums._xsum	pygeodesy.fsums-module.html#_xsum
