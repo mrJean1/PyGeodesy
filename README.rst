@@ -90,7 +90,7 @@ line: ``epydoc --html --no-private --no-source --name=PyGeodesy --url=... -v pyg
 Tests
 =====
 
-The tests ran with Python 3.13.0rc2, 3.12.6 (with geographiclib_ 2.0, numpy_ 2.1.0, scipy_ 1.14.1,
+The tests ran with Python 3.13.0, 3.12.7 (with geographiclib_ 2.0, numpy_ 2.1.0, scipy_ 1.14.1,
 GeodSolve_ 2.3, IntersectTool_ 2.3 and RhumbSolve_ 2.3), 3.11.5 (with geographiclib_ 2.0, numpy_
 1.24.2 and scipy_ 1.10.1), Python 3.10.8 (with geographiclib_ 2.0, numpy_ 1.23.3, scipy_ 1.9.1,
 GeoConvert_ 2.3, GeodSolve_ 2.3), Python 3.9.6 and Python 2.7.18 (with geographiclib_ 1.50, numpy_
@@ -101,20 +101,20 @@ All tests ran with and without ``lazy import`` for Python 3 and with command lin
 and env variable ``PYGEODESY_WARNINGS=on`` for all Python versions.  The results of those tests are
 included in the distribution files.
 
-Python 3.13.0rc2, 3.12.6, 3.11.5 and 3.10.8 run on Apple M1 Silicon (``arm64``), *natively*.  Python 2.7.18
+Python 3.13.0, 3.12.7, 3.11.5 and 3.10.8 run on Apple M1 Silicon (``arm64``), *natively*.  Python 2.7.18
 runs on Intel (``x86_64``) or Intel *emulation* (\"``arm64_x86_64``\", see function `pygeodesy.machine`_).
 
-Test coverage has been measured with coverage_ 7.6.0 using Python 3.12.6, 3.11.5 and 3.10.8.  The complete
-coverage report in HTML and a PDF summary are included in the distribution files.
+Test coverage has been measured with coverage_ 7.6.1 using Python 3.13.0, 3.12.7, 3.11.5 and 3.10.8.  The
+complete coverage report in HTML and a PDF summary are included in the distribution files.
 
-The tests also ran with Python 3.12.6 (and geographiclib_ 2.0) on `Debian 12`_ in 64-bit only and with
-Python 3.12.3 (and geographiclib_ 2.0) on `Windows 2019Server`_ in 64-bit only and with Python 2.7.18
+The tests also ran with Python 3.12.7 (and geographiclib_ 2.0) on `Debian 12`_ in 64-bit only and with
+Python 3.12.5 (and geographiclib_ 2.0) on `Windows 2019Server`_ in 64-bit only and with Python 2.7.18
 (and with geographiclib_ 1.52) on `Windows 10`_ in 64- and 32-bit.
 
 A single-File and single-Directory application with ``pygeodesy`` has been bundled using PyInstaller_
 3.4 and 64-bit Python 3.7.4 and 3.7.3 on macOS 10.13.6 High Sierra.
 
-Previously, the tests were run with Python 3.12.0-4, 3.11.2-4, 3.10.1-7, 3.9.1, 3.8.7, 3.7.1, 2.7.15, PyPy_
+Previously, the tests were run with Python 3.12.0-6, 3.11.2-4, 3.10.1-7, 3.9.1, 3.8.7, 3.7.1, 2.7.15, PyPy_
 7.3.12 (Python 3.10.12), 7.3.1 (Python 3.6.9) and PyPy_ 7.1.1 (Python 2.7.13) (and geographiclib_ 1.52,
 numpy_ 1.16.3, 1.16.4, 1.16.6, 1.19.0, 1.19.4, 1.19.5 or 1.22.4 and scipy_ 1.2.1, 1.4.1, 1.5.2 or 1.8.1)
 on `Ubuntu 16.04`_, with Python 3.10.0-1, 3.9.0-5, 3.8.0-6, 3.7.2-6, 3.7.0, 3.6.2-5, 3.5.3, 2.7.13-17,
@@ -135,7 +135,7 @@ and McCabe_ using Python 2.7.18 and with Flake8_ using Python 3.11.5, both in 64
 
 For a summary of all *Karney*-based functionality in ``pygeodesy``, see module karney_.
 
-*Last updated: Oct 06, 2024.*
+*Last updated: Oct 08, 2024.*
 
 License
 =======

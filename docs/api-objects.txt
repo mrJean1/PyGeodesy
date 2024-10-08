@@ -2161,12 +2161,13 @@ pygeodesy.fsums._xsum	pygeodesy.fsums-module.html#_xsum
 pygeodesy.fsums._floordiv_op_	pygeodesy.fsums-module.html#_floordiv_op_
 pygeodesy.fsums.__all__	pygeodesy.fsums-module.html#__all__
 pygeodesy.fsums._NONFINITEr	pygeodesy.fsums-module.html#_NONFINITEr
-pygeodesy.fsums._split3s	pygeodesy.fsums-module.html#_split3s
 pygeodesy.fsums._ge_op_	pygeodesy.fsums-module.html#_ge_op_
 pygeodesy.fsums._significant_	pygeodesy.fsums-module.html#_significant_
+pygeodesy.fsums._2split3s	pygeodesy.fsums-module.html#_2split3s
 pygeodesy.fsums.unstr	pygeodesy.streprs-module.html#unstr
 pygeodesy.fsums.fsum1	pygeodesy.fsums-module.html#fsum1
 pygeodesy.fsums._	pygeodesy.fsums-module.html#_
+pygeodesy.fsums._2split3	pygeodesy.fsums-module.html#_2split3
 pygeodesy.fsums._enquote	pygeodesy.internals-module.html#_enquote
 pygeodesy.fsums.iscomplex	pygeodesy.basics-module.html#iscomplex
 pygeodesy.fsums._NotImplemented	pygeodesy.named-module.html#_NotImplemented
@@ -2188,7 +2189,6 @@ pygeodesy.fsums._xkwds_get1	pygeodesy.errors-module.html#_xkwds_get1
 pygeodesy.fsums._fmaX	pygeodesy.fsums-module.html#_fmaX
 pygeodesy.fsums._isOK	pygeodesy.fsums-module.html#_isOK
 pygeodesy.fsums.nonfiniterrors	pygeodesy.fsums-module.html#nonfiniterrors
-pygeodesy.fsums._split3	pygeodesy.fsums-module.html#_split3
 pygeodesy.fsums._isFsum	pygeodesy.fsums-module.html#_isFsum
 pygeodesy.fsums._Float_Int	pygeodesy.fsums-module.html#_Float_Int
 pygeodesy.fsums._residue	pygeodesy.fsums-module.html#_residue

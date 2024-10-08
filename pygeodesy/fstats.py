@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 
 u'''Classes for I{running} statistics and regressions based on
-L{pygeodesy.Fsum}, precision floating point summation.
+L{pygeodesy.Fsum}, precision floating point summation and accurate
+multiplication.
 '''
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
@@ -22,7 +23,7 @@ from pygeodesy.named import _name__, _Named, _NotImplemented, \
 # from pygeodesy.streprs import Fmt  # from .fmath
 
 __all__ = _ALL_LAZY.fstats
-__version__ = '24.10.06'
+__version__ = '24.10.08'
 
 
 def _sampled(n, sample):
@@ -36,7 +37,7 @@ def _Xs(**name_xs):
     '''
     name, xs = _xkwds_item2(name_xs)
     try:
-        i, x = None, xs
+        i, x = 0, xs
         for i, x in enumerate(xs):  # don't unravel Fsums
             yield x._Fsum if _isFsum_2Tuple(x) else x
     except Exception as X:
@@ -49,9 +50,8 @@ class _FstatsNamed(_Named):
     _n = 0
 
     def __add__(self, other):
-        '''Sum of this and an other instance or a C{scalar} or an
-           L{Fsum}, L{Fsum2Tuple} or
-           .
+        '''Sum of this and an other instance, a C{scalar}, an L{Fsum}
+           or L{Fsum2Tuple}.
         '''
         f  = self.copy(name=self.__add__.__name__)  # PYCHOK expected
         f += other
@@ -103,7 +103,7 @@ class _FstatsBase(_FstatsNamed):
     _Ms = ()
 
     def _copy(self, d, s):
-        '''(INTERNAL) Copy C{B{c} = B{s}}.
+        '''(INTERNAL) Copy C{B{d} = B{s}}.
         '''
         _xinstanceof(self.__class__, d=d, s=s)
         d._Ms = tuple(M.copy() for M in s._Ms)  # deep=False
@@ -124,8 +124,8 @@ class _FstatsBase(_FstatsNamed):
     def fmean(self, xs=None):
         '''Accumulate and return the current mean.
 
-           @kwarg xs: Iterable of additional values (each C{scalar} or
-                      an L{Fsum} or L{Fsum2Tuple} instance).
+           @kwarg xs: Iterable of additional values (each C{scalar},
+                      an L{Fsum} or L{Fsum2Tuple}).
 
            @return: Current, running mean (C{float}).
 
@@ -143,8 +143,8 @@ class _FstatsBase(_FstatsNamed):
     def fstdev(self, xs=None, **sample):
         '''Accumulate and return the current standard deviation.
 
-           @arg xs: Iterable of additional values (each C{scalar} or an
-                    L{Fsum} or L{Fsum2Tuple} instance).
+           @arg xs: Iterable of additional values (each C{scalar}, an L{Fsum}
+                    or L{Fsum2Tuple}).
            @kwarg sample: Use C{B{sample}=True} for the I{sample} deviation
                           instead of the I{population} deviation (C{bool}).
 
@@ -164,8 +164,8 @@ class _FstatsBase(_FstatsNamed):
     def fvariance(self, xs=None, **sample):
         '''Accumulate and return the current variance.
 
-           @arg xs: Iterable of additional values (each C{scalar} or an
-                    L{Fsum} or L{Fsum2Tuple} instance).
+           @arg xs: Iterable of additional values (each C{scalar}, an L{Fsum}
+                    or L{Fsum2Tuple}).
            @kwarg sample: Use C{B{sample}=True} for the I{sample} variance
                           instead of the I{population} variance (C{bool}).
 
@@ -238,8 +238,8 @@ class Fcook(_FstatsBase):
     def __init__(self, xs=None, **name):
         '''New L{Fcook} stats accumulator.
 
-           @arg xs: Iterable of additional values (each C{scalar} or
-                    an L{Fsum} or L{Fsum2Tuple} instance).
+           @arg xs: Iterable of additional values (each C{scalar}, an
+                    L{Fsum} or L{Fsum2Tuple}).
            @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @see: Method L{Fcook.fadd}.
@@ -254,8 +254,8 @@ class Fcook(_FstatsBase):
         '''Add B{C{other}} to this L{Fcook} instance.
 
            @arg other: An L{Fcook} instance or value or iterable
-                       of values (each C{scalar} or an L{Fsum}
-                       or L{Fsum2Tuple} instance).
+                       of values (each C{scalar}, an L{Fsum} or
+                       L{Fsum2Tuple}).
 
            @return: This instance, updated (L{Fcook}).
 
@@ -311,8 +311,8 @@ class Fcook(_FstatsBase):
     def fadd(self, xs, sample=False):
         '''Accumulate and return the current count.
 
-           @arg xs: Iterable of additional values (each C{scalar} or an
-                    L{Fsum} or L{Fsum2Tuple} instance).
+           @arg xs: Iterable of additional values (each C{scalar}, an
+                    L{Fsum} or L{Fsum2Tuple}).
            @kwarg sample: Use C{B{sample}=True} for the I{sample} count
                           instead of the I{population} count (C{bool}).
 
@@ -364,7 +364,7 @@ class Fcook(_FstatsBase):
         '''Accumulate and compute the current U{Jarque-Bera
            <https://WikiPedia.org/wiki/Jarque–Bera_test>} normality.
 
-           @kwarg xs: Iterable of additional values (each C{scalar} or an
+           @kwarg xs: Iterable of additional values (each C{scalar}, an
                       L{Fsum} or L{Fsum2Tuple}).
            @kwarg excess: Apply the I{excess} kurtosis (C{bool}), default.
            @kwarg sample: Use C{B{sample}=False} for the I{population}
@@ -387,8 +387,8 @@ class Fcook(_FstatsBase):
     def fkurtosis(self, xs=None, excess=True, **sample):
         '''Accumulate and return the current kurtosis.
 
-           @arg xs: Iterable of additional values (each C{scalar} or an
-                    L{Fsum} or L{Fsum2Tuple} instance).
+           @arg xs: Iterable of additional values (each C{scalar}, an L{Fsum}
+                    or L{Fsum2Tuple}).
            @kwarg excess: Return the I{excess} kurtosis (C{bool}), default.
            @kwarg sample: Use C{B{sample}=True} for the I{sample} kurtosis
                           instead of the I{population} kurtosis (C{bool}).
@@ -413,8 +413,8 @@ class Fcook(_FstatsBase):
     def fmedian(self, xs=None):
         '''Accumulate and return the current median.
 
-           @arg xs: Iterable of additional values (each C{scalar} or an
-                    L{Fsum} or L{Fsum2Tuple} instance).
+           @arg xs: Iterable of additional values (each C{scalar}, an L{Fsum} or
+                    L{Fsum2Tuple}).
 
            @return: Current, running median (C{float}).
 
@@ -435,8 +435,8 @@ class Fcook(_FstatsBase):
     def fskewness(self, xs=None, **sample):
         '''Accumulate and return the current skewness.
 
-           @arg xs: Iterable of additional values (each C{scalar} or an
-                    L{Fsum} or L{Fsum2Tuple} instance).
+           @arg xs: Iterable of additional values (each C{scalar}, an L{Fsum}
+                    or L{Fsum2Tuple}).
            @kwarg sample: Use C{B{sample}=True} for the I{sample} skewness
                           instead of the I{population} skewness (C{bool}).
 
@@ -526,8 +526,7 @@ class Fwelford(_FstatsBase):
     def __init__(self, xs=None, **name):
         '''New L{Fwelford} stats accumulator.
 
-           @arg xs: Iterable of initial values (each C{scalar} or an
-                    L{Fsum} or L{Fsum2Tuple} instance).
+           @arg xs: Iterable of initial values (each C{scalar}, an L{Fsum} or L{Fsum2Tuple}).
            @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @see: Method L{Fwelford.fadd}.
@@ -541,9 +540,9 @@ class Fwelford(_FstatsBase):
     def __iadd__(self, other):
         '''Add B{C{other}} to this L{Fwelford} instance.
 
-           @arg other: An L{Fwelford} or L{Fcook} instance or value
-                       or an iterable of values (each C{scalar} or
-                       an L{Fsum} or L{Fsum2Tuple} instance).
+           @arg other: An L{Fwelford} or L{Fcook} instance or value or an
+                       iterable of values (each C{scalar}, an L{Fsum} or
+                       L{Fsum2Tuple}).
 
            @return: This instance, updated (L{Fwelford}).
 
@@ -590,8 +589,8 @@ class Fwelford(_FstatsBase):
     def fadd(self, xs, sample=False):
         '''Accumulate and return the current count.
 
-           @arg xs: Iterable of additional values (each C{scalar} or an
-                    L{Fsum} or L{Fsum2Tuple} instance).
+           @arg xs: Iterable of additional values (each C{scalar}, an
+                    L{Fsum} or L{Fsum2Tuple}).
            @kwarg sample: Use C{B{sample}=True} for the I{sample} count
                           instead of the I{population} count (C{bool}).
 
@@ -625,10 +624,10 @@ class Flinear(_FstatsNamed):
     def __init__(self, xs=None, ys=None, Fstats=Fwelford, **name):
         '''New L{Flinear} regression accumulator.
 
-           @kwarg xs: Iterable of initial C{x} values (each C{scalar} or
-                      an L{Fsum} or L{Fsum2Tuple} instance).
-           @kwarg ys: Iterable of initial C{y} values (each C{scalar} or
-                      an L{Fsum} or L{Fsum2Tuple} instance).
+           @kwarg xs: Iterable of initial C{x} values (each C{scalar},
+                      an L{Fsum} or L{Fsum2Tuple}).
+           @kwarg ys: Iterable of initial C{y} values (each C{scalar},
+                      an L{Fsum} or L{Fsum2Tuple}).
            @kwarg Fstats: Class for C{xs} and C{ys} values (L{Fcook} or
                           L{Fwelford}).
            @kwarg name: Optional C{B{name}=NN} (C{str}).
@@ -704,10 +703,10 @@ class Flinear(_FstatsNamed):
     def fadd(self, xs, ys, sample=False):
         '''Accumulate and return the current count.
 
-           @arg xs: Iterable of additional C{x} values (each C{scalar}
-                    or an L{Fsum} or L{Fsum2Tuple} instance).
-           @arg ys: Iterable of additional C{y} values (each C{scalar}
-                    or an L{Fsum} or L{Fsum2Tuple} instance).
+           @arg xs: Iterable of additional C{x} values (each C{scalar},
+                    an L{Fsum} or L{Fsum2Tuple}).
+           @arg ys: Iterable of additional C{y} values (each C{scalar},
+                    an L{Fsum} or L{Fsum2Tuple}).
            @kwarg sample: Use C{B{sample}=True} for the I{sample} count
                           instead of the I{population} count (C{bool}).
 
@@ -738,8 +737,7 @@ class Flinear(_FstatsNamed):
         '''Accumulate and return the current count.
 
            @arg x_ys: Individual, alternating C{x, y, x, y, ...} values
-                      (each C{scalar} or an L{Fsum} or L{Fsum2Tuple}
-                      instance).
+                      (each C{scalar}, an L{Fsum} or L{Fsum2Tuple}).
 
            @see: Method C{Flinear.fadd} for further details.
         '''
