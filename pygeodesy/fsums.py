@@ -64,7 +64,7 @@ from math import fabs, isinf, isnan, \
                  ceil as _ceil, floor as _floor  # PYCHOK used! .ltp
 
 __all__ = _ALL_LAZY.fsums
-__version__ = '24.10.08'
+__version__ = '24.10.09'
 
 from pygeodesy.interns import (
   _PLUS_     as _add_op_,  # in .auxilats.auxAngle
@@ -77,15 +77,12 @@ from pygeodesy.interns import (
   _DASH_     as _sub_op_,  # in .auxilats.auxAngle
   _SLASH_    as _truediv_op_
 )
-_eq_op_       = _fset_op_ * 2  # _DEQUAL_
 _floordiv_op_ = _truediv_op_ * 2  # _DSLASH_
 _divmod_op_   = _floordiv_op_ + _mod_op_
 _F2PRODUCT    = _getenv('PYGEODESY_FSUM_F2PRODUCT', NN)
-_ge_op_       = _gt_op_ + _fset_op_
 _iadd_op_     = _add_op_ + _fset_op_  # in .auxilats.auxAngle, .fstats
 _integer_     = 'integer'
 _isub_op_     = _sub_op_ + _fset_op_  # in .auxilats.auxAngle
-_le_op_       = _lt_op_ + _fset_op_
 _NONFINITEr   = _0_0  # NOT INT0!
 _NONFINITES   = _getenv('PYGEODESY_FSUM_NONFINITES', NN)
 _non_zero_    = 'non-zero'
@@ -144,7 +141,8 @@ except  ImportError:  # PYCHOK DSPACE! Python 3.12-
             n += da * db * nc
             d  = da * db * dc
             try:
-                r = float(n / d)
+                n, d = _n_d2(n, d)
+                r    = float(n / d)
             except OverflowError:  # "integer division result too large ..."
                 r = NINF if (_signOf(n, 0) * _signOf(d, 0)) < 0 else INF
             return r if _isfinite(r) else _fmaX(r, *a_b_c)  # "overflow in fma"
@@ -282,6 +280,27 @@ def _isOK_or_finite(x, _isfine=_isfinite):
     return _isfine(x)  # C{bool}
 
 
+try:
+    from math import gcd as _gcd
+
+    def _n_d2(n, d):
+        '''(INTERNAL) Reduce C{n} and C{d} by C{gcd}.
+        '''
+        if n and d:
+            try:
+                c = _gcd(n, d)
+                if c > 1:
+                    n, d = (n // c), (d // c)
+            except TypeError:  # non-int float
+                pass
+        return n, d
+
+except ImportError:  # 3.4-
+
+    def _n_d2(*n_d):  # PYCHOK redef
+        return n_d
+
+
 def _nfError(x, *args):
     '''(INTERNAL) Throw a C{not-finite} exception.
     '''
@@ -290,6 +309,13 @@ def _nfError(x, *args):
     if args:  # in _fmaX, _2sum
         return E(txt=t, *args)
     raise E(t, txt=None)
+
+
+def _NonfiniteError(x):
+    '''(INTERNAL) Return the Error class for C{x}, I{non-finite}.
+    '''
+    return _OverflowError if isinf(x) else (
+           _ValueError    if isnan(x) else _AssertionError)
 
 
 def nonfiniterrors(*raiser):
@@ -311,13 +337,6 @@ def nonfiniterrors(*raiser):
         Fsum._isfine = {} if bool(raiser[0]) else Fsum._nonfinites_isfine_kwds[True]
     return (False if d is Fsum._nonfinites_isfine_kwds[True] else
          _xkwds_get1(d, _isfine=_isfinite) is _isfinite) if d else True
-
-
-def _NonfiniteError(x):
-    '''(INTERNAL) Return the Error class for C{x}, I{non-finite}.
-    '''
-    return _OverflowError if isinf(x) else (
-           _ValueError    if isnan(x) else _AssertionError)
 
 
 def _1primed(xs):  # in .fmath
@@ -596,7 +615,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
         '''Return C{(B{self} == B{other})} as C{bool} where B{C{other}}
            is C{scalar}, an other L{Fsum} or L{Fsum2Tuple}.
         '''
-        return self._cmp_0(other, _eq_op_) == 0
+        return self._cmp_0(other, _fset_op_ + _fset_op_) == 0
 
     def __float__(self):
         '''Return this instance' current, precision running sum as C{float}.
@@ -633,7 +652,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
     def __ge__(self, other):
         '''Return C{(B{self} >= B{other})}, see C{__eq__}.
         '''
-        return self._cmp_0(other, _ge_op_) >= 0
+        return self._cmp_0(other, _gt_op_ + _fset_op_) >= 0
 
     def __gt__(self, other):
         '''Return C{(B{self} > B{other})}, see C{__eq__}.
@@ -821,7 +840,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
     def __le__(self, other):
         '''Return C{(B{self} <= B{other})}, see C{__eq__}.
         '''
-        return self._cmp_0(other, _le_op_) <= 0
+        return self._cmp_0(other, _lt_op_ + _fset_op_) <= 0
 
     def __len__(self):
         '''Return the number of values accumulated (C{int}).
@@ -1017,9 +1036,8 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
         '''
         n, r = self._fint2
         if r:
-            i, d = float(r).as_integer_ratio()
-            n *= d
-            n += i
+            i, d =  float(r).as_integer_ratio()
+            n, d = _n_d2(n * d + i, d)
         else:  # PYCHOK no cover
             d = 1
         return n, d
@@ -1934,20 +1952,21 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
         return _sum is _fsum  # _fsum.__module__ is fabs.__module__
 
     def is_scalar(self, **raiser_RESIDUAL):
-        '''Is this instance' running sum C{scalar} without residual or with
+        '''Is this instance' running sum C{scalar} with C{0} residual or with
            a residual I{ratio} not exceeding the RESIDUAL threshold?
 
            @kwarg raiser_RESIDUAL: Use C{B{raiser}=False} to ignore
                          L{ResidualError}s (C{bool}) and C{B{RESIDUAL}=scalar}
                          to override the current L{RESIDUAL<Fsum.RESIDUAL>}.
 
-           @return: C{True} if this instance' non-zero residual C{ratio} exceeds
-                    the L{RESIDUAL<Fsum.RESIDUAL>} threshold (C{bool}).
+           @return: C{True} if this instance' residual is C{0} or C{insignificant},
+                    i.e. its residual C{ratio} doesn't exceed the L{RESIDUAL
+                    <Fsum.RESIDUAL>} threshold (C{bool}).
 
            @raise ResidualError: Non-zero, significant residual or invalid
                                  B{C{RESIDUAL}}.
 
-           @see: Method L{Fsum.RESIDUAL}, L{Fsum.is_integer} and property
+           @see: Methods L{Fsum.RESIDUAL} and L{Fsum.is_integer} and property
                  L{Fsum.as_iscalar}.
         '''
         s, r = self._fprs2

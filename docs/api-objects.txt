@@ -2139,16 +2139,16 @@ pygeodesy.fsums.fsumf_	pygeodesy.fsums-module.html#fsumf_
 pygeodesy.fsums._name__	pygeodesy.named-module.html#_name__
 pygeodesy.fsums._xkwds_pop	pygeodesy.errors-module.html#_xkwds_pop
 pygeodesy.fsums._halfeven	pygeodesy.fsums-module.html#_halfeven
-pygeodesy.fsums._eq_op_	pygeodesy.fsums-module.html#_eq_op_
+pygeodesy.fsums._xkwds_get	pygeodesy.errors-module.html#_xkwds_get
 pygeodesy.fsums._s_r	pygeodesy.fsums-module.html#_s_r
 pygeodesy.fsums.fsum_	pygeodesy.fsums-module.html#fsum_
+pygeodesy.fsums._n_d2	pygeodesy.fsums-module.html#_n_d2
 pygeodesy.fsums._2s_r	pygeodesy.fsums-module.html#_2s_r
 pygeodesy.fsums._isFsum_2Tuple	pygeodesy.fsums-module.html#_isFsum_2Tuple
 pygeodesy.fsums._xiterable	pygeodesy.basics-module.html#_xiterable
 pygeodesy.fsums._Psum_	pygeodesy.fsums-module.html#_Psum_
 pygeodesy.fsums._xError2	pygeodesy.errors-module.html#_xError2
 pygeodesy.fsums._name2__	pygeodesy.named-module.html#_name2__
-pygeodesy.fsums._xkwds_get	pygeodesy.errors-module.html#_xkwds_get
 pygeodesy.fsums.signOf	pygeodesy.basics-module.html#signOf
 pygeodesy.fsums._integer_	pygeodesy.fsums-module.html#_integer_
 pygeodesy.fsums._2FACTOR	pygeodesy.fsums-module.html#_2FACTOR
@@ -2161,7 +2161,6 @@ pygeodesy.fsums._xsum	pygeodesy.fsums-module.html#_xsum
 pygeodesy.fsums._floordiv_op_	pygeodesy.fsums-module.html#_floordiv_op_
 pygeodesy.fsums.__all__	pygeodesy.fsums-module.html#__all__
 pygeodesy.fsums._NONFINITEr	pygeodesy.fsums-module.html#_NONFINITEr
-pygeodesy.fsums._ge_op_	pygeodesy.fsums-module.html#_ge_op_
 pygeodesy.fsums._significant_	pygeodesy.fsums-module.html#_significant_
 pygeodesy.fsums._2split3s	pygeodesy.fsums-module.html#_2split3s
 pygeodesy.fsums.unstr	pygeodesy.streprs-module.html#unstr
@@ -2179,7 +2178,6 @@ pygeodesy.fsums._xsError	pygeodesy.errors-module.html#_xsError
 pygeodesy.fsums._ROs	pygeodesy.fsums-module.html#_ROs
 pygeodesy.fsums._psum	pygeodesy.fsums-module.html#_psum
 pygeodesy.fsums._signOf	pygeodesy.basics-module.html#_signOf
-pygeodesy.fsums._le_op_	pygeodesy.fsums-module.html#_le_op_
 pygeodesy.fsums._x_isfine	pygeodesy.fsums-module.html#_x_isfine
 pygeodesy.fsums._1primed	pygeodesy.fsums-module.html#_1primed
 pygeodesy.fsums.fsum	pygeodesy.fsums-module.html#fsum
