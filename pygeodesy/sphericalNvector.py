@@ -9,7 +9,7 @@ L{meanOf}, L{nearestOn3}, L{perimeterOf}, L{sumOf}, L{triangulate} and
 L{trilaterate}, I{all spherical}.
 
 Pure Python implementation of n-vector-based spherical geodetic (lat-/longitude)
-methods, transcoded from JavaScript originals by I{(C) Chris Veness 2011-2016},
+methods, transcoded from JavaScript originals by I{(C) Chris Veness 2011-2024},
 published under the same MIT Licence**.  See U{Vector-based geodesy
 <https://www.Movable-Type.co.UK/scripts/latlong-vectors.html>} and
 U{Module latlon-nvector-spherical
@@ -61,7 +61,7 @@ from pygeodesy.utily import atan2, degrees360, fabs, sincos2, sincos2_, \
 # from math import atan2, fabs  # from utily
 
 __all__ = _ALL_LAZY.sphericalNvector
-__version__ = '24.09.23'
+__version__ = '24.10.19'
 
 _lines_ = 'lines'
 
@@ -797,7 +797,7 @@ class Nvector(NvectorBase):
         return n.minus(e)
 
 
-_Nvll = LatLon(_0_0, _0_0, name=_Nv00_)  # reference instance (L{LatLon})
+_Nv00 = LatLon(_0_0, _0_0, name=_Nv00_)  # reference instance (L{LatLon})
 
 
 def areaOf(points, radius=R_M, wrap=False):
@@ -821,7 +821,7 @@ def areaOf(points, radius=R_M, wrap=False):
              and L{ellipsoidalKarney.areaOf}.
     '''
     def _interangles(ps, w):  # like .karney._polygon
-        Ps = _Nvll.PointsIter(ps, loop=2, wrap=w)
+        Ps = _Nv00.PointsIter(ps, loop=2, wrap=w)
         # use vector to 1st point as plane normal for sign of α
         n0 =  Ps[0].toNvector()
 
@@ -858,13 +858,14 @@ def intersecant2(center, circle, point, other, **radius_exact_height_wrap):
        two points or as a point and bearing.
 
        @arg center: Center of the circle (L{LatLon}).
-       @arg circle: Radius of the circle (C{meter}, same units as B{C{radius}})
-                    or a point on the circle (L{LatLon}).
+       @arg circle: Radius of the circle (C{meter}, same units as the earth
+                    B{C{radius}}) or a point on the circle (L{LatLon}).
        @arg point: A point on the (great circle) line (L{LatLon}).
        @arg other: An other point on the (great circle) line (L{LatLon}) or
                    the bearing at the B{C{point}} (compass C{degrees360}).
-       @kwarg radius_exact_height_wrap: Optional keyword arguments, see
-                     method L{LatLon.intersecant2} for further details.
+       @kwarg radius_exact_height_wrap: Optional keyword arguments, see method
+                     L{intersecant2<pygeodesy.sphericalBase.LatLonSphericalBase.
+                     intersecant2>} for further details.
 
        @return: 2-Tuple of the intersection points (representing a chord), each
                 an instance of the B{C{point}} class.  Both points are the same
@@ -872,14 +873,14 @@ def intersecant2(center, circle, point, other, **radius_exact_height_wrap):
 
        @raise IntersectionError: The circle and line do not intersect.
 
-       @raise TypeError: If B{C{center}} or B{C{point}} not L{LatLon} or
-                         B{C{circle}} or B{C{other}} invalid.
+       @raise TypeError: If B{C{center}}, B{C{point}}, B{C{circle}} or B{C{other}}
+                         not L{LatLon}.
 
        @raise UnitError: Invalid B{C{circle}}, B{C{other}}, B{C{radius}},
                          B{C{exact}}, B{C{height}} or B{C{napieradius}}.
     '''
-    c = _Nvll.others(center=center)
-    p = _Nvll.others(point=point)
+    c = _Nv00.others(center=center)
+    p = _Nv00.others(point=point)
     try:
         return _intersecant2(c, circle, p, other, **radius_exact_height_wrap)
     except (TypeError, ValueError) as x:
@@ -966,8 +967,8 @@ def _intersect3(start1, end1, start2, end2, height, wrap):
     '''(INTERNAL) Return the intersection and antipodal points for
        functions C{intersection} and C{intersection2}.
     '''
-    p1 = _Nvll.others(start1=start1)
-    p2 = _Nvll.others(start2=start2)
+    p1 = _Nv00.others(start1=start1)
+    p2 = _Nv00.others(start2=start2)
     if wrap:
         p2 = _unrollon(p1, p2, wrap=wrap)
     # If gc1 and gc2 are great circles through start and end points
@@ -976,8 +977,8 @@ def _intersect3(start1, end1, start2, end2, height, wrap):
     # work is deciding the correct intersection point to select!  If
     # bearing is given, that determines the intersection, but if both
     # lines are defined by start/end points, take closer intersection.
-    gc1, s1, e1 = _Nvll._gc3(p1, end1, 'end1', wrap=wrap)
-    gc2, s2, e2 = _Nvll._gc3(p2, end2, 'end2', wrap=wrap)
+    gc1, s1, e1 = _Nv00._gc3(p1, end1, 'end1', wrap=wrap)
+    gc2, s2, e2 = _Nv00._gc3(p2, end2, 'end2', wrap=wrap)
 
     hs = start1.height, start2.height
     # there are two (antipodal) candidate intersection
@@ -1038,7 +1039,7 @@ def meanOf(points, height=None, wrap=False, LatLon=LatLon, **LatLon_kwds):
                            some B{C{points}} are not C{LatLon}.
     '''
     def _N_vs(ps, w):
-        Ps = _Nvll.PointsIter(ps, wrap=w)
+        Ps = _Nv00.PointsIter(ps, wrap=w)
         for p in Ps.iterate(closed=False):
             yield p._N_vector
 
@@ -1122,7 +1123,7 @@ def perimeterOf(points, closed=False, radius=R_M, wrap=False):
              and L{sphericalTrigonometry.perimeterOf}.
     '''
     def _rads(ps, c, w):  # angular edge lengths in radians
-        Ps = _Nvll.PointsIter(ps, loop=1, wrap=w)
+        Ps = _Nv00.PointsIter(ps, loop=1, wrap=w)
         p1 =  Ps[0]
         v1 =  p1._N_vector
         for p2 in Ps.iterate(closed=c):
@@ -1184,8 +1185,8 @@ def triangulate(point1, bearing1, point2, bearing2,
 
        @raise Valuerror: Points coincide.
     '''
-    return _triangulate(_Nvll.others(point1=point1), bearing1,
-                        _Nvll.others(point2=point2), bearing2,
+    return _triangulate(_Nv00.others(point1=point1), bearing1,
+                        _Nv00.others(point2=point2), bearing2,
                          height=height, wrap=wrap,
                          LatLon=LatLon, **LatLon_kwds)
 
@@ -1225,9 +1226,9 @@ def trilaterate(point1, distance1, point2, distance2, point3, distance3,  # PYCH
 
        @see: U{Trilateration<https://WikiPedia.org/wiki/Trilateration>}.
     '''
-    return _trilaterate(_Nvll.others(point1=point1), distance1,
-                        _Nvll.others(point2=point2), distance2,
-                        _Nvll.others(point3=point3), distance3,
+    return _trilaterate(_Nv00.others(point1=point1), distance1,
+                        _Nv00.others(point2=point2), distance2,
+                        _Nv00.others(point3=point3), distance3,
                          radius=radius, height=height, useZ=useZ,
                          wrap=wrap, LatLon=LatLon, **LatLon_kwds)
 

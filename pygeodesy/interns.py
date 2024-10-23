@@ -3,7 +3,7 @@
 u'''Single C{str}ing constants, C{intern}'ed across C{pygeodesy}
 modules and function L{pygeodesy.machine}.
 '''
-import sys as _sys
+import sys as _sys  # in .internals, .lazily
 try:
     _intern =  intern  # PYCHOK in .lazily, .trf
 except NameError:  # Python 3+
@@ -11,7 +11,7 @@ except NameError:  # Python 3+
 
 _COMMASPACE_  = ', '  # overriden below
 _SUB_PACKAGES = 'auxilats', 'deprecated', 'geodesicx', 'rhumb'  # PYCHOK in ...
-# ... .lazily, make._dist, MANIFEST, setup.setup, test.bases, .testModules
+# ... .lazily, make._dist, MANIFEST, setup.setup, test/bases, test/testModules
 
 
 class _Dash(str):
@@ -199,7 +199,8 @@ _distance_            = 'distance'           # PYCHOK OK
 _distant_     = _Prefix('distant')           # PYCHOK OK
 _doesn_t_exist_       = "doesn't exist"      # PYCHOK OK
 _DOT_            = Str_('.')                 # PYCHOK OK
-_dunder_name_         = '__name__'           # PYCHOK _DUNDER_(NN, _name_, NN)
+_DUNDER_all_          = '__all__'            # PYCHOK OK
+_DUNDER_name_         = '__name__'           # PYCHOK _DUNDER_(NN, _name_, NN)
 _duplicate_           = 'duplicate'          # PYCHOK OK
 _e_                   = 'e'                  # PYCHOK OK
 _E_                   = 'E'                  # PYCHOK OK
@@ -309,7 +310,6 @@ _negative_            = 'negative'           # PYCHOK OK
 _NL_             = Str_('\n')                # PYCHOK OK
 _NLATvar_        = Str_(_NL_ + '@var ')      # PYCHOK OK
 _NLHASH_         = Str_(_NL_ + '# ')         # PYCHOK OK
-# _NLNL_              = _DNL_                # PYCHOK OK
 _NN_                  = 'NN'                 # PYCHOK OK
 _no_          = _Prefix('no')                # PYCHOK OK
 _northing_            = 'northing'           # PYCHOK OK
@@ -341,7 +341,7 @@ _points_              = 'points'             # PYCHOK OK
 _pole_                = 'pole'               # PYCHOK OK
 _precision_           = 'precision'          # PYCHOK OK
 _prime_vertical_      = 'prime_vertical'     # PYCHOK OK
-_pygeodesy_           = 'pygeodesy'          # PYCHOK OK
+_pygeodesy_           = 'pygeodesy'          # PYCHOK OK  # in test/bases
 _pygeodesy_abspath_   = 'pygeodesy_abspath'  # PYCHOK OK
 _PyPy__       = _PyPy__('PyPy ')             # PYCHOK + _SPACE_
 _Python_     = _Python_('Python')            # PYCHOK singleton
@@ -429,7 +429,7 @@ _SW_       = _S_  + _W_   # PYCHOK negative ones
 
 _DDOT_     = Str_(_DOT_   * 2)  # PYCHOK OK
 # _DEQUAL_ = Str_(_EQUAL_ * 2)  # PYCHOK OK
-_DNL_      = Str_(_NL_    * 2)  # PYCHOK OK
+# _DNL_    = Str_(_NL_    * 2)  # PYCHOK OK
 # _DSLASH_ = Str_(_SLASH_ * 2)  # PYCHOK OK
 # _DSTAR_  = Str_(_STAR_  * 2)  # PYCHOK OK
 _DUNDER_   = Str_(_UNDER_ * 2)  # PYCHOK OK
@@ -441,23 +441,26 @@ _LR_PAIRS  = {_LANGLE_:  _RANGLE_,
 
 __all__ = (_NN_,  # NOT MISSING!
             Str_.__name__)  # classes
-__version__ = '24.08.30'
+__version__ = '24.10.19'
 
 if __name__ == '__main__':
 
-    from pygeodesy import itemsorted, printf
+    def _main():
+        from pygeodesy import itemsorted, printf
 
-    t = b = 0
-    for n, v in itemsorted(locals(), asorted=False, reverse=True):
-        if n.endswith(_UNDER_) and n.startswith(_UNDER_) and \
-                               not n.startswith(_DUNDER_):
-            t += 1
-            b += len(v)
-            m  = n[1:-1]
-            if m != v and m.replace(_UNDER_, _SPACE_) != v:
-                printf('%4d: %s = %r', t, n, v)
-    n = len(locals())
-    printf('%4d (%d) names, %s chars total, %.2f chars avg', t, n, b, float(b) / t, nl=1)
+        t = b = 0
+        for n, v in itemsorted(locals(), asorted=False, reverse=True):
+            if n.endswith(_UNDER_) and n.startswith(_UNDER_) and \
+                                   not n.startswith(_DUNDER_):
+                t += 1
+                b += len(v)
+                m  = n[1:-1]
+                if m != v and m.replace(_UNDER_, _SPACE_) != v:
+                    printf('%4d: %s = %r', t, n, v)
+        n = len(locals())
+        printf('%4d (%d) names, %s chars total, %.2f chars avg', t, n, b, float(b) / t, nl=1)
+
+    _main()
 
 # **) MIT License
 #

@@ -91,7 +91,7 @@ from pygeodesy.utm import _cmlon, _LLEB, _parseUTM5, _toBand, _toXtm8, \
 from math import asinh, atan2, degrees, radians, sinh, sqrt
 
 __all__ = _ALL_LAZY.etm
-__version__ = '24.09.06'
+__version__ = '24.10.21'
 
 _OVERFLOW = _1_EPS**2  # about 2e+31
 _TAYTOL   =  pow(EPS, 0.6)
@@ -1160,13 +1160,29 @@ if __name__ == '__main__':  # MCCABE 16
 
     _main()
 
+# % python3.13 -m pygeodesy.etm -p 12 33.33 44.44
+# ExactTransverseMercator: 4276926.114803905599 4727193.767015309073 28.375536563148 1.233325101778
+# ExactTransverseMercator: 33.33 44.44 28.375536563148 1.233325101778
+
+# % python3.13 -m pygeodesy.etm -s -p 12 33.33 44.44
+# KTransverseMercator: 4276926.114803904667 4727193.767015310004 28.375536563148 1.233325101778
+# KTransverseMercator: 33.33 44.44 28.375536563148 1.233325101778
+
 # % python3.12 -m pygeodesy.etm -p 12 33.33 44.44
 # ExactTransverseMercator: 4276926.11480390653 4727193.767015309073 28.375536563148 1.233325101778
 # ExactTransverseMercator: 33.33 44.44 28.375536563148 1.233325101778
 
-# % python3.12 -s -m pygeodesy.etm -p 12 33.33 44.44
+# % python3.12 -m pygeodesy.etm -s -p 12 33.33 44.44
+# KTransverseMercator: 4276926.114803904667 4727193.767015310004 28.375536563148 1.233325101778
+# KTransverseMercator: 33.33 44.44 28.375536563148 1.233325101778
+
+# % python2 -m pygeodesy.etm -p 12 33.33 44.44
 # ExactTransverseMercator: 4276926.11480390653 4727193.767015309073 28.375536563148 1.233325101778
 # ExactTransverseMercator: 33.33 44.44 28.375536563148 1.233325101778
+
+# % python2 -m pygeodesy.etm -s -p 12 33.33 44.44
+# KTransverseMercator: 4276926.114803904667 4727193.767015310004 28.375536563148 1.233325101778
+# KTransverseMercator: 33.33 44.44 28.375536563148 1.233325101778
 
 # % echo 33.33 44.44 | .../bin/TransverseMercatorProj
 # 4276926.114804 4727193.767015 28.375536563148 1.233325101778

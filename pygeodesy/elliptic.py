@@ -84,12 +84,12 @@ from pygeodesy.constants import EPS, INF, NAN, PI, PI_2, PI_4, _0_0, \
 # from pygeodesy.errors import _ValueError  # from .fmath
 from pygeodesy.fmath import favg, hypot1, zqrt,  _ValueError
 from pygeodesy.fsums import Fsum, _sum
-# from pygeodesy.internals import _dunder_nameof  # from .lazily
+from pygeodesy.internals import _DUNDER_nameof
 from pygeodesy.interns import NN, _delta_, _DOT_, _f_, _invalid_, \
                              _invokation_, _negative_, _SPACE_
 from pygeodesy.karney import _K_2_0, _norm180, _signBit, _sincos2
-from pygeodesy.lazily import _ALL_LAZY,  _dunder_nameof
-from pygeodesy.named import _Named, _NamedTuple,  Fmt, unstr
+# from pygeodesy.lazily import _ALL_LAZY  # from .named
+from pygeodesy.named import _Named, _NamedTuple,  _ALL_LAZY, Fmt, unstr
 from pygeodesy.props import _allPropertiesOf_n, Property_RO, _update_all
 # from pygeodesy.streprs import Fmt, unstr  # from .named
 from pygeodesy.units import Scalar, Scalar_
@@ -99,7 +99,7 @@ from math import asin, asinh, atan, atan2, ceil, cosh, fabs, floor, \
                  radians, sin, sinh, sqrt, tan, tanh
 
 __all__ = _ALL_LAZY.elliptic
-__version__ = '24.09.06'
+__version__ = '24.10.14'
 
 _TolRD  =  zqrt(EPS * 0.002)
 _TolRF  =  zqrt(EPS * 0.030)
@@ -408,9 +408,9 @@ class Elliptic(_Named):
     def _Einv(self, x):
         '''(INTERNAL) Helper for C{.deltaEinv} and C{.fEinv}.
         '''
-        E2 = self.cE * _2_0
-        n  = floor(x / E2 + _0_5)
-        r  = x - E2 * n  # r in [-cE, cE)
+        E2  = self.cE * _2_0
+        n   = floor(x / E2 + _0_5)
+        r   = x - E2 * n  # r in [-cE, cE)
         # linear approximation
         phi = PI * r / E2  # phi in [-PI_2, PI_2)
         Phi = Fsum(phi)
@@ -427,7 +427,7 @@ class Elliptic(_Named):
                 sn = self.fE(sn, cn, dn)
                 phi, d = _Phi2((r - sn) / dn)
             else:  # PYCHOK no cover
-                d = _0_0  # XXX continue?
+                d = _0_0  # XXX or continue?
             if fabs(d) < _TolJAC:  # 3-4 trips
                 _iterations(self, i)
                 break
@@ -497,20 +497,20 @@ class Elliptic(_Named):
             '''(INTERNAL) Core of C{.fE}.
             '''
             if sn:
-                sn2, cn2, dn2 = sn**2, cn**2, dn**2
-                kp2, k2 = self.kp2, self.k2
+                cn2, dn2 = cn**2, dn**2
+                kp2, k2  = self.kp2, self.k2
                 if k2 <= 0:  # Carlson, eq. 4.6, <https://DLMF.NIST.gov/19.25.E9>
                     Ei = _RF3(self, cn2, dn2, _1_0)
                     if k2:
-                        Ei -= _RD(self, cn2, dn2, _1_0, _3over(k2, sn2))
+                        Ei -= _RD(self, cn2, dn2, _1_0, _3over(k2, sn**2))
                 elif kp2 >= 0:  # k2 > 0, <https://DLMF.NIST.gov/19.25.E10>
                     Ei = _over(k2 * fabs(cn), dn)  # float
                     if kp2:
-                        Ei += (_RD( self, cn2, _1_0,  dn2, _3over(k2, sn2)) +
+                        Ei += (_RD( self, cn2, _1_0,  dn2, _3over(k2, sn**2)) +
                                _RF3(self, cn2,  dn2, _1_0)) * kp2
                 else:  # kp2 < 0, <https://DLMF.NIST.gov/19.25.E11>
                     Ei  = _over(dn, fabs(cn))
-                    Ei -= _RD(self, dn2, _1_0, cn2, _3over(kp2, sn2))
+                    Ei -= _RD(self, dn2, _1_0, cn2, _3over(kp2, sn**2))
                 Ei *= fabs(sn)
                 ei  = float(Ei)
             else:  # PYCHOK no cover
@@ -1075,7 +1075,7 @@ def _ellipticError(where, *args, **kwds_cause_txt):
 
     x, t, kwds = _x_t_kwds(**kwds_cause_txt)
 
-    n = _dunder_nameof(where, where)
+    n = _DUNDER_nameof(where, where)
     n = _DOT_(Elliptic.__name__, n)
     n = _SPACE_(_invokation_, n)
     u =  unstr(n, *args, **kwds)

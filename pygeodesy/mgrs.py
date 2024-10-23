@@ -55,7 +55,7 @@ from pygeodesy.utm import toUtm8, _to3zBlat, Utm, _UTM_ZONE_MAX, _UTM_ZONE_MIN
 # from pygeodesy.utmupsBase import _UTM_ZONE_MAX, _UTM_ZONE_MIN  # from .utm
 
 __all__ = _ALL_LAZY.mgrs
-__version__ = '24.09.04'
+__version__ = '24.10.13'
 
 _AN_    = 'AN'  # default south pole grid tile and band B
 _AtoPx_ = _AtoZnoIO_.tillP
@@ -654,32 +654,32 @@ if __name__ == '__main__':
 
     def _main():
 
-        from pygeodesy.ellipsoidalVincenty import fabs, LatLon
+        from pygeodesy.ellipsoidalVincenty import LatLon,  fabs
         from pygeodesy.internals import _fper, printf
-        from pygeodesy.lazily import _getenv, _PYGEODESY_GEOCONVERT_
+        from pygeodesy.karney import _Xables
 
 #       from math import fabs  # from .ellipsoidalVincenty
-        from os import access as _access, linesep as _NL, X_OK as _X_OK
 
         # <https://GeographicLib.sourceforge.io/C++/doc/GeoConvert.1.html>
-        _GeoConvert = _getenv(_PYGEODESY_GEOCONVERT_, '/opt/local/bin/GeoConvert')
-        if _access(_GeoConvert, _X_OK):
-            GC_m = _GeoConvert, '-m'  # -m converts latlon to MGRS
-            printf(' using: %s ...', _SPACE_.join(GC_m))
-            from pygeodesy.solveBase import _popen2
+        G = _Xables.GeoConvert(_Xables.bin_)
+        if _Xables.X_OK(G):
+            from pygeodesy.internals import _popen2
+            printf(' using: %s', _Xables.name_version(G, base=False))
+            cmd = G, '-m'  # -m converts latlon to MGRS
         else:
-            GC_m = _popen2 = None
+            printf(' sorry: %s', _Xables.X_not(G))
+            cmd = _popen2 = None
 
         e = n = 0
         try:
             for lat in range(-90, 91, 1):
                 printf('%6s: lat %s ...', n, lat, end=NN, flush=True)
-                nl = _NL
+                nl = _MODS.os.linesep
                 for lon in range(-180, 181, 1):
                     m = LatLon(lat, lon).toMgrs()
-                    if _popen2:
+                    if _popen2:  # and cmd
                         t = '%s %s' % (lat, lon)
-                        g = _popen2(GC_m, stdin=t)[1]
+                        g = _popen2(cmd, stdin=t)[0]
                         t =  m.toStr()  # sep=NN
                         if t != g:
                             e += 1

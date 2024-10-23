@@ -8,7 +8,7 @@ I{Thaddeus Vincenty}'s geodetic (lat-/longitude) L{LatLon}, geocentric
 L{intersections2}, L{nearestOn} and L{perimeterOf}.
 
 Pure Python implementation of geodesy tools for ellipsoidal earth models,
-transcoded from JavaScript originals by I{(C) Chris Veness 2005-2016}
+transcoded from JavaScript originals by I{(C) Chris Veness 2005-2024}
 and published under the same MIT Licence**, see U{Vincenty geodesics
 <https://www.Movable-Type.co.UK/scripts/LatLongVincenty.html>}.  More
 at U{geographiclib<https://PyPI.org/project/geographiclib>} and
@@ -72,7 +72,7 @@ from pygeodesy.utily import atan2b, atan2d, sincos2, sincos2d, unroll180, wrap18
 from math import atan2, cos, degrees, fabs, radians, tan
 
 __all__ = _ALL_LAZY.ellipsoidalVincenty
-__version__ = '24.08.13'
+__version__ = '24.10.12'
 
 _antipodal_to_ = _SPACE_(_antipodal_, _to_)
 

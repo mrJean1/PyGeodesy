@@ -55,7 +55,7 @@ class Tests(TestsBase):
                         m = _DOT_(name, n)
                         TestsBase.test(self, m, v, x, error=e, known=n in self._known1)
         else:
-            e, n = _re(v,  X), name.split(_DOT_)[-1]  # tailof
+            e, n = _re(v,  X), name.split(_DOT_)[-1]  # _tailof
             TestsBase.test(self, name, t, x, error=e, known=(e < 9e-9  # max(e) 6e-16
                                                          or (n in self._known2)
                                                          or _re(v, -X) < 1e-12), **nl)

@@ -122,7 +122,8 @@ C{epydoc --html --no-private --no-source --name=PyGeodesy --url=... -v pygeodesy
 Tests
 =====
 
-The tests ran with Python 3.13.0, Python 3.12.7 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0,
+The tests ran with Python 3.13.0 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0),
+Python 3.12.7 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0,
 U{numpy<https://PyPI.org/project/numpy>} 2.1.0, U{scipy<https://PyPI.org/project/scipy>} 1.14.1,
 U{GeodSolve<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.3,
 U{IntersectTool<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.3 and
@@ -151,7 +152,7 @@ the distribution files.
 Python 3.13.0, 3.12.7, 3.11.5 and 3.10.8 run on Apple M1 Silicon (C{arm64}), I{natively}.  Python 2.7.18 runs
 on Intel (C{x86_64}) or Intel I{emulation} ("C{arm64_x86_64}", see function L{machine<pygeodesy.machine>}).
 
-The tests also ran with Python 3.12.7 (and U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0) on
+The tests also ran with Python 3.13.0 (and U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0) on
 U{Debian 12<https://Cirrus-CI.com/github/mrJean1/PyGeodesy/master>} in 64-bit only, with Python 3.12.5 (and
 U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0) on U{Windows
 2019Server<https://CI.AppVeyor.com/project/mrJean1/pygeodesy>} in 64-bit only and with Python 2.7.18 (and
@@ -201,8 +202,8 @@ The following environment variables are observed by C{PyGeodesy}:
  - C{PYGEODESY_EXCEPTION_CHAINING} - see module L{errors<pygeodesy.errors>}.
  - C{PYGEODESY_FMT_FORM} - see module L{dms<pygeodesy.dms>}.
  - C{PYGEODESY_FSUM_F2PRODUCT} - see module L{fsums<pygeodesy.fsums>} and method L{f2product<pygeodesy.Fsum.f2product>}.
- - C{PYGEODESY_FSUM_NONFINITES} - see module L{fsums<pygeodesy.fsums>} and function L{nonfiniterrors<pygeodesy.nonfiniterrors>}.
- - C{PYGEODESY_FSUM_RESIDUAL} - see module L{fsums<pygeodesy.fsums>} and class L{Fsum<pygeodesy.Fsum>}.
+ - C{PYGEODESY_FSUM_NONFINITES} - see module L{fsums<pygeodesy.fsums>} and method L{nonfinites<pygeodesy.Fsum.nonfinites>}.
+ - C{PYGEODESY_FSUM_RESIDUAL} - see module L{fsums<pygeodesy.fsums>} and method L{RESIDUAL<pygeodesy.Fsum.RESIDUAL>}.
  - C{PYGEODESY_GEOCONVERT} - see module L{mgrs<pygeodesy.mgrs>}.
  - C{PYGEODESY_GEODSOLVE} - see module L{geodsolve<pygeodesy.geodsolve>}.
  - C{PYGEODESY_INTERSECTTOOL} - see module L{geodesici<pygeodesy.geodesici>}.
@@ -211,12 +212,13 @@ The following environment variables are observed by C{PyGeodesy}:
  - C{PYGEODESY_RHUMBSOLVE} - see module L{rhumb.solve<pygeodesy.rhumb.solve>}.
  - C{PYGEODESY_UPS_POLES} - see modules L{ups<pygeodesy.ups>} and L{mgrs<pygeodesy.mgrs>}.
 
-and these to control standard or I{named} C{repr}esentations:
+and these to specify standard or I{named} C{repr}esentations:
 
  - C{PYGEODESY_AZIMUTH_STD_REPR} - see method L{Azimuth<pygeodesy.Azimuth>}C{.__repr__}.
  - C{PYGEODESY_BEARING_STD_REPR} - see method L{Bearing<pygeodesy.Bearing>}C{.__repr__}.
  - C{PYGEODESY_BOOL_STD_REPR} - see method L{Bool<pygeodesy.Bool>}C{.__repr__}.
  - C{PYGEODESY_DEGREES_STD_REPR} - see method L{Degrees<pygeodesy.Degrees>}C{.__repr__}.
+ - C{PYGEODESY_EPOCH_STD_REPR} - see method L{Float<pygeodesy.Epoch>}C{.__repr__}.
  - C{PYGEODESY_FLOAT_STD_REPR} - see method L{Float<pygeodesy.Float>}C{.__repr__}.
  - C{PYGEODESY_INT_STD_REPR} - see method L{Int<pygeodesy.Int>}C{.__repr__}.
  - C{PYGEODESY_METER_STD_REPR} - see method L{Meter<pygeodesy.Meter>}C{.__repr__}.
@@ -233,12 +235,10 @@ plus during development:
 
 and:
 
- - C{PYGEODESY_INIT__ALL__} - Set env variable C{PYGEODESY_INIT__ALL__} to anything
-   other than C{"__all__"} to avoid importing all C{pygeodesy} modules unnecessarily
-   (in Python 2 or with C{PYGEODESY_LAZY_IMPORT} turned off in Python 3).  However,
-   to import a C{pygeodesy} item, the item name must be qualified with the C{module}
-   name, for example C{ from pygeodesy.ellipsoidalExact import LatLon } or C{ from
-   pygeodesy.deprecated import collins }
+ - C{PYGEODESY_INIT__ALL__} - Set env variable C{PYGEODESY_INIT__ALL__} to anything other than C{"__all__"} to avoid
+   importing all C{pygeodesy} modules unnecessarily (in Python 2 or with C{PYGEODESY_LAZY_IMPORT} turned off in Python
+   3).  However, to import a C{pygeodesy} item, the item name must be qualified with the C{module} name, for example
+   C{ from pygeodesy.ellipsoidalExact import LatLon } or C{ from pygeodesy.deprecated import collins }
 
 License
 =======
@@ -582,7 +582,7 @@ if _init__all__ and not _lazy_import2:  # import and set __all__
                     raise ImportError('missing %s%s: %s' % (_attribute_, s, t))
                 ns.extend(attrs)
 # XXX       if ps:  # check that mod is a _pygeodesy_ module
-# XXX           m = globalocals[mod]  # assert(_dunder_nameof(m) == mod)
+# XXX           m = globalocals[mod]  # assert(_DUNDER_nameof(m) == mod)
 # XXX           f = getattr(m, _dunder_file_, _NN)
 # XXX           d = _os_path.dirname(_os_path.abspath(f)) if f else pygeodesy_abspath
 # XXX           p = getattr(m, _dunder_package_, _NN) or _pygeodesy_
@@ -598,7 +598,7 @@ else:
 
 from pygeodesy.internals import _version2,  _DOT_  # PYCHOK import
 # from pygeodesy.interns import _DOT_  # from .internals
-__version__ = '24.10.10'
+__version__ = '24.10.24'
 # see setup.py for similar logic
 version     = _DOT_(*_version2(__version__, n=3))
 

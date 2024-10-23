@@ -12,16 +12,15 @@ from pygeodesy.basics import _xinstanceof
 from pygeodesy.constants import _0_0, _180_0, _N_180_0, _over,  _90_0  # PYCHOK used!
 from pygeodesy.errors import RhumbError   # PYCHOK used!
 from pygeodesy.interns import NN, _a12_, _azi12_, _lat2_, _lon2_, _s12_, _S12_, _UNDER_
-from pygeodesy.karney import Caps, GDict, _norm180, Rhumb8Tuple, _sincos2d
-from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, _getenv, \
-                             _PYGEODESY_RHUMBSOLVE_
+from pygeodesy.karney import Caps, GDict, _norm180, Rhumb8Tuple, _sincos2d, _Xables
+from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.namedTuples import Destination3Tuple, Distance3Tuple
 from pygeodesy.props import deprecated_method, Property, Property_RO
 from pygeodesy.solveBase import _SolveGDictBase, _SolveGDictLineBase
 from pygeodesy.utily import _unrollon, _Wrap, wrap360
 
 __all__ = _ALL_LAZY.rhumb_solve
-__version__ = '24.08.13'
+__version__ = '24.10.12'
 
 
 class _RhumbSolveBase(_SolveGDictBase):
@@ -30,8 +29,8 @@ class _RhumbSolveBase(_SolveGDictBase):
     _Error         =  RhumbError
     _Names_Direct  = _lat2_, _lon2_, _S12_
     _Names_Inverse = _azi12_, _s12_, _S12_
-    _Xable_name    = 'RhumbSolve'
-    _Xable_path    = _getenv(_PYGEODESY_RHUMBSOLVE_, _PYGEODESY_RHUMBSOLVE_)
+    _Xable_name    = _Xables.RhumbSolve.__name__
+    _Xable_path    = _Xables.RhumbSolve()
 
     @Property_RO
     def _cmdBasic(self):
@@ -394,8 +393,8 @@ if __name__ == '__main__':
     rS = RhumbSolve(name='Test')
     rS.verbose = '--verbose' in argv  # or '-v' in argv
 
-    if rS.RhumbSolve in (_PYGEODESY_RHUMBSOLVE_, None):  # not set
-        rS.RhumbSolve = '/opt/local/bin/RhumbSolve'  # '/opt/local/Cellar/geographiclib/2.3/bin/RhumbSolve'  # HomeBrew
+    if not _Xables.X_OK(rS.RhumbSolve):  # not set
+        rS.RhumbSolve = _Xables.RhumbSolve(_Xables.bin_)
     printf('version: %s', rS.version)
 
     if len(argv) > 6:  # 60 0 30 0 45 1e6

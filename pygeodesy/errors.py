@@ -14,12 +14,12 @@ C{PYGEODESY_EXCEPTION_CHAINING=std} or to any non-empty string.
 # from pygeodesy.basics import isint, isodd, issubclassof, itemsorted, _xinstanceof, _zip  # _MODS
 # from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, LatLonEllipsoidalBase  # _MODS
 # from pygeodesy import errors  # _MODS, _MODS.getattr
-from pygeodesy.internals import _dunder_nameof_, _plural, _tailof
+from pygeodesy.internals import _DUNDER_nameof_, _getPYGEODESY, _plural, _tailof
 from pygeodesy.interns import MISSING, NN, _a_, _an_, _and_, _clip_, _COLON_, _COLONSPACE_, \
                              _COMMASPACE_, _datum_, _ELLIPSIS_, _ellipsoidal_, _incompatible_, \
                              _invalid_, _keyword_, _LatLon_, _len_, _not_, _or_, _SPACE_, \
                              _specified_, _UNDER_, _vs_, _with_
-from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _getenv, _PYTHON_X_DEV
+from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _PYTHON_X_DEV
 # from pygeodesy import streprs as _streprs  # _MODS
 # from pygeodesy.unitsBase import Str  # _MODS
 # from pygeodesy.vector3dBase import Vector3dBase  # _MODS
@@ -27,7 +27,7 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _getenv, _PYTHON_X_D
 from copy import copy as _copy
 
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')  _under
-__version__ = '24.10.01'
+__version__ = '24.10.14'
 
 _argument_   = 'argument'
 _box_        = 'box'
@@ -43,7 +43,7 @@ try:
     _exception_chaining = None  # not available
     _ = Exception().__cause__   # Python 3.9+ exception chaining
 
-    if _PYTHON_X_DEV or _getenv('PYGEODESY_EXCEPTION_CHAINING', NN):  # == _std_
+    if _PYTHON_X_DEV or _getPYGEODESY('EXCEPTION_CHAINING'):  # == _std_
         _exception_chaining = True  # turned on, std
         raise AttributeError()  # allow exception chaining
 
@@ -527,7 +527,7 @@ def _IsnotError(*types__, **name_value_Error_cause):  # name=value [, Error=Type
     n, v    = _xkwds_item2(kwds)
 
     n = _streprs.Fmt.PARENSPACED(n, repr(v))
-    t = _not_(_an(_or(*_dunder_nameof_(*types__))) if types__ else _specified_)
+    t = _not_(_an(_or(*_DUNDER_nameof_(*types__))) if types__ else _specified_)
     return _XError(E, n, txt=t, cause=x)
 
 

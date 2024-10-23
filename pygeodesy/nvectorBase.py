@@ -38,7 +38,7 @@ from pygeodesy.vector3d import Vector3d, _xyzhdlln4
 from math import fabs, sqrt
 
 __all__ = _ALL_LAZY.nvectorBase
-__version__ = '24.07.12'
+__version__ = '24.10.12'
 
 
 class NvectorBase(Vector3d):  # XXX kept private

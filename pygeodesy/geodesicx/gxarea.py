@@ -19,10 +19,11 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import isodd, unsigned0
 from pygeodesy.constants import NAN, _0_0, _0_5, _720_0
+from pygeodesy.internals import printf
 # from pygeodesy.interns import _COMMASPACE_  # from .lazily
 from pygeodesy.karney import Area3Tuple, _diff182, GeodesicError, \
                             _norm180, _remainder, _sum3
-from pygeodesy.lazily import _ALL_DOCS, printf,  _COMMASPACE_
+from pygeodesy.lazily import _ALL_DOCS,  _COMMASPACE_
 from pygeodesy.named import ADict, callername, _NamedBase,  pairs
 from pygeodesy.props import Property, Property_RO, property_RO
 # from pygeodesy.streprs import pairs  # from .named
@@ -30,7 +31,7 @@ from pygeodesy.props import Property, Property_RO, property_RO
 from math import fmod as _fmod
 
 __all__ = ()
-__version__ = '24.09.04'
+__version__ = '24.10.14'
 
 
 class GeodesicAreaExact(_NamedBase):

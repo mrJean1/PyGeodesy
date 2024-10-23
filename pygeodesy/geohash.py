@@ -7,7 +7,7 @@ Class L{Geohash} and several functions to encode, decode and inspect
 C{geohashes} and optional L{Geohashed} caches.
 
 Originally transcoded from JavaScript originals by I{(C) Chris Veness
-2011-2015} and published under the same MIT Licence**, see
+2011-2024} and published under the same MIT Licence**, see
 U{Geohashes<https://www.Movable-Type.co.UK/scripts/geohash.html>}.
 
 @see: U{Geohash<https://WikiPedia.org/wiki/Geohash>}, I{Karney}'s C++
@@ -38,7 +38,7 @@ from pygeodesy.units import Degrees_, Int, Lat_, Lon_, Meter, Precision_, Str
 from math import fabs, ldexp, log10, radians
 
 __all__ = _ALL_LAZY.geohash
-__version__ = '24.08.05'
+__version__ = '24.10.12'
 
 _formy   = _MODS.into(formy=__name__)
 _MASK5   =  16, 8, 4, 2, 1  # PYCHOK used!

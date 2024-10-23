@@ -18,7 +18,7 @@ from pygeodesy.interns import NN, _azimuth_, _band_, _bearing_, _COMMASPACE_, \
                              _NS_, _NSEW_, _number_, _PERCENT_, _phi_, _precision_, \
                              _radians_, _radians2_, _radius_, _S_, _scalar_, \
                              _units_, _W_, _zone_,  _std_  # PYCHOK used!
-from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, _getenv
+from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 # from pygeodesy.named import _name__  # _MODS
 from pygeodesy.props import Property_RO
 # from pygeodesy.streprs import Fmt, fstr  # from .unitsBase
@@ -27,7 +27,7 @@ from pygeodesy.unitsBase import Float, Int, _NamedUnit, Radius, Str,  Fmt, fstr
 from math import degrees, isnan, radians
 
 __all__ = _ALL_LAZY.units
-__version__ = '24.08.13'
+__version__ = '24.10.12'
 
 
 class Float_(Float):
@@ -858,13 +858,14 @@ def _xlimits(arg, low, high, g=False):
 def _std_repr(*Classes):
     '''(INTERNAL) Use standard C{repr} or named C{toRepr}.
     '''
+    from pygeodesy.internals import _getenv
     for C in Classes:
         if hasattr(C, _std_repr.__name__):  # PYCHOK del _std_repr
             env = 'PYGEODESY_%s_STD_REPR' % (C.__name__.upper(),)
             if _getenv(env, _std_).lower() != _std_:
                 C._std_repr = False
 
-_std_repr(Azimuth, Bearing, Bool, Degrees, Float, Int, Meter, Radians, Str)  # PYCHOK expected
+_std_repr(Azimuth, Bearing, Bool, Degrees, Epoch, Float, Int, Meter, Radians, Str)  # PYCHOK expected
 del _std_repr
 
 __all__ += _ALL_DOCS(_NamedUnit)

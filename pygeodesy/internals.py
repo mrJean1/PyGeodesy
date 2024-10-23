@@ -3,7 +3,7 @@
 
 u'''Mostly INTERNAL functions, except L{machine}, L{print_} and L{printf}.
 '''
-# from pygeodesy.basics import isiterablen  # _MODS
+# from pygeodesy.basics import isiterablen, ubstr  # _MODS
 # from pygeodesy.errors import _AttributeError, _error_init, _UnexpectedError, _xError2  # _MODS
 from pygeodesy.interns import NN, _BAR_, _COLON_, _DASH_, _DOT_, _ELLIPSIS_, _EQUALSPACED_, \
                              _immutable_, _NL_, _pygeodesy_, _PyPy__, _python_, _QUOTE1_, \
@@ -11,8 +11,8 @@ from pygeodesy.interns import NN, _BAR_, _COLON_, _DASH_, _DOT_, _ELLIPSIS_, _EQ
 from pygeodesy.interns import _COMMA_, _Python_  # PYCHOK used!
 # from pygeodesy.streprs import anstr, pairs, unstr  # _MODS
 
-import os as _os  # in .lazily, ...
-import os.path as _os_path
+# import os  # _MODS
+# import os.path  # _MODS
 # import sys as _sys  # from .interns
 
 _0_0      =  0.0  # PYCHOK in .basics, .constants
@@ -23,8 +23,8 @@ _SIsecs   = 'fs', 'ps', 'ns', 'us', 'ms', 'sec'  # reversed
 _Windows_ = 'Windows'
 
 
-def _dunder_nameof(inst, *dflt):
-    '''(INTERNAL) Get the double_underscore __name__ attr.
+def _DUNDER_nameof(inst, *dflt):
+    '''(INTERNAL) Get the DUNDER C{.__name__} attr.
     '''
     try:
         return inst.__name__
@@ -33,16 +33,16 @@ def _dunder_nameof(inst, *dflt):
     return dflt[0] if dflt else inst.__class__.__name__
 
 
-def _dunder_nameof_(*names__):  # in .errors._IsnotError
-    '''(INTERNAL) Yield the _dunder_nameof or name.
+def _DUNDER_nameof_(*names__):  # in .errors._IsnotError
+    '''(INTERNAL) Yield the _DUNDER_nameof or name.
     '''
-    return map(_dunder_nameof, names__, names__)
+    return map(_DUNDER_nameof, names__, names__)
 
 
 def _Property_RO(method):
     '''(INTERNAL) Can't I{recursively} import L{props.property_RO}.
     '''
-    name = _dunder_nameof(method)
+    name = _DUNDER_nameof(method)
 
     def _del(inst, attr):  # PYCHOK no cover
         delattr(inst, attr)  # force error
@@ -68,9 +68,16 @@ class _MODS_Base(object):
         self.__dict__.pop(attr, None)
 
     def __setattr__(self, attr, value):  # PYCHOK no cover
-        m = _MODS.errors
+        e = _MODS.errors
         t = _EQUALSPACED_(self._DOT_(attr), repr(value))
-        raise m._AttributeError(_immutable_, txt=t)
+        raise e._AttributeError(_immutable_, txt=t)
+
+    @_Property_RO
+    def basics(self):
+        '''Get module C{pygeodesy.basics}, I{once}.
+        '''
+        from pygeodesy import basics as b  # DON'T _lazy_import2
+        return b
 
     @_Property_RO
     def bits_machine2(self):
@@ -99,6 +106,7 @@ class _MODS_Base(object):
 
             def dlopen(name):
                 return _dlopen(name, DEFAULT_MODE)
+
         else:  # PYCHOK no cover
             from ctypes import CDLL
             dlopen = _passarg
@@ -120,8 +128,15 @@ class _MODS_Base(object):
     def errors(self):
         '''Get module C{pygeodesy.errors}, I{once}.
         '''
-        from pygeodesy import errors  # DON'T _lazy_import2
-        return errors
+        from pygeodesy import errors as e  # DON'T _lazy_import2
+        return e
+
+    @_Property_RO
+    def inspect(self):  # in .basics
+        '''Get module C{inspect}, I{once}.
+        '''
+        import inspect as i
+        return i
 
     def ios_ver(self):
         '''Mimick C{platform.xxx_ver} for C{iOS}.
@@ -142,7 +157,7 @@ class _MODS_Base(object):
     def name(self):
         '''Get this name (C{str}).
         '''
-        return _dunder_nameof(self.__class__)
+        return _DUNDER_nameof(self.__class__)
 
     @_Property_RO
     def nix2(self):  # PYCHOK no cover
@@ -170,6 +185,14 @@ class _MODS_Base(object):
         return v, t, machine()
 
     @_Property_RO
+    def os(self):
+        '''Get module C{os}, I{once}.
+        '''
+        import os as o
+        import os.path
+        return o
+
+    @_Property_RO
     def osversion2(self):
         '''Get 2-list C{[OS, release]}, I{once}.
         '''
@@ -193,9 +216,20 @@ class _MODS_Base(object):
             v = v()[0]
             if v and n:
                 break
-            else:
-                n = v = NN  # XXX AssertioError?
+        else:
+            n = v = NN  # XXX AssertioError?
         return [n, v]
+
+    @_Property_RO
+    def _Popen_kwds2(self):
+        '''(INTERNAL) Get C{subprocess.Popen} and C{-kwds}.
+        '''
+        import subprocess as _sub
+        kwds = dict(creationflags=0,  # executable=sys.executable, shell=True,
+                    stdin=_sub.PIPE, stdout=_sub.PIPE, stderr=_sub.STDOUT)
+        if _sys.version_info[:2] > (3, 6):
+            kwds.update(text=True)
+        return _sub.Popen, kwds
 
     @_Property_RO
     def Pythonarchine(self):
@@ -209,46 +243,57 @@ class _MODS_Base(object):
         return l3
 
     @_Property_RO
-    def _Str_Bytes(self):
-        '''Get all C{str} and C{bytes} types.
-        '''
-        import pygeodesy.basics as m
-        return m._Strs + m._Bytes  # + (range, map)
-
-    @_Property_RO
     def streprs(self):
         '''Get module C{pygeodesy.streprs}, I{once}.
         '''
-        from pygeodesy import streprs  # DON'T _lazy_import2
-        return streprs
+        from pygeodesy import streprs as s  # DON'T _lazy_import2
+        return s
+
+    @_Property_RO
+    def sys_version_info2(self):
+        '''Get C{sys.version_inf0[:2], I{once}.
+        '''
+        return _sys.version_info[:2]
 
     @_Property_RO
     def version(self):
         '''Get pygeodesy version, I{once}.
         '''
-        from pygeodesy import version
-        return version
+        from pygeodesy import version as v
+        return v
 
 _MODS = _MODS_Base()  # PYCHOK overwritten by .lazily
 
 
-def _caller3(up):  # in .lazily, .named
+def _caller3(up, base=True):  # in .lazily, .named
     '''(INTERNAL) Get 3-tuple C{(caller name, file name, line number)}
-       for the caller B{C{up}} stack frames in the Python call stack.
-    '''
-    # sys._getframe(1) ... 'importlib._bootstrap' line 1032,
-    # may throw a ValueError('call stack not deep enough')
-    f = _sys._getframe(up + 1)
-    c =  f.f_code
-    return (c.co_name,  # caller name
-           _os_path.basename(c.co_filename),  # file name .py
-            f.f_lineno)  # line number
+       for the caller B{C{up}} frames back in the Python call stack.
 
-
-def _dunder_ismain(name):
-    '''(INTERNAL) Return C{name == '__main__'}.
+       @kwarg base: Use C{B{base}=False} for the fully-qualified file
+                     name, otherwise the base (module) name (C{bool}).
     '''
-    return name == '__main__'
+    f  =  None
+    _f = _MODS.os.path.basename if base else _passarg
+    try:
+        f = _sys._getframe(up + 1)  # == inspect.stack()[up + 1][0]
+        t = _MODS.inspect.getframeinfo(f)
+        t =  t.function, _f(t.filename), t.lineno
+# or ...
+        # f = _sys._getframe(up + 1)
+        # c =  f.f_code
+        # t = (c.co_name,  # caller name
+        #     _f(c.co_filename),  # file name .py
+        #      f.f_lineno)  # line number
+# or ...
+        # t = _MODS.inspect.stack()[up + 1]  # (frame, filename, lineno, function, ...)
+        # t =  t[3], _f(t[1]), t[2]
+    except (AttributeError, IndexError, ValueError):
+        # sys._getframe(1) ... 'importlib._bootstrap' line 1032,
+        # may throw a ValueError('call stack not deep enough')
+        t = NN, NN, 0
+    finally:
+        del f  # break ref cycle
+    return t
 
 
 def _enquote(strs, quote=_QUOTE2_, white=NN):  # in .basics, .solveBase
@@ -268,6 +313,15 @@ def _fper(p, q, per=100.0, prec=1):
     return '%.*f%%' % (prec, (float(p) * per / float(q)))
 
 
+_getenv = _MODS.os.getenv  # PYCHOK in .lazily, ...
+
+
+def _getPYGEODESY(which, dflt=NN):
+    '''(INTERNAL) Return an C{PYGEODESY_...} ENV value or C{dflt}.
+    '''
+    return _getenv(_PYGEODESY(which), dflt)
+
+
 def _headof(name):
     '''(INTERNAL) Get the head name of qualified C{name} or the C{name}.
     '''
@@ -281,26 +335,32 @@ def _headof(name):
 #     return (a == b) if _isPyPy() else (a is b)
 
 
-def _isAppleM():
-    '''(INTERNAL) Is this C{Apple Silicon}? (C{bool})
+def _isAppleSi():
+    '''(INTERNAL) Is this C{macOS on Apple Silicon}? (C{bool})
     '''
     return _ismacOS() and machine().startswith(_arm64_)
 
 
-def _isiOS():  # in test/bases.py
+def _is_DUNDER_main(name):
+    '''(INTERNAL) Return C{bool(name == '__main__')}.
+    '''
+    return name == '__main__'
+
+
+def _isiOS():  # in test/bases
     '''(INTERNAL) Is this C{iOS}? (C{bool})
     '''
     return _MODS.osversion2[0] is _iOS_
 
 
-def _ismacOS():  # in test/bases.py
+def _ismacOS():  # in test/bases
     '''(INTERNAL) Is this C{macOS}? (C{bool})
     '''
     return _sys.platform[:6]   == 'darwin' and \
-           _MODS.osversion2[0] is _macOS_  # and os.name == 'posix'
+           _MODS.osversion2[0] is _macOS_  # and _MODS.os.name == 'posix'
 
 
-def _isNix():  # in test/bases.py
+def _isNix():  # in test/bases
     '''(INTERNAL) Is this a C{Linux} distro? (C{str} or L{NN})
     '''
     return _MODS.nix2[0]
@@ -313,14 +373,14 @@ def _isPyChecker():
     return _sys.argv[0].endswith('/pychecker/checker.py')
 
 
-def _isPyPy():  # in test/bases.py
+def _isPyPy():  # in test/bases
     '''(INTERNAL) Is this C{PyPy}? (C{bool})
     '''
     # platform.python_implementation() == 'PyPy'
     return _MODS.Pythonarchine[0].startswith(_PyPy__)
 
 
-def _isWindows():  # in test/bases.py
+def _isWindows():  # in test/bases
     '''(INTERNAL) Is this C{Windows}? (C{bool})
     '''
     return _sys.platform[:3]   == 'win' and \
@@ -339,8 +399,8 @@ def _load_lib(name):
     ns = find_lib(name), name
     if dlopen is not _passarg:  # _ismacOS()
         ns += (_DOT_(name, 'dylib'),
-               _DOT_(name, 'framework'), _os_path.join(
-               _DOT_(name, 'framework'),     name))
+               _DOT_(name, 'framework'), _MODS.os.path.join(
+               _DOT_(name, 'framework'),  name))
     for n in ns:
         try:
             if n and dlopen(n):  # pre-load handle
@@ -364,28 +424,10 @@ def machine():
     return _MODS.bits_machine2[1]
 
 
-def _Math_K_2():
-    '''(INTERNAL) Return the I{Karney} Math setting.
-    '''
-    return _MODS.karney._wrapped.Math_K_2
-
-
 def _name_version(pkg):
     '''(INTERNAL) Return C{pskg.__name__ + ' ' + .__version__}.
     '''
     return _SPACE_(pkg.__name__, pkg.__version__)
-
-
-def _name_binary(path):
-    '''(INTERNAL) Return C{(basename + ' ' + version)} of an executable.
-    '''
-    if path:
-        try:
-            _, r = _MODS.solveBase._popen2((path, '--version'))
-            return _SPACE_(_os_path.basename(path), r.split()[-1])
-        except (IndexError, IOError, OSError):
-            pass
-    return NN
 
 
 def _osversion2(sep=NN):  # in .lazily, test/bases.versions
@@ -411,6 +453,16 @@ def _plural(noun, n, nn=NN):
     '''(INTERNAL) Return C{noun}['s'] or C{NN}.
     '''
     return NN(noun, _s_) if n > 1 else (noun if n else nn)
+
+
+def _popen2(cmd, stdin=None):  # in .mgrs, .solveBase, .testMgrs
+    '''(INTERNAL) Invoke C{B{cmd} tuple} and return 2-tuple C{(std, status)}
+       with all C{stdout/-err} output, I{stripped} and C{int} exit status.
+    '''
+    _Popen, kwds = _MODS._Popen_kwds2
+    p = _Popen(cmd, **kwds)  # PYCHOK kwArgs
+    r =  p.communicate(stdin)[0]  # stdout + NL + stderr
+    return _MODS.basics.ub2str(r).strip(), p.returncode
 
 
 def print_(*args, **nl_nt_prec_prefix__end_file_flush_sep__kwds):  # PYCHOK no cover
@@ -476,17 +528,27 @@ def _print7(nl=0, nt=0, prec=6, prefix=NN, sep=_SPACE_, file=_sys.stdout,
     return prefix, end, file, flush, prec, sep, kwds
 
 
-def _Pythonarchine(sep=NN):  # in .lazily, test/bases.py versions
+def _PYGEODESY(which, i=0):
+    '''(INTERNAL) Return an ENV C{str} C{PYGEODESY_...}.
+    '''
+    try:
+        w = which.__name__.lstrip(_UNDER_)[i:]
+    except AttributeError:
+        w = which
+    return _UNDER_(_pygeodesy_, w).upper()
+
+
+def _Pythonarchine(sep=NN):  # in .lazily, test/bases versions
     '''(INTERNAL) Get PyPy and Python versions, bits and machine as C{3- or 4-list} or C{str}.
     '''
     l3 = _MODS.Pythonarchine
     return sep.join(l3) if sep else l3  # 3- or 4-list
 
 
-def _secs2str(secs):  # in .geoids, ../test/bases.py
+def _secs2str(secs):  # in .geoids, ../test/bases
     '''Convert a time in C{secs} to C{str}.
     '''
-    if secs < _MODS.constants._100_0:
+    if secs < 100.0:  # _100_0
         unit = len(_SIsecs) - 1
         while 0 < secs < 1 and unit > 0:
             secs *= 1e3  # _1000_0
@@ -520,7 +582,9 @@ def _sizeof(obj, deep=True):
     except TypeError:  # PyPy3.10
         return None
 
-    _isiterablen = _MODS.basics.isiterablen
+    b = _MODS.basics
+    _isiterablen = b.isiterablen
+    _Str_Bytes   = b._Strs + b._Bytes  # + (range, map)
 
     def _zR(s, iterable):
         z, _s = 0, s.add
@@ -533,7 +597,7 @@ def _sizeof(obj, deep=True):
                     z += _zR(s, o.keys())
                     z += _zR(s, o.values())
                 elif _isiterablen(o) and not \
-                      isinstance(o, _MODS._Str_Bytes):
+                      isinstance(o, _Str_Bytes):
                     z += _zR(s, o)
                 elif deep:
                     try:  # size instance' attr values only
@@ -555,7 +619,7 @@ def _sysctl_uint(name):
         u = uint(0)
         z = size_t(sizeof(u))
         r = libc.sysctlbyname(char_p(n), byref(u), byref(z), None, size_t(0))
-    else:  # could find or load 'libc'
+    else:  # couldn't find or load 'libc'
         r = -2
     return int(r if r else u.value)  # -1 ENOENT error, -2 no libc
 
@@ -597,17 +661,20 @@ def _usage(file_py, *args, **opts_help):  # in .etm, .geodesici
 
         args = _help(**opts_help) or (tuple(_opts(**opts_help)) + args)
 
-    u = _COLON_(_dunder_nameof(_usage)[1:], NN)
+    u = _COLON_(_DUNDER_nameof(_usage)[1:], NN)
     return _SPACE_(u, *_usage_argv(file_py, *args))
 
 
 def _usage_argv(argv0, *args):
     '''(INTERNAL) Return 3-tuple C{(python, '-m', module, *args)}.
     '''
-    m = _os_path.dirname(argv0).replace(_os.getcwd(), _ELLIPSIS_) \
-                               .replace(_os.sep, _DOT_).strip()
-    b, x = _os_path.splitext(_os_path.basename(argv0))
-    if x == '.py' and not _dunder_ismain(b):
+    o = _MODS.os
+    m =  o.path.dirname(argv0)
+    m =  m.replace(o.getcwd(), _ELLIPSIS_) \
+          .replace(o.sep, _DOT_).strip()
+    b =  o.path.basename(argv0)
+    b, x = o.path.splitext(b)
+    if x == '.py' and not _is_DUNDER_main(b):
         m = _DOT_(m or _pygeodesy_, b)
     p = NN(_python_, _sys.version_info[0])
     return (p, '-m', _enquote(m)) + args
@@ -652,15 +719,18 @@ def _versions(sep=_SPACE_):
     return sep.join(l7) if sep else l7  # 5- or 6-list
 
 
-__all__ = tuple(map(_dunder_nameof, (machine, print_, printf)))
-__version__ = '24.09.04'
+__all__ = tuple(map(_DUNDER_nameof, (machine, print_, printf)))
+__version__ = '24.10.20'
 
-if _dunder_ismain(__name__):  # PYCHOK no cover
+if _is_DUNDER_main(__name__):  # PYCHOK no cover
 
-    from pygeodesy import _isfrozen, isLazy
+    def _main():
+        from pygeodesy import _isfrozen, isLazy
 
-    print_(*(_versions(sep=NN) + ['_isfrozen', _isfrozen,
-                                  'isLazy',     isLazy]))
+        print_(*(_versions(sep=NN) + ['_isfrozen', _isfrozen,
+                                      'isLazy',     isLazy]))
+
+    _main()
 
 # **) MIT License
 #

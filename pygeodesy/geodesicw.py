@@ -21,7 +21,7 @@ from pygeodesy.datums import _earth_datum, _WGS84,  _EWGS84
 from pygeodesy.errors import _AssertionError, GeodesicError, \
                               IntersectionError
 from pygeodesy.fsums import Fsum,  Fmt, unstr
-from pygeodesy.internals import _dunder_nameof, _under
+from pygeodesy.internals import _DUNDER_nameof, _under
 from pygeodesy.interns import NN, _DOT_, _SPACE_, _to_, _too_
 from pygeodesy.karney import _atan2d, Caps, Direct9Tuple, GDict, \
                               Inverse10Tuple, _kWrapped
@@ -39,7 +39,7 @@ from contextlib import contextmanager
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.geodesicw
-__version__ = '24.07.12'
+__version__ = '24.10.14'
 
 _plumb_ = 'plumb'
 _TRIPS  =  65
@@ -516,7 +516,7 @@ def _Intersecant2(gl, lat0, lon0, radius, tol=_TOL, form=F_D):  # MCCABE in LatL
     # (INTERNAL) Return the intersections of a circle at C{lat0, lon0}
     # and a geodesic line as a 2-Tuple C{(P, Q)}, each a C{GDict}.
     r  =  Radius_(radius)
-    n  = _dunder_nameof(_Intersecant2)[1:]
+    n  = _DUNDER_nameof(_Intersecant2)[1:]
     _P =  gl.Position
     _I =  gl.geodesic.Inverse
     _a =  fabs

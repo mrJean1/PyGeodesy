@@ -5,7 +5,7 @@ u'''(INTERNAL) Private spherical base classes C{CartesianSphericalBase} and
 C{LatLonSphericalBase} for L{sphericalNvector} and L{sphericalTrigonometry}.
 
 A pure Python implementation of geodetic (lat-/longitude) functions,
-transcoded in part from JavaScript originals by I{(C) Chris Veness 2011-2016}
+transcoded in part from JavaScript originals by I{(C) Chris Veness 2011-2024}
 and published under the same MIT Licence**, see
 U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>}.
 '''
@@ -40,7 +40,7 @@ from pygeodesy.utily import acos1, asin1, atan2b, atan2d, degrees90, \
 from math import cos, fabs, log, sin, sqrt
 
 __all__ = _ALL_LAZY.sphericalBase
-__version__ = '24.08,13'
+__version__ = '24.10.19'
 
 
 class CartesianSphericalBase(CartesianBase):
@@ -126,24 +126,23 @@ class LatLonSphericalBase(LatLonBase):
            @kwarg lon: Longitude (C{degrees} or DMS C{str} with E or W suffix) or
                        C(None), indicating B{C{latlonh}} is a C{LatLon}.
            @kwarg height: Optional height above (or below) the earth surface (C{meter},
-                          same units as the datum's ellipsoid axes or radius).
+                          same units as the datum's radius or axes).
            @kwarg datum: Optional, spherical datum to use (L{Datum}, L{Ellipsoid},
-                         L{Ellipsoid2}, L{a_f2Tuple}) or earth radius in C{meter},
-                         conventionally).
+                         L{Ellipsoid2}, L{a_f2Tuple}) or the mean earth radius
+                         (C{meter}, conventionally).
            @kwarg wrap: If C{True}, wrap or I{normalize} B{C{lat}} and B{C{lon}}
                         (C{bool}).
            @kwarg name: Optional C{B{name}=NN} (C{str}).
 
-           @raise TypeError: If B{C{latlonh}} is not a C{LatLon} or B{C{datum}} not
-                             spherical.
+           @raise TypeError: Invalid B{C{latlonh}} or B{C{datum}} not spherical.
         '''
         LatLonBase.__init__(self, latlonh, lon=lon, height=height, wrap=wrap, **name)
         if datum not in (None, self.datum):
             self.datum = datum
 
     def bearingTo2(self, other, wrap=False, raiser=False):
-        '''Return the initial and final bearing (forward and reverse
-           azimuth) from this to an other point.
+        '''Return the initial and final bearing (forward and reverse azimuth)
+           from this to an other point.
 
            @arg other: The other point (C{LatLon}).
            @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the
@@ -204,10 +203,10 @@ class LatLonSphericalBase(LatLonBase):
 
            @arg circle: Radius of the circle centered at this location (C{meter},
                         same units as B{C{radius}}) or a point on the circle
-                        (this C{LatLon}).
-           @arg point: A point on the (great circle) line (this C{LatLon}).
-           @arg other: An other point I{on} (this {LatLon}) or the bearing at
-                       B{C{point}} I{of} the (great circle) line (compass
+                        (same C{LatLon} class).
+           @arg point: A point on the (great circle) line (same C{LatLon} class).
+           @arg other: An other point I{on} (same C{LatLon} class) or the bearing
+                       at B{C{point}} I{of} the (great circle) line (compass
                        C{degrees}).
            @kwarg radius: Mean earth radius (C{meter}, conventionally).
            @kwarg exact: If C{True}, use the I{exact} rhumb methods for azimuth,
@@ -216,8 +215,8 @@ class LatLonSphericalBase(LatLonBase):
                          circle} methods.
            @kwarg height: Optional height for the intersection points (C{meter},
                           conventionally) or C{None} for interpolated heights.
-           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the points
-                        B{C{circle}}, B{C{point}} and/or B{C{other}} (C{bool}).
+           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll B{C{circle}},
+                         B{C{point}} and B{C{other}} iff points (C{bool}).
 
            @return: 2-Tuple of the intersection points (representing a chord), each
                     an instance of the B{C{point}} class.  Both points are the same
@@ -225,8 +224,7 @@ class LatLonSphericalBase(LatLonBase):
 
            @raise IntersectionError: The circle and line do not intersect.
 
-           @raise TypeError: If B{C{point}} is not this C{LatLon} or B{C{circle}}
-                             or B{C{other}} invalid.
+           @raise TypeError: Invalid B{C{point}}, B{C{circle}} or B{C{other}}.
 
            @raise UnitError: Invalid B{C{circle}}, B{C{other}}, B{C{radius}},
                              B{C{exact}}, B{C{height}} or B{C{napieradius}}.
@@ -469,8 +467,8 @@ class LatLonSphericalBase(LatLonBase):
 
            @arg circle: Radius of the circle centered at this location (C{meter},
                         same units as B{C{radius}}) or a point on the circle
-                        (this C{LatLon}).
-           @arg point: The rhumb line's start point (this C{LatLon}).
+                        (same C{LatLon} class).
+           @arg point: The rhumb line's start point (same C{LatLon} class).
            @arg other: An other point (this I{on} C{LatLon}) or the azimuth I{of}
                        (compass C{degrees}) the rhumb line.
            @kwarg radius: Mean earth radius (C{meter}, conventionally).
@@ -489,8 +487,7 @@ class LatLonSphericalBase(LatLonBase):
 
            @raise IntersectionError: The circle and line do not intersect.
 
-           @raise TypeError: If B{C{point}} is not this C{LatLon} or B{C{circle}}
-                             or B{C{other}} invalid.
+           @raise TypeError: Invalid B{C{point}}, B{C{circle}} or B{C{other}}.
 
            @raise UnitError: Invalid B{C{circle}}, B{C{other}}, B{C{radius}},
                              B{C{exact}} or B{C{height}}.
@@ -502,8 +499,8 @@ class LatLonSphericalBase(LatLonBase):
 
     def rhumbMidpointTo(self, other, height=None, radius=R_M, exact=False,
                                                 fraction=_0_5, **wrap_name):
-        '''Return the (loxodromic) midpoint on the rhumb line between
-           this and an other point.
+        '''Return the (loxodromic) midpoint on the rhumb line between this
+           and an other point.
 
            @arg other: The other point (spherical LatLon).
            @kwarg height: Optional height, overriding the mean height (C{meter}).

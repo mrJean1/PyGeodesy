@@ -8,7 +8,7 @@ and C{Nvector} and DEPRECATED L{Ned} and functions L{meanOf}, L{sumOf}
 and DEPRECATED L{toNed}.
 
 Pure Python implementation of n-vector-based geodetic (lat-/longitude)
-methods by I{(C) Chris Veness 2011-2016} published under the same MIT
+methods by I{(C) Chris Veness 2011-2024} published under the same MIT
 Licence**, see U{Vector-based geodesy
 <https://www.Movable-Type.co.UK/scripts/latlong-vectors.html>}.
 
@@ -48,7 +48,7 @@ from pygeodesy.units import Bearing, Distance, Height, Scalar
 # from math import fabs  # from .nvectorBase
 
 __all__ = _ALL_LAZY.ellipsoidalNvector
-__version__ = '24.08.13'
+__version__ = '24.10.19'
 
 
 class Ned(_Ned):
@@ -417,7 +417,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
         return LatLonNvectorBase.toNvector(self, **kwds)
 
 
-_Nvll = LatLon(0, 0, name=_Nv00_)  # reference instance (L{LatLon})
+_Nv00 = LatLon(0, 0, name=_Nv00_)  # reference instance (L{LatLon})
 
 
 class Nvector(NvectorBase):
@@ -541,7 +541,7 @@ def meanOf(points, datum=_WGS84, height=None, wrap=False,
 
        @raise ValueError: Insufficient number of B{C{points}}.
     '''
-    Ps = _Nvll.PointsIter(points, wrap=wrap)
+    Ps = _Nv00.PointsIter(points, wrap=wrap)
     n  =  sumOf(p._N_vector for p in Ps.iterate(closed=False))
     return n.toLatLon(**_xkwds(LatLon_and_kwds, height=height, datum=datum,
                                                 LatLon=LatLon, name__=meanOf))

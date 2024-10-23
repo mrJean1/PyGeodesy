@@ -23,7 +23,7 @@ from pygeodesy.errors import ClipError, _IsnotError, _TypeError, \
                             _ValueError, _xattr, _xkwds_get, _xkwds_pop2
 from pygeodesy.fmath import favg, hypot, hypot2
 # from pygeodesy.fsums import fsum1  # _MODS
-from pygeodesy.interns import NN, _BANG_, _clip_, _clipid_, _COMMASPACE_, \
+from pygeodesy.interns import NN, _BANG_, _clipid_, _COMMASPACE_, \
                              _composite_, _DOT_, _duplicate_, _e_, \
                              _ELLIPSIS_, _few_, _height_, _lat_, _LatLon_, \
                              _lon_, _not_, _points_, _SPACE_, _too_, _X_, \
@@ -43,7 +43,7 @@ from pygeodesy.utily import fabs, _unrollon, _Wrap
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.booleans
-__version__ = '24.09.28'
+__version__ = '24.10.22'
 
 _0_EPS =  EPS  # near-zero, positive
 _EPS_0 = -EPS  # near-zero, negative
@@ -326,6 +326,21 @@ class LatLonFHP(_LatLonBool):
         _xscalar(other=other)
         return self.__class__(self.y * other, self.x * other)
 
+#   def _edge2(self):
+#       # Return the start and end point of the
+#       # edge containing I{intersection} C{v}.
+#       n = p = self
+#       while p.isintersection:
+#           p = p._prev
+#           if p is self:
+#               break
+#       while n.isintersection:
+#           n = n._next
+#           if n is self:
+#               break
+#       # assert p == self or not p._2Abs(self, n)
+#       return p, n
+
     def _e_x_str(self, t):  # PYCHOK no cover
         if self._label:
             t = NN(self._label, t)
@@ -416,21 +431,6 @@ class LatLonFHP(_LatLonBool):
             while n._isduplicate:
                 n = n._next
         return p._prev, n
-
-#   def _edge2(self):
-#       # Return the start and end point of the
-#       # edge containing I{intersection} C{v}.
-#       n = p = self
-#       while p.isintersection:
-#           p = p._prev
-#           if p is self:
-#               break
-#       while n.isintersection:
-#           n = n._next
-#           if n is self:
-#               break
-#       # assert p == self or not p._2Abs(self, n)
-#       return p, n
 
     def _RPoracle(self, p1, p2, p3):
         # Relative Position oracle
@@ -729,7 +729,7 @@ class _Clip(_Named):
             try:
                 i = cp._clips.index(self)
                 if i != self._id:
-                    kwds[_clip_] = i
+                    kwds.update(clip=i)
             except ValueError:
                 pass
             kwds[_clipid_] = self._id
@@ -1201,7 +1201,7 @@ class _CompositeFHP(_CompositeBase):
     def _clip(self, corners, Union=False, Clas=None,
                            **closed_inull_raiser_eps):
         # Clip this composite with another one, C{corners},
-        # using Foster-Hormann-Popa's algorithm.
+        # using the Foster-Hormann-Popa's algorithm.
         P = self
         Q = self._class(corners, closed_inull_raiser_eps,
                                  eps=P._eps, raiser=False)
@@ -1442,6 +1442,7 @@ class _CompositeGH(_CompositeBase):
                                  raiser=False, xtend=False)
         bt = C._bottom_top_eps2
         lr = C._left_right_eps2
+
         # 1. find intersections
         for s1, s2, Sc in S._edges3(**closed_inull_raiser_xtend_eps):
             if not (_outside(s1.x, s2.x, *lr) or
@@ -1546,7 +1547,7 @@ class _EdgeFHP(object):
             dq  = q2 - q1
             dq2 = dq * dq  # dot product, hypot2
             if dq2 > EPS2:  # like ._clip
-                T,  E  = None, _EdgeFHP  # self.__class__
+                T, _E  = None, _EdgeFHP  # self.__class__
                 p1, p2 = self._p1_p2
                 ap1   = p1._2A(q1, q2)
                 ap2_1 = p2._2A(q1, q2) - ap1
@@ -1558,10 +1559,10 @@ class _EdgeFHP(object):
                         a, a_0, a_0_1, _ = _alpha4(-ap1 / ap2_1)
                         b, b_0, b_0_1, _ = _alpha4(-aq1 / aq2_1)
                         # distinguish intersection types
-                        T = E.X_INTERSECT if a_0_1 and b_0_1 else (
-                            E.P_INTERSECT if a_0_1 and b_0   else (
-                            E.Q_INTERSECT if a_0   and b_0_1 else (
-                            E.V_INTERSECT if a_0   and b_0   else None)))
+                        T = _E.X_INTERSECT if a_0_1 and b_0_1 else (
+                            _E.P_INTERSECT if a_0_1 and b_0   else (
+                            _E.Q_INTERSECT if a_0   and b_0_1 else (
+                            _E.V_INTERSECT if a_0   and b_0   else None)))
 
                 elif fabs(ap1) < _0_EPS:  # parallel or colinear edges
                     dp = self._dp
@@ -1570,21 +1571,21 @@ class _EdgeFHP(object):
                     a, a_0, a_0_1, _a_0_1 = _alpha4((d1 * dp) / self._dp2)
                     b, b_0, b_0_1, _b_0_1 = _alpha4((d1 * dq) /     (-dq2))
                     # distinguish overlap type
-                    T = E.X_OVERLAP if  a_0_1 and  b_0_1 else (
-                        E.P_OVERLAP if  a_0_1 and _b_0_1 else (
-                        E.Q_OVERLAP if _a_0_1 and  b_0_1 else (
-                        E.V_OVERLAP if  a_0   and  b_0   else None)))
+                    T = _E.X_OVERLAP if  a_0_1 and  b_0_1 else (
+                        _E.P_OVERLAP if  a_0_1 and _b_0_1 else (
+                        _E.Q_OVERLAP if _a_0_1 and  b_0_1 else (
+                        _E.V_OVERLAP if  a_0   and  b_0   else None)))
 
                 if T:
-                    if T is E.X_INTERSECT:
+                    if T is _E.X_INTERSECT:
                         v = p1 + a * self._dp
                         yield T, (v, p1, p2, a), (v, q1, q2, b)
-                    elif T in E.Vs:
+                    elif T in _E.Vs:
                         yield T, (p1,), (q1,)
                     else:
-                        if T in E.Qs:
+                        if T in _E.Qs:
                             yield T, (p1,), (p1, q1, q2, b)
-                        if T in E.Ps:
+                        if T in _E.Ps:
                             yield T, (q1, p1, p2, a), (q1,)
 
 
@@ -1898,9 +1899,9 @@ def _alpha4(a):
     # Return 4-tuple (alpha, -EPS < alpha < EPS,
     #                           0 < alpha < 1,
     #                       not 0 < alpha < 1)
-    return (a, False, True,  False) if _0_EPS < a < _EPS_1 else (
-           (a, False, False, True)  if _0_EPS < fabs(a) else
-           (a, True,  False, False))
+    a_EPS = bool(_EPS_0 < a < _0_EPS)
+    a_0_1 = bool(_0_EPS < a < _EPS_1)
+    return a, a_EPS, a_0_1, (not a_0_1)
 
 
 def _Cps(Cp, composites_points, where):
@@ -1914,7 +1915,7 @@ def _Cps(Cp, composites_points, where):
 
 
 def _eps0(eps):
-    # Adjust C{eps} or C{None}.
+    # Adjust C{eps} or C{0}.
     return eps if eps and eps > EPS else 0
 
 
@@ -1930,7 +1931,7 @@ def isBoolean(obj):
 
 
 def _left_right_bottom_top_eps2(p1, p2):
-    '''(INTERNAL) Return 2-tuple C{(left, right), (bottom, top)}, oversized.
+    '''(INTERNAL) Return 2-tuple C{((left, right), (bottom, top))}, both oversized.
     '''
     return (_min_max_eps2(p1.x, p2.x),
             _min_max_eps2(p1.y, p2.y))
@@ -1939,18 +1940,23 @@ def _left_right_bottom_top_eps2(p1, p2):
 def _low_high_eps2(lo, hi, eps):
     '''(INTERNAL) Return 2-tuple C{(lo, hi)}, oversized.
     '''
-    lo *= (_1_0 + eps) if lo < 0 else (_1_0 - eps)
-    hi *= (_1_0 - eps) if hi < 0 else (_1_0 + eps)
-    return (lo or -eps), (hi or eps)
+    # assert eps > 0
+    lo -= fabs(eps * lo)
+    hi += fabs(eps * hi)
+    if lo < hi:
+        pass
+    elif lo > hi:
+        lo, hi = hi, lo
+    else:
+        lo -= eps
+        hi += eps
+    return lo, hi
 
 
 def _min_max_eps2(*xs):
     '''(INTERNAL) Return 2-tuple C{(min, max)}, oversized.
     '''
-    lo, hi = min(xs), max(xs)
-    lo *= _1_EPS if lo < 0 else _EPS_1
-    hi *= _EPS_1 if hi < 0 else _1_EPS
-    return (lo or _EPS_0), (hi or _0_EPS)
+    return _low_high_eps2(min(xs), max(xs), EPS)
 
 
 def _other(this, other):
@@ -1963,9 +1969,11 @@ def _other(this, other):
 
 
 def _outside(x1, x2, lo, hi):
-    '''(INTERNAL) Is C{(x1, x2)} outside C{(lo, hi)}?
+    '''(INTERNAL) Are C{x1} and C{x2} outside C{(lo, hi)}?
     '''
-    return max(x1, x2) < lo or min(x1, x2) > hi
+    # assert lo <= hi
+    return (x1 < lo or x2 > hi) if x1 > x2 else \
+           (x2 < lo or x1 > hi)
 
 
 __all__ += _ALL_DOCS(_BooleanBase, _Clip,

@@ -20,30 +20,28 @@ from pygeodesy.errors import _AttributeError, _ImportError, _NotImplementedError
                              _TypeError, _TypesError, _ValueError, _xAssertionError, \
                              _xkwds_get1
 # from pygeodesy.fsums import _isFsum_2Tuple  # _MODS
-from pygeodesy.internals import _0_0, _enquote, _passarg, _version_info
+from pygeodesy.internals import _0_0, _enquote, _getenv, _passarg, _PYGEODESY, \
+                                _version_info
 from pygeodesy.interns import MISSING, NN, _1_, _by_, _COMMA_, _DOT_, _DEPRECATED_, \
                              _ELLIPSIS4_, _EQUAL_, _in_, _invalid_, _N_A_, _not_, \
                              _not_scalar_, _odd_, _SPACE_, _UNDER_, _version_
 # from pygeodesy.latlonBase import LatLonBase  # _MODS
-from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _FOR_DOCS, _getenv, \
-                             LazyImportError, _sys_version_info2
+from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, LazyImportError
 # from pygeodesy.named import classname, modulename, _name__  # _MODS
 # from pygeodesy.nvectorBase import NvectorBase  # _MODS
 # from pygeodesy.props import _update_all  # _MODS
 # from pygeodesy.streprs import Fmt  # _MODS
-# from pygeodesy.unitsBase import _NamedUnit, Str  # _MODS
 
 from copy import copy as _copy, deepcopy as _deepcopy
 from math import copysign as _copysign
-import inspect as _inspect
+# import inspect as _inspect  # _MODS
 
 __all__ = _ALL_LAZY.basics
-__version__ = '24.09.28'
+__version__ = '24.10.14'
 
-_below_               = 'below'
-_list_tuple_types     = (list, tuple)
-_PYGEODESY_XPACKAGES_ = 'PYGEODESY_XPACKAGES'
-_required_            = 'required'
+_below_           = 'below'
+_list_tuple_types = (list, tuple)
+_required_        = 'required'
 
 try:  # Luciano Ramalho, "Fluent Python", O'Reilly, 2016 p. 395, 2022 p. 577+
     from numbers import Integral as _Ints, Real as _Scalars  # .units
@@ -120,19 +118,20 @@ def _args_kwds_count2(func, exelf=True):
        @kwarg exelf: If C{True}, exclude C{self} in the C{args}
                      of a method (C{bool}).
     '''
+    i = _MODS.inspect
     try:  # PYCHOK no cover
         a = k = 0
-        for _, p in _inspect.signature(func).parameters.items():
+        for _, p in i.signature(func).parameters.items():
             if p.kind is p.POSITIONAL_OR_KEYWORD:
                 if p.default is p.empty:
                     a += 1
                 else:
                     k += 1
-    except AttributeError:  # .signature new Python 3+
-        s = _inspect.getargspec(func)
+    except AttributeError:  # Python 2-
+        s = i.getargspec(func)
         k = len(s.defaults or ())
         a = len(s.args) - k
-    if exelf and a > 0 and _inspect.ismethod(func):
+    if exelf and a > 0 and i.ismethod(func):
         a -= 1
     return a, k
 
@@ -147,10 +146,11 @@ def _args_kwds_names(func, splast=False):
        @note: Python 2 may I{not} include the C{*args} nor the
               C{**kwds} names.
     '''
+    i = _MODS.inspect
     try:
-        args_kwds = _inspect.signature(func).parameters.keys()
-    except AttributeError:  # .signature new Python 3+
-        args_kwds = _inspect.getargspec(func).args
+        args_kwds = i.signature(func).parameters.keys()
+    except AttributeError:  # Python 2-
+        args_kwds = i.getargspec(func).args
     if splast and args_kwds:  # PYCHOK no cover
         args_kwds = list(args_kwds)
         t = args_kwds[-1:]
@@ -266,14 +266,10 @@ def isCartesian(obj, ellipsoidal=None):
     return isinstanceof(obj, _MODS.cartesianBase.CartesianBase)
 
 
-if _FOR_DOCS:  # XXX avoid epydoc Python 2.7 error
-
-    def isclass(obj):
-        '''Is B{C{obj}}ect a C{Class} or C{type}?
-        '''
-        return _inspect.isclass(obj)
-else:
-    isclass = _inspect.isclass
+def isclass(obj):  # XXX avoid epydoc Python 2.7 error
+    '''Is B{C{obj}}ect a C{Class} or C{type}?
+    '''
+    return _MODS.inspect.isclass(obj)
 
 
 def iscomplex(obj, both=False):
@@ -511,7 +507,7 @@ def issubclassof(Sub, *Supers):
     if isclass(Sub):
         t = tuple(S for S in Supers if isclass(S))
         if t:
-            return bool(issubclass(Sub, t))
+            return bool(issubclass(Sub, t))  # built-in
     return None
 
 
@@ -711,9 +707,9 @@ def splice(iterable, n=2, **fill):
         yield t  # 1 slice, all
 
 
-def _splituple(strs, *sep_splits):  # in .mgrs, .osgr, .webmercator
+def _splituple(strs, *sep_splits):  # in .mgrs, ...
     '''(INTERNAL) Split a C{comma}- or C{whitespace}-separated
-       string into a C{tuple} of stripped strings.
+       string into a C{tuple} of stripped C{str}ings.
     '''
     t = (strs.split(*sep_splits) if sep_splits else
          strs.replace(_COMMA_, _SPACE_).split()) if strs else ()
@@ -744,7 +740,7 @@ def _xcoverage(where, *required):
     '''(INTERNAL) Import C{coverage} and check required version.
     '''
     try:
-        _xpackage(_xcoverage)
+        _xpackages(_xcoverage)
         import coverage
     except ImportError as x:
         raise _xImportError(x, where)
@@ -780,7 +776,7 @@ def _xgeographiclib(where, *required):
     '''(INTERNAL) Import C{geographiclib} and check required version.
     '''
     try:
-        _xpackage(_xgeographiclib)
+        _xpackages(_xgeographiclib)
         import geographiclib
     except ImportError as x:
         raise _xImportError(x, where, Error=LazyImportError)
@@ -828,7 +824,7 @@ def _xiterablen(obj):
 def _xiterror(obj, _xwhich):
     '''(INTERNAL) Helper for C{_xinterable} and C{_xiterablen}.
     '''
-    t = _not_(_xwhich.__name__[2:])  # _dunder_nameof
+    t = _not_(_xwhich.__name__[2:])  # _DUNDER_nameof
     raise _TypeError(repr(obj), txt=t)
 
 
@@ -836,7 +832,7 @@ def _xnumpy(where, *required):
     '''(INTERNAL) Import C{numpy} and check required version.
     '''
     try:
-        _xpackage(_xnumpy)
+        _xpackages(_xnumpy)
         import numpy
     except ImportError as x:
         raise _xImportError(x, where)
@@ -851,13 +847,14 @@ def _xor(x, *xs):
     return x
 
 
-def _xpackage(_xpkg):
+def _xpackages(_xpkg):
     '''(INTERNAL) Check dependency to be excluded.
     '''
-    n = _xpkg.__name__[2:]  # _dunder_nameof
-    if n in _XPACKAGES:
-        x = _SPACE_(n, _in_, _PYGEODESY_XPACKAGES_)
-        e = _enquote(_getenv(_PYGEODESY_XPACKAGES_, NN))
+    n = _xpkg.__name__[2:]  # _DUNDER_nameof, less '_x'
+    if n in _XPACKAGES:  # n.lower() in _XPACKAGES
+        E = _PYGEODESY(_xpackages)
+        x = _SPACE_(n, _in_, E)
+        e = _enquote(_getenv(E, NN))
         raise ImportError(_EQUAL_(x, e))
 
 
@@ -873,7 +870,7 @@ def _xscipy(where, *required):
     '''(INTERNAL) Import C{scipy} and check required version.
     '''
     try:
-        _xpackage(_xscipy)
+        _xpackages(_xscipy)
         import scipy
     except ImportError as x:
         raise _xImportError(x, where)
@@ -905,7 +902,7 @@ def _xversion(package, where, *required, **name):
     if required:
         t = _version_info(package)
         if t[:len(required)] < required:
-            t = _SPACE_(package.__name__,  # _dunder_nameof
+            t = _SPACE_(package.__name__,  # _DUNDER_nameof
                        _version_, _DOT_(*t),
                        _below_, _DOT_(*required),
                        _req_d_by(where, **name))
@@ -925,14 +922,14 @@ def _xzip(*args, **strict):  # PYCHOK no cover
     return zip(*args)
 
 
-if _sys_version_info2 < (3, 10):  # see .errors
+if _MODS.sys_version_info2 < (3, 10):  # see .errors
     _zip = zip  # PYCHOK exported
 else:  # Python 3.10+
 
     def _zip(*args):
         return zip(*args, strict=True)
 
-_XPACKAGES = _splituple(_getenv(_PYGEODESY_XPACKAGES_, NN).lower())
+_XPACKAGES = _splituple(_getenv(_PYGEODESY(_xpackages), NN).lower())  # test/bases._X_OK
 
 # **) MIT License
 #

@@ -30,14 +30,14 @@ see the U{GeographicLib<https://GeographicLib.SourceForge.io>} documentation.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import isLatLon, isscalar, _ValueError
+from pygeodesy.basics import isLatLon, isscalar
 from pygeodesy.constants import EPS, EPS0, EPS02, EPS4, INT0, PI2, PI_3, PI4, \
-                               _EPS2e4, float0_, isfinite, isnear1, _over, \
+                               _EPS2e4, _SQRT2_2, float0_, isfinite, isnear1, _over, \
                                _0_0, _0_5, _1_0, _N_1_0, _64_0,  _4_0  # PYCHOK used!
 from pygeodesy.datums import Datum, _spherical_datum, _WGS84,  Ellipsoid, _EWGS84, Fmt
 # from pygeodesy.ellipsoids import Ellipsoid, _EWGS84  # from .datums
 # from pygeodesy.elliptic import Elliptic  # _MODS
-# from pygeodesy.errors import _ValueError  # from .basics
+from pygeodesy.errors import _AssertionError, _ValueError
 from pygeodesy.fmath import Fdot, fdot, fmean_, hypot, hypot_, norm2, sqrt0
 from pygeodesy.fsums import _Fsumf_, fsumf_, fsum1f_
 from pygeodesy.interns import NN, _a_, _b_, _beta_, _c_, _distant_, _finite_, \
@@ -59,7 +59,7 @@ from pygeodesy.vector3d import _otherV3d, Vector3d,  _ALL_LAZY, _MODS
 from math import atan2, fabs, sqrt
 
 __all__ = _ALL_LAZY.triaxials
-__version__ = '24.08.26'
+__version__ = '24.10.15'
 
 _not_ordered_ = _not_('ordered')
 _omega_       = 'omega'
@@ -1272,13 +1272,13 @@ def hartzell4(pov, los=False, tri_biax=_WGS84, **name):
         T = tri_biax
     else:
         D = tri_biax if isinstance(tri_biax, Datum) else \
-                  _spherical_datum(tri_biax, name__=hartzell4)  # _dunder_nameof
+                  _spherical_datum(tri_biax, name__=hartzell4)  # _DUNDER_nameof
         T = D.ellipsoid._triaxial
     try:
         v, h, i = _hartzell3(pov, los, T)
     except Exception as x:
         raise TriaxialError(pov=pov, los=los, tri_biax=tri_biax, cause=x)
-    return Vector4Tuple(v.x, v.y, v.z, h, iteration=i,  # _dunder_nameof
+    return Vector4Tuple(v.x, v.y, v.z, h, iteration=i,  # _DUNDER_nameof
                                           name=_name__(name, name__=hartzell4))
 
 
@@ -1308,12 +1308,49 @@ def _over02(p, q):
     return (p / q)**2 if p and q else _0_0
 
 
+def _plumbTo3(px, py, E, eps=EPS):  # in .ellipsoids.Ellipsoid.height4
+    '''(INTERNAL) Nearest point on a 2-D ellipse in 1st quadrant.
+    '''
+    a, b = E.a, E.b
+    if min(px, py, a, b) < EPS0:
+        raise _AssertionError(px=px, py=py, a=a, b=b, E=E)
+
+    a2 = a - b * E.b_a
+    b2 = b - a * E.a_b
+    tx = ty = _SQRT2_2
+    for i in range(16):  # max 5
+        ex = a2 * tx**3
+        ey = b2 * ty**3
+
+        qx = px - ex
+        qy = py - ey
+        q  = hypot(qx, qy)
+        if q < EPS0:  # PYCHOK no cover
+            break
+        r = hypot(ex - tx * a,
+                  ey - ty * b) / q
+
+        sx, tx = tx, min(_1_0, max(0, (ex + qx * r) / a))
+        sy, ty = ty, min(_1_0, max(0, (ey + qy * r) / b))
+        t = hypot(ty, tx)
+        if t < EPS0:  # PYCHOK no cover
+            break
+        tx = tx / t  # /= chokes PyChecker
+        ty = ty / t
+        if fabs(sx - tx) < eps and \
+           fabs(sy - ty) < eps:
+            break
+
+    tx *= a / px
+    ty *= b / py
+    return tx, ty, i  # x and y as fractions
+
+
 def _plumbTo4(x, y, a, b, eps=EPS):
     '''(INTERNAL) Nearest point on and distance to a 2-D ellipse, I{unordered}.
 
-       @see: Function C{pygeodesy.ellipsoids._plumbTo3} and I{Eberly}'s U{Distance
-             from a Point to ... an Ellipse ...<https://www.GeometricTools.com/
-             Documentation/DistancePointEllipseEllipsoid.pdf>}.
+       @see: Function C{_plumbTo3} and I{Eberly}'s U{Distance from a Point to ... an Ellipse ...
+             <https://www.GeometricTools.com/Documentation/DistancePointEllipseEllipsoid.pdf>}.
     '''
     if b > a:
         b, a, d, i = _plumbTo4(y, x, b, a, eps=eps)

@@ -67,9 +67,9 @@
                        |    
       object --+       |    
                |       |    
-    <a href="pygeodesy.named._Named-class.html">named._Named</a> --+   |    
+    named._Named --+   |    
                    |   |    
-<a href="pygeodesy.unitsBase._NamedUnit-class.html">unitsBase._NamedUnit</a> --+    
+unitsBase._NamedUnit --+    
                        |    
            <a href="pygeodesy.unitsBase.Int-class.html">unitsBase.Int</a> --+
                            |
@@ -196,18 +196,18 @@
       <code>bit_length</code>,
       <code>conjugate</code>
       </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
-      <code><a href="pygeodesy.named._Named-class.html#__imatmul__">__imatmul__</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#__matmul__">__matmul__</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#__rmatmul__">__rmatmul__</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#attrs">attrs</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#classof">classof</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#copy">copy</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#dup">dup</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#methodname">methodname</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#rename">rename</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#renamed">renamed</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#toStr2">toStr2</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>named._Named</code></b>:
+      <code>__imatmul__</code>,
+      <code>__matmul__</code>,
+      <code>__rmatmul__</code>,
+      <code>attrs</code>,
+      <code>classof</code>,
+      <code>copy</code>,
+      <code>dup</code>,
+      <code>methodname</code>,
+      <code>rename</code>,
+      <code>renamed</code>,
+      <code>toStr2</code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__delattr__</code>,
@@ -263,37 +263,28 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.epsg.Epsg-class.html#band" class="summary-name">band</a><br />
-      Get the <i>latitudinal</i> UTM or <i>polar</i> UPS Band 
-      (<code>'A'|'B'|'C'|'D'|..|'W'|'X'|'Y'|'Z'</code> or 
-      <code>&quot;&quot;</code>).
+        <a href="pygeodesy.epsg.Epsg-class.html#band" class="summary-name">band</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.epsg.Epsg-class.html#hemisphere" class="summary-name">hemisphere</a><br />
-      Get the UTM/UPS hemisphere/-pole (<code>'N'|'S'</code>).
+        <a href="pygeodesy.epsg.Epsg-class.html#hemisphere" class="summary-name">hemisphere</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.epsg.Epsg-class.html#utmups" class="summary-name">utmups</a><br />
-      Get the UTM/UPS original (<a href="pygeodesy.utm.Utm-class.html" 
-      class="link">Utm</a>, <a href="pygeodesy.ups.Ups-class.html" 
-      class="link">Ups</a>).
+        <a href="pygeodesy.epsg.Epsg-class.html#utmups" class="summary-name">utmups</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.epsg.Epsg-class.html#zone" class="summary-name">zone</a><br />
-      Get the (longitudinal) UTM/UPS zone (<code>int</code>, 
-      <code>1..60</code> for UTM, <code>0</code> for UPS).
+        <a href="pygeodesy.epsg.Epsg-class.html#zone" class="summary-name">zone</a>
     </td>
   </tr>
   <tr>
@@ -304,20 +295,20 @@
       <code>numerator</code>,
       <code>real</code>
       </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.unitsBase._NamedUnit-class.html">unitsBase._NamedUnit</a></code></b>:
-      <code><a href="pygeodesy.unitsBase._NamedUnit-class.html#std_repr">std_repr</a></code>,
-      <code><a href="pygeodesy.unitsBase._NamedUnit-class.html#units">units</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>unitsBase._NamedUnit</code></b>:
+      <code>std_repr</code>,
+      <code>units</code>
       </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
-      <code><a href="pygeodesy.named._Named-class.html#classname">classname</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#classnaming">classnaming</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#iteration">iteration</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#name">name</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#named">named</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#named2">named2</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#named3">named3</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#named4">named4</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#sizeof">sizeof</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>named._Named</code></b>:
+      <code>classname</code>,
+      <code>classnaming</code>,
+      <code>iteration</code>,
+      <code>name</code>,
+      <code>named</code>,
+      <code>named2</code>,
+      <code>named3</code>,
+      <code>named4</code>,
+      <code>sizeof</code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__class__</code>
@@ -441,15 +432,11 @@
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">band</h3>
-  <p>Get the <i>latitudinal</i> UTM or <i>polar</i> UPS Band 
-  (<code>'A'|'B'|'C'|'D'|..|'W'|'X'|'Y'|'Z'</code> or 
-  <code>&quot;&quot;</code>).</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">band(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>latitudinal</i> UTM or <i>polar</i> UPS Band 
-(<code>'A'|'B'|'C'|'D'|..|'W'|'X'|'Y'|'Z'</code> or 
-<code>&quot;&quot;</code>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -469,11 +456,11 @@
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">hemisphere</h3>
-  <p>Get the UTM/UPS hemisphere/-pole (<code>'N'|'S'</code>).</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">hemisphere(<span class="summary-sig-arg">self</span>)</span>
-        - Get the UTM/UPS hemisphere/-pole (<code>'N'|'S'</code>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -493,15 +480,11 @@
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">utmups</h3>
-  <p>Get the UTM/UPS original (<a href="pygeodesy.utm.Utm-class.html" 
-  class="link">Utm</a>, <a href="pygeodesy.ups.Ups-class.html" 
-  class="link">Ups</a>).</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">utmups(<span class="summary-sig-arg">self</span>)</span>
-        - Get the UTM/UPS original (<a href="pygeodesy.utm.Utm-class.html" 
-class="link">Utm</a>, <a href="pygeodesy.ups.Ups-class.html" 
-class="link">Ups</a>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -521,13 +504,11 @@ class="link">Ups</a>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">zone</h3>
-  <p>Get the (longitudinal) UTM/UPS zone (<code>int</code>, 
-  <code>1..60</code> for UTM, <code>0</code> for UPS).</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">zone(<span class="summary-sig-arg">self</span>)</span>
-        - Get the (longitudinal) UTM/UPS zone (<code>int</code>, <code>1..60</code> 
-for UTM, <code>0</code> for UPS).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -573,7 +554,7 @@ for UTM, <code>0</code> for UPS).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Oct  9 16:14:59 2024
+    Generated by Epydoc 3.0.1 on Tue Oct 22 17:06:20 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

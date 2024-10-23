@@ -20,11 +20,11 @@ from pygeodesy.errors import IntersectionError, LimitError, limiterrors, \
                             _xcallable,_xkwds, _xkwds_pop2
 from pygeodesy.fmath import euclid, hypot, hypot2, sqrt0
 from pygeodesy.fsums import fsumf_,  Fmt, unstr
-# from pygeodesy.internals import _dunder_nameof  # from .named
+# from pygeodesy.internals import _DUNDER_nameof  # from .named
 from pygeodesy.interns import _delta_, _distant_, _inside_, _SPACE_, _too_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _name__, _name2__, _NamedTuple, _xnamed, \
-                            _dunder_nameof
+                            _DUNDER_nameof
 from pygeodesy.namedTuples import Bearing2Tuple, Distance4Tuple, LatLon2Tuple, \
                                   Intersection3Tuple, PhiLam2Tuple, Vector3Tuple
 # from pygeodesy.streprs import Fmt, unstr  # from .fsums
@@ -43,7 +43,7 @@ from contextlib import contextmanager
 from math import asin, atan, atan2, cos, degrees, fabs, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '24.09.27'
+__version__ = '24.10.14'
 
 _RADIANS2 = (PI / _180_0)**2  # degrees- to radians-squared
 _ratio_   = 'ratio'
@@ -1136,7 +1136,7 @@ class _idllmn6(object):  # see also .geodesicw._wargs, .latlonBase._toCartesian3
                 _, lat2, lon2 = _Wrap.latlon3(lon1, lat2, lon2, wrap)
                 kwds = _xkwds(kwds, wrap=wrap)  # for _xError
             m =  small if small is _100km else Meter_(small=small)
-            n = _dunder_nameof(intersections2 if s else intersection2)
+            n = _DUNDER_nameof(intersections2 if s else intersection2)
             if datum is None or euclidean(lat1, lon1, lat2, lon2) < m:
                 d, m = None, _MODS.vector3d
                 _i   = m._intersects2 if s else m._intersect3d3

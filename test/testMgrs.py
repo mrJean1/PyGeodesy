@@ -4,7 +4,7 @@
 # Test L{mgrs} module.
 
 __all__ = ('Tests',)
-__version__ = '23.03.27'
+__version__ = '24.10.13'
 
 from bases import basename, GeoConvert, RandomLatLon, startswith, TestsBase
 
@@ -186,14 +186,14 @@ class Tests(TestsBase):
 
         if GeoConvert:
             self.test(basename(GeoConvert), GeoConvert, GeoConvert, nl=1)
-            from pygeodesy.solveBase import _popen2
+            from pygeodesy.internals import _popen2
 
             cmd = GeoConvert, '-m'
             r = RandomLatLon(LatLon, ndigits=3)
             for _ in range(117):
                 ll = r()
                 t = '%s %s' % (ll.lat, ll.lon)
-                g = _popen2(cmd, stdin=t)[1]
+                g = _popen2(cmd, stdin=t)[0]
                 t = 'LatLon(%7s, %8s).toMgrs' % tuple(t.split())
                 m =  ll.toMgrs().toStr()
                 self.test(t, m, g)

@@ -38,11 +38,10 @@ from pygeodesy.errors import GeodesicError, IntersectionError, _an, \
 # from pygeodesy.errors import exception_chaining  # _MODS
 from pygeodesy.fmath import euclid, fdot
 from pygeodesy.fsums import Fsum, fsum1_,  _ceil
-from pygeodesy.interns import NN, _A_, _B_, _c_, _COMMASPACE_, \
-                             _HASH_, _M_, _not_, _SPACE_, _too_
-from pygeodesy.karney import Caps, _diff182, GDict, _sincos2de
-from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, \
-                             _getenv, _PYGEODESY_INTERSECTTOOL_
+from pygeodesy.interns import NN, _A_, _B_, _c_, _COMMASPACE_, _HASH_, \
+                             _M_, _not_, _SPACE_, _too_
+from pygeodesy.karney import Caps, _diff182, GDict, _sincos2de, _Xables
+from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import ADict, _NamedBase, _NamedTuple, _Pass
 # from pygeodesy.namedTuples import _LL4Tuple  # _MODS
 from pygeodesy.props import deprecated_method, Property, \
@@ -57,7 +56,7 @@ from pygeodesy.utily import sincos2,  atan2, fabs, radians
 # from math import atan2, ceil as _ceil, fabs, radians  # .fsums, .utily
 
 __all__ = _ALL_LAZY.geodesici
-__version__ = '24.08.28'
+__version__ = '24.10.22'
 
 _0t     =  0,  # int
 _1_1t   = -1, +1
@@ -470,8 +469,8 @@ class Intersectool(_IntersectBase, _SolveCapsBase):
     _Names_ABs   = _latA_, _lonA_, 'latB', 'lonB', _sAB_  # -C to stderr
     _Names_XDict = 'sA', 'sB', _c_  # plus 'k' from -i or 'sX0' from -R
     _o_alt       = _o__,  # Offset latA lonA aziA  latB lonB aziB  x0 y0
-    _Xable_name  = 'IntersectTool'
-    _Xable_path  = _getenv(_PYGEODESY_INTERSECTTOOL_, _PYGEODESY_INTERSECTTOOL_)
+    _Xable_name  = _Xables.IntersectTool.__name__
+    _Xable_path  = _Xables.IntersectTool()
 
     def __init__(self, a_geodesic=None, f=None, **name):
         '''New L{IntersectTool}.
@@ -1547,7 +1546,7 @@ if __name__ == '__main__':  # MCCABE 14
             ll4 += ll4.replace(_A_, _B_)
             llz  = _SPACE_(NN, _latA_, _lonA_, 'aziA')
             llz2 =  llz + llz.replace(_A_, _B_)
-            return dict(opts='-Verbose|V--version|v--help|h--Tool|T--Check|C-R meter-',
+            return dict(opts='-Verbose|V--version|v--help|h--Tool|T--Check|C-R <meter>-',
                         alts=((_c_ + llz2),
                               (_i_ + ll4),
                               (_m_ + ll4),
@@ -1587,8 +1586,8 @@ if __name__ == '__main__':  # MCCABE 14
                 I = Intersectool()  # PYCHOK I
                 if _V:
                     I.verbose = True
-                if I.IntersectTool in (_PYGEODESY_INTERSECTTOOL_, None):  # not set
-                    I.IntersectTool = '/opt/local/bin/IntersectTool'  # '/opt/local/Cellar/geographiclib/2.3/bin/IntersectTool'  # HomeBrew
+                if not _Xables.X_OK(I.IntersectTool):
+                    I.IntersectTool = _Xables.IntersectTool(_Xables.bin_)
                 elif _V:
                     _ = I.version
                 M, _T = None, True
@@ -1640,38 +1639,42 @@ if __name__ == '__main__':  # MCCABE 14
                 for i, X in enumerate(X):
                     printf(_COLONSPACE_(Fmt.INDEX(m, i), repr(X)))
 
+    def _examples():
+
+        from pygeodesy.internals import _usage_argv
+
+        s = _SPACE_(*_usage_argv(__file__))
+        for t in ('-h', '-h -n',
+                  '-c 0 0 45  40 10 135',
+                  '-C -c 0 0 45  40 10 135',
+                  '-T -R 2.6e7 -c 0 0 45  40 10 135',
+                  '-c 50 -4 -147.7  0 0 90',
+                  '-C -c 50 -4 -147.7  0 0 90',
+                  '# % echo 0 0  10 10  50 -4  50S 4W | IntersectTool -i  -p 0  -C',
+                  '# -631414 5988887 0 -3',
+                  '# -4.05187 -4.00000 -4.05187 -4.00000 0',
+                  '-m 0 0  10 10  50 -4  50S 4W',
+                  '-C -m 0 0  10 10  50 -4  50S 4W',
+                  '-i 0 0  10 10  50 -4  50S 4W',
+                  '-T -i 0 0  10 10  50 -4  50S 4W',
+                  '-C -i 0 0  10 10  50 -4  50S 4W',
+                  '-T -C -i 0 0  10 10  50 -4  50S 4W',
+                  '-V -T -i 0 0  10 10  50 -4  -50 -4',
+                  '-C -R 4e7 -c 50 -4 -147.7  0 0 90',
+                  '-T -C -R 4e7 -c 50 -4 -147.7  0 0 90',
+                  '-R 4e7 -i 0 0  10 10  50 -4  -50 -4',
+                  '-T -R 4e7 -i 0 0  10 10  50 -4  -50 -4'):
+            if t.startswith(_HASH_):
+                printf(t, nl=int(t[2] == '%'))
+            else:
+                printf(_SPACE_(_HASH_, s, t), nl=1)
+                argv[1:] = t = t.split()
+                _main(t)
+
     from sys import argv, stderr
     try:
         if len(argv) == 2 and argv[1] == __help_:
-            from pygeodesy.internals import _usage_argv
-
-            s = _SPACE_(*_usage_argv(__file__))
-            for t in ('-h', '-h -n',
-                      '-c 0 0 45  40 10 135',
-                      '-C -c 0 0 45  40 10 135',
-                      '-T -R 2.6e7 -c 0 0 45  40 10 135',
-                      '-c 50 -4 -147.7  0 0 90',
-                      '-C -c 50 -4 -147.7  0 0 90',
-                      '# % echo 0 0  10 10  50 -4  50S 4W | IntersectTool -i  -p 0  -C',
-                      '# -631414 5988887 0 -3',
-                      '# -4.05187 -4.00000 -4.05187 -4.00000 0',
-                      '-m 0 0  10 10  50 -4  50S 4W',
-                      '-C -m 0 0  10 10  50 -4  50S 4W',
-                      '-i 0 0  10 10  50 -4  50S 4W',
-                      '-T -i 0 0  10 10  50 -4  50S 4W',
-                      '-C -i 0 0  10 10  50 -4  50S 4W',
-                      '-T -C -i 0 0  10 10  50 -4  50S 4W',
-                      '-V -T -i 0 0  10 10  50 -4  -50 -4',
-                      '-C -R 4e7 -c 50 -4 -147.7  0 0 90',
-                      '-T -C -R 4e7 -c 50 -4 -147.7  0 0 90',
-                      '-R 4e7 -i 0 0  10 10  50 -4  -50 -4',
-                      '-T -R 4e7 -i 0 0  10 10  50 -4  -50 -4'):
-                if t.startswith(_HASH_):
-                    printf(t, nl=int(t[2] == '%'))
-                else:
-                    printf(_SPACE_(_HASH_, s, t), nl=1)
-                    argv[1:] = t = t.split()
-                    _main(t)
+            _examples()
         else:
             _main(argv[1:])
 

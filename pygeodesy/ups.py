@@ -28,12 +28,12 @@ from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.dms import degDMS, _neg, parseDMS2
 from pygeodesy.errors import RangeError, _ValueError, _xkwds_pop2
 from pygeodesy.fmath import hypot, hypot1, sqrt0
-# from pygeodesy.internals import _under  # from .named
+from pygeodesy.internals import _getPYGEODESY, _under
 from pygeodesy.interns import NN, _COMMASPACE_, _inside_, _N_, \
                              _pole_, _range_, _S_, _scale0_, \
                              _SPACE_, _std_, _to_, _UTM_
-from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS,  _getenv
-from pygeodesy.named import nameof,  _under
+# from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS  # from .named
+from pygeodesy.named import nameof,  _ALL_LAZY, _MODS
 from pygeodesy.namedTuples import EasNor2Tuple, UtmUps5Tuple, \
                                   UtmUps8Tuple, UtmUpsLatLon5Tuple
 from pygeodesy.props import deprecated_method, property_doc_, \
@@ -49,9 +49,9 @@ from pygeodesy.utmupsBase import Fmt, _LLEB, _hemi, _parseUTMUPS5, _to4lldn, \
 from math import atan2, fabs, radians, tan
 
 __all__ = _ALL_LAZY.ups
-__version__ = '24.06.11'
+__version__ = '24.10.14'
 
-_BZ_UPS  = _getenv('PYGEODESY_UPS_POLES', _std_) == _std_
+_BZ_UPS  = _getPYGEODESY('UPS_POLES', _std_) == _std_
 _Falsing =  Meter(2000e3)  # false easting and northing (C{meter})
 _K0_UPS  =  Float(_K0_UPS= 0.994)  # scale factor at central meridian
 _K1_UPS  =  Float(_K1_UPS=_1_0)    # rescale point scale factor
@@ -229,7 +229,7 @@ class Ups(UtmUpsBase):
 
         r = hypot(x, y)
         t = (r * E.es_c / (self.scale0 * E.a * _2_0)) if r > 0 else EPS0
-        t = E.es_tauf((_1_0 / t - t) * _0_5)
+        t = E.es_tauf(_0_5 / t - _0_5 * t)
         a = atan1d(t)
         if self._pole == _N_:
             b, g    = atan2(x, -y), 1

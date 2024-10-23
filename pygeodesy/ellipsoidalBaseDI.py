@@ -34,7 +34,7 @@ from pygeodesy.utily import m2km, unroll180, _unrollon, _unrollon3, \
 from math import degrees, radians
 
 __all__ = _ALL_LAZY.ellipsoidalBaseDI
-__version__ = '24.09.26'
+__version__ = '24.10.19'
 
 _polar__  = 'polar?'
 _B2END    = _1_5  # _intersect3 bearing to pseudo-end point factor
@@ -279,9 +279,9 @@ class LatLonEllipsoidalBaseDI(LatLonEllipsoidalBase):
            two points or as a point and bearing.
 
            @arg circle: Radius of the circle centered at this location (C{meter},
-                        conventionally) or a point on the circle (this C{LatLon}).
-           @arg point: A location on the geodesic (this C{LatLon}).
-           @arg other: An other point on the geodesic (this C{LatLon}) or the
+                        conventionally) or a point on the circle (same C{LatLon} class).
+           @arg point: A location on the geodesic (same C{LatLon} class).
+           @arg other: An other point on the geodesic (same C{LatLon} class) or the
                        (forward) bearing at the B{C{point}} (compass C{degrees}).
            @kwarg exact: Exact C{geodesic...} to use (C{bool} or C{Geodesic...}), see
                          method L{Ellipsoid.geodesic_}.
@@ -292,12 +292,12 @@ class LatLonEllipsoidalBaseDI(LatLonEllipsoidalBase):
            @kwarg tol: Convergence tolerance (C{scalar}).
 
            @return: 2-Tuple of the intersection points (representing a geodesic chord),
-                    each an instance of this C{LatLon}.  Both points are the same
+                    each an instance of same C{LatLon} class.  Both points are the same
                     instance if the geodesic (line) is tangential to the circle.
 
            @raise IntersectionError: The circle and geodesic do not intersect.
 
-           @raise TypeError: If B{C{point}} is not this C{LatLon} or B{C{circle}}
+           @raise TypeError: If B{C{point}} is not same C{LatLon} class or B{C{circle}}
                              or B{C{other}} invalid.
 
            @raise UnitError: Invalid B{C{circle}}, B{C{other}}, B{C{exact}} or
@@ -345,7 +345,7 @@ class LatLonEllipsoidalBaseDI(LatLonEllipsoidalBase):
            @return: A L{NearestOn8Tuple}C{(closest, distance, fi, j, start, end,
                     initial, final)} with C{distance} in C{meter}, conventionally
                     and with the C{closest}, the C{start} the C{end} point each
-                    an instance of this C{LatLon}.
+                    an instance of same C{LatLon} class.
 
            @raise PointsError: Insufficient number of B{C{points}}.
 
@@ -397,7 +397,7 @@ class LatLonEllipsoidalBaseDI(LatLonEllipsoidalBase):
 
         f, j = _fi_j2(f, len(Ps))  # like .vector3d.nearestOn6
 
-        n = self.nearestOn8.__name__  # _dunder_nameof
+        n = self.nearestOn8.__name__  # _DUNDER_nameof
         c.rename(n)
         if s is not c:
             s = s.copy(name=n)
@@ -422,9 +422,9 @@ class LatLonEllipsoidalBaseDI(LatLonEllipsoidalBase):
                         and/or B{C{other}} (C{bool}).
            @kwarg tol: Convergence tolerance (C{meter}).
 
-           @return: The intersection point, an instance of this C{LatLon}.
+           @return: The intersection point, an instance of same C{LatLon} class.
 
-           @raise TypeError: If B{C{point}} or B{C{other}} not this C{LatLon}.
+           @raise TypeError: If B{C{point}} or B{C{other}} not same C{LatLon} class.
 
            @raise UnitError: Invalid B{C{other}}, B{C{exact}} or B{C{height}}.
         '''

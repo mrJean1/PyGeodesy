@@ -3,7 +3,7 @@
 
 u'''(INTERNAL) Base class L{LatLonBase} for all elliposiodal, spherical and N-vectorial C{LatLon} classes.
 
-@see: I{(C) Chris Veness}' U{latlong<https://www.Movable-Type.co.UK/scripts/latlong.html>},
+@see: I{(C) Chris Veness 2005-2024}' U{latlong<https://www.Movable-Type.co.UK/scripts/latlong.html>},
       U{-ellipsoidal<https://www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal.js.html>} and
       U{-vectors<https://www.Movable-Type.co.UK/scripts/latlong-vectors.html>} and I{Charles Karney}'s
       U{Rhumb<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Rhumb.html>} and
@@ -54,7 +54,7 @@ from contextlib import contextmanager
 from math import asin, cos, degrees, fabs, radians
 
 __all__ = _ALL_LAZY.latlonBase
-__version__ = '24.08.18'
+__version__ = '24.10.19'
 
 _formy = _MODS.into(formy=__name__)
 
@@ -1250,10 +1250,10 @@ class LatLonBase(_NamedBase):
            points or as a point and azimuth.
 
            @arg circle: Radius of the circle centered at this location (C{meter}),
-                        or a point on the circle (this C{LatLon}).
-           @arg point: The start point of the rhumb line (this C{LatLon}).
-           @arg other: An other point I{on} (this C{LatLon}) or the azimuth I{of}
-                       (compass C{degrees}) the rhumb line.
+                        or a point on the circle (same C{LatLon} class).
+           @arg point: The start point of the rhumb line (same C{LatLon} class).
+           @arg other: An other point I{on} (same C{LatLon} class) or the azimuth
+                       I{of} (compass C{degrees}) the rhumb line.
            @kwarg height: Optional height for the intersection points (C{meter},
                           conventionally) or C{None} for interpolated heights.
            @kwarg exact_radius_wrap_eps_tol: Optional keyword arguments, see
@@ -1266,8 +1266,7 @@ class LatLonBase(_NamedBase):
 
            @raise IntersectionError: The circle and rhumb line do not intersect.
 
-           @raise TypeError: If B{C{point}} is not this C{LatLon} or B{C{circle}}
-                             or B{C{other}} invalid.
+           @raise TypeError: Invalid B{C{point}}, B{C{circle}} or B{C{other}}.
 
            @raise ValueError: Invalid B{C{circle}}, B{C{other}}, B{C{height}}
                               or B{C{exact_radius_wrap}}.
@@ -1297,7 +1296,7 @@ class LatLonBase(_NamedBase):
            this and an other point.
 
            @arg other: The azimuth I{of} (compass C{degrees}) or an other point
-                       I{on} (this C{LatLon}) the rhumb line.
+                       I{on} (same C{LatLon} class) the rhumb line.
            @kwarg exact: Exact C{Rhumb...} to use (C{bool} or C{Rhumb...}), see
                          method L{Ellipsoid.rhumb_}.
            @kwarg radius: Optional earth radius (C{meter}) or earth model
@@ -1311,7 +1310,7 @@ class LatLonBase(_NamedBase):
            @return: A C{RhumbLine} instance.
 
            @raise TypeError: Invalid B{C{radius}} or B{C{other}} not C{scalar} nor
-                             this C{LatLon}.
+                             same C{LatLon} class.
 
            @see: Modules L{rhumb.aux_} and L{rhumb.ekx}.
         '''
@@ -1326,7 +1325,7 @@ class LatLonBase(_NamedBase):
         '''Return the (loxodromic) midpoint on the rhumb line between this and
            an other point.
 
-           @arg other: The other point (this C{LatLon}).
+           @arg other: The other point (same C{LatLon} class).
            @kwarg exact: Exact C{Rhumb...} to use (C{bool} or C{Rhumb...}), see
                          method L{Ellipsoid.rhumb_}.
            @kwarg radius: Optional earth radius (C{meter}) or earth model (L{Datum},
@@ -1341,7 +1340,7 @@ class LatLonBase(_NamedBase):
                        and unroll the B{C{other}} point (C{bool}).
 
            @return: The midpoint at the given B{C{fraction}} along the rhumb line
-                    (this C{LatLon}).
+                    (same C{LatLon} class).
 
            @raise TypeError: The B{C{other}} point is incompatible or B{C{radius}}
                              is invalid.
@@ -1539,9 +1538,8 @@ class LatLonBase(_NamedBase):
            @kwarg m: Optional unit of the height (C{str}), use C{None} to
                      exclude height from the returned string.
            @kwarg prec_sep_s_D_M_S: Optional C{B{prec}ision}, C{B{sep}arator},
-                      B{C{s_D}}, B{C{s_M}}, B{C{s_S}} and B{C{s_DMS}} keyword
-                      arguments, see function L{pygeodesy.latDMS} or
-                      L{pygeodesy.lonDMS}.
+                       B{C{s_D}}, B{C{s_M}}, B{C{s_S}} and B{C{s_DMS}} keyword
+                       arguments, see function L{pygeodesy.toDMS} for details.
 
            @return: This point in the specified C{B{form}at}, etc. (C{str} or
                     a 2- or 3-tuple C{(lat_str, lon_str[, height_str])} if

@@ -48,12 +48,12 @@ from pygeodesy.errors import _AssertionError, _OverflowError, _TypeError, \
                              _ValueError, _xError, _xError2, _xkwds, \
                              _xkwds_get, _xkwds_get1, _xkwds_not, \
                              _xkwds_pop, _xsError
-from pygeodesy.internals import _enquote, _passarg
+from pygeodesy.internals import _enquote, _getPYGEODESY, _MODS, _passarg
 from pygeodesy.interns import NN, _arg_, _COMMASPACE_, _DOT_, _from_, \
                              _not_finite_, _SPACE_, _std_, _UNDER_
-from pygeodesy.lazily import _ALL_LAZY, _getenv, _sys_version_info2
+# from pygeodesy.lazily import _ALL_LAZY  # from .named
 from pygeodesy.named import _name__, _name2__, _Named, _NamedTuple, \
-                            _NotImplemented
+                            _NotImplemented,  _ALL_LAZY
 from pygeodesy.props import _allPropertiesOf_n, deprecated_method, \
                              deprecated_property_RO, Property, \
                              Property_RO, property_RO
@@ -64,7 +64,7 @@ from math import fabs, isinf, isnan, \
                  ceil as _ceil, floor as _floor  # PYCHOK used! .ltp
 
 __all__ = _ALL_LAZY.fsums
-__version__ = '24.10.09'
+__version__ = '24.10.22'
 
 from pygeodesy.interns import (
   _PLUS_     as _add_op_,  # in .auxilats.auxAngle
@@ -79,15 +79,15 @@ from pygeodesy.interns import (
 )
 _floordiv_op_ = _truediv_op_ * 2  # _DSLASH_
 _divmod_op_   = _floordiv_op_ + _mod_op_
-_F2PRODUCT    = _getenv('PYGEODESY_FSUM_F2PRODUCT', NN)
+_F2PRODUCT    = _getPYGEODESY('FSUM_F2PRODUCT')
 _iadd_op_     = _add_op_ + _fset_op_  # in .auxilats.auxAngle, .fstats
 _integer_     = 'integer'
 _isub_op_     = _sub_op_ + _fset_op_  # in .auxilats.auxAngle
 _NONFINITEr   = _0_0  # NOT INT0!
-_NONFINITES   = _getenv('PYGEODESY_FSUM_NONFINITES', NN)
+_NONFINITES   = _getPYGEODESY('FSUM_NONFINITES')
 _non_zero_    = 'non-zero'
 _pow_op_      = _mul_op_ * 2  # _DSTAR_
-_RESIDUAL_0_0 = _getenv('PYGEODESY_FSUM_RESIDUAL', _0_0)
+_RESIDUAL_0_0 = _getPYGEODESY('FSUM_RESIDUAL', _0_0)
 _significant_ = 'significant'
 _threshold_   = 'threshold'
 
@@ -516,7 +516,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
        @see: Module L{fsums<pygeodesy.fsums>} for env variables C{PYGEODESY_FSUM_F2PRODUCT},
              C{PYGEODESY_FSUM_NONFINITES} and C{PYGEODESY_FSUM_RESIDUAL}.
     '''
-    _f2product = _sys_version_info2 > (3, 12) or bool(_F2PRODUCT)
+    _f2product = _MODS.sys_version_info2 > (3, 12) or bool(_F2PRODUCT)
     _isfine    = {}  # == _isfinite, see nonfiniterrors()
     _n         =  0
 #   _ps        = []  # partial sums
@@ -913,6 +913,14 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
         f = self._copy_2r(other, self.__rdivmod__)
         return f._fdivmod2(self, _divmod_op_)
 
+#       turned off, called by _deepcopy and _copy
+#   def __reduce__(self):  # Python 3.8+
+#       ''' Pickle, like std C{fractions.Fraction}, see U{__reduce__
+#           <https://docs.Python.org/3/library/pickle.html#object.__reduce__>}
+#       '''
+#       dict_ = self._Fsum_as().__dict__  # no __setstate__
+#       return (self.__class__, self.partials, dict_)
+
 #   def __repr__(self):
 #       '''Return the default C{repr(this)}.
 #       '''
@@ -926,7 +934,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
         f = self._copy_2r(other, self.__rfloordiv__)
         return f._floordiv(self, _floordiv_op_)
 
-    def __rmatmul__(self, other):  # PYCHOK no cover
+    def __rmatmul__(self, other):  # PYCHOK no coveS
         '''Not implemented.'''
         return _NotImplemented(self, other)
 
@@ -1015,7 +1023,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
 
     __trunc__ = __int__
 
-    if _sys_version_info2 < (3, 0):  # PYCHOK no cover
+    if _MODS.sys_version_info2 < (3, 0):  # PYCHOK no cover
         # <https://docs.Python.org/2/library/operator.html#mapping-operators-to-functions>
         __div__     = __truediv__
         __idiv__    = __itruediv__
@@ -1101,7 +1109,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
     def _copy_2(self, which, name=NN):
         '''(INTERNAL) Copy for I{dyadic} operators.
         '''
-        n =  name or which.__name__  # _dunder_nameof
+        n =  name or which.__name__  # _DUNDER_nameof
         # NOT .classof due to .Fdot(a, *b) args, etc.
         f = _Named.copy(self, deep=False, name=n)
         f._ps = list(self._ps)  # separate list
@@ -1152,6 +1160,8 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
             fs    = _xs(xs, **kwds)  # PYCHOK yield
             ps    =  self._ps
             ps[:] =  self._ps_acc(list(ps), fs, up=up)
+#           if len(ps) > 16:
+#               _ = _psum(ps, **self._isfine)
         return self
 
     def _facc_args(self, xs, **up):
@@ -2803,7 +2813,7 @@ def _xsum(which, xs, nonfinites=None, primed=0, **floats):  # origin=0
 # delete all decorators, etc.
 del _allPropertiesOf_n, deprecated_method, deprecated_property_RO, \
      Property, Property_RO, property_RO, _ALL_LAZY, _F2PRODUCT, \
-     MANT_DIG, _NONFINITES, _RESIDUAL_0_0, _getenv, _std_
+     MANT_DIG, _NONFINITES, _RESIDUAL_0_0, _getPYGEODESY, _std_
 
 if __name__ == '__main__':
 

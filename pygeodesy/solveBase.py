@@ -4,36 +4,28 @@
 u'''(INTERNAL) Private base classes for L{pygeodesy.geodsolve} and L{pygeodesy.rhumb.solve}.
 '''
 
-from pygeodesy.basics import clips, map2, ub2str, _zip
+from pygeodesy.basics import clips, map2, _zip
 from pygeodesy.constants import DIG
 from pygeodesy.datums import _earth_datum, _WGS84,  _EWGS84
 # from pygeodesy.ellipsoids import _EWGS84  # from .datums
 from pygeodesy.errors import _AssertionError, _xkwds_get, _xkwds_get1, \
                              _xkwds_item2
-from pygeodesy.internals import _enquote, printf
+from pygeodesy.internals import _enquote, _popen2, printf
 from pygeodesy.interns import NN, _0_, _AT_,_BACKSLASH_, _COLONSPACE_, \
                              _COMMASPACE_, _EQUAL_, _Error_, _SPACE_, \
                              _UNUSED_
 from pygeodesy.karney import Caps, _CapsBase, GDict
-from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _sys_version_info2
+from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import callername, _name2__, notOverloaded
 from pygeodesy.props import Property, Property_RO, property_RO, _update_all
 from pygeodesy.streprs import Fmt, fstr, fstrzs, pairs, strs
 from pygeodesy.units import Precision_
 from pygeodesy.utily import unroll180,  wrap360  # PYCHOK shared
 
-from subprocess import PIPE as _PIPE, Popen as _Popen, STDOUT as _STDOUT
-
 __all__ = _ALL_LAZY.solveBase
-__version__ = '24.07.11'
+__version__ = '24.10.13'
 
-_ERROR_     = 'ERROR'
-_Popen_kwds =  dict(creationflags=0,
-                  # executable=sys.executable, shell=True,
-                    stdin=_PIPE, stdout=_PIPE, stderr=_STDOUT)
-if _sys_version_info2 > (3, 6):
-    _Popen_kwds.update(text=True)
-del _PIPE, _STDOUT, _sys_version_info2  # _ALL_LAZY
+_ERROR_ = 'ERROR'
 
 
 def _cmd_stdin_(cmd, stdin):  # PYCHOK no cover
@@ -51,15 +43,6 @@ def _cmd_stdin_(cmd, stdin):  # PYCHOK no cover
 #     f = float(r)
 #     i = int(f)
 #     return i if float(i) == f else f  # PYCHOK inconsistent
-
-
-def _popen2(cmd, stdin=None):  # in .mgrs, test.bases, .testMgrs
-    '''(INTERNAL) Invoke C{B{cmd} tuple} and return C{exitcode}
-       and all output from C{stdout/-err}, I{stripped}.
-    '''
-    p = _Popen(cmd, **_Popen_kwds)  # PYCHOK kwArgs
-    r =  p.communicate(stdin)[0]  # stdout + NL + stderr
-    return p.returncode, ub2str(r).strip()
 
 
 class _SolveCapsBase(_CapsBase):
@@ -85,8 +68,7 @@ class _SolveCapsBase(_CapsBase):
         return self.ellipsoid.a
 
     @property_RO
-    def _cmdBasic(self):  # PYCHOK no cover
-        '''(INTERNAL) I{Must be overloaded}.'''
+    def _cmdBasic(self):  # PYCHOK no covers        '''(INTERNAL) I{Must be overloaded}.'''
         notOverloaded(self, underOK=True)
 
     @property_RO
@@ -228,7 +210,7 @@ class _SolveCapsBase(_CapsBase):
             t = _cmd_stdin_(cmd, stdin)
             self._print(t)
         try:  # invoke and write to stdin
-            s, r = _popen2(cmd, stdin)
+            r, s = _popen2(cmd, stdin)
             if len(r) < 6 or r[:5] in (_Error_, _ERROR_):
                 raise ValueError(r)
         except (IOError, OSError, TypeError, ValueError) as x:

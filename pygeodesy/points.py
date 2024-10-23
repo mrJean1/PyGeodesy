@@ -62,7 +62,7 @@ from pygeodesy.utily import atan2b, degrees90, degrees180, degrees2m, \
 from math import cos, fabs, fmod as _fmod, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '24.09.23'
+__version__ = '24.10.24'
 
 _ilat_  = 'ilat'
 _ilon_  = 'ilon'
@@ -147,7 +147,7 @@ class LatLon_(LatLonBase):  # XXX in heights._HeightBase.height
            @kwarg wrap: If C{True}, wrap or I{normalize} and unroll
                         the B{C{other}} point (C{bool}).
 
-           @return: Intermediate point (this C{LatLon}).
+           @return: Intermediate point (same C{LatLon} class).
 
            @raise TypeError: Incompatible B{C{other}} C{type}.
         '''

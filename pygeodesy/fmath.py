@@ -16,7 +16,7 @@ from pygeodesy.errors import _IsnotError, LenError, _TypeError, _ValueError, \
 from pygeodesy.fsums import _2float, Fsum, fsum, _isFsum_2Tuple, _1primed, \
                              Fmt, unstr
 from pygeodesy.interns import MISSING, _negative_, _not_scalar_
-from pygeodesy.lazily import _ALL_LAZY, _sys_version_info2
+from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 # from pygeodesy.streprs import Fmt, unstr  # from .fsums
 from pygeodesy.units import Int_, _isHeight, _isRadius,  Float_  # PYCHOK for .heights
 
@@ -24,7 +24,7 @@ from math import fabs, sqrt  # pow
 import operator as _operator  # in .datums, .trf, .utm
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '24.10.04'
+__version__ = '24.10.11'
 
 # sqrt(2) - 1 <https://WikiPedia.org/wiki/Square_root_of_2>
 _0_4142  =  0.41421356237309504880  # ... ~ 3730904090310553 / 9007199254740992
@@ -804,7 +804,7 @@ def fremainder(x, y):
     return r
 
 
-if _sys_version_info2 < (3, 8):  # PYCHOK no cover
+if _MODS.sys_version_info2 < (3, 8):  # PYCHOK no cover
     from math import hypot  # OK in Python 3.7-
 
     def hypot_(*xs):
@@ -831,7 +831,7 @@ if _sys_version_info2 < (3, 8):  # PYCHOK no cover
         '''
         return float(_Hypot(*xs))
 
-elif _sys_version_info2 < (3, 10):
+elif _MODS.sys_version_info2 < (3, 10):
     # In Python 3.8 and 3.9 C{math.hypot} is inaccurate, see
     # U{agdhruv<https://GitHub.com/geopy/geopy/issues/466>},
     # U{cffk<https://Bugs.Python.org/issue43088>} and module

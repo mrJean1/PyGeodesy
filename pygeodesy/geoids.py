@@ -106,9 +106,9 @@ from pygeodesy.streprs import attrs, Fmt, fstr, pairs
 from pygeodesy.units import Height, Int_, Lat, Lon
 # from pygeodesy.utily import _Wrap  # from .heights
 
-from math import floor
-import os.path as _os_path
-from os import SEEK_CUR as _SEEK_CUR, SEEK_SET as _SEEK_SET
+from math import floor as _floor
+# from os import SEEK_CUR, SEEK_SET  # _MODS
+# import os.path  # _MODS
 from struct import calcsize as _calcsize, unpack as _unpack
 try:
     from StringIO import StringIO as _BytesIO  # reads bytes
@@ -118,7 +118,7 @@ except ImportError:  # Python 3+
     from io import BytesIO as _BytesIO  # PYCHOK expected
 
 __all__ = _ALL_LAZY.geoids
-__version__ = '24.08.24'
+__version__ = '24.10.11'
 
 _assert_         = 'assert'
 _bHASH_          = b'#'
@@ -463,7 +463,7 @@ class _GeoidBase(_HeightBase):
 
     def _load(self, g, dtype, n, offset=0):
         # numpy.fromfile, like .frombuffer
-        g.seek(offset, _SEEK_SET)
+        g.seek(offset, _MODS.os.SEEK_SET)
         return self.numpy.fromfile(g, dtype, n)
 
     @Property_RO
@@ -545,8 +545,8 @@ class _GeoidBase(_HeightBase):
     def _open(self, geoid, datum, kind, name, smooth):
         # open the geoid file
         try:
-            self._geoid = _os_path.basename(geoid)
-            self._sizeB = _os_path.getsize(geoid)
+            self._geoid = _MODS.os.path.basename(geoid)
+            self._sizeB = _MODS.os.path.getsize(geoid)
             g = open(geoid, _rb_)
         except (IOError, OSError) as x:
             raise GeoidError(geoid=geoid, cause=x)
@@ -988,21 +988,21 @@ class GeoidKarney(_GeoidBase):
         p = self._pgm
         if 0 < x < (p.nlon - 2) and 0 < y < (p.nlat - 2):
             # read 4x4 ushorts, drop the 4 corners
-            g = self._egm
-            e = self._4endian
-            n = self._4u2B
-            R = self._Ru2B
-
-            b = self._seek(y - 1, x - 1)
+            S = _MODS.os.SEEK_SET
+            e =  self._4endian
+            g =  self._egm
+            n =  self._4u2B
+            R =  self._Ru2B
+            b =  self._seek(y - 1, x - 1)
             v = _unpack(e, g.read(n))[1:3]
             b += R
-            g.seek(b, _SEEK_SET)
+            g.seek(b, S)
             v += _unpack(e, g.read(n))
             b += R
-            g.seek(b, _SEEK_SET)
+            g.seek(b, S)
             v += _unpack(e, g.read(n))
             b += R
-            g.seek(b, _SEEK_SET)
+            g.seek(b, S)
             v += _unpack(e, g.read(n))[1:3]
             j = 1
 
@@ -1021,7 +1021,7 @@ class GeoidKarney(_GeoidBase):
     def _ev(self, lat, lon):  # PYCHOK expected
         # interpolate the geoid height at grid (lat, lon)
         fy, fx = self._g2yx2(lat, lon)
-        y, x = int(floor(fy)), int(floor(fx))
+        y, x = int(_floor(fy)), int(_floor(fx))
         fy -= y
         fx -= x
         H  = self._ev2d(fy, fx, y, x)  # PYCHOK ._ev2k or ._ev3k
@@ -1223,7 +1223,7 @@ class GeoidKarney(_GeoidBase):
         p, g = self._pgm, self._egm
         if g:
             b = p.skip + (y * p.nlon + x) * self._u2B
-            g.seek(b, _SEEK_SET)
+            g.seek(b, _MODS.os.SEEK_SET)
             return b  # position
         raise GeoidError('closed file', txt=repr(p.egm))  # IOError
 
@@ -1551,11 +1551,11 @@ class _PGM(_Gpars):
         t, c = 0, self._tmpfile()
         # reading (s - n) rows, forward
         for y in range(n, s):  # PYCHOK y unused
-            g.seek(z, _SEEK_SET)
+            g.seek(z, _MODS.os.SEEK_SET)
             # Python 2 tmpfile.write returns None
             t += c.write(g.read(r)) or r
             if p:  # wrap around to start of row
-                g.seek(-q, _SEEK_CUR)
+                g.seek(-q, _MODS.os.SEEK_CUR)
                 # assert(g.tell() == (z - w * self.u2B))
                 # Python 2 tmpfile.write returns None
                 t += c.write(g.read(p)) or p
@@ -1582,7 +1582,7 @@ class _PGM(_Gpars):
         self.knots = k
         self.skip  = 0  # no header lines in c
 
-        c.seek(0, _SEEK_SET)
+        c.seek(0, _MODS.os.SEEK_SET)
         # c = open(c.name, _rb_)  # reopen for numpy 1.8.0-
         return c
 
@@ -1606,10 +1606,11 @@ class _PGM(_Gpars):
         try:
             from tempfile import NamedTemporaryFile as tmpfile
         except ImportError:  # Python 2.7.16-
-            from os import tmpfile
-        t = _os_path.splitext(_os_path.basename(self.pgm))[0]
-        f = tmpfile(mode='w+b', prefix=t or 'egm')
-        f.seek(0, _SEEK_SET)  # force overwrite
+            from _MODS.os import tmpfile
+        t = _MODS.os.path.basename(self.pgm)
+        t = _MODS.os.path.splitext(t)[0]
+        f =  tmpfile(mode='w+b', prefix=t or 'egm')
+        f.seek(0, _MODS.os.SEEK_SET)  # force overwrite
         return f
 
     @Property_RO
@@ -1649,7 +1650,7 @@ def egmGeoidHeights(GeoidHeights_dat):
         dat = _BytesIO(dat)
 
     try:
-        dat.seek(0, _SEEK_SET)  # reset
+        dat.seek(0, _MODS.os.SEEK_SET)  # reset
     except AttributeError as x:
         raise GeoidError(GeoidHeights_dat=type(dat), cause=x)
 
@@ -1666,7 +1667,7 @@ __all__ += _ALL_DOCS(_GeoidBase)
 
 if __name__ == '__main__':  # MCCABE 14
 
-    from pygeodesy.internals import printf, _secs2str, _sys, _versions
+    from pygeodesy.internals import printf, _secs2str, _versions,  _sys
     from time import time
 
     _crop     = ()

@@ -10,7 +10,7 @@ L{perimeterOf}, I{all spherical}.
 
 Pure Python implementation of geodetic (lat-/longitude) methods using
 spherical trigonometry, transcoded from JavaScript originals by
-I{(C) Chris Veness 2011-2016} published under the same MIT Licence**, see
+I{(C) Chris Veness 2011-2024} published under the same MIT Licence**, see
 U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>}.
 '''
 # make sure int/int division yields float quotient, see .basics
@@ -54,7 +54,7 @@ from pygeodesy.vector3d import sumOf, Vector3d
 from math import asin, atan2, cos, degrees, fabs, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '24.09.23'
+__version__ = '24.10.12'
 
 _PI_EPS4 = PI - EPS4
 if _PI_EPS4 >= PI:
@@ -885,13 +885,14 @@ def intersecant2(center, circle, point, other, **radius_exact_height_wrap):
        two points or as a point and bearing.
 
        @arg center: Center of the circle (L{LatLon}).
-       @arg circle: Radius of the circle (C{meter}, same units as B{C{radius}})
-                    or a point on the circle (L{LatLon}).
+       @arg circle: Radius of the circle (C{meter}, same units as the earth
+                    B{C{radius}}) or a point on the circle (L{LatLon}).
        @arg point: A point on the (great circle) line (L{LatLon}).
        @arg other: An other point on the (great circle) line (L{LatLon}) or
                    the bearing at the B{C{point}} (compass C{degrees360}).
-       @kwarg radius_exact_height_wrap: Optional keyword arguments, see
-                     method L{LatLon.intersecant2} for further details.
+       @kwarg radius_exact_height_wrap: Optional keyword arguments, see method
+                     L{intersecant2<pygeodesy.sphericalBase.LatLonSphericalBase.
+                     intersecant2>} for further details.
 
        @return: 2-Tuple of the intersection points (representing a chord), each
                 an instance of the B{C{point}} class.  Both points are the same
@@ -899,8 +900,8 @@ def intersecant2(center, circle, point, other, **radius_exact_height_wrap):
 
        @raise IntersectionError: The circle and line do not intersect.
 
-       @raise TypeError: If B{C{center}} or B{C{point}} not L{LatLon} or
-                         B{C{circle}} or B{C{other}} invalid.
+       @raise TypeError: If B{C{center}}, B{C{point}}, B{C{circle}} or B{C{other}}
+                         not L{LatLon}.
 
        @raise UnitError: Invalid B{C{circle}}, B{C{other}}, B{C{radius}},
                          B{C{exact}}, B{C{height}} or B{C{napieradius}}.

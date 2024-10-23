@@ -269,7 +269,9 @@
     command line: <code>epydoc --html --no-private --no-source 
     --name=PyGeodesy --url=... -v pygeodesy</code>).</p>
   <h1 class="heading">Tests</h1>
-    <p>The tests ran with Python 3.13.0, Python 3.12.7 (with <a 
+    <p>The tests ran with Python 3.13.0 (with <a 
+    href="https://PyPI.org/project/geographiclib" 
+    target="_top">geographiclib</a> 2.0), Python 3.12.7 (with <a 
     href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 2.0, <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 2.1.0, <a
@@ -321,7 +323,7 @@
     (&quot;<code>arm64_x86_64</code>&quot;, see function <a 
     href="pygeodesy.internals-module.html#machine" 
     class="link">machine</a>).</p>
-    <p>The tests also ran with Python 3.12.7 (and <a 
+    <p>The tests also ran with Python 3.13.0 (and <a 
     href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 2.0) on <a 
     href="https://Cirrus-CI.com/github/mrJean1/PyGeodesy/master" 
@@ -417,13 +419,14 @@
       <li>
         <code>PYGEODESY_FSUM_NONFINITES</code> - see module <a 
         href="pygeodesy.fsums-module.html" class="link">fsums</a> and 
-        function <a href="pygeodesy.fsums-module.html#nonfiniterrors" 
-        class="link">nonfiniterrors</a>.
+        method <a href="pygeodesy.fsums.Fsum-class.html#nonfinites" 
+        class="link">nonfinites</a>.
       </li>
       <li>
         <code>PYGEODESY_FSUM_RESIDUAL</code> - see module <a 
-        href="pygeodesy.fsums-module.html" class="link">fsums</a> and class
-        <a href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a>.
+        href="pygeodesy.fsums-module.html" class="link">fsums</a> and 
+        method <a href="pygeodesy.fsums.Fsum-class.html#RESIDUAL" 
+        class="link">RESIDUAL</a>.
       </li>
       <li>
         <code>PYGEODESY_GEOCONVERT</code> - see module <a 
@@ -459,7 +462,7 @@
         href="pygeodesy.mgrs-module.html" class="link">mgrs</a>.
       </li>
     </ul>
-    <p>and these to control standard or <i>named</i> 
+    <p>and these to specify standard or <i>named</i> 
     <code>repr</code>esentations:</p>
     <ul>
       <li>
@@ -481,6 +484,11 @@
         <code>PYGEODESY_DEGREES_STD_REPR</code> - see method <a 
         href="pygeodesy.units.Degrees-class.html" 
         class="link">Degrees</a><code>.__repr__</code>.
+      </li>
+      <li>
+        <code>PYGEODESY_EPOCH_STD_REPR</code> - see method <a 
+        href="pygeodesy.units.Epoch-class.html" 
+        class="link">Float</a><code>.__repr__</code>.
       </li>
       <li>
         <code>PYGEODESY_FLOAT_STD_REPR</code> - see method <a 
@@ -573,7 +581,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        24.10.10
+        24.10.24
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -589,14 +597,14 @@
         version, etc.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.albers-module.html">pygeodesy.albers</a></strong>: <em class="summary">Albers Equal-Area projections.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.auxilats-module.html">pygeodesy.auxilats</a></strong>: <em class="summary">Classes <a href="pygeodesy.auxilats.auxAngle.AuxAngle-class.html" 
-        class="link">AuxAngle</a>, <a 
-        href="pygeodesy.auxilats.auxDLat.AuxDLat-class.html" 
-        class="link">AuxDLat</a>, <a 
-        href="pygeodesy.auxilats.auxDST.AuxDST-class.html" 
-        class="link">AuxDST</a> and <a 
-        href="pygeodesy.auxilats.auxLat.AuxLat-class.html" 
-        class="link">AuxLat</a> transcoded to Python from <i>Karney</i>'s 
-        C++ class <a 
+        class="link" onclick="show_private();">AuxAngle</a>, <a 
+        href="pygeodesy.auxilats.auxDLat.AuxDLat-class.html" class="link" 
+        onclick="show_private();">AuxDLat</a>, <a 
+        href="pygeodesy.auxilats.auxDST.AuxDST-class.html" class="link" 
+        onclick="show_private();">AuxDST</a> and <a 
+        href="pygeodesy.auxilats.auxLat.AuxLat-class.html" class="link" 
+        onclick="show_private();">AuxLat</a> transcoded to Python from 
+        <i>Karney</i>'s C++ class <a 
         href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1AuxAngle.html"
         target="_top">AuxAngle</a>, <a 
         href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1DAuxLatitude.html"
@@ -632,8 +640,8 @@
     <li class="private"> <strong class="uidlink"><a href="pygeodesy.auxilats.auxAngle-module.html" onclick="show_private();">pygeodesy.auxilats.auxAngle</a></strong>: <em class="summary">(INTERNAL) <i>Auxiliary</i> latitudes' base classes, constants and 
         functions.</em>    </li>
     <li class="private"> <strong class="uidlink"><a href="pygeodesy.auxilats.auxDLat-module.html" onclick="show_private();">pygeodesy.auxilats.auxDLat</a></strong>: <em class="summary">Class <a href="pygeodesy.auxilats.auxDLat.AuxDLat-class.html" 
-        class="link">AuxDLat</a> transcoded to Python from <i>Karney</i>'s 
-        C++ class <a 
+        class="link" onclick="show_private();">AuxDLat</a> transcoded to 
+        Python from <i>Karney</i>'s C++ class <a 
         href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1DAuxLatitude.html"
         target="_top">DAuxLatitude</a> in <i>GeographicLib version 
         2.2+</i>.</em>    </li>
@@ -642,8 +650,8 @@
         href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1DST.html"
         target="_top">DST</a> in <i>GeographicLib version 2.2+</i>.</em>    </li>
     <li class="private"> <strong class="uidlink"><a href="pygeodesy.auxilats.auxLat-module.html" onclick="show_private();">pygeodesy.auxilats.auxLat</a></strong>: <em class="summary">Class <a href="pygeodesy.auxilats.auxLat.AuxLat-class.html" 
-        class="link">AuxLat</a> transcoded to Python from <i>Karney</i>'s 
-        C++ class <a 
+        class="link" onclick="show_private();">AuxLat</a> transcoded to 
+        Python from <i>Karney</i>'s C++ class <a 
         href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1AuxLatitude.html"
         target="_top">AuxLatitude</a> in <i>GeographicLib version 2.2+</i>.</em>    </li>
     <li class="private"> <strong class="uidlink"><a href="pygeodesy.auxilats.auxily-module.html" onclick="show_private();">pygeodesy.auxilats.auxily</a></strong>: <em class="summary">(INTERNAL) <i>Auxiliary</i> latitudes' classes, constants and 
@@ -835,10 +843,8 @@
     <li> <strong class="uidlink"><a href="pygeodesy.ktm-module.html">pygeodesy.ktm</a></strong>: <em class="summary">A pure Python version of <i>Karney</i>'s C++ class <a 
         href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1TransverseMercator.html"
         target="_top">TransverseMercator</a> based on <i>Kr&#252;ger</i> series.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.latlonBase-module.html">pygeodesy.latlonBase</a></strong>: <em class="summary">(INTERNAL) Base class <a 
-        href="pygeodesy.latlonBase.LatLonBase-class.html" 
-        class="link">LatLonBase</a> for all elliposiodal, spherical and 
-        N-vectorial <code>LatLon</code> classes.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.latlonBase-module.html">pygeodesy.latlonBase</a></strong>: <em class="summary">(INTERNAL) Base class LatLonBase for all elliposiodal, spherical 
+        and N-vectorial <code>LatLon</code> classes.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.lazily-module.html">pygeodesy.lazily</a></strong>: <em class="summary">Lazily import <code>pygeodesy</code> modules and attributes, based 
         on <a href="https://modutil.ReadTheDocs.io/en/latest/#lazy_import" 
         target="_top">lazy_import</a> from <i>Brett Cannon</i>'s <a 
@@ -853,11 +859,10 @@
     <li> <strong class="uidlink"><a href="pygeodesy.nvectorBase-module.html">pygeodesy.nvectorBase</a></strong>: <em class="summary">(INTERNAL) Private elliposiodal and spherical <code>Nvector</code> 
         base classes <a 
         href="pygeodesy.nvectorBase.LatLonNvectorBase-class.html" 
-        class="link">LatLonNvectorBase</a> and <a 
-        href="pygeodesy.nvectorBase.NvectorBase-class.html" 
-        class="link">NvectorBase</a> and function <a 
-        href="pygeodesy.nvectorBase-module.html#sumOf" 
-        class="link">sumOf</a>.</em>    </li>
+        class="link" onclick="show_private();">LatLonNvectorBase</a> and 
+        NvectorBase and function <a 
+        href="pygeodesy.nvectorBase-module.html#sumOf" class="link" 
+        onclick="show_private();">sumOf</a>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.osgr-module.html">pygeodesy.osgr</a></strong>: <em class="summary">Ordnance Survey Grid References (OSGR) references on the UK <a 
         href="https://www.OrdnanceSurvey.co.UK/documents/resources/guide-to-nationalgrid.pdf"
         target="_top">National Grid</a>.</em>    </li>
@@ -2080,9 +2085,9 @@
         href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1AzimuthalEquidistant.html"
         target="_top">AzimuthalEquidistant</a>, based on exact geodesic 
         classes <a href="pygeodesy.geodesicx.gx.GeodesicExact-class.html" 
-        class="link">GeodesicExact</a> and <a 
+        class="link" onclick="show_private();">GeodesicExact</a> and <a 
         href="pygeodesy.geodesicx.gx.GeodesicLineExact-class.html" 
-        class="link">GeodesicLineExact</a>.
+        class="link" onclick="show_private();">GeodesicLineExact</a>.
     </td>
   </tr>
 <tr>
@@ -2293,10 +2298,8 @@
         target="_top">Fr&#233;chet</a> distance <code>fd</code>, 
         <i>fractional</i> indices <code>fi1</code> and <code>fi2</code> as 
         <code>FIx</code>, the recursion depth <code>r</code>, the number of
-        distances computed <code>n</code> and the <a 
-        href="pygeodesy.named._NamedTuple-class.html#units" 
-        class="link">units</a> class or class or name of the distance 
-        <code>units</code>.
+        distances computed <code>n</code> and the units class or class or 
+        name of the distance <code>units</code>.
     </td>
   </tr>
 <tr>
@@ -2387,8 +2390,8 @@
         <a href="pygeodesy.frechet.FrechetExact-class.html" class="summary-name">FrechetExact</a><br />
       Compute the <code>Frechet</code> distance based on the 
         <i>angular</i> distance in <code>degrees</code> from method <a 
-        href="pygeodesy.geodesicx.gx.GeodesicExact-class.html" 
-        class="link">GeodesicExact</a><code>.Inverse</code>.
+        href="pygeodesy.geodesicx.gx.GeodesicExact-class.html" class="link"
+        onclick="show_private();">GeodesicExact</a><code>.Inverse</code>.
     </td>
   </tr>
 <tr>
@@ -2422,7 +2425,7 @@
         <a href="pygeodesy.frechet.FrechetHaversine-class.html" class="summary-name">FrechetHaversine</a><br />
       Compute the <code>Frechet</code> distance based on the 
         <i>angular</i> distance in <code>radians</code> from function <a 
-        href="pygeodesy.geohash-module.html#haversine_" 
+        href="pygeodesy.formy-module.html#haversine_" 
         class="link">pygeodesy.haversine_</a>.
     </td>
   </tr>
@@ -2430,13 +2433,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.frechet.FrechetHubeny-class.html" class="summary-name">FrechetHubeny</a><br />
-      Compute the <code>Frechet</code> distance based on the 
-        <i>angular</i> distance in <code>radians squared</code> like 
-        function <a href="pygeodesy.formy-module.html#flatLocal_" 
-        class="link">pygeodesy.flatLocal_</a>/<a 
-        href="pygeodesy.formy-module.html#flatLocal" 
-        class="link">pygeodesy.hubeny</a>.
+        <a href="pygeodesy.frechet.FrechetHubeny-class.html" class="summary-name">FrechetHubeny</a>
     </td>
   </tr>
 <tr>
@@ -2478,7 +2475,7 @@
         <a href="pygeodesy.frechet.FrechetVincentys-class.html" class="summary-name">FrechetVincentys</a><br />
       Compute the <code>Frechet</code> distance based on the 
         <i>angular</i> distance in <code>radians</code> from function <a 
-        href="pygeodesy.geohash-module.html#vincentys_" 
+        href="pygeodesy.formy-module.html#vincentys_" 
         class="link">pygeodesy.vincentys_</a>.
     </td>
   </tr>
@@ -2833,10 +2830,10 @@
         C++ class <a 
         href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Gnomonic.html"
         target="_top">Gnomonic</a>, based on exact geodesic classes <a 
-        href="pygeodesy.geodesicx.gx.GeodesicExact-class.html" 
-        class="link">GeodesicExact</a> and <a 
+        href="pygeodesy.geodesicx.gx.GeodesicExact-class.html" class="link"
+        onclick="show_private();">GeodesicExact</a> and <a 
         href="pygeodesy.geodesicx.gx.GeodesicLineExact-class.html" 
-        class="link">GeodesicLineExact</a>.
+        class="link" onclick="show_private();">GeodesicLineExact</a>.
     </td>
   </tr>
 <tr>
@@ -2972,7 +2969,7 @@
         <a href="pygeodesy.hausdorff.HausdorffEuclidean-class.html" class="summary-name">HausdorffEuclidean</a><br />
       Compute the <code>Hausdorff</code> distance based on the 
         <code>Euclidean</code> distance in <code>radians</code> from 
-        function <a href="pygeodesy.geohash-module.html#euclidean_" 
+        function <a href="pygeodesy.formy-module.html#euclidean_" 
         class="link">pygeodesy.euclidean_</a>.
     </td>
   </tr>
@@ -2983,8 +2980,8 @@
         <a href="pygeodesy.hausdorff.HausdorffExact-class.html" class="summary-name">HausdorffExact</a><br />
       Compute the <code>Hausdorff</code> distance based on the 
         <i>angular</i> distance in <code>degrees</code> from method <a 
-        href="pygeodesy.geodesicx.gx.GeodesicExact-class.html" 
-        class="link">GeodesicExact</a><code>.Inverse</code>.
+        href="pygeodesy.geodesicx.gx.GeodesicExact-class.html" class="link"
+        onclick="show_private();">GeodesicExact</a><code>.Inverse</code>.
     </td>
   </tr>
 <tr>
@@ -3018,7 +3015,7 @@
         <a href="pygeodesy.hausdorff.HausdorffHaversine-class.html" class="summary-name">HausdorffHaversine</a><br />
       Compute the <code>Hausdorff</code> distance based on the 
         <i>angular</i> distance in <code>radians</code> from function <a 
-        href="pygeodesy.geohash-module.html#haversine_" 
+        href="pygeodesy.formy-module.html#haversine_" 
         class="link">pygeodesy.haversine_</a>.
     </td>
   </tr>
@@ -3026,13 +3023,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.hausdorff.HausdorffHubeny-class.html" class="summary-name">HausdorffHubeny</a><br />
-      Compute the <code>Hausdorff</code> distance based on the 
-        <i>angular</i> distance in <code>radians squared</code> like 
-        function <a href="pygeodesy.formy-module.html#flatLocal_" 
-        class="link">pygeodesy.flatLocal_</a>/<a 
-        href="pygeodesy.formy-module.html#flatLocal_" 
-        class="link">pygeodesy.hubeny_</a>.
+        <a href="pygeodesy.hausdorff.HausdorffHubeny-class.html" class="summary-name">HausdorffHubeny</a>
     </td>
   </tr>
 <tr>
@@ -3077,7 +3068,7 @@
         <a href="pygeodesy.hausdorff.HausdorffVincentys-class.html" class="summary-name">HausdorffVincentys</a><br />
       Compute the <code>Hausdorff</code> distance based on the 
         <i>angular</i> distance in <code>radians</code> from function <a 
-        href="pygeodesy.geohash-module.html#vincentys_" 
+        href="pygeodesy.formy-module.html#vincentys_" 
         class="link">pygeodesy.vincentys_</a>.
     </td>
   </tr>
@@ -3170,7 +3161,7 @@
         href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
         target="_top">Inverse Distance Weighting</a> (IDW) and the 
         <i>angular</i> distance in <code>radians squared</code> like 
-        function <a href="pygeodesy.geohash-module.html#equirectangular4" 
+        function <a href="pygeodesy.formy-module.html#equirectangular4" 
         class="link">pygeodesy.equirectangular4</a>.
     </td>
   </tr>
@@ -3183,7 +3174,7 @@
         href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
         target="_top">Inverse Distance Weighting</a> (IDW) and the 
         <i>angular</i> distance in <code>radians</code> from function <a 
-        href="pygeodesy.geohash-module.html#euclidean_" 
+        href="pygeodesy.formy-module.html#euclidean_" 
         class="link">pygeodesy.euclidean_</a>.
     </td>
   </tr>
@@ -3237,7 +3228,7 @@
         href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
         target="_top">Inverse Distance Weighting</a> (IDW) and the 
         <i>angular</i> distance in <code>radians</code> from function <a 
-        href="pygeodesy.geohash-module.html#haversine_" 
+        href="pygeodesy.formy-module.html#haversine_" 
         class="link">pygeodesy.haversine_</a>.
     </td>
   </tr>
@@ -3245,15 +3236,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.heights.HeightIDWhubeny-class.html" class="summary-name">HeightIDWhubeny</a><br />
-      Height interpolator using <a 
-        href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
-        target="_top">Inverse Distance Weighting</a> (IDW) and the 
-        <i>angular</i> distance in <code>radians squared</code> like 
-        function <a href="pygeodesy.formy-module.html#flatLocal_" 
-        class="link">pygeodesy.flatLocal_</a>/<a 
-        href="pygeodesy.formy-module.html#flatLocal_" 
-        class="link">pygeodesy.hubeny_</a>.
+        <a href="pygeodesy.heights.HeightIDWhubeny-class.html" class="summary-name">HeightIDWhubeny</a>
     </td>
   </tr>
 <tr>
@@ -3293,7 +3276,7 @@
         href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
         target="_top">Inverse Distance Weighting</a> (IDW) and the 
         <i>angular</i> distance in <code>radians</code> from function <a 
-        href="pygeodesy.geohash-module.html#vincentys_" 
+        href="pygeodesy.formy-module.html#vincentys_" 
         class="link">pygeodesy.vincentys_</a>.
     </td>
   </tr>
@@ -3441,8 +3424,8 @@
       Finder of intersections between two goedesic lines, each an 
         instance of <a 
         href="pygeodesy.geodesicx.gx.GeodesicLineExact-class.html" 
-        class="link">GeodesicLineExact</a>, wrapped <a 
-        href="pygeodesy.geodesicw.GeodesicLine-class.html" 
+        class="link" onclick="show_private();">GeodesicLineExact</a>, 
+        wrapped <a href="pygeodesy.geodesicw.GeodesicLine-class.html" 
         class="link">GeodesicLine</a> or <a 
         href="pygeodesy.geodsolve.GeodesicLineSolve-class.html" 
         class="link">GeodesicLineSolve</a>.
@@ -3766,7 +3749,7 @@
         the given <b><code>limit</code></b> in functions <a 
         href="pygeodesy.formy-module.html#equirectangular" 
         class="link">equirectangular</a>, <a 
-        href="pygeodesy.geohash-module.html#equirectangular4" 
+        href="pygeodesy.formy-module.html#equirectangular4" 
         class="link">equirectangular4</a>, <code>nearestOn*</code> and 
         <code>simplify*</code> or methods with <code>limit</code> or 
         <code>options</code> keyword arguments.
@@ -4212,7 +4195,7 @@
         <a href="pygeodesy.geodesicx.gxarea.PolygonArea-class.html" class="summary-name">PolygonArea</a><br />
       For <code>geographiclib</code> compatibility, sub-class of <a 
         href="pygeodesy.geodesicx.gxarea.GeodesicAreaExact-class.html" 
-        class="link">GeodesicAreaExact</a>.
+        class="link" onclick="show_private();">GeodesicAreaExact</a>.
     </td>
   </tr>
 <tr>
@@ -7004,12 +6987,16 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#equirectangular4" class="summary-sig-name">equirectangular4</a>(<span class="summary-sig-arg">geohash1</span>,
-        <span class="summary-sig-arg">geohash2</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>)</span><br />
-      Approximate the distance between two geohashes using the <a 
-      href="pygeodesy.formy-module.html#equirectangular" 
-      class="link">pygeodesy.equirectangular</a> formula.</td>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#equirectangular4" class="summary-sig-name">equirectangular4</a>(<span class="summary-sig-arg">lat1</span>,
+        <span class="summary-sig-arg">lon1</span>,
+        <span class="summary-sig-arg">lat2</span>,
+        <span class="summary-sig-arg">lon2</span>,
+        <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">limit</span>=<span class="summary-sig-default">45</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Compute the distance between two points using the <a 
+      href="https://www.Movable-Type.co.UK/scripts/latlong.html#equirectangular"
+      target="_top">Equirectangular Approximation / Projection</a>.</td>
           <td align="right" valign="top">
             
             
@@ -7088,12 +7075,12 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#euclidean_" class="summary-sig-name">euclidean_</a>(<span class="summary-sig-arg">geohash1</span>,
-        <span class="summary-sig-arg">geohash2</span>,
-        <span class="summary-sig-arg">**radius_adjust_wrap</span>)</span><br />
-      Approximate the distance between two geohashes using the <a 
-      href="pygeodesy.formy-module.html#euclidean" 
-      class="link">pygeodesy.euclidean</a> formula.</td>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#euclidean_" class="summary-sig-name">euclidean_</a>(<span class="summary-sig-arg">phi2</span>,
+        <span class="summary-sig-arg">phi1</span>,
+        <span class="summary-sig-arg">lam21</span>,
+        <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>)</span><br />
+      Approximate the <i>angular</i> <code>Euclidean</code> distance 
+      between two (spherical) points.</td>
           <td align="right" valign="top">
             
             
@@ -8425,7 +8412,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fe77049fed0&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f9890239650&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -8472,12 +8459,13 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#haversine_" class="summary-sig-name">haversine_</a>(<span class="summary-sig-arg">geohash1</span>,
-        <span class="summary-sig-arg">geohash2</span>,
-        <span class="summary-sig-arg">**radius_wrap</span>)</span><br />
-      Compute the great-circle distance between two geohashes using the <a 
-      href="pygeodesy.formy-module.html#haversine" 
-      class="link">pygeodesy.haversine</a> formula.</td>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#haversine_" class="summary-sig-name">haversine_</a>(<span class="summary-sig-arg">phi2</span>,
+        <span class="summary-sig-arg">phi1</span>,
+        <span class="summary-sig-arg">lam21</span>)</span><br />
+      Compute the <i>angular</i> distance between two (spherical) points 
+      using the <a 
+      href="https://www.Movable-Type.co.UK/scripts/latlong.html" 
+      target="_top">Haversine</a> formula.</td>
           <td align="right" valign="top">
             
             
@@ -8801,14 +8789,17 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#intersections2" class="summary-sig-name">intersections2</a>(<span class="summary-sig-arg">center1</span>,
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#intersections2" class="summary-sig-name">intersections2</a>(<span class="summary-sig-arg">lat1</span>,
+        <span class="summary-sig-arg">lon1</span>,
         <span class="summary-sig-arg">radius1</span>,
-        <span class="summary-sig-arg">center2</span>,
+        <span class="summary-sig-arg">lat2</span>,
+        <span class="summary-sig-arg">lon2</span>,
         <span class="summary-sig-arg">radius2</span>,
-        <span class="summary-sig-arg">sphere</span>=<span class="summary-sig-default">True</span>,
-        <span class="summary-sig-arg">**Vector_and_kwds</span>)</span><br />
-      Compute the intersection of two spheres or circles, each defined by a
-      (3-D) center point and a radius.</td>
+        <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">small</span>=<span class="summary-sig-default">100000.0</span>)</span><br />
+      <i>Conveniently</i> compute the intersections of two circles each 
+      defined by a (geodetic) center point and a radius, using either ...</td>
           <td align="right" valign="top">
             
             
@@ -10476,8 +10467,8 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#normDMS" class="summary-sig-name">normDMS</a>(<span class="summary-sig-arg">strDMS</span>,
         <span class="summary-sig-arg">norm</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">**s_D_M_S</span>)</span><br />
-      Normalize all degrees, minutes and seconds (DMS) <i>symbols</i> in a 
-      string to the default symbols <a 
+      Normalize all degrees, minutes and seconds (DMS) <i>symbol</i> 
+      suffixes in a string to the default symbols <a 
       href="pygeodesy.dms-module.html#S_DEG" class="link">S_DEG</a>, <a 
       href="pygeodesy.dms-module.html#S_MIN" class="link">S_MIN</a>, <a 
       href="pygeodesy.dms-module.html#S_SEC" class="link">S_SEC</a>.</td>
@@ -11050,10 +11041,9 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#precision" class="summary-sig-name">precision</a>(<span class="summary-sig-arg">res</span>)</span><br />
-      Determine the <a href="pygeodesy.wgrs.Georef-class.html" 
-      class="link">Georef</a> precision to meet a required (geographic) 
-      resolution.</td>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#precision" class="summary-sig-name">precision</a>(<span class="summary-sig-arg">form</span>,
+        <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Set the default precison for a given F_ form.</td>
           <td align="right" valign="top">
             
             
@@ -12719,12 +12709,12 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#vincentys_" class="summary-sig-name">vincentys_</a>(<span class="summary-sig-arg">geohash1</span>,
-        <span class="summary-sig-arg">geohash2</span>,
-        <span class="summary-sig-arg">**radius_wrap</span>)</span><br />
-      Compute the distance between two geohashes using the <a 
-      href="pygeodesy.formy-module.html#vincentys" 
-      class="link">pygeodesy.vincentys</a> formula.</td>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#vincentys_" class="summary-sig-name">vincentys_</a>(<span class="summary-sig-arg">phi2</span>,
+        <span class="summary-sig-arg">phi1</span>,
+        <span class="summary-sig-arg">lam21</span>)</span><br />
+      Compute the <i>angular</i> distance between two (spherical) points 
+      using <a href="https://WikiPedia.org/wiki/Great-circle_distance" 
+      target="_top">Vincenty's</a> spherical formula.</td>
           <td align="right" valign="top">
             
             
@@ -12999,7 +12989,7 @@ ygeodesy'"><code class="variable-quote">'</code><code class="variable-string">/U
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'24.10.10'">'24.10.10'</code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'24.10.24'">'24.10.24'</code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -14750,62 +14740,14 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>bearing</code></strong> - Bearing from North (compass <code>degrees360</code>).</li>
         <li><strong class="pname"><code>form</code></strong> - Format specifier for <b><code>deg</code></b> (<code>str</code> or
-          <a href="pygeodesy.dms-module.html#F_D" class="link">F_D</a>, <a 
-          href="pygeodesy.dms-module.html#F_DM" class="link">F_DM</a>, <a 
-          href="pygeodesy.dms-module.html#F_DMS" class="link">F_DMS</a>, <a
-          href="pygeodesy.dms-module.html#F_DEG" class="link">F_DEG</a>, <a
-          href="pygeodesy.dms-module.html#F_MIN" class="link">F_MIN</a>, <a
-          href="pygeodesy.dms-module.html#F_SEC" class="link">F_SEC</a>, <a
-          href="pygeodesy.dms-module.html#F_D60" class="link">F_D60</a>, <a
-          href="pygeodesy.dms-module.html#F__E" class="link">F__E</a>, <a 
-          href="pygeodesy.dms-module.html#F__F" class="link">F__F</a>, <a 
-          href="pygeodesy.dms-module.html#F__G" class="link">F__G</a>, <a 
-          href="pygeodesy.dms-module.html#F_RAD" class="link">F_RAD</a>, <a
-          href="pygeodesy.dms-module.html#F_D_" class="link">F_D_</a>, <a 
-          href="pygeodesy.dms-module.html#F_DM_" class="link">F_DM_</a>, <a
-          href="pygeodesy.dms-module.html#F_DMS_" class="link">F_DMS_</a>, 
-          <a href="pygeodesy.dms-module.html#F_DEG_" 
-          class="link">F_DEG_</a>, <a 
-          href="pygeodesy.dms-module.html#F_MIN_" class="link">F_MIN_</a>, 
-          <a href="pygeodesy.dms-module.html#F_SEC_" 
-          class="link">F_SEC_</a>, <a 
-          href="pygeodesy.dms-module.html#F_D60_" class="link">F_D60_</a>, 
-          <a href="pygeodesy.dms-module.html#F__E_" class="link">F__E_</a>,
-          <a href="pygeodesy.dms-module.html#F__F_" class="link">F__F_</a>,
-          <a href="pygeodesy.dms-module.html#F__G_" class="link">F__G_</a>,
-          <a href="pygeodesy.dms-module.html#F_RAD_" 
-          class="link">F_RAD_</a>, <a 
-          href="pygeodesy.dms-module.html#F_D__" class="link">F_D__</a>, <a
-          href="pygeodesy.dms-module.html#F_DM__" class="link">F_DM__</a>, 
-          <a href="pygeodesy.dms-module.html#F_DMS__" 
-          class="link">F_DMS__</a>, <a 
-          href="pygeodesy.dms-module.html#F_DEG__" 
-          class="link">F_DEG__</a>, <a 
-          href="pygeodesy.dms-module.html#F_MIN__" 
-          class="link">F_MIN__</a>, <a 
-          href="pygeodesy.dms-module.html#F_SEC__" 
-          class="link">F_SEC__</a>, <a 
-          href="pygeodesy.dms-module.html#F_D60__" 
-          class="link">F_D60__</a>, <a 
-          href="pygeodesy.dms-module.html#F__E__" class="link">F__E__</a>, 
-          <a href="pygeodesy.dms-module.html#F__F__" 
-          class="link">F__F__</a>, <a 
-          href="pygeodesy.dms-module.html#F__G__" class="link">F__G__</a> 
-          or <a href="pygeodesy.dms-module.html#F_RAD__" 
-          class="link">F_RAD__</a>).</li>
-        <li><strong class="pname"><code>prec</code></strong> - Number of decimal digits (0..9 or <code>None</code> for default).
-          Trailing zero decimals are stripped for <b><code>prec</code></b> 
-          values of 1 and above, but kept for negative 
-          <b><code>prec</code></b>.</li>
+          <code>F_...</code>).</li>
+        <li><strong class="pname"><code>prec</code></strong> - Number of decimal digits (0..9 or <code>None</code> for default).</li>
         <li><strong class="pname"><code>sep</code></strong> - Separator between degrees, minutes, seconds, suffix 
           (<code>str</code>).</li>
-        <li><strong class="pname"><code>s_D_M_S</code></strong> - Optional keyword arguments <code><b>s_D</b>=str</code>, 
-          <code><b>s_M</b>=str</code>, <code><b>s_S</b>=str</code> and 
-          <code><b>s_DMS</b>=True</code> to override any or cancel all DMS 
-          symbols, defaults <a href="pygeodesy.dms-module.html#S_DEG" 
-          class="link">S_DEG</a>, <a href="pygeodesy.dms-module.html#S_MIN"
-          class="link">S_MIN</a> respectively <a 
-          href="pygeodesy.dms-module.html#S_SEC" class="link">S_SEC</a>.</li>
+        <li><strong class="pname"><code>s_D_M_S</code></strong> - Optional keyword arguments to override any or cancel all DMS 
+          symbol suffixes, see function <a 
+          href="pygeodesy.dms-module.html#toDMS" 
+          class="link">pygeodesy.toDMS</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Compass degrees per the specified <b><code>form</code></b> 
@@ -14813,7 +14755,8 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.dms-module.html#toDMS" 
-        class="link">pygeodesy.toDMS</a>.
+        class="link">pygeodesy.toDMS</a> and its <b>Notes</b> for further 
+        details.
       </p>
 </div></td></tr></table>
 </div>
@@ -16147,62 +16090,14 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>bearing</code></strong> - Bearing from North (compass <code>degrees360</code>).</li>
         <li><strong class="pname"><code>form</code></strong> - Format specifier for <b><code>deg</code></b> (<code>str</code> or
-          <a href="pygeodesy.dms-module.html#F_D" class="link">F_D</a>, <a 
-          href="pygeodesy.dms-module.html#F_DM" class="link">F_DM</a>, <a 
-          href="pygeodesy.dms-module.html#F_DMS" class="link">F_DMS</a>, <a
-          href="pygeodesy.dms-module.html#F_DEG" class="link">F_DEG</a>, <a
-          href="pygeodesy.dms-module.html#F_MIN" class="link">F_MIN</a>, <a
-          href="pygeodesy.dms-module.html#F_SEC" class="link">F_SEC</a>, <a
-          href="pygeodesy.dms-module.html#F_D60" class="link">F_D60</a>, <a
-          href="pygeodesy.dms-module.html#F__E" class="link">F__E</a>, <a 
-          href="pygeodesy.dms-module.html#F__F" class="link">F__F</a>, <a 
-          href="pygeodesy.dms-module.html#F__G" class="link">F__G</a>, <a 
-          href="pygeodesy.dms-module.html#F_RAD" class="link">F_RAD</a>, <a
-          href="pygeodesy.dms-module.html#F_D_" class="link">F_D_</a>, <a 
-          href="pygeodesy.dms-module.html#F_DM_" class="link">F_DM_</a>, <a
-          href="pygeodesy.dms-module.html#F_DMS_" class="link">F_DMS_</a>, 
-          <a href="pygeodesy.dms-module.html#F_DEG_" 
-          class="link">F_DEG_</a>, <a 
-          href="pygeodesy.dms-module.html#F_MIN_" class="link">F_MIN_</a>, 
-          <a href="pygeodesy.dms-module.html#F_SEC_" 
-          class="link">F_SEC_</a>, <a 
-          href="pygeodesy.dms-module.html#F_D60_" class="link">F_D60_</a>, 
-          <a href="pygeodesy.dms-module.html#F__E_" class="link">F__E_</a>,
-          <a href="pygeodesy.dms-module.html#F__F_" class="link">F__F_</a>,
-          <a href="pygeodesy.dms-module.html#F__G_" class="link">F__G_</a>,
-          <a href="pygeodesy.dms-module.html#F_RAD_" 
-          class="link">F_RAD_</a>, <a 
-          href="pygeodesy.dms-module.html#F_D__" class="link">F_D__</a>, <a
-          href="pygeodesy.dms-module.html#F_DM__" class="link">F_DM__</a>, 
-          <a href="pygeodesy.dms-module.html#F_DMS__" 
-          class="link">F_DMS__</a>, <a 
-          href="pygeodesy.dms-module.html#F_DEG__" 
-          class="link">F_DEG__</a>, <a 
-          href="pygeodesy.dms-module.html#F_MIN__" 
-          class="link">F_MIN__</a>, <a 
-          href="pygeodesy.dms-module.html#F_SEC__" 
-          class="link">F_SEC__</a>, <a 
-          href="pygeodesy.dms-module.html#F_D60__" 
-          class="link">F_D60__</a>, <a 
-          href="pygeodesy.dms-module.html#F__E__" class="link">F__E__</a>, 
-          <a href="pygeodesy.dms-module.html#F__F__" 
-          class="link">F__F__</a>, <a 
-          href="pygeodesy.dms-module.html#F__G__" class="link">F__G__</a> 
-          or <a href="pygeodesy.dms-module.html#F_RAD__" 
-          class="link">F_RAD__</a>).</li>
-        <li><strong class="pname"><code>prec</code></strong> - Number of decimal digits (0..9 or <code>None</code> for default).
-          Trailing zero decimals are stripped for <b><code>prec</code></b> 
-          values of 1 and above, but kept for negative 
-          <b><code>prec</code></b>.</li>
+          <code>F_...</code>).</li>
+        <li><strong class="pname"><code>prec</code></strong> - Number of decimal digits (0..9 or <code>None</code> for default).</li>
         <li><strong class="pname"><code>sep</code></strong> - Separator between degrees, minutes, seconds, suffix 
           (<code>str</code>).</li>
-        <li><strong class="pname"><code>s_D_M_S</code></strong> - Optional keyword arguments <code><b>s_D</b>=str</code>, 
-          <code><b>s_M</b>=str</code> <code><b>s_S</b>=str</code> and 
-          <code><b>s_DMS</b>=True</code> to override any or cancel all DMS 
-          symbols, defaults <a href="pygeodesy.dms-module.html#S_DEG" 
-          class="link">S_DEG</a>, <a href="pygeodesy.dms-module.html#S_MIN"
-          class="link">S_MIN</a> respectively <a 
-          href="pygeodesy.dms-module.html#S_SEC" class="link">S_SEC</a>.</li>
+        <li><strong class="pname"><code>s_D_M_S</code></strong> - Optional keyword arguments to override any or cancel all DMS 
+          symbol suffixes, see function <a 
+          href="pygeodesy.dms-module.html#toDMS" 
+          class="link">pygeodesy.toDMS</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Compass degrees and point in the specified form 
@@ -16210,7 +16105,8 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.dms-module.html#toDMS" 
-        class="link">pygeodesy.toDMS</a>.
+        class="link">pygeodesy.toDMS</a> and its <b>Notes</b> for further 
+        details.
       </p>
 </div></td></tr></table>
 </div>
@@ -16971,16 +16867,19 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>deg</code></strong> - Value in degrees (<code>scalar degrees</code>).</li>
         <li><strong class="pname"><code>prec</code></strong> - Number of decimal digits (0..9 or <code>None</code> for default).
-          Trailing zero decimals are stripped for <b><code>prec</code></b> 
-          values of 1 and above, but kept for negative 
+          Trailing zero decimals are stripped for 
+          <code><b>prec</b>=1</code> and above, but kept for negative 
           <b><code>prec</code></b>.</li>
         <li><strong class="pname"><code>s_D</code></strong> - D symbol for degrees (<code>str</code>).</li>
         <li><strong class="pname"><code>s_M</code></strong> - M symbol for minutes (<code>str</code>) or 
-          <code>&quot;&quot;</code>.</li>
+          <code>&quot;&quot;</code> aka <a href="pygeodesy-module.html#NN" 
+          class="link">pygeodesy.NN</a>.</li>
         <li><strong class="pname"><code>s_S</code></strong> - S symbol for seconds (<code>str</code>) or 
-          <code>&quot;&quot;</code>.</li>
+          <code>&quot;&quot;</code> aka <a href="pygeodesy-module.html#NN" 
+          class="link">pygeodesy.NN</a>.</li>
         <li><strong class="pname"><code>neg</code></strong> - Optional sign for negative (<code>'-'</code>).</li>
-        <li><strong class="pname"><code>pos</code></strong> - Optional sign for positive (<code>''</code>).</li>
+        <li><strong class="pname"><code>pos</code></strong> - Optional sign for positive (<code>&quot;&quot;</code>) aka <a 
+          href="pygeodesy-module.html#NN" class="link">pygeodesy.NN</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><i>Either</i> degrees, minutes <i>or</i> seconds 
@@ -17594,8 +17493,8 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <li><code><strong class='fraise'><a href="pygeodesy.azimuthal.AzimuthalError-class.html">AzimuthalError</a></strong></code> - Invalid <b><code>lat0</code></b> or <b><code>lon0</code></b> or 
         (spherical) <b><code>datum</code></b>.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.errors.GeodesicError-class.html">GeodesicError</a></strong></code> - Issue with <a 
-        href="pygeodesy.geodesicx.gx.GeodesicExact-class.html" 
-        class="link">GeodesicExact</a>, <a 
+        href="pygeodesy.geodesicx.gx.GeodesicExact-class.html" class="link"
+        onclick="show_private();">GeodesicExact</a>, <a 
         href="pygeodesy.geodsolve.GeodesicSolve-class.html" 
         class="link">GeodesicSolve</a> or <i>Karney</i>'s wrapped 
         <code>Geodesic</code>.</li>
@@ -17668,45 +17567,84 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">equirectangular4</span>&nbsp;(<span class="sig-arg">geohash1</span>,
-        <span class="sig-arg">geohash2</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.771415</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">equirectangular4</span>&nbsp;(<span class="sig-arg">lat1</span>,
+        <span class="sig-arg">lon1</span>,
+        <span class="sig-arg">lat2</span>,
+        <span class="sig-arg">lon2</span>,
+        <span class="sig-arg">adjust</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">limit</span>=<span class="sig-default">45</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Approximate the distance between two geohashes using the <a 
-  href="pygeodesy.formy-module.html#equirectangular" 
-  class="link">pygeodesy.equirectangular</a> formula.</p>
+  <p>Compute the distance between two points using the <a 
+  href="https://www.Movable-Type.co.UK/scripts/latlong.html#equirectangular"
+  target="_top">Equirectangular Approximation / Projection</a>.</p>
+  <p>This approximation is valid for short distance of several hundred Km 
+  or Miles, see the <b><code>limit</code></b> keyword argument and <a 
+  href="pygeodesy.errors.LimitError-class.html" 
+  class="link">LimitError</a>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>geohash1</code></strong> - First geohash (<a href="pygeodesy.geohash.Geohash-class.html" 
-          class="link">Geohash</a>, <code>LatLon</code> or 
-          <code>str</code>).</li>
-        <li><strong class="pname"><code>geohash2</code></strong> - Second geohash (<a href="pygeodesy.geohash.Geohash-class.html" 
-          class="link">Geohash</a>, <code>LatLon</code> or 
-          <code>str</code>).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>) or <code>None</code>, see 
-          method <a 
-          href="pygeodesy.geohash.Geohash-class.html#equirectangularTo" 
-          class="link">Geohash.equirectangularTo</a>.</li>
+        <li><strong class="pname"><code>lat1</code></strong> - Start latitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lon1</code></strong> - Start longitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lat2</code></strong> - End latitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lon2</code></strong> - End longitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>adjust</code></strong> - Adjust the wrapped, unrolled longitudinal delta by the cosine of 
+          the mean latitude (<code>bool</code>).</li>
+        <li><strong class="pname"><code>limit</code></strong> - Optional limit for lat- and longitudinal deltas 
+          (<code>degrees</code>) or <code>None</code> or <code>0</code> for
+          unlimited.</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll 
+          <b><code>lat2</code></b> and <b><code>lon2</code></b> 
+          (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Approximate distance (<code>meter</code>, same units as 
-          <b><code>radius</code></b>), see method <a 
-          href="pygeodesy.geohash.Geohash-class.html#equirectangularTo" 
-          class="link">Geohash.equirectangularTo</a>.</dd>
+        <dd>A <a href="pygeodesy.namedTuples.Distance4Tuple-class.html" 
+          class="link">Distance4Tuple</a><code>(distance2, delta_lat, 
+          delta_lon, unroll_lon2)</code> in <code>degrees squared</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - If <b><code>geohash1</code></b> or <b><code>geohash2</code></b> is 
-        not a <a href="pygeodesy.geohash.Geohash-class.html" 
-        class="link">Geohash</a>, <code>LatLon</code> or <code>str</code>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.LimitError-class.html">LimitError</a></strong></code> - If the lat- and/or longitudinal delta exceeds the 
+        <b><code>-limit..limit</code></b> range and <a 
+        href="pygeodesy.errors-module.html#limiterrors" 
+        class="link">limiterrors</a> is <code>True</code>.</li>
     </ul></dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a href="https://www.EdWilliams.org/avform.htm#flat" 
+        target="_top">Local, flat earth approximation</a>, functions <a 
+        href="pygeodesy.formy-module.html#equirectangular" 
+        class="link">equirectangular</a>, <a 
+        href="pygeodesy.formy-module.html#cosineAndoyerLambert" 
+        class="link">cosineAndoyerLambert</a>, <a 
+        href="pygeodesy.formy-module.html#cosineForsytheAndoyerLambert" 
+        class="link">cosineForsytheAndoyerLambert</a>, <a 
+        href="pygeodesy.formy-module.html#cosineLaw" 
+        class="link">cosineLaw</a>, <a 
+        href="pygeodesy.formy-module.html#euclidean" 
+        class="link">euclidean</a>, <a 
+        href="pygeodesy.formy-module.html#flatLocal" 
+        class="link">flatLocal</a>/<a 
+        href="pygeodesy.formy-module.html#flatLocal" 
+        class="link">hubeny</a>, <a 
+        href="pygeodesy.formy-module.html#flatPolar" 
+        class="link">flatPolar</a>, <a 
+        href="pygeodesy.formy-module.html#haversine" 
+        class="link">haversine</a>, <a 
+        href="pygeodesy.formy-module.html#thomas" class="link">thomas</a> 
+        and <a href="pygeodesy.formy-module.html#vincentys" 
+        class="link">vincentys</a> and methods <a 
+        href="pygeodesy.ellipsoids.Ellipsoid-class.html#distance2" 
+        class="link">Ellipsoid.distance2</a>, 
+        <code>LatLon.distanceTo*</code> and 
+        <code>LatLon.equirectangularTo</code>.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="euclid"></a>
 <div>
@@ -17874,42 +17812,55 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">euclidean_</span>&nbsp;(<span class="sig-arg">geohash1</span>,
-        <span class="sig-arg">geohash2</span>,
-        <span class="sig-arg">**radius_adjust_wrap</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">euclidean_</span>&nbsp;(<span class="sig-arg">phi2</span>,
+        <span class="sig-arg">phi1</span>,
+        <span class="sig-arg">lam21</span>,
+        <span class="sig-arg">adjust</span>=<span class="sig-default">True</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Approximate the distance between two geohashes using the <a 
-  href="pygeodesy.formy-module.html#euclidean" 
-  class="link">pygeodesy.euclidean</a> formula.</p>
+  <p>Approximate the <i>angular</i> <code>Euclidean</code> distance between
+  two (spherical) points.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>geohash1</code></strong> - First geohash (<a href="pygeodesy.geohash.Geohash-class.html" 
-          class="link">Geohash</a>, <code>LatLon</code> or 
-          <code>str</code>).</li>
-        <li><strong class="pname"><code>geohash2</code></strong> - Second geohash (<a href="pygeodesy.geohash.Geohash-class.html" 
-          class="link">Geohash</a>, <code>LatLon</code> or 
-          <code>str</code>).</li>
-        <li><strong class="pname"><code>radius_adjust_wrap</code></strong> - Optional keyword arguments for function <a 
-          href="pygeodesy.formy-module.html#euclidean" 
-          class="link">pygeodesy.euclidean</a>.</li>
+        <li><strong class="pname"><code>phi2</code></strong> - End latitude (<code>radians</code>).</li>
+        <li><strong class="pname"><code>phi1</code></strong> - Start latitude (<code>radians</code>).</li>
+        <li><strong class="pname"><code>lam21</code></strong> - Longitudinal delta, <i class="math">end-start</i> 
+          (<code>radians</code>).</li>
+        <li><strong class="pname"><code>adjust</code></strong> - Adjust the longitudinal delta by the cosine of the mean latitude 
+          (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Approximate distance (<code>meter</code>, same units as 
-          <b><code>radius</code></b>).</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - If <b><code>geohash1</code></b> or <b><code>geohash2</code></b> is 
-        not a <a href="pygeodesy.geohash.Geohash-class.html" 
-        class="link">Geohash</a>, <code>LatLon</code> or <code>str</code>.</li>
-    </ul></dd>
+        <dd>Angular distance (<code>radians</code>).</dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>See Also:</strong>
+        Functions <a href="pygeodesy.fmath-module.html#euclid" 
+        class="link">euclid</a>, <a 
+        href="pygeodesy.formy-module.html#euclidean" 
+        class="link">euclidean</a>, <a 
+        href="pygeodesy.formy-module.html#cosineAndoyerLambert_" 
+        class="link">cosineAndoyerLambert_</a>, <a 
+        href="pygeodesy.formy-module.html#cosineForsytheAndoyerLambert_" 
+        class="link">cosineForsytheAndoyerLambert_</a>, <a 
+        href="pygeodesy.formy-module.html#cosineLaw_" 
+        class="link">cosineLaw_</a>, <a 
+        href="pygeodesy.formy-module.html#flatLocal_" 
+        class="link">flatLocal_</a>/<a 
+        href="pygeodesy.formy-module.html#flatLocal_" 
+        class="link">hubeny_</a>, <a 
+        href="pygeodesy.formy-module.html#flatPolar_" 
+        class="link">flatPolar_</a>, <a 
+        href="pygeodesy.formy-module.html#haversine_" 
+        class="link">haversine_</a>, <a 
+        href="pygeodesy.formy-module.html#thomas_" class="link">thomas_</a>
+        and <a href="pygeodesy.formy-module.html#vincentys_" 
+        class="link">vincentys_</a>.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="exception_chaining"></a>
 <div>
@@ -20358,8 +20309,8 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <li><code><strong class='fraise'><a href="pygeodesy.azimuthal.AzimuthalError-class.html">AzimuthalError</a></strong></code> - Invalid <b><code>lat0</code></b> or <b><code>lon0</code></b> or 
         (spherical) <b><code>datum</code></b>.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.errors.GeodesicError-class.html">GeodesicError</a></strong></code> - Issue with <a 
-        href="pygeodesy.geodesicx.gx.GeodesicExact-class.html" 
-        class="link">GeodesicExact</a>, <a 
+        href="pygeodesy.geodesicx.gx.GeodesicExact-class.html" class="link"
+        onclick="show_private();">GeodesicExact</a>, <a 
         href="pygeodesy.geodsolve.GeodesicSolve-class.html" 
         class="link">GeodesicSolve</a> or <i>Karney</i>'s wrapped 
         <code>Geodesic</code>.</li>
@@ -20680,7 +20631,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fe77049fed0&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f9890239650&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -20826,42 +20777,56 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">haversine_</span>&nbsp;(<span class="sig-arg">geohash1</span>,
-        <span class="sig-arg">geohash2</span>,
-        <span class="sig-arg">**radius_wrap</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">haversine_</span>&nbsp;(<span class="sig-arg">phi2</span>,
+        <span class="sig-arg">phi1</span>,
+        <span class="sig-arg">lam21</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Compute the great-circle distance between two geohashes using the <a 
-  href="pygeodesy.formy-module.html#haversine" 
-  class="link">pygeodesy.haversine</a> formula.</p>
+  <p>Compute the <i>angular</i> distance between two (spherical) points 
+  using the <a href="https://www.Movable-Type.co.UK/scripts/latlong.html" 
+  target="_top">Haversine</a> formula.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>geohash1</code></strong> - First geohash (<a href="pygeodesy.geohash.Geohash-class.html" 
-          class="link">Geohash</a>, <code>LatLon</code> or 
-          <code>str</code>).</li>
-        <li><strong class="pname"><code>geohash2</code></strong> - Second geohash (<a href="pygeodesy.geohash.Geohash-class.html" 
-          class="link">Geohash</a>, <code>LatLon</code> or 
-          <code>str</code>).</li>
-        <li><strong class="pname"><code>radius_wrap</code></strong> - Optional keyword arguments for function <a 
-          href="pygeodesy.formy-module.html#haversine" 
-          class="link">pygeodesy.haversine</a>.</li>
+        <li><strong class="pname"><code>phi2</code></strong> - End latitude (<code>radians</code>).</li>
+        <li><strong class="pname"><code>phi1</code></strong> - Start latitude (<code>radians</code>).</li>
+        <li><strong class="pname"><code>lam21</code></strong> - Longitudinal delta, <i class="math">end-start</i> 
+          (<code>radians</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Great-circle distance (<code>meter</code>, same units as 
-          <b><code>radius</code></b>).</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - If <b><code>geohash1</code></b> or <b><code>geohash2</code></b> is 
-        not a <a href="pygeodesy.geohash.Geohash-class.html" 
-        class="link">Geohash</a>, <code>LatLon</code> or <code>str</code>.</li>
-    </ul></dd>
+        <dd>Angular distance (<code>radians</code>).</dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>See Also:</strong>
+        Functions <a href="pygeodesy.formy-module.html#haversine" 
+        class="link">haversine</a>, <a 
+        href="pygeodesy.formy-module.html#cosineAndoyerLambert_" 
+        class="link">cosineAndoyerLambert_</a>, <a 
+        href="pygeodesy.formy-module.html#cosineForsytheAndoyerLambert_" 
+        class="link">cosineForsytheAndoyerLambert_</a>, <a 
+        href="pygeodesy.formy-module.html#cosineLaw_" 
+        class="link">cosineLaw_</a>, <a 
+        href="pygeodesy.formy-module.html#euclidean_" 
+        class="link">euclidean_</a>, <a 
+        href="pygeodesy.formy-module.html#flatLocal_" 
+        class="link">flatLocal_</a>/<a 
+        href="pygeodesy.formy-module.html#flatLocal_" 
+        class="link">hubeny_</a>, <a 
+        href="pygeodesy.formy-module.html#flatPolar_" 
+        class="link">flatPolar_</a>, <a 
+        href="pygeodesy.formy-module.html#thomas_" class="link">thomas_</a>
+        and <a href="pygeodesy.formy-module.html#vincentys_" 
+        class="link">vincentys_</a>.
+      </p>
+      <p><strong>Note:</strong>
+        See note at function <a 
+        href="pygeodesy.formy-module.html#vincentys_" 
+        class="link">vincentys_</a>.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="heightOf"></a>
 <div>
@@ -21468,9 +21433,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Method <a 
-        href="pygeodesy.rhumb.bases.RhumbLineBase-class.html#intersection2"
-        class="link">RhumbLine.intersection2</a>.
+        Method RhumbLine.intersection2.
       </p>
       <p><strong>Note:</strong>
         The returned intersections may be near-antipodal.
@@ -21562,70 +21525,83 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">intersections2</span>&nbsp;(<span class="sig-arg">center1</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">intersections2</span>&nbsp;(<span class="sig-arg">lat1</span>,
+        <span class="sig-arg">lon1</span>,
         <span class="sig-arg">radius1</span>,
-        <span class="sig-arg">center2</span>,
+        <span class="sig-arg">lat2</span>,
+        <span class="sig-arg">lon2</span>,
         <span class="sig-arg">radius2</span>,
-        <span class="sig-arg">sphere</span>=<span class="sig-default">True</span>,
-        <span class="sig-arg">**Vector_and_kwds</span>)</span>
+        <span class="sig-arg">datum</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">small</span>=<span class="sig-default">100000.0</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Compute the intersection of two spheres or circles, each defined by a 
-  (3-D) center point and a radius.</p>
+  <p><i>Conveniently</i> compute the intersections of two circles each 
+  defined by a (geodetic) center point and a radius, using either ...</p>
+  <p>1) <a href="pygeodesy.vector3d-module.html#intersections2" 
+  class="link" onclick="show_private();">vector3d.intersections2</a> for 
+  <b><code>small</code></b> distances (below 100 Km or about 0.88 degrees) 
+  or if <i>no</i> <b><code>datum</code></b> is specified, or ...</p>
+  <p>2) <a 
+  href="pygeodesy.sphericalTrigonometry-module.html#intersections2" 
+  class="link">sphericalTrigonometry.intersections2</a> for a spherical 
+  <b><code>datum</code></b> or a <code>scalar <b>datum</b></code> 
+  representing the earth radius, conventionally in <code>meter</code> or 
+  ...</p>
+  <p>3) <a href="pygeodesy.ellipsoidalKarney-module.html#intersections2" 
+  class="link">ellipsoidalKarney.intersections2</a> for an ellipsoidal 
+  <b><code>datum</code></b> and if <i>Karney</i>'s <a 
+  href="https://PyPI.org/project/geographiclib" 
+  target="_top">geographiclib</a> is installed, otherwise ...</p>
+  <p>4) <a href="pygeodesy.ellipsoidalExact-module.html#intersections2" 
+  class="link">ellipsoidalExact.intersections2</a>, provided 
+  <b><code>datum</code></b> is ellipsoidal.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>center1</code></strong> - Center of the first sphere or circle (<code>Cartesian</code>, <a 
-          href="pygeodesy.vector3d.Vector3d-class.html" 
-          class="link">Vector3d</a>, <code>Vector3Tuple</code> or 
-          <code>Vector4Tuple</code>).</li>
-        <li><strong class="pname"><code>radius1</code></strong> - Radius of the first sphere or circle (same units as the 
-          <b><code>center1</code></b> coordinates).</li>
-        <li><strong class="pname"><code>center2</code></strong> - Center of the second sphere or circle (<code>Cartesian</code>, <a
-          href="pygeodesy.vector3d.Vector3d-class.html" 
-          class="link">Vector3d</a>, <code>Vector3Tuple</code> or 
-          <code>Vector4Tuple</code>).</li>
-        <li><strong class="pname"><code>radius2</code></strong> - Radius of the second sphere or circle (same units as the 
-          <b><code>center1</code></b> and <b><code>center2</code></b> 
-          coordinates).</li>
-        <li><strong class="pname"><code>sphere</code></strong> - If <code>True</code>, compute the center and radius of the 
-          intersection of two spheres.  If <code>False</code>, ignore the 
-          <code>z</code>-component and compute the intersection of two 
-          circles (<code>bool</code>).</li>
-        <li><strong class="pname"><code>Vector_and_kwds</code></strong> - Optional class <code><b>Vector</b>=None</code> to return the 
-          intersection points and optional, additional 
-          <b><code>Vector</code></b> keyword arguments, otherwise 
-          <b><code>center1</code></b>'s (sub-)class.</li>
+        <li><strong class="pname"><code>lat1</code></strong> - Latitude of the first circle center (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lon1</code></strong> - Longitude of the first circle center (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>radius1</code></strong> - Radius of the first circle (<code>meter</code>, conventionally).</li>
+        <li><strong class="pname"><code>lat2</code></strong> - Latitude of the second circle center (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lon2</code></strong> - Longitude of the second circle center (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>radius2</code></strong> - Radius of the second circle (<code>meter</code>, same units as 
+          <b><code>radius1</code></b>).</li>
+        <li><strong class="pname"><code>datum</code></strong> - Optional datum (<a href="pygeodesy.datums.Datum-class.html" 
+          class="link">Datum</a>) or ellipsoid (<a 
+          href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+          class="link">Ellipsoid</a>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
+          class="link">Ellipsoid2</a> or <a 
+          href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
+          class="link">a_f2Tuple</a>) or <code>scalar</code> earth radius 
+          (<code>meter</code>, same units as <b><code>radius1</code></b> 
+          and <b><code>radius2</code></b>) or <code>None</code>.</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll 
+          <b><code>lat2</code></b> and <b><code>lon2</code></b> 
+          (<code>bool</code>).</li>
+        <li><strong class="pname"><code>small</code></strong> - Upper limit for small distances (<code>meter</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>If <code><b>sphere</b> is True</code>, a 2-tuple of the 
-          <code>center</code> and <code>radius</code> of the intersection 
-          of the <i>spheres</i>.  For abutting circles, <code>radius</code>
-          is <code>0.0</code> and <code>center</code> is the <i>radical 
-          center</i>.
-          <p>If <code><b>sphere</b> is False</code>, a 2-tuple with the two
-          intersection points of the <i>circles</i>.  For abutting circles,
-          both points are the same instance, aka the <i>radical 
-          center</i>.</p></dd>
+        <dd>2-Tuple of the intersection points, each a <a 
+          href="pygeodesy.namedTuples.LatLon2Tuple-class.html" 
+          class="link">LatLon2Tuple</a><code>(lat, lon)</code>.  For 
+          abutting circles, the points are the same instance, aka the 
+          <i>radical center</i>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - Concentric, invalid or non-intersecting spheres or circles.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>center1</code></b> or <b><code>center2</code></b>.</li>
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.UnitError-class.html">UnitError</a></strong></code> - Invalid <b><code>radius1</code></b> or <b><code>radius2</code></b>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - Concentric, antipodal, invalid or non-intersecting circles or no 
+        convergence.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>datum</code></b>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.UnitError-class.html">UnitError</a></strong></code> - Invalid <b><code>lat1</code></b>, <b><code>lon1</code></b>, 
+        <b><code>radius1</code></b>, <b><code>lat2</code></b>, 
+        <b><code>lon2</code></b> or <b><code>radius2</code></b>.</li>
     </ul></dd>
   </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        <a 
-        href="https://MathWorld.Wolfram.com/Sphere-SphereIntersection.html"
-        target="_top">Sphere-Sphere</a> and <a 
-        href="https://MathWorld.Wolfram.com/Circle-CircleIntersection.html"
-        target="_top">Circle-Circle</a> Intersection.
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="isBoolean"></a>
 <div>
@@ -23076,71 +23052,22 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>deg</code></strong> - Latitude to be formatted (<code>scalar degrees</code>).</li>
         <li><strong class="pname"><code>form</code></strong> - Format specifier for <b><code>deg</code></b> (<code>str</code> or
-          <a href="pygeodesy.dms-module.html#F_D" class="link">F_D</a>, <a 
-          href="pygeodesy.dms-module.html#F_DM" class="link">F_DM</a>, <a 
-          href="pygeodesy.dms-module.html#F_DMS" class="link">F_DMS</a>, <a
-          href="pygeodesy.dms-module.html#F_DEG" class="link">F_DEG</a>, <a
-          href="pygeodesy.dms-module.html#F_MIN" class="link">F_MIN</a>, <a
-          href="pygeodesy.dms-module.html#F_SEC" class="link">F_SEC</a>, <a
-          href="pygeodesy.dms-module.html#F_D60" class="link">F_D60</a>, <a
-          href="pygeodesy.dms-module.html#F__E" class="link">F__E</a>, <a 
-          href="pygeodesy.dms-module.html#F__F" class="link">F__F</a>, <a 
-          href="pygeodesy.dms-module.html#F__G" class="link">F__G</a>, <a 
-          href="pygeodesy.dms-module.html#F_RAD" class="link">F_RAD</a>, <a
-          href="pygeodesy.dms-module.html#F_D_" class="link">F_D_</a>, <a 
-          href="pygeodesy.dms-module.html#F_DM_" class="link">F_DM_</a>, <a
-          href="pygeodesy.dms-module.html#F_DMS_" class="link">F_DMS_</a>, 
-          <a href="pygeodesy.dms-module.html#F_DEG_" 
-          class="link">F_DEG_</a>, <a 
-          href="pygeodesy.dms-module.html#F_MIN_" class="link">F_MIN_</a>, 
-          <a href="pygeodesy.dms-module.html#F_SEC_" 
-          class="link">F_SEC_</a>, <a 
-          href="pygeodesy.dms-module.html#F_D60_" class="link">F_D60_</a>, 
-          <a href="pygeodesy.dms-module.html#F__E_" class="link">F__E_</a>,
-          <a href="pygeodesy.dms-module.html#F__F_" class="link">F__F_</a>,
-          <a href="pygeodesy.dms-module.html#F__G_" class="link">F__G_</a>,
-          <a href="pygeodesy.dms-module.html#F_RAD_" 
-          class="link">F_RAD_</a>, <a 
-          href="pygeodesy.dms-module.html#F_D__" class="link">F_D__</a>, <a
-          href="pygeodesy.dms-module.html#F_DM__" class="link">F_DM__</a>, 
-          <a href="pygeodesy.dms-module.html#F_DMS__" 
-          class="link">F_DMS__</a>, <a 
-          href="pygeodesy.dms-module.html#F_DEG__" 
-          class="link">F_DEG__</a>, <a 
-          href="pygeodesy.dms-module.html#F_MIN__" 
-          class="link">F_MIN__</a>, <a 
-          href="pygeodesy.dms-module.html#F_SEC__" 
-          class="link">F_SEC__</a>, <a 
-          href="pygeodesy.dms-module.html#F_D60__" 
-          class="link">F_D60__</a>, <a 
-          href="pygeodesy.dms-module.html#F__E__" class="link">F__E__</a>, 
-          <a href="pygeodesy.dms-module.html#F__F__" 
-          class="link">F__F__</a>, <a 
-          href="pygeodesy.dms-module.html#F__G__" class="link">F__G__</a> 
-          or <a href="pygeodesy.dms-module.html#F_RAD__" 
-          class="link">F_RAD__</a>).</li>
-        <li><strong class="pname"><code>prec</code></strong> - Number of decimal digits (0..9 or <code>None</code> for default).
-          Trailing zero decimals are stripped for <b><code>prec</code></b> 
-          values of 1 and above, but kept for negative 
-          <b><code>prec</code></b>.</li>
+          <code>F_...</code>).</li>
+        <li><strong class="pname"><code>prec</code></strong> - Number of decimal digits (0..9 or <code>None</code> for default).</li>
         <li><strong class="pname"><code>sep</code></strong> - Separator between degrees, minutes, seconds, suffix 
           (<code>str</code>).</li>
-        <li><strong class="pname"><code>s_D_M_S</code></strong> - Optional keyword arguments <code><b>s_D</b>=str</code>, 
-          <code><b>s_M</b>=str</code> <code><b>s_S</b>=str</code> and 
-          <code><b>s_DMS</b>=True</code> to override any or cancel all DMS 
-          symbols, defaults <a href="pygeodesy.dms-module.html#S_DEG" 
-          class="link">S_DEG</a>, <a href="pygeodesy.dms-module.html#S_MIN"
-          class="link">S_MIN</a> respectively <a 
-          href="pygeodesy.dms-module.html#S_SEC" class="link">S_SEC</a>.</li>
+        <li><strong class="pname"><code>s_D_M_S</code></strong> - Optional keyword arguments to override any or cancel all DMS 
+          symbol suffixes, see function <a 
+          href="pygeodesy.dms-module.html#toDMS" 
+          class="link">pygeodesy.toDMS</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Degrees in the specified form (<code>str</code>).</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Functions <a href="pygeodesy.dms-module.html#toDMS" 
-        class="link">pygeodesy.toDMS</a> and <a 
-        href="pygeodesy.dms-module.html#lonDMS" 
-        class="link">pygeodesy.lonDMS</a>.
+        Function <a href="pygeodesy.dms-module.html#toDMS" 
+        class="link">pygeodesy.toDMS</a> and its <b>Notes</b> for further 
+        details.
       </p>
 </div></td></tr></table>
 </div>
@@ -23202,18 +23129,16 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>lls</code></strong> - Single (<code>LatLon</code>) or list, sequence, tuple, etc. 
+        <li><strong class="pname"><code>lls</code></strong> - Single (<code>LatLon</code>) or an iterable 
           (<code>LatLon</code>s).</li>
         <li><strong class="pname"><code>m_form_prec_sep_s_D_M_S</code></strong> - Optional keyword arguments <code><b>m</b>eter</code>, 
           <code><b>form</b>at</code>, <code><b>prec</b>ision</code>, 
           <b><code>s_D</code></b>, <b><code>s_M</code></b>, 
           <b><code>s_S</code></b>, <b><code>s_DMS</code></b> and 
-          <i>DEPRECATED</i> <code><b>sep</b>=None</code>, see method 
-          <code>LatLon.toStr</code> and functions <a 
-          href="pygeodesy.dms-module.html#latDMS" 
-          class="link">pygeodesy.latDMS</a> and <a 
-          href="pygeodesy.dms-module.html#lonDMS" 
-          class="link">pygeodesy.lonDMS</a> for more details.</li>
+          <i>DEPRECATED</i>  <code><b>sep</b>=None</code>, see function <a 
+          href="pygeodesy.dms-module.html#toDMS" 
+          class="link">pygeodesy.toDMS</a> and method 
+          <code>LatLon.toStr</code> for more details.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <code>tuple</code> of <code>str</code>s if 
@@ -23233,9 +23158,8 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <code>LatLon.toStr</code>.
       </p>
       <p><strong>Note:</strong>
-        Keyword argument <code><b>sep</b>=None</code> to join a 
-        <code>str</code>ing from the returned <code>tuple</code> has been 
-        <i>DEPRECATED</i>, use 
+        Keyword argument <code><b>sep</b>=None</code> to join the resturned
+        <code>tuple</code> has been <i>DEPRECATED</i>, use 
         <code><b>sep</b>.join(<b>latlonDMS_</b>(...))</code> instead.
       </p>
 </div></td></tr></table>
@@ -23264,12 +23188,10 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
           <code><b>form</b>at</code>, <code><b>prec</b>ision</code>, 
           <b><code>s_D</code></b>, <b><code>s_M</code></b>, 
           <b><code>s_S</code></b>, <b><code>s_DMS</code></b> and 
-          <i>DEPRECATED</i> <code><b>sep</b>=None</code>, see method 
-          <code>LatLon.toStr</code> and functions <a 
-          href="pygeodesy.dms-module.html#latDMS" 
-          class="link">pygeodesy.latDMS</a> and <a 
-          href="pygeodesy.dms-module.html#lonDMS" 
-          class="link">pygeodesy.lonDMS</a> for more details.</li>
+          <i>DEPRECATED</i>  <code><b>sep</b>=None</code>, see function <a 
+          href="pygeodesy.dms-module.html#toDMS" 
+          class="link">pygeodesy.toDMS</a> and method 
+          <code>LatLon.toStr</code> for more details.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <code>tuple</code> of <code>str</code>s if 2 or more 
@@ -23289,9 +23211,8 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <code>LatLon.toStr</code>.
       </p>
       <p><strong>Note:</strong>
-        Keyword argument <code><b>sep</b>=None</code> to join a 
-        <code>str</code>ing from the returned <code>tuple</code> has been 
-        <i>DEPRECATED</i>, use 
+        Keyword argument <code><b>sep</b>=None</code> to join the resturned
+        <code>tuple</code> has been <i>DEPRECATED</i>, use 
         <code><b>sep</b>.join(<b>latlonDMS_</b>(...))</code> instead.
       </p>
 </div></td></tr></table>
@@ -23379,71 +23300,20 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>deg</code></strong> - Longitude to be formatted (<code>scalar degrees</code>).</li>
         <li><strong class="pname"><code>form</code></strong> - Format specifier for <b><code>deg</code></b> (<code>str</code> or
-          <a href="pygeodesy.dms-module.html#F_D" class="link">F_D</a>, <a 
-          href="pygeodesy.dms-module.html#F_DM" class="link">F_DM</a>, <a 
-          href="pygeodesy.dms-module.html#F_DMS" class="link">F_DMS</a>, <a
-          href="pygeodesy.dms-module.html#F_DEG" class="link">F_DEG</a>, <a
-          href="pygeodesy.dms-module.html#F_MIN" class="link">F_MIN</a>, <a
-          href="pygeodesy.dms-module.html#F_SEC" class="link">F_SEC</a>, <a
-          href="pygeodesy.dms-module.html#F_D60" class="link">F_D60</a>, <a
-          href="pygeodesy.dms-module.html#F__E" class="link">F__E</a>, <a 
-          href="pygeodesy.dms-module.html#F__F" class="link">F__F</a>, <a 
-          href="pygeodesy.dms-module.html#F__G" class="link">F__G</a>, <a 
-          href="pygeodesy.dms-module.html#F_RAD" class="link">F_RAD</a>, <a
-          href="pygeodesy.dms-module.html#F_D_" class="link">F_D_</a>, <a 
-          href="pygeodesy.dms-module.html#F_DM_" class="link">F_DM_</a>, <a
-          href="pygeodesy.dms-module.html#F_DMS_" class="link">F_DMS_</a>, 
-          <a href="pygeodesy.dms-module.html#F_DEG_" 
-          class="link">F_DEG_</a>, <a 
-          href="pygeodesy.dms-module.html#F_MIN_" class="link">F_MIN_</a>, 
-          <a href="pygeodesy.dms-module.html#F_SEC_" 
-          class="link">F_SEC_</a>, <a 
-          href="pygeodesy.dms-module.html#F_D60_" class="link">F_D60_</a>, 
-          <a href="pygeodesy.dms-module.html#F__E_" class="link">F__E_</a>,
-          <a href="pygeodesy.dms-module.html#F__F_" class="link">F__F_</a>,
-          <a href="pygeodesy.dms-module.html#F__G_" class="link">F__G_</a>,
-          <a href="pygeodesy.dms-module.html#F_RAD_" 
-          class="link">F_RAD_</a>, <a 
-          href="pygeodesy.dms-module.html#F_D__" class="link">F_D__</a>, <a
-          href="pygeodesy.dms-module.html#F_DM__" class="link">F_DM__</a>, 
-          <a href="pygeodesy.dms-module.html#F_DMS__" 
-          class="link">F_DMS__</a>, <a 
-          href="pygeodesy.dms-module.html#F_DEG__" 
-          class="link">F_DEG__</a>, <a 
-          href="pygeodesy.dms-module.html#F_MIN__" 
-          class="link">F_MIN__</a>, <a 
-          href="pygeodesy.dms-module.html#F_SEC__" 
-          class="link">F_SEC__</a>, <a 
-          href="pygeodesy.dms-module.html#F_D60__" 
-          class="link">F_D60__</a>, <a 
-          href="pygeodesy.dms-module.html#F__E__" class="link">F__E__</a>, 
-          <a href="pygeodesy.dms-module.html#F__F__" 
-          class="link">F__F__</a>, <a 
-          href="pygeodesy.dms-module.html#F__G__" class="link">F__G__</a> 
-          or <a href="pygeodesy.dms-module.html#F_RAD__" 
-          class="link">F_RAD__</a>).</li>
-        <li><strong class="pname"><code>prec</code></strong> - Number of decimal digits (0..9 or <code>None</code> for default).
-          Trailing zero decimals are stripped for <b><code>prec</code></b> 
-          values of 1 and above, but kept for negative 
-          <b><code>prec</code></b>.</li>
+          <code>F_...</code>).</li>
+        <li><strong class="pname"><code>prec</code></strong> - Number of decimal digits (0..9 or <code>None</code> for default).</li>
         <li><strong class="pname"><code>sep</code></strong> - Separator between degrees, minutes, seconds, suffix 
           (<code>str</code>).</li>
-        <li><strong class="pname"><code>s_D_M_S</code></strong> - Optional keyword arguments <code><b>s_D</b>=str</code>, 
-          <code><b>s_M</b>=str</code> <code><b>s_S</b>=str</code> and 
-          <code><b>s_DMS</b>=True</code> to override any or cancel all DMS 
-          symbols, defaults <a href="pygeodesy.dms-module.html#S_DEG" 
-          class="link">S_DEG</a>, <a href="pygeodesy.dms-module.html#S_MIN"
-          class="link">S_MIN</a> respectively <a 
-          href="pygeodesy.dms-module.html#S_SEC" class="link">S_SEC</a>.</li>
+        <li><strong class="pname"><code>s_D_M_S</code></strong> - Optional keyword arguments to override any or cancel all DMS 
+          symbol suffixes.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Degrees in the specified form (<code>str</code>).</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Functions <a href="pygeodesy.dms-module.html#toDMS" 
-        class="link">pygeodesy.toDMS</a> and <a 
-        href="pygeodesy.dms-module.html#latDMS" 
-        class="link">pygeodesy.latDMS</a>.
+        Function <a href="pygeodesy.dms-module.html#toDMS" 
+        class="link">pygeodesy.toDMS</a> and its <b>Notes</b> for further 
+        details.
       </p>
 </div></td></tr></table>
 </div>
@@ -24406,10 +24276,10 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
           <b><code>points</code></b> (<code>bool</code>).</li>
         <li><strong class="pname"><code>adjust</code></strong> - See function <a 
-          href="pygeodesy.geohash-module.html#equirectangular4" 
+          href="pygeodesy.formy-module.html#equirectangular4" 
           class="link">pygeodesy.equirectangular4</a> (<code>bool</code>).</li>
         <li><strong class="pname"><code>limit</code></strong> - See function <a 
-          href="pygeodesy.geohash-module.html#equirectangular4" 
+          href="pygeodesy.formy-module.html#equirectangular4" 
           class="link">pygeodesy.equirectangular4</a> 
           (<code>degrees</code>), default <code>9 degrees</code> is about 
           <code>1,000 Kmeter</code> (for mean spherical earth radius <a 
@@ -24438,7 +24308,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds the 
         <b><code>limit</code></b>, see function <a 
-        href="pygeodesy.geohash-module.html#equirectangular4" 
+        href="pygeodesy.formy-module.html#equirectangular4" 
         class="link">pygeodesy.equirectangular4</a>.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.errors.PointsError-class.html">PointsError</a></strong></code> - Insufficient number of <b><code>points</code></b></li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Some <b><code>points</code></b> are not <code>LatLon</code>.</li>
@@ -24446,7 +24316,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
         Distances are <i>approximated</i> by function <a 
-        href="pygeodesy.geohash-module.html#equirectangular4" 
+        href="pygeodesy.formy-module.html#equirectangular4" 
         class="link">pygeodesy.equirectangular4</a>. For more accuracy use 
         one of the <code>LatLon.nearestOn6</code> methods.
       </p>
@@ -24513,10 +24383,9 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
-        Distances measured with method <a 
-        href="pygeodesy.vector3dBase.Vector3dBase-class.html#equirectangular"
-        class="link">Vector3d.equirectangular</a>.  For geodetic distances 
-        use function <a href="pygeodesy.points-module.html#nearestOn5" 
+        Distances measured with method Vector3d.equirectangular.  For 
+        geodetic distances use function <a 
+        href="pygeodesy.points-module.html#nearestOn5" 
         class="link">nearestOn5</a> or one of the 
         <code>LatLon.nearestOn6</code> methods.
       </p>
@@ -24659,22 +24528,26 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
     </td>
   </tr></table>
   
-  <p>Normalize all degrees, minutes and seconds (DMS) <i>symbols</i> in a 
-  string to the default symbols <a href="pygeodesy.dms-module.html#S_DEG" 
-  class="link">S_DEG</a>, <a href="pygeodesy.dms-module.html#S_MIN" 
-  class="link">S_MIN</a>, <a href="pygeodesy.dms-module.html#S_SEC" 
-  class="link">S_SEC</a>.</p>
+  <p>Normalize all degrees, minutes and seconds (DMS) <i>symbol</i> 
+  suffixes in a string to the default symbols <a 
+  href="pygeodesy.dms-module.html#S_DEG" class="link">S_DEG</a>, <a 
+  href="pygeodesy.dms-module.html#S_MIN" class="link">S_MIN</a>, <a 
+  href="pygeodesy.dms-module.html#S_SEC" class="link">S_SEC</a>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>strDMS</code></strong> - Original DMS string (<code>str</code>).</li>
         <li><strong class="pname"><code>norm</code></strong> - Optional replacement symbol (<code>str</code>) or 
-          <code>None</code> for the default DMS symbols).  Use 
+          <code>None</code> for the default DMS symbol).  Use 
           <code><b>norm</b>=&quot;&quot;</code> to remove all DMS symbols.</li>
-        <li><strong class="pname"><code>s_D_M_S</code></strong> - Optional, alternate DMS symbols <code><b>s_D</b>=str</code>, 
-          <code><b>s_M</b>=str</code>, <code><b>s_S</b>=str</code> and/or 
-          <code><b>s_R</b>=str</code> for radians, each to be replaced by 
-          <b><code>norm</code></b>.</li>
+        <li><strong class="pname"><code>s_D_M_S</code></strong> - Optional, alternate DMS symbol suffixes 
+          <code><b>s_D</b>=</code><a href="pygeodesy.dms-module.html#S_DEG"
+          class="link">S_DEG</a>, <code><b>s_M</b>=</code><a 
+          href="pygeodesy.dms-module.html#S_MIN" class="link">S_MIN</a>, 
+          <code><b>s_S</b>=</code><a href="pygeodesy.dms-module.html#S_SEC"
+          class="link">S_SEC</a> and <code><b>s_R</b>=</code><a 
+          href="pygeodesy.dms-module.html#S_RAD" class="link">S_RAD</a> for
+          radians, each to be replaced by <b><code>norm</code></b>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Normalized DMS (<code>str</code>).</dd>
@@ -25051,9 +24924,14 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> the lat- and 
           longitude, overriding <b><code>clipLat</code></b> and 
           <b><code>clipLon</code></b> (<code>bool</code>).</li>
-        <li><strong class="pname"><code>s_D_M_S</code></strong> - Optional, alternate symbol for degrees 
-          <code><b>s_D</b>=str</code>, minutes <code><b>s_M</b>=str</code> 
-          and/or seconds <code><b>s_S</b>=str</code>.</li>
+        <li><strong class="pname"><code>s_D_M_S</code></strong> - Optional, alternate DMS symbol suffixes for degrees 
+          <code><b>s_D</b>=</code><a href="pygeodesy.dms-module.html#S_DEG"
+          class="link">S_DEG</a>, minutes <code><b>s_M</b>=</code><a 
+          href="pygeodesy.dms-module.html#S_MIN" class="link">S_MIN</a> and
+          seconds <code><b>s_S</b>=</code><a 
+          href="pygeodesy.dms-module.html#S_SEC" class="link">S_SEC</a>, 
+          see function <a href="pygeodesy.dms-module.html#toDMS" 
+          class="link">pygeodesy.toDMS</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.namedTuples.LatLon3Tuple-class.html" 
@@ -25112,11 +24990,12 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>strDDDMMSS</code></strong> - Degrees in any of several forms (<code>str</code>) and types 
           (<code>float</code>, <code>int</code>, other).</li>
-        <li><strong class="pname"><code>suffix</code></strong> - Optional, valid compass points (<code>str</code>, 
-          <code>tuple</code>).</li>
+        <li><strong class="pname"><code>suffix</code></strong> - Optional compass points (<code>str</code>), valid in 
+          <b><code>strDDDMMSS</code></b>.</li>
         <li><strong class="pname"><code>sep</code></strong> - Optional separator between &quot;[D]DD&quot;, &quot;MM&quot;, 
           &quot;SS&quot;, <b><code>suffix</code></b> (<a 
-          href="pygeodesy.dms-module.html#S_SEP" class="link">S_SEP</a>).</li>
+          href="pygeodesy.dms-module.html#S_SEP" class="link">S_SEP</a>) in
+          <b><code>strDDDMMSS</code></b>.</li>
         <li><strong class="pname"><code>clip</code></strong> - Optionally, limit value to range <code>-/+<b>clip</b></code> 
           (<code>degrees</code>).</li>
         <li><strong class="pname"><code>sexagecimal</code></strong> - If <code>True</code>, convert <code>&quot;D.MMSS&quot;</code> or 
@@ -25133,7 +25012,8 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.ParseError-class.html">ParseError</a></strong></code> - Invalid <b><code>strDDDMMSS</code></b> or <b><code>clip</code></b> 
         or the form of <b><code>strDDDMMSS</code></b> is incompatible with 
-        the suffixed or <b><code>suffix</code></b> compass point.</li>
+        or invalid for the given <b><code>suffix</code></b> compass 
+        point(s).</li>
         <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - Value of <b><code>strDDDMMSS</code></b> outside the valid 
         <code>-/+<b>clip</b></code> range and <a 
         href="pygeodesy.errors-module.html#rangerrors" 
@@ -25214,13 +25094,18 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
           (<code>float</code>, <code>int</code>, other).</li>
         <li><strong class="pname"><code>suffix</code></strong> - Optional, valid compass points (<code>str</code>, 
           <code>tuple</code>).</li>
-        <li><strong class="pname"><code>sep</code></strong> - Optional separator between deg&#176;, min&#8242;, sec&#8243;, 
-          <b><code>suffix</code></b> (<code>''</code>).</li>
+        <li><strong class="pname"><code>sep</code></strong> - Optional separator between <code>deg&#176;</code>, <code>min&#8242;</code>, 
+          <code>sec&#8243;</code>, <b><code>suffix</code></b> (<code>''</code>).</li>
         <li><strong class="pname"><code>clip</code></strong> - Optionally, limit value to range <code>-/+<b>clip</b></code> 
           (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>s_D_M_S</code></strong> - Optional, alternate symbol for degrees 
-          <code><b>s_D</b>=str</code>, minutes <code><b>s_M</b>=str</code> 
-          and/or seconds <code><b>s_S</b>=str</code>.</li>
+        <li><strong class="pname"><code>s_D_M_S</code></strong> - Optional, alternate DMS symbol suffixes for degrees 
+          <code><b>s_D</b>=</code><a href="pygeodesy.dms-module.html#S_DEG"
+          class="link">S_DEG</a>, minutes <code><b>s_M</b>=</code><a 
+          href="pygeodesy.dms-module.html#S_MIN" class="link">S_MIN</a> and
+          seconds <code><b>s_S</b>=</code><a 
+          href="pygeodesy.dms-module.html#S_SEC" class="link">S_SEC</a>, 
+          see function <a href="pygeodesy.dms-module.html#toDMS" 
+          class="link">pygeodesy.toDMS</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Degrees (<code>float</code>).</dd>
@@ -25292,9 +25177,14 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> the lat- and 
           longitude, overriding <b><code>clipLat</code></b> and 
           <b><code>clipLon</code></b> (<code>bool</code>).</li>
-        <li><strong class="pname"><code>s_D_M_S</code></strong> - Optional, alternate symbol for degrees 
-          <code><b>s_D</b>=str</code>, minutes <code><b>s_M</b>=str</code> 
-          and/or seconds <code><b>s_S</b>=str</code>.</li>
+        <li><strong class="pname"><code>s_D_M_S</code></strong> - Optional, alternate DMS symbol suffixes for degrees 
+          <code><b>s_D</b>=</code><a href="pygeodesy.dms-module.html#S_DEG"
+          class="link">S_DEG</a>, minutes <code><b>s_M</b>=</code><a 
+          href="pygeodesy.dms-module.html#S_MIN" class="link">S_MIN</a> and
+          seconds <code><b>s_S</b>=</code><a 
+          href="pygeodesy.dms-module.html#S_SEC" class="link">S_SEC</a>, 
+          see function <a href="pygeodesy.dms-module.html#toDMS" 
+          class="link">pygeodesy.toDMS</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.namedTuples.LatLon2Tuple-class.html" 
@@ -25764,7 +25654,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
         This perimeter is based on the <a 
-        href="pygeodesy.geohash-module.html#equirectangular4" 
+        href="pygeodesy.formy-module.html#equirectangular4" 
         class="link">pygeodesy.equirectangular4</a> distance approximation 
         and is ill-suited for regions exceeding several hundred Km or Miles
         or with near-polar latitudes.
@@ -26049,35 +25939,45 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">precision</span>&nbsp;(<span class="sig-arg">res</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">precision</span>&nbsp;(<span class="sig-arg">form</span>,
+        <span class="sig-arg">prec</span>=<span class="sig-default">None</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Determine the <a href="pygeodesy.wgrs.Georef-class.html" 
-  class="link">Georef</a> precision to meet a required (geographic) 
-  resolution.</p>
+  <p>Set the default precison for a given F_ form.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>res</code></strong> - The required resolution (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>form</code></strong> - <a href="pygeodesy.dms-module.html#F_D" class="link">F_D</a>, <a 
+          href="pygeodesy.dms-module.html#F_DM" class="link">F_DM</a>, <a 
+          href="pygeodesy.dms-module.html#F_DMS" class="link">F_DMS</a>, <a
+          href="pygeodesy.dms-module.html#F_DEG" class="link">F_DEG</a>, <a
+          href="pygeodesy.dms-module.html#F_MIN" class="link">F_MIN</a>, <a
+          href="pygeodesy.dms-module.html#F_SEC" class="link">F_SEC</a>, <a
+          href="pygeodesy.dms-module.html#F_D60" class="link">F_D60</a>, <a
+          href="pygeodesy.dms-module.html#F__E" class="link">F__E</a>, <a 
+          href="pygeodesy.dms-module.html#F__F" class="link">F__F</a>, <a 
+          href="pygeodesy.dms-module.html#F__G" class="link">F__G</a> or <a
+          href="pygeodesy.dms-module.html#F_RAD" class="link">F_RAD</a> 
+          (<code>str</code>).</li>
+        <li><strong class="pname"><code>prec</code></strong> - Number of decimal digits (0..9 or <code>None</code> for default).
+          Trailing zero decimals are stripped for 
+          <code><b>prec</b>=1</code> and above, but kept for negative 
+          <b><code>prec</code></b>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The <a href="pygeodesy.wgrs.Georef-class.html" 
-          class="link">Georef</a> precision (<code>int</code> 0..11).</dd>
+        <dd>Previous precision for the <b><code>form</code></b> 
+          (<code>int</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>res</code></b>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>form</code></b> or <b><code>prec</code></b> or 
+        <b><code>prec</code></b> outside range <code>-9..+9</code>.</li>
     </ul></dd>
   </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        Function <a href="pygeodesy.wgrs-module.html#encode" 
-        class="link">wgrs.encode</a> for more <code>precision</code> 
-        details.
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="print_"></a>
 <div>
@@ -26750,7 +26650,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <li><strong class="pname"><code>indices</code></strong> - If <code>True</code>, return the simplified point indices instead
           of the simplified points (<code>bool</code>).</li>
         <li><strong class="pname"><code>options</code></strong> - Optional keyword arguments passed thru to function <a 
-          href="pygeodesy.geohash-module.html#equirectangular4" 
+          href="pygeodesy.formy-module.html#equirectangular4" 
           class="link">pygeodesy.equirectangular4</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -26759,7 +26659,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds the 
         <b><code>limit</code></b>, see function <a 
-        href="pygeodesy.geohash-module.html#equirectangular4" 
+        href="pygeodesy.formy-module.html#equirectangular4" 
         class="link">pygeodesy.equirectangular4</a>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Tolerance <b><code>distance</code></b> or 
         <b><code>radius</code></b> too small.</li>
@@ -26806,7 +26706,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <li><strong class="pname"><code>indices</code></strong> - If <code>True</code>, return the simplified point indices instead
           of the simplified points (<code>bool</code>).</li>
         <li><strong class="pname"><code>options</code></strong> - Optional keyword arguments passed thru to function <a 
-          href="pygeodesy.geohash-module.html#equirectangular4" 
+          href="pygeodesy.formy-module.html#equirectangular4" 
           class="link">pygeodesy.equirectangular4</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -26815,7 +26715,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds the 
         <b><code>limit</code></b>, see function <a 
-        href="pygeodesy.geohash-module.html#equirectangular4" 
+        href="pygeodesy.formy-module.html#equirectangular4" 
         class="link">pygeodesy.equirectangular4</a>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Tolerance <b><code>distance</code></b> or 
         <b><code>radius</code></b> too small.</li>
@@ -26862,7 +26762,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <li><strong class="pname"><code>indices</code></strong> - If <code>True</code>, return the simplified point indices instead
           of the simplified points (<code>bool</code>).</li>
         <li><strong class="pname"><code>options</code></strong> - Optional keyword arguments passed thru to function <a 
-          href="pygeodesy.geohash-module.html#equirectangular4" 
+          href="pygeodesy.formy-module.html#equirectangular4" 
           class="link">pygeodesy.equirectangular4</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -26871,7 +26771,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds the 
         <b><code>limit</code></b>, see function <a 
-        href="pygeodesy.geohash-module.html#equirectangular4" 
+        href="pygeodesy.formy-module.html#equirectangular4" 
         class="link">pygeodesy.equirectangular4</a>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Tolerance <b><code>distance</code></b> or 
         <b><code>radius</code></b> too small.</li>
@@ -26914,7 +26814,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <li><strong class="pname"><code>indices</code></strong> - If <code>True</code>, return the simplified point indices instead
           of the simplified points (<code>bool</code>).</li>
         <li><strong class="pname"><code>options</code></strong> - Optional keyword arguments passed thru to function <a 
-          href="pygeodesy.geohash-module.html#equirectangular4" 
+          href="pygeodesy.formy-module.html#equirectangular4" 
           class="link">pygeodesy.equirectangular4</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -26923,7 +26823,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds the 
         <b><code>limit</code></b>, see function <a 
-        href="pygeodesy.geohash-module.html#equirectangular4" 
+        href="pygeodesy.formy-module.html#equirectangular4" 
         class="link">pygeodesy.equirectangular4</a>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Tolerance <b><code>pipe</code></b> or <b><code>radius</code></b> 
         too small.</li>
@@ -26970,7 +26870,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <li><strong class="pname"><code>indices</code></strong> - If <code>True</code>, return the simplified point indices instead
           of the simplified points (<code>bool</code>).</li>
         <li><strong class="pname"><code>options</code></strong> - Optional keyword arguments passed thru to function <a 
-          href="pygeodesy.geohash-module.html#equirectangular4" 
+          href="pygeodesy.formy-module.html#equirectangular4" 
           class="link">pygeodesy.equirectangular4</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -26981,7 +26881,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <b><code>points</code></b>.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.errors.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds the 
         <b><code>limit</code></b>, see function <a 
-        href="pygeodesy.geohash-module.html#equirectangular4" 
+        href="pygeodesy.formy-module.html#equirectangular4" 
         class="link">pygeodesy.equirectangular4</a>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Tolerance <b><code>area</code></b> or <b><code>radius</code></b> 
         too small.</li>
@@ -27028,7 +26928,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <li><strong class="pname"><code>indices</code></strong> - If <code>True</code>, return the simplified point indices instead
           of the simplified points (<code>bool</code>).</li>
         <li><strong class="pname"><code>options</code></strong> - Optional keyword arguments passed thru to function <a 
-          href="pygeodesy.geohash-module.html#equirectangular4" 
+          href="pygeodesy.formy-module.html#equirectangular4" 
           class="link">pygeodesy.equirectangular4</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -27039,7 +26939,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <b><code>points</code></b>.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.errors.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds the 
         <b><code>limit</code></b>, see function <a 
-        href="pygeodesy.geohash-module.html#equirectangular4" 
+        href="pygeodesy.formy-module.html#equirectangular4" 
         class="link">pygeodesy.equirectangular4</a>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Tolerance <b><code>area</code></b> or <b><code>radius</code></b> 
         too small.</li>
@@ -28069,23 +27969,24 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
           or <a href="pygeodesy.dms-module.html#F_RAD__" 
           class="link">F_RAD__</a>).</li>
         <li><strong class="pname"><code>prec</code></strong> - Number of decimal digits (0..9 or <code>None</code> for default).
-          Trailing zero decimals are stripped for <b><code>prec</code></b> 
-          values of 1 and above, but kept for negative 
+          Trailing zero decimals are stripped for 
+          <code><b>prec</b>=1</code> and above, but kept for negative 
           <b><code>prec</code></b>.</li>
         <li><strong class="pname"><code>sep</code></strong> - Separator between degrees, minutes, seconds, suffix 
           (<code>str</code>).</li>
-        <li><strong class="pname"><code>ddd</code></strong> - Number of digits for <b><code>deg</code>&#176;</b> (2 or 3).</li>
+        <li><strong class="pname"><code>ddd</code></strong> - Number of (integer) digits for <b><code>deg</code>&#176;</b> (2 or 3).</li>
         <li><strong class="pname"><code>neg</code></strong> - Prefix for negative <b><code>deg</code></b> (<code>'-'</code>).</li>
         <li><strong class="pname"><code>pos</code></strong> - Prefix for positive <b><code>deg</code></b> and signed 
           <b><code>form</code></b> (<code>'+'</code>).</li>
-        <li><strong class="pname"><code>s_D_M_S</code></strong> - Optional keyword arguments <code><b>s_D</b>=str</code>, 
-          <code><b>s_M</b>=str</code> <code><b>s_S</b>=str</code> and 
-          <code><b>s_DMS</b>=True</code> to override any or cancel all DMS 
-          symbols, defaults <a href="pygeodesy.dms-module.html#S_DEG" 
-          class="link">S_DEG</a>, <a href="pygeodesy.dms-module.html#S_MIN"
-          class="link">S_MIN</a> respectively <a 
-          href="pygeodesy.dms-module.html#S_SEC" class="link">S_SEC</a>.  
-          See <b>Notes</b> below.</li>
+        <li><strong class="pname"><code>s_D_M_S</code></strong> - Optional keyword arguments <code><b>s_D</b>=</code><a 
+          href="pygeodesy.dms-module.html#S_DEG" class="link">S_DEG</a>, 
+          <code><b>s_M</b>=</code><a href="pygeodesy.dms-module.html#S_MIN"
+          class="link">S_MIN</a> <code><b>s_S</b>=</code><a 
+          href="pygeodesy.dms-module.html#S_SEC" class="link">S_SEC</a>, 
+          <code><b>s_R</b>=</code><a href="pygeodesy.dms-module.html#S_RAD"
+          class="link">S_RAD</a> and <code><b>s_DMS</b>=True</code> to 
+          override any or cancel all DMS symbol suffixes.  See the 
+          <b>Notes</b> below.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Degrees in the specified form (<code>str</code>).</dd>
@@ -28097,9 +27998,10 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         this and other <code>*DMS</code> functions by using optional 
         keyword argments <code><b>s_D</b>=&quot;d&quot;</code>, 
         <code><b>s_M</b>=&quot;'&quot;</code> respectively 
-        <code><b>s_S</b>='&quot;'</code>.  Using keyword argument 
+        <code><b>s_S</b>='&quot;'</code>.  Using 
         <b><code>s_DMS</code>=None</b> cancels all <code>DMS</code> symbols
-        to <code><b>S_NUL</b>=NN</code>.
+        to <code>&quot;&quot;</code> aka <a href="pygeodesy-module.html#NN"
+        class="link">pygeodesy.NN</a>.
         </li>
         <li>
         Sexagecimal format <b><code>F_D60</code></b> supports overridable 
@@ -28111,10 +28013,13 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         </li>
         <li>
         Formats <b><code>F__E</code></b>, <b><code>F__F</code></b> and 
-        <b><code>F__G</code></b> can be extended with a <code>D</code>-only
-        symbol if defined with keyword argument 
-        <code><b>s_D</b>=str</code>. Likewise for <b><code>F_RAD</code></b>
-        formats with keyword argument <code><b>s_R</b>=str</code>.
+        <b><code>F__G</code></b> is extended with a <code>D</code>-only 
+        symbol suffix if defined with keyword argument 
+        <code><b>s_D</b>=</code><a href="pygeodesy-module.html#NN" 
+        class="link">pygeodesy.NN</a>. Likewise for 
+        <b><code>F_RAD</code></b> forms with keyword argument 
+        <code><b>s_R</b>=</code><a href="pygeodesy.dms-module.html#S_RAD" 
+        class="link">S_RAD</a>.
         </li>
       </ul>
       <p><strong>See Also:</strong>
@@ -29904,42 +29809,70 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">vincentys_</span>&nbsp;(<span class="sig-arg">geohash1</span>,
-        <span class="sig-arg">geohash2</span>,
-        <span class="sig-arg">**radius_wrap</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">vincentys_</span>&nbsp;(<span class="sig-arg">phi2</span>,
+        <span class="sig-arg">phi1</span>,
+        <span class="sig-arg">lam21</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Compute the distance between two geohashes using the <a 
-  href="pygeodesy.formy-module.html#vincentys" 
-  class="link">pygeodesy.vincentys</a> formula.</p>
+  <p>Compute the <i>angular</i> distance between two (spherical) points 
+  using <a href="https://WikiPedia.org/wiki/Great-circle_distance" 
+  target="_top">Vincenty's</a> spherical formula.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>geohash1</code></strong> - First geohash (<a href="pygeodesy.geohash.Geohash-class.html" 
-          class="link">Geohash</a>, <code>LatLon</code> or 
-          <code>str</code>).</li>
-        <li><strong class="pname"><code>geohash2</code></strong> - Second geohash (<a href="pygeodesy.geohash.Geohash-class.html" 
-          class="link">Geohash</a>, <code>LatLon</code> or 
-          <code>str</code>).</li>
-        <li><strong class="pname"><code>radius_wrap</code></strong> - Optional keyword arguments for function <a 
-          href="pygeodesy.formy-module.html#vincentys" 
-          class="link">pygeodesy.vincentys</a>.</li>
+        <li><strong class="pname"><code>phi2</code></strong> - End latitude (<code>radians</code>).</li>
+        <li><strong class="pname"><code>phi1</code></strong> - Start latitude (<code>radians</code>).</li>
+        <li><strong class="pname"><code>lam21</code></strong> - Longitudinal delta, <i class="math">end-start</i> 
+          (<code>radians</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Distance (<code>meter</code>, same units as 
-          <b><code>radius</code></b>).</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - If <b><code>geohash1</code></b> or <b><code>geohash2</code></b> is 
-        not a <a href="pygeodesy.geohash.Geohash-class.html" 
-        class="link">Geohash</a>, <code>LatLon</code> or <code>str</code>.</li>
-    </ul></dd>
+        <dd>Angular distance (<code>radians</code>).</dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>See Also:</strong>
+        Functions <a href="pygeodesy.formy-module.html#vincentys" 
+        class="link">vincentys</a>, <a 
+        href="pygeodesy.formy-module.html#cosineAndoyerLambert_" 
+        class="link">cosineAndoyerLambert_</a>, <a 
+        href="pygeodesy.formy-module.html#cosineForsytheAndoyerLambert_" 
+        class="link">cosineForsytheAndoyerLambert_</a>, <a 
+        href="pygeodesy.formy-module.html#cosineLaw_" 
+        class="link">cosineLaw_</a>, <a 
+        href="pygeodesy.formy-module.html#euclidean_" 
+        class="link">euclidean_</a>, <a 
+        href="pygeodesy.formy-module.html#flatLocal_" 
+        class="link">flatLocal_</a>/<a 
+        href="pygeodesy.formy-module.html#flatLocal_" 
+        class="link">hubeny_</a>, <a 
+        href="pygeodesy.formy-module.html#flatPolar_" 
+        class="link">flatPolar_</a>, <a 
+        href="pygeodesy.formy-module.html#haversine_" 
+        class="link">haversine_</a> and <a 
+        href="pygeodesy.formy-module.html#thomas_" 
+        class="link">thomas_</a>.
+      </p>
+      <p><strong>Note:</strong>
+        Functions <a href="pygeodesy.formy-module.html#vincentys_" 
+        class="link">vincentys_</a>, <a 
+        href="pygeodesy.formy-module.html#haversine_" 
+        class="link">haversine_</a> and <a 
+        href="pygeodesy.formy-module.html#cosineLaw_" 
+        class="link">cosineLaw_</a> produce equivalent results, but <a 
+        href="pygeodesy.formy-module.html#vincentys_" 
+        class="link">vincentys_</a> is suitable for antipodal points and 
+        slightly more expensive (<i class="math">3 cos, 3 sin, 1 hypot, 1 
+        atan2, 6 mul, 2 add</i>) than <a 
+        href="pygeodesy.formy-module.html#haversine_" 
+        class="link">haversine_</a> (<i class="math">2 cos, 2 sin, 2 sqrt, 
+        1 atan2, 5 mul, 1 add</i>) and <a 
+        href="pygeodesy.formy-module.html#cosineLaw_" 
+        class="link">cosineLaw_</a> (<i class="math">3 cos, 3 sin, 1 acos, 
+        3 mul, 1 add</i>).
+      </p>
+</div></td></tr></table>
 </div>
 <a name="wildberger3"></a>
 <div>
@@ -30591,7 +30524,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Oct  9 16:14:57 2024
+    Generated by Epydoc 3.0.1 on Tue Oct 22 17:06:19 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

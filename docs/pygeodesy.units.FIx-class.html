@@ -67,9 +67,9 @@
                        |        
       object --+       |        
                |       |        
-    <a href="pygeodesy.named._Named-class.html">named._Named</a> --+   |        
+    named._Named --+   |        
                    |   |        
-<a href="pygeodesy.unitsBase._NamedUnit-class.html">unitsBase._NamedUnit</a> --+        
+unitsBase._NamedUnit --+        
                        |        
          <a href="pygeodesy.unitsBase.Float-class.html">unitsBase.Float</a> --+    
                            |    
@@ -168,18 +168,18 @@
       <code>hex</code>,
       <code>is_integer</code>
       </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
-      <code><a href="pygeodesy.named._Named-class.html#__imatmul__">__imatmul__</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#__matmul__">__matmul__</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#__rmatmul__">__rmatmul__</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#attrs">attrs</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#classof">classof</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#copy">copy</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#dup">dup</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#methodname">methodname</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#rename">rename</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#renamed">renamed</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#toStr2">toStr2</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>named._Named</code></b>:
+      <code>__imatmul__</code>,
+      <code>__matmul__</code>,
+      <code>__rmatmul__</code>,
+      <code>attrs</code>,
+      <code>classof</code>,
+      <code>copy</code>,
+      <code>dup</code>,
+      <code>methodname</code>,
+      <code>rename</code>,
+      <code>renamed</code>,
+      <code>toStr2</code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__delattr__</code>,
@@ -236,9 +236,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.units.FIx-class.html#fin" class="summary-name">fin</a><br />
-      Get the given <code>len</code>, the index <code>[n]</code> wrapped to
-      <code>[0]</code> (<code>int</code>).
+        <a href="pygeodesy.units.FIx-class.html#fin" class="summary-name">fin</a>
     </td>
   </tr>
   <tr>
@@ -247,20 +245,20 @@
       <code>imag</code>,
       <code>real</code>
       </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.unitsBase._NamedUnit-class.html">unitsBase._NamedUnit</a></code></b>:
-      <code><a href="pygeodesy.unitsBase._NamedUnit-class.html#std_repr">std_repr</a></code>,
-      <code><a href="pygeodesy.unitsBase._NamedUnit-class.html#units">units</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>unitsBase._NamedUnit</code></b>:
+      <code>std_repr</code>,
+      <code>units</code>
       </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
-      <code><a href="pygeodesy.named._Named-class.html#classname">classname</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#classnaming">classnaming</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#iteration">iteration</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#name">name</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#named">named</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#named2">named2</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#named3">named3</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#named4">named4</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#sizeof">sizeof</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>named._Named</code></b>:
+      <code>classname</code>,
+      <code>classnaming</code>,
+      <code>iteration</code>,
+      <code>name</code>,
+      <code>named</code>,
+      <code>named2</code>,
+      <code>named3</code>,
+      <code>named4</code>,
+      <code>sizeof</code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__class__</code>
@@ -406,13 +404,11 @@
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">fin</h3>
-  <p>Get the given <code>len</code>, the index <code>[n]</code> wrapped to 
-  <code>[0]</code> (<code>int</code>).</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">fin(<span class="summary-sig-arg">self</span>)</span>
-        - Get the given <code>len</code>, the index <code>[n]</code> wrapped to 
-<code>[0]</code> (<code>int</code>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -458,7 +454,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Oct  9 16:15:02 2024
+    Generated by Epydoc 3.0.1 on Tue Oct 22 17:06:21 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

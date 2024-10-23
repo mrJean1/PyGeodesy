@@ -143,18 +143,18 @@ in C{pygeodesy} are based on I{Karney}'s post U{Area of a spherical polygon
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import _copysign, isint, neg, unsigned0, _xgeographiclib, \
-                             _zip,  _version_info
+from pygeodesy.basics import _copysign, isint, neg, unsigned0, \
+                             _xgeographiclib, _zip
 from pygeodesy.constants import NAN, _isfinite as _math_isfinite, _0_0, \
                                _1_16th, _1_0, _2_0, _180_0, _N_180_0, _360_0
 from pygeodesy.errors import GeodesicError, _ValueError, _xkwds
 from pygeodesy.fmath import cbrt, fremainder, norm2  # Fhorner, Fsum
-# from pygeodesy.internals import _version_info  # from .basics
-from pygeodesy.interns import NN, _2_, _a12_, _area_, _azi1_, _azi2_, _azi12_, \
+from pygeodesy.internals import _getenv, _popen2, _PYGEODESY, _version_info
+from pygeodesy.interns import NN, _a12_, _area_, _azi1_, _azi2_, _azi12_, \
                              _composite_, _lat1_, _lat2_, _lon1_, _lon2_, \
                              _m12_, _M12_, _M21_, _number_, _s12_, _S12_, \
-                             _UNDER_, _X_,  _BAR_  # PYCHOK used!
-from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, _getenv
+                             _SPACE_, _UNDER_, _X_, _1_, _2_,  _BAR_  # PYCHOK used!
+from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import ADict, _NamedBase, _NamedTuple, notImplemented, _Pass
 from pygeodesy.props import deprecated_method, Property_RO, property_RO, \
                                                property_ROnce
@@ -165,11 +165,12 @@ from pygeodesy.utily import atan2d, sincos2d, tand, _unrollon,  fabs
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.karney
-__version__ = '24.09.13'
+__version__ = '24.10.14'
 
-_K_2_0      = _getenv('PYGEODESY_GEOGRAPHICLIB', _2_)
-_K_2_4      = _K_2_0 == '2.4'
-_K_2_0      = _K_2_0 == _2_ or _K_2_4
+_2_4_       = '2.4'
+_K_2_0      = _getenv(_PYGEODESY(_xgeographiclib, 1), _2_)
+_K_2_4      = _K_2_0 ==  _2_4_
+_K_2_0      = _K_2_4 or (_K_2_0 == _2_)
 _perimeter_ = 'perimeter'
 
 
@@ -576,8 +577,8 @@ class _kWrapped(object):  # in .geodesicw
 
     @property_RO
     def Math_K_2(self):
-        return ('_K_2_4' if _K_2_4 else
-               ('_K_2_0' if _K_2_0 else '_K_1_0')) if self.Math else NN
+        return (_2_4_ if _K_2_4 else
+               (_2_   if _K_2_0 else _1_)) if self.Math else NN
 
 _wrapped = _kWrapped()  # PYCHOK singleton, .datum, .test/base.py
 
@@ -637,6 +638,54 @@ class Rhumb8Tuple(_GTuple):
     def _to7Tuple(self):
         '''DEPRECATED, do not use!'''
         return _MODS.deprecated.classes.Rhumb7Tuple(self[:-1])
+
+
+class _Xables(object):
+    '''(INTERNAL) Get I{Karney}'s executable paths from/and env vars.
+    '''
+    bin_ = '/opt/local/bin/'  # '/opt/local/Cellar/geographiclib/2.3/bin/'  # HomeBrew on macOS
+    ENV  =  NN
+
+    def GeoConvert(self, *dir_):
+        return self._path(self.GeoConvert, *dir_)
+
+    def GeodSolve(self, *dir_):
+        return self._path(self.GeodSolve, *dir_)
+
+    def IntersectTool(self, *dir_):
+        return self._path(self.IntersectTool, *dir_)
+
+    def RhumbSolve(self, *dir_):
+        return self._path(self.RhumbSolve, *dir_)
+
+    def name_version(self, path, base=True):
+        # return C{(path + ' ' + version)} of an executable
+        if path:
+            try:
+                r, s = _popen2((path, '--version'))
+                if base:
+                    path = _MODS.os.path.basename(path)
+                    r    = _SPACE_(path, r.split()[-1])
+                else:
+                    r    = _MODS.streprs.Fmt.PARENSPACED(r, s)
+                return r
+            except (IndexError, IOError, OSError):
+                pass
+        return NN
+
+    def _path(self, which, *dir_):
+        self.ENV = E = _PYGEODESY(which)
+        return _getenv(E, NN) or \
+               (NN(dir_[0], which.__name__) if dir_ else E)
+
+    def X_not(self, path):
+        return 'env %s=%r not executable' % (self.ENV, path)
+
+    def X_OK(self, path):  # is C{path} an executable?
+        os = _MODS.os  # import os
+        return os.access(path, os.X_OK) if path else False
+
+_Xables = _Xables()  # PYCHOK singleton
 
 
 def _around(x):  # in .utily.sincos2d

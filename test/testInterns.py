@@ -4,13 +4,13 @@
 # Test L{interns} module.
 
 __all__ = ('Tests',)
-__version__ = '24.05.21'
+__version__ = '24.10.14'
 
 from bases import ismacOS, sys, TestsBase
 
 from pygeodesy import clips, internals, interns, machine, NN
 from pygeodesy.interns import _0to9_, _AtoZnoIO_, _COLONSPACE_, \
-                              _DUNDER_, _DOT_, _EQUALSPACED_, _UNDER_
+                              _DOT_, _DUNDER_, _EQUALSPACED_, _UNDER_
 from os import getcwd
 # import sys  # from .bases
 
@@ -18,7 +18,8 @@ _cwd          =  getcwd()
 _DUNDER_0to9_ =  NN(_DUNDER_, _0to9_)
 _exceptions   = (_0to9_, _AtoZnoIO_,
                  interns._doesn_t_exist_,
-                 interns._dunder_name_,
+                 interns._DUNDER_all_,
+                 interns._DUNDER_name_,
                  interns._exceed_PI_radians_,
                  interns._n_a_,
                  interns._NLATvar_,

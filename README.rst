@@ -90,12 +90,12 @@ line: ``epydoc --html --no-private --no-source --name=PyGeodesy --url=... -v pyg
 Tests
 =====
 
-The tests ran with Python 3.13.0, 3.12.7 (with geographiclib_ 2.0, numpy_ 2.1.0, scipy_ 1.14.1,
-GeodSolve_ 2.3, IntersectTool_ 2.3 and RhumbSolve_ 2.3), 3.11.5 (with geographiclib_ 2.0, numpy_
-1.24.2 and scipy_ 1.10.1), Python 3.10.8 (with geographiclib_ 2.0, numpy_ 1.23.3, scipy_ 1.9.1,
-GeoConvert_ 2.3, GeodSolve_ 2.3), Python 3.9.6 and Python 2.7.18 (with geographiclib_ 1.50, numpy_
-1.16.6, scipy_ 1.2.2, GeoConvert_ 2.3, GeodSolve_ 2.3, IntersectTool_ 2.3 and RhumbSolve_ 2.3),
-all on macOS 14.6.1 Sonoma in 64-bit.
+The tests ran with Python 3.13.0 (with geographiclib_ 2.0), 3.12.7 (with geographiclib_ 2.0, numpy_
+2.1.0, scipy_ 1.14.1, GeodSolve_ 2.3, IntersectTool_ 2.3 and RhumbSolve_ 2.3), 3.11.5 (with
+geographiclib_ 2.0, numpy_ 1.24.2 and scipy_ 1.10.1), Python 3.10.8 (with geographiclib_ 2.0, numpy_
+1.23.3, scipy_ 1.9.1, GeoConvert_ 2.3, GeodSolve_ 2.3), Python 3.9.6 and Python 2.7.18 (with
+geographiclib_ 1.50, numpy_ 1.16.6, scipy_ 1.2.2, GeoConvert_ 2.3, GeodSolve_ 2.3, IntersectTool_
+2.3 and RhumbSolve_ 2.3), all on macOS 14.6.1 Sonoma in 64-bit.
 
 All tests ran with and without ``lazy import`` for Python 3 and with command line option ``-W default``
 and env variable ``PYGEODESY_WARNINGS=on`` for all Python versions.  The results of those tests are
@@ -107,7 +107,7 @@ runs on Intel (``x86_64``) or Intel *emulation* (\"``arm64_x86_64``\", see funct
 Test coverage has been measured with coverage_ 7.6.1 using Python 3.13.0, 3.12.7, 3.11.5 and 3.10.8.  The
 complete coverage report in HTML and a PDF summary are included in the distribution files.
 
-The tests also ran with Python 3.12.7 (and geographiclib_ 2.0) on `Debian 12`_ in 64-bit only and with
+The tests also ran with Python 3.13.0 (and geographiclib_ 2.0) on `Debian 12`_ in 64-bit only and with
 Python 3.12.5 (and geographiclib_ 2.0) on `Windows 2019Server`_ in 64-bit only and with Python 2.7.18
 (and with geographiclib_ 1.52) on `Windows 10`_ in 64- and 32-bit.
 
@@ -135,7 +135,7 @@ and McCabe_ using Python 2.7.18 and with Flake8_ using Python 3.11.5, both in 64
 
 For a summary of all *Karney*-based functionality in ``pygeodesy``, see module karney_.
 
-*Last updated: Oct 10, 2024.*
+*Last updated: Oct 24, 2024.*
 
 License
 =======
@@ -226,7 +226,7 @@ DEALINGS IN THE SOFTWARE.
 .. _PyCodeStyle: https://PyPI.org/project/pycodestyle
 .. _PyFlakes: https://PyPI.org/project/pyflakes
 .. _PyGeodesy: https://PyPI.org/project/PyGeodesy
-.. _pygeodesy.machine: https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.interns-module.html#machine
+.. _pygeodesy.machine: https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.internals-module.html#machine
 .. _PyInstaller: https://PyPI.org/project/pyinstaller
 .. _PyPI: https://PyPI.org/project/PyGeodesy
 .. _PyPI Download files: https://PyPI.org/project/PyGeodesy/#files

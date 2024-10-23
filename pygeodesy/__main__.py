@@ -5,7 +5,7 @@ u'''Print L{pygeodesy} version, etc. using C{python -m pygeodesy}.
 '''
 
 __all__ = ()
-__version__ = '24.09.05'
+__version__ = '24.10.14'
 
 from os.path import basename, dirname
 
@@ -16,9 +16,9 @@ def _main():  # PYCHOK no cover
         from pygeodesy import constants, _isfrozen, pygeodesy_abspath, version
         from pygeodesy.basics import _xcoverage,_xgeographiclib, _xnumpy, _xscipy
         from pygeodesy.internals import _name_version, printf, _usage, _versions
-        from pygeodesy.interns import NN, _COMMASPACE_, _DEPRECATED_, _DOT_, _EQUAL_, \
-                                     _pygeodesy_abspath_, _version_
-        from pygeodesy.lazily import isLazy, _dunder_all_, _all_deprecates, _all_imports
+        from pygeodesy.interns import NN, _COMMASPACE_, _DEPRECATED_, _DOT_, _DUNDER_all_, \
+                                     _EQUAL_, _pygeodesy_abspath_, _version_
+        from pygeodesy.lazily import _all_deprecates, _all_imports, isLazy
 
         def _p(name_value):
             return _DOT_(NN, _EQUAL_(*name_value))
@@ -28,7 +28,7 @@ def _main():  # PYCHOK no cover
                                  ('isLazy',                       isLazy),
                                  ('_isfrozen',                 _isfrozen),
                                  ('_floats',      len(constants._floats)),
-                                 (_dunder_all_,      len(_all_imports())),
+                                 (_DUNDER_all_,      len(_all_imports())),
                                  (_DEPRECATED_,   len(_all_deprecates()))))
 
         def _nv(_xpkg, p):

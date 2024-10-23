@@ -20,13 +20,14 @@ from pygeodesy.errors import _AssertionError, _AttributeError, _incompatible, \
                              _NotImplementedError, _TypeError, _TypesError, \
                              _UnexpectedError, UnitError, _ValueError, \
                              _xattr, _xkwds, _xkwds_item2, _xkwds_pop2
-from pygeodesy.internals import _caller3, _dunder_nameof, _isPyPy, _sizeof, _under
+from pygeodesy.internals import _caller3, _DUNDER_nameof, _getPYGEODESY, _isPyPy, \
+                                _sizeof, _under
 from pygeodesy.interns import MISSING, NN, _AT_, _COLON_, _COLONSPACE_, _COMMA_, \
                              _COMMASPACE_, _doesn_t_exist_, _DOT_, _DUNDER_, \
-                             _dunder_name_, _EQUAL_, _exists_, _immutable_, _name_, \
+                             _DUNDER_name_, _EQUAL_, _exists_, _immutable_, _name_, \
                              _NL_, _NN_, _no_, _other_, _s_, _SPACE_, _std_, \
                              _UNDER_, _vs_
-from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, _getenv
+from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.props import _allPropertiesOf_n, deprecated_method, _hasProperty, \
                             _update_all, property_doc_, Property_RO, property_RO, \
                             _update_attrs
@@ -34,7 +35,7 @@ from pygeodesy.streprs import attrs, Fmt, lrstrip, pairs, reprs, unstr
 # from pygeodesy.units import _toUnit  # _MODS
 
 __all__ = _ALL_LAZY.named
-__version__ = '24.09.02'
+__version__ = '24.10.14'
 
 _COMMANL_           = _COMMA_ + _NL_
 _COMMASPACEDOT_     = _COMMASPACE_ + _DOT_
@@ -45,7 +46,7 @@ _MRO_               = 'MRO'
 _name               = _under(_name_)
 _Names_             = '_Names_'
 _registered_        = 'registered'  # PYCHOK used!
-_std_NotImplemented = _getenv('PYGEODESY_NOTIMPLEMENTED', NN).lower() == _std_
+_std_NotImplemented = _getPYGEODESY('NOTIMPLEMENTED', NN).lower() == _std_
 _such_              = 'such'
 _Units_             = '_Units_'
 _UP                 =  2
@@ -614,7 +615,7 @@ class _NamedEnum(_NamedDict):
            @arg Classes: Additional, acceptable classes or C{type}s.
         '''
         self._item_Classes = (Class,) + Classes
-        n = _name__(**name) or NN(Class.__name__, _s_)  # _dunder_nameof
+        n = _name__(**name) or NN(Class.__name__, _s_)  # _DUNDER_nameof
         if n and _xvalid(n, underOK=True):
             _Named.name.fset(self, n)  # see _Named.name
 
@@ -1237,7 +1238,7 @@ def modulename(clas, prefixed=None):  # in .basics._xversion
     try:
         n = clas.__name__
     except AttributeError:
-        n = clas if isstr(clas) else _dunder_name_
+        n = clas if isstr(clas) else _DUNDER_name_
     if prefixed or (classnaming() if prefixed is None else False):
         try:
             m =  clas.__module__.rsplit(_DOT_, 1)
@@ -1256,7 +1257,7 @@ def modulename(clas, prefixed=None):  # in .basics._xversion
 #     if name:  # is given
 #         n = _name__(**name) if isinstance(name, dict) else str(name)
 #     elif name__ is not None:
-#         n = getattr(name__, _dunder_name_, NN)  # _xattr(name__, __name__=NN)
+#         n = getattr(name__, _DUNDER_name_, NN)  # _xattr(name__, __name__=NN)
 #     else:
 #         n = name  # NN or None or {} or any False type
 #     if _or_nameof is not None and not n:
@@ -1293,7 +1294,7 @@ def _name2__(name=NN, name__=None, _or_nameof=None, **kwds):
         else:
             n = str(name)
     elif name__ is not None:
-        n = _dunder_nameof(name__, NN)
+        n = _DUNDER_nameof(name__, NN)
     else:
         n = name if name is None else NN
     if _or_nameof is not None and not n:
@@ -1328,7 +1329,7 @@ def _notDecap(where):
 def _notError(inst, name, args, kwds):  # PYCHOK no cover
     '''(INTERNAL) Format an error message.
     '''
-    n = _DOT_(classname(inst, prefixed=True), _dunder_nameof(name, name))
+    n = _DOT_(classname(inst, prefixed=True), _DUNDER_nameof(name, name))
     m = _COMMASPACE_.join(modulename(c, prefixed=True) for c in inst.__class__.__mro__[1:-1])
     return _COMMASPACE_(unstr(n, *args, **kwds), Fmt.PAREN(_MRO_, m))
 

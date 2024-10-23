@@ -66,7 +66,7 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import copysign0, isbool, isint
 from pygeodesy.constants import EPS, EPS0, EPS02, EPS1, INF, NINF, PI4, PI_2, PI_3, R_M, R_MA, R_FM, \
-                               _EPSqrt, _EPStol as _TOL, _floatuple as _T, _isfinite, _SQRT2_2, \
+                               _EPSqrt, _EPStol as _TOL, _floatuple as _T, _isfinite, \
                                _0_0s, _0_0, _0_5, _1_0, _1_EPS, _2_0, _4_0, _90_0, \
                                _0_25, _3_0  # PYCHOK used!
 from pygeodesy.errors import _AssertionError, IntersectionError, _ValueError, _xattr, _xkwds_not
@@ -93,7 +93,7 @@ from pygeodesy.utily import atan1, atan1d, atan2b, degrees90, m2radians, radians
 from math import asinh, atan, atanh, cos, degrees, exp, fabs, radians, sin, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '24.07.25'
+__version__ = '24.10.15'
 
 _f_0_0    = Float(f =_0_0)  # zero flattening
 _f__0_0   = Float(f_=_0_0)  # zero inverse flattening
@@ -281,7 +281,7 @@ class Ellipsoid(_NamedEnumItem):
 
         self._register(Ellipsoids, n)
 
-        if f and f_:  # see .test/testEllipsoidal.py
+        if f and f_:  # see test/testEllipsoidal
             d = dict(eps=_TOL)
             if None in ff_:  # both f_ and f given
                 d.update(Error=_ValueError, txt=_incompatible_)
@@ -1160,7 +1160,7 @@ class Ellipsoid(_NamedEnumItem):
                 v = v.times_(t, t, 0)  # force z=0.0
                 h = x - a  # equatorial
             else:  # normal in 1st quadrant
-                x, y, i = _plumbTo3(x, y, self)
+                x, y, i = _MODS.triaxials._plumbTo3(x, y, self)
                 t, v = v, v.times_(x, x, y)
                 h = t.minus(v).length
 
@@ -1522,9 +1522,9 @@ class Ellipsoid(_NamedEnumItem):
     def _Rhumbs(self):
         '''(INTERNAL) Get all C{Rhumb...} classes, I{once}.
         '''
-        p = _MODS.rhumb
-        return (p.aux_.RhumbAux,  # overwrite property_ROver
-                p.ekx.Rhumb, p.solve.RhumbSolve)
+        r = _MODS.rhumb
+        return (r.aux_.RhumbAux,  # overwrite property_ROver
+                r.ekx.Rhumb, r.solve.RhumbSolve)
 
     @property
     def rhumbsolve(self):
@@ -2274,47 +2274,6 @@ def n2f_(n):
        @see: L{n2f} and L{f2f_}.
     '''
     return f2f_(n2f(n))
-
-
-def _plumbTo3(px, py, E, eps=EPS):  # in .height4 above
-    '''(INTERNAL) Nearest point on a 2-D ellipse in 1st quadrant.
-
-       @see: Functions C{pygeodesy.triaxial._plumbTo4} and C{-._plumbTo5}.
-    '''
-    a, b, e0 = E.a, E.b, EPS0
-    if min(px, py, a, b) < e0:
-        raise _AssertionError(px=px, py=py, a=a, b=b, E=E)
-
-    a2 = a - b * E.b_a
-    b2 = b - a * E.a_b
-    tx = ty = _SQRT2_2
-    _a,  _h =  fabs, hypot
-    for i in range(16):  # max 5
-        ex = a2 * tx**3
-        ey = b2 * ty**3
-
-        qx =  px - ex
-        qy =  py - ey
-        q  = _h(qx, qy)
-        if q < e0:  # PYCHOK no cover
-            break
-        r = _h(ex - tx * a,
-               ey - ty * b) / q
-
-        sx, tx = tx, min(_1_0, max(0, (ex + qx * r) / a))
-        sy, ty = ty, min(_1_0, max(0, (ey + qy * r) / b))
-        t = _h(ty, tx)
-        if t < e0:  # PYCHOK no cover
-            break
-        tx = tx / t  # /= chokes PyChecker
-        ty = ty / t
-        if _a(sx - tx) < eps and \
-           _a(sy - ty) < eps:
-            break
-
-    tx *= a / px
-    ty *= b / py
-    return tx, ty, i  # x and y as fractions
 
 
 class Ellipsoids(_NamedEnum):

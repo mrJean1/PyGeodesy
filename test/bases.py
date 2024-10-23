@@ -3,27 +3,20 @@
 
 # Base classes and functions for PyGeodesy tests.
 
-# After (C) Chris Veness 2011-2015 published under the same MIT Licence,
+# After (C) Chris Veness 2011-2024 published under the same MIT Licence,
 # see <https://www.Movable-Type.co.UK/scripts/latlong-vectors.html>
 # and <https://www.Movable-Type.co.UK/scripts/latlong.html>.
 
 from glob import glob
 from inspect import isclass, isfunction, ismethod, ismodule
-from os import X_OK, access, getenv, sep as _SEP  # environ
+import os
 from os.path import abspath, basename, dirname, join as joined, splitext
 from random import random, seed
 import sys
 from time import localtime, time
 
 seed(localtime().tm_yday)
-try:
-    if float(getenv('PYGEODESY_COVERAGE', '0')) > 0:
-        import coverage
-    else:
-        coverage = None  # ignore coverage
-except (ImportError, TypeError, ValueError):
-    coverage = None
-
+del localtime, seed
 test_dir = dirname(abspath(__file__))
 PyGeodesy_dir = dirname(test_dir)
 # extend sys.path to include the ../.. directory,
@@ -33,10 +26,9 @@ if PyGeodesy_dir not in sys.path:  # Python 3+ ModuleNotFoundError
 
 from pygeodesy import anstr, basics, clips, DeprecationWarnings, internals, interns, \
                       isint, isLazy, issubclassof, iterNumpy2over, LazyImportError, \
-                      lazily, map2, NN, normDMS, pairs, printf, property_RO, \
+                      karney, map2, NN, normDMS, pairs, printf, property_RO, \
                       version as PyGeodesy_version  # PYCHOK expected
-from pygeodesy.internals import _Math_K_2, _name_binary, _name_version, \
-                                _secs2str as secs2str
+from pygeodesy.internals import _getenv, _name_version, _secs2str as secs2str
 
 _DOT_     = interns._DOT_
 _skipped_ = 'skipped'  # in .run
@@ -49,19 +41,25 @@ __all__ = ('coverage', 'GeodSolve', 'geographiclib',  # constants
            'numpy', 'PyGeodesy_dir', 'PythonX', 'scipy', 'test_dir',
            'RandomLatLon', 'TestsBase',  # classes
            'secs2str', 'tilde', 'type2str', 'versions')  # functions
-__version__ = '24.09.15'
+__version__ = '24.10.14'
 
 try:
-    geographiclib = basics._xgeographiclib(basics, 1, 50)
+    if float(_getenv('PYGEODESY_COVERAGE', '0')) > 0:
+        import coverage
+    else:
+        coverage = None  # ignore coverage
+except (ImportError, TypeError, ValueError):
+    coverage = None
+try:
+    geographiclib = basics._xgeographiclib(basics, 1, 50)  # 1.50+
 except ImportError:
     geographiclib = None
-# don't test with numpy and scypi older than 1.9 resp. 1.0
 try:
-    numpy = basics._xnumpy(basics, 1, 9)
+    numpy = basics._xnumpy(basics, 1, 9)  # 1.9+
 except ImportError:
     numpy = None
 try:
-    scipy = basics._xscipy(basics, 1, 0)
+    scipy = basics._xscipy(basics, 1, 0)  # 1.0+
 except ImportError:
     scipy = None
 _xcopy = basics._xcopy
@@ -237,9 +235,10 @@ class TestsBase(object):
         def _join(p, j, n):
             return (p + j + n) if p else n
 
-        for p in ('',) + interns._SUB_PACKAGES:
-            m = _join(p, _SEP, '[_a-z]*.py')
-            for n in sorted(glob(joined(PyGeodesy_dir, 'pygeodesy', m))):
+        for p in (NN,) + interns._SUB_PACKAGES:
+            m = _join(p, os.sep, '[_a-z]*.py')
+            m =  joined(PyGeodesy_dir, interns._pygeodesy_, m)
+            for n in sorted(glob(m)):
                 m = _join(p, _DOT_, basename(n))
                 if deprecated or not m.startswith('deprecated'):
                     yield n, m
@@ -412,7 +411,7 @@ def _env_c2(c, dev_null='>/dev/null', NUL_='>NUL:'):  # .testFrozen, .testLazily
     else:
         env_cmd =  NN
 
-    H = getenv('HOME', NN)
+    H = _getenv('HOME', NN)
     if H and cmd.startswith(H):
         cmd = NN(_TILDE_, cmd[len(H):])
 
@@ -423,19 +422,6 @@ def _fLate(f):
     t = 'proLate' if f < 0 else \
         ('obLate' if f > 0 else 'sphere')
     return 'f(%.1f)%s' % (f, t)
-
-
-def _getenv_path(envar):
-    '''(INTERNAL) Get and validate the path of an executable.
-    '''
-    p = getenv(envar, None) or None
-    if p and not access(p, X_OK):
-        # zap the envar to avoid double messages
-        # when invoked as C{python -m test.base}
-        # environ[envar] = NN
-        print('env %s=%r not executable' % (envar, p))
-        p = None
-    return p
 
 
 def _get_kwds(fmt='%s', prec=0, known=False, **kwds):
@@ -520,11 +506,14 @@ def versions():
                 vs += _name_version(t),
 
         if geographiclib:
-            vs += _Math_K_2(),
+            r = karney._wrapped
+            t = r.Math_K_2
+            if t:
+                vs += r.Math.__name__, t
 
         for t in (GeoConvert, GeodSolve, IntersectTool, RhumbSolve):
             if t:
-                vs += _name_binary(t),
+                vs += karney._Xables.name_version(t),
 
         t, r = internals._osversion2()
         if r:
@@ -533,7 +522,7 @@ def versions():
         if isinstance(isLazy, int):
             vs += 'isLazy', str(isLazy)
 
-        if getenv('PYTHONDONTWRITEBYTECODE', None):
+        if _getenv('PYTHONDONTWRITEBYTECODE', None):
             vs += '-B',
 
         if _W_opts:
@@ -542,30 +531,51 @@ def versions():
         TestsBase._versions = vs = _SPACE_.join(vs)
     return vs
 
-
-GeoConvert    = _getenv_path(lazily._PYGEODESY_GEOCONVERT_)
-GeodSolve     = _getenv_path(lazily._PYGEODESY_GEODSOLVE_)
-IntersectTool = _getenv_path(lazily._PYGEODESY_INTERSECTTOOL_)
-RhumbSolve    = _getenv_path(lazily._PYGEODESY_RHUMBSOLVE_)
 # versions()  # get versions once
 
-if internals._dunder_ismain(__name__):
+
+def _X_OK(_Xables, which):
+    '''(INTERNAL) Get a I{Karney}'s executable path or C{None}.
+    '''
+#   n = which.__name__
+    p = which()  # sets _Xables.ENV
+    if p is _Xables.ENV:  # or n.lower() in basics._XPACKAGES:
+        p = None
+    elif p and not _Xables.X_OK(p):
+        # zap the envar to avoid double messages
+        # when invoked as C{python -m test.bases}
+        # environ[envar] = NN
+        print(_Xables.X_not(p))
+        p = None
+    return p
+
+_Xables       =  karney._Xables  # PYCHOK blank
+GeoConvert    = _X_OK(_Xables, _Xables.GeoConvert)
+GeodSolve     = _X_OK(_Xables, _Xables.GeodSolve)
+IntersectTool = _X_OK(_Xables, _Xables.IntersectTool)
+RhumbSolve    = _X_OK(_Xables, _Xables.RhumbSolve)
+del _Xables, _X_OK
+
+if internals._is_DUNDER_main(__name__):
     try:
         import coverage  # PYCHOK re-imported
     except ImportError:
         pass
     print(versions())
 
-# python3.12 -m test.bases
-# PyGeodesy 24.8.24 Python 3.12.5 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 Math _K_2_0 macOS 14.6.1 isLazy 1
+# % python3.13 -m test.bases
+# PyGeodesy 24.10.24 Python 3.13.0 64bit arm64 coverage 7.6.1 geographiclib 2.0 Math 2 macOS 14.6.1 isLazy 1
 
-# python3.11 -m test.bases
-# PyGeodesy 24.5.12 Python 3.11.5 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 1.24.2 scipy 1.10.1 Math _K_2_0 macOS 14.4.1 isLazy 1 -W ignore
+# % python3.12 -m test.bases
+# PyGeodesy 24.10.24 Python 3.12.7 64bit arm64 coverage 7.6.1 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 Math 2 macOS 14.6.1 isLazy 1
 
-# python3.10 -m test.bases
-# PyGeodesy 24.5.12 Python 3.10.8 64bit arm64 coverage 7.6.0 geographiclib 2.0 numpy 1.23.3 scipy 1.9.1 Math _K_2_0 macOS 14.4.1 isLazy 1 -W ignore
+# % python3.11 -m test.bases
+# PyGeodesy 24.10.24 Python 3.11.5 64bit arm64 coverage 7.6.1 geographiclib 2.0 numpy 1.24.2 scipy 1.10.1 Math 2 macOS 14.4.1 isLazy 1 -W ignore
 
-# python2 -m test.bases
+# % python3.10 -m test.bases
+# PyGeodesy 24.10.24 Python 3.10.8 64bit arm64 coverage 7.6.1 geographiclib 2.0 numpy 1.23.3 scipy 1.9.1 Math 2 macOS 14.4.1 isLazy 1 -W ignore
+
+# % python2 -m test.bases
 # PyGeodesy 24.5.12 Python 2.7.18 64bit arm64_x86_64 coverage 5.5 geographiclib 1.50 numpy 1.16.6 scipy 1.2.2 macOS 10.16
 
 # **) MIT License

@@ -5,7 +5,7 @@ u'''(INTERNAL) Private ellipsoidal base classes C{CartesianEllipsoidalBase}
 and C{LatLonEllipsoidalBase}.
 
 A pure Python implementation of geodesy tools for ellipsoidal earth models,
-transcoded in part from JavaScript originals by I{(C) Chris Veness 2005-2016}
+transcoded in part from JavaScript originals by I{(C) Chris Veness 2005-2024}
 and published under the same MIT Licence**, see for example U{latlon-ellipsoidal
 <https://www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal.js.html>}.
 '''
@@ -35,7 +35,7 @@ from pygeodesy.units import Epoch, _isDegrees, Radius_, _1mm as _TOL_M
 # from math import fabs  # from .latlonBase
 
 __all__ = _ALL_LAZY.ellipsoidalBase
-__version__ = '24.08.14'
+__version__ = '24.10.12'
 
 
 class CartesianEllipsoidalBase(CartesianBase):

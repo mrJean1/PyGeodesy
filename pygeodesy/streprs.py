@@ -9,7 +9,7 @@ from pygeodesy.basics import isint, islistuple, isscalar, isstr, itemsorted, \
 # from pygeodesy.constants import _0_0
 from pygeodesy.errors import _or, _IsnotError, _TypeError, _ValueError, \
                              _xkwds_get, _xkwds_item2
-# from pygeodesy.internals import _dunder_nameof  # from .lazily
+from pygeodesy.internals import _DUNDER_nameof
 from pygeodesy.interns import NN, _0_, _0to9_, MISSING, _BAR_, _COMMASPACE_, \
                              _DOT_, _E_, _ELLIPSIS_, _EQUAL_, _H_, _LR_PAIRS, \
                              _N_, _name_, _not_scalar_, _PERCENT_, _SPACE_, \
@@ -17,12 +17,12 @@ from pygeodesy.interns import NN, _0_, _0to9_, MISSING, _BAR_, _COMMASPACE_, \
 from pygeodesy.interns import _convergence_, _distant_, _e_, _eps_, _exceeds_, \
                               _EQUALSPACED_, _f_, _F_, _g_, _limit_, _no_, \
                               _tolerance_  # PYCHOK used!
-from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS,  _dunder_nameof
+from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 
 from math import fabs, log10 as _log10
 
 __all__ = _ALL_LAZY.streprs
-__version__ = '24.10.04'
+__version__ = '24.10.14'
 
 _at_        = 'at'         # PYCHOK used!
 _EN_PREC    =  6           # max MGRS/OSGR precision, 1 micrometer
@@ -557,14 +557,14 @@ def unstr(where, *args, **kwds_):
         t  =  reprs(args, fmt=g) if args else ()
     if kwds:
         t += pairs(itemsorted(kwds), fmt=g)
-    n = where if isstr(where) else _dunder_nameof(where)  # _NN_
+    n = where if isstr(where) else _DUNDER_nameof(where)  # _NN_
     if C and hasattr(C, n):
         try:  # bound method of class C?
             where = where.__func__
         except AttributeError:
             pass  # method of C?
         if getattr(C, n, None) is where:
-            n = _DOT_(_dunder_nameof(C), n)
+            n = _DOT_(_DUNDER_nameof(C), n)
     return Fmt.PAREN(n, _COMMASPACE_.join(t))
 
 

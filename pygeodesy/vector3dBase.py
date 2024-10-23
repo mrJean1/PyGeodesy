@@ -4,7 +4,7 @@
 u'''(INTERNAL) Private, 3-D vector base class C{Vector3dBase}.
 
 A pure Python implementation of vector-based functions by I{(C) Chris Veness
-2011-2015} published under the same MIT Licence**, see U{Vector-based geodesy
+2011-2024} published under the same MIT Licence**, see U{Vector-based geodesy
 <https://www.Movable-Type.co.UK/scripts/latlong-vectors.html>}.
 '''
 
@@ -16,8 +16,7 @@ from pygeodesy.constants import EPS, EPS0, INT0, PI, PI2, _copysignINF, \
 from pygeodesy.errors import CrossError, VectorError, _xcallable, _xError
 from pygeodesy.fmath import euclid_, fdot, hypot_, hypot2_
 from pygeodesy.interns import _coincident_, _colinear_, _COMMASPACE_, _xyz_
-from pygeodesy.lazily import _ALL_LAZY, _ALL_DOCS, _ALL_MODS as _MODS, \
-                             _sys_version_info2
+from pygeodesy.lazily import _ALL_LAZY, _ALL_DOCS, _ALL_MODS as _MODS
 from pygeodesy.named import _NamedBase, _NotImplemented, _xother3
 # from pygeodesy.namedTuples import Vector3Tuple  # _MODS
 from pygeodesy.props import deprecated_method, Property, Property_RO, \
@@ -29,7 +28,7 @@ from pygeodesy.utily import sincos2,  atan2, fabs
 from math import ceil as _ceil, floor as _floor, trunc as _trunc
 
 __all__ = _ALL_LAZY.vector3dBase
-__version__ = '24.08.18'
+__version__ = '24.10.12'
 
 
 class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
@@ -421,7 +420,7 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
         '''
         return self._mapped(_trunc)
 
-    if _sys_version_info2 < (3, 0):  # PYCHOK no cover
+    if _MODS.sys_version_info2 < (3, 0):  # PYCHOK no cover
         # <https://docs.Python.org/2/library/operator.html#mapping-operators-to-functions>
         __div__     = __truediv__
         __idiv__    = __itruediv__

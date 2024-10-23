@@ -12,22 +12,24 @@ choices, see callable L{DeprecationWarnings} below.
 
 from pygeodesy.basics import isclass as _isclass
 from pygeodesy.errors import _AssertionError, _AttributeError, \
-                             _xcallable, _xkwds, _xkwds_get
+                             _xcallable, _xkwds_get
+# from pygeodesy.internals import _tailof  # from .lazily
 from pygeodesy.interns import MISSING, NN, _an_, _COMMASPACE_, \
                              _DEPRECATED_, _DOT_, _EQUALSPACED_, \
-                             _immutable_, _invalid_, _module_, _N_A_, \
-                             _not_, _SPACE_, _UNDER_,  _DNL_  # PYCHOK used!
+                             _immutable_, _invalid_, _module_, \
+                             _N_A_, _NL_, _not_, _SPACE_, _UNDER_
 # from pygeodesy.named import callname  # _MODS, avoid circular
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, \
-                             _FOR_DOCS, _WARNINGS_X_DEV
+                             _FOR_DOCS, _WARNINGS_X_DEV,  _tailof
 # from pygeodesy.streprs import Fmt  # _MODS
 
 from functools import wraps as _wraps
 
 __all__ = _ALL_LAZY.props
-__version__ = '24.09.02'
+__version__ = '24.10.19'
 
 _class_       = 'class'
+_DNL_         = _NL_ * 2  # PYCHOK used!
 _dont_use_    = _DEPRECATED_ + ", don't use."
 _function_    = 'function'
 _has_been_    = 'has been'  # PYCHOK used!
@@ -650,23 +652,42 @@ class DeprecationWarnings(object):
         '''
         return self.Warnings
 
+    @property_ROver
+    def _Fmt(self):
+        '''Get C{streprs.Fmt}, I{once}.
+        '''
+        return _MODS.streprs.Fmt
+
+    @property_ROver
+    def _stacklevel3(self):
+        '''Get C{dict(stacklevel=3)}, I{once}.
+        '''
+        return dict(stacklevel=3)
+
     def throw(self, kind, name, doc, **stacklevel):  # stacklevel=3
         '''Report or raise a C{DeprecationWarning}.
+
+           @arg kind: Warning kind (C{str}), C{"method"}, C{"funtion"}, ...
+           @arg name: Qualified name (C{str}) of B{C{kind}}.
+           @arg doc: The __doc__ (C{str}) of B{C{kind}}, C{"DEPRECATED ...}.
         '''
-        line =  doc.split(_DNL_, 1)[0].strip()
-        name = _MODS.streprs.Fmt.CURLY(L=name)
-        text = _SPACE_(kind, name, _has_been_, *line.split())
-        kwds = _xkwds(stacklevel, stacklevel=3)
+        link = _tailof(name) or name
+        if link is not name:  # make "link<name>"
+            link = self._Fmt.ANGLE(link, name)
+        link =  self._Fmt.CURLY(L=link)  # "L{link}"
+        text =  doc.split(_DNL_, 1)[0].strip()
+        text = _SPACE_(kind, link, _has_been_, *text.split())
+        kwds =  stacklevel if stacklevel else self._stacklevel3
         # XXX invoke warn or raise DeprecationWarning(text)
         self._warn(text, category=DeprecationWarning, **kwds)
         self._Warnings += 1
 
-    @Property_RO
+    @property_ROver
     def _warn(self):
-        '''Get Python's C{warnings.warn}.
+        '''Get Python's C{warnings.warn} function, I{once}.
         '''
-        from warnings import warn
-        return warn
+        from warnings import warn as w
+        return w
 
     @property_RO
     def Warnings(self):

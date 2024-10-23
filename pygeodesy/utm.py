@@ -8,7 +8,7 @@ L{utmZoneBand5}.
 
 Pure Python implementation of UTM / WGS-84 conversion functions using
 an ellipsoidal earth model, transcoded from JavaScript originals by
-I{(C) Chris Veness 2011-2016} published under the same MIT Licence**, see
+I{(C) Chris Veness 2011-2024} published under the same MIT Licence**, see
 U{UTM<https://www.Movable-Type.co.UK/scripts/latlong-utm-mgrs.html>} and
 U{Module utm<https://www.Movable-Type.co.UK/scripts/geodesy/docs/module-utm.html>}.
 
@@ -63,7 +63,7 @@ from math import asinh, atanh, atan2, cos, cosh, degrees, fabs, \
 # import operator as _operator  # from .fmath
 
 __all__ = _ALL_LAZY.utm
-__version__ = '24.06.11'
+__version__ = '24.10.12'
 
 _Bands = 'CDEFGHJKLMNPQRSTUVWXX'  # UTM latitude bands C..X (no
 # I|O) 8° each, covering 80°S to 84°N and X repeated for 80-84°N

@@ -3,7 +3,7 @@
 
 u'''Various utility functions.
 
-After I{(C) Chris Veness 2011-2015} published under the same MIT Licence**, see
+After I{(C) Chris Veness 2011-2024} published under the same MIT Licence**, see
 U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>} and
 U{Vector-based geodesy<https://www.Movable-Type.co.UK/scripts/latlong-vectors.html>}.
 '''
@@ -27,7 +27,7 @@ from pygeodesy.units import Degrees, Degrees_, Feet, Float, Lam, Lamd, \
 from math import acos, asin, atan2, cos, degrees, fabs, radians, sin, tan  # pow
 
 __all__ = _ALL_LAZY.utily
-__version__ = '24.06.15'
+__version__ = '24.10.12'
 
 # read constant name "_M_Unit" as "meter per Unit"
 _M_CHAIN     = _F(  20.1168)     # yard2m(1) * 22

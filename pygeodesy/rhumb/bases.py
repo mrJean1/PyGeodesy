@@ -33,7 +33,7 @@ from pygeodesy.errors import IntersectionError, RhumbError, _xdatum, \
 from pygeodesy.fmath import euclid, favg, sqrt_a,  Fsum
 # from pygeodesy.formy import opposing  # _MODS
 # from pygeodesy.fsums import Fsum  # from .fmath
-from pygeodesy.internals import _dunder_nameof, _under
+from pygeodesy.internals import _DUNDER_nameof, _under
 from pygeodesy.interns import NN, _coincident_, _COMMASPACE_, _Dash, \
                              _parallel_, _too_
 from pygeodesy.karney import _atan2d, Caps, _CapsBase, _diff182, _fix90, \
@@ -52,7 +52,7 @@ from pygeodesy.vector3d import _intersect3d3, Vector3d  # in .Intersection below
 from math import cos, fabs
 
 __all__ = ()
-__version__ = '24.06.18'
+__version__ = '24.10.14'
 
 _anti_ = _Dash('anti')
 _rls   = []  # instances of C{RbumbLine...} to be updated
@@ -634,7 +634,7 @@ class RhumbLineBase(_CapsBase):
         t = dict(lat3=q.lat2, lon3=q.lon2, azi03=q.azi02, a03=q.a02, s03=a)
         if a < r:
             t.update(iteration=q.iteration, lat0=q.lat1, lon0=q.lon1,  # or lat0, lon0
-                     name=_dunder_nameof(self.Intersecant2, self.name))
+                     name=_DUNDER_nameof(self.Intersecant2, self.name))
             if fabs(a) < EPS0:  # coincident centers
                 d, h = _0_0, r
             else:
@@ -723,7 +723,7 @@ class RhumbLineBase(_CapsBase):
 
             P = GDict(lat1=self.lat1, lat2=p.lat, lat0=other.lat1,
                       lon1=self.lon1, lon2=p.lon, lon0=other.lon1,
-                      name=_dunder_nameof(self.Intersection, self.name))
+                      name=_DUNDER_nameof(self.Intersection, self.name))
             r =  self.Inverse(p.lat, p.lon, outmask=Caps.DISTANCE)
             t = other.Inverse(p.lat, p.lon, outmask=Caps.DISTANCE)
             P.set_(azi12= self.azi12, a12=r.a12, s12=r.s12,
@@ -897,7 +897,7 @@ class RhumbLineBase(_CapsBase):
                         break
                 P.set_(azi0=r.azi1, a02=r.a12, s02=r.s12,  # azi2=r.azi2,
                        lat0=lat0, lon0=lon0, iteration=i, at=r.azi2 - self.azi12,
-                       name=_dunder_nameof(self.PlumbTo, self.name))
+                       name=_DUNDER_nameof(self.PlumbTo, self.name))
             except Exception as x:  # Fsum(NAN) Value-, ZeroDivisionError
                 raise IntersectionError(lat0=lat0, lon0=lon0, tol=tol, exact=exact,
                                         eps=eps, est=est, iteration=i, cause=x)

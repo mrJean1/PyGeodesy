@@ -4,7 +4,7 @@
 u'''(INTERNAL) Private C{CartesianBase} class for elliposiodal, spherical and N-/vectorial
 C{Cartesian}s and public functions L{rtp2xyz}, L{rtp2xyz_}, L{xyz2rtp} and L{xyz2rtp_}.
 
-After I{(C) Chris Veness 2011-2015} published under the same MIT Licence**, see
+After I{(C) Chris Veness 2011-2024} published under the same MIT Licence**, see
 U{https://www.Movable-Type.co.UK/scripts/latlong.html},
 U{https://www.Movable-Type.co.UK/scripts/latlong-vectors.html} and
 U{https://www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal.js.html}.
@@ -43,7 +43,7 @@ from pygeodesy.vector3d import Vector3d, _xyzhdlln4
 # from math import atan2, degrees, fabs, radians, sqrt  # from .fmath, .utily
 
 __all__ = _ALL_LAZY.cartesianBase
-__version__ = '24.08.18'
+__version__ = '24.10.12'
 
 _r_     = 'r'
 _theta_ = 'theta'

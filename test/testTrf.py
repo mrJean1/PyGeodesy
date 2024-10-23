@@ -3,16 +3,16 @@
 
 # Test L{trf} I{Terrestrial Reference Frame} implementation.
 
-# All tests transcoded from Chris Veness (C) 2006-2022 U{Geodesy tools for conversions between
+# All tests transcoded from Chris Veness (C) 2006-2024 U{Geodesy tools for conversions between
 # reference frames<https://www.Movable-Type.co.UK/scripts/geodesy-library.html>} JavaScript original
 # <https://GitHub.com/ChrisVeness/geodesy/blob/master/test/latlon-ellipsoidal-referenceframe-tests.js>
 
 __all__ = ('Tests',)
-__version__ = '24.03.12'
+__version__ = '24.10.14'
 
 from bases import GeodSolve, isPython2, TestsBase
 
-from pygeodesy import date2epoch, Epoch, epoch2date, F_D, F_DMS, fstr, RefFrames, \
+from pygeodesy import date2epoch, datums, Epoch, epoch2date, F_D, F_DMS, fstr, RefFrames, \
                       TRFError, trfTransform0, trfTransforms, trfXform, Vector3d
 
 
@@ -173,7 +173,7 @@ class Tests(TestsBase):
             t = c.toStr(prec=-6)
             self.test(_n(c), t, t, known=True, nl=1)
             x = c.toRefFrame(RefFrames.ITRF2014, epoch2=2018.8)
-            self.test(_n(x), x.toStr(prec=-3), X, known=True)
+            self.test(_n(x), x.toStr(prec=-3), X, known=True)  # see e < 1.5
             h = trfTransform0(c.reframe, RefFrames.ITRF2014, epoch=c.epoch, epoch2=2018.8)
             self.test('TransformXform', h.name, h.name)
             e = x - X
@@ -181,11 +181,17 @@ class Tests(TestsBase):
             e = e.length
             self.test('Error (m)', e, '0.01', prec=6, known=e < 1.5)
             r = x.epoch - c.epoch
-            self.test('Epoch range', r, '14.0', prec=3, known=True)
+            self.test('Epoch range', r, '14.0', prec=3, known=13 < abs(r) < 30)
             r = x.toRefFrame(c.reframe, epoch2=c.epoch)
             self.test(_n(r), r.toStr(prec=-6), t, known=(r - c).length < 1)
             h = trfTransform0(x.reframe, c.reframe, epoch=x.epoch, epoch2=c.epoch)
             self.test('TransformXform', h.name, h.name)
+
+            t = h.inverse()
+            self.test('inverse', t.name, datums._negastr(h.name), nl=1)
+            t = t.inverse()
+            self.test('inverse', t.name, h.name)
+            self.test('inverse', t, h)
 
         def _t(x, dX):
             return '%s@%s %s %s' % (x.reframe.name, x.reframe.epoch, x.epoch, dX.toStr(prec=8))

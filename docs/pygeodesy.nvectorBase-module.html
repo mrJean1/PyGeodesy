@@ -61,11 +61,10 @@
 <h1 class="epydoc">Module nvectorBase</h1><p class="nomargin-top"></p>
 <p>(INTERNAL) Private elliposiodal and spherical <code>Nvector</code> 
   base classes <a href="pygeodesy.nvectorBase.LatLonNvectorBase-class.html"
-  class="link">LatLonNvectorBase</a> and <a 
-  href="pygeodesy.nvectorBase.NvectorBase-class.html" 
-  class="link">NvectorBase</a> and function <a 
-  href="pygeodesy.nvectorBase-module.html#sumOf" 
-  class="link">sumOf</a>.</p>
+  class="link" onclick="show_private();">LatLonNvectorBase</a> and 
+  NvectorBase and function <a 
+  href="pygeodesy.nvectorBase-module.html#sumOf" class="link" 
+  onclick="show_private();">sumOf</a>.</p>
   <p>Pure Python implementation of <code>n-vector</code>-based geodesy 
   tools for ellipsoidal earth models, transcoded from JavaScript originals 
   by <i>(C) Chris Veness 2005-2016</i> and published under the same MIT 
@@ -75,64 +74,9 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        24.07.12
+        24.10.12
       </p>
-</div><!-- ==================== CLASSES ==================== -->
-<a name="section-Classes"></a>
-<table class="summary" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr bgcolor="#70b0f0" class="table-header">
-  <td align="left" colspan="2" class="table-header">
-    <span class="table-header">Classes</span></td>
-</tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.nvectorBase.NvectorBase-class.html" class="summary-name">NvectorBase</a><br />
-      Base class for ellipsoidal and spherical <code>Nvector</code>s.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.nvectorBase.LatLonNvectorBase-class.html" class="summary-name">LatLonNvectorBase</a><br />
-      (INTERNAL) Base class for n-vector-based ellipsoidal and spherical 
-        <code>LatLon</code> classes.
-    </td>
-  </tr>
-</table>
-<!-- ==================== FUNCTIONS ==================== -->
-<a name="section-Functions"></a>
-<table class="summary" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr bgcolor="#70b0f0" class="table-header">
-  <td align="left" colspan="2" class="table-header">
-    <span class="table-header">Functions</span></td>
-</tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.nvectorBase-module.html#sumOf" class="summary-sig-name">sumOf</a>(<span class="summary-sig-arg">nvectors</span>,
-        <span class="summary-sig-arg">Vector</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">h</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">**Vector_kwds</span>)</span><br />
-      Return the <i>vectorial</i> sum of two or more n-vectors.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-</table>
-<!-- ==================== VARIABLES ==================== -->
+</div><!-- ==================== VARIABLES ==================== -->
 <a name="section-Variables"></a>
 <table class="summary" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
@@ -162,56 +106,6 @@
     </td>
   </tr>
 </table>
-<!-- ==================== FUNCTION DETAILS ==================== -->
-<a name="section-FunctionDetails"></a>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr bgcolor="#70b0f0" class="table-header">
-  <td align="left" colspan="2" class="table-header">
-    <span class="table-header">Function Details</span></td>
-</tr>
-</table>
-<a name="sumOf"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">sumOf</span>&nbsp;(<span class="sig-arg">nvectors</span>,
-        <span class="sig-arg">Vector</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">h</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">**Vector_kwds</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Return the <i>vectorial</i> sum of two or more n-vectors.</p>
-  <dl class="fields">
-    <dt>Arguments:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>nvectors</code></strong> - Vectors to be added (<code>Nvector</code>[]).</li>
-        <li><strong class="pname"><code>Vector</code></strong> - Optional class for the vectorial sum (<code>Nvector</code>) or 
-          <code>None</code>.</li>
-        <li><strong class="pname"><code>h</code></strong> - Optional height, overriding the mean height (<code>meter</code>).</li>
-        <li><strong class="pname"><code>Vector_kwds</code></strong> - Optional, additional <b><code>Vector</code></b> keyword 
-          arguments, ignored if <code><b>Vector</b> is None</code>.</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>Vectorial sum (<b><code>Vector</code></b>) or a <a 
-          href="pygeodesy.namedTuples.Vector4Tuple-class.html" 
-          class="link">Vector4Tuple</a><code>(x, y, z, h)</code> if 
-          <code><b>Vector</b> is None</code>.</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.VectorError-class.html">VectorError</a></strong></code> - No <b><code>nvectors</code></b>.</li>
-    </ul></dd>
-  </dl>
-</td></tr></table>
-</div>
-<br />
 <!-- ==================== NAVIGATION BAR ==================== -->
 <table class="navbar" border="0" width="100%" cellpadding="0"
        bgcolor="#a0c0ff" cellspacing="0">
@@ -243,7 +137,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Oct  9 16:14:58 2024
+    Generated by Epydoc 3.0.1 on Tue Oct 22 17:06:19 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

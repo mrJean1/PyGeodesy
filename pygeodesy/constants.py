@@ -26,7 +26,7 @@ except ImportError:  # Python 2-
     _inf, _nan = float(_INF_), float(_NAN_)
 
 __all__ = _ALL_LAZY.constants
-__version__ = '24.09.28'
+__version__ = '24.10.15'
 
 
 def _copysign_0_0(y):
@@ -256,7 +256,8 @@ _K0_UTM  = _Float(_K0_UTM = 0.9996)  # PYCHOK in .etm, .ktm, .utm, UTM scale at 
 # sqrt(2) <https://WikiPedia.org/wiki/Square_root_of_2>
 # 1.414213562373095_048_801_688_724_209_698_078_569_671_875_376_948_073_176_679_737_99
 # _1SQRT2= _Float(_1SQRT2 =sqrt(_2_0) + 1)
-_SQRT2_2 = _Float(_SQRT2_2=sqrt(_0_5))  # PYCHOK = 0.707106781186547_6 == sqrt(2) / 2
+# 0.707106781186547_524_400_844_362_104_849_039_284_835_937_688_474_036_588_339_868_99
+_SQRT2_2 = _Float(_SQRT2_2=sqrt(_0_5))  # PYCHOK = 0.707106781186547_5 == sqrt(2) / 2
 
 INF   =  Float(INF =_inf)    # PYCHOK INFinity, see function L{isinf}, L{isfinite}, NOT _Float!
 INT0  =  Int(  INT0= 0)      # PYCHOK unique int(0) instance, see .fsums, useZ=False
@@ -494,20 +495,23 @@ def _umod_PI2(rad):
 
 if __name__ == '__main__':
 
-    from pygeodesy import itemsorted, printf
+    def _main():
+        from pygeodesy import itemsorted, printf
 
-    t = n = v = []
-    for n, v in itemsorted(locals()):
-        if isinstance(v, (Float, Int, Radius)):
-            printf('%9s: %r', n, v.toRepr(std=False))
-            if v.name != n:
-                raise AssertionError('%r != %r' % (n, v))
-            if v.name is not n:
-                raise AssertionError('%r is not %r' % (n, v))
-            if not n.startswith(_UNDER_):
-                t.append(n)
-    t.append(float_.__name__)
-    printf('__all__ = %r', tuple(t))
+        t = n = v = []
+        for n, v in itemsorted(locals()):
+            if isinstance(v, (Float, Int, Radius)):
+                printf('%9s: %r', n, v.toRepr(std=False))
+                if v.name != n:
+                    raise AssertionError('%r != %r' % (n, v))
+                if v.name is not n:
+                    raise AssertionError('%r is not %r' % (n, v))
+                if not n.startswith(_UNDER_):
+                    t.append(n)
+        t.append(float_.__name__)
+        printf('__all__ = %r', tuple(t))
+
+    _main()
 
 # **) MIT License
 #

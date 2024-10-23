@@ -64,11 +64,12 @@
   and functions.</p>
   <p>Function <a href="pygeodesy.vector3d-module.html#intersection3d3" 
   class="link">intersection3d3</a>, <a 
-  href="pygeodesy.vector3d-module.html#intersections2" 
-  class="link">intersections2</a>, <a 
+  href="pygeodesy.vector3d-module.html#intersections2" class="link" 
+  onclick="show_private();">intersections2</a>, <a 
   href="pygeodesy.vector3d-module.html#parse3d" class="link">parse3d</a>, 
-  <a href="pygeodesy.vector3d-module.html#sumOf" class="link">sumOf</a> and
-  <a href="pygeodesy.vector3d-module.html#trilaterate3d2" 
+  <a href="pygeodesy.vector3d-module.html#sumOf" class="link" 
+  onclick="show_private();">sumOf</a> and <a 
+  href="pygeodesy.vector3d-module.html#trilaterate3d2" 
   class="link">trilaterate3d2</a>.</p>
 
 <hr />
@@ -83,14 +84,6 @@
   <td align="left" colspan="2" class="table-header">
     <span class="table-header">Classes</span></td>
 </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.vector3dBase.Vector3dBase-class.html" class="summary-name">Vector3dBase</a><br />
-      (INTERNAL) Generic 3-D vector base class.
-    </td>
-  </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
@@ -123,29 +116,6 @@
         <span class="summary-sig-arg">**Vector_and_kwds</span>)</span><br />
       Compute the intersection point of two (2- or 3-D) lines, each defined
       by two points or by a point and a bearing.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.vector3d-module.html#intersections2" class="summary-sig-name">intersections2</a>(<span class="summary-sig-arg">center1</span>,
-        <span class="summary-sig-arg">radius1</span>,
-        <span class="summary-sig-arg">center2</span>,
-        <span class="summary-sig-arg">radius2</span>,
-        <span class="summary-sig-arg">sphere</span>=<span class="summary-sig-default">True</span>,
-        <span class="summary-sig-arg">**Vector_and_kwds</span>)</span><br />
-      Compute the intersection of two spheres or circles, each defined by a
-      (3-D) center point and a radius.</td>
           <td align="right" valign="top">
             
             
@@ -232,25 +202,6 @@
         <span class="summary-sig-arg">Vector</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.vector3d.Vector3d'&gt;</span>,
         <span class="summary-sig-arg">**Vector_kwds</span>)</span><br />
       Parse an <code>&quot;x, y, z&quot;</code> string.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.vector3d-module.html#sumOf" class="summary-sig-name">sumOf</a>(<span class="summary-sig-arg">vectors</span>,
-        <span class="summary-sig-arg">Vector</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.vector3d.Vector3d'&gt;</span>,
-        <span class="summary-sig-arg">**Vector_kwds</span>)</span><br />
-      Compute the <i>vectorial</i> sum of two oe more vectors.</td>
           <td align="right" valign="top">
             
             
@@ -385,78 +336,6 @@
         target="_top">skew lines</a> and <a 
         href="https://MathWorld.Wolfram.com/Point-LineDistance3-Dimensional.html"
         target="_top">point-line distance</a>.
-      </p>
-</div></td></tr></table>
-</div>
-<a name="intersections2"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">intersections2</span>&nbsp;(<span class="sig-arg">center1</span>,
-        <span class="sig-arg">radius1</span>,
-        <span class="sig-arg">center2</span>,
-        <span class="sig-arg">radius2</span>,
-        <span class="sig-arg">sphere</span>=<span class="sig-default">True</span>,
-        <span class="sig-arg">**Vector_and_kwds</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Compute the intersection of two spheres or circles, each defined by a 
-  (3-D) center point and a radius.</p>
-  <dl class="fields">
-    <dt>Arguments:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>center1</code></strong> - Center of the first sphere or circle (<code>Cartesian</code>, <a 
-          href="pygeodesy.vector3d.Vector3d-class.html" 
-          class="link">Vector3d</a>, <code>Vector3Tuple</code> or 
-          <code>Vector4Tuple</code>).</li>
-        <li><strong class="pname"><code>radius1</code></strong> - Radius of the first sphere or circle (same units as the 
-          <b><code>center1</code></b> coordinates).</li>
-        <li><strong class="pname"><code>center2</code></strong> - Center of the second sphere or circle (<code>Cartesian</code>, <a
-          href="pygeodesy.vector3d.Vector3d-class.html" 
-          class="link">Vector3d</a>, <code>Vector3Tuple</code> or 
-          <code>Vector4Tuple</code>).</li>
-        <li><strong class="pname"><code>radius2</code></strong> - Radius of the second sphere or circle (same units as the 
-          <b><code>center1</code></b> and <b><code>center2</code></b> 
-          coordinates).</li>
-        <li><strong class="pname"><code>sphere</code></strong> - If <code>True</code>, compute the center and radius of the 
-          intersection of two spheres.  If <code>False</code>, ignore the 
-          <code>z</code>-component and compute the intersection of two 
-          circles (<code>bool</code>).</li>
-        <li><strong class="pname"><code>Vector_and_kwds</code></strong> - Optional class <code><b>Vector</b>=None</code> to return the 
-          intersection points and optional, additional 
-          <b><code>Vector</code></b> keyword arguments, otherwise 
-          <b><code>center1</code></b>'s (sub-)class.</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>If <code><b>sphere</b> is True</code>, a 2-tuple of the 
-          <code>center</code> and <code>radius</code> of the intersection 
-          of the <i>spheres</i>.  For abutting circles, <code>radius</code>
-          is <code>0.0</code> and <code>center</code> is the <i>radical 
-          center</i>.
-          <p>If <code><b>sphere</b> is False</code>, a 2-tuple with the two
-          intersection points of the <i>circles</i>.  For abutting circles,
-          both points are the same instance, aka the <i>radical 
-          center</i>.</p></dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - Concentric, invalid or non-intersecting spheres or circles.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>center1</code></b> or <b><code>center2</code></b>.</li>
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.UnitError-class.html">UnitError</a></strong></code> - Invalid <b><code>radius1</code></b> or <b><code>radius2</code></b>.</li>
-    </ul></dd>
-  </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        <a 
-        href="https://MathWorld.Wolfram.com/Sphere-SphereIntersection.html"
-        target="_top">Sphere-Sphere</a> and <a 
-        href="https://MathWorld.Wolfram.com/Circle-CircleIntersection.html"
-        target="_top">Circle-Circle</a> Intersection.
       </p>
 </div></td></tr></table>
 </div>
@@ -643,10 +522,9 @@
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
-        Distances measured with method <a 
-        href="pygeodesy.vector3dBase.Vector3dBase-class.html#equirectangular"
-        class="link">Vector3d.equirectangular</a>.  For geodetic distances 
-        use function <a href="pygeodesy.points-module.html#nearestOn5" 
+        Distances measured with method Vector3d.equirectangular.  For 
+        geodetic distances use function <a 
+        href="pygeodesy.points-module.html#nearestOn5" 
         class="link">nearestOn5</a> or one of the 
         <code>LatLon.nearestOn6</code> methods.
       </p>
@@ -688,47 +566,6 @@
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.VectorError-class.html">VectorError</a></strong></code> - Invalid <b><code>str3d</code></b>.</li>
-    </ul></dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="sumOf"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">sumOf</span>&nbsp;(<span class="sig-arg">vectors</span>,
-        <span class="sig-arg">Vector</span>=<span class="sig-default">&lt;class 'pygeodesy.vector3d.Vector3d'&gt;</span>,
-        <span class="sig-arg">**Vector_kwds</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Compute the <i>vectorial</i> sum of two oe more vectors.</p>
-  <dl class="fields">
-    <dt>Arguments:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>vectors</code></strong> - Vectors to be added (<a 
-          href="pygeodesy.vector3d.Vector3d-class.html" 
-          class="link">Vector3d</a>[]).</li>
-        <li><strong class="pname"><code>Vector</code></strong> - Optional class for the vectorial sum (<a 
-          href="pygeodesy.vector3d.Vector3d-class.html" 
-          class="link">Vector3d</a>).</li>
-        <li><strong class="pname"><code>Vector_kwds</code></strong> - Optional <b><code>Vector</code></b> keyword arguments, ignored if
-          <code><b>Vector</b> is None</code>.</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>Vectorial sum as <b><code>Vector</code></b> or if 
-          <b><code>Vector</code> is None</b>, a named <a 
-          href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
-          class="link">Vector3Tuple</a><code>(x, y, z)</code>.</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.VectorError-class.html">VectorError</a></strong></code> - No <b><code>vectors</code></b>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -846,7 +683,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Oct  9 16:14:58 2024
+    Generated by Epydoc 3.0.1 on Tue Oct 22 17:06:19 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

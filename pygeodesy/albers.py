@@ -38,12 +38,12 @@ from pygeodesy.utily import atan1, atan1d, degrees360, sincos2, sincos2d, \
 from math import atan2, atanh, degrees, fabs, radians, sqrt
 
 __all__ = _ALL_LAZY.albers
-__version__ = '24.06.11'
+__version__ = '24.10.15'
 
 _k1_    = 'k1'
 _NUMIT  =   8  # XXX 4?
 _NUMIT0 =  41  # XXX 21?
-_TERMS  =  21  # XXX 16?
+_TERMS  =  31  # XXX 16?
 _TOL0   =  sqrt3(_TOL)
 
 
@@ -425,15 +425,12 @@ class _AlbersBase(_NamedBase):
         e22    =  E.e22  # == e2 / e21
         tol    = _tol(_TOL0, ta0)
         _Ta02  =  Fsum(ta0).fsum2f_
-        _fabs  =  fabs
-        _fsum1 =  fsum1f_
-        _sqrt  =  sqrt
         _1, _2 = _1_0, _2_0
         _4, _6 = _4_0, _6_0
         for self._iteration in range(1, _NUMIT0):  # 4 trips
             ta02  =  ta0**2
             sca02 =  ta02 + _1
-            sca0  = _sqrt(sca02)
+            sca0  =  sqrt(sca02)
             sa0   =  ta0 / sca0
             sa01  =  sa0 + _1
             sa02  =  sa0**2
@@ -449,10 +446,10 @@ class _AlbersBase(_NamedBase):
             BA = (_atanh1(e2 * sa0m1**2) * e21 - e2 * sa0m) * sa0m1 \
                - (_2 + (_1 + e2) * sa0) * sa0m**2 * e22 / sa021  # B + A
             d  = (_4 - (_1 + sa02) * e2 * _2) * e22    / (sa021**2 * sca02)  # dAB
-            u  = _fsum1(s1_qZ *  g, -D,  g * BA)
-            du = _fsum1(s1_qZ * dg, dD, dg * BA, g * d)
+            u  = fsum1f_(s1_qZ *  g, -D,  g * BA)
+            du = fsum1f_(s1_qZ * dg, dD, dg * BA, g * d)
             ta0, d = _Ta02(-u / du * (sca0 * sca02))
-            if _fabs(d) < tol:
+            if fabs(d) < tol:
                 return ta0
         raise AlbersError(Fmt.no_convergence(d, tol), txt=repr(self))
 
@@ -496,22 +493,20 @@ class _AlbersBase(_NamedBase):
         e2  =  self.ellipsoid.e2
         qx  =  self._qx
 
-        ta     =  txi
-        _Ta2   =  Fsum(ta).fsum2f_
-        _fabs  =  fabs
-        _sqrt3 =  sqrt3
-        _txif  =  self._txif
-        _1     = _1_0
+        ta    =  txi
+        _Ta2  =  Fsum(ta).fsum2f_
+        _txif =  self._txif
+        _1    = _1_0
         for self._iteration in range(1, _NUMIT):  # max 2, mean 1.99
             # dtxi / dta = (scxi / sca)^3 * 2 * (1 - e^2)
             #            / (qZ * (1 - e^2 * sa^2)^2)
             ta2  =  ta**2
             sca2 = _1 + ta2
             txia = _txif(ta)
-            s3qx = _sqrt3(sca2 / (txia**2 + _1)) * qx  # * _1_x21(txia)
+            s3qx =  sqrt3(sca2 / (txia**2 + _1)) * qx  # * _1_x21(txia)
             eta2 = (_1 - e2 * ta2 / sca2)**2
             ta, d = _Ta2((txi - txia) * s3qx * eta2)
-            if _fabs(d) < tol:
+            if fabs(d) < tol:
                 return ta
         raise AlbersError(Fmt.no_convergence(d, tol), txt=repr(self))
 

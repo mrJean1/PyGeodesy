@@ -5,7 +5,7 @@ u'''I{Veness}' Terrestrial Reference Frames (TRF).
 
 Classes L{RefFrame}, registry L{RefFrames} and L{TRFError}.
 
-Transcoded from I{Chris Veness'} (C) 2006-2022 JavaScript originals U{latlon-ellipsoidal-referenceframe.js
+Transcoded from I{Chris Veness'} (C) 2006-2024 JavaScript originals U{latlon-ellipsoidal-referenceframe.js
 <https://GitHub.com/ChrisVeness/geodesy/blob/master/latlon-ellipsoidal-referenceframe.js>} and
 U{latlon-ellipsoidal-referenceframe-txparams.js
 <https://GitHub.com/ChrisVeness/geodesy/blob/master/latlon-ellipsoidal-referenceframe-txparams.js>}.
@@ -91,7 +91,7 @@ from math import ceil as _ceil, fabs
 # import operator as _operator  # from .datums
 
 __all__ = _ALL_LAZY.trf
-__version__ = '24.06.09'
+__version__ = '24.10.14'
 
 _EP0CH    =  Epoch(0, low=0)
 _Es       = {_EP0CH: _EP0CH}  # L{Epoch}s, deleted below
@@ -391,7 +391,9 @@ class TransformXform(Transform):
            @return: Inverse (L{TransformXform}), unregistered.
         '''
         r = Transform.inverse(self, **name)
-        r._Xform = r.Xform.inverse()
+        X = self.Xform
+        if X:  # unregistered
+            r._Xform = X.inverse()
         return r
 
     def rename(self, name=NN):
@@ -1778,7 +1780,7 @@ if __name__ == '__main__':
                 raise AssertionError(_SPACE_(n, _vs_, t))
 
     _main()
-    del _main
+#   del _main
 
 # **) MIT License
 #

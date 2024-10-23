@@ -63,11 +63,11 @@
 <pre class="base-tree">
   object --+            
            |            
-<a href="pygeodesy.named._Named-class.html">named._Named</a> --+        
+named._Named --+        
                |        
-<a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a> --+    
+named._NamedBase --+    
                    |    
-<a href="pygeodesy.named._NamedEnumItem-class.html">named._NamedEnumItem</a> --+
+named._NamedEnumItem --+
                        |
                       <strong class="uidshort">Ellipsoid</strong>
 </pre>
@@ -919,27 +919,27 @@
   </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._NamedEnumItem-class.html">named._NamedEnumItem</a></code></b>:
-      <code><a href="pygeodesy.named._NamedEnumItem-class.html#unregister">unregister</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>named._NamedEnumItem</code></b>:
+      <code>unregister</code>
       </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a></code></b>:
-      <code><a href="pygeodesy.named._NamedBase-class.html#__repr__">__repr__</a></code>,
-      <code><a href="pygeodesy.named._NamedBase-class.html#__str__">__str__</a></code>,
-      <code><a href="pygeodesy.named._NamedBase-class.html#others">others</a></code>,
-      <code><a href="pygeodesy.named._NamedBase-class.html#toRepr">toRepr</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>named._NamedBase</code></b>:
+      <code>__repr__</code>,
+      <code>__str__</code>,
+      <code>others</code>,
+      <code>toRepr</code>
       </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
-      <code><a href="pygeodesy.named._Named-class.html#__imatmul__">__imatmul__</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#__matmul__">__matmul__</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#__rmatmul__">__rmatmul__</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#attrs">attrs</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#classof">classof</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#copy">copy</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#dup">dup</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#methodname">methodname</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#rename">rename</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#renamed">renamed</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#toStr2">toStr2</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>named._Named</code></b>:
+      <code>__imatmul__</code>,
+      <code>__matmul__</code>,
+      <code>__rmatmul__</code>,
+      <code>attrs</code>,
+      <code>classof</code>,
+      <code>copy</code>,
+      <code>dup</code>,
+      <code>methodname</code>,
+      <code>rename</code>,
+      <code>renamed</code>,
+      <code>toStr2</code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__delattr__</code>,
@@ -967,416 +967,308 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#a" class="summary-name">a</a><br />
-      Get the <i>equatorial</i> radius, semi-axis (<code>meter</code>).
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#a" class="summary-name">a</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#a2" class="summary-name">a2</a><br />
-      Get the <i>equatorial</i> radius <i>squared</i> (<code>meter</code> 
-      <i>squared</i>), <i class="math">a**2</i>.
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#a2" class="summary-name">a2</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#a2_" class="summary-name">a2_</a><br />
-      Get the inverse of the <i>equatorial</i> radius <i>squared</i> 
-      (<code>meter</code> <i>squared</i>), <i class="math">1 / a**2</i>.
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#a2_" class="summary-name">a2_</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#a_b" class="summary-name">a_b</a><br />
-      Get the ratio <i>equatorial</i> over <i>polar</i> radius 
-      (<code>float</code>), <i class="math">a / b</i> == <i class="math">1 
-      / (1 - f)</i>.
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#a_b" class="summary-name">a_b</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#a2_b" class="summary-name">a2_b</a><br />
-      Get the <i>polar</i> meridional (or polar) radius of curvature 
-      (<code>meter</code>), <i class="math">a**2 / b</i>.
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#a2_b" class="summary-name">a2_b</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#a2_b2" class="summary-name">a2_b2</a><br />
-      Get the ratio <i>equatorial</i> over <i>polar</i> radius 
-      <i>squared</i> (<code>float</code>), <i class="math">(a / b)**2</i> 
-      == <i class="math">1 / (1 - e**2)</i> == <i class="math">1 / (1 - 
-      e2)</i> == <i class="math">1 / e21</i>.
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#a2_b2" class="summary-name">a2_b2</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#a_f" class="summary-name">a_f</a><br />
-      Get the <i>equatorial</i> radius and <i>flattening</i> (<a 
-      href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
-      class="link">a_f2Tuple</a>), see method <code>toEllipsoid2</code>.
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#a_f" class="summary-name">a_f</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#A" class="summary-name">A</a><br />
-      Get the UTM <i>meridional (or rectifying)</i> radius 
-      (<code>meter</code>).
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#A" class="summary-name">A</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#AlphaKs" class="summary-name">AlphaKs</a><br />
-      Get the <i>Kr&#252;ger</i> <a 
-      href="https://GeographicLib.SourceForge.io/C++/doc/tmseries30.html" 
-      target="_top">Alpha series coefficients</a> 
-      (<code>KsOrder</code><code>-tuple</code>).
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#AlphaKs" class="summary-name">AlphaKs</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#area" class="summary-name">area</a><br />
-      Get the ellipsoid's surface area (<code>meter</code> <i>squared</i>),
-      <i class="math">4 * PI * c2</i>.
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#area" class="summary-name">area</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#areax" class="summary-name">areax</a><br />
-      Get the ellipsoid's surface area (<code>meter</code> <i>squared</i>),
-      <i class="math">4 * PI * c2x</i>, more accurate for very 
-      <i>oblate</i> ellipsoids.
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#areax" class="summary-name">areax</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#b" class="summary-name">b</a><br />
-      Get the <i>polar</i> radius, semi-axis (<code>meter</code>).
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#b" class="summary-name">b</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#b_a" class="summary-name">b_a</a><br />
-      Get the ratio <i>polar</i> over <i>equatorial</i> radius 
-      (<code>float</code>), <i class="math">b / a == f1 == 1 - f</i>.
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#b_a" class="summary-name">b_a</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#b2" class="summary-name">b2</a><br />
-      Get the <i>polar</i> radius <i>squared</i> (<code>float</code>), <i 
-      class="math">b**2</i>.
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#b2" class="summary-name">b2</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#b2_a" class="summary-name">b2_a</a><br />
-      Get the <i>equatorial</i> meridional radius of curvature 
-      (<code>meter</code>), <i class="math">b**2 / a</i>, see 
-      <code>rocMeridional</code><code>(0)</code>.
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#b2_a" class="summary-name">b2_a</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#b2_a2" class="summary-name">b2_a2</a><br />
-      Get the ratio <i>polar</i> over <i>equatorial</i> radius 
-      <i>squared</i> (<code>float</code>), <i class="math">(b / a)**2</i> 
-      == <i class="math">(1 - f)**2</i> == <i class="math">1 - e**2</i> == 
-      <code>e21</code>.
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#b2_a2" class="summary-name">b2_a2</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#BetaKs" class="summary-name">BetaKs</a><br />
-      Get the <i>Kr&#252;ger</i> <a 
-      href="https://GeographicLib.SourceForge.io/C++/doc/tmseries30.html" 
-      target="_top">Beta series coefficients</a> 
-      (<code>KsOrder</code><code>-tuple</code>).
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#BetaKs" class="summary-name">BetaKs</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#c" class="summary-name">c</a><br />
-      DEPRECATED, use property <code>R2</code> or <code>Rauthalic</code>.
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#c" class="summary-name">c</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#c2" class="summary-name">c2</a><br />
-      Get the <i>authalic</i> earth radius <i>squared</i> 
-      (<code>meter</code> <i>squared</i>).
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#c2" class="summary-name">c2</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#c2x" class="summary-name">c2x</a><br />
-      Get the <i>authalic</i> earth radius <i>squared</i> 
-      (<code>meter</code> <i>squared</i>), more accurate for very 
-      <i>oblate</i> ellipsoids.
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#c2x" class="summary-name">c2x</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#e" class="summary-name">e</a><br />
-      Get the <i>unsigned, (1st) eccentricity</i> (<code>float</code>), <i 
-      class="math">sqrt(1 - (b / a)**2))</i>, see <code>a_b2e</code>.
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#e" class="summary-name">e</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#e12" class="summary-name">e12</a><br />
-      DEPRECATED, use property <code>e21</code>.
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#e12" class="summary-name">e12</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#e2" class="summary-name">e2</a><br />
-      Get the <i>signed, (1st) eccentricity squared</i> 
-      (<code>float</code>), <i class="math">f * (2 - f) == 1 - (b / 
-      a)**2</i>, see <code>a_b2e2</code>.
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#e2" class="summary-name">e2</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#e2abs" class="summary-name">e2abs</a><br />
-      Get the <i>unsigned, (1st) eccentricity squared</i> 
-      (<code>float</code>).
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#e2abs" class="summary-name">e2abs</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#e21" class="summary-name">e21</a><br />
-      Get 1 less <i>1st eccentricity squared</i> (<code>float</code>), <i 
-      class="math">1 - e**2</i> == <i class="math">1 - e2</i> == <i 
-      class="math">(1 - f)**2</i> == <i class="math">b**2 / a**2</i>, see 
-      <code>b2_a2</code>.
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#e21" class="summary-name">e21</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#e22" class="summary-name">e22</a><br />
-      Get the <i>signed, 2nd eccentricity squared</i> (<code>float</code>),
-      <i class="math">e2 / (1 - e2) == e2 / (1 - f)**2 == (a / b)**2 - 
-      1</i>, see <code>a_b2e22</code>.
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#e22" class="summary-name">e22</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#e22abs" class="summary-name">e22abs</a><br />
-      Get the <i>unsigned, 2nd eccentricity squared</i> 
-      (<code>float</code>).
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#e22abs" class="summary-name">e22abs</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#e32" class="summary-name">e32</a><br />
-      Get the <i>signed, 3rd eccentricity squared</i> (<code>float</code>),
-      <i class="math">e2 / (2 - e2) == (a**2 - b**2) / (a**2 + b**2)</i>, 
-      see <code>a_b2e32</code>.
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#e32" class="summary-name">e32</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#e32abs" class="summary-name">e32abs</a><br />
-      Get the <i>unsigned, 3rd eccentricity squared</i> 
-      (<code>float</code>).
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#e32abs" class="summary-name">e32abs</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#e4" class="summary-name">e4</a><br />
-      Get the <i>unsignd, (1st) eccentricity</i> to 4th power 
-      (<code>float</code>), <i class="math">e**4 == e2**2</i>.
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#e4" class="summary-name">e4</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#eccentricity" class="summary-name">eccentricity</a><br />
-      Get the <i>unsigned, (1st) eccentricity</i> (<code>float</code>), <i 
-      class="math">sqrt(1 - (b / a)**2))</i>, see <code>a_b2e</code>.
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#eccentricity" class="summary-name">eccentricity</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#eccentricity1st2" class="summary-name">eccentricity1st2</a><br />
-      Get the <i>signed, (1st) eccentricity squared</i> 
-      (<code>float</code>), <i class="math">f * (2 - f) == 1 - (b / 
-      a)**2</i>, see <code>a_b2e2</code>.
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#eccentricity1st2" class="summary-name">eccentricity1st2</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#eccentricity2nd2" class="summary-name">eccentricity2nd2</a><br />
-      Get the <i>signed, 2nd eccentricity squared</i> (<code>float</code>),
-      <i class="math">e2 / (1 - e2) == e2 / (1 - f)**2 == (a / b)**2 - 
-      1</i>, see <code>a_b2e22</code>.
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#eccentricity2nd2" class="summary-name">eccentricity2nd2</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#eccentricity3rd2" class="summary-name">eccentricity3rd2</a><br />
-      Get the <i>signed, 3rd eccentricity squared</i> (<code>float</code>),
-      <i class="math">e2 / (2 - e2) == (a**2 - b**2) / (a**2 + b**2)</i>, 
-      see <code>a_b2e32</code>.
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#eccentricity3rd2" class="summary-name">eccentricity3rd2</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#equatoradius" class="summary-name">equatoradius</a><br />
-      Get the <i>equatorial</i> radius, semi-axis (<code>meter</code>).
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#equatoradius" class="summary-name">equatoradius</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#es" class="summary-name">es</a><br />
-      Get the <i>signed (1st) eccentricity</i> (<code>float</code>).
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#es" class="summary-name">es</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#es_c" class="summary-name">es_c</a><br />
-      Get <i class="math">(1 - f) * exp(es_atanh(1))</i> 
-      (<code>float</code>), <i class="math">b_a * exp(es_atanh(1))</i>.
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#es_c" class="summary-name">es_c</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#f" class="summary-name">f</a><br />
-      Get the <i>flattening</i> (<code>scalar</code>), <i class="math">(a -
-      b) / a</i>, <code>0</code> for spherical, negative for prolate.
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#f" class="summary-name">f</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#f_" class="summary-name">f_</a><br />
-      Get the <i>inverse flattening</i> (<code>scalar</code>), <i 
-      class="math">1 / f</i> == <i class="math">a / (a - b)</i>, 
-      <code>0</code> for spherical, see <code>a_b2f_</code>.
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#f_" class="summary-name">f_</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#f1" class="summary-name">f1</a><br />
-      Get the <i>1 - flattening</i> (<code>float</code>), <i 
-      class="math">f1 == 1 - f == b / a</i>.
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#f1" class="summary-name">f1</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#f2" class="summary-name">f2</a><br />
-      Get the <i>2nd flattening</i> (<code>float</code>), <i 
-      class="math">(a - b) / b == f / (1 - f)</i>, <code>0</code> for 
-      spherical, see <code>a_b2f2</code>.
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#f2" class="summary-name">f2</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#geodesic" class="summary-name">geodesic</a><br />
-      DEPRECATED, use property <code>geodesicw</code>.
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#geodesic" class="summary-name">geodesic</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#geodesicw" class="summary-name">geodesicw</a><br />
-      Get this ellipsoid's <i>wrapped</i> <a 
-      href="https://GeographicLib.SourceForge.io/Python/doc/code.html" 
-      target="_top">geodesicw.Geodesic</a>, provided <i>Karney</i>'s <a 
-      href="https://PyPI.org/project/geographiclib" 
-      target="_top">geographiclib</a> package is installed.
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#geodesicw" class="summary-name">geodesicw</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#geodesicx" class="summary-name">geodesicx</a><br />
-      Get this ellipsoid's <i>exact</i> <a 
-      href="pygeodesy.geodesicx.gx.GeodesicExact-class.html" 
-      class="link">GeodesicExact</a>.
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#geodesicx" class="summary-name">geodesicx</a>
     </td>
   </tr>
 <tr>
@@ -1397,34 +1289,28 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#isEllipsoidal" class="summary-name">isEllipsoidal</a><br />
-      Is this model <i>ellipsoidal</i> (<code>bool</code>)?
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#isEllipsoidal" class="summary-name">isEllipsoidal</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#isOblate" class="summary-name">isOblate</a><br />
-      Is this ellipsoid <i>oblate</i> (<code>bool</code>)?  <i>Prolate</i> 
-      or spherical otherwise.
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#isOblate" class="summary-name">isOblate</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#isProlate" class="summary-name">isProlate</a><br />
-      Is this ellipsoid <i>prolate</i> (<code>bool</code>)?  <i>Oblate</i> 
-      or spherical otherwise.
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#isProlate" class="summary-name">isProlate</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#isSpherical" class="summary-name">isSpherical</a><br />
-      Is this ellipsoid <i>spherical</i> (<code>bool</code>)?
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#isSpherical" class="summary-name">isSpherical</a>
     </td>
   </tr>
 <tr>
@@ -1439,207 +1325,161 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#L" class="summary-name">L</a><br />
-      Get the <i>quarter meridian</i> <code>L</code>, aka the <code>polar 
-      distance</code> along a meridian between the equator and a pole 
-      (<code>meter</code>), <i class="math">b * Elliptic(-e2 / (1 - 
-      e2)).cE</i> or <i class="math">b * PI / 2</i>.
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#L" class="summary-name">L</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#majoradius" class="summary-name">majoradius</a><br />
-      DEPRECATED, use property <code>a</code> or <code>Requatorial</code>.
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#majoradius" class="summary-name">majoradius</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#minoradius" class="summary-name">minoradius</a><br />
-      DEPRECATED, use property <code>b</code>, <code>polaradius</code> or 
-      <code>Rpolar</code>.
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#minoradius" class="summary-name">minoradius</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#n" class="summary-name">n</a><br />
-      Get the <i>3rd flattening</i> (<code>float</code>), <i class="math">f
-      / (2 - f) == (a - b) / (a + b)</i>, see <code>a_b2n</code>.
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#n" class="summary-name">n</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#flattening" class="summary-name">flattening</a><br />
-      Get the <i>flattening</i> (<code>scalar</code>), <i class="math">(a -
-      b) / a</i>, <code>0</code> for spherical, negative for prolate.
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#flattening" class="summary-name">flattening</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#flattening1st" class="summary-name">flattening1st</a><br />
-      Get the <i>flattening</i> (<code>scalar</code>), <i class="math">(a -
-      b) / a</i>, <code>0</code> for spherical, negative for prolate.
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#flattening1st" class="summary-name">flattening1st</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#flattening2nd" class="summary-name">flattening2nd</a><br />
-      Get the <i>2nd flattening</i> (<code>float</code>), <i 
-      class="math">(a - b) / b == f / (1 - f)</i>, <code>0</code> for 
-      spherical, see <code>a_b2f2</code>.
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#flattening2nd" class="summary-name">flattening2nd</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#flattening3rd" class="summary-name">flattening3rd</a><br />
-      Get the <i>3rd flattening</i> (<code>float</code>), <i class="math">f
-      / (2 - f) == (a - b) / (a + b)</i>, see <code>a_b2n</code>.
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#flattening3rd" class="summary-name">flattening3rd</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#polaradius" class="summary-name">polaradius</a><br />
-      Get the <i>polar</i> radius, semi-axis (<code>meter</code>).
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#polaradius" class="summary-name">polaradius</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#quarteradius" class="summary-name">quarteradius</a><br />
-      DEPRECATED, use property <code>L</code> or method <code>Llat</code>.
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#quarteradius" class="summary-name">quarteradius</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#R1" class="summary-name">R1</a><br />
-      Get the <i>mean</i> earth radius per <i>IUGG</i> 
-      (<code>meter</code>), <i class="math">(2 * a + b) / 3 == a * (1 - f /
-      3)</i>.
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#R1" class="summary-name">R1</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#Rmean" class="summary-name">Rmean</a><br />
-      Get the <i>mean</i> earth radius per <i>IUGG</i> 
-      (<code>meter</code>), <i class="math">(2 * a + b) / 3 == a * (1 - f /
-      3)</i>.
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#Rmean" class="summary-name">Rmean</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#R2" class="summary-name">R2</a><br />
-      Get the <i>authalic</i> earth radius (<code>meter</code>), <i 
-      class="math">sqrt(c2)</i>.
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#R2" class="summary-name">R2</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#Rauthalic" class="summary-name">Rauthalic</a><br />
-      Get the <i>authalic</i> earth radius (<code>meter</code>), <i 
-      class="math">sqrt(c2)</i>.
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#Rauthalic" class="summary-name">Rauthalic</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#R2x" class="summary-name">R2x</a><br />
-      Get the <i>authalic</i> earth radius (<code>meter</code>), <i 
-      class="math">sqrt(c2x)</i>.
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#R2x" class="summary-name">R2x</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#Rauthalicx" class="summary-name">Rauthalicx</a><br />
-      Get the <i>authalic</i> earth radius (<code>meter</code>), <i 
-      class="math">sqrt(c2x)</i>.
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#Rauthalicx" class="summary-name">Rauthalicx</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#R3" class="summary-name">R3</a><br />
-      Get the <i>volumetric</i> earth radius (<code>meter</code>), <i 
-      class="math">(a * a * b)**(1/3)</i>.
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#R3" class="summary-name">R3</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#Rvolumetric" class="summary-name">Rvolumetric</a><br />
-      Get the <i>volumetric</i> earth radius (<code>meter</code>), <i 
-      class="math">(a * a * b)**(1/3)</i>.
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#Rvolumetric" class="summary-name">Rvolumetric</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#Rbiaxial" class="summary-name">Rbiaxial</a><br />
-      Get the <i>biaxial, quadratic</i> mean earth radius 
-      (<code>meter</code>), <i class="math">sqrt((a**2 + b**2) / 2)</i>.
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#Rbiaxial" class="summary-name">Rbiaxial</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#Requatorial" class="summary-name">Requatorial</a><br />
-      Get the <i>equatorial</i> radius, semi-axis (<code>meter</code>).
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#Requatorial" class="summary-name">Requatorial</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#Rgeometric" class="summary-name">Rgeometric</a><br />
-      Get the <i>geometric</i> mean earth radius (<code>meter</code>), <i 
-      class="math">sqrt(a * b)</i>.
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#Rgeometric" class="summary-name">Rgeometric</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#rhumbaux" class="summary-name">rhumbaux</a><br />
-      Get this ellipsoid's <i>Auxiliary</i> <code>rhumb.RhumbAux</code>.
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#rhumbaux" class="summary-name">rhumbaux</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#rhumbekx" class="summary-name">rhumbekx</a><br />
-      Get this ellipsoid's <i>Elliptic, Kr&#252;ger</i> 
-      <code>rhumb.Rhumb</code>.
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#rhumbekx" class="summary-name">rhumbekx</a>
     </td>
   </tr>
 <tr>
@@ -1660,106 +1500,86 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#rhumbx" class="summary-name">rhumbx</a><br />
-      DEPRECATED on 2023.11.28, use property <code>rhumbekx</code>.
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#rhumbx" class="summary-name">rhumbx</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#Rpolar" class="summary-name">Rpolar</a><br />
-      Get the <i>polar</i> radius, semi-axis (<code>meter</code>).
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#Rpolar" class="summary-name">Rpolar</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#rocEquatorial2" class="summary-name">rocEquatorial2</a><br />
-      Get the <i>meridional</i> and <i>prime-vertical</i>, <i>normal</i> 
-      radii of curvature at the equator as <a 
-      href="pygeodesy.ellipsoids.Curvature2Tuple-class.html" 
-      class="link">Curvature2Tuple</a><code>(meridional, 
-      prime_vertical)</code>.
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#rocEquatorial2" class="summary-name">rocEquatorial2</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#rocPolar" class="summary-name">rocPolar</a><br />
-      Get the <i>polar</i> meridional (or polar) radius of curvature 
-      (<code>meter</code>), <i class="math">a**2 / b</i>.
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#rocPolar" class="summary-name">rocPolar</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#Rquadratic" class="summary-name">Rquadratic</a><br />
-      DEPRECATED, use property <code>Rbiaxial</code> or 
-      <code>Rtriaxial</code>.
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#Rquadratic" class="summary-name">Rquadratic</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#Rr" class="summary-name">Rr</a><br />
-      DEPRECATED, use property <code>Rrectifying</code>.
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#Rr" class="summary-name">Rr</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#Rrectifying" class="summary-name">Rrectifying</a><br />
-      Get the <i>rectifying</i> earth radius (<code>meter</code>), <i 
-      class="math">((a**(3/2) + b**(3/2)) / 2)**(2/3)</i>.
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#Rrectifying" class="summary-name">Rrectifying</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#Rs" class="summary-name">Rs</a><br />
-      DEPRECATED, use property <code>Rgeometric</code>.
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#Rs" class="summary-name">Rs</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#Rtriaxial" class="summary-name">Rtriaxial</a><br />
-      Get the <i>triaxial, quadratic</i> mean earth radius 
-      (<code>meter</code>), <i class="math">sqrt((3 * a**2 + b**2) / 
-      4)</i>.
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#Rtriaxial" class="summary-name">Rtriaxial</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#volume" class="summary-name">volume</a><br />
-      Get the ellipsoid's <i>volume</i> (<code>meter**3</code>), <i 
-      class="math">4 / 3 * PI * R3**3</i>.
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#volume" class="summary-name">volume</a>
     </td>
   </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._NamedEnumItem-class.html">named._NamedEnumItem</a></code></b>:
-      <code><a href="pygeodesy.named._NamedEnumItem-class.html#name">name</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>named._NamedEnumItem</code></b>:
+      <code>name</code>
       </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
-      <code><a href="pygeodesy.named._Named-class.html#classname">classname</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#classnaming">classnaming</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#iteration">iteration</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#named">named</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#named2">named2</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#named3">named3</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#named4">named4</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#sizeof">sizeof</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>named._Named</code></b>:
+      <code>classname</code>,
+      <code>classnaming</code>,
+      <code>iteration</code>,
+      <code>named</code>,
+      <code>named2</code>,
+      <code>named3</code>,
+      <code>named4</code>,
+      <code>sizeof</code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__class__</code>
@@ -2520,12 +2340,13 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>exact</code></strong> - If <code>bool</code> return <a 
           href="pygeodesy.geodesicx.gx.GeodesicExact-class.html" 
-          class="link">GeodesicExact</a><code>(exact=<b>exact</b>, 
+          class="link" 
+          onclick="show_private();">GeodesicExact</a><code>(exact=<b>exact</b>,
           ...)</code>, otherwise a <a 
           href="pygeodesy.geodesicw.Geodesic-class.html" 
           class="link">Geodesic</a>, <a 
           href="pygeodesy.geodesicx.gx.GeodesicExact-class.html" 
-          class="link">GeodesicExact</a> or <a 
+          class="link" onclick="show_private();">GeodesicExact</a> or <a 
           href="pygeodesy.geodsolve.GeodesicSolve-class.html" 
           class="link">GeodesicSolve</a> instance for <i>this</i> 
           ellipsoid.</li>
@@ -3382,7 +3203,7 @@
     <dt>Returns:</dt>
         <dd>This <code>Ellipsoid</code>'s attributes (<code>str</code>).</dd>
     <dt>Overrides:
-        <a href="pygeodesy.named._Named-class.html#toStr">named._Named.toStr</a>
+        named._Named.toStr
     </dt>
   </dl>
 </td></tr></table>
@@ -3440,11 +3261,11 @@
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">a</h3>
-  <p>Get the <i>equatorial</i> radius, semi-axis (<code>meter</code>).</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">a(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>equatorial</i> radius, semi-axis (<code>meter</code>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -3464,13 +3285,11 @@
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">a2</h3>
-  <p>Get the <i>equatorial</i> radius <i>squared</i> (<code>meter</code> 
-  <i>squared</i>), <i class="math">a**2</i>.</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">a2(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>equatorial</i> radius <i>squared</i> (<code>meter</code> 
-<i>squared</i>), <i class="math">a**2</i>.
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -3490,13 +3309,11 @@
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">a2_</h3>
-  <p>Get the inverse of the <i>equatorial</i> radius <i>squared</i> 
-  (<code>meter</code> <i>squared</i>), <i class="math">1 / a**2</i>.</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">a2_(<span class="summary-sig-arg">self</span>)</span>
-        - Get the inverse of the <i>equatorial</i> radius <i>squared</i> 
-(<code>meter</code> <i>squared</i>), <i class="math">1 / a**2</i>.
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -3516,15 +3333,11 @@
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">a_b</h3>
-  <p>Get the ratio <i>equatorial</i> over <i>polar</i> radius 
-  (<code>float</code>), <i class="math">a / b</i> == <i class="math">1 / (1
-  - f)</i>.</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">a_b(<span class="summary-sig-arg">self</span>)</span>
-        - Get the ratio <i>equatorial</i> over <i>polar</i> radius 
-(<code>float</code>), <i class="math">a / b</i> == <i class="math">1 / (1 -
-f)</i>.
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -3544,13 +3357,11 @@ f)</i>.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">a2_b</h3>
-  <p>Get the <i>polar</i> meridional (or polar) radius of curvature 
-  (<code>meter</code>), <i class="math">a**2 / b</i>.</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">a2_b(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>polar</i> meridional (or polar) radius of curvature 
-(<code>meter</code>), <i class="math">a**2 / b</i>.
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -3562,26 +3373,7 @@ f)</i>.
         - Zap the <i>cached/memoized</i> <code>property</code> value.
     </dd>
   </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        <a 
-        href="https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature" 
-        target="_top">Radii of Curvature</a> and <a 
-        href="https://WikiPedia.org/wiki/Earth_radius#cite_note-Moritz-2" 
-        target="_top">Moritz, H. (1980), Geodetic Reference System 
-        1980</a>.
-      </p>
-      <p><strong>Note:</strong>
-        Symbol <code>c</code> is used by IUGG and IERS for the <a 
-        href="https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature" 
-        target="_top">polar radius of curvature</a>, see <a 
-        href="pygeodesy.ellipsoids.Ellipsoid-class.html#c2" 
-        class="link">c2</a> and <a 
-        href="pygeodesy.ellipsoids.Ellipsoid-class.html#R2" 
-        class="link">R2</a> or <a 
-        href="pygeodesy.ellipsoids.Ellipsoid-class.html#R2" 
-        class="link">Rauthalic</a>.
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="a2_b2"></a>
 <div>
@@ -3589,17 +3381,11 @@ f)</i>.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">a2_b2</h3>
-  <p>Get the ratio <i>equatorial</i> over <i>polar</i> radius 
-  <i>squared</i> (<code>float</code>), <i class="math">(a / b)**2</i> == <i
-  class="math">1 / (1 - e**2)</i> == <i class="math">1 / (1 - e2)</i> == <i
-  class="math">1 / e21</i>.</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">a2_b2(<span class="summary-sig-arg">self</span>)</span>
-        - Get the ratio <i>equatorial</i> over <i>polar</i> radius <i>squared</i> 
-(<code>float</code>), <i class="math">(a / b)**2</i> == <i class="math">1 /
-(1 - e**2)</i> == <i class="math">1 / (1 - e2)</i> == <i class="math">1 / 
-e21</i>.
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -3619,15 +3405,11 @@ e21</i>.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">a_f</h3>
-  <p>Get the <i>equatorial</i> radius and <i>flattening</i> (<a 
-  href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
-  class="link">a_f2Tuple</a>), see method <code>toEllipsoid2</code>.</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">a_f(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>equatorial</i> radius and <i>flattening</i> (<a 
-href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
-class="link">a_f2Tuple</a>), see method <code>toEllipsoid2</code>.
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -3647,12 +3429,11 @@ class="link">a_f2Tuple</a>), see method <code>toEllipsoid2</code>.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">A</h3>
-  <p>Get the UTM <i>meridional (or rectifying)</i> radius 
-  (<code>meter</code>).</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">A(<span class="summary-sig-arg">self</span>)</span>
-        - Get the UTM <i>meridional (or rectifying)</i> radius (<code>meter</code>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -3664,11 +3445,7 @@ class="link">a_f2Tuple</a>), see method <code>toEllipsoid2</code>.
         - Zap the <i>cached/memoized</i> <code>property</code> value.
     </dd>
   </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        <i>Meridian arc unit</i> <a 
-        href="https://StudyLib.net/doc/7443565/" target="_top">Q</a>.
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="AlphaKs"></a>
 <div>
@@ -3676,17 +3453,11 @@ class="link">a_f2Tuple</a>), see method <code>toEllipsoid2</code>.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">AlphaKs</h3>
-  <p>Get the <i>Kr&#252;ger</i> <a 
-  href="https://GeographicLib.SourceForge.io/C++/doc/tmseries30.html" 
-  target="_top">Alpha series coefficients</a> 
-  (<code>KsOrder</code><code>-tuple</code>).</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">AlphaKs(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>Kr&#252;ger</i> <a 
-href="https://GeographicLib.SourceForge.io/C++/doc/tmseries30.html" 
-target="_top">Alpha series coefficients</a> 
-(<code>KsOrder</code><code>-tuple</code>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -3706,13 +3477,11 @@ target="_top">Alpha series coefficients</a>
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">area</h3>
-  <p>Get the ellipsoid's surface area (<code>meter</code> <i>squared</i>), 
-  <i class="math">4 * PI * c2</i>.</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">area(<span class="summary-sig-arg">self</span>)</span>
-        - Get the ellipsoid's surface area (<code>meter</code> <i>squared</i>), <i 
-class="math">4 * PI * c2</i>.
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -3724,20 +3493,7 @@ class="math">4 * PI * c2</i>.
         - Zap the <i>cached/memoized</i> <code>property</code> value.
     </dd>
   </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        Properties <a 
-        href="pygeodesy.ellipsoids.Ellipsoid-class.html#areax" 
-        class="link">areax</a>, <a 
-        href="pygeodesy.ellipsoids.Ellipsoid-class.html#c2" 
-        class="link">c2</a> and <a 
-        href="pygeodesy.ellipsoids.Ellipsoid-class.html#R2" 
-        class="link">R2</a> and functions <a 
-        href="pygeodesy.ellipsoidalExact-module.html#areaOf" 
-        class="link">ellipsoidalExact.areaOf</a> and <a 
-        href="pygeodesy.ellipsoidalKarney-module.html#areaOf" 
-        class="link">ellipsoidalKarney.areaOf</a>.
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="areax"></a>
 <div>
@@ -3745,15 +3501,11 @@ class="math">4 * PI * c2</i>.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">areax</h3>
-  <p>Get the ellipsoid's surface area (<code>meter</code> <i>squared</i>), 
-  <i class="math">4 * PI * c2x</i>, more accurate for very <i>oblate</i> 
-  ellipsoids.</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">areax(<span class="summary-sig-arg">self</span>)</span>
-        - Get the ellipsoid's surface area (<code>meter</code> <i>squared</i>), <i 
-class="math">4 * PI * c2x</i>, more accurate for very <i>oblate</i> 
-ellipsoids.
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -3765,21 +3517,7 @@ ellipsoids.
         - Zap the <i>cached/memoized</i> <code>property</code> value.
     </dd>
   </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        Properties <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#area"
-        class="link">area</a>, <a 
-        href="pygeodesy.ellipsoids.Ellipsoid-class.html#c2x" 
-        class="link">c2x</a> and <a 
-        href="pygeodesy.ellipsoids.Ellipsoid-class.html#R2x" 
-        class="link">R2x</a>, class <a 
-        href="pygeodesy.geodesicx.gx.GeodesicExact-class.html" 
-        class="link">GeodesicExact</a> and functions <a 
-        href="pygeodesy.ellipsoidalExact-module.html#areaOf" 
-        class="link">ellipsoidalExact.areaOf</a> and <a 
-        href="pygeodesy.ellipsoidalKarney-module.html#areaOf" 
-        class="link">ellipsoidalKarney.areaOf</a>.
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="b"></a>
 <div>
@@ -3787,11 +3525,11 @@ ellipsoids.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">b</h3>
-  <p>Get the <i>polar</i> radius, semi-axis (<code>meter</code>).</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">b(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>polar</i> radius, semi-axis (<code>meter</code>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -3811,13 +3549,11 @@ ellipsoids.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">b_a</h3>
-  <p>Get the ratio <i>polar</i> over <i>equatorial</i> radius 
-  (<code>float</code>), <i class="math">b / a == f1 == 1 - f</i>.</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">b_a(<span class="summary-sig-arg">self</span>)</span>
-        - Get the ratio <i>polar</i> over <i>equatorial</i> radius 
-(<code>float</code>), <i class="math">b / a == f1 == 1 - f</i>.
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -3829,11 +3565,7 @@ ellipsoids.
         - Zap the <i>cached/memoized</i> <code>property</code> value.
     </dd>
   </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        Property <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#f1" 
-        class="link">f1</a>.
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="b2"></a>
 <div>
@@ -3841,13 +3573,11 @@ ellipsoids.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">b2</h3>
-  <p>Get the <i>polar</i> radius <i>squared</i> (<code>float</code>), <i 
-  class="math">b**2</i>.</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">b2(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>polar</i> radius <i>squared</i> (<code>float</code>), <i 
-class="math">b**2</i>.
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -3867,15 +3597,11 @@ class="math">b**2</i>.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">b2_a</h3>
-  <p>Get the <i>equatorial</i> meridional radius of curvature 
-  (<code>meter</code>), <i class="math">b**2 / a</i>, see 
-  <code>rocMeridional</code><code>(0)</code>.</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">b2_a(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>equatorial</i> meridional radius of curvature 
-(<code>meter</code>), <i class="math">b**2 / a</i>, see 
-<code>rocMeridional</code><code>(0)</code>.
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -3887,12 +3613,7 @@ class="math">b**2</i>.
         - Zap the <i>cached/memoized</i> <code>property</code> value.
     </dd>
   </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        <a 
-        href="https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature" 
-        target="_top">Radii of Curvature</a>.
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="b2_a2"></a>
 <div>
@@ -3900,16 +3621,11 @@ class="math">b**2</i>.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">b2_a2</h3>
-  <p>Get the ratio <i>polar</i> over <i>equatorial</i> radius 
-  <i>squared</i> (<code>float</code>), <i class="math">(b / a)**2</i> == <i
-  class="math">(1 - f)**2</i> == <i class="math">1 - e**2</i> == 
-  <code>e21</code>.</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">b2_a2(<span class="summary-sig-arg">self</span>)</span>
-        - Get the ratio <i>polar</i> over <i>equatorial</i> radius <i>squared</i> 
-(<code>float</code>), <i class="math">(b / a)**2</i> == <i class="math">(1 
-- f)**2</i> == <i class="math">1 - e**2</i> == <code>e21</code>.
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -3929,17 +3645,11 @@ class="math">b**2</i>.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">BetaKs</h3>
-  <p>Get the <i>Kr&#252;ger</i> <a 
-  href="https://GeographicLib.SourceForge.io/C++/doc/tmseries30.html" 
-  target="_top">Beta series coefficients</a> 
-  (<code>KsOrder</code><code>-tuple</code>).</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">BetaKs(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>Kr&#252;ger</i> <a 
-href="https://GeographicLib.SourceForge.io/C++/doc/tmseries30.html" 
-target="_top">Beta series coefficients</a> 
-(<code>KsOrder</code><code>-tuple</code>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -3959,12 +3669,11 @@ target="_top">Beta series coefficients</a>
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">c</h3>
-  <p>DEPRECATED, use property <code>R2</code> or 
-  <code>Rauthalic</code>.</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">c(<span class="summary-sig-arg">self</span>)</span>
-        - DEPRECATED, use property <code>R2</code> or <code>Rauthalic</code>.
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -3984,13 +3693,11 @@ target="_top">Beta series coefficients</a>
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">c2</h3>
-  <p>Get the <i>authalic</i> earth radius <i>squared</i> 
-  (<code>meter</code> <i>squared</i>).</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">c2(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>authalic</i> earth radius <i>squared</i> (<code>meter</code> 
-<i>squared</i>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -4002,27 +3709,7 @@ target="_top">Beta series coefficients</a>
         - Zap the <i>cached/memoized</i> <code>property</code> value.
     </dd>
   </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        Properties <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#c2x" 
-        class="link">c2x</a>, <a 
-        href="pygeodesy.ellipsoids.Ellipsoid-class.html#area" 
-        class="link">area</a>, <a 
-        href="pygeodesy.ellipsoids.Ellipsoid-class.html#R2" 
-        class="link">R2</a>, <a 
-        href="pygeodesy.ellipsoids.Ellipsoid-class.html#R2" 
-        class="link">Rauthalic</a>, <i>Karney's</i> <a 
-        href="https://Link.Springer.com/article/10.1007%2Fs00190-012-0578-z"
-        target="_top">equation (60)</a> and C++ <a 
-        href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Ellipsoid.html"
-        target="_top">Ellipsoid.Area</a>, <a 
-        href="https://WikiPedia.org/wiki/Earth_radius#Authalic_radius" 
-        target="_top">Authalic radius</a>, <a 
-        href="https://WikiPedia.org/wiki/Ellipsoid" target="_top">Surface 
-        area</a> and <a 
-        href="https://www.Numericana.com/answer/geometry.htm#oblate" 
-        target="_top">surface area</a>.
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="c2x"></a>
 <div>
@@ -4030,14 +3717,11 @@ target="_top">Beta series coefficients</a>
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">c2x</h3>
-  <p>Get the <i>authalic</i> earth radius <i>squared</i> 
-  (<code>meter</code> <i>squared</i>), more accurate for very <i>oblate</i>
-  ellipsoids.</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">c2x(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>authalic</i> earth radius <i>squared</i> (<code>meter</code> 
-<i>squared</i>), more accurate for very <i>oblate</i> ellipsoids.
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -4049,22 +3733,7 @@ target="_top">Beta series coefficients</a>
         - Zap the <i>cached/memoized</i> <code>property</code> value.
     </dd>
   </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        Properties <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#c2" 
-        class="link">c2</a>, <a 
-        href="pygeodesy.ellipsoids.Ellipsoid-class.html#areax" 
-        class="link">areax</a>, <a 
-        href="pygeodesy.ellipsoids.Ellipsoid-class.html#R2x" 
-        class="link">R2x</a>, <a 
-        href="pygeodesy.ellipsoids.Ellipsoid-class.html#R2x" 
-        class="link">Rauthalicx</a>, class <a 
-        href="pygeodesy.geodesicx.gx.GeodesicExact-class.html" 
-        class="link">GeodesicExact</a> and <i>Karney</i>'s comments at C++ 
-        attribute <a 
-        href="https://GeographicLib.SourceForge.io/C++/doc/GeodesicExact_8cpp_source.html"
-        target="_top">GeodesicExact._c2</a>.
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="e"></a>
 <div>
@@ -4072,13 +3741,11 @@ target="_top">Beta series coefficients</a>
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">e</h3>
-  <p>Get the <i>unsigned, (1st) eccentricity</i> (<code>float</code>), <i 
-  class="math">sqrt(1 - (b / a)**2))</i>, see <code>a_b2e</code>.</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">e(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>unsigned, (1st) eccentricity</i> (<code>float</code>), <i 
-class="math">sqrt(1 - (b / a)**2))</i>, see <code>a_b2e</code>.
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -4090,11 +3757,7 @@ class="math">sqrt(1 - (b / a)**2))</i>, see <code>a_b2e</code>.
         - Zap the <i>cached/memoized</i> <code>property</code> value.
     </dd>
   </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        Property <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#es" 
-        class="link">es</a>.
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="e12"></a>
 <div>
@@ -4102,11 +3765,11 @@ class="math">sqrt(1 - (b / a)**2))</i>, see <code>a_b2e</code>.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">e12</h3>
-  <p>DEPRECATED, use property <code>e21</code>.</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">e12(<span class="summary-sig-arg">self</span>)</span>
-        - DEPRECATED, use property <code>e21</code>.
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -4126,14 +3789,11 @@ class="math">sqrt(1 - (b / a)**2))</i>, see <code>a_b2e</code>.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">e2</h3>
-  <p>Get the <i>signed, (1st) eccentricity squared</i> 
-  (<code>float</code>), <i class="math">f * (2 - f) == 1 - (b / a)**2</i>, 
-  see <code>a_b2e2</code>.</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">e2(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>signed, (1st) eccentricity squared</i> (<code>float</code>), <i 
-class="math">f * (2 - f) == 1 - (b / a)**2</i>, see <code>a_b2e2</code>.
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -4153,12 +3813,11 @@ class="math">f * (2 - f) == 1 - (b / a)**2</i>, see <code>a_b2e2</code>.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">e2abs</h3>
-  <p>Get the <i>unsigned, (1st) eccentricity squared</i> 
-  (<code>float</code>).</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">e2abs(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>unsigned, (1st) eccentricity squared</i> (<code>float</code>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -4178,17 +3837,11 @@ class="math">f * (2 - f) == 1 - (b / a)**2</i>, see <code>a_b2e2</code>.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">e21</h3>
-  <p>Get 1 less <i>1st eccentricity squared</i> (<code>float</code>), <i 
-  class="math">1 - e**2</i> == <i class="math">1 - e2</i> == <i 
-  class="math">(1 - f)**2</i> == <i class="math">b**2 / a**2</i>, see 
-  <code>b2_a2</code>.</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">e21(<span class="summary-sig-arg">self</span>)</span>
-        - Get 1 less <i>1st eccentricity squared</i> (<code>float</code>), <i 
-class="math">1 - e**2</i> == <i class="math">1 - e2</i> == <i 
-class="math">(1 - f)**2</i> == <i class="math">b**2 / a**2</i>, see 
-<code>b2_a2</code>.
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -4208,15 +3861,11 @@ class="math">(1 - f)**2</i> == <i class="math">b**2 / a**2</i>, see
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">e22</h3>
-  <p>Get the <i>signed, 2nd eccentricity squared</i> (<code>float</code>), 
-  <i class="math">e2 / (1 - e2) == e2 / (1 - f)**2 == (a / b)**2 - 1</i>, 
-  see <code>a_b2e22</code>.</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">e22(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>signed, 2nd eccentricity squared</i> (<code>float</code>), <i 
-class="math">e2 / (1 - e2) == e2 / (1 - f)**2 == (a / b)**2 - 1</i>, see 
-<code>a_b2e22</code>.
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -4236,12 +3885,11 @@ class="math">e2 / (1 - e2) == e2 / (1 - f)**2 == (a / b)**2 - 1</i>, see
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">e22abs</h3>
-  <p>Get the <i>unsigned, 2nd eccentricity squared</i> 
-  (<code>float</code>).</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">e22abs(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>unsigned, 2nd eccentricity squared</i> (<code>float</code>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -4261,15 +3909,11 @@ class="math">e2 / (1 - e2) == e2 / (1 - f)**2 == (a / b)**2 - 1</i>, see
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">e32</h3>
-  <p>Get the <i>signed, 3rd eccentricity squared</i> (<code>float</code>), 
-  <i class="math">e2 / (2 - e2) == (a**2 - b**2) / (a**2 + b**2)</i>, see 
-  <code>a_b2e32</code>.</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">e32(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>signed, 3rd eccentricity squared</i> (<code>float</code>), <i 
-class="math">e2 / (2 - e2) == (a**2 - b**2) / (a**2 + b**2)</i>, see 
-<code>a_b2e32</code>.
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -4289,12 +3933,11 @@ class="math">e2 / (2 - e2) == (a**2 - b**2) / (a**2 + b**2)</i>, see
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">e32abs</h3>
-  <p>Get the <i>unsigned, 3rd eccentricity squared</i> 
-  (<code>float</code>).</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">e32abs(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>unsigned, 3rd eccentricity squared</i> (<code>float</code>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -4314,13 +3957,11 @@ class="math">e2 / (2 - e2) == (a**2 - b**2) / (a**2 + b**2)</i>, see
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">e4</h3>
-  <p>Get the <i>unsignd, (1st) eccentricity</i> to 4th power 
-  (<code>float</code>), <i class="math">e**4 == e2**2</i>.</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">e4(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>unsignd, (1st) eccentricity</i> to 4th power 
-(<code>float</code>), <i class="math">e**4 == e2**2</i>.
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -4340,13 +3981,11 @@ class="math">e2 / (2 - e2) == (a**2 - b**2) / (a**2 + b**2)</i>, see
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">eccentricity</h3>
-  <p>Get the <i>unsigned, (1st) eccentricity</i> (<code>float</code>), <i 
-  class="math">sqrt(1 - (b / a)**2))</i>, see <code>a_b2e</code>.</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">e(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>unsigned, (1st) eccentricity</i> (<code>float</code>), <i 
-class="math">sqrt(1 - (b / a)**2))</i>, see <code>a_b2e</code>.
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -4358,11 +3997,7 @@ class="math">sqrt(1 - (b / a)**2))</i>, see <code>a_b2e</code>.
         - Zap the <i>cached/memoized</i> <code>property</code> value.
     </dd>
   </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        Property <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#es" 
-        class="link">es</a>.
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="eccentricity1st2"></a>
 <div>
@@ -4370,14 +4005,11 @@ class="math">sqrt(1 - (b / a)**2))</i>, see <code>a_b2e</code>.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">eccentricity1st2</h3>
-  <p>Get the <i>signed, (1st) eccentricity squared</i> 
-  (<code>float</code>), <i class="math">f * (2 - f) == 1 - (b / a)**2</i>, 
-  see <code>a_b2e2</code>.</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">e2(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>signed, (1st) eccentricity squared</i> (<code>float</code>), <i 
-class="math">f * (2 - f) == 1 - (b / a)**2</i>, see <code>a_b2e2</code>.
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -4397,15 +4029,11 @@ class="math">f * (2 - f) == 1 - (b / a)**2</i>, see <code>a_b2e2</code>.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">eccentricity2nd2</h3>
-  <p>Get the <i>signed, 2nd eccentricity squared</i> (<code>float</code>), 
-  <i class="math">e2 / (1 - e2) == e2 / (1 - f)**2 == (a / b)**2 - 1</i>, 
-  see <code>a_b2e22</code>.</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">e22(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>signed, 2nd eccentricity squared</i> (<code>float</code>), <i 
-class="math">e2 / (1 - e2) == e2 / (1 - f)**2 == (a / b)**2 - 1</i>, see 
-<code>a_b2e22</code>.
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -4425,15 +4053,11 @@ class="math">e2 / (1 - e2) == e2 / (1 - f)**2 == (a / b)**2 - 1</i>, see
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">eccentricity3rd2</h3>
-  <p>Get the <i>signed, 3rd eccentricity squared</i> (<code>float</code>), 
-  <i class="math">e2 / (2 - e2) == (a**2 - b**2) / (a**2 + b**2)</i>, see 
-  <code>a_b2e32</code>.</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">e32(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>signed, 3rd eccentricity squared</i> (<code>float</code>), <i 
-class="math">e2 / (2 - e2) == (a**2 - b**2) / (a**2 + b**2)</i>, see 
-<code>a_b2e32</code>.
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -4453,11 +4077,11 @@ class="math">e2 / (2 - e2) == (a**2 - b**2) / (a**2 + b**2)</i>, see
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">equatoradius</h3>
-  <p>Get the <i>equatorial</i> radius, semi-axis (<code>meter</code>).</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">a(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>equatorial</i> radius, semi-axis (<code>meter</code>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -4477,11 +4101,11 @@ class="math">e2 / (2 - e2) == (a**2 - b**2) / (a**2 + b**2)</i>, see
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">es</h3>
-  <p>Get the <i>signed (1st) eccentricity</i> (<code>float</code>).</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">es(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>signed (1st) eccentricity</i> (<code>float</code>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -4493,11 +4117,7 @@ class="math">e2 / (2 - e2) == (a**2 - b**2) / (a**2 + b**2)</i>, see
         - Zap the <i>cached/memoized</i> <code>property</code> value.
     </dd>
   </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        Property <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#e" 
-        class="link">e</a>.
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="es_c"></a>
 <div>
@@ -4505,13 +4125,11 @@ class="math">e2 / (2 - e2) == (a**2 - b**2) / (a**2 + b**2)</i>, see
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">es_c</h3>
-  <p>Get <i class="math">(1 - f) * exp(es_atanh(1))</i> 
-  (<code>float</code>), <i class="math">b_a * exp(es_atanh(1))</i>.</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">es_c(<span class="summary-sig-arg">self</span>)</span>
-        - Get <i class="math">(1 - f) * exp(es_atanh(1))</i> (<code>float</code>), <i
-class="math">b_a * exp(es_atanh(1))</i>.
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -4531,13 +4149,11 @@ class="math">b_a * exp(es_atanh(1))</i>.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">f</h3>
-  <p>Get the <i>flattening</i> (<code>scalar</code>), <i class="math">(a - 
-  b) / a</i>, <code>0</code> for spherical, negative for prolate.</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">f(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>flattening</i> (<code>scalar</code>), <i class="math">(a - b) / 
-a</i>, <code>0</code> for spherical, negative for prolate.
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -4557,15 +4173,11 @@ a</i>, <code>0</code> for spherical, negative for prolate.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">f_</h3>
-  <p>Get the <i>inverse flattening</i> (<code>scalar</code>), <i 
-  class="math">1 / f</i> == <i class="math">a / (a - b)</i>, <code>0</code>
-  for spherical, see <code>a_b2f_</code>.</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">f_(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>inverse flattening</i> (<code>scalar</code>), <i class="math">1 
-/ f</i> == <i class="math">a / (a - b)</i>, <code>0</code> for spherical, 
-see <code>a_b2f_</code>.
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -4585,13 +4197,11 @@ see <code>a_b2f_</code>.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">f1</h3>
-  <p>Get the <i>1 - flattening</i> (<code>float</code>), <i class="math">f1
-  == 1 - f == b / a</i>.</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">f1(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>1 - flattening</i> (<code>float</code>), <i class="math">f1 == 1
-- f == b / a</i>.
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -4603,11 +4213,7 @@ see <code>a_b2f_</code>.
         - Zap the <i>cached/memoized</i> <code>property</code> value.
     </dd>
   </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        Property <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#b_a" 
-        class="link">b_a</a>.
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="f2"></a>
 <div>
@@ -4615,15 +4221,11 @@ see <code>a_b2f_</code>.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">f2</h3>
-  <p>Get the <i>2nd flattening</i> (<code>float</code>), <i class="math">(a
-  - b) / b == f / (1 - f)</i>, <code>0</code> for spherical, see 
-  <code>a_b2f2</code>.</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">f2(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>2nd flattening</i> (<code>float</code>), <i class="math">(a - b)
-/ b == f / (1 - f)</i>, <code>0</code> for spherical, see 
-<code>a_b2f2</code>.
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -4643,11 +4245,11 @@ see <code>a_b2f_</code>.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">geodesic</h3>
-  <p>DEPRECATED, use property <code>geodesicw</code>.</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">geodesic(<span class="summary-sig-arg">self</span>)</span>
-        - DEPRECATED, use property <code>geodesicw</code>.
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -4667,11 +4269,7 @@ see <code>a_b2f_</code>.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">geodesicw</h3>
-  <p>Get this ellipsoid's <i>wrapped</i> <a 
-  href="https://GeographicLib.SourceForge.io/Python/doc/code.html" 
-  target="_top">geodesicw.Geodesic</a>, provided <i>Karney</i>'s <a 
-  href="https://PyPI.org/project/geographiclib" 
-  target="_top">geographiclib</a> package is installed.</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">geodesicw(<span class="summary-sig-arg">self</span>)</span>
@@ -4699,15 +4297,13 @@ target="_top">geographiclib</a> package is installed.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">geodesicx</h3>
-  <p>Get this ellipsoid's <i>exact</i> <a 
-  href="pygeodesy.geodesicx.gx.GeodesicExact-class.html" 
-  class="link">GeodesicExact</a>.</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">geodesicx(<span class="summary-sig-arg">self</span>)</span>
         - Get this ellipsoid's <i>exact</i> <a 
-href="pygeodesy.geodesicx.gx.GeodesicExact-class.html" 
-class="link">GeodesicExact</a>.
+href="pygeodesy.geodesicx.gx.GeodesicExact-class.html" class="link" 
+onclick="show_private();">GeodesicExact</a>.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -4761,11 +4357,11 @@ target="_top">GeodSolve</a> executable, overriding env variable
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">isEllipsoidal</h3>
-  <p>Is this model <i>ellipsoidal</i> (<code>bool</code>)?</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">isEllipsoidal(<span class="summary-sig-arg">self</span>)</span>
-        - Is this model <i>ellipsoidal</i> (<code>bool</code>)?
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -4785,13 +4381,11 @@ target="_top">GeodSolve</a> executable, overriding env variable
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">isOblate</h3>
-  <p>Is this ellipsoid <i>oblate</i> (<code>bool</code>)?  <i>Prolate</i> 
-  or spherical otherwise.</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">isOblate(<span class="summary-sig-arg">self</span>)</span>
-        - Is this ellipsoid <i>oblate</i> (<code>bool</code>)?  <i>Prolate</i> or 
-spherical otherwise.
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -4811,13 +4405,11 @@ spherical otherwise.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">isProlate</h3>
-  <p>Is this ellipsoid <i>prolate</i> (<code>bool</code>)?  <i>Oblate</i> 
-  or spherical otherwise.</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">isProlate(<span class="summary-sig-arg">self</span>)</span>
-        - Is this ellipsoid <i>prolate</i> (<code>bool</code>)?  <i>Oblate</i> or 
-spherical otherwise.
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -4837,11 +4429,11 @@ spherical otherwise.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">isSpherical</h3>
-  <p>Is this ellipsoid <i>spherical</i> (<code>bool</code>)?</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">isSpherical(<span class="summary-sig-arg">self</span>)</span>
-        - Is this ellipsoid <i>spherical</i> (<code>bool</code>)?
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -4881,17 +4473,11 @@ spherical otherwise.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">L</h3>
-  <p>Get the <i>quarter meridian</i> <code>L</code>, aka the <code>polar 
-  distance</code> along a meridian between the equator and a pole 
-  (<code>meter</code>), <i class="math">b * Elliptic(-e2 / (1 - e2)).cE</i>
-  or <i class="math">b * PI / 2</i>.</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">L(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>quarter meridian</i> <code>L</code>, aka the <code>polar 
-distance</code> along a meridian between the equator and a pole 
-(<code>meter</code>), <i class="math">b * Elliptic(-e2 / (1 - e2)).cE</i> 
-or <i class="math">b * PI / 2</i>.
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -4911,12 +4497,11 @@ or <i class="math">b * PI / 2</i>.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">majoradius</h3>
-  <p>DEPRECATED, use property <code>a</code> or 
-  <code>Requatorial</code>.</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">majoradius(<span class="summary-sig-arg">self</span>)</span>
-        - DEPRECATED, use property <code>a</code> or <code>Requatorial</code>.
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -4936,13 +4521,11 @@ or <i class="math">b * PI / 2</i>.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">minoradius</h3>
-  <p>DEPRECATED, use property <code>b</code>, <code>polaradius</code> or 
-  <code>Rpolar</code>.</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">minoradius(<span class="summary-sig-arg">self</span>)</span>
-        - DEPRECATED, use property <code>b</code>, <code>polaradius</code> or 
-<code>Rpolar</code>.
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -4962,13 +4545,11 @@ or <i class="math">b * PI / 2</i>.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">n</h3>
-  <p>Get the <i>3rd flattening</i> (<code>float</code>), <i class="math">f 
-  / (2 - f) == (a - b) / (a + b)</i>, see <code>a_b2n</code>.</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">n(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>3rd flattening</i> (<code>float</code>), <i class="math">f / (2 
-- f) == (a - b) / (a + b)</i>, see <code>a_b2n</code>.
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -4988,13 +4569,11 @@ or <i class="math">b * PI / 2</i>.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">flattening</h3>
-  <p>Get the <i>flattening</i> (<code>scalar</code>), <i class="math">(a - 
-  b) / a</i>, <code>0</code> for spherical, negative for prolate.</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">f(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>flattening</i> (<code>scalar</code>), <i class="math">(a - b) / 
-a</i>, <code>0</code> for spherical, negative for prolate.
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -5014,13 +4593,11 @@ a</i>, <code>0</code> for spherical, negative for prolate.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">flattening1st</h3>
-  <p>Get the <i>flattening</i> (<code>scalar</code>), <i class="math">(a - 
-  b) / a</i>, <code>0</code> for spherical, negative for prolate.</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">f(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>flattening</i> (<code>scalar</code>), <i class="math">(a - b) / 
-a</i>, <code>0</code> for spherical, negative for prolate.
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -5040,15 +4617,11 @@ a</i>, <code>0</code> for spherical, negative for prolate.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">flattening2nd</h3>
-  <p>Get the <i>2nd flattening</i> (<code>float</code>), <i class="math">(a
-  - b) / b == f / (1 - f)</i>, <code>0</code> for spherical, see 
-  <code>a_b2f2</code>.</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">f2(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>2nd flattening</i> (<code>float</code>), <i class="math">(a - b)
-/ b == f / (1 - f)</i>, <code>0</code> for spherical, see 
-<code>a_b2f2</code>.
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -5068,13 +4641,11 @@ a</i>, <code>0</code> for spherical, negative for prolate.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">flattening3rd</h3>
-  <p>Get the <i>3rd flattening</i> (<code>float</code>), <i class="math">f 
-  / (2 - f) == (a - b) / (a + b)</i>, see <code>a_b2n</code>.</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">n(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>3rd flattening</i> (<code>float</code>), <i class="math">f / (2 
-- f) == (a - b) / (a + b)</i>, see <code>a_b2n</code>.
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -5094,11 +4665,11 @@ a</i>, <code>0</code> for spherical, negative for prolate.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">polaradius</h3>
-  <p>Get the <i>polar</i> radius, semi-axis (<code>meter</code>).</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">b(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>polar</i> radius, semi-axis (<code>meter</code>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -5118,12 +4689,11 @@ a</i>, <code>0</code> for spherical, negative for prolate.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">quarteradius</h3>
-  <p>DEPRECATED, use property <code>L</code> or method 
-  <code>Llat</code>.</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">quarteradius(<span class="summary-sig-arg">self</span>)</span>
-        - DEPRECATED, use property <code>L</code> or method <code>Llat</code>.
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -5143,13 +4713,11 @@ a</i>, <code>0</code> for spherical, negative for prolate.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">R1</h3>
-  <p>Get the <i>mean</i> earth radius per <i>IUGG</i> (<code>meter</code>),
-  <i class="math">(2 * a + b) / 3 == a * (1 - f / 3)</i>.</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">R1(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>mean</i> earth radius per <i>IUGG</i> (<code>meter</code>), <i 
-class="math">(2 * a + b) / 3 == a * (1 - f / 3)</i>.
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -5161,11 +4729,7 @@ class="math">(2 * a + b) / 3 == a * (1 - f / 3)</i>.
         - Zap the <i>cached/memoized</i> <code>property</code> value.
     </dd>
   </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        <a href="https://WikiPedia.org/wiki/Earth_radius" 
-        target="_top">Earth radius</a> and method <code>Rgeometric</code>.
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="Rmean"></a>
 <div>
@@ -5173,13 +4737,11 @@ class="math">(2 * a + b) / 3 == a * (1 - f / 3)</i>.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">Rmean</h3>
-  <p>Get the <i>mean</i> earth radius per <i>IUGG</i> (<code>meter</code>),
-  <i class="math">(2 * a + b) / 3 == a * (1 - f / 3)</i>.</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">R1(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>mean</i> earth radius per <i>IUGG</i> (<code>meter</code>), <i 
-class="math">(2 * a + b) / 3 == a * (1 - f / 3)</i>.
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -5191,11 +4753,7 @@ class="math">(2 * a + b) / 3 == a * (1 - f / 3)</i>.
         - Zap the <i>cached/memoized</i> <code>property</code> value.
     </dd>
   </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        <a href="https://WikiPedia.org/wiki/Earth_radius" 
-        target="_top">Earth radius</a> and method <code>Rgeometric</code>.
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="R2"></a>
 <div>
@@ -5203,13 +4761,11 @@ class="math">(2 * a + b) / 3 == a * (1 - f / 3)</i>.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">R2</h3>
-  <p>Get the <i>authalic</i> earth radius (<code>meter</code>), <i 
-  class="math">sqrt(c2)</i>.</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">R2(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>authalic</i> earth radius (<code>meter</code>), <i 
-class="math">sqrt(c2)</i>.
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -5221,12 +4777,7 @@ class="math">sqrt(c2)</i>.
         - Zap the <i>cached/memoized</i> <code>property</code> value.
     </dd>
   </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        <code>R2x</code>, <code>c2</code>, <code>area</code> and <a 
-        href="https://WikiPedia.org/wiki/Earth_radius" target="_top">Earth 
-        radius</a>.
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="Rauthalic"></a>
 <div>
@@ -5234,13 +4785,11 @@ class="math">sqrt(c2)</i>.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">Rauthalic</h3>
-  <p>Get the <i>authalic</i> earth radius (<code>meter</code>), <i 
-  class="math">sqrt(c2)</i>.</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">R2(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>authalic</i> earth radius (<code>meter</code>), <i 
-class="math">sqrt(c2)</i>.
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -5252,12 +4801,7 @@ class="math">sqrt(c2)</i>.
         - Zap the <i>cached/memoized</i> <code>property</code> value.
     </dd>
   </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        <code>R2x</code>, <code>c2</code>, <code>area</code> and <a 
-        href="https://WikiPedia.org/wiki/Earth_radius" target="_top">Earth 
-        radius</a>.
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="R2x"></a>
 <div>
@@ -5265,13 +4809,11 @@ class="math">sqrt(c2)</i>.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">R2x</h3>
-  <p>Get the <i>authalic</i> earth radius (<code>meter</code>), <i 
-  class="math">sqrt(c2x)</i>.</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">R2x(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>authalic</i> earth radius (<code>meter</code>), <i 
-class="math">sqrt(c2x)</i>.
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -5283,10 +4825,7 @@ class="math">sqrt(c2x)</i>.
         - Zap the <i>cached/memoized</i> <code>property</code> value.
     </dd>
   </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        <code>R2</code>, <code>c2x</code> and <code>areax</code>.
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="Rauthalicx"></a>
 <div>
@@ -5294,13 +4833,11 @@ class="math">sqrt(c2x)</i>.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">Rauthalicx</h3>
-  <p>Get the <i>authalic</i> earth radius (<code>meter</code>), <i 
-  class="math">sqrt(c2x)</i>.</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">R2x(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>authalic</i> earth radius (<code>meter</code>), <i 
-class="math">sqrt(c2x)</i>.
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -5312,10 +4849,7 @@ class="math">sqrt(c2x)</i>.
         - Zap the <i>cached/memoized</i> <code>property</code> value.
     </dd>
   </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        <code>R2</code>, <code>c2x</code> and <code>areax</code>.
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="R3"></a>
 <div>
@@ -5323,13 +4857,11 @@ class="math">sqrt(c2x)</i>.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">R3</h3>
-  <p>Get the <i>volumetric</i> earth radius (<code>meter</code>), <i 
-  class="math">(a * a * b)**(1/3)</i>.</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">R3(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>volumetric</i> earth radius (<code>meter</code>), <i 
-class="math">(a * a * b)**(1/3)</i>.
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -5341,11 +4873,7 @@ class="math">(a * a * b)**(1/3)</i>.
         - Zap the <i>cached/memoized</i> <code>property</code> value.
     </dd>
   </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        <a href="https://WikiPedia.org/wiki/Earth_radius" 
-        target="_top">Earth radius</a> and <code>volume</code>.
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="Rvolumetric"></a>
 <div>
@@ -5353,13 +4881,11 @@ class="math">(a * a * b)**(1/3)</i>.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">Rvolumetric</h3>
-  <p>Get the <i>volumetric</i> earth radius (<code>meter</code>), <i 
-  class="math">(a * a * b)**(1/3)</i>.</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">R3(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>volumetric</i> earth radius (<code>meter</code>), <i 
-class="math">(a * a * b)**(1/3)</i>.
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -5371,11 +4897,7 @@ class="math">(a * a * b)**(1/3)</i>.
         - Zap the <i>cached/memoized</i> <code>property</code> value.
     </dd>
   </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        <a href="https://WikiPedia.org/wiki/Earth_radius" 
-        target="_top">Earth radius</a> and <code>volume</code>.
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="Rbiaxial"></a>
 <div>
@@ -5383,13 +4905,11 @@ class="math">(a * a * b)**(1/3)</i>.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">Rbiaxial</h3>
-  <p>Get the <i>biaxial, quadratic</i> mean earth radius 
-  (<code>meter</code>), <i class="math">sqrt((a**2 + b**2) / 2)</i>.</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">Rbiaxial(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>biaxial, quadratic</i> mean earth radius (<code>meter</code>), 
-<i class="math">sqrt((a**2 + b**2) / 2)</i>.
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -5401,10 +4921,7 @@ class="math">(a * a * b)**(1/3)</i>.
         - Zap the <i>cached/memoized</i> <code>property</code> value.
     </dd>
   </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        <code>Rtriaxial</code>
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="Requatorial"></a>
 <div>
@@ -5412,11 +4929,11 @@ class="math">(a * a * b)**(1/3)</i>.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">Requatorial</h3>
-  <p>Get the <i>equatorial</i> radius, semi-axis (<code>meter</code>).</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">a(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>equatorial</i> radius, semi-axis (<code>meter</code>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -5436,13 +4953,11 @@ class="math">(a * a * b)**(1/3)</i>.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">Rgeometric</h3>
-  <p>Get the <i>geometric</i> mean earth radius (<code>meter</code>), <i 
-  class="math">sqrt(a * b)</i>.</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">Rgeometric(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>geometric</i> mean earth radius (<code>meter</code>), <i 
-class="math">sqrt(a * b)</i>.
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -5454,10 +4969,7 @@ class="math">sqrt(a * b)</i>.
         - Zap the <i>cached/memoized</i> <code>property</code> value.
     </dd>
   </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        <code>R1</code>.
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="rhumbaux"></a>
 <div>
@@ -5465,7 +4977,7 @@ class="math">sqrt(a * b)</i>.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">rhumbaux</h3>
-  <p>Get this ellipsoid's <i>Auxiliary</i> <code>rhumb.RhumbAux</code>.</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">rhumbaux(<span class="summary-sig-arg">self</span>)</span>
@@ -5489,8 +5001,7 @@ class="math">sqrt(a * b)</i>.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">rhumbekx</h3>
-  <p>Get this ellipsoid's <i>Elliptic, Kr&#252;ger</i> 
-  <code>rhumb.Rhumb</code>.</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">rhumbekx(<span class="summary-sig-arg">self</span>)</span>
@@ -5548,7 +5059,7 @@ target="_top">RhumbSolve</a> executable, overriding env variable
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">rhumbx</h3>
-  <p>DEPRECATED on 2023.11.28, use property <code>rhumbekx</code>.</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">rhumbx(<span class="summary-sig-arg">self</span>)</span>
@@ -5572,11 +5083,11 @@ target="_top">RhumbSolve</a> executable, overriding env variable
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">Rpolar</h3>
-  <p>Get the <i>polar</i> radius, semi-axis (<code>meter</code>).</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">b(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>polar</i> radius, semi-axis (<code>meter</code>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -5596,18 +5107,11 @@ target="_top">RhumbSolve</a> executable, overriding env variable
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">rocEquatorial2</h3>
-  <p>Get the <i>meridional</i> and <i>prime-vertical</i>, <i>normal</i> 
-  radii of curvature at the equator as <a 
-  href="pygeodesy.ellipsoids.Curvature2Tuple-class.html" 
-  class="link">Curvature2Tuple</a><code>(meridional, 
-  prime_vertical)</code>.</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">rocEquatorial2(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>meridional</i> and <i>prime-vertical</i>, <i>normal</i> radii of
-curvature at the equator as <a 
-href="pygeodesy.ellipsoids.Curvature2Tuple-class.html" 
-class="link">Curvature2Tuple</a><code>(meridional, prime_vertical)</code>.
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -5619,21 +5123,7 @@ class="link">Curvature2Tuple</a><code>(meridional, prime_vertical)</code>.
         - Zap the <i>cached/memoized</i> <code>property</code> value.
     </dd>
   </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        Methods <a 
-        href="pygeodesy.ellipsoids.Ellipsoid-class.html#rocMeridional" 
-        class="link">rocMeridional</a> and <a 
-        href="pygeodesy.ellipsoids.Ellipsoid-class.html#rocPrimeVertical" 
-        class="link">rocPrimeVertical</a>, properties <a 
-        href="pygeodesy.ellipsoids.Ellipsoid-class.html#b2_a" 
-        class="link">b2_a</a>, <a 
-        href="pygeodesy.ellipsoids.Ellipsoid-class.html#a2_b" 
-        class="link">a2_b</a>, <code>rocPolar</code> and polar and 
-        equatorial <a 
-        href="https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature" 
-        target="_top">Radii of Curvature</a>.
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="rocPolar"></a>
 <div>
@@ -5641,13 +5131,11 @@ class="link">Curvature2Tuple</a><code>(meridional, prime_vertical)</code>.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">rocPolar</h3>
-  <p>Get the <i>polar</i> meridional (or polar) radius of curvature 
-  (<code>meter</code>), <i class="math">a**2 / b</i>.</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">a2_b(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>polar</i> meridional (or polar) radius of curvature 
-(<code>meter</code>), <i class="math">a**2 / b</i>.
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -5659,26 +5147,7 @@ class="link">Curvature2Tuple</a><code>(meridional, prime_vertical)</code>.
         - Zap the <i>cached/memoized</i> <code>property</code> value.
     </dd>
   </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        <a 
-        href="https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature" 
-        target="_top">Radii of Curvature</a> and <a 
-        href="https://WikiPedia.org/wiki/Earth_radius#cite_note-Moritz-2" 
-        target="_top">Moritz, H. (1980), Geodetic Reference System 
-        1980</a>.
-      </p>
-      <p><strong>Note:</strong>
-        Symbol <code>c</code> is used by IUGG and IERS for the <a 
-        href="https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature" 
-        target="_top">polar radius of curvature</a>, see <a 
-        href="pygeodesy.ellipsoids.Ellipsoid-class.html#c2" 
-        class="link">c2</a> and <a 
-        href="pygeodesy.ellipsoids.Ellipsoid-class.html#R2" 
-        class="link">R2</a> or <a 
-        href="pygeodesy.ellipsoids.Ellipsoid-class.html#R2" 
-        class="link">Rauthalic</a>.
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="Rquadratic"></a>
 <div>
@@ -5686,12 +5155,11 @@ class="link">Curvature2Tuple</a><code>(meridional, prime_vertical)</code>.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">Rquadratic</h3>
-  <p>DEPRECATED, use property <code>Rbiaxial</code> or 
-  <code>Rtriaxial</code>.</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">Rquadratic(<span class="summary-sig-arg">self</span>)</span>
-        - DEPRECATED, use property <code>Rbiaxial</code> or <code>Rtriaxial</code>.
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -5711,11 +5179,11 @@ class="link">Curvature2Tuple</a><code>(meridional, prime_vertical)</code>.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">Rr</h3>
-  <p>DEPRECATED, use property <code>Rrectifying</code>.</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">Rr(<span class="summary-sig-arg">self</span>)</span>
-        - DEPRECATED, use property <code>Rrectifying</code>.
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -5735,13 +5203,11 @@ class="link">Curvature2Tuple</a><code>(meridional, prime_vertical)</code>.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">Rrectifying</h3>
-  <p>Get the <i>rectifying</i> earth radius (<code>meter</code>), <i 
-  class="math">((a**(3/2) + b**(3/2)) / 2)**(2/3)</i>.</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">Rrectifying(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>rectifying</i> earth radius (<code>meter</code>), <i 
-class="math">((a**(3/2) + b**(3/2)) / 2)**(2/3)</i>.
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -5753,11 +5219,7 @@ class="math">((a**(3/2) + b**(3/2)) / 2)**(2/3)</i>.
         - Zap the <i>cached/memoized</i> <code>property</code> value.
     </dd>
   </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        <a href="https://WikiPedia.org/wiki/Earth_radius" 
-        target="_top">Earth radius</a>.
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="Rs"></a>
 <div>
@@ -5765,11 +5227,11 @@ class="math">((a**(3/2) + b**(3/2)) / 2)**(2/3)</i>.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">Rs</h3>
-  <p>DEPRECATED, use property <code>Rgeometric</code>.</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">Rs(<span class="summary-sig-arg">self</span>)</span>
-        - DEPRECATED, use property <code>Rgeometric</code>.
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -5789,14 +5251,11 @@ class="math">((a**(3/2) + b**(3/2)) / 2)**(2/3)</i>.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">Rtriaxial</h3>
-  <p>Get the <i>triaxial, quadratic</i> mean earth radius 
-  (<code>meter</code>), <i class="math">sqrt((3 * a**2 + b**2) / 
-  4)</i>.</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">Rtriaxial(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>triaxial, quadratic</i> mean earth radius (<code>meter</code>), 
-<i class="math">sqrt((3 * a**2 + b**2) / 4)</i>.
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -5808,10 +5267,7 @@ class="math">((a**(3/2) + b**(3/2)) / 2)**(2/3)</i>.
         - Zap the <i>cached/memoized</i> <code>property</code> value.
     </dd>
   </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        <code>Rbiaxial</code>
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="volume"></a>
 <div>
@@ -5819,13 +5275,11 @@ class="math">((a**(3/2) + b**(3/2)) / 2)**(2/3)</i>.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">volume</h3>
-  <p>Get the ellipsoid's <i>volume</i> (<code>meter**3</code>), <i 
-  class="math">4 / 3 * PI * R3**3</i>.</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">volume(<span class="summary-sig-arg">self</span>)</span>
-        - Get the ellipsoid's <i>volume</i> (<code>meter**3</code>), <i 
-class="math">4 / 3 * PI * R3**3</i>.
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get and <i>cache/memoize</i> the <code>property</code> value.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -5837,10 +5291,7 @@ class="math">4 / 3 * PI * R3**3</i>.
         - Zap the <i>cached/memoized</i> <code>property</code> value.
     </dd>
   </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        <code>R3</code>.
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <br />
 <!-- ==================== NAVIGATION BAR ==================== -->
@@ -5874,7 +5325,7 @@ class="math">4 / 3 * PI * R3**3</i>.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Oct  9 16:14:59 2024
+    Generated by Epydoc 3.0.1 on Tue Oct 22 17:06:20 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -63,7 +63,7 @@
 <pre class="base-tree">
   object --+    
            |    
-<a href="pygeodesy.named._Named-class.html">named._Named</a> --+
+named._Named --+
                |
               <strong class="uidshort">Fsum</strong>
 </pre>
@@ -2086,15 +2086,15 @@
   </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
-      <code><a href="pygeodesy.named._Named-class.html#__repr__">__repr__</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#attrs">attrs</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#classof">classof</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#dup">dup</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#methodname">methodname</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#rename">rename</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#renamed">renamed</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#toStr2">toStr2</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>named._Named</code></b>:
+      <code>__repr__</code>,
+      <code>attrs</code>,
+      <code>classof</code>,
+      <code>dup</code>,
+      <code>methodname</code>,
+      <code>rename</code>,
+      <code>renamed</code>,
+      <code>toStr2</code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__delattr__</code>,
@@ -2121,97 +2121,77 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.fsums.Fsum-class.html#as_iscalar" class="summary-name">as_iscalar</a><br />
-      Get this instance <i>as-is</i> (<a 
-      href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> with 
-      <code>non-zero residual</code>, <code>scalar</code> or 
-      <i>non-finite</i>).
+        <a href="pygeodesy.fsums.Fsum-class.html#as_iscalar" class="summary-name">as_iscalar</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.fsums.Fsum-class.html#ceil" class="summary-name">ceil</a><br />
-      Get this instance' <code>ceil</code> value (<code>int</code> in 
-      Python 3+, but <code>float</code> in Python 2-).
+        <a href="pygeodesy.fsums.Fsum-class.html#ceil" class="summary-name">ceil</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.fsums.Fsum-class.html#float_int" class="summary-name">float_int</a><br />
-      DEPRECATED, use method <code>Fsum.int_float</code>.
+        <a href="pygeodesy.fsums.Fsum-class.html#float_int" class="summary-name">float_int</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.fsums.Fsum-class.html#floor" class="summary-name">floor</a><br />
-      Get this instance' <code>floor</code> (<code>int</code> in Python 3+,
-      but <code>float</code> in Python 2-).
+        <a href="pygeodesy.fsums.Fsum-class.html#floor" class="summary-name">floor</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.fsums.Fsum-class.html#imag" class="summary-name">imag</a><br />
-      Get the <code>imaginary</code> part of this instance 
-      (<code>0.0</code>, always).
+        <a href="pygeodesy.fsums.Fsum-class.html#imag" class="summary-name">imag</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.fsums.Fsum-class.html#nonfinitesOK" class="summary-name">nonfinitesOK</a><br />
-      Are <i>non-finites</i> <code>OK</code> for this <a 
-      href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or by 
-      default? (<code>bool</code>).
+        <a href="pygeodesy.fsums.Fsum-class.html#nonfinitesOK" class="summary-name">nonfinitesOK</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.fsums.Fsum-class.html#partials" class="summary-name">partials</a><br />
-      Get this instance' current, partial sums (<code>tuple</code> of 
-      <code>float</code>s).
+        <a href="pygeodesy.fsums.Fsum-class.html#partials" class="summary-name">partials</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.fsums.Fsum-class.html#real" class="summary-name">real</a><br />
-      Get the <code>real</code> part of this instance (<code>float</code>).
+        <a href="pygeodesy.fsums.Fsum-class.html#real" class="summary-name">real</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.fsums.Fsum-class.html#residual" class="summary-name">residual</a><br />
-      Get this instance' residual or residue (<code>float</code> or 
-      <code>int</code>): the <code>sum(partials)</code> less the precision 
-      running sum <code>fsum</code>.
+        <a href="pygeodesy.fsums.Fsum-class.html#residual" class="summary-name">residual</a>
     </td>
   </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
-      <code><a href="pygeodesy.named._Named-class.html#classname">classname</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#classnaming">classnaming</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#iteration">iteration</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#name">name</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#named">named</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#named2">named2</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#named3">named3</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#named4">named4</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#sizeof">sizeof</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>named._Named</code></b>:
+      <code>classname</code>,
+      <code>classnaming</code>,
+      <code>iteration</code>,
+      <code>name</code>,
+      <code>named</code>,
+      <code>named2</code>,
+      <code>named3</code>,
+      <code>named4</code>,
+      <code>sizeof</code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__class__</code>
@@ -2660,7 +2640,7 @@
   <p>Not implemented.</p>
   <dl class="fields">
     <dt>Overrides:
-        <a href="pygeodesy.named._Named-class.html#__imatmul__">named._Named.__imatmul__</a>
+        named._Named.__imatmul__
     </dt>
   </dl>
 </td></tr></table>
@@ -2939,7 +2919,7 @@
   <p>Not implemented.</p>
   <dl class="fields">
     <dt>Overrides:
-        <a href="pygeodesy.named._Named-class.html#__matmul__">named._Named.__matmul__</a>
+        named._Named.__matmul__
     </dt>
   </dl>
 </td></tr></table>
@@ -3114,7 +3094,7 @@
   <p>Not implemented.</p>
   <dl class="fields">
     <dt>Overrides:
-        <a href="pygeodesy.named._Named-class.html#__rmatmul__">named._Named.__rmatmul__</a>
+        named._Named.__rmatmul__
     </dt>
   </dl>
 </td></tr></table>
@@ -3638,7 +3618,7 @@
         <dd>The copy (<a href="pygeodesy.fsums.Fsum-class.html" 
           class="link">Fsum</a>).</dd>
     <dt>Overrides:
-        <a href="pygeodesy.named._Named-class.html#copy">named._Named.copy</a>
+        named._Named.copy
     </dt>
   </dl>
 </td></tr></table>
@@ -5074,7 +5054,7 @@
     <dt>Returns:</dt>
         <dd>This instance (<code>repr</code>).</dd>
     <dt>Overrides:
-        <a href="pygeodesy.named._Named-class.html#toRepr">named._Named.toRepr</a>
+        named._Named.toRepr
     </dt>
   </dl>
 </td></tr></table>
@@ -5110,7 +5090,7 @@
     <dt>Returns:</dt>
         <dd>This instance (<code>str</code>).</dd>
     <dt>Overrides:
-        <a href="pygeodesy.named._Named-class.html#toStr">named._Named.toStr</a>
+        named._Named.toStr
     </dt>
   </dl>
 </td></tr></table>
@@ -5131,10 +5111,7 @@
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">as_iscalar</h3>
-  <p>Get this instance <i>as-is</i> (<a 
-  href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> with 
-  <code>non-zero residual</code>, <code>scalar</code> or 
-  <i>non-finite</i>).</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">as_iscalar(<span class="summary-sig-arg">self</span>)</span>
@@ -5160,8 +5137,7 @@ class="link">Fsum</a> with <code>non-zero residual</code>,
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">ceil</h3>
-  <p>Get this instance' <code>ceil</code> value (<code>int</code> in Python
-  3+, but <code>float</code> in Python 2-).</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">ceil(<span class="summary-sig-arg">self</span>)</span>
@@ -5178,21 +5154,7 @@ but <code>float</code> in Python 2-).
         - Zap the <i>cached/memoized</i> <code>property</code> value.
     </dd>
   </dl>
-<div class="fields">      <p><strong>Note:</strong>
-        This <code>ceil</code> takes the <code>residual</code> into 
-        account.
-      </p>
-      <p><strong>See Also:</strong>
-        Method <a href="pygeodesy.fsums.Fsum-class.html#int_float" 
-        class="link">Fsum.int_float</a> and properties <a 
-        href="pygeodesy.fsums.Fsum-class.html#floor" 
-        class="link">Fsum.floor</a>, <a 
-        href="pygeodesy.fsums.Fsum-class.html#imag" 
-        class="link">Fsum.imag</a> and <a 
-        href="pygeodesy.fsums.Fsum-class.html#real" 
-        class="link">Fsum.real</a>.
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="float_int"></a>
 <div>
@@ -5200,7 +5162,7 @@ but <code>float</code> in Python 2-).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">float_int</h3>
-  <p>DEPRECATED, use method <code>Fsum.int_float</code>.</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">float_int(<span class="summary-sig-arg">self</span>)</span>
@@ -5224,8 +5186,7 @@ but <code>float</code> in Python 2-).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">floor</h3>
-  <p>Get this instance' <code>floor</code> (<code>int</code> in Python 3+, 
-  but <code>float</code> in Python 2-).</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">floor(<span class="summary-sig-arg">self</span>)</span>
@@ -5242,21 +5203,7 @@ but <code>float</code> in Python 2-).
         - Zap the <i>cached/memoized</i> <code>property</code> value.
     </dd>
   </dl>
-<div class="fields">      <p><strong>Note:</strong>
-        This <code>floor</code> takes the <code>residual</code> into 
-        account.
-      </p>
-      <p><strong>See Also:</strong>
-        Method <a href="pygeodesy.fsums.Fsum-class.html#int_float" 
-        class="link">Fsum.int_float</a> and properties <a 
-        href="pygeodesy.fsums.Fsum-class.html#ceil" 
-        class="link">Fsum.ceil</a>, <a 
-        href="pygeodesy.fsums.Fsum-class.html#imag" 
-        class="link">Fsum.imag</a> and <a 
-        href="pygeodesy.fsums.Fsum-class.html#real" 
-        class="link">Fsum.real</a>.
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="imag"></a>
 <div>
@@ -5264,8 +5211,7 @@ but <code>float</code> in Python 2-).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">imag</h3>
-  <p>Get the <code>imaginary</code> part of this instance 
-  (<code>0.0</code>, always).</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">imag(<span class="summary-sig-arg">self</span>)</span>
@@ -5282,11 +5228,7 @@ always).
         - Zap the <i>cached/memoized</i> <code>property</code> value.
     </dd>
   </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        Property <a href="pygeodesy.fsums.Fsum-class.html#real" 
-        class="link">Fsum.real</a>.
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="nonfinitesOK"></a>
 <div>
@@ -5294,9 +5236,7 @@ always).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">nonfinitesOK</h3>
-  <p>Are <i>non-finites</i> <code>OK</code> for this <a 
-  href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or by 
-  default? (<code>bool</code>).</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">nonfinitesOK(<span class="summary-sig-arg">self</span>)</span>
@@ -5322,8 +5262,7 @@ href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or by default?
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">partials</h3>
-  <p>Get this instance' current, partial sums (<code>tuple</code> of 
-  <code>float</code>s).</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">partials(<span class="summary-sig-arg">self</span>)</span>
@@ -5348,8 +5287,7 @@ href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or by default?
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">real</h3>
-  <p>Get the <code>real</code> part of this instance 
-  (<code>float</code>).</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">real(<span class="summary-sig-arg">self</span>)</span>
@@ -5365,21 +5303,7 @@ href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or by default?
         - Zap the <i>cached/memoized</i> <code>property</code> value.
     </dd>
   </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        Methods <a href="pygeodesy.fsums.Fsum-class.html#__float__" 
-        class="link">Fsum.__float__</a> and <a 
-        href="pygeodesy.fsums.Fsum-class.html#fsum" 
-        class="link">Fsum.fsum</a> and properties <a 
-        href="pygeodesy.fsums.Fsum-class.html#ceil" 
-        class="link">Fsum.ceil</a>, <a 
-        href="pygeodesy.fsums.Fsum-class.html#floor" 
-        class="link">Fsum.floor</a>, <a 
-        href="pygeodesy.fsums.Fsum-class.html#imag" 
-        class="link">Fsum.imag</a> and <a 
-        href="pygeodesy.fsums.Fsum-class.html#residual" 
-        class="link">Fsum.residual</a>.
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="residual"></a>
 <div>
@@ -5387,9 +5311,7 @@ href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or by default?
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">residual</h3>
-  <p>Get this instance' residual or residue (<code>float</code> or 
-  <code>int</code>): the <code>sum(partials)</code> less the precision 
-  running sum <code>fsum</code>.</p>
+  
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">residual(<span class="summary-sig-arg">self</span>)</span>
@@ -5407,19 +5329,7 @@ running sum <code>fsum</code>.
         - Zap the <i>cached/memoized</i> <code>property</code> value.
     </dd>
   </dl>
-<div class="fields">      <p><strong>Note:</strong>
-        The <code>residual is INT0</code> iff the precision running 
-        <code>fsum</code> is considered to be <i>exact</i>.
-      </p>
-      <p><strong>See Also:</strong>
-        Methods <a href="pygeodesy.fsums.Fsum-class.html#fsum" 
-        class="link">Fsum.fsum</a>, <a 
-        href="pygeodesy.fsums.Fsum-class.html#fsum2" 
-        class="link">Fsum.fsum2</a> and <a 
-        href="pygeodesy.fsums.Fsum-class.html#is_exact" 
-        class="link">Fsum.is_exact</a>.
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <br />
 <!-- ==================== NAVIGATION BAR ==================== -->
@@ -5453,7 +5363,7 @@ running sum <code>fsum</code>.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Oct  9 16:14:59 2024
+    Generated by Epydoc 3.0.1 on Tue Oct 22 17:06:20 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -8,7 +8,7 @@ Classes L{Datum} and L{Transform} and registries L{Datums} and L{Transforms}, re
 Pure Python implementation of geodesy tools for ellipsoidal earth models, including datums
 and ellipsoid parameters for different geographic coordinate systems and methods for
 converting between them and to cartesian coordinates.  Transcoded from JavaScript originals by
-I{(C) Chris Veness 2005-2016} and published under the same MIT Licence**, see U{latlon-ellipsoidal.js
+I{(C) Chris Veness 2005-2024} and published under the same MIT Licence**, see U{latlon-ellipsoidal.js
 <https://www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal.js.html>}.
 
 Historical geodetic datums: a latitude/longitude point defines a geographic location on, above
@@ -94,7 +94,7 @@ from pygeodesy.units import _isRadius, Radius_,  radians
 # import operator as _operator  # from .fmath
 
 __all__ = _ALL_LAZY.datums
-__version__ = '24.06.24'
+__version__ = '24.10.12'
 
 _a_ellipsoid_ = _UNDER_(_a_, _ellipsoid_)
 _BD72_        = 'BD72'
@@ -610,7 +610,7 @@ def _mean_radius(radius, *lats):
     return r
 
 
-def _negastr(name):  # in .trf
+def _negastr(name):  # in .trf, test/testTrf
     '''(INTERNAL) Negate a C{Transform/-Xform} name.
     '''
     b, m, p = _BAR_, _MINUS_, _PLUS_
